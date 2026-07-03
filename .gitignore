@@ -1,0 +1,10 @@
+# MCP / session logs — machine-local, never commit
+logs/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS
+.DS_Store
