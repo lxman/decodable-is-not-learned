@@ -200,107 +200,148 @@ class LubanaLanguage:
         }
 
     # ------------------------------------------------------------------ PCFG sampler
-    def _sample_symbolic(self, rng) -> list[str]:
-        """Expand the paper's PCFG. Depth-capped rewrite of the recursive rules."""
-        def sNP(d):
+    #
+    # ALL entity co-occurrence is GRAPH-MEDIATED. The first implementation sampled
+    # objects and conjoined subjects same-class by fiat, which made the entity
+    # co-occurrence graph complete within class at ANY edge density -- the class
+    # signal bypassed percolation, and the below-threshold confirmation run learned
+    # the capability (metric 0.79 on a giant_frac=0.024 graph). Caught by the
+    # confirmation gate; see PROGRESS.md. Faithful rule (the paper's type checks):
+    #   - Verb slots: property owned by the subject(s); objects are sampled from that
+    #     property's POSSESSORS ("relative (subject-verb-object matching)").
+    #   - Conjoined subjects: the sentence's property slots come from the INTERSECTION
+    #     of the subjects' property sets (the context-sensitivity, enforced).
+    #   - eAdj: a descriptive property of the entity it modifies.
+    # Below p_c, co-occurring entities therefore always share a graph component.
+
+    def _sample_plan(self, rng) -> dict:
+        """Sample the sentence STRUCTURE (paper's PCFG probabilities), not tokens."""
+        def n_subjects(d):
             if d > 2 or rng.random() < 0.8:
-                return ["eAdj", "Subj"] if rng.random() < 0.8 else ["Subj"]
-            return sNP(d + 1) + ["Conj"] + sNP(d + 1)
+                return 1
+            return n_subjects(d + 1) + n_subjects(d + 1)
 
-        def oNP(d):
-            t = (["eAdj", "Obj"] if rng.random() < 0.8 else ["Obj"])
-            if d <= 2 and rng.random() < 0.3:
-                return t + ["Conj"] + oNP(d + 1)
-            return t
-
-        def descT():
-            return ["dAdj", "Desc"] if rng.random() < 0.8 else ["Desc"]
-
-        def VP(d):
+        def vps(d):
             r = rng.random()
             if d > 2 or r < 0.4:
-                return ["lVerb"] + descT()
+                return [{"kind": "lverb", "dadj": rng.random() < 0.8}]
             if r < 0.8:
-                return ["Verb", "Prep"] + oNP(0)
-            return VP(d + 1) + ["Conj"] + VP(d + 1)
+                n_obj = 1
+                dd = 0
+                while dd <= 2 and rng.random() < 0.3:
+                    n_obj += 1
+                    dd += 1
+                return [{"kind": "verb", "n_obj": n_obj}]
+            return vps(d + 1) + vps(d + 1)
 
-        return sNP(0) + VP(0)
+        return {
+            "n_subj": n_subjects(0),
+            "subj_eadj": [rng.random() < 0.8 for _ in range(4)],
+            "obj_eadj": [rng.random() < 0.8 for _ in range(8)],
+            "vps": vps(0),
+        }
 
     def _pick(self, arr, rng):
+        arr = np.asarray(arr)
         return int(arr[rng.integers(arr.size)]) if arr.size else None
 
-    def sample_sentence(self, rng, max_tries: int = 20) -> list[int] | None:
-        """Sample one type-valid token sentence (without BOS). None if unsatisfiable
-        after max_tries (frequent below threshold, where property sets are tiny --
-        the data itself carries the fragmentation)."""
+    def sample_sentence(self, rng, max_tries: int = 50) -> list[int] | None:
+        """Sample one type-valid token sentence (without BOS). None if no draft is
+        satisfiable in max_tries -- frequent below threshold, where intersections and
+        possessor sets are empty: the data itself carries the fragmentation."""
         cfg = self.cfg
         for _ in range(max_tries):
-            sym = self._sample_symbolic(rng)
-            if len(sym) + 1 > cfg.max_len:
-                continue
-            # subject = the FIRST Subj; its class anchors the sentence's constraints
-            toks: list[int] = []
-            subj = None
+            plan = self._sample_plan(rng)
+            # ---- subjects: intersection of property sets must serve the VP slots
+            e1 = int(rng.integers(cfg.n_entities))
+            subjects = [e1]
+            p_desc = set(self._desc_of[e1].tolist())
+            p_rel = set(self._rel_of[e1].tolist())
             ok = True
-            for s in sym:
-                if s == "Subj":
-                    e = int(rng.integers(cfg.n_entities)) if subj is None else self._same_class_entity(subj, rng)
-                    if subj is None:
-                        subj = e
-                    toks.append(e)
-                elif s == "Obj":
-                    # object must share a relative property with subj for Verb slots;
-                    # sample among subj's class (necessary condition), verb filter below
-                    toks.append(self._same_class_entity(subj, rng))
-                elif s == "eAdj":
-                    # descriptive property of the entity that FOLLOWS; defer: mark slot
-                    toks.append(-1)
-                elif s == "Desc":
-                    k = self._pick(self._desc_of[subj], rng)
-                    if k is None:
-                        ok = False
-                        break
-                    toks.append(k + cfg.n_entities)  # property token id = n_entities + k
-                elif s == "Verb":
-                    # relative property owned by subject AND (checked laxly) some object
-                    k = self._pick(self._rel_of[subj], rng)
-                    if k is None:
-                        ok = False
-                        break
-                    toks.append(k + cfg.n_entities)
-                elif s == "lVerb":
-                    toks.append(cfg.tok_lverb0 + int(rng.integers(N_LVERB)))
-                elif s == "Conj":
-                    toks.append(cfg.tok_conj0 + int(rng.integers(N_CONJ)))
-                elif s == "Prep":
-                    toks.append(cfg.tok_prep0 + int(rng.integers(N_PREP)))
-                elif s == "dAdj":
-                    toks.append(cfg.tok_dadj0 + int(rng.integers(N_DADJ)))
+            for _ in range(plan["n_subj"] - 1):
+                cands = self._entities_sharing(p_desc | p_rel, exclude=set(subjects))
+                if not cands:
+                    ok = False
+                    break
+                e = int(cands[rng.integers(len(cands))])
+                subjects.append(e)
+                p_desc &= set(self._desc_of[e].tolist())
+                p_rel &= set(self._rel_of[e].tolist())
             if not ok:
                 continue
-            # resolve deferred eAdj slots: descriptive property of the next entity token
-            out: list[int] = []
-            for i, t in enumerate(toks):
-                if t == -1:
-                    ent = toks[i + 1] if i + 1 < len(toks) else None
-                    if ent is None or ent >= self.cfg.n_entities:
-                        out = []
-                        break
-                    k = self._pick(self._desc_of[ent], rng)
+
+            # ---- VP conjuncts: fill property slots from the (intersected) sets
+            vp_toks: list[int] = []
+            for vi, vp in enumerate(plan["vps"]):
+                if vi > 0:
+                    vp_toks.append(cfg.tok_conj0 + int(rng.integers(N_CONJ)))
+                if vp["kind"] == "lverb":
+                    k = self._pick(sorted(p_desc), rng)
                     if k is None:
-                        out = []
+                        ok = False
                         break
-                    out.append(k + cfg.n_entities)
+                    vp_toks.append(cfg.tok_lverb0 + int(rng.integers(N_LVERB)))
+                    if vp["dadj"]:
+                        vp_toks.append(cfg.tok_dadj0 + int(rng.integers(N_DADJ)))
+                    vp_toks.append(k + cfg.n_entities)
                 else:
-                    out.append(t)
-            if out:
-                return out
+                    k = self._pick(sorted(p_rel), rng)
+                    if k is None:
+                        ok = False
+                        break
+                    # objects = possessors of the verb property (graph-mediated)
+                    poss = [e for e in self._possessors_rel(k) if e not in subjects]
+                    if len(poss) < vp["n_obj"]:
+                        ok = False
+                        break
+                    picked = rng.choice(len(poss), size=vp["n_obj"], replace=False)
+                    vp_toks.append(k + cfg.n_entities)
+                    vp_toks.append(cfg.tok_prep0 + int(rng.integers(N_PREP)))
+                    for oi, pi in enumerate(picked):
+                        if oi > 0:
+                            vp_toks.append(cfg.tok_conj0 + int(rng.integers(N_CONJ)))
+                        obj = poss[int(pi)]
+                        if plan["obj_eadj"][oi % len(plan["obj_eadj"])]:
+                            ka = self._pick(self._desc_of[obj], rng)
+                            if ka is not None:
+                                vp_toks.append(ka + cfg.n_entities)
+                        vp_toks.append(obj)
+            if not ok:
+                continue
+
+            # ---- linearize subjects (eAdj = own descriptive property)
+            subj_toks: list[int] = []
+            for si, e in enumerate(subjects):
+                if si > 0:
+                    subj_toks.append(cfg.tok_conj0 + int(rng.integers(N_CONJ)))
+                if plan["subj_eadj"][si % len(plan["subj_eadj"])]:
+                    ka = self._pick(self._desc_of[e], rng)
+                    if ka is not None:
+                        subj_toks.append(ka + cfg.n_entities)
+                subj_toks.append(e)
+
+            sent = subj_toks + vp_toks
+            if len(sent) + 1 <= cfg.max_len:
+                return sent
         return None
 
-    def _same_class_entity(self, anchor: int, rng) -> int:
-        c = self.entity_class[anchor]
-        pool = np.flatnonzero(self.entity_class == c)
-        return int(pool[rng.integers(pool.size)])
+    def _entities_sharing(self, props: set, exclude: set) -> list[int]:
+        """Entities (not excluded) owning at least one property in `props` --
+        graph neighbors-of-neighbors; the ONLY channel for subject co-occurrence."""
+        out: set[int] = set()
+        for k in props:
+            out.update(self._possessors_all(int(k)))
+        return sorted(out - exclude)
+
+    def _possessors_all(self, k: int) -> np.ndarray:
+        if not hasattr(self, "_poss_cache"):
+            self._poss_cache: dict[int, np.ndarray] = {}
+        if k not in self._poss_cache:
+            self._poss_cache[k] = np.flatnonzero(self.trainable[:, k])
+        return self._poss_cache[k]
+
+    def _possessors_rel(self, k: int) -> list[int]:
+        return self._possessors_all(k).tolist()
 
     def make_corpus(self, n_sentences: int, seed: int) -> torch.Tensor:
         """Token corpus [N, max_len]: BOS + sentence + PAD. (Probe/eval sentences;

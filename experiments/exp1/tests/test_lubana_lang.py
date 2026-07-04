@@ -63,15 +63,56 @@ def test_sentences_respect_type_constraints():
         if s is None:
             continue
         ents = [t for t in s if t < cfg.n_entities]
-        subj = ents[0]
-        # every property token in the sentence is owned by SOME entity in it
-        # (descriptors/verbs bind to subject or the adjacent entity)
+        # every property token in the sentence is TRAINABLY owned by some entity in it
         for t in s:
             if cfg.n_entities <= t < cfg.n_entities + cfg.n_properties:
                 k = t - cfg.n_entities
-                assert any(lang.adj[e, k] for e in ents), "unowned property in sentence"
+                assert any(lang.trainable[e, k] for e in ents), "unowned property in sentence"
                 checked += 1
     assert checked > 50  # the check actually exercised properties
+
+
+def _components(lang):
+    """Union-find component label per entity over the trainable bipartite graph."""
+    cfg = lang.cfg
+    n = cfg.n_entities + cfg.n_properties
+    parent = list(range(n))
+
+    def find(a):
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    for e in range(cfg.n_entities):
+        for k in np.flatnonzero(lang.trainable[e]):
+            ra, rb = find(e), find(cfg.n_entities + int(k))
+            if ra != rb:
+                parent[ra] = rb
+    return [find(e) for e in range(cfg.n_entities)]
+
+
+def test_cooccurring_entities_share_a_graph_component():
+    """THE anti-leak invariant (would have caught the same-class-by-fiat bug): any
+    two entities in one sentence must be connected in the trainable graph, so below
+    threshold the class signal cannot travel beyond a fragmented component."""
+    for mult in (0.5, 10.0):
+        lang = _lang(mult, n_entities=100, n_properties=1000)
+        comp = _components(lang)
+        rng = np.random.default_rng(13)
+        multi = 0
+        for _ in range(400):
+            s = lang.sample_sentence(rng)
+            if s is None:
+                continue
+            ents = [t for t in s if t < lang.cfg.n_entities]
+            if len(set(ents)) > 1:
+                multi += 1
+                c0 = comp[ents[0]]
+                assert all(comp[e] == c0 for e in ents), \
+                    f"entities from different components co-occur (mult={mult})"
+        if mult == 10.0:
+            assert multi > 20  # above threshold, multi-entity sentences are common
 
 
 def test_sentences_fit_max_len_and_use_valid_tokens():
@@ -114,34 +155,24 @@ def test_online_batches_are_fresh_and_valid():
 
 # ---- holdout (construction-level; makes queries stable under online data) -----
 
-def test_reserved_edges_never_bound_in_generation():
-    """The holdout invariant: a reserved (e,k) pair is never SYNTACTICALLY BOUND in
-    training (Desc/Verb bind to the subject; eAdj binds to the following entity).
-    Incidental co-occurrence with another entity's property is allowed — that shared
-    context is precisely the class signal the capability learns from (as in the
-    paper's multi-entity strings); the verifier tests binding, not co-occurrence."""
+def test_reserved_edges_never_enter_generation_sets():
+    """The holdout invariant, enforced at the source: every set the sampler draws
+    bound properties/entities from (_desc_of, _rel_of, possessors) is built from
+    `trainable` only, so a reserved (e,k) pair can never be syntactically bound.
+    Incidental co-occurrence remains allowed — shared context is the class signal
+    the capability learns from; the verifier tests binding, not co-occurrence."""
     lang = _lang(10.0, n_entities=50, n_properties=500)
     cfg = lang.cfg
     assert lang.reserved.sum() > 0            # holdout is non-empty
     assert not (lang.reserved & lang.trainable).any()
-    rng = np.random.default_rng(12)
-    checked = 0
-    for _ in range(300):
-        s = lang.sample_sentence(rng)
-        if s is None:
-            continue
-        subj = next(t for t in s if t < cfg.n_entities)
-        for i, t in enumerate(s):
-            if cfg.n_entities <= t < cfg.n_entities + cfg.n_properties:
-                k = t - cfg.n_entities
-                # bound entity: the entity that immediately follows (eAdj slot), else
-                # the subject (Desc/Verb slots)
-                nxt = s[i + 1] if i + 1 < len(s) else None
-                bound = nxt if (nxt is not None and nxt < cfg.n_entities) else subj
-                assert lang.trainable[bound, k], "reserved/non-edge pair was bound"
-                assert not lang.reserved[bound, k]
-                checked += 1
-    assert checked > 100
+    for e in range(cfg.n_entities):
+        for k in lang._desc_of[e]:
+            assert lang.trainable[e, int(k)] and not lang.reserved[e, int(k)]
+        for k in lang._rel_of[e]:
+            assert lang.trainable[e, int(k)] and not lang.reserved[e, int(k)]
+    for k in range(0, cfg.n_properties, 7):
+        for e in lang._possessors_all(k):
+            assert lang.trainable[int(e), k] and not lang.reserved[int(e), k]
 
 
 # ---- queries (the scored capability) ------------------------------------------

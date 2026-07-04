@@ -186,12 +186,23 @@ BEFORE any Lubana training run)**
   giant-component fraction (computed from the data structure, independent of any model).
 - **Below/above settings:** edge_prob = 0.5·p_c (fragmented) and 10·p_c (connected;
   the paper's base p=0.1 is ~40× its p_c).
-- Population simplifications vs the paper, recorded honestly: Verb slots draw from the
-  subject's relative properties with objects sampled same-class (the strict
-  subject-AND-object intersection is enforced only through class structure); eAdj/Desc
-  bind to the adjacent/subject entity; lVerb/Conj/Prep/dAdj are small closed sets.
-  These preserve the type-constraint structure the percolation argument needs; the
-  relative type-check metric is not our scored capability.
+- ~~Population simplifications vs the paper, recorded honestly: objects sampled
+  same-class... These preserve the type-constraint structure the percolation argument
+  needs.~~ **Superseded — the gate proved this wrong (second confirmation catch).**
+  With online data the above row was perfect (transition @1278, held at 1.000), but
+  the BELOW row learned the capability (metric 0.79 on a giant_frac=0.024 graph).
+  Diagnosis: `_same_class_entity()` sampled objects and conjoined subjects same-class
+  BY FIAT, making the entity co-occurrence graph complete within class at any edge
+  density — the class signal bypassed percolation entirely. The percolation ground
+  truth requires that class information travel ONLY through graph edges.
+  **Fix (faithful to the paper's type checks):** all entity co-occurrence is now
+  graph-mediated — objects are sampled from the verb property's POSSESSORS
+  (subject-verb-object matching); conjoined subjects draw the sentence's property
+  slots from the INTERSECTION of their property sets (context-sensitivity enforced);
+  eAdj from the modified entity's own properties. New invariant test (the one that
+  would have caught the bug): any two entities co-occurring in a sentence share a
+  trainable-graph component, verified at both densities. Generation cost unchanged
+  (~2 ms/batch). lVerb/Conj/Prep/dAdj remain small closed function-word sets.
 - **Below-threshold rule preregistered:** argmax capability metric < 1.5×chance (the
   frozen §3 "<5%" is unusable at 10-way chance = 10%, as in Phase A). Set before any
   run; logged here.
