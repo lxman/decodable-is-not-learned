@@ -266,6 +266,12 @@ BEFORE any Lubana training run)**
     training).
   - *Size bucket:* nearest order of magnitude of actual params (paper scale ≈ 12.9M →
     "10M"). Truth-table rows pair per bucket; grokking's matching buckets arrive in M6.
+- **Reduced-scale confirmation gate PASSED (2026-07-04):** above transitions and
+  holds (transition @1577, final 0.998); below flat at chance for 30k steps with the
+  singleton pool (mean ~0.12, final 0.100, peak 0.150 — one +3.7σ sampling excursion
+  on 500 queries, at the bar). Paper-scale sanity: below giant 0.007 with 735/900
+  singletons; above giant 0.877. Paper-scale above confirmation launched (transition
+  expected ~√6 later than reduced, ~4k steps).
 - **Scale decision (Michael, 2026-07-04): scored runs at `scale="paper"`**
   (|E|=900, |K|=18000 — the faithful base config; ~59 min/run, ~14 h for the
   10-run scored set). The reduced scale serves as the confirmation vehicle.
