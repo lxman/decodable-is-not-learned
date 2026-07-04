@@ -54,11 +54,36 @@ def test_present_requires_argmax_failure():
     res = elicit_by_sampling(
         _bernoulli_sampler(0.05), queries=["q"], verifier=_verifier,
         guessing_floor=1e-3, n_per_query=5000,
-        argmax_fn=lambda q: "ok",  # greedy is correct
+        argmax_fn=lambda q: "ok",  # greedy is correct (rate 1.0 >= 5%)
         checkpoint_id="ck", seed=0,
     )
     assert res.argmax_fails is False
     assert res.present is False
+
+
+def test_argmax_fails_is_rate_based_not_zero_based():
+    """A few queries solved by argmax below the reliability level still counts as
+    'argmax fails' — the fix for the grokking below-threshold case (~2% argmax)."""
+    # 100 queries; argmax solves exactly 2 (2% < 5% level) -> argmax_fails True.
+    solved = set(range(2))
+    res = elicit_by_sampling(
+        _bernoulli_sampler(0.05), queries=list(range(100)), verifier=_verifier,
+        guessing_floor=1e-3, n_per_query=500,
+        argmax_fn=lambda q: "ok" if q in solved else "no",
+        argmax_reliable_level=0.05, checkpoint_id="ck", seed=0,
+    )
+    assert res.argmax_fails is True     # 2% < 5%, so argmax is unreliable
+    assert res.present is True          # and sampling clears the floor
+    # Raise the count above the level and it flips.
+    solved2 = set(range(10))            # 10% >= 5%
+    res2 = elicit_by_sampling(
+        _bernoulli_sampler(0.05), queries=list(range(100)), verifier=_verifier,
+        guessing_floor=1e-3, n_per_query=500,
+        argmax_fn=lambda q: "ok" if q in solved2 else "no",
+        argmax_reliable_level=0.05, checkpoint_id="ck", seed=0,
+    )
+    assert res2.argmax_fails is False
+    assert res2.present is False
 
 
 def test_budget_scales_with_query_count():

@@ -98,6 +98,34 @@ implementation, the choice is recorded here and in the relevant module docstring
   frozen §3 rule) — the most informative pre-transition point. Whether the probe fires
   there for grokking is the actual empirical question S1 tests; the verdict is reported
   as-is, not tuned.
+- **Seed-0 shakeout of the scored driver exposed three instrument issues, all fixed
+  BEFORE any scored data was committed** (the intended Phase-A-style shakeout, now on
+  the first grokking seed). Every fix has an outcome-independent justification:
+  1. *S2 `argmax_fails` was sample-size-dependent* — coded as "argmax solved zero of
+     the 50 queries," which flips to False when the model is a hair above chance (~1
+     query). Corrected to §3's intent: argmax UNRELIABLE = argmax pass rate over the
+     queries < the frozen 5% level. (A rate threshold, the same frozen number — no new
+     free parameter.)
+  2. *The guessing floor was hardcoded `1/113`* instead of design §3's "empirical
+     floor from an untrained control." Now the driver samples a random-init control
+     identically and uses its Clopper–Pearson upper bound as the floor.
+  3. *The probe was data-starved* at 2000 examples (~13/class for 113-way): it scored
+     BELOW the model's own argmax (objective proof of under-resourcing — a linear
+     readout of a linearly-present signal must be able to match the head) and gave a
+     noisy, lagging S3 precursor. At 6000 (`probe_n`) the probe leads argmax and rises
+     smoothly; S3's forecast lands within 8% of the true transition. `target_level`
+     (0.5) was NOT touched.
+- **MPS nondeterminism confirmed:** two seed-0 runs at the identical seed picked
+  different below-threshold checkpoints (173 vs 602) and transition steps (1796 vs
+  1536). Expected (environment.md); absorbed by the ≥5-seed requirement and the d≥2 bar.
+- **INSTRUMENT FREEZE (post-shakeout):** as of the M4 scored run, the signature code
+  (`probe.py`, `sampling.py`, `forecast.py`, `activations.py`) and signature params are
+  frozen for the rest of Exp 1. **M5 (Lubana) is the honest out-of-sample test of these
+  fixes:** the SAME instrument must read *absent* on Lubana-below and *present* on
+  Lubana-above. If a fix were outcome-tuning, it would wrongly fire on Lubana-below and
+  the experiment would FAIL — which is the adversarial check the design builds in via
+  the percolation + control rows. A genuine bug found in M5 would be a reportable
+  finding and would force re-running grokking too.
 
 **M3.5 — frozen analysis (`analyze.py`; frozen at the tag)**
 - Continuous separation is scored on `s1.accuracy` (S1) and `s2.rate_point` (S2) — the

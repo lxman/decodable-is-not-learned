@@ -45,6 +45,11 @@ class GrokkingConfig:
     below_threshold_level: float = 0.05   # argmax test acc < 5%
     alpha: float = 0.01
     n_perm: int = 1000
+    probe_n: int = 6000                   # held-out probe examples (~53/class for 113-way).
+                                          # 2000 starved the probe below the model's own
+                                          # argmax and gave a noisy, lagging S3 precursor;
+                                          # 6000 makes it lead argmax and rise smoothly.
+                                          # See PROGRESS.md (M4 data-starvation finding).
     s2_n_per_query: int = 100_000
     s2_n_queries: int = 50
     s2_temperature: float = 1.0

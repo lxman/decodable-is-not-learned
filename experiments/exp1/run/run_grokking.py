@@ -66,8 +66,10 @@ def run_grokking(seed: int = 0, out_dir: Path | None = None) -> RunRecord:
     ckpts = list_checkpoints(ckpt_dir)
     true_transition = hist.transition_step(0.5)
 
-    # Probe set: a held-out sample of the test pairs (never trained on).
-    n_probe = min(2000, data["test_ids"].shape[0])
+    # Probe set: a held-out sample of the test pairs (never trained on). Sized by
+    # cfg.probe_n so the probe is not data-starved (a 113-way linear probe needs
+    # enough examples/class to lead the model's own argmax — the S1/S3 premise).
+    n_probe = min(cfg.probe_n, data["test_ids"].shape[0])
     probe_ids = data["test_ids"][:n_probe]
     probe_labels = data["test_labels"][:n_probe].numpy()
 
@@ -89,16 +91,31 @@ def run_grokking(seed: int = 0, out_dir: Path | None = None) -> RunRecord:
     qi = q_split["test_ids"][: cfg.s2_n_queries]
     qt = q_split["test_targets"][: cfg.s2_n_queries]
     queries = [{"ids": qi[i : i + 1], "target": int(qt[i])} for i in range(qi.shape[0])]
+    verifier = lambda q, s: s == q["target"]  # noqa: E731
     sample_fn = _make_sample_fn(model, device, cfg.s2_temperature)
 
     @torch.no_grad()
     def argmax_fn(query):
         return int(model(query["ids"].to(device))[0, -1, :].argmax())
 
+    # Empirical guessing floor (design §3): a random-init UNTRAINED control sampled
+    # identically. Use its Clopper-Pearson upper bound as the floor, so "present"
+    # requires clearing even the optimistic estimate of guessing.
+    control = DecoderTransformer(TransformerConfig(
+        vocab_size=task.vocab_size, n_ctx=task.n_ctx,
+        d_model=cfg.d_model, n_layers=cfg.n_layers, n_heads=cfg.n_heads, seed=seed + 10_000,
+    )).to(device)
+    control_floor = elicit_by_sampling(
+        _make_sample_fn(control, device, cfg.s2_temperature), queries, verifier,
+        guessing_floor=0.0, n_per_query=cfg.s2_n_per_query, argmax_fn=None,
+        checkpoint_id="untrained_control", seed=seed,
+    ).cp_upper
+
     s2 = elicit_by_sampling(
-        sample_fn, queries, verifier=lambda q, s: s == q["target"],
-        guessing_floor=task.chance, n_per_query=cfg.s2_n_per_query,
-        argmax_fn=argmax_fn, checkpoint_id=f"step_{s1_step:07d}", seed=seed,
+        sample_fn, queries, verifier,
+        guessing_floor=control_floor, n_per_query=cfg.s2_n_per_query,
+        argmax_fn=argmax_fn, argmax_reliable_level=cfg.below_threshold_level,
+        checkpoint_id=f"step_{s1_step:07d}", seed=seed,
     )
 
     # --- S3 forecast from the probe-accuracy precursor ----------------------

@@ -19,7 +19,12 @@ Operational choices (recorded in PROGRESS.md, frozen before result-grade data):
     This is the quantity the ~3e-5 budget floor (design §4) refers to, and the one
     on which the Clopper-Pearson bound is exact.
   - The guessing floor is passed in (design: estimated from an untrained control
-    model); this function does not itself define it.
+    model); this function does not itself define it. The driver builds it empirically
+    from a random-init control under identical sampling.
+  - "while argmax fails" (§3) is operationalized as argmax UNRELIABLE: the argmax pass
+    rate over the queries is below `argmax_reliable_level` (the frozen 5% below-
+    threshold level), NOT "argmax solved zero queries" (which is sample-size-dependent
+    and too strict when the model is a hair above chance).
   - `absent` and `present` are mutually exclusive by construction; a middle zone
     (lower <= floor < upper) is neither, and is reported as such (an indeterminate
     campaign that needs more budget) rather than silently coerced.
@@ -42,6 +47,7 @@ def elicit_by_sampling(
     n_per_query: int = 100_000,
     alpha: float = 0.05,
     argmax_fn=None,
+    argmax_reliable_level: float = 0.05,
     checkpoint_id: str,
     seed: int,
 ) -> SamplingResult:
@@ -61,8 +67,11 @@ def elicit_by_sampling(
     n_per_query : int
         Samples per query; the campaign budget is n_per_query * len(queries).
     argmax_fn : callable(query) -> sample, optional
-        Greedy/argmax decode. If given, `argmax_fails` = no query verifies under it.
-        Required for a valid `present` verdict (design: "while argmax fails").
+        Greedy/argmax decode. If given, `argmax_fails` = (argmax pass rate over the
+        queries < argmax_reliable_level). Absent it, argmax_fails defaults True (the
+        caller is responsible for sampling at a below-threshold checkpoint).
+    argmax_reliable_level : float
+        The rate below which argmax counts as "failing" (the frozen 5% level).
     checkpoint_id : str
         Identifier of the checkpoint being sampled.
 
@@ -85,7 +94,8 @@ def elicit_by_sampling(
     cp_lower, cp_upper = clopper_pearson(passes, n, alpha=alpha)
 
     if argmax_fn is not None:
-        argmax_fails = not any(verifier(q, argmax_fn(q)) for q in queries)
+        argmax_rate = sum(bool(verifier(q, argmax_fn(q))) for q in queries) / len(queries)
+        argmax_fails = argmax_rate < argmax_reliable_level
     else:
         argmax_fails = True  # unknown; do not let a missing argmax fabricate "present"
 
