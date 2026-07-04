@@ -11,6 +11,9 @@
 set -u
 cd "$(dirname "$0")/.."
 source ~/emergence-lab/.venv/bin/activate
+# Unbuffered stdout: with block-buffering, a crash mid-run loses everything since
+# the last 8KB flush — the exact failure mode the durable logs exist to prevent.
+export PYTHONUNBUFFERED=1
 
 LOGDIR=logs/m5_scored
 mkdir -p "$LOGDIR"
