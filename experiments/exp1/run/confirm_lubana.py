@@ -1,23 +1,28 @@
 """Lubana confirmation run (gates the scored M5 runs, like confirm_grokking for M4).
 
-Trains ONE seed at each graph setting and reports the capability curve (masked-argmax
-class-generalization rate) over training, plus the graph's connectivity certification.
-No signatures, no RunRecord. The gate passes iff:
-  - ABOVE: the capability transitions over training (crosses transition_level), and
+Trains ONE seed at each graph setting with TRUE ONLINE data (fresh sentences every
+batch -- the paper's recipe; a fixed-corpus variant produced a transient rise followed
+by memorization collapse, see PROGRESS.md) and reports the capability curve
+(masked-argmax class-generalization rate) over training, plus the graph's
+connectivity certification. No signatures, no RunRecord. The gate passes iff:
+  - ABOVE: the capability transitions over training (crosses transition_level) AND
+    still holds at the final checkpoint (a stable capability, not a spike), and
   - BELOW: the capability stays ~flat at chance for the entire run.
 
-If ABOVE fails to transition, adjust the RECIPE (steps/lr/model size/corpus), never
-the thresholds. If BELOW rises well above chance, STOP: either the graph is not
-actually sub-critical (config bug) or the scored capability leaks memorization —
-investigate before any scored run.
+If ABOVE fails, adjust the RECIPE (steps/lr/model size), never the thresholds. If
+BELOW rises well above chance, STOP: either the graph is not actually sub-critical
+(config bug) or the scored capability leaks memorization — investigate before any
+scored run.
 
-Usage:  python -m run.confirm_lubana [above|below|both] [total_steps] [seed]
+Usage:  python -m run.confirm_lubana [above|below|both] [total_steps] [seed] [scale]
 """
 
 from __future__ import annotations
 
 import sys
 from pathlib import Path
+
+import numpy as np
 
 from configs.lubana import LubanaRunConfig
 from models.transformer import DecoderTransformer, TransformerConfig
@@ -28,8 +33,8 @@ from train.loop import resolve_device
 EXP_DIR = Path(__file__).resolve().parents[1]
 
 
-def confirm(setting: str, total_steps: int | None = None, seed: int = 0):
-    cfg = LubanaRunConfig(setting=setting)
+def confirm(setting: str, total_steps: int | None = None, seed: int = 0, scale: str | None = None):
+    cfg = LubanaRunConfig(setting=setting, **({"scale": scale} if scale else {}))
     steps = total_steps or cfg.total_steps
     device = resolve_device(cfg.device)
 
@@ -39,10 +44,11 @@ def confirm(setting: str, total_steps: int | None = None, seed: int = 0):
           f"edge_prob={gstats['edge_prob']:.2e} ({cfg.lang_kwargs['edge_prob_mult']}x p_c) "
           f"giant_frac={gstats['giant_frac_mean']:.3f}", flush=True)
 
-    corpus, seen = lang.make_corpus(cfg.n_train_sentences, seed=seed)
-    queries = lang.make_queries(cfg.n_queries, seen, seed=seed + 1)
-    print(f"[lubana:{setting}] corpus={corpus.shape} seen_pairs={len(seen)} "
-          f"queries={cfg.n_queries} chance={lang.chance:.3f}", flush=True)
+    queries = lang.make_queries(cfg.n_queries, seed=seed + 1)
+    data_rng = np.random.default_rng(seed + 2)
+    batch_fn = lambda b: lang.sample_batch(b, data_rng)  # noqa: E731
+    print(f"[lubana:{setting}] online data; queries={cfg.n_queries} "
+          f"chance={lang.chance:.3f}", flush=True)
 
     model = DecoderTransformer(TransformerConfig(
         vocab_size=lang.cfg.vocab_size, n_ctx=lang.cfg.max_len,
@@ -52,7 +58,7 @@ def confirm(setting: str, total_steps: int | None = None, seed: int = 0):
 
     eval_fn = lambda m: masked_argmax_class_rate(m, lang, queries, device)  # noqa: E731
     hist = train_lm(
-        model, corpus, lang.cfg.pad, eval_fn,
+        model, batch_fn, lang.cfg.pad, eval_fn,
         LMTrainConfig(total_steps=steps, batch_size=cfg.batch_size, lr=cfg.lr,
                       weight_decay=cfg.weight_decay, n_checkpoints=cfg.n_checkpoints,
                       device=cfg.device, seed=seed),
@@ -67,8 +73,8 @@ def confirm(setting: str, total_steps: int | None = None, seed: int = 0):
     final = hist.eval_metric[-1] if hist.eval_metric else 0.0
     peak = max(hist.eval_metric) if hist.eval_metric else 0.0
     if setting == "above":
-        ok = trans is not None
-        print(f"\n[confirm] ABOVE transitioned: {ok} (transition@{trans}, "
+        ok = trans is not None and final >= cfg.transition_level
+        print(f"\n[confirm] ABOVE transitioned AND held: {ok} (transition@{trans}, "
               f"final={final:.3f}, chance={lang.chance:.3f})", flush=True)
     else:
         ok = peak < cfg.below_threshold_mult * lang.chance
@@ -82,6 +88,7 @@ if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "both"
     steps = int(sys.argv[2]) if len(sys.argv) > 2 else None
     seed = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+    scale = sys.argv[4] if len(sys.argv) > 4 else None
     settings = ["above", "below"] if which == "both" else [which]
-    results = {s: confirm(s, steps, seed)[0] for s in settings}
+    results = {s: confirm(s, steps, seed, scale)[0] for s in settings}
     print(f"\n[confirm_lubana] {results}", flush=True)

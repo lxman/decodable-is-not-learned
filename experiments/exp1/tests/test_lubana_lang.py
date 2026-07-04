@@ -86,47 +86,85 @@ def test_sentences_fit_max_len_and_use_valid_tokens():
         assert all(0 <= t < cfg.bos for t in s)  # no BOS/PAD inside a sentence
 
 
-def test_corpus_shapes_and_seen_pairs():
+def test_corpus_shapes():
     lang = _lang(10.0)
     cfg = lang.cfg
-    ids, seen = lang.make_corpus(50, seed=3)
+    ids = lang.make_corpus(50, seed=3)
     assert ids.shape == (50, cfg.max_len)
     assert (ids[:, 0] == cfg.bos).all()
-    assert len(seen) > 0
-    for (e, k) in list(seen)[:20]:
-        assert 0 <= e < cfg.n_entities and 0 <= k < cfg.n_properties
 
 
 def test_below_threshold_corpus_still_generates():
     """Sparse graphs make many symbolic drafts unsatisfiable; generation must still
     terminate and produce type-valid sentences from the islands that exist."""
     lang = _lang(0.5)
-    ids, seen = lang.make_corpus(20, seed=4)
+    ids = lang.make_corpus(20, seed=4)
     assert ids.shape[0] == 20
+
+
+def test_online_batches_are_fresh_and_valid():
+    lang = _lang(10.0)
+    cfg = lang.cfg
+    rng = np.random.default_rng(11)
+    b1 = lang.sample_batch(8, rng)
+    b2 = lang.sample_batch(8, rng)
+    assert b1.shape == (8, cfg.max_len) and (b1[:, 0] == cfg.bos).all()
+    assert not torch.equal(b1, b2)  # fresh data every call
+
+
+# ---- holdout (construction-level; makes queries stable under online data) -----
+
+def test_reserved_edges_never_bound_in_generation():
+    """The holdout invariant: a reserved (e,k) pair is never SYNTACTICALLY BOUND in
+    training (Desc/Verb bind to the subject; eAdj binds to the following entity).
+    Incidental co-occurrence with another entity's property is allowed — that shared
+    context is precisely the class signal the capability learns from (as in the
+    paper's multi-entity strings); the verifier tests binding, not co-occurrence."""
+    lang = _lang(10.0, n_entities=50, n_properties=500)
+    cfg = lang.cfg
+    assert lang.reserved.sum() > 0            # holdout is non-empty
+    assert not (lang.reserved & lang.trainable).any()
+    rng = np.random.default_rng(12)
+    checked = 0
+    for _ in range(300):
+        s = lang.sample_sentence(rng)
+        if s is None:
+            continue
+        subj = next(t for t in s if t < cfg.n_entities)
+        for i, t in enumerate(s):
+            if cfg.n_entities <= t < cfg.n_entities + cfg.n_properties:
+                k = t - cfg.n_entities
+                # bound entity: the entity that immediately follows (eAdj slot), else
+                # the subject (Desc/Verb slots)
+                nxt = s[i + 1] if i + 1 < len(s) else None
+                bound = nxt if (nxt is not None and nxt < cfg.n_entities) else subj
+                assert lang.trainable[bound, k], "reserved/non-edge pair was bound"
+                assert not lang.reserved[bound, k]
+                checked += 1
+    assert checked > 100
 
 
 # ---- queries (the scored capability) ------------------------------------------
 
-def test_queries_mask_unseen_descriptive_properties_only():
+def test_queries_mask_is_never_trainable_by_construction():
     lang = _lang(10.0)
     cfg = lang.cfg
-    _, seen = lang.make_corpus(100, seed=5)
-    q = lang.make_queries(20, seen, seed=6)
+    q = lang.make_queries(20, seed=6)
     assert q["prompts"].shape == (20, 3)
     for i in range(20):
         e = int(q["subjects"][i])
         cand = torch.nonzero(q["masks"][i]).flatten().tolist()
-        for t in cand[:50]:
+        assert cand, "empty candidate set"
+        for t in cand[:100]:
             k = t - cfg.n_entities
             assert lang.prop_is_desc[k]
-            assert (e, k) not in seen  # candidates were never co-observed with subj
+            assert not lang.trainable[e, k]   # can NEVER appear with e in training
 
 
 def test_verifier_accepts_same_class_rejects_cross_class():
     lang = _lang(10.0)
     cfg = lang.cfg
-    _, seen = lang.make_corpus(100, seed=7)
-    q = lang.make_queries(10, seen, seed=8)
+    q = lang.make_queries(10, seed=8)
     for i in range(10):
         c = int(q["classes"][i])
         cand = torch.nonzero(q["masks"][i]).flatten().numpy()
@@ -143,8 +181,7 @@ def test_chance_matches_candidate_composition():
     """Empirical same-class fraction among candidates ~ 1/|C| (the chance floor)."""
     lang = _lang(10.0)
     cfg = lang.cfg
-    _, seen = lang.make_corpus(100, seed=9)
-    q = lang.make_queries(30, seen, seed=10)
+    q = lang.make_queries(30, seed=10)
     fracs = []
     for i in range(30):
         c = int(q["classes"][i])

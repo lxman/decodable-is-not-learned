@@ -195,8 +195,25 @@ BEFORE any Lubana training run)**
 - **Below-threshold rule preregistered:** argmax capability metric < 1.5×chance (the
   frozen §3 "<5%" is unusable at 10-way chance = 10%, as in Phase A). Set before any
   run; logged here.
-- Training is quasi-online: a 60k-sentence corpus with sampled minibatches
-  approximates the paper's online sampling at our scale.
+- ~~Training is quasi-online: a 60k-sentence corpus with sampled minibatches
+  approximates the paper's online sampling at our scale.~~ **Superseded — the
+  confirmation gate caught this.** The first reduced-scale above-threshold
+  confirmation showed a transient rise (0 → 0.58 @ step ~1.9k) followed by
+  memorization collapse to BELOW chance (0.068 vs 0.1): the fixed 60k-sentence corpus
+  covered essentially the whole reduced graph (~10.6k pairs seen) and each sentence
+  repeated ~32×, so the model bound properties to specific co-occurring entities and
+  suppressed same-class-unseen candidates. Fixes (recipe/mechanism, pre-scored-runs,
+  no thresholds touched):
+  1. **True online data** — `sample_batch` generates fresh sentences every iteration,
+     the paper's actual recipe ("a fresh batch of strings every iteration").
+  2. **Construction-level holdout** — `holdout_frac=0.1` of edges are reserved and
+     never *syntactically bound* in generation; query candidates are never-trainable
+     pairs by construction, so the mask is stable under online data (the empirical
+     seen-set was a moving target). Invariant: reserved pairs are never BOUND
+     (subject–descriptor / entity–adjective); incidental sentence co-occurrence is
+     allowed and is precisely the class signal the capability learns from.
+  3. **Confirmation gate tightened** — ABOVE must transition AND hold at the final
+     checkpoint (a spike-then-collapse no longer passes).
 - **Scale decision (Michael, 2026-07-04): scored runs at `scale="paper"`**
   (|E|=900, |K|=18000 — the faithful base config; ~59 min/run, ~14 h for the
   10-run scored set). The reduced scale serves as the confirmation vehicle.

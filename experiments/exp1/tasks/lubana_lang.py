@@ -63,6 +63,9 @@ class LubanaConfig:
     n_entities: int = 300          # |E|, split equally across classes
     n_properties: int = 3000       # |K|, split equally across classes (half desc, half rel)
     edge_prob_mult: float = 10.0   # edge prob as a multiple of the per-class p_c
+    holdout_frac: float = 0.1      # fraction of edges RESERVED: never used in sentence
+                                   # generation, so query candidates are unseen-in-
+                                   # training by CONSTRUCTION (stable under online data)
     max_len: int = 96              # paper: sentences range 4-75 tokens
     seed: int = 0
 
@@ -146,15 +149,22 @@ class LubanaLanguage:
             mask = rng.random(valid.size) < cfg.edge_prob
             self.adj[e, valid[mask]] = True
 
-        # per-entity property lists (descriptive / relative), for population
-        self._desc_of = [np.flatnonzero(self.adj[e] & self.prop_is_desc) for e in range(cfg.n_entities)]
-        self._rel_of = [np.flatnonzero(self.adj[e] & ~self.prop_is_desc) for e in range(cfg.n_entities)]
+        # reserved (held-out) edges: real edges of G that sentence generation NEVER
+        # uses. Query candidates are drawn from never-trainable pairs, so the scored
+        # capability is generalization by construction — stable under online data.
+        self.reserved = self.adj & (rng.random(self.adj.shape) < cfg.holdout_frac)
+        self.trainable = self.adj & ~self.reserved
+
+        # per-entity TRAINABLE property lists (descriptive / relative), for population
+        self._desc_of = [np.flatnonzero(self.trainable[e] & self.prop_is_desc) for e in range(cfg.n_entities)]
+        self._rel_of = [np.flatnonzero(self.trainable[e] & ~self.prop_is_desc) for e in range(cfg.n_entities)]
 
     # ------------------------------------------------------------------ graph facts
     def giant_component_stats(self) -> dict:
-        """Connectivity of the per-class co-occurrence graph -- the INDEPENDENT
-        ground-truth certification (computed from the graph, not from any model):
-        giant fraction >> 1/n certifies 'above threshold'; ~1/n certifies 'below'."""
+        """Connectivity of the per-class TRAINABLE co-occurrence graph -- the
+        INDEPENDENT ground-truth certification (computed from the data structure the
+        model actually trains on, not from any model): giant fraction >> 1/n certifies
+        'above threshold'; ~1/n certifies 'below'."""
         cfg = self.cfg
         fracs = []
         for c in range(cfg.n_classes):
@@ -172,7 +182,7 @@ class LubanaLanguage:
                 return a
 
             for e in ents:
-                for k in np.flatnonzero(self.adj[e]):
+                for k in np.flatnonzero(self.trainable[e]):
                     ra, rb = find(idx[("e", int(e))]), find(idx[("k", int(k))])
                     if ra != rb:
                         parent[ra] = rb
@@ -292,13 +302,12 @@ class LubanaLanguage:
         pool = np.flatnonzero(self.entity_class == c)
         return int(pool[rng.integers(pool.size)])
 
-    def make_corpus(self, n_sentences: int, seed: int):
-        """Token corpus [N, max_len]: BOS + sentence + PAD. Also returns the set of
-        (entity, property) pairs that CO-OCCURRED in a sentence (for held-out queries)."""
+    def make_corpus(self, n_sentences: int, seed: int) -> torch.Tensor:
+        """Token corpus [N, max_len]: BOS + sentence + PAD. (Probe/eval sentences;
+        training uses sample_batch for true online data.)"""
         cfg = self.cfg
         rng = np.random.default_rng(seed)
         ids = np.full((n_sentences, cfg.max_len), cfg.pad, dtype=np.int64)
-        seen_pairs: set[tuple[int, int]] = set()
         i = 0
         while i < n_sentences:
             s = self.sample_sentence(rng)
@@ -306,23 +315,34 @@ class LubanaLanguage:
                 continue
             row = [cfg.bos] + s
             ids[i, : len(row)] = row
-            ents = [t for t in s if t < cfg.n_entities]
-            props = [t - cfg.n_entities for t in s
-                     if cfg.n_entities <= t < cfg.n_entities + cfg.n_properties]
-            for e in ents:
-                for k in props:
-                    seen_pairs.add((e, k))
             i += 1
-        return torch.from_numpy(ids), seen_pairs
+        return torch.from_numpy(ids)
+
+    def sample_batch(self, batch_size: int, rng) -> torch.Tensor:
+        """Fresh online batch [B, max_len] -- the paper's 'fresh batch of strings
+        every iteration'. Only TRAINABLE edges ever appear (reserved edges are the
+        construction-level holdout)."""
+        cfg = self.cfg
+        ids = np.full((batch_size, cfg.max_len), cfg.pad, dtype=np.int64)
+        i = 0
+        while i < batch_size:
+            s = self.sample_sentence(rng)
+            if s is None:
+                continue
+            row = [cfg.bos] + s
+            ids[i, : len(row)] = row
+            i += 1
+        return torch.from_numpy(ids)
 
     # -------------------------------------------------- scored capability datasets
-    def make_queries(self, n: int, seen_pairs: set, seed: int):
+    def make_queries(self, n: int, seed: int):
         """Class-generalization prompts: BOS Subj lVerb -> next token should be a
-        descriptive property. Returns dict with prompt ids, subject entity, its class,
-        and the per-query candidate mask over UNSEEN descriptive properties.
+        descriptive property. Candidates are the NEVER-TRAINABLE descriptive
+        properties for the subject (same-class non-edges + reserved edges +
+        cross-class) -- unseen in training by construction, stable under online data.
 
-        PASS rule (the verifier): the chosen unseen descriptive property belongs to
-        the subject's class. Chance ~ 1/|C|.
+        PASS rule (the verifier): the chosen candidate belongs to the subject's
+        class. Chance ~ 1/|C|.
         """
         cfg = self.cfg
         rng = np.random.default_rng(seed)
@@ -330,14 +350,14 @@ class LubanaLanguage:
         subjects = np.empty(n, dtype=np.int64)
         classes = np.empty(n, dtype=np.int64)
         masks = np.zeros((n, cfg.vocab_size), dtype=bool)
-        desc_all = np.flatnonzero(self.prop_is_desc)
+        desc_idx = np.flatnonzero(self.prop_is_desc)
         for i in range(n):
             e = int(rng.integers(cfg.n_entities))
             subjects[i] = e
             classes[i] = self.entity_class[e]
             prompts[i] = [cfg.bos, e, cfg.tok_lverb0 + int(rng.integers(N_LVERB))]
-            unseen = np.array([k for k in desc_all if (e, int(k)) not in seen_pairs])
-            masks[i, unseen + cfg.n_entities] = True
+            never_trainable = desc_idx[~self.trainable[e, desc_idx]]
+            masks[i, never_trainable + cfg.n_entities] = True
         return {
             "prompts": torch.from_numpy(prompts),
             "subjects": torch.from_numpy(subjects),

@@ -44,12 +44,13 @@ class LMHistory:
         return None
 
 
-def train_lm(model, corpus_ids: torch.Tensor, pad_token: int, eval_fn, cfg: LMTrainConfig, ckpt_dir):
+def train_lm(model, batch_fn, pad_token: int, eval_fn, cfg: LMTrainConfig, ckpt_dir):
     """Train with next-token CE (PAD ignored); checkpoint + eval_fn on the schedule.
 
-    corpus_ids: [N, T] token rows (BOS + sentence + PAD...). Minibatches are sampled
-    rows (quasi-online: the corpus is large relative to steps*batch, approximating
-    the paper's online sampling; recorded in PROGRESS.md).
+    batch_fn(batch_size) -> [B, T] token rows (BOS + sentence + PAD...). TRUE ONLINE
+    data, the paper's "fresh batch of strings every iteration": the caller closes over
+    a seeded rng and generates fresh sentences per call. (A fixed-corpus variant was
+    tried first and produced memorization collapse -- see PROGRESS.md M5 notes.)
     eval_fn(model) -> float: the capability metric at this checkpoint.
     """
     device = resolve_device(cfg.device)
@@ -57,15 +58,12 @@ def train_lm(model, corpus_ids: torch.Tensor, pad_token: int, eval_fn, cfg: LMTr
     opt = torch.optim.AdamW(
         model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay, betas=cfg.betas
     )
-    gen = torch.Generator().manual_seed(cfg.seed)
-    n = corpus_ids.shape[0]
     schedule = set(checkpoint_schedule(cfg.total_steps, cfg.n_checkpoints))
     hist = LMHistory()
 
     for step in range(1, cfg.total_steps + 1):
         model.train()
-        idx = torch.randint(0, n, (cfg.batch_size,), generator=gen)
-        ids = corpus_ids[idx].to(device)
+        ids = batch_fn(cfg.batch_size).to(device)
         logits = model(ids)[:, :-1, :]
         targets = ids[:, 1:]
         loss = F.cross_entropy(
