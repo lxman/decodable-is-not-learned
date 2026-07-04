@@ -39,5 +39,9 @@ cd experiments/exp1 && python -m pytest
 ## Status
 
 - M0 — scaffold + deps. **Done.**
-- M1 — frozen contracts: `signatures/stats.py` + `signatures/schema.py` with tests (24 passing). **Done.**
-- M2–M7 — see the implementation plan's milestone list.
+- M1 — frozen contracts: `signatures/stats.py` + `signatures/schema.py` (24 tests). **Done.**
+- M2 — signature bodies: `activations.py` + `probe.py` (S1) + `sampling.py` (S2) + `forecast.py` (S3), each validated on planted-signal inputs (43 tests cumulative). **Done.**
+- M3–M7 — see the implementation plan's milestone list.
+
+See `PROGRESS.md` for the full build ledger (milestone → design §, commit, tests) and
+the pre-freeze operational choices.
