@@ -2,65 +2,65 @@
   "system": "grokking",
   "size_bucket": "1M",
   "seed": 1,
-  "git_sha": "42cfb5c-dirty",
+  "git_sha": "e365c39-dirty",
   "torch_version": "2.12.1",
   "transformers_version": "5.13.0",
   "gt_check": {
     "certified": true,
     "method": "memorization_generalization_gap",
     "details": {
-      "mem_step": 276,
+      "mem_step": 236,
       "gen_step": 1796,
       "final_train_acc": 1.0,
       "final_test_acc": 1.0,
-      "gap_steps": 1520,
-      "transition_step": 1796,
+      "gap_steps": 1560,
+      "transition_step": 1536,
       "n_params": 228096,
-      "below_threshold_checkpoint": 1314
+      "below_threshold_checkpoint": 962
     }
   },
   "s1": {
     "present": true,
-    "accuracy": 0.048,
+    "accuracy": 0.07466666666666667,
     "chance": 0.008849557522123894,
     "null_p": 0.000999000999000999,
-    "null_mean": 0.008882666666666667,
+    "null_mean": 0.008825333333333333,
     "ci95": [
-      0.03774357001046964,
-      0.060068956978351254
+      0.0618744956165942,
+      0.089152364213688
     ],
     "best_layer": 0,
     "best_token": -1,
     "n_layers_tested": 1,
-    "checkpoint_id": "step_0001314",
+    "checkpoint_id": "step_0000962",
     "below_threshold": true,
     "signature": "S1"
   },
   "s2": {
     "present": true,
     "absent": false,
-    "passes": 171670,
+    "passes": 119672,
     "n": 5000000,
-    "rate_point": 0.034334,
-    "cp_lower": 0.03417456752465966,
-    "cp_upper": 0.034493972035293724,
+    "rate_point": 0.0239344,
+    "cp_lower": 0.02380060376678847,
+    "cp_upper": 0.024068747930638547,
     "guessing_floor": 0.008525593964469317,
     "argmax_fails": true,
-    "checkpoint_id": "step_0001314",
+    "checkpoint_id": "step_0000962",
     "signature": "S2"
   },
   "s3": {
     "present": true,
-    "predicted_transition": 2052.3739274302684,
-    "true_transition": 1796.0,
+    "predicted_transition": 1361.028558512115,
+    "true_transition": 1536.0,
     "interval90": [
-      1331.1941070201674,
-      5477.400694236956
+      1174.785255882231,
+      1592.440204294405
     ],
-    "rel_error": 0.14274717562932537,
+    "rel_error": 0.11391369888534175,
     "slope_ci": [
-      8.637752557612162e-05,
-      0.00038478742731950827
+      0.0019544929217013085,
+      0.0027054292903961937
     ],
     "beats_no_transition_baseline": true,
     "axis": "training_steps",
@@ -91,6 +91,7 @@
     "s2_n_queries": 50,
     "s2_temperature": 1.0,
     "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
     "size_bucket": "1M"
   }
 }

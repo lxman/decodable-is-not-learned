@@ -2,7 +2,7 @@
   "system": "grokking",
   "size_bucket": "1M",
   "seed": 0,
-  "git_sha": "42cfb5c",
+  "git_sha": "e365c39",
   "torch_version": "2.12.1",
   "transformers_version": "5.13.0",
   "gt_check": {
@@ -14,20 +14,20 @@
       "final_train_acc": 1.0,
       "final_test_acc": 1.0,
       "gap_steps": 1560,
-      "transition_step": 1536,
+      "transition_step": 1796,
       "n_params": 228096,
       "below_threshold_checkpoint": 173
     }
   },
   "s1": {
     "present": true,
-    "accuracy": 0.028,
+    "accuracy": 0.028666666666666667,
     "chance": 0.008849557522123894,
     "null_p": 0.000999000999000999,
-    "null_mean": 0.008920666666666665,
+    "null_mean": 0.008929333333333334,
     "ci95": [
-      0.020252820876314716,
-      0.037660860443749895
+      0.020822205195245514,
+      0.03842107306837108
     ],
     "best_layer": 0,
     "best_token": -1,
@@ -39,11 +39,11 @@
   "s2": {
     "present": true,
     "absent": false,
-    "passes": 233101,
+    "passes": 234906,
     "n": 5000000,
-    "rate_point": 0.0466202,
-    "cp_lower": 0.04643557058233303,
-    "cp_upper": 0.04680535468236383,
+    "rate_point": 0.0469812,
+    "cp_lower": 0.04679589141610264,
+    "cp_upper": 0.04716703342897794,
     "guessing_floor": 0.00904639719534496,
     "argmax_fails": true,
     "checkpoint_id": "step_0000173",
@@ -51,16 +51,16 @@
   },
   "s3": {
     "present": false,
-    "predicted_transition": 1957.588705529939,
-    "true_transition": 1536.0,
+    "predicted_transition": 1197.2646942641643,
+    "true_transition": 1796.0,
     "interval90": [
-      1607.4196657003235,
-      2593.6612677966655
+      1059.2431747680143,
+      1271.6648686482704
     ],
-    "rel_error": 0.27447181349605404,
+    "rel_error": 0.33337155107785954,
     "slope_ci": [
-      0.00018829399132430706,
-      0.0003099891872880252
+      0.002524960074379223,
+      0.0030786904406995257
     ],
     "beats_no_transition_baseline": true,
     "axis": "training_steps",
@@ -91,6 +91,7 @@
     "s2_n_queries": 50,
     "s2_temperature": 1.0,
     "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
     "size_bucket": "1M"
   }
 }

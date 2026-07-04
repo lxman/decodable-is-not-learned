@@ -25,7 +25,7 @@ to the schema, not to how signatures are computed.
 | M2 | `signatures/activations.py` (residual-stream hooks); `probe.py` (S1); `sampling.py` (S2); `forecast.py` (S3); planted-signal tests | §3 signature operationalization | `5202fb5` | 43 ✓ (cumulative) |
 | M3 | Phase-A pipeline debug: `models/transformer.py`, `tasks/binding_task.py`, `train/{loop,checkpointing}.py`, `configs/phase_a.py`, `run/{run_phaseA,provenance}.py`; end-to-end run → `results/phaseA/seed0.json` | §2 staged build (Phase A); §5 run order step 1 | `5c7afbd` | 54 ✓ (cumulative) |
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `8f7198d` (tag `exp1-analysis-frozen`) | 63 ✓ (cumulative) |
-| M4 | Grokking harness: `tasks/modular_arith.py`, `configs/grokking.py`, `run/confirm_grokking.py`, full-batch + train-acc in `train/loop.py`. Scored 5-seed run pending grok-confirmation. | §2 resolution exemplar; §5 run order step 2 | `PENDING` (harness; **confirmation running**) | 71 ✓ (cumulative) |
+| M4 | Grokking harness + confirmation + scored 5-seed run. Harness `150a1b4`/`412f747`; instrument fixes `42cfb5c`; linear-S3 record `ae27930`; log-precursor method `e365c39`; **accepted scored row: S1 5/5, S2 5/5, S3 1/5, gt 5/5** | §2 resolution exemplar; §5 run order step 2 | `PENDING` (final data commit) | 73 ✓ (cumulative) |
 | M5 | Lubana below + above (base size, 5 seeds) | §2 percolation exemplar + control | — | — |
 | M6 | Size sweep 1M/10M/100M | §4 secondary size sweep | — | — |
 | M7 | Run frozen `analyze.py`; fill truth table; report | §4 overall PASS / reportable FAIL | — | — |
@@ -131,6 +131,20 @@ implementation, the choice is recorded here and in the relevant module docstring
   locked, not tuned. **Lubana-below remains the out-of-sample judge:** the same
   log-transformed S3 must keep percolation absent, or the change is rejected. The first
   (linear-S3) 5-seed run is preserved in git history as the pre-recalibration record.
+- **S3 VERDICT ACCEPTED (user decision, 2026-07-04): grokking S3 = 1/5, reported
+  as-is. No second fix.** Diagnosis on the log-S3 run: the log precursor fixed the
+  point forecast (predictions clustered near truth; rel-errors 0.11–0.16 for three
+  seeds vs 841–3469 scatter under the linear fit), but the frozen rule also requires
+  90%-interval coverage, and the data-bootstrap interval is anti-conservative for
+  extrapolation (it omits the prediction-uncertainty term), so seeds 2 and 3 miss
+  coverage by 18 and 77 steps despite accurate forecasts. Fixing the interval
+  estimator would be change #2; declined to protect the preregistration discipline.
+  **Standing finding:** on the resolution exemplar the transition *location* is
+  forecastable from the smooth precursor to ~11–16%, but calibrated 90% coverage is
+  not achieved — S3 is directionally informative, not certifiable at the frozen bar.
+  The essay's forecastability claim should be stated as "visible in advance," not
+  "certifiably timeable." S1/S2 carry the discriminator, pending the Lubana absent
+  side (M5).
 - **INSTRUMENT FREEZE (post-shakeout):** as of the M4 scored run, the signature code
   (`probe.py`, `sampling.py`, `forecast.py`, `activations.py`) and signature params are
   frozen for the rest of Exp 1. **M5 (Lubana) is the honest out-of-sample test of these
