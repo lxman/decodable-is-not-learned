@@ -16,7 +16,7 @@ here so they are auditable and can never be mistaken for post-hoc instrument-tun
 |---|---|---|---|---|
 | M0 | Scaffold `experiments/exp1/` tree; deps (scikit-learn, scipy, matplotlib, pytest) into `~/emergence-lab/.venv`; `checkpoints/` gitignored | §5 code location | `3123f99` | — |
 | M1 | `signatures/stats.py` (Clopper–Pearson, permutation null, Cohen's d, Bonferroni); `signatures/schema.py` (RunRecord + result dataclasses, JSON round-trip, categorical validation) | §4 statistics; the frozen data contract | `8628e33` | 24 ✓ |
-| M2 | `signatures/activations.py` (residual-stream hooks); `probe.py` (S1); `sampling.py` (S2); `forecast.py` (S3); planted-signal tests | §3 signature operationalization | `4a8ff29` | 43 ✓ (cumulative) |
+| M2 | `signatures/activations.py` (residual-stream hooks); `probe.py` (S1); `sampling.py` (S2); `forecast.py` (S3); planted-signal tests | §3 signature operationalization | `5202fb5` | 43 ✓ (cumulative) |
 | M3 | Phase-A pipeline debug (binding task end-to-end) | §2 staged build (Phase A) | — | — |
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 statistics hygiene | — | — |
 | M4 | Grokking (base size, 5 seeds) + gt-check | §2 resolution exemplar | — | — |
