@@ -208,6 +208,21 @@ def test_verifier_accepts_same_class_rejects_cross_class():
     assert lang.chance == pytest.approx(1 / 5)
 
 
+def test_singleton_entities_have_no_islandmates():
+    """Below-row pool semantics: a singleton entity shares its trainable component
+    with no other entity, so training data carries zero class evidence for it and
+    the no-capability floor is exactly chance (the island-oracle inflation is 0)."""
+    lang = _lang(0.5, n_entities=100, n_properties=1000)
+    comp = _components(lang)
+    singles = lang.singleton_entities()
+    assert singles.size > 20  # plentiful below threshold
+    for e in singles:
+        assert sum(1 for e2 in range(lang.cfg.n_entities) if comp[e2] == comp[e]) == 1
+    # and the pool restriction is honored by make_queries
+    q = lang.make_queries(15, seed=3, subjects_pool=singles)
+    assert all(int(s) in set(singles.tolist()) for s in q["subjects"])
+
+
 def test_chance_matches_candidate_composition():
     """Empirical same-class fraction among candidates ~ 1/|C| (the chance floor)."""
     lang = _lang(10.0)

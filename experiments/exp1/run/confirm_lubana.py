@@ -44,11 +44,17 @@ def confirm(setting: str, total_steps: int | None = None, seed: int = 0, scale: 
           f"edge_prob={gstats['edge_prob']:.2e} ({cfg.lang_kwargs['edge_prob_mult']}x p_c) "
           f"giant_frac={gstats['giant_frac_mean']:.3f}", flush=True)
 
-    queries = lang.make_queries(cfg.n_queries, seed=seed + 1)
+    # Below row: subjects restricted to singleton-component entities, for whom the
+    # data carries zero class evidence (kills the island-oracle inflation; see
+    # PROGRESS.md). Above row: uniform (class structure = component structure there).
+    pool = lang.singleton_entities() if setting == "below" else None
+    queries = lang.make_queries(cfg.n_queries, seed=seed + 1, subjects_pool=pool)
     data_rng = np.random.default_rng(seed + 2)
     batch_fn = lambda b: lang.sample_batch(b, data_rng)  # noqa: E731
     print(f"[lubana:{setting}] online data; queries={cfg.n_queries} "
-          f"chance={lang.chance:.3f}", flush=True)
+          f"chance={lang.chance:.3f}"
+          + (f" singleton_pool={pool.size}/{lang.cfg.n_entities}" if pool is not None else ""),
+          flush=True)
 
     model = DecoderTransformer(TransformerConfig(
         vocab_size=lang.cfg.vocab_size, n_ctx=lang.cfg.max_len,

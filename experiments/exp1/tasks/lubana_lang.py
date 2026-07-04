@@ -376,24 +376,60 @@ class LubanaLanguage:
         return torch.from_numpy(ids)
 
     # -------------------------------------------------- scored capability datasets
-    def make_queries(self, n: int, seed: int):
+    def singleton_entities(self) -> np.ndarray:
+        """Entities whose trainable-graph component contains NO other entity.
+
+        For these, training data carries zero class evidence (no islandmates, no
+        co-occurrence channel), so any above-chance class readout is macroscopic
+        generalization — the thing percolation forbids below threshold. The below-row
+        evaluation restricts to this pool (preregistered; see PROGRESS.md): the
+        finite-cluster 'island oracle' otherwise inflates the no-capability floor
+        above 1/|C| (measured: islands explain a 0.21 ceiling vs 0.10 chance)."""
+        cfg = self.cfg
+        n = cfg.n_entities + cfg.n_properties
+        parent = list(range(n))
+
+        def find(a):
+            while parent[a] != a:
+                parent[a] = parent[parent[a]]
+                a = parent[a]
+            return a
+
+        for e in range(cfg.n_entities):
+            for k in np.flatnonzero(self.trainable[e]):
+                ra, rb = find(e), find(cfg.n_entities + int(k))
+                if ra != rb:
+                    parent[ra] = rb
+        comp = np.array([find(i) for i in range(cfg.n_entities)])
+        counts = {}
+        for c in comp:
+            counts[c] = counts.get(c, 0) + 1
+        return np.array([e for e in range(cfg.n_entities) if counts[comp[e]] == 1])
+
+    def make_queries(self, n: int, seed: int, subjects_pool=None):
         """Class-generalization prompts: BOS Subj lVerb -> next token should be a
         descriptive property. Candidates are the NEVER-TRAINABLE descriptive
         properties for the subject (same-class non-edges + reserved edges +
         cross-class) -- unseen in training by construction, stable under online data.
+
+        subjects_pool: optional entity array to draw subjects from (the below row
+        passes singleton_entities(); default uniform over all entities).
 
         PASS rule (the verifier): the chosen candidate belongs to the subject's
         class. Chance ~ 1/|C|.
         """
         cfg = self.cfg
         rng = np.random.default_rng(seed)
+        pool = np.asarray(subjects_pool) if subjects_pool is not None else np.arange(cfg.n_entities)
+        if pool.size == 0:
+            raise ValueError("subjects_pool is empty")
         prompts = np.full((n, 3), cfg.pad, dtype=np.int64)
         subjects = np.empty(n, dtype=np.int64)
         classes = np.empty(n, dtype=np.int64)
         masks = np.zeros((n, cfg.vocab_size), dtype=bool)
         desc_idx = np.flatnonzero(self.prop_is_desc)
         for i in range(n):
-            e = int(rng.integers(cfg.n_entities))
+            e = int(pool[rng.integers(pool.size)])
             subjects[i] = e
             classes[i] = self.entity_class[e]
             prompts[i] = [cfg.bos, e, cfg.tok_lverb0 + int(rng.integers(N_LVERB))]

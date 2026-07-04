@@ -225,6 +225,25 @@ BEFORE any Lubana training run)**
      allowed and is precisely the class signal the capability learns from.
   3. **Confirmation gate tightened** — ABOVE must transition AND hold at the final
      checkpoint (a spike-then-collapse no longer passes).
+- **Third gate catch — finite-cluster (island) residue, and the singleton-pool fix
+  (preregistered before any scored run).** Confirmation v3 (graph-mediated
+  population): above perfect (transition @1577, held 0.998); below no longer *forms*
+  the capability (no growth after ~step 500 for 30k steps) but plateaus at 0.15–0.22,
+  above the 0.15 bar. Diagnosis, verified quantitatively: percolation's own
+  finite-size prediction. The below graph contains small multi-entity islands whose
+  class-consistent co-occurrence is memorizable; the graph-computable "island oracle"
+  ceiling is **0.211**, and the model sat at 0.186 — it learned its islands
+  (37/300 entities) essentially perfectly and nothing more. The macroscopic
+  capability did NOT form; our chance-based bar simply didn't model the memorizable
+  residue. **Fix:** below-row evaluation (capability metric, S1 probe entities, S2
+  queries, graph-axis sub-runs) restricts to **singleton-component entities**
+  (247/300 here) — entities with zero class evidence in training, for whom the
+  no-capability floor is exactly chance and the 1.5×chance bar stands unchanged. The
+  capability tested becomes precisely cross-island generalization, the thing
+  percolation forbids. Above row stays uniform: there class structure and component
+  structure coincide (the giant component IS the capability), so no asymmetry.
+  Thresholds untouched; the change is which entities constitute a fair test, computed
+  model-free from the graph.
 - **Scored-driver operationalizations (`run/run_lubana.py`; preregistered before any
   scored run):**
   - *S1 probe is entity-split by construction:* one prompt per entity, activations at

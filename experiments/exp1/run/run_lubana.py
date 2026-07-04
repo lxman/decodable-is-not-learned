@@ -61,18 +61,20 @@ def _size_bucket(n_params: int) -> str:
     return min(("1M", "10M", "100M"), key=lambda b: abs(np.log10(n_params) - np.log10({"1M": 1e6, "10M": 1e7, "100M": 1e8}[b])))
 
 
-def _entity_probe_data(lang, device, model):
+def _entity_probe_data(lang, device, model, pool=None):
     """One prompt per entity ('BOS e lVerb0'); activations at the entity position and
-    the last position; labels = entity class. Entity-split by construction."""
+    the last position; labels = entity class. Entity-split by construction. `pool`
+    restricts to given entities (below row: singleton components, so islandmate
+    label-matching cannot masquerade as class structure)."""
     cfg = lang.cfg
-    n = cfg.n_entities
-    prompts = np.full((n, 3), cfg.pad, dtype=np.int64)
-    for e in range(n):
-        prompts[e] = [cfg.bos, e, cfg.tok_lverb0]  # fixed lVerb: no confound across entities
+    ents = np.asarray(pool) if pool is not None else np.arange(cfg.n_entities)
+    prompts = np.full((ents.size, 3), cfg.pad, dtype=np.int64)
+    for i, e in enumerate(ents):
+        prompts[i] = [cfg.bos, int(e), cfg.tok_lverb0]  # fixed lVerb: no confound
     ids = torch.from_numpy(prompts)
     with ResidualActivationCollector(model, list(model.blocks), token_indices=(1, -1), device=device) as col:
-        acts = col.collect([ids[i : i + 512] for i in range(0, n, 512)])
-    return acts, lang.entity_class.copy()
+        acts = col.collect([ids[i : i + 512] for i in range(0, ents.size, 512)])
+    return acts, lang.entity_class[ents].copy()
 
 
 def _make_model(lang, cfg, seed):
@@ -82,9 +84,9 @@ def _make_model(lang, cfg, seed):
     ))
 
 
-def _train_setting(lang, cfg, seed, steps, ckpt_dir, device):
+def _train_setting(lang, cfg, seed, steps, ckpt_dir, device, pool=None):
     model = _make_model(lang, cfg, seed)
-    queries = lang.make_queries(cfg.n_queries, seed=seed + 1)
+    queries = lang.make_queries(cfg.n_queries, seed=seed + 1, subjects_pool=pool)
     data_rng = np.random.default_rng(seed + 2)
     hist = train_lm(
         model, lambda b: lang.sample_batch(b, data_rng), lang.cfg.pad,
@@ -118,9 +120,12 @@ def run_lubana(setting: str, seed: int = 0, scale: str | None = None, out_dir: P
     lang = LubanaLanguage(LubanaConfig(seed=seed, **cfg.lang_kwargs))
     gstats = lang.giant_component_stats()
     below_bar = cfg.below_threshold_mult * lang.chance
+    # Below row: evaluation entities restricted to singleton components (zero class
+    # evidence in training data -> the no-capability floor is exactly chance).
+    pool = lang.singleton_entities() if setting == "below" else None
 
     ckpt_dir = out_dir / "checkpoints" / f"lubana_{setting}" / f"seed{seed}"
-    model, queries, hist = _train_setting(lang, cfg, seed, cfg.total_steps, ckpt_dir, device)
+    model, queries, hist = _train_setting(lang, cfg, seed, cfg.total_steps, ckpt_dir, device, pool=pool)
 
     step_metric = dict(zip(hist.steps, hist.eval_metric))
     ckpts = list_checkpoints(ckpt_dir)
@@ -135,7 +140,7 @@ def run_lubana(setting: str, seed: int = 0, scale: str | None = None, out_dir: P
     model.to(device)
 
     # --- S1 --------------------------------------------------------------------
-    acts, class_labels = _entity_probe_data(lang, device, model)
+    acts, class_labels = _entity_probe_data(lang, device, model, pool=pool)
     s1 = probe_below_threshold(
         acts, class_labels, chance=lang.chance,
         checkpoint_id=f"step_{s1_step:07d}", below_threshold=True,
@@ -143,7 +148,7 @@ def run_lubana(setting: str, seed: int = 0, scale: str | None = None, out_dir: P
     )
 
     # --- S2 --------------------------------------------------------------------
-    q2 = lang.make_queries(cfg.s2_n_queries, seed=seed + 3)
+    q2 = lang.make_queries(cfg.s2_n_queries, seed=seed + 3, subjects_pool=pool)
     q_list = [{"ids": q2["prompts"][i : i + 1], "idx": i} for i in range(cfg.s2_n_queries)]
     verifier = lambda q, tok: lang.verify_choice(q["idx"], q2, int(tok))  # noqa: E731
 
@@ -203,7 +208,8 @@ def run_lubana(setting: str, seed: int = 0, scale: str | None = None, out_dir: P
             sub_lang = LubanaLanguage(LubanaConfig(seed=seed, **sub_kw))
             sub_dir = out_dir / "checkpoints" / f"lubana_s3graph_{mult}" / f"seed{seed}"
             _m, _q, sub_hist = _train_setting(
-                sub_lang, cfg, seed, cfg.s3_graph_budget_steps, sub_dir, device)
+                sub_lang, cfg, seed, cfg.s3_graph_budget_steps, sub_dir, device,
+                pool=sub_lang.singleton_entities())  # island-free metric, as the main below row
             xs.append(float(sub_lang.cfg.edge_prob))          # absolute p
             ys.append(float(sub_hist.eval_metric[-1]))
         s3 = forecast_from_below(
