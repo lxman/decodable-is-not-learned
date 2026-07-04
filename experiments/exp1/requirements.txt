@@ -10,3 +10,4 @@
 scikit-learn>=1.5      # S1 linear probe (LogisticRegression)
 scipy>=1.13            # Clopper-Pearson (stats.beta), forecast fits (S3)
 matplotlib>=3.9        # analysis figures
+pytest>=8              # test suite (run: cd experiments/exp1 && python -m pytest)

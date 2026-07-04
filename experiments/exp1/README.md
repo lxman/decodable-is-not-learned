@@ -30,6 +30,14 @@ Runs entirely on the Mac (M4 Pro, 48 GB, MPS). The DGX Sparks are never used.
 - `results/` — committed `RunRecord` JSON per run + the final truth table.
 - `checkpoints/` — gitignored; regenerable from configs + seeds.
 
+## Tests
+
+```
+cd experiments/exp1 && python -m pytest
+```
+
 ## Status
 
-M0 (scaffold + deps) — in progress. See the implementation plan's milestone list for M1–M7.
+- M0 — scaffold + deps. **Done.**
+- M1 — frozen contracts: `signatures/stats.py` + `signatures/schema.py` with tests (24 passing). **Done.**
+- M2–M7 — see the implementation plan's milestone list.
