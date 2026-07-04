@@ -12,3 +12,6 @@ experiments/exp1/checkpoints/*
 
 # OS
 .DS_Store
+
+# Exp1: derived result visualizations (regenerable)
+experiments/exp1/results/**/*.html
