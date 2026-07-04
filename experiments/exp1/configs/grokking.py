@@ -54,6 +54,11 @@ class GrokkingConfig:
     s2_n_queries: int = 50
     s2_temperature: float = 1.0
     s3_target_level: float = 0.5          # probe-accuracy crossing defining the forecast
+    s3_precursor_transform: str = "log"   # fit the precursor in log space: the pre-
+                                          # transition probe rise is ~exponential (the
+                                          # bottom of a sigmoid), so a linear fit biases
+                                          # the forecast late. Pre-committed decision;
+                                          # Lubana-below is the out-of-sample judge.
 
     size_bucket: str = "1M"
 

@@ -118,6 +118,19 @@ implementation, the choice is recorded here and in the relevant module docstring
 - **MPS nondeterminism confirmed:** two seed-0 runs at the identical seed picked
   different below-threshold checkpoints (173 vs 602) and transition steps (1796 vs
   1536). Expected (environment.md); absorbed by the ≥5-seed requirement and the d≥2 bar.
+- **S3 RECALIBRATION (option 2, log precursor — user-sanctioned, pre-committed).**
+  The first 5-seed scored run read grokking (S1 5/5, S2 5/5, **S3 1/5**). Diagnosis:
+  the forecaster itself is unstable (predictions ranged 841–3469 for a transition near
+  1500), so the earlier "noisy target" hypothesis was insufficient — the linear
+  extrapolation is misspecified. **One** principled change, decided on the
+  misspecification (NOT by shopping transforms against the outcome): fit the precursor
+  in **log space** (`s3_precursor_transform="log"`), because the pre-transition probe
+  rise is the ~exponential bottom of a sigmoid, and a straight line there biases the
+  forecast late (the ~2000-vs-1500 bias observed). `target_level` (0.5) and the frozen
+  25% tolerance are UNCHANGED. The method is committed BEFORE re-running, so it is
+  locked, not tuned. **Lubana-below remains the out-of-sample judge:** the same
+  log-transformed S3 must keep percolation absent, or the change is rejected. The first
+  (linear-S3) 5-seed run is preserved in git history as the pre-recalibration record.
 - **INSTRUMENT FREEZE (post-shakeout):** as of the M4 scored run, the signature code
   (`probe.py`, `sampling.py`, `forecast.py`, `activations.py`) and signature params are
   frozen for the rest of Exp 1. **M5 (Lubana) is the honest out-of-sample test of these

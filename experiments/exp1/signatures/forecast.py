@@ -39,15 +39,31 @@ from .schema import ForecastResult
 _LO_PCT, _HI_PCT = 5.0, 95.0  # 90% interval
 
 
-def _fit_predict_x(x: np.ndarray, y: np.ndarray, target_level: float):
-    """OLS fit y ~ x; return (slope, predicted_x) where fitted line hits target_level.
+_EPS = 1e-9
 
-    predicted_x is NaN when the slope is ~0 (no finite crossing).
+
+def _fit_predict_x(x: np.ndarray, y: np.ndarray, target_level: float, transform: str = "linear"):
+    """OLS fit and solve for the axis value where the precursor hits target_level.
+
+    transform="linear": fit y ~ x directly.
+    transform="log":     fit log(y) ~ x, i.e. model the precursor as growing
+                         EXPONENTIALLY in the axis, and solve for x where it reaches
+                         log(target_level). The pre-transition precursor is the rising
+                         limb of a sigmoid (~exponential at the bottom), so a straight
+                         line in linear space is misspecified and biases the forecast
+                         late; log-linearizing that limb removes the bias.
+
+    Returns (slope, predicted_x); predicted_x is NaN when the slope is ~0.
     """
+    if transform == "log":
+        y = np.log(np.clip(y, _EPS, None))
+        target = np.log(max(target_level, _EPS))
+    else:
+        target = target_level
     slope, intercept = np.polyfit(x, y, 1)
     if abs(slope) < 1e-12:
         return slope, float("nan")
-    return slope, (target_level - intercept) / slope
+    return slope, (target - intercept) / slope
 
 
 def forecast_from_below(
@@ -57,6 +73,7 @@ def forecast_from_below(
     *,
     target_level: float,
     axis: str,
+    transform: str = "linear",
     n_boot: int = 2000,
     rel_tol: float = 0.25,
     seed: int,
@@ -77,6 +94,9 @@ def forecast_from_below(
         transition. Frozen with the task config.
     axis : str
         "training_steps" or "graph_param" (validated by ForecastResult/RunRecord).
+    transform : str
+        "linear" or "log" — the space in which the precursor is fit and extrapolated
+        (see _fit_predict_x). "log" models an exponentially growing precursor.
     rel_tol : float
         Design tolerance on |pred - true| / true (0.25).
 
@@ -87,7 +107,7 @@ def forecast_from_below(
     if x.size < 3 or x.size != y.size:
         raise ValueError("need >= 3 matched pre-transition (x, y) points")
 
-    slope, predicted = _fit_predict_x(x, y, target_level)
+    slope, predicted = _fit_predict_x(x, y, target_level, transform)
 
     rng = np.random.default_rng(seed)
     boot_slopes = np.empty(n_boot)
@@ -95,7 +115,7 @@ def forecast_from_below(
     idx = np.arange(x.size)
     for b in range(n_boot):
         take = rng.choice(idx, size=x.size, replace=True)
-        bs, bp = _fit_predict_x(x[take], y[take], target_level)
+        bs, bp = _fit_predict_x(x[take], y[take], target_level, transform)
         boot_slopes[b] = bs
         boot_preds[b] = bp
 

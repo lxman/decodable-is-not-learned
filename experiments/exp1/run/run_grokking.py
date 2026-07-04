@@ -131,7 +131,8 @@ def run_grokking(seed: int = 0, out_dir: Path | None = None) -> RunRecord:
     if true_transition is not None and len(xs) >= 3:
         s3 = forecast_from_below(
             xs, ys, true_transition=float(true_transition),
-            target_level=cfg.s3_target_level, axis="training_steps", seed=seed,
+            target_level=cfg.s3_target_level, axis="training_steps",
+            transform=cfg.s3_precursor_transform, seed=seed,
         )
     else:
         s3 = ForecastResult(
