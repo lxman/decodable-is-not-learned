@@ -83,6 +83,22 @@ implementation, the choice is recorded here and in the relevant module docstring
   generated from the working tree that became the M3 commit. Debug artifact; M4+ scored
   runs will be generated from a committed (clean) tree so their provenance SHA is exact.
 
+**M4 — grokking (resolution row)**
+- Grok-confirmation (seed 0, 40k steps, MPS) succeeded: textbook curve, train→1.0 by
+  step 262 (memorization), test grokks 0.51→0.999 across steps 1318→1888. Certified via
+  the memorization→generalization gap (mem@262, gen@1578). ~228k params (<1M, the "1M"
+  bucket by order of magnitude).
+- **Observed instability:** the 40k run showed transient weight-decay "slingshot"
+  collapses at steps ~16k and ~40k (both accuracies crash to ~chance, then recover). A
+  known grokking artifact. `total_steps` was therefore frozen at 10k (post-confirmation
+  recipe refinement, not a threshold change): it captures pre-grok + the transition + a
+  stable plateau (steps ~2.3k–13.6k are all perfect) and stops before the first
+  slingshot. The trajectory to 10k is identical to the 40k run (no LR schedule).
+- S1 is read at the **latest** below-threshold checkpoint (argmax test acc < 5%, the
+  frozen §3 rule) — the most informative pre-transition point. Whether the probe fires
+  there for grokking is the actual empirical question S1 tests; the verdict is reported
+  as-is, not tuned.
+
 **M3.5 — frozen analysis (`analyze.py`; frozen at the tag)**
 - Continuous separation is scored on `s1.accuracy` (S1) and `s2.rate_point` (S2) — the
   two quantities design §4 names as sharing a continuous scale across systems.

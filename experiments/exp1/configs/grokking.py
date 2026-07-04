@@ -28,8 +28,12 @@ class GrokkingConfig:
     n_layers: int = 1
     n_heads: int = 4
 
-    # training (grokking recipe)
-    total_steps: int = 40_000
+    # training (grokking recipe). Confirmed: seed 0 groks by ~step 1900 (mem @262,
+    # gen @1578). total_steps frozen at 10k — captures pre-grok + the transition + a
+    # stable plateau, and stops BEFORE the late weight-decay "slingshot" collapses the
+    # 40k confirmation showed (steps ~16k and ~40k). The trajectory to 10k is identical
+    # to the 40k run (no LR schedule); only the stop point moves. See PROGRESS.md.
+    total_steps: int = 10_000
     full_batch: bool = True
     lr: float = 1e-3
     weight_decay: float = 1.0
