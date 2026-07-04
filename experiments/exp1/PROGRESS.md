@@ -214,6 +214,28 @@ BEFORE any Lubana training run)**
      allowed and is precisely the class signal the capability learns from.
   3. **Confirmation gate tightened** — ABOVE must transition AND hold at the final
      checkpoint (a spike-then-collapse no longer passes).
+- **Scored-driver operationalizations (`run/run_lubana.py`; preregistered before any
+  scored run):**
+  - *S1 probe is entity-split by construction:* one prompt per entity, activations at
+    the entity + last positions, label = entity class. A random example-split would
+    let the probe memorize the entity→class lookup from its own training labels and
+    read "present" on an untrained model; one-row-per-entity makes the frozen probe's
+    example split an entity split, so above-chance validation requires the model to
+    organize HELD-OUT entities by class.
+  - *S2:* full-vocab temperature sampling; verifier = the class-generalization check;
+    empirical floor from an untrained control (CP upper bound); "argmax fails" =
+    masked-argmax metric < 1.5×chance (the preregistered below-threshold rule).
+  - *S3 graph-axis (lubana_below):* dedicated sub-critical runs at
+    (0.25, 0.45, 0.65, 0.85)×p_c, fixed 10k-step budget each, y = capability metric,
+    forecast toward the true transition at p_c with the frozen log method. Per-seed
+    (each seed = its own graph + models — honest replication, ~80 min extra per
+    below-seed at paper scale). lubana_above uses the training-axis probe precursor,
+    as grokking.
+  - *S1/S2 checkpoint for lubana_below:* the LAST checkpoint (every checkpoint is
+    below threshold; the final one is the strongest case — absent even after full
+    training).
+  - *Size bucket:* nearest order of magnitude of actual params (paper scale ≈ 12.9M →
+    "10M"). Truth-table rows pair per bucket; grokking's matching buckets arrive in M6.
 - **Scale decision (Michael, 2026-07-04): scored runs at `scale="paper"`**
   (|E|=900, |K|=18000 — the faithful base config; ~59 min/run, ~14 h for the
   10-run scored set). The reduced scale serves as the confirmation vehicle.

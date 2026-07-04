@@ -70,6 +70,12 @@ class LubanaRunConfig:
     s2_temperature: float = 1.0
     s3_target_level: float = 0.5
     s3_precursor_transform: str = "log"   # same frozen method as grokking
+    # Graph-axis S3 for lubana_below (design §3: forecast attempted from below the
+    # graph threshold). Per seed: dedicated sub-critical runs at these multiples of
+    # p_c, each trained s3_graph_budget_steps, y = capability metric; forecast toward
+    # the true transition at p_c. Preregistered before scored runs.
+    s3_graph_points: tuple[float, ...] = (0.25, 0.45, 0.65, 0.85)
+    s3_graph_budget_steps: int = 10_000
 
     @property
     def lang_kwargs(self) -> dict:
