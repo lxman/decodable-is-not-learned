@@ -272,6 +272,13 @@ BEFORE any Lubana training run)**
   on 500 queries, at the bar). Paper-scale sanity: below giant 0.007 with 735/900
   singletons; above giant 0.877. Paper-scale above confirmation launched (transition
   expected ~√6 later than reduced, ~4k steps).
+- **Paper-scale above confirmation PASSED (2026-07-04):** transition @5574 (in line
+  with the ~√6 shift prediction), final 0.998, held from step ~5574 through 30k
+  (chance 0.10). *Provenance note:* a power failure killed the session after training
+  finished; the stdout curve was lost but every checkpoint (with `eval_metric` in its
+  payload) survived in `checkpoints/lubana_confirm_above/seed0/`, so the curve and
+  gate verdict were reconstructed from checkpoint payloads — no re-run, no re-scoring.
+  30k steps confirmed sufficient at paper scale; scored 2×5 campaign cleared to launch.
 - **Scale decision (Michael, 2026-07-04): scored runs at `scale="paper"`**
   (|E|=900, |K|=18000 — the faithful base config; ~59 min/run, ~14 h for the
   10-run scored set). The reduced scale serves as the confirmation vehicle.
