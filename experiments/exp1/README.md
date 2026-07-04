@@ -42,8 +42,14 @@ cd experiments/exp1 && python -m pytest
 - M1 — frozen contracts: `signatures/stats.py` + `signatures/schema.py` (24 tests). **Done.**
 - M2 — signature bodies: `activations.py` + `probe.py` (S1) + `sampling.py` (S2) + `forecast.py` (S3), each validated on planted-signal inputs (43 tests cumulative). **Done.**
 - M3 — Phase-A pipeline debug: minimal decoder + binding task + training loop + driver run end-to-end into `results/phaseA/seed0.json` (54 tests). Probe reads the latent answer at a below-threshold checkpoint (S1 present). **Done.**
-- M3.5 — **FREEZE** `analyze.py` + schema; tag `exp1-analysis-frozen`. *Next.*
+- M3.5 — **FROZEN.** `analyze.py` (the §4 PASS/FAIL logic) + `schema.py`, proven on synthetic truth-table scenarios (63 tests). Tag `exp1-analysis-frozen`. No result-grade data may change these two files. **Done.**
 - M4–M7 — see the implementation plan's milestone list.
+
+## Analysis
+
+```
+python analyze.py     # globs results/, prints the truth table + PASS/FAIL verdict
+```
 
 See `PROGRESS.md` for the full build ledger (milestone → design §, commit, tests) and
 the pre-freeze operational choices.

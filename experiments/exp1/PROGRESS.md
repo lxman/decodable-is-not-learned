@@ -10,6 +10,12 @@ above it may still be refined; nothing below it (result-grade data) may change t
 thresholds or the analysis. Operational choices made *before* the freeze are logged
 here so they are auditable and can never be mistaken for post-hoc instrument-tuning.
 
+**Frozen at M3.5:** `signatures/schema.py` (the RunRecord contract) and `analyze.py`
+(the §4 PASS/FAIL logic). These two files are not edited after the tag; a needed change
+becomes a new file plus a note here. Signature *internals* (probe/sampling/forecast/
+activations, tasks, models, training) remain editable — the freeze binds the analysis
+to the schema, not to how signatures are computed.
+
 ## Milestones
 
 | Milestone | What landed | Implements (design §) | Commit | Tests |
@@ -18,7 +24,7 @@ here so they are auditable and can never be mistaken for post-hoc instrument-tun
 | M1 | `signatures/stats.py` (Clopper–Pearson, permutation null, Cohen's d, Bonferroni); `signatures/schema.py` (RunRecord + result dataclasses, JSON round-trip, categorical validation) | §4 statistics; the frozen data contract | `8628e33` | 24 ✓ |
 | M2 | `signatures/activations.py` (residual-stream hooks); `probe.py` (S1); `sampling.py` (S2); `forecast.py` (S3); planted-signal tests | §3 signature operationalization | `5202fb5` | 43 ✓ (cumulative) |
 | M3 | Phase-A pipeline debug: `models/transformer.py`, `tasks/binding_task.py`, `train/{loop,checkpointing}.py`, `configs/phase_a.py`, `run/{run_phaseA,provenance}.py`; end-to-end run → `results/phaseA/seed0.json` | §2 staged build (Phase A); §5 run order step 1 | `5c7afbd` | 54 ✓ (cumulative) |
-| M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 statistics hygiene | — | — |
+| M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `PENDING` | 63 ✓ (cumulative) |
 | M4 | Grokking (base size, 5 seeds) + gt-check | §2 resolution exemplar | — | — |
 | M5 | Lubana below + above (base size, 5 seeds) | §2 percolation exemplar + control | — | — |
 | M6 | Size sweep 1M/10M/100M | §4 secondary size sweep | — | — |
@@ -76,6 +82,18 @@ implementation, the choice is recorded here and in the relevant module docstring
 - The committed `results/phaseA/seed0.json` carries git SHA `59b1c85-dirty`: it was
   generated from the working tree that became the M3 commit. Debug artifact; M4+ scored
   runs will be generated from a committed (clean) tree so their provenance SHA is exact.
+
+**M3.5 — frozen analysis (`analyze.py`; frozen at the tag)**
+- Continuous separation is scored on `s1.accuracy` (S1) and `s2.rate_point` (S2) — the
+  two quantities design §4 names as sharing a continuous scale across systems.
+- S3 categorical verdicts require the pattern in EVERY seed of an evaluable size
+  (grokking present in all, Lubana-below absent in all); a single off-pattern seed is a
+  reportable FAIL. Strict, matching the design's brand.
+- A size is "evaluable" only if all three scored rows have ≥5 seeds; PASS needs ≥3
+  evaluable sizes (design §4 replication). Before enough data exists the verdict is
+  `INSUFFICIENT_DATA` — an honest third state; design names only PASS/FAIL for the
+  data-complete case, and this never fabricates one of those early.
+- Phase A is excluded from the scored table (it is a pipeline-debug system).
 
 ## Environment notes
 
