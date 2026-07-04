@@ -26,7 +26,7 @@ to the schema, not to how signatures are computed.
 | M3 | Phase-A pipeline debug: `models/transformer.py`, `tasks/binding_task.py`, `train/{loop,checkpointing}.py`, `configs/phase_a.py`, `run/{run_phaseA,provenance}.py`; end-to-end run → `results/phaseA/seed0.json` | §2 staged build (Phase A); §5 run order step 1 | `5c7afbd` | 54 ✓ (cumulative) |
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `8f7198d` (tag `exp1-analysis-frozen`) | 63 ✓ (cumulative) |
 | M4 | Grokking harness + confirmation + scored 5-seed run. Harness `150a1b4`/`412f747`; instrument fixes `42cfb5c`; linear-S3 record `ae27930`; log-precursor method `e365c39`; **accepted scored row: S1 5/5, S2 5/5, S3 1/5, gt 5/5** | §2 resolution exemplar; §5 run order step 2 | `ef44e8d` | 73 ✓ (cumulative) |
-| M5 | Lubana below + above (base size, 5 seeds) | §2 percolation exemplar + control | — | — |
+| M5 | Lubana below + above. Threshold gate reproduced computationally; language + LM loop + configs + confirmation driver built (`tasks/lubana_lang.py`, `train/lm_loop.py`, `configs/lubana.py`, `run/confirm_lubana.py`). Scored runs pending confirmation. | §2 percolation exemplar + control; §5 run order step 3 | `PENDING` (build) | 85 ✓ (cumulative) |
 | M6 | Size sweep 1M/10M/100M | §4 secondary size sweep | — | — |
 | M7 | Run frozen `analyze.py`; fill truth table; report | §4 overall PASS / reportable FAIL | — | — |
 
@@ -165,6 +165,40 @@ implementation, the choice is recorded here and in the relevant module docstring
   `INSUFFICIENT_DATA` — an honest third state; design names only PASS/FAIL for the
   data-complete case, and this never fabricates one of those early.
 - Phase A is excluded from the scored table (it is a pipeline-debug system).
+
+**M5 — Lubana (percolation ground truth + control; operationalization preregistered
+BEFORE any Lubana training run)**
+- Paper grounding fetched (ar5iv, 2026-07-04), not recalled: PCFG rules quoted from
+  Appendix A.1.2; type-constraints graph G=(E,K,I); |E|=900/|K|=18000/|C|=10, p=0.1
+  base; p_c ≈ 1/√(|E_c|·|K_c|). Appendix C hyperparameter tables are not
+  machine-readable via ar5iv — model/optimizer values are nanoGPT-style recipe
+  choices, recorded as recipe, not thresholds.
+- **Threshold gate (design open item) satisfied computationally:** random bipartite
+  graphs at three scales (incl. the paper's 900×18000) show the giant component
+  appearing at the predicted p_c = 1/√(|E|·|K|), with the transition location
+  tracking the formula across scales.
+- **Scored capability = class-structure generalization** (the choice that makes
+  "provably absent below threshold" true): masked-argmax over descriptive properties
+  the subject entity was NEVER seen with; PASS iff same-class. Plain type-validity was
+  rejected as the scored capability because isolated seen edges can be memorized below
+  threshold; class inference requires linking entities through shared properties —
+  chains that exist only above percolation. Chance = 1/|C|. gt-check = the graph's own
+  giant-component fraction (computed from the data structure, independent of any model).
+- **Below/above settings:** edge_prob = 0.5·p_c (fragmented) and 10·p_c (connected;
+  the paper's base p=0.1 is ~40× its p_c).
+- Population simplifications vs the paper, recorded honestly: Verb slots draw from the
+  subject's relative properties with objects sampled same-class (the strict
+  subject-AND-object intersection is enforced only through class structure); eAdj/Desc
+  bind to the adjacent/subject entity; lVerb/Conj/Prep/dAdj are small closed sets.
+  These preserve the type-constraint structure the percolation argument needs; the
+  relative type-check metric is not our scored capability.
+- **Below-threshold rule preregistered:** argmax capability metric < 1.5×chance (the
+  frozen §3 "<5%" is unusable at 10-way chance = 10%, as in Phase A). Set before any
+  run; logged here.
+- Training is quasi-online: a 60k-sentence corpus with sampled minibatches
+  approximates the paper's online sampling at our scale.
+- S3 uses the same frozen log-precursor method as grokking (instrument freeze holds);
+  for lubana_below, S3 is attempted on the graph axis per design §3.
 
 ## Environment notes
 
