@@ -25,7 +25,7 @@ to the schema, not to how signatures are computed.
 | M2 | `signatures/activations.py` (residual-stream hooks); `probe.py` (S1); `sampling.py` (S2); `forecast.py` (S3); planted-signal tests | §3 signature operationalization | `5202fb5` | 43 ✓ (cumulative) |
 | M3 | Phase-A pipeline debug: `models/transformer.py`, `tasks/binding_task.py`, `train/{loop,checkpointing}.py`, `configs/phase_a.py`, `run/{run_phaseA,provenance}.py`; end-to-end run → `results/phaseA/seed0.json` | §2 staged build (Phase A); §5 run order step 1 | `5c7afbd` | 54 ✓ (cumulative) |
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `8f7198d` (tag `exp1-analysis-frozen`) | 63 ✓ (cumulative) |
-| M4 | Grokking (base size, 5 seeds) + gt-check | §2 resolution exemplar | — | — |
+| M4 | Grokking harness: `tasks/modular_arith.py`, `configs/grokking.py`, `run/confirm_grokking.py`, full-batch + train-acc in `train/loop.py`. Scored 5-seed run pending grok-confirmation. | §2 resolution exemplar; §5 run order step 2 | `PENDING` (harness; **confirmation running**) | 71 ✓ (cumulative) |
 | M5 | Lubana below + above (base size, 5 seeds) | §2 percolation exemplar + control | — | — |
 | M6 | Size sweep 1M/10M/100M | §4 secondary size sweep | — | — |
 | M7 | Run frozen `analyze.py`; fill truth table; report | §4 overall PASS / reportable FAIL | — | — |

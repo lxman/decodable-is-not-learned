@@ -43,7 +43,8 @@ cd experiments/exp1 && python -m pytest
 - M2 — signature bodies: `activations.py` + `probe.py` (S1) + `sampling.py` (S2) + `forecast.py` (S3), each validated on planted-signal inputs (43 tests cumulative). **Done.**
 - M3 — Phase-A pipeline debug: minimal decoder + binding task + training loop + driver run end-to-end into `results/phaseA/seed0.json` (54 tests). Probe reads the latent answer at a below-threshold checkpoint (S1 present). **Done.**
 - M3.5 — **FROZEN.** `analyze.py` (the §4 PASS/FAIL logic) + `schema.py`, proven on synthetic truth-table scenarios (63 tests). Tag `exp1-analysis-frozen`. No result-grade data may change these two files. **Done.**
-- M4–M7 — see the implementation plan's milestone list.
+- M4 — grokking harness (modular-arithmetic task, frozen config, full-batch training, grok-confirmation script) built and unit-tested (71 tests). **Grok-confirmation run in progress**; the scored 5-seed run follows once it groks. *In progress.*
+- M5–M7 — see the implementation plan's milestone list.
 
 ## Analysis
 

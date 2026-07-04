@@ -30,6 +30,7 @@ class TrainConfig:
     n_checkpoints: int = 40
     eval_batch: int = 2000
     device: str = "cpu"              # "cpu" | "mps" | "auto"
+    full_batch: bool = False         # grokking uses full-batch GD (Nanda); Phase A minibatches
     seed: int = 0
 
 
@@ -56,6 +57,7 @@ def eval_argmax_accuracy(model, ids, target_tokens, device, batch: int) -> float
 class TrainHistory:
     steps: list[int] = field(default_factory=list)
     eval_acc: list[float] = field(default_factory=list)
+    train_acc: list[float] = field(default_factory=list)
 
     def transition_step(self, level: float = 0.5) -> int | None:
         """First checkpoint step whose eval argmax accuracy >= level (else None)."""
@@ -68,8 +70,10 @@ class TrainHistory:
 def train(model, train_ids, train_targets, eval_ids, eval_targets, cfg: TrainConfig, ckpt_dir):
     """Train, checkpointing on the schedule. Returns TrainHistory.
 
-    Loss/accuracy are on the final-position answer token. Minibatches are drawn with a
-    seeded generator so a run is reproducible given (cfg.seed, data).
+    Loss/accuracy are on the final-position answer token. Records BOTH train and test
+    argmax accuracy at each checkpoint (grokking's certification needs the
+    memorization/generalization gap). full_batch=True does full-batch GD (grokking);
+    otherwise seeded minibatches keep the run reproducible given (cfg.seed, data).
     """
     device = resolve_device(cfg.device)
     model.to(device)
@@ -81,11 +85,18 @@ def train(model, train_ids, train_targets, eval_ids, eval_targets, cfg: TrainCon
     schedule = set(checkpoint_schedule(cfg.total_steps, cfg.n_checkpoints))
     hist = TrainHistory()
 
+    if cfg.full_batch:
+        fb_ids = train_ids.to(device)
+        fb_tgt = train_targets.to(device)
+
     for step in range(1, cfg.total_steps + 1):
         model.train()
-        idx = torch.randint(0, n_train, (cfg.batch_size,), generator=gen)
-        ids = train_ids[idx].to(device)
-        tgt = train_targets[idx].to(device)
+        if cfg.full_batch:
+            ids, tgt = fb_ids, fb_tgt
+        else:
+            idx = torch.randint(0, n_train, (cfg.batch_size,), generator=gen)
+            ids = train_ids[idx].to(device)
+            tgt = train_targets[idx].to(device)
         logits = model(ids)[:, -1, :]
         loss = F.cross_entropy(logits, tgt)
         opt.zero_grad()
@@ -93,9 +104,11 @@ def train(model, train_ids, train_targets, eval_ids, eval_targets, cfg: TrainCon
         opt.step()
 
         if step in schedule:
-            acc = eval_argmax_accuracy(model, eval_ids, eval_targets, device, cfg.eval_batch)
+            eval_acc = eval_argmax_accuracy(model, eval_ids, eval_targets, device, cfg.eval_batch)
+            train_acc = eval_argmax_accuracy(model, train_ids, train_targets, device, cfg.eval_batch)
             hist.steps.append(step)
-            hist.eval_acc.append(acc)
-            save_checkpoint(model, step, ckpt_dir, extra={"eval_acc": acc})
+            hist.eval_acc.append(eval_acc)
+            hist.train_acc.append(train_acc)
+            save_checkpoint(model, step, ckpt_dir, extra={"eval_acc": eval_acc, "train_acc": train_acc})
 
     return hist
