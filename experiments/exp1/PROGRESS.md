@@ -17,7 +17,7 @@ here so they are auditable and can never be mistaken for post-hoc instrument-tun
 | M0 | Scaffold `experiments/exp1/` tree; deps (scikit-learn, scipy, matplotlib, pytest) into `~/emergence-lab/.venv`; `checkpoints/` gitignored | §5 code location | `3123f99` | — |
 | M1 | `signatures/stats.py` (Clopper–Pearson, permutation null, Cohen's d, Bonferroni); `signatures/schema.py` (RunRecord + result dataclasses, JSON round-trip, categorical validation) | §4 statistics; the frozen data contract | `8628e33` | 24 ✓ |
 | M2 | `signatures/activations.py` (residual-stream hooks); `probe.py` (S1); `sampling.py` (S2); `forecast.py` (S3); planted-signal tests | §3 signature operationalization | `5202fb5` | 43 ✓ (cumulative) |
-| M3 | Phase-A pipeline debug (binding task end-to-end) | §2 staged build (Phase A) | — | — |
+| M3 | Phase-A pipeline debug: `models/transformer.py`, `tasks/binding_task.py`, `train/{loop,checkpointing}.py`, `configs/phase_a.py`, `run/{run_phaseA,provenance}.py`; end-to-end run → `results/phaseA/seed0.json` | §2 staged build (Phase A); §5 run order step 1 | `PENDING` | 54 ✓ (cumulative) |
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 statistics hygiene | — | — |
 | M4 | Grokking (base size, 5 seeds) + gt-check | §2 resolution exemplar | — | — |
 | M5 | Lubana below + above (base size, 5 seeds) | §2 percolation exemplar + control | — | — |
@@ -59,6 +59,23 @@ implementation, the choice is recorded here and in the relevant module docstring
   slope 0.
 - "Beats a no-transition baseline" = bootstrap slope CI excludes 0. A flat precursor
   reads absent.
+
+**M3 — Phase A (pipeline debug, added during integration; all pre-freeze)**
+- Probe features are standardized (`StandardScaler` fit on the train split only) before
+  logistic regression, in both `probe_below_threshold` and `best_probe_accuracy`.
+  Unscaled residual-stream activations made lbfgs fail to converge; the scaler leaks no
+  validation information. Applies to every downstream probe (Exp 2/4 too).
+- Phase-A below-threshold rule is `argmax eval acc < 2 × chance` (not the frozen
+  grokking `< 5%`), because 16-way chance (6.25%) already exceeds 5%. This is a
+  Phase-A-only convenience; the grokking/Lubana runs use the frozen §3 rules.
+- Phase A is NOT scored. Its transition (in-context-retrieval / induction) forms very
+  early (~step 108 of 4000) and sharply, so S3's precursor is mostly flat-then-sudden
+  and the forecast degenerates (reads absent). That is expected and, if anything,
+  re-illustrates the essay's point that naive extrapolation of a sudden transition
+  fails — the reason S3 is defined on a smooth precursor in the first place.
+- The committed `results/phaseA/seed0.json` carries git SHA `59b1c85-dirty`: it was
+  generated from the working tree that became the M3 commit. Debug artifact; M4+ scored
+  runs will be generated from a committed (clean) tree so their provenance SHA is exact.
 
 ## Environment notes
 

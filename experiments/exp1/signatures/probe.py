@@ -28,6 +28,8 @@ from __future__ import annotations
 
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 from .schema import ProbeResult
 from .stats import bonferroni, clopper_pearson, permutation_null
@@ -48,11 +50,40 @@ def _make_val_scorer(X: np.ndarray, train_idx, val_idx, C: float, max_iter: int)
     """
     def fit_fn(_X, y):
         y = np.asarray(y)
-        # sklearn >=1.7 handles multinomial automatically; the multi_class arg was removed.
-        clf = LogisticRegression(C=C, max_iter=max_iter)
+        # Standardize on the train split only, then logistic regression. Unscaled
+        # residual-stream features make lbfgs fail to converge; the scaler is fit
+        # inside the split so no val information leaks. sklearn >=1.7 handles the
+        # multinomial case automatically (the multi_class arg was removed).
+        clf = make_pipeline(StandardScaler(), LogisticRegression(C=C, max_iter=max_iter))
         clf.fit(X[train_idx], y[train_idx])
         return float((clf.predict(X[val_idx]) == y[val_idx]).mean())
     return fit_fn
+
+
+def best_probe_accuracy(
+    activations: dict[tuple[int, int], np.ndarray],
+    labels,
+    *,
+    val_frac: float = 0.25,
+    C: float = 1.0,
+    max_iter: int = 1000,
+    seed: int,
+) -> tuple[float, tuple[int, int]]:
+    """Best validation probe accuracy across (layer, token), WITHOUT the permutation
+    null. Cheap enough to call at every checkpoint, so it supplies the smooth S1
+    precursor trajectory that S3 forecasts on (design §3). Returns (acc, best_key).
+    """
+    labels = np.asarray(labels)
+    n = len(labels)
+    train_idx, val_idx = _split_indices(n, val_frac, seed)
+    best_acc, best_key = -1.0, None
+    for key in sorted(activations.keys()):
+        acc = _make_val_scorer(activations[key], train_idx, val_idx, C, max_iter)(
+            activations[key], labels
+        )
+        if acc > best_acc:
+            best_acc, best_key = acc, key
+    return best_acc, best_key
 
 
 def probe_below_threshold(

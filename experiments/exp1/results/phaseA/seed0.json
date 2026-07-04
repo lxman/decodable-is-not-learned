@@ -1,0 +1,92 @@
+{
+  "system": "phaseA",
+  "size_bucket": "phaseA",
+  "seed": 0,
+  "git_sha": "59b1c85-dirty",
+  "torch_version": "2.12.1",
+  "transformers_version": "5.13.0",
+  "gt_check": {
+    "certified": true,
+    "method": "phaseA_induction_over_training",
+    "details": {
+      "final_eval_acc": 0.999,
+      "transition_step": 108,
+      "chance": 0.0625,
+      "percolation_threshold_pc": 0.06666666666666667,
+      "edge_prob": 0.6,
+      "n_params": 407040
+    }
+  },
+  "s1": {
+    "present": true,
+    "accuracy": 0.408,
+    "chance": 0.0625,
+    "null_p": 0.003992015968063872,
+    "null_mean": 0.07026,
+    "ci95": [
+      0.36457724028874644,
+      0.45251706531754743
+    ],
+    "best_layer": 1,
+    "best_token": -1,
+    "n_layers_tested": 2,
+    "checkpoint_id": "step_0000004",
+    "below_threshold": true,
+    "signature": "S1"
+  },
+  "s2": {
+    "present": false,
+    "absent": true,
+    "passes": 2936,
+    "n": 50000,
+    "rate_point": 0.05872,
+    "cp_lower": 0.05667495996533531,
+    "cp_upper": 0.0608164546910328,
+    "guessing_floor": 0.0625,
+    "argmax_fails": false,
+    "checkpoint_id": "step_0000004",
+    "signature": "S2"
+  },
+  "s3": {
+    "present": false,
+    "predicted_transition": 1672.3843329253154,
+    "true_transition": 108.0,
+    "interval90": [
+      -5489.045066223789,
+      6106.984578794132
+    ],
+    "rel_error": 14.485040119678846,
+    "slope_ci": [
+      -0.0003971368764011908,
+      0.0002950824998649541
+    ],
+    "beats_no_transition_baseline": false,
+    "axis": "training_steps",
+    "signature": "S3"
+  },
+  "config": {
+    "n_keys": 16,
+    "n_values": 16,
+    "edge_prob": 0.6,
+    "n_pairs": 6,
+    "n_train": 20000,
+    "n_eval": 2000,
+    "n_probe": 2000,
+    "d_model": 128,
+    "n_layers": 2,
+    "n_heads": 4,
+    "total_steps": 4000,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 1.0,
+    "n_checkpoints": 40,
+    "device": "cpu",
+    "n_perm": 500,
+    "alpha": 0.01,
+    "s2_n_per_query": 2000,
+    "s2_n_queries": 25,
+    "s2_temperature": 1.0,
+    "below_threshold_mult": 2.0,
+    "s3_target_level": 0.6
+  }
+}
