@@ -197,6 +197,13 @@ BEFORE any Lubana training run)**
   run; logged here.
 - Training is quasi-online: a 60k-sentence corpus with sampled minibatches
   approximates the paper's online sampling at our scale.
+- **Scale decision (Michael, 2026-07-04): scored runs at `scale="paper"`**
+  (|E|=900, |K|=18000 — the faithful base config; ~59 min/run, ~14 h for the
+  10-run scored set). The reduced scale serves as the confirmation vehicle.
+  Sequencing: reduced confirmation (above+below) → one paper-scale above
+  confirmation (the paper's transition shifts ∝ √|K|, so the reduced-scale
+  transition point does not carry over — verify 30k steps suffices before
+  committing 14 h) → scored 2×5 runs.
 - S3 uses the same frozen log-precursor method as grokking (instrument freeze holds);
   for lubana_below, S3 is attempted on the graph axis per design §3.
 
