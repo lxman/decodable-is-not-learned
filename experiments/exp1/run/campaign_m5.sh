@@ -7,7 +7,10 @@
 # not the session's terminal. Interleaved above/below per seed so both truth-table
 # rows accumulate evidence at the same rate.
 #
-# Usage: zsh run/campaign_m5.sh   (from experiments/exp1, venv active or not)
+# Launch DETACHED so the campaign survives editor/session restarts (a harness-owned
+# background task died with its session and idled the Mac for 13 h overnight):
+#   nohup zsh run/campaign_m5.sh </dev/null >/dev/null 2>&1 & disown
+# Progress: tail -f logs/m5_scored/campaign.log
 set -u
 cd "$(dirname "$0")/.."
 source ~/emergence-lab/.venv/bin/activate
