@@ -26,7 +26,7 @@ to the schema, not to how signatures are computed.
 | M3 | Phase-A pipeline debug: `models/transformer.py`, `tasks/binding_task.py`, `train/{loop,checkpointing}.py`, `configs/phase_a.py`, `run/{run_phaseA,provenance}.py`; end-to-end run → `results/phaseA/seed0.json` | §2 staged build (Phase A); §5 run order step 1 | `5c7afbd` | 54 ✓ (cumulative) |
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `8f7198d` (tag `exp1-analysis-frozen`) | 63 ✓ (cumulative) |
 | M4 | Grokking harness + confirmation + scored 5-seed run. Harness `150a1b4`/`412f747`; instrument fixes `42cfb5c`; linear-S3 record `ae27930`; log-precursor method `e365c39`; **accepted scored row: S1 5/5, S2 5/5, S3 1/5, gt 5/5** | §2 resolution exemplar; §5 run order step 2 | `ef44e8d` | 73 ✓ (cumulative) |
-| M5 | Lubana below + above. Threshold gate reproduced computationally; language + LM loop + configs + confirmation driver built (`tasks/lubana_lang.py`, `train/lm_loop.py`, `configs/lubana.py`, `run/confirm_lubana.py`). Scored runs pending confirmation. | §2 percolation exemplar + control; §5 run order step 3 | `PENDING` (build) | 85 ✓ (cumulative) |
+| M5 | Lubana below + above, COMPLETE. Threshold gate reproduced computationally; language + LM loop + configs + confirmation driver built (`tasks/lubana_lang.py`, `train/lm_loop.py`, `configs/lubana.py`, `run/confirm_lubana.py`); both confirmation gates passed; 10/10 scored RunRecords at paper scale, all gt-certified, unanimous across seeds: above S1 present / S2 absent / S3 fail ×5, below 0/3 signatures ×5. | §2 percolation exemplar + control; §5 run order step 3 | `3a87242` + final-records commit | 89 ✓ (cumulative) |
 | M6 | Size sweep 1M/10M/100M | §4 secondary size sweep | — | — |
 | M7 | Run frozen `analyze.py`; fill truth table; report | §4 overall PASS / reportable FAIL | — | — |
 
@@ -288,6 +288,32 @@ BEFORE any Lubana training run)**
   committing 14 h) → scored 2×5 runs.
 - S3 uses the same frozen log-precursor method as grokking (instrument freeze holds);
   for lubana_below, S3 is attempted on the graph axis per design §3.
+- **Scored campaign COMPLETE (2026-07-05, 16:26 Jul 4 → 21:52 Jul 5 wall time
+  including one overnight idle):** 10/10 RunRecords in `results/lubana_{above,below}/10M/`,
+  all gt-certified, unanimous across seeds:
+  - **lubana_above ×5:** S1 PRESENT (probe acc 0.209–0.529 vs chance 0.100, p=0.008
+    Bonferroni, at checkpoints ~1–2k steps before the ~5.6k-step transition);
+    S2 ABSENT (sampling rate 1.3–1.9% vs empirical floors ~4.8% — the partially
+    trained model concentrates mass away from correct rare properties, below even
+    uniform guessing); S3 FAIL (predictions 7.6k–13.2k vs true 5574; overshoot
+    35%–137%, replicating the grokking S3 finding on a second system).
+  - **lubana_below ×5:** 0/3 — S1 at chance (acc 0.134–0.148, p=0.12–0.62);
+    S2 absent (rates 0.4–1.7% vs floors ~4.8–5.0%); S3 graph-axis forecast
+    uninformative on near-chance sub-critical data (two seeds predicted a negative
+    edge probability). gt: giant_frac 0.006–0.007, capability peak 0.116–0.150
+    (never over the 0.15 bar; the M4 watch-item excursion did not recur).
+  - The below-row S1/S2 nulls double as the untrained/absent controls validating
+    that the above-row S1 hits are not probe artifacts: same probe, same entity
+    split, same sample sizes — fires only where structure exists in the data.
+  - *Provenance:* run code identical across all 10 (no code commits after `22cdcae`);
+    recorded git_shas walk through the doc-only commits `c8a3a1c`/`3a87242`, with
+    `-dirty` flags caused solely by earlier untracked result JSONs sitting in the
+    tree at record-save time. A second power outage occurred the evening of Jul 5
+    — after ALL DONE; the detached `nohup` launch (see runner header) is what let
+    the campaign finish unattended across the session teardown.
+  - Interpretation lives with M7; the standing pattern matches every preregistered
+    prediction: detectability below threshold (S1) tracked whether structure exists
+    in the training distribution, not whether the model had the capability yet.
 
 ## Environment notes
 
