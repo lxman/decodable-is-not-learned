@@ -17,6 +17,13 @@ Both PASS and FAIL conditions can in principle hold on small n (a CI can cross 0
 while the permutation p sneaks under 0.05); precedence is frozen here as
 INSUFFICIENT-first, then FAIL, then PASS, then INDETERMINATE — the conservative
 order (a CI including 0 can never be published as a pass).
+
+Descriptive secondary (design doc §4, preregistered, NEVER scored): rho recomputed
+over capabilities whose scale-ascent score exceeds ASCENT_FLOOR (0.05 ≈ 2.3σ of the
+500-item noise floor). Diagnoses whether a null primary reflects outcome-side
+flatness at Pythia scale (noise-rank ties from capabilities still flat at 12B)
+rather than absence of ordering information. Reported alongside the verdict; has no
+effect on it.
 """
 
 from __future__ import annotations
@@ -36,6 +43,8 @@ RHO_BAR = 0.5
 N_PERM = 100_000
 N_BOOT = 10_000
 SEED = 20260706
+ASCENT_FLOOR = 0.05  # descriptive restricted-rho subset bar; never affects verdict
+MIN_N_RESTRICTED = 3  # below this the restricted rho is meaningless; report NaN
 
 EVAL_MODELS = ("2.8b", "6.9b", "12b")
 
@@ -79,6 +88,9 @@ class Report:
     ci95: tuple[float, float] = (float("nan"), float("nan"))
     capabilities: list = field(default_factory=list)
     notes: list = field(default_factory=list)
+    # descriptive restricted-rho secondary (§4): subset with scale-ascent > ASCENT_FLOOR
+    restricted_n: int = 0
+    restricted_rho: float = float("nan")
 
 
 def analyze(probe_scores: dict, eval_scores: dict, scored_battery: list[str]) -> Report:
@@ -105,7 +117,16 @@ def analyze(probe_scores: dict, eval_scores: dict, scored_battery: list[str]) ->
         verdict = "PASS"
     else:
         verdict = "INDETERMINATE"
-    return Report(verdict, len(caps), rho, p, ci, caps, notes)
+
+    # Descriptive restricted-rho (never scored, never touches the verdict above).
+    sub = [i for i in range(len(caps)) if y[i] > ASCENT_FLOOR]
+    r_n, r_rho = len(sub), float("nan")
+    if r_n >= MIN_N_RESTRICTED:
+        r_rho = spearman([x[i] for i in sub], [y[i] for i in sub])
+    notes = notes + [f"restricted (ascent > {ASCENT_FLOOR}): n={r_n}"]
+
+    return Report(verdict, len(caps), rho, p, ci, caps, notes,
+                  restricted_n=r_n, restricted_rho=r_rho)
 
 
 def main():
@@ -115,6 +136,8 @@ def main():
     r = analyze(probe, evals, battery)
     print(f"verdict={r.verdict} n={r.n} rho={r.rho:.3f} perm_p={r.perm_p:.4g} "
           f"ci95=({r.ci95[0]:.3f},{r.ci95[1]:.3f})")
+    print(f"descriptive restricted rho (ascent > {ASCENT_FLOOR}): "
+          f"n={r.restricted_n} rho={r.restricted_rho:.3f}")
     for note in r.notes:
         print(f"  note: {note}")
     return r

@@ -81,6 +81,28 @@ def test_bootstrap_ci_tightens_with_signal():
     assert lo > 0.5  # perfect monotone signal: CI stays well above zero
 
 
+def test_restricted_rho_is_descriptive_only():
+    """§4 descriptive secondary: flat capabilities (ascent <= ASCENT_FLOOR) are
+    excluded from the restricted rho, and the verdict still comes from the FULL
+    battery. Construction: the 6 flat caps carry the HIGH probe margins, so the
+    full-set rho is strongly negative (FAIL) while the climbing subset is a
+    perfect monotone map (restricted rho = 1)."""
+    probe_vals = [6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5]
+    eval_means = [0.01] * 6 + [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]
+    probe, evals = _mk(CAPS, probe_vals, eval_means)
+    r = analyze(probe, evals, CAPS)
+    assert r.verdict == "FAIL"  # primary uses all 12; restricted cannot rescue it
+    assert r.restricted_n == 6
+    assert r.restricted_rho == pytest.approx(1.0)
+
+
+def test_restricted_rho_nan_when_everything_is_flat():
+    probe, evals = _mk(CAPS, np.arange(12, dtype=float), [0.01] * 12)
+    r = analyze(probe, evals, CAPS)
+    assert r.restricted_n == 0 and np.isnan(r.restricted_rho)
+    assert r.verdict in ("FAIL", "INDETERMINATE")  # verdict machinery unaffected
+
+
 def test_verdicts_are_deterministic():
     pv = np.arange(12, dtype=float)
     probe, evals = _mk(CAPS, pv, pv)
