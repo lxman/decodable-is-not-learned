@@ -38,6 +38,14 @@ ABOVE_MULT = 10.0
 
 MODEL_SIZE_TARGETS = {"1M": 1_000_000, "100M": 100_000_000}
 
+# Per-size recipe override, ledgered 2026-07-06 (PROGRESS.md M6): the d_model=24
+# 1M model's transition ONSET landed at the edge of the 30k budget in the
+# confirmation gate (metric 0.294 at step 30000 after 30k at chance); it needs
+# optimization time, not architecture. Applies to gates AND scored runs, above
+# AND below (below must stay flat under the same longer recipe). The only
+# recipe field that varies across the size sweep.
+MODEL_SIZE_TOTAL_STEPS = {"1M": 100_000}
+
 
 @dataclass(frozen=True)
 class LubanaRunConfig:
@@ -84,6 +92,11 @@ class LubanaRunConfig:
     # the true transition at p_c. Preregistered before scored runs.
     s3_graph_points: tuple[float, ...] = (0.25, 0.45, 0.65, 0.85)
     s3_graph_budget_steps: int = 10_000
+
+    def __post_init__(self):
+        if self.model_size in MODEL_SIZE_TOTAL_STEPS:
+            object.__setattr__(self, "total_steps",
+                               MODEL_SIZE_TOTAL_STEPS[self.model_size])
 
     @property
     def lang_kwargs(self) -> dict:

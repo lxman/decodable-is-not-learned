@@ -150,3 +150,22 @@ def test_grokking_config_for_scales_model_only():
                   "s3_precursor_transform", "n_layers", "n_heads"):
             assert getattr(cfg, f) == getattr(base, f), f
     assert grokking_config_for("1M") == base
+
+
+def test_lubana_config_size_recipe_pin():
+    """Recipe identical across the lubana size sweep EXCEPT the ledgered 1M
+    total_steps override (PROGRESS.md, 2026-07-06): 100k steps at 1M, because the
+    d24 model's transition onset landed at the edge of the 30k budget in the
+    confirmation gate. Any other per-size recipe drift is a bug."""
+    from configs.lubana import MODEL_SIZE_TOTAL_STEPS, LubanaRunConfig
+    base = LubanaRunConfig(scale="paper")
+    assert MODEL_SIZE_TOTAL_STEPS == {"1M": 100_000}
+    for size, expected_steps in (("1M", 100_000), ("100M", base.total_steps)):
+        cfg = LubanaRunConfig(scale="paper", model_size=size)
+        assert cfg.total_steps == expected_steps, size
+        for f in ("lr", "weight_decay", "batch_size", "n_train_sentences",
+                  "n_queries", "n_probe", "n_layers", "n_heads", "alpha", "n_perm",
+                  "below_threshold_mult", "transition_level", "s2_n_per_query",
+                  "s3_target_level", "s3_precursor_transform", "s3_graph_points",
+                  "s3_graph_budget_steps"):
+            assert getattr(cfg, f) == getattr(base, f), f

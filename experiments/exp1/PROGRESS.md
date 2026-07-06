@@ -27,7 +27,7 @@ to the schema, not to how signatures are computed.
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `8f7198d` (tag `exp1-analysis-frozen`) | 63 ✓ (cumulative) |
 | M4 | Grokking harness + confirmation + scored 5-seed run. Harness `150a1b4`/`412f747`; instrument fixes `42cfb5c`; linear-S3 record `ae27930`; log-precursor method `e365c39`; **accepted scored row: S1 5/5, S2 5/5, S3 1/5, gt 5/5** | §2 resolution exemplar; §5 run order step 2 | `ef44e8d` | 73 ✓ (cumulative) |
 | M5 | Lubana below + above, COMPLETE. Threshold gate reproduced computationally; language + LM loop + configs + confirmation driver built (`tasks/lubana_lang.py`, `train/lm_loop.py`, `configs/lubana.py`, `run/confirm_lubana.py`); both confirmation gates passed; 10/10 scored RunRecords at paper scale, all gt-certified, unanimous across seeds: above S1 present / S2 absent / S3 fail ×5, below 0/3 signatures ×5. | §2 percolation exemplar + control; §5 run order step 3 | `3a87242` + final-records commit | 89 ✓ (cumulative) |
-| M6 | Size sweep 1M/10M/100M. Width-only model scaling preregistered; confirmation gates per new (system, size) cell before scored runs (`run/campaign_m6.sh`). | §4 secondary size sweep | `IN PROGRESS` | 91 ✓ (cumulative) |
+| M6 | Size sweep 1M/10M/100M. Width-only model scaling preregistered; confirmation gates per new (system, size) cell before scored runs (`run/campaign_m6.sh`). | §4 secondary size sweep | `IN PROGRESS` | 92 ✓ (cumulative) |
 | M7 | Run frozen `analyze.py`; fill truth table; report | §4 overall PASS / reportable FAIL | — | — |
 
 ## Operational choices (pre-freeze, auditable)
@@ -347,6 +347,23 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-06 lub_above_1M gate FAIL → pre-authorized recipe adjustment (locked
+  here BEFORE the re-run, per the one-change rule):** the known-risk gate failed
+  exactly as anticipated — the d_model=24 model shows steadily descending loss
+  (9.0 → 5.6 over 30k steps), eval metric at chance (~0.09, chance = 0.10) until
+  the final checkpoint, then 0.294 at step 30000: transition ONSET at the edge of
+  the step budget, not absence of a transition. Diagnosis: the width needs more
+  optimization time; the recipe knob is steps. **Change (the one change): lubana
+  model_size="1M" cells train 100,000 steps instead of 30,000** (≈3.3× the observed
+  onset horizon; ~1.6 h/run at observed throughput, ~+16 h across the cell).
+  Applied in `configs/lubana.py` via a per-size override so above/below gates AND
+  scored 1M runs share it (below must stay flat under the same longer recipe — a
+  strictly harder flatness test, accepted). Thresholds, transition level, and all
+  signature params untouched. The M6 "recipes byte-identical across sizes" pin is
+  hereby amended for this one field, recorded by a new test
+  (`test_lubana_config_size_recipe_pin`). Justification references only the gate
+  trajectory above, no scored quantity. Failed-gate checkpoint
+  (`checkpoints/lubana_confirm_above_m1M`) deleted; gate reruns fresh at 100k.
 - **2026-07-06 OS upgrade interruption:** campaign stopped during the confirmation
   gates for a macOS upgrade (26.5.1 → 26.5.2). MPS numerics are OS-tied, so gates
   must certify the environment the scored runs use: the grok_10M gate had PASSED on
