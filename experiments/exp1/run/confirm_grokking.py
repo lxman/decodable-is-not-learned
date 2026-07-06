@@ -7,8 +7,9 @@ curve plus the memorization->generalization certification. NO signatures, NO Run
 train_frac, steps) here -- never the frozen thresholds.
 
 Usage:
-  python -m run.confirm_grokking [total_steps] [device] [seed]
+  python -m run.confirm_grokking [total_steps] [device] [seed] [size]
   e.g.  python -m run.confirm_grokking 40000 mps 0
+        python -m run.confirm_grokking "" "" 0 100M
 """
 
 from __future__ import annotations
@@ -16,7 +17,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from configs.grokking import GrokkingConfig
+from configs.grokking import grokking_config_for
 from models.transformer import DecoderTransformer, TransformerConfig
 from tasks.modular_arith import ModArithConfig, ModArithTask, certify_grokking
 from train.loop import TrainConfig, train
@@ -24,8 +25,9 @@ from train.loop import TrainConfig, train
 EXP_DIR = Path(__file__).resolve().parents[1]
 
 
-def confirm(total_steps: int | None = None, device: str | None = None, seed: int = 0):
-    cfg = GrokkingConfig()
+def confirm(total_steps: int | None = None, device: str | None = None, seed: int = 0,
+            size: str = "1M"):
+    cfg = grokking_config_for(size)
     steps = total_steps or cfg.total_steps
     dev = device or cfg.device
 
@@ -36,9 +38,10 @@ def confirm(total_steps: int | None = None, device: str | None = None, seed: int
         d_model=cfg.d_model, n_layers=cfg.n_layers, n_heads=cfg.n_heads, seed=seed,
     ))
     n_params = model.num_params()
-    ckpt_dir = EXP_DIR / "checkpoints" / "grokking_confirm" / f"seed{seed}"
+    suffix = "" if size == "1M" else f"_{size}"
+    ckpt_dir = EXP_DIR / "checkpoints" / f"grokking_confirm{suffix}" / f"seed{seed}"
 
-    print(f"[confirm] p={cfg.p} op={cfg.op} frac={cfg.train_frac} "
+    print(f"[confirm] size={size} d_model={cfg.d_model} p={cfg.p} op={cfg.op} frac={cfg.train_frac} "
           f"train={data['train_ids'].shape[0]} test={data['test_ids'].shape[0]} "
           f"params={n_params} steps={steps} device={dev}", flush=True)
 
@@ -67,7 +70,8 @@ def confirm(total_steps: int | None = None, device: str | None = None, seed: int
 
 
 if __name__ == "__main__":
-    steps = int(sys.argv[1]) if len(sys.argv) > 1 else None
-    device = sys.argv[2] if len(sys.argv) > 2 else None
+    steps = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1] else None
+    device = sys.argv[2] if len(sys.argv) > 2 and sys.argv[2] else None
     seed = int(sys.argv[3]) if len(sys.argv) > 3 else 0
-    confirm(steps, device, seed)
+    size = sys.argv[4] if len(sys.argv) > 4 else "1M"
+    confirm(steps, device, seed, size)

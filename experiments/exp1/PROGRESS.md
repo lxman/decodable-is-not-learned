@@ -27,7 +27,7 @@ to the schema, not to how signatures are computed.
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `8f7198d` (tag `exp1-analysis-frozen`) | 63 ✓ (cumulative) |
 | M4 | Grokking harness + confirmation + scored 5-seed run. Harness `150a1b4`/`412f747`; instrument fixes `42cfb5c`; linear-S3 record `ae27930`; log-precursor method `e365c39`; **accepted scored row: S1 5/5, S2 5/5, S3 1/5, gt 5/5** | §2 resolution exemplar; §5 run order step 2 | `ef44e8d` | 73 ✓ (cumulative) |
 | M5 | Lubana below + above, COMPLETE. Threshold gate reproduced computationally; language + LM loop + configs + confirmation driver built (`tasks/lubana_lang.py`, `train/lm_loop.py`, `configs/lubana.py`, `run/confirm_lubana.py`); both confirmation gates passed; 10/10 scored RunRecords at paper scale, all gt-certified, unanimous across seeds: above S1 present / S2 absent / S3 fail ×5, below 0/3 signatures ×5. | §2 percolation exemplar + control; §5 run order step 3 | `3a87242` + final-records commit | 89 ✓ (cumulative) |
-| M6 | Size sweep 1M/10M/100M | §4 secondary size sweep | — | — |
+| M6 | Size sweep 1M/10M/100M. Width-only model scaling preregistered; confirmation gates per new (system, size) cell before scored runs (`run/campaign_m6.sh`). | §4 secondary size sweep | `IN PROGRESS` | 91 ✓ (cumulative) |
 | M7 | Run frozen `analyze.py`; fill truth table; report | §4 overall PASS / reportable FAIL | — | — |
 
 ## Operational choices (pre-freeze, auditable)
@@ -314,6 +314,39 @@ BEFORE any Lubana training run)**
   - Interpretation lives with M7; the standing pattern matches every preregistered
     prediction: detectability below threshold (S1) tracked whether structure exists
     in the training distribution, not whether the model had the capability yet.
+
+**M6 — size sweep (operationalizations preregistered 2026-07-06, BEFORE any run):**
+
+- **Cells.** The frozen analysis (`analyze.py`) requires ≥3 evaluable sizes, where a
+  size is evaluable only if ALL three scored rows have ≥5 seeds. Complete already:
+  grokking/1M (M4), lubana_{above,below}/10M (M5). New cells: grokking {10M, 100M},
+  lubana_{above,below} × {1M, 100M} — 30 scored runs.
+- **Scaling rule (the one M6 free choice, locked here):** hold each system's
+  validated depth/heads fixed (grokking 1L/4H, lubana 4L/8H), scale d_model only
+  (`models.transformer.scale_width_to_budget`, nearest param count to target).
+  Rationale: `scale_to_param_budget`'s depth-first walk returns a different
+  architecture family at large budgets (1L × ~1550 for the Lubana vocab at 100M)
+  than the one the confirmation gates validated; width-only keeps a single varying
+  factor. Resulting models — grokking: 10M = d904 (10.03M), 100M = d2876 (99.96M);
+  lubana (paper graph): 1M = d24 (0.94M), 100M = d1104 (100.4M). Graph scale never
+  changes: the sweep varies the MODEL, not the ground truth. Signature params and
+  training recipes are byte-identical across sizes (pinned by
+  `test_grokking_config_for_scales_model_only`).
+- **Confirmation gates (process rule 2):** one seed per new cell before its scored
+  runs — grokking must certify mem→gen; lubana above must transition AND hold;
+  lubana below must stay flat. Marker files in `logs/m6/confirm/` make the stage
+  resumable. A FAIL aborts the campaign; the recipe (steps/lr/width) may be adjusted
+  with a ledger entry, thresholds never. Known risk, accepted in advance: the 1M
+  lubana model is d_model=24 (head dim 3) — if it cannot reach the 0.5 transition
+  level in 30k steps, that is a recipe problem for the gate to catch, not a scored
+  result.
+- **Checkpoint retention:** checkpoints of successful 100M runs are deleted after
+  their RunRecord is saved (a below-100M seed writes ~107 GB; records are the
+  durable artifact, checkpoints are regenerable from config+seed). Smaller cells
+  keep theirs.
+- **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
+  durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
+  time (the 100M lubana rows dominate).
 
 ## Environment notes
 

@@ -6,7 +6,7 @@ S3's precursor is the S1 probe-accuracy trajectory over pre-transition checkpoin
 The independent ground-truth check is the memorization->generalization gap
 (tasks.modular_arith.certify_grokking), not any signature.
 
-Run one seed:   python -m run.run_grokking [seed]
+Run one seed:   python -m run.run_grokking [seed] [size: 1M|10M|100M]
 Run 5 seeds:    for s in 0 1 2 3 4; do python -m run.run_grokking $s; done
 """
 
@@ -17,7 +17,7 @@ from pathlib import Path
 
 import torch
 
-from configs.grokking import GrokkingConfig
+from configs.grokking import grokking_config_for
 from models.transformer import DecoderTransformer, TransformerConfig
 from signatures import (
     GTCheck,
@@ -39,8 +39,8 @@ from .provenance import git_sha, lib_versions
 EXP_DIR = Path(__file__).resolve().parents[1]
 
 
-def run_grokking(seed: int = 0, out_dir: Path | None = None) -> RunRecord:
-    cfg = GrokkingConfig()
+def run_grokking(seed: int = 0, size: str = "1M", out_dir: Path | None = None) -> RunRecord:
+    cfg = grokking_config_for(size)
     out_dir = out_dir or EXP_DIR
     device = resolve_device(cfg.device)
 
@@ -50,7 +50,9 @@ def run_grokking(seed: int = 0, out_dir: Path | None = None) -> RunRecord:
         vocab_size=task.vocab_size, n_ctx=task.n_ctx,
         d_model=cfg.d_model, n_layers=cfg.n_layers, n_heads=cfg.n_heads, seed=seed,
     ))
-    ckpt_dir = out_dir / "checkpoints" / "grokking" / f"seed{seed}"
+    # 1M keeps the original path (the accepted M4/M5 checkpoints live there)
+    ckpt_name = "grokking" if size == "1M" else f"grokking_{size}"
+    ckpt_dir = out_dir / "checkpoints" / ckpt_name / f"seed{seed}"
     hist = train(
         model, data["train_ids"], data["train_targets"],
         data["test_ids"], data["test_targets"],
@@ -160,8 +162,9 @@ def run_grokking(seed: int = 0, out_dir: Path | None = None) -> RunRecord:
 
 if __name__ == "__main__":
     seed = int(sys.argv[1]) if len(sys.argv) > 1 else 0
-    rec = run_grokking(seed)
-    print(f"[grokking seed {seed}] gt_certified={rec.gt_check.certified} "
+    size = sys.argv[2] if len(sys.argv) > 2 else "1M"
+    rec = run_grokking(seed, size)
+    print(f"[grokking/{size} seed {seed}] gt_certified={rec.gt_check.certified} "
           f"(mem@{rec.gt_check.details['mem_step']} gen@{rec.gt_check.details['gen_step']})")
     print(f"  S1 present={rec.s1.present} acc={rec.s1.accuracy:.3f} (chance {rec.s1.chance:.4f}) "
           f"p={rec.s1.null_p:.4g} @ {rec.s1.checkpoint_id}")

@@ -90,6 +90,41 @@ class DecoderTransformer(nn.Module):
         return sum(p.numel() for p in self.parameters())
 
 
+def scale_width_to_budget(
+    vocab_size: int, n_ctx: int, target_params: int, *,
+    n_layers: int, n_heads: int, seed: int = 0,
+) -> TransformerConfig:
+    """M6 scaling rule: hold a system's validated depth/heads FIXED, scale width only.
+
+    `scale_to_param_budget` below walks depth-first and hands back degenerate
+    architectures at large budgets (e.g. 1 layer x ~1550 wide for the Lubana vocab at
+    100M) — a different architecture family than the one the confirmation gates
+    validated. Width-only scaling keeps a single varying factor across the size sweep.
+    Picks the d_model (multiple of n_heads) whose parameter count is nearest the
+    target; buckets are order-of-magnitude, exactness is unnecessary.
+    """
+    def params_at(d_model: int) -> tuple[TransformerConfig, int]:
+        cfg = TransformerConfig(
+            vocab_size=vocab_size, n_ctx=n_ctx, d_model=d_model,
+            n_layers=n_layers, n_heads=n_heads, seed=seed,
+        )
+        return cfg, DecoderTransformer(cfg).num_params()
+
+    lo, hi = 1, 2  # in units of n_heads
+    while params_at(hi * n_heads)[1] < target_params:
+        lo, hi = hi, hi * 2
+    while hi - lo > 1:  # params are monotone in width
+        mid = (lo + hi) // 2
+        if params_at(mid * n_heads)[1] < target_params:
+            lo = mid
+        else:
+            hi = mid
+    return min(
+        (params_at(m * n_heads) for m in (lo, hi)),
+        key=lambda t: abs(t[1] - target_params),
+    )[0]
+
+
 def scale_to_param_budget(
     vocab_size: int, n_ctx: int, target_params: int, *, n_heads: int = 4, seed: int = 0
 ) -> TransformerConfig:

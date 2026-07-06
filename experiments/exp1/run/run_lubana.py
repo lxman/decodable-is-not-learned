@@ -23,7 +23,7 @@ IS its out-of-sample test. Operationalizations preregistered in PROGRESS.md:
 - gt_check: the graph's own giant-component fraction (data structure, model-free) +
   the capability curve's behaviour (above: transitioned and held; below: flat).
 
-Run one seed:  python -m run.run_lubana <above|below> <seed> [scale]
+Run one seed:  python -m run.run_lubana <above|below> <seed> [scale] [model_size]
 """
 
 from __future__ import annotations
@@ -34,8 +34,8 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from configs.lubana import LubanaRunConfig
-from models.transformer import DecoderTransformer, TransformerConfig
+from configs.lubana import MODEL_SIZE_TARGETS, LubanaRunConfig
+from models.transformer import DecoderTransformer, TransformerConfig, scale_width_to_budget
 from signatures import (
     GTCheck,
     ResidualActivationCollector,
@@ -78,6 +78,12 @@ def _entity_probe_data(lang, device, model, pool=None):
 
 
 def _make_model(lang, cfg, seed):
+    if cfg.model_size:  # M6: width-only scaling, depth/heads at the validated base
+        tcfg = scale_width_to_budget(
+            lang.cfg.vocab_size, lang.cfg.max_len, MODEL_SIZE_TARGETS[cfg.model_size],
+            n_layers=cfg.n_layers, n_heads=cfg.n_heads, seed=seed,
+        )
+        return DecoderTransformer(tcfg)
     return DecoderTransformer(TransformerConfig(
         vocab_size=lang.cfg.vocab_size, n_ctx=lang.cfg.max_len,
         d_model=cfg.d_model, n_layers=cfg.n_layers, n_heads=cfg.n_heads, seed=seed,
@@ -112,8 +118,10 @@ def _sample_fn_for(model, device, temperature):
     return sample_fn
 
 
-def run_lubana(setting: str, seed: int = 0, scale: str | None = None, out_dir: Path | None = None) -> RunRecord:
-    cfg = LubanaRunConfig(setting=setting, **({"scale": scale} if scale else {}))
+def run_lubana(setting: str, seed: int = 0, scale: str | None = None,
+               model_size: str | None = None, out_dir: Path | None = None) -> RunRecord:
+    cfg = LubanaRunConfig(setting=setting, model_size=model_size,
+                          **({"scale": scale} if scale else {}))
     out_dir = out_dir or EXP_DIR
     device = resolve_device(cfg.device)
 
@@ -124,7 +132,7 @@ def run_lubana(setting: str, seed: int = 0, scale: str | None = None, out_dir: P
     # evidence in training data -> the no-capability floor is exactly chance).
     pool = lang.singleton_entities() if setting == "below" else None
 
-    ckpt_dir = out_dir / "checkpoints" / f"lubana_{setting}" / f"seed{seed}"
+    ckpt_dir = out_dir / "checkpoints" / f"lubana_{setting}{cfg.ckpt_suffix}" / f"seed{seed}"
     model, queries, hist = _train_setting(lang, cfg, seed, cfg.total_steps, ckpt_dir, device, pool=pool)
 
     step_metric = dict(zip(hist.steps, hist.eval_metric))
@@ -206,7 +214,7 @@ def run_lubana(setting: str, seed: int = 0, scale: str | None = None, out_dir: P
             sub_kw = dict(cfg.lang_kwargs)
             sub_kw["edge_prob_mult"] = mult
             sub_lang = LubanaLanguage(LubanaConfig(seed=seed, **sub_kw))
-            sub_dir = out_dir / "checkpoints" / f"lubana_s3graph_{mult}" / f"seed{seed}"
+            sub_dir = out_dir / "checkpoints" / f"lubana_s3graph_{mult}{cfg.ckpt_suffix}" / f"seed{seed}"
             _m, _q, sub_hist = _train_setting(
                 sub_lang, cfg, seed, cfg.s3_graph_budget_steps, sub_dir, device,
                 pool=sub_lang.singleton_entities())  # island-free metric, as the main below row
@@ -249,7 +257,8 @@ if __name__ == "__main__":
     setting = sys.argv[1]
     seed = int(sys.argv[2]) if len(sys.argv) > 2 else 0
     scale = sys.argv[3] if len(sys.argv) > 3 else None
-    rec = run_lubana(setting, seed, scale)
+    model_size = sys.argv[4] if len(sys.argv) > 4 else None
+    rec = run_lubana(setting, seed, scale, model_size)
     print(f"[lubana_{setting} seed {seed}] gt_certified={rec.gt_check.certified} "
           f"(final={rec.gt_check.details['final_metric']:.3f} "
           f"peak={rec.gt_check.details['peak_metric']:.3f} "

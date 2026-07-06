@@ -14,7 +14,7 @@ BELOW rises well above chance, STOP: either the graph is not actually sub-critic
 (config bug) or the scored capability leaks memorization — investigate before any
 scored run.
 
-Usage:  python -m run.confirm_lubana [above|below|both] [total_steps] [seed] [scale]
+Usage:  python -m run.confirm_lubana [above|below|both] [total_steps] [seed] [scale] [model_size]
 """
 
 from __future__ import annotations
@@ -25,16 +25,19 @@ from pathlib import Path
 import numpy as np
 
 from configs.lubana import LubanaRunConfig
-from models.transformer import DecoderTransformer, TransformerConfig
 from tasks.lubana_lang import LubanaConfig, LubanaLanguage
 from train.lm_loop import LMTrainConfig, masked_argmax_class_rate, train_lm
 from train.loop import resolve_device
 
+from .run_lubana import _make_model
+
 EXP_DIR = Path(__file__).resolve().parents[1]
 
 
-def confirm(setting: str, total_steps: int | None = None, seed: int = 0, scale: str | None = None):
-    cfg = LubanaRunConfig(setting=setting, **({"scale": scale} if scale else {}))
+def confirm(setting: str, total_steps: int | None = None, seed: int = 0,
+            scale: str | None = None, model_size: str | None = None):
+    cfg = LubanaRunConfig(setting=setting, model_size=model_size,
+                          **({"scale": scale} if scale else {}))
     steps = total_steps or cfg.total_steps
     device = resolve_device(cfg.device)
 
@@ -56,11 +59,9 @@ def confirm(setting: str, total_steps: int | None = None, seed: int = 0, scale: 
           + (f" singleton_pool={pool.size}/{lang.cfg.n_entities}" if pool is not None else ""),
           flush=True)
 
-    model = DecoderTransformer(TransformerConfig(
-        vocab_size=lang.cfg.vocab_size, n_ctx=lang.cfg.max_len,
-        d_model=cfg.d_model, n_layers=cfg.n_layers, n_heads=cfg.n_heads, seed=seed,
-    ))
-    print(f"[lubana:{setting}] params={model.num_params()}", flush=True)
+    model = _make_model(lang, cfg, seed)
+    print(f"[lubana:{setting}] params={model.num_params()} "
+          f"model_size={cfg.model_size or 'base'}", flush=True)
 
     eval_fn = lambda m: masked_argmax_class_rate(m, lang, queries, device)  # noqa: E731
     hist = train_lm(
@@ -68,7 +69,7 @@ def confirm(setting: str, total_steps: int | None = None, seed: int = 0, scale: 
         LMTrainConfig(total_steps=steps, batch_size=cfg.batch_size, lr=cfg.lr,
                       weight_decay=cfg.weight_decay, n_checkpoints=cfg.n_checkpoints,
                       device=cfg.device, seed=seed),
-        EXP_DIR / "checkpoints" / f"lubana_confirm_{setting}" / f"seed{seed}",
+        EXP_DIR / "checkpoints" / f"lubana_confirm_{setting}{cfg.ckpt_suffix}" / f"seed{seed}",
     )
 
     print(f"{'step':>8} {'loss':>8} {'metric':>8}", flush=True)
@@ -95,6 +96,7 @@ if __name__ == "__main__":
     steps = int(sys.argv[2]) if len(sys.argv) > 2 else None
     seed = int(sys.argv[3]) if len(sys.argv) > 3 else 0
     scale = sys.argv[4] if len(sys.argv) > 4 else None
+    model_size = sys.argv[5] if len(sys.argv) > 5 else None
     settings = ["above", "below"] if which == "both" else [which]
-    results = {s: confirm(s, steps, seed, scale)[0] for s in settings}
+    results = {s: confirm(s, steps, seed, scale, model_size)[0] for s in settings}
     print(f"\n[confirm_lubana] {results}", flush=True)

@@ -64,3 +64,24 @@ class GrokkingConfig:
 
     def as_dict(self) -> dict:
         return asdict(self)
+
+
+# M6 size sweep: hold depth/heads at the validated base (1 layer, 4 heads), scale
+# width only (models.transformer.scale_width_to_budget). Signature params and the
+# training recipe are untouched — the model is the only thing that changes.
+SIZE_TARGETS = {"10M": 10_000_000, "100M": 100_000_000}
+
+
+def grokking_config_for(size: str) -> GrokkingConfig:
+    """Base config for "1M" (the accepted M4/M5 row); width-scaled for 10M/100M."""
+    if size == "1M":
+        return GrokkingConfig()
+    from models.transformer import scale_width_to_budget
+    from tasks.modular_arith import ModArithConfig, ModArithTask
+    base = GrokkingConfig()
+    task = ModArithTask(ModArithConfig(p=base.p, op=base.op, train_frac=base.train_frac, seed=0))
+    tcfg = scale_width_to_budget(
+        task.vocab_size, task.n_ctx, SIZE_TARGETS[size],
+        n_layers=base.n_layers, n_heads=base.n_heads,
+    )
+    return GrokkingConfig(d_model=tcfg.d_model, size_bucket=size)

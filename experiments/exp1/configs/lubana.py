@@ -36,11 +36,19 @@ _SCALES = {
 BELOW_MULT = 0.5
 ABOVE_MULT = 10.0
 
+MODEL_SIZE_TARGETS = {"1M": 1_000_000, "100M": 100_000_000}
+
 
 @dataclass(frozen=True)
 class LubanaRunConfig:
     scale: str = "reduced"
     setting: str = "above"          # "above" | "below"
+
+    # M6 size sweep: None = the validated base model below (~12.9M at paper scale,
+    # bucket "10M"). "1M"/"100M" hold depth/heads fixed and scale d_model only
+    # (models.transformer.scale_width_to_budget); graph scale is unchanged — the
+    # sweep varies the MODEL, never the ground truth.
+    model_size: str | None = None
 
     # data
     n_train_sentences: int = 60_000
@@ -86,6 +94,11 @@ class LubanaRunConfig:
     @property
     def system(self) -> str:
         return "lubana_below" if self.setting == "below" else "lubana_above"
+
+    @property
+    def ckpt_suffix(self) -> str:
+        """Keeps M6 checkpoint trees separate from the base-size M5 ones."""
+        return f"_m{self.model_size}" if self.model_size else ""
 
     def as_dict(self) -> dict:
         return asdict(self)

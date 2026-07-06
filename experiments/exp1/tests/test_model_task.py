@@ -125,3 +125,28 @@ def test_checkpoint_save_load_round_trip(tmp_path):
     fresh_step = load_checkpoint(fresh, found[0][1])
     for p, q in zip(model.parameters(), fresh.parameters()):
         assert torch.allclose(p, q)
+
+
+def test_scale_width_to_budget_hits_targets_and_keeps_architecture():
+    """M6 scaling rule: depth/heads fixed, width scaled, nearest param count."""
+    from models.transformer import scale_width_to_budget
+    for target in (1_000_000, 10_000_000, 100_000_000):
+        cfg = scale_width_to_budget(115, 3, target, n_layers=1, n_heads=4)
+        assert cfg.n_layers == 1 and cfg.n_heads == 4
+        assert cfg.d_model % 4 == 0
+        p = DecoderTransformer(cfg).num_params()
+        assert abs(math.log10(p) - math.log10(target)) < 0.15  # same OoM bucket
+
+
+def test_grokking_config_for_scales_model_only():
+    """Signature params and recipe must be IDENTICAL across the size sweep."""
+    from configs.grokking import GrokkingConfig, grokking_config_for
+    base = GrokkingConfig()
+    for size in ("10M", "100M"):
+        cfg = grokking_config_for(size)
+        assert cfg.size_bucket == size and cfg.d_model > base.d_model
+        for f in ("total_steps", "lr", "weight_decay", "below_threshold_level",
+                  "alpha", "n_perm", "probe_n", "s2_n_per_query", "s3_target_level",
+                  "s3_precursor_transform", "n_layers", "n_heads"):
+            assert getattr(cfg, f) == getattr(base, f), f
+    assert grokking_config_for("1M") == base
