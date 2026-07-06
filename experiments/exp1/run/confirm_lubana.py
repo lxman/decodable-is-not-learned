@@ -93,7 +93,7 @@ def confirm(setting: str, total_steps: int | None = None, seed: int = 0,
 
 if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "both"
-    steps = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    steps = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2] else None
     seed = int(sys.argv[3]) if len(sys.argv) > 3 else 0
     scale = sys.argv[4] if len(sys.argv) > 4 else None
     model_size = sys.argv[5] if len(sys.argv) > 5 else None
