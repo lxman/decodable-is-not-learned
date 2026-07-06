@@ -50,5 +50,8 @@ dedicated commit — that flip must precede the first model query).
 ## Environment notes
 
 - Same Mac mini + venv as Exp 1 (`../../environment.md`); DGX Sparks untouched.
+- 2026-07-06: macOS upgraded 26.5.1 → 26.5.2; MPS revalidated on the new OS
+  (pythia-410m fp16 smoke test PASSED — no NaNs/Infs, correct greedy output). No
+  Exp 2 model queries had run yet, so nothing here was invalidated.
 - M1+ (model inference) queues behind Exp 1's M6 campaign — one MPS device.
 - Run tests: `cd experiments/exp2 && source ~/emergence-lab/.venv/bin/activate && python -m pytest`.
