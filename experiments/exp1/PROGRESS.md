@@ -347,6 +347,14 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-06 OS upgrade interruption:** campaign stopped during the confirmation
+  gates for a macOS upgrade (26.5.1 → 26.5.2). MPS numerics are OS-tied, so gates
+  must certify the environment the scored runs use: the grok_10M gate had PASSED on
+  the old OS and its artifacts (`logs/m6/confirm/grok_10M.{pass,log}`,
+  `checkpoints/grokking_confirm_10M/`) were deleted; all six gates rerun on 26.5.2.
+  Zero scored M6 runs existed at the stop, so nothing else was invalidated.
+  Post-upgrade MPS smoke test (pythia-410m fp16, forward + greedy generate) PASSED
+  on 26.5.2 before relaunch.
 
 ## Environment notes
 
