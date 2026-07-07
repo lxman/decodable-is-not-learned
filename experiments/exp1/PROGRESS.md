@@ -347,6 +347,14 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-07 all six M6 confirmation gates PASSED on macOS 26.5.2; scored runs
+  begun 04:40.** grok_10M (mem→gen re-certified post-upgrade); lub_above_1M
+  (transition@39069, final 1.000, under the ledgered 100k recipe — the 30k run's
+  0.294-at-budget-edge diagnosis confirmed); lub_below_1M (peak 0.134 vs 0.150
+  bar over 100k steps); grok_100M (mem@276, gen@3353, gap 3077); lub_above_100M
+  (transition@3660, final 0.952); lub_below_100M (peak 0.134 vs 0.150). Gate
+  wall-clock ≈ 19.5 h total; the campaign proceeded unattended into
+  grokking/10M/seed0.
 - **2026-07-06 lub_above_1M gate FAIL → pre-authorized recipe adjustment (locked
   here BEFORE the re-run, per the one-change rule):** the known-risk gate failed
   exactly as anticipated — the d_model=24 model shows steadily descending loss
