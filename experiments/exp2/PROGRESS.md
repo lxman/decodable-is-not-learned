@@ -63,6 +63,22 @@ dedicated commit — that flip must precede the first model query).
   case-resampling bootstrap (10⁴, seeded). Tag to be applied at the Preregistered
   flip, before any model query.
 
+## Model staging (2026-07-07, pre-freeze; design doc "Open items" — revision pinning)
+
+All five Pythia models staged into the HF cache (`main` revision = final
+checkpoint, standard non-deduped branch, safetensors), downloaded while Exp 1's
+M6 campaign held the MPS device (network/disk only). Resolved commit SHAs,
+pinned here for the ledger; the run code must load by these SHAs, not by branch
+name:
+
+| Model | `main` SHA |
+|---|---|
+| pythia-410m | `9879c9b5f8bea9051dcb0e68dff21493d67e9d4f` |
+| pythia-1b | `f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2` |
+| pythia-2.8b | `2a259cdd96a4beb1cdf467512e3904197345f6a9` |
+| pythia-6.9b | `c0e3eee36dc47af0c49f361c74cfe459c09f7f23` |
+| pythia-12b | `bb1e3e710cdf6b524461d543cfb5ba773f0a81b6` |
+
 ## Environment notes
 
 - Same Mac mini + venv as Exp 1 (`../../environment.md`); DGX Sparks untouched.
