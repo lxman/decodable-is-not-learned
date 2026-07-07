@@ -1,6 +1,6 @@
 # Experiment 2 — Design Doc: The Probe Ladder (Prediction 2)
 
-**Status:** DRAFT under review (committed for traceability; review may still revise it). The freeze happens when this line flips to **Preregistered** in a dedicated commit, which must precede the first model query. From that commit on, thresholds are frozen and `experiments/exp2/analyze.py` is never edited after data collection. Written against the process rules in `experiments.md` (carried forward from Experiment 1); each rule's application is called out where it bites.
+**Status:** **Preregistered** — frozen 2026-07-07 in this dedicated commit (tag `exp2-preregistered`), before any model query. The dial review that preceded the freeze is recorded in the ledger and landed in 347936c. From this commit on: thresholds, the battery and its inclusion rules, and `experiments/exp2/analyze.py` do not change. A failed gate permits at most one mechanism-justified fix, locked in the ledger before the re-run, never touching thresholds (process rule 6); the untrained-control attrition rule in §3 operates as preregistered, not as an edit. Written against the process rules in `experiments.md` (carried forward from Experiment 1); each rule's application is called out where it bites.
 
 **One-line purpose:** Test the thesis's most original prediction on real models — that a linear probe applied to *small* models, below the capability threshold, already contains the ordering information that determines which capabilities become reliable first as scale grows. The phase-transition view gives no reason for this correlation to exist; the resolution view requires it.
 
@@ -148,9 +148,9 @@ Code in `experiments/exp2/` mirroring Exp 1's layout (PROGRESS.md ledger from da
 
 ---
 
-## Open items before first run
+## Open items before first run — all closed at the freeze
 
-- Write the 16 battery item files + verifiers + oracle checks (the real content of process rule 1 for this experiment).
-- Freeze `experiments/exp2/analyze.py` alongside this doc (exact permutation + bootstrap code, seeded).
-- Verify Pythia revision pinning (`main` = final step) and record exact model SHAs in the ledger.
-- Pin the two-stage lock mechanically: Stage-1 results committed and tagged before the first 2.8B+ query (mirror of Exp 1's `exp1-analysis-frozen` tag).
+- ~~Write the 16 battery item files + verifiers + oracle checks.~~ Closed at M0: 18 committed item files (16 candidates + 2 positive controls), oracle-agreement enforced by tests against the committed files.
+- ~~Freeze `experiments/exp2/analyze.py` alongside this doc.~~ Closed: dial-review revisions in (347936c), 110 tests passing, pinned by the `exp2-preregistered` tag on this commit.
+- ~~Verify Pythia revision pinning and record exact model SHAs in the ledger.~~ Closed 2026-07-07: all five models staged, `main`-revision SHAs in the ledger (40eca80); run code loads by SHA.
+- **Still pending by design:** the two-stage lock executes when Stage 1 completes — probe scores committed and tagged before the first 2.8B+ query. The M1 inference harness is built post-freeze (mechanics, not dials); the M2 known-answer gates certify it before anything scored.

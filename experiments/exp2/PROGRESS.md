@@ -9,6 +9,7 @@ dedicated commit — that flip must precede the first model query).
 | Milestone | What | Status | Tests |
 |---|---|---|---|
 | M0 | Scaffold + battery item files + oracles + frozen `analyze.py` | built; committed with the DRAFT design doc; dials reviewed 2026-07-06 (see below) | 110 ✓ |
+| — | **Preregistered flip** (dedicated commit, tag `exp2-preregistered`) | 2026-07-07 — thresholds/battery/analysis frozen before any model query; models staged and SHA-pinned (40eca80) | 110 ✓ |
 | M1 | Inclusion: argmax at 410M/1B on all 16 candidates; scored battery fixed (`battery/items/scored_battery.json`) | — (needs MPS; queued behind Exp 1 M6) | — |
 | M2 | Gates: untrained-weights probe control, shuffled-label control, positive-control probes | — | — |
 | M3 | Stage 1 (probe side): probes at 410M/1B, 5 seeds; probe scores committed + tagged | — | — |
