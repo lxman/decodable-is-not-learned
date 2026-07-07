@@ -16,6 +16,30 @@ dedicated commit — that flip must precede the first model query).
 | M4 | Stage 2 (eval side): argmax at 2.8B/6.9B/12B | — | — |
 | M5 | Frozen analysis; verdict; report | — | — |
 
+## M1 harness build, 2026-07-07 (post-freeze mechanics — no dials touched)
+
+Inference harness built after the `exp2-preregistered` freeze, deliberately:
+prompting, greedy decoding, and counting are mechanics; every threshold they are
+measured against was frozen first. Operational choices, recorded per convention:
+
+- **Chance floors are per (capability, size):** the untrained control model
+  (same architecture, seeded random init, `UNTRAINED_SEED=0`) answers the same
+  committed eval items; margin = (acc − chance)/(1 − chance) with trained-acc CP
+  bounds mapped through the chance point estimate and the chance floor's own CP
+  bounds carried alongside (not compounded).
+- **Generation:** greedy (`do_sample=False`), left-padded batches of 16, pad=eos;
+  `MAX_NEW_TOKENS` per answer type {number 8, word 12, letters 12, choice 6} —
+  `normalize_answer` takes the first line/token, so overshoot is harmless.
+- **Inclusion runs the 2-shot primary** (design §2); the zero-shot variant is
+  supported by the harness for later descriptive use.
+- **`run/fix_battery.py` applies the frozen rule** (1b margin CP-UB < 0.25),
+  refuses to overwrite an existing `scored_battery.json`, and the campaign only
+  dry-runs it: fixing the battery is a reviewed commit, not a side effect.
+- **`run/campaign_m1.sh` refuses to start while M6 holds MPS** (pgrep guard).
+- **Verification:** whole loop driven by fake runners in tests (118 pass);
+  end-to-end CPU smoke with real pythia-410m on ctrl_copy scored 8/8 without
+  touching the MPS device mid-campaign.
+
 ## Dial review, 2026-07-06 (pre-freeze; Michael accepted all four)
 
 1. **PASS bar kept** (p < 0.05 ∧ ρ ≥ 0.5) with an explicit limitation added to
