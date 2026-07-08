@@ -347,6 +347,29 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-08 FINDING (no artifact changed): S1's continuous §4 criterion is
+  misspecified and will read FAIL; the failure stands per rule 6.** Noticed while
+  answering a seed-variance question against committed M5 + partial M6 records —
+  i.e., POST-data; no amendment can be called outcome-independent, so none is made.
+  Two layers. (1) Unit mismatch: §4 preregisters "probe accuracy" as sharing a
+  continuous scale across systems, but the grokking probe has 113 classes
+  (chance .0088) vs the below probe's 10 (chance .100) — below's raw accuracy
+  rides its floor above grokking's entire range at 10M; the predicted direction
+  is unreachable in every possible world, including for a perfect instrument.
+  Discoverable with zero data at design time; missed because no size bucket
+  contained both systems until M6. (2) Chance-normalization does not rescue it:
+  margins carry system-dependent noise floors (below/10M margin .046±.008
+  non-significant vs grokking/10M .010±.004 highly significant) — the rows
+  separate cleanly only on the significance scale (structure-present runs
+  p ≤ .026, 14/15 ≤ .008; absent runs p ≥ .12). Detection separates; magnitude-
+  of-separation on any accuracy-derived scale does not. Exp 1's one pre-committed
+  change is already spent (log-space S3); analyze.py stays frozen as tagged, the
+  M6-final analysis reports the S1-continuous FAIL as a finding alongside the
+  truth-table flags and p-value separation (descriptive). Exp 2's rank-correlation
+  criteria (frozen 5f48567) already avoid this class of comparison. Lesson for
+  Exp 3–4 design docs: cross-system continuous criteria must be stated in
+  null-relative units (z / p), never accuracy-derived ones, and the
+  incommensurability check belongs in the design review, pre-freeze.
 - **2026-07-07 all six M6 confirmation gates PASSED on macOS 26.5.2; scored runs
   begun 04:40.** grok_10M (mem→gen re-certified post-upgrade); lub_above_1M
   (transition@39069, final 1.000, under the ledgered 100k recipe — the 30k run's
