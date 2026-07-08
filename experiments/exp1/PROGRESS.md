@@ -347,6 +347,20 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-08 CORRECTION to commit 59c35ec's message + minor finding:** that
+  message's "all-null 5/5" tally for lubana_below/1M was written before seed 4's
+  record was inspected and is wrong on one component: seed 4 is the first
+  below-seed with S3 `beats_no_transition_baseline=True` (slope CI excluding 0 —
+  a finite-size artifact: sub-critical capability curves have slightly positive
+  slope; the forecast itself is nonsense, predicted transition −0.0275 on the
+  graph axis, relerr 12.05, `present=False`). Its S1 p is 0.184, also outside the
+  ".58–1.0" range claimed. No criterion is affected (the frozen analysis reads
+  the `present` flag, which is False; truth-table "absent" stands 5/5) — but two
+  lessons: (a) per-run tallies get written AFTER the record is read, not from
+  memory of prior seeds; (b) "beats baseline" alone is not a discriminator on the
+  absent side and my per-run reports should stop implying it is — the flag is
+  meaningful only jointly with forecast accuracy, which is exactly why the frozen
+  `present` conjunction is built the way it is.
 - **2026-07-08 FINDING (no artifact changed): S1's continuous §4 criterion is
   misspecified and will read FAIL; the failure stands per rule 6.** Noticed while
   answering a seed-variance question against committed M5 + partial M6 records —
