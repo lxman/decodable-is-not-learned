@@ -347,6 +347,14 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-09 second unclean power-loss in 3 days (pattern flagged):** Mac
+  rebooted 08:10 with no clean-shutdown record (previous: 2026-07-07 ~10:02,
+  same signature). OS unchanged (26.5.2) → gates stand. lubana_below/100M/seed0
+  was mid-training (step 6879/30k); per protocol its partial checkpoints were
+  deleted and the campaign relaunched 08:22 (17 completed results skipped
+  correctly). Cost ≈ 1.7 h. Both events were mid-morning; cause unknown —
+  hardware/power question for Michael (UPS? shared circuit?). The resumable
+  design absorbs these, but ~12 remaining runs × ~10 h each is real exposure.
 - **2026-07-08 CORRECTION to commit 59c35ec's message + minor finding:** that
   message's "all-null 5/5" tally for lubana_below/1M was written before seed 4's
   record was inspected and is wrong on one component: seed 4 is the first
