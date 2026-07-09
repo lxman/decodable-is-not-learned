@@ -355,6 +355,10 @@ BEFORE any Lubana training run)**
   correctly). Cost ≈ 1.7 h. Both events were mid-morning; cause unknown —
   hardware/power question for Michael (UPS? shared circuit?). The resumable
   design absorbs these, but ~12 remaining runs × ~10 h each is real exposure.
+  **RESOLVED same day:** Michael identified a failing UPS as the cause of both
+  events and removed it from the loop; replacement arrives next week. The Mac
+  runs on wall power until then — exposed to a true outage but not to the
+  recurring UPS brownouts. No further action; recovery protocol stands.
 - **2026-07-08 CORRECTION to commit 59c35ec's message + minor finding:** that
   message's "all-null 5/5" tally for lubana_below/1M was written before seed 4's
   record was inspected and is wrong on one component: seed 4 is the first
