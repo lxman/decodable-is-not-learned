@@ -347,7 +347,20 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
-- **2026-07-10 CORRECTION to commit c181a04's message — repeat of the 07-08
+- **2026-07-10 THIRD unclean stop (~17:15) — UPS theory now insufficient:** the
+  Mac dropped again with the failing UPS already OUT of the loop (bypassed
+  2026-07-09). No clean-shutdown record, no kernel-panic report (only a
+  ResetCounter diag at the 17:19 boot — consistent with power loss/hard reset,
+  not a software fault). OS unchanged → gates stand. lubana_below/100M/seed1 was
+  post-training, mid-S3-graph (0.25 done, 0.45 at step ~6.9k); full seed
+  restarted per protocol (main + s3graph seed dirs deleted), campaign relaunched
+  17:26, ~8 h lost. Revised diagnosis space: (a) genuine wall-power blips that
+  the healthy-UPS era used to ride through — the failing UPS and bare-wall eras
+  both drop; the replacement UPS remains the right fix; (b) mini hardware (PSU/
+  thermal) under sustained load — all three events occurred during campaign
+  compute, though the machine is loaded ~24/7 so timing is weak evidence.
+  Suggested to Michael: different outlet/circuit until the UPS arrives; if a
+  fourth event occurs on a different circuit, run Apple Diagnostics between runs.
   class of error, worse:** the message states grokking/100M/seed1's S2 as "rate
   .01169 vs floor .00926 (1.26x floor)". The record says **rate .04148 vs floor
   .00823 — 5.0x floor**. The message numbers were composed in the same command
