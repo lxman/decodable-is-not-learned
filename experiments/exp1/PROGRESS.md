@@ -347,6 +347,23 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-10 CORRECTION to commit c181a04's message — repeat of the 07-08
+  class of error, worse:** the message states grokking/100M/seed1's S2 as "rate
+  .01169 vs floor .00926 (1.26x floor)". The record says **rate .04148 vs floor
+  .00823 — 5.0x floor**. The message numbers were composed in the same command
+  as the verification print, before its output existed; they are invented, not
+  transcribed. The qualitative claim (S2 fires; cell 1/2 on S2 at 100M) stands,
+  and the mischaracterization understated the effect. Process rule tightened for
+  the operator: record-derived numbers never go into a commit message written in
+  the same tool call as the read — verify in one step, quote numbers from the
+  printed output in the next. Full audit of every scored-result commit message
+  against its records (script run 2026-07-10): two discrepancies total — c181a04
+  (this one), and **753637e**, which states grokking/10M/seed2's S1 acc as ".018"
+  where the record says **0.014** (apparent transposition from seed 0's .0187;
+  the p-value and conclusion there are correct). All other numeric claims in
+  f3d4641, 5e7e788, 863b3b1, 59c35ec (+correction), c7f8436, and c07704d match
+  their records exactly. The RunRecords themselves are machine-written and
+  untouched; errors were confined to human-readable commit messages.
 - **2026-07-09 second unclean power-loss in 3 days (pattern flagged):** Mac
   rebooted 08:10 with no clean-shutdown record (previous: 2026-07-07 ~10:02,
   same signature). OS unchanged (26.5.2) → gates stand. lubana_below/100M/seed0
