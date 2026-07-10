@@ -361,6 +361,11 @@ BEFORE any Lubana training run)**
   compute, though the machine is loaded ~24/7 so timing is weak evidence.
   Suggested to Michael: different outlet/circuit until the UPS arrives; if a
   fourth event occurs on a different circuit, run Apple Diagnostics between runs.
+  **CONFIRMED by Michael same day: it was a wall-power glitch** — hypothesis (a),
+  hardware exonerated. The wall feed genuinely blips; the old UPS masked them
+  until it degraded, and bare wall power drops on them. Exposure continues until
+  the replacement UPS lands (~week of 2026-07-13); until then each blip costs
+  hours (protocol-recoverable), never data.
   class of error, worse:** the message states grokking/100M/seed1's S2 as "rate
   .01169 vs floor .00926 (1.26x floor)". The record says **rate .04148 vs floor
   .00823 — 5.0x floor**. The message numbers were composed in the same command
