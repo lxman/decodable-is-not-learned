@@ -27,7 +27,8 @@ to the schema, not to how signatures are computed.
 | M3.5 | **FREEZE** `schema.py` + `analyze.py`; git tag `exp1-analysis-frozen` | §4 overall PASS / reportable FAIL; statistics hygiene | `8f7198d` (tag `exp1-analysis-frozen`) | 63 ✓ (cumulative) |
 | M4 | Grokking harness + confirmation + scored 5-seed run. Harness `150a1b4`/`412f747`; instrument fixes `42cfb5c`; linear-S3 record `ae27930`; log-precursor method `e365c39`; **accepted scored row: S1 5/5, S2 5/5, S3 1/5, gt 5/5** | §2 resolution exemplar; §5 run order step 2 | `ef44e8d` | 73 ✓ (cumulative) |
 | M5 | Lubana below + above, COMPLETE. Threshold gate reproduced computationally; language + LM loop + configs + confirmation driver built (`tasks/lubana_lang.py`, `train/lm_loop.py`, `configs/lubana.py`, `run/confirm_lubana.py`); both confirmation gates passed; 10/10 scored RunRecords at paper scale, all gt-certified, unanimous across seeds: above S1 present / S2 absent / S3 fail ×5, below 0/3 signatures ×5. | §2 percolation exemplar + control; §5 run order step 3 | `3a87242` + final-records commit | 89 ✓ (cumulative) |
-| M6 | Size sweep 1M/10M/100M. Width-only model scaling preregistered; confirmation gates per new (system, size) cell before scored runs (`run/campaign_m6.sh`). | §4 secondary size sweep | `IN PROGRESS` | 92 ✓ (cumulative) |
+| M6 | Size sweep 1M/10M/100M. Width-only model scaling preregistered; confirmation gates per new (system, size) cell before scored runs (`run/campaign_m6.sh`). | §4 secondary size sweep | `COMPLETE` 2026-07-14 — 30/30 RunRecords, 30/30 gt-certified | 92 ✓ (cumulative) |
+| M7 | Frozen analysis (`analyze.py`, tag `exp1-analysis-frozen`) run on all 30 records | §4 verdict | **VERDICT: FAIL** — 22 findings, all in pre-called classes; see 2026-07-14 closeout entry | — |
 | M7 | Run frozen `analyze.py`; fill truth table; report | §4 overall PASS / reportable FAIL | — | — |
 
 ## Operational choices (pre-freeze, auditable)
@@ -347,6 +348,30 @@ BEFORE any Lubana training run)**
 - **Campaign:** `run/campaign_m6.sh`, sequential, detached launch, unbuffered
   durable logs in `logs/m6/`, skip-if-result-exists. Estimated ~6–7 days of Mac
   time (the 100M lubana rows dominate).
+- **2026-07-14 CLOSEOUT — the frozen analysis ran once, on all 30 records, and
+  reads VERDICT: FAIL (22 findings).** Output preserved verbatim alongside this
+  entry's commit. Per rule 6 and the 2026-07-08 finding, the verdict stands; no
+  artifact was touched before, during, or after the run. The findings sort into
+  exactly the pre-called classes:
+  (1) **S1 continuous criterion** — CIs overlap or invert at every size (d =
+  −1.54, −1.29, +0.40 at 1M/10M/100M): the cross-system accuracy-scale
+  misspecification ledgered 2026-07-08, six days before this run.
+  (2) **S2 continuous criterion** — passes cleanly at 1M (d = 2.34, disjoint),
+  misses the d ≥ 2 bar at 10M (d = 1.43) and 100M (d = 0.37): sampling
+  elicitability degrades with width (documented per-seed 07-10 through 07-13).
+  (3) **S3 categorical** — grokking present-flags mixed(6/15): the known
+  interval-coverage strictness that became process rule 3.
+  (4) **Control-row divergence** — lubana_above S2 present 0/15: the
+  probeable-not-samplable state, documented from M5 onward; the §4 expectation
+  that the control row fires all three signatures was wrong about S2 in a way
+  the data has been saying consistently since the first above-cell.
+  **What the truth table shows despite the failed magnitude/conjunction bars:**
+  lubana_below reads absent/absent/absent — 15/15 records null on every
+  signature, no gt_check ever refused (peaks .116–.148 vs the .15 bar);
+  lubana_above reads S1 present 15/15; grokking S1 mixed(13/15) with both
+  misses near-misses (p = .014, .026). Detection separates the worlds;
+  the preregistered magnitude and conjunction operationalizations do not.
+  That sentence — with the FAIL reported first — is the result of Experiment 1.
 - **2026-07-10 THIRD unclean stop (~17:15) — UPS theory now insufficient:** the
   Mac dropped again with the failing UPS already OUT of the loop (bypassed
   2026-07-09). No clean-shutdown record, no kernel-panic report (only a
