@@ -1,0 +1,15 @@
+{
+ "capability": "weekday",
+ "n": 500,
+ "correct": 70,
+ "acc": 0.14,
+ "cp95": [
+  0.11078953426406589,
+  0.1735438564937096
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

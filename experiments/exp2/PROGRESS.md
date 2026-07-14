@@ -10,7 +10,7 @@ dedicated commit — that flip must precede the first model query).
 |---|---|---|---|
 | M0 | Scaffold + battery item files + oracles + frozen `analyze.py` | built; committed with the DRAFT design doc; dials reviewed 2026-07-06 (see below) | 110 ✓ |
 | — | **Preregistered flip** (dedicated commit, tag `exp2-preregistered`) | 2026-07-07 — thresholds/battery/analysis frozen before any model query; models staged and SHA-pinned (40eca80) | 110 ✓ |
-| M1 | Inclusion: argmax at 410M/1B on all 16 candidates; scored battery fixed (`battery/items/scored_battery.json`) | — (needs MPS; queued behind Exp 1 M6) | — |
+| M1 | Inclusion: argmax at 410M/1B on all 16 candidates; scored battery fixed (`battery/items/scored_battery.json`) | runs COMPLETE 2026-07-14 (14 min total); 12/16 survive (excluded by 1b margin CP-UB vs frozen .25: alpha_order .357, deduce2 .497, entity_track .951, parity .545); battery-fixing commit awaits Michael's review | 118 ✓ |
 | M2 | Gates: untrained-weights probe control, shuffled-label control, positive-control probes | — | — |
 | M3 | Stage 1 (probe side): probes at 410M/1B, 5 seeds; probe scores committed + tagged | — | — |
 | M4 | Stage 2 (eval side): argmax at 2.8B/6.9B/12B | — | — |
@@ -87,6 +87,26 @@ measured against was frozen first. Operational choices, recorded per convention:
   Spearman with average-rank ties; one-tailed MC permutation (10⁵, seeded, add-one);
   case-resampling bootstrap (10⁴, seeded). Tag to be applied at the Preregistered
   flip, before any model query.
+
+## M1 findings (2026-07-14)
+
+- **Empirical chance floors are 0.0 across the battery** (CP-UB .0074 at n=500,
+  both sizes): untrained models emit garbage/EOS, so open-generation floors
+  carry no format prior. Margins ≈ raw accuracy for this battery.
+- **ctrl_next_letter is NOT reliable at 410m** (acc .338 fp16/MPS; CPU-fp32
+  diagnostic: the model answers " o" to every item — model limitation, not
+  harness: ctrl_copy scores .994/1.000 through identical machinery, and at 1b
+  ctrl_next_letter reaches .848). The design's "known reliable already at 410M"
+  assumption is empirically false for this control. Expect the M2 positive-
+  control gate to fail for it at 410m; the one-ledgered-fix decision happens
+  THEN, with Michael — nothing changed now.
+- **parity's exclusion** (margin .500) is the answer-format prior, not parity
+  ability: the trained model answers "even"; binary format does the rest. The
+  frozen rule excludes it conservatively, as designed.
+- **entity_track at .93 margin at 1b** (and .98 raw at 410m) suggests the task
+  is surface-solvable; the inclusion rule ejecting it is the rule working.
+- Campaign wall-clock 14 minutes total (est. was hours): short prompts + small
+  models are fast on MPS; untrained passes near-instant (immediate EOS).
 
 ## Model staging (2026-07-07, pre-freeze; design doc "Open items" — revision pinning)
 

@@ -1,0 +1,15 @@
+{
+ "capability": "ctrl_copy",
+ "n": 500,
+ "correct": 497,
+ "acc": 0.994,
+ "cp95": [
+  0.9825663262740865,
+  0.9987609424564593
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "trained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null
+}

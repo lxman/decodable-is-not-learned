@@ -1,0 +1,15 @@
+{
+ "capability": "add3",
+ "n": 500,
+ "correct": 0,
+ "acc": 0.0,
+ "cp95": [
+  0.0,
+  0.007350610051907784
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "untrained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": 0
+}

@@ -1,0 +1,15 @@
+{
+ "capability": "units",
+ "n": 500,
+ "correct": 4,
+ "acc": 0.008,
+ "cp95": [
+  0.0021839081083421846,
+  0.020355632593743928
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}
