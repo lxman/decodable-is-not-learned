@@ -88,6 +88,40 @@ measured against was frozen first. Operational choices, recorded per convention:
   case-resampling bootstrap (10⁴, seeded). Tag to be applied at the Preregistered
   flip, before any model query.
 
+## M2/M3 probe harness build (2026-07-14, post-M1 — mechanics, ledgered BEFORE any gate runs)
+
+- **Frozen probe module imported unchanged** via `probe_frozen.py` (sys.path shim
+  to `experiments/exp1/signatures/probe.py`; design §5).
+- **Positions** (the token axis of the Bonferroni family): slot 0 = last token of
+  the final question text (before the "\nA:" cue; per-item index computed by
+  prefix tokenization, verified against the real tokenizer in tests); slot 1 =
+  last prompt token. Collection is right-padded forwards, indices from true
+  lengths; storage fp16 npz per (size, mode, capability), ALL layers collected.
+- **Candidate family + permutation budget:** fit-time layer thinning to every 3rd
+  layer plus the final layer, ×2 positions (410m: 18 candidates, 1b: 12);
+  N_PERM=2500 (add-one floor × Bonferroni: .0072 / .0048, both < the frozen .01).
+  Chosen because the refit-per-permutation null at full family (50 candidates)
+  needs ≥5000 perms for the bar to be reachable and ~10× the CPU. Measured fit
+  cost 10–15 ms (d=1024/2048, n=2000); estimated probe program ≈ 4–8 h at 8-way
+  multiprocessing (OMP_NUM_THREADS=1 per worker). All layers remain on disk, so
+  this family choice is revisable pre-gate without recollection.
+- **`chance` recorded per probe = empirical majority-class label frequency;
+  margin normalization uses the permutation null_mean** (the probe's own
+  measured no-signal accuracy); margin = 0 below the significance bar (design §3).
+- **below_threshold flag = scored-battery membership** (the frozen 1b inclusion
+  rule IS the below-threshold certification; design §2 keys the threshold to 1b
+  only). Controls: trivially True (gates, never scored).
+- **Shuffled-label stage reuses trained activations** with rng(1000+seed) permutations.
+- **Runners:** `run/collect_activations.py`, `run/run_probes.py` (parallel,
+  resumable per (stage,size,cap,seed)), `run/m2_report.py` (applies the frozen
+  attrition/abort rules, exit 2 on shuffled fire), `run/m3_stage1.py` (assembles
+  `probe_scores.json` in analyze.py's schema; refuses without a clean m2 report;
+  refuses overwrite — the two-stage lock's commit+tag is manual and reviewed),
+  `run/campaign_m2_m3.sh` (detached, durable logs).
+- **Tests: 127 pass** — incl. a permutation-floor guard (the arithmetic bit the
+  synthetic test first: 200 perms × 4 candidates makes p<.01 unreachable — the
+  same trap at full scale motivated the family/N_PERM choice above).
+
 ## M1 findings (2026-07-14)
 
 - **Empirical chance floors are 0.0 across the battery** (CP-UB .0074 at n=500,
