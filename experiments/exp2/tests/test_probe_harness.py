@@ -3,6 +3,7 @@ storage round-trips, and the frozen probe module driven end-to-end on synthetic
 activations — separable structure must fire, noise must not, shuffles must kill."""
 
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -117,6 +118,24 @@ def test_thin_layers_keeps_stride_and_final():
     layers = {l for l, _ in thinned.keys()}
     assert 24 in layers and 0 in layers and 1 not in layers
     assert len(thinned) == len(layers) * 2
+
+
+def test_probe_frozen_does_not_shadow_exp2_modules():
+    """Regression for the 2026-07-14 campaign abort: importing probe_frozen FIRST
+    must not shadow exp2's `models` with exp1's `models` package. Run in a fresh
+    interpreter — inside pytest the modules are already cached and the bug hides."""
+    import subprocess
+    import sys as _sys
+    code = (
+        "import probe_frozen\n"
+        "from models import PROBE_SIZES\n"
+        "from run.collect_activations import scored_battery\n"
+        "assert probe_frozen.probe_below_threshold is not None\n"
+        "print('CLEAN')\n"
+    )
+    r = subprocess.run([_sys.executable, "-c", code], capture_output=True, text=True,
+                       cwd=str(Path(__file__).resolve().parent.parent))
+    assert r.returncode == 0 and "CLEAN" in r.stdout, r.stderr
 
 
 def test_stage1_schema_matches_frozen_analyze():
