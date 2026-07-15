@@ -122,6 +122,65 @@ measured against was frozen first. Operational choices, recorded per convention:
   synthetic test first: 200 perms × 4 candidates makes p<.01 unreachable — the
   same trap at full scale motivated the family/N_PERM choice above).
 
+## Probe-fit compute revision (2026-07-14 evening, post-UPS-swap — ledgered BEFORE the re-run; no gate report exists)
+
+The first M2/M3 launch (max_iter=1000, the frozen module's default) was paused
+for the UPS swap with 11 of 480 probe-fit units complete (m2_untrained/410m:
+acronym seeds 0–4, add2 seeds 0–4, add3 seed 0). The pre-launch cost estimate
+came from fits on synthetic noise; benchmarking on the REAL collected
+activations (single BLAS thread, worker conditions) shows the real cost sits in
+the permuted-label null fits at informative layers, where lbfgs runs long
+before giving up (410m/trained/mod7: 335 ms at 591 iters, 194 ms at 342 iters;
+1b: 684 ms at 649 iters) — and one unit is family × 2501 such fits. Projected
+remaining campaign at 8 workers: **~71 h at max_iter=1000**.
+
+**Revision (mechanics, caller-side knob on the frozen module — same species as
+the family/N_PERM choice): `max_iter` 1000 → 100, uniform across all stages,
+sizes, and capabilities.** Projected campaign: **~24 h.** Justification is
+timing-only, and the selection criterion is checkable without reference to any
+gate verdict: at max_iter=100 every benchmarked TRUE-label fit is untouched
+(they converge at 36–92 iterations — 410m mod7 83/92, acronym 53/36, 1b mod7
+58/36; identical accuracies), so the cap binds only on unconverged null fits
+polishing noise (null acc 0.126–0.144 at cap vs 0.132–0.146 uncapped — noise-
+level difference). max_iter=50 was REJECTED because it binds on true fits
+(410m mod7 (24,1): acc 0.970 → 0.964). The permutation test stays exchangeable
+at any cap — observed and null fits share the identical estimator — so validity
+is unaffected; the only statistical cost is margin attenuation on any
+not-yet-converged observed fit, which is uniform and conservative. N_PERM=2500
+and the stride-3 family are unchanged (the add-one-floor arithmetic still
+requires them).
+
+**The 11 completed fits are deleted and re-run** under the revised parameters so
+every result in the record shares one estimator. No gate report was generated
+from them and their JSON contents were not read back during this revision.
+
+**Benchmark exposure + an observation, recorded for transparency:** timing
+requires fitting, so the benchmark necessarily observed probe behavior on
+mod7 (410m/1b, trained/untrained) and acronym (410m trained). One finding:
+on UNTRAINED 410m activations, true-label mod7 probes reach val acc 1.000 in 9
+iterations. Diagnostic (group-split): accuracy survives unseen operand PAIRS
+(1.000) but collapses to chance on held-out operand VALUES (0.1419 at n=437
+a-unseen; 0.1287 at n=101 both-unseen; chance 0.1429) — i.e., per-operand-token
+lookup plus the untrained network's additive mixing solves (a+b) mod 7 for
+unseen pairs of seen tokens. Not a harness bug (a bug would not respect operand
+identity); it is the surface-readable-target failure mode the untrained-weights
+control was preregistered to catch, with mod7 flagged at-risk in the 2026-07-06
+dial review. NO action taken: the control gate adjudicates at m2_report with
+the frozen 5-seed Bonferroni machinery, and a fire triggers the attrition rule
+(§3), not a fix.
+
+**Correction to the M2/M3 build entry below:** "sys.path shim" is stale wording
+— the shim caused the 2026-07-14 campaign abort (exp1's `models` package
+shadowed exp2's) and was replaced by importlib alias loading in commit 018cde3.
+
+**Pause-procedure fix (operational):** `pkill -f run.run_probes` misses the
+multiprocessing SPAWN WORKERS (their command lines are generic Python
+resource-tracker/spawn strings, not the module name) — the first pause left 7
+orphaned workers at 100 % CPU for 4 h. A full pause is: kill the campaign
+script and runner, then `pkill -f 'from multiprocessing.spawn import
+spawn_main'` (or kill worker PIDs listed by `pgrep -P <runner-pid>` before
+killing the runner), then verify with `ps` that nothing python-busy remains.
+
 ## M1 findings (2026-07-14)
 
 - **Empirical chance floors are 0.0 across the battery** (CP-UB .0074 at n=500,

@@ -48,6 +48,14 @@ CONTROLS = ["ctrl_copy", "ctrl_next_letter"]
 LAYER_STRIDE = 3
 N_PERM = 2500
 
+# Ledgered 2026-07-14 evening (see PROGRESS.md "Probe-fit compute revision"):
+# lbfgs cap 1000 -> 100, uniform everywhere. Benchmarked on real activations:
+# every true-label fit converges by 92 iterations (identical accuracy at either
+# cap); only unconverged permuted-label NULL fits are truncated, and observed
+# and null fits share the identical estimator, so the permutation test stays
+# exchangeable. Cuts the remaining campaign from ~71 h to ~24 h at 8 workers.
+MAX_ITER = 100
+
 
 def thin_layers(act: dict) -> dict:
     n_layers = 1 + max(l for l, _ in act.keys())
@@ -93,6 +101,7 @@ def fit_one(stage: str, size: str, cap: str, seed: int) -> dict:
         checkpoint_id=f"pythia-{size}:{meta['sha'][:8]}:{mode}",
         below_threshold=True,
         n_perm=N_PERM,
+        max_iter=MAX_ITER,
         seed=seed,
     )
     d = {
