@@ -1,6 +1,6 @@
 # Experiment 2b — Design Doc: The Probe Ladder, Reservoir-Proofed (Prediction 2, second instrument)
 
-**Status:** **DRAFT** — not frozen. Becomes Preregistered in a dedicated commit (tag `exp2b-preregistered`) only after (a) Michael's dial review of this doc, and (b) Experiment 2's formal closure (m2 report, attrition ledgered, INSUFFICIENT_DATA verdict recorded). Until that commit, everything here is revisable. After it: thresholds, the battery and its inclusion rules, and `experiments/exp2b/analyze.py` do not change; one mechanism-justified fix per failed gate, ledgered before the re-run (process rule 6).
+**Status:** **DRAFT — dial review complete.** Michael reviewed and accepted the design as drafted 2026-07-17. The freeze (dedicated commit, tag `exp2b-preregistered`) is authorized to proceed immediately upon Experiment 2's formal closure (m2 report, attrition ledgered, INSUFFICIENT_DATA verdict recorded) — condition (b) is the only one outstanding. Until the freeze commit, everything here remains technically revisable; after it: thresholds, the battery and its inclusion rules, and `experiments/exp2b/analyze.py` do not change; one mechanism-justified fix per failed gate, ledgered before the re-run (process rule 6).
 
 **One-line purpose:** Same as Experiment 2 — test whether sub-threshold internals of small models carry the ordering information for which capabilities become reliable first with scale — with the instrument redesigned so that a lookup strategy scores chance **by construction**, closing the reservoir-floor confound that ended Exp 2.
 
@@ -172,7 +172,7 @@ Code in `experiments/exp2b/` mirroring exp2's layout (ledger from day zero, dura
 
 ## Open items before the freeze
 
-- Dial review of this draft with Michael (battery composition, gate tolerances, PASS bar).
+- ~~Dial review of this draft with Michael.~~ Closed 2026-07-17: accepted as drafted (battery composition, gate tolerances, PASS bar all stand). Per that acceptance the probe-target siblings (#1/#2, #3/#4) remain scored with the correlation caveat stated (option 3 below); revisitable only until the freeze commit.
 - Exp 2 formal closure (m2 report → attrition ledger → closeout commit).
 - ~~arXiv verification of the two new methodology citations.~~ Closed at drafting: 1909.03368 (Hewitt & Liang, "Designing and Interpreting Probes with Control Tasks") and 2003.12298 (Voita & Titov, "Information-Theoretic Probing with Minimum Description Length") verified on arXiv 2026-07-17.
 - Pre-freeze rehearsal of gates 1–2 on Exp 2's collected activations (§7); thresholds adjusted only in this window, ledgered.
