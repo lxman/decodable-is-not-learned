@@ -41,6 +41,13 @@ Not a pipeline bug: the shuffled-label stage is 59/60 silent (see §3).
 size → drop) removes all 12 capabilities; n = 0 < 10 → the preregistered
 verdict path is INSUFFICIENT_DATA ("not a loosened control").
 
+**1b replication (2026-07-16):** 60/60 untrained fits fire at 1b as well.
+Seed-mean margins are near-identical to 410m (mod7/units 1.000, add2 0.976,
+roman 0.986, weekday 0.970) and slightly HIGHER for the letter tasks (acronym
+0.262 → 0.345, reverse_string 0.350 → 0.390, cipher 0.204 → 0.236): d=2048
+gives the linear readout more random features. The floor scales WITH width —
+a bigger probe-side model deepens the confound rather than escaping it.
+
 ## 2. Trained − untrained margin gap at 410m (seed-means, 5 seeds each)
 
 | capability | trained margin | untrained margin | gap |
