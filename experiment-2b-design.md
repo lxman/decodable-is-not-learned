@@ -1,6 +1,6 @@
 # Experiment 2b — Design Doc: The Probe Ladder, Reservoir-Proofed (Prediction 2, second instrument)
 
-**Status:** **DRAFT — dial review complete.** Michael reviewed and accepted the design as drafted 2026-07-17. The freeze (dedicated commit, tag `exp2b-preregistered`) is authorized to proceed immediately upon Experiment 2's formal closure (m2 report, attrition ledgered, INSUFFICIENT_DATA verdict recorded) — condition (b) is the only one outstanding. Until the freeze commit, everything here remains technically revisable; after it: thresholds, the battery and its inclusion rules, and `experiments/exp2b/analyze.py` do not change; one mechanism-justified fix per failed gate, ledgered before the re-run (process rule 6).
+**Status:** **Preregistered** — frozen 2026-07-19 in this dedicated commit (tag `exp2b-preregistered`), before any Exp 2b model query. Sequence of record: dial review accepted 2026-07-17; Experiment 2 formally closed 2026-07-18 (INSUFFICIENT_DATA, tag `exp2-closed`); two mechanism-argued pre-freeze revisions (§2 notes, both riding the standing acceptance); battery generated at full counts with 24 scored candidates and 5 recorded ejections; MC power table committed (`experiments/exp2b/results/power_table.md`); §7 gate rehearsal PASSED on Exp 2's real activations (both known-lookup worlds silent: untrained mod7 margin 1.000 → 0.000, trained mod7 also silent — `results/rehearsal/`). From this commit on: thresholds, the battery and its inclusion rules, the starving splits, and `experiments/exp2b/analyze.py` do not change; one mechanism-justified fix per failed gate, ledgered before the re-run (process rule 6); the probe-target-sibling decision (#1/#2, #3/#4) is locked as option 3 (kept, caveat stated).
 
 **One-line purpose:** Same as Experiment 2 — test whether sub-threshold internals of small models carry the ordering information for which capabilities become reliable first with scale — with the instrument redesigned so that a lookup strategy scores chance **by construction**, closing the reservoir-floor confound that ended Exp 2.
 
@@ -214,7 +214,7 @@ Code in `experiments/exp2b/` mirroring exp2's layout (ledger from day zero, dura
 
 ---
 
-## Open items before the freeze
+## Open items before the freeze — ALL CLOSED at the freeze commit (2026-07-19)
 
 - ~~Dial review of this draft with Michael.~~ Closed 2026-07-17: accepted as drafted (battery composition, gate tolerances, PASS bar all stand). Per that acceptance the probe-target siblings (#1/#2, #3/#4) remain scored with the correlation caveat stated (option 3 below); revisitable only until the freeze commit.
 - Exp 2 formal closure (m2 report → attrition ledger → closeout commit).

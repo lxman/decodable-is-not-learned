@@ -9,7 +9,7 @@ standing authorization at the Exp 2 closeout).
 
 | Milestone | What | Status | Tests |
 |---|---|---|---|
-| M0 | Battery item files + oracles + starving splits + feasibility + `analyze.py` + power table; FREEZE | tranche 1 built (see below) | 21 ✓ |
+| M0 | Battery item files + oracles + starving splits + feasibility + `analyze.py` + power table; FREEZE | **COMPLETE + FROZEN 2026-07-19** (tag `exp2b-preregistered`): 24 scored candidates committed, 5 designed ejections recorded, power table committed, §7 rehearsal PASSED (both known-lookup worlds silent on real activations) | 94 ✓ |
 | M1 | Inclusion: argmax at 410m/1b on all candidates; scored battery fixed | — | — |
 | M2 | Gates: known-absent (starved untrained), known-present, shuffled (binomial tolerances), ctrl_copy argmax | — | — |
 | M3 | Stage 1: starved probes at 410m/1b, 5 seeds; scores committed + TAGGED | — | — |
@@ -98,8 +98,69 @@ reduced counts, both tokenizer bases against the real tokenizer, ejection
 behavior for all five small-space candidates, split invariants incl. the new
 stratified mode).
 
-**Tranche 3 (next):** `probe_starved` (group-split probe reusing the frozen
-stats primitives; records null SD for the floor-signature check);
-`analyze.py` (MIN_N=20, ALPHA_PERM=0.01) + MC power table; full-count
-generation under the canonical venv (feasibility ejections recorded);
-pre-freeze gate rehearsal on exp2's activations; FREEZE.
+## M0 build, tranche 3a (2026-07-19) — instrument, analysis, committed battery
+
+- **`probe_starved.py`** (the Stage-1 instrument): starved-split probes,
+  estimator pipeline mirroring the frozen module verbatim (StandardScaler +
+  LogisticRegression, C=1.0, max_iter=100 per the ledgered Exp 2 revision),
+  frozen stats primitives via the exp1 alias loader (`permutation_null`
+  already returns the null SD the gate floor-signature check needs). Margin
+  zeroed below the α=.01 Bonferroni bar, unchanged. Returns its own dict
+  schema — nothing frozen edited.
+- **Headline test executes Exp 2's failure against the new instrument:** a
+  pure-lookup synthetic world, verified decodable in-distribution (>0.9),
+  reads present=False / margin 0 under starvation. Plus: structure world
+  fires and generalizes; shuffles silent; per-seed determinism; fresh-
+  interpreter shadowing regression; analyze thresholds pinned.
+- **`analyze.py`**: exp2's frozen logic; MIN_N=20, ALPHA_PERM=0.01,
+  SEED=20260718. Verdict precedence unchanged.
+- **Battery generated at FULL COUNTS under the canonical venv:** 24 scored
+  candidates + ctrl_copy committed (14 MB of item files — the file is the
+  operationalization); exactly the 5 designed ejections in
+  `items/ejections.json`; starved-val minima 346–816 across all 5 seeds for
+  every scored capability. Generation-gate catches, fixed pre-commit:
+  bin2dec's space arithmetic was wrong by 2× (fixed leading bit → 1920 < 2500
+  at 8–11 bits; widened to 8–12), parens' 4–10 length range gave 2032 unique
+  strings (→ 4–12), acronym needed stratified holdout + stratified w2 draw
+  (the caesar lesson). Scored candidate count lands exactly on the design's
+  n ≥ 24 target before M1 inclusion.
+- **Tests: 94 pass**, including oracle-scores-100%-on-committed-items for all
+  26 files and basis text-recomputability on committed data.
+
+## Pre-freeze rehearsal + power table (2026-07-19, running)
+
+- **MC power table** (`run/power_table.py`): full verdict machinery simulated
+  end-to-end (the actual spearman/permutation/bootstrap functions, FAIL veto
+  included), 400 sims/cell over n ∈ {20,24,27,30} × ρ ∈ {0,.3,.4,.5,.6,.7,.8}.
+  Output committed with the freeze.
+- **Gate rehearsal** (`run/rehearsal.py`, design §7): probe_starved on Exp 2's
+  real 410m mod7 activations, trained AND untrained, seed 0, full N_PERM —
+  both are known lookup worlds (instrument diagnostics §4), so the instrument
+  must read BOTH silent; wall-clock per unit is the M2/M3 campaign
+  calibration. Exp 2's 12 GB activation store retained locally for exactly
+  this purpose.
+## Rehearsal results + FREEZE (2026-07-19)
+
+- **Power table** (400 sims/cell, full verdict machinery): true-null world
+  PASS ≤ .01 / FAIL .97–.98 everywhere; PASS power at n=24: .74 (ρ=0.6),
+  .92 (ρ=0.7), .98 (ρ=0.8). Honest edge, on the record: at true ρ=0.5 the
+  bootstrap-CI falsifier fires ~1/3 of the time at n=24 — the FAIL veto is
+  dangerous to the thesis at moderate effects; preregistered price of a
+  falsifier with teeth.
+- **Rehearsal (§7) PASSED, transcribed from the run output:**
+  `410m/untrained/mod7: present=False acc=0.1074 null_mean=0.1431
+  margin=0.0000 n_val=391 wall=2565s` and `410m/trained/mod7: present=False
+  acc=0.1151 null_mean=0.1428 margin=0.0000 n_val=391 wall=2552s`. The world
+  that scored margin 1.000 on Exp 2's instrument scores 0.000 here, on the
+  same real activations — the reservoir confound is closed empirically, not
+  just synthetically. Trained mod7 silent = a genuine Stage-1 zero (margin 0
+  is ordering information), consistent with the group-split diagnostic. No
+  gate-threshold changes needed from the rehearsal; none made.
+- **Campaign calibration:** ~43 min/unit single-core at 410m, full
+  N_PERM=2500, max_iter=100 (measured, not estimated — first run of the
+  workload shape). 1b will run ~2× that. The M2/M3-scale program (~720
+  units) budgets from THIS number across Mac + llmbox/atom workers per the
+  distributed-runs section; per-box determinism gates before results count.
+- **FROZEN:** this commit, tag `exp2b-preregistered`, per Michael's standing
+  authorization (2026-07-18). Next: M1 inclusion (argmax at 410m/1b, all 24
+  candidates + ctrl_copy — first Exp 2b model queries).

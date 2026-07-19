@@ -1,0 +1,151 @@
+{
+ "meta": {
+  "n_sims": 400,
+  "n_perm": 1999,
+  "n_boot": 1000,
+  "seed": 20260718,
+  "rule": "PASS iff p<0.01 and rho>=0.5; FAIL iff bootstrap CI covers 0 (veto first)"
+ },
+ "cells": {
+  "n=20,rho=0.0": {
+   "PASS": 0.015,
+   "FAIL": 0.97,
+   "INDETERMINATE": 0.015
+  },
+  "n=20,rho=0.3": {
+   "PASS": 0.13,
+   "FAIL": 0.7725,
+   "INDETERMINATE": 0.0975
+  },
+  "n=20,rho=0.4": {
+   "PASS": 0.2425,
+   "FAIL": 0.62,
+   "INDETERMINATE": 0.1375
+  },
+  "n=20,rho=0.5": {
+   "PASS": 0.44,
+   "FAIL": 0.4375,
+   "INDETERMINATE": 0.1225
+  },
+  "n=20,rho=0.6": {
+   "PASS": 0.685,
+   "FAIL": 0.205,
+   "INDETERMINATE": 0.11
+  },
+  "n=20,rho=0.7": {
+   "PASS": 0.8625,
+   "FAIL": 0.0975,
+   "INDETERMINATE": 0.04
+  },
+  "n=20,rho=0.8": {
+   "PASS": 0.955,
+   "FAIL": 0.0275,
+   "INDETERMINATE": 0.0175
+  },
+  "n=24,rho=0.0": {
+   "PASS": 0.005,
+   "FAIL": 0.98,
+   "INDETERMINATE": 0.015
+  },
+  "n=24,rho=0.3": {
+   "PASS": 0.1475,
+   "FAIL": 0.6925,
+   "INDETERMINATE": 0.16
+  },
+  "n=24,rho=0.4": {
+   "PASS": 0.2875,
+   "FAIL": 0.5225,
+   "INDETERMINATE": 0.19
+  },
+  "n=24,rho=0.5": {
+   "PASS": 0.485,
+   "FAIL": 0.3425,
+   "INDETERMINATE": 0.1725
+  },
+  "n=24,rho=0.6": {
+   "PASS": 0.7375,
+   "FAIL": 0.17,
+   "INDETERMINATE": 0.0925
+  },
+  "n=24,rho=0.7": {
+   "PASS": 0.9225,
+   "FAIL": 0.035,
+   "INDETERMINATE": 0.0425
+  },
+  "n=24,rho=0.8": {
+   "PASS": 0.9825,
+   "FAIL": 0.0075,
+   "INDETERMINATE": 0.01
+  },
+  "n=27,rho=0.0": {
+   "PASS": 0.0025,
+   "FAIL": 0.9825,
+   "INDETERMINATE": 0.015
+  },
+  "n=27,rho=0.3": {
+   "PASS": 0.125,
+   "FAIL": 0.6875,
+   "INDETERMINATE": 0.1875
+  },
+  "n=27,rho=0.4": {
+   "PASS": 0.275,
+   "FAIL": 0.4875,
+   "INDETERMINATE": 0.2375
+  },
+  "n=27,rho=0.5": {
+   "PASS": 0.53,
+   "FAIL": 0.27,
+   "INDETERMINATE": 0.2
+  },
+  "n=27,rho=0.6": {
+   "PASS": 0.7675,
+   "FAIL": 0.0825,
+   "INDETERMINATE": 0.15
+  },
+  "n=27,rho=0.7": {
+   "PASS": 0.9325,
+   "FAIL": 0.01,
+   "INDETERMINATE": 0.0575
+  },
+  "n=27,rho=0.8": {
+   "PASS": 0.99,
+   "FAIL": 0.0075,
+   "INDETERMINATE": 0.0025
+  },
+  "n=30,rho=0.0": {
+   "PASS": 0.0125,
+   "FAIL": 0.97,
+   "INDETERMINATE": 0.0175
+  },
+  "n=30,rho=0.3": {
+   "PASS": 0.1,
+   "FAIL": 0.66,
+   "INDETERMINATE": 0.24
+  },
+  "n=30,rho=0.4": {
+   "PASS": 0.23,
+   "FAIL": 0.4775,
+   "INDETERMINATE": 0.2925
+  },
+  "n=30,rho=0.5": {
+   "PASS": 0.4875,
+   "FAIL": 0.205,
+   "INDETERMINATE": 0.3075
+  },
+  "n=30,rho=0.6": {
+   "PASS": 0.755,
+   "FAIL": 0.0775,
+   "INDETERMINATE": 0.1675
+  },
+  "n=30,rho=0.7": {
+   "PASS": 0.94,
+   "FAIL": 0.0125,
+   "INDETERMINATE": 0.0475
+  },
+  "n=30,rho=0.8": {
+   "PASS": 0.9975,
+   "FAIL": 0.0,
+   "INDETERMINATE": 0.0025
+  }
+ }
+}
