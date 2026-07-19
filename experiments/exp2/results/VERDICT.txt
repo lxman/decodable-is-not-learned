@@ -1,0 +1,32 @@
+EXPERIMENT 2 — FORMAL VERDICT (recorded 2026-07-18)
+
+VERDICT: INSUFFICIENT_DATA
+
+Mechanism: the preregistered untrained-weights control (design §3) fired on
+all 12 scored capabilities at every (size, seed) combination — 120/120 fits,
+each at the family-corrected permutation floor. The frozen attrition rule
+drops all 12; the scored battery is n = 0 < 10; §4 verdict precedence yields
+INSUFFICIENT_DATA. No loosening was considered (the rule forbids it).
+
+The hypothesis (Prediction 2) was neither supported nor falsified: Stage 1
+was never assembled and no eval-side model (2.8b/6.9b/12b) was ever queried.
+The two-stage lock closes intact — the outcome ordering remains unobserved.
+
+Scientific content: the instrument finding. At n≈2000 probe items and
+d≥1024 features, absolute probe significance against a permutation null
+measures reservoir decodability of surface tokens (present identically in
+untrained networks), not learned precursor structure. Quantified in
+results/instrument_diagnostics.md; group-split diagnostics show trained
+in-distribution margins at ceiling are also lookup.
+
+Adjudications (all accepted by Michael 2026-07-18, ledgered in PROGRESS.md):
+  1. Attrition -> INSUFFICIENT_DATA (mechanical, frozen path).
+  2. Shuffled-control single fire (roman/410m/seed3, 1/120 vs E≈0.86 at the
+     designed floor rate): gate-calibration misspecification, not a pipeline
+     defect. Recorded as a finding; no re-run, no budget spent.
+  3. ctrl_next_letter positive-control failure (argmax .338/.848 < .9):
+     design-assumption finding ("known reliable at 410M" was unmeasured and
+     false). ctrl_copy alone certified the pipeline.
+
+Successor: Experiment 2b (experiment-2b-design.md, accepted 2026-07-17) —
+basis-starved splits close the reservoir confound by construction.

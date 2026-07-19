@@ -11,10 +11,10 @@ dedicated commit — that flip must precede the first model query).
 | M0 | Scaffold + battery item files + oracles + frozen `analyze.py` | built; committed with the DRAFT design doc; dials reviewed 2026-07-06 (see below) | 110 ✓ |
 | — | **Preregistered flip** (dedicated commit, tag `exp2-preregistered`) | 2026-07-07 — thresholds/battery/analysis frozen before any model query; models staged and SHA-pinned (40eca80) | 110 ✓ |
 | M1 | Inclusion: argmax at 410M/1B on all 16 candidates; scored battery fixed (`battery/items/scored_battery.json`) | runs COMPLETE 2026-07-14 (14 min total); 12/16 survive (excluded by 1b margin CP-UB vs frozen .25: alpha_order .357, deduce2 .497, entity_track .951, parity .545); battery-fixing commit awaits Michael's review | 118 ✓ |
-| M2 | Gates: untrained-weights probe control, shuffled-label control, positive-control probes | — | — |
-| M3 | Stage 1 (probe side): probes at 410M/1B, 5 seeds; probe scores committed + tagged | — | — |
-| M4 | Stage 2 (eval side): argmax at 2.8B/6.9B/12B | — | — |
-| M5 | Frozen analysis; verdict; report | — | — |
+| M2 | Gates: untrained-weights probe control, shuffled-label control, positive-control probes | COMPLETE 2026-07-18 — untrained fires 120/120 → attrition = ALL 12; shuffled 1/120 (adjudicated calibration misspec); ctrl_copy OK, ctrl_next_letter GATE FAIL (see Closeout) | 128 ✓ |
+| M3 | Stage 1 (probe side): probes at 410M/1B, 5 seeds; probe scores committed + tagged | fits complete (data commit dccaa7a); Stage 1 NEVER ASSEMBLED — m3_stage1 refuses without clean gates, two-stage lock closes intact | — |
+| M4 | Stage 2 (eval side): argmax at 2.8B/6.9B/12B | NOT REACHED — no eval-side model ever queried | — |
+| M5 | Frozen analysis; verdict; report | CLOSED 2026-07-18: **VERDICT INSUFFICIENT_DATA** (n=0 after attrition; §4 precedence). See Closeout entry. | — |
 
 ## M1 harness build, 2026-07-07 (post-freeze mechanics — no dials touched)
 
@@ -121,6 +121,57 @@ measured against was frozen first. Operational choices, recorded per convention:
 - **Tests: 127 pass** — incl. a permutation-floor guard (the arithmetic bit the
   synthetic test first: 200 perms × 4 candidates makes p<.01 unreachable — the
   same trap at full scale motivated the family/N_PERM choice above).
+
+## CLOSEOUT (2026-07-18) — VERDICT: INSUFFICIENT_DATA. Three rulings accepted by Michael as recommended.
+
+Campaign complete 2026-07-18 12:07 (all 480 probe fits; data commit dccaa7a).
+The m2 report (frozen rules, `run/m2_report.py`; output verbatim in the
+committed campaign log and `results/m2_report.json`):
+
+- **UNTRAINED control fires on all 12 scored capabilities at all 10
+  (size, seed) combinations each** — 120/120 fits fire, every one at the
+  family-corrected permutation floor.
+- **SHUFFLED control: 1 fire in 120** (roman/410m/seed3: p=.0072, acc .1500
+  vs null_mean .1002) — frozen zero-tolerance rule reads PIPELINE ABORT.
+- **Positive controls:** ctrl_copy OK both sizes (argmax .994/1.000, probe
+  5/5); ctrl_next_letter GATE FAIL both sizes (argmax .338/.848 < .9; probe
+  5/5 — reservoir-hollow, see instrument diagnostics §5).
+
+**Ruling 1 (attrition → verdict), accepted 2026-07-18.** The §3 attrition rule
+drops all 12 capabilities; n = 0 < 10; per §4 the verdict is
+**INSUFFICIENT_DATA** — the frozen precedence leaves no discretion and none was
+exercised. Stage 1 was never assembled (`m3_stage1.py` refused without a clean
+gate report, as designed), no eval-side model was ever queried, and the
+two-stage lock closes intact. The scientific content of the experiment is the
+instrument finding: at n≈2000, d≥1024, absolute probe significance measures
+reservoir decodability of surface tokens, not learned precursor structure
+(`results/instrument_diagnostics.md`, committed 4e31c76/fb7f4c8).
+
+**Ruling 2 (shuffled abort), accepted 2026-07-18.** Adjudicated a
+**gate-calibration misspecification, not a pipeline defect**, and recorded as a
+finding: the zero-tolerance criterion sat on a test whose designed per-fit
+false-fire probability is the add-one floor (18/2501 ≈ .0072 at 410m, 14/2501
+≈ .0048 at 1b); across 120 shuffled fits E[fires] ≈ 0.86, P(≥1) ≈ 0.58 — the
+modal clean-machinery outcome violates the gate. The observed fire carries the
+fluke signature (p exactly at the floor; accuracy within noise of the null
+mean; the other 119 fits silent). The pipeline is exonerated by the same
+arithmetic that convicts the criterion. This ruling changes nothing about Exp
+2's verdict (the battery was already empty by Ruling 1) and spends nothing:
+the one-pre-committed-change budget applies to fixes adopted for re-runs, and
+no re-run occurs. Exp 2b's gates carry binomial tolerances instead
+(design §4; "never claim a zero" now applies to gate criteria too).
+
+**Ruling 3 (ctrl_next_letter), accepted 2026-07-18.** The positive-control
+gate failure is recorded as a **design-assumption finding**: "known reliable
+already at 410M" was asserted without measurement and is false (M1: .338 at
+410m; .848 at 1b — under the .9 bar at both sizes). The control's probe side
+fired 5/5 everywhere, which after the reservoir finding certifies nothing.
+ctrl_copy alone certified the pipeline (as flagged in the 2026-07-14 M1
+findings). Exp 2b carries ctrl_copy as the sole positive control.
+
+**Experiment 2 is CLOSED.** M4/M5 never reached. Successor: Experiment 2b
+(`../../experiment-2b-design.md`, accepted 2026-07-17), whose freeze commit
+follows this closeout per Michael's standing authorization.
 
 ## Probe-fit compute revision (2026-07-14 evening, post-UPS-swap — ledgered BEFORE the re-run; no gate report exists)
 
