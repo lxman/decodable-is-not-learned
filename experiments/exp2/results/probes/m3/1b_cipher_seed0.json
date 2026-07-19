@@ -1,0 +1,19 @@
+{
+ "stage": "m3",
+ "size": "1b",
+ "capability": "cipher",
+ "seed": 0,
+ "present": true,
+ "accuracy": 0.642,
+ "chance": 0.069,
+ "null_p": 0.005597760895641743,
+ "null_mean": 0.0498368,
+ "ci95": [
+  0.598235884409411,
+  0.684073847928081
+ ],
+ "best_layer": 12,
+ "best_token": 0,
+ "n_candidates": 14,
+ "margin": 0.6232226211244553
+}

@@ -1,0 +1,19 @@
+{
+ "stage": "m3",
+ "size": "1b",
+ "capability": "weekday",
+ "seed": 3,
+ "present": true,
+ "accuracy": 0.958,
+ "chance": 0.1515,
+ "null_p": 0.005597760895641743,
+ "null_mean": 0.1427248,
+ "ci95": [
+  0.9365130594670811,
+  0.9738164232238529
+ ],
+ "best_layer": 12,
+ "best_token": 0,
+ "n_candidates": 14,
+ "margin": 0.9510075644320517
+}

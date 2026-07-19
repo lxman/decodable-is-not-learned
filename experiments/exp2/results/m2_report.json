@@ -1,0 +1,23 @@
+{
+ "attrition": [
+  "acronym",
+  "add2",
+  "add3",
+  "cipher",
+  "count_category",
+  "mod7",
+  "mult2",
+  "reverse_string",
+  "roman",
+  "units",
+  "unscramble",
+  "weekday"
+ ],
+ "shuffled_fires": [
+  [
+   "roman",
+   "410m",
+   3
+  ]
+ ]
+}

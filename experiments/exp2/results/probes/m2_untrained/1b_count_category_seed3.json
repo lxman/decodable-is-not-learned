@@ -1,0 +1,19 @@
+{
+ "stage": "m2_untrained",
+ "size": "1b",
+ "capability": "count_category",
+ "seed": 3,
+ "present": true,
+ "accuracy": 0.408,
+ "chance": 0.353,
+ "null_p": 0.005597760895641743,
+ "null_mean": 0.2907192,
+ "ci95": [
+  0.36457724028874644,
+  0.45251706531754743
+ ],
+ "best_layer": 6,
+ "best_token": 0,
+ "n_candidates": 14,
+ "margin": 0.16535171965743323
+}

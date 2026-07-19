@@ -1,0 +1,19 @@
+{
+ "stage": "m2_shuffled",
+ "size": "1b",
+ "capability": "unscramble",
+ "seed": 0,
+ "present": false,
+ "accuracy": 0.068,
+ "chance": 0.0575,
+ "null_p": 0.6381447421031587,
+ "null_mean": 0.0496288,
+ "ci95": [
+  0.04754824663265486,
+  0.09372964680737077
+ ],
+ "best_layer": 3,
+ "best_token": 1,
+ "n_candidates": 14,
+ "margin": 0.0
+}
