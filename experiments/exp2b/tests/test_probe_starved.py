@@ -101,7 +101,7 @@ def test_alias_import_does_not_shadow_exp2b_modules():
     code = ("import probe_starved\n"
             "from battery.generators import SPECS\n"
             "from splits import SplitParams\n"
-            "assert len(SPECS) == 30\n"
+            "assert len(SPECS) == 42\n"
             "print('CLEAN')\n")
     r = subprocess.run([_sys.executable, "-c", code], capture_output=True,
                        text=True,

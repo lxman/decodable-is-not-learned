@@ -56,4 +56,4 @@ def test_candidate_count_meets_design_target():
     # candidates, meeting the design's n >= 24 target BEFORE M1 inclusion
     # (which may itself eject above-threshold candidates).
     scored = [n for n in _committed() if _SPEC[n].scored]
-    assert len(scored) == 24
+    assert len(scored) == 36   # 24 original + 12 amendment candidates

@@ -120,6 +120,29 @@ still DRAFT, riding the standing acceptance):**
   the original table): their unique-question spaces are below full counts and
   M0 records the ejection (`items/ejections.json`) rather than assuming it.
 
+**AMENDMENT #1 (2026-07-19, post-M1-inclusion, approved by Michael — battery
+EXTENSION, thresholds untouched):** M1 measured 11 of 24 candidates above
+threshold at 1b (13 survivors < the frozen floor of 20; `fix_battery` refused,
+as built; data commit d434a40). Two exclusion mechanisms, both battery-side:
+genuine 1b ability (gcd .68, entity_track .69) and the small-answer-space
+format artifact known from Exp 2's parity (in-format chance answering scores
+margin ≈ .5 on a binary task against an empirical floor of 0 — div7, parens,
+cat_parity). **Legitimacy of extension:** no probe-side or eval-side data
+exists — M1 is argmax at probe scales only — so adding candidates cannot bias
+the prediction; new candidates enter through the SAME frozen inclusion rule,
+feasibility gates, and five-field discipline; the n ≥ 20 floor and every other
+threshold stay exactly as frozen. Refused by name: lowering the floor to 13.
+Twelve new candidates (#31–#42, `battery/generators_t3.py`), designed hard
+and large-answer-space from the two failure mechanisms: mod-13 over 3-digit
+operands, squares mod 7, digit-product mod 7, number×letter-position mod 26,
+double Collatz steps, base-7 writing, octal→decimal, octal addition,
+3×1-digit multiplication (tens target), integer square root, count-divisibles
+in an interval, and 24-hour clock wrap. Two mild probe-target siblings noted
+for the record (oct2dec~bin2dec: value-mod-10 species; clock24~weekday:
+mod-of-offset species) under the standing option-3 treatment. This amendment
+is committed as its own mini-freeze before any new M1 query; the M1 top-up
+runs ONLY the new candidates (resumable skip covers the old).
+
 **Inclusion criteria (carried from Exp 2, fresh runs):** CP-95% upper bound on normalized argmax margin < 0.25 at pythia-1b; machine-verifiable oracle scoring 100% on committed items; oracle parses question text only. All 30 candidates get fresh M1 inclusion runs in Exp 2b's own record (Exp 2's M1 measurements are cited as expectations, not reused as data).
 
 **Positive control (gate, not scored):** ctrl_copy only (measured reliable at both probe sizes in Exp 2 M1: 0.994/1.000). ctrl_next_letter is dropped on Exp 2's M1 measurement (0.338 at 410m — the "known reliable" design assumption was empirically false). **Known-present gate capabilities (§4):** entity-track-2-transfer (Exp 2 form, 1b argmax margin 0.951) and ctrl_copy.

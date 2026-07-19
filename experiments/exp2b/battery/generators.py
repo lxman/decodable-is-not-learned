@@ -528,9 +528,11 @@ SPECS = [
         scored=False, allow_dupes=True),
 ]
 
-# Tranche 2 appends in place (imported last so its `from .generators import ...`
-# finds everything above already defined; positional seeds for tranche 1 are
-# unchanged by the growth — the ledgered seed rule keys on FULL-list position).
+# Tranches 2 and 3 append in place (one-way imports; positional seeds for
+# earlier tranches are unchanged by growth — the ledgered seed rule keys on
+# FULL-list position, so amendment candidates get indices 30+).
 from .generators_t2 import SPECS_T2  # noqa: E402
+from .generators_t3 import SPECS_T3  # noqa: E402
 
 SPECS.extend(SPECS_T2)
+SPECS.extend(SPECS_T3)
