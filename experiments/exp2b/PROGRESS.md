@@ -184,3 +184,24 @@ present, shuffled — binomial tolerances per design §4) with DISTRIBUTED
 fitting: llmbox/atom boxes join only after passing the per-box determinism
 gate (design §6); campaign cost budgets from the measured 43 min/unit
 (410m, single-core, full depth).
+
+## Distributed fleet online (2026-07-19 afternoon)
+
+All three boxes passed the determinism gate BIT-IDENTICALLY (arm64
+Accelerate / x86_64 Linux OpenBLAS / AMD64 Windows) — the cross-BLAS
+gamble resolved in our favor; no exclusions. Queue partition: Mac
+front-to-back; llmbox (8 procs) 410m from the back; devbox (12 procs) all
+of 1b. Two-way sync every 240 s. Atomboxes EXCLUDED (atombox1: 1.2 GiB
+free, 23 GiB swap, serving live DSv4 traffic — flagged to Michael as its
+own operational concern; atombox2 headroom too thin to risk its cluster
+partner). Fleet ops catches, for the record:
+- OpenBLAS ignores the in-worker OMP setdefault (pool spawn imports numpy
+  first): llmbox's first launch ran 23 threads/proc at load 102. Env is
+  now pinned at launch; relaunched before any unit completed, so no
+  mixed-threading results exist. Single-threaded BLAS is also what the
+  gate certified.
+- scp -r into a nonexistent directory renames instead of nesting
+  (devbox's untrained shard landed flat; moved).
+- Windows sshd kills the process tree at session close — Start-Process
+  does not survive; the worker runs as a Task Scheduler job
+  (schtasks exp2b-worker → run_worker.bat).
