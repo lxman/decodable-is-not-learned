@@ -10,11 +10,13 @@ from splits import SplitInfeasible, SplitParams, starving_split
 from battery.base import generate_items, normalize_answer, render_prompt
 from battery.generators import SPECS
 
-# specs expected to generate (small-space candidates eject by design)
-GENERATING = [s for s in SPECS if s.name not in ("month_offset", "letter_half",
-                                                 "reverse_string")]
-EJECTING = [s for s in SPECS if s.name in ("month_offset", "letter_half")]
-# reverse_string needs the real tokenizer (HF cache) — exercised in its own test
+# expected M0 ejections (unique-question spaces below full counts, by design)
+EJECT_NAMES = ("month_offset", "letter_half", "alpha_offset",
+               "plural_irreg", "past_irreg")
+# tokenizer-basis specs need the HF cache — exercised in their own test
+TOK_NAMES = ("reverse_string", "acronym")
+GENERATING = [s for s in SPECS if s.name not in EJECT_NAMES + TOK_NAMES]
+EJECTING = [s for s in SPECS if s.name in EJECT_NAMES]
 
 
 def _quick(spec, n_eval=40, n_probe=400):
@@ -26,12 +28,13 @@ def _quick(spec, n_eval=40, n_probe=400):
         n_probe = 1500
     old_eval, old_np = bb.N_EVAL, spec.n_probe
     bb.N_EVAL, spec.n_probe = n_eval, n_probe
-    # relax split minima proportionally for the reduced n
+    # relax split minima proportionally for the reduced n; dataclasses.replace
+    # carries every other field (a manual rebuild silently dropped one once)
+    from dataclasses import replace
     old_sp = spec.split_params
-    spec.split_params = SplitParams(
-        holdout_frac=old_sp.holdout_frac, n_holdout=old_sp.n_holdout,
-        min_holdout_values=min(old_sp.min_holdout_values, 5),
-        min_val_items=20, shared_components=old_sp.shared_components)
+    spec.split_params = replace(
+        old_sp, min_holdout_values=min(old_sp.min_holdout_values, 5),
+        min_val_items=20)
     try:
         return generate_items(spec, seed=99)
     finally:
@@ -57,8 +60,9 @@ def test_generate_oracle_and_basis(spec):
 
 @pytest.mark.parametrize("spec", EJECTING, ids=lambda s: s.name)
 def test_small_space_specs_eject(spec):
-    """month_offset (36 questions) and letter_half (26) cannot meet the
-    uniqueness rule at full counts — the M0 ejection path, by design."""
+    """Small unique-question spaces (36 month combos, 26 letters, 130 offsets,
+    40/60 irregular cues) cannot meet the uniqueness rule at full counts — the
+    M0 ejection path, by design."""
     with pytest.raises(RuntimeError):
         generate_items(spec, seed=99)
 
@@ -132,6 +136,14 @@ def test_reverse_string_final_chunk_basis_against_real_tokenizer():
     c2 = _final_chunk("bone")
     assert "stone".endswith(c1.strip("'"))
     assert isinstance(c2, str) and len(c2) >= 1
+
+
+def test_acronym_first_token_basis_against_real_tokenizer():
+    """#15's basis: the 2nd word's FIRST BPE token (leading space, mid-prompt
+    form) — must be a prefix of the word and start with its first letter."""
+    from battery.generators_t2 import _first_chunk_with_space
+    t = _first_chunk_with_space("stone")
+    assert t.strip().startswith("s") and "stone".startswith(t.strip())
 
 
 def test_render_prompt_matches_exp2_convention():

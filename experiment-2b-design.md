@@ -95,6 +95,31 @@ show the target has a non-additive wrap or interaction. #7 survives this test
 ((Σ2ⁱbᵢ) mod 10 wraps six times over the range); #11's comparison-chain risk
 was already flagged for its M0 review.
 
+**Pre-freeze revision #2 (2026-07-19, at M0 tranche 2 — mechanism-argued, doc
+still DRAFT, riding the standing acceptance):**
+- **#20/#21/#22/#25 become 4-choice questions.** Hand-authorable ground-truth
+  lists (117–240 cues) cannot reach 2500 unique single-cue questions; a
+  combinatorial option set can, with the starved basis unchanged (the cue, or
+  for #20 the answer word — the association a lookup needs). Probe target =
+  answer position (1–4, balanced). Residual elimination-via-known-distractors
+  channel noted in each spec; the untrained gate measures it empirically.
+- **#18's probe target becomes count PARITY** (0/1): a count is an additive
+  sum over per-word membership scores and fails revision #1's
+  additive-threshold rule; parity's mod-2 wrap does not. Task unchanged.
+- **#27/#28 bases are mention-order structural patterns** (names randomized
+  independently, so name lookup is uninformative). Implementation found that
+  mention-order canonicalization collapses #28's raw 3⁴=81 transfer patterns
+  to 14 (the first transfer is always mention-0 → mention-1) — under the
+  15-value holdout minimum — so #28 runs 5 transfers (41 canonical patterns).
+- **Letter-stratified generation** (Exp 2's ledgered trick, now on the 2b
+  side) for #12/#13, plus a label-stratified holdout mode in the split
+  machinery: uniform value holdout starves rare first-letter classes off one
+  side of the split. For #13 the stratified holdout realizes exactly this
+  table's "1–2 combos per class."
+- **Eject candidates stay in the spec list** (#14, #23, #24, plus #26/#30 from
+  the original table): their unique-question spaces are below full counts and
+  M0 records the ejection (`items/ejections.json`) rather than assuming it.
+
 **Inclusion criteria (carried from Exp 2, fresh runs):** CP-95% upper bound on normalized argmax margin < 0.25 at pythia-1b; machine-verifiable oracle scoring 100% on committed items; oracle parses question text only. All 30 candidates get fresh M1 inclusion runs in Exp 2b's own record (Exp 2's M1 measurements are cited as expectations, not reused as data).
 
 **Positive control (gate, not scored):** ctrl_copy only (measured reliable at both probe sizes in Exp 2 M1: 0.994/1.000). ctrl_next_letter is dropped on Exp 2's M1 measurement (0.338 at 410m — the "known reliable" design assumption was empirically false). **Known-present gate capabilities (§4):** entity-track-2-transfer (Exp 2 form, 1b argmax margin 0.951) and ctrl_copy.

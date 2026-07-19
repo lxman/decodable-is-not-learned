@@ -60,9 +60,46 @@ small-space ejection behavior, tokenizer-basis suffix property, and the
 design's core claim executed directly: a per-value lookup table fit on train
 scores 0.0 on starved validation.
 
-**Tranche 2 (next):** wordlists (categories, hypernyms, antonyms, rhymes,
-irregular plural/past, countries, name pools) + specs #12–#15, #18–#25,
-#27–#29; `probe_starved` (group-split probe on the frozen stats primitives,
-records null SD for the floor-signature check); `analyze.py` (MIN_N=20,
-ALPHA_PERM=0.01) + MC power table; full-count generation under the canonical
-venv; pre-freeze gate rehearsal on exp2's activations.
+## M0 build, tranche 2 (2026-07-19) — wordlists + word/semantic/relational specs
+
+**Wordlists** (`battery/wordlists.py`, exp2's file + 2b additions, all
+integrity-checked in-session): CATEGORIES_2B 10×16 (no cross-category member),
+ANTONYMS 117 pairs (unique cues), RHYME_FAMILIES 30×8 (every word verified
+against its family suffix), CAPITALS 116 (well-known subset, deliberate),
+NAMES_2B 40 unique, IRREGULAR_PLURALS 40 / IRREGULAR_PAST 60, UNIT_PAIRS 16
+(powers 1–3 balanced 5/5/6).
+
+**Specs** (`battery/generators_t2.py`, 15 more → SPECS = 30): design revision
+#2 applied (doc §2 second note — choice formats for #20/21/22/25, #18 parity
+retarget, structural-pattern bases for #27/#28). One-way import only
+(generators.py imports t2 at its bottom; a two-way import was order-dependent
+— caught when the smoke test imported t2 first).
+
+**Build-time catches, tranche 2:**
+- **Mention-order canonicalization collapses entity_track's pattern space:**
+  raw 3⁴=81 transfer patterns → 14 canonical (first transfer is always
+  mention-0→mention-1), under the 15-value minimum → 5 transfers (41 patterns,
+  verified empirically over 3000 draws).
+- **Uniform value holdout starves rare label classes** (unscramble/caesar
+  first letters): added `stratify_by_label` split mode (per-label-group
+  holdout, k=1, refuses single-value classes) AND letter-stratified
+  generation so no rare class enters the items — exp2's lesson on both sides.
+- The `_quick` test helper dropped new SplitParams fields on rebuild →
+  `dataclasses.replace` (a silent-drop class of bug).
+- cat_parity shot answer was wrong on first draft (hammer, saw, oak = 2 tools,
+  not 3) — caught on self-review; the oracle-agreement gate would also have
+  caught it at generation.
+- deduce3/entity_track probe labels briefly carried a "pos|pattern" packing
+  that polluted the class space — label is the position alone; the basis_fn
+  recomputes the pattern from text (independence discipline).
+
+**Tests: 36 pass** (oracle+basis agreement for all non-tokenizer specs at
+reduced counts, both tokenizer bases against the real tokenizer, ejection
+behavior for all five small-space candidates, split invariants incl. the new
+stratified mode).
+
+**Tranche 3 (next):** `probe_starved` (group-split probe reusing the frozen
+stats primitives; records null SD for the floor-signature check);
+`analyze.py` (MIN_N=20, ALPHA_PERM=0.01) + MC power table; full-count
+generation under the canonical venv (feasibility ejections recorded);
+pre-freeze gate rehearsal on exp2's activations; FREEZE.

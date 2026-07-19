@@ -525,3 +525,10 @@ SPECS = [
         gen=_gen_ctrl_copy, oracle=_oracle_ctrl_copy, basis_fn=_basis_quoted_string,
         scored=False, allow_dupes=True),
 ]
+
+# Tranche 2 appends in place (imported last so its `from .generators import ...`
+# finds everything above already defined; positional seeds for tranche 1 are
+# unchanged by the growth — the ledgered seed rule keys on FULL-list position).
+from .generators_t2 import SPECS_T2  # noqa: E402
+
+SPECS.extend(SPECS_T2)

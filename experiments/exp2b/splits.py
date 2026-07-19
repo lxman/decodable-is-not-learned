@@ -47,6 +47,12 @@ class SplitParams:
     min_holdout_values: int = MIN_HOLDOUT_VALUES
     min_val_items: int = MIN_VAL_ITEMS
     shared_components: bool = False
+    # Hold out a proportional share of values WITHIN each label group (k=1 only;
+    # requires each basis value to induce exactly one label). For targets whose
+    # label is a function of the basis value with rare classes (unscramble/caesar
+    # first letters), uniform value holdout starves rare classes off one side —
+    # exp2's letter-stratification lesson, applied to the split.
+    stratify_by_label: bool = False
 
 
 class SplitInfeasible(Exception):
@@ -75,9 +81,34 @@ def starving_split(bases: list[tuple], labels, seed: int,
 
     union = sorted({v for comp in values for v in comp})
 
+    label_of: dict = {}
+    if params.stratify_by_label:
+        if k != 1:
+            raise ValueError("stratify_by_label requires single-component bases")
+        for b, lbl in zip(bases, labels):
+            prev = label_of.setdefault(b[0], lbl)
+            if prev != lbl:
+                raise ValueError(f"basis value {b[0]!r} induces two labels; "
+                                 f"stratification undefined")
+
     for attempt in range(MAX_REDRAWS):
         held: list[set] = []
-        if params.shared_components:
+        if params.stratify_by_label:
+            frac = (params.n_holdout / len(values[0])
+                    if params.n_holdout is not None else params.holdout_frac)
+            groups: dict = {}
+            for v in values[0]:
+                groups.setdefault(label_of[v], []).append(v)
+            h = set()
+            for lbl, vals in sorted(groups.items()):
+                if len(vals) < 2:
+                    raise SplitInfeasible(
+                        f"label {lbl!r} has only {len(vals)} basis value(s); "
+                        f"cannot keep the class on both sides")
+                n = min(len(vals) - 1, max(1, int(round(frac * len(vals)))))
+                h |= set(rng.permutation(vals)[:n].tolist())
+            held = [h]
+        elif params.shared_components:
             n = params.n_holdout if params.n_holdout is not None else max(
                 1, int(np.ceil(params.holdout_frac * len(union))))
             if n >= len(union):
