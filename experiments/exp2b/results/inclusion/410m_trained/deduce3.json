@@ -1,0 +1,15 @@
+{
+ "capability": "deduce3",
+ "n": 500,
+ "correct": 156,
+ "acc": 0.312,
+ "cp95": [
+  0.2716051994310261,
+  0.3546349268386832
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "trained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null
+}

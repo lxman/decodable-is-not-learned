@@ -1,0 +1,15 @@
+{
+ "capability": "unscramble",
+ "n": 500,
+ "correct": 7,
+ "acc": 0.014,
+ "cp95": [
+  0.005646761070324432,
+  0.028631616183336053
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

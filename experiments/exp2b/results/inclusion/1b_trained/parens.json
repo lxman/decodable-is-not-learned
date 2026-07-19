@@ -1,0 +1,15 @@
+{
+ "capability": "parens",
+ "n": 500,
+ "correct": 195,
+ "acc": 0.39,
+ "cp95": [
+  0.34700825996874785,
+  0.4343004377370939
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

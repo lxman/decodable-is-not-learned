@@ -1,0 +1,15 @@
+{
+ "capability": "odd_one_out",
+ "n": 500,
+ "correct": 93,
+ "acc": 0.186,
+ "cp95": [
+  0.15283509175767962,
+  0.22292818241098203
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "trained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null
+}

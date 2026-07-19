@@ -1,0 +1,15 @@
+{
+ "capability": "acronym",
+ "n": 500,
+ "correct": 153,
+ "acc": 0.306,
+ "cp95": [
+  0.2658573921886108,
+  0.3484546086773111
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}
