@@ -47,14 +47,14 @@ Answer formats and item counts as in Exp 2 (≥500 eval / ≥2000 probe items, d
 |---|---|---|---|---|
 | 1 | (a+b) mod 7, 2-digit operands | a mod 7 | operand a values → 18/90 | mod-7 of a 2-digit number is digit-nonlocal |
 | 2 | (a×b) mod 7 | a mod 7 | operand a values → 18/90 | as #1 |
-| 3 | 3-digit addition | carry count (0–2, ones+tens) | (ones-pair, tens-pair) combos → 20/100 each | chain carry is pair-nonlocal through the chain |
-| 4 | 3-digit subtraction | borrow count (0–2) | digit-pair combos → 20/100 | as #3 |
+| 3 | 3-digit addition | middle digit of the sum (0–9) | tens-digit pairs → 20/100 | (a₁+b₁+carry) mod 10: the mod-wrap is non-additive, so per-token value scores cannot express it (REVISED pre-freeze, see note below) |
+| 4 | 3-digit subtraction | middle digit of the difference (0–9) | tens-digit pairs → 20/100 | as #3 (mod-wrap under borrow) |
 | 5 | GCD of two 2-digit numbers ∈ {1..12} | gcd class | operand pairs → both-operand holdout | gcd is jointly nonlocal |
 | 6 | Divisibility by 7 (yes/no) | true divisibility bit | dividend values → 20% | digit-nonlocal |
 | 7 | Binary→decimal (5–6 bits) | value mod 10 | bit-string values → 12/96 | value is nonlocal across bit positions |
 | 8 | Day-of-week offset (N ≤ 499) | N mod 7 | N values → 20% | digit-nonlocal |
 | 9 | Roman-numeral value (1–99) | ones digit of value | numeral strings → 20% | subtractive notation is sequence-nonlocal |
-| 10 | Time arithmetic (min-add across hour) | hour-carry bit | minute-pair combos → 20% | carry across 60 is pair-nonlocal |
+| 10 | ~~Time arithmetic (min-add across hour)~~ **MOVED TO RESERVE pre-freeze** (see revision note) | ~~hour-carry bit~~ | — | original claim "carry across 60 is pair-nonlocal" is FALSE: a threshold-of-sum is expressible by additive per-token scores |
 | 11 | Sorting 3 two-digit numbers | middle element's ones digit | number triples → value holdout | comparison chain; composability note reviewed at M0 (first-digit shortcut risk) |
 | 12 | Word unscramble (4–6 letters) | first letter of solution | solution words → 20% | held-out word = unseen letter multiset |
 | 13 | Caesar decode (k ∈ 1–5 stated) | first decoded letter | (first-cipher-letter, k) combos → 1–2 per class | letter-pair basis starved directly; classes covered by remaining combos |
@@ -75,6 +75,25 @@ Answer formats and item counts as in Exp 2 (≥500 eval / ≥2000 probe items, d
 | 28 | Entity tracking, 3 transfers | holder after 2nd transfer | name-role assignments → 20% of name pool | harder variant of Exp 2's (which was above threshold); M0 reviews leakage via positional name statistics |
 | 29 | Units conversion (metric) | factor's power of 10 | unit pairs → 3/15 | small basis; feasibility counts decide at M0 (flagged at-risk) |
 | 30 | Letter-position parity ("is 'k' in the first half of the alphabet?") | the bit | letters → 5/26 | single-letter basis, starved directly; at-risk for class starvation, M0 counts decide |
+
+**Pre-freeze revision (2026-07-18, at M0 build start — mechanism-argued, doc still DRAFT):**
+The composability analyses for #3, #4, and #10 as originally drafted were wrong,
+caught while implementing the split machinery. A carry/borrow is a **threshold
+of a sum** — [a₀+b₀ ≥ 10] — and a single linear probe expresses exactly that
+through per-token additive scores (learn each digit token's value as its weight
+contribution; threshold the total). It generalizes to held-out pairs without
+any pair lookup, so pair-holdout does not starve it: the original targets fail
+the design's own field-4 test. Fixes: #3/#4 retarget to the **middle digit of
+the result** — (a₁+b₁+carry) mod 10 — whose mod-10 wrap is non-additive and
+therefore not expressible by additive per-token scores; basis = tens-digit
+pairs (the residual lookup channel), 20/100 held out. #10 has no equally clean
+repair and moves to reserve (candidate count 30 → 29; the n ≥ 24 target holds).
+General rule extracted for every remaining row: **additive-threshold targets
+(any [Σ f(tokenᵢ) ≥ θ] form) are linearly composable from per-token scores and
+starving splits cannot protect them** — each candidate's field-4 argument must
+show the target has a non-additive wrap or interaction. #7 survives this test
+((Σ2ⁱbᵢ) mod 10 wraps six times over the range); #11's comparison-chain risk
+was already flagged for its M0 review.
 
 **Inclusion criteria (carried from Exp 2, fresh runs):** CP-95% upper bound on normalized argmax margin < 0.25 at pythia-1b; machine-verifiable oracle scoring 100% on committed items; oracle parses question text only. All 30 candidates get fresh M1 inclusion runs in Exp 2b's own record (Exp 2's M1 measurements are cited as expectations, not reused as data).
 
