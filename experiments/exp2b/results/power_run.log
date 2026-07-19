@@ -1,0 +1,4 @@
+n=20 true_rho=0.0: PASS=0.015 FAIL=0.970 IND=0.015
+n=20 true_rho=0.3: PASS=0.130 FAIL=0.772 IND=0.098
+n=20 true_rho=0.4: PASS=0.242 FAIL=0.620 IND=0.138
+n=20 true_rho=0.5: PASS=0.440 FAIL=0.438 IND=0.122

@@ -161,10 +161,13 @@ def _basis_alpha_offset(q):
 # ---------------------------------------------------------------- #15: acronym
 
 def _gen_acronym(rng, split):
-    i, j = int(rng.integers(len(_W56))), int(rng.integers(len(_W56)))
-    w1, w2 = _W56[i], _W56[j]
+    # w2 letter-stratified (its first letter is the probe class); w1 uniform
+    w1 = _W56[int(rng.integers(len(_W56)))]
+    letter = _W56_LETTERS[int(rng.integers(len(_W56_LETTERS)))]
+    pool = _W56_BY_LETTER[letter]
+    w2 = pool[int(rng.integers(len(pool)))]
     if w1 == w2:
-        w2 = _W56[(j + 1) % len(_W56)]
+        w1 = _W56[(int(rng.integers(len(_W56))) + 1) % len(_W56)]
     return (f"What are the first letters of '{w1} {w2}'? Answer with the two "
             f"letters together.", w1[0] + w2[0], w2[0])
 
@@ -560,7 +563,8 @@ SPECS_T2 = [
                 "two letters together.", "sa"),
                ("What are the first letters of 'mount bread'? Answer with the "
                 "two letters together.", "mb")],
-        gen=_gen_acronym, oracle=_oracle_acronym, basis_fn=_basis_acronym_2nd_token),
+        gen=_gen_acronym, oracle=_oracle_acronym, basis_fn=_basis_acronym_2nd_token,
+        split_params=SplitParams(stratify_by_label=True)),
     CapabilitySpec(
         name="cat_parity", description="count category members in first 3 of 6",
         answer_type="number",

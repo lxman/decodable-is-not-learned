@@ -134,16 +134,17 @@ def _basis_first_int(q):
 # ------------------------------------------------------------ #7: binary→decimal
 
 def _gen_bin2dec(rng, split):
-    # 8-11 significant bits: unique-question space 3840 (6 bits gave only 32,
-    # under the 2500-item uniqueness requirement — feasibility, not difficulty)
-    n = int(rng.integers(8, 12))
+    # 8-12 significant bits: unique-question space 3968. (First sizing said
+    # "3840 at 8-11 bits" — wrong by 2x: the fixed leading 1 halves each
+    # count to 1920 < 2500. Caught by the M0 generation gate, ledgered.)
+    n = int(rng.integers(8, 13))
     bits = "1" + "".join(str(int(rng.integers(0, 2))) for _ in range(n - 1))
     v = int(bits, 2)
     return f"What is binary {bits} in decimal?", str(v), v % 10
 
 
 def _basis_bitstring(q):
-    return (re.search(r"\b[01]{8,11}\b", q).group(0),)
+    return (re.search(r"\b[01]{8,12}\b", q).group(0),)
 
 
 # --------------------------------------------------------- #8: day-of-week offset
@@ -230,7 +231,8 @@ def _basis_final_chunk(q):
 # --------------------------------------------------- #17: balanced parentheses
 
 def _gen_parens(rng, split):
-    n = int(rng.integers(4, 11))
+    # lengths 4-12: 4-10 gives only 2032 distinct strings < 2500 (M0 gate catch)
+    n = int(rng.integers(4, 13))
     if rng.random() < 0.5:  # generate balanced (depth <= 3) by construction
         s, depth, remaining = [], 0, n
         while remaining:
@@ -338,7 +340,7 @@ def _oracle_div7(q):
 
 
 def _oracle_bin2dec(q):
-    return str(int(re.search(r"\b[01]{8,11}\b", q).group(0), 2))
+    return str(int(re.search(r"\b[01]{8,12}\b", q).group(0), 2))
 
 
 def _oracle_weekday(q):
@@ -429,9 +431,9 @@ SPECS = [
         shots=[("Is 49 divisible by 7?", "yes"), ("Is 50 divisible by 7?", "no")],
         gen=_gen_div7, oracle=_oracle_div7, basis_fn=_basis_first_int),
     CapabilitySpec(
-        name="bin2dec", description="binary to decimal, 8-11 bits",
+        name="bin2dec", description="binary to decimal, 8-12 bits",
         answer_type="number", probe_label_space="value mod 10 (0-9)",
-        basis_kind="bit-string (3840 significant 8-11-bit strings)",
+        basis_kind="bit-string (3968 significant 8-12-bit strings)",
         composability="(sum 2^i b_i) mod 10 wraps hundreds of times over the "
                       "range: additive per-bit scores cannot express it",
         shots=[("What is binary 10110101 in decimal?", "181"),
@@ -484,7 +486,7 @@ SPECS = [
         split_params=SplitParams(holdout_frac=0.2, min_holdout_values=15,
                                  min_val_items=300)),
     CapabilitySpec(
-        name="parens", description="balanced-parenthesis check (depth <= 3)",
+        name="parens", description="balanced-parenthesis check (depth <= 3, len 4-12)",
         answer_type="word", probe_label_space="valid/invalid bit (yes/no)",
         basis_kind="the parenthesis string (unique per item)",
         composability="validity is a chain property (prefix depths); a bag of "
