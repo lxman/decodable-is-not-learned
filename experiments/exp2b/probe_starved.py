@@ -32,17 +32,20 @@ import numpy as np
 from splits import SplitParams, starving_split
 
 _SIG_DIR = Path(__file__).resolve().parent.parent / "exp1" / "signatures"
-_ALIAS = "exp1_signatures"
+_ALIAS = "exp1_signatures_stats"
 
+# Load stats.py DIRECTLY as a file module, not via the package: executing the
+# package __init__ pulls in the collector module, which imports torch — a 2 GB
+# dependency CPU-only distributed workers must not need (surfaced at llmbox
+# onboarding; import-path mechanics only, the functions are byte-identical —
+# stats.py is self-contained: numpy + scipy.stats.beta).
 if _ALIAS not in sys.modules:
-    spec = importlib.util.spec_from_file_location(
-        _ALIAS, _SIG_DIR / "__init__.py",
-        submodule_search_locations=[str(_SIG_DIR)])
-    pkg = importlib.util.module_from_spec(spec)
-    sys.modules[_ALIAS] = pkg
-    spec.loader.exec_module(pkg)
+    spec = importlib.util.spec_from_file_location(_ALIAS, _SIG_DIR / "stats.py")
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[_ALIAS] = mod
+    spec.loader.exec_module(mod)
 
-_stats = importlib.import_module(f"{_ALIAS}.stats")
+_stats = sys.modules[_ALIAS]
 permutation_null = _stats.permutation_null
 bonferroni = _stats.bonferroni
 clopper_pearson = _stats.clopper_pearson
