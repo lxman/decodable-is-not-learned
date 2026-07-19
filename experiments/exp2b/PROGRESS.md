@@ -10,7 +10,7 @@ standing authorization at the Exp 2 closeout).
 | Milestone | What | Status | Tests |
 |---|---|---|---|
 | M0 | Battery item files + oracles + starving splits + feasibility + `analyze.py` + power table; FREEZE | **COMPLETE + FROZEN 2026-07-19** (tag `exp2b-preregistered`): 24 scored candidates committed, 5 designed ejections recorded, power table committed, §7 rehearsal PASSED (both known-lookup worlds silent on real activations) | 94 ✓ |
-| M1 | Inclusion: argmax at 410m/1b on all candidates; scored battery fixed | — | — |
+| M1 | Inclusion: argmax at 410m/1b on all candidates; scored battery fixed | COMPLETE 2026-07-19: first pass 13/24 (< frozen floor 20, halted by design) → AMENDMENT #1 (12 harder candidates, Path B approved) → top-up 12/12 survive → **battery FIXED at n=25** (reviewed commit, approved by Michael) | 130 ✓ |
 | M2 | Gates: known-absent (starved untrained), known-present, shuffled (binomial tolerances), ctrl_copy argmax | — | — |
 | M3 | Stage 1: starved probes at 410m/1b, 5 seeds; scores committed + TAGGED | — | — |
 | M4 | Stage 2: argmax at 2.8b/6.9b/12b | — | — |
@@ -164,3 +164,23 @@ stratified mode).
 - **FROZEN:** this commit, tag `exp2b-preregistered`, per Michael's standing
   authorization (2026-07-18). Next: M1 inclusion (argmax at 410m/1b, all 24
   candidates + ctrl_copy — first Exp 2b model queries).
+
+## M1 + Amendment #1 (2026-07-19) — battery fixed at n=25
+
+First inclusion pass: 13/24 survived the frozen rule (11 above threshold at
+1b — two mechanisms: genuine ability incl. gcd .68 / entity_track .69, and
+the small-answer-space format artifact from Exp 2's parity: div7 .50, parens
+.39, cat_parity .38). 13 < 20 → the designed halt fired; Michael chose Path B
+(battery extension, thresholds untouched, refused-by-name: lowering the
+floor). Amendment #1 mini-freeze 0fcf92b: 12 hard large-answer-space
+candidates. Top-up result: **12/12 below threshold** (margins −.004 to .154;
+isqrt lands BELOW the untrained floor). Battery fixed at **n=25** of 36
+candidates (design band 24–30), scored_battery.json committed with this
+entry on Michael's approval. Membership is attrition-only from here.
+
+NEXT (M2): activation collection at 410m/1b (trained + untrained) over the
+25 scored capabilities + ctrl_copy; probe program (known-absent, known-
+present, shuffled — binomial tolerances per design §4) with DISTRIBUTED
+fitting: llmbox/atom boxes join only after passing the per-box determinism
+gate (design §6); campaign cost budgets from the measured 43 min/unit
+(410m, single-core, full depth).
