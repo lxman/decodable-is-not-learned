@@ -1,0 +1,15 @@
+{
+ "capability": "sq_mod7",
+ "n": 500,
+ "correct": 77,
+ "acc": 0.154,
+ "cp95": [
+  0.12348595750678985,
+  0.1886724646824191
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

@@ -138,3 +138,202 @@
 [m1] scored battery: 13/24 candidates
 [m1] INSUFFICIENT_DATA: 13 < 20 — report this, do not shrink the test (design §4)
 [m1] ALL DONE — review table, then run fix_battery and commit Sun Jul 19 12:52:14 EDT 2026
+[m1] begin git=0fcf92b Sun Jul 19 13:15:44 EDT 2026
+[m1] START 410m/untrained Sun Jul 19 13:15:44 EDT 2026
+[m1] 410m/untrained/acronym: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/add3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/add_base8: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/antonym: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/base7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/bin2dec: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/caesar: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/capital: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/cat_parity: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/clock24: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/collatz2: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/count_div7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/ctrl_copy: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/deduce3: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/digitprod7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/div7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/entity_track: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/gcd: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/hypernym: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/isqrt: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/mod13: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/mod7_add: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/mod7_mul: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/mul3x1: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/numletter: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/oct2dec: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/odd_one_out: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/parens: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/reverse_string: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/rhyme: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/roman: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/sort3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/sq_mod7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/sub3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/units: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/unscramble: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/untrained/weekday: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] DONE 410m/untrained Sun Jul 19 13:17:16 EDT 2026
+[m1] START 410m/trained Sun Jul 19 13:17:16 EDT 2026
+[m1] 410m/trained/acronym: acc=0.3520 cp95=(0.3101,0.3956) n=500
+[m1] 410m/trained/add3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 25856.88it/s]
+[m1] 410m/trained/add_base8: acc=0.0080 cp95=(0.0022,0.0204) n=500
+[m1] 410m/trained/antonym: acc=0.1740 cp95=(0.1418,0.2101) n=500
+[m1] 410m/trained/base7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/bin2dec: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/caesar: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/capital: acc=0.4500 cp95=(0.4058,0.4948) n=500
+[m1] 410m/trained/cat_parity: acc=0.0140 cp95=(0.0056,0.0286) n=500
+[m1] 410m/trained/clock24: acc=0.0300 cp95=(0.0169,0.0490) n=500
+[m1] 410m/trained/collatz2: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/count_div7: acc=0.0560 cp95=(0.0375,0.0799) n=500
+[m1] 410m/trained/ctrl_copy: acc=0.8680 cp95=(0.8351,0.8964) n=500
+[m1] 410m/trained/deduce3: acc=0.3120 cp95=(0.2716,0.3546) n=500
+[m1] 410m/trained/digitprod7: acc=0.3280 cp95=(0.2870,0.3711) n=500
+[m1] 410m/trained/div7: acc=0.5040 cp95=(0.4593,0.5487) n=500
+[m1] 410m/trained/entity_track: acc=0.8640 cp95=(0.8308,0.8928) n=500
+[m1] 410m/trained/gcd: acc=0.0120 cp95=(0.0044,0.0259) n=500
+[m1] 410m/trained/hypernym: acc=0.3220 cp95=(0.2812,0.3649) n=500
+[m1] 410m/trained/isqrt: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/mod13: acc=0.0680 cp95=(0.0475,0.0937) n=500
+[m1] 410m/trained/mod7_add: acc=0.1440 cp95=(0.1144,0.1779) n=500
+[m1] 410m/trained/mod7_mul: acc=0.1040 cp95=(0.0787,0.1341) n=500
+[m1] 410m/trained/mul3x1: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/numletter: acc=0.0180 cp95=(0.0083,0.0339) n=500
+[m1] 410m/trained/oct2dec: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/odd_one_out: acc=0.1860 cp95=(0.1528,0.2229) n=500
+[m1] 410m/trained/parens: acc=0.7840 cp95=(0.7453,0.8193) n=500
+[m1] 410m/trained/reverse_string: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/rhyme: acc=0.2000 cp95=(0.1658,0.2378) n=500
+[m1] 410m/trained/roman: acc=0.0020 cp95=(0.0001,0.0111) n=500
+[m1] 410m/trained/sort3_mid: acc=0.3740 cp95=(0.3314,0.4181) n=500
+[m1] 410m/trained/sq_mod7: acc=0.1520 cp95=(0.1217,0.1865) n=500
+[m1] 410m/trained/sub3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 410m/trained/units: acc=0.0020 cp95=(0.0001,0.0111) n=500
+[m1] 410m/trained/unscramble: acc=0.0080 cp95=(0.0022,0.0204) n=500
+[m1] 410m/trained/weekday: acc=0.1520 cp95=(0.1217,0.1865) n=500
+[m1] DONE 410m/trained Sun Jul 19 13:18:46 EDT 2026
+[m1] START 1b/untrained Sun Jul 19 13:18:46 EDT 2026
+[m1] 1b/untrained/acronym: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/add3_mid: acc=0.0020 cp95=(0.0001,0.0111) n=500
+[m1] 1b/untrained/add_base8: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/antonym: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/base7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/bin2dec: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/caesar: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/capital: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/cat_parity: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/clock24: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/collatz2: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/count_div7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/ctrl_copy: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/deduce3: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/digitprod7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/div7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/entity_track: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/gcd: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/hypernym: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/isqrt: acc=0.0040 cp95=(0.0005,0.0144) n=500
+[m1] 1b/untrained/mod13: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/mod7_add: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/mod7_mul: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/mul3x1: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/numletter: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/oct2dec: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/odd_one_out: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/parens: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/reverse_string: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/rhyme: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/roman: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/sort3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/sq_mod7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/sub3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/units: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/unscramble: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/untrained/weekday: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] DONE 1b/untrained Sun Jul 19 13:21:41 EDT 2026
+[m1] START 1b/trained Sun Jul 19 13:21:41 EDT 2026
+[m1] 1b/trained/acronym: acc=0.3060 cp95=(0.2659,0.3485) n=500
+[m1] 1b/trained/add3_mid: acc=0.0020 cp95=(0.0001,0.0111) n=500
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 22961.30it/s]
+[m1] 1b/trained/add_base8: acc=0.0080 cp95=(0.0022,0.0204) n=500
+[m1] 1b/trained/antonym: acc=0.1740 cp95=(0.1418,0.2101) n=500
+[m1] 1b/trained/base7: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/bin2dec: acc=0.0040 cp95=(0.0005,0.0144) n=500
+[m1] 1b/trained/caesar: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/capital: acc=0.3940 cp95=(0.3509,0.4384) n=500
+[m1] 1b/trained/cat_parity: acc=0.3780 cp95=(0.3353,0.4221) n=500
+[m1] 1b/trained/clock24: acc=0.0440 cp95=(0.0278,0.0659) n=500
+[m1] 1b/trained/collatz2: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/count_div7: acc=0.0740 cp95=(0.0526,0.1006) n=500
+[m1] 1b/trained/ctrl_copy: acc=0.9540 cp95=(0.9318,0.9706) n=500
+[m1] 1b/trained/deduce3: acc=0.3340 cp95=(0.2927,0.3772) n=500
+[m1] 1b/trained/digitprod7: acc=0.0840 cp95=(0.0612,0.1118) n=500
+[m1] 1b/trained/div7: acc=0.5040 cp95=(0.4593,0.5487) n=500
+[m1] 1b/trained/entity_track: acc=0.6880 cp95=(0.6454,0.7284) n=500
+[m1] 1b/trained/gcd: acc=0.6760 cp95=(0.6330,0.7169) n=500
+[m1] 1b/trained/hypernym: acc=0.3900 cp95=(0.3470,0.4343) n=500
+[m1] 1b/trained/isqrt: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/mod13: acc=0.0640 cp95=(0.0442,0.0892) n=500
+[m1] 1b/trained/mod7_add: acc=0.1440 cp95=(0.1144,0.1779) n=500
+[m1] 1b/trained/mod7_mul: acc=0.1380 cp95=(0.1090,0.1714) n=500
+[m1] 1b/trained/mul3x1: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/numletter: acc=0.0100 cp95=(0.0033,0.0232) n=500
+[m1] 1b/trained/oct2dec: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/odd_one_out: acc=0.2100 cp95=(0.1751,0.2484) n=500
+[m1] 1b/trained/parens: acc=0.3900 cp95=(0.3470,0.4343) n=500
+[m1] 1b/trained/reverse_string: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/rhyme: acc=0.2600 cp95=(0.2221,0.3008) n=500
+[m1] 1b/trained/roman: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/sort3_mid: acc=0.3320 cp95=(0.2908,0.3752) n=500
+[m1] 1b/trained/sq_mod7: acc=0.1540 cp95=(0.1235,0.1887) n=500
+[m1] 1b/trained/sub3_mid: acc=0.0000 cp95=(0.0000,0.0074) n=500
+[m1] 1b/trained/units: acc=0.0020 cp95=(0.0001,0.0111) n=500
+[m1] 1b/trained/unscramble: acc=0.0140 cp95=(0.0056,0.0286) n=500
+[m1] 1b/trained/weekday: acc=0.1440 cp95=(0.1144,0.1779) n=500
+[m1] DONE 1b/trained Sun Jul 19 13:24:25 EDT 2026
+[m1] inclusion table (dry run) Sun Jul 19 13:24:25 EDT 2026
+[m1] acronym          margin=+0.3060 ub=+0.3485  EXCLUDED (above threshold)
+[m1] add3_mid         margin=+0.0000 ub=+0.0091  scored
+[m1] add_base8        margin=+0.0080 ub=+0.0204  scored
+[m1] antonym          margin=+0.1740 ub=+0.2101  scored
+[m1] base7            margin=+0.0000 ub=+0.0074  scored
+[m1] bin2dec          margin=+0.0040 ub=+0.0144  scored
+[m1] caesar           margin=+0.0000 ub=+0.0074  scored
+[m1] capital          margin=+0.3940 ub=+0.4384  EXCLUDED (above threshold)
+[m1] cat_parity       margin=+0.3780 ub=+0.4221  EXCLUDED (above threshold)
+[m1] clock24          margin=+0.0440 ub=+0.0659  scored
+[m1] collatz2         margin=+0.0000 ub=+0.0074  scored
+[m1] count_div7       margin=+0.0740 ub=+0.1006  scored
+[m1] ctrl_copy        margin=+0.9540 ub=+0.9706  control
+[m1] deduce3          margin=+0.3340 ub=+0.3772  EXCLUDED (above threshold)
+[m1] digitprod7       margin=+0.0840 ub=+0.1118  scored
+[m1] div7             margin=+0.5040 ub=+0.5487  EXCLUDED (above threshold)
+[m1] entity_track     margin=+0.6880 ub=+0.7284  EXCLUDED (above threshold)
+[m1] gcd              margin=+0.6760 ub=+0.7169  EXCLUDED (above threshold)
+[m1] hypernym         margin=+0.3900 ub=+0.4343  EXCLUDED (above threshold)
+[m1] isqrt            margin=-0.0040 ub=+0.0034  scored
+[m1] mod13            margin=+0.0640 ub=+0.0892  scored
+[m1] mod7_add         margin=+0.1440 ub=+0.1779  scored
+[m1] mod7_mul         margin=+0.1380 ub=+0.1714  scored
+[m1] mul3x1           margin=+0.0000 ub=+0.0074  scored
+[m1] numletter        margin=+0.0100 ub=+0.0232  scored
+[m1] oct2dec          margin=+0.0000 ub=+0.0074  scored
+[m1] odd_one_out      margin=+0.2100 ub=+0.2484  scored
+[m1] parens           margin=+0.3900 ub=+0.4343  EXCLUDED (above threshold)
+[m1] reverse_string   margin=+0.0000 ub=+0.0074  scored
+[m1] rhyme            margin=+0.2600 ub=+0.3008  EXCLUDED (above threshold)
+[m1] roman            margin=+0.0000 ub=+0.0074  scored
+[m1] sort3_mid        margin=+0.3320 ub=+0.3752  EXCLUDED (above threshold)
+[m1] sq_mod7          margin=+0.1540 ub=+0.1887  scored
+[m1] sub3_mid         margin=+0.0000 ub=+0.0074  scored
+[m1] units            margin=+0.0020 ub=+0.0111  scored
+[m1] unscramble       margin=+0.0140 ub=+0.0286  scored
+[m1] weekday          margin=+0.1440 ub=+0.1779  scored
+[m1] scored battery: 25/36 candidates
+[m1] ALL DONE — review table, then run fix_battery and commit Sun Jul 19 13:24:27 EDT 2026

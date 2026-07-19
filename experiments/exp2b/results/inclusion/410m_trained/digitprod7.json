@@ -1,0 +1,15 @@
+{
+ "capability": "digitprod7",
+ "n": 500,
+ "correct": 164,
+ "acc": 0.328,
+ "cp95": [
+  0.28697102024394194,
+  0.371077630731192
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "trained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null
+}

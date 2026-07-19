@@ -1,0 +1,15 @@
+{
+ "capability": "add_base8",
+ "n": 500,
+ "correct": 0,
+ "acc": 0.0,
+ "cp95": [
+  0.0,
+  0.007350610051907784
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "untrained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": 0
+}

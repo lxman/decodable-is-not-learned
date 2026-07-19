@@ -1,0 +1,15 @@
+{
+ "capability": "mod13",
+ "n": 500,
+ "correct": 32,
+ "acc": 0.064,
+ "cp95": [
+  0.04418421094671325,
+  0.08915062755086343
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

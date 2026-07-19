@@ -1,0 +1,15 @@
+{
+ "capability": "isqrt",
+ "n": 500,
+ "correct": 2,
+ "acc": 0.004,
+ "cp95": [
+  0.00048478617629000095,
+  0.014374078562200309
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "untrained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": 0
+}
