@@ -205,3 +205,21 @@ partner). Fleet ops catches, for the record:
 - Windows sshd kills the process tree at session close — Start-Process
   does not survive; the worker runs as a Task Scheduler job
   (schtasks exp2b-worker → run_worker.bat).
+
+## Push-failure postmortem (2026-07-19 evening) — the bug was ours
+
+Three commits refused to push (HTTP 500 after ~57 s on git-receive-pack;
+reads and API healthy). Initial diagnosis — "GitHub server-side wedge" —
+was WRONG and survived two retry loops and an HTTP/1.1 workaround attempt
+because it sounded right. Preparing a git-data-API workaround forced an
+enumeration of the changed files, which exposed the real cause: the
+worker-infra commit's bulk `git add experiments/exp2b` had swept the
+ENTIRE results/activations/ tree (~19 GB of npz) into history — exp2's
+.gitignore line covered exp2/ only, never exp2b/. GitHub was correctly
+rejecting a pack beyond its 2 GB limit; the 57 s stall was the upload.
+Fix: local history rewrite before anything reached the remote (content
+parity verified — only the 46 npz and one .gitignore line differ),
+exp2b activations now gitignored; SHA-256 digests will stand in at the
+data-freeze, per the exp2 convention. Lesson, verbatim from the exp1
+commit-audit family: a plausible external explanation is not a verified
+one — enumerate the payload before blaming the pipe.
