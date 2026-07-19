@@ -36,7 +36,7 @@ from pathlib import Path
 
 from scipy.stats import binom
 
-from run.collect_activations import CONTROLS, GATE_CAPS, scored_battery
+from run.battery_sets import CONTROLS, GATE_CAPS, scored_battery
 from run.run_probes_2b import SEEDS, probe_result_path
 
 EXP_DIR = Path(__file__).resolve().parent.parent

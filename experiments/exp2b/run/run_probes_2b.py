@@ -33,7 +33,7 @@ from activations import activations_path, load_activation_map
 from battery.base import load_items
 from battery.generators import SPECS
 from probe_starved import probe_starved
-from run.collect_activations import CONTROLS, GATE_CAPS, scored_battery
+from run.battery_sets import CONTROLS, GATE_CAPS, scored_battery
 
 EXP_DIR = Path(__file__).resolve().parent.parent
 SEEDS = (0, 1, 2, 3, 4)
@@ -73,7 +73,9 @@ def fit_one(stage: str, size: str, cap: str, seed: int) -> dict:
         checkpoint_id=f"pythia-{size}:{meta['sha'][:8]}:{mode}",
         seed=seed,
     )
-    d = {"stage": stage, "size": size, "capability": cap, **r}
+    import socket
+    d = {"stage": stage, "size": size, "capability": cap,
+         "host": socket.gethostname(), **r}
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(d, indent=1))
     return d
@@ -85,26 +87,30 @@ def _worker(args):
     return fit_one(*args)
 
 
-def main() -> None:
-    stage, size = sys.argv[1], sys.argv[2]
-    assert stage in STAGES, f"stage must be one of {STAGES}"
-    if sys.argv[3:]:
-        caps = sys.argv[3:]
-    elif stage == "known_present":
-        caps = GATE_CAPS + CONTROLS
-    else:
-        caps = scored_battery()
+def default_caps(stage: str) -> list[str]:
+    return (GATE_CAPS + CONTROLS) if stage == "known_present" else scored_battery()
 
+
+def run_stage(stage: str, size: str, caps: list[str], processes: int = 8) -> None:
+    """fit_one rechecks existence at execution time, so results synced in from
+    other workers mid-stage are skipped — collisions cost at most one unit."""
     from multiprocessing import Pool
     jobs = [(stage, size, cap, seed) for cap in caps for seed in SEEDS
             if not probe_result_path(stage, size, cap, seed).exists()]
     print(f"[probe] {stage}/{size}: {len(jobs)} to fit, "
           f"{len(caps) * len(SEEDS) - len(jobs)} cached", flush=True)
-    with Pool(processes=8) as pool:
+    with Pool(processes=processes) as pool:
         for d in pool.imap_unordered(_worker, jobs):
             print(f"[probe] {d['stage']}/{d['size']}/{d['capability']}/seed{d['seed']}: "
                   f"present={d['present']} p={d['null_p']:.4g} "
                   f"acc={d['accuracy']:.4f} margin={d['margin']:.4f}", flush=True)
+
+
+def main() -> None:
+    stage, size = sys.argv[1], sys.argv[2]
+    assert stage in STAGES, f"stage must be one of {STAGES}"
+    caps = sys.argv[3:] or default_caps(stage)
+    run_stage(stage, size, caps)
 
 
 if __name__ == "__main__":

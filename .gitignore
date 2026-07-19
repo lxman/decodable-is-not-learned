@@ -16,3 +16,4 @@ experiments/exp1/checkpoints/*
 # Exp1: derived result visualizations (regenerable)
 experiments/exp1/results/**/*.html
 experiments/exp2/results/activations/
+experiments/exp2b/results/activations/

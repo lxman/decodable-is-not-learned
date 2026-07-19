@@ -21,18 +21,7 @@ from battery.base import load_items
 from models import PROBE_SIZES, PYTHIA_SHAS, load_pythia
 
 UNTRAINED_SEED = 0  # same control model as M1's chance floors, ledgered
-CONTROLS = ["ctrl_copy"]   # ctrl_next_letter dropped on Exp 2 M1 measurement
-# Known-present gate capability (design §4 gate 2): 2b's own entity_track,
-# M1-excluded as plainly present at 1b (margin .688) — its items, bases,
-# and feasibility-checked splits are committed. Collected for the gate,
-# never scored. (Interpretation note ledgered at the M2 build.)
-GATE_CAPS = ["entity_track"]
-
-
-def scored_battery() -> list[str]:
-    import json
-    from battery.base import ITEMS_DIR
-    return json.loads((ITEMS_DIR / "scored_battery.json").read_text())
+from run.battery_sets import CONTROLS, GATE_CAPS, scored_battery  # noqa: F401
 
 
 def main() -> None:
