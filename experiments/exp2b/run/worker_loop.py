@@ -3,7 +3,10 @@ capability order (the Mac campaign works front-to-back; workers eat the queue
 from the back), waiting for each combo's activation files to arrive via the
 Mac-side sync loop.
 
-Usage:  python -m run.worker_loop <processes> <stage:size> [stage:size ...]
+Usage:  python -m run.worker_loop <processes> <stage:size> [...] [--shard=i/n]
+
+--shard=i/n takes every n-th capability starting at i (after reversal) — the
+mechanism behind Windows fleets of sharded single-process instances.
 """
 
 from __future__ import annotations
@@ -26,10 +29,18 @@ def wait_for_activations(size: str, mode: str, caps: list[str]) -> None:
 
 
 def main() -> None:
-    processes = int(sys.argv[1])
-    for combo in sys.argv[2:]:
+    args = [a for a in sys.argv[1:] if not a.startswith("--shard=")]
+    shard = next((a.split("=")[1] for a in sys.argv[1:]
+                  if a.startswith("--shard=")), None)
+    processes = int(args[0])
+    for combo in args[1:]:
         stage, size = combo.split(":")
         caps = list(reversed(default_caps(stage)))
+        if shard:
+            i, n = (int(x) for x in shard.split("/"))
+            caps = caps[i::n]
+        if not caps:
+            continue
         mode = "untrained" if stage == "known_absent" else "trained"
         wait_for_activations(size, mode, caps)
         print(f"[worker] BEGIN {stage}/{size} ({len(caps)} caps, reversed)",

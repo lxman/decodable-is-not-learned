@@ -93,17 +93,29 @@ def default_caps(stage: str) -> list[str]:
 
 def run_stage(stage: str, size: str, caps: list[str], processes: int = 8) -> None:
     """fit_one rechecks existence at execution time, so results synced in from
-    other workers mid-stage are skipped — collisions cost at most one unit."""
-    from multiprocessing import Pool
+    other workers mid-stage are skipped — collisions cost at most one unit.
+
+    processes <= 1 runs INLINE (no multiprocessing at all): Windows Task
+    Scheduler sessions deny the handle duplication Pool's spawn needs
+    (WinError 5) — sharded single-process instances sidestep it entirely."""
     jobs = [(stage, size, cap, seed) for cap in caps for seed in SEEDS
             if not probe_result_path(stage, size, cap, seed).exists()]
     print(f"[probe] {stage}/{size}: {len(jobs)} to fit, "
           f"{len(caps) * len(SEEDS) - len(jobs)} cached", flush=True)
+
+    def report(d):
+        print(f"[probe] {d['stage']}/{d['size']}/{d['capability']}/seed{d['seed']}: "
+              f"present={d['present']} p={d['null_p']:.4g} "
+              f"acc={d['accuracy']:.4f} margin={d['margin']:.4f}", flush=True)
+
+    if processes <= 1:
+        for job in jobs:
+            report(_worker(job))
+        return
+    from multiprocessing import Pool
     with Pool(processes=processes) as pool:
         for d in pool.imap_unordered(_worker, jobs):
-            print(f"[probe] {d['stage']}/{d['size']}/{d['capability']}/seed{d['seed']}: "
-                  f"present={d['present']} p={d['null_p']:.4g} "
-                  f"acc={d['accuracy']:.4f} margin={d['margin']:.4f}", flush=True)
+            report(d)
 
 
 def main() -> None:
