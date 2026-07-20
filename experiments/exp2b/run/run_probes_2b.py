@@ -63,8 +63,10 @@ def fit_one(stage: str, size: str, cap: str, seed: int) -> dict:
     items = load_items(cap)["probe_items"]
     bases = [tuple(it["basis"]) for it in items]
     assert len(bases) == len(y)
+    split_labels = None
     if stage == "shuffled":
         rng = np.random.default_rng(1000 + seed)
+        split_labels = y   # split from TRUE labels; only the fit is shuffled
         y = rng.permutation(y)
 
     r = probe_starved(
@@ -72,6 +74,7 @@ def fit_one(stage: str, size: str, cap: str, seed: int) -> dict:
         split_params=_SPEC[cap].split_params,
         checkpoint_id=f"pythia-{size}:{meta['sha'][:8]}:{mode}",
         seed=seed,
+        split_labels=split_labels,
     )
     import socket
     d = {"stage": stage, "size": size, "capability": cap,

@@ -76,6 +76,29 @@ def test_shuffled_labels_are_silent():
     assert not r["present"]
 
 
+def test_shuffled_labels_with_stratified_split():
+    """2026-07-20 campaign abort (PROGRESS.md): shuffle-before-split is
+    undefined for stratify_by_label capabilities — a permuted label set
+    almost surely maps one basis value to two labels. The shuffled world
+    builds the split from the TRUE labels (the instrument's own null
+    discipline: fixed split, permuted labels) via split_labels; the
+    basis->label guard itself must survive for the default path."""
+    act, y, bases = _world("structure", seed=5)
+    params = SplitParams(holdout_frac=0.2, min_holdout_values=5,
+                         min_val_items=100, stratify_by_label=True)
+    rng = np.random.default_rng(1000)
+    y_shuf = rng.permutation(y)
+    with pytest.raises(ValueError, match="induces two labels"):
+        probe_starved(act, y_shuf, bases, split_params=params,
+                      checkpoint_id="t", seed=0, n_perm=200)
+    r = probe_starved(act, y_shuf, bases, split_params=params,
+                      checkpoint_id="t", seed=0, n_perm=300, split_labels=y)
+    assert not r["present"]
+    r_true = probe_starved(act, y, bases, split_params=params,
+                           checkpoint_id="t", seed=0, n_perm=200)
+    assert r["split"] == r_true["split"]
+
+
 def test_null_std_recorded_for_floor_signature_check():
     act, y, bases = _world("structure", seed=3)
     r = probe_starved(act, y, bases, split_params=PARAMS, checkpoint_id="t",

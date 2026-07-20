@@ -292,3 +292,40 @@ ruled, is deployed to devbox/llmbox by hand.
 recommend the Mac owns the 1b gate stages (interim already covers
 known_absent:1b) and devbox is reassigned as m3/1b help only; (c) accept
 the revised timetable (M2 gate review ~5–6 days out, not 07-22/23).
+
+## Fix applied on Michael's ruling; fleet restructured; campaign relaunched (2026-07-20 evening)
+
+Michael approved both open decisions (~17:45–18:00 EDT): the workload
+restructure and the ledgered shuffled-gate fix. Applied exactly as proposed:
+
+- **Code:** `probe_starved` gains keyword `split_labels=None` — when given,
+  the starving split is built from these labels instead of the fit labels;
+  default path byte-identical (every existing call unchanged). The runner
+  passes the TRUE labels in the shuffled stage and permutes only the fit
+  labels; rng(1000+seed) stream unchanged. The basis→label guard survives
+  for the default path (a real invariant, not loosened).
+- **Verification:** regression test (shuffled × stratified) written failing
+  first, passes after; suite 131/131. worker_gate PASS bit-identical on all
+  three boxes against the unchanged committed reference. Real-data smoke on
+  the exact crashing unit (caesar/410m shuffled, seed 0, n_perm=100,
+  nothing written): completes, present=False, acc .068 ≈ chance, stratified
+  split from true labels (44 held values). Production confirmation = first
+  caesar/unscramble units in the relaunched stage (watch armed).
+- **Uniformity rider executed:** the 18 pre-fix shuffled/410m fits deleted
+  on the Mac AND both worker mirrors with the sync loop paused (restarted
+  after); the relaunched stage refits 125/125 under the fixed path.
+- **Restructure:** Mac owns the gate stages and all 410m (campaign
+  relaunched 18:10, resumed directly into shuffled/410m; collections and
+  known_absent/410m fully cached). devbox: running generation left
+  untouched — its in-memory queue (known_absent:1b from the back, then
+  m3:1b) never reaches shuffled; launch .bats trimmed to
+  `known_absent:1b m3:1b`; schtasks remain DISABLED (relaunch =
+  Enable-ScheduledTask + /run; fixed code already on disk). llmbox:
+  restarted on the fixed code with `shuffled:410m m3:410m` (gate PASS
+  before relaunch; reversed order puts unscramble in its first batch —
+  its completions double as an independent fix confirmation). Worker code
+  hand-deployed to both boxes (sync loop carries results/activations only).
+- **Cost of the swap:** the interim runner was killed mid known_present/410m
+  with 0 of 10 units finished (~4.7 core-h lost); the campaign refits the
+  stage in order. Interim runner retired — the canonical campaign script is
+  the sole Mac driver again, and it ends with the M2 report as committed.

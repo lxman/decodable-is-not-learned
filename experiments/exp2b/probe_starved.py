@@ -86,6 +86,7 @@ def probe_starved(
     alpha: float = ALPHA,
     n_perm: int = N_PERM,
     seed: int,
+    split_labels=None,
 ) -> dict:
     """Fit starved probes over all (layer, token) candidates; test significance.
 
@@ -97,8 +98,16 @@ def probe_starved(
     if not activations:
         raise ValueError("activations map is empty")
     labels = np.asarray(labels)
+    # split_labels: build the split from these instead of the fit labels.
+    # The shuffled gate passes the TRUE labels here — the split is geometry,
+    # and stratify_by_label is undefined over permuted labels; the fit and
+    # the permutation null then run on the shuffled labels under this fixed
+    # split, exactly the discipline permutation_null itself uses
+    # (PROGRESS.md 2026-07-20, applied on Michael's ruling).
+    split_basis_labels = (labels if split_labels is None
+                          else np.asarray(split_labels))
     train_idx, val_idx, split_info = starving_split(
-        bases, labels, seed, split_params)
+        bases, split_basis_labels, seed, split_params)
     n_val = len(val_idx)
     keys = sorted(activations.keys())
 
