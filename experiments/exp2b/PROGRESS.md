@@ -223,3 +223,72 @@ exp2b activations now gitignored; SHA-256 digests will stand in at the
 data-freeze, per the exp2 convention. Lesson, verbatim from the exp1
 commit-audit family: a plausible external explanation is not a verified
 one — enumerate the payload before blaming the pipe.
+
+## Shuffled-gate crash + fleet throughput reality (2026-07-20)
+
+**ABORT 17:13 EDT:** the Mac campaign died in `shuffled/410m` —
+`ValueError: basis value 'x4' induces two labels; stratification undefined`
+(splits.py:91, raised on caesar). Root cause: `run_probes_2b.py` permutes
+labels BEFORE `probe_starved` builds the starving split; the two scored
+capabilities with `stratify_by_label=True` (caesar, unscramble) require
+basis→label to be a function — true of real labels by construction, violated
+almost surely by permuted ones. First-ever execution of this code path
+("125 to fit, 0 cached"): the pre-freeze rehearsal exercised the known-lookup
+worlds, and no test composes shuffled × stratified — a recorded coverage gap.
+Blast radius: shuffled × {caesar, unscramble} × {410m, 1b} = 20 of 770 units.
+Every other stage fits TRUE labels (known_absent/410m completed 125/125
+through both capabilities hours earlier). 18 shuffled/410m units
+(add_base8 5, add3_mid 5, antonym 5, base7 3) completed before the pool died.
+
+**PROPOSED FIX — NOT APPLIED, awaiting Michael's ruling (the one
+mechanism-justified fix; written before any re-run, mechanism only):**
+build the split from the TRUE labels and permute labels only for the fit.
+The frozen instrument already defines this discipline: probe_starved's
+permutation null "permutes labels over ALL items under the FIXED split" —
+the shuffled gate is that null's campaign-level replication, and design §4
+gate 3 specifies only "trained activations, rng(1000+seed) label shuffles",
+silent on split construction; shuffle-before-split was an unpreregistered
+implementation ordering. Implementation: `probe_starved` gains optional
+`split_labels=None` (default = fit labels; every existing call byte-identical),
+and the runner passes true labels in the shuffled stage. Uniformity rider
+(precedent: 291ec9c estimator-uniformity deletion): delete the 18 completed
+shuffled/410m fits and refit under the fixed path — labels enter
+non-stratified splits only through the class-coverage redraw check, but a
+gate cell with mixed split provenance is not worth ~4 Mac-hours. The
+deletion must also sweep the devbox and llmbox result MIRRORS in the same
+sync cycle, or the pull side of sync_workers.sh resurrects the stale fits.
+
+**Fleet throughput reality (measured, not assumed):** devbox has completed
+ZERO units across two worker generations (gen 1 killed at the console
+yesterday; gen 2 = 12 sharded inline workers running since 09:36 today, env
+correctly pinned, single-threaded, ~61% of a core and ~4.75 CPU-h each, no
+completions). Determinism-gate fixture timed on the live boxes: Mac 2.75 s
+vs devbox 17.3 s ≈ 6.3× per-core — a 1b unit ≈ 9 devbox-CPU-h ≈ ~15
+wall-h/worker/unit; first devbox completions expected near midnight, box
+throughput <1 unit/h, so its assigned 1b half (385 units) is WEEKS of work.
+llmbox: 11 m3/410m units in ~28 h, negligible as expected. Net: the Mac
+(~5 units/h at 410m, ~2.5/h at 1b) is roughly 6× the rest of the fleet
+combined; the 3–4-day fleet ETA is void. Mac-led realistic: gate stages
+~5–6 days, full probe program ~8 days from today.
+
+**Ops actions taken with this entry:** (1) disabled the stale one-time
+23:59 triggers on devbox tasks exp2b-w0..w11 — creation-time placeholder
+start-times due to fire TONIGHT, which would stack a duplicate 12-worker
+generation on the running one (tasks intact; Enable-ScheduledTask + /run
+relaunches); the running generation is untouched and its results count
+(gate PASSED). (2) launched `run/interim_true_label.sh` on the Mac
+(17:40 EDT): true-label stages in gate-priority order — known_present:410m →
+known_present:1b → known_absent:1b → m3:410m — same frozen runner,
+skip-if-exists; NO shuffled units run before the ruling. (3) campaign
+relaunch deferred: it would re-enter shuffled/410m and re-crash in minutes.
+Known in advance: once the 410m m3/known_present queues exhaust, llmbox's
+worker_loop advances into shuffled:410m and dies on this same defect
+(reversed order reaches unscramble almost immediately) — harmless at its
+throughput; relaunch it after fix deployment. Worker code does NOT
+auto-sync (sync loop carries results/activations only): the fix, once
+ruled, is deployed to devbox/llmbox by hand.
+
+**Decisions for Michael:** (a) the fix ruling above; (b) queue rebalance —
+recommend the Mac owns the 1b gate stages (interim already covers
+known_absent:1b) and devbox is reassigned as m3/1b help only; (c) accept
+the revised timetable (M2 gate review ~5–6 days out, not 07-22/23).
