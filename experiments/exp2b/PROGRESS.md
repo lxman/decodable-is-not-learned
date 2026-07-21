@@ -329,3 +329,10 @@ restructure and the ledgered shuffled-gate fix. Applied exactly as proposed:
   with 0 of 10 units finished (~4.7 core-h lost); the campaign refits the
   stage in order. Interim runner retired — the canonical campaign script is
   the sole Mac driver again, and it ends with the M2 report as committed.
+
+**Production confirmation (18:56 EDT):** `shuffled/410m/caesar/seed0` — the
+exact unit that killed the campaign — completed at full depth in the
+relaunched stage: present=False, p=1, acc .0680, margin 0. Accuracy matches
+the reduced-n_perm smoke bit-for-bit (same fixed split, same shuffled
+labels; only the null's resolution differed). The fix is confirmed on real
+data end-to-end.
