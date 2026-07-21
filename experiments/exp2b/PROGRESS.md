@@ -336,3 +336,22 @@ relaunched stage: present=False, p=1, acc .0680, margin 0. Accuracy matches
 the reduced-n_perm smoke bit-for-bit (same fixed split, same shuffled
 labels; only the null's resolution differed). The fix is confirmed on real
 data end-to-end.
+
+## devbox released to Michael (2026-07-21 ~11:35 EDT)
+
+First-wave results were in when Michael asked for the box back: 10
+known_absent/1b units (nine seed0s + odd_one_out seed1), filename-verified
+identical on the Mac and devbox mirrors before release. Workers stopped by
+command-line match (24 python processes → 0; unit writes are
+completion-only, so no partial files exist); ~80 CPU-h of second-unit
+progress discarded — sunk at shutdown regardless. schtasks remain DISABLED
+and nothing auto-starts on boot; the trimmed .bats and fixed code stay on
+disk, so re-onboarding when the box returns is: Enable-ScheduledTask
+exp2b-w0..w11, then run them. The sync loop tolerates the box going dark
+(its devbox legs are `|| true`). known_absent/1b falls fully to the Mac's
+campaign queue, as the re-ledgered timetable already assumed.
+
+Overnight, for the record: the relaunched shuffled/410m refit reached
+100/125 by 11:30 EDT with zero aborts — caesar clean early (production
+confirmation above), unscramble covered from the back by llmbox's first
+batch. Combined 410m rate ~5.8 units/h.
