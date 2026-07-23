@@ -355,3 +355,21 @@ Overnight, for the record: the relaunched shuffled/410m refit reached
 100/125 by 11:30 EDT with zero aborts — caesar clean early (production
 confirmation above), unscramble covered from the back by llmbox's first
 batch. Combined 410m rate ~5.8 units/h.
+
+## Mid-campaign observation, timestamped before the frozen report (2026-07-23)
+
+Descriptive tally of gate stages banked so far (410m complete; known_absent/1b
+52/125). Gates 2 and 3 on-script: known_present 10/10 fires (ctrl_copy at
+ceiling, entity_track margins .29-.35 all seeds); shuffled/410m 2 floor-p
+fires in 125 (binomial-consistent). Gate 1 is NOT floor-rate: 51 fires in
+177 untrained fits. All-seeds structural patterns: collatz2 (margins
+.74-.82, BOTH sizes), roman (.64-.78), isqrt (.36-.42), digitprod7
+(.20-.28), unscramble (.18-.22); numletter 5/5 weak (.06-.10); scattered
+weak singles elsewhere. mod7 family near-silent — the starving works against
+exp2's known lookup offender; the strong fires look like per-capability
+basis leaks instead (e.g. collatz2 parity via last-digit structure).
+Attrition arithmetic: five clear structural candidates → n=20 = MIN_N
+exactly; the weak swing cases decide whether the frozen verdict stays
+scorable or reads INSUFFICIENT_DATA. No thresholds touched; the ruling is
+m2_report_2b's at campaign end. This entry exists so the observation
+provably predates the report.
