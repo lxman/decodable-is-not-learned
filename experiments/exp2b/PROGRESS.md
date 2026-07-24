@@ -373,3 +373,35 @@ exactly; the weak swing cases decide whether the frozen verdict stays
 scorable or reads INSUFFICIENT_DATA. No thresholds touched; the ruling is
 m2_report_2b's at campaign end. This entry exists so the observation
 provably predates the report.
+
+## Gate 1 complete — frozen-criterion projection (2026-07-24 ~00:45 EDT)
+
+known_absent finished 00:29 (250/250 fits). Applying the FROZEN
+floor-signature predicate (m2_report_2b: p exactly at the family add-one
+floor AND accuracy within 3 null-SD) descriptively to the complete inputs:
+**0 floor-signature fires, 86 structural leaks** spanning 13 capabilities
+(bin2dec, collatz2, digitprod7, isqrt, mod7_add, mod7_mul, mul3x1,
+numletter, roman, sq_mod7, units, unscramble, weekday). Projected frozen
+adjudication: attrition of all 13 → n = 12 < MIN_N = 20 → INSUFFICIENT_DATA
+at M5. The count test AS CODED pools fires+leaks (p ≈ 7e-117 → pipeline
+abort exit 2); the docstring's stated intent counts floor-signature fires
+only (0 → p = 1, no abort). Both readings end in a dead battery; the
+drafting divergence is recorded here as an exp1-S1-class frozen-criterion
+lesson, NOT proposed for change.
+
+Sanity, argued before the report runs: 410m and 1b are independently
+initialized untrained models, and per-capability leak margins match across
+them (collatz2 .74-.78 / .75-.82; unscramble .18-.22 both; units leaking on
+the same probe seed at both sizes) — the signal is input-statistics-through-
+random-projections, not a weights or collection artifact. Starving
+attenuated exp2's reservoir confound (margins 1.0 → .06-.8) without closing
+it: 13 of 25 capabilities retain surface-computable structure under starved
+splits on untrained weights. mod7_add/mod7_mul leak at margins ~.09-.11 —
+even the family starving demonstrably suppresses still clears the strict
+3-SD signature.
+
+Campaign left RUNNING (shuffled/1b in progress; gate 3 completes there).
+Open ops decision for Michael: whether m3/1b (~48 h) is worth fitting under
+a projected abort/INSUFFICIENT_DATA, or whether to pause after shuffled/1b
+and take the redesign discussion first. No thresholds touched, nothing
+stopped, ruling remains the report's at campaign end.
