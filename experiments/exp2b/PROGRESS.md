@@ -436,3 +436,12 @@ fixable finding. known_present/1b now running; m3/1b auto-starts after it
 (campaign default = continue) — Michael's continue-vs-pause call remains
 open, noting the 12 surviving caps' m3 fits would feed any descriptive
 (non-verdict) salvage analysis.
+
+**Gate 2 complete (2026-07-25 14:28):** entity_track 5/5 present at both
+sizes, mean margins .330 (410m) / .281 (1b) — clears the frozen ≥.2 bar;
+ctrl_copy .997/.998. Full pre-report projection now on record: gate 1
+attrition ×13 → n=12 → INSUFFICIENT_DATA; gate 2 PASS; gate 3 clean in
+substance (2/250 at the designed rate), projected abort only via the
+ledgered signature-predicate contradiction; gate 4 from committed M1
+inclusion. m3/1b running (~48 h); the frozen report fires automatically at
+campaign end.
