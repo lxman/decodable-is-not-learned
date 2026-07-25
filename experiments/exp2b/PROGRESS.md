@@ -405,3 +405,34 @@ Open ops decision for Michael: whether m3/1b (~48 h) is worth fitting under
 a projected abort/INSUFFICIENT_DATA, or whether to pause after shuffled/1b
 and take the redesign discussion first. No thresholds touched, nothing
 stopped, ruling remains the report's at campaign end.
+
+## Gate 3 complete — and a frozen-criterion tension, argued from first principles (2026-07-25 ~10:50 EDT)
+
+shuffled done at both sizes: 410m 2 fires / 125, 1b 0 / 125. Both 410m
+fires FAIL the frozen floor-signature predicate (3.6 and 4.7 null-SD above
+null mean) → as coded, gate 3 projects PIPELINE ABORT on s_leaks.
+
+Recorded objection, mechanism only: the predicate's two conjuncts are in
+tension. p at the add-one floor REQUIRES the observed accuracy to beat all
+2500 permuted fits; the expected maximum of 2500 null draws lies ~3.4 SD
+above the null mean — beyond the 3-SD near_null bar. The "tolerated
+floor-signature fire" class is therefore nearly empty by construction, and
+a clean null was expected to produce ~0.9 floor-reaching fires across 250
+fits (P(>=1) ~ .59) that the predicate would misclassify as structural.
+The observed 2/250 matches the designed rate exactly (P(>=2) ~ .23). This
+is the same class of misspecification as exp1's S1 magnitude criterion:
+the count arithmetic is sound, the per-fire signature bar contradicts the
+mechanism that produces floor fires. Any fix is ONE-ledgered-fix territory,
+Michael's ruling at the gate review, and this entry is the pre-report
+mechanism argument that would justify it — written before m2_report_2b runs.
+
+Gate 1's projection is UNCHANGED by this objection: its 86 fires are
+rate-impossible under the null however classified (every leaking capability
+fires on >=2 of 10 seeds vs per-cap expectation .07); attrition x13,
+n=12 < MIN_N, INSUFFICIENT_DATA stands on count arithmetic alone. The
+correct postmortem shape: instrument worked, battery died of real surface-
+computability leaks; the signature-test drafting flaw is a separate,
+fixable finding. known_present/1b now running; m3/1b auto-starts after it
+(campaign default = continue) — Michael's continue-vs-pause call remains
+open, noting the 12 surviving caps' m3 fits would feed any descriptive
+(non-verdict) salvage analysis.
