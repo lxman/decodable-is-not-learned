@@ -25,9 +25,116 @@ computing, random features, Cover's capacity arithmetic)*
 
 ## 3. The instrument
 
-*(stub — starved-probe pipeline, basis functions, split construction,
-the four gates and their false-fire arithmetic, determinism
-infrastructure)*
+The instrument is a linear probe with its evaluation moved onto ground
+the confound can't reach. This section describes it as frozen for
+Experiment 2b; everything here was committed and tagged before the
+campaign produced data.
+
+**Targets and items.** Each capability contributes about 2,000 probe
+items: a prompt, the model's hidden states over that prompt, and a probe
+label defined by the capability's specification. The label is never the
+free-form answer; it's a small-alphabet function of the answer chosen at
+design time (the ones digit of the root, the first letter of the
+solution, the power of ten), which keeps probe classes balanced enough
+to test and forces every capability's specification to say exactly what
+the probe is supposed to find. A specification must declare five things
+before an item is generated: the probe target, the surface basis, the
+starving split with a feasibility count, an oracle, and a
+dumbest-baseline analysis stating what a lookup table or a random
+network should score. Capabilities that can't fill in those fields
+honestly don't enter the battery.
+
+**The probe.** Activations are harvested at two fixed token positions
+per layer (position 0 is the question-end token), with layers thinned to
+every third plus the final one: nine layer positions at 410M and seven
+at 1B, so a capability's fit sweeps a family of 18 or 14
+(layer, position) candidates. Each candidate is a standard pipeline, a
+scaler and a logistic regression (C = 1.0, 100 iterations) fit on probe
+training rows and scored as accuracy on the starved validation rows,
+with the scaler fit inside the split. Significance comes from a
+permutation null: 2,500 label permutations over all items under the
+fixed split, refitting the probe each time, which under the null of no
+activation-label association is exact regardless of the split's
+structure, because a lookup strategy is starved in the observed fit and
+in every permuted fit alike. The best candidate's p-value is Bonferroni
+corrected for the family, a capability reads "present" when the
+corrected p clears .01, and the reported effect size is the margin,
+accuracy relative to the null mean rescaled to the interval up to 1,
+zeroed when the significance bar isn't met. The add-one permutation
+floor fixes the smallest achievable corrected p at 18/2501 ≈ .0072 for
+410M and 14/2501 ≈ .0056 for 1B; those two constants generate all the
+gate arithmetic below.
+
+**The basis and the starving split.** The basis is the construction that
+distinguishes this instrument from a standard probe. For each
+capability, the specification names the tuple of surface components a
+lookup strategy would key on, analyzed against the tokenizer rather than
+against human intuition about the task. Experiment 2's addition lesson
+is the reason for that clause: Pythia's BPE splits numbers into digit
+chunks, so an operand-level basis under-specifies what the readout can
+key on for any digit-local label, and digit-local targets are banned at
+design time rather than starved badly. Given the basis, a starving
+split draws a held-out value set per component. Validation items are
+those whose components are all held out; training items those whose
+components are all kept; items mixing the two are discarded from the
+fit entirely. A readout keyed on any component therefore meets only
+unseen values at validation and scores chance by construction, and the
+same holds for additive combinations of per-component scores. Splits
+must hold out at least 15 values per component, produce at least 300
+validation items, and keep every probe class present on both sides,
+enforced by seeded rejection with a bounded number of redraws; each of
+the five probe seeds redraws which values are held out, so a
+capability's five fits starve five different corners of its basis. Two
+variants cover geometries the plain construction handles badly: when
+components share one value space, a single holdout set drawn from the
+union applies to every position, closing the leak where a value held
+out at one position remains learnable at another; and when the label is
+a function of the basis value with rare classes, the holdout is drawn
+proportionally within label groups, which is what keeps rare classes on
+both sides of the split. Capabilities that can't satisfy the
+constraints for all five seeds are ejected before the freeze, with the
+failure recorded; five candidates died that way, including one whose
+entire item space was smaller than the permutation count.
+
+**The gates.** Four controls surround the scored fits, each with its
+tolerance derived from the floor arithmetic rather than set by feel.
+The untrained-weights gate runs the identical pipeline, splits and all,
+on a twin of each model with weights at seeded random initialization
+and nothing else changed. Its expected clean-machinery fire count is
+the number of fits times the family-adjusted floor rate, about 1.6
+fires across this campaign's 250 untrained fits, and the gate tests the
+observed count against that rate binomially instead of demanding zero.
+Fires that are structurally above the floor mark real leaks: the
+capability is dropped, and the experiment's own rules decide whether
+enough battery survives to continue (the floor here was twenty of
+twenty-five; Section 4 records the outcome, and Section 6 records what
+the closeout found wrong with the per-fire classification rule as
+frozen). The shuffled-label gate refits trained activations against
+labels permuted by a seeded generator, using the same split geometry as
+the real fits and permuting only the fit labels (the ordering as
+corrected mid-campaign; Section 4.2 discloses the original defect); it
+carries the same binomial tolerance, and a structurally-above fire there is grounds for
+declaring the pipeline itself unsound. The known-present gate points
+the instrument at capabilities that plainly exist (an entity-tracking
+task and a copy control) and requires seed-majority detection at both
+sizes with a mean starved margin of at least 0.2 at 1B, on the argument
+that an instrument that can't see what's there has no business ruling
+on what isn't. And an argmax gate requires the copy control to be
+generated correctly greedily at least 90% of the time at both probe
+sizes, certifying the generation-side harness that the battery's
+inclusion decisions depend on.
+
+**Determinism.** Because probe fits were distributed across three
+machines with three BLAS stacks, a box's results counted only after it
+reproduced a reference fixture through the real probe path bit for bit,
+prediction counts and all, against the Mac-computed reference. The rule
+was reproduce-or-be-excluded, with no debugging tier in between; in the
+event, arm64 Accelerate, x86-64 OpenBLAS, and Windows all matched
+exactly under single-threaded BLAS, and the campaign's 770 fits merge
+idempotently from any box that passed. I mention the infrastructure not
+as engineering color but because it's part of the claim: every number
+in Sections 4 and 5 recomputes from committed fit files, and the fits
+themselves don't depend on which machine produced them.
 
 ## 4. Two preregistered stress tests
 
