@@ -529,3 +529,21 @@ max-of-N mechanism.
 Exp 2b closes entirely through its own decision tree — attrition ×13 →
 n=12 → §4.5 floor — with the instrument exiting CERTIFIED (gate 2 pass,
 gate 3 clean-by-count, gate 1 leaks being real battery properties).
+
+## GATE REVIEW — Ruling (c), ACCEPTED by Michael (2026-07-27)
+
+**RULING: Gate 4 records FAIL at 410m (.868, CP95 [.835,.896]) / PASS at 1b
+(.954), ruled a DESIGN-ASSUMPTION FINDING** per the exp2 ctrl_next_letter
+precedent: the assumption that argmax-reliability measurements (exp2's
+.994/1.000) transfer across battery versions was disproven by 2b's own
+committed M1 measurement on its own items. Consequences: (1) documented
+reliability caveat on 2b's 410m argmax inclusion readings — bias toward
+absence; moot for the dead battery, binding on the record; (2) 2c inclusion
+re-anchors on 1b + probe-side evidence or recalibrates its bar against
+measured control reliability of its own items; (3) STANDING RULE promoted:
+gates whose inputs are committed pre-freeze are adjudicated pre-freeze
+(M1/freeze-review checklist line) — this gate was checkable 8 days before
+the campaign spent its compute. Recorded observation, explicitly bounded:
+ctrl_copy at 410m reads .997 by probe and .868 by argmax generation — a
+representation-vs-output-channel gap on our own control; suggestive color
+for the essay's pattern, not an emergence claim.
