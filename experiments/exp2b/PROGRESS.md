@@ -547,3 +547,19 @@ the campaign spent its compute. Recorded observation, explicitly bounded:
 ctrl_copy at 410m reads .997 by probe and .868 by argmax generation — a
 representation-vs-output-channel gap on our own control; suggestive color
 for the essay's pattern, not an emergence claim.
+
+## GATE REVIEW — Ruling (d), ACCEPTED by Michael (2026-07-27)
+
+**VERDICT: INSUFFICIENT_DATA.** Attrition floor breached — 12 of the
+required 20 scored capabilities survive gate 1. Per design §4.5, frozen at
+exp2b-preregistered: never a smaller test, never a loosened gate. No Stage
+1 was committed; NO eval-side model was ever queried (the two-stage lock
+was never crossed); the thesis remains untested in both directions. The
+instrument exits CERTIFIED (gates 2 and 3); the experiment's positive
+product is the leak taxonomy (lookup class closed by starving; surface-
+statistics class caught by the untrained control) and the 12-survivor seed
+stock. Known-in-advance status: projected in this ledger 07-23/07-24 from
+gate-1 data alone, before the frozen report ran; the formal adjudication
+confirmed the projection. Closeout mechanics (e) proceed: VERDICT.txt,
+activation digests, data commit, retrospective, tag exp2b-closed — drafts
+to Michael before the tag.
