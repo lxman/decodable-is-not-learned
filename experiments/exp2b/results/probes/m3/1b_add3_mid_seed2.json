@@ -1,0 +1,33 @@
+{
+ "stage": "m3",
+ "size": "1b",
+ "capability": "add3_mid",
+ "host": "Michaels-Mini",
+ "present": false,
+ "accuracy": 0.044854881266490766,
+ "chance": 0.19525065963060687,
+ "null_p": 1.0,
+ "null_mean": 0.1023335092348285,
+ "null_std": 0.014201012994475928,
+ "margin": 0.0,
+ "best_layer": 0,
+ "best_token": 0,
+ "n_candidates": 14,
+ "ci95": [
+  0.026343465722501888,
+  0.07084727987563628
+ ],
+ "split": {
+  "seed": 2,
+  "attempt": 0,
+  "k": 1,
+  "held_per_component": [
+   20
+  ],
+  "n_train": 1621,
+  "n_val": 379,
+  "n_dropped": 0
+ },
+ "checkpoint_id": "pythia-1b:f73d7dcc:trained",
+ "seed": 2
+}

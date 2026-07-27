@@ -1,0 +1,33 @@
+{
+ "stage": "known_absent",
+ "size": "410m",
+ "capability": "unscramble",
+ "host": "Michaels-Mini",
+ "present": true,
+ "accuracy": 0.24069478908188585,
+ "chance": 0.06947890818858561,
+ "null_p": 0.007197121151539384,
+ "null_mean": 0.04749875930521092,
+ "null_std": 0.010813573621231422,
+ "margin": 0.2028302132559436,
+ "best_layer": 21,
+ "best_token": 1,
+ "n_candidates": 18,
+ "ci95": [
+  0.19975249843740916,
+  0.2854921007910735
+ ],
+ "split": {
+  "seed": 0,
+  "attempt": 0,
+  "k": 1,
+  "held_per_component": [
+   150
+  ],
+  "n_train": 1597,
+  "n_val": 403,
+  "n_dropped": 0
+ },
+ "checkpoint_id": "pythia-410m:9879c9b5:untrained",
+ "seed": 0
+}

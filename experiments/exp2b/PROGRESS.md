@@ -563,3 +563,15 @@ gate-1 data alone, before the frozen report ran; the formal adjudication
 confirmed the projection. Closeout mechanics (e) proceed: VERDICT.txt,
 activation digests, data commit, retrospective, tag exp2b-closed — drafts
 to Michael before the tag.
+
+## EXPERIMENT 2b CLOSED (2026-07-27, tag exp2b-closed)
+
+Closeout commit: 770/770 probe fits, m2_report.json, campaign + interim
+logs, activation SHA-256 digests (108 npz, local per convention),
+VERDICT.txt (INSUFFICIENT_DATA), retrospective.md. All four gate-review
+rulings accepted by Michael this date. Repo CLAUDE.md status updated.
+NEXT WORK per agreed sequencing: methods-paper outline from the closed
+record, then Experiment 2c design doc (seed stock: the 12 survivors;
+untrained-weights screening gate at inclusion; per-capability binomial
+rate tests; mechanism-calibrated signature bars; fixture-tested
+adjudication code; pre-freeze adjudication of pre-freeze-input gates).

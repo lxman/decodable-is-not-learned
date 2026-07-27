@@ -1,0 +1,33 @@
+{
+ "stage": "m3",
+ "size": "410m",
+ "capability": "units",
+ "host": "llmbox",
+ "present": true,
+ "accuracy": 0.6342105263157894,
+ "chance": 0.35,
+ "null_p": 0.007197121151539384,
+ "null_mean": 0.33437684210526314,
+ "null_std": 0.025052556626253594,
+ "margin": 0.45045560788307587,
+ "best_layer": 18,
+ "best_token": 1,
+ "n_candidates": 18,
+ "ci95": [
+  0.5835706833187888,
+  0.6827414325237503
+ ],
+ "split": {
+  "seed": 1,
+  "attempt": 0,
+  "k": 1,
+  "held_per_component": [
+   3
+  ],
+  "n_train": 1620,
+  "n_val": 380,
+  "n_dropped": 0
+ },
+ "checkpoint_id": "pythia-410m:9879c9b5:trained",
+ "seed": 1
+}

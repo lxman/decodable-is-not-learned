@@ -1,0 +1,1166 @@
+[m2m3] begin git=e4ee292 Sun Jul 19 13:36:52 EDT 2026
+[m2m3] COLLECT START 410m/untrained Sun Jul 19 13:36:52 EDT 2026
+[collect] DONE 410m/untrained/add3_mid shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/add_base8 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/antonym shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/base7 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/bin2dec shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/caesar shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/clock24 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/collatz2 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/count_div7 shape=(4000, 25, 2, 1024)
+[collect] DONE 410m/untrained/digitprod7 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/isqrt shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/mod13 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/mod7_add shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/mod7_mul shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/mul3x1 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/numletter shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/oct2dec shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/odd_one_out shape=(8000, 25, 2, 1024)
+[collect] DONE 410m/untrained/reverse_string shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/roman shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/sq_mod7 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/sub3_mid shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/units shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/unscramble shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/weekday shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/ctrl_copy shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/untrained/entity_track shape=(2000, 25, 2, 1024)
+[m2m3] COLLECT DONE 410m/untrained Sun Jul 19 13:48:51 EDT 2026
+[m2m3] COLLECT START 410m/trained Sun Jul 19 13:48:51 EDT 2026
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 8368.43it/s]
+[collect] DONE 410m/trained/add3_mid shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/add_base8 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/antonym shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/base7 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/bin2dec shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/caesar shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/clock24 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/collatz2 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/count_div7 shape=(4000, 25, 2, 1024)
+[collect] DONE 410m/trained/digitprod7 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/isqrt shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/mod13 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/mod7_add shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/mod7_mul shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/mul3x1 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/numletter shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/oct2dec shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/odd_one_out shape=(8000, 25, 2, 1024)
+[collect] DONE 410m/trained/reverse_string shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/roman shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/sq_mod7 shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/sub3_mid shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/units shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/unscramble shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/weekday shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/ctrl_copy shape=(2000, 25, 2, 1024)
+[collect] DONE 410m/trained/entity_track shape=(2000, 25, 2, 1024)
+[m2m3] COLLECT DONE 410m/trained Sun Jul 19 14:00:51 EDT 2026
+[m2m3] COLLECT START 1b/untrained Sun Jul 19 14:00:51 EDT 2026
+[collect] DONE 1b/untrained/add3_mid shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/add_base8 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/antonym shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/base7 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/bin2dec shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/caesar shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/clock24 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/collatz2 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/count_div7 shape=(4000, 17, 2, 2048)
+[collect] DONE 1b/untrained/digitprod7 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/isqrt shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/mod13 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/mod7_add shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/mod7_mul shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/mul3x1 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/numletter shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/oct2dec shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/odd_one_out shape=(8000, 17, 2, 2048)
+[collect] DONE 1b/untrained/reverse_string shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/roman shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/sq_mod7 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/sub3_mid shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/units shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/unscramble shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/weekday shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/ctrl_copy shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/untrained/entity_track shape=(2000, 17, 2, 2048)
+[m2m3] COLLECT DONE 1b/untrained Sun Jul 19 14:24:44 EDT 2026
+[m2m3] COLLECT START 1b/trained Sun Jul 19 14:24:44 EDT 2026
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 7973.58it/s]
+[collect] DONE 1b/trained/add3_mid shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/add_base8 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/antonym shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/base7 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/bin2dec shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/caesar shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/clock24 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/collatz2 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/count_div7 shape=(4000, 17, 2, 2048)
+[collect] DONE 1b/trained/digitprod7 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/isqrt shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/mod13 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/mod7_add shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/mod7_mul shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/mul3x1 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/numletter shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/oct2dec shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/odd_one_out shape=(8000, 17, 2, 2048)
+[collect] DONE 1b/trained/reverse_string shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/roman shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/sq_mod7 shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/sub3_mid shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/units shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/unscramble shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/weekday shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/ctrl_copy shape=(2000, 17, 2, 2048)
+[collect] DONE 1b/trained/entity_track shape=(2000, 17, 2, 2048)
+[m2m3] COLLECT DONE 1b/trained Sun Jul 19 14:48:35 EDT 2026
+[m2m3] PROBES START known_absent/410m Sun Jul 19 14:48:35 EDT 2026
+[probe] known_absent/410m: 125 to fit, 0 cached
+[probe] known_absent/410m/add_base8/seed0: present=False p=1 acc=0.0668 margin=0.0000
+[probe] known_absent/410m/add_base8/seed2: present=False p=1 acc=0.0880 margin=0.0000
+[probe] known_absent/410m/add_base8/seed1: present=False p=1 acc=0.0504 margin=0.0000
+[probe] known_absent/410m/add3_mid/seed0: present=False p=1 acc=0.0660 margin=0.0000
+[probe] known_absent/410m/add3_mid/seed1: present=False p=1 acc=0.0629 margin=0.0000
+[probe] known_absent/410m/add3_mid/seed3: present=False p=1 acc=0.0951 margin=0.0000
+[probe] known_absent/410m/add3_mid/seed4: present=False p=1 acc=0.0594 margin=0.0000
+[probe] known_absent/410m/add3_mid/seed2: present=False p=1 acc=0.0528 margin=0.0000
+[probe] known_absent/410m/antonym/seed0: present=False p=1 acc=0.2780 margin=0.0000
+[probe] known_absent/410m/antonym/seed4: present=False p=1 acc=0.2774 margin=0.0000
+[probe] known_absent/410m/antonym/seed1: present=False p=1 acc=0.2760 margin=0.0000
+[probe] known_absent/410m/antonym/seed2: present=False p=1 acc=0.2624 margin=0.0000
+[probe] known_absent/410m/antonym/seed3: present=False p=0.6981 acc=0.2909 margin=0.0000
+[probe] known_absent/410m/add_base8/seed3: present=False p=1 acc=0.0737 margin=0.0000
+[probe] known_absent/410m/add_base8/seed4: present=False p=1 acc=0.0814 margin=0.0000
+[probe] known_absent/410m/base7/seed0: present=False p=1 acc=0.1575 margin=0.0000
+[probe] known_absent/410m/base7/seed1: present=False p=1 acc=0.1600 margin=0.0000
+[probe] known_absent/410m/base7/seed2: present=False p=1 acc=0.1650 margin=0.0000
+[probe] known_absent/410m/base7/seed3: present=False p=1 acc=0.1725 margin=0.0000
+[probe] known_absent/410m/base7/seed4: present=False p=1 acc=0.1500 margin=0.0000
+[probe] known_absent/410m/bin2dec/seed0: present=True p=0.007197 acc=0.1750 margin=0.0836
+[probe] known_absent/410m/bin2dec/seed1: present=True p=0.007197 acc=0.1675 margin=0.0760
+[probe] known_absent/410m/bin2dec/seed2: present=True p=0.007197 acc=0.1525 margin=0.0583
+[probe] known_absent/410m/bin2dec/seed3: present=False p=0.01439 acc=0.1500 margin=0.0000
+[probe] known_absent/410m/bin2dec/seed4: present=True p=0.007197 acc=0.1550 margin=0.0620
+[probe] known_absent/410m/caesar/seed0: present=False p=1 acc=0.0643 margin=0.0000
+[probe] known_absent/410m/caesar/seed1: present=False p=1 acc=0.0777 margin=0.0000
+[probe] known_absent/410m/caesar/seed2: present=False p=1 acc=0.0670 margin=0.0000
+[probe] known_absent/410m/caesar/seed3: present=False p=1 acc=0.0663 margin=0.0000
+[probe] known_absent/410m/caesar/seed4: present=False p=1 acc=0.0627 margin=0.0000
+[probe] known_absent/410m/clock24/seed0: present=False p=1 acc=0.0582 margin=0.0000
+[probe] known_absent/410m/clock24/seed1: present=False p=1 acc=0.0557 margin=0.0000
+[probe] known_absent/410m/collatz2/seed0: present=True p=0.007197 acc=0.7900 margin=0.7605
+[probe] known_absent/410m/collatz2/seed1: present=True p=0.007197 acc=0.7975 margin=0.7691
+[probe] known_absent/410m/clock24/seed2: present=False p=1 acc=0.0497 margin=0.0000
+[probe] known_absent/410m/collatz2/seed2: present=True p=0.007197 acc=0.8075 margin=0.7803
+[probe] known_absent/410m/collatz2/seed3: present=True p=0.007197 acc=0.7775 margin=0.7459
+[probe] known_absent/410m/clock24/seed3: present=False p=1 acc=0.0523 margin=0.0000
+[probe] known_absent/410m/clock24/seed4: present=False p=1 acc=0.0584 margin=0.0000
+[probe] known_absent/410m/collatz2/seed4: present=True p=0.007197 acc=0.7750 margin=0.7432
+[probe] known_absent/410m/count_div7/seed0: present=False p=1 acc=0.0878 margin=0.0000
+[probe] known_absent/410m/count_div7/seed1: present=False p=1 acc=0.0840 margin=0.0000
+[probe] known_absent/410m/count_div7/seed2: present=False p=0.8277 acc=0.0915 margin=0.0000
+[probe] known_absent/410m/count_div7/seed3: present=False p=0.2807 acc=0.0963 margin=0.0000
+[probe] known_absent/410m/digitprod7/seed0: present=True p=0.007197 acc=0.3750 margin=0.2172
+[probe] known_absent/410m/digitprod7/seed1: present=True p=0.007197 acc=0.3675 margin=0.2069
+[probe] known_absent/410m/digitprod7/seed2: present=True p=0.007197 acc=0.4300 margin=0.2828
+[probe] known_absent/410m/count_div7/seed4: present=False p=0.02159 acc=0.1072 margin=0.0000
+[probe] known_absent/410m/digitprod7/seed3: present=True p=0.007197 acc=0.3625 margin=0.2005
+[probe] known_absent/410m/digitprod7/seed4: present=True p=0.007197 acc=0.3925 margin=0.2366
+[probe] known_absent/410m/isqrt/seed0: present=True p=0.007197 acc=0.4650 margin=0.4057
+[probe] known_absent/410m/isqrt/seed1: present=True p=0.007197 acc=0.4275 margin=0.3635
+[probe] known_absent/410m/isqrt/seed2: present=True p=0.007197 acc=0.4375 margin=0.3751
+[probe] known_absent/410m/isqrt/seed3: present=True p=0.007197 acc=0.4800 margin=0.4221
+[probe] known_absent/410m/isqrt/seed4: present=True p=0.007197 acc=0.4450 margin=0.3834
+[probe] known_absent/410m/mod13/seed0: present=False p=1 acc=0.0613 margin=0.0000
+[probe] known_absent/410m/mod13/seed1: present=False p=1 acc=0.0876 margin=0.0000
+[probe] known_absent/410m/mod13/seed2: present=False p=1 acc=0.0873 margin=0.0000
+[probe] known_absent/410m/mod13/seed3: present=False p=1 acc=0.0838 margin=0.0000
+[probe] known_absent/410m/mod7_add/seed1: present=False p=0.01439 acc=0.2080 margin=0.0000
+[probe] known_absent/410m/mod7_add/seed0: present=False p=1 acc=0.1488 margin=0.0000
+[probe] known_absent/410m/mod7_add/seed2: present=False p=0.1152 acc=0.1923 margin=0.0000
+[probe] known_absent/410m/mod13/seed4: present=False p=1 acc=0.0704 margin=0.0000
+[probe] known_absent/410m/mod7_add/seed3: present=False p=0.5398 acc=0.1769 margin=0.0000
+[probe] known_absent/410m/mod7_add/seed4: present=False p=1 acc=0.1733 margin=0.0000
+[probe] known_absent/410m/mod7_mul/seed0: present=False p=1 acc=0.1399 margin=0.0000
+[probe] known_absent/410m/mod7_mul/seed1: present=True p=0.007197 acc=0.2267 margin=0.0970
+[probe] known_absent/410m/mod7_mul/seed2: present=False p=0.08637 acc=0.1920 margin=0.0000
+[probe] known_absent/410m/mod7_mul/seed3: present=False p=0.05758 acc=0.1935 margin=0.0000
+[probe] known_absent/410m/mod7_mul/seed4: present=False p=0.08637 acc=0.1938 margin=0.0000
+[probe] known_absent/410m/mul3x1/seed0: present=True p=0.007197 acc=0.1845 margin=0.0937
+[probe] known_absent/410m/mul3x1/seed1: present=True p=0.007197 acc=0.1738 margin=0.0818
+[probe] known_absent/410m/mul3x1/seed2: present=False p=0.01439 acc=0.1572 margin=0.0000
+[probe] known_absent/410m/mul3x1/seed3: present=True p=0.007197 acc=0.1956 margin=0.1067
+[probe] known_absent/410m/mul3x1/seed4: present=False p=0.01439 acc=0.1504 margin=0.0000
+[probe] known_absent/410m/oct2dec/seed0: present=False p=1 acc=0.1075 margin=0.0000
+[probe] known_absent/410m/oct2dec/seed1: present=False p=1 acc=0.1075 margin=0.0000
+[probe] known_absent/410m/numletter/seed0: present=True p=0.007197 acc=0.1073 margin=0.0571
+[probe] known_absent/410m/numletter/seed1: present=True p=0.007197 acc=0.1349 margin=0.0864
+[probe] known_absent/410m/numletter/seed2: present=True p=0.007197 acc=0.1291 margin=0.0794
+[probe] known_absent/410m/oct2dec/seed2: present=False p=1 acc=0.1150 margin=0.0000
+[probe] known_absent/410m/numletter/seed3: present=True p=0.007197 acc=0.1081 margin=0.0579
+[probe] known_absent/410m/numletter/seed4: present=True p=0.007197 acc=0.1432 margin=0.0956
+[probe] known_absent/410m/odd_one_out/seed0: present=False p=0.9716 acc=0.2857 margin=0.0000
+[probe] known_absent/410m/odd_one_out/seed1: present=False p=0.4966 acc=0.2973 margin=0.0000
+[probe] known_absent/410m/odd_one_out/seed3: present=False p=1 acc=0.2759 margin=0.0000
+[probe] known_absent/410m/odd_one_out/seed2: present=False p=1 acc=0.2744 margin=0.0000
+[probe] known_absent/410m/odd_one_out/seed4: present=False p=1 acc=0.2654 margin=0.0000
+[probe] known_absent/410m/oct2dec/seed3: present=False p=1 acc=0.0925 margin=0.0000
+[probe] known_absent/410m/oct2dec/seed4: present=False p=1 acc=0.1175 margin=0.0000
+[probe] known_absent/410m/roman/seed0: present=True p=0.007197 acc=0.6886 margin=0.6540
+[probe] known_absent/410m/roman/seed1: present=True p=0.007197 acc=0.7975 margin=0.7749
+[probe] known_absent/410m/reverse_string/seed4: present=False p=1 acc=0.0460 margin=0.0000
+[probe] known_absent/410m/reverse_string/seed0: present=False p=1 acc=0.0531 margin=0.0000
+[probe] known_absent/410m/reverse_string/seed1: present=False p=1 acc=0.0331 margin=0.0000
+[probe] known_absent/410m/roman/seed2: present=True p=0.007197 acc=0.7103 margin=0.6780
+[probe] known_absent/410m/reverse_string/seed2: present=False p=1 acc=0.0534 margin=0.0000
+[probe] known_absent/410m/reverse_string/seed3: present=False p=1 acc=0.0520 margin=0.0000
+[probe] known_absent/410m/sq_mod7/seed0: present=False p=0.1511 acc=0.3200 margin=0.0000
+[probe] known_absent/410m/roman/seed3: present=True p=0.007197 acc=0.6973 margin=0.6635
+[probe] known_absent/410m/sq_mod7/seed1: present=True p=0.007197 acc=0.3524 margin=0.1265
+[probe] known_absent/410m/sq_mod7/seed2: present=False p=0.01439 acc=0.3475 margin=0.0000
+[probe] known_absent/410m/sq_mod7/seed3: present=False p=1 acc=0.2604 margin=0.0000
+[probe] known_absent/410m/sq_mod7/seed4: present=False p=1 acc=0.2593 margin=0.0000
+[probe] known_absent/410m/roman/seed4: present=True p=0.007197 acc=0.8060 margin=0.7844
+[probe] known_absent/410m/sub3_mid/seed0: present=False p=1 acc=0.1297 margin=0.0000
+[probe] known_absent/410m/units/seed0: present=False p=1 acc=0.3371 margin=0.0000
+[probe] known_absent/410m/units/seed1: present=False p=1 acc=0.3289 margin=0.0000
+[probe] known_absent/410m/units/seed2: present=True p=0.007197 acc=0.5928 margin=0.3885
+[probe] known_absent/410m/sub3_mid/seed4: present=False p=0.1008 acc=0.1776 margin=0.0000
+[probe] known_absent/410m/sub3_mid/seed3: present=False p=1 acc=0.0737 margin=0.0000
+[probe] known_absent/410m/sub3_mid/seed2: present=False p=1 acc=0.0836 margin=0.0000
+[probe] known_absent/410m/sub3_mid/seed1: present=False p=1 acc=0.1313 margin=0.0000
+[probe] known_absent/410m/units/seed3: present=False p=1 acc=0.3117 margin=0.0000
+[probe] known_absent/410m/units/seed4: present=False p=1 acc=0.3279 margin=0.0000
+[probe] known_absent/410m/weekday/seed0: present=False p=0.8061 acc=0.1744 margin=0.0000
+[probe] known_absent/410m/unscramble/seed0: present=True p=0.007197 acc=0.2407 margin=0.2028
+[probe] known_absent/410m/unscramble/seed1: present=True p=0.007197 acc=0.2219 margin=0.1830
+[probe] known_absent/410m/weekday/seed1: present=True p=0.007197 acc=0.2171 margin=0.0868
+[probe] known_absent/410m/unscramble/seed4: present=True p=0.007197 acc=0.2338 margin=0.1954
+[probe] known_absent/410m/unscramble/seed2: present=True p=0.007197 acc=0.2558 margin=0.2187
+[probe] known_absent/410m/unscramble/seed3: present=True p=0.007197 acc=0.2220 margin=0.1832
+[probe] known_absent/410m/weekday/seed2: present=False p=0.6261 acc=0.1766 margin=0.0000
+[probe] known_absent/410m/weekday/seed3: present=True p=0.007197 acc=0.2370 margin=0.1095
+[probe] known_absent/410m/weekday/seed4: present=False p=0.2159 acc=0.1829 margin=0.0000
+[m2m3] PROBES DONE known_absent/410m Mon Jul 20 13:32:31 EDT 2026
+[m2m3] PROBES START shuffled/410m Mon Jul 20 13:32:31 EDT 2026
+[probe] shuffled/410m: 125 to fit, 0 cached
+[probe] shuffled/410m/add_base8/seed2: present=False p=0.1224 acc=0.1663 margin=0.0000
+[probe] shuffled/410m/add_base8/seed0: present=False p=1 acc=0.1376 margin=0.0000
+[probe] shuffled/410m/add_base8/seed1: present=False p=1 acc=0.1517 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed1: present=False p=1 acc=0.1189 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed0: present=False p=1 acc=0.1179 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed4: present=False p=1 acc=0.1188 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed3: present=False p=0.3455 acc=0.1268 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed2: present=False p=1 acc=0.1187 margin=0.0000
+[probe] shuffled/410m/antonym/seed0: present=False p=1 acc=0.2927 margin=0.0000
+[probe] shuffled/410m/antonym/seed4: present=False p=0.7989 acc=0.2867 margin=0.0000
+[probe] shuffled/410m/antonym/seed1: present=False p=1 acc=0.2785 margin=0.0000
+[probe] shuffled/410m/antonym/seed2: present=False p=0.6837 acc=0.2896 margin=0.0000
+[probe] shuffled/410m/antonym/seed3: present=False p=0.2231 acc=0.3039 margin=0.0000
+[probe] shuffled/410m/add_base8/seed4: present=False p=1 acc=0.1481 margin=0.0000
+[probe] shuffled/410m/add_base8/seed3: present=False p=1 acc=0.1327 margin=0.0000
+[probe] shuffled/410m/base7/seed0: present=False p=0.8349 acc=0.1825 margin=0.0000
+[probe] shuffled/410m/base7/seed1: present=False p=1 acc=0.1725 margin=0.0000
+[probe] shuffled/410m/base7/seed3: present=False p=1 acc=0.1775 margin=0.0000
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15_3/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/Users/michaeljordan/emergence-paper/experiments/exp2b/run/run_probes_2b.py", line 87, in _worker
+    return fit_one(*args)
+           ^^^^^^^^^^^^^^
+  File "/Users/michaeljordan/emergence-paper/experiments/exp2b/run/run_probes_2b.py", line 70, in fit_one
+    r = probe_starved(
+        ^^^^^^^^^^^^^^
+  File "/Users/michaeljordan/emergence-paper/experiments/exp2b/probe_starved.py", line 100, in probe_starved
+    train_idx, val_idx, split_info = starving_split(
+                                     ^^^^^^^^^^^^^^^
+  File "/Users/michaeljordan/emergence-paper/experiments/exp2b/splits.py", line 91, in starving_split
+    raise ValueError(f"basis value {b[0]!r} induces two labels; "
+ValueError: basis value 'x4' induces two labels; stratification undefined
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/michaeljordan/emergence-paper/experiments/exp2b/run/run_probes_2b.py", line 129, in <module>
+    main()
+  File "/Users/michaeljordan/emergence-paper/experiments/exp2b/run/run_probes_2b.py", line 125, in main
+    run_stage(stage, size, caps)
+  File "/Users/michaeljordan/emergence-paper/experiments/exp2b/run/run_probes_2b.py", line 117, in run_stage
+    for d in pool.imap_unordered(_worker, jobs):
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15_3/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/pool.py", line 873, in next
+    raise value
+ValueError: basis value 'x4' induces two labels; stratification undefined
+[m2m3] ABORT: probes shuffled/410m failed (rc=1) Mon Jul 20 17:13:11 EDT 2026
+[m2m3] begin git=ec48146 Mon Jul 20 18:10:02 EDT 2026
+[m2m3] COLLECT START 410m/untrained Mon Jul 20 18:10:02 EDT 2026
+[collect] skip 410m/untrained/add3_mid (exists)
+[collect] skip 410m/untrained/add_base8 (exists)
+[collect] skip 410m/untrained/antonym (exists)
+[collect] skip 410m/untrained/base7 (exists)
+[collect] skip 410m/untrained/bin2dec (exists)
+[collect] skip 410m/untrained/caesar (exists)
+[collect] skip 410m/untrained/clock24 (exists)
+[collect] skip 410m/untrained/collatz2 (exists)
+[collect] skip 410m/untrained/count_div7 (exists)
+[collect] skip 410m/untrained/digitprod7 (exists)
+[collect] skip 410m/untrained/isqrt (exists)
+[collect] skip 410m/untrained/mod13 (exists)
+[collect] skip 410m/untrained/mod7_add (exists)
+[collect] skip 410m/untrained/mod7_mul (exists)
+[collect] skip 410m/untrained/mul3x1 (exists)
+[collect] skip 410m/untrained/numletter (exists)
+[collect] skip 410m/untrained/oct2dec (exists)
+[collect] skip 410m/untrained/odd_one_out (exists)
+[collect] skip 410m/untrained/reverse_string (exists)
+[collect] skip 410m/untrained/roman (exists)
+[collect] skip 410m/untrained/sq_mod7 (exists)
+[collect] skip 410m/untrained/sub3_mid (exists)
+[collect] skip 410m/untrained/units (exists)
+[collect] skip 410m/untrained/unscramble (exists)
+[collect] skip 410m/untrained/weekday (exists)
+[collect] skip 410m/untrained/ctrl_copy (exists)
+[collect] skip 410m/untrained/entity_track (exists)
+[m2m3] COLLECT DONE 410m/untrained Mon Jul 20 18:10:04 EDT 2026
+[m2m3] COLLECT START 410m/trained Mon Jul 20 18:10:04 EDT 2026
+[collect] skip 410m/trained/add3_mid (exists)
+[collect] skip 410m/trained/add_base8 (exists)
+[collect] skip 410m/trained/antonym (exists)
+[collect] skip 410m/trained/base7 (exists)
+[collect] skip 410m/trained/bin2dec (exists)
+[collect] skip 410m/trained/caesar (exists)
+[collect] skip 410m/trained/clock24 (exists)
+[collect] skip 410m/trained/collatz2 (exists)
+[collect] skip 410m/trained/count_div7 (exists)
+[collect] skip 410m/trained/digitprod7 (exists)
+[collect] skip 410m/trained/isqrt (exists)
+[collect] skip 410m/trained/mod13 (exists)
+[collect] skip 410m/trained/mod7_add (exists)
+[collect] skip 410m/trained/mod7_mul (exists)
+[collect] skip 410m/trained/mul3x1 (exists)
+[collect] skip 410m/trained/numletter (exists)
+[collect] skip 410m/trained/oct2dec (exists)
+[collect] skip 410m/trained/odd_one_out (exists)
+[collect] skip 410m/trained/reverse_string (exists)
+[collect] skip 410m/trained/roman (exists)
+[collect] skip 410m/trained/sq_mod7 (exists)
+[collect] skip 410m/trained/sub3_mid (exists)
+[collect] skip 410m/trained/units (exists)
+[collect] skip 410m/trained/unscramble (exists)
+[collect] skip 410m/trained/weekday (exists)
+[collect] skip 410m/trained/ctrl_copy (exists)
+[collect] skip 410m/trained/entity_track (exists)
+[m2m3] COLLECT DONE 410m/trained Mon Jul 20 18:10:06 EDT 2026
+[m2m3] COLLECT START 1b/untrained Mon Jul 20 18:10:06 EDT 2026
+[collect] skip 1b/untrained/add3_mid (exists)
+[collect] skip 1b/untrained/add_base8 (exists)
+[collect] skip 1b/untrained/antonym (exists)
+[collect] skip 1b/untrained/base7 (exists)
+[collect] skip 1b/untrained/bin2dec (exists)
+[collect] skip 1b/untrained/caesar (exists)
+[collect] skip 1b/untrained/clock24 (exists)
+[collect] skip 1b/untrained/collatz2 (exists)
+[collect] skip 1b/untrained/count_div7 (exists)
+[collect] skip 1b/untrained/digitprod7 (exists)
+[collect] skip 1b/untrained/isqrt (exists)
+[collect] skip 1b/untrained/mod13 (exists)
+[collect] skip 1b/untrained/mod7_add (exists)
+[collect] skip 1b/untrained/mod7_mul (exists)
+[collect] skip 1b/untrained/mul3x1 (exists)
+[collect] skip 1b/untrained/numletter (exists)
+[collect] skip 1b/untrained/oct2dec (exists)
+[collect] skip 1b/untrained/odd_one_out (exists)
+[collect] skip 1b/untrained/reverse_string (exists)
+[collect] skip 1b/untrained/roman (exists)
+[collect] skip 1b/untrained/sq_mod7 (exists)
+[collect] skip 1b/untrained/sub3_mid (exists)
+[collect] skip 1b/untrained/units (exists)
+[collect] skip 1b/untrained/unscramble (exists)
+[collect] skip 1b/untrained/weekday (exists)
+[collect] skip 1b/untrained/ctrl_copy (exists)
+[collect] skip 1b/untrained/entity_track (exists)
+[m2m3] COLLECT DONE 1b/untrained Mon Jul 20 18:10:08 EDT 2026
+[m2m3] COLLECT START 1b/trained Mon Jul 20 18:10:08 EDT 2026
+[collect] skip 1b/trained/add3_mid (exists)
+[collect] skip 1b/trained/add_base8 (exists)
+[collect] skip 1b/trained/antonym (exists)
+[collect] skip 1b/trained/base7 (exists)
+[collect] skip 1b/trained/bin2dec (exists)
+[collect] skip 1b/trained/caesar (exists)
+[collect] skip 1b/trained/clock24 (exists)
+[collect] skip 1b/trained/collatz2 (exists)
+[collect] skip 1b/trained/count_div7 (exists)
+[collect] skip 1b/trained/digitprod7 (exists)
+[collect] skip 1b/trained/isqrt (exists)
+[collect] skip 1b/trained/mod13 (exists)
+[collect] skip 1b/trained/mod7_add (exists)
+[collect] skip 1b/trained/mod7_mul (exists)
+[collect] skip 1b/trained/mul3x1 (exists)
+[collect] skip 1b/trained/numletter (exists)
+[collect] skip 1b/trained/oct2dec (exists)
+[collect] skip 1b/trained/odd_one_out (exists)
+[collect] skip 1b/trained/reverse_string (exists)
+[collect] skip 1b/trained/roman (exists)
+[collect] skip 1b/trained/sq_mod7 (exists)
+[collect] skip 1b/trained/sub3_mid (exists)
+[collect] skip 1b/trained/units (exists)
+[collect] skip 1b/trained/unscramble (exists)
+[collect] skip 1b/trained/weekday (exists)
+[collect] skip 1b/trained/ctrl_copy (exists)
+[collect] skip 1b/trained/entity_track (exists)
+[m2m3] COLLECT DONE 1b/trained Mon Jul 20 18:10:10 EDT 2026
+[m2m3] PROBES START known_absent/410m Mon Jul 20 18:10:10 EDT 2026
+[probe] known_absent/410m: 0 to fit, 125 cached
+[m2m3] PROBES DONE known_absent/410m Mon Jul 20 18:10:11 EDT 2026
+[m2m3] PROBES START shuffled/410m Mon Jul 20 18:10:11 EDT 2026
+[probe] shuffled/410m: 125 to fit, 0 cached
+[probe] shuffled/410m/add_base8/seed0: present=False p=1 acc=0.1337 margin=0.0000
+[probe] shuffled/410m/add_base8/seed1: present=False p=0.2231 acc=0.1631 margin=0.0000
+[probe] shuffled/410m/add_base8/seed2: present=False p=0.1224 acc=0.1663 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed4: present=False p=1 acc=0.1188 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed1: present=False p=1 acc=0.1189 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed0: present=False p=1 acc=0.1179 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed3: present=False p=0.3455 acc=0.1268 margin=0.0000
+[probe] shuffled/410m/add3_mid/seed2: present=False p=1 acc=0.1187 margin=0.0000
+[probe] shuffled/410m/antonym/seed0: present=False p=1 acc=0.2927 margin=0.0000
+[probe] shuffled/410m/antonym/seed1: present=False p=1 acc=0.2785 margin=0.0000
+[probe] shuffled/410m/antonym/seed3: present=False p=0.2231 acc=0.3039 margin=0.0000
+[probe] shuffled/410m/antonym/seed4: present=False p=0.7989 acc=0.2867 margin=0.0000
+[probe] shuffled/410m/antonym/seed2: present=False p=0.6837 acc=0.2896 margin=0.0000
+[probe] shuffled/410m/add_base8/seed3: present=False p=1 acc=0.1351 margin=0.0000
+[probe] shuffled/410m/add_base8/seed4: present=False p=1 acc=0.1323 margin=0.0000
+[probe] shuffled/410m/base7/seed0: present=False p=0.8349 acc=0.1825 margin=0.0000
+[probe] shuffled/410m/base7/seed1: present=False p=1 acc=0.1725 margin=0.0000
+[probe] shuffled/410m/base7/seed2: present=False p=0.6333 acc=0.1775 margin=0.0000
+[probe] shuffled/410m/base7/seed3: present=False p=1 acc=0.1775 margin=0.0000
+[probe] shuffled/410m/base7/seed4: present=False p=1 acc=0.1625 margin=0.0000
+[probe] shuffled/410m/bin2dec/seed0: present=True p=0.007197 acc=0.1700 margin=0.0781
+[probe] shuffled/410m/bin2dec/seed1: present=False p=1 acc=0.1125 margin=0.0000
+[probe] shuffled/410m/bin2dec/seed2: present=False p=1 acc=0.1200 margin=0.0000
+[probe] shuffled/410m/bin2dec/seed3: present=False p=0.3455 acc=0.1325 margin=0.0000
+[probe] shuffled/410m/bin2dec/seed4: present=False p=1 acc=0.1100 margin=0.0000
+[probe] shuffled/410m/caesar/seed0: present=False p=1 acc=0.0680 margin=0.0000
+[probe] shuffled/410m/caesar/seed1: present=False p=1 acc=0.0728 margin=0.0000
+[probe] shuffled/410m/caesar/seed2: present=False p=0.7989 acc=0.0682 margin=0.0000
+[probe] shuffled/410m/caesar/seed3: present=False p=0.6333 acc=0.0689 margin=0.0000
+[probe] shuffled/410m/caesar/seed4: present=False p=0.3743 acc=0.0719 margin=0.0000
+[probe] shuffled/410m/clock24/seed0: present=False p=0.3743 acc=0.0658 margin=0.0000
+[probe] shuffled/410m/clock24/seed1: present=False p=1 acc=0.0582 margin=0.0000
+[probe] shuffled/410m/collatz2/seed0: present=False p=0.1224 acc=0.1675 margin=0.0000
+[probe] shuffled/410m/collatz2/seed1: present=False p=0.5758 acc=0.1575 margin=0.0000
+[probe] shuffled/410m/clock24/seed2: present=False p=1 acc=0.0550 margin=0.0000
+[probe] shuffled/410m/collatz2/seed2: present=False p=1 acc=0.1450 margin=0.0000
+[probe] shuffled/410m/collatz2/seed3: present=False p=1 acc=0.1550 margin=0.0000
+[probe] shuffled/410m/clock24/seed3: present=False p=1 acc=0.0500 margin=0.0000
+[probe] shuffled/410m/clock24/seed4: present=False p=1 acc=0.0487 margin=0.0000
+[probe] shuffled/410m/collatz2/seed4: present=False p=0.3743 acc=0.1575 margin=0.0000
+[probe] shuffled/410m/count_div7/seed0: present=False p=0.07917 acc=0.1008 margin=0.0000
+[probe] shuffled/410m/count_div7/seed1: present=False p=1 acc=0.0933 margin=0.0000
+[probe] shuffled/410m/count_div7/seed2: present=False p=0.5182 acc=0.0978 margin=0.0000
+[probe] shuffled/410m/count_div7/seed3: present=False p=1 acc=0.0890 margin=0.0000
+[probe] shuffled/410m/digitprod7/seed0: present=False p=1 acc=0.3225 margin=0.0000
+[probe] shuffled/410m/digitprod7/seed1: present=False p=1 acc=0.3525 margin=0.0000
+[probe] shuffled/410m/digitprod7/seed2: present=False p=0.1583 acc=0.2725 margin=0.0000
+[probe] shuffled/410m/count_div7/seed4: present=False p=0.6837 acc=0.0923 margin=0.0000
+[probe] shuffled/410m/digitprod7/seed3: present=False p=0.2447 acc=0.2650 margin=0.0000
+[probe] shuffled/410m/digitprod7/seed4: present=False p=1 acc=0.3200 margin=0.0000
+[probe] shuffled/410m/isqrt/seed0: present=False p=0.5686 acc=0.1300 margin=0.0000
+[probe] shuffled/410m/isqrt/seed1: present=False p=0.7629 acc=0.1275 margin=0.0000
+[probe] shuffled/410m/isqrt/seed2: present=False p=1 acc=0.1200 margin=0.0000
+[probe] shuffled/410m/isqrt/seed3: present=False p=1 acc=0.1200 margin=0.0000
+[probe] shuffled/410m/isqrt/seed4: present=False p=1 acc=0.1150 margin=0.0000
+[probe] shuffled/410m/mod13/seed0: present=False p=1 acc=0.0933 margin=0.0000
+[probe] shuffled/410m/mod13/seed1: present=False p=1 acc=0.0851 margin=0.0000
+[probe] shuffled/410m/mod13/seed2: present=False p=0.9356 acc=0.0998 margin=0.0000
+[probe] shuffled/410m/mod13/seed3: present=False p=1 acc=0.0939 margin=0.0000
+[probe] shuffled/410m/mod7_add/seed0: present=False p=0.6118 acc=0.1659 margin=0.0000
+[probe] shuffled/410m/mod7_add/seed1: present=False p=1 acc=0.1654 margin=0.0000
+[probe] shuffled/410m/mod7_add/seed2: present=False p=0.3311 acc=0.1821 margin=0.0000
+[probe] shuffled/410m/mod13/seed4: present=False p=1 acc=0.0854 margin=0.0000
+[probe] shuffled/410m/mod7_add/seed3: present=False p=1 acc=0.1675 margin=0.0000
+[probe] shuffled/410m/mod7_add/seed4: present=False p=0.4606 acc=0.1813 margin=0.0000
+[probe] shuffled/410m/mod7_mul/seed0: present=False p=0.1152 acc=0.1908 margin=0.0000
+[probe] shuffled/410m/mod7_mul/seed1: present=False p=1 acc=0.1662 margin=0.0000
+[probe] shuffled/410m/mod7_mul/seed2: present=False p=1 acc=0.1696 margin=0.0000
+[probe] shuffled/410m/mod7_mul/seed3: present=False p=0.03599 acc=0.1960 margin=0.0000
+[probe] shuffled/410m/mod7_mul/seed4: present=False p=1 acc=0.1628 margin=0.0000
+[probe] shuffled/410m/mul3x1/seed0: present=False p=0.8996 acc=0.1262 margin=0.0000
+[probe] shuffled/410m/mul3x1/seed1: present=False p=1 acc=0.1257 margin=0.0000
+[probe] shuffled/410m/mul3x1/seed2: present=False p=1 acc=0.1186 margin=0.0000
+[probe] shuffled/410m/mul3x1/seed3: present=False p=0.2159 acc=0.1369 margin=0.0000
+[probe] shuffled/410m/mul3x1/seed4: present=False p=1 acc=0.1161 margin=0.0000
+[probe] shuffled/410m/oct2dec/seed0: present=False p=1 acc=0.1125 margin=0.0000
+[probe] shuffled/410m/oct2dec/seed1: present=False p=1 acc=0.1200 margin=0.0000
+[probe] shuffled/410m/numletter/seed0: present=False p=0.2015 acc=0.0822 margin=0.0000
+[probe] shuffled/410m/numletter/seed1: present=False p=1 acc=0.0992 margin=0.0000
+[probe] shuffled/410m/oct2dec/seed2: present=False p=0.2663 acc=0.1350 margin=0.0000
+[probe] shuffled/410m/numletter/seed2: present=False p=1 acc=0.1266 margin=0.0000
+[probe] shuffled/410m/numletter/seed3: present=False p=1 acc=0.1032 margin=0.0000
+[probe] shuffled/410m/odd_one_out/seed0: present=False p=0.7917 acc=0.2907 margin=0.0000
+[probe] shuffled/410m/numletter/seed4: present=False p=0.5038 acc=0.0796 margin=0.0000
+[probe] shuffled/410m/odd_one_out/seed1: present=False p=0.1008 acc=0.3123 margin=0.0000
+[probe] shuffled/410m/odd_one_out/seed3: present=False p=0.2375 acc=0.3072 margin=0.0000
+[probe] shuffled/410m/odd_one_out/seed2: present=False p=0.8709 acc=0.2927 margin=0.0000
+[probe] shuffled/410m/odd_one_out/seed4: present=True p=0.007197 acc=0.3398 margin=0.1193
+[probe] shuffled/410m/oct2dec/seed3: present=False p=0.7629 acc=0.1275 margin=0.0000
+[probe] shuffled/410m/oct2dec/seed4: present=False p=0.4606 acc=0.1325 margin=0.0000
+[probe] shuffled/410m/roman/seed0: present=False p=0.7341 acc=0.1291 margin=0.0000
+[probe] shuffled/410m/roman/seed1: present=False p=1 acc=0.1250 margin=0.0000
+[probe] shuffled/410m/roman/seed2: present=False p=1 acc=0.1108 margin=0.0000
+[probe] shuffled/410m/reverse_string/seed1: present=False p=1 acc=0.0544 margin=0.0000
+[probe] shuffled/410m/reverse_string/seed0: present=False p=1 acc=0.0362 margin=0.0000
+[probe] shuffled/410m/reverse_string/seed4: present=False p=1 acc=0.0520 margin=0.0000
+[probe] shuffled/410m/reverse_string/seed2: present=False p=1 acc=0.0449 margin=0.0000
+[probe] shuffled/410m/reverse_string/seed3: present=False p=0.4174 acc=0.0607 margin=0.0000
+[probe] shuffled/410m/sq_mod7/seed0: present=False p=1 acc=0.2900 margin=0.0000
+[probe] shuffled/410m/roman/seed3: present=False p=0.4534 acc=0.1308 margin=0.0000
+[probe] shuffled/410m/roman/seed4: present=False p=0.7125 acc=0.1285 margin=0.0000
+[probe] shuffled/410m/sq_mod7/seed1: present=False p=0.403 acc=0.3102 margin=0.0000
+[probe] shuffled/410m/sq_mod7/seed2: present=False p=1 acc=0.2925 margin=0.0000
+[probe] shuffled/410m/sq_mod7/seed3: present=False p=0.4966 acc=0.3096 margin=0.0000
+[probe] shuffled/410m/sq_mod7/seed4: present=False p=1 acc=0.2963 margin=0.0000
+[probe] shuffled/410m/sub3_mid/seed0: present=False p=1 acc=0.1439 margin=0.0000
+[probe] shuffled/410m/sub3_mid/seed1: present=False p=0.4894 acc=0.1338 margin=0.0000
+[probe] shuffled/410m/sub3_mid/seed2: present=False p=1 acc=0.1410 margin=0.0000
+[probe] shuffled/410m/unscramble/seed0: present=False p=0.3455 acc=0.0720 margin=0.0000
+[probe] shuffled/410m/unscramble/seed1: present=False p=0.3671 acc=0.0723 margin=0.0000
+[probe] shuffled/410m/unscramble/seed2: present=False p=1 acc=0.0614 margin=0.0000
+[probe] shuffled/410m/units/seed0: present=False p=0.1367 acc=0.4023 margin=0.0000
+[probe] shuffled/410m/sub3_mid/seed3: present=False p=1 acc=0.1572 margin=0.0000
+[probe] shuffled/410m/weekday/seed0: present=False p=1 acc=0.1718 margin=0.0000
+[probe] shuffled/410m/weekday/seed1: present=False p=0.1511 acc=0.1829 margin=0.0000
+[probe] shuffled/410m/weekday/seed2: present=False p=0.04318 acc=0.1965 margin=0.0000
+[probe] shuffled/410m/weekday/seed3: present=False p=1 acc=0.1556 margin=0.0000
+[probe] shuffled/410m/weekday/seed4: present=False p=1 acc=0.1366 margin=0.0000
+[probe] shuffled/410m/units/seed1: present=False p=1 acc=0.3711 margin=0.0000
+[probe] shuffled/410m/units/seed2: present=False p=1 acc=0.3789 margin=0.0000
+[probe] shuffled/410m/sub3_mid/seed4: present=False p=0.1152 acc=0.1425 margin=0.0000
+[probe] shuffled/410m/units/seed3: present=False p=1 acc=0.3566 margin=0.0000
+[probe] shuffled/410m/units/seed4: present=False p=1 acc=0.3634 margin=0.0000
+[probe] shuffled/410m/unscramble/seed3: present=False p=0.4102 acc=0.0707 margin=0.0000
+[probe] shuffled/410m/unscramble/seed4: present=False p=1 acc=0.0602 margin=0.0000
+[m2m3] PROBES DONE shuffled/410m Tue Jul 21 16:38:56 EDT 2026
+[m2m3] PROBES START known_present/410m Tue Jul 21 16:38:56 EDT 2026
+[probe] known_present/410m: 10 to fit, 0 cached
+[probe] known_present/410m/entity_track/seed3: present=True p=0.007197 acc=0.5055 margin=0.3285
+[probe] known_present/410m/entity_track/seed0: present=True p=0.007197 acc=0.5142 margin=0.3408
+[probe] known_present/410m/entity_track/seed4: present=True p=0.007197 acc=0.5156 margin=0.3436
+[probe] known_present/410m/entity_track/seed2: present=True p=0.007197 acc=0.5216 margin=0.3517
+[probe] known_present/410m/entity_track/seed1: present=True p=0.007197 acc=0.4730 margin=0.2855
+[probe] known_present/410m/ctrl_copy/seed1: present=True p=0.007197 acc=0.9950 margin=0.9948
+[probe] known_present/410m/ctrl_copy/seed0: present=True p=0.007197 acc=0.9975 margin=0.9974
+[probe] known_present/410m/ctrl_copy/seed2: present=True p=0.007197 acc=1.0000 margin=1.0000
+[probe] known_present/410m/ctrl_copy/seed3: present=True p=0.007197 acc=0.9950 margin=0.9948
+[probe] known_present/410m/ctrl_copy/seed4: present=True p=0.007197 acc=0.9975 margin=0.9974
+[m2m3] PROBES DONE known_present/410m Tue Jul 21 19:41:48 EDT 2026
+[m2m3] PROBES START m3/410m Tue Jul 21 19:41:48 EDT 2026
+[probe] m3/410m: 113 to fit, 12 cached
+[probe] m3/410m/add_base8/seed2: present=False p=1 acc=0.0880 margin=0.0000
+[probe] m3/410m/add_base8/seed0: present=False p=1 acc=0.0668 margin=0.0000
+[probe] m3/410m/add_base8/seed1: present=False p=1 acc=0.0504 margin=0.0000
+[probe] m3/410m/add3_mid/seed1: present=False p=1 acc=0.0629 margin=0.0000
+[probe] m3/410m/add3_mid/seed0: present=False p=1 acc=0.0660 margin=0.0000
+[probe] m3/410m/add3_mid/seed3: present=False p=1 acc=0.0780 margin=0.0000
+[probe] m3/410m/add3_mid/seed4: present=False p=1 acc=0.0641 margin=0.0000
+[probe] m3/410m/add3_mid/seed2: present=False p=1 acc=0.0580 margin=0.0000
+[probe] m3/410m/antonym/seed0: present=True p=0.007197 acc=0.6780 margin=0.5710
+[probe] m3/410m/antonym/seed3: present=True p=0.007197 acc=0.6494 margin=0.5326
+[probe] m3/410m/antonym/seed4: present=True p=0.007197 acc=0.6946 margin=0.5932
+[probe] m3/410m/antonym/seed2: present=True p=0.007197 acc=0.7153 margin=0.6204
+[probe] m3/410m/antonym/seed1: present=True p=0.007197 acc=0.6852 margin=0.5802
+[probe] m3/410m/add_base8/seed3: present=False p=1 acc=0.0737 margin=0.0000
+[probe] m3/410m/add_base8/seed4: present=False p=1 acc=0.0814 margin=0.0000
+[probe] m3/410m/base7/seed0: present=False p=1 acc=0.1575 margin=0.0000
+[probe] m3/410m/base7/seed1: present=False p=1 acc=0.1600 margin=0.0000
+[probe] m3/410m/base7/seed2: present=False p=1 acc=0.1650 margin=0.0000
+[probe] m3/410m/base7/seed3: present=False p=1 acc=0.1725 margin=0.0000
+[probe] m3/410m/base7/seed4: present=False p=1 acc=0.1500 margin=0.0000
+[probe] m3/410m/bin2dec/seed0: present=False p=0.01439 acc=0.1500 margin=0.0000
+[probe] m3/410m/bin2dec/seed1: present=True p=0.007197 acc=0.1600 margin=0.0672
+[probe] m3/410m/bin2dec/seed2: present=False p=0.02159 acc=0.1450 margin=0.0000
+[probe] m3/410m/bin2dec/seed3: present=False p=0.1439 acc=0.1375 margin=0.0000
+[probe] m3/410m/bin2dec/seed4: present=False p=0.02159 acc=0.1575 margin=0.0000
+[probe] m3/410m/caesar/seed1: present=False p=1 acc=0.0777 margin=0.0000
+[probe] m3/410m/caesar/seed0: present=False p=1 acc=0.0643 margin=0.0000
+[probe] m3/410m/caesar/seed2: present=False p=1 acc=0.0670 margin=0.0000
+[probe] m3/410m/caesar/seed3: present=False p=1 acc=0.0663 margin=0.0000
+[probe] m3/410m/caesar/seed4: present=False p=1 acc=0.0627 margin=0.0000
+[probe] m3/410m/clock24/seed0: present=False p=0.02879 acc=0.0785 margin=0.0000
+[probe] m3/410m/clock24/seed1: present=False p=0.04318 acc=0.0734 margin=0.0000
+[probe] m3/410m/collatz2/seed0: present=True p=0.007197 acc=0.9475 margin=0.9400
+[probe] m3/410m/collatz2/seed1: present=True p=0.007197 acc=0.9400 margin=0.9315
+[probe] m3/410m/clock24/seed2: present=False p=0.02159 acc=0.0785 margin=0.0000
+[probe] m3/410m/collatz2/seed2: present=True p=0.007197 acc=0.9350 margin=0.9257
+[probe] m3/410m/collatz2/seed3: present=True p=0.007197 acc=0.9325 margin=0.9229
+[probe] m3/410m/clock24/seed3: present=False p=0.06477 acc=0.0727 margin=0.0000
+[probe] m3/410m/clock24/seed4: present=False p=0.2951 acc=0.0657 margin=0.0000
+[probe] m3/410m/collatz2/seed4: present=True p=0.007197 acc=0.9350 margin=0.9257
+[probe] m3/410m/count_div7/seed0: present=True p=0.007197 acc=0.1779 margin=0.1117
+[probe] m3/410m/count_div7/seed1: present=True p=0.007197 acc=0.1855 margin=0.1200
+[probe] m3/410m/count_div7/seed2: present=True p=0.007197 acc=0.1982 margin=0.1338
+[probe] m3/410m/count_div7/seed3: present=True p=0.007197 acc=0.1625 margin=0.0951
+[probe] m3/410m/digitprod7/seed0: present=True p=0.007197 acc=0.4275 margin=0.2816
+[probe] m3/410m/digitprod7/seed1: present=True p=0.007197 acc=0.4325 margin=0.2687
+[probe] m3/410m/digitprod7/seed2: present=True p=0.007197 acc=0.5025 margin=0.3605
+[probe] m3/410m/count_div7/seed4: present=True p=0.007197 acc=0.1783 margin=0.1118
+[probe] m3/410m/digitprod7/seed3: present=True p=0.007197 acc=0.4225 margin=0.2567
+[probe] m3/410m/digitprod7/seed4: present=True p=0.007197 acc=0.4350 margin=0.2893
+[probe] m3/410m/isqrt/seed0: present=True p=0.007197 acc=0.6600 margin=0.6223
+[probe] m3/410m/isqrt/seed1: present=True p=0.007197 acc=0.6150 margin=0.5721
+[probe] m3/410m/isqrt/seed2: present=True p=0.007197 acc=0.6600 margin=0.6224
+[probe] m3/410m/isqrt/seed3: present=True p=0.007197 acc=0.6650 margin=0.6280
+[probe] m3/410m/isqrt/seed4: present=True p=0.007197 acc=0.6125 margin=0.5695
+[probe] m3/410m/mod13/seed0: present=False p=1 acc=0.0720 margin=0.0000
+[probe] m3/410m/mod13/seed1: present=False p=1 acc=0.0851 margin=0.0000
+[probe] m3/410m/mod13/seed2: present=False p=1 acc=0.0798 margin=0.0000
+[probe] m3/410m/mod13/seed3: present=False p=1 acc=0.0812 margin=0.0000
+[probe] m3/410m/mod7_add/seed1: present=False p=1 acc=0.0777 margin=0.0000
+[probe] m3/410m/mod7_add/seed0: present=False p=1 acc=0.1000 margin=0.0000
+[probe] m3/410m/mod7_add/seed2: present=False p=1 acc=0.0872 margin=0.0000
+[probe] m3/410m/mod13/seed4: present=False p=1 acc=0.0930 margin=0.0000
+[probe] m3/410m/mod7_add/seed3: present=False p=1 acc=0.0802 margin=0.0000
+[probe] m3/410m/mod7_add/seed4: present=False p=1 acc=0.1013 margin=0.0000
+[probe] m3/410m/mod7_mul/seed0: present=False p=1 acc=0.1272 margin=0.0000
+[probe] m3/410m/mod7_mul/seed1: present=False p=1 acc=0.0630 margin=0.0000
+[probe] m3/410m/mod7_mul/seed2: present=False p=1 acc=0.0673 margin=0.0000
+[probe] m3/410m/mod7_mul/seed3: present=False p=1 acc=0.0645 margin=0.0000
+[probe] m3/410m/mod7_mul/seed4: present=False p=1 acc=0.0620 margin=0.0000
+[probe] m3/410m/mul3x1/seed0: present=True p=0.007197 acc=0.2184 margin=0.1315
+[probe] m3/410m/mul3x1/seed1: present=True p=0.007197 acc=0.2193 margin=0.1324
+[probe] m3/410m/mul3x1/seed2: present=True p=0.007197 acc=0.2165 margin=0.1300
+[probe] m3/410m/mul3x1/seed3: present=True p=0.007197 acc=0.2249 margin=0.1387
+[probe] m3/410m/mul3x1/seed4: present=True p=0.007197 acc=0.2216 margin=0.1351
+[probe] m3/410m/oct2dec/seed0: present=False p=0.3886 acc=0.1325 margin=0.0000
+[probe] m3/410m/oct2dec/seed1: present=False p=0.5326 acc=0.1300 margin=0.0000
+[probe] m3/410m/numletter/seed0: present=True p=0.007197 acc=0.1553 margin=0.1084
+[probe] m3/410m/numletter/seed1: present=True p=0.007197 acc=0.1425 margin=0.0952
+[probe] m3/410m/numletter/seed2: present=True p=0.007197 acc=0.1544 margin=0.1070
+[probe] m3/410m/oct2dec/seed2: present=False p=0.02879 acc=0.1475 margin=0.0000
+[probe] m3/410m/numletter/seed3: present=True p=0.007197 acc=0.1499 margin=0.1039
+[probe] m3/410m/odd_one_out/seed0: present=True p=0.007197 acc=0.4962 margin=0.3283
+[probe] m3/410m/numletter/seed4: present=True p=0.007197 acc=0.1459 margin=0.0990
+[probe] m3/410m/odd_one_out/seed1: present=True p=0.007197 acc=0.4354 margin=0.2466
+[probe] m3/410m/odd_one_out/seed2: present=True p=0.007197 acc=0.5000 margin=0.3332
+[probe] m3/410m/odd_one_out/seed3: present=True p=0.007197 acc=0.4922 margin=0.3227
+[probe] m3/410m/odd_one_out/seed4: present=True p=0.007197 acc=0.5405 margin=0.3871
+[probe] m3/410m/oct2dec/seed3: present=False p=1 acc=0.1125 margin=0.0000
+[probe] m3/410m/oct2dec/seed4: present=False p=1 acc=0.1075 margin=0.0000
+[probe] m3/410m/roman/seed0: present=True p=0.007197 acc=0.8557 margin=0.8396
+[probe] m3/410m/roman/seed1: present=True p=0.007197 acc=0.8775 margin=0.8639
+[probe] m3/410m/roman/seed2: present=True p=0.007197 acc=0.8338 margin=0.8152
+[probe] m3/410m/reverse_string/seed0: present=True p=0.007197 acc=0.5894 margin=0.5729
+[probe] m3/410m/reverse_string/seed1: present=True p=0.007197 acc=0.5366 margin=0.5182
+[probe] m3/410m/reverse_string/seed4: present=True p=0.007197 acc=0.5680 margin=0.5506
+[probe] m3/410m/reverse_string/seed2: present=True p=0.007197 acc=0.6376 margin=0.6232
+[probe] m3/410m/reverse_string/seed3: present=True p=0.007197 acc=0.6156 margin=0.6004
+[probe] m3/410m/sub3_mid/seed0: present=False p=1 acc=0.1297 margin=0.0000
+[probe] m3/410m/sub3_mid/seed1: present=False p=1 acc=0.1313 margin=0.0000
+[probe] m3/410m/sub3_mid/seed2: present=False p=1 acc=0.0836 margin=0.0000
+[probe] m3/410m/sub3_mid/seed3: present=False p=1 acc=0.0885 margin=0.0000
+[probe] m3/410m/sub3_mid/seed4: present=False p=0.1008 acc=0.1776 margin=0.0000
+[probe] m3/410m/units/seed4: present=False p=1 acc=0.3279 margin=0.0000
+[probe] m3/410m/sq_mod7/seed0: present=False p=1 acc=0.1975 margin=0.0000
+[probe] m3/410m/roman/seed3: present=True p=0.007197 acc=0.9007 margin=0.8897
+[probe] m3/410m/roman/seed4: present=True p=0.007197 acc=0.9647 margin=0.9608
+[probe] m3/410m/sq_mod7/seed1: present=False p=1 acc=0.2754 margin=0.0000
+[probe] m3/410m/sq_mod7/seed2: present=False p=1 acc=0.1800 margin=0.0000
+[probe] m3/410m/sq_mod7/seed3: present=False p=1 acc=0.1867 margin=0.0000
+[probe] m3/410m/sq_mod7/seed4: present=False p=1 acc=0.2642 margin=0.0000
+[probe] m3/410m/unscramble/seed3: present=True p=0.007197 acc=0.3390 margin=0.3059
+[probe] m3/410m/unscramble/seed4: present=True p=0.007197 acc=0.3588 margin=0.3267
+[m2m3] PROBES DONE m3/410m Wed Jul 22 16:37:32 EDT 2026
+[m2m3] PROBES START known_absent/1b Wed Jul 22 16:37:32 EDT 2026
+[probe] known_absent/1b: 115 to fit, 10 cached
+[probe] known_absent/1b/add_base8/seed1: present=False p=1 acc=0.0504 margin=0.0000
+[probe] known_absent/1b/add_base8/seed0: present=False p=1 acc=0.0668 margin=0.0000
+[probe] known_absent/1b/add_base8/seed2: present=False p=1 acc=0.0880 margin=0.0000
+[probe] known_absent/1b/add3_mid/seed1: present=False p=1 acc=0.0629 margin=0.0000
+[probe] known_absent/1b/add3_mid/seed2: present=False p=1 acc=0.0501 margin=0.0000
+[probe] known_absent/1b/add3_mid/seed0: present=False p=1 acc=0.0660 margin=0.0000
+[probe] known_absent/1b/add3_mid/seed3: present=False p=1 acc=0.0780 margin=0.0000
+[probe] known_absent/1b/add3_mid/seed4: present=False p=1 acc=0.0736 margin=0.0000
+[probe] known_absent/1b/antonym/seed0: present=False p=1 acc=0.2707 margin=0.0000
+[probe] known_absent/1b/add_base8/seed4: present=False p=1 acc=0.0814 margin=0.0000
+[probe] known_absent/1b/add_base8/seed3: present=False p=1 acc=0.0737 margin=0.0000
+[probe] known_absent/1b/antonym/seed3: present=False p=1 acc=0.2753 margin=0.0000
+[probe] known_absent/1b/antonym/seed4: present=False p=1 acc=0.2774 margin=0.0000
+[probe] known_absent/1b/antonym/seed1: present=False p=1 acc=0.2663 margin=0.0000
+[probe] known_absent/1b/antonym/seed2: present=False p=1 acc=0.2550 margin=0.0000
+[probe] known_absent/1b/base7/seed0: present=False p=1 acc=0.1575 margin=0.0000
+[probe] known_absent/1b/base7/seed1: present=False p=1 acc=0.1600 margin=0.0000
+[probe] known_absent/1b/base7/seed2: present=False p=1 acc=0.1650 margin=0.0000
+[probe] known_absent/1b/base7/seed3: present=False p=1 acc=0.1725 margin=0.0000
+[probe] known_absent/1b/base7/seed4: present=False p=1 acc=0.1500 margin=0.0000
+[probe] known_absent/1b/bin2dec/seed0: present=False p=0.0112 acc=0.1525 margin=0.0000
+[probe] known_absent/1b/bin2dec/seed1: present=False p=0.0112 acc=0.1550 margin=0.0000
+[probe] known_absent/1b/bin2dec/seed2: present=False p=0.0112 acc=0.1475 margin=0.0000
+[probe] known_absent/1b/bin2dec/seed3: present=False p=0.0112 acc=0.1475 margin=0.0000
+[probe] known_absent/1b/bin2dec/seed4: present=True p=0.005598 acc=0.1600 margin=0.0669
+[probe] known_absent/1b/caesar/seed1: present=False p=0.9572 acc=0.0777 margin=0.0000
+[probe] known_absent/1b/caesar/seed0: present=False p=1 acc=0.0643 margin=0.0000
+[probe] known_absent/1b/caesar/seed2: present=False p=1 acc=0.0670 margin=0.0000
+[probe] known_absent/1b/caesar/seed4: present=False p=1 acc=0.0627 margin=0.0000
+[probe] known_absent/1b/caesar/seed3: present=False p=1 acc=0.0663 margin=0.0000
+[probe] known_absent/1b/clock24/seed0: present=False p=1 acc=0.0506 margin=0.0000
+[probe] known_absent/1b/clock24/seed1: present=False p=1 acc=0.0456 margin=0.0000
+[probe] known_absent/1b/clock24/seed2: present=False p=1 acc=0.0576 margin=0.0000
+[probe] known_absent/1b/collatz2/seed0: present=True p=0.005598 acc=0.8300 margin=0.8060
+[probe] known_absent/1b/collatz2/seed2: present=True p=0.005598 acc=0.8200 margin=0.7945
+[probe] known_absent/1b/collatz2/seed1: present=True p=0.005598 acc=0.8375 margin=0.8146
+[probe] known_absent/1b/clock24/seed4: present=False p=1 acc=0.0414 margin=0.0000
+[probe] known_absent/1b/clock24/seed3: present=False p=1 acc=0.0477 margin=0.0000
+[probe] known_absent/1b/collatz2/seed3: present=True p=0.005598 acc=0.8050 margin=0.7773
+[probe] known_absent/1b/collatz2/seed4: present=True p=0.005598 acc=0.7850 margin=0.7543
+[probe] known_absent/1b/count_div7/seed0: present=False p=1 acc=0.0842 margin=0.0000
+[probe] known_absent/1b/count_div7/seed1: present=False p=0.7613 acc=0.0898 margin=0.0000
+[probe] known_absent/1b/count_div7/seed2: present=False p=1 acc=0.0813 margin=0.0000
+[probe] known_absent/1b/digitprod7/seed0: present=True p=0.005598 acc=0.3825 margin=0.2206
+[probe] known_absent/1b/count_div7/seed3: present=False p=1 acc=0.0794 margin=0.0000
+[probe] known_absent/1b/digitprod7/seed1: present=True p=0.005598 acc=0.3700 margin=0.2077
+[probe] known_absent/1b/digitprod7/seed2: present=True p=0.005598 acc=0.4450 margin=0.3014
+[probe] known_absent/1b/count_div7/seed4: present=False p=1 acc=0.0885 margin=0.0000
+[probe] known_absent/1b/digitprod7/seed4: present=True p=0.005598 acc=0.4100 margin=0.2586
+[probe] known_absent/1b/digitprod7/seed3: present=True p=0.005598 acc=0.3525 margin=0.1857
+[probe] known_absent/1b/isqrt/seed0: present=True p=0.005598 acc=0.4950 margin=0.4388
+[probe] known_absent/1b/isqrt/seed2: present=True p=0.005598 acc=0.4825 margin=0.4253
+[probe] known_absent/1b/isqrt/seed1: present=True p=0.005598 acc=0.4300 margin=0.3667
+[probe] known_absent/1b/isqrt/seed3: present=True p=0.005598 acc=0.4600 margin=0.4001
+[probe] known_absent/1b/isqrt/seed4: present=True p=0.005598 acc=0.4425 margin=0.3808
+[probe] known_absent/1b/mod13/seed0: present=False p=0.9908 acc=0.0987 margin=0.0000
+[probe] known_absent/1b/mod13/seed1: present=False p=0.8397 acc=0.0979 margin=0.0000
+[probe] known_absent/1b/mod13/seed2: present=False p=1 acc=0.0798 margin=0.0000
+[probe] known_absent/1b/mod7_add/seed0: present=False p=1 acc=0.1683 margin=0.0000
+[probe] known_absent/1b/mod7_add/seed1: present=True p=0.005598 acc=0.2281 margin=0.0986
+[probe] known_absent/1b/mod13/seed3: present=False p=0.07277 acc=0.1142 margin=0.0000
+[probe] known_absent/1b/mod7_add/seed2: present=False p=0.1511 acc=0.1872 margin=0.0000
+[probe] known_absent/1b/mod13/seed4: present=False p=1 acc=0.0804 margin=0.0000
+[probe] known_absent/1b/mod7_add/seed3: present=True p=0.005598 acc=0.2170 margin=0.0861
+[probe] known_absent/1b/mod7_add/seed4: present=False p=1 acc=0.1653 margin=0.0000
+[probe] known_absent/1b/mod7_mul/seed1: present=False p=0.03359 acc=0.1965 margin=0.0000
+[probe] known_absent/1b/mod7_mul/seed2: present=False p=0.4366 acc=0.1771 margin=0.0000
+[probe] known_absent/1b/mod7_mul/seed3: present=True p=0.005598 acc=0.2357 margin=0.1080
+[probe] known_absent/1b/mod7_mul/seed4: present=False p=1 acc=0.1628 margin=0.0000
+[probe] known_absent/1b/mul3x1/seed1: present=True p=0.005598 acc=0.1738 margin=0.0819
+[probe] known_absent/1b/mul3x1/seed2: present=True p=0.005598 acc=0.1649 margin=0.0726
+[probe] known_absent/1b/mul3x1/seed3: present=True p=0.005598 acc=0.1956 margin=0.1060
+[probe] known_absent/1b/mul3x1/seed4: present=True p=0.005598 acc=0.1821 margin=0.0918
+[probe] known_absent/1b/oct2dec/seed1: present=False p=1 acc=0.1075 margin=0.0000
+[probe] known_absent/1b/oct2dec/seed2: present=False p=1 acc=0.1125 margin=0.0000
+[probe] known_absent/1b/numletter/seed0: present=True p=0.005598 acc=0.1142 margin=0.0663
+[probe] known_absent/1b/oct2dec/seed3: present=False p=1 acc=0.1000 margin=0.0000
+[probe] known_absent/1b/odd_one_out/seed2: present=False p=0.7221 acc=0.2927 margin=0.0000
+[probe] known_absent/1b/numletter/seed1: present=True p=0.005598 acc=0.1221 margin=0.0745
+[probe] known_absent/1b/odd_one_out/seed3: present=False p=1 acc=0.2571 margin=0.0000
+[probe] known_absent/1b/numletter/seed2: present=True p=0.005598 acc=0.1266 margin=0.0786
+[probe] known_absent/1b/numletter/seed3: present=True p=0.005598 acc=0.1106 margin=0.0632
+[probe] known_absent/1b/odd_one_out/seed4: present=False p=0.4366 acc=0.2977 margin=0.0000
+[probe] known_absent/1b/numletter/seed4: present=True p=0.005598 acc=0.1141 margin=0.0671
+[probe] known_absent/1b/oct2dec/seed4: present=False p=1 acc=0.1075 margin=0.0000
+[probe] known_absent/1b/roman/seed1: present=True p=0.005598 acc=0.7675 margin=0.7414
+[probe] known_absent/1b/roman/seed2: present=True p=0.005598 acc=0.7179 margin=0.6864
+[probe] known_absent/1b/reverse_string/seed4: present=False p=1 acc=0.0460 margin=0.0000
+[probe] known_absent/1b/reverse_string/seed0: present=False p=1 acc=0.0459 margin=0.0000
+[probe] known_absent/1b/reverse_string/seed1: present=False p=1 acc=0.0260 margin=0.0000
+[probe] known_absent/1b/roman/seed3: present=True p=0.005598 acc=0.7458 margin=0.7174
+[probe] known_absent/1b/reverse_string/seed2: present=False p=1 acc=0.0421 margin=0.0000
+[probe] known_absent/1b/reverse_string/seed3: present=False p=0.05598 acc=0.0694 margin=0.0000
+[probe] known_absent/1b/sq_mod7/seed2: present=False p=0.2183 acc=0.3125 margin=0.0000
+[probe] known_absent/1b/sq_mod7/seed1: present=True p=0.005598 acc=0.4491 margin=0.2563
+[probe] known_absent/1b/sq_mod7/seed3: present=False p=0.03918 acc=0.3268 margin=0.0000
+[probe] known_absent/1b/sq_mod7/seed4: present=False p=0.02799 acc=0.3309 margin=0.0000
+[probe] known_absent/1b/roman/seed4: present=True p=0.005598 acc=0.8338 margin=0.8153
+[probe] known_absent/1b/sub3_mid/seed1: present=False p=1 acc=0.1313 margin=0.0000
+[probe] known_absent/1b/sub3_mid/seed2: present=False p=1 acc=0.0836 margin=0.0000
+[probe] known_absent/1b/sub3_mid/seed3: present=False p=1 acc=0.0737 margin=0.0000
+[probe] known_absent/1b/units/seed1: present=False p=1 acc=0.3289 margin=0.0000
+[probe] known_absent/1b/units/seed2: present=True p=0.005598 acc=0.6804 margin=0.5196
+[probe] known_absent/1b/units/seed3: present=False p=1 acc=0.3117 margin=0.0000
+[probe] known_absent/1b/units/seed4: present=False p=1 acc=0.3279 margin=0.0000
+[probe] known_absent/1b/sub3_mid/seed4: present=False p=0.07837 acc=0.1776 margin=0.0000
+[probe] known_absent/1b/unscramble/seed0: present=True p=0.005598 acc=0.2481 margin=0.2107
+[probe] known_absent/1b/unscramble/seed1: present=True p=0.005598 acc=0.2269 margin=0.1880
+[probe] known_absent/1b/unscramble/seed2: present=True p=0.005598 acc=0.2558 margin=0.2186
+[probe] known_absent/1b/weekday/seed1: present=True p=0.005598 acc=0.2415 margin=0.1152
+[probe] known_absent/1b/weekday/seed2: present=True p=0.005598 acc=0.2164 margin=0.0861
+[probe] known_absent/1b/weekday/seed3: present=False p=0.6997 acc=0.1728 margin=0.0000
+[probe] known_absent/1b/unscramble/seed3: present=True p=0.005598 acc=0.2488 margin=0.2110
+[probe] known_absent/1b/unscramble/seed4: present=True p=0.005598 acc=0.2315 margin=0.1929
+[probe] known_absent/1b/weekday/seed4: present=False p=0.2239 acc=0.1829 margin=0.0000
+[m2m3] PROBES DONE known_absent/1b Fri Jul 24 00:29:15 EDT 2026
+[m2m3] PROBES START shuffled/1b Fri Jul 24 00:29:15 EDT 2026
+[probe] shuffled/1b: 125 to fit, 0 cached
+[probe] shuffled/1b/add_base8/seed1: present=False p=0.06717 acc=0.1679 margin=0.0000
+[probe] shuffled/1b/add_base8/seed0: present=False p=1 acc=0.1360 margin=0.0000
+[probe] shuffled/1b/add_base8/seed2: present=False p=0.599 acc=0.1540 margin=0.0000
+[probe] shuffled/1b/add3_mid/seed1: present=False p=1 acc=0.1189 margin=0.0000
+[probe] shuffled/1b/add3_mid/seed4: present=False p=1 acc=0.1093 margin=0.0000
+[probe] shuffled/1b/add3_mid/seed3: present=False p=0.2687 acc=0.1268 margin=0.0000
+[probe] shuffled/1b/add3_mid/seed0: present=False p=1 acc=0.1179 margin=0.0000
+[probe] shuffled/1b/add3_mid/seed2: present=False p=1 acc=0.1187 margin=0.0000
+[probe] shuffled/1b/antonym/seed0: present=False p=0.543 acc=0.2902 margin=0.0000
+[probe] shuffled/1b/add_base8/seed4: present=False p=1 acc=0.1349 margin=0.0000
+[probe] shuffled/1b/add_base8/seed3: present=False p=0.1511 acc=0.1646 margin=0.0000
+[probe] shuffled/1b/antonym/seed4: present=False p=1 acc=0.2564 margin=0.0000
+[probe] shuffled/1b/antonym/seed2: present=False p=0.5374 acc=0.2896 margin=0.0000
+[probe] shuffled/1b/antonym/seed3: present=False p=1 acc=0.2701 margin=0.0000
+[probe] shuffled/1b/antonym/seed1: present=False p=1 acc=0.2809 margin=0.0000
+[probe] shuffled/1b/base7/seed0: present=False p=0.6493 acc=0.1825 margin=0.0000
+[probe] shuffled/1b/base7/seed1: present=False p=1 acc=0.1725 margin=0.0000
+[probe] shuffled/1b/base7/seed2: present=False p=1 acc=0.1700 margin=0.0000
+[probe] shuffled/1b/base7/seed3: present=False p=1 acc=0.1775 margin=0.0000
+[probe] shuffled/1b/base7/seed4: present=False p=1 acc=0.1475 margin=0.0000
+[probe] shuffled/1b/bin2dec/seed1: present=False p=1 acc=0.1225 margin=0.0000
+[probe] shuffled/1b/bin2dec/seed0: present=False p=0.459 acc=0.1300 margin=0.0000
+[probe] shuffled/1b/bin2dec/seed2: present=False p=1 acc=0.1200 margin=0.0000
+[probe] shuffled/1b/bin2dec/seed3: present=False p=0.2127 acc=0.1350 margin=0.0000
+[probe] shuffled/1b/bin2dec/seed4: present=False p=1 acc=0.1100 margin=0.0000
+[probe] shuffled/1b/caesar/seed0: present=False p=1 acc=0.0680 margin=0.0000
+[probe] shuffled/1b/caesar/seed1: present=False p=0.8061 acc=0.0667 margin=0.0000
+[probe] shuffled/1b/caesar/seed2: present=False p=0.5542 acc=0.0682 margin=0.0000
+[probe] shuffled/1b/caesar/seed3: present=False p=0.1623 acc=0.0728 margin=0.0000
+[probe] shuffled/1b/caesar/seed4: present=False p=1 acc=0.0680 margin=0.0000
+[probe] shuffled/1b/clock24/seed0: present=False p=0.1343 acc=0.0684 margin=0.0000
+[probe] shuffled/1b/clock24/seed1: present=False p=0.8341 acc=0.0582 margin=0.0000
+[probe] shuffled/1b/collatz2/seed0: present=False p=1 acc=0.1700 margin=0.0000
+[probe] shuffled/1b/clock24/seed2: present=False p=0.5934 acc=0.0602 margin=0.0000
+[probe] shuffled/1b/collatz2/seed1: present=False p=1 acc=0.1700 margin=0.0000
+[probe] shuffled/1b/collatz2/seed2: present=False p=0.8677 acc=0.1500 margin=0.0000
+[probe] shuffled/1b/collatz2/seed3: present=False p=0.459 acc=0.1575 margin=0.0000
+[probe] shuffled/1b/clock24/seed3: present=False p=1 acc=0.0500 margin=0.0000
+[probe] shuffled/1b/clock24/seed4: present=False p=1 acc=0.0462 margin=0.0000
+[probe] shuffled/1b/collatz2/seed4: present=False p=0.7053 acc=0.1550 margin=0.0000
+[probe] shuffled/1b/count_div7/seed0: present=False p=0.5094 acc=0.0913 margin=0.0000
+[probe] shuffled/1b/count_div7/seed1: present=False p=0.9292 acc=0.0933 margin=0.0000
+[probe] shuffled/1b/count_div7/seed3: present=False p=1 acc=0.0854 margin=0.0000
+[probe] shuffled/1b/count_div7/seed2: present=False p=0.403 acc=0.0978 margin=0.0000
+[probe] shuffled/1b/digitprod7/seed0: present=False p=1 acc=0.3225 margin=0.0000
+[probe] shuffled/1b/digitprod7/seed1: present=False p=1 acc=0.3525 margin=0.0000
+[probe] shuffled/1b/digitprod7/seed2: present=False p=0.2183 acc=0.2500 margin=0.0000
+[probe] shuffled/1b/count_div7/seed4: present=False p=1 acc=0.0823 margin=0.0000
+[probe] shuffled/1b/digitprod7/seed3: present=False p=1 acc=0.3700 margin=0.0000
+[probe] shuffled/1b/digitprod7/seed4: present=False p=1 acc=0.3200 margin=0.0000
+[probe] shuffled/1b/isqrt/seed0: present=False p=0.3191 acc=0.1325 margin=0.0000
+[probe] shuffled/1b/isqrt/seed1: present=False p=0.04478 acc=0.1425 margin=0.0000
+[probe] shuffled/1b/isqrt/seed2: present=False p=1 acc=0.1200 margin=0.0000
+[probe] shuffled/1b/isqrt/seed3: present=False p=1 acc=0.1200 margin=0.0000
+[probe] shuffled/1b/isqrt/seed4: present=False p=1 acc=0.1125 margin=0.0000
+[probe] shuffled/1b/mod13/seed0: present=False p=0.1455 acc=0.1093 margin=0.0000
+[probe] shuffled/1b/mod13/seed1: present=False p=0.9684 acc=0.0979 margin=0.0000
+[probe] shuffled/1b/mod13/seed2: present=False p=1 acc=0.0748 margin=0.0000
+[probe] shuffled/1b/mod7_add/seed0: present=False p=0.1567 acc=0.1854 margin=0.0000
+[probe] shuffled/1b/mod7_add/seed1: present=False p=0.1064 acc=0.1880 margin=0.0000
+[probe] shuffled/1b/mod7_add/seed2: present=False p=1 acc=0.1641 margin=0.0000
+[probe] shuffled/1b/mod13/seed3: present=False p=1 acc=0.0914 margin=0.0000
+[probe] shuffled/1b/mod13/seed4: present=False p=1 acc=0.0854 margin=0.0000
+[probe] shuffled/1b/mod7_add/seed3: present=False p=1 acc=0.1462 margin=0.0000
+[probe] shuffled/1b/mod7_add/seed4: present=False p=1 acc=0.1573 margin=0.0000
+[probe] shuffled/1b/mod7_mul/seed0: present=False p=0.3527 acc=0.1807 margin=0.0000
+[probe] shuffled/1b/mod7_mul/seed1: present=False p=1 acc=0.1688 margin=0.0000
+[probe] shuffled/1b/mod7_mul/seed2: present=False p=0.4702 acc=0.1771 margin=0.0000
+[probe] shuffled/1b/mod7_mul/seed3: present=False p=0.9236 acc=0.1712 margin=0.0000
+[probe] shuffled/1b/mod7_mul/seed4: present=False p=0.4366 acc=0.1783 margin=0.0000
+[probe] shuffled/1b/mul3x1/seed0: present=False p=0.4758 acc=0.1286 margin=0.0000
+[probe] shuffled/1b/mul3x1/seed1: present=False p=1 acc=0.1257 margin=0.0000
+[probe] shuffled/1b/mul3x1/seed2: present=False p=1 acc=0.1186 margin=0.0000
+[probe] shuffled/1b/mul3x1/seed3: present=False p=1 acc=0.1222 margin=0.0000
+[probe] shuffled/1b/mul3x1/seed4: present=False p=1 acc=0.1161 margin=0.0000
+[probe] shuffled/1b/oct2dec/seed0: present=False p=1 acc=0.1075 margin=0.0000
+[probe] shuffled/1b/oct2dec/seed1: present=False p=1 acc=0.1100 margin=0.0000
+[probe] shuffled/1b/numletter/seed0: present=False p=0.2127 acc=0.0753 margin=0.0000
+[probe] shuffled/1b/numletter/seed1: present=False p=1 acc=0.0992 margin=0.0000
+[probe] shuffled/1b/oct2dec/seed2: present=False p=0.2519 acc=0.1325 margin=0.0000
+[probe] shuffled/1b/numletter/seed2: present=False p=1 acc=0.1266 margin=0.0000
+[probe] shuffled/1b/numletter/seed3: present=False p=1 acc=0.1032 margin=0.0000
+[probe] shuffled/1b/numletter/seed4: present=False p=0.02239 acc=0.0928 margin=0.0000
+[probe] shuffled/1b/odd_one_out/seed0: present=False p=0.8677 acc=0.2857 margin=0.0000
+[probe] shuffled/1b/odd_one_out/seed1: present=False p=0.2519 acc=0.3033 margin=0.0000
+[probe] shuffled/1b/odd_one_out/seed2: present=False p=1 acc=0.2774 margin=0.0000
+[probe] shuffled/1b/odd_one_out/seed3: present=False p=0.9068 acc=0.2884 margin=0.0000
+[probe] shuffled/1b/odd_one_out/seed4: present=False p=0.9236 acc=0.2880 margin=0.0000
+[probe] shuffled/1b/oct2dec/seed3: present=False p=1 acc=0.1050 margin=0.0000
+[probe] shuffled/1b/oct2dec/seed4: present=False p=1 acc=0.1100 margin=0.0000
+[probe] shuffled/1b/reverse_string/seed0: present=False p=1 acc=0.0411 margin=0.0000
+[probe] shuffled/1b/reverse_string/seed1: present=False p=0.8341 acc=0.0544 margin=0.0000
+[probe] shuffled/1b/roman/seed0: present=False p=1 acc=0.1241 margin=0.0000
+[probe] shuffled/1b/roman/seed1: present=False p=0.1679 acc=0.1375 margin=0.0000
+[probe] shuffled/1b/reverse_string/seed4: present=False p=0.2519 acc=0.0580 margin=0.0000
+[probe] shuffled/1b/reverse_string/seed2: present=False p=1 acc=0.0449 margin=0.0000
+[probe] shuffled/1b/roman/seed2: present=False p=1 acc=0.1184 margin=0.0000
+[probe] shuffled/1b/reverse_string/seed3: present=False p=1 acc=0.0549 margin=0.0000
+[probe] shuffled/1b/sq_mod7/seed0: present=False p=0.543 acc=0.3050 margin=0.0000
+[probe] shuffled/1b/sq_mod7/seed2: present=False p=0.1511 acc=0.3150 margin=0.0000
+[probe] shuffled/1b/sq_mod7/seed1: present=False p=1 acc=0.2705 margin=0.0000
+[probe] shuffled/1b/sq_mod7/seed3: present=False p=1 acc=0.2875 margin=0.0000
+[probe] shuffled/1b/sq_mod7/seed4: present=False p=1 acc=0.2963 margin=0.0000
+[probe] shuffled/1b/roman/seed3: present=False p=0.4254 acc=0.1283 margin=0.0000
+[probe] shuffled/1b/roman/seed4: present=False p=1 acc=0.1209 margin=0.0000
+[probe] shuffled/1b/sub3_mid/seed0: present=False p=1 acc=0.1439 margin=0.0000
+[probe] shuffled/1b/units/seed0: present=False p=0.7613 acc=0.3796 margin=0.0000
+[probe] shuffled/1b/units/seed1: present=False p=1 acc=0.3632 margin=0.0000
+[probe] shuffled/1b/units/seed2: present=False p=1 acc=0.3737 margin=0.0000
+[probe] shuffled/1b/sub3_mid/seed1: present=False p=0.3806 acc=0.1364 margin=0.0000
+[probe] shuffled/1b/sub3_mid/seed3: present=False p=1 acc=0.1572 margin=0.0000
+[probe] shuffled/1b/sub3_mid/seed2: present=False p=1 acc=0.1410 margin=0.0000
+[probe] shuffled/1b/units/seed3: present=False p=1 acc=0.3641 margin=0.0000
+[probe] shuffled/1b/sub3_mid/seed4: present=False p=0.4982 acc=0.1308 margin=0.0000
+[probe] shuffled/1b/units/seed4: present=False p=1 acc=0.3552 margin=0.0000
+[probe] shuffled/1b/weekday/seed0: present=False p=0.7613 acc=0.1718 margin=0.0000
+[probe] shuffled/1b/weekday/seed1: present=False p=1 acc=0.1683 margin=0.0000
+[probe] shuffled/1b/unscramble/seed0: present=False p=1 acc=0.0596 margin=0.0000
+[probe] shuffled/1b/unscramble/seed1: present=False p=1 acc=0.0599 margin=0.0000
+[probe] shuffled/1b/unscramble/seed3: present=False p=1 acc=0.0610 margin=0.0000
+[probe] shuffled/1b/unscramble/seed4: present=False p=0.403 acc=0.0694 margin=0.0000
+[probe] shuffled/1b/unscramble/seed2: present=False p=1 acc=0.0588 margin=0.0000
+[probe] shuffled/1b/weekday/seed2: present=False p=0.3695 acc=0.1791 margin=0.0000
+[probe] shuffled/1b/weekday/seed4: present=False p=1 acc=0.1463 margin=0.0000
+[probe] shuffled/1b/weekday/seed3: present=False p=0.1455 acc=0.1852 margin=0.0000
+[m2m3] PROBES DONE shuffled/1b Sat Jul 25 10:37:44 EDT 2026
+[m2m3] PROBES START known_present/1b Sat Jul 25 10:37:44 EDT 2026
+[probe] known_present/1b: 10 to fit, 0 cached
+[probe] known_present/1b/entity_track/seed4: present=True p=0.005598 acc=0.4544 margin=0.2603
+[probe] known_present/1b/entity_track/seed2: present=True p=0.005598 acc=0.4830 margin=0.2996
+[probe] known_present/1b/entity_track/seed1: present=True p=0.005598 acc=0.4203 margin=0.2151
+[probe] known_present/1b/entity_track/seed0: present=True p=0.005598 acc=0.5118 margin=0.3384
+[probe] known_present/1b/entity_track/seed3: present=True p=0.005598 acc=0.4775 margin=0.2921
+[probe] known_present/1b/ctrl_copy/seed0: present=True p=0.005598 acc=0.9975 margin=0.9974
+[probe] known_present/1b/ctrl_copy/seed1: present=True p=0.005598 acc=1.0000 margin=1.0000
+[probe] known_present/1b/ctrl_copy/seed2: present=True p=0.005598 acc=1.0000 margin=1.0000
+[probe] known_present/1b/ctrl_copy/seed3: present=True p=0.005598 acc=0.9950 margin=0.9948
+[probe] known_present/1b/ctrl_copy/seed4: present=True p=0.005598 acc=0.9975 margin=0.9974
+[m2m3] PROBES DONE known_present/1b Sat Jul 25 14:28:47 EDT 2026
+[m2m3] PROBES START m3/1b Sat Jul 25 14:28:47 EDT 2026
+[probe] m3/1b: 125 to fit, 0 cached
+[probe] m3/1b/add_base8/seed1: present=False p=1 acc=0.0504 margin=0.0000
+[probe] m3/1b/add_base8/seed0: present=False p=1 acc=0.0668 margin=0.0000
+[probe] m3/1b/add_base8/seed2: present=False p=1 acc=0.0880 margin=0.0000
+[probe] m3/1b/add3_mid/seed0: present=False p=1 acc=0.0660 margin=0.0000
+[probe] m3/1b/add3_mid/seed4: present=False p=1 acc=0.0641 margin=0.0000
+[probe] m3/1b/add3_mid/seed1: present=False p=1 acc=0.0629 margin=0.0000
+[probe] m3/1b/add3_mid/seed3: present=False p=1 acc=0.0780 margin=0.0000
+[probe] m3/1b/add3_mid/seed2: present=False p=1 acc=0.0449 margin=0.0000
+[probe] m3/1b/antonym/seed0: present=True p=0.005598 acc=0.6390 margin=0.5191
+[probe] m3/1b/add_base8/seed3: present=False p=1 acc=0.0737 margin=0.0000
+[probe] m3/1b/add_base8/seed4: present=False p=1 acc=0.0814 margin=0.0000
+[probe] m3/1b/antonym/seed1: present=True p=0.005598 acc=0.6005 margin=0.4671
+[probe] m3/1b/antonym/seed3: present=True p=0.005598 acc=0.5221 margin=0.3634
+[probe] m3/1b/antonym/seed2: present=True p=0.005598 acc=0.5817 margin=0.4425
+[probe] m3/1b/antonym/seed4: present=True p=0.005598 acc=0.5874 margin=0.4494
+[probe] m3/1b/base7/seed0: present=False p=1 acc=0.1575 margin=0.0000
+[probe] m3/1b/base7/seed1: present=False p=1 acc=0.1600 margin=0.0000
+[probe] m3/1b/base7/seed2: present=False p=1 acc=0.1650 margin=0.0000
+[probe] m3/1b/base7/seed3: present=False p=1 acc=0.1725 margin=0.0000
+[probe] m3/1b/base7/seed4: present=False p=1 acc=0.1500 margin=0.0000
+[probe] m3/1b/bin2dec/seed0: present=False p=0.0112 acc=0.1525 margin=0.0000
+[probe] m3/1b/bin2dec/seed1: present=False p=0.4646 acc=0.1300 margin=0.0000
+[probe] m3/1b/bin2dec/seed2: present=False p=0.04478 acc=0.1475 margin=0.0000
+[probe] m3/1b/bin2dec/seed3: present=False p=0.06158 acc=0.1450 margin=0.0000
+[probe] m3/1b/bin2dec/seed4: present=False p=0.01679 acc=0.1525 margin=0.0000
+[probe] m3/1b/caesar/seed0: present=False p=1 acc=0.0643 margin=0.0000
+[probe] m3/1b/caesar/seed1: present=False p=0.9572 acc=0.0777 margin=0.0000
+[probe] m3/1b/caesar/seed2: present=False p=1 acc=0.0670 margin=0.0000
+[probe] m3/1b/caesar/seed3: present=False p=1 acc=0.0663 margin=0.0000
+[probe] m3/1b/caesar/seed4: present=False p=1 acc=0.0627 margin=0.0000
+[probe] m3/1b/clock24/seed0: present=False p=1 acc=0.0582 margin=0.0000
+[probe] m3/1b/clock24/seed1: present=False p=0.89 acc=0.0582 margin=0.0000
+[probe] m3/1b/collatz2/seed0: present=True p=0.005598 acc=0.9625 margin=0.9571
+[probe] m3/1b/clock24/seed2: present=False p=0.7053 acc=0.0602 margin=0.0000
+[probe] m3/1b/collatz2/seed1: present=True p=0.005598 acc=0.9675 margin=0.9628
+[probe] m3/1b/collatz2/seed2: present=True p=0.005598 acc=0.9600 margin=0.9542
+[probe] m3/1b/clock24/seed3: present=True p=0.005598 acc=0.0864 margin=0.0468
+[probe] m3/1b/collatz2/seed3: present=True p=0.005598 acc=0.9750 margin=0.9714
+[probe] m3/1b/clock24/seed4: present=False p=0.05038 acc=0.0706 margin=0.0000
+[probe] m3/1b/collatz2/seed4: present=True p=0.005598 acc=0.9750 margin=0.9714
+[probe] m3/1b/count_div7/seed1: present=True p=0.005598 acc=0.1844 margin=0.1184
+[probe] m3/1b/count_div7/seed0: present=True p=0.005598 acc=0.1673 margin=0.0999
+[probe] m3/1b/count_div7/seed2: present=True p=0.005598 acc=0.1919 margin=0.1270
+[probe] m3/1b/count_div7/seed3: present=True p=0.005598 acc=0.1637 margin=0.0963
+[probe] m3/1b/digitprod7/seed0: present=True p=0.005598 acc=0.4225 margin=0.2772
+[probe] m3/1b/digitprod7/seed1: present=True p=0.005598 acc=0.4175 margin=0.2714
+[probe] m3/1b/digitprod7/seed2: present=True p=0.005598 acc=0.4775 margin=0.3415
+[probe] m3/1b/count_div7/seed4: present=True p=0.005598 acc=0.1708 margin=0.1038
+[probe] m3/1b/digitprod7/seed3: present=True p=0.005598 acc=0.4100 margin=0.2620
+[probe] m3/1b/digitprod7/seed4: present=True p=0.005598 acc=0.4300 margin=0.2874
+[probe] m3/1b/isqrt/seed0: present=True p=0.005598 acc=0.6950 margin=0.6612
+[probe] m3/1b/isqrt/seed1: present=True p=0.005598 acc=0.6700 margin=0.6335
+[probe] m3/1b/isqrt/seed2: present=True p=0.005598 acc=0.7025 margin=0.6694
+[probe] m3/1b/isqrt/seed3: present=True p=0.005598 acc=0.6950 margin=0.6610
+[probe] m3/1b/isqrt/seed4: present=True p=0.005598 acc=0.6625 margin=0.6251
+[probe] m3/1b/mod13/seed0: present=False p=1 acc=0.0667 margin=0.0000
+[probe] m3/1b/mod13/seed2: present=False p=1 acc=0.0748 margin=0.0000
+[probe] m3/1b/mod13/seed1: present=False p=1 acc=0.0696 margin=0.0000
+[probe] m3/1b/mod7_add/seed0: present=False p=1 acc=0.1585 margin=0.0000
+[probe] m3/1b/mod7_add/seed1: present=False p=1 acc=0.0752 margin=0.0000
+[probe] m3/1b/mod7_add/seed2: present=False p=1 acc=0.0872 margin=0.0000
+[probe] m3/1b/mod13/seed3: present=False p=1 acc=0.0863 margin=0.0000
+[probe] m3/1b/mod13/seed4: present=False p=1 acc=0.0804 margin=0.0000
+[probe] m3/1b/mod7_add/seed3: present=False p=1 acc=0.0802 margin=0.0000
+[probe] m3/1b/mod7_mul/seed0: present=False p=1 acc=0.1501 margin=0.0000
+[probe] m3/1b/mod7_add/seed4: present=False p=1 acc=0.1013 margin=0.0000
+[probe] m3/1b/mod7_mul/seed1: present=False p=1 acc=0.0680 margin=0.0000
+[probe] m3/1b/mod7_mul/seed2: present=False p=1 acc=0.0673 margin=0.0000
+[probe] m3/1b/mod7_mul/seed3: present=False p=1 acc=0.0769 margin=0.0000
+[probe] m3/1b/mod7_mul/seed4: present=False p=1 acc=0.1059 margin=0.0000
+[probe] m3/1b/mul3x1/seed0: present=True p=0.005598 acc=0.2937 margin=0.2148
+[probe] m3/1b/mul3x1/seed1: present=True p=0.005598 acc=0.2567 margin=0.1742
+[probe] m3/1b/mul3x1/seed2: present=True p=0.005598 acc=0.2680 margin=0.1867
+[probe] m3/1b/mul3x1/seed3: present=True p=0.005598 acc=0.2445 margin=0.1605
+[probe] m3/1b/mul3x1/seed4: present=True p=0.005598 acc=0.2533 margin=0.1704
+[probe] m3/1b/oct2dec/seed0: present=False p=1 acc=0.1225 margin=0.0000
+[probe] m3/1b/oct2dec/seed1: present=False p=1 acc=0.1100 margin=0.0000
+[probe] m3/1b/numletter/seed0: present=True p=0.005598 acc=0.1370 margin=0.0916
+[probe] m3/1b/numletter/seed1: present=True p=0.005598 acc=0.1603 margin=0.1150
+[probe] m3/1b/oct2dec/seed2: present=False p=1 acc=0.1175 margin=0.0000
+[probe] m3/1b/numletter/seed2: present=True p=0.005598 acc=0.1696 margin=0.1227
+[probe] m3/1b/numletter/seed3: present=True p=0.005598 acc=0.1572 margin=0.1109
+[probe] m3/1b/odd_one_out/seed0: present=True p=0.005598 acc=0.4311 margin=0.2421
+[probe] m3/1b/numletter/seed4: present=True p=0.005598 acc=0.1379 margin=0.0902
+[probe] m3/1b/odd_one_out/seed1: present=True p=0.005598 acc=0.4204 margin=0.2284
+[probe] m3/1b/odd_one_out/seed2: present=True p=0.005598 acc=0.4634 margin=0.2849
+[probe] m3/1b/odd_one_out/seed3: present=True p=0.005598 acc=0.4828 margin=0.3103
+[probe] m3/1b/odd_one_out/seed4: present=True p=0.005598 acc=0.4725 margin=0.2957
+[probe] m3/1b/oct2dec/seed3: present=False p=1 acc=0.1075 margin=0.0000
+[probe] m3/1b/oct2dec/seed4: present=False p=1 acc=0.1100 margin=0.0000
+[probe] m3/1b/reverse_string/seed1: present=True p=0.005598 acc=0.6005 margin=0.5845
+[probe] m3/1b/reverse_string/seed0: present=True p=0.005598 acc=0.7053 margin=0.6935
+[probe] m3/1b/roman/seed0: present=True p=0.005598 acc=0.8987 margin=0.8874
+[probe] m3/1b/roman/seed2: present=True p=0.005598 acc=0.8766 margin=0.8628
+[probe] m3/1b/roman/seed1: present=True p=0.005598 acc=0.9075 margin=0.8972
+[probe] m3/1b/reverse_string/seed4: present=True p=0.005598 acc=0.6260 margin=0.6110
+[probe] m3/1b/reverse_string/seed2: present=True p=0.005598 acc=0.7135 margin=0.7020
+[probe] m3/1b/reverse_string/seed3: present=True p=0.005598 acc=0.7919 margin=0.7836
+[probe] m3/1b/sq_mod7/seed1: present=True p=0.005598 acc=0.3573 margin=0.1290
+[probe] m3/1b/sq_mod7/seed0: present=False p=1 acc=0.2875 margin=0.0000
+[probe] m3/1b/sq_mod7/seed2: present=False p=1 acc=0.2275 margin=0.0000
+[probe] m3/1b/sq_mod7/seed3: present=False p=1 acc=0.2826 margin=0.0000
+[probe] m3/1b/sq_mod7/seed4: present=False p=1 acc=0.2222 margin=0.0000
+[probe] m3/1b/roman/seed3: present=True p=0.005598 acc=0.8547 margin=0.8386
+[probe] m3/1b/roman/seed4: present=True p=0.005598 acc=0.9068 margin=0.8964
+[probe] m3/1b/sub3_mid/seed0: present=False p=1 acc=0.1297 margin=0.0000
+[probe] m3/1b/units/seed0: present=False p=1 acc=0.3371 margin=0.0000
+[probe] m3/1b/units/seed1: present=False p=1 acc=0.3289 margin=0.0000
+[probe] m3/1b/units/seed2: present=True p=0.005598 acc=0.6778 margin=0.5159
+[probe] m3/1b/sub3_mid/seed1: present=False p=1 acc=0.1313 margin=0.0000
+[probe] m3/1b/sub3_mid/seed2: present=False p=1 acc=0.0836 margin=0.0000
+[probe] m3/1b/sub3_mid/seed3: present=False p=1 acc=0.1007 margin=0.0000
+[probe] m3/1b/sub3_mid/seed4: present=False p=0.07837 acc=0.1776 margin=0.0000
+[probe] m3/1b/units/seed3: present=True p=0.005598 acc=0.4314 margin=0.1459
+[probe] m3/1b/units/seed4: present=False p=1 acc=0.3497 margin=0.0000
+[probe] m3/1b/weekday/seed0: present=False p=0.03359 acc=0.2000 margin=0.0000
+[probe] m3/1b/weekday/seed1: present=False p=0.1511 acc=0.1854 margin=0.0000
+[probe] m3/1b/unscramble/seed0: present=True p=0.005598 acc=0.3648 margin=0.3326
+[probe] m3/1b/unscramble/seed1: present=True p=0.005598 acc=0.3292 margin=0.2955
+[probe] m3/1b/unscramble/seed3: present=True p=0.005598 acc=0.3512 margin=0.3188
+[probe] m3/1b/unscramble/seed2: present=True p=0.005598 acc=0.3555 margin=0.3234
+[probe] m3/1b/unscramble/seed4: present=True p=0.005598 acc=0.3588 margin=0.3266
+[probe] m3/1b/weekday/seed2: present=False p=1 acc=0.1542 margin=0.0000
+[probe] m3/1b/weekday/seed3: present=False p=0.9292 acc=0.1679 margin=0.0000
+[probe] m3/1b/weekday/seed4: present=True p=0.005598 acc=0.2195 margin=0.0892
+[m2m3] PROBES DONE m3/1b Mon Jul 27 00:47:29 EDT 2026
+[m2m3] M2 REPORT Mon Jul 27 00:47:29 EDT 2026
+== M2 gate report (calibrated tolerances, design §4) ==
+[m2] GATE1 known-absent: 0 floor-signature fire(s) + 86 structural leak(s) in 250 fits (E~1.60 at the floor rate; count-test p=0.000)
+[m2]   STRUCTURAL LEAK: bin2dec/410m/seed0 acc=0.175 vs null=0.0997 -> ATTRITION
+[m2]   STRUCTURAL LEAK: bin2dec/410m/seed1 acc=0.1675 vs null=0.099 -> ATTRITION
+[m2]   STRUCTURAL LEAK: bin2dec/410m/seed2 acc=0.1525 vs null=0.1 -> ATTRITION
+[m2]   STRUCTURAL LEAK: bin2dec/410m/seed4 acc=0.155 vs null=0.0991 -> ATTRITION
+[m2]   STRUCTURAL LEAK: bin2dec/1b/seed4 acc=0.16 vs null=0.0998 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/410m/seed0 acc=0.79 vs null=0.1231 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/410m/seed1 acc=0.7975 vs null=0.1231 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/410m/seed2 acc=0.8075 vs null=0.1238 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/410m/seed3 acc=0.7775 vs null=0.1243 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/410m/seed4 acc=0.775 vs null=0.1237 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/1b/seed0 acc=0.83 vs null=0.1238 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/1b/seed1 acc=0.8375 vs null=0.1234 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/1b/seed2 acc=0.82 vs null=0.1242 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/1b/seed3 acc=0.805 vs null=0.1245 -> ATTRITION
+[m2]   STRUCTURAL LEAK: collatz2/1b/seed4 acc=0.785 vs null=0.1251 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/410m/seed0 acc=0.375 vs null=0.2016 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/410m/seed1 acc=0.3675 vs null=0.2025 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/410m/seed2 acc=0.43 vs null=0.2052 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/410m/seed3 acc=0.3625 vs null=0.2027 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/410m/seed4 acc=0.3925 vs null=0.2042 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/1b/seed0 acc=0.3825 vs null=0.2078 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/1b/seed1 acc=0.37 vs null=0.2049 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/1b/seed2 acc=0.445 vs null=0.2055 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/1b/seed3 acc=0.3525 vs null=0.2048 -> ATTRITION
+[m2]   STRUCTURAL LEAK: digitprod7/1b/seed4 acc=0.41 vs null=0.2042 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/410m/seed0 acc=0.465 vs null=0.0997 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/410m/seed1 acc=0.4275 vs null=0.1005 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/410m/seed2 acc=0.4375 vs null=0.0998 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/410m/seed3 acc=0.48 vs null=0.1001 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/410m/seed4 acc=0.445 vs null=0.0999 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/1b/seed0 acc=0.495 vs null=0.1001 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/1b/seed1 acc=0.43 vs null=0.0999 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/1b/seed2 acc=0.4825 vs null=0.0995 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/1b/seed3 acc=0.46 vs null=0.0998 -> ATTRITION
+[m2]   STRUCTURAL LEAK: isqrt/1b/seed4 acc=0.4425 vs null=0.0996 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mod7_add/1b/seed1 acc=0.2281 vs null=0.1436 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mod7_add/1b/seed3 acc=0.217 vs null=0.1432 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mod7_mul/410m/seed1 acc=0.2267 vs null=0.1437 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mod7_mul/1b/seed3 acc=0.2357 vs null=0.1432 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/410m/seed0 acc=0.1845 vs null=0.1001 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/410m/seed1 acc=0.1738 vs null=0.1002 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/410m/seed3 acc=0.1956 vs null=0.0995 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/1b/seed0 acc=0.1772 vs null=0.1001 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/1b/seed1 acc=0.1738 vs null=0.1001 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/1b/seed2 acc=0.1649 vs null=0.0996 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/1b/seed3 acc=0.1956 vs null=0.1002 -> ATTRITION
+[m2]   STRUCTURAL LEAK: mul3x1/1b/seed4 acc=0.1821 vs null=0.0994 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/410m/seed0 acc=0.1073 vs null=0.0533 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/410m/seed1 acc=0.1349 vs null=0.0531 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/410m/seed2 acc=0.1291 vs null=0.054 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/410m/seed3 acc=0.1081 vs null=0.0533 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/410m/seed4 acc=0.1432 vs null=0.0527 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/1b/seed0 acc=0.1142 vs null=0.0512 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/1b/seed1 acc=0.1221 vs null=0.0515 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/1b/seed2 acc=0.1266 vs null=0.052 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/1b/seed3 acc=0.1106 vs null=0.0506 -> ATTRITION
+[m2]   STRUCTURAL LEAK: numletter/1b/seed4 acc=0.1141 vs null=0.0503 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/410m/seed0 acc=0.6886 vs null=0.1001 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/410m/seed1 acc=0.7975 vs null=0.1005 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/410m/seed2 acc=0.7103 vs null=0.1005 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/410m/seed3 acc=0.6973 vs null=0.1005 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/410m/seed4 acc=0.806 vs null=0.1005 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/1b/seed0 acc=0.6759 vs null=0.0999 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/1b/seed1 acc=0.7675 vs null=0.1008 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/1b/seed2 acc=0.7179 vs null=0.1005 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/1b/seed3 acc=0.7458 vs null=0.1005 -> ATTRITION
+[m2]   STRUCTURAL LEAK: roman/1b/seed4 acc=0.8338 vs null=0.1 -> ATTRITION
+[m2]   STRUCTURAL LEAK: sq_mod7/410m/seed1 acc=0.3524 vs null=0.2586 -> ATTRITION
+[m2]   STRUCTURAL LEAK: sq_mod7/1b/seed1 acc=0.4491 vs null=0.2593 -> ATTRITION
+[m2]   STRUCTURAL LEAK: units/410m/seed2 acc=0.5928 vs null=0.3341 -> ATTRITION
+[m2]   STRUCTURAL LEAK: units/1b/seed2 acc=0.6804 vs null=0.3348 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/410m/seed0 acc=0.2407 vs null=0.0475 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/410m/seed1 acc=0.2219 vs null=0.0476 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/410m/seed2 acc=0.2558 vs null=0.0474 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/410m/seed3 acc=0.222 vs null=0.0474 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/410m/seed4 acc=0.2338 vs null=0.0477 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/1b/seed0 acc=0.2481 vs null=0.0475 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/1b/seed1 acc=0.2269 vs null=0.0479 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/1b/seed2 acc=0.2558 vs null=0.0475 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/1b/seed3 acc=0.2488 vs null=0.0479 -> ATTRITION
+[m2]   STRUCTURAL LEAK: unscramble/1b/seed4 acc=0.2315 vs null=0.0478 -> ATTRITION
+[m2]   STRUCTURAL LEAK: weekday/410m/seed1 acc=0.2171 vs null=0.1427 -> ATTRITION
+[m2]   STRUCTURAL LEAK: weekday/410m/seed3 acc=0.237 vs null=0.1432 -> ATTRITION
+[m2]   STRUCTURAL LEAK: weekday/1b/seed0 acc=0.2077 vs null=0.1432 -> ATTRITION
+[m2]   STRUCTURAL LEAK: weekday/1b/seed1 acc=0.2415 vs null=0.1427 -> ATTRITION
+[m2]   STRUCTURAL LEAK: weekday/1b/seed2 acc=0.2164 vs null=0.1426 -> ATTRITION
+[m2]   fire COUNT exceeds the floor rate (p=6.541e-117) -> PIPELINE ABORT
+[m2] GATE3 shuffled: 0 floor fire(s) + 2 structural in 250 fits (count-test p=0.538)
+[m2]   -> PIPELINE ABORT ([('bin2dec', '410m', 0, 0.17, 0.0997), ('odd_one_out', '410m', 4, 0.3398, 0.2503)])
+[m2] GATE2 known-present entity_track/410m: majority=True mean_margin=0.330 -> OK
+[m2] GATE2 known-present entity_track/1b: majority=True mean_margin=0.281 -> OK
+[m2] GATE2 known-present ctrl_copy/410m: majority=True mean_margin=0.997 -> OK
+[m2] GATE2 known-present ctrl_copy/1b: majority=True mean_margin=0.998 -> OK
+[m2] GATE4 ctrl_copy argmax/410m: 0.868 -> GATE FAIL
+[m2] GATE4 ctrl_copy argmax/1b: 0.954 -> OK
+[m2] report written; attrition=['bin2dec', 'collatz2', 'digitprod7', 'isqrt', 'mod7_add', 'mod7_mul', 'mul3x1', 'numletter', 'roman', 'sq_mod7', 'units', 'unscramble', 'weekday']
+[m2m3] M2 GATE ATTENTION REQUIRED Mon Jul 27 00:47:29 EDT 2026

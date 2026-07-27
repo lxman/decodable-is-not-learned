@@ -1,0 +1,5 @@
+[interim] begin git=b18deae Mon Jul 20 17:40:34 EDT 2026
+[interim] PROBES START known_present/410m Mon Jul 20 17:40:34 EDT 2026
+[probe] known_present/410m: 10 to fit, 0 cached
+/opt/homebrew/Cellar/python@3.11/3.11.15_3/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 6 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

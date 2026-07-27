@@ -1,0 +1,33 @@
+{
+ "stage": "m3",
+ "size": "1b",
+ "capability": "collatz2",
+ "host": "Michaels-Mini",
+ "present": true,
+ "accuracy": 0.9675,
+ "chance": 0.1625,
+ "null_p": 0.005597760895641743,
+ "null_mean": 0.12599200000000002,
+ "null_std": 0.01654797480624367,
+ "margin": 0.9628149856751883,
+ "best_layer": 15,
+ "best_token": 1,
+ "n_candidates": 14,
+ "ci95": [
+  0.9450651832493072,
+  0.9825838539157878
+ ],
+ "split": {
+  "seed": 1,
+  "attempt": 0,
+  "k": 1,
+  "held_per_component": [
+   400
+  ],
+  "n_train": 1600,
+  "n_val": 400,
+  "n_dropped": 0
+ },
+ "checkpoint_id": "pythia-1b:f73d7dcc:trained",
+ "seed": 1
+}

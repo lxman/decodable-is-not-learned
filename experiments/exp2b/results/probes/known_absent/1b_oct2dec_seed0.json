@@ -1,0 +1,33 @@
+{
+ "stage": "known_absent",
+ "size": "1b",
+ "capability": "oct2dec",
+ "host": "FastDevBox",
+ "present": false,
+ "accuracy": 0.125,
+ "chance": 0.115,
+ "null_p": 0.7612954818072771,
+ "null_mean": 0.099119,
+ "null_std": 0.015048984277056988,
+ "margin": 0.0,
+ "best_layer": 3,
+ "best_token": 0,
+ "n_candidates": 14,
+ "ci95": [
+  0.09421851468658607,
+  0.16145865943060564
+ ],
+ "split": {
+  "seed": 0,
+  "attempt": 0,
+  "k": 1,
+  "held_per_component": [
+   400
+  ],
+  "n_train": 1600,
+  "n_val": 400,
+  "n_dropped": 0
+ },
+ "checkpoint_id": "pythia-1b:f73d7dcc:untrained",
+ "seed": 0
+}

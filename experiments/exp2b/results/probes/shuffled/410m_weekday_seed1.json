@@ -1,0 +1,33 @@
+{
+ "stage": "shuffled",
+ "size": "410m",
+ "capability": "weekday",
+ "host": "llmbox",
+ "present": false,
+ "accuracy": 0.18292682926829268,
+ "chance": 0.16097560975609757,
+ "null_p": 0.15113954418232708,
+ "null_mean": 0.14242341463414632,
+ "null_std": 0.01670299718681676,
+ "margin": 0.0,
+ "best_layer": 18,
+ "best_token": 0,
+ "n_candidates": 18,
+ "ci95": [
+  0.1466896591494017,
+  0.22381387942237058
+ ],
+ "split": {
+  "seed": 1,
+  "attempt": 0,
+  "k": 1,
+  "held_per_component": [
+   100
+  ],
+  "n_train": 1590,
+  "n_val": 410,
+  "n_dropped": 0
+ },
+ "checkpoint_id": "pythia-410m:9879c9b5:trained",
+ "seed": 1
+}

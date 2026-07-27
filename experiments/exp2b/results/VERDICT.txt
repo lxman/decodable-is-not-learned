@@ -1,0 +1,56 @@
+EXPERIMENT 2b — FORMAL VERDICT (recorded 2026-07-27)
+
+VERDICT: INSUFFICIENT_DATA
+
+Mechanism: the preregistered untrained-weights control (design §4.1) fired
+structurally on 13 of 25 scored capabilities — 86 of 250 fits, every fire
+failing the floor-signature check, per-capability fire counts binomially
+impossible under the floor rate, margins reproducing across two
+independently initialized untrained models (410m and 1b). The frozen
+attrition rule drops all 13; the scored battery is n = 12 < 20; §4.5
+verdict precedence yields INSUFFICIENT_DATA. No loosening was considered
+(the rule forbids it).
+
+The hypothesis (design §5) was neither supported nor falsified: Stage 1 was
+never assembled and no eval-side model (2.8b/6.9b/12b) was ever queried.
+The two-stage lock closes intact — the outcome ordering remains unobserved.
+
+Gate scoreboard as adjudicated (rulings a–d, PROGRESS.md 2026-07-27, all
+accepted by Michael):
+  GATE 1 (known-absent): attrition ×13 per design §4.1. The report code's
+    pooled-count abort is ruled an implementation deviation (the pooled
+    test trips at 7 fires while one leaking capability contributes 10 —
+    the design's attrition provision was unreachable as coded).
+  GATE 2 (known-present): PASS both sizes (entity_track margins .330/.281;
+    ctrl_copy .997/.998).
+  GATE 3 (shuffled): CLEAN by count test (2 fires/250, p = .538, zero at
+    1b). The per-fire floor-signature predicate is ruled a design-level
+    calibration misspecification: its 3-SD conjunct contradicts its
+    at-floor conjunct (expected max of 2500 null draws ≈ 3.4 SD), so a
+    clean null was expected to produce ~0.9 predicate-failing fires per
+    250 fits. No pipeline abort.
+  GATE 4 (argmax control): FAIL at 410m (.868, CP95 [.835, .896]) / PASS
+    at 1b (.954); ruled a design-assumption finding (argmax reliability
+    does not transfer across battery versions). Documented caveat on 410m
+    inclusion readings; no battery consequence.
+
+Scientific content: the leak taxonomy. Basis-starved splits closed the
+lookup class that invalidated Exp 2 (mod7-family untrained margins fell
+from 1.0 to ≈.1, and the starved instrument passed both known-lookup
+rehearsal worlds) — but 13 of 25 capabilities remained decodable from
+untrained networks at margins .06–.82 because their labels are partially
+computable from input surface statistics through random projections,
+which generalize across held-out basis values and are therefore immune to
+starving. Capability-precursor claims require subtracting this floor;
+the untrained-weights control is the acceptance test. The 12 surviving
+capabilities (add3_mid, add_base8, antonym, base7, caesar, clock24,
+count_div7, mod13, oct2dec, odd_one_out, reverse_string, sub3_mid —
+transcribed from scored_battery.json minus m2_report.json's attrition set)
+are the existence proof that leak-free capabilities exist and are 2c's
+seed stock.
+
+Data: 770/770 probe fits under results/probes/ (this commit);
+m2_report.json; campaign log; activation SHA-256 digests in
+activations_sha256.txt (npz local and gitignored, exp2 convention).
+Projection provenance: this verdict was projected in PROGRESS.md on
+2026-07-23/24 from gate-1 data alone, before the frozen report ran.
