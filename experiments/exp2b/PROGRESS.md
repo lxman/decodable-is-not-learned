@@ -506,3 +506,26 @@ examples and one synthetic case per preregistered provision (e.g., "one
 leaking capability" must yield attrition-without-abort). Both of 2b's
 implementation-deviation bugs would have been caught pre-freeze by this
 rule; the design text already contains the first fixture (roman/seed3).
+
+## GATE REVIEW — Ruling (b), ACCEPTED by Michael (2026-07-27)
+
+**RULING: Gate 3 closes CLEAN on its count test (p=.538); the two 410m
+fires (bin2dec/seed0, odd_one_out/seed4) are ruled floor-rate events; no
+pipeline abort.** The per-fire floor-signature predicate is recorded as a
+DESIGN-LEVEL CALIBRATION MISSPECIFICATION (Exp 1 S1's class): its 3-SD
+near_null conjunct contradicts its at-floor conjunct — the expected max of
+2500 null draws lies ~3.4 SD above the null mean, so a clean null was
+expected to produce ~0.9 predicate-failing fires per 250 fits (P>=1 ~.59).
+The design's own §4 header intent ("no zero-tolerance rules on nonzero-rate
+tests") is violated by the predicate one level below its count arithmetic.
+Supporting pattern: count at expectation, no capability/seed structure,
+zero fires at 1b, uniform refit under the verified fixed-split path — the
+opposite profile from gate 1's cross-init-reproducing leaks. The mechanism
+argument predates the report (710ece1). Feeds 2c: per-capability binomial
+rate tests as primary attrition trigger; signature bars derived from the
+max-of-N mechanism.
+
+**Combined effect of (a)+(b): the closeout carries NO pipeline abort.**
+Exp 2b closes entirely through its own decision tree — attrition ×13 →
+n=12 → §4.5 floor — with the instrument exiting CERTIFIED (gate 2 pass,
+gate 3 clean-by-count, gate 1 leaks being real battery properties).
