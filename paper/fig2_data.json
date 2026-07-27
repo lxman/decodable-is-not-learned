@@ -1,0 +1,252 @@
+[
+ {
+  "capability": "isqrt",
+  "fate": "attrited",
+  "trained_410m": 0.6028,
+  "untrained_410m": 0.39,
+  "gap_410m": 0.2128,
+  "trained_1b": 0.65,
+  "untrained_1b": 0.4024,
+  "gap_1b": 0.2476
+ },
+ {
+  "capability": "collatz2",
+  "fate": "attrited",
+  "trained_410m": 0.9292,
+  "untrained_410m": 0.7598,
+  "gap_410m": 0.1694,
+  "trained_1b": 0.9634,
+  "untrained_1b": 0.7893,
+  "gap_1b": 0.1741
+ },
+ {
+  "capability": "roman",
+  "fate": "attrited",
+  "trained_410m": 0.8738,
+  "untrained_410m": 0.7109,
+  "gap_410m": 0.1629,
+  "trained_1b": 0.8765,
+  "untrained_1b": 0.7201,
+  "gap_1b": 0.1564
+ },
+ {
+  "capability": "units",
+  "fate": "attrited",
+  "trained_410m": 0.1942,
+  "untrained_410m": 0.0777,
+  "gap_410m": 0.1165,
+  "trained_1b": 0.1324,
+  "untrained_1b": 0.1039,
+  "gap_1b": 0.0285
+ },
+ {
+  "capability": "unscramble",
+  "fate": "attrited",
+  "trained_410m": 0.3006,
+  "untrained_410m": 0.1966,
+  "gap_410m": 0.104,
+  "trained_1b": 0.3194,
+  "untrained_1b": 0.2042,
+  "gap_1b": 0.1152
+ },
+ {
+  "capability": "mul3x1",
+  "fate": "attrited",
+  "trained_410m": 0.1335,
+  "untrained_410m": 0.0565,
+  "gap_410m": 0.077,
+  "trained_1b": 0.1813,
+  "untrained_1b": 0.0876,
+  "gap_1b": 0.0937
+ },
+ {
+  "capability": "digitprod7",
+  "fate": "attrited",
+  "trained_410m": 0.2914,
+  "untrained_410m": 0.2288,
+  "gap_410m": 0.0626,
+  "trained_1b": 0.2879,
+  "untrained_1b": 0.2348,
+  "gap_1b": 0.0531
+ },
+ {
+  "capability": "numletter",
+  "fate": "attrited",
+  "trained_410m": 0.1027,
+  "untrained_410m": 0.0753,
+  "gap_410m": 0.0274,
+  "trained_1b": 0.1061,
+  "untrained_1b": 0.07,
+  "gap_1b": 0.0361
+ },
+ {
+  "capability": "mod7_add",
+  "fate": "attrited",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0369,
+  "gap_1b": -0.0369
+ },
+ {
+  "capability": "weekday",
+  "fate": "attrited",
+  "trained_410m": 0.0351,
+  "untrained_410m": 0.0393,
+  "gap_410m": -0.0042,
+  "trained_1b": 0.0178,
+  "untrained_1b": 0.0553,
+  "gap_1b": -0.0375
+ },
+ {
+  "capability": "mod7_mul",
+  "fate": "attrited",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0194,
+  "gap_410m": -0.0194,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0216,
+  "gap_1b": -0.0216
+ },
+ {
+  "capability": "sq_mod7",
+  "fate": "attrited",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0253,
+  "gap_410m": -0.0253,
+  "trained_1b": 0.0258,
+  "untrained_1b": 0.0513,
+  "gap_1b": -0.0255
+ },
+ {
+  "capability": "bin2dec",
+  "fate": "attrited",
+  "trained_410m": 0.0134,
+  "untrained_410m": 0.056,
+  "gap_410m": -0.0426,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0134,
+  "gap_1b": -0.0134
+ },
+ {
+  "capability": "antonym",
+  "fate": "survivor",
+  "trained_410m": 0.5795,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.5795,
+  "trained_1b": 0.4483,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.4483
+ },
+ {
+  "capability": "reverse_string",
+  "fate": "survivor",
+  "trained_410m": 0.5731,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.5731,
+  "trained_1b": 0.6749,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.6749
+ },
+ {
+  "capability": "odd_one_out",
+  "fate": "survivor",
+  "trained_410m": 0.3236,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.3236,
+  "trained_1b": 0.2723,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.2723
+ },
+ {
+  "capability": "count_div7",
+  "fate": "survivor",
+  "trained_410m": 0.1145,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.1145,
+  "trained_1b": 0.1091,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.1091
+ },
+ {
+  "capability": "add3_mid",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0
+ },
+ {
+  "capability": "add_base8",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0
+ },
+ {
+  "capability": "base7",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0
+ },
+ {
+  "capability": "caesar",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0
+ },
+ {
+  "capability": "clock24",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0094,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0094
+ },
+ {
+  "capability": "mod13",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0
+ },
+ {
+  "capability": "oct2dec",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0
+ },
+ {
+  "capability": "sub3_mid",
+  "fate": "survivor",
+  "trained_410m": 0.0,
+  "untrained_410m": 0.0,
+  "gap_410m": 0.0,
+  "trained_1b": 0.0,
+  "untrained_1b": 0.0,
+  "gap_1b": 0.0
+ }
+]
