@@ -445,3 +445,38 @@ substance (2/250 at the designed rate), projected abort only via the
 ledgered signature-predicate contradiction; gate 4 from committed M1
 inclusion. m3/1b running (~48 h); the frozen report fires automatically at
 campaign end.
+
+## CAMPAIGN COMPLETE — frozen report ran (2026-07-27 00:47 EDT)
+
+770/770 units (2026-07-19 13:36 → 2026-07-27 00:47, incl. the 07-20 crash
+window). m2_report_2b exited GATE ATTENTION REQUIRED. Formal scoreboard vs
+the ledgered projections:
+
+- GATE 1: 0 floor-signature fires + 86 structural leaks / 250; attrition
+  x13; pooled count p=6.5e-117 → ABORT as coded. Matches projection
+  (496c488) exactly.
+- GATE 3: 0 floor fires + 2 leaks / 250; COUNT test p=.538 (PASSES —
+  confirming the fire rate is the designed one); abort triggered solely by
+  the leak classification, i.e. solely through the predicate whose
+  self-contradiction was argued pre-report (710ece1).
+- GATE 2: all four cells OK (matches).
+- GATE 4: ctrl_copy argmax 410m 0.868 (434/500, CP95 [.835,.896] — upper
+  bound below the .9 bar) → GATE FAIL; 1b 0.954 OK. NOT projected: the
+  number sat in the committed M1 inclusion record since before the freeze
+  and the bar was never checked against it at M1 review — a process miss
+  (the M1 review checklist lacked the gate-4 arithmetic), surfaced by the
+  frozen report as designed. Same phenomenon class as exp2's
+  ctrl_next_letter (generation-side argmax reliability weak at 410m) while
+  the probe side of ctrl_copy is at ceiling (.997) — output channel vs
+  representation channel, on our own control.
+
+GATE REVIEW AGENDA (Michael's rulings, none made here): (a) gate 1
+abort-vs-attrition reading (code pools leaks into the count test; docstring
+counts floor fires only — either way n=12<20); (b) gate 3: predicate-
+misspecification finding vs real contamination (count test at .538 and the
+pre-report order-statistics argument support the former); (c) gate 4 410m:
+design-assumption finding per the exp2 ctrl_next_letter precedent + the M1
+checklist process miss; (d) VERDICT (projected INSUFFICIENT_DATA, n=12);
+(e) closeout mechanics: data commit + digests, VERDICT.txt, retrospective,
+tag exp2b-closed. Then: methods-paper outline, then 2c design doc, per the
+agreed sequencing.
