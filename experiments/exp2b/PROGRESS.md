@@ -480,3 +480,29 @@ checklist process miss; (d) VERDICT (projected INSUFFICIENT_DATA, n=12);
 (e) closeout mechanics: data commit + digests, VERDICT.txt, retrospective,
 tag exp2b-closed. Then: methods-paper outline, then 2c design doc, per the
 agreed sequencing.
+
+## GATE REVIEW — Ruling (a), ACCEPTED by Michael (2026-07-27)
+
+**RULING: Gate 1 closes as ATTRITION ×13 per design §4.1.** The report
+code's pooled-count abort is ruled an IMPLEMENTATION DEVIATION from the
+preregistered design (second of its class, after shuffle-before-split):
+§4.1 prescribes attrition as gate 1's sole remedy for structural fires and
+grants abort only to gate 3; the pooled test trips at 7 fires in 250 while
+one leaking capability contributes 10 leak-fits, so as coded the design's
+attrition provision could never operate for any possible data — an
+implementation that makes a preregistered provision unreachable cannot be
+the preregistered rule. The argument is outcome-independent and was
+presented with both readings steelmanned; both end at n=12 with no Stage 1
+and no thesis evidence, so the ruling selects the accurate label, not a
+rescue. Effects: attrition set = the 13 ledgered capabilities; scored
+battery falls 25 → 12; §4.5 floor applies (n < 20); instrument
+certification STANDS (gate 2 passed, gate 3 count-clean) and 2c inherits
+the instrument without re-validation. The report's banked output is
+untouched; this is a closeout adjudication in the exp2 pattern.
+
+**STANDING RULE promoted for 2c (and successors):** adjudication code is
+frozen WITH fixture tests derived from the design doc's own worked
+examples and one synthetic case per preregistered provision (e.g., "one
+leaking capability" must yield attrition-without-abort). Both of 2b's
+implementation-deviation bugs would have been caught pre-freeze by this
+rule; the design text already contains the first fixture (roman/seed3).
