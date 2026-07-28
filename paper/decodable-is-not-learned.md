@@ -1,8 +1,9 @@
 # Decodable Is Not Learned: Untrained-Weights Controls and Basis-Starved Splits for Linear Probing
 
 **Author:** Michael Jordan
-*Complete first draft (2026-07-27). Sections 4 and 5 are approved;
-everything else awaits Michael's read. Figures F1–F3 and Table T1 not
+*Complete first draft (2026-07-27). Sections 3–5 are approved;
+Sections 1, 2, and the abstract are revised per Michael's read;
+Sections 6–8 await it. Figures F1–F3 and Table T1 not
 yet placed. Every number is transcribed from the tagged record
 (`exp2-preregistered`, `exp2-closed`, `exp2b-preregistered`,
 `exp2b-closed`) or from `paper/fig2_data.json`, which recomputes from
@@ -27,10 +28,14 @@ any outcome measurement. In the first, the untrained twin fired on 120
 of 120 fits: under standard splits, probe significance measured
 reservoir decodability, not learning. In the second, starving closed
 the lookup class and the untrained twin exposed a class beneath it: 13
-of 25 capabilities decodable from untrained weights at margins up to
-.82, reproducing across independent initializations, via surface
-statistics that no value holdout can remove. A leak taxonomy, a
-per-capability anatomy, and an adoptable checklist follow.
+of 25 capabilities decodable from untrained weights at margins of .06
+to .82, reproducing across independent initializations, via surface
+statistics that no value holdout can remove. The screen is passable:
+the twelve surviving capabilities read exactly zero untrained margin
+in every cell, and string reversal's untrained readout, which fired
+under standard splits, fell to zero under starving while the trained
+margin held. A taxonomy of the leak mechanisms and a checklist
+written for verbatim adoption distill the record.
 
 ## 1. The problem and the prescription
 
