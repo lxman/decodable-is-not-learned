@@ -1,23 +1,103 @@
 # Decodable Is Not Learned: Untrained-Weights Controls and Basis-Starved Splits for Linear Probing
 
 **Author:** Michael Jordan
-*Draft in progress. The abstract, Section 1, and Sections 6–8 are
-stubs; Sections 2–5 are first drafts (2026-07-27). Every number is
-transcribed from the tagged record (`exp2-preregistered`, `exp2-closed`,
-`exp2b-preregistered`, `exp2b-closed`) or from `paper/fig2_data.json`,
-which recomputes from the committed fit files; every citation is
-verified against arXiv or the publisher's record before it enters the
-text.*
+*Complete first draft (2026-07-27). Sections 4 and 5 are approved;
+everything else awaits Michael's read. Figures F1–F3 and Table T1 not
+yet placed. Every number is transcribed from the tagged record
+(`exp2-preregistered`, `exp2-closed`, `exp2b-preregistered`,
+`exp2b-closed`) or from `paper/fig2_data.json`, which recomputes from
+the committed fit files; every citation is verified against arXiv or
+the publisher's record before it enters the text.*
 
 ## Abstract
 
-*(stub — written last)*
+A linear probe that clears significance is routinely read as evidence
+that a model has learned, represents, or is developing a capability.
+The inference is unsound: a network's activations are a
+high-dimensional expansion of the visible tokens, and a linear readout
+on such an expansion decodes many functions of the input that training
+never put there. This paper prescribes three controls that make the
+inference testable — an untrained-weights twin of the model run through
+the identical probe pipeline as an acceptance test; basis-starved
+splits, whose validation items share no surface-component values with
+probe training; and tolerances calibrated from the mechanism that
+generates each control's events rather than set to zero — and reports
+two preregistered probing campaigns that the controls terminated before
+any outcome measurement. In the first, the untrained twin fired on 120
+of 120 fits: under standard splits, probe significance measured
+reservoir decodability, not learning. In the second, starving closed
+the lookup class and the untrained twin exposed a class beneath it: 13
+of 25 capabilities decodable from untrained weights at margins up to
+.82, reproducing across independent initializations, via surface
+statistics that no value holdout can remove. A leak taxonomy, a
+per-capability anatomy, and an adoptable checklist follow.
 
 ## 1. The problem and the prescription
 
-*(stub — see methods-paper-outline.md §1: the decodable→learned leap; the
-free-computation floor; P1 untrained twin, P2 basis-starved splits, P3
-mechanism-calibrated tolerances)*
+A linear probe reads a label off a network's activations, clears a
+significance test, and the paper concludes the model represents the
+property. The step from "a readout can be fit" to "the model learned
+something" is taken silently in most probing work, and it isn't sound.
+A transformer's activations at any layer are, among other things, a
+high-dimensional nonlinear expansion of the visible tokens, and an
+expansion like that supports linear readouts of many functions of the
+input that no training ever put there. Random-feature regression and
+reservoir computing are whole method families built on exactly this
+capacity of untrained networks; Section 2 gives the arithmetic. The
+fraction of probe signal that comes free with the architecture is not
+small and not exotic: in the experiments reported here, an untrained
+network cleared the same significance tests as the trained one on
+every capability in a twelve-task battery.
+
+The prescription is short enough to state completely on page one.
+
+- **P1. The untrained twin as an acceptance test.** Run the identical
+  probe pipeline (same architecture, tokenizer, prompts, extraction
+  points, splits, and statistics) on a twin of the model with weights
+  at seeded random initialization. Capability-precursor claims stand
+  only on the trained-minus-untrained gap, and a capability enters a
+  battery only if the untrained twin is silent on it.
+- **P2. Basis-starved splits.** Wherever the label could be looked up
+  from surface components of the prompt, name those components against
+  the tokenizer's actual token inventory, then validate only on items
+  whose every component value was held out of probe training,
+  discarding items that mix held-out and kept values.
+- **P3. Mechanism-calibrated tolerances.** Every control gets a
+  tolerance derived from the mechanism that generates its events: no
+  zero-tolerance rules on tests with designed nonzero rates, and
+  per-fire signature bars from the order statistics of the permutation
+  null (the expected maximum of N permuted fits), not from SD
+  intuitions.
+
+The evidence is two preregistered probing campaigns, both ended by
+these controls before either touched its outcome variable. In the
+first, the untrained control fired on 120 of 120 fits, each at the
+permutation floor, across every capability: standard train-validation
+splits let a linear readout assemble lookup tables in the random
+expansion, and diagnostics showed the trained probes' ceiling margins
+were lookup too. In the second, splits starved by design closed that
+class (the prior campaign's proven offender fell from margin 1.0 to
+about 0.1 untrained), and the untrained control then exposed a second
+class underneath: 86 of 250 untrained fits fired structurally, on
+thirteen of twenty-five capabilities, at margins from .06 to .82 that
+reproduce across two independently initialized models — labels
+partially computable from surface statistics that no holdout of basis
+values can remove. Both experiments returned INSUFFICIENT_DATA under
+their frozen rules. The deaths are the point: every failure was a
+detection, and every verdict was projected in a timestamped ledger
+before the frozen adjudication ran.
+
+The paper contributes, in order of expected reuse: an operational
+checklist for probing hygiene written for verbatim adoption (Table T2,
+Section 8); a taxonomy of surface-computability leaks, with
+per-capability anatomy and the trained-versus-untrained comparison
+that separates rescuable tasks from surface-all-the-way-down ones
+(Section 5); the starved-probe instrument, its calibrated gates, and
+its determinism infrastructure (Section 3); the two campaign records
+as worked examples of the controls operating under preregistration
+discipline (Section 4); and three calibration rules for frozen
+criteria, learned from defects in our own frozen code and promoted to
+standing practice (Section 6).
 
 ## 2. Background
 
