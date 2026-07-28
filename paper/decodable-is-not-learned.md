@@ -98,7 +98,7 @@ that separates rescuable tasks from surface-all-the-way-down ones
 its determinism infrastructure (Section 3); the two campaign records
 as worked examples of the controls operating under preregistration
 discipline (Section 4); and three calibration rules for frozen
-criteria, learned from defects in our own frozen code and promoted to
+criteria, learned from defects in my own frozen code and promoted to
 standing practice (Section 6).
 
 ## 2. Background
@@ -564,7 +564,7 @@ draw to matter. Then measure it: run the untrained twin on the starved
 split at generation time, before inclusion, and let the acceptance test
 rather than the designer's intuition say whether the basis is starved.
 Every mechanism above was legible in the label definitions before the
-campaign ran. We found them afterward because we hadn't yet learned to
+campaign ran. I found them afterward because I hadn't yet learned to
 ask the question in that order.
 
 ## 6. Calibration lessons for frozen criteria
