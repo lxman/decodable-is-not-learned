@@ -1,11 +1,13 @@
 # Decodable Is Not Learned: Untrained-Weights Controls and Basis-Starved Splits for Linear Probing
 
 **Author:** Michael Jordan
-*Draft in progress. Sections 1–3 and 6–8 are stubs; 4 and 5 are first
-drafts (2026-07-27). Every number is transcribed from the tagged record
-(`exp2-preregistered`, `exp2-closed`, `exp2b-preregistered`,
-`exp2b-closed`) or from `paper/fig2_data.json`, which recomputes from the
-committed fit files.*
+*Draft in progress. The abstract, Section 1, and Sections 6–8 are
+stubs; Sections 2–5 are first drafts (2026-07-27). Every number is
+transcribed from the tagged record (`exp2-preregistered`, `exp2-closed`,
+`exp2b-preregistered`, `exp2b-closed`) or from `paper/fig2_data.json`,
+which recomputes from the committed fit files; every citation is
+verified against arXiv or the publisher's record before it enters the
+text.*
 
 ## Abstract
 
@@ -19,9 +21,89 @@ mechanism-calibrated tolerances)*
 
 ## 2. Background
 
-*(stub — probing critiques interrogate the probe's expressivity; these
-controls interrogate what the substrate computes for free; reservoir
-computing, random features, Cover's capacity arithmetic)*
+Linear probing entered the field as a diagnostic: fit a linear
+classifier on frozen intermediate activations and read its accuracy as
+evidence about what the network represents (Alain and Bengio, 2016).
+The trouble with that reading was noticed early, and the critique
+literature that followed is, in most of its branches, a series of
+constraints on the probe. Hewitt and Liang (2019) showed that an
+expressive probe can score well by learning the task itself rather than
+reading it out, and proposed control tasks: the same probe fit against
+randomized word-to-label mappings, with selectivity, the gap between
+task and control accuracy, as the honest report. Voita and Titov (2020)
+replaced accuracy with description length, separating a probe that
+finds structure cheaply from one that grinds it out of raw material.
+Elazar, Ravfogel, Jacovi, and Goldberg (2020) moved the question from
+decodability to use: erase the property from the representation and
+watch whether the model's behavior degrades. Belinkov's (2021) survey
+organizes the field around this family of worries. What the branches
+share is their target. Control tasks bound what the probe could learn
+from anything; description length prices the probe's effort; amnesic
+probing asks whether the model rather than the probe depends on the
+property. All of them interrogate the probe's expressivity. None of
+them interrogates the substrate's: what a linear readout can extract
+from this architecture before training has shaped a single weight.
+
+Untrained networks as comparison points do appear in the literature.
+Zhang and Bowman (2018) reported that randomly initialized, frozen
+encoders retain much of the probing signal trained ones show, an effect
+that vanished only when the probes' training data was cut. Wieting and
+Kiela (2019) found random-projection sentence encoders close enough to
+trained ones on standard classification benchmarks to recommend them as
+mandatory baselines. But the untrained network has lived as a row in a
+table: a number the headline result should exceed, compared informally,
+with nothing decided when the comparison comes out badly. The
+prescription in this paper is that row promoted to an acceptance test.
+The untrained twin runs the identical pipeline (same prompts, splits,
+candidate sweep, permutation null, and correction), its tolerated fire
+count is derived from the pipeline's own false-positive arithmetic, and
+battery membership is decided by the outcome. The distinction from
+control tasks is worth stating exactly: a control task randomizes the
+labels and keeps the trained representation, measuring what the probe
+could do with anything; the untrained control keeps the true labels and
+randomizes the representation, measuring what this architecture gives
+away for free. Section 4 shows the two catch different failures, and
+that the informal version of the comparison saturates precisely where
+it's needed most.
+
+There's nothing mysterious about a random network that computes; an
+engineering field is built on it. Reservoir computing treats a fixed
+random recurrent network as a high-dimensional expansion of its input
+stream and trains only a linear readout, on the explicit design premise
+that random dynamics furnish a feature basis for free (Jaeger, 2001;
+Maass, Natschläger, and Markram, 2002). Rahimi and Recht (2007)
+supplied the feedforward theory: linear fits on random nonlinear
+projections approximate kernel machines. Cover (1965) supplied the
+arithmetic that says when to worry: a linear separator with d degrees
+of freedom has a separating capacity of about 2d points in general
+position. The probes in Sections 4 and 5 fit on the order of 1,500
+training rows against hidden widths of 1,024 at 410M and 2,048 at 1B —
+at or under capacity, where a clean training fit is free and means
+nothing. Everything rests on validation, and validation is where the
+reservoir property bites: a readout generalizes whenever the label is a
+simple enough function of surface features that the random expansion
+preserves them. A probing study at these scales that skips the
+comparison is asserting that its accuracy came from learning while
+standing on a substrate the reservoir literature would use as shipped.
+
+The batteries these controls were built for served a measurement
+program adjacent to the emergence debate. Wei et al. (2022) called an
+ability emergent when smaller models lack it and larger ones have it;
+Schaeffer, Miranda, and Koyejo (2023) argued that much of the apparent
+discontinuity is manufactured by discontinuous metrics. One way to
+press on that dispute is to look below threshold with something sharper
+than a benchmark: if linear-probe margins at 410M and 1B forecast which
+capabilities later appear up the Pythia ladder (Biderman et al., 2023),
+the capability was developing smoothly before the benchmark could see
+it. This paper argues neither side of that question and contributes no
+evidence to it; both campaigns closed before any outcome variable was
+measured. What the program contributed here is discipline. Probe
+readings meant as forecasts had to be committed before the forecasted
+models were queried, so no outcome data existed to sanity-check the
+probes against, and the controls of Section 3 had to carry the whole
+burden of trust. The methods in this paper are what that constraint
+produced, and they stand or fall independent of the program that
+motivated them.
 
 ## 3. The instrument
 
@@ -419,4 +501,59 @@ examples; pre-freeze gates adjudicated pre-freeze)*
 
 ## References
 
-*(stub — all citations arXiv-verified before entering §2)*
+*(Every entry verified 2026-07-27: arXiv abstract pages fetched for
+each arXiv ID; the four pre-arXiv works checked against publisher
+records. arXiv entries carry submission years; final venue strings get
+fixed at submission time.)*
+
+Alain, G., and Bengio, Y. (2016). Understanding intermediate layers
+using linear classifier probes. arXiv:1610.01644.
+
+Belinkov, Y. (2021). Probing classifiers: Promises, shortcomings, and
+advances. Computational Linguistics (squib). arXiv:2102.12452.
+
+Biderman, S., Schoelkopf, H., Anthony, Q., Bradley, H., O'Brien, K.,
+Hallahan, E., Khan, M. A., Purohit, S., USVSN Sai Prashanth, Raff, E.,
+Skowron, A., Sutawika, L., and van der Wal, O. (2023). Pythia: A suite
+for analyzing large language models across training and scaling.
+arXiv:2304.01373.
+
+Cover, T. M. (1965). Geometrical and statistical properties of systems
+of linear inequalities with applications in pattern recognition. IEEE
+Transactions on Electronic Computers, EC-14:326–334.
+
+Elazar, Y., Ravfogel, S., Jacovi, A., and Goldberg, Y. (2020). Amnesic
+probing: Behavioral explanation with amnesic counterfactuals.
+arXiv:2006.00995.
+
+Hewitt, J., and Liang, P. (2019). Designing and interpreting probes
+with control tasks. arXiv:1909.03368.
+
+Jaeger, H. (2001). The "echo state" approach to analysing and training
+recurrent neural networks. GMD Report 148, German National Research
+Center for Information Technology.
+
+Maass, W., Natschläger, T., and Markram, H. (2002). Real-time computing
+without stable states: A new framework for neural computation based on
+perturbations. Neural Computation, 14(11):2531–2560.
+
+Rahimi, A., and Recht, B. (2007). Random features for large-scale
+kernel machines. Advances in Neural Information Processing Systems 20.
+
+Schaeffer, R., Miranda, B., and Koyejo, S. (2023). Are emergent
+abilities of large language models a mirage? arXiv:2304.15004.
+
+Voita, E., and Titov, I. (2020). Information-theoretic probing with
+minimum description length. arXiv:2003.12298.
+
+Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S.,
+Yogatama, D., Bosma, M., Zhou, D., Metzler, D., Chi, E. H., Hashimoto,
+T., Vinyals, O., Liang, P., Dean, J., and Fedus, W. (2022). Emergent
+abilities of large language models. arXiv:2206.07682.
+
+Wieting, J., and Kiela, D. (2019). No training required: Exploring
+random encoders for sentence classification. arXiv:1901.10444.
+
+Zhang, K. W., and Bowman, S. R. (2018). Language modeling teaches you
+more syntax than translation does: Lessons learned through auxiliary
+task analysis. arXiv:1809.10040.
