@@ -199,6 +199,17 @@ the confound can't reach. This section describes it as frozen for
 Experiment 2b; everything here was committed and tagged before the
 campaign produced data.
 
+The probe machinery is one experiment older than the campaigns of
+Section 4. Experiment 1 validated the instrument class on synthetic
+ground truth: small transformers trained from scratch on tasks where
+the presence or absence of the capability was known by construction,
+including percolation-style cells engineered to have no structure
+below threshold. The permutation-null probe module frozen there is
+the one Experiments 2 and 2b inherit, and its closeout also supplied
+the first entry in Section 6's catalog of frozen-criterion defects — a
+magnitude criterion misspecified across incomparable chance floors,
+ledgered as such and left to stand.
+
 **Targets and items.** Each capability contributes about 2,000 probe
 items: a prompt, the model's hidden states over that prompt, and a probe
 label defined by the capability's specification. The label is never the
@@ -602,11 +613,9 @@ ledger before the frozen report ran, which is what makes that ruling
 adjudication rather than rescue. The rule it promotes: a signature bar
 is derived from the mechanism that generates the events it classifies,
 here the distribution of the maximum of N permuted fits, never from an
-SD intuition. An earlier instrument-validation experiment in this
-program had already paid for one instance of the same class (a
-magnitude criterion applied across incomparable chance floors, ledgered
-as misspecified and left to read FAIL as frozen), so the rule is now
-standing rather than advisory.
+SD intuition. Experiment 1 had already paid for one instance of the
+same class, the misspecified magnitude criterion of Section 3's
+provenance note, so the rule is now standing rather than advisory.
 
 The second was an implementation deviation. The design gives the
 untrained gate exactly one remedy, attrition of the leaking capability,
@@ -640,8 +649,8 @@ skipped check cost nothing this time only because the battery died of
 something else first.
 
 What ties the three together is the ledger. Every ruling above rests on
-a mechanism argument written before, or provably independent of, the
-outcome it touches, and every projection was timestamped before the
+a mechanism argument written before, or demonstrably independent of,
+the outcome it touches, and every projection was timestamped before the
 frozen report ran. Frozen criteria are code, and code has defects; the
 practice that keeps a preregistered program honest through its own
 defects is the same one that makes its results legible afterward —
