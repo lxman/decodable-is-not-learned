@@ -17,3 +17,4 @@ experiments/exp1/checkpoints/*
 experiments/exp1/results/**/*.html
 experiments/exp2/results/activations/
 experiments/exp2b/results/activations/
+_build.html
