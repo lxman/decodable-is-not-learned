@@ -736,21 +736,24 @@ public before arXiv.]*
 ## References
 
 *(Every entry verified 2026-07-27: arXiv abstract pages fetched for
-each arXiv ID; the four pre-arXiv works checked against publisher
-records. arXiv entries carry submission years; final venue strings get
-fixed at submission time.)*
+each arXiv ID; venue records and the four pre-arXiv works checked
+against publisher pages. In-text years are arXiv submission years,
+i.e., first public availability; the published version is appended to
+each entry that has one.)*
 
 Alain, G., and Bengio, Y. (2016). Understanding intermediate layers
-using linear classifier probes. arXiv:1610.01644.
+using linear classifier probes. arXiv:1610.01644. Workshop version:
+ICLR 2017 Workshop Track.
 
 Belinkov, Y. (2021). Probing classifiers: Promises, shortcomings, and
-advances. Computational Linguistics (squib). arXiv:2102.12452.
+advances. arXiv:2102.12452. Journal version: Computational
+Linguistics, 48(1):207–219, 2022.
 
 Biderman, S., Schoelkopf, H., Anthony, Q., Bradley, H., O'Brien, K.,
 Hallahan, E., Khan, M. A., Purohit, S., USVSN Sai Prashanth, Raff, E.,
 Skowron, A., Sutawika, L., and van der Wal, O. (2023). Pythia: A suite
 for analyzing large language models across training and scaling.
-arXiv:2304.01373.
+arXiv:2304.01373. Conference version: ICML 2023, PMLR 202:2397–2430.
 
 Cover, T. M. (1965). Geometrical and statistical properties of systems
 of linear inequalities with applications in pattern recognition. IEEE
@@ -758,10 +761,12 @@ Transactions on Electronic Computers, EC-14:326–334.
 
 Elazar, Y., Ravfogel, S., Jacovi, A., and Goldberg, Y. (2020). Amnesic
 probing: Behavioral explanation with amnesic counterfactuals.
-arXiv:2006.00995.
+arXiv:2006.00995. Journal version: Transactions of the Association for
+Computational Linguistics, 9:160–175, 2021.
 
 Hewitt, J., and Liang, P. (2019). Designing and interpreting probes
-with control tasks. arXiv:1909.03368.
+with control tasks. arXiv:1909.03368. Conference version:
+EMNLP-IJCNLP 2019, 2733–2743.
 
 Jaeger, H. (2001). The "echo state" approach to analysing and training
 recurrent neural networks. GMD Report 148, German National Research
@@ -776,18 +781,25 @@ kernel machines. Advances in Neural Information Processing Systems 20.
 
 Schaeffer, R., Miranda, B., and Koyejo, S. (2023). Are emergent
 abilities of large language models a mirage? arXiv:2304.15004.
+Conference version: NeurIPS 2023.
 
 Voita, E., and Titov, I. (2020). Information-theoretic probing with
-minimum description length. arXiv:2003.12298.
+minimum description length. arXiv:2003.12298. Conference version:
+EMNLP 2020, 183–196.
 
 Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S.,
 Yogatama, D., Bosma, M., Zhou, D., Metzler, D., Chi, E. H., Hashimoto,
 T., Vinyals, O., Liang, P., Dean, J., and Fedus, W. (2022). Emergent
-abilities of large language models. arXiv:2206.07682.
+abilities of large language models. arXiv:2206.07682. Journal version:
+Transactions on Machine Learning Research, 2022.
 
 Wieting, J., and Kiela, D. (2019). No training required: Exploring
 random encoders for sentence classification. arXiv:1901.10444.
+Conference version: ICLR 2019.
 
 Zhang, K. W., and Bowman, S. R. (2018). Language modeling teaches you
 more syntax than translation does: Lessons learned through auxiliary
-task analysis. arXiv:1809.10040.
+task analysis. arXiv:1809.10040. Workshop version: BlackboxNLP at
+EMNLP 2018, 359–361, under the title "Language modeling teaches you
+more than translation does: Lessons learned through auxiliary
+syntactic task analysis".
