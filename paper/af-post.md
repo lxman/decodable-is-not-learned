@@ -6,7 +6,7 @@ Probing" (arXiv link TBD; supporting record:
 github.com/lxman/decodable-is-not-learned, public with the arXiv
 upload). Every number below is transcribed from that record.*
 
-Last month I closed out a preregistered probing experiment: twelve
+I recently closed out a preregistered probing experiment: twelve
 capabilities, linear probes on Pythia-410M and 1B, a 2,500-draw
 permutation null per fit, Bonferroni correction, five seeds. One of
 the frozen controls was an untrained twin of each model — the
@@ -17,15 +17,15 @@ token of training data.
 The untrained control fired on everything. All twelve capabilities,
 both sizes, every seed: 120 of 120 fits significant, each at the
 permutation floor, with margins up to 1.000 for modular arithmetic and
-unit conversion. A probe reading a never-trained network "detected"
-arithmetic as cleanly as any probe result I've seen published. The
+unit conversion. A probe reading a never-trained network had, by the
+battery's own frozen standards, cleanly detected arithmetic. The
 experiment terminated with zero scientific output, and terminating was
 the correct behavior: the instrument had just demonstrated that its
 readings didn't mean what the experiment needed them to mean.
 
 This post is about what the probe was actually reading, why the
 obvious repair doesn't work, what construction does work, and the
-second confound class we found hiding under the first. If you publish
+second confound class I found hiding under the first. If you publish
 probing results, the one-sentence version is: run your exact pipeline
 on an untrained twin of your model, and treat a structural fire as
 disqualifying the capability, not as a baseline to subtract.
@@ -190,7 +190,7 @@ remains open; nothing here argues it either way.
 
 The full record is public: preregistered designs frozen and tagged
 before data, every probe fit, the campaign ledgers including the
-mid-campaign bug and the two defects we found in our own frozen
+mid-campaign bug and the two defects in my own frozen
 adjudication code, and scripts that regenerate every figure and table
 from the committed fits. The paper (link above) carries the leak
 taxonomy per capability and the calibration lessons for frozen
