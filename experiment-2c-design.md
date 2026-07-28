@@ -1,13 +1,16 @@
 # Experiment 2c — Design Doc: The Probe Ladder on a Screened Battery (Prediction 2, third instrument)
 
-**Status:** DRAFT — dial review completed 2026-07-28; five structural
-dials accepted in discussion (ledger: this doc's acceptance commit).
-NOT frozen. The freeze is a dedicated commit + tag
-`exp2c-preregistered` after the open items in the final section close,
-per the process rules in `experiments.md`. Until then nothing here
-binds; after it, thresholds, battery membership rules, and
-`experiments/exp2c/analyze.py` do not change, one ledgered
-mechanism-fix per failed gate, never touching thresholds.
+**Status:** **ACCEPTED 2026-07-28** — dial review and section-by-section
+review completed same date; accepted by Michael as written. NOT yet
+frozen. **The freeze is pre-authorized:** it proceeds without further
+design approval as soon as the seven open items in the final section
+close, as a dedicated commit + tag `exp2c-preregistered` containing
+the screened battery, `experiments/exp2c/analyze.py` with its passing
+fixture suite, and the MC calibration/power table (2b pattern:
+acceptance 753a665 → freeze 7293ff7). Until that commit nothing here
+binds; after it, thresholds, battery membership rules, and analyze.py
+do not change, one ledgered mechanism-fix per failed gate, never
+touching thresholds.
 
 **Inheritance:** the instrument enters CERTIFIED per Exp 2b gate-review
 ruling (a) (gate 2 pass, gate 3 clean-by-count) — no re-validation.
