@@ -825,9 +825,12 @@ The full record behind this paper — the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
 campaign ledgers, and the adjudication rulings behind every number
 quoted here — sits under four git tags (`exp2-preregistered`,
-`exp2-closed`, `exp2b-preregistered`, `exp2b-closed`). *[Archive
-mechanics unresolved; outline open item 1: make the repo or a mirror
-public before arXiv.]*
+`exp2-closed`, `exp2b-preregistered`, `exp2b-closed`) in the
+supporting repository, github.com/lxman/decodable-is-not-learned: a
+history-preserving extraction of the working repository, public from
+the paper's arXiv submission and archived with a DOI at publication.
+Commit SHAs quoted inside the ledgers resolve through that
+repository's PROVENANCE.md.
 
 ## References
 
@@ -1040,5 +1043,5 @@ Figures 2 and 3, Table 1, and Appendix A regenerate from these
 artifacts via the committed scripts in `paper/`. The four tags —
 `exp2-preregistered`, `exp2-closed`, `exp2b-preregistered`,
 `exp2b-closed` — mark the freeze and closeout commits of the two
-campaigns.
+campaigns. All of it is in the supporting repository (Section 8).
 
