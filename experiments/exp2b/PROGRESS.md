@@ -575,3 +575,19 @@ record, then Experiment 2c design doc (seed stock: the 12 survivors;
 untrained-weights screening gate at inclusion; per-capability binomial
 rate tests; mechanism-calibrated signature bars; fixture-tested
 adjudication code; pre-freeze adjudication of pre-freeze-input gates).
+
+## Post-closeout correction: expected-fire arithmetic in the 07-25 objection entry (2026-07-27)
+
+The 2026-07-25 entry ("Gate 3 complete...") states a clean null was
+expected to produce "~0.9 floor-reaching fires across 250 fits (P(>=1)
+~ .59)". Those constants are Exp 2's, for 120 fits (E ≈ 0.86, P(≥1)
+≈ .58 — the pair quoted in design §4's preamble). For 2b's 250 fits
+the design's own formula F × family/(N_PERM+1) gives E ≈ 1.6
+(125×18/2501 + 125×14/2501), P(≥1) ≈ .80. The slip is conservative:
+the objection's conclusion strengthens under the corrected expectation
+(a clean null misclassifies MORE fires, not fewer), and the frozen
+report's count test (p = .538 for 2/250) is consistent with the ~1.6
+magnitude, not with 0.9. No ruling changes. Found 2026-07-27 during
+the methods paper's §3/§6 cross-check on Michael's read; the paper
+carries the corrected numbers. Appended post-closeout per the exp1
+precedent (fe04870); the original entry stands unedited.

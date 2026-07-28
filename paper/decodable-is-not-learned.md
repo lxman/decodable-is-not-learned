@@ -586,8 +586,8 @@ means the observed accuracy beat all 2,500 permuted fits, and the
 expected maximum of 2,500 null draws lies about 3.4 SD above the null
 mean. The conjuncts are in tension: the tolerated class is nearly empty
 by construction, and a clean null was expected to hand the predicate
-about 0.9 misclassified fires per 250 (at least one with probability
-about .59). The shuffled control then behaved exactly as designed (two
+about 1.6 misclassified fires per 250 (at least one with probability
+about .8). The shuffled control then behaved exactly as designed (two
 fires in 250, count test p = .538, the fires at 3.6 and 4.7 null SD),
 and the predicate read both as structural and projected a pipeline
 abort on a control whose own count test was passing. The closeout ruled
