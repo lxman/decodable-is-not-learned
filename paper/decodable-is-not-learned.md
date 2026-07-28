@@ -668,7 +668,13 @@ Pythia-BPE facts first. The probes are linear. That choice is what
 makes the capacity arithmetic clean and the permutation null cheap, and
 the free-computation problem only widens for more expressive probe
 families, but none of the tolerances here have been worked out for
-them. The scales are 410M and 1B, and the one scale comparison in the
+them. The candidate family is fixed and narrow, two token positions
+and every third layer, so a silence is always relative to the sweep: a
+capability decodable only at an unswept layer or position reads as
+absent. Fires are absolute; silences are family-relative. The
+known-present gate bounds the worst version of this, since an
+instrument blind to what plainly exists fails it, but the asymmetry
+stands. The scales are 410M and 1B, and the one scale comparison in the
 record points the wrong way for comfort: doubling the width roughly
 doubled the random features and strengthened the untrained readout on
 the letter tasks, so the confound should be assumed to grow with model
