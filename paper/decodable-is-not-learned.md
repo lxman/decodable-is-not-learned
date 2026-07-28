@@ -712,38 +712,42 @@ Every item is either design-time analysis or a reuse of machinery a
 probing study already has; the one genuinely new cost, fitting the
 untrained twin, is a second pass of a pipeline that already exists.
 
-**Table T2. The probing-hygiene checklist.**
+**Table T2. The probing-hygiene checklist.** Each item ends with the
+section it distills.
 
 1. Write every probe label as an explicit function of the prompt, and
    record what a lookup table and a random network should score on it
-   before the capability enters the battery.
+   before the capability enters the battery. (§3, §5)
 2. Name the surface basis a lookup would key on, analyzed against the
    tokenizer's actual token inventory, not against task intuition.
+   (§3)
 3. Reject label targets that are local to single surface tokens (a
-   digit-local label under digit BPE can't be starved).
+   digit-local label under digit BPE can't be starved). (§3, §4.1)
 4. Starve the basis: hold out values per component, validate only on
    items whose components are all held out, discard mixed items, and
    commit the feasibility counts; eject capabilities that can't
-   satisfy them.
+   satisfy them. (§3)
 5. Run the untrained twin through the identical pipeline (prompts,
    splits, candidate sweep, permutation null, correction) as a
-   pre-inclusion acceptance test, not a post-hoc baseline.
+   pre-inclusion acceptance test, not a post-hoc baseline. (§4)
 6. Derive every control's tolerance from the pipeline's own
    false-positive arithmetic; no zero-tolerance rules on nonzero-rate
-   tests; test fire counts binomially, per capability.
+   tests; test fire counts binomially, per capability. (§3, §6)
 7. Derive per-fire signature bars from the order statistics of the
-   permutation maximum, never from an SD intuition.
+   permutation maximum, never from an SD intuition. (§6)
 8. Measure control reliability on the current battery's items; never
-   transfer a reliability measurement across battery versions.
+   transfer a reliability measurement across battery versions. (§4.2)
 9. Adjudicate at freeze time every gate whose inputs exist at freeze
-   time.
+   time. (§6)
 10. Freeze adjudication code together with fixture tests built from
     the design document's worked examples, plus one synthetic case per
-    preregistered provision.
-11. Report every zero as a Clopper–Pearson bound.
+    preregistered provision. (§6)
+11. Report every zero as a Clopper–Pearson bound. (§4.2)
 12. Project the verdict in a timestamped ledger before the frozen
-    report runs; if fits are distributed, admit a machine's results
-    only after it reproduces a reference fixture bit for bit.
+    report runs. (§4.2, §6)
+13. If fits are distributed, admit a machine's results only after it
+    reproduces a reference fixture through the real probe path bit
+    for bit. (§3)
 
 The full record behind this paper — the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
