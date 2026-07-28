@@ -591,3 +591,11 @@ magnitude, not with 0.9. No ruling changes. Found 2026-07-27 during
 the methods paper's §3/§6 cross-check on Michael's read; the paper
 carries the corrected numbers. Appended post-closeout per the exp1
 precedent (fe04870); the original entry stands unedited.
+
+Two smaller instances of the same class, found later the same day
+while generating the paper's Figure 3: the entries' "~3.4 SD" expected
+max of 2,500 null draws is 3.50 by exact integration (Gumbel
+approximation cross-check 3.505; see paper/fig3_gates.py), and ruling
+(a)'s per-capability expectation ".07" is 0.064 (5×18/2501 +
+5×14/2501). Neither is material to any ruling; the paper and its
+figures carry the exact values.
