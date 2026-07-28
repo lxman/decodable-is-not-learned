@@ -55,8 +55,10 @@ The prescription is short enough to state completely on page one.
   probe pipeline (same architecture, tokenizer, prompts, extraction
   points, splits, and statistics) on a twin of the model with weights
   at seeded random initialization. Capability-precursor claims stand
-  only on the trained-minus-untrained gap, and a capability enters a
-  battery only if the untrained twin is silent on it.
+  only on the trained-minus-untrained gap. The screen belongs at
+  inclusion time, before a capability enters the battery; the
+  campaigns reported here ran it post hoc and spent both batteries
+  learning where it belongs.
 - **P2. Basis-starved splits.** Wherever the label could be looked up
   from surface components of the prompt, name those components against
   the tokenizer's actual token inventory, then validate only on items
