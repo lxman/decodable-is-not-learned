@@ -599,3 +599,10 @@ approximation cross-check 3.505; see paper/fig3_gates.py), and ruling
 (a)'s per-capability expectation ".07" is 0.064 (5×18/2501 +
 5×14/2501). Neither is material to any ruling; the paper and its
 figures carry the exact values.
+
+A fourth instance, found 2026-07-28 during the 2c design
+transcription: design doc §3 states the 1b Bonferroni floor as
+"14/2501 ≈ .0048"; 14/2501 = .0056 (the .0048 figure corresponds to
+12/2501, likely a stale family count from drafting). All computation
+used the code's own 14/2501; the paper carries .0056. The frozen doc
+stands unedited; the 2c design doc cites the correct value.
