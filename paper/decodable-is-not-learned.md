@@ -487,17 +487,169 @@ ask the question in that order.
 
 ## 6. Calibration lessons for frozen criteria
 
-*(stub — the pooled-count and floor-signature defects as first-class
-results; mechanism-derived bars; fixture tests from the design's worked
-examples; pre-freeze gates adjudicated pre-freeze)*
+Preregistration moves analysis decisions ahead of the data, but the
+decisions still get written down as thresholds and code, and both can
+misimplement the design they encode. A defect frozen in good faith
+binds like any other frozen choice. Experiment 2b's closeout found two,
+of different kinds, and since neither changed the verdict, what's worth
+extracting is the class each belongs to and the rule that would have
+caught it before the freeze.
+
+The first was a per-fire predicate that contradicts its own arithmetic.
+The design tolerated occasional control fires at the permutation floor
+as the pipeline's designed false-positive rate, and the frozen report
+classified a fire as tolerable when it sat at the add-one floor and
+within 3 SD of its permutation null's mean. But sitting at the floor
+means the observed accuracy beat all 2,500 permuted fits, and the
+expected maximum of 2,500 null draws lies about 3.4 SD above the null
+mean. The conjuncts are in tension: the tolerated class is nearly empty
+by construction, and a clean null was expected to hand the predicate
+about 0.9 misclassified fires per 250 (at least one with probability
+about .59). The shuffled control then behaved exactly as designed (two
+fires in 250, count test p = .538, the fires at 3.6 and 4.7 null SD),
+and the predicate read both as structural and projected a pipeline
+abort on a control whose own count test was passing. The closeout ruled
+the fires floor-rate events and the predicate a design-level
+miscalibration; the order-statistics argument was timestamped in the
+ledger before the frozen report ran, which is what makes that ruling
+adjudication rather than rescue. The rule it promotes: a signature bar
+is derived from the mechanism that generates the events it classifies,
+here the distribution of the maximum of N permuted fits, never from an
+SD intuition. An earlier instrument-validation experiment in this
+program had already paid for one instance of the same class (a
+magnitude criterion applied across incomparable chance floors, ledgered
+as misspecified and left to read FAIL as frozen), so the rule is now
+standing rather than advisory.
+
+The second was an implementation deviation. The design gives the
+untrained gate exactly one remedy, attrition of the leaking capability,
+and reserves pipeline abort for the shuffled gate. The report's code
+instead pooled every structural fire into one binomial count test
+against the floor rate, which trips at seven fires in 250, while a
+single leaking capability contributes ten fits. As coded, any attrition
+event at all was an abort: the design's attrition provision could never
+have operated for any possible data. On the observed 86 fires the
+pooled test returned p = 6.5e-117 and declared the pipeline unsound;
+the closeout ruled the deviation against the design text and closed the
+gate as attrition times thirteen. The ruling was safe to make because
+both readings end in the same place, twelve survivors against a floor
+of twenty, and it selects a label, not an outcome. The defect isn't
+that the code was careless in any unusual way; it's that no test ever
+executed the provision before real data did. The rule it promotes:
+adjudication code freezes together with fixture tests derived from the
+design document's own worked examples, plus one synthetic case per
+preregistered provision. "One leaking capability" must yield
+attrition-without-abort before the freeze happens. Both of 2b's
+implementation deviations, this one and the shuffle-before-split
+ordering bug of Section 4.2, fail that fixture suite immediately.
+
+The third lesson is about scheduling rather than a criterion. The
+argmax control's 410M failure was computable from the committed
+inclusion record eight days before the campaign spent its compute; the
+frozen report surfaced it at campaign end because nothing required
+checking a gate the moment its inputs existed. Gates whose inputs are
+committed before the freeze get adjudicated before the freeze. The
+skipped check cost nothing this time only because the battery died of
+something else first.
+
+What ties the three together is the ledger. Every ruling above rests on
+a mechanism argument written before, or provably independent of, the
+outcome it touches, and every projection was timestamped before the
+frozen report ran. Frozen criteria are code, and code has defects; the
+practice that keeps a preregistered program honest through its own
+defects is the same one that makes its results legible afterward —
+write the argument down before you know what it buys you.
 
 ## 7. Limitations
 
-*(stub)*
+Everything here was demonstrated on one model family, one tokenizer,
+and two scales. The basis analysis is tokenizer-specific on purpose:
+what a lookup can key on is a fact about the token inventory, so no
+battery's basis definitions transfer to another tokenizer without
+redoing the analysis, and the taxonomy's specific mechanisms (digit
+tokens carrying parity, prefix morphemes carrying powers of ten) are
+Pythia-BPE facts first. The probes are linear. That choice is what
+makes the capacity arithmetic clean and the permutation null cheap, and
+the free-computation problem only widens for more expressive probe
+families, but none of the tolerances here have been worked out for
+them. The scales are 410M and 1B, and the one scale comparison in the
+record points the wrong way for comfort: doubling the width roughly
+doubled the random features and strengthened the untrained readout on
+the letter tasks, so the confound should be assumed to grow with model
+size, not wash out.
+
+The untrained control is necessary, not sufficient. The program found
+its two confound classes sequentially — the lookup class, then, after
+starving closed it, the surface-statistics class underneath — and the
+honest induction from that sequence is that more classes exist. A
+control against a random substrate bounds what comes for free; it
+cannot flag a shortcut that random features can't express but training
+finds, and on a starved split such a shortcut reads as learned
+structure. Starving is the only defense in this design against that,
+and starving covers exactly the declared basis, nothing else. The
+taxonomy's mechanism attributions are post-hoc hypotheses and are
+labeled as such in Section 5; none has yet been confirmed by the
+constructive test proposed there.
+
+Finally, the method has so far only killed batteries. Both campaigns
+ended INSUFFICIENT_DATA, which means the controls have demonstrated
+they detect bad batteries and have not yet demonstrated that a battery
+exists which passes them while measuring anything worth measuring. An
+acceptance test that nothing has passed may be unpassable, and it isn't
+yet excluded that surface computability of the kind Section 5 maps is
+dense enough in small-alphabet tasks that few useful capabilities
+survive the screen. The successor experiment's twelve-capability seed
+stock is the direct test of that, and this paper claims nothing about
+its outcome.
 
 ## 8. Recommendations
 
-*(stub — the checklist, T2)*
+The checklist below compresses Sections 3 through 6 into the form I
+wish the program had started with. It's written to be adopted verbatim.
+Every item is either design-time analysis or a reuse of machinery a
+probing study already has; the one genuinely new cost, fitting the
+untrained twin, is a second pass of a pipeline that already exists.
+
+**Table T2. The probing-hygiene checklist.**
+
+1. Write every probe label as an explicit function of the prompt, and
+   record what a lookup table and a random network should score on it
+   before the capability enters the battery.
+2. Name the surface basis a lookup would key on, analyzed against the
+   tokenizer's actual token inventory, not against task intuition.
+3. Reject label targets that are local to single surface tokens (a
+   digit-local label under digit BPE can't be starved).
+4. Starve the basis: hold out values per component, validate only on
+   items whose components are all held out, discard mixed items, and
+   commit the feasibility counts; eject capabilities that can't
+   satisfy them.
+5. Run the untrained twin through the identical pipeline (prompts,
+   splits, candidate sweep, permutation null, correction) as a
+   pre-inclusion acceptance test, not a post-hoc baseline.
+6. Derive every control's tolerance from the pipeline's own
+   false-positive arithmetic; no zero-tolerance rules on nonzero-rate
+   tests; test fire counts binomially, per capability.
+7. Derive per-fire signature bars from the order statistics of the
+   permutation maximum, never from an SD intuition.
+8. Measure control reliability on the current battery's items; never
+   transfer a reliability measurement across battery versions.
+9. Adjudicate at freeze time every gate whose inputs exist at freeze
+   time.
+10. Freeze adjudication code together with fixture tests built from
+    the design document's worked examples, plus one synthetic case per
+    preregistered provision.
+11. Report every zero as a Clopper–Pearson bound.
+12. Project the verdict in a timestamped ledger before the frozen
+    report runs; if fits are distributed, admit a machine's results
+    only after it reproduces a reference fixture bit for bit.
+
+The full record behind this paper — the design documents, the frozen
+analysis code, the 480 and 770 probe fits of the two campaigns, the
+campaign ledgers, and the adjudication rulings behind every number
+quoted here — sits under four git tags (`exp2-preregistered`,
+`exp2-closed`, `exp2b-preregistered`, `exp2b-closed`). *[Archive
+mechanics unresolved; outline open item 1: make the repo or a mirror
+public before arXiv.]*
 
 ## References
 
