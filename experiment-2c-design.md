@@ -199,6 +199,16 @@ unchecked" cannot recur by construction.
    bound and worked example committed with the doc; replaces 2b's
    contradictory 3-SD conjunct). Structurally-beyond fire = pipeline
    abort. Abort authority lives here and only here.
+
+   *Open item 4 closed (M0 build):* exact bounds from
+   `experiments/exp2c/stats_bounds.py` — tolerated band
+   [z₀.₀₀₅, z₀.₉₉₅] = [2.86, 4.61] null-SD; fires in (4.61, 5.37]
+   are "elevated" (count toward the binomial test, never abort — an
+   abort there would be a zero-tolerance rule on a ~1%-of-floor-fires
+   event); abort only beyond z₁₋₁₀⁻⁴ = 5.37. Worked example: 2b's two
+   shuffled fires (3.6, 4.7 SD) classify tolerated and elevated —
+   count test governs, no abort, matching ruling (b).
+
 3. **Known-present gate (campaign):** entity-track and ctrl_copy clear
    the starved bar with seed-majority (≥3/5) at both sizes and
    seed-mean starved margin ≥ 0.2 at 1b.
