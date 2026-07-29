@@ -483,3 +483,28 @@ the ruling); full exp2c suite 40 passed in 58.58 s.
 **Deferred to freeze review (reviewer's Minors, ledgered not applied):**
 elevated-attrites breadth, count_test label wording, unused `field`
 import in analyze.py, NaN corner.
+
+## 2026-07-29: Reuse manifest built (task 11, design §7)
+
+**Build:** `experiments/exp2c/run/reuse_manifest.py` (design §7: for the 12
+survivors, the 2b fits ARE the 2c fits. This manifest pins every reused
+artifact by path + SHA-256 so the freeze commit declares exactly what is
+reused and `verify()` proves nothing drifted). TDD: RED confirmed first
+(`ImportError` with no module present against the test file), then
+reuse_manifest.py added, GREEN confirmed (2 passed).
+
+**Manifest contents:** 12 survivors (scored_battery minus attrition list from
+m2_report.json). Each survivor has:
+- Item file path + SHA-256
+- 10 fits per stage (known_absent, m3, shuffled): 2 sizes (410m, 1b) × 5 seeds
+
+**Fit counts per survivor (all 12 identical):**
+- known_absent: 10 fits (360 total across 12)
+- m3: 10 fits (360 total across 12)
+- shuffled: 10 fits (360 total across 12)
+
+**File:** `experiments/exp2c/results/reuse_manifest.json` (82056 bytes).
+`verify()` re-hashes all paths at read time — confirmed returning True against
+committed file.
+
+**Full exp2c suite:** 42 passed in 58.78s (40 existing + 2 new from this task).
