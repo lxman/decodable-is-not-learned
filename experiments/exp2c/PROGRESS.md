@@ -85,7 +85,7 @@ each declaring the taxonomy mechanism it re-tests via `rescue_of` /
   label = ones digit of the second step mod 7 (`result2 mod 7`).
   Mechanism tested: "first step is N-mod-20-legible from final digit
   tokens" — 2b's `collatz2` leaked on the first step's ones digit
-  (.74–.82); the second step composes the branch twice and mod 7 is
+  (.74–.81); the second step composes the branch twice and mod 7 is
   off the digit alphabet entirely, so the identified carrier cannot
   solve it.
 - **`isqrt_gap`** (`rescue_of="isqrt"`) — integer square root of N
@@ -117,3 +117,32 @@ and `mechanism_tested` both set), `test_roman_sum7_oracle`,
 against `math.isqrt`, including the general-form check across three
 N values). Full suite: `20 passed` (`experiments/exp2c/tests/`), no
 regressions in the rungs, base, instrument, or stats-bounds tests.
+
+## 2026-07-28: roman_sum7 moved to numeral-string surface (review ruling)
+
+Task-5's report flagged that `roman_sum7`'s `gen` returned raw
+integers while its `basis_kind` described a numeral-string pair.
+Review upheld the flag as Important: task 6 builds item text by
+format-templating over `gen` output, so an int-valued `gen` would have
+rendered arabic digits and made the suffix-carrier mechanism test
+vacuous. **Michael's ruling 2026-07-28:** `gen` returns the
+roman-numeral surface — `(_to_roman(a), _to_roman(b))` for the same
+integer draws (same rng call pattern, same seed 20260813) — matching
+the caesar_len8 convention (gen returns the transformed surface) and
+2b's `_gen_roman`/`to_roman`. `oracle` now takes the two numeral
+strings and returns `(_from_roman(A)+_from_roman(B)) mod 7`. Local
+helpers `_to_roman`/`_from_roman` (values 1–99) match 2b's notation
+exactly but are NOT imported from `experiments/exp2b/battery/`
+(importing would fire 2b's own `register()` side effects into the 2c
+registry). The label definition (sum mod 7) is unchanged;
+`basis_kind`'s "ordered numeral-string pair" text is now accurate
+as written. `test_roman_sum7_oracle` updated to string args plus a
+1–99 round-trip assert over the helpers.
+
+Same review, factual transcription fix: collatz2's quoted untrained
+margin range corrected .74–.82 → .74–.81 (paper Appendix A.2: 410M
+.74–.78, 1B .75–.81; the .82 belongs to roman's row) in
+`generators_rescues.py` and in the entry above. Two further Minors
+(unused numpy import, no gen-determinism test for the rescues) are
+ledgered here for final-review triage, deliberately not fixed in the
+task-5 amendment.

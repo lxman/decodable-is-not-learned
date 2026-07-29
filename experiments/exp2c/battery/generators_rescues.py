@@ -12,6 +12,36 @@ def _collatz_step(n: int) -> int:
     return n // 2 if n % 2 == 0 else 3 * n + 1
 
 
+# Roman numeral helpers, values 1-99: notation matches 2b's to_roman/
+# from_roman (experiments/exp2b/battery/generators.py) exactly, but
+# deliberately NOT imported from there — 2b battery modules register
+# their own specs at import time, and 2c's registry must stay clean of
+# 2b side effects. Ruling 2026-07-28: gen returns the numeral-string
+# surface (as caesar_len8 returns the transformed surface); int-valued
+# gen would have templated as arabic digits in item generation, making
+# the suffix-carrier mechanism test vacuous.
+_RVAL = [(90, "XC"), (50, "L"), (40, "XL"), (10, "X"), (9, "IX"),
+         (5, "V"), (4, "IV"), (1, "I")]
+
+
+def _to_roman(n: int) -> str:
+    out = []
+    for v, s in _RVAL:
+        while n >= v:
+            out.append(s)
+            n -= v
+    return "".join(out)
+
+
+def _from_roman(s: str) -> int:
+    vals = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100}
+    total = 0
+    for a, b in zip(s, s[1:] + " "):
+        v = vals[a]
+        total += -v if b in vals and vals[b] > v else v
+    return total
+
+
 register(CapabilitySpec(
     name="roman_sum7", family="rescue_roman", dial_name="label_carrier",
     dial_value="sum_mod7",
@@ -27,8 +57,9 @@ register(CapabilitySpec(
                      "values jointly, not of either suffix; random net "
                      "must fail unless a second carrier exists (that is "
                      "the test)",
-    oracle=lambda a, b: (a + b) % 7,
-    gen=lambda rng: (int(rng.integers(1, 100)), int(rng.integers(1, 100))),
+    oracle=lambda a, b: (_from_roman(a) + _from_roman(b)) % 7,
+    gen=lambda rng: (_to_roman(int(rng.integers(1, 100))),
+                     _to_roman(int(rng.integers(1, 100)))),
     seed=20260813, rescue_of="roman",
     mechanism_tested="suffix sub-alphabet carries value-mod-10",
 ))
@@ -43,7 +74,7 @@ register(CapabilitySpec(
     composability="two branch-on-parity steps composed; mod 7 avoids the "
                   "digit alphabet entirely",
     dumbest_baseline="2b: first-step ones digit was N-mod-20-legible from "
-                     "final digit tokens (.74-.82); step-2 mod 7 is not a "
+                     "final digit tokens (.74-.81); step-2 mod 7 is not a "
                      "function of N mod 20 (depends on N through both "
                      "branches); random net must fail unless deeper "
                      "surface structure exists (the test)",

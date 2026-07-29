@@ -12,7 +12,13 @@ def test_registered_with_mechanisms():
 
 def test_roman_sum7_oracle():
     # LXVII(67) + LXXXVII(87) = 154 -> 154 % 7 = 0
-    assert SPECS["roman_sum7"].oracle(67, 87) == 0
+    # Ruling 2026-07-28: gen/oracle operate on the numeral-string
+    # surface (int-valued gen would template as arabic digits and make
+    # the suffix-carrier mechanism test vacuous).
+    assert SPECS["roman_sum7"].oracle("LXVII", "LXXXVII") == 0
+    from experiments.exp2c.battery.generators_rescues import (
+        _from_roman, _to_roman)
+    assert all(_from_roman(_to_roman(v)) == v for v in range(1, 100))
 
 
 def test_collatz_step2_oracle():
