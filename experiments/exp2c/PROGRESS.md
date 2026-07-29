@@ -340,3 +340,39 @@ fragility decision: if all sibling margins remain zero at the eval stage
 (no family structure to exploit), MC calibration defaults to the
 symmetric conjugate prior ρ=0.5, and the discovery procedure's power
 bounds widen accordingly.
+
+## 2026-07-29: Permutation-p vectorization ruling (task 9, plan deviation)
+
+**Ruling (Michael):** the task-9 brief's verbatim `_naive_perm_p` — a
+Python loop of per-permutation `scipy.stats.spearmanr` calls — is kept
+in `run/power_table.py` as `_naive_perm_p_loop`, docstringed as the
+reference implementation from the plan text; the path that actually
+runs is a vectorized equivalent (`rankdata` once with spearmanr's own
+average-rank semantics, the SAME `rng.permutation` call sequence, only
+the Pearson-on-ranks arithmetic vectorized, p-value formula unchanged).
+
+**Guard:** `test_naive_perm_p_equivalence` asserts EXACTLY equal
+p-values (no tolerance) between loop and vectorized paths across 3
+seeds x 2 family shapes at n_perm=200 — all 6 combinations equal.
+Exactness is not luck: centered rank products are dyadic rationals
+whose float64 sums are exact, so within each pipeline the statistic is
+strictly monotone in the exact rank-covariance and the `perms >= obs`
+counts coincide.
+
+**Why:** the brief's Step 1 header claims "tiny config, seconds not
+minutes," but its verbatim test parameters (n_sims=400/300, default
+n_perm=1000) drive ~2.0M spearmanr calls through the loop — measured
+164.9 s for the two-test pair on the M4 Pro, breaching the 2-minute
+suite bound; the same loop projected Task 12's real table (n_sims=5000,
+n_perm=5000, 8 simulate calls) at ~9-10 h. Escalated rather than
+patched silently (preregistration text); ruled as above.
+
+**Measured after vectorization:** focused pair + equivalence test
+2.30 s (was 164.9 s for the pair alone); Task 12 projection ~5-6 min
+total (0.41 s measured at n_sims=50/n_perm=5000 on the real 14-rung
+family shape, x100 x8 calls) — was ~9-10 h. The brief's two verbatim
+tests are byte-untouched and now run through the vectorized path.
+main() wiring smoke-tested at tiny config to a temp dir only
+(family sizes [3,2,1x9] read correctly, ejections.json skipped,
+rho_family=0.5 read from results/family_corr.json); results/ gains no
+files from task 9 — the real table lands at task 12.
