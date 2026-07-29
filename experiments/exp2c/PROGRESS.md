@@ -321,3 +321,22 @@ shot before the fix was applied) — it is the test that would have caught
 the defect. Full-file checks (all 2500/1500 items, not the sample) were
 additionally run on base12 and sub_base8: 0 mismatches. Full suite:
 `24 passed`.
+
+## 2026-07-29: Family-correlation nuisance parameter estimated (task 8)
+
+**Source:** Experiment 2b sibling-pair seed-margin vectors, m3 fits, tag
+exp2b-closed (all 40 committed files verified present).
+
+**Finding — all sibling vectors degenerate:** The seed-margin vectors
+for both sibling pairs (add3_mid/sub3_mid and base7/oct2dec) across both
+model sizes (410m, 1b) are uniformly all-zero. Standard deviation = 0
+for all 4 size-pair combinations; correlation undefined. The code
+correctly returns None for per-pair r values and applies the documented
+fallback.
+
+**Nuisance parameter:** `rho_family = 0.5` (fallback, no valid
+correlations to estimate). Per design §5, this feeds open item 1's
+fragility decision: if all sibling margins remain zero at the eval stage
+(no family structure to exploit), MC calibration defaults to the
+symmetric conjugate prior ρ=0.5, and the discovery procedure's power
+bounds widen accordingly.

@@ -1,0 +1,94 @@
+{
+ "pairs": [
+  {
+   "pair": [
+    "add3_mid",
+    "sub3_mid"
+   ],
+   "size": "410m",
+   "seed_margins_a": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "seed_margins_b": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "r": null
+  },
+  {
+   "pair": [
+    "add3_mid",
+    "sub3_mid"
+   ],
+   "size": "1b",
+   "seed_margins_a": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "seed_margins_b": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "r": null
+  },
+  {
+   "pair": [
+    "base7",
+    "oct2dec"
+   ],
+   "size": "410m",
+   "seed_margins_a": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "seed_margins_b": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "r": null
+  },
+  {
+   "pair": [
+    "base7",
+    "oct2dec"
+   ],
+   "size": "1b",
+   "seed_margins_a": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "seed_margins_b": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "r": null
+  }
+ ],
+ "rho_family": 0.5,
+ "note": "fallback 0.5 if all sibling vectors are degenerate; ledger the outcome either way"
+}
