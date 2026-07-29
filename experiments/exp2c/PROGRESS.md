@@ -146,3 +146,99 @@ margin range corrected .74–.82 → .74–.81 (paper Appendix A.2: 410M
 (unused numpy import, no gen-determinism test for the rescues) are
 ledgered here for final-review triage, deliberately not fixed in the
 task-5 amendment.
+
+## 2026-07-29: Item generation + eval sets committed (task 6, open item 7)
+
+New module `experiments/exp2c/battery/gen_items.py` (`generate(name) ->
+dict`, CLI `python -m battery.gen_items <name|all>`) generates and commits
+the item file for every registered spec: 2b's item-file schema
+(`question, answer, probe_label, basis` per item; `name, description,
+probe_label_space, basis_kind, seed, shots, eval_items, probe_items,
+feasibility` at the top level) plus the three family fields (`family,
+dial_name, dial_value`). `eval_items` floor is 500 (open item 7); `shots`
+(2 per spec) are drawn programmatically from each spec's own seeded
+`gen`/`oracle` — 2c's `CapabilitySpec` carries no hand-authored `shots`
+field the way 2b's does. Feasibility runs through the frozen `splits`
+module reached only via `instrument.py` (never a direct `experiments.exp2b`
+import).
+
+**BASIS is not the raw `gen()` tuple.** `TEMPLATES` renders question text
+directly from `gen()` output (gen output is the item surface, per today's
+ruling), but the tuple recorded as `basis` for the starving split is a
+*separate*, per-spec derivation (a new `BASIS` dict) matching each spec's
+own committed `basis_kind` text — mirroring 2b's `basis_fn` discipline,
+which 2c's `CapabilitySpec` has no field for. Verified empirically before
+being committed: recording the raw 2-component `(a, b)` for `mod17` (basis_
+kind says "first operand token", a single component) starves val to ~80 of
+2000 probe items (splits.py's per-component-AND holdout: two independent
+20% holds join to ~4%) — confirmed below the 300 floor; reducing to `(a,)`
+alone gives 383–440 val items across the 5 seeds. `caesar_len8`'s bare
+2-component `(word, shift)` fails a different way — `shift` has only 5
+possible values, structurally below `min_holdout_values=15` regardless of
+item count; matches 2b's own `caesar` spec (`generators_t2.py`), which
+combines `(first cipher letter, shift)` into one string with
+`stratify_by_label=True` (each combo value induces exactly one label).
+Every `BASIS`/`SPLIT_PLAN` entry was run through `splits.feasibility_report`
+before being written into `gen_items.py`; see `.superpowers/sdd/
+task-6-report.md` for the full per-spec derivation and the mod17/caesar
+worked examples.
+
+**Generation run** (`cd experiments/exp2c && ~/emergence-lab/.venv/bin/
+python -m battery.gen_items all`), all 14 registered specs, **zero
+ejections**:
+
+| spec | eval | probe | min val (5 seeds) | family |
+|---|---|---|---|---|
+| add4_mid | 500 | 2000 | 390 | mid_digit |
+| sub4_mid | 500 | 2000 | 339 | mid_digit |
+| base12 | 500 | 2000 | 400 | base_repr |
+| sub_base8 | 500 | 1000 | 355 | base_arith |
+| mod17 | 500 | 2000 | 382 | modulus |
+| mod19 | 500 | 2000 | 395 | modulus |
+| mod13_comp | 500 | 2000 | 402 | modulus |
+| caesar_len8 | 500 | 2000 | 381 | rotation |
+| count_div13 | 500 | 4000 | 753 | counting |
+| clock24_d999 | 500 | 2000 | 383 | clock |
+| rev_string7 | 500 | 2000 | 349 | reversal |
+| roman_sum7 | 500 | 4000 | 805 | rescue_roman |
+| collatz_step2 | 500 | 2000 | 400 | rescue_collatz |
+| isqrt_gap | 500 | 2000 | 400 | rescue_isqrt |
+
+14 specs, 11 distinct families, 0 ejections (counts transcribed from the
+`[gen] ...` lines the run printed, read after the run completed, per the
+Step-5 discipline). Two specs needed a non-default `SplitParams`/`n_probe`
+beyond the reduced-basis treatment above: `sub_base8`'s value space (two-
+digit octal operands, `a > b`) holds only 1540 unique `(a, b)` pairs, so
+`n_probe` is cut to 1000 (1500 of 1540 used); its basis cardinality is
+capped at 64 (8×8 ones-digit pairs), so `holdout_frac` is raised to 0.35
+(0.2 would hold out 12–13 values, under the 15 floor). `count_div13` and
+`roman_sum7` both declare a shared-value-space 2-component basis in their
+own `basis_kind` text; both use `shared_components=True`, `holdout_frac
+=0.45`, `n_probe=4000` — the same shape and the same fix 2b used for
+`gcd`/`sort3_mid`.
+
+**rev_string7's basis needs the Pythia tokenizer.** Its `basis_kind`
+("final BPE chunk... as reverse_string") points directly at 2b's
+`reverse_string` mechanism, which computes basis via `AutoTokenizer` at
+generation time (`experiments/exp2b/battery/generators.py::_final_chunk`).
+`gen_items.py` replicates this (`_final_chunk`, lazy-loaded, `models.
+load_tokenizer("410m")`), reached through the sys.path entry `instrument`
+already opens — no new access path, no forward pass, no model weights.
+Flagged here because the task environment's "no language model of any
+kind is loaded or queried" reads, on its face, like it could rule this
+out; the reading applied is that the lock guards against querying the
+eval-side model for predictions, not against a fixed tokenizer vocabulary
+identical across trained and untrained checkpoints — matching 2b's own
+audited practice (its committed `reverse_string.json` contains real
+multi-character BPE chunks, e.g. `'ipe'`, `'cki'`, `'db'`, not truncated
+substrings). If this reading is wrong, `rev_string7.json` is the one file
+to regenerate.
+
+**Tests:** `experiments/exp2c/tests/test_gen_items.py` — `test_generate_
+mod17` (probe ≥1800, eval ≥500, item schema, oracle-consistency on 50
+items, family fields), `test_feasibility_recorded` (`min_holdout_values
+=15`, `min_val_items=300`, all 5 seed keys present). Full suite: `22
+passed` (`experiments/exp2c/tests/`), no regressions. Reproducibility
+checked separately (not part of the committed test suite): regenerating
+all 14 items into a scratch dir reproduced the committed files byte-for-
+byte.
