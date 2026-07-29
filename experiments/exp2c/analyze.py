@@ -42,6 +42,8 @@ def verdict(inp: AnalyzeInputs, seed=0) -> dict:
             audit.append(f"attrition:{r['name']}")
         elif r["scored"]:
             scored.append(r)
+        else:
+            audit.append(f"unscored:{r['name']}")
     fams = {r["family"] for r in scored}
     if len(fams) < MIN_FAMILIES or len(scored) < MIN_RUNGS:
         return {"verdict": "INSUFFICIENT_DATA", "audit": audit,

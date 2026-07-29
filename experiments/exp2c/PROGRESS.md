@@ -428,3 +428,58 @@ behavior and verdict-precedence ordering that the design doc states
 elsewhere. Flagging this rather than claiming the suite is "one test per
 §4.5 provision, 1:1" — it isn't; it's a superset that happens to fully
 cover §4.5 plus two adjacent preregistered rules.
+
+## 2026-07-29: Three review findings amended on ruling (task 10 review)
+
+**Review findings** (transcription approved byte-faithful; the defects
+are in the brief's own code, surfaced by preregistration scrutiny):
+
+1. **Vacuous P3 assertion.** `test_provision_flat_family_zero_ties_path`
+   asserted `"ties:fam2" in ... or out["rho"] is not None` — the second
+   disjunct is unconditionally true for that input (27 rungs, floors
+   cleared, rho always computed), so deleting the `ties:` audit line in
+   analyze.py could not fail the test.
+2. **Unaudited scored=False exclusion.** A rung with no untrained fires
+   and `scored=False` was dropped from the scored list silently — no
+   audit entry — contradicting analyze.py's own docstring promise that
+   every rule that fires appends to the audit list.
+3. **Zero fixture coverage on the FAIL branch.** §5's falsifier
+   (family-cluster bootstrap CI includes 0 -> FAIL) had no fixture; the
+   original 8 tests never reached a FAIL verdict.
+
+**Authorization:** Michael, 2026-07-29. analyze.py and the fixture
+suite are ACCEPTED-not-frozen and amendable on his ruling; the design
+doc is untouched. Amendments applied exactly as ruled:
+
+1. P3's assertion tightened to `assert "ties:fam2" in
+   " ".join(out["audit"])` (first assertion line unchanged).
+2. analyze.py's attrition loop gains an `else` branch appending
+   `unscored:{name}` for a fire-free scored=False rung — audit-trail
+   only; fires keep precedence, verdict logic and the scored list are
+   unchanged. New fixture `test_provision_unscored_rung_audited`:
+   one `_clean()` rung set scored=False -> `unscored:f0r0` in audit,
+   n_rungs 27->26, verdict != PIPELINE_ABORT.
+3. New fixture `test_provision_independent_battery_fail_branch`:
+   probe and ascent scores independent draws (9 families x 3, battery
+   seed 2), full N_PERM=100_000 stats block, asserting FAIL. Seed
+   verification: seed 0 gives INDETERMINATE (fluke sample rho 0.4908,
+   CI (0.1494, 0.7465) excludes 0 — exactly why the seed had to be
+   verified, not assumed); seed 1 FAIL (rho 0.2460); **seed 2 chosen**,
+   FAIL with rho -0.0421, naive_p 0.5852, CI (-0.4058, 0.4277) — the
+   cleanest independent-battery exemplar. Deterministic: battery seed
+   and verdict()'s internal seed (default 0) are both fixed.
+
+**Updated provision map — suite is now 10 fixtures:** the original 8
+(P3's assertion now non-vacuous; mapping otherwise as ledgered above),
+plus `test_provision_unscored_rung_audited` mapped to the §4.5 audit
+premise (the adjudication code's every-rule-audits contract), plus
+`test_provision_independent_battery_fail_branch` mapped to §5's
+falsifier (FAIL: family-cluster bootstrap 95% CI on rho includes 0).
+
+**Measured:** fixture suite 10 passed in 56.08 s (two new full-stats
+calls added ~19 s to the previous 37.37 s; constants NOT reduced, per
+the ruling); full exp2c suite 40 passed in 58.58 s.
+
+**Deferred to freeze review (reviewer's Minors, ledgered not applied):**
+elevated-attrites breadth, count_test label wording, unused `field`
+import in analyze.py, NaN corner.
