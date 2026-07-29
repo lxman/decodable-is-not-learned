@@ -376,3 +376,55 @@ main() wiring smoke-tested at tiny config to a temp dir only
 (family sizes [3,2,1x9] read correctly, ejections.json skipped,
 rho_family=0.5 read from results/family_corr.json); results/ gains no
 files from task 9 — the real table lands at task 12.
+
+## 2026-07-29: analyze.py verdict tree + §4.5 fixture suite (task 10, open item 5 closed)
+
+**Build:** `experiments/exp2c/analyze.py` (the frozen verdict tree:
+`AnalyzeInputs` dataclass, `verdict()`) and
+`experiments/exp2c/tests/test_analyze_fixtures.py` (8 tests) both
+transcribed byte-for-byte from the task-10 brief's Steps 1 and 3 (diffed
+against the brief's fenced code blocks — identical). TDD: RED confirmed
+first (`ModuleNotFoundError: No module named 'experiments.exp2c.analyze'`
+against the test file alone with no analyze.py present), then analyze.py
+added, GREEN confirmed (8 passed).
+
+**Runtime, measured not assumed:** un-patched fixture suite (default
+`N_PERM=100_000`, `N_BOOT=10_000`) ran in **37.37 s** — under the
+brief's ~2-minute bound. Only 4 of the 8 tests reach the costly
+permutation/bootstrap loops (the other 4 short-circuit at
+`PIPELINE_ABORT` or `INSUFFICIENT_DATA` before `verdict()` gets to the
+`spearmanr` loops), so the actual cost is ~4 x 9 s rather than 8 x 9 s.
+Per the brief's own instruction to measure before patching, the
+pre-authorized `analyze.N_PERM = 2000` / `analyze.N_BOOT = 500`
+monkeypatch fixture was **not applied** — both files stand exactly as
+given in the brief, with no test-file addition beyond the brief's text.
+Full exp2c suite: `38 passed in 39.98s`.
+
+**§4.5 mapping (honest, not papered over).** Design §4.5 names exactly
+four provisions verbatim: (P1) one leaking rung -> attrition-without-
+abort; (P2) a clean-null shuffled draw at the floor -> classified
+tolerated; (P3) an all-flat family -> zero-score ties path; (P4) n below
+either floor -> INSUFFICIENT_DATA. All four are covered by at least one
+test — no §4.5 provision is untested. But the brief's suite has 8 tests,
+not 4: 5 tests map onto the 4 named provisions (P4 covers two floor
+types, families and rungs, so it gets two tests), and the remaining 3
+tests exercise preregistered rules that live elsewhere in the design
+doc, not in §4.5's own list:
+
+| Test | §4.5 provision | Source if not §4.5 |
+|---|---|---|
+| `test_provision_one_leaking_rung_attrition_without_abort` | P1 | — |
+| `test_provision_clean_null_floor_fire_tolerated` | P2 | — |
+| `test_provision_elevated_fire_counts_but_never_aborts` | none | Gates §4 item 2 / open item 4 (elevated band never aborts, count-test governs) |
+| `test_provision_structural_shuffled_fire_aborts` | none | Gates §4 item 2 ("abort authority lives here and only here") |
+| `test_provision_flat_family_zero_ties_path` | P3 | — |
+| `test_provision_dual_floor_families` | P4 (families half) | — |
+| `test_provision_dual_floor_rungs` | P4 (rungs half) | — |
+| `test_verdict_precedence_insufficient_beats_pass` | none | §5 INSUFFICIENT_DATA bullet ("precedence as §1") + analyze.py's own docstring precedence order |
+
+So: no gap on the §4.5 side (4/4 provisions tested), but 3/8 tests are
+not §4.5 provisions strictly — they preregister gate-2 classification
+behavior and verdict-precedence ordering that the design doc states
+elsewhere. Flagging this rather than claiming the suite is "one test per
+§4.5 provision, 1:1" — it isn't; it's a superset that happens to fully
+cover §4.5 plus two adjacent preregistered rules.
