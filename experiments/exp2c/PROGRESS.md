@@ -66,3 +66,54 @@ lowercase, length in {7,8}, ≥ 20 distinct first letters). Full suite:
 `16 passed` (`experiments/exp2c/tests/`), no regressions in
 `test_battery_base.py`, `test_instrument_import.py`,
 `test_stats_bounds.py`.
+
+## 2026-07-28: Rescue label definitions closed (open item 3)
+
+New module `experiments/exp2c/battery/generators_rescues.py` registers
+the three named rescues from design §2, each with its label moved off
+the surface carrier 2b's dumbest-baseline analysis identified, and
+each declaring the taxonomy mechanism it re-tests via `rescue_of` /
+`mechanism_tested`:
+
+- **`roman_sum7`** (`rescue_of="roman"`) — roman numeral addition,
+  label = (value(A)+value(B)) mod 7. Mechanism tested: "suffix
+  sub-alphabet carries value-mod-10" — 2b's `roman` leaked because a
+  numeral's own suffix was value-mod-10-legible (margins .64–.82);
+  sum-mod-7 is a joint function of both values and is printed on
+  neither numeral, so the identified carrier cannot solve it.
+- **`collatz_step2`** (`rescue_of="collatz2"`) — two Collatz steps,
+  label = ones digit of the second step mod 7 (`result2 mod 7`).
+  Mechanism tested: "first step is N-mod-20-legible from final digit
+  tokens" — 2b's `collatz2` leaked on the first step's ones digit
+  (.74–.82); the second step composes the branch twice and mod 7 is
+  off the digit alphabet entirely, so the identified carrier cannot
+  solve it.
+- **`isqrt_gap`** (`rescue_of="isqrt"`) — integer square root of N
+  (100–9999), label = (N − isqrt(N)²) mod 7, the remainder mod 7 (not
+  its parity — the brief's draft line self-corrected to this, per
+  controller ruling; Step 3 code and Step 1 tests both use the mod-7
+  remainder). Mechanism tested: "root's ones digit is constant on
+  magnitude bands" — 2b's `isqrt` leaked via wide contiguous bands
+  where the root's ones digit holds constant (.36–.44 untrained); the
+  gap mod 7 oscillates within every band (period ~2·root+1) and mod 7
+  is coprime to 10, so magnitude binning on the identified carrier
+  scores chance.
+
+Each rescue's `dumbest_baseline` field states the failure mode
+explicitly: a screen failure is constructive confirmation that the
+named mechanism, not some other leak, drove 2b's original fire. If a
+rescue instead passes tier-1 screening, that is evidence the label
+truly moved off the carrier.
+
+Design §2's cap on rescue candidates is 6; these three named rescues
+use half of it, leaving headroom for 3 alternates if any of the three
+fails tier-1 screening — no additional rescues are registered in this
+task, discipline is to name only what was preregistered.
+
+**Tests:** new `test_generators_rescues.py` — `test_registered_with_
+mechanisms` (all three in `SPECS`, `validate_spec` clean, `rescue_of`
+and `mechanism_tested` both set), `test_roman_sum7_oracle`,
+`test_collatz_step2_oracle`, `test_isqrt_gap_oracle` (hand-checked
+against `math.isqrt`, including the general-form check across three
+N values). Full suite: `20 passed` (`experiments/exp2c/tests/`), no
+regressions in the rungs, base, instrument, or stats-bounds tests.
