@@ -31,11 +31,14 @@ def test_caesar_len8_pool_is_wordlists_2c():
     # Ruling 2026-07-28: caesar_len8 draws from the new 2c 7-8 letter
     # wordlist, not a 9-word slice of 2b's frozen WORDS.
     assert g.CAESAR_LEN8_WORDS == sorted(WORDS_7_8)
-    assert len(g.CAESAR_LEN8_WORDS) >= 550
+    assert len(g.CAESAR_LEN8_WORDS) >= 1400
 
 
 def test_wordlists_2c_sanity():
-    assert len(WORDS_7_8) >= 550
+    # Floor set at 1400 (re-review finding): headroom below the shipped
+    # 1522 for legitimate future scrubs, far above the starved-pool
+    # failure regime the 550 floor would have tolerated.
+    assert len(WORDS_7_8) >= 1400
     assert len(set(WORDS_7_8)) == len(WORDS_7_8)
     assert all(w.isalpha() and w.islower() for w in WORDS_7_8)
     assert all(len(w) in (7, 8) for w in WORDS_7_8)
