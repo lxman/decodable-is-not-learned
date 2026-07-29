@@ -4,29 +4,26 @@ task intuition; digit-local labels are banned (bin2dec lesson: no label
 sharing a modulus with the surface digit alphabet).
 
 Two flags surfaced during implementation (task-4 report has the full
-writeup):
+writeup) and were adjudicated by Michael on 2026-07-28:
 
 - base5: N mod 5 IS a banned digit-local label (gcd(5,10)=5, so it
   reduces to N's last base-10 digit mod 5 — the bin2dec species at a
-  different modulus). Registered anyway, self-flagged in its basis_kind
-  text, per the 2b alpha_offset precedent (register a candidate known
-  to be structurally doomed so the tier-1 screen adjudicates and
-  records the rejection formally, rather than a silent pre-filter that
-  leaves no record). Not silently redesigned to a different modulus.
+  different modulus). RULING: ejected at design time (not registered);
+  the CapabilitySpec definition is kept below as the record of the
+  catch and filed in EJECTED with the mechanism. base12 fills the
+  base_repr slot per the design's "base-5 or base-12".
 - caesar_len8: the committed word pool (experiments/exp2b/battery/
   wordlists.py WORDS) has only 9 words of length 7-8 across 7 distinct
   first letters (max class size 2) — nowhere near the class coverage
-  2b's caesar needed (n_holdout=39, min_holdout_values=26). Registered
-  with the real 9-word pool and flagged; expected to fail tier-1
-  feasibility screening as constructed.
+  2b's caesar needed (n_holdout=39, min_holdout_values=26). RULING:
+  rewired to draw from the new 2c pool, wordlists_2c.WORDS_7_8 (this
+  module is 2c's own, not frozen), which has real class coverage.
 """
-
-import ast
-from pathlib import Path
 
 import numpy as np
 
 from .base import CapabilitySpec, register
+from .wordlists_2c import WORDS_7_8
 
 _ALPHA = "abcdefghijklmnopqrstuvwxyz"
 
@@ -36,23 +33,16 @@ def _shift(s, k):
 
 
 # --------------------------------------------------------- caesar_len8 pool
-# Read (not imported) from the frozen experiments/exp2b/battery/wordlists.py
-# per the task-4 brief's binding constraint. Filtered to 7-8 letter entries
-# at module load; see the module docstring for the resulting feasibility
-# concern (only 9 words survive the filter).
-_WORDLISTS_PATH = (Path(__file__).resolve().parents[2] / "exp2b" / "battery"
-                   / "wordlists.py")
-_WORDLISTS_SRC = _WORDLISTS_PATH.read_text()
-_ALL_WORDS = next(
-    ast.literal_eval(node.value)
-    for node in ast.parse(_WORDLISTS_SRC).body
-    if isinstance(node, ast.Assign)
-    and len(node.targets) == 1
-    and getattr(node.targets[0], "id", None) == "WORDS"
-)
-# feather, journal, machine, mistake, special, veteran, weather, witness,
-# keyboard — 9 words, 7 distinct first letters, max class size 2.
-CAESAR_LEN8_WORDS = sorted(w for w in _ALL_WORDS if len(w) in (7, 8))
+# 2c's own wordlist (design §2 ruling 2026-07-28), not a slice of 2b's
+# frozen wordlists.py: real class coverage (>=550 words, >=20 distinct
+# first letters), see wordlists_2c.py.
+CAESAR_LEN8_WORDS = sorted(WORDS_7_8)
+
+
+# ------------------------------------------------------------------ EJECTED
+# Design-time ejections: CapabilitySpec kept as the record of the catch,
+# never registered into SPECS. dict[name] -> (spec, reason).
+EJECTED: dict = {}
 
 
 def _gen_caesar_len8(rng):
@@ -142,19 +132,19 @@ register(CapabilitySpec(
     seed=20260802,
 ))
 
-register(CapabilitySpec(
+# base5: EJECTED at design time (ruling 2026-07-28) — kept as the record
+# of the catch, deliberately NOT passed to register(). See EJECTED below.
+_base5_spec = CapabilitySpec(
     name="base5", family="base_repr", dial_name="base", dial_value=5,
     description="write N in base 5, last digit of the representation "
                 "(N in [200,9999])",
     answer_type="number",
     probe_label_space="N mod 5, last base-5 digit (0-4)",
-    basis_kind="FLAGGED (task-4): digit-local, not a real composition "
-              "basis. N mod 5 depends only on N's last base-10 digit "
-              "because gcd(5,10)=5 (10 = 0 mod 5) — exactly the "
-              "value-mod-10 species design §2 bans, one divisor down "
-              "from bin2dec's mod-10. Registered per the 2b alpha_offset "
-              "precedent (self-flagged expected-eject) rather than "
-              "silently redesigned or silently dropped",
+    basis_kind="EJECTED (design §2, ruling 2026-07-28): digit-local, not "
+              "a real composition basis. N mod 5 depends only on N's "
+              "last base-10 digit because gcd(5,10)=5 (10 = 0 mod 5) — "
+              "exactly the value-mod-10 species design §2 bans, one "
+              "divisor down from bin2dec's mod-10",
     composability="none: a single trailing-digit readout suffices; no "
                   "carry or multi-digit composition is required, the "
                   "opposite of base7's chain-nonlocal repeated-division "
@@ -165,12 +155,19 @@ register(CapabilitySpec(
                      "projection net is expected to decode it "
                      "structurally, the same failure mode that closed "
                      "Exp 2's mod7-family lookup class and drove 13 of "
-                     "2b's 25 candidates to attrition — flagged for "
-                     "tier-1 rejection, not silently pre-filtered",
+                     "2b's 25 candidates to attrition — ejected before "
+                     "tier-1, not silently pre-filtered",
     oracle=lambda n: n % 5,
     gen=lambda rng: (int(rng.integers(200, 10000)),),
     seed=20260803,
-))
+)
+EJECTED["base5"] = (
+    _base5_spec,
+    "design-time ban (design §2): N mod 5 = f(last decimal digit) since "
+    "10 ≡ 0 (mod 5) — the value-mod-10/bin2dec class. Ejected on "
+    "Michael's ruling 2026-07-28; base12 fills the base_repr slot per "
+    "the design's 'base-5 or base-12'.",
+)
 
 register(CapabilitySpec(
     name="base12", family="base_repr", dial_name="base", dial_value=12,
@@ -283,22 +280,21 @@ register(CapabilitySpec(
                 "word",
     answer_type="word",
     probe_label_space="first letter of the decoded word",
-    basis_kind="FLAGGED (task-4): (first cipher letter, shift) combo, but "
-              "drawn from only 9 words at this length in the committed "
-              "pool (experiments/exp2b/battery/wordlists.py WORDS, read "
-              "not imported) across 7 distinct first letters, max class "
-              "size 2 — far short of caesar's own ~130-value basis "
-              "(n_holdout=39, min_holdout_values=26 in the 2b split). No "
-              "held-out split with adequate class coverage is achievable "
-              "from this pool as constructed",
+    basis_kind="(first cipher letter, shift) combo, drawn from "
+              "wordlists_2c.WORDS_7_8 (1500+ words, 24 distinct first "
+              "letters) per Michael's ruling 2026-07-28 — replaces the "
+              "prior 9-word slice of 2b's frozen wordlists.py, which fell "
+              "far short of caesar's own ~130-value basis (n_holdout=39, "
+              "min_holdout_values=26 in the 2b split)",
     composability="the class for an unseen (letter, k) combo requires the "
                   "alphabet rotation, not a memorized combo table — same "
-                  "mechanism as caesar, undermined here by pool size, not "
-                  "by the mechanism itself",
-    dumbest_baseline="with only 9 words, a small memorized combo table is "
-                     "plausibly complete rather than starved; expected to "
-                     "fail tier-1 feasibility screening as constructed "
-                     "(flagged, not silently dropped — see task-4 report)",
+                  "mechanism as caesar, now with pool size adequate to "
+                  "test it",
+    dumbest_baseline="combo-table lookup on held-out (letter, k) pairs "
+                     "scores chance on starved val once the pool is large "
+                     "enough for a real split (wordlists_2c.WORDS_7_8, "
+                     "ruling 2026-07-28) — the 9-word pool that made a "
+                     "memorized table plausibly complete is retired",
     oracle=_oracle_caesar_len8,
     gen=_gen_caesar_len8,
     seed=20260809,
