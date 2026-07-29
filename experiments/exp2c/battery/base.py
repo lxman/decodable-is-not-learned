@@ -24,6 +24,12 @@ class CapabilitySpec:
     scored: bool = True
     rescue_of: Optional[str] = None
     mechanism_tested: Optional[str] = None
+    # Review ruling 2026-07-29 (Fix A): the committed item's `answer` is
+    # surface_answer(*gen_output) -- the full task result the question
+    # text demands -- while `probe_label` stays on `oracle`. None means
+    # the oracle output IS the true surface answer (the template asks for
+    # the probe target directly, as in the rescue-style specs).
+    surface_answer: Optional[Callable] = None
 
 
 REQUIRED_TEXT = ("family", "description", "probe_label_space", "basis_kind",

@@ -189,9 +189,16 @@ def _render(name, args):
 
 
 def _make_item(spec, args):
+    """Review ruling 2026-07-29 (Fix A): `answer` is the full task result
+    the question text demands -- spec.surface_answer(*args) where set; the
+    specs without one (the rescue-style templates) ask for the oracle
+    output directly, so there answer == probe_label as in 2b's div7/
+    month_offset. `probe_label` always stays on `oracle`."""
     label = spec.oracle(*args)
+    ans = (spec.surface_answer(*args) if spec.surface_answer is not None
+           else label)
     basis = tuple(str(v) for v in BASIS[spec.name](*args))
-    return {"question": _render(spec.name, args), "answer": str(label),
+    return {"question": _render(spec.name, args), "answer": str(ans),
             "probe_label": str(label), "basis": list(basis)}
 
 

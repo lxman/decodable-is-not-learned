@@ -242,3 +242,82 @@ passed` (`experiments/exp2c/tests/`), no regressions. Reproducibility
 checked separately (not part of the committed test suite): regenerating
 all 14 items into a scratch dir reproduced the committed files byte-for-
 byte.
+
+## 2026-07-29: Answer/probe-label conflation caught in review; Fix A applied
+
+**The defect, plainly.** Task-6's `_make_item` stored the PROBE LABEL as
+the item's `answer` and baked it into the 2-shot prompts. For the 9 specs
+whose templated question asks for the full task result, every committed
+answer was false and the shots taught false Q→A mappings (add4_mid:
+"What is 6311 + 4830?" → stored "1", true 11141; mod17: stored a mod 17,
+true (a+b) mod 17; caesar_len8: stored the first letter, true the full
+decoded word). The task-6 report's own self-review line — "oracle-
+consistency holds by construction (labels computed from the same gen
+outputs...)" — described exactly this defect as if it were a property:
+label and answer were consistent with each other because they were the
+same value, which is the bug. In 2b the two were always separate
+(`collatz2.json`: answer "6998", probe_label "6"). The 5 rescue-style
+specs (clock24_d999, count_div13, roman_sum7, collatz_step2, isqrt_gap)
+were correct as generated: their templates ask directly for the oracle
+output.
+
+**Michael's ruling (Fix A — surface-answer function).** `CapabilitySpec`
+gains an optional `surface_answer` callable (default None = the oracle
+output IS the true answer). `answer` and `shots` are computed from it;
+`probe_label` stays on `oracle`. Rung task definitions (gen/oracle/seed/
+description/label spaces) do not change. Source of truth for each repair
+is the spec's own preregistered `description` field. Routes taken — all
+nine descriptions demand the full task result, so all nine took the
+surface_answer route (no retemplating, no ambiguity escalations):
+
+| spec | description (route source) | surface_answer |
+|---|---|---|
+| add4_mid | "4-digit addition, hundreds digit of the sum" | a+b |
+| sub4_mid | "4-digit subtraction, hundreds digit of the difference (a>b)" | a−b |
+| base12 | "write N in base 12, last digit of the representation (...values 10/11 are letters in the surface answer only)" | full base-12 string, hex-style A/B letter digits |
+| sub_base8 | "octal subtraction, ones digit of the difference, ..." | full octal difference |
+| mod17 | "(a+b) mod 17, 3-digit operands" | (a+b) mod 17 |
+| mod19 | "(a+b) mod 19, 3-digit operands" | (a+b) mod 19 |
+| mod13_comp | "((a+b)*c) mod 13, ...; probe label is the first-stage intermediate" | ((a+b)*c) mod 13 |
+| caesar_len8 | "decode a Caesar shift (k stated, 1-5) of a 7-8 letter word" — the capability is decoding the word | full decoded word |
+| rev_string7 | "reverse a random 7-letter string" | full reversed string |
+
+The other 5 keep `surface_answer=None` (answer == oracle output ==
+probe_label, the 2b div7/month_offset precedent).
+
+**Same review, holdout_frac blessing.** The per-spec `SplitParams`
+overrides in `gen_items.py` are blessed as ledgered: 0.35 for sub_base8
+(64-value basis; 0.2 holds 12–13 values, under the 15 floor), 0.45 for
+count_div13 and roman_sum7 (shared-2-component bases, 2b's gcd/
+sort3_mid precedent and figure), the 0.2 default for the other 11.
+Floors (`min_holdout_values=15`, `min_val_items=300`, 5/5 seeds) bind
+throughout. The BASIS-dict derivation and the rev_string7 static-
+vocabulary tokenizer path were both upheld on review.
+
+**Regeneration** (`cd experiments/exp2c && ~/emergence-lab/.venv/bin/
+python -m battery.gen_items all`): counts identical to the first run —
+the rng streams are untouched by the fix — 0 ejections. add4_mid
+500/2000 (min val 390), sub4_mid 500/2000 (339), base12 500/2000 (400),
+sub_base8 500/1000 (355), mod17 500/2000 (382), mod19 500/2000 (395),
+mod13_comp 500/2000 (402), caesar_len8 500/2000 (381), count_div13
+500/4000 (753), clock24_d999 500/2000 (383), rev_string7 500/2000 (349),
+roman_sum7 500/4000 (805), collatz_step2 500/2000 (400), isqrt_gap
+500/2000 (400). `git diff` confirmed exactly the 9 affected item files
+changed and only their answer/shots lines (questions, probe labels,
+bases, feasibility untouched); the 5 unaffected files regenerated
+byte-identical. mod17's diff arithmetic reconciles: 175 of 2500 answers
+unchanged = exactly the 175 items with b ≡ 0 (mod 17), where the old
+stored label coincided with the true answer.
+
+**Verification discipline restored.** New test
+`test_committed_answers_are_true_answers` reads the COMMITTED
+`items/*.json` for all 14 specs and independently recomputes the true
+answer from the question TEXT alone (2b's oracle discipline), over the
+shots plus the first 25 probe and 25 eval items per spec;
+`test_true_answer_covers_every_registered_spec` pins the verifier table
+to `SPECS` so a future spec cannot land unverified. This test fails
+against the pre-fix committed items (RED confirmed on add4_mid's first
+shot before the fix was applied) — it is the test that would have caught
+the defect. Full-file checks (all 2500/1500 items, not the sample) were
+additionally run on base12 and sub_base8: 0 mismatches. Full suite:
+`24 passed`.

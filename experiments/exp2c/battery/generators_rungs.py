@@ -32,6 +32,21 @@ def _shift(s, k):
     return "".join(_ALPHA[(_ALPHA.index(c) + k) % 26] for c in s)
 
 
+# Review ruling 2026-07-29 (Fix A): specs whose question text demands the
+# full task result carry a surface_answer callable computing that result;
+# `oracle` keeps computing the probe label only. base12's surface uses
+# hex-style letter digits for 10/11, per its own description ("values
+# 10/11 are letters in the surface answer only").
+_B12_DIGITS = "0123456789AB"
+
+
+def _to_base12(n):
+    out = ""
+    while n:
+        out, n = _B12_DIGITS[n % 12] + out, n // 12
+    return out or "0"
+
+
 # --------------------------------------------------------- caesar_len8 pool
 # 2c's own wordlist (design §2 ruling 2026-07-28), not a slice of 2b's
 # frozen wordlists.py: real class coverage (>=550 words, >=20 distinct
@@ -108,6 +123,7 @@ register(CapabilitySpec(
                      "express the carry composition (2b: add3_mid untrained "
                      "0.000 every cell)",
     oracle=lambda a, b: (a + b) // 100 % 10,
+    surface_answer=lambda a, b: a + b,
     gen=lambda rng: (int(rng.integers(1000, 10000)),
                      int(rng.integers(1000, 10000))),
     seed=20260801,
@@ -128,6 +144,7 @@ register(CapabilitySpec(
                      "express the borrow composition, the same mechanism "
                      "class as 2b's sub3_mid (closed-record survivor)",
     oracle=lambda a, b: (a - b) // 100 % 10,
+    surface_answer=lambda a, b: a - b,
     gen=_gen_sub4_mid,
     seed=20260802,
 ))
@@ -189,6 +206,7 @@ register(CapabilitySpec(
                      "starved val cannot be solved from a single surface "
                      "token; matches base7's accepted 2b precedent",
     oracle=lambda n: n % 12,
+    surface_answer=_to_base12,
     gen=lambda rng: (int(rng.integers(200, 10000)),),
     seed=20260804,
 ))
@@ -209,6 +227,7 @@ register(CapabilitySpec(
                      "accepted add_base8 mechanism run in reverse (2b "
                      "closed-record survivor family)",
     oracle=lambda a, b: (a - b) % 8,
+    surface_answer=lambda a, b: format(a - b, "o"),
     gen=_gen_sub_base8,
     seed=20260805,
 ))
@@ -225,6 +244,7 @@ register(CapabilitySpec(
                      "random net: mod-13 analog read 0.000 untrained in "
                      "2b, mod-17 strictly harder for digit statistics",
     oracle=lambda a, b: a % 17,
+    surface_answer=lambda a, b: (a + b) % 17,
     gen=lambda rng: (int(rng.integers(100, 1000)),
                      int(rng.integers(100, 1000))),
     seed=20260806,
@@ -245,6 +265,7 @@ register(CapabilitySpec(
                      "for digit statistics (more residue classes to leak "
                      "through the same random projections)",
     oracle=lambda a, b: a % 19,
+    surface_answer=lambda a, b: (a + b) % 19,
     gen=lambda rng: (int(rng.integers(100, 1000)),
                      int(rng.integers(100, 1000))),
     seed=20260807,
@@ -269,6 +290,7 @@ register(CapabilitySpec(
                      "without redoing the addition — depth-2 composition "
                      "is the point of the rung, not incidental",
     oracle=lambda a, b, c: (a + b) % 13,
+    surface_answer=lambda a, b, c: ((a + b) * c) % 13,
     gen=_gen_mod13_comp,
     seed=20260808,
 ))
@@ -296,6 +318,7 @@ register(CapabilitySpec(
                      "ruling 2026-07-28) — the 9-word pool that made a "
                      "memorized table plausibly complete is retired",
     oracle=_oracle_caesar_len8,
+    surface_answer=lambda enc, k: _shift(enc, 26 - k),
     gen=_gen_caesar_len8,
     seed=20260809,
 ))
@@ -356,6 +379,7 @@ register(CapabilitySpec(
                      "on starved val; matches reverse_string's accepted "
                      "2b precedent (closed-record survivor)",
     oracle=lambda s: s[-1],
+    surface_answer=lambda s: s[::-1],
     gen=_gen_rev_string7,
     seed=20260812,
 ))
