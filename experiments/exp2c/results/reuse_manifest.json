@@ -3,133 +3,133 @@
  "survivors": {
   "add3_mid": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/add3_mid.json",
+    "path": "experiments/exp2b/battery/items/add3_mid.json",
     "sha256": "7a3342748ae662ff85b3a1d2834fe04f719ef24fec9ccfef03c5f9e40f426408"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed0.json",
       "sha256": "57c525c423ffa5a76036a3397fe8a1b3f0c804b4a68b5568a8b4b6ccc5b38e10"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed1.json",
       "sha256": "18374888a4587219b9aa6a7f0613e57b5d6169a3fdb965bcc6fd24f0c08c9261"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed2.json",
       "sha256": "ab3a0c5b019c1c5576d9bb50daf79c156f0a1ad2fb4543d39c24f561e57e595d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed3.json",
       "sha256": "fc1d45ff7ecf996f48e78640a921c88c23d22e89e4d2c6044ad9f67e20edc363"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add3_mid_seed4.json",
       "sha256": "13959949f994202e389053205c724051dc27de7be1de1b014bbaba1125742225"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed0.json",
       "sha256": "07c0f867df28101603c6d45116e8df01daa7105107c0a43f9106905113dbf801"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed1.json",
       "sha256": "9739fbbcc44395c301c6e590b49fa8c522079d1494cb6ba55a232c04e3b9c844"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed2.json",
       "sha256": "2dcdb8657367b2a7d4eeb62dd1161f24737feab9a37339fa897420b1b50b9652"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed3.json",
       "sha256": "c25f4ddf09140893a09e801e68a301a7d4f50c8e1185fd95bf7e1d7402c07eb8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add3_mid_seed4.json",
       "sha256": "a2ccd7a19cc99c16d533071be3b62e41f7dbd17d5bfa3b55629327bcd0dcf504"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add3_mid_seed0.json",
       "sha256": "ec09198b2d0563fad14c37f851b25fc24c46d84eb7b5b6fab77a0018bad2afe2"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add3_mid_seed1.json",
       "sha256": "a27d7a314975c0b1e7822bf6fe22fa3bca6657717ff563aa4e95a3ea2046f126"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add3_mid_seed2.json",
       "sha256": "d155978bd3180206bb1e803db368b3f8ac189dc23032508d9650329c5f3829b4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add3_mid_seed3.json",
       "sha256": "299541db14bc851822e8b31de1262e52ba040b883deefce4768e72e29ce06822"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add3_mid_seed4.json",
       "sha256": "dfd5d3fc4b6d554b82164789efeb1b8e1ab7095f1db705e486b3e4e8dec00ef0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add3_mid_seed0.json",
       "sha256": "4147d3a7857776b38fe0a7256349c6b4988da1e3ed5c45dc600d0d115bd8744c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add3_mid_seed1.json",
       "sha256": "114ea2cd22b87b6b83dec0d2aa4dfaf886ca32d16a8970ac3673764f4568e6f6"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add3_mid_seed2.json",
       "sha256": "4c7b504931ea277bf4c4cf912f37cf108eef43a34b0b6b7922d0f5a73c0529d8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add3_mid_seed3.json",
       "sha256": "2786e335419efb00eb0ba2d8f1f495eae2d3cead9b1a03277579d55710841fed"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add3_mid_seed4.json",
       "sha256": "f6e3397ca7710b0811c8e2c48f45db6bf8dc54ab4716044b924a39a83f08ee6f"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed0.json",
       "sha256": "bc49dc6e6e4ddc9763f37430db0a73c225efdf5c6a08544e7da4cf831ceeae48"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed1.json",
       "sha256": "0690d12913b92f995b7afdbf9e3108d3aeeacd3aa82ceb6aa61baacc07791b4b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed2.json",
       "sha256": "5b1fc0e34e5977b324239a99d162ff4a959f445e03927ea44b7f323dd1d87d4b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed3.json",
       "sha256": "8f80e0bb317d30e9ac2ff8923799ea1371b2146cc0e9f334b23e1784d6d7ca79"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add3_mid_seed4.json",
       "sha256": "0d5039e128192e93a91a98226f538897d8cfd19bf446d6b4132faf98c8fb1be0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed0.json",
       "sha256": "505615eb61b5fedacf7b3c0f94505b725ec51177d145a598e1819122837fbade"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed1.json",
       "sha256": "6db988335d5ffbdc2066f03619c8a873b3222a9766cc27ff2bba9d7fb28c44cf"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed2.json",
       "sha256": "8ccc6c3c77f4cc29d952e87caf26e09137848cf6c08438b3d7c91041a2201890"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed3.json",
       "sha256": "e068f8cd4ab311307986f2c1bf71f85e11c9bfe43ae616395623dfd73e73af52"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add3_mid_seed4.json",
       "sha256": "69a69c5e59a3770ebb32fadb9d1cc8fdb2eb5c97e2e75fd442eb08a31a7ed0f0"
      }
     ]
@@ -137,133 +137,133 @@
   },
   "add_base8": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/add_base8.json",
+    "path": "experiments/exp2b/battery/items/add_base8.json",
     "sha256": "f7b270d1284107476ead8b8d8a4a0e1aabdfbb42ac69ea13233e6d481252bae1"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add_base8_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add_base8_seed0.json",
       "sha256": "61d091aadec8ed2be3572a5bd38adf61504170525dfb40004fcf7be83c508695"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add_base8_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add_base8_seed1.json",
       "sha256": "8e9fddde35d550504d23be8b17128b63f32641df37ca89d7220d275e48787c8f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add_base8_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add_base8_seed2.json",
       "sha256": "0961abb3326144c6a4bd97958260c5816ce1c53c3188c704784e95bfe952c84f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add_base8_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add_base8_seed3.json",
       "sha256": "6b31265523648d65ac99b1a2358f35db812dd1dbb746616a256dac6a4bf67b16"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_add_base8_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_add_base8_seed4.json",
       "sha256": "d8c846aa3480b807d79c7ed2e715c549ebb72c879b46efa8acecf0d5a6bf8d32"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add_base8_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add_base8_seed0.json",
       "sha256": "f23dc711a58ae7ffb8cfcfb74a27f8f2216960a570ba5277e4a763af0414847b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add_base8_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add_base8_seed1.json",
       "sha256": "bf4078a4c14764f4895d28394767180f3021670dff7fd30aae5cd64c97fdee74"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add_base8_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add_base8_seed2.json",
       "sha256": "c3357b91c4abfe9a54bcc567f37555cc86cf0de741e37123bbb9e98152b735b6"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add_base8_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add_base8_seed3.json",
       "sha256": "fea675403300e69a423bf7df2286ce8f0afb180c935b3e9864235008212efe20"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_add_base8_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_add_base8_seed4.json",
       "sha256": "8a93abfa277e5c4bad8eef75d8ec04bcea67f648ae552c6c0d1afba47aa522d6"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add_base8_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add_base8_seed0.json",
       "sha256": "d5d1b82642939e4cf45c48c0a1361756a34697aea4b70e68ce411850bc3d000f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add_base8_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add_base8_seed1.json",
       "sha256": "2c2b359f8419c5e4fb25f4762ee23a00ce397c525093e574ebdbb224fa427345"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add_base8_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add_base8_seed2.json",
       "sha256": "6307b3c4b495b069ce2e18aa77b8e04419a7a5b846c8b003efba47559bdb4c26"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add_base8_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add_base8_seed3.json",
       "sha256": "5e56ece0833f6d81cf2da12cf1fc2430ab7b0fe76f37e868f44d9bc13286f4be"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_add_base8_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_add_base8_seed4.json",
       "sha256": "4db204666599216c349da67f5bc4f8d7c6e290bdb1f4fa7eeb7787c56bbb1fad"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add_base8_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add_base8_seed0.json",
       "sha256": "d16f85a6fe548649aecc9d50b17b3b98f3d97b19168ab0d1287249bc10e23601"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add_base8_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add_base8_seed1.json",
       "sha256": "1ad77e11b2893cd3b23ee9b30b5fc5705d148e1760a3ce259d64871a49e48719"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add_base8_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add_base8_seed2.json",
       "sha256": "515e96d3df813787a8f6ccb79843e47ed4162f3ef1e1f679feefb5ada95150a2"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add_base8_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add_base8_seed3.json",
       "sha256": "f1cf8e9eed8e6b4647d1edc98c9e3057d86eea3c7467efbc5a9747449b795752"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_add_base8_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_add_base8_seed4.json",
       "sha256": "621dfe9bd6ec9dbb724897cddc8a0431e02cfb0db4aeaa541883946ca0633df1"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add_base8_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add_base8_seed0.json",
       "sha256": "319b21747b24e00902e1e8089e621dd112b11c7872df09ca125cd9cfefe0931b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add_base8_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add_base8_seed1.json",
       "sha256": "c390eef5efafe058365b877f63cb91bc472829c610b38291b1c9489427abcace"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add_base8_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add_base8_seed2.json",
       "sha256": "5d81dfab2449de7491514900fdf3f7daa3a9c0d74d46b7231daa3c6435d840e0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add_base8_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add_base8_seed3.json",
       "sha256": "5c090ee763a5e4a34b863bf1c65413568ca9d2c178a9919fff87d91afed5e2e7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_add_base8_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_add_base8_seed4.json",
       "sha256": "baafc7b3ba08dfe7ceee289276bfd2e5afbad3ffb168c2665c62e363a014e875"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add_base8_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add_base8_seed0.json",
       "sha256": "1427c1e27ca46f6259438938b96fc76e8733982555075da4a41478eabc46f0cc"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add_base8_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add_base8_seed1.json",
       "sha256": "6cd353005b3f30e954f37bf99c9f9fd95d91bfe93e5565ac8b0d35bcea14d93b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add_base8_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add_base8_seed2.json",
       "sha256": "ea111870faf0742fb877fb6e40af3c5345994bcad09bbfb3a9ef2fd27eb7cd61"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add_base8_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add_base8_seed3.json",
       "sha256": "b2487b5e83d4fb250aa1330056b8753f3c37cbe70e7a507434580e70e306d06c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_add_base8_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_add_base8_seed4.json",
       "sha256": "99896e29ef4cd192395ccf6a3ec33111c8d783589ad4ecc28c609f229eb6f61e"
      }
     ]
@@ -271,133 +271,133 @@
   },
   "antonym": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/antonym.json",
+    "path": "experiments/exp2b/battery/items/antonym.json",
     "sha256": "2b393de42ac38ca38cb1ccbe6ee8f8d12882c041ed4a4430d0add6287c5c238e"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_antonym_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_antonym_seed0.json",
       "sha256": "f84501a5a90c991bd09514d4bff2ec08c8804e8e8add1d226df9bb3962fc46a7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_antonym_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_antonym_seed1.json",
       "sha256": "c8f11dfcfb484eef222a77f8300931f2add747da29dbfaf88e0c45bcc6b2aceb"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_antonym_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_antonym_seed2.json",
       "sha256": "e2e44c92103edcf82cb92e9aca0c6dad3fd031deb6aa60ff267df7e18e9b7510"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_antonym_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_antonym_seed3.json",
       "sha256": "225edfa43018b77d443ae5e6609bac905165d378681378d7961c5bec8c48db33"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_antonym_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_antonym_seed4.json",
       "sha256": "cc9f18d53b7c1d377ecac2e6486f321021bf43cae70d1ccef3da3ca8daebc056"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_antonym_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_antonym_seed0.json",
       "sha256": "791d2204c3f2fab55a27017908ff4775a30d43b5b848747d883024d767d7093a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_antonym_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_antonym_seed1.json",
       "sha256": "d086288848035edcc0515e7c7894b1798ddb3d0348b574b3be6bfa2ddc256585"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_antonym_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_antonym_seed2.json",
       "sha256": "b1ba4b915beeb28ce779e3666f6395003274036c0e23cc600120138b745a4913"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_antonym_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_antonym_seed3.json",
       "sha256": "f17e436a4f4dc483801fd07587d761c4376b427c7bcb1ef86c618962d1aaf0ce"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_antonym_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_antonym_seed4.json",
       "sha256": "5e8cbffe12ede432c4814ae2fe774ec489b368f3bc53cdcce90911bc8437fb89"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_antonym_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_antonym_seed0.json",
       "sha256": "3aaa23805dff32d1468495983ec4a75604f010818a59f221c7e893e1a80f30a1"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_antonym_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_antonym_seed1.json",
       "sha256": "86b10aaf8cd4e0b64fdc9e348d47a7b22e07c59948ebe7484302f2fa805bdab7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_antonym_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_antonym_seed2.json",
       "sha256": "504efa9738ab9bdcccc898ea687e3acf92fb2b5e7728f3f22915f12af458d6b7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_antonym_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_antonym_seed3.json",
       "sha256": "6631cbc26be6531c151ffcea0d467db06326d598997f722a91cbb7188cbbd9a4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_antonym_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_antonym_seed4.json",
       "sha256": "25a6e139f2bc3e0087b6586f9a2f5b0691e5a6c7749558ec659f9bde11fc0c14"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_antonym_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_antonym_seed0.json",
       "sha256": "b85528ed83d967c104e6aaf6b0a90fab12d850e83fd6d1a59e00b0c350dccd82"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_antonym_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_antonym_seed1.json",
       "sha256": "2f468c26c20afe74798b541f375539971f9510721ff9c62ba312e8e12d3b487f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_antonym_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_antonym_seed2.json",
       "sha256": "4c5460c36759dcfe5c9400ed3566ead4f34b6de60d6b2c095b5166573f7cfc22"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_antonym_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_antonym_seed3.json",
       "sha256": "1bfe47417710ef864a2acba704ae9fb77f8412ebce0bb299b92e928c0bbe3bc9"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_antonym_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_antonym_seed4.json",
       "sha256": "137d691b1830bc0763f941ff8b8590d1855e20eb19b4328a8e02d9c20603cc25"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_antonym_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_antonym_seed0.json",
       "sha256": "ea0da21cef590620c7b4972925b49c42c6e2b8489a8b804cc0289fcd0f648001"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_antonym_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_antonym_seed1.json",
       "sha256": "6fb231fddd30a69f1dfbcff734ed7aa290c8f30e5b20c7f34e2833645f217458"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_antonym_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_antonym_seed2.json",
       "sha256": "31cd72cf432c08e0de76fb2081ca0de26d85180cf60f4880ff2664d7167a23b1"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_antonym_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_antonym_seed3.json",
       "sha256": "cf1479b5d3cfc3b4c1215fd19654269c36ba7f364dbe99243ea8dd40ac52e3dc"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_antonym_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_antonym_seed4.json",
       "sha256": "0c39ebe89e2542f4eb55b4febf0cdc201324dac5118157f5c1f5ce5bcb6dcb44"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_antonym_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_antonym_seed0.json",
       "sha256": "9e8f3ef62aa2a91ce0d69aa856c8a7b305574e0efa61d343ef9e1652aeb22a4d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_antonym_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_antonym_seed1.json",
       "sha256": "d90f5bf5b3d1cd23b290e763297dede755c91b6bd1a66d608de0124cb03d1018"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_antonym_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_antonym_seed2.json",
       "sha256": "c1d0a37d0dce8c0fde52747add061237032ecf73b9f7964dd495d8015d26ada9"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_antonym_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_antonym_seed3.json",
       "sha256": "c935bb1a6955fd806c278527246f49cf965a661ef6679355a733ef45958979b9"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_antonym_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_antonym_seed4.json",
       "sha256": "e76c1043e3e7577eb928f600975a62126af3341ab0329d5ac9d34aedfa13c9f6"
      }
     ]
@@ -405,133 +405,133 @@
   },
   "base7": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/base7.json",
+    "path": "experiments/exp2b/battery/items/base7.json",
     "sha256": "882f40081bc06f387912ff6f8abed6f27ef3a82c96a251c21c500d05f73426e5"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_base7_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_base7_seed0.json",
       "sha256": "2bb2f57957f6a9d7a9c38afc2bce09f43163945e95637b8e9ee2f468adfbb2b0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_base7_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_base7_seed1.json",
       "sha256": "02cdae97aef92056e0e5a7b3ca076bf009ee3feefd401a5bd1da43cbf088376b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_base7_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_base7_seed2.json",
       "sha256": "e5ee02f7ef671c4f439317cbe0a5fdf2e084f6f112e23838c2eedc569341b2db"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_base7_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_base7_seed3.json",
       "sha256": "b2270823ddc5f18a5f080dda7fca058b693671f8b5a5de5f608a5805c8d4998b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_base7_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_base7_seed4.json",
       "sha256": "c8876c94e7727ed216ff62fe20761dbf27f772e4d40022c69feb108457d72580"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_base7_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_base7_seed0.json",
       "sha256": "8f7a78f15c1eb7fd011a00641cc1865f84d49acde817f1cd9ad54d90d4699093"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_base7_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_base7_seed1.json",
       "sha256": "d43defc5abdc085cd37be729176d068f2bf882a05f15d0d059583931c92ac413"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_base7_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_base7_seed2.json",
       "sha256": "b9a6fc0546b96768091e7f524bb7cd1235e1248c306679e8d60b659d4790c164"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_base7_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_base7_seed3.json",
       "sha256": "d19af32ba8772f9df268977cedfa045a7eea52ec003b5826a19bb5d2da7421e9"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_base7_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_base7_seed4.json",
       "sha256": "ff52ea8b16ff94e998e8b7bf6fcc6a21be4c6edadc5347092aff5fb32ddb3d94"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_base7_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_base7_seed0.json",
       "sha256": "0bf8dc82aca5316283e179228463e1a057670a75477e08f8d252088a2b030dac"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_base7_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_base7_seed1.json",
       "sha256": "292f4c02b5d6faf77de20c703326bba8391c1a069ad5099ad4ffc6591de58347"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_base7_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_base7_seed2.json",
       "sha256": "346f93d195f2e10f1c6d497c9b9ae03e9edc7931a44dc94ea40864cbd7f1e896"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_base7_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_base7_seed3.json",
       "sha256": "8b79515a453c86bc7ca30c3ab5bcff1002eaeb99a803a4fd265a8df6b4cf39eb"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_base7_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_base7_seed4.json",
       "sha256": "9103c6163cd76f3690f897170b021008c3a297d7fb380e66a52c0466e49cf5c4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_base7_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_base7_seed0.json",
       "sha256": "7b56b7edf1b359d11ca4a9f3ece467fa0e5316bddbeaf7877f8ebdd536707579"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_base7_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_base7_seed1.json",
       "sha256": "7810fde4e53bdc32283b86bbed4017fd7fa7a84ca1beb1c5e3eb4f2ccac8e131"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_base7_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_base7_seed2.json",
       "sha256": "a09493c836424e055c68646f6820ae091b6ce1dee427611b38c7df21dfa56e51"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_base7_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_base7_seed3.json",
       "sha256": "3fa66040d713dad4be26b36d6512b8f533d220dce6767896733f34ebc9b294f9"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_base7_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_base7_seed4.json",
       "sha256": "dd388682b651a9b81b24675e14a77f06ab123abf3e98a4e030213b119ec86f9e"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_base7_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_base7_seed0.json",
       "sha256": "4ee23229424ecf564baad4a2fb7195dc72eca8e3b5af51c55dc596744b15de36"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_base7_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_base7_seed1.json",
       "sha256": "202a0ee9ec5d6ac92a84fa6507f529b5babab69ce3fc3fb636ce36303f2d0edc"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_base7_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_base7_seed2.json",
       "sha256": "56ddec3e2bc43532aaae12409d68ee5f012e09acfc8b0bcc85ed2fa2087f8607"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_base7_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_base7_seed3.json",
       "sha256": "91be60a69e4e0cca76cde2f001bd884311326d87970bd33c37fb07e6a04767f8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_base7_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_base7_seed4.json",
       "sha256": "67049ace7e2906d667d851578f0e03066f3facd0ca66b707515bc94bea8048a1"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_base7_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_base7_seed0.json",
       "sha256": "da0c0f9c58f3841c96a9981a9ff15312fb0afa185f7a2a32dbe44d30d34e7016"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_base7_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_base7_seed1.json",
       "sha256": "b818191536f9b8e994599aaa6419d3483d06b11fd66aacc5b34170f7f46ee127"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_base7_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_base7_seed2.json",
       "sha256": "e0f092bd486a27af063f1427dc062482e34aa1b1247a9203adb359264659cdb8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_base7_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_base7_seed3.json",
       "sha256": "d7c273f539f3bd96418083197bcdb44dcb3d8c18c9b0f7c73bece7829e87bc5e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_base7_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_base7_seed4.json",
       "sha256": "881d95b24fb6897074c2ab15e5cc6f285d58442a7e0d4498f8ba318c7e046e39"
      }
     ]
@@ -539,133 +539,133 @@
   },
   "caesar": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/caesar.json",
+    "path": "experiments/exp2b/battery/items/caesar.json",
     "sha256": "757a38c839a9564cdcd2ffda84c3f99b59ab03da3d2ff542daa3a4767ea09e49"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_caesar_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_caesar_seed0.json",
       "sha256": "316ce995764520b9e6c166e19558b89c2e104685ab45b80145737af68ae28ada"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_caesar_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_caesar_seed1.json",
       "sha256": "d09b926eb24e2a886afdbb6b8e2bb330d60fceb5b6bbaecfd18f30a854e6bd85"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_caesar_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_caesar_seed2.json",
       "sha256": "87185f41e3bed83938fb0e2d0b202842f88963f1359ff68396d174f945c147ff"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_caesar_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_caesar_seed3.json",
       "sha256": "aca669dd5d7a9896e076528eaa65fb1ecde53eb62c0fcd55769129f3e83e40f0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_caesar_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_caesar_seed4.json",
       "sha256": "82b560016a8e84218b9b3e14397ae124170c4000fa285dfd65356164f2ec1a89"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_caesar_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_caesar_seed0.json",
       "sha256": "eb089bda4c7de8cfd3234a4927d648ae466b5dd7d18c5aaeb0bf2bc932a8b94a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_caesar_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_caesar_seed1.json",
       "sha256": "0e51880d4fd18914249ce21ddae2d873bd93782754f3a49d098507004efe11a7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_caesar_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_caesar_seed2.json",
       "sha256": "316cf4cfb51d1903526b2684597290d75d157862844a60eb0908f6b244079cb7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_caesar_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_caesar_seed3.json",
       "sha256": "e9cd68fc45ad78e71ba50eec6ffa6fc2c6016527e5498af8fa2d508c61227142"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_caesar_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_caesar_seed4.json",
       "sha256": "89bd13fb3afcff623dabd407f12bd9614929654757b69f44a201d54b8c4ff44b"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_caesar_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_caesar_seed0.json",
       "sha256": "6a78624b7f453c5c7e8b39bf31372d930256ee7a844d899420dfafd16472b390"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_caesar_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_caesar_seed1.json",
       "sha256": "db176295e30df1beba71e55e6c2eb9fc7209be8ea5a57d232c02a08ec6494a15"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_caesar_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_caesar_seed2.json",
       "sha256": "632fe488402f7f97f41ce5caad5886228b7434c48bc8b54e7d67cde478041de4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_caesar_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_caesar_seed3.json",
       "sha256": "db1b42e0639eab564b2a2fd0ce99c6f054f57c2a2ebf3ccbeeb81adf341c2cdb"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_caesar_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_caesar_seed4.json",
       "sha256": "97077b586447cfbc5b89879dc5a71e8f00b0b86040bbb952266bdf8f4ac876bf"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_caesar_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_caesar_seed0.json",
       "sha256": "09c163a8b7d9e893916fe6f4fffc454368856d58a2d2b30ef219dc1a80ead903"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_caesar_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_caesar_seed1.json",
       "sha256": "9566e77ee11a5464e652e20487190b78be948e0c135b30579bbd7460c0bf9376"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_caesar_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_caesar_seed2.json",
       "sha256": "cb0a82f1399e4378fe2ccd2fd3f558201d175ba2a65a9c4e8bc027b1d3113794"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_caesar_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_caesar_seed3.json",
       "sha256": "460ee875d58b3dc9729ab9c48acf9c96e8253fa8123bdcde9836f05c49356e04"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_caesar_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_caesar_seed4.json",
       "sha256": "9a49532bc6e00f38cbe8f1067950629b376f1d06c2005e1ea7327d17ee263a3f"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_caesar_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_caesar_seed0.json",
       "sha256": "837d7d4fa2b5858d16c1f6ba5c87d3091cf4eb856fece7c89ced41b8f37d48d4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_caesar_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_caesar_seed1.json",
       "sha256": "47f9bfb06e1ed0b48fce9f2a124a1ed3c0f00e602669fff6d7fbc1a122636c5c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_caesar_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_caesar_seed2.json",
       "sha256": "dff59f42e5f5e2f206edf21be47f9dd5810f489180e102e06470998c3e65e02a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_caesar_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_caesar_seed3.json",
       "sha256": "4f0b48ea28222f0dff3101d0f2fec9f95029c0f44724fdb57435f30d54f548be"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_caesar_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_caesar_seed4.json",
       "sha256": "9180a00076f267e7fabea223244b43b297c29d324d83f0c7f00d41499ae3f82a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_caesar_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_caesar_seed0.json",
       "sha256": "74f480b9f02850c1ec29a8b58af9b6c5e2c0286bac10c69ef2117874936296e3"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_caesar_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_caesar_seed1.json",
       "sha256": "5f2dd5dec35c37e2731757c5f1e0f35c15336a610b7550cddfb12718c2af0fce"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_caesar_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_caesar_seed2.json",
       "sha256": "3037ad4880af994eaa55868304128a5ec340cce8b03c23608da5bc0ff44199f8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_caesar_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_caesar_seed3.json",
       "sha256": "f27f28c83eaee1fdca277e84750485087087e031de9bde6d47bf1874a3989945"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_caesar_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_caesar_seed4.json",
       "sha256": "8ecc2b99853613eabee982edfc30adcd88417a2317cc7a44782423e61a130b55"
      }
     ]
@@ -673,133 +673,133 @@
   },
   "clock24": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/clock24.json",
+    "path": "experiments/exp2b/battery/items/clock24.json",
     "sha256": "58c26efec888cb3cce8d9777b78ede152b1553fdf23dad656ed6045f5cead505"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_clock24_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_clock24_seed0.json",
       "sha256": "d441776adaae9e513bc017161ce511f6c3d80f8ea39b6c68f66dc28c557790fe"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_clock24_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_clock24_seed1.json",
       "sha256": "54492390658bd3eb4cb751e7cf7308b292d3449bb649d3cf4c2b89e939d268ea"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_clock24_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_clock24_seed2.json",
       "sha256": "dec6f9f3e3e93a9b1914046c61f89ee8f1dcabc68540e6f1d6f1ecb817f18ff3"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_clock24_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_clock24_seed3.json",
       "sha256": "ade505d853e277d91726e7f4fbd74363717bc3fb134d1d4355963a0453d4c3d0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_clock24_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_clock24_seed4.json",
       "sha256": "eefc5edc47c6f17a7350449a9a256b92efc29356dfa69a41505528ac99aed548"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_clock24_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_clock24_seed0.json",
       "sha256": "c9326d3970397cf62d77804816b377c7034d81fbf551c9c7a1561039a659901c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_clock24_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_clock24_seed1.json",
       "sha256": "65a73608ca1b8a2eba52a7a641d86361e0d03d2c73bf63676190191621261707"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_clock24_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_clock24_seed2.json",
       "sha256": "7a3d59189350ab2ea784fd192d22b1b31af6b6f8fcfb68447def4392fab83e16"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_clock24_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_clock24_seed3.json",
       "sha256": "ad99bb6fd3f5800bb8bed7b2e0fc49463d0d6e8bb6146976bf2616f7f87fba67"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_clock24_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_clock24_seed4.json",
       "sha256": "3869076b0d4a110b18204c374d02498406ded3986c5585c9dc9e4cbada3c8f3b"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_clock24_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_clock24_seed0.json",
       "sha256": "a471709e58281973803fa70c9e4ce938d2bf72b9e3c9d03fa6fe19a539cfd721"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_clock24_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_clock24_seed1.json",
       "sha256": "2e065d7fe7a882d9dc714e5e1da7c325966e9fd892d6874ac3713a4b0853bf4c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_clock24_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_clock24_seed2.json",
       "sha256": "8608bcfb094bd3cd35359c5476a77accd8bac192936b10cb513a9d00a8fd7bfa"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_clock24_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_clock24_seed3.json",
       "sha256": "4ea645982de827781c860085229aa6840fb800a89e39af2c0a21f2f53da48e6e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_clock24_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_clock24_seed4.json",
       "sha256": "2ddf3f5fa43514f5a52c17c0cf0cd20499dcadf5bb05b1fc5136e94f71c89f16"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_clock24_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_clock24_seed0.json",
       "sha256": "51a979b9e7ac3be76a0095afa6b5d1756cb54283979e3990a319ffc923361acf"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_clock24_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_clock24_seed1.json",
       "sha256": "0aea97f5c03d44ebf45fa99a91b8cad6313886db21d3118b6d0b48133805b8d5"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_clock24_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_clock24_seed2.json",
       "sha256": "3659c975652cdc6ee6756e9e3519f6e8f9be46eb74af4e8d9aad988808f94f2c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_clock24_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_clock24_seed3.json",
       "sha256": "695effa203ffb56c5d75e5045c3aecc06a1b02b43f90223e3612c6db69ee1e48"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_clock24_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_clock24_seed4.json",
       "sha256": "de76545e7c5b9c7d5a7260392a34a05a19f4e93d4a154507759a42fc5951ea3b"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_clock24_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_clock24_seed0.json",
       "sha256": "a1ff5be92724c7eb20886ecf483429769b2c4c7cecd1eb8ba433be0dc2f16c46"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_clock24_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_clock24_seed1.json",
       "sha256": "402384a0bedc4cdd96a8c581e6d1ddcb6590fd98cc1ece09ec7a76c7993e77e8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_clock24_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_clock24_seed2.json",
       "sha256": "834f7056fd31e08cc0963e15fd9a6c11796259fce3e4ed42b3392a8af97bde9f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_clock24_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_clock24_seed3.json",
       "sha256": "ae06987009eb0837a24645a2c2c289df433240903e859f24055babe6ece5ba65"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_clock24_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_clock24_seed4.json",
       "sha256": "4faf6e45c6f26dec9bb13f6904f780633c4d7ff38ca936b963b0787e7c4e1e35"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_clock24_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_clock24_seed0.json",
       "sha256": "c5e2aead6f926c6358a6d15d1cddc103b906b892629401141a397e8d9717eafd"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_clock24_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_clock24_seed1.json",
       "sha256": "91bb763bb2ccc6f391c57f33d396c2e4ef16ec6302b7dd69ef27e3e4ad0c6c52"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_clock24_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_clock24_seed2.json",
       "sha256": "3d259966f794774d2543216dfff2354015c63b18549ce88975e5fae863de4237"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_clock24_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_clock24_seed3.json",
       "sha256": "a80fdc7b02311d39e71274217ff85a66480442170ae03dccc198dec208c17e5d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_clock24_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_clock24_seed4.json",
       "sha256": "5e1935e07e0badc79aabf9fb01a34e3cb13d2d80557923c0dc8da4ee17d919c4"
      }
     ]
@@ -807,133 +807,133 @@
   },
   "count_div7": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/count_div7.json",
+    "path": "experiments/exp2b/battery/items/count_div7.json",
     "sha256": "9d639f432dec66cf669261fc2cebee7cb97399f4d45bb0b56a9a70cb6a142d7a"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_count_div7_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_count_div7_seed0.json",
       "sha256": "d3466700cf1e1881cce921ef7ba59ca8113fcaa0197fb87473223de85830eab4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_count_div7_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_count_div7_seed1.json",
       "sha256": "13b0fac8f0c8b5148eb05e25098cd5428897e3bd4dfae49bbe7d2c275fcbda56"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_count_div7_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_count_div7_seed2.json",
       "sha256": "9874ed91126be1f4b1ed64fd50ae04ba2396269fe562325ebb49e41a1ef4922d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_count_div7_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_count_div7_seed3.json",
       "sha256": "a84eff678f108e5ddaed2ef1dabb185edaa7cfa76f971e503314ade49a763850"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_count_div7_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_count_div7_seed4.json",
       "sha256": "ea5d8243c882e3d7a4f4cbe9c6ea6379be211def9090741c184d443b9d91ac6c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_count_div7_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_count_div7_seed0.json",
       "sha256": "32eb0e05fe0119e4c5c200286e1fc1be8d84ca5fb7a6d225fee077cf1464213b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_count_div7_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_count_div7_seed1.json",
       "sha256": "3c991211c47c8ec8e285d4050dbb91617b0e3bf6cd904adcfe0f083be5e49a71"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_count_div7_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_count_div7_seed2.json",
       "sha256": "8d3f581f245e6624c355dc4215fbac2697324e9772b58b0b3dcacc33073938b3"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_count_div7_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_count_div7_seed3.json",
       "sha256": "4acb64078010b6fb28fce0ec9e4238cb88d34b70bed317e65e5266113f1012aa"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_count_div7_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_count_div7_seed4.json",
       "sha256": "7b494d010f699aae9e0d1add7760ba5ca54a9cf0cd78ce5167c63f75729a2c00"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_count_div7_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_count_div7_seed0.json",
       "sha256": "909588df9bf676b21bb3008f6ad407f0800d92e54dcaec11f23e094a9c0eeaba"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_count_div7_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_count_div7_seed1.json",
       "sha256": "68a417e15381ac76889bfc2d11ba5c6455327a50e06e87e1f5ae7acf0963cc8a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_count_div7_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_count_div7_seed2.json",
       "sha256": "1be48bf0bb307eeb25fef1bdaea1fa6b1c387ec9051656766569e34cc4e18de6"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_count_div7_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_count_div7_seed3.json",
       "sha256": "37e4d31a3ab2b496071b20849e38b3a7c3d9a6fa3de97110879dd569d0835087"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_count_div7_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_count_div7_seed4.json",
       "sha256": "f9eca9e4eb1f4eff3788604866b514a2b4e4ac268514e33ceb3c2ef57c2f718e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_count_div7_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_count_div7_seed0.json",
       "sha256": "2b4630c3209f2ea6f9417d09b31c72b05a59594b627ba4b39ada4589c47d94ec"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_count_div7_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_count_div7_seed1.json",
       "sha256": "f0466af42d651fd6c3a3a4f72a115624eba82cb1f26ad40af5231a1caa86f31e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_count_div7_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_count_div7_seed2.json",
       "sha256": "6867f9b08b511de0a08345992f13fc55ef7552d4a567fa8151cdd29842445a55"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_count_div7_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_count_div7_seed3.json",
       "sha256": "f1e31a3c09854f2af0cf1a54d6bb6ac8c5e40e01d2a4ae317b322d61595d7460"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_count_div7_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_count_div7_seed4.json",
       "sha256": "39015808ebd374a94905c1e38b6394a385f6d95107b9911f38e0507bec3785f8"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_count_div7_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_count_div7_seed0.json",
       "sha256": "87eb63353aab5a8db31d91824d1b525c8ffd9c35fa410f56d0df90b3caa285a9"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_count_div7_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_count_div7_seed1.json",
       "sha256": "0479406e2d3b6aff4a176a41e3166d014f178596e6f1af3b0707dded826c770d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_count_div7_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_count_div7_seed2.json",
       "sha256": "23449592217f8341bfcbeb3cb3a952d11ae96444f209e6abe156f374df05319b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_count_div7_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_count_div7_seed3.json",
       "sha256": "89663ce4057afbfa2a78e5d88fd002417343dbc545cc1219052849abe31b8e00"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_count_div7_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_count_div7_seed4.json",
       "sha256": "e9aa75f56a2cbb02183cc39bf158747e54c3eaf05f1e95b7344504aae8402462"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_count_div7_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_count_div7_seed0.json",
       "sha256": "29b43c57c38b484137d70d1326b648f890e1a9033f682e7e786982f468895ac5"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_count_div7_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_count_div7_seed1.json",
       "sha256": "7b7a7b55ad105844deeeb9b862580f841436ade888b76946865836619b29217c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_count_div7_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_count_div7_seed2.json",
       "sha256": "a32ff1a376dd98f264ee96f74e9248676cb1a345d095f462a96f434d29785cf0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_count_div7_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_count_div7_seed3.json",
       "sha256": "d060339b2bbd643bdc993514eedad71ef6c259bd215acc4f3720e25cddfb424a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_count_div7_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_count_div7_seed4.json",
       "sha256": "6cc480b936f297abd70573695b04fb75fa9a85f62f45b373f9f25bb29ff67e0a"
      }
     ]
@@ -941,133 +941,133 @@
   },
   "mod13": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/mod13.json",
+    "path": "experiments/exp2b/battery/items/mod13.json",
     "sha256": "1360b89a2b64e757f837279ab0416634f7b6c58ad6411e5e312ab0da166f80c1"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_mod13_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_mod13_seed0.json",
       "sha256": "fcbc9fc9ff30f3793f9f5e482fe30c4f14dd26d1d23b54ded287fbb495a47e6c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_mod13_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_mod13_seed1.json",
       "sha256": "622fbe15e67c992b1039b1dec4b4293af8d0e5bbab96a935c49da5b97a6d0334"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_mod13_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_mod13_seed2.json",
       "sha256": "847934de64e0de0b5fcba2bdb3e36c6f89a678ec3b04d9bcae4a846e0559e337"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_mod13_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_mod13_seed3.json",
       "sha256": "fc949be6a6199fb98b18e4b3a20838d1ae825a279a40e966ce5a20da800dc929"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_mod13_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_mod13_seed4.json",
       "sha256": "bd1f48793ac4ecc7208d1ce44a5dced8d663d033b8f98702138821af8d1db236"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_mod13_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_mod13_seed0.json",
       "sha256": "1b37c4a05b6e5456e38b093c0c8ef97e2525e6fad0b68828b9c3ebadbad51e48"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_mod13_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_mod13_seed1.json",
       "sha256": "10f902f05cd03e41cac8e1f0b1e673a75d74189cc3bb96e6d7124286941d0843"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_mod13_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_mod13_seed2.json",
       "sha256": "612ca34ba4ffe3e8e13efa9950b14a353f6e7cdf806334acde67e4b63ad2658e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_mod13_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_mod13_seed3.json",
       "sha256": "a2f532927ea9d491dd374bd508370aab565972d6fbe4e76b9a6bffd8a6d547b0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_mod13_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_mod13_seed4.json",
       "sha256": "0a247a50a8a9012e382404c1ab4b460e8fd81ac34ed94c0311467cbcdabc3945"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_mod13_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_mod13_seed0.json",
       "sha256": "78a8f31f10743e229a8f29b5a2ef009c22dd2d3b62d0cf1f572ce2cca925d67c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_mod13_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_mod13_seed1.json",
       "sha256": "6461988e64ff6c63fac9de1f10fe79b56a127f498ffef3b392ff8dc3c8d6d257"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_mod13_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_mod13_seed2.json",
       "sha256": "7d4b6c90874566ff848dd0a6709db3bf279aa0fc4b8b8f78a8385905ccbe5e12"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_mod13_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_mod13_seed3.json",
       "sha256": "0e60b3a9a08fb3b2c6d10695d26f3710dd13b47a05105ff504635bc44711e3ea"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_mod13_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_mod13_seed4.json",
       "sha256": "9ad2a51aee0c4a9d8096efd6b4df464e8c8417c80bc0f8bc34dbb0b179b0437e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_mod13_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_mod13_seed0.json",
       "sha256": "0f43356a289452e8a73af040d35a1d8ae07fa2eaa1581eec5cb9458547a666c2"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_mod13_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_mod13_seed1.json",
       "sha256": "633544dabe77a3b3cc0fe2c26701eb88167de5e11de7954da2517bc7b52ea97c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_mod13_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_mod13_seed2.json",
       "sha256": "4649a9874193b4c8b3452aa59b45ac5f8d312fd10ad732b63024e0f9ce8b4a3b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_mod13_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_mod13_seed3.json",
       "sha256": "ec20797b74d31ee272cbbb0da53fad7f36654ab96c57f6a39aa49b06508d0104"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_mod13_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_mod13_seed4.json",
       "sha256": "23d3ced553bf7107ebcedf38605750b109dfb83dc590b877cf034421346199b2"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_mod13_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_mod13_seed0.json",
       "sha256": "21413d55d8ff0f20116ca09734ec1c4e1f577e4c7ac926605f58ff3180db445c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_mod13_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_mod13_seed1.json",
       "sha256": "37b0f5b8c19181d2cfe3c58129b35641a5ba62c2b754ef8aec2f189f5acbe1a7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_mod13_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_mod13_seed2.json",
       "sha256": "22cda9d80b5bb55b05266fcc3590d22a2918dd00c1136d6ca3c007ec938a5c3b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_mod13_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_mod13_seed3.json",
       "sha256": "69ced2d0e677ab68cc8f59c13b98e6bfc18c078bf6fa27f5d457c1b20e7aee01"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_mod13_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_mod13_seed4.json",
       "sha256": "4fd05abf6934c42b9e2369eda40d9184b74f9c5d3364a88e9b3e909dd8097f91"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_mod13_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_mod13_seed0.json",
       "sha256": "8eb01a75d64b531309f9ba55fdca874009ce782c3912d48ca4495c45768371b7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_mod13_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_mod13_seed1.json",
       "sha256": "065a6e92276a3cae9018b3057a269a11283e97cb90be7d03cd4c465935130985"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_mod13_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_mod13_seed2.json",
       "sha256": "cadf7f8e0f9d328ef9509ec141b072529767f31c9923650c25409384fc4a8bff"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_mod13_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_mod13_seed3.json",
       "sha256": "3cd060b7cfd759361ac37c15ca8165cf679d3fead9b55f5ed1e638e7b23a86fc"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_mod13_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_mod13_seed4.json",
       "sha256": "3414b7f0bcea949ff9fc808d7560e31a90ffa82f0056d49d146ebab71e454ff2"
      }
     ]
@@ -1075,133 +1075,133 @@
   },
   "oct2dec": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/oct2dec.json",
+    "path": "experiments/exp2b/battery/items/oct2dec.json",
     "sha256": "49bfde97c361d3af023009a80f4f0a1db0df0fa6a02fc6a301324e352cd12c2e"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed0.json",
       "sha256": "47045a932c9253839d05b18ed6de30366a954ba2034b0b5fcb9975cb8e0fa95d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed1.json",
       "sha256": "21e802acfd4d5e11e8c6fc18da659ca60b391dd54fad2ecea199ce617a86f6c8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed2.json",
       "sha256": "4bc374969238a586ae02d9d9cc06f989fe21a39b9b36cf38fd4879004af51e0d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed3.json",
       "sha256": "1dd10932e2e65a34a4cc8d9e0abebb7fa150bda72a2a888d67125c6bd158545a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_oct2dec_seed4.json",
       "sha256": "2a40e4128811420ba69890a7b6b391fe839123aa4390449b4e5c09d4bec08be5"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed0.json",
       "sha256": "c309a272341ded59bb302de1ff80e698e5de50143f198697443d388156e918c2"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed1.json",
       "sha256": "6dda426bd26d8a0db4cfb801141a9c9b3f7ad27e3514cbd88489e1786d6d228d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed2.json",
       "sha256": "8bfb3bc6124a001990b2dd8c5aba49a5e33a45393d7c38139958a972651ecbbc"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed3.json",
       "sha256": "318a10a7e85b69a7b1d94bca87e07ba55081bc0840ad9183c9418537aaccfe78"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_oct2dec_seed4.json",
       "sha256": "144b5d55e1d629581879a72bd25cb6cccc1ea6e121da3ec6b8097854dea9d451"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_oct2dec_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_oct2dec_seed0.json",
       "sha256": "d42ed56270b6eaa6b60dc41dccdff13f37eb15d16fec17bdcf5be35289a8b223"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_oct2dec_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_oct2dec_seed1.json",
       "sha256": "ee7f43ee3bb3b4d804c60576e37f8049456c95c80f8d408045fdab98f3f7ec54"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_oct2dec_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_oct2dec_seed2.json",
       "sha256": "9081f4082aecf0f7bbcbc10afa132ce30c167fa0b1eb3bfd16547ab00fb4ee1c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_oct2dec_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_oct2dec_seed3.json",
       "sha256": "ca20cd9a92369906159bda7bece81daf0ef2327d773ba77ef45c2310a29a347e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_oct2dec_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_oct2dec_seed4.json",
       "sha256": "87954cb88964d36d3c9fc33de8b207e6e4f9398dd4c8be55435410a91ee8684f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_oct2dec_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_oct2dec_seed0.json",
       "sha256": "981eb5916cc05ca0bf75a8e1d2a160f6f1a3f986e6df66ee05ba59b86f280ea7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_oct2dec_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_oct2dec_seed1.json",
       "sha256": "426677fa7ca80024022f0ea6b2b4b68659886cbf3808e51702f627088920bf15"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_oct2dec_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_oct2dec_seed2.json",
       "sha256": "9f0743136f1bc87ca0448c9691f03f4224e1d0974ad2fd68460c990b5be7aa53"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_oct2dec_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_oct2dec_seed3.json",
       "sha256": "9c381aa4697bd8831828af173e2579d48d723b4a4f02eea826700ae7f89938ca"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_oct2dec_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_oct2dec_seed4.json",
       "sha256": "2cdaee3c901c9304472ff7f7eb412b049b48a6caf0f63e1fad9974ae0e0e0f78"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed0.json",
       "sha256": "f1f3b949e64859e577ef335d29d67c2beec2ad950b731a8ec8de9efff9592cbb"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed1.json",
       "sha256": "479c153cd6cf4560f5c66b75bf15aab2288204afcb918fe745bc122ad56904fe"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed2.json",
       "sha256": "3ce36e70eedeb136dfb0187044d4176419071ee844257a865350503800ae19da"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed3.json",
       "sha256": "0a80a872e74874bf06ae14fe6b181053bb1ae1d22085a86855b3843437001feb"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_oct2dec_seed4.json",
       "sha256": "66dfb0cc2d691653e4872b1af5c0c578bb94210e1198d18ec784265acdebf2ff"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed0.json",
       "sha256": "90ace91a98e2236676ee0f74196d52952711ecbdceab1a397dd9ae541254099f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed1.json",
       "sha256": "50c83ba371c39f33f6fbf8e093a55d0cbbd2964fcdefbf2d11e3983eab065d8b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed2.json",
       "sha256": "586e2396ed3a6d863b12b6187c122c26d8b214a9a7f63fa5e8f6112e63924c43"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed3.json",
       "sha256": "f61fcb8c12d0774623390944e77cea481b24aee89d1a3fc7de670126c8846cb4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_oct2dec_seed4.json",
       "sha256": "aeb851f5fba96a36444a5d90a304382674aa9963e0568cfa5d9d7f3118108c68"
      }
     ]
@@ -1209,133 +1209,133 @@
   },
   "odd_one_out": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/odd_one_out.json",
+    "path": "experiments/exp2b/battery/items/odd_one_out.json",
     "sha256": "0c5b90dfa1a932460232924ada815716b74718d32a2326d15a981e5d6a06f2c3"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed0.json",
       "sha256": "dbe49069ed4c6cb1ef82a62c4c280bb15cb43106caf1154df0751cdbebb1913d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed1.json",
       "sha256": "c966a5e98945fbe387b42c256aef2e263add4a705403f3c2a777b4bfb079ef5f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed2.json",
       "sha256": "acaf19b7c987df70982c40f72ac38acf61637845bb052ff349199c41372471c4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed3.json",
       "sha256": "d3bca682173ea21d5d8fa16eb26a104d0f27796bc6429ba4ed11da5ff6ca1a2c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_odd_one_out_seed4.json",
       "sha256": "22f78e8193e18426355d692493bafa89bc1b46d73f8a15f8e85db83773f8575c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed0.json",
       "sha256": "59da76b07b657ad0d5bb2ef4604cae6b0db9be66d771621b380274930356433d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed1.json",
       "sha256": "52669479576c1a65252975dc6610ee7ed20aaea8ae57067128fb2eb474df4526"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed2.json",
       "sha256": "2b5027f63bf6352758981cd72a0ed606c7e4e164513da6cd0ccb927627aaa051"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed3.json",
       "sha256": "2f0e71e637fccda84fcf35e7109314c6ba14814f0afaf6f41fe9dcf752157205"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_odd_one_out_seed4.json",
       "sha256": "94391788195c98aad3edf30a117386d2a5f4224e8c20d635a12da9426b579da5"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_odd_one_out_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_odd_one_out_seed0.json",
       "sha256": "f93234402e4c793a456e2f469a9ba258330477222a6d1c478f3762fd20773d10"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_odd_one_out_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_odd_one_out_seed1.json",
       "sha256": "3c024e402c3abc9344e79f75ec457173d49aa75b6b79a4860a6fd3f49dfd19a2"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_odd_one_out_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_odd_one_out_seed2.json",
       "sha256": "c87b6f10a99645652ffde5be9ea43eb64bb57bfc350be1a0425b32ec1182a89a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_odd_one_out_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_odd_one_out_seed3.json",
       "sha256": "8c4a507596fb094a275c7dbd069c1ca7d6cea9f23828593b05e0cf3241550c5f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_odd_one_out_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_odd_one_out_seed4.json",
       "sha256": "33bfdcb33b5f61bd7845c4ad6ecd440a1a7cce7334f6a762496719692150dfa3"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_odd_one_out_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_odd_one_out_seed0.json",
       "sha256": "44b6a96689d4d3b99dd2be63d23c44101e6874a6329cf64efbb9a053fd3ab8b4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_odd_one_out_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_odd_one_out_seed1.json",
       "sha256": "3881c9ff217e076d46f07c3a5e1227b80b243c4e7c2fddad04fb0bc12c880d11"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_odd_one_out_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_odd_one_out_seed2.json",
       "sha256": "54714d7f75b81ed95ee777b427cde0507834f58b3bdd5b4129e49eaf9984753a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_odd_one_out_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_odd_one_out_seed3.json",
       "sha256": "7254886655f7018a8197462c2579a33490f954b54d64b51f74b4825110607551"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_odd_one_out_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_odd_one_out_seed4.json",
       "sha256": "ccf4e33d5f447c7c48d7dcf623cd8298d2437c5300a8ea60f5aed6d5ed0d11f4"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed0.json",
       "sha256": "112a397cc0a97d2b0391624fe20a30fc60b1eed686518d8871a2d14bf1429d75"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed1.json",
       "sha256": "ca0e92d60f8b207d814f314f97b91188230169c27bc22d97f63080e06b49b018"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed2.json",
       "sha256": "5bb6603e7432482d57700ff6351b17f8d64b953920d057a5ba28a3a0fc6320b5"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed3.json",
       "sha256": "e8a501459de18d85dfa9995ba2ac7665ad88996df017bedf9864d3bef08f8e03"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_odd_one_out_seed4.json",
       "sha256": "f9fe99d1b0c326be8b21f614e0157a9f81209da77e6c1881dc9b234e0fb88f15"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed0.json",
       "sha256": "4af757fc6f19f7ffe00173d9efb79ec8406a76b21d1a7e47e6f1246371fc8e08"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed1.json",
       "sha256": "88d4695f2234291ae0747a1b35f79d9d2c88f97c97dc5b47d46b6d6d2ae07560"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed2.json",
       "sha256": "a52ca1230df22b75f3e721ab4ae89c6a310f9eadd491efb7f82baf35246fd876"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed3.json",
       "sha256": "6b1de2e894f1e4a59c9ea8be7b6d7114005f48c99e39c117b4a95d25101380f0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_odd_one_out_seed4.json",
       "sha256": "e0fb72c5480601e89d835f57753f3384efc075047fdda368a14a3f99b7bffe8e"
      }
     ]
@@ -1343,133 +1343,133 @@
   },
   "reverse_string": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/reverse_string.json",
+    "path": "experiments/exp2b/battery/items/reverse_string.json",
     "sha256": "ad5bdcd944e3b983da42825a493eb813269b0ffebadb64f40fb1ee0f834f68c9"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed0.json",
       "sha256": "607250befec848524412d9f3ea42313a6c0ead3d9f940162cd9d3abd13f6ea8d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed1.json",
       "sha256": "74951b5dabe104937cdf249472ecdbc284cbdc4e8feeedcc2f766cf7ea7a4d86"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed2.json",
       "sha256": "98fc3d93323683b8a0ee973a709a0623d7849fca200e672e6ad99e0b7a247744"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed3.json",
       "sha256": "e60d5c1d15f29890ef638ae94873badd7a85c9c1d7b47070316eb9e0b3bcbc0c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_reverse_string_seed4.json",
       "sha256": "a0efa9a0f623a5c0924caa6ffd52e63dceac7893f1cb7913dd27e07264ff77fa"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed0.json",
       "sha256": "43840cd6cae0e1cab7b4750507f9c1d8524bd2ad161dfb7e14d704570ecf02b1"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed1.json",
       "sha256": "1a220fef4a773a47af3ab0377bd8a1753ef3bd795e1e9cd80f2efde2ae762855"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed2.json",
       "sha256": "34db21deb74b9777aafc58a78038a8c059d24883d35a9783e2a90761d6dbbf9b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed3.json",
       "sha256": "df1babcd0c68c8812c8806f38e2046e2b9475272670b0d9dfb4a8d1782d768d7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_reverse_string_seed4.json",
       "sha256": "09a9416d8e39488736b4a9d137525a7a00b1cac2855ddfca6ceb74b771cfb1e7"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_reverse_string_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_reverse_string_seed0.json",
       "sha256": "08052615f2968ab9d3a2b0369cf95ddc5dffcaa6ca594900abbdbe86af5068c6"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_reverse_string_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_reverse_string_seed1.json",
       "sha256": "51776031330a9098555a2100a06376eb577814858364102c8717d3ea571b3fd0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_reverse_string_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_reverse_string_seed2.json",
       "sha256": "f9547be490bf24538e6ab8f18ee410ddbdce9813a51daa5666440144e4eb1dc8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_reverse_string_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_reverse_string_seed3.json",
       "sha256": "993791d3b7abbc2b5cf5ba749c3f28023ecaadefcc48e6d203b3951b1f24cfe4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_reverse_string_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_reverse_string_seed4.json",
       "sha256": "8b2f08278f0f04269b1d0302a6ee9e3d780c95c1cbb65687a74a25c161742740"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_reverse_string_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_reverse_string_seed0.json",
       "sha256": "cd83d799069f98103842ff25cfbbdd13728e2948c4ae7f54d15fae62e5930ab2"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_reverse_string_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_reverse_string_seed1.json",
       "sha256": "6b083e6dde9e8bc8855e32eb6ba648f3505635611127930bcdc249727b35617e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_reverse_string_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_reverse_string_seed2.json",
       "sha256": "53b06b553bbdea1688c9e655e9f935a8a9eafe1f64e787c8c81a07c9609ac9d5"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_reverse_string_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_reverse_string_seed3.json",
       "sha256": "9b3a435c848e6d3ac53e62f4f417d6c8484891bca776f412061e53c202d69ff6"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_reverse_string_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_reverse_string_seed4.json",
       "sha256": "34398a4d6d51ac749e0439b3e1ada9306c59671cc95fcb93b9ec2467a439a0ea"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed0.json",
       "sha256": "4bd54cb55059e49280b375e5e7dffef009d705ac94c74362476eea4b5bdb44e3"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed1.json",
       "sha256": "0ef5a92c98c87e28df19945ad157b37d4dbe49ebec88d7ab13e3ec6130785b7a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed2.json",
       "sha256": "1d89bbbbc70df2cd54be29ee0326ecfb45fe8b81d0e46ada342a07ef7136a39f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed3.json",
       "sha256": "6a93ba56393e3ca2bbb83931270392fce00d5d02323168d0bc0fe3d8aa00a9b1"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_reverse_string_seed4.json",
       "sha256": "7ffa58bd7a37be21fcccb4deaf40ad6ac39de341ac001a6988cca1ab85cb37e9"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed0.json",
       "sha256": "7b98892acc17406bb3925a5e853732a8b92ce9d1f08ed980b796707a9a46440a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed1.json",
       "sha256": "96cd4503e4f614200cdcd39bd8c4ac58dd980887720b5b81b15c3dda3c3afa97"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed2.json",
       "sha256": "dcc913d202a167d367ac9713f5e903a94e9c8f038d7bfc642b921a80b8c53647"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed3.json",
       "sha256": "1773ab1e05661b9a9d34f3e241d619e9aa8d293f1aad76715a5953527bb520c7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_reverse_string_seed4.json",
       "sha256": "2d18fb0a7fbb085f485977e6db6e830d3464b1d53df7488bbb2ecb070b49486d"
      }
     ]
@@ -1477,133 +1477,133 @@
   },
   "sub3_mid": {
    "item_file": {
-    "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/sub3_mid.json",
+    "path": "experiments/exp2b/battery/items/sub3_mid.json",
     "sha256": "de8a8222b93ac7f0805b387e3981eb69e874bc305d4f803cfbb1a83857151632"
    },
    "fits": {
     "known_absent": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed0.json",
       "sha256": "b5868c02ae1f73992752e3d283265378e73e970212b6457c91460b3004b50e25"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed1.json",
       "sha256": "b27a32f12b12c74a5f36e8e910c32974ddbb8afce6101e90110c5ed03a0887c2"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed2.json",
       "sha256": "239c4094e8295889724e9fc123d3253f908792280dc465d7384002645dfbec7b"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed3.json",
       "sha256": "64117cfb661e1d7c233900cebaad562a0ba8577bd298314a97a6e018401e2268"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/410m_sub3_mid_seed4.json",
       "sha256": "d6771180dc8058abc1372ecfcf8816a21c3cc2c130672db134cb3d3bd0288750"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed0.json",
       "sha256": "5d8b32cb3c68a861708326d5fe23e8d73a065a24e64bc8edfb5bba96bce788c7"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed1.json",
       "sha256": "883220056f0e5040736804a564a44d7982706c0c9bfcd7182f6d6b04de04701a"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed2.json",
       "sha256": "a43c3ad6482eb5967ba985ed14b899e0bf4043204fb5ff838cd678468d791fb0"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed3.json",
       "sha256": "968419c3759a21cc0618110b5194435ad99583424537635b0723082948e3c147"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/known_absent/1b_sub3_mid_seed4.json",
       "sha256": "edf657d458b39e55b216b419100727a9a937e043edd6b9c98b83b228c3c45105"
      }
     ],
     "m3": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_sub3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_sub3_mid_seed0.json",
       "sha256": "8f3ab15cd7a3310fbc69e1c719361c88a38108112c74a9a38cd9dd1eff71e7c8"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_sub3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_sub3_mid_seed1.json",
       "sha256": "6bfb82b850e8112b5ac562c8742ee4785f60125172e6d47694461f527160ca76"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_sub3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_sub3_mid_seed2.json",
       "sha256": "1f6885416c3b125b9a5dd3fd8f138fe3079f3cc5e7c403a9c491e9b21ab62d30"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_sub3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_sub3_mid_seed3.json",
       "sha256": "5b618ef9093d0c2dfdbd6968b84c8aec4882268669258ffb6f33dbe578f0e1bd"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/410m_sub3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/410m_sub3_mid_seed4.json",
       "sha256": "16eda6f6d04e27225173cbe6c32482e48a7ebced70a72f69d7459670b7ffa025"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_sub3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_sub3_mid_seed0.json",
       "sha256": "e96496438cc826f0c582ee38f64655f9b03f5e2f9a148f7ae4938f01930e8958"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_sub3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_sub3_mid_seed1.json",
       "sha256": "e304b7ab0b29235b9c2e01fa257a8f20a37db0f3e7e2b814286e741d2f83d0ef"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_sub3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_sub3_mid_seed2.json",
       "sha256": "fb8a20a78dea3848e0bf5f547fd7fdfcfe86ab1e22d33b55cafbc61eab2c12a4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_sub3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_sub3_mid_seed3.json",
       "sha256": "523a1f92b118953290823b00ccd0e77e405906422e252264541fbb0e92eaf31f"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/m3/1b_sub3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/m3/1b_sub3_mid_seed4.json",
       "sha256": "9e1be0e07f6286b57917779708d27c5e8fe4548d4eb4a7f73a08e8b4f82747a5"
      }
     ],
     "shuffled": [
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed0.json",
       "sha256": "c944d069974eea84f2f52dba87539f6daf0da4b2e29b77d276ed2774b904b8cc"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed1.json",
       "sha256": "a96074959ca6edbf09c0958e99f52771c3fb2e1acab8d50a765a4b4374a7fe6d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed2.json",
       "sha256": "97224e2810371c9b289cc511dc37be5d64b924cf3d7b19ac76f53d96935d6b4c"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed3.json",
       "sha256": "ddf8bbbf17c718814bc8caa7d1fdeaa3a51adedaabc70296340e72e61720bf26"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/410m_sub3_mid_seed4.json",
       "sha256": "a2ee73e9aa39f5f953ec5d0c025776b058a861dc3cb30c1e0b6efd1137d48935"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed0.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed0.json",
       "sha256": "435f4e2c9f6141a37db786158358a8e830557d489fefcd92d1dea7f8ff88097e"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed1.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed1.json",
       "sha256": "6edd0372c2e8e225ac2191fbba14e05b10936d49f5ff89e57c56d996301436b4"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed2.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed2.json",
       "sha256": "ba4bbc292f2d36ecbfede1a3f99bcc9f0d28c3d381439033b8985ceaf46a387d"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed3.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed3.json",
       "sha256": "b27c785b4dc15153c952d708eaf6976f1e222d35adccb949b143b5e60c1f3a90"
      },
      {
-      "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed4.json",
+      "path": "experiments/exp2b/results/probes/shuffled/1b_sub3_mid_seed4.json",
       "sha256": "28923f95f9c991b458a301598fd6c8f5bea78d720a40b0d9875acd79d4a591d3"
      }
     ]

@@ -6,6 +6,7 @@ def test_build_covers_all_survivors():
     assert len(m["survivors"]) == 12
     s = m["survivors"]["reverse_string"]
     assert s["item_file"]["sha256"]
+    assert not s["item_file"]["path"].startswith("/")
     # 10 known_absent + 10 m3 + 10 shuffled fits per survivor
     for stage in ("known_absent", "m3", "shuffled"):
         assert len(s["fits"][stage]) == 10
@@ -13,4 +14,6 @@ def test_build_covers_all_survivors():
 
 def test_verify_detects_no_drift():
     rm.build()
-    assert rm.verify() is True
+    ok, drifted = rm.verify()
+    assert ok is True
+    assert drifted == []

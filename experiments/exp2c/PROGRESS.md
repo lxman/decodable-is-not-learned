@@ -499,12 +499,44 @@ m2_report.json). Each survivor has:
 - 10 fits per stage (known_absent, m3, shuffled): 2 sizes (410m, 1b) × 5 seeds
 
 **Fit counts per survivor (all 12 identical):**
-- known_absent: 10 fits (360 total across 12)
-- m3: 10 fits (360 total across 12)
-- shuffled: 10 fits (360 total across 12)
+- known_absent: 10 fits (120 total across 12)
+- m3: 10 fits (120 total across 12)
+- shuffled: 10 fits (120 total across 12)
+
+(360 is the total across all three stages, not per stage — corrected
+2026-07-29 per review Minor.)
 
 **File:** `experiments/exp2c/results/reuse_manifest.json` (82056 bytes).
 `verify()` re-hashes all paths at read time — confirmed returning True against
 committed file.
 
 **Full exp2c suite:** 42 passed in 58.78s (40 existing + 2 new from this task).
+
+## 2026-07-29: Reuse manifest amended on ruling (task 11 review)
+
+**Review findings** (transcription verified byte-exact and approved; the
+defects are in the brief's own code):
+
+1. **Absolute paths contradicting the design's relative-path contract.**
+   `build()` stored machine-absolute paths (`/Users/michaeljordan/...`)
+   in the committed manifest — the freeze commit's pins would break on
+   any other checkout location.
+2. **Crash-on-missing verify.** `verify()` called `_sha()` directly on
+   each pinned path: a deleted artifact raised `FileNotFoundError`
+   instead of reporting drift, and the first mismatch returned a bare
+   `False` with no indication of which artifact drifted.
+
+**Michael's ruling (2026-07-29):** pinned paths become repo-relative
+(new `ROOT = parents[3]` constant, `_pin()` helper); `verify()` returns
+`(ok, drifted)` where `drifted` itemizes every offending repo-relative
+path and a missing file counts as drift, never a crash. Tests amended
+to match: relative-path assertion added, verify test unpacks the tuple.
+
+**Regeneration:** manifest rewritten with all 372 pins repo-relative
+(12 item files + 360 fits; e.g. `experiments/exp2b/battery/items/
+add3_mid.json`). `git diff` on the manifest: 372 insertions / 372
+deletions, all 744 changed lines are `"path"` lines, zero `"sha256"`
+lines changed — hashes unchanged, the artifacts didn't move.
+
+**Tests:** covering pair 2 passed; full exp2c suite 42 passed in
+58.19s, no regressions.

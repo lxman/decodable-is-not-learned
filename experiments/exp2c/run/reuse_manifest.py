@@ -1,7 +1,8 @@
 """Design §7: for the 12 survivors, the 2b fits ARE the 2c fits.
 This manifest pins every reused artifact by path + SHA-256 so the
-freeze commit declares exactly what is reused and verify() proves
-nothing drifted. Survivors = scored_battery minus attrition."""
+freeze commit declares exactly what is reused. Survivors =
+scored_battery minus attrition. Pinned paths are repo-relative and
+verify() returns (ok, drifted_paths) (Michael's ruling 2026-07-29)."""
 
 import hashlib
 import json
@@ -14,10 +15,15 @@ OUT = (Path(__file__).resolve().parent.parent / "results" /
        "reuse_manifest.json")
 STAGES = ("known_absent", "m3", "shuffled")
 SIZES = ("410m", "1b")
+ROOT = Path(__file__).resolve().parents[3]
 
 
 def _sha(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def _pin(p: Path) -> dict:
+    return {"path": str(p.relative_to(ROOT)), "sha256": _sha(p)}
 
 
 def _survivors():
@@ -30,15 +36,13 @@ def _survivors():
 def build(write=True) -> dict:
     m = {"source_tag": "exp2b-closed", "survivors": {}}
     for cap in _survivors():
-        entry = {"item_file": {"path": str(ITEMS / f"{cap}.json"),
-                               "sha256": _sha(ITEMS / f"{cap}.json")},
-                 "fits": {}}
+        entry = {"item_file": _pin(ITEMS / f"{cap}.json"), "fits": {}}
         for stage in STAGES:
             fits = []
             for size in SIZES:
                 for s in range(5):
                     p = PROBES / stage / f"{size}_{cap}_seed{s}.json"
-                    fits.append({"path": str(p), "sha256": _sha(p)})
+                    fits.append(_pin(p))
             entry["fits"][stage] = fits
         m["survivors"][cap] = entry
     if write:
@@ -47,13 +51,21 @@ def build(write=True) -> dict:
     return m
 
 
-def verify() -> bool:
+def verify():
+    """Returns (ok, drifted): ok is True iff every pinned artifact
+    exists and matches its SHA-256; drifted lists every offending
+    repo-relative path (missing counts as drift, never a crash)."""
     m = json.loads(OUT.read_text())
-    for cap, e in m["survivors"].items():
-        if _sha(Path(e["item_file"]["path"])) != e["item_file"]["sha256"]:
-            return False
+    drifted = []
+
+    def _check(rec):
+        p = ROOT / rec["path"]
+        if not p.exists() or _sha(p) != rec["sha256"]:
+            drifted.append(rec["path"])
+
+    for e in m["survivors"].values():
+        _check(e["item_file"])
         for fits in e["fits"].values():
             for f in fits:
-                if _sha(Path(f["path"])) != f["sha256"]:
-                    return False
-    return True
+                _check(f)
+    return (not drifted, drifted)
