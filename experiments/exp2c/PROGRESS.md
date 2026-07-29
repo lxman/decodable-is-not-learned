@@ -540,3 +540,32 @@ lines changed — hashes unchanged, the artifacts didn't move.
 
 **Tests:** covering pair 2 passed; full exp2c suite 42 passed in
 58.19s, no regressions.
+
+## 2026-07-29: Task 12 campaign start — tier-1 smoke pass on mod17
+
+Campaign GO from Michael 2026-07-29. First-ever execution of the
+task-7 collection path: `python -m run.screen mod17 --tier 1`
+collected both untrained twins (410m npz 13:24, 1b npz 13:51-13:52,
+~40 min end-to-end including fits) and returned **tier-1 PASS**.
+Per-fit table, transcribed from `results/screen/tier1/mod17.json`:
+
+| size | seed | corrected_p | margin | at_floor | classification |
+|------|------|-------------|--------|----------|----------------|
+| 410m | 0 | 1.0000 | 0.000 | False | not_fire |
+| 410m | 1 | 1.0000 | 0.000 | False | not_fire |
+| 1b   | 0 | 1.0000 | 0.000 | False | not_fire |
+| 1b   | 1 | 0.0279 | 0.000 | True  | tolerated |
+
+The 1b/seed-1 fit sits exactly at the tier-1 add-one floor
+(14/501 ≈ 0.0279) with zero margin — the designed "tolerated"
+classification, not a leak signal.
+
+**Cache convention:** activation caches (~190 MB per candidate at
+410m, ~258 MB at 1b) are git-ignored at the root, mirroring 2b
+(`experiments/exp2c/results/activations/` added to .gitignore,
+commit 30021dc). Screen verdict JSONs and campaign fits commit.
+
+**Batch launched:** remaining 13 candidates, sequential
+continue-on-error, heavies (count_div13, roman_sum7: 4000 probe
+items) last; projected ~9 h. Tier-1 verdict table to be ledgered
+from the JSON records when the batch completes.
