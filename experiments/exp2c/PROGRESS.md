@@ -844,3 +844,19 @@ battery, first at a modulus other than 7 (mod-7 confound caveat
 ledgered 2026-07-30). base12_digitsum enters the pool: 14 new tier-1
 passers across 11 families + 12 reused = 26 rungs. Tier-2 for
 base12_digitsum queued behind the running tier-2 batch.
+
+## 2026-07-30: Tier-2 restructured to 4-way parallel (Michael's ruling)
+
+Measured tier-2 pace: first full-config fit (410m_mod17_seed0) took
+69 min wall (12:50 batch start -> 13:59 file mtime), matching the
+frozen instrument's known 2b campaign cost at n_perm=2500. Sequential
+projection 13 candidates x 10 fits ~ 5.5-6 days. Michael's ruling:
+4-way parallel split (2b precedent: its campaign ran these fits
+8-way on this machine). Sequential batch killed at ~2 fits of mod17
+(deterministic re-run, no loss); relaunched as 4 workers over
+disjoint lists, base12_digitsum added to the queue (14 candidates,
+4/4/3/3):
+A mod17 mod19 mod13_comp add4_mid; B sub4_mid sub_base8 caesar_len8
+clock24_d999; C rev_string7 count_div13 roman_sum7; D collatz_step2
+isqrt_gap base12_digitsum. Projection ~1.5-2 days wall accounting
+for memory-bandwidth contention.
