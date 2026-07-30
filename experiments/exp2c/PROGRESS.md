@@ -820,3 +820,27 @@ independent divmod-loop check exercises digit values 10 and 11 too.
 unchanged — only prose (composability) and test coverage moved.
 `git diff` confirmed `battery/items/base12_digitsum.json` untouched.
 Full suite after fixes: 46 passed.
+
+## 2026-07-30: base12_digitsum tier-1 PASS — the fire→silence contrast lands (task 12 iteration)
+
+`python -m run.screen base12_digitsum --tier 1` (13:44–14:27, collection
++ fits): **tier-1 PASS**, transcribed from
+`results/screen/tier1/base12_digitsum.json`:
+
+| size | seed | corrected_p | at_floor | classification |
+|------|------|-------------|----------|----------------|
+| 410m | 0 | 1.0000 | False | not_fire |
+| 410m | 1 | 1.0000 | False | not_fire |
+| 1b   | 0 | 1.0000 | False | not_fire |
+| 1b   | 1 | 1.0000 | False | not_fire |
+
+The differential contrast for the base_repr leak is now on the record:
+same surface task ("write N in base 12"), same value space, same
+basis — base12 (label = N mod 12, CRT-legible via mod-3/mod-4
+carriers) fired structural_abort on 4/4 fits; base12_digitsum (label =
+digit-sum of the representation mod 5, off those carriers) is silent
+on 4/4 with p pinned at 1.0. Fourth fire→silence contrast in the
+battery, first at a modulus other than 7 (mod-7 confound caveat
+ledgered 2026-07-30). base12_digitsum enters the pool: 14 new tier-1
+passers across 11 families + 12 reused = 26 rungs. Tier-2 for
+base12_digitsum queued behind the running tier-2 batch.
