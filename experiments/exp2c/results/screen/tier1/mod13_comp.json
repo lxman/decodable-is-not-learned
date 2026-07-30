@@ -1,0 +1,47 @@
+{
+ "name": "mod13_comp",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 0.03592814371257485,
+   "margin": 0.0,
+   "null_mean": 0.07699509803921568,
+   "null_sd": 0.01324823216485862,
+   "at_floor": true,
+   "classification": "tolerated",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.03592814371257485,
+   "margin": 0.0,
+   "null_mean": 0.07621377672209027,
+   "null_sd": 0.012333378989283151,
+   "at_floor": true,
+   "classification": "tolerated",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 0.3912175648702595,
+   "margin": 0.0,
+   "null_mean": 0.07636274509803921,
+   "null_sd": 0.013687367415592282,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.07533966745843232,
+   "null_sd": 0.009013390984439353,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}

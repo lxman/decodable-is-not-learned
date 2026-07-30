@@ -1,0 +1,47 @@
+{
+ "name": "mod17",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.05858048780487806,
+   "null_sd": 0.011307360561650963,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.059927007299270085,
+   "null_sd": 0.011941807741823825,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.058785365853658546,
+   "null_sd": 0.01207665120034749,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.0279441117764471,
+   "margin": 0.0,
+   "null_mean": 0.059605839416058404,
+   "null_sd": 0.011991598940786117,
+   "at_floor": true,
+   "classification": "tolerated",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}

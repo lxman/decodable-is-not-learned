@@ -1,0 +1,47 @@
+{
+ "name": "count_div13",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.1341458823529412,
+   "null_sd": 0.01127640561720921,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.5748502994011976,
+   "margin": 0.0,
+   "null_mean": 0.13461397479954182,
+   "null_sd": 0.01156632894702607,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.14117411764705884,
+   "null_sd": 0.011108293644089768,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.3073852295409182,
+   "margin": 0.0,
+   "null_mean": 0.134737686139748,
+   "null_sd": 0.011442013496849994,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}

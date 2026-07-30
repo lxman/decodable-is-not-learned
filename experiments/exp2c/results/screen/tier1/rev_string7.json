@@ -1,0 +1,47 @@
+{
+ "name": "rev_string7",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.039047393364928906,
+   "null_sd": 0.009761034541492321,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.03887317073170732,
+   "null_sd": 0.009200851302486934,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 0.6706586826347306,
+   "margin": 0.0,
+   "null_mean": 0.038938388625592416,
+   "null_sd": 0.009725189539782408,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.03755609756097562,
+   "null_sd": 0.009206498811764526,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}

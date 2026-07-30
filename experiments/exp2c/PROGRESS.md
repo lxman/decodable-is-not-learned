@@ -602,3 +602,43 @@ No action taken mid-campaign. Flagged for the freeze-review checklist
 redundant belt-and-suspenders that happens to be unreachable at 500
 perms, or drop it from the tier-1 description at freeze so the frozen
 record doesn't imply a gate that cannot fire.
+
+## 2026-07-30: Tier-1 screen complete — 13 pass, 1 reject (task 12 step 2)
+
+Batch of 13 finished 03:08:05, zero run failures (all candidates OK;
+per-candidate wall-clock 32-98 min, collection-dominated). With the
+mod17 smoke run: all 14 new candidates screened at tier 1
+(2 seeds x both sizes x 500 perms each). Verdicts transcribed from
+`results/screen/tier1/*.json`:
+
+| candidate | verdict | per-fit classifications (410m s0, 410m s1, 1b s0, 1b s1) |
+|---|---|---|
+| mod17 | pass | not_fire, not_fire, not_fire, tolerated |
+| mod19 | pass | not_fire x4 |
+| mod13_comp | pass | tolerated, tolerated, not_fire, not_fire |
+| add4_mid | pass | not_fire x4 |
+| sub4_mid | pass | not_fire x4 |
+| base12 | **reject** | structural_abort x4 |
+| sub_base8 | pass | not_fire x4 |
+| caesar_len8 | pass | not_fire x4 |
+| clock24_d999 | pass | not_fire x4 |
+| rev_string7 | pass | not_fire x4 |
+| count_div13 | pass | not_fire x4 |
+| roman_sum7 | pass | not_fire x4 |
+| collatz_step2 | pass | not_fire x4 |
+| isqrt_gap | pass | not_fire x4 |
+
+All three rescues pass — the label-carrier moves (sum-mod7, step2-mod7,
+gap-mod7) survive the untrained screen that caught their 2b parents,
+constructive evidence the identified mechanisms were the leaks.
+base12 is ejected on the record: the untrained twin decodes the
+base-12 label from surface structure in all four fits (add-one
+p-floor, structural_abort classification) — the base_repr family's
+new rung dies at tier 1, echoing 2b's base-representation leak class.
+
+Pool after ejection: 13 new tier-1 passers across 10 families
+(modulus 3, mid_digit 2, base_arith/rotation/counting/clock/reversal
+1 each, three rescue families) + 12 reused 2b survivors = 25 rungs,
+exactly the >=25 build target; family floor >=9 met by new families
+alone. Replacement-rung decision for base_repr goes to Michael
+(headroom vs proceed-at-target).

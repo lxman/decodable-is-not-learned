@@ -1,0 +1,47 @@
+{
+ "name": "base12",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 0.03592814371257485,
+   "margin": 0.0,
+   "null_mean": 0.08403000000000001,
+   "null_sd": 0.013761826759246134,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.03592814371257485,
+   "margin": 0.0,
+   "null_mean": 0.083585,
+   "null_sd": 0.013388194894198773,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 0.0279441117764471,
+   "margin": 0.0,
+   "null_mean": 0.083175,
+   "null_sd": 0.013202480296214946,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.0279441117764471,
+   "margin": 0.0,
+   "null_mean": 0.08324,
+   "null_sd": 0.013546934667213666,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "1b"
+  }
+ ],
+ "verdict": "reject"
+}
