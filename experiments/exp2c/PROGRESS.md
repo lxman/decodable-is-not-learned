@@ -860,3 +860,24 @@ A mod17 mod19 mod13_comp add4_mid; B sub4_mid sub_base8 caesar_len8
 clock24_d999; C rev_string7 count_div13 roman_sum7; D collatz_step2
 isqrt_gap base12_digitsum. Projection ~1.5-2 days wall accounting
 for memory-bandwidth contention.
+
+## 2026-07-30: Tier-2 widened to 6-way; llmbox staged for M2 (fleet prep)
+
+Tier-2 widened on Michael's go, 20 min into the 4-way run (loss: two
+partial first fits, deterministic redo): workers A/B (4 candidates
+each) split into four 2-candidate workers. Now 6 workers — A1 mod17
+mod19; A2 mod13_comp add4_mid; B1 sub4_mid sub_base8; B2 caesar_len8
+clock24_d999; C rev_string7 count_div13 roman_sum7; D collatz_step2
+isqrt_gap base12_digitsum. 2b precedent ran 8-way on this machine.
+
+llmbox assessed and staged for the M2 fit campaign (2b fleet
+precedent: llmbox ran m3/410m with 8 workers): idle (load 0.00),
+28 GB free RAM, 1.4 TB disk, 12 threads. Repo cloned at 33dfebc via
+git bundle over LAN (no GitHub credentials on the box); venv at
+~/emergence-lab-venv pinned to the Mac canonical versions
+(numpy 2.4.6, scipy 1.17.1, scikit-learn 1.9.0); frozen-instrument
+smoke via exp2c screen_arrays on synthetic arrays: not_fire,
+p=0.6318, 1.2 s. On the record for M2: cross-architecture BLAS
+(x86 vs ARM) can differ in final-ulp float results; 2b's fleet
+accepted this; per-candidate box assignments will be ledgered when
+M2 dispatches so every fit's provenance is attributable.
