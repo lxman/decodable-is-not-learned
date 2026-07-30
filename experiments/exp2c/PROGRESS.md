@@ -682,10 +682,15 @@ question asks for the full base-12 string, as base12's does; the
 digit-sum-mod-5 probe label is not printed in the question, mirroring
 how base12's own last-digit probe label is not printed).
 `composability`/`dumbest_baseline` state the CRT-coprimality argument
-directly: 5 is coprime to 12, 10, and 11, so no CRT shortcut from the
-decimal-surface congruences (mod 3, mod 4, mod 11) that caught base12
-reaches this label; a random net must fail unless a second,
-independent carrier exists.
+directly: 5 is coprime to each of 3, 4, and 11, so none of the
+surface-legible congruences (mod 3, mod 4, mod 11) that caught base12
+determines this label; a random net must fail unless a second,
+independent carrier exists. (Coprimality set corrected 2026-07-30 per
+review — this entry and the spec originally claimed "5 is coprime to
+12, 10, and 11", false since gcd(5,10)=5; the threat model's own
+congruence list is {3, 4, 11}, and 5 is coprime to each of those. The
+error originated in the controller dispatch text, transcribed
+faithfully; see the correction entry below.)
 
 **rescue_of/mechanism_tested: left unset.** Checked `validate_spec`
 first — mechanically, `rescue_of="base12"` with a mechanism_tested
@@ -772,3 +777,46 @@ SPLIT_PLAN entries), `experiments/exp2c/tests/test_generators_rungs.py`
 base12_digitsum.json` (new, generated). `experiments/exp2c/battery/
 items/base12.json`, `generators_rescues.py`, and every file under
 `experiments/exp2b/` are untouched.
+
+## 2026-07-30: base12_digitsum review corrections (two Important findings)
+
+Review of the base12_digitsum commit (1baa30b) returned two Important
+findings, both fixed on this entry's date. Part of the base12 story:
+the same review layer that caught base12's missed CRT decomposition
+caught a wrong coprimality claim headed for the frozen record.
+
+**1. False arithmetic claim in `composability`.** The spec's text (and
+its duplicate in the entry above) claimed "5 is coprime to 12, 10, and
+11" — false: gcd(5,10)=5. The error originated in the controller
+dispatch text ("your wording, this substance" carried the substance
+error verbatim) and was transcribed faithfully; the reviewer caught
+it. The sentence's own threat model names the decimal-surface
+congruences as mod 3, mod 4, and mod 11, so the correct coprimality
+set is {3, 4, 11} (gcd(5,3)=gcd(5,4)=gcd(5,11)=1, all verified). The
+`composability` text now checks 5 against 3, 4, and 11 and states
+which surface carrier each congruence rides (decimal digit sum, last
+two decimal digits, the digit-sum_12 ≡ N mod 11 congruence). Same
+pass, the reviewer's Minor: "digit-sum_12(N) = N mod 11 only as a
+congruence" used a bare `=` for a congruence; reworded to "is
+congruent to N mod 11, but only as a congruence". The entry above
+carries an inline dated correction note. The substance of the
+argument — none of the surface-legible congruences determines the
+digit-sum-mod-5 label — was and remains true; only the stated
+coprimality set was wrong.
+
+**2. A/B letter-digit path uncovered by the oracle unit test.**
+`test_base12_digitsum_oracle`'s spot values (7369, 200, 9999) and
+general-form loop (201, 500, 1728, 4096, 8888, 9998) never produced a
+base-12 digit >= 10, so an A/B value mis-mapping in the oracle (the
+one normalization wrinkle this spec inherits from base12) would have
+passed the suite. Closed with hand-verified letter-digit values:
+130 = 10*12+10 -> "AA" -> digit sum 20 -> mod 5 = 0; 143 = 11*12+11
+-> "BB" -> digit sum 22 -> mod 5 = 2 (both independently recomputed
+before use). Both added as spot asserts, and the general-form loop now
+includes 130, 143, and 1548 ("A90", the second committed shot) so the
+independent divmod-loop check exercises digit values 10 and 11 too.
+
+**No item regeneration:** the oracle and label definitions are
+unchanged — only prose (composability) and test coverage moved.
+`git diff` confirmed `battery/items/base12_digitsum.json` untouched.
+Full suite after fixes: 46 passed.

@@ -66,14 +66,22 @@ def test_base12_digitsum_oracle():
     # 7369 -> base12 "4321" -> digit sum 4+3+2+1=10 -> mod 5 = 0
     # 200   -> base12 "148"  -> digit sum 1+4+8=13   -> mod 5 = 3
     # 9999  -> base12 "5953" -> digit sum 5+9+5+3=22 -> mod 5 = 2
+    # A/B letter-digit path (review fix 2026-07-30: the letters carry
+    # their VALUES, A=10 and B=11, into the sum):
+    # 130   -> base12 "AA"   -> digit sum 10+10=20   -> mod 5 = 0
+    # 143   -> base12 "BB"   -> digit sum 11+11=22   -> mod 5 = 2
     # (hand-verified independently against a fresh _to_base12 reimplementation
     # before use; see task-12r-report.md)
     assert SPECS["base12_digitsum"].oracle(7369) == 0
     assert SPECS["base12_digitsum"].oracle(200) == 3
     assert SPECS["base12_digitsum"].oracle(9999) == 2
+    assert SPECS["base12_digitsum"].oracle(130) == 0
+    assert SPECS["base12_digitsum"].oracle(143) == 2
     # general-form check: independent divmod-loop digit-sum, mirroring
     # test_isqrt_gap_oracle's style (no reuse of the module's _to_base12).
-    for n in (201, 500, 1728, 4096, 8888, 9998):
+    # 130 ("AA"), 143 ("BB"), and 1548 ("A90") keep the letter-digit path
+    # covered here too.
+    for n in (130, 143, 201, 500, 1548, 1728, 4096, 8888, 9998):
         total, m = 0, n
         while m:
             m, r = divmod(m, 12)

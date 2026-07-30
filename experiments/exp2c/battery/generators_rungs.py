@@ -237,12 +237,16 @@ register(CapabilitySpec(
     basis_kind="N token (~9800 values in [200,9999])",
     composability="the digit-sum depends on every digit of the base-12 "
                   "quotient chain (base12's own repeated-division chain, "
-                  "not a single trailing readout); digit-sum_12(N) = N "
-                  "mod 11 only as a congruence -- the sum itself is not a "
-                  "modular function of N, so no fixed digit position "
-                  "determines it. 5 is coprime to 12, 10, and 11, so no "
-                  "CRT shortcut from decimal-surface congruences (mod 3, "
-                  "mod 4, mod 11) reaches this label",
+                  "not a single trailing readout); digit-sum_12(N) is "
+                  "congruent to N mod 11, but only as a congruence -- the "
+                  "sum itself is not a modular function of N, so no fixed "
+                  "digit position determines it. 5 is coprime to each of "
+                  "3, 4, and 11, so none of the surface-legible "
+                  "congruences (mod 3 via the decimal digit sum, mod 4 "
+                  "via the last two decimal digits, mod 11 via the "
+                  "congruence above) determines the digit-sum-mod-5 "
+                  "label -- no CRT shortcut from the decimal surface "
+                  "exists",
     dumbest_baseline="2c tier-1 caught base12 with structural_abort x4 -- "
                      "its label N mod 12 CRT-decomposes into mod-3 (the "
                      "decimal digit-sum carrier) and mod-4 (the last-two-"
