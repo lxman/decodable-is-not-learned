@@ -642,3 +642,133 @@ Pool after ejection: 13 new tier-1 passers across 10 families
 exactly the >=25 build target; family floor >=9 met by new families
 alone. Replacement-rung decision for base_repr goes to Michael
 (headroom vs proceed-at-target).
+
+## 2026-07-30: base12_digitsum replacement rung registered (task 12 step 2 iteration)
+
+**Ruling (Michael):** replace base12 in the base_repr family slot rather
+than proceed at the 25-rung target without it. `base12`'s own
+registration in `battery/generators_rungs.py` stays untouched as the
+ejection record — this is a new, separately-registered spec, not an
+edit to base12.
+
+**Why base12 fired: the CRT mechanism the module's own analysis
+missed.** base12's preregistered `dumbest_baseline` argued a
+digit-suffix lookup fails structurally for N mod 12, because 12 never
+divides a power of 10. True as far as it goes, but incomplete: N mod
+12 CRT-decomposes into N mod 3 (the decimal digit sum) and N mod 4
+(the last two decimal digits) — both classic surface carriers, exactly
+the kind of statistic an untrained random-projection net can decode
+from token structure alone. That is what caught base12
+structural_abort x4 at tier 1 (logged above): not a failure of the
+"no digit-suffix shortcut" argument on its own terms, but a carrier
+the argument never considered.
+
+**Spec definition** (`experiments/exp2c/battery/generators_rungs.py`,
+appended immediately after base12's registration): `name=
+"base12_digitsum"`, `family="base_repr"`, `dial_name="label_carrier"`,
+`dial_value="digitsum_mod5"`, `seed=20260816` (next in the
+20260801-20260815 sequence). Label moves off modular arithmetic
+entirely: not N mod 12, but the digit-SUM of N's base-12
+representation, mod 5. Mod 5 chosen over mod 7 to diversify the
+label-move pattern — the three named rescues (roman_sum7,
+collatz_step2, isqrt_gap) all moved their label to a mod-7 target;
+this rung's mod-5 choice is a different residue count on a different
+underlying transform (digit-sum of a base-12 expansion, not a
+value-mod computed directly on N). `oracle` reuses base12's own
+`_to_base12` helper for the representation and sums digit VALUES (A=10
+contributes 10, B=11 contributes 11), then reduces mod 5. `surface_
+answer=_to_base12` (identical object to base12's, `is`-equal — the
+question asks for the full base-12 string, as base12's does; the
+digit-sum-mod-5 probe label is not printed in the question, mirroring
+how base12's own last-digit probe label is not printed).
+`composability`/`dumbest_baseline` state the CRT-coprimality argument
+directly: 5 is coprime to 12, 10, and 11, so no CRT shortcut from the
+decimal-surface congruences (mod 3, mod 4, mod 11) that caught base12
+reaches this label; a random net must fail unless a second,
+independent carrier exists.
+
+**rescue_of/mechanism_tested: left unset.** Checked `validate_spec`
+first — mechanically, `rescue_of="base12"` with a mechanism_tested
+string would validate cleanly (the check only requires mechanism_
+tested to be truthy alongside rescue_of; no registry cross-reference).
+But every existing holder of `rescue_of`/`mechanism_tested`
+(roman_sum7, collatz_step2, isqrt_gap) carries a family literally
+named `rescue_<x>` (rescue_roman, rescue_collatz, rescue_isqrt) —
+100% consistent across all three, and those three name an *original
+2b capability* (`roman`, `collatz2`, `isqrt` — real 2b spec names,
+confirmed present in `experiments/exp2b/battery/generators*.py`) whose
+2b-side leak the rescue re-tests. base12_digitsum's situation is
+different in kind, not just in naming: base12 is a 2c-native rung
+ejected by 2c's own tier-1 screen, not a 2b capability being
+re-imported into 2c under a moved label, and Michael's ruling pins
+`family="base_repr"` (matching base12's own family) rather than a
+`rescue_` family. Setting `rescue_of="base12"` here would be the first
+instance of the field pointing at a same-experiment sibling rather
+than a cross-experiment (2b-to-2c) origin, breaking the field's
+established, 100%-consistent naming convention. Route taken: leave
+both fields `None`; the fire-to-silence contrast is carried in
+`dumbest_baseline`'s text alone, which states the CRT mechanism of
+base12's catch and why it doesn't reach the new label. Locked in by
+`test_base12_digitsum_rescue_route_left_unset` in
+`test_generators_rungs.py`.
+
+**TDD.** RED confirmed first: `test_generators_rungs.py` (EXPECTED
+list gains `base12_digitsum`; new `test_base12_digitsum_oracle`,
+`test_base12_digitsum_surface_answer_matches_base12`,
+`test_base12_digitsum_rescue_route_left_unset`) run against the
+pre-implementation module — 4 failures, all `KeyError:
+'base12_digitsum'`. Then the spec was registered; GREEN — 10 passed.
+Worked examples (independently hand-verified before use; all three
+candidates checked clean, no corrections needed): 7369 -> "4321" ->
+digit sum 10 -> mod 5 = 0; 200 -> "148" -> digit sum 13 -> mod 5 = 3;
+9999 -> "5953" -> digit sum 22 -> mod 5 = 2. General-form check across
+6 further N values (201, 500, 1728,
+4096, 8888, 9998) against an independent in-test divmod-loop digit-sum
+reimplementation (not the module's `_to_base12`), mirroring
+`test_isqrt_gap_oracle`'s style.
+
+**Wiring:** `battery/gen_items.py` gains `base12_digitsum` entries in
+`TEMPLATES` ("Write {a} in base 12." — identical text to base12's),
+`BASIS` (`lambda n: (n,)`, identical shape to base12's), and
+`SPLIT_PLAN` (`SplitParams()` default, `N_PROBE`, identical to
+base12's) — mirrored exactly, no basis-shape derivation needed since
+the underlying value space (N token) is unchanged from base12.
+`tests/test_gen_items.py`'s `TRUE_ANSWER` registry gains a
+`base12_digitsum` entry reusing the test file's own independent
+`_to_base12` reimplementation (already present for base12); the
+coverage pin `test_true_answer_covers_every_registered_spec` now
+passes with 15 specs. New `test_generate_base12_digitsum` (mirroring
+`test_generate_mod17`'s probe-label-consistency pattern): recomputes
+the digit-sum-mod-5 probe label via an independent divmod loop off the
+committed basis N and checks it against every one of the first 50
+probe items, plus checks `answer` against the independent
+`_to_base12`.
+
+**Generation** (`cd experiments/exp2c && ~/emergence-lab/.venv/bin/
+python -m battery.gen_items base12_digitsum`), transcribed from the
+printed `[gen]` line, read after the run completed: **500 eval / 2000
+probe -> base12_digitsum.json (min val across seeds: 400)** — zero
+ejection, matches base12's own committed numbers exactly (500/2000,
+min val 400), as expected since the value space and split shape are
+unchanged. Spot-checked by hand against the committed file: shots
+763->"537", 1548->"A90"; probe item N=7677 -> "4539" (digit sum 21,
+probe_label "1"); eval item N=1683 -> "B83" (digit sum 22, probe_label
+"2") — all independently recomputed and matching.
+
+**Full suite:** `experiments/exp2c/tests/` — 46 passed in 63.01s
+(42 existing + 4 new test functions: `test_base12_digitsum_oracle`,
+`test_base12_digitsum_surface_answer_matches_base12`,
+`test_base12_digitsum_rescue_route_left_unset` in
+`test_generators_rungs.py`, `test_generate_base12_digitsum` in
+`test_gen_items.py`; `test_true_answer_covers_every_registered_spec`
+and `test_committed_answers_are_true_answers` are existing functions
+now iterating one more spec each, not new). No regressions.
+
+**Files changed:** `experiments/exp2c/battery/generators_rungs.py`
+(new spec), `experiments/exp2c/battery/gen_items.py` (TEMPLATES/BASIS/
+SPLIT_PLAN entries), `experiments/exp2c/tests/test_generators_rungs.py`
+(EXPECTED + 3 new tests), `experiments/exp2c/tests/test_gen_items.py`
+(TRUE_ANSWER entry + 1 new test), `experiments/exp2c/battery/items/
+base12_digitsum.json` (new, generated). `experiments/exp2c/battery/
+items/base12.json`, `generators_rescues.py`, and every file under
+`experiments/exp2b/` are untouched.

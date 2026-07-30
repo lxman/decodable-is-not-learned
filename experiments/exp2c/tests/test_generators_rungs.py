@@ -4,7 +4,7 @@ from experiments.exp2c.battery import generators_rungs as g
 from experiments.exp2c.battery.base import SPECS, validate_spec
 from experiments.exp2c.battery.wordlists_2c import WORDS_7_8
 
-EXPECTED = ["add4_mid", "sub4_mid", "base12", "sub_base8",
+EXPECTED = ["add4_mid", "sub4_mid", "base12", "base12_digitsum", "sub_base8",
             "mod17", "mod19", "mod13_comp", "caesar_len8", "count_div13",
             "clock24_d999", "rev_string7"]
 
@@ -60,3 +60,44 @@ def test_gen_deterministic():
     a = s.gen(np.random.default_rng(s.seed))
     b = s.gen(np.random.default_rng(s.seed))
     assert a == b
+
+
+def test_base12_digitsum_oracle():
+    # 7369 -> base12 "4321" -> digit sum 4+3+2+1=10 -> mod 5 = 0
+    # 200   -> base12 "148"  -> digit sum 1+4+8=13   -> mod 5 = 3
+    # 9999  -> base12 "5953" -> digit sum 5+9+5+3=22 -> mod 5 = 2
+    # (hand-verified independently against a fresh _to_base12 reimplementation
+    # before use; see task-12r-report.md)
+    assert SPECS["base12_digitsum"].oracle(7369) == 0
+    assert SPECS["base12_digitsum"].oracle(200) == 3
+    assert SPECS["base12_digitsum"].oracle(9999) == 2
+    # general-form check: independent divmod-loop digit-sum, mirroring
+    # test_isqrt_gap_oracle's style (no reuse of the module's _to_base12).
+    for n in (201, 500, 1728, 4096, 8888, 9998):
+        total, m = 0, n
+        while m:
+            m, r = divmod(m, 12)
+            total += r
+        assert SPECS["base12_digitsum"].oracle(n) == total % 5
+
+
+def test_base12_digitsum_surface_answer_matches_base12():
+    # surface_answer is the same base-12 string renderer base12 uses.
+    assert SPECS["base12_digitsum"].surface_answer(7369) == "4321"
+    assert SPECS["base12_digitsum"].surface_answer is SPECS["base12"].surface_answer
+
+
+def test_base12_digitsum_rescue_route_left_unset():
+    # Ruling (task-12r): every existing rescue_of/mechanism_tested holder
+    # (roman_sum7, collatz_step2, isqrt_gap) carries a family named
+    # "rescue_<x>"; base12_digitsum's family is pinned to "base_repr"
+    # (matching base12's own family, not a rescue_ family), which
+    # contradicts that naming convention even though validate_spec's
+    # mechanical check would accept rescue_of="base12" on its own. Route
+    # taken: leave rescue_of/mechanism_tested unset and carry the
+    # fire->silence contrast in dumbest_baseline only.
+    s = SPECS["base12_digitsum"]
+    assert s.rescue_of is None and s.mechanism_tested is None
+    assert s.family == "base_repr"
+    assert "base12" in s.dumbest_baseline
+    assert "CRT" in s.dumbest_baseline

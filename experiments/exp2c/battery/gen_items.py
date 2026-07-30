@@ -70,6 +70,7 @@ TEMPLATES = {
     "add4_mid": "What is {a} + {b}?",
     "sub4_mid": "What is {a} - {b}?",
     "base12": "Write {a} in base 12.",
+    "base12_digitsum": "Write {a} in base 12.",
     "sub_base8": "What is {a:o} - {b:o} in base 8 (both numbers are octal)?",
     "mod17": "What is ({a} + {b}) mod 17?",
     "mod19": "What is ({a} + {b}) mod 19?",
@@ -124,6 +125,7 @@ BASIS = {
     "add4_mid": lambda a, b: (f"{(a // 100) % 10}h{(b // 100) % 10}",),
     "sub4_mid": lambda a, b: (f"{(a // 100) % 10}h{(b // 100) % 10}",),
     "base12": lambda n: (n,),
+    "base12_digitsum": lambda n: (n,),
     "sub_base8": lambda a, b: (f"{a % 8}o{b % 8}",),
     "mod17": lambda a, b: (a,),
     "mod19": lambda a, b: (a,),
@@ -145,6 +147,7 @@ SPLIT_PLAN = {
     "add4_mid": (SplitParams(), N_PROBE),
     "sub4_mid": (SplitParams(), N_PROBE),
     "base12": (SplitParams(), N_PROBE),
+    "base12_digitsum": (SplitParams(), N_PROBE),
     # sub_base8's value space (two-digit octal operands, a>b) has only
     # 1540 unique (a, b) pairs -- below N_EVAL+N_PROBE=2500, so n_probe is
     # cut to 1000 (1500 total, comfortably under 1540). Its basis

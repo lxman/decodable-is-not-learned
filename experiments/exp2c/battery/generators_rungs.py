@@ -211,6 +211,53 @@ register(CapabilitySpec(
     seed=20260804,
 ))
 
+def _oracle_base12_digitsum(n):
+    return sum(_B12_DIGITS.index(c) for c in _to_base12(n)) % 5
+
+
+# base12_digitsum: replacement rung for base12's tier-1 ejection (task-12
+# step 2, ruling 2026-07-30). base12's own preregistered dumbest_baseline
+# argued a digit-suffix lookup fails structurally for N mod 12, but missed
+# the CRT decomposition: N mod 12 factors into N mod 3 (the decimal digit
+# sum) and N mod 4 (the last two decimal digits), both classic surface
+# carriers -- exactly what caught base12 four-for-four with
+# structural_abort. This rung moves the label off modular arithmetic
+# entirely: not N mod 12, but the digit-SUM of the base-12 representation,
+# mod 5. base12's registration above stays untouched as the ejection
+# record.
+register(CapabilitySpec(
+    name="base12_digitsum", family="base_repr", dial_name="label_carrier",
+    dial_value="digitsum_mod5",
+    description="write N in base 12, digit-sum of the representation mod "
+                "5 (N in [200,9999]; surface answer is the base-12 string, "
+                "values 10/11 are letters in the surface answer only)",
+    answer_type="number",
+    probe_label_space="digit-sum of the base-12 representation, mod 5 "
+                      "(0-4)",
+    basis_kind="N token (~9800 values in [200,9999])",
+    composability="the digit-sum depends on every digit of the base-12 "
+                  "quotient chain (base12's own repeated-division chain, "
+                  "not a single trailing readout); digit-sum_12(N) = N "
+                  "mod 11 only as a congruence -- the sum itself is not a "
+                  "modular function of N, so no fixed digit position "
+                  "determines it. 5 is coprime to 12, 10, and 11, so no "
+                  "CRT shortcut from decimal-surface congruences (mod 3, "
+                  "mod 4, mod 11) reaches this label",
+    dumbest_baseline="2c tier-1 caught base12 with structural_abort x4 -- "
+                     "its label N mod 12 CRT-decomposes into mod-3 (the "
+                     "decimal digit-sum carrier) and mod-4 (the last-two-"
+                     "digits carrier), a mechanism base12's own "
+                     "preregistered dumbest_baseline reasoned away. Those "
+                     "two carriers determine N mod 12 exactly but do not "
+                     "determine the base-12 digit-sum mod 5; random net "
+                     "must fail unless a second, independent carrier "
+                     "exists (that is the test)",
+    oracle=_oracle_base12_digitsum,
+    surface_answer=_to_base12,
+    gen=lambda rng: (int(rng.integers(200, 10000)),),
+    seed=20260816,
+))
+
 register(CapabilitySpec(
     name="sub_base8", family="base_arith", dial_name="op", dial_value="sub",
     description="octal subtraction, ones digit of the difference, "

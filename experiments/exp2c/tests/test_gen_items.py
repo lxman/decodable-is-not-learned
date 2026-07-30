@@ -23,6 +23,29 @@ def test_generate_mod17(tmp_path, monkeypatch):
     assert (tmp_path / "mod17.json").exists()
 
 
+def test_generate_base12_digitsum(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("base12_digitsum")
+    assert len(d["probe_items"]) >= 1800
+    assert len(d["eval_items"]) >= 500
+    it = d["probe_items"][0]
+    assert set(it) >= {"question", "answer", "probe_label", "basis"}
+    # probe_label consistency, via an independent divmod-loop digit-sum
+    # (not the production _to_base12), mirroring test_generate_mod17's
+    # oracle-consistency check; answer is the full base-12 string.
+    for item in d["probe_items"][:50]:
+        n = int(item["basis"][0])
+        total, m = 0, n
+        while m:
+            m, r = divmod(m, 12)
+            total += r
+        assert int(item["probe_label"]) == total % 5
+        assert item["answer"] == _to_base12(n)
+    # family fields present (design §2 sixth field)
+    assert d["family"] == "base_repr" and d["dial_value"] == "digitsum_mod5"
+    assert (tmp_path / "base12_digitsum.json").exists()
+
+
 def test_feasibility_recorded(tmp_path, monkeypatch):
     monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
     d = gen_items.generate("mod17")
@@ -100,6 +123,7 @@ TRUE_ANSWER = {
     "add4_mid": lambda q: str(_ints(q)[0] + _ints(q)[1]),
     "sub4_mid": lambda q: str(_ints(q)[0] - _ints(q)[1]),
     "base12": lambda q: _to_base12(_ints(q)[0]),
+    "base12_digitsum": lambda q: _to_base12(_ints(q)[0]),
     "sub_base8": _true_sub_base8,
     "mod17": lambda q: str((_ints(q)[0] + _ints(q)[1]) % 17),
     "mod19": lambda q: str((_ints(q)[0] + _ints(q)[1]) % 19),
