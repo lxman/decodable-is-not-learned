@@ -569,3 +569,36 @@ commit 30021dc). Screen verdict JSONs and campaign fits commit.
 continue-on-error, heavies (count_div13, roman_sum7: 4000 probe
 items) last; projected ~9 h. Tier-1 verdict table to be ledgered
 from the JSON records when the batch completes.
+
+## 2026-07-29: Instrument observation — tier-1 margin rule is structurally vacuous (freeze-review item)
+
+Observed during the tier-1 batch: `margin` is 0.000 in every fit
+record so far, including base12's four `structural_abort` fires.
+Traced to the frozen instrument, not a bug in the 2c runner:
+`probe_starved` (frozen, exp2b) sets `margin = 0.0` unless
+`present = corrected_p < alpha` (lines 139-142), with alpha = 0.01.
+At tier-1's n_perm = 500 the Bonferroni add-one floors are
+18/501 ≈ 0.0359 (410m) and 14/501 ≈ 0.0279 (1b) — both ABOVE alpha —
+so `present` can never be true at tier 1 and margin is always 0.
+
+Consequences, on the record:
+
+1. **Tier-1's margin-bar reject rule (screen.py `_tier1_margin_bar` /
+   stats_bounds.TIER1_BAR) can never fire.** All tier-1 reject
+   authority rests on the `classify_fire` classification — which is
+   working as designed (base12 caught with 4/4 `structural_abort` at
+   the p-floor; mod17 correctly tolerated at the floor with a null-
+   consistent accuracy).
+2. **Tier-2 is unaffected:** at n_perm = 2500 the floors are
+   18/2501 ≈ .0072 and 14/2501 ≈ .0056, both below alpha — `present`
+   and margins go live exactly as the frozen module's own comment
+   intends ("add-one floor x Bonferroni family < alpha", line 56).
+3. This also retro-explains task 8's finding that all 40 sibling
+   margins in the 2b m3 record are exactly 0.0: those fits were
+   `present = False`.
+
+No action taken mid-campaign. Flagged for the freeze-review checklist
+(task 13): either ledger the tier-1 margin rule as intentionally
+redundant belt-and-suspenders that happens to be unreachable at 500
+perms, or drop it from the tier-1 description at freeze so the frozen
+record doesn't imply a gate that cannot fire.
