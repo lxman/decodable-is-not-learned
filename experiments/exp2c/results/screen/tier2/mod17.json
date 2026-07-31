@@ -1,0 +1,107 @@
+{
+ "name": "mod17",
+ "tier": 2,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.05881268292682928,
+   "null_sd": 0.011637774296798216,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.059276885644768865,
+   "null_sd": 0.011709317555601048,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 2,
+   "corrected_p": 0.4606157536985206,
+   "margin": 0.0,
+   "null_mean": 0.05858041002277905,
+   "null_sd": 0.01123224518571033,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 3,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.05915632754342432,
+   "null_sd": 0.011595906878459654,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 4,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.058647120418848155,
+   "null_sd": 0.011965895932282993,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.05902829268292683,
+   "null_sd": 0.011638943150423488,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.044782087165133946,
+   "margin": 0.0,
+   "null_mean": 0.05948126520681265,
+   "null_sd": 0.011693930225520038,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 2,
+   "corrected_p": 0.6941223510595762,
+   "margin": 0.0,
+   "null_mean": 0.05922915717539863,
+   "null_sd": 0.01116461456936489,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 3,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.05935781637717122,
+   "null_sd": 0.01174364640108061,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 4,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.05898219895287957,
+   "null_sd": 0.012165556973419818,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}
