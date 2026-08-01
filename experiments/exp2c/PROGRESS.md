@@ -881,3 +881,25 @@ p=0.6318, 1.2 s. On the record for M2: cross-architecture BLAS
 (x86 vs ARM) can differ in final-ulp float results; 2b's fleet
 accepted this; per-candidate box assignments will be ledgered when
 M2 dispatches so every fit's provenance is attributable.
+
+## 2026-08-01: Tier-2 screen COMPLETE — 14/14 pass, zero fires in 140 fits
+
+Final worker landed 17:2x 2026-08-01 (clock24_d999). Every candidate
+passed tier-2 with not_fire on all 10 full-config fits (5 seeds x both
+sizes x 2500 perms); zero fires, zero tolerated, transcribed from
+`results/screen/tier2/*.json`:
+add4_mid, base12_digitsum, caesar_len8, clock24_d999, collatz_step2,
+count_div13, isqrt_gap, mod13_comp, mod17, mod19, rev_string7,
+roman_sum7, sub4_mid, sub_base8 — all `pass {'not_fire': 10}`.
+
+**Binomial fire-count test (design §4 gate-1 bookkeeping):** k=0 fires
+in n=140 fits vs the preregistered rate 0.064/10 fits (p=0.0064/fit);
+expected fires 0.896; binomtest p-value 1.0000 (P(X=0)≈0.41 under the
+expectation) — a zero-fire batch is unremarkable, no under-dispersion
+signal. These 140 fits ARE the campaign's untrained-gate fits
+(known_absent, design §2), all committed.
+
+Campaign mechanics on the record: 6-way parallel on the Mac after the
+4-way restructure; per-fit ~100 min under contention; per-candidate
+9-22 h (label-space size dominates: caesar 26-class and mod17/19
+17/19-class were the slow ones). Tier-2 wall-clock ~2.2 days total.
