@@ -256,7 +256,19 @@ def exact_block_p(x, y, families) -> dict:
     included). No RNG -- deterministic given (x, y, families). Returns
     `{p, rho_obs, n_perms, resolution}` (resolution = 1/n_perms), all
     required by the design's "achievable permutation count and
-    resolution stated" clause."""
+    resolution stated" clause.
+
+    Raises ValueError if len(x) or len(y) disagrees with sum(families)
+    -- the caller mis-grouped its rung arrays (see the layout convention
+    in exact_block_perms) and should get a named mismatch, not a matmul
+    traceback."""
+    n = sum(families)
+    if len(x) != n or len(y) != n:
+        raise ValueError(
+            f"exact_block_p: sum(families)={n} but len(x)={len(x)}, "
+            f"len(y)={len(y)} -- x/y must cover exactly the rungs of "
+            f"`families`, laid out as contiguous per-family blocks "
+            f"(see exact_block_perms's layout convention).")
     perms = exact_block_perms(families)
     return _exact_block_p_from_perms(x, y, perms)
 

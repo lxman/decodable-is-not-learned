@@ -1122,3 +1122,14 @@ time; the real `--exact` power table run (`results/power_table_exact.
 json`/`.md`) against the committed battery, which will let the ≥0.75-
 at-ρ=0.6 gate be re-judged under the test the analysis will actually
 use.
+
+**2026-08-01, review hardening (verdict: approved):** multi-rung
+block-swap row content pinned (`exact_block_perms([2,2,1])` ==
+`[[0,1,2,3,4],[2,3,0,1,4]]`, plus a size-3 pair — the prior fixtures
+only swapped singletons, which couldn't distinguish unit-block moves
+from internal re-permutation); `exact_block_p` gained a
+`sum(families) == len(x) == len(y)` guard raising a named ValueError
+(for the queued analyze.py author) instead of a matmul traceback.
+Suite 59 passed (57 + 2 new). The review's third minor (alpha-bound
+test's loose 0.05 threshold; real net is the hand-computed-p test)
+stays open for freeze review, unchanged by ruling.

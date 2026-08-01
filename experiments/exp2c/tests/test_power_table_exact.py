@@ -30,6 +30,44 @@ def test_exact_block_perms_2_1_1_exact_rows():
     np.testing.assert_array_equal(perms, expected)
 
 
+def test_exact_block_perms_2_2_1_multirung_block_swap():
+    # Review hardening (2026-08-01): pin within-block-order preservation
+    # on a GENUINE multi-rung block swap -- the [2,1,1] fixture above
+    # only ever swaps singletons, which cannot distinguish "block moved
+    # as a unit, order preserved" from an internal re-permutation.
+    # families=[2,2,1]: blocks [0,1], [2,3], [4]. Same-size groups:
+    # {size 2: 2 families} -> 2! = 2, {size 1: 1 family} -> 1! = 1;
+    # total 2 rows. The swap row reassigns block 1's rungs (2,3) to
+    # slot 0's positions IN ORDER (2 then 3, never 3 then 2) and block
+    # 0's rungs (0,1) to slot 1's positions in order; the singleton
+    # stays. Hand-derived full row set (row order deterministic:
+    # identity first, per itertools lexicographic order):
+    perms = pt.exact_block_perms([2, 2, 1])
+    expected = np.array([[0, 1, 2, 3, 4],
+                          [2, 3, 0, 1, 4]])
+    np.testing.assert_array_equal(perms, expected)
+
+    # Same property on a size-3 pair: families=[3,3], blocks [0,1,2]
+    # and [3,4,5]; 2! = 2 rows; the swap moves each 3-rung block intact
+    # (3,4,5 in order to the first slot; 0,1,2 in order to the second).
+    perms3 = pt.exact_block_perms([3, 3])
+    expected3 = np.array([[0, 1, 2, 3, 4, 5],
+                           [3, 4, 5, 0, 1, 2]])
+    np.testing.assert_array_equal(perms3, expected3)
+
+
+def test_exact_block_p_length_mismatch_raises():
+    # Review hardening (2026-08-01): a caller that mis-grouped its rung
+    # arrays (len != sum(families)) must get a named ValueError, not a
+    # matmul shape traceback -- the queued analyze.py amendment is the
+    # intended beneficiary.
+    with pytest.raises(ValueError, match="sum\\(families\\)=4"):
+        pt.exact_block_p([1.0, 2.0, 3.0], [1.0, 2.0, 3.0], [2, 1, 1])
+    with pytest.raises(ValueError, match="len\\(y\\)=5"):
+        pt.exact_block_p([1.0, 2.0, 3.0, 4.0],
+                         [1.0, 2.0, 3.0, 4.0, 5.0], [2, 1, 1])
+
+
 def test_exact_block_perms_guard_raises():
     # 11 singleton families -> one same-size group of 11 -> 11! =
     # 39,916,800 permutations, which exceeds EXACT_PERM_GUARD (5e6).
