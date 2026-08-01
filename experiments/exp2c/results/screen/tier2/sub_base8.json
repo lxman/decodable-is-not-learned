@@ -1,0 +1,107 @@
+{
+ "name": "sub_base8",
+ "tier": 2,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12180112359550563,
+   "null_sd": 0.012264689638068378,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12234501347708897,
+   "null_sd": 0.011649373537334463,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 2,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12228864864864865,
+   "null_sd": 0.012029733775503851,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 3,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12184,
+   "null_sd": 0.012571164222410117,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 4,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12226803069053709,
+   "null_sd": 0.011797459397407268,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12180112359550563,
+   "null_sd": 0.012264689638068378,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12234501347708897,
+   "null_sd": 0.011649373537334463,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 2,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12228864864864865,
+   "null_sd": 0.012029733775503851,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 3,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12184,
+   "null_sd": 0.012571164222410117,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 4,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.12226803069053709,
+   "null_sd": 0.011797459397407268,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}
