@@ -16,6 +16,11 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import rankdata, spearmanr
 
+try:  # `experiments.exp2c.run.power_table` (pytest / absolute import)
+    from ..battery import family_map
+except ImportError:  # pragma: no cover - `python -m run.power_table` from exp2c/
+    from battery import family_map
+
 
 def _battery(rng, families, rho_family, shared):
     xs, ys = [], []
@@ -102,6 +107,7 @@ def simulate(families, rho_family, rho_true, n_sims=1000, seed=0,
 HERE = Path(__file__).resolve().parent.parent   # experiments/exp2c
 RESULTS = HERE / "results"
 ITEMS_DIR = HERE / "battery" / "items"
+SCREEN_DIR = RESULTS / "screen"
 
 RHO_TRUE_VALUES = (0.0, 0.5, 0.6, 0.7, 0.8)
 FRAGILITY_DELTA = 0.2
@@ -109,18 +115,15 @@ N_SIMS = 5000
 N_PERM = 5000
 
 
-def _family_sizes(items_dir: Path = ITEMS_DIR) -> list[int]:
-    """Actual family sizes from the built battery's item specs. Skips
-    ejections.json, which is a bare JSON list (the zero-ejections record),
-    not a spec dict with a `family` field."""
-    counts: dict[str, int] = {}
-    for f in sorted(items_dir.glob("*.json")):
-        if f.stem == "ejections":
-            continue
-        spec = json.loads(f.read_text())
-        family = spec["family"]
-        counts[family] = counts.get(family, 0) + 1
-    return list(counts.values())
+def _family_sizes(items_dir: Path = ITEMS_DIR,
+                  screen_dir: Path = SCREEN_DIR) -> list[int]:
+    """Family sizes for the FULL scored battery (ruling 2026-08-01): the
+    new-pool specs surviving tier-1 screening, plus the 12 reused 2b
+    survivors joining their families. Delegates to family_map.family_sizes,
+    which is screen-aware (a rung whose tier-1 verdict is missing or
+    "reject" -- e.g. the ejected base12 -- is excluded) and
+    reused-inclusive (family_map.REUSED_FAMILIES)."""
+    return family_map.family_sizes(items_dir, screen_dir)
 
 
 def _read_rho_family(results_dir: Path = RESULTS) -> float:
@@ -214,6 +217,7 @@ def main(argv=None) -> None:
     p = argparse.ArgumentParser(
         description="MC calibration + power table under the family model")
     p.add_argument("--items-dir", type=Path, default=ITEMS_DIR)
+    p.add_argument("--screen-dir", type=Path, default=SCREEN_DIR)
     p.add_argument("--results-dir", type=Path, default=RESULTS)
     p.add_argument("--n-sims", type=int, default=N_SIMS)
     p.add_argument("--n-perm", type=int, default=N_PERM)
@@ -222,7 +226,7 @@ def main(argv=None) -> None:
     p.add_argument("--out-md", type=Path, default=None)
     args = p.parse_args(argv)
 
-    families = _family_sizes(args.items_dir)
+    families = _family_sizes(args.items_dir, args.screen_dir)
     rho_family_est = _read_rho_family(args.results_dir)
 
     out, fragile = _run_power_table(families, rho_family_est,

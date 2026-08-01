@@ -903,3 +903,74 @@ Campaign mechanics on the record: 6-way parallel on the Mac after the
 4-way restructure; per-fit ~100 min under contention; per-candidate
 9-22 h (label-space size dominates: caesar 26-class and mod17/19
 17/19-class were the slow ones). Tier-2 wall-clock ~2.2 days total.
+
+## 2026-08-01: Scored-battery family map — power-table shape fixed (task 12f, ruling 2026-08-01)
+
+**Two defects in `run/power_table.py::_family_sizes`** (pre-fix, lines
+112-123): (1) it counted the screen-ejected `base12`'s item file — tier-1
+verdict "reject" (2026-07-30 entry above) — as a live family member; (2)
+it never accounted for the 12 reused 2b survivors at all, so the MC
+power table modeled only the 14-rung new-spec pool instead of the full
+scored battery `analyze.py` will adjudicate.
+
+**Michael's ruling (2026-08-01):** the power table models the FULL
+26-rung scored battery. Reused `reverse_string` and `clock24` JOIN their
+new siblings' families (`rev_string7` -> reversal, `clock24_d999` ->
+clock) — superseding design doc §2's older singleton note, which
+predates the new-rung build (that note listed all four of antonym,
+odd_one_out, reverse_string, clock24 as singletons). `antonym` and
+`odd_one_out` stay singleton: no new sibling was built for either.
+
+**The 13-family map** (26 rungs; sizes sorted desc
+`[4, 4, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1]`):
+
+| family | size | members |
+|---|---|---|
+| modulus | 4 | mod13(reused), mod17, mod19, mod13_comp |
+| mid_digit | 4 | add3_mid(reused), sub3_mid(reused), add4_mid, sub4_mid |
+| base_repr | 3 | base7(reused), oct2dec(reused), base12_digitsum (base12 excluded: tier-1 reject) |
+| base_arith | 2 | add_base8(reused), sub_base8 |
+| rotation | 2 | caesar(reused), caesar_len8 |
+| counting | 2 | count_div7(reused), count_div13 |
+| reversal | 2 | reverse_string(reused), rev_string7 |
+| clock | 2 | clock24(reused), clock24_d999 |
+| antonym | 1 | antonym(reused) |
+| odd_one_out | 1 | odd_one_out(reused) |
+| rescue_roman | 1 | roman_sum7 |
+| rescue_collatz | 1 | collatz_step2 |
+| rescue_isqrt | 1 | isqrt_gap |
+
+**Build:** new module `experiments/exp2c/battery/family_map.py` —
+`REUSED_FAMILIES` (the 12 names verified against
+`results/reuse_manifest.json`'s `survivors` keys, exact match, no
+mislistings to escalate), `scored_battery_families(items_dir,
+screen_dir)` (new-pool part: every `items_dir/*.json` spec, skipping
+`ejections.json`, whose tier-1 verdict in `screen_dir/tier1/<name>.json`
+is "pass" — a missing verdict file or "reject" excludes the rung, so
+the map is screen-aware by construction; reused part: `REUSED_FAMILIES`
+merged in unconditionally), `family_sizes(...)`. This module is the
+freeze-facing family artifact — the analysis-stage family-cluster
+bootstrap will use it too, not just the power table.
+
+`run/power_table.py::_family_sizes` now delegates to
+`family_map.family_sizes`, screen-aware and reused-inclusive; CLI gained
+`--screen-dir` (default `results/screen`) alongside the existing
+`--items-dir`. `simulate`/`_run_power_table`/statistics code untouched.
+
+**TDD:** RED confirmed first (`ImportError: cannot import name
+'family_map'` against the new test file, no module present). GREEN
+after `family_map.py` added: `tests/test_family_map.py`, 4 tests —
+real-tree shape (26 rungs / 13 families / exact size multiset), base12
+absent + base12_digitsum present with family base_repr, `REUSED_FAMILIES`
+keys == manifest survivors keys, synthetic `tmp_path` case (reject
+verdict and missing-verdict-file both exclude a new-pool rung; the
+reused part still merges in unconditionally). Confirmed on the real
+committed tree: `power_table._family_sizes()` returns 26 rungs across 13
+families, sorted-desc sizes `[4, 4, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1]` —
+matches the ruling exactly. Both import paths exercised (pytest's
+`experiments.exp2c...` absolute import, and the `python -m
+run.power_table` fallback from `cd experiments/exp2c`).
+
+**Full suite:** `50 passed` (46 existing + 4 new), 58.47s, no
+regressions. Power table CLI itself NOT run (controller runs campaign
+compute).
