@@ -1013,3 +1013,112 @@ Readings, on the record:
    computed). Battery growth remains the remedy if that also falls
    short. Decisions to Michael before freeze, per §5 ("decided and
    ledgered before freeze").
+
+## 2026-08-01: §5 fallback adopted -- exact family-block permutation test built
+
+**Ruling:** per the FRAGILE finding just above, Michael adopted design
+§5's preregistered fallback ("exact family-block permutation among
+same-size families, with the achievable permutation count and
+resolution stated") for the §5-fallback power computation, decided and
+ledgered before freeze as the design's own clause requires. This entry
+records the test's build and its operational conventions; `analyze.py`'s
+matching amendment (swapping the calibrated-naive test for this one at
+adjudication time) is **QUEUED as a separate pre-freeze task, NOT done
+here** -- this task built the test and its power machinery only.
+
+**Test, operationally** (`experiments/exp2c/run/power_table.py`, new
+functions, `simulate`/`_naive_perm_p*` untouched):
+
+- Rungs are laid out as CONTIGUOUS per-family blocks, in the order of
+  the `families` size vector (block *i* occupies indices
+  `sum(families[:i])..sum(families[:i+1])`) -- the same layout
+  `_battery`/`simulate` already use. Callers own arranging x/y into that
+  order; the test carries only sizes, not family labels.
+- Under H0, ascent-score family BLOCKS are exchangeable among families
+  of the SAME SIZE only (a size-4 block never swaps with a size-2
+  block). Within a swapped block, rung order is preserved
+  position-for-position (donor's i-th rung -> recipient's i-th
+  position) -- blocks are reassigned as units, never internally
+  re-permuted. x (probe scores) is never touched; only y (ascent scores)
+  is block-permuted, via row-gather on the returned index matrix.
+- Exact, exhaustive enumeration: for a same-size group of *m* families,
+  *m!* block-reassignments; total = product of *m!* across groups
+  (`exact_block_perms`, guarded at 5e6, raises with a clear message
+  above that rather than silently exploding). Deterministic and
+  RNG-free -- `itertools.permutations`/`itertools.product`'s fixed
+  lexicographic order, row 0 always the full identity.
+- Statistic: Spearman rho (average-rank ties), same rank-Pearson-on-
+  ranks arithmetic as `_naive_perm_p` (Task 9's vectorization
+  precedent) -- one matmul across all enumerated rows
+  (`_exact_block_p_from_perms`). One-sided exact p = count(rho_perm >=
+  rho_obs) / n_perms, identity included (so min p = 1/n_perms exactly;
+  no +1 smoothing, unlike the MC test -- enumeration is exhaustive, not
+  sampled). `exact_block_p(x, y, families)` returns `{p, rho_obs,
+  n_perms, resolution}`.
+- **At the real 26-rung/13-family shape**
+  (`[4,3,2,2,1,2,1,4,2,1,2,1,1]` from `family_map.family_sizes()`,
+  multiset `{4:2, 3:1, 2:5, 1:5}`): total = 2!·1!·5!·5! = **28,800**
+  block permutations, resolution = 1/28,800 ≈ **3.472e-5** -- ample
+  headroom under alpha=.01 (floor(.01·28800)=288, so p<.01 is easily
+  achievable). Verified directly against the committed battery/screen
+  tree (not the fixture shapes below), confirming the ledgered figure
+  from the FRAGILE entry above; the real `--exact` table itself was NOT
+  run (controller runs campaign compute, per task instruction).
+- `simulate_exact(families, rho_family, rho_true, n_sims, seed)` reuses
+  `_battery`/`_shared_for_target_rho` UNCHANGED; per-sim p comes from
+  the exact test at a fixed .01 cutoff (no calibration step -- alpha is
+  bounded by construction under exact-permutation exchangeability, not
+  estimated against rho_family). Returns `alpha`, `power`, `n_perms`,
+  `resolution`.
+- `main_exact()` / `python -m run.power_table --exact`: rho_true in
+  {0.0, 0.5, 0.6, 0.7, 0.8} at rho_family=0.5, plus a POWER robustness
+  sweep at rho_true=0.6 across rho_family in {0.3, 0.5, 0.7} (alpha is
+  exact regardless of rho_family -- the sweep is about power
+  robustness, not calibration fragility, unlike the naive test's
+  fragility sweep). Writes `results/power_table_exact.json`/`.md`;
+  family sizes from `family_map.family_sizes()`, screen-aware and
+  reused-inclusive, exactly like `main()`. `main()` gained a thin
+  `--exact` dispatch at its top (delegates to `main_exact`, returns
+  before touching the calibrated-naive body) -- the only edit to
+  existing code in this file, beyond relocating the `HERE`/`RESULTS`/
+  `ITEMS_DIR`/.../`N_PERM` constants block earlier in the file (default
+  parameter values are bound at def-time, not call-time, so the new
+  functions' `n_sims=N_SIMS`-style defaults needed those constants
+  defined above them; content unchanged, only moved).
+
+**Interaction to name, not pick silently** (escalation clause): the
+exact test's block-exchange convention assumes x/y arrive as
+contiguous per-family blocks matching `families`' order. The queued
+`analyze.py` amendment must group/order its rung score arrays by family
+in that same order before calling `exact_block_p` -- e.g. via
+`family_map.scored_battery_families()`'s iteration order -- rather than
+assuming the raw battery/results ordering already matches family
+grouping. This is a mechanical interface contract (the same contiguous-
+block layout `_battery`/`simulate` already use), not an ambiguity in the
+convention itself, so it did not rise to a STOP; naming it here per the
+escalation clause's "don't pick silently."
+
+**TDD:** RED confirmed (`tests/test_power_table_exact.py`'s 7 tests,
+stashed against the pre-implementation file, fail with `AttributeError`/
+`ImportError` on the new names). GREEN after the implementation: exact
+row-set assertions on `families=[2,1,1]` (2 permutations, NOT the naively
+expected 2!·2!=4 -- only one size-2 family, so that group contributes
+1!=1, worked in the test's comment), a guard-raise assertion at
+`[1]*11` (11! > 5e6) vs. a within-guard pass at `[1]*10` (10!
+=3,628,800), a hand-computed p=1/6 on `families=[1,1,1]` (x=y=[1,2,3],
+Spearman rho worked by hand for all 6 permutations, only the identity
+reaches rho_obs=1.0), a determinism check (`exact_block_p` and
+`exact_block_perms` both bit-identical across repeat calls), an alpha-
+bound check at `[2,2,2,1,1,1,1,1]` (720 perms, chosen because it clears
+the p<.01 achievability floor -- `[2,2,1,1,1,1]`'s 48 perms cannot, as
+the task brief flagged; alpha slack generous for n_sims=300 MC noise
+around the true ~.0097), and a power-monotonicity check (0.8 > 0.4 at
+the same 720-perm shape). Full suite: `experiments/exp2c/tests/ -q` ->
+**57 passed** (50 existing + 7 new), 70.37s, no regressions.
+
+**Not done here (queued):** `analyze.py`'s amendment to call
+`exact_block_p` in place of the calibrated-naive test at adjudication
+time; the real `--exact` power table run (`results/power_table_exact.
+json`/`.md`) against the committed battery, which will let the ≥0.75-
+at-ρ=0.6 gate be re-judged under the test the analysis will actually
+use.

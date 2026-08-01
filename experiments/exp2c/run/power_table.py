@@ -10,7 +10,9 @@ The naive test is the ordinary 1e5-draw permutation p on rungs; the
 calibrated cutoff is the largest naive-p threshold whose rejection rate
 under the family H0 is <= .01."""
 
+import itertools
 import json
+import math
 from pathlib import Path
 
 import numpy as np
@@ -102,8 +104,6 @@ def simulate(families, rho_family, rho_true, n_sims=1000, seed=0,
                              for i in (0, len(null_ps) // 2, -1)]}
 
 
-# ------------------------------------------------------------------- CLI
-
 HERE = Path(__file__).resolve().parent.parent   # experiments/exp2c
 RESULTS = HERE / "results"
 ITEMS_DIR = HERE / "battery" / "items"
@@ -113,6 +113,314 @@ RHO_TRUE_VALUES = (0.0, 0.5, 0.6, 0.7, 0.8)
 FRAGILITY_DELTA = 0.2
 N_SIMS = 5000
 N_PERM = 5000
+
+
+# --------------------------------------- exact family-block permutation
+# (design doc Sec 5 preregistered fallback; adopted by ruling 2026-08-01
+# after the calibrated-naive test's cutoff was found to depend 5.1x on
+# the uninformed rho_family=0.5 fallback -- see PROGRESS.md. Everything
+# below is new machinery; `simulate`/`_naive_perm_p*` above are untouched.)
+
+EXACT_PERM_GUARD = 5_000_000  # exact_block_perms raises above this count
+
+
+def exact_block_perms(families: list[int]) -> np.ndarray:
+    """Enumerate every family-block permutation for the exact fallback
+    test (design Sec 5; ruling 2026-08-01).
+
+    Layout convention: rungs are laid out as CONTIGUOUS per-family
+    blocks, in the order given by `families` (block i occupies rung
+    indices sum(families[:i]) .. sum(families[:i+1])) -- the same
+    contiguous-block layout `_battery`/`simulate` already produce and
+    consume. Callers (including the future analyze.py amendment, queued
+    separately) must arrange their x/y rung-score arrays into that same
+    per-family-contiguous order before calling this or `exact_block_p`;
+    this module does not carry family labels alongside x/y, only the
+    `families` size vector, so the caller owns getting the grouping
+    right (e.g. via `family_map.scored_battery_families()`'s iteration
+    order, which is what `family_sizes()` -- used below -- is derived
+    from).
+
+    Exchange convention: under H0, ascent-score family BLOCKS are
+    exchangeable among families of the SAME SIZE only -- a size-4
+    family's block can swap only with another size-4 family's block,
+    never with a size-2 family's. Within a block, rung order is
+    preserved across the swap: the donor block's i-th rung maps to the
+    recipient family's i-th rung position (position-for-position, not
+    re-permuted internally). x (probe scores) is never touched by this
+    function; it stays fixed to rung identity. Only y (ascent scores) is
+    block-permuted downstream, via row-gather (`y[idx]`) on the index
+    matrix this function returns.
+
+    Enumeration is exact and exhaustive, not sampled: for a same-size
+    group with m families, the number of block-reassignments is m! (a
+    full bijection of that group's blocks onto that group's family
+    slots); the total permutation count is the product of m! across all
+    same-size groups (order of `families` does not affect the total,
+    only which rung indices fall in which block). The identity
+    assignment is always included -- for every group, the identity
+    permutation is one of its m! members -- so the smallest achievable
+    exact p-value is 1/N_total.
+
+    Returns an (N_total, n_rungs) int64 index matrix; row r is a
+    permutation `idx` such that `y[idx]` is the r-th block-permuted
+    ascent-score vector. Deterministic and RNG-free: row order follows
+    `itertools.permutations`/`itertools.product`'s fixed lexicographic
+    order (over range(m) per same-size group, product taken across
+    groups in the order those group-sizes first appear in `families`),
+    so identical `families` input always yields identical output,
+    including row order -- row 0 is always the full identity
+    permutation (each group's first-yielded permutation is its own
+    identity, and `itertools.product` yields the all-first-elements
+    combination first).
+
+    Raises ValueError if the exact total (product of per-group
+    factorials) exceeds `EXACT_PERM_GUARD` (5e6) -- computed BEFORE any
+    row is generated, so an oversized shape fails fast rather than
+    silently exploding memory/time. Escalate rather than raising the
+    guard."""
+    families = list(families)
+    n = sum(families)
+    offsets = np.cumsum([0] + families)[:-1].tolist()
+
+    size_groups: dict[int, list[int]] = {}
+    for block_idx, size in enumerate(families):
+        size_groups.setdefault(size, []).append(block_idx)
+    group_items = list(size_groups.items())  # [(size, [block indices]), ...]
+
+    total = 1
+    for _, block_idxs in group_items:
+        total *= math.factorial(len(block_idxs))
+    if total > EXACT_PERM_GUARD:
+        raise ValueError(
+            f"exact_block_perms: {total} permutations for families="
+            f"{families} exceeds the guard ({EXACT_PERM_GUARD}); "
+            f"enumeration would not fit the documented guard -- escalate "
+            f"instead of raising it.")
+
+    group_perm_lists = [list(itertools.permutations(range(len(block_idxs))))
+                        for _, block_idxs in group_items]
+
+    rows = np.empty((total, n), dtype=np.int64)
+    for row_i, combo in enumerate(itertools.product(*group_perm_lists)):
+        idx = np.empty(n, dtype=np.int64)
+        for (size, block_idxs), perm in zip(group_items, combo):
+            for slot_pos, donor_pos in enumerate(perm):
+                recipient_block = block_idxs[slot_pos]
+                donor_block = block_idxs[donor_pos]
+                r0 = offsets[recipient_block]
+                d0 = offsets[donor_block]
+                idx[r0:r0 + size] = np.arange(d0, d0 + size)
+        rows[row_i] = idx
+    return rows
+
+
+def _exact_block_p_from_perms(x, y, perms: np.ndarray) -> dict:
+    """Shared arithmetic for `exact_block_p`/`simulate_exact`: rank-Pearson
+    on ranks (average-rank ties, matching `_naive_perm_p`'s convention),
+    one matmul across all rows of `perms`. `dy` is computed once from the
+    unpermuted ranks -- permutation-invariant, since every row is a
+    rearrangement of the same rank multiset. `perms` row 0 is the
+    identity (see `exact_block_perms`), so `rhos[0]` is bit-identical to
+    `obs` (same arithmetic, same values) and the identity always counts
+    toward `p`'s numerator -- the min achievable p is 1/n_perms."""
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+    n = len(x)
+    rx = rankdata(x)
+    ry = rankdata(y)
+    rxc = rx - rx.mean()
+    ryc = ry - ry.mean()
+    dx = np.sqrt(rxc @ rxc / (n - 1))
+    dy = np.sqrt(ryc @ ryc / (n - 1))  # permutation-invariant
+
+    obs = np.clip((rxc @ ryc / (n - 1)) / dx / dy, -1.0, 1.0)
+    ryc_perm = ryc[perms]                 # (n_perms, n)
+    covs = (ryc_perm @ rxc) / (n - 1)     # one matmul for all correlations
+    rhos = np.clip(covs / dx / dy, -1.0, 1.0)
+
+    n_perms = perms.shape[0]
+    count = int(np.sum(rhos >= obs))
+    return {
+        "p": count / n_perms,
+        "rho_obs": float(obs),
+        "n_perms": int(n_perms),
+        "resolution": 1.0 / n_perms,
+    }
+
+
+def exact_block_p(x, y, families) -> dict:
+    """Exact one-sided family-block permutation p-value (design Sec 5
+    fallback): enumerates every block permutation via `exact_block_perms`
+    and counts how many yield Spearman rho >= the observed rho (identity
+    included). No RNG -- deterministic given (x, y, families). Returns
+    `{p, rho_obs, n_perms, resolution}` (resolution = 1/n_perms), all
+    required by the design's "achievable permutation count and
+    resolution stated" clause."""
+    perms = exact_block_perms(families)
+    return _exact_block_p_from_perms(x, y, perms)
+
+
+def simulate_exact(families, rho_family, rho_true, n_sims=1000, seed=0):
+    """Exact-test analogue of `simulate` (design Sec 5 fallback). Reuses
+    `_battery`'s latent model and `_shared_for_target_rho`'s effect-size
+    calibration UNCHANGED; the only difference from `simulate` is that
+    each sim's p-value comes from exact enumeration (`exact_block_perms`
+    / `_exact_block_p_from_perms`) rather than the naive MC permutation
+    test, so there is no RNG in the test itself and no calibration step
+    -- the cutoff is fixed at .01 (the design's alpha target) rather than
+    estimated. `exact_block_perms(families)` is computed once and reused
+    across all `n_sims` sims (families is fixed for the whole call).
+
+    Returns `power` (fraction of H1 sims with p < .01), `alpha` (fraction
+    of H0 sims with p < .01 -- bounded <= .01 by construction under exact
+    permutation exchangeability, since x and y are independent draws when
+    shared=0.0; reported as observed, not assumed), plus `n_perms` and
+    `resolution` (shared across all sims, since they depend only on
+    `families`)."""
+    rng = np.random.default_rng(seed)
+    perms = exact_block_perms(families)
+    n_perms = perms.shape[0]
+    resolution = 1.0 / n_perms
+
+    null_ps, alt_ps = [], []
+    for _ in range(n_sims):
+        x0, y0 = _battery(rng, families, rho_family, shared=0.0)
+        null_ps.append(_exact_block_p_from_perms(x0, y0, perms)["p"])
+        x1, y1 = _battery(rng, families, rho_family,
+                          shared=_shared_for_target_rho(rho_true))
+        alt_ps.append(_exact_block_p_from_perms(x1, y1, perms)["p"])
+
+    null_ps = np.array(null_ps)
+    alt_ps = np.array(alt_ps)
+    return {
+        "alpha": float(np.mean(null_ps < 0.01)),
+        "power": float(np.mean(alt_ps < 0.01)),
+        "n_perms": int(n_perms),
+        "resolution": float(resolution),
+    }
+
+
+# ---------------------------------------------------------- exact-test CLI
+
+RHO_FAMILY_EXACT_DEFAULT = 0.5
+RHO_FAMILY_SWEEP_EXACT = (0.3, 0.5, 0.7)
+RHO_TRUE_FOR_SWEEP_EXACT = 0.6
+
+
+def _run_power_table_exact(families, *, rho_family=RHO_FAMILY_EXACT_DEFAULT,
+                           n_sims=N_SIMS, seed=0,
+                           rho_true_values=RHO_TRUE_VALUES,
+                           rho_family_sweep=RHO_FAMILY_SWEEP_EXACT,
+                           rho_true_for_sweep=RHO_TRUE_FOR_SWEEP_EXACT):
+    """Exact-test power table (design Sec 5 fallback): a rho_true sweep at
+    a fixed rho_family=0.5, plus a POWER robustness sweep across
+    rho_family at rho_true=0.6. Unlike `_run_power_table`'s calibrated-
+    naive test, alpha here does not depend on rho_family (the exact
+    test's alpha is bounded by construction, not calibrated against a
+    nuisance parameter) -- the rho_family sweep demonstrates power
+    robustness to that unknown nuisance parameter, not calibration
+    fragility; there is no cutoff to drift."""
+    runs = {}
+    n_perms = resolution = None
+    for rho_true in rho_true_values:
+        r = simulate_exact(families, rho_family, rho_true,
+                           n_sims=n_sims, seed=seed)
+        runs[rho_true] = r
+        n_perms, resolution = r["n_perms"], r["resolution"]
+
+    power_sweep = {}
+    for rho_f in rho_family_sweep:
+        power_sweep[rho_f] = simulate_exact(families, rho_f,
+                                            rho_true_for_sweep,
+                                            n_sims=n_sims, seed=seed)
+
+    return {
+        "families": families,
+        "n_sims": n_sims,
+        "n_perms": n_perms,
+        "resolution": resolution,
+        "rho_family": rho_family,
+        "rho_true_values": list(rho_true_values),
+        "runs": {str(k): v for k, v in runs.items()},
+        "rho_true_for_sweep": rho_true_for_sweep,
+        "power_sweep_rho_family_values": list(rho_family_sweep),
+        "power_sweep": {str(k): v for k, v in power_sweep.items()},
+    }
+
+
+def _write_markdown_exact(out: dict, path: Path) -> None:
+    lines = [
+        "# Experiment 2c: exact family-block permutation power table",
+        "",
+        "Design Sec 5 preregistered fallback (adopted by ruling "
+        "2026-08-01): exact enumeration over same-size family-block "
+        "permutations, replacing the rho_family-calibrated naive test. "
+        "Alpha is bounded by construction (<= .01, not calibrated); "
+        "power still depends on rho_family as a nuisance parameter of "
+        "the simulated data -- swept below for robustness, not "
+        "calibration fragility.",
+        "",
+        f"Family sizes: {out['families']}",
+        f"n_perms={out['n_perms']}, resolution={out['resolution']:.6g}",
+        f"n_sims={out['n_sims']}",
+        "",
+        "## Power at rho_family=0.5",
+        "",
+        "| rho_true | alpha | power |",
+        "|---|---|---|",
+    ]
+    for rho_true in out["rho_true_values"]:
+        r = out["runs"][str(rho_true)]
+        lines.append(f"| {rho_true} | {r['alpha']:.4f} | {r['power']:.4f} |")
+    lines += [
+        "",
+        f"## Power robustness sweep (rho_true={out['rho_true_for_sweep']}, "
+        "rho_family varies)",
+        "",
+        "| rho_family | alpha | power |",
+        "|---|---|---|",
+    ]
+    for rho_f in out["power_sweep_rho_family_values"]:
+        r = out["power_sweep"][str(rho_f)]
+        lines.append(f"| {rho_f} | {r['alpha']:.4f} | {r['power']:.4f} |")
+    lines.append("")
+    path.write_text("\n".join(lines))
+
+
+def main_exact(argv=None) -> None:
+    import argparse
+
+    p = argparse.ArgumentParser(
+        description="Exact family-block permutation power table "
+                    "(design Sec 5 fallback, ruling 2026-08-01)")
+    p.add_argument("--items-dir", type=Path, default=None)
+    p.add_argument("--screen-dir", type=Path, default=None)
+    p.add_argument("--results-dir", type=Path, default=None)
+    p.add_argument("--n-sims", type=int, default=N_SIMS)
+    p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--out-json", type=Path, default=None)
+    p.add_argument("--out-md", type=Path, default=None)
+    args = p.parse_args(argv)
+
+    items_dir = args.items_dir or ITEMS_DIR
+    screen_dir = args.screen_dir or SCREEN_DIR
+    results_dir = args.results_dir or RESULTS
+    families = family_map.family_sizes(items_dir, screen_dir)
+
+    out = _run_power_table_exact(families, n_sims=args.n_sims, seed=args.seed)
+
+    out_json = args.out_json or (results_dir / "power_table_exact.json")
+    out_md = args.out_md or (results_dir / "power_table_exact.md")
+    out_json.parent.mkdir(parents=True, exist_ok=True)
+    out_json.write_text(json.dumps(out, indent=1))
+    _write_markdown_exact(out, out_md)
+
+    print(f"[power_table] wrote {out_json} and {out_md} "
+          f"(exact test, families={families})", flush=True)
+
+
+# ------------------------------------------------------------------- CLI
 
 
 def _family_sizes(items_dir: Path = ITEMS_DIR,
@@ -213,6 +521,16 @@ def _write_markdown(out: dict, path: Path) -> None:
 
 def main(argv=None) -> None:
     import argparse
+    import sys
+
+    # --exact dispatches to the design Sec 5 fallback table (main_exact)
+    # instead of the calibrated-naive table below; the rest of main()'s
+    # body -- the calibrated-naive path -- is untouched.
+    if argv is None:
+        argv = sys.argv[1:]
+    if "--exact" in argv:
+        main_exact([a for a in argv if a != "--exact"])
+        return
 
     p = argparse.ArgumentParser(
         description="MC calibration + power table under the family model")
