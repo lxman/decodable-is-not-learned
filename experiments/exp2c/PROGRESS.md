@@ -974,3 +974,42 @@ run.power_table` fallback from `cd experiments/exp2c`).
 **Full suite:** `50 passed` (46 existing + 4 new), 58.47s, no
 regressions. Power table CLI itself NOT run (controller runs campaign
 compute).
+
+## 2026-08-01: Real power table — power gate FAILS at 0.670; FRAGILE fires (open items 1+2 data)
+
+`python -m run.power_table` at the real config (n_sims=5000,
+n_perm=5000, 26-rung/13-family ruled shape, rho_family = 0.5
+FALLBACK from the degenerate 2b sibling record). Transcribed from
+`results/power_table.json`/`.md` (run 19:09–19:15):
+
+| rho_true | calibrated_cutoff | alpha_at_cutoff | power |
+|---|---|---|---|
+| 0.0 | 0.00400 | 0.0100 | 0.0110 |
+| 0.5 | 0.00400 | 0.0100 | 0.4448 |
+| 0.6 | 0.00400 | 0.0100 | 0.6702 |
+| 0.7 | 0.00400 | 0.0100 | 0.8798 |
+| 0.8 | 0.00400 | 0.0100 | 0.9838 |
+
+Fragility sweep (rho_true=0): cutoff 0.00720 / 0.00400 / 0.00140 at
+rho_family 0.3 / 0.5 / 0.7 — drift ratio 5.143 > 2, **FRAGILE**.
+
+Readings, on the record:
+1. **FRAGILE is load-bearing here**, not formal: rho_family = 0.5 is
+   an uninformed fallback (2b siblings all-zero, task 8), and the
+   calibrated-naive cutoff depends on it 5x. If true rho_family were
+   0.7, the 0.5-calibrated cutoff 0.0040 is anti-conservative
+   (true alpha > .01). The calibrated-naive test cannot guarantee its
+   alpha under an unknown rho_family.
+2. **Design §5's preregistered fallback** for exactly this: "exact
+   family-block permutation among same-size families, with the
+   achievable permutation count and resolution stated." At the ruled
+   shape [4,4,3,2,2,2,2,2,1,1,1,1,1]: same-size groups 2 fours x
+   1 three x 5 twos x 5 singletons -> 2! x 1! x 5! x 5! = 28,800
+   distinct block permutations; resolution 1/28,800 ~= 3.5e-5 —
+   ample for alpha = .01. The exact test needs no rho_family.
+3. **Power gate**: 0.6702 at rho_true = 0.6 < 0.75 under the
+   calibrated-naive test. Switching to the fallback changes the test,
+   so the gate must be re-judged under the fallback's power (not yet
+   computed). Battery growth remains the remedy if that also falls
+   short. Decisions to Michael before freeze, per §5 ("decided and
+   ledgered before freeze").
