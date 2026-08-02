@@ -2020,3 +2020,28 @@ bookkeeping, and the 5000-sim recertification against the 0.75 power
 gate on the BUILT battery — the certification the growth ruling
 requires and the last item before the freeze path (analyze.py exact
 amendment, Task 13/14) and the methods paper's screening-arc section.
+
+## 2026-08-02: Mac tier-2 workers relaunched DETACHED (controlled, pre-harness-restart)
+
+Michael needed to restart the Claude Code harness (~12 versions
+behind). The Mac fleet's five workers had been dispatched as a
+harness background task: the wait-group shell was a child of the
+harness process and still tethered to the pre-/clear session's task
+tracker (proven at kill time — the old tracker reported the task
+failed with exit 144 when the group was terminated). A harness
+restart would therefore likely have killed the fleet mid-run, a
+repeat of the tier-1 external-kill incident.
+
+Controlled relaunch, 13 minutes after dispatch: process group
+TERMed at 23:54 UTC with ZERO fits landed (fits take ~100 min; the
+known_absent and screen/tier2 dirs were verified at the prior
+campaign's baseline, 140 fits / 14 verdicts, before and after).
+Relaunched all five candidates via nohup, wrappers now parented to
+launchd (PPID 1) — same worker script, same venv, same per-candidate
+log paths (append), new start stamps 2026-08-02T23:5xZ. Same seeds,
+same frozen config: results are deterministic and identical to what
+the first launch would have produced. Cost: ~13 min recompute on the
+light candidates, absorbed entirely by llmbox's odd6 critical path
+(48u); fleet completion unchanged. llmbox untouched (its four
+workers were nohup-detached from dispatch). No committed artifact
+touched.
