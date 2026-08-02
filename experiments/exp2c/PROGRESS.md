@@ -1320,3 +1320,29 @@ screening. Next: family/rung design proposals to Michael, then the
 established spec->review->items->tier-1->tier-2 loop per rung
 (llmbox fleet for tier-2 fits), then recertification, analyze.py
 exact-test amendment, Task 13.
+
+## 2026-08-01: Growth design ACCEPTED — 9 rungs, all rulings applied (growth-proposal.md)
+
+The B2 growth design is accepted with Michael's five rulings applied
+(drop/reserve, F3 string-as-basis, both wordlists, quad_next replacing
+geometric, k=6): build F1 order_stat (median5/median7, position
+labels), F2 seq_extrap (arith_next + quad_next, labels mod 7), F3
+pos_letter (letter_sum/letter_prod, interior letter labels,
+string-as-basis); F4 str_align is the named reserve that promotes on
+a full-family tier-1 ejection. Plus base13 (4th base_repr rung),
+antonym6 and odd6 (position labels, k=6, new 2c wordlists ANTONYMS_2C
+/ CATEGORIES_2C approved with hand-review hygiene criteria). Seeds
+20260817-20260825. Full carrier analyses, §4 paper-rejections
+(base11 alternating-digit-sum; calendar mod-12 CRT trap; weekday
+mod-7 empirical leaker), build sequencing (riskiest first: F3 wave 1),
+and the one-attrition margin analysis are in
+`experiments/exp2c/growth-proposal.md`.
+
+Two finalization catches on the record: quad_next's attack surface
+named at full strength (t4 = 3t3 - 3t2 + t1 identically — a fixed
+linear functional of three printed terms; defense = multi-digit mod-7
+reservoir opacity, the base7/mod17/mod19/mod13_comp empirical class);
+arith_next's generator space is 1,710 < 2,500 default probe items, so
+it CERTAINLY needs the reduced-n_probe blessing (sub_base8 precedent)
+— queued for a consolidated feasibility-blessing pass at item
+generation alongside odd6/order_stat/antonym6's expected overrides.
