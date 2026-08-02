@@ -390,6 +390,17 @@ first: order_stat, seq_extrap, pos_letter, str_align.
 
 ### Candidate F4 — `str_align` (string alignment) · MEDIUM-HIGH · RESERVE (ruled)
 
+> **PROMOTED 2026-08-02** under §7's fallback: pos_letter ejected as a
+> full family at tier-1 (structural_abort ×8, PROGRESS 2026-08-02).
+> **Label spaces amended by ruling 2026-08-02** (label-tail
+> infeasibility: the frozen split's full-class-coverage requirement is
+> unsatisfiable on the Binomial tails — hamming8 infeasible at its
+> assigned seed, hamming12 outright): match counts above a cap are
+> rejection-sampled out at generation, so the built label spaces are
+> **0–5 exact (6-class) for hamming8** and **0–7 exact (8-class) for
+> hamming12**, not the 9/13-class "nominal" ranges below. Oracle
+> unchanged; feasibility table and ruling in PROGRESS 2026-08-02.
+
 - **Family composability.** A position-wise alignment reduction: compare
   two equal-length strings position-by-position and count agreements. A
   2-D interaction over the pair, non-additive in either string; the dial
@@ -475,7 +486,7 @@ would — the base12 discipline applied forward instead of backward:
 
 | constraint | status across the 9 built rungs (+2 reserve) |
 |---|---|
-| k-class, k ∈ [5,26] | base13 13; antonym6/odd6 6 (k=6 ruled); median5 5, median7 7; arith_next/quad_next 7; pos_letter ≤26 (stratified); [reserve: str_align 9/13 nominal, imbalanced, flagged] — all in range |
+| k-class, k ∈ [5,26] | base13 13; antonym6/odd6 6 (k=6 ruled); median5 5, median7 7; arith_next/quad_next 7; pos_letter ≤26 (stratified) *(ejected at tier-1 2026-08-02)*; str_align **6/8 exact** *(promoted + label-tail caps ruled 2026-08-02; originally "9/13 nominal, imbalanced, flagged" as reserve)* — all in range |
 | oracle-only generation (no models) | all — median/rank, modular/polynomial arithmetic, string indexing, Hamming count are pure oracles. The string-as-basis ruling removes pos_letter's only would-be tokenizer dependency: basis = the printed string itself, no BPE computation at generation time for any built rung |
 | ~2000 probe + 500 eval items | value spaces support it everywhere except F2a `arith_next` (1,710 distinct (a,d) runs < 2,500 — takes the sub_base8-style reduced-n_probe blessing, §3 F2); elsewhere the constraint is the holdout, not item count |
 | min 15 holdout values/component, min 300 val @ holdout 0.2 | **blessed-override flags:** odd6 and order_stat (shared-component, expect holdout ~0.45 + n_probe ~8000, the odd_one_out/roman_sum7 precedent); antonym6 (holdout override only if ANTONYMS_2C lands near its ~90-pair floor); F2a (reduced n_probe, above). base13, quad_next: default `SplitParams()` expected; pos_letter: default + `stratify_by_label=True` per §3 F3's own feasibility text *(wording corrected 2026-08-01, wave-1 build review — this row originally said plain default for pos_letter, contradicting §3 and this table's own k-class row, which already read "stratified")*. [reserve: str_align shared-component + label-imbalance flags stand] |

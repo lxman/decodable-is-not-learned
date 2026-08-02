@@ -94,22 +94,45 @@ def test_generate_letter_prod(tmp_path, monkeypatch):
     assert d["dial_value"] == "prod"
 
 
-# BLOCKED ON RULING (2026-08-02, F4 label-tail infeasibility): the frozen
-# starving_split requires full label-class coverage on both split sides,
-# and the Binomial(L, 1/4) tail classes cannot cover them -- hamming8's
-# assigned seed realizes a match-count-7 singleton (~1.5 expected per
-# 4000), hamming12 is infeasible outright (classes to 10 realized).
-# Verified remedy (5/5 split seeds, PROGRESS 2026-08-02): rejection-
-# sample the tail at generation (cap 5-6 for L=8, cap 6-7 for L=12) --
-# but that truncates the proposal's committed "9/13-class nominal" label
-# space, so it is Michael's call, not the build's. Until the ruling,
-# these tests PIN the catch: generate() must raise SplitInfeasible.
-def test_generate_hamming_blocked_infeasible(tmp_path, monkeypatch):
+# Label-tail ruling 2026-08-02 (Michael: follow the recommendation): the
+# 2026-08-02 infeasibility catch (frozen starving_split demands full
+# class coverage; Binomial tails can't supply it) is resolved by
+# rejection-sampling the tail at generation -- cap 5 for L=8 (labels
+# 0-5 exact), cap 7 for L=12 (labels 0-7 exact). The blocked-pin test
+# that recorded the catch is superseded by real generation checks.
+def _check_generate_hamming(d, tmp_path, name, L, cap):
+    assert len(d["probe_items"]) >= 3600
+    assert len(d["eval_items"]) >= 500
+    # label recomputed from the two quoted strings in the question text;
+    # basis is BOTH strings (shared_components split); answer == label
+    # (the question asks for the count directly, surface_answer None)
+    for item in d["probe_items"][:50]:
+        s1, s2 = re.findall(r"'([a-d]+)'", item["question"])
+        assert len(s1) == L and len(s2) == L
+        assert item["basis"] == [s1, s2]
+        true = sum(a == b for a, b in zip(s1, s2))
+        assert item["probe_label"] == str(true)
+        assert item["answer"] == item["probe_label"]
+    # the ruled cap holds over the WHOLE committed file, not just the
+    # spot-checked prefix
+    labels = {int(it["probe_label"])
+              for grp in ("probe_items", "eval_items") for it in d[grp]}
+    assert labels <= set(range(cap + 1)), (name, labels)
+    assert d["family"] == "str_align"
+    assert d["dial_value"] == L
+    assert (tmp_path / f"{name}.json").exists()
+
+
+def test_generate_hamming8(tmp_path, monkeypatch):
     monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
-    import pytest
-    for name in ("hamming8", "hamming12"):
-        with pytest.raises(gen_items.SplitInfeasible):
-            gen_items.generate(name)
+    d = gen_items.generate("hamming8")
+    _check_generate_hamming(d, tmp_path, "hamming8", 8, 5)
+
+
+def test_generate_hamming12(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("hamming12")
+    _check_generate_hamming(d, tmp_path, "hamming12", 12, 7)
 
 
 def test_hamming_split_plan_pins():
@@ -245,16 +268,8 @@ def test_true_answer_covers_every_registered_spec():
     assert set(TRUE_ANSWER) == set(SPECS)
 
 
-# hamming8/hamming12 registered but item generation blocked on the F4
-# label-tail ruling (see test_generate_hamming_blocked_infeasible) -- no
-# committed item files exist for them yet.
-_BLOCKED_ON_RULING = {"hamming8", "hamming12"}
-
-
 def test_committed_answers_are_true_answers():
     for name, recompute in TRUE_ANSWER.items():
-        if name in _BLOCKED_ON_RULING:
-            continue
         d = json.loads((_ITEMS / f"{name}.json").read_text())
         sample = ([tuple(s) for s in d["shots"]]
                   + [(it["question"], it["answer"])

@@ -228,6 +228,10 @@ def test_str_align_registered_and_valid():
     # reserve seeds, assigned only on promotion (proposal §0/§3)
     assert SPECS["hamming8"].seed == 20260826
     assert SPECS["hamming12"].seed == 20260827
+    # label-tail ruling 2026-08-02 (Michael: "follow your recommendation"):
+    # capped label spaces stated in the spec text itself
+    assert "0-5" in SPECS["hamming8"].probe_label_space
+    assert "0-7" in SPECS["hamming12"].probe_label_space
 
 
 def test_hamming_oracle():
@@ -249,16 +253,23 @@ def test_hamming_oracle():
 
 
 def test_hamming_gen_shape_and_label_range():
-    for name, L in (("hamming8", 8), ("hamming12", 12)):
+    # label-tail ruling 2026-08-02: gen rejection-samples pairs whose
+    # match count exceeds the cap (5 for L=8, 7 for L=12), so the label
+    # space is exact-by-construction, not nominal. 1000 draws must both
+    # respect the cap and REACH it (min tail class ~2.3%/~1.2%).
+    for name, L, cap in (("hamming8", 8, 5), ("hamming12", 12, 7)):
         s = SPECS[name]
         rng = np.random.default_rng(s.seed)
-        for _ in range(300):
+        seen = set()
+        for _ in range(1000):
             s1, s2 = s.gen(rng)
             assert len(s1) == L and len(s2) == L
             assert set(s1) <= set("abcd") and set(s2) <= set("abcd")
             lab = s.oracle(s1, s2)
             assert lab == sum(a == b for a, b in zip(s1, s2))
-            assert 0 <= lab <= L
+            assert 0 <= lab <= cap
+            seen.add(lab)
+        assert seen == set(range(cap + 1)), (name, seen)
 
 
 def test_hamming_gen_deterministic():

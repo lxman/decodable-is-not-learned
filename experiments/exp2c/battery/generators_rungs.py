@@ -538,13 +538,27 @@ register(CapabilitySpec(
 # 2-grams the tokenizer can emit as shared chunks) -- the two pressures
 # trade off, which is why this family was rated drop-first and reserve.
 
+# Label-tail ruling 2026-08-02 (Michael, "follow your recommendation" on
+# the ledgered table): the frozen starving_split demands full label-class
+# coverage and the Binomial tails cannot supply it (hamming8 infeasible
+# at its assigned seed on a match-count-7 singleton, hamming12 outright).
+# Remedy ruled: rejection-sample the tail at generation -- cap 5 for L=8
+# (labels 0-5 exact, min class ~92 per 4000; rejects P(>=6) ~= 0.0042 of
+# pairs) and cap 7 for L=12 (labels 0-7 exact, min class ~46 per 4000;
+# rejects P(>=8) ~= 0.0028), keeping the richer label space on the
+# 12-length rung so the length dial retains its wider-count-range story.
+# The oracle stays exact on every printed pair; only the generator's
+# acceptance set changed.
+
 _HAM_ALPHA = "abcd"
 
 
-def _gen_hamming(rng, L):
-    s1 = "".join(_HAM_ALPHA[int(rng.integers(4))] for _ in range(L))
-    s2 = "".join(_HAM_ALPHA[int(rng.integers(4))] for _ in range(L))
-    return (s1, s2)
+def _gen_hamming(rng, L, cap):
+    while True:
+        s1 = "".join(_HAM_ALPHA[int(rng.integers(4))] for _ in range(L))
+        s2 = "".join(_HAM_ALPHA[int(rng.integers(4))] for _ in range(L))
+        if sum(a == b for a, b in zip(s1, s2)) <= cap:
+            return (s1, s2)
 
 
 def _oracle_hamming(s1, s2):
@@ -555,11 +569,15 @@ register(CapabilitySpec(
     name="hamming8", family="str_align", dial_name="length", dial_value=8,
     description="two random 8-letter strings over the alphabet {a,b,c,d}; "
                 "count the positions where they have the same letter "
-                "(Hamming match count, 0-8)",
+                "(labels 0-5; pairs with count >= 6 rejection-sampled out "
+                "at generation, label-tail ruling 2026-08-02)",
     answer_type="number",
-    probe_label_space="Hamming match count (0-8, 9-class nominal; "
-                      "Binomial(8,1/4)-imbalanced, tails sparse -- "
-                      "class-imbalance flag stands from the proposal)",
+    probe_label_space="Hamming match count, 0-5 exact by construction "
+                      "(6-class; the Binomial(8,1/4) tail >= 6, jointly "
+                      "~0.4% of pairs, is rejection-sampled out per the "
+                      "2026-08-02 ruling -- the proposal's 9-class "
+                      "'nominal' space was infeasible under the frozen "
+                      "split's full-class-coverage requirement)",
     basis_kind="both printed strings (shared_components over their "
               "union, holdout 0.45 -- the count_div13/roman_sum7 "
               "shared-2-component shape); strings are fresh-random over "
@@ -585,7 +603,7 @@ register(CapabilitySpec(
                      "family was rated drop-first on exactly this "
                      "tension and is screened FIRST in its wave",
     oracle=_oracle_hamming,
-    gen=lambda rng: _gen_hamming(rng, 8),
+    gen=lambda rng: _gen_hamming(rng, 8, 5),
     seed=20260826,
 ))
 
@@ -593,11 +611,14 @@ register(CapabilitySpec(
     name="hamming12", family="str_align", dial_name="length", dial_value=12,
     description="two random 12-letter strings over the alphabet {a,b,c,d}; "
                 "count the positions where they have the same letter "
-                "(Hamming match count, 0-12)",
+                "(labels 0-7; pairs with count >= 8 rejection-sampled out "
+                "at generation, label-tail ruling 2026-08-02)",
     answer_type="number",
-    probe_label_space="Hamming match count (0-12, 13-class nominal; "
-                      "Binomial(12,1/4)-imbalanced, tails sparse -- "
-                      "class-imbalance flag stands from the proposal)",
+    probe_label_space="Hamming match count, 0-7 exact by construction "
+                      "(8-class; the Binomial(12,1/4) tail >= 8, jointly "
+                      "~0.3% of pairs, is rejection-sampled out per the "
+                      "2026-08-02 ruling -- richer than hamming8's 0-5 so "
+                      "the length dial keeps its wider-count-range story)",
     basis_kind="both printed strings (shared_components over their "
               "union, holdout 0.45 -- the count_div13/roman_sum7 "
               "shared-2-component shape); strings are fresh-random over "
@@ -620,7 +641,7 @@ register(CapabilitySpec(
                      "BOTH lengths fire and the family ejects -- the "
                      "screen adjudicates",
     oracle=_oracle_hamming,
-    gen=lambda rng: _gen_hamming(rng, 12),
+    gen=lambda rng: _gen_hamming(rng, 12, 7),
     seed=20260827,
 ))
 

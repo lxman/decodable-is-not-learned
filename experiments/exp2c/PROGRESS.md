@@ -1557,3 +1557,58 @@ before the low-risk rungs are built).
 generate; (2) the shot-diversity forward rule (letter_sum's flag is
 moot, the question now applies to str_align and waves 2–3); (3) push
 authorization for today's commits.
+
+## 2026-08-02: Label-tail ruling applied — str_align built at caps 5/7; review clean; SUPERSEDES the blocked-pin state
+
+**Ruling (Michael, 2026-08-02): "Follow your recommendation"** on the
+ledgered feasibility table — hamming8 caps its label at 5 (labels 0–5
+exact, 6-class; rejects P(>=6) ≈ 0.0042 of pairs at generation) and
+hamming12 caps at 7 (labels 0–7 exact, 8-class; rejects P(>=8) ≈
+0.0028 — the ledgered per-class table's 0.0024 was P(8) alone). The
+previous entry's pinned state is superseded exactly as designed:
+`test_generate_hamming_blocked_infeasible` and `_BLOCKED_ON_RULING`
+are deleted, replaced by real generation checks that enforce the cap
+over the WHOLE committed file plus a gen-level cap-and-coverage sweep
+(1000 draws must respect AND reach the cap).
+
+**TDD:** RED 5 failures against the uncapped generators (label-space
+text pins, cap violations, SplitInfeasible where success now expected)
+→ caps applied in `_gen_hamming(rng, L, cap)`'s rejection loop only
+(oracle untouched — exact match count on every printed pair) → GREEN.
+**Generation:** both rungs 500 eval / 4000 probe, zero ejections; min
+n_val across seeds 784 (hamming8) / 806 (hamming12) — dead on the
+0.45² × 4000 ≈ 810 expectation; every retained class populated. Full
+suite **90 passed**. Spec texts state the truncation and its ruling
+provenance; growth-proposal.md §3 F4 and §5 now carry dated
+annotations for the promotion and the amended label spaces (the §5
+pos_letter row also annotated ejected).
+
+**Adversarial review (subagent, verified): no Critical.** All 9,004
+items + 4 shots recomputed independently from question text — zero
+mismatches; both committed files byte-identical under full-pipeline
+regeneration; simulating the UNCAPPED stream at the same seeds
+reproduces the ledgered infeasibility exactly (hamming8: single
+count-7 item; hamming12: classes through 10 with 9/10 singletons) —
+independent attestation that the catch was real. Label distributions
+fit truncated Binomial (χ² p=0.92 / 0.30). Findings adjudicated:
+1. **Important (fixed by THIS entry):** the ledger ended on the
+   blocked-pin state while the tree carried the ruled build, and the
+   ruling text lived only in code comments. This entry is the ledger
+   record of the ruling, the build, and the supersession.
+2. **Minor (fixed):** `generators_rungs.py` ruling comment said
+   P(>=8) ≈ 0.0029; exact value 46666/4^12 = 0.00278 → 0.0028.
+   Independently reverified before the fix.
+3. **Minor (fixed):** growth-proposal.md annotations above.
+Reviewer observation (no action, noted): importing exp2c's `battery`
+after `instrument` can let exp2b's same-named package shadow it via
+the shim's sys.path entry — fails loudly if tripped; the documented
+`-m battery.gen_items` path is unaffected.
+
+**Shot-diversity note:** both rungs' committed shots demonstrate
+distinct counts (hamming8: 4/1; hamming12: 3/5), so the still-open
+battery-wide shot-diversity ruling question is satisfied de facto
+here; the forward rule remains open for waves 2–3.
+
+**Next:** tier-1 verdicts (screens running: hamming8 then hamming12);
+then wave 2 per §6 (order_stat, seq_extrap, odd6 — odd6 gated on
+Michael's CATEGORIES_2C hand review).
