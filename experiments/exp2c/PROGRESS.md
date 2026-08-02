@@ -1133,3 +1133,44 @@ from internal re-permutation); `exact_block_p` gained a
 Suite 59 passed (57 + 2 new). The review's third minor (alpha-bound
 test's loose 0.05 threshold; real net is the hand-computed-p test)
 stays open for freeze review, unchanged by ruling.
+
+## 2026-08-01: Integrity incident — leftover 2b fleet-sync loop; record verified intact; loop killed
+
+**Detection:** during task-12x's 19:53 suite run, 4 sha256 pins
+(shuffled/410m_sub3_mid_seed0..3) transiently mismatched; implementer
+contained it (manifest restored, nothing stale committed) and flagged
+upward. Michael confirmed no human activity — investigation followed
+(systematic-debugging, full chain in this entry).
+
+**Root cause:** `experiments/exp2b/run/sync_workers.sh` (PID 70644),
+the 2b campaign's two-way fleet-sync loop, launched detached
+2026-07-20 and never killed when 2b closed (2026-07-27). It cycled
+every 240 s for 12 days (4,640 cycles, logs/m2m3/sync.log), rsyncing
+between the Mac's frozen `results/probes/` and a stale Jul-25
+mid-campaign snapshot at `llmbox:~/exp2b-worker/`. A companion
+`tail -f` (PID 97686) was the backing process of the pre-/clear
+session's campaign Monitor — same era, same orphaning.
+
+**Integrity verdict:** the Mac record is INTACT. git: every exp2b
+file byte-identical to HEAD; reuse-manifest verify(): (True, []) on
+all 372 pins. Checksum-mode rsync dry-run over all 770 remote files:
+754 content-identical (mtime-only churn); **16 remote files hold
+stale mid-campaign content** — m3: 410m_roman_seed0,
+410m_sq_mod7_seed0-4, 410m_unscramble_seed3-4; shuffled:
+410m_sub3_mid_seed0-3, 410m_units_seed3-4, 410m_unscramble_seed3-4 —
+kept off the Mac only by rsync quick-check semantics. The 19:53
+transient was this loop's write activity observed mid-cycle.
+
+**Remedies executed:** both processes killed 20:36; stability window
+20:36–20:42 confirmed zero further writes, tree clean; llmbox
+snapshot quarantined (`~/exp2b-worker` ->
+`~/exp2b-worker-ARCHIVED-2026-07-25-snapshot`), so no revival can
+sync from it. Session-config note: the stale additional-working-dir
+grant (exp2b/results/probes/shuffled) should be dropped at next
+session start.
+
+**Hygiene fix (Michael's ruling 2026-08-01):**
+`test_verify_detects_no_drift` amended to build to tmp_path
+(monkeypatched OUT) — reproduced first (manifest mtime churned on
+every pytest run), fixed, verified (mtime stable across runs; suite
+59 passed). The ledgered manifest is no longer regenerable by tests.
