@@ -1290,3 +1290,33 @@ the new keyword-only parameters carry no call-site risk.
 **Not done here (per task instruction):** no growth-shape sweep run --
 that's the controller's job, next in the ruling's sequence (shape sweep
 -> concrete rung menu -> specs/items/screens -> final power table).
+
+## 2026-08-01: Growth composition ruled — B2 (+9 rungs, 35 total, rescues stay singletons)
+
+Sampled-permutation machinery landed (edf83db; sampled-vs-enumerated
+agreement verified to 0.0002 on a 36-perm shape; review in flight).
+Growth-shape sweep (simulate_exact, n_sims=2000, seed 7, decision
+support; +/-0.01 MC noise):
+
+| shape | rungs | group | method | power@0.6 |
+|---|---|---|---|---|
+| current | 26 | 28,800 | enum | 0.443* |
+| +4 pair4+grow3->4 | 30 | 2.18M | enum | 0.682 |
+| +6 pair5+grow3->4 | 32 | 21.8M | sampled | 0.731 |
+| A: +8 pair5+grow3->4+new2fam | 34 | 240M | sampled | 0.750 |
+| B: +7 ling.pairs only | 33 | 13.1M | sampled | 0.722 |
+| **B2: +9 ling.pairs + 3 new 2fams** | **35** | **131M** | **sampled** | **0.777** |
+
+(*2000-sim re-read of the 5000-sim 0.416 — MC noise.)
+
+**Michael's ruling 2026-08-01: shape B2.** Composition: base_repr
+grows 3->4 (one new rung); antonym and odd_one_out each gain a
+sibling (2 rungs); THREE new 2-rung families (6 rungs); the three
+rescue families remain pure singletons (their evidential role is the
+fire->silence contrast, not ladder statistics). 0.777 gives
+certification margin against MC noise and one attrition event.
+Certification = full 5000-sim exact table on the BUILT battery after
+screening. Next: family/rung design proposals to Michael, then the
+established spec->review->items->tier-1->tier-2 loop per rung
+(llmbox fleet for tier-2 fits), then recertification, analyze.py
+exact-test amendment, Task 13.
