@@ -1199,3 +1199,94 @@ the 0.75 gate** (the design's own remedy clause). Sequence: sampled-
 permutation machinery extension (reviewed) -> shape sweep -> concrete
 rung menu to Michael -> specs/items/screens per the established
 pattern -> final power table -> Task 13.
+
+## 2026-08-01: Sampled block-permutation machinery (task 12s, growth ruling 2026-08-01)
+
+Built the sampled-permutation extension the growth ruling flagged as
+required for the grown shapes (+6-8 rungs; candidate shapes exceed the
+5e6 enumeration guard). `experiments/exp2c/run/power_table.py`, new
+functions only -- `simulate`/`_naive_perm_p*` and, for shapes under the
+guard, `exact_block_perms`/`_exact_block_p_from_perms`'s OUTPUT are
+untouched.
+
+**Statistical basis:** each sampled row is an independent draw of a
+UNIFORM permutation within every same-size family group (via
+`rng.permutation`, which draws uniformly over the symmetric group),
+composed into one rung-index row -- i.e. an i.i.d. uniform draw from the
+same block-permutation group `exact_block_perms` would enumerate
+exhaustively, not a subset or a distinctness-filtered sample. Rows are
+NOT filtered for distinctness and the identity is NOT excluded, per the
+spec -- repeats occur with their true group-theoretic probability. The
+p-value uses the standard sampled-permutation add-one convention, p =
+(1 + #{sampled rho >= rho_obs}) / (M + 1), which preserves
+P(p <= t) <= t under H0 for ANY M (the observed statistic counts as one
+more draw alongside the M sampled ones) -- this is a different formula
+from the exact path's count/n_perms (no +1; valid there specifically
+because enumeration is exhaustive, not sampled), implemented as a
+SEPARATE function (`_sampled_block_p_from_perms`, arithmetic
+deliberately duplicated rather than factored with
+`_exact_block_p_from_perms`) so the enumerated path's formula is
+untouched by inspection, not just by test coverage.
+
+**Reuse, not duplication:** `sampled_block_perms(families, m, rng)`
+shares `exact_block_perms`'s offset/grouping bookkeeping and row-
+composition arithmetic via two extracted helpers,
+`_block_perm_offsets(families)` (n, per-block offsets, same-size
+grouping -- same iteration order as before) and
+`_compose_block_perm_row(n, offsets, group_items, combo)`
+(within-block-order-preserving row construction, position-for-position,
+identical logic to what `exact_block_perms` inlined before). Verified
+the refactor byte-preserves `exact_block_perms`'s existing output:
+the 9 pre-existing tests, including the two hand-derived row-content
+pins (`[2,1,1]`, `[2,2,1]`, `[3,3]`) and the guard-boundary pair
+(`[1]*11` raises, `[1]*10` doesn't), all pass unchanged. A third
+extracted helper, `_block_perm_total(group_items)`, computes the group
+size (product of per-group factorials) without enumerating -- shared by
+`exact_block_perms`'s own guard check and the new enumerate-vs-sample
+routing in `exact_block_p`/`simulate_exact`, so both always agree on
+what counts as "the group size" for a shape.
+
+**Routing:** `exact_block_p(x, y, families, *, max_enumerate=5_000_000,
+n_sample=100_000, seed=0)` -- when the exact group size is <=
+`max_enumerate`, behavior is byte-unchanged (same enumeration, same
+`_exact_block_p_from_perms` dict) plus a new `method: "enumerated"` key;
+above it, routes to `sampled_block_perms` with a seeded
+`np.random.default_rng(seed)`, add-one p via
+`_sampled_block_p_from_perms`, dict gains `method: "sampled"`,
+`n_perms`=`n_sample`, `resolution`=1/(n_sample+1).
+`simulate_exact(..., *, max_enumerate=5_000_000, n_sample=100_000)`
+mirrors the routing: below threshold, unchanged RNG-consumption order
+and numeric behavior (perms enumerated once, no RNG use, reused across
+all `n_sims`); above threshold, `sampled_block_perms` is drawn ONCE
+(also reused across all sims, matching the enumerated path's pattern)
+from the SAME seeded `rng` the sim loop's `_battery` draws consume, so
+`seed` alone still determines the whole run. Return dict gains
+`method`. Defaults: guard 5e6 (matching `EXACT_PERM_GUARD`,
+`exact_block_perms`'s own hardcoded ceiling), M=1e5 (resolution 1e-5,
+comparable to the enumerated case's typical resolution).
+
+**TDD:** RED confirmed (6 new tests against the pre-implementation
+file: `AttributeError`/`TypeError`/`KeyError` on the new
+names/kwargs/dict key; the pre-existing 9 tests in the file stayed
+green throughout). GREEN after implementation: a uniformity spot check
+(500 sampled rows on `families=[2,2,1]`, all members of the enumerated
+2-element group -- `tuple(row) in enumerated_set`), a determinism check
+on `sampled_block_perms` directly (same seed -> bit-identical rows), an
+add-one-vs-enumerated check (`families=[1,1,1]`, x=y=[1,2,3], known
+enumerated p=1/6; forced sampled route at M=20,000 lands within .01 of
+1/6 and is never below 1/(M+1)), a threshold-routing check (`[2,1,1]`
+under the guard -> `"enumerated"` with the pre-extension dict keys
+regression-pinned unchanged; forced over a tiny `max_enumerate` ->
+`"sampled"` with `n_perms`/`resolution` reflecting `n_sample`, not the
+unenumerated exact group size), a determinism check on `exact_block_p`'s
+sampled path (same seed -> identical dict), and a `simulate_exact`
+method-reporting check (both routes, `n_perms`/`resolution` correct for
+each). Full suite: `experiments/exp2c/tests/ -q` -> **65 passed** (59
+existing + 6 new), 70.33s, no regressions. Grepped the repo for other
+callers of `exact_block_p`/`simulate_exact`/`exact_block_perms` --
+none exist yet (the queued `analyze.py` amendment hasn't landed), so
+the new keyword-only parameters carry no call-site risk.
+
+**Not done here (per task instruction):** no growth-shape sweep run --
+that's the controller's job, next in the ruling's sequence (shape sweep
+-> concrete rung menu -> specs/items/screens -> final power table).

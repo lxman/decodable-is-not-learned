@@ -143,3 +143,106 @@ def test_simulate_exact_power_monotone_in_effect():
     hi = pt.simulate_exact([2, 2, 2, 1, 1, 1, 1, 1], rho_family=0.5,
                            rho_true=0.8, n_sims=300, seed=2)
     assert hi["power"] > lo["power"]
+
+
+# ---------------------- sampled block permutations (growth ruling 2026-08-01)
+# Extension for shapes whose exact block-permutation group exceeds the
+# EXACT_PERM_GUARD (5e6) enumeration ceiling. `simulate`/`_naive_perm_p*`
+# and the 9 tests above (enumerated path) are untouched.
+
+
+def test_sampled_block_perms_rows_are_valid_group_elements():
+    # Uniformity spot check: families=[2,2,1] has an enumerable group of
+    # exactly 2 elements (see test_exact_block_perms_2_2_1_multirung_
+    # block_swap: identity and the 2-block swap). Every sampled row --
+    # sampling WITH repetition, identity not excluded -- must be one of
+    # those 2 valid group elements; a bug in the composition (e.g.
+    # sampling within-block re-permutation instead of a block-unit swap)
+    # would produce rows outside this set.
+    families = [2, 2, 1]
+    enumerated = pt.exact_block_perms(families)
+    enumerated_set = {tuple(row) for row in enumerated}
+
+    rng = np.random.default_rng(0)
+    sampled = pt.sampled_block_perms(families, 500, rng)
+    assert sampled.shape == (500, sum(families))
+    for row in sampled:
+        assert tuple(row) in enumerated_set
+
+
+def test_sampled_block_perms_deterministic_same_seed():
+    rows1 = pt.sampled_block_perms([2, 2, 1], 200, np.random.default_rng(3))
+    rows2 = pt.sampled_block_perms([2, 2, 1], 200, np.random.default_rng(3))
+    np.testing.assert_array_equal(rows1, rows2)
+
+
+def test_exact_block_p_sampled_add_one_matches_enumerated():
+    # families=[1,1,1], x=y=[1,2,3]: enumerated p = 1/6 exactly (see
+    # test_exact_block_p_hand_computed) -- only the identity permutation
+    # of the single size-1 group of 3 reaches rho_obs=1.0. Forcing the
+    # sampled route (max_enumerate=0) with a large M and fixed seed, the
+    # add-one p should land close to 1/6 (count ~ Binomial(M, 1/6)) and,
+    # by the add-one formula's construction, can NEVER fall below
+    # 1/(M+1) no matter how the draws land.
+    m = 20_000
+    r = pt.exact_block_p([1, 2, 3], [1, 2, 3], [1, 1, 1],
+                         max_enumerate=0, n_sample=m, seed=0)
+    assert r["method"] == "sampled"
+    assert r["n_perms"] == m
+    assert r["resolution"] == pytest.approx(1 / (m + 1))
+    assert r["p"] >= 1 / (m + 1)
+    assert r["p"] == pytest.approx(1 / 6, abs=0.01)
+
+
+def test_exact_block_p_method_routing():
+    # Under the guard -> enumerated, with the pre-extension dict keys
+    # regression-pinned (unchanged) plus the new `method` key. Over a
+    # forced (tiny) max_enumerate -> sampled, with the sampled-specific
+    # n_perms/resolution semantics (n_perms=n_sample, resolution=
+    # 1/(n_sample+1), not the enumerated group size).
+    x = np.array([2.0, 5.0, 1.0, 3.0])
+    y = np.array([1.0, 4.0, 3.0, 2.0])
+
+    r_enum = pt.exact_block_p(x, y, [2, 1, 1])
+    assert r_enum["method"] == "enumerated"
+    assert r_enum["n_perms"] == 2       # 1!*2! (see exact_block_perms fixture)
+    assert r_enum["resolution"] == pytest.approx(1 / 2)
+    assert set(r_enum.keys()) == {"p", "rho_obs", "n_perms", "resolution",
+                                  "method"}
+
+    r_sampled = pt.exact_block_p(x, y, [2, 1, 1], max_enumerate=1,
+                                 n_sample=1000, seed=0)
+    assert r_sampled["method"] == "sampled"
+    assert r_sampled["n_perms"] == 1000
+    assert r_sampled["resolution"] == pytest.approx(1 / 1001)
+    assert set(r_sampled.keys()) == {"p", "rho_obs", "n_perms", "resolution",
+                                     "method"}
+
+
+def test_exact_block_p_sampled_deterministic():
+    x = np.array([2.0, 5.0, 1.0, 3.0])
+    y = np.array([1.0, 4.0, 3.0, 2.0])
+    r1 = pt.exact_block_p(x, y, [2, 1, 1], max_enumerate=1, n_sample=500,
+                          seed=7)
+    r2 = pt.exact_block_p(x, y, [2, 1, 1], max_enumerate=1, n_sample=500,
+                          seed=7)
+    assert r1 == r2
+
+
+def test_simulate_exact_reports_method():
+    # Enumerated path (small shape, default max_enumerate): method
+    # present and "enumerated", existing fields untouched.
+    r_enum = pt.simulate_exact([2, 2, 2, 1, 1, 1, 1, 1], rho_family=0.5,
+                               rho_true=0.6, n_sims=50, seed=0)
+    assert r_enum["method"] == "enumerated"
+    assert r_enum["n_perms"] == 720
+
+    # Sampled path (forced via a tiny max_enumerate override): method
+    # "sampled", n_perms/resolution reflect the sample size, not the
+    # (unenumerated) exact group size.
+    r_sampled = pt.simulate_exact([2, 2, 2, 1, 1, 1, 1, 1], rho_family=0.5,
+                                  rho_true=0.6, n_sims=50, seed=0,
+                                  max_enumerate=1, n_sample=2000)
+    assert r_sampled["method"] == "sampled"
+    assert r_sampled["n_perms"] == 2000
+    assert r_sampled["resolution"] == pytest.approx(1 / 2001)

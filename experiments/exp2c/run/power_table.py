@@ -124,6 +124,62 @@ N_PERM = 5000
 EXACT_PERM_GUARD = 5_000_000  # exact_block_perms raises above this count
 
 
+def _block_perm_offsets(families: list[int]):
+    """Shared offset/grouping bookkeeping for `exact_block_perms` and
+    `sampled_block_perms` (factored out for the sampled-permutation
+    extension, growth ruling 2026-08-01, rather than duplicated between
+    them). Returns `(n, offsets, group_items)`: `n` is the total rung
+    count; `offsets[i]` is block `i`'s starting rung index; `group_items`
+    is `[(size, [block indices]), ...]`, grouping same-size families in
+    the order those sizes FIRST appear in `families` -- the same
+    iteration order `exact_block_perms` always used, preserved here so
+    its output is unaffected by the refactor."""
+    families = list(families)
+    n = sum(families)
+    offsets = np.cumsum([0] + families)[:-1].tolist()
+
+    size_groups: dict[int, list[int]] = {}
+    for block_idx, size in enumerate(families):
+        size_groups.setdefault(size, []).append(block_idx)
+    group_items = list(size_groups.items())
+    return n, offsets, group_items
+
+
+def _block_perm_total(group_items) -> int:
+    """Total block-permutation group size (product of per-same-size-group
+    factorials), given `group_items` from `_block_perm_offsets`. Shared by
+    `exact_block_perms`'s guard check and `exact_block_p`/`simulate_exact`'s
+    enumerate-vs-sample routing, so both always agree on what "the group
+    size" is for a given `families` shape."""
+    total = 1
+    for _, block_idxs in group_items:
+        total *= math.factorial(len(block_idxs))
+    return total
+
+
+def _compose_block_perm_row(n, offsets, group_items, combo) -> np.ndarray:
+    """Build one composed same-size-block-permutation index row from
+    `combo` (a tuple of per-group donor-position sequences, one per
+    `group_items` entry -- `combo[g][slot_pos]` is the donor position
+    within group g's blocks for recipient slot `slot_pos`). Shared row-
+    construction arithmetic for `exact_block_perms` (looping combos from
+    `itertools.product`, exhaustive) and `sampled_block_perms` (looping
+    i.i.d. uniform combos) -- within-block order is always preserved
+    position-for-position (donor block's i-th rung -> recipient block's
+    i-th position), matching `exact_block_perms`'s documented exchange
+    convention exactly, since both callers route through this one
+    function rather than each re-implementing it."""
+    idx = np.empty(n, dtype=np.int64)
+    for (size, block_idxs), perm in zip(group_items, combo):
+        for slot_pos, donor_pos in enumerate(perm):
+            recipient_block = block_idxs[slot_pos]
+            donor_block = block_idxs[donor_pos]
+            r0 = offsets[recipient_block]
+            d0 = offsets[donor_block]
+            idx[r0:r0 + size] = np.arange(d0, d0 + size)
+    return idx
+
+
 def exact_block_perms(families: list[int]) -> np.ndarray:
     """Enumerate every family-block permutation for the exact fallback
     test (design Sec 5; ruling 2026-08-01).
@@ -180,17 +236,9 @@ def exact_block_perms(families: list[int]) -> np.ndarray:
     silently exploding memory/time. Escalate rather than raising the
     guard."""
     families = list(families)
-    n = sum(families)
-    offsets = np.cumsum([0] + families)[:-1].tolist()
+    n, offsets, group_items = _block_perm_offsets(families)
 
-    size_groups: dict[int, list[int]] = {}
-    for block_idx, size in enumerate(families):
-        size_groups.setdefault(size, []).append(block_idx)
-    group_items = list(size_groups.items())  # [(size, [block indices]), ...]
-
-    total = 1
-    for _, block_idxs in group_items:
-        total *= math.factorial(len(block_idxs))
+    total = _block_perm_total(group_items)
     if total > EXACT_PERM_GUARD:
         raise ValueError(
             f"exact_block_perms: {total} permutations for families="
@@ -203,15 +251,43 @@ def exact_block_perms(families: list[int]) -> np.ndarray:
 
     rows = np.empty((total, n), dtype=np.int64)
     for row_i, combo in enumerate(itertools.product(*group_perm_lists)):
-        idx = np.empty(n, dtype=np.int64)
-        for (size, block_idxs), perm in zip(group_items, combo):
-            for slot_pos, donor_pos in enumerate(perm):
-                recipient_block = block_idxs[slot_pos]
-                donor_block = block_idxs[donor_pos]
-                r0 = offsets[recipient_block]
-                d0 = offsets[donor_block]
-                idx[r0:r0 + size] = np.arange(d0, d0 + size)
-        rows[row_i] = idx
+        rows[row_i] = _compose_block_perm_row(n, offsets, group_items, combo)
+    return rows
+
+
+def sampled_block_perms(families: list[int], m: int,
+                        rng: np.random.Generator) -> np.ndarray:
+    """`m` i.i.d. uniform draws from the SAME block-permutation group
+    `exact_block_perms` enumerates exhaustively (sampled-permutation
+    extension, growth ruling 2026-08-01, for shapes whose group size
+    exceeds `EXACT_PERM_GUARD`). Each row independently draws a uniform
+    permutation WITHIN EVERY same-size family group (via
+    `rng.permutation`, which draws uniformly over the symmetric group of
+    that size) and composes them into one rung-index row via
+    `_compose_block_perm_row` -- the same offset bookkeeping and
+    within-block-order-preservation `exact_block_perms` uses, reused via
+    `_block_perm_offsets`/`_compose_block_perm_row` rather than
+    duplicated here.
+
+    Rows are NOT filtered for distinctness and the identity permutation
+    is NOT excluded: each row is simply an independent uniform draw from
+    the group, so repeats (including the identity) occur with their true
+    group-theoretic probability, exactly as the statistical spec
+    requires (growth ruling 2026-08-01). No enumeration guard applies
+    here -- `m` is caller-controlled and unrelated to the (possibly
+    astronomically large) exact group size that would trip
+    `EXACT_PERM_GUARD`.
+
+    Returns an `(m, n_rungs)` int64 index matrix; row order carries no
+    meaning (unlike `exact_block_perms`, there is no lexicographic
+    guarantee and row 0 is not guaranteed to be the identity)."""
+    families = list(families)
+    n, offsets, group_items = _block_perm_offsets(families)
+    rows = np.empty((m, n), dtype=np.int64)
+    for row_i in range(m):
+        combo = tuple(rng.permutation(len(block_idxs))
+                     for _, block_idxs in group_items)
+        rows[row_i] = _compose_block_perm_row(n, offsets, group_items, combo)
     return rows
 
 
@@ -249,14 +325,73 @@ def _exact_block_p_from_perms(x, y, perms: np.ndarray) -> dict:
     }
 
 
-def exact_block_p(x, y, families) -> dict:
-    """Exact one-sided family-block permutation p-value (design Sec 5
-    fallback): enumerates every block permutation via `exact_block_perms`
-    and counts how many yield Spearman rho >= the observed rho (identity
-    included). No RNG -- deterministic given (x, y, families). Returns
-    `{p, rho_obs, n_perms, resolution}` (resolution = 1/n_perms), all
-    required by the design's "achievable permutation count and
-    resolution stated" clause.
+def _sampled_block_p_from_perms(x, y, perms: np.ndarray) -> dict:
+    """Add-one p-value convention for the SAMPLED block-permutation test
+    (sampled-permutation extension, growth ruling 2026-08-01 statistical
+    spec): p = (1 + #{sampled rho >= rho_obs}) / (M + 1). This is the
+    standard sampled-permutation-test convention that preserves
+    P(p <= t) <= t under H0 for ANY M -- the observed statistic is
+    treated as one additional draw alongside the M sampled ones, so the
+    smallest achievable p is 1/(M+1) rather than 0 (unlike the exhaustive
+    enumeration's exact count/n_perms, p can never be exactly zero here
+    no matter how extreme rho_obs is).
+
+    Deliberately a SEPARATE function from `_exact_block_p_from_perms`
+    (not a shared-formula refactor of it) so the enumerated path's
+    byte-exact p = count/n_perms formula stays completely untouched by
+    this extension -- the rank-Pearson arithmetic below is intentionally
+    duplicated, not extracted, to keep that non-interference obviously
+    true by inspection rather than by tracing a shared code path."""
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+    n = len(x)
+    rx = rankdata(x)
+    ry = rankdata(y)
+    rxc = rx - rx.mean()
+    ryc = ry - ry.mean()
+    dx = np.sqrt(rxc @ rxc / (n - 1))
+    dy = np.sqrt(ryc @ ryc / (n - 1))  # permutation-invariant
+
+    obs = np.clip((rxc @ ryc / (n - 1)) / dx / dy, -1.0, 1.0)
+    ryc_perm = ryc[perms]                 # (m, n)
+    covs = (ryc_perm @ rxc) / (n - 1)     # one matmul for all correlations
+    rhos = np.clip(covs / dx / dy, -1.0, 1.0)
+
+    m = perms.shape[0]
+    count = int(np.sum(rhos >= obs))
+    return {
+        "p": (1 + count) / (m + 1),
+        "rho_obs": float(obs),
+        "n_perms": int(m),
+        "resolution": 1.0 / (m + 1),
+    }
+
+
+def exact_block_p(x, y, families, *, max_enumerate=EXACT_PERM_GUARD,
+                  n_sample=100_000, seed=0) -> dict:
+    """Exact (or, for oversized shapes, sampled) one-sided family-block
+    permutation p-value (design Sec 5 fallback; sampled extension per
+    growth ruling 2026-08-01): enumerates every block permutation via
+    `exact_block_perms` and counts how many yield Spearman rho >= the
+    observed rho (identity included). No RNG -- deterministic given
+    (x, y, families). Returns `{p, rho_obs, n_perms, resolution}`
+    (resolution = 1/n_perms), all required by the design's "achievable
+    permutation count and resolution stated" clause.
+
+    Extended (growth ruling 2026-08-01): when the exact block-permutation
+    group size exceeds `max_enumerate` (default `EXACT_PERM_GUARD`, 5e6
+    -- the same threshold `exact_block_perms` itself guards at), routes
+    to `sampled_block_perms` instead of `exact_block_perms`, drawing
+    `n_sample` (default 100_000) i.i.d. uniform group elements with a
+    seeded `np.random.default_rng(seed)` and computing an add-one
+    p-value via `_sampled_block_p_from_perms` rather than the exact
+    count/n_perms formula. BELOW the threshold, behavior is
+    BYTE-UNCHANGED from before this extension (same enumeration, same
+    `_exact_block_p_from_perms` call, same dict) -- only a `"method"`
+    key is added: `"enumerated"` below the threshold, `"sampled"` above
+    it (in the sampled case the dict's `n_perms`/`resolution` reflect
+    `n_sample`/1/(n_sample+1), per `_sampled_block_p_from_perms`, not the
+    unenumerated exact group size).
 
     Raises ValueError if len(x) or len(y) disagrees with sum(families)
     -- the caller mis-grouped its rung arrays (see the layout convention
@@ -269,11 +404,25 @@ def exact_block_p(x, y, families) -> dict:
             f"len(y)={len(y)} -- x/y must cover exactly the rungs of "
             f"`families`, laid out as contiguous per-family blocks "
             f"(see exact_block_perms's layout convention).")
-    perms = exact_block_perms(families)
-    return _exact_block_p_from_perms(x, y, perms)
+
+    _, _, group_items = _block_perm_offsets(families)
+    total = _block_perm_total(group_items)
+
+    if total <= max_enumerate:
+        perms = exact_block_perms(families)
+        result = _exact_block_p_from_perms(x, y, perms)
+        result["method"] = "enumerated"
+        return result
+
+    rng = np.random.default_rng(seed)
+    perms = sampled_block_perms(families, n_sample, rng)
+    result = _sampled_block_p_from_perms(x, y, perms)
+    result["method"] = "sampled"
+    return result
 
 
-def simulate_exact(families, rho_family, rho_true, n_sims=1000, seed=0):
+def simulate_exact(families, rho_family, rho_true, n_sims=1000, seed=0, *,
+                   max_enumerate=EXACT_PERM_GUARD, n_sample=100_000):
     """Exact-test analogue of `simulate` (design Sec 5 fallback). Reuses
     `_battery`'s latent model and `_shared_for_target_rho`'s effect-size
     calibration UNCHANGED; the only difference from `simulate` is that
@@ -284,24 +433,47 @@ def simulate_exact(families, rho_family, rho_true, n_sims=1000, seed=0):
     estimated. `exact_block_perms(families)` is computed once and reused
     across all `n_sims` sims (families is fixed for the whole call).
 
+    Extended (growth ruling 2026-08-01): when the exact block-permutation
+    group size exceeds `max_enumerate`, routes to `sampled_block_perms`
+    instead -- drawn ONCE, like the enumerated `perms`, and reused across
+    all `n_sims` sims, consuming from the SAME seeded `rng` the sim
+    loop's `_battery` draws use (so `seed` alone still determines the
+    whole run) -- and scores every sim's p-value via
+    `_sampled_block_p_from_perms`'s add-one convention instead of
+    `_exact_block_p_from_perms`'s exact count/n_perms formula. BELOW the
+    threshold, behavior (including RNG consumption order) is
+    BYTE-UNCHANGED from before this extension.
+
     Returns `power` (fraction of H1 sims with p < .01), `alpha` (fraction
     of H0 sims with p < .01 -- bounded <= .01 by construction under exact
     permutation exchangeability, since x and y are independent draws when
-    shared=0.0; reported as observed, not assumed), plus `n_perms` and
+    shared=0.0; reported as observed, not assumed), plus `n_perms`,
     `resolution` (shared across all sims, since they depend only on
-    `families`)."""
+    `families`), and `method` ("enumerated" or "sampled")."""
     rng = np.random.default_rng(seed)
-    perms = exact_block_perms(families)
-    n_perms = perms.shape[0]
-    resolution = 1.0 / n_perms
+
+    _, _, group_items = _block_perm_offsets(families)
+    total = _block_perm_total(group_items)
+    if total <= max_enumerate:
+        perms = exact_block_perms(families)
+        method = "enumerated"
+        p_from_perms = _exact_block_p_from_perms
+        n_perms = perms.shape[0]
+        resolution = 1.0 / n_perms
+    else:
+        perms = sampled_block_perms(families, n_sample, rng)
+        method = "sampled"
+        p_from_perms = _sampled_block_p_from_perms
+        n_perms = perms.shape[0]
+        resolution = 1.0 / (n_perms + 1)
 
     null_ps, alt_ps = [], []
     for _ in range(n_sims):
         x0, y0 = _battery(rng, families, rho_family, shared=0.0)
-        null_ps.append(_exact_block_p_from_perms(x0, y0, perms)["p"])
+        null_ps.append(p_from_perms(x0, y0, perms)["p"])
         x1, y1 = _battery(rng, families, rho_family,
                           shared=_shared_for_target_rho(rho_true))
-        alt_ps.append(_exact_block_p_from_perms(x1, y1, perms)["p"])
+        alt_ps.append(p_from_perms(x1, y1, perms)["p"])
 
     null_ps = np.array(null_ps)
     alt_ps = np.array(alt_ps)
@@ -310,6 +482,7 @@ def simulate_exact(families, rho_family, rho_true, n_sims=1000, seed=0):
         "power": float(np.mean(alt_ps < 0.01)),
         "n_perms": int(n_perms),
         "resolution": float(resolution),
+        "method": method,
     }
 
 
