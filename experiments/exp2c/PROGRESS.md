@@ -1454,3 +1454,48 @@ items generate in waves 2–3.**
 **Next:** tier-1 screens on letter_prod (first — position-concentration
 risk) then letter_sum; verdicts ledgered here; then wave 2 (order_stat,
 seq_extrap, odd6) per §6.
+
+## 2026-08-02: pos_letter FULL-FAMILY EJECTION at tier-1 — F4 str_align promotes (pre-ruled fallback)
+
+Tier-1 verdicts, screened riskiest-first per §6: **letter_prod REJECT**
+(structural_abort x4: 410m p=0.03593 at floor both seeds, 1b p=0.02794
+at floor both seeds, null_mean 0.038) and **letter_sum REJECT**
+(structural_abort x4, same shape, null_mean 0.038-0.039). Both rungs
+beat every one of 500 null permutations in at least one (layer, slot)
+candidate with z past the abort gate -- the base12 classification
+pattern, now on the growth battery's riskiest family.
+
+**Diagnostic reading (record, not reinterpretation):** the proposal
+flagged F3b's position concentration (21/64 on p=2) as the named risk
+and F3a's near-uniform distribution (max 12/64) as the safer sibling.
+BOTH fired identically. So the carrier is not the concentration dial --
+the family's disclosed structural gamble lost outright: the position
+arithmetic is unstarvable (i, j printed, low-complexity map), the
+per-string holdout starves only string identity, and the screen says
+untrained random projections DO express enough of the
+computed-position/slot-letter composition to decode the label. The
+honest-disclosure text in both specs ("the untrained screen is the
+arbiter of the variable-index gather") is now the ejection record's
+own epitaph. reverse_string's fixed-position 0.000 precedent does not
+extend to variable-index reads -- a genuinely new datum for the
+methods-paper leak taxonomy (positional-gather class: probeable from
+untrained activations when the index is surface-computable).
+
+**Consequences:**
+- Registrations stay in `generators_rungs.py` as the ejection record
+  (base12 pattern); `family_map` auto-excludes both via the tier-1
+  verdict files; items/*.json stay committed as generated.
+- The letter_sum shot-diversity flag (2026-08-01 entry, Minor 3) is
+  MOOT for letter_sum itself (rung dead); the underlying ruling
+  question -- whether shots must demonstrate distinct
+  positions/labels battery-wide -- stays open and now applies
+  forward to str_align and the wave-2/3 builds.
+- **F4 promotion is automatic, not a new decision:** ruling 1 named
+  str_align the reserve "enters only under §7's fallback," and §7's
+  fallback is exactly this case ("a full new 2-rung family ejects:
+  ...F4 str_align enters, seeds 20260826-20260827, spec at build
+  rigor in §3, restoring ...the 35-rung shape"). hamming8 (20260826)
+  and hamming12 (20260827) build next through the same
+  spec -> review -> items -> tier-1 loop, screened at the front of
+  their wave (MEDIUM-HIGH: the shared-chunk carrier vs the 4-letter
+  alphabet, §3 F4), before the wave-2/3 low-risk rungs are built.

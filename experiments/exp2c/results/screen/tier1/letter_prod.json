@@ -1,0 +1,47 @@
+{
+ "name": "letter_prod",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 0.03592814371257485,
+   "margin": 0.0,
+   "null_mean": 0.038485,
+   "null_sd": 0.009420443966664103,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.03592814371257485,
+   "margin": 0.0,
+   "null_mean": 0.037665,
+   "null_sd": 0.009394775069004813,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 0.0279441117764471,
+   "margin": 0.0,
+   "null_mean": 0.03788,
+   "null_sd": 0.010052746661030593,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.0279441117764471,
+   "margin": 0.0,
+   "null_mean": 0.03837,
+   "null_sd": 0.009391192095679648,
+   "at_floor": true,
+   "classification": "structural_abort",
+   "size": "1b"
+  }
+ ],
+ "verdict": "reject"
+}
