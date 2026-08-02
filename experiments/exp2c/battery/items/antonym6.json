@@ -13,19 +13,11 @@
    "outgoing"
   ],
   [
-   "Which of these means the opposite of 'turbulent': precise, cautious, tilted, placid, somber, peculiar?",
-   "placid"
+   "Which of these means the opposite of 'crunchy': brittle, barren, usual, merry, sacred, mushy?",
+   "mushy"
   ]
  ],
  "eval_items": [
-  {
-   "question": "Which of these means the opposite of 'crunchy': brittle, barren, usual, merry, sacred, mushy?",
-   "answer": "mushy",
-   "probe_label": "6",
-   "basis": [
-    "crunchy"
-   ]
-  },
   {
    "question": "Which of these means the opposite of 'roomy': daring, miserable, cramped, risky, bashful, cheerful?",
    "answer": "cramped",
@@ -4017,9 +4009,7 @@
    "basis": [
     "soaked"
    ]
-  }
- ],
- "probe_items": [
+  },
   {
    "question": "Which of these means the opposite of 'slack': modest, cautious, crowded, vivid, taut, civilized?",
    "answer": "taut",
@@ -4027,7 +4017,9 @@
    "basis": [
     "slack"
    ]
-  },
+  }
+ ],
+ "probe_items": [
   {
    "question": "Which of these means the opposite of 'poverty': unity, feast, expense, wealth, folly, decay?",
    "answer": "wealth",
@@ -20019,6 +20011,14 @@
    "basis": [
     "birth"
    ]
+  },
+  {
+   "question": "Which of these means the opposite of 'whisper': foe, betrayal, novice, shout, joy, sorrow?",
+   "answer": "shout",
+   "probe_label": "4",
+   "basis": [
+    "whisper"
+   ]
   }
  ],
  "feasibility": {
@@ -20050,8 +20050,8 @@
     "held_per_component": [
      26
     ],
-    "n_train": 1612,
-    "n_val": 388,
+    "n_train": 1613,
+    "n_val": 387,
     "n_dropped": 0
    },
    "2": {
@@ -20061,8 +20061,8 @@
     "held_per_component": [
      26
     ],
-    "n_train": 1583,
-    "n_val": 417,
+    "n_train": 1582,
+    "n_val": 418,
     "n_dropped": 0
    },
    "3": {
@@ -20072,8 +20072,8 @@
     "held_per_component": [
      26
     ],
-    "n_train": 1601,
-    "n_val": 399,
+    "n_train": 1600,
+    "n_val": 400,
     "n_dropped": 0
    },
    "4": {

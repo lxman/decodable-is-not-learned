@@ -1885,3 +1885,74 @@ campaign fits.
 
 **Next:** wave-3 adversarial review; tier-1 screens queue behind
 wave-2's four (odd6's screen stays HELD on the F2 basis ruling).
+
+## 2026-08-02: Two rulings executed (odd6 re-bless + shot-diversity rule); wave-3 review adjudicated
+
+**Ruling (Michael, 2026-08-02): "Re-bless odd6 to the odd-word basis,
+and adopt the shot-diversity rule."** Both executed TDD (RED on the
+three behavior pins -> GREEN):
+
+1. **odd6 re-blessed:** basis = the odd word alone (1-comp, 80 values),
+   SplitParams(holdout_frac=0.30), n_probe unchanged 8000. Regenerated:
+   min n_val across seeds **2336** (vs 305 under the degenerate 6-comp
+   plan) with no whole-category swallowing and no seed correlation --
+   the F2 finding closed. Spec basis_kind text carries the supersession
+   and its reason. HOLD LIFTED: odd6 screens with wave 3.
+2. **Shot-diversity rule (battery-wide forward):** generate() now
+   requires the two shots to demonstrate DISTINCT probe labels,
+   redrawing from the same seeded stream (rejected same-label draws
+   are not marked seen; 1000-attempt guard). Proven a byte-identical
+   no-op for compliant rungs: hamming8 regenerated under the rule ->
+   empty diff. The two live non-compliant rungs regenerated: odd6
+   (new shots + full re-draw under its new basis) and antonym6 (new
+   shots 4/6; the item stream is a one-slot rotation -- git diff 40
+   lines, nearly all committed items unchanged). Neither rung had
+   been screened or collected; nothing invalidated.
+
+**Wave-3 review adjudicated (no Critical; both files verified 100%
+correct + byte-reproducible by the reviewer before these changes):**
+
+- **I1 (disclosed dose, ledgered pre-screen per the base12 lesson):**
+  antonym6's answer sits in the pair's SECOND slot while distractors
+  draw from both slots, and the ADJ sublist is slot-asymmetric (cue
+  slot mean 5.892 vs answer slot 6.431 letters; NOUN side balanced).
+  Draw-level heuristic accuracies vs 1/6 chance, measured on the
+  CURRENT (regenerated) committed items: argmin-Levenshtein-to-cue
+  0.2016, argmax-length 0.1972, max-shared-letters 0.1976
+  (reviewer's figures on the superseded draw: 0.2046/0.1946/0.1905 --
+  the dose is a wordlist-level property, stable across draws). At the
+  pair level (n=130) the effect is n.s. (t=+1.58), but the committed
+  battery is a fixed object and these are its true doses. The
+  preregistered adjudicator is the untrained screen, which now runs
+  against a named carrier, not a discovered-later one.
+- **I2 (disclosed, remedy deferred to Michael before M4, NOT
+  screen-blocking):** ~2.5% of items (floor; 14/500 eval on the
+  superseded draw) carry a distractor that is a defensible
+  alternative antonym of the cue (glum->merry with jolly present;
+  order->chaos with discord). The probe label is unaffected (position
+  of the LISTED partner is well-defined); the cost is an M4 eval
+  ceiling depressor of <= ~3% on this rung. Options when M4 nears:
+  per-cue exclusion sets (a wordlist-adjacent artifact needing hand
+  review) or accept the disclosed ceiling. 2b's antonym had the same
+  structural exposure at k=4; k=6 within-POS raises the dose.
+- **M1 (count corrected):** under the ledger's own label metric the
+  growth build had TWO shot-label collisions (odd6 5/5, antonym6 4/4);
+  letter_sum's 2/2 was a POSITION collision with distinct letter
+  labels ('w'/'b') -- the wave-3 entry's "third instance" framing was
+  loose. All three flags stand as flags; the rule now closes the
+  class.
+- **M2 (closed):** standing committed-file LABEL sweep added --
+  TRUE_LABEL recomputes the probe label from question text for all 26
+  registered specs and test_committed_labels_are_true_labels sweeps
+  EVERY item (probe + eval) of every committed file. Passed on first
+  run against the whole battery.
+- **M3 (closed):** _true_antonym6 now asserts exactly one listed
+  option pairs with the cue under order-free frozenset membership --
+  independent of the oracle's direction dict.
+- **M4 (noted, no change):** base13 answer_type="number" with A/B/C
+  in 1331/2500 answers -- inherited verbatim from base12's committed
+  precedent; consistency wins.
+
+Full suite **118 passed** (115 + shot-rule test + TRUE_LABEL coverage
++ committed-label sweep). Screens: wave-2's four still running; odd6 +
+base13 + antonym6 launch when they finish.

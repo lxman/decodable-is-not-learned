@@ -877,11 +877,18 @@ register(CapabilitySpec(
     answer_type="word",
     probe_label_space="printed position of the odd word (1-6), "
                       "shuffle-assigned",
-    basis_kind="all 6 words (shared components over the CATEGORIES_2C "
-              "vocab, holdout 0.45, n_probe 8000 -- the 2b odd_one_out "
-              "family figures, blessed 2026-08-02 with flagged costs: "
-              "train side ~342 items, one sweep seed needed 40 split "
-              "redraws)",
+    basis_kind="the odd word alone (1-comp, 80 values; holdout 0.30 -> "
+              "24 held values, val ~30% of items) -- RE-BLESSED "
+              "2026-08-02 on Michael's ruling, superseding the "
+              "originally blessed all-six-words shared basis (0.45/"
+              "8000): the wave-2 review showed that plan cleared its "
+              "floors only when the holdout swallowed one complete "
+              "8-word category, making starved val 88-100% a single "
+              "category with correlated seeds. With the odd word held "
+              "out, val items' odd words are unseen while the split "
+              "stays non-degenerate; the word-set-to-position lookup "
+              "left unstarved cannot generalize (position is "
+              "shuffle-random)",
     composability="category-membership comparison across all six words "
                   "-- an interaction, not an additive score (the reused "
                   "odd_one_out mechanism at 6 words: 15 pairwise "

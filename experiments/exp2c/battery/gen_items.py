@@ -167,13 +167,18 @@ BASIS = {
     "hamming8": lambda s1, s2: (s1, s2),
     "hamming12": lambda s1, s2: (s1, s2),
     # wave 2 (blessing 2026-08-02): first printed component only for the
-    # medians and both seq_extrap rungs (the mod17-lesson reduction); all
-    # six words for odd6 (2b odd_one_out family treatment).
+    # medians and both seq_extrap rungs (the mod17-lesson reduction).
     "median5": lambda *vs: (vs[0],),
     "median7": lambda *vs: (vs[0],),
     "arith_next": lambda t0, t1, t2, t3: (t0,),
     "quad_next": lambda t0, t1, t2, t3: (t0,),
-    "odd6": lambda *ws: tuple(ws),
+    # odd6 RE-BLESSED 2026-08-02 (wave-2 review F2, Michael's ruling):
+    # the odd word ALONE. The original all-six-words shared basis cleared
+    # its floors only when the 0.45 holdout swallowed a whole 8-word
+    # category (starved val 88-100% one category, seeds correlated);
+    # holding out the odd word keeps val items' odd words unseen while
+    # the split stays non-degenerate.
+    "odd6": lambda *ws: (generators_rungs._surface_odd6(*ws),),
     # wave 3: N token (base12 precedent); cue word (proposal §2b)
     "base13": lambda n: (n,),
     "antonym6": lambda cue, *opts: (cue,),
@@ -236,14 +241,16 @@ SPLIT_PLAN = {
                               shared_components=True), 4000),
     # wave 2 (approved consolidated blessing, PROGRESS 2026-08-02):
     # medians + quad_next default/2000 on 1-comp bases; arith_next takes
-    # the sub_base8 figures (its (a,d) space is 1,710 < 2,500); odd6
-    # takes the 2b odd_one_out family figures (flagged costs accepted).
+    # the sub_base8 figures (its (a,d) space is 1,710 < 2,500).
     "median5": (SplitParams(), N_PROBE),
     "median7": (SplitParams(), N_PROBE),
     "arith_next": (SplitParams(holdout_frac=0.35), 1000),
     "quad_next": (SplitParams(), N_PROBE),
-    "odd6": (SplitParams(holdout_frac=0.45, min_val_items=300,
-                         shared_components=True), 8000),
+    # odd6 re-blessed 2026-08-02: odd-word 1-comp at holdout 0.30 (24 of
+    # 80 word values held >= the 15 floor; val ~30% of items), n_probe
+    # unchanged at 8000 -- supersedes the 0.45 shared plan after its
+    # degenerate-clearance finding (wave-2 review F2).
+    "odd6": (SplitParams(holdout_frac=0.30), 8000),
     # wave 3 (blessing table): pure defaults for both
     "base13": (SplitParams(), N_PROBE),
     "antonym6": (SplitParams(), N_PROBE),
@@ -292,16 +299,32 @@ def generate(name: str) -> dict:
     seen_args = set()
     seen_q = set()
 
+    # Shot-diversity rule (Michael's ruling 2026-08-02, after three
+    # seed-luck shot collisions in the growth build): the shots must
+    # demonstrate DISTINCT probe labels, redrawing from the same seeded
+    # stream until satisfied. For every rung whose first N_SHOTS draws
+    # already comply, this is a byte-identical no-op (the stream is
+    # untouched); rejected same-label draws are NOT marked seen, so they
+    # may reappear later as ordinary items.
     shots = []
+    shot_labels = set()
+    shot_attempts = 0
     while len(shots) < N_SHOTS:
+        shot_attempts += 1
+        if shot_attempts > 1000:
+            raise RuntimeError(f"{name}: cannot draw {N_SHOTS} "
+                              "distinct-label shots in 1000 attempts")
         args = _as_tuple(spec.gen(rng))
         if args in seen_args:
             continue
         item = _make_item(spec, args)
         if item["question"] in seen_q:
             continue
+        if item["probe_label"] in shot_labels:
+            continue
         seen_args.add(args)
         seen_q.add(item["question"])
+        shot_labels.add(item["probe_label"])
         shots.append([item["question"], item["answer"]])
 
     n_total = N_EVAL + n_probe

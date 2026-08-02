@@ -218,8 +218,42 @@ def test_generate_odd6(tmp_path, monkeypatch):
         odd = next(w for w, c in zip(words, cats) if cats.count(c) == 1)
         assert item["answer"] == odd
         assert item["probe_label"] == str(words.index(odd) + 1)
-        assert item["basis"] == words        # all 6 words (blessed 6-comp)
+        # re-blessing 2026-08-02: basis = the odd word ALONE (the 6-comp
+        # shared basis cleared its floors only degenerately -- wave-2
+        # review F2, ruled by Michael)
+        assert item["basis"] == [odd]
     assert d["family"] == "odd_one_out" and d["dial_value"] == 6
+
+
+def test_shots_demonstrate_distinct_labels(tmp_path, monkeypatch):
+    # Shot-diversity rule (Michael's ruling 2026-08-02, after three
+    # seed-luck collisions in the growth build): generate()'s two shots
+    # must demonstrate DISTINCT probe labels, redrawing from the same
+    # seeded stream until satisfied. Checked here on the two rungs whose
+    # committed shots collided (odd6 5/5, antonym6 4/4) plus one
+    # already-compliant rung (mod17) whose output must be unchanged.
+    from experiments.exp2c.battery.wordlists_2c import CATEGORIES_2C, ANTONYMS_2C
+    cat_of = {w: c for c, ms in CATEGORIES_2C.items() for w in ms}
+    ant = dict(ANTONYMS_2C)
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+
+    d = gen_items.generate("odd6")
+    labels = []
+    for q, a in d["shots"]:
+        words = re.search(r"others: ([a-z_, ]+)\?", q).group(1).split(", ")
+        labels.append(words.index(a) + 1)
+    assert len(set(labels)) == len(labels), labels
+
+    d = gen_items.generate("antonym6")
+    labels = []
+    for q, a in d["shots"]:
+        opts = re.search(r": ([a-z, ]+)\?", q).group(1).split(", ")
+        labels.append(opts.index(a) + 1)
+    assert len(set(labels)) == len(labels), labels
+
+    d = gen_items.generate("mod17")
+    labels = [int(re.findall(r"\d+", q)[0]) % 17 for q, a in d["shots"]]
+    assert len(set(labels)) == len(labels), labels
 
 
 # ------------------------------------------------------------------ wave 3
@@ -274,9 +308,11 @@ def test_wave2_split_plan_pins():
         assert n_probe == 2000
     sp, n_probe = gen_items.SPLIT_PLAN["arith_next"]
     assert sp.holdout_frac == 0.35 and n_probe == 1000
+    # odd6 re-blessed 2026-08-02 (wave-2 review F2): odd-word 1-comp
+    # basis at holdout 0.30, n_probe unchanged at 8000
     sp, n_probe = gen_items.SPLIT_PLAN["odd6"]
-    assert sp.shared_components is True and sp.holdout_frac == 0.45
-    assert sp.min_val_items == 300 and n_probe == 8000
+    assert sp.shared_components is False and sp.holdout_frac == 0.30
+    assert n_probe == 8000
 
 
 def test_pos_letter_split_plan_pins():
@@ -399,9 +435,100 @@ def _true_base13(q):
 
 
 def _true_antonym6(q):
+    # Wave-3 review M3 sharpening: don't trust a shared direction dict --
+    # assert exactly ONE listed option pairs with the cue in ANTONYMS_2C
+    # (order-free frozenset membership), and return that option.
     from experiments.exp2c.battery.wordlists_2c import ANTONYMS_2C
+    pairs = {frozenset(p) for p in ANTONYMS_2C}
     cue = re.search(r"opposite of '([a-z]+)'", q).group(1)
-    return dict(ANTONYMS_2C)[cue]
+    opts = re.search(r": ([a-z, ]+)\?", q).group(1).split(", ")
+    partners = [w for w in opts if frozenset((cue, w)) in pairs]
+    assert len(partners) == 1, (cue, opts)
+    return partners[0]
+
+
+# --------------------------------------------------------------------------
+# Committed probe-label sweep (wave-3 review M2): the Fix-A sweep above
+# checks ANSWERS only; a hand-edited committed probe_label would pass the
+# suite. TRUE_LABEL recomputes the LABEL from the question text alone for
+# every registered spec; the sweep below runs it over EVERY item of every
+# committed file. Specs whose question asks for the label directly reuse
+# TRUE_ANSWER (answer == label there, and the Fix-A sweep already pins
+# answer correctness on committed files).
+
+def _true_label_odd6(q):
+    return str(re.search(r"others: ([a-z_, ]+)\?", q).group(1)
+               .split(", ").index(_true_odd6(q)) + 1)
+
+
+def _true_label_antonym6(q):
+    return str(re.search(r": ([a-z, ]+)\?", q).group(1)
+               .split(", ").index(_true_antonym6(q)) + 1)
+
+
+def _true_label_median(q, mid):
+    nums = _ints(q)
+    return str(nums.index(sorted(nums)[mid]) + 1)
+
+
+TRUE_LABEL = {
+    "add4_mid": lambda q: str((_ints(q)[0] + _ints(q)[1]) // 100 % 10),
+    "sub4_mid": lambda q: str((_ints(q)[0] - _ints(q)[1]) // 100 % 10),
+    "base12": lambda q: str(_ints(q)[0] % 12),
+    "base12_digitsum": lambda q: str(_b12_digitsum(_ints(q)[0])),
+    "sub_base8": lambda q: str((int(re.search(
+        r"What is (\d+) - (\d+)", q).group(1), 8) - int(re.search(
+        r"What is (\d+) - (\d+)", q).group(2), 8)) % 8),
+    "mod17": lambda q: str(_ints(q)[0] % 17),
+    "mod19": lambda q: str(_ints(q)[0] % 19),
+    "mod13_comp": lambda q: str((_ints(q)[0] + _ints(q)[1]) % 13),
+    "caesar_len8": lambda q: TRUE_ANSWER["caesar_len8"](q)[0],
+    "count_div13": lambda q: TRUE_ANSWER["count_div13"](q),
+    "clock24_d999": lambda q: TRUE_ANSWER["clock24_d999"](q),
+    "rev_string7": lambda q: re.search(r"'([a-z]+)'", q).group(1)[-1],
+    "roman_sum7": lambda q: TRUE_ANSWER["roman_sum7"](q),
+    "collatz_step2": lambda q: TRUE_ANSWER["collatz_step2"](q),
+    "isqrt_gap": lambda q: TRUE_ANSWER["isqrt_gap"](q),
+    "letter_sum": lambda q: TRUE_ANSWER["letter_sum"](q),
+    "letter_prod": lambda q: TRUE_ANSWER["letter_prod"](q),
+    "hamming8": lambda q: TRUE_ANSWER["hamming8"](q),
+    "hamming12": lambda q: TRUE_ANSWER["hamming12"](q),
+    "median5": lambda q: _true_label_median(q, 2),
+    "median7": lambda q: _true_label_median(q, 3),
+    "arith_next": lambda q: str(int(_true_arith_next(q)) % 7),
+    "quad_next": lambda q: str(int(_true_quad_next(q)) % 7),
+    "odd6": _true_label_odd6,
+    "antonym6": _true_label_antonym6,
+    "base13": lambda q: str(_ints(q)[0] % 13),
+}
+
+
+def _b12_digitsum(n):
+    total = 0
+    while n:
+        n, r = divmod(n, 12)
+        total += r
+    return total % 5
+
+
+def test_true_label_covers_every_registered_spec():
+    assert set(TRUE_LABEL) == set(SPECS)
+
+
+def test_committed_labels_are_true_labels():
+    # every item of every committed file, probe and eval sides both --
+    # the freeze-facing pin M2 asked for
+    for name, recompute in TRUE_LABEL.items():
+        path = _ITEMS / f"{name}.json"
+        if not path.exists():
+            continue          # only rungs with committed items
+        d = json.loads(path.read_text())
+        for grp in ("probe_items", "eval_items"):
+            for it in d[grp]:
+                true = recompute(it["question"])
+                assert true == it["probe_label"], (
+                    f"{name}: {it['question']!r} -> stored label "
+                    f"{it['probe_label']!r}, true label {true!r}")
 
 
 # Wave-2 review M4 hardening (2026-08-02): recompute seq_extrap answers
