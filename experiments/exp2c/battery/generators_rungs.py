@@ -413,6 +413,114 @@ register(CapabilitySpec(
     seed=20260811,
 ))
 
+# ---------------------------------------------------------------- pos_letter
+# F3 growth family (growth-proposal.md §3, ACCEPTED 2026-08-01; basis ruled
+# string-as-basis, ruling 2). A data-dependent gather: compute an index from
+# two printed integers, read the letter at that index of a printed random
+# string. Interior positions only (2-7, 1-indexed): the first-letter carrier
+# (leak class 6) and the final-BPE-chunk carrier (reverse_string's Exp-2
+# mechanism) never see the label. Uniform random letters kill the English
+# letter-frequency shortcut. Position-distribution arithmetic (enumerated
+# over all 64 (i,j) pairs, pinned in test_pos_letter_position_distribution):
+#   sum:  p in 2..7 at 10,10,11,12,11,10 of 64 -- near-uniform, max 0.1875
+#   prod: p in 2..7 at 21, 5,14, 7,13, 4 of 64 -- 0.328 concentrated on p=2
+#         (products cluster on 0 mod 6), the named F3b risk; screened FIRST
+#         in the growth build wave per proposal §6.
+
+def _gen_pos_letter(rng):
+    s = "".join(_ALPHA[int(rng.integers(26))] for _ in range(8))
+    i = int(rng.integers(1, 9))
+    j = int(rng.integers(1, 9))
+    return (s, i, j)
+
+
+def _oracle_letter_sum(s, i, j):
+    return s[((i + j) % 6) + 1]     # 0-indexed p-1 for p = ((i+j) mod 6) + 2
+
+
+def _oracle_letter_prod(s, i, j):
+    return s[((i * j) % 6) + 1]
+
+
+register(CapabilitySpec(
+    name="letter_sum", family="pos_letter", dial_name="index_op",
+    dial_value="sum",
+    description="read the letter at position p = ((i+j) mod 6) + 2 "
+                "(1-indexed, interior 2-7 only) of a printed random "
+                "8-letter string; i, j in [1,8] printed alongside",
+    answer_type="word",
+    probe_label_space="the letter at p (a-z, 26 nominal; split stratified "
+                      "by label)",
+    basis_kind="the printed string S itself, per-string holdout (string-"
+              "as-basis ruling 2026-08-01, the N-token-basis shape): every "
+              "S is fresh-random over 26^8, so held-out val items always "
+              "carry strings the probe never trained on and a string-to-"
+              "label lookup starves by construction",
+    composability="a variable-index gather: the read position is computed "
+                  "from two printed integers, then the letter is fetched "
+                  "from that data-dependent slot of a different printed "
+                  "token -- non-local in (i, j, S) jointly; random "
+                  "projections are weak at variable-index gather, and that "
+                  "weakness is what the rung tests. Position distribution "
+                  "is near-uniform for the sum op (10-12 of 64 per slot, "
+                  "max 0.1875), so no fixed slot dominates",
+    dumbest_baseline="honest disclosure (ruling 2026-08-01): the position "
+                     "arithmetic is inherently UNSTARVABLE -- i and j are "
+                     "printed and p = ((i+j) mod 6) + 2 is low-complexity, "
+                     "so no holdout removes position computability; what "
+                     "the per-string holdout starves is the string, "
+                     "leaving exactly the gather-from-a-fresh-string "
+                     "capability under test. A fixed-slot reader gets the "
+                     "right position at most 18.75% of draws and the right "
+                     "letter only if slot-letter identity is decodable "
+                     "from untrained activations at all -- reverse_string, "
+                     "the fixed-position precedent, read 0.000 untrained "
+                     "under starving. The tier-1/tier-2 untrained screen "
+                     "is the arbiter of the variable-index gather",
+    oracle=_oracle_letter_sum,
+    gen=_gen_pos_letter,
+    seed=20260824,
+))
+
+register(CapabilitySpec(
+    name="letter_prod", family="pos_letter", dial_name="index_op",
+    dial_value="prod",
+    description="read the letter at position p = ((i*j) mod 6) + 2 "
+                "(1-indexed, interior 2-7 only) of a printed random "
+                "8-letter string; i, j in [1,8] printed alongside",
+    answer_type="word",
+    probe_label_space="the letter at p (a-z, 26 nominal; split stratified "
+                      "by label)",
+    basis_kind="the printed string S itself, per-string holdout (string-"
+              "as-basis ruling 2026-08-01, the N-token-basis shape): every "
+              "S is fresh-random over 26^8, so held-out val items always "
+              "carry strings the probe never trained on and a string-to-"
+              "label lookup starves by construction",
+    composability="the same variable-index gather as letter_sum with the "
+                  "index op moved to the product: i*j mod 6 changes the "
+                  "index distribution, which is the family dial. Named at "
+                  "full strength: products cluster on 0 mod 6, so p=2 "
+                  "absorbs 21/64 = 0.328 of draws (vs 0.167 uniform) -- "
+                  "the position-concentration risk the proposal flags for "
+                  "F3b specifically, and why this rung screens FIRST in "
+                  "the growth build wave (proposal §6)",
+    dumbest_baseline="honest disclosure (ruling 2026-08-01): position "
+                     "arithmetic UNSTARVABLE as letter_sum's (i, j "
+                     "printed; low-complexity map); the per-string holdout "
+                     "starves only the string. The sharpest fixed-slot "
+                     "attack: always read slot 2 -- right position 32.8% "
+                     "of draws, plus 1/26 coincidence elsewhere, is ~0.35 "
+                     "accuracy against a ~0.04 chance floor IF slot-2 "
+                     "letter identity is linearly decodable from untrained "
+                     "activations; reverse_string's fixed-position 0.000 "
+                     "precedent says it is not, and the untrained screen "
+                     "adjudicates exactly this before the rung can enter "
+                     "the battery",
+    oracle=_oracle_letter_prod,
+    gen=_gen_pos_letter,
+    seed=20260825,
+))
+
 register(CapabilitySpec(
     name="rev_string7", family="reversal", dial_name="len", dial_value=7,
     description="reverse a random 7-letter string",

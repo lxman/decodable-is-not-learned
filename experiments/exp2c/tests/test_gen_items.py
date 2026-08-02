@@ -55,6 +55,57 @@ def test_feasibility_recorded(tmp_path, monkeypatch):
     assert set(f["per_seed"]) == {"0", "1", "2", "3", "4"}
 
 
+def _check_generate_pos_letter(d, tmp_path, name, op):
+    assert len(d["probe_items"]) >= 1800
+    assert len(d["eval_items"]) >= 500
+    it = d["probe_items"][0]
+    assert set(it) >= {"question", "answer", "probe_label", "basis"}
+    # label consistency recomputed from the question TEXT (i, j) plus the
+    # committed basis string S -- string-as-basis (ruling 2026-08-01), so
+    # basis[0] must equal the printed string and the label must be its
+    # letter at p = ((i op j) mod 6) + 2, interior positions 2-7 only.
+    # surface_answer is None: answer == probe_label (letter asked directly).
+    for item in d["probe_items"][:50]:
+        s = re.search(r"'([a-z]+)'", item["question"]).group(1)
+        assert item["basis"] == [s]
+        nums = [int(x) for x in re.findall(r"\d+", item["question"])]
+        i, j = nums[0], nums[1]
+        p = (op(i, j) % 6) + 2
+        assert 2 <= p <= 7
+        assert item["probe_label"] == s[p - 1]
+        assert item["answer"] == item["probe_label"]
+    assert d["family"] == "pos_letter"
+    assert (tmp_path / f"{name}.json").exists()
+
+
+def test_generate_letter_sum(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("letter_sum")
+    _check_generate_pos_letter(d, tmp_path, "letter_sum",
+                               lambda i, j: i + j)
+    assert d["dial_value"] == "sum"
+
+
+def test_generate_letter_prod(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("letter_prod")
+    _check_generate_pos_letter(d, tmp_path, "letter_prod",
+                               lambda i, j: i * j)
+    assert d["dial_value"] == "prod"
+
+
+def test_pos_letter_split_plan_pins():
+    # caesar precedent: the letter label's 26 classes must survive both
+    # sides of the per-string holdout -> stratify_by_label=True; otherwise
+    # default SplitParams and the default 2000-probe target (proposal §3
+    # F3 feasibility block: "default SplitParams(), N_PROBE 2000").
+    for name in ("letter_sum", "letter_prod"):
+        sp, n_probe = gen_items.SPLIT_PLAN[name]
+        assert sp.stratify_by_label is True
+        assert sp.holdout_frac == 0.2
+        assert n_probe == 2000
+
+
 # --------------------------------------------------------------------------
 # Committed-items answer verification (review fix 2026-07-29, Fix A ruling).
 # The original generation stored the PROBE LABEL as `answer` for the 9
@@ -140,7 +191,17 @@ TRUE_ANSWER = {
     "collatz_step2": lambda q: str(_collatz(_collatz(
         int(re.search(r"twice to (\d+)", q).group(1)))) % 7),
     "isqrt_gap": _true_isqrt_gap,
+    "letter_sum": lambda q: _true_pos_letter(q, lambda i, j: i + j),
+    "letter_prod": lambda q: _true_pos_letter(q, lambda i, j: i * j),
 }
+
+
+def _true_pos_letter(q, op):
+    # i and j are the first two integers the question prints (the mod-6
+    # and +2 constants and the "counting from 1" clause come after).
+    s = re.search(r"'([a-z]+)'", q).group(1)
+    i, j = _ints(q)[0], _ints(q)[1]
+    return s[((op(i, j)) % 6) + 2 - 1]
 
 
 def test_true_answer_covers_every_registered_spec():

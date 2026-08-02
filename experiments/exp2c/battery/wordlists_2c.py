@@ -204,3 +204,118 @@ WORDS_7_8 = [
     "workout", "workshop", "worried", "worship", "wrapped", "wrapping", "writing", "written",
     "younger", "yourself",
 ]
+
+
+# ============================================================= growth build
+# Ruling 3 (2026-08-01, growth-proposal.md): the two approved growth
+# wordlists, 2c-owned, hand-reviewed per the proposal's §2(b)/(c) hygiene
+# criteria. 2b's frozen wordlists.py is untouched; disjointness from its
+# ANTONYMS is enforced at BOTH pair and token level by
+# tests/test_wordlists_2c.py (stronger than the ownership rule requires:
+# the antonym family's two rungs share zero cue/answer vocabulary, so the
+# family-honest correlation cannot ride shared word idiosyncrasies).
+#
+# ANTONYMS_2C construction rules (each excludes a named carrier):
+#   - no derivational-negation pairs (sane/insane, mortal/immortal): the
+#     answer would contain the cue -- the sharing-letters-with-the-cue
+#     carrier of proposal §2(b) at full strength;
+#   - no shared prefix/suffix >= 3 or edit distance < 3 within a pair
+#     (import/export, morning/evening, east/west): same carrier, weaker
+#     dose;
+#   - pair length gap <= 4 (drops hasty/deliberate, real/imaginary): no
+#     pick-the-long-one heuristic;
+#   - every token unique across the pool (2b repeated sweet/gradual/...);
+#   - POS-segregated sublists: antonym6's distractor draws must come from
+#     the cue's own sublist so the answer is never the only
+#     part-of-speech match among five noun distractors -- an eval-side
+#     shortcut, not a probe leak, but battery hygiene either way.
+
+ANTONYMS_2C_ADJ = [
+    ("huge", "tiny"), ("flat", "bumpy"), ("cheerful", "miserable"),
+    ("obedient", "defiant"), ("daring", "cautious"), ("reckless", "careful"),
+    ("crisp", "soggy"), ("sunny", "cloudy"), ("smart", "stupid"),
+    ("neat", "sloppy"), ("fat", "skinny"), ("bulky", "compact"),
+    ("murky", "clear"), ("feeble", "mighty"), ("drowsy", "alert"),
+    ("somber", "festive"), ("frugal", "lavish"), ("bland", "spicy"),
+    ("mild", "severe"), ("faint", "vivid"), ("flimsy", "durable"),
+    ("slack", "taut"), ("barren", "fertile"), ("level", "tilted"),
+    ("chilly", "balmy"), ("savage", "civilized"), ("domestic", "foreign"),
+    ("native", "alien"), ("ordinary", "exotic"), ("normal", "strange"),
+    ("usual", "peculiar"), ("modest", "boastful"),
+    ("stubborn", "docile"), ("vague", "precise"), ("tense", "relaxed"),
+    ("anxious", "serene"), ("proud", "ashamed"), ("crowded", "deserted"),
+    ("blurry", "focused"), ("lawful", "criminal"),
+    ("bashful", "outgoing"), ("rash", "prudent"), ("grumpy", "jolly"),
+    ("nimble", "awkward"), ("stiff", "limber"), ("crunchy", "mushy"),
+    ("fragrant", "foul"), ("roomy", "cramped"), ("steady", "shaky"),
+    ("risky", "secure"), ("glum", "merry"), ("weary", "energetic"),
+    ("turbulent", "placid"), ("tardy", "punctual"), ("concrete", "abstract"),
+    ("literal", "figurative"), ("sacred", "profane"), ("harmless", "deadly"),
+    ("verbose", "terse"), ("hefty", "puny"), ("soaked", "parched"),
+    ("frozen", "molten"), ("angry", "pleased"), ("candid", "evasive"),
+    ("brittle", "pliable"),
+]
+
+ANTONYMS_2C_NOUN = [
+    ("day", "night"), ("dawn", "dusk"), ("summer", "winter"),
+    ("spring", "autumn"), ("noon", "midnight"), ("question", "answer"),
+    ("entrance", "exit"), ("arrival", "departure"), ("attack", "defense"),
+    ("profit", "loss"), ("success", "failure"), ("love", "hate"),
+    ("peace", "war"), ("friend", "enemy"), ("hero", "villain"),
+    ("giant", "dwarf"), ("floor", "ceiling"), ("top", "bottom"),
+    ("past", "future"), ("birth", "death"), ("winner", "loser"),
+    ("leader", "follower"), ("teacher", "student"), ("buyer", "seller"),
+    ("parent", "child"), ("master", "servant"), ("host", "guest"),
+    ("landlord", "tenant"), ("doctor", "patient"),
+    ("ally", "foe"), ("heaven", "hell"), ("wisdom", "folly"),
+    ("joy", "sorrow"), ("pleasure", "pain"), ("reward", "punishment"),
+    ("praise", "blame"), ("order", "chaos"), ("drought", "flood"),
+    ("famine", "feast"), ("poverty", "wealth"), ("silence", "noise"),
+    ("rise", "fall"), ("start", "finish"), ("cause", "effect"),
+    ("supply", "demand"), ("income", "expense"), ("surplus", "shortage"),
+    ("growth", "decay"), ("harmony", "discord"), ("unity", "division"),
+    ("freedom", "slavery"), ("knowledge", "ignorance"),
+    ("honesty", "deceit"), ("loyalty", "betrayal"), ("virtue", "vice"),
+    ("angel", "demon"), ("expert", "novice"), ("veteran", "rookie"),
+    ("courage", "cowardice"), ("strength", "weakness"),
+    ("mountain", "valley"), ("whisper", "shout"),
+    ("compliment", "insult"), ("approval", "rejection"),
+    ("saint", "sinner"),
+]
+
+ANTONYMS_2C = ANTONYMS_2C_ADJ + ANTONYMS_2C_NOUN
+
+
+# CATEGORIES_2C: ten fresh territories, all disjoint from CATEGORIES_2B's
+# ten (animals/birds/fish/trees/flowers/fruits/vegetables/tools/vehicles/
+# instruments stay 2b's). Members are common concrete nouns, membership
+# unambiguous WITHIN this list (no word in two categories -- "squash"
+# lives in sports because no vegetable category exists here; "cricket"
+# lives in insects for the same reason). Anti-clustering rule (§2(c)):
+# within a category no >= 3-letter prefix/suffix shared by >= 3 members,
+# mean member length inside a common band, >= 5 distinct first letters --
+# occupations (-er/-or/-ist) and ball sports (-ball) were rejected as
+# territories on exactly this rule.
+
+CATEGORIES_2C = {
+    "metals": ["iron", "copper", "zinc", "lead", "tin", "silver",
+               "nickel", "cobalt"],
+    "gemstones": ["ruby", "pearl", "opal", "jade", "topaz", "amber",
+                  "garnet", "emerald"],
+    "fabrics": ["cotton", "silk", "wool", "linen", "denim", "velvet",
+                "satin", "tweed"],
+    "beverages": ["coffee", "tea", "milk", "juice", "cocoa", "cider",
+                  "soda", "lemonade"],
+    "insects": ["ant", "bee", "wasp", "moth", "beetle", "cricket",
+                "hornet", "termite"],
+    "weather": ["rain", "snow", "hail", "fog", "sleet", "thunder",
+                "drizzle", "frost"],
+    "sports": ["tennis", "golf", "hockey", "rugby", "judo", "karate",
+               "polo", "squash"],
+    "body_parts": ["elbow", "knee", "wrist", "ankle", "shoulder",
+                   "thumb", "chin", "heel"],
+    "utensils": ["spoon", "fork", "knife", "ladle", "whisk", "spatula",
+                 "sieve", "grater"],
+    "buildings": ["castle", "church", "temple", "palace", "shed",
+                  "barn", "tower", "hut"],
+}

@@ -1346,3 +1346,111 @@ arith_next's generator space is 1,710 < 2,500 default probe items, so
 it CERTAINLY needs the reduced-n_probe blessing (sub_base8 precedent)
 — queued for a consolidated feasibility-blessing pass at item
 generation alongside odd6/order_stat/antonym6's expected overrides.
+
+## 2026-08-01: Growth wave 1 built — pos_letter registered + items committed; two wordlists drafted (tasks W1a/W1b)
+
+**Wave-1 rungs (proposal §6: riskiest first).** `letter_sum` (seed
+20260824) and `letter_prod` (seed 20260825) registered in
+`battery/generators_rungs.py` exactly per the accepted proposal §3 F3 +
+ruling 2 (string-as-basis): 8-letter uniform a–z string S, i,j ∈ [1,8]
+printed alongside, read position p = ((i∘j) mod 6) + 2 (1-indexed,
+interior 2–7 only), probe label = the letter at p, `surface_answer=None`
+(the question asks for the letter directly, so answer == probe_label —
+the rescue-style shape, not Fix A's). Basis = (S,) alone; i and j are
+printed decoys that never enter the basis. SPLIT_PLAN: default
+`SplitParams` + `stratify_by_label=True` (caesar precedent), N_PROBE
+2000. The position-distribution arithmetic is IN the spec texts at full
+strength and pinned by enumeration in
+`test_pos_letter_position_distribution`: sum 10,10,11,12,11,10 of 64
+(near-uniform, max 0.1875); prod 21,5,14,7,13,4 of 64 (0.328
+concentrated on p=2 — the named F3b risk; sharpest fixed-slot attack
+~0.35 accuracy against ~0.04 chance IF slot-letter identity is
+decodable untrained, which reverse_string's fixed-position 0.000
+precedent says it is not; the screen adjudicates).
+
+**TDD.** RED first: 12 failures against the pre-implementation modules
+(KeyError-shaped on the new names, coverage-pin set mismatch,
+FileNotFoundError on the not-yet-generated item files), 12 pre-existing
+tests green throughout. GREEN after registration + wiring: 9 new test
+functions (6 in test_generators_rungs.py: registration/dial/seed pins,
+hand-worked oracle vectors on 'qwertyui' for both ops, gen
+shape/interior-position sweep, the position-distribution enumeration
+pin, determinism; 3 in test_gen_items.py: per-rung generate checks
+recomputing the label from question text + committed basis, and the
+SPLIT_PLAN stratification pin). TRUE_ANSWER gains both rungs
+(`_true_pos_letter`, independent recompute from the question text; i, j
+are the first two integers printed, constants 6/2/1 follow).
+
+**Generation** (canonical venv, `python -m battery.gen_items`): both
+rungs 500 eval / 2000 probe, zero ejections; min val across seeds 397
+(letter_sum) / 400 (letter_prod), floors 300/15 cleared; all 26 letter
+classes populated on both rungs (min class 56). Hand spot-checks of
+shots + first probe/eval items recomputed clean. Full suite after
+generation: **74 passed** (65 + 9), no regressions.
+
+**Adversarial review (subagent, verified):** every one of the 2,500
+items + 2 shots per rung independently recomputed from question text
+alone — zero mismatches; committed files bit-reproduced from their
+seeds; both distributions re-enumerated and every number in the spec
+texts confirmed; reverse_string's 0.000-margin precedent verified
+against all 10 committed 2b known_absent fits. **No Critical or
+Important findings.** Three Minors, adjudicated:
+
+1. **Proposal §5 wording contradiction (fixed in place):** §5's
+   override row said "pos_letter: default SplitParams() expected,"
+   contradicting §3 F3's own `stratify_by_label=True` text and §5's
+   k-class row ("stratified"). The build follows §3 (the specific
+   clause); §5's row corrected with a dated note. No code change.
+2. **Feasibility record under-specifies the split (ledgered, no
+   action):** the frozen `splits.feasibility_report` serializes only
+   holdout_frac/n_holdout/min_holdout_values/min_val_items, so the
+   committed item JSONs cannot show `stratify_by_label` (or
+   caesar_len8/count_div13's flags before them). Battery-wide,
+   chargeable to the frozen instrument; runtime reads SPLIT_PLAN, not
+   the JSON. Preregistration readers: the JSON alone is not the full
+   split spec.
+3. **letter_sum shot collision (FLAG for Michael, no unilateral
+   change):** both committed letter_sum shots land on p=2 by seed
+   luck, and shot 1's string ('wwvhyodg', S[1]=S[2]='w') is jointly
+   consistent with a spurious "answer = 2nd letter" rule — the
+   family's own named fixed-slot attack, handed to the M4 eval model
+   as two consistent exemplars (~0.22 accuracy for a slot-2 reader on
+   the sum op). letter_prod's shots show p=5/p=2 (fine). No
+   preregistered criterion governs shot diversity, the seed is
+   proposal-assigned, and shots are a constant prefix for probe-side
+   activations — so tier-1 proceeds unaffected; but if Michael wants
+   shot-position diversity enforced (e.g. redraw shots from the same
+   seeded stream until the two demonstrate distinct p, as a
+   battery-wide forward rule), the change must land BEFORE tier-2,
+   whose fits are the campaign's untrained-gate fits and whose cached
+   activations embed the shot prefix. Queued as a ruling question.
+
+**Wordlists (ruling 3, long-pole per §6, drafted in parallel):**
+`wordlists_2c.ANTONYMS_2C` — 130 pairs (65 adjective + 65 noun,
+POS-segregated sublists so antonym6's distractor draws can stay within
+the cue's own POS; floors ≥90 total / ≥60 per sublist). Construction
+rules, each excluding a named carrier (module docstring): no
+derivational-negation pairs, no shared prefix/suffix ≥3 or edit
+distance <3 within a pair (the §2(b) answer-resembles-cue carrier), no
+pair length gap >4, every token unique across the pool, and pair- AND
+token-level disjointness from 2b's frozen ANTONYMS (stronger than the
+ownership rule: the antonym family's two rungs share zero vocabulary,
+so the family-honest ρ cannot ride shared word idiosyncrasies).
+`wordlists_2c.CATEGORIES_2C` — 10 fresh territories × 8 members
+(floors ≥8×6), all disjoint from CATEGORIES_2B's ten; morphological-
+clustering rule (no ≥3-letter prefix/suffix shared by ≥3 members of a
+category), mean-length band 4.0–6.0, ≥5 distinct first letters per
+category — occupations (-er/-or/-ist) and ball sports (-ball) rejected
+as territories on exactly this rule. All criteria are programmatic in
+the new `tests/test_wordlists_2c.py` (9 tests; RED confirmed on the
+missing names first). The tests earned their keep immediately: the
+first draft shipped four violations my hand check missed
+(meek/assertive, cluttered/bare, shy/outgoing at length gap 5;
+predator/prey at shared prefix "pre") — two dropped, one replaced
+(bashful/outgoing), predator/prey dropped. **Still pending: Michael's
+hand review of both lists (his ruling requires it) before antonym6/odd6
+items generate in waves 2–3.**
+
+**Next:** tier-1 screens on letter_prod (first — position-concentration
+risk) then letter_sum; verdicts ledgered here; then wave 2 (order_stat,
+seq_extrap, odd6) per §6.

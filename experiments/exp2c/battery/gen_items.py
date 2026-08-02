@@ -82,6 +82,12 @@ TEMPLATES = {
     "clock24_d999": "On a 24-hour clock, what hour is it {b} hours after "
                     "hour {a}?",
     "rev_string7": "Spell the string '{a}' backwards.",
+    "letter_sum": "The string is '{a}'. Let p = (({b} + {c}) mod 6) + 2. "
+                  "What is the letter at position p of the string, "
+                  "counting from 1?",
+    "letter_prod": "The string is '{a}'. Let p = (({b} * {c}) mod 6) + 2. "
+                   "What is the letter at position p of the string, "
+                   "counting from 1?",
     "roman_sum7": "What is the sum of the roman numerals {a} and {b}, "
                   "mod 7?",
     "collatz_step2": "Apply the Collatz rule (if even, halve; if odd, "
@@ -134,6 +140,12 @@ BASIS = {
     "count_div13": lambda a, b: (a, b),
     "clock24_d999": lambda h, d: (d,),
     "rev_string7": lambda s: (_final_chunk(s),),
+    # string-as-basis (ruling 2026-08-01): the printed string S itself,
+    # one component, per-string holdout; i and j are printed decoys that
+    # never enter the basis (the position map is disclosed-unstarvable,
+    # see each spec's dumbest_baseline).
+    "letter_sum": lambda s, i, j: (s,),
+    "letter_prod": lambda s, i, j: (s,),
     "roman_sum7": lambda a, b: (a, b),
     "collatz_step2": lambda n: (n,),
     "isqrt_gap": lambda n: (n,),
@@ -173,6 +185,14 @@ SPLIT_PLAN = {
                                 shared_components=True), 4000),
     "clock24_d999": (SplitParams(), N_PROBE),
     "rev_string7": (SplitParams(), N_PROBE),
+    # pos_letter (proposal §3 F3 feasibility block): default SplitParams +
+    # stratify_by_label=True (the caesar precedent -- 26 letter classes
+    # must survive both sides of the per-string holdout). Basis values are
+    # per-item unique (fresh-random strings), so the 0.2 holdout reduces
+    # to a ~20% item split: ~400 val items and ~400 held-out basis values,
+    # comfortably above the 300/15 floors.
+    "letter_sum": (SplitParams(stratify_by_label=True), N_PROBE),
+    "letter_prod": (SplitParams(stratify_by_label=True), N_PROBE),
     # roman_sum7's basis_kind names this explicitly: "single shared
     # holdout over the union of numeral values (shared-component
     # variant)" -- same shape and same fix as count_div13.

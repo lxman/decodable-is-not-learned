@@ -6,7 +6,7 @@ from experiments.exp2c.battery.wordlists_2c import WORDS_7_8
 
 EXPECTED = ["add4_mid", "sub4_mid", "base12", "base12_digitsum", "sub_base8",
             "mod17", "mod19", "mod13_comp", "caesar_len8", "count_div13",
-            "clock24_d999", "rev_string7"]
+            "clock24_d999", "rev_string7", "letter_sum", "letter_prod"]
 
 
 def test_all_registered_and_valid():
@@ -109,3 +109,98 @@ def test_base12_digitsum_rescue_route_left_unset():
     assert s.family == "base_repr"
     assert "base12" in s.dumbest_baseline
     assert "CRT" in s.dumbest_baseline
+
+
+# ---------------------------------------------------------------- pos_letter
+# F3 growth rungs (growth-proposal.md §3, accepted 2026-08-01): 8-letter
+# uniform random string S, i,j in [1,8], read position p = ((i op j) mod 6)
+# + 2 (1-indexed, interior 2-7 only), probe label = the letter at p. The
+# question asks for the letter directly, so surface_answer is None and
+# answer == probe_label (the rescue-style shape, not Fix A's).
+
+def test_pos_letter_registered_and_valid():
+    for name in ("letter_sum", "letter_prod"):
+        assert name in SPECS, name
+        assert validate_spec(SPECS[name]) == []
+        s = SPECS[name]
+        assert s.family == "pos_letter"
+        assert s.dial_name == "index_op"
+        assert s.answer_type == "word"
+        assert s.surface_answer is None
+        assert s.rescue_of is None and s.mechanism_tested is None
+    assert SPECS["letter_sum"].dial_value == "sum"
+    assert SPECS["letter_prod"].dial_value == "prod"
+    # seeds per the accepted proposal (contiguous growth block)
+    assert SPECS["letter_sum"].seed == 20260824
+    assert SPECS["letter_prod"].seed == 20260825
+
+
+def test_letter_sum_oracle():
+    # p = ((i+j) mod 6) + 2, 1-indexed. Hand-worked on 'qwertyui'
+    # (all-distinct letters, no position/letter aliasing):
+    # i=3,j=5: (8 mod 6)+2 = 4  -> 'r'
+    # i=8,j=8: (16 mod 6)+2 = 6 -> 'y'
+    # i=2,j=4: (6 mod 6)+2 = 2  -> 'w'  (p floor: never position 1)
+    # i=2,j=3: (5 mod 6)+2 = 7  -> 'u'  (p ceiling: never position 8)
+    o = SPECS["letter_sum"].oracle
+    assert o("qwertyui", 3, 5) == "r"
+    assert o("qwertyui", 8, 8) == "y"
+    assert o("qwertyui", 2, 4) == "w"
+    assert o("qwertyui", 2, 3) == "u"
+
+
+def test_letter_prod_oracle():
+    # p = ((i*j) mod 6) + 2, same string:
+    # i=3,j=5: (15 mod 6)+2 = 5 -> 't'
+    # i=2,j=3: (6 mod 6)+2 = 2  -> 'w'
+    # i=1,j=1: (1 mod 6)+2 = 3  -> 'e'
+    # i=7,j=8: (56 mod 6)+2 = 4 -> 'r'
+    o = SPECS["letter_prod"].oracle
+    assert o("qwertyui", 3, 5) == "t"
+    assert o("qwertyui", 2, 3) == "w"
+    assert o("qwertyui", 1, 1) == "e"
+    assert o("qwertyui", 7, 8) == "r"
+
+
+def test_pos_letter_gen_shape_and_interior_positions():
+    for name, op in (("letter_sum", lambda i, j: i + j),
+                     ("letter_prod", lambda i, j: i * j)):
+        s = SPECS[name]
+        rng = np.random.default_rng(s.seed)
+        seen_p = set()
+        for _ in range(500):
+            S, i, j = s.gen(rng)
+            assert len(S) == 8 and S.isalpha() and S.islower()
+            assert 1 <= i <= 8 and 1 <= j <= 8
+            p = (op(i, j) % 6) + 2
+            seen_p.add(p)
+            assert s.oracle(S, i, j) == S[p - 1]
+        # interior only (2-7): first/last letter never read (leak class 6
+        # and the final-BPE-chunk carrier are dodged by construction)
+        assert seen_p == set(range(2, 8))
+
+
+def test_pos_letter_position_distribution():
+    # The proposal's position-uniformity check, pinned by enumeration over
+    # all 64 (i,j) pairs via the public oracle on 'abcdefgh' (letter at p
+    # identifies p): sum is near-uniform (10-12 of 64 per slot); prod
+    # concentrates 21/64 on p=2 (products cluster on 0 mod 6) -- the named
+    # F3b risk the tier-1 screen adjudicates, stated at full strength in
+    # the spec text.
+    from collections import Counter
+    S = "abcdefgh"
+    for name, expected in (
+            ("letter_sum", {2: 10, 3: 10, 4: 11, 5: 12, 6: 11, 7: 10}),
+            ("letter_prod", {2: 21, 3: 5, 4: 14, 5: 7, 6: 13, 7: 4})):
+        o = SPECS[name].oracle
+        c = Counter(S.index(o(S, i, j)) + 1
+                    for i in range(1, 9) for j in range(1, 9))
+        assert dict(c) == expected, name
+
+
+def test_pos_letter_gen_deterministic():
+    for name in ("letter_sum", "letter_prod"):
+        s = SPECS[name]
+        a = s.gen(np.random.default_rng(s.seed))
+        b = s.gen(np.random.default_rng(s.seed))
+        assert a == b
