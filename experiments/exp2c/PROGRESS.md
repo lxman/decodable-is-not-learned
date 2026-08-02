@@ -1174,3 +1174,28 @@ session start.
 (monkeypatched OUT) — reproduced first (manifest mtime churned on
 every pytest run), fixed, verified (mtime stable across runs; suite
 59 passed). The ledgered manifest is no longer regenerable by tests.
+
+## 2026-08-01: Exact-test power table — gate fails at 0.416; Michael rules GROW +6-8 rungs
+
+`python -m run.power_table --exact` (20:47-20:48), transcribed from
+`results/power_table_exact.md`: at the 26-rung/13-family shape,
+n_perms=28,800, resolution 3.47e-5, n_sims=5000 — power at rho_true
+0.0/0.5/0.6/0.7/0.8 = 0.008/0.266/0.416/0.616/0.815; observed alpha
+0.009-0.011 (MC noise around the exact <=.01 guarantee). Robustness
+sweep at rho_true=0.6: power 0.424/0.416/0.416 across rho_family
+0.3/0.5/0.7 — flat, as the exact test promises. The alpha guarantee
+costs power: block-permutation entropy (28,800) is far below
+rung-level entropy.
+
+Growth simulations (simulate_exact on hypothetical shapes, n_sims=
+1500, seed 7, decision support only): +2 rungs ~0.54; +3 ~0.56;
++4 best (third 4-rung family + paired singletons) ~0.65. Shapes
+reaching 0.75 need ~+6-8 rungs and exceed the 5e6 enumeration guard
+-> sampled block permutations (add-one convention preserves exact
+alpha) required in the machinery.
+
+**Michael's ruling 2026-08-01: GROW the battery +6-8 rungs toward
+the 0.75 gate** (the design's own remedy clause). Sequence: sampled-
+permutation machinery extension (reviewed) -> shape sweep -> concrete
+rung menu to Michael -> specs/items/screens per the established
+pattern -> final power table -> Task 13.
