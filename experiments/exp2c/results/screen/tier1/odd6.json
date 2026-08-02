@@ -1,0 +1,47 @@
+{
+ "name": "odd6",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.17373005160778088,
+   "null_sd": 0.007102937601521974,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.17359832285115306,
+   "null_sd": 0.007146898596864251,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.17373005160778088,
+   "null_sd": 0.007102937601521974,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.17359832285115306,
+   "null_sd": 0.007146898596864251,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}

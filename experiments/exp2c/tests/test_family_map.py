@@ -16,20 +16,25 @@ MANIFEST = (REPO_ROOT / "experiments" / "exp2c" / "results" /
 
 def test_real_tree_exact_size_multiset():
     # Growth-battery pin, updated per tier-1 verdict (screen-aware by
-    # construction). 2026-08-02 state: the ruled 26-rung base (2026-08-01
-    # pin) + str_align's two tier-1 passes (hamming8/hamming12) = 28
-    # rungs, 14 families. pos_letter's two rungs REJECTED at tier-1 stay
-    # excluded, as base12 does. Wave-2 rungs join this pin as their
-    # verdicts land; the B2 target is 35 rungs / 16 families.
+    # construction). 2026-08-02 FINAL growth state: all nine surviving
+    # growth rungs passed tier-1 -- the battery stands at EXACTLY the B2
+    # ruled shape: 35 rungs, 16 families, [4,4,4, 2x10, 1,1,1].
+    # base_repr reaches 4 (base7, oct2dec, base12_digitsum, base13);
+    # antonym and odd_one_out become 2-rung families (reused + sibling);
+    # str_align/order_stat/seq_extrap enter at 2. pos_letter's two rungs
+    # REJECTED at tier-1 stay excluded, as base12 does.
     families = family_map.scored_battery_families(ITEMS_DIR, SCREEN_DIR)
-    assert len(families) == 28
-    assert len(set(families.values())) == 14
-    assert families["hamming8"] == families["hamming12"] == "str_align"
+    assert len(families) == 35
+    assert len(set(families.values())) == 16
+    assert families["base13"] == "base_repr"
+    assert families["odd6"] == "odd_one_out"
+    assert families["antonym6"] == "antonym"
     assert "letter_sum" not in families and "letter_prod" not in families
+    assert "base12" not in families
 
     sizes = family_map.family_sizes(ITEMS_DIR, SCREEN_DIR)
     assert sorted(sizes, reverse=True) == \
-        [4, 4, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1]
+        [4, 4, 4] + [2] * 10 + [1, 1, 1]
 
 
 def test_base12_ejected_base12_digitsum_present():

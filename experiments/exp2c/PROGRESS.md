@@ -1983,3 +1983,40 @@ last three tier-1 verdicts (odd6/base13/antonym6 screening now):**
 - llmbox verified live and pinned (load 0.32, 26 GB avail, venv
   2.4.6/1.17.1/1.9.0); clone refresh to current HEAD via git bundle
   follows this commit; hamming npz pairs (1.8 GB) ship at staging.
+
+## 2026-08-02: GROWTH TIER-1 COMPLETE — 9/9 surviving rungs PASS; battery at the ruled B2 shape (35/16)
+
+**Final three verdicts:** odd6 PASS (not_fire x4 on the re-blessed
+odd-word basis — the F2 remedy validated end to end), base13 PASS
+(not_fire x4; the prime-modulus argument held as base7's precedent
+predicted), antonym6 PASS (not_fire x4, corrected p = 1.0 in every
+fit — the ledgered ~0.20 draw-level heuristic dose did not express
+through random projections).
+
+**Provenance note:** the first launch of these three screens was
+KILLED externally mid-run (2026-08-02 afternoon; not by this session
+— Michael confirmed not him either; his remote session killed as the
+suspected cause). No committed artifact was touched: zero verdicts
+existed, the repo was clean, and odd6's two cached activation files
+were integrity-validated (shape, finiteness, metadata item counts)
+before the resume reused them. The resume re-ran odd6's fits from the
+validated cache and collected base13/antonym6 fresh.
+
+**Growth tier-1 tally, complete:** letter_sum/letter_prod REJECTED
+(pos_letter family ejection, 2026-08-02) — every other growth rung
+PASSED: hamming8, hamming12 (str_align, the promoted reserve),
+arith_next, quad_next (seq_extrap), median5, median7 (order_stat),
+odd6, base13, antonym6. **The scored battery stands at exactly the
+ruled B2 shape: 35 rungs, 16 families, [4,4,4, 2x10, 1,1,1]** —
+base_repr at 4 (base7, oct2dec, base12_digitsum, base13), ten 2-rung
+families, the three rescues singleton by ruling. family_map pin
+updated 28/14 -> 35/16; full suite **118 passed**.
+
+**Fleet state at this entry:** llmbox holds Mac HEAD + verified
+hamming npz pairs; odd6/base13 npz pairs ship next (its remaining
+assigned candidates). Launch set per run/tier2_fleet_plan.md = all
+nine passers. Dispatch on Michael's word; then binomial fire-count
+bookkeeping, and the 5000-sim recertification against the 0.75 power
+gate on the BUILT battery — the certification the growth ruling
+requires and the last item before the freeze path (analyze.py exact
+amendment, Task 13/14) and the methods paper's screening-arc section.
