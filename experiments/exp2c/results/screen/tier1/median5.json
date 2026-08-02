@@ -1,0 +1,47 @@
+{
+ "name": "median5",
+ "tier": 1,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.21804675324675327,
+   "null_sd": 0.01987350463855009,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.03592814371257485,
+   "margin": 0.0,
+   "null_mean": 0.21946329113924049,
+   "null_sd": 0.018615220960188045,
+   "at_floor": true,
+   "classification": "tolerated",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.21804675324675327,
+   "null_sd": 0.01987350463855009,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 0.0279441117764471,
+   "margin": 0.0,
+   "null_mean": 0.21946329113924049,
+   "null_sd": 0.018615220960188045,
+   "at_floor": true,
+   "classification": "tolerated",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}

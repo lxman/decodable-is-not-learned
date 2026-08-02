@@ -1956,3 +1956,30 @@ correct + byte-reproducible by the reviewer before these changes):**
 Full suite **118 passed** (115 + shot-rule test + TRUE_LABEL coverage
 + committed-label sweep). Screens: wave-2's four still running; odd6 +
 base13 + antonym6 launch when they finish.
+
+## 2026-08-02: Wave-2 tier-1 — FOUR PASSES (arith_next, quad_next, median5, median7); tier-2 fleet STAGED
+
+**Verdicts:** arith_next PASS (not_fire x4), quad_next PASS (not_fire
+x4), median7 PASS (not_fire x4), median5 PASS with 2 tolerated fits
+(at floor, z inside the tolerated band — the calibrated allowance, not
+a fire). The seq_extrap result is the notable one: both rungs carry
+disclosed ON-SURFACE mod-7 functionals (label ≡ 2t3−t2 and 3t3−3t2+t1
+mod 7), and neither leaked — base7's full-digit mod-7 composition
+stays unexpressed by random projections even at three-fold token
+composition. The order_stat first-number reduction also held.
+
+**Tier-2 fleet staged (Michael's instruction), dispatch pending the
+last three tier-1 verdicts (odd6/base13/antonym6 screening now):**
+- `run/tier2_worker.sh` committed (per-box venv resolution, npz
+  presence guard, hostname+UTC stamps for provenance).
+- `run/tier2_fleet_plan.md` committed: cost model (n_probe × k units),
+  box assignments — llmbox takes the heavy four (odd6 48u, hamming12
+  32u, base13 26u, hamming8 24u; one worker each), Mac takes the
+  light five (57u across quad_next/median7/antonym6/median5/
+  arith_next) — dispatch checklist, bundle-sync and npz-return
+  procedures, and the standing constraints (activations Mac-only;
+  odd6/antonym6 npz must postdate the regeneration; hamming8's cache
+  proven valid).
+- llmbox verified live and pinned (load 0.32, 26 GB avail, venv
+  2.4.6/1.17.1/1.9.0); clone refresh to current HEAD via git bundle
+  follows this commit; hamming npz pairs (1.8 GB) ship at staging.
