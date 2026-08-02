@@ -6,7 +6,8 @@ from experiments.exp2c.battery.wordlists_2c import WORDS_7_8
 
 EXPECTED = ["add4_mid", "sub4_mid", "base12", "base12_digitsum", "sub_base8",
             "mod17", "mod19", "mod13_comp", "caesar_len8", "count_div13",
-            "clock24_d999", "rev_string7", "letter_sum", "letter_prod"]
+            "clock24_d999", "rev_string7", "letter_sum", "letter_prod",
+            "hamming8", "hamming12"]
 
 
 def test_all_registered_and_valid():
@@ -200,6 +201,68 @@ def test_pos_letter_position_distribution():
 
 def test_pos_letter_gen_deterministic():
     for name in ("letter_sum", "letter_prod"):
+        s = SPECS[name]
+        a = s.gen(np.random.default_rng(s.seed))
+        b = s.gen(np.random.default_rng(s.seed))
+        assert a == b
+
+
+# ----------------------------------------------------------------- str_align
+# F4 reserve, PROMOTED 2026-08-02 under §7's pre-ruled fallback after
+# pos_letter's full-family tier-1 ejection. Two equal-length random
+# strings over the 4-letter alphabet {a,b,c,d}; probe label = Hamming
+# match count (0..L). The question asks for the count directly:
+# surface_answer None, answer == probe_label.
+
+def test_str_align_registered_and_valid():
+    for name, L in (("hamming8", 8), ("hamming12", 12)):
+        assert name in SPECS, name
+        assert validate_spec(SPECS[name]) == []
+        s = SPECS[name]
+        assert s.family == "str_align"
+        assert s.dial_name == "length"
+        assert s.dial_value == L
+        assert s.answer_type == "number"
+        assert s.surface_answer is None
+        assert s.rescue_of is None and s.mechanism_tested is None
+    # reserve seeds, assigned only on promotion (proposal §0/§3)
+    assert SPECS["hamming8"].seed == 20260826
+    assert SPECS["hamming12"].seed == 20260827
+
+
+def test_hamming_oracle():
+    # hand-worked vectors:
+    # identical strings -> L; disjoint letters -> 0;
+    # 'abcaabca' vs 'abcbabcb': matches at 1,2,3,5,6,7 (1-indexed) -> 6
+    o8 = SPECS["hamming8"].oracle
+    assert o8("abcdabcd", "abcdabcd") == 8
+    assert o8("aaaaaaaa", "bbbbbbbb") == 0
+    assert o8("abcaabca", "abcbabcb") == 6
+    # 12-length: 'abcdabcdabcd' vs 'abcdabcddcba' -> first 9 match
+    # (positions 1-8 all match, position 9 a=a b=d? no: 9th char of s1 is
+    # 'a', of s2 'd' -> mismatch; hand count below = 8 + 1 (position 12?
+    # s1[11]='d', s2[11]='a' -> no). Exact: zip pairs
+    # (a,a)(b,b)(c,c)(d,d)(a,a)(b,b)(c,c)(d,d)(a,d)(b,c)(c,b)(d,a) -> 8
+    o12 = SPECS["hamming12"].oracle
+    assert o12("abcdabcdabcd", "abcdabcddcba") == 8
+    assert o12("abcdabcdabcd", "abcdabcdabcd") == 12
+
+
+def test_hamming_gen_shape_and_label_range():
+    for name, L in (("hamming8", 8), ("hamming12", 12)):
+        s = SPECS[name]
+        rng = np.random.default_rng(s.seed)
+        for _ in range(300):
+            s1, s2 = s.gen(rng)
+            assert len(s1) == L and len(s2) == L
+            assert set(s1) <= set("abcd") and set(s2) <= set("abcd")
+            lab = s.oracle(s1, s2)
+            assert lab == sum(a == b for a, b in zip(s1, s2))
+            assert 0 <= lab <= L
+
+
+def test_hamming_gen_deterministic():
+    for name in ("hamming8", "hamming12"):
         s = SPECS[name]
         a = s.gen(np.random.default_rng(s.seed))
         b = s.gen(np.random.default_rng(s.seed))

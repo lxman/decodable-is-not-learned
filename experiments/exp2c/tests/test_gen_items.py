@@ -94,6 +94,36 @@ def test_generate_letter_prod(tmp_path, monkeypatch):
     assert d["dial_value"] == "prod"
 
 
+# BLOCKED ON RULING (2026-08-02, F4 label-tail infeasibility): the frozen
+# starving_split requires full label-class coverage on both split sides,
+# and the Binomial(L, 1/4) tail classes cannot cover them -- hamming8's
+# assigned seed realizes a match-count-7 singleton (~1.5 expected per
+# 4000), hamming12 is infeasible outright (classes to 10 realized).
+# Verified remedy (5/5 split seeds, PROGRESS 2026-08-02): rejection-
+# sample the tail at generation (cap 5-6 for L=8, cap 6-7 for L=12) --
+# but that truncates the proposal's committed "9/13-class nominal" label
+# space, so it is Michael's call, not the build's. Until the ruling,
+# these tests PIN the catch: generate() must raise SplitInfeasible.
+def test_generate_hamming_blocked_infeasible(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    import pytest
+    for name in ("hamming8", "hamming12"):
+        with pytest.raises(gen_items.SplitInfeasible):
+            gen_items.generate(name)
+
+
+def test_hamming_split_plan_pins():
+    # proposal §3 F4 feasibility: basis = the two strings,
+    # shared_components, override expected (holdout ~0.45, wide n_probe)
+    # -- the count_div13/roman_sum7 shared-2-component figures.
+    for name in ("hamming8", "hamming12"):
+        sp, n_probe = gen_items.SPLIT_PLAN[name]
+        assert sp.shared_components is True
+        assert sp.holdout_frac == 0.45
+        assert sp.min_val_items == 300
+        assert n_probe == 4000
+
+
 def test_pos_letter_split_plan_pins():
     # caesar precedent: the letter label's 26 classes must survive both
     # sides of the per-string holdout -> stratify_by_label=True; otherwise
@@ -193,7 +223,14 @@ TRUE_ANSWER = {
     "isqrt_gap": _true_isqrt_gap,
     "letter_sum": lambda q: _true_pos_letter(q, lambda i, j: i + j),
     "letter_prod": lambda q: _true_pos_letter(q, lambda i, j: i * j),
+    "hamming8": lambda q: _true_hamming(q),
+    "hamming12": lambda q: _true_hamming(q),
 }
+
+
+def _true_hamming(q):
+    s1, s2 = re.findall(r"'([a-d]+)'", q)
+    return str(sum(a == b for a, b in zip(s1, s2)))
 
 
 def _true_pos_letter(q, op):
@@ -208,8 +245,16 @@ def test_true_answer_covers_every_registered_spec():
     assert set(TRUE_ANSWER) == set(SPECS)
 
 
+# hamming8/hamming12 registered but item generation blocked on the F4
+# label-tail ruling (see test_generate_hamming_blocked_infeasible) -- no
+# committed item files exist for them yet.
+_BLOCKED_ON_RULING = {"hamming8", "hamming12"}
+
+
 def test_committed_answers_are_true_answers():
     for name, recompute in TRUE_ANSWER.items():
+        if name in _BLOCKED_ON_RULING:
+            continue
         d = json.loads((_ITEMS / f"{name}.json").read_text())
         sample = ([tuple(s) for s in d["shots"]]
                   + [(it["question"], it["answer"])

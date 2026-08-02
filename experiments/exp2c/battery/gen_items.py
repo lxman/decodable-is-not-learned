@@ -88,6 +88,10 @@ TEMPLATES = {
     "letter_prod": "The string is '{a}'. Let p = (({b} * {c}) mod 6) + 2. "
                    "What is the letter at position p of the string, "
                    "counting from 1?",
+    "hamming8": "The strings are '{a}' and '{b}'. In how many positions "
+                "do the two strings have the same letter?",
+    "hamming12": "The strings are '{a}' and '{b}'. In how many positions "
+                 "do the two strings have the same letter?",
     "roman_sum7": "What is the sum of the roman numerals {a} and {b}, "
                   "mod 7?",
     "collatz_step2": "Apply the Collatz rule (if even, halve; if odd, "
@@ -146,6 +150,9 @@ BASIS = {
     # see each spec's dumbest_baseline).
     "letter_sum": lambda s, i, j: (s,),
     "letter_prod": lambda s, i, j: (s,),
+    # both strings (proposal §3 F4): shared_components over their union
+    "hamming8": lambda s1, s2: (s1, s2),
+    "hamming12": lambda s1, s2: (s1, s2),
     "roman_sum7": lambda a, b: (a, b),
     "collatz_step2": lambda n: (n,),
     "isqrt_gap": lambda n: (n,),
@@ -193,6 +200,16 @@ SPLIT_PLAN = {
     # comfortably above the 300/15 floors.
     "letter_sum": (SplitParams(stratify_by_label=True), N_PROBE),
     "letter_prod": (SplitParams(stratify_by_label=True), N_PROBE),
+    # str_align (proposal §3 F4): two per-item-fresh strings share one
+    # value space -- the count_div13/roman_sum7 shared-2-component shape
+    # and figures (0.45 holdout, wide n_probe). With ~fresh strings the
+    # 0.45 union-holdout keeps items whose strings BOTH land on one side
+    # (~30% train / ~20% val of n_probe), well above the 300 floor at
+    # n_probe=4000; checked feasible per-seed at generation as always.
+    "hamming8": (SplitParams(holdout_frac=0.45, min_val_items=300,
+                             shared_components=True), 4000),
+    "hamming12": (SplitParams(holdout_frac=0.45, min_val_items=300,
+                              shared_components=True), 4000),
     # roman_sum7's basis_kind names this explicitly: "single shared
     # holdout over the union of numeral values (shared-component
     # variant)" -- same shape and same fix as count_div13.

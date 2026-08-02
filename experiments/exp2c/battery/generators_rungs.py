@@ -521,6 +521,109 @@ register(CapabilitySpec(
     seed=20260825,
 ))
 
+# ----------------------------------------------------------------- str_align
+# F4 reserve, PROMOTED 2026-08-02 under §7's pre-ruled fallback: pos_letter
+# ejected as a full family at tier-1 (structural_abort x8), so str_align
+# enters with its reserve seeds, restoring the 35-rung B2 shape. Spec at
+# build rigor from proposal §3 F4; screened at the front of its own wave
+# (MEDIUM-HIGH). The alphabet arithmetic, shown so a skeptic can check it:
+# over a 26-letter alphabet two random strings match per position with
+# p=1/26, so P(zero matches over L=8) = (25/26)^8 ~= 0.73 -- the label is
+# ~always 0, degenerate (LCP is worse: P(LCP=0) = 25/26). The 4-letter
+# alphabet {a,b,c,d} gives p=1/4 and a real spread: Binomial(8, 1/4) =
+# {0:.10, 1:.27, 2:.31, 3:.21, 4:.09, 5:.02, >=6:.004}, modal 2,
+# effective ~5 classes (Binomial(12, 1/4) adds classes: {0:.03, 1:.13,
+# 2:.23, 3:.26, 4:.19, 5:.10, 6:.04, 7:.01}). The same alphabet choice
+# WORSENS the named shared-chunk carrier (frequent coincidental shared
+# 2-grams the tokenizer can emit as shared chunks) -- the two pressures
+# trade off, which is why this family was rated drop-first and reserve.
+
+_HAM_ALPHA = "abcd"
+
+
+def _gen_hamming(rng, L):
+    s1 = "".join(_HAM_ALPHA[int(rng.integers(4))] for _ in range(L))
+    s2 = "".join(_HAM_ALPHA[int(rng.integers(4))] for _ in range(L))
+    return (s1, s2)
+
+
+def _oracle_hamming(s1, s2):
+    return sum(a == b for a, b in zip(s1, s2))
+
+
+register(CapabilitySpec(
+    name="hamming8", family="str_align", dial_name="length", dial_value=8,
+    description="two random 8-letter strings over the alphabet {a,b,c,d}; "
+                "count the positions where they have the same letter "
+                "(Hamming match count, 0-8)",
+    answer_type="number",
+    probe_label_space="Hamming match count (0-8, 9-class nominal; "
+                      "Binomial(8,1/4)-imbalanced, tails sparse -- "
+                      "class-imbalance flag stands from the proposal)",
+    basis_kind="both printed strings (shared_components over their "
+              "union, holdout 0.45 -- the count_div13/roman_sum7 "
+              "shared-2-component shape); strings are fresh-random over "
+              "4^8, so held-out val items carry string values the probe "
+              "never trained on",
+    composability="a position-wise alignment reduction: compare the two "
+                  "strings slot by slot and count agreements -- a 2-D "
+                  "interaction over the pair, non-additive in either "
+                  "string alone. No data-dependent index anywhere: the "
+                  "pos_letter ejection (2026-08-02, structural_abort x8) "
+                  "killed the variable-index gather whose read position "
+                  "was surface-computable; here every comparison position "
+                  "is fixed and the label is a whole-sequence reduction",
+    dumbest_baseline="the named carriers (proposal §3 F4): length-count "
+                     "legibility (the match count correlates with how "
+                     "many BPE chunks the two quoted strings share) and "
+                     "the shared-chunk carrier (a 4-letter alphabet makes "
+                     "coincidental shared 2-grams frequent, and the "
+                     "tokenizer can emit them as shared chunks a random "
+                     "projection can detect). The screen adjudicates "
+                     "whether untrained nets count aligned chunk "
+                     "coincidences well enough to beat the null; the "
+                     "family was rated drop-first on exactly this "
+                     "tension and is screened FIRST in its wave",
+    oracle=_oracle_hamming,
+    gen=lambda rng: _gen_hamming(rng, 8),
+    seed=20260826,
+))
+
+register(CapabilitySpec(
+    name="hamming12", family="str_align", dial_name="length", dial_value=12,
+    description="two random 12-letter strings over the alphabet {a,b,c,d}; "
+                "count the positions where they have the same letter "
+                "(Hamming match count, 0-12)",
+    answer_type="number",
+    probe_label_space="Hamming match count (0-12, 13-class nominal; "
+                      "Binomial(12,1/4)-imbalanced, tails sparse -- "
+                      "class-imbalance flag stands from the proposal)",
+    basis_kind="both printed strings (shared_components over their "
+              "union, holdout 0.45 -- the count_div13/roman_sum7 "
+              "shared-2-component shape); strings are fresh-random over "
+              "4^12, so held-out val items carry string values the probe "
+              "never trained on",
+    composability="the same position-wise alignment reduction as "
+                  "hamming8 with the dial moved to length 12: more "
+                  "comparison slots, a wider count range (Binomial(12,"
+                  "1/4) populates classes 0-7 robustly vs hamming8's "
+                  "0-5), and a longer reduction chain. No data-dependent "
+                  "index (see hamming8 and the pos_letter ejection "
+                  "record)",
+    dumbest_baseline="hamming8's carriers at greater length: more "
+                     "positions means more coincidental shared chunks "
+                     "for a random projection to count, but also a "
+                     "longer reduction to compose. Within-family "
+                     "secondary expectation: if the family survives, "
+                     "the 12-length margin sits below the 8-length one; "
+                     "if shared-chunk counting is expressible untrained, "
+                     "BOTH lengths fire and the family ejects -- the "
+                     "screen adjudicates",
+    oracle=_oracle_hamming,
+    gen=lambda rng: _gen_hamming(rng, 12),
+    seed=20260827,
+))
+
 register(CapabilitySpec(
     name="rev_string7", family="reversal", dial_name="len", dial_value=7,
     description="reverse a random 7-letter string",

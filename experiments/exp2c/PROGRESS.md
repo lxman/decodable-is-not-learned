@@ -1499,3 +1499,61 @@ untrained activations when the index is surface-computable).
   spec -> review -> items -> tier-1 loop, screened at the front of
   their wave (MEDIUM-HIGH: the shared-chunk carrier vs the 4-letter
   alphabet, §3 F4), before the wave-2/3 low-risk rungs are built.
+
+## 2026-08-02: F4 str_align build BLOCKED at generation — label-tail infeasibility, ruling requested
+
+hamming8 (20260826) and hamming12 (20260827) registered per §3 F4 at
+build rigor (4-letter alphabet, Hamming match count, shared_components
+basis over both strings, holdout 0.45, n_probe 4000 — the count_div13/
+roman_sum7 figures), TDD RED (10 failures) -> GREEN, with the alphabet
+arithmetic and both Binomial spreads verified by enumeration and
+written into the spec texts. The composability text records the
+pos_letter lesson explicitly: no data-dependent index anywhere in this
+family.
+
+**The catch (the proposal's own flag, now empirical):** generation
+fails in the frozen `starving_split` — full label-class coverage is
+required on both split sides, and the Binomial(L, 1/4) tails cannot
+provide it. hamming8's assigned seed realizes a match-count-7
+singleton (~1.5 expected per 4000 items; P(7) = 24/4^8 ≈ 0.00037);
+hamming12 is infeasible outright (classes through 10 realized, ≥8
+sparse; P(8) ≈ 0.0024). §5's constraint row predicted this exact
+failure ("label imbalance may fail min_holdout_values on the sparse
+high-count classes — flag") and its remedy verb is *flag*, so the fix
+is a ruling, not a unilateral build decision.
+
+**Verified remedy (data, not speculation) — rejection-sample the tail
+at generation; feasibility 5/5 split seeds at n_probe 4000:**
+
+| L | cap (max label) | classes | min-class expectation | verdict | n_val range |
+|---|---|---|---|---|---|
+| 8 | none (as spec'd) | 9 nominal | ~1.5 items @ 7 | INFEASIBLE at assigned seed | — |
+| 8 | 6 | 7 | ~15 @ 6 | feasible, fragile margin | 807–825 |
+| 8 | **5** | **6** | **~92 @ 5** | **feasible, robust** | 790–824 |
+| 12 | none (as spec'd) | 13 nominal | — | INFEASIBLE | — |
+| 12 | **7** | **8** | **~46 @ 7** | **feasible** | 781–844 |
+| 12 | 6 | 7 | ~160 @ 6 | feasible, very robust | 801–826 |
+
+Recommendation carried to Michael: **cap 5 for hamming8 (labels 0–5,
+6-class exact), cap 7 for hamming12 (labels 0–7, 8-class exact)** —
+robust core for the 8-length rung, richer label space preserved on the
+12-length rung so the length dial keeps its wider-count-range story;
+fall back to cap 6 on hamming12 only if the real generation stream's
+per-seed report wobbles. k ∈ [5,26] holds either way. The oracle stays
+exact on every printed item; the question surface is unchanged; the
+probe_label_space text will state the truncation explicitly if ruled.
+
+**State pinned pending the ruling:** the registered specs keep the
+proposal's uncapped construction;
+`test_generate_hamming_blocked_infeasible` pins generate() raising
+SplitInfeasible for both rungs (the catch IS the record), and the
+committed-answers sweep skips the two blocked names via
+_BLOCKED_ON_RULING. Full suite 89 passed. Tier-1 for str_align waits
+on items; waves 2–3 wait per §6 (F4 screens at the front of its wave,
+before the low-risk rungs are built).
+
+**Also open for Michael (carried forward):** (1) wordlist hand review
+(ANTONYMS_2C 130 pairs, CATEGORIES_2C 10×8) before antonym6/odd6
+generate; (2) the shot-diversity forward rule (letter_sum's flag is
+moot, the question now applies to str_align and waves 2–3); (3) push
+authorization for today's commits.
