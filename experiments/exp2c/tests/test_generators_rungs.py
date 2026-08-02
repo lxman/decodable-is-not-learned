@@ -7,7 +7,8 @@ from experiments.exp2c.battery.wordlists_2c import WORDS_7_8
 EXPECTED = ["add4_mid", "sub4_mid", "base12", "base12_digitsum", "sub_base8",
             "mod17", "mod19", "mod13_comp", "caesar_len8", "count_div13",
             "clock24_d999", "rev_string7", "letter_sum", "letter_prod",
-            "hamming8", "hamming12"]
+            "hamming8", "hamming12", "median5", "median7", "arith_next",
+            "quad_next", "odd6"]
 
 
 def test_all_registered_and_valid():
@@ -274,6 +275,152 @@ def test_hamming_gen_shape_and_label_range():
 
 def test_hamming_gen_deterministic():
     for name in ("hamming8", "hamming12"):
+        s = SPECS[name]
+        a = s.gen(np.random.default_rng(s.seed))
+        b = s.gen(np.random.default_rng(s.seed))
+        assert a == b
+
+
+# ------------------------------------------------- wave 2 (blessing 2026-08-02)
+# order_stat (median5/median7): position label under randomized
+# presentation, first-printed-number basis per the approved consolidated
+# blessing (the mod17-lesson reduction; the proposal's shared-components
+# basis collapsed the AND-split at k>=5, PROGRESS 2026-08-02).
+# seq_extrap (arith_next/quad_next): next-term label mod 7, basis = first
+# printed term (growth ruling). odd6: the odd_one_out sibling at 6 words
+# over CATEGORIES_2C, 6-comp shared basis (2b family precedent figures).
+
+def test_wave2_registered_and_valid():
+    expect = {
+        "median5": ("order_stat", "set_size", 5, 20260820),
+        "median7": ("order_stat", "set_size", 7, 20260821),
+        "arith_next": ("seq_extrap", "degree", 1, 20260822),
+        "quad_next": ("seq_extrap", "degree", 2, 20260823),
+        "odd6": ("odd_one_out", "n_words", 6, 20260819),
+    }
+    for name, (fam, dial, dv, seed) in expect.items():
+        assert name in SPECS, name
+        assert validate_spec(SPECS[name]) == []
+        s = SPECS[name]
+        assert s.family == fam and s.dial_name == dial
+        assert s.dial_value == dv and s.seed == seed
+        assert s.rescue_of is None and s.mechanism_tested is None
+        # all five ask for a task result distinct from the probe label:
+        # median value / next term / odd word, never the position or mod
+        assert s.surface_answer is not None, name
+
+
+def test_median_oracle_and_surface():
+    # median5 printed (512, 130, 987, 344, 700): sorted 130,344,512,700,
+    # 987 -> median 512 sits at printed slot 1; surface answer = 512.
+    s5 = SPECS["median5"]
+    assert s5.oracle(512, 130, 987, 344, 700) == 1
+    assert s5.surface_answer(512, 130, 987, 344, 700) == 512
+    # printed (200, 900, 500, 300, 400): median 400 at slot 5
+    assert s5.oracle(200, 900, 500, 300, 400) == 5
+    assert s5.surface_answer(200, 900, 500, 300, 400) == 400
+    # median7 printed (300,100,200,700,500,600,400): median 400, slot 7
+    s7 = SPECS["median7"]
+    assert s7.oracle(300, 100, 200, 700, 500, 600, 400) == 7
+    assert s7.surface_answer(300, 100, 200, 700, 500, 600, 400) == 400
+
+
+def test_median_gen_shape():
+    for name, n in (("median5", 5), ("median7", 7)):
+        s = SPECS[name]
+        rng = np.random.default_rng(s.seed)
+        seen_pos = set()
+        for _ in range(400):
+            vals = s.gen(rng)
+            assert len(vals) == n == len(set(vals))
+            assert all(100 <= v <= 999 for v in vals)
+            pos = s.oracle(*vals)
+            seen_pos.add(pos)
+            assert vals[pos - 1] == sorted(vals)[n // 2]
+            assert s.surface_answer(*vals) == sorted(vals)[n // 2]
+        # the median's slot is shuffle-uniform: all n positions reached
+        assert seen_pos == set(range(1, n + 1))
+
+
+def test_arith_next_oracle():
+    # terms 11,13,15,17 (a=11,d=2): next 19, label 19 mod 7 = 5.
+    # The 2t3 - t2 identity IS the oracle (2*17-15 = 19).
+    s = SPECS["arith_next"]
+    assert s.surface_answer(11, 13, 15, 17) == 19
+    assert s.oracle(11, 13, 15, 17) == 5
+    # 10,30,50,70 -> 90, label 90 mod 7 = 6
+    assert s.surface_answer(10, 30, 50, 70) == 90
+    assert s.oracle(10, 30, 50, 70) == 6
+
+
+def test_quad_next_oracle():
+    # a=10,d=2,q=1: terms 10,13,18,25 -> t4 = 34 (identity: 3*25-3*18+13);
+    # label 34 mod 7 = 6. Proposal's max case a=99,d=20,q=9: terms
+    # 99,128,175,240 -> t4 = 323, label 323 mod 7 = 1.
+    s = SPECS["quad_next"]
+    assert s.surface_answer(10, 13, 18, 25) == 34
+    assert s.oracle(10, 13, 18, 25) == 6
+    assert s.surface_answer(99, 128, 175, 240) == 323
+    assert s.oracle(99, 128, 175, 240) == 1
+
+
+def test_seq_extrap_gen_shape():
+    # arith_next: strictly increasing 4-term run, a in [10,99], d in
+    # [2,20]; quad_next: t_k = a + d*k + q*k^2, q in [1,9] (second
+    # difference 2q >= 2, never degenerate to arith).
+    s = SPECS["arith_next"]
+    rng = np.random.default_rng(s.seed)
+    for _ in range(400):
+        t = s.gen(rng)
+        d = t[1] - t[0]
+        assert t == (t[0], t[0] + d, t[0] + 2 * d, t[0] + 3 * d)
+        assert 10 <= t[0] <= 99 and 2 <= d <= 20
+    s = SPECS["quad_next"]
+    rng = np.random.default_rng(s.seed)
+    for _ in range(400):
+        t = s.gen(rng)
+        d2a = t[2] - 2 * t[1] + t[0]
+        d2b = t[3] - 2 * t[2] + t[1]
+        assert d2a == d2b and d2a % 2 == 0 and d2a >= 2  # 2q constant
+        q = d2a // 2
+        d = (t[1] - t[0]) - q
+        assert 10 <= t[0] <= 99 and 2 <= d <= 20 and 1 <= q <= 9
+        assert t[0] < t[1] < t[2] < t[3]
+
+
+def test_odd6_oracle_and_surface():
+    # five insects + one gemstone: odd word 'opal' at printed slot 3.
+    words = ("ant", "bee", "opal", "wasp", "moth", "beetle")
+    s = SPECS["odd6"]
+    assert s.oracle(*words) == 3
+    assert s.surface_answer(*words) == "opal"
+    # odd word at the last slot: five fabrics + a sport
+    words = ("cotton", "silk", "wool", "denim", "satin", "judo")
+    assert s.oracle(*words) == 6
+    assert s.surface_answer(*words) == "judo"
+
+
+def test_odd6_gen_shape():
+    from experiments.exp2c.battery.wordlists_2c import CATEGORIES_2C
+    cat_of = {w: c for c, ms in CATEGORIES_2C.items() for w in ms}
+    s = SPECS["odd6"]
+    rng = np.random.default_rng(s.seed)
+    seen_pos = set()
+    for _ in range(400):
+        words = s.gen(rng)
+        assert len(words) == 6 == len(set(words))
+        cats = [cat_of[w] for w in words]
+        # exactly 5 from one category + 1 from another
+        odd = [w for w, c in zip(words, cats) if cats.count(c) == 1]
+        assert len(odd) == 1
+        pos = s.oracle(*words)
+        seen_pos.add(pos)
+        assert words[pos - 1] == odd[0] == s.surface_answer(*words)
+    assert seen_pos == set(range(1, 7))
+
+
+def test_wave2_gen_deterministic():
+    for name in ("median5", "median7", "arith_next", "quad_next", "odd6"):
         s = SPECS[name]
         a = s.gen(np.random.default_rng(s.seed))
         b = s.gen(np.random.default_rng(s.seed))

@@ -23,7 +23,7 @@ writeup) and were adjudicated by Michael on 2026-07-28:
 import numpy as np
 
 from .base import CapabilitySpec, register
-from .wordlists_2c import WORDS_7_8
+from .wordlists_2c import CATEGORIES_2C, WORDS_7_8
 
 _ALPHA = "abcdefghijklmnopqrstuvwxyz"
 
@@ -665,4 +665,236 @@ register(CapabilitySpec(
     surface_answer=lambda s: s[::-1],
     gen=_gen_rev_string7,
     seed=20260812,
+))
+
+
+# ------------------------------------------------- wave 2 (blessed 2026-08-02)
+# Built under the approved consolidated feasibility blessing (PROGRESS
+# 2026-08-02): order_stat rungs on the first-printed-number basis (the
+# mod17-lesson single-component reduction -- the proposal's all-components
+# shared basis collapses the AND-split at k>=5: train 158-223 of 8000 at
+# k=5, infeasible outright at k=7); arith_next at the sub_base8 figures
+# (0.35/1000, its 1,710-run space < the 2,500 default); quad_next and
+# odd6 as proposed (odd6 keeps the 2b odd_one_out family figures
+# 0.45/8000, flagged costs accepted: train ~342, one sweep seed at 40
+# redraws).
+
+def _gen_median(rng, n):
+    vals = rng.choice(np.arange(100, 1000), size=n, replace=False)
+    return tuple(int(v) for v in vals)
+
+
+def _oracle_median(*vals):
+    med = sorted(vals)[len(vals) // 2]
+    return vals.index(med) + 1          # printed slot, 1-indexed
+
+
+def _surface_median(*vals):
+    return sorted(vals)[len(vals) // 2]
+
+
+register(CapabilitySpec(
+    name="median5", family="order_stat", dial_name="set_size", dial_value=5,
+    description="which of 5 distinct 3-digit integers (printed in random "
+                "order) is the median; answer = the median value, probe "
+                "label = its printed position",
+    answer_type="number",
+    probe_label_space="printed position of the median (1-5), "
+                      "shuffle-uniform over the slots",
+    basis_kind="first printed number (900 values) -- consolidated "
+              "blessing 2026-08-02: the mod17-lesson single-component "
+              "reduction; the proposal's all-components shared basis "
+              "collapses the AND-split at k=5 (train side 158-223 of "
+              "8000 at feasible holdouts; sweep ledgered 2026-08-02)",
+    composability="the k-th order statistic is a rank interaction: "
+                  "non-additive in any single element, requiring the "
+                  "full pairwise comparison across the set. The median's "
+                  "position is translation-invariant (add any constant "
+                  "to all five numbers and the slot is unchanged), so "
+                  "the label is not a function of absolute magnitude; "
+                  "all elements share the 3-digit token width, blunting "
+                  "digit-count banding",
+    dumbest_baseline="first-number lookup starved by construction; a "
+                     "set-to-position lookup cannot generalize (every "
+                     "printed set is fresh over C(900,5) draws). Fires "
+                     "if a random net partially ranks by crude "
+                     "per-position magnitude proxies (leading digits) "
+                     "well enough to guess the median slot above "
+                     "chance -- median, not min/max, precisely because "
+                     "extremes correlate with gross magnitude while the "
+                     "median needs the full ranking; the untrained "
+                     "screen adjudicates",
+    oracle=_oracle_median,
+    surface_answer=_surface_median,
+    gen=lambda rng: _gen_median(rng, 5),
+    seed=20260820,
+))
+
+register(CapabilitySpec(
+    name="median7", family="order_stat", dial_name="set_size", dial_value=7,
+    description="which of 7 distinct 3-digit integers (printed in random "
+                "order) is the median; answer = the median value, probe "
+                "label = its printed position",
+    answer_type="number",
+    probe_label_space="printed position of the median (1-7), "
+                      "shuffle-uniform over the slots",
+    basis_kind="first printed number (900 values) -- same blessed "
+              "reduction as median5, applied uniformly so both family "
+              "rungs starve identically (the 7-component shared basis "
+              "is infeasible at every swept holdout)",
+    composability="median5's rank interaction at 7 elements: a 7-way "
+                  "ranking with 21 pairwise comparisons vs median5's "
+                  "10 -- the set-size dial raises the comparison count; "
+                  "translation-invariance and equal token width as "
+                  "median5",
+    dumbest_baseline="as median5; the 7-way rank is strictly harder to "
+                     "leak through random projections than the 5-way "
+                     "(within-family secondary expects the 7-slot "
+                     "margin below the 5-slot one if the family "
+                     "survives); the untrained screen adjudicates",
+    oracle=_oracle_median,
+    surface_answer=_surface_median,
+    gen=lambda rng: _gen_median(rng, 7),
+    seed=20260821,
+))
+
+
+def _gen_arith_next(rng):
+    a = int(rng.integers(10, 100))
+    d = int(rng.integers(2, 21))
+    return (a, a + d, a + 2 * d, a + 3 * d)
+
+
+def _gen_quad_next(rng):
+    a = int(rng.integers(10, 100))
+    d = int(rng.integers(2, 21))
+    q = int(rng.integers(1, 10))
+    return (a, a + d + q, a + 2 * d + 4 * q, a + 3 * d + 9 * q)
+
+
+register(CapabilitySpec(
+    name="arith_next", family="seq_extrap", dial_name="degree",
+    dial_value=1,
+    description="arithmetic run a, a+d, a+2d, a+3d (a in [10,99], d in "
+                "[2,20]); answer = the next term (not printed); probe "
+                "label = next term mod 7",
+    answer_type="number",
+    probe_label_space="(a+4d) mod 7 (7-class)",
+    basis_kind="first printed term a (90 values) -- growth ruling: "
+              "holding out a starves the a-to-label lookup and avoids "
+              "the joint-AND trap of a multi-component basis (the mod17 "
+              "lesson). Reduced pool blessed 2026-08-02: the (a,d) "
+              "space is 1,710 runs < the 2,500 default, so n_probe "
+              "1000 at holdout 0.35 (the sub_base8 figures; 1,500 of "
+              "1,710 runs used)",
+    composability="rule inference (first differences constant), one "
+                  "application, then a modular reduction off the digit "
+                  "alphabet; non-local in the shown terms",
+    dumbest_baseline="named at full strength (proposal §3 F2): a+4d = "
+                     "2*t3 - t2 identically, so the label is (2*t3 - "
+                     "t2) mod 7 with no inference required. The defense "
+                     "is not that the label is off the surface -- it "
+                     "isn't -- but that evaluating the functional "
+                     "requires the mod-7 residue of multi-digit printed "
+                     "tokens (the full-digit composition base7 cleared "
+                     "at untrained 0.000), composed across two tokens; "
+                     "the screen adjudicates",
+    oracle=lambda t0, t1, t2, t3: (2 * t3 - t2) % 7,
+    surface_answer=lambda t0, t1, t2, t3: 2 * t3 - t2,
+    gen=_gen_arith_next,
+    seed=20260822,
+))
+
+register(CapabilitySpec(
+    name="quad_next", family="seq_extrap", dial_name="degree",
+    dial_value=2,
+    description="quadratic run t_k = a + d*k + q*k^2, k=0..3 (a in "
+                "[10,99], d in [2,20], q in [1,9]); answer = the next "
+                "term t_4 (not printed); probe label = t_4 mod 7",
+    answer_type="number",
+    probe_label_space="t_4 = (a + 4d + 16q) mod 7 (7-class; exactly "
+                      "uniform over the 15,390-triple box, verified by "
+                      "enumeration in the accepted proposal)",
+    basis_kind="first printed term a (90 values) -- same ruled "
+              "reduction as arith_next; the (a,d,q) map is injective "
+              "onto printed runs (15,390 distinct), so the default "
+              "2,500-item target fits with room",
+    composability="one inference level deeper than arith_next: three "
+                  "first differences (d+q, d+3q, d+5q), two second "
+                  "differences (both 2q, constant -- q >= 1 keeps 2q >= "
+                  "2, never degenerating into the arithmetic rung), "
+                  "recover the step, apply once, reduce mod 7",
+    dumbest_baseline="named at full strength (proposal §3 F2, "
+                     "finalization catch): third differences of a "
+                     "quadratic vanish, so t_4 = 3*t3 - 3*t2 + t1 "
+                     "EXACTLY -- the label is a fixed linear functional "
+                     "of three printed terms mod 7, no inference "
+                     "required. Defense: the mod-7 residues of "
+                     "multi-digit tokens composed across THREE tokens "
+                     "(base7's cleared mechanism at three-fold "
+                     "composition). Disclosed surface bit: t_4's parity "
+                     "equals t_0's (4d+16q even), and gcd(2,7)=1 means "
+                     "parity determines nothing about the 7-class "
+                     "label; the screen adjudicates",
+    oracle=lambda t0, t1, t2, t3: (3 * t3 - 3 * t2 + t1) % 7,
+    surface_answer=lambda t0, t1, t2, t3: 3 * t3 - 3 * t2 + t1,
+    gen=_gen_quad_next,
+    seed=20260823,
+))
+
+
+_CAT_OF = {w: c for c, ms in CATEGORIES_2C.items() for w in ms}
+
+
+def _gen_odd6(rng):
+    cats = list(CATEGORIES_2C)
+    i1, i2 = (int(x) for x in rng.choice(len(cats), size=2, replace=False))
+    five = [str(w) for w in rng.choice(CATEGORIES_2C[cats[i1]], size=5,
+                                       replace=False)]
+    odd = str(CATEGORIES_2C[cats[i2]][int(rng.integers(8))])
+    pos = int(rng.integers(6))
+    return tuple(five[:pos] + [odd] + five[pos:])
+
+
+def _oracle_odd6(*words):
+    cats = [_CAT_OF[w] for w in words]
+    return next(i + 1 for i, c in enumerate(cats) if cats.count(c) == 1)
+
+
+def _surface_odd6(*words):
+    return words[_oracle_odd6(*words) - 1]
+
+
+register(CapabilitySpec(
+    name="odd6", family="odd_one_out", dial_name="n_words", dial_value=6,
+    description="which of 6 words is not like the others (5 from one "
+                "CATEGORIES_2C category + 1 from another); answer = the "
+                "odd word, probe label = its printed position",
+    answer_type="word",
+    probe_label_space="printed position of the odd word (1-6), "
+                      "shuffle-assigned",
+    basis_kind="all 6 words (shared components over the CATEGORIES_2C "
+              "vocab, holdout 0.45, n_probe 8000 -- the 2b odd_one_out "
+              "family figures, blessed 2026-08-02 with flagged costs: "
+              "train side ~342 items, one sweep seed needed 40 split "
+              "redraws)",
+    composability="category-membership comparison across all six words "
+                  "-- an interaction, not an additive score (the reused "
+                  "odd_one_out mechanism at 6 words: 15 pairwise "
+                  "comparisons vs 6 at the reused rung's 4 words)",
+    dumbest_baseline="position under a randomized presentation is not a "
+                     "function of any surface token (2b odd_one_out: "
+                     "untrained margin 0.000 every cell). Fires if a "
+                     "CATEGORIES_2C category is morphologically "
+                     "clustered or length-skewed (leak class 5/6) -- the "
+                     "§2(c) vocab hygiene criteria are programmatic in "
+                     "test_wordlists_2c.py (no >=3-letter fragment "
+                     "shared by >=3 members, mean-length band 4.0-6.0, "
+                     ">=5 first letters per category) and the list is "
+                     "hand-approved (ruling 3 closed 2026-08-02); the "
+                     "screen adjudicates the residue",
+    oracle=_oracle_odd6,
+    surface_answer=_surface_odd6,
+    gen=_gen_odd6,
+    seed=20260819,
 ))

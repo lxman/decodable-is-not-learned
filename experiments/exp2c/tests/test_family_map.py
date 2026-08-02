@@ -14,13 +14,22 @@ MANIFEST = (REPO_ROOT / "experiments" / "exp2c" / "results" /
             "reuse_manifest.json")
 
 
-def test_real_tree_yields_26_rungs_13_families_exact_size_multiset():
+def test_real_tree_exact_size_multiset():
+    # Growth-battery pin, updated per tier-1 verdict (screen-aware by
+    # construction). 2026-08-02 state: the ruled 26-rung base (2026-08-01
+    # pin) + str_align's two tier-1 passes (hamming8/hamming12) = 28
+    # rungs, 14 families. pos_letter's two rungs REJECTED at tier-1 stay
+    # excluded, as base12 does. Wave-2 rungs join this pin as their
+    # verdicts land; the B2 target is 35 rungs / 16 families.
     families = family_map.scored_battery_families(ITEMS_DIR, SCREEN_DIR)
-    assert len(families) == 26
-    assert len(set(families.values())) == 13
+    assert len(families) == 28
+    assert len(set(families.values())) == 14
+    assert families["hamming8"] == families["hamming12"] == "str_align"
+    assert "letter_sum" not in families and "letter_prod" not in families
 
     sizes = family_map.family_sizes(ITEMS_DIR, SCREEN_DIR)
-    assert sorted(sizes, reverse=True) == [4, 4, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1]
+    assert sorted(sizes, reverse=True) == \
+        [4, 4, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1]
 
 
 def test_base12_ejected_base12_digitsum_present():

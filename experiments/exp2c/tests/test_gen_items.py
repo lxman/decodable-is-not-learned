@@ -147,6 +147,94 @@ def test_hamming_split_plan_pins():
         assert n_probe == 4000
 
 
+# ------------------------------------------------ wave 2 (blessing 2026-08-02)
+
+def test_generate_median5(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("median5")
+    assert len(d["probe_items"]) >= 1800 and len(d["eval_items"]) >= 500
+    for item in d["probe_items"][:50]:
+        nums = [int(x) for x in re.findall(r"\d+", item["question"])]
+        assert len(nums) == 5 == len(set(nums))
+        med = sorted(nums)[2]
+        assert item["answer"] == str(med)
+        assert item["probe_label"] == str(nums.index(med) + 1)
+        assert item["basis"] == [str(nums[0])]   # first-number basis (blessed)
+    assert d["family"] == "order_stat" and d["dial_value"] == 5
+
+
+def test_generate_median7(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("median7")
+    for item in d["probe_items"][:50]:
+        nums = [int(x) for x in re.findall(r"\d+", item["question"])]
+        assert len(nums) == 7 == len(set(nums))
+        med = sorted(nums)[3]
+        assert item["answer"] == str(med)
+        assert item["probe_label"] == str(nums.index(med) + 1)
+        assert item["basis"] == [str(nums[0])]
+    assert d["family"] == "order_stat" and d["dial_value"] == 7
+
+
+def test_generate_arith_next(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("arith_next")
+    # reduced pool (blessing: 0.35/1000 -- 1500 of the 1710-run space)
+    assert len(d["probe_items"]) == 1000 and len(d["eval_items"]) == 500
+    for item in d["probe_items"][:50]:
+        t = [int(x) for x in re.findall(r"\d+", item["question"])]
+        assert len(t) == 4
+        nxt = 2 * t[3] - t[2]
+        assert item["answer"] == str(nxt)
+        assert item["probe_label"] == str(nxt % 7)
+        assert item["basis"] == [str(t[0])]
+    assert d["family"] == "seq_extrap" and d["dial_value"] == 1
+
+
+def test_generate_quad_next(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("quad_next")
+    for item in d["probe_items"][:50]:
+        t = [int(x) for x in re.findall(r"\d+", item["question"])]
+        assert len(t) == 4
+        nxt = 3 * t[3] - 3 * t[2] + t[1]     # vanishing third difference
+        assert item["answer"] == str(nxt)
+        assert item["probe_label"] == str(nxt % 7)
+        assert item["basis"] == [str(t[0])]
+    assert d["family"] == "seq_extrap" and d["dial_value"] == 2
+
+
+def test_generate_odd6(tmp_path, monkeypatch):
+    from experiments.exp2c.battery.wordlists_2c import CATEGORIES_2C
+    cat_of = {w: c for c, ms in CATEGORIES_2C.items() for w in ms}
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("odd6")
+    assert len(d["probe_items"]) >= 7200 and len(d["eval_items"]) >= 500
+    for item in d["probe_items"][:50]:
+        words = re.search(r"others: ([a-z_, ]+)\?", item["question"]) \
+                  .group(1).split(", ")
+        assert len(words) == 6
+        cats = [cat_of[w] for w in words]
+        odd = next(w for w, c in zip(words, cats) if cats.count(c) == 1)
+        assert item["answer"] == odd
+        assert item["probe_label"] == str(words.index(odd) + 1)
+        assert item["basis"] == words        # all 6 words (blessed 6-comp)
+    assert d["family"] == "odd_one_out" and d["dial_value"] == 6
+
+
+def test_wave2_split_plan_pins():
+    # the approved consolidated blessing (PROGRESS 2026-08-02)
+    for name in ("median5", "median7", "quad_next"):
+        sp, n_probe = gen_items.SPLIT_PLAN[name]
+        assert sp.holdout_frac == 0.2 and not sp.shared_components
+        assert n_probe == 2000
+    sp, n_probe = gen_items.SPLIT_PLAN["arith_next"]
+    assert sp.holdout_frac == 0.35 and n_probe == 1000
+    sp, n_probe = gen_items.SPLIT_PLAN["odd6"]
+    assert sp.shared_components is True and sp.holdout_frac == 0.45
+    assert sp.min_val_items == 300 and n_probe == 8000
+
+
 def test_pos_letter_split_plan_pins():
     # caesar precedent: the letter label's 26 classes must survive both
     # sides of the per-string holdout -> stratify_by_label=True; otherwise
@@ -248,7 +336,20 @@ TRUE_ANSWER = {
     "letter_prod": lambda q: _true_pos_letter(q, lambda i, j: i * j),
     "hamming8": lambda q: _true_hamming(q),
     "hamming12": lambda q: _true_hamming(q),
+    "median5": lambda q: str(sorted(_ints(q))[2]),
+    "median7": lambda q: str(sorted(_ints(q))[3]),
+    "arith_next": lambda q: str(2 * _ints(q)[3] - _ints(q)[2]),
+    "quad_next": lambda q: str(3 * _ints(q)[3] - 3 * _ints(q)[2] + _ints(q)[1]),
+    "odd6": lambda q: _true_odd6(q),
 }
+
+
+def _true_odd6(q):
+    from experiments.exp2c.battery.wordlists_2c import CATEGORIES_2C
+    cat_of = {w: c for c, ms in CATEGORIES_2C.items() for w in ms}
+    words = re.search(r"others: ([a-z_, ]+)\?", q).group(1).split(", ")
+    cats = [cat_of[w] for w in words]
+    return next(w for w, c in zip(words, cats) if cats.count(c) == 1)
 
 
 def _true_hamming(q):

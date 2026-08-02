@@ -92,6 +92,16 @@ TEMPLATES = {
                 "do the two strings have the same letter?",
     "hamming12": "The strings are '{a}' and '{b}'. In how many positions "
                  "do the two strings have the same letter?",
+    "median5": "Which of these numbers is the median: {a}, {b}, {c}, "
+               "{d}, {e}?",
+    "median7": "Which of these numbers is the median: {a}, {b}, {c}, "
+               "{d}, {e}, {f}, {g}?",
+    "arith_next": "The sequence is {a}, {b}, {c}, {d}. What is the next "
+                  "term?",
+    "quad_next": "The sequence is {a}, {b}, {c}, {d}. What is the next "
+                 "term?",
+    "odd6": "Which word is not like the others: {a}, {b}, {c}, {d}, "
+            "{e}, {f}?",
     "roman_sum7": "What is the sum of the roman numerals {a} and {b}, "
                   "mod 7?",
     "collatz_step2": "Apply the Collatz rule (if even, halve; if odd, "
@@ -153,6 +163,14 @@ BASIS = {
     # both strings (proposal §3 F4): shared_components over their union
     "hamming8": lambda s1, s2: (s1, s2),
     "hamming12": lambda s1, s2: (s1, s2),
+    # wave 2 (blessing 2026-08-02): first printed component only for the
+    # medians and both seq_extrap rungs (the mod17-lesson reduction); all
+    # six words for odd6 (2b odd_one_out family treatment).
+    "median5": lambda *vs: (vs[0],),
+    "median7": lambda *vs: (vs[0],),
+    "arith_next": lambda t0, t1, t2, t3: (t0,),
+    "quad_next": lambda t0, t1, t2, t3: (t0,),
+    "odd6": lambda *ws: tuple(ws),
     "roman_sum7": lambda a, b: (a, b),
     "collatz_step2": lambda n: (n,),
     "isqrt_gap": lambda n: (n,),
@@ -210,6 +228,16 @@ SPLIT_PLAN = {
                              shared_components=True), 4000),
     "hamming12": (SplitParams(holdout_frac=0.45, min_val_items=300,
                               shared_components=True), 4000),
+    # wave 2 (approved consolidated blessing, PROGRESS 2026-08-02):
+    # medians + quad_next default/2000 on 1-comp bases; arith_next takes
+    # the sub_base8 figures (its (a,d) space is 1,710 < 2,500); odd6
+    # takes the 2b odd_one_out family figures (flagged costs accepted).
+    "median5": (SplitParams(), N_PROBE),
+    "median7": (SplitParams(), N_PROBE),
+    "arith_next": (SplitParams(holdout_frac=0.35), 1000),
+    "quad_next": (SplitParams(), N_PROBE),
+    "odd6": (SplitParams(holdout_frac=0.45, min_val_items=300,
+                         shared_components=True), 8000),
     # roman_sum7's basis_kind names this explicitly: "single shared
     # holdout over the union of numeral values (shared-component
     # variant)" -- same shape and same fix as count_div13.

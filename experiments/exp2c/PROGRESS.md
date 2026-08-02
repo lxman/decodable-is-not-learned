@@ -1744,3 +1744,45 @@ without a 223-item train side and outright infeasible at k=7.
    pre-flagged certain blessing; 1500 of 1710 generator space used).
 4. quad_next, antonym6: defaults, no blessing needed (ledgered for
    completeness). base13: direct base12 precedent, default.
+
+## 2026-08-02: Wave 2 BUILT — five rungs registered + items committed under the approved blessing
+
+median5 (20260820), median7 (20260821), arith_next (20260822),
+quad_next (20260823), odd6 (20260819) registered per the accepted
+proposal §3 + the approved consolidated blessing: medians on the
+first-printed-number basis (default/2000), arith_next at the sub_base8
+figures (0.35/1000; 1,500 of its 1,710-run space), quad_next
+default/2000, odd6 on all six words at the 2b odd_one_out family
+figures (0.45/8000). Every spec text carries its carrier analysis at
+full strength (2t3−t2 and 3t3−3t2+t1 identities for seq_extrap;
+translation-invariance for the medians; the §2(c) vocab-hygiene
+provenance for odd6) and its blessing citation.
+
+**TDD:** RED 18 failures against pre-implementation modules → GREEN.
+9 new generator tests (registration/dial/seed pins, hand-worked oracle
+vectors for all five, gen-shape sweeps incl. shuffle-position coverage
+and the 2q>=2 non-degeneracy check, determinism) + 6 gen_items tests
+(per-rung question-text recomputation incl. the first-number/all-six
+basis pins, split-plan pins) + TRUE_ANSWER x5. **Generation:** all five
+clean, zero ejections — min val across seeds: median5 385, median7
+377, arith_next 348, quad_next 388, odd6 305 (the flagged fragility
+real but clear of the 300 floor, 5/5 seeds). Shots spot-checked by
+hand recomputation, all correct; shot diversity satisfied de facto on
+all five (distinct labels within each pair).
+
+**family_map pin updated** (test_family_map): the 2026-08-01 26/13 pin
+was superseded by str_align's two tier-1 passes — now 28 rungs / 14
+families with the growth trajectory noted (B2 target 35/16); the pin
+stays exact and screen-aware (letter_sum/letter_prod/base12 excluded
+by verdict). Full suite **105 passed**.
+
+**Paper decision (Michael, 2026-08-02), cross-referenced here since the
+screening arc is now its clock:** the methods paper is HELD for the 2c
+screening results — the 2c arc's by-construction confirmations
+(base12→base12_digitsum; pos_letter→str_align) and the
+screen-admits-a-battery record discharge two of the paper's §7
+limitations; a confirmations section lands once waves 2–3 + tier-2 +
+recertification close.
+
+**Next:** adversarial review + tier-1 screens (risk order: arith_next,
+quad_next, median5, median7, odd6), then wave 3 (base13, antonym6).
