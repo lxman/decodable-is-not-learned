@@ -1612,3 +1612,49 @@ here; the forward rule remains open for waves 2–3.
 **Next:** tier-1 verdicts (screens running: hamming8 then hamming12);
 then wave 2 per §6 (order_stat, seq_extrap, odd6 — odd6 gated on
 Michael's CATEGORIES_2C hand review).
+
+## 2026-08-02: Wordlists HAND-REVIEWED and APPROVED (ruling 3 gate closed) — 4 category swaps applied
+
+**Michael's hand review of the growth wordlists returned.** Structural
+checks clean (independently confirming test_wordlists_2c.py's gates);
+four ambiguity classes flagged, each verified against HEAD and
+adjudicated:
+
+1. **Borderline proper nouns in WORDS_7_8** (nirvana, griffin,
+   heather, mustang, buffalo; + boulder, same class): ACCEPTED as-is.
+   The caesar pool's items are committed with tier-1+tier-2 fits done;
+   the probe label (first letter of the decoded word) is
+   semantics-free; the six words appear in only 16 of 2,500 committed
+   items. A swap would invalidate 10 campaign fits for zero
+   measurement gain.
+2. **WORDS_7_8 ∩ ANTONYMS_2C tokens = 35** (list enumerated in the
+   review exchange, reproduced exactly against HEAD): ACCEPTED as-is.
+   Cross-family (rotation ↔ antonym) with no plausible coupling
+   mechanism — rotation margins are semantics-free; ~2.3% of caesar
+   items surface any overlap word. Dropping the ~31 affected pairs
+   would sink the noun sublist below its 60 floor (65 → ~43), so
+   removal is not the cheap direction; acceptance is.
+3. **WORDS_7_8 ∩ CATEGORIES_2C = 4** (cricket, emerald, shoulder,
+   thunder): SWAPPED on Michael's instruction — cricket→cicada,
+   emerald→onyx, shoulder→hip, thunder→gale. CATEGORIES_2C had
+   generated no items, so the swap is free. Verified after: overlap
+   with WORDS_7_8 = ∅, overlap with ANTONYMS_2C tokens = ∅ (the
+   cross-list case no test pins), all floors/bands/anti-clustering
+   tests green (29 passed).
+4. **Charged words in WORDS_7_8** (abortion, suicide, assault,
+   asbestos, torture, violence, poverty, disease, disaster, funeral,
+   tragedy — all present; 28 of 2,500 committed caesar items, 1.1%):
+   ACCEPTED for measurement (subjects are Pythia checkpoints; no
+   human-subject dimension; semantics cannot reach the rotation
+   label). **Standing note: do not quote these items as examples in
+   the paper or any human-facing material.**
+
+Also on the record: the reviewing tool's own totals were stale (it
+reported 858 WORDS_7_8 / 186 antonym tokens vs the committed
+1522/260), but every substantive finding reproduced exactly against
+HEAD — flagged back to Michael for his next review pass.
+
+**Ruling 3 gate CLOSED: "Perform the category swaps and the list is
+approved" (Michael, 2026-08-02).** ANTONYMS_2C (130 pairs) and
+CATEGORIES_2C (10×8, post-swap) are approved including semantic
+validity — odd6 and antonym6 are UNBLOCKED for waves 2–3.
