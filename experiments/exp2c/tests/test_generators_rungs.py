@@ -8,7 +8,7 @@ EXPECTED = ["add4_mid", "sub4_mid", "base12", "base12_digitsum", "sub_base8",
             "mod17", "mod19", "mod13_comp", "caesar_len8", "count_div13",
             "clock24_d999", "rev_string7", "letter_sum", "letter_prod",
             "hamming8", "hamming12", "median5", "median7", "arith_next",
-            "quad_next", "odd6"]
+            "quad_next", "odd6", "base13", "antonym6"]
 
 
 def test_all_registered_and_valid():
@@ -421,6 +421,102 @@ def test_odd6_gen_shape():
 
 def test_wave2_gen_deterministic():
     for name in ("median5", "median7", "arith_next", "quad_next", "odd6"):
+        s = SPECS[name]
+        a = s.gen(np.random.default_rng(s.seed))
+        b = s.gen(np.random.default_rng(s.seed))
+        assert a == b
+
+
+# ------------------------------------------------------------------ wave 3
+# base13 (proposal §2a): the 4th base_repr rung, prime modulus (no CRT
+# decomposition -- the exact defect that killed base12 cannot exist),
+# N-token basis, default split. antonym6 (§2b): the antonym sibling at
+# k=6 over ANTONYMS_2C, position label, cue-word basis, POS-segregated
+# distractor draws per the approved wordlist convention.
+
+def test_wave3_registered_and_valid():
+    for name, (fam, dial, dv, seed) in {
+            "base13": ("base_repr", "base", 13, 20260817),
+            "antonym6": ("antonym", "n_choices", 6, 20260818)}.items():
+        assert name in SPECS, name
+        assert validate_spec(SPECS[name]) == []
+        s = SPECS[name]
+        assert s.family == fam and s.dial_name == dial
+        assert s.dial_value == dv and s.seed == seed
+        assert s.surface_answer is not None
+        assert s.rescue_of is None and s.mechanism_tested is None
+
+
+def test_base13_oracle_and_surface():
+    # hand-worked: 200 = 13*15+5, 15 = 13+2 -> "125", label 5
+    #              9999 = 4*2197 + 7*169 + 2*13 + 2 -> "4722", label 2
+    # letter digits (A=10, B=11, C=12):
+    #              154 = 11*13 + 11 -> "BB", label 11
+    #              168 = 12*13 + 12 -> "CC", label 12
+    s = SPECS["base13"]
+    assert s.surface_answer(200) == "125" and s.oracle(200) == 5
+    assert s.surface_answer(9999) == "4722" and s.oracle(9999) == 2
+    assert s.surface_answer(154) == "BB" and s.oracle(154) == 11
+    assert s.surface_answer(168) == "CC" and s.oracle(168) == 12
+    # general form: independent divmod-loop renderer over mixed N
+    digits = "0123456789ABC"
+    for n in (200, 261, 1000, 2197, 5000, 9999):
+        out, m = "", n
+        while m:
+            out, m = digits[m % 13] + out, m // 13
+        assert s.surface_answer(n) == out
+        assert s.oracle(n) == n % 13
+
+
+def test_base13_block_rule_is_base7s_carrier():
+    # the spec's named residual carrier: 10^3 = -1 (mod 13), so
+    # N mod 13 = ((N mod 1000) - (N div 1000)) mod 13 for our <=4-digit
+    # N -- the same 3-digit-block alternating rule base7 cleared at
+    # untrained 0.000. Pin the identity.
+    assert 1000 % 13 == 12
+    for n in (200, 999, 1000, 1300, 4722, 8788, 9999):
+        assert SPECS["base13"].oracle(n) == ((n % 1000) - (n // 1000)) % 13
+
+
+def test_antonym6_oracle_and_surface():
+    # cue 'huge' -> answer 'tiny' (ANTONYMS_2C pair) at printed slot 2
+    s = SPECS["antonym6"]
+    opts = ("flat", "tiny", "murky", "somber", "level", "bland")
+    assert s.oracle("huge", *opts) == 2
+    assert s.surface_answer("huge", *opts) == "tiny"
+    # noun cue at the last slot: 'dawn' -> 'dusk'
+    opts = ("night", "winter", "answer", "exit", "loss", "dusk")
+    assert s.oracle("dawn", *opts) == 6
+    assert s.surface_answer("dawn", *opts) == "dusk"
+
+
+def test_antonym6_gen_shape():
+    from experiments.exp2c.battery.wordlists_2c import (
+        ANTONYMS_2C, ANTONYMS_2C_ADJ, ANTONYMS_2C_NOUN)
+    ant = dict(ANTONYMS_2C)
+    adj_words = {w for p in ANTONYMS_2C_ADJ for w in p}
+    noun_words = {w for p in ANTONYMS_2C_NOUN for w in p}
+    adj_cues = {p[0] for p in ANTONYMS_2C_ADJ}
+    s = SPECS["antonym6"]
+    rng = np.random.default_rng(s.seed)
+    seen_pos = set()
+    for _ in range(400):
+        cue, *opts = s.gen(rng)
+        assert len(opts) == 6 == len(set(opts))
+        assert cue in ant and cue not in opts
+        assert ant[cue] in opts                     # answer present once
+        pool = adj_words if cue in adj_cues else noun_words
+        # POS segregation (approved wordlist convention): every option,
+        # answer included, comes from the cue's own sublist
+        assert all(w in pool for w in opts), (cue, opts)
+        pos = s.oracle(cue, *opts)
+        seen_pos.add(pos)
+        assert opts[pos - 1] == ant[cue] == s.surface_answer(cue, *opts)
+    assert seen_pos == set(range(1, 7))
+
+
+def test_wave3_gen_deterministic():
+    for name in ("base13", "antonym6"):
         s = SPECS[name]
         a = s.gen(np.random.default_rng(s.seed))
         b = s.gen(np.random.default_rng(s.seed))

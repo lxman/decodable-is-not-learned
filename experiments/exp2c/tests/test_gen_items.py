@@ -222,6 +222,50 @@ def test_generate_odd6(tmp_path, monkeypatch):
     assert d["family"] == "odd_one_out" and d["dial_value"] == 6
 
 
+# ------------------------------------------------------------------ wave 3
+
+def test_generate_base13(tmp_path, monkeypatch):
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("base13")
+    assert len(d["probe_items"]) >= 1800 and len(d["eval_items"]) >= 500
+    digits = "0123456789ABC"
+    for item in d["probe_items"][:50]:
+        n = int(re.search(r"Write (\d+) in base 13", item["question"]).group(1))
+        out, m = "", n
+        while m:
+            out, m = digits[m % 13] + out, m // 13
+        assert item["answer"] == out
+        assert item["probe_label"] == str(n % 13)
+        assert item["basis"] == [str(n)]
+    assert d["family"] == "base_repr" and d["dial_value"] == 13
+
+
+def test_generate_antonym6(tmp_path, monkeypatch):
+    from experiments.exp2c.battery.wordlists_2c import ANTONYMS_2C
+    ant = dict(ANTONYMS_2C)
+    monkeypatch.setattr(gen_items, "ITEMS_DIR", tmp_path)
+    d = gen_items.generate("antonym6")
+    assert len(d["probe_items"]) >= 1800 and len(d["eval_items"]) >= 500
+    for item in d["probe_items"][:50]:
+        cue = re.search(r"opposite of '([a-z]+)'", item["question"]).group(1)
+        opts = re.search(r": ([a-z, ]+)\?", item["question"]).group(1).split(", ")
+        assert len(opts) == 6
+        assert item["answer"] == ant[cue]
+        assert item["probe_label"] == str(opts.index(ant[cue]) + 1)
+        assert item["basis"] == [cue]
+    assert d["family"] == "antonym" and d["dial_value"] == 6
+
+
+def test_wave3_split_plan_pins():
+    # blessing table 2026-08-02: both wave-3 rungs take pure defaults
+    # (base13 = the base12/base12_digitsum precedent; antonym6's 130-cue
+    # pool cleared the sweep at 380-408 val, no override)
+    for name in ("base13", "antonym6"):
+        sp, n_probe = gen_items.SPLIT_PLAN[name]
+        assert sp.holdout_frac == 0.2 and not sp.shared_components
+        assert n_probe == 2000
+
+
 def test_wave2_split_plan_pins():
     # the approved consolidated blessing (PROGRESS 2026-08-02)
     for name in ("median5", "median7", "quad_next"):
@@ -341,7 +385,23 @@ TRUE_ANSWER = {
     "arith_next": lambda q: _true_arith_next(q),
     "quad_next": lambda q: _true_quad_next(q),
     "odd6": lambda q: _true_odd6(q),
+    "base13": lambda q: _true_base13(q),
+    "antonym6": lambda q: _true_antonym6(q),
 }
+
+
+def _true_base13(q):
+    n = int(re.search(r"Write (\d+) in base 13", q).group(1))
+    digits, out = "0123456789ABC", ""
+    while n:
+        out, n = digits[n % 13] + out, n // 13
+    return out or "0"
+
+
+def _true_antonym6(q):
+    from experiments.exp2c.battery.wordlists_2c import ANTONYMS_2C
+    cue = re.search(r"opposite of '([a-z]+)'", q).group(1)
+    return dict(ANTONYMS_2C)[cue]
 
 
 # Wave-2 review M4 hardening (2026-08-02): recompute seq_extrap answers

@@ -1857,3 +1857,31 @@ and one p≈0.01 in five is unremarkable — on the record for the
 freeze reader.
 
 Full suite after fixes: **106 passed**.
+
+## 2026-08-02: Wave 3 BUILT — base13 + antonym6 registered + items committed (defaults per blessing table)
+
+base13 (20260817): N mod 13 label, N-token basis, default split —
+the base12_digitsum pattern at a prime modulus (no CRT decomposition
+possible; the one named carrier is base7's own cleared 3-digit-block
+alternating rule, 10^3 ≡ −1 mod 13, pinned by identity test).
+antonym6 (20260818): position label at k=6 (ruled), cue-word basis
+(130 cues, no override — the sweep's 380–408 val), distractors from
+the cue's own POS sublist per the approved wordlist convention, 2b
+_gen_antonym exclusions carried. TDD: RED 12 → GREEN; hand-worked
+oracle vectors both rungs (incl. base13 letter-digit path BB/CC and
+the block-rule identity pin); generation clean (min val 400/388,
+zero ejections); shots hand-recomputed correct. Full suite **115
+passed**.
+
+**Self-caught flag, ledgered before review: antonym6's two shots both
+demonstrate slot 4** (outgoing at 4; placid at 4) — the THIRD
+shot-label collision in the growth build by seed luck (letter_sum 2/2
+dead with its rung; odd6 5/5, wave-2 review F3; now antonym6 4/4).
+base13's shots are distinct (labels 6/11). Three collisions in nine
+growth rungs is the empirical case for the still-open battery-wide
+shot-diversity ruling; per the standing precedent, tier-1 is
+unaffected (constant prefix) and any remedy must land before tier-2's
+campaign fits.
+
+**Next:** wave-3 adversarial review; tier-1 screens queue behind
+wave-2's four (odd6's screen stays HELD on the F2 basis ruling).

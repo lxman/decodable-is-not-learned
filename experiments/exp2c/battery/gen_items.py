@@ -102,6 +102,9 @@ TEMPLATES = {
                  "term?",
     "odd6": "Which word is not like the others: {a}, {b}, {c}, {d}, "
             "{e}, {f}?",
+    "base13": "Write {a} in base 13.",
+    "antonym6": "Which of these means the opposite of '{a}': {b}, {c}, "
+                "{d}, {e}, {f}, {g}?",
     "roman_sum7": "What is the sum of the roman numerals {a} and {b}, "
                   "mod 7?",
     "collatz_step2": "Apply the Collatz rule (if even, halve; if odd, "
@@ -171,6 +174,9 @@ BASIS = {
     "arith_next": lambda t0, t1, t2, t3: (t0,),
     "quad_next": lambda t0, t1, t2, t3: (t0,),
     "odd6": lambda *ws: tuple(ws),
+    # wave 3: N token (base12 precedent); cue word (proposal §2b)
+    "base13": lambda n: (n,),
+    "antonym6": lambda cue, *opts: (cue,),
     "roman_sum7": lambda a, b: (a, b),
     "collatz_step2": lambda n: (n,),
     "isqrt_gap": lambda n: (n,),
@@ -238,6 +244,9 @@ SPLIT_PLAN = {
     "quad_next": (SplitParams(), N_PROBE),
     "odd6": (SplitParams(holdout_frac=0.45, min_val_items=300,
                          shared_components=True), 8000),
+    # wave 3 (blessing table): pure defaults for both
+    "base13": (SplitParams(), N_PROBE),
+    "antonym6": (SplitParams(), N_PROBE),
     # roman_sum7's basis_kind names this explicitly: "single shared
     # holdout over the union of numeral values (shared-component
     # variant)" -- same shape and same fix as count_div13.

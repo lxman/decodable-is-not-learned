@@ -902,3 +902,121 @@ register(CapabilitySpec(
     gen=_gen_odd6,
     seed=20260819,
 ))
+
+
+# ------------------------------------------------------------------ wave 3
+# base13 (proposal §2a, seed 20260817) and antonym6 (§2b, 20260818): the
+# LOW-risk rungs, built last per §6 now that every risky slot has
+# resolved (pos_letter ejected -> str_align promoted + passed; wave 2
+# screened). Both take pure-default split plans per the approved
+# blessing table.
+
+_B13_DIGITS = "0123456789ABC"
+
+
+def _to_base13(n):
+    out = ""
+    while n:
+        out, n = _B13_DIGITS[n % 13] + out, n // 13
+    return out or "0"
+
+
+register(CapabilitySpec(
+    name="base13", family="base_repr", dial_name="base", dial_value=13,
+    description="write N in base 13, last digit of the representation "
+                "(N in [200,9999]; probe label 0-12, values 10/11/12 are "
+                "letters A/B/C in the surface answer only)",
+    answer_type="number",
+    probe_label_space="N mod 13, last base-13 digit as an integer (0-12)",
+    basis_kind="N token (~9800 values in [200,9999])",
+    composability="13 is prime -- no CRT decomposition exists, the exact "
+                  "defect that killed base12 (12 = 3x4) is structurally "
+                  "impossible. gcd(13,10)=1 and 10^k mod 13 cycles "
+                  "1,10,9,12,3,4 with period 6, never 0, so no fixed "
+                  "decimal suffix determines the label; N mod 13 "
+                  "requires composing every digit's contribution "
+                  "(base7's chain-nonlocal pattern at a larger residue "
+                  "count)",
+    dumbest_baseline="not value-mod-10 (23 -> 10 and 33 -> 7 share last "
+                     "digit 3, differ mod 13); not magnitude-banding "
+                     "(period-13 oscillation across the range). The one "
+                     "named surface carrier: 10^3 = -1 (mod 13), so "
+                     "N mod 13 = ((N mod 1000) - (N div 1000)) mod 13 "
+                     "for our <=4-digit N -- the SAME 3-digit-block "
+                     "alternating rule as base7 (10^3 = -1 mod 7), and "
+                     "base7 survived at untrained 0.000; a 13-class "
+                     "label is strictly harder to leak through the same "
+                     "projections than base7's 7-class one. The screen "
+                     "adjudicates",
+    oracle=lambda n: n % 13,
+    surface_answer=_to_base13,
+    gen=lambda rng: (int(rng.integers(200, 10000)),),
+    seed=20260817,
+))
+
+
+from .wordlists_2c import ANTONYMS_2C, ANTONYMS_2C_ADJ, ANTONYMS_2C_NOUN
+
+_ANT6 = dict(ANTONYMS_2C)
+_ADJ6_WORDS = [w for p in ANTONYMS_2C_ADJ for w in p]
+_NOUN6_WORDS = [w for p in ANTONYMS_2C_NOUN for w in p]
+_ADJ6_CUES = {p[0] for p in ANTONYMS_2C_ADJ}
+
+
+def _gen_antonym6(rng):
+    cue, ans = ANTONYMS_2C[int(rng.integers(len(ANTONYMS_2C)))]
+    pool = _ADJ6_WORDS if cue in _ADJ6_CUES else _NOUN6_WORDS
+    distractors = []
+    while len(distractors) < 5:
+        w = pool[int(rng.integers(len(pool)))]
+        if w not in (cue, ans) and w not in distractors:
+            distractors.append(w)
+    pos = int(rng.integers(6))
+    opts = distractors[:pos] + [ans] + distractors[pos:]
+    return (cue, *opts)
+
+
+def _oracle_antonym6(cue, *opts):
+    return opts.index(_ANT6[cue]) + 1
+
+
+def _surface_antonym6(cue, *opts):
+    return _ANT6[cue]
+
+
+register(CapabilitySpec(
+    name="antonym6", family="antonym", dial_name="n_choices", dial_value=6,
+    description="which of 6 words means the opposite of the cue (1 "
+                "antonym + 5 distractors from the cue's own POS sublist "
+                "of ANTONYMS_2C); answer = the antonym word, probe label "
+                "= its printed position",
+    answer_type="word",
+    probe_label_space="printed position of the antonym (1-6), "
+                      "shuffle-assigned",
+    basis_kind="the cue word (130 values, ANTONYMS_2C cues; holdout 0.2 "
+              "leaves 26 held cues and ~400 val items -- swept feasible "
+              "2026-08-02, no override needed since the approved list "
+              "landed at 130 pairs, well above its ~90 floor)",
+    composability="the class for a held-out cue requires the antonym "
+                  "relation, not a memorized cue-to-position table "
+                  "(position is shuffle-random, so no such table "
+                  "exists); the k=6 dial (ruled) raises the distractor "
+                  "count over the reused rung's 4",
+    dumbest_baseline="position under a randomized presentation is not a "
+                     "function of any surface token -- the exact "
+                     "survivor mechanism (2b antonym: untrained margin "
+                     "0.000 in every cell). The only leak path is the "
+                     "answer being surface-distinguishable from its "
+                     "distractors; ANTONYMS_2C's construction rules "
+                     "close the named routes at the pair level (no "
+                     "containment, no shared prefix/suffix >= 3, edit "
+                     "distance >= 3, length gap <= 4, token-unique "
+                     "pool) and distractors draw from the cue's own POS "
+                     "sublist, all tested in test_wordlists_2c.py and "
+                     "hand-approved (ruling 3, 2026-08-02); the screen "
+                     "adjudicates the residue",
+    oracle=_oracle_antonym6,
+    surface_answer=_surface_antonym6,
+    gen=_gen_antonym6,
+    seed=20260818,
+))
