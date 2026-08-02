@@ -1786,3 +1786,74 @@ recertification close.
 
 **Next:** adversarial review + tier-1 screens (risk order: arith_next,
 quad_next, median5, median7, odd6), then wave 3 (base13, antonym6).
+
+## 2026-08-02: Wave-2 review adjudicated — data clean x17,500; four record defects, three fixed, one to ruling (odd6 split)
+
+**Adversarial review (subagent, claims independently verified):** every
+committed wave-2 item + shot recomputed clean from question text; all
+five files byte-reproduce from their seeds; generator boxes enumerated;
+suite figure confirmed. **The data is correct; the defects are in the
+record.** Adjudication:
+
+1. **F1 (fixed): quad_next's "exactly uniform, verified by
+   enumeration" was false as stated.** 15,390 = 7×2198 + 4, so exact
+   uniformity is impossible; the enumeration's true output is counts
+   2198/2199 (±1). Independently re-enumerated before fixing. Spec
+   text corrected, proposal §3 F2b annotated in place, quad_next.json
+   regenerated (diff = exactly the one corrected string; items
+   byte-identical). The lesson ledgered plainly: the proposal misread
+   its own enumeration output, and two review passes (growth
+   finalization, wave-1) carried it.
+2. **F2 (RULING REQUESTED, odd6 tier-1 held): the blessed 6-comp split
+   achieves feasibility only degenerately.** Frozen-split reruns on
+   the committed bases show every seed clears the floors only when the
+   45% holdout swallows one complete 8-word category; starved val is
+   then 88–100% that single category (weather, insects, insects,
+   weather, metals — seeds 1/2 correlated on the same category), and
+   the real costs exceed the blessed disclosure: attempts 40/37/8/
+   139/4 (vs "one seed at 40"), n_train 350/203/255/129/345 (vs
+   "~342"; 2b's own was ~732). The starved val is effectively
+   leave-one-category-out, which changes what the rung's margin
+   means and confounds the n_words dial comparison. Options to
+   Michael, recommendation first: (a) **re-bless the basis to the
+   odd word alone (1-comp) at holdout 0.30** — swept clean
+   (no degeneracy, val ≈ 30% of items, train ≈ 70%), committed items
+   and prompts UNCHANGED (only the basis field regenerates), the
+   asterisk on the dial comparison honestly smaller than the
+   degenerate-split asterisk; (b) keep the blessed split with the
+   degeneracy disclosed as the price of family-symmetric treatment;
+   (c) something else. odd6 is last in the tier-1 queue (~2h out);
+   its screen will not run until this is ruled.
+3. **F3 (corrected here): the build entry's "shot diversity satisfied
+   de facto on all five" was FALSE for odd6** — both shots put the odd
+   word at printed slot 5 (labels 5/5; the answers differ, but the
+   metric this ledger itself established for str_align is labels).
+   The other four rungs' pairs are genuinely distinct (5/1, 5/1, 5/1,
+   6/5). odd6 joins the letter_sum precedent as a live instance of
+   the open battery-wide shot-diversity ruling question; per that
+   precedent, tier-1 is unaffected (constant prefix) and any shot
+   remedy must land before tier-2.
+4. **F4 (closed here): the consolidated blessing's approval event.**
+   For the provenance chain the sweep entry left implicit: **Ruling
+   (Michael, 2026-08-02): "approved" — the sweep entry's four
+   recommendations adopted verbatim**, authorizing the order_stat
+   basis deviation (shared components → first printed number), the
+   arith_next reduced pool, and the odd6 figures (now superseded in
+   part by F2's ruling request above).
+
+Minors: M1 fixed — new test pins every CATEGORIES_2C category at
+EXACTLY 8 members (the committed generator's rng.integers(8)
+dependency; a 7-member category would IndexError, a 9-member one would
+silently shrink the odd-word space). M4 hardened — TRUE_ANSWER's
+seq_extrap entries now recompute by the difference chain (infer d, q
+from printed terms), independent of the oracle's linear functionals.
+M2 noted, no change: odd6's basis is committed in printed order vs
+2b's sorted-tuple precedent — behaviorally nil under shared_components
+(conjunction over one shared holdout set, order-invariant; confirmed
+by exact split reproduction), disclosed here. M3 noted, no change:
+median7's committed label distribution is the one non-flat draw of
+the five (chi^2 p = 0.0095); the mechanism is provably slot-uniform
+and one p≈0.01 in five is unremarkable — on the record for the
+freeze reader.
+
+Full suite after fixes: **106 passed**.

@@ -338,10 +338,31 @@ TRUE_ANSWER = {
     "hamming12": lambda q: _true_hamming(q),
     "median5": lambda q: str(sorted(_ints(q))[2]),
     "median7": lambda q: str(sorted(_ints(q))[3]),
-    "arith_next": lambda q: str(2 * _ints(q)[3] - _ints(q)[2]),
-    "quad_next": lambda q: str(3 * _ints(q)[3] - 3 * _ints(q)[2] + _ints(q)[1]),
+    "arith_next": lambda q: _true_arith_next(q),
+    "quad_next": lambda q: _true_quad_next(q),
     "odd6": lambda q: _true_odd6(q),
 }
+
+
+# Wave-2 review M4 hardening (2026-08-02): recompute seq_extrap answers
+# by the difference chain (infer the generator parameters from the
+# printed terms), NOT the oracle's own linear functional -- a shared
+# error in the 2t3-t2 / 3t3-3t2+t1 identities would otherwise be
+# invisible to the Fix-A sweep.
+
+def _true_arith_next(q):
+    t = _ints(q)
+    d = t[1] - t[0]
+    assert t[2] - t[1] == d and t[3] - t[2] == d, q
+    return str(t[3] + d)
+
+
+def _true_quad_next(q):
+    t = _ints(q)
+    d1 = [t[i + 1] - t[i] for i in range(3)]
+    q2 = d1[1] - d1[0]
+    assert d1[2] - d1[1] == q2 and q2 % 2 == 0 and q2 >= 2, q
+    return str(t[3] + d1[2] + q2)
 
 
 def _true_odd6(q):

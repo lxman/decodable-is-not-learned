@@ -293,9 +293,13 @@ first: order_stat, seq_extrap, pos_letter, str_align.
   strictly increasing (no ambiguous presentations). t_4 spans [34, 323],
   2–3 digit.
 - **CRT / carrier arithmetic.** 7 is prime, coprime to 10: no CRT
-  decomposition, not digit-local, not value-mod-10; t_4 mod 7 is exactly
-  uniform over the (a,d,q) box (verified by enumeration of all 15,390
-  triples). The next term itself is **not printed** — the model computes
+  decomposition, not digit-local, not value-mod-10; t_4 mod 7 is uniform
+  to within ±1 over the (a,d,q) box — counts 2198/2199 per class by
+  enumeration of all 15,390 triples *(corrected 2026-08-02, wave-2
+  review: this sentence originally said "exactly uniform (verified by
+  enumeration)," but 15,390 = 7×2198 + 4 makes exact uniformity
+  arithmetically impossible; the enumeration's actual output is the
+  ±1 spread stated here)*. The next term itself is **not printed** — the model computes
   it — so its magnitude/last-digit are not on the surface. The residual
   carrier, named at full strength (sharper than "last term + inferable
   step"): because third differences of a quadratic vanish, **t_4 is a

@@ -812,9 +812,13 @@ register(CapabilitySpec(
                 "[10,99], d in [2,20], q in [1,9]); answer = the next "
                 "term t_4 (not printed); probe label = t_4 mod 7",
     answer_type="number",
-    probe_label_space="t_4 = (a + 4d + 16q) mod 7 (7-class; exactly "
-                      "uniform over the 15,390-triple box, verified by "
-                      "enumeration in the accepted proposal)",
+    probe_label_space="t_4 = (a + 4d + 16q) mod 7 (7-class; uniform to "
+                      "within +/-1 over the 15,390-triple box -- counts "
+                      "2198/2199 per class by enumeration; 15,390 = "
+                      "7*2198 + 4, so EXACT uniformity is impossible. "
+                      "Corrected 2026-08-02: the proposal's 'exactly "
+                      "uniform, verified by enumeration' misread its own "
+                      "enumeration output)",
     basis_kind="first printed term a (90 values) -- same ruled "
               "reduction as arith_next; the (a,d,q) map is injective "
               "onto printed runs (15,390 distinct), so the default "

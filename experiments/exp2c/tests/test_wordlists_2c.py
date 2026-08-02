@@ -123,6 +123,19 @@ def test_categories_2c_floors():
         assert len(members) >= 6, cat
 
 
+def test_categories_2c_exactly_eight_members():
+    # Wave-2 review M1 (2026-08-02): the committed odd6 generator draws
+    # the odd word with rng.integers(8) -- a hardcoded dependency on
+    # every category having EXACTLY 8 members (a 7-member category would
+    # raise IndexError at generation; a 9-member one would silently make
+    # the ninth word unreachable as the odd word). The committed items
+    # were generated under this invariant; pin it so any future vocab
+    # scrub that breaks it fails loudly here instead of silently
+    # shifting the generator's reachable space.
+    for cat, members in CATEGORIES_2C.items():
+        assert len(members) == 8, cat
+
+
 def test_categories_2c_word_hygiene():
     all_words = [w for ms in CATEGORIES_2C.values() for w in ms]
     assert all(w.isalpha() and w.islower() for w in all_words)
