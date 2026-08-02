@@ -1695,3 +1695,52 @@ odd_one_out-style blessed override expected), seq_extrap (arith_next
 20260823), odd6 (20260819, CATEGORIES_2C, override expected). Open
 ruling question carried: the battery-wide shot-diversity forward rule
 (both hamming rungs satisfy it by luck: shots 4/1 and 3/5).
+
+## 2026-08-02: Consolidated feasibility sweep for waves 2–3 (the pre-queued blessing pass) — data ledgered, ruling requested
+
+The growth design queued "a consolidated feasibility-blessing pass at
+item generation alongside odd6/order_stat/antonym6's expected
+overrides." Run synthetically against the frozen splits module before
+any wave-2 spec registers (the F4 lesson applied proactively). Full
+grid and n_train sides:
+
+| rung | basis tested | params | verdict | n_val | n_train |
+|---|---|---|---|---|---|
+| median5 | 5-comp shared | 0.45/8000 (odd_one_out figs) | INFEASIBLE | — | — |
+| median5 | 5-comp shared | 0.52/8000 | feasible | 305–332 | **223** (7458 dropped) |
+| median5 | 5-comp shared | 0.55/8000 | feasible | 390–420 | **158** |
+| median5 | first-number 1-comp | default/2000 | feasible | 378–407 | 1593 |
+| median7 | 7-comp shared | 0.55–0.65/8000 | INFEASIBLE (all) | — | — |
+| median7 | first-number 1-comp | default/2000 | feasible | 392–441 | 1598 |
+| odd6 | 6-comp shared | 0.45/8000 (proposal's expected figs) | feasible, fragile (attempt 40 seed 0) | 311–335 | **342** (7326 dropped) |
+| odd6 | 6-comp shared | 0.55–0.60/8000 | feasible | 327–661 | 116 / **29** |
+| odd6 | odd-word 1-comp | default/2000 | feasible (16 held vs 15 floor) | 379–411 | 1589 |
+| odd6 | odd-word 1-comp | 0.30/2000 | feasible | 575–635 | 1365 |
+| arith_next | a 1-comp | 0.35/1000 (sub_base8 figs) | feasible | 344–368 | 652 |
+| arith_next | a 1-comp | 0.30/1200 | feasible | 344–365 | 849 |
+| quad_next | a 1-comp | default/2000 | feasible | 378–411 | 1622 |
+| antonym6 | cue 1-comp | default/2000 | feasible | 380–408 | 1620 |
+
+**The structural finding:** the multi-component AND-holdout collapses
+BOTH split sides as component count grows (train = (1-h)^k, val =
+h^k). 2b's own precedents sit at the edge (sort3_mid 3-comp 0.37 →
+train 25%; odd_one_out 4-comp 0.45 → train 9%); at k=5 the train side
+is 2–3% of items, at k=6–7 it is nothing. The proposal's expected
+overrides for order_stat (odd_one_out figures) are unbuildable at k=5
+without a 223-item train side and outright infeasible at k=7.
+
+**Recommendations carried to Michael (one consolidated ruling):**
+1. **order_stat — first-printed-number basis for BOTH rungs**, default
+   SplitParams, n_probe 2000: the mod17-lesson reduction the growth
+   ruling already adopted for seq_extrap ("the joint-AND trap of a
+   multi-component basis is avoided"), applied uniformly so the
+   family's two rungs starve identically. Deviates from the proposal's
+   stated shared-components basis — hence the ruling.
+2. **odd6 — 6-comp shared at 0.45/8000** (the proposal's own expected
+   figures, which DO clear): precedent-faithful to 2b's odd_one_out
+   family treatment; accepted costs flagged: train side 342 (2b's own
+   was 732), attempt-40 fragility on one seed.
+3. **arith_next — 0.35/1000** (exact sub_base8 precedent, the
+   pre-flagged certain blessing; 1500 of 1710 generator space used).
+4. quad_next, antonym6: defaults, no blessing needed (ledgered for
+   completeness). base13: direct base12 precedent, default.
