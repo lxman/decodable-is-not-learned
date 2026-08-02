@@ -1658,3 +1658,40 @@ HEAD — flagged back to Michael for his next review pass.
 approved" (Michael, 2026-08-02).** ANTONYMS_2C (130 pairs) and
 CATEGORIES_2C (10×8, post-swap) are approved including semantic
 validity — odd6 and antonym6 are UNBLOCKED for waves 2–3.
+
+## 2026-08-02: str_align tier-1 PASS x2 — B2's 35-rung shape restored; wave 1 arc CLOSED
+
+Tier-1 verdicts: **hamming8 PASS** (not_fire x4; 410m null_mean 0.320,
+1b 0.240-0.321; no fit at floor, margins 0.000) and **hamming12 PASS**
+(not_fire x4; null_mean 0.249-0.251). The elevated null means are the
+truncated-Binomial majority-class baselines (modal class ~0.31 of items
+at L=8, ~0.26 at L=12) — the permutation null absorbs the ruled label
+imbalance exactly as intended; nothing fired above it.
+
+**The session's own fire→silence contrast, on the record:** within one
+build wave, the variable-index gather (pos_letter: position computable
+from printed integers, letter fetched at that data-dependent slot)
+fired structural_abort in ALL EIGHT fits, while the fixed-position
+alignment reduction (str_align: same 4-letter random-string surface
+family, but every comparison slot static and the label a
+whole-sequence count) sat at not_fire in all eight. Untrained random
+projections express the surface-computable-index gather but not the
+position-wise count composition — the sharpest single datum yet for
+the methods paper's positional-gather leak class, produced by the
+screen sequence the proposal preregistered (riskiest first, reserve
+promoted on ejection).
+
+**Battery state:** the B2 shape stands restored at 35 rungs — 16
+families with str_align the third new 2-rung family (screened), and
+order_stat + seq_extrap pending build in wave 2 alongside odd6;
+antonym6/base13 in wave 3. Wordlists approved (ruling 3 closed above),
+so odd6/antonym6 are unblocked. Certification remains the full
+5000-sim exact/sampled table on the BUILT battery post-screen, per the
+growth ruling.
+
+**Next:** wave 2 — order_stat (median5 20260820, median7 20260821;
+odd_one_out-style blessed override expected), seq_extrap (arith_next
+20260822 with the pre-flagged reduced-n_probe blessing, quad_next
+20260823), odd6 (20260819, CATEGORIES_2C, override expected). Open
+ruling question carried: the battery-wide shot-diversity forward rule
+(both hamming rungs satisfy it by luck: shots 4/1 and 3/5).
