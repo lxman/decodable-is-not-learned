@@ -2045,3 +2045,40 @@ light candidates, absorbed entirely by llmbox's odd6 critical path
 (48u); fleet completion unchanged. llmbox untouched (its four
 workers were nohup-detached from dispatch). No committed artifact
 touched.
+
+## 2026-08-03: Mac tier-2 COMPLETE — five PASS; llmbox relaunched thread-pinned (BLAS oversubscription, zero artifacts lost)
+
+**Mac verdicts (done stamps 07:36–12:22 UTC):** arith_next, antonym6,
+quad_next, median7 all PASS not_fire x10; median5 PASS with 8
+not_fire + 2 tolerated — both at seed 1 (410m and 1b), the calibrated
+allowance again, echoing its tier-1 shape. All 50 known_absent fit
+files validated (parse + stage/size/capability/host consistent with
+filenames, host Michaels-Mini); committed with this entry. Battery
+Mac assignment closed: +50 fits, +5 verdicts, exactly the staged
+expectation.
+
+**Housekeeping:** a stray codeassist-mcp server log directory
+appeared inside results/probes/known_absent/ this morning (the MCP
+server inherited a stale shell cwd after the harness restart and
+dropped its own startup log there). Relocated out of the results
+tree; no campaign artifact touched.
+
+**llmbox diagnosis:** at 14h22m elapsed the four llmbox workers had
+written ZERO fits; load average 64 on the 12-thread box; NLWP 23 per
+worker. Cause: scipy-openblas defaults each process to a 12-thread
+spin-wait pool — 4 workers ≈ 48 BLAS threads fighting 12 hardware
+threads. Throughput was pathological vs the Mac's ~66–70 min/unit
+pace (base13 at 2.6u/fit should have landed ~4 fits in that window;
+it landed none).
+
+**Remedy (no artifacts existed, so nothing lost):** all four workers
+killed and relaunched 14:06 UTC with OPENBLAS/OMP/MKL_NUM_THREADS=3
+— 4 x 3 = the box's 12 hardware threads exactly; NLWP now 5/worker.
+Threading env pins sit outside the frozen statistical config; seeds
+deterministic; reduction-order/final-ulp variation already covered
+by the standing cross-architecture caveat; per-fit host provenance
+unchanged. Health signal: first base13/hamming8 fits within a few
+hours. Ops gotcha for the record: the first kill attempt used
+pkill -f 'run.screen', which matched the SSH shell's own command
+line and severed the session before reaching the workers; completed
+by explicit PID.
