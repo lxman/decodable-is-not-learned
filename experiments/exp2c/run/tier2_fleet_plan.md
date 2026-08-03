@@ -85,3 +85,24 @@ this; per-fit provenance is attributable via the `host` field
   letter_prod caches are dead rungs, never ship them.
 - hamming8's cache is valid despite the shot rule (byte-identical
   regeneration, proven 2026-08-02).
+
+## Amendment 2026-08-03 (mid-flight rebalance, Michael's ruling)
+
+The dispatch table's "llmbox (x86, 12 threads)" hid the asymmetry
+Michael flagged: the i7-1265U is 2 P-cores + 8 E-cores. Even after
+the 14:06 UTC thread-pinned relaunch (see PROGRESS.md), llmbox
+per-unit throughput projects 2-4x below Mac pace — odd6 alone at
+4-9 days. With the Mac's five candidates done and the box idle,
+assignments were amended at 14:20 UTC, zero llmbox fits on disk
+(nothing lost, no duplication possible):
+
+- **Mac mini:** quad_next, median7, antonym6, median5, arith_next
+  (all DONE, PASS) + **odd6, hamming12** (launched 14:20:51Z from
+  the Mac-local validated npz).
+- **llmbox:** base13, hamming8 only, at the 3-thread pins —
+  deliberately not raised to 6: OpenBLAS chunks GEMMs evenly, so
+  extra E-core threads gate the P-core ones on small matrices; with
+  6 of 12 hardware threads freed, the scheduler now places the two
+  remaining workers on the fastest cores.
+
+Revised fleet close: ~2-3 days, Mac's odd6 the long pole.

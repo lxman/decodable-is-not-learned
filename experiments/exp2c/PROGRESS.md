@@ -2082,3 +2082,29 @@ hours. Ops gotcha for the record: the first kill attempt used
 pkill -f 'run.screen', which matched the SSH shell's own command
 line and severed the session before reaching the workers; completed
 by explicit PID.
+
+## 2026-08-03: Fleet REBALANCED — odd6 + hamming12 moved to the idle Mac (Michael's ruling)
+
+Michael flagged what the plan's "12 threads" framing hid: llmbox's
+i7-1265U has only 2 P-cores (plus 8 E-cores). Even thread-pinned,
+its per-unit throughput projects 2-4x below the Mac's ~66-70
+min/unit, putting odd6 (48u) at 4-9 days — while the Mac sat idle
+after finishing its five. Ruling executed 14:20 UTC:
+
+- llmbox's odd6 + hamming12 workers killed by explicit PID with
+  known_absent still at the 140-fit baseline — zero llmbox fits ever
+  landed, so nothing was lost and no cross-box duplication is
+  possible (each candidate runs on exactly one box).
+- odd6 + hamming12 launched detached on the Mac at 14:20:51Z from
+  the Mac-local npz (odd6's pair postdates the re-bless regeneration
+  and was integrity-validated at tier-1).
+- llmbox keeps base13 + hamming8 at the 3-thread pins, deliberately
+  not raised: OpenBLAS's even GEMM chunking means added E-core
+  threads gate the fast cores; the freed 6 threads already migrate
+  the remaining workers onto the best cores (load fell 64 -> 19).
+- Assignment amendment recorded in run/tier2_fleet_plan.md.
+
+Revised fleet close: ~2-3 days; Mac's odd6 is the long pole. Harvest
+procedure unchanged: llmbox returns base13/hamming8 verdicts + fits
+by scp; binomial fire-count over all 90 fits, then the 5000-sim
+recertification.
