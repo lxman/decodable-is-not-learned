@@ -2108,3 +2108,14 @@ Revised fleet close: ~2-3 days; Mac's odd6 is the long pole. Harvest
 procedure unchanged: llmbox returns base13/hamming8 verdicts + fits
 by scp; binomial fire-count over all 90 fits, then the 5000-sim
 recertification.
+
+## 2026-08-04: Let-it-ride ruling; hamming12 PASS on the record
+
+hamming12 tier-2 verdict landed 00:47 UTC: PASS, not_fire x10 —
+seventh of nine candidates closed, all PASS so far. Michael ruled
+"let it ride like it is" on the flagged option to migrate base13 to
+the Mac once odd6 completes: base13 finishes on llmbox (~Aug 6
+morning UTC, fleet long pole; k=13 multinomial cost runs ~1.6x the
+n_probe x k unit model — noted for future cost planning). Remaining:
+odd6 (Mac, ~Aug 4 evening), hamming8 (llmbox, ~Aug 5 morning),
+base13 (llmbox). Harvest after the last verdict.
