@@ -2119,3 +2119,16 @@ morning UTC, fleet long pole; k=13 multinomial cost runs ~1.6x the
 n_probe x k unit model — noted for future cost planning). Remaining:
 odd6 (Mac, ~Aug 4 evening), hamming8 (llmbox, ~Aug 5 morning),
 base13 (llmbox). Harvest after the last verdict.
+
+## 2026-08-04: odd6 tier-2 PASS — Mac assignment fully closed (7 of 9 all-PASS)
+
+odd6 verdict landed 21:49 UTC: PASS, not_fire x10 on the re-blessed
+odd-word basis — the F2 remedy now validated at full config, closing
+the Mac's amended assignment (7 candidates, 70 fits, all PASS; only
+median5's two seed-1 tolerated fits across the whole Mac set). odd6's
+10 fits + verdict and hamming12's 10 fits + verdict validated
+(stage/size/capability/host all consistent, host Michaels-Mini) and
+committed with this entry. Remaining: hamming8 (llmbox, 7/10 fits,
+~4h pace, verdict ~Aug 5 morning) and base13 (llmbox, 4/10, ~6.7h
+pace, verdict ~Aug 6 morning) — then harvest, binomial fire-count
+over all 90 fits, 5000-sim recertification.
