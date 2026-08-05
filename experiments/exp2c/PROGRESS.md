@@ -2132,3 +2132,13 @@ committed with this entry. Remaining: hamming8 (llmbox, 7/10 fits,
 ~4h pace, verdict ~Aug 5 morning) and base13 (llmbox, 4/10, ~6.7h
 pace, verdict ~Aug 6 morning) — then harvest, binomial fire-count
 over all 90 fits, 5000-sim recertification.
+
+## 2026-08-05: hamming8 tier-2 PASS harvested — 8 of 9 closed, all PASS
+
+hamming8 verdict landed on llmbox 15:06 UTC: PASS, not_fire x10.
+Its 10 fits + verdict scp'd back, validated (stage/size/capability
+consistent, host llmbox — first cross-box artifacts of the campaign),
+committed with this entry. base13 alone remains: 7/10 fits, three 1b
+fits to go at the ~7h 1b pace — verdict projected ~Aug 6 evening
+UTC. Then: final harvest, binomial fire-count over all 90 growth
+fits, 5000-sim recertification.

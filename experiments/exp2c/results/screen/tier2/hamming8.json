@@ -1,0 +1,107 @@
+{
+ "name": "hamming8",
+ "tier": 2,
+ "fits": [
+  {
+   "seed": 0,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.3209021276595745,
+   "null_sd": 0.015173697913340698,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.3201670886075949,
+   "null_sd": 0.01541110342184343,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 2,
+   "corrected_p": 0.6981207516993202,
+   "margin": 0.0,
+   "null_mean": 0.24811782178217828,
+   "null_sd": 0.015589080161969216,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 3,
+   "corrected_p": 0.02159136345461815,
+   "margin": 0.0,
+   "null_mean": 0.25194451145958985,
+   "null_sd": 0.015407582529419641,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 4,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.3203862244897959,
+   "null_sd": 0.015338063229676466,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "410m"
+  },
+  {
+   "seed": 0,
+   "corrected_p": 0.22950819672131148,
+   "margin": 0.0,
+   "null_mean": 0.23966257822277848,
+   "null_sd": 0.015239862890342055,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 1,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.3201670886075949,
+   "null_sd": 0.01541110342184343,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 2,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.32064158415841587,
+   "null_sd": 0.01484278757253787,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 3,
+   "corrected_p": 0.03358656537385046,
+   "margin": 0.0,
+   "null_mean": 0.24030446320868515,
+   "null_sd": 0.015274184740833174,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  },
+  {
+   "seed": 4,
+   "corrected_p": 1.0,
+   "margin": 0.0,
+   "null_mean": 0.3203862244897959,
+   "null_sd": 0.015338063229676466,
+   "at_floor": false,
+   "classification": "not_fire",
+   "size": "1b"
+  }
+ ],
+ "verdict": "pass"
+}

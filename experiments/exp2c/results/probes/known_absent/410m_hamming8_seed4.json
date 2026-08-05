@@ -1,0 +1,34 @@
+{
+ "stage": "known_absent",
+ "size": "410m",
+ "capability": "hamming8",
+ "host": "llmbox",
+ "present": false,
+ "accuracy": 0.3010204081632653,
+ "chance": 0.3010204081632653,
+ "null_p": 1.0,
+ "null_mean": 0.3203862244897959,
+ "null_std": 0.015338063229676466,
+ "margin": 0.0,
+ "best_layer": 0,
+ "best_token": 0,
+ "n_candidates": 18,
+ "ci95": [
+  0.269073350075257,
+  0.33447212881332217
+ ],
+ "split": {
+  "seed": 4,
+  "attempt": 0,
+  "k": 2,
+  "held_per_component": [
+   3394,
+   3394
+  ],
+  "n_train": 1186,
+  "n_val": 784,
+  "n_dropped": 2030
+ },
+ "checkpoint_id": "pythia-410m:9879c9b5:untrained",
+ "seed": 4
+}
