@@ -102,13 +102,6 @@ def screen_arrays(X, y, n_perm, seed, *, split_params=None,
     return rec
 
 
-def _tier1_margin_bar(rec: dict) -> float:
-    """stats_bounds.TIER1_BAR is the max-of-500 order-stat quantile in null-
-    SD units; converted to margin units (margin = (acc-null_mean)/(1-
-    null_mean)) so it compares directly against a fit's own margin."""
-    return sb.TIER1_BAR * rec["null_sd"] / max(1e-9, 1 - rec["null_mean"])
-
-
 def _assert_floor_matches(size: str, n_perm: int, n_candidates: int) -> None:
     """instrument.FLOORS is the ledgered per-size floor for the canonical
     tier-2 config (design §3: 18/2501 at 410m, 14/2501 at 1b). A mismatch
@@ -319,9 +312,12 @@ def screen_candidate(name: str, tier: int) -> dict:
             fits.append(rec)
             if rec["classification"] not in ("not_fire", "tolerated"):
                 reject = True
-            if tier == 1 and rec["at_floor"] and \
-               rec["margin"] > _tier1_margin_bar(rec):
-                reject = True
+            # Tier-1 margin bar REMOVED (Michael's ruling 2026-08-06,
+            # freeze checklist): structurally vacuous at 500 perms
+            # (add-one floors .0359/.0279 > alpha .01 -> `present`
+            # never true -> margin always 0, the bar unreachable).
+            # Behaviorally identical for every tier-1 verdict ever
+            # produced; reject authority is classify_fire alone.
             if tier == 2:
                 _assert_floor_matches(size, n_perm, r["n_candidates"])
                 _write_campaign_fit(name, size, s, r)

@@ -2344,3 +2344,29 @@ freeze reader. No growth-clause re-trigger.
 
 **M1 is CLOSED.** Remaining before the freeze tag: the freeze-review
 checklist (design open item 6), then Task 14 on Michael's explicit go.
+
+## 2026-08-06: Four freeze-review rulings executed (Michael, 2026-08-06) — checklist ALL GREEN
+
+1. **Survivors' M1 carry: CARRY from 2b** — declared on the
+   checklist; identical items/models/sizes, §7's principle.
+2. **Tier-1 margin rule: DROPPED from run/screen.py** — the vacuous
+   branch and `_tier1_margin_bar` removed with the ruling cited
+   inline; behaviorally identical for every verdict ever produced
+   (the bar was unreachable at 500 perms); suite 129 passed.
+3. **Alpha-bound test looseness: ACCEPTED as-is** (minor); the
+   hand-computed-p test remains the correctness net.
+4. **base12 correction framing, clarifying line (append-only per the
+   ruling):** in the 2026-07-30 base12_digitsum correction entry, the
+   framing sentence's "caught by the screen" wording covers TWO
+   distinct catches — the tier-1 untrained screen caught base12's
+   CRT digit-leak (the ejection), while the human re-review caught
+   the coprimality slip in the replacement's design argument. The
+   entry body attributes both correctly; this line closes the
+   framing conflation flagged at wave-review.
+
+**FREEZE_CHECKLIST.md is ALL GREEN.** Every pre-freeze gate is
+adjudicated with its arithmetic on the line; every queued triage item
+is ruled. Task 14 — the freeze commit + tag `exp2c-preregistered`
+(design doc, 34-rung battery with m1_ejections and screen verdicts,
+amended analyze.py, 129-test fixture suite, 0.7690 power table, M1
+record, the checklist) — awaits Michael's explicit go.

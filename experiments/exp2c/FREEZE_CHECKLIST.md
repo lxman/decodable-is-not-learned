@@ -32,30 +32,25 @@ GREEN or RULED and Michael gives the explicit go.
   contiguity contract, enumerated/sampled routing both pinned). The
   freeze requires this suite passing — satisfied.
 
-## Rulings needed from Michael before the tag
+## Rulings — all four RULED by Michael, 2026-08-06
 
-- [ ] **Survivors' M1 carry (§7 reading):** the 12 reused rungs'
-  argmax-absence record carries from 2b's committed M1 ("the 2b fits
-  ARE the 2c fits … none recomputed") — §7's enumerated list names
-  items/tier-2/Stage-1/shuffled but not M1 explicitly. Adjudicate
-  the carry (recommended: carry, consistent with §7's principle and
-  identical items/models/sizes) or order a re-measure (~10 min,
-  contradicts "none recomputed").
-- [ ] **Tier-1 margin rule (ledgered 2026-07-30):** structurally
-  vacuous at 500 perms (add-one floors .0359/.0279 > α=.01 →
-  `present` never true → margin bar unreachable; reject authority
-  was classify_fire alone, which worked — base12 4/4 structural).
-  Keep as ledgered-unreachable belt-and-suspenders, or drop from the
-  tier-1 description so the frozen record implies no gate that
-  cannot fire.
-- [ ] **Alpha-bound test looseness (minor, 2026-08-01 review):** the
-  exact-test alpha assertion uses a loose 0.05 threshold (true ~.0097
-  at the 720-perm shape; the hand-computed-p test is the real net).
-  Accept as-is or tighten before the tag.
-- [ ] **base12 correction framing (minor, ledgered):** one framing
-  sentence conflates the tier-1-screen catch (base12) with the
-  human-review catch (coprimality); body attributes correctly.
-  One-line touch-up or leave as-is.
+- [x] **Survivors' M1 carry (§7 reading): CARRY from 2b.** The 12
+  reused rungs' argmax-absence record carries from 2b's committed M1
+  — identical items, models, sizes; consistent with §7's "none
+  recomputed" principle. Declared here as the named checklist line.
+- [x] **Tier-1 margin rule: DROPPED.** The vacuous branch and its
+  helper removed from run/screen.py (behaviorally identical for
+  every tier-1 verdict ever produced — the bar was unreachable at
+  500 perms, floors .0359/.0279 > α=.01). Reject authority is
+  classify_fire alone, as it always effectively was. The frozen
+  record now implies no gate that cannot fire.
+- [x] **Alpha-bound test looseness: ACCEPTED as-is.** The 0.05
+  threshold stays (true α ~.0097; the hand-computed-p test is the
+  real correctness net). Ledgered as an accepted minor.
+- [x] **base12 correction framing: touched up.** A clarifying line
+  appended to the ledger (append-only): the tier-1 screen caught
+  base12's CRT leak; the human review caught the coprimality slip —
+  two catchers, two catches, correctly attributed in the entry body.
 
 ## On the record, not freeze-blocking
 
