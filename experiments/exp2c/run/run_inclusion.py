@@ -27,11 +27,14 @@ from __future__ import annotations
 
 import sys
 
-import instrument  # noqa: F401  (puts exp2b on sys.path: models, splits)
-import models  # exp2b's pinned loader, reached through the shim
-
+# ORDER IS LOAD-BEARING: 2c's battery package must enter sys.modules
+# BEFORE the instrument shim prepends exp2b to sys.path, or `battery`
+# resolves to exp2b's (which has no family_map / generators_controls).
 from battery.family_map import REUSED_FAMILIES, scored_battery_families
 from harness import HFRunner, evaluate_to_file, load_items, result_path
+
+import instrument  # noqa: F401  (puts exp2b on sys.path: models, splits)
+import models  # exp2b's pinned loader, reached through the shim
 
 PROBE_SIZES = models.PROBE_SIZES
 UNTRAINED_SEED = 0
