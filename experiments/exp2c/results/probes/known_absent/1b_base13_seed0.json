@@ -1,0 +1,33 @@
+{
+ "stage": "known_absent",
+ "size": "1b",
+ "capability": "base13",
+ "host": "llmbox",
+ "present": false,
+ "accuracy": 0.095,
+ "chance": 0.095,
+ "null_p": 1.0,
+ "null_mean": 0.08920399999999999,
+ "null_std": 0.013504974555144265,
+ "margin": 0.0,
+ "best_layer": 0,
+ "best_token": 0,
+ "n_candidates": 14,
+ "ci95": [
+  0.06810671552310078,
+  0.12806064599502015
+ ],
+ "split": {
+  "seed": 0,
+  "attempt": 0,
+  "k": 1,
+  "held_per_component": [
+   400
+  ],
+  "n_train": 1600,
+  "n_val": 400,
+  "n_dropped": 0
+ },
+ "checkpoint_id": "pythia-1b:f73d7dcc:untrained",
+ "seed": 0
+}

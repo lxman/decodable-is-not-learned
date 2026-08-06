@@ -2142,3 +2142,29 @@ committed with this entry. base13 alone remains: 7/10 fits, three 1b
 fits to go at the ~7h 1b pace — verdict projected ~Aug 6 evening
 UTC. Then: final harvest, binomial fire-count over all 90 growth
 fits, 5000-sim recertification.
+
+## 2026-08-06: TIER-2 FLEET COMPLETE — 9/9 PASS, 90/90 fits; binomial fire-count clean
+
+base13's verdict landed 13:51 UTC (PASS, not_fire x10; the k=13
+1b fits ran ~7h each, closing the fleet 3.7 days after dispatch).
+Harvested by scp, validated (host llmbox), committed with this
+entry. Full growth-campaign accounting: every one of the nine
+candidates has exactly 10 fits + a pass verdict — 90/90 fits, the
+only non-not_fire cells the entire campaign are median5's two
+tolerated fits (seed 1, both sizes), both z inside the central-99%
+tolerance band; zero elevated, zero structural aborts.
+
+**Binomial fire-count (design §4 gate-1 bookkeeping, same test as
+the 2026-08-01 entry):** growth batch k=2 fires in n=90 fits vs
+p=0.0064/fit, expected 0.576, binomtest two-sided p=0.1136; full
+campaign (140 original + 90 growth = 230 untrained-gate fits) k=2
+in n=230, expected 1.472, p=0.6617. Unremarkable in both scopes —
+the untrained gate closes clean on the grown battery.
+
+**Growth screening arc CLOSED.** The scored battery stands at the
+ruled B2 shape: 35 rungs / 16 families, every rung through the
+two-tier untrained screen with zero rejections at tier-2 (the two
+tier-1 rejections, letter_sum/letter_prod, never reached tier-2).
+Next: 5000-sim MC recertification of the built 35-rung battery
+against the 0.75 power gate — the certification the growth ruling
+requires and the last item before the freeze path.
