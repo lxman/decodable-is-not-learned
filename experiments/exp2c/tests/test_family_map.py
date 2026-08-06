@@ -16,25 +16,29 @@ MANIFEST = (REPO_ROOT / "experiments" / "exp2c" / "results" /
 
 def test_real_tree_exact_size_multiset():
     # Growth-battery pin, updated per tier-1 verdict (screen-aware by
-    # construction). 2026-08-02 FINAL growth state: all nine surviving
-    # growth rungs passed tier-1 -- the battery stands at EXACTLY the B2
-    # ruled shape: 35 rungs, 16 families, [4,4,4, 2x10, 1,1,1].
-    # base_repr reaches 4 (base7, oct2dec, base12_digitsum, base13);
-    # antonym and odd_one_out become 2-rung families (reused + sibling);
-    # str_align/order_stat/seq_extrap enter at 2. pos_letter's two rungs
-    # REJECTED at tier-1 stay excluded, as base12 does.
+    # construction) AND per M1 adjudication (Michael's ruling 2026-08-06:
+    # the 2b inclusion bar applies mechanically — hamming8 ejected, 1b
+    # margin CP95 UB .3237 >= .25). The battery stands at 34 rungs,
+    # 16 families, [4,4,4, 2x9, 1,1,1,1]: base_repr at 4 (base7,
+    # oct2dec, base12_digitsum, base13); antonym/odd_one_out at 2;
+    # order_stat/seq_extrap at 2; str_align drops to singleton
+    # (hamming12 alone). pos_letter's two rungs REJECTED at tier-1 stay
+    # excluded, as base12 does.
     families = family_map.scored_battery_families(ITEMS_DIR, SCREEN_DIR)
-    assert len(families) == 35
+    assert len(families) == 34
     assert len(set(families.values())) == 16
     assert families["base13"] == "base_repr"
     assert families["odd6"] == "odd_one_out"
     assert families["antonym6"] == "antonym"
     assert "letter_sum" not in families and "letter_prod" not in families
     assert "base12" not in families
+    # M1 ejection (ruling 2026-08-06): hamming8 out, its sibling stays
+    assert "hamming8" not in families
+    assert families["hamming12"] == "str_align"
 
     sizes = family_map.family_sizes(ITEMS_DIR, SCREEN_DIR)
     assert sorted(sizes, reverse=True) == \
-        [4, 4, 4] + [2] * 10 + [1, 1, 1]
+        [4, 4, 4] + [2] * 9 + [1, 1, 1, 1]
 
 
 def test_base12_ejected_base12_digitsum_present():

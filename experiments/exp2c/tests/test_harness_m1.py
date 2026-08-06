@@ -41,10 +41,11 @@ def test_ctrl_copy_registered_as_unscored_control():
 
 def test_ctrl_copy_never_enters_scored_battery():
     # no tier-1 verdict exists for ctrl_copy, and scored=False: the
-    # 35-rung battery shape must be unaffected by its registration
+    # battery shape must be unaffected by its registration (34 after
+    # hamming8's M1 ejection, ruling 2026-08-06)
     fams = scored_battery_families()
     assert "ctrl_copy" not in fams
-    assert len(fams) == 35
+    assert len(fams) == 34
 
 
 def test_ctrl_copy_gen_matches_2b_semantics():

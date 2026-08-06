@@ -8,7 +8,7 @@
   2,
   1,
   2,
-  2,
+  1,
   1,
   2,
   4,
@@ -30,36 +30,36 @@
  ],
  "runs": {
   "0.0": {
-   "alpha": 0.0098,
-   "power": 0.011,
+   "alpha": 0.0088,
+   "power": 0.0076,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"
   },
   "0.5": {
-   "alpha": 0.0098,
-   "power": 0.5588,
+   "alpha": 0.0088,
+   "power": 0.5416,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"
   },
   "0.6": {
-   "alpha": 0.0098,
-   "power": 0.7728,
+   "alpha": 0.0088,
+   "power": 0.769,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"
   },
   "0.7": {
-   "alpha": 0.0098,
-   "power": 0.9276,
+   "alpha": 0.0088,
+   "power": 0.9266,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"
   },
   "0.8": {
-   "alpha": 0.0098,
-   "power": 0.9902,
+   "alpha": 0.0088,
+   "power": 0.9894,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"
@@ -74,21 +74,21 @@
  "power_sweep": {
   "0.3": {
    "alpha": 0.0088,
-   "power": 0.7976,
+   "power": 0.78,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"
   },
   "0.5": {
-   "alpha": 0.0098,
-   "power": 0.7728,
+   "alpha": 0.0088,
+   "power": 0.769,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"
   },
   "0.7": {
-   "alpha": 0.009,
-   "power": 0.7414,
+   "alpha": 0.0076,
+   "power": 0.7406,
    "n_perms": 100000,
    "resolution": 9.99990000099999e-06,
    "method": "sampled"

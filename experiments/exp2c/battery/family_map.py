@@ -41,6 +41,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent.parent   # experiments/exp2c
 ITEMS_DIR = HERE / "battery" / "items"
 SCREEN_DIR = HERE / "results" / "screen"
+_M1_EJECTIONS_PATH = HERE / "results" / "inclusion" / "m1_ejections.json"
 
 # The 12 reused 2b survivors (results/reuse_manifest.json's `survivors`
 # keys) mapped to the family they join per the ruling above. Verified
@@ -91,6 +92,15 @@ def scored_battery_families(items_dir: Path = ITEMS_DIR,
         spec = json.loads(f.read_text())
         out[f.stem] = spec["family"]
     out.update(REUSED_FAMILIES)
+    # M1-adjudication-aware (ruling 2026-08-06): a rung ejected at M1
+    # inclusion (results/inclusion/m1_ejections.json, the committed
+    # adjudication record) leaves the scored battery exactly as a
+    # tier-1 reject does. The reused survivors' M1 carries from 2b
+    # (design §7) and cannot appear here.
+    ej = _M1_EJECTIONS_PATH
+    if ej.exists():
+        for name in json.loads(ej.read_text()):
+            out.pop(name, None)
     return out
 
 

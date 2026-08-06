@@ -2311,3 +2311,36 @@ territory ~0.75 — borderline; a re-fail re-triggers the growth
 clause). If Michael rules the bar inherited-but-adjudicated-with-
 mechanism (guessing-rate artifact), hamming8 stays with the reading
 disclosed. Decision and its rationale will be ledgered verbatim.
+
+## 2026-08-06: hamming8 EJECTED (Michael's ruling: the 2b bar applies); 34-rung battery RE-CERTIFIED at 0.7690
+
+**Ruling (Michael, 2026-08-06): "Apply the 2b bar: eject."** The M1
+inclusion rule frozen at exp2b-preregistered — normalized argmax
+margin at pythia-1b, CP95 upper bound < 0.25 — governs 2c's M1, and
+hamming8's 0.3237 fails it mechanically. Executed TDD:
+
+- **Adjudication record:** results/inclusion/m1_ejections.json
+  carries the ejection with its arithmetic and the plausible
+  mechanism (modal-answer guessing over the mid-range count
+  distribution) — the same record-the-catch pattern as base12.
+- **family_map is now M1-adjudication-aware:** scored_battery_families
+  excludes any rung named in the committed m1_ejections record,
+  exactly as a tier-1 reject. Battery pins updated 35/16 ->
+  **34 rungs / 16 families, [4,4,4, 2x9, 1,1,1,1]** (str_align drops
+  to singleton hamming12). Suite **129 passed**.
+- **hamming8's tier-2 fits stay committed as record** (they were
+  honest untrained-gate fits of a screened candidate); the frozen
+  battery's gate-1 binomial restates over the 34 scored rungs' 220
+  fits: k=2 (median5's tolerated pair), expected 1.408, p=0.4114 —
+  clean.
+
+**Re-certification (5000-sim exact table, sampled 100k, seed 0, on
+the 34-rung shape): power 0.7690 at rho_true=0.6 — >= 0.75, the gate
+HOLDS.** Full sweep 0.0076/0.5416/0.7690/0.9266/0.9894; alpha
+0.0076-0.0088 everywhere. Robustness sweep 0.7800/0.7690/0.7406
+across rho_family 0.3/0.5/0.7 — the same adverse-corner pattern as
+the 35-rung table (0.7406 at 0.7), disclosed identically for the
+freeze reader. No growth-clause re-trigger.
+
+**M1 is CLOSED.** Remaining before the freeze tag: the freeze-review
+checklist (design open item 6), then Task 14 on Michael's explicit go.
