@@ -2234,3 +2234,31 @@ first). No adjudication has ever run on real data (no eval-side
 model has been queried), so nothing is invalidated; the FAIL-branch
 fixture is structurally robust to the shift. Full suite **123
 passed**, and faster — the 100k-call spearmanr loop is gone.
+
+## 2026-08-06: M1 inclusion harness BUILT + ctrl_copy control committed (Task 13 opens)
+
+Michael's go: "Start M1." Built in this order, TDD throughout, suite
+**129 passed**:
+
+- **ctrl_copy control (gate 4):** `battery/generators_controls.py` —
+  2b's `_gen_ctrl_copy`/`_oracle_ctrl_copy` ported verbatim to 2c's
+  gen(rng) convention; spec fills 2c's mandatory fields; scored=False;
+  **seed 20260827** (next unused in the growth sequence, this line is
+  the ledger entry for that choice). Items committed: 500 eval / 2000
+  probe, min val 397 across seeds (letter_sum split plan verbatim, a
+  feasibility formality — control items are never probe-fitted).
+  Registration proven shape-neutral: no tier-1 verdict + scored=False
+  keeps it out of scored_battery_families (pinned by test at 35).
+- **harness.py:** exp2b's argmax harness ported; render_prompt/
+  normalize_answer/verify carried with BEHAVIORAL identity pinned
+  against exp2b's module by test (the §7 comparability requirement);
+  answer_type resolved from the SPECS registry (2c item files don't
+  carry it); MAX_NEW_TOKENS covers the M1 set (number/word only).
+- **run/run_inclusion.py + run/campaign_m1.sh:** 2b's resumable
+  per-(size,mode,cap) pattern; model loading through exp2b's pinned
+  models.py via the instrument shim (same SHAs, no second loader);
+  MPS-conflict guard. **M1 scope = 23 new-pool rungs + ctrl_copy**;
+  the 12 reused survivors' M1 record CARRIES from 2b per §7 ("none
+  recomputed") — that carry is a named freeze-checklist line for
+  Michael's adjudication, since §7's enumerated list does not name M1
+  explicitly.

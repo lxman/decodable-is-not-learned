@@ -423,6 +423,8 @@ TRUE_ANSWER = {
     "odd6": lambda q: _true_odd6(q),
     "base13": lambda q: _true_base13(q),
     "antonym6": lambda q: _true_antonym6(q),
+    # gate-4 control: the answer IS the quoted string, verbatim
+    "ctrl_copy": lambda q: re.search(r"'([a-z]+)'", q).group(1),
 }
 
 
@@ -500,6 +502,8 @@ TRUE_LABEL = {
     "odd6": _true_label_odd6,
     "antonym6": _true_label_antonym6,
     "base13": lambda q: str(_ints(q)[0] % 13),
+    # gate-4 control: probe label = first letter of the quoted string
+    "ctrl_copy": lambda q: re.search(r"'([a-z]+)'", q).group(1)[0],
 }
 
 

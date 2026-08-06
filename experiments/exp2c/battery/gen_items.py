@@ -44,7 +44,7 @@ try:
 except ImportError:
     import instrument  # `python -m battery.gen_items` from experiments/exp2c (battery is top-level)
 
-from . import generators_rescues, generators_rungs  # noqa: F401  (populate SPECS via register())
+from . import generators_controls, generators_rescues, generators_rungs  # noqa: F401  (populate SPECS via register())
 from .base import SPECS
 
 SplitParams = instrument.splits.SplitParams
@@ -111,6 +111,8 @@ TEMPLATES = {
                      "triple and add 1) twice to {a}. What is the result "
                      "mod 7?",
     "isqrt_gap": "For N = {a}, what is (N - isqrt(N)^2) mod 7?",
+    # gate-4 control (2b generators.py shot/template wording verbatim)
+    "ctrl_copy": "Repeat the string '{a}' exactly.",
 }
 
 # ------------------------------------------------------------------ basis
@@ -185,6 +187,9 @@ BASIS = {
     "roman_sum7": lambda a, b: (a, b),
     "collatz_step2": lambda n: (n,),
     "isqrt_gap": lambda n: (n,),
+    # control: per-item-fresh string (letter_sum shape; split is a
+    # feasibility formality -- ctrl_copy items are never probe-fitted)
+    "ctrl_copy": lambda s: (s,),
 }
 
 # name -> (SplitParams, n_probe). Defaults (holdout_frac 0.2,
@@ -261,6 +266,9 @@ SPLIT_PLAN = {
                                shared_components=True), 4000),
     "collatz_step2": (SplitParams(), N_PROBE),
     "isqrt_gap": (SplitParams(), N_PROBE),
+    # control: letter_sum's plan verbatim (26 first-letter classes must
+    # survive both sides of the per-string holdout for the report to run)
+    "ctrl_copy": (SplitParams(stratify_by_label=True), N_PROBE),
 }
 
 
