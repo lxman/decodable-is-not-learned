@@ -2262,3 +2262,52 @@ Michael's go: "Start M1." Built in this order, TDD throughout, suite
   recomputed") — that carry is a named freeze-checklist line for
   Michael's adjudication, since §7's enumerated list does not name M1
   explicitly.
+
+## 2026-08-06: M1 COMPLETE — gate 4 PASS (ctrl_copy .960/.980); absence table transcribed; ONE bar question to Michael
+
+Campaign ran 11:17-11:36 EDT (~19 min, matching 2b's pace), 96 cells
+(24 caps x 410m/1b x trained/untrained), zero failures after one
+import-order abort (fixed 57df585, no cells lost — skip-if-done).
+All results committed under results/inclusion/.
+
+**Gate 4 (adjudicated now, per the pre-freeze standing rule): PASS.**
+ctrl_copy trained argmax 0.9600 (410m) / 0.9800 (1b), both >= 0.9,
+on 2c's own items (seed 20260827). Untrained 0.0000 at both sizes.
+The measurement machinery is reliable at both probe sizes.
+
+**Untrained floors:** 0.0000 in 47 of 48 untrained cells (CP95 upper
+0.0074); median7/1b at 0.0020. Empirical chance for a random-init
+model is textual garbage, as in 2b — normalized margin therefore
+equals trained accuracy almost everywhere.
+
+**Absence readings (1b trained acc, CP95 UB in parens), the 2b
+inclusion rule as reference — CP-95 UB of normalized 1b margin
+< 0.25 (frozen at exp2b-preregistered):** 22 of 23 new-pool rungs
+sit UNDER the reference bar: eleven at literal zero (UB .0074:
+add4_mid, sub4_mid, base12_digitsum, base13, caesar_len8,
+rev_string7 at both sizes; and near-zero: quad_next .0080/.0204,
+sub_base8 .0160/.0313, arith_next .0380/.0587, mod19 .0380/.0587,
+clock24_d999 .0480/.0706, mod13_comp .0660/.0914, mod17
+.0720/.0983); the visibly non-zero remainder are at or near their
+option-guessing rates (median7 .1600/.1951 ~ 1/7; median5
+.1860/.2229 ~ 1/5; odd6 .1440/.1779 < 1/6; antonym6 .1780/.2144 vs
+1/6; collatz_step2 .1400/.1735; count_div13 .1500/.1844; isqrt_gap
+.1460/.1800; roman_sum7 .1480/.1822; hamming12 .1920/.2293).
+
+**The exception: hamming8, 1b trained .2820, CP95 UB .3237 — ABOVE
+the 2b reference bar** (410m reads the same: .2800/.3216). Its
+answer distribution concentrates mid-range, so modal-answer guessing
+is the plausible mechanism (a dumbest-baseline artifact, not task
+competence) — but 2b's rule is mechanical, no mechanism escape.
+
+**Adjudication to Michael (battery membership + certified shape at
+stake, not a controller call):** 2c's design inherits 2b's five
+standing rules and says M1 is "adjudicated against its bar" without
+restating a number — the natural referent is 2b's frozen UB < 0.25.
+If that bar governs and hamming8 ejects: battery 35 -> 34 (str_align
+drops to singleton hamming12), the certified B2 shape changes, and
+the 0.75 power gate must be re-run on the 34-rung shape (projection
+territory ~0.75 — borderline; a re-fail re-triggers the growth
+clause). If Michael rules the bar inherited-but-adjudicated-with-
+mechanism (guessing-rate artifact), hamming8 stays with the reading
+disclosed. Decision and its rationale will be ledgered verbatim.

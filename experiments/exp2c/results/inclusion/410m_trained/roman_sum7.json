@@ -1,0 +1,15 @@
+{
+ "capability": "roman_sum7",
+ "n": 500,
+ "correct": 83,
+ "acc": 0.166,
+ "cp95": [
+  0.13444175114700055,
+  0.2015678120268819
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "trained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null
+}

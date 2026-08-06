@@ -1,0 +1,15 @@
+{
+ "capability": "hamming12",
+ "n": 500,
+ "correct": 113,
+ "acc": 0.226,
+ "cp95": [
+  0.19005226593978228,
+  0.2652233588945422
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "trained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null
+}

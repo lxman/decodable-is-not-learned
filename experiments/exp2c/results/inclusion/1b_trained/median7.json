@@ -1,0 +1,15 @@
+{
+ "capability": "median7",
+ "n": 500,
+ "correct": 80,
+ "acc": 0.16,
+ "cp95": [
+  0.1289558551042261,
+  0.19512802227971715
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

@@ -1,0 +1,15 @@
+{
+ "capability": "count_div13",
+ "n": 500,
+ "correct": 75,
+ "acc": 0.15,
+ "cp95": [
+  0.11984862265152983,
+  0.1843596352914388
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

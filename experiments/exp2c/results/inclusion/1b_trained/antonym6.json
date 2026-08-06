@@ -1,0 +1,15 @@
+{
+ "capability": "antonym6",
+ "n": 500,
+ "correct": 89,
+ "acc": 0.178,
+ "cp95": [
+  0.14545880675990355,
+  0.21440274200857137
+ ],
+ "n_shots": 2,
+ "size": "1b",
+ "mode": "trained",
+ "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "untrained_seed": null
+}

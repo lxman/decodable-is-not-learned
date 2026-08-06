@@ -1,0 +1,15 @@
+{
+ "capability": "clock24_d999",
+ "n": 500,
+ "correct": 18,
+ "acc": 0.036,
+ "cp95": [
+  0.021472856586093287,
+  0.05630017620179107
+ ],
+ "n_shots": 2,
+ "size": "410m",
+ "mode": "trained",
+ "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null
+}
