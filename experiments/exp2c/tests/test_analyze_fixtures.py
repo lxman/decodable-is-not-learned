@@ -23,8 +23,7 @@ def _rungs(n_fam, per_fam, rho=0.9, seed=0):
 
 def _clean(n_fam=9, per_fam=3):
     return AnalyzeInputs(rungs=_rungs(n_fam, per_fam),
-                         untrained_fires={}, shuffled_fires=[],
-                         calibrated_cutoff=0.01)
+                         untrained_fires={}, shuffled_fires=[])
 
 
 def test_provision_one_leaking_rung_attrition_without_abort():
@@ -105,5 +104,69 @@ def test_provision_independent_battery_fail_branch():
                           "ascent_score": rng.normal(),
                           "scored": True})
     inp = AnalyzeInputs(rungs=rungs, untrained_fires={},
-                        shuffled_fires=[], calibrated_cutoff=0.01)
+                        shuffled_fires=[])
     assert verdict(inp)["verdict"] == "FAIL"
+
+
+# ------------------- exact-test amendment paths (ruling 2026-08-01,
+# implemented pre-freeze 2026-08-06: PASS branch adjudicates with the
+# design §5 block-permutation test at fixed alpha .01; the calibrated-
+# naive test and its rho_family-dependent cutoff input are gone)
+
+
+def test_exact_amendment_block_p_replaces_naive():
+    out = verdict(_clean())
+    assert "naive_p" not in out
+    for key in ("block_p", "n_perms", "resolution", "method"):
+        assert key in out, key
+    # [3]*9 shape: nine same-size blocks -> 9! = 362,880 enumerated perms
+    assert out["method"] == "enumerated"
+    assert out["n_perms"] == 362_880
+    assert out["verdict"] == "PASS"                    # rho=0.9 generator
+
+
+def test_exact_amendment_no_calibrated_cutoff_field():
+    import dataclasses
+    names = {f.name for f in dataclasses.fields(AnalyzeInputs)}
+    assert "calibrated_cutoff" not in names
+
+
+def test_exact_amendment_family_noncontiguous_input_grouped():
+    # the ledgered interface contract (2026-08-01, "don't pick
+    # silently"): rung arrays must reach the block test as contiguous
+    # per-family blocks even when the INPUT order interleaves families
+    from experiments.exp2c.run.power_table import exact_block_p
+    contiguous = _clean()
+    interleaved = _clean()
+    # round-robin across families: f0r0, f1r0, ..., f8r0, f0r1, ...
+    interleaved.rungs = sorted(
+        interleaved.rungs, key=lambda r: (r["name"][-1], r["family"]))
+    a, b = verdict(contiguous), verdict(interleaved)
+    assert a["block_p"] == b["block_p"]                # order-invariant
+    # and both equal a hand-grouped direct call
+    rungs = contiguous.rungs
+    fams = []
+    for r in rungs:
+        if r["family"] not in fams:
+            fams.append(r["family"])
+    grouped = [r for f in fams for r in rungs if r["family"] == f]
+    x = np.array([r["probe_score"] for r in grouped])
+    y = np.array([r["ascent_score"] for r in grouped])
+    sizes = [sum(1 for r in rungs if r["family"] == f) for f in fams]
+    assert a["block_p"] == exact_block_p(x, y, sizes)["p"]
+
+
+def test_exact_amendment_sampled_route_on_oversized_shape():
+    # [2]*11 -> 11! = 39.9M block perms > the 5e6 enumeration guard:
+    # the amendment must route to the sampled path (n_sample=100_000,
+    # add-one convention), exactly as the certified power table did
+    out = verdict(_clean(n_fam=11, per_fam=2))         # 22 rungs, 11 fams
+    assert out["method"] == "sampled"
+    assert out["n_perms"] == 100_000
+    assert out["verdict"] == "PASS"
+
+
+def test_exact_amendment_deterministic():
+    a, b = verdict(_clean()), verdict(_clean())
+    assert a["block_p"] == b["block_p"]
+    assert a["rho"] == b["rho"]

@@ -2201,3 +2201,36 @@ failure table remains in git history at the 2026-08-01 entry).
 PASS) -> binomial bookkeeping (clean) -> recertification (0.7728 >=
 0.75).** Remaining before the freeze tag per the pre-authorization:
 analyze.py exact-test amendment + fixture suite, then Task 13/14.
+
+## 2026-08-06: analyze.py exact-test amendment LANDED (queued 2026-08-01, pre-freeze)
+
+Executed TDD (RED 15 -> GREEN; the 5 new exact-path fixtures plus the
+10 existing rewritten off the removed constructor arg). The PASS
+branch now adjudicates with `run.power_table.exact_block_p` at fixed
+ALPHA_EXACT = .01 — the design §5 fallback the 2026-08-01 ruling
+adopted — replacing the calibrated-naive permutation test;
+`AnalyzeInputs.calibrated_cutoff` is gone (no rho_family-dependent
+input remains). Guard routing is inherited from the certified
+machinery: enumerated below the 5e6 group-size guard, sampled at
+100,000 seeded draws above it — the fixture suite pins both routes
+([3]*9 -> enumerated 362,880; [2]*11 -> sampled 100,000, the same
+path the built 35-rung battery (~131M) will take at adjudication).
+
+**Contiguity contract (ledgered 2026-08-01, "don't pick silently"):**
+implemented as first-appearance family grouping over the SCORED list
+— the sizes vector and array layout are built from the same pass, so
+block i of `families` is family i's rungs by construction, for any
+input order. Pinned by a fixture comparing interleaved vs contiguous
+input (identical block_p) and both against a hand-grouped direct
+`exact_block_p` call.
+
+**Output record:** `naive_p` replaced by `block_p` + `n_perms` +
+`resolution` + `method` (the design's "achievable permutation count
+and resolution stated" clause, now in the verdict record itself).
+
+**Disclosed:** removing the naive-perm loop shifts the seeded rng
+stream feeding the family-cluster bootstrap (its draws now come
+first). No adjudication has ever run on real data (no eval-side
+model has been queried), so nothing is invalidated; the FAIL-branch
+fixture is structurally robust to the shift. Full suite **123
+passed**, and faster — the 100k-call spearmanr loop is gone.
