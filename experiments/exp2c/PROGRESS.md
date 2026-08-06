@@ -2370,3 +2370,27 @@ is ruled. Task 14 — the freeze commit + tag `exp2c-preregistered`
 (design doc, 34-rung battery with m1_ejections and screen verdicts,
 amended analyze.py, 129-test fixture suite, 0.7690 power table, M1
 record, the checklist) — awaits Michael's explicit go.
+
+## 2026-08-06: FREEZE — tag exp2c-preregistered (Michael's explicit go)
+
+Task 14 executed on Michael's "go" with FREEZE_CHECKLIST.md all
+green. This commit is the 2b-pattern dedicated freeze commit: design
+doc status flipped to FROZEN, CLAUDE.md updated, this entry appended,
+tag `exp2c-preregistered` cut on it.
+
+**Frozen together at this tag:** experiment-2c-design.md (verbatim,
+status header only touched); the 34-rung/16-family battery
+(battery/items + m1_ejections.json + screen/tier1 + screen/tier2
+verdicts + 220 known_absent campaign fits); analyze.py (block-
+permutation PASS branch, fixed alpha .01) with its 129-test fixture
+suite; results/power_table_exact.{json,md} (power 0.7690 at
+rho_true 0.6, alpha <= .01 by construction); results/inclusion/ (M1
+record, gate-4 PASS at .960/.980); FREEZE_CHECKLIST.md with every
+line adjudicated.
+
+**From this commit forward:** thresholds, battery membership, and
+analyze.py do not change; one ledgered mechanism-fix per failed
+gate, never touching thresholds; the two-stage measurement lock is
+absolute (no 2.8b+ query before the Stage 1 commit+tag). Next
+milestone: M2 trained-side campaign (m3 + shuffled + known-present),
+then Stage 1 assembly.

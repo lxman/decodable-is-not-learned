@@ -1,14 +1,15 @@
 # Experiment 2c — Design Doc: The Probe Ladder on a Screened Battery (Prediction 2, third instrument)
 
-**Status:** **ACCEPTED 2026-07-28** — dial review and section-by-section
-review completed same date; accepted by Michael as written. NOT yet
-frozen. **The freeze is pre-authorized:** it proceeds without further
-design approval as soon as the seven open items in the final section
-close, as a dedicated commit + tag `exp2c-preregistered` containing
-the screened battery, `experiments/exp2c/analyze.py` with its passing
-fixture suite, and the MC calibration/power table (2b pattern:
-acceptance 753a665 → freeze 7293ff7). Until that commit nothing here
-binds; after it, thresholds, battery membership rules, and analyze.py
+**Status:** **FROZEN 2026-08-06** (tag `exp2c-preregistered`, Michael's
+explicit go on the all-green FREEZE_CHECKLIST.md) — accepted 2026-07-28;
+every open item closed and every pre-freeze gate adjudicated with its
+arithmetic on the checklist. The frozen battery is **34 rungs / 16
+families** ([4,4,4, 2×9, 1,1,1,1]: 22 new-pool rungs + 12 reused 2b
+survivors; hamming8 ejected at M1 under the 2b inclusion bar, record
+in results/inclusion/m1_ejections.json); power 0.7690 ≥ 0.75 at
+ρ_true = 0.6 under the §5 exact/sampled block-permutation test; gate 1
+clean (k=2/220, p=0.41); gate 4 PASS (ctrl_copy .960/.980). From this
+commit on, thresholds, battery membership rules, and analyze.py
 do not change, one ledgered mechanism-fix per failed gate, never
 touching thresholds.
 
