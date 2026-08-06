@@ -1,22 +1,25 @@
 {
  "families": [
   4,
-  3,
   2,
   2,
-  1,
-  2,
-  1,
   4,
   2,
-  1,
   2,
   1,
-  1
+  2,
+  2,
+  1,
+  2,
+  4,
+  2,
+  2,
+  1,
+  2
  ],
  "n_sims": 5000,
- "n_perms": 28800,
- "resolution": 3.472222222222222e-05,
+ "n_perms": 100000,
+ "resolution": 9.99990000099999e-06,
  "rho_family": 0.5,
  "rho_true_values": [
   0.0,
@@ -27,34 +30,39 @@
  ],
  "runs": {
   "0.0": {
-   "alpha": 0.0106,
-   "power": 0.0078,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.0098,
+   "power": 0.011,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   },
   "0.5": {
-   "alpha": 0.0106,
-   "power": 0.2664,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.0098,
+   "power": 0.5588,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   },
   "0.6": {
-   "alpha": 0.0106,
-   "power": 0.4156,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.0098,
+   "power": 0.7728,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   },
   "0.7": {
-   "alpha": 0.0106,
-   "power": 0.6164,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.0098,
+   "power": 0.9276,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   },
   "0.8": {
-   "alpha": 0.0106,
-   "power": 0.8146,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.0098,
+   "power": 0.9902,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   }
  },
  "rho_true_for_sweep": 0.6,
@@ -65,22 +73,25 @@
  ],
  "power_sweep": {
   "0.3": {
-   "alpha": 0.011,
-   "power": 0.4236,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.0088,
+   "power": 0.7976,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   },
   "0.5": {
-   "alpha": 0.0106,
-   "power": 0.4156,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.0098,
+   "power": 0.7728,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   },
   "0.7": {
-   "alpha": 0.0094,
-   "power": 0.4158,
-   "n_perms": 28800,
-   "resolution": 3.472222222222222e-05
+   "alpha": 0.009,
+   "power": 0.7414,
+   "n_perms": 100000,
+   "resolution": 9.99990000099999e-06,
+   "method": "sampled"
   }
  }
 }

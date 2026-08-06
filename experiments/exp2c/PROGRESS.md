@@ -2168,3 +2168,36 @@ tier-1 rejections, letter_sum/letter_prod, never reached tier-2).
 Next: 5000-sim MC recertification of the built 35-rung battery
 against the 0.75 power gate — the certification the growth ruling
 requires and the last item before the freeze path.
+
+## 2026-08-06: RECERTIFICATION PASSED — built 35-rung battery clears the 0.75 power gate (0.7728)
+
+`python -m run.power_table --exact` on the BUILT battery (the
+certification the growth ruling requires), transcribed from
+`results/power_table_exact.md`: family sizes resolve to the ruled B2
+multiset [4,4,4, 2x10, 1,1,1] (35 rungs / 16 families); sampled
+block permutations n_perms=100,000 (group ~131M > 5e6 enumeration
+guard), resolution 1.0e-5, n_sims=5000, seed 0.
+
+**Gate cell: power 0.7728 at rho_true=0.6, rho_family=0.5 — >= 0.75,
+the gate PASSES** (B2 projection was 0.777; agreement within MC
+noise). Full rho_true sweep 0.0/0.5/0.6/0.7/0.8 =
+0.0110/0.5588/0.7728/0.9276/0.9902; alpha 0.0088-0.0098 everywhere,
+inside the exact test's <= .01 construction.
+
+**Disclosed for the freeze reader:** unlike the 26-rung table's flat
+sweep, the robustness sweep now tilts with the nuisance parameter —
+power at rho_true=0.6 is 0.7976/0.7728/0.7414 across rho_family
+0.3/0.5/0.7. The adverse corner (rho_family=0.7) sits at 0.7414,
+just under the gate value; the preregistered gate is the main-table
+cell at the default rho_family=0.5 (the same cell the 26-rung
+battery failed at 0.416), and alpha stays bounded everywhere. On
+the record verbatim; whether the corner warrants any response is
+Michael's read at freeze review.
+
+Old 26-rung power_table_exact.{json,md} superseded in place (the
+failure table remains in git history at the 2026-08-01 entry).
+
+**The growth arc is fully closed: build -> two-tier screens (9/9
+PASS) -> binomial bookkeeping (clean) -> recertification (0.7728 >=
+0.75).** Remaining before the freeze tag per the pre-authorization:
+analyze.py exact-test amendment + fixture suite, then Task 13/14.
