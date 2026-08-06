@@ -990,8 +990,9 @@ quoted here — sits under five git tags (`exp2-preregistered`,
 `exp2-closed`, `exp2b-preregistered`, `exp2b-closed`,
 `exp2c-preregistered`) in the
 supporting repository, github.com/lxman/decodable-is-not-learned: a
-history-preserving extraction of the working repository, public from
-the paper's arXiv submission and archived with a DOI at publication.
+history-preserving extraction of the working repository, public since
+the paper's arXiv submission and archived at Zenodo
+(DOI 10.5281/zenodo.21830422).
 Commit SHAs quoted inside the ledgers resolve through that
 repository's PROVENANCE.md.
 
