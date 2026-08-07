@@ -2394,3 +2394,47 @@ gate, never touching thresholds; the two-stage measurement lock is
 absolute (no 2.8b+ query before the Stage 1 commit+tag). Next
 milestone: M2 trained-side campaign (m3 + shuffled + known-present),
 then Stage 1 assembly.
+
+## 2026-08-06: M2 LAUNCHED — trained-side campaign (Michael's "Launch M2")
+
+**Build (this entry's commit):** `run/campaign_m2.py` (stages runner),
+`run/m2_report.py` (gate report), `run/campaign_m2.sh` (detached
+driver), `tests/test_campaign_m2.py` (5 tests; suite 134 passed).
+Conventions carried verbatim from 2b's run_probes_2b.py: one JSON per
+(stage, size, cap, seed) under results/probes/, skip-if-exists,
+Pool(8) with OMP=1, fit-record format identical. Collection reuses
+screen.py's harvest path with trained weights loaded by pinned SHA.
+
+**Scope:** m3 + shuffled fit the 22 NEW-POOL rungs only (the 12
+reused survivors' m3/shuffled fits carry from the tagged 2b record,
+design §7 — none recomputed). known_present = entity_track (2b
+committed items + the local 2b trained npz caches; bit-deterministic
+instrument => exact fits) + ctrl_copy (2c's own M1 items). Total new
+fits 460 = 220 m3 + 220 shuffled + 20 known_present.
+
+**Shuffled ordering:** split from TRUE labels (split_labels=y), fit
+labels permuted rng(1000+seed) — the corrected ordering canonical
+since 2b's mid-campaign fix, pinned by
+test_shuffled_labels_ordering_contract.
+
+**m2_report is written against stats_bounds, NOT ported from 2b's
+m2_report_2b.py** — 2b's floor-signature 3-SD conjunct and pooled
+abort are the two §6 defects the 2c design replaced. Per-fire
+classification via classify_fire (tolerated/elevated feed the count
+test; abort only structural, z > 5.37); the gate-2 count test pools
+2c's 220 shuffled fits + the carried survivors' 120 from 2b (340
+total), per the freeze declaration.
+
+**Smoke (pre-launch, no campaign files written):** trained 410m loads
+by SHA 3s; mod17 collection 20s (2000 items, 25 layers); reduced-perm
+fits through the full path OK on mod17 (trained acc .051 ~ 1/17
+chance — absence, as expected below threshold) and entity_track via
+the 2b cache (acc .514). Projection at 2500 perms, Pool(8): ~5 Mac-
+days (410m fits ~80 min/unit single-threaded), inside the design §6
+envelope.
+
+**Launch:** detached via `nohup zsh run/campaign_m2.sh`, log
+`logs/m2/campaign.log`, resumable at every level. Stage order:
+collect (both sizes) -> per size: shuffled, known_present, m3
+(gate-relevant first, 410m first). M3 Stage-1 assembly + commit + TAG
+stays manual after the gate report.
