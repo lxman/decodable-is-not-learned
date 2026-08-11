@@ -2438,3 +2438,181 @@ envelope.
 collect (both sizes) -> per size: shuffled, known_present, m3
 (gate-relevant first, 410m first). M3 Stage-1 assembly + commit + TAG
 stays manual after the gate report.
+
+## 2026-08-11: M2 CLOSED — GATES CLEAN; Stage 1 predictor is 12 live rungs across 7 families
+
+**Campaign finished** Tue Aug 11 17:09:51 EDT 2026, gate report
+auto-run, `results/m2_report.json` written with `abort: false`. Fit
+counts as designed: m3 220 (110/size), shuffled 220, known_present 20,
+known_absent 230.
+
+**Gates.** Gate 2 (shuffled): **1 fire in 340 fits**, count-test
+p=0.914 against E<=2.45 at the conservative floor rate — the single
+fire is the carried 2b `odd_one_out`/410m/seed4, already classified
+tolerated (0.3398 vs 0.2503). One fewer than the 2/340 pre-decided as
+clean. Gate 3 (known-present): all four cells majority-present —
+entity_track .330 (410m) / .281 (1b), ctrl_copy .997 / 1.000; the 1b
+>= 0.2 bar clears at .281 and entity_track reproduces 2b exactly.
+Gate 4: ctrl_copy argmax .960 / .980, adjudicated at freeze.
+
+**Stage 1 predictor** (probe score = seed-mean margin, then mean over
+the two probe sizes; design §3 verbatim). 12 live of 34:
+
+odd6 .7160 | rev_string7 .6994 | reverse_string* .6240 | antonym* .5139
+| odd_one_out* .2979 | median5 .2630 | count_div13 .1799 | antonym6
+.1501 | median7 .1447 | count_div7* .1118 | hamming12 .0082 | clock24*
+.0047 — (* = carried 2b survivor). The other 22 rungs are exactly zero.
+
+**Family composition — the number that matters more than 22/34.**
+Seven of sixteen families carry any live rung; **nine are entirely
+flat** (mid_digit 4, base_repr 4, modulus 4, seq_extrap 2, rotation 2,
+base_arith 2, rescue_collatz 1, rescue_isqrt 1, rescue_roman 1). Two of
+the seven are live in name only (str_align .008, clock .005). A flat
+family is INERT under the block permutation — it returns identical
+values in every row — so the realized test has 7 effective blocks, not
+16. Power consequence ledgered in the next entry.
+
+**INSUFFICIENT_DATA floor NOT tripped.** 34 rungs and 16 families are
+scored; a flat rung is scored, not missing (design §3: "flat rungs
+enter as zero-score ties under average-rank rho"). The dual floor
+(8 families / 20 rungs) binds on what entered analysis, and everything
+entered. This is a power problem, not a floor problem.
+
+**Cross-scale note, recorded so it is not mistaken for a finding
+later.** Paired by seed, margins fall from 410m to 1b in all six
+comparable live rungs (median5 -.038+/-.008 is the only one clearly
+outside seed noise; count_div13 -.007+/-.011 and odd6 -.014+/-.010 are
+not). Two mechanical candidates, neither about structure: (i) `n_train`
+is IDENTICAL across sizes (1615/1615 median5, 1206/1206 count_div13)
+while `hidden_size` doubles 1024 -> 2048, so every rung but odd6 sits
+at n < d at 1b under a fixed-C L2 fit on standardized features;
+(ii) pythia-1b is **16 layers x 2048** against 410m's **24 x 1024**
+(configs checked) — shallower and wider, a shape change, not a depth
+step. Best layers move 15-18/24 -> 9/16 accordingly. Decodability is
+not presence in either direction; this is not evidence that 1b encodes
+less structure, and must not enter the writeup as one. Ranking
+agreement across the two sizes is high — two adjacent swaps among
+near-tied pairs (odd6/rev_string7 at the top, antonym6/median7 at the
+bottom) — which is what the rank-based predictor actually consumes.
+
+**Next:** M3 Stage 1 assembly + commit + TAG, manual, Michael's hand.
+Eval side stays LOCKED until that tag.
+
+## 2026-08-11: Conditional power on the realized predictor — 0.5604 against the frozen 0.7690
+
+**Why.** `results/power_table_exact.{json,md}` (tag
+`exp2c-preregistered`) simulates predictor and outcome jointly from a
+continuous latent model and reports power 0.7690 at rho_true=0.6. It
+was computed BEFORE the predictor existed. M2 produced the predictor,
+and it is not continuous: 22 of 34 rungs tie at exactly zero and nine
+of sixteen family blocks are inert. The frozen figure therefore
+describes a battery shape that did not materialize.
+
+**Build (commit `91f7471`):** `run/power_conditional.py`,
+`tests/test_power_conditional.py` (17 tests; exp2c suite **151
+passed**), `results/power_conditional.{json,md}`. Holds x FIXED at the
+realized Stage 1 scores, simulates only y under the same family model,
+scores every sim with the FROZEN machinery imported rather than
+reimplemented (`sampled_block_perms`, `_sampled_block_p_from_perms`
+add-one convention, alpha .01). The loading on x is bisected against a
+deterministic objective to hit each target Spearman.
+
+**Result (n_sims=5000, rho_family=0.5), conditional vs frozen:**
+rho_true 0.0 -> .0124 / .0076 | 0.5 -> **.3460** / .5416 | 0.6 ->
+**.5604** / .7690 | 0.7 -> **.8234** / .9266 | 0.8 -> .9926 / .9894.
+rho_family sweep at rho_true=0.6: .6084 / .5604 / .5258 for .3/.5/.7 —
+same direction as the frozen sweep, from a lower base.
+
+**Type I error is NOT affected.** Pooled alpha_hat **0.01050** over
+n=24,000 (4 seeds x 6000), 95% CI [0.00921, 0.01179], z=+0.76 against
+the .01 target. The single 5000-sim null row reads .0124; one row has
+SE ~.0014 and cannot distinguish that from .0100, so the artifact
+pools seeds and records the interval. The test is valid with the tied
+predictor — only less powerful.
+
+**Mechanism, recorded because the sign was NOT predictable from the
+obvious argument.** Two effects oppose each other: the tie block
+removes information (costs power) while also narrowing the permutation
+null (gains it). The table is their net. The loss dominates in the mid
+range and cancels at rho_true=0.8. An intermediate test asserting
+"tied < untied" FAILED in the opposite direction against an
+`arange(34)` control, which is what surfaced the second mechanism;
+the control was ill-posed (no family structure). Against untied but
+family-structured controls the ties cost .17-.12 across rho .5-.7,
+and the untied control reproduces the frozen marginal figure (.726
+vs .769 at rho=0.6), which validates the conditional frame.
+
+**Tie-corrected ceiling: 0.8541.** No outcome can attain a higher
+Spearman against this predictor however strong the true relationship.
+The frozen table's rho_true=0.8 row therefore sits 0.013 below a wall,
+which is why its power is ~1.0 and why it carries no information.
+
+**Consequence for the verdict.** PASS is unaffected in every row. FAIL
+is the asymmetric case: at rho_true=0.6 power is a coin flip and at 0.5
+it is .346, so a FAIL at those effect sizes cannot separate "no rank
+relationship" from "too few live blocks to see one." Recorded here
+BEFORE the Stage 1 tag and before any eval-side number exists.
+
+**Lock untouched.** x is probe-side only (410m/1b trained-twin
+margins); y is simulated, never measured. No eval-side quantity enters
+the computation.
+
+## 2026-08-11: RULING — antonym6 eval-ambiguity: ACCEPT the disclosed ceiling (wave-3 I2 CLOSED)
+
+**Michael's ruling, 2026-08-11**, taken at the pre-M4 horizon the
+standing deferral named (wave-3 I2; FREEZE_CHECKLIST "on the record,
+not freeze-blocking"). Options were per-cue exclusion sets vs accepting
+the disclosed ceiling. **Accepted the ceiling.**
+
+**Dose confirmed on the CURRENT committed draw.** The reviewer's
+14/500 was measured on the superseded draw (`3da526b`). Diffing that
+against the committed `e753a6b`: **499 of 500 eval questions are
+byte-identical**, the regeneration having been a one-slot rotation
+touching a single eval item. The 14/500 (2.8%, a hand-found FLOOR)
+therefore transfers with at most a one-item correction. It could not be
+tightened mechanically: the only automatable proxy — distractors that
+are answer-slot words in ANTONYMS_2C — fires on 485/500 (97%), because
+distractors draw from both slots by construction. Separating
+"defensible alternative antonym" from "answer-slot word" is the
+semantic judgment the reviewer made by hand.
+
+**Grounds.**
+1. **Legality.** The battery froze at `exp2c-preregistered` and Stage 1
+   is complete. Membership is frozen when Stage 1 begins and later
+   item-quality failures are attrition, never replacement — exclusion
+   sets built into items are not available. The only surviving form is
+   a scoring-side rule at M4, i.e. amending frozen, tagged analysis
+   code.
+2. **What that option is.** A hand-built scoring exception, for one
+   rung, authored by the people who want the experiment to work,
+   applied to no other rung — the exact degree of freedom the
+   preregistration apparatus exists to close. It buys <= ~3% on one
+   rung's ascent score.
+3. **The bias runs the safe way.** A depressed ascent score on one rung
+   injects rank noise into the outcome ranking; rank noise pulls
+   Spearman toward zero, toward the null. It can cost power; it cannot
+   manufacture a false PASS. Same asymmetry already accepted in the
+   Exp 2 lineage for the chance-floor problem.
+4. **Precedent inside this experiment.** The 2026-08-02 wordlist review
+   met four ambiguity classes and accepted three as-is on identical
+   reasoning. The one class swapped (CATEGORIES_2C) was swapped because
+   it was FREE — no items existed yet. Here items are generated,
+   committed, screened, and the whole probe side is built on them.
+
+**Counter-argument, on the record.** Power is now known to be tight
+(.5604 at rho_true=0.6, entry above), and a ceiling depressor costs a
+little more of it. Exclusion sets do not buy it back: they move one
+rung by at most a fraction of a rank position, while the power problem
+is nine inert family blocks. Wrong lever.
+
+**What acceptance commits to.** The <= ~3% depression is a NAMED
+limitation carried wherever antonym6's ascent score is reported — M5
+writeup and paper — with the 14/500 figure and its floor status, plus
+the fact that it was decided before any eval-side number existed. Not
+a footnote discovered later.
+
+**Also on the record:** antonym6 is the shakiest live rung on both
+sides now — 4/5 seeds at 1b with sd .081 against 5/5 and sd .028 at
+410m (entry above). Its I1 dose (slot asymmetry, argmin-Levenshtein
+0.2016 vs 1/6) remains disclosed and was adjudicated by the untrained
+screen, which it passed.
