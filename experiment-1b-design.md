@@ -126,15 +126,38 @@ tier should restore it.
 
 ## 4. Signature operationalization
 
-**S1 (verdict-touching).** Carried verbatim from Exp 1 §3: present iff
-probe accuracy beats a label-permutation null at p < 0.01 (Bonferroni
-across layers) at a checkpoint with argmax test accuracy < 5%. The
-readout is unchanged; only the *cross-system criterion built on it*
-(§5) is new.
+**S1 (verdict-touching).** Carried from Exp 1 §3: present iff probe
+accuracy beats a label-permutation null at p < 0.01 (Bonferroni across
+layers) at a checkpoint with argmax test accuracy < 5% — **and** exceeds
+the accuracy of this cell's own untrained twin, paired per (system, size,
+seed). Strict inequality: a tie with the twin is not evidence training
+added anything.
+
+**The floor correction is 1b's one pre-committed change (§9), spent
+2026-08-12 for a reason ledgered before the change** in
+`experiments/exp1b/PROGRESS.md` (commits `6db9788`, `43be192`). The
+reason is measured, not anticipated. With the twins built and run on all
+thirty cells before any trained data existed, the untrained row fired raw
+S1 in **9 of 10 grokking cells** (1M 5/5, 10M 4/5) and **0 of 20** lubana
+cells. The label-permutation null permutes labels and refits, so it
+controls for probe capacity and for label marginals, but not for
+information the random expansion already carries about the label: it
+answers "does the probe use the labels?", not "did training put the
+structure there?" Only the twin answers the second. Structurally this is
+Exp 2c's chance-floor defect again — the criterion's floor was
+theoretical chance (1/113 = 0.0088) where the empirical floor is ≈ 0.023,
+2.6× higher. Uncorrected, S1 on the grokking row measures the reservoir.
+
+The correction also changes what the twin is *for*. It was a kill-switch;
+it is now the calibration every trained cell is read against, which is
+the only version that survives its own measurement.
 
 For the `untrained` row there is no training axis and no transition, so
 the below-threshold condition is vacuous: the probe is fit at the
-matched checkpoint spec against the same null.
+matched checkpoint spec against the same null. Twins match their cell's
+architecture, size and seed exactly (open item 3, now closed): the runner
+constructs each twin through Exp 1's own model constructor and refuses to
+record a cell whose parameter-count bucket differs from the one requested.
 
 **S2, S3 (descriptive).** Emitted by the existing pipeline and reported.
 Two known findings carry forward and are stated in advance so they are
@@ -158,19 +181,42 @@ Counts are **pooled across the two sizes** — ten runs per row.
 
 | row | required |
 |---|---|
-| `grokking` | ≥ 8/10 S1-present |
-| `lubana_above` | ≥ 8/10 S1-present |
-| `lubana_below` | **0/10** S1-present |
-| `untrained` (all twins pooled) | **0/30** S1-present |
+| `grokking` | ≥ 8/10 S1-present (floor-corrected) |
+| `lubana_above` | ≥ 8/10 S1-present (floor-corrected) |
+| `lubana_below` | **0/10** S1-present (floor-corrected) |
+| `untrained` (all twins pooled) | **reported, not barred** — see below |
 
-**PASS iff all four hold.** Anything else is a **reportable FAIL**,
+**PASS iff all three bars hold.** Anything else is a **reportable FAIL**,
 written up as a finding and not tuned away.
+
+**Why the untrained row lost its bar** (amended 2026-08-12 with the floor
+correction, same ledgered reason). It previously required 0/30. Under the
+corrected criterion that bar cannot fail: an untrained cell's accuracy
+cannot exceed its own, so every twin is absent by construction, and §6's
+standing requirement is that an operationalization no baseline can fail
+is not a test. Gating on it *and* floor-correcting would also
+double-count the same defect. The row is therefore reported — raw fire
+rate, per-size split, and Clopper–Pearson bound — and marked
+`verdict_touching: False` in the analysis output. Both counts are
+reported for every trained row (`present` corrected, `present_raw`
+uncorrected) so the correction's effect is visible rather than silently
+applied.
+
+The measured row, run before any trained data existed:
+
+| row | raw fires | 1M | 10M | CP95 |
+|---|---|---|---|---|
+| `grokking` twins | 9/10 | 5/5 | 4/5 | (0.555, 0.997) |
+| `lubana_above` twins | 0/10 | 0/5 | 0/5 | (0.000, 0.308) |
+| `lubana_below` twins | 0/10 | 0/5 | 0/5 | (0.000, 0.308) |
 
 Pooling is a deliberate trade, stated so it cannot be mistaken for an
 oversight. For the absent rows it changes nothing — 0/5 at each size and
 0/10 pooled are the same condition — but it lets absence be reported
 with a materially tighter Clopper–Pearson bound (95% upper 0.308 at
-0/10, against 0.522 at 0/5; and 0.116 at the untrained row's 0/30). For
+0/10, against 0.522 at 0/5). The untrained row's own 0/30 bound of 0.116
+no longer applies: that row is not barred, and it did not come back zero
+(9/30, CP95 0.147–0.494). For
 the present rows it is **looser** than
 a per-size ≥4/5 bar, since ≥8/10 tolerates a (5,3) split that per-size
 would fail. **Per-size counts are reported alongside the pooled verdict**
@@ -189,14 +235,33 @@ not a test.
 
 | degenerate instrument | outcome |
 |---|---|
-| probe that always fires | fails `lubana_below` and `untrained` |
+| probe that always fires | fails `lubana_below`; and, firing no higher on the trained cell than on its twin, fails both present rows |
 | probe that never fires | fails `grokking` and `lubana_above` |
 | probe reading **task identity** | fires on above *and* below alike — fails `lubana_below` |
-| probe reading **reservoir dimensionality** | fires on random init — fails `untrained` |
+| probe reading **reservoir dimensionality** | reads the same expansion in both cells of a pair, so never exceeds its twin — fails both present rows |
 
 Four distinct failure routes, and the tightest margin in Exp 1's
 existing records — grokking at 4/5 on the 10M tier — sits one seed from
 breaching the pooled bar. The bar is passable and can genuinely fail.
+
+Routes 1 and 4 previously ran through the `untrained` 0/30 bar. Removing
+that bar relocated them rather than eliminating them: under the floor
+correction a probe that reads only the expansion cannot clear its own
+twin, so it fails the *present* rows instead of the untrained one. Four
+routes remain, and the correction is what carries two of them — which is
+why the analysis fixture suite mutation-tests it in both directions
+(removing the correction, and re-adding the retired gate).
+
+**The bar is now known to be at risk on real numbers, not merely in
+principle.** Exp 1's trained grokking accuracies at 10M were 0.0187,
+0.0227, 0.0140, 0.0167 and 0.2207; the twins measured here span
+0.0140–0.0227. Four of those five trained cells fall inside the twins'
+range. If 1b's own trained cells behave similarly, the grokking row
+returns roughly 5/5 at 1M and ~1/5 at 10M — pooled ~6/10, a FAIL. That
+comparison is distributional, not paired (Exp 1 used seeds 0–4, 1b uses
+100–104), so it forecasts rather than settles; the paired test is the
+experiment. It is recorded here so a FAIL cannot later be presented as a
+surprise.
 
 The `lubana_above` row is what makes the test discriminating rather than
 merely descriptive: it is the *same task* as `lubana_below`, differing
@@ -245,9 +310,13 @@ stay untouched.
 - Thresholds frozen pre-run; analysis script committed with the doc and
   not edited after data collection.
 - Seeds fixed, logged, and disjoint from Exp 1's.
-- **One pre-committed change**, unspent. Exp 1's was spent on the
-  log-space S3 amendment; 1b starts with a fresh one, and spending it
-  requires a ledgered reason recorded before the change.
+- **One pre-committed change — SPENT 2026-08-12** on the floor-corrected
+  S1 (§4). Exp 1's was spent on the log-space S3 amendment. 1b's reason
+  was ledgered before the change, as this rule requires, in
+  `experiments/exp1b/PROGRESS.md` (commits `6db9788`, `43be192`): the
+  untrained twins were built and run on all thirty cells before any
+  trained data existed, and the grokking twins fired 9/10. **No further
+  change is available.** If the campaign returns a FAIL, it is reported.
 - **Verdict projection ledgered before the analysis runs.**
 - No interval-coverage criteria on extrapolations.
 - Every zero as a Clopper–Pearson bound.
@@ -258,13 +327,25 @@ stay untouched.
 
 ## Open items before first run
 
-1. `analyze_1b.py` written and frozen with fixture tests, including one
-   synthetic case per preregistered provision (pooled counts, per-size
-   reporting, the untrained gate, CP bounds on zeros).
+1. ~~`analyze_1b.py` written and frozen with fixture tests, including one
+   synthetic case per preregistered provision.~~ **Done** — 17 fixtures
+   covering pooled counts, per-size reporting, the floor correction
+   (per-cell pairing, strict inequality, raw-vs-corrected reporting,
+   absent-row protection), the untrained row's diagnostic status, CP
+   bounds on zeros, and four shape refusals. Mutation-tested in both
+   directions.
 2. Confirm the Exp 1 training recipes reproduce their ground-truth gates
    on seeds 100–104 at 1M before committing the full campaign.
-3. Decide whether `untrained` probes the same architecture per size
-   (matched d_model/depth) — assumed yes, needs stating in the frozen
-   config.
+3. ~~Decide whether `untrained` probes the same architecture per size.~~
+   **Closed 2026-08-12: yes, matched per cell** — the runner builds each
+   twin through Exp 1's own constructor at the cell's size and seed, and
+   refuses to record a cell whose parameter-count bucket differs from the
+   one requested (§4). Measured on all thirty cells.
 4. Runner script with skip-if-exists durability, per the program's
    resumability rule.
+5. **Re-run the thirty untrained cells into the campaign tree after the
+   freeze.** The measured row lives in
+   `experiments/exp1b/diagnostics/pre_freeze_untrained/`, deliberately
+   outside `results/`, because it predates the freeze and `present` is a
+   derived field that the floor correction has since changed the meaning
+   of. ~1 h 46 min.

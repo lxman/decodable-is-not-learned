@@ -210,3 +210,57 @@ own observation that grokking's signatures degraded with scale.
 **Still nothing adjusted.** No change to `probe_n`, `alpha`, `n_perm`, the
 probe, the S1 criterion, or the design doc. The four routes remain open and
 the pre-committed change remains unspent.
+
+---
+
+## 2026-08-12: Ruling — floor-corrected S1. The pre-committed change is SPENT.
+
+**Michael's ruling: route (b).** S1-present now additionally requires
+`accuracy > this cell's own untrained twin's accuracy`, paired per (system,
+size, seed), strict inequality. This spends 1b's one pre-committed change.
+§9's requirement that the reason be ledgered *before* the change is satisfied
+by the two entries above (`6db9788`, `43be192`), both of which predate it.
+
+**Applied to three files:**
+
+- `analyze_1b.py` — `_index_twins` + `_apply_floor_correction`; every trained
+  row reports `present` (corrected) *and* `present_raw` (uncorrected), with
+  per-size splits for both, so the correction is visible rather than silent.
+  A trained cell with no twin, or a duplicated twin, is refused — the
+  criterion must never fall back to theoretical chance.
+- `tests/test_analyze_1b.py` — 17 fixtures (was 11).
+- `../../experiment-1b-design.md` — §4 (the criterion + why), §5 (bar table,
+  PASS condition, pooling bound), §6 (relocated routes), §9 (change spent),
+  open items 1/3 closed and a new item 5.
+
+**Two structural consequences, both handled rather than absorbed.**
+
+1. *The untrained bar had to go.* Under the correction an untrained cell
+   cannot exceed its own accuracy, so a 0/30 untrained bar is unfailable —
+   and §6's standing requirement is that a gate no baseline can fail is not a
+   test. Gating on it as well would also double-count the same defect. The row
+   is now reported (rate, per-size, CP) and flagged `verdict_touching: False`.
+2. *§6's four failure routes relocated, none lost.* "Always fires" and "reads
+   reservoir dimensionality" previously failed via the untrained gate. Under
+   the correction neither can clear its own twin, so both fail the **present**
+   rows instead. The correction now carries two of the four routes, which is
+   why it is mutation-tested in both directions.
+
+**Mutation results (the correction has teeth):**
+
+| mutation | tests failing |
+|---|---|
+| remove the floor correction | 5 |
+| strict `>` → `>=` (ties count) | 4 |
+| stop refusing duplicate twins | 1 |
+| re-add the retired untrained gate | 1 |
+| restored | 0 (17 pass, file byte-identical to backup) |
+
+**Projection, recorded before the campaign runs.** On the unpaired exp 1
+proxy the grokking row returns ~5/5 at 1M and ~1/5 at 10M → pooled ~6/10,
+below the ≥8 bar → **FAIL**, with `lubana_above` and `lubana_below` expected
+to pass. Distributional, not paired (exp 1 seeds 0–4 vs 1b's 100–104), so it
+forecasts rather than settles. Written down now so a FAIL cannot later be
+presented as a surprise, and a PASS cannot be presented as expected.
+
+**No change remains.** If the campaign FAILs, it is reported.
