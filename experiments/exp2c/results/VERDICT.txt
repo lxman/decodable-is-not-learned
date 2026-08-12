@@ -1,0 +1,108 @@
+EXPERIMENT 2c — FORMAL VERDICT (recorded 2026-08-12)
+
+VERDICT: FAIL
+
+    rho       0.3679
+    block p   0.1305    (exact family-block permutation, 100,000 sampled draws)
+    CI        (-0.1845, 0.7624)    family-cluster bootstrap, 10,000 resamples
+    n         34 rungs / 16 families — no attrition, dual floor never in play
+    audit     shuffled:count_test, ties:base_repr, ties:reversal, ties:rotation
+
+Mechanism: the frozen verdict tree (design §5, analyze.py, run unmodified)
+reaches FAIL on its own precedence — the family-cluster bootstrap CI
+includes zero, which is adjudicated before the PASS branch is tested. The
+PASS conditions were in any case not met (block p .1305 > .01; rho .368 <
+.50). No rung was lost to residual gate-1 attrition; the INSUFFICIENT_DATA
+floor was never approached.
+
+WHAT THIS FAIL DOES AND DOES NOT ESTABLISH — stated before the data, not
+after. The Stage 1 tag (exp2c-stage1) and the verdict projection (commit
+7c1a53c) both record, in advance, that conditional power against the
+realized predictor was .5604 at rho_true = 0.6, and that "a FAIL at
+rho <= 0.6 cannot separate 'no relationship' from 'too few live blocks'."
+The realized CI, (-0.185, 0.762), is that concession made visible: it spans
+from moderately negative to strongly positive. The hypothesis is NOT
+falsified. It is untested at the resolution this battery could deliver.
+The cause is on the record too: 22 of 34 rungs tied at zero probe margin
+and 9 of 16 family blocks were entirely flat, leaving 7 effective
+permutable blocks where the frozen power table had assumed 16.
+
+GATE SCOREBOARD (as adjudicated; M2 report, results/m2_report.json)
+  GATE 1 (untrained known-absent): CLEAN. 340 fits classified — 338
+    not_fire, 2 tolerated (median5 seed1 at both sizes, the layer-0
+    channel below), zero elevated, zero structural. No attrition.
+  GATE 2 (shuffled): CLEAN. 1 fire in 340 fits (carried 2b odd_one_out /
+    410m / seed4, tolerated), count-test p = .914 against E <= 2.45.
+  GATE 3 (known-present): PASS all four cells. entity_track .330 / .281
+    (1b >= .20 bar cleared), ctrl_copy .997 / 1.000.
+  GATE 4 (argmax control): ctrl_copy .960 / .980, adjudicated at freeze.
+
+DEFECT FOUND IN THE OUTCOME OPERATIONALIZATION — found before the verdict
+was computed, and recorded in that order. Design §3 normalizes the ascent
+margin against EMPIRICAL UNTRAINED FLOORS. Those floors are ~0 for every
+rung, because an untrained Pythia emits malformed text rather than wrong
+answers. A trained model that has acquired only the OUTPUT FORMAT — "emit
+a small integer" — therefore scores at 1/|answer space| and is credited
+that entire rate as capability. Ten rungs sat at their guessing rate;
+odd_one_out scored .208 against its 1/4 = .250 chance — BELOW chance — and
+was credited .207 ascent, ranking fifth. Only antonym (.560 vs .250) and
+antonym6 (.398 vs .167) clear chance decisively.
+
+This is the methods paper's own thesis one level up: ABOVE THE UNTRAINED
+FLOOR IS NOT THE SAME AS CAPABLE, exactly as decodable is not learned. It
+is a defect in the operationalization, not a coding error.
+
+The frozen rule was NOT changed. As a disclosed descriptive, never
+verdict-touching: chance-corrected rho = .2005 (block p .3989), 13 nonzero
+rungs against the frozen 25. Correcting the artifact makes the correlation
+WEAKER — the contamination was manufacturing part of the little signal
+present, not masking a real one.
+
+PREREGISTERED SECONDARY (descriptive, never verdict-touching): restricted
+rho over rungs with ascent > .05 = .5453 (n = 23) on frozen scores, .3286
+(n = 9) chance-corrected.
+
+SCIENTIFIC CONTENT — two findings that outlive the omnibus test.
+
+  1. DECODABLE BUT NOT GENERABLE, measured. The reversal family carries
+     the 2nd and 3rd highest probe margins in the battery (rev_string7
+     .699, reverse_string .624) and scores EXACTLY 0.000 argmax ascent at
+     all three eval sizes. Character-level reversal is highly decodable
+     because the information sits in the token sequence, and reliably
+     ungenerable at this scale. This was predicted explicitly in the
+     preregistered projection. It is the essay's own "necessary, not
+     sufficient" limitation converted from caveat to measurement.
+
+  2. THE NAMED DISCONFIRMER FIRED. sub3_mid (probe .000 -> ascent .190)
+     and arith_next (probe .000 -> .175) are probe-flat with real eval
+     signal that SURVIVES the chance correction. The projection named "a
+     probe-flat rung with substantial ascent" as the sharpest available
+     disconfirmation: structure absent below threshold that nonetheless
+     appears above it is the Lubana-style percolation case the essay
+     carves out, not the resolution case it argues for. sub3_mid was
+     investigated for a scoring artifact and CLEARED by reading raw
+     generations — 2.8b genuinely outperforms 6.9b and 12b on 3-digit
+     subtraction (near-miss errors against wild ones), a real
+     non-monotonicity.
+
+  3. LAYER-0 RESERVOIR CHANNEL, characterized and contained. Every
+     cross-size identical accuracy in the probe records sits at
+     best_layer 0, and 72 of 72 trained-vs-untrained layer-0 pairs are
+     identical: a layer-0 fit reads the embedding and is fixed by the
+     items and the split, independent of weights and of width. That is
+     Exp 2's reservoir channel alive inside 2c's records. It is harmless
+     here for exactly one reason, asserted by test: NO PRESENT m3 FIT
+     SITS AT LAYER 0.
+
+METHODOLOGICAL NOTE FOR ANY SUCCESSOR. A scale-ascent score defined as a
+MEAN across sizes reads a 2.8b spike that collapses at 6.9b/12b as
+"moderate ascent" (sub3_mid: .528 / .028 / .022 -> .193). Monotonicity is
+not tested by the mean. Any successor should either require monotone
+ascent or report the profile alongside the scalar.
+
+TWO-STAGE LOCK: intact and machine-enforced. No eval-side model was
+queried before the Stage 1 commit and tag; the M4 runner refuses to start
+without the exp2c-stage1 tag (require_stage1_tag, mutation-tested both
+ways). The predictor, the outcome rule, and the verdict projection were
+each committed before the data they would be judged against existed —
+commits 7703fd6, 392a2ed, 7c1a53c respectively.
