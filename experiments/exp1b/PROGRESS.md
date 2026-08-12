@@ -136,3 +136,77 @@ change and spending it is Michael's call, not the implementer's.
 Task 4 (campaign driver) is **not started** pending this ruling — launching a
 ~1 h 46 min untrained sweep plus the trained campaign against an already-failed
 bar would spend compute to re-measure what these six cells show.
+
+---
+
+## 2026-08-12: Ruling — measure the untrained row before deciding. All 30 cells run.
+
+**Michael's ruling on the four routes: none yet. Confirm across seeds first**
+(route as offered: run the grokking twins on all five seeds so the decision
+rests on the measured rate rather than an extrapolation from two cells). The
+lubana twins were added because they cost ~13 min and turn the pooled figure
+from partly-extrapolated into exact.
+
+Records: `diagnostics/pre_freeze_untrained/results/untrained/<system>/<size>/seed<N>.json`
+(seeds 101–104) plus `diagnostics/untrained_smoke_seed100/` (seed 100).
+**Deliberately NOT in `results/untrained/`**: the design is not frozen, and
+`present` is a derived field — pre-freeze records in the campaign path could
+feed a stale `present` into `analyze_1b` if the criterion changes, and would
+also make Task 4's skip-if-exists treat pre-freeze cells as campaign cells.
+Cost of that choice: ~1 h 46 min of recompute after the freeze.
+
+**The complete untrained row, 30/30 cells, seeds 100–104:**
+
+| row | fires | 1M | 10M | CP95 | accuracy range |
+|---|---|---|---|---|---|
+| `grokking` | **9/10** | 5/5 | 4/5 | (0.555, 0.997) | 0.0140–0.0233 |
+| `lubana_above` | 0/10 | 0/5 | 0/5 | (0.000, 0.308) | 0.0933–0.1378 |
+| `lubana_below` | 0/10 | 0/5 | 0/5 | (0.000, 0.308) | 0.0842–0.1429 |
+| **pooled** | **9/30** | | | (0.147, 0.494) | design bar **0/30** |
+
+Per-cell grokking detail (acc, null_p):
+
+| seed | 1M | 10M |
+|---|---|---|
+| 100 | 0.0233, 0.000999 ✓ | 0.0227, 0.000999 ✓ |
+| 101 | 0.0167, 0.003996 ✓ | 0.0160, 0.005994 ✓ |
+| 102 | 0.0167, 0.008991 ✓ | 0.0140, 0.02797 ✗ |
+| 103 | 0.0213, 0.000999 ✓ | 0.0213, 0.000999 ✓ |
+| 104 | 0.0180, 0.000999 ✓ | 0.0173, 0.001998 ✓ |
+
+**A clean dissociation, not a blanket instrument failure.** The entity-split
+probe is untrained-safe in **20/20** cells; the grokking probe is contaminated
+in **9/10**. `run_lubana.py`'s docstring claim that the entity split prevents
+firing on an untrained model is now measured, not asserted — that is a
+positive result for the lubana half of the instrument.
+
+**Where the contamination bites depends on size.** Comparing the untrained
+accuracy range against exp 1's trained grokking accuracies:
+
+| | untrained range | trained cells falling *inside* it | trained above the untrained max |
+|---|---|---|---|
+| 1M | 0.0167–0.0233 | **0/5** | 5/5 (0.0287, 0.0307, 0.0373, 0.0747, 0.1580) |
+| 10M | 0.0140–0.0227 | **4/5** (0.0140, 0.0167, 0.0187, 0.0227) | 1/5 (0.2207) |
+
+So the *binary* S1 criterion is contaminated at both sizes — the
+label-permutation null is simply the wrong null — but S1 *accuracy* still
+separates trained from random cleanly at 1M (min trained 0.0287 vs max
+untrained 0.0233, margin 1.23×) and not at all at 10M.
+
+**Caveat, stated because it limits the retrospective claim.** The twins are
+seeds 100–104; exp 1's trained cells are seeds 0–4. This comparison is
+therefore *distributional, not paired*. The twin-per-cell design gives a
+paired test only once 1b's own trained cells run at seeds 100–104. Nothing
+above should be read as a per-seed paired result.
+
+**What route (b) would yield, on the unpaired proxy.** A floor-corrected S1
+(trained must exceed its untrained twin, not theoretical chance) would admit
+roughly 5/5 grokking cells at 1M and ~1/5 at 10M — pooled ~6/10, below the
+≥8/10 bar. 1b would still return FAIL on the grokking row, but for a
+substantive reason (at 10M the probe genuinely does not beat a random
+network) rather than a floor bug. That also independently corroborates exp 1's
+own observation that grokking's signatures degraded with scale.
+
+**Still nothing adjusted.** No change to `probe_n`, `alpha`, `n_perm`, the
+probe, the S1 criterion, or the design doc. The four routes remain open and
+the pre-committed change remains unspent.
