@@ -403,3 +403,46 @@ neither mine to rule on:**
    post-tag (~4 h 6 min)?
 
 **No tag cut. The freeze commit and `exp1b-preregistered` are Michael's.**
+
+---
+
+## 2026-08-12: Ruling — DISCLOSE on both scope discrepancies. Checklist all GREEN/RULED.
+
+Michael's ruling on the two AMBER lines from the freeze review: **record the
+gap, do not rearrange the work so the gap stops needing to be recorded.**
+Applied to both, since both are the same shape — a document saying one thing
+and the execution doing another, with no defect in either.
+
+**1. Open item 2 ("seeds 100–104") satisfied on seed 100 only.** Accepted; §8
+step 2 carries the remaining four via the per-record `gt_check` and the
+attrition rule. The item's wording is left **unchanged**. Weakening a
+preregistered requirement to match what was executed is the opposite of
+disclosure — the gap is the record. Closing it literally would have cost ~16 h
+and duplicated the campaign's own 1M tier.
+
+**2. Seed 100's three trained cells stay in the campaign tree.** Disclosed at
+§8 step 1 rather than moved to `diagnostics/`. The reasoning is recorded in the
+design doc so it can be judged rather than taken on trust:
+
+| | |
+|---|---|
+| 11:30 | `7c7ddb2` — floor correction, all §4/§5/§6/§9 amendments |
+| 11:51 | `de3c0e2` — campaign driver |
+| 12:07 | first trained cell starts |
+| 16:13 | last trained cell finishes |
+
+Preregistration protects against a design tuned to its outcome data. The design
+was finalized 37 minutes before the first trained cell began, and every
+amendment was driven by the *untrained* twins, which carry no outcome
+information. Moving the files would change a SHA, not that ordering, and would
+re-roll three passing gates — including `lubana_below`, which cleared its bar
+by 16%. Records stamp `fa5dbc5-dirty`, `4381ea9`, `7a4ee4a`.
+
+The asymmetry with the untrained cells is deliberate and is stated in the doc:
+those thirty ARE re-run post-tag (open item 5) because `present` is a derived
+field whose meaning the floor correction changed. The trained records carry no
+such hazard — `analyze_1b` derives the corrected verdict from `accuracy` and
+the twin, never from a stored `present`.
+
+**`FREEZE_CHECKLIST.md` is now all GREEN or RULED. The remaining action is the
+`exp1b-preregistered` tag, which is Michael's.**

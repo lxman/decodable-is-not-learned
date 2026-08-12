@@ -76,13 +76,19 @@ twenty commits of the 1b range, so the remaining action is the tag itself.
   added — the thirty untrained cells re-run into the campaign tree
   post-freeze. **Item 2 is PARTIALLY closed — see below.**
 
-## Two questions for Michael before the tag — AMBER, not GREEN
+## Two scope discrepancies — RULED: DISCLOSE (Michael, 2026-08-12)
 
-Both are discrepancies between documents, not defects in the work. Neither is
-mine to rule on, and marking this checklist all-green without them would be
-the kind of quiet reconciliation the program exists to avoid.
+Both were raised as AMBER and both are now **RULED**. Neither was a defect in
+the work; both were discrepancies between what a document said and what was
+executed. The ruling on both is the same: **record the gap, do not rearrange
+the work so the gap stops needing to be recorded.**
 
-- [ ] **AMBER — open item 2 says five seeds; Task 5 ran one.** Verbatim:
+Applied to the documents at §8 step 1 (the pre-tag cells) and open item 2
+(the one-seed confirmation). Open item 2's "seeds 100–104" wording was
+deliberately **left unchanged** — weakening a preregistered requirement to
+match what was executed is the opposite of disclosure.
+
+- [x] **RULED — open item 2 says five seeds; Task 5 ran one.** Verbatim:
   "Confirm the Exp 1 training recipes reproduce their ground-truth gates **on
   seeds 100–104** at 1M before committing the full campaign." The plan's Task
   5 specifies one seed of each row, and that is what ran (seed 100, 3 of 3
@@ -91,11 +97,11 @@ the kind of quiet reconciliation the program exists to avoid.
   re-run once with a logged reason, never silently replaced. So the mechanism
   exists; the pre-freeze confirmation is simply narrower than item 2's
   wording. Fully closing it costs ~16 h (four more 1M seeds × three rows) and
-  would duplicate the campaign's own 1M tier. **Ruling needed:** accept the
-  one-seed confirmation and let §8 step 2 carry the rest, or amend item 2's
-  wording to match what was actually preregistered as sufficient.
+  would duplicate the campaign's own 1M tier. **RULED: accept the one-seed
+  confirmation, let §8 step 2 carry the rest, and record the delta in the
+  design doc with item 2's wording intact.**
 
-- [ ] **AMBER — seed 100's three trained cells are pre-freeze data sitting in
+- [x] **RULED — seed 100's three trained cells are pre-freeze data sitting in
   the campaign tree.** §8 step 1 says of the freeze: "Nothing runs before it."
   Task 5's gate runs wrote to `results/<system>/1M/seed100.json` — the campaign
   paths — so `remaining()` will skip those three cells and the campaign will
@@ -107,9 +113,15 @@ the kind of quiet reconciliation the program exists to avoid.
   derives the corrected verdict from `accuracy` and the twin, not from the
   record's stored `present`, so nothing stale can leak through the way it
   could for an untrained cell.
-  **Ruling needed:** accept them as campaign data, or move them to
-  `diagnostics/` alongside the untrained cells and let the campaign re-run
-  them post-tag (~4 h 6 min).
+  *Decisive:* the design was finalized **before** they ran — floor correction
+  and all §4/§5/§6/§9 amendments at `7c7ddb2` (11:30), driver at `de3c0e2`
+  (11:51), first trained cell 12:07, last 16:13. Preregistration protects
+  against a design tuned to its outcome data; that ordering makes it
+  impossible, and the amendments were driven entirely by the *untrained*
+  twins, which carry no outcome information.
+  **RULED: accept as campaign data and disclose at §8 step 1.** Moving them
+  would change a SHA, not the ordering, and would re-roll three passing gates
+  — including `lubana_below`, which cleared its bar by 16%.
 
 ## Exp 1 read-only constraint — GREEN
 
@@ -157,14 +169,9 @@ the kind of quiet reconciliation the program exists to avoid.
 
 ## Remaining action
 
-**Michael's, and only Michael's.** Every instrument, ground-truth,
-design-match, read-only and recorded-before-the-data condition is GREEN. Two
-AMBER lines above need a ruling first — both are document-versus-execution
-discrepancies about *scope*, not defects in what was built:
+**Every line above is GREEN or RULED.** The two scope discrepancies were ruled
+DISCLOSE on 2026-08-12 and are recorded in the design doc at §8 step 1 and
+open item 2, with item 2's wording left intact.
 
-1. open item 2's five seeds against Task 5's one, and
-2. whether seed 100's three trained cells count as campaign data or move to
-   `diagnostics/`.
-
-Once ruled, cut `exp1b-preregistered`. The campaign must not launch before the
-tag.
+**Michael's, and only Michael's:** cut `exp1b-preregistered`. The campaign
+must not launch before the tag.

@@ -286,6 +286,34 @@ cannot separate them.
 
 1. **Freeze:** this doc + `analyze_1b.py` + fixture suite, one commit,
    tag `exp1b-preregistered`. Nothing runs before it.
+
+   **DISCLOSED EXCEPTION (Michael, 2026-08-12): three trained cells and
+   thirty untrained cells were collected before the tag.** Both were
+   required by this document's own open items — item 3 (the untrained
+   twins, all thirty, `diagnostics/pre_freeze_untrained/`) and item 2
+   (the 1M gate confirmation, seed 100 of each trained row). The three
+   trained records sit in the campaign tree at
+   `results/<system>/1M/seed100.json`, stamped `fa5dbc5-dirty`,
+   `4381ea9` and `7a4ee4a`, and the campaign's skip-if-exists will count
+   them rather than re-collect them.
+
+   They are accepted as campaign data rather than moved aside, on this
+   reasoning, recorded so it can be judged: **the design was finalized
+   before they ran.** The floor-corrected S1 and every §4/§5/§6/§9
+   amendment landed at commit `7c7ddb2`, 11:30; the campaign driver at
+   `de3c0e2`, 11:51; the first trained cell started at 12:07 and the last
+   finished at 16:13. Preregistration protects against a design tuned to
+   its outcome data, and that ordering makes it impossible here — the
+   amendments were driven entirely by the *untrained* twins, which carry
+   no outcome information. Moving the files would change a SHA, not that
+   fact, and would re-roll three passing gates — including
+   `lubana_below`, which cleared its bar by 16%.
+
+   The thirty untrained cells ARE re-run into the campaign tree after
+   the tag (open item 5), because `present` is a derived field whose
+   meaning the floor correction changed. The trained records carry no
+   such hazard: `analyze_1b` derives the corrected verdict from
+   `accuracy` and the twin, never from a record's stored `present`.
 2. **Ground-truth gates** per run, as Exp 1 did (`gt_check` in every
    record): a grokking run must exhibit its memorization→generalization
    gap; a `lubana_above` run must reach its transition; a `lubana_below`
@@ -335,6 +363,17 @@ stay untouched.
    directions.
 2. Confirm the Exp 1 training recipes reproduce their ground-truth gates
    on seeds 100–104 at 1M before committing the full campaign.
+
+   **SATISFIED ON SEED 100 ONLY — disclosed, not amended (Michael,
+   2026-08-12).** This item's wording says five seeds; the confirmation
+   ran one seed of each row (3 of 3 PASS, `results/gate_check_1M.md`).
+   The remaining four seeds are carried by §8 step 2, which puts a
+   `gt_check` in every record and treats a failing run as attrition —
+   re-run once with a logged reason, never silently replaced. Closing
+   this item literally would cost ~16 h and duplicate the campaign's own
+   1M tier. The wording above is left **unchanged**: weakening a
+   preregistered requirement to match what was executed would be the
+   opposite of recording the gap. The gap is the record.
 3. ~~Decide whether `untrained` probes the same architecture per size.~~
    **Closed 2026-08-12: yes, matched per cell** — the runner builds each
    twin through Exp 1's own constructor at the cell's size and seed, and
