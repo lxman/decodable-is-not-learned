@@ -446,3 +446,54 @@ the twin, never from a stored `present`.
 
 **`FREEZE_CHECKLIST.md` is now all GREEN or RULED. The remaining action is the
 `exp1b-preregistered` tag, which is Michael's.**
+
+---
+
+## 2026-08-12: Reproducibility measured — early training is bit-exact, late training is not
+
+Run because the "move to diagnostics and re-run" question turned on whether a
+re-run reproduces. `run_grokking(100, '1M')` executed a second time into a
+scratch tree and compared field by field against the committed record.
+
+| quantity | committed | re-run | |
+|---|---|---|---|
+| `mem_step` | 202 | 202 | same |
+| `transition_step` | 1796 | 1796 | same |
+| `below_threshold_checkpoint` | 126 | 126 | same |
+| `s1.accuracy` | 0.035333333333333335 | 0.035333333333333335 | **bit-identical** |
+| `s1.null_p` / `present` / `best_layer` / `best_token` | — | — | all same |
+| `gt_check.certified` | True | True | same |
+| `gen_step` | 2099 | **2454** | **differs, 17%** |
+| `gap_steps` | 1897 | **2252** | **differs** |
+
+**The pattern is accumulation, not noise.** Everything up to and including the
+0.5 crossing at step 1796 reproduces exactly; the 0.90 crossing does not. MPS
+nondeterminism is present but too small to perturb early training, and
+compounds into a visibly different trajectory later.
+
+**Three consequences.**
+
+1. **The verdict is safe.** S1 is measured at the *below-threshold* checkpoint
+   — step 126 here — which is early enough to be bit-exact. 1b's
+   verdict-touching quantity reproduces to 16 decimal places. Any
+   reproduction claim should be scoped to that, not to the whole trajectory.
+
+2. **The decision not to re-run seed 100's trained cells was right, and now on
+   evidence rather than caution.** `lubana_below`'s gate is `peak_metric`, a
+   **max over the entire 100,000-step trajectory** — precisely the late-window
+   quantity that does not reproduce. Re-running a cell that cleared its bar by
+   16% would have been a genuine fresh draw at the exact quantity least likely
+   to come back the same.
+
+3. **`.gitignore`'s justification needs qualifying.** Checkpoints are
+   discarded on the grounds that they are "regenerable from configs + seeds"
+   (`.gitignore`, exp1's rule, inherited by exp1b). That holds for early
+   checkpoints and does **not** hold for late ones: regenerating gives a
+   different late-training model. The records remain the durable artifact —
+   which is the point — but a late checkpoint deleted is gone, not
+   reconstructible. Not changed here; recorded so a successor does not assume
+   otherwise.
+
+Method note: three launches were needed. The first two died — one killed when
+its wrapper task exited, one with a relative-path import error — before the
+third ran clean. Neither failure was signal about the code.
