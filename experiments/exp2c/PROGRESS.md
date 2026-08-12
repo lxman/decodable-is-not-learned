@@ -2782,3 +2782,74 @@ the launch is Michael's call. Dry run: `python -m run.campaign_m4
 --plan` reports 204 of 204 remaining. A pre-launch smoke on a handful
 of items at 2.8b — the M2 precedent — is the sensible next step and
 would consume the program's first eval-side query.
+
+## 2026-08-11: RULING — scale-ascent score mirrors the probe side; M5 outcome machinery BUILT AND FROZEN MID-CAMPAIGN
+
+**Michael's ruling, 2026-08-11: mirror the probe side exactly.**
+
+    probe   margin = (starved-val acc - null mean)/(1 - null mean),
+                     zero below the significance bar
+            score  = seed-mean, then mean over the two probe sizes
+
+    eval    margin = (trained acc - untrained floor)/(1 - untrained floor),
+                     zero below the significance bar
+            score  = mean over the three eval sizes
+
+Symmetry is the point: two different rules for "what counts as signal"
+on the two sides of a rank correlation is a degree of freedom, and one
+that could be chosen after seeing data.
+
+**Operationalizing the bar (the one open detail §3 left).** The probe
+side's bar is a HYPOTHESIS TEST at alpha .01 — permutation null,
+Bonferroni over candidates — not an interval-overlap rule. So the eval
+side uses one: **one-sided Fisher exact, trained against its own
+empirical untrained floor, per (rung, size) cell, alpha .01.** Exact
+rather than approximate, consistent with the harness's existing
+Clopper-Pearson choice, and it introduces no fitted or extrapolated
+quantity (§3 forbids those). Multiplicity mirrors too — each rung is
+judged on its own, exactly as each probe fit is. CP bounds ride on
+every cell, zero or not (§4: "every zero a CP bound").
+
+**Timing is the point of this entry.** `run/m5_ascent.py` +
+`tests/test_m5_ascent.py` (16 tests; exp2c suite **195 passed**) were
+written and frozen **while M4 was still running, with its numbers
+unlooked-at** — 21 of 204 cells existed at the time of the commit, and
+none were read. EVERY test runs on synthetic cells for exactly that
+reason. Had this been written after the campaign, the outcome
+definition would have been chosen with the data in view; writing it
+now is what makes it a preregistration rather than a post hoc choice.
+
+**Bar sensitivity, measured on synthetic cells before any real data
+(n=500 per cell, alpha .01):**
+
+| untrained floor | trained needed to register | lift |
+|---|---|---|
+| 0% | 7/500 = 1.4% | +1.4% |
+| 1% | 17/500 = 3.4% | +2.4% |
+| 5% | 45/500 = 9.0% | +4.0% |
+| 10% | 76/500 = 15.2% | +5.2% |
+| 20% | 133/500 = 26.6% | +6.6% |
+
+This matters for interpretation: the floors these rungs actually carry
+are at or near zero, so the outcome measure resolves capability
+appearance down to **~1.4% accuracy**. The bar is not so strict that
+the eval side ties at zero battery-wide — which was a live risk given
+the predictor already ties 22 of 34, and a flat outcome would have
+shrunk effective n on BOTH sides.
+
+**Guards, mutation-tested:** the significance gate (removing it fails a
+test), and `assemble` refuses to score an incomplete M4 campaign —
+ranking rungs against different amounts of evidence is the quiet bias
+§3's "no fitted or extrapolated quantities" rule exists to prevent.
+`rung_ascent_score` likewise requires all three sizes rather than
+averaging over a short denominator.
+
+**`join()`** merges the Stage 1 predictor with the outcome into
+`analyze.py`'s `AnalyzeInputs`, preserving probe_scores.json's
+family-block order, and refuses if any scored rung lacks an ascent
+score.
+
+**NOT RUN.** M4 is live (21/204 at commit time). When it completes:
+score with `python -m run.m5_ascent`, **ledger the verdict projection
+BEFORE `analyze.py` runs** (standing practice), then the frozen
+analysis, then close-out.
