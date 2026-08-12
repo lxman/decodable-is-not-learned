@@ -2853,3 +2853,97 @@ score.
 score with `python -m run.m5_ascent`, **ledger the verdict projection
 BEFORE `analyze.py` runs** (standing practice), then the frozen
 analysis, then close-out.
+
+## 2026-08-11: VERDICT PROJECTION (written before analyze.py, before any M4 result was read)
+
+**Attribution, stated plainly.** The standing practice makes this
+Michael's commitment. He asked me to write it while M4 was mid-flight,
+so this is CLAUDE'S projection, not his. It is still a genuine
+preregistration — written before the report runs and before any M4
+trained result was read — but it commits me, not him. Michael's own
+projection can be appended before `analyze.py` runs; if none is added,
+the record should say so rather than let this stand in for it.
+
+**Evidence used:** the Stage 1 predictor (committed, tagged), the task
+shapes, the frozen rules, and the structural simulation below. **No M4
+result was opened.** At writing, 68 of 204 cells existed on disk and
+none had been read.
+
+### The structural fact that dominates the primary statistic
+
+Simulated with NO eval data — only the predictor's realized tie
+structure (22 flat, 12 live). If the SAME 22 rungs are flat on the eval
+side, and the 12 live rungs are ordered **completely at random** among
+themselves:
+
+    rho = 0.940  [5th-95th pct: 0.911, 0.970]
+
+and with the top probe rungs defecting to the eval-flat block:
+
+    top-1 eval-flat -> rho 0.846
+    top-2 eval-flat -> rho 0.755
+    top-3 eval-flat -> rho 0.670
+
+**So the primary rho is driven mostly by flat-set ALIGNMENT, not by the
+ordering claim the hypothesis is actually about.** "Hard tasks are hard
+on both sides" would produce rho ~0.94 while saying nothing about
+whether sub-threshold margin forecasts ascent ORDER. This is recorded
+BEFORE the result so it cannot read as post hoc hedging after a PASS:
+**a PASS driven by aligned tie blocks is much weaker evidence for the
+thesis than its rho would suggest.** The preregistered restricted-rho
+secondary (rungs with ascent > 0.05) is the number that tests the
+interesting claim, and it should be reported next to the primary with
+equal prominence whatever the verdict.
+
+### The projection
+
+**Verdict — PASS ~55%, INDETERMINATE ~30%, FAIL ~15%.** INDETERMINATE
+is live because conditional power is .5604 at rho_true=0.6: the
+bootstrap CI can exclude zero while the block-permutation p misses .01.
+
+**Primary rho: 0.75**, with an 80% interval of roughly [0.55, 0.90].
+
+**Restricted rho (over live-ascent rungs only): 0.2**, 80% interval
+[-0.2, 0.6] — much weaker than the primary, and possibly indistinguish-
+able from zero. This is the boldest prediction here and the one I most
+expect to be judged on.
+
+**Which rungs ascend (highest ascent scores):** the SEMANTIC ones —
+`antonym`, `antonym6`, `odd_one_out`, `odd6`. Pythia at 2.8b–12b has
+lexical-semantic competence long before it has arithmetic.
+
+**Which probe-live rungs come back eval-FLAT:** `rev_string7` and
+`reverse_string`. Character-level reversal is highly decodable — the
+information sits in the token sequence — and reliably ungenerable at
+this scale. These are probe ranks 2 and 3, so this single prediction
+costs roughly 0.19 of primary rho if right (0.940 -> 0.755). It is the
+paper's own "necessary, not sufficient" limitation made concrete: a
+margin can read structure that never cashes out behaviourally.
+
+**Flat-set alignment: at least 18 of the 22 probe-flat rungs also score
+zero ascent.** The modulus, base_repr, mid_digit, base_arith,
+seq_extrap and rotation families should be flat at all three sizes.
+
+**Size profile:** 12b carries most of what signal exists; 2.8b sits at
+or near floor for the large majority of rungs. Nonzero-ascent rungs
+across the whole battery: **4 to 7**.
+
+### What would surprise me
+
+- **A probe-flat rung with substantial ascent.** This is the sharpest
+  disconfirmation available: structure absent below threshold that
+  nonetheless appears above it is the Lubana-style percolation case the
+  essay carves out, not the resolution case it argues for.
+- **The reversal family ascending strongly** — contradicts the
+  decodable-but-not-generable call above.
+- **Any arithmetic family ascending** at these scales.
+- **Primary rho < 0.3**, which would mean the flat sets did not even
+  align — hard to reconcile with any reading of the thesis.
+- **Restricted rho > 0.7**, which would be a much stronger result than
+  I am predicting and would deserve its own scrutiny.
+
+### Scoring rule
+
+These are scoreable claims, not vibes. When M5 runs, each bullet gets
+marked hit or miss in the close-out entry, including the ones I get
+wrong, and the restricted-rho prediction gets marked first.
