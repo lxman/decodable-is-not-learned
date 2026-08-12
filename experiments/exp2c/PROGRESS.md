@@ -2727,3 +2727,58 @@ before the tag rather than discovered during review.
 
 **Still manual, still Michael's:** the commit and the TAG. Eval side
 stays LOCKED until the tag exists.
+
+## 2026-08-11: M4 eval-campaign runner BUILT (not launched)
+
+**Build:** `run/campaign_m4.py`, `run/campaign_m4.sh`,
+`tests/test_campaign_m4.py` (13 tests; exp2c suite **179 passed**).
+Fresh build, not a port — 2b closed before eval, so there was no M4
+runner to carry. The scoring path IS carried: `harness.evaluate_argmax`
+with 2b's prompt/normalize/verify semantics verbatim, which is what
+makes 410m/1b/2.8b/6.9b/12b numbers commensurable (§7).
+
+**The two-stage lock, now enforced in code.** `require_stage1_tag()`
+refuses to query any eval-side model unless the `exp2c-stage1` tag
+exists, and the check lives in the Python runner rather than the shell
+driver so invoking python directly cannot bypass it. Mutation-tested
+both ways: passes against the real tag, raises against an absent one.
+The record now shows the runner COULD NOT have been used early, instead
+of asking a reader to take the discipline on trust.
+
+**Scope — deliberately wider than M1.** M1 measured the new pool only,
+because the survivors' M1 record carries from 2b. M4 measures ALL 34
+scored rungs: a survivor with no ascent score has no outcome, and the
+primary is a rank correlation over the whole battery. Plan = 3 sizes x
+2 modes x 34 rungs = **204 cells**, one durable JSON each, skip-if-
+exists. The untrained arm is not optional: design §3 normalizes against
+EMPIRICAL floors, not theoretical chance.
+
+**Survivor item loading — the one genuinely new piece.** The 12 carried
+survivors have no item file and no SPECS entry on the 2c side. They
+load from exp2b's frozen tree through `reuse_manifest.json`, **sha256-
+verified on every load** — if the 2b record their probe fits were
+carried from ever changes, the eval refuses rather than silently
+scoring against different items. Their `answer_type` rides inside the
+2b file; 2c's own rungs take it from the SPECS registry.
+
+**Ordering, both in the plan and in the driver (pinned by test so they
+cannot drift):** sizes ascend so 2.8b and 6.9b land before the 12b long
+pole starts; within each size the UNTRAINED floor runs first, because
+it is cheap and a size whose floor is missing yields no ascent score at
+all. 12b runs last and ALONE — ~24GB at fp16 against 48GB of unified
+memory.
+
+**Incidental fix, no behaviour change on the working path:**
+`harness.answer_type_of` did a bare `from battery import generators_*`,
+which resolves to exp2b's battery package once `instrument` has
+prepended exp2b to sys.path. That only bites when harness is reached by
+its package path rather than by `-m` from exp2c/ — i.e. it made the
+eval path untestable. Switched to the try/except convention used
+throughout (screen.py, m2_report.py, analyze.py, power_table.py). Both
+import paths verified working.
+
+**NOT launched.** The first eval-side query is a milestone event and
+the launch is Michael's call. Dry run: `python -m run.campaign_m4
+--plan` reports 204 of 204 remaining. A pre-launch smoke on a handful
+of items at 2.8b — the M2 precedent — is the sensible next step and
+would consume the program's first eval-side query.

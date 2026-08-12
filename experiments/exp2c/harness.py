@@ -72,10 +72,22 @@ def verify(pred_text: str, answer: str, answer_type: str) -> bool:
 # ----------------------------------------------------- items + registry
 
 def answer_type_of(name: str) -> str:
-    """2c item files carry no answer_type; the registry does."""
-    from battery import generators_controls, generators_rescues, \
-        generators_rungs  # noqa: F401  (populate SPECS)
-    from battery.base import SPECS
+    """2c item files carry no answer_type; the registry does.
+
+    The relative branch is load-bearing, not cosmetic: once `instrument`
+    has prepended exp2b to sys.path, a BARE `from battery import ...`
+    resolves to exp2b's battery package, which has no generators_*. That
+    only bites when this module is reached by its package path (pytest,
+    or any absolute import) rather than by `-m` from exp2c/, where 2c's
+    `battery` is already in sys.modules under the bare name."""
+    try:  # experiments.exp2c.harness (pytest / absolute import)
+        from .battery import generators_controls, generators_rescues, \
+            generators_rungs  # noqa: F401  (populate SPECS)
+        from .battery.base import SPECS
+    except ImportError:  # pragma: no cover - bare `-m` from exp2c/
+        from battery import generators_controls, generators_rescues, \
+            generators_rungs  # noqa: F401
+        from battery.base import SPECS
     return SPECS[name].answer_type
 
 
