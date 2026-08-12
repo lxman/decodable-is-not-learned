@@ -357,3 +357,49 @@ and more at 10M.
 **Remaining: Task 6 (freeze).** Design doc §4/§5/§6/§9 already amended for the
 floor correction; open items 1 and 3 closed, item 5 added. The freeze commit
 and the `exp1b-preregistered` tag are Michael's.
+
+---
+
+## 2026-08-12: Task 6 — freeze review. GREEN except two AMBER rulings.
+
+`FREEZE_CHECKLIST.md` drafted, modelled on exp2c's. Verified:
+
+- **Instrument.** 38 fixtures pass (records 5, analyze_1b 17, run_untrained 2,
+  campaign_1b 14). Floor correction mutation-tested both ways (remove → 5
+  fail; `>`→`>=` → 4; drop duplicate-twin refusal → 1; re-add retired
+  untrained gate → 1). Campaign dispatch mutation-tested (5 mutations, all
+  caught). Twin-recipe invariant asserted by identity, not equality.
+- **Ground truth.** 3 of 3 gates PASS at 1M seed 100, with `lubana_below`'s
+  16%-of-bar margin disclosed pre-freeze.
+- **Design doc matches the built matrix.** §3 thirty+thirty (85, 95); §4 floor
+  correction (132, 136); §5 three bars + reported untrained row (187, 189);
+  §6 routes 1 and 4 on the present rows (237, 240); §9 change SPENT (312,
+  317).
+- **Exp 1 read-only.** `git log 66193a3^..HEAD -- experiments/exp1/` empty
+  across all twenty commits, and `git diff --stat` over the same range is
+  empty: the exp1 tree is byte-identical to its pre-1b state.
+- **Recorded before the data.** Untrained row measured 9/30; verdict
+  projection (grokking ~6/10, FAIL) ledgered; seeds disjoint from exp 1's and
+  asserted by test.
+
+**Two AMBER lines, both document-versus-execution discrepancies about scope,
+neither mine to rule on:**
+
+1. **Open item 2 says "seeds 100–104"; Task 5 ran seed 100 only.** The plan
+   specified one seed per row and that is what ran. §8 step 2 covers the rest
+   in principle — a `gt_check` sits in every record and a failing run is
+   attrition, re-run once with a logged reason. Fully closing item 2 costs
+   ~16 h and duplicates the campaign's own 1M tier. Accept the one-seed
+   confirmation, or amend item 2's wording?
+2. **Seed 100's three trained cells are pre-freeze data in the campaign
+   tree.** §8 step 1 says "Nothing runs before it." The gate runs went through
+   the campaign driver, which writes to `results/<system>/<size>/seed<N>.json`
+   by construction, so `remaining()` will skip them and the campaign will
+   count them. This is the hazard the thirty untrained cells were deliberately
+   kept out of `results/` to avoid. Mitigating: the runs are deterministic in
+   seed and recipe, and `analyze_1b` derives the corrected verdict from
+   `accuracy` and the twin rather than the stored `present`, so nothing stale
+   can leak. Accept as campaign data, or move to `diagnostics/` and re-run
+   post-tag (~4 h 6 min)?
+
+**No tag cut. The freeze commit and `exp1b-preregistered` are Michael's.**
