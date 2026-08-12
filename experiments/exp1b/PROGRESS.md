@@ -13,6 +13,7 @@ Entries are append-only.
 | 2 | `9aad2b7` | `analyze_1b.py` — pooled detection verdict, 11 fixture tests, reservoir gate mutation-checked |
 | 3 | `f33074e` | `run/run_untrained.py` — untrained probe-only runner, 2 tests |
 | 4 | `de3c0e2` | `run/campaign_1b.py` + `campaign_1b.sh` — 60-cell driver, 14 tests |
+| 5 | `fffdebb` | `results/gate_check_1M.md` — ground-truth gates, 3 of 3 PASS |
 
 `experiments/exp1/` untouched by all three; verified per commit with
 `git show --stat HEAD -- experiments/exp1/`.
@@ -305,3 +306,54 @@ appears to report.
 
 Suite: 38 passed. Tasks 5 (ground-truth gate, hours of training) and 6
 (freeze) remain; the `exp1b-preregistered` tag is Michael's.
+
+---
+
+## 2026-08-12: Task 5 — the STOP GATE passes, 3 of 3
+
+`fffdebb`. Full report at `results/gate_check_1M.md`. Run in the campaign's own
+order — grokking first (475 s), its gate read before committing ~4 h to the
+lubana rows, which is the point of ordering the cheap tier first.
+
+| row | gate | measured | wall-clock |
+|---|---|---|---|
+| `grokking` | mem→gen gap | mem @202 → gen @2099, gap 1897, train/test 1.000 | 475 s |
+| `lubana_above` | transitioned AND held | giant_frac_min .868, transition @39069, final 1.000 | 5,964 s |
+| `lubana_below` | stayed flat | giant_frac_mean .0057, peak .126 < .150, no transition | 8,304 s |
+
+Each tally was written after reading its own record, never inferred from the
+previous one, and `certified` was read from the record rather than recomputed.
+
+**The one number worth carrying forward.** `lubana_below` passes, but by the
+narrowest margin of the three, and it is the row whose failure would matter
+most — the percolation ground truth, the only row asserting a capability
+genuinely cannot form. The graph side is not close (giant_frac_mean .0057
+against .1, a factor of 18), but the capability side clears by 16% of its bar:
+peak .126 against .150, a peak at 1.26× chance where the bar is 1.5×.
+`final_metric` .084 is below chance and `transition_step` is None, so the peak
+is a fluctuation rather than an approach to a threshold — but a seed
+fluctuating 20% higher would fail a gate nothing about the structure suggests
+should fail. That is a property of the bar, not the science. Recorded now
+rather than discovered at seed 103.
+
+**Provenance practice established for the campaign.** `lubana_above`'s record
+was committed the moment it landed, so `lubana_below` began from a clean tree
+and stamped a clean SHA. Without that, each finished record dirties the tree
+for the next cell — the mechanism that left Exp 1 with 25 of its 45 records
+dirty. The campaign should commit per cell. The grokking record keeps
+`fa5dbc5-dirty` and was NOT re-run to tidy it: attrition permits a re-run only
+for a *failed* gate, with a logged reason, and re-running a passing cell for
+cosmetic provenance is the silent replacement that rule forbids.
+
+**Operational risk surfaced.** A Python crash dialog at 14:40 during
+`lubana_below` was hermes-agent (PID 98213, SIGTRAP in `libsystem_malloc`
+inside `MPSGraph compileWithDevice:`), not this campaign — which was verified
+advancing at the time by checkpoint mtimes, not by the log, since the log
+records only START/DONE and cannot distinguish running from hung. But another
+process was compiling Metal graphs on the same GPU, and `run_lubana` does not
+resume mid-cell, so an MPS fault costs a whole cell: up to 2 h 18 min at 1M
+and more at 10M.
+
+**Remaining: Task 6 (freeze).** Design doc §4/§5/§6/§9 already amended for the
+floor correction; open items 1 and 3 closed, item 5 added. The freeze commit
+and the `exp1b-preregistered` tag are Michael's.
