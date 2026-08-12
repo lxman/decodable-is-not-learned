@@ -99,7 +99,10 @@ measured here:
 | exp1 scored | present | present | absent | present | present |
 
 Four of five trained 10M cells sit at or below what a randomly initialized
-network yields, and exp1 scored that row S1-present in 4/5. At 1M all five
+network yields. exp1 scored that row S1-present in 4/5 — and **three of those
+four "present" verdicts (seeds 0, 1, 3) are at or below the untrained floor**.
+Only seed 4 (0.2207) clears it by a margin. Seed 2, the one cell exp1 scored
+absent, is also the lowest. At 1M all five
 trained cells exceed the 0.0233 floor, but seeds 0 and 4 (0.0287, 0.0307)
 clear it by only ~1.3×. Lubana is clean at both sizes: `lubana_above` trained
 0.19–0.53 vs untrained 0.11–0.14; `lubana_below` trained 0.10–0.15, correctly
