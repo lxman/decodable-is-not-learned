@@ -1,0 +1,41 @@
+{
+ "gate2": {
+  "n_fits": 340,
+  "fires": [
+   [
+    "2b",
+    "odd_one_out",
+    "410m",
+    4,
+    "tolerated",
+    0.3398,
+    0.2503
+   ]
+  ],
+  "structural": [],
+  "count_p": 0.9142114237776047
+ },
+ "gate3": {
+  "entity_track/410m": {
+   "majority": true,
+   "mean_margin": 0.33,
+   "ok": true
+  },
+  "entity_track/1b": {
+   "majority": true,
+   "mean_margin": 0.2811,
+   "ok": true
+  },
+  "ctrl_copy/410m": {
+   "majority": true,
+   "mean_margin": 0.9974,
+   "ok": true
+  },
+  "ctrl_copy/1b": {
+   "majority": true,
+   "mean_margin": 1.0,
+   "ok": true
+  }
+ },
+ "abort": false
+}

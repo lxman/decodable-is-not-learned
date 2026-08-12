@@ -1,0 +1,638 @@
+{
+ "stage": "1",
+ "predictor": "basis-starved probe margin (design Sec 3): seed-mean, then mean over the two probe sizes",
+ "untrained_fires_source": "campaign_known_absent",
+ "untrained_fires_ruling": "Michael 2026-08-11",
+ "m2_report_clean": true,
+ "n_rungs": 34,
+ "n_families": 16,
+ "n_live": 12,
+ "rungs": [
+  {
+   "name": "add4_mid",
+   "family": "mid_digit",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "sub4_mid",
+   "family": "mid_digit",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "add3_mid",
+   "family": "mid_digit",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "sub3_mid",
+   "family": "mid_digit",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "antonym6",
+   "family": "antonym",
+   "scored": true,
+   "probe_score": 0.15009787417919665
+  },
+  {
+   "name": "antonym",
+   "family": "antonym",
+   "scored": true,
+   "probe_score": 0.5138994482611365
+  },
+  {
+   "name": "arith_next",
+   "family": "seq_extrap",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "quad_next",
+   "family": "seq_extrap",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "base12_digitsum",
+   "family": "base_repr",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "base13",
+   "family": "base_repr",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "base7",
+   "family": "base_repr",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "oct2dec",
+   "family": "base_repr",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "caesar_len8",
+   "family": "rotation",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "caesar",
+   "family": "rotation",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "clock24_d999",
+   "family": "clock",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "clock24",
+   "family": "clock",
+   "scored": true,
+   "probe_score": 0.004681512955726698
+  },
+  {
+   "name": "collatz_step2",
+   "family": "rescue_collatz",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "count_div13",
+   "family": "counting",
+   "scored": true,
+   "probe_score": 0.1799108691658748
+  },
+  {
+   "name": "count_div7",
+   "family": "counting",
+   "scored": true,
+   "probe_score": 0.11178308202678253
+  },
+  {
+   "name": "hamming12",
+   "family": "str_align",
+   "scored": true,
+   "probe_score": 0.008238925018262979
+  },
+  {
+   "name": "isqrt_gap",
+   "family": "rescue_isqrt",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "median5",
+   "family": "order_stat",
+   "scored": true,
+   "probe_score": 0.26296441599725195
+  },
+  {
+   "name": "median7",
+   "family": "order_stat",
+   "scored": true,
+   "probe_score": 0.14469995045506423
+  },
+  {
+   "name": "mod13_comp",
+   "family": "modulus",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "mod17",
+   "family": "modulus",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "mod19",
+   "family": "modulus",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "mod13",
+   "family": "modulus",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "odd6",
+   "family": "odd_one_out",
+   "scored": true,
+   "probe_score": 0.7160116801657332
+  },
+  {
+   "name": "odd_one_out",
+   "family": "odd_one_out",
+   "scored": true,
+   "probe_score": 0.2979238554526833
+  },
+  {
+   "name": "rev_string7",
+   "family": "reversal",
+   "scored": true,
+   "probe_score": 0.6993910117439255
+  },
+  {
+   "name": "reverse_string",
+   "family": "reversal",
+   "scored": true,
+   "probe_score": 0.6239799937700696
+  },
+  {
+   "name": "roman_sum7",
+   "family": "rescue_roman",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "sub_base8",
+   "family": "base_arith",
+   "scored": true,
+   "probe_score": 0.0
+  },
+  {
+   "name": "add_base8",
+   "family": "base_arith",
+   "scored": true,
+   "probe_score": 0.0
+  }
+ ],
+ "untrained_fires": {
+  "add4_mid": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "sub4_mid": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "add3_mid": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "sub3_mid": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "antonym6": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "antonym": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "arith_next": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "quad_next": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "base12_digitsum": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "base13": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "base7": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "oct2dec": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "caesar_len8": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "caesar": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "clock24_d999": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "clock24": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "collatz_step2": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "count_div13": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "count_div7": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "hamming12": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "isqrt_gap": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "median5": [
+   "not_fire",
+   "tolerated",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "tolerated",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "median7": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "mod13_comp": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "mod17": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "mod19": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "mod13": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "odd6": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "odd_one_out": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "rev_string7": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "reverse_string": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "roman_sum7": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "sub_base8": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ],
+  "add_base8": [
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire",
+   "not_fire"
+  ]
+ },
+ "shuffled_fires": [
+  {
+   "origin": "2b",
+   "name": "odd_one_out",
+   "size": "410m",
+   "seed": 4,
+   "classification": "tolerated",
+   "accuracy": 0.3398,
+   "null_mean": 0.2503
+  }
+ ],
+ "ascent_scores": "NOT PRESENT \u2014 eval side is locked until the Stage 1 tag; filled at M4/M5"
+}
