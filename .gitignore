@@ -10,6 +10,11 @@ __pycache__/
 experiments/exp1/checkpoints/*
 !experiments/exp1/checkpoints/.gitkeep
 
+# Exp 1b: same rule, same reason (188 MB after a single 1M cell). The record
+# is the durable artifact; checkpoints regenerate from config + seed.
+experiments/exp1b/checkpoints/*
+!experiments/exp1b/checkpoints/.gitkeep
+
 # OS
 .DS_Store
 
