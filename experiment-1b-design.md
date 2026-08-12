@@ -216,9 +216,8 @@ oversight. For the absent rows it changes nothing — 0/5 at each size and
 with a materially tighter Clopper–Pearson bound (95% upper 0.308 at
 0/10, against 0.522 at 0/5). The untrained row's own 0/30 bound of 0.116
 no longer applies: that row is not barred, and it did not come back zero
-(9/30, CP95 0.147–0.494). For
-the present rows it is **looser** than
-a per-size ≥4/5 bar, since ≥8/10 tolerates a (5,3) split that per-size
+(9/30, CP95 0.147–0.494). For the present rows it is **looser** than a
+per-size ≥4/5 bar, since ≥8/10 tolerates a (5,3) split that per-size
 would fail. **Per-size counts are reported alongside the pooled verdict**
 so a "works at 1M, fails at 10M" pattern remains visible even though it
 does not flip the result.
