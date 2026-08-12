@@ -12,6 +12,7 @@ Entries are append-only.
 | 1 | `6175741` | `UntrainedRecord` — probe-only cell schema, 5 tests |
 | 2 | `9aad2b7` | `analyze_1b.py` — pooled detection verdict, 11 fixture tests, reservoir gate mutation-checked |
 | 3 | `f33074e` | `run/run_untrained.py` — untrained probe-only runner, 2 tests |
+| 4 | `de3c0e2` | `run/campaign_1b.py` + `campaign_1b.sh` — 60-cell driver, 14 tests |
 
 `experiments/exp1/` untouched by all three; verified per commit with
 `git show --stat HEAD -- experiments/exp1/`.
@@ -264,3 +265,43 @@ forecasts rather than settles. Written down now so a FAIL cannot later be
 presented as a surprise, and a PASS cannot be presented as expected.
 
 **No change remains.** If the campaign FAILs, it is reported.
+
+---
+
+## 2026-08-12: Task 4 — campaign driver
+
+`de3c0e2`. Sixty cells in four blocks (trained/1M → trained/10M →
+untrained/1M → untrained/10M). `remaining()` is derived from records on disk,
+so the campaign resumes by re-running.
+
+**The twin-recipe invariant is enforced by construction.** `campaign_1b`
+imports `LUBANA_SCALE` and `LUBANA_MODEL_SIZE` from `run_untrained` instead of
+restating them, and a test asserts *identity*, not equality. If the campaign
+declared its own copies they could drift, and the floor-corrected S1 would
+then read a trained cell against a floor measured on a different model — the
+one silent failure that would invalidate the whole correction.
+
+**Dispatch is mutation-tested** because errors here are silent rather than
+loud: `run_grokking(size, seed)` is a wrong run, not a `TypeError`. Five
+mutations, all caught — swapped seed/size, size passed as `model_size`,
+inverted above/below, untrained ordered first, campaign declaring its own
+scale.
+
+**Two plan deviations, both recorded in the plan itself:**
+
+1. `campaign_1b.sh` cds to the **repo root**, not `dirname/..`. exp1b's
+   modules import absolutely from the repo root (`experiments.exp1b.*`), so
+   exp2c's layout does not transfer; with only `experiments/exp1b` on
+   `sys.path` those imports are unresolvable. The log path is derived
+   absolutely from the script's own location and still lands at
+   `experiments/exp1b/logs/1b/campaign.log`.
+2. Task 5's invocation is corrected to
+   `python -m experiments.exp1b.run.campaign_1b` from the repo root. As
+   written it could not have imported.
+
+Also: `$?` is captured into a local immediately after the command rather than
+read inside the `else` branch, where it is one command removed from what it
+appears to report.
+
+Suite: 38 passed. Tasks 5 (ground-truth gate, hours of training) and 6
+(freeze) remain; the `exp1b-preregistered` tag is Michael's.
