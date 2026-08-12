@@ -2616,3 +2616,54 @@ sides now — 4/5 seeds at 1b with sd .081 against 5/5 and sd .028 at
 410m (entry above). Its I1 dose (slot asymmetry, argmin-Levenshtein
 0.2016 vs 1/6) remains disclosed and was adjudicated by the untrained
 screen, which it passed.
+
+## 2026-08-11: Stage 1 tag contents DECLARED (power_conditional included, Michael's instruction)
+
+**Michael's instruction, 2026-08-11: include `power_conditional` in the
+Stage 1 tag.** Recorded here as a declaration because the mechanics are
+already satisfied — `results/power_conditional.{json,md}` is tracked at
+HEAD (`91f7471`), so a tag on any descendant commit carries it in the
+tree regardless. What was missing is the statement of intent: the
+conditional-power record is tag contents by decision, not by accident
+of commit order. It sits alongside the frozen table it corrects, so the
+two read as one object.
+
+**Declared contents of the Stage 1 tag** (2b's freeze pattern:
+acceptance -> commit -> tag; this is the program's first Stage 1 tag,
+no prior precedent artifact):
+
+1. **The predictor.** `results/probes/{m3,shuffled,known_present,
+   known_absent}/` — every campaign fit record — plus
+   `results/reuse_manifest.json` pinning the 12 carried 2b survivors by
+   sha256 against `exp2b-closed`.
+2. **The gate report.** `results/m2_report.json` (`abort: false`).
+3. **The power pair.** `results/power_conditional.{json,md}` (realized,
+   .5604 at rho_true=0.6) alongside
+   `results/power_table_exact.{json,md}` (frozen marginal, .7690).
+   Neither stands alone honestly.
+4. **Code with its fixture suites.** `run/campaign_m2.{py,sh}`,
+   `run/m2_report.py`, `run/power_conditional.py`,
+   `tests/test_campaign_m2.py`, `tests/test_power_conditional.py`.
+5. **The ledger** through the antonym6 ruling, i.e. this file at or
+   after `f883f1e`.
+6. **The battery**, unchanged from `exp2c-preregistered`.
+
+**Pre-tag preconditions VERIFIED 2026-08-11** (design §7 item 7: eval
+item sets committed for all scored rungs BEFORE the Stage 1 tag — they
+live on the probe side of the lock, generated from oracles, not
+models):
+
+- All **34** scored rungs have **>= 500 committed eval items**: 22
+  new-pool rungs under `battery/items/`, 12 carried survivors under
+  exp2b's frozen tree at exactly 500 each.
+- All 12 survivor item files **hash-match** `reuse_manifest.json`
+  against `exp2b-closed`. No drift.
+
+**Still uncommitted at declaration time,** to be swept into the Stage 1
+assembly commit: the `run/campaign_m2.sh` working-tree modification,
+`results/m2_report.json`, and the three untracked probe directories
+(`m3/`, `shuffled/`, `known_present/`).
+
+**Unchanged by this entry:** the assembly, the commit and the tag stay
+manual and stay Michael's — the two-stage lock commitment line. No
+eval-side query before the tag exists.
