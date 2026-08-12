@@ -1,0 +1,16 @@
+{
+ "capability": "base13",
+ "n": 500,
+ "correct": 0,
+ "acc": 0.0,
+ "cp95": [
+  0.0,
+  0.007350610051907784
+ ],
+ "n_shots": 2,
+ "size": "12b",
+ "mode": "untrained",
+ "sha": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+ "untrained_seed": 0,
+ "stage1_tag": "exp2c-stage1"
+}

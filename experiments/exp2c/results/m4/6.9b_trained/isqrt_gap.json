@@ -1,0 +1,16 @@
+{
+ "capability": "isqrt_gap",
+ "n": 500,
+ "correct": 78,
+ "acc": 0.156,
+ "cp95": [
+  0.12530743328477195,
+  0.19082611367115587
+ ],
+ "n_shots": 2,
+ "size": "6.9b",
+ "mode": "trained",
+ "sha": "c0e3eee36dc47af0c49f361c74cfe459c09f7f23",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

@@ -1,0 +1,16 @@
+{
+ "capability": "antonym",
+ "n": 500,
+ "correct": 0,
+ "acc": 0.0,
+ "cp95": [
+  0.0,
+  0.007350610051907784
+ ],
+ "n_shots": 2,
+ "size": "6.9b",
+ "mode": "untrained",
+ "sha": "c0e3eee36dc47af0c49f361c74cfe459c09f7f23",
+ "untrained_seed": 0,
+ "stage1_tag": "exp2c-stage1"
+}

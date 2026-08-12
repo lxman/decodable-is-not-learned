@@ -1,0 +1,16 @@
+{
+ "capability": "median5",
+ "n": 500,
+ "correct": 113,
+ "acc": 0.226,
+ "cp95": [
+  0.19005226593978228,
+  0.2652233588945422
+ ],
+ "n_shots": 2,
+ "size": "2.8b",
+ "mode": "trained",
+ "sha": "2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

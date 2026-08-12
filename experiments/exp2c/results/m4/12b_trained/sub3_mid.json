@@ -1,0 +1,16 @@
+{
+ "capability": "sub3_mid",
+ "n": 500,
+ "correct": 11,
+ "acc": 0.022,
+ "cp95": [
+  0.011032276361257528,
+  0.039022550844808795
+ ],
+ "n_shots": 2,
+ "size": "12b",
+ "mode": "trained",
+ "sha": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

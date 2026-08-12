@@ -1,0 +1,16 @@
+{
+ "capability": "roman_sum7",
+ "n": 500,
+ "correct": 7,
+ "acc": 0.014,
+ "cp95": [
+  0.005646761070324432,
+  0.028631616183336053
+ ],
+ "n_shots": 2,
+ "size": "12b",
+ "mode": "untrained",
+ "sha": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+ "untrained_seed": 0,
+ "stage1_tag": "exp2c-stage1"
+}

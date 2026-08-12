@@ -1,0 +1,16 @@
+{
+ "capability": "count_div13",
+ "n": 500,
+ "correct": 102,
+ "acc": 0.204,
+ "cp95": [
+  0.16951696856481246,
+  0.24202617779017938
+ ],
+ "n_shots": 2,
+ "size": "12b",
+ "mode": "trained",
+ "sha": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

@@ -1,0 +1,16 @@
+{
+ "capability": "mod17",
+ "n": 500,
+ "correct": 36,
+ "acc": 0.072,
+ "cp95": [
+  0.05093433312513294,
+  0.09828743733685696
+ ],
+ "n_shots": 2,
+ "size": "12b",
+ "mode": "trained",
+ "sha": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

@@ -1,0 +1,16 @@
+{
+ "capability": "hamming12",
+ "n": 500,
+ "correct": 0,
+ "acc": 0.0,
+ "cp95": [
+  0.0,
+  0.007350610051907784
+ ],
+ "n_shots": 2,
+ "size": "2.8b",
+ "mode": "untrained",
+ "sha": "2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "untrained_seed": 0,
+ "stage1_tag": "exp2c-stage1"
+}

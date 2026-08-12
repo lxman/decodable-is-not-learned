@@ -1,0 +1,16 @@
+{
+ "capability": "collatz_step2",
+ "n": 500,
+ "correct": 82,
+ "acc": 0.164,
+ "cp95": [
+  0.1326113859349345,
+  0.1994229243078514
+ ],
+ "n_shots": 2,
+ "size": "6.9b",
+ "mode": "trained",
+ "sha": "c0e3eee36dc47af0c49f361c74cfe459c09f7f23",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

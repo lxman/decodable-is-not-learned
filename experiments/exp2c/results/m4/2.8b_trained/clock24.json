@@ -1,0 +1,16 @@
+{
+ "capability": "clock24",
+ "n": 500,
+ "correct": 25,
+ "acc": 0.05,
+ "cp95": [
+  0.03261518014933006,
+  0.07292762165047895
+ ],
+ "n_shots": 2,
+ "size": "2.8b",
+ "mode": "trained",
+ "sha": "2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

@@ -1,0 +1,16 @@
+{
+ "capability": "quad_next",
+ "n": 500,
+ "correct": 8,
+ "acc": 0.016,
+ "cp95": [
+  0.0069323212024836,
+  0.03128200168985308
+ ],
+ "n_shots": 2,
+ "size": "12b",
+ "mode": "trained",
+ "sha": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}

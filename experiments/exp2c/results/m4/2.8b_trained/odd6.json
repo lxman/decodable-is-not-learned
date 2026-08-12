@@ -1,0 +1,16 @@
+{
+ "capability": "odd6",
+ "n": 500,
+ "correct": 61,
+ "acc": 0.122,
+ "cp95": [
+  0.09461889645641554,
+  0.15394209684645396
+ ],
+ "n_shots": 2,
+ "size": "2.8b",
+ "mode": "trained",
+ "sha": "2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "untrained_seed": null,
+ "stage1_tag": "exp2c-stage1"
+}
