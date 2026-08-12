@@ -82,16 +82,28 @@ evidence** for anything in this document.
 
 ## 3. The matrix
 
-Four rows × two sizes (1M, 10M) × five fresh seeds.
+Three trained rows × two sizes (1M, 10M) × five fresh seeds, each with an
+**untrained twin**.
 
 | row | ground truth | training |
 |---|---|---|
 | `grokking` | structure present | Nanda-style `(a·b) mod 113`, Exp 1 recipe |
 | `lubana_above` | structure present (task control) | formal language, above percolation threshold |
 | `lubana_below` | structure absent | same task, below percolation threshold |
-| `untrained` | no structure, no training | random init, probed at the same checkpoint spec |
+| `untrained` twin of each of the above | no structure, no training | random init at the same architecture, size and seed; same probe data and labels |
 
-Thirty training runs plus ten probe-only cells.
+Thirty training runs plus **thirty probe-only cells**.
+
+The twin is per-cell rather than a single standalone row because an
+untrained network has to be probed on *some* data with *some* labels, and
+that choice is not neutral. Exp 1's lubana probe already uses an **entity
+split** chosen precisely so that "a random example-split would let the
+probe memorize the entity→class lookup and fire on an untrained model"
+(`run_lubana.py`); the grokking probe carries no documented equivalent
+protection. Matching each twin to its own cell's architecture, data and
+labels is the only version of the control that tests the probe actually
+used, rather than a probe nobody ran. Cells remain cheap: no training,
+one probe fit each. (Amended 2026-08-12, before freeze.)
 
 **Seeds: 100–104.** Exp 1 used 0–4; 1b's are disjoint by construction so
 no fresh run reuses an initialization whose S1 outcome is already known.
@@ -149,7 +161,7 @@ Counts are **pooled across the two sizes** — ten runs per row.
 | `grokking` | ≥ 8/10 S1-present |
 | `lubana_above` | ≥ 8/10 S1-present |
 | `lubana_below` | **0/10** S1-present |
-| `untrained` | **0/10** S1-present |
+| `untrained` (all twins pooled) | **0/30** S1-present |
 
 **PASS iff all four hold.** Anything else is a **reportable FAIL**,
 written up as a finding and not tuned away.
@@ -158,7 +170,8 @@ Pooling is a deliberate trade, stated so it cannot be mistaken for an
 oversight. For the absent rows it changes nothing — 0/5 at each size and
 0/10 pooled are the same condition — but it lets absence be reported
 with a materially tighter Clopper–Pearson bound (95% upper 0.308 at
-0/10, against 0.522 at 0/5). For the present rows it is **looser** than
+0/10, against 0.522 at 0/5; and 0.116 at the untrained row's 0/30). For
+the present rows it is **looser** than
 a per-size ≥4/5 bar, since ≥8/10 tolerates a (5,3) split that per-size
 would fail. **Per-size counts are reported alongside the pooled verdict**
 so a "works at 1M, fails at 10M" pattern remains visible even though it
