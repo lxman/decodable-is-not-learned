@@ -497,3 +497,38 @@ compounds into a visibly different trajectory later.
 Method note: three launches were needed. The first two died — one killed when
 its wrapper task exited, one with a relative-path import error — before the
 third ran clean. Neither failure was signal about the code.
+
+---
+
+## 2026-08-12: FROZEN — tag `exp1b-preregistered` (Michael's explicit go)
+
+Cut at `2dbbc77`, annotated, pushed. Verified immediately before: tree clean,
+HEAD == origin/master, 38 fixtures passing, and `experiments/exp1/`
+byte-identical to its pre-1b state across all twenty-five commits of the range.
+
+The tag message carries the full freeze record: why 1b exists (Exp 1's S1
+criterion was unsatisfiable by any instrument, so the discriminator claim is
+untested rather than refuted), what is frozen, the spent pre-committed change
+with its ledgered-first reason, the structural consequence of removing the
+untrained bar, the 3-of-3 gate result with `lubana_below`'s 16% margin
+disclosed, the pre-campaign FAIL projection, the exp1 read-only proof, all
+three freeze disclosures, and the reproducibility scope.
+
+**Nothing of the scored campaign runs before this tag. It may now run.**
+
+Launch, detached:
+
+    nohup zsh ~/emergence-paper/experiments/exp1b/run/campaign_1b.sh \
+      </dev/null >/dev/null 2>&1 & disown
+
+Two practices the campaign should carry, both learned today:
+
+1. **Commit per cell.** Each finished record dirties the tree for the next
+   cell's `git_sha`. Task 5 committed `lubana_above` the moment it landed and
+   `lubana_below` stamped clean as a result. Exp 1 did not, and 25 of its 45
+   records stamp `-dirty`.
+2. **Checkpoint mtimes are the liveness signal, not the log.** The campaign
+   log records only START/DONE and cannot distinguish running from hung.
+
+First post-tag work item is open item 5: re-run the thirty untrained cells
+from `diagnostics/pre_freeze_untrained/` into the campaign tree (~1 h 46 min).
