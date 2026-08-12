@@ -532,3 +532,38 @@ Two practices the campaign should carry, both learned today:
 
 First post-tag work item is open item 5: re-run the thirty untrained cells
 from `diagnostics/pre_freeze_untrained/` into the campaign tree (~1 h 46 min).
+
+---
+
+## 2026-08-12: CORRECTION to the reproducibility entry — "17%" overstated it
+
+The entry above reports `gen_step` drifting 2099 → 2454 on a re-run and calls
+it a 17% difference. Arithmetically true, materially misleading, and corrected
+here rather than left standing.
+
+**The checkpoint grid is log-spaced:** … 1536, 1796, **2099**, **2454**, 2868 …
+So 2099 → 2454 is **exactly one grid step** — the smallest non-zero change the
+instrument can register, not a 17% change in the underlying trajectory. All
+that is established is that the 0.90 crossing landed in a different checkpoint
+bin; the true difference in crossing time is bounded only by the bin width
+(~658 steps), and could be arbitrarily small.
+
+Caught because `grokking/1M/seed104` returned mem=202, gen=2454, gap=2252 —
+identical to the seed-100 re-run — which looked alarming until the grid
+explained it. Matching mem/gen/transition values across seeds are
+**quantization, not spurious determinism**: seeds 100/101/102 all transition at
+1796 and 103/104 both at 2099, on a grid whose spacing there is ~300 steps.
+
+**What survives unchanged, and is the important part:** `s1.accuracy`
+reproduced to 16 decimal places (0.035333333333333335), along with `null_p`,
+`present`, `best_layer`, `best_token`, `transition_step`,
+`below_threshold_checkpoint` and `mem_step`. The verdict-touching quantity is
+reproducible. That claim rests on an exact match, not on a grid-quantized one.
+
+**What weakens:** the argument that re-running seed 100's trained cells was
+risky *because* late-trajectory quantities drift. `lubana_below`'s
+`peak_metric` is still a max over the whole trajectory and so is structurally
+more exposed than an early-checkpoint measurement, but the evidence that late
+quantities meaningfully diverge is now one grid step, which is weak. The
+DISCLOSE ruling does not depend on it — it rests on the ordering (design
+finalized 11:30, first trained cell 12:07), which is unaffected.
