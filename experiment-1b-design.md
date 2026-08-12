@@ -1,8 +1,28 @@
 # Experiment 1b — Design Doc: The Discriminator, Retested Under a Corrected Criterion
 
-**Status: DRAFT, not frozen.** Freezes when committed with its analysis
-script and fixture suite, per the program's standing rule. Nothing runs
-before the freeze commit.
+**Status:** **FROZEN 2026-08-12** (tag `exp1b-preregistered`, Michael's
+explicit go on the all-GREEN/RULED
+`experiments/exp1b/FREEZE_CHECKLIST.md`). The instrument is
+`experiments/exp1b/` — `analyze_1b.py`, `run/run_untrained.py`,
+`run/campaign_1b.py`, and a 38-test fixture suite. Every open item is
+closed or disclosed; the two scope discrepancies were ruled DISCLOSE and
+are recorded at §8 step 1 and open item 2.
+
+**The one pre-committed change is SPENT** (§9) on the floor-corrected S1
+(§4), for a reason ledgered before the change: the untrained twins were
+built and run on all thirty cells before any trained data existed, and
+the grokking twins fired raw S1 in 9 of 10. Nothing further may change.
+
+**The verdict projection is on the record before the campaign**
+(`experiments/exp1b/PROGRESS.md`): the grokking row is expected to return
+roughly 6/10 against an ≥8/10 bar, i.e. **FAIL**, with both lubana rows
+expected to pass. Written down so a FAIL cannot later be presented as a
+surprise, nor a PASS as expected.
+
+**Disclosed at freeze:** §8 step 1's "one commit" did not hold — the
+frozen contents landed across the twenty-four commits of the 1b range
+rather than in a single freeze commit, and the tag marks the boundary
+instead. Recorded rather than reshaped.
 
 **Predecessor:** `experiment-1-design.md` (tag `exp1-analysis-frozen`,
 VERDICT: FAIL). Exp 1b reuses that experiment's task implementations,
