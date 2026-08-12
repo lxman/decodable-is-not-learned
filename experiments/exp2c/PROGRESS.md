@@ -2947,3 +2947,111 @@ across the whole battery: **4 to 7**.
 These are scoreable claims, not vibes. When M5 runs, each bullet gets
 marked hit or miss in the close-out entry, including the ones I get
 wrong, and the restricted-rho prediction gets marked first.
+
+## 2026-08-12: M5 — VERDICT: **FAIL** (rho 0.368, block p 0.131, CI includes 0)
+
+**The frozen `analyze.py`, run unmodified on the frozen inputs:**
+
+    rho       0.3679
+    block p   0.1305   (sampled, 100,000 draws)
+    CI        (-0.1845, 0.7624)   family-cluster bootstrap
+    n         34 rungs / 16 families
+    audit     shuffled:count_test, ties:base_repr, ties:reversal, ties:rotation
+    VERDICT   FAIL     (CI includes 0 -> FAIL branch, before PASS is tested)
+
+`results/verdict.json`. No rung was lost to attrition; the dual floor
+was never in play.
+
+**This is the uninterpretable FAIL, conceded in advance.** The tag
+`exp2c-stage1` and the projection at `7c1a53c` both state it before the
+data: conditional power was .5604 at rho_true=0.6, and "a FAIL at
+rho<=0.6 cannot separate 'no relationship' from 'too few live blocks'."
+The realized CI, **(-0.185, 0.762)**, is that concession made visible —
+it spans from moderately negative to strongly positive. The experiment
+does not distinguish the hypothesis from its negation.
+
+### The chance-floor contamination (found before the verdict was run)
+
+The frozen rule normalizes against EMPIRICAL UNTRAINED floors, per §3,
+and that is what ran. But an untrained Pythia emits garbage, not wrong
+answers, so its floor is ~0 for every rung. A trained model that has
+learned only the OUTPUT FORMAT — "emit a small integer" — scores at
+1/|answer space| and is credited that as capability.
+
+Ten rungs sat at their guessing rate: clock24 (.050 vs 1/24), mod19,
+mod17, **mod13 (.046 vs 1/13 — BELOW chance, credited .071 ascent)**,
+mod13_comp, collatz_step2, roman_sum7, isqrt_gap, count_div7,
+clock24_d999. Worse for multiple-choice rungs, where chance is the
+listed options: **odd_one_out scored .208 against 1/4 = .250 — below
+chance — and was credited .207 ascent, ranking 5th.** odd6 scored .188
+against 1/6 = .167. Only antonym (.560 vs .250) and antonym6 (.398 vs
+.167) clear chance decisively.
+
+This is the methods paper's own thesis one level up: **above the
+untrained floor is not the same as capable**, exactly as decodable is
+not learned. It is a REAL defect in the outcome operationalization,
+not a coding error, and it was found by inspection BEFORE analyze.py
+ran — recorded here in that order.
+
+**The rule was NOT changed.** Rewriting a frozen operationalization
+because its inputs disappoint is the move the whole apparatus exists to
+prevent. Instead, as a DISCLOSED DESCRIPTIVE, never verdict-touching:
+
+    chance-corrected rho (all 34)   0.2005   vs frozen 0.3679
+    chance-corrected block p        0.3989
+    nonzero rungs                   13       vs frozen 25
+
+**Correcting the artifact makes the correlation WEAKER, not stronger.**
+The contamination was not masking a signal; it was manufacturing part
+of the little that existed. Survivors of the correction: antonym .412,
+antonym6 .193, sub3_mid .190, arith_next .175, sub_base8 .136,
+hamming12 .099. Collapsing: median5 .215 -> .026, odd6 .175 -> .019,
+odd_one_out -> 0.
+
+**Preregistered secondary, restricted-rho (ascent > .05):** 0.545 over
+23 rungs on the frozen scores; 0.329 over 9 on the chance-corrected
+ones. Both computed; neither touches the verdict.
+
+### The two qualitative findings that outlive the omnibus test
+
+1. **The reversal family: highest probe margins, ZERO eval.**
+   rev_string7 (probe .699, rank 2) and reverse_string (probe .624,
+   rank 3) score **exactly 0.000 at all three sizes**. Predicted
+   explicitly in the projection: character reversal is highly decodable
+   because the information sits in the token sequence, and reliably
+   ungenerable at this scale. This is the paper's own "necessary, not
+   sufficient" limitation, measured.
+
+2. **Probe-flat rungs with real eval signal — the named disconfirmer,
+   and it fired.** sub3_mid (probe .000 -> ascent .190) and arith_next
+   (probe .000 -> .175) both SURVIVE the chance correction. The
+   projection named "a probe-flat rung with substantial ascent" as the
+   sharpest disconfirmation available: structure absent below threshold
+   that appears above it is the Lubana-style percolation case the essay
+   carves out, not the resolution case it argues for.
+
+   sub3_mid was investigated for a scoring artifact and CLEARED: its
+   profile is .528 / .028 / .022 across sizes, and reading the raw
+   generations shows normalization working correctly — 2.8b genuinely
+   does 3-digit subtraction better than 6.9b/12b, with near-miss errors
+   (582 for 550) where the larger models produce wild ones (878 for
+   294). A real non-monotonicity. Note this also exposes that a MEAN
+   across sizes reads a 2.8b spike that collapses as "moderate ascent",
+   which is not what scale-ascent should mean.
+
+### Projection scorecard (from `7c1a53c`, written before any result was read)
+
+| call | predicted | actual | |
+|---|---|---|---|
+| verdict | PASS ~55% | **FAIL** | MISS |
+| primary rho | 0.75 [0.55, 0.90] | **0.368** | MISS, outside interval |
+| restricted rho | 0.2 [-0.2, 0.6] | 0.545 / 0.329 | HIT (interval) |
+| rev_string7 + reverse_string eval-flat | yes | **0.000 both** | HIT, exact |
+| semantic rungs highest | yes | antonym/antonym6 yes; odd6 + odd_one_out were chance artifacts | PARTIAL |
+| >=18 of 22 probe-flat also eval-flat | >=18 | **7** | MISS, badly |
+| nonzero-ascent rungs | 4-7 | **25** (13 corrected) | MISS |
+| "probe-flat rung with substantial ascent would surprise me" | surprise | **sub3_mid, arith_next** | DISCONFIRMER FIRED |
+
+Six of eight calls missed. The two that hit were the mechanistic ones;
+everything quantitative was wrong, and wrong in the direction of
+expecting a cleaner, sparser eval side than reality delivered.

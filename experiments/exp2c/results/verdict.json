@@ -1,0 +1,20 @@
+{
+ "rho": 0.3679488492919918,
+ "block_p": 0.13054869451305487,
+ "n_perms": 100000,
+ "resolution": 9.99990000099999e-06,
+ "method": "sampled",
+ "ci": [
+  -0.18452329508460297,
+  0.7624136653919262
+ ],
+ "audit": [
+  "shuffled:count_test",
+  "ties:base_repr",
+  "ties:reversal",
+  "ties:rotation"
+ ],
+ "n_rungs": 34,
+ "n_families": 16,
+ "verdict": "FAIL"
+}
