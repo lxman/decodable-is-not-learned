@@ -50,8 +50,25 @@ design analysis had missed, exposed a new leak class at the cost of a
 screening pass rather than a campaign, confirmed three mechanism
 attributions by construction, and froze a 34-rung battery with the
 untrained gate clean (two fires in 220 fits against 1.4 expected),
-the program's first. A taxonomy of the leak mechanisms and a
-checklist written for verbatim adoption distill the record.
+the program's first. That battery then reached an outcome
+measurement, where we committed the outcome-side form of the error
+this paper is about: normalizing argmax accuracy against an untrained
+floor, which sits at zero because an untrained model emits malformed
+text rather than wrong answers, credits a model that has learned only
+the task's output format with its entire guessing rate as capability.
+Ten of thirty-four capabilities landed within noise of their own
+chance rate; one scored below chance and ranked fifth on the outcome
+variable. Re-scoring against within-answer-space chance moved the
+headline rank correlation down, from .368 to .200 — the contamination
+manufactured correlation rather than masking it — and none of the
+controls prescribed here detects it, because all of them are pointed
+at the representation while the defect is in the behaviour. Report
+both floors. Running the other way, the two capabilities carrying the
+second and third highest starved margins scored exactly zero argmax
+accuracy at every eval scale: decodable is not learned, and on this
+evidence it is not generable either. A taxonomy of the leak
+mechanisms and a checklist written for verbatim adoption distill the
+record.
 
 ## 1. The problem and the prescription
 
@@ -876,13 +893,105 @@ was measured on this battery's own items, per the Section 4.2 lesson,
 and read 0.960 and 0.980 against its 0.9 bar. Set against Section 4's
 totals, 120 fires in 120 fits and then 86 in 250, this is the
 program's first battery to reach its freeze with the untrained gate
-clean, and Section 8's worry that an acceptance test nothing has
+clean, and Section 9's worry that an acceptance test nothing has
 passed may be unpassable now has the only answer it could get: a
 battery passed, by being built to. Whether a battery that passes the
 screen measures anything worth measuring is that experiment's
-question, and this paper leaves it open.
+question. It reached its answer while this paper was under
+submission, and Section 8 reports what it cost us to get there.
 
-## 8. Limitations
+## 8. The same error on the outcome side
+
+The battery that passed the screen went on to be scored against an
+eval side: argmax accuracy on held-out items at 2.8b, 6.9b and 12b,
+with each capability's score normalized against a floor, exactly as
+the probe margins are normalized against a permutation null. The floor
+we chose was the one this paper argues for everywhere else — the
+untrained network. Randomly initialized weights, same architecture,
+same items, same prompt. It is the control we spent seven sections
+recommending, and on the outcome side it is the wrong one.
+
+An untrained language model does not produce wrong answers. It
+produces malformed ones. Asked for a number it emits fragments, and
+the normalizer that extracts an answer finds nothing to score. So the
+untrained floor came back at or indistinguishable from zero on all
+thirty-four capabilities, for a reason that has nothing to do with any
+capability: the model cannot participate in the task's format at all.
+A trained model that has acquired only the format — that has learned
+to emit a small integer after `A:` and nothing more — sits at one over
+the size of the answer space. Against a floor of zero, that entire
+guessing rate is scored as capability.
+
+The consequence was not marginal. Of thirty-four capabilities, ten
+landed within noise of their own chance rate and were credited the
+whole of it. Modular arithmetic at modulus 13 scored .046 against a
+chance rate of 1/13 = .077 — *below* chance — and was credited a
+normalized margin of .071. The effect is sharpest where chance is
+highest, which is exactly where a reader's intuition is weakest: for
+multiple-choice items the chance rate is one over the number of
+options presented, and a four-option capability scored .208 against
+its .250 chance, below chance again, and ranked fifth of thirty-four
+on the outcome variable. Two capabilities out of thirty-four cleared
+their chance rate by a factor of two or more.
+
+The generalization is the same one this paper makes about probes, one
+level along. An untrained-weights control answers *is this signal in
+the weights?* It does not answer *is this behaviour competent?* Those
+are different questions with different floors, and the second one's
+floor is a property of the task's answer space, not of the network.
+Substituting one for the other credits format acquisition as
+capability in precisely the way that standard-split probing credits
+surface statistics as structure. We wrote seven sections on the
+probe-side version of this error and then committed the outcome-side
+version in our own frozen operationalization, which is the strongest
+evidence we can offer that the control is not obvious once the
+question changes.
+
+Two properties of the error are worth recording, because they
+determine how much damage it does.
+
+It is not conservative. Re-scoring against within-answer-space chance
+rates, as a disclosed descriptive that could not touch the frozen
+verdict, moved the primary rank correlation *down*, from .368 to .200,
+and cut the count of capabilities with nonzero outcome scores from
+twenty-five to thirteen. The contamination was manufacturing
+correlation, not masking it. A reader's natural assumption — that a
+too-generous floor adds noise and biases toward the null — is wrong
+here, because the inflation is systematic rather than random: it
+scales with the inverse of the answer space, and answer-space size is
+correlated with task type across any battery organized by task family.
+
+And it is invisible to every control this paper recommends. The
+untrained gate was clean. The shuffled-label gate was clean. The
+known-present positive controls passed at both scales. Nothing in the
+probing hygiene apparatus we describe detects an outcome variable
+whose floor is measuring the wrong thing, because the apparatus is
+pointed at the representation and the defect is in the behaviour.
+
+The prescription is one line: **report both floors.** Any margin
+normalized against an untrained network should carry its
+within-answer-space chance rate alongside, and any claim that a
+capability is present above floor should say which floor. For
+multiple-choice items the option count belongs in the committed
+record, not recoverable by re-parsing question text after the fact,
+which is how we recovered it.
+
+A third observation from the same scoring is worth stating because it
+runs the other way and is, if anything, the more useful result. The
+two capabilities carrying the second and third highest starved probe
+margins in the battery — character-level string reversal at two
+lengths, margins .699 and .624 — scored exactly zero argmax accuracy
+at all three eval scales. Not near zero: zero, on five hundred items,
+at 12b. The information is linearly decodable from the
+representation, survives basis starving, and clears the untrained
+gate, and the model cannot emit it. Decodable is not learned, and on
+this evidence decodable is not *generable* either. A probe margin
+licenses a claim about what a representation contains. It does not
+license a claim about what the model will do, and the gap between
+those is not a technicality: here it is the difference between the
+strongest signal in the battery and no behaviour whatsoever.
+
+## 9. Limitations
 
 Everything here was demonstrated on one model family, one tokenizer,
 and two scales. The basis analysis is tokenizer-specific on purpose:
@@ -920,20 +1029,27 @@ labeled as such in Section 5; three have since been confirmed by the
 constructive test proposed there (Section 7), and the rest remain
 untested.
 
-Finally, the method's positive record is one battery frozen, not one
-campaign survived. Both campaigns here ended INSUFFICIENT_DATA, and
-the successor battery of Section 7 has passed the screen only at its
-freeze: the controls detect bad batteries, and a battery can be built
-to pass them, but no battery that passes has yet been shown to
-measure anything worth measuring. Surface computability of the kind
-Section 5 maps stayed dense in practice — the successor's
-construction still ejected four candidates across three distinct
-mechanisms — and whether enough task diversity survives the screen to
-serve the programs that need it is a question one frozen battery only
-begins to answer. The successor's campaign is the direct test, and
-this paper claims nothing about its outcome.
+Finally, the method's positive record is one battery frozen and one
+campaign completed, not one hypothesis supported. Both campaigns of
+Section 4 ended INSUFFICIENT_DATA. The successor battery of Section 7
+passed the screen, reached its outcome measurement, and returned a
+FAIL its own preregistered power analysis had already declared
+uninterpretable: 22 of its 34 capabilities returned zero probe margin
+and 9 of its 16 family blocks were entirely inert, leaving a rank
+test with seven effective blocks where its frozen power table had
+assumed sixteen. So the controls detect bad batteries, and a battery
+can be built to pass them, and the one that did went quiet rather
+than dirty. Surface computability of the kind Section 5 maps stayed
+dense in practice — the successor's construction still ejected four
+candidates across three distinct mechanisms — and whether enough task
+diversity survives the screen *while retaining measurable spread* is
+now the open question, sharper than before and not favourable: this
+paper's prescriptions buy a clean battery, and a clean battery is not
+automatically an informative one. A successor should gate on
+predictor spread before spending an outcome campaign, which is
+computable at freeze and was computable here.
 
-## 9. Recommendations
+## 10. Recommendations
 
 The checklist below compresses Sections 3 through 7 into the form I
 wish the program had started with. It's written to be adopted verbatim.
@@ -982,13 +1098,27 @@ section it distills.
     (one swallowed category made starved validation
     leave-one-category-out), which changes what the margin measures.
     (§7)
+15. If the study reaches a behavioural outcome, normalize it against
+    the task's within-answer-space chance rate as well as against the
+    untrained network, and report both. An untrained floor answers
+    whether signal is in the weights; it sits at zero on a generation
+    task because an untrained model emits malformed text, so it
+    credits format acquisition as capability. Commit the option count
+    for every multiple-choice item at freeze. (§8)
+16. Gate on predictor spread before spending an outcome campaign. A
+    battery whose predictor is mostly ties has few effective
+    permutable blocks, and the resulting power is computable at freeze
+    from the realized predictor alone. (§8, §9)
+17. Do not claim a probe margin licenses a behavioural prediction. The
+    two highest-margin capabilities in a screened battery scored
+    exactly zero argmax accuracy at every scale tested. (§8)
 
 The full record behind this paper — the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
 campaign ledgers, and the adjudication rulings behind every number
 quoted here — sits under five git tags (`exp2-preregistered`,
 `exp2-closed`, `exp2b-preregistered`, `exp2b-closed`,
-`exp2c-preregistered`) in the
+`exp2c-preregistered`, `exp2c-stage1`) in the
 supporting repository, github.com/lxman/decodable-is-not-learned: a
 history-preserving extraction of the working repository, public since
 the paper's arXiv submission and archived at Zenodo
