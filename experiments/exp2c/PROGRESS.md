@@ -2667,3 +2667,63 @@ assembly commit: the `run/campaign_m2.sh` working-tree modification,
 **Unchanged by this entry:** the assembly, the commit and the tag stay
 manual and stay Michael's — the two-stage lock commitment line. No
 eval-side query before the tag exists.
+
+## 2026-08-11: M3 Stage 1 record ASSEMBLED — untrained_fires ruled; layer-0 reservoir channel characterized
+
+**Ruling (Michael, 2026-08-11): `untrained_fires` comes from the
+CAMPAIGN known_absent fits**, classified through the same
+`stats_bounds.classify_fire` path gate 2 uses — same population and
+depth as the m3 fits they control. The tier-2 screen verdicts
+adjudicated INCLUSION at freeze; analysis-time residual attrition is a
+different question over a different population. Survivors' known_absent
+fits carry from the 2b tagged record via `reuse_manifest.json` (§7).
+
+**Build:** `run/m3_stage1.py` + `tests/test_m3_stage1.py` (15 tests;
+exp2c suite **166 passed**). Two refusals per the standing two-stage-
+lock decision, both mutation-tested: refuses to assemble without a
+CLEAN M2 report, refuses to overwrite an existing record. Probe scores
+are cross-checked bit-for-bit against `power_conditional.
+realized_probe_scores`, an independent implementation of the same
+design §3 definition.
+
+**Record written — `results/probe_scores.json`:** 34 rungs / 16
+families, 12 live / 22 flat, rungs laid out in contiguous family blocks
+(analyze.py's layout convention). `ascent_score` is ABSENT by
+construction, with the reason recorded in the file: the eval side is
+locked until the tag. Drives `analyze.py` end to end under stubbed
+ascent scores.
+
+**Residual gate-1 attrition: NONE.** 340 untrained fits classified
+(220 new-pool + 120 carried) → 338 `not_fire`, **2 `tolerated`**, zero
+`elevated`, zero `structural_abort`. The dual floor is untouched at
+34/16. The two tolerated fires are median5 seed1 at BOTH sizes
+(acc .2810, null .2181, z=3.26) — which is where the next finding came
+from.
+
+**Layer-0 reservoir channel — characterized, benign, now pinned by
+test.** Those two fires have byte-identical accuracy across two
+different architectures, which is not a coincidence and was chased
+down before assembly. Systematic result over the committed records:
+**every** cross-size identical pair sits at `best_layer == 0` —
+53/115 known_absent, 35/110 m3, 18/110 shuffled — and **72/72
+trained-vs-untrained pairs at layer 0 have identical accuracy.** A
+layer-0 fit reads the embedding, effectively injective over the tokens
+in play while n_train < d, so its validation accuracy is fixed by the
+ITEMS and the SPLIT alone: independent of size, and independent of
+whether the weights are trained. That is Exp 2's reservoir channel,
+alive and well inside 2c's records.
+
+It is harmless here for one reason, now asserted by
+`test_no_firing_fit_reads_the_layer_0_channel`: **no PRESENT m3 fit
+sits at layer 0 — not one.** Every fit that fired did so at depth 6–21.
+The live rungs' argmax layers are mid-stack throughout (odd6 12/9,
+rev_string7 9/6, median5 9–18, median7 6–21, count_div13 12–18,
+antonym6 12–15). The starving plus candidate selection route around the
+channel, and the untrained control caught the single case where layer 0
+won the argmax — classified `tolerated`, below the attrition band,
+exactly as the calibration intends. Recorded now because a reader will
+notice the identical numbers, and the answer should be on the record
+before the tag rather than discovered during review.
+
+**Still manual, still Michael's:** the commit and the TAG. Eval side
+stays LOCKED until the tag exists.
