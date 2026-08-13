@@ -655,3 +655,54 @@ OOM entry above. This is the first attrition of the 1b campaign.
 
 The campaign resumes by re-running `campaign_1b.sh` — `remaining()` reads the
 disk, so it restarts at exactly this cell.
+
+---
+
+## 2026-08-13 12:13: 1M tier complete — all three rows behaving as designed
+
+15 cells, 15 gates certified, one attrition (`lubana_above/1M/seed102`, GPU OOM,
+re-run clean). Floor-corrected S1:
+
+| row | present | trained / twin accuracies |
+|---|---|---|
+| `grokking` | **5/5** | .0353/.0233 · .0727/.0167 · .0287/.0167 · .0380/.0213 · .1020/.0180 |
+| `lubana_above` | **5/5** | .2133/.1378 · .4711/.0933 · .1911/.1289 · .2400/.1111 · .3467/.0978 |
+| `lubana_below` | **0/5** | .1667/.1075 · .1082/.1289 · .1263/.0842 · .1374/.0989 · .1230/.1230 |
+
+Bars are pooled across sizes (≥8/10, ≥8/10, 0/10), so this is half the evidence,
+not a verdict. On present evidence the 1M half is a clean PASS on all three rows.
+
+**Three observations worth carrying to the 10M tier.**
+
+1. **The two present rows pass with very different confidence.** `lubana_above`
+   clears its twins by 1.48–5.05× on accuracies of .19–.47. `grokking` clears by
+   1.5–5.7× but on accuracies of .029–.102 against twins that *fire* (.017–.023).
+   Same verdict, an order of magnitude apart in signal. The projection expects
+   this gap to decide the 10M row.
+
+2. **Which gate is load-bearing differs by row, and now there is direct
+   evidence.** On `lubana_below`, three of five cells have trained accuracy
+   *above* their twin (.1667>.1075, .1263>.0842, .1374>.0989) and stay absent
+   only because the permutation test declines (p = .34–1.0). The floor
+   correction would not have blocked those on its own. So the correction carries
+   the present rows and the permutation null carries the absent row — §6's
+   four-route table asserted this; this is the first live confirmation.
+
+3. **`lubana_below`'s gate margin is genuinely tight, as disclosed pre-freeze.**
+   Peak metric against the 0.150 bar: 84%, 76%, **95%**, 88%, 89% — mean 86%,
+   max .142 on seed 102. Five cells of evidence that the bar sits close to where
+   this row naturally fluctuates. No cell breached it; if one does at 10M, that
+   is attrition with the reason already on the record rather than a discovery
+   under pressure.
+
+**One instrument detail confirmed on live data.** `lubana_below/1M/seed104` has
+trained accuracy exactly equal to its twin (.1230 both). The strict inequality
+in the floor correction refused it — a tie is not evidence training added
+anything — which is `test_equal_accuracy_does_not_count_as_beating_the_twin`
+firing for real. Not exp2c's layer-0 reservoir channel: the trained best fit is
+at L0 and the twin's at L3, so it is not the same fit reproduced, and with small
+validation sets an exact tie between independent fits is unremarkable.
+
+**Next: the 10M tier**, started 12:13. Fifteen cells, considerably more
+expensive per cell, and the tier the projection expects to break the grokking
+row.
