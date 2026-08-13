@@ -604,3 +604,54 @@ when the command works. **`ls -lt` on the in-flight cell's checkpoint directory
 is the liveness check.** Likewise `vm_stat`'s `Swapouts` and `Pageins` are
 cumulative counters since boot, not gauges, and reading them as current state
 manufactured a memory crisis that was not occurring.
+
+---
+
+## 2026-08-12 22:00: ABORT — lubana_above/1M/seed102 lost to the GPU OOM. Attrition, re-run once.
+
+The cell flagged two entries above did not merely need scrutiny; it died.
+
+    ABORT trained/lubana_above/1M/seed102 after 6312s:
+    ValueError('Input X contains NaN.')
+
+**Diagnosis — the OOM corrupted the final stretch of training.** All 47
+checkpoints were scanned:
+
+| checkpoints | NaN params | train_loss |
+|---|---|---|
+| step_0000001 … step_0079060 (46) | **0** | finite |
+| **step_0100000** | **824,232 of 939,312** | **nan** |
+
+Training was clean through step 79,060 (written 21:37) and NaN by step 100,000.
+The Metal command-buffer failure at ~21:50 sits inside that window. Its own
+message said "operations encoded on it may not have completed"; they did not,
+the weights diverged, and the S1 probe then refused NaN activations. The
+corrupt checkpoint's `eval_metric` is 0.118 — chance for a 10-class task.
+
+**The failure was loud, which is the good outcome.** No record was written, so
+nothing entered the campaign tree; the run died rather than recording a
+plausible-looking wrong number. Record count is unchanged at 8. The campaign
+aborted the whole `trained/1M` block on non-zero exit, as designed, rather than
+pressing on.
+
+**Disposition: attrition under §8 step 2** — "a run failing its gate is a
+collection failure, re-run once with a logged reason, then reported as
+attrition — never silently replaced." The logged reason is this entry plus the
+OOM entry above. This is the first attrition of the 1b campaign.
+
+**Before the re-run, two things:**
+
+1. **Delete `checkpoints/lubana_above_m1M/seed102/`.** The corrupt final
+   checkpoint would otherwise sit in the directory the re-run writes to. A
+   fresh run should overwrite every step on the same grid, but leaving a known
+   NaN artifact in the path that `list_checkpoints` reads is an avoidable risk.
+2. **Reduce GPU contention.** `com.mlx-vlm-server` (port 8080) holds
+   `EleutherAI/pythia-410m` resident — a leftover from the now-closed exp2c —
+   and its catalog includes `Meta-Llama-3-70B-Instruct-4bit` (~37 GB) and
+   `pythia-12b`. Any request loading one of those would take most of the 48 GB
+   unified pool from under a five-day GPU job. Steady-state cost of these
+   services is trivial (~0.5 GB total); the hazard is entirely in what they
+   load on demand.
+
+The campaign resumes by re-running `campaign_1b.sh` — `remaining()` reads the
+disk, so it restarts at exactly this cell.
