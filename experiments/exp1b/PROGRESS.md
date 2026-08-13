@@ -567,3 +567,40 @@ more exposed than an early-checkpoint measurement, but the evidence that late
 quantities meaningfully diverge is now one grid step, which is weak. The
 DISCLOSE ruling does not depend on it — it rests on the ordering (design
 finalized 11:30, first trained cell 12:07), which is unaffected.
+
+---
+
+## 2026-08-12 ~21:50: GPU OOM during lubana_above/1M/seed102 — cell flagged for gate scrutiny
+
+A Metal command buffer failed mid-run on this cell:
+`Insufficient Memory (00000008:kIOGPUCommandBufferCallbackErrorOutOfMemory)`,
+with the accompanying "The Metal Performance Shaders operations encoded on it
+may not have completed."
+
+**The campaign did not die.** Both processes stayed alive, no ABORT was logged,
+and the cell continued to step 79,060 of 100,000. PyTorch surfaced the error
+and training proceeded.
+
+**The risk this leaves:** if operations encoded on the failed buffer did not
+complete, the run took a step on incomplete state, and nothing downstream would
+say so directly. **This cell's `gt_check` must therefore be read on its own
+merits, not assumed** — `lubana_above` must reach its transition AND hold
+(`giant_frac_min` > 0.3, transition exists, `final_metric` >= 0.5). A failure
+is attrition under §8 step 2 — re-run once with a logged reason — and the
+reason is this entry.
+
+Context: `hermes-agent` crashed inside `MPSGraph compileWithDevice:` earlier the
+same day (14:40), so a second process was contending for the GPU. Swap sat at
+14.2 GB of 15.4 GB, though `memory_pressure` reported 33% free at the time and
+total RSS was only 5.3 GB across 542 processes — the swap figure is an
+accumulated high-water mark, not live starvation.
+
+**Method note, second occurrence today.** The initial read of this incident was
+"campaign hung, zero checkpoints in 5 minutes." Both halves were wrong.
+`find -newermt` silently matches nothing on macOS — the same idiom that missed
+the hermes crash report at 14:40 — and the checkpoint interval at that point in
+training was 18 minutes and widening, so a 5-minute window proves nothing even
+when the command works. **`ls -lt` on the in-flight cell's checkpoint directory
+is the liveness check.** Likewise `vm_stat`'s `Swapouts` and `Pageins` are
+cumulative counters since boot, not gauges, and reading them as current state
+manufactured a memory crisis that was not occurring.
