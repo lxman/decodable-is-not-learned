@@ -1,0 +1,56 @@
+{
+  "system": "lubana_above",
+  "size_bucket": "10M",
+  "seed": 103,
+  "git_sha": "7e17ba3-dirty",
+  "s1": {
+    "present": false,
+    "accuracy": 0.13777777777777778,
+    "chance": 0.1,
+    "null_p": 0.3116883116883117,
+    "null_mean": 0.09945777777777778,
+    "ci95": [
+      0.09557081211632544,
+      0.18983014610610682
+    ],
+    "best_layer": 1,
+    "best_token": -1,
+    "n_layers_tested": 8,
+    "checkpoint_id": "init",
+    "below_threshold": true,
+    "signature": "S1"
+  },
+  "config": {
+    "scale": "paper",
+    "setting": "above",
+    "model_size": null,
+    "n_train_sentences": 60000,
+    "n_queries": 500,
+    "n_probe": 4000,
+    "d_model": 256,
+    "n_layers": 4,
+    "n_heads": 8,
+    "total_steps": 30000,
+    "batch_size": 64,
+    "lr": 0.0003,
+    "weight_decay": 0.1,
+    "n_checkpoints": 50,
+    "device": "mps",
+    "alpha": 0.01,
+    "n_perm": 1000,
+    "below_threshold_mult": 1.5,
+    "transition_level": 0.5,
+    "s2_n_per_query": 2000,
+    "s2_n_queries": 50,
+    "s2_temperature": 1.0,
+    "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
+    "s3_graph_points": [
+      0.25,
+      0.45,
+      0.65,
+      0.85
+    ],
+    "s3_graph_budget_steps": 10000
+  }
+}
