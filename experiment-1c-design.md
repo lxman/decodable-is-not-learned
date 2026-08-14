@@ -1,9 +1,20 @@
 # Experiment 1c — Design Doc: Sub-Critical Structure, Read From a Sweep That Was Never Probed
 
-**Status:** **DRAFT — NOT FROZEN.** Nothing runs until §8 step 1 is
-executed and tagged `exp1c-preregistered`. The instrument will be
-`experiments/exp1c/` — `analyze_1c.py`, `run/run_profile.py`,
-`run/campaign_1c.py`, and a fixture suite.
+**Status:** **FROZEN 2026-08-14** (tag `exp1c-preregistered`, Michael's
+explicit go on the all-GREEN/RULED
+`experiments/exp1c/FREEZE_CHECKLIST.md`). The instrument is
+`experiments/exp1c/` — `analyze_1c.py` (with its own loader),
+`records.py`, `run/profile_lib.py`, `run/run_profile.py`, and an
+83-fixture suite, mutation-tested 20/20. All five open items were closed
+before the tag. **The one pre-committed change is UNSPENT.**
+
+**Disclosed at freeze** (rulings 14–16 of the checklist): no campaign
+driver exists — it is execution orchestration, cannot touch the verdict,
+and is written after the tag; 1c's seeds are **not** disjoint from 1b's,
+which is unavoidable because 1c trains nothing and the checkpoints exist
+only at seeds 100–104; and Stage A reads each cell's own
+`s1.checkpoint_id` from the 1b records rather than the sweep's terminal
+step.
 
 **The prediction is on the record before any probe runs** (Michael,
 2026-08-14, before `experiments/exp1c/` existed): **layer-0 only —
