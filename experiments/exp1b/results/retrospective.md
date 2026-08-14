@@ -129,7 +129,7 @@ points is suggestive, not established.
   `TypeError`.
 - **Disclosing thin margins before the data.** `lubana_below`'s gate was flagged
   at 84% of bar on the single gate seed. Across ten cells it ran 84/76/95/88/89/
-  88/91/97/91/81 — mean 86%, worst .146 against .150. Every cell cleared, none
+  88/91/97/91/81 — mean 88%, worst .146 against .150. Every cell cleared, none
   by much. Because it was disclosed pre-freeze, the closeout states a property
   of the bar rather than defending a near-miss.
 

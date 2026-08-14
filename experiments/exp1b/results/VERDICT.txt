@@ -106,7 +106,7 @@ defect one level down — the criterion's floor was theoretical chance
 DISCLOSED, none reshaped away.
   - lubana_below's ground-truth gate is tight. Peak metric against the 0.150
     bar across ten cells: 84, 76, 95, 88, 89, 88, 91, 97, 91, 81 percent —
-    mean 86%, worst 0.146 vs 0.150 on 10M/seed102. Every cell cleared; none by
+    mean 88%, worst 0.146 vs 0.150 on 10M/seed102. Every cell cleared; none by
     much. Disclosed before the freeze, on the strength of the single gate seed,
     and now confirmed across the row.
   - Open item 2 specifies gate confirmation "on seeds 100-104"; it ran on seed
