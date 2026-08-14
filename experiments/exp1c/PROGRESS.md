@@ -107,10 +107,49 @@ sourced from 1b's own `s1.checkpoint_id`.
 
 **One pre-committed change: UNSPENT.**
 
+## 2026-08-14 — TWINS PHASE COMPLETE (100/100, 0 failed, 40.6 min)
+
+Run before any trained cell was read, per §8 step 2. 8 workers, BLAS pinned
+to one thread each.
+
+**Count correction.** The freeze report said "80 twin profiles". It is **100**:
+20 Stage A (fixed) + 40 Stage B (fixed) + 40 Stage B (natural). The 80 figure
+omitted the Stage A and natural-arm twins.
+
+**Shape verified, not assumed.** All 100 are twins; all carry 8 sites; all 60
+fixed-arm profiles have n_rows 400 / n_val 100 / per_class 40; all 40
+natural-arm profiles carry no permutation null; capability_metric is None on
+every one. Natural-arm pool sizes reproduce the design §2 table exactly:
+865.6 / 773.4 / 659.2 / 536.0 at 0.25 / 0.45 / 0.65 / 0.85 p_c.
+
+**THE CONTROL: 0 of 480 sites clear the Bonferroni bar on random weights.**
+Against Exp 2, whose untrained control fired on 120 of 120 fits and ended the
+experiment, and 2b, whose control caught leaks in 13 of 25 capabilities. The
+per-site two-gate rule does not fire spuriously on this battery.
+
+**Empirical floor.** Twin accuracy over all 480 sites: mean **0.1038**,
+sd 0.0285, against a theoretical chance of 0.1000. A real bias of ~0.4
+percentage points, small but in the same direction throughout — which is why
+the margin is defined against each cell's own twin rather than against 1/K.
+(An earlier partial read over 176 sites gave 0.1108 and overstated this; the
+full set is 0.1038.)
+
+**Provenance: 99 of 100 records carry `git_sha 1c4a7e7-dirty`.** Disclosed
+rather than cleaned up. The only untracked path during the campaign was
+`experiments/exp1c/results/` — the campaign's own output — and an empty diff
+across every `.py` and `.md` confirms no code changed while it ran. The code
+at every cell was exactly `1c4a7e7`. 1b avoided the suffix by committing per
+cell, which a serial campaign permits and an 8-worker one does not; the
+alternative would have been to serialize the run for a cosmetic sha.
+
+**Timing, measured.** 178 s per fixed-arm 1M profile, ~400 s per 10M — the
+wider model gives the probe larger features. The design's 9–20 h estimate was
+single-threaded; at 8 workers the full 200-profile campaign is ~1.2 h.
+
 ## Next
 
-1. Campaign driver (after the tag; not part of the frozen artifact).
-2. Twins first — all 80 twin profiles, before any trained cell is read.
+1. ~~Campaign driver.~~ Built, `run/campaign_1c.py`, 9 fixtures.
+2. ~~Twins first.~~ **Done: 100/100.**
 3. Stage A on 1b's 20 lubana cells; **finalise and ledger the power table
    against the measured sd before Stage B runs.**
 4. Stage B, both arms. Commit per cell.
