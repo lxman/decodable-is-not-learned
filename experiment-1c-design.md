@@ -182,6 +182,46 @@ verdict (§5), for the same reason 1b's untrained row lost its bar: a
 statistic that the prediction says will fire is not a test of the
 prediction unless something else can fail.
 
+**Per-site fire rule (ruled 2026-08-14, closing open item 4).** Site *s*
+of cell *c* fires iff **both**:
+
+- (a) the label-permutation null at *s*, Bonferroni-corrected across all
+  8 sites, gives p < 0.01 — the same family and α as 1b's S1; **and**
+- (b) the trained accuracy at *s* strictly exceeds the twin's accuracy at
+  *s* — 1b's floor correction, applied per site rather than at an argmax.
+
+Both are required because 1b measured that they are load-bearing on
+different rows and neither is sufficient alone. The floor correction
+demoted a grokking cell the null had admitted (10/10 raw → 9/10). The
+null blocked `lubana_below`/1M/seed100 at p = .847 where the margin was
+positive, which the correction alone would have let fire. A rule
+carrying only (b) admits reservoir decodability; a rule carrying only (a)
+admits anything the random expansion already separates.
+
+**`n_perm` is raised to 10,000, from 1b's 1,000.** At 1,000 the
+corrected p for *k* exceedances is 8(k+1)/1001, so k = 0 gives 0.00799
+(passes) and k = 1 gives 0.01598 (fails): the bar is attainable only by a
+zero-exceedance sweep and the test is binary with no resolution. This is
+not hypothetical — all ten of 1b's `lubana_above` fires report
+`null_p = 0.007992007992007992`, exactly 8/1001, every one pinned to the
+quantization floor. One such decision per cell was tolerable; 1c makes
+**960 site-level decisions** and compares them across sites within a
+cell, where a zero-or-nothing estimate is noise. At 10,000 the bar
+tolerates up to 11 exceedances and the reported p carries resolution.
+Grokking's Bonferroni family of 1 gave it resolution 1b's lubana rows
+never had — another asymmetry between the two systems (§2).
+
+**Cell classification**, by precedence:
+
+| class | condition |
+|---|---|
+| `depth` | at least one site with layer ≥ 1 fires |
+| `L0-only` | no depth site fires, at least one layer-0 site fires |
+| `silent` | no site fires |
+
+The pair (n_depth_fired, n_L0_fired) is reported for every cell
+alongside its class, so precedence never hides a co-fire.
+
 **Fixed, class-stratified sampling.** The singleton pool shrinks
 monotonically with density (866 → 536), so statistical power would fall
 exactly as the predicted effect rises, and a flat result would be
@@ -192,6 +232,23 @@ the smallest per-class count observed across all densities and seeds
 and its twin use the identical subsample. n and class balance are then
 constant along the swept axis by construction rather than adjusted for
 afterwards.
+
+**Natural-n diagnostic arm (non-verdict-touching).** Fixing n at 400
+designs the power confound out of the primary test, but it also removes
+the variation the frozen prediction is *about*: if L "tracks the
+shrinking singleton pool," a design in which the pool does not shrink
+cannot show it. Every Stage B cell is therefore additionally profiled at
+its **natural pool size** (866 / 773 / 659 / 536), and L is regressed on
+pool size across that arm.
+
+This arm computes paired margins only — **no permutation null**, since
+the quantity of interest is a slope, not a fire — so it costs 80 profiles
+× 8 sites = 640 fits, which is negligible against the fixed-n arm's
+9.6 M. It is marked `verdict_touching: False` in the analysis output and
+cannot enter the verdict tree, for 1b's reason: a statistic the
+prediction says will move is not a test of the prediction. It exists so
+that a FAIL can confirm the predicted *mechanism* rather than merely be
+consistent with its *outcome*.
 
 **Residual confound, disclosed not fixed.** Subsampling equalizes count
 and class balance but not *composition*: at higher density the surviving
@@ -238,7 +295,7 @@ makes the test paired against initialization and scale.
    reported with the L diagnostic alongside.
 
 **Pre-committed robustness, reported as headline and not as caveat.**
-Per-cell classification of all 40 cells by a frozen rule into
+Per-cell classification of all 40 cells by the §4 per-site rule into
 {`silent`, `L0-only`, `depth`}, with counts per density. This is 1b's
 own closeout lesson — a pooled statistic hid that its 10/10 was really
 9/10 — and 2c's: a pooled correlation over a battery with 22 tied rungs
@@ -246,10 +303,15 @@ had no per-unit story to fall back on when the omnibus failed. The
 per-cell table is published whatever the slope test returns.
 
 **The frozen prediction's outcome is a named FAIL variant.** If the
-depth slope is null while L is non-zero and tracks pool size, the result
-is `FAIL (layer-0 leakage)` and it is a positive finding about the
-instrument, not an absence. The analysis reports the L-versus-M
-contrast for every cell so this outcome is distinguishable from a flat
+depth slope is null while L is non-zero on the fixed-n arm **and** L
+rises with pool size on the §4 natural-n diagnostic arm, the result is
+`FAIL (layer-0 leakage)` — a positive finding about the instrument, not
+an absence, with its mechanism confirmed rather than merely consistent.
+If L is non-zero but flat in pool size, the result is
+`FAIL (layer-0, mechanism unconfirmed)`: the prediction's outcome held
+and its stated cause did not, and both halves are reported. The analysis
+reports the L-versus-M contrast for every cell so either outcome is
+distinguishable from a flat
 null rather than inferred from it.
 
 ### Power
@@ -352,17 +414,31 @@ the super-critical value by 0.85 p_c would be detected at power 1.000.
      against it and ledgered.
    Failing any of these, the experiment stops at `INSUFFICIENT_DATA` and
    the sweep is not probed.
-4. **Stage B — the sweep**, 40 cells at the terminal checkpoint.
-   Commit per cell, per the campaign rule.
+4. **Stage B — the sweep**, 40 cells at the terminal checkpoint, on both
+   arms: the fixed-n = 400 primary arm with the full per-site null, and
+   the natural-n diagnostic arm with margins only. Commit per cell, per
+   the campaign rule.
 5. **Analysis:** the frozen script, once, after the verdict projection is
    ledgered in `experiments/exp1c/PROGRESS.md`.
 6. **Close-out:** `VERDICT.txt`, retrospective, tag `exp1c-closed`.
 
 **Cost.** No training. **120 probe profiles**: 40 in Stage A (20 known-
 answer cells + 20 twins), 80 in Stage B (40 sweep cells + 40 twin
-profiles). At 8 sites each that is **960 logistic-regression fits** at
-n = 400, plus activation collection over 120 × 400 = 48,000 prompts of
-length 3. Hours, not days, on the Mac. The DGX Sparks stay untouched.
+profiles). At 8 sites each with an `n_perm` = 10,000 permutation null,
+that is 120 × 8 × 10,001 = **9,600,960 logistic-regression fits** at
+n = 400. The §4 natural-n diagnostic arm adds 80 profiles × 8 sites × 1
+fit = **640 more**, since it runs no null — four decimal places below
+the primary arm, which is why it is affordable at all. Activation
+collection is 48,000 prompts of length 3 for the fixed-n arm plus ~55,000
+for the diagnostic arm.
+
+Measured 3.4–3.6 ms/fit at d_model 128 and 256 on synthetic data of the
+right shape, giving **≈9.3 h single-threaded**; real activations converge
+more slowly than Gaussians, so budget 9–20 h of background wall-clock and
+parallelize across cells. That is under half of 1b's 44-hour training
+campaign and buys the resolution §4 requires. The permutation null, not
+the observed fits, is the entire cost: the observed fits alone are 960.
+The DGX Sparks stay untouched.
 
 **This consumes the 80 GB of 1b checkpoints** that has been sitting
 undisposed since the campaign closed. Disposition should wait until 1c
@@ -415,9 +491,12 @@ checkpoints this experiment reads.
    and the design drops to 39/class. The runner must therefore assert the
    count rather than assume it, and record the realized per-class count
    in every profile.
-4. Decide whether the per-cell classification rule thresholds on the
-   permutation null per site or on the margin alone. Must be settled
-   before freeze; it is a verdict-adjacent operationalization.
+4. ~~Decide whether the per-cell classification rule thresholds on the
+   permutation null per site or on the margin alone.~~ **Ruled
+   2026-08-14 (Michael): permutation null per site**, conjoined with the
+   per-site floor correction. Rule, family, α and the raised `n_perm` are
+   specified in §4. Ruled before any 1c probe ran and before the
+   analysis script exists.
 5. Record the capability metric `eval_metric[-1]` for all 40 sweep cells
    from the existing training histories, so the "capability stays flat"
    half of the hypothesis is measured rather than assumed.
