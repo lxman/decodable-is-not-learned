@@ -472,14 +472,34 @@ checkpoints this experiment reads.
 
 ## Open items before first run
 
-1. `analyze_1c.py` written and frozen with fixtures, including one
-   synthetic case per preregistered provision: the verdict tree's
-   precedence order, the block-permutation null, the stratified
-   subsample, the M/L separation, the per-cell classification rule, and
-   the Stage A gate. Mutation-tested in both directions.
-2. `run/run_profile.py` — the 8-site profile runner, reusing Exp 1's
-   collector and probe and 1b's twin construction, with skip-if-exists
-   durability.
+1. ~~`analyze_1c.py` written and frozen with fixtures.~~ **Written
+   2026-08-14, pending the freeze commit.** `analyze_1c.py` carries the
+   per-site rule, both margins, the classification, the block-permutation
+   slope test, the Stage A gate **and its own loader** (§9). 83 fixtures
+   across four files, one synthetic case per preregistered provision.
+   **Mutation-tested: 20 of 20 deliberate defects killed**
+   (`tests/mutation_check.py`), covering both directions of each gate —
+   removing the floor, removing the null, removing Bonferroni, admitting
+   a tie, max-for-mean, inverted classification precedence, a relaxed
+   block floor, a between-block null, two-sided p, population-for-sample
+   sd, a lowered present-row bar, letting the diagnostic arm force a
+   PASS, and skipping either INSUFFICIENT_DATA branch.
+
+   One defect initially **survived** — a per-site train/val split, which
+   would make the eight accuracies incomparable and the mean-over-sites
+   margin an average of eight different experiments. The first repair
+   still missed it, because at the fixture's signal strength the probe
+   scored exactly 1.000 under every split. The test now runs at a
+   separation where accuracy responds to the split. Recorded because the
+   suite's own blind spot is the kind of thing that is invisible
+   afterwards.
+2. ~~`run/run_profile.py` — the 8-site profile runner.~~ **Written
+   2026-08-14.** Torch-free decision logic in `run/profile_lib.py`
+   (subsample, checkpoint mapping, per-site probe) so it is testable
+   without a GPU; orchestration in `run/run_profile.py`. Skip-if-exists
+   durability, one JSON per cell. Checkpoint→model reconstruction
+   verified `strict=True` on 4 of 4 spot cells (939,312 params at 1M;
+   12,870,144 at 10M), state dict only — **not probed**, per §8 step 1.
 3. ~~Confirm the stratified subsample is constructible at 40/class for
    all 40 (density, size, seed) combinations.~~ **Closed 2026-08-14.**
    `lang_kwargs` is a function of `scale` alone — verified identical for
@@ -497,6 +517,25 @@ checkpoints this experiment reads.
    per-site floor correction. Rule, family, α and the raised `n_perm` are
    specified in §4. Ruled before any 1c probe ran and before the
    analysis script exists.
-5. Record the capability metric `eval_metric[-1]` for all 40 sweep cells
-   from the existing training histories, so the "capability stays flat"
-   half of the hypothesis is measured rather than assumed.
+5. ~~Record the capability metric for all 40 sweep cells, so the
+   "capability stays flat" half of the hypothesis is measured rather than
+   assumed.~~ **Closed 2026-08-14 with data.** No history reconstruction
+   was needed — every sweep checkpoint stores its own `eval_metric`. Read
+   from all 40 terminal checkpoints:
+
+   | p / p_c | 1M | 10M |
+   |---|---|---|
+   | 0.25 | 0.0896 | 0.1068 |
+   | 0.45 | 0.1024 | 0.0988 |
+   | 0.65 | 0.0820 | 0.0936 |
+   | 0.85 | 0.1088 | 0.0992 |
+
+   Overall mean **0.0976** against a chance of **0.1000**, range
+   0.0680–0.1360, no trend in density. Capability is flat and at chance
+   across the entire sub-critical sweep. **The preregistered conjunction
+   is therefore live**: if the depth margin rises with density, it rises
+   while the capability metric is pinned at its guessing rate. Had
+   capability itself risen, a positive slope would have been
+   uninterpretable — structure and capability would have moved together
+   and the experiment could not have separated them. The runner reads
+   this same field per cell rather than trusting this table.
