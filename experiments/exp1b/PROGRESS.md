@@ -770,3 +770,39 @@ indistinguishable from noise.
 and the clusters are unambiguous, but bimodality on ten points is suggestive,
 not established. A successor wanting this result should run the row properly
 powered.
+
+---
+
+## 2026-08-14 15:58: CAMPAIGN COMPLETE — VERDICT: PASS
+
+All 60 cells collected. Frozen analysis run once via `run/run_analysis_1b.py`.
+Full record at `results/VERDICT.txt`.
+
+| row | corrected | raw | per-size | CP95 | bar |
+|---|---|---|---|---|---|
+| `grokking` | **9/10** | 10/10 | 5/5, 4/5 | (.5550, .9975) | ≥8/10 |
+| `lubana_above` | **10/10** | 10/10 | 5/5, 5/5 | (.6915, 1.0000) | ≥8/10 |
+| `lubana_below` | **0/10** | 0/10 | 0/5, 0/5 | (.0000, .3085) | 0/10 |
+| `untrained` | — | **9/30** | 5/15, 4/15 | (.1473, .4940) | diagnostic |
+
+30/30 gates certified. One attrition. **This is the program's first PASS**
+(Exp 1 FAIL, Exp 2 INSUFFICIENT_DATA, Exp 2b INSUFFICIENT_DATA, Exp 2c FAIL).
+
+**The pre-committed change is visible in the result.** The floor correction
+demoted exactly one cell — grokking/10M/seed104, trained .017333 against a twin
+of .017333 — turning grokking's raw 10/10 into 9/10. Without it the report
+would have been a clean sweep, and the clean sweep would have been wrong.
+
+**The projection missed**, and it was on the record first: ~6/10 grokking and
+an overall FAIL, versus 9/10 and PASS. The reason is the bimodality entry
+above — a median used as the expectation for a bimodal variable at n=5.
+
+**A gap found at analysis time and disclosed:** `analyze_1b.py` was frozen with
+`verdict()` but no record loader, so nothing in the frozen tree could read the
+campaign off disk. Neither the plan nor the freeze review caught it.
+`run/run_analysis_1b.py` closes it post-freeze — glue only, no filtering,
+verbatim field copy, path-vs-record assertions — and was committed at `d0eedc9`
+**before** being run, so the code that produced the verdict is fixed in history
+prior to the verdict existing.
+
+**Remaining (Michael's):** the retrospective, and the `exp1b-closed` tag.
