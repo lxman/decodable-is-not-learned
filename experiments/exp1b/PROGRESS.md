@@ -706,3 +706,67 @@ validation sets an exact tie between independent fits is unremarkable.
 **Next: the 10M tier**, started 12:13. Fifteen cells, considerably more
 expensive per cell, and the tier the projection expects to break the grokking
 row.
+
+---
+
+## 2026-08-13 21:52: grokking row complete — 9/10 present. The projection missed, and the reason is interesting.
+
+**Row result: 5/5 at 1M + 4/5 at 10M = 9/10 floor-corrected S1-present, against
+a ≥8/10 bar. The grokking row PASSES.**
+
+**The projection, ledgered before any trained data, was ~6/10 and a FAIL. It is
+a miss.** Recorded here as such; the close-out scorecard will report it.
+
+### What actually drives the 10M row: bimodality, not a difference between experiments
+
+| src | seed | below-thresh ckpt | S1 accuracy | twin | ratio |
+|---|---|---|---|---|---|
+| 1b | 100 | 2099 | .1607 | .0227 | 7.09× |
+| 1b | 101 | 704 | .2260 | .0160 | 14.12× |
+| 1b | 102 | 823 | .3033 | .0140 | 21.67× |
+| 1b | 103 | 2099 | .0927 | .0213 | 4.34× |
+| 1b | 104 | 1314 | **.0173** | **.0173** | **1.00×** |
+| exp1 | 0 | 1124 | .0187 | — | — |
+| exp1 | 1 | 2099 | .0227 | — | — |
+| exp1 | 2 | 1796 | .0140 | — | — |
+| exp1 | 3 | 962 | .0167 | — | — |
+| exp1 | 4 | 962 | .2207 | — | — |
+
+**The outcome is bimodal with a clean gap.** Ten cells fall into two clusters —
+reservoir-level (.0140–.0227) and structure (.0927–.3033) — with **4.1×
+separation and nothing in between**. exp 1 drew 1 of 5 in the structure mode;
+1b drew 4 of 5. **Fisher exact two-sided p = 0.2063**: the two experiments are
+statistically indistinguishable. They are the same distribution sampled twice.
+
+**So the projection did not misjudge the systems; it misused n=5.** It took
+exp 1's *median* as the expectation for a bimodal variable whose mode split is
+near a coin flip, i.e. treated a 1-in-5 draw as typical. The lesson generalizes
+past this experiment: a median is the wrong summary of a bimodal outcome, and
+five seeds cannot establish which mode is typical.
+
+**A hypothesis tested and rejected.** The obvious mechanism — that S1 depends on
+*which* checkpoint is "latest below 5% argmax", so early-grokking seeds get
+probed on barely-trained models — does not hold. Correlation between
+`below_threshold_checkpoint` and S1 accuracy across the ten cells is **−0.432**,
+weak and the wrong sign to explain the split. The checkpoint ranges overlap
+almost completely between the two clusters. What separates the modes is not yet
+identified.
+
+### The low mode is literally "nothing above the reservoir"
+
+`grokking/10M/seed104` returned trained accuracy **exactly equal** to its
+untrained twin: .0173 vs .0173. Raw S1 fired; the floor correction demoted it,
+because a tie is not evidence training added anything. **This is the first cell
+where the pre-committed change changed a verdict on real data**, and it is
+`test_equal_accuracy_does_not_count_as_beating_the_twin` firing outside the
+fixture suite.
+
+It also sharpens what the low mode means. It is not "weak structure" — on this
+cell the trained probe read precisely what a randomly initialized network reads.
+At its below-threshold checkpoint, for probing purposes, the trained model was
+indistinguishable from noise.
+
+**Caveat on all of the above:** n = 10 total, 5 per experiment. The gap is clean
+and the clusters are unambiguous, but bimodality on ten points is suggestive,
+not established. A successor wanting this result should run the row properly
+powered.
