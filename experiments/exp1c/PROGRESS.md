@@ -203,11 +203,38 @@ power falls under one half and a FAIL cannot separate "no accumulation" from
 after it, and it is the first time in this program that a power table has
 been fixed against measured variance ahead of the scored run.
 
+## 2026-08-14 — VERDICT PROJECTION, ledgered before the analysis runs
+
+§9 requires the projection on the record before `analyze_1c.verdict()` is
+called. Committed while Stage B was still running, so the git order is not a
+matter of trust.
+
+**Michael's projection: flat depth slope; L0 fires and tracks pool size.**
+
+That is `FAIL (layer-0 leakage)` — the frozen prediction's outcome *and* its
+mechanism, i.e. the strongest of the two FAIL variants the design names. It
+is unchanged from the pre-freeze prediction, and it is now made with Stage A
+in hand: the super-critical margin is +0.1297, the absent-row margin is
+−0.0055 at sd 0.031, layer 0 carries a real but subordinate signal in trained
+above-threshold cells (+0.020 to +0.080, never dominant), and the experiment
+resolves ≥39% of the super-critical margin at 90% power and nothing below
+~23%.
+
+For it to be right, three things must hold together: the depth slope is null;
+the fixed-n L is non-zero; and the natural-n L rises with pool size. Any two
+without the third lands on `FAIL (layer-0, mechanism unconfirmed)` or on a
+plain null, both of which the analysis reports as distinct results.
+
+Recorded so that a hit is not retrofitted and a miss is not quietly dropped.
+1b's projection **missed** — forecast ~6/10 grokking and FAIL, got 9/10 and
+PASS — and the miss was only legible because it had been written down first.
+
 ## Next
 
 1. ~~Campaign driver.~~ Built, `run/campaign_1c.py`, 9 fixtures.
 2. ~~Twins first.~~ **Done: 100/100.**
 3. ~~Stage A gate.~~ **PASS.** Power table finalized and ledgered.
+4. ~~Verdict projection.~~ Ledgered above, before the analysis.
 3. Stage A on 1b's 20 lubana cells; **finalise and ledger the power table
    against the measured sd before Stage B runs.**
 4. Stage B, both arms. Commit per cell.
