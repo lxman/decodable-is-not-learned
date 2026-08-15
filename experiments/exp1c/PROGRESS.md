@@ -146,10 +146,68 @@ alternative would have been to serialize the run for a cosmetic sha.
 wider model gives the probe larger features. The design's 9–20 h estimate was
 single-threaded; at 8 workers the full 200-profile campaign is ~1.2 h.
 
+## 2026-08-14 — STAGE A: PASS (20/20 cells, 0 failed, 28.7 min)
+
+The confirmation gate, run on 1b's 20 lubana cells at the checkpoints 1b
+itself scored, against the twins already on disk.
+
+| row | 1b (argmax S1) | 1c (depth margin) | bar | result |
+|---|---|---|---|---|
+| `lubana_above` | 10/10 present | **9/10 positive**, mean M **+0.1297** | ≥ 8 | pass |
+| `lubana_below` | 0/10 present | sign-flip **p = .71148**, mean M **−0.0055**, 4/10 positive | p ≥ .01 | pass |
+
+Classification: `lubana_above` 8 `depth`, 2 `silent`, **0 `L0-only`**;
+`lubana_below` 10 `silent`.
+
+**The new statistic is stricter than the one it reproduces.** 1b scored
+`lubana_above` 10/10 S1-present on the argmax over 8 sites. The mean over
+the six depth sites demotes two of those cells (10M/seed101 at M = +0.0150,
+1M/seed102 at M = −0.0050) — 9/10 positive, 8/10 classified `depth`. That is
+the intended direction: an argmax over 8 candidates is biased upward, and
+removing the selection removes the bias with it.
+
+**Layer 0 is not silent in the trained above-threshold row.** Every one of
+the ten cells has a positive L (+0.020 to +0.080), yet none classifies
+`L0-only`, because the depth channel dominates in all of them. Descriptive,
+not verdict-touching, and it is the first direct evidence that L and M
+measure different things rather than one leaking into the other.
+
+## 2026-08-14 — POWER TABLE FINALIZED AND LEDGERED, BEFORE STAGE B
+
+Design §5 committed to finalising power against Stage A's **measured** sd
+rather than a guessed one, before Stage B runs. Measured sd of the depth
+margin on the absent row: **0.031042**.
+
+| true margin @0.85 p_c | power | as a fraction of the super-critical margin (+0.1297) |
+|---|---|---|
+| 0.000 | 0.011 | — (Type-I, calibrated at α = .01) |
+| 0.020 | 0.189 | 15% |
+| 0.030 | 0.440 | 23% |
+| **0.040** | **0.713** | **31%** |
+| 0.050 | 0.900 | 39% |
+| 0.060 | 0.977 | 46% |
+| 0.080 | 1.000 | 62% |
+
+**DECLARED UNDERPOWERED, IN ADVANCE.** §5's rule: power ≥ 0.75 at a 0.04
+margin → proceed as designed; below it → declare in advance and either add
+seeds or proceed explicitly underpowered. Measured power at 0.04 is
+**0.713**, under the bar. **Adding seeds is impossible** — 1c trains nothing,
+and the sweep exists only at seeds 100–104. So the experiment proceeds
+explicitly underpowered, declared here before any sweep cell is probed.
+
+What that buys, stated as resolution rather than as a hedge: 1c can detect
+sub-critical accumulation reaching **39% or more** of the super-critical
+margin with ≥90% power, and **31%** with 71% power. Below roughly **23%**,
+power falls under one half and a FAIL cannot separate "no accumulation" from
+"too little to see". That is 2c's epitaph written before the data instead of
+after it, and it is the first time in this program that a power table has
+been fixed against measured variance ahead of the scored run.
+
 ## Next
 
 1. ~~Campaign driver.~~ Built, `run/campaign_1c.py`, 9 fixtures.
 2. ~~Twins first.~~ **Done: 100/100.**
+3. ~~Stage A gate.~~ **PASS.** Power table finalized and ledgered.
 3. Stage A on 1b's 20 lubana cells; **finalise and ledger the power table
    against the measured sd before Stage B runs.**
 4. Stage B, both arms. Commit per cell.
