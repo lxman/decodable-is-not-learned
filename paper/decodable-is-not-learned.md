@@ -1080,9 +1080,13 @@ A third observation from the same scoring is worth stating because it
 runs the other way and is, if anything, the more useful result. The
 two capabilities carrying the second and third highest starved probe
 margins in the battery — character-level string reversal at two
-lengths, margins .699 and .624 — scored exactly zero argmax accuracy
-at all three eval scales. Not near zero: zero, on five hundred items,
-at 12b. The information is linearly decodable from the
+lengths, margins .699 and .624 — scored an outcome of zero at every
+eval scale. The seven-character rung is exactly zero at all three:
+2.8b, 6.9b and 12b, five hundred items each. The other is zero at 2.8b
+and 12b and got **one item of five hundred** right at 6.9b, which does
+not clear its own floor (p = .5) and scores zero, but is not literally
+nothing and is reported here as what it is. The information is
+linearly decodable from the
 representation, survives basis starving, and clears the untrained
 gate, and the model cannot emit it. Decodable is not learned, and on
 this evidence decodable is not *generable* either. A probe margin
