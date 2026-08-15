@@ -65,6 +65,14 @@ before every run.
 holds at 20/20.** That claim appears in `experiment-1c-design.md` and was
 worth re-checking rather than assuming.
 
+## Amendment, 2026-08-15
+
+`run/run_cell.py` was corrected after the tag — inverted `sys.path` order and
+the `render_prompt` source. The frozen artifact differs from
+`exp3a-preregistered` by that one file. No criterion, threshold, floor or
+verdict branch changed; zero records existed at the time. See PROGRESS.md.
+The pre-committed change remains UNSPENT.
+
 ## What could still make this experiment worthless
 
 1. **A null could be a decoding artifact rather than a capability fact.**

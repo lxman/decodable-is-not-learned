@@ -23,9 +23,40 @@ import sys
 from pathlib import Path
 
 EXP3A = Path(__file__).resolve().parents[1]
-for _p in (EXP3A.parent / "exp2c", EXP3A.parent / "exp2b"):
+
+# ORDER MATTERS AND IS NOT COSMETIC. Both trees carry a `harness`, a `battery`
+# package and a `run` package. sys.path.insert(0) puts the LAST inserted
+# FIRST, so exp2b goes in first and exp2c ends up ahead of it. exp2c must win:
+# only its harness defines ITEMS_DIR, answer_type_of, verify and the
+# render_prompt that produced 2c's committed eval numbers, and reproducing
+# those numbers is this experiment's replication gate. exp2b supplies
+# `models`, which exp2c does not define.
+#
+# Corrected post-freeze, disclosed in PROGRESS.md: the original order was
+# reversed, and every cell of the first campaign launch died on
+# `ImportError: cannot import name 'ITEMS_DIR' from 'harness'`. That crash was
+# lucky. Had exp2b's harness happened to define ITEMS_DIR, all 24 cells would
+# have run to completion through the WRONG TREE — a different MAX_NEW_TOKENS
+# and a different verify — and produced plausible wrong numbers. The assertion
+# below exists so this can never again depend on luck.
+for _p in (EXP3A.parent / "exp2b", EXP3A.parent / "exp2c"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
+
+
+def _assert_module_provenance() -> None:
+    """Refuse to run unless each module resolved to the tree it must."""
+    import harness
+    import models
+
+    want = {"harness": EXP3A.parent / "exp2c",
+            "models": EXP3A.parent / "exp2b"}
+    for name, root in want.items():
+        got = Path(sys.modules[name].__file__).resolve()
+        if root.resolve() not in got.parents:
+            raise ImportError(
+                f"{name!r} resolved to {got}, which is not under {root} — "
+                f"this cell would be measured with the wrong tree's code")
 
 SIZES = ("2.8b", "6.9b", "12b")
 MODES = ("trained", "untrained")
@@ -63,8 +94,12 @@ def run_cell(rung: str, size: str, mode: str, out_root=EXP3A) -> dict:
     if out.exists():
         return json.loads(out.read_text())
 
-    from harness import MAX_NEW_TOKENS, HFRunner, verify
-    from battery.base import render_prompt
+    _assert_module_provenance()
+    # render_prompt comes from 2c's harness, not battery.base: exp2b defines it
+    # in battery/base.py and exp2c in harness.py, the two bodies differ, and
+    # 2c's committed eval numbers — the ones the replication gate checks
+    # against — were produced by 2c's.
+    from harness import MAX_NEW_TOKENS, HFRunner, render_prompt, verify
     from models import load_pythia
 
     cap = load_capability(rung)

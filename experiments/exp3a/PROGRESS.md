@@ -46,6 +46,45 @@ the tag; see `FREEZE_CHECKLIST.md`.
 
 **One pre-committed change: UNSPENT.**
 
+## 2026-08-15 — POST-FREEZE CORRECTION TO A FROZEN FILE, disclosed
+
+**`run/run_cell.py` was modified after the `exp3a-preregistered` tag.** The
+frozen artifact now differs from the tag by that one file. Recorded here
+rather than folded quietly into a campaign commit.
+
+**What happened.** The first campaign launch failed on all 24 cells with
+`ImportError: cannot import name 'ITEMS_DIR' from 'harness'`, resolving to
+**exp2b's** harness. The runner's `sys.path` loop inserted exp2c then exp2b,
+and `sys.path.insert(0, ...)` puts the last inserted first — so exp2b won.
+exp2c must win: only its harness defines `ITEMS_DIR`, `answer_type_of`,
+`verify`, and the `render_prompt` that produced 2c's committed eval numbers.
+
+Two changes: the path order is reversed, and `render_prompt` is imported from
+2c's `harness` rather than `battery.base` (exp2b defines it in
+`battery/base.py`, exp2c in `harness.py`, and the two bodies differ — 2c's is
+the one the replication gate checks against).
+
+**Why this is not the pre-committed change.** It alters no criterion, no
+threshold, no floor and no verdict branch. It makes a non-executable runner
+executable. Zero records existed when it was made — the failed launch wrote
+nothing — so there was no data for a design to be tuned against, which is the
+thing a freeze protects. Precedent: 1b wrote and committed its missing record
+loader after its freeze on the same reasoning. **The one pre-committed change
+remains UNSPENT.**
+
+**The crash was lucky, and that is the part worth keeping.** Had exp2b's
+harness happened to define `ITEMS_DIR`, all 24 cells would have run to
+completion through the wrong tree — a different `MAX_NEW_TOKENS`, a different
+`verify` — and produced plausible wrong numbers that nothing downstream would
+have flagged. A `_assert_module_provenance()` guard now refuses to run any
+cell unless `harness` resolves under exp2c and `models` under exp2b.
+
+**Third occurrence of the same mistake in one session.** The identical
+inverted-order bug was written into `paper/refit_per_candidate_2c.py`, caught
+there by its mandatory reproduction check, fixed — and I did not go back to
+check `run_cell.py`, which already had it. Fixing an instance of a bug is not
+fixing the bug.
+
 ## Next
 
 1. Untrained twins first, all 12, before any trained cell.
