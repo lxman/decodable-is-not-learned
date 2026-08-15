@@ -1,0 +1,295 @@
+{
+ "n_checks": 48,
+ "n_failed": 0,
+ "all_ok": true,
+ "constructed_twins": true,
+ "checks": [
+  {
+   "check": "inclusion clock24_d999/1b/trained",
+   "ok": true,
+   "correct": 24,
+   "want_correct": 24,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion clock24_d999/1b/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": 0
+  },
+  {
+   "check": "inclusion clock24_d999/410m/trained",
+   "ok": true,
+   "correct": 18,
+   "want_correct": 18,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion clock24_d999/410m/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": 0
+  },
+  {
+   "check": "inclusion ctrl_copy/1b/trained",
+   "ok": true,
+   "correct": 490,
+   "want_correct": 490,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion ctrl_copy/1b/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": 0
+  },
+  {
+   "check": "inclusion ctrl_copy/410m/trained",
+   "ok": true,
+   "correct": 480,
+   "want_correct": 480,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion ctrl_copy/410m/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": 0
+  },
+  {
+   "check": "inclusion rev_string7/1b/trained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion rev_string7/1b/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": 0
+  },
+  {
+   "check": "inclusion rev_string7/410m/trained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion rev_string7/410m/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": 0
+  },
+  {
+   "check": "inclusion reverse_string/1b/trained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion reverse_string/1b/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "want_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+   "untrained_seed": 0
+  },
+  {
+   "check": "inclusion reverse_string/410m/trained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": null
+  },
+  {
+   "check": "inclusion reverse_string/410m/untrained",
+   "ok": true,
+   "correct": 0,
+   "want_correct": 0,
+   "sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "want_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+   "untrained_seed": 0
+  },
+  {
+   "check": "byte_referent rev_string7/2.8b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent rev_string7/2.8b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent rev_string7/6.9b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent rev_string7/6.9b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent rev_string7/12b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent rev_string7/12b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent reverse_string/2.8b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent reverse_string/2.8b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent reverse_string/6.9b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent reverse_string/6.9b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent reverse_string/12b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent reverse_string/12b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent ctrl_copy/2.8b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent ctrl_copy/2.8b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent ctrl_copy/6.9b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent ctrl_copy/6.9b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent ctrl_copy/12b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent ctrl_copy/12b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent clock24_d999/2.8b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent clock24_d999/2.8b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent clock24_d999/6.9b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent clock24_d999/6.9b/untrained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent clock24_d999/12b/trained",
+   "ok": true
+  },
+  {
+   "check": "byte_referent clock24_d999/12b/untrained",
+   "ok": true
+  },
+  {
+   "check": "floors sha pin",
+   "ok": true,
+   "sha256": "f299fa08314b138c5f741739c7de35e22c0b41e3c6be838505f6c6a22c1a5318"
+  },
+  {
+   "check": "floors recompute-assert",
+   "ok": true,
+   "primaries": {
+    "rev_string7": 0.056,
+    "reverse_string": 0.054,
+    "ctrl_copy": 0.052,
+    "clock24_d999": 0.496
+   }
+  },
+  {
+   "check": "m3 seeds rev_string7/410m",
+   "ok": true,
+   "missing_seeds": []
+  },
+  {
+   "check": "m3 seeds rev_string7/1b",
+   "ok": true,
+   "missing_seeds": []
+  },
+  {
+   "check": "m3 seeds reverse_string/410m",
+   "ok": true,
+   "missing_seeds": []
+  },
+  {
+   "check": "m3 seeds reverse_string/1b",
+   "ok": true,
+   "missing_seeds": []
+  },
+  {
+   "check": "untrained twin constructs 410m seed=0",
+   "ok": true,
+   "state_sha256": "335d46b7c33ed83d238b53fb99d22ff5b3d72d97d44c34ea98a59d2986dfcb2f",
+   "deterministic": true
+  },
+  {
+   "check": "untrained twin constructs 1b seed=0",
+   "ok": true,
+   "state_sha256": "fa3fe1d2b123ffc353c27054e0bb7f3c7112060d48f1f46e944ae5aabcdc37e9",
+   "deterministic": true
+  }
+ ]
+}
