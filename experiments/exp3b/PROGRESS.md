@@ -1,5 +1,56 @@
 # Exp 3b — Progress Ledger
 
+## Verdict projection (ledgered 2026-08-15, BEFORE the first cell — §10.4)
+
+Written after the tag and before any cell has run; no first-character
+quantity exists anywhere at this commit. Graded at close-out against the
+frozen analysis, 1c's practice. Blinder than §10.4 requires (it demands
+only pre-analysis): every number the campaign itself will print
+(full-string accuracy) is already predicted exactly by the committed
+referents, so nothing the driver shows can inform this section — but it
+is written first anyway.
+
+**Gates — all four clean:**
+
+- Gate 1 passes: ctrl_copy first-char ≥ its committed full-string
+  (.960/.980) ≫ critical .086 at floor .052, significant at both sizes.
+- Gate 2 replicates EXACTLY, not merely within CP overlap: greedy is
+  deterministic on this stack and 3a reproduced 2c's committed
+  accuracies byte-for-byte wherever they existed. Expect full-string
+  counts equal to the referents: reversal 0×8, ctrl_copy 480/490,
+  clock24_d999 18/24, untrained 0×8.
+- Gate 3: 0 differing continuations in all 24 overlap cells; the
+  tolerance of 2 goes unused.
+- Gate 4 quiet: all 8 probe-size twins non-significant, contamination
+  empty. An untrained net's modal emission is a constant or garbage
+  first token: a constant letter scores at most its own frequency among
+  answer firsts (≤ the marginal floor by construction), a non-letter
+  scores 0. Either way, below significance at n_tests=1.
+
+**Step 5 — the claim: DISSOCIATION.** All 4 reversal trained probe-size
+cells non-significant (< 46/500 at 410m/1b floors .056, < 44/500 at
+.054). Mechanism, stated so the grade can hit it: the first emitted
+character at these scales is dominated by copy bias — the induction
+pathway reproduces the quoted input's opening character, which matches
+the answer's first character only at the measured copy_first rate
+(~.038–.04, itself below the .056/.054 marginal floors) — plus format
+noise; the probe's .57–.77 margins live in a basis the unembedding does
+not read. Point estimates: reversal first-char .03–.06 per trained
+probe cell; ctrl_copy ~.97/.985; clock24_d999 ~.50–.56 trained
+(marginal-tracking, non-significant against .496); eval-size reversal
+descriptives also at floor.
+
+**Named most-likely miss (the PARTIAL route):** rev_string7/1b clears
+alone — it carries the battery's strongest probe margin (.7725) and the
+most mature emission stack — while 410m sits at floor → PARTIAL with
+rev_string7/1b as the fired cell. **Disconfirmer for the mechanism
+story:** any reversal trained cell at ≥ .12 first-char accuracy means
+copy bias does not dominate and partial emission exists at the probe
+sizes.
+
+**Weights, so the grade is honest:** DISSOCIATION .55, PARTIAL .30 (the
+split above), UNITS_ARTIFACT .10, INSUFFICIENT_DATA .05.
+
 ## Freeze session, 2026-08-15 (third session — tag `exp3b-preregistered`)
 
 Opened adversarially per the protocol: cold re-read of doc + instrument
