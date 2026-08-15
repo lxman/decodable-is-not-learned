@@ -24,3 +24,6 @@ experiments/exp2/results/activations/
 experiments/exp2b/results/activations/
 _build.html
 experiments/exp2c/results/activations/
+
+# Exp 2b per-candidate re-fit output (regenerable from stored activations
+# via paper/refit_per_candidate.py; 500 KB of derived numbers)

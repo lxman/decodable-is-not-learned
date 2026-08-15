@@ -1,0 +1,31 @@
+770 stored fits to replay
+  50/770
+  100/770
+  150/770
+  200/770
+  250/770
+  300/770
+  350/770
+  400/770
+  450/770
+  500/770
+  550/770
+  600/770
+  650/770
+  700/770
+  750/770
+
+replayed 770 fits; 755 reproduce the stored accuracy exactly at the record's own selected site
+wrote /Users/michaeljordan/emergence-paper/paper/per_candidate.json
+
+REPLAY DIVERGED on 15 fits — no summary is emitted from this run; adjudicate the divergence first:
+  1b_mul3x1_seed0.json: stored 0.17718446601941748 != refit 0.17233009708737865
+  1b_oct2dec_seed0.json: stored 0.125 != refit 0.1275
+  1b_roman_seed0.json: stored 0.6759493670886076 != refit 0.6734177215189874
+  410m_sub3_mid_seed3.json: stored 0.08845208845208845 != refit 0.09336609336609336
+  410m_weekday_seed0.json: stored 0.2205128205128205 != refit 0.2153846153846154
+  410m_weekday_seed1.json: stored 0.2146341463414634 != refit 0.21707317073170732
+  410m_weekday_seed2.json: stored 0.16666666666666666 != refit 0.16417910447761194
+  410m_unscramble_seed2.json: stored 0.3273657289002558 != refit 0.3248081841432225
+  410m_units_seed0.json: stored 0.39660056657223797 != refit 0.40226628895184136
+  410m_units_seed1.json: stored 0.3736842105263158 != refit 0.37105263157894736
