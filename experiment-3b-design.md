@@ -147,14 +147,19 @@ committed values exactly wherever they existed. No branch of 3b compares
 against m4, so the record that is missing for `ctrl_copy` there is not
 an input to anything.
 
-**One referent needs a freeze-time compatibility check.**
-`reverse_string`'s inclusion records were produced by 2b's harness.
-2b's and 2c's `render_prompt` bodies produce identical output (verified
-by reading both), but the decode parameters (`MAX_NEW_TOKENS` for its
-`answer_type`, `normalize_answer`, `verify`) must be confirmed equal
-before gate 2 is frozen over that referent. If they differ, the gate for
-that one rung compares 2c-harness collection to a 2b-harness referent
-and would fire on harness provenance rather than drift — open item 5.
+**The one cross-harness referent is confirmed compatible** (checked
+2026-08-15, at design time). `reverse_string`'s inclusion records were
+produced by 2b's harness; every element of that decode path is identical
+to the 2c harness 3b runs: `render_prompt`, `normalize_answer`, `verify`
+(2c's are "2b scoring, verbatim"), `MAX_NEW_TOKENS`
+(`{"number": 8, "word": 12, "letters": 12, "choice": 6}` in both),
+`N_SHOTS_PRIMARY = 2`, `evaluate_argmax`, `HFRunner.generate` (greedy,
+`do_sample=False`, batch 16), and the tokenizer/model constructors —
+3b imports `models` *from* exp2b. `reverse_string`'s `answer_type` is
+`"word"` inline in the 2b item file, which is what 3b's loader reads.
+A gate-2 divergence on this rung can therefore only be genuine
+stack/model drift — the thing the gate exists to detect — not harness
+provenance.
 
 ---
 
@@ -352,9 +357,10 @@ Six routes. The bar is passable and can genuinely fail.
    executed at freeze, results in the freeze checklist.
 4. Recompute per-size probe margins from the m3 seed records; commit
    alongside the floors sha-pin.
-5. **Confirm 2b's inclusion decode parameters match 2c's harness for
-   `reverse_string`** (`MAX_NEW_TOKENS`, `normalize_answer`, `verify`),
-   or rule how gate 2 treats that referent before freezing it.
+5. ~~Confirm 2b's inclusion decode parameters match 2c's harness for
+   `reverse_string`.~~ **RESOLVED 2026-08-15 (design time, ruled by
+   Michael):** verified identical element by element — see §4. Gate 2
+   freezes over the 2b referent as written, no special-casing.
 6. Exact power from the frozen floors, committed.
 7. Confirm the probe-size untrained twins construct at `untrained_seed=0`
    and that their inclusion records' shas match the checkpoints 3b
