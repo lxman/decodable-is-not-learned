@@ -1099,20 +1099,35 @@ A third observation from the same scoring is worth stating because it
 runs the other way and is, if anything, the more useful result. The
 two capabilities carrying the second and third highest starved probe
 margins in the battery — character-level string reversal at two
-lengths, margins .699 and .624 — scored an outcome of zero at every
-eval scale. The seven-character rung is exactly zero at all three:
-2.8b, 6.9b and 12b, five hundred items each. The other is zero at 2.8b
-and 12b and got **one item of five hundred** right at 6.9b, which does
-not clear its own floor (p = .5) and scores zero, but is not literally
-nothing and is reported here as what it is. The information is
-linearly decodable from the
-representation, survives basis starving, and clears the untrained
-gate, and the model cannot emit it. Decodable is not learned, and on
-this evidence decodable is not *generable* either. A probe margin
-licenses a claim about what a representation contains. It does not
-license a claim about what the model will do, and the gap between
-those is not a technicality: here it is the difference between the
-strongest signal in the battery and no behaviour whatsoever.
+lengths — scored an outcome of zero at every eval scale, and as first
+reported that contrast was confounded twice: the probe decoded one
+character where the eval demanded all seven exactly, and the margins
+lived at 410m and 1b while the zeros lived at 2.8b and above. A
+follow-up experiment (preregistered, frozen, run once — tags
+`exp3b-preregistered`, `exp3b-closed` in the supporting record)
+removed both confounds at once: it scored the first character of the
+greedy continuation against the probe's own label, in the probe's own
+26-way space, on the probe's own models. The dissociation survived
+intact. On the same weights where the starved probe reads the answer's
+first character at margins .6263 and .7725 (seven-character reversal,
+410m/1b) and .5731 and .6749 (variable-length), first-character
+emission is .0520/.0280 and .0320/.0260 against marginal floors of
+.056 and .054 — at or below floor in all four cells, while the same
+instrument scores a copy control at .9940 on the same weights. The
+eval-scale zeros stand as committed, including the one item of five
+hundred at 6.9b, which the follow-up reproduced byte for byte. The
+information is linearly decodable from the representation, survives
+basis starving, and clears the untrained gate, and the model does not
+emit even its first character above chance under greedy decoding —
+with the resolution stated: the design cannot distinguish floor from a
+true rate below .092, so this is no emission at that resolution, not a
+certified zero. Decodable is not learned, and on this evidence
+decodable is not *generable* either, now on the same weights, the same
+prompt, and the same label space. A probe margin licenses a claim
+about what a representation contains. It does not license a claim
+about what the model will do, and the gap between those is not a
+technicality: here it is the difference between the strongest signal
+in the battery and behaviour indistinguishable from chance.
 
 ## 9. Limitations
 
