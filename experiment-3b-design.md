@@ -1,12 +1,18 @@
 # Experiment 3b — Design Doc: The Same-Weights Test of the Reversal Dissociation
 
-**Status:** **DRAFT — NOT FROZEN.** And by ruling, not freezable in the
-session that wrote it: 3a compressed design-freeze-run-close into hours,
-and the defect that closed it was discoverable by any cold read. This doc
-is written, then set down. The freeze happens in a later session, after a
-re-read with fresh eyes, tagged `exp3b-preregistered`. The instrument
-will be `experiments/exp3b/` — `analyze_3b.py` with its own loader, a
-runner, and a fixture suite.
+**Status:** **FROZEN 2026-08-15, tag `exp3b-preregistered`.** Designed,
+built and frozen in three separate sessions (boundary = context clear;
+Michael's pacing ruling — 3a compressed design-freeze-run-close into
+hours, and the defect that closed it was discoverable by any cold read).
+The freeze session opened adversarially, assignment "find the 3a-class
+defect"; findings, rulings and the mechanical re-runs are recorded in
+`experiments/exp3b/FREEZE_CHECKLIST.md`. §6 was amended at freeze —
+behaviour identical, every amended reading already fixture-pinned at
+build: gate 1's both-sizes requirement made explicit, gate 4 scoped to
+the probe-size twins, step 5 given its contamination-emptied
+`INSUFFICIENT_DATA` branch. The instrument is `experiments/exp3b/` —
+`analyze_3b.py` with its own loaders, the runner, the committed campaign
+driver, and the 77-fixture suite.
 
 **Predecessors:** `experiment-3a-design.md` (tag `exp3a-closed`,
 INSUFFICIENT_DATA — the frozen verdict could not execute on its own
@@ -205,9 +211,15 @@ test at n_tests = 1, per 3a. **Eval-size cells take no significance
 tests**: they are descriptives, and no branch below reads them except
 gate 3's byte comparison.
 
-1. **Positive control fails** — `ctrl_copy` first-character accuracy not
-   significantly above its floor at **both** probe sizes →
-   `INSUFFICIENT_DATA`. A harness that cannot see emission on a rung
+1. **Positive control fails** — `ctrl_copy` first-character accuracy
+   fails significance against its floor at **either** probe size; the
+   gate passes only when it clears at **both**, because one blind size
+   already invalidates the instrument (wording amended at freeze — the
+   original "not significantly above at both" parsed two ways; the built
+   reading was already pinned by
+   `test_gate1_requires_both_probe_sizes_not_either` and battery
+   `id_gate1_ctrl_dead`) → `INSUFFICIENT_DATA`. A harness that cannot
+   see emission on a rung
    committed at .960/.980 full-string is not measuring emission. (First
    character ≥ full string by construction, so the expected value is
    ≥ .96 against a .052 floor; this gate fails only if the instrument is
@@ -225,17 +237,34 @@ gate 3's byte comparison.
    physically possible, and a gate that can kill the experiment over one
    flipped tie is 3a's crash with better manners. Every differing item
    is disclosed verbatim in the record regardless of count.
-4. **Untrained twin fires** — any untrained cell significantly above its
-   floor → reported, affected rung marked contaminated and excluded from
-   step 5's universal quantifiers.
+4. **Untrained twin fires** — any **probe-size** untrained cell
+   significantly above its floor → reported, affected rung marked
+   contaminated and excluded from step 5's universal quantifiers. The
+   scope is the 8 probe-size twins only, per this section's preamble:
+   eval-size cells take no significance tests, so an eval-size twin fire
+   is a descriptive fact in the record and contaminates nothing (scope
+   amended at freeze to state the built reading, ruling 1 in the freeze
+   checklist; `test_eval_size_twin_fire_is_not_contamination`, battery
+   `eval_twin_fire_is_not_contamination`).
 5. **Adjudicate the claim** on the 4 reversal trained cells at the probe
-   sizes (`rev_string7`, `reverse_string` × 410m, 1b):
-   - **UNITS_ARTIFACT** — significantly above floor in **all 4**.
-   - **DISSOCIATION** — significantly above floor in **none of 4**,
-     against same-weights probe margins .63/.77 (rev_string7) and
-     .57/.67 (reverse_string).
+   sizes (`rev_string7`, `reverse_string` × 410m, 1b), quantifying over
+   the cells step 4 left eligible:
+   - **UNITS_ARTIFACT** — significantly above floor in **all** eligible
+     cells (all 4 when nothing is contaminated).
+   - **DISSOCIATION** — significantly above floor in **none** of the
+     eligible cells, against same-weights probe margins .63/.77
+     (rev_string7) and .57/.67 (reverse_string).
    - **PARTIAL** — anything else, reported per cell with sizes and rungs
      named as headline, not caveat.
+
+   If contamination has emptied the eligible set — both reversal rungs
+   excluded — the claim has no cells to quantify over and the verdict is
+   `INSUFFICIENT_DATA`: `all([])` is vacuously true, and a vacuous
+   universal quantifier must not be allowed to adjudicate (branch
+   added at freeze, ruling 2 in the freeze checklist;
+   `test_both_rungs_contaminated_is_insufficient_data`, battery
+   `contaminated_both_rungs`, mutant "vacuous quantifier allowed to
+   adjudicate" killed at build).
 
 `clock24_d999` participates in gates and in the Bonferroni count but not
 in step 5: it is the no-units-gap, probe-absent quadrant of the 2×2, and
@@ -345,6 +374,10 @@ Six routes. The bar is passable and can genuinely fail.
 ---
 
 ## Open items before freeze
+
+**All seven closed before the tag** — 1–4, 6 and 7 in the build session
+(`experiments/exp3b/PROGRESS.md`, commits fbf7819…bb63b54), 5 at design
+time (struck below). Freeze evidence: `experiments/exp3b/FREEZE_CHECKLIST.md`.
 
 1. `analyze_3b.py` + fixture suite, one synthetic case per preregistered
    provision, mutation-tested in both directions.

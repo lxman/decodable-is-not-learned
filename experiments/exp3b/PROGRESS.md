@@ -1,5 +1,48 @@
 # Exp 3b — Progress Ledger
 
+## Freeze session, 2026-08-15 (third session — tag `exp3b-preregistered`)
+
+Opened adversarially per the protocol: cold re-read of doc + instrument
+with the assignment "find the 3a-class defect — input with no value,
+control missing referent, unsatisfiable criterion". **The defect was
+hunted and not found**; full findings in `FREEZE_CHECKLIST.md`, including
+two new verifications the build had not run (gate 2's referent-generating
+process read line-by-line against the runner's; `probe_label[0] ==
+answer[0]` on all 2000 committed items, so floor space ≡ scored space)
+and two note-only observations (clock24_d999's "1-symbol answer" is loose
+— 311/500 answers are two digits, no behavioural consequence; the
+runner's is-file item routing vs the analyzer's RUNGS_2B constant, closed
+by the verified absence of `exp2c/battery/items/reverse_string.json`).
+
+**Rulings** (checklist "Rulings", §6 amended, no code touched):
+
+1. Gate-4 scope BLESSED as implemented — probe-size twins only, preamble
+   governs; eval-size twin fire is descriptive. §6 step 4 amended.
+2. Both-reversal-rungs-contaminated BLESSED as implemented —
+   INSUFFICIENT_DATA; `all([])` must not adjudicate. §6 step 5 amended.
+3. NEW (this session's read): gate 1's "not significantly above at both"
+   parsed two ways; amended to the built reading — the gate passes only
+   when ctrl_copy clears floor at BOTH probe sizes. Fixture-pinned at
+   build (`test_gate1_requires_both_probe_sizes_not_either`).
+
+**Mechanical re-runs, cold**: 77/77 fixtures (1.01s); mutation KILLED
+35/35, baseline clean, two full passes; full-shape 9/9 ALL TERMINAL
+BRANCHES REACHED; `verify_referents.py --construct` 48/48 with
+byte-identical `referent_check.json`; `compute_probe_margins.py` and
+`compute_power.py` idempotent (zero git diff). Invariant intact: **no
+first-character accuracy has been computed for any real cell, any size,
+any mode** — no `results/` directory exists; every scored continuation
+this session was synthetic.
+
+The frozen artifact: design doc (status flipped, §6 amended) + all exp3b
+code byte-identical to the build commits + this ledger + the checklist.
+One pre-committed change: UNSPENT.
+
+**Next (campaign, §10)**: verdict projection ledgered HERE before the
+frozen analysis runs once; driver `run/campaign_3b.py` — all 20 untrained
+twins, then trained 410m → 1b → 2.8b → 6.9b → 12b, commit per cell,
+~100 min inference, Mac only, Sparks untouched.
+
 ## Build session, 2026-08-15 (post-design, pre-freeze — NO TAG)
 
 Three-session protocol (Michael's pacing ruling, 2026-08-15): design |
