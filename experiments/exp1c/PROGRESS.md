@@ -229,12 +229,51 @@ Recorded so that a hit is not retrofitted and a miss is not quietly dropped.
 1b's projection **missed** — forecast ~6/10 grokking and FAIL, got 9/10 and
 PASS — and the miss was only legible because it had been written down first.
 
+## 2026-08-14 — STAGE B COMPLETE, then CLOSED: VERDICT FAIL
+
+Stage B 80/80, 0 failed, 42.4 min. Campaign total **200 profiles, 0 failures**
+across three phases (twins 100/100 in 40.6 m, Stage A 20/20 in 28.7 m,
+Stage B 80/80 in 42.4 m).
+
+    depth-margin slope  +0.02458   block p 0.07431   n_blocks 10 of 10
+    per-cell classes    silent 40 / 40   depth 0   L0-only 0
+    site-level fires    0 of 320 trained sub-critical sites (CP95 <= .01146)
+    capability          0.0878-0.1040 vs chance 0.1000 — flat, as measured
+                        before the freeze
+
+**The projection missed.** Ledgered at `c54ca41` before the analysis: flat
+depth slope, L0 fires, L tracks pool size. Flat slope RIGHT (p .07431); L0
+fires WRONG (0 of 320 sites, 0 of 40 cells); L tracks pool WRONG (slope
+−2.4e−05, p .81261, wrong sign). Outcome held, mechanism did not; the analysis
+returns `variant: none` because nothing fired to name. Second consecutive
+projection miss, and both were legible only because written first.
+
+**First clean null in the program.** 0 of 480 twin sites and 0 of 320 trained
+sites. Exp 2's control fired 120/120; 2b's caught 13/25; 2c's chance floor
+manufactured signal. Neither the models nor the apparatus fired spuriously
+here.
+
+**Process gap, disclosed.** `verdict()` takes `natural_l0_tracks_pool` and the
+frozen module has no function computing it. Rule frozen in §4; implementation
+(`run/pool_trend.py`) written after Stage B, committed before being run
+(`7e49f6e`), and it changed nothing — `variant` was `none` regardless. This is
+1b's missing-loader defect one level over, in the experiment that fixed the
+loader.
+
+**The one pre-committed change was NOT spent.**
+
+See `results/VERDICT.txt` and `results/retrospective.md`. Tag `exp1c-closed`.
+
 ## Next
 
 1. ~~Campaign driver.~~ Built, `run/campaign_1c.py`, 9 fixtures.
 2. ~~Twins first.~~ **Done: 100/100.**
 3. ~~Stage A gate.~~ **PASS.** Power table finalized and ledgered.
-4. ~~Verdict projection.~~ Ledgered above, before the analysis.
+4. ~~Verdict projection.~~ Ledgered before the analysis.
+5. ~~Stage B + analysis + closeout.~~ **CLOSED, VERDICT FAIL.**
+
+Successors are in `results/retrospective.md` §7. The load-bearing one: freeze
+every input the verdict function takes, not just the loader.
 3. Stage A on 1b's 20 lubana cells; **finalise and ledger the power table
    against the measured sd before Stage B runs.**
 4. Stage B, both arms. Commit per cell.

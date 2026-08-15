@@ -1,0 +1,116 @@
+EXPERIMENT 1c — FORMAL VERDICT (recorded 2026-08-14)
+
+VERDICT: FAIL          variant: none
+
+    depth-margin slope   +0.02458
+    block p               0.07431   (exact within-block 4! relabeling of the
+                                     four density levels, 10 blocks, 100,000
+                                     sampled draws, one-sided positive)
+    n_blocks              10 of 10  — no attrition, the dual floor never in play
+    per-cell classes      silent 40 / 40      depth 0      L0-only 0
+    site-level fires      0 of 320 trained sub-critical sites (CP95 <= .01146)
+
+Mechanism: the frozen verdict tree (design §5, analyze_1c.py, run unmodified)
+reaches FAIL on its own precedence. Stage A passed, the 0.50 p_c consistency
+check passed, all 10 blocks were live, and the slope test then failed its bar
+(p .07431 > .01). No branch was skipped and none was reached out of order.
+
+THE HYPOTHESIS. Below the percolation threshold, does linearly decodable class
+structure accumulate with graph density while the capability metric stays flat?
+Measured across 0.25 / 0.45 / 0.65 / 0.85 p_c on 40 cells that exp1's S3 graph
+branch trained during the 1b campaign and from which one scalar each had been
+taken — 1,800 checkpoints the probe had never touched.
+
+ANSWER, within the declared resolution: no. Nothing is decodable below p_c —
+not at depth, not at layer 0, not above the twin at any of the 8 sites in any
+of the 40 cells.
+
+WHAT THE CONJUNCTION DID. Both halves were measured, neither assumed.
+  capability   0.0878 - 0.1040 across densities against a chance of 0.1000,
+               flat and at chance, read from each checkpoint's own eval_metric
+               and confirmed before the freeze.
+  structure    depth margin mean -0.00404 (sd .02267), 19 of 40 positive;
+               layer-0 margin mean -0.00225 (sd .02452), 17 of 40 positive.
+  Both flat. The conjunction is not satisfied in the interesting direction.
+
+BY DENSITY (fixed arm, mean over 10 cells each)
+    p/p_c    depth margin M        layer-0 L     capability
+    0.25       -0.0172 (sd .0267)    -0.0210       0.0982
+    0.45       +0.0070 (sd .0179)    +0.0105       0.1006
+    0.65       -0.0113 (sd .0113)    -0.0075       0.0878
+    0.85       +0.0053 (sd .0241)    +0.0090       0.1040
+
+The sequence is not monotone. The positive pooled slope is driven by the
+LOWEST density reading BELOW its twins (-0.0172 at 0.25 p_c), not by the
+highest density rising: M at 0.85 p_c is +0.00533 (sd .02415, n=10), which is
+4.1% of the super-critical margin. Per-block slopes are 6 of 10 positive with
+sd .0566 against a mean of .0246 — a spread more than twice the effect.
+
+WHAT THIS FAIL DOES AND DOES NOT ESTABLISH — declared before the data, in
+PROGRESS.md and commit 62a583b, not reconstructed afterwards. The power table
+was finalised against Stage A's MEASURED sd of 0.031042 and the experiment was
+DECLARED UNDERPOWERED before a single sweep cell was probed: power is .713 at a
+0.04 margin, under the preregistered .75 bar, and adding seeds was impossible
+because 1c trains nothing and the sweep exists only at seeds 100-104.
+
+  ruled out   sub-critical accumulation reaching >= 39% of the super-critical
+              margin (>= 90% power), and >= 31% (71% power).
+  NOT ruled out
+              accumulation below roughly 23% of the super-critical margin,
+              where power falls under one half. The observed 4.1% sits deep
+              inside that blind region.
+
+So: the carve-out survives its own measurement at the resolution this battery
+could deliver, and is untested below it.
+
+GATE SCOREBOARD
+  STAGE A (known answers, 20 cells at the checkpoints 1b itself scored): PASS.
+    lubana_above  9/10 depth margin positive, mean +0.1297  (bar >= 8)
+    lubana_below  sign-flip p .71148, mean -0.0055          (bar p >= .01)
+    Classification: above 8 depth / 2 silent / 0 L0-only; below 10 silent.
+    The new statistic is STRICTER than the one it reproduces: 1b scored
+    lubana_above 10/10 S1-present on an argmax over 8 sites, and the mean over
+    six depth sites demotes two of those cells. Intended — an argmax over 8
+    candidates is biased upward.
+  UNTRAINED CONTROL: 0 of 480 twin sites fire (CP95 <= .00766). Against Exp 2,
+    whose control fired 120 of 120 and ended that experiment, and 2b's, which
+    caught leaks in 13 of 25 capabilities.
+  0.50 p_c CONSISTENCY: PASS. The sweep brackets the scored lubana_below row;
+    1c reads it silent, as 1b's closed record did.
+  ATTRITION: none. 200 of 200 profiles collected, 0 failures across three
+    phases (twins 100/100, Stage A 20/20, Stage B 80/80).
+
+THE PROJECTION MISSED, and was on the record first (commit c54ca41, pushed
+while Stage B was still running). Michael projected: flat depth slope, L0
+fires, and L tracks pool size — i.e. FAIL (layer-0 leakage), the stronger of
+the two named FAIL variants.
+
+  flat depth slope     RIGHT.  slope +.0246 at p .07431, short of the bar.
+  L0 fires             WRONG.  0 of 320 sites; 0 of 40 cells classed L0-only
+                               (CP95 <= .08810).
+  L tracks pool size   WRONG.  natural-arm regression of L on pool size gives
+                               slope -2.398e-05 at p .81261 — indistinguishable
+                               from zero and the wrong sign.
+
+The predicted OUTCOME held and the predicted MECHANISM did not. The analysis
+returns variant: none rather than either layer-0 variant, because nothing fired
+to name. The pre-freeze prediction was the same, so this is one miss recorded
+twice, not two independent ones.
+
+THE FIRST CLEAN NULL IN THE PROGRAM. Exp 2's untrained control fired on the
+whole battery; 2b's caught surface-statistics leaks in 13 of 25; 2c's ~0
+untrained floors credited format-only competence its guessing rate and
+manufactured signal, taking rho from .368 to .2005 when corrected. Here neither
+the models nor the apparatus produced a spurious fire: 0 of 480 twin sites and
+0 of 320 trained sites. The instrument stayed silent on silence.
+
+PROCESS GAP, DISCLOSED. verdict() accepts natural_l0_tracks_pool as an input
+but the frozen module contains no function computing it, and that quantity
+selects between the two named FAIL variants. The RULE was frozen in design §4
+before any probe ran; the IMPLEMENTATION (run/pool_trend.py) was written after
+Stage B and committed before being run (7e49f6e). It did not touch this
+verdict — variant was none regardless, since no cell classified L0-only. This
+is 1b's missing-loader gap reproduced one level over, in an experiment whose
+design doc explicitly fixed that gap.
+
+THE ONE PRE-COMMITTED CHANGE WAS NOT SPENT.
