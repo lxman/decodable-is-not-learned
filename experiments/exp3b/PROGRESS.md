@@ -1,5 +1,40 @@
 # Exp 3b — Progress Ledger
 
+## Campaign, 2026-08-15 — COMPLETE: 40/40 cells, 0 failed
+
+Committed order held: all 20 untrained twins first, then trained
+410m → 1b → 2.8b → 6.9b → 12b. One commit per cell (the committer loop),
+each pushed on landing. Total inference ~75 min wall clock. **No
+first-character quantity has been computed for any cell; the frozen
+analysis has not run.**
+
+Full-string accuracies, all cells (the log's per-cell lines; referent
+agreement is gate 2/3's to adjudicate, not this ledger's):
+
+- untrained, all 20 cells: 0.0000 — exactly the committed expectation.
+- trained probe sizes: rev_string7 0/0, reverse_string 0/0, ctrl_copy
+  **.9600/.9800**, clock24_d999 **.0360/.0480** (410m/1b) — the four
+  non-zero referents reproduced to the count (480/490, 18/24 of 500).
+- trained eval sizes (2.8b/6.9b/12b): rev_string7 0/0/0 — the famous
+  zero, reproduced; reverse_string 0/**.0020**/0; ctrl_copy
+  .9900/.9960/.9940; clock24_d999 .0440/.0580/.0500.
+
+**Operational disclosure (provenance, ledgered before analysis):** the
+original single-process driver OOM'd the machine mid-campaign — PyTorch's
+MPS allocator caches freed weights per process, so one process walking
+the five-size ladder ratcheted to a measured 34 GB resident (system
+notice attributed 61 GB to the tree) around cell 15/40. The driver was
+killed between records (cell records are write-once at completion; the
+one in-flight cell re-ran) and the campaign resumed **tier-per-process**
+using the frozen driver's own preregistered `--only-mode/--only-size`
+flags, in the identical committed order — 7 further invocations, one per
+(mode, size) tier, each exiting and freeing memory before the next.
+skip-if-exists made the restarts lossless; no frozen file was modified;
+the collected records are byte-wise indistinguishable from a
+single-process run (same runner, same per-cell code path). Michael's
+mlx text-server (com.mlx.text-server, ~7 GB) was booted out for the 12b
+tiers at his instruction and restored after the last cell.
+
 ## Verdict projection (ledgered 2026-08-15, BEFORE the first cell — §10.4)
 
 Written after the tag and before any cell has run; no first-character

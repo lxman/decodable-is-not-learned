@@ -1,0 +1,75 @@
+[3b] 40 cells selected, 0 already done, 40 to run, sequential
+  done 1/40 rev_string7/410m/untrained full_string=0.0000 18s | elapsed 0.3m eta 11.7m
+  done 2/40 reverse_string/410m/untrained full_string=0.0000 12s | elapsed 0.5m eta 9.6m
+  done 3/40 ctrl_copy/410m/untrained full_string=0.0000 12s | elapsed 0.7m eta 8.7m
+  done 4/40 clock24_d999/410m/untrained full_string=0.0000 13s | elapsed 0.9m eta 8.3m
+  done 5/40 rev_string7/1b/untrained full_string=0.0000 26s | elapsed 1.4m eta 9.5m
+  done 6/40 reverse_string/1b/untrained full_string=0.0000 23s | elapsed 1.7m eta 9.9m
+  done 7/40 ctrl_copy/1b/untrained full_string=0.0000 23s | elapsed 2.1m eta 10.0m
+  done 8/40 clock24_d999/1b/untrained full_string=0.0000 26s | elapsed 2.6m eta 10.3m
+  done 9/40 rev_string7/2.8b/untrained full_string=0.0000 71s | elapsed 3.8m eta 12.9m
+  done 10/40 reverse_string/2.8b/untrained full_string=0.0000 65s | elapsed 4.8m eta 14.5m
+  done 11/40 ctrl_copy/2.8b/untrained full_string=0.0000 63s | elapsed 5.9m eta 15.5m
+  done 12/40 clock24_d999/2.8b/untrained full_string=0.0000 73s | elapsed 7.1m eta 16.6m
+  done 13/40 rev_string7/6.9b/untrained full_string=0.0000 164s | elapsed 9.8m eta 20.4m
+  done 14/40 reverse_string/6.9b/untrained full_string=0.0000 157s | elapsed 12.5m eta 23.1m
+  done 15/40 ctrl_copy/6.9b/untrained full_string=0.0000 158s | elapsed 15.1m eta 25.1m
+[3b] 4 cells selected, 3 already done, 1 to run, sequential
+  done 1/1 clock24_d999/6.9b/untrained full_string=0.0000 175s | elapsed 2.9m eta 0.0m
+[3b] complete: 1 ok, 0 failed, 2.9m
+[3b] 4 cells selected, 0 already done, 4 to run, sequential
+  done 1/4 rev_string7/12b/untrained full_string=0.0000 279s | elapsed 4.6m eta 13.9m
+  done 2/4 reverse_string/12b/untrained full_string=0.0000 307s | elapsed 9.8m eta 9.8m
+  done 3/4 ctrl_copy/12b/untrained full_string=0.0000 296s | elapsed 14.7m eta 4.9m
+  done 4/4 clock24_d999/12b/untrained full_string=0.0000 342s | elapsed 20.4m eta 0.0m
+[3b] complete: 4 ok, 0 failed, 20.4m
+[3b] 4 cells selected, 0 already done, 4 to run, sequential
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 9875.24it/s]
+  done 1/4 rev_string7/410m/trained full_string=0.0000 13s | elapsed 0.2m eta 0.6m
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 33894.30it/s]
+  done 2/4 reverse_string/410m/trained full_string=0.0000 9s | elapsed 0.4m eta 0.4m
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 35649.45it/s]
+  done 3/4 ctrl_copy/410m/trained full_string=0.9600 8s | elapsed 0.5m eta 0.2m
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 34589.27it/s]
+  done 4/4 clock24_d999/410m/trained full_string=0.0360 10s | elapsed 0.7m eta 0.0m
+[3b] complete: 4 ok, 0 failed, 0.7m
+[3b] 4 cells selected, 0 already done, 4 to run, sequential
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 8709.53it/s]
+  done 1/4 rev_string7/1b/trained full_string=0.0000 20s | elapsed 0.3m eta 1.0m
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 33607.93it/s]
+  done 2/4 reverse_string/1b/trained full_string=0.0000 15s | elapsed 0.6m eta 0.6m
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 30697.67it/s]
+  done 3/4 ctrl_copy/1b/trained full_string=0.9800 15s | elapsed 0.8m eta 0.3m
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 32925.49it/s]
+  done 4/4 clock24_d999/1b/trained full_string=0.0480 19s | elapsed 1.1m eta 0.0m
+[3b] complete: 4 ok, 0 failed, 1.1m
+[3b] 4 cells selected, 0 already done, 4 to run, sequential
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 8418.11it/s]
+  done 1/4 rev_string7/2.8b/trained full_string=0.0000 50s | elapsed 0.8m eta 2.5m
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 33451.66it/s]
+  done 2/4 reverse_string/2.8b/trained full_string=0.0000 42s | elapsed 1.5m eta 1.5m
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 29959.31it/s]
+  done 3/4 ctrl_copy/2.8b/trained full_string=0.9900 41s | elapsed 2.2m eta 0.7m
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 46996.36it/s]
+  done 4/4 clock24_d999/2.8b/trained full_string=0.0440 50s | elapsed 3.0m eta 0.0m
+[3b] complete: 4 ok, 0 failed, 3.0m
+[3b] 4 cells selected, 0 already done, 4 to run, sequential
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 8134.47it/s]
+  done 1/4 rev_string7/6.9b/trained full_string=0.0000 110s | elapsed 1.8m eta 5.5m
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 16422.69it/s]
+  done 2/4 reverse_string/6.9b/trained full_string=0.0020 92s | elapsed 3.4m eta 3.4m
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 35769.96it/s]
+  done 3/4 ctrl_copy/6.9b/trained full_string=0.9960 91s | elapsed 4.9m eta 1.6m
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 31315.83it/s]
+  done 4/4 clock24_d999/6.9b/trained full_string=0.0580 113s | elapsed 6.8m eta 0.0m
+[3b] complete: 4 ok, 0 failed, 6.8m
+[3b] 4 cells selected, 0 already done, 4 to run, sequential
+Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]Loading weights: 100%|██████████| 436/436 [00:00<00:00, 8020.44it/s]
+  done 1/4 rev_string7/12b/trained full_string=0.0000 189s | elapsed 3.2m eta 9.5m
+Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]Loading weights: 100%|██████████| 436/436 [00:00<00:00, 9166.22it/s]
+  done 2/4 reverse_string/12b/trained full_string=0.0000 188s | elapsed 6.3m eta 6.3m
+Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]Loading weights: 100%|██████████| 436/436 [00:00<00:00, 10301.00it/s]
+  done 3/4 ctrl_copy/12b/trained full_string=0.9940 168s | elapsed 9.1m eta 3.0m
+Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]Loading weights: 100%|██████████| 436/436 [00:00<00:00, 9834.19it/s]
+  done 4/4 clock24_d999/12b/trained full_string=0.0500 205s | elapsed 12.5m eta 0.0m
+[3b] complete: 4 ok, 0 failed, 12.5m
