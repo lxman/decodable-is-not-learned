@@ -1,0 +1,59 @@
+EXPERIMENT 3a — FORMAL VERDICT (recorded 2026-08-15)
+
+VERDICT: INSUFFICIENT_DATA
+
+    cause     the frozen analysis cannot execute on the battery it was
+              frozen against
+    campaign  24 of 24 cells collected, 0 failures, 81.2 min
+    gate      replication: 9 of 12 trained cells reproduce 2c's committed
+              accuracy EXACTLY; 3 have no referent to reproduce
+
+Mechanism. The frozen verdict tree (design §5) adjudicates a replication
+check over every trained cell:
+
+    abs(float(c["full_string_acc"]) - float(c["committed_2c_acc"])) > 0.02
+
+`ctrl_copy` was never evaluated by Exp 2c on the eval ladder. It exists in
+2c as a probe-side known_present control and as gate 4 at the PROBE sizes
+(410m/1b, .960/.980); there is no m4 record at 2.8b/6.9b/12b. So
+`committed_2c_acc` is None for three trained cells and `float(None)` raises
+TypeError. The analysis does not return a wrong verdict — it cannot run.
+
+WHAT THE COLLECTED DATA DOES SHOW, and it is only the gate:
+    clock24_d999   2.8b .0440  6.9b .0580  12b .0500   all == 2c committed
+    rev_string7    2.8b .0000  6.9b .0000  12b .0000   all == 2c committed
+    reverse_string 2.8b .0000  6.9b .0020  12b .0000   all == 2c committed
+    ctrl_copy      2.8b .9900  6.9b .9960  12b .9940   no 2c referent
+
+The reverse_string/6.9b value of .0020 independently reproduces the single
+correct item in five hundred that this program corrected in the methods
+paper earlier the same day.
+
+THE PRIMARY STATISTIC WAS NEVER COMPUTED. First-character accuracy has not
+been calculated for any cell, at any size, in any mode. The verdict tree
+halts at the replication gate, which precedes the claim, and no analysis was
+run past it. This is stated because it is the condition under which a
+successor may be designed: nobody has seen the outcome.
+
+WHY THIS IS INSUFFICIENT_DATA AND NOT AN AMENDMENT. Three amendments were
+available and all were declined by Michael in favour of the strict reading:
+skipping referentless cells as a defect fix, spending the one pre-committed
+change on the same edit, or ruling ctrl_copy out of the gate. Each would have
+been made while holding the data, and each would have made INSUFFICIENT_DATA
+marginally less reachable. The instrument was frozen against a battery it
+could not adjudicate; that is the instrument's result, and the program's
+rule is that a frozen criterion binds.
+
+THE DEFECT WAS DISCOVERABLE AT FREEZE TIME. Open item 4 of the design
+confirmed the untrained twin was constructible. Nothing confirmed that every
+trained cell had a committed 2c value for the gate to compare against. The
+freeze checklist verified that every input verdict() takes has a frozen
+PRODUCER — 1c's gap — and did not verify that every input has a defined
+VALUE on this battery.
+
+THE ONE PRE-COMMITTED CHANGE WAS NOT SPENT.
+
+THE COLLECTED CELLS ARE KEPT. Greedy decoding over fixed prompts is
+deterministic, so a successor re-running the same cells must reproduce these
+continuations byte for byte. They are retained as the reproduction referent
+for that successor, not as its data.
