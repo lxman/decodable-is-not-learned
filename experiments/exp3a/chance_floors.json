@@ -1,0 +1,42 @@
+{
+ "rev_string7": {
+  "uniform": 0.038461538461538464,
+  "marginal": 0.056,
+  "copy_first": 0.048,
+  "copy_whole": 0.0,
+  "copy_is_the_task": false,
+  "primary": 0.056,
+  "primary_source": "marginal",
+  "n_items": 500
+ },
+ "ctrl_copy": {
+  "uniform": 0.038461538461538464,
+  "marginal": 0.052,
+  "copy_first": 1.0,
+  "copy_whole": 1.0,
+  "copy_is_the_task": true,
+  "primary": 0.052,
+  "primary_source": "marginal",
+  "n_items": 500
+ },
+ "clock24_d999": {
+  "uniform": 0.038461538461538464,
+  "marginal": 0.496,
+  "copy_first": 0.0,
+  "copy_whole": 0.0,
+  "copy_is_the_task": false,
+  "primary": 0.496,
+  "primary_source": "marginal",
+  "n_items": 500
+ },
+ "reverse_string": {
+  "uniform": 0.038461538461538464,
+  "marginal": 0.054,
+  "copy_first": 0.028,
+  "copy_whole": 0.0,
+  "copy_is_the_task": false,
+  "primary": 0.054,
+  "primary_source": "marginal",
+  "n_items": 500
+ }
+}
