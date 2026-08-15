@@ -1,0 +1,15 @@
+690 stored 2c fits to replay
+  100/690
+  200/690
+  300/690
+  400/690
+  500/690
+  600/690
+
+replayed 690 fits; 687 reproduce exactly
+wrote /Users/michaeljordan/emergence-paper/paper/per_candidate_2c.json
+
+3 did not reproduce:
+  1b_hamming8_seed3.json: stored 0.28468033775633295 != refit 0.27864897466827504
+  1b_hamming8_seed0.json: stored 0.27409261576971217 != refit 0.26783479349186484
+  410m_hamming8_seed3.json: stored 0.3027744270205066 != refit 0.2991556091676719

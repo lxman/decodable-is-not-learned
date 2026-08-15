@@ -836,15 +836,34 @@ control condition. The selected site was also the highest-accuracy site
 in 92 to 100 percent of fits across stages, so in practice the rule
 reports a maximum whatever its tie-breaking says.
 
-The prescription is not to prefer the mean — if a representation's
-signal is genuinely localized to one block, a mean over fourteen sites
-dilutes it, and the maximum is the more sensitive statistic. The
-maximum is not wrong; it is answering a different question. What is
-wrong is reporting one number of either kind and letting the reader
-supply the interpretation. **Report the per-site profile, with the
-untrained twin's value beside each site.** Every candidate was already
-fit in order to take the maximum, so the cost is storage, not compute —
-and storage is what we failed to spend.
+The same measurement on the successor battery, replayed the same way,
+gives the same answer: selected site 0.1393 against a candidate mean of
+0.1045 on untrained networks, a ratio of 1.33 and positive in **227 of
+227** fits. Two independent batteries, two model sizes each, no
+exceptions in either.
+
+What the successor battery also shows is that the artifact was not
+holding its result up. Its primary statistic is a rank correlation over
+these selected values; recomputing that correlation with the profile
+mean in place of the selected site moves it from .431 to .456 — very
+slightly *up*. (Neither figure is that experiment's frozen verdict,
+which normalizes against a permutation null and zeroes below a
+significance bar; the contrast is what matters, and both sides of it use
+the identical aggregation over 22 rungs.) This is the opposite of §8's
+floor defect, where correcting the artifact cut the correlation from
+.368 to .200. A selection artifact is not automatically load-bearing,
+and we would be overclaiming to say that finding it changes a
+conclusion. What it changes is what the number means.
+
+The prescription is therefore not to prefer the mean — if a
+representation's signal is genuinely localized to one block, a mean over
+fourteen sites dilutes it, and the maximum is the more sensitive
+statistic. The maximum is not wrong; it is answering a different
+question. What is wrong is reporting one number of either kind and
+letting the reader supply the interpretation. **Report the per-site
+profile, with the untrained twin's value beside each site.** Every
+candidate was already fit in order to take the maximum, so the cost is
+storage, not compute — and storage is what we failed to spend.
 
 One corroboration from outside this paper's evidence base is worth a
 sentence, with its weakness attached. The same two-gate apparatus —
