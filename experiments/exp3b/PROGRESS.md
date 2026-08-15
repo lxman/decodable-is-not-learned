@@ -1,5 +1,28 @@
 # Exp 3b — Progress Ledger
 
+## CLOSED 2026-08-15 — VERDICT: DISSOCIATION (tag `exp3b-closed`)
+
+The frozen analysis ran once, on Michael's go, against the complete
+40-cell battery. All four gates clean: ctrl_copy first-char .9940 at
+both probe sizes (gate 1), all 16 inclusion referents replicated to the
+exact count (gate 2), 0 byte diffs in 24/24 overlap cells (gate 3), 0
+contamination (gate 4). Step 5: reversal first-character accuracy at
+floor in all 4 adjudicated cells — .0520/.0280 (rev_string7 410m/1b),
+.0320/.0260 (reverse_string) — behavioural margin NEGATIVE in every
+cell against same-weights probe margins .6263/.7725 and .5731/.6749.
+The famous zero was not a metric cliff; the dissociation survives the
+fair comparison. **The program's first real-model support for the
+hypothesis.** Projection: verdict-level HIT (modal .55), component
+misses graded in `results/retrospective.md` (clock24 anti-modal at
+.372/.374 vs .496 floor; the PARTIAL hedge's direction was backwards —
+1b emission is the LOWEST while its probe margins are the HIGHEST).
+One pre-committed change: UNSPENT through close. Record:
+`results/verdict_record.json`, `results/VERDICT.txt`,
+`results/retrospective.md`. Next: methods-paper §8 upgrade to
+same-weights (drafted, Michael's approval pending); Experiment 3
+(elicitation by sampling) is now the natural next test, with these 40
+cells' committed continuations as its greedy baseline.
+
 ## Campaign, 2026-08-15 — COMPLETE: 40/40 cells, 0 failed
 
 Committed order held: all 20 untrained twins first, then trained

@@ -1,0 +1,82 @@
+EXPERIMENT 3b — FORMAL VERDICT (recorded 2026-08-15)
+
+VERDICT: DISSOCIATION
+
+    The four reversal trained cells at the probe sizes — the claim:
+
+                                first-char    CP95           m_b     probe
+                                acc           (lo, hi)               margin
+    rev_string7    / 410m        0.0520      (.0347, .0753)  -.0042   .6263
+    rev_string7    / 1b          0.0280      (.0155, .0465)  -.0297   .7725
+    reverse_string / 410m        0.0320      (.0184, .0514)  -.0233   .5731
+    reverse_string / 1b          0.0260      (.0140, .0441)  -.0296   .6749
+
+    floors .056 / .054 (committed marginals); critical counts 46/500
+    (acc .092) and 44/500 (.088) at alpha .01 / 8. None of the four is
+    within its critical region's reach: the largest upper CP bound
+    (.0753) sits below the smallest critical accuracy (.088).
+
+Mechanism: the frozen verdict tree (design §6, analyze_3b.py, run once,
+unmodified) reached DISSOCIATION on its own precedence. Gate 1 passed at
+both probe sizes; gate 2 replicated all 16 inclusion referents — the four
+non-zero ones to the exact count (480, 490, 18, 24 of 500); gate 3 found
+ZERO differing continuations across all 24 overlap cells (tolerance 2,
+unused — greedy on this stack reproduced 3a byte for byte, including
+reverse_string/6.9b's lone 1/500 full-string hit); gate 4 found zero
+contamination (all 8 probe-size twins non-significant: .032-.046 letters,
+.000 clock24). Only then was step 5 read.
+
+THE HYPOTHESIS. Capability structure exists in the representation before
+behaviour shows it. The one surviving real-model datum said character
+reversal is linearly decodable (basis-starved margins .63-.77) while the
+model emits zero — but that comparison was unfair twice (one character
+read vs seven emitted; probes at 410m/1b vs generation at 2.8b+). 3b made
+it fair on both axes at once: same weights, same prompt, same
+one-character target, same 26-way label space.
+
+ANSWER, within the declared resolution: the dissociation is real. On the
+very weights where the probe reads the answer's first character at .63
+and .77, the output path emits it at floor — behavioural margin NEGATIVE
+in all four cells against probe margins of +.57 to +.77. The famous zero
+was not a metric cliff: matching the units surfaced no hidden emission.
+Information demonstrably present that the model's output path does not
+use — the program's first real-model support for the hypothesis, eight
+experiments in.
+
+THE CONTROLS DID THEIR JOBS.
+  ctrl_copy       first-char .9940 at BOTH probe sizes (committed
+                  full-string .960/.980). The instrument sees emission
+                  wherever emission exists; the reversal zeros are not a
+                  harness artifact.
+  clock24_d999    .3720/.3740 against its .496 floor, probe margin 0.0 —
+                  the probe-absent quadrant behaves: no decodable
+                  structure, no above-floor emission. Agreement is what
+                  no-dissociation looks like.
+  untrained twins 20/20 cells collected first, all full-string 0.0000;
+                  the 8 probe-size twins all non-significant at n_tests=1.
+
+RESOLUTION, disclosed up front (design §7): the blind region is [floor,
+.092). DISSOCIATION means "no emission this design can resolve," not
+"exactly zero emission" — a true first-character rate up to ~.09 is
+compatible with these cells. Every rate above ships with its CP bound.
+Eval-size descriptives (no significance tests, by design): rev_string7
+.058/.038/.078 and reverse_string .044/.070/.052 across 2.8b/6.9b/12b —
+the largest (12b, .078, CP hi .1051) sits below even the nominal .092
+critical.
+
+THE PROJECTION (ledgered 56e5d0e, before the first cell) HIT. Modal
+outcome DISSOCIATION at .55; all four gates as projected, including
+gate 2's exact-count replication; point estimates .03-.06 covered all
+four adjudicated cells; the >= .12 disconfirmer never fired. The hedge
+missed in an instructive direction: the named PARTIAL route had
+rev_string7/1b clearing FIRST (strongest probe margin), but 1b emission
+is the LOWEST of the four (.028/.026 vs 410m's .052/.032) — probe signal
+and emission moved in opposite directions with scale.
+
+SCOPE. Greedy decode only (Experiment 3's elicitation-by-sampling
+question is now live, not answered); probe sizes only; Pythia only; the
+2c verdict stays closed. One pre-committed change: UNSPENT.
+
+Record: results/verdict_record.json (full frozen output, all 40 cells,
+every CP bound, empty byte_diffs). Ledger: PROGRESS.md. Retrospective:
+results/retrospective.md. Tag: exp3b-closed.
