@@ -1,6 +1,8 @@
 """Mutation-test the 1c fixture suite: break the implementation on purpose and
 confirm the suite notices. A suite that passes on a broken instrument is not a
 gate, it is decoration."""
+import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -78,10 +80,13 @@ MUTATIONS = [
 
 
 def run_suite():
+    for d in ROOT.rglob("__pycache__"):
+        shutil.rmtree(d, ignore_errors=True)
+    env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
     r = subprocess.run(
         [sys.executable, "-m", "pytest", "experiments/exp1c/tests/", "-q",
          "--no-header", "-x", "--tb=no"],
-        cwd=ROOT, capture_output=True, text=True)
+        cwd=ROOT, capture_output=True, text=True, env=env)
     return r.returncode
 
 
