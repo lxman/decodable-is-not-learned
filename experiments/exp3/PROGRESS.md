@@ -271,6 +271,28 @@ after this entry as `GATE3_FATAL_CELLS`; a full-shape world pins the
 exact crack (ctrl incoherent, both gate-1 arms passing → ID), and a
 mutant narrowing the fatal set back to the adjudicated four must die.
 
+**2026-08-16 — freeze finding #3 (operational, driver-level): the 12b
+mass tier is gated on a preflight of a path it never uses.**
+`campaign_3.py` preflights every (size, dtype) before its first mass
+or sampling tier; for the 12b mass tier that invocation is
+`preflight_paths --size 12b --dtype float16`, whose batched-step
+row check exercises exactly the fp16-MPS batched cached-step class the
+build root-caused as broken (410m/float16 FAILS it by design). The
+12b mass tier runs DEPTH 1 — batch-1 keep1 prompt forwards only, the
+verified-sane fp16 class — precisely BECAUSE the batched path is
+broken; if 12b/fp16 batched fails the way 410m/fp16 does, the frozen
+driver stops the campaign at a tier whose own arithmetic is fine.
+Consequence bounded: 12b cells are descriptive (no verdict branch
+reads them), so the failure mode is a halted campaign, not a wrong
+number. Fix (pre-tag, driver-level, decides-what-runs only):
+`preflight_paths` gains `--keep1-only` (skip the batched-step check,
+keep the prompt keep1-vs-re-forward check), and the driver passes it
+exactly when the tier's dtype is float16 — the gate verifies the
+paths the tier uses. The fp32 pairs keep the full check, batched rows
+included. Rationale mirrors the redecode tiers, which have no
+preflight because generate is the sane class and gate 2 byte-checks
+them end to end.
+
 **2026-08-16 — build session 2b closes: BUILD COMPLETE (all eight Open
 items landed); the freeze remains a separate, later session that opens
 adversarially.** The session spanned 2026-08-15→16. Landed and

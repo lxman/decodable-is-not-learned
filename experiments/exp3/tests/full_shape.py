@@ -106,6 +106,16 @@ def mass_items_for(case, labels, answers, *, depth=2):
         if case in ("sig", "sig94", "hot", "hot10"):
             letters[lc] = {"sig": P_SIG, "sig94": P_CTRL, "hot": P_HOT,
                            "hot10": 0.10}[case]
+        elif case == "ctrlsplit":
+            # 12 positive / 8 negative signs at .94: sign test NOT
+            # significant (p = .2517 at n_tests=1) while mean label
+            # mass .564 keeps the sampled arms healthy and coherent —
+            # the world that isolates gate 1's both-sizes mass rule
+            # from the widened gate 3
+            if i < 12:
+                letters[lc] = P_CTRL
+            else:
+                letters["q"] = P_CTRL
         elif case == "floor":
             if i % 2 == 0:
                 letters[lc] = P_FLOOR
@@ -388,6 +398,24 @@ BATTERIES = {
             lambda out: out["gate1"]["mass_significant"]["1b"] is False,
             lambda out: out["coherence"]["ctrl_copy/1b/trained"]
             ["coherent"] is False,
+        ]},
+    "id_gate1_mass_one_size_behind_coherent_instruments": {
+        # gate 1's both-sizes mass rule must bind on its own: the 1b
+        # control's sign test dies (12/8 split, p=.2517) while its
+        # full-string CP arm passes (361/640, lower ≈ .524 > .5) and
+        # both instruments agree (fc rate .564 on the bracket [.564,
+        # .564]) — so neither the CP arm nor the widened gate 3 masks
+        # a gate-1 mass arm weakened from all() to any(). Found by
+        # the freeze's official mutation run: the gate-3 widening had
+        # made the original id_gate1_mass world non-isolating.
+        "world": {"mass": {("ctrl_copy", "1b", "trained"): "ctrlsplit"},
+                  "draws": {("ctrl_copy", "1b", "trained"): (361, 361)}},
+        "expect": "INSUFFICIENT_DATA", "expect_reason": "ctrl_copy",
+        "check": [
+            lambda out: out["gate1"]["mass_significant"]["1b"] is False,
+            lambda out: out["gate1"]["full_string_cp95_lower"]["1b"] > 0.5,
+            lambda out: out["coherence"]["ctrl_copy/1b/trained"]
+            ["coherent"] is True,
         ]},
     "id_gate1_cp": {
         # mass arm healthy, sampled full-string arm dead: 200/640

@@ -46,9 +46,15 @@ ROW_TOL = 1e-4     # fp32 rows match references to ~1e-6; garbage is O(1)
 
 
 def verify_paths(model, tok, prompts=PREFLIGHT_PROMPTS, chunk=CHUNK,
-                 tol=ROW_TOL) -> dict:
+                 tol=ROW_TOL, keep1_only=False) -> dict:
     """Every row of a batched cached step vs its batch-1 reference, and
-    the keep1 prompt distribution vs a plain batch-1 re-forward."""
+    the keep1 prompt distribution vs a plain batch-1 re-forward.
+
+    `keep1_only` verifies just the prompt keep1 path — the gate for the
+    12b fp16 mass tier, whose depth-1 cells use ONLY batch-1 keep1
+    forwards (PROGRESS.md 2026-08-16, freeze finding #3: a tier must be
+    gated on the paths it uses; the fp16 batched-step path is the
+    known-broken class and no fp16 cell ever takes it)."""
     import torch
 
     checks = []
@@ -65,6 +71,8 @@ def verify_paths(model, tok, prompts=PREFLIGHT_PROMPTS, chunk=CHUNK,
             checks.append({"check": "prompt keep1 vs re-forward",
                            "prompt": prompt[:24], "max_diff": d1,
                            "ok": d1 <= tol})
+            if keep1_only:
+                continue
 
             pkv = out.past_key_values
             pkv.batch_repeat_interleave(len(chunk))
@@ -102,6 +110,10 @@ def main(argv=None) -> int:
                     choices=("float32", "float16"))
     ap.add_argument("--device", default="mps")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--keep1-only", action="store_true",
+                    help="verify only the batch-1 keep1 prompt path — "
+                         "the 12b fp16 depth-1 tier's gate (freeze "
+                         "finding #3: gate on the paths the tier uses)")
     a = ap.parse_args(argv)
 
     import torch
@@ -112,9 +124,10 @@ def main(argv=None) -> int:
     if a.dtype == "float32":
         model = model.to(torch.float32)   # exact upcast of fp16 weights
 
-    rep = verify_paths(model, tok)
+    rep = verify_paths(model, tok, keep1_only=a.keep1_only)
     rep["size"], rep["dtype"], rep["device"] = a.size, a.dtype, a.device
-    rep["torch"] = torch.__version__
+    rep["keep1_only"] = bool(a.keep1_only)   # a keep1-only pass must
+    rep["torch"] = torch.__version__         # never read as full-path
     out = Path(a.out) if a.out else EXP3 / f"preflight_{a.size}_{a.dtype}.json"
     out.write_text(json.dumps(rep, indent=1))
     print(f"[preflight] {a.size}/{a.dtype}: "

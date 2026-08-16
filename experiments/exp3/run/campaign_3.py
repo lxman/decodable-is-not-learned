@@ -96,11 +96,15 @@ def main(argv=None) -> int:
         label = f"{kind}/{size}/{mode}"
         if not a.skip_preflight and kind in ("mass", "sampling") \
                 and (size, dtype) not in preflighted:
-            pf = subprocess.run(
-                [sys.executable, "-m",
-                 "experiments.exp3.run.preflight_paths",
-                 "--size", size, "--dtype", dtype],
-                cwd=EXP3.parent.parent)
+            pf_args = [sys.executable, "-m",
+                       "experiments.exp3.run.preflight_paths",
+                       "--size", size, "--dtype", dtype]
+            if dtype == "float16":
+                # the fp16 tier (12b mass, depth 1) uses ONLY batch-1
+                # keep1 forwards; gate it on the paths it uses
+                # (PROGRESS.md 2026-08-16, freeze finding #3)
+                pf_args.append("--keep1-only")
+            pf = subprocess.run(pf_args, cwd=EXP3.parent.parent)
             if pf.returncode != 0:
                 failed.append((label, f"preflight {size}/{dtype} FAILED"))
                 print(f"  STOP: preflight {size}/{dtype} failed — this "
