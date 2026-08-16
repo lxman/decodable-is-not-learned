@@ -98,6 +98,24 @@ specials (their decode is empty, not whitespace); this is a reading,
 not an amendment, and the sampler stops at EOS to match. Fixtures pin
 both directions.
 
+**2026-08-15 — build session 2a closes; build CONTINUES in a fresh
+session (2b) before any freeze.** Landed and pushed this session:
+Open items 8 (referents, 14/14), 1 (mass module), 2 (sampler + gate-4
+determinism at fp32 + the stack-defect fence), 5+7 (runner,
+tier-per-process driver, storage audit), and the FREEZE_CHECKLIST
+skeleton. **Carried to build session 2b: Open items 3 (analyze_3's
+statistic + verdict tree + full fixture suite one-per-provision both
+directions + mutation testing), 4 (full-shape batteries to every
+terminal), 6 (exact power tables from the frozen code).** Reason for
+the split: the fp16-MPS defect investigation consumed most of the
+session, and the verdict tree is precision code this program does not
+write at the tail of a long context — 2c's and 3a's class defects
+both lived in exactly that kind of code. The freeze remains a
+separate, later session that opens adversarially (the
+design|build|freeze boundary is unchanged; the build merely spans two
+contexts). No mass or sampling quantity has been computed for any
+real cell; the invariant held all session.
+
 **2026-08-15 — Open items 5+7 complete: runner, tier-per-process
 driver, storage audit.** `run/run_cell.py`: three cell kinds behind
 one executable dtype-policy table (`cell_policy`, fixture-pinned);
