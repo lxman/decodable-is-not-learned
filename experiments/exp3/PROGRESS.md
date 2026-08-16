@@ -1,5 +1,72 @@
 # Experiment 3 — build ledger
 
+**2026-08-16 — CAMPAIGN STOP #1 at the first mass tier (3.8 min in;
+16/16 re-decode cells committed, ZERO mass or sampling quantities
+produced): the frozen class table cannot cover the real model's
+distribution. Mechanism-forced fix ledgered HERE, before the re-run;
+justification references no outcome because none exists.**
+
+*What happened.* `mass/410m/untrained` crashed on its first item
+inside `depth2_masses`'s own distribution guard: "position-1
+distribution has 50304 entries against 50277 token classes." The
+driver stopped the campaign at the tier boundary (designed behavior);
+the watcher committed the finished re-decode cells and exited.
+
+*Mechanism, verified before this entry (tokenizer + config.json
+reads only — no model load, no quantity):* GPT-NeoX pads the
+embedding/unembedding to a multiple of 128 — `len(tok) = 50277`,
+`config.vocab_size = 50304`. The 27 ids in [50277, 50304) are DEAD:
+no encoding produces them, `batch_decode([[50300]]) = ['']`, and
+sequence decode skips them transparently (`decode([50300, g]) =
+'g'`). `classify_tokenizer` built its table over `len(tok)`, so the
+model-width softmax was refused by the very 3a-class guard built for
+malformed distributions — refusal instead of miscount, working as
+designed. Why no fixture caught it: the build's synthetic glue model
+was constructed with `vocab_size=len(tok)` (test_mass_glue.tiny_model)
+— the padded-width mismatch never existed in any synthetic world, and
+the pre-tag invariant deferred the new instrument's first real-model
+contact to campaign time. 3b never met this: HFRunner only calls
+generate, which samples and decodes over the same padded width
+transparently (why the re-decode tiers passed byte-clean tonight).
+
+*The fix (mechanism-forced, semantics-free).* The frozen class
+definition already decides the dead ids' class: "None means the token
+defers the first visible character (pure whitespace, non-breaking
+space, EMPTY DECODE)" — dead ids decode to '' and sequence decode
+skips them, so a sampled dead id defers the first character to the
+next position: they ARE the deferral class. `classify_tokenizer`
+gains `n_logits` (the model's `config.vocab_size`, passed by the
+runner's two call sites); the table is built over the model width;
+the dead band classes to the whitespace path through the existing
+`first_char('') = None` rule and takes depth-2 rows like any live
+deferral id (+27 ids ≈ two extra 16-row chunks per item, marginal).
+The sampler needs NO change: its draws already ranged over the padded
+width — 3b's generate identically — and decode disposes of dead ids
+exactly as it always has. No threshold, statistic, gate, criterion,
+verdict branch, or stored-record shape changes; the letter/residual/
+terminal/ws buckets keep their definitions with the table now total
+over the distribution's support. Fixtures added in both directions:
+a padded synthetic model (vocab_size > len(tok)) proving the width is
+covered, dead ids class as deferral, and the depth-2 cache equality
+holds; the refusal still firing when the table is built without
+`n_logits`; and the quantity-free real-config smoke that SHOULD have
+been on the freeze checklist — `classify_tokenizer(tok, n_logits from
+the local config.json)` covering the width (the missing integration
+check, now permanent).
+
+*Classification under the process rules:* this is the crash-fix class
+("a failed gate gets ONE mechanism-justified fix, written to the
+ledger BEFORE the re-run"), 3b's-OOM-shaped but touching frozen glue,
+NOT the one pre-committed change — it completes execution and shades
+no number (none exists). Michael may overrule this classification in
+review; per-cell resume makes a revert cost only the mass cells
+produced after this entry. *Retrospective lesson, recorded now:* the
+build invariant ("no real-model quantities pre-tag") silently covered
+"no real-model GLUE contact pre-tag"; a quantity-free tokenizer/config
+smoke belongs on every future freeze checklist alongside the referent
+checks. Relaunch after fix: same commands, skip-if-exists resumes at
+mass/410m/untrained.
+
 **2026-08-16 — CAMPAIGN LAUNCH, on Michael's word ("Launch now, push
 per cell") — §10.3 fully satisfied: preflight ladder done this
 session (all five local sizes), per-cell push authorization

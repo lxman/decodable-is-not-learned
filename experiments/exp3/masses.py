@@ -184,13 +184,28 @@ def item_mass_record_depth1(probs1, first_chars, ws_ids, *, label,
 # matches the harness for a batch of one: no padding, no added BOS, the
 # continuation position is the sequence's last.
 
-def classify_tokenizer(tok) -> tuple:
-    """(first_chars, ws_ids, terminal_ids) over the tokenizer's full
-    vocabulary, each id decoded alone with special tokens kept out of
-    the text the way the draw decode drops them
-    (skip_special_tokens=True). Special ids are terminal — carved out
-    of the whitespace-path set (PROGRESS.md 2026-08-15)."""
-    n = len(tok)
+def classify_tokenizer(tok, n_logits=None) -> tuple:
+    """(first_chars, ws_ids, terminal_ids) over the MODEL's logit
+    width, each id decoded alone with special tokens kept out of the
+    text the way the draw decode drops them (skip_special_tokens=True).
+    Special ids are terminal — carved out of the whitespace-path set
+    (PROGRESS.md 2026-08-15).
+
+    `n_logits` is the model's `config.vocab_size`. GPT-NeoX pads the
+    embedding to a multiple of 128, so ids in [len(tok), n_logits) are
+    DEAD — no encoding produces them, they decode to '' and sequence
+    decode skips them — and the frozen class rule already places
+    empty-decode ids on the whitespace path (they defer the first
+    visible character). Built over len(tok) alone, the table cannot
+    cover the model's distribution and depth2_masses refuses — the
+    2026-08-16 campaign stop #1 (ledger). Callers with a model in hand
+    MUST pass its width; the default exists for width-matched
+    synthetic fixtures."""
+    n = int(n_logits) if n_logits is not None else len(tok)
+    if n < len(tok):
+        raise ValueError(f"n_logits {n} is narrower than the tokenizer "
+                         f"({len(tok)}) — no model emits fewer classes "
+                         f"than its tokenizer decodes")
     decoded = tok.batch_decode([[i] for i in range(n)],
                                skip_special_tokens=True)
     fc = token_first_chars(decoded)

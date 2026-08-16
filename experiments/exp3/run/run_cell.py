@@ -228,7 +228,8 @@ def run_mass_cell(rung, size, mode, out_root=EXP3, model_ctx=None,
     cap, items_path = load_capability(rung)
     shots = [tuple(s) for s in cap["shots"]][:2]
     tok, model, sha = model_ctx if model_ctx else _load_model(size, mode, dtype)
-    fc, ws, term = classes if classes else masses_mod.classify_tokenizer(tok)
+    fc, ws, term = classes if classes else masses_mod.classify_tokenizer(
+        tok, n_logits=model.config.vocab_size)
 
     items = []
     for it in cap["eval_items"]:
@@ -306,7 +307,9 @@ def run_tier(kind: str, size: str, mode: str, out_root=EXP3) -> list:
     dtype, _ = cell_policy(kind, size)
     _assert_module_provenance()
     ctx = _load_model(size, mode, dtype)
-    classes = masses_mod.classify_tokenizer(ctx[0]) if kind == "mass" else None
+    classes = (masses_mod.classify_tokenizer(
+        ctx[0], n_logits=ctx[1].config.vocab_size)
+        if kind == "mass" else None)
     out = []
     for rung in RUNGS:
         kw = {"model_ctx": ctx}

@@ -43,8 +43,13 @@ def classes(tok):
     return m.classify_tokenizer(tok)
 
 
-def tiny_model(tok, device="cpu"):
-    cfg = GPTNeoXConfig(vocab_size=len(tok), hidden_size=64,
+def tiny_model(tok, device="cpu", pad=0):
+    """`pad` widens vocab_size past len(tok) — the real GPT-NeoX shape
+    (Pythia pads to a multiple of 128: 50304 logits over a 50277-entry
+    tokenizer). The build's original fixtures used pad=0, which is why
+    the width mismatch reached the campaign (stop #1, ledger
+    2026-08-16)."""
+    cfg = GPTNeoXConfig(vocab_size=len(tok) + pad, hidden_size=64,
                         num_hidden_layers=2, num_attention_heads=4,
                         intermediate_size=256, max_position_embeddings=256)
     torch.manual_seed(7)
@@ -110,6 +115,74 @@ def test_depth2_cache_path_equals_full_forward_cpu(tok, classes):
                     reason="campaign device not present")
 def test_depth2_cache_path_equals_full_forward_mps(tok, classes):
     _assert_depth2_equals_full_forward("mps", tok, classes)
+
+
+def test_padded_vocab_width_is_covered_and_dead_ids_defer(tok):
+    """Campaign stop #1's fix, both directions (ledger 2026-08-16).
+
+    Forward: with n_logits = the model's padded width, the class table
+    covers every logit; the dead band [len(tok), n_logits) decodes to
+    '' and classes to the whitespace path (the frozen empty-decode
+    deferral rule), and the depth-2 cached pass still equals full
+    re-forwards on the padded model. Backward: a width-matched table
+    against a padded model's distribution is REFUSED by depth2_masses
+    — the exact crash, pinned so it can never return silently."""
+    pad = 27
+    model = tiny_model(tok, pad=pad)
+    n_logits = model.config.vocab_size
+    fc, ws, term = m.classify_tokenizer(tok, n_logits=n_logits)
+    assert len(fc) == n_logits == len(tok) + pad
+    dead = range(len(tok), n_logits)
+    assert all(fc[i] is None for i in dead)
+    assert set(dead) <= set(ws)
+    assert not set(dead) & set(term)
+
+    rec, probs1, probs2 = m.collect_item_debug(
+        model, tok, PROMPT, label="d", first_chars=fc, ws_ids=ws,
+        terminal_ids=term)
+    assert len(probs1) == n_logits
+    assert set(rec["letters"]) == set("abcdefghijklmnopqrstuvwxyz")
+    live_dead = [w for w in dead if probs1[w] > 0.0]
+    for w in live_dead[:2]:
+        enc = tok(PROMPT, return_tensors="pt")
+        full = torch.cat([enc["input_ids"], torch.tensor([[w]])], dim=1)
+        with torch.no_grad():
+            ref = torch.softmax(
+                model(input_ids=full).logits[0, -1].to("cpu", torch.float32),
+                dim=-1).tolist()
+        assert max(abs(x - y) for x, y in zip(probs2[w], ref)) < 5e-5
+
+    fc0, ws0, term0 = m.classify_tokenizer(tok)   # width-matched table
+    with pytest.raises(ValueError, match="token classes"):
+        m.depth2_masses(probs1, fc0, ws0, {}, chars=("a",),
+                        terminal_ids=term0)
+
+
+def test_narrower_n_logits_is_refused(tok):
+    with pytest.raises(ValueError, match="narrower"):
+        m.classify_tokenizer(tok, n_logits=len(tok) - 1)
+
+
+def test_real_config_width_smoke(tok):
+    """The quantity-free integration smoke that belonged on the freeze
+    checklist (ledger 2026-08-16): the class table built at the REAL
+    model's config.json width covers it, and the real dead band is
+    empty-decode deferral ids. Reads the local HF cache's config.json
+    only — no model is loaded and no quantity is computed."""
+    import glob
+    import json
+    from pathlib import Path
+    hits = glob.glob(str(Path.home() / ".cache/huggingface/hub/"
+                         "models--EleutherAI--pythia-410m/snapshots/*/"
+                         "config.json"))
+    if not hits:
+        pytest.skip("pythia-410m config not in the local cache")
+    width = json.load(open(hits[0]))["vocab_size"]
+    assert width >= len(tok)
+    fc, ws, term = m.classify_tokenizer(tok, n_logits=width)
+    assert len(fc) == width
+    assert all(fc[i] is None for i in range(len(tok), width))
+    assert set(range(len(tok), width)) <= set(ws)
 
 
 # NOTE on dtype (PROGRESS.md 2026-08-15): the campaign computes mass
