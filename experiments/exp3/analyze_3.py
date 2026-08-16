@@ -268,6 +268,106 @@ def cp_upper(k: int, n: int, level: float = 0.95) -> float:
     return float(beta.ppf(level, k + 1, n - k))
 
 
+# ------------------------------------------------------ the §5 statistic
+#
+# s_i = m_i(y_i) − Σ_{c≠y_i} w̃_c m_i(c): the item's correct-letter mass
+# against the w̃-weighted competitor masses, w̃ the empirical answer-
+# first-letter distribution over the rung's items, renormalized per item
+# to exclude y_i. A format-only emitter (mass spread indifferently) and
+# a letter-uniform guesser both land at θ = P(s_i > 0) = .5 by
+# construction — the §2.2 kill test that demoted the untrained twin.
+
+LETTERS = tuple("abcdefghijklmnopqrstuvwxyz")
+
+# Sign-vs-tie resolution for s_i. Exact ties are real (all-zero masses;
+# the format-only degenerate case cancels algebraically) but float
+# summation leaves O(1e-16) dust on what is algebraically zero, and a
+# dust-signed item would smuggle a sign into K. 1e-12 sits orders of
+# magnitude above accumulated f64 roundoff on 26-term sums and orders
+# below any mass difference fp32 logits can express, so nothing
+# physical is ever eaten.
+SIGN_TIE_EPS = 1e-12
+
+
+def rung_sign_test(mass_items, answers, *, n_tests, alpha: float = ALPHA,
+                   upper: bool = False) -> dict:
+    """The exact one-sided sign test on s_i across a cell's items (§5).
+
+    `upper=True` computes the bracket's upper end (reading 1):
+    s_i_hi = (m_i(y_i) + r_i) − Σ w̃_c m_i(c) — the whole per-item
+    residual credited to the correct letter, competitors held at their
+    computed masses. Adjudication always reads the lower end.
+
+    Reading 5 (letter support): w̃ and the competitor sum are defined
+    over the empirical answer-first-character support, which must lie
+    inside the stored a–z block. A rung whose support leaves a–z
+    (clock24_d999's digit answers) records computable=False and can
+    never be significant; hard-erroring on ADJUDICATED cells without
+    computable support is the verdict tree's job.
+
+    Reading 3 (all ties): n_eff = 0 → significant=False, p = 1.0,
+    disclosed — a cell with no usable items argues nothing either way.
+    """
+    if len(mass_items) != len(answers):
+        raise ValueError(f"{len(mass_items)} mass items against "
+                         f"{len(answers)} answers")
+    y = [str(ans)[0].casefold() for ans in answers]
+    base = {"end": "upper" if upper else "lower", "n_tests": n_tests,
+            "alpha": alpha}
+    outside = sorted(set(y) - set(LETTERS))
+    if outside:
+        return {**base, "computable": False, "significant": False,
+                "p": 1.0, "K": 0, "n_eff": 0, "n_ties": 0,
+                "reason": f"answer first characters {outside} lie outside "
+                          f"the stored a–z letter block, so the competitor "
+                          f"sum has no computable value (reading 5)"}
+    n = len(y)
+    w = {c: 0.0 for c in sorted(set(y))}
+    for c in y:
+        w[c] += 1.0 / n
+    if len(w) == 1:
+        raise ValueError(
+            f"every answer begins with {y[0]!r} (w = 1): excluding y_i "
+            f"leaves nothing to renormalize w̃ over, and the statistic "
+            f"does not exist on this rung")
+
+    signs = []
+    for it, yi in zip(mass_items, y):
+        m_y = float(it["letters"][yi])
+        if upper:
+            m_y += float(it["residual"])
+        denom = 1.0 - w[yi]
+        comp = sum((w[c] / denom) * float(it["letters"][c])
+                   for c in w if c != yi)
+        signs.append(m_y - comp)
+
+    K = sum(1 for s in signs if s > SIGN_TIE_EPS)
+    n_ties = sum(1 for s in signs if abs(s) <= SIGN_TIE_EPS)
+    n_eff = len(signs) - n_ties
+    if n_eff == 0:
+        return {**base, "computable": True, "significant": False,
+                "p": 1.0, "K": 0, "n_eff": 0, "n_ties": n_ties}
+    p = float(binom.sf(K - 1, n_eff, 0.5))
+    return {**base, "computable": True,
+            "significant": bool(p * n_tests < alpha),
+            "p": p, "K": int(K), "n_eff": int(n_eff),
+            "n_ties": int(n_ties)}
+
+
+def cell_mass_bracket(mass_items) -> tuple[float, float]:
+    """[mean label mass, mean(label mass + residual)] over the cell's
+    items — gate 3's referent interval (readings 2 and 9). Reads
+    label_mass, not the letter block, so the digit-label control
+    carries a bracket too."""
+    if not mass_items:
+        raise ValueError("no mass items to bracket")
+    n = len(mass_items)
+    lo = sum(float(it["label_mass"]) for it in mass_items) / n
+    hi = sum(float(it["label_mass"]) + float(it["residual"])
+             for it in mass_items) / n
+    return lo, hi
+
+
 # ---------------------------------------------------- referent loaders
 #
 # Frozen WITH the analysis (§11). Every one hard-errors on anything
