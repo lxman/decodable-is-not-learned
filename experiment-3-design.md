@@ -5,7 +5,12 @@ build | freeze, boundary = context clear; Michael's pacing ruling,
 2026-08-15). This doc is written and set down; the build is a later
 session; the freeze is a third session that opens adversarially (cold
 re-read, assignment: find the class defect) and ends at tag
-`exp3-preregistered`. The instrument will be `experiments/exp3/` —
+`exp3-preregistered`. **Freeze-session amendment (2026-08-16, ledger
+`experiments/exp3/PROGRESS.md`): the adversarial read found the class
+defect in §5's original w̃ mass statistic (it credited set-level
+lexical priming); §5 is amended to the within-item interior-competitor
+form, pre-tag. The tag waits on Michael's ratification of the
+amendment.** The instrument will be `experiments/exp3/` —
 `analyze_3.py` with its own loaders, a mass module, a seeded sampler,
 a runner, a committed tier-per-process driver, and a fixture suite.
 
@@ -54,12 +59,13 @@ A full-string success on a draw implies a first-character success on
 that draw, so the instruments order themselves and **four worlds are
 named in advance**, adjudicated per reversal rung × probe size:
 
-- **ELICITABLE** — mass significantly above its within-distribution
-  floor AND full-string fires (≥1 verified success; seed spread
-  reported). The famous zero was an argmax cliff over nonzero
-  distribution mass. Signature 2 fires; the future rank-prediction
-  successor (the spread-gated battery experiment) gains its graded
-  substrate.
+- **ELICITABLE** — mass significant under §5's within-item positional
+  statistic ("mass elevated"/"at floor" throughout this tree means
+  that statistic significant / not significant) AND full-string fires
+  (≥1 verified success; seed spread reported). The famous zero was an
+  argmax cliff over nonzero distribution mass. Signature 2 fires; the
+  future rank-prediction successor (the spread-gated battery
+  experiment) gains its graded substrate.
 - **BULK-ONLY** — mass elevated, full-string walled at the CP bound.
   The first character is in the distribution's bulk; the
   seven-character joint path carries no measurable mass. The units gap
@@ -94,14 +100,18 @@ the framework most and is recorded so it cannot later be softened.
    to **every terminal branch** (four worlds, every INSUFFICIENT_DATA
    route, contamination interactions) on synthetic full-shape
    batteries before the tag.
-2. **2c's death (a floor that credits format):** already caught once
-   at design time, in this document. The mass criterion as first
-   drafted paired trained mass against the untrained twin's mass; the
+2. **2c's death (a floor that credits format):** caught TWICE in this
+   document. At design time: the mass criterion as first drafted
+   paired trained mass against the untrained twin's mass; the
    dumbest-baseline analysis (§8) kills that pairing — a model that
    learned only "answers are lowercase letters" beats the twin ~500/0
-   with zero reversal knowledge. The committed primary is
-   within-distribution (§5), for which the format-only strategy scores
-   θ = .5 by construction. The twin demotes to contamination gate.
+   with zero reversal knowledge. At the freeze (ledger 2026-08-16):
+   the within-distribution w̃ replacement itself credited set-level
+   lexical priming — the answer is a permutation of the input, so its
+   first letter is always among the input's characters — and was
+   amended to the within-item interior-competitor form (§5), whose
+   θ = .5 null is exact for the entire position-symmetric mechanism
+   class. The twin demotes to contamination gate.
 3. **3b's operational lesson (MPS allocator ratchet):** the driver is
    tier-per-process from the first commit — one process per (mode,
    size) tier, sizes ascending, no process ever holds more than one
@@ -170,17 +180,45 @@ campaign's own cells.
   vector m_i(c), c ∈ a–z (same depth-2 convention per letter), is
   stored per item. Fixtures verify the computation on synthetic
   distributions with hand-computable answers.
-- **The mass statistic (within-distribution, format-immune).** Per
-  item i with correct letter y_i: s_i = m_i(y_i) − Σ_{c≠y_i} w̃_c
-  m_i(c), where w̃ is the empirical distribution of answer first
-  letters over the rung's 500 items, renormalized to exclude y_i.
-  Exact one-sided sign test on sign(s_i) across items, zeros dropped
-  and their count disclosed, α = .01 Bonferroni across the **4
-  adjudicated reversal cells**. A format-only emitter (letter mass
-  spread indifferently) and a letter-uniform guesser both give
-  θ = P(s_i > 0) = .5 by construction, since correct letters are
-  reversals of random strings. Controls test at n_tests = 1,
-  descriptive.
+- **The mass statistic (within-item, position-null — AMENDED AT THE
+  FREEZE, ledger 2026-08-16; the w̃ cross-item form it replaces is
+  recorded below).** Per item i with answer a_i of length L:
+  s_i = m_i(a_i[0]) − mean_{j=1..L−2} m_i(a_i[j]) — the answer's
+  first-character mass against the mean mass of the answer's own
+  INTERIOR characters, multiplicity kept. The answer's LAST character
+  (= the input's first character, the echo target) is read on neither
+  side. Exact one-sided sign test on sign(s_i) across items, zeros
+  dropped and their count disclosed, α = .01 Bonferroni across the
+  **4 adjudicated reversal cells**. The null is exact by
+  construction: the permutation rungs' input characters are iid
+  uniform, so ANY mechanism reading the input only through
+  position-symmetric features — item-independent letter priors,
+  format priors, set-level lexical priming — makes the read positions
+  exchangeable and lands at θ = P(s_i > 0) = .5 exactly; echo
+  (input-first-character favoritism) is read on neither side and
+  moves nothing. What fires is mass favoring the input's LAST
+  character over its interior — the position-1 reversal signature 3b
+  probed (on ctrl_copy, first-position favoritism = the copy
+  signature). An item with L < 3 is a structural tie (none exists:
+  committed answer lengths are 7 / 4–6 / 4–6 on the letter rungs);
+  the statistic is computable for a rung iff every character it reads
+  lies in the stored a–z block (clock24_d999 reads digits →
+  computable=False, gates/descriptives only). Controls test at
+  n_tests = 1, descriptive.
+  *Superseded original (for the record):* s_i = m_i(y_i) −
+  Σ_{c≠y_i} w̃_c m_i(c) with w̃ the empirical answer-first-letter
+  distribution renormalized to exclude y_i. Killed by the freeze's
+  adversarial read: because the answer is a permutation of the input,
+  y_i is always among the input's characters while the w̃-competitors
+  mostly are not, so a set-level lexical primer (mass boost on every
+  character present in the quoted input — position-blind context
+  copying) fires it on essentially every item (θ ≈ 1) with zero
+  reversal knowledge, and an anti-concentrated item-independent prior
+  reaches θ = w̃-mass{f > Σw̃f} up to ≈ .77. Both shapes are visibly
+  live in 3b's committed continuations (in-answer-set greedy rates
+  .968–.984 against .17–.24 chance; one cell collapsed to a single
+  letter 498/500). The original's "θ = .5 by construction" held only
+  for exactly-uniform spread and letter-uniform guessing.
 - **Sampling.** Seeded ancestral generation, T = 1.0, no truncation,
   `MAX_NEW_TOKENS` 12, batch 16, four committed RNG streams per cell
   (seeds 0–3), 2c's `render_prompt`/shots verbatim. Every raw draw
@@ -217,13 +255,20 @@ before any gate, never verdicts.
    than 2 of 500 continuations (3b's own tolerance) →
    `INSUFFICIENT_DATA`; every differing item disclosed verbatim
    regardless of count.
-3. **Instrument coherence fails** — in any adjudicated cell, the
-   sampled first-char success count is incompatible with the computed
-   mass bracket: the count's exact two-sided CP interval at
-   α = .01/16 (Bonferroni across the 16 sampling cells) is disjoint
-   from [mass, mass + residual] → `INSUFFICIENT_DATA`. The two instruments measure
-   the same distribution; disagreement is a code-path defect (BOS,
-   padding, prompt drift), not a finding.
+3. **Instrument coherence fails** — in any adjudicated cell **or
+   either ctrl_copy trained cell** (widened at the freeze, ruling on
+   reading 2, ledger 2026-08-16: gate 1's two arms can both pass while
+   the control's instruments disagree — a rank-fired sign test plus a
+   healthy full-string rate over a low mass bracket — and a run must
+   not proceed past a disagreeing positive control), the sampled
+   first-char success count is incompatible with the computed mass
+   bracket: the count's exact two-sided CP interval at α = .01/16
+   (Bonferroni across the 16 sampling cells) is disjoint from
+   [mass, mass + residual] → `INSUFFICIENT_DATA`. Computed and
+   disclosed for all 16 cells; twin and matched-control incoherence
+   stay disclosed-only. The two instruments measure the same
+   distribution; disagreement is a code-path defect (BOS, padding,
+   prompt drift), not a finding.
 4. **Sampler reproducibility** is a freeze-time gate, not a runtime
    branch: the seeded sampler must reproduce a pinned fixture draw set
    byte-identically across two runs on this stack before the tag, and
@@ -259,7 +304,11 @@ before any gate, never verdicts.
   critical count ≈ 282 of 500 non-tied items; power ≈ .95 at θ = .60,
   ≈ .26 at θ = .55; **blind for θ ≲ .57**. Exact table recomputed at
   freeze from the frozen code and committed, including recomputation
-  at the realized post-tie n per cell.
+  at the realized post-tie n per cell. Under the freeze-amended
+  statistic θ reads as P(the answer's first-character mass exceeds
+  its interior mean) — the binomial machinery, critical counts, and
+  the committed table are unchanged; only θ's interpretation moved
+  from the w̃ form to the within-item form.
 - **Sampling side:** detection probability 1 − (1−p)^128,000 against
   true per-draw rate p: ≈ .95 at p = 2.3×10⁻⁵, ≈ .72 at 10⁻⁵, ≈ .12
   at 10⁻⁶. **Blind below p ≈ 10⁻⁵.** A WALL verdict therefore means
@@ -274,9 +323,10 @@ before any gate, never verdicts.
 
 | degenerate strategy | outcome |
 |---|---|
-| format-only emitter (learned "answers are lowercase letters," nothing else) | letter mass spread indifferently → θ = .5 exactly; the sign test does not fire. This baseline KILLED the twin-paired mass criterion at design time; the within-distribution pairing exists because of it |
-| echo model | full-string verify fails on reversal by construction; helps correct-letter mass only on the ~4% of items where input and answer share a first letter — far below the θ ≈ .57 blind edge |
-| letter-uniform guesser | θ = .5 by symmetry of random-string reversal labels |
+| format-only emitter (learned "answers are lowercase letters," nothing else) | uniform spread cancels exactly (all ties); ANY item-independent letter prior, however shaped, sits at θ = .5 exactly under the freeze-amended within-item statistic by position exchangeability. This baseline class KILLED the twin-paired criterion at design time and the w̃ cross-item criterion at the freeze (an anti-concentrated prior reached θ ≈ .77 there) |
+| set-level lexical primer (mass boost on every character present in the quoted input — position-blind context copying; visibly live in 3b's continuations at .968–.984 in-answer-set greedy rates) | cancels algebraically under the within-item statistic: every character the statistic reads carries the same boost → exact ties. Under the superseded w̃ form this fired with θ ≈ 1 — the freeze's class-defect finding |
+| echo model (mass on the input's first character) | full-string verify fails on reversal by construction; the echo character is the answer's LAST character, which the amended statistic reads on neither side → moves nothing. (Recency-toward-the-input's-last-character mass is not a confound: favoring the input's last character at emission position 1 IS the reversal capability's first-character signature, the same quantity 3b's probe certified) |
+| letter-uniform guesser | θ = .5 exactly (special case of the item-independent class) |
 | "128k draws, zero successes, therefore zero" | banned; CP bounds only, blind region stated in the verdict |
 | cherry-picked sampling seed | seeds 0–3 preregistered; per-seed tallies committed; a fire on one stream is reported as exactly that |
 | adaptive stopping when a result looks close | none exists; k is fixed before the first draw |
@@ -284,7 +334,7 @@ before any gate, never verdicts.
 | harness drifted since 3b | gate 2 byte re-decode; gate 3 cross-instrument coherence |
 | verdict input with no value on this battery | impossible to freeze: full-shape batteries must reach every terminal branch (all four worlds, PARTIAL, every INSUFFICIENT_DATA route, both contamination interactions) before the tag |
 
-Nine routes. The bar is passable and can genuinely fail.
+Ten routes. The bar is passable and can genuinely fail.
 
 ---
 

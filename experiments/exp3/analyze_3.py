@@ -13,14 +13,22 @@ Four worlds are named in advance — ELICITABLE / BULK-ONLY / TAIL-ONLY /
 WALL — adjudicated per reversal rung × probe size; any mixture is
 PARTIAL with the per-cell table as headline.
 
-THE PRIMARY MASS STATISTIC IS WITHIN-DISTRIBUTION (design §2.2, §5): per
-item, s_i = m_i(y_i) − Σ_{c≠y_i} w̃_c m_i(c), exact one-sided sign test
-across items. The twin-paired version was KILLED at design time by the
-dumbest-baseline analysis — a format-only emitter beats an untrained
-twin ~500/0 with zero reversal knowledge — and the untrained twin
-demotes to a contamination gate. A format-only emitter and a
-letter-uniform guesser both sit at θ = .5 under this statistic by
-construction, because correct letters are reversals of random strings.
+THE PRIMARY MASS STATISTIC IS WITHIN-ITEM (design §2.2, §5 as amended
+at the freeze, ledger 2026-08-16): per item with answer a_i (length L),
+s_i = m_i(a_i[0]) − mean_{j=1..L−2} m_i(a_i[j]), exact one-sided sign
+test across items. The twin-paired version was KILLED at design time
+(a format-only emitter beats an untrained twin ~500/0 with zero
+reversal knowledge; the twin demotes to a contamination gate); the
+w̃ cross-item version was KILLED at the freeze (set-level lexical
+priming — mass on every character present in the quoted input — fires
+it on every item with zero position knowledge, and 3b's committed
+continuations show that shape live at .968–.984 in-answer-set rates).
+Under the interior form, every position-symmetric mechanism — item-
+independent priors, format priors, set-level priming — sits at θ = .5
+exactly by position exchangeability of iid-uniform strings; echo
+(input[0] favoritism) is read on neither side; what fires is mass
+favoring the input's last character, the position-1 reversal signature
+3b probed.
 
 BUILD-SESSION STATE. This module grows through the build session (doc
 Open items 1–8) and freezes, with its fixture suite and its own loaders,
@@ -271,12 +279,20 @@ def cp_upper(k: int, n: int, level: float = 0.95) -> float:
 
 # ------------------------------------------------------ the §5 statistic
 #
-# s_i = m_i(y_i) − Σ_{c≠y_i} w̃_c m_i(c): the item's correct-letter mass
-# against the w̃-weighted competitor masses, w̃ the empirical answer-
-# first-letter distribution over the rung's items, renormalized per item
-# to exclude y_i. A format-only emitter (mass spread indifferently) and
-# a letter-uniform guesser both land at θ = P(s_i > 0) = .5 by
-# construction — the §2.2 kill test that demoted the untrained twin.
+# s_i = m_i(a_i[0]) − mean_{j=1..L−2} m_i(a_i[j]): the answer's first-
+# character mass against the mean mass of the answer's own INTERIOR
+# characters (multiplicity kept; the answer's LAST character — the
+# input's first, the echo target — is read on neither side). AMENDED AT
+# THE FREEZE (ledger 2026-08-16) from the w̃ cross-item form, which
+# credited set-level lexical priming as capability signal: the answer is
+# a permutation of the input, so its first character is ALWAYS among the
+# input's characters while w̃-competitors mostly are not. Under the
+# interior form, any mechanism that reads the input only through
+# position-symmetric features — item-independent priors, format priors,
+# set-level priming — makes the read positions exchangeable, so
+# θ = P(s_i > 0) = .5 exactly; what fires is mass favoring the input's
+# last character over its interior, the position-1 reversal signature
+# 3b's probe read (on ctrl_copy: the copy signature).
 
 LETTERS = tuple("abcdefghijklmnopqrstuvwxyz")
 
@@ -304,19 +320,29 @@ def sign_test_significance(K: int, n_eff: int, *, n_tests,
 
 def rung_sign_test(mass_items, answers, *, n_tests, alpha: float = ALPHA,
                    upper: bool = False) -> dict:
-    """The exact one-sided sign test on s_i across a cell's items (§5).
+    """The exact one-sided sign test on s_i across a cell's items (§5,
+    as amended at the freeze — ledger 2026-08-16).
+
+    s_i = m_i(a_i[0]) − mean_{j=1..L−2} m_i(a_i[j]): the answer's
+    first-character mass against the mean mass of the answer's own
+    interior characters, multiplicity kept; the answer's last character
+    (the echo target) is read on neither side. The w̃ cross-item form
+    this replaces credited set-level lexical priming as signal — the
+    freeze's class-defect finding.
 
     `upper=True` computes the bracket's upper end (reading 1):
-    s_i_hi = (m_i(y_i) + r_i) − Σ w̃_c m_i(c) — the whole per-item
-    residual credited to the correct letter, competitors held at their
-    computed masses. Adjudication always reads the lower end.
+    s_i_hi = (m_i(a_i[0]) + r_i) − the same interior mean — the whole
+    per-item residual credited to the first character, competitors held
+    at their computed masses. Adjudication always reads the lower end.
 
-    Reading 5 (letter support): w̃ and the competitor sum are defined
-    over the empirical answer-first-character support, which must lie
-    inside the stored a–z block. A rung whose support leaves a–z
-    (clock24_d999's digit answers) records computable=False and can
-    never be significant; hard-erroring on ADJUDICATED cells without
-    computable support is the verdict tree's job.
+    Computability (reading 5, re-keyed at the freeze): the statistic
+    exists for a rung iff every character it reads — each item's
+    a_i[0] and interior — lies inside the stored a–z block.
+    clock24_d999 reads digits and records computable=False, never
+    significant; hard-erroring on ADJUDICATED cells without computable
+    support is the verdict tree's job. An item with L < 3 has no
+    interior and is a structural tie (none exist in the committed
+    batteries: answer lengths are 7/4–6/4–6 on the letter rungs).
 
     Reading 3 (all ties): n_eff = 0 → significant=False, p = 1.0,
     disclosed — a cell with no usable items argues nothing either way.
@@ -324,34 +350,33 @@ def rung_sign_test(mass_items, answers, *, n_tests, alpha: float = ALPHA,
     if len(mass_items) != len(answers):
         raise ValueError(f"{len(mass_items)} mass items against "
                          f"{len(answers)} answers")
-    y = [str(ans)[0].casefold() for ans in answers]
+    ans = [str(x).casefold() for x in answers]
     base = {"end": "upper" if upper else "lower", "n_tests": n_tests,
             "alpha": alpha}
-    outside = sorted(set(y) - set(LETTERS))
+    read_chars = set()
+    for s in ans:
+        read_chars.add(s[0])
+        read_chars.update(s[1:-1])
+    outside = sorted(read_chars - set(LETTERS))
     if outside:
         return {**base, "computable": False, "significant": False,
                 "p": 1.0, "K": 0, "n_eff": 0, "n_ties": 0,
-                "reason": f"answer first characters {outside} lie outside "
-                          f"the stored a–z letter block, so the competitor "
-                          f"sum has no computable value (reading 5)"}
-    n = len(y)
-    w = {c: 0.0 for c in sorted(set(y))}
-    for c in y:
-        w[c] += 1.0 / n
-    if len(w) == 1:
-        raise ValueError(
-            f"every answer begins with {y[0]!r} (w = 1): excluding y_i "
-            f"leaves nothing to renormalize w̃ over, and the statistic "
-            f"does not exist on this rung")
+                "reason": f"the statistic reads characters {outside} "
+                          f"outside the stored a–z letter block, so the "
+                          f"interior competitor mean has no computable "
+                          f"value (reading 5)"}
 
     signs = []
-    for it, yi in zip(mass_items, y):
-        m_y = float(it["letters"][yi])
+    for it, s in zip(mass_items, ans):
+        interior = s[1:-1]
+        if not interior:
+            signs.append(0.0)
+            continue
+        m_y = float(it["letters"][s[0]])
         if upper:
             m_y += float(it["residual"])
-        denom = 1.0 - w[yi]
-        comp = sum((w[c] / denom) * float(it["letters"][c])
-                   for c in w if c != yi)
+        comp = sum(float(it["letters"][c]) for c in interior) \
+            / len(interior)
         signs.append(m_y - comp)
 
     K = sum(1 for s in signs if s > SIGN_TIE_EPS)
@@ -864,6 +889,17 @@ def load_redecode_cells(root=EXP3) -> dict:
 ADJUDICATED = tuple((r, s, "trained") for r in REVERSAL_RUNGS
                     for s in PROBE_SIZES)
 
+# Gate 3's INSUFFICIENT_DATA trigger (reading 2 as ruled at the freeze,
+# ledger 2026-08-16): the four adjudicated cells AND the positive
+# control's trained cells — gate 1's two arms can both pass while the
+# control's instruments disagree (rank-fired sign test + healthy
+# full-string rate against a low mass bracket), and a run must not
+# proceed past a disagreeing control. Twins (sentinels) and the
+# matched control (digit path, off every adjudicated route) stay
+# computed-and-disclosed only.
+GATE3_FATAL_CELLS = ADJUDICATED + (
+    (POSITIVE_CONTROL, "410m", "trained"), (POSITIVE_CONTROL, "1b", "trained"))
+
 WORLD_LABEL = {(True, True): "ELICITABLE", (True, False): "BULK-ONLY",
                (False, True): "TAIL-ONLY", (False, False): "WALL"}
 
@@ -1117,8 +1153,9 @@ def verdict(mass_cells, sampling_cells, redecode_cells, gate2_refs,
                           + "; ".join(f"{k} ({n} items)"
                                       for k, n in sorted(over.items()))}
 
-    # 3. instrument coherence, ID trigger on the adjudicated cells
-    incoherent_adj = [_key(k) for k in ADJUDICATED
+    # 3. instrument coherence, ID trigger on the adjudicated cells and
+    # the positive control's trained cells (freeze ruling on reading 2)
+    incoherent_adj = [_key(k) for k in GATE3_FATAL_CELLS
                       if not coherence[_key(k)]["coherent"]]
     if incoherent_adj:
         details = "; ".join(
@@ -1128,8 +1165,9 @@ def verdict(mass_cells, sampling_cells, redecode_cells, gate2_refs,
             f"{coherence[k]['mass_bracket'][1]:.4f}]"
             for k in incoherent_adj)
         return {**out, "verdict": "INSUFFICIENT_DATA",
-                "reason": "instrument coherence failed in adjudicated "
-                          f"cell(s): {details} — the exact two-sided CP "
+                "reason": "instrument coherence failed in "
+                          f"adjudicated/positive-control cell(s): "
+                          f"{details} — the exact two-sided CP "
                           f"interval at α = {alpha}/{N_COHERENCE_TESTS} "
                           f"is disjoint from [mass, mass + residual]; "
                           f"the two instruments measure the same "
@@ -1161,8 +1199,8 @@ def verdict(mass_cells, sampling_cells, redecode_cells, gate2_refs,
 
     if worlds == {"ELICITABLE"}:
         return {**out, "verdict": "ELICITABLE",
-                "reason": "mass significantly above its "
-                          "within-distribution floor AND at least one "
+                "reason": "mass significant under the §5 within-item "
+                          "positional statistic AND at least one "
                           "verified full-string draw in every "
                           f"adjudicated cell ({sorted(cell_labels)}) — "
                           "the famous zero was an argmax cliff over "

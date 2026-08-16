@@ -245,6 +245,32 @@ retrospect; a preregistered criterion with a known certain-fire
 format route cannot honor §8's "the bar is passable and can genuinely
 fail."
 
+**2026-08-16 — freeze ruling on reading 2 (gate-3 trigger scope):
+WIDENED to adjudicated ∪ ctrl_copy-trained (6 cells), argued and
+ledgered before the code change.** The build's reading 2 said a
+control-cell incoherence "in practice also takes gate 1 down" and left
+widening to the freeze. The adversarial pass found the crack in that
+"in practice": gate 1's two arms are the mass SIGN test (which needs
+rank elevation, not a high mean) and the FULL-STRING CP lower bound —
+a world with ctrl_copy label mass ≈ .10 (sign test fires: interior
+competitors at zero) and sampled rates ≈ .625 (full-string CP lower
+> .5) passes both arms while the first-char count's CP interval is
+wildly disjoint from the mass bracket. The run would proceed past a
+positive control whose two instruments disagree — and the control IS
+the certificate that the instruments measure anything. Ruling: the
+gate-3 INSUFFICIENT_DATA trigger fires on the four adjudicated cells
+AND the two ctrl_copy trained cells. Twins stay disclosed-only
+(contamination sentinels, not instruments under test; the
+twin-incoherence world stays non-fatal), and clock24_d999 stays
+disclosed-only (its digit-space decode path is not on any adjudicated
+route; an ID on a clock-only drift would kill the run over a cell no
+verdict branch reads). Coherence stays computed and disclosed for all
+16 (reading 2's other half, unchanged). Conservative direction: the
+widening adds ID routes and cannot manufacture a world. Implemented
+after this entry as `GATE3_FATAL_CELLS`; a full-shape world pins the
+exact crack (ctrl incoherent, both gate-1 arms passing → ID), and a
+mutant narrowing the fatal set back to the adjudicated four must die.
+
 **2026-08-16 — build session 2b closes: BUILD COMPLETE (all eight Open
 items landed); the freeze remains a separate, later session that opens
 adversarially.** The session spanned 2026-08-15→16. Landed and

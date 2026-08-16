@@ -13,6 +13,16 @@ tree still contains one and hunt for it).
 
 ## Rulings required (build-session readings, PROGRESS.md 2026-08-15)
 
+- [ ] **THE FREEZE AMENDMENT (ledger 2026-08-16) — MICHAEL'S RULING,
+      blocks the tag:** §5's primary mass statistic amended from the
+      w̃ cross-item form (found to credit set-level lexical priming —
+      the class defect; θ ≈ 1 false fire demonstrated, both degenerate
+      shapes visibly live in 3b's committed continuations) to the
+      within-item interior-competitor form (θ = .5 exact for the whole
+      position-symmetric mechanism class; echo read on neither side).
+      power.json untouched (sign_test_significance unchanged). Ratify
+      the amendment → tag; or reject → revert to w̃ + disclose-only
+      (recorded in the ledger) before any tag.
 - [ ] Bracket ends: lower end adjudicates, upper end disclosed,
       disagreement its own finding — ratify or amend §5 wording.
 - [ ] Gate-3 trigger scope: computed for 16, fires on the 4
@@ -25,11 +35,15 @@ tree still contains one and hunt for it).
       fp16 depth-1 with ws mass in the residual bracket; re-decode
       fp16 generate. The fp16 batched-step corruption record and the
       preflight gate design.
-- [ ] Letter-support rule (reading 5): sign test over the empirical
-      a–z support; clock24's digit cells computable=False and never
-      significant (gate-5 mass arm inert there, full-string arm
-      live); an adjudicated cell without computable support is a
-      HARD ERROR — ratify, or widen the stored vector to digits.
+- [ ] Letter-support rule (reading 5, RE-KEYED by the freeze
+      amendment): the statistic is computable iff every character it
+      reads — each item's answer[0] and interior answer[1:-1] — lies
+      in the stored a–z block; clock24's digit cells computable=False
+      and never significant (gate-5 mass arm inert there, full-string
+      arm live); items with answer length < 3 are structural ties
+      (none exist in the committed batteries); an adjudicated cell
+      without computable support is a HARD ERROR — ratify, or widen
+      the stored vector to digits.
 - [ ] Gate-1 CP form (reading 6): two-sided .95 CP lower end on the
       recomputed pooled full-string count.
 - [ ] Cross-battery pins (reading 7): items_sha256 + labels/answers +
@@ -47,10 +61,12 @@ tree still contains one and hunt for it).
 
 - [ ] Full fixture suite green (`PYTHONDONTWRITEBYTECODE=1 python -m
       pytest experiments/exp3/tests/`), pycache cleared first.
-- [ ] Mutation check both directions (`tests/mutation_check.py`,
-      written in build session 2b, 54/54 killed at build; run it
-      FOREGROUND on a quiescent tree — it snapshots and restores
-      analyze_3.py in place).
+- [ ] Mutation check both directions (`tests/mutation_check.py` —
+      54/54 at build; retargeted at the freeze amendment: the three
+      w̃ mutants retired, four interior-competitor mutants added,
+      55 total; run it as a SINGLE run on a quiescent tree — no
+      concurrent edits, no second run — it snapshots and restores
+      analyze_3.py in place; verify `git diff` clean afterward).
 - [ ] Full-shape batteries reach EVERY terminal: four worlds, PARTIAL,
       every INSUFFICIENT_DATA route, one-rung and both-rung
       contamination, coherence fire, residual-bracket disagreement,

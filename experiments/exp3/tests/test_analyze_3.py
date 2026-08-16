@@ -284,11 +284,15 @@ def test_load_floors_rejects_items_drift(tmp_path):
         a.load_floors(fp, expected_sha=sha, items_loader=loader)
 
 
-# ---------------------------------------- the §5 statistic (Open item 3)
+# ---------------------------------------- the §5 statistic (Open item 3,
+# amended at the freeze — ledger 2026-08-16)
 #
-# s_i = m_i(y_i) − Σ_{c≠y_i} w̃_c m_i(c), w̃ the empirical answer-first-
-# letter distribution renormalized per item to exclude y_i; exact
-# one-sided sign test across items, ties dropped and disclosed.
+# s_i = m_i(a_i[0]) − mean over the answer's INTERIOR characters
+# a_i[1..L−2] (multiplicity kept; the last character — the echo target —
+# read on neither side); exact one-sided sign test across items, ties
+# dropped and disclosed. The w̃ cross-item form this replaced credited
+# set-level lexical priming as signal (the freeze's class-defect
+# finding); the kill fixtures below pin each degenerate by name.
 
 def mitem(label, residual=0.0, uniform=None, **letter_masses):
     """A per-item mass record in masses.py's stored shape."""
@@ -306,13 +310,14 @@ def mitem(label, residual=0.0, uniform=None, **letter_masses):
 
 
 def test_sign_statistic_hand_computed_case():
-    """Support {a: .75, b: .25}. For a y=a item, w̃ = {b: 1.0}, so
-    s = m(a) − m(b); for the y=b item, w̃ = {a: 1.0}, s = m(b) − m(a)."""
-    answers = ["ax", "ay", "az", "bq"]
+    """Answer "abz": the statistic reads m(a) against the interior mean
+    — here just m(b) — and never m(z). Signs by hand:
+    .5−.1=+.4 | .2−.3=−.1 | .4−.4=0 tie | .6−.2=+.4."""
+    answers = ["abz", "abq", "ady", "bez"]
     items = [mitem("a", a=0.5, b=0.1),   # s = .4
              mitem("a", a=0.2, b=0.3),   # s = -.1
-             mitem("a", a=0.4, b=0.4),   # s = 0, tie
-             mitem("b", b=0.6, a=0.2)]   # s = .4
+             mitem("a", a=0.4, d=0.4),   # s = 0, tie
+             mitem("b", b=0.6, e=0.2)]   # s = .4
     got = a.rung_sign_test(items, answers, n_tests=1)
     assert got["computable"] is True
     assert got["K"] == 2 and got["n_eff"] == 3 and got["n_ties"] == 1
@@ -321,15 +326,76 @@ def test_sign_statistic_hand_computed_case():
     assert got["significant"] is False
 
 
+def test_sign_statistic_interior_mean_is_position_weighted():
+    """Interior multiplicity is kept: answer "abbcz" has interior "bbc",
+    so comp = (2·m(b) + m(c))/3. With m(a)=.15, m(b)=0, m(c)=.3 that is
+    .1 → s = +.05; a de-duplicated interior would give .15 → a tie —
+    the multiset IS the exchangeable object, and dropping repeats
+    changes the answer."""
+    got = a.rung_sign_test([mitem("a", a=0.15, b=0.0, c=0.3)],
+                           ["abbcz"], n_tests=1)
+    assert got["K"] == 1 and got["n_eff"] == 1 and got["n_ties"] == 0
+
+
+def test_lexical_primer_ties_out_by_construction():
+    """THE freeze finding's kill fixture: a set-level lexical primer —
+    base mass everywhere, one flat boost on every character present in
+    the item's string, position-blind — cancels algebraically: every
+    character the statistic reads carries base + boost, so s_i = 0
+    exactly on every item. The w̃ statistic this replaced scored the
+    same world K=n, p ≈ 1e-151 at n=500 (ledger 2026-08-16)."""
+    answers = ["gfedcba", "mlkjihg", "trqponm", "zyxwvut"]
+    items = []
+    for ans in answers:
+        boosted = {c: (0.005 + (0.04 if c in set(ans) else 0.0))
+                   for c in "abcdefghijklmnopqrstuvwxyz"}
+        items.append(dict(mitem(ans[0], **boosted),
+                          label_mass=boosted[ans[0]]))
+    got = a.rung_sign_test(items, answers, n_tests=4)
+    assert got["computable"] is True
+    assert got["n_eff"] == 0 and got["n_ties"] == 4
+    assert got["p"] == 1.0 and got["significant"] is False
+
+
+def test_echo_mass_is_read_on_neither_side():
+    """The echo character (the answer's LAST character = the input's
+    first) is excluded from the statistic entirely: a pure echo model —
+    all its letter mass on ans[-1] — produces exact ties, not negative
+    signs. An implementation that lets ans[-1] into the competitor set
+    turns these into n_eff=4 all-negative and fails this fixture."""
+    answers = ["gfedcba", "nmlkjih", "utsrqpo", "zyxwvcb"]
+    items = [mitem(ans[0], **{ans[-1]: 0.9}) for ans in answers]
+    got = a.rung_sign_test(items, answers, n_tests=1)
+    assert got["n_ties"] == 4 and got["n_eff"] == 0
+    assert got["significant"] is False
+
+
+def test_item_independent_prior_balances_on_rotation_closed_answers():
+    """Anti-concentration kill: under ANY item-independent letter prior
+    the signs over a rotation-closed answer set telescope to zero sum —
+    they cannot all be positive. Rotations of "abc" with f(a) > f(b) >
+    f(c): s = f(a)−f(b) > 0, f(b)−f(c) > 0, f(c)−f(a) < 0 → K=2 of 3,
+    p = .5. (The distributional guarantee is θ = .5 exactly by position
+    exchangeability; this pins the mechanism on a hand-checkable set.)"""
+    f = {"a": 0.5, "b": 0.3, "c": 0.1}
+    answers = ["abc", "bca", "cab"]
+    items = [mitem(ans[0], **f) for ans in answers]
+    got = a.rung_sign_test(items, answers, n_tests=1)
+    assert got["K"] == 2 and got["n_eff"] == 3
+    assert got["p"] == pytest.approx(0.5)
+    assert got["significant"] is False
+
+
 def test_sign_test_exact_binomial_tail_and_significance():
     """K=18 of N=20 → p = 211/2^20 ≈ 2.01e-4, significant at n_tests=4;
-    K=14 of N=20 → p ≈ .0577, not significant even at n_tests=1."""
-    answers = [c + "x" for c in "abcdefghij"] * 2
+    K=14 of N=20 → p ≈ .0577, not significant even at n_tests=1.
+    Positives put mass on the answer's first character; negatives put
+    the same mass on its (single) interior character instead."""
+    answers = [c + "xq" for c in "abcdefghij"] * 2   # interior = "x"
     strong = [mitem(y[0], **{y[0]: 0.5}) for y in answers]
-    for it in strong[:2]:   # two negatives: mass on a competitor instead
+    for it in strong[:2]:   # two negatives: mass on the interior char
         it["letters"][it["label_char"]] = 0.0
-        other = "a" if it["label_char"] != "a" else "b"
-        it["letters"][other] = 0.5
+        it["letters"]["x"] = 0.5
         it["label_mass"] = 0.0
     got = a.rung_sign_test(strong, answers, n_tests=4)
     assert got["K"] == 18 and got["n_eff"] == 20
@@ -339,8 +405,7 @@ def test_sign_test_exact_binomial_tail_and_significance():
     weak = [mitem(y[0], **{y[0]: 0.5}) for y in answers]
     for it in weak[:6]:
         it["letters"][it["label_char"]] = 0.0
-        other = "a" if it["label_char"] != "a" else "b"
-        it["letters"][other] = 0.5
+        it["letters"]["x"] = 0.5
         it["label_mass"] = 0.0
     got = a.rung_sign_test(weak, answers, n_tests=1)
     assert got["K"] == 14
@@ -351,22 +416,22 @@ def test_sign_test_exact_binomial_tail_and_significance():
 def test_sign_test_bonferroni_uses_n_tests():
     """K=16 of N=20 → p ≈ .0059: significant at n_tests=1, NOT at the
     adjudicated n_tests=4 — the correction must actually be applied."""
-    answers = [c + "x" for c in "abcdefghij"] * 2
+    answers = [c + "xq" for c in "abcdefghij"] * 2
     items = [mitem(y[0], **{y[0]: 0.5}) for y in answers]
     for it in items[:4]:
         it["letters"][it["label_char"]] = 0.0
-        other = "a" if it["label_char"] != "a" else "b"
-        it["letters"][other] = 0.5
+        it["letters"]["x"] = 0.5
         it["label_mass"] = 0.0
     assert a.rung_sign_test(items, answers, n_tests=1)["significant"] is True
     assert a.rung_sign_test(items, answers, n_tests=4)["significant"] is False
 
 
 def test_format_only_emitter_ties_out_by_construction():
-    """The §2.2 kill test: mass spread indifferently over the letters
-    gives s_i = m − m·Σw̃ = 0 exactly — all ties, n_eff = 0, and the
-    ledgered all-ties reading (significant=False, p=1.0) applies."""
-    answers = [c + "x" for c in "abcdefghij"] * 2
+    """The §2.2 kill test, still exact under the interior form: mass
+    spread indifferently over the letters gives s_i = u − u = 0 on
+    every item — all ties, n_eff = 0, and the ledgered all-ties reading
+    (significant=False, p=1.0) applies."""
+    answers = [c + "xq" for c in "abcdefghij"] * 2
     items = [mitem(y[0], uniform=1.0 / 26) for y in answers]
     got = a.rung_sign_test(items, answers, n_tests=4)
     assert got["computable"] is True
@@ -380,31 +445,54 @@ def test_sub_epsilon_signals_are_ties():
     must count as a tie, never as a sign — dust-signed items counted
     into K alongside a shrunken n_eff would manufacture significance
     from nothing."""
-    answers = ["ax", "bx", "ay", "by"]
+    answers = ["axq", "bxq", "ayq", "byq"]
     items = [mitem("a", a=1e-13),
              mitem("b", b=0.3),
              mitem("a", a=1e-13),
-             mitem("b", a=0.3)]
+             mitem("b", y=0.3)]           # mass on the interior char
     got = a.rung_sign_test(items, answers, n_tests=1)
     assert got["K"] == 1 and got["n_ties"] == 2 and got["n_eff"] == 2
     assert got["p"] == pytest.approx(0.75)
 
 
-def test_single_letter_support_is_a_hard_error():
-    """w_y = 1 leaves nothing to renormalize over: a rung whose answers
-    all share one first letter cannot carry this statistic (guard, not
-    a silent zero)."""
-    answers = ["ax", "ay", "az"]
+def test_epsilon_boundary_sign_is_counted():
+    """SIGN_TIE_EPS is a strict > threshold: an s_i just above it is a
+    sign, not a tie. This also pins the competitor divisor — an
+    implementation that slips the first character into its own
+    competitor mean rescales every s_i by n/(n+1) (sign-preserving
+    everywhere else) and drags this boundary item under the epsilon."""
+    got = a.rung_sign_test([mitem("a", a=1.5e-12)], ["abz"], n_tests=1)
+    assert got["K"] == 1 and got["n_eff"] == 1 and got["n_ties"] == 0
+
+
+def test_same_first_letter_answers_are_computable():
+    """The old w̃ form hard-errored when every answer shared one first
+    letter (nothing to renormalize over). The interior form needs no
+    cross-item distribution: such a rung is perfectly computable, and
+    first-character mass still fires it."""
+    answers = ["abq", "acq", "adq", "aeq"]
     items = [mitem("a", a=0.5) for _ in answers]
-    with pytest.raises(ValueError, match="renormaliz"):
-        a.rung_sign_test(items, answers, n_tests=1)
+    got = a.rung_sign_test(items, answers, n_tests=1)
+    assert got["computable"] is True
+    assert got["K"] == 4 and got["n_eff"] == 4
+
+
+def test_short_answers_are_structural_ties():
+    """An answer of length < 3 has no interior: the item is a
+    structural tie, counted in n_ties and never dropped — dropping it
+    would silently shrink the cell. (No committed battery carries one;
+    the rule exists so the statistic is total.)"""
+    answers = ["ab", "ba", "axq"]
+    items = [mitem("a", a=0.9), mitem("b", b=0.9), mitem("a", a=0.4)]
+    got = a.rung_sign_test(items, answers, n_tests=1)
+    assert got["n_ties"] == 2 and got["n_eff"] == 1 and got["K"] == 1
 
 
 def test_digit_support_is_not_computable_and_never_significant():
-    """The ledgered letter-support rule (reading 5): clock24_d999's
-    answers begin with digits, outside the stored a–z block — the sign
-    test records computable=False and can never fire; letter support
-    stays computable."""
+    """The ledgered letter-support rule (reading 5, re-keyed at the
+    freeze): clock24_d999's statistic would read digits — outside the
+    stored a–z block — so the sign test records computable=False and
+    can never fire; letter support stays computable."""
     answers = ["8:41 pm", "9:10 am", "7:05 pm", "8:59 am"]
     items = [mitem(y[0]) for y in answers]
     got = a.rung_sign_test(items, answers, n_tests=1)
@@ -413,21 +501,32 @@ def test_digit_support_is_not_computable_and_never_significant():
     assert got["n_eff"] == 0
     assert "a" in got["reason"] and "z" in got["reason"]
 
-    letter_answers = ["ax", "bx", "ay", "by"]
+    letter_answers = ["axq", "bxq", "ayq", "byq"]
     letter_items = [mitem(y[0], **{y[0]: 0.3}) for y in letter_answers]
     assert a.rung_sign_test(letter_items, letter_answers,
                             n_tests=1)["computable"] is True
 
 
+def test_interior_digits_break_computability_even_with_letter_firsts():
+    """The re-keyed rule reads EVERY character the statistic touches: a
+    letter-first answer with a digit interior is just as uncomputable —
+    the interior mean would need masses the stored unit does not
+    carry."""
+    answers = ["a1q", "b2q", "c3q"]
+    items = [mitem(y[0], **{y[0]: 0.3}) for y in answers]
+    got = a.rung_sign_test(items, answers, n_tests=1)
+    assert got["computable"] is False
+
+
 def test_upper_end_credits_the_residual_to_the_correct_letter():
-    """Reading 1: s_i_hi = (m_i(y_i) + r_i) − Σ w̃_c m_i(c). An item
-    negative at the lower end can be positive at the upper end; the
-    ends are otherwise the same statistic."""
-    answers = ["ax", "bx", "ay", "by"]
+    """Reading 1: s_i_hi = (m_i(a_i[0]) + r_i) − the same interior
+    mean. An item negative at the lower end can be positive at the
+    upper end; the ends are otherwise the same statistic."""
+    answers = ["abq", "bxq", "ayq", "bzq"]
     items = [mitem("a", a=0.0, b=0.1, residual=0.15),   # lo −.1, hi +.05
-             mitem("b", b=0.3, a=0.0, residual=0.15),
-             mitem("a", a=0.3, b=0.0, residual=0.15),
-             mitem("b", b=0.3, a=0.0, residual=0.15)]
+             mitem("b", b=0.3, x=0.0, residual=0.15),
+             mitem("a", a=0.3, y=0.0, residual=0.15),
+             mitem("b", b=0.3, z=0.0, residual=0.15)]
     lo = a.rung_sign_test(items, answers, n_tests=1)
     hi = a.rung_sign_test(items, answers, n_tests=1, upper=True)
     assert lo["K"] == 3 and hi["K"] == 4

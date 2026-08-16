@@ -30,12 +30,20 @@ ROOT = Path(__file__).resolve().parents[3]
 A = ROOT / "experiments/exp3/analyze_3.py"
 
 M = [
-    # ---- the §5 statistic ----
-    ("statistic: w̃ not renormalized (competitors weighted by raw w)",
-     "        denom = 1.0 - w[yi]", "        denom = 1.0"),
-    ("statistic: y_i not excluded from the competitor sum",
-     "                   for c in w if c != yi)",
-     "                   for c in w)"),
+    # ---- the §5 statistic (interior-competitor form, freeze amendment) ----
+    ("statistic: echo character admitted into the competitor set",
+     "        interior = s[1:-1]", "        interior = s[1:]"),
+    ("statistic: first character admitted into its own competitor set",
+     "        interior = s[1:-1]", "        interior = s[:-1]"),
+    ("statistic: interior multiplicity dropped (competitors de-duplicated)",
+     "        comp = sum(float(it[\"letters\"][c]) for c in interior) \\\n"
+     "            / len(interior)",
+     "        comp = sum(float(it[\"letters\"][c]) for c in set(interior)) \\\n"
+     "            / len(set(interior))"),
+    ("statistic: interior-less items silently dropped instead of tied",
+     "        if not interior:\n            signs.append(0.0)\n"
+     "            continue",
+     "        if not interior:\n            continue"),
     ("statistic: upper end never credits the residual",
      "        if upper:\n            m_y += float(it[\"residual\"])",
      "        if False:\n            m_y += float(it[\"residual\"])"),
@@ -51,9 +59,7 @@ M = [
     ("statistic: Bonferroni dropped",
      "    return p, bool(p * n_tests < alpha)",
      "    return p, bool(p < alpha)"),
-    ("statistic: single-letter support allowed through to a 0/0",
-     "    if len(w) == 1:", "    if False:"),
-    ("statistic: digit support silently treated as computable",
+    ("statistic: non-letter read characters silently treated as computable",
      "    if outside:", "    if False:"),
     # ---- bracket ends (reading 1) ----
     ("bracket: adjudication reads the upper end where present",
@@ -108,8 +114,14 @@ M = [
     ("gate3: never triggers",
      "    if incoherent_adj:", "    if False:"),
     ("gate3: trigger widened to all 16 sampling cells",
-     "    incoherent_adj = [_key(k) for k in ADJUDICATED",
+     "    incoherent_adj = [_key(k) for k in GATE3_FATAL_CELLS",
      "    incoherent_adj = [_key(k) for k in SAMPLING_CELLS"),
+    ("gate3: fatal set narrowed back to the adjudicated four (freeze "
+     "ruling on reading 2 undone)",
+     "GATE3_FATAL_CELLS = ADJUDICATED + (\n"
+     "    (POSITIVE_CONTROL, \"410m\", \"trained\"), "
+     "(POSITIVE_CONTROL, \"1b\", \"trained\"))",
+     "GATE3_FATAL_CELLS = ADJUDICATED"),
     ("gate3: interval at plain .95 instead of the Bonferroni level",
      "    level = 1.0 - alpha / N_COHERENCE_TESTS",
      "    level = 0.95"),

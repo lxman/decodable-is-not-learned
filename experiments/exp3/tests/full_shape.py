@@ -61,14 +61,18 @@ FC_CLOCK = 237         # ≈ .37 * 640, 150 of them full-string
 
 def rung_items(rung):
     """(labels, answers) for a synthetic rung. Letter rungs cycle ten
-    first letters (w̃ well-spread, guard clear); the matched control's
-    answers begin with digits — the real shape, reading 5's path."""
+    first letters over all-letter answers (the amended statistic reads
+    the first character and the interior "{rung[:3]}q", so every read
+    character stays inside a–z); the matched control's answers begin
+    with digits — the real shape, reading 5's path."""
     if rung == a.MATCHED_CONTROL:
         firsts = "123456789"
         answers = [f"{firsts[i % 9]}:4{i % 10} pm" for i in range(N)]
     else:
         firsts = "abcdefghij"
-        answers = [f"{firsts[i % 10]}{rung[:3]}q{i}" for i in range(N)]
+        suffix = "abcdefghijklmnopqrst"
+        answers = [f"{firsts[i % 10]}{rung[:3]}q{suffix[i]}"
+                   for i in range(N)]
     return [ans[0] for ans in answers], answers
 
 
@@ -79,8 +83,14 @@ def _blank_letters():
 def mass_items_for(case, labels, answers, *, depth=2):
     """Per-item mass records in masses.py's stored shape, per case.
 
-    floor      — signs split 10/10 (not significant), mean label .038
-    sig / sig94 / hot — all mass on the correct letter (significant)
+    floor      — signs split 10/10 (not significant), mean label .038;
+                 the negative items put their mass on 'q', a character
+                 in every letter-rung answer's INTERIOR and never a
+                 first letter here (the amended statistic's competitor)
+    sig / sig94 / hot / hot10 — all mass on the correct letter
+                 (significant; hot10's LOW mean .10 is the gate-3
+                 ruling's crack: rank-fired sign test under a mass
+                 bracket far below healthy sampled rates)
     digit37 / digitfloor — the digit-label control (letters empty,
                  label mass in `extra`; sign test not computable)
     flip       — lower end 10/20 (not sig), whole residual flips the
@@ -88,26 +98,24 @@ def mass_items_for(case, labels, answers, *, depth=2):
     zero       — all-ties cell (every mass 0)
     """
     items = []
-    support = sorted(set(labels))
     for i, (label, _ans) in enumerate(zip(labels, answers)):
         lc = str(label)[0].casefold()
         letters = _blank_letters()
         extra = {}
         residual = 0.0
-        if case in ("sig", "sig94", "hot"):
-            letters[lc] = {"sig": P_SIG, "sig94": P_CTRL, "hot": P_HOT}[case]
+        if case in ("sig", "sig94", "hot", "hot10"):
+            letters[lc] = {"sig": P_SIG, "sig94": P_CTRL, "hot": P_HOT,
+                           "hot10": 0.10}[case]
         elif case == "floor":
             if i % 2 == 0:
                 letters[lc] = P_FLOOR
             else:
-                comp = next(c for c in support if c != lc)
-                letters[comp] = P_FLOOR
+                letters["q"] = P_FLOOR
         elif case == "flip":
             if i % 2 == 0:
                 letters[lc] = 0.05
             else:
-                comp = next(c for c in support if c != lc)
-                letters[comp] = 0.05
+                letters["q"] = 0.05
                 residual = 0.2
         elif case == "digit37":
             extra[lc] = P_CLOCK
@@ -407,6 +415,22 @@ BATTERIES = {
         "expect": "INSUFFICIENT_DATA", "expect_reason": "coheren",
         "check": [lambda out: out["coherence"]
                   ["rev_string7/410m/trained"]["coherent"] is False]},
+    "id_gate3_ctrl_incoherent_behind_passing_gate1": {
+        # the freeze ruling's crack (reading 2, ledger 2026-08-16):
+        # ctrl_copy's sign test fires on rank (label mass .10, interior
+        # zero) and its verified full-string rate .625 clears the CP
+        # arm — BOTH gate-1 arms pass — while the first-char count's
+        # CP interval is disjoint from the .10 mass bracket. A run
+        # must not proceed past a disagreeing positive control.
+        "world": {"mass": {("ctrl_copy", "410m", "trained"): "hot10"},
+                  "draws": {("ctrl_copy", "410m", "trained"): (400, 400)}},
+        "expect": "INSUFFICIENT_DATA", "expect_reason": "coheren",
+        "check": [
+            lambda out: out["gate1"]["mass_significant"]["410m"] is True,
+            lambda out: out["gate1"]["full_string_cp95_lower"]["410m"] > 0.5,
+            lambda out: out["coherence"]["ctrl_copy/410m/trained"]
+            ["coherent"] is False,
+        ]},
     "id_both_rungs_contaminated": {
         # one twin fires on the mass arm (draws kept coherent with its
         # hot mass), the other on a verified full-string draw
