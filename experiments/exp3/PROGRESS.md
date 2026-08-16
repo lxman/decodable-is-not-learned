@@ -1,5 +1,26 @@
 # Experiment 3 — build ledger
 
+**2026-08-16 — CAMPAIGN LAUNCH, on Michael's word ("Launch now, push
+per cell") — §10.3 fully satisfied: preflight ladder done this
+session (all five local sizes), per-cell push authorization
+reconfirmed.** Launch state: tag `exp3-preregistered` = ae82394;
+working tree clean at launch; no result cell exists. Operational
+notes, disclosed before the first cell: (1) the mlx text-server
+(launchd `com.mlx.text-server`, port 11436) is BOOTED OUT for the
+campaign per 3b's precedent — plain kill respawned it (KeepAlive), so
+it was `launchctl bootout`-ed; RESTORE after the campaign with
+`launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.mlx.text-server.plist`
+and verify HTTP on 11436. The embeddings (11435) and VLM (8080)
+servers stay up — the 6.9b fp32 preflight passed under today's exact
+load, an existence proof the heaviest tier fits. (2) Per-cell commits
+are made by `run/commit_watcher.sh` (NEW, driver-class, operational
+only): 5-minute cycle, 2-minute warm-file mtime guard, pushes each
+commit, exits on the driver's terminal line after a final sweep. The
+frozen driver itself is untouched. (3) Driver runs detached
+(nohup+disown), log at `experiments/exp3/logs/campaign.log`,
+tier-per-process, per-cell resume — any interruption resumes with
+`python -m experiments.exp3.run.campaign_3`.
+
 **2026-08-16 — MICHAEL RATIFIES THE §5 AMENDMENT ("ratified"); tag
 `exp3-preregistered` applied to the ratification commit and pushed.**
 The ruling closes the freeze checklist's final ruling box. The tagged
