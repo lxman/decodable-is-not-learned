@@ -23,16 +23,13 @@ scope behind a passing gate 1) was ruled and closed the same session.**
 
 ## Rulings required (build-session readings, PROGRESS.md 2026-08-15)
 
-- [ ] **THE FREEZE AMENDMENT (ledger 2026-08-16) — MICHAEL'S RULING,
-      blocks the tag:** §5's primary mass statistic amended from the
-      w̃ cross-item form (found to credit set-level lexical priming —
-      the class defect; θ ≈ 1 false fire demonstrated, both degenerate
-      shapes visibly live in 3b's committed continuations) to the
-      within-item interior-competitor form (θ = .5 exact for the whole
-      position-symmetric mechanism class; echo read on neither side).
-      power.json untouched (sign_test_significance unchanged). Ratify
-      the amendment → tag; or reject → revert to w̃ + disclose-only
-      (recorded in the ledger) before any tag.
+- [x] **THE FREEZE AMENDMENT (ledger 2026-08-16) — MICHAEL'S RULING:
+      RATIFIED, 2026-08-16** ("ratified", after the freeze-session
+      report with the defect demonstration, the exchangeability
+      argument, and the disclose-only alternative on the table). §5's
+      primary mass statistic is the within-item interior-competitor
+      form; the w̃ cross-item form is superseded and recorded in §5
+      for the record. The tag follows on this ruling.
 - [x] Bracket ends: lower end adjudicates, upper end disclosed,
       disagreement its own finding — **RATIFIED.** Unattributed
       whitespace-path mass can only suppress a fire, never manufacture

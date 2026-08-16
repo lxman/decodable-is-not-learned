@@ -1,5 +1,17 @@
 # Experiment 3 — build ledger
 
+**2026-08-16 — MICHAEL RATIFIES THE §5 AMENDMENT ("ratified"); tag
+`exp3-preregistered` applied to the ratification commit and pushed.**
+The ruling closes the freeze checklist's final ruling box. The tagged
+state is the cold-green tree of f0b5fe0 plus ratification records
+only (no code bytes changed after the cold battery). Design doc
+status flips to FROZEN at the tag. Still open before any cell runs
+(§10.3, "At the tag" box): campaign launch is Michael's word, with
+per-cell push authorization reconfirmed at launch. The preflight
+ladder half of that box is already satisfied (all five local sizes,
+this session). No mass or sampling quantity exists for any real cell;
+the eval side of this experiment has never been touched.
+
 Design doc: `experiment-3-design.md` (DRAFT — NOT FROZEN; committed
 131737a, all sections approved by Michael including the mass-pairing
 amendment). Three-session protocol, boundary = context clear (Michael's

@@ -1,16 +1,19 @@
 # Experiment 3 — Design Doc: Elicitation — Is the Dissociated Information in the Output Distribution?
 
-**Status:** **DRAFT — NOT FROZEN.** Three-session protocol (design |
-build | freeze, boundary = context clear; Michael's pacing ruling,
-2026-08-15). This doc is written and set down; the build is a later
-session; the freeze is a third session that opens adversarially (cold
-re-read, assignment: find the class defect) and ends at tag
-`exp3-preregistered`. **Freeze-session amendment (2026-08-16, ledger
-`experiments/exp3/PROGRESS.md`): the adversarial read found the class
-defect in §5's original w̃ mass statistic (it credited set-level
-lexical priming); §5 is amended to the within-item interior-competitor
-form, pre-tag. The tag waits on Michael's ratification of the
-amendment.** The instrument will be `experiments/exp3/` —
+**Status:** **FROZEN 2026-08-16 — tag `exp3-preregistered`.**
+Three-session protocol (design | build | freeze, boundary = context
+clear; Michael's pacing ruling, 2026-08-15). The freeze session
+opened adversarially and FOUND THE CLASS DEFECT: §5's original w̃
+mass statistic credited set-level lexical priming; §5 was amended
+pre-tag to the within-item interior-competitor form (ledger
+`experiments/exp3/PROGRESS.md`, 2026-08-16), the amendment was
+**ratified by Michael 2026-08-16**, and the tag was applied on the
+ratification commit over the cold-green tree (suite 140, worlds
+17/17, mutation 56/56, referents 14/14, determinism and power tables
+byte-identical, preflight all five local sizes). Two further freeze
+rulings are frozen with it: the gate-3 ID trigger covers the
+adjudicated cells AND ctrl_copy's trained cells (§6.3), and fp16
+tiers preflight on the paths they use (`--keep1-only`). The instrument will be `experiments/exp3/` —
 `analyze_3.py` with its own loaders, a mass module, a seeded sampler,
 a runner, a committed tier-per-process driver, and a fixture suite.
 
