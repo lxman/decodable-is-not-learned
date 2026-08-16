@@ -845,3 +845,382 @@ def load_redecode_cells(root=EXP3) -> dict:
             "full_string_correct": rec.get("full_string_correct"),
         }
     return out
+
+
+# ----------------------------------------------------------- verdict tree
+
+ADJUDICATED = tuple((r, s, "trained") for r in REVERSAL_RUNGS
+                    for s in PROBE_SIZES)
+
+WORLD_LABEL = {(True, True): "ELICITABLE", (True, False): "BULK-ONLY",
+               (False, True): "TAIL-ONLY", (False, False): "WALL"}
+
+
+def _key(k) -> str:
+    return "/".join(k)
+
+
+def _shape_check_3(mass_cells, sampling_cells, redecode_cells,
+                   gate2_refs, floors) -> dict:
+    """The battery must be exactly the preregistered 28 + 16 + 16 cells
+    with every referent present and every cell pinned to its rung's
+    single §4 item file (reading 7). Anything else is a malformed
+    battery and a hard error, not a verdict: INSUFFICIENT_DATA is a
+    statement about the world, and a half-copied directory is not the
+    world."""
+    if set(mass_cells) != set(MASS_CELLS):
+        raise ValueError(
+            f"battery is not the preregistered 28 mass cells: missing "
+            f"{sorted(set(MASS_CELLS) - set(mass_cells))}, extra "
+            f"{sorted(set(mass_cells) - set(MASS_CELLS))}")
+    for name, got in (("16 sampling", sampling_cells),
+                      ("16 re-decode", redecode_cells),
+                      ("16 gate-2 referent", gate2_refs)):
+        if set(got) != set(SAMPLING_CELLS):
+            raise ValueError(
+                f"battery is not the preregistered {name} cells: missing "
+                f"{sorted(set(SAMPLING_CELLS) - set(got))}, extra "
+                f"{sorted(set(got) - set(SAMPLING_CELLS))}")
+    for r in RUNGS:
+        if r not in floors or "primary" not in floors[r]:
+            raise ValueError(f"no committed floor for rung {r!r}")
+
+    sha_refs = items_sha_referents(gate2_refs)
+    anchor = {r: gate2_refs[(r, PROBE_SIZES[0], "trained")] for r in RUNGS}
+    for battery in (mass_cells, sampling_cells, redecode_cells):
+        for (rung, size, mode), c in sorted(battery.items()):
+            if c["items_sha256"] != sha_refs[rung]:
+                raise ValueError(
+                    f"cell {rung}/{size}/{mode} carries items_sha256 "
+                    f"{c['items_sha256']!r} against the rung's single §4 "
+                    f"pin {sha_refs[rung]!r}")
+            ref = anchor[rung]
+            if c["n"] != ref["n"]:
+                raise ValueError(
+                    f"cell {rung}/{size}/{mode} has n {c['n']} against "
+                    f"the referent's {ref['n']}")
+            for field in ("answers", "probe_labels"):
+                if c[field] != ref[field]:
+                    raise ValueError(
+                        f"cell {rung}/{size}/{mode}: {field} disagree "
+                        f"with the gate-2 referent's — not this "
+                        f"experiment's items")
+    for k in sorted(SAMPLING_CELLS):
+        if redecode_cells[k]["max_new_tokens"] != \
+                gate2_refs[k]["max_new_tokens"]:
+            raise ValueError(
+                f"re-decode cell {_key(k)} used max_new_tokens "
+                f"{redecode_cells[k]['max_new_tokens']} against the "
+                f"referent's {gate2_refs[k]['max_new_tokens']} — not "
+                f"3b's generation path")
+    return sha_refs
+
+
+def verdict(mass_cells, sampling_cells, redecode_cells, gate2_refs,
+            floors, margins, *, alpha: float = ALPHA) -> dict:
+    """Design §6, adjudicated in precedence order, with everything
+    computed and disclosed BEFORE the first branch so no gate can hide
+    another's evidence. Gate 4 (sampler reproducibility) is a
+    freeze-time gate, not a runtime branch."""
+    _shape_check_3(mass_cells, sampling_cells, redecode_cells,
+                   gate2_refs, floors)
+
+    # ---- the §5 statistic on every probe-size mass cell (reading 8:
+    # eval-size cells take no test and appear only in the descriptives)
+    sign_tests = {}
+    bracket_findings = []
+    for key in sorted(mass_cells):
+        rung, size, mode = key
+        if size not in PROBE_SIZES:
+            continue
+        c = mass_cells[key]
+        adjudicated = key in ADJUDICATED
+        n_tests = N_ADJ_TESTS if adjudicated else 1
+        lower = rung_sign_test(c["items"], c["answers"],
+                               n_tests=n_tests, alpha=alpha)
+        if adjudicated and not lower["computable"]:
+            raise ValueError(
+                f"the §5 statistic has no computable value on "
+                f"adjudicated cell {_key(key)} ({lower.get('reason')}) — "
+                f"a vacuous statistic must never adjudicate; this "
+                f"battery cannot be the pinned one")
+        rec = {"lower": lower}
+        mean_residual = (sum(float(it["residual"]) for it in c["items"])
+                         / c["n"])
+        rec["mean_residual"] = mean_residual
+        if adjudicated and mean_residual > RESIDUAL_BRACKET_THRESHOLD:
+            upper = rung_sign_test(c["items"], c["answers"],
+                                   n_tests=n_tests, alpha=alpha,
+                                   upper=True)
+            rec["upper"] = upper
+            if upper["significant"] != lower["significant"]:
+                bracket_findings.append(_key(key))
+        sign_tests[_key(key)] = rec
+
+    def sig_of(key) -> bool:
+        return sign_tests[_key(key)]["lower"]["significant"]
+
+    # ---- fires and zero bounds for the 16 sampling cells
+    fires = {}
+    for key in sorted(sampling_cells):
+        rc = sampling_cells[key]["recomputed"]
+        entry = {"full_string_total": rc["full_string_total"],
+                 "first_char_total": rc["first_char_total"],
+                 "n_draws": rc["n_draws_total"],
+                 "per_seed_full_string": {s: v["full_string"]
+                                          for s, v in
+                                          rc["per_seed"].items()},
+                 "fired": rc["fired"]}
+        if rc["fired"]:
+            entry["fired_seeds"] = {s: v["full_string"]
+                                    for s, v in rc["per_seed"].items()
+                                    if v["full_string"] > 0}
+            entry["per_item_max"] = max(rc["per_item_full_string"])
+        else:
+            # every zero as a CP bound (§5, program rule since 1c):
+            # pooled across the cell's draws, and per-item-max at the
+            # item's own draw count
+            entry["cp95_upper_pooled"] = cp_upper(0, rc["n_draws_total"])
+            entry["cp95_upper_per_item_max"] = cp_upper(
+                0, sampling_cells[key]["k_total"])
+        fires[_key(key)] = entry
+
+    # ---- gate-3 coherence, computed for all 16 (readings 2 and 9),
+    # ID trigger on the four adjudicated cells only
+    level = 1.0 - alpha / N_COHERENCE_TESTS
+    coherence = {}
+    for key in sorted(sampling_cells):
+        rc = sampling_cells[key]["recomputed"]
+        ci_lo, ci_hi = clopper_pearson(rc["first_char_total"],
+                                       rc["n_draws_total"], level=level)
+        b_lo, b_hi = cell_mass_bracket(mass_cells[key]["items"])
+        coherence[_key(key)] = {
+            "first_char_count": rc["first_char_total"],
+            "n_draws": rc["n_draws_total"],
+            "cp_interval": [ci_lo, ci_hi], "cp_level": level,
+            "mass_bracket": [b_lo, b_hi],
+            "coherent": not (ci_hi < b_lo or b_hi < ci_lo)}
+
+    # ---- gate-5 contamination evidence (probe-size twins; reading 5
+    # keeps the mass arm inert where the statistic is not computable)
+    contamination_evidence = {}
+    for rung in RUNGS:
+        ev = []
+        for size in PROBE_SIZES:
+            key = (rung, size, "untrained")
+            mass_arm = sig_of(key)
+            fire_arm = fires[_key(key)]["fired"]
+            if mass_arm or fire_arm:
+                ev.append({"size": size, "mass_arm": mass_arm,
+                           "fire_arm": fire_arm})
+        if ev:
+            contamination_evidence[rung] = ev
+    contaminated = sorted(contamination_evidence)
+
+    # ---- descriptives: the scale trend (§5 "the precursor curve"),
+    # the matched control's agreement quadrant, floors, margins
+    def mean_label_mass(key) -> float:
+        c = mass_cells[key]
+        return sum(float(it["label_mass"]) for it in c["items"]) / c["n"]
+
+    mass_scale_trend = {r: {s: mean_label_mass((r, s, "trained"))
+                            for s in SIZES} for r in RUNGS}
+    twin_mass = {r: {s: mean_label_mass((r, s, "untrained"))
+                     for s in PROBE_SIZES} for r in RUNGS}
+    matched_control = {}
+    for size in PROBE_SIZES:
+        k = (MATCHED_CONTROL, size, "trained")
+        rc = sampling_cells[k]["recomputed"]
+        matched_control[size] = {
+            "mean_label_mass": mean_label_mass(k),
+            "sampled_first_char_rate": rc["first_char_total"]
+            / rc["n_draws_total"],
+            "sampled_full_string_rate": rc["full_string_total"]
+            / rc["n_draws_total"]}
+
+    # ---- gate-2 byte comparison: every differing item disclosed
+    # verbatim whether or not the gate fires
+    byte_diffs = {}
+    for key in sorted(SAMPLING_CELLS):
+        diffs = [{"item": i, "got": g, "referent": w}
+                 for i, (g, w) in enumerate(zip(
+                     redecode_cells[key]["continuations"],
+                     gate2_refs[key]["continuations"]))
+                 if str(g) != str(w)]
+        if diffs:
+            byte_diffs[_key(key)] = diffs
+
+    gate1 = {
+        "mass_significant": {s: sig_of((POSITIVE_CONTROL, s, "trained"))
+                            for s in PROBE_SIZES},
+        "full_string_cp95_lower": {}}
+    for s in PROBE_SIZES:
+        rc = sampling_cells[(POSITIVE_CONTROL, s, "trained")]["recomputed"]
+        lo, _hi = clopper_pearson(rc["full_string_total"],
+                                  rc["n_draws_total"], level=0.95)
+        gate1["full_string_cp95_lower"][s] = lo
+
+    out = {
+        "alpha": alpha, "n_adjudicated_tests": N_ADJ_TESTS,
+        "mass_sign_tests": sign_tests, "bracket_findings": bracket_findings,
+        "fires": fires, "coherence": coherence, "byte_diffs": byte_diffs,
+        "gate1": gate1, "contaminated": contaminated,
+        "contamination_evidence": contamination_evidence,
+        "mass_scale_trend": mass_scale_trend, "twin_mass": twin_mass,
+        "matched_control": matched_control,
+        "floors": {r: floors[r]["primary"] for r in RUNGS},
+        "probe_margins": margins,
+    }
+
+    # 1. positive control: the instrument pair must see the
+    # distribution and reachability of a capability committed at
+    # .960/.980 argmax and .9940 first-char on these same weights
+    if not (all(gate1["mass_significant"].values())
+            and all(v > 0.5 for v in
+                    gate1["full_string_cp95_lower"].values())):
+        return {**out, "verdict": "INSUFFICIENT_DATA",
+                "reason": f"{POSITIVE_CONTROL} fails as positive control "
+                          f"— mass sign test significant per size: "
+                          f"{gate1['mass_significant']}; pooled "
+                          f"full-string 95% CP lower bounds: "
+                          f"{gate1['full_string_cp95_lower']} (gate "
+                          f"passes only when the sign test clears at "
+                          f"both sizes AND every lower bound exceeds "
+                          f".5) — an instrument pair that cannot see a "
+                          f"capability committed at .960/.980 argmax "
+                          f"and .9940 first-char is not measuring "
+                          f"either"}
+
+    # 2. harness continuity: 3b's own tolerance, diffs already disclosed
+    over = {k: len(v) for k, v in byte_diffs.items()
+            if len(v) > BYTE_TOLERANCE}
+    if over:
+        n_ref = next(iter(redecode_cells.values()))["n"]
+        return {**out, "verdict": "INSUFFICIENT_DATA",
+                "reason": "byte gate failed — greedy decoding is "
+                          "deterministic on this stack, and more than "
+                          f"{BYTE_TOLERANCE} of {n_ref} re-decoded "
+                          f"continuations differ from 3b's committed "
+                          f"record at: "
+                          + "; ".join(f"{k} ({n} items)"
+                                      for k, n in sorted(over.items()))}
+
+    # 3. instrument coherence, ID trigger on the adjudicated cells
+    incoherent_adj = [_key(k) for k in ADJUDICATED
+                      if not coherence[_key(k)]["coherent"]]
+    if incoherent_adj:
+        details = "; ".join(
+            f"{k}: {coherence[k]['first_char_count']}/"
+            f"{coherence[k]['n_draws']} sampled first-char against mass "
+            f"bracket [{coherence[k]['mass_bracket'][0]:.4f}, "
+            f"{coherence[k]['mass_bracket'][1]:.4f}]"
+            for k in incoherent_adj)
+        return {**out, "verdict": "INSUFFICIENT_DATA",
+                "reason": "instrument coherence failed in adjudicated "
+                          f"cell(s): {details} — the exact two-sided CP "
+                          f"interval at α = {alpha}/{N_COHERENCE_TESTS} "
+                          f"is disjoint from [mass, mass + residual]; "
+                          f"the two instruments measure the same "
+                          f"distribution, so disagreement is a "
+                          f"code-path defect (BOS, padding, prompt "
+                          f"drift), not a finding"}
+
+    # 5. contaminated rungs leave step 6's quantifiers; both reversal
+    # rungs contaminated leaves them empty, and a universal quantifier
+    # over zero cells decides nothing (the all([]) guard, 3b §6)
+    eligible = [(r, s) for r in REVERSAL_RUNGS if r not in contaminated
+                for s in PROBE_SIZES]
+    if not eligible:
+        return {**out, "verdict": "INSUFFICIENT_DATA",
+                "reason": "both reversal rungs' probe-size twins fired "
+                          f"(evidence: {contamination_evidence}) — "
+                          f"contamination emptied the claim, and a "
+                          f"universal quantifier over zero cells "
+                          f"decides nothing"}
+
+    # 6. adjudicate the claim per eligible (rung × size) trained cell
+    cell_labels = {}
+    for (r, s) in eligible:
+        key = (r, s, "trained")
+        cell_labels[f"{r}/{s}"] = WORLD_LABEL[
+            (sig_of(key), fires[_key(key)]["fired"])]
+    out = {**out, "cell_labels": cell_labels}
+    worlds = set(cell_labels.values())
+
+    if worlds == {"ELICITABLE"}:
+        return {**out, "verdict": "ELICITABLE",
+                "reason": "mass significantly above its "
+                          "within-distribution floor AND at least one "
+                          "verified full-string draw in every "
+                          f"adjudicated cell ({sorted(cell_labels)}) — "
+                          "the famous zero was an argmax cliff over "
+                          "nonzero distribution mass; signature 2 "
+                          "fires, per-seed spread in the fires table"}
+    if worlds == {"BULK-ONLY"}:
+        bounds = "; ".join(
+            f"{_key((r, s, 'trained'))} ≤ "
+            f"{fires[_key((r, s, 'trained'))]['cp95_upper_pooled']:.2e}"
+            for r, s in eligible)
+        return {**out, "verdict": "BULK-ONLY",
+                "reason": "mass elevated but full-string walled in every "
+                          f"adjudicated cell (pooled per-draw CP bounds: "
+                          f"{bounds}) — the first character is in the "
+                          f"distribution's bulk; the seven-character "
+                          f"joint path carries no measurable mass, and "
+                          f"the units gap relocates from the metric "
+                          f"into the autoregressive channel"}
+    if worlds == {"TAIL-ONLY"}:
+        return {**out, "verdict": "TAIL-ONLY",
+                "reason": "full-string fires without mass elevation in "
+                          "every adjudicated cell — rare-event "
+                          "reachability below the mass floor's "
+                          "resolution; by the forward-note's asymmetry "
+                          "rule a fire is strong evidence, so this is "
+                          "reported as elicitation with the mass result "
+                          "beside it"}
+    if worlds == {"WALL"}:
+        pooled = "; ".join(
+            f"{_key((r, s, 'trained'))} ≤ "
+            f"{fires[_key((r, s, 'trained'))]['cp95_upper_pooled']:.2e} "
+            f"pooled, ≤ "
+            f"{fires[_key((r, s, 'trained'))]['cp95_upper_per_item_max']:.2e}"
+            f" per item"
+            for r, s in eligible)
+        pm = "; ".join(
+            f"{r} " + "/".join(f"{margins[r][s]:.4f}@{s}"
+                               for s in PROBE_SIZES)
+            for r in REVERSAL_RUNGS if r not in contaminated)
+        return {**out, "verdict": "WALL",
+                "reason": "mass at floor AND zero verified successes in "
+                          f"every adjudicated cell ({pooled}) — the "
+                          f"dissociation extends through the entire "
+                          f"output channel at this resolution, against "
+                          f"same-weights probe margins {pm}. Per the "
+                          f"forward-note the frozen probe module is the "
+                          f"preregistered arbiter: WALL means 'present "
+                          f"in representation, absent from the output "
+                          f"channel at this depth', not evidence "
+                          f"against signature 1; sampling silence is "
+                          f"weak evidence, and the design is blind "
+                          f"below p ≈ 1e-5"}
+    table = "; ".join(f"{k} {v}" for k, v in sorted(cell_labels.items()))
+    return {**out, "verdict": "PARTIAL",
+            "reason": f"the adjudicated cells disagree — per-cell table "
+                      f"as headline, not caveat: {table}"}
+
+
+# ----------------------------------------------------------------- driver
+
+def run(root=EXP3) -> dict:
+    """Load everything through the frozen producers and adjudicate."""
+    return verdict(load_mass_cells(root), load_sampling_cells(root),
+                   load_redecode_cells(root), load_gate2_referents(),
+                   load_floors(), load_probe_margins())
+
+
+if __name__ == "__main__":
+    v = run()
+    print(json.dumps({k: v[k] for k in
+                      ("verdict", "reason", "contaminated",
+                       "cell_labels", "bracket_findings", "gate1")
+                      if k in v}, indent=1))

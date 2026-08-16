@@ -282,3 +282,223 @@ def write_world(root: Path, *, mass=None, draws=None, redecode_drift=None,
         p.write_text(json.dumps(rec))
 
     return root
+
+
+def run_battery(root: Path) -> dict:
+    """End to end through the frozen loaders: the world's own mass,
+    sampling, re-decode, and gate-2 trees; the REAL committed floors
+    and REAL committed probe margins."""
+    return a.verdict(a.load_mass_cells(root),
+                     a.load_sampling_cells(root),
+                     a.load_redecode_cells(root),
+                     a.load_gate2_referents(root / "gate2"),
+                     a.load_floors(),
+                     a.load_probe_margins())
+
+
+# ------------------------------------------------------- the batteries
+#
+# Every terminal branch of design §6, plus the disclosed-but-not-fatal
+# provisions, each as a complete world. `expect_contaminated` defaults
+# to [] in the assertions; `check` callables assert the world's own
+# provision on the verdict record.
+
+REV_ADJ = [(r, s, "trained") for r in a.REVERSAL_RUNGS
+           for s in a.PROBE_SIZES]
+
+MASS_SIG_ADJ = {k: "sig" for k in REV_ADJ}
+DRAWS_SIG_FIRE = {k: (FC_REV_SIG, 5) for k in REV_ADJ}
+DRAWS_SIG_QUIET = {k: (FC_REV_SIG, 0) for k in REV_ADJ}
+DRAWS_FLOOR_FIRE = {k: (FC_REV_FLOOR, 1) for k in REV_ADJ}
+
+BATTERIES = {
+    # ---- the four worlds ----
+    "wall": {
+        "world": {},
+        "expect": "WALL",
+        "check": [
+            lambda out: all(v == "WALL" for v in out["cell_labels"].values()),
+            # every zero ships as a CP bound, pooled and per-item-max
+            lambda out: 0 < out["fires"]["rev_string7/410m/trained"]
+            ["cp95_upper_pooled"] < 1e-3,
+            lambda out: out["fires"]["rev_string7/410m/trained"]
+            ["cp95_upper_per_item_max"] > out["fires"]
+            ["rev_string7/410m/trained"]["cp95_upper_pooled"],
+            # the probe stays the arbiter, in the frozen reason text
+            lambda out: "arbiter" in out["reason"],
+            # reading 5 through the real path: the digit-label control's
+            # sign test is recorded not-computable, never significant
+            lambda out: out["mass_sign_tests"]
+            ["clock24_d999/410m/trained"]["lower"]["computable"] is False,
+            # adjudicated sign tests run at n_tests = 4, twins at 1
+            lambda out: out["mass_sign_tests"]
+            ["rev_string7/410m/trained"]["lower"]["n_tests"] == 4,
+            lambda out: out["mass_sign_tests"]
+            ["rev_string7/410m/untrained"]["lower"]["n_tests"] == 1,
+        ]},
+    "elicitable": {
+        "world": {"mass": MASS_SIG_ADJ, "draws": DRAWS_SIG_FIRE,
+                  # two byte diffs on a passing battery: within 3b's
+                  # tolerance, disclosed regardless
+                  "redecode_drift": {("clock24_d999", "1b", "untrained"): 2}},
+        "expect": "ELICITABLE",
+        "check": [
+            lambda out: len(out["byte_diffs"]
+                            ["clock24_d999/1b/untrained"]) == 2,
+            # per-seed spread reported with any fire
+            lambda out: out["fires"]["rev_string7/410m/trained"]
+            ["fired_seeds"] == {"0": 2, "1": 1, "2": 1, "3": 1},
+        ]},
+    "bulk_only": {
+        "world": {"mass": MASS_SIG_ADJ, "draws": DRAWS_SIG_QUIET},
+        "expect": "BULK-ONLY",
+        "check": [lambda out: "autoregressive" in out["reason"]]},
+    "tail_only": {
+        "world": {"draws": DRAWS_FLOOR_FIRE},
+        "expect": "TAIL-ONLY",
+        "check": [lambda out: "strong" in out["reason"]]},
+    "partial": {
+        "world": {"mass": {("rev_string7", s, "trained"): "sig"
+                           for s in a.PROBE_SIZES},
+                  "draws": {("rev_string7", s, "trained"): (FC_REV_SIG, 5)
+                            for s in a.PROBE_SIZES}},
+        "expect": "PARTIAL",
+        "check": [
+            lambda out: out["cell_labels"]["rev_string7/410m"] ==
+            "ELICITABLE",
+            lambda out: out["cell_labels"]["reverse_string/410m"] == "WALL",
+        ]},
+    # ---- INSUFFICIENT_DATA routes ----
+    "id_gate1_mass": {
+        # the positive control's mass sign test dies at ONE probe size —
+        # "both" means both. Its draws stay loud, so the mass/draws
+        # mismatch also shows up as a disclosed control incoherence
+        # (reading 2: disclosed, and gate 1 is what takes the verdict).
+        "world": {"mass": {("ctrl_copy", "1b", "trained"): "floor"}},
+        "expect": "INSUFFICIENT_DATA", "expect_reason": "ctrl_copy",
+        "check": [
+            lambda out: out["gate1"]["mass_significant"]["1b"] is False,
+            lambda out: out["coherence"]["ctrl_copy/1b/trained"]
+            ["coherent"] is False,
+        ]},
+    "id_gate1_cp": {
+        # mass arm healthy, sampled full-string arm dead: 200/640
+        # verified is far above nothing but its CP95 lower bound ≤ .5
+        "world": {"draws": {("ctrl_copy", "410m", "trained"):
+                            (FC_CTRL, 200)}},
+        "expect": "INSUFFICIENT_DATA", "expect_reason": "ctrl_copy",
+        "check": [
+            lambda out: out["gate1"]["mass_significant"]["410m"] is True,
+            lambda out: out["gate1"]["full_string_cp95_lower"]["410m"] < 0.5,
+        ]},
+    "id_gate2_bytes": {
+        "world": {"redecode_drift": {("rev_string7", "410m", "trained"): 3}},
+        "expect": "INSUFFICIENT_DATA", "expect_reason": "byte",
+        "check": [
+            lambda out: len(out["byte_diffs"]
+                            ["rev_string7/410m/trained"]) == 3,
+            lambda out: "DRIFT" in out["byte_diffs"]
+            ["rev_string7/410m/trained"][0]["got"],
+        ]},
+    "id_gate3_coherence": {
+        # an adjudicated cell's mass says .6, its draws say nothing —
+        # a code-path defect, not a finding
+        "world": {"mass": {("rev_string7", "410m", "trained"): "sig"}},
+        "expect": "INSUFFICIENT_DATA", "expect_reason": "coheren",
+        "check": [lambda out: out["coherence"]
+                  ["rev_string7/410m/trained"]["coherent"] is False]},
+    "id_both_rungs_contaminated": {
+        # one twin fires on the mass arm (draws kept coherent with its
+        # hot mass), the other on a verified full-string draw
+        "world": {"mass": {("rev_string7", "410m", "untrained"): "hot"},
+                  "draws": {("rev_string7", "410m", "untrained"): (1536, 0),
+                            ("reverse_string", "1b", "untrained"):
+                            (FC_REV_FLOOR, 1)}},
+        "expect": "INSUFFICIENT_DATA", "expect_reason": "contamin",
+        "expect_contaminated": ["rev_string7", "reverse_string"],
+        "check": [
+            lambda out: out["contamination_evidence"]["rev_string7"]
+            [0]["mass_arm"] is True,
+            lambda out: out["contamination_evidence"]["reverse_string"]
+            [0]["fire_arm"] is True,
+        ]},
+    # ---- contamination × step 6 interaction ----
+    "contaminated_one_rung": {
+        # rev_string7's twin fires, so step 6 quantifies over
+        # reverse_string alone — which is ELICITABLE everywhere. An
+        # implementation that ignores the exclusion sees rev_string7's
+        # WALL cells and returns PARTIAL instead.
+        "world": {"mass": {("rev_string7", "410m", "untrained"): "hot",
+                           **{("reverse_string", s, "trained"): "sig"
+                              for s in a.PROBE_SIZES}},
+                  "draws": {("rev_string7", "410m", "untrained"): (1536, 0),
+                            **{("reverse_string", s, "trained"):
+                               (FC_REV_SIG, 5) for s in a.PROBE_SIZES}}},
+        "expect": "ELICITABLE",
+        "expect_contaminated": ["rev_string7"]},
+    # ---- disclosed-but-not-fatal provisions ----
+    "bracket_disagreement": {
+        # mean residual .1 > .01 in an adjudicated cell: the upper end
+        # is computed and disagrees (significant) — its own finding;
+        # adjudication reads the lower end and the world stays WALL
+        "world": {"mass": {("rev_string7", "410m", "trained"): "flip"},
+                  "draws": {("rev_string7", "410m", "trained"): (128, 0)}},
+        "expect": "WALL",
+        "check": [
+            lambda out: out["bracket_findings"] == [
+                "rev_string7/410m/trained"],
+            lambda out: out["mass_sign_tests"]["rev_string7/410m/trained"]
+            ["upper"]["significant"] is True,
+            lambda out: out["mass_sign_tests"]["rev_string7/410m/trained"]
+            ["lower"]["significant"] is False,
+        ]},
+    "eval_mass_is_descriptive": {
+        # an eval-size cell loud enough to pass any test takes no test
+        # (reading 8) and moves no verdict; it is visible in the scale
+        # trend
+        "world": {"mass": {("rev_string7", "12b", "trained"): "sig"}},
+        "expect": "WALL",
+        "check": [
+            lambda out: "rev_string7/12b/trained" not in
+            out["mass_sign_tests"],
+            lambda out: out["mass_scale_trend"]["rev_string7"]["12b"] >
+            out["mass_scale_trend"]["rev_string7"]["2.8b"],
+        ]},
+    "twin_incoherence_is_disclosed_not_fatal": {
+        # reading 2's trigger scope: a NON-adjudicated cell's
+        # incoherence (a twin here) is disclosed in full and the
+        # verdict stands
+        "world": {"draws": {("ctrl_copy", "410m", "untrained"): (300, 0)}},
+        "expect": "WALL",
+        "check": [lambda out: out["coherence"]
+                  ["ctrl_copy/410m/untrained"]["coherent"] is False]},
+}
+
+
+def run_all(base: Path) -> dict:
+    out = {}
+    for name, spec in BATTERIES.items():
+        root = Path(base) / name
+        write_world(root, **spec.get("world", {}))
+        out[name] = run_battery(root)
+    return out
+
+
+if __name__ == "__main__":
+    import tempfile
+
+    base = Path(sys.argv[1]) if len(sys.argv) > 1 else \
+        Path(tempfile.mkdtemp(prefix="exp3_full_shape_"))
+    results = run_all(base)
+    ok = True
+    for name, spec in BATTERIES.items():
+        v = results[name]
+        good = (v["verdict"] == spec["expect"]
+                and spec.get("expect_reason", "") in v.get("reason", "")
+                and v["contaminated"] == spec.get("expect_contaminated", [])
+                and all(chk(v) for chk in spec.get("check", [])))
+        ok &= good
+        print(f"{'ok  ' if good else 'FAIL'} {name}: {v['verdict']}"
+              f" (contaminated={v['contaminated']})")
+    print("ALL TERMINAL BRANCHES REACHED" if ok else "FULL-SHAPE RUN FAILED")
+    sys.exit(0 if ok else 1)
