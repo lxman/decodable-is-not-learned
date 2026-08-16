@@ -1167,6 +1167,26 @@ labeled as such in Section 5; three have since been confirmed by the
 constructive test proposed there (Section 7), and the rest remain
 untested.
 
+The prescriptions generalize from a single program's history, and the
+objection writes itself: these are lessons from one group's mistakes
+on one model family, and a checklist induced from n = 1 is folklore
+with tags. Two things blunt it. First, the checklist's claims are
+existence claims, and existence is what a case study can establish.
+Each item asserts that a specific failure mode is reachable and cheap,
+not how often the field reaches it, and every item carries the commit
+where it was reached. Second, the conditions here were stacked against
+these failures, not for them: every mistake in this record was made
+under preregistration, frozen criteria, and controls run on purpose,
+by a program conspicuously trying to avoid exactly this class of
+error. A failure mode that fires under that much deliberate care is
+not plausibly rarer in work that reports untrained baselines as
+decoration, claims zeros without confidence bounds, and selects sites
+without selection statistics. What n = 1 cannot supply is a prevalence
+estimate, and none is claimed. The checklist's warrant is that the
+traps exist, that they are cheap to fall into while watching for them,
+and that every detection it prescribes costs design-time analysis or
+one extra pass of machinery a probing study already has.
+
 Finally, the method's positive record is one battery frozen and one
 campaign completed, not one hypothesis supported. Both campaigns of
 Section 4 ended INSUFFICIENT_DATA. The successor battery of Section 7
