@@ -66,6 +66,53 @@ for the freeze session to ratify or amend:**
    so every unit reproduces independently of batch composition and
    restart order. The cell is the resume unit (3b's). The map is
    frozen in `sampler.py` and dumped to `stream_map.json` at build.
+5. **Letter-support rule for the §5 statistic (declared at item-3
+   build, before the analyzer exists).** §5 defines w̃ over "answer
+   first letters" and stores m_i(c) for c ∈ a–z; the competitor sum
+   Σ w̃_c m_i(c) is therefore computable exactly when every answer
+   first character in the rung lies in a–z. That holds for both
+   reversal rungs and ctrl_copy (random lowercase strings). It cannot
+   hold for clock24_d999, whose answers begin with DIGITS — masses the
+   §5 stored unit does not carry. Reading: the sign test is computed
+   over the empirical letter support; a rung whose support leaves a–z
+   records sign_test computable=False, significant=False, p=1.0,
+   n_eff=0 with the reason disclosed. Consequences: gate 5's
+   mass-significance arm is inert on clock24's twins (its verified
+   full-string arm and gate 3's coherence check — which read only
+   label_mass and draws — remain live), and clock24 keeps its §6 role
+   (gates and descriptives, the agreement quadrant) untouched. An
+   ADJUDICATED cell whose sign test is not computable is a hard error,
+   not a verdict: the §4 sha pin makes that unreachable except by
+   battery corruption, and a vacuous statistic must never adjudicate.
+   Extending the stored vector to digits was considered and rejected
+   as an amendment (§5's stored unit is the a–z vector); the freeze
+   may widen it if the adversarial read prefers.
+6. **Gate-1 CP form.** §6.1's "pooled sampled full-string rate's 95%
+   CP lower bound" is read as the LOWER END OF THE TWO-SIDED .95
+   Clopper–Pearson interval (the program's reporting convention since
+   1c), computed on the analyzer's own recomputed verified count over
+   the ctrl_copy cell's pooled 4 × k draws, per probe size.
+7. **Cross-battery pins.** Every exp3 cell (mass, sampling, redecode)
+   must carry the rung's single items_sha256 pin — the §4 referent
+   from 3b's records — and its probe_labels/answers arrays must equal
+   the referent's, with n agreeing; any disagreement is a malformed
+   battery (hard error before gates). The runner already derives all
+   three from the sha-pinned item files, so on an honest campaign
+   this can only fire if a record was hand-edited or half-copied.
+8. **Eval-size mass cells take no significance test** — 3b's scope
+   rule, §9's words ("descriptive; no verdict branch reads it"):
+   significant is recorded as None there, no sign test is run, and
+   the scale trend ships as a mean-label-mass descriptive per size.
+   The mutation suite pins the scope in both directions.
+9. **Cell-level coherence bracket (completing reading 2).** Gate 3
+   compares the cell's recomputed sampled FIRST-CHAR success count
+   (3b's first_char against the item's label, over n = the cell's
+   total draws) with the bracket [mean_i m_i(y_i),
+   mean_i (m_i(y_i) + r_i)] — the mean over the cell's items, which
+   is the population rate the pooled equal-draws-per-item count
+   estimates. Disjointness at the §6.3 CP level is incoherence;
+   computed and disclosed for all 16, ID trigger on the 4 adjudicated
+   (reading 2).
 
 Layout decided at build (Open item 7), so no later choice can shade it:
 `results/mass/{size}_{mode}/{rung}.json` (28 cells; per-item 26-letter
