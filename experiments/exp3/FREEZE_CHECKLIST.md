@@ -25,16 +25,37 @@ tree still contains one and hunt for it).
       fp16 depth-1 with ws mass in the residual bracket; re-decode
       fp16 generate. The fp16 batched-step corruption record and the
       preflight gate design.
+- [ ] Letter-support rule (reading 5): sign test over the empirical
+      a–z support; clock24's digit cells computable=False and never
+      significant (gate-5 mass arm inert there, full-string arm
+      live); an adjudicated cell without computable support is a
+      HARD ERROR — ratify, or widen the stored vector to digits.
+- [ ] Gate-1 CP form (reading 6): two-sided .95 CP lower end on the
+      recomputed pooled full-string count.
+- [ ] Cross-battery pins (reading 7): items_sha256 + labels/answers +
+      n equal to the 3b referent's, per rung, all three batteries.
+- [ ] Eval-size scope (reading 8): no significance test on eval-size
+      mass cells; scale trend descriptive only.
+- [ ] Coherence bracket (reading 9): cell bracket = mean over items;
+      recomputed first-char count against it at 1 − .01/16.
+- [ ] SIGN_TIE_EPS = 1e-12 (sign-vs-tie resolution above f64 dust,
+      below fp32 resolution), and the documented EQUIVALENT mutant:
+      the explicit all-ties branch is unobservable because
+      binom.sf(-1, 0, .5) = 1.0 — belt-and-braces, not behaviour.
 
 ## Cold re-runs (all must pass, from a fresh process, before the tag)
 
 - [ ] Full fixture suite green (`PYTHONDONTWRITEBYTECODE=1 python -m
       pytest experiments/exp3/tests/`), pycache cleared first.
-- [ ] Mutation check both directions (`tests/mutation_check.py` —
-      build session 3 writes it with the analyzer).
+- [ ] Mutation check both directions (`tests/mutation_check.py`,
+      written in build session 2b, 54/54 killed at build; run it
+      FOREGROUND on a quiescent tree — it snapshots and restores
+      analyze_3.py in place).
 - [ ] Full-shape batteries reach EVERY terminal: four worlds, PARTIAL,
       every INSUFFICIENT_DATA route, one-rung and both-rung
-      contamination, coherence fire, residual-bracket disagreement.
+      contamination, coherence fire, residual-bracket disagreement,
+      coherence level margin (`python -m
+      experiments.exp3.tests.full_shape`).
 - [ ] `verify_referents.py --construct`: 14/14, twin hashes equal to
       3b's records.
 - [ ] Determinism fixture re-run cold: byte-identical to the committed

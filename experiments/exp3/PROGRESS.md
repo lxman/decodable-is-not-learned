@@ -126,6 +126,86 @@ level can never be re-ingested as data.
 
 ### Entries
 
+**2026-08-16 — build session 2b closes: BUILD COMPLETE (all eight Open
+items landed); the freeze remains a separate, later session that opens
+adversarially.** The session spanned 2026-08-15→16. Landed and
+committed this session (0fb7a33 readings, 5c0fdd6 statistic, a2c3735
+loaders + maker, 96a04d4 verdict + full shape, e6abb8e power +
+mutation): analyzer readings 5–9 declared in this file before any
+implementation; the §5 statistic; the three battery loaders with the
+fire recompute; the §6 verdict tree; fifteen full-shape worlds
+reaching every terminal; the 54-mutant check, all killed; the exact
+power tables. Suite: 131 green. **The invariant held all session** —
+no mass or sampling quantity was computed for any real cell or model;
+the only committed-record contact was reads of 2b/2c/3a/3b artifacts
+(floors, margins, referent shapes, verify semantics) and synthetic
+worlds. The freeze checklist now carries UNCHECKED ruling boxes for
+readings 5–9 and the tie epsilon alongside the session-2a items; no
+box is checked, no tag exists. Next session: the adversarial freeze
+(assignment: find the class defect), then `exp3-preregistered`.
+
+**2026-08-16 — operational note (for the freeze session and any
+future mutation work): mutation_check.py is foreground-only, on a
+quiescent tree.** The harness snapshots analyze_3.py at start, writes
+mutants in place, and restores ITS OWN snapshot after each cycle — an
+edit made while it runs is silently reverted, and a live mutant can
+transiently sit on disk. Caught in this session: a redundant
+backgrounded re-run clobbered the sign_test_significance refactor
+mid-edit (the tree briefly showed the BYTE_TOLERANCE=500 mutant). The
+run was killed, the file restored from git, the edit re-applied, and
+the final 54/54 run was executed in the foreground with no concurrent
+edits. No mutant state was ever committed.
+
+**2026-08-16 — Open item 6 complete: exact power tables from the
+frozen code.** `compute_power.py` INVERTS the frozen
+`sign_test_significance` (extracted from rung_sign_test so the
+adjudication convention exists in exactly one place) rather than
+re-deriving the tail; `power.json` committed and locked to the code by
+`test_power.py` (the freeze re-runs the comparison cold). Numbers:
+critical count **exactly 282 of 500** at α = .01/4 one-sided (the
+doc's ≈282); power **.9539** at θ = .60 (doc ≈.95); **.2799** at
+θ = .55 — **the doc's ≈.26 quote was off by .02 and is superseded by
+the exact value** (§7 anticipated exactly this: "exact table
+recomputed at freeze from the frozen code"); blind edge **.563** at
+power .5 (doc "blind for θ ≲ .57", consistent); post-tie-n grid
+100–500 for the realized-n_eff recompute path; detection 1−(1−p)^k at
+the pooled 128,000/16,000 with the .95-detectable rate asserted equal
+to `cp_upper(0, k)` — 2.3405e-5, the WALL statement's number.
+
+**2026-08-15/16 — Open items 3 + 4 complete: statistic, loaders,
+verdict tree, full-shape worlds, mutation both directions.** Built
+strictly test-first (every fixture watched failing before its code
+existed). (a) `rung_sign_test`: the §5 within-distribution statistic
+with per-item w̃ renormalization, the single-letter guard, the
+letter-support rule (reading 5) recording digit-support cells
+computable=False — and a HARD ERROR if such a cell is ever
+adjudicated; bracket upper end per reading 1, adjudication reads
+lower. **SIGN_TIE_EPS = 1e-12** pins sign-vs-tie resolution: above
+f64 dust on algebraically-zero s_i (the format-only kill test cancels
+exactly), below anything fp32 logits express; the sub-epsilon fixture
+holds both directions. (b) Loaders: canonical subdirs only with
+stray-file refusal; the ledgered dtype/depth policy executable at
+load; per-item mass validation; the sampling loader re-reads every
+raw draw and REFUSES stored-tally disagreement — the maker computes
+its stored tallies with an INDEPENDENT plain loop over 2c's verify,
+so agreement crosses two implementations. (c) `verdict()`: everything
+computed and disclosed before the first branch; gates in §6
+precedence; reading-7 pins in the shape check; WALL text carries the
+computed blind region and the probe-as-arbiter sentence. (d) Fifteen
+full-shape worlds through the real loaders with real floors+margins:
+four worlds, PARTIAL, four ID routes with gate 1's two arms
+separated, both contamination interactions (mass arm and fire arm
+each exercised), bracket disagreement (upper significant, lower
+adjudicates, finding disclosed), eval-descriptive scope, twin
+incoherence non-fatal, and the coherence level margin (230/5120 vs
+[.038, .038]: coherent at 1−.01/16, disjoint at .95 — catches a
+wrong-level gate 3). (e) `mutation_check.py`: 54 mutants, softening
+AND hardening, ALL KILLED, baseline clean. **One equivalent mutant
+excluded and documented:** deleting the explicit all-ties branch is
+unobservable because `binom.sf(-1, 0, .5) = 1.0` — the branch is the
+ledgered reading made visible, not a behaviour change; the freeze
+read should know it is belt-and-braces.
+
 **2026-08-15 — mass-module findings (Open item 1), for the freeze
 read.** (a) The real vocabulary has **340** whitespace-class ids, not
 §5's "handful" — every multi-space run token. Cost model updates (item
