@@ -113,12 +113,18 @@ scope behind a passing gate 1) was ruled and closed the same session.**
       pytest experiments/exp3/tests/`), pycache cleared first —
       **139 passed** cold, 2026-08-16 (131 at build close; +8 amendment
       kill/boundary fixtures, −1 retired w̃ guard, +1 gate-3 world).
-- [ ] Mutation check both directions (`tests/mutation_check.py` —
-      54/54 at build; retargeted at the freeze amendment: the three
-      w̃ mutants retired, four interior-competitor mutants added,
-      55 total; run it as a SINGLE run on a quiescent tree — no
-      concurrent edits, no second run — it snapshots and restores
-      analyze_3.py in place; verify `git diff` clean afterward).
+- [x] Mutation check both directions (`tests/mutation_check.py` —
+      54/54 at build; retargeted at the freeze amendment and the
+      gate-3 ruling: three w̃ mutants retired, six added, 56 total;
+      single run on a quiescent tree, snapshot/restore verified) —
+      **56/56 KILLED, baseline clean, git tree clean**, 2026-08-16.
+      The first official run scored 55/56: the gate-3 widening had
+      made `id_gate1_mass` non-isolating for the gate-1 any() mutant
+      (it died at widened gate 3 instead). Repaired with the
+      `id_gate1_mass_one_size_behind_coherent_instruments` world
+      (12/8 split, p=.2517, CP arm passing, instruments coherent) —
+      the mutation discipline catching a fixture blind spot the same
+      day the gate moved, exactly its job.
 - [x] Full-shape batteries reach EVERY terminal: four worlds, PARTIAL,
       every INSUFFICIENT_DATA route, one-rung and both-rung
       contamination, coherence fire, residual-bracket disagreement,
@@ -126,13 +132,27 @@ scope behind a passing gate 1) was ruled and closed the same session.**
       experiments.exp3.tests.full_shape`) — **16/16 ok, ALL TERMINAL
       BRANCHES REACHED** cold, 2026-08-16 (15 at build + the gate-3
       ruling's control-incoherence world).
-- [ ] `verify_referents.py --construct`: 14/14, twin hashes equal to
-      3b's records.
-- [ ] Determinism fixture re-run cold: byte-identical to the committed
+- [x] `verify_referents.py --construct`: 14/14, twin hashes equal to
+      3b's records — **14/14, 0 failed**, cold 2026-08-16; twins
+      construct deterministically twice per size, hashes `335d46b7…`
+      (410m) and `fa3fe1d2…` (1b) equal to 3b's records; rewritten
+      `referent_check.json` byte-identical to the committed one.
+- [x] Determinism fixture re-run cold: byte-identical to the committed
       `determinism_reference.json` (fp32; stack versions inside the
-      compared bytes).
-- [ ] Preflight `run/preflight_paths.py` re-run for 410m/float32 (and
-      any size whose model is already local) — all rows match.
+      compared bytes) — **BYTE-IDENTICAL**, cold 2026-08-16
+      (torch 2.12.1 / transformers 5.13.0 / mps unchanged since
+      build).
+- [x] Preflight `run/preflight_paths.py` re-run for 410m/float32 (and
+      any size whose model is already local) — **ALL FIVE LOCAL SIZES
+      PASS**, cold 2026-08-16: 410m/f32 and 1b/f32 (410m artifact
+      differs from the committed one only by the new `keep1_only:
+      false` disclosure field), 2.8b/f32 and 6.9b/f32 full checks
+      (worst batched-row diff 8.64e-06 / 6.88e-06 against the 1e-4
+      tolerance), 12b/f16 `--keep1-only` per freeze finding #3 (keep1
+      diffs exactly 0.0; the report discloses the mode). Every
+      campaign tier's arithmetic is verified on this stack before the
+      tag; the campaign driver re-gates each (size, dtype) at launch
+      regardless.
 - [x] Power tables recomputed from the frozen code, equal to the
       committed `power.json` — **BYTE-IDENTICAL** cold, 2026-08-16
       (282 critical; .9539 at θ=.60; .2799 at .55; blind edge .563;

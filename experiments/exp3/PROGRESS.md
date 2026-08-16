@@ -126,6 +126,46 @@ level can never be re-ingested as data.
 
 ### Entries
 
+**2026-08-16 — FREEZE SESSION CLOSES: every checklist box checked
+except the one that is Michael's by design. THE TAG IS NOT APPLIED —
+`exp3-preregistered` waits on Michael's ratification of the §5
+amendment (or his election of the disclose-only alternative).** The
+session's three findings, most severe first: (1) the class defect —
+§5's w̃ statistic credited set-level lexical priming and
+anti-concentrated priors (entry below; amended to the within-item
+interior-competitor form, primer kill demonstrated K=500/500
+p≈3e-151 before the fix, exact ties after); (2) gate-3 scope crack —
+both gate-1 arms can pass over an incoherent positive control (ruled:
+`GATE3_FATAL_CELLS` = adjudicated + ctrl_copy trained); (3) the 12b
+mass tier was preflight-gated on the broken-class batched path it
+never uses (fixed: `--keep1-only`, disclosed in the report). Cold
+verification, all from fresh processes on the committed bytes: suite
+**140 passed**; full-shape **17/17 worlds, all terminals**; mutation
+**56/56 KILLED, baseline clean** (the first official run's 55/56
+caught the gate-3 widening making `id_gate1_mass` non-isolating — a
+fixture blind spot repaired with the coherent-instruments gate-1
+world, the mutation discipline doing exactly its job); referents
+**14/14** with twin hashes equal to 3b's records
+(`335d46b7…`/`fa3fe1d2…`), rewritten `referent_check.json`
+byte-identical; determinism fixture **byte-identical** to the
+committed reference (stack unchanged: torch 2.12.1 / transformers
+5.13.0 / mps); power tables **byte-identical** to committed
+`power.json` (282 critical; .9539 at θ=.60; .2799 at .55; blind edge
+.563; 2.3405e-5 — the amendment left `sign_test_significance`
+untouched, exactly as claimed); empty-tree `run()` hard-errors;
+preflight **all five local sizes pass** (410m/1b/2.8b/6.9b f32 full,
+worst batched-row diff 8.64e-06; 12b f16 keep1-only, diff 0.0). The
+build-session invariant held through the freeze: no mass or sampling
+quantity was computed for any real cell or model — model contact was
+the checklist's own artifacts (twin construction on CPU, determinism
+fixture and preflights on synthetic pinned prompts); the only
+committed-record reads were 3b's closed continuations (the priming
+diagnostic) and the referent surface. NEXT: Michael reads the
+amendment entry + the §5 diff; on "ratify" the tag goes on the
+current commit and §10.3 campaign authorization is reconfirmed; on
+"revert" the amendment backs out to the w̃ form with the degenerates
+disclosed in §7/§8 before any tag.
+
 **2026-08-16 — FREEZE SESSION OPENS (session 3 of 3), adversarially.
 THE CLASS DEFECT IS FOUND: §5's w̃-competitor statistic credits
 lexical/format letter statistics as capability signal — 2c's death

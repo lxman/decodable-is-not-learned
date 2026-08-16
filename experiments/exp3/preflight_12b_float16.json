@@ -1,0 +1,23 @@
+{
+ "n_checks": 2,
+ "all_ok": true,
+ "checks": [
+  {
+   "check": "prompt keep1 vs re-forward",
+   "prompt": "Q: Spell the string 'wqx",
+   "max_diff": 0.0,
+   "ok": true
+  },
+  {
+   "check": "prompt keep1 vs re-forward",
+   "prompt": "Q: What is 999 minutes a",
+   "max_diff": 0.0,
+   "ok": true
+  }
+ ],
+ "size": "12b",
+ "dtype": "float16",
+ "device": "mps",
+ "keep1_only": true,
+ "torch": "2.12.1"
+}

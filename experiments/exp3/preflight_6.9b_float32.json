@@ -12,7 +12,7 @@
    "check": "batched step rows vs batch-1 refs",
    "prompt": "Q: Spell the string 'wqx",
    "rows": 16,
-   "worst_diff": 3.3274292945861816e-05,
+   "worst_diff": 6.16908073425293e-06,
    "bad_rows": [],
    "ok": true
   },
@@ -26,12 +26,12 @@
    "check": "batched step rows vs batch-1 refs",
    "prompt": "Q: What is 999 minutes a",
    "rows": 16,
-   "worst_diff": 1.607835292816162e-05,
+   "worst_diff": 6.884336471557617e-06,
    "bad_rows": [],
    "ok": true
   }
  ],
- "size": "410m",
+ "size": "6.9b",
  "dtype": "float32",
  "device": "mps",
  "keep1_only": false,
