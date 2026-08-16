@@ -42,6 +42,7 @@ committed ones verbatim (reverse_string from 2b's tree).
 
 from __future__ import annotations
 
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -497,4 +498,350 @@ def load_twin_hash_referents(path=TWIN_HASH_PATH) -> dict:
     missing = [s for s in PROBE_SIZES if s not in out]
     if missing:
         raise ValueError(f"no twin hash referent for {missing} in {path}")
+    return out
+
+
+# ----------------------------------------------------- battery loaders
+#
+# The campaign's own cells, read back through frozen producers (§11)
+# from the canonical subdirectories only. A file the preregistered
+# battery does not name, sitting inside a canonical subdirectory, is a
+# half-copied or wrong-tree directory and is refused, not skipped;
+# anything malformed is a hard error before any gate (3a's class).
+
+_MASS_SUM_TOL = 1e-3   # masses._SUM_TOL: fp32 logits softmaxed in f64
+
+
+def load_verify():
+    """2c's exact-match verify, resolved from the exp2c tree with
+    run_cell's sys.path discipline (exp2c must win the `harness` name)
+    and provenance-asserted: the fire recompute with any other tree's
+    verify would not be the committed criterion."""
+    import sys
+    for _p in (EXPERIMENTS / "exp2b", EXPERIMENTS / "exp2c"):
+        if str(_p) not in sys.path:
+            sys.path.insert(0, str(_p))
+    import harness
+    got = Path(harness.__file__).resolve()
+    if (EXPERIMENTS / "exp2c").resolve() not in got.parents:
+        raise ImportError(
+            f"harness resolved to {got}, which is not under the exp2c "
+            f"tree — the fire recompute would use the wrong verify")
+    return harness.verify
+
+
+def _check_provenance(rec, p, rung, size, mode, *, want_dtype) -> None:
+    """The provenance block every runner record carries, validated the
+    same way for all three batteries. The dtype check makes the
+    ledgered policy executable at load: a cell produced at the wrong
+    precision is not this design's cell, whatever its numbers say."""
+    if (rec.get("rung"), rec.get("size"), rec.get("mode")) != \
+            (rung, size, mode):
+        raise ValueError(
+            f"{p} contents ({rec.get('rung')}/{rec.get('size')}/"
+            f"{rec.get('mode')}) disagree with its path")
+    n = rec.get("n_items")
+    if not isinstance(n, int) or n <= 0:
+        raise ValueError(f"{p}: n_items {n!r} is not a count")
+    for field in ("probe_labels", "answers"):
+        v = rec.get(field)
+        if not isinstance(v, list) or len(v) != n:
+            raise ValueError(
+                f"{p}: {field} has "
+                f"{len(v) if isinstance(v, list) else v!r} entries "
+                f"against n_items {n}")
+    sha = rec.get("items_sha256")
+    if not isinstance(sha, str) or not sha:
+        raise ValueError(f"{p} carries no items_sha256 — the item-file "
+                         f"pin has no value there (3a's class, refused)")
+    if rec.get("dtype") != want_dtype:
+        raise ValueError(
+            f"{p}: dtype {rec.get('dtype')!r} violates the ledgered "
+            f"policy — this cell must be {want_dtype}")
+    if rec.get("untrained_seed") != \
+            (UNTRAINED_SEED if mode == "untrained" else None):
+        raise ValueError(
+            f"{p}: untrained_seed {rec.get('untrained_seed')!r} violates "
+            f"the twin seed discipline for {mode}")
+
+
+def _refuse_strays(base, want_dirs, want_names) -> None:
+    base = Path(base)
+    if not base.is_dir():
+        return
+    for d in sorted(base.iterdir()):
+        if d.name.startswith("."):
+            continue
+        if d.is_file() or d.name not in want_dirs:
+            raise ValueError(
+                f"unexpected entry {d} inside a canonical battery "
+                f"directory — this tree is not the preregistered battery")
+        for f in sorted(d.iterdir()):
+            if f.name.startswith("."):
+                continue
+            if f.name not in want_names:
+                raise ValueError(
+                    f"unexpected file {f} inside a canonical battery "
+                    f"subdirectory — this tree is not the preregistered "
+                    f"battery")
+
+
+def load_mass_cells(root=EXP3) -> dict:
+    """The 28 mass cells (§3), per-item records validated against
+    masses.py's stored shape: exact a–z letter vector, non-negative
+    buckets summing to at most 1, label_char equal to both the probe
+    label's and the answer's first character (the statistic reads
+    m(y_i) through it), label_mass equal to its letter/extra source,
+    and the ledgered depth/dtype policy (12b's fp16 depth-1 exception,
+    float32 depth-2 everywhere else)."""
+    base = Path(root) / "results" / "mass"
+    want_dirs = {f"{s}_{m}" for (_r, s, m) in MASS_CELLS}
+    _refuse_strays(base, want_dirs, {f"{r}.json" for r in RUNGS})
+    out = {}
+    for (rung, size, mode) in MASS_CELLS:
+        p = base / f"{size}_{mode}" / f"{rung}.json"
+        if not p.is_file():
+            raise FileNotFoundError(
+                f"no mass cell for {rung}/{size}/{mode} at {p}")
+        rec = json.loads(p.read_text())
+        want_dtype = "float16" if size == "12b" else "float32"
+        want_depth = 1 if size == "12b" else 2
+        _check_provenance(rec, p, rung, size, mode, want_dtype=want_dtype)
+        if rec.get("depth") != want_depth:
+            raise ValueError(
+                f"{p}: depth {rec.get('depth')!r} violates the ledgered "
+                f"policy — this cell must be depth {want_depth}")
+        items = rec.get("items")
+        n = rec["n_items"]
+        if not isinstance(items, list) or len(items) != n:
+            raise ValueError(
+                f"{p}: {len(items) if isinstance(items, list) else items!r} "
+                f"items against n_items {n}")
+        for i, it in enumerate(items):
+            letters = it.get("letters")
+            if not isinstance(letters, dict) or set(letters) != set(LETTERS):
+                raise ValueError(
+                    f"{p} item {i}: letter vector keys are not exactly "
+                    f"a–z")
+            extra = it.get("extra") or {}
+            buckets = ([("residual", it.get("residual")),
+                        ("terminal_mass", it.get("terminal_mass"))]
+                       + [(f"letters[{c}]", v) for c, v in letters.items()]
+                       + [(f"extra[{c}]", v) for c, v in extra.items()])
+            for name, v in buckets:
+                if not isinstance(v, (int, float)):
+                    raise ValueError(
+                        f"{p} item {i}: {name} = {v!r} is not a mass")
+                if v < 0:
+                    raise ValueError(
+                        f"{p} item {i}: {name} carries negative "
+                        f"probability {v}")
+            total = (sum(letters.values()) + sum(extra.values())
+                     + it["residual"] + it["terminal_mass"])
+            if total > 1.0 + _MASS_SUM_TOL:
+                raise ValueError(
+                    f"{p} item {i}: buckets sum to {total} > 1 — these "
+                    f"are not masses from one distribution")
+            lc = it.get("label_char")
+            want_label = str(rec["probe_labels"][i])[0].casefold()
+            want_ans = str(rec["answers"][i])[0].casefold()
+            if lc != want_label or lc != want_ans:
+                raise ValueError(
+                    f"{p} item {i}: label_char {lc!r} does not match the "
+                    f"probe label's first character {want_label!r} and "
+                    f"the answer's {want_ans!r} — the record cannot "
+                    f"support m(y_i)")
+            src = letters[lc] if lc in letters else extra.get(lc)
+            if src is None or float(it.get("label_mass")) != float(src):
+                raise ValueError(
+                    f"{p} item {i}: label_mass {it.get('label_mass')!r} "
+                    f"disagrees with its letter/extra source {src!r}")
+            if it.get("depth") != want_depth:
+                raise ValueError(
+                    f"{p} item {i}: depth {it.get('depth')!r} against the "
+                    f"cell's policy depth {want_depth}")
+        out[(rung, size, mode)] = {
+            "rung": rung, "size": size, "mode": mode, "n": n,
+            "items": items,
+            "probe_labels": [str(x) for x in rec["probe_labels"]],
+            "answers": [str(x) for x in rec["answers"]],
+            "items_sha256": rec["items_sha256"],
+            "dtype": rec["dtype"], "depth": rec["depth"],
+            "model_sha": rec.get("model_sha"),
+        }
+    return out
+
+
+def _read_draw_rows(path, n_items, dps) -> list:
+    """The analyzer's own raw-draws reader (its loaders are its own,
+    §11): duplicate-refusing, coverage-checking, stream-complete."""
+    rows, seen = [], set()
+    with gzip.open(Path(path), "rt") as f:
+        for line in f:
+            row = json.loads(line)
+            i = row.get("item")
+            if i in seen:
+                raise ValueError(f"duplicate item {i} in {path}")
+            seen.add(i)
+            draws = row.get("draws")
+            if not isinstance(draws, dict) or \
+                    set(draws) != {str(s) for s in SEEDS}:
+                raise ValueError(
+                    f"{path} item {i}: seed streams "
+                    f"{sorted(draws) if isinstance(draws, dict) else draws!r} "
+                    f"are not the preregistered seeds {list(SEEDS)}")
+            for s in SEEDS:
+                stream = draws[str(s)]
+                if not isinstance(stream, list) or len(stream) != dps or \
+                        not all(isinstance(d, str) for d in stream):
+                    raise ValueError(
+                        f"{path} item {i} seed {s}: stream of "
+                        f"{len(stream) if isinstance(stream, list) else stream!r} "
+                        f"draws against draws_per_seed {dps}")
+            rows.append(row)
+    if len(rows) != n_items or seen != set(range(n_items)):
+        raise ValueError(
+            f"{path}: {len(rows)} item rows covering {len(seen)} distinct "
+            f"items against n_items {n_items}")
+    return rows
+
+
+def recompute_seed_tallies(rows, answers, labels, *, answer_type,
+                           verify_fn) -> tuple[dict, list]:
+    """Per-seed tallies and per-item full-string counts, recomputed
+    from the raw draws with 2c's verify and 3b's first_char — the same
+    functions the runner's convenience copies used, applied again."""
+    out = {str(s): {"full_string": 0, "first_char": 0, "n_draws": 0}
+           for s in SEEDS}
+    per_item_full = [0] * len(answers)
+    for row in rows:
+        i = row["item"]
+        for s in SEEDS:
+            k = str(s)
+            for d in row["draws"][k]:
+                out[k]["n_draws"] += 1
+                if verify_fn(d, answers[i], answer_type):
+                    out[k]["full_string"] += 1
+                    per_item_full[i] += 1
+                if score_first_char(d, labels[i]):
+                    out[k]["first_char"] += 1
+    return out, per_item_full
+
+
+def load_sampling_cells(root=EXP3, verify_fn=None) -> dict:
+    """The 16 sampling cells (§3) with their raw draws. The stored
+    per-seed tallies are convenience copies: the analyzer RECOMPUTES
+    them from the raw draws and refuses any disagreement — a battery
+    whose runner and analyzer no longer agree on what was drawn has no
+    usable value anywhere (3a's class)."""
+    if verify_fn is None:
+        verify_fn = load_verify()
+    base = Path(root) / "results" / "sampling"
+    want_dirs = {f"{s}_{m}" for (_r, s, m) in SAMPLING_CELLS}
+    want_names = ({f"{r}.json" for r in RUNGS}
+                  | {f"{r}.draws.jsonl.gz" for r in RUNGS})
+    _refuse_strays(base, want_dirs, want_names)
+    out = {}
+    for (rung, size, mode) in SAMPLING_CELLS:
+        d = base / f"{size}_{mode}"
+        p = d / f"{rung}.json"
+        if not p.is_file():
+            raise FileNotFoundError(
+                f"no sampling cell for {rung}/{size}/{mode} at {p}")
+        rec = json.loads(p.read_text())
+        _check_provenance(rec, p, rung, size, mode, want_dtype="float32")
+        dps = rec.get("draws_per_seed")
+        if dps != DRAWS_PER_SEED[rung]:
+            raise ValueError(
+                f"{p}: draws_per_seed {dps!r} against the preregistered "
+                f"{DRAWS_PER_SEED[rung]} for {rung}")
+        if rec.get("seeds") != list(SEEDS):
+            raise ValueError(f"{p}: seeds {rec.get('seeds')!r} are not "
+                             f"the preregistered {list(SEEDS)}")
+        if rec.get("k_total") != len(SEEDS) * dps:
+            raise ValueError(f"{p}: k_total {rec.get('k_total')!r} against "
+                             f"{len(SEEDS)} seeds × {dps} draws")
+        dpath = d / f"{rung}.draws.jsonl.gz"
+        if not dpath.is_file():
+            raise FileNotFoundError(
+                f"no raw draws file for {rung}/{size}/{mode} at {dpath}")
+        n = rec["n_items"]
+        rows = _read_draw_rows(dpath, n, dps)
+        answers = [str(x) for x in rec["answers"]]
+        labels = [str(x) for x in rec["probe_labels"]]
+        recomputed, per_item_full = recompute_seed_tallies(
+            rows, answers, labels, answer_type=rec.get("answer_type"),
+            verify_fn=verify_fn)
+        stored = rec.get("per_seed_tallies")
+        normalized = None
+        if isinstance(stored, dict):
+            try:
+                normalized = {k: {f: int(v[f]) for f in
+                                  ("full_string", "first_char", "n_draws")}
+                              for k, v in stored.items()}
+            except (KeyError, TypeError, ValueError):
+                normalized = None
+        if normalized != recomputed:
+            raise ValueError(
+                f"{p}: stored per-seed tallies disagree with the "
+                f"recompute from the raw draws — stored {stored!r}, "
+                f"recomputed {recomputed!r}; this battery's runner and "
+                f"analyzer do not agree on what was drawn")
+        full_total = sum(v["full_string"] for v in recomputed.values())
+        out[(rung, size, mode)] = {
+            "rung": rung, "size": size, "mode": mode, "n": n,
+            "answers": answers, "probe_labels": labels,
+            "answer_type": rec.get("answer_type"),
+            "items_sha256": rec["items_sha256"], "dtype": rec["dtype"],
+            "seeds": list(SEEDS), "draws_per_seed": dps,
+            "k_total": rec["k_total"],
+            "recomputed": {
+                "per_seed": recomputed,
+                "full_string_total": int(full_total),
+                "first_char_total": int(sum(v["first_char"]
+                                            for v in recomputed.values())),
+                "n_draws_total": int(sum(v["n_draws"]
+                                         for v in recomputed.values())),
+                "per_item_full_string": per_item_full,
+                "fired": bool(full_total > 0),
+            },
+        }
+    return out
+
+
+def load_redecode_cells(root=EXP3) -> dict:
+    """The 16 gate-2 re-decode cells: 3b's record shape, produced by
+    3b's exact path (fp16 + generate — the dtype check pins it), ready
+    for the byte comparison against load_gate2_referents."""
+    base = Path(root) / "results" / "redecode"
+    want_dirs = {f"{s}_{m}" for (_r, s, m) in SAMPLING_CELLS}
+    _refuse_strays(base, want_dirs, {f"{r}.json" for r in RUNGS})
+    out = {}
+    for (rung, size, mode) in SAMPLING_CELLS:
+        p = base / f"{size}_{mode}" / f"{rung}.json"
+        if not p.is_file():
+            raise FileNotFoundError(
+                f"no re-decode cell for {rung}/{size}/{mode} at {p}")
+        rec = json.loads(p.read_text())
+        _check_provenance(rec, p, rung, size, mode, want_dtype="float16")
+        n = rec["n_items"]
+        conts = rec.get("continuations")
+        if not isinstance(conts, list) or len(conts) != n:
+            raise ValueError(
+                f"{p}: continuations has "
+                f"{len(conts) if isinstance(conts, list) else conts!r} "
+                f"entries against n_items {n}")
+        mnt = rec.get("max_new_tokens")
+        if not isinstance(mnt, int) or mnt <= 0:
+            raise ValueError(f"{p}: max_new_tokens {mnt!r} is not a "
+                             f"usable generation cap")
+        out[(rung, size, mode)] = {
+            "rung": rung, "size": size, "mode": mode, "n": n,
+            "continuations": [str(c) for c in conts],
+            "probe_labels": [str(x) for x in rec["probe_labels"]],
+            "answers": [str(x) for x in rec["answers"]],
+            "items_sha256": rec["items_sha256"], "dtype": rec["dtype"],
+            "max_new_tokens": mnt,
+            "full_string_correct": rec.get("full_string_correct"),
+        }
     return out

@@ -17,6 +17,7 @@ gates, and verdict tree sections are added with the analyzer build
 """
 import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
@@ -437,3 +438,313 @@ def test_cell_mass_bracket_is_the_mean_over_items():
              dict(mitem("9"), label_mass=0.2)]
     lo, hi = a.cell_mass_bracket(digit)
     assert lo == pytest.approx(0.3) and hi == pytest.approx(0.3)
+
+
+# ----------------------------------------- battery loaders (Open item 3)
+#
+# Every battery is loaded from its canonical subdirectories only, with
+# 3a's discipline: anything malformed, missing, stray, or inconsistent
+# with the runner's committed shape is a hard error at load, never a
+# verdict. Worlds come from the full-shape maker (Open item 4's
+# infrastructure), whose stored tallies are computed independently of
+# the analyzer's recompute.
+
+from experiments.exp3.tests import full_shape as fs  # noqa: E402
+
+
+def edit_cell(root, kind, key, fn):
+    """Load one cell record under the runner's layout, transform, rewrite."""
+    rung, size, mode = key
+    p = Path(root) / "results" / kind / f"{size}_{mode}" / f"{rung}.json"
+    rec = json.loads(p.read_text())
+    out = fn(rec)
+    p.write_text(json.dumps(out))
+    return p
+
+
+def test_load_mass_cells_accepts_a_sound_world(tmp_path):
+    cells = a.load_mass_cells(fs.write_world(tmp_path))
+    assert set(cells) == set(a.MASS_CELLS) and len(cells) == 28
+    c = cells[("rev_string7", "410m", "trained")]
+    assert len(c["items"]) == fs.N
+    it = c["items"][0]
+    assert set(it["letters"]) == set(a.LETTERS)
+    assert c["depth"] == 2 and c["dtype"] == "float32"
+
+
+def test_load_mass_cells_rejects_a_missing_cell(tmp_path):
+    fs.write_world(tmp_path)
+    (tmp_path / "results" / "mass" / "2.8b_trained"
+     / "ctrl_copy.json").unlink()
+    with pytest.raises(FileNotFoundError, match="ctrl_copy"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_a_stray_file(tmp_path):
+    """A file the preregistered battery does not name, sitting inside a
+    canonical subdirectory, is a half-copied or wrong-tree directory —
+    refused, not silently ignored."""
+    fs.write_world(tmp_path)
+    (tmp_path / "results" / "mass" / "410m_trained"
+     / "extra_rung.json").write_text("{}")
+    with pytest.raises(ValueError, match="extra_rung"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_path_content_disagreement(tmp_path):
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "mass", ("rev_string7", "410m", "trained"),
+              lambda rec: {**rec, "rung": "ctrl_copy"})
+    with pytest.raises(ValueError, match="disagree"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_item_count_mismatch(tmp_path):
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "mass", ("rev_string7", "410m", "trained"),
+              lambda rec: {**rec, "items": rec["items"][:-1]})
+    with pytest.raises(ValueError, match="items"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_a_gappy_letter_vector(tmp_path):
+    fs.write_world(tmp_path)
+
+    def gap(rec):
+        del rec["items"][3]["letters"]["q"]
+        return rec
+    edit_cell(tmp_path, "mass", ("reverse_string", "1b", "trained"), gap)
+    with pytest.raises(ValueError, match="letter"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_negative_mass(tmp_path):
+    fs.write_world(tmp_path)
+
+    def neg(rec):
+        rec["items"][0]["letters"]["a"] = -0.1
+        return rec
+    edit_cell(tmp_path, "mass", ("ctrl_copy", "410m", "trained"), neg)
+    with pytest.raises(ValueError, match="negative"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_masses_summing_past_one(tmp_path):
+    fs.write_world(tmp_path)
+
+    def oversum(rec):
+        rec["items"][0]["letters"] = {c: 0.1 for c in
+                                      "abcdefghijklmnopqrstuvwxyz"}
+        rec["items"][0]["label_mass"] = 0.1
+        return rec
+    edit_cell(tmp_path, "mass", ("ctrl_copy", "410m", "trained"), oversum)
+    with pytest.raises(ValueError, match="sum"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_label_char_drift(tmp_path):
+    """label_char must be the probe label's first character AND the
+    answer's — the record cannot support m(y_i) otherwise."""
+    fs.write_world(tmp_path)
+
+    def drift(rec):
+        rec["items"][0]["label_char"] = "z"
+        rec["items"][0]["label_mass"] = rec["items"][0]["letters"]["z"]
+        return rec
+    edit_cell(tmp_path, "mass", ("rev_string7", "1b", "trained"), drift)
+    with pytest.raises(ValueError, match="label"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_rejects_label_mass_disagreement(tmp_path):
+    fs.write_world(tmp_path)
+
+    def drift(rec):
+        rec["items"][0]["label_mass"] = 0.9
+        return rec
+    edit_cell(tmp_path, "mass", ("rev_string7", "1b", "trained"), drift)
+    with pytest.raises(ValueError, match="label_mass"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_enforces_the_depth_and_dtype_policy(tmp_path):
+    """The ledgered dtype policy, executable: depth 2 / float32
+    everywhere except 12b's depth-1 / float16 exception."""
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "mass", ("rev_string7", "410m", "trained"),
+              lambda rec: {**rec, "depth": 1,
+                           "items": [{**it, "depth": 1}
+                                     for it in rec["items"]]})
+    with pytest.raises(ValueError, match="depth"):
+        a.load_mass_cells(tmp_path)
+
+
+def test_load_mass_cells_enforces_the_12b_exception(tmp_path):
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "mass", ("rev_string7", "12b", "trained"),
+              lambda rec: {**rec, "dtype": "float32"})
+    with pytest.raises(ValueError, match="dtype"):
+        a.load_mass_cells(tmp_path)
+
+
+# ------------------------------------------------------ sampling loader
+
+def test_load_sampling_cells_accepts_and_recomputes(tmp_path):
+    cells = a.load_sampling_cells(fs.write_world(tmp_path))
+    assert set(cells) == set(a.SAMPLING_CELLS) and len(cells) == 16
+    quiet = cells[("rev_string7", "410m", "trained")]
+    assert quiet["recomputed"]["full_string_total"] == 0
+    assert quiet["recomputed"]["first_char_total"] == fs.FC_REV_FLOOR
+    assert quiet["recomputed"]["n_draws_total"] == fs.N * 256
+    assert quiet["recomputed"]["fired"] is False
+    loud = cells[("ctrl_copy", "1b", "trained")]
+    assert loud["recomputed"]["full_string_total"] == 600
+    assert loud["recomputed"]["first_char_total"] == fs.FC_CTRL
+    assert loud["recomputed"]["fired"] is True
+    assert sum(loud["recomputed"]["per_item_full_string"]) == 600
+
+
+def test_load_sampling_cells_refuses_stored_tally_disagreement(tmp_path):
+    """The convenience tallies are recomputed from the raw draws with
+    2c's verify and 3b's first_char; ANY disagreement is a refusal
+    (the runner and the analyzer no longer agree on what happened)."""
+    fs.write_world(tmp_path)
+
+    def corrupt(rec):
+        rec["per_seed_tallies"]["0"]["full_string"] += 1
+        return rec
+    edit_cell(tmp_path, "sampling", ("rev_string7", "410m", "trained"),
+              corrupt)
+    with pytest.raises(ValueError, match="tall"):
+        a.load_sampling_cells(tmp_path)
+
+
+def test_load_sampling_cells_rejects_a_missing_draws_file(tmp_path):
+    fs.write_world(tmp_path)
+    (tmp_path / "results" / "sampling" / "410m_trained"
+     / "ctrl_copy.draws.jsonl.gz").unlink()
+    with pytest.raises(FileNotFoundError, match="draws"):
+        a.load_sampling_cells(tmp_path)
+
+
+def test_load_sampling_cells_rejects_a_duplicate_item_row(tmp_path):
+    import gzip as gz
+    fs.write_world(tmp_path)
+    p = (tmp_path / "results" / "sampling" / "410m_trained"
+         / "ctrl_copy.draws.jsonl.gz")
+    lines = gz.open(p, "rt").readlines()
+    with gz.open(p, "wt") as f:
+        f.writelines(lines + [lines[0]])
+    with pytest.raises(ValueError, match="duplicate"):
+        a.load_sampling_cells(tmp_path)
+
+
+def test_load_sampling_cells_rejects_a_missing_seed_stream(tmp_path):
+    import gzip as gz
+    fs.write_world(tmp_path)
+    p = (tmp_path / "results" / "sampling" / "410m_trained"
+         / "ctrl_copy.draws.jsonl.gz")
+    rows = [json.loads(x) for x in gz.open(p, "rt")]
+    del rows[0]["draws"]["3"]
+    with gz.open(p, "wt") as f:
+        for r in rows:
+            f.write(json.dumps(r) + "\n")
+    with pytest.raises(ValueError, match="seed"):
+        a.load_sampling_cells(tmp_path)
+
+
+def test_load_sampling_cells_rejects_a_short_stream(tmp_path):
+    import gzip as gz
+    fs.write_world(tmp_path)
+    p = (tmp_path / "results" / "sampling" / "1b_untrained"
+         / "rev_string7.draws.jsonl.gz")
+    rows = [json.loads(x) for x in gz.open(p, "rt")]
+    rows[5]["draws"]["2"] = rows[5]["draws"]["2"][:-1]
+    with gz.open(p, "wt") as f:
+        for r in rows:
+            f.write(json.dumps(r) + "\n")
+    with pytest.raises(ValueError, match="64"):
+        a.load_sampling_cells(tmp_path)
+
+
+def test_load_sampling_cells_rejects_a_missing_item_row(tmp_path):
+    import gzip as gz
+    fs.write_world(tmp_path)
+    p = (tmp_path / "results" / "sampling" / "410m_untrained"
+         / "clock24_d999.draws.jsonl.gz")
+    lines = gz.open(p, "rt").readlines()
+    with gz.open(p, "wt") as f:
+        f.writelines(lines[:-1])
+    with pytest.raises(ValueError, match="row"):
+        a.load_sampling_cells(tmp_path)
+
+
+def test_load_sampling_cells_enforces_the_preregistered_draw_counts(tmp_path):
+    """k = 256 per reversal item (4 × 64) and 32 per control item is
+    §3's budget; a record claiming anything else is not this design."""
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "sampling", ("rev_string7", "410m", "trained"),
+              lambda rec: {**rec, "draws_per_seed": 32, "k_total": 128})
+    with pytest.raises(ValueError, match="draws_per_seed"):
+        a.load_sampling_cells(tmp_path)
+
+
+def test_load_sampling_cells_enforces_fp32(tmp_path):
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "sampling", ("rev_string7", "410m", "trained"),
+              lambda rec: {**rec, "dtype": "float16"})
+    with pytest.raises(ValueError, match="dtype"):
+        a.load_sampling_cells(tmp_path)
+
+
+# ------------------------------------------------------ redecode loader
+
+def test_load_redecode_cells_accepts_a_sound_world(tmp_path):
+    cells = a.load_redecode_cells(fs.write_world(tmp_path))
+    assert set(cells) == set(a.SAMPLING_CELLS) and len(cells) == 16
+    c = cells[("ctrl_copy", "410m", "trained")]
+    assert len(c["continuations"]) == fs.N
+    assert c["dtype"] == "float16"
+
+
+def test_load_redecode_cells_rejects_a_missing_cell(tmp_path):
+    fs.write_world(tmp_path)
+    (tmp_path / "results" / "redecode" / "1b_trained"
+     / "reverse_string.json").unlink()
+    with pytest.raises(FileNotFoundError, match="reverse_string"):
+        a.load_redecode_cells(tmp_path)
+
+
+def test_load_redecode_cells_enforces_3bs_fp16_path(tmp_path):
+    """Gate 2 must reproduce 3b's bytes, which were made at fp16 by
+    generate; a float32 re-decode is not that referent's path."""
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "redecode", ("ctrl_copy", "410m", "trained"),
+              lambda rec: {**rec, "dtype": "float32"})
+    with pytest.raises(ValueError, match="dtype"):
+        a.load_redecode_cells(tmp_path)
+
+
+def test_load_redecode_cells_rejects_count_mismatch(tmp_path):
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "redecode", ("ctrl_copy", "410m", "trained"),
+              lambda rec: {**rec,
+                           "continuations": rec["continuations"][:-1]})
+    with pytest.raises(ValueError, match="continuations"):
+        a.load_redecode_cells(tmp_path)
+
+
+def test_load_redecode_cells_rejects_twin_seed_violation(tmp_path):
+    fs.write_world(tmp_path)
+    edit_cell(tmp_path, "redecode", ("ctrl_copy", "410m", "untrained"),
+              lambda rec: {**rec, "untrained_seed": 7})
+    with pytest.raises(ValueError, match="seed"):
+        a.load_redecode_cells(tmp_path)
+
+
+def test_load_verify_returns_2cs_verify():
+    """The fire recompute uses 2c's exact-match verify, resolved from
+    the exp2c tree (provenance-asserted, run_cell's discipline)."""
+    verify = a.load_verify()
+    assert verify(" gfedcba\nextra", "gfedcba", "word") is True
+    assert verify(" gfedcbaz", "gfedcba", "word") is False
