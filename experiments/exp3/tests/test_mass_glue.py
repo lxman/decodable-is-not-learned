@@ -110,3 +110,13 @@ def test_depth2_cache_path_equals_full_forward_cpu(tok, classes):
                     reason="campaign device not present")
 def test_depth2_cache_path_equals_full_forward_mps(tok, classes):
     _assert_depth2_equals_full_forward("mps", tok, classes)
+
+
+# NOTE on dtype (PROGRESS.md 2026-08-15): the campaign computes mass
+# and sampling at FLOAT32 — fp16-MPS batched cached steps corrupt every
+# row but row 0 on real-model shapes (found at build; an fp16 variant
+# of the equality test above failed with a saturated row and was the
+# thread that unravelled it). The fp32 MPS test above therefore IS the
+# campaign-dtype test. Per-size verification on real models lives in
+# run/preflight_paths.py, gating every campaign tier; the gate-4
+# determinism fixture byte-compares against the committed reference.

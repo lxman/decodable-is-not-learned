@@ -98,6 +98,69 @@ specials (their decode is empty, not whitespace); this is a reading,
 not an amendment, and the sampler stops at EOS to match. Fixtures pin
 both directions.
 
+**2026-08-15 — STACK DEFECT FOUND AND FENCED: fp16-MPS batched
+inference is broken on this machine; the campaign dtype policy is
+fp32.** The build's most consequential finding, in the order the
+evidence arrived:
+
+1. *Symptom.* Gate 4's determinism fixture (seeded sampling, synthetic
+   prompts, pythia-410m fp16 MPS, two processes) was NOT
+   byte-identical: all 16 draws of one prompt differed at their first
+   sampled character; the other two prompts reproduced exactly.
+2. *First root cause.* The fp16-MPS FULL-LOGITS multi-token forward
+   returns garbage on this stack — near-uniform distributions (top-1
+   ≈ 1/50304) and hidden states orthogonal to fp32 truth — for every
+   prompt tried, while `generate`, `logits_to_keep=1` forwards, and
+   fp32 anything are sane (fp32 MPS == fp32 CPU exactly in every
+   probe). The divergent prompt was garbage racing; the "stable" ones
+   were byte-stable garbage. 3b was never exposed: HFRunner only
+   calls `generate`. Both instrument modules were switched to
+   `logits_to_keep=1` (they only ever need last-position logits) and
+   the fixture went byte-identical — but that determinism was
+   determinism of a still-wrong computation, exposed next.
+3. *Second, worse root cause.* An fp16 campaign-dtype variant of the
+   glue equality fixture failed on the tiny synthetic model with one
+   saturated row. Chasing it: in a BATCHED single-token cached step
+   (the shape of every depth-2 mass pass and every sampling step), at
+   fp16 on MPS, on the real 410m, **rows 1–15 of 16 are garbage and
+   only row 0 is correct** — reproducibly across repeats, top-1 values
+   quantized to 1.0, 1/3, 1/4, 1/6 (overflow ties); the corruption
+   follows row index, not token id; forcing the expanded cache
+   contiguous changes nothing; the tiny model reproduces it only
+   state-dependently. fp32 rows all match batch-1 references to
+   <1e-4; bf16 was clean on the tiny model but is a different-weights
+   choice and was not pursued.
+4. *Policy (freeze to ratify).* Mass and sampling run at FLOAT32 — an
+   EXACT upcast of the same fp16 checkpoint values 3b probed, so the
+   same-weights claim survives with strictly more accurate arithmetic;
+   compute-precision choice disclosed in the verdict. The gate-2
+   greedy re-decode stays fp16 + `generate` — 3b's exact path, the
+   sane one, reproducing 3b's exact bytes. Sizes through 6.9b fit
+   fp32 on 48 GB tier-per-process. **12b does not fit fp32** (≈47.6
+   GB): its four mass cells — descriptive-only, no verdict branch
+   reads them — run fp16 through the verified-sane batch-1 keep1
+   prompt forward at DEPTH 1, with the whole whitespace-path mass
+   folded into the residual, i.e. a wider honest bracket, disclosed
+   per cell. Budget revision: fp32 roughly doubles sampling time
+   (≈28 h across the two probe sizes; two to three nights, per-cell
+   resume, unchanged Sparks policy).
+5. *Guards.* (a) `run/preflight_paths.py`, committed: per-(size,
+   dtype) verification on synthetic prompts — every row of a
+   heterogeneous-id batched step must match its batch-1 reference —
+   gating every campaign tier before any cell runs; 410m/float32
+   passes (committed `preflight_410m_float32.json`), 410m/float16
+   FAILS as expected. The full-ladder preflight is a campaign-start
+   step and a freeze checklist item. (b) The gate-4 determinism
+   reference is re-committed at fp32 (two processes byte-identical;
+   the fp16-era reference was byte-stable garbage and was replaced
+   the same day — recorded in `determinism_check.json`). (c) At
+   campaign, gate 1's ctrl mass sign test cannot pass on a flat or
+   corrupted distribution. (d) Nothing in exp3 reads a full-logits
+   multi-token forward; both modules carry the load-bearing comment.
+   Corroboration kept in the record: draw 0 of each fixture cell (row
+   0 — the only sane fp16 row) reproduces byte-identically between
+   the fp16-era and fp32 references; the corrupt rows all changed.
+
 **2026-08-15 — Open item 1 complete: mass module.** `masses.py`: token
 classification routes through `first_char` itself (one whitespace/
 casefold definition for both instruments — gate 3 can only ever catch

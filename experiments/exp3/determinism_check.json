@@ -1,0 +1,17 @@
+{
+ "gate": 4,
+ "criterion": "two separate-process runs byte-identical on the campaign stack",
+ "run1_sha256": "791ce4779c29b566ac3e3e0a78d2488df7257229e8dd7006a00b40eb0450f4cb",
+ "run2_sha256": "791ce4779c29b566ac3e3e0a78d2488df7257229e8dd7006a00b40eb0450f4cb",
+ "identical": true,
+ "reference": "determinism_reference.json",
+ "reference_sha256": "791ce4779c29b566ac3e3e0a78d2488df7257229e8dd7006a00b40eb0450f4cb",
+ "stack": {
+  "device": "mps",
+  "dtype": "float32",
+  "size": "410m",
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ },
+ "note": "fp32 campaign dtype (PROGRESS.md 2026-08-15 dtype policy; the earlier fp16 reference was byte-stable garbage and was replaced the same day). Freeze re-runs cold and must match byte-for-byte."
+}

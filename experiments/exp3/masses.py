@@ -194,8 +194,15 @@ def collect_item_debug(model, tok, prompt, *, label, first_chars, ws_ids,
     import torch
 
     enc = tok(prompt, return_tensors="pt").to(model.device)
+    # logits_to_keep=1 is LOAD-BEARING, not an optimization: on this
+    # stack the fp16-MPS full-logits multi-token forward returns garbage
+    # (near-uniform logits, hidden states orthogonal to fp32 truth),
+    # while last-position-only forwards, generate, and cached
+    # single-token steps are sane — PROGRESS.md 2026-08-15, root-caused
+    # at build. 3b was safe because HFRunner only ever called generate.
+    # Nothing in exp3 may ever read a full-logits multi-token forward.
     with torch.no_grad():
-        out = model(**enc, use_cache=True)
+        out = model(**enc, use_cache=True, logits_to_keep=1)
     probs1 = _softmax_probs(out.logits[0, -1])
     prompt_len = enc["input_ids"].shape[1]
 

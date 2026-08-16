@@ -1,0 +1,88 @@
+{
+ "draws": {
+  "prompt0": {
+   "s0": [
+    "\n\nYou are mistaken: you shouldn't use a back",
+    " Unix Shell (thousands of Arguments):\nhttp",
+    " 'qzmvw'+a+function(){b[",
+    " (cases) **/qzmvw\nW:",
+    " Insert a space and press Enter.\nB: Escape",
+    " We can do that with\nv->name_to_",
+    " xGuard=quirks */\n",
+    " Of Q-Hash + I & W-hash\n\n"
+   ],
+   "s1": [
+    " qw\n\n(weight is only from 0 to (=",
+    " Until a vowel sounds.\n  \n  \n  ",
+    " Great. Try again.\nDo note that this is a",
+    " qzmvw \u03b8\u03b1 \u043a\u0430\u0436\u0435\u0442\u0441\u044f \u0444\u0440\u043e\u043d\u0442",
+    " You're going the wrong way.\n\nVvwn",
+    " fair enough, you're right, I also memorized the",
+    " svncape treasure.\nB: '''qvw",
+    " Qa your spell backs\n\n2nd optional : What"
+   ]
+  },
+  "prompt1": {
+   "s0": [
+    " Haha\nB: Go I fly, he rips",
+    " com.me/qq.\nB: gf",
+    "   blorfk\n\nA string like a loop.",
+    " fluff.\nB: blorf.\n\n",
+    " repeat 'blorfk'.\n\nBut that doesn't",
+    " \"abcdefghiilzegjlimfz",
+    " P'OHT\nT: blorf when this is",
+    " Repeat the string 'blorfk' once.\nB"
+   ],
+   "s1": [
+    " insert blorfk stand alone and the new string 'b",
+    " Blorfk\n\nA: Blalfk\n\n",
+    " yes\n\nIn java, rotation does not require rotation ==",
+    " 7.\nB: Anti...\nC: cyl and",
+    " repeat the string with bluffle (Ctrl+h when the",
+    " blorfk      \n  should print the word bl like",
+    " Yes\n\n$(document).ready(function(){     \n",
+    " 5678\nYes, blorfk is also the string"
+   ]
+  },
+  "prompt2": {
+   "s0": [
+    " It\u2019s 03:18 in Australia.\n\nAs",
+    " 01:17 duty-time.\n(preceding 45",
+    " It is, '94.\nQ: And at what",
+    " Included :02:59: 12 :01 :58",
+    " 3131\nA: \nA dictionary. Take from",
+    " 2500+de g\u00e5te 0:00\nA:",
+    " 3:17\n\n%mathfmt \"%1.3",
+    " November 27\n\nREC 800;778\nSubject: UPDATE"
+   ],
+   "s1": [
+    " 09:00 am\nA PAM was dropped today,",
+    " 3:52 PM\n\n---|---\n\nWhenever a product",
+    " Running on 11-04-2004 at 00:25\n",
+    " 01:57\n\nRussian: \n\u0435\u0439 \u043f\u043e\u0447",
+    " (Initial delay) 03:17.\nQ: What",
+    " 03:31\nA: 999 hours 10 minutes 52 seconds",
+    " 00:00\u00a0\nB: 00:05\u00a0\n",
+    " 08:26:10\n\nI have the specific of"
+   ]
+  }
+ },
+ "draws_per_seed": 8,
+ "max_new_tokens": 12,
+ "prompts": [
+  "Q: Spell the string 'qzmvw' backwards.\nA:",
+  "Q: Repeat the string 'blorfk'.\nA:",
+  "Q: What is 999 minutes after 03:17?\nA:"
+ ],
+ "seeds": [
+  0,
+  1
+ ],
+ "stack": {
+  "device": "mps",
+  "dtype": "float32",
+  "size": "410m",
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ }
+}

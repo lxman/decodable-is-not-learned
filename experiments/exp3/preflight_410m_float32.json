@@ -1,0 +1,38 @@
+{
+ "n_checks": 4,
+ "all_ok": true,
+ "checks": [
+  {
+   "check": "prompt keep1 vs re-forward",
+   "prompt": "Q: Spell the string 'wqx",
+   "max_diff": 0.0,
+   "ok": true
+  },
+  {
+   "check": "batched step rows vs batch-1 refs",
+   "prompt": "Q: Spell the string 'wqx",
+   "rows": 16,
+   "worst_diff": 3.3274292945861816e-05,
+   "bad_rows": [],
+   "ok": true
+  },
+  {
+   "check": "prompt keep1 vs re-forward",
+   "prompt": "Q: What is 999 minutes a",
+   "max_diff": 0.0,
+   "ok": true
+  },
+  {
+   "check": "batched step rows vs batch-1 refs",
+   "prompt": "Q: What is 999 minutes a",
+   "rows": 16,
+   "worst_diff": 1.607835292816162e-05,
+   "bad_rows": [],
+   "ok": true
+  }
+ ],
+ "size": "410m",
+ "dtype": "float32",
+ "device": "mps",
+ "torch": "2.12.1"
+}
