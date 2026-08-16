@@ -218,6 +218,21 @@ def test_item_record_carries_the_26_letter_vector_and_label_mass():
     assert rec["residual"] == pytest.approx(0.0)
 
 
+def test_depth1_record_folds_all_ws_mass_into_the_residual():
+    """The 12b tier (PROGRESS.md dtype policy): no depth-2 expansion —
+    every whitespace-path unit of mass is unresolved, so it ALL lands
+    in the residual and the bracket widens honestly."""
+    p1 = probs(t0=0.5, t3=0.2, t4=0.1, t5=0.1, t1=0.1)
+    fc = m.token_first_chars(DECODED)
+    ws = tuple(i for i in m.whitespace_ids(fc) if i != 5)
+    rec = m.item_mass_record_depth1(p1, fc, ws, label="a",
+                                    terminal_ids=(5,))
+    assert rec["letters"]["a"] == pytest.approx(0.5)
+    assert rec["residual"] == pytest.approx(0.3)      # ids 3+4 unresolved
+    assert rec["terminal_mass"] == pytest.approx(0.1)  # id 5
+    assert rec["depth"] == 1
+
+
 def test_item_record_letter_label_reads_from_the_vector():
     p1 = probs(t7=0.8, t1=0.2)
     fc = m.token_first_chars(DECODED)

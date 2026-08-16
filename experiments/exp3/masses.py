@@ -150,6 +150,34 @@ def item_mass_record(probs1, first_chars, ws_ids, probs2_by_w,
             "terminal_mass": got["terminal_mass"]}
 
 
+def item_mass_record_depth1(probs1, first_chars, ws_ids, *, label,
+                            terminal_ids=()) -> dict:
+    """Depth-1 variant for the 12b tier (PROGRESS.md dtype policy: fp32
+    does not fit at 12b, and the fp16 batched depth-2 step path is the
+    broken one). Whitespace-path mass is left entirely unresolved: it
+    ALL joins the residual, widening the bracket honestly. Only the
+    batch-1 keep1 prompt forward — the verified-sane fp16 class — is
+    ever needed to produce this record."""
+    label_char = str(label)[0].casefold()
+    chars = TRACKED_LETTERS if label_char in TRACKED_LETTERS \
+        else TRACKED_LETTERS + (label_char,)
+    # With ws_ids=() the whitespace tokens fall through uncounted (their
+    # class is None), the distribution check still runs on the full
+    # probs, and no depth-2 row is ever demanded.
+    got = depth2_masses(probs1, first_chars, (), {}, chars=chars,
+                        terminal_ids=terminal_ids)
+    ws_mass = float(sum(probs1[w] for w in ws_ids))
+    return {"letters": {c: got["mass"][c] for c in TRACKED_LETTERS},
+            "extra": {c: got["mass"][c] for c in chars
+                      if c not in TRACKED_LETTERS},
+            "label_char": label_char,
+            "label_mass": got["mass"][label_char],
+            "residual": ws_mass,
+            "ws_mass_p1": ws_mass,
+            "terminal_mass": got["terminal_mass"],
+            "depth": 1}
+
+
 # ------------------------------------------------------- model-facing glue
 #
 # Campaign-only path (plus its synthetic-model fixtures). Tokenization

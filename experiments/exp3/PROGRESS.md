@@ -98,6 +98,27 @@ specials (their decode is empty, not whitespace); this is a reading,
 not an amendment, and the sampler stops at EOS to match. Fixtures pin
 both directions.
 
+**2026-08-15 — Open items 5+7 complete: runner, tier-per-process
+driver, storage audit.** `run/run_cell.py`: three cell kinds behind
+one executable dtype-policy table (`cell_policy`, fixture-pinned);
+redecode is 3b's fp16 generate path verbatim (gate 2 must reproduce
+3b's bytes); mass fp32 depth-2 with the 12b fp16 depth-1 exception;
+sampling fp32 probe-sizes-only with every raw draw stored
+(gzip jsonl, duplicate-refusing reader) beside a summary record whose
+per-seed tallies use 2c's verify and 3b's first_char — convenience
+copies the analyzer recomputes from raw and refuses on disagreement.
+`run/campaign_3.py`: committed at build; tier-per-process (one child
+per (kind, size, mode), one model load, exit frees the cache); §10.3
+order fixture-pinned (re-decode → mass ladder, twins first, sizes
+ascending → twin sampling → trained sampling 410m before 1b);
+preflight gates every (size, dtype) before its first tier and STOPS
+the campaign on failure. Dry-run verified: 15 tiers, 60 cells, the
+policy visible per tier. Storage audit (Open item 7): 1,152,000 draws
+(8 reversal cells × 128,000 + 8 control cells × 16,000) ≈ 10–15 MB
+gzipped across 16 files; 28 mass cells × 500 item-vectors ≈ 10 MB;
+re-decode ≈ 3 MB — everything committed per cell, nothing discarded.
+Suite: 68 tests green.
+
 **2026-08-15 — STACK DEFECT FOUND AND FENCED: fp16-MPS batched
 inference is broken on this machine; the campaign dtype policy is
 fp32.** The build's most consequential finding, in the order the
