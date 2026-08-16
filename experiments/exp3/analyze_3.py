@@ -290,6 +290,18 @@ LETTERS = tuple("abcdefghijklmnopqrstuvwxyz")
 SIGN_TIE_EPS = 1e-12
 
 
+def sign_test_significance(K: int, n_eff: int, *, n_tests,
+                           alpha: float = ALPHA) -> tuple[float, bool]:
+    """THE significance convention, in one place: exact one-sided
+    binomial tail p = P(X ≥ K | n_eff, .5), significant iff
+    p · n_tests < α (3b's Bonferroni form). rung_sign_test adjudicates
+    through this function and compute_power inverts it, so the
+    committed power tables are computed from the frozen code, not from
+    a re-derivation that could drift (§7, Open item 6)."""
+    p = float(binom.sf(K - 1, n_eff, 0.5))
+    return p, bool(p * n_tests < alpha)
+
+
 def rung_sign_test(mass_items, answers, *, n_tests, alpha: float = ALPHA,
                    upper: bool = False) -> dict:
     """The exact one-sided sign test on s_i across a cell's items (§5).
@@ -348,9 +360,9 @@ def rung_sign_test(mass_items, answers, *, n_tests, alpha: float = ALPHA,
     if n_eff == 0:
         return {**base, "computable": True, "significant": False,
                 "p": 1.0, "K": 0, "n_eff": 0, "n_ties": n_ties}
-    p = float(binom.sf(K - 1, n_eff, 0.5))
-    return {**base, "computable": True,
-            "significant": bool(p * n_tests < alpha),
+    p, significant = sign_test_significance(K, n_eff, n_tests=n_tests,
+                                            alpha=alpha)
+    return {**base, "computable": True, "significant": significant,
             "p": p, "K": int(K), "n_eff": int(n_eff),
             "n_ties": int(n_ties)}
 

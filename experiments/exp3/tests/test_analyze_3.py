@@ -375,6 +375,21 @@ def test_format_only_emitter_ties_out_by_construction():
     assert got["significant"] is False
 
 
+def test_sub_epsilon_signals_are_ties():
+    """SIGN_TIE_EPS both directions: a 1e-13 'signal' is float dust and
+    must count as a tie, never as a sign — dust-signed items counted
+    into K alongside a shrunken n_eff would manufacture significance
+    from nothing."""
+    answers = ["ax", "bx", "ay", "by"]
+    items = [mitem("a", a=1e-13),
+             mitem("b", b=0.3),
+             mitem("a", a=1e-13),
+             mitem("b", a=0.3)]
+    got = a.rung_sign_test(items, answers, n_tests=1)
+    assert got["K"] == 1 and got["n_ties"] == 2 and got["n_eff"] == 2
+    assert got["p"] == pytest.approx(0.75)
+
+
 def test_single_letter_support_is_a_hard_error():
     """w_y = 1 leaves nothing to renormalize over: a rung whose answers
     all share one first letter cannot carry this statistic (guard, not

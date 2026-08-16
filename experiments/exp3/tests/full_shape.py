@@ -472,6 +472,15 @@ BATTERIES = {
         "expect": "WALL",
         "check": [lambda out: out["coherence"]
                   ["ctrl_copy/410m/untrained"]["coherent"] is False]},
+    "coherence_level_margin": {
+        # 230/5120 sampled first-char against the [.038, .038] floor
+        # bracket: DISJOINT at plain .95 (CP lower .0394) but coherent
+        # at the §6.3 Bonferroni level 1−.01/16 (CP lower .0357) — the
+        # world that catches a coherence check run at the wrong level
+        "world": {"draws": {("rev_string7", "410m", "trained"): (230, 0)}},
+        "expect": "WALL",
+        "check": [lambda out: out["coherence"]
+                  ["rev_string7/410m/trained"]["coherent"] is True]},
 }
 
 
