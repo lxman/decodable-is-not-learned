@@ -1,0 +1,119 @@
+{
+ "n_checks": 14,
+ "n_failed": 0,
+ "all_ok": true,
+ "constructed_twins": true,
+ "checks": [
+  {
+   "check": "gate-2 byte referents load (16 cells)",
+   "ok": true,
+   "n_cells": 16
+  },
+  {
+   "check": "item file pin clock24_d999",
+   "ok": true,
+   "path": "/Users/michaeljordan/emergence-paper/experiments/exp2c/battery/items/clock24_d999.json",
+   "sha256": "a117c7d58e34c6ecad27b2ed60b3a6b062c9e856d82351e9279883a8510bc1b1",
+   "want": "a117c7d58e34c6ecad27b2ed60b3a6b062c9e856d82351e9279883a8510bc1b1"
+  },
+  {
+   "check": "item file pin ctrl_copy",
+   "ok": true,
+   "path": "/Users/michaeljordan/emergence-paper/experiments/exp2c/battery/items/ctrl_copy.json",
+   "sha256": "b75141477beecbd2933a02d93777bf787a1d39a5693b88436b68d0bdcdab6832",
+   "want": "b75141477beecbd2933a02d93777bf787a1d39a5693b88436b68d0bdcdab6832"
+  },
+  {
+   "check": "item file pin rev_string7",
+   "ok": true,
+   "path": "/Users/michaeljordan/emergence-paper/experiments/exp2c/battery/items/rev_string7.json",
+   "sha256": "d0fca235d101e142aabaddbdf5d78e189b7a91c96672364b961e83d1635a83f5",
+   "want": "d0fca235d101e142aabaddbdf5d78e189b7a91c96672364b961e83d1635a83f5"
+  },
+  {
+   "check": "item file pin reverse_string",
+   "ok": true,
+   "path": "/Users/michaeljordan/emergence-paper/experiments/exp2b/battery/items/reverse_string.json",
+   "sha256": "ad5bdcd944e3b983da42825a493eb813269b0ffebadb64f40fb1ee0f834f68c9",
+   "want": "ad5bdcd944e3b983da42825a493eb813269b0ffebadb64f40fb1ee0f834f68c9"
+  },
+  {
+   "check": "gate-1 inclusion anchor 410m",
+   "ok": true,
+   "path": "/Users/michaeljordan/emergence-paper/experiments/exp2c/results/inclusion/410m_trained/ctrl_copy.json",
+   "correct": 480,
+   "n": 500,
+   "want": 480
+  },
+  {
+   "check": "gate-1 first-char recompute 410m",
+   "ok": true,
+   "correct": 497,
+   "want": 497,
+   "acc": 0.994
+  },
+  {
+   "check": "gate-1 inclusion anchor 1b",
+   "ok": true,
+   "path": "/Users/michaeljordan/emergence-paper/experiments/exp2c/results/inclusion/1b_trained/ctrl_copy.json",
+   "correct": 490,
+   "n": 500,
+   "want": 490
+  },
+  {
+   "check": "gate-1 first-char recompute 1b",
+   "ok": true,
+   "correct": 497,
+   "want": 497,
+   "acc": 0.994
+  },
+  {
+   "check": "floors sha pin + recompute-assert",
+   "ok": true,
+   "primaries": {
+    "rev_string7": 0.056,
+    "reverse_string": 0.054,
+    "ctrl_copy": 0.052,
+    "clock24_d999": 0.496
+   }
+  },
+  {
+   "check": "probe margins match doc 4dp quotes",
+   "ok": true,
+   "margins": {
+    "rev_string7": {
+     "410m": 0.6263273735902948,
+     "1b": 0.7724546498975561
+    },
+    "reverse_string": {
+     "410m": 0.5730516347271097,
+     "1b": 0.6749083528130295
+    }
+   }
+  },
+  {
+   "check": "3b twin state-hash referents present",
+   "ok": true,
+   "hashes": {
+    "410m": "335d46b7c33ed83d238b53fb99d22ff5b3d72d97d44c34ea98a59d2986dfcb2f",
+    "1b": "fa3fe1d2b123ffc353c27054e0bb7f3c7112060d48f1f46e944ae5aabcdc37e9"
+   }
+  },
+  {
+   "check": "untrained twin constructs 410m seed=0",
+   "ok": true,
+   "state_sha256": "335d46b7c33ed83d238b53fb99d22ff5b3d72d97d44c34ea98a59d2986dfcb2f",
+   "deterministic": true,
+   "matches_3b_record": true,
+   "want": "335d46b7c33ed83d238b53fb99d22ff5b3d72d97d44c34ea98a59d2986dfcb2f"
+  },
+  {
+   "check": "untrained twin constructs 1b seed=0",
+   "ok": true,
+   "state_sha256": "fa3fe1d2b123ffc353c27054e0bb7f3c7112060d48f1f46e944ae5aabcdc37e9",
+   "deterministic": true,
+   "matches_3b_record": true,
+   "want": "fa3fe1d2b123ffc353c27054e0bb7f3c7112060d48f1f46e944ae5aabcdc37e9"
+  }
+ ]
+}
