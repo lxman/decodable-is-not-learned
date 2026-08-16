@@ -126,6 +126,125 @@ level can never be re-ingested as data.
 
 ### Entries
 
+**2026-08-16 — FREEZE SESSION OPENS (session 3 of 3), adversarially.
+THE CLASS DEFECT IS FOUND: §5's w̃-competitor statistic credits
+lexical/format letter statistics as capability signal — 2c's death
+class, in this design's primary criterion. Amendment declared below,
+BEFORE any code is changed; the tag is HELD for Michael's
+ratification.**
+
+*The defect.* §5's s_i = m_i(y_i) − Σ_{c≠y_i} w̃_c m_i(c) compares the
+correct letter's mass against a cross-item frequency-weighted average
+of the other 25 letters. The doc's null claim ("a format-only emitter
+and a letter-uniform guesser both give θ = .5 by construction") holds
+only for the two degenerates §8 lists. Two mechanisms outside them
+fire the test with zero item-level information:
+
+1. *Context-letter priming (the fatal one).* A model that elevates
+   mass on every character present in the quoted input string —
+   position-blind in-context copying, among the best-documented small-
+   LM behaviours — elevates m_i(y_i) on EVERY item, because the answer
+   is a permutation of the input and y_i is always one of the input's
+   characters, while the w̃-competitors mostly are not. Per-letter
+   boost δ gives s_i ≈ δ(1 − 6/25) > 0 essentially always → θ ≈ 1 →
+   certain false significance at n = 500 on all four adjudicated
+   cells, manufacturing BULK-ONLY/ELICITABLE — the thesis-friendly
+   direction — with zero position (reversal) knowledge. §8's echo row
+   analysed only input[0] echo (~4% first-char coincidence) and missed
+   the set-level effect entirely.
+2. *Anti-concentrated item-independent priors.* For any item-
+   independent letter distribution f, s_i > 0 ⟺ f(y_i) > Σ_c w̃_c f(c),
+   so θ = the w̃-mass of letters whose f exceeds the w̃-weighted mean —
+   .5 only by accident of shape. f uniform over 20 letters with 6
+   rare letters suppressed gives θ ≈ 20/26 ≈ .77: fires, format-only.
+   (Right-skewed English-like priors give θ < .5 — conservative — but
+   the class is uncontrolled in both directions.)
+
+*Evidence both shapes are live on these exact cells* (read from 3b's
+CLOSED committed continuations — no model queried, no mass or sampling
+quantity computed; the invariant holds): the greedy first character
+lands inside the item's own answer-letter set at rates .968
+(rev_string7/410m), .970 (reverse_string/410m), .984
+(reverse_string/1b) against multiset-chance .239/.173/.173 — and it is
+the ECHO character (input[0] = answer's last char) at .912/.896/.942,
+against correct-first-char rates .052/.032/.026. Input-letter mass
+concentration is massive and real. And rev_string7/1b greedy-emits a
+single fixed letter ('o') on 498/500 items — a collapsed item-
+independent prior, the degenerate-prior shape in the flesh.
+
+*The amendment (pre-tag; nothing is frozen yet; the one pre-committed
+post-freeze change is NOT touched).* The competitor set moves inside
+the item: s_i = m_i(a_i[0]) − mean_{j=1..L−2} m_i(a_i[j]), the
+answer's first-character mass against the mean mass of its own
+INTERIOR characters (positions 1..L−2, multiplicity kept, L = answer
+length). The answer's LAST character — the input's first character,
+the echo target — is read on neither side. Everything else about the
+statistic is unchanged: the same per-item stored a–z vector, the same
+sign-with-SIGN_TIE_EPS rule, the same exact one-sided binomial tail
+through the untouched `sign_test_significance`, the same n_tests
+Bonferroni, the same bracket upper end (whole per-item residual
+credited to a_i[0], competitors at computed masses), the same
+adjudication-reads-lower rule.
+
+*Why this is the right null, provably.* The permutation rungs' input
+characters are iid uniform; conditional on the multiset, the position
+assignment is uniform. For ANY mechanism whose mass function depends
+on the input only through position-symmetric features (item-
+independent priors, format priors, and set-level lexical priming
+alike), the character at the input's last position and the characters
+at its interior positions are exchangeable — so P(s_i > 0) =
+P(s_i < 0) and θ = .5 EXACTLY, ties symmetric. Set-level priming
+cancels algebraically (every read character carries the same boost).
+Echo (input[0] favoritism) touches an excluded position: it moves
+neither side. What fires the one-sided test is exactly mass that
+favors the input's LAST character over its interior — the position-1
+reversal signature, the very quantity 3b's probe read from the
+residual stream. On ctrl_copy the same statistic reads first-position
+favoritism over the interior — copying's own signature — so gate 1
+tests the instrument against the capability it certifies, and
+recency-toward-input[-1] copying (ans[-1], excluded) cannot fake it.
+
+*Computability (reading 5, re-keyed).* The statistic is computable
+for a rung iff every character it reads (each item's a_i[0] and
+interior) lies in the stored a–z block. Both reversal rungs and
+ctrl_copy: answers verified 100% lowercase alpha, lengths 7/7 and
+4–6/4–6 (min interior 2 competitors, no structural ties).
+clock24_d999 reads digits → computable=False, never significant,
+hard error if adjudicated — reading 5's outcome, unchanged. Items
+with L < 3 (none exist in the committed batteries) are structural
+ties, disclosed in n_ties; the all-ties path (reading 3) covers the
+vacuous extreme. The w̃ single-letter-support guard is dead code under
+the amendment (there is no w̃) and is removed with it.
+
+*What the amendment deliberately does not touch:* the stored per-item
+mass unit and every loader; gate 1's CP arm; gate 2; gate 3's
+label-mass bracket and level; gate 5's arms; step 6's worlds;
+`sign_test_significance` and therefore the committed `power.json`
+(same critical counts at every n; §7's θ re-reads as
+P(s_i > 0) under the new s_i — the power table's arithmetic is
+identical); the sampler, masses module, runner, campaign order,
+preflight, and determinism artifacts. Blast radius: one competitor-
+construction block inside `rung_sign_test`, its fixture block, the
+full-shape worlds' synthetic answers and split cases (interior-aware),
+and the retired w̃ mutants replaced by competitor-set mutants.
+
+*Process.* This entry precedes any code change (the rule: mechanism
+argued in the ledger first, justification never referencing the
+outcome it would produce). The doc is DRAFT — a pre-tag amendment
+spends nothing — but §5 is Michael-approved text and the amendment
+changes adjudication semantics, so the TAG WAITS: the freeze session
+completes every ruling, re-run, and fixture cold, and
+`exp3-preregistered` is applied only on Michael's ratification of
+this entry (or his preference for the disclose-only alternative,
+recorded below, in which case the amendment reverts before the tag).
+*Disclose-only alternative, for the record:* keep §5's w̃ statistic
+and add the two degenerates to §7/§8 as named false-fire routes. Not
+recommended: 2c's chance-floor defect was likewise found before the
+verdict and not fixed, and CLAUDE.md records how that reads in
+retrospect; a preregistered criterion with a known certain-fire
+format route cannot honor §8's "the bar is passable and can genuinely
+fail."
+
 **2026-08-16 — build session 2b closes: BUILD COMPLETE (all eight Open
 items landed); the freeze remains a separate, later session that opens
 adversarially.** The session spanned 2026-08-15→16. Landed and
