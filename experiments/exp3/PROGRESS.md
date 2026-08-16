@@ -79,6 +79,43 @@ level can never be re-ingested as data.
 
 ### Entries
 
+**2026-08-15 — mass-module findings (Open item 1), for the freeze
+read.** (a) The real vocabulary has **340** whitespace-class ids, not
+§5's "handful" — every multi-space run token. Cost model updates (item
+7's audit quantifies); the operationalization is unchanged: every
+whitespace-only token expands at depth 2, no thresholding, since a
+threshold deletes tail mass and tail mass is the question. (b) Two of
+the 340 are the tokenizer's SPECIAL ids (eos/pad), whose
+skip-special decode is ''. Declared reading: special ids are
+**terminal**, not whitespace-path — the sampled channel stops at EOS
+(generate's semantics, which produced 3b's committed continuations),
+so no character ever follows; routing their mass through depth 2 would
+credit letter paths sampling cannot realize and manufacture a gate-3
+incoherence out of the instrument's own bookkeeping. Terminal mass
+joins neither letter mass nor residual and is disclosed per item as
+its own bucket. §5's "whitespace-only token" language never covered
+specials (their decode is empty, not whitespace); this is a reading,
+not an amendment, and the sampler stops at EOS to match. Fixtures pin
+both directions.
+
+**2026-08-15 — Open item 1 complete: mass module.** `masses.py`: token
+classification routes through `first_char` itself (one whitespace/
+casefold definition for both instruments — gate 3 can only ever catch
+code-path drift, never a definition mismatch this module introduced);
+depth-2 expansion over every whitespace-only token, residual and
+terminal buckets disclosed per item; the per-item stored unit carries
+the full a–z vector, the label's own mass (digit labels included —
+clock24's space), residual, ws-path and terminal masses. Malformed
+distributions (wrong length, negative, not summing to 1, live
+whitespace id with no depth-2 row) are refused, 3a's class. Model glue:
+harness batch-of-one encoding (no pad, no BOS), prompt KV cache
+expanded once to the 16-row chunk shape, single-token steps, crop
+between chunks — the pinned transformers-5 stack has no legacy cache,
+so the path is `batch_repeat_interleave`/`crop`, and its equality with
+full re-forwards is fixtured to <5e-5 on CPU AND on MPS (synthetic
+2-layer GPTNeoX over the real vocabulary; no real model touched).
+Suite: 47 tests green (19 mass math, 5 glue, 23 referent surface).
+
 **2026-08-15 — Open item 8 complete: referents verified, 14/14.**
 Scaffold committed (`analyze_3.py` referent surface, `tests/`,
 `verify_referents.py`). All §4 referents exist with defined values:
