@@ -178,8 +178,10 @@ overlap, namespace virginity). Suite 89 → 93; mutants 52 → 56.
 
 ## At the tag
 
-- [ ] Tag `exp3c-preregistered` on the ruling-complete, cold-green
-      commit; push tag (with Michael's go).
+- [x] Tag `exp3c-preregistered` on the ruling-complete, cold-green
+      commit; push tag (with Michael's go). **DONE: tag at 97788eb
+      ("exp3c RATIFIED"), master + tag pushed 2026-08-17 on
+      Michael's approval.**
 - [ ] Campaign preflight ladder + per-cell push authorization
       reconfirmed with Michael (§10.3; commit_watcher pushes per
       cell).
