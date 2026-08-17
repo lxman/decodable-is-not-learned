@@ -1,0 +1,21 @@
+{
+ "rung": "rev_string7",
+ "size": "410m",
+ "mode": "trained",
+ "n_items": 500,
+ "seeds_rederived": [
+  0
+ ],
+ "draws_per_seed": 64,
+ "draws_compared": 32000,
+ "n_diffs": 0,
+ "diffs": [],
+ "committed_draws_sha256": "7554c88f2f1576efac24506c1b0e60c6cf54e4be6874494f1727f9f9d830a42e",
+ "items_sha256": "d0fca235d101e142aabaddbdf5d78e189b7a91c96672364b961e83d1635a83f5",
+ "model_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "dtype": "float32",
+ "stack": {
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ }
+}
