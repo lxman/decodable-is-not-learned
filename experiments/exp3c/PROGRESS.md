@@ -62,6 +62,38 @@ now carry the TRUE hashes of the synthetic exp3 tree, so every world
 exercises the check); a doctored-sha fixture and a check-dropped
 mutant added.
 
+**2026-08-17 — FREEZE COLD BATTERY COMPLETE; AWAITING MICHAEL'S
+RATIFICATION (3 doc corrections + findings A/B closures) AND TAG GO.**
+Everything cold, fresh processes, pycache cleared: suite **93
+passed** (89 + the findings' four); mutation **KILLED 56/56, baseline
+clean** (52 + the findings' four, both directions; the first run's
+tail clipped the count line — logically implied 56/56 via the absent
+survivors block — and a full-capture re-run recorded the literal
+line; both runs killed everything); full-shape **8/8 terminals**, now
+through the finding-B loop closure; referent battery **10/10** on the
+real trees through the pinned load_prompts; power_3c.json
+**byte-identical** (sha 8d7bc741… before/after), quote check
+disagreeing on exactly the three ledgered slips; glue smoke 2/2;
+determinism fixture **twice in separate processes, byte-identical to
+each other AND to exp3's committed reference** — the stack has not
+drifted; empty-tree run **FileNotFoundError, exit 1, never a
+verdict** (run before the rehearsal wrote anything; the exp3-side
+16-cell load passed cold en route); storage 362 Gi free vs ~16 MB
+needed. **Gate-1 single-cell rehearsal — the only model contact:
+ctrl_copy/1b, 4,000/4,000 draws IDENTICAL, n_diffs 0** (torch 2.12.1
+/ transformers 5.13.0), record kept at
+`results/gate1/1b_trained/ctrl_copy.json`, its attested
+committed_draws_sha256 hash-matching the live exp3 file — finding
+B's loop closed on the first real record. Readings 1–8 ruled
+(3–8 RATIFIED; 1–2 verified on the code side, boxes waiting on the
+doc ruling); LONE-DRAW reason text confirmed verbatim. INVARIANT
+HELD: no new sampled quantity for any real cell — the rehearsal is a
+read + regenerate + compare of committed bytes. Remaining before tag
+`exp3c-preregistered`: Michael ratifies the three doc corrections
+(exact edit texts prepared), the findings A/B closures, and gives
+the tag + push go; campaign per-cell push authorization reconfirmed
+at launch.
+
 **Surfaces attacked, no defect found (rulings for the checklist):**
 the leak-void substring criterion — reading 3's answer-in-prompt form
 is RIGHT and strictly stronger than the doc's literal "fired draw's
