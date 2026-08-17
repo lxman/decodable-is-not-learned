@@ -41,19 +41,19 @@ overlap, namespace virginity). Suite 89 → 93; mutants 52 → 56.
 
 ## Rulings required (build-session readings, PROGRESS.md 2026-08-17)
 
-- [ ] Reading 1 — gate-1 volume built to the committed record:
+- [x] Reading 1 — gate-1 volume built to the committed record:
       132,000 draws (64/item scored, 8/item ctrl_copy), zero
       tolerance. DOC CORRECTION to §2/§3 (160,000 and 128,000 both
-      wrong) — Michael's ratification. *Freeze: code side VERIFIED
-      cold (loader enforces exp3's committed depths per rung; the
-      volume fixture scales to exactly 132,000); box waits on the
-      doc ruling.*
-- [ ] Reading 2 (+ extension) — luck floor 26^-4 = 2.19e-6, gap
+      wrong) — **RATIFIED (Michael, 2026-08-17) and applied to
+      §2/§3/§8**; code side verified cold (loader enforces exp3's
+      committed depths per rung; the volume fixture scales to
+      exactly 132,000).
+- [x] Reading 2 (+ extension) — luck floor 26^-4 = 2.19e-6, gap
       ~9.2×; LONE-DRAW silence at p = 1e-6 is .68 (two in three),
-      not 1-in-3. DOC CORRECTIONS to §7/§8 — Michael's ratification.
-      All three recorded `agrees: false` in `power_3c.json`. *Freeze:
-      code side VERIFIED cold (floors from code; quote check
-      disagrees on exactly the three); box waits on the doc ruling.*
+      not 1-in-3. DOC CORRECTIONS to §7/§8 — **RATIFIED (Michael,
+      2026-08-17) and applied**. All three recorded `agrees: false`
+      in `power_3c.json`; code side verified cold (floors from code;
+      quote check disagrees on exactly the three).
 - [x] Reading 3 — leak-void criterion (casefolded answer occurs in
       its own rendered prompt); "both rungs' fires void" implemented
       as ≥1 new fire AND every new fire void → INSUFFICIENT_DATA;
@@ -98,12 +98,14 @@ overlap, namespace virginity). Suite 89 → 93; mutants 52 → 56.
       resolving power"); pooled numbers computed live, reproducing
       1/512,000 (1.95e-6) on the real tree; the lone_draw world
       asserts the phrases.
-- [ ] FINDING A closure ratified: leak-gate prompt source pinned to
+- [x] FINDING A closure ratified: leak-gate prompt source pinned to
       the §4 referents at analysis time (required sha_refs argument;
       hard error before rendering). Additive refusal, no dial moved.
-- [ ] FINDING B closure ratified: gate-1 committed_draws_sha256
+      **RATIFIED (Michael, 2026-08-17).**
+- [x] FINDING B closure ratified: gate-1 committed_draws_sha256
       cross-checked against the pooled exp3 tree in run() and the
-      full-shape path. Additive refusal, no dial moved.
+      full-shape path. Additive refusal, no dial moved. **RATIFIED
+      (Michael, 2026-08-17).**
 
 ## Cold re-runs (all must pass, from a fresh process, before the tag)
 

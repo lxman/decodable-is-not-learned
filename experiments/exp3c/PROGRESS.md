@@ -62,8 +62,20 @@ now carry the TRUE hashes of the synthetic exp3 tree, so every world
 exercises the check); a doctored-sha fixture and a check-dropped
 mutant added.
 
-**2026-08-17 — FREEZE COLD BATTERY COMPLETE; AWAITING MICHAEL'S
-RATIFICATION (3 doc corrections + findings A/B closures) AND TAG GO.**
+**2026-08-17 — RATIFIED BY MICHAEL, SAME DAY ("You have my
+approval"): the three doc corrections, the findings A/B closures,
+the tag, and the push of the freeze commits.** Corrections applied
+to `experiment-3c-design.md` §2/§3/§7/§8 exactly as staged (gate-1
+volume 132,000; luck floor 2.19e-6, gap ~9.2×; LONE-DRAW silence
+.68 at 1e-6 with the 1-in-3 point relocated to its true rate
+≈ 2.9e-6); Status header now FROZEN with the ratification recorded.
+Readings 1–2 boxes and the A/B boxes checked. Tag
+`exp3c-preregistered` on the ruling-complete commit; campaign launch
+(and its per-cell push authorization, §10.3) remains a separate
+explicit go.
+
+**2026-08-17 — FREEZE COLD BATTERY COMPLETE (record below preceded
+the ratification).**
 Everything cold, fresh processes, pycache cleared: suite **93
 passed** (89 + the findings' four); mutation **KILLED 56/56, baseline
 clean** (52 + the findings' four, both directions; the first run's

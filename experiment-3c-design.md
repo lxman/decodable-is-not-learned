@@ -1,9 +1,19 @@
 # Experiment 3c — Design Doc: Staged Deepening — What Is the Sampled Channel's Rate Structure?
 
-**Status:** **ACCEPTED AS DRAFTED (Michael, 2026-08-17; dial review
-complete — pooling, no-new-twins, zero-tolerance gate 1, no trend
-test, the LONE-DRAW reading, and the luck-floor disclosure all
-accepted). NOT FROZEN.** Three-session protocol (design | build |
+**Status:** **FROZEN 2026-08-17 (tag `exp3c-preregistered`).**
+Accepted as drafted the same day (Michael; dial review complete —
+pooling, no-new-twins, zero-tolerance gate 1, no trend test, the
+LONE-DRAW reading, and the luck-floor disclosure all accepted). At
+the adversarial freeze Michael ratified three arithmetic corrections
+(gate-1 volume 132,000, not 160,000/128,000; luck floor 26^-4 =
+2.19e-6 with gap ~9.2×, not 1.5e-6/~13×; LONE-DRAW silence at
+p = 1e-6 is .68, not 1-in-3 — all three recorded `agrees: false` in
+`power_3c.json` since build) and the freeze findings A/B (leak-gate
+prompt source pinned to the §4 referents at analysis time; gate-1
+committed-draws sha cross-checked against the pooled tree) — both
+additive loader refusals, no accepted dial touched. Ledger:
+`experiments/exp3c/PROGRESS.md`; rulings:
+`experiments/exp3c/FREEZE_CHECKLIST.md`. Three-session protocol (design | build |
 freeze, boundary = context clear; Michael's pacing ruling,
 2026-08-15, carried forward). This doc is session 1; the build is a
 later session; the freeze is a third session that opens adversarially
@@ -95,7 +105,7 @@ later.
 3. **Exp 3's stop #1 (real-model glue untested pre-tag):** the
    tokenizer/config width smoke is now a permanent fixture and a
    freeze-checklist line (standing rule from the exp3 ledger); 3c
-   additionally byte-gates the ENTIRE pipeline against 128,000
+   additionally byte-gates the ENTIRE pipeline against 132,000
    committed draws before any new quantity counts (gate 1).
 4. **Seed cherry-picking / adaptive stopping:** twelve new seeds
    (4–15) preregistered here, per-seed tallies committed, k fixed
@@ -116,8 +126,10 @@ later.
 | model | Pythia 410m/1b trained, fp32 exact upcast (exp3's ledgered dtype policy, unchanged); untrained twins NOT re-sampled — exp3's committed twin record (0 fires in 8 twin cells, 512k twin draws) is the standing contamination referent |
 
 New-draw volume: 4 × 500 × 768 = 1,536,000 draws (≈ 13 MB gz);
-re-derivation volume (gate 1): 5 × 500 × 64 = 160,000 draws,
-discarded after byte comparison except the comparison record. At
+re-derivation volume (gate 1): 4 × 500 × 64 + 500 × 8 = 132,000
+draws (exp3's committed depths: 64/item on the scored cells, 8/item
+on ctrl_copy), discarded after byte comparison except the comparison
+record. At
 exp3's measured throughput (1.152M sampling draws ≈ 9.8 h) this is
 ≈ 14–15 h: two Mac nights with per-cell resume. The Sparks stay
 untouched.
@@ -200,8 +212,9 @@ Detection probability 1 − (1−p)^n against true per-draw rate p:
 - **Fired cell, new draws** (n = 384,000): ≈ .95 at the observed
   point rate 7.8e-6; .53 at 2e-6; .32 at 1e-6. REPLICATES is the
   expected world iff the exp3 fire reflects a stable rate near its
-  point estimate; LONE-DRAW at ~1-in-3 even if the true rate is
-  1e-6.
+  point estimate; LONE-DRAW at ~2-in-3 (.68) even if the true rate
+  is 1e-6 — the detection probability at that rate is .32, and
+  LONE-DRAW is ~1-in-3 only at a true rate ≈ 2.9e-6.
 - **Length-4 stratum at 1b** (n = 148,992 new): ≈ .95 at the
   stratum's observed 2.01e-5.
 - **Each walled cell** (n = 384,000 new; 512,000 pooled): a
@@ -223,18 +236,18 @@ Detection probability 1 − (1−p)^n against true per-draw rate p:
 
 | degenerate strategy | outcome |
 |---|---|
-| any format/letter-statistics emitter | full-string exact match on a reversal it hasn't computed: rate ≈ 26^-L per draw of luck — the 26^-4 ≈ 1.5e-6 luck floor at L=4 is BELOW the fired cell's observed 2e-5 stratum rate but not far below; §7's CI on the replicated rate is the honest comparator, and the luck floor is printed beside it in the verdict record |
+| any format/letter-statistics emitter | full-string exact match on a reversal it hasn't computed: rate ≈ 26^-L per draw of luck — the 26^-4 ≈ 2.19e-6 luck floor at L=4 is BELOW the fired cell's observed 2e-5 stratum rate but not far below; §7's CI on the replicated rate is the honest comparator, and the luck floor is printed beside it in the verdict record |
 | echo model | emits the input; verify fails by construction |
 | seed cherry-picking | 12 new seeds preregistered; per-seed tallies committed; a fire on one stream is reported as exactly that |
 | adaptive stopping / budget games | k fixed here; pooling preregistered here; no conditional branches read intermediate counts |
 | "one fire, declare victory" | REPLICATES requires a NEW fire; exp3's committed draw cannot re-fire this design's tree |
 | "zero new fires, retract exp3" | forbidden by the frozen LONE-DRAW reading: existence stands, rate bounds tighten |
-| harness drifted since exp3 | gate 1 byte-re-derives 160,000 committed draws end to end |
+| harness drifted since exp3 | gate 1 byte-re-derives 132,000 committed draws end to end |
 | verdict input with no value | full-shape worlds to every terminal before the tag; loaders hard-error |
 
 The luck-floor row is the design's honest weak point and is stated
 in §9's scope: at L=4 the gap between "computed the reversal
-occasionally" and "got lucky against 26^4" is a factor of ~13 on the
+occasionally" and "got lucky against 26^4" is a factor of ~9.2 on the
 point estimate, and the CI from a handful of fires may not exclude
 regions near the luck floor. 3c measures the rate; it does not claim
 the mechanism behind each fire. (The luck floor is also why longer
