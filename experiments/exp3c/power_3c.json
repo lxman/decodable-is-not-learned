@@ -1,0 +1,153 @@
+{
+ "doc_quotes_check": {
+  "detection_.32_at_1e-6": {
+   "agrees": true,
+   "computed": 0.31886870360528274,
+   "quoted": 0.32
+  },
+  "detection_.53_at_2e-6": {
+   "agrees": true,
+   "computed": 0.5360603352050946,
+   "quoted": 0.53
+  },
+  "detection_.95_at_len4_observed": {
+   "agrees": true,
+   "computed": 0.9502144353466933,
+   "quoted": 0.95
+  },
+  "detection_.95_at_point_rate_7.8e-6": {
+   "agrees": true,
+   "computed": 0.9502135150746768,
+   "quoted": 0.95
+  },
+  "exp3_zero_bound_2.34e-5": {
+   "agrees": true,
+   "computed": 2.3403884511941087e-05,
+   "quoted": 2.34e-05
+  },
+  "len4_stratum_n_new_148992": {
+   "agrees": true,
+   "computed": 148992,
+   "quoted": 148992
+  },
+  "len4_stratum_observed_rate_2.01e-5": {
+   "agrees": true,
+   "computed": 2.0135309278350515e-05,
+   "quoted": 2.01e-05
+  },
+  "len5_geometric_rate_7.7e-7": {
+   "agrees": true,
+   "computed": 7.744349722442506e-07,
+   "quoted": 7.7e-07
+  },
+  "len5_stratum_detection_.11": {
+   "agrees": true,
+   "computed": 0.11566414886084697,
+   "quoted": 0.11
+  },
+  "lone_draw_one_in_three_at_1e-6": {
+   "agrees": false,
+   "computed": 0.6811312963947173,
+   "note": "P(zero new fires | 1e-6) = .68 \u2014 two in three; the quoted 1-in-3 is the detection probability .32 mis-assigned to its complement. LONE-DRAW is 1-in-3 only at a true rate \u2248 2.9e-6",
+   "quoted": 0.3333333333333333
+  },
+  "lone_draw_pooled_point_1.95e-6": {
+   "agrees": true,
+   "computed": 1.953125e-06,
+   "quoted": 1.95e-06
+  },
+  "luck_floor_26^-4_quoted_1.5e-6": {
+   "agrees": false,
+   "computed": 2.1882987290360982e-06,
+   "note": "26^-4 = 2.19e-6; the doc's \u22481.5e-6 is an arithmetic slip (PROGRESS.md reading 2)",
+   "quoted": 1.5e-06
+  },
+  "luck_gap_factor_quoted_13x": {
+   "agrees": false,
+   "computed": 9.201353092783505,
+   "note": "the observed len-4 rate over the true luck floor is ~9.2x; ~13x followed from the 1.5e-6 slip",
+   "quoted": 13.0
+  },
+  "pooled_zero_bound_5.85e-6": {
+   "agrees": true,
+   "computed": 5.851022479519408e-06,
+   "quoted": 5.85e-06
+  },
+  "resolution_gain_4x": {
+   "agrees": true,
+   "computed": 3.999964893975837,
+   "quoted": 4.0
+  }
+ },
+ "luck_floors": {
+  "4": 2.1882987290360982e-06,
+  "5": 8.416533573215762e-08,
+  "6": 3.2371282973906776e-09,
+  "7": 1.2450493451502607e-10
+ },
+ "sampling": {
+  "detection_new_by_rate": {
+   "1.000000e-06": 0.31886870360528274,
+   "2.000000e-06": 0.5360603352050946,
+   "7.812500e-06": 0.9502135150746768
+  },
+  "lone_draw_pooled_point_rate": 1.953125e-06,
+  "n_exp3_per_cell": 128000,
+  "n_new_per_cell": 384000,
+  "n_pooled_per_cell": 512000,
+  "p_lone_draw_at_fired_cell_by_rate": {
+   "1.000000e-06": 0.6811312963947173,
+   "2.000000e-06": 0.46393966479490545,
+   "7.812500e-06": 0.04978648492532323
+  },
+  "pooled_resolution_gain_over_exp3": 3.999964893975837,
+  "rate_where_lone_draw_is_one_in_three": 2.8609695017398693e-06,
+  "zero_bounds_cp95": {
+   "exp3_cell": 2.3403884511941087e-05,
+   "new_cell": 7.801355698333623e-06,
+   "pooled_cell": 5.851022479519408e-06
+  }
+ },
+ "strata": {
+  "rev_string7": {
+   "7": {
+    "detection_new_at_geometric_rate": 0.00043981896071776383,
+    "detection_pooled_at_geometric_rate": 0.0005863822899285775,
+    "geometric_rate_from_len4_anchor": 1.1456138642666429e-09,
+    "luck_floor": 1.2450493451502607e-10,
+    "n_items": 500,
+    "n_new": 384000,
+    "n_pooled": 512000
+   }
+  },
+  "reverse_string": {
+   "4": {
+    "detection_new_at_geometric_rate": 0.9502144353466933,
+    "detection_pooled_at_geometric_rate": 0.9816850986884476,
+    "geometric_rate_from_len4_anchor": 2.0135309278350515e-05,
+    "luck_floor": 2.1882987290360982e-06,
+    "n_items": 194,
+    "n_new": 148992,
+    "n_pooled": 198656
+   },
+   "5": {
+    "detection_new_at_geometric_rate": 0.08806701666682049,
+    "detection_pooled_at_geometric_rate": 0.11566414886084697,
+    "geometric_rate_from_len4_anchor": 7.744349722442506e-07,
+    "luck_floor": 8.416533573215762e-08,
+    "n_items": 155,
+    "n_new": 119040,
+    "n_pooled": 158720
+   },
+   "6": {
+    "detection_new_at_geometric_rate": 0.0034482593669670214,
+    "detection_pooled_at_geometric_rate": 0.004595034796573305,
+    "geometric_rate_from_len4_anchor": 2.9785960470932716e-08,
+    "luck_floor": 3.2371282973906776e-09,
+    "n_items": 151,
+    "n_new": 115968,
+    "n_pooled": 154624
+   }
+  }
+ }
+}

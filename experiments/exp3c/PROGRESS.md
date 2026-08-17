@@ -1,5 +1,20 @@
 # Experiment 3c — build ledger
 
+**2026-08-17 — THIRD DOC ARITHMETIC SLIP, found while building the §7
+tables (extends reading 2).** §7's "LONE-DRAW at ~1-in-3 even if the
+true rate is 1e-6" is the detection probability mis-assigned to its
+own complement: P(zero new fires at the fired cell | p = 1e-6,
+n = 384,000) = e^(−0.384) = **.68 — two in three**, not one in three.
+LONE-DRAW is ~1-in-3 only at a true rate ≈ 2.9e-6. Recorded with
+`agrees: false` in `power_3c.json` (`doc_quotes_check`) alongside the
+luck-floor and gap-factor slips; every other §7/§8 quote agrees with
+the frozen code (detection .9502/.5361/.3188 at 7.8e-6/2e-6/1e-6;
+len-4 stratum n 148,992, observed rate 2.0135e-5, detection .9503;
+pooled zero bound 5.851e-6 = 4.00× exp3's 2.340e-5; LONE-DRAW pooled
+point 1.953e-6; len-5 geometric rate 7.744e-7, pooled detection
+.1157). Doc correction at the freeze, direction unchanged: silence is
+even weaker evidence than the doc claimed.
+
 **2026-08-17 — BUILD SESSION OPEN (session 2 of 3).** Design
 ACCEPTED AS DRAFTED at `experiment-3c-design.md` (2043c26, all six
 dials ruled). This session builds doc Open items 1–8. INVARIANT: no

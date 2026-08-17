@@ -552,7 +552,7 @@ def load_gate1_records(root=EXP3C) -> dict:
 
 # ------------------------------------------------- exp3-side referents
 
-def load_exp3_referent(path=EXP3_VERDICT_PATH) -> dict:
+def load_exp3_referent(path=EXP3_VERDICT_PATH, *, expected_sha=None) -> dict:
     """The standing exp3 referent expectations, from the sha-pinned
     committed verdict record plus the §4 address pins: the 16-cell
     fires table, the fired-cell addresses, and the fired answers'
@@ -560,7 +560,8 @@ def load_exp3_referent(path=EXP3_VERDICT_PATH) -> dict:
     (PROGRESS.md reading 6)."""
     raw = Path(path).read_bytes()
     got = hashlib.sha256(raw).hexdigest()
-    want = FROZEN_IMPORT_SHA256[EXP3_VERDICT_PATH]
+    want = expected_sha if expected_sha is not None else \
+        FROZEN_IMPORT_SHA256[EXP3_VERDICT_PATH]
     if got != want:
         raise ValueError(
             f"exp3 verdict record {path} has sha256 {got}, expected "
@@ -872,15 +873,15 @@ def verdict_3c(new_cells, gate1_records, exp3_cells, *, exp3_referent,
         c = new_cells[key]
         e3 = exp3_cells[key]
         by_len = strata_of(c["answers"])
-        new_by_item = c["recomputed"]["per_item_full_string"]
-        void_items = {ad["item"] for ad in fires[_key(key)]["addresses"]
-                      if ad["void"]}
         exp3_by_item = e3["recomputed"]["per_item_full_string"]
         cell = {}
         for length in sorted(by_len):
             idx = by_len[length]
-            new_fires = sum(new_by_item[i] for i in idx
-                            if i not in void_items)
+            idx_set = set(idx)
+            # non-void counting is per ADDRESS, not per item: an item
+            # with one void and one clean fire keeps the clean one
+            new_fires = sum(1 for ad in fires[_key(key)]["addresses"]
+                            if not ad["void"] and ad["item"] in idx_set)
             e3_fires = sum(exp3_by_item[i] for i in idx)
             n_new = len(idx) * K_NEW
             n_pool = len(idx) * K_POOLED
