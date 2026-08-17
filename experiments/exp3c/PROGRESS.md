@@ -1,5 +1,99 @@
 # Experiment 3c — build ledger
 
+**2026-08-17 — FREEZE SESSION OPEN (session 3 of 3, adversarial).**
+Cold re-read of `experiment-3c-design.md` and the whole exp3c tree
+plus the imported frozen surfaces (exp3 sampler/analyze_3/run_cell,
+2c harness verify/render_prompt/ITEMS_DIR resolution). Assignment:
+find the class defect. Everything below is declared BEFORE any code
+changes; amendments implemented after this entry, cold re-runs after
+that, Michael's ratification before the tag.
+
+## Freeze findings (declared before implementation)
+
+**FINDING A — the session's class-defect finding (3a's lineage, one
+level up): the leak gate's prompts are the ONLY verdict input with no
+executable pin at analysis time.** Inventory of `verdict_3c` inputs:
+new cells (items_sha256 pinned to the §4 referents, tallies recomputed
+from raw draws), gate-1 records (shape/volume validated), exp3 cells
+(recompute vs the sha-pinned committed verdict fires table + address
+re-extraction), exp3 referent (sha-pinned file), sha_refs (3b's
+referent records, cross-checked three ways) — and `prompts`, which
+`run()` re-renders at analysis time from the LIVE exp2c/exp2b item
+files with no hash check against anything. Design §2.1's own
+death-proofing clause says every input is "an exp3-committed record
+verified present at freeze **or produced by a frozen loader that
+hard-errors on malformation**"; §4's header says "every input, a
+committed value." `load_prompts` satisfies neither: an item file
+drifted AFTER the campaign renders different prompts, and the leak
+gate silently flips void determinations — a genuine fire
+false-voided (a lone REPLICATES fire becomes INSUFFICIENT_DATA via
+the all-void route; a partial false-void distorts adjudication
+counts) with nothing anywhere to notice. The seam is invisible to the
+whole battery by construction: the full-shape worlds INJECT synthetic
+prompts, the two prompt fixtures and the referent-battery scan
+validate today's files at freeze time, and no mutant touches
+`load_prompts` — the production path is exactly the untested path.
+Drift BEFORE the campaign is caught (the runner records the file's
+sha and the shape check pins it); drift AFTER it was not.
+**Amendment (no accepted dial touched — the criterion, quantifiers,
+worlds, and §6.3 semantics are unchanged; this adds a refusal):**
+`load_prompts(sha_refs, ...)` — sha_refs becomes a REQUIRED first
+argument; the loader hashes the item-file bytes it actually resolved
+and hard-errors unless they equal the rung's §4 pin, before
+rendering. All callers updated (run, verify_referents, fixtures);
+a drifted-pin fixture and a pin-dropped mutant added.
+
+**FINDING B — gate-1 record trust surface, loop not closed.** The
+gate-1 record stores `committed_draws_sha256` (what the runner
+byte-compared against) and the loader refuses records that lack it —
+but nothing ever compares it to the exp3 tree the analyzer itself
+pools. The attestation "seed-0 regeneration is byte-identical to file
+X" and the pooled bytes "file Y currently on disk" are never proven
+to be about the same file; a post-campaign swap of an exp3 draws file
+would keep a clean-looking gate-1 record while the pooled counts came
+from something else (the fires-table recompute would likely trip on
+counts, but continuity-of-bytes is exactly gate 1's job, and the
+record's own field closes it for free). **Amendment (additive
+refusal, same character as A):** `check_gate1_committed_shas(gate1_
+records, exp3_root)` — sha256 of each of the 5 gate cells' committed
+exp3 draws files must equal the record's field; called in `run()`
+and in the full-shape battery path (whose synthetic gate-1 records
+now carry the TRUE hashes of the synthetic exp3 tree, so every world
+exercises the check); a doctored-sha fixture and a check-dropped
+mutant added.
+
+**Surfaces attacked, no defect found (rulings for the checklist):**
+the leak-void substring criterion — reading 3's answer-in-prompt form
+is RIGHT and strictly stronger than the doc's literal "fired draw's
+text found in its own prompt": 2c's verify normalizes to the first
+token, so fired draws are decorated (' qvux' fires for 'qvux') and
+the draw's verbatim text would essentially never occur in a prompt —
+the answer is the leaking object; the scan and the gate use the same
+operationalization, so the by-construction guarantee and the gate
+cannot disagree. Quantifier edges: all-void → ID requires ≥1 fire
+and counts per ADDRESS on both sides of the comparison; a single
+voided lone fire routes to ID, never LONE-DRAW; partial voiding
+proceeds on survivors (full-shape worlds cover all three, incl. the
+fired-void-wall-clean pre-void-mutant killer). Stratum accounting:
+per-address non-void counting against pinned per-item denominators,
+exp3 side per-item — consistent both trees. `diff_seed0` coverage
+algebra: committed keys and regenerated keys are forced equal from
+both directions (None-get hard error one way, extra-set hard error
+the other), so `draws_compared = n_items × dps` cannot overclaim
+against a truncated committed file. harness.py/models.py are
+path-asserted, not content-pinned — CONSIDERED and left as exp3's
+frozen convention: render_prompt sits inside gate-1's byte
+comparison and verify inside the 16/16 fires-table recompute, so
+drift in either is caught executably by referents that ARE pinned.
+The luck-floor-vs-REPLICATES overlap (a single len-4 fire is ~28%
+probable under a pure 26^-4 emitter across 148,992 stratum draws) is
+§8's disclosed weak point, an accepted dial, printed beside every
+rate — not re-litigated. Namespace/seed collision: seeds 4–15 under
+'exp3|{rung}|{size}|trained' are virgin substreams (exp3 drew 0–3
+only; twins are mode-separated; the determinism fixture uses its own
+namespace); ctrl_copy's map rows for seeds 4–15 are surplus
+documentation, never drawn.
+
 **2026-08-17 — BUILD SESSION CLOSED. Doc Open items 1–8 all built;
 freeze session (3 of 3) is next and opens adversarially.** Closing
 state, all cold: fixture suite **89 passed**; mutation check **52/52
