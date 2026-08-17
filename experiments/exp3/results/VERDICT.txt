@@ -1,0 +1,88 @@
+EXPERIMENT 3 — VERDICT: PARTIAL
+Frozen analysis (analyze_3.run) executed once, 2026-08-17, on
+Michael's go; tag exp3-preregistered = ae82394; verdict record at
+results/verdict.json. Per the frozen tree, the per-cell table is the
+headline, not a caveat.
+
+PER-CELL TABLE (mass significant?, full-string fired?):
+  rev_string7/410m      WALL       (not sig, no fire)
+  rev_string7/1b        WALL       (not sig, no fire)
+  reverse_string/410m   WALL       (not sig, no fire)
+  reverse_string/1b     TAIL-ONLY  (not sig, FIRED)
+
+THE FIRE — the program's first real-model sampling elicitation.
+One verified full-string success in 128,000 pure ancestral draws at
+T = 1.0 untruncated: item 436, "Spell the string 'xuvq' backwards."
+-> draw " qvux" (seed 0, draw 6 of its stream), exact-match verified
+by 2c's frozen criterion. Observed rate 1/128,000 (point 7.8e-6),
+inside the design's partially-detectable band (detection .95 at
+2.3405e-5, blind below ~1e-5). Per the preregistered forward-note
+asymmetry rule, a fire is strong evidence and is reported as
+elicitation, with the mass result beside it. The fired answer is
+4 characters — the rung's shortest answer class, where the joint
+autoregressive path is cheapest. All three no-fire cells ship their
+zeros as CP bounds: pooled per-draw rate <= 2.34e-5 each (95%
+one-sided), per-item <= 1.16e-2 at k = 256.
+
+THE MASS ARM — no rank elevation anywhere; the sign is INVERTED.
+The §5 within-item statistic (first-character mass vs the answer's
+interior-character mean; echo character read on neither side) fired
+in no adjudicated cell: K = 78, 109, 100, 115 of 500 (p = 1.0000,
+one-sided, all four). K far BELOW 250 is itself informative: the
+correct (input-final) character's mass rank-loses to the input's
+interior characters on ~4 of 5 items — a primacy-shaped position
+gradient in the readout, consistent with the echo dominance 3b saw
+at greedy (input[0] = 89-94% of argmax emissions). The freeze's
+amended statistic measured this direction honestly; the superseded
+w̃ form would have credited the same input-letter concentration as
+positive signal (the class defect, ledger 2026-08-16).
+
+GATES — all clean.
+  1  PASS: ctrl_copy mass sign test significant at both probe sizes;
+     pooled sampled full-string 95% CP lower bounds .7929 (410m) /
+     .8355 (1b), both > .5.
+  2  PASS: 0 byte diffs in 16/16 re-decode cells against 3b's
+     committed records — the third byte-identical reproduction of the
+     greedy path (3a -> 3b -> exp3).
+  3  PASS: instrument coherence in 16/16 cells at 1 - .01/16; the
+     matched control agrees across instruments to the third decimal
+     (mean label mass vs sampled first-char rate: .2600/.2589 at
+     410m, .2481/.2497 at 1b).
+  4  (freeze-time) determinism fixture byte-identical; twin/trained
+     sampling tier times matched to the second at the wall clock.
+  5  PASS: zero contamination — 0 twin full-string fires in 8 twin
+     cells, no twin mass arm; both rungs eligible.
+
+DESCRIPTIVES (no verdict branch reads them): mean correct-letter
+mass, 410m->12b — rev_string7 .0535, .0345, .0651, .0658, .0734;
+reverse_string .0503, .0521, .0735, .0612, .0658. Shallow,
+non-monotone, ~1.4-1.9x the 1/26 uniform floor at the top of the
+ladder.
+
+PROJECTION GRADED (ledgered 55a34e0, before the run): verdict-level
+HIT (PARTIAL), cell table 2/4 (both 410m WALLs right; both 1b cells
+wrong). Both misses were the projection's own named disconfirmers:
+the fire arm missed by exactly one draw in 512,000 (projected zero),
+and the 1b mass arm missed by SIGN (projected theta > .564; realized
+~.2) — the primacy gradient was not in the projection's mechanism
+set. Full grading in results/retrospective.md.
+
+SIGNATURE-2 STATEMENT (the experiment's question): on the same
+weights where 3b certified the reversal answer's first character
+present in representation (probe margins .6263/.7725/.5731/.6749),
+the output channel shows: reachable by exhaustive sampling in the
+shortest-answer cell (existence, 1/128k) — signature 2 fires there —
+and NO first-character mass rank-elevation anywhere, with the
+readout's position gradient pointing AWAY from the reversal
+character. Present-before-performable now has a three-layer profile
+on a real model: in the stream (3b), in the tail of the sampled
+channel at 1b (this experiment, one cell), invisible to
+position-1 mass rank everywhere. Blind regions in force: mass blind
+for theta <= ~.563; sampling blind below ~1e-5 per draw. WALL cells
+mean "no output-channel mass at this resolution," never "zero."
+
+Scope: Pythia only, these four rungs only, T = 1.0 untruncated only,
+adjudication at 410m/1b only. No re-adjudication of any closed
+experiment. One pre-committed change: UNSPENT. Campaign: 60/60
+cells, one ledgered stop (padded-vocab class table, fixed pre-data),
+zero attrition, zero OOM.

@@ -1,5 +1,31 @@
 # Experiment 3 — build ledger
 
+**2026-08-17 — EXP 3 CLOSED: VERDICT PARTIAL (tag `exp3-closed`).**
+The frozen analysis ran ONCE on Michael's go; full record at
+`results/verdict.json`, headline table: rev_string7 WALL/WALL,
+reverse_string WALL (410m) / **TAIL-ONLY (1b)**. **The program's
+first real-model sampling elicitation:** 1 verified full-string
+reversal in 128,000 pure T=1.0 draws (item 436, 'xuvq' → " qvux",
+seed 0, draw 6) — the shortest answer class, the cheaper joint path,
+reported as elicitation under the preregistered asymmetry rule. The
+mass arm fired NOWHERE and is sign-inverted (K 78/109/100/115 of
+500, p 1.0000): the readout carries a primacy-shaped position
+gradient — interior input characters out-mass the input-final
+character ~4:1 — the direction the superseded w̃ statistic would
+have CREDITED as elevation (the freeze's class defect would have
+decided this verdict; descriptive commentary in the retrospective,
+no re-adjudication). Gates: 1 PASS (.7929/.8355 CP lowers), 2 PASS
+(0 byte diffs, 16/16 — third byte-identical reproduction), 3 PASS
+16/16 (matched control agrees across instruments to the third
+decimal), 5 clean (0 twin fires). Projection graded: verdict-level
+HIT, cell table 2/4, both misses named-disconfirmer territory (fire
+by one draw in 512k; 1b mass by SIGN — the primacy gradient was
+absent from the projection's mechanism set). One pre-committed
+change UNSPENT. VERDICT.txt + retrospective.md committed beside the
+record. Next: essay/experiments.md signature-2 updates; methods
+paper freeze-arc section on Michael's word; staged deepening
+(k=1024) and rank prediction stay separate experiments.
+
 **2026-08-17 — CAMPAIGN COMPLETE: 60/60 cells, one stop, zero
 attrition. VERDICT PROJECTION below, ledgered BEFORE the frozen
 analysis runs (§10.4); the analysis awaits Michael's go and runs
