@@ -1,0 +1,88 @@
+{
+ "checks": [
+  {
+   "check": "frozen exp3 files match their sha pins",
+   "ok": true
+  },
+  {
+   "check": "stream_map_3c is the formula's output and continuous with exp3's committed map",
+   "ok": true,
+   "detail": {
+    "entries": 80
+   }
+  },
+  {
+   "check": "exp3's 16 sampling cells load; stored tallies equal the recompute from raw draws",
+   "ok": true,
+   "detail": {
+    "cells": 16
+   }
+  },
+  {
+   "check": "recomputed fires table equals the sha-pinned committed verdict record, 16/16",
+   "ok": true,
+   "detail": {
+    "cells_checked": 16
+   }
+  },
+  {
+   "check": "fired-cell address re-extracts to the pin (item 436, seed 0, draw 6; length-4 answer)",
+   "ok": true,
+   "detail": {
+    "fired": [
+     {
+      "item": 436,
+      "seed": 0,
+      "draw": 6
+     }
+    ],
+    "fired_answer": "qvux"
+   }
+  },
+  {
+   "check": "standing twin record: 0 fires across all 8 twin cells; 512,000 reversal + 64,000 control twin draws",
+   "ok": true,
+   "detail": {
+    "reversal_twin_draws": 512000,
+    "control_twin_draws": 64000
+   }
+  },
+  {
+   "check": "exp3 scored cells carry the \u00a74 item pins (3b's referents)",
+   "ok": true,
+   "detail": {
+    "rungs": [
+     "rev_string7",
+     "reverse_string"
+    ]
+   }
+  },
+  {
+   "check": "no committed answer occurs in its own rendered prompt (1000 items scanned)",
+   "ok": true,
+   "detail": {
+    "items_scanned": 1000
+   }
+  },
+  {
+   "check": "power_3c.json equals the frozen code's output; quote check disagrees on exactly the three ledgered slips",
+   "ok": true,
+   "detail": {
+    "expected_disagreements": [
+     "lone_draw_one_in_three_at_1e-6",
+     "luck_floor_26^-4_quoted_1.5e-6",
+     "luck_gap_factor_quoted_13x"
+    ]
+   }
+  },
+  {
+   "check": "exp3's committed determinism reference exists (cold re-run is its own checklist line)",
+   "ok": true,
+   "detail": {
+    "path": "/Users/michaeljordan/emergence-paper/experiments/exp3/determinism_reference.json"
+   }
+  }
+ ],
+ "n_checks": 10,
+ "n_failed": 0
+}

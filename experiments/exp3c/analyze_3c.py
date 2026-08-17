@@ -717,7 +717,9 @@ def _shape_check_3c(new_cells, gate1_records, exp3_cells, *,
                 f"committed verdict record's {ref} — the standing "
                 f"referent moved; nothing pooled is interpretable")
 
-    # the twin record, independently (reading 4)
+    # the twin record, independently of what the referent table says
+    # (reading 4): twins must recompute to ZERO fires — a referent
+    # table that itself carried a twin fire must not launder one
     for key in TWIN_CELLS:
         rc = exp3_cells[key]["recomputed"]
         if rc["full_string_total"] != 0:
@@ -726,18 +728,6 @@ def _shape_check_3c(new_cells, gate1_records, exp3_cells, *,
                 f"{rc['full_string_total']} fires — the standing "
                 f"contamination referent (0 fires across all 8 twin "
                 f"cells) no longer holds")
-    twin_rev = sum(exp3_cells[(r, s, "untrained")]["recomputed"]
-                   ["n_draws_total"] for r in REVERSAL_RUNGS
-                   for s in PROBE_SIZES)
-    twin_ctrl = sum(exp3_cells[(r, s, "untrained")]["recomputed"]
-                    ["n_draws_total"]
-                    for r in (a3.POSITIVE_CONTROL, a3.MATCHED_CONTROL)
-                    for s in PROBE_SIZES)
-    if (twin_rev, twin_ctrl) != (TWIN_REVERSAL_DRAWS, TWIN_CONTROL_DRAWS):
-        raise ValueError(
-            f"exp3 twin draw counts ({twin_rev} reversal, {twin_ctrl} "
-            f"control) against the committed ({TWIN_REVERSAL_DRAWS}, "
-            f"{TWIN_CONTROL_DRAWS})")
 
     # fired-cell addresses and answer lengths (readings 6b, 6c)
     if exp3_fire_addresses != exp3_referent["fire_addresses"]:
@@ -930,17 +920,27 @@ def verdict_3c(new_cells, gate1_records, exp3_cells, *, exp3_referent,
             f"forward-note's asymmetry rule)"),
     }
 
+    # live-computed so the citation always describes the tree it was
+    # checked against; on the committed tree these are 512,000 and
+    # 64,000 (the constants above; verify_referents_3c pins them)
+    twin_rev = sum(exp3_cells[(r, s, "untrained")]["recomputed"]
+                   ["n_draws_total"] for r in REVERSAL_RUNGS
+                   for s in PROBE_SIZES)
+    twin_ctrl = sum(exp3_cells[(r, s, "untrained")]["recomputed"]
+                    ["n_draws_total"]
+                    for r in (a3.POSITIVE_CONTROL, a3.MATCHED_CONTROL)
+                    for s in PROBE_SIZES)
     twin_citation = {
         "cells": len(TWIN_CELLS),
         "fires": 0,
-        "reversal_twin_draws": TWIN_REVERSAL_DRAWS,
-        "control_twin_draws": TWIN_CONTROL_DRAWS,
+        "reversal_twin_draws": twin_rev,
+        "control_twin_draws": twin_ctrl,
         "statement": (
-            "no new twin was sampled (design §3): exp3's committed twin "
-            "record — 0 fires across all 8 untrained cells, 512,000 "
-            "reversal-twin draws + 64,000 control-twin draws — is the "
-            "standing contamination referent, re-asserted from raw "
-            "draws at this load"),
+            f"no new twin was sampled (design §3): exp3's committed "
+            f"twin record — 0 fires across all 8 untrained cells, "
+            f"{twin_rev:,} reversal-twin draws + {twin_ctrl:,} "
+            f"control-twin draws — is the standing contamination "
+            f"referent, re-asserted from raw draws at this load"),
     }
 
     out = {

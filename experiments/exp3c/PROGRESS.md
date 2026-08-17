@@ -1,5 +1,35 @@
 # Experiment 3c — build ledger
 
+**2026-08-17 — BUILD SESSION CLOSED. Doc Open items 1–8 all built;
+freeze session (3 of 3) is next and opens adversarially.** Closing
+state, all cold: fixture suite **89 passed**; mutation check **52/52
+KILLED both directions, baseline clean** (two build-time survivors
+found and repaired the same run — the new-cell §4 pin arm was masked
+by the gate-1 sha arm until an isolating world split them, and the
+dtype mutant matched two sites until given per-site context — the
+discipline catching fixture blind spots at build, exactly its job);
+full-shape **8/8 worlds, every terminal** (DEEPENS / REPLICATES /
+RELOCATES / LONE-DRAW, gate-1 ID, all-void ID, void-discloses-and-
+proceeds, fired-void-wall-clean); referent battery
+`verify_referents_3c` **10/10 on the real trees** (frozen-file sha
+pins; stream-map continuity with exp3's committed map; exp3's 16
+cells recompute; fires table = pinned verdict record 16/16; fired
+address = item 436/seed 0/draw 6 with a length-4 answer; twin record
+0 fires over 512,000 + 64,000 draws; §4 item pins; 1000-item
+prompt-leak scan clean; power tables byte-stable). Glue smoke built
+per stop-#1's standing rule (padded-vocab sampler + quantity-free
+real-config width check, both sizes, both pass). Committed artifacts:
+`stream_map_3c.json` (80 entries, s0–s3 byte-equal to exp3's map,
+seed-4/15 golden literals), `power_3c.json` (quote check disagrees on
+exactly the three ledgered doc slips), driver + watcher + runners,
+FREEZE_CHECKLIST skeleton with the adversarial assignment and the
+candidate surfaces this build did not attack. **INVARIANT HELD: no
+model contact, no new sampled quantity, any cell, any seed** — the
+only real-tree reads were committed records through frozen loaders.
+Three design-doc arithmetic slips (gate-1 volume; luck floor + gap;
+LONE-DRAW silence probability) ledgered below with corrections for
+Michael to ratify at the freeze; no accepted dial touched.
+
 **2026-08-17 — THIRD DOC ARITHMETIC SLIP, found while building the §7
 tables (extends reading 2).** §7's "LONE-DRAW at ~1-in-3 even if the
 true rate is 1e-6" is the detection probability mis-assigned to its
