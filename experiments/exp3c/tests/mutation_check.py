@@ -186,6 +186,21 @@ M = [
      "            if sd in a3.SEEDS and m[\"cells\"][k] != "
      "e[\"cells\"][k]:",
      "            if False:"),
+    # ---- freeze findings A/B (the adversarial session's closures) ----
+    (A, "finding A: leak-gate prompt pin dropped",
+     "        if got_sha != sha_refs[rung]:", "        if False:"),
+    (A, "finding A: leak-gate prompt pin always fires (hardening)",
+     "        if got_sha != sha_refs[rung]:", "        if True:"),
+    (A, "finding B: gate-1 committed-sha loop closure dropped",
+     "        want = gate1_records[key][\"committed_draws_sha256\"]\n"
+     "        if got != want:",
+     "        want = gate1_records[key][\"committed_draws_sha256\"]\n"
+     "        if False:"),
+    (A, "finding B: gate-1 committed-sha check always fires (hardening)",
+     "        want = gate1_records[key][\"committed_draws_sha256\"]\n"
+     "        if got != want:",
+     "        want = gate1_records[key][\"committed_draws_sha256\"]\n"
+     "        if True:"),
     # ---- rederive comparator (gate 1's teeth) ----
     (R, "comparator: differing draws never recorded",
      "            if str(g) != str(w):", "            if False:"),

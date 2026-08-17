@@ -120,7 +120,7 @@ def main() -> int:
           pins)
 
     def prompts():
-        got = c.load_prompts()
+        got = c.load_prompts(state["sha_refs"])
         n = 0
         for rung in c.REVERSAL_RUNGS:
             answers = state["cells"][(rung, "1b", "trained")]["answers"]

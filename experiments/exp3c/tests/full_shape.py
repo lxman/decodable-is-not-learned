@@ -160,9 +160,13 @@ def write_exp3_tree(root: Path, exp3_fires) -> None:
                     / f"{size}_{mode}", rung, rec, rows)
 
 
-def write_3c_tree(root: Path, new_fires, gate1_diffs) -> None:
+def write_3c_tree(root: Path, new_fires, gate1_diffs,
+                  committed_shas) -> None:
     """A synthetic 3c tree: the 4 scored cells' new draws (seeds 4–15)
-    and the 5 gate-1 comparison records."""
+    and the 5 gate-1 comparison records. `committed_shas` maps each
+    gate cell to the TRUE sha256 of the synthetic exp3 tree's draws
+    file, so every world exercises the finding-B loop closure exactly
+    as run() does on the real trees — no fake attestation strings."""
     for key in c.SCORED_CELLS:
         rung, size, mode = key
         labels, answers = rung_items(rung)
@@ -180,7 +184,7 @@ def write_3c_tree(root: Path, new_fires, gate1_diffs) -> None:
         rec = gate1_record(
             rung, size, n_items=N, dps=dps,
             diffs=list(gate1_diffs.get(key, [])),
-            committed_gz_sha=f"committed-gz-{rung}-{size}",
+            committed_gz_sha=committed_shas[key],
             items_sha=f"items-{rung}", model_sha=f"synthetic-{size}",
             stack={"torch": "synthetic", "transformers": "synthetic"})
         p = (Path(root) / "results" / "gate1" / f"{size}_trained"
@@ -234,7 +238,14 @@ def write_world(root: Path, *, exp3_fires=None, new_fires=None,
     leak_items = leak_items or {}
     root = Path(root)
     write_exp3_tree(root / "exp3", exp3_fires)
-    write_3c_tree(root / "exp3c", new_fires, gate1_diffs)
+    import hashlib
+    committed_shas = {}
+    for key in c.GATE1_CELLS:
+        rung, size, mode = key
+        gz = (root / "exp3" / "results" / "sampling" / f"{size}_{mode}"
+              / f"{rung}.draws.jsonl.gz")
+        committed_shas[key] = hashlib.sha256(gz.read_bytes()).hexdigest()
+    write_3c_tree(root / "exp3c", new_fires, gate1_diffs, committed_shas)
     prompts = {}
     for rung in c.REVERSAL_RUNGS:
         _labels, answers = rung_items(rung)
@@ -247,7 +258,9 @@ def write_world(root: Path, *, exp3_fires=None, new_fires=None,
 
 
 def run_battery(root, referent, prompts, sha_refs) -> dict:
-    """End to end through the frozen loaders of both trees."""
+    """End to end through the frozen loaders of both trees, run()'s
+    own order: gate-1 records load AND their committed-sha loop is
+    closed against the (synthetic) exp3 tree before the verdict."""
     import harness
 
     verify_fn = harness.verify
@@ -255,9 +268,11 @@ def run_battery(root, referent, prompts, sha_refs) -> dict:
                                         verify_fn=verify_fn)
     addresses = c.extract_fire_addresses(Path(root) / "exp3", exp3_cells,
                                          verify_fn=verify_fn)
+    gate1_records = c.load_gate1_records(Path(root) / "exp3c")
+    c.check_gate1_committed_shas(gate1_records, Path(root) / "exp3")
     return c.verdict_3c(
         c.load_new_cells(Path(root) / "exp3c", verify_fn=verify_fn),
-        c.load_gate1_records(Path(root) / "exp3c"),
+        gate1_records,
         exp3_cells,
         exp3_referent=referent,
         exp3_fire_addresses=addresses,

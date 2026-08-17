@@ -388,6 +388,10 @@ def test_load_exp3_referent_refuses_valueless_tables(tmp_path):
 
 # ------------------------------------------------------------- prompts
 
+def _real_sha_refs():
+    return a3.items_sha_referents(a3.load_gate2_referents())
+
+
 def test_load_prompts_matches_the_runners_construction():
     """The leak check must read the runner's exact prompts: cross-check
     against exp3's own loader + 2c's render_prompt."""
@@ -395,7 +399,7 @@ def test_load_prompts_matches_the_runners_construction():
 
     from experiments.exp3.run.run_cell import load_capability
 
-    got = c.load_prompts()
+    got = c.load_prompts(_real_sha_refs())
     for rung in c.REVERSAL_RUNGS:
         cap, _p = load_capability(rung)
         shots = [tuple(s) for s in cap["shots"]][:2]
@@ -407,7 +411,7 @@ def test_load_prompts_matches_the_runners_construction():
 def test_committed_prompts_never_contain_their_answers():
     """The by-construction guarantee the leak-void gate leans on,
     checked across all 1000 committed items (design §6.3)."""
-    got = c.load_prompts()
+    got = c.load_prompts(_real_sha_refs())
     import harness  # noqa: F401
 
     from experiments.exp3.run.run_cell import load_capability
@@ -415,3 +419,26 @@ def test_committed_prompts_never_contain_their_answers():
         cap, _p = load_capability(rung)
         for it, prompt in zip(cap["eval_items"], got[rung]):
             assert str(it["answer"]).casefold() not in prompt.casefold()
+
+
+def test_load_prompts_refuses_a_drifted_item_pin():
+    """FREEZE FINDING A executable: the leak gate's prompt source must
+    match the §4 pin at analysis time — a drifted (or wrong) pin is a
+    hard error BEFORE any prompt renders, never a silently different
+    void determination."""
+    refs = _real_sha_refs()
+    drifted = {r: "0" * 64 for r in refs}
+    with pytest.raises(ValueError, match="not the committed prompts"):
+        c.load_prompts(drifted)
+    # and the pin is per rung: one wrong rung alone must also refuse
+    one_bad = dict(refs)
+    one_bad["reverse_string"] = "0" * 64
+    with pytest.raises(ValueError, match="§4 pin"):
+        c.load_prompts(one_bad)
+
+
+def test_load_prompts_requires_the_pin_argument():
+    """No unpinned call path survives finding A: sha_refs has no
+    default."""
+    with pytest.raises(TypeError):
+        c.load_prompts()  # noqa: PLE1120 — the missing arg IS the test

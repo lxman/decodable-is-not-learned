@@ -550,6 +550,36 @@ def load_gate1_records(root=EXP3C) -> dict:
     return out
 
 
+def check_gate1_committed_shas(gate1_records, exp3_root=None) -> None:
+    """FREEZE FINDING B: close the gate-1 trust loop. Each record
+    attests 'the seed-0 regeneration was byte-compared against the
+    committed draws file with THIS sha256'; the analyzer pools draws
+    from the exp3 tree on disk. Nothing else proves those are the same
+    bytes — so this does: the record's committed_draws_sha256 must
+    equal the hash of the file the analysis itself reads, for all 5
+    gate cells. A mismatch means the continuity attestation and the
+    pooled draws are about different files, and nothing pooled is
+    interpretable (hard error, never a verdict)."""
+    root = Path(exp3_root) if exp3_root is not None else EXP3
+    for key in sorted(gate1_records):
+        rung, size, mode = key
+        gz = (root / "results" / "sampling" / f"{size}_{mode}"
+              / f"{rung}.draws.jsonl.gz")
+        if not gz.is_file():
+            raise FileNotFoundError(
+                f"no committed draws file at {gz} to check gate-1 "
+                f"record {_key(key)} against")
+        got = hashlib.sha256(gz.read_bytes()).hexdigest()
+        want = gate1_records[key]["committed_draws_sha256"]
+        if got != want:
+            raise ValueError(
+                f"gate-1 record {_key(key)} attests a byte comparison "
+                f"against committed draws sha256 {want}, but the tree "
+                f"this analysis pools carries {got} at {gz} — the "
+                f"continuity attestation and the pooled bytes are not "
+                f"about the same file (freeze finding B)")
+
+
 # ------------------------------------------------- exp3-side referents
 
 def load_exp3_referent(path=EXP3_VERDICT_PATH, *, expected_sha=None) -> dict:
@@ -621,11 +651,19 @@ def extract_fire_addresses(root, exp3_cells, verify_fn=None) -> dict:
 
 # --------------------------------------------------------- prompts
 
-def load_prompts(rungs=REVERSAL_RUNGS) -> dict:
+def load_prompts(sha_refs, rungs=REVERSAL_RUNGS) -> dict:
     """The rendered prompts of the scored rungs' committed items, for
     the leak-void check (PROGRESS.md reading 3): 2c's render_prompt on
     the committed item file, first two shots — the runner's exact
-    construction (pinned against exp3's own loader in the fixtures)."""
+    construction (pinned against exp3's own loader in the fixtures).
+
+    FREEZE FINDING A: sha_refs is REQUIRED. The prompts are the leak
+    gate's referent and are re-rendered at analysis time from the live
+    item files; without a pin they were the one verdict input a
+    post-campaign item-file drift could move silently (design §2.1's
+    death-proofing clause, violated; §4: 'every input, a committed
+    value'). The bytes actually resolved are hashed and must equal the
+    rung's §4 pin BEFORE any prompt is rendered."""
     for _p in (EXPERIMENTS / "exp2b", EXPERIMENTS / "exp2c"):
         if str(_p) not in sys.path:
             sys.path.insert(0, str(_p))
@@ -640,7 +678,16 @@ def load_prompts(rungs=REVERSAL_RUNGS) -> dict:
         p = harness.ITEMS_DIR / f"{rung}.json"
         if not p.is_file():
             p = EXPERIMENTS / "exp2b" / "battery" / "items" / f"{rung}.json"
-        cap = json.loads(p.read_text())
+        raw = p.read_bytes()
+        got_sha = hashlib.sha256(raw).hexdigest()
+        if got_sha != sha_refs[rung]:
+            raise ValueError(
+                f"item file {p} has sha256 {got_sha} against the rung's "
+                f"single §4 pin {sha_refs[rung]} — the leak gate would "
+                f"read prompts that are not the committed prompts "
+                f"(freeze finding A: the analysis-time prompt source "
+                f"must match the pin the campaign records carry)")
+        cap = json.loads(raw.decode())
         shots = [tuple(s) for s in cap["shots"]][:2]
         out[rung] = [harness.render_prompt(it["question"], shots)
                      for it in cap["eval_items"]]
@@ -1080,13 +1127,15 @@ def run(root=EXP3C) -> dict:
                                        verify_fn=verify_fn)
     gate2 = a3.load_gate2_referents()
     sha_refs = a3.items_sha_referents(gate2)
+    gate1_records = load_gate1_records(root)
+    check_gate1_committed_shas(gate1_records, EXP3)
     return verdict_3c(
         load_new_cells(root, verify_fn=verify_fn),
-        load_gate1_records(root),
+        gate1_records,
         exp3_cells,
         exp3_referent=load_exp3_referent(),
         exp3_fire_addresses=addresses,
-        prompts=load_prompts(),
+        prompts=load_prompts(sha_refs),
         sha_refs=sha_refs)
 
 

@@ -145,6 +145,33 @@ def test_extractor_crosscheck_fires_on_loader_disagreement(tmp_path):
                                  verify_fn=harness.verify)
 
 
+def test_gate1_committed_sha_mismatch_hard_errors(tmp_path):
+    """FREEZE FINDING B executable: a gate-1 record whose
+    committed_draws_sha256 does not hash-match the exp3 tree this
+    analysis pools is a hard error — the continuity attestation and
+    the pooled bytes must be about the same file."""
+    kw = fs.write_world(tmp_path / "w")
+    p = (tmp_path / "w" / "exp3c" / "results" / "gate1" / "1b_trained"
+         / "reverse_string.json")
+    rec = json.loads(p.read_text())
+    rec["committed_draws_sha256"] = "0" * 64
+    p.write_text(json.dumps(rec))
+    with pytest.raises(ValueError, match="about the same file"):
+        fs.run_battery(**kw)
+
+
+def test_gate1_sha_check_needs_the_draws_file(tmp_path):
+    """The loop closure refuses to run against a missing exp3 draws
+    file rather than passing vacuously (isolated: the check itself,
+    not the sampling loader, must raise)."""
+    kw = fs.write_world(tmp_path / "w")
+    gate1 = c.load_gate1_records(kw["root"] / "exp3c")
+    (tmp_path / "w" / "exp3" / "results" / "sampling" / "1b_trained"
+     / "ctrl_copy.draws.jsonl.gz").unlink()
+    with pytest.raises(FileNotFoundError, match="gate-1"):
+        c.check_gate1_committed_shas(gate1, kw["root"] / "exp3")
+
+
 def test_gate1_seed_count_is_the_committed_volume(tmp_path):
     """PROGRESS.md reading 1 pinned: the gate-1 records' compared
     volumes are 64/item on scored cells and 8/item on ctrl_copy —

@@ -18,6 +18,27 @@ per-address stratum accounting, and the gate-1 record's trust surface
 (the runner writes `n_diffs`; the analyzer validates shape and volume
 but cannot re-derive bytes without a model).
 
+**HUNT CONCLUDED (2026-08-17, ledgered before implementation —
+PROGRESS.md freeze entry): two findings, both closed the same day.**
+FINDING A (3a's lineage, one level up): `load_prompts` was the only
+verdict input with no executable pin at analysis time — the leak
+gate re-rendered prompts from the live item files, full-shape worlds
+inject prompts, no mutant touched it; post-campaign item-file drift
+could silently flip void determinations. Closed: sha_refs is now a
+REQUIRED argument, the resolved bytes hash-checked against the §4
+pin before any prompt renders; drifted-pin + missing-arg fixtures;
+softening + hardening mutants. FINDING B: the gate-1 record's
+`committed_draws_sha256` was never compared to the exp3 tree the
+analyzer pools. Closed: `check_gate1_committed_shas` in `run()` and
+the full-shape battery path (synthetic gate-1 records now carry TRUE
+hashes of the synthetic exp3 tree, so every world exercises it);
+doctored-sha + missing-file fixtures; softening + hardening mutants.
+No accepted dial touched — both closures are additive refusals. The
+other flagged surfaces were attacked and CLEARED with rulings in the
+ledger (criterion semantics, quantifier edges, stratum accounting,
+`diff_seed0` coverage algebra, path-assert convention, luck-floor
+overlap, namespace virginity). Suite 89 → 93; mutants 52 → 56.
+
 ## Rulings required (build-session readings, PROGRESS.md 2026-08-17)
 
 - [ ] Reading 1 — gate-1 volume built to the committed record:
@@ -49,18 +70,26 @@ but cannot re-derive bytes without a model).
 - [ ] LONE-DRAW frozen reading confirmed VERBATIM in the reason text
       (existence stands; not retractable by silence; single-event
       regime stated plainly) — the design's costliest-world dial.
+- [ ] FINDING A closure ratified: leak-gate prompt source pinned to
+      the §4 referents at analysis time (required sha_refs argument;
+      hard error before rendering). Additive refusal, no dial moved.
+- [ ] FINDING B closure ratified: gate-1 committed_draws_sha256
+      cross-checked against the pooled exp3 tree in run() and the
+      full-shape path. Additive refusal, no dial moved.
 
 ## Cold re-runs (all must pass, from a fresh process, before the tag)
 
 - [ ] Full fixture suite green, pycache cleared first
       (`PYTHONDONTWRITEBYTECODE=1 python -m pytest
-      experiments/exp3c/tests/`). Build close: 89 passed.
+      experiments/exp3c/tests/`). Build close: 89 passed; **93
+      expected after the freeze findings' fixtures**.
 - [ ] Mutation check both directions
       (`experiments/exp3c/tests/mutation_check.py`), single run on a
       quiescent tree. Build close: **52/52 KILLED, baseline clean**
       (two build-time survivors repaired: the new-cell §4 pin arm was
       masked by the gate-1 sha arm — isolating world added; the
-      dtype mutant pattern was non-unique — split per site).
+      dtype mutant pattern was non-unique — split per site). **56/56
+      expected after the freeze findings' four mutants.**
 - [ ] Full-shape batteries reach EVERY terminal (`python -m
       experiments.exp3c.tests.full_shape`): four worlds, both
       INSUFFICIENT_DATA routes, void-discloses-and-proceeds,
