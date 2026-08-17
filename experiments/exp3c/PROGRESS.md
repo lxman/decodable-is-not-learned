@@ -1,5 +1,17 @@
 # Experiment 3c — build ledger
 
+**2026-08-17 — CAMPAIGN LAUNCHED (post-tag). Per-cell push
+authorization RECONFIRMED with Michael at launch (§10.3; "Launch
+now, pushes authorized"), the freeze checklist's last box.** Driver
+`campaign_3c.py` running tier-per-process in the committed order —
+gate1/410m → gate1/1b → sampling/410m → sampling/1b, preflight per
+size, skip-if-exists (the rehearsal's ctrl_copy/1b gate-1 record
+stands as that cell's campaign record, exactly as preregistered);
+`commit_watcher.sh` committing+pushing result files per cell.
+Preflight 410m/float32 OK at launch; expected ~14–15 h. Analysis
+does NOT run automatically: projection ledgered first, then the
+frozen script once, on Michael's go (§10.4).
+
 **2026-08-17 — FREEZE SESSION OPEN (session 3 of 3, adversarial).**
 Cold re-read of `experiment-3c-design.md` and the whole exp3c tree
 plus the imported frozen surfaces (exp3 sampler/analyze_3/run_cell,
