@@ -1,7 +1,10 @@
 # Experiment 3c — Design Doc: Staged Deepening — What Is the Sampled Channel's Rate Structure?
 
-**Status:** **DRAFT — NOT FROZEN.** Three-session protocol (design |
-build | freeze, boundary = context clear; Michael's pacing ruling,
+**Status:** **ACCEPTED AS DRAFTED (Michael, 2026-08-17; dial review
+complete — pooling, no-new-twins, zero-tolerance gate 1, no trend
+test, the LONE-DRAW reading, and the luck-floor disclosure all
+accepted). NOT FROZEN.** Three-session protocol (design | build |
+freeze, boundary = context clear; Michael's pacing ruling,
 2026-08-15, carried forward). This doc is session 1; the build is a
 later session; the freeze is a third session that opens adversarially
 (cold re-read, assignment: find the class defect) and ends at tag
