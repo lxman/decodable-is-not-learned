@@ -1,5 +1,52 @@
 # Experiment 3 — build ledger
 
+**2026-08-17 — CAMPAIGN COMPLETE: 60/60 cells, one stop, zero
+attrition. VERDICT PROJECTION below, ledgered BEFORE the frozen
+analysis runs (§10.4); the analysis awaits Michael's go and runs
+ONCE.** Relaunched campaign ran 1702.5 min (28.4 h) end to end:
+4 re-decode tiers (3.6 min, from the pre-stop run), 7 mass tiers
+(410m/1b pairs ≈ 81/90 min each; 2.8b 125 min; 6.9b 634 min — fp32
+at ~27 GB hit memory pressure, the one big estimate miss; 12b
+depth-1 9.6 min — the keep1-only preflight fix proving out live),
+4 sampling tiers (410m 107.6 min twin AND trained — identical to the
+second; 1b 186.9/186.7 min twin/trained). Twin/trained tier-time
+identity is the determinism story visible at the wall clock. Every
+cell committed and pushed as it landed by the watcher (per-cell
+trail in git); final sweep 07:07:33, results tree clean. mlx
+text-server RESTORED (launchctl bootstrap; 11436 answering). The
+only campaign irregularity remains stop #1 (the padded-vocab class
+table, fixed and ledgered above); no OOM, no retries, no attrition.
+
+**VERDICT PROJECTION (2026-08-17, before analyze_3.run() — reasoned
+from committed 3b/2c records and the frozen power table only; no
+exp3 result file has been read).** Projected verdict: **PARTIAL —
+both 1b cells BULK-ONLY, both 410m cells WALL.** Reasoning: (a) Fire
+arm: NO verified full-string fire in any of the four adjudicated
+cells. The joint 4–7-character exact path at T = 1.0 for models whose
+greedy emission sits at floor should carry per-draw mass orders below
+the 1e-5 pooled detection edge; greedy found 0/500 twice (3a, 3b).
+(b) Mass arm (the amended within-item statistic): 3b's probe margins
+order the cells .7725 (1b/rev7) > .6749 (1b/rev) > .6263 (410m/rev7)
+> .5731 (410m/rev), and the unembedding readout is echo-dominated at
+410m (greedy 90% input[0]) — the interior-competitor statistic is
+echo-neutral, so what remains is whatever consistent last-char
+elevation survives the readout. I project the realized θ clears the
+~.564 critical rank rate at 1b (both rungs) and falls inside the
+blind region at 410m (both rungs) — the precursor visible at the
+larger probe size, unresolved at the smaller. (c) Gates: 1 PASS
+(copy's first-position mass is the copy signature; sampled
+full-string well above .5), 2 PASS (≤2 byte diffs — the same
+generate path reproduced byte-identically in 3a and 3b), 3 coherent
+everywhere, 5 no contamination (the twins sit at the exact θ=.5
+null; a random-weights full-string reversal in 128k draws is
+effectively impossible). Named disconfirmers, in advance: ANY
+verified fire anywhere (kills the no-fire arm; TAIL-ONLY/ELICITABLE
+enter); all four cells mass-significant (→ BULK-ONLY, thesis-friendlier
+than projected); none significant (→ WALL, the costliest world). The
+least certain call is 410m's mass arm — θ near the blind edge on
+both sides; a miss there turns PARTIAL into BULK-ONLY or WALL, and
+the retrospective grades it either way.
+
 **2026-08-16 — CAMPAIGN STOP #1 at the first mass tier (3.8 min in;
 16/16 re-decode cells committed, ZERO mass or sampling quantities
 produced): the frozen class table cannot cover the real model's
