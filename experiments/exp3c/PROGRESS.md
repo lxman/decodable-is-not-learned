@@ -1,5 +1,59 @@
 # Experiment 3c — build ledger
 
+**2026-08-18 — CAMPAIGN COMPLETE (run 2: 433.1 m; runs 1+2 ≈ 12.0 h
+against the ~14–15 h projection). One stop (ledgered below, fix
+ratified), zero attrition, all 13 result files committed and pushed
+per cell by the watcher, both watchers exited on their terminal
+lines.** Resume determinism confirmed executable: reverse_string/
+410m's re-run decompressed draw stream is BYTE-IDENTICAL to run 1's
+pre-fix committed stream (git e0c8916 vs working tree; only the gzip
+container's mtime header differs), including the crasher draw
+reproduced exactly at item 395/seed 12/draw 22 — scored False by the
+total wrapper this time instead of killing the tally. The runner's
+per-cell convenience lines (visible in the campaign log, as in
+exp3): rev_string7 0/384,000 at BOTH sizes; reverse_string
+3/384,000 at 410m and 9/384,000 at 1b. These are pre-void raw
+tallies printed by campaign code; the frozen analyzer recomputes
+everything from raw draws and adjudicates. NOTHING ANALYZED: per
+§10.4 the frozen script runs once, on Michael's go, after this
+projection.
+
+## Verdict projection (ledgered BEFORE the frozen analysis; written
+## with the runner's convenience tallies visible, exp3's precedent;
+## graded in the retrospective)
+
+- **Projected verdict: DEEPENS** — fired-cell new fires > 0 (9) AND
+  ≥1 previously walled cell fires (reverse_string/410m, 3): the
+  sampled channel's reach grows with budget in both rate and extent;
+  signature 2's resolution parameter measurably load-bearing (§1).
+- Gates all clean: gate-1 five records 0 diffs (committed); frozen
+  pins, stream map, §4 pins, cross-tree consistency pass;
+  stored-vs-recompute tallies agree at all four cells (the two
+  run-1-era records carried zero crashers, so the old and total
+  verify tally identically there); **zero leak-voids** (the freeze
+  scan proved no answer occurs in any committed prompt, and the
+  prompt source is pinned).
+- Pooled rates: fired cell 10/512,000 = 1.953e-5 (exp3's 1 + new 9);
+  reverse_string/410m 3/512,000 = 5.859e-6 (exp3 0 + new 3);
+  rev_string7 pooled zeros at both sizes, CP95 ≤ 5.851e-6 each.
+- Finer predictions, falsifiable at analysis: (1) new fires
+  concentrate in the length-4 stratum; length-6 stays zero;
+  length-5 carries at most a small tail (0–2). (2) Per-seed spread
+  consistent with a thin Poisson across the 12 new seeds — no
+  single seed carries the bulk of the 9. (3) Mean new-draw lengths
+  sit near exp3's committed values (stable stack). (4) The len-4
+  stratum rates sit meaningfully ABOVE the 26^-4 = 2.19e-6 luck
+  floor printed beside them (≈9× at 410m, ≈25× at 1b if
+  len-4-concentrated), while rev_string7's zeros sit beside a
+  26^-7 ≈ 1.25e-10 floor — the direction §8 said a computed path
+  should move: luck falls 26× per character, the observed profile
+  falls with length but the len-4 channel is far above luck.
+- Misses that would matter: any length-6 fire (strains the geometric
+  story), heavy single-seed clustering (stream questions, though
+  fires are exact-verified), ANY void (the by-construction guarantee
+  failed), or a stored-vs-recompute disagreement (runner/analyzer
+  split — instrument, not data).
+
 **2026-08-18 — STOP #1 RULING: APPROVED (Michael, "approved").**
 Option (a) — the 3c-local total wrapper — implemented as
 recommended: `load_verify_3c` in `analyze_3c.py` resolves 2c's
