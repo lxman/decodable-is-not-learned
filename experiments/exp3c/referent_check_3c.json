@@ -12,7 +12,7 @@
    }
   },
   {
-   "check": "exp3's 16 sampling cells load; stored tallies equal the recompute from raw draws",
+   "check": "exp3's 16 sampling cells load; stored tallies equal the recompute from raw draws (via stop-#1 total verify_3c)",
    "ok": true,
    "detail": {
     "cells": 16

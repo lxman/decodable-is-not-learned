@@ -261,9 +261,7 @@ def run_battery(root, referent, prompts, sha_refs) -> dict:
     """End to end through the frozen loaders of both trees, run()'s
     own order: gate-1 records load AND their committed-sha loop is
     closed against the (synthetic) exp3 tree before the verdict."""
-    import harness
-
-    verify_fn = harness.verify
+    verify_fn = c.load_verify_3c()   # stop #1: run()'s own producer
     exp3_cells = a3.load_sampling_cells(Path(root) / "exp3",
                                         verify_fn=verify_fn)
     addresses = c.extract_fire_addresses(Path(root) / "exp3", exp3_cells,

@@ -37,15 +37,16 @@ for _p in (EXPERIMENTS / "exp2b", EXPERIMENTS / "exp2c"):
 if str(EXPERIMENTS.parent) not in sys.path:
     sys.path.insert(0, str(EXPERIMENTS.parent))
 
+from experiments.exp3.analyze_3 import score_first_char  # noqa: E402
 from experiments.exp3.run.run_cell import (  # noqa: E402
     _assert_module_provenance, _load_model, _provenance, load_capability,
-    per_seed_tallies, write_draws,
+    write_draws,
 )
 from experiments.exp3.sampler import sample_item  # noqa: E402
 from experiments.exp3c import rederive  # noqa: E402
 from experiments.exp3c.analyze_3c import (  # noqa: E402
     DRAWS_PER_SEED_3C, GATE1_CELLS, K_NEW, NEW_SEEDS, REVERSAL_RUNGS,
-    SCORED_CELLS, check_frozen_imports,
+    SCORED_CELLS, check_frozen_imports, load_verify_3c,
 )
 
 KINDS = ("gate1", "sampling")
@@ -65,6 +66,32 @@ def record_path(out_root, kind: str, rung: str, size: str) -> Path:
 def draws_path(out_root, rung: str, size: str) -> Path:
     return (Path(out_root) / "results" / "sampling" / f"{size}_trained"
             / f"{rung}.draws.jsonl.gz")
+
+
+
+def per_seed_tallies_3c(rows, answers, labels, *, answer_type, seeds,
+                        verify_fn) -> dict:
+    """exp3's per_seed_tallies (run_cell.py), verbatim plain loop, with
+    STOP #1's total verify passed in instead of the partial
+    harness.verify — the convenience tallies stored beside the raw
+    draws. Kept as a SEPARATE implementation from the analyzer's
+    tally_with_addresses so the stored-vs-recompute agreement check
+    still crosses two implementations (full_shape's rule)."""
+    out = {str(s): {"full_string": 0, "first_char": 0, "n_draws": 0}
+           for s in seeds}
+    for row in rows:
+        i = row["item"]
+        for s in seeds:
+            key = str(s)
+            if key not in row["draws"]:
+                raise ValueError(f"item {i} carries no stream for seed {s}")
+            for d in row["draws"][key]:
+                out[key]["n_draws"] += 1
+                if verify_fn(d, answers[i], answer_type):
+                    out[key]["full_string"] += 1
+                if score_first_char(d, labels[i]):
+                    out[key]["first_char"] += 1
+    return out
 
 
 def run_gate1_cell(rung, size, out_root=EXP3C, model_ctx=None) -> dict:
@@ -108,10 +135,11 @@ def run_sampling_cell_3c(rung, size, out_root=EXP3C,
 
     prov = _provenance(rung, size, "trained", cap, items_path,
                        "float32", sha)
-    tallies = per_seed_tallies(rows, prov["answers"],
-                               prov["probe_labels"],
-                               answer_type=cap["answer_type"],
-                               seeds=NEW_SEEDS)
+    tallies = per_seed_tallies_3c(rows, prov["answers"],
+                                  prov["probe_labels"],
+                                  answer_type=cap["answer_type"],
+                                  seeds=NEW_SEEDS,
+                                  verify_fn=load_verify_3c())
     rec = {**prov,
            "seeds": list(NEW_SEEDS),
            "draws_per_seed": DRAWS_PER_SEED_3C,

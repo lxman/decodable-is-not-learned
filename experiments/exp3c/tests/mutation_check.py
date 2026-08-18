@@ -201,6 +201,12 @@ M = [
      "        if got != want:",
      "        want = gate1_records[key][\"committed_draws_sha256\"]\n"
      "        if True:"),
+    # ---- stop #1: the total-verify guard ----
+    (A, "stop #1: totality guard dropped (crasher re-raises)",
+     "        except IndexError:\n            return False",
+     "        except IndexError:\n            raise"),
+    (A, "stop #1: wrapper never fires (hardening)",
+     "        return got_n == want", "        return False"),
     # ---- rederive comparator (gate 1's teeth) ----
     (R, "comparator: differing draws never recorded",
      "            if str(g) != str(w):", "            if False:"),

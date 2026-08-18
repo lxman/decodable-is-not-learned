@@ -442,3 +442,50 @@ def test_load_prompts_requires_the_pin_argument():
     default."""
     with pytest.raises(TypeError):
         c.load_prompts()  # noqa: PLE1120 — the missing arg IS the test
+
+
+# ------------------------------------------------- stop #1: total verify
+
+CRASHER = ' "\t"\n\nQ: Spell the string \''   # the observed class member
+
+
+def test_stop1_verify_3c_is_total_and_identical_off_the_crash_class():
+    """STOP #1 (PROGRESS.md 2026-08-17/18): bare harness.verify raises
+    IndexError on punctuation-wrapped interior whitespace; verify_3c
+    scores it False and is verdict-identical everywhere else."""
+    import harness
+
+    vf = c.load_verify_3c()
+    with pytest.raises(IndexError):
+        harness.verify(CRASHER, "abcd", "letters")
+    assert vf(CRASHER, "abcd", "letters") is False
+    for pred, ans, at in [(" qvux", "qvux", "letters"),
+                          ("qvux extra", "qvux", "letters"),
+                          ("QVUX.", "qvux", "letters"),
+                          ("wrong", "qvux", "letters"),
+                          ("", "qvux", "letters"),
+                          (" 42", "42", "number"),
+                          (" 7:45 pm", "7:45 pm", "word")]:
+        assert vf(pred, ans, at) == harness.verify(pred, ans, at), \
+            (pred, ans, at)
+
+
+def test_stop1_answer_side_crash_stays_a_hard_error():
+    """The guard is draw-side ONLY: a battery whose ANSWER normalizes
+    to whitespace is broken, and stays a hard error."""
+    vf = c.load_verify_3c()
+    with pytest.raises(IndexError):
+        vf("x", '"\t"', "letters")
+
+
+def test_stop1_runner_tallies_are_total_on_the_crasher_class():
+    """per_seed_tallies_3c (the runner's independent plain loop) counts
+    a crasher draw as a non-fire instead of dying mid-cell — the exact
+    failure that stopped the campaign."""
+    from experiments.exp3c.run.run_cell_3c import per_seed_tallies_3c
+
+    rows = [{"item": 0, "draws": {"4": [CRASHER, " abcd", "junk"]}}]
+    t = per_seed_tallies_3c(rows, ["abcd"], ["a"],
+                            answer_type="letters", seeds=(4,),
+                            verify_fn=c.load_verify_3c())
+    assert t["4"] == {"full_string": 1, "first_char": 1, "n_draws": 3}

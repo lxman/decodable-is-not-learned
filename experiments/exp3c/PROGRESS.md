@@ -1,5 +1,41 @@
 # Experiment 3c — build ledger
 
+**2026-08-18 — STOP #1 RULING: APPROVED (Michael, "approved").**
+Option (a) — the 3c-local total wrapper — implemented as
+recommended: `load_verify_3c` in `analyze_3c.py` resolves 2c's
+harness with `load_verify`'s exact path discipline and composes the
+criterion from 2c's own frozen `normalize_answer`, guarding ONLY the
+draw side (`except IndexError → False`; a draw whose normalization
+is whitespace-only cannot equal any letters-type answer). The
+answer side stays UNGUARDED on purpose: a crashing answer is a
+broken battery and must remain a hard error. Call surfaces switched:
+`run()`'s verify_fn, the two loader defaults (`load_new_cells`,
+`extract_fire_addresses`), the runner's tallies (new 3c-local
+`per_seed_tallies_3c` — exp3's plain-loop tally verbatim with
+verify_fn injected, preserving the two-implementation independence
+of stored-vs-recompute), the referent battery's exp3-tree load, and
+full_shape's `run_battery` (mirroring `run()`). exp2c's and exp3's
+frozen files untouched. Fixtures: totality + identity-off-the-crash-
+class spot checks + answer-side hard error + runner-tally crasher
+case; mutation gains the guard both directions (crasher re-raises;
+wrapper never fires). ACCOUNTING, per the posed default Michael
+approved: a LEDGERED STOP in exp3's stop-#1 precedent — the one
+pre-committed change remains UNSPENT (if Michael intended this to
+spend the change, one word reverses this line before close-out).
+Acceptance bar for resume: referent battery 10/10 with the 16/16
+fires table, address pin, and twin record reproduced IDENTICALLY
+through the wrapper. **BAR MET, all cold: suite 96 passed
+(pycache-cleared; 93 + the three stop-#1 fixtures); full-shape 8/8
+terminals through run()'s own verify producer; referent battery
+10/10 — the 16/16 fires table, the (436, 0, 6) address pin, and the
+512k+64k twin record reproduce identically via verify_3c, the
+executable proof of verdict-preservation on the whole committed
+corpus; mutation KILLED 58/58, baseline clean (56 + the guard both
+directions). Campaign relaunched: reverse_string/410m re-runs its
+deterministic streams and completes the record through the total
+tally; then sampling/1b. Watcher relaunched, per-cell push
+authorization standing.**
+
 **2026-08-17 — CAMPAIGN STOP #1 (hour ~4.8 of the campaign; the
 driver stopped itself; NOTHING SCORED, no verdict quantity computed,
 the analyzer never ran).** 2c's frozen `verify` is PARTIAL on its

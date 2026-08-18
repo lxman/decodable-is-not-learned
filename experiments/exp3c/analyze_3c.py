@@ -183,6 +183,49 @@ def luck_floor(length: int) -> float:
     return 26.0 ** (-length)
 
 
+# --------------------------------------------- stop #1: total verify
+#
+# CAMPAIGN STOP #1 (PROGRESS.md 2026-08-17, ruling 2026-08-18): 2c's
+# frozen verify is PARTIAL — normalize_answer raises IndexError when
+# the normalized string is truthy but whitespace-only by split()'s
+# definition (punctuation-wrapped INTERIOR whitespace; canonical
+# member '"\t"'; sole observed instance item 395/seed 12/draw 22 of
+# reverse_string/410m's new stream, 1 in 384,000). The wrapper below
+# is the SAME criterion — both sides normalized by 2c's own frozen
+# normalize_answer, equality compared — made total on the draw side
+# only: a draw whose normalization crashes is garbage that can never
+# equal a letters-type answer, and scores False. The ANSWER side is
+# deliberately unguarded: a crashing answer is a broken battery and
+# stays a hard error. Verdict-identical to harness.verify on every
+# input that does not raise; the referent battery re-proves the
+# 16/16 fires table, the address pin, and the twin record through
+# this wrapper as the executable form of that claim.
+
+def load_verify_3c():
+    """2c's exact-match criterion, total over the draw alphabet
+    (stop #1). Resolved with load_verify's path discipline: exp2c
+    must win the `harness` name."""
+    for _p in (EXPERIMENTS / "exp2b", EXPERIMENTS / "exp2c"):
+        if str(_p) not in sys.path:
+            sys.path.insert(0, str(_p))
+    import harness
+    got = Path(harness.__file__).resolve()
+    if (EXPERIMENTS / "exp2c").resolve() not in got.parents:
+        raise ImportError(
+            f"harness resolved to {got}, which is not under the exp2c "
+            f"tree — the fire recompute would use the wrong verify")
+
+    def verify_3c(pred, answer, answer_type):
+        want = harness.normalize_answer(str(answer), answer_type)
+        try:
+            got_n = harness.normalize_answer(str(pred), answer_type)
+        except IndexError:
+            return False
+        return got_n == want
+
+    return verify_3c
+
+
 # ------------------------------------------------------- stream map 3c
 
 def dump_stream_map_3c(path=STREAM_MAP_3C_PATH) -> dict:
@@ -397,7 +440,7 @@ def load_new_cells(root=EXP3C, verify_fn=None) -> dict:
     analyzer RECOMPUTES them from the raw draws and refuses any
     disagreement (exp3's rule, both trees)."""
     if verify_fn is None:
-        verify_fn = a3.load_verify()
+        verify_fn = load_verify_3c()   # stop #1: total wrapper
     base = Path(root) / "results" / "sampling"
     want_names = {f"{r}.json" for (r, _s, _m) in SCORED_CELLS} \
         | {f"{r}.draws.jsonl.gz" for (r, _s, _m) in SCORED_CELLS}
@@ -625,7 +668,7 @@ def extract_fire_addresses(root, exp3_cells, verify_fn=None) -> dict:
     loader already recomputed. The two passes must agree on the count;
     disagreement is a loader defect, not data."""
     if verify_fn is None:
-        verify_fn = a3.load_verify()
+        verify_fn = load_verify_3c()   # stop #1: total wrapper
     out = {}
     for key in SCORED_CELLS:
         rung, size, mode = key
@@ -1121,7 +1164,7 @@ def run(root=EXP3C) -> dict:
     output (design §2.1)."""
     check_frozen_imports()
     check_stream_map()
-    verify_fn = a3.load_verify()
+    verify_fn = load_verify_3c()   # stop #1: total over the draw alphabet
     exp3_cells = a3.load_sampling_cells(EXP3, verify_fn=verify_fn)
     addresses = extract_fire_addresses(EXP3, exp3_cells,
                                        verify_fn=verify_fn)

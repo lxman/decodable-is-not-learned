@@ -45,14 +45,15 @@ def main() -> int:
     state = {}
 
     def load_exp3_tree():
-        verify_fn = a3.load_verify()
+        verify_fn = c.load_verify_3c()   # stop #1: total wrapper
         state["verify_fn"] = verify_fn
         state["cells"] = a3.load_sampling_cells(a3.EXP3,
                                                 verify_fn=verify_fn)
         return {"cells": len(state["cells"])}
 
     check("exp3's 16 sampling cells load; stored tallies equal the "
-          "recompute from raw draws", load_exp3_tree)
+          "recompute from raw draws (via stop-#1 total verify_3c)",
+          load_exp3_tree)
 
     def fires_table():
         ref = c.load_exp3_referent()
