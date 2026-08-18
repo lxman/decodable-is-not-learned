@@ -1,0 +1,62 @@
+EXPERIMENT 3C — VERDICT: DEEPENS
+(frozen analyze_3c run ONCE 2026-08-18 on Michael's go, §10.4 order:
+projection ledgered first at 86328c2; full record results/verdict.json;
+tag exp3c-closed)
+
+FROZEN REASON (verbatim from the tree):
+the fired cell fires again in the new draws (9/384000, pooled
+10/512000) AND at least one previously walled cell fires
+(rev_string7/1b/trained 0/384000 (CP95 ≤ 7.80e-06);
+rev_string7/410m/trained 0/384000 (CP95 ≤ 7.80e-06);
+reverse_string/410m/trained fires 3/384000) — the sampled channel's
+reach grows with budget in both rate and extent; signature 2's
+resolution parameter is measurably load-bearing (§1). Every fire
+disclosed verbatim with its (item, seed, draw) address; luck floor
+26^-4 = 2.19e-06 (26^-L per stratum in the strata table).
+
+PER-CELL (new non-void verified full-string fires / 384,000):
+  rev_string7/410m      0   pooled 0/512,000, CP95 ≤ 5.85e-06
+  rev_string7/1b        0   pooled 0/512,000, CP95 ≤ 5.85e-06
+  reverse_string/410m   3   pooled 3/512,000 = 5.86e-06,
+                            CI95 [1.21e-06, 1.71e-05]  — WALL FALLEN
+  reverse_string/1b     9   pooled 10/512,000 = 1.95e-05,
+                            CI95 [9.37e-06, 3.59e-05]  — FIRES AGAIN
+                            (new-draw point 2.34e-05 = 3.0× exp3's
+                            7.81e-06; descriptive, no trend test)
+
+GATES: gate-1 byte re-derivation 132,000/132,000 draws IDENTICAL
+(5 cells, 0 diffs — third consecutive byte-identical reproduction of
+exp3's streams on this stack); provenance/pins/stream-map clean;
+stored-vs-recompute tallies agree at all four cells; ZERO leak-voids
+(prompt source sha-pinned, freeze finding A); twin referent
+re-asserted from raw draws: 0 fires / 512,000 reversal + 64,000
+control twin draws. One ledgered stop (2c's verify partial on
+punctuation-wrapped interior whitespace; totality wrapper ratified;
+sole crasher draw scored False on the byte-identical re-run).
+Pre-committed change UNSPENT. Campaign 12.0 h, zero attrition.
+
+STRUCTURE IN THE FIRES (descriptive; adjudicated by nothing):
+- 1b strata: len-4 7/148,992 = 4.70e-05 (21× the 2.19e-06 luck
+  floor); len-5 1/119,040 = 8.40e-06 (100× its 8.42e-08 floor);
+  len-6 1/115,968 = 8.62e-06 (~2,700× its 3.24e-09 floor). The
+  len-6 fire is item 200 'rxxxxd' — a repeated-letter answer whose
+  internal run collapses the joint autoregressive cost; the naive
+  geometric extrapolation from the len-4 anchor did not predict it
+  (ledgered projection miss; the luck floor is irrelevant at that
+  distance).
+- 410m: all 3 fires len-4, 2.01e-05 = 9.2× floor — the fallen wall
+  replicates exp3's fired-stratum rate at 1b one size down.
+- Item structure: item 123 ('ecde') fires at BOTH sizes (seeds
+  5/8/13 at 1b, seed 8 at 410m); item 447 ('dmkd') fires twice on
+  one seed. The channel is item-heterogeneous, not uniform-rare.
+- Seeds: fires land on 5 of 12 new seeds at 1b (max 3/seed) and
+  3 of 12 at 410m — no single-stream concentration.
+
+BLIND REGION: a silent cell is bounded, not zero — per-cell pooled
+zeros ≤ 5.85e-06 (4.0× exp3's resolution); silence is weak evidence
+bounded by budget (the forward-note's asymmetry rule).
+
+SCOPE (§9): no re-adjudication of exp3/3b or any closed experiment;
+nothing about mechanism per fire beyond the printed luck floors;
+T = 1.0 untruncated only; Pythia 410m/1b, these four cells, this
+budget only.

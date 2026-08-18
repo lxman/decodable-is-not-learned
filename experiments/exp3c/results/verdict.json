@@ -1,0 +1,613 @@
+{
+ "worlds": [
+  "DEEPENS",
+  "REPLICATES",
+  "RELOCATES",
+  "LONE-DRAW"
+ ],
+ "fired_cell": "reverse_string/1b/trained",
+ "walled_cells": [
+  "rev_string7/410m/trained",
+  "rev_string7/1b/trained",
+  "reverse_string/410m/trained"
+ ],
+ "gate1": {
+  "ctrl_copy/1b/trained": {
+   "draws_compared": 4000,
+   "n_diffs": 0,
+   "diffs": [],
+   "committed_draws_sha256": "ff51ed0a5c0c460d9d9b11f62b2801b484337c107db6f8292a5e72955b24fe13"
+  },
+  "rev_string7/1b/trained": {
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "diffs": [],
+   "committed_draws_sha256": "4b8afc4b6eb14764bbd48649b6e07fd46caa4a7af3a2f2929f15d66b21f876f0"
+  },
+  "rev_string7/410m/trained": {
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "diffs": [],
+   "committed_draws_sha256": "7554c88f2f1576efac24506c1b0e60c6cf54e4be6874494f1727f9f9d830a42e"
+  },
+  "reverse_string/1b/trained": {
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "diffs": [],
+   "committed_draws_sha256": "45049c9b82a98d8c7fa3816981ce7a33c49b85d3521956b7994feb348b279726"
+  },
+  "reverse_string/410m/trained": {
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "diffs": [],
+   "committed_draws_sha256": "34dd8fc48e9dec001f8575236bad15b1b360d80e4c7785b63267a8692b42cc6c"
+  }
+ },
+ "gate1_total_draws_compared": 132000,
+ "fires": {
+  "rev_string7/1b/trained": {
+   "new": {
+    "count": 0,
+    "n_draws": 384000,
+    "rate": 0.0,
+    "cp95_upper": 7.801355698313215e-06
+   },
+   "raw_fire_count_pre_void": 0,
+   "addresses": [],
+   "per_seed_full_string": {
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "fired": false
+  },
+  "rev_string7/410m/trained": {
+   "new": {
+    "count": 0,
+    "n_draws": 384000,
+    "rate": 0.0,
+    "cp95_upper": 7.801355698313215e-06
+   },
+   "raw_fire_count_pre_void": 0,
+   "addresses": [],
+   "per_seed_full_string": {
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "fired": false
+  },
+  "reverse_string/1b/trained": {
+   "new": {
+    "count": 9,
+    "n_draws": 384000,
+    "rate": 2.34375e-05,
+    "ci95": [
+     1.0717171649939887e-05,
+     4.449120728772919e-05
+    ]
+   },
+   "raw_fire_count_pre_void": 9,
+   "addresses": [
+    {
+     "item": 123,
+     "seed": 5,
+     "draw": 58,
+     "text": " ecde\n\nQ: Spell the string 'eb",
+     "answer": "ecde",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 123,
+     "seed": 8,
+     "draw": 53,
+     "text": " ecde\n\nQ: The string 'abcdeamp",
+     "answer": "ecde",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 123,
+     "seed": 13,
+     "draw": 34,
+     "text": " ecde\n\nQ: Spell the string 'eed",
+     "answer": "ecde",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 200,
+     "seed": 8,
+     "draw": 2,
+     "text": " rxxxxd\n\nQ: Spell the string \"",
+     "answer": "rxxxxd",
+     "answer_len": 6,
+     "void": false
+    },
+    {
+     "item": 320,
+     "seed": 15,
+     "draw": 26,
+     "text": " wchw\n\nQ: Spell the string '",
+     "answer": "wchw",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 370,
+     "seed": 11,
+     "draw": 38,
+     "text": " eyxh?\n\nA: \u73b0\u5728 ",
+     "answer": "eyxh",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 391,
+     "seed": 8,
+     "draw": 42,
+     "text": " fkjes\n\nQ: Spell the string '",
+     "answer": "fkjes",
+     "answer_len": 5,
+     "void": false
+    },
+    {
+     "item": 447,
+     "seed": 13,
+     "draw": 39,
+     "text": " dmkd\n\nQ: Spell the string '",
+     "answer": "dmkd",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 447,
+     "seed": 13,
+     "draw": 43,
+     "text": " dmkd\n\nQ: Spell the string '",
+     "answer": "dmkd",
+     "answer_len": 4,
+     "void": false
+    }
+   ],
+   "per_seed_full_string": {
+    "4": 0,
+    "5": 1,
+    "6": 0,
+    "7": 0,
+    "8": 3,
+    "9": 0,
+    "10": 0,
+    "11": 1,
+    "12": 0,
+    "13": 3,
+    "14": 0,
+    "15": 1
+   },
+   "fired": true
+  },
+  "reverse_string/410m/trained": {
+   "new": {
+    "count": 3,
+    "n_draws": 384000,
+    "rate": 7.8125e-06,
+    "ci95": [
+     1.6111282178261526e-06,
+     2.2831268834389285e-05
+    ]
+   },
+   "raw_fire_count_pre_void": 3,
+   "addresses": [
+    {
+     "item": 123,
+     "seed": 8,
+     "draw": 6,
+     "text": " ecde\n\nA:  \n\nQ: Sp",
+     "answer": "ecde",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 174,
+     "seed": 15,
+     "draw": 42,
+     "text": " kbjb\n\nQ: Spell the string 'ab",
+     "answer": "kbjb",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 226,
+     "seed": 6,
+     "draw": 40,
+     "text": " iviz\n\nQ: Spell the string 'f",
+     "answer": "iviz",
+     "answer_len": 4,
+     "void": false
+    }
+   ],
+   "per_seed_full_string": {
+    "4": 0,
+    "5": 0,
+    "6": 1,
+    "7": 0,
+    "8": 1,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 1
+   },
+   "fired": true
+  }
+ },
+ "pooled": {
+  "rev_string7/1b/trained": {
+   "count": 0,
+   "n_draws": 512000,
+   "rate": 0.0,
+   "cp95_upper": 5.8510224794863395e-06,
+   "exp3_count": 0,
+   "new_count": 0
+  },
+  "rev_string7/410m/trained": {
+   "count": 0,
+   "n_draws": 512000,
+   "rate": 0.0,
+   "cp95_upper": 5.8510224794863395e-06,
+   "exp3_count": 0,
+   "new_count": 0
+  },
+  "reverse_string/1b/trained": {
+   "count": 10,
+   "n_draws": 512000,
+   "rate": 1.953125e-05,
+   "ci95": [
+    9.366032004819832e-06,
+    3.5918369837838317e-05
+   ],
+   "exp3_count": 1,
+   "new_count": 9
+  },
+  "reverse_string/410m/trained": {
+   "count": 3,
+   "n_draws": 512000,
+   "rate": 5.859375e-06,
+   "ci95": [
+    1.2083456200335542e-06,
+    1.7123483772830472e-05
+   ],
+   "exp3_count": 0,
+   "new_count": 3
+  }
+ },
+ "strata": {
+  "rev_string7/1b/trained": {
+   "7": {
+    "n_items": 500,
+    "new": {
+     "count": 0,
+     "n_draws": 384000,
+     "rate": 0.0,
+     "cp95_upper": 7.801355698313215e-06
+    },
+    "pooled": {
+     "count": 0,
+     "n_draws": 512000,
+     "rate": 0.0,
+     "cp95_upper": 5.8510224794863395e-06
+    },
+    "luck_floor": 1.2450493451502607e-10
+   }
+  },
+  "rev_string7/410m/trained": {
+   "7": {
+    "n_items": 500,
+    "new": {
+     "count": 0,
+     "n_draws": 384000,
+     "rate": 0.0,
+     "cp95_upper": 7.801355698313215e-06
+    },
+    "pooled": {
+     "count": 0,
+     "n_draws": 512000,
+     "rate": 0.0,
+     "cp95_upper": 5.8510224794863395e-06
+    },
+    "luck_floor": 1.2450493451502607e-10
+   }
+  },
+  "reverse_string/1b/trained": {
+   "4": {
+    "n_items": 194,
+    "new": {
+     "count": 7,
+     "n_draws": 148992,
+     "rate": 4.6982388316151205e-05,
+     "ci95": [
+      1.88895587643439e-05,
+      9.679926506200783e-05
+     ]
+    },
+    "pooled": {
+     "count": 8,
+     "n_draws": 198656,
+     "rate": 4.027061855670103e-05,
+     "ci95": [
+      1.7386149948061793e-05,
+      7.934762212090426e-05
+     ]
+    },
+    "luck_floor": 2.1882987290360982e-06
+   },
+   "5": {
+    "n_items": 155,
+    "new": {
+     "count": 1,
+     "n_draws": 119040,
+     "rate": 8.400537634408602e-06,
+     "ci95": [
+      2.1268317617568798e-07,
+      4.6803901249069933e-05
+     ]
+    },
+    "pooled": {
+     "count": 1,
+     "n_draws": 158720,
+     "rate": 6.300403225806452e-06,
+     "ci95": [
+      1.5951238637246633e-07,
+      3.51030944495393e-05
+     ]
+    },
+    "luck_floor": 8.416533573215762e-08
+   },
+   "6": {
+    "n_items": 151,
+    "new": {
+     "count": 1,
+     "n_draws": 115968,
+     "rate": 8.623068432671082e-06,
+     "ci95": [
+      2.1831716698256193e-07,
+      4.8043715254626015e-05
+     ]
+    },
+    "pooled": {
+     "count": 1,
+     "n_draws": 154624,
+     "rate": 6.467301324503311e-06,
+     "ci95": [
+      1.637378797052705e-07,
+      3.603296399969224e-05
+     ]
+    },
+    "luck_floor": 3.2371282973906776e-09
+   }
+  },
+  "reverse_string/410m/trained": {
+   "4": {
+    "n_items": 194,
+    "new": {
+     "count": 3,
+     "n_draws": 148992,
+     "rate": 2.0135309278350515e-05,
+     "ci95": [
+      4.1524040943218785e-06,
+      5.884277938887537e-05
+     ]
+    },
+    "pooled": {
+     "count": 3,
+     "n_draws": 198656,
+     "rate": 1.5101481958762887e-05,
+     "ci95": [
+      3.114299461559012e-06,
+      4.413229807902456e-05
+     ]
+    },
+    "luck_floor": 2.1882987290360982e-06
+   },
+   "5": {
+    "n_items": 155,
+    "new": {
+     "count": 0,
+     "n_draws": 119040,
+     "rate": 0.0,
+     "cp95_upper": 2.5165445051477897e-05
+    },
+    "pooled": {
+     "count": 0,
+     "n_draws": 158720,
+     "rate": 0.0,
+     "cp95_upper": 1.887414316107079e-05
+    },
+    "luck_floor": 8.416533573215762e-08
+   },
+   "6": {
+    "n_items": 151,
+    "new": {
+     "count": 0,
+     "n_draws": 115968,
+     "rate": 0.0,
+     "cp95_upper": 2.583207074713185e-05
+    },
+    "pooled": {
+     "count": 0,
+     "n_draws": 154624,
+     "rate": 0.0,
+     "cp95_upper": 1.9374115620010908e-05
+    },
+    "luck_floor": 3.2371282973906776e-09
+   }
+  }
+ },
+ "descriptives": {
+  "mean_draw_len_new": {
+   "rev_string7/1b/trained": 26.154752604166667,
+   "rev_string7/410m/trained": 27.095611979166666,
+   "reverse_string/1b/trained": 29.914247395833332,
+   "reverse_string/410m/trained": 30.420513020833333
+  },
+  "per_seed_pooled_view": {
+   "rev_string7/1b/trained": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "rev_string7/410m/trained": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "reverse_string/1b/trained": {
+    "0": 1,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 1,
+    "6": 0,
+    "7": 0,
+    "8": 3,
+    "9": 0,
+    "10": 0,
+    "11": 1,
+    "12": 0,
+    "13": 3,
+    "14": 0,
+    "15": 1
+   },
+   "reverse_string/410m/trained": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 1,
+    "7": 0,
+    "8": 1,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 1
+   }
+  },
+  "fired_cell_comparison": {
+   "cell": "reverse_string/1b/trained",
+   "exp3": {
+    "count": 1,
+    "n_draws": 128000,
+    "rate": 7.8125e-06,
+    "ci95": [
+     1.9779535531576096e-07,
+     4.352768666914135e-05
+    ]
+   },
+   "new": {
+    "count": 9,
+    "n_draws": 384000,
+    "rate": 2.34375e-05,
+    "ci95": [
+     1.0717171649939887e-05,
+     4.449120728772919e-05
+    ]
+   },
+   "pooled": {
+    "count": 10,
+    "n_draws": 512000,
+    "rate": 1.953125e-05,
+    "ci95": [
+     9.366032004819832e-06,
+     3.5918369837838317e-05
+    ],
+    "exp3_count": 1,
+    "new_count": 9
+   },
+   "luck_floor_L4": 2.1882987290360982e-06
+  }
+ },
+ "blind_region": {
+  "new_per_cell_zero_bound": 7.801355698313215e-06,
+  "pooled_per_cell_zero_bound": 5.8510224794863395e-06,
+  "statement": "a persistent zero tightens a walled cell's pooled bound to \u2264 5.85e-06 (from exp3's \u2264 2.34e-05) \u2014 the design is blind below that per-draw rate, and silence is weak evidence bounded by budget (the forward-note's asymmetry rule)"
+ },
+ "twin_record": {
+  "cells": 8,
+  "fires": 0,
+  "reversal_twin_draws": 512000,
+  "control_twin_draws": 64000,
+  "statement": "no new twin was sampled (design \u00a73): exp3's committed twin record \u2014 0 fires across all 8 untrained cells, 512,000 reversal-twin draws + 64,000 control-twin draws \u2014 is the standing contamination referent, re-asserted from raw draws at this load"
+ },
+ "leak_voids": [],
+ "luck_floor_by_length": {
+  "4": 2.1882987290360982e-06,
+  "5": 8.416533573215762e-08,
+  "6": 3.2371282973906776e-09,
+  "7": 1.2450493451502607e-10
+ },
+ "adjudication": {
+  "fired_cell_new_fires": 9,
+  "wall_new_fires": {
+   "rev_string7/410m/trained": 0,
+   "rev_string7/1b/trained": 0,
+   "reverse_string/410m/trained": 3
+  },
+  "fired_again": true,
+  "any_wall_fired": true
+ },
+ "verdict": "DEEPENS",
+ "reason": "the fired cell fires again in the new draws (9/384000, pooled 10/512000) AND at least one previously walled cell fires (rev_string7/1b/trained 0/384000 (CP95 \u2264 7.80e-06); rev_string7/410m/trained 0/384000 (CP95 \u2264 7.80e-06); reverse_string/410m/trained fires 3/384000) \u2014 the sampled channel's reach grows with budget in both rate and extent; signature 2's resolution parameter is measurably load-bearing (\u00a71). Every fire disclosed verbatim with its (item, seed, draw) address; luck floor 26^-4 = 2.19e-06 (26^-L per stratum in the strata table)."
+}

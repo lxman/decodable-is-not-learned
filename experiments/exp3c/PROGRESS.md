@@ -1,5 +1,32 @@
 # Experiment 3c — build ledger
 
+**2026-08-18 — CLOSED: VERDICT DEEPENS (tag `exp3c-closed`; frozen
+analyze_3c run ONCE on Michael's go, full record
+`results/verdict.json`, human summary `results/VERDICT.txt`,
+projection graded in `results/retrospective.md`).** The fired cell
+fires again — 9/384,000 new, pooled 10/512,000 = 1.953e-5, CI
+[9.37e-6, 3.59e-5], new-draw point 3.0× exp3's — AND the
+reverse_string/410m wall falls (3/384,000, all len-4 at 9.2× the
+luck floor); rev_string7 stays silent at both sizes (pooled zeros
+≤ 5.85e-6, 4.0× exp3's resolution). Zero leak-voids; twin referent
+0/512k+64k re-asserted; gate-1 132,000/132,000 byte-identical.
+Twelve new fires disclosed verbatim: len-4 dominant (10), len-5 one,
+and ONE len-6 — item 200 'rxxxxd', the projection's named miss,
+whose repeated-letter run collapses the joint path cost (~2,700×
+above its stratum's luck floor; the geometric length anchor is too
+coarse for structured answers — successor rate models should
+condition on answer compressibility). Item heterogeneity is the
+unnamed texture: item 123 fires at BOTH sizes (4 of 12 fires), item
+447 twice on one seed. Projection: verdict/gates/pooled-numbers HIT
+exactly; len-6 the named miss, fired; mean-length prediction
+ungradeable (exp3 committed no referent). One stop (verify
+totality, ratified), pre-committed change UNSPENT, zero attrition,
+12.0 h. Next: essay + experiments.md signature-2 updates per the
+DEEPENS world; methods-paper criterion-totality note (stop #1);
+supporting-repo re-extraction gains the exp3 AND exp3c rounds
+together; staged successors (rank prediction; entropy-conditioned
+rate models) remain separate experiments.
+
 **2026-08-18 — CAMPAIGN COMPLETE (run 2: 433.1 m; runs 1+2 ≈ 12.0 h
 against the ~14–15 h projection). One stop (ledgered below, fix
 ratified), zero attrition, all 13 result files committed and pushed
