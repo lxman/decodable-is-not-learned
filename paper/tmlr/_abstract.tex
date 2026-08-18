@@ -1,0 +1,47 @@
+A linear probe that clears significance is routinely read as evidence
+that a model has learned, represents, or is developing a capability.
+The inference is unsound: a network's activations are a
+high-dimensional expansion of the visible tokens, and a linear readout
+on such an expansion decodes many functions of the input that training
+never put there. This paper prescribes three controls that make the
+inference testable --- an untrained-weights twin of the model run through
+the identical probe pipeline as an acceptance test; basis-starved
+splits, whose validation items share no surface-component values with
+probe training; and tolerances calibrated from the mechanism that
+generates each control's events rather than set to zero --- and reports
+two preregistered probing campaigns that the controls terminated before
+any outcome measurement. In the first, the untrained twin fired on 120
+of 120 fits: under standard splits, probe significance measured
+reservoir decodability, not learning. In the second, starving closed
+the lookup class and the untrained twin exposed a class beneath it: 13
+of 25 capabilities decodable from untrained weights at margins of .06
+to .82, reproducing across independent initializations, via surface
+statistics that no value holdout can remove. The screen is passable:
+the twelve surviving capabilities read exactly zero untrained margin
+in every cell, and string reversal's untrained readout, which fired
+under standard splits, fell to zero under starving while the trained
+margin held. A successor battery was then constructed with the screen
+at inclusion time: the screen caught a leak whose mechanism the
+design analysis had missed, exposed a new leak class at the cost of a
+screening pass rather than a campaign, confirmed three mechanism
+attributions by construction, and froze a 34-rung battery with the
+untrained gate clean (two fires in 220 fits against 1.4 expected),
+the program's first. That battery then reached an outcome
+measurement, where we committed the outcome-side form of the error
+this paper is about: normalizing argmax accuracy against an untrained
+floor, which sits at zero because an untrained model emits malformed
+text rather than wrong answers, credits a model that has learned only
+the task's output format with its entire guessing rate as capability.
+Ten of thirty-four capabilities landed within noise of their own
+chance rate; one scored below chance and ranked fifth on the outcome
+variable. Re-scoring against within-answer-space chance moved the
+headline rank correlation down, from .368 to .200 --- the contamination
+manufactured correlation rather than masking it --- and none of the
+controls prescribed here detects it, because all of them are pointed
+at the representation while the defect is in the behaviour. Report
+both floors. Running the other way, the two capabilities carrying the
+second and third highest starved margins scored exactly zero argmax
+accuracy at every eval scale: decodable is not learned, and on this
+evidence it is not generable either. A taxonomy of the leak
+mechanisms and a checklist written for verbatim adoption distill the
+record.

@@ -1,0 +1,76 @@
+\documentclass[10pt]{article}
+
+% ---- FLAVOR ----------------------------------------------------------
+% Submission (double-blind review): bare tmlr + \anontrue.
+% Camera-ready:  \usepackage[accepted]{tmlr} + \anonfalse.
+% Preprint:      \usepackage[preprint]{tmlr} + \anonfalse.
+% Flip BOTH lines together.
+\usepackage{tmlr}
+\newif\ifanon
+\anontrue
+% ----------------------------------------------------------------------
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{calc}
+\usepackage{array}
+
+\graphicspath{{../figures/}}
+
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ---- identity-bearing links, swapped per flavor ----------------------
+\ifanon
+\newcommand{\repourl}{an anonymized review mirror (link provided via
+OpenReview supplementary material; the de-anonymized repository and
+its archive are linked in the camera-ready version)}
+\newcommand{\zenodospan}{(archived with a versioned DOI; identifying
+details withheld for review)}
+\else
+\newcommand{\repourl}{github.com/lxman/decodable-is-not-learned}
+\newcommand{\zenodospan}{(concept DOI 10.5281/zenodo.21830421,
+resolving to the latest archived release; v1.0
+10.5281/zenodo.21830422, v1.1 with the Experiment 3 and 3c records
+10.5281/zenodo.21998671)}
+\fi
+% ----------------------------------------------------------------------
+
+\title{Decodable Is Not Learned: Untrained-Weights Controls and
+Basis-Starved Splits for Linear Probing}
+
+\author{\name Michael Jordan \email jordan.mymail@gmail.com \\
+      \addr Independent researcher}
+
+\def\month{MM}
+\def\year{YYYY}
+\def\openreview{\url{https://openreview.net/forum?id=XXXX}}
+
+\begin{document}
+
+\maketitle
+
+% TMLR requires explicit first-page mention of LLM assistance.
+\begingroup
+\renewcommand\thefootnote{}\footnotetext{Portions of this paper's
+text, analysis code, and figures were prepared with the assistance of
+a large language model (Anthropic's Claude), used as a drafting and
+engineering tool under the author's direction; ideas, claims,
+experimental designs, and adjudication rulings are human-sourced. The
+Disclosure of AI assistance section describes the full division of
+labor.}%
+\addtocounter{footnote}{-1}\endgroup
+
+\begin{abstract}
+\input{_abstract}
+\end{abstract}
+
+\input{body}
+
+\end{document}

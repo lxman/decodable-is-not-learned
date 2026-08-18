@@ -1,0 +1,12 @@
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.toc
+preprint.tex
+_body.md
+_abstract.md
+_body_raw.tex
