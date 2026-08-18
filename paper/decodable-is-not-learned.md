@@ -893,6 +893,69 @@ is close to circular. The clean gate of Section 7, on this paper's own
 battery and its own tokenizer, is the stronger evidence for the same
 claim.
 
+**The freeze as an adversarial instrument.** Everything above was
+caught by gates and controls running against data. The successor
+experiments added a place to catch defects before any data exists: the
+freeze itself became a session with an adversarial assignment. The
+protocol is three sessions, design, build, and freeze, separated by
+context boundaries, and the freeze opens with a cold re-read of the
+design and the build under one instruction: assume the tree still
+contains a class defect and find it. The assumption has paid out every
+time we have made it. One freeze found the campaign's mass statistic
+crediting set-level lexical priming: a position-blind primer with
+nothing of the capability in it scored 500 of 500 on the statistic
+(p ≈ 3e-151), so the statistic was amended ledger-first before any
+model ran — and the campaign's own data later showed the superseded
+form would have decided the verdict, because the measured position
+gradient came out inverted and the original statistic would have read
+the inversion as elevation. The next freeze, on the deepening
+successor, found the two inputs its fixture suite could not see: the
+leak gate's prompts were re-rendered from live item files at analysis
+time with no hash pin against the preregistered referents, and the
+byte-continuity gate's attestation ("I compared against the file with
+this hash") was never checked against the tree the analysis actually
+pooled. Every synthetic world injected prompts and attestation
+strings, so the production paths were exactly the untested paths; both
+were closed with refusals, and the closures were then mutation-tested
+like any other provision. The pattern behind the catches is the same
+each time: the defect lives on a path the test suite substitutes for.
+A fixture suite at a 100 percent mutation kill rate can still miss it,
+because the mutation battery only exercises what the fixtures reach.
+The assignment "find the class defect" is a search of the seams
+between the tested and the real, and it belongs on the checklist, not
+in the discretion of whoever feels adversarial that day. (Full rulings
+under the `exp3-*` and `exp3c-*` tags in the supporting record.)
+
+**The fifth lesson: a frozen criterion must be total over the alphabet
+it scores.** The scoring criterion those freezes protected then failed
+in a way none of them was looking for. The exact-match verifier behind
+every generation number in this program normalizes the model's text
+before comparing, and its normalizer indexes the first whitespace
+token of the first line, an operation that assumes a token exists. On
+text whose first line is bare non-space whitespace wrapped in
+punctuation (the observed instance: quote, tab, quote), the wrapping
+is stripped, the whitespace survives, and the criterion raises instead
+of returning. The defect ran 4.2 million temperature-1 draws across
+four closed experiments without firing, then stopped a campaign on the
+one draw in 384,000 that landed in the class. Two properties made this
+survivable. The defect can only raise, never mis-score, so every
+closed verdict stood without re-adjudication: a criterion that crashes
+on garbage cannot silently credit it. And the fix could be proven
+verdict-preserving executably rather than by argument — a wrapper
+mapping the crash class to a non-fire (whitespace never matches a
+letters answer), guarded on the measurement side only, with a gold
+answer that crashes the normalizer kept a hard error because it means
+the battery itself is broken; the wrapper recomputed the full
+committed corpus to identical counts before the campaign resumed. The
+rule it promotes: adversarial review interrogates what a criterion
+credits, and totality is a different property needing a different
+test. Property-fuzz the frozen verifier over the emission alphabet at
+the freeze (whitespace classes, control characters, punctuation
+wrappers, empty and near-empty strings) and require a verdict, not an
+exception, on all of it. A frozen criterion is a function on
+everything a model can emit, not only on the answers a designer
+imagined.
+
 ## 7. The screen at inclusion time
 
 Both campaigns above ran the untrained control after their batteries
@@ -1299,18 +1362,33 @@ section it distills.
     record loader after being burned by its absence, then shipped a
     verdict-adjacent diagnostic with no producer in the next
     experiment. (§6)
+20. Open the freeze adversarially: a cold re-read of design and build
+    under the assignment "find the class defect," aimed at the seams
+    the fixture suite substitutes for — injected inputs, unpinned
+    analysis-time referents, attestations never compared against the
+    tree in hand. A suite at 100 percent mutation kill can still miss
+    what its fixtures inject around. (§6)
+21. Property-fuzz every frozen scoring criterion for totality over the
+    emission alphabet before freezing: on garbage it must return a
+    verdict, never raise. Guard the measurement side only; a referent
+    that crashes the criterion is a broken battery and stays a hard
+    error. (§6)
 
 The full record behind this paper — the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
 campaign ledgers, and the adjudication rulings behind every number
-quoted here — sits under five git tags (`exp2-preregistered`,
+quoted here — sits under six git tags (`exp2-preregistered`,
 `exp2-closed`, `exp2b-preregistered`, `exp2b-closed`,
-`exp2c-preregistered`, `exp2c-stage1`) in the
+`exp2c-preregistered`, `exp2c-closed`) in the
 supporting repository, github.com/lxman/decodable-is-not-learned: a
 history-preserving extraction of the working repository, public since
 the paper's arXiv submission and archived at Zenodo
 (DOI 10.5281/zenodo.21830422).
-Commit SHAs quoted inside the ledgers resolve through that
+The same repository carries the successor experiments'
+preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
+`exp3c-*`), whose freeze rulings and totality stop Section 6 draws on;
+interim stage tags (e.g. `exp2c-stage1`) exist only in the private
+repository. Commit SHAs quoted inside the ledgers resolve through that
 repository's PROVENANCE.md.
 
 ## Disclosure of AI assistance
