@@ -1382,8 +1382,10 @@ quoted here — sits under six git tags (`exp2-preregistered`,
 `exp2c-preregistered`, `exp2c-closed`) in the
 supporting repository, github.com/lxman/decodable-is-not-learned: a
 history-preserving extraction of the working repository, public since
-the paper's arXiv submission and archived at Zenodo
-(DOI 10.5281/zenodo.21830422).
+the paper's arXiv submission and archived at Zenodo (concept
+DOI 10.5281/zenodo.21830421, resolving to the latest archived
+release; v1.0 10.5281/zenodo.21830422, v1.1 with the Experiment 3
+and 3c records 10.5281/zenodo.21998671).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`), whose freeze rulings and totality stop Section 6 draws on;
