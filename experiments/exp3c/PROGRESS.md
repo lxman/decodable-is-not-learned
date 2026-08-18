@@ -1,5 +1,87 @@
 # Experiment 3c — build ledger
 
+**2026-08-17 — CAMPAIGN STOP #1 (hour ~4.8 of the campaign; the
+driver stopped itself; NOTHING SCORED, no verdict quantity computed,
+the analyzer never ran).** 2c's frozen `verify` is PARTIAL on its
+own input domain: `normalize_answer` (exp2c/harness.py:64,
+`s.split()[0] if s else s`) raises IndexError when the normalized
+string is truthy but whitespace-only by `split()`'s definition. The
+reachable class: a first line whose content, after the FIRST
+`.strip()` eats outer whitespace and the final punctuation-only
+strip (`.strip(".!?\"' ")`) removes the wrapping, is bare non-space
+whitespace INTERIOR to punctuation — `"\t"` being the canonical
+member (synthetic repro: `'"\t"'`, `'.\t.'`, `' " \t " '` all
+crash; `'"\t'` does NOT — the trailing tab is outer and the first
+strip eats it). A T = 1.0 draw finally emitted one: **item 395,
+seed 12, draw 22 of reverse_string/410m's new stream — the SOLE
+crasher in 384,000 draws** (`' "\t"\n\nQ: Spell the string \''`,
+disclosed verbatim; the model emitted quote-tab-quote then began a
+new Q: block). rev_string7/410m's 384,000 new draws: zero. exp3's
+committed reverse_string/410m stream: zero (executably re-scanned).
+Every closed experiment's analysis COMPLETED over its full data, so
+zero crashers existed in any committed stream — **the defect can
+only raise, never return a wrong verdict; every closed verdict
+stands untouched.** exp3's 1.34M-draw clean history was luck of the
+streams, not totality.
+
+**State at the stop, all banked and committed by the watcher:**
+gate 1 ALL FIVE CELLS CLEAN — 132,000 draws re-derived, 0 diffs both
+sizes (the stack byte-reproduces exp3's streams; the campaign's
+biggest de-risk, done). rev_string7/410m sampling COMPLETE: 0
+verified fires in 384,000 new draws (record + raw draws committed —
+a wall at 3× exp3's per-cell resolution so far, adjudicated by
+nothing yet). reverse_string/410m: raw draws fully written and
+deterministic (the streams are a pure function of (cell, seed,
+item)); the crash hit the CONVENIENCE-TALLY step after write_draws,
+so the record is unwritten and skip-if-exists will re-run the cell
+byte-identically. sampling/1b never started (tier order held).
+Driver printed STOPPED; watcher swept and exited.
+
+**Why the freeze missed it:** the adversarial read attacked the
+criterion's SEMANTICS (format-crediting, the leak class) and the
+glue's decode path; nobody fuzzed `verify` for TOTALITY over the
+draw alphabet. 3a's lineage in a new costume: a frozen verdict
+function partial on its own domain, waiting for entropy to find the
+hole.
+
+**Fix options prepared for Michael (the instrument is tagged-frozen;
+no fix applied without his ruling):**
+
+- **(a) RECOMMENDED — 3c-local total wrapper.** `verify_3c(pred,
+  answer, answer_type)` in the exp3c tree: 2c's verify, with the
+  crashing class mapped to False — a draw whose normalization is
+  whitespace-only cannot equal any letters-type answer; garbage
+  never fires. Applied at 3c's two call surfaces only (a 3c-local
+  per_seed_tallies in the runner, replacing the exp3 import; the
+  analyzer's verify_fn). exp2c's and exp3's frozen files UNTOUCHED.
+  Verdict-preserving on every input that does not crash, by
+  construction; proof made executable by re-running the referent
+  battery through the wrapper — the 16/16 fires table, the address
+  pin, and the twin record must reproduce IDENTICALLY. Regression
+  fixture pins the class (wrapper returns False where bare
+  harness.verify raises); mutation gains a guard mutant both
+  directions.
+- (b) Fix exp2c's harness in place — REJECTED as recommendation: a
+  closed experiment's frozen tree, and the public supporting repo
+  carries the extracted copy (drift).
+- (c) Score crashing draws as attrition/excluded — REJECTED: drops
+  data a total criterion scores fine, and complicates every count.
+
+**Process question for Michael:** exp3's stop-#1 precedent was a
+ledgered stop (instrument crash, fixed pre-data, pre-committed
+change UNSPENT). This stop is the same shape — discovered
+mid-campaign, nothing scored, fix verdict-preserving — but the fix
+touches the frozen analyzer, so Michael rules whether it is a
+ledgered stop or spends 3c's one pre-committed change.
+
+**Resume plan once ratified:** implement (a) + fixtures/mutants;
+cold re-run suite + mutation + referent battery (identity of the
+16/16 recompute through the wrapper is the acceptance bar); relaunch
+the driver (skip-if-exists: gate-1 and rev_string7/410m stand;
+reverse_string/410m re-runs deterministically; then sampling/1b);
+relaunch the watcher. Per-cell push authorization unchanged.
+
+
 **2026-08-17 — CAMPAIGN LAUNCHED (post-tag). Per-cell push
 authorization RECONFIRMED with Michael at launch (§10.3; "Launch
 now, pushes authorized"), the freeze checklist's last box.** Driver
