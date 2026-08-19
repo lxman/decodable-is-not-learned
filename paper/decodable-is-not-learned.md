@@ -30,8 +30,9 @@ preregistered and a closed anchor for each of Experiments 2, 2b, 2c,
 3a, 3b, 3, 3c and 3d, the fourteen earlier anchors reproduced
 byte-identically. Archived at Zenodo under concept
 DOI 10.5281/zenodo.21830421, latest version v1.2
-(10.5281/zenodo.22011547). Remaining at submission time:
-confirmation of TMLR's AI-disclosure wording. Every
+(10.5281/zenodo.22011547). TMLR's AI-disclosure requirement is met on
+both surfaces it asks for: the first-page footnote and the Disclosure
+of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
 (`exp2-preregistered`, `exp2-closed`, `exp2b-preregistered`,
 `exp2b-closed`, `exp2c-preregistered`, `exp2c-closed`,
