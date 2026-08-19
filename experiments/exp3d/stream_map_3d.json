@@ -1,0 +1,408 @@
+{
+ "formula": "int.from_bytes(sha256('exp3|{rung}|{size}|{mode}|s{seed}|i{item}').digest()[:8], 'big') & ((1<<63)-1)",
+ "namespace_note": "the namespace string stays 'exp3' DELIBERATELY (\u00a73): seeds 16-39 extend the same committed stream families exp3 drew 0-3 and 3c drew 4-15 from",
+ "per_item_substreams": true,
+ "chunk_rows": 16,
+ "draw_order": "seeds ascending; within a seed, chunks in index order; within a chunk, rows in row order; one multinomial call per step over all rows",
+ "exp3_seeds": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "exp3c_seeds": [
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "new_seeds": {
+  "410m": [
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27
+  ],
+  "1b": [
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39
+  ]
+ },
+ "seed_blocks": {
+  "410m": [
+   [
+    16,
+    17,
+    18,
+    19
+   ],
+   [
+    20,
+    21,
+    22,
+    23
+   ],
+   [
+    24,
+    25,
+    26,
+    27
+   ]
+  ],
+  "1b": [
+   [
+    16,
+    17,
+    18,
+    19
+   ],
+   [
+    20,
+    21,
+    22,
+    23
+   ],
+   [
+    24,
+    25,
+    26,
+    27
+   ],
+   [
+    28,
+    29,
+    30,
+    31
+   ],
+   [
+    32,
+    33,
+    34,
+    35
+   ],
+   [
+    36,
+    37,
+    38,
+    39
+   ]
+  ]
+ },
+ "draws_per_seed": 64,
+ "k_new": {
+  "410m": 768,
+  "1b": 1536
+ },
+ "cells": {
+  "reverse_string/410m/trained/s0": {
+   "item0": 4780021265711923412,
+   "item499": 5759538438464608217
+  },
+  "reverse_string/410m/trained/s1": {
+   "item0": 6440447923992801879,
+   "item499": 5028261014754648301
+  },
+  "reverse_string/410m/trained/s2": {
+   "item0": 706449988393806427,
+   "item499": 3712300078614155969
+  },
+  "reverse_string/410m/trained/s3": {
+   "item0": 4961839230945511271,
+   "item499": 9091541265301566355
+  },
+  "reverse_string/410m/trained/s4": {
+   "item0": 6528994979253196112,
+   "item499": 123861370977478021
+  },
+  "reverse_string/410m/trained/s5": {
+   "item0": 5102368563806925475,
+   "item499": 6918632780136653903
+  },
+  "reverse_string/410m/trained/s6": {
+   "item0": 1527431642535311323,
+   "item499": 7829088820889958171
+  },
+  "reverse_string/410m/trained/s7": {
+   "item0": 3118243443076908548,
+   "item499": 8434647551088887577
+  },
+  "reverse_string/410m/trained/s8": {
+   "item0": 7939751966992879981,
+   "item499": 8660869234266606236
+  },
+  "reverse_string/410m/trained/s9": {
+   "item0": 4134170716980588330,
+   "item499": 2910788031509385907
+  },
+  "reverse_string/410m/trained/s10": {
+   "item0": 5504749771889003301,
+   "item499": 7704299383381484962
+  },
+  "reverse_string/410m/trained/s11": {
+   "item0": 3685351932539337179,
+   "item499": 2850437132347421625
+  },
+  "reverse_string/410m/trained/s12": {
+   "item0": 9047062400387823889,
+   "item499": 213050948062792515
+  },
+  "reverse_string/410m/trained/s13": {
+   "item0": 7272121949843893478,
+   "item499": 6766587497150660777
+  },
+  "reverse_string/410m/trained/s14": {
+   "item0": 8911597071762233639,
+   "item499": 2527222510933859981
+  },
+  "reverse_string/410m/trained/s15": {
+   "item0": 7338783071519737032,
+   "item499": 3381123888150730432
+  },
+  "reverse_string/410m/trained/s16": {
+   "item0": 5990503939032077857,
+   "item499": 808980692715589348
+  },
+  "reverse_string/410m/trained/s17": {
+   "item0": 1727662551660291669,
+   "item499": 5531828765438284649
+  },
+  "reverse_string/410m/trained/s18": {
+   "item0": 8268509143156696311,
+   "item499": 979479946735809361
+  },
+  "reverse_string/410m/trained/s19": {
+   "item0": 8931775707297552938,
+   "item499": 8716459575496135763
+  },
+  "reverse_string/410m/trained/s20": {
+   "item0": 1029943986987266536,
+   "item499": 382203806540681709
+  },
+  "reverse_string/410m/trained/s21": {
+   "item0": 7723863050800249321,
+   "item499": 2161005159078876294
+  },
+  "reverse_string/410m/trained/s22": {
+   "item0": 8364957746376817832,
+   "item499": 4082090606276291863
+  },
+  "reverse_string/410m/trained/s23": {
+   "item0": 8312908003841826418,
+   "item499": 4158052112491008398
+  },
+  "reverse_string/410m/trained/s24": {
+   "item0": 2617232783111892329,
+   "item499": 3402940234607097159
+  },
+  "reverse_string/410m/trained/s25": {
+   "item0": 4096714602808737877,
+   "item499": 2093479845651495335
+  },
+  "reverse_string/410m/trained/s26": {
+   "item0": 4583640028981098479,
+   "item499": 7083124885336274430
+  },
+  "reverse_string/410m/trained/s27": {
+   "item0": 3865729174308556441,
+   "item499": 6338573163022609767
+  },
+  "reverse_string/1b/trained/s0": {
+   "item0": 1019529888606095747,
+   "item499": 2609102734022038565
+  },
+  "reverse_string/1b/trained/s1": {
+   "item0": 222187371367360082,
+   "item499": 3353528501797259161
+  },
+  "reverse_string/1b/trained/s2": {
+   "item0": 7249927747090976652,
+   "item499": 196309683240989497
+  },
+  "reverse_string/1b/trained/s3": {
+   "item0": 2805858403960083733,
+   "item499": 8977108087456782432
+  },
+  "reverse_string/1b/trained/s4": {
+   "item0": 3067787698119348157,
+   "item499": 6486837403324168895
+  },
+  "reverse_string/1b/trained/s5": {
+   "item0": 6355266376298774663,
+   "item499": 1721533141528379785
+  },
+  "reverse_string/1b/trained/s6": {
+   "item0": 2447517271703700721,
+   "item499": 6401042724162407690
+  },
+  "reverse_string/1b/trained/s7": {
+   "item0": 4190595998714271835,
+   "item499": 8743397905526808547
+  },
+  "reverse_string/1b/trained/s8": {
+   "item0": 4035827203452211875,
+   "item499": 934721803349747876
+  },
+  "reverse_string/1b/trained/s9": {
+   "item0": 570927631792432904,
+   "item499": 7722339415939890995
+  },
+  "reverse_string/1b/trained/s10": {
+   "item0": 1261052689812419646,
+   "item499": 7685186270363324316
+  },
+  "reverse_string/1b/trained/s11": {
+   "item0": 203543721783034601,
+   "item499": 1417745276356988986
+  },
+  "reverse_string/1b/trained/s12": {
+   "item0": 5719766562929228797,
+   "item499": 1018309279923564216
+  },
+  "reverse_string/1b/trained/s13": {
+   "item0": 4852250607449062766,
+   "item499": 544301878499273936
+  },
+  "reverse_string/1b/trained/s14": {
+   "item0": 5713192232250250439,
+   "item499": 1467520763597112840
+  },
+  "reverse_string/1b/trained/s15": {
+   "item0": 6138338334934305137,
+   "item499": 168471428302040078
+  },
+  "reverse_string/1b/trained/s16": {
+   "item0": 4580484011182878942,
+   "item499": 2547425957696750729
+  },
+  "reverse_string/1b/trained/s17": {
+   "item0": 8630324433235872567,
+   "item499": 430064091525559785
+  },
+  "reverse_string/1b/trained/s18": {
+   "item0": 8265675555860850763,
+   "item499": 1591473046384121731
+  },
+  "reverse_string/1b/trained/s19": {
+   "item0": 5827075246573377378,
+   "item499": 8718534991088270165
+  },
+  "reverse_string/1b/trained/s20": {
+   "item0": 6293389279524471076,
+   "item499": 1374673865303448192
+  },
+  "reverse_string/1b/trained/s21": {
+   "item0": 2717501988412961911,
+   "item499": 856487943808542837
+  },
+  "reverse_string/1b/trained/s22": {
+   "item0": 6411611729633420386,
+   "item499": 2779439616541833655
+  },
+  "reverse_string/1b/trained/s23": {
+   "item0": 4914543991641276834,
+   "item499": 6842943678059366119
+  },
+  "reverse_string/1b/trained/s24": {
+   "item0": 1686119948535142319,
+   "item499": 3311979372042241797
+  },
+  "reverse_string/1b/trained/s25": {
+   "item0": 9143450148117767170,
+   "item499": 3950300043835305344
+  },
+  "reverse_string/1b/trained/s26": {
+   "item0": 5972945585281411461,
+   "item499": 6391020125711294339
+  },
+  "reverse_string/1b/trained/s27": {
+   "item0": 366154916591340498,
+   "item499": 3417520821168528377
+  },
+  "reverse_string/1b/trained/s28": {
+   "item0": 6550386030717732276,
+   "item499": 708333524836718720
+  },
+  "reverse_string/1b/trained/s29": {
+   "item0": 5440712233845010378,
+   "item499": 2232942575707984096
+  },
+  "reverse_string/1b/trained/s30": {
+   "item0": 3301501811471426080,
+   "item499": 7554504727289000836
+  },
+  "reverse_string/1b/trained/s31": {
+   "item0": 3955885456970274693,
+   "item499": 4919172309627462805
+  },
+  "reverse_string/1b/trained/s32": {
+   "item0": 3635115270167344277,
+   "item499": 1815882286497563176
+  },
+  "reverse_string/1b/trained/s33": {
+   "item0": 1687316329843133764,
+   "item499": 687946327556814842
+  },
+  "reverse_string/1b/trained/s34": {
+   "item0": 963526142920618022,
+   "item499": 7195277529009721455
+  },
+  "reverse_string/1b/trained/s35": {
+   "item0": 1826343721443444174,
+   "item499": 6307418026373963528
+  },
+  "reverse_string/1b/trained/s36": {
+   "item0": 7941012069350417696,
+   "item499": 6016574956760770293
+  },
+  "reverse_string/1b/trained/s37": {
+   "item0": 7178557279416009921,
+   "item499": 6531696997157367848
+  },
+  "reverse_string/1b/trained/s38": {
+   "item0": 312734430177462589,
+   "item499": 4435776710696722586
+  },
+  "reverse_string/1b/trained/s39": {
+   "item0": 5323419860351522314,
+   "item499": 3374658594441281183
+  }
+ }
+}

@@ -1,0 +1,252 @@
+{
+ "cells_3b_continuations": {
+  "ctrl_copy/1b": {
+   "canonical_among_verified": 489,
+   "examples": [
+    {
+     "answer": "ccpqc",
+     "continuation": " ccpqc\n\nQ: Repeat the string 'q",
+     "item": 0
+    },
+    {
+     "answer": "xkken",
+     "continuation": " xkken\n\nQ: Repeat the string 'x",
+     "item": 123
+    },
+    {
+     "answer": "mrdht",
+     "continuation": " mrdht\n\nQ: Repeat the string 'm",
+     "item": 436
+    }
+   ],
+   "n_items": 500,
+   "rate_among_verified": 0.9979591836734694,
+   "rate_unconditional": 0.978,
+   "startswith_canonical": 489,
+   "verified": 490
+  },
+  "ctrl_copy/410m": {
+   "canonical_among_verified": 478,
+   "examples": [
+    {
+     "answer": "ccpqc",
+     "continuation": " ccpqc\n\nQ: Repeat the string 'j",
+     "item": 0
+    },
+    {
+     "answer": "xkken",
+     "continuation": " xkken\n\nQ: Repeat the string 'j",
+     "item": 123
+    },
+    {
+     "answer": "mrdht",
+     "continuation": " mrdht\n\nQ: Repeat the string 'm",
+     "item": 436
+    }
+   ],
+   "n_items": 500,
+   "rate_among_verified": 0.9958333333333333,
+   "rate_unconditional": 0.956,
+   "startswith_canonical": 478,
+   "verified": 480
+  },
+  "reverse_string/1b": {
+   "canonical_among_verified": 0,
+   "examples": [
+    {
+     "answer": "dyayp",
+     "continuation": " pdy\n\nQ: Spell the string 'py",
+     "item": 0
+    },
+    {
+     "answer": "ecde",
+     "continuation": " eedc\n\nQ: Spell the string '",
+     "item": 123
+    },
+    {
+     "answer": "qvux",
+     "continuation": " xuvq\n\nQ: Spell the string '",
+     "item": 436
+    }
+   ],
+   "n_items": 500,
+   "rate_among_verified": null,
+   "rate_unconditional": 0.0,
+   "startswith_canonical": 0,
+   "verified": 0
+  },
+  "reverse_string/410m": {
+   "canonical_among_verified": 0,
+   "examples": [
+    {
+     "answer": "dyayp",
+     "continuation": " pyayd\n\nQ: Spell the string '",
+     "item": 0
+    },
+    {
+     "answer": "ecde",
+     "continuation": " edcba\n\nQ: Spell the string '",
+     "item": 123
+    },
+    {
+     "answer": "qvux",
+     "continuation": " xuvq\n\nQ: Spell the string '",
+     "item": 436
+    }
+   ],
+   "n_items": 500,
+   "rate_among_verified": null,
+   "rate_unconditional": 0.0,
+   "startswith_canonical": 0,
+   "verified": 0
+  }
+ },
+ "committed_fires_all_canonical": true,
+ "ctrl_canonical_among_verified_min": 0.99,
+ "ctrl_validated": true,
+ "fire_checks": [
+  {
+   "answer": "ecde",
+   "draw": 6,
+   "item": 123,
+   "seed": 8,
+   "size": "410m",
+   "startswith_canonical": true,
+   "text": " ecde\n\nA:  \n\nQ: Sp"
+  },
+  {
+   "answer": "kbjb",
+   "draw": 42,
+   "item": 174,
+   "seed": 15,
+   "size": "410m",
+   "startswith_canonical": true,
+   "text": " kbjb\n\nQ: Spell the string 'ab"
+  },
+  {
+   "answer": "iviz",
+   "draw": 40,
+   "item": 226,
+   "seed": 6,
+   "size": "410m",
+   "startswith_canonical": true,
+   "text": " iviz\n\nQ: Spell the string 'f"
+  },
+  {
+   "answer": "qvux",
+   "draw": 6,
+   "item": 436,
+   "seed": 0,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " qvux\n\nQ: Gordon_Serial's Brother"
+  },
+  {
+   "answer": "ecde",
+   "draw": 58,
+   "item": 123,
+   "seed": 5,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " ecde\n\nQ: Spell the string 'eb"
+  },
+  {
+   "answer": "ecde",
+   "draw": 53,
+   "item": 123,
+   "seed": 8,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " ecde\n\nQ: The string 'abcdeamp"
+  },
+  {
+   "answer": "ecde",
+   "draw": 34,
+   "item": 123,
+   "seed": 13,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " ecde\n\nQ: Spell the string 'eed"
+  },
+  {
+   "answer": "rxxxxd",
+   "draw": 2,
+   "item": 200,
+   "seed": 8,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " rxxxxd\n\nQ: Spell the string \""
+  },
+  {
+   "answer": "wchw",
+   "draw": 26,
+   "item": 320,
+   "seed": 15,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " wchw\n\nQ: Spell the string '"
+  },
+  {
+   "answer": "eyxh",
+   "draw": 38,
+   "item": 370,
+   "seed": 11,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " eyxh?\n\nA: \u73b0\u5728 "
+  },
+  {
+   "answer": "fkjes",
+   "draw": 42,
+   "item": 391,
+   "seed": 8,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " fkjes\n\nQ: Spell the string '"
+  },
+  {
+   "answer": "dmkd",
+   "draw": 39,
+   "item": 447,
+   "seed": 13,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " dmkd\n\nQ: Spell the string '"
+  },
+  {
+   "answer": "dmkd",
+   "draw": 43,
+   "item": 447,
+   "seed": 13,
+   "size": "1b",
+   "startswith_canonical": true,
+   "text": " dmkd\n\nQ: Spell the string '"
+  }
+ ],
+ "n_committed_fires_checked": 13,
+ "non_canonical_verified_disclosed": [
+  {
+   "answer": "vezdlr",
+   "continuation": "vezdlr\n\nQ: Repeat the string 'j",
+   "item": 82,
+   "rung": "ctrl_copy",
+   "size": "410m"
+  },
+  {
+   "answer": "aelqk",
+   "continuation": "aelqk\n\nQ: Repeat the string 'j",
+   "item": 120,
+   "rung": "ctrl_copy",
+   "size": "410m"
+  },
+  {
+   "answer": "vezdlr",
+   "continuation": "vezdlr\n\nQ: Repeat the string 'j",
+   "item": 82,
+   "rung": "ctrl_copy",
+   "size": "1b"
+  }
+ ],
+ "rule": "span = tokens of (prompt + ' ' + answer) past the prompt's own tokenization; prefix property and round-trip decode to ' ' + answer hard-asserted per item at scoring time (scoring_3d.answer_span)",
+ "tokenizer_half_note": "the real-tokenizer prefix/round-trip table for all 500 \u00d7 2 rungs \u00d7 2 sizes is computed, hard-asserted, and committed inside the scoring pass (\u00a710 order: after gate 1, before any tranche draw); the build session touches no model artifact (PROGRESS.md, build ledger)"
+}
