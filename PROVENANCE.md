@@ -84,8 +84,8 @@ repository. Tag anchors:
 | exp3-closed | 6008331 | f44c072 |
 | exp3c-preregistered | 97788eb | 012576c |
 | exp3c-closed | 3fe176b | 8169976 |
-| exp3d-preregistered | 8b2f1b0 | f16b972 |
-| exp3d-closed | 2613a2f | 48a637c |
+| exp3d-preregistered | 8b2f1b0 | 20d514a |
+| exp3d-closed | 2613a2f | b65d103 |
 
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
