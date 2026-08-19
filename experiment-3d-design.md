@@ -107,7 +107,7 @@ estimates:
 | reverse_string/410m/trained | 3 fires / 3 items; pooled 5.86e-6 | 16–27 (12) | 384,000 |
 
 - 64 draws per item per seed; 500 items; 32,000 draws per seed per
-  cell; 1,152,000 new draws total. T = 1.0, untruncated, fp16, the
+  cell; 1,152,000 new draws total. T = 1.0, untruncated, float32, the
   same sampler as exp3/3c (a further seed-extension of exp3's frozen
   sampler; module provenance asserted byte-identical at run time).
 - Per-item new budget: 1,536 draws (1b), 768 draws (410m).
@@ -125,11 +125,11 @@ estimates:
 **The committed fires (the complete in-sample set, verbatim):**
 1b — item 123 'ecde' (seeds 5, 8, 13), item 200 'rxxxxd' (seed 8),
 item 320 'wchw' (seed 15), item 370 'eyxh' (seed 11), item 391
-'fkjes' (seed 8), item 447 'dmkd' (seed 13, twice), item 436 'xuvq'
+'fkjes' (seed 8), item 447 'dmkd' (seed 13, twice), item 436 'qvux'
 (exp3, seed 0). 410m — item 123 'ecde' (seed 8), item 174 'kbjb'
 (seed 15), item 226 'iviz' (seed 6). Note the texture the functional
 must capture: 6 of the 9 distinct fired items carry a repeated
-character; 3 do not ('eyxh', 'fkjes', 'xuvq') — the signal is real
+character; 3 do not ('eyxh', 'fkjes', 'qvux') — the signal is real
 but not clean, which is what the preregistered test is for.
 
 ## 4. Referents — every input, a committed value
@@ -227,7 +227,7 @@ explain it (§8).
   with its exact permutation p (same null) — the interpretable
   headline ("X of Y new-fired items were in the frozen top decile").
 - **Unstratified AUC, descriptive:** the functional's raw ranking
-  across all 500 — this number flatters length (10 of 13 committed
+  across all 500 — this number flatters length (11 of 13 committed
   fires are len-4) and is printed precisely to show what the
   stratified primary already discounts.
 - **Persistence, descriptive:** how many new fires land on
@@ -288,9 +288,13 @@ Adjudication is the 1b primary statistic alone.
   bounds regardless.
 - **THIN qualifier, frozen now:** any verdict reached on |F| ≤ 4
   carries the label THIN in the verdict line — small fired sets can
-  formally reject (a single rank-1 fire gives p = 1/194 < .05) and
-  the label prevents a fragile rejection from reading as more than
-  it is. Expected |F| is 8–12; P(|F| ≤ 4) under committed rates is a
+  formally reject — under the REALIZED tie structure the cheapest
+  len-4 class holds 45 items, so no len-4 fire can ever beat
+  45/194 = .23, and m_min = 1 arrives instead through len-6's
+  unique-cheapest answer at p = 1/151 = .0066 — and the label
+  prevents a fragile rejection from reading as more than it is.
+  Expected |F| is 12.3 under the frozen observed-concentration
+  alternative (14.8 flat); P(|F| ≤ 4) under committed rates is a
   build-table entry.
 
 Order of verdict operations mirrors 3c §10.4: projection ledgered
@@ -325,7 +329,7 @@ All numbers are build obligations; the doc freezes their FORMS:
   entirely within strata. "Beats length" is therefore structural,
   not a comparison that can go noisy. The unstratified descriptive
   AUC (§5.4) shows what length alone buys (most of the raw
-  concentration: 10 of 13 committed fires are len-4).
+  concentration: 11 of 13 committed fires are len-4).
 - **Uniform** scores 0.5 definitionally.
 - **Persistence** is excluded as a baseline on grounds stated in
   §5.4: it is not a from-below forecaster.

@@ -72,6 +72,26 @@ M = [
      "                f\"frozen file"),
     (A, "pins: item-file sha check dropped",
      "    if got != ITEMS_SHA_PIN[rung]:", "    if False:"),
+    # ---- freeze findings F1/F2: verdict inputs pinned, not attested --
+    (A, "pins: answer_type pin dropped (F1)",
+     "        if answer_type != answer_type_pin:", "        if False:"),
+    (A, "pins: answer_type pin taken from the tree (F1)",
+     "        answer_type_pin = load_item_file(RUNG)[\"answer_type\"]",
+     "        answer_type_pin = None"),
+    (A, "pins: answer_type cross-shard leg dropped (F1)",
+     "                        rec.get(\"answer_type\") != answer_type:",
+     "                        False:"),
+    (A, "pins: gate-1 coverage pin dropped (F2)",
+     "        # both pin their count and this one did not)\n"
+     "        if n != n_items:",
+     "        # both pin their count and this one did not)\n"
+     "        if False:"),
+    (A, "pins: gate-1 coverage pin fires on the whole cell "
+        "(hardening, F2)",
+     "        # both pin their count and this one did not)\n"
+     "        if n != n_items:",
+     "        # both pin their count and this one did not)\n"
+     "        if n == n_items:"),
     (A, "pins: committed-fires pin comparison dropped",
      "        if got != want:\n            raise ValueError(\n"
      "                f\"committed fires re-extracted",
@@ -99,7 +119,9 @@ M = [
      "    if rec.get(\"seeds\") != list(block):", "    if False:"),
     (A, "shards: cross-shard answer identity dropped",
      "                if [str(x) for x in rec[\"answers\"]] != answers "
-     "or \\\n                        rec[\"items_sha256\"] != items_sha:",
+     "or \\\n                        rec[\"items_sha256\"] != items_sha "
+     "or \\\n                        rec.get(\"answer_type\") != "
+     "answer_type:",
      "                if False:"),
     # ---- scoring records (§5.5) ----
     (A, "scoring: failed ctrl gate accepted",

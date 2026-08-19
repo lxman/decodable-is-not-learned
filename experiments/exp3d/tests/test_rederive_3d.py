@@ -52,7 +52,7 @@ def test_gate1_record_round_trips_through_loader(tmp_path):
              / "reverse_string.json")
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(json.dumps(rec))
-    out = d.load_gate1_3d(tmp_path)
+    out = d.load_gate1_3d(tmp_path, n_items=20)
     assert out["1b"]["draws_compared"] == 20 * 64
     assert out["410m"]["n_diffs"] == 0
 

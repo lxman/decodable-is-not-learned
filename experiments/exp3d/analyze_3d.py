@@ -513,7 +513,7 @@ def _check_shard_provenance(rec, p, size, block) -> None:
 
 
 def load_new_cells_3d(root=EXP3D, verify_fn=None, *,
-                      n_items=N_ITEMS) -> dict:
+                      n_items=N_ITEMS, answer_type_pin=None) -> dict:
     """The 2 cells' NEW draws (§3), shard-per-seed-block, raw streams
     beside their records. Stored per-seed tallies are convenience
     copies: the analyzer RECOMPUTES them from the raw draws and
@@ -522,6 +522,8 @@ def load_new_cells_3d(root=EXP3D, verify_fn=None, *,
     stray files, no missing blocks, no duplicated seeds."""
     if verify_fn is None:
         verify_fn = c.load_verify_3c()   # 3c stop #1: total wrapper
+    if answer_type_pin is None:
+        answer_type_pin = load_item_file(RUNG)["answer_type"]
     base = Path(root) / "results" / "sampling"
     want = {}
     for size in SIZES_3D:
@@ -557,10 +559,12 @@ def load_new_cells_3d(root=EXP3D, verify_fn=None, *,
                 items_sha = rec["items_sha256"]
             else:
                 if [str(x) for x in rec["answers"]] != answers or \
-                        rec["items_sha256"] != items_sha:
+                        rec["items_sha256"] != items_sha or \
+                        rec.get("answer_type") != answer_type:
                     raise ValueError(
-                        f"{p}: answers or items_sha256 disagree with "
-                        f"this cell's other shards — not one battery")
+                        f"{p}: answers, items_sha256 or answer_type "
+                        f"disagree with this cell's other shards — not "
+                        f"one battery")
             rows = c._read_rows(gz, rec["n_items"], block,
                                 DRAWS_PER_SEED_3D)
             for row in rows:
@@ -582,6 +586,18 @@ def load_new_cells_3d(root=EXP3D, verify_fn=None, *,
                     f"{p}: per-seed tallies for seeds {sorted(dup)} "
                     f"already stored by another shard")
             stored_tallies.update(st)
+        # the verify criterion's normalization branch IS a verdict
+        # input — it decides what counts as a fire — so it is pinned,
+        # never taken on the runner's word (freeze finding F1; 3c
+        # pinned exactly this field by cross-tree comparison and 3d's
+        # shard loader had dropped the leg)
+        if answer_type != answer_type_pin:
+            raise ValueError(
+                f"{size}: shard answer_type {answer_type!r} against "
+                f"the committed item file's {answer_type_pin!r} — the "
+                f"verify criterion's normalization branch is a verdict "
+                f"input and must come from the pinned items, not a "
+                f"runner-written field")
         seeds = NEW_SEEDS_3D[size]
         rows = [merged_rows[i] for i in sorted(merged_rows)]
         for row in rows:
@@ -633,7 +649,7 @@ def load_new_cells_3d(root=EXP3D, verify_fn=None, *,
 
 # ------------------------------------------------- gate-1 records (§10.2)
 
-def load_gate1_3d(root=EXP3D) -> dict:
+def load_gate1_3d(root=EXP3D, *, n_items=N_ITEMS) -> dict:
     """The 2 byte re-derivation comparison records: 3c's committed
     seed-8 streams, both sizes, 64 draws/item — re-derived end to end
     and compared with zero tolerance. Shape rules are 3c's
@@ -665,6 +681,17 @@ def load_gate1_3d(root=EXP3D) -> dict:
         n = rec.get("n_items")
         if not isinstance(n, int) or n <= 0:
             raise ValueError(f"{p}: n_items {n!r} is not a count")
+        # coverage is pinned, not merely self-consistent: a record can
+        # attest draws_compared == n × dps for ANY n, so a truncated
+        # re-derivation would pass the zero-tolerance stream gate while
+        # comparing a subset (freeze finding F2; the sibling loaders
+        # both pin their count and this one did not)
+        if n != n_items:
+            raise ValueError(
+                f"{p}: n_items {n} against the {n_items}-item battery "
+                f"— gate 1 attests a byte comparison over the WHOLE "
+                f"cell, and a record covering a subset has no value "
+                f"(3a's class, refused)")
         dps = rec.get("draws_per_seed")
         if dps != DRAWS_PER_SEED_3D:
             raise ValueError(

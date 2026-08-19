@@ -48,8 +48,18 @@ validation, referent battery) reads closed trees only.
    §7 pre-authorized exactly this outcome: "13 fires calibrate any
    alternative loosely"). The tranche buys rate resolution (§5.4
    pooled updates to 1.28M/896k draws) regardless of the rank verdict.
-   FLAT row: P(reject) = .0482 ≈ α — the machinery is exactly
-   null-calibrated. 410m (non-gating): power .0556; P(|F| ≤ 4) = .92,
+   FLAT row — CORRECTED AT FREEZE (item f): P(STRUCTURED) = .0482
+   AND P(ANTI-STRUCTURED) = .0450. Each DIRECTION calibrates at α; the
+   tree tests both tails in sequence, so under no signal P(a
+   directional verdict) = .0932, not .05. The earlier wording
+   ("exactly null-calibrated") described the STRUCTURED branch alone.
+   Also corrected at freeze (item g): the .2616 is an OPTIMISTIC
+   figure, not a neutral one — the observed-concentration alternative
+   puts its rate mass on the same 13 fires that SELECTED C1, so the
+   simulated truth and the predictor agree by construction. Power is
+   therefore AT MOST .2616 against a fresh concentration, which makes
+   the underpowered declaration stronger, not weaker.
+   410m (non-gating): power .0556; P(|F| ≤ 4) = .92,
    so its annotation will almost surely carry THIN. P(UNINFORMATIVE)
    under committed flat rate: ~0 at 1b (m_min = 1, E|F| ≈ 14.8),
    .1055 at 410m (= e^-2.25, closed form agrees). E|F| at 1b: 14.8
@@ -235,3 +245,214 @@ build — assume more). Cold battery per FREEZE_CHECKLIST.md. Tag
 `exp3d-preregistered` on Michael's ratification of the slips (a–e)
 and the build-dial list; campaign launch is a SEPARATE go with the
 per-block push cadence reconfirmed.
+
+---
+
+## 2026-08-18 — FREEZE SESSION (session 3 of 3), opened cold
+
+Adversarial cold re-read of `experiment-3d-design.md` and every module
+under `experiments/exp3d/` against the three standing assignments, then
+the model-free cold battery. **Two findings of the named class found and
+CLOSED; three disclosure items raised for ratification.** No accepted
+dial touched; both closures are additive refusals (3c's freeze
+precedent). Doc text left untouched pending Michael's ruling on slips
+a–e.
+
+### F1 (CLOSED) — `answer_type` was a verdict input resolved outside the pins
+
+`load_new_cells_3d` took `answer_type` from the FIRST shard record and
+passed it to the verify criterion, where it selects the normalization
+branch — i.e. **what counts as a fire**. It was compared to nothing:
+not across the six shards (`answers` and `items_sha256` were), not to
+the committed item file's value (which `load_item_file` already reads
+and nothing consumed), not to exp3/3c. **3c pinned exactly this field**
+(`analyze_3c` check_shapes: `for field in ("answers", "probe_labels",
+"answer_type")`) and 3d had dropped the leg — 3c finding A's shape one
+level over.
+
+Demonstrated executably before closure: flipping one of six shards to
+`"number"` loaded clean and applied to all six blocks.
+
+Severity, stated honestly: **not reachable through the real producer** —
+`run_cell_3d` writes `cap["answer_type"]` from an item file whose sha it
+checks against `ITEMS_SHA_PIN` before sampling. Note the
+stored-vs-recompute tally check could never have caught it: runner and
+analyzer read the same field, so both sides move together.
+
+Closure (additive refusal, two legs): `answer_type` joins the
+cross-shard identity comparison, and the resolved value is checked
+against `answer_type_pin`, defaulting to `load_item_file(RUNG)
+["answer_type"]` — the sha-pinned source. Synthetic worlds pass their
+own pin, the `items_sha_pin` convention `load_scoring_3d` already uses.
+
+### F2 (CLOSED) — gate 1's coverage was unpinned
+
+`load_gate1_3d` validated `draws_compared == n_items × draws_per_seed`
+— internal consistency only; `n_items` was checked as a positive int
+and never against the battery. A truncated re-derivation would pass the
+ZERO-TOLERANCE stream gate having compared a subset, and
+`gate1_total_draws_compared` would report the short number. The
+acceptance was fixtured in (`test_gate1_record_round_trips_through_
+loader` builds an `n_items=20` record and asserts it loads).
+
+Demonstrated before closure: a record hand-truncated to `n_items=3 /
+draws_compared=192` — self-consistent — loaded clean.
+
+Both sibling loaders pin their count (`load_new_cells_3d`,
+`load_scoring_3d` each take `n_items=N_ITEMS`); this one had no such
+parameter. 3c pinned it by cross-tree comparison (`if g["n"] !=
+exp3_cells[key]["n"]`).
+
+Severity: **not reachable through the real producer** —
+`rederive_cell_3d` writes `n_items=len(answers)` = 500 and `diff_seed`
+hard-errors on incomplete coverage in both directions.
+
+Closure: `load_gate1_3d(root, *, n_items=N_ITEMS)` with a hard refusal
+on mismatch; synthetic worlds pass their N.
+
+### Ratification items raised by the freeze (no code change)
+
+f. **The §7 concession's calibration sentence is true of ONE tail.**
+   "FLAT row: P(reject) = .0482 ≈ α — the machinery is exactly
+   null-calibrated" (ledger item 4) describes the STRUCTURED branch. The
+   committed 1b FLAT row is STRUCTURED .0482 **and ANTI-STRUCTURED
+   .0450**; the tree tests both tails in sequence, so under no signal
+   **P(a directional verdict) = .0932**. Each direction calibrates at α;
+   their union does not. ANTI-STRUCTURED is a preregistered world
+   reported with equal prominence (§6), so this is a wording precision
+   item, not a defect — the number is already in `power_3d.json`.
+
+g. **The .2616 is selection-flavoured, which STRENGTHENS the
+   concession.** The observed-concentration alternative puts rate mass
+   ∝ (c_i + λ) on the same 13 fires that SELECTED C1, so the simulated
+   truth and the predictor agree by construction. Power is therefore
+   optimistic: ≤ .2616 against a fresh concentration, versus the .75
+   bar. (Attacked separately and cleared: the λ dial cannot be accused
+   of flattering — λ̂ = .0256 sits on the MORE powerful side of the
+   committed grid, .374 @ .01 → .058 @ 1.0, and still declares
+   underpowered.)
+
+h. **m_min = 1 is realized at an in-sample item.** It comes from item
+   200 'rxxxxd', the unique-cheapest len-6 answer, which is itself one
+   of the 13 committed fires — so the single-fire rejection path is most
+   likely a REPEAT ('ecde' already fired 4× across sizes). Formally
+   valid (the null is over items, not fire history), but a THIN
+   STRUCTURED verdict riding on item 200 would be a persistence event
+   wearing a forecast's p-value, and §5.4 excludes persistence as a
+   forecaster. Immaterial at the adjudicating cell (1b P(|F| ≤ 4) =
+   .0022); material at 410m (.9234), which is non-gating and already
+   annotated THIN. Proposed handling: a sentence in the verdict reading
+   and the retrospective, no design change.
+
+### Attacked and CLEARED (standing assignments, no action)
+
+- **Verify-criterion totality (stop-#1 rule), fuzzed:** 81,026 draw-side
+  inputs — the full 29-character Python whitespace class × the strip
+  set, unicode (incl. the committed item-370 fire's ' eyxh?\n\nA: 现在'),
+  lone surrogates, zero-width/format chars, empty and whitespace-only
+  and newline-first draws, the no-leading-space verified class
+  ('vezdlr'), 40,000 seeded random strings, and non-str JSON values —
+  **0 escaped exceptions, 0 non-bool returns**, 7 scoring True (live).
+  Proved by construction too: on a `str`, `normalize_answer` can raise
+  only `IndexError`, from `s.split()[0]` when the string survives both
+  strips as pure non-space whitespace ("'\t'" → "\t") — exactly the
+  committed crasher class. Answer side stays hard, 3/3.
+- **The functional's remaining degrees of freedom:** sorted-count
+  summation makes same-partition strings bit-identical; len-4's two
+  values (6.0 / 8.0) are exact in binary FP so the binary stratum
+  carries no ulp risk; `-0.0` for an all-one-character answer compares
+  and hashes equal to `0.0`; `math.log2` used consistently; the LZ78
+  trailing-phrase convention matches its worked parses ('rxxxxd' →
+  r|x|xx|xd = 4); the selection tie-chain is deterministic and never
+  fired (margin .0006).
+- **The exact null:** the convex-combination recurrence is correct, all
+  coefficients in [0,1], and no mass is truncated (the max reachable sum
+  for m items is ≤ smax by construction); the observed T always lies in
+  the support, so the exact path cannot emit p = 0. m_min's best-case
+  search is the true minimum (p_low is monotone in T at fixed
+  composition, and the search minimises over both placement and
+  composition).
+- **The empty-fired path:** `stratified_rank_test` omits `thin` at
+  |F| = 0, but `verdict_3d` computes `thin` locally and guards every
+  `None` p; the UNSTRUCTURED branch (which formats p) is unreachable at
+  |F| = 0 because m_min ≥ 1.
+- **Frozen-order enforcement:** three layers confirmed. Noted: the
+  analyzer enforces the RULES, not the temporal order — git's per-block
+  commit history is the order record, as in 3c.
+
+### Non-blocking observation
+
+`scoring_3d.score_items` never rebinds `past`; correctness depends on
+transformers' Cache being mutated in place across steps. True on the
+pinned stack and the ctrl_copy known-answer gate would catch a
+regression, but nothing asserts the cache length. Left as-is: adding an
+assert is a change to a scoring path that cannot be exercised before
+first model contact.
+
+### Freeze cold battery (fresh processes, pycache cleared)
+
+| item | result |
+|---|---|
+| fixture suite | **121 passed** (117 + 4 new F1/F2 fixtures) |
+| mutation battery, both directions | **KILLED 56/56, baseline clean** (51 + 5 new) |
+| full-shape worlds | **13 tests / 8 worlds**, all terminals |
+| referent battery, real trees | **13/13** |
+| `functional_selection_3d.json` | byte-identical `2a2c358e…` |
+| `power_3d.json` | byte-identical `88a0b74c…` |
+| `span_validation_3d.json` | byte-identical `c36e3714…` |
+| `stream_map_3d.json` | byte-identical `55ff2294…`, both overlap laws |
+| campaign dry-run | 6 tiers in the frozen §10 order |
+| runner refusals, empty tree | scoring + sampling refuse BEFORE model load |
+| verify totality fuzz | 81,026 inputs, 0 escapes |
+
+The closures move no committed number: all four artifacts reproduce
+byte-identically with the refusals in place, as pure refusals must.
+
+**Harness lesson (ledgered, house-standard candidate):** the mutation
+battery mutates repo sources IN PLACE, so nothing may run beside it.
+Running the referent battery and full-shape concurrently with it early
+this session produced three spurious failures that re-ran clean —
+the battery is sequential-only, and a "failure" observed during a
+mutation run is evidence of nothing. Related: three mutants came back
+`[broken-target]` after the closures (two new ones whose bare
+`if n != n_items:` pattern also matched the scoring loader's 12-space
+occurrence, and the PRE-EXISTING cross-shard mutant whose target text
+F1 had extended). All three retargeted; the harness naming
+broken-targets rather than counting them killed is what caught it.
+
+### Still open at the end of session 3
+
+- Michael's ratification: slips a–e, the build-dial list, the §7
+  concession line, and freeze items f–h above.
+- Determinism fixture ×2 and the gate-1 rehearsal — both load a model,
+  both held for his word.
+- Tag `exp3d-preregistered`; campaign launch a SEPARATE go.
+- One pre-committed change still UNSPENT.
+
+### Sanctioned model contact (2026-08-18, on Michael's word)
+
+**Determinism fixture ×2 — byte-identical three ways.** Two fresh
+processes and exp3's committed reference all hash
+`791ce4779c29b566ac3e3e0a78d2488df7257229e8dd7006a00b40eb0450f4cb`.
+torch/transformers versions are serialized into the compared bytes by
+design, so this is a stack-drift check as well as a determinism check:
+**no drift since exp3.**
+
+**Gate-1 rehearsal — IDENTICAL.** `rederive_cell_3d("410m")` against
+3c's committed seed-8 reverse_string stream: **32,000/32,000 draws
+byte-identical, n_diffs 0**, no diffs to disclose. The stream carries
+the 410m 'ecde' fire, so a fire reproduced byte-for-byte. The record
+attests committed-draws sha `b3422b4f…`, which equals both the file on
+disk and the §4 literal pin — the finding-B loop closes in both
+directions on real bytes. Stack torch 2.12.1 / transformers 5.13.0,
+model_sha 9879c9b5, dtype float32.
+
+This is the **fourth consecutive byte-identical reproduction** of the
+committed streams on this stack (three through 3c, now 3d's).
+
+It also gave the F2 closure its first live pass: the real producer
+writes `n_items=500`, the new coverage pin accepted it, and the loader
+then correctly demanded the still-missing 1b record — so the pin
+refuses synthetic truncations AND admits the genuine article. The 1b
+gate-1 half runs at campaign launch per §10's order; the 410m record is
+kept as the campaign's own comparison made early (3c's precedent).

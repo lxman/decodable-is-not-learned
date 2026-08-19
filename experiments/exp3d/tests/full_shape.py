@@ -373,8 +373,9 @@ def build_world(tmp: Path, *, new_fires, gate1_diffs=None,
                                  fired_sets=SYN_FIRED_SETS)
     power_pin = d.load_power_pin(selection, power_path)
     new_cells = d.load_new_cells_3d(root_3d, verify_fn=verify_fn,
-                                    n_items=N)
-    gate1 = d.load_gate1_3d(root_3d)
+                                    n_items=N,
+                                    answer_type_pin=ANSWER_TYPE)
+    gate1 = d.load_gate1_3d(root_3d, n_items=N)
     d.check_gate1_committed_shas_3d(gate1, c3_root, expected=true_shas)
     scoring = d.load_scoring_3d(root_3d, items_sha_pin=SYN_ITEMS_SHA,
                                 ctrl_rate_pin=SYN_CTRL_RATE, n_items=N)

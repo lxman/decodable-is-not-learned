@@ -110,7 +110,8 @@ def tree_3d(tmp_path):
 
 def _load(root):
     return d.load_new_cells_3d(root, verify_fn=c.load_verify_3c(),
-                               n_items=fs.N)
+                               n_items=fs.N,
+                               answer_type_pin=fs.ANSWER_TYPE)
 
 
 def test_shards_load_clean(tree_3d):
@@ -200,10 +201,58 @@ def test_items_sha_presence_required(tree_3d):
         _load(tree_3d)
 
 
+# freeze finding F1: the verify criterion's normalization branch is a
+# verdict input — it decides what counts as a fire — so it is pinned to
+# the committed item file and cross-checked across shards, never taken
+# on the runner's word (3c pinned exactly this field; 3d had dropped
+# the leg).
+
+def test_answer_type_disagreeing_across_shards_refused(tree_3d):
+    _edit_record(tree_3d, "1b", (20, 21, 22, 23), answer_type="number")
+    with pytest.raises(ValueError, match="answer_type"):
+        _load(tree_3d)
+
+
+def test_answer_type_against_the_item_pin_refused(tree_3d):
+    for block in d.SEED_BLOCKS["410m"]:
+        _edit_record(tree_3d, "410m", block, answer_type="number")
+    with pytest.raises(ValueError, match="normalization branch"):
+        _load(tree_3d)
+
+
+def test_answer_type_pin_defaults_to_the_committed_item_file(tree_3d):
+    # no pin passed: it resolves through the SHA-PINNED item file, so
+    # the tree under analysis can never supply its own criterion
+    out = d.load_new_cells_3d(tree_3d, verify_fn=c.load_verify_3c(),
+                              n_items=fs.N)
+    assert out["1b"]["answer_type"] == "word"
+    assert d.load_item_file(d.RUNG)["answer_type"] == "word"
+    for block in d.SEED_BLOCKS["1b"]:
+        _edit_record(tree_3d, "1b", block, answer_type="number")
+    with pytest.raises(ValueError, match="normalization branch"):
+        d.load_new_cells_3d(tree_3d, verify_fn=c.load_verify_3c(),
+                            n_items=fs.N)
+
+
 # ------------------------------------------------------- gate-1 loader
 
+def test_gate1_truncated_coverage_refused(tree_3d):
+    """Freeze finding F2: draws_compared == n × dps is only internal
+    consistency — a record can attest it for ANY n, so a truncated
+    re-derivation would pass the zero-tolerance stream gate while
+    having compared a subset."""
+    p = tree_3d / "results" / "gate1" / "1b_trained" \
+        / "reverse_string.json"
+    rec = json.loads(p.read_text())
+    rec["n_items"] = 3
+    rec["draws_compared"] = 3 * d.DRAWS_PER_SEED_3D   # self-consistent
+    p.write_text(json.dumps(rec))
+    with pytest.raises(ValueError, match="item battery"):
+        d.load_gate1_3d(tree_3d, n_items=fs.N)
+
+
 def test_gate1_loads_and_refuses(tree_3d):
-    recs = d.load_gate1_3d(tree_3d)
+    recs = d.load_gate1_3d(tree_3d, n_items=fs.N)
     assert recs["1b"]["n_diffs"] == 0
     p = tree_3d / "results" / "gate1" / "1b_trained" \
         / "reverse_string.json"
@@ -212,30 +261,30 @@ def test_gate1_loads_and_refuses(tree_3d):
     bad = dict(rec, seeds_rederived=[0])
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="seed 8"):
-        d.load_gate1_3d(tree_3d)
+        d.load_gate1_3d(tree_3d, n_items=fs.N)
 
     bad = dict(rec, n_diffs=3)
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="disclosed diffs"):
-        d.load_gate1_3d(tree_3d)
+        d.load_gate1_3d(tree_3d, n_items=fs.N)
 
     bad = dict(rec, committed_draws_sha256="")
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="compared against"):
-        d.load_gate1_3d(tree_3d)
+        d.load_gate1_3d(tree_3d, n_items=fs.N)
 
     bad = dict(rec, draws_compared=7)
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="compared nothing|against "
                                          "n_items"):
-        d.load_gate1_3d(tree_3d)
+        d.load_gate1_3d(tree_3d, n_items=fs.N)
 
     bad = dict(rec, diffs=[{"item": 1, "seed": 0, "draw": 2,
                             "got": "x", "committed": "y"}],
                n_diffs=1)
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="verbatim differing"):
-        d.load_gate1_3d(tree_3d)
+        d.load_gate1_3d(tree_3d, n_items=fs.N)
 
 
 def test_gate1_committed_sha_loop(tmp_path):
@@ -244,7 +293,7 @@ def test_gate1_committed_sha_loop(tmp_path):
     root = tmp_path / "exp3d"
     true_shas = fs.write_3d_tree(root, c3, new_fires={"1b": [],
                                                       "410m": []})
-    recs = d.load_gate1_3d(root)
+    recs = d.load_gate1_3d(root, n_items=fs.N)
     d.check_gate1_committed_shas_3d(recs, c3, expected=true_shas)
     # attestation != disk
     p = root / "results" / "gate1" / "1b_trained" \
@@ -253,14 +302,15 @@ def test_gate1_committed_sha_loop(tmp_path):
     rec["committed_draws_sha256"] = "f" * 64
     p.write_text(json.dumps(rec))
     with pytest.raises(ValueError, match="finding B"):
-        d.check_gate1_committed_shas_3d(d.load_gate1_3d(root), c3,
-                                        expected=true_shas)
+        d.check_gate1_committed_shas_3d(
+            d.load_gate1_3d(root, n_items=fs.N), c3,
+            expected=true_shas)
     # disk != §4 pin
     rec["committed_draws_sha256"] = true_shas["1b"]
     p.write_text(json.dumps(rec))
     with pytest.raises(ValueError, match="literal pin"):
         d.check_gate1_committed_shas_3d(
-            d.load_gate1_3d(root), c3,
+            d.load_gate1_3d(root, n_items=fs.N), c3,
             expected={"410m": true_shas["410m"], "1b": "f" * 64})
 
 
