@@ -456,3 +456,105 @@ then correctly demanded the still-missing 1b record — so the pin
 refuses synthetic truncations AND admits the genuine article. The 1b
 gate-1 half runs at campaign launch per §10's order; the 410m record is
 kept as the campaign's own comparison made early (3c's precedent).
+
+---
+
+## 2026-08-18/19 — CAMPAIGN (launched on Michael's go)
+
+**Complete in 448.4 min (7.5 h), zero attrition, zero stops.** Frozen
+§10 order executed exactly: gate 1 → scoring → tranche, 410m before 1b,
+seed blocks ascending. Preflight passed for both sizes at float32, and
+both preflight artifacts reproduced BYTE-IDENTICALLY to exp3's
+committed ones — a further stack-stability check nobody asked for.
+
+### Gate 1 — both cells IDENTICAL
+
+410m re-derived at the freeze (32,000 draws, 0 diffs); 1b at launch in
+800 s (32,000 draws, 0 diffs). **64,000/64,000 draws byte-identical**,
+the §10.2 requirement met exactly. Fourth and fifth consecutive
+byte-identical reproductions of the committed streams on this stack.
+
+### Scoring — both known-answer gates PASS
+
+| cell | p̂ | committed r | band | p̂/r |
+|---|---|---|---|---|
+| ctrl_copy/410m | .6764 | .7992 | [.3996, .8192] | .846 |
+| ctrl_copy/1b | .7382 | .8413 | [.4206, .8613] | .878 |
+
+All four scoring cells reported **0 zero-probability items**, so the ℓ
+arm has complete coverage and the `+inf` tie path the freeze attacked
+is unexercised at both sizes.
+
+The gate values are worth more than the PASS flags. Both land BELOW r,
+which is the direction §5.5's mechanism requires (exp(ℓ) is
+canonical-path prefix mass, so verified draws reached by a
+non-canonical tokenization count in r but not in p̂), and the two
+independently scored cells agree to within three points — .846 vs .878.
+A per-cell scorer bug would not reproduce that agreement. The ~13% gap
+is the concrete size of the lower-bound caveat the calibration arm
+carries.
+
+### Tranche — 13 new fires in 1,152,000 draws
+
+Per block (descriptive; the analyzer recomputes everything from raw
+draws at verdict time):
+- 410m: s16–19 **1**, s20–23 **1**, s24–27 **2** → **4 / 384,000** =
+  1.042e-5
+- 1b: s16–19 **3**, s20–23 **2**, s24–27 **1**, s28–31 **2**,
+  s32–35 **0**, s36–39 **1** → **9 / 768,000** = 1.172e-5
+
+### Two observations, recorded before any verdict
+
+1. **The 1b cell came in LOW.** 9 fires against 15 expected at the
+   committed pooled rate — about a 7th-percentile Poisson outcome. The
+   new-draw rate 1.172e-5 is almost exactly HALF exp3c's new-draw point
+   estimate of 2.34e-5, and 3c's DEEPENS rested partly on that estimate
+   running 3.0× exp3's. This does not touch 3c's verdict, which was
+   adjudicated on its own committed draws under the asymmetry rule, but
+   it is a downward regression on that figure and the retrospective
+   should say so. Pooled 1b now **19/1,280,000 = 1.484e-5**.
+2. **The two cells CONVERGED on new draws.** The committed base had 1b
+   at 3.3× the 410m rate (1.953e-5 vs 5.86e-6); on new draws they sit
+   within 12% (1.172e-5 vs 1.042e-5). Pooled 410m **7/896,000 =
+   7.81e-6**. Whether that is noise or size-independence is a question
+   for the retrospective, not something two cells can settle.
+
+Consequence for the primary, stated in advance: |F| at 1b will land
+below the committed E|F| of 12.3 — bounded above by 9. Still far above
+THIN_MAX = 4 and m_min = 1, so no THIN qualifier attaches and the cell
+can adjudicate; but a smaller fired set is a coarser rank test, so
+realized power sits BELOW the .2616 already declared underpowered in
+advance, on top of item g's selection-optimism.
+
+This also largely retires freeze item **h**: the persistence hazard was
+specific to a THIN rejection riding on in-sample item 200, and at
+|F| ≈ 7–9 spread across strata no single item can carry the statistic.
+Retired by the data, not by argument.
+
+### Contamination discipline held
+
+Per-block COUNTS were visible during the run (the runner prints them,
+the watcher commits them — disclosed by design). **No fired-item
+IDENTITY has been inspected by anyone at any point**, and the analyzer
+has not been run. The §10.5 projection is therefore still writable
+against an uncontaminated item-level record; counts constrain a
+rank-order projection barely at all, addresses would constrain it a
+lot.
+
+### Durable cadence, verified
+
+14 watcher commits (1 gate-1 + 4 scoring + 9 shard pairs; the 410m
+gate-1 record rode in with the freeze commit). First watcher commit was
+inspected live and carried exactly its one record. All 15 units on
+disk, all committed, master in sync with origin throughout.
+
+Watcher cosmetic note for the NEXT experiment, not fixed mid-campaign:
+it names commits by bare basename, so the two gate-1 records both read
+"reverse_string.json landed" and are distinguishable only by their
+diff. Shards are unambiguous.
+
+### Still open
+
+- §10.5 **projection**, ledgered BEFORE the analyzer runs.
+- Frozen analyzer runs ONCE on Michael's go → verdict + retrospective.
+- One pre-committed change still UNSPENT.
