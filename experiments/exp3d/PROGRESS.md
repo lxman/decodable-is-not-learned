@@ -558,3 +558,69 @@ diff. Shards are unambiguous.
 - §10.5 **projection**, ledgered BEFORE the analyzer runs.
 - Frozen analyzer runs ONCE on Michael's go → verdict + retrospective.
 - One pre-committed change still UNSPENT.
+
+---
+
+## 2026-08-19 — PROJECTION (§10.5), ledgered BEFORE the analyzer runs
+
+Drafted by Claude, approved by Michael's instruction ("ledger the data
+then run the analyzer") and NOT amended by him — attribution recorded
+precisely so the retrospective grades the right author. Committed and
+pushed before `analyze_3d.run()` is invoked; git history is the proof
+of ordering.
+
+**Contamination position at the time of writing:** per-block fire
+COUNTS were visible during the campaign (printed by the runner,
+committed by the watcher — disclosed by design). **No fired-item
+identity has been inspected, and the analyzer has not been run.** Counts
+constrain a rank-order projection barely at all.
+
+### Primary call
+
+**UNSTRUCTURED** — |F| ≥ m_min with no rejection in either direction.
+
+Odds attached, so the call is gradeable rather than hedged:
+- P(UNSTRUCTURED) ≈ .70–.75
+- P(STRUCTURED) ≈ .20–.25
+- P(ANTI-STRUCTURED) < .05
+- P(UNINFORMATIVE) ≈ 0 (m_min = 1, |F| ≥ 4 already guaranteed)
+
+Reasoning, in order of weight:
+1. Power at the observed-concentration alternative was **.2616**, and
+   the realized |F| ≤ 9 against the assumed E|F| = 12.3 makes the
+   realized figure LOWER still. An underpowered test's modal outcome is
+   no rejection.
+2. Item **g**: that .2616 is itself optimistic, since the alternative
+   concentrates rate mass on the same 13 fires that selected C1.
+3. C1's in-sample 1b AUC is only **.679** — modest even where it was
+   fitted. The 410m .890 is the flattering half and 410m is non-gating.
+4. The len-4 stratum is BINARY (45 repeat-class vs 149 all-distinct),
+   and 11 of 13 committed fires are len-4, so most of the fired set
+   lands in a stratum that can only say "repeat vs not."
+
+### Gradeable sub-predictions
+
+| # | prediction |
+|---|---|
+| P1 | 1b \|F\| lands in **7–9** inclusive |
+| P2 | 1b verdict carries **no THIN** qualifier |
+| P3 | 410m \|F\| ≤ 4 and its annotation **carries THIN** |
+| P4 | **0 leak voids** across both cells |
+| P5 | 1b p_low **> .05**, most likely in **.10–.60** |
+| P6 | **≥ 1 new fire lands on a previously-fired item** (persistence; 'ecde' carried 4 of 13 committed fires) |
+| P7 | the ℓ-arm rank test **also fails to reject** at 1b |
+| P8 | Spearman(functional, ℓ-cost) **weakly positive, 0 to +.35** — the two tiers agree a little, not a lot |
+| P9 | gate-1 total draws compared = **64,000**, 0 diffs (mechanical, but it is a verdict input) |
+
+### Named disconfirmer
+
+**If 1b p_low ≤ .05, this projection is WRONG at the verdict level** and
+the retrospective says so without softening. A STRUCTURED result on a
+test this underpowered would be the strongest single datum the program
+has produced on signature 3 at item grain — and it would also mean I
+mis-weighted C1's modest in-sample AUC.
+
+Restated so the projection cannot claim credit either way: I am
+predicting the null outcome of an experiment DECLARED UNDERPOWERED IN
+ADVANCE. UNSTRUCTURED is the cheap call and deserves little credit if
+it lands; STRUCTURED against these odds would be the informative one.
