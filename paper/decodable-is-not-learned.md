@@ -924,7 +924,8 @@ because the mutation battery only exercises what the fixtures reach.
 The assignment "find the class defect" is a search of the seams
 between the tested and the real, and it belongs on the checklist, not
 in the discretion of whoever feels adversarial that day. (Full rulings
-under the `exp3-*` and `exp3c-*` tags in the supporting record.)
+under the `exp3-*`, `exp3c-*` and `exp3d-*` tags in the supporting
+record.)
 
 **The fifth lesson: a frozen criterion must be total over the alphabet
 it scores.** The scoring criterion those freezes protected then failed
@@ -955,6 +956,38 @@ wrappers, empty and near-empty strings) and require a verdict, not an
 exception, on all of it. A frozen criterion is a function on
 everything a model can emit, not only on the answers a designer
 imagined.
+
+**The sixth lesson: a preregistered power table is a claim about the
+alternative's shape, not only its size.** The same program's
+rank-prediction experiment declared itself underpowered in advance —
+computed power 0.26 against a house bar of 0.75 — published that
+concession in its frozen design, ran anyway, and then rejected its
+null at p = 1.6e-4, four orders of magnitude below the level. A
+p-value that far past a test's stated reach is not good luck; it is
+evidence the alternative was specified wrongly, and the
+specification error is recoverable from the committed power record.
+The frozen alternative distributed rate mass over the individual
+items that had been observed to succeed — thirteen of them,
+add-smoothed — while the structure the data actually carried was a
+forty-five-item equivalence class of which those thirteen were an
+unrepresentative sample. A success helped the statistic only if it
+landed on one of the modelled items; in reality it helped if it
+landed anywhere in the class. The target was roughly six times
+larger than modelled, and no amount of tuning the smoothing constant
+would have revealed that, because the sensitivity analysis varied
+how strongly an item-level story was diluted and never asked whether
+the story was item-level at all. The freeze had already printed the
+predictor's tie structure and recorded that one stratum was binary —
+the information needed to catch this was in the frozen record,
+unread. The rule: when a design freezes a predictor whose ties
+collapse items into equivalence classes, compute the power table
+over those realized classes as well as over per-item counts, and
+treat a large discrepancy between the two as the design question it
+is. The corollary is worth stating separately because it cuts
+against intuition: a coarse instrument is not a weak one. Tie
+structure bounds what a statistic can express, not how large an
+effect it can detect, and a design that confuses the two will
+under-power itself on paper and be surprised by its own result.
 
 ## 7. The screen at inclusion time
 
@@ -1388,7 +1421,8 @@ release; v1.0 10.5281/zenodo.21830422, v1.1 with the Experiment 3
 and 3c records 10.5281/zenodo.21998671).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
-`exp3c-*`), whose freeze rulings and totality stop Section 6 draws on;
+`exp3c-*`, `exp3d-*`), whose freeze rulings, totality stop and power
+mis-specification Section 6 draws on;
 interim stage tags (e.g. `exp2c-stage1`) exist only in the private
 repository. Commit SHAs quoted inside the ledgers resolve through that
 repository's PROVENANCE.md.
