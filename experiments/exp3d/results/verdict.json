@@ -1,0 +1,990 @@
+{
+ "worlds": [
+  "STRUCTURED",
+  "ANTI-STRUCTURED",
+  "UNSTRUCTURED",
+  "UNINFORMATIVE"
+ ],
+ "adjudicating_size": "1b",
+ "replication_size": "410m",
+ "functional": {
+  "winner": "C1_unigram_bits",
+  "m_min": 1,
+  "m_min_anti_direction_disclosed": 4,
+  "tie_structure": {
+   "4": {
+    "n_items": 194,
+    "n_distinct_values": 2,
+    "groups": [
+     {
+      "value": 6.0,
+      "count": 45,
+      "midrank": 23.0
+     },
+     {
+      "value": 8.0,
+      "count": 149,
+      "midrank": 120.0
+     }
+    ]
+   },
+   "5": {
+    "n_items": 155,
+    "n_distinct_values": 4,
+    "groups": [
+     {
+      "value": 6.854752972273344,
+      "count": 2,
+      "midrank": 1.5
+     },
+     {
+      "value": 7.6096404744368105,
+      "count": 2,
+      "midrank": 3.5
+     },
+     {
+      "value": 9.609640474436812,
+      "count": 56,
+      "midrank": 32.5
+     },
+     {
+      "value": 11.60964047443681,
+      "count": 95,
+      "midrank": 108.0
+     }
+    ]
+   },
+   "6": {
+    "n_items": 151,
+    "n_distinct_values": 7,
+    "groups": [
+     {
+      "value": 7.5097750043269365,
+      "count": 1,
+      "midrank": 1.0
+     },
+     {
+      "value": 8.754887502163468,
+      "count": 2,
+      "midrank": 2.5
+     },
+     {
+      "value": 9.509775004326936,
+      "count": 1,
+      "midrank": 4.0
+     },
+     {
+      "value": 10.754887502163468,
+      "count": 6,
+      "midrank": 7.5
+     },
+     {
+      "value": 11.509775004326936,
+      "count": 8,
+      "midrank": 14.5
+     },
+     {
+      "value": 13.509775004326936,
+      "count": 63,
+      "midrank": 50.0
+     },
+     {
+      "value": 15.509775004326936,
+      "count": 70,
+      "midrank": 116.5
+     }
+    ]
+   }
+  },
+  "decile_bucket": [
+   0,
+   9,
+   10,
+   14,
+   18,
+   19,
+   21,
+   23,
+   26,
+   46,
+   50,
+   51,
+   52,
+   60,
+   64,
+   65,
+   68,
+   69,
+   71,
+   78,
+   81,
+   86,
+   93,
+   94,
+   100,
+   123,
+   128,
+   133,
+   143,
+   148,
+   152,
+   153,
+   154,
+   159,
+   163,
+   164,
+   169,
+   174,
+   179,
+   182,
+   194,
+   200,
+   208,
+   210,
+   228,
+   232,
+   263,
+   268,
+   300,
+   373,
+   393,
+   464
+  ],
+  "in_sample_selection_table": [
+   {
+    "candidate": "C1_unigram_bits",
+    "auc_1b": 0.6789431545236189,
+    "auc_1b_per_stratum": {
+     "4": {
+      "n_fired": 5,
+      "n_unfired": 189,
+      "weight": 945,
+      "auc": 0.6888888888888889
+     },
+     "5": {
+      "n_fired": 1,
+      "n_unfired": 154,
+      "weight": 154,
+      "auc": 0.3051948051948052
+     },
+     "6": {
+      "n_fired": 1,
+      "n_unfired": 150,
+      "weight": 150,
+      "auc": 1.0
+     }
+    },
+    "auc_410m": 0.8900523560209425,
+    "auc_410m_per_stratum": {
+     "4": {
+      "n_fired": 3,
+      "n_unfired": 191,
+      "weight": 573,
+      "auc": 0.8900523560209425
+     },
+     "5": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     },
+     "6": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     }
+    },
+    "mean_auc": 0.7844977552722807
+   },
+   {
+    "candidate": "C2_distinct_ratio",
+    "auc_1b": 0.677742193755004,
+    "auc_1b_per_stratum": {
+     "4": {
+      "n_fired": 5,
+      "n_unfired": 189,
+      "weight": 945,
+      "auc": 0.6888888888888889
+     },
+     "5": {
+      "n_fired": 1,
+      "n_unfired": 154,
+      "weight": 154,
+      "auc": 0.3051948051948052
+     },
+     "6": {
+      "n_fired": 1,
+      "n_unfired": 150,
+      "weight": 150,
+      "auc": 0.99
+     }
+    },
+    "auc_410m": 0.8900523560209425,
+    "auc_410m_per_stratum": {
+     "4": {
+      "n_fired": 3,
+      "n_unfired": 191,
+      "weight": 573,
+      "auc": 0.8900523560209425
+     },
+     "5": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     },
+     "6": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     }
+    },
+    "mean_auc": 0.7838972748879732
+   },
+   {
+    "candidate": "C3_neg_longest_run",
+    "auc_1b": 0.5032025620496398,
+    "auc_1b_per_stratum": {
+     "4": {
+      "n_fired": 5,
+      "n_unfired": 189,
+      "weight": 945,
+      "auc": 0.4365079365079365
+     },
+     "5": {
+      "n_fired": 1,
+      "n_unfired": 154,
+      "weight": 154,
+      "auc": 0.42857142857142855
+     },
+     "6": {
+      "n_fired": 1,
+      "n_unfired": 150,
+      "weight": 150,
+      "auc": 1.0
+     }
+    },
+    "auc_410m": 0.43717277486910994,
+    "auc_410m_per_stratum": {
+     "4": {
+      "n_fired": 3,
+      "n_unfired": 191,
+      "weight": 573,
+      "auc": 0.43717277486910994
+     },
+     "5": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     },
+     "6": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     }
+    },
+    "mean_auc": 0.4701876684593749
+   },
+   {
+    "candidate": "C4_lz78_phrases",
+    "auc_1b": 0.5012009607686149,
+    "auc_1b_per_stratum": {
+     "4": {
+      "n_fired": 5,
+      "n_unfired": 189,
+      "weight": 945,
+      "auc": 0.4444444444444444
+     },
+     "5": {
+      "n_fired": 1,
+      "n_unfired": 154,
+      "weight": 154,
+      "auc": 0.37337662337662336
+     },
+     "6": {
+      "n_fired": 1,
+      "n_unfired": 150,
+      "weight": 150,
+      "auc": 0.99
+     }
+    },
+    "auc_410m": 0.6143106457242583,
+    "auc_410m_per_stratum": {
+     "4": {
+      "n_fired": 3,
+      "n_unfired": 191,
+      "weight": 573,
+      "auc": 0.6143106457242583
+     },
+     "5": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     },
+     "6": {
+      "n_fired": 0,
+      "note": "no fired items \u2014 stratum carries no selection weight"
+     }
+    },
+    "mean_auc": 0.5577558032464366
+   }
+  ],
+  "in_sample_note": "in-sample scores are motivation, not evidence (\u00a75.1); nothing downstream cites them as support"
+ },
+ "gate1": {
+  "1b": {
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "diffs": [],
+   "committed_draws_sha256": "d673dafceb47f1d5affcbc30080f3c79caf7d3f1053853d7e76a28433a6e0b46"
+  },
+  "410m": {
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "diffs": [],
+   "committed_draws_sha256": "b3422b4fcf492519c697ca9bb2a668713c6bcdf178147c157af79c8cad05561e"
+  }
+ },
+ "gate1_total_draws_compared": 64000,
+ "fires": {
+  "410m": {
+   "new": {
+    "count": 4,
+    "n_draws": 384000,
+    "rate": 1.0416666666666666e-05,
+    "ci95": [
+     2.8381981362017927e-06,
+     2.6670587087415223e-05
+    ]
+   },
+   "raw_fire_count_pre_void": 4,
+   "addresses": [
+    {
+     "item": 123,
+     "seed": 24,
+     "draw": 62,
+     "text": " ecde\n\nQ: Spell the string '",
+     "answer": "ecde",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 283,
+     "seed": 27,
+     "draw": 10,
+     "text": " qaba\n\nQ: Spell the string 'a",
+     "answer": "qaba",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 305,
+     "seed": 18,
+     "draw": 60,
+     "text": " dtwc\n\nQ: Spell the string '",
+     "answer": "dtwc",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 382,
+     "seed": 20,
+     "draw": 28,
+     "text": " tdsa\n\nQ: Spell the string '",
+     "answer": "tdsa",
+     "answer_len": 4,
+     "void": false
+    }
+   ],
+   "fired_items": [
+    123,
+    283,
+    305,
+    382
+   ],
+   "per_seed_full_string": {
+    "16": 0,
+    "17": 0,
+    "18": 1,
+    "19": 0,
+    "20": 1,
+    "21": 0,
+    "22": 0,
+    "23": 0,
+    "24": 1,
+    "25": 0,
+    "26": 0,
+    "27": 1
+   }
+  },
+  "1b": {
+   "new": {
+    "count": 9,
+    "n_draws": 768000,
+    "rate": 1.171875e-05,
+    "ci95": [
+     5.358572272693127e-06,
+     2.224572073552053e-05
+    ]
+   },
+   "raw_fire_count_pre_void": 9,
+   "addresses": [
+    {
+     "item": 72,
+     "seed": 16,
+     "draw": 11,
+     "text": " astu\n\nQ: Spell the string 'ic",
+     "answer": "astu",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 123,
+     "seed": 19,
+     "draw": 21,
+     "text": " ecde\n\nQ: Confirm disability using symbols.",
+     "answer": "ecde",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 123,
+     "seed": 36,
+     "draw": 52,
+     "text": " ecde\n\nThanks for helping! So far no 1",
+     "answer": "ecde",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 153,
+     "seed": 29,
+     "draw": 41,
+     "text": " qffp\n\nQ: Spell the date \"",
+     "answer": "qffp",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 179,
+     "seed": 30,
+     "draw": 8,
+     "text": " aefe\n\nQ: Spell the string '",
+     "answer": "aefe",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 283,
+     "seed": 25,
+     "draw": 41,
+     "text": "  qaba\n\nQ: Spell the string '",
+     "answer": "qaba",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 348,
+     "seed": 20,
+     "draw": 14,
+     "text": " mhmp \n* \u30ad\u30e7\n\n",
+     "answer": "mhmp",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 430,
+     "seed": 20,
+     "draw": 43,
+     "text": " pbpd\n\nQ: Spell the string '",
+     "answer": "pbpd",
+     "answer_len": 4,
+     "void": false
+    },
+    {
+     "item": 447,
+     "seed": 17,
+     "draw": 24,
+     "text": " dmkd\n\n.-SFT\n\n.-S",
+     "answer": "dmkd",
+     "answer_len": 4,
+     "void": false
+    }
+   ],
+   "fired_items": [
+    72,
+    123,
+    153,
+    179,
+    283,
+    348,
+    430,
+    447
+   ],
+   "per_seed_full_string": {
+    "16": 1,
+    "17": 1,
+    "18": 0,
+    "19": 1,
+    "20": 2,
+    "21": 0,
+    "22": 0,
+    "23": 0,
+    "24": 0,
+    "25": 1,
+    "26": 0,
+    "27": 0,
+    "28": 0,
+    "29": 1,
+    "30": 1,
+    "31": 0,
+    "32": 0,
+    "33": 0,
+    "34": 0,
+    "35": 0,
+    "36": 1,
+    "37": 0,
+    "38": 0,
+    "39": 0
+   }
+  }
+ },
+ "tests": {
+  "410m": {
+   "T": 286.0,
+   "n_fired": 4,
+   "composition": {
+    "4": 4,
+    "5": 0,
+    "6": 0
+   },
+   "p_low": 0.23035707094337304,
+   "p_high": 0.9604395985861267,
+   "path": "exact_dp",
+   "alpha": 0.05,
+   "thin": true
+  },
+  "1b": {
+   "T": 281.0,
+   "n_fired": 8,
+   "composition": {
+    "4": 8,
+    "5": 0,
+    "6": 0
+   },
+   "p_low": 0.0001622885974421724,
+   "p_high": 0.9999949862059329,
+   "path": "exact_dp",
+   "alpha": 0.05,
+   "thin": false
+  }
+ },
+ "pooled": {
+  "410m": {
+   "count": 7,
+   "n_draws": 896000,
+   "rate": 7.8125e-06,
+   "ci95": [
+    3.1410357752531717e-06,
+    1.6096669220244063e-05
+   ],
+   "committed_count": 3,
+   "new_count": 4
+  },
+  "1b": {
+   "count": 19,
+   "n_draws": 1280000,
+   "rate": 1.484375e-05,
+   "ci95": [
+    8.936930063263023e-06,
+    2.3180257730141287e-05
+   ],
+   "committed_count": 10,
+   "new_count": 9
+  }
+ },
+ "strata": {
+  "410m": {
+   "4": {
+    "n_items": 194,
+    "new": {
+     "count": 4,
+     "n_draws": 148992,
+     "rate": 2.6847079037800687e-05,
+     "ci95": [
+      7.314972347171828e-06,
+      6.873774535715613e-05
+     ]
+    },
+    "pooled": {
+     "count": 7,
+     "n_draws": 347648,
+     "rate": 2.0135309278350515e-05,
+     "ci95": [
+      8.0954757288716e-06,
+      4.1485989828596014e-05
+     ]
+    },
+    "luck_floor": 2.1882987290360982e-06
+   },
+   "5": {
+    "n_items": 155,
+    "new": {
+     "count": 0,
+     "n_draws": 119040,
+     "rate": 0.0,
+     "cp95_upper": 2.5165445051477897e-05
+    },
+    "pooled": {
+     "count": 0,
+     "n_draws": 277760,
+     "rate": 0.0,
+     "cp95_upper": 1.0785268284262715e-05
+    },
+    "luck_floor": 8.416533573215762e-08
+   },
+   "6": {
+    "n_items": 151,
+    "new": {
+     "count": 0,
+     "n_draws": 115968,
+     "rate": 0.0,
+     "cp95_upper": 2.583207074713185e-05
+    },
+    "pooled": {
+     "count": 0,
+     "n_draws": 270592,
+     "rate": 0.0,
+     "cp95_upper": 1.1070969173861625e-05
+    },
+    "luck_floor": 3.2371282973906776e-09
+   }
+  },
+  "1b": {
+   "4": {
+    "n_items": 194,
+    "new": {
+     "count": 9,
+     "n_draws": 297984,
+     "rate": 3.0202963917525774e-05,
+     "ci95": [
+      1.381080837377131e-05,
+      5.7333855785169076e-05
+     ]
+    },
+    "pooled": {
+     "count": 17,
+     "n_draws": 496640,
+     "rate": 3.423002577319588e-05,
+     "ci95": [
+      1.9940373826100845e-05,
+      5.480502334914168e-05
+     ]
+    },
+    "luck_floor": 2.1882987290360982e-06
+   },
+   "5": {
+    "n_items": 155,
+    "new": {
+     "count": 0,
+     "n_draws": 238080,
+     "rate": 0.0,
+     "cp95_upper": 1.2582801689188122e-05
+    },
+    "pooled": {
+     "count": 1,
+     "n_draws": 396800,
+     "rate": 2.5201612903225806e-06,
+     "ci95": [
+      6.380495760229098e-08,
+      1.4041359109921135e-05
+     ]
+    },
+    "luck_floor": 8.416533573215762e-08
+   },
+   "6": {
+    "n_items": 151,
+    "new": {
+     "count": 0,
+     "n_draws": 231936,
+     "rate": 0.0,
+     "cp95_upper": 1.291611878662818e-05
+    },
+    "pooled": {
+     "count": 1,
+     "n_draws": 386560,
+     "rate": 2.5869205298013245e-06,
+     "ci95": [
+      6.549515509931965e-08,
+      1.4413313443168423e-05
+     ]
+    },
+    "luck_floor": 3.2371282973906776e-09
+   }
+  }
+ },
+ "bucket_tests": {
+  "410m": {
+   "observed_overlap": 1,
+   "p_upper": 0.3551981515005315,
+   "bucket_size": 52
+  },
+  "1b": {
+   "observed_overlap": 3,
+   "p_upper": 0.03774104602423368,
+   "bucket_size": 52
+  }
+ },
+ "persistence": {
+  "410m": {
+   "previously_fired_items": [
+    123,
+    174,
+    226
+   ],
+   "new_fired_items": [
+    123,
+    283,
+    305,
+    382
+   ],
+   "overlap": [
+    123
+   ],
+   "note": "persistence is NOT a competing forecaster (\u00a75.4): it requires having sampled, which is exactly what a from-below forecast does without"
+  },
+  "1b": {
+   "previously_fired_items": [
+    123,
+    200,
+    320,
+    370,
+    391,
+    436,
+    447
+   ],
+   "new_fired_items": [
+    72,
+    123,
+    153,
+    179,
+    283,
+    348,
+    430,
+    447
+   ],
+   "overlap": [
+    123,
+    447
+   ],
+   "note": "persistence is NOT a competing forecaster (\u00a75.4): it requires having sampled, which is exactly what a from-below forecast does without"
+  }
+ },
+ "unstratified_auc_descriptive": {
+  "410m": 0.8558467741935484,
+  "1b": 0.9364837398373984
+ },
+ "scoring_arm": {
+  "410m": {
+   "rank_test": {
+    "T": 66.0,
+    "n_fired": 4,
+    "composition": {
+     "4": 4,
+     "5": 0,
+     "6": 0
+    },
+    "p_low": 0.00043234408485473227,
+    "p_high": 0.9995951854050842,
+    "path": "exact_dp",
+    "alpha": 0.05,
+    "thin": true
+   },
+   "unstratified_auc": 0.9702620967741935,
+   "spearman_functional_vs_ell_cost": 0.8742717880833634,
+   "none_ell_items": 0,
+   "calibration_by_stratum": {
+    "4": {
+     "predicted_fires_lower_bound": 4.9377314225054665,
+     "observed_non_void_fires": 4
+    },
+    "5": {
+     "predicted_fires_lower_bound": 0.09822439677421267,
+     "observed_non_void_fires": 0
+    },
+    "6": {
+     "predicted_fires_lower_bound": 0.05012601821208054,
+     "observed_non_void_fires": 0
+    }
+   },
+   "calibration_caveat": "predicted fires = \u03a3_i k_i \u00d7 exp(\u2113_i) is a LOWER bound on expected verified fires in the leading-space form (the canonical tokenization is one path among the verify-accepted set), except for the prefix-mass edge: a canonical span continued by a word character counts in exp(\u2113) but fails verify. Descriptive only; no calibration world gates anything (\u00a75.5).",
+   "known_answer_gate": {
+    "predicted_rate": 0.676415747200364,
+    "committed_count": 12787,
+    "committed_n_draws": 16000,
+    "committed_rate": 0.7991875,
+    "band": [
+     0.39959375,
+     0.8191875000000001
+    ],
+    "lower_factor": 0.5,
+    "upper_margin": 0.02,
+    "passed": true
+   }
+  },
+  "1b": {
+   "rank_test": {
+    "T": 88.0,
+    "n_fired": 8,
+    "composition": {
+     "4": 8,
+     "5": 0,
+     "6": 0
+    },
+    "p_low": 7.914489828582748e-09,
+    "p_high": 0.9999999929609754,
+    "path": "exact_dp",
+    "alpha": 0.05,
+    "thin": false
+   },
+   "unstratified_auc": 0.9857723577235772,
+   "spearman_functional_vs_ell_cost": 0.8783926741424062,
+   "none_ell_items": 0,
+   "calibration_by_stratum": {
+    "4": {
+     "predicted_fires_lower_bound": 17.350477022894168,
+     "observed_non_void_fires": 9
+    },
+    "5": {
+     "predicted_fires_lower_bound": 0.5101885068570445,
+     "observed_non_void_fires": 0
+    },
+    "6": {
+     "predicted_fires_lower_bound": 0.20468527711152057,
+     "observed_non_void_fires": 0
+    }
+   },
+   "calibration_caveat": "predicted fires = \u03a3_i k_i \u00d7 exp(\u2113_i) is a LOWER bound on expected verified fires in the leading-space form (the canonical tokenization is one path among the verify-accepted set), except for the prefix-mass edge: a canonical span continued by a word character counts in exp(\u2113) but fails verify. Descriptive only; no calibration world gates anything (\u00a75.5).",
+   "known_answer_gate": {
+    "predicted_rate": 0.738201554089584,
+    "committed_count": 13460,
+    "committed_n_draws": 16000,
+    "committed_rate": 0.84125,
+    "band": [
+     0.420625,
+     0.8612500000000001
+    ],
+    "lower_factor": 0.5,
+    "upper_margin": 0.02,
+    "passed": true
+   }
+  }
+ },
+ "mean_draw_len_new": {
+  "410m": 30.427354166666667,
+  "1b": 29.9035078125
+ },
+ "per_seed_pooled_view": {
+  "410m": {
+   "0": 0,
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 0,
+   "5": 0,
+   "6": 1,
+   "7": 0,
+   "8": 1,
+   "9": 0,
+   "10": 0,
+   "11": 0,
+   "12": 0,
+   "13": 0,
+   "14": 0,
+   "15": 1,
+   "16": 0,
+   "17": 0,
+   "18": 1,
+   "19": 0,
+   "20": 1,
+   "21": 0,
+   "22": 0,
+   "23": 0,
+   "24": 1,
+   "25": 0,
+   "26": 0,
+   "27": 1
+  },
+  "1b": {
+   "0": 1,
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 0,
+   "5": 1,
+   "6": 0,
+   "7": 0,
+   "8": 3,
+   "9": 0,
+   "10": 0,
+   "11": 1,
+   "12": 0,
+   "13": 3,
+   "14": 0,
+   "15": 1,
+   "16": 1,
+   "17": 1,
+   "18": 0,
+   "19": 1,
+   "20": 2,
+   "21": 0,
+   "22": 0,
+   "23": 0,
+   "24": 0,
+   "25": 1,
+   "26": 0,
+   "27": 0,
+   "28": 0,
+   "29": 1,
+   "30": 1,
+   "31": 0,
+   "32": 0,
+   "33": 0,
+   "34": 0,
+   "35": 0,
+   "36": 1,
+   "37": 0,
+   "38": 0,
+   "39": 0
+  }
+ },
+ "blind_region": {
+  "410m": {
+   "new_zero_bound": 7.801355698313215e-06,
+   "pooled_zero_bound": 3.3434456088362073e-06
+  },
+  "1b": {
+   "new_zero_bound": 3.900685456830124e-06,
+   "pooled_zero_bound": 2.3404130999430423e-06
+  }
+ },
+ "twin_record": {
+  "cells": 8,
+  "fires": 0,
+  "reversal_twin_draws": 512000,
+  "control_twin_draws": 64000,
+  "statement": "no new twin was sampled (\u00a74): exp3's committed twin record \u2014 0 fires across all 8 untrained cells, 512,000 reversal-twin draws + 64,000 control-twin draws \u2014 is the standing contamination referent, re-asserted from raw draws at this load"
+ },
+ "leak_voids": [],
+ "luck_floor_by_length": {
+  "4": 2.1882987290360982e-06,
+  "5": 8.416533573215762e-08,
+  "6": 3.2371282973906776e-09
+ },
+ "alpha": 0.05,
+ "adjudication": {
+  "n_fired": 8,
+  "thin": false,
+  "m_min": 1,
+  "p_low": 0.0001622885974421724,
+  "p_high": 0.9999949862059329,
+  "replication_410m": {
+   "n_fired": 4,
+   "p_low": 0.23035707094337304,
+   "rejects": false
+  }
+ },
+ "verdict": "STRUCTURED",
+ "reason": "the frozen functional forecast the new fires: |F| = 8 new-fired item(s) {'4': 8, '5': 0, '6': 0}, T = 281.0, path exact_dp, one-sided p = 0.000162289 \u2264 0.05 in the predicted direction \u2014 the sampled channel's item-grain reach is forecastable from answer structure alone, before drawing (unreplicated at 410m's disclosed power; the annotation modifies nothing). Every fire disclosed verbatim with its (item, seed, draw) address."
+}

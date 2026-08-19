@@ -624,3 +624,57 @@ Restated so the projection cannot claim credit either way: I am
 predicting the null outcome of an experiment DECLARED UNDERPOWERED IN
 ADVANCE. UNSTRUCTURED is the cheap call and deserves little credit if
 it lands; STRUCTURED against these odds would be the informative one.
+
+---
+
+## 2026-08-19 — VERDICT: STRUCTURED (analyzer run once, on Michael's go)
+
+**p = 1.622886e-04, |F| = 8, not THIN.** Full record in
+`results/VERDICT.txt`; grading and thesis reading in
+`results/retrospective.md`.
+
+All 8 fired items landed in the len-4 stratum, binary by the freeze's
+own printed tie structure: **7 of 8 in the 45-item repeat class**
+against 1.86 expected — a 23.2× per-item rate ratio (7/45 = 15.6% vs
+1/149 = 0.67%). T = 281.0 re-derived by hand as 7×23 + 1×120.
+Persistence does NOT explain it: six of eight fired items had never
+fired before, and five of the seven repeat-class fires are on items
+with no prior fire — freeze item **h** retired on evidence.
+
+410m: |F| = 4, p = .230357, same direction, THIN, non-gating.
+
+Secondaries: ℓ arm p = 7.91e-09 (1b) / 4.32e-04 (410m),
+Spearman(functional, ℓ-cost) = .878 — but exp(ℓ) approximates the
+probability of emitting the answer and a fire IS that emission, so the
+ℓ arm is closer to a consistency check than an independent forecast.
+Decile bucket 3/8, p = .0377, diluted exactly as the freeze predicted
+(20 of 45 tied items chosen by arbitrary index). Pooled updates:
+1b 19/1,280,000 = 1.484e-05, 410m 7/896,000 = 7.813e-06.
+
+Gates all clean: gate 1 64,000/64,000 byte-identical 0 diffs, both
+ctrl gates PASS, 0 leak voids, 0 twin fires across 8 cells, determinism
+byte-identical to exp3's committed reference. Campaign 448.4 min, zero
+attrition. **Pre-committed change UNSPENT** through the entire
+experiment.
+
+**Projection MISSED at the verdict level** (`e5ae9c0`, sealed before
+the run). Named disconfirmer fired. Sub-predictions 6 hit / 3 missed,
+and the split is the finding: every hit was bookkeeping, every miss was
+science. Graded in full in the retrospective.
+
+**The transferable result: the power model was mis-SHAPED, not merely
+pessimistic.** Declared underpowered at .2616, rejected at 1.6e-4. The
+frozen alternative modelled ITEM-level concentration on the 13
+committed fires; the truth is a CLASS-level contrast over 45 items — a
+target ~6× larger. The λ sensitivity grid explored the wrong dimension
+throughout. Successor rule proposed: when the tie structure is printed
+at freeze, model the alternative in that structure's own terms.
+
+**Thesis bearing (retrospective §5):** reverse_string at 410m/1b now
+satisfies **all three signatures** — probeable (3b), elicitable (3/3c),
+forecastable from below (3d) — the program's first complete case on a
+real model. Stated with its limit: a live alternative survives (cheap
+strings are a priori more probable, and answers sharing characters
+with their own input are more reachable by copying), so 3d forecasts
+which items are cheap to emit, not necessarily which the model
+half-knows. The carve-out is untouched.

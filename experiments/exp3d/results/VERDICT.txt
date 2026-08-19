@@ -1,0 +1,140 @@
+EXPERIMENT 3d — VERDICT: STRUCTURED
+Rank prediction: is the sampled channel forecastable at ITEM grain?
+Adjudicated 2026-08-19 from the frozen analyzer, run ONCE.
+
+================================================================
+THE CALL
+================================================================
+STRUCTURED (not THIN).  1b primary, the only adjudicating statistic:
+
+  |F| = 8 new-fired items, composition {len-4: 8, len-5: 0, len-6: 0}
+  T = 281.0, exact-DP null at the observed composition
+  one-sided p = 1.622886e-04  <=  alpha = .05, predicted direction
+  m_min = 1, THIN_MAX = 4, |F| = 8 -> no THIN qualifier
+
+The frozen, model-free structural functional -- selected in-sample on
+the 13 committed fires and committed with all 500 values BEFORE any
+new draw -- forecast which items fired in a tranche that did not yet
+exist.
+
+410m replication (non-gating, THIN): |F| = 4, T = 286.0, p = .230357.
+Same direction, does not reject at its disclosed power.  Verdict line
+reads "unreplicated at 410m's disclosed power"; the annotation
+modifies nothing.
+
+================================================================
+WHAT THE NUMBER IS MADE OF
+================================================================
+Every fire at both cells landed in the len-4 stratum, which the freeze
+record printed as BINARY: 45 items whose answer carries a repeated
+character (C1 = 6.0) vs 149 all-distinct (C1 = 8.0).
+
+  repeat-class:   7 of 45 items fired   = 15.6%
+  all-distinct:   1 of 149 items fired  =  0.67%
+  per-item ratio: 23.2x
+  expected repeat-class under the null: 8 x 45/194 = 1.86
+
+  T check by hand: 7 x 23 + 1 x 120 = 281  (analyzer: 281.0)
+
+PERSISTENCE DOES NOT EXPLAIN IT.  Six of the eight 1b fired items had
+never fired before (overlap with the committed set: items 123 and 447
+only).  Five of the seven repeat-class fires are on items with no
+prior fire.  The functional forecast items it had never seen fire.
+
+================================================================
+THE FIRES, VERBATIM (item, seed, draw)
+================================================================
+1b -- 9 fires / 768,000 new draws = 1.172e-05, CI95 [5.36e-06, 2.22e-05]
+  item  72 'astu' seed 16 draw 11      item 123 'ecde' seed 19 draw 21
+  item 123 'ecde' seed 36 draw 52      item 153 'qffp' seed 29 draw 41
+  item 179 'aefe' seed 30 draw  8      item 283 'qaba' seed 25 draw 41
+  item 348 'mhmp' seed 20 draw 14      item 430 'pbpd' seed 20 draw 43
+  item 447 'dmkd' seed 17 draw 24
+
+410m -- 4 fires / 384,000 new draws = 1.042e-05, CI95 [2.84e-06, 2.67e-05]
+  item 123 'ecde' seed 24 draw 62      item 283 'qaba' seed 27 draw 10
+  item 305 'dtwc' seed 18 draw 60      item 382 'tdsa' seed 20 draw 28
+
+Zero leak voids across both cells.
+
+================================================================
+GATES AND REFERENTS -- ALL CLEAN
+================================================================
+Gate 1 (stream continuity, zero tolerance):
+  64,000 / 64,000 draws byte-identical, 0 diffs, both cells.
+  Fourth and fifth consecutive byte-identical reproductions of the
+  committed streams on this stack (torch 2.12.1 / transformers 5.13.0).
+Scoring known-answer gates (ctrl_copy):  PASS both.
+  410m p-hat .6764 vs committed r .7992, band [.3996, .8192], ratio .846
+  1b   p-hat .7382 vs committed r .8413, band [.4206, .8613], ratio .878
+  Both BELOW r, the direction the prefix-mass mechanism requires; two
+  independently scored cells agreeing to three points.
+Twin record: 0 fires across 8 untrained cells, re-asserted from raw
+  draws.  No new twin was sampled.
+Determinism fixture: byte-identical across two fresh processes AND to
+  exp3's committed reference (791ce477...).
+Frozen-import pins, item-file shas, 13 committed fire addresses,
+  selection record, m_min, stream map: all recomputed and matched.
+Campaign: 448.4 min, zero attrition, zero stops, no pre-committed
+  change spent (still UNSPENT).
+
+================================================================
+SECONDARIES
+================================================================
+Teacher-forced log-prob arm (named secondary, non-gating):
+  1b   p = 7.91e-09   410m p = 4.32e-04
+  Spearman(functional, ell-cost) = 0.878 -- the two tiers agree strongly
+  unstratified AUC: ell .986 vs functional .936 (1b)
+  READ THIS WITH CARE: exp(ell) approximates the probability of
+  emitting the answer, and a fire IS emitting the answer, so the ell
+  arm is close to a consistency check rather than an independent
+  forecast.  The load-bearing result is the MODEL-FREE functional.
+
+Decile bucket (frozen at tag): 1b 3 of 8 in the 52-item bucket,
+  p = .0377; 410m 1 of 4, p = .355.  Weak, and diluted exactly as the
+  freeze predicted -- the bucket takes 20 of the 45 tied repeat-class
+  items by ARBITRARY item index, so class membership is a coin flip
+  inside the tie group.
+
+Pooled rate updates (the tranche's value regardless of the rank test):
+  1b   19 / 1,280,000 = 1.484e-05, CI95 [8.94e-06, 2.32e-05]
+  410m  7 /   896,000 = 7.813e-06, CI95 [3.14e-06, 1.61e-05]
+
+================================================================
+SCOPE -- WHAT THIS DOES NOT SAY
+================================================================
+1. ONE STRATUM CARRIED THE TEST.  len-5 and len-6 produced zero fires
+   across 470,016 new draws.  Section 8's "within-length by
+   construction" defence holds, but only len-4 carried information.
+2. C1 COLLAPSED TO "HAS A REPEATED CHARACTER."  The binary len-4 tie
+   structure was printed at freeze as exactly this risk and it landed.
+   C1's finer gradations were never exercised; this is not a test of
+   unigram entropy as a graded predictor.
+3. NO MECHANISM CLAIM (section 9).  A live alternative this experiment
+   cannot exclude: low-entropy answers are a priori more probable
+   strings, and answers sharing more characters with their own input
+   are more reachable by copy-like emission -- and ctrl_copy shows
+   copying is near-perfect.  "Compressibility forecasts fires" is a
+   statement about a frozen functional and a frozen event, not about
+   circuits or partial reversal competence.
+4. NO CROSS-FAMILY GENERALIZATION.  reverse_string only, Pythia
+   410m/1b, T = 1.0 untruncated, these budgets.  rev_string7's standing
+   bounds are untouched; no closed experiment is re-adjudicated.
+5. THE POWER MODEL WAS MIS-SHAPED, NOT MERELY PESSIMISTIC.  Declared
+   underpowered in advance at .2616; rejected at 1.6e-04.  The frozen
+   alternative modelled ITEM-level concentration on the 13 committed
+   fires with add-lambda smoothing; the realized structure is a
+   CLASS-level contrast over 45 items -- a far larger target.  The
+   miss was in the alternative's shape, not its size.
+
+================================================================
+PROJECTION: MISSED AT THE VERDICT LEVEL
+================================================================
+Ledgered in e5ae9c0 BEFORE the analyzer ran: UNSTRUCTURED at .70-.75,
+with the named disconfirmer "if 1b p_low <= .05 this projection is
+WRONG at the verdict level."  It fired.  Sub-predictions 6 hit / 3
+missed, and the split is unflattering: the hits were bookkeeping
+(|F| = 8 inside 7-9, no THIN, 0 voids, persistence present, gate-1
+64,000/0, 410m THIN), the misses were the science (the verdict; the
+ell arm rejecting; tier agreement predicted 0 to +.35, actual .878).
+Full grading in retrospective.md.
