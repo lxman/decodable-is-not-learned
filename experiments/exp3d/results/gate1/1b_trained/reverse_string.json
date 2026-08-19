@@ -1,0 +1,21 @@
+{
+ "rung": "reverse_string",
+ "size": "1b",
+ "mode": "trained",
+ "n_items": 500,
+ "seeds_rederived": [
+  8
+ ],
+ "draws_per_seed": 64,
+ "draws_compared": 32000,
+ "n_diffs": 0,
+ "diffs": [],
+ "committed_draws_sha256": "d673dafceb47f1d5affcbc30080f3c79caf7d3f1053853d7e76a28433a6e0b46",
+ "items_sha256": "ad5bdcd944e3b983da42825a493eb813269b0ffebadb64f40fb1ee0f834f68c9",
+ "model_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "dtype": "float32",
+ "stack": {
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ }
+}
