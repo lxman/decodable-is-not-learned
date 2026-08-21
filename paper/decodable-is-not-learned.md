@@ -32,8 +32,8 @@ re-extracted 2026-08-21 to carry the exp3e record: eighteen tags, a
 preregistered and a closed anchor for each of Experiments 2, 2b, 2c,
 3a, 3b, 3, 3c, 3d and 3e, the sixteen earlier anchors reproduced
 byte-identically. Archived at Zenodo under concept
-DOI 10.5281/zenodo.21830421, latest version v1.2
-(10.5281/zenodo.22011547). TMLR's AI-disclosure requirement is met on
+DOI 10.5281/zenodo.21830421, latest version v1.3
+(10.5281/zenodo.22045940, the exp3e record). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
@@ -1457,7 +1457,8 @@ the paper's arXiv submission and archived at Zenodo (concept
 DOI 10.5281/zenodo.21830421, resolving to the latest archived
 release; v1.0 10.5281/zenodo.21830422, v1.1 with the Experiment 3
 and 3c records 10.5281/zenodo.21998671, v1.2 with the Experiment 3d
-record 10.5281/zenodo.22011547).
+record 10.5281/zenodo.22011547, v1.3 with the Experiment 3e record
+10.5281/zenodo.22045940).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power

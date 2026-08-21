@@ -604,3 +604,11 @@ count 6 = baseline, `_build.html` absent; the one `jordan.mymail`
 content hit is the TMLR byline, public since the 3d round). Anchors:
 exp3e-preregistered d1031a6 → e5cba1f, exp3e-closed 244a0e9 → c393617;
 apparatus commit 03fc543. Zenodo v1.3 not minted — Michael's call.
+
+### Zenodo v1.3 MINTED — 2026-08-21 (Michael: "cut it")
+
+GitHub release `v1.3` on the public repo at the apparatus commit
+03fc543 → Zenodo webhook → **10.5281/zenodo.22045940** under concept DOI
+10.5281/zenodo.21830421 (v1.0 21830422, v1.1 21998671, v1.2 22011547).
+Paper status block, disclosure paragraph, `\zenodospan` in the TMLR
+source, PROVENANCE.md and README.md brought current; PDFs rebuilt.
