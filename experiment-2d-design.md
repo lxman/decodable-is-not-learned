@@ -1,8 +1,10 @@
 # Experiment 2d — Design Doc: The Sampling Ladder — Does the Sampled Channel at 410m/1b Forecast Which Capabilities Ascend by 12b?
 
-**Status: DRAFT — session 1 (design) of the three-session
-design | build | freeze protocol. Nothing is built; no model is
-touched. Dials for Michael's ruling are collected in §12.**
+**Status: DESIGN RULED — session 1 (design) of the three-session
+design | build | freeze protocol, with the §12 dials ruled by Michael
+on 2026-08-21 and applied in place (rulings c and g reversed the
+session-1 proposals; three non-dial fixes applied alongside). Nothing
+is built; no model is touched. Session 2 builds `experiments/exp2d/`.**
 
 Lineage: Experiment 2 → 2b → 2c (Prediction 2, the probe ladder: the
 instrument died twice to untrained-weights controls and once to an
@@ -182,9 +184,14 @@ margin** = max(0, acc − c_g) / (1 − c_g), zeroed unless acc exceeds
 c_g by a one-sided exact binomial test at α = .01 over the 500 items
 (replacing 2c's Fisher test against the ~0 untrained floor, which is
 the defect 2c's retrospective names). The **corrected ascent** =
-mean over 2.8b/6.9b/12b. **Rising** ⇔ corrected ascent > 0. Every
-untrained-twin accuracy is still printed beside it; the untrained
-floor is reported, not used.
+mean over 2.8b/6.9b/12b. **Rising** ⇔ corrected ascent > 0 — that
+is, the rung clears its floor at ANY of the three eval sizes; the
+rule mirrors 2c's ascent, and "by 12b" in the title and §1 is
+shorthand for it, not a 12b-only condition. sub3_mid (.528 / .028 /
+.022) is rising under this rule by 2.8b alone, and stays so. The
+12b-only split (clears the floor at 12b) is printed as a sensitivity,
+non-gating. Every untrained-twin accuracy is still printed beside
+it; the untrained floor is reported, not used.
 
 2c's frozen ascent (untrained floor, Fisher) is carried as a second
 outcome column for one purpose only: comparability with 2c's ρ .368.
@@ -204,7 +211,12 @@ guard, sampled at 100,000 seeded draws above it), applied to the
 rising indicator against the predictor score. One-sided, α = .01
 (2c's level), the PASS direction being AUC > .5. The family-cluster
 bootstrap 95% CI on AUC (10,000 resamples of families, seeded) is the
-falsifier as in 2c: a CI including .5 is FAIL.
+falsifier as in 2c: a CI including .5 is FAIL. A resample whose
+rungs contain no rising rung, or no non-rising rung, leaves AUC
+undefined: such resamples are DROPPED AND COUNTED (the drop count
+and the number of valid resamples are printed beside the CI), never
+imputed at .5. Six of sixteen families carry all the rising rungs,
+so the drop rate is not small and is reported, not hidden.
 
 ### 5.4 Named secondaries (non-gating)
 
@@ -219,13 +231,23 @@ falsifier as in 2c: a CI including .5 is FAIL.
 - **The probe-flat-but-rising pair (the §1 second question):**
   sub3_mid and arith_next's sampled rates at both sizes with CP
   bounds. The disconfirmer of the instrument-ladder story, written
-  now: a rung that rises by 2.8b with a 1b sampled rate below 1e-4
-  (32,000-draw CP) AND a probe margin of zero is a percolation-class
-  candidate; both pairs landing there is the sharpest available
-  disconfirmation of "forecastable from below" on this battery.
+  now: a rung that rises (§5.2) with ZERO verified draws in its
+  32,000 main-tranche 1b draws (CP95 ≤ 9.4e-5 — one verified draw
+  already puts the bound at ~1.5e-4, so the threshold is a zero
+  count and is stated as one) AND a probe margin of zero is a
+  percolation-class candidate; both rungs landing there is the
+  sharpest available disconfirmation of "forecastable from below"
+  on this battery.
 - **Argmax at 410m/1b (descriptive):** greedy accuracy on the same
   items, giving every rung its ladder reading — probe (2c), sampled
-  rate (2d), argmax — at the two small sizes.
+  rate (2d), argmax — at the two small sizes. It also enables the
+  **from-below-performability restriction**: the primary AUC
+  recomputed with the rising set restricted to rungs whose 1b greedy
+  accuracy does NOT clear the floor under §5.2's binomial rule over
+  the 500 items, with the count of rising rungs already performable
+  at 1b printed beside it. Non-gating. It is the descriptive that
+  says whether a PASS forecasts anything the small model cannot
+  already perform — a skeptic's first question, answered in advance.
 - **410m replication** of the primary alone; **within-family
   concordance** (dial order vs predictor order vs outcome order),
   descriptive.
@@ -240,36 +262,40 @@ computed over the realized tie structure of BOTH sides, and the
 predictor's is unknown until something is sampled. The pilot measures
 the predictor's zero set at 4,000 draws per rung. It decides nothing
 about k (fixed at 64), nothing about the battery (all 34), nothing
-about the statistic. Its output is the input to the frozen power
-procedure (§7), and the frozen power procedure decides whether the
-main tranche runs.
+about the statistic, and — by ruling c — nothing about whether the
+main tranche runs. Its output is the input to the frozen power
+procedure (§7), which fixes the power statement and the declared
+status (POWERED or DECLARED UNDERPOWERED IN ADVANCE) before any
+scored data exists. Main runs regardless.
 
 ## 6. Preregistered verdict tree
 
 Precedence, mechanical:
 1. **INSUFFICIENT_DATA** — gate 1 (the reversal cells' seed-0
-   regeneration) differs from exp3's committed bytes in any draw; or
-   the pilot's frozen power procedure returns STOP (§7) — the main
-   tranche is never drawn and the pilot ships as a descriptive.
+   regeneration) differs from exp3's committed bytes in any draw.
+   There is no power-based STOP branch (ruling c): a declared-
+   underpowered status changes how FAIL is read, not whether main
+   runs.
 2. **FAIL** — the family-cluster bootstrap CI on AUC includes .5.
 3. **PASS** — block-permutation p < .01 AND AUC ≥ .75.
 4. **INDETERMINATE** — neither.
 
-What each licenses, written now. **PASS:** on this battery, the
-sampled channel at ≤ 1b separates the capabilities that rise above
-format-guessing by 12b from those that do not, with a predictor that
-has no free parameter; Prediction 2 is supported at the within-
-battery, Pile-distribution, ≤ 12b scope 2c defined, with the known-
-outcome caveat of §2 attached to every statement of it; the
-instrument-ladder finding of 3b–3e generalizes from one task to the
-battery. **FAIL:** the sampled channel at small scale does not
-forecast ascent on this battery; the ladder result stays task-local;
-the essay's Prediction 2 is unsupported at this resolution and the
-essay says so. **INDETERMINATE:** reported with the CI; no slicing.
-**INSUFFICIENT_DATA by STOP:** the battery cannot carry the test at
-any sampling budget, and the program's empirical line on Prediction 2
-ends with that stated; the pilot's rates and the §5.4 pair ship as
-bounds.
+What each licenses, written now. **PASS:** the essay may say
+exactly this — *a predictor with no free parameter, fixed before
+sampling, separates the rungs that rise above format-guessing from
+those that do not, on 2c's battery, whose outcome was known* — at
+the within-battery, Pile-distribution, ≤ 12b scope 2c defined, with
+the known-outcome caveat of §2 attached wherever it is stated; and
+the instrument-ladder finding of 3b–3e generalizes from one task to
+the battery. **"Prediction 2 supported" is NOT licensed by a 2d PASS
+(ruling g)**; that sentence is reserved for the §9 successor with a
+sealed outcome. **FAIL:** the sampled channel at small scale does not
+forecast ascent on this battery at this resolution; the ladder result
+stays task-local; the essay says Prediction 2's first test did not
+find the signal. If the status is DECLARED UNDERPOWERED, FAIL reads
+"not detected at this resolution" with the blind region stated (1c/3e
+precedent), and the essay says that instead. **INDETERMINATE:**
+reported with the CI; no slicing.
 
 ## 7. Power, honestly
 
@@ -288,21 +314,33 @@ fixed at the freeze:
 - **Declared-underpowered rule (1c/3e precedent):** if power at
   AUC_true = .85 is below .75, the experiment is DECLARED
   UNDERPOWERED IN ADVANCE.
-- **STOP rule (Michael's dial, §12):** my proposal is that an
-  underpowered declaration STOPS the main tranche rather than running
-  it anyway. The reason is specific to 2d: a FAIL-at-low-power here
-  would be 2c's uninterpretable FAIL repeated with a different
-  instrument, and the program already owns one of those. The
-  alternative ruling — run anyway with the concession printed, as 3e
-  did — is defensible and costs one night of compute.
+- **Run-anyway rule (ruling c, Michael 2026-08-21, reversing the
+  session-1 STOP proposal):** an underpowered declaration is printed
+  and the main tranche runs. Four reasons, on the record. (i) Power
+  bounds the miss rate, not α: a PASS at declared-low power is a
+  PASS, and a FAIL declared underpowered IN ADVANCE reads "not
+  detected at this resolution" — which is how 1c and 3e shipped. 2c's
+  FAIL was uninterpretable because its power model was wrong and that
+  was found after the data; a declaration before the data is the
+  opposite case. (ii) The §5.4 second question cannot be answered at
+  pilot resolution — 4,000 draws give CP ≤ 7.5e-4, above the
+  disconfirmer's zero-in-32,000 bar — so a STOP would kill the
+  percolation-candidate question with the primary. (iii) Gate 1 on
+  the production path (128,000 draws against exp3's seed-0 bytes)
+  exists only if main runs. (iv) The cost is one night.
 - Back-of-envelope, to be replaced: with ~11 rising and ~23 flat
   rungs in 16 families, 6 of which carry all the rising rungs, the
   block test's effective resolution is the 2c problem in a milder
   form; if the pilot shows the predictor separating even half the
   rising rungs from the flat block, AUC .85 is plausible, and the
   permutation count over the 6 mixed families is in the tens of
-  thousands. If the predictor's zero set swallows most of the rising
-  rungs too, no k recovers it and STOP is the honest answer.
+  thousands. If the predictor's zero set at the pilot swallows most
+  of the rising rungs too, the declaration is UNDERPOWERED and main
+  runs anyway — a pilot zero is "rate ≤ 7.5e-4," not zero, and main
+  has eight times the draws; the pilot's zero set is an upper bound
+  on main's, which the power procedure must model as such (a
+  pilot-zero rising rung is drawn from the alternative truncated at
+  the pilot's CP bound, not held at zero).
 
 ## 8. What the dumbest baseline achieves
 
@@ -349,8 +387,9 @@ fixed at the freeze:
    `exp2d-preregistered`.
 2. **Pilot** (model contact, on Michael's launch word): k = 8, seed
    100, both sizes; committed; the frozen power procedure runs ONCE
-   and prints power + the STOP/RUN decision + the declared status.
-3. **Main** (if RUN): seed 0, k = 64, 410m then 1b, per-rung commit
+   and prints power + the declared status (POWERED / DECLARED
+   UNDERPOWERED IN ADVANCE). Main runs regardless (ruling c).
+3. **Main:** seed 0, k = 64, 410m then 1b, per-rung commit
    + push by the watcher; the reversal cells' gate-1 comparison is
    computed as they land; any diff halts.
 4. **Argmax** at 410m/1b, descriptive, after main.
@@ -373,23 +412,62 @@ analysis; verbatim disclosure of every verified draw on the §5.4
 pair; known-answer gates before the campaign; the known-outcome
 caveat stated wherever a result is read.
 
-## 12. Dials for Michael's ruling (before the build)
+## 12. Dials — RULED (Michael, 2026-08-21), applied in place
 
-a. **Floor rule:** majority-answer rate (proposed) vs uniform over
-   the declared answer space. Majority is strictly harder to beat on
-   skewed rungs and needs no re-parsing of question text.
-b. **Primary statistic:** AUC over the rising/non-rising split
-   (proposed; matches the realized shape) vs Spearman over all 34
-   (2c-comparable; kept as a secondary either way).
-c. **STOP vs run-anyway** on an underpowered pilot (§7). I propose
-   STOP.
-d. **PASS bar:** AUC ≥ .75 with block p < .01 (proposed, mirroring
-   2c's ρ ≥ .5 / p < .01 strictness), or AUC ≥ .70.
-e. **k = 64 main / k = 8 pilot** (proposed) vs k = 128 main at twice
-   the night. Resolution 9.4e-5 vs 4.7e-5 per rung.
-f. **Argmax at 410m/1b** as a descriptive tier (proposed; ~1 h) or
-   dropped.
-g. **Scope statement:** whether the essay may cite a PASS as
-   "Prediction 2 supported" with the known-outcome caveat, or only as
-   "the sampling instrument ranks 2c's outcome" — the doc writes the
-   former; the ruling decides the essay's sentence.
+Each dial with the ruling and the reason that carried it. Rulings c
+and g reversed the session-1 proposals.
+
+a. **Floor rule → majority-answer rate.** Model-free, from the item
+   file alone, no "declared answer space" to parse (a degrees-of-
+   freedom surface the freeze would otherwise have to attack), and
+   strictly harder on the skewed rungs — mod13's floor is .094 where
+   uniform would give .077, and that skew is exactly what a
+   format-only model exploits.
+b. **Primary statistic → AUC over rising / non-rising; Spearman a
+   secondary.** The corrected outcome is ~23 zeros and ~11 positives;
+   Spearman over 34 with that many ties on both sides is 2c's
+   seven-effective-blocks problem re-run with a different instrument.
+   AUC is the statistic the realized shape can express — the sixth
+   lesson applied before the data.
+c. **Underpowered pilot → RUN ANYWAY with the declaration printed
+   (reverses the session-1 STOP proposal).** Reasons (i)–(iv) in §7.
+   There is no power-based STOP; INSUFFICIENT_DATA is gate 1 only.
+d. **PASS bar → AUC ≥ .75 with block p < .01 (unchanged).** The bar is
+   not moved to buy power — dial c is the honest way to handle a
+   shortfall; the binding constraint is the block p over 6 mixed
+   families, not the point estimate, so .70 buys little and costs
+   comparability with 2c's strictness.
+e. **k → 64 main / 8 pilot.** Gate 1 is free only at k = 64 / seed 0
+   (exp3's committed streams are 64 draws per item per seed; k = 128
+   would leave half of every substream uncovered). Halving the
+   resolution floor to 4.7e-5 does not move an AUC carried by rungs
+   with rates orders of magnitude above it. If 2d lands INDETERMINATE
+   with rungs at one or two draws, a k = 128 deepening is the
+   successor (the exp3 → 3c pattern).
+f. **Argmax at 410m/1b → kept, and it carries the from-below-
+   performability restriction (§5.4).** If a rising rung is already
+   performable at 1b, forecasting its ascent from 1b is no feat; the
+   restriction is the descriptive that says whether a PASS forecasts
+   anything the small model cannot already do.
+g. **Scope sentence → the narrower one.** A PASS licenses "a
+   predictor with no free parameter, fixed before sampling, separates
+   the rungs that rise above format-guessing from those that do not,
+   on 2c's battery, whose outcome was known." "Prediction 2
+   supported" is reserved for the §9 successor with a sealed outcome.
+   The wider sentence buys one adjective; a reader who meets
+   "supported" and then finds the outcome was known discounts the
+   rest of the essay.
+
+Three non-dial fixes applied with the rulings:
+
+h. **§5.2 rule/prose agreement.** "Rising" = clears the floor at ANY
+   of the three eval sizes (the rule as written, mirroring 2c's
+   ascent); the "by 12b" prose was shorthand and now says so.
+   sub3_mid is rising by 2.8b alone. 12b-only split printed as a
+   sensitivity.
+i. **§5.3 undefined-AUC resamples.** A cluster-bootstrap resample
+   with no rising or no non-rising rung is dropped and counted, never
+   imputed at .5; the drop count is printed.
+j. **§5.4 disconfirmer threshold.** "Below 1e-4 at 32,000 draws" is a
+   zero count (CP95 of 0/32,000 = 9.4e-5; one draw gives ~1.5e-4) and
+   is now stated as one.
