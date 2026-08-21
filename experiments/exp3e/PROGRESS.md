@@ -551,3 +551,26 @@ Numbers to grade:
 - Gate 1 (1b): IDENTICAL, fires at (348, 20, 14) and (430, 20, 43).
 - Mean draw length unchanged from 3d's within noise; no stops; zero
   attrition; pre-committed change stays UNSPENT.
+
+### CAMPAIGN COMPLETE — 2026-08-21, 206.8 min, exit 0, zero stops, zero attrition
+
+Tiers in the frozen order: gate1/410m (rehearsal record, skipped),
+gate1/1b IDENTICAL (2,880/2,880; fires at (348, 20, 14), (430, 20,
+43) — as projected), sampling/410m 4 blocks (57 min), sampling/1b 8
+blocks (148 min). Every unit committed and pushed by the watcher as it
+landed (12 shard pairs + the 1b gate-1 record; master == origin at
+`4c0d16c`). Runner convenience tallies per block (the ANALYZER
+recomputes from raw draws and refuses disagreement; nothing below is
+adjudicated):
+
+  410m  s28-s43 4 | s44-s59 4 | s60-s75 5 | s76-s91 4   → 17 / 184,320
+  1b    s40-s55 1 | s56-s71 8 | s72-s87 14 | s88-s103 13 |
+        s104-s119 6 | s120-s135 5 | s136-s151 7 | s152-s167 6
+                                                  → 60 / 368,640
+
+Per-draw: 410m 9.2e-5 (committed 6.2e-5), 1b 1.63e-4 (committed
+1.22e-4). Which ITEMS fired — the only thing the primary reads — has
+not been looked at; the frozen analyzer runs ONCE on Michael's go,
+against the projection sealed in `5a9eed9`. Pre-committed change
+UNSPENT. The preflight artifacts for both sizes reproduced
+byte-identically (git clean throughout).
