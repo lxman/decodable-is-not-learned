@@ -125,8 +125,41 @@ exp3's own rows, twin, referents) reads closed trees only.
    untouched).
 8. **Cold battery at build:** fixture suite 71 (8 files), referent
    battery 14/14, full-shape 4 terminals + 1 restriction world,
-   mutation battery: see the entry below (run detached, both
-   directions, baseline clean).
+   mutation battery **76/78 killed** (detail below).
+
+### Mutation battery (`tests/mutation_check.py`, 78 mutants, both directions)
+
+Run 1 (detached, baseline clean): 59/78 killed, 19 survivors. Triage:
+three equivalent mutants, sixteen fixture gaps — constants read back
+from the module instead of pinned by literal (perm seed/sample size,
+bootstrap seed/count, power bar/target), provisions covered only by
+the world tests the battery deselects (restriction, percolation
+conjuncts), and refusals with no direct fixture (answer-type pin,
+probe-order and manifest checks, outcome n pin, frozen-import check,
+referent re-hash, twin totals, truncated-vs-held rising rungs). Closed
+by literal-pin fixtures, a row-wise sampled-group fixture for the
+block statistic, two pure factor-outs (`percolation_candidates`,
+`check_twin_totals`) with unit tests, `check_order_against_2c`
+taking the two committed-source paths as parameters, and the
+restriction world test renamed into the selected set. Run 2 on the
+19: 17 killed. **Final: 76/78 killed; 2 documented equivalents:**
+
+- [1] `significant = p < α` without `rate > floor`: with a one-sided
+  `greater` binomial, p < .01 already implies k > n·floor — the
+  conjunct is belt-and-braces, unreachable by any input.
+- [36] floor replaced by max(floor, untrained acc + ε): no committed
+  untrained-twin accuracy EXCEEDS its rung's floor (102 records; the
+  closest is oct2dec/12b, untrained .002 = floor .002, whose trained
+  accuracy .002 clears neither), so no margin moves and the mutant is
+  equivalent on the committed outcome records; the untrained column
+  is printed, never used, as §5.2 says. (A synthetic outcome tree
+  would separate it; altering one committed record fires the
+  known-answer gate first, by design.)
+
+Mutant [11] (x's ranks permuted instead of y) survived run 1 as a
+mathematically equivalent mutant over an ENUMERATED group (closed
+under inversion) and is now killed by a row-for-row fixture on the
+sampled 100,000-row group. Suite after the closures: 85 fixtures.
 
 ### Findings for ratification (doc slips A–E, build dials F–L)
 
