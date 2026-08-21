@@ -129,10 +129,11 @@ entry); this file carries the ticks and what still needs Michael.
 
 - [x] Rulings applied; suite 102 / referents 15/15 re-run cold; power/runner
       mutants re-run; tag `exp2d-preregistered` placed.
-- [ ] Pilot on Michael's launch word (both sizes, ~1.7 h), watcher
-      running, per-rung commits.
-- [ ] `compute_power_2d.py` ONCE → `power_2d.json`; declaration
-      printed (both rules printed; the ruled one declares); ledgered.
+- [x] Pilot on Michael's launch word — RUN 2026-08-21, 363 min both
+      sizes, 68 units, zero stops; watcher committed every unit.
+- [x] `compute_power_2d.py` ONCE → `power_2d.json`: **DECLARED
+      UNDERPOWERED IN ADVANCE** (symmetric: P(PASS|.85) = 0.000; Tobit
+      as built .7365, agrees); ledgered.
 - [ ] Main 410m → 1b (~13 h); gate 1 as the reversal rungs land.
 - [ ] Argmax both sizes (~1 h).
 - [ ] Projection (`projection_template.md`) sealed in a commit BEFORE

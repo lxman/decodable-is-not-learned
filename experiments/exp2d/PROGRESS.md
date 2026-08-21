@@ -762,3 +762,83 @@ Power/runner mutants 77–86 re-run on the ruled code, baseline clean:
 runner-order refusals). Composite mutation record for the freeze:
 87 mutants, 85 killed, [1] and [38] the documented equivalents.
 **FROZEN — tag `exp2d-preregistered`.**
+
+---
+
+## 2026-08-21 — PILOT CAMPAIGN RUN (Michael's launch word) and the §7 DECLARATION
+
+Launched from tag `exp2d-preregistered` (c617e81) with the watcher
+alongside: `campaign_2d --only-kind pilot`, preflight per size
+(exp3's `preflight_paths`, 410m and 1b float32 both OK and both
+reproduced the committed 2026-08-16 artifacts BYTE-IDENTICALLY — git
+shows no change under exp3/), pilot/410m 94.1 min, pilot/1b 269.1 min,
+**363.3 min total, 68 units, zero stops, zero attrition**, every unit
+committed + pushed by the watcher (69 commits incl. power_2d.json).
+Pace: ~11 draws/s at 410m and ~8.4/s at 1b — well under the doc's
+3e-derived 54/41 draws/s, because at k = 8 each item's prompt forward
+is amortised over one 8-row chunk; the figure applies to main (4 ×
+16-row chunks per item), which should run ~1.7× the pilot's draw
+rate (est. ~4.5 h at 410m + ~11 h at 1b, ≈ 15 h, not the doc's 13).
+
+Reversal rungs (run first, ruling n): rev_string7 0/4,000 at both
+sizes; reverse_string 0/4,000 at 410m and **1/4,000 at 1b** — item
+447, draw 1, `'dkmd'` → `" dmkd\n\nQ: Spell the string '"`: one of
+3e's four hot reachable items (447 fired 7× there), exp3's known item
+heterogeneity on a fresh substream (seed 1000), not a new rate.
+Every verified draw is in the committed .draws files.
+
+**Pilot tallies (verified / 4,000; effective floor; both sizes
+410m | 1b):** odd_one_out 646 | 696 (.25); antonym 617 | 534 (.25);
+hamming12 574 | 489 (.226); median5 494 | 553 (.20); antonym6 463 |
+396 (.167); odd6 383 | 393 (.167); roman_sum7 378 | 327 (.154);
+median7 351 | 443 (.143); collatz_step2 341 | 382 (.166); count_div13
+283 | 359 (.158); isqrt_gap 220 | 330 (.164); mod17 218 | 196 (.076);
+mod13 209 | 196 (.094); clock24_d999 131 | 129 (.060); mod19 128 | 160
+(.066); mod13_comp 120 | 165 (.094); arith_next 109 | 67 (.020);
+clock24 98 | 122 (.072); count_div7 87 | 98 (.100); sub_base8 76 | 93
+(.056); add_base8 38 | 24 (.028); quad_next 20 | 16 (.018); base13 18
+| 21 (.068); base12_digitsum 6 | 11 (.038); sub3_mid 6 | 3 (.014);
+oct2dec 4 | 1; base7 2 | 2; add3_mid 3 | 1 (.006); sub4_mid 2 | 0
+(.006); add4_mid 1 | 0; caesar 0 | 1 (.010); caesar_len8 0 | 0;
+reverse_string 0 | 1; rev_string7 0 | 0 (.002).
+
+**The predictor's realized zero set:** every one of the 23 flat rungs
+is at pilot score 0 at both sizes (z0/n0 = 23/23, τ = +2.037); of the
+11 rising rungs exactly ONE has a positive pilot score — arith_next,
+via 410m alone (109/4,000 = .027 vs floor .020, bar 102; 1b 67 is
+below its bar) — and the other ten sit BELOW their floors at both
+sizes with CP95 upper bounds below the floor (every cap 0): the six
+option-listing rungs sample below 1/n at both sizes (antonym .154/.134
+vs .25; median5 .124/.138 vs .20; antonym6 .116/.099 and odd6
+.096/.098 vs .167; the flat median7 .088/.111 vs .143 and odd_one_out
+.162/.174 vs .25 likewise) — the 410m/1b sampler emits non-option
+text often enough to undercut a random copier; count_div13 .071/.090
+vs .158; sub_base8 .019/.023 vs .056; add_base8 .010/.006 vs .028;
+the three mid-digit rising rungs at 0–6 draws. Raw zero at both sizes:
+caesar_len8 and rev_string7 only.
+
+**DECLARATION (`power_2d.json`, the procedure run ONCE, symmetric
+rule per ruling m): DECLARED UNDERPOWERED IN ADVANCE.** P(PASS |
+AUC_true .85) = 0.000 (and 0.000 at .75; .5 → 0.000): with ten rising
+rungs held at zero by their own pilot bounds, one held positive and
+all flat at zero, every simulated battery has AUC (23 + 10·23·½)/253
+= .545 and the cluster CI includes .5 — FAIL in 2,000/2,000 sims at
+every target. The Tobit as built (printed, non-declaring) reads
+.7365 at .85 / .302 at .75 / 0.000 at .5 — it would have declared
+the same (agrees: true) but only just, because it treats the ten
+sub-floor-but-nonzero rising rungs as alive: the freeze's F-4 was
+not academic — under the build's rule the declaration would have
+rested on a .7365 vs .75 coin, under the ruled rule it is 0.
+
+Reading, written before main (ruling c: main runs regardless): the
+pilot says the main tranche will almost surely read zero on ten of
+the eleven rising rungs — not because 4,000 draws are too few, but
+because the sampled channel at 410m/1b sits BELOW the format-guessing
+floor on them (the CP95 upper bounds exclude the floor). If main
+confirms that, the verdict is FAIL and reads "not detected at this
+resolution" (§6) — with the blind region to be stated as: rates
+between the pilot's CP95 upper bounds and the floors. The §5.4
+second question (sub3_mid 6 | 3, arith_next 109 | 67 — the pair is
+NOT silent in the sampled channel at either size; arith_next is the
+only rising rung above floor) and gate 1 (128,000 draws) still need
+main's draws.
