@@ -503,3 +503,51 @@ battery green (suite 125, mutation 65/65, referents 15/15, determinism
 ×2, gate-1 rehearsal IDENTICAL). Campaign launch (gate1/1b, then the
 tranche 410m → 1b in 16-seed blocks with the watcher) is a SEPARATE
 go; projection to be ledgered before the analyzer runs.
+
+---
+
+## 2026-08-21 — CAMPAIGN LAUNCHED on Michael's word ("go — launch the campaign with the watcher")
+
+`campaign_3e.py` + `commit_watcher_3e.sh`, both detached, logs in the
+session scratchpad. Tier order as frozen: gate1/410m (already on disk
+from the rehearsal, skipped), preflight 1b OK, gate1/1b, then
+sampling 410m (4 blocks) → 1b (8 blocks). The watcher commits and
+pushes each unit as it lands (launch authorization covers the push
+cadence).
+
+### PROJECTION — sealed BEFORE any tranche draw was scored, to be graded in the retrospective
+
+Verdict-level: **SHORTCUT at 1b, non-THIN, annotated (misfire-rate)**
+— probability I put on it ~.55; NO-SHORTCUT ~.30; SHORTCUT THIN ~.10;
+UNINFORMATIVE/ANTI the remainder. Reasoning: the committed texture is
+10 of 10 distinct fired items reachable against an expectation of ~7,
+and the copy-with-one-error story has a mechanism where the entropy
+story has only a prior; but the frozen power at the committed
+dispersion is .76, so a miss by silence is one chance in four even if
+the shortcut reading is right, and the minimum detectable ratio of
+.04 means a PARTIAL shortcut lands as NO-SHORTCUT.
+
+Numbers to grade:
+- 1b new-fired distinct items n ≈ 14 (gamma E[n] 13.9; I expect the
+  hot items to re-fire: item 123 'ecde' at ≥ 2 fires, 447 'dmkd' ≥ 1).
+- X (non-reachable fired items at 1b) = 0 or 1; the 13 non-reachable
+  give ≤ 1 fired item in 106,496 new 1b draws. NAMED DISCONFIRMER:
+  X ≥ 3 at 1b.
+- 410m: THIN (n ≤ 10; E ≈ 7), unreplicated at its disclosed power;
+  item 123 fires again at 410m.
+- Specificity arm: MISFIRE-RATE — events well above m_s,min = 3
+  (scenario 33–81), reverse share near θ-average (~.4), p > .05. The
+  copy-misfire reading predicts competitors with HIGHER input overlap
+  than the reverse (the (0,2) rotation items' `qbaa`-type strings)
+  out-emit the reverse on those items. NAMED DISCONFIRMER: DIRECTED
+  with p < .01.
+- Count-weighted secondary: same direction as the primary, smaller p
+  (hot reachable items multiply).
+- S2 descriptive: first-character-matched neighbours dominate the
+  reverse by > 3:1 on the 13 non-reachable items' new draws.
+- Persistence: at least 4 of the 1b fired items are NEW (never fired
+  in the committed record) — the partition forecasts beyond the 10.
+- Leak voids: 0 (census zero; prompts are the pinned prompts).
+- Gate 1 (1b): IDENTICAL, fires at (348, 20, 14) and (430, 20, 43).
+- Mean draw length unchanged from 3d's within noise; no stops; zero
+  attrition; pre-committed change stays UNSPENT.
