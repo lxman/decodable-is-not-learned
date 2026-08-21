@@ -1,0 +1,594 @@
+{
+ "procedure": "design \u00a77, frozen at build and amended at the freeze (ruling m, 2026-08-21): Tobit latent model, \u03c4 from the pilot's non-rising zero fraction, fixed effect d solved for the population AUC, non-rising pilot zeros held at zero, RISING PILOT POSITIVES HELD POSITIVE, rising pilot zeros truncated at the cap from their own pilot counts' CP95 upper bounds, families as blocks, P(PASS) through the verdict's own block test + cluster bootstrap + tree",
+ "seed": 20260821,
+ "n_sims": 2000,
+ "outcome": {
+  "n_rising": 11,
+  "n_flat": 23
+ },
+ "pilot_zero_set": {
+  "z0": 23,
+  "n0": 23,
+  "non_rising_zero_set": [
+   "add4_mid",
+   "quad_next",
+   "base12_digitsum",
+   "base13",
+   "base7",
+   "oct2dec",
+   "caesar_len8",
+   "caesar",
+   "clock24_d999",
+   "clock24",
+   "collatz_step2",
+   "count_div7",
+   "hamming12",
+   "isqrt_gap",
+   "median7",
+   "mod13_comp",
+   "mod17",
+   "mod19",
+   "mod13",
+   "odd_one_out",
+   "rev_string7",
+   "reverse_string",
+   "roman_sum7"
+  ],
+  "rising_raw_zero_set": [],
+  "rising_raw_zero_caps": {},
+  "pilot_cp_upper_rate": 0.0009217947494830555
+ },
+ "pilot_structure": {
+  "rising_held_positive": [
+   "arith_next"
+  ],
+  "rising_capped": {
+   "sub4_mid": {
+    "pilot_counts": {
+     "410m": 2,
+     "1b": 0
+    },
+    "cap": 0.0
+   },
+   "add3_mid": {
+    "pilot_counts": {
+     "410m": 3,
+     "1b": 1
+    },
+    "cap": 0.0
+   },
+   "sub3_mid": {
+    "pilot_counts": {
+     "410m": 6,
+     "1b": 3
+    },
+    "cap": 0.0
+   },
+   "antonym6": {
+    "pilot_counts": {
+     "410m": 463,
+     "1b": 396
+    },
+    "cap": 0.0
+   },
+   "antonym": {
+    "pilot_counts": {
+     "410m": 617,
+     "1b": 534
+    },
+    "cap": 0.0
+   },
+   "count_div13": {
+    "pilot_counts": {
+     "410m": 283,
+     "1b": 359
+    },
+    "cap": 0.0
+   },
+   "median5": {
+    "pilot_counts": {
+     "410m": 494,
+     "1b": 553
+    },
+    "cap": 0.0
+   },
+   "odd6": {
+    "pilot_counts": {
+     "410m": 383,
+     "1b": 393
+    },
+    "cap": 0.0
+   },
+   "sub_base8": {
+    "pilot_counts": {
+     "410m": 76,
+     "1b": 93
+    },
+    "cap": 0.0
+   },
+   "add_base8": {
+    "pilot_counts": {
+     "410m": 38,
+     "1b": 24
+    },
+    "cap": 0.0
+   }
+  }
+ },
+ "tau": 2.036834131701388,
+ "power": {
+  "0.5": {
+   "auc_true": 0.5,
+   "effect_d": 0.0,
+   "population_auc_check": 0.4999999999999985,
+   "p_pass": 0.0,
+   "verdict_shares": {
+    "INSUFFICIENT_DATA": 0.0,
+    "FAIL": 1.0,
+    "PASS": 0.0,
+    "INDETERMINATE": 0.0
+   },
+   "mean_realized_auc": 0.5454545454545452,
+   "n_sims": 2000
+  },
+  "0.75": {
+   "auc_true": 0.75,
+   "effect_d": 2.076346762027242,
+   "population_auc_check": 0.7500000000079454,
+   "p_pass": 0.0,
+   "verdict_shares": {
+    "INSUFFICIENT_DATA": 0.0,
+    "FAIL": 1.0,
+    "PASS": 0.0,
+    "INDETERMINATE": 0.0
+   },
+   "mean_realized_auc": 0.5454545454545452,
+   "n_sims": 2000
+  },
+  "0.85": {
+   "auc_true": 0.85,
+   "effect_d": 2.5952648678066907,
+   "population_auc_check": 0.8499999999992616,
+   "p_pass": 0.0,
+   "verdict_shares": {
+    "INSUFFICIENT_DATA": 0.0,
+    "FAIL": 1.0,
+    "PASS": 0.0,
+    "INDETERMINATE": 0.0
+   },
+   "mean_realized_auc": 0.5454545454545452,
+   "n_sims": 2000
+  }
+ },
+ "power_bar": 0.75,
+ "declaration_target": 0.85,
+ "declaration_rule": "symmetric",
+ "declared_underpowered": true,
+ "declared_status": "DECLARED UNDERPOWERED IN ADVANCE",
+ "sensitivity_ratified_rule": {
+  "rule": "the Tobit as built (F/J): rising rungs redrawn from N(d, 1) whatever the pilot showed; rising raw-zeros truncated at the 0/4,000 cap. NON-DECLARING since ruling m; its AUC_true .5 row is the unconditional \u03b1 check",
+  "power": {
+   "0.5": {
+    "auc_true": 0.5,
+    "effect_d": 0.0,
+    "population_auc_check": 0.4999999999999985,
+    "p_pass": 0.0,
+    "verdict_shares": {
+     "INSUFFICIENT_DATA": 0.0,
+     "FAIL": 1.0,
+     "PASS": 0.0,
+     "INDETERMINATE": 0.0
+    },
+    "mean_realized_auc": 0.51,
+    "n_sims": 2000
+   },
+   "0.75": {
+    "auc_true": 0.75,
+    "effect_d": 2.076346762027242,
+    "population_auc_check": 0.7500000000079454,
+    "p_pass": 0.302,
+    "verdict_shares": {
+     "INSUFFICIENT_DATA": 0.0,
+     "FAIL": 0.2,
+     "PASS": 0.302,
+     "INDETERMINATE": 0.498
+    },
+    "mean_realized_auc": 0.7596363636363637,
+    "n_sims": 2000
+   },
+   "0.85": {
+    "auc_true": 0.85,
+    "effect_d": 2.5952648678066907,
+    "population_auc_check": 0.8499999999992616,
+    "p_pass": 0.7365,
+    "verdict_shares": {
+     "INSUFFICIENT_DATA": 0.0,
+     "FAIL": 0.0245,
+     "PASS": 0.7365,
+     "INDETERMINATE": 0.239
+    },
+    "mean_realized_auc": 0.8563863636363636,
+    "n_sims": 2000
+   }
+  },
+  "would_declare": "DECLARED UNDERPOWERED IN ADVANCE",
+  "agrees_with_declaration": true
+ },
+ "run_anyway": "main runs regardless (ruling c, Michael 2026-08-21): a FAIL under DECLARED UNDERPOWERED reads 'not detected at this resolution'",
+ "pilot_predictor": {
+  "add4_mid": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": true
+   },
+   "verified": {
+    "410m": 1,
+    "1b": 0
+   }
+  },
+  "sub4_mid": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": true
+   },
+   "verified": {
+    "410m": 2,
+    "1b": 0
+   }
+  },
+  "add3_mid": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 3,
+    "1b": 1
+   }
+  },
+  "sub3_mid": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 6,
+    "1b": 3
+   }
+  },
+  "antonym6": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 463,
+    "1b": 396
+   }
+  },
+  "antonym": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 617,
+    "1b": 534
+   }
+  },
+  "arith_next": {
+   "score": 0.0036989795918367344,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 109,
+    "1b": 67
+   }
+  },
+  "quad_next": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 20,
+    "1b": 16
+   }
+  },
+  "base12_digitsum": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 6,
+    "1b": 11
+   }
+  },
+  "base13": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 18,
+    "1b": 21
+   }
+  },
+  "base7": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 2,
+    "1b": 2
+   }
+  },
+  "oct2dec": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 4,
+    "1b": 1
+   }
+  },
+  "caesar_len8": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": true,
+    "1b": true
+   },
+   "verified": {
+    "410m": 0,
+    "1b": 0
+   }
+  },
+  "caesar": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": true,
+    "1b": false
+   },
+   "verified": {
+    "410m": 0,
+    "1b": 1
+   }
+  },
+  "clock24_d999": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 131,
+    "1b": 129
+   }
+  },
+  "clock24": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 98,
+    "1b": 122
+   }
+  },
+  "collatz_step2": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 341,
+    "1b": 382
+   }
+  },
+  "count_div13": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 283,
+    "1b": 359
+   }
+  },
+  "count_div7": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 87,
+    "1b": 98
+   }
+  },
+  "hamming12": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 574,
+    "1b": 489
+   }
+  },
+  "isqrt_gap": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 220,
+    "1b": 330
+   }
+  },
+  "median5": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 494,
+    "1b": 553
+   }
+  },
+  "median7": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 351,
+    "1b": 443
+   }
+  },
+  "mod13_comp": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 120,
+    "1b": 165
+   }
+  },
+  "mod17": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 218,
+    "1b": 196
+   }
+  },
+  "mod19": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 128,
+    "1b": 160
+   }
+  },
+  "mod13": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 209,
+    "1b": 196
+   }
+  },
+  "odd6": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 383,
+    "1b": 393
+   }
+  },
+  "odd_one_out": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 646,
+    "1b": 696
+   }
+  },
+  "rev_string7": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": true,
+    "1b": true
+   },
+   "verified": {
+    "410m": 0,
+    "1b": 0
+   }
+  },
+  "reverse_string": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": true,
+    "1b": false
+   },
+   "verified": {
+    "410m": 0,
+    "1b": 1
+   }
+  },
+  "roman_sum7": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 378,
+    "1b": 327
+   }
+  },
+  "sub_base8": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 76,
+    "1b": 93
+   }
+  },
+  "add_base8": {
+   "score": 0.0,
+   "raw_zero": {
+    "410m": false,
+    "1b": false
+   },
+   "verified": {
+    "410m": 38,
+    "1b": 24
+   }
+  }
+ }
+}
