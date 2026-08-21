@@ -1,6 +1,6 @@
 {
- "n_checks": 14,
- "n_ok": 14,
+ "n_checks": 15,
+ "n_ok": 15,
  "all_ok": true,
  "checks": [
   {
@@ -71,6 +71,11 @@
   {
    "n": 14,
    "name": "exp3's 4 committed redecode records == \u00a74 literals",
+   "ok": true
+  },
+  {
+   "n": 15,
+   "name": "criterion exactness pin (F-3); option listing 500/500 vs 0/500",
    "ok": true
   }
  ]

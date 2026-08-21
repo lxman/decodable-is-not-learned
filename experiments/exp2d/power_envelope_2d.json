@@ -8,7 +8,9 @@
    "rising_raw_zero": 0,
    "tau": 0.05224518037594049,
    "p_pass": 0.7066666666666667,
-   "mean_realized_auc": 0.8526218708827404
+   "mean_realized_auc": 0.8526218708827404,
+   "p_pass_symmetric_rule": 0.9266666666666666,
+   "mean_realized_auc_symmetric_rule": 0.8977733860342556
   },
   {
    "non_rising_zero_fraction": 0.5,
@@ -16,7 +18,9 @@
    "rising_raw_zero": 2,
    "tau": 0.05224518037594049,
    "p_pass": 0.29333333333333333,
-   "mean_realized_auc": 0.7500263504611331
+   "mean_realized_auc": 0.7500263504611331,
+   "p_pass_symmetric_rule": 0.45,
+   "mean_realized_auc_symmetric_rule": 0.7829776021080369
   },
   {
    "non_rising_zero_fraction": 0.5,
@@ -24,7 +28,9 @@
    "rising_raw_zero": 4,
    "tau": 0.05224518037594049,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.6364690382081687
+   "mean_realized_auc": 0.6364690382081687,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.6677206851119895
   },
   {
    "non_rising_zero_fraction": 0.5,
@@ -32,7 +38,9 @@
    "rising_raw_zero": 6,
    "tau": 0.05224518037594049,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.5319367588932806
+   "mean_realized_auc": 0.5319367588932806,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.5507246376811594
   },
   {
    "non_rising_zero_fraction": 0.5,
@@ -40,7 +48,9 @@
    "rising_raw_zero": 8,
    "tau": 0.05224518037594049,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.4227799736495388
+   "mean_realized_auc": 0.4227799736495388,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.4348880105401845
   },
   {
    "non_rising_zero_fraction": 0.5,
@@ -48,7 +58,9 @@
    "rising_raw_zero": 10,
    "tau": 0.05224518037594049,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.31581027667984185
+   "mean_realized_auc": 0.31581027667984185,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.3191436100131752
   },
   {
    "non_rising_zero_fraction": 0.5,
@@ -56,7 +68,9 @@
    "rising_raw_zero": 11,
    "tau": 0.05224518037594049,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.26086956521739124
+   "mean_realized_auc": 0.26086956521739124,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.26086956521739124
   },
   {
    "non_rising_zero_fraction": 0.75,
@@ -64,7 +78,9 @@
    "rising_raw_zero": 0,
    "tau": 0.6102946101863326,
    "p_pass": 0.6233333333333333,
-   "mean_realized_auc": 0.8536627140974967
+   "mean_realized_auc": 0.8536627140974967,
+   "p_pass_symmetric_rule": 0.9933333333333333,
+   "mean_realized_auc_symmetric_rule": 0.9405928853754941
   },
   {
    "non_rising_zero_fraction": 0.75,
@@ -72,7 +88,9 @@
    "rising_raw_zero": 2,
    "tau": 0.6102946101863326,
    "p_pass": 0.36,
-   "mean_realized_auc": 0.7725098814229249
+   "mean_realized_auc": 0.7725098814229249,
+   "p_pass_symmetric_rule": 0.8,
+   "mean_realized_auc_symmetric_rule": 0.8374967061923584
   },
   {
    "non_rising_zero_fraction": 0.75,
@@ -80,7 +98,9 @@
    "rising_raw_zero": 4,
    "tau": 0.6102946101863326,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.6828392621870883
+   "mean_realized_auc": 0.6828392621870883,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.7336363636363635
   },
   {
    "non_rising_zero_fraction": 0.75,
@@ -88,7 +108,9 @@
    "rising_raw_zero": 6,
    "tau": 0.6102946101863326,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.590197628458498
+   "mean_realized_auc": 0.590197628458498,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.6297364953886693
   },
   {
    "non_rising_zero_fraction": 0.75,
@@ -96,7 +118,9 @@
    "rising_raw_zero": 8,
    "tau": 0.6102946101863326,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.5065744400527009
+   "mean_realized_auc": 0.5065744400527009,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.5257444005270092
   },
   {
    "non_rising_zero_fraction": 0.75,
@@ -104,7 +128,9 @@
    "rising_raw_zero": 10,
    "tau": 0.6102946101863326,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.4132938076416338
+   "mean_realized_auc": 0.4132938076416338,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.4218050065876153
   },
   {
    "non_rising_zero_fraction": 0.75,
@@ -112,7 +138,9 @@
    "rising_raw_zero": 11,
    "tau": 0.6102946101863326,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.36956521739130427
+   "mean_realized_auc": 0.36956521739130427,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.36956521739130427
   },
   {
    "non_rising_zero_fraction": 1.0,
@@ -120,7 +148,9 @@
    "rising_raw_zero": 0,
    "tau": 2.036834131701388,
    "p_pass": 0.7466666666666667,
-   "mean_realized_auc": 0.8545454545454546
+   "mean_realized_auc": 0.8545454545454546,
+   "p_pass_symmetric_rule": 1.0,
+   "mean_realized_auc_symmetric_rule": 1.0
   },
   {
    "non_rising_zero_fraction": 1.0,
@@ -128,7 +158,9 @@
    "rising_raw_zero": 2,
    "tau": 2.036834131701388,
    "p_pass": 0.5633333333333334,
-   "mean_realized_auc": 0.7921212121212121
+   "mean_realized_auc": 0.7921212121212121,
+   "p_pass_symmetric_rule": 1.0,
+   "mean_realized_auc_symmetric_rule": 0.9090909090909092
   },
   {
    "non_rising_zero_fraction": 1.0,
@@ -136,7 +168,9 @@
    "rising_raw_zero": 4,
    "tau": 2.036834131701388,
    "p_pass": 0.21,
-   "mean_realized_auc": 0.7236363636363637
+   "mean_realized_auc": 0.7236363636363637,
+   "p_pass_symmetric_rule": 1.0,
+   "mean_realized_auc_symmetric_rule": 0.8181818181818181
   },
   {
    "non_rising_zero_fraction": 1.0,
@@ -144,7 +178,9 @@
    "rising_raw_zero": 6,
    "tau": 2.036834131701388,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.6587878787878787
+   "mean_realized_auc": 0.6587878787878787,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.7272727272727274
   },
   {
    "non_rising_zero_fraction": 1.0,
@@ -152,7 +188,9 @@
    "rising_raw_zero": 8,
    "tau": 2.036834131701388,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.5981818181818181
+   "mean_realized_auc": 0.5981818181818181,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.6363636363636364
   },
   {
    "non_rising_zero_fraction": 1.0,
@@ -160,7 +198,9 @@
    "rising_raw_zero": 10,
    "tau": 2.036834131701388,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.5334848484848485
+   "mean_realized_auc": 0.5334848484848485,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.5454545454545454
   },
   {
    "non_rising_zero_fraction": 1.0,
@@ -168,8 +208,10 @@
    "rising_raw_zero": 11,
    "tau": 2.036834131701388,
    "p_pass": 0.0,
-   "mean_realized_auc": 0.5
+   "mean_realized_auc": 0.5,
+   "p_pass_symmetric_rule": 0.0,
+   "mean_realized_auc_symmetric_rule": 0.5
   }
  ],
- "note": "build-time information over hypothetical pilot zero sets; NOT a declaration"
+ "note": "build-time information over hypothetical pilot zero sets; NOT a declaration. `p_pass` is the ratified rule (declares); `p_pass_symmetric_rule` is freeze F-4's sensitivity (alive rising rungs held positive)"
 }

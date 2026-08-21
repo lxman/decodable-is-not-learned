@@ -36,6 +36,11 @@ Numbered checks, all-or-nothing:
     to `sampled` (52,254,720 > 5e6) with 100,000 draws — 2c's own
     routing on the same vector
 14  exp3's four committed redecode records == their §4 literal shas
+15  criterion exactness (freeze F-3): 2c's normalization reproduces
+    every committed answer whole except base12_digitsum (196) and
+    base13 (276; its two all-letter answers pass whole) — letter-digit answers under the `number` regex —
+    pinned both ways; the six option-listing rungs list 500/500 at
+    one count each and the other 28 list 0/500
 """
 
 from __future__ import annotations
@@ -219,6 +224,21 @@ def _c14(ctx):
             rec = json.loads(p.read_text())
             _eq(len(rec["continuations"]), 500, "continuations")
             _eq(rec["max_new_tokens"], bt.max_new_tokens(rung), "budget")
+
+
+@check(15, "criterion exactness pin (F-3); option listing 500/500 vs 0/500")
+def _c15(ctx):
+    got = {r: ctx["floors"][r]["criterion"]["n_truncated"] for r in bt.RUNGS
+           if ctx["floors"][r]["criterion"]["n_truncated"]}
+    _eq(got, bt.CRITERION_TRUNCATED_PIN, "truncated-answer counts")
+    for r in bt.RUNGS:
+        cap = ctx["battery"][r]
+        oc = bt.option_copy_floor(cap)
+        if r in bt.OPTION_LISTING_PIN:
+            _eq((oc["n_options"], oc["share_listed"]),
+                (bt.OPTION_LISTING_PIN[r], 1.0), f"{r} option listing")
+        else:
+            _eq(oc, None, f"{r} lists no option")
 
 
 def run_all(out_path=None) -> dict:

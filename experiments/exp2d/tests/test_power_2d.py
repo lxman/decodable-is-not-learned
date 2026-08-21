@@ -9,6 +9,16 @@ from experiments.exp2d import stats_2d as st
 from experiments.exp2d.tests import full_shape as fs
 
 
+def _pred(score, raw_zero, k=None):
+    """A synthetic pilot predictor entry with the per-size counts
+    `predictor_from_tier` carries (k per size; 0 when raw zero)."""
+    ks = {s: (0 if raw_zero[s] else (k if k is not None else 40))
+          for s in a.PROBE_SIZES}
+    return {"score": score, "raw_zero": dict(raw_zero),
+            "per_size": {s: {"k": ks[s], "n": a.PILOT_DRAWS_PER_RUNG}
+                         for s in a.PROBE_SIZES}}
+
+
 def test_population_auc_null_and_monotone():
     for tau in (-1.0, 0.0, 0.7, 2.0):
         assert cp.population_auc(0.0, tau) == pytest.approx(0.5, abs=1e-9)
@@ -66,11 +76,10 @@ def test_simulate_scores_honours_ties_and_caps():
 
 def test_pilot_zero_set_from_predictor():
     outcome = fs.outcome()
-    pred = {r: {"score": 0.0, "raw_zero": {"410m": True, "1b": True}}
-            for r in a.RUNGS}
-    pred["antonym"] = {"score": 0.3, "raw_zero": {"410m": False, "1b": False}}
-    pred["hamming12"] = {"score": 0.1, "raw_zero": {"410m": False, "1b": False}}
-    pred["median5"] = {"score": 0.0, "raw_zero": {"410m": True, "1b": False}}
+    pred = {r: _pred(0.0, {"410m": True, "1b": True}) for r in a.RUNGS}
+    pred["antonym"] = _pred(0.3, {"410m": False, "1b": False})
+    pred["hamming12"] = _pred(0.1, {"410m": False, "1b": False})
+    pred["median5"] = _pred(0.0, {"410m": True, "1b": False}, k=2)
     zs = cp.pilot_zero_set(pred, outcome)
     n1 = outcome["n_rising"]
     assert zs["n0"] == 34 - n1 == 23 and zs["z0"] == 22
@@ -84,9 +93,9 @@ def test_pilot_zero_set_from_predictor():
 def test_run_procedure_small_and_declaration_rule():
     outcome = fs.outcome()
     # every rising rung alive in the pilot, every flat rung at zero:
-    pred = {r: {"score": (0.2 if outcome["rungs"][r]["rising"] else 0.0),
-                "raw_zero": {s: not outcome["rungs"][r]["rising"]
-                             for s in a.PROBE_SIZES}}
+    pred = {r: _pred(0.2 if outcome["rungs"][r]["rising"] else 0.0,
+                     {s: not outcome["rungs"][r]["rising"]
+                      for s in a.PROBE_SIZES})
             for r in a.RUNGS}
     rec = cp.run_procedure(pred, outcome, n_sims=40, targets=(0.5, 0.85))
     assert set(rec["power"]) == {"0.5", "0.85"}
@@ -104,12 +113,12 @@ def test_run_procedure_small_and_declaration_rule():
 def test_rising_raw_zeros_cost_power():
     outcome = fs.outcome()
     ris = [r for r in a.RUNGS if outcome["rungs"][r]["rising"]]
-    base = {r: {"score": (0.2 if outcome["rungs"][r]["rising"] else 0.0),
-                "raw_zero": {s: not outcome["rungs"][r]["rising"]
-                             for s in a.PROBE_SIZES}} for r in a.RUNGS}
+    base = {r: _pred(0.2 if outcome["rungs"][r]["rising"] else 0.0,
+                     {s: not outcome["rungs"][r]["rising"]
+                      for s in a.PROBE_SIZES}) for r in a.RUNGS}
     hurt = {r: dict(v) for r, v in base.items()}
     for r in ris[:6]:
-        hurt[r] = {"score": 0.0, "raw_zero": {"410m": True, "1b": True}}
+        hurt[r] = _pred(0.0, {"410m": True, "1b": True})
     p0 = cp.run_procedure(base, outcome, n_sims=60, targets=(0.85,))
     p6 = cp.run_procedure(hurt, outcome, n_sims=60, targets=(0.85,))
     assert p6["power"]["0.85"]["p_pass"] < p0["power"]["0.85"]["p_pass"]
@@ -119,9 +128,9 @@ def test_rising_raw_zeros_cost_power():
 
 def test_procedure_is_seeded_and_reproducible():
     outcome = fs.outcome()
-    pred = {r: {"score": (0.2 if outcome["rungs"][r]["rising"] else 0.0),
-                "raw_zero": {s: not outcome["rungs"][r]["rising"]
-                             for s in a.PROBE_SIZES}} for r in a.RUNGS}
+    pred = {r: _pred(0.2 if outcome["rungs"][r]["rising"] else 0.0,
+                     {s: not outcome["rungs"][r]["rising"]
+                      for s in a.PROBE_SIZES}) for r in a.RUNGS}
     r1 = cp.run_procedure(pred, outcome, n_sims=25, targets=(0.75,))
     r2 = cp.run_procedure(pred, outcome, n_sims=25, targets=(0.75,))
     assert r1["power"] == r2["power"] and r1["tau"] == r2["tau"]
@@ -148,10 +157,78 @@ def test_truncated_rising_rung_moves_below_a_positive_cap():
 def test_declaration_flag_follows_the_bar():
     outcome = fs.outcome()
     ris = [r for r in a.RUNGS if outcome["rungs"][r]["rising"]]
-    dead = {r: {"score": 0.0, "raw_zero": {"410m": True, "1b": True}}
-            for r in a.RUNGS}
+    dead = {r: _pred(0.0, {"410m": True, "1b": True}) for r in a.RUNGS}
     rec = cp.run_procedure(dead, outcome, n_sims=20, targets=(0.85,))
     assert rec["pilot_zero_set"]["rising_raw_zero_set"] == ris
     assert rec["power"]["0.85"]["p_pass"] == 0.0
     assert rec["declared_underpowered"] is True
     assert rec["declared_status"] == "DECLARED UNDERPOWERED IN ADVANCE"
+
+
+# ----------------------------------------- freeze F-4: the symmetric rule
+
+def test_symmetric_rule_holds_pilot_positive_rising_rungs_positive():
+    rng = np.random.default_rng(2)
+    s = np.array([cp.simulate_scores(rng, rising=[True, True, False],
+                                     held_zero=[False, False, True],
+                                     caps=[None, None, None], tau=2.0, d=2.5,
+                                     held_positive=[True, False, False])
+                  for _ in range(300)])
+    assert (s[:, 0] > 0).all()                 # held positive: never silent
+    assert 0.15 < (s[:, 1] == 0).mean() < 0.5  # ratified: re-silenced w.p. Φ(τ−d)≈.31
+    assert (s[:, 2] == 0).all()
+
+
+def test_symmetric_rule_leaves_the_ratified_draw_sequence_untouched():
+    """held_positive all False consumes the generator exactly as the
+    ratified rule does — the declaring numbers cannot move."""
+    kw = dict(rising=[True, False, True, False], held_zero=[False, True, False, False],
+              caps=[None, None, 0.0, None], tau=0.4, d=1.3)
+    a1 = np.array([cp.simulate_scores(np.random.default_rng(i), **kw) for i in range(50)])
+    a2 = np.array([cp.simulate_scores(np.random.default_rng(i), **kw,
+                                      held_positive=[False] * 4) for i in range(50)])
+    assert np.array_equal(a1, a2)
+
+
+def test_score_cap_from_counts_generalizes_the_raw_zero_cap():
+    assert cp.score_cap_from_counts(0.006, [0, 0]) == cp.score_cap(0.006) == 0.0
+    assert cp.score_cap_from_counts(0.006, [14, 14]) == 0.0        # CP upper < floor
+    assert cp.score_cap_from_counts(0.006, [30, 0]) > 0.0          # one size above
+    assert cp.score_cap_from_counts(0.006, [0, 30]) == \
+        pytest.approx(cp.score_cap_from_counts(0.006, [30, 0]))
+
+
+def test_pilot_structure_symmetric_partitions_rising_rungs():
+    outcome = fs.outcome()
+    pred = {r: _pred(0.0, {"410m": True, "1b": True}) for r in a.RUNGS}
+    pred["antonym"] = _pred(0.3, {"410m": False, "1b": False})
+    pred["sub4_mid"] = _pred(0.0, {"410m": False, "1b": True}, k=30)   # 30/4000 > floor .006 bound
+    pred["add3_mid"] = _pred(0.0, {"410m": False, "1b": False}, k=3)   # 3/4000: CP upper < .006
+    st_ = cp.pilot_structure_symmetric(pred, outcome)
+    assert st_["rising_held_positive"] == ["antonym"]
+    assert st_["z0"] == 23 and st_["n0"] == 23
+    assert st_["rising_capped"]["sub4_mid"]["cap"] > 0.0
+    assert st_["rising_capped"]["add3_mid"]["cap"] == 0.0
+    assert st_["rising_capped"]["add3_mid"]["pilot_counts"] == {"410m": 3, "1b": 3}
+    assert len(st_["rising_capped"]) == 10
+    i = a.RUNGS.index("antonym")
+    assert st_["held_positive"][i] and st_["caps"][i] is None
+
+
+def test_run_procedure_prints_the_symmetric_sensitivity_non_declaring():
+    outcome = fs.outcome()
+    pred = {r: _pred(0.2 if outcome["rungs"][r]["rising"] else 0.0,
+                     {s: not outcome["rungs"][r]["rising"] for s in a.PROBE_SIZES})
+            for r in a.RUNGS}
+    rec = cp.run_procedure(pred, outcome, n_sims=40, targets=(0.85,))
+    sym = rec["sensitivity_symmetric_rule"]
+    assert rec["declaration_rule"] == "ratified"
+    assert set(sym["power"]) == {"0.85"}
+    assert sym["pilot_structure"]["rising_held_positive"] == \
+        [r for r in a.RUNGS if outcome["rungs"][r]["rising"]]
+    # every rising rung alive and held positive, every flat at zero → PASS always
+    assert sym["power"]["0.85"]["p_pass"] == 1.0
+    assert sym["would_declare"] == "POWERED"
+    assert rec["declared_underpowered"] == (rec["power"]["0.85"]["p_pass"] < .75)
+    assert sym["agrees_with_declaration"] == (
+        (sym["power"]["0.85"]["p_pass"] < .75) == rec["declared_underpowered"])

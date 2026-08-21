@@ -333,6 +333,49 @@ def option_copy_floor(cap: dict) -> dict | None:
     return {"n_options": int(n), "floor": 1.0 / n, "share_listed": 1.0}
 
 
+# ------------------------------------- criterion exactness (FREEZE F-3)
+#
+# FOUND AT THE FREEZE (2026-08-21): 2c's `number` normalization
+# (`re.search(r"-?\d[\d,]*", s)`) keeps the FIRST DIGIT RUN of the
+# answer. base12_digitsum and base13 write their answers as full
+# base-12/13 strings with letter digits (A/B/C; `surface_answer =
+# _to_base12/_to_base13`, registered answer_type "number" in 2c), so
+# 'B83' normalizes to '83', '2A9' to '2', 'AAA' to itself (no digit run: the raw string, whole), and the verify criterion on
+# those two rungs is a first-digit-run match, not exact match — on both
+# sides, identically, since 2c's m4 records carry counts only and the
+# outcome cannot be rescored. That is WHY their majority floors are
+# .038 / .068 with 500 distinct raw answers (the build's finding B saw
+# the numbers, not the cause). Labels are unaffected (both flat at
+# ≤ .006 under the lenient criterion, a fortiori under exact match);
+# disclosed in the verdict's descriptive; every other rung is exact.
+CRITERION_TRUNCATED_PIN = {"base12_digitsum": 196, "base13": 276}
+
+
+def criterion_exactness(cap: dict) -> dict:
+    """Per rung: how many committed answers 2c's normalization does
+    NOT reproduce whole (stripped, lowercased raw ≠ normalized)."""
+    h = harness_2c()
+    at = cap["answer_type"]
+    n_trunc = 0
+    for it in cap["eval_items"]:
+        s = str(it["answer"]).strip().split("\n")[0].strip().lower()
+        s = s.strip(".!?\"' ")
+        if h.normalize_answer(str(it["answer"]), at) != s:
+            n_trunc += 1
+    return {"n_truncated": int(n_trunc), "exact": n_trunc == 0,
+            "rule": ("first digit run" if at == "number"
+                     else "first whitespace token")}
+
+
+def check_criterion_pin(name: str, crit: dict) -> None:
+    want = CRITERION_TRUNCATED_PIN.get(name, 0)
+    if crit["n_truncated"] != want:
+        raise ValueError(
+            f"{name}: {crit['n_truncated']} committed answers are not "
+            f"reproduced whole by 2c's normalization against the pinned "
+            f"{want} — the criterion's exactness is not what was frozen")
+
+
 def rung_floor(cap: dict) -> dict:
     """§5.2 as ruled: the majority-answer share, raised to 1/n_options
     on the option-listing rungs; the pin and the re-derivation must
@@ -347,8 +390,11 @@ def rung_floor(cap: dict) -> dict:
             f"{name}: option-listing re-derivation {oc} disagrees with the "
             f"pin {pinned} — the floor rule's membership is not what was "
             f"frozen")
+    crit = criterion_exactness(cap)
+    check_criterion_pin(name, crit)
     floor = max(maj["floor"], oc["floor"]) if oc else maj["floor"]
     return {**maj, "majority_floor": maj["floor"], "option_copy": oc,
+            "criterion": crit,
             "floor": float(floor),
             "floor_rule": ("max(majority, 1/n_options)" if oc
                            else "majority")}

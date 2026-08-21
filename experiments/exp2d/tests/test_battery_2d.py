@@ -148,3 +148,25 @@ def test_partial_option_listing_is_refused():
         {"question": "Pick: d, b, c?", "answer": "b"}]}
     assert bt.option_copy_floor(cap) == {"n_options": 3, "floor": pytest.approx(1 / 3),
                                          "share_listed": 1.0}
+
+
+def test_criterion_exactness_pinned_both_ways(monkeypatch):
+    """Freeze F-3: 2c's `number` regex keeps the first digit run, so
+    base12_digitsum / base13 (letter-digit answers) are NOT exact-match
+    (196 / 276 of 500 truncated; base13's two all-letter answers pass whole); every other rung is exact. Pinned."""
+    table = bt.floor_table()
+    for r in bt.RUNGS:
+        c = table[r]["criterion"]
+        want = bt.CRITERION_TRUNCATED_PIN.get(r, 0)
+        assert c["n_truncated"] == want and c["exact"] == (want == 0), r
+    h = bt.harness_2c()
+    assert h.normalize_answer("B83", "number") == "83"
+    assert h.normalize_answer("2A9", "number") == "2"
+    cap = bt.load_item_file("base13")
+    monkeypatch.setitem(bt.CRITERION_TRUNCATED_PIN, "base13", 0)
+    with pytest.raises(ValueError, match="exactness"):
+        bt.rung_floor(cap)
+    cap7 = bt.load_item_file("base7")
+    monkeypatch.setitem(bt.CRITERION_TRUNCATED_PIN, "base7", 5)
+    with pytest.raises(ValueError, match="exactness"):
+        bt.rung_floor(cap7)

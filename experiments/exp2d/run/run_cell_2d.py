@@ -1,7 +1,7 @@
 """Exp 2d runner: one rung of one tier — pilot | main | argmax.
 
 Tiers (design §3, §10):
-- pilot:  k = 8, seed 100, both sizes, fp32 — feeds the frozen §7 power
+- pilot:  k = 8, seed 1000, both sizes, fp32 — feeds the frozen §7 power
           procedure and NOTHING else (never pooled with main).
 - main:   k = 64, seed 0, both sizes, fp32 — the predictor. For the two
           reversal rungs the seed-0 streams ARE exp3's committed draws:

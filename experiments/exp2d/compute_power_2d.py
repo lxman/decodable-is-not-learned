@@ -28,12 +28,33 @@ THE MODEL (class-level; the sixth lesson applied in advance):
   at BOTH sizes in its 8,000 pilot draws) is NOT held at zero: it is
   drawn from the alternative TRUNCATED at the pilot's CP bound, mapped
   into score units — cap_g = mean over sizes of the corrected margin
-  at rate CP95_upper(0 / 4,000) = 7.49e-4 against the rung's floor.
-  Every floor on this battery is ≥ .002 > 7.49e-4, so every cap_g is
-  0 and the truncation IS the zero: the pilot's raw zero set is,
-  under the floor rule, main's zero set — the "upper bound" of §7 is
-  tight. The procedure computes the cap from the rule rather than
-  assuming it, and prints it, so the freeze can see the arithmetic.
+  at rate CP95_upper(0 / 4,000) = 9.22e-4 (two-sided, the program's
+  convention; ratified E) against the rung's floor. Every floor on
+  this battery is ≥ .002 > 9.22e-4, so every cap_g is 0 and the
+  truncation IS the zero: the pilot's raw zero set is, under the floor
+  rule, main's zero set — the "upper bound" of §7 is tight. The
+  procedure computes the cap from the rule rather than assuming it,
+  and prints it, so the freeze can see the arithmetic.
+
+  FREEZE FINDING F-4 (2026-08-21), printed as a SENSITIVITY beside the
+  ratified rule (3e F-2 precedent: the rule changes only on Michael's
+  word): the ratified model honours the pilot's ZEROS (flat zeros held
+  at zero; rising raw-zeros truncated) and the flat rungs' POSITIVES
+  (non-held flat rungs draw from the positive part) but re-randomizes
+  the RISING rungs' positives — a rising rung the pilot already shows
+  clearing its floor is redrawn from N(d, 1) and re-silenced with
+  probability Φ(τ − d) (≈ .30 at AUC_true .85 with every flat rung at
+  zero). Main's bar at 32,000 draws is tighter in rate than the
+  pilot's at 4,000, so a pilot-positive rung is a main-positive rung
+  with probability ≈ 1: the model discards realized structure on one
+  side only. The SYMMETRIC rule — rising rungs with a positive pilot
+  score held POSITIVE (drawn from the alternative's positive part,
+  L | L > τ); rising rungs with pilot score 0 truncated at the cap
+  computed from their OWN pilot counts' CP95 upper bounds (the
+  raw-zero cap generalized; 0 whenever those bounds sit below the
+  floor, as they do for every count up to 14–79 on this battery) — is
+  computed on the same seed and printed as `sensitivity_symmetric_rule`.
+  The declaration reads the ratified rule until ruled otherwise.
 
   Families are blocks: every simulated battery is judged by the SAME
   code the verdict runs — `stats_2d.primary_test` (2c's sampled
@@ -74,7 +95,8 @@ N_SIMS = 2000                # per AUC_true
 AUC_TARGETS = (0.5, 0.75, 0.85)
 DECLARATION_TARGET = 0.85    # §7: the declared-underpowered rule reads here
 POWER_BAR = 0.75             # the program's bar since Exp 1
-PILOT_CP_UPPER = st.clopper_pearson(0, a.PILOT_DRAWS_PER_RUNG)[1]  # 7.49e-4
+PILOT_CP_UPPER = st.clopper_pearson(0, a.PILOT_DRAWS_PER_RUNG)[1]  # 9.22e-4
+DECLARATION_RULE = "ratified"   # §7 as built (F/J); "symmetric" is printed
 
 
 # ------------------------------------------------------------ the model
@@ -125,17 +147,34 @@ def score_cap(floor: float, *, rate=PILOT_CP_UPPER) -> float:
     return float(max(0.0, (rate - floor) / (1.0 - floor)))
 
 
-def simulate_scores(rng, *, rising, held_zero, caps, tau, d) -> np.ndarray:
+def score_cap_from_counts(floor: float, counts, n=a.PILOT_DRAWS_PER_RUNG) -> float:
+    """The raw-zero cap generalized (F-4): mean over sizes of the
+    corrected margin at each size's CP95 upper bound for its OBSERVED
+    pilot count — equal to `score_cap(floor)` when every count is 0."""
+    return float(np.mean([score_cap(floor, rate=st.clopper_pearson(int(k), n)[1])
+                          for k in counts]))
+
+
+def simulate_scores(rng, *, rising, held_zero, caps, tau, d,
+                    held_positive=None) -> np.ndarray:
     """One simulated predictor vector over the 34 rungs.
     rising: bool per rung; held_zero: bool per rung (non-rising pilot
     zeros, forced 0); caps: per rung, None for 'no truncation', else
-    the score cap for pilot-raw-zero rising rungs."""
+    the score cap for pilot-raw-zero rising rungs; held_positive: bool
+    per rung (symmetric rule only — rising pilot positives drawn from
+    the alternative's positive part). With held_positive all False the
+    draw sequence is the ratified rule's, call for call."""
     n = len(rising)
     s = np.zeros(n)
+    held_positive = [False] * n if held_positive is None else held_positive
     for i in range(n):
         if rising[i]:
             cap = caps[i]
-            if cap is None:
+            if held_positive[i]:
+                # positive part of the alternative: L | L > τ, L ~ N(d, 1)
+                u = rng.uniform(norm.cdf(tau - d), 1.0)
+                L = d + norm.ppf(min(u, 1 - 1e-16))
+            elif cap is None:
                 L = rng.normal(d, 1.0)
             else:
                 # truncated at τ + cap: draw L | L ≤ τ + cap by inverse cdf
@@ -157,7 +196,7 @@ def simulate_scores(rng, *, rising, held_zero, caps, tau, d) -> np.ndarray:
 
 def power_at(auc_true, *, rising, held_zero, caps, tau, families,
              family_labels, n_sims=N_SIMS, seed=POWER_SEED,
-             group=None, counts=None) -> dict:
+             group=None, counts=None, held_positive=None) -> dict:
     d = solve_effect(auc_true, tau)
     rng = np.random.default_rng(seed)
     y = np.asarray(rising, dtype=int)
@@ -168,7 +207,8 @@ def power_at(auc_true, *, rising, held_zero, caps, tau, families,
     aucs = []
     for _ in range(n_sims):
         x = simulate_scores(rng, rising=rising, held_zero=held_zero,
-                            caps=caps, tau=tau, d=d)
+                            caps=caps, tau=tau, d=d,
+                            held_positive=held_positive)
         t = st.primary_test(x, y, families, family_labels, group=group,
                             counts=counts)
         v = st.verdict_tree(gate1_diff_cells=[], auc_obs=t["auc"],
@@ -221,6 +261,38 @@ def pilot_zero_set(pilot_predictor, outcome) -> dict:
             "pilot_cp_upper_rate": PILOT_CP_UPPER}
 
 
+def pilot_structure_symmetric(pilot_predictor, outcome) -> dict:
+    """F-4's symmetric rule: the same non-rising zero set as
+    `pilot_zero_set`; rising rungs with a POSITIVE pilot score held
+    positive; rising rungs at pilot score 0 truncated at the cap from
+    their own per-size pilot counts (`per_size[s]["k"]`, which
+    `predictor_from_tier` carries)."""
+    zs = pilot_zero_set(pilot_predictor, outcome)
+    held_positive, caps = [], []
+    rising_held_positive, rising_capped = [], {}
+    for r, is_r in zip(a.RUNGS, zs["rising"]):
+        p = pilot_predictor[r]
+        if not is_r:
+            held_positive.append(False)
+            caps.append(None)
+            continue
+        if p["score"] > 0.0:
+            held_positive.append(True)
+            caps.append(None)
+            rising_held_positive.append(r)
+        else:
+            held_positive.append(False)
+            ks = [p["per_size"][s]["k"] for s in a.PROBE_SIZES]
+            cap = score_cap_from_counts(outcome["rungs"][r]["floor"], ks)
+            caps.append(cap)
+            rising_capped[r] = {"pilot_counts": {s: int(k) for s, k in
+                                                 zip(a.PROBE_SIZES, ks)},
+                                "cap": cap}
+    return {**zs, "held_positive": held_positive, "caps": caps,
+            "rising_held_positive": rising_held_positive,
+            "rising_capped": rising_capped}
+
+
 def run_procedure(pilot_predictor, outcome, *, n_sims=N_SIMS,
                   seed=POWER_SEED, targets=AUC_TARGETS) -> dict:
     zs = pilot_zero_set(pilot_predictor, outcome)
@@ -237,8 +309,20 @@ def run_procedure(pilot_predictor, outcome, *, n_sims=N_SIMS,
                                  tau=tau, families=a.FAMILY_SIZES,
                                  family_labels=fams, n_sims=n_sims,
                                  seed=seed, group=group, counts=counts)
+    # F-4 sensitivity: the symmetric rule on the same seed, same τ
+    sym = pilot_structure_symmetric(pilot_predictor, outcome)
+    power_sym = {}
+    for t in targets:
+        power_sym[str(t)] = power_at(t, rising=sym["rising"],
+                                     held_zero=sym["held_zero"],
+                                     caps=sym["caps"], tau=tau,
+                                     families=a.FAMILY_SIZES,
+                                     family_labels=fams, n_sims=n_sims,
+                                     seed=seed, group=group, counts=counts,
+                                     held_positive=sym["held_positive"])
     p85 = power[str(DECLARATION_TARGET)]["p_pass"]
     declared = p85 < POWER_BAR
+    p85_sym = power_sym[str(DECLARATION_TARGET)]["p_pass"]
     return {
         "procedure": "design §7, frozen at build: Tobit latent model, "
                      "τ from the pilot's non-rising zero fraction, fixed "
@@ -258,9 +342,25 @@ def run_procedure(pilot_predictor, outcome, *, n_sims=N_SIMS,
         "power": {k: {kk: vv for kk, vv in v.items()} for k, v in power.items()},
         "power_bar": POWER_BAR,
         "declaration_target": DECLARATION_TARGET,
+        "declaration_rule": DECLARATION_RULE,
         "declared_underpowered": bool(declared),
         "declared_status": ("DECLARED UNDERPOWERED IN ADVANCE"
                             if declared else "POWERED"),
+        "sensitivity_symmetric_rule": {
+            "rule": "freeze F-4 (2026-08-21), NON-DECLARING until ruled: "
+                    "rising rungs with a positive pilot score held "
+                    "positive (L | L > τ); rising rungs at pilot score 0 "
+                    "truncated at the cap from their own pilot counts' "
+                    "CP95 upper bounds; flat rungs as the ratified rule",
+            "pilot_structure": {
+                "rising_held_positive": sym["rising_held_positive"],
+                "rising_capped": sym["rising_capped"]},
+            "power": {k: {kk: vv for kk, vv in v.items()}
+                      for k, v in power_sym.items()},
+            "would_declare": ("DECLARED UNDERPOWERED IN ADVANCE"
+                              if p85_sym < POWER_BAR else "POWERED"),
+            "agrees_with_declaration": bool((p85_sym < POWER_BAR) == declared),
+        },
         "run_anyway": "main runs regardless (ruling c, Michael "
                       "2026-08-21): a FAIL under DECLARED UNDERPOWERED "
                       "reads 'not detected at this resolution'",
@@ -281,6 +381,7 @@ def envelope(outcome, *, n_sims=300, seed=POWER_SEED,
     by_ascent = sorted([r for r in a.RUNGS if outcome["rungs"][r]["rising"]],
                        key=lambda r: outcome["rungs"][r]["corrected_ascent"])
     flat = [r for r in a.RUNGS if not outcome["rungs"][r]["rising"]]
+    rising_all_set = {r for r in a.RUNGS if outcome["rungs"][r]["rising"]}
     fams = [a.FAMILY_OF[r] for r in a.RUNGS]
     group = st.block_perm_group(a.FAMILY_SIZES)
     counts = st.bootstrap_counts_matrix(bt.N_FAMILIES)
@@ -298,17 +399,31 @@ def envelope(outcome, *, n_sims=300, seed=POWER_SEED,
                            caps=caps, tau=tau, families=a.FAMILY_SIZES,
                            family_labels=fams, n_sims=n_sims, seed=seed,
                            group=group, counts=counts)
+            # F-4 sensitivity: the alive rising rungs held positive
+            held_pos = [(r in rising_all_set and r not in raw0)
+                        for r in a.RUNGS]
+            sym = power_at(auc_true, rising=rising_all, held_zero=held,
+                           caps=caps, tau=tau, families=a.FAMILY_SIZES,
+                           family_labels=fams, n_sims=n_sims, seed=seed,
+                           group=group, counts=counts, held_positive=held_pos)
             rows.append({"non_rising_zero_fraction": frac, "z0": z0,
                          "rising_raw_zero": k, "tau": tau,
                          "p_pass": res["p_pass"],
-                         "mean_realized_auc": res["mean_realized_auc"]})
+                         "mean_realized_auc": res["mean_realized_auc"],
+                         "p_pass_symmetric_rule": sym["p_pass"],
+                         "mean_realized_auc_symmetric_rule":
+                             sym["mean_realized_auc"]})
             print(f"  flat-zero {frac:.2f} (z0={z0:2d})  rising-raw-zero "
                   f"{k:2d}  τ {tau:+.3f}  P(PASS|AUC {auc_true}) = "
-                  f"{res['p_pass']:.3f}  E[AUC] {res['mean_realized_auc']:.3f}",
+                  f"{res['p_pass']:.3f}  E[AUC] {res['mean_realized_auc']:.3f}"
+                  f"   | symmetric rule {sym['p_pass']:.3f} "
+                  f"E[AUC] {sym['mean_realized_auc']:.3f}",
                   flush=True)
     return {"auc_true": auc_true, "n_sims": n_sims, "rows": rows,
             "note": "build-time information over hypothetical pilot zero "
-                    "sets; NOT a declaration"}
+                    "sets; NOT a declaration. `p_pass` is the ratified "
+                    "rule (declares); `p_pass_symmetric_rule` is freeze "
+                    "F-4's sensitivity (alive rising rungs held positive)"}
 
 
 # ------------------------------------------------------------ main
@@ -355,9 +470,14 @@ def main(argv=None) -> int:
           f"{rec['pilot_zero_set']['z0']}/{rec['pilot_zero_set']['n0']}; "
           f"rising raw-zero {rec['pilot_zero_set']['rising_raw_zero_set']}")
     for k, v in rec["power"].items():
+        vs = rec["sensitivity_symmetric_rule"]["power"][k]
         print(f"  AUC_true {k}: P(PASS) = {v['p_pass']:.4f}  (d = "
-              f"{v['effect_d']:.3f}, E[AUC] {v['mean_realized_auc']:.3f})")
+              f"{v['effect_d']:.3f}, E[AUC] {v['mean_realized_auc']:.3f})"
+              f"   | symmetric rule (F-4, non-declaring) {vs['p_pass']:.4f}")
     print(f"[2d power] {rec['declared_status']} — {rec['run_anyway']}")
+    print(f"[2d power] F-4 symmetric rule would read: "
+          f"{rec['sensitivity_symmetric_rule']['would_declare']} "
+          f"(agrees: {rec['sensitivity_symmetric_rule']['agrees_with_declaration']})")
     return 0
 
 

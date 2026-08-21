@@ -1,157 +1,138 @@
 # Exp 2d — Freeze Checklist (session 3 of 3)
 
-Opened cold in a fresh session. Assignment: find the class defect.
-The build session's own record (`PROGRESS.md`) is the comparison;
-nothing here is ticked until it is re-run in a fresh process.
+Opened cold in a fresh session 2026-08-21. Assignment: find the class
+defect. The build session's own record (`PROGRESS.md`) is the
+comparison; nothing here is ticked until it is re-run in a fresh
+process. Findings F-1 … F-8 are written up in `PROGRESS.md` (freeze
+entry); this file carries the ticks and what still needs Michael.
 
-## Rulings needed from Michael before the tag
+## Rulings needed from Michael BEFORE the tag
 
+- [ ] **F-4 — which power rule declares.** The ratified Tobit (F/J)
+      re-randomizes rising rungs the pilot already shows positive
+      (re-silenced w.p. Φ(τ−d) ≈ .30) while holding flat positives
+      positive; the SYMMETRIC rule (rising pilot-positives held
+      positive; rising pilot-zeros capped from their own counts) is
+      computed and printed as `sensitivity_symmetric_rule`,
+      NON-DECLARING. Envelope, all flat at zero: .75/.56/.21/.00 →
+      1.00/1.00/1.00/.00 at 0/2/4/6 silent rising rungs. Recommended:
+      the symmetric rule declares (one constant,
+      `compute_power_2d.DECLARATION_RULE`, plus §7 text). Either way
+      main runs regardless (ruling c).
+- [ ] **F-5 — run the two reversal rungs FIRST within each main tier**
+      so gate 1 makes its first production contact ~5 h earlier per
+      size (one line in `run_tier`; loop order is not load-bearing;
+      analysis order unchanged). Recommended yes.
+- [ ] **Doc slips (a)–(f)** in the ledger: §10 "seed 100" → 1000;
+      §4 + §9 the F-3 first-digit-run disclosure (base12_digitsum 196
+      / base13 276 of 500 answers not matched whole; both flat, no
+      label moves); §7 the F-4 sensitivity + model-free G restatement
+      (the statistic's ceiling is 6 silent rising rungs with every
+      flat rung at zero; 59 % of 4-subsets PASS); §5.1 the F-6
+      resolution sentence (predictor bar +.0006–.0057 vs outcome
+      +.008–.048; a deterministic-per-item chance copier clears the
+      predictor's bar 26–42 % of the time; α untouched); §10 order if
+      F-5 is ruled. Text proposed in the ledger; apply only on his
+      word.
 - [x] **Finding H (option-copy floor)** — RULED (ii) by Michael
-      2026-08-21: max(majority, 1/n_options) on the six option-listing
-      rungs, both sides; applied in the build session (doc ruling k;
-      `OPTION_LISTING_PIN`). Freeze: attack the re-derivation rule
-      (every question, uniform count, colon-introduced list) and
-      confirm the 28 non-listing rungs list 0/500.
-- [x] **Finding L (pilot seed)** — RULED 1000 by Michael 2026-08-21;
-      applied (doc ruling l; stream map regenerated).
-- [x] Findings A–E (doc slips) applied to the doc text; F, G, I, J, K
-      ratified as recommended — Michael 2026-08-21, applied in the
-      build session. Freeze: re-read each doc site against the code.
+      2026-08-21; applied (ruling k). Freeze: re-derivation attacked —
+      six rungs list 500/500 at one count, answer never duplicated
+      among options (copy-random rate == 1/n exactly), clock24's 500
+      colon questions list nothing, the other 27 list 0/500.
+- [x] **Finding L (pilot seed)** — RULED 1000; applied (ruling l).
+- [x] Findings A–E, F, G, I, J, K — ratified, applied; re-read
+      against the code at the freeze (one stale §10 line, slip (a)).
 
-## Standing adversarial assignments (work these FIRST, cold)
+## Standing adversarial assignments (worked FIRST, cold)
 
-- [ ] **The class defect.** Every predecessor's freeze found one (3a's
-      valueless input; 3c's unpinned prompts + unattested gate-1
-      shas; 3d's unpinned `answer_type` + self-consistent coverage;
-      3e's sign-flipping void rule). Candidates to attack:
-      (1) the verify criterion's answer_type: `load_sampling_tier`
-      scores with `cap["answer_type"]` from the sha-pinned item file /
-      registry (`ANSWER_TYPE_PIN` re-asserted) — can a runner-written
-      field reach the criterion anywhere (the record's `answer_type`
-      is only COMPARED)? (2) `predictor_from_tier` takes `floors` from
-      the caller — does every path (run(), compute_power_2d.main)
-      compute them from the pinned battery, and could a floor for the
-      wrong rung be paired with a rung's counts? (3) the block layout:
-      `FAMILY_SIZES` and the x/y arrays are both built from
-      `RUNG_ORDER_2D` — is there any path that builds one from the
-      family map's dict order instead? (4) `check_gate1_vs_main` reads
-      main rows the loader kept only for reversal rungs — confirm the
-      loader keeps them for BOTH sizes and the cross-check cannot be
-      skipped by a missing key; (5) the argmax tier's `redecode_diffs`
-      is runner-written and never recomputed (descriptive, finding I)
-      — confirm no verdict branch reads it; (6) the restriction's
-      reduced family vector: `_restricted_layout` recomputes sizes in
-      first-appearance order — is a family that loses all rungs
-      dropped, and does the block group regenerate for the new vector
-      (it does, via `primary_test(...)` without `group`)? (7) the
-      power procedure's inputs: `pilot_zero_set` reads `score` and
-      `raw_zero` — both from `predictor_from_tier` on the pilot tier
-      with `n_draws_per_rung` pinned at 4,000; (8) the gate-1 record's
-      `fires_reproduced` is produced by the runner scoring the
-      REGENERATED rows — the analyzer checks them against the pin when
-      clean; does run() also re-score the committed bytes (referent
-      check 9 does; run() relies on `load_gate1`'s equality to the
-      pin)?
-- [ ] **Totality of the verify path over BOTH answer types' emission
-      alphabets** (`number`: regex path, `word`: split path). Fuzz
-      ≥ 50,000 draw-side inputs per type incl. punctuation-wrapped
-      Unicode whitespace (the em-space slip the build's own referent
-      probe made), control chars, NUL, combining marks, empty, 8- and
-      12-token garbage, digits with commas/signs; prove `IndexError`
-      is the only reachable exception on a `str` and that 3c's wrapper
-      catches it; confirm the answer side can never raise on any of
-      the 17,000 committed answers (enumerate them all through
-      `normalize_answer`).
-- [ ] **The floor rule's degrees of freedom**: majority-answer rate
-      under 2c's normalization (ties in the majority count; answers
-      that normalize to the empty string; the `number` regex taking
-      the first integer of a multi-number answer) — enumerate every
-      rung's normalized answer multiset and confirm the floor table;
-      then Michael's ruling on finding H applied identically to both
-      sides if (ii).
-- [ ] **The AUC null's conditioning**: the block group exchanges
-      whole-family outcome patterns among same-size families with x
-      fixed; confirm the sampled matrix is byte-equal to 2c's
-      (`test_block_group_is_2cs_routing_and_matrix`), the add-one
-      convention, that `rankdata` midranks are permutation-invariant
-      under y-permutation (x untouched), and that the 4 size-1
-      families (all flat) contribute nothing to the null (their
-      swaps are identities on y). Attack the bootstrap's drop rule:
-      a resample with no rising rung is dropped — can the drop rate
-      itself carry information about the alternative (it depends on
-      which families are rising, which is the label, not the
-      predictor)?
-- [ ] **Gate 1 = exp3's committed bytes on the PRODUCTION path.** The
-      runner calls `sample_item(..., seeds=(0,), draws_per_seed=64,
-      max_new_tokens=bt.max_new_tokens(rung) [= 12 for both reversal
-      rungs], terminal_ids=exp3's rule)`; exp3 called it with
-      `seeds=(0,1,2,3)` and `SAMPLING_MAX_NEW_TOKENS = 12`. Same
-      per-seed generator reseeded from `stream_seed` under namespace
-      `exp3`, same 16-row chunk plan, cache cropped between chunks —
-      re-read the sampler cold and confirm nothing carries across
-      seeds (precedent: 3c/3d/3e re-derived single seeds out of
-      multi-seed runs byte-identically, six times). Confirm the pilot
-      (k = 8 → one 8-row chunk) cannot touch main's streams (different
-      seed). Confirm `_load_model(size, "trained", "float32")` is
-      exp3's exact upcast path.
-- [ ] **Power model shape (the sixth lesson)**: the alternative is
-      class-level by construction; attack the Tobit choice (a
-      two-point or rate-space alternative would change P(PASS) how?),
-      the τ continuity correction, the population-AUC calibration
-      (does the realized-structure AUC under the model match AUC_true
-      when no rung is held/truncated? — `mean_realized_auc` ≈ .856 at
-      .85 in the envelope's 0-raw-zero rows), and the envelope's
-      conclusion G (the PASS bar dies at ~4 silent rising rungs) —
-      is that a property of the model or of the statistic? (Compute
-      the deterministic AUC with k silent rising rungs and all flat
-      at zero: (13 + (13 − k))/26 … = 1 − k/26; AUC < .75 at k > 6.5;
-      with block p and the CI it binds earlier.)
-- [ ] **The known-outcome caveat** is carried in the verdict record,
-      the licensed sentence is ruling g's, and no branch reads the
-      2c frozen ascent except the comparability secondary.
+- [x] **The class defect — FOUND: F-1.** The runner's halt leaves an
+      incomplete main tier by construction (no normal draws file for
+      the halted rung); `run()` loaded the main tier before gate 1
+      and RAISED `FileNotFoundError` instead of delivering
+      INSUFFICIENT_DATA — §6's first terminal was unreachable from
+      the production tree (W4 reached it only on a complete tree the
+      runner cannot produce). Demonstrated with the runner's own halt
+      function; closed additively (`scan_gate1_halt` before any tier
+      loads, `.HALTED` rows re-verified through 3d's comparator,
+      `insufficient_data_record`); world W5, three fixtures, two
+      mutants killed. Candidates (1)–(8) of the original list all
+      attacked and cleared (ledger).
+- [x] **Totality of the verify path over BOTH alphabets** — 480,240
+      fuzzed + 22,620 exhaustive inputs: `IndexError` the only
+      reachable exception (word path only, 29 hits; number path
+      raises nothing); wrapper total; 17,000 answers normalize
+      non-empty and self-verify; 512,000 committed draws raise
+      nothing raw.
+- [x] **The floor rule's degrees of freedom** — every rung's
+      normalized multiset enumerated: FOUND F-3 (base12_digitsum /
+      base13 answers truncated to their first digit run by 2c's
+      `number` regex: 196 / 276 of 500; the criterion is not
+      exact-match there; both flat, labels unmoved; pinned +
+      disclosed in the verdict record; doc text for ratification).
+      Majority ties harmless; no empty normalization; option
+      listing clean (above).
+- [x] **The AUC null's conditioning** — matrix byte-equal to 2c's;
+      block order preserved; size-1 families identities on y;
+      midranks invariant; 100k draws reach exactly the group's 3,780
+      label orbits on the realized y (MC SE ~3e-4 at α, noted);
+      bootstrap drops x-independent (2/10,000).
+- [x] **Gate 1 = exp3's committed bytes on the PRODUCTION path** —
+      sampler and runner re-read cold against exp3's
+      `run_sampling_cell`: same prompt rendering, same `sample_item`
+      contract (fresh generator per seed, chunk plan (16,)×4, cache
+      cropped between chunks), budget 12 == exp3's, same terminal
+      ids, same float32 upcast path; pilot seed 1000 / plan (8,)
+      cannot touch seed-0 substreams; comparator on committed bytes
+      0 diffs / 4 cells, fire at 436/6 only (referent 9).
+- [x] **Power model shape** — FOUND F-4 (asymmetric use of the
+      pilot; symmetric rule printed as sensitivity, ruling needed);
+      model-free G check through the verdict's own code (PASS
+      through k = 5, INDETERMINATE 6, FAIL 7; all subsets tabulated);
+      `mean_realized_auc` ≈ .853–.855 at AUC_true .85 in the
+      0-silent rows (calibration holds); τ continuity finite at
+      23/23.
+- [x] **The known-outcome caveat** carried in both verdict records
+      (full and halt); the licensed sentence is ruling g's; 2c's
+      frozen ascent read only by the comparability secondary.
 
-## Cold battery (fresh processes, pycache cleared, every box)
+## Cold battery (fresh processes, pycache cleared)
 
-- [ ] Fixture suite cold: 87 expected (plus any freeze additions).
-- [ ] Mutation battery cold, both directions, baseline clean — the
-      build record's kill count expected (PROGRESS.md).
-- [ ] Referent battery `verify_referents_2d.py` cold: 14/14.
-- [ ] Full-shape worlds cold: PASS / FAIL / INDETERMINATE /
-      INSUFFICIENT_DATA + the restriction world.
-- [ ] `make_referents_2d.py` re-run is byte-idempotent (sha
-      95eded96… unchanged); `dump_stream_map_2d` byte-idempotent.
-- [ ] `compute_power_2d.py --envelope` reproduces
-      `power_envelope_2d.json` (seeded).
-- [ ] Driver dry-run: 6 tiers in the frozen order; runner refusals on
-      an empty tree (main without pilot/power; argmax without main;
-      any gate-1 diff halts all).
-- [ ] exp3's `run/preflight_paths.py` artifacts for 410m/1b float32
-      exist and pass on the current stack (no model contact needed to
-      CHECK; re-running them IS model contact — Michael's word).
-- [ ] Empty tree: every loader raises FileNotFoundError/ValueError,
-      never a verdict.
+- [x] Fixture suite cold: **101 passed** (87 + 14 freeze fixtures).
+- [x] Mutation battery cold, both directions, baseline clean — 87
+      mutants (80 + 7): **85/87 killed**, survivors [1] and [38] the
+      documented equivalents; [73] survived the first pass (fixture
+      bypassed run()) and was closed — ledger.
+- [x] Referent battery `verify_referents_2d.py` cold: **15/15**.
+- [x] Full-shape worlds cold: PASS / FAIL / INDETERMINATE /
+      INSUFFICIENT_DATA (W4) + W5 runner-halt + the restriction world.
+- [x] `make_referents_2d.py` byte-idempotent (95eded96…);
+      `dump_stream_map_2d` byte-idempotent (136 cells).
+- [x] `compute_power_2d.py --envelope` reproduces the committed
+      ratified fields byte for byte; regenerated with the F-4 columns.
+- [x] Driver dry-run: 6 tiers in the frozen order; runner refusals on
+      an empty tree (suite: main without pilot/power; argmax without
+      main; any gate-1 diff halts all).
+- [x] exp3's `preflight_{410m,1b}_float32.json` exist, `all_ok` 4/4
+      each (2026-08-16; stack unchanged since); NOT re-run.
+- [x] Empty tree: every loader raises FileNotFoundError, never a
+      verdict; `scan_gate1_halt` silent.
 
-## Doc corrections to apply at the freeze (from PROGRESS.md A–E)
+## Doc corrections (from PROGRESS.md A–E) — applied in the build session
 
-- [x] §11: "four answer types" → two (number / word). APPLIED.
-- [x] §4: base12_digitsum .038, base13 .068. APPLIED.
-- [x] §4/§5.3: 11 rising / 23 flat in 7 families (5 mixed); 9 at 12b.
-      APPLIED.
-- [x] §5.3: null = 2c's family-BLOCK permutation; "within families"
-      struck. APPLIED.
-- [x] §3/§5.4/§7/j: CP figures to the two-sided convention. APPLIED.
-- [x] §7: the built procedure (F), the envelope (G), the zero-set
-      definitions (J). APPLIED.
-- [x] §5.4 (I) and §6 (K). APPLIED.
-- [x] §3: pilot seed 1000 (ruling l) — applied.
-- [x] §5.2: floor per ruling k — applied.
+- [x] §11 two answer types; §4 base12_digitsum .038 / base13 .068;
+      §4/§5.3 11/23 in 7 families; §5.3 block null; CP two-sided;
+      §7 procedure/envelope/zero sets; §5.4 (I); §6 (K); §3 seed
+      1000; §5.2 ruling k. Freeze: re-read against the code — one
+      stale line (§10, slip (a)).
 
 ## After the tag
 
+- [ ] Tag `exp2d-preregistered` once F-4 / F-5 / slips are ruled and
+      applied (re-run suite + referents after any applied ruling).
 - [ ] Pilot on Michael's launch word (both sizes, ~1.7 h), watcher
       running, per-rung commits.
 - [ ] `compute_power_2d.py` ONCE → `power_2d.json`; declaration
-      printed; ledgered.
+      printed (both rules printed; the ruled one declares); ledgered.
 - [ ] Main 410m → 1b (~13 h); gate 1 as the reversal rungs land.
 - [ ] Argmax both sizes (~1 h).
 - [ ] Projection (`projection_template.md`) sealed in a commit BEFORE

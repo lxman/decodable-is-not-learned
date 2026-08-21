@@ -160,9 +160,22 @@ def write_argmax(root, size, rung, correct, *, verify) -> None:
     p.write_text(json.dumps(rec, indent=1))
 
 
-def write_power(root, status="POWERED") -> None:
+def pilot_predictor_of(root, *, verify=None):
+    """The pilot tier on disk through the analyzer's own loaders — what
+    the real procedure attests in power_2d.json."""
+    caps, floors = battery()
+    cells = a.load_sampling_tier(root, "pilot", caps, verify or a.load_verify())
+    return a.predictor_from_tier(cells, floors,
+                                 n_draws_per_rung=a.PILOT_DRAWS_PER_RUNG)
+
+
+def write_power(root, status="POWERED", pilot_pred=None) -> None:
+    pilot_pred = pilot_pred if pilot_pred is not None else pilot_predictor_of(root)
     rec = {"declared_status": status, "power": {"0.85": {"p_pass": 0.9}},
-           "pilot_zero_set": {"z0": 0, "n0": 0}, "synthetic": True}
+           "pilot_zero_set": {"z0": 0, "n0": 0}, "synthetic": True,
+           "pilot_predictor": {r: {"score": pilot_pred[r]["score"],
+                                   "raw_zero": pilot_pred[r]["raw_zero"]}
+                               for r in a.RUNGS}}
     (Path(root) / "power_2d.json").write_text(json.dumps(rec, indent=1))
 
 
@@ -206,7 +219,69 @@ def build_world(root, *, main_verified, pilot_verified=None,
                                 verify=verify)
             write_argmax(root, size, rung, int(argmax_correct.get(
                 (rung, size), 0)), verify=verify)
-    write_power(root, power_status)
+    write_power(root, power_status, pilot_predictor_of(root, verify=verify))
+    return a.run(root) if run else {}
+
+
+def build_halt_world(root, *, halt_at=("rev_string7", "410m"), run=True,
+                     pilot_verified=None, main_verified=None) -> dict:
+    """THE TREE THE PRODUCTION RUNNER LEAVES AFTER A GATE-1 HALT
+    (freeze F-1), produced with the runner's own halt function: pilot
+    complete both sizes, power_2d.json present, main/<size> complete
+    for the rungs BEFORE the halted one in RUNG_ORDER, the halted rung
+    = gate-1 record with diffs + .HALTED rows and NO normal draws
+    file, nothing after. The complete-tree loaders refuse this tree;
+    §6's first terminal must still be delivered from it."""
+    from experiments.exp3.run.run_cell import write_draws
+    root = Path(root)
+    verify = a.load_verify()
+    caps, floors = battery()
+    out = outcome()
+    ris = [r for r in a.RUNGS if out["rungs"][r]["rising"]]
+    main_verified = main_verified or counts_for(
+        {r: floors[r]["floor"] + 0.2 for r in ris})
+    pilot_verified = pilot_verified or {}
+    for size in a.PROBE_SIZES:
+        for rung in a.RUNGS:
+            v = int(main_verified.get((rung, size), 0))
+            prow = synthetic_rows(caps[rung], seed=a.TIERS["pilot"]["seed"],
+                                  dps=8, verified=int(pilot_verified.get(
+                                      (rung, size), v // 8)))
+            write_sampling_cell(root, "pilot", size, rung, prow, verify=verify)
+    write_power(root, "POWERED", pilot_predictor_of(root, verify=verify))
+    h_rung, h_size = halt_at
+    idx = a.RUNGS.index(h_rung)
+    for size in a.PROBE_SIZES:
+        if a.PROBE_SIZES.index(size) > a.PROBE_SIZES.index(h_size):
+            break
+        last = idx if size == h_size else len(a.RUNGS)
+        for rung in a.RUNGS[:last]:
+            if rung in a.REVERSAL_RUNGS:
+                rows = [{"item": r["item"], "draws": {"0": list(r["draws"]["0"])}}
+                        for r in committed_rows(rung, size)]
+                write_sampling_cell(root, "main", size, rung, rows,
+                                    verify=verify)
+                write_gate1(root, rung, size, rows, verify=verify)
+            else:
+                v = int(main_verified.get((rung, size), 0))
+                rows = synthetic_rows(caps[rung], seed=0, dps=64, verified=v)
+                write_sampling_cell(root, "main", size, rung, rows,
+                                    verify=verify)
+    rows = [{"item": r["item"], "draws": {"0": list(r["draws"]["0"])}}
+            for r in committed_rows(h_rung, h_size)]
+    rows[7]["draws"]["0"][11] = rows[7]["draws"]["0"][11] + "!"
+    cap = caps[h_rung]
+    answers = [str(it["answer"]) for it in cap["eval_items"]]
+    try:
+        rd.record_and_halt_on_diff(
+            h_rung, h_size, rows, answers=answers,
+            answer_type=cap["answer_type"], verify_fn=verify,
+            items_sha=bt.ITEMS_SHA_PIN[h_rung], model_sha=_model_sha(h_size),
+            stack=FAKE_STACK, out_root=root)
+    except RuntimeError:
+        write_draws(a.halted_draws_path(root, h_size, h_rung), rows)
+    else:
+        raise AssertionError("the runner's halt function did not halt")
     return a.run(root) if run else {}
 
 

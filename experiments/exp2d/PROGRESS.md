@@ -411,3 +411,312 @@ K §6 anti-predictive CI → INDETERMINATE, stated. No pre-committed
 change spent — nothing has run. With k and l this closes every item
 the build raised; the freeze opens cold on a doc and an instrument
 that agree.
+
+---
+
+## 2026-08-21 — FREEZE SESSION (session 3 of 3), opened cold
+
+Assignment: find the class defect. Worked `FREEZE_CHECKLIST.md` top
+to bottom in fresh processes (pycache cleared, `PYTHONDONTWRITEBYTECODE=1`,
+stack torch 2.12.1 / transformers 5.13.0 — the stack of 3c/3d/3e's
+six byte-identical gate-1 reproductions). ZERO model contact: no
+rehearsal cell, no preflight re-run (the 410m/1b float32 preflight
+artifacts of 2026-08-16 exist and read `all_ok` on 4/4 checks each —
+checked, not re-run).
+
+### F-1 — THE CLASS DEFECT (3a's lineage): INSUFFICIENT_DATA unreachable from the runner's tree. CLOSED.
+
+`run_sampling_rung` halts a reversal main rung on a gate-1 diff by
+writing the gate-1 record (n_diffs > 0), parking the rows in
+`<rung>.draws.jsonl.HALTED.jsonl.gz` and NOT writing the normal
+draws file (so skip-if-exists never treats a halted rung as done);
+the tier process exits non-zero and the driver stops. The tree a
+halted campaign leaves is therefore an INCOMPLETE main tier by
+construction — and `run()` loaded `load_sampling_tier(root, "main")`
+before `load_gate1`, so on that tree the frozen verdict RAISED
+`FileNotFoundError: main tier incomplete: 39 of 68 cells missing`
+instead of delivering §6's first terminal. Demonstrated executably
+on a tree built with the runner's own halt function
+(`rederive_2d.record_and_halt_on_diff`): halt at main/410m
+rev_string7 (RUNG_ORDER index 29), pilot complete, power present,
+main/410m rungs 0–28 present → the runner refused every later tier
+as designed, and `run()` crashed. The synthetic W4 world had reached
+INSUFFICIENT_DATA only because it writes a COMPLETE tree with a
+drifted stream — a tree the runner can never produce. The frozen
+verdict's own terminal was unreachable from the production path:
+3a's class ("closed INSUFFICIENT_DATA when its frozen verdict
+crashed"), one level up.
+
+Closure, additive, §6's precedence made executable BEFORE any tier
+loads: `scan_gate1_halt(root)` validates every gate-1 record that
+EXISTS with the same pins as `load_gate1` (factored into
+`_check_gate1_record`), collects the cells with diffs, and — not
+trusting the runner — re-derives each halted cell's diff count from
+the `.HALTED` rows through 3d's `diff_seed` against exp3's committed
+bytes (a disagreement is a hard error; an absent `.HALTED` file lets
+the record's diffs stand, flagged `halted_rows_reverified: false` —
+the terminal is the conservative one either way). `run()` returns
+`insufficient_data_record(...)` on any halted cell: the tree's
+verdict via `verdict_tree`, the diffs verbatim, every tier's
+completeness, the known outcome, the twin referent, the declaration
+if present, `primary: None`, `halted_before_completion: true`. A
+clean scan decides nothing; the complete-tree path (`load_gate1` +
+`check_gate1_vs_main`) runs unchanged. New: `build_halt_world` in
+`tests/full_shape.py` (the runner's halt tree, built with the
+runner's halt function), world W5 → INSUFFICIENT_DATA, three
+fixtures (delivers the terminal with tiers 29/34, 0/34 for main;
+`.HALTED` rows re-verified and a doctored file refused; clean/empty
+scans silent, a bad pin on a halt record refused), and two mutants
+(scan dropped; re-verification dropped) — both killed.
+
+### F-2 — attestation gaps (3c B / 3e F-3 class), three additive pins. CLOSED.
+
+(a) `power_2d.json` attests the pilot predictor it declared from
+(`pilot_predictor`) and nothing compared it to the pilot tier on
+disk: a regenerated or edited pilot behind a standing declaration
+would carry a stale status into the verdict record and into how a
+FAIL is READ. `check_power_vs_pilot` compares every rung's `score`
+and `raw_zero` to the analyzer's own recompute from bytes;
+`load_power_record` requires the key. (b) gate-1 records'
+`model_sha` was stored, never compared: now == 2b's `PYTHIA_SHAS`
+(the main tier already pinned it). (c) argmax records' `model_sha`
+and `answer_type` likewise. Fixtures for each; mutants for each —
+killed. The synthetic world builder now writes `pilot_predictor`
+through the analyzer's own loaders, as the real procedure does.
+
+### F-3 — the criterion is NOT exact-match on two rungs (inherited from 2c, undisclosed until now). PINNED, DISCLOSED; doc text for ratification.
+
+The floor-DoF attack enumerated every rung's normalized answer
+multiset: `base12_digitsum` and `base13` have 500 DISTINCT raw
+answers (raw majority .002) yet normalized majorities .038 / .068.
+Cause: 2c's `number` normalization `re.search(r"-?\d[\d,]*", s)`
+keeps the FIRST DIGIT RUN, and both rungs write their answers as
+full base-12/13 strings with letter digits (`surface_answer =
+_to_base12 / _to_base13`, registered `answer_type="number"` in 2c's
+SPECS): 'B83' → '83', '2A9' → '2', '47A8' → '47'; 196 of 500
+base12_digitsum answers and 276 of 500 base13 answers are not
+reproduced whole (base13's two all-letter answers 'AAA'/'BAB' pass
+whole — no digit run, the raw string is returned). The build's
+finding B saw the numbers ("answer '2' in both") and not the cause.
+2c's own ledger knew a "normalization wrinkle" on these rungs only
+as an ORACLE letter-digit mapping; the verify-side truncation was
+not recorded anywhere. Consequences, stated plainly: on those two
+rungs the criterion is a first-digit-run match on BOTH sides
+identically (2c's m4 records carry counts only — the outcome cannot
+be rescored, and the rule is 2c's verbatim, frozen); the majority
+floor is computed under the criterion as applied, so "always emit
+'2'" scores exactly it; both rungs are flat at ≤ .006 under the
+lenient criterion and so a fortiori under exact match — no label
+moves; on the predictor side a spurious positive is possible only in
+the direction that LOWERS the AUC (a flat rung leaving the zero
+tie). Every other rung — all 32 — is exact. Closed executably:
+`CRITERION_TRUNCATED_PIN = {base12_digitsum: 196, base13: 276}`,
+re-derived at every `rung_floor` (a changed count is a hard error),
+carried per rung in the verdict's `answer_space_descriptive`
+(`criterion_exact`, `n_answers_truncated`), referent check 15 (with
+the option-listing 500/500 vs 0/500 census), fixture, mutant
+(killed). DOC: §4 floors paragraph and §9 "exact-match
+verification" need the disclosure — text proposed below, for
+ratification.
+
+### F-4 — the power model discards the pilot's POSITIVE information on one side only. SENSITIVITY PRINTED; the declaring rule needs Michael.
+
+The ratified Tobit (F/J) holds flat pilot-zeros at zero, draws
+non-held flat rungs from the POSITIVE part (they are held positive),
+truncates rising raw-zeros — and re-randomizes every other RISING
+rung from N(d, 1), re-silencing it with probability Φ(τ − d) (≈ .30
+at AUC_true .85 with every flat rung at zero: d = 2.56 against τ =
+2.04). A rising rung the pilot already shows clearing its floor at
+4,000 draws clears main's at 32,000 with probability ≈ 1 (main's bar
+is tighter in rate: +.0057 vs +.016 at c = .25). So the model honours
+realized structure on the flat side and discards it on the rising
+side; the asymmetry, not the Tobit, is the finding. Model-free check
+of finding G through the verdict's own code (all flat at zero, k
+lowest-ascent rising rungs silent, the rest at distinct positives):
+PASS through k = 5 (AUC .773, block p .0051), INDETERMINATE at k = 6
+(AUC .727, p .026), FAIL at k = 7 (CI touches .5); over ALL silent
+subsets: k = 3 → 139/165 PASS, k = 4 → 196/330, k = 5 → 153/462,
+k = 6 → 0/462. The envelope's ".21 at 4 silent, 0 at 6" is the
+statistic's own ceiling at 6 plus the model's ~30 % re-silencing on
+top of the forced set. Also: a rising rung with 1–14 pilot fires at
+floor .006 (up to 79 at the option-listing floors) has a CP95 upper
+bound still BELOW its floor — the same information as a raw zero —
+yet the ratified rule treats it as alive (power overstated there).
+
+Implemented as a NON-DECLARING sensitivity on the same seed (3e F-2
+precedent — the rule moves only on Michael's word): the SYMMETRIC
+rule — rising rungs with a positive pilot score held positive
+(L | L > τ from N(d, 1)); rising rungs at pilot score 0 truncated at
+the cap from their OWN per-size pilot counts' CP95 upper bounds
+(`score_cap_from_counts`, == the raw-zero cap when both counts are
+0); flat rungs unchanged. `run_procedure` prints it as
+`sensitivity_symmetric_rule` with `would_declare` and
+`agrees_with_declaration`; `declaration_rule = "ratified"`. The
+ratified draw sequence is untouched call for call (fixture: identical
+arrays; envelope: ratified fields byte-identical to the committed
+file). Envelope under both rules (AUC_true .85, 300 sims):
+
+| flat at pilot zero | silent rising 0 | 2 | 4 | 6 |
+|---|---|---|---|---|
+| 12/23 | .71 → **.93** | .29 → **.45** | .00 → .00 | .00 |
+| 17/23 | .62 → **.99** | .36 → **.80** | .00 → .00 | .00 |
+| 23/23 | .75 → **1.00** | .56 → **1.00** | .21 → **1.00** | .00 |
+
+(ratified → symmetric). Under the symmetric rule the declaration is
+decided by the silent-rising count against the statistic's own
+ceiling (dies between 4 and 6), not by the model's re-silencing.
+RULING NEEDED: which rule declares. Recommendation: the symmetric
+rule (it is the "realized tie structure of BOTH sides" §5.5 already
+commits to, completed on the rising side; the ratified rule's
+asymmetry has no stated rationale). Either way the procedure runs
+ONCE after the pilot and main runs regardless (ruling c).
+
+### F-5 — gate 1 reaches its first production contact late. RECOMMENDATION, ruling needed.
+
+`run_tier` iterates `RUNG_ORDER_2D`; the reversal rungs sit at
+indices 29–30, so the first byte comparison against exp3's streams
+happens after the whole pilot (~1.7 h) and 29 rungs of main/410m
+(~5 h). Every predecessor's gate 1 ran FIRST (rehearsal). Iterating
+the two reversal rungs first within each main tier would surface a
+generation-law drift ~5 h earlier per size at no statistical cost
+(the runner's loop order is not load-bearing anywhere; skip-if-
+exists; the analysis order stays `RUNG_ORDER_2D`). Not applied — §10
+is the run plan as ruled; one line in `run_tier` if ruled.
+
+### F-6 — the bars' resolution differs 8× between the sides. DISCLOSURE, doc text for ratification.
+
+"Applied identically" holds at the level of the formula, not the
+unit: the outcome's bar (n = 500) clears at +.008–.048 above c, the
+predictor's (n = 32,000) at +.0006–.0057. The 32,000 draws are 64
+per item; a DETERMINISTIC-per-item chance baseline (the option
+copier that always copies the same position; greedy argmax IS this
+on the outcome side, where n = 500 already prices it) clears the
+predictor's bar 26–42 % of the time per rung (exact binomial over
+items, every rung tabulated in the freeze record). The verdict's α
+is untouched — the scores are label-blind and the block test and
+bootstrap condition on them — so this is interpretive: a predictor
+"above floor" is a weaker statement than an outcome "above floor",
+and a spurious predictor positive on a flat rung can only LOWER the
+AUC. Recommend a sentence in §5.1; a sensitivity AUC under an
+item-resolution bar (k' = round(rate × 500) against n = 500) is one
+line if Michael wants it printed — not added unasked.
+
+### F-7 — AUC null conditioning: CLEARED, with one observation.
+
+Sampled matrix == 2c's `sampled_block_perms(fams, 100000, rng(0))`
+byte for byte; every row a permutation with within-block order
+preserved; size-1 families permute among their four slots but all
+four are flat, so they are identities on y; midrank matvec == loop
+AUC over 5,000 rows; n₁ preserved in every row. The group acting on
+the realized y has exactly 3,780 distinct label vectors (3!/2! ×
+9!/(2!·4!·3!) × 1 = 3 × 1,260) and the 100,000 draws reach all
+3,780, so the sampled p is a Monte-Carlo estimate of an enumerable
+one (p_min 1/3,780 = 2.65e-4; the add-one sampled value at perfect
+separation is 26/100,001 = 2.6e-4); MC standard error at p = .01 is
+~3e-4. 2c's routing kept deliberately (§5.3: "exactly as 2c's
+verdict was"); noted so a p within ±3e-4 of α is read as such.
+Bootstrap drop rule: the drop count depends on the label and the
+counts matrix only (identical for two unrelated x; 2/10,000 on the
+realized label; 0–5 over 300 block-permuted labels) — it carries no
+information about the predictor.
+
+### F-8 — totality of the verify path over both alphabets: CLEARED.
+
+480,240 fuzzed draw-side inputs (em/ideographic/zero-width/NBSP/BOM
+whitespace, quote- and bracket-wrapped, control chars, NUL, combining
+marks, non-ASCII digits, surrogates, 8- and 12-token garbage, comma/
+sign digits) × both answer types + 22,620 exhaustive 1–4-character
+products: `IndexError` the only exception, reachable on the `word`
+path only (29 hits; the `number` path raises nothing); 3c's wrapper
+returned a bool every time. All 17,000 committed answers normalize
+non-empty and self-verify under their own type (and raise nothing
+under the other). The 512,000 committed reversal draws raise nothing
+raw.
+
+### Other attacks, cleared (candidates 1–8 of the standing list)
+
+(1) `answer_type` reaches the criterion only from the sha-pinned
+item file / registry (`ANSWER_TYPE_PIN` re-asserted); the records'
+field is compared, never read. (2) every floor consumer reads
+`floors[rung]["floor"]` from `bt.floor_table` on the pinned battery
+(run(), compute_power_2d.main, full_shape). (3) x/y and
+`FAMILY_SIZES` both from `RUNG_ORDER_2D`; the bootstrap's
+`sorted(fams)` is 2c's. (4) the loader keeps main reversal rows for
+BOTH sizes; `check_gate1_vs_main` iterates them and cannot skip (a
+missing row set is a TypeError, not a pass). (5) `redecode_diffs` is
+read by no branch. (6) `_restricted_layout` drops emptied families,
+keeps contiguity, regenerates the group for the reduced vector.
+(7) `pilot_zero_set` reads `score`/`raw_zero` from
+`predictor_from_tier` at 4,000 draws pinned. (8) gate-1 fires are
+checked against the pin when clean; the main rows are byte-compared
+independently, which entails the fires. Gate-1 production path
+re-read cold against exp3's `run_sampling_cell`: same `render_prompt`
+with `shots[:2]`, same `sample_item` signature (seeds=(0,) vs
+(0,1,2,3): a fresh `torch.Generator` per seed from `stream_seed`,
+chunk plan (16,16,16,16), cache cropped to the prompt between chunks,
+nothing carried across seeds), `max_new_tokens` 12 == exp3's
+`SAMPLING_MAX_NEW_TOKENS` for both reversal rungs, same
+`terminal_ids`, same `_load_model(size, "trained", "float32")`; the
+pilot's seed 1000 / chunk plan (8,) cannot touch seed-0 substreams.
+Floor DoF beyond F-3: ties in the majority count on 12 rungs are
+harmless (the share is the floor; `majority_answer` is descriptive);
+no answer normalizes to empty; the six option-listing rungs list
+500/500 at one count each with the answer never duplicated among
+options (mean copy-random-option rate == 1/n exactly); clock24's
+500/500 colon questions ("Answer as H:00") list nothing — the
+re-derivation is robust to them; the other 27 list 0/500.
+
+### Doc slips found at the freeze (ledgered, NOT applied — ratification)
+
+(a) §10 step 2 still says "k = 8, seed 100" — ruling l made it 1000
+(§3 is right). (b) §4 floors paragraph: add the F-3 disclosure after
+"answer '2' in both": *because 2c's `number` normalization keeps
+the first digit run of an alphanumeric base-12/13 answer ('B83' →
+'83', '2A9' → '2'); on these two rungs the criterion is a
+first-digit-run match on both sides, 196 / 276 of 500 answers are
+not matched whole, and every other rung is exact-match*. (c) §9
+second bullet "exact-match verification" → "exact-match verification
+(first-digit-run match on base12_digitsum and base13, §4)". (d) §7:
+the symmetric-rule sensitivity and the model-free restatement of G
+(the statistic's ceiling is 6 silent rising rungs with every flat
+rung at zero; PASS for 59 % of 4-subsets), plus the ruling on which
+rule declares. (e) §5.1: the F-6 resolution sentence. (f) §10 run
+order if F-5 is ruled. Code-comment slips FIXED in place (not doc
+text): `analyze_2d.dump_stream_map_2d` docstring "{0, 100}" → "{0,
+1000}"; `run_cell_2d` header "seed 100" → "1000"; `compute_power_2d`
+comments "7.49e-4" (one-sided) → "9.22e-4" — the code had always
+computed the two-sided value the doc prints.
+
+### Cold battery on the closed instrument (fresh processes)
+
+- Fixture suite: **100 passed** (87 + 13 freeze fixtures), 94 s.
+- Referent battery: **15/15** (check 15 added).
+- Full-shape worlds: PASS / FAIL / INDETERMINATE / INSUFFICIENT_DATA
+  (W4 drifted-complete) + **W5 runner-halt tree** + the restriction
+  world — all terminals, in the suite.
+- `make_referents_2d.py` byte-idempotent (sha 95eded96… unchanged);
+  `dump_stream_map_2d` byte-idempotent (136 cells, 4 == exp3's).
+- `compute_power_2d.py --envelope`: the ratified fields reproduce the
+  committed `power_envelope_2d.json` byte for byte (21 rows, 300
+  sims); the file is regenerated with the F-4 columns beside them.
+- Driver dry-run: 6 tiers, pilot → main → argmax, 410m then 1b.
+- Empty tree: pilot/main/gate1/argmax/power loaders and run() all
+  refuse (FileNotFoundError), `scan_gate1_halt` silent.
+- Preflight artifacts 410m/1b float32 (2026-08-16): present, `all_ok`
+  4/4 each; not re-run (model contact).
+- Mutation battery (87 mutants: 80 + 7 freeze), detached, sources
+  mutated in place and restored, baseline clean: **85/87 killed**; the
+  two survivors are the documented equivalents [1] (the redundant
+  rate-above-floor conjunct) and [38] (the untrained-twin floor — no
+  committed twin accuracy exceeds its rung's floor). Two passes: the
+  first found 8 entries whose targets the F-1/F-2 refactors had moved
+  (the seven `load_gate1` pins now live in `_check_gate1_record` at a
+  different indentation; the argmax provenance line gained two
+  conjuncts) and ONE genuine survivor — [73] "power record not
+  compared to the pilot tier": the F-2 fixture called
+  `check_power_vs_pilot` directly, so deleting the call inside run()
+  went unnoticed. Closed with a fixture that drives the mismatch
+  through run() on a full synthetic tree; the 8 retargeted + [73]
+  re-run with a fresh baseline: 9/9 killed. Suite after the addition:
+  101.
+- Fixture suite final cold count: **101 passed**.

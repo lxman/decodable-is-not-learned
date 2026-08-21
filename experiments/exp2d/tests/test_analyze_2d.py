@@ -347,3 +347,127 @@ def test_twin_totals_check():
                  (0, 512_000, 64_001)):
         with pytest.raises(ValueError, match="twin record"):
             a.check_twin_totals(*args)
+
+
+# ------------------------------------------- freeze F-1: the halt tree
+
+def test_scan_gate1_halt_delivers_insufficient_data_from_runner_tree(tmp_path):
+    """The tree the PRODUCTION RUNNER leaves after a gate-1 halt (gate-1
+    record with diffs, .HALTED rows, no normal draws file, later tiers
+    absent) must yield §6's first terminal from run(), not a
+    FileNotFoundError from the complete-tree loaders."""
+    v = fs.build_halt_world(tmp_path, halt_at=("rev_string7", "410m"))
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert v["halted_before_completion"] is True
+    assert v["gate1"]["diff_cells"] == ["rev_string7/410m"]
+    assert v["gate1"]["records_present"] == 1
+    d = v["gate1"]["diffs_verbatim"]["rev_string7/410m"]
+    assert len(d) == 1 and d[0]["item"] == 7 and d[0]["draw"] == 11
+    assert v["gate1"]["cells"]["rev_string7/410m"]["halted_rows_reverified"]
+    assert v["primary"] is None
+    assert v["tiers"]["main/410m"]["rungs_complete"] == \
+        a.RUNGS.index("rev_string7")
+    assert v["tiers"]["main/1b"]["rungs_complete"] == 0
+    assert v["tiers"]["pilot/1b"]["rungs_complete"] == 34
+    assert v["outcome_summary"]["n_rising"] == 11
+    assert v["power"]["declared_status"] == "POWERED"
+    assert "ZERO free parameters" in v["known_outcome_caveat"]
+    # the complete-tree loader still refuses the incomplete main tier
+    with pytest.raises(FileNotFoundError, match="incomplete"):
+        a.load_sampling_tier(tmp_path, "main", fs.battery()[0],
+                             a.load_verify())
+
+
+def test_scan_gate1_halt_reverifies_halted_rows(tmp_path):
+    """The analyzer does not trust the halt record: the .HALTED rows are
+    compared to exp3's bytes again and must reproduce the diff count."""
+    fs.build_halt_world(tmp_path, halt_at=("reverse_string", "1b"), run=False)
+    hp = a.halted_draws_path(tmp_path, "1b", "reverse_string")
+    rows = [json.loads(l) for l in gzip.open(hp, "rt")]
+    rows[3]["draws"]["0"][2] += "?"                 # a second diff the record lacks
+    with gzip.open(hp, "wt") as f:
+        for r in rows:
+            f.write(json.dumps(r, sort_keys=True) + "\n")
+    with pytest.raises(ValueError, match="own comparison of the .HALTED"):
+        a.run(tmp_path)
+    hp.unlink()                                    # absent: record stands, noted
+    v = a.run(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert v["gate1"]["cells"]["reverse_string/1b"][
+        "halted_rows_reverified"] is False
+
+
+def test_scan_gate1_halt_is_silent_on_a_clean_or_empty_tree(tmp_path, env):
+    assert a.scan_gate1_halt(tmp_path) == {"halted_cells": [], "cells": {},
+                                          "records_present": 0}
+    _gate1_tree(tmp_path, env)
+    s = a.scan_gate1_halt(tmp_path)
+    assert s["halted_cells"] == [] and s["records_present"] == 4
+    # a halt record still carries every pin: a bad one is a hard error
+    _gate1_tree(tmp_path, env, mutate=("rev_string7", "410m"))
+    p = a.gate1_record_path(tmp_path, "410m", "rev_string7")
+    _edit_record(p, model_sha="ff" * 20)
+    with pytest.raises(ValueError, match="pinned"):
+        a.scan_gate1_halt(tmp_path)
+
+
+# ------------------------------------------- freeze F-2: attestations
+
+def test_gate1_model_sha_pinned(tmp_path, env):
+    _gate1_tree(tmp_path, env)
+    p = a.gate1_record_path(tmp_path, "1b", "reverse_string")
+    _edit_record(p, model_sha="ff" * 20)
+    with pytest.raises(ValueError, match="model_sha"):
+        a.load_gate1(tmp_path)
+
+
+def test_argmax_model_sha_and_answer_type_pinned(tmp_path, env):
+    for size in a.PROBE_SIZES:
+        for rung in a.RUNGS:
+            fs.write_argmax(tmp_path, size, rung, 0, verify=env["verify"])
+    p = a.argmax_record_path(tmp_path, "410m", "mod17")
+    good = p.read_text()
+    for field, bad in (("model_sha", "ff" * 20), ("answer_type", "word")):
+        _edit_record(p, **{field: bad})
+        with pytest.raises(ValueError, match="provenance"):
+            a.load_argmax(tmp_path, env["battery"], env["verify"])
+        p.write_text(good)
+
+
+def test_power_record_must_match_the_pilot_tier(tmp_path, env):
+    """power_2d.json attests the pilot predictor it declared from; the
+    analyzer compares it to the pilot tier recomputed from bytes."""
+    for size in a.PROBE_SIZES:
+        for rung in a.RUNGS:
+            _one_cell(tmp_path, env, "pilot", size, rung,
+                      40 if rung == "antonym" else 0)
+    pred = fs.pilot_predictor_of(tmp_path, verify=env["verify"])
+    fs.write_power(tmp_path, "POWERED", pred)
+    a.check_power_vs_pilot(a.load_power_record(tmp_path / "power_2d.json"), pred)
+    rec = json.loads((tmp_path / "power_2d.json").read_text())
+    rec["pilot_predictor"]["mod17"]["score"] = 0.01
+    (tmp_path / "power_2d.json").write_text(json.dumps(rec))
+    with pytest.raises(ValueError, match="attested pilot predictor"):
+        a.check_power_vs_pilot(a.load_power_record(tmp_path / "power_2d.json"),
+                               pred)
+    del rec["pilot_predictor"]
+    (tmp_path / "power_2d.json").write_text(json.dumps(rec))
+    with pytest.raises(ValueError, match="pilot_predictor"):
+        a.load_power_record(tmp_path / "power_2d.json")
+
+
+def test_run_refuses_a_power_record_that_disagrees_with_the_pilot(tmp_path):
+    """Through run() itself (mutation [73]): a full tree whose
+    power_2d.json attests a pilot predictor the pilot draws on disk do
+    not reproduce must be refused before any verdict."""
+    _, floors = fs.battery()
+    ris = fs.rising_rungs()
+    fs.build_world(tmp_path, main_verified=fs.counts_for(
+        {r: floors[r]["floor"] + 0.2 for r in ris}), run=False)
+    p = tmp_path / "power_2d.json"
+    rec = json.loads(p.read_text())
+    rec["pilot_predictor"]["mod17"]["raw_zero"]["1b"] = \
+        not rec["pilot_predictor"]["mod17"]["raw_zero"]["1b"]
+    p.write_text(json.dumps(rec))
+    with pytest.raises(ValueError, match="attested pilot predictor"):
+        a.run(tmp_path)

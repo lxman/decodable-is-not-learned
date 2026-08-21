@@ -226,7 +226,7 @@ def stream_seed(rung, size, mode, seed, item_idx) -> int:
 
 
 def dump_stream_map_2d(path=STREAM_MAP_2D_PATH) -> dict:
-    """(rung, size, trained, seed ∈ {0, 100}) → item-0/499 endpoints
+    """(rung, size, trained, seed ∈ {0, 1000}) → item-0/499 endpoints
     under exp3's exact formula and namespace. The seed-0 reversal
     entries duplicate exp3's committed map on purpose; the continuity
     check asserts the overlap byte-equal."""
@@ -561,6 +561,70 @@ def gate1_record_path(root, size, rung) -> Path:
     return Path(root) / "results" / "gate1" / f"{size}_{MODE}" / f"{rung}.json"
 
 
+def _check_gate1_record(rec, p, *, rung, size, root, expected_fires,
+                        committed_shas) -> dict:
+    """One gate-1 record's pins (shared by the complete-tree loader and
+    the halt scan): path/contents, seed/dps, coverage (3d F2), items
+    sha, attested committed sha == §4 literal (== disk on the real
+    tree, 3c B), model_sha == 2b's pin (freeze F-2; 3e F-3's analogue),
+    n_diffs/diffs coherence, fires == the committed addresses when
+    clean."""
+    if (rec.get("rung"), rec.get("size"), rec.get("mode")) != \
+            (rung, size, MODE):
+        raise ValueError(f"{p}: contents disagree with path")
+    if rec.get("seeds_rederived") != [GATE1_SEED] or \
+            rec.get("draws_per_seed") != TIERS["main"]["draws_per_seed"]:
+        raise ValueError(f"{p}: seed/dps are not the main tier's")
+    if rec.get("n_items") != N_ITEMS or \
+            rec.get("draws_compared") != GATE1_COVERAGE:
+        raise ValueError(
+            f"{p}: coverage {rec.get('n_items')} items / "
+            f"{rec.get('draws_compared')} draws against the pinned "
+            f"{N_ITEMS} / {GATE1_COVERAGE} — gate 1 must cover the "
+            f"whole committed stream (3d F2)")
+    if rec.get("items_sha256") != bt.ITEMS_SHA_PIN[rung]:
+        raise ValueError(f"{p}: items_sha256 against the §4 pin")
+    want = committed_shas[rung][size]
+    if rec.get("committed_draws_sha256") != want:
+        raise ValueError(
+            f"{p}: attested committed sha "
+            f"{rec.get('committed_draws_sha256')} != the §4 literal "
+            f"{want}")
+    if Path(root) == EXP2D:
+        disk = hashlib.sha256(
+            (EXP3 / "results" / "sampling" / f"{size}_{MODE}"
+             / f"{rung}.draws.jsonl.gz").read_bytes()).hexdigest()
+        if disk != want:
+            raise ValueError(f"exp3 shard {rung}/{size} on disk "
+                             f"hashes to {disk} against the §4 "
+                             f"literal {want}")
+    from models import PYTHIA_SHAS   # 2b's, sys.path-ordered
+    if rec.get("model_sha") != PYTHIA_SHAS[size]:
+        raise ValueError(f"{p}: model_sha {rec.get('model_sha')} != 2b's "
+                         f"pinned {PYTHIA_SHAS[size]} — the gate-1 "
+                         f"comparison was not made with the pinned weights")
+    diffs = rec.get("diffs")
+    if not isinstance(diffs, list) or \
+            rec.get("n_diffs") != len(diffs):
+        raise ValueError(f"{p}: n_diffs/diffs disagree")
+    fires = [{"item": int(f["item"]), "seed": int(f["seed"]),
+              "draw": int(f["draw"])}
+             for f in rec.get("fires_reproduced", [])]
+    exp = [dict(a) for a in expected_fires[(rung, size)]]
+    if len(diffs) == 0 and sorted(fires, key=lambda a: (
+            a["item"], a["draw"])) != sorted(exp, key=lambda a: (
+            a["item"], a["draw"])):
+        raise ValueError(
+            f"{p}: a clean comparison that does not carry the "
+            f"committed fires {exp} (got {fires}) — the comparator "
+            f"or the scorer is wrong")
+    return {"n_diffs": len(diffs), "diffs": diffs,
+            "draws_compared": rec["draws_compared"],
+            "fires_reproduced": fires,
+            "model_sha": rec.get("model_sha"),
+            "stack": rec.get("stack")}
+
+
 def load_gate1(root, *, expected_fires=None, committed_shas=None) -> dict:
     """The 4 production-path comparison records: coverage pinned at
     500 × 64, seed 0, committed sha == literal == disk (3c finding B
@@ -578,60 +642,129 @@ def load_gate1(root, *, expected_fires=None, committed_shas=None) -> dict:
             if not p.exists():
                 raise FileNotFoundError(f"gate-1 record missing: {p}")
             rec = json.loads(p.read_text())
-            if (rec.get("rung"), rec.get("size"), rec.get("mode")) != \
-                    (rung, size, MODE):
-                raise ValueError(f"{p}: contents disagree with path")
-            if rec.get("seeds_rederived") != [GATE1_SEED] or \
-                    rec.get("draws_per_seed") != TIERS["main"]["draws_per_seed"]:
-                raise ValueError(f"{p}: seed/dps are not the main tier's")
-            if rec.get("n_items") != N_ITEMS or \
-                    rec.get("draws_compared") != GATE1_COVERAGE:
-                raise ValueError(
-                    f"{p}: coverage {rec.get('n_items')} items / "
-                    f"{rec.get('draws_compared')} draws against the pinned "
-                    f"{N_ITEMS} / {GATE1_COVERAGE} — gate 1 must cover the "
-                    f"whole committed stream (3d F2)")
-            if rec.get("items_sha256") != bt.ITEMS_SHA_PIN[rung]:
-                raise ValueError(f"{p}: items_sha256 against the §4 pin")
-            want = committed_shas[rung][size]
-            if rec.get("committed_draws_sha256") != want:
-                raise ValueError(
-                    f"{p}: attested committed sha "
-                    f"{rec.get('committed_draws_sha256')} != the §4 literal "
-                    f"{want}")
-            if Path(root) == EXP2D:
-                disk = hashlib.sha256(
-                    (EXP3 / "results" / "sampling" / f"{size}_{MODE}"
-                     / f"{rung}.draws.jsonl.gz").read_bytes()).hexdigest()
-                if disk != want:
-                    raise ValueError(f"exp3 shard {rung}/{size} on disk "
-                                     f"hashes to {disk} against the §4 "
-                                     f"literal {want}")
-            diffs = rec.get("diffs")
-            if not isinstance(diffs, list) or \
-                    rec.get("n_diffs") != len(diffs):
-                raise ValueError(f"{p}: n_diffs/diffs disagree")
-            fires = [{"item": int(f["item"]), "seed": int(f["seed"]),
-                      "draw": int(f["draw"])}
-                     for f in rec.get("fires_reproduced", [])]
-            exp = [dict(a) for a in expected_fires[(rung, size)]]
-            if len(diffs) == 0 and sorted(fires, key=lambda a: (
-                    a["item"], a["draw"])) != sorted(exp, key=lambda a: (
-                    a["item"], a["draw"])):
-                raise ValueError(
-                    f"{p}: a clean comparison that does not carry the "
-                    f"committed fires {exp} (got {fires}) — the comparator "
-                    f"or the scorer is wrong")
-            out[(rung, size)] = {"n_diffs": len(diffs), "diffs": diffs,
-                                 "draws_compared": rec["draws_compared"],
-                                 "fires_reproduced": fires,
-                                 "model_sha": rec.get("model_sha"),
-                                 "stack": rec.get("stack")}
-            if diffs:
+            cell = _check_gate1_record(rec, p, rung=rung, size=size, root=root,
+                                       expected_fires=expected_fires,
+                                       committed_shas=committed_shas)
+            out[(rung, size)] = cell
+            if cell["diffs"]:
                 diff_cells.append(f"{rung}/{size}")
     return {"cells": out, "diff_cells": diff_cells,
             "total_draws_compared": sum(c["draws_compared"]
                                         for c in out.values())}
+
+
+def halted_draws_path(root, size, rung) -> Path:
+    """Where the runner parks a halted reversal rung's rows (the normal
+    draws file is deliberately NOT written on a diff)."""
+    return tier_draws_path(root, "main", size, rung).with_suffix(
+        ".HALTED.jsonl.gz")
+
+
+def scan_gate1_halt(root, *, expected_fires=None, committed_shas=None,
+                    exp3_root=None) -> dict:
+    """§6 precedence, EXECUTABLE BEFORE ANY TIER IS LOADED (freeze
+    finding F-1, 3a's class): after a gate-1 halt the runner leaves a
+    gate-1 record with diffs, a .HALTED draws file and NO normal draws
+    file, so the main tier is incomplete by construction and the
+    complete-tree loaders would refuse with FileNotFoundError instead
+    of delivering the INSUFFICIENT_DATA terminal. This scan validates
+    every gate-1 record that EXISTS (same pins as `load_gate1`),
+    collects the cells with diffs, and — not trusting the runner —
+    re-derives each halted cell's diff count from the .HALTED rows
+    through 3d's comparator when that file is present (absent: the
+    record's diffs stand, noted; the terminal is the conservative
+    one). A clean scan decides nothing; `load_gate1` still runs on
+    the complete tree."""
+    from experiments.exp3.run.run_cell import read_draws
+    from experiments.exp3d.rederive_3d import diff_seed
+    expected_fires = GATE1_EXPECTED_FIRES if expected_fires is None \
+        else expected_fires
+    committed_shas = COMMITTED_DRAWS_SHA256 if committed_shas is None \
+        else committed_shas
+    exp3_root = Path(exp3_root or EXP3)
+    dps = TIERS["main"]["draws_per_seed"]
+    cells, halted, present = {}, [], 0
+    for rung in REVERSAL_RUNGS:
+        for size in PROBE_SIZES:
+            p = gate1_record_path(root, size, rung)
+            if not p.exists():
+                continue
+            present += 1
+            rec = json.loads(p.read_text())
+            cell = _check_gate1_record(rec, p, rung=rung, size=size, root=root,
+                                       expected_fires=expected_fires,
+                                       committed_shas=committed_shas)
+            if not cell["diffs"]:
+                continue
+            hp = halted_draws_path(root, size, rung)
+            if hp.exists():
+                committed = read_draws(exp3_root / "results" / "sampling"
+                                       / f"{size}_{MODE}"
+                                       / f"{rung}.draws.jsonl.gz")
+                regenerated = {int(r["item"]): list(r["draws"][str(GATE1_SEED)])
+                               for r in read_draws(hp)}
+                again = diff_seed(committed, regenerated, dps=dps,
+                                  seed=GATE1_SEED)
+                if len(again) != cell["n_diffs"]:
+                    raise ValueError(
+                        f"gate 1 {rung}/{size}: the halt record says "
+                        f"{cell['n_diffs']} diffs, the analyzer's own "
+                        f"comparison of the .HALTED rows finds {len(again)}")
+                cell["halted_rows_reverified"] = True
+            else:
+                cell["halted_rows_reverified"] = False
+            cells[(rung, size)] = cell
+            halted.append(f"{rung}/{size}")
+    return {"halted_cells": halted, "cells": cells,
+            "records_present": present}
+
+
+def _tier_completeness(root) -> dict:
+    out = {}
+    for tier in ("pilot", "main"):
+        for size in PROBE_SIZES:
+            n = sum(1 for r in RUNGS
+                    if tier_record_path(root, tier, size, r).exists()
+                    and tier_draws_path(root, tier, size, r).exists())
+            out[f"{tier}/{size}"] = {"rungs_complete": n, "of": len(RUNGS)}
+    for size in PROBE_SIZES:
+        n = sum(1 for r in RUNGS if argmax_record_path(root, size, r).exists())
+        out[f"argmax/{size}"] = {"rungs_complete": n, "of": len(RUNGS)}
+    return out
+
+
+def insufficient_data_record(halt, *, root, outcome, twin, power) -> dict:
+    """The §6 terminal-1 record built from what a halted campaign
+    leaves: the tree's verdict, the diffs verbatim, the completeness of
+    every tier, the known outcome and the standing referents. No
+    primary is computable and none is faked."""
+    tree = st.verdict_tree(gate1_diff_cells=halt["halted_cells"],
+                           auc_obs=None, block_p=None, ci=[None, None])
+    return {
+        "verdict": tree["verdict"], "reason": tree["reason"],
+        "known_outcome_caveat": KNOWN_OUTCOME_CAVEAT,
+        "halted_before_completion": True,
+        "tiers": _tier_completeness(root),
+        "primary": None,
+        "outcome_summary": {
+            "n_rising": outcome["n_rising"],
+            "n_rising_12b": outcome["n_rising_12b"],
+            "families_with_rising": outcome["families_with_rising"],
+            "known_answer_gate": outcome["known_answer_gate"],
+        },
+        "gate1": {"diff_cells": halt["halted_cells"],
+                  "records_present": halt["records_present"],
+                  "cells": {f"{r}/{s}": {k: v for k, v in c.items()
+                                         if k != "diffs"}
+                            for (r, s), c in halt["cells"].items()},
+                  "diffs_verbatim": {f"{r}/{s}": c["diffs"]
+                                     for (r, s), c in halt["cells"].items()}},
+        "power": None if power is None else {
+            "declared_status": power["declared_status"],
+            "power": power["power"]},
+        "twin_referent": twin,
+        "n_rungs": len(RUNGS), "n_families": bt.N_FAMILIES,
+    }
 
 
 def check_gate1_vs_main(gate1, main_cells) -> None:
@@ -685,11 +818,14 @@ def load_argmax(root, battery, verify_fn, *, rungs=RUNGS,
             p = argmax_record_path(root, size, rung)
             rec = json.loads(p.read_text())
             cap = battery[rung]
+            from models import PYTHIA_SHAS   # 2b's, sys.path-ordered
             if (rec.get("rung"), rec.get("size"), rec.get("mode")) != \
                     (rung, size, MODE) or rec.get("dtype") != ARGMAX_DTYPE \
                     or rec.get("items_sha256") != bt.ITEMS_SHA_PIN[rung] \
                     or rec.get("max_new_tokens") != bt.max_new_tokens(rung) \
-                    or rec.get("n_shots") != bt.N_SHOTS:
+                    or rec.get("n_shots") != bt.N_SHOTS \
+                    or rec.get("answer_type") != cap["answer_type"] \
+                    or rec.get("model_sha") != PYTHIA_SHAS[size]:
                 raise ValueError(f"{p}: provenance disagrees with the pins")
             conts = rec.get("continuations")
             if not isinstance(conts, list) or len(conts) != N_ITEMS:
@@ -749,10 +885,32 @@ def load_power_record(path=POWER_PATH, *, required=True) -> dict | None:
                 f"pilot; main does not start without the declaration")
         return None
     rec = json.loads(p.read_text())
-    for k in ("declared_status", "power", "pilot_zero_set"):
+    for k in ("declared_status", "power", "pilot_zero_set", "pilot_predictor"):
         if k not in rec:
             raise ValueError(f"{p}: no {k!r}")
     return rec
+
+
+def check_power_vs_pilot(power, pilot_predictor) -> None:
+    """The declaration was computed from the pilot tier AS IT WAS; the
+    record attests the predictor it saw (`pilot_predictor`), and that
+    attestation is COMPARED here to the pilot tier the analyzer just
+    recomputed from raw bytes (freeze F-2; 3c B's class — attested but
+    never compared). A regenerated or edited pilot behind a standing
+    declaration is a hard error, not a verdict."""
+    seen = power["pilot_predictor"]
+    bad = []
+    for r in RUNGS:
+        got = seen.get(r)
+        if not isinstance(got, dict) \
+                or got.get("score") != pilot_predictor[r]["score"] \
+                or got.get("raw_zero") != pilot_predictor[r]["raw_zero"]:
+            bad.append(r)
+    if bad:
+        raise ValueError(
+            f"power_2d.json's attested pilot predictor disagrees with the "
+            f"pilot tier on disk for {len(bad)} rung(s) (e.g. {bad[0]}): "
+            f"the declaration was not computed from these pilot draws")
 
 
 # --------------------------------------------------------------- verdict
@@ -919,7 +1077,14 @@ def verdict_2d(*, outcome, predictor, probe, gate1, floors, main_cells,
     sec["answer_space_descriptive"] = {
         r: {"n_distinct_answers": floors[r]["n_distinct_answers"],
             "floor": floors[r]["floor"], "predictor": predictor[r]["score"],
-            "corrected_ascent": outcome["rungs"][r]["corrected_ascent"]}
+            "corrected_ascent": outcome["rungs"][r]["corrected_ascent"],
+            # freeze F-3: 2c's `number` normalization keeps the FIRST
+            # DIGIT RUN of an alphanumeric answer; on base12_digitsum /
+            # base13 the criterion is therefore not exact-match
+            # (196 / 276 of 500 answers truncated), on every other rung
+            # it is. Pinned and re-derived; descriptive.
+            "criterion_exact": floors[r]["criterion"]["exact"],
+            "n_answers_truncated": floors[r]["criterion"]["n_truncated"]}
         for r in RUNGS}
 
     per_rung = {}
@@ -1003,10 +1168,25 @@ def run(root=EXP2D, *, write=False) -> dict:
     outcome = load_outcome(floors, referents=referents)
     probe = load_probe_predictor()
     twin = load_twin_record(verify_fn=verify_fn)
+    # §6 precedence, executable first (freeze F-1): a gate-1 halt leaves
+    # an incomplete main tier by construction; the terminal is read
+    # from the halt record, not refused by the complete-tree loaders.
+    halt = scan_gate1_halt(root)
+    if halt["halted_cells"]:
+        v = insufficient_data_record(
+            halt, root=root, outcome=outcome, twin=twin,
+            power=load_power_record(Path(root) / "power_2d.json",
+                                    required=False))
+        if write:
+            out = Path(root) / "results" / "verdict.json"
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(json.dumps(v, indent=1, default=str))
+        return v
     power = load_power_record(Path(root) / "power_2d.json")
     pilot_cells = load_sampling_tier(root, "pilot", battery, verify_fn)
     pilot_pred = predictor_from_tier(pilot_cells, floors,
                                      n_draws_per_rung=PILOT_DRAWS_PER_RUNG)
+    check_power_vs_pilot(power, pilot_pred)
     main_cells = load_sampling_tier(root, "main", battery, verify_fn)
     predictor = predictor_from_tier(main_cells, floors,
                                     n_draws_per_rung=MAIN_DRAWS_PER_RUNG)

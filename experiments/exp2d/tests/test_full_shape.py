@@ -103,3 +103,18 @@ def test_restriction_removes_performable_rising(tmp_path):
     r = fb["restricted_primary"]
     assert r["n_rising"] == 9 and r["n_flat"] == 23
     assert v["primary"]["n_rising"] == 11           # the primary untouched
+
+
+def test_worlds_w5_runner_halt_tree(tmp_path):
+    """Freeze F-1: INSUFFICIENT_DATA reached from the tree the runner
+    actually leaves (incomplete main, no normal draws for the halted
+    rung), not only from W4's complete-but-drifted tree."""
+    v = fs.build_halt_world(tmp_path, halt_at=("reverse_string", "1b"))
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert v["gate1"]["diff_cells"] == ["reverse_string/1b"]
+    assert v["tiers"]["main/410m"]["rungs_complete"] == 34
+    assert v["tiers"]["main/1b"]["rungs_complete"] == a.RUNGS.index(
+        "reverse_string")
+    assert v["tiers"]["argmax/410m"]["rungs_complete"] == 0
+    assert "differ from exp3's committed bytes" in v["reason"]
+    assert v["primary"] is None and v["halted_before_completion"]
