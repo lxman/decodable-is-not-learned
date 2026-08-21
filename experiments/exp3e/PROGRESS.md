@@ -589,3 +589,18 @@ voids; twin 0/576,000; all loaders green; run took 4 s. `verdict.json`
 (projection graded: ten hits, three misses, the named disconfirmer
 X ≥ 3 FIRED with X = 4 — verdict-level MISS; every miss is where the
 fires land). Tag `exp3e-closed`.
+
+### Close-out propagation + supporting-repo re-extraction — 2026-08-21 (Michael's go)
+
+Essay: the 3d caveat ("I haven't run it") replaced by the 3e result;
+`experiments.md`: 3e bullet, the arc's open alternative closed, a
+process note; methods paper §6: seventh lesson from freeze F-1 (md +
+TeX, three PDFs rebuilt, text-verified) — awaiting Michael's read.
+Supporting repo re-extracted with the exp3e pair and force-pushed:
+**18 experiment tags; 16 prior anchors byte-identical; 350 shared
+commits identical SHA-for-SHA; scans clean** (single noreply identity
+on commits and taggers, 0 LAN literals, 0 secret-class, home-path file
+count 6 = baseline, `_build.html` absent; the one `jordan.mymail`
+content hit is the TMLR byline, public since the 3d round). Anchors:
+exp3e-preregistered d1031a6 → e5cba1f, exp3e-closed 244a0e9 → c393617;
+apparatus commit 03fc543. Zenodo v1.3 not minted — Michael's call.
