@@ -1,0 +1,82 @@
+{
+ "rung": "reverse_string",
+ "size": "1b",
+ "mode": "trained",
+ "n_items": 45,
+ "items": [
+  9,
+  21,
+  46,
+  51,
+  68,
+  71,
+  78,
+  123,
+  133,
+  143,
+  148,
+  153,
+  154,
+  159,
+  164,
+  169,
+  174,
+  179,
+  182,
+  210,
+  226,
+  234,
+  245,
+  269,
+  283,
+  284,
+  299,
+  320,
+  348,
+  354,
+  359,
+  361,
+  367,
+  375,
+  403,
+  405,
+  415,
+  430,
+  435,
+  439,
+  447,
+  463,
+  472,
+  485,
+  489
+ ],
+ "subset_sha256": "292aa5e794e48390755edb6fc1f441145c3e4800684622031c47ce08989c89ef",
+ "seeds_rederived": [
+  20
+ ],
+ "draws_per_seed": 64,
+ "draws_compared": 2880,
+ "n_diffs": 0,
+ "diffs": [],
+ "fires_reproduced": [
+  {
+   "item": 348,
+   "seed": 20,
+   "draw": 14
+  },
+  {
+   "item": 430,
+   "seed": 20,
+   "draw": 43
+  }
+ ],
+ "committed_draws_sha256": "f1420d777009794785869dafe512654abee31f3a7e1d79df202f61c811d48f13",
+ "committed_shard": "reverse_string.s20-s23.draws.jsonl.gz",
+ "items_sha256": "ad5bdcd944e3b983da42825a493eb813269b0ffebadb64f40fb1ee0f834f68c9",
+ "model_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "dtype": "float32",
+ "stack": {
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ }
+}
