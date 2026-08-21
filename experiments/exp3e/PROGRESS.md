@@ -474,3 +474,32 @@ Remaining before the tag: the gate-1 single-cell rehearsal
 (`rederive_cell_3e("410m")`, 2,880 draws vs 3d's seed-24 shard) on
 Michael's explicit word — model contact, asked for separately; then
 `exp3e-preregistered`. Campaign launch is a separate go.
+
+### Gate-1 rehearsal RUN — 2026-08-21, on Michael's word ("go — run gate 1, tag, and push")
+
+`run_tier("gate1", "410m")` → `rederive_cell_3e("410m")`, the
+campaign's own tier path, detached process, scorer-gate precondition
+checked before the model loaded. **2,880/2,880 draws IDENTICAL to 3d's
+committed seed-24 shard on the 45 items; n_diffs 0; fires_reproduced
+= [(123, 24, 62)] — the 410m 'ecde' fire, by address, through the
+production subset path.** Validated against every pin with the
+analyzer's own checks: coverage == `GATE1_COVERAGE`; items == the
+subset literal with its sha; `items_sha256` == the §4 item-file pin;
+the attested shard sha == the 3d shard on disk == the §4 literal
+(`check_gate1_committed_shas_3e`); model_sha = 2b's pinned 410m
+revision; stack torch 2.12.1 / transformers 5.13.0 — the same stack
+that produced exp3, 3c and 3d's streams. **Sixth consecutive
+byte-identical reproduction on this stack**, the first through a
+subset-restricted path (the stream map's "batch composition changes
+no stream" claim, now executable on a real cell). The record is
+committed as the campaign's 410m gate-1 cell; the 1b cell runs at
+launch. No other model contact; no new sampled quantity for any real
+cell — the regenerated draws were compared and discarded.
+
+### TAGGED `exp3e-preregistered` — 2026-08-21
+
+Freeze complete: findings F-1/F-2/F-3 closed and ratified, cold
+battery green (suite 125, mutation 65/65, referents 15/15, determinism
+×2, gate-1 rehearsal IDENTICAL). Campaign launch (gate1/1b, then the
+tranche 410m → 1b in 16-seed blocks with the watcher) is a SEPARATE
+go; projection to be ledgered before the analyzer runs.

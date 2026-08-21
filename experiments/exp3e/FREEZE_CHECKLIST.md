@@ -78,13 +78,19 @@ is re-run in a fresh process.
 - [x] Campaign driver dry-run: 4 tiers in the frozen §10 order;
       runner refusal preconditions verified on an empty tree and on a
       failed scorer-gate record.
-- [ ] **Gate-1 single-cell rehearsal — the ONLY sanctioned model
+- [x] **Gate-1 single-cell rehearsal — the ONLY sanctioned model
       contact before the tag, on Michael's word:**
       `rederive_cell_3e("410m")` end to end against 3d's committed
       seed-24 shard on the 45 items (2,880 draws; the stream carries
       the 410m 'ecde' fire at item 123 draw 62). Expect IDENTICAL /
       n_diffs 0 / `fires_reproduced` == [(123, 24, 62)]; the record
       is kept as the campaign's own comparison made early.
+      **RUN 2026-08-21 on Michael's word ("go"): 2,880/2,880 draws
+      IDENTICAL, n_diffs 0, fires_reproduced [(123, 24, 62)], items /
+      subset / item-file shas on the pins, attested shard sha == disk
+      == §4 literal, torch 2.12.1 / transformers 5.13.0 — record at
+      `results/gate1/410m_trained/reverse_string.json`, kept as the
+      campaign's 410m gate-1 cell (skip-if-exists).**
 
 ## Ratification with Michael (before the tag)
 
@@ -99,8 +105,8 @@ is re-run in a fresh process.
 - [x] Any freeze finding, closed or open. **RATIFIED — Michael,
       2026-08-21 (slips a–f, build dials, F-1/F-2/F-3; F-2 → DECLARED
       UNDERPOWERED IN ADVANCE; H_half subsumed).**
-- [ ] Then: tag `exp3e-preregistered`; campaign launch is a separate
-      go.
+- [x] Then: tag `exp3e-preregistered`; campaign launch is a separate
+      go. **TAGGED 2026-08-21 after the rehearsal, on Michael's word.**
 
 ## Build-session cold-state record (for comparison at freeze)
 
