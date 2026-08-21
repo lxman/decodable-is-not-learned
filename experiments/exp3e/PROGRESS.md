@@ -574,3 +574,18 @@ not been looked at; the frozen analyzer runs ONCE on Michael's go,
 against the projection sealed in `5a9eed9`. Pre-committed change
 UNSPENT. The preflight artifacts for both sizes reproduced
 byte-identically (git clean throughout).
+
+### VERDICT — 2026-08-21, frozen analyzer run ONCE on Michael's go: **NO-SHORTCUT (misfire-rate)**
+
+n = 17, X = 4 (E[X|H0] 4.91), p_low .395 / p_high .830, non-THIN;
+410m n = 9, X = 1, THIN, unreplicated; specificity MISFIRE-RATE (50 of
+157, share .318, p .480); count-weighted T_c = 5 of 60, p_low .097;
+pooled non/reachable rate ratio point .18, CP95 upper .416 (headline);
+non-reachable pooled 5/139,776 = 3.6e-5 vs all-distinct committed
+7.9e-6. Gate 1 clean both sizes; scorer gates PASS at analysis; 0
+voids; twin 0/576,000; all loaders green; run took 4 s. `verdict.json`
+(104 KB, full disclosure, every address verbatim) + `VERDICT.txt`
+(formatted from the JSON, no second run) + `retrospective.md`
+(projection graded: ten hits, three misses, the named disconfirmer
+X ≥ 3 FIRED with X = 4 — verdict-level MISS; every miss is where the
+fires land). Tag `exp3e-closed`.

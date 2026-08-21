@@ -1,0 +1,5758 @@
+{
+ "adjudicating_size": "1b",
+ "adjudication": {
+  "m_min": 8,
+  "n_fired": 17,
+  "p_high": 0.8301676605703832,
+  "p_low": 0.3949970509662422,
+  "replication_410m": {
+   "n_fired": 9,
+   "p_low": 0.18595526432049106,
+   "rejects": false,
+   "thin": true,
+   "x_non_reachable": 1
+  },
+  "specificity": {
+   "T_obs": 50,
+   "annotation": "MISFIRE-RATE",
+   "events": 157,
+   "m_s_min": 3,
+   "n_items": 21,
+   "null": "for each item one of its 1+|M| count values is designated 'the reverse' uniformly at random (exact convolution)",
+   "p": 0.48020995758852025,
+   "reverse_share": 0.3184713375796178
+  },
+  "thin": false,
+  "x_non_reachable": 4
+ },
+ "alpha": 0.05,
+ "blind_region": {
+  "1b": {
+   "new_zero_bound_per_class": {
+    "non_reachable": 2.812960241678137e-05,
+    "reachable": 1.1427746415279437e-05
+   },
+   "pooled_zero_bound_non_reachable": 2.143214980359925e-05
+  },
+  "410m": {
+   "new_zero_bound_per_class": {
+    "non_reachable": 5.625841355903062e-05,
+    "reachable": 2.2855362237170744e-05
+   },
+   "pooled_zero_bound_non_reachable": 3.91366227496562e-05
+  }
+ },
+ "count_weighted": {
+  "1b": {
+   "K": 13,
+   "T_obs": 5,
+   "n_items": 45,
+   "null": "uniform choice of which K items carry the non-reachable label, conditional on every item's own count (exact subset-count DP)",
+   "p_high": 0.937835611595685,
+   "p_low": 0.0967217532230378,
+   "total_fires": 60
+  },
+  "410m": {
+   "K": 13,
+   "T_obs": 1,
+   "n_items": 45,
+   "null": "uniform choice of which K items carry the non-reachable label, conditional on every item's own count (exact subset-count DP)",
+   "p_high": 0.9683480401156611,
+   "p_low": 0.15166564111245726,
+   "total_fires": 17
+  }
+ },
+ "entropy_contrast": {
+  "1b": {
+   "all_distinct_committed": {
+    "ci95": [
+     1.6219411784642011e-06,
+     2.298449766807107e-05
+    ],
+    "count": 3,
+    "n_draws": 381440,
+    "n_items": 149,
+    "rate": 7.864932885906041e-06
+   },
+   "entropy_bits": {
+    "all_distinct": 8.0,
+    "non_reachable": 6.0
+   },
+   "non_reachable_new": {
+    "ci95": [
+     1.5244746327960003e-05,
+     0.00010956248847020457
+    ],
+    "count": 5,
+    "n_draws": 106496,
+    "rate": 4.6950120192307695e-05
+   },
+   "non_reachable_pooled": {
+    "ci95": [
+     1.1615013963950425e-05,
+     8.347680395307158e-05
+    ],
+    "count": 5,
+    "n_draws": 139776,
+    "rate": 3.577152014652015e-05
+   },
+   "note": "descriptive, event-starved by design (\u00a75.4): both classes are two-edit from their reverse; the all-distinct items are NOT resampled",
+   "scramble_prior_factor": 2.0
+  },
+  "410m": {
+   "all_distinct_committed": {
+    "ci95": [
+     9.071249634836692e-07,
+     2.7057679857629685e-05
+    ],
+    "count": 2,
+    "n_draws": 267008,
+    "n_items": 149,
+    "rate": 7.4904122722914665e-06
+   },
+   "entropy_bits": {
+    "all_distinct": 8.0,
+    "non_reachable": 6.0
+   },
+   "non_reachable_new": {
+    "ci95": [
+     4.7546953811159455e-07,
+     0.00010463123907378832
+    ],
+    "count": 1,
+    "n_draws": 53248,
+    "rate": 1.8780048076923078e-05
+   },
+   "non_reachable_pooled": {
+    "ci95": [
+     3.307614417486979e-07,
+     7.278789988317567e-05
+    ],
+    "count": 1,
+    "n_draws": 76544,
+    "rate": 1.306438127090301e-05
+   },
+   "note": "descriptive, event-starved by design (\u00a75.4): both classes are two-edit from their reverse; the all-distinct items are NOT resampled",
+   "scramble_prior_factor": 2.0
+  }
+ },
+ "fires": {
+  "1b": {
+   "addresses": [
+    {
+     "answer": "jwwh",
+     "class": "reachable",
+     "draw": 21,
+     "input": "hwwj",
+     "item": 21,
+     "seed": 136,
+     "sub_class": "transposition",
+     "text": " jwwh\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 7,
+     "input": "edce",
+     "item": 123,
+     "seed": 59,
+     "sub_class": "transposition",
+     "text": " ecde\n\n",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 48,
+     "input": "edce",
+     "item": 123,
+     "seed": 60,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'abc",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 12,
+     "input": "edce",
+     "item": 123,
+     "seed": 70,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 23,
+     "input": "edce",
+     "item": 123,
+     "seed": 70,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'de",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 26,
+     "input": "edce",
+     "item": 123,
+     "seed": 71,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'sl",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 21,
+     "input": "edce",
+     "item": 123,
+     "seed": 78,
+     "sub_class": "transposition",
+     "text": " ecde Ba\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 40,
+     "input": "edce",
+     "item": 123,
+     "seed": 83,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 51,
+     "input": "edce",
+     "item": 123,
+     "seed": 90,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'cb",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 5,
+     "input": "edce",
+     "item": 123,
+     "seed": 93,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'ed",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 40,
+     "input": "edce",
+     "item": 123,
+     "seed": 99,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'afe",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 41,
+     "input": "edce",
+     "item": 123,
+     "seed": 100,
+     "sub_class": "transposition",
+     "text": " ecde\n\nA: anagram\n\nQ:",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 10,
+     "input": "edce",
+     "item": 123,
+     "seed": 109,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Transverse the string to the",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 7,
+     "input": "edce",
+     "item": 123,
+     "seed": 141,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string d with",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 52,
+     "input": "edce",
+     "item": 123,
+     "seed": 155,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'bs",
+     "void": false
+    },
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 58,
+     "input": "edce",
+     "item": 123,
+     "seed": 163,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'ace",
+     "void": false
+    },
+    {
+     "answer": "dkkc",
+     "class": "reachable",
+     "draw": 47,
+     "input": "ckkd",
+     "item": 133,
+     "seed": 87,
+     "sub_class": "transposition",
+     "text": " dkkc\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "dkkc",
+     "class": "reachable",
+     "draw": 50,
+     "input": "ckkd",
+     "item": 133,
+     "seed": 94,
+     "sub_class": "transposition",
+     "text": "  dkkc\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "eesq",
+     "class": "non_reachable",
+     "draw": 28,
+     "input": "qsee",
+     "item": 143,
+     "seed": 84,
+     "sub_class": "non_reachable",
+     "text": " eesq\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "cwee",
+     "class": "non_reachable",
+     "draw": 59,
+     "input": "eewc",
+     "item": 148,
+     "seed": 100,
+     "sub_class": "non_reachable",
+     "text": " cwee\n\nCategory test\n\nother game string",
+     "void": false
+    },
+    {
+     "answer": "vfdd",
+     "class": "non_reachable",
+     "draw": 26,
+     "input": "ddfv",
+     "item": 154,
+     "seed": 142,
+     "sub_class": "non_reachable",
+     "text": " vfdd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "vfdd",
+     "class": "non_reachable",
+     "draw": 41,
+     "input": "ddfv",
+     "item": 154,
+     "seed": 146,
+     "sub_class": "non_reachable",
+     "text": " vfdd\n\nQ: Spell once in succession",
+     "void": false
+    },
+    {
+     "answer": "kbjb",
+     "class": "reachable",
+     "draw": 58,
+     "input": "bjbk",
+     "item": 174,
+     "seed": 100,
+     "sub_class": "rotation",
+     "text": " kbjb\n\nQ: Try to use your instrument",
+     "void": false
+    },
+    {
+     "answer": "aefe",
+     "class": "reachable",
+     "draw": 35,
+     "input": "efea",
+     "item": 179,
+     "seed": 90,
+     "sub_class": "rotation",
+     "text": " aefe\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "aefe",
+     "class": "reachable",
+     "draw": 15,
+     "input": "efea",
+     "item": 179,
+     "seed": 125,
+     "sub_class": "rotation",
+     "text": " aefe\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 32,
+     "input": "abaq",
+     "item": 283,
+     "seed": 68,
+     "sub_class": "rotation",
+     "text": " qaba\n\nWhat you have encountered is called spelling backward",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 32,
+     "input": "abaq",
+     "item": 283,
+     "seed": 74,
+     "sub_class": "rotation",
+     "text": " qaba\n\nQ: Spell the string 'abc",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 36,
+     "input": "abaq",
+     "item": 283,
+     "seed": 82,
+     "sub_class": "rotation",
+     "text": " qaba\n\n(The bar stands for the \u2018right",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 21,
+     "input": "abaq",
+     "item": 283,
+     "seed": 84,
+     "sub_class": "rotation",
+     "text": " qaba\nQ: Spell the string 'abcba",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 63,
+     "input": "abaq",
+     "item": 283,
+     "seed": 101,
+     "sub_class": "rotation",
+     "text": " qaba\n\nQ: Spell the string 'bla",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 46,
+     "input": "abaq",
+     "item": 283,
+     "seed": 102,
+     "sub_class": "rotation",
+     "text": " qaba\n\nQ: Spell the string 'abc",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 59,
+     "input": "abaq",
+     "item": 283,
+     "seed": 109,
+     "sub_class": "rotation",
+     "text": " qaba baz\n\nQ: Spell the string",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 7,
+     "input": "abaq",
+     "item": 283,
+     "seed": 122,
+     "sub_class": "rotation",
+     "text": " qaba\n\nQ: Spell the string 'uben",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 23,
+     "input": "abaq",
+     "item": 283,
+     "seed": 164,
+     "sub_class": "rotation",
+     "text": " qaba\n\nQ: Spell the string 'pain",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 60,
+     "input": "whcw",
+     "item": 320,
+     "seed": 82,
+     "sub_class": "transposition",
+     "text": " wchw\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 3,
+     "input": "whcw",
+     "item": 320,
+     "seed": 96,
+     "sub_class": "transposition",
+     "text": " WCHW\n\nEnter only\nB(You want",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 61,
+     "input": "whcw",
+     "item": 320,
+     "seed": 100,
+     "sub_class": "transposition",
+     "text": " wchw\n\nTrying the following formats in the",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 6,
+     "input": "whcw",
+     "item": 320,
+     "seed": 109,
+     "sub_class": "transposition",
+     "text": " wchw\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 46,
+     "input": "whcw",
+     "item": 320,
+     "seed": 109,
+     "sub_class": "transposition",
+     "text": " wchw\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 10,
+     "input": "whcw",
+     "item": 320,
+     "seed": 126,
+     "sub_class": "transposition",
+     "text": " wchw\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 10,
+     "input": "whcw",
+     "item": 320,
+     "seed": 127,
+     "sub_class": "transposition",
+     "text": " wchw\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 5,
+     "input": "whcw",
+     "item": 320,
+     "seed": 161,
+     "sub_class": "transposition",
+     "text": " wchw\n\nQ: Glitch the result randomly",
+     "void": false
+    },
+    {
+     "answer": "wchw",
+     "class": "reachable",
+     "draw": 12,
+     "input": "whcw",
+     "item": 320,
+     "seed": 161,
+     "sub_class": "transposition",
+     "text": " wchw \n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "arac",
+     "class": "reachable",
+     "draw": 41,
+     "input": "cara",
+     "item": 354,
+     "seed": 63,
+     "sub_class": "rotation",
+     "text": " arac\n\nQ: Spell the string 'co",
+     "void": false
+    },
+    {
+     "answer": "ttwd",
+     "class": "non_reachable",
+     "draw": 40,
+     "input": "dwtt",
+     "item": 367,
+     "seed": 133,
+     "sub_class": "non_reachable",
+     "text": " ttwd.\n\nA: 'mydiv' was",
+     "void": false
+    },
+    {
+     "answer": "ziis",
+     "class": "reachable",
+     "draw": 5,
+     "input": "siiz",
+     "item": 405,
+     "seed": 40,
+     "sub_class": "transposition",
+     "text": " \"ziis\"\n\nI have also done this with",
+     "void": false
+    },
+    {
+     "answer": "pbpd",
+     "class": "reachable",
+     "draw": 56,
+     "input": "dpbp",
+     "item": 430,
+     "seed": 72,
+     "sub_class": "rotation",
+     "text": " pbpd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "pbpd",
+     "class": "reachable",
+     "draw": 46,
+     "input": "dpbp",
+     "item": 430,
+     "seed": 162,
+     "sub_class": "rotation",
+     "text": " pbpd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "dmkd",
+     "class": "reachable",
+     "draw": 30,
+     "input": "dkmd",
+     "item": 447,
+     "seed": 80,
+     "sub_class": "transposition",
+     "text": " dmkd\n\nAll words work on all characters including",
+     "void": false
+    },
+    {
+     "answer": "dmkd",
+     "class": "reachable",
+     "draw": 34,
+     "input": "dkmd",
+     "item": 447,
+     "seed": 82,
+     "sub_class": "transposition",
+     "text": " dmkd\n\nQ: Clear a lock\nA",
+     "void": false
+    },
+    {
+     "answer": "dmkd",
+     "class": "reachable",
+     "draw": 51,
+     "input": "dkmd",
+     "item": 447,
+     "seed": 87,
+     "sub_class": "transposition",
+     "text": " dmkd\n\nQ: Can you show me the",
+     "void": false
+    },
+    {
+     "answer": "dmkd",
+     "class": "reachable",
+     "draw": 47,
+     "input": "dkmd",
+     "item": 447,
+     "seed": 93,
+     "sub_class": "transposition",
+     "text": " dmkd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "dmkd",
+     "class": "reachable",
+     "draw": 28,
+     "input": "dkmd",
+     "item": 447,
+     "seed": 105,
+     "sub_class": "transposition",
+     "text": " dmkd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "dmkd",
+     "class": "reachable",
+     "draw": 4,
+     "input": "dkmd",
+     "item": 447,
+     "seed": 146,
+     "sub_class": "transposition",
+     "text": " dmkd\n\nA: dmai\n\n",
+     "void": false
+    },
+    {
+     "answer": "dmkd",
+     "class": "reachable",
+     "draw": 33,
+     "input": "dkmd",
+     "item": 447,
+     "seed": 147,
+     "sub_class": "transposition",
+     "text": " dmkd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 56,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 72,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nA: Keseet Knu",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 25,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 84,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Click four times without color",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 52,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 111,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nSo, if the string not starts",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 35,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 148,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell 'rds",
+     "void": false
+    },
+    {
+     "answer": "nffj",
+     "class": "reachable",
+     "draw": 34,
+     "input": "jffn",
+     "item": 485,
+     "seed": 60,
+     "sub_class": "transposition",
+     "text": " nffj \n\nQWER--------------------------------------------------4----------!",
+     "void": false
+    }
+   ],
+   "fired_items": [
+    21,
+    123,
+    133,
+    143,
+    148,
+    154,
+    174,
+    179,
+    283,
+    320,
+    354,
+    367,
+    405,
+    430,
+    447,
+    472,
+    485
+   ],
+   "fired_non_reachable": [
+    143,
+    148,
+    154,
+    367
+   ],
+   "fired_reachable": [
+    21,
+    123,
+    133,
+    174,
+    179,
+    283,
+    320,
+    354,
+    405,
+    430,
+    447,
+    472,
+    485
+   ],
+   "new": {
+    "ci95": [
+     0.00012420557070820225,
+     0.00020950002246348785
+    ],
+    "count": 60,
+    "n_draws": 368640,
+    "rate": 0.00016276041666666666
+   },
+   "per_item_counts": {
+    "123": 15,
+    "133": 2,
+    "143": 1,
+    "148": 1,
+    "154": 2,
+    "174": 1,
+    "179": 2,
+    "21": 1,
+    "283": 9,
+    "320": 9,
+    "354": 1,
+    "367": 1,
+    "405": 1,
+    "430": 2,
+    "447": 7,
+    "472": 4,
+    "485": 1
+   },
+   "per_seed_full_string": {
+    "100": 4,
+    "101": 1,
+    "102": 1,
+    "103": 0,
+    "104": 0,
+    "105": 1,
+    "106": 0,
+    "107": 0,
+    "108": 0,
+    "109": 4,
+    "110": 0,
+    "111": 1,
+    "112": 0,
+    "113": 0,
+    "114": 0,
+    "115": 0,
+    "116": 0,
+    "117": 0,
+    "118": 0,
+    "119": 0,
+    "120": 0,
+    "121": 0,
+    "122": 1,
+    "123": 0,
+    "124": 0,
+    "125": 1,
+    "126": 1,
+    "127": 1,
+    "128": 0,
+    "129": 0,
+    "130": 0,
+    "131": 0,
+    "132": 0,
+    "133": 1,
+    "134": 0,
+    "135": 0,
+    "136": 1,
+    "137": 0,
+    "138": 0,
+    "139": 0,
+    "140": 0,
+    "141": 1,
+    "142": 1,
+    "143": 0,
+    "144": 0,
+    "145": 0,
+    "146": 2,
+    "147": 1,
+    "148": 1,
+    "149": 0,
+    "150": 0,
+    "151": 0,
+    "152": 0,
+    "153": 0,
+    "154": 0,
+    "155": 1,
+    "156": 0,
+    "157": 0,
+    "158": 0,
+    "159": 0,
+    "160": 0,
+    "161": 2,
+    "162": 1,
+    "163": 1,
+    "164": 1,
+    "165": 0,
+    "166": 0,
+    "167": 0,
+    "40": 1,
+    "41": 0,
+    "42": 0,
+    "43": 0,
+    "44": 0,
+    "45": 0,
+    "46": 0,
+    "47": 0,
+    "48": 0,
+    "49": 0,
+    "50": 0,
+    "51": 0,
+    "52": 0,
+    "53": 0,
+    "54": 0,
+    "55": 0,
+    "56": 0,
+    "57": 0,
+    "58": 0,
+    "59": 1,
+    "60": 2,
+    "61": 0,
+    "62": 0,
+    "63": 1,
+    "64": 0,
+    "65": 0,
+    "66": 0,
+    "67": 0,
+    "68": 1,
+    "69": 0,
+    "70": 2,
+    "71": 1,
+    "72": 2,
+    "73": 0,
+    "74": 1,
+    "75": 0,
+    "76": 0,
+    "77": 0,
+    "78": 1,
+    "79": 0,
+    "80": 1,
+    "81": 0,
+    "82": 3,
+    "83": 1,
+    "84": 3,
+    "85": 0,
+    "86": 0,
+    "87": 2,
+    "88": 0,
+    "89": 0,
+    "90": 2,
+    "91": 0,
+    "92": 0,
+    "93": 2,
+    "94": 1,
+    "95": 0,
+    "96": 1,
+    "97": 0,
+    "98": 0,
+    "99": 1
+   },
+   "raw_fire_count_pre_void": 60
+  },
+  "410m": {
+   "addresses": [
+    {
+     "answer": "ecde",
+     "class": "reachable",
+     "draw": 62,
+     "input": "edce",
+     "item": 123,
+     "seed": 43,
+     "sub_class": "transposition",
+     "text": " ecde\n\nQ: Spell the string 'ill",
+     "void": false
+    },
+    {
+     "answer": "dkkc",
+     "class": "reachable",
+     "draw": 21,
+     "input": "ckkd",
+     "item": 133,
+     "seed": 49,
+     "sub_class": "transposition",
+     "text": " dkkc\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "kbjb",
+     "class": "reachable",
+     "draw": 30,
+     "input": "bjbk",
+     "item": 174,
+     "seed": 37,
+     "sub_class": "rotation",
+     "text": " kbjb\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "uggw",
+     "class": "reachable",
+     "draw": 5,
+     "input": "wggu",
+     "item": 269,
+     "seed": 75,
+     "sub_class": "transposition",
+     "text": " uggw\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "uggw",
+     "class": "reachable",
+     "draw": 61,
+     "input": "wggu",
+     "item": 269,
+     "seed": 82,
+     "sub_class": "transposition",
+     "text": " uggw\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "qaba",
+     "class": "reachable",
+     "draw": 1,
+     "input": "abaq",
+     "item": 283,
+     "seed": 44,
+     "sub_class": "rotation",
+     "text": " qaba\n\n####\n!!! HELP SOLUTION ",
+     "void": false
+    },
+    {
+     "answer": "jefe",
+     "class": "reachable",
+     "draw": 12,
+     "input": "efej",
+     "item": 359,
+     "seed": 71,
+     "sub_class": "rotation",
+     "text": " jefe\n\nQ: Spell the string 'h",
+     "void": false
+    },
+    {
+     "answer": "erff",
+     "class": "non_reachable",
+     "draw": 7,
+     "input": "ffre",
+     "item": 415,
+     "seed": 51,
+     "sub_class": "non_reachable",
+     "text": " erff\n\nQ: Spell the string 'ef",
+     "void": false
+    },
+    {
+     "answer": "pbpd",
+     "class": "reachable",
+     "draw": 56,
+     "input": "dpbp",
+     "item": 430,
+     "seed": 71,
+     "sub_class": "rotation",
+     "text": " pbpd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 31,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 40,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell the string '[",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 4,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 42,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 57,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 50,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 58,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 70,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Is 'bowl'",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 33,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 71,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 31,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 80,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 59,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 86,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "answer": "jfbj",
+     "class": "reachable",
+     "draw": 42,
+     "input": "jbfj",
+     "item": 472,
+     "seed": 87,
+     "sub_class": "transposition",
+     "text": " jfbj\n\nQ: Spell the string '",
+     "void": false
+    }
+   ],
+   "fired_items": [
+    123,
+    133,
+    174,
+    269,
+    283,
+    359,
+    415,
+    430,
+    472
+   ],
+   "fired_non_reachable": [
+    415
+   ],
+   "fired_reachable": [
+    123,
+    133,
+    174,
+    269,
+    283,
+    359,
+    430,
+    472
+   ],
+   "new": {
+    "ci95": [
+     5.372878831087894e-05,
+     0.00014766651647506223
+    ],
+    "count": 17,
+    "n_draws": 184320,
+    "rate": 9.223090277777778e-05
+   },
+   "per_item_counts": {
+    "123": 1,
+    "133": 1,
+    "174": 1,
+    "269": 2,
+    "283": 1,
+    "359": 1,
+    "415": 1,
+    "430": 1,
+    "472": 8
+   },
+   "per_seed_full_string": {
+    "28": 0,
+    "29": 0,
+    "30": 0,
+    "31": 0,
+    "32": 0,
+    "33": 0,
+    "34": 0,
+    "35": 0,
+    "36": 0,
+    "37": 1,
+    "38": 0,
+    "39": 0,
+    "40": 1,
+    "41": 0,
+    "42": 1,
+    "43": 1,
+    "44": 1,
+    "45": 0,
+    "46": 0,
+    "47": 0,
+    "48": 0,
+    "49": 1,
+    "50": 1,
+    "51": 1,
+    "52": 0,
+    "53": 0,
+    "54": 0,
+    "55": 0,
+    "56": 0,
+    "57": 0,
+    "58": 0,
+    "59": 0,
+    "60": 0,
+    "61": 0,
+    "62": 0,
+    "63": 0,
+    "64": 0,
+    "65": 0,
+    "66": 0,
+    "67": 0,
+    "68": 0,
+    "69": 0,
+    "70": 1,
+    "71": 3,
+    "72": 0,
+    "73": 0,
+    "74": 0,
+    "75": 1,
+    "76": 0,
+    "77": 0,
+    "78": 0,
+    "79": 0,
+    "80": 1,
+    "81": 0,
+    "82": 1,
+    "83": 0,
+    "84": 0,
+    "85": 0,
+    "86": 1,
+    "87": 1,
+    "88": 0,
+    "89": 0,
+    "90": 0,
+    "91": 0
+   },
+   "raw_fire_count_pre_void": 17
+  }
+ },
+ "gate1": {
+  "1b": {
+   "committed_draws_sha256": "f1420d777009794785869dafe512654abee31f3a7e1d79df202f61c811d48f13",
+   "committed_shard": "reverse_string.s20-s23.draws.jsonl.gz",
+   "diffs": [],
+   "draws_compared": 2880,
+   "fires_reproduced": [
+    {
+     "draw": 14,
+     "item": 348,
+     "seed": 20
+    },
+    {
+     "draw": 43,
+     "item": 430,
+     "seed": 20
+    }
+   ],
+   "n_diffs": 0
+  },
+  "410m": {
+   "committed_draws_sha256": "6f1762ed1d45796b97fbb327d9db56cf26c8aef204460c2dafb494c7e9f350ce",
+   "committed_shard": "reverse_string.s24-s27.draws.jsonl.gz",
+   "diffs": [],
+   "draws_compared": 2880,
+   "fires_reproduced": [
+    {
+     "draw": 62,
+     "item": 123,
+     "seed": 24
+    }
+   ],
+   "n_diffs": 0
+  }
+ },
+ "gate1_total_draws_compared": 5760,
+ "leak_voids": [],
+ "luck_floor": 2.1882987290360982e-06,
+ "mean_draw_len_new": {
+  "1b": 30.196942816840277,
+  "410m": 30.697580295138888
+ },
+ "partition": {
+  "arm_items": [
+   51,
+   71,
+   123,
+   159,
+   164,
+   169,
+   174,
+   179,
+   210,
+   226,
+   245,
+   283,
+   284,
+   320,
+   348,
+   354,
+   359,
+   403,
+   430,
+   447,
+   472
+  ],
+  "arm_sit_out": [
+   21,
+   68,
+   133,
+   153,
+   182,
+   234,
+   269,
+   299,
+   375,
+   405,
+   485
+  ],
+  "in_sample_note": "the partition was chosen after seeing the 10 committed fired items (\u00a71) \u2014 in-sample motivation, not evidence; the confirmatory statistic sees only NEW draws",
+  "items": [
+   9,
+   21,
+   46,
+   51,
+   68,
+   71,
+   78,
+   123,
+   133,
+   143,
+   148,
+   153,
+   154,
+   159,
+   164,
+   169,
+   174,
+   179,
+   182,
+   210,
+   226,
+   234,
+   245,
+   269,
+   283,
+   284,
+   299,
+   320,
+   348,
+   354,
+   359,
+   361,
+   367,
+   375,
+   403,
+   405,
+   415,
+   430,
+   435,
+   439,
+   447,
+   463,
+   472,
+   485,
+   489
+  ],
+  "m_min": 8,
+  "m_min_anti_disclosed": 3,
+  "m_s_min": 3,
+  "n_items": 45,
+  "non_reachable": [
+   9,
+   46,
+   78,
+   143,
+   148,
+   154,
+   361,
+   367,
+   415,
+   435,
+   439,
+   463,
+   489
+  ],
+  "reachable": [
+   21,
+   51,
+   68,
+   71,
+   123,
+   133,
+   153,
+   159,
+   164,
+   169,
+   174,
+   179,
+   182,
+   210,
+   226,
+   234,
+   245,
+   269,
+   283,
+   284,
+   299,
+   320,
+   348,
+   354,
+   359,
+   375,
+   403,
+   405,
+   430,
+   447,
+   472,
+   485
+  ],
+  "sub_class_sizes": {
+   "non_reachable": 13,
+   "rotation": 15,
+   "transposition": 17
+  },
+  "thin_max": 10,
+  "variants_reachable_counts": {
+   "adjacent": 21,
+   "rotations": 15
+  }
+ },
+ "persistence": {
+  "1b": {
+   "never_fired_reachable": {
+    "items": [
+     21,
+     51,
+     68,
+     71,
+     133,
+     159,
+     164,
+     169,
+     174,
+     182,
+     210,
+     226,
+     234,
+     245,
+     269,
+     284,
+     299,
+     354,
+     359,
+     375,
+     403,
+     405,
+     472,
+     485
+    ],
+    "new": {
+     "ci95": [
+      2.7929806179930314e-05,
+      0.00010010581432710842
+     ],
+     "count": 11,
+     "n_draws": 196608,
+     "rate": 5.5948893229166664e-05
+    },
+    "new_fired_items": [
+     21,
+     133,
+     174,
+     354,
+     405,
+     472,
+     485
+    ]
+   },
+   "new_fired_items": [
+    21,
+    123,
+    133,
+    143,
+    148,
+    154,
+    174,
+    179,
+    283,
+    320,
+    354,
+    367,
+    405,
+    430,
+    447,
+    472,
+    485
+   ],
+   "new_fires_on_previously_fired": 44,
+   "note": "persistence is NOT a competing forecaster (\u00a78): it requires having sampled",
+   "overlap": [
+    123,
+    179,
+    283,
+    320,
+    430,
+    447
+   ],
+   "previously_fired_items": [
+    123,
+    153,
+    179,
+    283,
+    320,
+    348,
+    430,
+    447
+   ]
+  },
+  "410m": {
+   "never_fired_reachable": {
+    "items": [
+     21,
+     51,
+     68,
+     71,
+     133,
+     153,
+     159,
+     164,
+     169,
+     179,
+     182,
+     210,
+     234,
+     245,
+     269,
+     284,
+     299,
+     320,
+     348,
+     354,
+     359,
+     375,
+     403,
+     405,
+     430,
+     447,
+     472,
+     485
+    ],
+    "new": {
+     "ci95": [
+      6.0355972199838565e-05,
+      0.00019382586964530825
+     ],
+     "count": 13,
+     "n_draws": 114688,
+     "rate": 0.00011335100446428572
+    },
+    "new_fired_items": [
+     133,
+     269,
+     359,
+     430,
+     472
+    ]
+   },
+   "new_fired_items": [
+    123,
+    133,
+    174,
+    269,
+    283,
+    359,
+    415,
+    430,
+    472
+   ],
+   "new_fires_on_previously_fired": 3,
+   "note": "persistence is NOT a competing forecaster (\u00a78): it requires having sampled",
+   "overlap": [
+    123,
+    174,
+    283
+   ],
+   "previously_fired_items": [
+    123,
+    174,
+    226,
+    283
+   ]
+  }
+ },
+ "pooled": {
+  "1b": {
+   "non_reachable": {
+    "ci95": [
+     1.1615013963950425e-05,
+     8.347680395307158e-05
+    ],
+    "count": 5,
+    "n_draws": 139776,
+    "rate": 3.577152014652015e-05
+   },
+   "per_item_pooled_counts": {
+    "123": 20,
+    "133": 2,
+    "143": 1,
+    "148": 1,
+    "153": 1,
+    "154": 2,
+    "174": 1,
+    "179": 3,
+    "21": 1,
+    "283": 10,
+    "320": 10,
+    "348": 1,
+    "354": 1,
+    "367": 1,
+    "405": 1,
+    "430": 3,
+    "447": 10,
+    "472": 4,
+    "485": 1
+   },
+   "rate_ratio_non_over_reachable": {
+    "non_reachable_pooled_cp95_upper": 8.347680395307158e-05,
+    "note": "CP95 upper bound on the non-reachable pooled rate over the reachable pooled point rate \u2014 the NO-SHORTCUT headline (\u00a76)",
+    "ratio_upper_bound": 0.4162516387726032,
+    "reachable_pooled_rate": 0.00020054408482142856
+   },
+   "reachable": {
+    "ci95": [
+     0.0001560385142451738,
+     0.00025379461584598153
+    ],
+    "count": 69,
+    "n_draws": 344064,
+    "rate": 0.00020054408482142856
+   },
+   "repeat_class": {
+    "ci95": [
+     0.00012009509471560574,
+     0.00019200233337392795
+    ],
+    "committed_count": 14,
+    "count": 74,
+    "n_draws": 483840,
+    "new_count": 60,
+    "rate": 0.0001529431216931217
+   }
+  },
+  "410m": {
+   "non_reachable": {
+    "ci95": [
+     3.307614417486979e-07,
+     7.278789988317567e-05
+    ],
+    "count": 1,
+    "n_draws": 76544,
+    "rate": 1.306438127090301e-05
+   },
+   "per_item_pooled_counts": {
+    "123": 3,
+    "133": 1,
+    "174": 2,
+    "226": 1,
+    "269": 2,
+    "283": 2,
+    "359": 1,
+    "415": 1,
+    "430": 1,
+    "472": 8
+   },
+   "rate_ratio_non_over_reachable": {
+    "non_reachable_pooled_cp95_upper": 7.278789988317567e-05,
+    "note": "CP95 upper bound on the non-reachable pooled rate over the reachable pooled point rate \u2014 the NO-SHORTCUT headline (\u00a76)",
+    "ratio_upper_bound": 0.6530669021137346,
+    "reachable_pooled_rate": 0.0001114555027173913
+   },
+   "reachable": {
+    "ci95": [
+     6.899399462710303e-05,
+     0.00017036655647214622
+    ],
+    "count": 21,
+    "n_draws": 188416,
+    "rate": 0.0001114555027173913
+   },
+   "repeat_class": {
+    "ci95": [
+     5.203604519956829e-05,
+     0.00012570785627772957
+    ],
+    "committed_count": 5,
+    "count": 22,
+    "n_draws": 264960,
+    "new_count": 17,
+    "rate": 8.303140096618358e-05
+   }
+  }
+ },
+ "reason": "no rejection in either direction: n = 17 new-fired item(s), X = 4 of them non-reachable (null expectation 4.91), p_low = 0.394997, p_high = 0.830168, n = 17 \u2265 m_min = 8 \u2014 the fired set was large enough to reject and did not. Reachability does not drive the concentration at this resolution; the entropy reading survives (3e cannot split 'easier to reverse' from 'more probable a priori' and says so). Headline: the CP95 upper bound on the non-reachable/reachable pooled rate ratio is 0.4162516387726032. specificity arm: MISFIRE-RATE \u2014 T_s = 50 reverse emissions of 157 matched events, p = 0.4802, m_s,min = 3.",
+ "replication_size": "410m",
+ "s2_descriptive": {
+  "1b": {
+   "all_distinct_committed_draws": {
+    "items_with_emissions": [
+     {
+      "answer": "ncsq",
+      "item": 12,
+      "n_draws": 2560,
+      "neighbours": {
+       "nqsc": 1,
+       "nscq": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "dkix",
+      "item": 42,
+      "n_draws": 2560,
+      "neighbours": {
+       "dikx": 1,
+       "dxik": 2
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "bpkw",
+      "item": 47,
+      "n_draws": 2560,
+      "neighbours": {
+       "bkpw": 0,
+       "bwkp": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "cbgn",
+      "item": 58,
+      "n_draws": 2560,
+      "neighbours": {
+       "cgbn": 0,
+       "cngb": 4
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "astu",
+      "item": 72,
+      "n_draws": 2560,
+      "neighbours": {
+       "atsu": 0,
+       "auts": 1
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "ibhm",
+      "item": 84,
+      "n_draws": 2560,
+      "neighbours": {
+       "ihbm": 0,
+       "imhb": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "exzc",
+      "item": 103,
+      "n_draws": 2560,
+      "neighbours": {
+       "eczx": 2,
+       "ezxc": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "mfel",
+      "item": 105,
+      "n_draws": 2560,
+      "neighbours": {
+       "mefl": 1,
+       "mlef": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "kzuh",
+      "item": 119,
+      "n_draws": 2560,
+      "neighbours": {
+       "khuz": 1,
+       "kuzh": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "hret",
+      "item": 157,
+      "n_draws": 2560,
+      "neighbours": {
+       "hert": 1,
+       "hter": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "mgtf",
+      "item": 172,
+      "n_draws": 2560,
+      "neighbours": {
+       "mftg": 1,
+       "mtgf": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "iyfd",
+      "item": 192,
+      "n_draws": 2560,
+      "neighbours": {
+       "idfy": 1,
+       "ifyd": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "hwcb",
+      "item": 196,
+      "n_draws": 2560,
+      "neighbours": {
+       "hbcw": 2,
+       "hcwb": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "skec",
+      "item": 205,
+      "n_draws": 2560,
+      "neighbours": {
+       "scek": 1,
+       "sekc": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "qjrp",
+      "item": 207,
+      "n_draws": 2560,
+      "neighbours": {
+       "qprj": 1,
+       "qrjp": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "vxiw",
+      "item": 214,
+      "n_draws": 2560,
+      "neighbours": {
+       "vixw": 0,
+       "vwix": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "sgjb",
+      "item": 246,
+      "n_draws": 2560,
+      "neighbours": {
+       "sbjg": 1,
+       "sjgb": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "dyfo",
+      "item": 249,
+      "n_draws": 2560,
+      "neighbours": {
+       "dfyo": 0,
+       "dofy": 4
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "mfhy",
+      "item": 254,
+      "n_draws": 2560,
+      "neighbours": {
+       "mhfy": 0,
+       "myhf": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "pcyw",
+      "item": 255,
+      "n_draws": 2560,
+      "neighbours": {
+       "pwyc": 1,
+       "pycw": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "epof",
+      "item": 260,
+      "n_draws": 2560,
+      "neighbours": {
+       "efop": 4,
+       "eopf": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "kzhx",
+      "item": 271,
+      "n_draws": 2560,
+      "neighbours": {
+       "khzx": 0,
+       "kxhz": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "zcpv",
+      "item": 282,
+      "n_draws": 2560,
+      "neighbours": {
+       "zpcv": 0,
+       "zvpc": 4
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "tdov",
+      "item": 290,
+      "n_draws": 2560,
+      "neighbours": {
+       "todv": 0,
+       "tvod": 2
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "dtwc",
+      "item": 305,
+      "n_draws": 2560,
+      "neighbours": {
+       "dcwt": 1,
+       "dwtc": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jcso",
+      "item": 308,
+      "n_draws": 2560,
+      "neighbours": {
+       "josc": 1,
+       "jsco": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "glxe",
+      "item": 326,
+      "n_draws": 2560,
+      "neighbours": {
+       "gexl": 1,
+       "gxle": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "tpog",
+      "item": 337,
+      "n_draws": 2560,
+      "neighbours": {
+       "tgop": 0,
+       "topg": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "fmoi",
+      "item": 341,
+      "n_draws": 2560,
+      "neighbours": {
+       "fiom": 1,
+       "fomi": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "zkgv",
+      "item": 349,
+      "n_draws": 2560,
+      "neighbours": {
+       "zgkv": 0,
+       "zvgk": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "vbfa",
+      "item": 357,
+      "n_draws": 2560,
+      "neighbours": {
+       "vafb": 0,
+       "vfba": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "eyxh",
+      "item": 370,
+      "n_draws": 2560,
+      "neighbours": {
+       "ehxy": 4,
+       "exyh": 0
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "umke",
+      "item": 380,
+      "n_draws": 2560,
+      "neighbours": {
+       "uekm": 1,
+       "ukme": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "ncza",
+      "item": 381,
+      "n_draws": 2560,
+      "neighbours": {
+       "nazc": 2,
+       "nzca": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "tdsa",
+      "item": 382,
+      "n_draws": 2560,
+      "neighbours": {
+       "tasd": 2,
+       "tsda": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "fquh",
+      "item": 385,
+      "n_draws": 2560,
+      "neighbours": {
+       "fhuq": 2,
+       "fuqh": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "beud",
+      "item": 389,
+      "n_draws": 2560,
+      "neighbours": {
+       "bdue": 3,
+       "bued": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jksn",
+      "item": 402,
+      "n_draws": 2560,
+      "neighbours": {
+       "jnsk": 1,
+       "jskn": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "eynh",
+      "item": 407,
+      "n_draws": 2560,
+      "neighbours": {
+       "ehny": 0,
+       "enyh": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "tzwq",
+      "item": 411,
+      "n_draws": 2560,
+      "neighbours": {
+       "tqwz": 0,
+       "twzq": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "eauo",
+      "item": 414,
+      "n_draws": 2560,
+      "neighbours": {
+       "eoua": 3,
+       "euao": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "hcpz",
+      "item": 423,
+      "n_draws": 2560,
+      "neighbours": {
+       "hpcz": 0,
+       "hzpc": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "koaw",
+      "item": 434,
+      "n_draws": 2560,
+      "neighbours": {
+       "kaow": 1,
+       "kwao": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "qvux",
+      "item": 436,
+      "n_draws": 2560,
+      "neighbours": {
+       "quvx": 0,
+       "qxuv": 1
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "jwig",
+      "item": 444,
+      "n_draws": 2560,
+      "neighbours": {
+       "jgiw": 1,
+       "jiwg": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "bnmw",
+      "item": 446,
+      "n_draws": 2560,
+      "neighbours": {
+       "bmnw": 0,
+       "bwmn": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "egcw",
+      "item": 451,
+      "n_draws": 2560,
+      "neighbours": {
+       "ecgw": 0,
+       "ewcg": 6
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "dwem",
+      "item": 458,
+      "n_draws": 2560,
+      "neighbours": {
+       "dewm": 0,
+       "dmew": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "sgej",
+      "item": 469,
+      "n_draws": 2560,
+      "neighbours": {
+       "segj": 0,
+       "sjeg": 2
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "zevq",
+      "item": 474,
+      "n_draws": 2560,
+      "neighbours": {
+       "zqve": 1,
+       "zveq": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jmyw",
+      "item": 475,
+      "n_draws": 2560,
+      "neighbours": {
+       "jwym": 1,
+       "jymw": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jved",
+      "item": 494,
+      "n_draws": 2560,
+      "neighbours": {
+       "jdev": 1,
+       "jevd": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "rqvt",
+      "item": 498,
+      "n_draws": 2560,
+      "neighbours": {
+       "rtvq": 1,
+       "rvqt": 0
+      },
+      "reverse": 0
+     }
+    ],
+    "matched_neighbours": {
+     "ci95": [
+      0.00018973418046216062,
+      0.0002900122923654524
+     ],
+     "count": 90,
+     "n_draws": 381440,
+     "rate": 0.00023594798657718122
+    },
+    "n_draws": 381440,
+    "n_items": 149,
+    "reverse": {
+     "ci95": [
+      1.6219411784642011e-06,
+      2.298449766807107e-05
+     ],
+     "count": 3,
+     "n_draws": 381440,
+     "rate": 7.864932885906041e-06
+    }
+   },
+   "non_reachable_new_draws": {
+    "items_with_emissions": [
+     {
+      "answer": "qqdn",
+      "item": 9,
+      "n_draws": 8192,
+      "neighbours": {
+       "qdnq": 0,
+       "qdqn": 1,
+       "qndq": 12
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "wxee",
+      "item": 46,
+      "n_draws": 8192,
+      "neighbours": {
+       "weex": 2,
+       "wexe": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "eesq",
+      "item": 143,
+      "n_draws": 8192,
+      "neighbours": {
+       "eqse": 2,
+       "eseq": 0,
+       "esqe": 0
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "cwee",
+      "item": 148,
+      "n_draws": 8192,
+      "neighbours": {
+       "ceew": 0,
+       "cewe": 0
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "vfdd",
+      "item": 154,
+      "n_draws": 8192,
+      "neighbours": {
+       "vddf": 4,
+       "vdfd": 0
+      },
+      "reverse": 2
+     },
+     {
+      "answer": "bbpc",
+      "item": 361,
+      "n_draws": 8192,
+      "neighbours": {
+       "bcpb": 9,
+       "bpbc": 1,
+       "bpcb": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "ttwd",
+      "item": 367,
+      "n_draws": 8192,
+      "neighbours": {
+       "tdwt": 1,
+       "twdt": 1,
+       "twtd": 0
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "pqbb",
+      "item": 435,
+      "n_draws": 8192,
+      "neighbours": {
+       "pbbq": 5,
+       "pbqb": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "arww",
+      "item": 463,
+      "n_draws": 8192,
+      "neighbours": {
+       "awrw": 0,
+       "awwr": 1
+      },
+      "reverse": 0
+     }
+    ],
+    "matched_neighbours": {
+     "ci95": [
+      0.00026042433056353286,
+      0.0005005887609670824
+     ],
+     "count": 39,
+     "n_draws": 106496,
+     "rate": 0.0003662109375
+    },
+    "n_draws": 106496,
+    "n_items": 13,
+    "reverse": {
+     "ci95": [
+      1.5244746327960003e-05,
+      0.00010956248847020457
+     ],
+     "count": 5,
+     "n_draws": 106496,
+     "rate": 4.6950120192307695e-05
+    }
+   },
+   "note": "descriptive (\u00a75.5 S2): the copy-misfire reading predicts the first-character-matched neighbours dominate the reverse by a wide margin; no test"
+  },
+  "410m": {
+   "all_distinct_committed_draws": {
+    "items_with_emissions": [
+     {
+      "answer": "xczi",
+      "item": 24,
+      "n_draws": 1792,
+      "neighbours": {
+       "xizc": 2,
+       "xzci": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "knhs",
+      "item": 63,
+      "n_draws": 1792,
+      "neighbours": {
+       "khns": 0,
+       "kshn": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "nxad",
+      "item": 67,
+      "n_draws": 1792,
+      "neighbours": {
+       "naxd": 0,
+       "ndax": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "astu",
+      "item": 72,
+      "n_draws": 1792,
+      "neighbours": {
+       "atsu": 0,
+       "auts": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "mtbz",
+      "item": 73,
+      "n_draws": 1792,
+      "neighbours": {
+       "mbtz": 0,
+       "mzbt": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "exzc",
+      "item": 103,
+      "n_draws": 1792,
+      "neighbours": {
+       "eczx": 1,
+       "ezxc": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "arfo",
+      "item": 110,
+      "n_draws": 1792,
+      "neighbours": {
+       "afro": 1,
+       "aofr": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "riby",
+      "item": 136,
+      "n_draws": 1792,
+      "neighbours": {
+       "rbiy": 0,
+       "rybi": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "hret",
+      "item": 157,
+      "n_draws": 1792,
+      "neighbours": {
+       "hert": 0,
+       "hter": 2
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "dwsc",
+      "item": 187,
+      "n_draws": 1792,
+      "neighbours": {
+       "dcsw": 1,
+       "dswc": 2
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "vxiw",
+      "item": 214,
+      "n_draws": 1792,
+      "neighbours": {
+       "vixw": 0,
+       "vwix": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jyfo",
+      "item": 239,
+      "n_draws": 1792,
+      "neighbours": {
+       "jfyo": 0,
+       "jofy": 2
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "epof",
+      "item": 260,
+      "n_draws": 1792,
+      "neighbours": {
+       "efop": 2,
+       "eopf": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "nlpi",
+      "item": 280,
+      "n_draws": 1792,
+      "neighbours": {
+       "nipl": 1,
+       "npli": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "dtwc",
+      "item": 305,
+      "n_draws": 1792,
+      "neighbours": {
+       "dcwt": 1,
+       "dwtc": 0
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "yztx",
+      "item": 336,
+      "n_draws": 1792,
+      "neighbours": {
+       "ytzx": 0,
+       "yxtz": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "tdsa",
+      "item": 382,
+      "n_draws": 1792,
+      "neighbours": {
+       "tasd": 0,
+       "tsda": 0
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "fquh",
+      "item": 385,
+      "n_draws": 1792,
+      "neighbours": {
+       "fhuq": 0,
+       "fuqh": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "bswc",
+      "item": 387,
+      "n_draws": 1792,
+      "neighbours": {
+       "bcws": 1,
+       "bwsc": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "whvq",
+      "item": 396,
+      "n_draws": 1792,
+      "neighbours": {
+       "wqvh": 1,
+       "wvhq": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "eynh",
+      "item": 407,
+      "n_draws": 1792,
+      "neighbours": {
+       "ehny": 0,
+       "enyh": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "eauo",
+      "item": 414,
+      "n_draws": 1792,
+      "neighbours": {
+       "eoua": 4,
+       "euao": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "vpms",
+      "item": 438,
+      "n_draws": 1792,
+      "neighbours": {
+       "vmps": 0,
+       "vsmp": 1
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jwig",
+      "item": 444,
+      "n_draws": 1792,
+      "neighbours": {
+       "jgiw": 1,
+       "jiwg": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jmyw",
+      "item": 475,
+      "n_draws": 1792,
+      "neighbours": {
+       "jwym": 2,
+       "jymw": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "fsje",
+      "item": 477,
+      "n_draws": 1792,
+      "neighbours": {
+       "fejs": 1,
+       "fjse": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "bhot",
+      "item": 484,
+      "n_draws": 1792,
+      "neighbours": {
+       "boht": 0,
+       "btoh": 1
+      },
+      "reverse": 0
+     }
+    ],
+    "matched_neighbours": {
+     "ci95": [
+      9.756973544602794e-05,
+      0.00019099910537548933
+     ],
+     "count": 37,
+     "n_draws": 267008,
+     "rate": 0.00013857262703739214
+    },
+    "n_draws": 267008,
+    "n_items": 149,
+    "reverse": {
+     "ci95": [
+      9.071249634836692e-07,
+      2.7057679857629685e-05
+     ],
+     "count": 2,
+     "n_draws": 267008,
+     "rate": 7.4904122722914665e-06
+    }
+   },
+   "non_reachable_new_draws": {
+    "items_with_emissions": [
+     {
+      "answer": "qqdn",
+      "item": 9,
+      "n_draws": 4096,
+      "neighbours": {
+       "qdnq": 1,
+       "qdqn": 0,
+       "qndq": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "eesq",
+      "item": 143,
+      "n_draws": 4096,
+      "neighbours": {
+       "eqse": 0,
+       "eseq": 1,
+       "esqe": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "vfdd",
+      "item": 154,
+      "n_draws": 4096,
+      "neighbours": {
+       "vddf": 1,
+       "vdfd": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "bbpc",
+      "item": 361,
+      "n_draws": 4096,
+      "neighbours": {
+       "bcpb": 0,
+       "bpbc": 1,
+       "bpcb": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "erff",
+      "item": 415,
+      "n_draws": 4096,
+      "neighbours": {
+       "effr": 0,
+       "efrf": 2
+      },
+      "reverse": 1
+     },
+     {
+      "answer": "jtww",
+      "item": 439,
+      "n_draws": 4096,
+      "neighbours": {
+       "jwtw": 2,
+       "jwwt": 0
+      },
+      "reverse": 0
+     },
+     {
+      "answer": "jjtn",
+      "item": 489,
+      "n_draws": 4096,
+      "neighbours": {
+       "jntj": 5,
+       "jtjn": 0,
+       "jtnj": 0
+      },
+      "reverse": 0
+     }
+    ],
+    "matched_neighbours": {
+     "ci95": [
+      0.00013000079969042368,
+      0.0004174517189576386
+     ],
+     "count": 13,
+     "n_draws": 53248,
+     "rate": 0.000244140625
+    },
+    "n_draws": 53248,
+    "n_items": 13,
+    "reverse": {
+     "ci95": [
+      4.7546953811159455e-07,
+      0.00010463123907378832
+     ],
+     "count": 1,
+     "n_draws": 53248,
+     "rate": 1.8780048076923078e-05
+    }
+   },
+   "note": "descriptive (\u00a75.5 S2): the copy-misfire reading predicts the first-character-matched neighbours dominate the reverse by a wide margin; no test"
+  }
+ },
+ "scorer_gates": {
+  "gate_a_addresses": {
+   "1b": [
+    {
+     "draw": 58,
+     "item": 123,
+     "seed": 5
+    },
+    {
+     "draw": 53,
+     "item": 123,
+     "seed": 8
+    },
+    {
+     "draw": 34,
+     "item": 123,
+     "seed": 13
+    },
+    {
+     "draw": 21,
+     "item": 123,
+     "seed": 19
+    },
+    {
+     "draw": 52,
+     "item": 123,
+     "seed": 36
+    },
+    {
+     "draw": 41,
+     "item": 153,
+     "seed": 29
+    },
+    {
+     "draw": 8,
+     "item": 179,
+     "seed": 30
+    },
+    {
+     "draw": 41,
+     "item": 283,
+     "seed": 25
+    },
+    {
+     "draw": 26,
+     "item": 320,
+     "seed": 15
+    },
+    {
+     "draw": 14,
+     "item": 348,
+     "seed": 20
+    },
+    {
+     "draw": 43,
+     "item": 430,
+     "seed": 20
+    },
+    {
+     "draw": 39,
+     "item": 447,
+     "seed": 13
+    },
+    {
+     "draw": 43,
+     "item": 447,
+     "seed": 13
+    },
+    {
+     "draw": 24,
+     "item": 447,
+     "seed": 17
+    }
+   ],
+   "410m": [
+    {
+     "draw": 6,
+     "item": 123,
+     "seed": 8
+    },
+    {
+     "draw": 62,
+     "item": 123,
+     "seed": 24
+    },
+    {
+     "draw": 42,
+     "item": 174,
+     "seed": 15
+    },
+    {
+     "draw": 40,
+     "item": 226,
+     "seed": 6
+    },
+    {
+     "draw": 10,
+     "item": 283,
+     "seed": 27
+    }
+   ]
+  },
+  "gate_b_counts": {
+   "1b": {
+    "count": 13460,
+    "n_draws": 16000
+   },
+   "410m": {
+    "count": 12787,
+    "n_draws": 16000
+   }
+  },
+  "passed": true
+ },
+ "specificity": {
+  "1b": {
+   "annotation": "MISFIRE-RATE",
+   "arm_void_excluded": [],
+   "competitor_addresses": [
+    {
+     "draw": 21,
+     "item": 123,
+     "seed": 90,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string 'h",
+     "void": false
+    },
+    {
+     "draw": 44,
+     "item": 123,
+     "seed": 92,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string 'be",
+     "void": false
+    },
+    {
+     "draw": 52,
+     "item": 123,
+     "seed": 95,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the backsem",
+     "void": false
+    },
+    {
+     "draw": 39,
+     "item": 123,
+     "seed": 128,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string azee",
+     "void": false
+    },
+    {
+     "draw": 18,
+     "item": 123,
+     "seed": 164,
+     "target": "edec",
+     "text": " edec\n\nNow if you upsert the string ball",
+     "void": false
+    },
+    {
+     "draw": 9,
+     "item": 123,
+     "seed": 55,
+     "target": "eecd",
+     "text": " eecd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 22,
+     "item": 123,
+     "seed": 135,
+     "target": "eecd",
+     "text": " eecd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 41,
+     "item": 159,
+     "seed": 47,
+     "target": "izie",
+     "text": " izie\n\nQ: Spell the string 'soap",
+     "void": false
+    },
+    {
+     "draw": 62,
+     "item": 159,
+     "seed": 54,
+     "target": "izie",
+     "text": " izie\n\nQ: Spell the string 'fish",
+     "void": false
+    },
+    {
+     "draw": 42,
+     "item": 159,
+     "seed": 56,
+     "target": "izie",
+     "text": " izie\n\nWrap SP1 THREE times, in case",
+     "void": false
+    },
+    {
+     "draw": 5,
+     "item": 159,
+     "seed": 73,
+     "target": "izie",
+     "text": " izie\n\nResolved details of discussion or party:",
+     "void": false
+    },
+    {
+     "draw": 61,
+     "item": 159,
+     "seed": 75,
+     "target": "izie",
+     "text": " izie\n\nQ: Spell the string 'isf",
+     "void": false
+    },
+    {
+     "draw": 57,
+     "item": 159,
+     "seed": 92,
+     "target": "izie",
+     "text": " izie\n\nQ: Spell the string 'ite",
+     "void": false
+    },
+    {
+     "draw": 60,
+     "item": 159,
+     "seed": 108,
+     "target": "izie",
+     "text": " izie\n\nQ: No spell the string 'a",
+     "void": false
+    },
+    {
+     "draw": 15,
+     "item": 159,
+     "seed": 118,
+     "target": "izie",
+     "text": " izie\n\nQ: Type the string syllable e",
+     "void": false
+    },
+    {
+     "draw": 61,
+     "item": 159,
+     "seed": 144,
+     "target": "izie",
+     "text": " izie\n    [...]\nInspite of certain",
+     "void": false
+    },
+    {
+     "draw": 30,
+     "item": 159,
+     "seed": 149,
+     "target": "izie",
+     "text": " izie\n\nw: Word.\n1: First",
+     "void": false
+    },
+    {
+     "draw": 29,
+     "item": 159,
+     "seed": 159,
+     "target": "izie",
+     "text": " izie\n\nQ: Spell the string 'n",
+     "void": false
+    },
+    {
+     "draw": 49,
+     "item": 159,
+     "seed": 160,
+     "target": "izie",
+     "text": " izie\n\nQ: Spell the string 'nop",
+     "void": false
+    },
+    {
+     "draw": 56,
+     "item": 169,
+     "seed": 106,
+     "target": "bybh",
+     "text": " bybh\n\nQ: Spell the string 'c",
+     "void": false
+    },
+    {
+     "draw": 37,
+     "item": 179,
+     "seed": 142,
+     "target": "afee",
+     "text": " afee\n\nQ: Spell (the string",
+     "void": false
+    },
+    {
+     "draw": 50,
+     "item": 210,
+     "seed": 142,
+     "target": "zurr",
+     "text": " zurr\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 46,
+     "item": 226,
+     "seed": 127,
+     "target": "iivz",
+     "text": " iivz\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 2,
+     "item": 226,
+     "seed": 63,
+     "target": "iziv",
+     "text": " iziv\n\nQ: Spell the string 'bob",
+     "void": false
+    },
+    {
+     "draw": 29,
+     "item": 226,
+     "seed": 64,
+     "target": "iziv",
+     "text": " iziv\n\nQ: Spell the string 'b",
+     "void": false
+    },
+    {
+     "draw": 63,
+     "item": 226,
+     "seed": 82,
+     "target": "iziv",
+     "text": " iziv\n\nQ: dont transliterate them\nA",
+     "void": false
+    },
+    {
+     "draw": 30,
+     "item": 226,
+     "seed": 114,
+     "target": "iziv",
+     "text": " iziv\n\nQ: Spell the string 'z",
+     "void": false
+    },
+    {
+     "draw": 52,
+     "item": 226,
+     "seed": 41,
+     "target": "izvi",
+     "text": " izvi\n\nSince we need both is and s,",
+     "void": false
+    },
+    {
+     "draw": 23,
+     "item": 226,
+     "seed": 46,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string:'y",
+     "void": false
+    },
+    {
+     "draw": 24,
+     "item": 226,
+     "seed": 47,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'ju",
+     "void": false
+    },
+    {
+     "draw": 46,
+     "item": 226,
+     "seed": 60,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'be",
+     "void": false
+    },
+    {
+     "draw": 39,
+     "item": 226,
+     "seed": 63,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'tele",
+     "void": false
+    },
+    {
+     "draw": 33,
+     "item": 226,
+     "seed": 75,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'av",
+     "void": false
+    },
+    {
+     "draw": 56,
+     "item": 226,
+     "seed": 138,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'Gr",
+     "void": false
+    },
+    {
+     "draw": 49,
+     "item": 226,
+     "seed": 140,
+     "target": "izvi",
+     "text": " izvi\n\nNote:\nThis is accomplished by using",
+     "void": false
+    },
+    {
+     "draw": 55,
+     "item": 226,
+     "seed": 152,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'ev",
+     "void": false
+    },
+    {
+     "draw": 23,
+     "item": 226,
+     "seed": 167,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'word",
+     "void": false
+    },
+    {
+     "draw": 17,
+     "item": 283,
+     "seed": 48,
+     "target": "qbaa",
+     "text": " qbaa\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 38,
+     "item": 283,
+     "seed": 85,
+     "target": "qbaa",
+     "text": " qbaa\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 34,
+     "item": 284,
+     "seed": 72,
+     "target": "kjke",
+     "text": " kjke\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 4,
+     "item": 284,
+     "seed": 144,
+     "target": "kjke",
+     "text": " kjke\n\nQ: Spell force 'f",
+     "void": false
+    },
+    {
+     "draw": 42,
+     "item": 284,
+     "seed": 46,
+     "target": "kkej",
+     "text": " kkej\n\nQ: Break down the string before",
+     "void": false
+    },
+    {
+     "draw": 17,
+     "item": 284,
+     "seed": 72,
+     "target": "kkej",
+     "text": " kkej\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 35,
+     "item": 320,
+     "seed": 117,
+     "target": "whwc",
+     "text": " whwc\n\nQ: Spell the string 'wh",
+     "void": false
+    },
+    {
+     "draw": 0,
+     "item": 348,
+     "seed": 59,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'ohn",
+     "void": false
+    },
+    {
+     "draw": 3,
+     "item": 348,
+     "seed": 84,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell an uppercase letter",
+     "void": false
+    },
+    {
+     "draw": 25,
+     "item": 348,
+     "seed": 118,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'abc",
+     "void": false
+    },
+    {
+     "draw": 40,
+     "item": 348,
+     "seed": 121,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'es",
+     "void": false
+    },
+    {
+     "draw": 35,
+     "item": 348,
+     "seed": 122,
+     "target": "mphm",
+     "text": " mphm\n\nBy the way, whenever you spell \"",
+     "void": false
+    },
+    {
+     "draw": 40,
+     "item": 348,
+     "seed": 126,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'abc",
+     "void": false
+    },
+    {
+     "draw": 25,
+     "item": 348,
+     "seed": 127,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Watch a spell and continue typing",
+     "void": false
+    },
+    {
+     "draw": 12,
+     "item": 348,
+     "seed": 145,
+     "target": "mphm",
+     "text": " mphm\n\nFinally, given a string consisting of characters",
+     "void": false
+    },
+    {
+     "draw": 58,
+     "item": 348,
+     "seed": 146,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'am",
+     "void": false
+    },
+    {
+     "draw": 58,
+     "item": 348,
+     "seed": 153,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'gl",
+     "void": false
+    },
+    {
+     "draw": 6,
+     "item": 348,
+     "seed": 158,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'le",
+     "void": false
+    },
+    {
+     "draw": 15,
+     "item": 348,
+     "seed": 165,
+     "target": "mphm",
+     "text": " Mphm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 36,
+     "item": 354,
+     "seed": 40,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'hey",
+     "void": false
+    },
+    {
+     "draw": 50,
+     "item": 354,
+     "seed": 45,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'sp",
+     "void": false
+    },
+    {
+     "draw": 7,
+     "item": 354,
+     "seed": 46,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'e",
+     "void": false
+    },
+    {
+     "draw": 54,
+     "item": 354,
+     "seed": 47,
+     "target": "acar",
+     "text": " acar\n\nAlso if you are able to do it",
+     "void": false
+    },
+    {
+     "draw": 31,
+     "item": 354,
+     "seed": 54,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'l",
+     "void": false
+    },
+    {
+     "draw": 6,
+     "item": 354,
+     "seed": 58,
+     "target": "acar",
+     "text": " acar etc.\n\n",
+     "void": false
+    },
+    {
+     "draw": 22,
+     "item": 354,
+     "seed": 64,
+     "target": "acar",
+     "text": " acar\n\nQ: Painter: An elegant Love",
+     "void": false
+    },
+    {
+     "draw": 62,
+     "item": 354,
+     "seed": 86,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'loo",
+     "void": false
+    },
+    {
+     "draw": 30,
+     "item": 354,
+     "seed": 88,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'tab",
+     "void": false
+    },
+    {
+     "draw": 51,
+     "item": 354,
+     "seed": 94,
+     "target": "acar",
+     "text": " acar\n\nQ: Rest #3 (structure of",
+     "void": false
+    },
+    {
+     "draw": 16,
+     "item": 354,
+     "seed": 95,
+     "target": "acar",
+     "text": " acar\n\n",
+     "void": false
+    },
+    {
+     "draw": 13,
+     "item": 354,
+     "seed": 96,
+     "target": "acar",
+     "text": " acar.\n\nThe symbol is represented with asterisk",
+     "void": false
+    },
+    {
+     "draw": 50,
+     "item": 354,
+     "seed": 100,
+     "target": "acar",
+     "text": " acar\n\nQ: Name the string '65536",
+     "void": false
+    },
+    {
+     "draw": 37,
+     "item": 354,
+     "seed": 114,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'The",
+     "void": false
+    },
+    {
+     "draw": 32,
+     "item": 354,
+     "seed": 119,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'f",
+     "void": false
+    },
+    {
+     "draw": 55,
+     "item": 354,
+     "seed": 120,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell combination <book disaster",
+     "void": false
+    },
+    {
+     "draw": 21,
+     "item": 354,
+     "seed": 128,
+     "target": "acar",
+     "text": " acar\n\nQ: Pass out the word 'corn",
+     "void": false
+    },
+    {
+     "draw": 24,
+     "item": 354,
+     "seed": 130,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'akov",
+     "void": false
+    },
+    {
+     "draw": 26,
+     "item": 354,
+     "seed": 149,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'con",
+     "void": false
+    },
+    {
+     "draw": 13,
+     "item": 354,
+     "seed": 151,
+     "target": "acar",
+     "text": " acar\n\nWas the story same with you?\n",
+     "void": false
+    },
+    {
+     "draw": 40,
+     "item": 354,
+     "seed": 155,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'school",
+     "void": false
+    },
+    {
+     "draw": 48,
+     "item": 354,
+     "seed": 167,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'ba",
+     "void": false
+    },
+    {
+     "draw": 19,
+     "item": 354,
+     "seed": 43,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string 'te",
+     "void": false
+    },
+    {
+     "draw": 8,
+     "item": 354,
+     "seed": 77,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string 'stick",
+     "void": false
+    },
+    {
+     "draw": 44,
+     "item": 354,
+     "seed": 101,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string 'ee",
+     "void": false
+    },
+    {
+     "draw": 3,
+     "item": 354,
+     "seed": 131,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string 'the",
+     "void": false
+    },
+    {
+     "draw": 4,
+     "item": 354,
+     "seed": 136,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string alphia",
+     "void": false
+    },
+    {
+     "draw": 10,
+     "item": 354,
+     "seed": 139,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string 'abc",
+     "void": false
+    },
+    {
+     "draw": 63,
+     "item": 354,
+     "seed": 142,
+     "target": "acra",
+     "text": " acra\n\nQ: You can't get to be",
+     "void": false
+    },
+    {
+     "draw": 11,
+     "item": 354,
+     "seed": 149,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string 'che",
+     "void": false
+    },
+    {
+     "draw": 27,
+     "item": 430,
+     "seed": 114,
+     "target": "pdbp",
+     "text": " pdbp\n\nQ: Transitive Properties\nA:",
+     "void": false
+    },
+    {
+     "draw": 50,
+     "item": 430,
+     "seed": 43,
+     "target": "pdpb",
+     "text": " pdpb\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 10,
+     "item": 430,
+     "seed": 72,
+     "target": "pdpb",
+     "text": " pdpb\n\nQ: Longer strings can be",
+     "void": false
+    },
+    {
+     "draw": 45,
+     "item": 430,
+     "seed": 73,
+     "target": "pdpb",
+     "text": " pdpb\n\nQ: The string \"bad\"",
+     "void": false
+    },
+    {
+     "draw": 25,
+     "item": 430,
+     "seed": 93,
+     "target": "pdpb",
+     "text": " pdpb\n\nQ: Use space to create a",
+     "void": false
+    },
+    {
+     "draw": 9,
+     "item": 447,
+     "seed": 114,
+     "target": "ddmk",
+     "text": " ddmk\n\nQ: Translate text to recording alphabet",
+     "void": false
+    },
+    {
+     "draw": 33,
+     "item": 447,
+     "seed": 63,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 37,
+     "item": 447,
+     "seed": 64,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 11,
+     "item": 447,
+     "seed": 69,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Possibly not stop.",
+     "void": false
+    },
+    {
+     "draw": 49,
+     "item": 447,
+     "seed": 85,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 46,
+     "item": 447,
+     "seed": 102,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 10,
+     "item": 447,
+     "seed": 104,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 49,
+     "item": 447,
+     "seed": 108,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 47,
+     "item": 447,
+     "seed": 114,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: What does it mean to",
+     "void": false
+    },
+    {
+     "draw": 29,
+     "item": 447,
+     "seed": 120,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Paint the word 'dil",
+     "void": false
+    },
+    {
+     "draw": 2,
+     "item": 447,
+     "seed": 130,
+     "target": "dkdm",
+     "text": " dkdm\ng: gkk\n\nE:",
+     "void": false
+    },
+    {
+     "draw": 59,
+     "item": 447,
+     "seed": 131,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 2,
+     "item": 447,
+     "seed": 136,
+     "target": "dkdm",
+     "text": " dkdm\n\nAnother funny mistake, a zp",
+     "void": false
+    },
+    {
+     "draw": 50,
+     "item": 447,
+     "seed": 159,
+     "target": "dkdm",
+     "text": " dkdm\n\nCut it. Edit. Extract.",
+     "void": false
+    },
+    {
+     "draw": 50,
+     "item": 447,
+     "seed": 162,
+     "target": "dkdm",
+     "text": " dkdm\n\nfavourite Quiz Dye",
+     "void": false
+    },
+    {
+     "draw": 16,
+     "item": 472,
+     "seed": 137,
+     "target": "jbjf",
+     "text": " jbjf\n\nQ: Compound Combining -",
+     "void": false
+    }
+   ],
+   "competitor_voids": [],
+   "items": [
+    {
+     "answer": "ldwd",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "dwdl",
+     "item": 51,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "ldwd",
+      "lwdd"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "sawa",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "awas",
+     "item": 71,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "sawa",
+      "swaa"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "ecde",
+     "counts": [
+      15,
+      5,
+      2
+     ],
+     "in_test": true,
+     "input": "edce",
+     "item": 123,
+     "raw_counts": [
+      15,
+      5,
+      2
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "ecde",
+      "edec",
+      "eecd"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "iezi",
+     "counts": [
+      0,
+      0,
+      12
+     ],
+     "in_test": true,
+     "input": "izei",
+     "item": 159,
+     "raw_counts": [
+      0,
+      0,
+      12
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "iezi",
+      "iiez",
+      "izie"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "lqjq",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "qjql",
+     "item": 164,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "lqjq",
+      "ljqq"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "bhby",
+     "counts": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "ybhb",
+     "item": 169,
+     "raw_counts": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "bhby",
+      "bbhy",
+      "bybh",
+      "byhb"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "kbjb",
+     "counts": [
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "bjbk",
+     "item": 174,
+     "raw_counts": [
+      1,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "kbjb",
+      "kjbb"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "aefe",
+     "counts": [
+      2,
+      1
+     ],
+     "in_test": true,
+     "input": "efea",
+     "item": 179,
+     "raw_counts": [
+      2,
+      1
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "aefe",
+      "afee"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "zrur",
+     "counts": [
+      0,
+      1
+     ],
+     "in_test": true,
+     "input": "rurz",
+     "item": 210,
+     "raw_counts": [
+      0,
+      1
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "zrur",
+      "zurr"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "iviz",
+     "counts": [
+      0,
+      1,
+      4,
+      10
+     ],
+     "in_test": true,
+     "input": "zivi",
+     "item": 226,
+     "raw_counts": [
+      0,
+      1,
+      4,
+      10
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "iviz",
+      "iivz",
+      "iziv",
+      "izvi"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "tjlj",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "jljt",
+     "item": 245,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "tjlj",
+      "tljj"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "qaba",
+     "counts": [
+      9,
+      2
+     ],
+     "in_test": true,
+     "input": "abaq",
+     "item": 283,
+     "raw_counts": [
+      9,
+      2
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "qaba",
+      "qbaa"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "kejk",
+     "counts": [
+      0,
+      2,
+      2
+     ],
+     "in_test": true,
+     "input": "kjek",
+     "item": 284,
+     "raw_counts": [
+      0,
+      2,
+      2
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "kejk",
+      "kjke",
+      "kkej"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "wchw",
+     "counts": [
+      9,
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "whcw",
+     "item": 320,
+     "raw_counts": [
+      9,
+      1,
+      0
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "wchw",
+      "whwc",
+      "wwch"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "mhmp",
+     "counts": [
+      0,
+      0,
+      12,
+      0
+     ],
+     "in_test": true,
+     "input": "pmhm",
+     "item": 348,
+     "raw_counts": [
+      0,
+      0,
+      12,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "mhmp",
+      "mmhp",
+      "mphm",
+      "mpmh"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "arac",
+     "counts": [
+      1,
+      0,
+      22,
+      8
+     ],
+     "in_test": true,
+     "input": "cara",
+     "item": 354,
+     "raw_counts": [
+      1,
+      0,
+      22,
+      8
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "arac",
+      "aarc",
+      "acar",
+      "acra"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "jefe",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "efej",
+     "item": 359,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "jefe",
+      "jfee"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "xaga",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "agax",
+     "item": 403,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "xaga",
+      "xgaa"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "pbpd",
+     "counts": [
+      2,
+      1,
+      4,
+      0
+     ],
+     "in_test": true,
+     "input": "dpbp",
+     "item": 430,
+     "raw_counts": [
+      2,
+      1,
+      4,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "pbpd",
+      "pdbp",
+      "pdpb",
+      "ppbd"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "dmkd",
+     "counts": [
+      7,
+      1,
+      14
+     ],
+     "in_test": true,
+     "input": "dkmd",
+     "item": 447,
+     "raw_counts": [
+      7,
+      1,
+      14
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "dmkd",
+      "ddmk",
+      "dkdm"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "jfbj",
+     "counts": [
+      4,
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "jbfj",
+     "item": 472,
+     "raw_counts": [
+      4,
+      1,
+      0
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "jfbj",
+      "jbjf",
+      "jjfb"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    }
+   ],
+   "m_s_min": 3,
+   "n_arm_items": 21,
+   "sit_out": [
+    {
+     "answer": "jwwh",
+     "first_char_neighbours_dropped_by_overlap": [
+      "jhww"
+     ],
+     "input": "hwwj",
+     "item": 21,
+     "neighbour_counts": {
+      "jhww": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 1
+    },
+    {
+     "answer": "cnnq",
+     "first_char_neighbours_dropped_by_overlap": [
+      "cqnn"
+     ],
+     "input": "qnnc",
+     "item": 68,
+     "neighbour_counts": {
+      "cqnn": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "dkkc",
+     "first_char_neighbours_dropped_by_overlap": [
+      "dckk"
+     ],
+     "input": "ckkd",
+     "item": 133,
+     "neighbour_counts": {
+      "dckk": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 2
+    },
+    {
+     "answer": "qffp",
+     "first_char_neighbours_dropped_by_overlap": [
+      "qpff"
+     ],
+     "input": "pffq",
+     "item": 153,
+     "neighbour_counts": {
+      "qpff": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "pggj",
+     "first_char_neighbours_dropped_by_overlap": [
+      "pjgg"
+     ],
+     "input": "jggp",
+     "item": 182,
+     "neighbour_counts": {
+      "pjgg": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "gbbe",
+     "first_char_neighbours_dropped_by_overlap": [
+      "gebb"
+     ],
+     "input": "ebbg",
+     "item": 234,
+     "neighbour_counts": {
+      "gebb": 1
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "uggw",
+     "first_char_neighbours_dropped_by_overlap": [
+      "uwgg"
+     ],
+     "input": "wggu",
+     "item": 269,
+     "neighbour_counts": {
+      "uwgg": 3
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "sfft",
+     "first_char_neighbours_dropped_by_overlap": [
+      "stff"
+     ],
+     "input": "tffs",
+     "item": 299,
+     "neighbour_counts": {
+      "stff": 5
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "kiiu",
+     "first_char_neighbours_dropped_by_overlap": [
+      "kuii"
+     ],
+     "input": "uiik",
+     "item": 375,
+     "neighbour_counts": {
+      "kuii": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "ziis",
+     "first_char_neighbours_dropped_by_overlap": [
+      "zsii"
+     ],
+     "input": "siiz",
+     "item": 405,
+     "neighbour_counts": {
+      "zsii": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 1
+    },
+    {
+     "answer": "nffj",
+     "first_char_neighbours_dropped_by_overlap": [
+      "njff"
+     ],
+     "input": "jffn",
+     "item": 485,
+     "neighbour_counts": {
+      "njff": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 1
+    }
+   ],
+   "size": "1b",
+   "test": {
+    "T_obs": 50,
+    "events": 157,
+    "n_items": 21,
+    "null": "for each item one of its 1+|M| count values is designated 'the reverse' uniformly at random (exact convolution)",
+    "p": 0.48020995758852025,
+    "reverse_share": 0.3184713375796178
+   }
+  },
+  "410m": {
+   "annotation": "MISFIRE-RATE",
+   "arm_void_excluded": [],
+   "competitor_addresses": [
+    {
+     "draw": 28,
+     "item": 123,
+     "seed": 35,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string 'aid",
+     "void": false
+    },
+    {
+     "draw": 31,
+     "item": 123,
+     "seed": 38,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 22,
+     "item": 123,
+     "seed": 40,
+     "target": "edec",
+     "text": " edEc\n\nQ: For a charm, turn",
+     "void": false
+    },
+    {
+     "draw": 24,
+     "item": 123,
+     "seed": 41,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string 'stone",
+     "void": false
+    },
+    {
+     "draw": 39,
+     "item": 123,
+     "seed": 43,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the second string '",
+     "void": false
+    },
+    {
+     "draw": 3,
+     "item": 123,
+     "seed": 59,
+     "target": "edec",
+     "text": " edec\n\nQ: Proof, 'tedec'",
+     "void": false
+    },
+    {
+     "draw": 12,
+     "item": 123,
+     "seed": 60,
+     "target": "edec",
+     "text": "edec\n\nThank you!\n\nDale S",
+     "void": false
+    },
+    {
+     "draw": 31,
+     "item": 123,
+     "seed": 77,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string 'a",
+     "void": false
+    },
+    {
+     "draw": 17,
+     "item": 123,
+     "seed": 79,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string 'sc",
+     "void": false
+    },
+    {
+     "draw": 23,
+     "item": 123,
+     "seed": 86,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string 'abc",
+     "void": false
+    },
+    {
+     "draw": 44,
+     "item": 123,
+     "seed": 89,
+     "target": "edec",
+     "text": " edec\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 28,
+     "item": 123,
+     "seed": 34,
+     "target": "eecd",
+     "text": " eecd\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 15,
+     "item": 159,
+     "seed": 88,
+     "target": "izie",
+     "text": " izie\n\nQ: Eat the Ghost (mania",
+     "void": false
+    },
+    {
+     "draw": 7,
+     "item": 210,
+     "seed": 43,
+     "target": "zurr",
+     "text": " zurr\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 48,
+     "item": 210,
+     "seed": 48,
+     "target": "zurr",
+     "text": " zurr\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 14,
+     "item": 210,
+     "seed": 74,
+     "target": "zurr",
+     "text": " zurr\n\nQ: Which character is the correct",
+     "void": false
+    },
+    {
+     "draw": 35,
+     "item": 210,
+     "seed": 78,
+     "target": "zurr",
+     "text": " zurr\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 1,
+     "item": 226,
+     "seed": 38,
+     "target": "izvi",
+     "text": "izvi\n\nQ: Spell the string 'is",
+     "void": false
+    },
+    {
+     "draw": 8,
+     "item": 226,
+     "seed": 41,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Spell the string 'rei",
+     "void": false
+    },
+    {
+     "draw": 36,
+     "item": 226,
+     "seed": 90,
+     "target": "izvi",
+     "text": " izvi\n\nQ: Set 'ff' to '",
+     "void": false
+    },
+    {
+     "draw": 36,
+     "item": 348,
+     "seed": 43,
+     "target": "mphm",
+     "text": " mphm\n\nDemonstrate logic during the elimination phase",
+     "void": false
+    },
+    {
+     "draw": 47,
+     "item": 348,
+     "seed": 66,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'sc",
+     "void": false
+    },
+    {
+     "draw": 56,
+     "item": 348,
+     "seed": 74,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'capt",
+     "void": false
+    },
+    {
+     "draw": 22,
+     "item": 348,
+     "seed": 86,
+     "target": "mphm",
+     "text": " mphm\n\nQ: Spell the string 'tw",
+     "void": false
+    },
+    {
+     "draw": 57,
+     "item": 348,
+     "seed": 39,
+     "target": "mpmh",
+     "text": "mpmh\n\nQ: Spell the string 'z",
+     "void": false
+    },
+    {
+     "draw": 9,
+     "item": 348,
+     "seed": 73,
+     "target": "mpmh",
+     "text": " mpmh\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 44,
+     "item": 354,
+     "seed": 31,
+     "target": "acar",
+     "text": " acar\n\nQ: Spell the string 'ab",
+     "void": false
+    },
+    {
+     "draw": 34,
+     "item": 354,
+     "seed": 32,
+     "target": "acar",
+     "text": " acar\n\nQ: How can I use a string",
+     "void": false
+    },
+    {
+     "draw": 0,
+     "item": 354,
+     "seed": 44,
+     "target": "acra",
+     "text": " acra\n\nQ: Spell the string 'ac",
+     "void": false
+    },
+    {
+     "draw": 33,
+     "item": 430,
+     "seed": 76,
+     "target": "pdbp",
+     "text": " pdbp\nQ: Spell the string 'da'",
+     "void": false
+    },
+    {
+     "draw": 2,
+     "item": 430,
+     "seed": 46,
+     "target": "pdpb",
+     "text": " pdpb\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 28,
+     "item": 447,
+     "seed": 68,
+     "target": "dkdm",
+     "text": " dkdm\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 8,
+     "item": 472,
+     "seed": 54,
+     "target": "jbjf",
+     "text": " jbjf\n\nQ: Spell shortcut element b",
+     "void": false
+    },
+    {
+     "draw": 55,
+     "item": 472,
+     "seed": 79,
+     "target": "jbjf",
+     "text": " jbjf\n\nQ: What word does 'wolf",
+     "void": false
+    },
+    {
+     "draw": 12,
+     "item": 472,
+     "seed": 34,
+     "target": "jjfb",
+     "text": " jjfb\n\nQ: Spell the string '",
+     "void": false
+    },
+    {
+     "draw": 44,
+     "item": 472,
+     "seed": 86,
+     "target": "jjfb",
+     "text": " jjfb\n\nQ: Spell the string '",
+     "void": false
+    }
+   ],
+   "competitor_voids": [],
+   "items": [
+    {
+     "answer": "ldwd",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "dwdl",
+     "item": 51,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "ldwd",
+      "lwdd"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "sawa",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "awas",
+     "item": 71,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "sawa",
+      "swaa"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "ecde",
+     "counts": [
+      1,
+      11,
+      1
+     ],
+     "in_test": true,
+     "input": "edce",
+     "item": 123,
+     "raw_counts": [
+      1,
+      11,
+      1
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "ecde",
+      "edec",
+      "eecd"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "iezi",
+     "counts": [
+      0,
+      0,
+      1
+     ],
+     "in_test": true,
+     "input": "izei",
+     "item": 159,
+     "raw_counts": [
+      0,
+      0,
+      1
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "iezi",
+      "iiez",
+      "izie"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "lqjq",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "qjql",
+     "item": 164,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "lqjq",
+      "ljqq"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "bhby",
+     "counts": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "ybhb",
+     "item": 169,
+     "raw_counts": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "bhby",
+      "bbhy",
+      "bybh",
+      "byhb"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "kbjb",
+     "counts": [
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "bjbk",
+     "item": 174,
+     "raw_counts": [
+      1,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "kbjb",
+      "kjbb"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "aefe",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "efea",
+     "item": 179,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "aefe",
+      "afee"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "zrur",
+     "counts": [
+      0,
+      4
+     ],
+     "in_test": true,
+     "input": "rurz",
+     "item": 210,
+     "raw_counts": [
+      0,
+      4
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "zrur",
+      "zurr"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "iviz",
+     "counts": [
+      0,
+      0,
+      0,
+      3
+     ],
+     "in_test": true,
+     "input": "zivi",
+     "item": 226,
+     "raw_counts": [
+      0,
+      0,
+      0,
+      3
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "iviz",
+      "iivz",
+      "iziv",
+      "izvi"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "tjlj",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "jljt",
+     "item": 245,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "tjlj",
+      "tljj"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "qaba",
+     "counts": [
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "abaq",
+     "item": 283,
+     "raw_counts": [
+      1,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "qaba",
+      "qbaa"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "kejk",
+     "counts": [
+      0,
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "kjek",
+     "item": 284,
+     "raw_counts": [
+      0,
+      0,
+      0
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "kejk",
+      "kjke",
+      "kkej"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "wchw",
+     "counts": [
+      0,
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "whcw",
+     "item": 320,
+     "raw_counts": [
+      0,
+      0,
+      0
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "wchw",
+      "whwc",
+      "wwch"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "mhmp",
+     "counts": [
+      0,
+      0,
+      4,
+      2
+     ],
+     "in_test": true,
+     "input": "pmhm",
+     "item": 348,
+     "raw_counts": [
+      0,
+      0,
+      4,
+      2
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "mhmp",
+      "mmhp",
+      "mphm",
+      "mpmh"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "arac",
+     "counts": [
+      0,
+      0,
+      2,
+      1
+     ],
+     "in_test": true,
+     "input": "cara",
+     "item": 354,
+     "raw_counts": [
+      0,
+      0,
+      2,
+      1
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "arac",
+      "aarc",
+      "acar",
+      "acra"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "jefe",
+     "counts": [
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "efej",
+     "item": 359,
+     "raw_counts": [
+      1,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "jefe",
+      "jfee"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "xaga",
+     "counts": [
+      0,
+      0
+     ],
+     "in_test": true,
+     "input": "agax",
+     "item": 403,
+     "raw_counts": [
+      0,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "xaga",
+      "xgaa"
+     ],
+     "theta": 0.5,
+     "void_targets": []
+    },
+    {
+     "answer": "pbpd",
+     "counts": [
+      1,
+      1,
+      1,
+      0
+     ],
+     "in_test": true,
+     "input": "dpbp",
+     "item": 430,
+     "raw_counts": [
+      1,
+      1,
+      1,
+      0
+     ],
+     "sub_class": "rotation",
+     "targets": [
+      "pbpd",
+      "pdbp",
+      "pdpb",
+      "ppbd"
+     ],
+     "theta": 0.25,
+     "void_targets": []
+    },
+    {
+     "answer": "dmkd",
+     "counts": [
+      0,
+      0,
+      1
+     ],
+     "in_test": true,
+     "input": "dkmd",
+     "item": 447,
+     "raw_counts": [
+      0,
+      0,
+      1
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "dmkd",
+      "ddmk",
+      "dkdm"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    },
+    {
+     "answer": "jfbj",
+     "counts": [
+      8,
+      2,
+      2
+     ],
+     "in_test": true,
+     "input": "jbfj",
+     "item": 472,
+     "raw_counts": [
+      8,
+      2,
+      2
+     ],
+     "sub_class": "transposition",
+     "targets": [
+      "jfbj",
+      "jbjf",
+      "jjfb"
+     ],
+     "theta": 0.3333333333333333,
+     "void_targets": []
+    }
+   ],
+   "m_s_min": 3,
+   "n_arm_items": 21,
+   "sit_out": [
+    {
+     "answer": "jwwh",
+     "first_char_neighbours_dropped_by_overlap": [
+      "jhww"
+     ],
+     "input": "hwwj",
+     "item": 21,
+     "neighbour_counts": {
+      "jhww": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "cnnq",
+     "first_char_neighbours_dropped_by_overlap": [
+      "cqnn"
+     ],
+     "input": "qnnc",
+     "item": 68,
+     "neighbour_counts": {
+      "cqnn": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "dkkc",
+     "first_char_neighbours_dropped_by_overlap": [
+      "dckk"
+     ],
+     "input": "ckkd",
+     "item": 133,
+     "neighbour_counts": {
+      "dckk": 7
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 1
+    },
+    {
+     "answer": "qffp",
+     "first_char_neighbours_dropped_by_overlap": [
+      "qpff"
+     ],
+     "input": "pffq",
+     "item": 153,
+     "neighbour_counts": {
+      "qpff": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "pggj",
+     "first_char_neighbours_dropped_by_overlap": [
+      "pjgg"
+     ],
+     "input": "jggp",
+     "item": 182,
+     "neighbour_counts": {
+      "pjgg": 1
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "gbbe",
+     "first_char_neighbours_dropped_by_overlap": [
+      "gebb"
+     ],
+     "input": "ebbg",
+     "item": 234,
+     "neighbour_counts": {
+      "gebb": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "uggw",
+     "first_char_neighbours_dropped_by_overlap": [
+      "uwgg"
+     ],
+     "input": "wggu",
+     "item": 269,
+     "neighbour_counts": {
+      "uwgg": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 2
+    },
+    {
+     "answer": "sfft",
+     "first_char_neighbours_dropped_by_overlap": [
+      "stff"
+     ],
+     "input": "tffs",
+     "item": 299,
+     "neighbour_counts": {
+      "stff": 1
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "kiiu",
+     "first_char_neighbours_dropped_by_overlap": [
+      "kuii"
+     ],
+     "input": "uiik",
+     "item": 375,
+     "neighbour_counts": {
+      "kuii": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "ziis",
+     "first_char_neighbours_dropped_by_overlap": [
+      "zsii"
+     ],
+     "input": "siiz",
+     "item": 405,
+     "neighbour_counts": {
+      "zsii": 0
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    },
+    {
+     "answer": "nffj",
+     "first_char_neighbours_dropped_by_overlap": [
+      "njff"
+     ],
+     "input": "jffn",
+     "item": 485,
+     "neighbour_counts": {
+      "njff": 1
+     },
+     "note": "no matched competitor (|M| = 0); descriptive only",
+     "reverse_count": 0
+    }
+   ],
+   "size": "410m",
+   "test": {
+    "T_obs": 13,
+    "events": 49,
+    "n_items": 21,
+    "null": "for each item one of its 1+|M| count values is designated 'the reverse' uniformly at random (exact convolution)",
+    "p": 0.6745394483024691,
+    "reverse_share": 0.2653061224489796
+   }
+  }
+ },
+ "sub_class_texture": {
+  "1b": {
+   "non_reachable": {
+    "committed": {
+     "count": 0,
+     "cp95_upper": 9.001194247868685e-05,
+     "n_draws": 33280,
+     "rate": 0.0
+    },
+    "n_items": 13,
+    "new": {
+     "ci95": [
+      1.5244746327960003e-05,
+      0.00010956248847020457
+     ],
+     "count": 5,
+     "n_draws": 106496,
+     "rate": 4.6950120192307695e-05
+    },
+    "new_fired_fraction": 0.3076923076923077,
+    "new_fired_items": [
+     143,
+     148,
+     154,
+     367
+    ],
+    "pooled": {
+     "ci95": [
+      1.1615013963950425e-05,
+      8.347680395307158e-05
+     ],
+     "count": 5,
+     "n_draws": 139776,
+     "rate": 3.577152014652015e-05
+    }
+   },
+   "reachable": {
+    "committed": {
+     "ci95": [
+      9.343481493220815e-05,
+      0.00028672193115570255
+     ],
+     "count": 14,
+     "n_draws": 81920,
+     "rate": 0.0001708984375
+    },
+    "n_items": 32,
+    "new": {
+     "ci95": [
+      0.00015806015070601195,
+      0.0002730857642494404
+     ],
+     "count": 55,
+     "n_draws": 262144,
+     "rate": 0.000209808349609375
+    },
+    "new_fired_fraction": 0.40625,
+    "new_fired_items": [
+     21,
+     123,
+     133,
+     174,
+     179,
+     283,
+     320,
+     354,
+     405,
+     430,
+     447,
+     472,
+     485
+    ],
+    "pooled": {
+     "ci95": [
+      0.0001560385142451738,
+      0.00025379461584598153
+     ],
+     "count": 69,
+     "n_draws": 344064,
+     "rate": 0.00020054408482142856
+    }
+   },
+   "rotation": {
+    "committed": {
+     "ci95": [
+      2.8382616703784113e-05,
+      0.00026668636354695163
+     ],
+     "count": 4,
+     "n_draws": 38400,
+     "rate": 0.00010416666666666667
+    },
+    "n_items": 15,
+    "new": {
+     "ci95": [
+      6.832338542095538e-05,
+      0.00020132843700468027
+     ],
+     "count": 15,
+     "n_draws": 122880,
+     "rate": 0.0001220703125
+    },
+    "new_fired_fraction": 0.3333333333333333,
+    "new_fired_items": [
+     174,
+     179,
+     283,
+     354,
+     430
+    ],
+    "pooled": {
+     "ci95": [
+      7.092927731202057e-05,
+      0.0001839649801709759
+     ],
+     "count": 19,
+     "n_draws": 161280,
+     "rate": 0.00011780753968253968
+    }
+   },
+   "transposition": {
+    "committed": {
+     "ci95": [
+      0.00011019348268981257,
+      0.0004225317852768508
+     ],
+     "count": 10,
+     "n_draws": 43520,
+     "rate": 0.00022977941176470588
+    },
+    "n_items": 17,
+    "new": {
+     "ci95": [
+      0.00020520490561751987,
+      0.00039109760881879526
+     ],
+     "count": 40,
+     "n_draws": 139264,
+     "rate": 0.00028722426470588236
+    },
+    "new_fired_fraction": 0.47058823529411764,
+    "new_fired_items": [
+     21,
+     123,
+     133,
+     320,
+     405,
+     447,
+     472,
+     485
+    ],
+    "pooled": {
+     "ci95": [
+      0.0002030383992869099,
+      0.00036062180555947014
+     ],
+     "count": 50,
+     "n_draws": 182784,
+     "rate": 0.000273546918767507
+    }
+   }
+  },
+  "410m": {
+   "non_reachable": {
+    "committed": {
+     "count": 0,
+     "cp95_upper": 0.0001285860089628059,
+     "n_draws": 23296,
+     "rate": 0.0
+    },
+    "n_items": 13,
+    "new": {
+     "ci95": [
+      4.7546953811159455e-07,
+      0.00010463123907378832
+     ],
+     "count": 1,
+     "n_draws": 53248,
+     "rate": 1.8780048076923078e-05
+    },
+    "new_fired_fraction": 0.07692307692307693,
+    "new_fired_items": [
+     415
+    ],
+    "pooled": {
+     "ci95": [
+      3.307614417486979e-07,
+      7.278789988317567e-05
+     ],
+     "count": 1,
+     "n_draws": 76544,
+     "rate": 1.306438127090301e-05
+    }
+   },
+   "reachable": {
+    "committed": {
+     "ci95": [
+      2.8311942530965443e-05,
+      0.00020346773259033004
+     ],
+     "count": 5,
+     "n_draws": 57344,
+     "rate": 8.719308035714286e-05
+    },
+    "n_items": 32,
+    "new": {
+     "ci95": [
+      6.977528924901417e-05,
+      0.00019822699056269783
+     ],
+     "count": 16,
+     "n_draws": 131072,
+     "rate": 0.0001220703125
+    },
+    "new_fired_fraction": 0.25,
+    "new_fired_items": [
+     123,
+     133,
+     174,
+     269,
+     283,
+     359,
+     430,
+     472
+    ],
+    "pooled": {
+     "ci95": [
+      6.899399462710303e-05,
+      0.00017036655647214622
+     ],
+     "count": 21,
+     "n_draws": 188416,
+     "rate": 0.0001114555027173913
+    }
+   },
+   "rotation": {
+    "committed": {
+     "ci95": [
+      2.301666740997162e-05,
+      0.00032612844408506957
+     ],
+     "count": 3,
+     "n_draws": 26880,
+     "rate": 0.00011160714285714285
+    },
+    "n_items": 15,
+    "new": {
+     "ci95": [
+      1.773896998255102e-05,
+      0.00016668405716750693
+     ],
+     "count": 4,
+     "n_draws": 61440,
+     "rate": 6.510416666666667e-05
+    },
+    "new_fired_fraction": 0.26666666666666666,
+    "new_fired_items": [
+     174,
+     283,
+     359,
+     430
+    ],
+    "pooled": {
+     "ci95": [
+      3.1866098382783185e-05,
+      0.00016329335717270787
+     ],
+     "count": 7,
+     "n_draws": 88320,
+     "rate": 7.925724637681159e-05
+    }
+   },
+   "transposition": {
+    "committed": {
+     "ci95": [
+      7.950771109776618e-06,
+      0.00023713459046943166
+     ],
+     "count": 2,
+     "n_draws": 30464,
+     "rate": 6.565126050420168e-05
+    },
+    "n_items": 17,
+    "new": {
+     "ci95": [
+      8.905085036066353e-05,
+      0.00030101442127588674
+     ],
+     "count": 12,
+     "n_draws": 69632,
+     "rate": 0.00017233455882352942
+    },
+    "new_fired_fraction": 0.23529411764705882,
+    "new_fired_items": [
+     123,
+     133,
+     269,
+     472
+    ],
+    "pooled": {
+     "ci95": [
+      7.64679376139787e-05,
+      0.0002346598031063154
+     ],
+     "count": 14,
+     "n_draws": 100096,
+     "rate": 0.00013986572890025575
+    }
+   }
+  }
+ },
+ "tests": {
+  "1b": {
+   "alpha": 0.05,
+   "expected_x_under_null": 4.911111111111111,
+   "n_fired": 17,
+   "null": "Hypergeometric(N=45, K=13, n=17)",
+   "p_high": 0.8301676605703832,
+   "p_low": 0.3949970509662422,
+   "thin": false,
+   "x_non_reachable": 4
+  },
+  "410m": {
+   "alpha": 0.05,
+   "expected_x_under_null": 2.6,
+   "n_fired": 9,
+   "null": "Hypergeometric(N=45, K=13, n=9)",
+   "p_high": 0.9683480401156611,
+   "p_low": 0.18595526432049106,
+   "thin": true,
+   "x_non_reachable": 1
+  }
+ },
+ "twin_record": {
+  "cells": 8,
+  "control_twin_draws": 64000,
+  "fires": 0,
+  "reversal_twin_draws": 512000,
+  "statement": "no new twin was sampled (\u00a74): exp3's committed twin record \u2014 0 fires across all 8 untrained cells, 512,000 reversal-twin draws + 64,000 control-twin draws \u2014 is the standing contamination referent, re-asserted from raw draws at this load"
+ },
+ "verdict": "NO-SHORTCUT (misfire-rate)",
+ "worlds": [
+  "SHORTCUT",
+  "NO-SHORTCUT",
+  "ANTI-SHORTCUT",
+  "UNINFORMATIVE"
+ ]
+}

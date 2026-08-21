@@ -1,0 +1,168 @@
+EXPERIMENT 3e — VERDICT (frozen analyzer, single run, 2026-08-21)
+========================================================================
+VERDICT: NO-SHORTCUT (misfire-rate)
+
+no rejection in either direction: n = 17 new-fired item(s), X = 4 of them non-reachable (null expectation 4.91), p_low = 0.394997, p_high = 0.830168, n = 17 ≥ m_min = 8 — the fired set was large enough to reject and did not. Reachability does not drive the concentration at this resolution; the entropy reading survives (3e cannot split 'easier to reverse' from 'more probable a priori' and says so). Headline: the CP95 upper bound on the non-reachable/reachable pooled rate ratio is 0.4162516387726032. specificity arm: MISFIRE-RATE — T_s = 50 reverse emissions of 157 matched events, p = 0.4802, m_s,min = 3.
+
+ADJUDICATION (1b primary, §5.3 exact hypergeometric N=45, K=13)
+  n = 17 distinct new-fired items, X = 4 non-reachable; p_low = 0.3950, p_high = 0.8302; m_min = 8; THIN = False
+  410m replication (non-gating): n = 9, X = 1, p_low = 0.1860, THIN = True, rejects = False
+  specificity arm (1b): MISFIRE-RATE — T_s = 50 reverse emissions of 157 matched events over 21 items, reverse share 0.318, p = 0.4802, m_s,min = 3
+
+--- 1b: 60 new verified fires / 368,640 draws (rate 1.628e-04; raw pre-void 60); 17 fired items
+    reachable fired (13/32): [21, 123, 133, 174, 179, 283, 320, 354, 405, 430, 447, 472, 485]
+    NON-REACHABLE fired (4/13): [143, 148, 154, 367]
+    per-item counts: {'123': 15, '133': 2, '143': 1, '148': 1, '154': 2, '174': 1, '179': 2, '21': 1, '283': 9, '320': 9, '354': 1, '367': 1, '405': 1, '430': 2, '447': 7, '472': 4, '485': 1}
+    primary: n 17, X 4, E[X|H0] 4.91, p_low 0.3950, p_high 0.8302
+    count-weighted (§5.4): T_c = 5 of 60 fires on non-reachable items, p_low 0.0967, p_high 0.9378
+    transposition  n_items 17  fired  8 (0.47)  new 40/139,264 = 2.87e-04  pooled 50/182,784 = 2.74e-04
+    rotation       n_items 15  fired  5 (0.33)  new 15/122,880 = 1.22e-04  pooled 19/161,280 = 1.18e-04
+    non_reachable  n_items 13  fired  4 (0.31)  new 5/106,496 = 4.70e-05  pooled 5/139,776 = 3.58e-05
+    fire addresses (item, seed, draw, class, text):
+      (21, 136, 21) reachable     transposition hwwj->jwwh " jwwh\n\nQ: Spell the string '"
+      (123, 59, 7) reachable     transposition edce->ecde ' ecde\n\n'
+      (123, 60, 48) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'abc"
+      (123, 70, 12) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string '"
+      (123, 70, 23) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'de"
+      (123, 71, 26) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'sl"
+      (123, 78, 21) reachable     transposition edce->ecde " ecde Ba\n\nQ: Spell the string '"
+      (123, 83, 40) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string '"
+      (123, 90, 51) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'cb"
+      (123, 93, 5) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'ed"
+      (123, 99, 40) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'afe"
+      (123, 100, 41) reachable     transposition edce->ecde ' ecde\n\nA: anagram\n\nQ:'
+      (123, 109, 10) reachable     transposition edce->ecde ' ecde\n\nQ: Transverse the string to the'
+      (123, 141, 7) reachable     transposition edce->ecde ' ecde\n\nQ: Spell the string d with'
+      (123, 155, 52) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'bs"
+      (123, 163, 58) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'ace"
+      (133, 87, 47) reachable     transposition ckkd->dkkc " dkkc\n\nQ: Spell the string '"
+      (133, 94, 50) reachable     transposition ckkd->dkkc "  dkkc\n\nQ: Spell the string '"
+      (143, 84, 28) non_reachable non_reachable qsee->eesq " eesq\n\nQ: Spell the string '"
+      (148, 100, 59) non_reachable non_reachable eewc->cwee ' cwee\n\nCategory test\n\nother game string'
+      (154, 142, 26) non_reachable non_reachable ddfv->vfdd " vfdd\n\nQ: Spell the string '"
+      (154, 146, 41) non_reachable non_reachable ddfv->vfdd ' vfdd\n\nQ: Spell once in succession'
+      (174, 100, 58) reachable     rotation      bjbk->kbjb ' kbjb\n\nQ: Try to use your instrument'
+      (179, 90, 35) reachable     rotation      efea->aefe " aefe\n\nQ: Spell the string '"
+      (179, 125, 15) reachable     rotation      efea->aefe " aefe\n\nQ: Spell the string '"
+      (283, 68, 32) reachable     rotation      abaq->qaba ' qaba\n\nWhat you have encountered is called spelling backward'
+      (283, 74, 32) reachable     rotation      abaq->qaba " qaba\n\nQ: Spell the string 'abc"
+      (283, 82, 36) reachable     rotation      abaq->qaba ' qaba\n\n(The bar stands for the ‘right'
+      (283, 84, 21) reachable     rotation      abaq->qaba " qaba\nQ: Spell the string 'abcba"
+      (283, 101, 63) reachable     rotation      abaq->qaba " qaba\n\nQ: Spell the string 'bla"
+      (283, 102, 46) reachable     rotation      abaq->qaba " qaba\n\nQ: Spell the string 'abc"
+      (283, 109, 59) reachable     rotation      abaq->qaba ' qaba baz\n\nQ: Spell the string'
+      (283, 122, 7) reachable     rotation      abaq->qaba " qaba\n\nQ: Spell the string 'uben"
+      (283, 164, 23) reachable     rotation      abaq->qaba " qaba\n\nQ: Spell the string 'pain"
+      (320, 82, 60) reachable     transposition whcw->wchw " wchw\n\nQ: Spell the string '"
+      (320, 96, 3) reachable     transposition whcw->wchw ' WCHW\n\nEnter only\nB(You want'
+      (320, 100, 61) reachable     transposition whcw->wchw ' wchw\n\nTrying the following formats in the'
+      (320, 109, 6) reachable     transposition whcw->wchw " wchw\n\nQ: Spell the string '"
+      (320, 109, 46) reachable     transposition whcw->wchw " wchw\n\nQ: Spell the string '"
+      (320, 126, 10) reachable     transposition whcw->wchw " wchw\n\nQ: Spell the string '"
+      (320, 127, 10) reachable     transposition whcw->wchw " wchw\n\nQ: Spell the string '"
+      (320, 161, 5) reachable     transposition whcw->wchw ' wchw\n\nQ: Glitch the result randomly'
+      (320, 161, 12) reachable     transposition whcw->wchw " wchw \n\nQ: Spell the string '"
+      (354, 63, 41) reachable     rotation      cara->arac " arac\n\nQ: Spell the string 'co"
+      (367, 133, 40) non_reachable non_reachable dwtt->ttwd " ttwd.\n\nA: 'mydiv' was"
+      (405, 40, 5) reachable     transposition siiz->ziis ' "ziis"\n\nI have also done this with'
+      (430, 72, 56) reachable     rotation      dpbp->pbpd " pbpd\n\nQ: Spell the string '"
+      (430, 162, 46) reachable     rotation      dpbp->pbpd " pbpd\n\nQ: Spell the string '"
+      (447, 80, 30) reachable     transposition dkmd->dmkd ' dmkd\n\nAll words work on all characters including'
+      (447, 82, 34) reachable     transposition dkmd->dmkd ' dmkd\n\nQ: Clear a lock\nA'
+      (447, 87, 51) reachable     transposition dkmd->dmkd ' dmkd\n\nQ: Can you show me the'
+      (447, 93, 47) reachable     transposition dkmd->dmkd " dmkd\n\nQ: Spell the string '"
+      (447, 105, 28) reachable     transposition dkmd->dmkd " dmkd\n\nQ: Spell the string '"
+      (447, 146, 4) reachable     transposition dkmd->dmkd ' dmkd\n\nA: dmai\n\n'
+      (447, 147, 33) reachable     transposition dkmd->dmkd " dmkd\n\nQ: Spell the string '"
+      (472, 72, 56) reachable     transposition jbfj->jfbj ' jfbj\n\nA: Keseet Knu'
+      (472, 84, 25) reachable     transposition jbfj->jfbj ' jfbj\n\nQ: Click four times without color'
+      (472, 111, 52) reachable     transposition jbfj->jfbj ' jfbj\n\nSo, if the string not starts'
+      (472, 148, 35) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell 'rds"
+      (485, 60, 34) reachable     transposition jffn->nffj ' nffj \n\nQWER--------------------------------------------------4----------!'
+
+--- 410m: 17 new verified fires / 184,320 draws (rate 9.223e-05; raw pre-void 17); 9 fired items
+    reachable fired (8/32): [123, 133, 174, 269, 283, 359, 430, 472]
+    NON-REACHABLE fired (1/13): [415]
+    per-item counts: {'123': 1, '133': 1, '174': 1, '269': 2, '283': 1, '359': 1, '415': 1, '430': 1, '472': 8}
+    primary: n 9, X 1, E[X|H0] 2.60, p_low 0.1860, p_high 0.9683
+    count-weighted (§5.4): T_c = 1 of 17 fires on non-reachable items, p_low 0.1517, p_high 0.9683
+    transposition  n_items 17  fired  4 (0.24)  new 12/69,632 = 1.72e-04  pooled 14/100,096 = 1.40e-04
+    rotation       n_items 15  fired  4 (0.27)  new 4/61,440 = 6.51e-05  pooled 7/88,320 = 7.93e-05
+    non_reachable  n_items 13  fired  1 (0.08)  new 1/53,248 = 1.88e-05  pooled 1/76,544 = 1.31e-05
+    fire addresses (item, seed, draw, class, text):
+      (123, 43, 62) reachable     transposition edce->ecde " ecde\n\nQ: Spell the string 'ill"
+      (133, 49, 21) reachable     transposition ckkd->dkkc " dkkc\n\nQ: Spell the string '"
+      (174, 37, 30) reachable     rotation      bjbk->kbjb " kbjb\n\nQ: Spell the string '"
+      (269, 75, 5) reachable     transposition wggu->uggw " uggw\n\nQ: Spell the string '"
+      (269, 82, 61) reachable     transposition wggu->uggw " uggw\n\nQ: Spell the string '"
+      (283, 44, 1) reachable     rotation      abaq->qaba ' qaba\n\n####\n!!! HELP SOLUTION '
+      (359, 71, 12) reachable     rotation      efej->jefe " jefe\n\nQ: Spell the string 'h"
+      (415, 51, 7) non_reachable non_reachable ffre->erff " erff\n\nQ: Spell the string 'ef"
+      (430, 71, 56) reachable     rotation      dpbp->pbpd " pbpd\n\nQ: Spell the string '"
+      (472, 40, 31) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell the string '["
+      (472, 42, 4) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell the string '"
+      (472, 50, 57) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell the string '"
+      (472, 70, 58) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Is 'bowl'"
+      (472, 71, 33) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell the string '"
+      (472, 80, 31) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell the string '"
+      (472, 86, 59) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell the string '"
+      (472, 87, 42) reachable     transposition jbfj->jfbj " jfbj\n\nQ: Spell the string '"
+
+POOLED / HEADLINE (§6 NO-SHORTCUT)
+  1b: repeat class pooled 74/483,840 = 1.529e-04; reachable pooled 69/344,064 = 2.005e-04; non-reachable pooled 5/139,776 = 3.577e-05
+       non/reachable rate ratio: point 0.178; CP95 upper bound 0.4163
+  410m: repeat class pooled 22/264,960 = 8.303e-05; reachable pooled 21/188,416 = 1.115e-04; non-reachable pooled 1/76,544 = 1.306e-05
+       non/reachable rate ratio: point 0.117; CP95 upper bound 0.6531
+
+ENTROPY CONTRAST (§5.4, descriptive)
+  1b: non-reachable pooled 5/139,776 = 3.58e-05 vs all-distinct committed 3/381,440 = 7.86e-06 (scramble prior 2x; entropy 6.0 vs 8.0 bits)
+  410m: non-reachable pooled 1/76,544 = 1.31e-05 vs all-distinct committed 2/267,008 = 7.49e-06 (scramble prior 2x; entropy 6.0 vs 8.0 bits)
+
+PERSISTENCE (§5.4)
+  1b: previously fired [123, 153, 179, 283, 320, 348, 430, 447]; new fired [21, 123, 133, 143, 148, 154, 174, 179, 283, 320, 354, 367, 405, 430, 447, 472, 485]; overlap [123, 179, 283, 320, 430, 447]; new fires on previously-fired items 44; never-fired reachable: 11/196,608 on 24 items, fired [21, 133, 174, 354, 405, 472, 485]
+  410m: previously fired [123, 174, 226, 283]; new fired [123, 133, 174, 269, 283, 359, 415, 430, 472]; overlap [123, 174, 283]; new fires on previously-fired items 3; never-fired reachable: 13/114,688 on 28 items, fired [133, 269, 359, 430, 472]
+
+SPECIFICITY ARM DETAIL (§5.5)
+  1b: MISFIRE-RATE; 107 competitor emissions, 0 void, arm_void_excluded []
+    item 123 edce->ecde [transposition] targets ['ecde', 'edec', 'eecd'] counts [15, 5, 2]
+    item 159 izei->iezi [transposition] targets ['iezi', 'iiez', 'izie'] counts [0, 0, 12]
+    item 169 ybhb->bhby [rotation] targets ['bhby', 'bbhy', 'bybh', 'byhb'] counts [0, 0, 1, 0]
+    item 174 bjbk->kbjb [rotation] targets ['kbjb', 'kjbb'] counts [1, 0]
+    item 179 efea->aefe [rotation] targets ['aefe', 'afee'] counts [2, 1]
+    item 210 rurz->zrur [rotation] targets ['zrur', 'zurr'] counts [0, 1]
+    item 226 zivi->iviz [rotation] targets ['iviz', 'iivz', 'iziv', 'izvi'] counts [0, 1, 4, 10]
+    item 283 abaq->qaba [rotation] targets ['qaba', 'qbaa'] counts [9, 2]
+    item 284 kjek->kejk [transposition] targets ['kejk', 'kjke', 'kkej'] counts [0, 2, 2]
+    item 320 whcw->wchw [transposition] targets ['wchw', 'whwc', 'wwch'] counts [9, 1, 0]
+    item 348 pmhm->mhmp [rotation] targets ['mhmp', 'mmhp', 'mphm', 'mpmh'] counts [0, 0, 12, 0]
+    item 354 cara->arac [rotation] targets ['arac', 'aarc', 'acar', 'acra'] counts [1, 0, 22, 8]
+    item 430 dpbp->pbpd [rotation] targets ['pbpd', 'pdbp', 'pdpb', 'ppbd'] counts [2, 1, 4, 0]
+    item 447 dkmd->dmkd [transposition] targets ['dmkd', 'ddmk', 'dkdm'] counts [7, 1, 14]
+    item 472 jbfj->jfbj [transposition] targets ['jfbj', 'jbjf', 'jjfb'] counts [4, 1, 0]
+  410m: MISFIRE-RATE; 36 competitor emissions, 0 void, arm_void_excluded []
+    item 123 edce->ecde [transposition] targets ['ecde', 'edec', 'eecd'] counts [1, 11, 1]
+    item 159 izei->iezi [transposition] targets ['iezi', 'iiez', 'izie'] counts [0, 0, 1]
+    item 174 bjbk->kbjb [rotation] targets ['kbjb', 'kjbb'] counts [1, 0]
+    item 210 rurz->zrur [rotation] targets ['zrur', 'zurr'] counts [0, 4]
+    item 226 zivi->iviz [rotation] targets ['iviz', 'iivz', 'iziv', 'izvi'] counts [0, 0, 0, 3]
+    item 283 abaq->qaba [rotation] targets ['qaba', 'qbaa'] counts [1, 0]
+    item 348 pmhm->mhmp [rotation] targets ['mhmp', 'mmhp', 'mphm', 'mpmh'] counts [0, 0, 4, 2]
+    item 354 cara->arac [rotation] targets ['arac', 'aarc', 'acar', 'acra'] counts [0, 0, 2, 1]
+    item 359 efej->jefe [rotation] targets ['jefe', 'jfee'] counts [1, 0]
+    item 430 dpbp->pbpd [rotation] targets ['pbpd', 'pdbp', 'pdpb', 'ppbd'] counts [1, 1, 1, 0]
+    item 447 dkmd->dmkd [transposition] targets ['dmkd', 'ddmk', 'dkdm'] counts [0, 0, 1]
+    item 472 jbfj->jfbj [transposition] targets ['jfbj', 'jbjf', 'jjfb'] counts [8, 2, 2]
+
+S2 DESCRIPTIVE (§5.5)
+  1b: non-reachable NEW draws — reverse 5 vs matched neighbours 39 in 106,496; all-distinct COMMITTED — reverse 3 vs neighbours 90 in 381,440
+  410m: non-reachable NEW draws — reverse 1 vs matched neighbours 13 in 53,248; all-distinct COMMITTED — reverse 2 vs neighbours 37 in 267,008
+
+GATES
+  gate 1 1b: 2880 draws compared, 0 diffs, fires reproduced [(348, 20, 14), (430, 20, 43)], shard reverse_string.s20-s23.draws.jsonl.gz
+  gate 1 410m: 2880 draws compared, 0 diffs, fires reproduced [(123, 24, 62)], shard reverse_string.s24-s27.draws.jsonl.gz
+  scorer gates: True; leak voids: 0; twin record: 0 fires / 512,000 + 64,000
+  blind region: {'1b': {'new_zero_bound_per_class': {'non_reachable': 2.812960241678137e-05, 'reachable': 1.1427746415279437e-05}, 'pooled_zero_bound_non_reachable': 2.143214980359925e-05}, '410m': {'new_zero_bound_per_class': {'non_reachable': 5.625841355903062e-05, 'reachable': 2.2855362237170744e-05}, 'pooled_zero_bound_non_reachable': 3.91366227496562e-05}}
+  mean draw length (new): {'1b': 30.196942816840277, '410m': 30.697580295138888}; luck floor 2.188e-06; alpha 0.05
+
+PARTITION: {"n_items": 45, "m_min": 8, "m_min_anti_disclosed": 3, "thin_max": 10, "m_s_min": 3, "sub_class_sizes": {"non_reachable": 13, "rotation": 15, "transposition": 17}, "variants_reachable_counts": {"adjacent": 21, "rotations": 15}}
+the partition was chosen after seeing the 10 committed fired items (§1) — in-sample motivation, not evidence; the confirmatory statistic sees only NEW draws
