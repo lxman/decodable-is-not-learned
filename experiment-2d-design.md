@@ -109,7 +109,8 @@ read. The successor that restores a sealed outcome is named in §9.
   410m ≈ 54/s. Pilot ≈ 1.7 h both sizes; main ≈ 13 h (one night);
   argmax ≈ 1 h. No eval-size model is loaded at any point.
 - Resolution at k = 64: 32,000 draws per rung per size; a rung with
-  zero verified draws ships as rate ≤ 9.4e-5 (CP95). reverse_string's
+  zero verified draws ships as rate ≤ 1.15e-4 (two-sided CP95, the
+  program's convention since 2c; ratified E). reverse_string's
   committed 1b rate (1.5e-5 pooled) sits below that floor and is
   expected to read zero or one; that is the ladder's bottom, not a
   defect.
@@ -153,8 +154,10 @@ To be pinned at build (sha256 list in the doc at freeze):
   [clock] .050/.050/.050, **.072**; sub4_mid [mid_digit]
   .008/.012/.024, .006; quad_next [seq_extrap] .010/.010/.016, .018;
   add4_mid, base12_digitsum, base13, base7, caesar, caesar_len8,
-  oct2dec, rev_string7, reverse_string: ≤ .006 at every size, floors
-  ≤ .010. Bold floors are rungs whose accuracy never clears the
+  oct2dec, rev_string7, reverse_string: ≤ .006 at every size; floors
+  ≤ .010 except base12_digitsum .038 and base13 .068 (answer '2' in
+  both; ratified B, 2026-08-21 — the session-1 text listed them under
+  "≤ .010"). Bold floors are rungs whose accuracy never clears the
   majority-answer rate. The six option-listing rungs' effective floors
   are 1/n_options (ruling k): antonym .250, antonym6 .167, median5
   .200, median7 .143, odd6 .167, odd_one_out .250. **The frozen rule
@@ -219,19 +222,25 @@ shape can express: **does the predictor separate the rising rungs
 from the flat ones?**
 
 T = the Mann–Whitney / AUC statistic of the predictor score between
-rising and non-rising rungs. Null: the rising label is exchangeable
-across rungs *within families* — the exact family-block permutation
-2c froze (`run/power_table.exact_block_p`, enumerated below its
-guard, sampled at 100,000 seeded draws above it), applied to the
-rising indicator against the predictor score. One-sided, α = .01
+rising and non-rising rungs. Null: 2c's exact FAMILY-BLOCK permutation
+(`run/power_table.exact_block_p` — enumerated below its 5e6 guard,
+sampled at 100,000 seeded draws above it; on this battery the group
+is 3!·9!·4! = 52,254,720, so sampled, exactly as 2c's verdict was):
+the rising-label BLOCKS of same-size families are exchanged
+position-for-position while the predictor stays fixed to rung
+identity. (Ratified D, 2026-08-21: the session-1 phrase "exchangeable
+across rungs within families" described a different null — label
+shuffles inside each family, whose group on the realized outcome has
+16 elements and cannot reach p < .01 — and is struck.) One-sided, α = .01
 (2c's level), the PASS direction being AUC > .5. The family-cluster
 bootstrap 95% CI on AUC (10,000 resamples of families, seeded) is the
 falsifier as in 2c: a CI including .5 is FAIL. A resample whose
 rungs contain no rising rung, or no non-rising rung, leaves AUC
 undefined: such resamples are DROPPED AND COUNTED (the drop count
 and the number of valid resamples are printed beside the CI), never
-imputed at .5. Six of sixteen families carry all the rising rungs,
-so the drop rate is not small and is reported, not hidden.
+imputed at .5. Seven of sixteen families carry the rising rungs
+(five of them mixed; ratified C, 2026-08-21), so the drop rate is
+small but not zero and is reported, not hidden.
 
 ### 5.4 Named secondaries (non-gating)
 
@@ -247,15 +256,19 @@ so the drop rate is not small and is reported, not hidden.
   sub3_mid and arith_next's sampled rates at both sizes with CP
   bounds. The disconfirmer of the instrument-ladder story, written
   now: a rung that rises (§5.2) with ZERO verified draws in its
-  32,000 main-tranche 1b draws (CP95 ≤ 9.4e-5 — one verified draw
-  already puts the bound at ~1.5e-4, so the threshold is a zero
-  count and is stated as one) AND a probe margin of zero is a
+  32,000 main-tranche 1b draws (two-sided CP95 ≤ 1.15e-4 — one
+  verified draw already puts the bound at ~1.7e-4, so the threshold
+  is a zero count and is stated as one) AND a probe margin of zero is a
   percolation-class candidate; both rungs landing there is the
   sharpest available disconfirmation of "forecastable from below"
   on this battery.
 - **Argmax at 410m/1b (descriptive):** greedy accuracy on the same
   items, giving every rung its ladder reading — probe (2c), sampled
-  rate (2d), argmax — at the two small sizes. It also enables the
+  rate (2d), argmax — at the two small sizes. For the four reversal
+  cells the fp16 continuations are compared to exp3's committed
+  redecode records and the diff count is printed in the record —
+  descriptive, non-gating (ratified I, 2026-08-21; the §6 tree is
+  gate 1 only). It also enables the
   **from-below-performability restriction**: the primary AUC
   recomputed with the rising set restricted to rungs whose 1b greedy
   accuracy does NOT clear the floor under §5.2's binomial rule over
@@ -310,22 +323,39 @@ stays task-local; the essay says Prediction 2's first test did not
 find the signal. If the status is DECLARED UNDERPOWERED, FAIL reads
 "not detected at this resolution" with the blind region stated (1c/3e
 precedent), and the essay says that instead. **INDETERMINATE:**
-reported with the CI; no slicing.
+reported with the CI; no slicing. An anti-predictive result — a CI
+entirely BELOW .5 — is INDETERMINATE under this tree, not FAIL (the
+same shape 2c's tree had for ρ); stated here so it is read as the
+tree's literal output, not an oversight (ratified K, 2026-08-21).
 
 ## 7. Power, honestly
 
 Power is computed at build over the REALIZED outcome vector (known)
 and, after the pilot, the REALIZED predictor zero set — not over an
-imagined battery. The frozen procedure, to be built in session 2 and
-fixed at the freeze:
+imagined battery. The frozen procedure, built in session 2 and
+RATIFIED as built (F, J, 2026-08-21; `compute_power_2d.py`):
 
-- The alternative, class-level: rising rungs' predictor scores are
-  drawn from a distribution stochastically above the non-rising
-  rungs' by a fixed effect; the non-rising rungs that the pilot
-  places in the predictor's zero set stay at zero (ties honoured);
-  families kept as blocks. Power = P(PASS) under the frozen tree at
-  AUC_true ∈ {.75, .85}, by simulation through the exact block test
-  and the cluster bootstrap, seeded.
+- The alternative, class-level — a Tobit latent model: L ~ N(μ, 1),
+  score = max(0, L − τ); non-rising μ = 0, rising μ = d. τ is set from
+  the pilot's NON-RISING zero fraction z0/n0 (zero = pilot corrected
+  predictor score 0, i.e. both sizes' margins zero — J), continuity-
+  corrected, τ = Φ⁻¹((z0 + ½)/(n0 + 1)), so it is finite even at n0/n0.
+  d is the fixed effect, solved by bisection on the exact population
+  AUC P(S1 > S0) + ½P(S1 = S0) (ties at zero counted half) for
+  AUC_true ∈ {.75, .85}; .5 is run as the α check. Ties honoured: the
+  non-rising rungs in the pilot zero set are HELD at zero in every
+  simulation, the other non-rising rungs draw from the positive part;
+  a rising rung at RAW zero in the pilot (0 verified draws at BOTH
+  sizes, 8,000 draws — J) is drawn from the alternative truncated at
+  the pilot CP bound in score units, cap = max(0, (9.2e-4 − c)/(1 − c))
+  — which is 0 for every rung on this battery because every floor is
+  ≥ .002, so under the floor rule the pilot's raw zero set IS main's
+  zero set and the "upper bound" below is tight; a rising rung raw-
+  zero at one size only is not truncated. Families kept as blocks:
+  every simulated battery is judged by the verdict's own code (the
+  same sampled block-permutation matrix, the same bootstrap draws,
+  `verdict_tree` with gate 1 clean). 2,000 simulations per target,
+  seed 20260821. Power = P(PASS).
 - **Declared-underpowered rule (1c/3e precedent):** if power at
   AUC_true = .85 is below .75, the experiment is DECLARED
   UNDERPOWERED IN ADVANCE.
@@ -338,24 +368,35 @@ fixed at the freeze:
   FAIL was uninterpretable because its power model was wrong and that
   was found after the data; a declaration before the data is the
   opposite case. (ii) The §5.4 second question cannot be answered at
-  pilot resolution — 4,000 draws give CP ≤ 7.5e-4, above the
+  pilot resolution — 4,000 draws give CP95 ≤ 9.2e-4, above the
   disconfirmer's zero-in-32,000 bar — so a STOP would kill the
   percolation-candidate question with the primary. (iii) Gate 1 on
   the production path (128,000 draws against exp3's seed-0 bytes)
   exists only if main runs. (iv) The cost is one night.
-- Back-of-envelope, to be replaced: with ~11 rising and ~23 flat
-  rungs in 16 families, 6 of which carry all the rising rungs, the
-  block test's effective resolution is the 2c problem in a milder
-  form; if the pilot shows the predictor separating even half the
-  rising rungs from the flat block, AUC .85 is plausible, and the
-  permutation count over the 6 mixed families is in the tens of
-  thousands. If the predictor's zero set at the pilot swallows most
-  of the rising rungs too, the declaration is UNDERPOWERED and main
-  runs anyway — a pilot zero is "rate ≤ 7.5e-4," not zero, and main
-  has eight times the draws; the pilot's zero set is an upper bound
-  on main's, which the power procedure must model as such (a
-  pilot-zero rising rung is drawn from the alternative truncated at
-  the pilot's CP bound, not held at zero).
+- **The build-time envelope (G, ratified 2026-08-21;
+  `power_envelope_2d.json`, 300 simulations per cell, AUC_true .85)**
+  replaces the session-1 back-of-envelope. Over the realized outcome
+  (11 rising / 23 flat, 7 families), P(PASS) by how many of the 23
+  flat rungs the pilot places at zero and how many of the 11 rising
+  rungs it places at raw zero:
+
+  | flat rungs at pilot zero | rising raw-zero 0 | 2 | 4 | 6+ |
+  |---|---|---|---|---|
+  | 12 of 23 (τ −.05) | .71 | .29 | .00 | .00 |
+  | 17 of 23 (τ +.68) | .62 | .36 | .00 | .00 |
+  | 23 of 23 (τ +2.04) | .75 | .56 | .21 | .00 |
+
+  Each silent rising rung ties with every flat zero and contributes ½
+  per pair, and the expected AUC falls by roughly .05 per silent rung
+  (.856 with none → .50 with all eleven): **the PASS bar is
+  unreachable once more than ~3 of the 11 rising rungs have zero
+  sampled margin, and with none silent the procedure sits at the .75
+  bar only when every flat rung is at zero.** The declaration after
+  the pilot will therefore be decided almost entirely by how many
+  rising rungs the 410m/1b sampler is silent on; the pilot IS the
+  power statement. Main runs regardless (ruling c) — a pilot zero is
+  "rate ≤ 9.2e-4," and the percolation-candidate question (§5.4) and
+  gate 1 need main's draws whatever the declaration says.
 
 ## 8. What the dumbest baseline achieves
 
@@ -422,7 +463,8 @@ eval-size model is loaded for any purpose.
 
 Three-session protocol; adversarial freeze with the standing
 assignments (class defect; totality of the verify path over every
-answer type's emission alphabet — 2d scores four answer types where
+answer type's emission alphabet — 2d scores TWO answer types (number,
+8 tokens; word, 12 tokens; ratified A, 2026-08-21) where
 3e scored one; the floor rule's degrees of freedom; the AUC null's
 conditioning; gate 1 = exp3's committed bytes on the production
 path); ONE pre-committed change, UNSPENT; every zero a CP bound;
@@ -488,7 +530,9 @@ i. **§5.3 undefined-AUC resamples.** A cluster-bootstrap resample
    with no rising or no non-rising rung is dropped and counted, never
    imputed at .5; the drop count is printed.
 j. **§5.4 disconfirmer threshold.** "Below 1e-4 at 32,000 draws" is a
-   zero count (CP95 of 0/32,000 = 9.4e-5; one draw gives ~1.5e-4) and
+   zero count (two-sided CP95 of 0/32,000 = 1.15e-4; one draw gives
+   ~1.7e-4 — figures corrected from the one-sided rule-of-three
+   values under ratified E) and
    is now stated as one.
 
 Build-session rulings (Michael, 2026-08-21, applied in place; the
@@ -507,3 +551,12 @@ k. **Floor for option-listing rungs → max(majority share,
 l. **Pilot seed → 1000 (build finding L).** Seed 100 coincided with a
    3e-committed reverse_string/1b substream under the shared `exp3`
    namespace; 1000 lies outside every committed range.
+
+Build findings A–G and I–K RATIFIED as recommended (Michael,
+2026-08-21) and applied above: A (two answer types, §11), B (the two
+floor slips, §4), C (7 families, §5.3), D (the family-block null,
+§5.3), E (two-sided CP95 figures, §3/§5.4/§7/j), F + J (the power
+procedure as built and its zero-set definitions, §7), G (the envelope
+and its reading, §7), I (argmax vs exp3 redecode printed, non-gating,
+§5.4), K (anti-predictive CI → INDETERMINATE, stated, §6). No
+pre-committed change is spent by any of them: nothing has run.

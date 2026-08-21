@@ -14,8 +14,9 @@ nothing here is ticked until it is re-run in a fresh process.
       confirm the 28 non-listing rungs list 0/500.
 - [x] **Finding L (pilot seed)** — RULED 1000 by Michael 2026-08-21;
       applied (doc ruling l; stream map regenerated).
-- [ ] Findings A–E (doc slips) applied to the doc text; F, G, I, J, K
-      ratified or amended.
+- [x] Findings A–E (doc slips) applied to the doc text; F, G, I, J, K
+      ratified as recommended — Michael 2026-08-21, applied in the
+      build session. Freeze: re-read each doc site against the code.
 
 ## Standing adversarial assignments (work these FIRST, cold)
 
@@ -132,19 +133,16 @@ nothing here is ticked until it is re-run in a fresh process.
 
 ## Doc corrections to apply at the freeze (from PROGRESS.md A–E)
 
-- [ ] §11: "four answer types" → two (number / word).
-- [ ] §4: base12_digitsum .038, base13 .068 (not "≤ .010").
-- [ ] §4/§5.3: 11 rising / 23 flat in 7 families (5 mixed); 9 at 12b
-      (§4 already carries the 11/23 line from ruling k; §5.3's "six of
-      sixteen families" and the bootstrap-drop sentence still to fix).
-- [ ] §5.3: null = 2c's family-BLOCK permutation (blocks of same-size
-      families exchanged position-for-position, x fixed); strike
-      "within families".
-- [ ] §3/§5.4/§7: CP figures to the two-sided convention (1.153e-4 at
-      32,000; 9.22e-4 at 4,000) or label the rule-of-three figures
-      one-sided.
-- [ ] §7: the built procedure's choices (F), the envelope's
-      conclusion (G), the zero-set definitions (J).
+- [x] §11: "four answer types" → two (number / word). APPLIED.
+- [x] §4: base12_digitsum .038, base13 .068. APPLIED.
+- [x] §4/§5.3: 11 rising / 23 flat in 7 families (5 mixed); 9 at 12b.
+      APPLIED.
+- [x] §5.3: null = 2c's family-BLOCK permutation; "within families"
+      struck. APPLIED.
+- [x] §3/§5.4/§7/j: CP figures to the two-sided convention. APPLIED.
+- [x] §7: the built procedure (F), the envelope (G), the zero-set
+      definitions (J). APPLIED.
+- [x] §5.4 (I) and §6 (K). APPLIED.
 - [x] §3: pilot seed 1000 (ruling l) — applied.
 - [x] §5.2: floor per ruling k — applied.
 

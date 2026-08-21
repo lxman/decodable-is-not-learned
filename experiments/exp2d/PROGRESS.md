@@ -389,3 +389,25 @@ and [38] the untrained-twin floor (no committed twin accuracy exceeds
 its rung's floor; the six raised floors only widen that gap).**
 Baseline clean; sources restored (git status shows only the intended
 edits).
+
+---
+
+## 2026-08-21 — RATIFICATION of findings A–G, I–K (Michael: "as recommended")
+
+All eleven applied to the design doc in place, none touching code
+(I is already the printed non-gating comparison, J is the code's
+definition of the two zero sets, K is the tree as built):
+A §11 two answer types; B §4 base12_digitsum .038 / base13 .068;
+C §5.3 seven families (five mixed); D §5.3 the null is 2c's
+family-BLOCK permutation, "within families" struck (its 16-element
+group could not reach p < .01); E the CP figures brought to the
+program's two-sided CP95 convention (0/32,000 → 1.15e-4, one draw
+→ ~1.7e-4, 0/4,000 → 9.2e-4) in §3, §5.4, §7 and fix j; F + J §7
+now states the built procedure (Tobit latent model, τ rule, d from
+the population AUC, held/truncated sets, the cap = 0 arithmetic, 2,000
+sims at seed 20260821); G §7 carries the envelope table and its
+reading (the pilot is the power statement); I §5.4 argmax bullet;
+K §6 anti-predictive CI → INDETERMINATE, stated. No pre-committed
+change spent — nothing has run. With k and l this closes every item
+the build raised; the freeze opens cold on a doc and an instrument
+that agree.
