@@ -1,0 +1,735 @@
+{
+ "formula": "int.from_bytes(sha256('exp3|{rung}|{size}|{mode}|s{seed}|i{item}').digest()[:8], 'big') & ((1<<63)-1)",
+ "namespace_note": "the namespace string stays 'exp3' DELIBERATELY (design \u00a73): the seed-0 reversal substreams ARE exp3's committed ones \u2014 gate 1 on the production path",
+ "per_item_substreams": true,
+ "chunk_rows": 16,
+ "draw_order": "within a seed, chunks in index order; within a chunk, rows in row order; one multinomial call per step over all rows",
+ "tiers": {
+  "pilot": {
+   "seed": 100,
+   "draws_per_seed": 8
+  },
+  "main": {
+   "seed": 0,
+   "draws_per_seed": 64
+  }
+ },
+ "max_new_tokens": {
+  "add4_mid": 8,
+  "sub4_mid": 8,
+  "add3_mid": 8,
+  "sub3_mid": 8,
+  "antonym6": 12,
+  "antonym": 12,
+  "arith_next": 8,
+  "quad_next": 8,
+  "base12_digitsum": 8,
+  "base13": 8,
+  "base7": 8,
+  "oct2dec": 8,
+  "caesar_len8": 12,
+  "caesar": 12,
+  "clock24_d999": 12,
+  "clock24": 12,
+  "collatz_step2": 8,
+  "count_div13": 8,
+  "count_div7": 8,
+  "hamming12": 8,
+  "isqrt_gap": 8,
+  "median5": 8,
+  "median7": 8,
+  "mod13_comp": 8,
+  "mod17": 8,
+  "mod19": 8,
+  "mod13": 8,
+  "odd6": 12,
+  "odd_one_out": 12,
+  "rev_string7": 12,
+  "reverse_string": 12,
+  "roman_sum7": 8,
+  "sub_base8": 8,
+  "add_base8": 8
+ },
+ "cells": {
+  "add4_mid/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 386283279306024458,
+   "item499": 4765182763317540185
+  },
+  "add4_mid/410m/trained/s0": {
+   "tier": "main",
+   "item0": 8297839744372348510,
+   "item499": 6914390785029293173
+  },
+  "add4_mid/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 5077793633786308739,
+   "item499": 5812491395508488101
+  },
+  "add4_mid/1b/trained/s0": {
+   "tier": "main",
+   "item0": 1031562382234017072,
+   "item499": 9056404203376895677
+  },
+  "sub4_mid/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 8875065978278301199,
+   "item499": 3182966647233072154
+  },
+  "sub4_mid/410m/trained/s0": {
+   "tier": "main",
+   "item0": 2130116552351614254,
+   "item499": 1216230751937961179
+  },
+  "sub4_mid/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 8334360024375169972,
+   "item499": 8703776265470119847
+  },
+  "sub4_mid/1b/trained/s0": {
+   "tier": "main",
+   "item0": 7160467455151955419,
+   "item499": 31304097879898849
+  },
+  "add3_mid/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 8763546377681923740,
+   "item499": 2461033958546044171
+  },
+  "add3_mid/410m/trained/s0": {
+   "tier": "main",
+   "item0": 4531207181795644940,
+   "item499": 4053052504232284375
+  },
+  "add3_mid/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 3736480503517454265,
+   "item499": 5981528190029272809
+  },
+  "add3_mid/1b/trained/s0": {
+   "tier": "main",
+   "item0": 5117991066085484557,
+   "item499": 4813773019289935491
+  },
+  "sub3_mid/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 5022132153737939916,
+   "item499": 9000083991788713524
+  },
+  "sub3_mid/410m/trained/s0": {
+   "tier": "main",
+   "item0": 4540940199349734178,
+   "item499": 3430722034048415148
+  },
+  "sub3_mid/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 2080112654256143209,
+   "item499": 2037097414501969265
+  },
+  "sub3_mid/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6945959876089836379,
+   "item499": 3725979334968684564
+  },
+  "antonym6/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 412908252399272815,
+   "item499": 5477343395016433169
+  },
+  "antonym6/410m/trained/s0": {
+   "tier": "main",
+   "item0": 451745559170282912,
+   "item499": 4103390193814197354
+  },
+  "antonym6/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 1495126731437580575,
+   "item499": 6353592626122398557
+  },
+  "antonym6/1b/trained/s0": {
+   "tier": "main",
+   "item0": 2857092017749064826,
+   "item499": 7332153805892694657
+  },
+  "antonym/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 7422479884652271902,
+   "item499": 6742025589425610340
+  },
+  "antonym/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3847694545638088182,
+   "item499": 1239140283764050322
+  },
+  "antonym/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 7791291766673354192,
+   "item499": 1761206479848827255
+  },
+  "antonym/1b/trained/s0": {
+   "tier": "main",
+   "item0": 5377422811751021995,
+   "item499": 1377089969081465359
+  },
+  "arith_next/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 6788023929147230148,
+   "item499": 4269797275478195404
+  },
+  "arith_next/410m/trained/s0": {
+   "tier": "main",
+   "item0": 4622017163139718597,
+   "item499": 2931191629605097292
+  },
+  "arith_next/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 8463767894806148673,
+   "item499": 5881830482882112881
+  },
+  "arith_next/1b/trained/s0": {
+   "tier": "main",
+   "item0": 5973050201813558265,
+   "item499": 8128745584520521044
+  },
+  "quad_next/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 269399523972647159,
+   "item499": 1098761888386298947
+  },
+  "quad_next/410m/trained/s0": {
+   "tier": "main",
+   "item0": 1932950998698278839,
+   "item499": 6577636738202133524
+  },
+  "quad_next/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 6029933763248767073,
+   "item499": 4164420652103753421
+  },
+  "quad_next/1b/trained/s0": {
+   "tier": "main",
+   "item0": 7835873036803517042,
+   "item499": 6184553680876878992
+  },
+  "base12_digitsum/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 8241047650921989421,
+   "item499": 6500084609844553495
+  },
+  "base12_digitsum/410m/trained/s0": {
+   "tier": "main",
+   "item0": 136365199236376345,
+   "item499": 2802515587066683514
+  },
+  "base12_digitsum/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 305329017557010987,
+   "item499": 714777871919765430
+  },
+  "base12_digitsum/1b/trained/s0": {
+   "tier": "main",
+   "item0": 5966923606080622622,
+   "item499": 9090403433609391039
+  },
+  "base13/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 1188233987323031699,
+   "item499": 5452030265523635352
+  },
+  "base13/410m/trained/s0": {
+   "tier": "main",
+   "item0": 2551017830697555440,
+   "item499": 3805317849746783323
+  },
+  "base13/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 1490120209318963670,
+   "item499": 2870575376551348722
+  },
+  "base13/1b/trained/s0": {
+   "tier": "main",
+   "item0": 571223392518512750,
+   "item499": 2089630759133837701
+  },
+  "base7/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 6861191583439974094,
+   "item499": 7774022734942123683
+  },
+  "base7/410m/trained/s0": {
+   "tier": "main",
+   "item0": 4650533092790016454,
+   "item499": 3234602278168657127
+  },
+  "base7/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 5766214628279924474,
+   "item499": 1155536853102595506
+  },
+  "base7/1b/trained/s0": {
+   "tier": "main",
+   "item0": 502632377363875327,
+   "item499": 5527452627585111868
+  },
+  "oct2dec/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 1517431011180966376,
+   "item499": 6784606774598910102
+  },
+  "oct2dec/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3492501748479225456,
+   "item499": 5468267599040417308
+  },
+  "oct2dec/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 4501327921716409542,
+   "item499": 1687188937310123607
+  },
+  "oct2dec/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6758207834292187414,
+   "item499": 2538868494462677057
+  },
+  "caesar_len8/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 8638113316915210037,
+   "item499": 897871288109371886
+  },
+  "caesar_len8/410m/trained/s0": {
+   "tier": "main",
+   "item0": 7382799876427711946,
+   "item499": 8163364731728614636
+  },
+  "caesar_len8/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 2395669949645030112,
+   "item499": 5340917277618318286
+  },
+  "caesar_len8/1b/trained/s0": {
+   "tier": "main",
+   "item0": 2989703911782656306,
+   "item499": 4466898101393318908
+  },
+  "caesar/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 661548075810910418,
+   "item499": 2182967277891497107
+  },
+  "caesar/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3671720644070248415,
+   "item499": 7612256576735246612
+  },
+  "caesar/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 2383008226991338901,
+   "item499": 5261427697118321168
+  },
+  "caesar/1b/trained/s0": {
+   "tier": "main",
+   "item0": 8251287533823991215,
+   "item499": 4829213253400844577
+  },
+  "clock24_d999/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 6448703089568415926,
+   "item499": 6054892997204167046
+  },
+  "clock24_d999/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3502018868210861143,
+   "item499": 3695927777263823065
+  },
+  "clock24_d999/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 1867420726060732740,
+   "item499": 523412260792683535
+  },
+  "clock24_d999/1b/trained/s0": {
+   "tier": "main",
+   "item0": 3834133605141398826,
+   "item499": 2048989283239519859
+  },
+  "clock24/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 770088114639091886,
+   "item499": 8215682735755120298
+  },
+  "clock24/410m/trained/s0": {
+   "tier": "main",
+   "item0": 9112835602373406960,
+   "item499": 6816633028415092579
+  },
+  "clock24/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 8139773507147606435,
+   "item499": 6520089017209286768
+  },
+  "clock24/1b/trained/s0": {
+   "tier": "main",
+   "item0": 9091771649246949861,
+   "item499": 6616704042602352146
+  },
+  "collatz_step2/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 788569572573510050,
+   "item499": 4938022133829312516
+  },
+  "collatz_step2/410m/trained/s0": {
+   "tier": "main",
+   "item0": 8762409997012980066,
+   "item499": 533215886751849418
+  },
+  "collatz_step2/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 4937649207058022230,
+   "item499": 4372774601261521515
+  },
+  "collatz_step2/1b/trained/s0": {
+   "tier": "main",
+   "item0": 9018383232880914247,
+   "item499": 2336260704749535891
+  },
+  "count_div13/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 2734715927630640369,
+   "item499": 6024156809939814512
+  },
+  "count_div13/410m/trained/s0": {
+   "tier": "main",
+   "item0": 6196922765346413994,
+   "item499": 1859953826865061612
+  },
+  "count_div13/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 3952230430829204494,
+   "item499": 2649060023184149062
+  },
+  "count_div13/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6756036699015110193,
+   "item499": 5508725755327185751
+  },
+  "count_div7/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 7780550793367103502,
+   "item499": 3098713062807433605
+  },
+  "count_div7/410m/trained/s0": {
+   "tier": "main",
+   "item0": 5383710249368373933,
+   "item499": 5338784667631104235
+  },
+  "count_div7/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 5349355343300446493,
+   "item499": 842330113928328100
+  },
+  "count_div7/1b/trained/s0": {
+   "tier": "main",
+   "item0": 42468927056267937,
+   "item499": 3400036432979388670
+  },
+  "hamming12/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 1604513052706009401,
+   "item499": 812204225343725889
+  },
+  "hamming12/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3468665974283869986,
+   "item499": 7679469805407096078
+  },
+  "hamming12/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 934109017330660966,
+   "item499": 7698611375752739611
+  },
+  "hamming12/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6144390162489586952,
+   "item499": 1537164919951485395
+  },
+  "isqrt_gap/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 5346684990435423467,
+   "item499": 1147116407803528539
+  },
+  "isqrt_gap/410m/trained/s0": {
+   "tier": "main",
+   "item0": 5823402455854587160,
+   "item499": 3424540111111196518
+  },
+  "isqrt_gap/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 6844000441040918517,
+   "item499": 4788051569684019921
+  },
+  "isqrt_gap/1b/trained/s0": {
+   "tier": "main",
+   "item0": 201010980370490654,
+   "item499": 3933218684249830864
+  },
+  "median5/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 8649044285801332556,
+   "item499": 2349623012407710649
+  },
+  "median5/410m/trained/s0": {
+   "tier": "main",
+   "item0": 8259506527381276324,
+   "item499": 6709580729282911741
+  },
+  "median5/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 503371508128598952,
+   "item499": 5436106031583116367
+  },
+  "median5/1b/trained/s0": {
+   "tier": "main",
+   "item0": 8748606938048293221,
+   "item499": 2469053721242127723
+  },
+  "median7/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 7048680324109488974,
+   "item499": 1302192022960915565
+  },
+  "median7/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3758571723409479092,
+   "item499": 7877601714418741663
+  },
+  "median7/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 7335442492356977467,
+   "item499": 595992834279966209
+  },
+  "median7/1b/trained/s0": {
+   "tier": "main",
+   "item0": 1630893986407080366,
+   "item499": 4677306342589566703
+  },
+  "mod13_comp/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 3088517277804808063,
+   "item499": 2886443666226226328
+  },
+  "mod13_comp/410m/trained/s0": {
+   "tier": "main",
+   "item0": 2608565065083278924,
+   "item499": 5262848153082882835
+  },
+  "mod13_comp/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 73252007901717231,
+   "item499": 4973950968059543176
+  },
+  "mod13_comp/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6425977047811041874,
+   "item499": 475969088252010007
+  },
+  "mod17/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 2017757548117555592,
+   "item499": 5759899146065349754
+  },
+  "mod17/410m/trained/s0": {
+   "tier": "main",
+   "item0": 2686897694625502036,
+   "item499": 579049941847297215
+  },
+  "mod17/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 3451734674175700024,
+   "item499": 1675338222883889463
+  },
+  "mod17/1b/trained/s0": {
+   "tier": "main",
+   "item0": 230063400558550844,
+   "item499": 7424157146228782712
+  },
+  "mod19/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 7701276355534062937,
+   "item499": 1865700100037921051
+  },
+  "mod19/410m/trained/s0": {
+   "tier": "main",
+   "item0": 985195928141179389,
+   "item499": 7320592300124064194
+  },
+  "mod19/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 8158916062850175608,
+   "item499": 3683280275441710013
+  },
+  "mod19/1b/trained/s0": {
+   "tier": "main",
+   "item0": 7992909248088582142,
+   "item499": 17114369256126997
+  },
+  "mod13/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 6439212851825450842,
+   "item499": 6985910910552884118
+  },
+  "mod13/410m/trained/s0": {
+   "tier": "main",
+   "item0": 5972682947242963919,
+   "item499": 400402055386896872
+  },
+  "mod13/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 2891406845235477461,
+   "item499": 5975497824721364866
+  },
+  "mod13/1b/trained/s0": {
+   "tier": "main",
+   "item0": 9140827264107223263,
+   "item499": 4981720184663805678
+  },
+  "odd6/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 1053887726558853398,
+   "item499": 4317174259736884560
+  },
+  "odd6/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3856607088196041183,
+   "item499": 215961411952059406
+  },
+  "odd6/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 5236521178010417255,
+   "item499": 379503632191027280
+  },
+  "odd6/1b/trained/s0": {
+   "tier": "main",
+   "item0": 4798481623380865831,
+   "item499": 1604041031011857015
+  },
+  "odd_one_out/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 1579576069756010804,
+   "item499": 5609033108922168808
+  },
+  "odd_one_out/410m/trained/s0": {
+   "tier": "main",
+   "item0": 3196834063493155632,
+   "item499": 183698519300539789
+  },
+  "odd_one_out/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 4674847656575307826,
+   "item499": 6673280690365174895
+  },
+  "odd_one_out/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6809425917420991271,
+   "item499": 2483983177353198654
+  },
+  "rev_string7/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 4153170569237232719,
+   "item499": 2634196497709147473
+  },
+  "rev_string7/410m/trained/s0": {
+   "tier": "main",
+   "item0": 826817742090631546,
+   "item499": 3369694250871342080
+  },
+  "rev_string7/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 7727258570974494472,
+   "item499": 6820936238699115078
+  },
+  "rev_string7/1b/trained/s0": {
+   "tier": "main",
+   "item0": 8140276062474785187,
+   "item499": 2743573862651113330
+  },
+  "reverse_string/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 8303766357017125093,
+   "item499": 8171872914762202135
+  },
+  "reverse_string/410m/trained/s0": {
+   "tier": "main",
+   "item0": 4780021265711923412,
+   "item499": 5759538438464608217
+  },
+  "reverse_string/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 2342563779428735139,
+   "item499": 8921678852864195501
+  },
+  "reverse_string/1b/trained/s0": {
+   "tier": "main",
+   "item0": 1019529888606095747,
+   "item499": 2609102734022038565
+  },
+  "roman_sum7/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 1785615872793688176,
+   "item499": 673540376994331300
+  },
+  "roman_sum7/410m/trained/s0": {
+   "tier": "main",
+   "item0": 2867867771202285428,
+   "item499": 5969489563969445322
+  },
+  "roman_sum7/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 8585605005792778748,
+   "item499": 2416437046790162541
+  },
+  "roman_sum7/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6641311508303125579,
+   "item499": 1975728768643692117
+  },
+  "sub_base8/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 7438157870463271472,
+   "item499": 3212797509997913159
+  },
+  "sub_base8/410m/trained/s0": {
+   "tier": "main",
+   "item0": 9008068906899776873,
+   "item499": 1479948921392804806
+  },
+  "sub_base8/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 7725370465019303578,
+   "item499": 2057908234534082150
+  },
+  "sub_base8/1b/trained/s0": {
+   "tier": "main",
+   "item0": 275809228884666372,
+   "item499": 6797666077264456233
+  },
+  "add_base8/410m/trained/s100": {
+   "tier": "pilot",
+   "item0": 6055876886853687500,
+   "item499": 3068229971418079999
+  },
+  "add_base8/410m/trained/s0": {
+   "tier": "main",
+   "item0": 6686879218935862392,
+   "item499": 6443944364344157302
+  },
+  "add_base8/1b/trained/s100": {
+   "tier": "pilot",
+   "item0": 7648681336737805332,
+   "item499": 4636835610276164933
+  },
+  "add_base8/1b/trained/s0": {
+   "tier": "main",
+   "item0": 6494657180187377121,
+   "item499": 4340913964031263509
+  }
+ }
+}

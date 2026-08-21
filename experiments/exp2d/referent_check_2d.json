@@ -1,0 +1,77 @@
+{
+ "n_checks": 14,
+ "n_ok": 14,
+ "all_ok": true,
+ "checks": [
+  {
+   "n": 1,
+   "name": "frozen-import pins",
+   "ok": true
+  },
+  {
+   "n": 2,
+   "name": "item files: sha pins, survivors == manifest, answer types",
+   "ok": true
+  },
+  {
+   "n": 3,
+   "name": "RUNG_ORDER_2D == family map == probe_scores order",
+   "ok": true
+  },
+  {
+   "n": 4,
+   "name": "referents_2d.json: file sha pinned, 250 entries re-hash",
+   "ok": true
+  },
+  {
+   "n": 5,
+   "name": "majority floors == \u00a74 table; every floor \u2265 1/500",
+   "ok": true
+  },
+  {
+   "n": 6,
+   "name": "outcome known-answer gate; 13/21 rising split in 7 families",
+   "ok": true
+  },
+  {
+   "n": 7,
+   "name": "stream_map_2d.json == formula; continuity with exp3 (4 cells)",
+   "ok": true
+  },
+  {
+   "n": 8,
+   "name": "exp3's 4 committed reversal shards == \u00a74 literals (== 3e's)",
+   "ok": true
+  },
+  {
+   "n": 9,
+   "name": "gate-1 comparator on committed bytes: 0 diffs, fires == pin",
+   "ok": true
+  },
+  {
+   "n": 10,
+   "name": "twin record 0 / 512,000 + 64,000 through exp3's loader",
+   "ok": true
+  },
+  {
+   "n": 11,
+   "name": "verify wrapper totality: crasher False; answer side hard",
+   "ok": true
+  },
+  {
+   "n": 12,
+   "name": "2c's verdict.json == VERDICT_2C_PIN",
+   "ok": true
+  },
+  {
+   "n": 13,
+   "name": "block group routes to sampled (52,254,720) at 100,000",
+   "ok": true
+  },
+  {
+   "n": 14,
+   "name": "exp3's 4 committed redecode records == \u00a74 literals",
+   "ok": true
+  }
+ ]
+}
