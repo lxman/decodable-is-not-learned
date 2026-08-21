@@ -1,0 +1,331 @@
+{
+ "gate_a": {
+  "addresses": {
+   "410m": [
+    {
+     "item": 123,
+     "seed": 8,
+     "draw": 6
+    },
+    {
+     "item": 123,
+     "seed": 24,
+     "draw": 62
+    },
+    {
+     "item": 174,
+     "seed": 15,
+     "draw": 42
+    },
+    {
+     "item": 226,
+     "seed": 6,
+     "draw": 40
+    },
+    {
+     "item": 283,
+     "seed": 27,
+     "draw": 10
+    }
+   ],
+   "1b": [
+    {
+     "item": 123,
+     "seed": 5,
+     "draw": 58
+    },
+    {
+     "item": 123,
+     "seed": 8,
+     "draw": 53
+    },
+    {
+     "item": 123,
+     "seed": 13,
+     "draw": 34
+    },
+    {
+     "item": 123,
+     "seed": 19,
+     "draw": 21
+    },
+    {
+     "item": 123,
+     "seed": 36,
+     "draw": 52
+    },
+    {
+     "item": 153,
+     "seed": 29,
+     "draw": 41
+    },
+    {
+     "item": 179,
+     "seed": 30,
+     "draw": 8
+    },
+    {
+     "item": 283,
+     "seed": 25,
+     "draw": 41
+    },
+    {
+     "item": 320,
+     "seed": 15,
+     "draw": 26
+    },
+    {
+     "item": 348,
+     "seed": 20,
+     "draw": 14
+    },
+    {
+     "item": 430,
+     "seed": 20,
+     "draw": 43
+    },
+    {
+     "item": 447,
+     "seed": 13,
+     "draw": 39
+    },
+    {
+     "item": 447,
+     "seed": 13,
+     "draw": 43
+    },
+    {
+     "item": 447,
+     "seed": 17,
+     "draw": 24
+    }
+   ]
+  },
+  "expected": {
+   "410m": [
+    {
+     "item": 123,
+     "seed": 8,
+     "draw": 6
+    },
+    {
+     "item": 123,
+     "seed": 24,
+     "draw": 62
+    },
+    {
+     "item": 174,
+     "seed": 15,
+     "draw": 42
+    },
+    {
+     "item": 226,
+     "seed": 6,
+     "draw": 40
+    },
+    {
+     "item": 283,
+     "seed": 27,
+     "draw": 10
+    }
+   ],
+   "1b": [
+    {
+     "item": 123,
+     "seed": 5,
+     "draw": 58
+    },
+    {
+     "item": 123,
+     "seed": 8,
+     "draw": 53
+    },
+    {
+     "item": 123,
+     "seed": 13,
+     "draw": 34
+    },
+    {
+     "item": 123,
+     "seed": 19,
+     "draw": 21
+    },
+    {
+     "item": 123,
+     "seed": 36,
+     "draw": 52
+    },
+    {
+     "item": 153,
+     "seed": 29,
+     "draw": 41
+    },
+    {
+     "item": 179,
+     "seed": 30,
+     "draw": 8
+    },
+    {
+     "item": 283,
+     "seed": 25,
+     "draw": 41
+    },
+    {
+     "item": 320,
+     "seed": 15,
+     "draw": 26
+    },
+    {
+     "item": 348,
+     "seed": 20,
+     "draw": 14
+    },
+    {
+     "item": 430,
+     "seed": 20,
+     "draw": 43
+    },
+    {
+     "item": 447,
+     "seed": 13,
+     "draw": 39
+    },
+    {
+     "item": 447,
+     "seed": 13,
+     "draw": 43
+    },
+    {
+     "item": 447,
+     "seed": 17,
+     "draw": 24
+    }
+   ]
+  },
+  "per_size_passed": {
+   "410m": true,
+   "1b": true
+  },
+  "passed": true,
+  "rule": "target = answer on the committed exp3/3c/3d draws of the 45 items reproduces the committed repeat-class fire addresses exactly"
+ },
+ "gate_b": {
+  "counts": {
+   "410m": {
+    "count": 12787,
+    "n_draws": 16000
+   },
+   "1b": {
+    "count": 13460,
+    "n_draws": 16000
+   }
+  },
+  "expected": {
+   "410m": {
+    "count": 12787,
+    "n_draws": 16000
+   },
+   "1b": {
+    "count": 13460,
+    "n_draws": 16000
+   }
+  },
+  "per_size_passed": {
+   "410m": true,
+   "1b": true
+  },
+  "passed": true,
+  "rule": "target = the copy answer on ctrl_copy's committed T = 1.0 draws reproduces the committed verified counts exactly"
+ },
+ "passed": true,
+ "subset_n_draws_scored": {
+  "410m": 80640,
+  "1b": 115200
+ },
+ "items_sha256": {
+  "reverse_string": "ad5bdcd944e3b983da42825a493eb813269b0ffebadb64f40fb1ee0f834f68c9",
+  "ctrl_copy": "b75141477beecbd2933a02d93777bf787a1d39a5693b88436b68d0bdcdab6832"
+ },
+ "subset_items": [
+  9,
+  21,
+  46,
+  51,
+  68,
+  71,
+  78,
+  123,
+  133,
+  143,
+  148,
+  153,
+  154,
+  159,
+  164,
+  169,
+  174,
+  179,
+  182,
+  210,
+  226,
+  234,
+  245,
+  269,
+  283,
+  284,
+  299,
+  320,
+  348,
+  354,
+  359,
+  361,
+  367,
+  375,
+  403,
+  405,
+  415,
+  430,
+  435,
+  439,
+  447,
+  463,
+  472,
+  485,
+  489
+ ],
+ "subset_sha256": "292aa5e794e48390755edb6fc1f441145c3e4800684622031c47ce08989c89ef",
+ "committed_draws_sha256": {
+  "reverse_string": {
+   "410m": {
+    "exp3": "34dd8fc48e9dec001f8575236bad15b1b360d80e4c7785b63267a8692b42cc6c",
+    "3c": "b3422b4fcf492519c697ca9bb2a668713c6bcdf178147c157af79c8cad05561e",
+    "3d": {
+     "reverse_string.s16-s19": "5ad4514ef255b91d4bc130a3c72dbe2cd38d29e21a1fa21dcafa28712753ed1c",
+     "reverse_string.s20-s23": "b469ec232a75ae9d069a9d666b7428ea56ad9a1ae2685c7485719c5668277198",
+     "reverse_string.s24-s27": "6f1762ed1d45796b97fbb327d9db56cf26c8aef204460c2dafb494c7e9f350ce"
+    }
+   },
+   "1b": {
+    "exp3": "45049c9b82a98d8c7fa3816981ce7a33c49b85d3521956b7994feb348b279726",
+    "3c": "d673dafceb47f1d5affcbc30080f3c79caf7d3f1053853d7e76a28433a6e0b46",
+    "3d": {
+     "reverse_string.s16-s19": "baf772c944c5ef40970e16200f8d8e7ace1c6a5f8844b98221aeb497021f6f97",
+     "reverse_string.s20-s23": "f1420d777009794785869dafe512654abee31f3a7e1d79df202f61c811d48f13",
+     "reverse_string.s24-s27": "f70136e13ba2d9ee2a7127796d0a3acbedc9ab87fda0286eb251c86e8a377634",
+     "reverse_string.s28-s31": "d2c5c8a81e7893dce17b49df6d2eda1396742c48beed0f9e9e1acba6168300d2",
+     "reverse_string.s32-s35": "5db2102f0559626e49cacefaf807e852b50c182ac46368c7dea3b0e0aba43d2d",
+     "reverse_string.s36-s39": "32c3635a200ef54ef010d17cdc48cc5f12cd3939b2dcf0487492595e27147ac5"
+    }
+   }
+  },
+  "ctrl_copy": {
+   "410m": "8554bfe6116e0fd27d26136619589365632e38d08ba8a43625ba7206784e9834",
+   "1b": "ff51ed0a5c0c460d9d9b11f62b2801b484337c107db6f8292a5e72955b24fe13"
+  }
+ },
+ "answer_type": {
+  "reverse_string": "word",
+  "ctrl_copy": "word"
+ },
+ "model_contact": false
+}

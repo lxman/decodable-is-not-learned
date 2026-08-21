@@ -1,0 +1,1769 @@
+{
+ "definition": {
+  "neighbour_set": "all single transpositions of two unequal characters ∪ {rotate left by one, rotate right by one} \\ {x}",
+  "reachable": "reverse(x) ∈ N(x)",
+  "matched_competitors": "s ∈ N(x) \\ {reverse}: s[0] == reverse[0] and overlap(s, x) ≥ overlap(reverse, x)",
+  "subset": "len-4 eval items whose answer has a repeated character"
+ },
+ "n_items": 45,
+ "items": [
+  9,
+  21,
+  46,
+  51,
+  68,
+  71,
+  78,
+  123,
+  133,
+  143,
+  148,
+  153,
+  154,
+  159,
+  164,
+  169,
+  174,
+  179,
+  182,
+  210,
+  226,
+  234,
+  245,
+  269,
+  283,
+  284,
+  299,
+  320,
+  348,
+  354,
+  359,
+  361,
+  367,
+  375,
+  403,
+  405,
+  415,
+  430,
+  435,
+  439,
+  447,
+  463,
+  472,
+  485,
+  489
+ ],
+ "entries": [
+  {
+   "item": 9,
+   "input": "ndqq",
+   "answer": "qqdn",
+   "repeat_pattern": [
+    2,
+    3
+   ],
+   "neighbours": [
+    "dnqq",
+    "dqqn",
+    "nqdq",
+    "nqqd",
+    "qdnq",
+    "qdqn",
+    "qndq"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "qdnq",
+    "qdqn",
+    "qndq"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 21,
+   "input": "hwwj",
+   "answer": "jwwh",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "hjww",
+    "hwjw",
+    "jhww",
+    "jwwh",
+    "whwj",
+    "wwhj",
+    "wwjh"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 46,
+   "input": "eexw",
+   "answer": "wxee",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "eewx",
+    "ewxe",
+    "exew",
+    "exwe",
+    "weex",
+    "wexe",
+    "xeew"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "weex",
+    "wexe"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 51,
+   "input": "dwdl",
+   "answer": "ldwd",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "ddwl",
+    "dldw",
+    "dwld",
+    "ldwd",
+    "lwdd",
+    "wddl",
+    "wdld"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "lwdd"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 68,
+   "input": "qnnc",
+   "answer": "cnnq",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "cnnq",
+    "cqnn",
+    "nncq",
+    "nnqc",
+    "nqnc",
+    "qcnn",
+    "qncn"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 71,
+   "input": "awas",
+   "answer": "sawa",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "aaws",
+    "asaw",
+    "awsa",
+    "sawa",
+    "swaa",
+    "waas",
+    "wasa"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "swaa"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 78,
+   "input": "hhep",
+   "answer": "pehh",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "ehhp",
+    "hehp",
+    "heph",
+    "hhpe",
+    "hpeh",
+    "pheh",
+    "phhe"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "pheh",
+    "phhe"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 123,
+   "input": "edce",
+   "answer": "ecde",
+   "repeat_pattern": [
+    0,
+    3
+   ],
+   "neighbours": [
+    "cdee",
+    "dcee",
+    "dece",
+    "ecde",
+    "edec",
+    "eecd",
+    "eedc"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    1,
+    2
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [
+    "edec",
+    "eecd"
+   ],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": false
+   }
+  },
+  {
+   "item": 133,
+   "input": "ckkd",
+   "answer": "dkkc",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "cdkk",
+    "ckdk",
+    "dckk",
+    "dkkc",
+    "kckd",
+    "kkcd",
+    "kkdc"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 143,
+   "input": "qsee",
+   "answer": "eesq",
+   "repeat_pattern": [
+    2,
+    3
+   ],
+   "neighbours": [
+    "eqse",
+    "eseq",
+    "esqe",
+    "qees",
+    "qese",
+    "seeq",
+    "sqee"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "eqse",
+    "eseq",
+    "esqe"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 148,
+   "input": "eewc",
+   "answer": "cwee",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "ceew",
+    "cewe",
+    "ecwe",
+    "eecw",
+    "ewce",
+    "ewec",
+    "weec"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "ceew",
+    "cewe"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 153,
+   "input": "pffq",
+   "answer": "qffp",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "ffpq",
+    "ffqp",
+    "fpfq",
+    "pfqf",
+    "pqff",
+    "qffp",
+    "qpff"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 154,
+   "input": "ddfv",
+   "answer": "vfdd",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "ddvf",
+    "dfdv",
+    "dfvd",
+    "dvfd",
+    "fddv",
+    "vddf",
+    "vdfd"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "vddf",
+    "vdfd"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 159,
+   "input": "izei",
+   "answer": "iezi",
+   "repeat_pattern": [
+    0,
+    3
+   ],
+   "neighbours": [
+    "ezii",
+    "iezi",
+    "iiez",
+    "iize",
+    "izie",
+    "zeii",
+    "ziei"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    1,
+    2
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [
+    "iiez",
+    "izie"
+   ],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": false
+   }
+  },
+  {
+   "item": 164,
+   "input": "qjql",
+   "answer": "lqjq",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "jqlq",
+    "jqql",
+    "ljqq",
+    "lqjq",
+    "qjlq",
+    "qlqj",
+    "qqjl"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "ljqq"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 169,
+   "input": "ybhb",
+   "answer": "bhby",
+   "repeat_pattern": [
+    1,
+    3
+   ],
+   "neighbours": [
+    "bbhy",
+    "bhby",
+    "bybh",
+    "byhb",
+    "hbyb",
+    "ybbh",
+    "yhbb"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "left",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "bbhy",
+    "bybh",
+    "byhb"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 174,
+   "input": "bjbk",
+   "answer": "kbjb",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "bbjk",
+    "bjkb",
+    "bkbj",
+    "jbbk",
+    "jbkb",
+    "kbjb",
+    "kjbb"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "kjbb"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 179,
+   "input": "efea",
+   "answer": "aefe",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "aefe",
+    "afee",
+    "eaef",
+    "eefa",
+    "efae",
+    "feae",
+    "feea"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "afee"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 182,
+   "input": "jggp",
+   "answer": "pggj",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "ggjp",
+    "ggpj",
+    "gjgp",
+    "jgpg",
+    "jpgg",
+    "pggj",
+    "pjgg"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 210,
+   "input": "rurz",
+   "answer": "zrur",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "rruz",
+    "ruzr",
+    "rzru",
+    "urrz",
+    "urzr",
+    "zrur",
+    "zurr"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "zurr"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 226,
+   "input": "zivi",
+   "answer": "iviz",
+   "repeat_pattern": [
+    1,
+    3
+   ],
+   "neighbours": [
+    "iivz",
+    "iviz",
+    "iziv",
+    "izvi",
+    "vizi",
+    "ziiv",
+    "zvii"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "left",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "iivz",
+    "iziv",
+    "izvi"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 234,
+   "input": "ebbg",
+   "answer": "gbbe",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "bbeg",
+    "bbge",
+    "bebg",
+    "ebgb",
+    "egbb",
+    "gbbe",
+    "gebb"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 245,
+   "input": "jljt",
+   "answer": "tjlj",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "jjlt",
+    "jltj",
+    "jtjl",
+    "ljjt",
+    "ljtj",
+    "tjlj",
+    "tljj"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "tljj"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 269,
+   "input": "wggu",
+   "answer": "uggw",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "gguw",
+    "ggwu",
+    "gwgu",
+    "uggw",
+    "uwgg",
+    "wgug",
+    "wugg"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 283,
+   "input": "abaq",
+   "answer": "qaba",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "aabq",
+    "abqa",
+    "aqab",
+    "baaq",
+    "baqa",
+    "qaba",
+    "qbaa"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "qbaa"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 284,
+   "input": "kjek",
+   "answer": "kejk",
+   "repeat_pattern": [
+    0,
+    3
+   ],
+   "neighbours": [
+    "ejkk",
+    "jekk",
+    "jkek",
+    "kejk",
+    "kjke",
+    "kkej",
+    "kkje"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    1,
+    2
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [
+    "kjke",
+    "kkej"
+   ],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": false
+   }
+  },
+  {
+   "item": 299,
+   "input": "tffs",
+   "answer": "sfft",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "ffst",
+    "ffts",
+    "ftfs",
+    "sfft",
+    "stff",
+    "tfsf",
+    "tsff"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 320,
+   "input": "whcw",
+   "answer": "wchw",
+   "repeat_pattern": [
+    0,
+    3
+   ],
+   "neighbours": [
+    "chww",
+    "hcww",
+    "hwcw",
+    "wchw",
+    "whwc",
+    "wwch",
+    "wwhc"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    1,
+    2
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [
+    "whwc",
+    "wwch"
+   ],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": false
+   }
+  },
+  {
+   "item": 348,
+   "input": "pmhm",
+   "answer": "mhmp",
+   "repeat_pattern": [
+    1,
+    3
+   ],
+   "neighbours": [
+    "hmpm",
+    "mhmp",
+    "mmhp",
+    "mphm",
+    "mpmh",
+    "phmm",
+    "pmmh"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "left",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "mmhp",
+    "mphm",
+    "mpmh"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 354,
+   "input": "cara",
+   "answer": "arac",
+   "repeat_pattern": [
+    1,
+    3
+   ],
+   "neighbours": [
+    "aarc",
+    "acar",
+    "acra",
+    "arac",
+    "caar",
+    "craa",
+    "raca"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "left",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "aarc",
+    "acar",
+    "acra"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 359,
+   "input": "efej",
+   "answer": "jefe",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "eefj",
+    "efje",
+    "ejef",
+    "feej",
+    "feje",
+    "jefe",
+    "jfee"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "jfee"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 361,
+   "input": "cpbb",
+   "answer": "bbpc",
+   "repeat_pattern": [
+    2,
+    3
+   ],
+   "neighbours": [
+    "bcpb",
+    "bpbc",
+    "bpcb",
+    "cbbp",
+    "cbpb",
+    "pbbc",
+    "pcbb"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "bcpb",
+    "bpbc",
+    "bpcb"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 367,
+   "input": "dwtt",
+   "answer": "ttwd",
+   "repeat_pattern": [
+    2,
+    3
+   ],
+   "neighbours": [
+    "dttw",
+    "dtwt",
+    "tdwt",
+    "twdt",
+    "twtd",
+    "wdtt",
+    "wttd"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "tdwt",
+    "twdt",
+    "twtd"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 375,
+   "input": "uiik",
+   "answer": "kiiu",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "iiku",
+    "iiuk",
+    "iuik",
+    "kiiu",
+    "kuii",
+    "uiki",
+    "ukii"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 403,
+   "input": "agax",
+   "answer": "xaga",
+   "repeat_pattern": [
+    0,
+    2
+   ],
+   "neighbours": [
+    "aagx",
+    "agxa",
+    "axag",
+    "gaax",
+    "gaxa",
+    "xaga",
+    "xgaa"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "right",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "xgaa"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 405,
+   "input": "siiz",
+   "answer": "ziis",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "iisz",
+    "iizs",
+    "isiz",
+    "sizi",
+    "szii",
+    "ziis",
+    "zsii"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 415,
+   "input": "ffre",
+   "answer": "erff",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "effr",
+    "efrf",
+    "ferf",
+    "ffer",
+    "fref",
+    "frfe",
+    "rffe"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "effr",
+    "efrf"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 430,
+   "input": "dpbp",
+   "answer": "pbpd",
+   "repeat_pattern": [
+    1,
+    3
+   ],
+   "neighbours": [
+    "bpdp",
+    "dbpp",
+    "dppb",
+    "pbpd",
+    "pdbp",
+    "pdpb",
+    "ppbd"
+   ],
+   "reachable": true,
+   "mechanism": "rotation",
+   "edit": "left",
+   "sub_class": "rotation",
+   "matched_competitors": [
+    "pdbp",
+    "pdpb",
+    "ppbd"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": true
+   }
+  },
+  {
+   "item": 435,
+   "input": "bbqp",
+   "answer": "pqbb",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "bbpq",
+    "bpqb",
+    "bqbp",
+    "bqpb",
+    "pbbq",
+    "pbqb",
+    "qbbp"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "pbbq",
+    "pbqb"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 439,
+   "input": "wwtj",
+   "answer": "jtww",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "jwtw",
+    "jwwt",
+    "twwj",
+    "wjtw",
+    "wtjw",
+    "wtwj",
+    "wwjt"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "jwtw",
+    "jwwt"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 447,
+   "input": "dkmd",
+   "answer": "dmkd",
+   "repeat_pattern": [
+    0,
+    3
+   ],
+   "neighbours": [
+    "ddkm",
+    "ddmk",
+    "dkdm",
+    "dmkd",
+    "kdmd",
+    "kmdd",
+    "mkdd"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    1,
+    2
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [
+    "ddmk",
+    "dkdm"
+   ],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": false
+   }
+  },
+  {
+   "item": 463,
+   "input": "wwra",
+   "answer": "arww",
+   "repeat_pattern": [
+    0,
+    1
+   ],
+   "neighbours": [
+    "awrw",
+    "awwr",
+    "rwwa",
+    "warw",
+    "wraw",
+    "wrwa",
+    "wwar"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "awrw",
+    "awwr"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 472,
+   "input": "jbfj",
+   "answer": "jfbj",
+   "repeat_pattern": [
+    0,
+    3
+   ],
+   "neighbours": [
+    "bfjj",
+    "bjfj",
+    "fbjj",
+    "jbjf",
+    "jfbj",
+    "jjbf",
+    "jjfb"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    1,
+    2
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [
+    "jbjf",
+    "jjfb"
+   ],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": true,
+    "rotations": false
+   }
+  },
+  {
+   "item": 485,
+   "input": "jffn",
+   "answer": "nffj",
+   "repeat_pattern": [
+    1,
+    2
+   ],
+   "neighbours": [
+    "ffjn",
+    "ffnj",
+    "fjfn",
+    "jfnf",
+    "jnff",
+    "nffj",
+    "njff"
+   ],
+   "reachable": true,
+   "mechanism": "transposition",
+   "edit": [
+    0,
+    3
+   ],
+   "sub_class": "transposition",
+   "matched_competitors": [],
+   "overlap_reverse": 2,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  },
+  {
+   "item": 489,
+   "input": "ntjj",
+   "answer": "jjtn",
+   "repeat_pattern": [
+    2,
+    3
+   ],
+   "neighbours": [
+    "jntj",
+    "jtjn",
+    "jtnj",
+    "njjt",
+    "njtj",
+    "tjjn",
+    "tnjj"
+   ],
+   "reachable": false,
+   "mechanism": null,
+   "edit": null,
+   "sub_class": "non_reachable",
+   "matched_competitors": [
+    "jntj",
+    "jtjn",
+    "jtnj"
+   ],
+   "overlap_reverse": 0,
+   "entropy_bits": 6.0,
+   "variants": {
+    "adjacent": false,
+    "rotations": false
+   }
+  }
+ ],
+ "reachable": [
+  21,
+  51,
+  68,
+  71,
+  123,
+  133,
+  153,
+  159,
+  164,
+  169,
+  174,
+  179,
+  182,
+  210,
+  226,
+  234,
+  245,
+  269,
+  283,
+  284,
+  299,
+  320,
+  348,
+  354,
+  359,
+  375,
+  403,
+  405,
+  430,
+  447,
+  472,
+  485
+ ],
+ "non_reachable": [
+  9,
+  46,
+  78,
+  143,
+  148,
+  154,
+  361,
+  367,
+  415,
+  435,
+  439,
+  463,
+  489
+ ],
+ "sub_classes": {
+  "transposition": [
+   21,
+   68,
+   123,
+   133,
+   153,
+   159,
+   182,
+   234,
+   269,
+   284,
+   299,
+   320,
+   375,
+   405,
+   447,
+   472,
+   485
+  ],
+  "rotation": [
+   51,
+   71,
+   164,
+   169,
+   174,
+   179,
+   210,
+   226,
+   245,
+   283,
+   348,
+   354,
+   359,
+   403,
+   430
+  ],
+  "non_reachable": [
+   9,
+   46,
+   78,
+   143,
+   148,
+   154,
+   361,
+   367,
+   415,
+   435,
+   439,
+   463,
+   489
+  ]
+ },
+ "pattern_counts": {
+  "2,3": 5,
+  "1,2": 11,
+  "0,1": 8,
+  "0,2": 10,
+  "0,3": 6,
+  "1,3": 5
+ },
+ "arm_items": [
+  51,
+  71,
+  123,
+  159,
+  164,
+  169,
+  174,
+  179,
+  210,
+  226,
+  245,
+  283,
+  284,
+  320,
+  348,
+  354,
+  359,
+  403,
+  430,
+  447,
+  472
+ ],
+ "arm_sit_out": [
+  21,
+  68,
+  133,
+  153,
+  182,
+  234,
+  269,
+  299,
+  375,
+  405,
+  485
+ ],
+ "variants": {
+  "adjacent": {
+   "reachable": [
+    51,
+    71,
+    123,
+    159,
+    164,
+    169,
+    174,
+    179,
+    210,
+    226,
+    245,
+    283,
+    284,
+    320,
+    348,
+    354,
+    359,
+    403,
+    430,
+    447,
+    472
+   ],
+   "non_reachable": [
+    9,
+    21,
+    46,
+    68,
+    78,
+    133,
+    143,
+    148,
+    153,
+    154,
+    182,
+    234,
+    269,
+    299,
+    361,
+    367,
+    375,
+    405,
+    415,
+    435,
+    439,
+    463,
+    485,
+    489
+   ],
+   "note": "variant (i): adjacent transpositions only — rejected (§5.1); printed so the choice is visible"
+  },
+  "rotations": {
+   "reachable": [
+    51,
+    71,
+    164,
+    169,
+    174,
+    179,
+    210,
+    226,
+    245,
+    283,
+    348,
+    354,
+    359,
+    403,
+    430
+   ],
+   "non_reachable": [
+    9,
+    21,
+    46,
+    68,
+    78,
+    123,
+    133,
+    143,
+    148,
+    153,
+    154,
+    159,
+    182,
+    234,
+    269,
+    284,
+    299,
+    320,
+    361,
+    367,
+    375,
+    405,
+    415,
+    435,
+    439,
+    447,
+    463,
+    472,
+    485,
+    489
+   ],
+   "note": "variant (ii): rotations only — rejected (§5.1); printed so the choice is visible"
+  }
+ },
+ "sha256_of_partition": "ac96c52fefad4ababb7c07dba0b5109e711698fa4bb044023b49310b459240ec"
+}
