@@ -108,7 +108,7 @@ nothing here is ticked until it is re-run in a fresh process.
 
 ## Cold battery (fresh processes, pycache cleared, every box)
 
-- [ ] Fixture suite cold: 71 expected (plus any freeze additions).
+- [ ] Fixture suite cold: 85 expected (plus any freeze additions).
 - [ ] Mutation battery cold, both directions, baseline clean — the
       build record's kill count expected (PROGRESS.md).
 - [ ] Referent battery `verify_referents_2d.py` cold: 14/14.

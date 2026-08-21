@@ -123,7 +123,7 @@ exp3's own rows, twin, referents) reads closed trees only.
    from-below-performability restriction (two rising rungs
    performable at 1b → removed, restricted primary 11/21, the primary
    untouched).
-8. **Cold battery at build:** fixture suite 71 (8 files), referent
+8. **Cold battery at build:** fixture suite 71 at the first cold run, 85 after the mutation closures (9 files), referent
    battery 14/14, full-shape 4 terminals + 1 restriction world,
    mutation battery **76/78 killed** (detail below).
 
