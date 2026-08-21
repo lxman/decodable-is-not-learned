@@ -6,11 +6,14 @@ nothing here is ticked until it is re-run in a fresh process.
 
 ## Rulings needed from Michael before the tag
 
-- [ ] **Finding H (option-copy floor)**: (i) keep ruling a / (ii)
-      max(majority, 1/n_options) on the six option-listing rungs,
-      both sides / (iii) sensitivity only. Build recommends (ii).
-- [ ] **Finding L (pilot seed 100 overlaps a 3e substream)**: keep
-      100 or move to a seed outside every committed range (1000).
+- [x] **Finding H (option-copy floor)** — RULED (ii) by Michael
+      2026-08-21: max(majority, 1/n_options) on the six option-listing
+      rungs, both sides; applied in the build session (doc ruling k;
+      `OPTION_LISTING_PIN`). Freeze: attack the re-derivation rule
+      (every question, uniform count, colon-introduced list) and
+      confirm the 28 non-listing rungs list 0/500.
+- [x] **Finding L (pilot seed)** — RULED 1000 by Michael 2026-08-21;
+      applied (doc ruling l; stream map regenerated).
 - [ ] Findings A–E (doc slips) applied to the doc text; F, G, I, J, K
       ratified or amended.
 
@@ -108,7 +111,7 @@ nothing here is ticked until it is re-run in a fresh process.
 
 ## Cold battery (fresh processes, pycache cleared, every box)
 
-- [ ] Fixture suite cold: 85 expected (plus any freeze additions).
+- [ ] Fixture suite cold: 87 expected (plus any freeze additions).
 - [ ] Mutation battery cold, both directions, baseline clean — the
       build record's kill count expected (PROGRESS.md).
 - [ ] Referent battery `verify_referents_2d.py` cold: 14/14.
@@ -131,7 +134,9 @@ nothing here is ticked until it is re-run in a fresh process.
 
 - [ ] §11: "four answer types" → two (number / word).
 - [ ] §4: base12_digitsum .038, base13 .068 (not "≤ .010").
-- [ ] §4/§5.3: 13 rising / 21 flat in 7 families (3 mixed); 12 at 12b.
+- [ ] §4/§5.3: 11 rising / 23 flat in 7 families (5 mixed); 9 at 12b
+      (§4 already carries the 11/23 line from ruling k; §5.3's "six of
+      sixteen families" and the bootstrap-drop sentence still to fix).
 - [ ] §5.3: null = 2c's family-BLOCK permutation (blocks of same-size
       families exchanged position-for-position, x fixed); strike
       "within families".
@@ -140,8 +145,8 @@ nothing here is ticked until it is re-run in a fresh process.
       one-sided.
 - [ ] §7: the built procedure's choices (F), the envelope's
       conclusion (G), the zero-set definitions (J).
-- [ ] §3: pilot seed per ruling on L.
-- [ ] §5.2: floor per ruling on H.
+- [x] §3: pilot seed 1000 (ruling l) — applied.
+- [x] §5.2: floor per ruling k — applied.
 
 ## After the tag
 

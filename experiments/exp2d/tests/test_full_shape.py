@@ -30,12 +30,12 @@ def test_worlds_w1_pass_shape(worlds):
     v, _ = worlds["W1 PASS clean separation"]
     p = v["primary"]
     assert p["auc"] == 1.0 and p["block_p"] < 0.01
-    assert p["ci"][0] > 0.5 and p["n_rising"] == 13 and p["n_flat"] == 21
+    assert p["ci"][0] > 0.5 and p["n_rising"] == 11 and p["n_flat"] == 23
     assert p["block_method"] == "sampled" and p["n_perms"] == 100_000
     assert p["bootstrap_n_valid"] + p["bootstrap_n_dropped"] == 10_000
     assert v["gate1"]["diff_cells"] == [] and \
         v["gate1"]["total_draws_compared"] == 128_000
-    assert v["outcome_summary"]["n_rising"] == 13
+    assert v["outcome_summary"]["n_rising"] == 11
     assert v["twin_referent"]["fires"] == 0
     assert "whose outcome was known" in v["licensed_sentence_if_pass"]
     assert "ZERO free parameters" in v["known_outcome_caveat"]
@@ -43,7 +43,12 @@ def test_worlds_w1_pass_shape(worlds):
     assert sec["argmax_from_below"]["n_removed"] == 0
     assert sec["percolation_candidates"]["rungs"] == []
     assert sec["replication_1b_only"]["auc"] == 1.0
-    assert sec["probe_predictor_auc"]["auc"] == pytest.approx(0.6703, abs=1e-3)
+    # the probe predictor's AUC on the same label, from committed records
+    import numpy as np
+    probe = a.load_probe_predictor()
+    y = np.array([int(v["rising"]) for v in v["per_rung"].values()])
+    xp = np.array([probe[r] for r in a.RUNGS])
+    assert sec["probe_predictor_auc"]["auc"] == pytest.approx(st.auc(xp, y))
     assert sec["ordering_vs_2c_frozen_ascent"]["comparability"][
         "2c_probe_predictor"]["rho"] == pytest.approx(0.368, abs=1e-3)
     assert v["per_rung"]["antonym"]["predictor_score"] > 0
@@ -89,12 +94,12 @@ def test_restriction_removes_performable_rising(tmp_path):
     v = fs.build_world(
         tmp_path,
         main_verified=fs.counts_for({r: floors[r]["floor"] + 0.2 for r in ris}),
-        argmax_correct={("antonym", "1b"): 300, ("median5", "1b"): 200,
+        argmax_correct={("antonym", "1b"): 300, ("median5", "1b"): 250,
                         ("hamming12", "1b"): 400})
     fb = v["secondaries"]["argmax_from_below"]
     assert set(fb["rising_already_performable_at_1b"]) == {"antonym", "median5"}
     assert fb["n_removed"] == 2
     assert fb["per_rung"]["hamming12"]["performable_at_1b"] is True
     r = fb["restricted_primary"]
-    assert r["n_rising"] == 11 and r["n_flat"] == 21
-    assert v["primary"]["n_rising"] == 13           # the primary untouched
+    assert r["n_rising"] == 9 and r["n_flat"] == 23
+    assert v["primary"]["n_rising"] == 11           # the primary untouched

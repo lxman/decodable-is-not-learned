@@ -32,7 +32,7 @@ def test_runner_refuses_main_without_pilot_and_power(tmp_path):
     verify = a.load_verify()
     for size in a.PROBE_SIZES:
         for rung in a.RUNGS:
-            rows = fs.synthetic_rows(battery[rung], seed=100, dps=8, verified=0)
+            rows = fs.synthetic_rows(battery[rung], seed=a.TIERS["pilot"]["seed"], dps=8, verified=0)
             fs.write_sampling_cell(tmp_path, "pilot", size, rung, rows,
                                    verify=verify)
     with pytest.raises(RuntimeError, match="power_2d.json missing"):
@@ -64,7 +64,15 @@ def test_committed_artifacts_exist():
 
 
 def test_matrix_literals():
-    assert a.TIERS == {"pilot": {"seed": 100, "draws_per_seed": 8},
+    assert a.TIERS == {"pilot": {"seed": 1000, "draws_per_seed": 8},
                        "main": {"seed": 0, "draws_per_seed": 64}}
     assert a.GATE1_COVERAGE == 32_000 and a.PILOT_DRAWS_PER_RUNG == 4_000
     assert a.STREAM_NAMESPACE == "exp3"
+    # ruling L: the pilot seed lies outside every committed range
+    from experiments.exp3 import analyze_3 as a3
+    from experiments.exp3d import analyze_3d as d
+    from experiments.exp3e import analyze_3e as e
+    used = set(a3.SEEDS) | set(range(4, 16)) | \
+        {s for v in d.SEED_BLOCKS.values() for b in v for s in b} | \
+        {s for v in e.NEW_SEEDS_3E.values() for s in v}
+    assert max(used) == 167 and a.TIERS["pilot"]["seed"] not in used

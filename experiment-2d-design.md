@@ -1,10 +1,12 @@
 # Experiment 2d — Design Doc: The Sampling Ladder — Does the Sampled Channel at 410m/1b Forecast Which Capabilities Ascend by 12b?
 
-**Status: DESIGN RULED — session 1 (design) of the three-session
-design | build | freeze protocol, with the §12 dials ruled by Michael
-on 2026-08-21 and applied in place (rulings c and g reversed the
-session-1 proposals; three non-dial fixes applied alongside). Nothing
-is built; no model is touched. Session 2 builds `experiments/exp2d/`.**
+**Status: BUILT — sessions 1 (design) and 2 (build) of the
+three-session design | build | freeze protocol done 2026-08-21; the
+§12 dials ruled by Michael and applied in place (rulings c and g
+reversed the session-1 proposals; three non-dial fixes alongside;
+build-session rulings k and l applied the same day). Instrument at
+`experiments/exp2d/`; no model touched. Session 3 freezes → tag
+`exp2d-preregistered`.**
 
 Lineage: Experiment 2 → 2b → 2c (Prediction 2, the probe ladder: the
 instrument died twice to untrained-weights controls and once to an
@@ -83,7 +85,7 @@ read. The successor that restores a sealed outcome is named in §9.
 
 | cell | rungs | items | draws/item | draws per size | model contact |
 |---|---|---|---|---|---|
-| pilot, 410m + 1b | 34 | 500 | k = 8 (seed 100) | 136,000 | yes |
+| pilot, 410m + 1b | 34 | 500 | k = 8 (seed 1000) | 136,000 | yes |
 | main, 410m + 1b | 34 | 500 | k = 64 (seed 0) | 1,088,000 | yes |
 | argmax, 410m + 1b (descriptive) | 34 | 500 | greedy | 17,000 | yes |
 | outcome, 2.8b/6.9b/12b | 34 | 500 | — | — | **none — 2c's committed record** |
@@ -98,7 +100,10 @@ read. The successor that restores a sealed outcome is named in §9.
   draws (seeds 0–3, dps 64). The main tranche regenerates them through
   2d's production path and compares byte for byte: **gate 1 on the
   production path, 128,000 draws, zero tolerance**, without a
-  rehearsal cell. The pilot's seed (100) and depth (8) put it on
+  rehearsal cell. The pilot's seed (1000 — ruling l, 2026-08-21:
+  outside every committed range on this namespace, exp3 0–3, 3c 4–15,
+  3d 16–39, 3e 28–167; the session-1 choice of 100 coincided with a
+  3e-committed reverse_string/1b substream) and depth (8) put it on
   different substreams; pilot and main are never pooled.
 - Throughput from the 3e campaign (12-token draws): 1b ≈ 41 draws/s,
   410m ≈ 54/s. Pilot ≈ 1.7 h both sizes; main ≈ 13 h (one night);
@@ -150,10 +155,12 @@ To be pinned at build (sha256 list in the doc at freeze):
   add4_mid, base12_digitsum, base13, base7, caesar, caesar_len8,
   oct2dec, rev_string7, reverse_string: ≤ .006 at every size, floors
   ≤ .010. Bold floors are rungs whose accuracy never clears the
-  majority-answer rate: **by eye, roughly 11 of 34 rungs rise above
-  format-guessing by 12b and 23 do not.** The exact split is an
-  output of the frozen floor rule (§5.2), computed at build, not
-  this paragraph.
+  majority-answer rate. The six option-listing rungs' effective floors
+  are 1/n_options (ruling k): antonym .250, antonym6 .167, median5
+  .200, median7 .143, odd6 .167, odd_one_out .250. **The frozen rule
+  (§5.2), computed at build: 11 of 34 rungs rise, 23 do not** — under
+  the majority share alone it was 13/21 (median7 and odd_one_out clear
+  an option-copy floor at no size); 9 rise at 12b alone.
 
 ## 5. Operationalization
 
@@ -176,11 +183,19 @@ battery is the whole 34.
 
 ### 5.2 The outcome (2c's ascent, chance-corrected)
 
-The **majority-answer floor** c_g = the largest share any single
-normalized answer string holds among the rung's 500 eval answers —
-model-free, computed from the item file, the score of "always emit
-the most common answer." For each eval size the **corrected argmax
-margin** = max(0, acc − c_g) / (1 − c_g), zeroed unless acc exceeds
+The **floor** c_g is model-free, computed from the item file alone.
+For most rungs it is the **majority-answer share** — the largest
+share any single normalized answer string holds among the rung's 500
+eval answers, the score of "always emit the most common answer." For
+the six rungs whose every question LISTS the answer among a fixed
+number of options (antonym 4, antonym6 6, median5 5, median7 7, odd6
+6, odd_one_out 4) it is **max(majority share, 1/n_options)** — the
+score of "copy one listed option at random," which the majority share
+cannot see (ruling k, Michael 2026-08-21, from the build's finding
+that all six were rising under the majority share alone); membership
+and n_options are pinned by literal and re-derived from the item file
+at every load, and the rule is applied identically on both sides.
+For each eval size the **corrected argmax margin** = max(0, acc − c_g) / (1 − c_g), zeroed unless acc exceeds
 c_g by a one-sided exact binomial test at α = .01 over the 500 items
 (replacing 2c's Fisher test against the ~0 untrained floor, which is
 the defect 2c's retrospective names). The **corrected ascent** =
@@ -255,7 +270,7 @@ so the drop rate is not small and is reported, not hidden.
   exp3's seed-0 streams) is reported with counts; it is a gate, not a
   secondary (§6).
 
-### 5.5 The pilot (k = 8, seed 100) and what it decides
+### 5.5 The pilot (k = 8, seed 1000) and what it decides
 
 The pilot exists for one reason: the sixth lesson. Power must be
 computed over the realized tie structure of BOTH sides, and the
@@ -347,6 +362,10 @@ fixed at the freeze:
 - **Majority-answer emitter:** scores exactly the floor on both sides
   and enters every rung as zero — by construction it cannot produce
   a rising rung or a nonzero predictor.
+- **Copy one listed option at random:** scores 1/n_options on the
+  six option-listing rungs — above the majority share on every one of
+  them; the floor is raised to exactly that rate there (ruling k), so
+  it too enters every rung as zero.
 - **Uniform over the answer space:** scores below the majority floor
   wherever answers are skewed; dominated.
 - **"Predict the 2c probe ranking":** the comparison secondary; it
@@ -471,3 +490,20 @@ i. **§5.3 undefined-AUC resamples.** A cluster-bootstrap resample
 j. **§5.4 disconfirmer threshold.** "Below 1e-4 at 32,000 draws" is a
    zero count (CP95 of 0/32,000 = 9.4e-5; one draw gives ~1.5e-4) and
    is now stated as one.
+
+Build-session rulings (Michael, 2026-08-21, applied in place; the
+build's findings A–G, I–K stay ledgered in
+`experiments/exp2d/PROGRESS.md` for the freeze):
+
+k. **Floor for option-listing rungs → max(majority share,
+   1/n_options), both sides (build finding H).** Six rungs list the
+   answer among a fixed number of options in the question and all six
+   were rising under the majority share; "copy one listed option" is
+   the dumbest baseline that actually exists there, and ruling a's
+   principle applies to it identically on the outcome and the
+   predictor. Effect on the realized outcome: median7 and odd_one_out
+   become flat (11 rising / 23 flat; order_stat and odd_one_out become
+   mixed families).
+l. **Pilot seed → 1000 (build finding L).** Seed 100 coincided with a
+   3e-committed reverse_string/1b substream under the shared `exp3`
+   namespace; 1000 lies outside every committed range.

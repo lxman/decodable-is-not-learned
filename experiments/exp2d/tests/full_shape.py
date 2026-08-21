@@ -191,16 +191,16 @@ def build_world(root, *, main_verified, pilot_verified=None,
                 write_sampling_cell(root, "main", size, rung, rows,
                                     verify=verify)
                 write_gate1(root, rung, size, rows, verify=verify)
-                prow = synthetic_rows(caps[rung], seed=100, dps=8,
-                                      verified=pilot_verified.get(
+                prow = synthetic_rows(caps[rung], seed=a.TIERS["pilot"]["seed"],
+                                      dps=8, verified=pilot_verified.get(
                                           (rung, size), 0))
             else:
                 v = int(main_verified.get((rung, size), 0))
                 rows = synthetic_rows(caps[rung], seed=0, dps=64, verified=v)
                 write_sampling_cell(root, "main", size, rung, rows,
                                     verify=verify)
-                prow = synthetic_rows(caps[rung], seed=100, dps=8,
-                                      verified=int(pilot_verified.get(
+                prow = synthetic_rows(caps[rung], seed=a.TIERS["pilot"]["seed"],
+                                      dps=8, verified=int(pilot_verified.get(
                                           (rung, size), v // 8)))
             write_sampling_cell(root, "pilot", size, rung, prow,
                                 verify=verify)
@@ -248,14 +248,13 @@ def world_specs() -> list:
                        **{r: floors[r]["floor"] + 0.2 for r in ris[:2]}})},
                   "FAIL"))
     # W3 INDETERMINATE: CI excludes .5 but AUC < .75 and block p ≥ .01
-    # — six rising rungs above floor, one per family across six
+    # — five rising rungs above floor, one per family across five
     # families (so almost every family resample carries a rising
-    # positive), the other seven rising rungs tied at zero with the flat
-    six = ["sub3_mid", "antonym", "arith_next", "count_div13", "median5",
-           "odd6"]
+    # positive), the other six rising rungs tied at zero with the flat
+    five = ["sub3_mid", "antonym", "arith_next", "count_div13", "median5"]
     specs.append(("W3 INDETERMINATE partial separation",
                   {"main_verified": counts_for(
-                      {r: floors[r]["floor"] + 0.2 for r in six})},
+                      {r: floors[r]["floor"] + 0.2 for r in five})},
                   "INDETERMINATE"))
     # W4 INSUFFICIENT_DATA: one altered draw in a reversal main stream
     specs.append(("W4 INSUFFICIENT_DATA gate-1 drift",

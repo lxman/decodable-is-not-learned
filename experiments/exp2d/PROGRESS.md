@@ -311,3 +311,81 @@ Session 3 (fresh session): the adversarial freeze — standing
 assignments in `FREEZE_CHECKLIST.md`; ratify A–L (H and L need
 Michael); cold battery; tag `exp2d-preregistered`. Then the pilot on
 Michael's launch word.
+
+---
+
+## 2026-08-21 — RULINGS k AND l (Michael), applied in place the same session
+
+Michael ruled on the two build findings that needed him:
+**H → floor = max(majority share, 1/n_options) on both sides** (doc
+§12 ruling k); **L → pilot seed 1000** (ruling l). Applied in the
+build session rather than left to the freeze, so the freeze opens cold
+on the ruled instrument.
+
+What changed:
+- `battery_2d.py`: `OPTION_LISTING_PIN = {antonym: 4, antonym6: 6,
+  median5: 5, median7: 7, odd6: 6, odd_one_out: 4}` by literal;
+  `option_copy_floor` re-derives membership from the item file
+  (EVERY question must list the normalized answer among a
+  uniform-length colon-introduced option list; a partial or
+  non-uniform listing is REFUSED, never guessed — on the committed
+  battery every one of the six lists 500/500 at one count, the other
+  28 list 0/500); `rung_floor` = max(majority, 1/n) with the pin and
+  the re-derivation required to agree on membership and n; the §4
+  doc check compares the MAJORITY component (what §4 prints) and
+  asserts the effective floor is the max. Both sides read
+  `floors[r]["floor"]`, so the predictor gets the same floor
+  automatically.
+- `analyze_2d.py`: `TIERS["pilot"]["seed"] = 1000`; stream map
+  regenerated (136 cells; the 4 seed-0 reversal entries still ==
+  exp3's); a glue fixture proves 1000 ∉ {exp3 0–3, 3c 4–15, 3d 16–39,
+  3e 28–167}.
+- Design doc: §3 table + prose, §4 floors paragraph, §5.2 floor rule,
+  §5.5 heading, §8 baselines (+ "copy one listed option"), §12
+  rulings k/l, status line. Findings A–G, I–K stay ledgered for the
+  freeze (not yet ruled).
+
+**Realized outcome under the ruled floor: 11 RISING / 23 FLAT** (was
+13/21): median7 (.156/.144/.170 vs 1/7 = .143; 12b p = .0499) and
+odd_one_out (.162/.250/.208 vs .25) become flat; median5 rises at 12b
+only (.262, p = 5e-4), odd6 at 6.9b only (.214, p = .0035); antonym
+and antonym6 rise at every size. 12b-only sensitivity: 9. Families
+with rising: still 7, now FIVE mixed (mid_digit 3/4, seq_extrap 1/2,
+counting 1/2, order_stat 1/2, odd_one_out 1/2) and two all-rising
+(antonym, base_arith). Rising set: add3_mid, add_base8, antonym,
+antonym6, arith_next, count_div13, median5, odd6, sub3_mid, sub4_mid,
+sub_base8.
+
+**Envelope regenerated** (`power_envelope_2d.json`, AUC_true .85,
+300 sims/cell) — the same shape, a little lower (11 vs 13 rising):
+
+| flat rungs at pilot zero | rising raw-zero 0 | 2 | 4 | 6+ |
+|---|---|---|---|---|
+| 12 of 23 (τ −.05) | .71 | .29 | .00 | .00 |
+| 17 of 23 (τ +.68) | .62 | .36 | .00 | .00 |
+| 23 of 23 (τ +2.04) | .75 | .56 | .21 | .00 |
+
+Finding G stands: the PASS bar is unreachable once more than ~3 of
+the 11 rising rungs are silent in the pilot; with none silent the
+procedure sits AT the .75 bar only when every flat rung is at zero.
+The declaration after the pilot will most likely read DECLARED
+UNDERPOWERED IN ADVANCE unless the 410m/1b sampler is live on nearly
+every rising rung. Main runs regardless (ruling c).
+
+Cold battery after the rulings: referent battery 14/14 (checks 5 and
+6 now assert the option-listing pin and the 11/23/9 split), fixture
+suite 87 (W3 rebuilt on five spread rising rungs; W1's probe-AUC
+assertion computed from the committed records instead of a literal),
+full-shape all four terminals + the restriction world, mutation
+battery re-run on the ruled instrument with two new mutants for the
+floor rule (option component dropped; pin check dropped) — result
+appended below.
+
+**Mutation battery on the ruled instrument (80 mutants): 78/80
+killed; both new floor-rule mutants ("option-copy component dropped",
+"option-listing pin check dropped") killed; the two survivors are the
+documented equivalents — [1] the redundant rate-above-floor conjunct
+and [38] the untrained-twin floor (no committed twin accuracy exceeds
+its rung's floor; the six raised floors only widen that gap).**
+Baseline clean; sources restored (git status shows only the intended
+edits).

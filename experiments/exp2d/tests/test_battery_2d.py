@@ -44,12 +44,19 @@ def test_floors_match_doc_and_are_model_free():
     t = bt.floor_table()
     bt.check_floors_against_doc(t)
     assert t["hamming12"]["floor"] == pytest.approx(0.226)
+    assert t["hamming12"]["floor_rule"] == "majority"
+    # ruling H: option-listing rungs raised to 1/n_options
+    for r, n in bt.OPTION_LISTING_PIN.items():
+        assert t[r]["floor"] == pytest.approx(1 / n)
+        assert t[r]["floor_rule"] == "max(majority, 1/n_options)"
+        assert t[r]["majority_floor"] < 1 / n
+    assert t["antonym"]["floor"] == 0.25 and t["median7"]["floor"] == pytest.approx(1 / 7)
     assert t["reverse_string"]["floor"] == pytest.approx(0.002)
     assert t["reverse_string"]["n_distinct_answers"] == 500
     assert t["mod13"]["majority_answer"] == "11"
     for r, f in t.items():
         assert f["floor"] >= 1 / 500
-        assert f["majority_count"] == round(f["floor"] * 500)
+        assert f["majority_count"] == round(f["majority_floor"] * 500)
 
 
 def test_floor_uses_2c_normalization(tmp_path):
@@ -110,3 +117,34 @@ def test_probe_order_and_manifest_checks_fire(tmp_path):
     bad_man.write_text(json.dumps(man))
     with pytest.raises(ValueError, match="manifest sha"):
         bt.check_order_against_2c(manifest_path=bad_man)
+
+
+def test_option_listing_membership_is_pinned_both_ways(monkeypatch):
+    b = bt.load_battery()
+    # pin says listing, derivation says not → refuse
+    monkeypatch.setitem(bt.OPTION_LISTING_PIN, "mod17", 5)
+    with pytest.raises(ValueError, match="disagrees with the pin"):
+        bt.rung_floor(b["mod17"])
+    monkeypatch.delitem(bt.OPTION_LISTING_PIN, "mod17")
+    # pin says 4 options, derivation says 7 → refuse
+    monkeypatch.setitem(bt.OPTION_LISTING_PIN, "median7", 4)
+    with pytest.raises(ValueError, match="disagrees with the pin"):
+        bt.rung_floor(b["median7"])
+
+
+def test_partial_option_listing_is_refused():
+    cap = {"name": "x", "answer_type": "word", "eval_items": [
+        {"question": "Pick: a, b, c?", "answer": "a"},
+        {"question": "What is it?", "answer": "b"}]}
+    with pytest.raises(ValueError, match="refusing to guess"):
+        bt.option_copy_floor(cap)
+    cap = {"name": "x", "answer_type": "word", "eval_items": [
+        {"question": "Pick: a, b, c?", "answer": "a"},
+        {"question": "Pick: a, b?", "answer": "b"}]}
+    with pytest.raises(ValueError, match="refusing to guess"):
+        bt.option_copy_floor(cap)
+    cap = {"name": "x", "answer_type": "word", "eval_items": [
+        {"question": "Pick: a, b, c?", "answer": "a"},
+        {"question": "Pick: d, b, c?", "answer": "b"}]}
+    assert bt.option_copy_floor(cap) == {"n_options": 3, "floor": pytest.approx(1 / 3),
+                                         "share_listed": 1.0}

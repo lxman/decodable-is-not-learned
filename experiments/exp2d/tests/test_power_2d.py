@@ -72,11 +72,12 @@ def test_pilot_zero_set_from_predictor():
     pred["hamming12"] = {"score": 0.1, "raw_zero": {"410m": False, "1b": False}}
     pred["median5"] = {"score": 0.0, "raw_zero": {"410m": True, "1b": False}}
     zs = cp.pilot_zero_set(pred, outcome)
-    assert zs["n0"] == 21 and zs["z0"] == 20
+    n1 = outcome["n_rising"]
+    assert zs["n0"] == 34 - n1 == 23 and zs["z0"] == 22
     assert "hamming12" not in zs["non_rising_zero_set"]
     assert "antonym" not in zs["rising_raw_zero_set"]
     assert "median5" not in zs["rising_raw_zero_set"]   # one size nonzero
-    assert len(zs["rising_raw_zero_set"]) == 11
+    assert len(zs["rising_raw_zero_set"]) == n1 - 2 == 9
     assert all(v == 0.0 for v in zs["rising_raw_zero_caps"].values())
 
 
@@ -97,7 +98,7 @@ def test_run_procedure_small_and_declaration_rule():
     assert "runs regardless" in rec["run_anyway"]
     # the pilot's zero set: all rising alive → no raw-zero rising
     assert rec["pilot_zero_set"]["rising_raw_zero_set"] == []
-    assert rec["pilot_zero_set"]["z0"] == 21
+    assert rec["pilot_zero_set"]["z0"] == 23
 
 
 def test_rising_raw_zeros_cost_power():

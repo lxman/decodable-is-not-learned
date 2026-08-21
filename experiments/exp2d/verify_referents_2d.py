@@ -13,10 +13,11 @@ Numbered checks, all-or-nothing:
  4  referents_2d.json: file sha == the literal pin; all 250 entries
     re-hash on disk
  5  majority floors reproduce §4's printed table (with the two
-    ledgered slips); every floor ≥ 1/500
+    ledgered slips); the six option-listing rungs' floors ==
+    1/n_options (ruling H); every floor ≥ 1/500
  6  the OUTCOME known-answer gate: 2c's m5 rule on the committed m4
     records reproduces ascent_scores.json 34/34; the frozen §5.2 rule
-    yields 13 rising / 21 flat (12 at 12b only) in 7 families
+    yields 11 rising / 23 flat (9 at 12b only) in 7 families
  7  stream_map_2d.json == the frozen formula; seed-0 reversal entries
     == exp3's committed map (continuity, 4 cells)
  8  exp3's four committed reversal shards == their §4 literal shas;
@@ -99,21 +100,23 @@ def _c4(ctx):
 def _c5(ctx):
     ctx["floors"] = bt.floor_table(ctx["battery"])
     bt.check_floors_against_doc(ctx["floors"])
+    _eq({r: v["n_options"] for r, v in bt.option_copy_table(
+        ctx["battery"]).items()}, bt.OPTION_LISTING_PIN, "option listing")
     for r, f in ctx["floors"].items():
         if f["floor"] < 1 / 500:
             raise AssertionError(f"{r}: floor {f['floor']} < 1/500")
 
 
-@check(6, "outcome known-answer gate; 13/21 rising split in 7 families")
+@check(6, "outcome known-answer gate; 11/23 rising split in 7 families")
 def _c6(ctx):
     out = a.load_outcome(ctx["floors"], referents=ctx["referents"])
-    _eq(out["n_rising"], 13, "n rising")
-    _eq(out["n_rising_12b"], 12, "n rising at 12b only")
+    _eq(out["n_rising"], 11, "n rising")
+    _eq(out["n_rising_12b"], 9, "n rising at 12b only")
     _eq(len(out["families_with_rising"]), 7, "families with rising")
     _eq(sorted(r for r in a.RUNGS if out["rungs"][r]["rising"]),
         ["add3_mid", "add_base8", "antonym", "antonym6", "arith_next",
-         "count_div13", "median5", "median7", "odd6", "odd_one_out",
-         "sub3_mid", "sub4_mid", "sub_base8"], "rising set")
+         "count_div13", "median5", "odd6", "sub3_mid", "sub4_mid",
+         "sub_base8"], "rising set (ruling H: median7, odd_one_out flat)")
     ctx["outcome"] = out
 
 

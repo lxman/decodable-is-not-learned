@@ -36,14 +36,23 @@ def _edit_record(path, **changes):
 
 def test_outcome_known_answer_gate_and_rule(env):
     out = env["outcome"]
-    assert out["n_rising"] == 13 and out["n_rising_12b"] == 12
+    assert out["n_rising"] == 11 and out["n_rising_12b"] == 9
     assert out["rungs"]["sub3_mid"]["rising"]
     assert not out["rungs"]["sub3_mid"]["rising_12b"]
+    # ruling H: the option-listing rungs against 1/n_options
+    assert out["rungs"]["median7"]["floor"] == pytest.approx(1 / 7)
+    assert not out["rungs"]["median7"]["rising"]
+    assert not out["rungs"]["odd_one_out"]["rising"]
+    assert out["rungs"]["median5"]["rising"] and \
+        out["rungs"]["median5"]["rising_12b"]
+    assert out["rungs"]["odd6"]["rising"] and not out["rungs"]["odd6"]["rising_12b"]
     assert out["rungs"]["hamming12"]["corrected_ascent"] == 0.0
     assert out["rungs"]["hamming12"]["per_size"]["12b"]["trained_acc"] == .232
     assert out["rungs"]["count_div13"]["rising"]
     assert out["rungs"]["antonym"]["corrected_ascent"] == pytest.approx(
-        ((.544 - .026) + (.572 - .026) + (.560 - .026)) / (1 - .026) / 3)
+        ((.544 - .25) + (.572 - .25) + (.560 - .25)) / (1 - .25) / 3)
+    assert out["rungs"]["add3_mid"]["corrected_ascent"] == pytest.approx(
+        ((.086 - .006) + (.038 - .006) + (.052 - .006)) / (1 - .006) / 3)
     # 2c's frozen column rides alongside for comparability
     assert out["rungs"]["add3_mid"]["ascent_2c"] == pytest.approx(
         0.058666666666666666)
@@ -81,21 +90,21 @@ def test_probe_predictor_order():
 def test_read_rows_coverage_and_shape(tmp_path, env):
     rows = _one_cell(tmp_path, env, "pilot", "410m", "mod17", 5)
     g = a.tier_draws_path(tmp_path, "pilot", "410m", "mod17")
-    got = a.read_rows(g, seed=100, dps=8)
+    got = a.read_rows(g, seed=1000, dps=8)
     assert len(got) == 500
-    assert got[0]["draws"]["100"][0] == \
+    assert got[0]["draws"]["1000"][0] == \
         str(env["battery"]["mod17"]["eval_items"][0]["answer"])
-    assert got[0]["draws"]["100"][1] == fs.FILLER
+    assert got[0]["draws"]["1000"][1] == fs.FILLER
     with pytest.raises(ValueError, match="not the tier's seed"):
         a.read_rows(g, seed=0, dps=8)
     with pytest.raises(ValueError, match="draws_per_seed"):
-        a.read_rows(g, seed=100, dps=64)
+        a.read_rows(g, seed=1000, dps=64)
     # truncated file
     with gzip.open(g, "wt") as f:
         for row in rows[:499]:
             f.write(json.dumps(row) + "\n")
     with pytest.raises(ValueError, match="coverage incomplete"):
-        a.read_rows(g, seed=100, dps=8)
+        a.read_rows(g, seed=1000, dps=8)
 
 
 def test_tier_loader_recomputes_and_refuses_stale_tally(tmp_path, env):
@@ -109,8 +118,8 @@ def test_tier_loader_recomputes_and_refuses_stale_tally(tmp_path, env):
     assert cells[("antonym", "1b")]["n_draws"] == 4000
     assert cells[("mod17", "410m")]["verified"] == 0
     p = a.tier_record_path(tmp_path, "pilot", "1b", "antonym")
-    _edit_record(p, per_seed_tallies={"100": {"full_string": 4,
-                                              "n_draws": 4000}})
+    _edit_record(p, per_seed_tallies={"1000": {"full_string": 4,
+                                               "n_draws": 4000}})
     with pytest.raises(ValueError, match="stored tallies"):
         a.load_sampling_tier(tmp_path, "pilot", env["battery"], env["verify"])
 
@@ -151,11 +160,12 @@ def test_predictor_from_tier_rule(env):
     for r in a.RUNGS:
         for s in a.PROBE_SIZES:
             cells[(r, s)] = {"verified": 0, "n_draws": 32000}
-    cells[("antonym", "1b")] = {"verified": 3000, "n_draws": 32000}
-    cells[("antonym", "410m")] = {"verified": 40, "n_draws": 32000}   # .00125 < .026
+    cells[("antonym", "1b")] = {"verified": 12000, "n_draws": 32000}   # .375 > .25
+    cells[("antonym", "410m")] = {"verified": 7000, "n_draws": 32000}   # .219 < .25
     cells[("mod13", "1b")] = {"verified": 3010, "n_draws": 32000}      # .0941 vs .094
     pred = a.predictor_from_tier(cells, floors, n_draws_per_rung=32000)
-    m1b = (3000 / 32000 - floors["antonym"]["floor"]) / (1 - floors["antonym"]["floor"])
+    assert floors["antonym"]["floor"] == 0.25                           # ruling H
+    m1b = (12000 / 32000 - 0.25) / (1 - 0.25)
     assert pred["antonym"]["per_size"]["1b"]["margin"] == pytest.approx(m1b)
     assert pred["antonym"]["per_size"]["410m"]["margin"] == 0.0
     assert pred["antonym"]["score"] == pytest.approx(m1b / 2)

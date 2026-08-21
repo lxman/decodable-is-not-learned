@@ -283,29 +283,34 @@ def majority_floor(cap: dict) -> dict:
             "n_distinct_answers": len(counts)}
 
 
-def floor_table(battery: dict | None = None) -> dict:
-    battery = battery or load_battery()
-    return {r: majority_floor(battery[r]) for r in RUNGS}
-
-
-# ------------------------------------------ option-copy (DESCRIPTIVE)
+# ---------------------------------------- option-copy floor (RULED)
 #
-# BUILD FINDING, for Michael's ruling at the freeze (PROGRESS.md): six
-# rungs present the answer among options LISTED IN THE QUESTION
-# (antonym, antonym6, median5, median7, odd6, odd_one_out) — all six
-# are RISING under the frozen rule. "Copy one listed option at random"
-# scores 1/n_options on them, far above the majority floor, and the
-# majority floor (ruling a) does not see it. This function prints that
-# baseline beside the floor. It enters NO verdict branch; the frozen
-# floor is the majority-answer rate until ruled otherwise.
+# RULED by Michael 2026-08-21 (build finding H): six rungs present the
+# answer among options LISTED IN THE QUESTION (antonym, antonym6,
+# median5, median7, odd6, odd_one_out) — all six rising under the
+# majority floor alone. "Copy one listed option at random" scores
+# 1/n_options on them, far above the majority share, and the majority
+# floor cannot see it. The floor for such a rung is therefore
+#     c_g = max(majority-answer share, 1 / n_options),
+# applied IDENTICALLY to the outcome and the predictor (ruling a's own
+# principle — the dumbest baseline made executable — for the baseline
+# that actually exists on those rungs). Membership and n_options are
+# pinned by literal and RE-DERIVED from the item file at every load:
+# a rung is option-listing iff EVERY eval question lists the normalized
+# answer among a colon-introduced, comma-separated option list of one
+# uniform length; a partial or non-uniform listing is refused, never
+# guessed.
+OPTION_LISTING_PIN = {"antonym": 4, "antonym6": 6, "median5": 5,
+                      "median7": 7, "odd6": 6, "odd_one_out": 4}
+
 
 def option_copy_floor(cap: dict) -> dict | None:
-    """If ≥ 99% of eval questions list the (normalized) answer among a
-    colon-introduced, comma-separated option list, return
-    {n_options, floor = 1/n_options}; else None."""
+    """{n_options, floor = 1/n_options} if every eval question lists
+    the normalized answer among a uniform-length option list; None if
+    none does; ValueError on anything in between (no silent call)."""
     h = harness_2c()
     at = cap["answer_type"]
-    n_listed, n_opts = 0, []
+    n_listed, n_opts = 0, set()
     for it in cap["eval_items"]:
         q = it["question"]
         if ":" not in q:
@@ -315,12 +320,44 @@ def option_copy_floor(cap: dict) -> dict | None:
         opts = [o for o in opts if o]
         if h.normalize_answer(str(it["answer"]), at) in opts:
             n_listed += 1
-            n_opts.append(len(opts))
-    if n_listed < 0.99 * len(cap["eval_items"]):
+            n_opts.add(len(opts))
+    if n_listed == 0:
         return None
-    n = round(sum(n_opts) / len(n_opts))
-    return {"n_options": n, "floor": 1.0 / n,
-            "share_listed": n_listed / len(cap["eval_items"])}
+    if n_listed != len(cap["eval_items"]) or len(n_opts) != 1:
+        raise ValueError(
+            f"{cap.get('name')}: the answer is listed among options in "
+            f"{n_listed} of {len(cap['eval_items'])} questions with option "
+            f"counts {sorted(n_opts)} — neither a clean option-listing "
+            f"rung nor a clean non-listing one; refusing to guess a floor")
+    n = n_opts.pop()
+    return {"n_options": int(n), "floor": 1.0 / n, "share_listed": 1.0}
+
+
+def rung_floor(cap: dict) -> dict:
+    """§5.2 as ruled: the majority-answer share, raised to 1/n_options
+    on the option-listing rungs; the pin and the re-derivation must
+    agree on membership AND n_options."""
+    maj = majority_floor(cap)
+    oc = option_copy_floor(cap)
+    name = cap.get("name")
+    pinned = OPTION_LISTING_PIN.get(name)
+    if (oc is None) != (pinned is None) or \
+            (oc is not None and oc["n_options"] != pinned):
+        raise ValueError(
+            f"{name}: option-listing re-derivation {oc} disagrees with the "
+            f"pin {pinned} — the floor rule's membership is not what was "
+            f"frozen")
+    floor = max(maj["floor"], oc["floor"]) if oc else maj["floor"]
+    return {**maj, "majority_floor": maj["floor"], "option_copy": oc,
+            "floor": float(floor),
+            "floor_rule": ("max(majority, 1/n_options)" if oc
+                           else "majority")}
+
+
+def floor_table(battery: dict | None = None) -> dict:
+    """Per rung: the FROZEN floor (`floor`) with its components."""
+    battery = battery or load_battery()
+    return {r: rung_floor(battery[r]) for r in RUNGS}
 
 
 def option_copy_table(battery: dict | None = None) -> dict:
@@ -355,8 +392,17 @@ DOC_FLOOR_SLIPS = {"base12_digitsum": .038, "base13": .068}
 
 
 def check_floors_against_doc(table: dict) -> None:
+    """§4's printed table is the MAJORITY component; the six
+    option-listing rungs' effective floors are 1/n_options (ruling H)."""
     for r in RUNGS:
-        c = table[r]["floor"]
+        c = table[r]["majority_floor"]
+        if r in OPTION_LISTING_PIN:
+            if table[r]["floor"] != max(c, 1.0 / OPTION_LISTING_PIN[r]):
+                raise ValueError(f"{r}: effective floor {table[r]['floor']} "
+                                 f"is not max(majority, 1/n_options)")
+        elif table[r]["floor"] != c:
+            raise ValueError(f"{r}: effective floor {table[r]['floor']} != "
+                             f"majority {c}")
         if r in DOC_FLOORS or r in DOC_FLOOR_SLIPS:
             want = DOC_FLOORS.get(r, DOC_FLOOR_SLIPS.get(r))
             if round(c, 3) != want:
@@ -372,11 +418,9 @@ if __name__ == "__main__":
     print(json.dumps(check_order_against_2c()))
     t = floor_table()
     check_floors_against_doc(t)
-    oc = option_copy_table()
-    print("option-copy baseline (descriptive):",
-          {r: round(v["floor"], 3) for r, v in oc.items()})
     for r in RUNGS:
         print(f"{r:16s} {FAMILY_OF[r]:15s} {ANSWER_TYPE_PIN[r]:6s} "
-              f"tok {max_new_tokens(r):2d}  floor {t[r]['floor']:.3f}  "
+              f"tok {max_new_tokens(r):2d}  floor {t[r]['floor']:.3f} "
+              f"[{t[r]['floor_rule']}]  "
               f"|A| {t[r]['n_distinct_answers']:3d}  "
               f"majority {t[r]['majority_answer']!r}")

@@ -16,7 +16,7 @@ sha-pinned (`FROZEN_IMPORT_SHA256_2D`) and checked before any byte of
 any tree is parsed.
 
 Record layout (the runner's, `run/run_cell_2d.py`):
-  results/pilot/<size>_trained/<rung>.json + .draws.jsonl.gz   k=8, seed 100
+  results/pilot/<size>_trained/<rung>.json + .draws.jsonl.gz   k=8, seed 1000
   results/main/<size>_trained/<rung>.json  + .draws.jsonl.gz   k=64, seed 0
   results/gate1/<size>_trained/<rung>.json    (the 2 reversal rungs)
   results/argmax/<size>_trained/<rung>.json   greedy fp16, descriptive
@@ -64,7 +64,8 @@ OTHER_SIZE = "410m"              # §5.4: the 410m replication
 
 # §3: the matrix
 TIERS = {
-    "pilot": {"seed": 100, "draws_per_seed": 8},
+    "pilot": {"seed": 1000, "draws_per_seed": 8},   # ruling L (2026-08-21):
+    # outside every committed range (exp3 0–3, 3c 4–15, 3d 16–39, 3e 28–167)
     "main": {"seed": 0, "draws_per_seed": 64},
 }
 SAMPLING_DTYPE = "float32"       # exp3's probe-size policy (exact upcast)
@@ -252,6 +253,9 @@ def dump_stream_map_2d(path=STREAM_MAP_2D_PATH) -> dict:
                       "chunk, rows in row order; one multinomial call per "
                       "step over all rows",
         "tiers": TIERS,
+        "pilot_seed_note": "1000 (ruling L, 2026-08-21): outside every "
+                           "committed seed range on this namespace — exp3 "
+                           "0–3, 3c 4–15, 3d 16–39, 3e 28–167",
         "max_new_tokens": {r: bt.max_new_tokens(r) for r in RUNGS},
         "cells": cells,
     }
