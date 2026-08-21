@@ -76,3 +76,14 @@ def test_matrix_literals():
         {s for v in d.SEED_BLOCKS.values() for b in v for s in b} | \
         {s for v in e.NEW_SEEDS_3E.values() for s in v}
     assert max(used) == 167 and a.TIERS["pilot"]["seed"] not in used
+
+
+def test_runner_iterates_reversal_rungs_first(capsys):
+    """Ruling n (freeze F-5): gate 1 is the first thing main does."""
+    assert run_cell_2d.RUN_ORDER[:2] == ("rev_string7", "reverse_string")
+    assert sorted(run_cell_2d.RUN_ORDER) == sorted(a.RUNGS)
+    assert len(run_cell_2d.RUN_ORDER) == 34
+    campaign_2d.main(["--dry-run", "--out-root", "/nonexistent"])
+    out = capsys.readouterr().out
+    assert "pending: rev_string7,reverse_string," in out
+    assert a.RUNGS[:2] == ("add4_mid", "sub4_mid")      # analysis order untouched

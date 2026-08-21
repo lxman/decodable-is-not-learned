@@ -6,9 +6,9 @@ comparison; nothing here is ticked until it is re-run in a fresh
 process. Findings F-1 … F-8 are written up in `PROGRESS.md` (freeze
 entry); this file carries the ticks and what still needs Michael.
 
-## Rulings needed from Michael BEFORE the tag
+## Rulings from Michael BEFORE the tag — ALL RULED 2026-08-21 ("F-4 symmetric, F-5 yes, slips as recommended — apply and tag"), applied
 
-- [ ] **F-4 — which power rule declares.** The ratified Tobit (F/J)
+- [x] **F-4 — which power rule declares.** RULED symmetric (ruling m), applied. The ratified Tobit (F/J)
       re-randomizes rising rungs the pilot already shows positive
       (re-silenced w.p. Φ(τ−d) ≈ .30) while holding flat positives
       positive; the SYMMETRIC rule (rising pilot-positives held
@@ -19,11 +19,11 @@ entry); this file carries the ticks and what still needs Michael.
       the symmetric rule declares (one constant,
       `compute_power_2d.DECLARATION_RULE`, plus §7 text). Either way
       main runs regardless (ruling c).
-- [ ] **F-5 — run the two reversal rungs FIRST within each main tier**
+- [x] **F-5 — run the two reversal rungs FIRST** RULED yes (ruling n), applied: `RUN_ORDER`, every tier.
       so gate 1 makes its first production contact ~5 h earlier per
       size (one line in `run_tier`; loop order is not load-bearing;
       analysis order unchanged). Recommended yes.
-- [ ] **Doc slips (a)–(f)** in the ledger: §10 "seed 100" → 1000;
+- [x] **Doc slips (a)–(f)** RULED as recommended (ruling o), applied to the doc: §10 "seed 100" → 1000;
       §4 + §9 the F-3 first-digit-run disclosure (base12_digitsum 196
       / base13 276 of 500 answers not matched whole; both flat, no
       label moves); §7 the F-4 sensitivity + model-free G restatement
@@ -97,7 +97,7 @@ entry); this file carries the ticks and what still needs Michael.
 
 ## Cold battery (fresh processes, pycache cleared)
 
-- [x] Fixture suite cold: **101 passed** (87 + 14 freeze fixtures).
+- [x] Fixture suite cold: **102 passed** (87 + 15 freeze fixtures; after rulings m/n).
 - [x] Mutation battery cold, both directions, baseline clean — 87
       mutants (80 + 7): **85/87 killed**, survivors [1] and [38] the
       documented equivalents; [73] survived the first pass (fixture
@@ -127,8 +127,8 @@ entry); this file carries the ticks and what still needs Michael.
 
 ## After the tag
 
-- [ ] Tag `exp2d-preregistered` once F-4 / F-5 / slips are ruled and
-      applied (re-run suite + referents after any applied ruling).
+- [x] Rulings applied; suite 102 / referents 15/15 re-run cold; power/runner
+      mutants re-run; tag `exp2d-preregistered` placed.
 - [ ] Pilot on Michael's launch word (both sizes, ~1.7 h), watcher
       running, per-rung commits.
 - [ ] `compute_power_2d.py` ONCE → `power_2d.json`; declaration

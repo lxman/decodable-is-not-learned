@@ -36,7 +36,7 @@ if str(EXP2D.parent.parent) not in sys.path:
 
 from experiments.exp2d import analyze_2d as a  # noqa: E402
 from experiments.exp2d.run.run_cell_2d import (  # noqa: E402
-    SIZES_ASCENDING, gate1_halted, preconditions, tier_complete,
+    RUN_ORDER, SIZES_ASCENDING, gate1_halted, preconditions, tier_complete,
 )
 
 
@@ -48,9 +48,9 @@ def tier_plan() -> list:
 
 def tier_pending(kind, size, out_root) -> list:
     if kind == "argmax":
-        return [r for r in a.RUNGS
+        return [r for r in RUN_ORDER
                 if not a.argmax_record_path(out_root, size, r).exists()]
-    return [r for r in a.RUNGS
+    return [r for r in RUN_ORDER
             if not (a.tier_record_path(out_root, kind, size, r).exists()
                     and a.tier_draws_path(out_root, kind, size, r).exists())]
 

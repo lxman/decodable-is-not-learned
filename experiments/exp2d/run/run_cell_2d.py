@@ -50,6 +50,14 @@ from experiments.exp3.sampler import sample_item  # noqa: E402
 
 KINDS = ("pilot", "main", "argmax")
 SIZES_ASCENDING = tuple(a.PROBE_SIZES)    # 410m then 1b
+# RULING n (Michael, 2026-08-21; freeze F-5): the two reversal rungs run
+# FIRST in every tier, so gate 1 — which lives inside main on those
+# rungs — is the first thing main does at each size (~5 h earlier than
+# RUNG_ORDER's indices 29–30). The loop order is load-bearing nowhere
+# else: every unit is skip-if-exists and the ANALYSIS order stays
+# RUNG_ORDER_2D.
+RUN_ORDER = tuple([r for r in a.RUNGS if r in a.REVERSAL_RUNGS]
+                  + [r for r in a.RUNGS if r not in a.REVERSAL_RUNGS])
 
 
 # ------------------------------------------- frozen-order preconditions
@@ -274,8 +282,9 @@ def run_argmax_rung(size, rung, out_root=EXP2D, model_ctx=None,
 
 def run_tier(kind, size, out_root=EXP2D) -> list:
     """All 34 rungs of one (kind, size) tier in THIS process — one
-    model load, rungs in RUNG_ORDER_2D, skip-if-exists. The process
-    boundary is the driver's job (tier-per-process)."""
+    model load, rungs in RUN_ORDER (reversal rungs first, ruling n),
+    skip-if-exists. The process boundary is the driver's job
+    (tier-per-process)."""
     if kind not in KINDS:
         raise ValueError(f"unknown 2d tier kind {kind!r}")
     check_preconditions(kind, out_root)
@@ -286,7 +295,7 @@ def run_tier(kind, size, out_root=EXP2D) -> list:
     dtype = a.ARGMAX_DTYPE if kind == "argmax" else a.SAMPLING_DTYPE
     ctx = _load_model(size, a.MODE, dtype)
     out = []
-    for rung in a.RUNGS:
+    for rung in RUN_ORDER:
         if kind == "argmax":
             out.append(run_argmax_rung(size, rung, out_root=out_root,
                                        model_ctx=ctx, verify_fn=verify_fn))

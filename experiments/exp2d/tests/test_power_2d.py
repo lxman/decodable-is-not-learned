@@ -99,11 +99,18 @@ def test_run_procedure_small_and_declaration_rule():
             for r in a.RUNGS}
     rec = cp.run_procedure(pred, outcome, n_sims=40, targets=(0.5, 0.85))
     assert set(rec["power"]) == {"0.5", "0.85"}
-    assert rec["power"]["0.5"]["p_pass"] <= 0.1
-    assert rec["power"]["0.85"]["p_pass"] > rec["power"]["0.5"]["p_pass"]
+    # the unconditional α check is the ratified sensitivity's .5 row
+    rat = rec["sensitivity_ratified_rule"]["power"]
+    assert rat["0.5"]["p_pass"] <= 0.1
+    assert rat["0.85"]["p_pass"] > rat["0.5"]["p_pass"]
+    # the symmetric rule declares; with every rising rung pilot-positive
+    # and every flat rung at zero the pilot already separates: 1.0
+    assert rec["declaration_rule"] == "symmetric"
+    assert rec["power"]["0.85"]["p_pass"] == 1.0
     assert rec["declared_status"] in ("POWERED",
                                       "DECLARED UNDERPOWERED IN ADVANCE")
     assert rec["declared_underpowered"] == (rec["power"]["0.85"]["p_pass"] < .75)
+    assert rec["declared_status"] == "POWERED"
     assert "runs regardless" in rec["run_anyway"]
     # the pilot's zero set: all rising alive → no raw-zero rising
     assert rec["pilot_zero_set"]["rising_raw_zero_set"] == []
@@ -215,20 +222,28 @@ def test_pilot_structure_symmetric_partitions_rising_rungs():
     assert st_["held_positive"][i] and st_["caps"][i] is None
 
 
-def test_run_procedure_prints_the_symmetric_sensitivity_non_declaring():
+def test_symmetric_rule_declares_and_the_tobit_is_printed_beside_it():
+    """Ruling m (2026-08-21): the symmetric rule declares; the Tobit
+    as built rides along NON-DECLARING with its own would_declare."""
     outcome = fs.outcome()
     pred = {r: _pred(0.2 if outcome["rungs"][r]["rising"] else 0.0,
                      {s: not outcome["rungs"][r]["rising"] for s in a.PROBE_SIZES})
             for r in a.RUNGS}
     rec = cp.run_procedure(pred, outcome, n_sims=40, targets=(0.85,))
-    sym = rec["sensitivity_symmetric_rule"]
-    assert rec["declaration_rule"] == "ratified"
-    assert set(sym["power"]) == {"0.85"}
-    assert sym["pilot_structure"]["rising_held_positive"] == \
+    assert rec["declaration_rule"] == "symmetric"
+    assert rec["pilot_structure"]["rising_held_positive"] == \
         [r for r in a.RUNGS if outcome["rungs"][r]["rising"]]
-    # every rising rung alive and held positive, every flat at zero → PASS always
-    assert sym["power"]["0.85"]["p_pass"] == 1.0
-    assert sym["would_declare"] == "POWERED"
-    assert rec["declared_underpowered"] == (rec["power"]["0.85"]["p_pass"] < .75)
-    assert sym["agrees_with_declaration"] == (
-        (sym["power"]["0.85"]["p_pass"] < .75) == rec["declared_underpowered"])
+    assert rec["pilot_structure"]["rising_capped"] == {}
+    assert rec["power"]["0.85"]["p_pass"] == 1.0 and \
+        rec["declared_status"] == "POWERED"
+    rat = rec["sensitivity_ratified_rule"]
+    assert set(rat["power"]) == {"0.85"}
+    assert rat["power"]["0.85"]["p_pass"] < 1.0          # re-silences ~30 %
+    assert rat["would_declare"] in ("POWERED", "DECLARED UNDERPOWERED IN ADVANCE")
+    assert rat["agrees_with_declaration"] == (
+        (rat["power"]["0.85"]["p_pass"] < .75) == rec["declared_underpowered"])
+    # a rising rung at pilot zero with sub-floor counts is capped at 0 → held silent
+    pred["sub4_mid"] = _pred(0.0, {"410m": False, "1b": False}, k=3)
+    rec2 = cp.run_procedure(pred, outcome, n_sims=40, targets=(0.85,))
+    assert rec2["pilot_structure"]["rising_capped"]["sub4_mid"]["cap"] == 0.0
+    assert rec2["power"]["0.85"]["p_pass"] == 1.0         # one silent: still PASS

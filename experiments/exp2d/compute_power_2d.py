@@ -53,8 +53,14 @@ THE MODEL (class-level; the sixth lesson applied in advance):
   computed from their OWN pilot counts' CP95 upper bounds (the
   raw-zero cap generalized; 0 whenever those bounds sit below the
   floor, as they do for every count up to 14–79 on this battery) — is
-  computed on the same seed and printed as `sensitivity_symmetric_rule`.
-  The declaration reads the ratified rule until ruled otherwise.
+  THE DECLARING RULE (RULED by Michael 2026-08-21, doc ruling m); the
+  original Tobit is computed on the same seed and printed beside it as
+  `sensitivity_ratified_rule`. Its AUC_true = .5 row stays the α check:
+  under the symmetric rule the .5 row is CONDITIONAL on the pilot's
+  realized structure (a pilot that already separates the classes
+  gives P(PASS) → 1 at d = 0, which is conditioning working, not α
+  failing), so the unconditional α check is read from the ratified
+  sensitivity's .5 row.
 
   Families are blocks: every simulated battery is judged by the SAME
   code the verdict runs — `stats_2d.primary_test` (2c's sampled
@@ -96,7 +102,7 @@ AUC_TARGETS = (0.5, 0.75, 0.85)
 DECLARATION_TARGET = 0.85    # §7: the declared-underpowered rule reads here
 POWER_BAR = 0.75             # the program's bar since Exp 1
 PILOT_CP_UPPER = st.clopper_pearson(0, a.PILOT_DRAWS_PER_RUNG)[1]  # 9.22e-4
-DECLARATION_RULE = "ratified"   # §7 as built (F/J); "symmetric" is printed
+DECLARATION_RULE = "symmetric"  # ruling m (2026-08-21); the Tobit as built is printed
 
 
 # ------------------------------------------------------------ the model
@@ -320,17 +326,19 @@ def run_procedure(pilot_predictor, outcome, *, n_sims=N_SIMS,
                                      family_labels=fams, n_sims=n_sims,
                                      seed=seed, group=group, counts=counts,
                                      held_positive=sym["held_positive"])
-    p85 = power[str(DECLARATION_TARGET)]["p_pass"]
-    declared = p85 < POWER_BAR
     p85_sym = power_sym[str(DECLARATION_TARGET)]["p_pass"]
+    p85_rat = power[str(DECLARATION_TARGET)]["p_pass"]
+    declared = p85_sym < POWER_BAR
     return {
-        "procedure": "design §7, frozen at build: Tobit latent model, "
-                     "τ from the pilot's non-rising zero fraction, fixed "
-                     "effect d solved for the population AUC, non-rising "
-                     "pilot zeros held at zero, rising pilot raw-zeros "
-                     "truncated at the pilot CP bound in score units, "
-                     "families as blocks, P(PASS) through the verdict's "
-                     "own block test + cluster bootstrap + tree",
+        "procedure": "design §7, frozen at build and amended at the freeze "
+                     "(ruling m, 2026-08-21): Tobit latent model, τ from "
+                     "the pilot's non-rising zero fraction, fixed effect d "
+                     "solved for the population AUC, non-rising pilot zeros "
+                     "held at zero, RISING PILOT POSITIVES HELD POSITIVE, "
+                     "rising pilot zeros truncated at the cap from their "
+                     "own pilot counts' CP95 upper bounds, families as "
+                     "blocks, P(PASS) through the verdict's own block test "
+                     "+ cluster bootstrap + tree",
         "seed": seed, "n_sims": n_sims,
         "outcome": {"n_rising": int(sum(zs["rising"])),
                     "n_flat": int(len(zs["rising"]) - sum(zs["rising"]))},
@@ -338,28 +346,29 @@ def run_procedure(pilot_predictor, outcome, *, n_sims=N_SIMS,
                            ("z0", "n0", "non_rising_zero_set",
                             "rising_raw_zero_set", "rising_raw_zero_caps",
                             "pilot_cp_upper_rate")},
+        "pilot_structure": {
+            "rising_held_positive": sym["rising_held_positive"],
+            "rising_capped": sym["rising_capped"]},
         "tau": tau,
-        "power": {k: {kk: vv for kk, vv in v.items()} for k, v in power.items()},
+        "power": {k: {kk: vv for kk, vv in v.items()}
+                  for k, v in power_sym.items()},
         "power_bar": POWER_BAR,
         "declaration_target": DECLARATION_TARGET,
         "declaration_rule": DECLARATION_RULE,
         "declared_underpowered": bool(declared),
         "declared_status": ("DECLARED UNDERPOWERED IN ADVANCE"
                             if declared else "POWERED"),
-        "sensitivity_symmetric_rule": {
-            "rule": "freeze F-4 (2026-08-21), NON-DECLARING until ruled: "
-                    "rising rungs with a positive pilot score held "
-                    "positive (L | L > τ); rising rungs at pilot score 0 "
-                    "truncated at the cap from their own pilot counts' "
-                    "CP95 upper bounds; flat rungs as the ratified rule",
-            "pilot_structure": {
-                "rising_held_positive": sym["rising_held_positive"],
-                "rising_capped": sym["rising_capped"]},
+        "sensitivity_ratified_rule": {
+            "rule": "the Tobit as built (F/J): rising rungs redrawn from "
+                    "N(d, 1) whatever the pilot showed; rising raw-zeros "
+                    "truncated at the 0/4,000 cap. NON-DECLARING since "
+                    "ruling m; its AUC_true .5 row is the unconditional "
+                    "α check",
             "power": {k: {kk: vv for kk, vv in v.items()}
-                      for k, v in power_sym.items()},
+                      for k, v in power.items()},
             "would_declare": ("DECLARED UNDERPOWERED IN ADVANCE"
-                              if p85_sym < POWER_BAR else "POWERED"),
-            "agrees_with_declaration": bool((p85_sym < POWER_BAR) == declared),
+                              if p85_rat < POWER_BAR else "POWERED"),
+            "agrees_with_declaration": bool((p85_rat < POWER_BAR) == declared),
         },
         "run_anyway": "main runs regardless (ruling c, Michael "
                       "2026-08-21): a FAIL under DECLARED UNDERPOWERED "
@@ -469,15 +478,21 @@ def main(argv=None) -> int:
     print(f"[2d power] τ {rec['tau']:+.3f}; non-rising zero set "
           f"{rec['pilot_zero_set']['z0']}/{rec['pilot_zero_set']['n0']}; "
           f"rising raw-zero {rec['pilot_zero_set']['rising_raw_zero_set']}")
+    print(f"[2d power] rising held positive: "
+          f"{rec['pilot_structure']['rising_held_positive']}; capped: "
+          f"{ {r: v['cap'] for r, v in rec['pilot_structure']['rising_capped'].items()} }")
     for k, v in rec["power"].items():
-        vs = rec["sensitivity_symmetric_rule"]["power"][k]
+        vr = rec["sensitivity_ratified_rule"]["power"][k]
         print(f"  AUC_true {k}: P(PASS) = {v['p_pass']:.4f}  (d = "
               f"{v['effect_d']:.3f}, E[AUC] {v['mean_realized_auc']:.3f})"
-              f"   | symmetric rule (F-4, non-declaring) {vs['p_pass']:.4f}")
-    print(f"[2d power] {rec['declared_status']} — {rec['run_anyway']}")
-    print(f"[2d power] F-4 symmetric rule would read: "
-          f"{rec['sensitivity_symmetric_rule']['would_declare']} "
-          f"(agrees: {rec['sensitivity_symmetric_rule']['agrees_with_declaration']})")
+              f"   | Tobit as built (non-declaring) {vr['p_pass']:.4f}")
+    print(f"[2d power] {rec['declared_status']} (symmetric rule, ruling m) — "
+          f"{rec['run_anyway']}")
+    print(f"[2d power] the Tobit as built would read: "
+          f"{rec['sensitivity_ratified_rule']['would_declare']} "
+          f"(agrees: {rec['sensitivity_ratified_rule']['agrees_with_declaration']}); "
+          f"unconditional α check (ratified, AUC .5): "
+          f"{rec['sensitivity_ratified_rule']['power'].get('0.5', {}).get('p_pass')}")
     return 0
 
 

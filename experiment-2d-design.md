@@ -1,12 +1,17 @@
 # Experiment 2d — Design Doc: The Sampling Ladder — Does the Sampled Channel at 410m/1b Forecast Which Capabilities Ascend by 12b?
 
-**Status: BUILT — sessions 1 (design) and 2 (build) of the
-three-session design | build | freeze protocol done 2026-08-21; the
-§12 dials ruled by Michael and applied in place (rulings c and g
-reversed the session-1 proposals; three non-dial fixes alongside;
-build-session rulings k and l applied the same day). Instrument at
-`experiments/exp2d/`; no model touched. Session 3 freezes → tag
-`exp2d-preregistered`.**
+**Status: FROZEN 2026-08-21 (tag `exp2d-preregistered`) — the
+three-session design | build | freeze protocol complete the same day;
+the §12 dials ruled by Michael and applied in place (rulings c and g
+reversed the session-1 proposals; build-session rulings k and l; the
+freeze's rulings m, n, o). The adversarial freeze found the class
+defect (F-1: the frozen verdict could not deliver INSUFFICIENT_DATA
+from the tree the runner leaves after a gate-1 halt) and closed it,
+pinned three attestations (F-2), disclosed that the criterion is a
+first-digit-run match on two rungs (F-3), and replaced the power
+model's one-sided use of the pilot (F-4, ruling m). Instrument at
+`experiments/exp2d/`; no model touched. Next: the pilot on Michael's
+launch word.**
 
 Lineage: Experiment 2 → 2b → 2c (Prediction 2, the probe ladder: the
 instrument died twice to untrained-weights controls and once to an
@@ -157,7 +162,17 @@ To be pinned at build (sha256 list in the doc at freeze):
   oct2dec, rev_string7, reverse_string: ≤ .006 at every size; floors
   ≤ .010 except base12_digitsum .038 and base13 .068 (answer '2' in
   both; ratified B, 2026-08-21 — the session-1 text listed them under
-  "≤ .010"). Bold floors are rungs whose accuracy never clears the
+  "≤ .010"). Why '2' (freeze F-3, ruled 2026-08-21): 2c's `number`
+  normalization keeps the FIRST DIGIT RUN of an alphanumeric base-12/13
+  answer ('B83' → '83', '2A9' → '2'; 'AAA' passes whole), so on these
+  two rungs the verify criterion is a first-digit-run match on both
+  sides identically — 2c's m4 records carry counts only and the rule is
+  2c's verbatim — 196 / 276 of 500 answers are not matched whole, and
+  the majority floor is computed under the criterion as applied. Every
+  other rung is exact-match. Pinned (`CRITERION_TRUNCATED_PIN`),
+  re-derived at every load, carried per rung in the verdict record.
+  Both rungs are flat at ≤ .006 under the lenient criterion and so a
+  fortiori under exact match; no label moves. Bold floors are rungs whose accuracy never clears the
   majority-answer rate. The six option-listing rungs' effective floors
   are 1/n_options (ruling k): antonym .250, antonym6 .167, median5
   .200, median7 .143, odd6 .167, odd_one_out .250. **The frozen rule
@@ -179,6 +194,19 @@ one-sided exact binomial test at α = .01 over the 32,000 draws. The
 **predictor score** per rung = mean of m_gs over the two probe sizes
 (2c's rule, mirrored); the 1b column alone is the named replication.
 Rungs at zero tie at the bottom under average ranks.
+
+The two bars are the same test at different resolutions (freeze F-6,
+disclosed 2026-08-21): at n = 32,000 the predictor clears c by
++.0006–.0057 where the outcome at n = 500 needs +.008–.048, and the
+32,000 draws are 64 per item — a deterministic-per-item chance
+baseline (an option copier that always takes the same position;
+greedy argmax IS such a baseline on the outcome side, where n = 500
+prices it) clears the predictor's bar 26–42 % of the time per rung.
+The verdict's α is untouched (scores are label-blind; the block test
+and bootstrap condition on them); the asymmetry is interpretive — a
+predictor "above floor" is a weaker statement than an outcome "above
+floor", and a spurious predictor positive on a flat rung can only
+LOWER the AUC.
 
 The predictor has no free parameter: sampler, seed, k, items,
 verify, floor and the aggregation rule are all fixed here; the
@@ -356,6 +384,27 @@ RATIFIED as built (F, J, 2026-08-21; `compute_power_2d.py`):
   same sampled block-permutation matrix, the same bootstrap draws,
   `verdict_tree` with gate 1 clean). 2,000 simulations per target,
   seed 20260821. Power = P(PASS).
+- **The declaring rule is the SYMMETRIC one (freeze F-4, ruling m,
+  Michael 2026-08-21).** The Tobit as built honoured the pilot's zeros
+  (flat zeros held, rising raw-zeros truncated) and the flat rungs'
+  positives (non-held flat rungs draw from the positive part) but
+  redrew every other RISING rung from N(d, 1) — re-silencing a rung
+  the pilot already showed clearing its floor with probability
+  Φ(τ − d) ≈ .30 at AUC_true .85 — although main's bar at 32,000
+  draws is tighter in rate than the pilot's at 4,000, so a
+  pilot-positive rung is a main-positive rung with probability ≈ 1.
+  The symmetric rule completes "ties honoured" on the rising side: a
+  rising rung with a POSITIVE pilot score is held positive (drawn from
+  the alternative's positive part, L | L > τ); a rising rung at pilot
+  score 0 is truncated at the cap computed from its OWN per-size pilot
+  counts' CP95 upper bounds (the raw-zero cap generalized — 0 whenever
+  those bounds sit below the floor, as they do for every count up to
+  14–79 on this battery); flat rungs as before. The Tobit as built is
+  printed beside it as `sensitivity_ratified_rule`, non-declaring, and
+  its AUC_true = .5 row is the unconditional α check: under the
+  symmetric rule the .5 row is conditional on the pilot's realized
+  structure (a pilot that already separates the classes gives
+  P(PASS) → 1 at d = 0 — conditioning working, not α failing).
 - **Declared-underpowered rule (1c/3e precedent):** if power at
   AUC_true = .85 is below .75, the experiment is DECLARED
   UNDERPOWERED IN ADVANCE.
@@ -382,19 +431,23 @@ RATIFIED as built (F, J, 2026-08-21; `compute_power_2d.py`):
 
   | flat rungs at pilot zero | rising raw-zero 0 | 2 | 4 | 6+ |
   |---|---|---|---|---|
-  | 12 of 23 (τ −.05) | .71 | .29 | .00 | .00 |
-  | 17 of 23 (τ +.68) | .62 | .36 | .00 | .00 |
-  | 23 of 23 (τ +2.04) | .75 | .56 | .21 | .00 |
+  | 12 of 23 (τ +.05) | .71 → **.93** | .29 → **.45** | .00 | .00 |
+  | 17 of 23 (τ +.61) | .62 → **.99** | .36 → **.80** | .00 | .00 |
+  | 23 of 23 (τ +2.04) | .75 → **1.00** | .56 → **1.00** | .21 → **1.00** | .00 |
 
-  Each silent rising rung ties with every flat zero and contributes ½
-  per pair, and the expected AUC falls by roughly .05 per silent rung
-  (.856 with none → .50 with all eleven): **the PASS bar is
-  unreachable once more than ~3 of the 11 rising rungs have zero
-  sampled margin, and with none silent the procedure sits at the .75
-  bar only when every flat rung is at zero.** The declaration after
-  the pilot will therefore be decided almost entirely by how many
-  rising rungs the 410m/1b sampler is silent on; the pilot IS the
-  power statement. Main runs regardless (ruling c) — a pilot zero is
+  (Tobit as built → the declaring symmetric rule; the file carries
+  both columns.) Each silent rising rung ties with every flat zero
+  and contributes ½ per pair. Model-free, through the verdict's own
+  code with every flat rung at zero (freeze, 2026-08-21): the
+  statistic PASSes with up to 5 of the 11 rising rungs silent (AUC
+  .773, block p .005), is INDETERMINATE at 6 and FAILs at 7; over all
+  silent subsets, 3 silent → 139/165 PASS, 4 → 196/330, 5 → 153/462,
+  6 → 0. **The PASS bar's own ceiling is therefore 5–6 silent rising
+  rungs; the Tobit's lower numbers were its ~30 % re-silencing on top
+  of the forced set.** The declaration after the pilot is decided by
+  how many rising rungs the 410m/1b sampler is silent on and by
+  whether the flat rungs that are positive out-rank them; the pilot
+  IS the power statement. Main runs regardless (ruling c) — a pilot zero is
   "rate ≤ 9.2e-4," and the percolation-candidate question (§5.4) and
   gate 1 need main's draws whatever the declaration says.
 
@@ -424,7 +477,8 @@ RATIFIED as built (F, J, 2026-08-21; `compute_power_2d.py`):
   predictor was designed; 2d establishes that a zero-free-parameter
   from-below measurement does or does not rank it.
 - Nothing beyond this battery, this family, ≤ 12b, Pile
-  distribution, two-shot prompts, exact-match verification.
+  distribution, two-shot prompts, exact-match verification
+  (first-digit-run match on base12_digitsum and base13, §4).
 - Nothing about mechanism; "rises above format-guessing" is a
   frozen event on a frozen floor.
 - **Named successor with a sealed outcome:** Pythia's 154
@@ -446,12 +500,15 @@ RATIFIED as built (F, J, 2026-08-21; `compute_power_2d.py`):
    projection template. Session 3 freezes adversarially → tag
    `exp2d-preregistered`.
 2. **Pilot** (model contact, on Michael's launch word): k = 8, seed
-   100, both sizes; committed; the frozen power procedure runs ONCE
+   1000, both sizes; committed; the frozen power procedure runs ONCE
    and prints power + the declared status (POWERED / DECLARED
    UNDERPOWERED IN ADVANCE). Main runs regardless (ruling c).
 3. **Main:** seed 0, k = 64, 410m then 1b, per-rung commit
-   + push by the watcher; the reversal cells' gate-1 comparison is
-   computed as they land; any diff halts.
+   + push by the watcher; the runner iterates the two reversal rungs
+   FIRST in every tier (ruling n, 2026-08-21), so the gate-1
+   comparison is the first thing main does at each size — ~5 h
+   earlier than their RUNG_ORDER positions; any diff halts. The
+   analysis order stays RUNG_ORDER_2D.
 4. **Argmax** at 410m/1b, descriptive, after main.
 5. Projection ledgered BEFORE the analyzer runs; frozen analyzer runs
    ONCE on Michael's go; verdict + retrospective; close-out.
@@ -551,6 +608,23 @@ k. **Floor for option-listing rungs → max(majority share,
 l. **Pilot seed → 1000 (build finding L).** Seed 100 coincided with a
    3e-committed reverse_string/1b substream under the shared `exp3`
    namespace; 1000 lies outside every committed range.
+
+Freeze rulings (Michael, 2026-08-21, applied in place; the freeze's
+findings F-1 … F-8 are in `experiments/exp2d/PROGRESS.md`):
+
+m. **Power: the symmetric rule declares (freeze F-4).** The Tobit as
+   built used the pilot's realized structure on the flat side only;
+   the symmetric rule holds rising pilot-positives positive and caps
+   rising pilot-zeros from their own counts. The Tobit is printed
+   beside it, non-declaring, and supplies the unconditional α check.
+n. **Run order: the two reversal rungs first in every tier (freeze
+   F-5).** Gate 1 becomes the first thing main does at each size.
+o. **Doc slips (a)–(f) as recommended:** §10 seed 1000; §4 + §9 the
+   F-3 first-digit-run disclosure; §7 the declaring rule and the
+   model-free restatement of the envelope's reading; §5.1 the F-6
+   resolution sentence; §10 the run order. The freeze's code
+   closures (F-1 halt-tree terminal, F-2 pins, F-3 pin) are additive
+   refusals and touch no dial.
 
 Build findings A–G and I–K RATIFIED as recommended (Michael,
 2026-08-21) and applied above: A (two answer types, §11), B (the two

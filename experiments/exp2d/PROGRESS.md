@@ -720,3 +720,45 @@ computed the two-sided value the doc prints.
   re-run with a fresh baseline: 9/9 killed. Suite after the addition:
   101.
 - Fixture suite final cold count: **101 passed**.
+
+---
+
+## 2026-08-21 — FREEZE RULINGS m / n / o (Michael: "F-4 symmetric, F-5 yes, slips as recommended — apply and tag"), applied in place
+
+- **m (F-4):** `compute_power_2d.DECLARATION_RULE = "symmetric"`;
+  `run_procedure` declares from the symmetric rule (rising pilot-
+  positives held positive; rising pilot-zeros capped from their own
+  per-size counts' CP95 upper bounds; flat rungs unchanged) and prints
+  the Tobit as built beside it as `sensitivity_ratified_rule` with its
+  own `would_declare`. The record's `pilot_structure` names the held-
+  positive and capped rising rungs. One consequence stated in code
+  and doc: under the symmetric rule the AUC_true = .5 row is
+  CONDITIONAL on the pilot's realized structure (a pilot that already
+  separates the classes gives P(PASS) → 1 at d = 0 — conditioning
+  working, not α failing), so the unconditional α check is read from
+  the ratified sensitivity's .5 row. The simulation code and the
+  envelope are unchanged (the envelope file already carries both
+  columns, ratified fields byte-identical to the build's).
+- **n (F-5):** `run_cell_2d.RUN_ORDER` = the two reversal rungs first,
+  then `RUNG_ORDER_2D`; `run_tier` and the driver's pending list
+  iterate it. Gate 1 is now the first thing main does at each size.
+  The analysis order is untouched (fixture asserts both).
+- **o (slips a–f):** applied to `experiment-2d-design.md` as proposed
+  in the freeze entry — §10 seed 1000; §4 the F-3 first-digit-run
+  disclosure; §9 the exact-match caveat; §7 the declaring rule, the
+  α-check note, the envelope table with both columns and the model-
+  free restatement of G; §5.1 the F-6 resolution sentence; §10 the
+  run order; status line → FROZEN; §12 rulings m/n/o recorded.
+
+Cold after the rulings: suite **102 passed** (two fixtures added:
+the symmetric rule declares + the Tobit rides along; `RUN_ORDER`
+reversal-first with the analysis order untouched); referents 15/15;
+every mutant target present (87); power/runner mutants 77–86 re-run
+on the ruled code — result below. Tag `exp2d-preregistered` placed
+after the re-run.
+
+Power/runner mutants 77–86 re-run on the ruled code, baseline clean:
+**10/10 killed** (incl. the F-4 held-positive branch and the three
+runner-order refusals). Composite mutation record for the freeze:
+87 mutants, 85 killed, [1] and [38] the documented equivalents.
+**FROZEN — tag `exp2d-preregistered`.**
