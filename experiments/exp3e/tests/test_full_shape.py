@@ -124,6 +124,14 @@ def test_w9_void_discloses_and_proceeds(worlds):
     cv = v["specificity"]["1b"]["competitor_voids"]
     assert len(cv) == 1 and cv[0]["item"] == 8 and cv[0]["target"] == "mphm"
     assert v["adjudication"]["specificity"]["events"] == 5
+    # freeze F-1: both items carrying a void target (6: reverse void;
+    # 8: competitor void) sit out the designation test, disclosed
+    ex = v["specificity"]["1b"]["arm_void_excluded"]
+    assert [x["item"] for x in ex] == [6, 8]
+    assert ex[1]["void_targets"] == ["mphm"]
+    assert ex[1]["raw_counts"][ex[1]["targets"].index("mphm")] == 1
+    assert v["adjudication"]["specificity"]["n_items"] == \
+        len(fs.ARM_ITEMS) - 2
 
 
 def test_disclosure_blocks_always_present(worlds):

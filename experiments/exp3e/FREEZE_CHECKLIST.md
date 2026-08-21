@@ -6,7 +6,7 @@ is re-run in a fresh process.
 
 ## Standing adversarial assignments (work these FIRST, cold)
 
-- [ ] **The class defect.** Every predecessor's freeze found one (3a's
+- [x] **The class defect.** Every predecessor's freeze found one (3a's
       valueless input; 3c's unpinned prompts + unattested gate-1
       shas; 3d's unpinned `answer_type` + self-consistent coverage).
       Candidates to attack: (1) the verdict reads `partition` entries
@@ -22,24 +22,24 @@ is re-run in a fresh process.
       `_s2_block` and specificity arm call `sc.emissions` with a
       per-item prompt — is the prompt the sha-pinned render for THAT
       item index (subset index vs battery index)?
-- [ ] **Totality fuzz of the target-swapped scorer** over the
+- [x] **Totality fuzz of the target-swapped scorer** over the
       emission alphabet: the draw side must never raise for any str
       (3c stop #1); the target side is always a committed string. Fuzz
       ≥ 50,000 draw-side inputs incl. punctuation-wrapped non-space
       whitespace, control chars, NUL, combining marks, empty, 12-token
       garbage; prove `IndexError` is the only reachable exception on a
       `str` and that it is caught.
-- [ ] **The partition's degrees of freedom:** N(x) (all vs adjacent
+- [x] **The partition's degrees of freedom:** N(x) (all vs adjacent
       transpositions; rotations by one only), M(x)'s overlap clause
       (≥ vs >), first-character matching, the sit-out rule; the
       variants are printed in `partition_3e.json` — confirm the
       frozen choice is the doc's §5.1 and that no downstream branch
       reads a variant.
-- [ ] **The nulls' conditioning:** the count-weighted DP conditions
+- [x] **The nulls' conditioning:** the count-weighted DP conditions
       on every item's count; the designation DP on every item's count
       vector; the hypergeometric on n. Attack each for a leak of the
       alternative into the null (e.g., void handling changing n).
-- [ ] **Gate 1's path = the production path?** `rederive_cell_3e`
+- [x] **Gate 1's path = the production path?** `rederive_cell_3e`
       calls `sample_item(..., seeds=(seed,))`; the tranche calls
       `sample_item(..., seeds=block)`. Same function, per-seed
       generator reseeded from `stream_seed`, cache cropped between
@@ -47,7 +47,7 @@ is re-run in a fresh process.
       across seeds. Precedent: 3c re-derived exp3's seed 0 alone from
       a 4-seed run, 3d re-derived 3c's seed 8 alone from a 12-seed
       run, both byte-identical.
-- [ ] **Power model shape (the sixth lesson):** the alternative is
+- [x] **Power model shape (the sixth lesson):** the alternative is
       class-level by construction; attack the gamma-shape rule
       (population vs sample variance moves .3082 → .2921), the
       Poisson thinning, and whether any per-item concentration could
@@ -55,26 +55,27 @@ is re-run in a fresh process.
 
 ## Cold battery (fresh processes, pycache cleared, every box)
 
-- [ ] Fixture suite cold: 118 expected (plus any freeze additions).
-- [ ] Mutation battery cold, both directions, baseline clean —
-      60/60 expected killed (build record below).
-- [ ] Full-shape worlds: 9/9 terminals + 3/3 annotations.
-- [ ] Referent battery `verify_referents_3e.py`: 15/15 on the real
+- [x] Fixture suite cold: 118 expected (plus any freeze additions).
+- [x] Mutation battery cold, both directions, baseline clean —
+      60/60 expected killed (build record below). **Freeze: 65/65
+      killed (60 + 5 freeze mutants), baseline clean, detached run.**
+- [x] Full-shape worlds: 9/9 terminals + 3/3 annotations.
+- [x] Referent battery `verify_referents_3e.py`: 15/15 on the real
       trees.
-- [ ] `partition_3e.dump_partition` re-run → `partition_3e.json`
+- [x] `partition_3e.dump_partition` re-run → `partition_3e.json`
       byte-identical (sha `4a0e346f…1529` recorded in
       `analyze_3e.PARTITION_FILE_SHA256`).
-- [ ] `compute_power_3e.py` re-run → `power_3e.json` byte-identical.
-- [ ] `dump_stream_map_3e()` re-run → `stream_map_3e.json`
+- [x] `compute_power_3e.py` re-run → `power_3e.json` byte-identical.
+- [x] `dump_stream_map_3e()` re-run → `stream_map_3e.json`
       byte-identical; `check_stream_map_3e()` + 3d's + 3c's checks
       clean.
-- [ ] `scorer_gates_3e.py` re-run → `results/scorer_gates.json`
+- [x] `scorer_gates_3e.py` re-run → `results/scorer_gates.json`
       byte-identical, PASS/PASS.
-- [ ] Determinism fixture (exp3's `run/determinism_fixture.py`) twice
+- [x] Determinism fixture (exp3's `run/determinism_fixture.py`) twice
       in separate processes, byte-identical to exp3's committed
       reference — the sampler is byte-pinned, so the standing
       reference applies verbatim.
-- [ ] Campaign driver dry-run: 4 tiers in the frozen §10 order;
+- [x] Campaign driver dry-run: 4 tiers in the frozen §10 order;
       runner refusal preconditions verified on an empty tree and on a
       failed scorer-gate record.
 - [ ] **Gate-1 single-cell rehearsal — the ONLY sanctioned model
@@ -87,15 +88,17 @@ is re-run in a fresh process.
 
 ## Ratification with Michael (before the tag)
 
-- [ ] Doc slips (a)–(f) in `PROGRESS.md` (stream-map assertion
+- [x] Doc slips (a)–(f) in `PROGRESS.md` (stream-map assertion
       reading; annotation attached to every world; §7 back-of-envelope
       superseded; **H_half underpowered — does §7's clause fire?**;
       scorer gates before gate 1; leak-void on competitors).
-- [ ] Build dials: gamma shape rule + .3082; power seed/sims;
+- [x] Build dials: gamma shape rule + .3082; power seed/sims;
       m_s,min best-case rule; 16-seed blocks; `fires_reproduced`
       semantics; subset-carrying sampling records; the two added
       frozen pins.
-- [ ] Any freeze finding, closed or open.
+- [x] Any freeze finding, closed or open. **RATIFIED — Michael,
+      2026-08-21 (slips a–f, build dials, F-1/F-2/F-3; F-2 → DECLARED
+      UNDERPOWERED IN ADVANCE; H_half subsumed).**
 - [ ] Then: tag `exp3e-preregistered`; campaign launch is a separate
       go.
 
@@ -110,3 +113,63 @@ is re-run in a fresh process.
 - Referent battery: 15/15 on the real trees.
 - Mutation battery: 60/60 killed (first run 56/60; the 4 survivors
   were fixture gaps, closed — PROGRESS.md).
+
+## Freeze record (2026-08-21, session 3 — fresh processes, pycache cleared)
+
+Standing assignments — all worked cold; three findings, each closed
+executably the same day (PROGRESS.md freeze entry has the detail):
+
+- **F-1 (the arm's void semantics, statistical).** Slip (f)'s literal
+  reading of §4 zeroed a void competitor's count inside the
+  designation-exchangeability vector, which LOWERS the null p (the
+  reverse's share rises against a slot that cannot score) — anti-
+  conservative toward DIRECTED. Closed: any item with a void target
+  (reverse or competitor) sits out the designation test, disclosed
+  under `arm_void_excluded` with its raw vector; §4's "counted by
+  nothing" still holds for the counts. Executable three-way contrast
+  in `test_freeze_3e.py`: competitor live p = 1/4, item excluded 1/8,
+  competitor zeroed 1/24. **Inert on the real experiment:** the void
+  census over every target of the 45 (answers, M(x), all 7 neighbours
+  each), the 149 S2 targets and all 500 answers is ZERO. Ratification
+  item (a semantics correction to the doc's "applied identically").
+- **F-2 (power shape rule).** Population-variance gamma shape .3082
+  puts the named-alternative power at .7636; the sample-variance
+  estimator (.2921) puts it at **.7447 < .75**. The frozen rule is
+  unchanged; the sensitivity is now printed in `power_3e.json`
+  (`dispersion_shape_sensitivity`, a concession line, and
+  `declared_underpowered_under_sample_variance_shape: true`). Whether
+  to DECLARE UNDERPOWERED in advance on this basis is Michael's
+  ruling (recommendation: yes — 1c precedent, costs nothing, the
+  tranche runs regardless).
+- **F-3 (additive pins).** The gate-1 record's `items_sha256` was
+  attested but never compared to the §4 pin by the analyzer, and
+  nothing tied the gate-1 weights to the tranche's; closed by
+  `check_gate1_vs_tranche_3e` (run() + the full-shape path), shard
+  `model_sha` presence + coherence in `load_new_cells_3e`.
+
+Cleared under attack (reasons in PROGRESS.md): class-defect
+candidates (1)–(5); scorer totality (90,000 draw-side inputs, 60k
+adversarial + 30k real emitted — `IndexError` the ONLY exception
+`normalize_answer` reaches, 59 times, wrapper 0, `score_first_char`
+0); the partition's degrees of freedom (strict input == answer[::-1]
+for all 500; ≥ in M(x) is the doc's; variants read by one printed
+count only; no normalization collisions); the nulls' conditioning
+(void cannot move n on this battery; count-weighted and hypergeometric
+condition on non-void counts); the sampler re-read (per-seed generator
+from `stream_seed`, cropped prompt cache the only cross-seed state,
+cropped-vs-fresh equality proved by 3d's re-derivation of 3c's seed 8
+from a 12-seed call); Poisson thinning vs exact binomial (.75343 vs
+.75340).
+
+Cold battery: suite **125** (118 + 7 freeze fixtures); full-shape 9/9
++ 3/3 inside it; referents 15/15; partition re-dump byte-identical
+(sha = pin); stream map byte-identical + 3e/3d/3c checks clean; scorer
+gates byte-identical PASS/PASS; power re-run byte-identical BEFORE F-2,
+then regenerated with the sensitivity block (load-bearing entries
+unchanged, reproducibility fixture green); determinism fixture twice ==
+exp3's committed reference (torch 2.12.1 / transformers 5.13.0); driver
+dry-run 4 tiers in §10 order; runner refusals on an empty tree and a
+failed scorer record; a FORGED-flag scorer record passes the runner's
+precondition and is REFUSED by the analyzer (the layers as designed).
+Mutation battery: **65/65 killed** (60 build + 5 freeze mutants),
+baseline clean, run detached and alone after the closures.

@@ -53,6 +53,22 @@ from experiments.exp3e.analyze_3e import (  # noqa: E402
 POWER_SEED = 20260821          # frozen at build (doc Open item 4)
 SPEC_SIMS = 20_000             # specificity scenarios, per scenario
 POWER_BAR = 0.75               # the program's bar since Exp 1
+# Freeze F-2 ruling, RATIFIED by Michael 2026-08-21: the named-
+# alternative power is within one variance convention of the bar
+# (.7636 population / .7447 sample), so the experiment is DECLARED
+# UNDERPOWERED IN ADVANCE at H_shortcut (1c precedent) and runs anyway
+# with the concession printed. This literal is the ruling; the frozen
+# rule's flag (`declared_underpowered`) is still computed beside it.
+DECLARED_UNDERPOWERED_RULING = {
+    "declared": True,
+    "by": "Michael, 2026-08-21 (freeze F-2, ratified)",
+    "basis": "P(SHORTCUT | H_shortcut) = .7636 under the frozen "
+             "population-variance shape but .7447 under the sample-"
+             "variance shape — one estimator convention from the bar; "
+             "declared underpowered in advance, runs regardless (1c "
+             "precedent); the H_half question under §7's clause is "
+             "subsumed",
+}
 RATIO_GRID = tuple(round(x, 3) for x in np.linspace(1.0, 0.0, 101))
 CALIBRATION_NS = (8, 10, 12, 15, 20, 24, 28, 32)
 
@@ -86,7 +102,11 @@ def dispersion_hat(counts) -> dict:
             f"committed counts show no overdispersion (V̂ = {var} ≤ μ̂ = "
             f"{mu}) — the frozen shape rule is undefined and the build "
             f"must stop and re-derive, not guess")
+    var_s = float(x.var(ddof=1))
     return {"mu_hat": mu, "var_hat": var, "shape": mu * mu / (var - mu),
+            "var_hat_sample": var_s,
+            "shape_sample_variance": (mu * mu / (var_s - mu)
+                                      if var_s > mu else None),
             "n_items": int(len(x)), "counts": [int(v) for v in x],
             "rule": "shape = mu^2/(V - mu), Gamma-shape moment "
                     "estimator on the committed reachable per-item "
@@ -290,6 +310,30 @@ def compute(partition, *, spec_sims=SPEC_SIMS) -> dict:
                 draws=K_NEW_3E["1b"], reverse_share=share,
                 m_s_min=pins["m_s_min"], n_sims=spec_sims, seed=seed,
                 shape=sh)
+    # FREEZE FINDING F-2: the frozen shape rule (population variance)
+    # sits .014 above the bar at the named alternative; the sample-
+    # variance estimator — the other defensible convention — lands
+    # BELOW it. Disclosed as a sensitivity; the rule itself is not
+    # moved (frozen before any power number ran).
+    shape_s = disp["shape_sample_variance"]
+    sens = {}
+    for size in SIZES_3E:
+        rr = rates[size]["H_shortcut"]
+        w = world_probs(p_fire_gamma(rr["reach"], K_NEW_3E[size], shape_s),
+                        p_fire_gamma(rr["non"], K_NEW_3E[size], shape_s),
+                        n_reach=n_reach, n_non=n_non, m_min=m_min)
+        sens[size] = w["worlds"]["SHORTCUT"]
+    shape_sensitivity = {
+        "rule_frozen": "population variance (3d's λ rule by precedent)",
+        "shape_population": shape,
+        "shape_sample_variance": shape_s,
+        "P_shortcut_H_shortcut": sens,
+        "below_bar_under_sample_variance": bool(sens["1b"] < POWER_BAR),
+        "note": "the declared-underpowered status at the named "
+                "alternative depends on the variance convention; the "
+                "frozen rule decides the flag, the other convention is "
+                "printed beside it (freeze finding F-2)",
+    }
     named = {size: scenarios[size]["H_shortcut/gamma"]["worlds"]["SHORTCUT"]
              for size in SIZES_3E}
     half = {size: scenarios[size]["H_half/gamma"]["worlds"]["SHORTCUT"]
@@ -308,6 +352,21 @@ def compute(partition, *, spec_sims=SPEC_SIMS) -> dict:
             f"{mdr['1b']['gamma']['max_ratio_at_power_75']} (gamma) / "
             f"{mdr['1b']['homogeneous']['max_ratio_at_power_75']} "
             f"(homogeneous)")
+    if DECLARED_UNDERPOWERED_RULING["declared"]:
+        concessions.append(
+            "DECLARED UNDERPOWERED IN ADVANCE at the named alternative "
+            "H_shortcut — Michael's ruling on freeze finding F-2 "
+            "(2026-08-21): the tranche runs regardless; a SHORTCUT verdict "
+            "is read at this disclosed power, a NO-SHORTCUT verdict is "
+            "read as 'not detected at this resolution'")
+    if sens["1b"] < POWER_BAR:
+        concessions.append(
+            f"SHAPE-RULE SENSITIVITY: at the sample-variance gamma shape "
+            f"{shape_s:.4f} the named-alternative power is "
+            f"{sens['1b']:.4f} < {POWER_BAR} — the frozen population-"
+            f"variance rule ({shape:.4f}, {named['1b']:.4f}) decides the "
+            f"flag; the experiment is within one estimator convention of "
+            f"DECLARED UNDERPOWERED at H_shortcut (freeze finding F-2)")
     concessions.append(
         f"410m replication: P(n ≤ 10) = "
         f"{scenarios['410m']['H0/gamma']['p_n_le_10']:.3f} under H0/gamma — "
@@ -336,7 +395,11 @@ def compute(partition, *, spec_sims=SPEC_SIMS) -> dict:
                     "H_half reported beside it",
             "1b": named["1b"], "410m_non_gating": named["410m"],
             "1b_H_half": half["1b"], "410m_H_half_non_gating": half["410m"]},
+        "dispersion_shape_sensitivity": shape_sensitivity,
         "declared_underpowered": bool(named["1b"] < POWER_BAR),
+        "declared_underpowered_ruling": dict(DECLARED_UNDERPOWERED_RULING),
+        "declared_underpowered_under_sample_variance_shape":
+            bool(sens["1b"] < POWER_BAR),
         "underpowered_at_H_half": bool(half["1b"] < POWER_BAR),
         "concessions_printed_in_advance": concessions,
     }

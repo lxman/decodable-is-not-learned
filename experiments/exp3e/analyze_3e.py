@@ -776,6 +776,9 @@ def _check_shard_provenance_3e(rec, p, size, block, items, answers,
     if not isinstance(sha, str) or not sha:
         raise ValueError(f"{p} carries no items_sha256 — the item-file "
                          f"pin has no value there (3a's class, refused)")
+    if not isinstance(rec.get("model_sha"), str) or not rec.get("model_sha"):
+        raise ValueError(f"{p} carries no model_sha — the weights' pin "
+                         f"has no value there (3a's class, refused)")
     if rec.get("dtype") != "float32":
         raise ValueError(
             f"{p}: dtype {rec.get('dtype')!r} violates the ledgered "
@@ -830,7 +833,7 @@ def load_new_cells_3e(root=EXP3E, verify_fn=None, *, items=None,
     for size in SIZES_3E:
         dd = base / f"{size}_trained"
         merged: dict[int, dict] = {}
-        items_sha = answer_type = None
+        items_sha = answer_type = model_sha = None
         stored: dict[str, dict] = {}
         for block in SEED_BLOCKS[size]:
             p = dd / f"{shard_name(block)}.json"
@@ -849,11 +852,17 @@ def load_new_cells_3e(root=EXP3E, verify_fn=None, *, items=None,
             if items_sha is None:
                 items_sha = rec["items_sha256"]
                 answer_type = rec.get("answer_type")
+                model_sha = rec["model_sha"]
             elif rec["items_sha256"] != items_sha or \
                     rec.get("answer_type") != answer_type:
                 raise ValueError(
                     f"{p}: items_sha256 or answer_type disagree with "
                     f"this cell's other shards — not one battery")
+            elif rec["model_sha"] != model_sha:
+                raise ValueError(
+                    f"{p}: model_sha {rec['model_sha']!r} disagrees with "
+                    f"this cell's other shards ({model_sha!r}) — not one "
+                    f"model (freeze finding F-3)")
             rows = read_subset_rows(gz, items, block, DRAWS_PER_SEED_3E)
             _merge_rows(merged, rows, str(gz))
             stt = rec.get("per_seed_tallies")
@@ -904,6 +913,7 @@ def load_new_cells_3e(root=EXP3E, verify_fn=None, *, items=None,
             "rung": RUNG, "size": size, "mode": "trained",
             "n": len(items), "items": items,
             "answer_type": answer_type, "items_sha256": items_sha,
+            "model_sha": model_sha,
             "seeds": list(seeds),
             "rows_by_item": merged,
             "recomputed": {
@@ -1052,6 +1062,31 @@ def check_gate1_committed_shas_3e(gate1_records, exp3d_root=None,
                 f"stream")
 
 
+def check_gate1_vs_tranche_3e(gate1_records, new_cells, *,
+                              items_sha_pin) -> None:
+    """FREEZE FINDING F-3: the gate-1 record's `items_sha256` was
+    attested but never compared to the §4 pin by the analyzer (the
+    tranche's is), and no check tied the gate-1 weights to the
+    tranche's weights. Both additive: a record rendered from other
+    items, or a comparison made with other weights, attests nothing
+    about the production path the tranche ran."""
+    for size, g in sorted(gate1_records.items()):
+        if g.get("items_sha256") != items_sha_pin:
+            raise ValueError(
+                f"gate-1 record for {size} carries items_sha256 "
+                f"{g.get('items_sha256')!r} against the §4 pin "
+                f"{items_sha_pin!r} — the re-derivation did not render "
+                f"the committed prompts")
+        tranche_sha = new_cells[size].get("model_sha")
+        if not isinstance(g.get("model_sha"), str) or not g.get("model_sha") \
+                or g.get("model_sha") != tranche_sha:
+            raise ValueError(
+                f"gate-1 record for {size} attests model_sha "
+                f"{g.get('model_sha')!r} against the tranche's "
+                f"{tranche_sha!r} — the byte comparison and the new draws "
+                f"were not made with one model")
+
+
 # ------------------------------------------ scorer-gate record (§5.5)
 
 def load_scorer_gates_3e(root=EXP3E, *, fires_pin=None,
@@ -1118,19 +1153,43 @@ def _specificity_arm(size, rows_by_item, partition, prompts, answers,
                      answer_type, score_fn) -> dict:
     """§5.5 on one cell's NEW draws: count vectors for the arm items,
     the designation-exchangeability test, every competitor emission
-    verbatim, the void disclosures, and the sit-out descriptives."""
+    verbatim, the void disclosures, and the sit-out descriptives.
+
+    FREEZE FINDING F-1: an item with ANY void target — reverse or
+    competitor — is EXCLUDED from the designation test and disclosed
+    under `arm_void_excluded` with its raw vector. A void target's
+    count is zero by fiat (§4: counted by nothing), not by emission,
+    so its slot is no longer exchangeable with the others; zeroing a
+    competitor in particular LOWERS the null p (the reverse's share
+    rises against a slot that cannot score), i.e. it is anti-
+    conservative toward DIRECTED. The primary's void semantics (3c:
+    a void fire is void) are untouched; on the committed battery no
+    target of any item is void (freeze census), so this rule is inert
+    on the real experiment and exists for the frozen semantics."""
     entries = _entry_of(partition)
     vectors = []
     items_out = []
     comp_addresses = []
     comp_voids = []
+    void_excluded = []
     for i in partition["arm_items"]:
         e = entries[i]
         targets = [e["answer"]] + list(e["matched_competitors"])
         em = sc.emissions({i: rows_by_item[i]}, {i: targets}, answer_type,
                           score_fn, prompts={i: prompts[i]})[i]
         vec = tuple(em[t]["count"] for t in targets)
-        vectors.append(vec)
+        void_targets = [t for t in targets if em[t]["void"]]
+        if void_targets:
+            void_excluded.append({
+                "item": i, "targets": targets,
+                "void_targets": void_targets,
+                "raw_counts": [em[t]["raw_count"] for t in targets],
+                "reason": "a void target's slot is not exchangeable "
+                          "(count zero by fiat); the item sits out the "
+                          "designation test and is disclosed here "
+                          "(freeze finding F-1)"})
+        else:
+            vectors.append(vec)
         for t in e["matched_competitors"]:
             for ad in em[t]["addresses"]:
                 entry = {"item": i, "target": t, **ad,
@@ -1142,7 +1201,8 @@ def _specificity_arm(size, rows_by_item, partition, prompts, answers,
             "sub_class": e["sub_class"],
             "targets": targets, "counts": list(vec),
             "raw_counts": [em[t]["raw_count"] for t in targets],
-            "void_targets": [t for t in targets if em[t]["void"]],
+            "void_targets": void_targets,
+            "in_test": not void_targets,
             "theta": 1.0 / len(targets),
         })
     test = st.designation_test(vectors) if vectors else \
@@ -1162,6 +1222,8 @@ def _specificity_arm(size, rows_by_item, partition, prompts, answers,
             "note": "no matched competitor (|M| = 0); descriptive only",
         })
     return {"size": size, "items": items_out, "test": test,
+            "n_arm_items": len(partition["arm_items"]),
+            "arm_void_excluded": void_excluded,
             "competitor_addresses": comp_addresses,
             "competitor_voids": comp_voids,
             "sit_out": sit_out}
@@ -1648,6 +1710,8 @@ def run(root=EXP3E) -> dict:
                 f"{new_cells[size]['items_sha256']} against the §4 pin")
     gate1_records = load_gate1_3e(root)
     check_gate1_committed_shas_3e(gate1_records)
+    check_gate1_vs_tranche_3e(gate1_records, new_cells,
+                              items_sha_pin=ITEMS_SHA_PIN[RUNG])
     scorer_gates = load_scorer_gates_3e(root)
     prompts = c.load_prompts(sha_refs, rungs=(RUNG,))
     return verdict_3e(new_cells, gate1_records, scorer_gates, base,

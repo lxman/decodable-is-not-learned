@@ -454,6 +454,8 @@ def build_world(tmp: Path, *, new_fires, competitor_emissions=None,
                             expected_fires={s: e_expected_gate1_fires(s)
                                             for s in e.SIZES_3E})
     e.check_gate1_committed_shas_3e(gate1, d_root, expected=true_shas)
+    e.check_gate1_vs_tranche_3e(
+        gate1, new_cells, items_sha_pin=SYN_ITEMS_SHA["reverse_string"])
     scorer_gates = e.load_scorer_gates_3e(
         e_root, fires_pin=syn_repeat_class_fires(),
         ctrl_pin=SYN_CTRL_RATE)

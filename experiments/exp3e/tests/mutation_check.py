@@ -138,6 +138,21 @@ M = [
      "    if m_s_min is None or events <= m_s_min:"),
     (S, "annotation: DIRECTED at any p (hardening)",
      "    if p is not None and p <= alpha:", "    if p is not None:"),
+    # ---- freeze closures (session 3) ----
+    (A, "freeze F-1: arm admits an item with a void target to the test",
+     "        if void_targets:\n            void_excluded.append({",
+     "        if False:\n            void_excluded.append({"),
+    (A, "freeze F-3: gate-1 items_sha vs the §4 pin dropped",
+     "        if g.get(\"items_sha256\") != items_sha_pin:", "        if False:"),
+    (A, "freeze F-3: gate-1 model_sha vs the tranche dropped",
+     "        if not isinstance(g.get(\"model_sha\"), str) or not g.get(\"model_sha\") \\\n"
+     "                or g.get(\"model_sha\") != tranche_sha:",
+     "        if False:"),
+    (A, "freeze F-3: shard model_sha coherence dropped",
+     "            elif rec[\"model_sha\"] != model_sha:", "            elif False:"),
+    (A, "freeze F-3: shard model_sha presence dropped",
+     "    if not isinstance(rec.get(\"model_sha\"), str) or not rec.get(\"model_sha\"):",
+     "    if False:"),
     # ---- the partition (§5.1) ----
     (P, "partition: equal-char swap admitted",
      "            if x[i] == x[j]:\n                continue",

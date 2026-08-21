@@ -273,6 +273,8 @@
   "mu_hat": 0.4375,
   "var_hat": 1.05859375,
   "shape": 0.3081761006289308,
+  "var_hat_sample": 1.092741935483871,
+  "shape_sample_variance": 0.2921153846153846,
   "n_items": 32,
   "counts": [
    0,
@@ -2747,10 +2749,29 @@
   "1b_H_half": 0.30690632901571846,
   "410m_H_half_non_gating": 0.1212648406373893
  },
+ "dispersion_shape_sensitivity": {
+  "rule_frozen": "population variance (3d's \u03bb rule by precedent)",
+  "shape_population": 0.3081761006289308,
+  "shape_sample_variance": 0.2921153846153846,
+  "P_shortcut_H_shortcut": {
+   "410m": 0.2411678136427636,
+   "1b": 0.7446862376048237
+  },
+  "below_bar_under_sample_variance": true,
+  "note": "the declared-underpowered status at the named alternative depends on the variance convention; the frozen rule decides the flag, the other convention is printed beside it (freeze finding F-2)"
+ },
  "declared_underpowered": false,
+ "declared_underpowered_ruling": {
+  "declared": true,
+  "by": "Michael, 2026-08-21 (freeze F-2, ratified)",
+  "basis": "P(SHORTCUT | H_shortcut) = .7636 under the frozen population-variance shape but .7447 under the sample-variance shape \u2014 one estimator convention from the bar; declared underpowered in advance, runs regardless (1c precedent); the H_half question under \u00a77's clause is subsumed"
+ },
+ "declared_underpowered_under_sample_variance_shape": true,
  "underpowered_at_H_half": true,
  "concessions_printed_in_advance": [
   "UNDERPOWERED at H_half under gamma dispersion: P(SHORTCUT) = 0.3069 < 0.75 \u2014 a partial shortcut is not reliably detectable at this budget; the minimum detectable non-reachable/reachable rate ratio at .75 power is 0.04 (gamma) / 0.29 (homogeneous)",
+  "DECLARED UNDERPOWERED IN ADVANCE at the named alternative H_shortcut \u2014 Michael's ruling on freeze finding F-2 (2026-08-21): the tranche runs regardless; a SHORTCUT verdict is read at this disclosed power, a NO-SHORTCUT verdict is read as 'not detected at this resolution'",
+  "SHAPE-RULE SENSITIVITY: at the sample-variance gamma shape 0.2921 the named-alternative power is 0.7447 < 0.75 \u2014 the frozen population-variance rule (0.3082, 0.7636) decides the flag; the experiment is within one estimator convention of DECLARED UNDERPOWERED at H_shortcut (freeze finding F-2)",
   "410m replication: P(n \u2264 10) = 0.873 under H0/gamma \u2014 the annotation will almost surely carry THIN (\u00a77, disclosed in advance)"
  ]
 }

@@ -269,3 +269,208 @@ re-read cold). Cold battery per `FREEZE_CHECKLIST.md`. Tag
 `exp3e-preregistered` on Michael's ratification of slips (a–f) and
 the build-dial list; campaign launch is a SEPARATE go with the
 per-block push cadence reconfirmed.
+
+---
+
+## 2026-08-21 — FREEZE SESSION (session 3 of 3 of design | build | freeze)
+
+Opened cold in a fresh context. Assignment per `FREEZE_CHECKLIST.md`:
+find the class defect; totality fuzz; the partition's degrees of
+freedom; the nulls' conditioning; gate 1's path; the power model's
+shape. **Invariant held: no model contact for any real cell** — the
+only weights loaded this session were exp3's determinism fixture
+(synthetic prompts, its own stream namespace, house standard since
+exp3). The gate-1 rehearsal (the single sanctioned contact) awaits
+Michael's word and was NOT run.
+
+### The named candidates, cleared with reasons
+
+1. **Partition inputs pinned?** The partition never reads the question:
+   x = answer[::-1]. Checked strictly against the pinned item file —
+   every one of the 500 questions is exactly
+   `Spell the string '<x>' backwards.` with x == answer[::-1]. Answers
+   reach the partition only through 3d's sha+strata-pinned loader, and
+   `verdict_3e` asserts each partition answer equals the battery's.
+2. **Caller-supplied answers/labels/answer_type?** run() passes the
+   pinned item file's; the shard's `answer_type` is compared to the
+   pin BEFORE `tally_with_addresses` runs; 3c's tally indexes
+   `answers[row["item"]]`, so 45 subset rows score against their own
+   answers, never positionally.
+3. **`fires_reproduced` runner-scored on regenerated draws?** On a
+   zero-diff comparison regenerated == committed byte for byte, so the
+   runner's scoring IS the committed scoring; independently, run()
+   re-scores every committed 3d shard and asserts the 26-address pin,
+   which contains (348, 20, 14), (430, 20, 43) and (123, 24, 62).
+   Coverage: `draws_compared` is written from the literal, but 3d's
+   `diff_seed` hard-errors on a short stream on EITHER side and on
+   extra items, and `subset_committed_rows` refuses a shard missing
+   any subset item — the literal is true whenever a record exists.
+4. **Source attribution by seed range?** Each committed file is read
+   with its own expected seed set by the predecessors' row readers
+   against its own sha pin, and `_merge_rows` refuses a duplicated
+   seed — a 3d shard cannot carry 3c's seeds into the base.
+5. **Subset index vs battery index in the arm / S2 prompts?**
+   `c.load_prompts` returns a battery-indexed list; every arm and S2
+   call passes the ORIGINAL item index; `rows_by_item` is keyed by it
+   and `read_subset_rows` refuses any row outside the subset.
+
+### Totality fuzz — cleared
+
+90,000 draw-side inputs through the target-swapped scorer: 60,000
+adversarial (punctuation-wrapped non-space whitespace, Unicode line/
+paragraph separators, control chars incl. NUL, combining marks, zero-
+width joiners, empty, 12-token garbage, case/width variants) + 30,000
+real emitted strings from exp3's 1b and 3d's 410m committed shards.
+`harness.normalize_answer` raised exactly one exception type,
+`IndexError` (59 times); the wrapper raised 0 times; exp3's
+`score_first_char` raised 0 times. The reading proof: the function's
+only subscripts are `split("\n")[0]` (never empty) and `s.split()[0]`
+behind `if s`, and the guard fails precisely for strings that survive
+`.strip(".!?\"' ")` non-empty but are whitespace under `.split()`
+(`'\t'`, `'\x0b'`, `' '`) — 3c stop #1's class, caught.
+
+### The partition's degrees of freedom — cleared
+
+Void census on the REAL battery through the frozen prompt loader:
+zero void targets among the 45 answers, their M(x), all seven
+neighbours of every input, the 149 S2 targets and all 500 answers; no
+two targets of any item normalize equal; the `variants` block is read
+by exactly one downstream line (a printed count); M(x) uses ≥ (the
+doc's "at least as copy-like" — with > every mirror item would lose
+its arm); first-character matching and the sit-out rule are the doc's.
+
+### The nulls' conditioning — F-1 FOUND (below); the rest cleared
+
+A void item can never fire, so void handling could shift the
+hypergeometric's n only if a non-reachable answer were void; the census
+is zero. The count-weighted DP conditions on non-void counts. The
+designation null was where the leak was.
+
+### Gate 1's path — cleared by re-reading + precedent
+
+`sample_item` builds a fresh `torch.Generator` per seed from
+`stream_seed`; `probs1` comes from the prompt forward; the plan is
+16 × 4 rows so one cache regime serves the item; `past.crop(prompt_len)`
+after every chunk. The only cross-seed state is the cropped prompt
+cache, and cropped-vs-fresh equality at chunk 1 is exactly what 3d's
+byte-identical re-derivation of 3c's seed 8 — sampled inside a
+12-seed call — proved. 3e's gate-1 seeds (20, 24) were block-first in
+3d (fresh cache) and are re-derived alone (fresh cache); the tranche's
+non-first seeds start on cropped caches, covered by that precedent.
+
+### Power shape — F-2 FOUND (below); the rest cleared
+
+Poisson thinning vs the exact binomial at the reachable rate over
+8,192 draws: .75343 vs .75340. Per-item concentration enters only
+through the class-level gamma dispersion, as §7 specifies.
+
+### FREEZE FINDINGS — three, each closed executably today
+
+- **F-1 — the arm zeroed a void competitor, which argues FOR
+  DIRECTED.** Slip (f) read §4's "applied identically" as: a void
+  competitor's count is 0 and the item stays in the test. Under the
+  designation-exchangeability null that slot then cannot score, so the
+  reverse's share rises and p FALLS — anti-conservative. Closed: an
+  item with ANY void target (reverse or competitor) sits out the
+  designation test, disclosed under `arm_void_excluded` with its raw
+  vector; counts stay "counted by nothing" (§4). Three-way contrast,
+  exact and in the fixture: competitor live p = 1/4, item excluded
+  1/8, competitor zeroed 1/24. **Inert on the real experiment** (zero
+  voids on the pinned battery — it cannot move the verdict in either
+  direction); it corrects frozen semantics. W9 re-asserted; new mutant
+  killed. Ratification: a doc-text correction to §4's "identically".
+- **F-2 — the named-alternative power sits one estimator convention
+  from the bar.** Frozen rule (population variance, 3d's λ precedent):
+  shape .3082, P(SHORTCUT | H_shortcut) = .7636. Sample variance:
+  shape .2921, **.7447 < .75**. The rule is NOT moved (frozen before
+  any power number ran); `power_3e.json` now prints
+  `dispersion_shape_sensitivity`, a SHAPE-RULE SENSITIVITY concession
+  line, and `declared_underpowered_under_sample_variance_shape: true`.
+  Load-bearing entries unchanged (m_min 8, m_s,min 3, THIN 10, anti
+  3); the record reproduces from the frozen code (fixture). **Ruling
+  for Michael:** declare the experiment UNDERPOWERED IN ADVANCE at its
+  named alternative on this basis? Recommendation: yes — 1c precedent,
+  the concession costs nothing and the tranche runs regardless.
+- **F-3 — two unasserted attestations.** The gate-1 record's
+  `items_sha256` was never compared to the §4 pin by the analyzer
+  (the tranche's is), and nothing tied the gate-1 weights to the
+  tranche's weights. Closed, additive: `check_gate1_vs_tranche_3e`
+  (called by run() and by the full-shape path), shard `model_sha`
+  presence and cross-shard coherence in `load_new_cells_3e`. Four
+  fixtures, four mutants. (The real runner could not have produced a
+  drifted record — `rederive_cell_3e` refuses an off-pin item file
+  BEFORE model contact and 2b's loader pins the HF revision — stated
+  plainly; the analyzer now says so itself.)
+
+Fixture suite 118 → **125** (`tests/test_freeze_3e.py` + the W9
+extension); mutation list 60 → **65**.
+
+### Cold battery (fresh processes, `PYTHONDONTWRITEBYTECODE`, pycache cleared)
+
+- Suite: 118 passed before any edit; **125 passed** after the closures.
+- Full-shape: 9/9 terminals + 3/3 annotations (inside the suite).
+- Referent battery: **15/15** on the real trees.
+- `partition_3e.json` re-dump: byte-identical, sha = the §4 pin.
+- `stream_map_3e.json` re-dump: byte-identical; 3e + 3d + 3c checks clean.
+- `results/scorer_gates.json` re-run: byte-identical, PASS/PASS.
+- `power_3e.json` re-run: byte-identical BEFORE F-2; regenerated with
+  the sensitivity block after (19 s; the reproducibility fixture is the
+  byte check from here on).
+- Determinism fixture: twice, separate processes, == exp3's committed
+  reference byte for byte (torch 2.12.1 / transformers 5.13.0 — no
+  stack drift since exp3).
+- Driver dry-run: 4 tiers in the frozen §10 order (gate1/410m,
+  gate1/1b, sampling/410m ×4 blocks, sampling/1b ×8). Refusals: empty
+  tree (gate1 and sampling), failed scorer record; a FORGED-flag scorer
+  record passes the runner's precondition and is refused by the
+  analyzer — the layers behave as designed.
+- Mutation battery: **65/65 killed, baseline clean** (60 build mutants
+  + 5 freeze mutants: F-1 exclusion dropped; F-3 items_sha pin,
+  gate-1 model_sha, shard model_sha coherence, shard model_sha
+  presence), run detached and alone after all closures; suite re-run
+  cold afterwards: 125 passed; referents 15/15.
+
+### Incidents, recorded
+
+- A Python crash report at 04:00:57 (torch MPS `tanh_kernel_mps`
+  SIGSEGV) belonged to PID 30000, a child of PID 29978 — Michael's
+  Hermes agent (`com.reservoir.curator`) — not this session; no
+  process of this session loaded torch before the determinism fixture.
+- The mutation battery's first launch was stopped by me seconds in
+  (the tool's 10-minute ceiling would have killed it mid-run). The
+  stop landed inside mutant #1: `analyze_3e.py` on disk carried the
+  `if False:` gate-1 mutant and a `.mutation_backup` sat beside it.
+  Healed from the backup exactly as the harness's own
+  `heal_stranded_mutants` would, verified (mutant text gone, gate-1
+  branch present, no backups), relaunched detached in its own session
+  before anything else imported the module.
+
+### Ratification list for Michael (before the tag)
+
+Doc slips (a)–(f) and the build dials as ledgered above; F-1 (semantics
+correction — ratify, or revert to the literal reading; inert either
+way on this battery); F-2 (the declared-underpowered ruling);
+F-3 (additive); the standing H_half question under §7's clause; and
+one note left UNCHANGED: the 410m replication text reads "unreplicated"
+for both a non-rejection and an ANTI rejection at 410m — annotation
+wording only, flagged rather than edited.
+
+### RATIFIED — Michael, 2026-08-21 ("Ratified", in session)
+
+Everything on the list above, as presented: doc slips (a)–(f) and the
+build dials stand; **F-1** (an item with any void target sits out the
+designation test — the doc's §4 "applied identically" is read as
+"identically for COUNTS, and an unexchangeable vector leaves the
+test") is the frozen semantics; **F-2** → the experiment is **DECLARED
+UNDERPOWERED IN ADVANCE at H_shortcut** (recorded as a literal in
+`compute_power_3e.DECLARED_UNDERPOWERED_RULING`, printed into
+`power_3e.json`'s concessions; the frozen rule's own flag stays
+computed beside it), which subsumes the open H_half question under
+§7's clause; **F-3** additive. The design doc's text is NOT edited
+(3c's convention: corrections live here). The 410m "unreplicated"
+wording note stays a note.
+
+Remaining before the tag: the gate-1 single-cell rehearsal
+(`rederive_cell_3e("410m")`, 2,880 draws vs 3d's seed-24 shard) on
+Michael's explicit word — model contact, asked for separately; then
+`exp3e-preregistered`. Campaign launch is a separate go.
