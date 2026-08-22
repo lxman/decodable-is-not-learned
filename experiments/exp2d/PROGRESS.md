@@ -944,3 +944,46 @@ UNSPENT throughout. Next: close-out propagation (essay Prediction-2
 wording, `experiments.md`, CLAUDE.md done here; methods paper only if
 Michael takes a lesson — candidates in the retrospective), supporting
 repo re-extraction with the exp2d pair.
+
+---
+
+## 2026-08-22 — CLOSE-OUT PROPAGATION + SUPPORTING-REPO RE-EXTRACTION (Michael: "propagate — essay, experiments.md, repo re-extraction")
+
+Essay (`emergent-resolution-the-gradient.md`, commit `ee3bf35`):
+Prediction 2 now carries both from-below tests on the 2c battery —
+the probe (ρ .37, interval spanning zero, 22 of 34 margins tied) and
+the sampler (below the format floor on 10 of 11 rising rungs with
+bounds excluding it; AUC .55; "not detected at this resolution"),
+with the 1b-below-a-random-copier reading and the closing sentence
+that Prediction 2 is untested in the sense that matters; the
+three-signature paragraph gains the ladder-vs-tasks caution; the Ruan
+et al. forecastability line is hedged to "at least across model
+families at the scales they measured". `experiments.md`: a new
+Experiment 2d section (2c's FAIL recorded there for the first time,
+2d's design and numbers, the pair not silent, what it does to the
+thesis, the §9 successor's condition, three process notes for
+Michael's call). Methods paper: NOT touched (a lesson is Michael's
+call; candidates in `results/retrospective.md`).
+
+Supporting repo (`github.com/lxman/decodable-is-not-learned`)
+re-extracted with the exp2d pair and force-pushed — the same recipe
+as every prior round (fresh clone, single-pass `git filter-repo`
+2.47.0 over the retained paths + `experiments/exp2d` +
+`experiment-2d-design.md`, regex exclusion of `paper/_build.html`,
+two LAN literals replaced, identity mailmap to the GitHub noreply
+address): **20 experiment tags; all 18 prior anchors reproduced
+byte-identically (no exp2d commit is an ancestor of exp3e-closed);
+373 commits shared SHA-for-SHA with the previous public line (375 =
+373 + the two prior apparatus commits); scans clean** — single
+noreply identity on commits and taggers, 0 LAN literals in history,
+0 `_build.html`, 0 secret-class, home-path file count 6 = baseline;
+`jordan.mymail` content hits = the TMLR byline (public since the 3d
+round) and its quotation in exp3e's ledger. Tree vs the previous
+public HEAD: + `experiments/exp2d` (377 files), the post-v1.3 paper
+and exp3e-ledger updates that the 2026-08-21 round pre-dated, nothing
+else. Anchors: exp2d-preregistered c617e81 → d84ec03, exp2d-closed
+2ce1f5c → b4ba3de; apparatus commit 7da6071 (README, LICENSE,
+PROVENANCE with the two new rows and the 2026-08-22 paragraph,
+commit map regenerated, 769 rows). `v1.0`–`v1.3` untouched off the
+current line. Zenodo v1.4 NOT minted — Michael's call (precedent:
+tag + `gh release create` → webhook).
