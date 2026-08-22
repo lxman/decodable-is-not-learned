@@ -1,0 +1,87 @@
+Exp 2e — VERDICT: FAIL
+======================
+Analyzer run ONCE, 2026-08-22, on Michael's go, at tag
+exp2e-preregistered (a50c4a8) with the projection sealed at 187206b.
+Analysis-only: no model loaded, nothing sampled; every input a
+committed 2d or 2c artifact read through 2d's frozen loaders.
+
+Tree: family-cluster bootstrap 95% CI on AUC(F1) [0.3733, 0.8916]
+includes .5  →  FAIL (§6 branch 2).
+
+PRIMARY  F1 = mean over sizes of log((rate + ε)/floor), ε = 1/64,000
+  AUC 0.6126   block p 0.3018 (sampled, 100,000 of 52,254,720)
+  cluster CI [0.3733, 0.8916]   (9,998 valid, 2 dropped)   11 rising / 23 flat
+
+REFERENTS (all PASS, none a verdict input that moved)
+  273-file manifest re-hashed; 2d's 250-file manifest re-hashed
+  §4 tally table 68/68 against the re-tally of 4,352,000 committed draws
+  2d's primary reproduced EXACTLY from the same cells through 2d's code:
+    AUC 0.5454545454545454, block p 0.6674933250667493, CI [.5, .6667], 2 drops
+  outcome known-answer gate 34/34 (2c's m5 rule); floors == §4 table
+
+THE FAMILY, same label, same machinery
+  F1 (primary)            0.6126  p .3018  CI [.3733, .8916]
+  F2 raw log rate         0.6087  p .1788  CI [.3694, .8889]
+  F3 rank residual        0.6206  p .3195  CI [.4368, .8120]
+  B0 floor alone (−log c) 0.4209  p .8255  CI [.1111, .6641]
+  F1 − B0 (paired)       +0.1917  CI [−.2710, .7315]
+  2d thresholded (gate)   0.5455  p .6675  CI [.5000, .6667]
+  2c probe (pin)          0.6008  p .3827  CI [.3974, .8968]
+
+REPLICATIONS AND SENSITIVITIES (non-gating; every one between .58 and .64)
+  pilot tier, seed 1000, 4,000 draws, ε = 1/8,000:
+    AUC 0.5968  p .3386  CI [.3676, .8839]; rank corr pilot-F1 vs main-F1 0.9684
+  1b only 0.6126 / 410m only 0.6285 / 12b-only label 0.6311
+  ε = 1/32,000 0.6166; ε = 1/3,200 0.5889
+  majority-only floors on the six option-listing rungs 0.6364
+  two first-digit-run rungs dropped (32 rungs) 0.5844
+  Spearman vs corrected ascent: F1 .2131 (p .2569), F2 .1903, F3 .1939, B0 −.1446
+
+THE ORDERING (F1, descending; R = rising)
+  arith_next R +.038 — the only positive F1 on the battery
+  odd_one_out −.40 | median7 −.41 | median5 R −.42 | mod17 −.42 | antonym6 R −.46
+  antonym R −.54 | mod19 −.55 | hamming12 −.56 | mod13 −.58 | odd6 R −.58
+  collatz −.58 | roman −.59 | clock24_d999 −.65 | count_div13 R −.70
+  isqrt −.87 | clock24 −.91 | sub_base8 R −.92 | mod13_comp −.99
+  quad_next −1.34 | count_div7 −1.47 | add_base8 R −1.48 | oct2dec −1.79
+  base7 −2.22 | sub3_mid R −2.55 | base13 −2.61 | sub4_mid R −2.62
+  add3_mid R −2.65 | base12 −2.90 | caesar −3.75 | reverse_string −4.30
+  caesar_len8 −4.43 | add4_mid −4.85 | rev_string7 −4.85
+
+READING
+  Removing 2d's threshold restores the predictor's dynamic range and
+  lifts the point estimate from .5455 to .6126 — to the probe's level
+  (.6008), not to the PASS bar (.75) — and the family-cluster interval
+  is wide enough to include .5 from either side. The estimate is
+  POSITIVE AND STABLE: the pilot tier reproduces it at a different seed
+  (.5968, rank correlation .97 across rungs), both sizes give it, and
+  every ε / floor / battery variant lands between .58 and .64. B0 — the
+  floor alone — ranks AGAINST the label (.4209): the lowest floors on
+  the battery belong to flat rungs (base7, oct2dec, the reversal pair),
+  so F1 earns +.19 over the answer space alone, with an interval that
+  includes zero. The ordering is "option-listing rungs first, then the
+  rest by rate": the four rising option-listing rungs interleave with
+  the two flat ones and mod17; arith_next is the one rung the sampler
+  places above every flat rung; the three rising mid-digit rungs sit at
+  the bottom with the flat base-representation, Caesar and reversal
+  rungs.
+
+  §6's FAIL sentence ("the 1B Pythia sampled channel carries no
+  ordering information about this battery's ascent, with or without
+  the threshold") is stronger than the numbers: the honest form is
+  "not distinguishable from chance under the family-cluster bootstrap
+  at a point estimate of .61 — the same .6 the probe reached — with 16
+  families". What the FAIL settles is the question 2e asked: 2d's null
+  was NOT its threshold's — the threshold removed a .61, not a .75. The
+  second model family stays a long shot at this scale; the essay's
+  Prediction 2 paragraph gains its one sentence.
+
+DISCLOSURE (ruling g; §2 verbatim in the record)
+  Every input — the 68 tallies, the floors, the label, the ascent —
+  was known to the designer before the functional was chosen. The
+  preregistration protected one thing: the functional was fixed before
+  its correlation was computed. The projection (187206b) was hand
+  arithmetic from the known table and hit at every level; that is
+  evidence the functional was a fixed map, not evidence of foresight.
+
+Zero model contact. One pre-committed change UNSPENT. Tag exp2e-closed.

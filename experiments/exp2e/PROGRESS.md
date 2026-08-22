@@ -192,3 +192,15 @@ compares. Cold battery re-run in fresh processes after the edits
 projection sealed before the analyzer (with the §2 disclosure — its
 author has seen the tallies), then `analyze_2e.run(write=True)` ONCE
 on Michael's go → `results/verdict.json` → `exp2e-closed`.
+
+## 2026-08-22 — PROJECTION, THE SINGLE RUN, CLOSE
+
+Projection sealed `187206b` (hand arithmetic from the §4 table; the
+disclosure on its face). `analyze_2e.run(write=True)` ONCE on
+Michael's go: **FAIL** — AUC(F1) .6126, block p .3018, cluster CI
+[.3733, .8916]; referents all PASS; 2d's primary reproduced exactly.
+Projection graded in `results/retrospective.md` (every line a hit
+but the CI's width — as it must be when every input is known).
+VERDICT.txt + retrospective written; tag `exp2e-closed`. Propagation
+(essay Prediction 2 sentence, experiments.md section, CLAUDE.md line
+done here) on Michael's word.
