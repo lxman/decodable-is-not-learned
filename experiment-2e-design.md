@@ -1,10 +1,16 @@
 # Experiment 2e — Design Doc: The Floor as a Covariate — Does the Raw Sampled Rate at 410m/1b Rank 2c's Outcome Once the Threshold Is Removed?
 
-**Status: DRAFT — session 1 (design) of a design | build | freeze
-protocol, written 2026-08-22 at Michael's request after Exp 2d
-closed FAIL. Analysis-only: no model is loaded, nothing is sampled;
-every input is a committed 2d or 2c artifact. The §10 dials need
-Michael's rulings before the build.**
+**Status: §10 DIALS RULED by Michael 2026-08-22 ("dials as
+recommended — build and freeze"): a F1 primary; b AUC on the
+rising/flat label, Spearman the named secondary; c ε = half a draw;
+d 2d's bars and tree unchanged; e pilot replication non-gating; f B0
+printed beside F1 and named in the licensed sentence, not a PASS
+conjunct; g the §2 disclosure repeated verbatim in the verdict record
+and in any licensed sentence. Build + freeze in one session
+(2026-08-22) per §11. Analysis-only: no model is loaded, nothing is
+sampled; every input is a committed 2d or 2c artifact. Session 1
+(design) was written 2026-08-22 at Michael's request after Exp 2d
+closed FAIL.**
 
 Lineage: 2c (probe ladder, FAIL) → 2d (sampling ladder, FAIL under a
 declared-underpowered status) → 2e. 2d applied a model-free format
@@ -219,28 +225,28 @@ family (or Pythia's intermediate checkpoints, where the predictor is
 already committed and the outcome is sealed), and it is worth
 running only on a PASS here.
 
-## 10. Dials — for Michael's ruling
+## 10. Dials — RULED 2026-08-22 (a–g as recommended)
 
-a. **Primary functional:** F1 (log excess over the floor; proposed)
+a. **Primary functional — RULED F1.** F1 (log excess over the floor; proposed)
    vs F3 (rank residual; no functional form, less interpretable) vs
    F2 (raw; the reviewer's first computation, but it credits answer
    spaces). Recommend F1.
-b. **Primary outcome:** the rising/flat label with AUC (comparable to
+b. **Primary outcome — RULED AUC on the label.** The rising/flat label with AUC (comparable to
    2d; proposed) vs the corrected ascent with Spearman (uses the
    magnitude; 23 zeros on the outcome side). Recommend AUC, Spearman
    as the named secondary.
-c. **ε:** half a draw (proposed); the sensitivity prints 1/64,000 and
+c. **ε — RULED half a draw.** Half a draw (proposed); the sensitivity prints 1/64,000 and
    1/3,200.
-d. **Bars and tree:** 2d's (α .01, AUC ≥ .75, CI falsifier)
+d. **Bars and tree — RULED unchanged.** 2d's (α .01, AUC ≥ .75, CI falsifier)
    unchanged, for comparability. Recommend unchanged.
-e. **Pilot replication:** non-gating (proposed) vs a conjunct of PASS
+e. **Pilot replication — RULED non-gating.** Non-gating (proposed) vs a conjunct of PASS
    (pilot AUC > .5 with the same sign). Recommend non-gating, printed.
-f. **The B0 clause in the licensed sentence:** print B0 beside F1 and
+f. **The B0 clause — RULED the clause, not the conjunct.** Print B0 beside F1 and
    name it in the sentence (proposed) vs require AUC(F1) > AUC(B0) as
    a PASS conjunct. Recommend the clause, not the conjunct — the
    conjunct would make the verdict depend on a baseline's own
    sampling noise — but it is a fair reading either way.
-g. **Disclosure placement:** the §2 paragraph is repeated verbatim in
+g. **Disclosure placement — RULED yes.** The §2 paragraph is repeated verbatim in
    the verdict record and in any essay sentence a PASS licenses.
    Recommend yes.
 
