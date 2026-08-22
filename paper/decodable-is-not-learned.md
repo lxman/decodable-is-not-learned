@@ -32,12 +32,12 @@ leaves) and checklist item 22 were added 2026-08-22 from the
 Experiment 2d freeze record on Michael's instruction and await his
 read.
 The supporting repository has been public since 2026-08-06 and was
-re-extracted 2026-08-22 to carry the exp2d record: twenty tags, a
-preregistered and a closed anchor for each of Experiments 2, 2b, 2c,
-2d, 3a, 3b, 3, 3c, 3d and 3e, the eighteen earlier anchors reproduced
-byte-identically. Archived at Zenodo under concept
-DOI 10.5281/zenodo.21830421, latest version v1.4
-(10.5281/zenodo.22056230, the exp2d record). TMLR's AI-disclosure requirement is met on
+re-extracted 2026-08-22 (twice) to carry the exp2d and exp2e records:
+twenty-two tags, a preregistered and a closed anchor for each of
+Experiments 2, 2b, 2c, 2d, 2e, 3a, 3b, 3, 3c, 3d and 3e, the twenty
+earlier anchors reproduced byte-identically. Archived at Zenodo under concept
+DOI 10.5281/zenodo.21830421, latest version v1.5
+(10.5281/zenodo.22059612, the exp2e record). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
@@ -1503,12 +1503,15 @@ release; v1.0 10.5281/zenodo.21830422, v1.1 with the Experiment 3
 and 3c records 10.5281/zenodo.21998671, v1.2 with the Experiment 3d
 record 10.5281/zenodo.22011547, v1.3 with the Experiment 3e record
 10.5281/zenodo.22045940, v1.4 with the Experiment 2d record
-10.5281/zenodo.22056230).
+10.5281/zenodo.22056230, v1.5 with the Experiment 2e record
+10.5281/zenodo.22059612).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
-mis-specification Section 6 draws on, and Experiment 2d's record
-(`exp2d-*`), whose freeze supplies Section 6's eighth lesson;
+mis-specification Section 6 draws on, Experiment 2d's record
+(`exp2d-*`), whose freeze supplies Section 6's eighth lesson, and
+Experiment 2e's record (`exp2e-*`, an analysis-only re-read of 2d's
+draws, named here and not drawn on);
 interim stage tags (e.g. `exp2c-stage1`) exist only in the private
 repository. Commit SHAs quoted inside the ledgers resolve through that
 repository's PROVENANCE.md.
