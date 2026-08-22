@@ -56,6 +56,7 @@ def test_m3_pins_are_the_committed_records():
     for (rung, size), pin in a.M3_PIN.items():
         rec = json.loads(mk.m3_record_path(size, rung).read_text())
         assert a.m3_pin_from_record(rec) == pin
+        assert pin["n_candidates"] == (18 if size == "410m" else 14)
 
 
 def test_split_params_are_2bs_and_2cs():
@@ -143,6 +144,10 @@ def test_m3_gate_on_world(world):
     bad[("arith_next", "1b")]["accuracy"] += 0.01
     f2 = a.check_m3_gate(battery, bad, probe_root=root)
     assert len(f2) == 1 and "m3" in f2[0]
+    bad2 = {k: dict(v) for k, v in pins["m3_pin"].items()}
+    bad2[("sub3_mid", "410m")]["n_candidates"] += 2
+    assert len(a.check_m3_gate(battery, bad2, probe_root=root)) == 1
+    assert pins["m3_pin"][("sub3_mid", "410m")]["n_candidates"] == 6
 
 
 def test_tree():
@@ -279,6 +284,8 @@ def test_run_clean_world_is_ladder_with_the_primary_label(world):
     assert v["verdict"] == "LADDER" and v["known_inputs_caveat"] == a.KNOWN_INPUTS_CAVEAT_2F
     c = v["cells"]["arith_next/1b"]
     assert c["D"] == [True, True, True] and c["label"] == "last_digit"
+    assert c["probe"]["trained"]["min_detectable_acc"] == \
+        a.pb.min_detectable_acc(500, c["floor"], a.ALPHA, 6)
     # main and pilot differ by construction at 410m (pilot label-silent)
     c4 = v["cells"]["arith_next/410m"]
     assert c4["sampling"]["main"]["D"] is True and c4["sampling"]["pilot"]["D"] is False

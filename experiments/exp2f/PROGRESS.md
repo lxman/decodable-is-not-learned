@@ -142,3 +142,127 @@ be killed between write and restore; the 3e precedent (`.mutation_
 backup`) and this one both argue for the harness writing a backup
 file FIRST and the freeze checking for its absence. Carried to the
 freeze as a standing assignment (checklist).
+
+## 2026-08-22 — FREEZE (session 3, same day on Michael's word "freeze it"; worked cold against the build's record)
+
+Standing assignment: find the class defect. Attacked, in the
+checklist's order:
+
+1. **3a's class — an unpinned verdict input at analysis time.** The
+   open()/np.load sweep on a world: 61 reads — 49 in a pinned set
+   (the world's 34-file manifest, 2f's 12 frozen-import literals, the
+   item-file pins, the manifest itself), 12 are the collector's own
+   outputs on the tree (eval npz ×8, continuity ×4), each validated
+   by its provenance meta and the continuity re-derivation. **Zero
+   unpinned non-code reads.** The 12 code files opened are exactly
+   the 12 frozen-import pins. CLEARED.
+2. **Lesson 8 — the refusal terminal from every tree the collector
+   can leave.** Executed: (i) the real trees with no collection at
+   all → INSUFFICIENT_DATA, four "continuity record missing"
+   failures, no exception; (ii) two of four (size, mode) collected →
+   INSUFFICIENT_DATA naming the two missing records; (iii) an eval
+   npz present without its continuity record → INSUFFICIENT_DATA;
+   (iv) a continuity record claiming `pass: true` with bad diffs →
+   INSUFFICIENT_DATA from the RE-DERIVED diffs (the runner's claim
+   is ignored); (v) a twin eval file whose meta says seed 1 →
+   INSUFFICIENT_DATA from the cell loader. CLEARED.
+3. **Gate 1's tolerance (rtol/atol 1e-2 on fp16).** What passes:
+   fp16 round-trip 0; 1e-3 relative drift → .0015; 5e-3 → .0055;
+   2e-2 → .020 (FAILS). What fails: an independent random network →
+   max rel ≈ 2,300; the same network with one row permuted (item
+   order wrong) → ≈ 1,800. The tolerance sits five orders of
+   magnitude below "a different network" and two above "kernel
+   drift"; a uniformly rescaled copy (×1.005) passes — not a
+   failure the collector can produce. CLEARED; the numbers go in the
+   record beside the gate.
+4. **The label parse against what the committed continuations
+   actually begin with** (shapes only — NO label scored): argmax
+   leads with a digit run in 500/500 on every cell (sub3_mid 3-digit
+   498/500 and 467/500; arith_next 2–3 digits); the main draws lead
+   with a digit run in 97.6–99.7 %, the first line has no digit run
+   in 0.3–2.4 % (→ MISS), a 4+-digit run on sub3_mid in 2.6–5.5 %
+   (→ MISS for the middle digit, outside the domain; disclosed). The
+   parse reads the number the model meant. CLEARED.
+5. **Probe/eval leakage:** 0 shared questions between probe items and
+   eval items on both rungs; 0 duplicate eval questions. CLEARED.
+6. **Site family == the committed n_candidates** (18 at 410m /
+   25 layers, 14 at 1b / 17 layers) on all four cells — now PINNED
+   (additive: `n_candidates` in `M3_PIN`, `m3_pin_from_record`, the
+   gate, the battery's check 11).
+7. **One cell's full permutation null** (arith_next/1b, 14 sites ×
+   2,500 refits, 2b's `probe_starved` verbatim on the committed file,
+   2,751 s) against the committed m3 record: **EXACT on every
+   field** — present, accuracy, chance, null_p 1.0, null_mean
+   .1450574585635359, null_std .016314308748046954, margin, best
+   site, n_candidates 14, split. The machinery gate's equality is
+   earned all the way down, not only on the observed fit.
+8. **The bar asymmetry (§7) made executable:** `min_detectable_acc`
+   printed in every probe reading (brute-force equal to the bar with
+   Bonferroni): .172 / .170 on arith_next, .186 / .184 on sub3_mid
+   against floors .120 / .132 — the probe needs +.05, the sampler
+   +.004, argmax +.036. §7's "+.045" corrected to "+.05" (slip f).
+9. **Determinism:** `compute_cell` on a world in two separate
+   processes, byte-identical records. CLEARED.
+10. **Unicode digits through the parse — FOUND, F-1 (small).**
+    `\d` matches Arabic-Indic and full-width digits and `int()`
+    accepts them, so a unicode run matched the mod-7 label while the
+    digit labels could not equal an ASCII answer label — the same
+    emission scored differently by kind. Closed: the parse is
+    ASCII-only (`[0-9]+`); a unicode run is a MISS for every kind;
+    fixture + mutant. Implausible on Pythia's outputs here; closed
+    because the rule must be uniform, not because it would have
+    moved a number.
+11. **The mutation harness** now writes a `.mutation_backup` BEFORE
+    the in-place edit and removes it after restore; battery check 11
+    refuses to run with one present (the stranded-mutant incident,
+    closed at the instrument level).
+
+Class defect: **NOT FOUND.** One small finding (F-1) closed
+additively; three additive pins/prints; no accepted dial touched.
+
+### Doc slips — proposed text, apply only on Michael's word
+
+- (a) §4: name the pilot exact counts beside main's (sub3_mid 6 | 3,
+  arith_next 109 | 67 of 4,000).
+- (b) §3: "a continuation with no digit run, a negative first run, a
+  non-ASCII digit run, or a run outside the label's domain scores
+  MISS".
+- (c) §3/§5: the floor clause — "c = max(majority share, 1/K)" is
+  vacuous (a majority share over K classes is always ≥ 1/K); state
+  c = the majority class share, with 1/K as the lower bound it never
+  binds (mutant [6], equivalent).
+- (d) §7: the three bars in numbers — sampler +.004 (32,000 draws),
+  argmax +.036, probe +.05 with Bonferroni (minimum detectable
+  accuracy .172/.170 on arith_next, .186/.184 on sub3_mid); "+.045"
+  → "+.05"; the printed `min_detectable_acc` named.
+- (e) §5: "eval accuracy clears c by the bar; the site family
+  Bonferroni-corrected" — add "at the same n (500) on every site, so
+  the best site by corrected p is the best site by accuracy".
+- (f) §9: "4,000 forward passes" → "4,064" (the 8 continuity items
+  per rung × 2 rungs × 2 sizes × 2 modes) and "gate 1 inside the
+  collector".
+- (g) §6/§4: the continuity tolerance stated (rtol/atol 1e-2 on fp16
+  activations; what passes and what fails, from attack 3).
+
+### Cold battery at the freeze
+
+- Suite **49** (labels 9, probe 12, analyzer 22, full-shape 6);
+  referents **11/11**; worlds 6/6 after the freeze edits.
+- Mutation battery re-run in full after the edits (60 mutants, four
+  added for the freeze's pins): **55/60 killed; the five survivors
+  are one equivalence class** — [6] the 1/K floor clause (never
+  binds), [10] `min_detectable_acc`'s rate-above-floor conjunct, [18]
+  `detect`'s rate-above-floor conjunct (both implied by a one-sided
+  p < α), [19] best-by-accuracy at equal n, [21] trained-exceeds-twin
+  (implied by the twin not detecting at that site). Documented, not
+  chased; slips (c) and (e) put two of them in the doc's words.
+- The duplicate null launch (a first attempt under a 10-minute
+  tool timeout that survived anyway) was stopped after the first
+  completed; no backup file stranded; `git diff` on the sources is
+  the freeze's own edits.
+
+### For ratification before the tag
+
+- F-1 (ASCII-only parse), the three additive pins/prints
+  (`n_candidates`, `min_detectable_acc`, `.mutation_backup`), the
+  five equivalent mutants, doc slips (a)–(g).

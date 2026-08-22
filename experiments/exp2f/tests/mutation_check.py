@@ -29,6 +29,10 @@ M = [
     (L, "floor: majority only (1/K dropped)", '                "floor": float(max(maj, 1.0 / K)),', '                "floor": float(maj),'),
     (L, "floor: 1/K only", '                "floor": float(max(maj, 1.0 / K)),', '                "floor": float(1.0 / K),'),
     (L, "probe-label gate inert", "        if bad:\n            raise ValueError(\n                f\"{rung}: the committed probe_label", "        if False:\n            raise ValueError(\n                f\"{rung}: the committed probe_label"),
+    (L, "emission: unicode digits accepted (F-1 undone)", '_DIGITS = re.compile(r"[0-9]+")', '_DIGITS = re.compile(r"\\d+")'),
+    (P, "min detectable acc: floor conjunct dropped", "        if st.binomial_bar(k, n, floor, alpha)[\"p\"] * n_sites < alpha and k / n > floor:", "        if st.binomial_bar(k, n, floor, alpha)[\"p\"] * n_sites < alpha:"),
+    (P, "min detectable acc: Bonferroni dropped", "        if st.binomial_bar(k, n, floor, alpha)[\"p\"] * n_sites < alpha and k / n > floor:", "        if st.binomial_bar(k, n, floor, alpha)[\"p\"] < alpha and k / n > floor:"),
+    (A, "m3 gate: n_candidates not compared", '               "n_candidates": len(out["per_site"])}', '               "n_candidates": pin["n_candidates"]}'),
     (L, "primary label for arith_next = mod7", 'PRIMARY = {"sub3_mid": "mid_digit", "arith_next": "last_digit"}', 'PRIMARY = {"sub3_mid": "mid_digit", "arith_next": "mod7"}'),
     # ---- probe (§5) ----
     (P, "family: every layer", "    keep = sorted(set(range(0, n_layers, LAYER_STRIDE)) | {n_layers - 1})", "    keep = sorted(set(range(0, n_layers)))"),
@@ -116,11 +120,14 @@ def main(argv=None) -> int:
             print(f"  [{i:2d}] TARGET MISSING: {name}", flush=True)
             survivors.append((i, name, "target missing"))
             continue
+        backup = path.with_suffix(path.suffix + ".mutation_backup")
+        backup.write_text(src)                 # freeze: restore from here if killed
         path.write_text(src.replace(old, new, 1))
         try:
             rc = run_suite(DESELECT)
         finally:
             path.write_text(src)
+            backup.unlink(missing_ok=True)
         applied += 1
         status = "killed" if rc != 0 else "SURVIVED"
         if rc == 0:

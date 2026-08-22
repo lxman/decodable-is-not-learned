@@ -159,6 +159,16 @@ def _c9(ctx):
             _eq(out is lb.MISS or len(out) == 1, True, "total")
 
 
+@check(11, "no stranded mutation backup; site family == n_candidates")
+def _c11(ctx):
+    stray = list(EXP2F.rglob("*.mutation_backup"))
+    _eq(stray, [], "mutation backups")
+    for (rung, size), pin in a.M3_PIN.items():
+        n_layers = 25 if size == "410m" else 17
+        from experiments.exp2f import probe_2f as pb
+        _eq(len(pb.site_family(n_layers)), pin["n_candidates"], f"family {rung}/{size}")
+
+
 @check(10, "eval activations / continuity: absent before the collection")
 def _c10(ctx):
     present = [str(p) for p in

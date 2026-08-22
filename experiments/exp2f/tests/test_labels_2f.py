@@ -112,3 +112,13 @@ def test_eval_labels_vector(battery):
     assert len(y) == 500 and y[0] == "4" and all(len(s) == 1 for s in y)
     y7 = lb.eval_labels(battery["arith_next"], "mod7")
     assert y7 == [it["probe_label"] for it in battery["arith_next"]["eval_items"]]
+
+
+def test_unicode_digits_are_a_miss_for_every_kind():
+    """Freeze F-1: int() accepts Arabic-Indic and full-width digits, so
+    a unicode run would have matched mod 7 while the digit labels
+    could not match an ASCII answer label; the parse is ASCII-only."""
+    for s in (" ٧٤\n", " ７４\n", " 7४\n", " ٣"):
+        for kind in ("mid_digit", "last_digit", "mod7"):
+            assert lb.emission_label(kind, s) is lb.MISS, (s, kind)
+    assert lb.emission_label("last_digit", " 74\u200b\n") == "4"   # zero-width space after

@@ -172,3 +172,14 @@ def test_void_reads_the_twin_at_the_trained_best_site_only(synth):
     assert r["trained"]["best_site"] == [3, 1] and r["twin"]["best_site"] == [6, 0]
     assert r["twin"]["detected"] and not r["twin_detects_at_best"]
     assert not r["void"] and r["D_probe"] is True
+
+
+def test_min_detectable_acc_is_printed_and_brute_force_equal():
+    from experiments.exp2d import stats_2d as st
+    m = pb.min_detectable_acc(500, .12, .01, 18)
+    ks = [k for k in range(501) if st.binomial_bar(k, 500, .12, .01)["p"] * 18 < .01]
+    assert m == min(ks) / 500 and m == pytest.approx(.172)
+    assert pb.min_detectable_acc(500, .132, .01, 14) == pytest.approx(.184)
+    per = {(0, 0): {"acc": .10, "correct": 50, "n": 500}}
+    det = pb.detect(per, floor=.10, alpha=.01)
+    assert det["min_detectable_acc"] == pb.min_detectable_acc(500, .10, .01, 1)

@@ -148,16 +148,16 @@ PROBE_NPZ_SHA_PIN = {
 M3_PIN = {
     ("sub3_mid", "410m"): {"accuracy": 0.12971698113207547, "best_site": [0, 0],
                            "n_train": 1576, "n_val": 424,
-                           "held_per_component": [20]},
+                           "held_per_component": [20], "n_candidates": 18},
     ("sub3_mid", "1b"): {"accuracy": 0.12971698113207547, "best_site": [0, 0],
                          "n_train": 1576, "n_val": 424,
-                         "held_per_component": [20]},
+                         "held_per_component": [20], "n_candidates": 14},
     ("arith_next", "410m"): {"accuracy": 0.13535911602209943,
                              "best_site": [0, 0], "n_train": 638, "n_val": 362,
-                             "held_per_component": [32]},
+                             "held_per_component": [32], "n_candidates": 18},
     ("arith_next", "1b"): {"accuracy": 0.13535911602209943, "best_site": [0, 0],
                            "n_train": 638, "n_val": 362,
-                           "held_per_component": [32]},
+                           "held_per_component": [32], "n_candidates": 14},
 }
 # 2b's spec for the survivor; 2c's SPLIT_PLAN for arith_next
 SPLIT_PARAMS = {"sub3_mid": SplitParams(n_holdout=20),
@@ -182,7 +182,8 @@ def m3_pin_from_record(rec: dict) -> dict:
             "best_site": [int(rec["best_layer"]), int(rec["best_token"])],
             "n_train": int(rec["split"]["n_train"]),
             "n_val": int(rec["split"]["n_val"]),
-            "held_per_component": list(rec["split"]["held_per_component"])}
+            "held_per_component": list(rec["split"]["held_per_component"]),
+            "n_candidates": int(rec["n_candidates"])}
 
 
 # --------------------------------------------------------------- manifest
@@ -398,7 +399,8 @@ def check_m3_gate(battery, m3_pin, *, probe_root=None) -> list:
         out = pb.starved_accuracies(act, y, bases, SPLIT_PARAMS[rung], seed=0)
         got = {"accuracy": out["accuracy"], "best_site": out["best_site"],
                "n_train": out["split"]["n_train"], "n_val": out["split"]["n_val"],
-               "held_per_component": list(out["split"]["held_per_component"])}
+               "held_per_component": list(out["split"]["held_per_component"]),
+               "n_candidates": len(out["per_site"])}
         if got != pin:
             bad.append(f"m3 gate {rung}/{size}: 2b's starved probe on the "
                        f"committed activations gives {got}, the committed m3 "

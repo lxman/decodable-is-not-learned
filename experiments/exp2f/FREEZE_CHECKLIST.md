@@ -1,4 +1,4 @@
-# Exp 2f — Freeze Checklist (session 3 of 3 — OPEN FRESH)
+# Exp 2f — Freeze Checklist (session 3 of 3 — worked 2026-08-22 on Michael's word)
 
 The build session's own record (`PROGRESS.md`) is the comparison;
 nothing here is ticked until it is re-run in a fresh process.
@@ -7,7 +7,7 @@ tag; no label-match rate on committed bytes until the tag.**
 
 ## Standing adversarial assignments (work FIRST, cold)
 
-- [ ] **The class defect.** Candidates, in order: (1) an unpinned
+- [x] **The class defect — NOT FOUND.** Candidates (1)–(8) below all attacked and cleared (PROGRESS.md freeze entry); one small finding F-1 (unicode digits scored inconsistently by kind) closed additively; (6) and (8) made executable as pins/prints. Candidates, in order: (1) an unpinned
       verdict input at analysis time — the open() sweep on a world
       (2e's method), classify every read against the 12 frozen
       pins, the 34-file manifest, the item pins and the world's own
@@ -35,31 +35,32 @@ tag; no label-match rate on committed bytes until the tag.**
       the record; (8) the bar asymmetry (§7): print the minimum
       detectable accuracy per cell beside the record so INVERTED
       cannot be read without it.
-- [ ] Determinism: `compute_cell` on a world twice in separate
-      processes, byte-identical.
-- [ ] Label totality with a larger alphabet (unicode digits, full-
+- [x] Determinism: `compute_cell` on a world twice in separate
+      processes, byte-identical (494cdd21…).
+- [x] Label totality with a larger alphabet — FOUND F-1, closed (ASCII-only parse); never raised. Was: (unicode digits, full-
       width, superscripts — does `\d` match them? and does 2c's
       regex?) — the draw side must never raise.
-- [ ] Doc re-read against the code: slips (a)–(e) in `PROGRESS.md`
-      plus whatever the re-read finds.
-- [ ] The mutation harness: add a `.mutation_backup` written BEFORE
-      the in-place edit, and a freeze check that none exists.
+- [x] Doc re-read against the code: slips (a)–(g) in `PROGRESS.md`.
+- [x] The mutation harness: `.mutation_backup` written BEFORE the
+      in-place edit; battery check 11 refuses with one present.
 
 ## Cold battery (re-run, fresh process)
 
-- [ ] Suite 47 (labels 8, probe 11, analyzer 22, full-shape 6).
-- [ ] Referent battery `verify_referents_2f.py`: 10/10, with check 10
+- [x] Suite **49** (labels 9, probe 12, analyzer 22, full-shape 6).
+- [x] Referent battery `verify_referents_2f.py`: **11/11** cold, check 10
       reporting "no collection yet".
-- [ ] Mutation battery: 52/56 + 4 documented equivalents, baseline
-      clean, no stranded mutant (`git diff` empty on the sources).
-- [ ] `make_referents_2f.py` byte-idempotent (b94dab85…).
-- [ ] Empty tree: every loader refuses, never a verdict; a missing
-      continuity record is a referent failure, not an exception.
+- [x] Mutation battery re-run in full after the freeze edits: **55/60**,
+      the five survivors one documented equivalence class; baseline
+      clean; no stranded mutant, no backup file.
+- [x] `make_referents_2f.py` byte-idempotent (b94dab85…; battery 3).
+- [x] Empty tree: the real trees with no collection →
+      INSUFFICIENT_DATA delivered (attack 2-i); never an exception.
 
 ## Needs Michael before the tag
 
-- [ ] Findings A–E (`PROGRESS.md`), the four equivalent mutants, the
-      doc slips; then tag `exp2f-preregistered`.
+- [ ] Build findings A–E, freeze finding F-1 and the three additive
+      pins, the five equivalent mutants, doc slips (a)–(g)
+      (`PROGRESS.md`); then tag `exp2f-preregistered`.
 
 ## After the tag
 

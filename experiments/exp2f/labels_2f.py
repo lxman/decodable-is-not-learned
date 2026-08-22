@@ -34,7 +34,7 @@ N_ITEMS = bt.N_ITEMS
 MISS = None                                # an emission with no valid label
 
 _N_CLASSES = {"mid_digit": 10, "last_digit": 10, "mod7": 7}
-_DIGITS = re.compile(r"\d+")
+_DIGITS = re.compile(r"[0-9]+")      # ASCII only (freeze F-1): a unicode digit run is a MISS for EVERY kind
 
 
 def n_classes(kind: str) -> int:

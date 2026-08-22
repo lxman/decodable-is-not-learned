@@ -118,8 +118,10 @@ def detect(per_site: dict, *, floor: float, alpha: float = ALPHA) -> dict:
     detected = bool(corrected[best] < alpha and accs[best] > floor)
     lo, hi = st.clopper_pearson(per_site[sites[best]]["correct"],
                                 per_site[sites[best]]["n"])
+    n0 = per_site[sites[best]]["n"]
     return {
         "detected": detected, "best_site": list(sites[best]),
+        "min_detectable_acc": min_detectable_acc(n0, floor, alpha, len(sites)),
         "best_acc": accs[best], "best_cp95": [lo, hi],
         "p_corrected_best": corrected[best], "floor": float(floor),
         "alpha": alpha, "n_sites": len(sites),
@@ -127,6 +129,16 @@ def detect(per_site: dict, *, floor: float, alpha: float = ALPHA) -> dict:
                                "p_corrected": corrected[i]}
                      for i, s in enumerate(sites)},
     }
+
+
+def min_detectable_acc(n: int, floor: float, alpha: float, n_sites: int) -> float:
+    """The smallest accuracy at n items that clears the floor by the
+    bar after Bonferroni over n_sites — the probe rung's resolution,
+    printed beside every reading (design §7)."""
+    for k in range(int(n) + 1):
+        if st.binomial_bar(k, n, floor, alpha)["p"] * n_sites < alpha and k / n > floor:
+            return k / n
+    return 1.0
 
 
 def probe_rung(act_tr_train, y_train, act_tr_eval, y_eval,
