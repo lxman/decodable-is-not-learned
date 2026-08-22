@@ -1,0 +1,25 @@
+{
+ "rung": "rev_string7",
+ "size": "1b",
+ "mode": "trained",
+ "tier": "main",
+ "on_production_path": true,
+ "n_items": 500,
+ "seeds_rederived": [
+  0
+ ],
+ "draws_per_seed": 64,
+ "draws_compared": 32000,
+ "n_diffs": 0,
+ "diffs": [],
+ "fires_reproduced": [],
+ "committed_draws_sha256": "4b8afc4b6eb14764bbd48649b6e07fd46caa4a7af3a2f2929f15d66b21f876f0",
+ "committed_shard": "rev_string7.draws.jsonl.gz",
+ "items_sha256": "d0fca235d101e142aabaddbdf5d78e189b7a91c96672364b961e83d1635a83f5",
+ "model_sha": "f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2",
+ "dtype": "float32",
+ "stack": {
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ }
+}
