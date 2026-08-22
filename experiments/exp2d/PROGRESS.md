@@ -987,3 +987,20 @@ PROVENANCE with the two new rows and the 2026-08-22 paragraph,
 commit map regenerated, 769 rows). `v1.0`–`v1.3` untouched off the
 current line. Zenodo v1.4 NOT minted — Michael's call (precedent:
 tag + `gh release create` → webhook).
+
+### Zenodo v1.4 MINTED — 2026-08-22 (Michael: "cut v1.4")
+
+GitHub release `v1.4` on the public repo at the apparatus commit
+7da6071 → Zenodo webhook → **10.5281/zenodo.22056230** under concept
+DOI 10.5281/zenodo.21830421 (v1.0 21830422, v1.1 21998671, v1.2
+22011547, v1.3 22045940). Public PROVENANCE.md/README.md brought
+current (apparatus commit 85a196f, fast-forward). Paper: status block
+(twenty tags, re-extracted 2026-08-22, latest v1.4), the disclosure
+paragraph's DOI list and the repository-inventory sentence (the
+`exp2d-*` record named as "closed after this paper's lessons were
+written and not drawn on here") in the md and at parity in
+`tmlr/body.tex` / `\zenodospan`; all three PDFs rebuilt and verified
+by text extraction (md PDF 31 pp: DOI ×2, exp2d ×3; main.pdf 26 pp
+anonymous: DOI redacted, exp2d present, 0 leaks; preprint.pdf: DOI
+present). The venv gained `markdown` (build-only). Methods-paper
+lesson from 2d: still Michael's call; §6 unchanged.
