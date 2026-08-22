@@ -41,7 +41,8 @@ def test_w1_pass_shape(worlds):
     assert p["eps"] == 1 / 64_000 and p["alpha"] == .01 and p["auc_bar"] == .75
     # the disclosure rides verbatim on the record and in the sentence
     assert v["known_inputs_caveat"] == a.KNOWN_INPUTS_CAVEAT_2E
-    assert "known to the designer" in v["known_inputs_caveat"]
+    assert "designer of this document has read them" in v["known_inputs_caveat"]
+    assert "not in what the designer knew" in v["known_inputs_caveat"]
     s = v["licensed_sentence_if_pass"]
     assert "2d's null was its threshold's" in s and "B0" in s \
         and "floor alone" in s and a.KNOWN_INPUTS_CAVEAT_2E in s

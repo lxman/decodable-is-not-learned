@@ -62,18 +62,21 @@ FUNCTIONALS = ("F1", "F2", "F3", "B0")
 KNOWN_INPUTS_CAVEAT_2E = (
     "What 2e cannot be: a forecast, or even 2d's kind of test. 2d's "
     "outcome was known; 2e's predictor inputs are known too — every "
-    "per-rung tally is in 2d's committed verdict record, and the designer "
-    "of this document has read them alongside the outcome. The "
+    "per-rung tally is in 2d's committed verdict record, and the "
+    "designer of this document has read them alongside the outcome. The "
     "preregistration therefore protects against exactly one thing: "
-    "picking the functional after computing its correlation. It does not "
-    "protect against a functional chosen with the tallies in view, and "
-    "the doc says so. Three guards are built in: the family of "
-    "admissible functionals is small and enumerated (design §5.1), one is "
-    "primary and the rest are printed; the pilot tier — a different seed, "
-    "drawn before any of this was written — replicates the primary; and "
-    "the dumbest baseline, rank-by-floor-alone, is reported beside every "
+    "picking the functional after computing its correlation. It does "
+    "not protect against a functional chosen with the tallies in view, "
+    "and the doc says so. Three guards are built in: the family of "
+    "admissible functionals is small and enumerated here (§5.1), one is "
+    "primary and the rest are printed; the pilot tier — a different "
+    "seed, drawn before any of this was written — replicates the "
+    "primary (independent in SEED, not in what the designer knew: its "
+    "per-cell tallies were as visible as main's, in 2d's runner logs "
+    "and in `power_2d.json`'s attested pilot predictor); and the "
+    "dumbest baseline, rank-by-floor-alone, is reported beside every "
     "result (§8). A PASS licenses a sentence about 2d's rule, not about "
-    "Prediction 2. Every input was known to the designer.")
+    "Prediction 2.")
 
 # ----------------------------------------------------- frozen-file pins
 #

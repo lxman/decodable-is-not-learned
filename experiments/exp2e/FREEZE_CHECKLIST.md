@@ -7,14 +7,18 @@ ticks and what still needs Michael. Nothing here touched a real
 tally with a functional: the referent battery and every fixture on
 the real tree stop at 2d's known numbers.
 
-## Needs Michael BEFORE the tag
+## Needs Michael BEFORE the tag — RULED 2026-08-22 ("F-1 ratified, slips as recommended — apply and tag")
 
-- [ ] **F-1 — the §6 terminal's boundary** (tree referents → the
-      terminal, delivered; instrument pins → a hard error). Recommend
-      ratify; slip (b) is its doc text.
-- [ ] **Doc slips (a)–(g)** (`PROGRESS.md`): disclosures and
-      definitions only — no dial, no bar, no branch moves. Recommend
-      apply as written, then tag `exp2e-preregistered`.
+- [x] **F-1 — the §6 terminal's boundary** (tree referents → the
+      terminal, delivered; instrument pins → a hard error). RATIFIED;
+      slip (b) applied to §6.
+- [x] **Doc slips (a)–(g)** RATIFIED as recommended, applied to the
+      doc (§2, §4, §5.1 ×2, §5.4, §5.5, §6, §10 c). Found while
+      applying (g): `KNOWN_INPUTS_CAVEAT_2E` was a paraphrase of §2,
+      not the paragraph — ruling g says verbatim; replaced with the
+      doc paragraph extracted from the file, with a fixture that
+      compares the two. Cold battery re-run in fresh processes after
+      the edits; tag `exp2e-preregistered` placed.
 
 ## Standing adversarial assignments (worked)
 

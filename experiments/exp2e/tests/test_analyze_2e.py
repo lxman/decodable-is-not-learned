@@ -391,3 +391,12 @@ def test_run_on_the_clean_world_is_a_verdict(world):
     assert v["verdict"] in ("PASS", "FAIL", "INDETERMINATE")
     assert v["referents"]["failures"] == [] and v["primary"] is not None
     assert v["referents"]["manifest"]["n_files"] == 273
+
+
+def test_caveat_is_the_doc_paragraph_verbatim():
+    """Ruling g: the §2 paragraph, not a paraphrase."""
+    import re
+    doc = (a.REPO / "experiment-2e-design.md").read_text()
+    m = re.search(r"\*\*What 2e cannot be:.*?Prediction 2\.", doc, re.S)
+    para = re.sub(r"\s*\n\s*", " ", m.group(0).replace("**", "")).strip()
+    assert a.KNOWN_INPUTS_CAVEAT_2E == para

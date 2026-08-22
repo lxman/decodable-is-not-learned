@@ -7,7 +7,10 @@ d 2d's bars and tree unchanged; e pilot replication non-gating; f B0
 printed beside F1 and named in the licensed sentence, not a PASS
 conjunct; g the §2 disclosure repeated verbatim in the verdict record
 and in any licensed sentence. Build + freeze in one session
-(2026-08-22) per §11. Analysis-only: no model is loaded, nothing is
+(2026-08-22) per §11; freeze finding F-1 and doc slips (a)–(g)
+RATIFIED by Michael the same day ("F-1 ratified, slips as
+recommended — apply and tag") and applied below; FROZEN, tag
+`exp2e-preregistered`. Analysis-only: no model is loaded, nothing is
 sampled; every input is a committed 2d or 2c artifact. Session 1
 (design) was written 2026-08-22 at Michael's request after Exp 2d
 closed FAIL.**
@@ -61,9 +64,11 @@ against a functional chosen with the tallies in view, and the doc
 says so. Three guards are built in: the family of admissible
 functionals is small and enumerated here (§5.1), one is primary and
 the rest are printed; the pilot tier — a different seed, drawn before
-any of this was written — replicates the primary; and the dumbest
-baseline, rank-by-floor-alone, is reported beside every result
-(§8). A PASS licenses a sentence about 2d's rule, not about
+any of this was written — replicates the primary (independent in
+SEED, not in what the designer knew: its per-cell tallies were as
+visible as main's, in 2d's runner logs and in `power_2d.json`'s
+attested pilot predictor); and the dumbest baseline,
+rank-by-floor-alone, is reported beside every result (§8). A PASS licenses a sentence about 2d's rule, not about
 Prediction 2.
 
 ## 3. The matrix
@@ -77,7 +82,8 @@ the 34 item files. Every loader is 2d's, imported and sha-pinned;
 ## 4. Referents
 
 - 2d's main and pilot cell records and draws files, by sha (the
-  referent manifest lists all 272 files); the re-tally must reproduce
+  referent manifest `referents_2e.json` has 273 entries: the 272 tier
+  files and 2d's `verdict.json`); the re-tally must reproduce
   each record's stored `per_seed_tallies` exactly (2d's loader
   already refuses otherwise).
 - 2d's `verdict.json` by sha; 2e's comparison column must reproduce
@@ -110,15 +116,18 @@ continuity ε = 1 / (2 · 32,000) (half a draw).
 - **F1 — log excess over the floor (PRIMARY, proposed):**
   x_g = mean over s ∈ {410m, 1b} of log((r_gs + ε) / c_g). The
   quantity 2d thresholded at zero, in log units and unthresholded: a
-  rung sampling at exactly its format floor scores 0, above it
+  rung sampling at exactly its format floor scores log(1 + ε/c_g) ≈ 0
+  (at most .0078, at the battery's smallest floor .002), above it
   positive, below it negative. Rungs at zero draws sit at
   log(ε / c_g), ordered by their floors among themselves (a known
   artefact; disclosed, and the reason F3 exists).
 - **F2 — raw log rate:** mean over s of log(r_gs + ε). No floor
   adjustment; what a naive reviewer would compute.
-- **F3 — rank residual:** the rank of r_g (mean rate over sizes) with
-  the rank of c_g partialled out (Spearman partial). Floor-adjusted
-  without a functional form.
+- **F3 — rank residual:** R_g = midrank (over the 34) of the mean
+  rate over sizes, Z_g = midrank of c_g; F3_g = R_g − (â + b̂ Z_g)
+  with (â, b̂) the least-squares fit of R on Z with an intercept — the
+  Spearman partial's residual. Floor-adjusted without a functional
+  form.
 - **B0 — the floor alone:** −log c_g. The dumbest baseline (§8); if
   F1's separation is no better than B0's, the signal is the answer
   space's, not the model's.
@@ -155,7 +164,10 @@ scale. PASS direction AUC > .5, α = .01.
   rank correlation between pilot-F1 and main-F1 across rungs (the
   predictor's own seed-to-seed stability).
 - 1b-only and 410m-only F1.
-- The 2c probe predictor's AUC (.6008) and ρ (.368) beside F1's.
+- The 2c probe predictor beside F1's: its AUC on THIS label (.6008,
+  2d's `probe_predictor_auc` secondary, recomputed from 2c's committed
+  probe scores) and 2c's own ρ (.368, the probe against 2c's frozen
+  ascent, from 2c's verdict) — two records, labelled as such.
 - The 2d comparison column: 2d's thresholded predictor re-derived
   from the same cells (known-answer gate: AUC .5455 exactly).
 - Per rung: r_410m, r_1b, c, F1, F2, F3, B0, label, corrected ascent
@@ -163,16 +175,22 @@ scale. PASS direction AUC > .5, α = .01.
 
 ### 5.5 Sensitivity (pre-declared, printed, non-gating)
 
-ε ∈ {1/64,000, 1/32,000, 1/3,200}; F1 with the majority share alone
+ε ∈ {1/64,000, 1/32,000, 1/3,200} (the first is the primary's own ε,
+repeated for reference); F1 with the majority share alone
 as c_g (ruling k undone) on the six option-listing rungs; F1 with
 the two first-digit-run rungs (base12_digitsum, base13) removed.
 
 ## 6. Verdict tree
 
-1. **INSUFFICIENT_DATA** — any pinned referent fails (a 2d file not
-   at its sha; the re-tally disagreeing with a stored tally; the
-   known-answer gates — 2c's ascent 34/34, 2d's primary reproduced
-   exactly — failing).
+1. **INSUFFICIENT_DATA** — any pinned TREE referent fails (a 2d file
+   not at its sha; the re-tally disagreeing with a stored tally; the
+   §4 tally table; the known-answer gates — 2c's ascent 34/34, 2d's
+   primary reproduced exactly — failing). Delivered as a verdict
+   record with the reasons verbatim, never raised (freeze finding
+   F-1, ratified): the loaders' refusals are collected. A failure of
+   an INSTRUMENT pin — 2d's code and 2c/2b/exp3's frozen files, the
+   item files, the two manifests' own shas, 2d's stream map — is a
+   hard error with no verdict: the instrument is not what was tagged.
 2. **FAIL** — the cluster CI on AUC(F1) includes .5.
 3. **PASS** — block p < .01 AND AUC(F1) ≥ .75.
 4. **INDETERMINATE** — neither.
@@ -235,8 +253,9 @@ b. **Primary outcome — RULED AUC on the label.** The rising/flat label with AU
    2d; proposed) vs the corrected ascent with Spearman (uses the
    magnitude; 23 zeros on the outcome side). Recommend AUC, Spearman
    as the named secondary.
-c. **ε — RULED half a draw.** Half a draw (proposed); the sensitivity prints 1/64,000 and
-   1/3,200.
+c. **ε — RULED half a draw.** Half a draw (proposed, = 1/64,000 at
+   main's resolution); the sensitivity prints 1/32,000 and 1/3,200
+   beside it.
 d. **Bars and tree — RULED unchanged.** 2d's (α .01, AUC ≥ .75, CI falsifier)
    unchanged, for comparability. Recommend unchanged.
 e. **Pilot replication — RULED non-gating.** Non-gating (proposed) vs a conjunct of PASS

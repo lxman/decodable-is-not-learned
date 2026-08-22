@@ -177,3 +177,18 @@ Standing assignment: find the class defect. Attacked:
   were as visible to the designer as main's (2d's runner logs and
   `power_2d.json`'s attested pilot predictor); the replication is
   independent in SEED, not in what the designer knew.
+
+## 2026-08-22 — RATIFICATION AND TAG
+
+Michael: "F-1 ratified, slips as recommended — apply and tag." F-1's
+boundary sentence (slip b) and slips (a), (c)–(g) applied to the
+design doc in place; no dial, bar or branch moved. While applying
+(g): the analyzer's `KNOWN_INPUTS_CAVEAT_2E` was a PARAPHRASE of the
+§2 paragraph, and ruling g says verbatim — replaced with the
+paragraph itself (extracted from the doc, bold markup and line
+breaks normalized), pinned by a fixture that re-extracts and
+compares. Cold battery re-run in fresh processes after the edits
+(referents 12/12; suite 52); tag `exp2e-preregistered`. Next: the
+projection sealed before the analyzer (with the §2 disclosure — its
+author has seen the tallies), then `analyze_2e.run(write=True)` ONCE
+on Michael's go → `results/verdict.json` → `exp2e-closed`.
