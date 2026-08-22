@@ -1,10 +1,13 @@
 # Experiment 2f — Design Doc: Ladder Order on the Probe-Flat-but-Rising Pair — One Label, Three Instruments, the Same Weights
 
-**Status: DRAFT — session 1 (design) of a design | build | freeze
-protocol, written 2026-08-22 at Michael's request after Exp 2e
-closed. Model contact is confined to one small activation
-collection (§9); nothing is sampled. The §10 dials need Michael's
-rulings before the build.**
+**Status: §10 DIALS RULED by Michael 2026-08-22 ("dials as
+recommended — build"): a last-digit label for arith_next, 2c's mod-7
+printed; b the eval-item probe primary, probe-item CV printed; c void
+on twin detection; d Bonferroni over 2c's site family; e INVERTED
+includes argmax-without-sampler; f licences as written. Session 1
+(design) written 2026-08-22 after Exp 2e closed; BUILD is session 2.
+Model contact is confined to one small activation collection (§9),
+after the tag, on Michael's word; nothing is sampled.**
 
 Lineage: 2c (probe ladder, FAIL) → 2d (sampling ladder, FAIL) → 2e
 (floor as covariate, FAIL) → 2f. 2d's §5.4 found that the two rungs
@@ -201,23 +204,23 @@ Activation collection for the 500 eval items: 2 rungs × 2 sizes ×
 positions — minutes on the Mac. No sampling; no eval-size model. The
 probe-item activations are the committed 2b/2c files on disk.
 
-## 10. Dials — for Michael's ruling
+## 10. Dials — RULED 2026-08-22 (a–f as recommended)
 
-a. **arith_next label:** last digit (i; recommended primary) vs 2c's
+a. **arith_next label — RULED (i).** Last digit (i; recommended primary) vs 2c's
    mod-7 residue (ii; printed). Recommend (i) primary, (ii) in full
    as the secondary.
-b. **Probe primary:** eval-item probe (n = 500, item-matched,
+b. **Probe primary — RULED eval-item.** Eval-item probe (n = 500, item-matched,
    recommended) vs probe-item cross-validation (n = 1,000–2,000,
    higher power, not the items the generators are scored on).
    Recommend eval-item, CV printed.
-c. **Void rule:** twin detects at the trained best site → cell VOID
+c. **Void rule — RULED void.** Twin detects at the trained best site → cell VOID
    (recommended) vs → INSUFFICIENT_DATA outright.
-d. **Bonferroni over the site family** (2c's convention; recommended)
+d. **Bonferroni over the site family — RULED.** (2c's convention; recommended)
    vs the single prompt-end site.
-e. **INVERTED includes argmax-without-sampler** (recommended — the
+e. **INVERTED includes argmax-without-sampler — RULED yes.** (recommended — the
    bottom of the ladder was established in 3b/3) vs sampler-without-
    probe only.
-f. **Licences as written in §6.** Recommend yes.
+f. **Licences as written in §6 — RULED yes.**
 
 ## 11. Process
 
