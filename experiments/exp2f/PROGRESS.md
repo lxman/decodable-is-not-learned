@@ -280,3 +280,18 @@ moved. Cold battery re-run in fresh processes after the edits; tag
 `exp2f-preregistered`. Next: `collect_eval_2f.py` ×4 on Michael's
 word (the only model contact; gate 1 inside), then the projection
 sealed, then `analyze_2f.run(write=True)` ONCE → `exp2f-closed`.
+
+## 2026-08-22 — THE COLLECTION (the only model contact), on Michael's word
+
+`collect_eval_2f.py` ×4 (410m/1b × trained/untrained), 75 s total on
+MPS, torch/transformers as recorded in the continuity records. **Gate
+1 IDENTICAL on all eight (size, mode, rung) comparisons: max absolute
+and relative deviation 0.0** — the re-collected probe items are
+byte-identical to the committed 2b/2c rows, so the untrained twin IS
+the same seeded network the probe is trained on and the trained
+model is on the same stack; the tolerance was never needed. Eval
+arrays: (500, 25, 2, 1024) at 410m, (500, 17, 2, 2048) at 1b, fp16.
+Policy (2b/2c's, carried): the 431 MB of arrays are gitignored; their
+sha256 digests are committed at `results/activations_eval_sha256.txt`
+beside the four continuity records. Next: projection sealed, then
+`analyze_2f.run(write=True)` ONCE on Michael's word.

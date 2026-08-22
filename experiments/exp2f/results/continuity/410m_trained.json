@@ -1,0 +1,50 @@
+{
+ "size": "410m",
+ "mode": "trained",
+ "model_sha": "9879c9b5f8bea9051dcb0e68dff21493d67e9d4f",
+ "untrained_seed": null,
+ "n_items_per_rung": 8,
+ "tolerance": {
+  "rtol": 0.01,
+  "atol": 0.01
+ },
+ "rungs": {
+  "sub3_mid": {
+   "items": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_compared": 8,
+   "max_abs_diff": 0.0,
+   "max_rel_diff": 0.0,
+   "identical": true
+  },
+  "arith_next": {
+   "items": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_compared": 8,
+   "max_abs_diff": 0.0,
+   "max_rel_diff": 0.0,
+   "identical": true
+  }
+ },
+ "stack": {
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ },
+ "pass": true
+}
