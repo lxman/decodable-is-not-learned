@@ -125,3 +125,15 @@ resolution with this floor.
 - No slicing of the battery; no alternative floors (the option-copy
   floor stays at 1/n); no second statistic; no k = 128 deepening
   framed as part of 2d; the one pre-committed change stays UNSPENT.
+
+---
+**Correction note (2026-08-22, after sealing; the text above is
+unchanged):** the seal commit `d40a1cf` says no argmax record existed.
+In fact the watcher had committed four argmax/410m records before it
+(rev_string7, reverse_string, add3_mid, add4_mid — `4fc4f6a`…`69df3f3`);
+none was opened before the projection was written, and the only
+argmax numbers seen beforehand were the runner's two reversal lines
+("0/500; vs exp3 redecode: 0 diffs"), which the projection's
+"redecode 0 diffs" line therefore does not get credit for. The 1b
+argmax records — the ones the performability projection is about —
+did not exist.
