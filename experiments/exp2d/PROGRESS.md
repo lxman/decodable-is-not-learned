@@ -1004,3 +1004,20 @@ by text extraction (md PDF 31 pp: DOI ×2, exp2d ×3; main.pdf 26 pp
 anonymous: DOI redacted, exp2d present, 0 leaks; preprint.pdf: DOI
 present). The venv gained `markdown` (build-only). Methods-paper
 lesson from 2d: still Michael's call; §6 unchanged.
+
+### Methods paper §6 — EIGHTH LESSON added 2026-08-22 (Michael: "add the eighth lesson to §6"), awaiting his read
+
+From freeze finding F-1: *a frozen verdict must be able to deliver its
+own refusal terminal from the tree the runner actually leaves behind*
+— the halt withholds the draws file by design, the analyzer loaded
+the tier before the gate and raised instead of refusing, and the
+full-shape world that "reached" the terminal was a tree the runner
+could never produce; the rule is to build every refusal terminal's
+world with the producer's own failure path. Checklist item 22 added;
+the disclosure inventory now says 2d's freeze supplies the lesson;
+status block updated. Applied in the md and at word parity in
+`tmlr/body.tex`; three PDFs rebuilt and text-verified (md 32 pp,
+main 26 pp anonymous with 0 leaks, preprint 27 pp). F-4 (symmetric
+conditioning) and F-3 (exact match as a normalizer property) NOT
+added — one lesson, as instructed. Public repo still carries the
+v1.4 paper without it (a re-extraction / v1.5 is a separate call).

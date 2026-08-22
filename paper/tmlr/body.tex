@@ -953,6 +953,41 @@ re-derive its direction there, rather than inheriting the direction
 from the test the rule was written for. (Record under the
 \texttt{exp3e-*} tags.)
 
+\textbf{The eighth lesson: a frozen verdict must be able to deliver its own
+refusal terminal from the tree the runner actually leaves behind.} The
+sampling-ladder experiment that closed this program's Prediction 2 arc
+had a verdict tree whose first terminal, \texttt{INSUFFICIENT\_DATA}, fires when
+the production path's byte comparison against a committed stream finds
+any difference. The runner implemented the halt correctly: on a
+differing draw it wrote the comparison record, parked the rows in a
+separate file, withheld the rung's normal draws file so that a resumed
+campaign could never mistake a halted rung for a finished one, and
+stopped. That design makes the main tier incomplete by construction
+whenever the gate fires. The frozen analyzer loaded the main tier
+before it read the gate, and its loader refused an incomplete tier with
+a hard error, as it should. So on exactly the tree a halted campaign
+leaves, the verdict did not say \texttt{INSUFFICIENT\_DATA}; it raised
+\texttt{FileNotFoundError}. The full-shape world that had ``reached'' that
+terminal during the build was a complete tree with one altered draw, a
+tree the runner could never produce, because not producing it is what
+the halt is for. Every synthetic world had been built from the
+analyzer's own loaders and writers; none had been built from the
+runner's failure path. The freeze found it by running the runner's halt
+function on a synthetic tranche and handing the result to the
+analyzer, and the closure was to read the gate records first,
+re-derive any recorded difference from the parked rows through the
+frozen comparator, and return the terminal with the tree's completeness
+stated, before any tier is loaded. The defect never fired on the real
+campaign, which reproduced all 128,000 committed draws byte for byte.
+It is the class of Experiment 3a's crash one level up: a verdict that
+crashes where it should refuse has an unreachable terminal, and an
+unreachable terminal is a preregistered outcome the instrument cannot
+honour. The rule: for every refusal terminal of a frozen tree, build
+the full-shape world with the producer's own failure path, not with
+the analyzer's writers, and require the analyzer to return that
+terminal from the tree as left rather than from a tree as imagined.
+(Record under the \texttt{exp2d-*} tags.)
+
 \section{The screen at inclusion time}\label{the-screen-at-inclusion-time}
 
 Both campaigns above ran the untrained control after their batteries
@@ -1394,6 +1429,12 @@ section it distills.
   verdict, never raise. Guard the measurement side only; a referent
   that crashes the criterion is a broken battery and stays a hard
   error. (\S6)
+\item
+  For every refusal terminal of a frozen verdict tree, build the
+  full-shape world with the producer's own failure path (the runner's
+  halt, not the analyzer's writers) and require the analyzer to return
+  that terminal from the tree as left. A terminal reachable only on a
+  tree the runner cannot produce is unreachable. (\S6)
 \end{enumerate}
 
 The full record behind this paper --- the design documents, the frozen
@@ -1409,8 +1450,7 @@ The same repository carries the successor experiments'
 preregistered-and-closed records (\texttt{exp3a-*}, \texttt{exp3b-*}, \texttt{exp3-*},
 \texttt{exp3c-*}, \texttt{exp3d-*}, \texttt{exp3e-*}), whose freeze rulings, totality stop
 and power mis-specification Section 6 draws on, and Experiment 2d's record
-(\texttt{exp2d-*}, closed after this paper's lessons were written and not
-drawn on here);
+(\texttt{exp2d-*}), whose freeze supplies Section 6's eighth lesson;
 interim stage tags (e.g.~\texttt{exp2c-stage1}) exist only in the private
 repository. Commit SHAs quoted inside the ledgers resolve through that
 repository's PROVENANCE.md.
