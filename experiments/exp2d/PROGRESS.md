@@ -842,3 +842,79 @@ second question (sub3_mid 6 | 3, arith_next 109 | 67 — the pair is
 NOT silent in the sampled channel at either size; arith_next is the
 only rising rung above floor) and gate 1 (128,000 draws) still need
 main's draws.
+
+---
+
+## 2026-08-22 — MAIN + ARGMAX CAMPAIGN RUN (Michael: "go"); GATE 1 CLEAN 4/4; analyzer NOT yet run
+
+**Main** (`campaign_2d --only-kind main`, reversal rungs first per
+ruling n): preflights 410m and 1b float32 OK, again byte-identical to
+exp3's committed artifacts; main/410m 261.7 min, main/1b 366.0 min,
+**627.7 min total, 68 units + 4 gate-1 records, zero stops, zero
+attrition**; every unit committed + pushed by the watcher.
+
+**GATE 1 ON THE PRODUCTION PATH: 4/4 cells IDENTICAL — 128,000
+draws against exp3's committed seed-0 bytes, 0 diffs; the one
+committed fire (reverse_string/1b, item 436, draw 6) reproduced by
+address; no other fire.** rev_string7 0/32,000 at both sizes;
+reverse_string 0/32,000 at 410m and 1/32,000 at 1b — exactly exp3's
+seed-0 tallies. The program's eighth consecutive byte-identical
+reproduction on this stack and the first through a different
+experiment's production runner (same sampler, same namespace, a
+single seed out of exp3's four).
+
+**Main tallies (verified / 32,000; 410m | 1b; effective floor) —
+the predictor before the analyzer:** arith_next **831 | 531** (.026 |
+.017 vs .020 — clears at 410m ONLY, margin .0061; score .0030); every
+other rung below its floor at both sizes: antonym 5015 | 4368 (.157 |
+.137 vs .25), odd_one_out 5324 | 5356 (.166 | .167 vs .25), median5
+3930 | 4481 (.123 | .140 vs .20), antonym6 3616 | 3147 (.113 | .098
+vs .167), odd6 2804 | 3195 (.088 | .100 vs .167), median7 2714 | 3370
+(.085 | .105 vs .143), hamming12 4322 | 3977 (.135 | .124 vs .226),
+roman_sum7 3033 | 2461 (.095 | .077 vs .154), collatz_step2 2820 |
+3145 (.088 | .098 vs .166), count_div13 2250 | 2795 (.070 | .087 vs
+.158), isqrt_gap 1795 | 2719 (.056 | .085 vs .164), mod13 1668 | 1709
+(.052 | .053 vs .094), mod17 1624 | 1564 (.051 | .049 vs .076), mod19
+1230 | 1203 (.038 | .038 vs .066), mod13_comp 922 | 1353 (.029 | .042
+vs .094), clock24_d999 1082 | 931 (.034 | .029 vs .060), clock24 933 |
+927 (.029 | .029 vs .072), sub_base8 710 | 723 (.022 | .023 vs .056),
+count_div7 652 | 838 (.020 | .026 vs .100), add_base8 242 | 170 (.008
+| .005 vs .028), base13 147 | 173 (.005 | .005 vs .068), quad_next
+145 | 156 (.005 | .005 vs .018), base12_digitsum 52 | 85 (.002 | .003
+vs .038), sub3_mid 35 | 34 (.0011 | .0011 vs .014), add3_mid 17 | 10,
+sub4_mid 12 | 15 (vs .006), oct2dec 8 | 13, caesar 7 | 7, base7 6 |
+7, caesar_len8 1 | 3, add4_mid 1 | 1, reverse_string 0 | 1,
+rev_string7 0 | 0. The pilot's prediction held rung for rung at both
+sizes: 33 of 34 predictor scores are 0; the six option-listing rungs
+sample below 1/n at 32,000 draws at both sizes.
+
+**§5.4 pair:** sub3_mid 35 | 34 and arith_next 831 | 531 verified —
+the sampled channel is NOT silent on either (rates 1e-3 and 2e-2,
+two to three orders above the reversal class); neither meets the
+percolation-candidate rule (zero count at 1b), so the named
+disconfirmer does NOT fire. Both sit below their floors at 1b.
+
+**Argmax** (`--only-kind argmax`, fp16 greedy via 2c's HFRunner):
+13.4 min both sizes, 68 records; the four reversal cells' fp16
+continuations **0 diffs vs exp3's committed redecode records** (all
+four). Greedy accuracy at 1b vs the §5.2 bar over 500 items:
+**only arith_next is performable at 1b** (19/500 = .038, exactly its
+bar; 13/500 at 410m). The option-listing rungs fail their 1/n bars
+even at greedy: antonym 87 | 87 /500 (.174 vs .25, bar 149),
+antonym6 111 | 89 (.178 at 1b vs bar 104/500 = .208), median5 109 |
+93 (.186 vs bar 122), odd6 53 | 72, odd_one_out 93 | 105 (vs 149),
+median7 72 | 80 (vs 91); count_div13 73 | 75 (vs 99); hamming12 113
+| 96 (vs 136); collatz 74 | 70, roman 83 | 74, isqrt 42 | 73 (vs
+103–104); the modulus rungs 19–36 (vs 48–64); the base-8 pair 11 | 8
+and 4 | 4; the mid-digit rungs 0–1. So the from-below restriction
+removes arith_next — the only positive predictor rung — and the
+restricted battery has no positive rung at all.
+
+**Projection status (sealed `d40a1cf` + note `0135e20`, before any
+1b argmax record existed):** the argmax performability line is
+already a MISS (projected 2–3 rising performable incl. antonym and
+antonym6; actual 1 — arith_next only; the 1b model is below a random
+option copier at greedy too). The verdict-level projection (FAIL via
+the cluster CI, AUC .5455, block p ≈ .67) is graded when the frozen
+analyzer runs ONCE on Michael's go. Watcher still running (it will
+commit `results/verdict.json`).
