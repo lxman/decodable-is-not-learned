@@ -200,7 +200,7 @@ def test_collector_compare_rows_and_record():
     new = com.astype(np.float32); new[0, 3, 1, 5] += 0.5
     d = ce.compare_rows(new, com)
     assert not d["identical"] and d["max_abs_diff"] == pytest.approx(0.5, abs=1e-3)
-    with pytest.raises(ValueError, match="shapes"):
+    with pytest.raises(ValueError, match="compare_rows"):
         ce.compare_rows(com[:4], com)
     rec = a.continuity_record(size="410m", mode="untrained", per_rung={
         r: {"items": list(range(8)), **d} for r in lb.RUNGS}, stack={"t": "x"})
@@ -215,3 +215,102 @@ def test_collector_uses_2cs_renderer_and_positions():
     q, shots = "What is 1 + 1?", [("What is 2 + 2?", "4")]
     assert screen._render_prompt(q, shots) == b2.render_prompt(q, shots)
     assert ce.screen is screen
+
+
+# ------------------------------------------------- negatives and run()
+
+def test_frozen_import_pin_fires(monkeypatch):
+    pins = dict(a.FROZEN_IMPORT_SHA256_2F)
+    k = next(iter(pins)); pins[k] = "0" * 64
+    monkeypatch.setattr(a, "FROZEN_IMPORT_SHA256_2F", pins)
+    with pytest.raises(ValueError, match="frozen file"):
+        a.check_frozen_imports_2f()
+
+
+def test_probe_npz_y_gate(world, tmp_path):
+    root, pins = world
+    battery = fs.battery()
+    p = mk.probe_npz_path("1b", "trained", "arith_next", probe_root=root)
+    z = np.load(p, allow_pickle=False)
+    y = z["y"].copy(); y[0] = "9" if y[0] != "9" else "8"
+    alt = tmp_path / "p.npz"
+    np.savez_compressed(alt, X=z["X"], y=y, meta=z["meta"])
+    with pytest.raises(ValueError, match="probe_label"):
+        a.load_probe_acts(alt, battery["arith_next"])
+    with pytest.raises(ValueError, match="activation file"):
+        a.load_probe_acts(p, battery["arith_next"], sha_pin="0" * 64)
+
+
+def test_eval_npz_y_gate(world, tmp_path):
+    root, pins = world
+    battery = fs.battery()
+    p = a.eval_npz_path(root, "1b", "trained", "arith_next")
+    z = np.load(p, allow_pickle=False)
+    y = z["y"].copy(); y[3] = "0"
+    alt = tmp_path / "e.npz"
+    np.savez_compressed(alt, X=z["X"], y=y, meta=z["meta"])
+    with pytest.raises(ValueError, match="answer list"):
+        a.load_eval_npz(alt, size="1b", mode="trained", rung="arith_next",
+                        cap=battery["arith_next"], n_layers=7)
+
+
+def test_manifest_check_lists_changed_file(world):
+    root, pins = world
+    rec = a.load_manifest(pins["manifest_path"], file_sha_pin=pins["manifest_sha_pin"])
+    assert a.check_manifest(rec) == []
+    rec2 = json.loads(json.dumps(rec))
+    k = next(k for k in rec2["files"] if k.endswith("sub3_mid.npz"))
+    rec2["files"][k] = "1" * 64
+    bad = a.check_manifest(rec2)
+    assert len(bad) == 1 and k in bad[0] and "hashes to" in bad[0]
+
+
+def _kw(root, pins, **over):
+    kw = dict(d2_root=root, probe_root=root, manifest_path=pins["manifest_path"],
+              manifest_sha_pin=pins["manifest_sha_pin"], exact_pin=pins["exact_pin"],
+              m3_pin=pins["m3_pin"], npz_pin=pins["npz_pin"])
+    kw.update(over)
+    return kw
+
+
+def test_run_clean_world_is_ladder_with_the_primary_label(world):
+    root, pins = world
+    v = a.run(root, **_kw(root, pins))
+    assert v["verdict"] == "LADDER" and v["known_inputs_caveat"] == a.KNOWN_INPUTS_CAVEAT_2F
+    c = v["cells"]["arith_next/1b"]
+    assert c["D"] == [True, True, True] and c["label"] == "last_digit"
+    # main and pilot differ by construction at 410m (pilot label-silent)
+    c4 = v["cells"]["arith_next/410m"]
+    assert c4["sampling"]["main"]["D"] is True and c4["sampling"]["pilot"]["D"] is False
+    assert c4["D"][1] is True
+    assert v["n_void"] == 0 and v["n_violations"] == 0
+    assert v["secondaries"]["arith_next_mod7"]["cells"]["arith_next/1b"]["label"] == "mod7"
+
+
+def test_run_routes_continuity_and_m3_failures(world):
+    root, pins = world
+    bad_m3 = {k: dict(v) for k, v in pins["m3_pin"].items()}
+    bad_m3[("sub3_mid", "410m")]["accuracy"] += 0.01
+    v = a.run(root, **_kw(root, pins, m3_pin=bad_m3))
+    assert v["verdict"] == "INSUFFICIENT_DATA" and \
+        any("m3 gate sub3_mid/410m" in f for f in v["referents"]["failures"])
+    assert v["known_inputs_caveat"] == a.KNOWN_INPUTS_CAVEAT_2F
+    # a bad continuity record, written over the clean one and restored
+    p = a.continuity_path(root, "410m", "untrained")
+    keep = p.read_text()
+    try:
+        fs.write_continuity(root, "410m", "untrained", max_abs=1.0, max_rel=0.5)
+        v2 = a.run(root, **_kw(root, pins))
+    finally:
+        p.write_text(keep)
+    assert v2["verdict"] == "INSUFFICIENT_DATA" and \
+        any("continuity 410m/untrained" in f for f in v2["referents"]["failures"])
+
+
+def test_run_both_arith_cells_void_is_insufficient(tmp_path_factory):
+    tmp = tmp_path_factory.mktemp("void")
+    strong = {(r, s): 4.0 for r in lb.RUNGS for s in lb.SIZES}
+    v = fs.build_world(tmp, cells=fs.full_cells(), probe_strength=strong,
+                       twin_strength={("arith_next", s): 4.0 for s in lb.SIZES})
+    assert v["verdict"] == "INSUFFICIENT_DATA" and v["n_void"] == 2
+    assert "void" in v["reason"]

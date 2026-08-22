@@ -306,8 +306,9 @@ def full_cells(*, arith=(300, 6000), arith_argmax=(20, 80), sub=(0, 0)):
     an eighth in pilot, `arith_argmax` in argmax; sub3_mid `sub`."""
     spec = {}
     for size in SIZES:
-        spec[("arith_next", size)] = {"main": arith,
-                                      "pilot": (arith[0] // 8, arith[1] // 8),
+        # the 410m pilot is kept label-silent so main and pilot differ
+        pilot = (arith[0] // 8, arith[1] // 8 if size == "1b" else 0)
+        spec[("arith_next", size)] = {"main": arith, "pilot": pilot,
                                       "argmax": arith_argmax}
         spec[("sub3_mid", size)] = {"main": sub, "pilot": (sub[0] // 8, sub[1] // 8),
                                     "argmax": (0, 0)}
@@ -319,6 +320,10 @@ def full_cells(*, arith=(300, 6000), arith_argmax=(20, 80), sub=(0, 0)):
 def mutate_manifest(root, pins):
     p = a2d.tier_record_path(root, "pilot", "410m", "sub3_mid")
     p.write_text(p.read_text() + "\n")
+
+
+def mutate_m3_pin(root, pins):
+    pins["m3_pin"][("arith_next", "1b")]["accuracy"] += 0.01
 
 
 def mutate_exact_pin(root, pins):

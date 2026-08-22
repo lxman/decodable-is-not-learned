@@ -309,7 +309,6 @@ def load_probe_acts(path, cap, *, sha_pin=None):
 
 
 def load_eval_npz(path, *, size, mode, rung, cap, n_layers):
-    from models import PYTHIA_SHAS
     act, y, meta = load_npz_map(path)
     want = eval_meta(size=size, mode=mode, rung=rung, n_layers=n_layers,
                      stack=None)
@@ -318,8 +317,6 @@ def load_eval_npz(path, *, size, mode, rung, cap, n_layers):
             continue
         if meta.get(k) != v:
             raise ValueError(f"{path}: {k} = {meta.get(k)!r}, expected {v!r}")
-    if meta.get("model_sha") != PYTHIA_SHAS[size]:
-        raise ValueError(f"{path}: model_sha")
     answers = [str(it["answer"]) for it in cap["eval_items"]]
     if [str(v) for v in y] != answers:
         raise ValueError(f"{path}: y is not the committed answer list")

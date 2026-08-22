@@ -90,9 +90,10 @@ def test_detect_requires_bar_and_rate_above_floor():
     # Bonferroni: a site that clears alpha raw but not ×n_sites is not detected
     per3 = {(l, s): {"acc": .10, "correct": 50, "n": 500}
             for l in range(9) for s in range(2)}
-    per3[(3, 0)] = {"acc": .128, "correct": 64, "n": 500}   # raw p ≈ .02
+    per3[(3, 0)] = {"acc": .14, "correct": 70, "n": 500}   # raw p ≈ .002, ×18 ≈ .04
     det3 = pb.detect(per3, floor=.10, alpha=.01)
-    assert not det3["detected"] and det3["per_site"]["(3, 0)"]["p"] < .05
+    assert not det3["detected"] and det3["per_site"]["(3, 0)"]["p"] < .01 \
+        and det3["per_site"]["(3, 0)"]["p_corrected"] > .01
 
 
 def test_probe_rung_clean_twin_is_not_void(synth):
@@ -156,3 +157,18 @@ def test_starved_accuracies_use_2bs_split():
     assert out["n_val"] >= 150
     assert out["best_site"] == [3, 0] and out["accuracy"] > 0.8
     assert set(out["per_site"]) == {str(k) for k in pb.site_family(4)}
+
+
+def test_void_reads_the_twin_at_the_trained_best_site_only(synth):
+    """A twin that encodes the label at a DIFFERENT site than the
+    trained model does not void the cell: the rule reads the twin at
+    the trained model's best site, not at the twin's own best."""
+    rng = np.random.default_rng(5)
+    s = synth
+    tw_train = _acts(rng, s["y_tr"], encode_site=(6, 0))
+    tw_eval = _acts(rng, s["y_ev"], encode_site=(6, 0))
+    r = pb.probe_rung(s["tr_train"], s["y_tr"], s["tr_eval"], s["y_ev"],
+                      tw_train, tw_eval, floor=1 / K)
+    assert r["trained"]["best_site"] == [3, 1] and r["twin"]["best_site"] == [6, 0]
+    assert r["twin"]["detected"] and not r["twin_detects_at_best"]
+    assert not r["void"] and r["D_probe"] is True
