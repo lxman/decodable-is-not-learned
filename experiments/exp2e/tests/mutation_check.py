@@ -92,7 +92,7 @@ M = [
     (A, "F1 − B0 paired arms swapped", '    sec["f1_minus_b0"] = fn.cluster_bootstrap_auc_paired(\n        X["F1"], X["B0"], y, fams, counts=counts)', '    sec["f1_minus_b0"] = fn.cluster_bootstrap_auc_paired(\n        X["B0"], X["F1"], y, fams, counts=counts)'),
     (A, "label: 12b-only used as primary", '    y = a2d._labels(outcome, "rising")\n    y12', '    y = a2d._labels(outcome, "rising_12b")\n    y12'),
     (A, "per-rung F1 column decoupled from the tree input", '            "F1": float(X["F1"][i]),', '            "F1": float(X["F2"][i]),'),
-    (A, "probe AUC pin check inert", '"auc_matches_2d_record": bool(pt["auc"] == PROBE_2C_AUC_PIN),', '"auc_matches_2d_record": True,'),
+    (A, "probe AUC pin check inert", "    return bool(auc == pin)", "    return True"),
     (A, "insufficient record loses the caveat", '        "known_inputs_caveat": KNOWN_INPUTS_CAVEAT_2E,\n        "referents": referents,\n        "primary": None,', '        "known_inputs_caveat": None,\n        "referents": referents,\n        "primary": None,'),
     # ---- manifest builder ----
     (K, "builder: verdict.json not pinned", '    files.append(root / "results" / "verdict.json")\n    return files', '    return files'),

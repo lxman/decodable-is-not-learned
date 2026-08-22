@@ -36,15 +36,17 @@ the real tree stop at 2d's known numbers.
 
 ## Cold battery
 
-- [x] Suite: 17 functional + 18 analyzer + 6 full-shape = 41.
+- [x] Suite: 21 functional + 24 analyzer + 6 full-shape = 51 (41 at
+      the first mutation pass; ten fixtures added for its survivors).
 - [x] Referent battery `verify_referents_2e.py` cold: **12/12** on the
       real tree (273 files; main re-tally == §4 table 68/68; 2d's
       primary reproduced exactly).
 - [x] Full-shape worlds: W1 PASS / W2 FAIL / W3 INDETERMINATE /
       W4–W8 INSUFFICIENT_DATA (five routes) / W9 PASS floor-relative.
 - [x] `make_referents_2e.py` byte-idempotent (51a3cc2a…).
-- [ ] Mutation battery `tests/mutation_check.py` (56 mutants, both
-      directions): result recorded below when the run completes.
+- [x] Mutation battery `tests/mutation_check.py` (55 mutants, both
+      directions): first pass 41/55, all fourteen survivors fixture
+      gaps (ledger), closed; second pass 14/14 → **55/55 killed**.
 
 ## After the tag
 

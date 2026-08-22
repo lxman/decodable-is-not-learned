@@ -278,6 +278,12 @@ def collect(thunk, label):
 
 # --------------------------------------------------------------- verdict
 
+def probe_auc_matches(auc: float, pin: float = PROBE_2C_AUC_PIN) -> bool:
+    """2c's probe on 2d's label, recomputed == 2d's record (a known
+    answer; printed, non-gating)."""
+    return bool(auc == pin)
+
+
 def _ordering(x, y, label, group):
     return a2d._ordering_secondary(x, y, label, group)
 
@@ -369,7 +375,7 @@ def verdict_2e(*, outcome, main_cells, pilot_cells, floors, probe, cmp2d,
     pt = _test(xp, y, group, counts)
     sec["probe_predictor_2c"] = {
         **_flat(pt), "auc_pin_2d_record": PROBE_2C_AUC_PIN,
-        "auc_matches_2d_record": bool(pt["auc"] == PROBE_2C_AUC_PIN),
+        "auc_matches_2d_record": probe_auc_matches(pt["auc"]),
         "rho_2c": a2d.VERDICT_2C_PIN["rho"],
         "verdict_2c": a2d.VERDICT_2C_PIN}
 

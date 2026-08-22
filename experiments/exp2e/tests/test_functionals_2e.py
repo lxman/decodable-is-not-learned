@@ -203,3 +203,52 @@ def test_drop_rungs_layout_recomputes_family_sizes():
     # base_repr shrinks from 4 to 2; every other family unchanged
     assert sizes[bt.FAMILY_ORDER.index("base_repr")] == 2
     assert len(fams) == 32 and fams[kept.index("base7")] == "base_repr"
+
+
+def test_log_excess_refuses_floor_outside_unit_interval():
+    with pytest.raises(ValueError, match="floor"):
+        fn.log_excess(.1, 0.0, 1e-5)
+    with pytest.raises(ValueError, match="floor"):
+        fn.log_excess(.1, 1.0, 1e-5)
+    with pytest.raises(ValueError, match="eps"):
+        fn.log_excess(.1, .5, 0.0)
+    cells = _cells({("a1", "410m"): 0, ("a1", "1b"): 0})
+    with pytest.raises(ValueError, match="floor"):
+        fn.f1_table(cells, _floors({"a1": 0.0}), rungs=("a1",), sizes=SIZES)
+
+
+def test_rate_helper_refuses_foreign_n_draws():
+    cells = _cells({("a1", "410m"): 5, ("a1", "1b"): 5}, n=4_000)
+    assert fn._rate(cells, "a1", "1b", 4_000) == 5 / 4_000
+    with pytest.raises(ValueError, match="n_draws"):
+        fn._rate(cells, "a1", "1b", 32_000)
+
+
+def test_paired_bootstrap_drops_like_2d_when_rising_is_one_family():
+    """Rising rungs in ONE family: ~36 % of resamples omit it and are
+    undefined; the marginal must equal 2d's exactly, with the same
+    drop count — keeping them (any imputation) moves the percentiles."""
+    fams = [bt.FAMILY_OF[r] for r in bt.RUNGS]
+    y = np.array([1 if bt.FAMILY_OF[r] == "seq_extrap" else 0 for r in bt.RUNGS])
+    rng = np.random.default_rng(11)
+    x1 = rng.normal(size=34)
+    x2 = rng.normal(size=34)
+    counts = st.bootstrap_counts_matrix(bt.N_FAMILIES)
+    ref = st.cluster_bootstrap_auc(x1, y, fams, counts=counts)
+    got = fn.cluster_bootstrap_auc_paired(x1, x2, y, fams, counts=counts)
+    assert ref["n_dropped"] > 2_000
+    assert got["n_dropped"] == ref["n_dropped"] and got["ci_1"] == ref["ci"]
+    assert got["n_valid"] + got["n_dropped"] == 10_000
+
+
+def test_paired_bootstrap_difference_has_the_sign_of_arm_one():
+    """x1 a perfect separator (AUC 1 in every resample), x2 constant
+    (AUC ½ in every resample): the difference is +½ everywhere."""
+    fams = [bt.FAMILY_OF[r] for r in bt.RUNGS]
+    y = np.array([1] * 11 + [0] * 23)
+    x1 = y.astype(float)
+    x2 = np.zeros(34)
+    counts = st.bootstrap_counts_matrix(bt.N_FAMILIES, n_boot=1000)
+    got = fn.cluster_bootstrap_auc_paired(x1, x2, y, fams, counts=counts)
+    assert got["diff_obs"] == 0.5 and got["ci_diff"] == [0.5, 0.5]
+    assert got["ci_1"] == [1.0, 1.0] and got["ci_2"] == [0.5, 0.5]

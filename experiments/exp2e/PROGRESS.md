@@ -122,8 +122,25 @@ Standing assignment: find the class defect. Attacked:
    reverse_string 410m), both in the flat reversal family — disclosed
    in §5.1 already.
 6. **Mutation battery** (`tests/mutation_check.py`, both directions,
-   56 mutants over functionals/analyzer/builder): see the checklist
-   for the count.
+   55 mutants over functionals/analyzer/builder). FIRST PASS 41/55:
+   fourteen survivors, every one a FIXTURE gap, none a change to the
+   frozen code — four `run()`-routing provisions (tally pin,
+   comparison gate, manifest check, failures → the terminal) that
+   only the deselected full-shape worlds exercised; a symmetric
+   synthetic fixture blind to a 1b/410m column swap and to the ε and
+   majority-floor rows coinciding with the primary; no negative case
+   for the probe-AUC pin; paired-bootstrap fixtures too weak to see
+   kept undefined resamples or a reversed difference; two redundant
+   guards (the `_rate` n_draws check behind `_n_draws_of`, the
+   manifest count behind `check_manifest`'s) tested only one level
+   up; the floor-range guard untested. Closed with ten new fixtures
+   (suite 41 → 51: 21 functional, 24 analyzer incl. four `run()`
+   routing tests on the module world, 6 full-shape; the synthetic
+   verdict fixture made asymmetric — at 410m the rising/flat ORDER
+   REVERSES while the mean over sizes still separates; the probe
+   check extracted to `probe_auc_matches` so both directions are
+   testable). SECOND PASS on the fourteen: 14/14 killed → **55/55**.
+   Worlds re-run after the helper extraction: 6/6.
 
 ### Findings for ratification
 

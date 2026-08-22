@@ -193,10 +193,20 @@ def synth():
     _, floors = fs.battery()
     out = fs.outcome()
     ris, fla = fs.rising_rungs(), fs.flat_rungs()
+    # asymmetric by design: at 1b rising sits at 1.05 c and flat at
+    # .95 c (AUC 1); at 410m rising is pulled to .966 c and flat raised
+    # to .9785 c (the ORDER REVERSES, AUC 0), while the mean over sizes
+    # still separates (rising +.007 vs flat −.037): the per-size
+    # columns are distinguishable from each other and from the primary
     rate = {**{r: floors[r]["floor"] * 1.05 for r in ris},
             **{r: floors[r]["floor"] * 0.95 for r in fla}}
     main = _cells(rate, 32_000, floors)
     pilot = _cells(rate, 4_000, floors)
+    for r in a2d.RUNGS:
+        k = 0.92 if r in ris else 1.03
+        for cells_, n in ((main, 32_000), (pilot, 4_000)):
+            v = int(round(cells_[(r, "1b")]["verified"] * k))
+            cells_[(r, "410m")] = {"verified": v, "n_draws": n, "rate": v / n}
     cmp = a.comparison_2d(main, floors, out)
     ref = {"failures": [], "manifest": {"n_files": 273}}
     v = a.verdict_2e(outcome=out, main_cells=main, pilot_cells=pilot,
@@ -242,7 +252,7 @@ def test_synth_pilot_uses_its_own_eps_and_is_non_gating(synth):
     # same rates, but 4,000-draw rounding and ε = 1/8,000 reorder the
     # small-floor rungs: high, not 1.0
     assert isinstance(pil["rank_corr_pilot_vs_main_f1"], float)
-    assert pil["rank_corr_pilot_vs_main_f1"] > .7
+    assert .5 < pil["rank_corr_pilot_vs_main_f1"] < 1.0
 
 
 def test_synth_secondaries_shape(synth):
@@ -258,7 +268,28 @@ def test_synth_secondaries_shape(synth):
         sorted(a2d.bt.OPTION_LISTING_PIN)
     assert sec["sensitivity_12b_only_label"]["n_rising"] == 9
     assert sec["replication_1b_only"]["auc"] == 1.0
+    # 410m rates are .9 × 1b's: rising rungs at .945 c sit BELOW flat
+    # rungs' floors-relative .855 c only by ratio, but the small-floor
+    # rounding breaks ties — the two per-size columns must differ
+    import numpy as np
+    y = np.array([int(v["per_rung"][r]["rising"]) for r in a2d.RUNGS])
+    x410 = np.array([v["per_rung"][r]["F1_per_size"]["410m"] for r in a2d.RUNGS])
+    x1b = np.array([v["per_rung"][r]["F1_per_size"]["1b"] for r in a2d.RUNGS])
+    assert sec["replication_410m_only"]["auc"] == st.auc(x410, y)
+    assert sec["replication_1b_only"]["auc"] == st.auc(x1b, y)
+    assert sec["replication_1b_only"]["auc"] == 1.0
+    assert sec["replication_410m_only"]["auc"] < .5
+    assert not np.array_equal(x410, x1b)
+    # ε at ten draws moves the small-floor rungs: row 2 ≠ row 0
+    assert sec["sensitivity"]["eps"][2]["auc"] != sec["sensitivity"]["eps"][0]["auc"]
+    # the majority-only row is the AUC of F1 under the majority floors
+    x_maj = np.array([fn.f1_table(main, floors, floor_key="majority_floor")[r]["score"]
+                      for r in a2d.RUNGS])
+    assert sec["sensitivity"]["majority_floor_only"]["auc"] == st.auc(x_maj, y)
+    assert sec["sensitivity"]["majority_floor_only"]["auc"] != v["primary"]["auc"]
     assert sec["probe_predictor_2c"]["auc_matches_2d_record"]
+    assert a.probe_auc_matches(a.PROBE_2C_AUC_PIN) and \
+        not a.probe_auc_matches(a.PROBE_2C_AUC_PIN + 1e-9)
     assert sec["comparison_2d_thresholded"]["n_rising"] == 11
     for k in ("F1", "F2", "F3", "B0"):
         o = sec["ordering_vs_corrected_ascent"][k]
@@ -288,3 +319,75 @@ def test_insufficient_record_shape():
     assert v["verdict"] == "INSUFFICIENT_DATA" and v["primary"] is None
     assert v["known_inputs_caveat"] == a.KNOWN_INPUTS_CAVEAT_2E
     assert v["outcome_summary"] is None and "x missing" in v["reason"]
+
+
+# ----------------------------------------------------- run() routing
+#
+# The worlds prove every route end to end; these prove the SAME
+# routing through run() on the module world, fast enough for the
+# mutation battery (the refusal runs stop before the verdict).
+
+def _run_world(root, pins, **over):
+    kw = {"manifest_path": pins["manifest_path"],
+          "manifest_sha_pin": pins["manifest_sha_pin"],
+          "tally_pin": pins["tally_pin"],
+          "verdict_2d_pin": pins["verdict_2d_pin"]}
+    kw.update(over)
+    return a.run(root, **kw)
+
+
+def test_run_routes_tally_pin_failure(world):
+    root, pins = world
+    bad = dict(pins["tally_pin"]); bad[("mod19", "410m")] += 2
+    v = _run_world(root, pins, tally_pin=bad)
+    assert v["verdict"] == "INSUFFICIENT_DATA" and v["primary"] is None
+    assert any("tally pin" in f and "mod19/410m" in f for f in v["referents"]["failures"])
+    assert v["referents"]["main_tally_pin"] == "FAIL"
+
+
+def test_run_routes_comparison_failure(world):
+    root, pins = world
+    bad = dict(pins["verdict_2d_pin"]); bad["n_flat"] = 22
+    v = _run_world(root, pins, verdict_2d_pin=bad)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2d comparison" in f for f in v["referents"]["failures"])
+    assert v["referents"]["comparison_2d"]["gate"] == "FAIL"
+
+
+def test_run_routes_manifest_failure(world, tmp_path):
+    root, pins = world
+    rec = json.loads(pins["manifest_path"].read_text())
+    rec["files"]["results/main/1b_trained/mod19.json"] = "3" * 64
+    alt = tmp_path / "m.json"
+    alt.write_text(json.dumps(rec, indent=1, sort_keys=True))
+    sha = hashlib.sha256(alt.read_bytes()).hexdigest()
+    v = _run_world(root, pins, manifest_path=alt, manifest_sha_pin=sha)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("manifest: results/main/1b_trained/mod19.json" in f
+               for f in v["referents"]["failures"])
+    assert v["referents"]["manifest"]["sha256"] == sha
+
+
+def test_load_manifest_refuses_inconsistent_count(tmp_path):
+    alt = tmp_path / "m.json"
+    alt.write_text(json.dumps({"files": {"a": "0" * 64}, "n_files": 2}))
+    with pytest.raises(ValueError, match="n_files"):
+        a.load_manifest(alt, file_sha_pin=None)
+
+
+def test_comparison_gate_fires_on_rederivation_mismatch(world):
+    root, pins = world
+    battery, floors = fs.battery()
+    cells = a2d.load_sampling_tier(root, "main", battery, a2d.load_verify())
+    cmp = a.comparison_2d(cells, floors, fs.outcome())
+    cmp2 = dict(cmp); cmp2["auc"] = cmp["auc"] + 0.01
+    f = a.check_comparison_2d(cmp2, root, pins["verdict_2d_pin"])
+    assert len(f) == 1 and "re-derived auc" in f[0]
+
+
+def test_run_on_the_clean_world_is_a_verdict(world):
+    root, pins = world
+    v = _run_world(root, pins)
+    assert v["verdict"] in ("PASS", "FAIL", "INDETERMINATE")
+    assert v["referents"]["failures"] == [] and v["primary"] is not None
+    assert v["referents"]["manifest"]["n_files"] == 273
