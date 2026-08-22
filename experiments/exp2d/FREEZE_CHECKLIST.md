@@ -134,7 +134,9 @@ entry); this file carries the ticks and what still needs Michael.
 - [x] `compute_power_2d.py` ONCE → `power_2d.json`: **DECLARED
       UNDERPOWERED IN ADVANCE** (symmetric: P(PASS|.85) = 0.000; Tobit
       as built .7365, agrees); ledgered.
-- [ ] Main 410m → 1b (~13 h); gate 1 as the reversal rungs land.
-- [ ] Argmax both sizes (~1 h).
-- [ ] Projection (`projection_template.md`) sealed in a commit BEFORE
-      `analyze_2d.run()`; analyzer ONCE on Michael's go.
+- [x] Main 410m → 1b — RUN 2026-08-21/22, 627.7 min; gate 1 CLEAN
+      4/4 as the reversal rungs landed first (ruling n).
+- [x] Argmax both sizes — 13.4 min; redecode 0 diffs 4/4.
+- [x] Projection sealed `d40a1cf` (+ note `0135e20`) BEFORE the
+      analyzer; analyzer ONCE on Michael's go 2026-08-22: **FAIL**
+      (CI [.5000, .6667]); tag `exp2d-closed`.

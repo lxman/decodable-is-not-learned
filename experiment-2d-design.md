@@ -1,17 +1,20 @@
 # Experiment 2d — Design Doc: The Sampling Ladder — Does the Sampled Channel at 410m/1b Forecast Which Capabilities Ascend by 12b?
 
-**Status: FROZEN 2026-08-21 (tag `exp2d-preregistered`) — the
-three-session design | build | freeze protocol complete the same day;
-the §12 dials ruled by Michael and applied in place (rulings c and g
-reversed the session-1 proposals; build-session rulings k and l; the
-freeze's rulings m, n, o). The adversarial freeze found the class
-defect (F-1: the frozen verdict could not deliver INSUFFICIENT_DATA
-from the tree the runner leaves after a gate-1 halt) and closed it,
-pinned three attestations (F-2), disclosed that the criterion is a
-first-digit-run match on two rungs (F-3), and replaced the power
-model's one-sided use of the pilot (F-4, ruling m). Instrument at
-`experiments/exp2d/`; no model touched. Next: the pilot on Michael's
-launch word.**
+**Status: CLOSED 2026-08-22 — VERDICT FAIL (tag `exp2d-closed`), read
+under DECLARED UNDERPOWERED IN ADVANCE as "not detected at this
+resolution". Frozen 2026-08-21 (tag `exp2d-preregistered`) after the
+three-session protocol and the adversarial freeze (F-1 the halt-tree
+terminal; F-2/F-3 pins; rulings m/n/o). Campaign 2026-08-21/22: pilot
+363 min, main 627.7 min, argmax 13.4 min, zero stops; gate 1 clean
+4/4 (128,000 production-path draws byte-identical to exp3's seed-0
+streams, the item-436 fire reproduced). Primary: AUC .5455, block p
+.6675, cluster CI [.5000, .6667] — 33 of 34 predictor scores are
+zero; arith_next, clearing its floor at 410m only, is the one
+positive. The §5.4 pair is NOT silent (sub3_mid 34, arith_next 531 of
+32,000 at 1b); no percolation candidate. Projection (sealed
+`d40a1cf`) HIT at the verdict level. See
+`experiments/exp2d/results/VERDICT.txt` and `retrospective.md`. The
+doc below is the preregistration record as frozen.**
 
 Lineage: Experiment 2 → 2b → 2c (Prediction 2, the probe ladder: the
 instrument died twice to untrained-weights controls and once to an

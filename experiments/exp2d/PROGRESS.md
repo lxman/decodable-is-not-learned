@@ -918,3 +918,29 @@ option copier at greedy too). The verdict-level projection (FAIL via
 the cluster CI, AUC .5455, block p ≈ .67) is graded when the frozen
 analyzer runs ONCE on Michael's go. Watcher still running (it will
 commit `results/verdict.json`).
+
+
+---
+
+## 2026-08-22 — THE ANALYZER RUN ONCE (Michael: "run the analyzer"): VERDICT FAIL; tag `exp2d-closed`
+
+`python -m experiments.exp2d.analyze_2d --write`, fresh process, 10 s:
+**FAIL** — cluster CI on AUC [0.5000, 0.6667] includes .5 (9,998
+valid / 2 dropped); AUC .5455; block p .6675 (sampled, 100,000 of
+52,254,720, add-one); gate 1 re-compared by the analyzer itself: 0
+diffs in 4/4. Read under DECLARED UNDERPOWERED IN ADVANCE: "not
+detected at this resolution"; blind region = the band between each
+rung's CP95 upper bound and its floor. Secondaries, the pair, the
+restriction (arith_next the one rung performable at 1b, removed →
+AUC .5000 exactly), the probe's AUC on the same label (.6008, n.s.),
+ρ .288 / .188 vs 2c's .368, twin 0/576,000, criterion flags — all in
+`results/VERDICT.txt`; projection graded (verdict HIT; misses: the
+CI's upper bound, a stale probe-AUC literal copied from the build-era
+template, and the 1b performability count — 1 not 2–3, the
+option-listing rungs undercut a random copier even at greedy) in
+`results/retrospective.md`. `results/verdict.json` committed by the
+watcher (`1b77ad8`); watcher stopped. One pre-committed change
+UNSPENT throughout. Next: close-out propagation (essay Prediction-2
+wording, `experiments.md`, CLAUDE.md done here; methods paper only if
+Michael takes a lesson — candidates in the retrospective), supporting
+repo re-extraction with the exp2d pair.
