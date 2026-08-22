@@ -266,3 +266,17 @@ additively; three additive pins/prints; no accepted dial touched.
 - F-1 (ASCII-only parse), the three additive pins/prints
   (`n_candidates`, `min_detectable_acc`, `.mutation_backup`), the
   five equivalent mutants, doc slips (a)–(g).
+
+## 2026-08-22 — RATIFICATION AND TAG
+
+Michael: "ratified, slips as recommended — apply and tag." Slips
+(a)–(g) applied to the design doc in place (§3 MISS rule incl. F-1;
+§3 floor = the majority share with 1/K as the non-binding bound; §4
+pilot exact counts, the m3 gate's full scope incl. the freeze's
+permutation-null reproduction, and gate 1's tolerance with the attack
+numbers; §5 the equal-n tie remark; §7 the three bars in numbers and
+`min_detectable_acc`; §9 4,000 + 64 passes); no dial, bar or branch
+moved. Cold battery re-run in fresh processes after the edits; tag
+`exp2f-preregistered`. Next: `collect_eval_2f.py` ×4 on Michael's
+word (the only model contact; gate 1 inside), then the projection
+sealed, then `analyze_2f.run(write=True)` ONCE → `exp2f-closed`.

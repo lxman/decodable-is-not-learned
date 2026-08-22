@@ -58,9 +58,12 @@ tag; no label-match rate on committed bytes until the tag.**
 
 ## Needs Michael before the tag
 
-- [ ] Build findings A–E, freeze finding F-1 and the three additive
-      pins, the five equivalent mutants, doc slips (a)–(g)
-      (`PROGRESS.md`); then tag `exp2f-preregistered`.
+- [x] Build findings A–E, freeze finding F-1 and the three additive
+      pins, the five equivalent mutants, doc slips (a)–(g) —
+      RATIFIED by Michael 2026-08-22 ("ratified, slips as
+      recommended — apply and tag"); slips applied to §3, §4, §5, §7,
+      §9 and the status line; cold battery re-run after the edits;
+      tag `exp2f-preregistered` placed.
 
 ## After the tag
 

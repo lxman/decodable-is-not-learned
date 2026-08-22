@@ -5,9 +5,14 @@ recommended — build"): a last-digit label for arith_next, 2c's mod-7
 printed; b the eval-item probe primary, probe-item CV printed; c void
 on twin detection; d Bonferroni over 2c's site family; e INVERTED
 includes argmax-without-sampler; f licences as written. Session 1
-(design) written 2026-08-22 after Exp 2e closed; BUILD is session 2.
-Model contact is confined to one small activation collection (§9),
-after the tag, on Michael's word; nothing is sampled.**
+(design) written 2026-08-22 after Exp 2e closed; BUILD (session 2)
+and the adversarial FREEZE (session 3) the same day; build findings
+A–E, freeze finding F-1 (ASCII-only parse), three additive pins and
+doc slips (a)–(g) RATIFIED by Michael 2026-08-22 ("ratified, slips
+as recommended — apply and tag") and applied below; FROZEN, tag
+`exp2f-preregistered`. Model contact is confined to one small
+activation collection (§9), after the tag, on Michael's word; nothing
+is sampled.**
 
 Lineage: 2c (probe ladder, FAIL) → 2d (sampling ladder, FAIL) → 2e
 (floor as covariate, FAIL) → 2f. 2d's §5.4 found that the two rungs
@@ -75,14 +80,21 @@ A label function L maps an answer (or an emitted string) to a class:
   full as the secondary.
 
 Emission scoring: 2c's `number` normalization (the first digit run of
-the continuation) → L. A continuation with no digit run, or with a
-digit run outside the label's domain (sub3_mid: 1–3 digits;
-arith_next: any non-negative integer), scores MISS. Total on every
-string; the answer side is the committed answer. Exact-match under
+the continuation) → L. A continuation with no digit run, a negative
+first run, a non-ASCII digit run (freeze F-1: `int()` accepts
+Arabic-Indic and full-width digits, which would have let a unicode
+run match the mod-7 label while the digit labels could not — the
+parse is ASCII-only, uniformly), or a run outside the label's domain
+(sub3_mid: 1–3 digits; arith_next: any non-negative integer), scores
+MISS. Total on every string; the answer side is the committed
+answer. Exact-match under
 the same parse is the known-answer gate (§4).
 
-Floor per (rung, L): c = max(majority class share over the 500 eval
-answers, 1/K) — 2d's rule, the same c for all three instruments. The
+Floor per (rung, L): c = the majority class share over the 500 eval
+answers (.132 sub3_mid/mid digit, .120 arith_next/last digit, .156
+arith_next/mod 7) — 2d's rule, with 1/K as the lower bound it can
+never bind (a majority share over K classes is always ≥ 1/K; the
+build's mutant [6]); the same c for all three instruments. The
 bar: one-sided exact binomial, α = .01, and the rate above c (2d's
 `binomial_bar`, imported).
 
@@ -90,8 +102,8 @@ bar: one-sided exact binomial, α = .01, and the rate above c (2d's
 
 - 2d's main and pilot draws files and records for the four cells, by
   sha (2e's manifest entries, reused); the re-parse must reproduce
-  2d's exact-match tallies exactly (35 | 34, 831 | 531; pilot counts
-  as committed).
+  2d's exact-match tallies exactly (main 35 | 34, 831 | 531 of
+  32,000; pilot 6 | 3, 109 | 67 of 4,000).
 - 2d's four argmax records, by sha; exact-match 0 | 0, 13 | 19
   reproduced.
 - 2c/2b probe-item activation files for the two rungs × two sizes ×
@@ -99,10 +111,21 @@ bar: one-sided exact binomial, α = .01, and the rate above c (2d's
   `activations_sha256.txt`; **probe-machinery known-answer gate:**
   2b's `probe_starved` on those files under 2c's committed split
   parameters reproduces the committed m3 records for the rungs
-  (accuracy, null mean, corrected p) exactly — probing is
+  exactly — accuracy, best site, split counts and n_candidates at
+  every run; and, at the freeze, one cell's full 2,500-refit
+  permutation null (null mean, std and corrected p) — probing is
   deterministic (1b's finding).
 - The 34 item files' shas (2d's pins); 2b's model shas; the untrained
   twin's seed (0).
+- **Gate 1 (continuity), inside the collector:** the first 8 probe
+  items per rung re-collected on the same model and compared to the
+  committed rows; the analyzer re-derives pass/fail from the recorded
+  deviations against a pinned tolerance (relative and absolute 1e-2
+  on fp16). Attacked at the freeze with synthetic deviations: fp16
+  round-trip 0, kernel-scale drift ≤ .0055 passes, 2e-2 fails; an
+  independent random network ≈ 2,300 and a row-permuted copy ≈ 1,800
+  fail — five orders of magnitude between what passes and what the
+  gate exists to catch.
 - The essay's ladder sentence, quoted in the doc so the licence is
   unambiguous (§6).
 
@@ -120,7 +143,9 @@ regression (C = 1, max_iter = 100, 2b's machinery), **trained on all
 of the rung's committed probe items** (2,000 / 1,000, activations on
 disk), **evaluated on the 500 eval items**. Detection at a site:
 eval accuracy clears c by the bar; the site family Bonferroni-
-corrected (2c's convention; the best site reported). **Twin
+corrected (2c's convention; the best site reported — at the same
+n = 500 on every site, the best site by corrected p is the best site
+by accuracy). **Twin
 control (2/2b's lesson, 1b's correction):** the same procedure on
 the twin's activations; a cell is VOID if the twin detects at the
 trained model's best site, and the trained reading must exceed the
@@ -170,14 +195,17 @@ silence was the probe" is retracted; no anomaly.
 ## 7. Power, and the region this design cannot see
 
 The three bars are not equally sharp, and the asymmetry runs one way.
-At 32,000 draws the sampler detects an excess over c = .10 of about
-+.004; at 500 items argmax needs about +.035; the probe at 500 items
-with Bonferroni over 14–18 sites needs about +.045. **The probe has
-the highest bar of the three** — so a true small probe reading with a
-true small sampler reading lands INVERTED. Declared: the blind region
-is probe accuracy in (c, c + .045); a reading there is "not detected
-at this resolution", and the verdict record carries the probe's best
-accuracy and CP95 so the reader sees where it sat.
+At 32,000 draws the sampler detects an excess over c of about
++.004; at 500 items argmax needs about +.036; the probe at 500 items
+with Bonferroni over 18 / 14 sites needs about +.05 — the minimum
+detectable accuracy is .172 / .170 on arith_next (c = .120) and
+.186 / .184 on sub3_mid (c = .132), printed in every probe reading
+as `min_detectable_acc`. **The probe has the highest bar of the
+three** — so a true small probe reading with a true small sampler
+reading lands INVERTED. Declared: the blind region is probe accuracy
+in (c, c + .05); a reading there is "not detected at this
+resolution", and the verdict record carries the probe's best
+accuracy, its CP95 and the bar so the reader sees where it sat.
 
 What the known counts say in advance (graded later): under label (i)
 for `arith_next`, the sampler's label-match rate is at least the
@@ -200,8 +228,10 @@ the probe items scores at chance on the eval items.
 ## 9. Model contact
 
 Activation collection for the 500 eval items: 2 rungs × 2 sizes ×
-{trained, twin} = 4,000 forward passes, 2b's collector, fp16, two
-positions — minutes on the Mac. No sampling; no eval-size model. The
+{trained, twin} = 4,000 forward passes, plus 64 for gate 1 (8 probe
+items per rung, re-collected and compared to the committed rows
+inside the collector), 2b's method, fp16, two positions — minutes on
+the Mac. No sampling; no eval-size model. The
 probe-item activations are the committed 2b/2c files on disk.
 
 ## 10. Dials — RULED 2026-08-22 (a–f as recommended)
