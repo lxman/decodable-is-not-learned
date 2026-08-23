@@ -154,5 +154,6 @@ v1.0 (10.5281/zenodo.21830422, the arXiv-v1 snapshot), release v1.1
 release v1.2 (10.5281/zenodo.22011547, adding the Experiment 3d
 record), release v1.3 (10.5281/zenodo.22045940, adding the Experiment 3e
 record), release v1.4 (10.5281/zenodo.22056230, adding the
-Experiment 2d record) and release v1.5 (10.5281/zenodo.22059612,
-adding the Experiment 2e record).
+Experiment 2d record), release v1.5 (10.5281/zenodo.22059612,
+adding the Experiment 2e record) and release v1.6
+(10.5281/zenodo.22063906, adding the Experiment 2f record).
