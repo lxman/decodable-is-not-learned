@@ -305,6 +305,10 @@ def load_battery(rungs=None) -> dict:
     return {r: bt.load_item_file(r) for r in rungs}
 
 
+def ITEMS_SHA_PIN_OF(rung: str) -> str:
+    return bt.ITEMS_SHA_PIN[rung]
+
+
 # ----------------------------------------------------------------- paths
 
 def sweep_dir(root, size) -> Path:
