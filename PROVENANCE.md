@@ -21,10 +21,13 @@ extractions from the private working repository with
 `experiment-3b-design.md`, `experiment-3-design.md`,
 `experiment-3c-design.md`, `experiment-3d-design.md`,
 `experiment-3e-design.md`, `paper`,
-`.gitignore`. Each re-extraction reproduces the previous one exactly
+`.gitignore`; and, from 2026-08-23, `experiments/exp1`,
+`experiments/exp1b`, `experiments/exp1c`, `experiment-1-design.md`,
+`experiment-1b-design.md`, `experiment-1c-design.md` (see the next
+paragraph for how those six were added). Each re-extraction reproduces the previous one exactly
 on the previously retained paths —
 the twenty-two earlier tag anchors below are unchanged, verified at
-re-extraction — and the third 2026-08-22 round adds the Experiment
+re-extraction — and the third 2026-08-22 round added the Experiment
 2f record (closed LADDER: the ladder-order design on the
 probe-flat-but-rising pair — one label per rung read by probe,
 sampling and argmax on the same weights and items; the label
@@ -96,6 +99,38 @@ exceptions:
 Nothing else is altered: no prose, no data, no code beyond the two
 literals above.
 
+On 2026-08-23 the Experiment 1, 1b and 1c records — the synthetic
+instrument calibration the essay's empirical section reports: the
+original three-signature instrument test (Experiment 1, closed FAIL on
+a criterion later found misspecified), the corrected probe-leg test
+with the untrained-twin floor (Experiment 1b, closed PASS) and the
+sub-critical structure sweep (Experiment 1c, closed FAIL, declared
+underpowered in advance) — were added by a different route, chosen so
+that nothing already public would move. Their commits are interleaved
+with the Experiment 2–3 history from 2026-07-03 to 2026-08-15, so
+re-filtering the whole history with the exp1 paths added would have
+changed the SHA of every public commit after 2026-07-03, including all
+twenty-four tag anchors, and would have required a force-push. Instead
+the six exp1 paths were filtered from a fresh clone of the private
+repository into their own 138-commit line (`git filter-repo`, the same
+mailmap as every prior round, no other rewrite) and that line was
+merged into this repository's master with `--allow-unrelated-histories`
+(merge commit 63f1b4e), a fast-forward on the remote. Every commit and
+tag on the previously extracted line is unchanged; the exp1 line's
+commits carry only the six exp1 paths in their trees. Verified at
+extraction: each carried exp1 tag's tree is entry-for-entry identical
+(blob hashes) to the private tag's tree restricted to the six paths,
+and the merged tree is exactly the prior public tree plus the exp1
+tree (3,915 entries). Experiment 1's freeze tag is named
+`exp1-analysis-frozen` rather than `-preregistered`, as it was in the
+private repository; `exp1c-stage-a` (the 1c power declaration) is an
+interim stage tag and, like the others, stays private — its commit is
+in this history untagged. The exp1 line's old→new commit map is
+appended to `provenance/commit-map.txt`. The private exp1 trees carry
+one hard-coded working-tree path (`experiments/exp1c/tests/mutation_check.py`),
+left as is like the home-path literals tolerated in earlier rounds;
+no LAN or credential literal occurs anywhere in the line.
+
 Between 2026-08-06 and the 2026-08-15 re-extraction, seven commits
 existed only in this public repository (the paper's §7 addition and
 approval, the AI-disclosure section, the Zenodo DOI paragraph, and the
@@ -115,7 +150,7 @@ outside this extraction's scope (`experiments.md`, `environment.md`,
 `CLAUDE.md`, essay drafts). The complete old→new commit map is
 committed at `provenance/commit-map.txt`. Every experiment whose
 record ships here carries both its preregistration and closeout tags;
-interim stage tags (e.g. `exp2c-stage1`) exist only in the private
+interim stage tags (e.g. `exp2c-stage1`, `exp1c-stage-a`) exist only in the private
 repository. Tag anchors:
 
 | tag | private | public |
@@ -144,6 +179,11 @@ repository. Tag anchors:
 | exp2e-closed | 92b258a | 81eac91 |
 | exp2f-preregistered | 09b0c5e | b1b3ca1 |
 | exp2f-closed | 6b1fef8 | 0dd378e |
+| exp1-analysis-frozen | 8f7198d | 91567d9 |
+| exp1b-preregistered | 2dbbc77 | 794298c |
+| exp1b-closed | fb9537a | 4be999d |
+| exp1c-preregistered | ba3ffd3 | a790cbf |
+| exp1c-closed | 185be34 | 06dea62 |
 
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.

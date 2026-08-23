@@ -14,6 +14,21 @@ its figures, Table 1, and Appendix A.
 
 ## What is here
 
+- **Experiments 1, 1b, 1c** (added 2026-08-23) — the synthetic
+  calibration of the three-signature instrument, reported in the
+  companion essay rather than the paper: small transformers trained
+  from scratch on a Lubana-style formal language (percolation, no
+  structure below threshold by construction) and a modular-arithmetic
+  grokking task (latent structure before the transition). Experiment 1
+  closed FAIL on an S1 criterion later found to compare raw probe
+  accuracy across incommensurable class counts; Experiment 1b re-tested
+  the probe leg under an untrained-twin floor and closed PASS (grokking
+  9/10, Lubana above threshold 10/10, below 0/10); Experiment 1c swept
+  sub-critical graph density and closed FAIL with 0 of 320 trained and
+  0 of 480 untrained sites firing, declared underpowered in advance.
+  These records live on a separately filtered line merged into this
+  history (see PROVENANCE.md); their code is self-contained under
+  `experiments/exp1*`.
 - **Experiments 2, 2b, 2c** — the probing-hygiene arc the paper is
   about: standard splits and what an untrained network decodes; the
   basis-starved re-run; the screened battery and its inclusion-time
@@ -45,6 +60,11 @@ its figures, Table 1, and Appendix A.
 
 Every experiment whose record ships here carries both its
 preregistration and its closeout tag:
+`exp1-analysis-frozen` (Experiment 1 predates the `-preregistered` /
+`-closed` convention; its closeout is the 2026-07-14 commit that
+recorded `experiments/exp1/results/analysis_verdict.txt`),
+`exp1b-preregistered` / `exp1b-closed`,
+`exp1c-preregistered` / `exp1c-closed`,
 `exp2-preregistered` / `exp2-closed`,
 `exp2b-preregistered` / `exp2b-closed`,
 `exp2c-preregistered` / `exp2c-closed`,
