@@ -156,7 +156,7 @@ continues to anchor the Zenodo-archived line
 remains exactly what was deposited; the 2026-08-21 round and all
 three 2026-08-22 rounds likewise have no public-only content beyond
 this provenance apparatus, and `v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`,
-`v1.6` and `v1.7` anchor their deposits off the current line (`v1.7`,
+`v1.6`, `v1.7` and `v1.8` anchor their deposits off the current line (`v1.7`,
 cut 2026-08-23 at the commit that recorded the exp1 graft, is the
 first deposit to include the Experiment 1, 1b and 1c records).
 
@@ -216,4 +216,5 @@ Experiment 2d record), release v1.5 (10.5281/zenodo.22059612,
 adding the Experiment 2e record), release v1.6
 (10.5281/zenodo.22063906, adding the Experiment 2f record) and release
 v1.7 (10.5281/zenodo.22064573, adding the Experiment 1, 1b and 1c
-records).
+records) and release v1.8 (10.5281/zenodo.22064649, the paper carried
+to this line with Section 6's ninth lesson).
