@@ -1,0 +1,659 @@
+{
+ "12b": {
+  "entries": {
+   "1000": {
+    "commit": "5707ac430a0b3b7a6e97f63a3729035f16553b4f",
+    "files": [
+     "pytorch_model-00001-of-00003.bin",
+     "pytorch_model-00002-of-00003.bin",
+     "pytorch_model-00003-of-00003.bin",
+     "pytorch_model.bin.index.json"
+    ],
+    "kind": "bin-shards",
+    "lfs_sha256": {
+     "pytorch_model-00001-of-00003.bin": "00c1fd677451e64585348ee51f5b93eb17b0c6d4a15b9892484e37abc145808b",
+     "pytorch_model-00002-of-00003.bin": "86633295d49b6e7fff7b6086c463f32c8ba10a87b6329e98b6a55c0c46519d2a",
+     "pytorch_model-00003-of-00003.bin": "48025c3f6c00242a891e7c5452d5f9000bb520613d0dd81b5b96861a113b3fc3"
+    },
+    "lfs_size": {
+     "pytorch_model-00001-of-00003.bin": 9811493183,
+     "pytorch_model-00002-of-00003.bin": 9925895489,
+     "pytorch_model-00003-of-00003.bin": 4105939923
+    },
+    "revision": "step1000"
+   },
+   "100000": {
+    "commit": "5ef7e566438f742d2ba55bee49e34931083b8ba2",
+    "files": [
+     "pytorch_model-00001-of-00003.bin",
+     "pytorch_model-00002-of-00003.bin",
+     "pytorch_model-00003-of-00003.bin",
+     "pytorch_model.bin.index.json"
+    ],
+    "kind": "bin-shards",
+    "lfs_sha256": {
+     "pytorch_model-00001-of-00003.bin": "a02cfd5026653f2f26a72186e40d736e69c9c9b9d3aebd83d27884489da65564",
+     "pytorch_model-00002-of-00003.bin": "5585d27082866868396eccfa97aef6d196cae7995d8f9f5b8e66d33cfc5e0437",
+     "pytorch_model-00003-of-00003.bin": "b625404aa7e3e79368b4a20e2f2498f5be3db7173e4c1cd3a2651e477fe8162e"
+    },
+    "lfs_size": {
+     "pytorch_model-00001-of-00003.bin": 9811493183,
+     "pytorch_model-00002-of-00003.bin": 9925895489,
+     "pytorch_model-00003-of-00003.bin": 4105939923
+    },
+    "revision": "step100000"
+   },
+   "130000": {
+    "commit": "aee7ecfad6bf0fa7d5ad2c1ed17ee7df1bf0dac5",
+    "files": [
+     "pytorch_model-00001-of-00003.bin",
+     "pytorch_model-00002-of-00003.bin",
+     "pytorch_model-00003-of-00003.bin",
+     "pytorch_model.bin.index.json"
+    ],
+    "kind": "bin-shards",
+    "lfs_sha256": {
+     "pytorch_model-00001-of-00003.bin": "b497d5865126e4d93fe6aa5c96d0298e764e6c812967925a8316c2bb9c77d579",
+     "pytorch_model-00002-of-00003.bin": "23a9335bed7047286854ba620d013b02c0d2e4e9ea5d16ffd769e979ec190771",
+     "pytorch_model-00003-of-00003.bin": "5c5913260e7256fece99b2beedbb5f1bb40d40526c36eb5c9c33d311a88fb68c"
+    },
+    "lfs_size": {
+     "pytorch_model-00001-of-00003.bin": 9811493183,
+     "pytorch_model-00002-of-00003.bin": 9925895489,
+     "pytorch_model-00003-of-00003.bin": 4105939923
+    },
+    "revision": "step130000"
+   },
+   "143000": {
+    "commit": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+    "files": [
+     "model-00001-of-00003.safetensors",
+     "model-00002-of-00003.safetensors",
+     "model-00003-of-00003.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00003.safetensors": "962f068c6b1c898d6bafec43a394ea64f0d5fc5f8215da651606955d418dfbff",
+     "model-00002-of-00003.safetensors": "1af79279e8946de577ae27d7d71136e9dde72581048023b5073014e91ef9e810",
+     "model-00003-of-00003.safetensors": "78e64bf62882c9fa1d853a30f47bdff919012a27e433a80ffd25606a1a784d51"
+    },
+    "lfs_size": {
+     "model-00001-of-00003.safetensors": 9811441814,
+     "model-00002-of-00003.safetensors": 9925840824,
+     "model-00003-of-00003.safetensors": 4105922122
+    },
+    "revision": "main"
+   },
+   "16000": {
+    "commit": "6ca40116519430c248cc33fe4ad604ca33188911",
+    "files": [
+     "pytorch_model-00001-of-00003.bin",
+     "pytorch_model-00002-of-00003.bin",
+     "pytorch_model-00003-of-00003.bin",
+     "pytorch_model.bin.index.json"
+    ],
+    "kind": "bin-shards",
+    "lfs_sha256": {
+     "pytorch_model-00001-of-00003.bin": "d0d5dd78caeeffbbbbe4aee41e8d6fbc72401460e96a74e867ac2b3fc3fef883",
+     "pytorch_model-00002-of-00003.bin": "a3f2ea60c3f19ecebae448e53e07cb89f91fc080d8f2e21e73608968bc904a98",
+     "pytorch_model-00003-of-00003.bin": "40348adce82f5030c6243f9b433f700e8be2c173463937fa6fa8b8d3ce480eed"
+    },
+    "lfs_size": {
+     "pytorch_model-00001-of-00003.bin": 9811493183,
+     "pytorch_model-00002-of-00003.bin": 9925895489,
+     "pytorch_model-00003-of-00003.bin": 4105939923
+    },
+    "revision": "step16000"
+   },
+   "32000": {
+    "commit": "35144bc9d995b7e9a00dc1f868a0fd32dfce684d",
+    "files": [
+     "pytorch_model-00001-of-00003.bin",
+     "pytorch_model-00002-of-00003.bin",
+     "pytorch_model-00003-of-00003.bin",
+     "pytorch_model.bin.index.json"
+    ],
+    "kind": "bin-shards",
+    "lfs_sha256": {
+     "pytorch_model-00001-of-00003.bin": "aae6f95838f6c9361afe7ab06586ca8800e74c6b8288a481f61c7343b0978433",
+     "pytorch_model-00002-of-00003.bin": "e1383017dff1b13a4b808ec9bf5fb150cd25c08fbc1e82b996a6bea8266ee78d",
+     "pytorch_model-00003-of-00003.bin": "43738e5120c6912de8bcf174f0ce09abbc9d6e34a23afef63939563990e421ff"
+    },
+    "lfs_size": {
+     "pytorch_model-00001-of-00003.bin": 10025457110,
+     "pytorch_model-00002-of-00003.bin": 9921688176,
+     "pytorch_model-00003-of-00003.bin": 3896183087
+    },
+    "revision": "step32000"
+   },
+   "4000": {
+    "commit": "c5fa27898a76d2d5feb12fdb9b418ba2eeb10953",
+    "files": [
+     "pytorch_model-00001-of-00003.bin",
+     "pytorch_model-00002-of-00003.bin",
+     "pytorch_model-00003-of-00003.bin",
+     "pytorch_model.bin.index.json"
+    ],
+    "kind": "bin-shards",
+    "lfs_sha256": {
+     "pytorch_model-00001-of-00003.bin": "efee32e59d1f664856170c636c4d6a293d9b79f7e55923a8d8c16c6861b8585b",
+     "pytorch_model-00002-of-00003.bin": "ce9b0dcb628fa171b436c8db743c9938e55807cd23dff18c2a48509361fd5cbf",
+     "pytorch_model-00003-of-00003.bin": "32c4fe42bb2983b485be9c368e4912eac341797329e1ea8ebc97925153f4e9b5"
+    },
+    "lfs_size": {
+     "pytorch_model-00001-of-00003.bin": 10025457110,
+     "pytorch_model-00002-of-00003.bin": 9921688176,
+     "pytorch_model-00003-of-00003.bin": 3896183087
+    },
+    "revision": "step4000"
+   },
+   "64000": {
+    "commit": "f8b60fcd6526a3b6a1b541043caa7082024a5e45",
+    "files": [
+     "pytorch_model-00001-of-00003.bin",
+     "pytorch_model-00002-of-00003.bin",
+     "pytorch_model-00003-of-00003.bin",
+     "pytorch_model.bin.index.json"
+    ],
+    "kind": "bin-shards",
+    "lfs_sha256": {
+     "pytorch_model-00001-of-00003.bin": "0d5a262b4df574df8540c75406cbe42c505be0e3e54242c8e19a0355d45a360e",
+     "pytorch_model-00002-of-00003.bin": "4ae0ab240b88cfe2e5abc142b67c3ed5ae5672fe4d9af0e8a85d2215a02b74e9",
+     "pytorch_model-00003-of-00003.bin": "ccb240cc9b919ad1be19c5d24a1164a26c41a3914fc0a5726dbe0af01bcbdaf2"
+    },
+    "lfs_size": {
+     "pytorch_model-00001-of-00003.bin": 9811493183,
+     "pytorch_model-00002-of-00003.bin": 9925895489,
+     "pytorch_model-00003-of-00003.bin": 4105939923
+    },
+    "revision": "step64000"
+   }
+  },
+  "excluded": {},
+  "exclusion_evidence": {},
+  "final_duplicates": [],
+  "grid": [
+   1000,
+   4000,
+   16000,
+   32000,
+   64000,
+   100000,
+   130000,
+   143000
+  ],
+  "hub_step143000": {
+   "commit": "9c5f35826eb1a9558fb4414c033f58e30322a092",
+   "duplicates": [
+    "step58000"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00003.bin": "9d21715462588073675eca9c65ba55a47d911da460a6083938d04acd4589f542",
+    "pytorch_model-00002-of-00003.bin": "4ce3319dbdf23e96b36ab4be6517bab2cac1b0578c5bde6005547b8bb657c11f",
+    "pytorch_model-00003-of-00003.bin": "eb82155af2c813a9aac8bcbe12266af8a1b0be084a3d6c0d244a745e0993cca4"
+   },
+   "signature_equals_main": true
+  },
+  "main_commit": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+  "n_revisions": 155,
+  "repo": "EleutherAI/pythia-12b",
+  "size": "12b",
+  "stale_main_copies": {
+   "model.safetensors": 154,
+   "pytorch_model.bin": 154
+  },
+  "trained_steps": [
+   1000,
+   4000,
+   16000,
+   32000,
+   64000,
+   100000,
+   130000,
+   143000
+  ]
+ },
+ "2.8b": {
+  "entries": {
+   "0": {
+    "commit": "bd55df2208f3b31d01673d546f786be9cc3c4ba5",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "dee700d6e97069cd01c87ad78b7af4e64650c4d835e3dc02b882ab424cb8c3ee",
+     "model-00002-of-00002.safetensors": "82c4f17fa7c235739c970d6bcc341d04a9b45326a3b4dedcee38999e191cd09f"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step0"
+   },
+   "1000": {
+    "commit": "cc81f94ea2acd24862163f15126427b85b98caac",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "f6a6c2f8f40825a56d414cb2d26b0c7c2b41c98259b74c779735b15a30d7138c",
+     "model-00002-of-00002.safetensors": "a17e4ecc75e66cd34ea41aae147ea3cbe7165788d1f84054ab83c023385c8669"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step1000"
+   },
+   "10000": {
+    "commit": "835c7474e2032ea69643f0ade8244a105ec626fd",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "35f6b56457c0067eac1ba6cbd2e9e18e25c58821a885d6d09c7716881d01f53d",
+     "model-00002-of-00002.safetensors": "aed89396c44b2202715d0f83a4af8d993c7c776beeb5c3145069486d6f755a6f"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step10000"
+   },
+   "100000": {
+    "commit": "668bcb3f3a13a908d6c5e21566fa2bdc2d9c8c65",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "ced5e41d87bf847058ee594e51f5d55f0b81bcae713cf167737382caee911ac2"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step100000"
+   },
+   "110000": {
+    "commit": "3874b59206f83e51ee217175f34e1b2f2916dc8d",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "a0332670771cb67c00b2d90e773605aab192e17b875b1a2720c26bb5ba8d1d27"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step110000"
+   },
+   "120000": {
+    "commit": "6da387d5fb726c1f7d32994a02dd2620579e5a00",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "bc60e747ca62be6b75ea48ce9e7183656d1d305d32eed563d93e85776957192f"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step120000"
+   },
+   "130000": {
+    "commit": "0e13f76de6fd6710184fdc83f6bc4c2a0776d803",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "c1390b3c75fee23c86896c6d80c53f517ac73412c160f565cf421222d907ec80"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step130000"
+   },
+   "140000": {
+    "commit": "d814d45ed5af3c344405cb7909f6a03dd19787f8",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "2d90a9aea3a9b20fbfdc3d734a97fb60bfa837d276d4d889ea534bf8064339b3"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step140000"
+   },
+   "143000": {
+    "commit": "2a259cdd96a4beb1cdf467512e3904197345f6a9",
+    "files": [
+     "model.safetensors"
+    ],
+    "kind": "safetensors-single",
+    "lfs_sha256": {
+     "model.safetensors": "ab496f1c3fd79e3c749a9d5414136a2c8e4224f94eecb261970315cdb0f813fe"
+    },
+    "lfs_size": {
+     "model.safetensors": 5684693096
+    },
+    "revision": "main"
+   },
+   "16000": {
+    "commit": "d86be5ee6523ec46075f22dd2230b8e346524d4f",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "28af6ff1fea4e0ea646c8e5f4391e15eeffd1ca070f33bc2d128852aabf34e79",
+     "model-00002-of-00002.safetensors": "7789b48040f6623401d825d78ce9562dc2b4ea4ea9be3ffab7f32ca2b2fded9a"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step16000"
+   },
+   "2000": {
+    "commit": "7378edcedb6f1a8fa81e0cf3b116d7d0dd962258",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "cea5d388079b20b2f5fd355a2dbb573f473dbf11fe2faea13570c3c3f847029c",
+     "model-00002-of-00002.safetensors": "2b68a2c2cb0eaca9e5eb2e3beb81dd5de15216e3984ec80d2760c2a05d31b958"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step2000"
+   },
+   "20000": {
+    "commit": "9d53346f34b6a98320c42c1653009c576064b8ae",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "fd52bd67570bec3cad0dff47a2402d99cd7620c372aef4d599fa208f3a8d2253",
+     "model-00002-of-00002.safetensors": "4b54d01c7bb981896ab92c9fdd20e19fef1c52424e40c4a147e4cb7eb5d3d2b0"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step20000"
+   },
+   "30000": {
+    "commit": "ed1bad30d0885642974ecb9d20cd2b3144601360",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "fb19c88132bf57652f33c9d2397b56693b5e40a1a6109c92b5256ed5cc3adedb"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step30000"
+   },
+   "32000": {
+    "commit": "8e9373fa05b5549002f3a29ecd4e1f5663cd1d4c",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "521d9e0060568723221ca6757f72be15ad4ebbfec985d4d3a295317bbed00244"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step32000"
+   },
+   "4000": {
+    "commit": "494474bbd9522f163d2921bf08f107e485b08394",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "08390693471430e08822e2200872146ab15fe0d585470c9cee809da1dcae77c8",
+     "model-00002-of-00002.safetensors": "06a586b805cd5aecb84e76c4cc726399cd40702f5af9a6c9de9e7e2ac5e6f6c2"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step4000"
+   },
+   "40000": {
+    "commit": "ee8603a33c96982181c23193582ada2756f5c403",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "287fabadb4c9a8fa385c75a15e3709e311e25f79d27c699f3c5db8e02ea70083"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step40000"
+   },
+   "50000": {
+    "commit": "1936c7c2953079ceb4d564e0a01f0086bae5aab5",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "73468bb90e734f887b040b8a8175afd9b545b89e26dc9aac06332eaa8dd577c0"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step50000"
+   },
+   "60000": {
+    "commit": "91c9da667d202b27bf3959ca8696c73c7a88f136",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "361497c727cb885dbb31aae403ba41256baec1e5ee99396021d33dc7d6986fe3"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step60000"
+   },
+   "70000": {
+    "commit": "ca5f5f4669b3bb626cd047a6087c4a9b7d9f1cd3",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "5e7d88d2a6dabb42814e1006d2c2a0ab289d37e32bd317a2d93ec2495922517a"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step70000"
+   },
+   "8000": {
+    "commit": "58ebdb26dabaec03e422e9dac74730ed45e7ae3e",
+    "files": [
+     "model-00001-of-00002.safetensors",
+     "model-00002-of-00002.safetensors",
+     "model.safetensors.index.json"
+    ],
+    "kind": "safetensors-shards",
+    "lfs_sha256": {
+     "model-00001-of-00002.safetensors": "eb902ef1cd8f2bc32537898a2ac2ead61f4ef97f628466b9316877a99731d5f7",
+     "model-00002-of-00002.safetensors": "763b57832b4eeb9456e6e6bafd06fde0378f06c064dc4f5b5e4155769d4f936a"
+    },
+    "lfs_size": {
+     "model-00001-of-00002.safetensors": 4978208880,
+     "model-00002-of-00002.safetensors": 572254832
+    },
+    "revision": "step8000"
+   },
+   "80000": {
+    "commit": "9426b85966702077332b501434b5a54c9c40b5f6",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "6fc5f5e5166ce7c0fcc8e927015ed24c3ca33357cb0b9d3c5357403717d5a040"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step80000"
+   },
+   "90000": {
+    "commit": "19ef1525c3a6230b2f36998e2ee294ff43625d6b",
+    "files": [
+     "pytorch_model.bin"
+    ],
+    "kind": "bin",
+    "lfs_sha256": {
+     "pytorch_model.bin": "20060c8ed779c4553a14e776243913a3e6af1089fb2bd6f8668fca3b57a1f659"
+    },
+    "lfs_size": {
+     "pytorch_model.bin": 5684793945
+    },
+    "revision": "step90000"
+   }
+  },
+  "excluded": {
+   "64000": "the Hub's step64000 branch carries step143000's weight files byte-for-byte (stale copy; build finding B)"
+  },
+  "exclusion_evidence": {
+   "64000": {
+    "duplicates": [
+     "step54000",
+     "step56000",
+     "step57000",
+     "step58000",
+     "step59000",
+     "step61000",
+     "step62000",
+     "step63000",
+     "step143000"
+    ],
+    "kind": "safetensors-single",
+    "lfs_sha256": {
+     "model.safetensors": "462f2b960062159c3779eb1cfe5829783ea72da66b020bcbabf86bc6dd33063c"
+    }
+   }
+  },
+  "final_duplicates": [],
+  "grid": [
+   0,
+   1000,
+   2000,
+   4000,
+   8000,
+   10000,
+   16000,
+   20000,
+   30000,
+   32000,
+   40000,
+   50000,
+   60000,
+   70000,
+   80000,
+   90000,
+   100000,
+   110000,
+   120000,
+   130000,
+   140000,
+   143000
+  ],
+  "hub_step143000": {
+   "commit": "dbe7ae300a54abcdc475a33907b3dff81d25709f",
+   "duplicates": [
+    "step54000",
+    "step56000",
+    "step57000",
+    "step58000",
+    "step59000",
+    "step61000",
+    "step62000",
+    "step63000",
+    "step64000"
+   ],
+   "kind": "safetensors-single",
+   "lfs_sha256": {
+    "model.safetensors": "462f2b960062159c3779eb1cfe5829783ea72da66b020bcbabf86bc6dd33063c"
+   },
+   "signature_equals_main": false
+  },
+  "main_commit": "2a259cdd96a4beb1cdf467512e3904197345f6a9",
+  "n_revisions": 155,
+  "repo": "EleutherAI/pythia-2.8b",
+  "size": "2.8b",
+  "stale_main_copies": {
+   "model.safetensors": 76,
+   "pytorch_model.bin": 39
+  },
+  "trained_steps": [
+   1000,
+   2000,
+   4000,
+   8000,
+   10000,
+   16000,
+   20000,
+   30000,
+   32000,
+   40000,
+   50000,
+   60000,
+   70000,
+   80000,
+   90000,
+   100000,
+   110000,
+   120000,
+   130000,
+   140000,
+   143000
+  ]
+ }
+}
