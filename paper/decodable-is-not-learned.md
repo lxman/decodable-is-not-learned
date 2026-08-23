@@ -30,14 +30,22 @@ record and awaits Michael's read. Section 6's eighth lesson (a frozen
 verdict must deliver its own refusal terminal from the tree the runner
 leaves) and checklist item 22 were added 2026-08-22 from the
 Experiment 2d freeze record on Michael's instruction and await his
-read.
+read. Section 6's ninth lesson (the target is part of the instrument:
+a starved label and a basis-starved split scored generalisation as
+presence, and a matched label dissolved the silence on the same bytes)
+and checklist item 23 were added 2026-08-23 from the Experiment 2f
+record on Michael's instruction.
 The supporting repository has been public since 2026-08-06 and was
-re-extracted 2026-08-22 (twice) to carry the exp2d and exp2e records:
-twenty-two tags, a preregistered and a closed anchor for each of
-Experiments 2, 2b, 2c, 2d, 2e, 3a, 3b, 3, 3c, 3d and 3e, the twenty
-earlier anchors reproduced byte-identically. Archived at Zenodo under concept
-DOI 10.5281/zenodo.21830421, latest version v1.5
-(10.5281/zenodo.22059612, the exp2e record). TMLR's AI-disclosure requirement is met on
+re-extracted 2026-08-22 (three times) to carry the exp2d, exp2e and
+exp2f records: twenty-four tags, a preregistered and a closed anchor
+for each of Experiments 2, 2b, 2c, 2d, 2e, 2f, 3a, 3b, 3, 3c, 3d and
+3e, the twenty-two earlier anchors reproduced byte-identically; on
+2026-08-23 the Experiment 1, 1b and 1c records were added as a
+separately filtered line merged with unrelated histories (six more
+tags, every prior anchor untouched, a fast-forward push), thirty
+experiment tags in all. Archived at Zenodo under concept
+DOI 10.5281/zenodo.21830421, latest version v1.7
+(10.5281/zenodo.22064573, the exp1 record). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
@@ -1066,6 +1074,62 @@ the analyzer's writers, and require the analyzer to return that
 terminal from the tree as left rather than from a tree as imagined.
 (Record under the `exp2d-*` tags.)
 
+**The ninth lesson: the target is part of the instrument, and a
+probe's silence is a statement about a label and a split until the
+same activations have been read against a label the representation
+could carry.** The screened battery of Section 7 left two rungs that
+its probe read as silent at both sizes and its outcome read as rising
+by 2.8B: three-digit subtraction scored on the middle digit of the
+difference, and the next term of an arithmetic sequence. Under the
+program's own discriminator that is the interesting pattern, structure
+absent below threshold that appears above it, and the preregistered
+projection had named it as the sharpest disconfirmation available. The
+sampling-ladder experiment then found both rungs far from silent under
+temperature-1 sampling, and a design session that laid the two records
+side by side found that the instruments had never read the same
+quantity. The probe's label for the sequence rung was the next term's
+residue modulo 7, chosen at inclusion so that no lookup table could
+score it, and validated on held-out basis values so that memorising a
+basis could not score it either; the subtraction rung's label was
+already the middle digit, under the same starved split; the generators
+had been scored on the full answer; and the probe's committed best site
+for both rungs was a layer-0 constant feature at corrected p 1.0, an
+accuracy equal to the training majority rate and below the majority
+share. Experiment 2f put the three instruments on one label per rung,
+the middle digit and the last digit, with one floor and one bar, on
+the same weights and the same 500 items, the probe trained on the
+committed probe-item activations so that the screened battery's own
+records reproduced exactly as the machinery gate. The probe read the
+digit in every cell, .23 to .27 against bars of .17 to .19 with the
+untrained twins at .04 to .10, while the generators read it in one cell
+of four. The sensitivity that settles the attribution ran on the same
+bytes: the activations that read the last digit at .262 and .270 read
+the mod-7 residue at .124 against a .212 bar, at both sizes. The
+residue is not a linear feature of those activations, and on the
+subtraction rung, where the label never changed, the basis-starved
+validation set alone had produced the silence: it measures
+generalisation to held-out basis values, which is a different quantity
+from presence. Nothing in the probe machinery was wrong. Section 3's
+two gates did what they were built to do and the twin stayed silent
+throughout. What produced the silence was two choices made for good
+reasons at inclusion time, a label chosen to defeat lookup and a split
+chosen to test generalisation, each argued for separately in the
+design document and neither asked by the freeze to justify itself as a
+measurement of presence. The kinship with Section 8 is exact and on the
+other side of the correlation: there the outcome variable credited
+format as capability; here the predictor variable scored
+generalisation as presence, and the two together made a rung look like
+a percolation case. The rule: a frozen probe label carries a burden
+that the permutation null and the twin floor cannot discharge, that
+the representation could carry it linearly at all. Before a silence is
+read as absence, read the same activations against the most direct
+label the task admits, and if the two disagree the silence belongs to
+the target. Starving is a statement about what the probe must not be
+able to use; it says nothing about what the representation holds, and
+a battery that starves every label without a matched-label control has
+built a generalisation test and called it a presence test. (Record
+under the `exp2f-*` tags.)
+
 ## 7. The screen at inclusion time
 
 Both campaigns above ran the untrained control after their batteries
@@ -1488,6 +1552,13 @@ section it distills.
     halt, not the analyzer's writers) and require the analyzer to return
     that terminal from the tree as left. A terminal reachable only on a
     tree the runner cannot produce is unreachable. (§6)
+23. Before a frozen probe label's silence is read as absence, show the
+    label linearly readable from the activations it will be scored on:
+    pair every starved or transformed label with the most direct label
+    the task admits, on the same bytes, and attribute a silence the
+    direct label dissolves to the target, not the representation.
+    Starving tests what the probe cannot use, not what the
+    representation holds. (§6)
 
 The full record behind this paper — the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
@@ -1504,17 +1575,24 @@ and 3c records 10.5281/zenodo.21998671, v1.2 with the Experiment 3d
 record 10.5281/zenodo.22011547, v1.3 with the Experiment 3e record
 10.5281/zenodo.22045940, v1.4 with the Experiment 2d record
 10.5281/zenodo.22056230, v1.5 with the Experiment 2e record
-10.5281/zenodo.22059612).
+10.5281/zenodo.22059612, v1.6 with the Experiment 2f record
+10.5281/zenodo.22063906, v1.7 with the Experiment 1, 1b and 1c
+records 10.5281/zenodo.22064573).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
 mis-specification Section 6 draws on, Experiment 2d's record
-(`exp2d-*`), whose freeze supplies Section 6's eighth lesson, and
+(`exp2d-*`), whose freeze supplies Section 6's eighth lesson,
+Experiment 2f's record (`exp2f-*`, the ladder-order test on the two
+rungs 2c's probe had read as silent), which supplies the ninth, and
 Experiment 2e's record (`exp2e-*`, an analysis-only re-read of 2d's
-draws, named here and not drawn on);
-interim stage tags (e.g. `exp2c-stage1`) exist only in the private
-repository. Commit SHAs quoted inside the ledgers resolve through that
-repository's PROVENANCE.md.
+draws), named here and not drawn on; and, since 2026-08-23, the synthetic calibration records of
+Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
+`exp1c-*`), reported in the companion essay and not drawn on here.
+Interim stage tags (e.g. `exp2c-stage1`) exist only in the private
+repository, with the one exception of `exp1c-stage-a`, the 1c power
+declaration made in advance. Commit SHAs quoted inside the ledgers
+resolve through that repository's PROVENANCE.md.
 
 ## Disclosure of AI assistance
 

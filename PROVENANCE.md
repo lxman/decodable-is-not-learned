@@ -135,6 +135,16 @@ one hard-coded working-tree path (`experiments/exp1c/tests/mutation_check.py`),
 left as is like the home-path literals tolerated in earlier rounds;
 no LAN or credential literal occurs anywhere in the line.
 
+On 2026-08-23, after the v1.7 release, the paper was carried onto this
+line directly: one commit replaces `paper/` with the private
+repository's `paper/` at its commit 3db6839 (byte-identical, verified
+at the carry; `_build.html` is not tracked), bringing the v1.7 DOI
+into the paper's own version list, the exp1 records into its
+repository inventory, and Section 6's ninth lesson with checklist
+item 23. No filter pass was run and nothing already on this line
+moved. Paper-only updates will take this route from now on; the
+filter-repo re-extraction remains the route for experiment records.
+
 Between 2026-08-06 and the 2026-08-15 re-extraction, seven commits
 existed only in this public repository (the paper's §7 addition and
 approval, the AI-disclosure section, the Zenodo DOI paragraph, and the
