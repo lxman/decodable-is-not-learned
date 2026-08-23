@@ -64,7 +64,9 @@ preregistration and its closeout tag:
 `-closed` convention; its closeout is the 2026-07-14 commit that
 recorded `experiments/exp1/results/analysis_verdict.txt`),
 `exp1b-preregistered` / `exp1b-closed`,
-`exp1c-preregistered` / `exp1c-closed`,
+`exp1c-preregistered` / `exp1c-closed` (plus `exp1c-stage-a`, the
+power declaration made in advance — the one interim stage tag carried
+here; see PROVENANCE.md),
 `exp2-preregistered` / `exp2-closed`,
 `exp2b-preregistered` / `exp2b-closed`,
 `exp2c-preregistered` / `exp2c-closed`,
@@ -77,7 +79,7 @@ recorded `experiments/exp1/results/analysis_verdict.txt`),
 `exp3c-preregistered` / `exp3c-closed`,
 `exp3d-preregistered` / `exp3d-closed`,
 `exp3e-preregistered` / `exp3e-closed`.
-Interim stage tags exist only in the private repository. `v1.0`,
+Other interim stage tags exist only in the private repository. `v1.0`,
 `v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5` and `v1.6` anchor the Zenodo-archived snapshots
 (concept DOI 10.5281/zenodo.21830421) and deliberately point outside
 the current line, so each deposit remains exactly what was deposited.

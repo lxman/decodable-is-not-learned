@@ -123,9 +123,13 @@ extraction: each carried exp1 tag's tree is entry-for-entry identical
 and the merged tree is exactly the prior public tree plus the exp1
 tree (3,915 entries). Experiment 1's freeze tag is named
 `exp1-analysis-frozen` rather than `-preregistered`, as it was in the
-private repository; `exp1c-stage-a` (the 1c power declaration) is an
-interim stage tag and, like the others, stays private — its commit is
-in this history untagged. The exp1 line's old→new commit map is
+private repository; `exp1c-stage-a` is an interim stage tag and
+would ordinarily stay private like the others, but it marks the
+commit in which Experiment 1c's power table was finalised against the
+measured variance and the experiment declared underpowered before any
+sweep cell was probed — the declaration the essay's calibration
+paragraph cites — so it is carried here as the one exception to the
+stage-tag rule, pushed 2026-08-23 on the author's word. The exp1 line's old→new commit map is
 appended to `provenance/commit-map.txt`. The private exp1 trees carry
 one hard-coded working-tree path (`experiments/exp1c/tests/mutation_check.py`),
 left as is like the home-path literals tolerated in earlier rounds;
@@ -150,8 +154,9 @@ outside this extraction's scope (`experiments.md`, `environment.md`,
 `CLAUDE.md`, essay drafts). The complete old→new commit map is
 committed at `provenance/commit-map.txt`. Every experiment whose
 record ships here carries both its preregistration and closeout tags;
-interim stage tags (e.g. `exp2c-stage1`, `exp1c-stage-a`) exist only in the private
-repository. Tag anchors:
+interim stage tags (e.g. `exp2c-stage1`) exist only in the private
+repository, with the one exception of `exp1c-stage-a` explained
+above. Tag anchors:
 
 | tag | private | public |
 |---|---|---|
@@ -183,6 +188,7 @@ repository. Tag anchors:
 | exp1b-preregistered | 2dbbc77 | 794298c |
 | exp1b-closed | fb9537a | 4be999d |
 | exp1c-preregistered | ba3ffd3 | a790cbf |
+| exp1c-stage-a | 62a583b | be6c69b |
 | exp1c-closed | 185be34 | 06dea62 |
 
 The private repository — full history, including the referenced
