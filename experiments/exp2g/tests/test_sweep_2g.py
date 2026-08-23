@@ -12,17 +12,22 @@ from experiments.exp2g.tests.test_predictor_2g import _fake_predictor
 
 
 class FakeRunner:
-    def __init__(self, answers_by_prompt, frac):
+    def __init__(self, answers_by_prompt, frac, raise_at_call=None):
         self.answers, self.frac = answers_by_prompt, frac
+        self.raise_at_call, self.calls = raise_at_call, 0
 
     def generate(self, prompts, max_new_tokens):
+        if self.raise_at_call is not None and self.calls == self.raise_at_call:
+            raise RuntimeError("boom")
+        self.calls += 1
         out = []
         for i, p in enumerate(prompts):
             out.append(f" {self.answers[p]}" if (i % 1000) / 1000 < self.frac else " zzz")
         return out
 
 
-def _loaders(tmp_path, *, digest_main="D", digest_ckpt="D", frac_by_step=None, counts_ok=True):
+def _loaders(tmp_path, *, digest_main="D", digest_ckpt="D", frac_by_step=None, counts_ok=True,
+             raise_at=None):
     from harness import render_prompt
     battery = bg.load_battery()
     amap = {}
@@ -44,7 +49,7 @@ def _loaders(tmp_path, *, digest_main="D", digest_ckpt="D", frac_by_step=None, c
              "kind": entry["kind"], "files": entry["files"],
              "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}}
 
-    state = {"calls": []}
+    state = {"calls": [], "freed": []}
 
     def runner(tok, model):
         state["calls"].append(model.d)
@@ -52,10 +57,14 @@ def _loaders(tmp_path, *, digest_main="D", digest_ckpt="D", frac_by_step=None, c
             # the final point: reproduce m4's counts exactly unless asked not to
             return _CountedRunner(amap, battery, counts_ok)
         step = int(model.d[1:])
-        return FakeRunner(amap, frac_by_step.get(step, 0.1))
+        raise_at_call = raise_at[1] if raise_at is not None and raise_at[0] == step else None
+        return FakeRunner(amap, frac_by_step.get(step, 0.1), raise_at_call=raise_at_call)
+
+    def free(size, step, cache_root):
+        state["freed"].append((size, step))
 
     return {"pythia": pythia, "checkpoint": checkpoint, "tokenizer": lambda s: object(),
-            "runner": runner, "digest": lambda m: m.d, "free": lambda s, st, c: None}, state
+            "runner": runner, "digest": lambda m: m.d, "free": free}, state
 
 
 class _CountedRunner:
@@ -148,3 +157,34 @@ def test_dry_run_touches_nothing(tmp_path, capsys):
     sw.run_size("2.8b", out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
                 loaders=loaders, dry_run=True, **_seal(tmp_path))
     assert state["calls"] == [] and "would run" in capsys.readouterr().out
+
+
+def test_mid_step_exception_frees_the_checkpoint(tmp_path, monkeypatch):
+    monkeypatch.setattr(bg, "GRID", {"2.8b": (0, 1000, 143000), "12b": bg.GRID["12b"]})
+    monkeypatch.setattr(ck, "load_manifest",
+                        lambda path, sha_pin: json.loads(bg.CHECKPOINTS_PATH.read_text()))
+    loaders, state = _loaders(tmp_path, raise_at=(1000, 5))
+    with pytest.raises(RuntimeError, match="boom"):
+        sw.run_size("2.8b", out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
+                    loaders=loaders, **_seal(tmp_path))
+    assert ("2.8b", 1000) in state["freed"]
+    g = json.loads(bg.gate1_path(tmp_path, "2.8b").read_text())
+    assert g["pass"] is True
+    for r in bg.sweep_rungs("2.8b"):
+        assert bg.record_path(tmp_path, "2.8b", 143000, r).exists()
+    n_step1000 = sum(1 for r in bg.sweep_rungs("2.8b")
+                     if bg.record_path(tmp_path, "2.8b", 1000, r).exists())
+    assert n_step1000 < 34
+
+
+def test_gate1_record_without_final_records_refuses(tmp_path, monkeypatch):
+    monkeypatch.setattr(bg, "GRID", {"2.8b": (0, 1000, 143000), "12b": bg.GRID["12b"]})
+    monkeypatch.setattr(ck, "load_manifest",
+                        lambda path, sha_pin: json.loads(bg.CHECKPOINTS_PATH.read_text()))
+    loaders, _ = _loaders(tmp_path)
+    sw.run_size("2.8b", out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
+                loaders=loaders, **_seal(tmp_path))
+    bg.record_path(tmp_path, "2.8b", 143000, "antonym").unlink()
+    with pytest.raises(RuntimeError, match="incomplete"):
+        sw.run_size("2.8b", out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
+                    loaders=loaders, **_seal(tmp_path))

@@ -152,24 +152,28 @@ def gate1(size, *, out_root, manifest, cache_root, device, battery, verify_fn, s
     entry = ck.entry_for(manifest, size, bg.FINAL_STEP)
     # (a) 2c's own path
     tok, model = loaders["pythia"](size, device)
-    digest_a = loaders["digest"](model)
-    runner = loaders["runner"](tok, model)
-    evs = {r: evaluate_items(runner, battery[r], verify_fn) for r in rungs}
-    _release(model)
+    try:
+        digest_a = loaders["digest"](model)
+        runner = loaders["runner"](tok, model)
+        evs = {r: evaluate_items(runner, battery[r], verify_fn) for r in rungs}
+    finally:
+        _release(model)
     counts = {r: evs[r]["correct"] for r in rungs}
     diffs = {r: [counts[r], bg.FINAL_COUNT_PIN[size][r]] for r in rungs
              if counts[r] != bg.FINAL_COUNT_PIN[size][r]}
     # (b) 2g's loader path on main's candidate files
     model_b, info_b = loaders["checkpoint"](size, bg.FINAL_STEP, entry, cache_root, device)
-    digest_b = loaders["digest"](model_b)
-    runner_b = loaders["runner"](loaders["tokenizer"](size), model_b)
-    cont_diffs = {}
-    for r in rungs:
-        ev_b = evaluate_items(runner_b, battery[r], verify_fn)
-        cont_diffs[r] = int(sum(1 for x, y in zip(ev_b["continuations"],
-                                                  evs[r]["continuations"]) if x != y))
-    _release(model_b)
-    loaders["free"](size, bg.FINAL_STEP, cache_root)
+    try:
+        digest_b = loaders["digest"](model_b)
+        runner_b = loaders["runner"](loaders["tokenizer"](size), model_b)
+        cont_diffs = {}
+        for r in rungs:
+            ev_b = evaluate_items(runner_b, battery[r], verify_fn)
+            cont_diffs[r] = int(sum(1 for x, y in zip(ev_b["continuations"],
+                                                      evs[r]["continuations"]) if x != y))
+    finally:
+        _release(model_b)
+        loaders["free"](size, bg.FINAL_STEP, cache_root)
     rec = {"size": size, "rungs": list(rungs), "model_sha": PYTHIA_SHAS[size],
            "main_entry": entry, "pin_counts": dict(bg.FINAL_COUNT_PIN[size]),
            "counts_2c_path": counts, "diffs_vs_pin": diffs,
@@ -182,8 +186,8 @@ def gate1(size, *, out_root, manifest, cache_root, device, battery, verify_fn, s
     failures = an.gate1_failures(rec, size)
     rec["pass"] = not failures
     rec["failures"] = failures
-    _write(bg.gate1_path(out_root, size), rec)
     if failures:
+        _write(bg.gate1_path(out_root, size), rec)
         bg.halt_marker_path(out_root, size).parent.mkdir(parents=True, exist_ok=True)
         bg.halt_marker_path(out_root, size).write_text("\n".join(failures) + "\n")
         raise RuntimeError(f"gate 1 {size} FAILED — halted: {failures[:3]}")
@@ -200,6 +204,8 @@ def gate1(size, *, out_root, manifest, cache_root, device, battery, verify_fn, s
            {"size": size, "step": bg.FINAL_STEP, "revision": "main", "digest": digest_a,
             "digest_2g_path": digest_b, "sha256": dict(entry["lfs_sha256"]),
             "loading_info": info_b.get("loading_info"), "via": "gate 1"})
+    # records first, the gate record last: gate1.json on disk implies the final step's records exist
+    _write(bg.gate1_path(out_root, size), rec)
     print(f"[2g sweep] gate 1 {size}: PASS ({len(rungs)} rungs, counts exact, digests "
           f"equal, 0 continuation diffs)", flush=True)
     return rec
@@ -214,17 +220,19 @@ def run_step(size, step, *, out_root, manifest, cache_root, device, battery, ver
     entry = ck.entry_for(manifest, size, step)
     t0 = time.time()
     model, info = loaders["checkpoint"](size, step, entry, cache_root, device)
-    digest = loaders["digest"](model)
-    _write(bg.checkpoint_record_path(out_root, size, step),
-           {**info, "size": size, "step": int(step), "digest": digest,
-            "download_seconds": round(time.time() - t0, 1)})
-    runner = loaders["runner"](loaders["tokenizer"](size), model)
-    ckpt = {**info, "revision": entry["revision"], "commit": entry["commit"],
-            "kind": entry["kind"], "files": list(entry["files"])}
-    run_rungs(runner, size, step, ckpt, out_root=out_root, battery=battery,
-              verify_fn=verify_fn, seal=seal)
-    _release(model)
-    loaders["free"](size, step, cache_root)
+    try:
+        digest = loaders["digest"](model)
+        _write(bg.checkpoint_record_path(out_root, size, step),
+               {**info, "size": size, "step": int(step), "digest": digest,
+                "download_seconds": round(time.time() - t0, 1)})
+        runner = loaders["runner"](loaders["tokenizer"](size), model)
+        ckpt = {**info, "revision": entry["revision"], "commit": entry["commit"],
+                "kind": entry["kind"], "files": list(entry["files"])}
+        run_rungs(runner, size, step, ckpt, out_root=out_root, battery=battery,
+                  verify_fn=verify_fn, seal=seal)
+    finally:
+        _release(model)
+        loaders["free"](size, step, cache_root)
     print(f"[2g sweep] {size}/step{step} done in {time.time() - t0:.0f} s", flush=True)
 
 
@@ -257,6 +265,9 @@ def run_size(size, *, out_root=EXP2G, cache_root=ck.CKPT_CACHE, device="mps",
         bad = an.gate1_failures(json.loads(g1.read_text()), size)
         if bad:
             raise RuntimeError(f"gate 1 {size} record on disk fails re-derivation: {bad[:3]}")
+        if not records_complete(out_root, size, bg.FINAL_STEP):
+            raise RuntimeError(f"gate 1 {size}: record present but the final step's records "
+                               f"are incomplete — delete {g1} to re-run the gate")
     for step in bg.GRID[size]:
         if step == bg.FINAL_STEP:
             continue
