@@ -66,6 +66,13 @@ def test_perm_test_refuses_a_cell_without_pairs():
                      n_perm=10, seed=0)
 
 
+def test_perm_test_refuses_duplicate_rung_names():
+    rng = np.random.default_rng(4)
+    cells = [_cell(rng, 100, 0.3, 30, rung="dup"), _cell(rng, 100, 0.3, 30, rung="dup")]
+    with pytest.raises(ValueError, match="duplicate"):
+        sg.perm_test(cells, n_perm=10, seed=0)
+
+
 def test_bootstrap_and_pooled():
     rng = np.random.default_rng(3)
     c = _cell(rng, 200, 0.8, 50)

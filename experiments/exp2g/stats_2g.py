@@ -80,6 +80,8 @@ def perm_test(cells, *, n_perm: int = N_PERM, seed: int = PERM_SEED) -> dict:
         xs.append(np.asarray(c["x"], dtype=np.float64))
         per_rung[c["rung"]] = {"d": float(d), "n_pairs": int(n_pairs),
                                "n_pos": int((np.asarray(c["y"]) > 0).sum())}
+    if len(per_rung) != len(cells):
+        raise ValueError("perm_test: duplicate rung names among the cells")
     T_obs = float(np.mean([v["d"] for v in per_rung.values()]))
     rng = np.random.default_rng(seed)
     null = np.empty(n_perm)
