@@ -33,6 +33,7 @@ def test_label_functions_on_examples():
     assert lb.answer_label("sub3_mid", {"question": "x", "answer": "7"}) == "0"
     assert lb.answer_label("sub4_mid", {"question": "x", "answer": "1909"}) == "9"
     assert lb.answer_label("arith_next", {"question": "x", "answer": "74"}) == "4"
+    assert lb.answer_label("arith_next", {"question": "x", "answer": "93"}) == "3"  # 93 mod 7 = 2, last digit = 3 — the two conventions diverge here
     assert lb.answer_label("count_div13", {"question": "x", "answer": "7"}) == "7"
 
 
@@ -55,8 +56,13 @@ def test_gates_500_500_and_probe_items(battery):
     g = lb.check_label_gates(battery)
     assert set(g) == set(bg.PREDICTOR_RUNGS)
     for r in bg.PREDICTOR_RUNGS:
-        assert g[r] == f"PASS (500/500 eval; {len(battery[r]['probe_items'])}/" \
-                       f"{len(battery[r]['probe_items'])} probe)"
+        n_p = len(battery[r]['probe_items'])
+        if r == "arith_next":
+            assert g[r] == (f"PASS (500/500 eval; {n_p}/{n_p} probe; "
+                             f"last digit == 2f's label; committed "
+                             f"probe_label == answer mod 7)")
+        else:
+            assert g[r] == f"PASS (500/500 eval; {n_p}/{n_p} probe)"
 
 
 def test_class_coverage(battery):

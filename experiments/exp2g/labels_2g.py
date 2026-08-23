@@ -91,10 +91,7 @@ def answer_label(rung: str, item: dict) -> str:
             raise ValueError(f"{rung}: answer {ans!r} has more than 5 digits")
         return ans.zfill(4)[-3]
     if kind == "last_digit":
-        # arith_next's committed probe_label is the answer mod 7 (2c's
-        # mod-7 label, per CLAUDE.md's Exp 2f note), not the literal
-        # last digit — the two coincide only by chance on small examples.
-        return str(int(ans) % 7)
+        return ans[-1]
     if kind == "count":
         v = int(ans)
         if not _COUNT_RANGE[0] <= v <= _COUNT_RANGE[1]:
@@ -113,22 +110,58 @@ def probe_labels(cap: dict, rung: str) -> list:
 
 def check_label_gates(battery: dict) -> dict:
     """G-L: the label function == the committed probe_label on every
-    eval item (500/500) and every probe item."""
+    eval item (500/500) and every probe item — for ten of the eleven
+    rungs. arith_next is the one exception (design §3): its label is
+    fixed as 2f's last-digit label, not the committed `probe_label`
+    field, which carries 2c's older mod-7 label — a label a prior
+    experiment (2f) showed the representation cannot carry. So
+    arith_next's known-answer referent is 2f's own label function
+    (`labels_2f.answer_label("last_digit", ...)`), checked on every
+    eval and probe item; the committed `probe_label` field is checked
+    separately, as a second referent, against 2c's mod-7 label
+    (`answer mod 7`) rather than against this rung's label."""
+    from experiments.exp2f import labels_2f as lb2f
     gates = {}
     for rung in bg.PREDICTOR_RUNGS:
         cap = battery[rung]
-        for which in ("eval_items", "probe_items"):
-            bad = [i for i, it in enumerate(cap[which])
-                   if str(it.get("probe_label")) != answer_label(rung, it)]
-            if bad:
-                raise ValueError(
-                    f"{rung}/{which}: the committed probe_label disagrees with "
-                    f"the {KIND_OF[rung]} label on {len(bad)} item(s), e.g. "
-                    f"{bad[:3]} — the label function is not 2c's")
+        if rung == "arith_next":
+            for which in ("eval_items", "probe_items"):
+                items = cap[which]
+                bad_2f = [i for i, it in enumerate(items)
+                          if lb2f.answer_label("last_digit", it["answer"])
+                          != answer_label(rung, it)]
+                if bad_2f:
+                    raise ValueError(
+                        f"{rung}/{which}: the last-digit label disagrees "
+                        f"with 2f's last-digit label function on "
+                        f"{len(bad_2f)} item(s), e.g. {bad_2f[:3]}")
+                bad_mod7 = [i for i, it in enumerate(items)
+                            if str(it.get("probe_label"))
+                            != str(int(it["answer"]) % 7)]
+                if bad_mod7:
+                    raise ValueError(
+                        f"{rung}/{which}: the committed probe_label "
+                        f"disagrees with answer mod 7 on {len(bad_mod7)} "
+                        f"item(s), e.g. {bad_mod7[:3]} — not 2c's "
+                        f"committed mod-7 label")
+        else:
+            for which in ("eval_items", "probe_items"):
+                bad = [i for i, it in enumerate(cap[which])
+                       if str(it.get("probe_label")) != answer_label(rung, it)]
+                if bad:
+                    raise ValueError(
+                        f"{rung}/{which}: the committed probe_label disagrees with "
+                        f"the {KIND_OF[rung]} label on {len(bad)} item(s), e.g. "
+                        f"{bad[:3]} — the label function is not 2c's")
         n_e, n_p = len(cap["eval_items"]), len(cap["probe_items"])
         if n_e != bg.N_ITEMS:
             raise ValueError(f"{rung}: {n_e} eval items")
-        gates[rung] = f"PASS ({n_e}/{n_e} eval; {n_p}/{n_p} probe)"
+        if rung == "arith_next":
+            gates[rung] = (f"PASS ({n_e}/{n_e} eval; {n_p}/{n_p} probe; "
+                            f"last digit == 2f's label; committed "
+                            f"probe_label == answer mod 7)")
+        else:
+            gates[rung] = f"PASS ({n_e}/{n_e} eval; {n_p}/{n_p} probe)"
     return gates
 
 
