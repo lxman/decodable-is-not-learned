@@ -85,12 +85,15 @@ the only Hub traffic anywhere in the tree is the committed
   `verify_referents_2g` 11/11 cold on the real tree.
 - **Mutation harness** — 50 mutants over
   labels/strata/stats/probe/checkpoints/predictor/analyzer/runner.
-  First pass 39/50 killed; eleven fixture gaps closed (labels
-  gate/floor, strata nominal/pin, stats add-one/one-sided/mean, probe
-  true-class, manifest grid, outcomes step0, load_sweep missing
-  record) — these eleven additional test cases landed in the files
-  above and are why today's full-suite count exceeds the per-module
-  counts recorded at each task's own commit. Second pass 50/50 killed.
+  First pass 39/50 killed; eleven fixture gaps closed: [labels] gate
+  corruption, [labels] 1/K floor, [strata] nominal never merged,
+  [strata] pin, [stats] add-one p, [stats] one-sided, [stats]
+  unweighted mean, [probe] true-class log-prob, [checkpoints] stale
+  grid refused, [analyze] outcomes never counts step0, [analyze]
+  load_sweep refuses a missing record — these eleven additional test
+  cases landed in the files above and are why today's full-suite count
+  exceeds the per-module counts recorded at each task's own commit.
+  Second pass 50/50 killed.
 
 ### Full suite (verified this session)
 
@@ -100,11 +103,16 @@ PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments
 ```
 
 83 passed + 1 skipped = 78 (every module above except the full-shape
-worlds) + 5 (the full-shape worlds); the 1 skip is the slow gate-P
-machinery-reproduction test, run explicitly and separately (not part of
-the default collection's pass count). `power_2g.log` and
-`mutation_build.log` are local run logs, not committed (see
-`.gitignore`).
+worlds) + 5 (the full-shape worlds). Task-time counts sum to 67; the
+mutation pass added eleven fixtures — labels +2 (gate corruption; 1/K
+floor), strata +2 (nominal never merged; pin), stats +3 (add-one p;
+one-sided; unweighted mean), probe +1 (true-class log-prob),
+checkpoints +1 (stale grid refused), analyze +2 (outcomes never counts
+step0; load_sweep refuses a missing record) — 67 + 11 = 78, plus the 5
+world tests = 83. The 1 skip is the slow gate-P machinery-reproduction
+test, run explicitly and separately (not part of the default
+collection's pass count). `power_2g.log` and `mutation_build.log` are
+local run logs, not committed (see `.gitignore`).
 
 ### Power record
 
