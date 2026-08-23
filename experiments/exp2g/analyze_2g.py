@@ -423,6 +423,7 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         prim = primary(pred, out, strata, size_pred=bg.PRIMARY_SIZE, rungs=bg.R_28,
                        n_perm=n_perm, n_boot=n_boot)
         tree = verdict_tree_2g([], prim)
+        lbf = lb.floor_table({r: battery[r] for r in bg.PREDICTOR_RUNGS})
         sec = {}
         sec["replication_410m"] = primary(pred, out, strata, size_pred=bg.REPLICATION_SIZE,
                                           rungs=bg.R_28, n_perm=n_perm, n_boot=n_boot)
@@ -447,7 +448,7 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
             "note": "descriptive by design: seven rungs in five family blocks",
             "table": {r: {"s_star": rl[r]["s_star"],
                           "probe_margin_1b": (pred["cells"][r]["1b"]["trained"]["eval_acc"]
-                                              - lb.floor_table({r: battery[r]})[r]["floor"]),
+                                              - lbf[r]["floor"]),
                           "counts_by_step": out[r]["counts_by_step"]} for r in bg.R_28}}
         xs = [sec["rung_level"]["table"][r]["probe_margin_1b"] for r in bg.R_28]
         ys = [sec["rung_level"]["table"][r]["s_star"] or 10 ** 9 for r in bg.R_28]

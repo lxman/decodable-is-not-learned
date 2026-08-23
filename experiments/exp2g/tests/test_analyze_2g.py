@@ -8,6 +8,7 @@ import pytest
 
 from experiments.exp2g import analyze_2g as an
 from experiments.exp2g import battery_2g as bg
+from experiments.exp2g import labels_2g as lb
 from experiments.exp2g import stats_2g as st
 
 
@@ -145,3 +146,11 @@ def test_primary_on_synthetic_predictor():
     assert prim["eligible"] == ["a", "b"] and prim["thin"] == []
     assert set(prim["per_rung"]) == {"a", "b"} and "ci" in prim["per_rung"]["a"]
     assert an.verdict_tree_2g([], prim)["verdict"] == "FORECAST"
+
+
+def test_label_floors_for_rung_level():
+    battery = bg.load_battery()
+    lbf = lb.floor_table({r: battery[r] for r in bg.PREDICTOR_RUNGS})
+    assert set(lbf) == set(bg.PREDICTOR_RUNGS) and all(0 < lbf[r]["floor"] <= 1 for r in bg.R_28)
+    with pytest.raises(KeyError):
+        lb.floor_table({"antonym": battery["antonym"]})
