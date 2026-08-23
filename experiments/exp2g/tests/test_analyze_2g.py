@@ -154,3 +154,43 @@ def test_label_floors_for_rung_level():
     assert set(lbf) == set(bg.PREDICTOR_RUNGS) and all(0 < lbf[r]["floor"] <= 1 for r in bg.R_28)
     with pytest.raises(KeyError):
         lb.floor_table({"antonym": battery["antonym"]})
+
+
+def test_primary_thin_and_no_eligible():
+    rng = np.random.default_rng(1)
+    pred = {"cells": {}}
+    out, strata = {}, {}
+    for r, n_pos in (("a", 80), ("b", 5)):
+        x, y = _cells(rng, n_pos=n_pos)
+        pred["cells"][r] = {"1b": {"trained": {"scores": list(x), "eval_rule": {"scores": list(x)}},
+                                   "untrained": {"scores": list(x), "eval_rule": {"scores": list(x)}}}}
+        out[r] = {"y": list(y), "n_pos": int((y > 0).sum()), "first": [None] * len(y)}
+        strata[r] = {"strata": [str(i % 3) for i in range(len(y))]}
+    prim = an.primary(pred, out, strata, size_pred="1b", rungs=("a", "b"), n_perm=50, seed=0,
+                      n_boot=20)
+    assert prim["eligible"] == ["a"] and prim["thin"] == ["b"]
+
+    pred2 = {"cells": {}}
+    out2, strata2 = {}, {}
+    for r in ("c", "d"):
+        x, y = _cells(rng, n_pos=5)
+        pred2["cells"][r] = {"1b": {"trained": {"scores": list(x), "eval_rule": {"scores": list(x)}},
+                                    "untrained": {"scores": list(x), "eval_rule": {"scores": list(x)}}}}
+        out2[r] = {"y": list(y), "n_pos": int((y > 0).sum()), "first": [None] * len(y)}
+        strata2[r] = {"strata": [str(i % 3) for i in range(len(y))]}
+    with pytest.raises(ValueError, match="no eligible"):
+        an.primary(pred2, out2, strata2, size_pred="1b", rungs=("c", "d"), n_perm=50, seed=0,
+                  n_boot=20)
+
+
+def test_rung_level_transient_clears():
+    steps = bg.trained_steps("2.8b")
+    sweep = {}
+    for s in bg.GRID["2.8b"]:
+        bits = ([1] * 300 + [0] * 200) if s == 30000 else [0] * 500
+        sweep[s] = {"r": {"bits": bits, "correct": sum(bits)}}
+    out = an.outcomes(sweep, "2.8b", rungs=("r",))
+    rl = an.rung_level(out, "2.8b", {"r": 0.25}, rungs=("r",))
+    assert rl["r"]["s_star"] == 30000
+    assert rl["r"]["final_clears"] is False
+    assert rl["r"]["transient_clears"] == [30000]

@@ -399,8 +399,10 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         failures.append(f"gate 1 {size}: record missing ({g1p})")
         gate1 = None
     else:
-        gate1 = json.loads(g1p.read_text())
-        failures += gate1_failures(gate1, size)
+        gate1, f = collect(lambda: json.loads(g1p.read_text()), f"gate 1 {size} record")
+        failures += f
+        if gate1 is not None:
+            failures += gate1_failures(gate1, size)
     sweep, f = collect(lambda: load_sweep(root, size, battery, verify_fn, manifest=manifest,
                                           seal_sha=seal_sha) if manifest and seal_sha else
                        (_ for _ in ()).throw(ValueError("manifest or seal missing")),
@@ -489,8 +491,10 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         rep = {"gate1": None, "failures": []}
         g1 = bg.gate1_path(root, s12)
         if g1.is_file():
-            rep["gate1"] = json.loads(g1.read_text())
-            rep["failures"] += gate1_failures(rep["gate1"], s12)
+            rep["gate1"], f = collect(lambda: json.loads(g1.read_text()), f"gate 1 {s12} record")
+            rep["failures"] += f
+            if rep["gate1"] is not None:
+                rep["failures"] += gate1_failures(rep["gate1"], s12)
         else:
             rep["failures"].append(f"gate 1 {s12}: record missing")
         sw12, f = collect(lambda: load_sweep(root, s12, battery, verify_fn, manifest=manifest,
