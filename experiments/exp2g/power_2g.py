@@ -38,9 +38,11 @@ POWER_PATH = EXP2G / "power_2g.json"
 
 
 def _ranks_to_counts(order_pos, n_steps):
-    """Higher latent → emittable earlier → more checkpoints verified."""
+    """Higher latent → emittable earlier → more checkpoints verified:
+    rank 0 (the highest w among the positives) gets n_steps, the last
+    positive gets at least 1; non-increasing in rank."""
     n = len(order_pos)
-    return {int(i): 1 + int(rank * n_steps / n) for rank, i in enumerate(order_pos)}
+    return {int(i): n_steps - int(rank * n_steps / n) for rank, i in enumerate(order_pos)}
 
 
 def simulate_cells(rng, rho, table, n_pos, rungs, *, n_steps=None) -> tuple:
@@ -81,10 +83,11 @@ def calibrate_rho(target_d, table, n_pos, rungs, *, seed=0, n_cal=20) -> float:
 
 def _one(rng, rho, table, n_pos, rungs, n_perm):
     cells, twin = simulate_cells(rng, rho, table, n_pos, rungs)
-    strat = st.perm_test(cells, n_perm=n_perm, seed=int(rng.integers(0, 2 ** 31)))
+    s = int(rng.integers(0, 2 ** 31))
+    strat = st.perm_test(cells, n_perm=n_perm, seed=s)
     raw_cells = [{**c, "strata": ["0"] * len(c["strata"])} for c in cells]
-    raw = st.perm_test(raw_cells, n_perm=n_perm, seed=int(rng.integers(0, 2 ** 31)))
-    tw = st.perm_test(twin, n_perm=n_perm, seed=int(rng.integers(0, 2 ** 31)))
+    raw = st.perm_test(raw_cells, n_perm=n_perm, seed=s)
+    tw = st.perm_test(twin, n_perm=n_perm, seed=s)
     prim = {"stratified": strat, "raw": raw, "twin": tw}
     return an.verdict_tree_2g([], prim)["verdict"], strat
 

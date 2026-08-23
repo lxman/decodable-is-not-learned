@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.stats import spearmanr
 
 from experiments.exp2g import battery_2g as bg
 from experiments.exp2g import power_2g as pw
@@ -42,3 +43,20 @@ def test_power_at_runs_through_the_tree():
     r = pw.power_at(0.9, table, n_pos, bg.R_28, n_sim=3, n_perm=200, seed=0)
     assert set(r) >= {"p_forecast", "p_detect", "mean_T", "n_sim", "rho"}
     assert r["p_forecast"] == 1.0
+
+
+def test_rank_to_count_direction():
+    c = pw._ranks_to_counts([10, 20, 30, 40], 21)
+    assert c[10] == 21
+    assert c[40] >= 1
+    assert c[10] >= c[20] >= c[30] >= c[40]
+
+    table, n_pos = _setup()
+    rng = np.random.default_rng(0)
+    cells, _ = pw.simulate_cells(rng, 0.9, table, n_pos, bg.R_28)
+    cell = cells[0]
+    x = np.asarray(cell["x"])
+    y = np.asarray(cell["y"])
+    mask = y > 0
+    r, _ = spearmanr(x[mask], y[mask])
+    assert r > 0
