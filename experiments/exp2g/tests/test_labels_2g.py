@@ -77,3 +77,36 @@ def test_floor_table(battery):
     assert t["count_div13"]["n_classes"] == 10
     for r, v in t.items():
         assert v["floor"] >= 1.0 / v["n_classes"]
+
+
+def test_check_label_gates_catches_a_corrupted_probe_label(battery):
+    # every real battery is majority-consistent already (the gate never
+    # fires on committed data), so corrupt a copy: one eval item's
+    # committed probe_label on a non-arith_next rung (the ten-rung
+    # branch) no longer matches the label function.
+    bad = dict(battery)
+    cap = dict(bad["antonym"])
+    items = list(cap["eval_items"])
+    corrupt = dict(items[0])
+    corrupt["probe_label"] = "999"          # not a valid position label
+    items[0] = corrupt
+    cap["eval_items"] = items
+    bad["antonym"] = cap
+    with pytest.raises(ValueError, match="antonym/eval_items"):
+        lb.check_label_gates(bad)
+
+
+def test_floor_uses_1_over_k_when_majority_share_is_smaller(monkeypatch):
+    # A real battery can never exercise the 1/K arm of max(maj, 1/K):
+    # the majority share among K categories is always >= 1/K by the
+    # pigeonhole bound, so floor_table's own eval_labels() never
+    # produces a case where 1/K wins. Bypass it directly: stub
+    # eval_labels to return more distinct labels than the rung's K,
+    # forcing majority_share below 1/K.
+    rung = "add3_mid"                        # kind tens_digit, K = 10
+    fake_y = [str(i) for i in range(20)]     # 20 distinct labels, share 1/20
+    monkeypatch.setattr(bg, "PREDICTOR_RUNGS", (rung,))
+    monkeypatch.setattr(lb, "eval_labels", lambda cap, r: fake_y)
+    t = lb.floor_table({rung: {"eval_items": []}})
+    assert t[rung]["majority_share"] == pytest.approx(1 / 20)
+    assert t[rung]["floor"] == pytest.approx(0.1)          # 1/K wins

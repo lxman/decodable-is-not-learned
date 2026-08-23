@@ -105,6 +105,19 @@ def test_write_and_load_roundtrip(inv, tmp_path):
     assert e["revision"] == "step1000" and e["files"][-1].endswith("index.json")
 
 
+def test_load_manifest_refuses_a_stale_grid(inv, tmp_path):
+    obj = ck.build_all(inv)
+    obj = dict(obj)
+    obj["2.8b"] = dict(obj["2.8b"])
+    obj["2.8b"]["grid"] = list(obj["2.8b"]["grid"])[:-1]      # drop one step
+    p = tmp_path / "m.json"
+    ck.write_manifest(p, obj)
+    # the sha_pin matches the file exactly written -- the failure has
+    # to come from the grid check, not the hash check
+    with pytest.raises(ValueError, match="frozen grid"):
+        ck.load_manifest(p, sha_pin=bg.sha256_file(p))
+
+
 def test_committed_manifest_matches_inventory(inv):
     obj = ck.load_manifest(bg.CHECKPOINTS_PATH, sha_pin=None)
     assert obj == ck.build_all(inv)

@@ -62,3 +62,34 @@ def test_table_reproduces_doc_counts(battery):
     assert len(t["antonym"]["strata"]) == 500
     back = sg.from_json(sg.to_json(t))
     assert back == t
+
+
+def _antonym_item(pos):
+    opts = ["a", "b", "c", "d"]
+    return {"question": f"opposite of x: {', '.join(opts)}?", "answer": opts[pos - 1]}
+
+
+def test_nominal_levels_are_never_merged_even_below_the_floor():
+    # every real position rung already has every level >= MIN_STRATUM
+    # (10), so the real battery can't exercise the NOMINAL branch of
+    # strata_for under a condition that would actually trigger a
+    # merge if it were skipped. Build a synthetic antonym cap with one
+    # slot under the floor.
+    items = ([_antonym_item(1)] * 3 + [_antonym_item(2)] * 15 +
+             [_antonym_item(3)] * 15 + [_antonym_item(4)] * 15)
+    cap = {"eval_items": items}
+    t = sg.strata_for(cap, "antonym")
+    assert t["kind"] == "position"
+    assert t["levels_raw"] == {1: 3, 2: 15, 3: 15, 4: 15}
+    # unmerged: level 1 stays its own stratum despite 3 < MIN_STRATUM
+    assert t["level_map"] == {1: "1", 2: "2", 3: "3", 4: "4"}
+    assert t["counts"]["1"] == 3
+
+
+def test_check_strata_pins_catches_altered_raw_counts(battery):
+    t = sg.build_table(battery)
+    bad = {r: dict(v) for r, v in t.items()}
+    bad["add3_mid"]["levels_raw"] = dict(bad["add3_mid"]["levels_raw"])
+    bad["add3_mid"]["levels_raw"][0] += 1
+    with pytest.raises(ValueError, match="add3_mid"):
+        sg.check_strata_pins(bad)

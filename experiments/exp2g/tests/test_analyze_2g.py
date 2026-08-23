@@ -183,6 +183,30 @@ def test_primary_thin_and_no_eligible():
                   n_boot=20)
 
 
+def test_outcomes_never_counts_step0():
+    # step 0 fires on every item, no trained step fires on any item:
+    # y must be 0 everywhere (trained_steps excludes step 0), even
+    # though counts_by_step still records step 0's own hit count.
+    sweep = {}
+    for s in bg.GRID["2.8b"]:
+        bits = [1] * bg.N_ITEMS if s == 0 else [0] * bg.N_ITEMS
+        sweep[s] = {"r": {"bits": bits, "correct": sum(bits)}}
+    out = an.outcomes(sweep, "2.8b", rungs=("r",))
+    o = out["r"]
+    assert o["y"] == [0] * bg.N_ITEMS
+    assert o["first"] == [None] * bg.N_ITEMS and o["last"] == [None] * bg.N_ITEMS
+    assert o["n_pos"] == 0
+    assert o["counts_by_step"][0] == bg.N_ITEMS
+
+
+def test_load_sweep_refuses_a_missing_record(tmp_path, monkeypatch):
+    monkeypatch.setattr(bg, "sweep_rungs", lambda size: ("r",))
+    manifest = {"2.8b": {"entries": {"1000": {}}}}
+    with pytest.raises(FileNotFoundError, match="sweep record missing"):
+        an.load_sweep(tmp_path, "2.8b", {"r": {}}, lambda *a, **k: True,
+                      manifest=manifest, seal_sha="s", steps=(1000,))
+
+
 def test_rung_level_transient_clears():
     steps = bg.trained_steps("2.8b")
     sweep = {}

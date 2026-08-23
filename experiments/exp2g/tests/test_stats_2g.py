@@ -80,3 +80,39 @@ def test_bootstrap_and_pooled():
     assert ci["lo"] <= ci["point"] <= ci["hi"] and ci["lo"] > 0
     p = sg.pooled_d([c, _cell(rng, 50, 0.0, 10)])
     assert -1 <= p <= 1
+
+
+def test_perm_p_has_the_add_one_correction():
+    # a perfect predictor, n_perm = 1: with add-one, p for a maximal
+    # T_obs is 1/2 when the single permutation scores lower (n_ge=0);
+    # without it p would be 0 — deterministic at this seed.
+    cells = [{"rung": "r", "x": [1, 2, 3, 4], "y": [0, 0, 1, 1], "strata": ["a"] * 4}]
+    r = sg.perm_test(cells, n_perm=1, seed=0)
+    assert r["T"] == 1.0 and r["n_ge"] == 0
+    assert r["p"] == pytest.approx(0.5)
+
+
+def test_perm_p_is_one_sided():
+    # strongly negative association: the one-sided p (H1: T high) must
+    # sit near 1 — almost every null draw is >= a very negative T_obs.
+    # A two-sided statistic would instead score this as extreme.
+    rng = np.random.default_rng(1)
+    cells = [_cell(rng, 300, 0.7, 60, rung=f"r{i}") for i in range(3)]
+    for c in cells:
+        c["x"] = -np.asarray(c["x"])
+    r = sg.perm_test(cells, n_perm=400, seed=0)
+    assert r["T"] < -0.1
+    assert r["p"] > 0.9
+
+
+def test_T_is_the_unweighted_mean_across_rungs():
+    # one tiny cell (d = 1, 4 pairs) and one large cell (d = 0, 10000
+    # pairs): the mean over rungs is 0.5; a pair-weighted pooled
+    # statistic would instead be dominated by the large cell (~0.0004).
+    small = {"rung": "small", "x": [1, 2, 3, 4], "y": [0, 0, 1, 1], "strata": ["a"] * 4}
+    large = {"rung": "large", "x": [0] * 200, "y": [0, 1] * 100, "strata": ["b"] * 200}
+    r = sg.perm_test([small, large], n_perm=5, seed=0)
+    assert r["per_rung"]["small"]["d"] == 1.0
+    assert r["per_rung"]["large"]["d"] == 0.0
+    assert r["per_rung"]["large"]["n_pairs"] > 1000
+    assert r["T"] == pytest.approx(0.5)

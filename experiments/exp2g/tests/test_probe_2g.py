@@ -92,6 +92,25 @@ def test_cv_tie_break_is_lowest_site():
     assert pg.site_key(site) == min(cands, key=lambda k: tuple(int(t) for t in k.strip("()").split(",")))
 
 
+def test_item_log_probs_scores_the_true_class_not_the_argmax(synth):
+    # on the encoding site (accuracy > 0.8) predicted == true for most
+    # items, so lp[true] == lp.max() there and the two statistics
+    # coincide -- no test on that cell can distinguish them. Use the
+    # uninformative twin site instead, where most items ARE
+    # misclassified, and check the disagreeing ones directly.
+    from experiments.exp2f import probe_2f as pb
+    site = (0, 0)
+    clf = pb.fit_probe(synth["tw_tr"][site], synth["y_tr"])
+    X = np.asarray(synth["tw_ev"][site], dtype=np.float32)
+    scores = pg.item_log_probs(clf, X, synth["y_ev"])
+    lp = clf.predict_log_proba(X)
+    pred = [str(v) for v in clf.predict(X)]
+    mis = [i for i in range(len(synth["y_ev"])) if pred[i] != str(synth["y_ev"][i])]
+    assert mis                                    # sanity: misclassifications exist
+    assert any(scores[i] < lp[i].max() - 1e-9 for i in mis)
+    assert all(scores[i] <= lp[i].max() + 1e-9 for i in range(len(synth["y_ev"])))
+
+
 def test_eval_best_site_tie_break_is_lowest_site(synth):
     act_tr = dict(synth["tr"])
     act_ev = dict(synth["ev"])
