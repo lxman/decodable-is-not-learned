@@ -1,0 +1,170 @@
+# experiments/exp2g/labels_2g.py
+"""Exp 2g labels (design §3): one label per rung, a pure function of
+the committed item, reproducing the committed `probe_label` field on
+every eval and probe item (gate G-L). The answer side is never MISS —
+anything outside a label's domain is a hard error."""
+
+from __future__ import annotations
+
+import re
+import sys
+from collections import Counter
+from pathlib import Path
+
+EXP2G = Path(__file__).resolve().parent
+if str(EXP2G.parent.parent) not in sys.path:
+    sys.path.insert(0, str(EXP2G.parent.parent))
+
+from experiments.exp2g import battery_2g as bg  # noqa: E402
+
+KIND_OF = {
+    "antonym": "position", "antonym6": "position", "median5": "position",
+    "odd6": "position",
+    "add_base8": "last_char", "sub_base8": "last_char",
+    "add3_mid": "tens_digit", "sub3_mid": "tens_digit",
+    "sub4_mid": "hundreds_digit",
+    "arith_next": "last_digit",
+    "count_div13": "count",
+}
+_N_OPTIONS = {"antonym": 4, "antonym6": 6, "median5": 5, "odd6": 6}
+_COUNT_RANGE = (1, 10)
+_DIGITS = re.compile(r"[0-9]+")
+_OCTAL = re.compile(r"[0-7]+")
+
+
+def classes_of(rung: str) -> list:
+    kind = KIND_OF.get(rung)
+    if kind is None:
+        raise ValueError(f"{rung!r} has no 2g label")
+    if kind == "position":
+        return [str(i) for i in range(1, _N_OPTIONS[rung] + 1)]
+    if kind == "last_char":
+        return [str(i) for i in range(8)]
+    if kind in ("tens_digit", "hundreds_digit", "last_digit"):
+        return [str(i) for i in range(10)]
+    if kind == "count":
+        return [str(i) for i in range(_COUNT_RANGE[0], _COUNT_RANGE[1] + 1)]
+    raise ValueError(kind)
+
+
+def n_classes(rung: str) -> int:
+    return len(classes_of(rung))
+
+
+def _options(question: str) -> list:
+    if ":" not in question:
+        raise ValueError(f"no option list in {question!r}")
+    tail = question.rsplit(":", 1)[1].rstrip("?. ")
+    opts = [o.strip().lower() for o in tail.split(",")]
+    if len(opts) < 2 or any(not o for o in opts):
+        raise ValueError(f"malformed option list in {question!r}")
+    return opts
+
+
+def answer_label(rung: str, item: dict) -> str:
+    kind = KIND_OF.get(rung)
+    if kind is None:
+        raise ValueError(f"{rung!r} has no 2g label")
+    ans = str(item["answer"]).strip()
+    if kind == "position":
+        opts = _options(item["question"])
+        if len(opts) != _N_OPTIONS[rung]:
+            raise ValueError(f"{rung}: {len(opts)} options, expected "
+                             f"{_N_OPTIONS[rung]}")
+        hits = [i for i, o in enumerate(opts) if o == ans.lower()]
+        if len(hits) != 1:
+            raise ValueError(f"{rung}: answer {ans!r} found {len(hits)} times "
+                             f"among {opts}")
+        return str(hits[0] + 1)
+    if kind == "last_char":
+        if not _OCTAL.fullmatch(ans):
+            raise ValueError(f"{rung}: answer {ans!r} is not an octal numeral")
+        return ans[-1]
+    if not _DIGITS.fullmatch(ans):
+        raise ValueError(f"{rung}: answer {ans!r} is not a non-negative integer")
+    if kind == "tens_digit":
+        if len(ans) > 4:
+            raise ValueError(f"{rung}: answer {ans!r} has more than 4 digits")
+        return ans.zfill(3)[-2]
+    if kind == "hundreds_digit":
+        if len(ans) > 5:
+            raise ValueError(f"{rung}: answer {ans!r} has more than 5 digits")
+        return ans.zfill(4)[-3]
+    if kind == "last_digit":
+        # arith_next's committed probe_label is the answer mod 7 (2c's
+        # mod-7 label, per CLAUDE.md's Exp 2f note), not the literal
+        # last digit — the two coincide only by chance on small examples.
+        return str(int(ans) % 7)
+    if kind == "count":
+        v = int(ans)
+        if not _COUNT_RANGE[0] <= v <= _COUNT_RANGE[1]:
+            raise ValueError(f"{rung}: count {v} outside {_COUNT_RANGE}")
+        return str(v)
+    raise ValueError(kind)
+
+
+def eval_labels(cap: dict, rung: str) -> list:
+    return [answer_label(rung, it) for it in cap["eval_items"]]
+
+
+def probe_labels(cap: dict, rung: str) -> list:
+    return [answer_label(rung, it) for it in cap["probe_items"]]
+
+
+def check_label_gates(battery: dict) -> dict:
+    """G-L: the label function == the committed probe_label on every
+    eval item (500/500) and every probe item."""
+    gates = {}
+    for rung in bg.PREDICTOR_RUNGS:
+        cap = battery[rung]
+        for which in ("eval_items", "probe_items"):
+            bad = [i for i, it in enumerate(cap[which])
+                   if str(it.get("probe_label")) != answer_label(rung, it)]
+            if bad:
+                raise ValueError(
+                    f"{rung}/{which}: the committed probe_label disagrees with "
+                    f"the {KIND_OF[rung]} label on {len(bad)} item(s), e.g. "
+                    f"{bad[:3]} — the label function is not 2c's")
+        n_e, n_p = len(cap["eval_items"]), len(cap["probe_items"])
+        if n_e != bg.N_ITEMS:
+            raise ValueError(f"{rung}: {n_e} eval items")
+        gates[rung] = f"PASS ({n_e}/{n_e} eval; {n_p}/{n_p} probe)"
+    return gates
+
+
+def check_class_coverage(battery: dict) -> dict:
+    """Every eval label must occur among the probe labels (else the
+    probe has no row for it and the item's score is undefined)."""
+    out = {}
+    for rung in bg.PREDICTOR_RUNGS:
+        cap = battery[rung]
+        pe, pp = set(eval_labels(cap, rung)), set(probe_labels(cap, rung))
+        out[rung] = {"eval_classes": sorted(pe), "probe_classes": sorted(pp),
+                     "eval_not_in_probe": sorted(pe - pp)}
+        if pe - pp:
+            raise ValueError(f"{rung}: eval labels {sorted(pe - pp)} never "
+                             f"occur among the probe items")
+    return out
+
+
+def floor_table(battery: dict) -> dict:
+    """The label's floor for the rung-level descriptive (§6.4):
+    max(majority label share over the 500 eval labels, 1/K)."""
+    out = {}
+    for rung in bg.PREDICTOR_RUNGS:
+        y = eval_labels(battery[rung], rung)
+        counts = Counter(y)
+        top, n_top = counts.most_common(1)[0]
+        K = n_classes(rung)
+        maj = n_top / len(y)
+        out[rung] = {"floor": float(max(maj, 1.0 / K)), "majority_share": float(maj),
+                     "majority_label": top, "n_classes": K, "n_items": len(y),
+                     "class_counts": {k: v for k, v in sorted(counts.items())}}
+    return out
+
+
+if __name__ == "__main__":
+    b = bg.load_battery(bg.PREDICTOR_RUNGS)
+    for r, g in check_label_gates(b).items():
+        print(f"{r:12s} {KIND_OF[r]:14s} {g}")
+    check_class_coverage(b)
