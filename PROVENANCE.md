@@ -145,8 +145,10 @@ continues to anchor the Zenodo-archived line
 (DOI 10.5281/zenodo.21830422) unchanged, so the archived release
 remains exactly what was deposited; the 2026-08-21 round and all
 three 2026-08-22 rounds likewise have no public-only content beyond
-this provenance apparatus, and `v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`
-and `v1.6` anchor their deposits off the current line.
+this provenance apparatus, and `v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`,
+`v1.6` and `v1.7` anchor their deposits off the current line (`v1.7`,
+cut 2026-08-23 at the commit that recorded the exp1 graft, is the
+first deposit to include the Experiment 1, 1b and 1c records).
 
 The ledgers (`experiments/*/PROGRESS.md`) and closeout artifacts quote
 private-repository SHAs, and reference a few working files that are
@@ -201,5 +203,7 @@ release v1.2 (10.5281/zenodo.22011547, adding the Experiment 3d
 record), release v1.3 (10.5281/zenodo.22045940, adding the Experiment 3e
 record), release v1.4 (10.5281/zenodo.22056230, adding the
 Experiment 2d record), release v1.5 (10.5281/zenodo.22059612,
-adding the Experiment 2e record) and release v1.6
-(10.5281/zenodo.22063906, adding the Experiment 2f record).
+adding the Experiment 2e record), release v1.6
+(10.5281/zenodo.22063906, adding the Experiment 2f record) and release
+v1.7 (10.5281/zenodo.22064573, adding the Experiment 1, 1b and 1c
+records).
