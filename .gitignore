@@ -33,4 +33,6 @@ paper/refit.log
 
 # Exp 2f: eval-item activations (431 MB) follow 2b/2c's policy — digests committed, arrays not
 experiments/exp2f/results/activations_eval/
+# exp2g stage-1 eval activations (~2.4 GB): digests live in the sealed predictor; arrays not committed (2b/2c/2f policy)
+experiments/exp2g/results/activations_eval/
 .superpowers/

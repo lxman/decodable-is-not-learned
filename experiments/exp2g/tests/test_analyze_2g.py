@@ -201,7 +201,18 @@ def test_outcomes_never_counts_step0():
 
 def test_load_sweep_refuses_a_missing_record(tmp_path, monkeypatch):
     monkeypatch.setattr(bg, "sweep_rungs", lambda size: ("r",))
-    manifest = {"2.8b": {"entries": {"1000": {}}}}
+    manifest = {"2.8b": {"entries": {"1000": {"lfs_sha256": {}}}}}
+    # a VALID checkpoint record for the step: under the real code the
+    # per-rung "record missing" raise fires first and this is never
+    # reached, but it must be a PASSING record so a mutant that inerts
+    # the per-rung check doesn't fall through to the checkpoint-record
+    # check's different message instead (that would still fail the
+    # suite, but for the wrong reason — mutant #46's note).
+    cp = bg.checkpoint_record_path(tmp_path, "2.8b", 1000)
+    cp.parent.mkdir(parents=True, exist_ok=True)
+    cp.write_text(json.dumps({"sha256": {}, "loading_info": {"missing_keys": 0,
+                                                              "unexpected_keys": 0,
+                                                              "mismatched_keys": 0}}))
     with pytest.raises(FileNotFoundError, match="sweep record missing"):
         an.load_sweep(tmp_path, "2.8b", {"r": {}}, lambda *a, **k: True,
                       manifest=manifest, seal_sha="s", steps=(1000,))

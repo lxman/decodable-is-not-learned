@@ -164,14 +164,19 @@ def build_manifest(size: str, inv: dict) -> dict:
                                       or (hub_bins and hub_bins == main_bins)),
         "duplicates": dups_of(f"step{bg.FINAL_STEP}") if hub else [],
     }
-    stale = {
-        "model.safetensors": sum(1 for r, t in table.items() if r != "main"
-                                 and t["files"].get("model.safetensors", [None])[0]
-                                 == main_files.get("model.safetensors", [None])[0]),
-        "pytorch_model.bin": sum(1 for r, t in table.items() if r != "main"
-                                 and t["files"].get("pytorch_model.bin", [None])[0]
-                                 == main_files.get("pytorch_model.bin", [None])[0]),
-    }
+    def _stale_count(name: str) -> int:
+        # count only revisions where BOTH sides actually carry the file
+        # (M-3): a size whose main/branches never publish a plain
+        # `name` (12b's shards-only layout) would otherwise match
+        # None == None and count every revision as a "stale copy".
+        main_sha = main_files.get(name, [None])[0]
+        if main_sha is None:
+            return 0
+        return sum(1 for r, t in table.items() if r != "main"
+                  and t["files"].get(name, [None])[0] is not None
+                  and t["files"][name][0] == main_sha)
+    stale = {"model.safetensors": _stale_count("model.safetensors"),
+             "pytorch_model.bin": _stale_count("pytorch_model.bin")}
     return {"size": size, "repo": repo, "main_commit": table["main"]["commit"],
             "grid": list(bg.GRID[size]), "trained_steps": list(bg.trained_steps(size)),
             "entries": entries, "excluded": {str(k): v for k, v in excluded.items()},
@@ -209,6 +214,32 @@ def entry_for(manifest: dict, size: str, step: int) -> dict:
     if e is None:
         raise ValueError(f"{size} step {step} is not a grid entry")
     return e
+
+
+def check_index_files(manifest: dict) -> dict:
+    """NETWORK (metadata only, I-7): for every grid entry whose
+    candidate files include a shard index (safetensors-shards /
+    bin-shards), confirm the Hub still lists that index filename at
+    the entry's pinned commit — `list_repo_files`, no weight bytes.
+    Not wired into any test; run once by hand and the printed dict
+    goes into PROGRESS.md."""
+    from huggingface_hub import HfApi
+    api = HfApi()
+    out = {}
+    for size in bg.SWEEP_SIZES:
+        repo = bg.REPO_OF[size]
+        for step_str, entry in manifest[size]["entries"].items():
+            idx = [n for n in entry["files"] if n.endswith(".index.json")]
+            if not idx:
+                continue
+            files = set(api.list_repo_files(repo, revision=entry["commit"]))
+            for name in idx:
+                if name not in files:
+                    raise ValueError(f"{repo}@{entry['commit']} ({size} step "
+                                     f"{step_str}): index file {name} not listed "
+                                     f"by the Hub")
+            out[f"{size}/{step_str}"] = {"commit": entry["commit"], "index_files": idx}
+    return out
 
 
 # ---------------------------------------------------- loader (stage 2)

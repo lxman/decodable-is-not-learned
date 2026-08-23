@@ -29,7 +29,7 @@ from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2g import stats_2g as st  # noqa: E402
 from experiments.exp2g import strata_2g as sg  # noqa: E402
 
-N_SIM = 200
+N_SIM = 1000
 N_PERM_POWER = 500
 D_TARGETS = (0.10, 0.15, 0.20)
 BAR = 0.75
@@ -104,12 +104,33 @@ def power_at(rho, table, n_pos, rungs, *, n_sim=N_SIM, n_perm=N_PERM_POWER, seed
             "p_forecast": float(np.mean([v == "FORECAST" for v in verdicts])),
             "p_detect": float(np.mean([p < st.ALPHA for p in ps])),
             "mean_T": float(np.mean(Ts)), "sd_T": float(np.std(Ts, ddof=1)) if n_sim > 1 else 0.0,
+            "Ts": [float(t) for t in Ts],
             "verdicts": {v: verdicts.count(v) for v in set(verdicts)}}
 
 
 def null_reference(table, n_pos, rungs, *, n_sim=N_SIM, n_perm=N_PERM_POWER, seed=1) -> dict:
     r = power_at(0.0, table, n_pos, rungs, n_sim=n_sim, n_perm=n_perm, seed=seed)
     return {**r, "false_forecast_rate": r["p_forecast"], "null_sd_T": r["sd_T"]}
+
+
+def rung_precision(rho, table, n_pos, rungs, *, seed=0, n_boot=200) -> dict:
+    """One calibrated simulation at `rho` (DECLARE_AT's calibrated D):
+    each rung's n_pairs (the informative-pair count feeding the
+    permutation statistic) and a bootstrap standard error on
+    within-stratum D, via st.bootstrap_d's 97.5/2.5 percentile CI,
+    normal-approximated: SE ≈ (hi − lo) / (2 × 1.959964)."""
+    rng = np.random.default_rng(seed)
+    cells, _ = simulate_cells(rng, rho, table, n_pos, rungs)
+    out = {}
+    for c in cells:
+        d = st.somers_d_within(c["x"], c["y"], c["strata"])
+        boot = st.bootstrap_d(c["x"], c["y"], c["strata"], n_boot=n_boot)
+        se = ((boot["hi"] - boot["lo"]) / (2 * 1.959963985)
+              if np.isfinite(boot["hi"]) and np.isfinite(boot["lo"]) else None)
+        out[c["rung"]] = {"n_pairs": d["n_pairs"], "d_point": d["d"],
+                          "bootstrap_ci": [boot["lo"], boot["hi"]],
+                          "bootstrap_se": se, "n_boot": boot["n_boot"]}
+    return out
 
 
 def main(out_path=POWER_PATH) -> dict:
@@ -125,12 +146,17 @@ def main(out_path=POWER_PATH) -> dict:
            "n_trained_steps": bg.n_trained("2.8b"), "bar": BAR, "declare_at": DECLARE_AT,
            "t_bar": st.T_BAR, "alpha": st.ALPHA, "alpha_twin": st.ALPHA_TWIN,
            "n_sim": N_SIM, "n_perm": N_PERM_POWER, "targets": {}}
+    declare_rho = None
     for d in D_TARGETS:
         rho = calibrate_rho(d, table, n_pos, bg.R_28)
+        if d == DECLARE_AT:
+            declare_rho = rho
         rec["targets"][str(d)] = power_at(rho, table, n_pos, bg.R_28)
         print(f"[2g power] D_true {d}: rho {rho:.3f} P(FORECAST) "
               f"{rec['targets'][str(d)]['p_forecast']:.3f}", flush=True)
     rec["null"] = null_reference(table, n_pos, bg.R_28)
+    rec["min_detectable_T"] = float(np.quantile(rec["null"]["Ts"], 0.99))
+    rec["per_rung_precision"] = rung_precision(declare_rho, table, n_pos, bg.R_28)
     p = rec["targets"][str(DECLARE_AT)]["p_forecast"]
     rec["declared_status"] = ("POWERED" if p >= BAR
                               else "DECLARED UNDERPOWERED IN ADVANCE")

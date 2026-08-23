@@ -36,8 +36,8 @@ from experiments.exp2d import stats_2d as st2d  # noqa: E402
 EXP2D = a2d.EXP2D
 RESULTS = EXP2G / "results"
 REFERENTS_PATH = EXP2G / "referents_2g.json"
-CHECKPOINTS_SHA256 = "b4c50031e25f861f85609892b75f0b4bfe2ed9c4440cca7dce6ba940d950defe"
-REFERENTS_FILE_SHA256 = "ab8077e27d838fab7895ec7235fc3cab73ca7fc1ce4a1fb1f3aa0ab138ecff02"
+CHECKPOINTS_SHA256 = "a5032f74f509669ea97600ad68cfe422e0fb6407a768b478f944868f42d3a2bc"
+REFERENTS_FILE_SHA256 = "664af220c1e05e574d6b8d1b5c9c4e0c99bd237eb9dc1efd21f947530c83041e"
 WORLDS = ("INSUFFICIENT_DATA", "FORECAST", "SURFACE", "DIFFICULTY-ONLY",
           "NO-FORECAST")
 ALPHA, ALPHA_TWIN, T_BAR = st.ALPHA, st.ALPHA_TWIN, st.T_BAR
@@ -357,7 +357,8 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         referents_sha=REFERENTS_FILE_SHA256, with_2d_secondaries=True,
         out_path=None) -> dict:
     failures = []
-    bg.check_frozen_imports_2g()
+    _, f = collect(bg.check_frozen_imports_2g, "frozen imports")
+    failures += f
     manifest, f = collect(lambda: ck.load_manifest(bg.CHECKPOINTS_PATH, sha_pin=manifest_sha),
                           "checkpoint manifest")
     failures += f
@@ -366,13 +367,18 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         mf, f = collect(lambda: mk.check_referents(REFERENTS_PATH, sha_pin=referents_sha),
                         "referent manifest")
         failures += f + (mf or [])
-    battery = bg.load_battery()
-    floors = bg.load_floors()
-    gates = {}
-    g, f = collect(lambda: bg.check_rung_sets(floors), "rung sets")
+    battery, f = collect(bg.load_battery, "battery")
     failures += f
-    g, f = collect(lambda: lb.check_label_gates({r: battery[r] for r in bg.PREDICTOR_RUNGS}),
-                   "label gates")
+    floors, f = collect(bg.load_floors, "2d floors")
+    failures += f
+    gates = {}
+    g, f = collect(lambda: bg.check_rung_sets(floors) if floors is not None else
+                   (_ for _ in ()).throw(ValueError("2d floors missing")), "rung sets")
+    failures += f
+    gates["rung_sets"] = g
+    g, f = collect(lambda: lb.check_label_gates({r: battery[r] for r in bg.PREDICTOR_RUNGS})
+                   if battery is not None else
+                   (_ for _ in ()).throw(ValueError("battery missing")), "label gates")
     failures += f
     gates["labels"] = g
     seal, f = collect(lambda: pr.require_seal(root, tag_exists=tag_exists, blob_sha=blob_sha),
@@ -386,7 +392,8 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
     if pred:
         gates["strata"] = sg.check_strata_pins(strata)
         gates["predictor_gates"] = pred.get("gates", {})
-    verify_fn = a2d.load_verify()
+    verify_fn, f = collect(a2d.load_verify, "verify criterion")
+    failures += f
     seal_sha = seal["sha256"] if seal else None
 
     # gate 1 and the sweep, adjudicating size
@@ -403,9 +410,13 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         failures += f
         if gate1 is not None:
             failures += gate1_failures(gate1, size)
+    # battery/floors/verify_fn may be None on a collect() refusal above;
+    # skip the dependent loads the way manifest/seal already do (I-1).
+    _sweep_ready = bool(manifest) and bool(seal_sha) and battery is not None and verify_fn is not None
     sweep, f = collect(lambda: load_sweep(root, size, battery, verify_fn, manifest=manifest,
-                                          seal_sha=seal_sha) if manifest and seal_sha else
-                       (_ for _ in ()).throw(ValueError("manifest or seal missing")),
+                                          seal_sha=seal_sha) if _sweep_ready else
+                       (_ for _ in ()).throw(ValueError("manifest, seal, battery or verify "
+                                                        "criterion missing")),
                        f"sweep {size}")
     failures += f
 
@@ -425,67 +436,118 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         prim = primary(pred, out, strata, size_pred=bg.PRIMARY_SIZE, rungs=bg.R_28,
                        n_perm=n_perm, n_boot=n_boot)
         tree = verdict_tree_2g([], prim)
-        lbf = lb.floor_table({r: battery[r] for r in bg.PREDICTOR_RUNGS})
-        sec = {}
-        sec["replication_410m"] = primary(pred, out, strata, size_pred=bg.REPLICATION_SIZE,
-                                          rungs=bg.R_28, n_perm=n_perm, n_boot=n_boot)
-        sec["replication_410m"]["tree"] = _tree_of(sec["replication_410m"])
-        sec["eval_site_rule"] = primary(pred, out, strata, size_pred=bg.PRIMARY_SIZE,
-                                        rungs=bg.R_28, n_perm=n_perm, n_boot=n_boot, rule="eval")
-        sec["eval_site_rule"]["tree"] = _tree_of(sec["eval_site_rule"])
-        first = {r: {"y": [0 if v is None else (max(bg.trained_steps(size)) + 1 - v)
-                           for v in out[r]["first"]], "n_pos": out[r]["n_pos"]}
-                 for r in bg.R_28}
-        sec["first_correct_outcome"] = primary(pred, first, strata, size_pred=bg.PRIMARY_SIZE,
-                                               rungs=bg.R_28, n_perm=n_perm, n_boot=n_boot)
-        sec["first_correct_outcome"]["note"] = ("y = (last trained step + 1 − first-correct "
-                                               "step), 0 for never; monotone in earliness")
-        lx = {}
-        for r in bg.R_28:
-            lab = lb.eval_labels(battery[r], r)
-            lx[r] = {"strata": [f"{s}|{l}" for s, l in zip(strata[r]["strata"], lab)]}
-        sec["label_x_covariate_strata"] = primary(pred, out, lx, size_pred=bg.PRIMARY_SIZE,
-                                                  rungs=bg.R_28, n_perm=n_perm, n_boot=n_boot)
-        sec["rung_level"] = {
-            "note": "descriptive by design: seven rungs in five family blocks",
-            "table": {r: {"s_star": rl[r]["s_star"],
-                          "probe_margin_1b": (pred["cells"][r]["1b"]["trained"]["eval_acc"]
-                                              - lbf[r]["floor"]),
-                          "counts_by_step": out[r]["counts_by_step"]} for r in bg.R_28}}
-        xs = [sec["rung_level"]["table"][r]["probe_margin_1b"] for r in bg.R_28]
-        ys = [sec["rung_level"]["table"][r]["s_star"] or 10 ** 9 for r in bg.R_28]
-        from scipy.stats import spearmanr
-        sec["rung_level"]["spearman_point"] = float(spearmanr(xs, ys).statistic)
-        sec["flat_rungs"] = {r: {"s_star": rl[r]["s_star"], "transient_clears": rl[r]["transient_clears"],
-                                 "counts_by_step": out[r]["counts_by_step"]}
-                             for r in bg.sweep_rungs(size) if r not in bg.R_28}
-        sec["step0_counts"] = {r: out[r]["counts_by_step"].get(0) for r in bg.sweep_rungs(size)}
-        sec["descriptive_item_level"] = {}
-        for r in ("median5", "sub4_mid", "count_div13", "odd6"):
-            c, thin = cells_for(pred, out, strata, rungs=(r,), size_pred=bg.PRIMARY_SIZE,
-                                mode="trained")
-            sec["descriptive_item_level"][r] = ({"thin": True, "n_pos": out[r]["n_pos"]} if thin
-                                                else {**st.somers_d_within(c[0]["x"], c[0]["y"],
-                                                                            c[0]["strata"])})
+
+        # §6.4: every secondary is non-gating — a failure here must not
+        # lose an already-computed verdict. Each is collect()ed on its
+        # own; on failure the entry becomes {"failed": reason} and the
+        # reason is also recorded in sec["failures"].
+        sec, sec_failures = {}, []
+
+        def _sec(name, thunk):
+            val, f = collect(thunk, name)
+            if f:
+                sec[name] = {"failed": f[0]}
+                sec_failures.extend(f)
+            else:
+                sec[name] = val
+
+        def _rep410m():
+            r = primary(pred, out, strata, size_pred=bg.REPLICATION_SIZE, rungs=bg.R_28,
+                       n_perm=n_perm, n_boot=n_boot)
+            r["tree"] = _tree_of(r)
+            return r
+        _sec("replication_410m", _rep410m)
+
+        def _eval_site_rule():
+            r = primary(pred, out, strata, size_pred=bg.PRIMARY_SIZE, rungs=bg.R_28,
+                       n_perm=n_perm, n_boot=n_boot, rule="eval")
+            r["tree"] = _tree_of(r)
+            return r
+        _sec("eval_site_rule", _eval_site_rule)
+
+        def _first_correct_outcome():
+            first = {r: {"y": [0 if v is None else (max(bg.trained_steps(size)) + 1 - v)
+                               for v in out[r]["first"]], "n_pos": out[r]["n_pos"]}
+                     for r in bg.R_28}
+            r = primary(pred, first, strata, size_pred=bg.PRIMARY_SIZE, rungs=bg.R_28,
+                       n_perm=n_perm, n_boot=n_boot)
+            r["note"] = ("y = (last trained step + 1 − first-correct step), 0 for never; "
+                        "monotone in earliness")
+            return r
+        _sec("first_correct_outcome", _first_correct_outcome)
+
+        # §6.4 scopes the label×covariate secondary to the digit rungs (M-5)
+        digit_rungs_28 = tuple(r for r in DIGIT_RUNGS if r in bg.R_28)
+
+        def _label_x_covariate_strata_digit_rungs():
+            lx = {}
+            for r in digit_rungs_28:
+                lab = lb.eval_labels(battery[r], r)
+                lx[r] = {"strata": [f"{s}|{l}" for s, l in zip(strata[r]["strata"], lab)]}
+            return primary(pred, out, lx, size_pred=bg.PRIMARY_SIZE, rungs=digit_rungs_28,
+                          n_perm=n_perm, n_boot=n_boot)
+        _sec("label_x_covariate_strata_digit_rungs", _label_x_covariate_strata_digit_rungs)
+
+        def _rung_level_sec():
+            lbf = lb.floor_table({r: battery[r] for r in bg.PREDICTOR_RUNGS})
+            table = {r: {"s_star": rl[r]["s_star"],
+                        "probe_margin_1b": (pred["cells"][r]["1b"]["trained"]["eval_acc"]
+                                            - lbf[r]["floor"]),
+                        "counts_by_step": out[r]["counts_by_step"]} for r in bg.R_28}
+            xs = [table[r]["probe_margin_1b"] for r in bg.R_28]
+            ys = [table[r]["s_star"] or 10 ** 9 for r in bg.R_28]
+            from scipy.stats import spearmanr
+            return {"note": "descriptive by design: seven rungs in five family blocks",
+                   "table": table, "spearman_point": float(spearmanr(xs, ys).statistic)}
+        _sec("rung_level", _rung_level_sec)
+
+        _sec("flat_rungs", lambda: {r: {"s_star": rl[r]["s_star"],
+                                        "transient_clears": rl[r]["transient_clears"],
+                                        "counts_by_step": out[r]["counts_by_step"]}
+                                    for r in bg.sweep_rungs(size) if r not in bg.R_28})
+        _sec("step0_counts", lambda: {r: out[r]["counts_by_step"].get(0)
+                                      for r in bg.sweep_rungs(size)})
+
+        def _descriptive_item_level():
+            d = {}
+            for r in ("median5", "sub4_mid", "count_div13", "odd6"):
+                c, thin = cells_for(pred, out, strata, rungs=(r,), size_pred=bg.PRIMARY_SIZE,
+                                    mode="trained")
+                d[r] = ({"thin": True, "n_pos": out[r]["n_pos"]} if thin
+                       else {**st.somers_d_within(c[0]["x"], c[0]["y"], c[0]["strata"])})
+            return d
+        _sec("descriptive_item_level", _descriptive_item_level)
+
         if with_2d_secondaries:
-            samp = sampler_counts_1b(d2_root, battery, verify_fn, bg.R_28)
-            sp = {"cells": {r: {"1b": {"trained": {"scores": [float(v) for v in samp[r]],
-                                                   "eval_rule": {"scores": [float(v) for v in samp[r]]}},
-                                       "untrained": pred["cells"][r]["1b"]["untrained"]}}
-                            for r in bg.R_28}}
-            sec["sampler_competitor"] = primary(sp, out, strata, size_pred="1b", rungs=bg.R_28,
-                                                n_perm=n_perm, n_boot=n_boot)
-            sec["sampler_competitor"]["tree"] = _tree_of(sec["sampler_competitor"])
-            sx = {r: {"strata": [f"{s}|{int(v > 0)}" for s, v in zip(strata[r]["strata"], samp[r])]}
-                  for r in bg.R_28}
-            sec["probe_beyond_sampler"] = primary(pred, out, sx, size_pred=bg.PRIMARY_SIZE,
-                                                  rungs=bg.R_28, n_perm=n_perm, n_boot=n_boot)
-            perf = performable_1b(d2_root, battery, verify_fn, bg.R_28)
-            keep = {r: [1 - b for b in perf[r]] for r in bg.R_28}
-            sec["exclude_1b_performable"] = primary(pred, out, strata, size_pred=bg.PRIMARY_SIZE,
-                                                    rungs=bg.R_28, n_perm=n_perm, n_boot=n_boot,
-                                                    keep=keep)
-            sec["exclude_1b_performable"]["n_removed"] = {r: int(sum(perf[r])) for r in bg.R_28}
+            def _sampler_competitor():
+                samp = sampler_counts_1b(d2_root, battery, verify_fn, bg.R_28)
+                sp = {"cells": {r: {"1b": {"trained": {"scores": [float(v) for v in samp[r]],
+                                                       "eval_rule": {"scores": [float(v) for v in samp[r]]}},
+                                           "untrained": pred["cells"][r]["1b"]["untrained"]}}
+                                for r in bg.R_28}}
+                r = primary(sp, out, strata, size_pred="1b", rungs=bg.R_28, n_perm=n_perm,
+                           n_boot=n_boot)
+                r["tree"] = _tree_of(r)
+                return r
+            _sec("sampler_competitor", _sampler_competitor)
+
+            def _probe_beyond_sampler():
+                samp = sampler_counts_1b(d2_root, battery, verify_fn, bg.R_28)
+                sx = {r: {"strata": [f"{s}|{int(v > 0)}" for s, v in zip(strata[r]["strata"], samp[r])]}
+                      for r in bg.R_28}
+                return primary(pred, out, sx, size_pred=bg.PRIMARY_SIZE, rungs=bg.R_28,
+                              n_perm=n_perm, n_boot=n_boot)
+            _sec("probe_beyond_sampler", _probe_beyond_sampler)
+
+            def _exclude_1b_performable():
+                perf = performable_1b(d2_root, battery, verify_fn, bg.R_28)
+                keep = {r: [1 - b for b in perf[r]] for r in bg.R_28}
+                r = primary(pred, out, strata, size_pred=bg.PRIMARY_SIZE, rungs=bg.R_28,
+                           n_perm=n_perm, n_boot=n_boot, keep=keep)
+                r["n_removed"] = {r2: int(sum(perf[r2])) for r2 in bg.R_28}
+                return r
+            _sec("exclude_1b_performable", _exclude_1b_performable)
+
         # 12b replication, non-gating
         s12 = bg.REPLICATING
         rep = {"gate1": None, "failures": []}
@@ -498,15 +560,32 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         else:
             rep["failures"].append(f"gate 1 {s12}: record missing")
         sw12, f = collect(lambda: load_sweep(root, s12, battery, verify_fn, manifest=manifest,
-                                             seal_sha=seal_sha), f"sweep {s12}")
+                                             seal_sha=seal_sha) if _sweep_ready else
+                          (_ for _ in ()).throw(ValueError("manifest, seal, battery or verify "
+                                                           "criterion missing")),
+                          f"sweep {s12}")
         rep["failures"] += f
         if not rep["failures"]:
-            o12 = outcomes(sw12, s12)
-            rep["primary"] = primary(pred, o12, strata, size_pred=bg.PRIMARY_SIZE,
-                                     rungs=bg.R_12B, n_perm=n_perm, n_boot=n_boot)
-            rep["tree"] = _tree_of(rep["primary"])
-            rep["rung_level"] = rung_level(o12, s12, floors, rungs=bg.sweep_rungs(s12))
+            def _rep12b_body():
+                o12 = outcomes(sw12, s12)
+                prim12 = primary(pred, o12, strata, size_pred=bg.PRIMARY_SIZE, rungs=bg.R_12B,
+                                n_perm=n_perm, n_boot=n_boot)
+                tree12 = _tree_of(prim12)
+                rl12 = rung_level(o12, s12, floors, rungs=bg.sweep_rungs(s12))
+                desc12 = {}
+                for r in ("sub3_mid", "odd6"):
+                    c, thin = cells_for(pred, o12, strata, rungs=(r,), size_pred=bg.PRIMARY_SIZE,
+                                       mode="trained")
+                    desc12[r] = ({"thin": True, "n_pos": o12[r]["n_pos"]} if thin
+                               else {**st.somers_d_within(c[0]["x"], c[0]["y"], c[0]["strata"])})
+                return prim12, tree12, rl12, desc12
+            res, f = collect(_rep12b_body, "12b replication computation")
+            if f:
+                rep["failures"] += f
+            else:
+                rep["primary"], rep["tree"], rep["rung_level"], rep["descriptive_item_level"] = res
         sec["replication_12b"] = rep
+        sec["failures"] = sec_failures
         v = {"verdict": tree["verdict"], "reason": tree["reason"],
              "known_inputs_caveat": KNOWN_INPUTS_CAVEAT_2G,
              "licensed_sentence": LICENSED[tree["verdict"]], "referents": referents,

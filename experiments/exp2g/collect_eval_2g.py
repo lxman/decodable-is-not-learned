@@ -102,7 +102,11 @@ def continuity_failures(rec: dict, *, size, mode) -> list:
     return bad
 
 
-def run_one(size: str, mode: str, *, root=EXP2G, device="mps") -> dict:
+def run_one(size: str, mode: str, *, root=EXP2G, device="mps", tag_exists=None) -> dict:
+    # lazy import: predictor_2g imports this module at load time, so a
+    # module-level import here would cycle (I-8)
+    from experiments.exp2g import predictor_2g as pr
+    pr.require_prereg(tag_exists=tag_exists)
     from models import load_pythia
     tok, model = load_pythia(size, untrained=(mode == "untrained"),
                              seed=bg.UNTRAINED_SEED, device=device)

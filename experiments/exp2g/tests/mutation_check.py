@@ -22,6 +22,8 @@ M = [
     (L, "position: 0-based", "return str(hits[0] + 1)", "return str(hits[0])"),
     (L, "octal check dropped", "if not _OCTAL.fullmatch(ans):", "if False:"),
     (L, "label gate inert", "                if bad:\n                    raise ValueError(\n                        f\"{rung}/{which}", "                if False:\n                    raise ValueError(\n                        f\"{rung}/{which}"),
+    (L, "arith_next: 2f-label gate inert", "                if bad_2f:\n                    raise ValueError(\n                        f\"{rung}/{which}: the last-digit label disagrees \"", "                if False:\n                    raise ValueError(\n                        f\"{rung}/{which}: the last-digit label disagrees \""),
+    (L, "arith_next: mod7 gate inert", "                if bad_mod7:\n                    raise ValueError(\n                        f\"{rung}/{which}: the committed probe_label \"", "                if False:\n                    raise ValueError(\n                        f\"{rung}/{which}: the committed probe_label \""),
     (L, "floor: majority only", '"floor": float(max(maj, 1.0 / K))', '"floor": float(maj)'),
     (S, "carries: threshold 9", "carry = 1 if x + y + carry >= 10 else 0", "carry = 1 if x + y + carry >= 9 else 0"),
     (S, "borrows: no propagation", "borrow = 1 if x - y - borrow < 0 else 0", "borrow = 1 if x - y < 0 else 0"),

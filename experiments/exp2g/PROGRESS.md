@@ -3,9 +3,10 @@
 Design doc `experiment-2g-design.md` stays as ruled (dials a–k, tag
 `exp2g-preregistered`) — nothing in it is edited during the build. Zero
 model contact throughout this session. Two locked stages ahead: stage 1
-(checkpoint sweep) unlocks only after the tag `exp2g-preregistered`;
-stage 2 (any checkpoint load) unlocks only after the predictor table is
-committed and tagged `exp2g-predictor-sealed`. Neither stage has run.
+(the predictor collection — activations at 410m/1b) unlocks only after
+the tag `exp2g-preregistered`; stage 2 (the checkpoint sweep — any
+checkpoint load) unlocks only after the predictor table is committed
+and tagged `exp2g-predictor-sealed`. Neither stage has run.
 
 ## 2026-08-23 — BUILD (session 2 of 3)
 
@@ -93,7 +94,14 @@ the only Hub traffic anywhere in the tree is the committed
   load_sweep refuses a missing record — these eleven additional test
   cases landed in the files above and are why today's full-suite count
   exceeds the per-module counts recorded at each task's own commit.
-  Second pass 50/50 killed.
+  Second pass 50/50 killed. The harness deselects
+  `tests/test_full_shape.py` (`DESELECT` in `mutation_check.py`) — the
+  full-shape worlds' coverage is the dedicated worlds suite, not the
+  mutation pass; running them under every mutant would be redundant
+  and slow. Final-review fix wave (below) adds two more mutants
+  (arith_next's 2f-label and mod-7 gates, labels_2g) — 52 in the `M`
+  list now; not yet run, per Ruling 17 (the freeze re-runs the
+  harness).
 
 ### Full suite (verified this session)
 
@@ -116,19 +124,34 @@ local run logs, not committed (see `.gitignore`).
 
 ### Power record
 
-`power_2g.json`, written once, committed this task:
+`power_2g.json`, written once, committed this task (SUPERSEDED — see
+the re-roll note below):
 
 - `declared_status`: **POWERED**
 - `declaration`: "P(FORECAST | D_true = .15) = .935 against the bar
   .75; null false-FORECAST rate 0.000; null SD of T 0.0247"
 - Full curve: D = .10 → P(FORECAST) = .565; D = .15 → .935; D = .20 →
-  .940. `p_detect` (any non-INSUFFICIENT_DATA verdict): .985 / 1.0 /
-  1.0. Null (ρ = 0): false-FORECAST rate 0.000, verdict is NO-FORECAST
-  in all 200 simulations. ρ calibrated to each D: .346 / .419 / .481.
+  .940. `p_detect` (P(p_strat < .01), the stratified permutation
+  p-value alone — not a verdict category): .985 / 1.0 / 1.0. Null (ρ =
+  0): false-FORECAST rate 0.000, verdict is NO-FORECAST in all 200
+  simulations. ρ calibrated to each D: .346 / .419 / .481.
 - Note for the freeze: the effect bar T ≥ .10 binds at D = .10, as §7
   of the design predicted; the twin's α = .05 test caps FORECAST near
   .95 at every D (≈ 5% of true-FORECAST batteries route to SURFACE by
   construction, not by a weak effect).
+
+**Re-rolled 2026-08-23 (final-review fix wave, I-5):** `N_SIM` raised
+200 → 1000 (`N_PERM_POWER` = 500 unchanged, ledgered as a build dial
+for ratification at the freeze); the record now also carries
+`min_detectable_T` (the null run's empirical .99 quantile of T, from a
+newly stored `Ts` list per `power_at` call) and `per_rung_precision`
+(one calibrated simulation at `DECLARE_AT`: each R_28 rung's
+`n_pairs` and a bootstrap SE on within-stratum D via `st.bootstrap_d`,
+`n_boot` 200). The committed `power_2g.json` was `git rm`'d and the
+re-rolled run started once, detached (~2 h); the figures above are
+from the superseded 200-draw run — final numbers to be filled in by
+the controller when the re-rolled `power_2g.json` lands and is
+committed.
 
 ## Build findings, ledgered for ratification at the freeze
 
@@ -208,6 +231,12 @@ Additional corrections found during the build, also for ratification:
 - **M.** The committed m4 counts put SEVEN rungs over the bar at 2.8b
   (§1/§4.1 already say seven — no correction needed, recorded for
   completeness).
+- **N.** §3's phrase "middle digit (tens; hundreds for 4-digit)"
+  describes which digit each RUNG's label reads (`sub3_mid` → tens
+  digit of a 3-digit answer; `sub4_mid` → hundreds digit of a 4-digit
+  answer) — a property of the rung, not a rule that varies per
+  individual answer within a rung. Reword at the freeze so it reads
+  unambiguously per-rung. — Touches doc §3.
 
 Three implementer-found corrections to brief literals (not doc text,
 no ratification needed):
@@ -221,4 +250,39 @@ no ratification needed):
 ## Next
 
 Adversarial freeze (session 3), tag `exp2g-preregistered`, stage 1
-(checkpoint sweep) on Michael's word.
+(the predictor collection) on Michael's word.
+
+## 2026-08-23 — final-review fix wave
+
+Opus's whole-branch review of `f7583a9..440ad4a` found 0 Critical, 8
+Important (I-1..I-8), 12 Minor; Ruling 17 triaged I-1, I-2, I-3, I-4,
+I-5, I-6, I-8, M-1/2/3/5/7/9/10/11/12, plus the four fix-before-freeze
+deferred minors, into this wave (I-7's model-contact half and M-4's
+trajectory figure PARKED for the freeze/Michael; M-6, M-8 parked as
+ratification items). Applied: the four bare loader calls in
+`analyze_2g.run()` now go through `collect()` with downstream uses
+guarded (I-1); every §6.4 secondary is individually `collect()`ed,
+non-gating, with `sec["failures"]` recording every reason (I-2); root
+`.gitignore` covers `experiments/exp2g/results/activations_eval/`
+(I-3); `sweep_2g.gate1`'s 2c-path clears `model`/`runner` after
+`_release` so a 12b fp16 model doesn't stay doubly resident (I-4);
+`power_2g` re-rolled at `N_SIM` 1000 with `min_detectable_T` and
+`per_rung_precision` (I-5, run detached); a two-process determinism
+test on a synthetic FORECAST world (I-6, 20.3 s, unconditional);
+`PREREG_TAG` enforced via `predictor_2g.require_prereg()`, called
+first in `build_predictor` and (lazily imported) in
+`collect_eval_2g.run_one` (I-8); the rung-sets gate result is kept in
+`gates["rung_sets"]` instead of being overwritten (M-9); W7's synthetic
+halt tree now carries no per-step/per-rung records, matching the real
+runner's halt-before-the-loop shape (M-2); `stale_main_copies` only
+counts a match when BOTH sides carry the file — `checkpoints_2g.json`
+and `referents_2g.json` re-pinned, `verify_referents_2g` 11/11 (M-3);
+the label×covariate secondary scoped to `DIGIT_RUNGS ∩ R_28`, renamed
+`label_x_covariate_strata_digit_rungs` (M-5); `run_step` and `gate1`
+path (b) move the checkpoint download inside `try` with `model`
+initialized to `None` first, `_release` tolerant of `None` (M-7); the
+watcher's `git push` failure no longer kills the loop (M-10); plus the
+12b `descriptive_item_level` for `sub3_mid`/`odd6` inside the 12b
+replication block (M-4's fix-wave half). `check_index_files` added to
+`checkpoints_2g.py` (I-7's metadata half) and run once by hand — 16
+grid entries with a shard index, all confirmed present on the Hub.

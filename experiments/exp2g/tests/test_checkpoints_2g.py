@@ -76,6 +76,10 @@ def test_manifest_12b(inv):
     assert m["entries"]["143000"]["kind"] == "safetensors-shards"
     assert m["hub_step143000"]["signature_equals_main"] is True
     assert m["excluded"] == {}
+    # main carries safetensors shards only (no plain model.safetensors or
+    # pytorch_model.bin), so a stale-copy match against an absent file
+    # must not be counted (M-3)
+    assert m["stale_main_copies"] == {"model.safetensors": 0, "pytorch_model.bin": 0}
 
 
 def test_manifest_refuses_a_duplicate_grid_point(inv):

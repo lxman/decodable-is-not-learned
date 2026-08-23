@@ -188,3 +188,19 @@ def test_gate1_record_without_final_records_refuses(tmp_path, monkeypatch):
     with pytest.raises(RuntimeError, match="incomplete"):
         sw.run_size("2.8b", out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
                     loaders=loaders, **_seal(tmp_path))
+
+
+def test_existing_gate1_record_fails_rederivation(tmp_path, monkeypatch):
+    monkeypatch.setattr(bg, "GRID", {"2.8b": (0, 1000, 143000), "12b": bg.GRID["12b"]})
+    monkeypatch.setattr(ck, "load_manifest",
+                        lambda path, sha_pin: json.loads(bg.CHECKPOINTS_PATH.read_text()))
+    loaders, _ = _loaders(tmp_path)
+    sw.run_size("2.8b", out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
+                loaders=loaders, **_seal(tmp_path))
+    g = bg.gate1_path(tmp_path, "2.8b")
+    rec = json.loads(g.read_text())
+    rec["counts_2c_path"]["antonym"] += 1        # corrupt the on-disk record
+    g.write_text(json.dumps(rec))
+    with pytest.raises(RuntimeError, match="re-derivation"):
+        sw.run_size("2.8b", out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
+                    loaders=loaders, **_seal(tmp_path))

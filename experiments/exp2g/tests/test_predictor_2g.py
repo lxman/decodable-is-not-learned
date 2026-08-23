@@ -70,6 +70,12 @@ def test_require_seal(tmp_path):
         pr.require_seal(tmp_path, tag_exists=lambda t: True, blob_sha=lambda t, rel: sha)
 
 
+def test_require_prereg():
+    with pytest.raises(RuntimeError, match="exp2g-preregistered"):
+        pr.require_prereg(tag_exists=lambda t: False)
+    pr.require_prereg(tag_exists=lambda t: True)      # no raise
+
+
 def test_git_helpers_on_this_repo():
     assert pr.git_tag_exists("exp2f-closed") is True
     assert pr.git_tag_exists("no-such-tag-2g") is False

@@ -138,7 +138,7 @@
   "experiments/exp2f/results/continuity/410m_trained.json": "4ee43aaef660c40011268a7b83491202601f62b4f3ef96f0a90c88569c674e0f",
   "experiments/exp2f/results/continuity/410m_untrained.json": "5da60d3e39e4d86e837100b27047c8de7cccc969fba72e8cf7ed8f0cf57fc203",
   "experiments/exp2f/results/verdict.json": "79c31e0c41bf30928a34b0032c3f56c929f9edcc16c3b147b1e38554a577f8c0",
-  "experiments/exp2g/checkpoints_2g.json": "b4c50031e25f861f85609892b75f0b4bfe2ed9c4440cca7dce6ba940d950defe",
+  "experiments/exp2g/checkpoints_2g.json": "a5032f74f509669ea97600ad68cfe422e0fb6407a768b478f944868f42d3a2bc",
   "experiments/exp2g/hub_inventory.json": "16964e63e22fae06deca129fce7120eed75db75f69130c3b8516569e056dcd6b"
  },
  "n_files": 139,

@@ -100,8 +100,21 @@ def _git_sha() -> str:
                           text=True).stdout.strip()
 
 
+def require_prereg(tag_exists=None) -> None:
+    """Refuses unless the design was frozen and tagged first (I-8): no
+    stage-1 model contact — predictor building here, activation
+    collection in collect_eval_2g.run_one — precedes
+    `exp2g-preregistered`."""
+    tag_exists = tag_exists or git_tag_exists
+    if not tag_exists(bg.PREREG_TAG):
+        raise RuntimeError(f"refusing: the preregistration tag {bg.PREREG_TAG!r} does not "
+                           f"exist — the design must be frozen and tagged before any "
+                           f"stage-1 model contact")
+
+
 def build_predictor(*, root=EXP2G, probe_root=None, eval_root=None, write=True,
-                    with_2f_gate=True) -> dict:
+                    with_2f_gate=True, tag_exists=None) -> dict:
+    require_prereg(tag_exists=tag_exists)
     eval_root = eval_root or root
     bg.check_frozen_imports_2g()
     battery = bg.load_battery(bg.PREDICTOR_RUNGS)

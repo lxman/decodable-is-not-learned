@@ -17,7 +17,7 @@ while true; do
         unit=$(basename "$f")
         where=$(echo "$f" | sed -E 's#experiments/exp2g/results/sweep/([^/]+)/([^/]+)/?.*#\1/\2#')
         git commit -m "exp2g sweep: ${where} ${unit} landed (watcher)" --quiet
-        git push --quiet origin master
+        git push --quiet origin master || echo "[watcher] push failed (will retry with the next unit)"
         echo "[watcher] committed+pushed ${where} ${unit}"
       fi
       seen="${seen}|$f|"

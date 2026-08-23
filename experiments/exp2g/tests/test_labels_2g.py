@@ -96,6 +96,47 @@ def test_check_label_gates_catches_a_corrupted_probe_label(battery):
         lb.check_label_gates(bad)
 
 
+def test_check_label_gates_catches_an_arith_next_2f_disagreement(battery, monkeypatch):
+    # bad_2f compares two label functions that both derive the last
+    # digit from the SAME answer field via structurally identical code
+    # (str(answer).strip()[-1]) — no answer value can make them
+    # disagree on its own. Corrupt one eval item's answer to a fixed
+    # known value and patch 2f's label function to disagree on exactly
+    # that value, simulating the drift this referent exists to catch.
+    from experiments.exp2f import labels_2f as lb2f
+    real_answer_label = lb2f.answer_label
+
+    def drifted(kind, answer):
+        if kind == "last_digit" and str(answer).strip() == "74":
+            return "0"
+        return real_answer_label(kind, answer)
+    monkeypatch.setattr(lb2f, "answer_label", drifted)
+
+    bad = dict(battery)
+    cap = dict(bad["arith_next"])
+    items = list(cap["eval_items"])
+    corrupt = dict(items[0])
+    corrupt["answer"] = "74"
+    items[0] = corrupt
+    cap["eval_items"] = items
+    bad["arith_next"] = cap
+    with pytest.raises(ValueError, match="last-digit label disagrees"):
+        lb.check_label_gates(bad)
+
+
+def test_check_label_gates_catches_an_arith_next_mod7_disagreement(battery):
+    bad = dict(battery)
+    cap = dict(bad["arith_next"])
+    items = list(cap["eval_items"])
+    corrupt = dict(items[0])
+    corrupt["probe_label"] = str((int(corrupt["answer"]) + 1) % 7)   # wrong mod-7 label
+    items[0] = corrupt
+    cap["eval_items"] = items
+    bad["arith_next"] = cap
+    with pytest.raises(ValueError, match="disagrees with answer mod 7"):
+        lb.check_label_gates(bad)
+
+
 def test_floor_uses_1_over_k_when_majority_share_is_smaller(monkeypatch):
     # A real battery can never exercise the 1/K arm of max(maj, 1/K):
     # the majority share among K categories is always >= 1/K by the

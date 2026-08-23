@@ -1,8 +1,14 @@
 # experiments/exp2g/labels_2g.py
 """Exp 2g labels (design §3): one label per rung, a pure function of
-the committed item, reproducing the committed `probe_label` field on
-every eval and probe item (gate G-L). The answer side is never MISS —
-anything outside a label's domain is a hard error."""
+the committed item. Ten of the eleven predictor rungs reproduce the
+committed `probe_label` field on every eval and probe item (gate G-L).
+arith_next is the one exception: its label is 2f's own last-digit
+label function (2f showed the mod-7 residue isn't linearly readable),
+checked against every eval and probe item as the primary referent; the
+committed `probe_label` field — 2c's mod-7 label — is checked
+separately as a second referent, against `answer mod 7` rather than
+against this rung's label. The answer side is never MISS — anything
+outside a label's domain is a hard error."""
 
 from __future__ import annotations
 

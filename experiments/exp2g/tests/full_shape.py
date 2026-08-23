@@ -100,43 +100,47 @@ def write_world(root, *, assoc=0.8, twin_assoc=0.0, difficulty_only=False, inver
     for size in sizes:
         steps = bg.trained_steps(size)
         rungs = bg.sweep_rungs(size)
-        first = {}
-        for r in rungs:
-            n_pos = bg.FINAL_COUNT_PIN[size][r]
-            if r in bg.PREDICTOR_RUNGS:
-                order = np.argsort(-w[r])          # highest latent first
-            else:
-                order = np.arange(bg.N_ITEMS)
-            first[r] = {}
-            for rank, i in enumerate(order[:n_pos]):
-                k = int(rank * len(steps) / max(1, n_pos))   # earlier for higher w
-                first[r][int(i)] = steps[k]
-        for step in bg.GRID[size]:
-            if step == missing_step:
-                continue
-            entry = ck.entry_for(man, size, step)
-            if step != bg.FINAL_STEP:
-                _w(bg.checkpoint_record_path(root, size, step),
-                   {"size": size, "step": step, "digest": f"d{step}",
-                    "sha256": dict(entry["lfs_sha256"]),
-                    "loading_info": {"missing_keys": 0, "unexpected_keys": 0,
-                                     "mismatched_keys": 0}})
+        # the runner's real halt tree: gate1() writes gate1.json + HALTED
+        # and raises BEFORE run_size's step loop ever starts, so a halted
+        # size carries no per-step or per-rung records at all.
+        if not halt:
+            first = {}
             for r in rungs:
-                cap = bat[r]
-                bits = [int(step != 0 and i in first[r] and step >= first[r][i])
-                        for i in range(bg.N_ITEMS)]
-                if step == bg.FINAL_STEP:
-                    assert sum(bits) == bg.FINAL_COUNT_PIN[size][r]
-                conts = [f" {it['answer']}" if b else " zzz"
-                         for b, it in zip(bits, cap["eval_items"])]
-                _w(bg.record_path(root, size, step, r),
-                   {"rung": r, "size": size, "step": step, "revision": entry["revision"],
-                    "commit": (an.pythia_sha(size) if step == bg.FINAL_STEP else entry["commit"]),
-                    "kind": entry["kind"], "files": entry["files"],
-                    "items_sha256": cap["items_sha256"], "n": bg.N_ITEMS,
-                    "correct": sum(bits), "bits": bits, "continuations": conts,
-                    "answer_type": cap["answer_type"], "predictor_sha": sha,
-                    "seal_tag": bg.SEAL_TAG})
+                n_pos = bg.FINAL_COUNT_PIN[size][r]
+                if r in bg.PREDICTOR_RUNGS:
+                    order = np.argsort(-w[r])          # highest latent first
+                else:
+                    order = np.arange(bg.N_ITEMS)
+                first[r] = {}
+                for rank, i in enumerate(order[:n_pos]):
+                    k = int(rank * len(steps) / max(1, n_pos))   # earlier for higher w
+                    first[r][int(i)] = steps[k]
+            for step in bg.GRID[size]:
+                if step == missing_step:
+                    continue
+                entry = ck.entry_for(man, size, step)
+                if step != bg.FINAL_STEP:
+                    _w(bg.checkpoint_record_path(root, size, step),
+                       {"size": size, "step": step, "digest": f"d{step}",
+                        "sha256": dict(entry["lfs_sha256"]),
+                        "loading_info": {"missing_keys": 0, "unexpected_keys": 0,
+                                         "mismatched_keys": 0}})
+                for r in rungs:
+                    cap = bat[r]
+                    bits = [int(step != 0 and i in first[r] and step >= first[r][i])
+                            for i in range(bg.N_ITEMS)]
+                    if step == bg.FINAL_STEP:
+                        assert sum(bits) == bg.FINAL_COUNT_PIN[size][r]
+                    conts = [f" {it['answer']}" if b else " zzz"
+                             for b, it in zip(bits, cap["eval_items"])]
+                    _w(bg.record_path(root, size, step, r),
+                       {"rung": r, "size": size, "step": step, "revision": entry["revision"],
+                        "commit": (an.pythia_sha(size) if step == bg.FINAL_STEP else entry["commit"]),
+                        "kind": entry["kind"], "files": entry["files"],
+                        "items_sha256": cap["items_sha256"], "n": bg.N_ITEMS,
+                        "correct": sum(bits), "bits": bits, "continuations": conts,
+                        "answer_type": cap["answer_type"], "predictor_sha": sha,
+                        "seal_tag": bg.SEAL_TAG})
         g = {"size": size, "rungs": list(rungs), "model_sha": an.pythia_sha(size),
              "counts_2c_path": dict(bg.FINAL_COUNT_PIN[size]), "diffs_vs_pin": {},
              "digest_2c_path": "D" * 64, "digest_2g_path": ("E" if halt else "D") * 64,

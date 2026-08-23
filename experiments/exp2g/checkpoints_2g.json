@@ -201,8 +201,8 @@
   "repo": "EleutherAI/pythia-12b",
   "size": "12b",
   "stale_main_copies": {
-   "model.safetensors": 154,
-   "pytorch_model.bin": 154
+   "model.safetensors": 0,
+   "pytorch_model.bin": 0
   },
   "trained_steps": [
    1000,

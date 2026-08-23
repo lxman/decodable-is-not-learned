@@ -74,6 +74,8 @@ def real_loaders() -> dict:
 
 
 def _release(model) -> None:
+    if model is None:      # a download failure can leave the caller's slot empty
+        return
     try:
         import torch
         del model
@@ -158,12 +160,19 @@ def gate1(size, *, out_root, manifest, cache_root, device, battery, verify_fn, s
         evs = {r: evaluate_items(runner, battery[r], verify_fn) for r in rungs}
     finally:
         _release(model)
+        # _release only deletes ITS OWN local `model` name; the caller's
+        # `model`/`runner` locals still hold references, so the object
+        # would stay resident until they're reassigned. 12b fp16 is
+        # ~24 GB; two resident copies would exceed the machine.
+        runner = None
+        model = None
     counts = {r: evs[r]["correct"] for r in rungs}
     diffs = {r: [counts[r], bg.FINAL_COUNT_PIN[size][r]] for r in rungs
              if counts[r] != bg.FINAL_COUNT_PIN[size][r]}
     # (b) 2g's loader path on main's candidate files
-    model_b, info_b = loaders["checkpoint"](size, bg.FINAL_STEP, entry, cache_root, device)
+    model_b = None
     try:
+        model_b, info_b = loaders["checkpoint"](size, bg.FINAL_STEP, entry, cache_root, device)
         digest_b = loaders["digest"](model_b)
         runner_b = loaders["runner"](loaders["tokenizer"](size), model_b)
         cont_diffs = {}
@@ -219,8 +228,9 @@ def run_step(size, step, *, out_root, manifest, cache_root, device, battery, ver
         return
     entry = ck.entry_for(manifest, size, step)
     t0 = time.time()
-    model, info = loaders["checkpoint"](size, step, entry, cache_root, device)
+    model = None
     try:
+        model, info = loaders["checkpoint"](size, step, entry, cache_root, device)
         digest = loaders["digest"](model)
         _write(bg.checkpoint_record_path(out_root, size, step),
                {**info, "size": size, "step": int(step), "digest": digest,
