@@ -1,0 +1,88 @@
+{
+ "rungs": [
+  "antonym",
+  "antonym6",
+  "add_base8",
+  "sub_base8",
+  "add3_mid",
+  "sub3_mid",
+  "arith_next"
+ ],
+ "n_pos_lower_bound": {
+  "antonym": 272,
+  "antonym6": 149,
+  "add_base8": 44,
+  "sub_base8": 91,
+  "add3_mid": 43,
+  "sub3_mid": 264,
+  "arith_next": 137
+ },
+ "n_trained_steps": 21,
+ "bar": 0.75,
+ "declare_at": 0.15,
+ "t_bar": 0.1,
+ "alpha": 0.01,
+ "alpha_twin": 0.05,
+ "n_sim": 200,
+ "n_perm": 500,
+ "targets": {
+  "0.1": {
+   "rho": 0.34599358619749543,
+   "n_sim": 200,
+   "n_perm": 500,
+   "p_forecast": 0.565,
+   "p_detect": 0.985,
+   "mean_T": 0.10492951243489877,
+   "sd_T": 0.022996280370650844,
+   "verdicts": {
+    "DIFFICULTY-ONLY": 2,
+    "SURFACE": 6,
+    "FORECAST": 113,
+    "NO-FORECAST": 79
+   }
+  },
+  "0.15": {
+   "rho": 0.4185830689519644,
+   "n_sim": 200,
+   "n_perm": 500,
+   "p_forecast": 0.935,
+   "p_detect": 1.0,
+   "mean_T": 0.15362942864766804,
+   "sd_T": 0.023260044527020005,
+   "verdicts": {
+    "SURFACE": 12,
+    "FORECAST": 187,
+    "NO-FORECAST": 1
+   }
+  },
+  "0.2": {
+   "rho": 0.4805977098494768,
+   "n_sim": 200,
+   "n_perm": 500,
+   "p_forecast": 0.94,
+   "p_detect": 1.0,
+   "mean_T": 0.20324103257025733,
+   "sd_T": 0.022445547698490314,
+   "verdicts": {
+    "SURFACE": 12,
+    "FORECAST": 188
+   }
+  }
+ },
+ "null": {
+  "rho": 0.0,
+  "n_sim": 200,
+  "n_perm": 500,
+  "p_forecast": 0.0,
+  "p_detect": 0.005,
+  "mean_T": -0.00282793380240415,
+  "sd_T": 0.02466198657066256,
+  "verdicts": {
+   "NO-FORECAST": 200
+  },
+  "false_forecast_rate": 0.0,
+  "null_sd_T": 0.02466198657066256
+ },
+ "declared_status": "POWERED",
+ "declaration": "P(FORECAST | D_true = 0.15) = 0.935 against the bar 0.75; null false-FORECAST rate 0.000; null SD of T 0.0247"
+}
