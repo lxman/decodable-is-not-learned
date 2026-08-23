@@ -67,8 +67,36 @@ def test_cv_tie_break_is_lowest_site():
     rng = np.random.default_rng(1)
     y = _labels(rng, 120)
     from experiments.exp2f import probe_2f as pb
-    act = pb.thin(_acts(rng, y))          # nothing encoded: ties likely
+    act = pb.thin(_acts(rng, y))          # nothing encoded
+    act[(6, 1)] = act[(0, 0)].copy()      # force an exact tie: identical
+                                           # features -> identical CV accuracy
+                                           # (cv_probe_sites uses one seeded split)
     site, per_site, _ = pg.cv_site(act, y)
+    assert per_site[pg.site_key((0, 0))] == per_site[pg.site_key((6, 1))]
     best = max(per_site.values())
     cands = [k for k, v in per_site.items() if v == best]
+    if len(cands) < 2:
+        # (0,0)/(6,1) tie but aren't the argmax under this seed -- copy the
+        # array of whichever site IS the argmax onto a higher site instead,
+        # so the tied pair sits at the top.
+        max_key = max(per_site, key=lambda k: per_site[k])
+        max_site = tuple(int(t) for t in max_key.strip("()").split(","))
+        hi_site = (max_site[0] + 1, 0)
+        while hi_site in act:
+            hi_site = (hi_site[0] + 1, hi_site[1])
+        act = {**act, hi_site: act[max_site].copy()}
+        site, per_site, _ = pg.cv_site(act, y)
+        best = max(per_site.values())
+        cands = [k for k, v in per_site.items() if v == best]
+    assert len(cands) >= 2  # not vacuous: a real tie sits at the maximum
     assert pg.site_key(site) == min(cands, key=lambda k: tuple(int(t) for t in k.strip("()").split(",")))
+
+
+def test_eval_best_site_tie_break_is_lowest_site(synth):
+    act_tr = dict(synth["tr"])
+    act_ev = dict(synth["ev"])
+    act_tr[(6, 0)] = act_tr[(3, 1)].copy()  # (3,1) carries the strength-3.0
+    act_ev[(6, 0)] = act_ev[(3, 1)].copy()  # signal; this ties (6,0) with it
+    site, per_site = pg.eval_best_site(act_tr, synth["y_tr"], act_ev, synth["y_ev"])
+    assert site == (3, 1)
+    assert per_site["(3, 1)"] == per_site["(6, 0)"]
