@@ -1,0 +1,97 @@
+{
+  "system": "grokking",
+  "size_bucket": "1M",
+  "seed": 102,
+  "git_sha": "0ad9e47",
+  "torch_version": "2.12.1",
+  "transformers_version": "5.13.0",
+  "gt_check": {
+    "certified": true,
+    "method": "memorization_generalization_gap",
+    "details": {
+      "mem_step": 276,
+      "gen_step": 1796,
+      "final_train_acc": 1.0,
+      "final_test_acc": 1.0,
+      "gap_steps": 1520,
+      "transition_step": 1796,
+      "n_params": 228096,
+      "below_threshold_checkpoint": 173
+    }
+  },
+  "s1": {
+    "present": true,
+    "accuracy": 0.028666666666666667,
+    "chance": 0.008849557522123894,
+    "null_p": 0.000999000999000999,
+    "null_mean": 0.008778000000000003,
+    "ci95": [
+      0.020822205195245514,
+      0.03842107306837108
+    ],
+    "best_layer": 0,
+    "best_token": -1,
+    "n_layers_tested": 1,
+    "checkpoint_id": "step_0000173",
+    "below_threshold": true,
+    "signature": "S1"
+  },
+  "s2": {
+    "present": false,
+    "absent": false,
+    "passes": 273434,
+    "n": 5000000,
+    "rate_point": 0.0546868,
+    "cp_lower": 0.0544876648213291,
+    "cp_upper": 0.05488645107085675,
+    "guessing_floor": 0.008622848348429087,
+    "argmax_fails": false,
+    "checkpoint_id": "step_0000173",
+    "signature": "S2"
+  },
+  "s3": {
+    "present": false,
+    "predicted_transition": 1404.5823110666934,
+    "true_transition": 1796.0,
+    "interval90": [
+      1325.327981856218,
+      1479.6852680961338
+    ],
+    "rel_error": 0.21793857958424645,
+    "slope_ci": [
+      0.0023325410735472334,
+      0.0026147658555399087
+    ],
+    "beats_no_transition_baseline": true,
+    "axis": "training_steps",
+    "signature": "S3"
+  },
+  "config": {
+    "p": 113,
+    "op": "mul",
+    "train_frac": 0.4,
+    "d_model": 128,
+    "n_layers": 1,
+    "n_heads": 4,
+    "total_steps": 10000,
+    "full_batch": true,
+    "lr": 0.001,
+    "weight_decay": 1.0,
+    "betas": [
+      0.9,
+      0.98
+    ],
+    "n_checkpoints": 60,
+    "device": "mps",
+    "below_threshold_level": 0.05,
+    "alpha": 0.01,
+    "n_perm": 1000,
+    "probe_n": 6000,
+    "s2_n_per_query": 100000,
+    "s2_n_queries": 50,
+    "s2_temperature": 1.0,
+    "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
+    "size_bucket": "1M"
+  }
+}

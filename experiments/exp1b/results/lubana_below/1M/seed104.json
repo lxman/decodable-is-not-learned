@@ -1,0 +1,106 @@
+{
+  "system": "lubana_below",
+  "size_bucket": "1M",
+  "seed": 104,
+  "git_sha": "160c81b",
+  "torch_version": "2.12.1",
+  "transformers_version": "5.13.0",
+  "gt_check": {
+    "certified": true,
+    "method": "graph_connectivity+capability_curve",
+    "details": {
+      "giant_frac_mean": 0.0074603174603174605,
+      "giant_frac_min": 0.003703703703703704,
+      "p_c": 0.0024845199749997664,
+      "edge_prob": 0.0012422599874998832,
+      "edge_prob_mult": 0.5,
+      "transition_step": null,
+      "final_metric": 0.1,
+      "peak_metric": 0.134,
+      "chance": 0.1,
+      "below_bar": 0.15000000000000002,
+      "n_params": 939312,
+      "scale": "paper"
+    }
+  },
+  "s1": {
+    "present": false,
+    "accuracy": 0.12299465240641712,
+    "chance": 0.1,
+    "null_p": 1.0,
+    "null_mean": 0.098048128342246,
+    "ci95": [
+      0.07958980749982365,
+      0.17881824828121134
+    ],
+    "best_layer": 0,
+    "best_token": -1,
+    "n_layers_tested": 8,
+    "checkpoint_id": "step_0100000",
+    "below_threshold": true,
+    "signature": "S1"
+  },
+  "s2": {
+    "present": false,
+    "absent": true,
+    "passes": 1414,
+    "n": 100000,
+    "rate_point": 0.01414,
+    "cp_lower": 0.01341733788616474,
+    "cp_upper": 0.014891040328566746,
+    "guessing_floor": 0.04922151205917304,
+    "argmax_fails": false,
+    "checkpoint_id": "step_0100000",
+    "signature": "S2"
+  },
+  "s3": {
+    "present": false,
+    "predicted_transition": 0.019312044056856582,
+    "true_transition": 0.0024845199749997664,
+    "interval90": [
+      -0.008887979624627661,
+      0.031848422931315984
+    ],
+    "rel_error": 6.772947793208384,
+    "slope_ci": [
+      -393.92836261280945,
+      401.56612980192085
+    ],
+    "beats_no_transition_baseline": false,
+    "axis": "graph_param",
+    "signature": "S3"
+  },
+  "config": {
+    "scale": "paper",
+    "setting": "below",
+    "model_size": "1M",
+    "n_train_sentences": 60000,
+    "n_queries": 500,
+    "n_probe": 4000,
+    "d_model": 256,
+    "n_layers": 4,
+    "n_heads": 8,
+    "total_steps": 100000,
+    "batch_size": 64,
+    "lr": 0.0003,
+    "weight_decay": 0.1,
+    "n_checkpoints": 50,
+    "device": "mps",
+    "alpha": 0.01,
+    "n_perm": 1000,
+    "below_threshold_mult": 1.5,
+    "transition_level": 0.5,
+    "s2_n_per_query": 2000,
+    "s2_n_queries": 50,
+    "s2_temperature": 1.0,
+    "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
+    "s3_graph_points": [
+      0.25,
+      0.45,
+      0.65,
+      0.85
+    ],
+    "s3_graph_budget_steps": 10000
+  }
+}

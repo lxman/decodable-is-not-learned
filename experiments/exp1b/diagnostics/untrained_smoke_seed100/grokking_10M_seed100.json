@@ -1,0 +1,51 @@
+{
+  "system": "grokking",
+  "size_bucket": "10M",
+  "seed": 100,
+  "git_sha": "9aad2b7-dirty",
+  "s1": {
+    "present": true,
+    "accuracy": 0.02266666666666667,
+    "chance": 0.008849557522123894,
+    "null_p": 0.000999000999000999,
+    "null_mean": 0.008926,
+    "ci95": [
+      0.015747193037126742,
+      0.03153139214328787
+    ],
+    "best_layer": 0,
+    "best_token": -1,
+    "n_layers_tested": 1,
+    "checkpoint_id": "init",
+    "below_threshold": true,
+    "signature": "S1"
+  },
+  "config": {
+    "p": 113,
+    "op": "mul",
+    "train_frac": 0.4,
+    "d_model": 904,
+    "n_layers": 1,
+    "n_heads": 4,
+    "total_steps": 10000,
+    "full_batch": true,
+    "lr": 0.001,
+    "weight_decay": 1.0,
+    "betas": [
+      0.9,
+      0.98
+    ],
+    "n_checkpoints": 60,
+    "device": "mps",
+    "below_threshold_level": 0.05,
+    "alpha": 0.01,
+    "n_perm": 1000,
+    "probe_n": 6000,
+    "s2_n_per_query": 100000,
+    "s2_n_queries": 50,
+    "s2_temperature": 1.0,
+    "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
+    "size_bucket": "10M"
+  }
+}

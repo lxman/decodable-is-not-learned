@@ -1,0 +1,87 @@
+"""Grokking configuration (the resolution row).
+
+Design doc §5: Nanda-style decoder on (a.b) mod 113; base ~1 layer, d_model 128,
+4 heads (<1M params). High weight decay + full-batch GD are the standard grokking
+recipe (Nanda et al. 2023). These values are provisional until the grok-confirmation
+run (open item: "Confirm the Nanda grokking config groks reliably at the base size
+before scaling"); once confirmed they are frozen for the scored 5-seed run and the
+M6 size sweep. Frozen values and the confirming run are recorded in PROGRESS.md.
+
+The below-threshold rule here is the FROZEN §3 rule (argmax test acc < 5%), valid
+because 113-way chance is ~0.88% << 5% (unlike Phase A's 16-way).
+"""
+
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass
+
+
+@dataclass(frozen=True)
+class GrokkingConfig:
+    # task
+    p: int = 113
+    op: str = "mul"               # (a . b) mod 113
+    train_frac: float = 0.4
+
+    # model (base "1M" bucket; <1M params by design)
+    d_model: int = 128
+    n_layers: int = 1
+    n_heads: int = 4
+
+    # training (grokking recipe). Confirmed: seed 0 groks by ~step 1900 (mem @262,
+    # gen @1578). total_steps frozen at 10k — captures pre-grok + the transition + a
+    # stable plateau, and stops BEFORE the late weight-decay "slingshot" collapses the
+    # 40k confirmation showed (steps ~16k and ~40k). The trajectory to 10k is identical
+    # to the 40k run (no LR schedule); only the stop point moves. See PROGRESS.md.
+    total_steps: int = 10_000
+    full_batch: bool = True
+    lr: float = 1e-3
+    weight_decay: float = 1.0
+    betas: tuple[float, float] = (0.9, 0.98)
+    n_checkpoints: int = 60        # dense enough to place the sudden transition + precursor
+    device: str = "mps"           # long run; MPS-validated for GPTNeoX fp forward passes
+
+    # frozen §3/§4 signature params
+    below_threshold_level: float = 0.05   # argmax test acc < 5%
+    alpha: float = 0.01
+    n_perm: int = 1000
+    probe_n: int = 6000                   # held-out probe examples (~53/class for 113-way).
+                                          # 2000 starved the probe below the model's own
+                                          # argmax and gave a noisy, lagging S3 precursor;
+                                          # 6000 makes it lead argmax and rise smoothly.
+                                          # See PROGRESS.md (M4 data-starvation finding).
+    s2_n_per_query: int = 100_000
+    s2_n_queries: int = 50
+    s2_temperature: float = 1.0
+    s3_target_level: float = 0.5          # probe-accuracy crossing defining the forecast
+    s3_precursor_transform: str = "log"   # fit the precursor in log space: the pre-
+                                          # transition probe rise is ~exponential (the
+                                          # bottom of a sigmoid), so a linear fit biases
+                                          # the forecast late. Pre-committed decision;
+                                          # Lubana-below is the out-of-sample judge.
+
+    size_bucket: str = "1M"
+
+    def as_dict(self) -> dict:
+        return asdict(self)
+
+
+# M6 size sweep: hold depth/heads at the validated base (1 layer, 4 heads), scale
+# width only (models.transformer.scale_width_to_budget). Signature params and the
+# training recipe are untouched — the model is the only thing that changes.
+SIZE_TARGETS = {"10M": 10_000_000, "100M": 100_000_000}
+
+
+def grokking_config_for(size: str) -> GrokkingConfig:
+    """Base config for "1M" (the accepted M4/M5 row); width-scaled for 10M/100M."""
+    if size == "1M":
+        return GrokkingConfig()
+    from models.transformer import scale_width_to_budget
+    from tasks.modular_arith import ModArithConfig, ModArithTask
+    base = GrokkingConfig()
+    task = ModArithTask(ModArithConfig(p=base.p, op=base.op, train_frac=base.train_frac, seed=0))
+    tcfg = scale_width_to_budget(
+        task.vocab_size, task.n_ctx, SIZE_TARGETS[size],
+        n_layers=base.n_layers, n_heads=base.n_heads,
+    )
+    return GrokkingConfig(d_model=tcfg.d_model, size_bucket=size)

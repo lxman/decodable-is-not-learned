@@ -1,0 +1,148 @@
+EXPERIMENT 1b — FORMAL VERDICT (recorded 2026-08-14)
+
+VERDICT: PASS
+
+    grokking       9/10  S1-present (floor-corrected)   bar >= 8/10
+                   per-size 1M 5/5, 10M 4/5    raw 10/10
+                   CP95 (0.5550, 0.9975)
+    lubana_above  10/10  S1-present (floor-corrected)   bar >= 8/10
+                   per-size 1M 5/5, 10M 5/5    raw 10/10
+                   CP95 (0.6915, 1.0000)
+    lubana_below   0/10  S1-present (floor-corrected)   bar 0/10
+                   per-size 1M 0/5, 10M 0/5    raw 0/10
+                   CP95 (0.0000, 0.3085)
+    untrained      9/30  raw fires — DIAGNOSTIC, not verdict-touching
+                   per-size 1M 5/15, 10M 4/15
+                   CP95 (0.1473, 0.4940)
+
+    ground-truth gates  30/30 certified
+    attrition           1 (lubana_above/1M/seed102, GPU OOM, re-run clean)
+    seeds               100-104, disjoint from Exp 1's 0-4
+
+Produced by the frozen analysis (analyze_1b.py, tag exp1b-preregistered) run
+once, via run/run_analysis_1b.py, on all 60 campaign records.
+
+WHAT THIS PASS ESTABLISHES. The S1 leg of the three-signature discriminator
+separates structure-present from structure-absent systems on synthetic ground
+truth, with the reservoir confound controlled. It fires where structure is
+latent but not yet expressed (grokking before its transition; lubana above the
+percolation threshold) and stays silent where percolation forbids the structure
+from existing at all. This is the test Experiment 1 never actually performed:
+its S1 criterion compared raw probe accuracy across a 113-class and a 10-class
+system, which no instrument could satisfy, so its FAIL was uninformative rather
+than negative. The claim was untested, not refuted. It has now been tested.
+
+WHAT IT DOES NOT ESTABLISH — stated here, not left for a reader to infer.
+  - Nothing about real models. Exp 2c tested the real-model version and
+    returned an uninterpretable FAIL. The synthetic-to-real gap is where this
+    program has repeatedly broken, and a PASS here does not cross it.
+  - Only S1. S2 and S3 are descriptive in 1b. The full three-signature test
+    remains unvalidated.
+  - Nothing beyond 10M. The 100M tier was dropped for cost, and that is where
+    Exp 1's discriminator was most stressed.
+  - Detection only, never magnitude.
+  - Aggregate, not per-cell. See the bimodality finding below: one grokking
+    cell in ten read exactly what a random network reads. A pooled >= 8/10 bar
+    absorbs that; a single-system verdict would not. This licenses "the
+    criterion separates the two classes in aggregate", NOT "you may trust it
+    on your capability."
+
+THE PRE-COMMITTED CHANGE EARNED ITS KEEP, VISIBLY. The floor-corrected S1
+(design §4) demoted exactly one cell: grokking/10M/seed104, whose trained probe
+accuracy was 0.017333 against an untrained twin of 0.017333 — equal to the last
+digit. Raw S1 fired; the strict inequality refused it, because a tie is not
+evidence training added anything. Grokking's raw 10/10 is therefore 9/10
+corrected, and the correction is the difference between reporting a clean sweep
+and reporting the truth.
+
+THE PROJECTION MISSED, AND IT WAS RECORDED BEFORE THE DATA. The verdict
+projection ledgered in PROGRESS.md and quoted in the exp1b-preregistered tag
+predicted the grokking row at roughly 6/10 and an overall FAIL. Actual: 9/10
+and PASS. The forecast was wrong.
+
+  Why it was wrong is the more useful finding. Grokking's 10M S1 accuracy is
+  BIMODAL. Across ten cells (Exp 1's five seeds plus 1b's five) the values fall
+  into two clusters — reservoir-level .0140-.0227 and structure .0927-.3033 —
+  separated by 4.1x with nothing in between. Exp 1 drew 1 of 5 in the structure
+  mode; 1b drew 4 of 5. Fisher exact two-sided p = 0.2063: the two experiments
+  are statistically indistinguishable, the same distribution sampled twice. The
+  projection took Exp 1's MEDIAN as the expectation for a bimodal variable
+  whose mode split is near a coin flip, i.e. treated a 1-in-5 draw as typical.
+  A median is the wrong summary of a bimodal outcome, and five seeds cannot
+  establish which mode is typical.
+
+  One mechanism was tested and rejected: that S1 tracks which checkpoint counts
+  as "latest below 5% argmax", so early-grokking seeds get probed on
+  barely-trained models. Correlation between below_threshold_checkpoint and S1
+  accuracy across the ten cells is -0.432 — weak, wrong sign, and the
+  checkpoint ranges overlap between clusters. What separates the modes is not
+  identified.
+
+  Caveat: n = 10 total, 5 per experiment. The gap is clean and the clusters
+  unambiguous, but bimodality on ten points is suggestive, not established.
+
+THE FINDING THAT OUTLIVES THE VERDICT. Nine of ten untrained grokking twins
+fire raw S1 (1M 5/5, 10M 4/5) while the entity-split lubana probe is silent in
+20 of 20. Same instrument, same seeds, minutes apart. The label-permutation
+null controls for probe capacity and label marginals but not for information
+the random expansion already carries about the label: it answers "does the
+probe use the labels?", not "did training put the structure there?" Only an
+untrained twin answers the second. Structurally this is Exp 2c's chance-floor
+defect one level down — the criterion's floor was theoretical chance
+(1/113 = 0.0088) where the empirical floor is ~0.023, 2.6x higher.
+
+  The corollary is the transferable one: WHETHER AN UNTRAINED NETWORK PASSES
+  YOUR PROBE CRITERION IS A PROPERTY OF HOW YOU SPLIT THE DATA, NOT OF THE
+  MODEL. Grokking's probe uses a held-out sample of test pairs; lubana's uses
+  an entity split chosen so memorizing the entity-to-class lookup cannot
+  produce above-chance validation accuracy. run_lubana.py's docstring asserted
+  that; 20 untrained cells now measure it. Without the untrained control you
+  cannot tell which kind of probe you built.
+
+  Retrospectively, this also reaches Exp 1: three of the four cells Exp 1
+  scored S1-present at 10M (seeds 0, 1, 3) sit at or below the untrained floor
+  measured here.
+
+DISCLOSED, none reshaped away.
+  - lubana_below's ground-truth gate is tight. Peak metric against the 0.150
+    bar across ten cells: 84, 76, 95, 88, 89, 88, 91, 97, 91, 81 percent —
+    mean 88%, worst 0.146 vs 0.150 on 10M/seed102. Every cell cleared; none by
+    much. Disclosed before the freeze, on the strength of the single gate seed,
+    and now confirmed across the row.
+  - Open item 2 specifies gate confirmation "on seeds 100-104"; it ran on seed
+    100 only. §8 step 2 carries the rest via the per-record gt_check and the
+    attrition rule. The item's wording was deliberately left unchanged.
+  - Three trained cells and thirty untrained cells were collected before the
+    exp1b-preregistered tag, both required by the design's own open items. The
+    design was finalized first (amendments 11:30, driver 11:51, first trained
+    cell 12:07 on 2026-08-12), so no outcome data could have shaped it.
+  - §8 step 1's "one commit" freeze did not hold; the contents landed across
+    the range and the tag marks the boundary.
+  - analyze_1b.py was frozen with verdict() but NO record loader. The gap was
+    caught only at analysis time, and run/run_analysis_1b.py was written after
+    the freeze to close it. It is glue that makes no decisions — no filtering,
+    verbatim field copy, path-vs-record assertions — and was committed
+    (d0eedc9) before being run.
+
+REPRODUCIBILITY, measured rather than assumed.
+  - Untrained cells are fully deterministic. All 30 re-ran into the campaign
+    tree post-tag and reproduced their pre-freeze values bit-identically —
+    accuracy to 18 significant figures, plus null_p, null_mean, best_layer,
+    best_token. The floors the trained cells were scored against are the same
+    floors in the campaign tree.
+  - Trained runs are reproducible early and not late. A re-run of
+    grokking/1M/seed100 reproduced s1.accuracy exactly (0.035333333333333335)
+    along with transition_step, below_threshold_checkpoint and mem_step, while
+    gen_step moved 2099 -> 2454 — one step on a log-spaced checkpoint grid,
+    i.e. the smallest change the instrument can register. The verdict-touching
+    quantity is reproducible; the whole trajectory is not. Any reproduction
+    claim should be scoped accordingly.
+
+OPERATIONAL RECORD. One attrition in 30 trained cells. A Metal command buffer
+failed with kIOGPUCommandBufferCallbackErrorOutOfMemory during
+lubana_above/1M/seed102, its own message warning that "operations encoded on it
+may not have completed"; they did not, 824,232 of 939,312 parameters were NaN
+at step 100,000, and the S1 probe refused NaN activations. No record was
+written — the run died rather than recording a plausible wrong number. Re-run
+once under reduced GPU contention per §8 step 2, clean. Campaign wall-clock
+2026-08-12 18:08 to 2026-08-14 15:58.

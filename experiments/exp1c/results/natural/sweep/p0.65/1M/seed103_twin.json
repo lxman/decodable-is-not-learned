@@ -1,0 +1,104 @@
+{
+  "system": "sweep",
+  "arm": "natural",
+  "density": 0.65,
+  "size_bucket": "1M",
+  "seed": 103,
+  "trained": false,
+  "sites": [
+    {
+      "layer": 0,
+      "token": -1,
+      "accuracy": 0.06875,
+      "null_p_raw": null,
+      "null_mean": null
+    },
+    {
+      "layer": 0,
+      "token": 1,
+      "accuracy": 0.05625,
+      "null_p_raw": null,
+      "null_mean": null
+    },
+    {
+      "layer": 1,
+      "token": -1,
+      "accuracy": 0.08125,
+      "null_p_raw": null,
+      "null_mean": null
+    },
+    {
+      "layer": 1,
+      "token": 1,
+      "accuracy": 0.0625,
+      "null_p_raw": null,
+      "null_mean": null
+    },
+    {
+      "layer": 2,
+      "token": -1,
+      "accuracy": 0.06875,
+      "null_p_raw": null,
+      "null_mean": null
+    },
+    {
+      "layer": 2,
+      "token": 1,
+      "accuracy": 0.0625,
+      "null_p_raw": null,
+      "null_mean": null
+    },
+    {
+      "layer": 3,
+      "token": -1,
+      "accuracy": 0.05,
+      "null_p_raw": null,
+      "null_mean": null
+    },
+    {
+      "layer": 3,
+      "token": 1,
+      "accuracy": 0.05625,
+      "null_p_raw": null,
+      "null_mean": null
+    }
+  ],
+  "n_rows": 640,
+  "n_val": 160,
+  "per_class": null,
+  "capability_metric": null,
+  "git_sha": "1c4a7e7-dirty",
+  "config": {
+    "scale": "paper",
+    "setting": "below",
+    "model_size": "1M",
+    "n_train_sentences": 60000,
+    "n_queries": 500,
+    "n_probe": 4000,
+    "d_model": 256,
+    "n_layers": 4,
+    "n_heads": 8,
+    "total_steps": 100000,
+    "batch_size": 64,
+    "lr": 0.0003,
+    "weight_decay": 0.1,
+    "n_checkpoints": 50,
+    "device": "mps",
+    "alpha": 0.01,
+    "n_perm": 1000,
+    "below_threshold_mult": 1.5,
+    "transition_level": 0.5,
+    "s2_n_per_query": 2000,
+    "s2_n_queries": 50,
+    "s2_temperature": 1.0,
+    "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
+    "s3_graph_points": [
+      0.25,
+      0.45,
+      0.65,
+      0.85
+    ],
+    "s3_graph_budget_steps": 10000
+  }
+}

@@ -1,0 +1,13 @@
+# Experiment 1 dependencies.
+# torch/transformers/numpy/tqdm are already present in ~/emergence-lab/.venv
+# (torch 2.12.1, transformers 5.13.0, numpy 2.4.6). Pinned here for the record;
+# do not re-install those. The three lines below are the only additions M0 makes.
+#
+# Install into the existing venv:
+#   source ~/emergence-lab/.venv/bin/activate
+#   pip install -r experiments/exp1/requirements.txt
+
+scikit-learn>=1.5      # S1 linear probe (LogisticRegression)
+scipy>=1.13            # Clopper-Pearson (stats.beta), forecast fits (S3)
+matplotlib>=3.9        # analysis figures
+pytest>=8              # test suite (run: cd experiments/exp1 && python -m pytest)

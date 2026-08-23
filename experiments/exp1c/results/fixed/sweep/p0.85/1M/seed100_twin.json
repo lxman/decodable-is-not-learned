@@ -1,0 +1,104 @@
+{
+  "system": "sweep",
+  "arm": "fixed",
+  "density": 0.85,
+  "size_bucket": "1M",
+  "seed": 100,
+  "trained": false,
+  "sites": [
+    {
+      "layer": 0,
+      "token": -1,
+      "accuracy": 0.08,
+      "null_p_raw": 0.7519248075192481,
+      "null_mean": 0.095402
+    },
+    {
+      "layer": 0,
+      "token": 1,
+      "accuracy": 0.09,
+      "null_p_raw": 0.6404359564043596,
+      "null_mean": 0.096813
+    },
+    {
+      "layer": 1,
+      "token": -1,
+      "accuracy": 0.1,
+      "null_p_raw": 0.49195080491950804,
+      "null_mean": 0.09584000000000001
+    },
+    {
+      "layer": 1,
+      "token": 1,
+      "accuracy": 0.09,
+      "null_p_raw": 0.6365363463653635,
+      "null_mean": 0.09640699999999999
+    },
+    {
+      "layer": 2,
+      "token": -1,
+      "accuracy": 0.08,
+      "null_p_raw": 0.7555244475552445,
+      "null_mean": 0.096023
+    },
+    {
+      "layer": 2,
+      "token": 1,
+      "accuracy": 0.08,
+      "null_p_raw": 0.7577242275772422,
+      "null_mean": 0.096232
+    },
+    {
+      "layer": 3,
+      "token": -1,
+      "accuracy": 0.14,
+      "null_p_raw": 0.09819018098190181,
+      "null_mean": 0.09608399999999999
+    },
+    {
+      "layer": 3,
+      "token": 1,
+      "accuracy": 0.08,
+      "null_p_raw": 0.7646235376462354,
+      "null_mean": 0.09691300000000001
+    }
+  ],
+  "n_rows": 400,
+  "n_val": 100,
+  "per_class": 40,
+  "capability_metric": null,
+  "git_sha": "1c4a7e7-dirty",
+  "config": {
+    "scale": "paper",
+    "setting": "below",
+    "model_size": "1M",
+    "n_train_sentences": 60000,
+    "n_queries": 500,
+    "n_probe": 4000,
+    "d_model": 256,
+    "n_layers": 4,
+    "n_heads": 8,
+    "total_steps": 100000,
+    "batch_size": 64,
+    "lr": 0.0003,
+    "weight_decay": 0.1,
+    "n_checkpoints": 50,
+    "device": "mps",
+    "alpha": 0.01,
+    "n_perm": 1000,
+    "below_threshold_mult": 1.5,
+    "transition_level": 0.5,
+    "s2_n_per_query": 2000,
+    "s2_n_queries": 50,
+    "s2_temperature": 1.0,
+    "s3_target_level": 0.5,
+    "s3_precursor_transform": "log",
+    "s3_graph_points": [
+      0.25,
+      0.45,
+      0.65,
+      0.85
+    ],
+    "s3_graph_budget_steps": 10000
+  }
+}

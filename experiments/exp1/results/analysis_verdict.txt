@@ -1,0 +1,43 @@
+================================================================
+Experiment 1 — Truth Table (scored systems)
+================================================================
+system                  S1        S2        S3
+grokking        mixed(13/15)mixed(12/15)mixed(6/15)
+lubana_below        absent    absent    absent
+lubana_above       present    absentmixed(7/15)
+
+sizes evaluated (>= 5 seeds, all rows): ['1M', '10M', '100M']
+
+continuous separation (grokking vs Lubana-below):
+  [1M] S1: d=-1.54 disjoint=False grok_CI=(0.0659, np.float64(-0.0022), np.float64(0.1339)) perc_CI=(0.1276, np.float64(0.1088), np.float64(0.1464))
+  [1M] S2: d=2.34 disjoint=True grok_CI=(0.0285, np.float64(0.0126), np.float64(0.0443)) perc_CI=(0.0073, np.float64(0.0067), np.float64(0.0079))
+  [10M] S1: d=-1.29 disjoint=False grok_CI=(0.0585, np.float64(-0.0541), np.float64(0.1711)) perc_CI=(0.1413, np.float64(0.1327), np.float64(0.1499))
+  [10M] S2: d=1.43 disjoint=False grok_CI=(0.027, np.float64(0.0047), np.float64(0.0494)) perc_CI=(0.0082, np.float64(0.0019), np.float64(0.0145))
+  [100M] S1: d=0.40 disjoint=False grok_CI=(0.1787, np.float64(-0.0991), np.float64(0.4564)) perc_CI=(0.1145, np.float64(0.0826), np.float64(0.1465))
+  [100M] S2: d=0.37 disjoint=False grok_CI=(0.0145, np.float64(-0.0054), np.float64(0.0343)) perc_CI=(0.0102, np.float64(0.0047), np.float64(0.0156))
+
+VERDICT: FAIL
+findings:
+  - [1M] S1: CIs overlap or wrong direction — grokking (0.06586666666666666, np.float64(-0.0021506349233199884), np.float64(0.1338839682566533)) vs Lubana-below (0.1275923761821361, np.float64(0.10878541024739041), np.float64(0.14639934211688177)) (reportable FAIL).
+  - [1M] S1: Cohen's d = -1.54 < 2.0 — leaky separation (reportable FAIL).
+  - [1M] S3 absent on grokking in 4/5 seeds — off-diagonal (reportable FAIL).
+  - [1M] control (Lubana-above) S2 present in only 0/5 seeds — control diverges from resolution (reportable FAIL).
+  - [1M] control (Lubana-above) S3 present in only 4/5 seeds — control diverges from resolution (reportable FAIL).
+  - [10M] S1: CIs overlap or wrong direction — grokking (0.05853333333333334, np.float64(-0.05407371858737681), np.float64(0.1711403852540435)) vs Lubana-below (0.1413194765046244, np.float64(0.13271390513888834), np.float64(0.14992504787036046)) (reportable FAIL).
+  - [10M] S1: Cohen's d = -1.29 < 2.0 — leaky separation (reportable FAIL).
+  - [10M] S2: CIs overlap or wrong direction — grokking (0.027049480000000004, np.float64(0.004725047711253504), np.float64(0.049373912288746505)) vs Lubana-below (0.00822, np.float64(0.001931557162178345), np.float64(0.014508442837821656)) (reportable FAIL).
+  - [10M] S2: Cohen's d = 1.43 < 2.0 — leaky separation (reportable FAIL).
+  - [10M] S3 absent on grokking in 2/5 seeds — off-diagonal (reportable FAIL).
+  - [10M] S1 absent on grokking in 1/5 seeds — off-diagonal (reportable FAIL).
+  - [10M] control (Lubana-above) S2 present in only 0/5 seeds — control diverges from resolution (reportable FAIL).
+  - [10M] control (Lubana-above) S3 present in only 0/5 seeds — control diverges from resolution (reportable FAIL).
+  - [100M] S1: CIs overlap or wrong direction — grokking (0.17866666666666667, np.float64(-0.09909443006956484), np.float64(0.45642776340289815)) vs Lubana-below (0.11453639479363101, np.float64(0.08260421758918479), np.float64(0.14646857199807722)) (reportable FAIL).
+  - [100M] S1: Cohen's d = 0.40 < 2.0 — leaky separation (reportable FAIL).
+  - [100M] S2: CIs overlap or wrong direction — grokking (0.014491480000000001, np.float64(-0.0053545869615531545), np.float64(0.03433754696155315)) vs Lubana-below (0.010156000000000002, np.float64(0.004673891035623016), np.float64(0.015638108964376986)) (reportable FAIL).
+  - [100M] S2: Cohen's d = 0.37 < 2.0 — leaky separation (reportable FAIL).
+  - [100M] S3 absent on grokking in 3/5 seeds — off-diagonal (reportable FAIL).
+  - [100M] S1 absent on grokking in 1/5 seeds — off-diagonal (reportable FAIL).
+  - [100M] S2 absent on grokking in 3/5 seeds — off-diagonal (reportable FAIL).
+  - [100M] control (Lubana-above) S2 present in only 0/5 seeds — control diverges from resolution (reportable FAIL).
+  - [100M] control (Lubana-above) S3 present in only 3/5 seeds — control diverges from resolution (reportable FAIL).
+================================================================
