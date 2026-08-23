@@ -153,6 +153,8 @@ from the superseded 200-draw run — final numbers to be filled in by
 the controller when the re-rolled `power_2g.json` lands and is
 committed.
 
+**Landed 2026-08-23 (PID 85688, once): POWERED — P(FORECAST | D_true = .15) = .946 against the bar .75; D .10 → .562 (the T ≥ .10 effect bar binds, as §7 predicted), D .20 → .952 (the twin's α = .05 test routes ≈ 5 % of true-FORECAST batteries to SURFACE by construction); null false-FORECAST rate 0.000; null SD of T .0240; min_detectable_T .0547 (the null's .99 quantile of T); per_rung_precision printed for all seven R_2.8b rungs. Committed d24fe0a. §7's stated 1,000 simulations now met; N_PERM_POWER = 500 remains a build dial for ratification.**
+
 ## Build findings, ledgered for ratification at the freeze
 
 Findings A–E, verbatim from the design→build handoff at the top of
