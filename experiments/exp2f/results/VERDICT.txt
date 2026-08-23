@@ -1,0 +1,100 @@
+Exp 2f — VERDICT: LADDER
+========================
+Analyzer run ONCE, 2026-08-22, on Michael's go, at tag
+exp2f-preregistered (09b0c5e); collections 3c3cd65 (gate 1 IDENTICAL
+×8); projection sealed 13c835d. Two rungs × two sizes, ONE label per
+rung (sub3_mid: middle digit of the difference; arith_next: last digit
+of the next term), ONE floor (the majority share: .132 / .120), ONE
+bar (one-sided exact binomial, α .01; Bonferroni over 2c's 18 / 14
+probe sites). D = [probe, sampling, argmax].
+
+Tree: every non-void cell monotone (argmax ⇒ sampling ⇒ probe), six
+detections across four cells, no void cell → LADDER (§6 branch 3).
+
+CELLS
+  arith_next/410m  D = [1, 1, 1]
+    probe    .262 at (layer 21, prompt end)  CP95 [.224, .303]  bar .172
+             p_corr 7e-17   twin there .038   twin's best .082 (n.s.)
+    sampling 4,312 / 32,000 = .1348  (831 exact, 782 MISS)  p 7.5e-16
+    argmax     81 / 500    = .162   (13 exact)               p .0033
+  arith_next/1b    D = [1, 0, 0]
+    probe    .270 at (layer 15, prompt end)  CP95 [.232, .311]  bar .170
+             p_corr 1e-18   twin there .036
+    sampling 3,203 / 32,000 = .1001  (531 exact, 662 MISS)  BELOW the
+             .120 floor: among the 31,469 non-exact draws the last
+             digit matches 8.5 % of the time — below uniform chance
+    argmax     70 / 500    = .140   (19 exact)               p .097
+  sub3_mid/410m    D = [1, 0, 0]
+    probe    .234 at (layer 15, question end) CP95 [.198, .274] bar .186
+             p_corr 7e-9    twin there .100
+    sampling 3,082 / 32,000 = .0963  (35 exact, 2,047 MISS)
+    argmax     42 / 500    = .084   (0 exact)
+  sub3_mid/1b      D = [1, 0, 0]
+    probe    .252 at (layer 9, question end)  CP95 [.215, .292] bar .184
+             p_corr 6e-12   twin there .104
+    sampling 3,174 / 32,000 = .0992  (34 exact, 987 MISS)
+    argmax     53 / 500    = .106   (0 exact)
+  Pilot tier (seed 1000, 4,000): arith_next/410m .127 (p .09, below
+  the bar at a quarter of the draws), 1b .106; sub3_mid .093 / .103.
+  CV probe on the probe items (held-out 200 / 400): .260 / .240 /
+  .190 / .2175 — the eval-item reading is the same or higher.
+
+SENSITIVITIES (all LADDER)
+  arith_next under 2c's mod-7 label: probe .124 / .124 against a .212
+    bar (floor .156), sampling .142 / .139 (n.s.), argmax .146 / .158
+    (n.s.) — D = [0, 0, 0] at both sizes. THE SAME ACTIVATIONS that
+    read the last digit at .262 / .270 read the mod-7 residue at
+    chance.
+  α = .05: the same D in every cell. Majority share alone as c: same.
+
+REFERENTS (all PASS; none a verdict input that moved)
+  34-file manifest; 12 frozen-import pins; probe-label gates 500/500
+  ×2; exact-match gate 12/12 (main 35|34, 831|531; pilot 6|3, 109|67;
+  argmax 0|0, 13|19); m3 machinery gate 4/4 exact (and one cell's full
+  permutation null exact at the freeze); continuity gate 4/4, every
+  comparison byte-identical.
+
+READING
+  On both rungs the linear probe reads the answer's digit from the
+  residual stream — at .23–.27 against floors of .12–.13, twins at
+  .04–.10 — while the generators read it only on arith_next at 410m,
+  and nowhere on sub3_mid. That is the instrument ladder of 3b–3e,
+  on a second task class, with the same weights: probes see deepest;
+  sampling next (arith_next/410m, .1348 over .120 at 32,000 draws);
+  argmax last (arith_next/410m, .162 at the edge of its bar). At 1b
+  the sampled channel does not even reach chance on arith_next's last
+  digit — a model wrong about a + 4d is wrong in the last digit too
+  (an off-by-d error changes it) — while its representation carries
+  the right last digit at .270. Presence before performability, on
+  arithmetic, four cells out of four.
+
+  What 2c's silence was: its targets. The mod-7 sensitivity settles it
+  executably — the residue is not a linear feature of these
+  activations (.124 vs .270 on the same bytes), and the committed
+  starved records (.135 / .130 at a constant-feature site, below
+  chance at every real site) measured generalization to held-out
+  basis values, not presence. 2d's "the probe's silence was the probe"
+  was right, and the reason is now specific: the label and the split,
+  not the instrument class.
+
+  Declared blind region (§7): none needed — every probe reading
+  clears its bar by .05–.10; the projection's INVERTED mechanism (a
+  small true probe reading under the probe's higher bar) did not
+  occur.
+
+LICENSED (§6, as written in advance)
+  The essay's "probes see deepest, exhaustive sampling next, argmax
+  last" stands on a second task class (arithmetic); 2c's silence on
+  these rungs is attributed to its targets — a probe label chosen for
+  starving can be linearly unreadable, and a basis-starved validation
+  set measures generalization, not presence. Methods note for
+  Michael's call: the target is part of the instrument.
+
+DISCLOSURE
+  The generator-side inputs were committed bytes whose exact-match
+  counts were known; their label-match rates were not computed
+  before the tag. The probe reading was the one new measurement: the
+  projection put it at .15–.20 and it came in at .23–.27.
+
+Model contact: 4,064 forward passes (the collections + gate 1). One
+pre-committed change UNSPENT. Tag exp2f-closed.

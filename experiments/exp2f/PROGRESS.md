@@ -295,3 +295,21 @@ Policy (2b/2c's, carried): the 431 MB of arrays are gitignored; their
 sha256 digests are committed at `results/activations_eval_sha256.txt`
 beside the four continuity records. Next: projection sealed, then
 `analyze_2f.run(write=True)` ONCE on Michael's word.
+
+## 2026-08-22 — THE SINGLE RUN, CLOSE
+
+`analyze_2f.run(write=True)` ONCE on Michael's go: **LADDER** — every
+cell monotone, six detections in four cells, none void, every
+referent PASS. The probe reads the answer's digit in all four cells
+(.262 / .270 arith_next, .234 / .252 sub3_mid; twins .04–.10); the
+generators read it only at arith_next/410m (sampling .1348, argmax
+.162); at 1b the sampled channel sits BELOW the floor on the last
+digit (.1001) while the representation carries it at .270. The mod-7
+sensitivity: the same activations read the residue at .124 —
+2c's label was unreadable. Projection (13c835d) MISSED at the verdict
+level — INVERTED projected, LADDER (the named alternative) fired;
+every probe projection low, every generator projection high.
+VERDICT.txt + retrospective written; tag `exp2f-closed`. Propagation
+(essay ladder paragraph per §6; experiments.md section; methods-paper
+note "the target is part of the instrument" — Michael's call) on his
+word.
