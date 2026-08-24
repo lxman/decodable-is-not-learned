@@ -1,0 +1,75 @@
+EXPERIMENT 2g — THE SEALED FORECAST — VERDICT: NO-FORECAST
+(read under POWERED: a measured absence, not a resolution shortfall)
+
+Frozen analyzer run ONCE, 2026-08-24, on Michael's go, tag exp2g-preregistered
+(891c232); predictor sealed exp2g-predictor-sealed (sha 9eadbac3…) BEFORE any
+intermediate checkpoint of any Pythia size was ever loaded; projection sealed
+dfdaf79 before the sweep.
+
+§6.3 tree, mechanical:
+  1. INSUFFICIENT_DATA — zero referent/loader failures (162-file manifest,
+     14 frozen-import pins, seal exact, gate 1 clean at both sizes, power
+     record attached).  NOT TAKEN.
+  2. FORECAST / SURFACE / DIFFICULTY-ONLY — not reached.
+  3. NO-FORECAST — TAKEN: stratified T = −.0165 (p = .8218), raw T = .0194
+     (p = .1240), twin T = .0159 (p = .1901). The inversion is itself not
+     significant (one-sided p ≈ .178).
+
+The primary, in one line: the sealed per-item probe reading at 1b — log
+p(true label) at the CV-chosen site, the instrument that reads rung-level
+PRESENCE at .20–.85 against twins at chance — carries no detectable
+information about the ORDER in which 2.8b's training makes those same items
+emittable: every one of the seven rungs' within-stratum Somers' D sits in
+[−.058, +.038], the mean is slightly negative, and the raw (unstratified)
+concordance is null too.
+
+Power context (the §7 record, N_SIM 1000): P(FORECAST | D = .15) = .946,
+p_detect .985 at D = .10, null SD of T .0240, min-detectable T ≈ .0547.
+Blind region: true within-stratum D below ≈ .05; the observed T is −.02.
+
+Robustness, all null, all preregistered: 410m replication T = .0141
+(p .21); 12b replication T = .001 (p .48, sub4_mid THIN excluded by rule);
+2f's eval-site rule T = −.003; first-correct-step outcome T = −.021;
+1b-performable items excluded T = −.019; label × covariate strata on the
+digit rungs T = −.016. The twin never forecasts (no SURFACE); step0
+verifies nothing anywhere; no flat rung ever clears at any checkpoint.
+
+THE SECONDARY THAT FIRED (non-gating, preregistered §6.4): the SAMPLER
+competitor — 2d's committed per-item verified counts at 1b (64 pure T=1.0
+draws per item, on disk since 2026-08-22) — forecasts the same sealed
+outcome through the same strata at T = .1672, p = 1.0e-4 (per-rung D:
+sub_base8 .386, antonym6 .209, add_base8 .199, antonym .186, arith_next
+.168; ≈ 0 on the two mid-digit rungs). And "probe beyond sampler" is the
+probe's null again (T = −.0165): the probe adds NOTHING once the sampled
+channel is conditioned on. At item grain, what forecasts emergence order
+is output-channel reachability — how often the smaller model already
+emits the answer — not representational presence. This is 3d's STRUCTURED
+(and 3e's reachability texture) reappearing on a hidden outcome across a
+resolution increase, while the representation-side forecast dies.
+
+Descriptive texture on the record: transient verification is pervasive —
+the number of items that verify at ≥ 1 grid point far exceeds the final
+count on every rung (antonym 435 ever vs 272 final; antonym6 359 vs 149;
+arith_next 259 vs 137); trajectories are non-monotone (antonym peaks at
+300/500 at step 110k and ends at 272). Rung-level first-clear steps
+(descriptive; 8 block placements): antonym6 10k, antonym and arith_next
+30k, sub3_mid and add_base8 70k, add3_mid 80k, sub_base8 90k; at 12b the
+clears sit later (mostly ≥ 100k) with antonym/antonym6/arith_next at 32k.
+
+What NO-FORECAST licenses (§6.5, as written in advance): "not detected at
+this resolution", blind region stated — and with POWERED, stronger: on
+this battery, presence-before-performability (2f, 3b) stands at rung
+level, but presence does not order items. Prediction 2's predictive arm,
+tested with the instrument that demonstrably reads presence, against an
+outcome hidden from everyone, at .946 power: the forecast is not there.
+The forecast that IS there lives in the output channel the thesis's
+resolution story did not privilege.
+
+Campaign: gate 1 exact at both sizes through BOTH loader paths (2.8b 49
+min, 12b 80 min; counts equal m4 to the item, digests equal, 0
+continuation diffs); 2.8b 22 checkpoints × 34 rungs, 12b 8 × 11; zero
+experiment-side halts, zero attrition; two environment-side process kills
+(the host reaped session-tracked tasks; the runner's skip-if-exists
+resume made each cost only redone compute, nothing partial ever landed).
+One pre-committed change UNSPENT through design, build, freeze and
+campaign. Tag exp2g-closed.
