@@ -1,0 +1,16 @@
+{
+ "size": "2.8b",
+ "step": 143000,
+ "revision": "main",
+ "digest": "f6583e731f29dedcc738801b90214f9014fe7f7580312c2c8b58297fb0bdf56c",
+ "digest_2g_path": "f6583e731f29dedcc738801b90214f9014fe7f7580312c2c8b58297fb0bdf56c",
+ "sha256": {
+  "model.safetensors": "ab496f1c3fd79e3c749a9d5414136a2c8e4224f94eecb261970315cdb0f813fe"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "via": "gate 1"
+}
