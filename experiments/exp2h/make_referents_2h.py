@@ -4,16 +4,20 @@ relative to the repo root: the 34 rung item files (each already
 sha-checked again at load by `battery_2d.load_item_file`'s own
 ITEMS_SHA_PIN — 2g's own `referents_2g.json` carries the identical
 redundancy for the same 34 files), 2c's 34 committed m4 6.9b records,
-2d's 16 committed main-tier draws files at 1b/410m for R_69's eight
-rungs (exactly what `battery_2h.sampler_counts` opens for those two
-sizes — it reads ONLY the `.draws.jsonl.gz` file per (size, rung),
-never the sibling `.json` tier record), and five files that double-pin
-a subset of what `battery_2h.FROZEN_2G_SHA256`/`check_frozen_2h`
-already hard-pin (2g's sealed predictor.json, checkpoints_2g.json,
-referents_2g.json) plus 2h's own checkpoints_2h.json and
-hub_inventory_69.json — the same double-pinning pattern 2g's own
-`referents_2g.json` uses for ITS tree's checkpoints_2g.json/
-hub_inventory.json (also separately pinned via `CHECKPOINTS_SHA256`)."""
+2d's committed verdict.json (the floors, read unconditionally by
+`analyze_2h.run()` via `battery_2g.load_floors()`, sha-pinned there as
+`FLOORS_VERDICT_2D_SHA256` — 2g's own `referents_2g.json` carries the
+identical file), 2d's 16 committed main-tier draws files at 1b/410m
+for R_69's eight rungs (exactly what `battery_2h.sampler_counts` opens
+for those two sizes — it reads ONLY the `.draws.jsonl.gz` file per
+(size, rung), never the sibling `.json` tier record), and five files
+that double-pin a subset of what
+`battery_2h.FROZEN_2G_SHA256`/`check_frozen_2h` already hard-pin (2g's
+sealed predictor.json, checkpoints_2g.json, referents_2g.json) plus
+2h's own checkpoints_2h.json and hub_inventory_69.json — the same
+double-pinning pattern 2g's own `referents_2g.json` uses for ITS
+tree's checkpoints_2g.json/hub_inventory.json (also separately pinned
+via `CHECKPOINTS_SHA256`)."""
 
 from __future__ import annotations
 
@@ -32,13 +36,14 @@ from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2h import battery_2h as bh  # noqa: E402
 
 REPO = bg.REPO
-N_FILES_2H = 34 + 34 + 16 + 3 + 2
+N_FILES_2H = 34 + 34 + 1 + 16 + 3 + 2
 
 
 def referent_files_2h() -> list:
     files = [bt.items_path(r) for r in bt.RUNGS]                          # 34
     for r in bt.RUNGS:
         files.append(bh.m4_path_69(r))                                   # 34
+    files.append(bg.EXP2D / "results" / "verdict.json")                  # 1
     for size in bt.PROBE_SIZES:
         for r in bh.R_69:
             files.append(a2d.tier_draws_path(bh.EXP2D, "main", size, r))  # 16

@@ -135,6 +135,36 @@ def test_load_sweep_69_refuses_a_missing_checkpoint_record(tmp_path):
                          seal_sha=bh.PREDICTOR_2G_SHA, steps=(1000,), rungs=("antonym",))
 
 
+def test_load_sweep_69_refuses_a_torn_json_record(tmp_path):
+    # a syntactically invalid/truncated step record — e.g. a partial
+    # write cut off mid-campaign — must not raise past load_sweep_69
+    # uncollected: json.JSONDecodeError is a ValueError subclass, so
+    # analyze_2h.run()'s call site (which wraps load_sweep_69 in
+    # `collect()`) turns it into a referent failure and the analyzer
+    # delivers INSUFFICIENT_DATA with the reason, not a crash.
+    manifest = {"entries": {"1000": _entry()}}
+    p = bh.record_path_2h(tmp_path, 1000, "antonym")
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text('{"rung": "antonym", "size": "6.9b", "step": 1000, "corr')  # torn mid-write
+
+    with pytest.raises(json.JSONDecodeError):
+        an.load_sweep_69(tmp_path, {"antonym": {}}, lambda *a, **k: True,
+                         manifest=manifest, seal_sha="s", steps=(1000,), rungs=("antonym",))
+
+    val, failures = an.collect(
+        lambda: an.load_sweep_69(tmp_path, {"antonym": {}}, lambda *a, **k: True,
+                                 manifest=manifest, seal_sha="s", steps=(1000,),
+                                 rungs=("antonym",)),
+        "sweep 6.9b")
+    assert val is None
+    assert len(failures) == 1
+    assert "sweep 6.9b" in failures[0] and "JSONDecodeError" in failures[0]
+
+    tree = an.verdict_tree_2h(failures, None)
+    assert tree["verdict"] == "INSUFFICIENT_DATA"
+    assert "JSONDecodeError" in tree["reason"]
+
+
 def test_outcomes_69_and_rung_level_69():
     steps = bh.trained_steps_69()
     sweep = {}

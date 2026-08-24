@@ -85,12 +85,13 @@
   "experiments/exp2d/results/main/410m_trained/count_div13.draws.jsonl.gz": "c4dc02e10e1c400d1ddc4071f251761477e33b658a238a8b6e163ebff94d18bd",
   "experiments/exp2d/results/main/410m_trained/odd6.draws.jsonl.gz": "a0fd57f45aa5d3c0c5f747c913437c9374206aeeb8a6d840e3e1b90c266304a0",
   "experiments/exp2d/results/main/410m_trained/sub_base8.draws.jsonl.gz": "9423aef5fb2357494500328b354f64bda331ef1b5d43bab4e187c496328ac0f2",
+  "experiments/exp2d/results/verdict.json": "d5b1b28bf70f4be1a5acf73df8ad03d8c57349ce4acf15e26f690c6dc1347b61",
   "experiments/exp2g/checkpoints_2g.json": "a5032f74f509669ea97600ad68cfe422e0fb6407a768b478f944868f42d3a2bc",
   "experiments/exp2g/referents_2g.json": "def2e0e2b33f99016e5293a1bf87ea3487c7232aa7bf36fe5cf3f33be782fcb0",
   "experiments/exp2g/results/predictor/predictor.json": "9eadbac316ddc5db7f7af716e406d3434033ccbaceb64a39467febdba757adc7",
   "experiments/exp2h/checkpoints_2h.json": "c5cd292cbf0d26a6968c5852d8bbf7f872d4b78fd8c7352a8a3e9e11be67cf60",
   "experiments/exp2h/hub_inventory_69.json": "8762902fe2f194a082e82cffb144efc347b9cad4b597768028a2d521776b8325"
  },
- "n_files": 89,
+ "n_files": 90,
  "note": "sha256 of every committed file analyze_2h reads from other trees, relative to the repo root; this file's own sha256 is pinned as analyze_2h.REFERENTS_2H_SHA256"
 }

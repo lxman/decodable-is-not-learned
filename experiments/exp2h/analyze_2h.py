@@ -51,7 +51,7 @@ CHECKPOINTS_2H_SHA256 = \
     "c5cd292cbf0d26a6968c5852d8bbf7f872d4b78fd8c7352a8a3e9e11be67cf60"
 # referents_2h.json — built and pinned by this task (make_referents_2h.py)
 REFERENTS_2H_SHA256 = \
-    "84e46d1c9d672b330d69694afb694a9ff3aa70b8476af8c0d24c040fe5a5efd7"
+    "cd06f8e7e9f6749d1b4d57e748e3f75d754728b6fb369f954e1118419b9b4d49"
 # power_2h.json — Task 3 runs power_2h.main() detached and pins this
 POWER_2H_SHA256 = None
 
