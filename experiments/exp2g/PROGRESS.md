@@ -288,3 +288,11 @@ watcher's `git push` failure no longer kills the loop (M-10); plus the
 replication block (M-4's fix-wave half). `check_index_files` added to
 `checkpoints_2g.py` (I-7's metadata half) and run once by hand — 16
 grid entries with a shard index, all confirmed present on the Hub.
+
+## 2026-08-23 — FREEZE (session 3): additive closures F-1 (power record
+sha-pinned and attached to the verdict through collect()) and F-2
+(referent manifest extended to all 34 item files, N_FILES 162,
+re-pin chain run: referents sha
+def2e0e2b33f99016e5293a1bf87ea3487c7232aa7bf36fe5cf3f33be782fcb0);
+with_2d_secondaries world test added (the three 2d secondaries
+computed on the real tree and non-gating under a broken d2_root).

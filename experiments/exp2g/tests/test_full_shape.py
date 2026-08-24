@@ -35,6 +35,7 @@ def test_w1_shape(worlds):
     assert v["secondaries"]["replication_410m"]["tree"]["verdict"] == "FORECAST"
     assert v["secondaries"]["replication_12b"]["failures"]       # no 12b tree in W1
     assert v["referents"]["gate1"]["pass"] is True
+    assert v["referents"]["power"]["declared_status"] == "POWERED"
     assert v["known_inputs_caveat"] == an.KNOWN_INPUTS_CAVEAT_2G
 
 

@@ -37,7 +37,9 @@ EXP2D = a2d.EXP2D
 RESULTS = EXP2G / "results"
 REFERENTS_PATH = EXP2G / "referents_2g.json"
 CHECKPOINTS_SHA256 = "a5032f74f509669ea97600ad68cfe422e0fb6407a768b478f944868f42d3a2bc"
-REFERENTS_FILE_SHA256 = "664af220c1e05e574d6b8d1b5c9c4e0c99bd237eb9dc1efd21f947530c83041e"
+REFERENTS_FILE_SHA256 = "def2e0e2b33f99016e5293a1bf87ea3487c7232aa7bf36fe5cf3f33be782fcb0"
+POWER_PATH = EXP2G / "power_2g.json"
+POWER_SHA256 = "27b4dfbb605bc979d37d221638d2c0e1a915b873e2b89bedc9850d8505bf11e0"
 WORLDS = ("INSUFFICIENT_DATA", "FORECAST", "SURFACE", "DIFFICULTY-ONLY",
           "NO-FORECAST")
 ALPHA, ALPHA_TWIN, T_BAR = st.ALPHA, st.ALPHA_TWIN, st.T_BAR
@@ -81,6 +83,21 @@ def collect(thunk, label):
         return thunk(), []
     except (ValueError, FileNotFoundError, KeyError, RuntimeError) as e:
         return None, [f"{label}: {type(e).__name__}: {e}"]
+
+
+def load_power(path=POWER_PATH, *, sha_pin=POWER_SHA256) -> dict:
+    """The committed power record (§7): sha-pinned, declared_status +
+    declaration required, attached to the verdict via collect()."""
+    raw = Path(path).read_bytes()
+    got = hashlib.sha256(raw).hexdigest()
+    if got != sha_pin:
+        raise ValueError(f"power record {path} hashes to {got}, pinned {sha_pin}")
+    rec = json.loads(raw)
+    for k in ("declared_status", "declaration"):
+        if k not in rec:
+            raise ValueError(f"power record {path} missing {k!r}")
+    return {"declared_status": rec["declared_status"], "declaration": rec["declaration"],
+            "n_sim": rec["n_sim"], "sha256": got}
 
 
 # -------------------------------------------------------------- gate 1
@@ -367,6 +384,8 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
         mf, f = collect(lambda: mk.check_referents(REFERENTS_PATH, sha_pin=referents_sha),
                         "referent manifest")
         failures += f + (mf or [])
+    power, f = collect(lambda: load_power(), "power record")
+    failures += f
     battery, f = collect(bg.load_battery, "battery")
     failures += f
     floors, f = collect(bg.load_floors, "2d floors")
@@ -423,7 +442,8 @@ def run(root=EXP2G, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, probe_root=Non
     referents = {"failures": list(failures), "gates": gates,
                  "manifest_sha256": manifest_sha, "frozen_imports": len(bg.FROZEN_IMPORT_SHA256_2G),
                  "seal": seal, "gate1": {k: v for k, v in (gate1 or {}).items()
-                                         if k not in ("timing",)}}
+                                         if k not in ("timing",)},
+                 "power": power}
     if failures:
         tree = verdict_tree_2g(failures, None)
         v = {"verdict": tree["verdict"], "reason": tree["reason"],

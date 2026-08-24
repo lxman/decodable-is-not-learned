@@ -1,10 +1,12 @@
 # experiments/exp2g/make_referents_2g.py
 """Every committed file analyze_2g reads from OTHER trees, sha256'd,
-relative to the repo root: the 11 predictor-rung item files, the 44
-probe-item activation files, 2f's 8 eval files + 4 continuity records
-+ verdict, 2c's m4 records (34 at 2.8b, 11 at 12b), 2d's verdict and
-its 1b argmax (7) and main records+draws (14), 2g's own checkpoint
-manifest and Hub inventory, the two activation digest lists."""
+relative to the repo root: the 34 rung item files (11 predictor + 23
+battery-only, each also sha-checked at load by
+battery_2d.ITEMS_SHA_PIN), the 44 probe-item activation files, 2f's 8
+eval files + 4 continuity records + verdict, 2c's m4 records (34 at
+2.8b, 11 at 12b), 2d's verdict and its 1b argmax (7) and main
+records+draws (14), 2g's own checkpoint manifest and Hub inventory,
+the two activation digest lists."""
 
 from __future__ import annotations
 
@@ -23,11 +25,11 @@ from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2f import analyze_2f as a2f  # noqa: E402
 
 REPO = bg.REPO
-N_FILES = 11 + 44 + 13 + 45 + 1 + 7 + 14 + 2 + 2
+N_FILES = 34 + 44 + 13 + 45 + 1 + 7 + 14 + 2 + 2
 
 
 def referent_files() -> list:
-    files = [bt.items_path(r) for r in bg.PREDICTOR_RUNGS]
+    files = [bt.items_path(r) for r in bt.RUNGS]
     for size in bg.PROBE_SIZES:
         for mode in bg.MODES:
             for r in bg.PREDICTOR_RUNGS:

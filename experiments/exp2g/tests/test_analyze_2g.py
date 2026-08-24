@@ -218,6 +218,22 @@ def test_load_sweep_refuses_a_missing_record(tmp_path, monkeypatch):
                       manifest=manifest, seal_sha="s", steps=(1000,))
 
 
+def test_load_power():
+    rec = an.load_power()
+    assert rec["declared_status"] == "POWERED"
+    with pytest.raises(ValueError, match="pinned"):
+        an.load_power(sha_pin="0" * 64)
+
+
+def test_load_power_missing_declared_status(tmp_path):
+    p = tmp_path / "power_2g.json"
+    p.write_text(json.dumps({"declaration": "x"}))
+    import hashlib
+    sha = hashlib.sha256(p.read_bytes()).hexdigest()
+    with pytest.raises(ValueError, match="declared_status"):
+        an.load_power(path=p, sha_pin=sha)
+
+
 def test_rung_level_transient_clears():
     steps = bg.trained_steps("2.8b")
     sweep = {}
