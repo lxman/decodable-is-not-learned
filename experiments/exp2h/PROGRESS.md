@@ -291,3 +291,5 @@ the expected state before Task 3's sweep runs.
 
 Zero model contact, zero network throughout. Commit follows this
 entry.
+
+**Task 2 fix-1 addendum (2026-08-24, supervisor):** review found the referents manifest omitted `experiments/exp2d/results/verdict.json` (read unconditionally via `bg.load_floors()`; already sha-pinned inside battery_2g). Fixed at 9d30d5d5: file added to `referent_files_2h()`, manifest rebuilt — **90 files**, `REFERENTS_2H_SHA256 = cd06f8e7e9f6749d1b4d57e748e3f75d754728b6fb369f954e1118419b9b4d49` (supersedes 84e46d1c… cited above); plus a dedicated torn-JSON refusal test for `load_sweep_69` (suite 38). W5's three-cause conflation parked to the freeze attack list, no code change.
