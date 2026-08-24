@@ -1,0 +1,488 @@
+{
+ "entries": {
+  "0": {
+   "commit": "fec06ebc54bc85e7fb035085e5cf7778cd2c2b3a",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "2a83a5ba8153a899a4cae5ebe078c25e9051b9cfc01460c1f5226c8cb6a9080b",
+    "pytorch_model-00002-of-00002.bin": "b9b00c9f5a4ffdaa70b22a9c5fa86818dc2332fd21caa806b91a34dd939381f6"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step0"
+  },
+  "1000": {
+   "commit": "b60298d785b2af9d959b217964fda8ed6a0554a1",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "2dae7354ab7da0a8a416f370631668b61170ea91f1d34adb0c6aea4cb72a4a13",
+    "pytorch_model-00002-of-00002.bin": "6b5aee9a6e6dcd2e62754daad4cd5f9581b884386613afac72dc9fd967fddc9a"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step1000"
+  },
+  "10000": {
+   "commit": "b1fc3bd1f00eacbd23e545c6ea97d8522f98d46b",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "9d467dba7daacae40595b0b3c2c327ba707c542567f59c1bd7d757c52ab4491c",
+    "pytorch_model-00002-of-00002.bin": "e57e273cee4c4e41bd2a6b8c2f0f6bdfca565650d409ee5508d1f3960a16263a"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step10000"
+  },
+  "100000": {
+   "commit": "e8322eda2cea965228d7d8ab118ef7c38ec899ae",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "ac92abc5a895f2a7d1cbdcec0502ae12e9e7ef94806368836f0a836e601f8f9b",
+    "pytorch_model-00002-of-00002.bin": "d445798aaf61168517921e88c6ac78b0a89543941ed6402331c0cf728e466921"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step100000"
+  },
+  "110000": {
+   "commit": "a12374db950ce44f7e7d99499d9beb395b41dd0e",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "dd37eb5ea7dacc3cdbb7e3e35dc35403beff9db6d8f8cd9c6f250c92f51d328b",
+    "pytorch_model-00002-of-00002.bin": "52d7457481f0c8b337ad814d7e56ae3b457396ae586060cbf27b81cf92f49aed"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step110000"
+  },
+  "120000": {
+   "commit": "57c5388dd183fc59899673ac22fb18115fe31155",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "b5f5d53f899aa9bfea6429af1cbcf69bf6e315f40fd0bc3d704558fb85de4a06",
+    "pytorch_model-00002-of-00002.bin": "0f6663fc57a537c7fffb2ed72f4d020cc789da72da9a4a982331f0836165a146"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step120000"
+  },
+  "130000": {
+   "commit": "99118e385509b71bce1d3f35d88b5bdd6697a7ed",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "cd5ae65d7fa6ee2f88ce13f5b61da3038a243dc1ed4e0b87be95d8843f30a668",
+    "pytorch_model-00002-of-00002.bin": "47880b3a3bd80c4f8dbf61a92027cca948a4b6b6768604bcd87b9db267985867"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step130000"
+  },
+  "140000": {
+   "commit": "cd21170d5cd536fed247ad6492affe196f8b5075",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "187ae15d4d25b163a9584c225e03db89e21e94843e234ec7ff24da6e6886baf0",
+    "pytorch_model-00002-of-00002.bin": "ef19524629ddf2bfe3a833e5abee6f21ad3b3cb124cf9bea835164ead1c66fd2"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step140000"
+  },
+  "143000": {
+   "commit": "c0e3eee36dc47af0c49f361c74cfe459c09f7f23",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "34782c3cf3cd80d1eae11d42f1b23c024226651da9c3f2ad61e35afbd724f62b",
+    "model-00002-of-00002.safetensors": "f73019e3a2ce46f8a57f3a35509900df3bb21051da3d28408c646487e6c4451c"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 9911600880,
+    "model-00002-of-00002.safetensors": 3937278816
+   },
+   "revision": "main"
+  },
+  "16000": {
+   "commit": "5c96b47f1e1f2ee0257ad0c5390a725069de95df",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "8823e362cd3de6ccf3236ae758524d76c129730cf323d4faa0c5a8c7e3aa7cfc",
+    "pytorch_model-00002-of-00002.bin": "faea792bbe31c81677489baf8076e2330899a465c36d14a8f649958c6aaaaf64"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step16000"
+  },
+  "2000": {
+   "commit": "4f4977f6177dad1adb3a06a115c86e3b9ef57be7",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "2913556dacdcfe3786506653864805fa779f72ee86f643c4f204be18a8505612",
+    "pytorch_model-00002-of-00002.bin": "34a61ddc0e282c9b4b88a8746b4a3792f8f633207a4c4c05decee060d87346ca"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step2000"
+  },
+  "20000": {
+   "commit": "f6ff74ac703ba2c7e542e0310ad0a03f8f1481fa",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "b86a403ade974e4470f8d742519db3f3d4d1f118d854b52bdb575e1b0c679896",
+    "pytorch_model-00002-of-00002.bin": "1ad3d92c1803c6ad27928f33ad66688805dc6ca19dfb98efdc79732e4b37e751"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step20000"
+  },
+  "30000": {
+   "commit": "383e80e490981efe565f8c49cb5e7b125c48d7d6",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "993ae7e2a509f00d832a981d31d0e12e209d8962371966135e85093f257dfb70",
+    "pytorch_model-00002-of-00002.bin": "458b9c2f8980613f54d67fe34a24edfe1070a02c7fcb40edd3f04c80f370eaef"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step30000"
+  },
+  "32000": {
+   "commit": "554e5adfd737b258837ccf4d0c4dfa4e382c1a31",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "1ac5ce5069c216dbf1e5609f01ac84f7f37c1c6fe251249efd2ac7f2e258b360",
+    "pytorch_model-00002-of-00002.bin": "57ef239aa76f85941d0cd33f6b679354a2dfcc9e2ca1f131cb41f38fc99d7a80"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step32000"
+  },
+  "4000": {
+   "commit": "15137e104850d7ed56210b1030e5497059a40c0d",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "5bb39c99ac8276818311d45dbf1b635df4d50e8f528ed0f5fd46e56af0f35d30",
+    "pytorch_model-00002-of-00002.bin": "5f376b73eba88d694abcd14a55dc75b4a9eb50517415178f1b69667dff2d39f7"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step4000"
+  },
+  "40000": {
+   "commit": "c61eb4fd56716a0d2b7ade3d83fea06110e3a660",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "cbf9f112e61defb92ec7eed0f9b1a7fc90b720e6885925ca84b3f7b26cb88a7f",
+    "pytorch_model-00002-of-00002.bin": "1b7290b1e17c4baf98de166c0c96451ad8ad1e6906121f7c6eaa3e8809b0e13d"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step40000"
+  },
+  "50000": {
+   "commit": "dfc8ac2b59167271552992c6aa245ed86c4e6732",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "f419145204c90fe2969f71b5fe83bbbff1d31d46f5390e43199172fd592d6195",
+    "pytorch_model-00002-of-00002.bin": "037a683fe446f88264c43452fd726e886628b4a4197e1addaab6eb0a82168b4f"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step50000"
+  },
+  "60000": {
+   "commit": "d71da6fa83025f252d316cfc26977ac2c858450c",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "7a73dadf64551dc3ed29b61d7dc210a94293de85f4c907674d6a8b0361e46e02",
+    "pytorch_model-00002-of-00002.bin": "5b2c956c19a4f7d2e4d1f16101b2d4834f3d2596a91f107bef716d0aeadd0dda"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step60000"
+  },
+  "64000": {
+   "commit": "93358b03c0421d030654bfc3af1b0312b659a58c",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "8e3837b6f68306f1d5a4a141748f73f0fef9db5b9600314cd7c509de76bcf576",
+    "pytorch_model-00002-of-00002.bin": "b06cb9cfd4af3168ef5f9a8010f717ae524a7647c9b27a1316c42423ee77fddb"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step64000"
+  },
+  "70000": {
+   "commit": "2606322d77e434ff6106824e679769ef479c89a4",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "51d64098b9ce7a72a1410519d07a56738575fa9f90e6d366a73b95c1ea22c4e5",
+    "pytorch_model-00002-of-00002.bin": "b6de11b671bf59439aea1eec99da6112a5f0fd49253e7d453ad9377d22425aed"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step70000"
+  },
+  "8000": {
+   "commit": "30b0f018d22eee417933d31922961b3ee35f2b2a",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "58469ceb9b5d9eacc5fbc8a8ed2897ac32ad3e004b43bd406401d4ae7dc2eb80",
+    "pytorch_model-00002-of-00002.bin": "1fb57c9650ddd048e299b2e38f351246ea9c4a52e719be1d1950d1b4a865e6be"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step8000"
+  },
+  "80000": {
+   "commit": "c51dca0acfafc416e132f889c7a2d0647b834be8",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "dc940c3bc923748a91327ee12711f918ff68714294b26b04e06975754af990d9",
+    "pytorch_model-00002-of-00002.bin": "ccd93b0d64d8a36b641c1be231dbd45dcdbb179ef4fa12fd005ab92d5197f766"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step80000"
+  },
+  "90000": {
+   "commit": "9a08d7c6fa73d7e5c1b1494a077fc247a2445424",
+   "files": [
+    "pytorch_model-00001-of-00002.bin",
+    "pytorch_model-00002-of-00002.bin",
+    "pytorch_model.bin.index.json"
+   ],
+   "kind": "bin-shards",
+   "lfs_sha256": {
+    "pytorch_model-00001-of-00002.bin": "3088f55fc7ff358f21716ddd9dc80fe744c2b5a6371abc065eb3377b1f07c33c",
+    "pytorch_model-00002-of-00002.bin": "4d88bc22230bed70ac2bb22eec904cd8c68a5e70b893a67046b13826ca9a6562"
+   },
+   "lfs_size": {
+    "pytorch_model-00001-of-00002.bin": 9911682774,
+    "pytorch_model-00002-of-00002.bin": 3937306520
+   },
+   "revision": "step90000"
+  }
+ },
+ "excluded": {},
+ "exclusion_evidence": {},
+ "final_duplicates": [],
+ "grid": [
+  0,
+  1000,
+  2000,
+  4000,
+  8000,
+  10000,
+  16000,
+  20000,
+  30000,
+  32000,
+  40000,
+  50000,
+  60000,
+  64000,
+  70000,
+  80000,
+  90000,
+  100000,
+  110000,
+  120000,
+  130000,
+  140000,
+  143000
+ ],
+ "hub_step143000": {
+  "commit": "21bfa02e806e253fe453702c29c81d9f83617255",
+  "duplicates": [],
+  "kind": "bin-shards",
+  "lfs_sha256": {
+   "pytorch_model-00001-of-00002.bin": "753cc06e909d686fa6b1c096a3f8474794e5d72fa7163d20fa645fff94743b58",
+   "pytorch_model-00002-of-00002.bin": "1fde0bc4136f8f4cfe4ed79ffc09cce3f887b56d6f1998fc52b6f92e3942837d"
+  },
+  "signature_equals_main": true
+ },
+ "main_commit": "c0e3eee36dc47af0c49f361c74cfe459c09f7f23",
+ "n_revisions": 155,
+ "repo": "EleutherAI/pythia-6.9b",
+ "size": "6.9b",
+ "stale_main_copies": {
+  "model.safetensors": 0,
+  "pytorch_model.bin": 0
+ },
+ "trained_steps": [
+  1000,
+  2000,
+  4000,
+  8000,
+  10000,
+  16000,
+  20000,
+  30000,
+  32000,
+  40000,
+  50000,
+  60000,
+  64000,
+  70000,
+  80000,
+  90000,
+  100000,
+  110000,
+  120000,
+  130000,
+  140000,
+  143000
+ ]
+}
