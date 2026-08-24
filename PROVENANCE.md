@@ -202,6 +202,28 @@ above. Tag anchors:
 | exp1c-preregistered | ba3ffd3 | a790cbf |
 | exp1c-stage-a | 62a583b | be6c69b |
 | exp1c-closed | 185be34 | 06dea62 |
+| exp2g-preregistered | 891c232 | f2d8b71 |
+| exp2g-predictor-sealed | 321ecbc | 5a22987 |
+| exp2g-closed | ec975c0 | f9ebd8d |
+
+Re-extended 2026-08-24 to add the Experiment 2g record (closed
+NO-FORECAST: the sealed item-grain forecast — the per-item matched-label
+probe reading at 410M/1B, committed and tagged before any intermediate
+checkpoint of any Pythia size had been queried, against the order in
+which 2.8B's training makes items emittable; the checkpoint manifest
+with the Hub branch inventory and the candidate-weight rule; the
+two-loader gate-1 records at both sizes; the sealed predictor and
+projection; the full per-item sweep records; the power record at
+N_SIM 1000; the freeze checklist and 53/53 mutation record; the
+analyzer's verdict). This round was a GRAFT, not a re-filter (the
+route of the 2026-08-23 exp1 round): the 903 private commits touching
+`experiments/exp2g`, `experiment-2g-design.md` and `.gitignore` were
+applied as a path-limited patch series fast-forward onto the previous
+public master (4a7f364), identities normalized to the single noreply
+identity, redaction scans clean (0 secret-class, 0 LAN literals, 0
+home paths in the series), all 39 prior tags and every prior commit
+untouched. The retained-path list above now includes
+`experiments/exp2g` and `experiment-2g-design.md`.
 
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
