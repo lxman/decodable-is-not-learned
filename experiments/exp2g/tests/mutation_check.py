@@ -52,6 +52,7 @@ M = [
     (R, "seal: tag check inert", "    if not tag_exists(bg.SEAL_TAG):", "    if False:"),
     (R, "seal: blob sha not compared", "    if at_tag != got:", "    if False:"),
     (R, "load_predictor: length pin inert", "                if len(c[\"scores\"]) != bg.N_ITEMS or \\", "                if False or \\"),
+    (A, "power sha pin inert", "    if sha_pin is not None and got != sha_pin:", "    if False:"),
     (A, "gate 1: counts not compared", "        elif counts[r] != bg.FINAL_COUNT_PIN[size][r]:", "        elif False:"),
     (A, "gate 1: digests not compared", "    if not da or not db or da != db:", "    if False:"),
     (A, "gate 1: continuation diffs ignored", "        if cd.get(r) != 0:", "        if False:"),
