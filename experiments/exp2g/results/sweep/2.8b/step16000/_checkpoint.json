@@ -1,0 +1,26 @@
+{
+ "size": "2.8b",
+ "step": 16000,
+ "revision": "step16000",
+ "commit": "d86be5ee6523ec46075f22dd2230b8e346524d4f",
+ "kind": "safetensors-shards",
+ "files": [
+  "model-00001-of-00002.safetensors",
+  "model-00002-of-00002.safetensors",
+  "model.safetensors.index.json"
+ ],
+ "sha256": {
+  "model-00001-of-00002.safetensors": "28af6ff1fea4e0ea646c8e5f4391e15eeffd1ca070f33bc2d128852aabf34e79",
+  "model-00002-of-00002.safetensors": "7789b48040f6623401d825d78ce9562dc2b4ea4ea9be3ffab7f32ca2b2fded9a",
+  "model.safetensors.index.json": "ed4d0b2f01838bebb7ad0ccde48e7e0691daa7ad496c9284d4f5eb5470b19318"
+ },
+ "config_source": "EleutherAI/pythia-2.8b@2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "tokenizer_source": "EleutherAI/pythia-2.8b@2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "a3c7361cb654b918c66b73cefff5824a1e4478f262d7c1d7d484b759b4324caf",
+ "download_seconds": 56.2
+}
