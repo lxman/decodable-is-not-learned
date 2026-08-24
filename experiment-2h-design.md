@@ -1,8 +1,8 @@
 # Experiment 2h — Design Doc: The Sampler Confirmation — Does Output-Channel Reachability Forecast Emission Order on a Second Sealed Outcome?
 
 **Status: session 1 (design) written 2026-08-24, at Exp 2g's closeout,
-on Michael's word ("run #1 — the sampler confirmation on 6.9b"). §8
-dials AWAIT his ruling. Build and adversarial freeze follow; the ONLY
+on Michael's word ("run #1 — the sampler confirmation on 6.9b"); §8
+dials RULED the same day (full 34-rung sweep; the rest as recommended). Build and adversarial freeze follow; the ONLY
 model contact is the 6.9b checkpoint sweep, after the tag — there is
 no stage 1: every predictor in this experiment was committed to the
 repository before any intermediate checkpoint of any Pythia size had
@@ -131,7 +131,7 @@ points, ≈ 288 GB streamed; watcher committing; detached processes per
 the reaping gotcha) → analyzer once → `exp2h-closed`. One pre-committed
 change. The only model contact is the sweep.
 
-## 8. Dials — for Michael's ruling
+## 8. Dials — RULED by Michael 2026-08-24 ("Full 34 rungs, dials as recommended"): a full 34-rung sweep; b 22 trained points incl. 64000; c 1b primary / 410m replication; d no SURFACE terminal (twin sampled counts zero by construction, disclosed); e n_pos ≥ 20 realized; f licences as §6
 
 a. **Sweep breadth** — all 34 rungs (recommended: the flat-rung
    transient descriptive and symmetry with 2g; ~21–22 h) vs the 11
