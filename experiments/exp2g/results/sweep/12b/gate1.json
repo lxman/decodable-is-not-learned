@@ -1,0 +1,134 @@
+{
+ "size": "12b",
+ "rungs": [
+  "antonym",
+  "antonym6",
+  "add_base8",
+  "sub_base8",
+  "add3_mid",
+  "sub3_mid",
+  "sub4_mid",
+  "median5",
+  "arith_next",
+  "count_div13",
+  "odd6"
+ ],
+ "model_sha": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+ "main_entry": {
+  "commit": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+  "files": [
+   "model-00001-of-00003.safetensors",
+   "model-00002-of-00003.safetensors",
+   "model-00003-of-00003.safetensors",
+   "model.safetensors.index.json"
+  ],
+  "kind": "safetensors-shards",
+  "lfs_sha256": {
+   "model-00001-of-00003.safetensors": "962f068c6b1c898d6bafec43a394ea64f0d5fc5f8215da651606955d418dfbff",
+   "model-00002-of-00003.safetensors": "1af79279e8946de577ae27d7d71136e9dde72581048023b5073014e91ef9e810",
+   "model-00003-of-00003.safetensors": "78e64bf62882c9fa1d853a30f47bdff919012a27e433a80ffd25606a1a784d51"
+  },
+  "lfs_size": {
+   "model-00001-of-00003.safetensors": 9811441814,
+   "model-00002-of-00003.safetensors": 9925840824,
+   "model-00003-of-00003.safetensors": 4105922122
+  },
+  "revision": "main"
+ },
+ "pin_counts": {
+  "antonym": 280,
+  "antonym6": 199,
+  "add_base8": 50,
+  "sub_base8": 86,
+  "add3_mid": 26,
+  "sub3_mid": 11,
+  "sub4_mid": 12,
+  "median5": 131,
+  "arith_next": 76,
+  "count_div13": 102,
+  "odd6": 94
+ },
+ "counts_2c_path": {
+  "antonym": 280,
+  "antonym6": 199,
+  "add_base8": 50,
+  "sub_base8": 86,
+  "add3_mid": 26,
+  "sub3_mid": 11,
+  "sub4_mid": 12,
+  "median5": 131,
+  "arith_next": 76,
+  "count_div13": 102,
+  "odd6": 94
+ },
+ "diffs_vs_pin": {},
+ "digest_2c_path": "b378f8dc6d77fa4906f3a08e117150e06c433e1205ecf8ad585c6393f8e50b48",
+ "digest_2g_path": "b378f8dc6d77fa4906f3a08e117150e06c433e1205ecf8ad585c6393f8e50b48",
+ "digests_equal": true,
+ "continuation_diffs_2g_path": {
+  "antonym": 0,
+  "antonym6": 0,
+  "add_base8": 0,
+  "sub_base8": 0,
+  "add3_mid": 0,
+  "sub3_mid": 0,
+  "sub4_mid": 0,
+  "median5": 0,
+  "arith_next": 0,
+  "count_div13": 0,
+  "odd6": 0
+ },
+ "loader_info_2g_path": {
+  "size": "12b",
+  "step": 143000,
+  "revision": "main",
+  "commit": "bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+  "kind": "safetensors-shards",
+  "files": [
+   "model-00001-of-00003.safetensors",
+   "model-00002-of-00003.safetensors",
+   "model-00003-of-00003.safetensors",
+   "model.safetensors.index.json"
+  ],
+  "sha256": {
+   "model-00001-of-00003.safetensors": "962f068c6b1c898d6bafec43a394ea64f0d5fc5f8215da651606955d418dfbff",
+   "model-00002-of-00003.safetensors": "1af79279e8946de577ae27d7d71136e9dde72581048023b5073014e91ef9e810",
+   "model-00003-of-00003.safetensors": "78e64bf62882c9fa1d853a30f47bdff919012a27e433a80ffd25606a1a784d51",
+   "model.safetensors.index.json": "a3beb3f558edfc64ab06bb02adacca8ca01f211c7a0dad6974c04bca2fe77376"
+  },
+  "config_source": "EleutherAI/pythia-12b@bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+  "tokenizer_source": "EleutherAI/pythia-12b@bb1e3e710cdf6b524461d543cfb5ba773f0a81b6",
+  "loading_info": {
+   "missing_keys": 0,
+   "unexpected_keys": 0,
+   "mismatched_keys": 0
+  }
+ },
+ "hub_step143000": {
+  "commit": "9c5f35826eb1a9558fb4414c033f58e30322a092",
+  "duplicates": [
+   "step58000"
+  ],
+  "kind": "bin-shards",
+  "lfs_sha256": {
+   "pytorch_model-00001-of-00003.bin": "9d21715462588073675eca9c65ba55a47d911da460a6083938d04acd4589f542",
+   "pytorch_model-00002-of-00003.bin": "4ce3319dbdf23e96b36ab4be6517bab2cac1b0578c5bde6005547b8bb657c11f",
+   "pytorch_model-00003-of-00003.bin": "eb82155af2c813a9aac8bcbe12266af8a1b0be084a3d6c0d244a745e0993cca4"
+  },
+  "signature_equals_main": true
+ },
+ "seal": {
+  "tag": "exp2g-predictor-sealed",
+  "sha256": "9eadbac316ddc5db7f7af716e406d3434033ccbaceb64a39467febdba757adc7"
+ },
+ "stack": {
+  "torch": "2.12.1",
+  "transformers": "5.13.0"
+ },
+ "git_sha": "b223652ab6c0363fdaa74b36a64bd3c1ca100c15",
+ "timing": {
+  "seconds": 4822.6
+ },
+ "pass": true,
+ "failures": []
+}
