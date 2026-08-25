@@ -64,6 +64,30 @@ N_PERM, N_BOOT = st.N_PERM, st.N_BOOT
 
 collect = an2g.collect   # fully generic (thunk, label) -> (value, failures); no 2g globals
 
+
+def collect_total(thunk, label):
+    """`analyze_2g.collect` with the exception surface widened to the
+    shapes a killed / torn / hand-edited tree actually presents and 2g's
+    four-name tuple does not catch: `TypeError`/`AttributeError` (a JSON
+    record that parses but is a list/str/number where a dict is
+    expected, so `rec.get(...)` or `list(rec["rungs"])` explodes) and
+    `OSError` (a DIRECTORY where the runner writes a file —
+    `IsADirectoryError` is not a `FileNotFoundError`).
+
+    FREEZE F-1, the 2d F-1 class one level over: on nine such trees the
+    frozen verdict RAISED instead of delivering INSUFFICIENT_DATA, i.e.
+    §6's first terminal was unreachable from those trees. Widening is
+    additive and one-directional — every caught failure still lands in
+    `failures` verbatim and the verdict is INSUFFICIENT_DATA; nothing
+    that would have produced a verdict can now produce a different one,
+    and no accepted dial is touched."""
+    try:
+        return thunk(), []
+    except (ValueError, KeyError, RuntimeError, TypeError, AttributeError,
+            OSError) as e:
+        return None, [f"{label}: {type(e).__name__}: {e}"]
+
+
 KNOWN_INPUTS_CAVEAT_2H = (
     "Known to the designer before any 6.9b checkpoint loaded: 2c's committed m4 "
     "counts at 6.9b final weights (which fix R_69 and bound each rung's number "
@@ -329,6 +353,23 @@ def _median_bucket(scores) -> list:
     return [int(v > med) for v in arr]
 
 
+def _primary_core(sweep, floors, strata, *, n_perm, n_boot) -> tuple:
+    """Outcomes → the rung-level table → the sampled predictor → the
+    primary, as ONE unit so `run()` can put the whole computation behind
+    a refusal (freeze F-1 / the 2d F-1 standard: the frozen verdict must
+    deliver its own terminal from every tree it can be handed, including
+    the ones where `primary_2h` finds no eligible rung or `perm_test`
+    finds no informative pair). Order and arguments are unchanged from
+    the inline block this replaces."""
+    out = outcomes_69(sweep, rungs=tuple(bt.RUNGS))
+    rl = rung_level_69(out, floors, rungs=tuple(bt.RUNGS))
+    samp = bh.sampler_counts("1b", bh.R_69)
+    sp = _scores_predictor(samp, "1b", bh.R_69)
+    prim = primary_2h(sp, out, strata, size_pred="1b", rungs=bh.R_69, n_perm=n_perm,
+                      n_boot=n_boot)
+    return out, rl, samp, sp, prim
+
+
 # ----------------------------------------------------------------- run
 
 def _git_sha() -> str:
@@ -363,8 +404,11 @@ def run(root=EXP2H, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
     failures += f
     floors, f = collect(bg.load_floors, "2d floors")
     failures += f
-    g, f = collect(lambda: bh.check_rung_set_69(floors) if floors is not None else
-                   (_ for _ in ()).throw(ValueError("2d floors missing")), "rung set")
+    # collect_total: the 34 committed m4 records are pinned by the referent
+    # manifest but parsed unpinned here, so a non-dict record would raise
+    # AttributeError outside 2g's four-name tuple (freeze F-1).
+    g, f = collect_total(lambda: bh.check_rung_set_69(floors) if floors is not None else
+                         (_ for _ in ()).throw(ValueError("2d floors missing")), "rung set")
     failures += f
     gates = {"rung_set": g}
     lg, f = collect(lambda: lb.check_label_gates({r: battery[r] for r in bg.PREDICTOR_RUNGS})
@@ -382,32 +426,50 @@ def run(root=EXP2H, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
     if pred:
         gates["strata"] = sg.check_strata_pins(strata)
 
-    # gate 1 and the sweep
+    # gate 1 and the sweep — every read here is of a file the RUNNER
+    # writes, so every one goes through collect_total (freeze F-1).
     g1p = bh.gate1_path_2h(root)
     if bh.halt_marker_path_2h(root).exists():
-        failures.append(f"gate 1 {bh.SIZE}: the runner halted "
-                        f"({bh.halt_marker_path_2h(root).read_text().strip()[:200]})")
+        halted, f = collect_total(
+            lambda: bh.halt_marker_path_2h(root).read_text().strip()[:200],
+            f"gate 1 {bh.SIZE} halt marker")
+        failures += f
+        if not f:
+            failures.append(f"gate 1 {bh.SIZE}: the runner halted ({halted})")
     if not g1p.is_file():
         failures.append(f"gate 1 {bh.SIZE}: record missing ({g1p})")
         gate1 = None
     else:
-        gate1, f = collect(lambda: json.loads(g1p.read_text()), f"gate 1 {bh.SIZE} record")
+        gate1, f = collect_total(lambda: json.loads(g1p.read_text()),
+                                 f"gate 1 {bh.SIZE} record")
         failures += f
         if gate1 is not None:
-            failures += gate1_failures_69(gate1)
+            gbad, f = collect_total(lambda: gate1_failures_69(gate1),
+                                    f"gate 1 {bh.SIZE} re-derivation")
+            failures += f + (gbad or [])
     seal_sha = bh.PREDICTOR_2G_SHA if pred else None
     _sweep_ready = bool(manifest) and battery is not None and verify_fn is not None and \
         seal_sha is not None
-    sweep, f = collect(lambda: load_sweep_69(root, battery, verify_fn, manifest=manifest,
-                                             seal_sha=seal_sha) if _sweep_ready else
-                       (_ for _ in ()).throw(ValueError("manifest, battery, verify criterion "
-                                                        "or predictor missing")),
-                       f"sweep {bh.SIZE}")
+    sweep, f = collect_total(lambda: load_sweep_69(root, battery, verify_fn, manifest=manifest,
+                                                   seal_sha=seal_sha) if _sweep_ready else
+                             (_ for _ in ()).throw(ValueError("manifest, battery, verify "
+                                                              "criterion or predictor missing")),
+                             f"sweep {bh.SIZE}")
     failures += f
+
+    # the primary, behind the same refusal (freeze F-1): "no eligible
+    # rung" / "no informative pair" are ValueErrors on a tree the
+    # analyzer can be handed, and must reach INSUFFICIENT_DATA, not raise.
+    core = None
+    if not failures:
+        core, f = collect_total(lambda: _primary_core(sweep, floors, strata, n_perm=n_perm,
+                                                      n_boot=n_boot), f"primary {bh.SIZE}")
+        failures += f
 
     referents = {"failures": list(failures), "gates": gates,
                  "manifest_sha256": manifest_sha, "prereg": prereg,
-                 "gate1": {k: v for k, v in (gate1 or {}).items() if k not in ("timing",)},
+                 "gate1": {k: v for k, v in (gate1 if isinstance(gate1, dict) else {}).items()
+                           if k not in ("timing",)},
                  "power": power}
     if failures:
         tree = verdict_tree_2h(failures, None)
@@ -416,20 +478,16 @@ def run(root=EXP2H, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
              "licensed_sentence": LICENSED["INSUFFICIENT_DATA"], "referents": referents,
              "primary": None, "secondaries": None, "git_sha": _git_sha()}
     else:
-        out = outcomes_69(sweep, rungs=tuple(bt.RUNGS))
-        rl = rung_level_69(out, floors, rungs=tuple(bt.RUNGS))
-        samp = bh.sampler_counts("1b", bh.R_69)
-        sp = _scores_predictor(samp, "1b", bh.R_69)
-        prim = primary_2h(sp, out, strata, size_pred="1b", rungs=bh.R_69, n_perm=n_perm,
-                          n_boot=n_boot)
+        out, rl, samp, sp, prim = core
         tree = verdict_tree_2h([], prim)
 
         # every secondary is non-gating (§6.4 style, carried from 2g) — a
-        # failure here must not lose an already-computed verdict.
+        # failure here must not lose an already-computed verdict, so the
+        # widened surface applies here too (freeze F-1).
         sec, sec_failures = {}, []
 
         def _sec(name, thunk):
-            val, f = collect(thunk, name)
+            val, f = collect_total(thunk, name)
             if f:
                 sec[name] = {"failed": f[0]}
                 sec_failures.extend(f)
