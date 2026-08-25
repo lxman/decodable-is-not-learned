@@ -297,11 +297,46 @@ def test_load_power_2h_wrong_sha(tmp_path):
         an.load_power_2h(path=p, sha_pin="0" * 64)
 
 
+def _blob_ok(tag, rel):
+    from experiments.exp2g import battery_2g as _bg
+    return _bg.sha256_file(_bg.REPO / rel)
+
+
 def test_require_prereg_2h():
-    assert an.require_prereg_2h(tag_exists=lambda t: t == bh.PREREG_TAG_2H) == \
-        {"tag": bh.PREREG_TAG_2H}
+    got = an.require_prereg_2h(tag_exists=lambda t: t == bh.PREREG_TAG_2H,
+                               blob_sha=_blob_ok)
+    assert got["tag"] == bh.PREREG_TAG_2H
+    assert set(got["instrument_blobs"]) == set(an.INSTRUMENT_BLOBS_2H)
     with pytest.raises(RuntimeError, match="refusing"):
         an.require_prereg_2h(tag_exists=lambda t: False)
+
+
+def test_require_prereg_2h_refuses_a_tag_that_does_not_carry_the_instrument():
+    """Freeze F-3: `git tag --list` matches a NAME — lightweight or
+    annotated, on any commit. 2h's tag is the ONLY gate before 6.9b
+    contact (no stage-1 seal, design §7), so the tag has to carry THIS
+    instrument's bytes, not merely exist."""
+    # the tag exists but has no blob at one of the instrument paths
+    with pytest.raises(RuntimeError, match="no blob at"):
+        an.require_prereg_2h(tag_exists=lambda t: True, blob_sha=lambda tag, rel: None)
+    # the tag exists and carries a DIFFERENT analyzer
+    def drifted(tag, rel):
+        return "0" * 64 if rel.endswith("analyze_2h.py") else _blob_ok(tag, rel)
+    with pytest.raises(RuntimeError, match="drifted"):
+        an.require_prereg_2h(tag_exists=lambda t: True, blob_sha=drifted)
+    for rel in ("experiments/exp2h/battery_2h.py", "experiments/exp2h/run/sweep_2h.py"):
+        with pytest.raises(RuntimeError, match="drifted"):
+            an.require_prereg_2h(
+                tag_exists=lambda t: True,
+                blob_sha=lambda tag, r, _p=rel: "0" * 64 if r == _p else _blob_ok(tag, r))
+
+
+def test_run_refuses_a_drifted_instrument_as_insufficient_data():
+    """The same refusal through run(): a collected failure, not a crash."""
+    v = an.run(tag_exists=lambda t: True, blob_sha=lambda tag, rel: "0" * 64)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith("prereg tag: RuntimeError") and "drifted" in f
+              for f in v["referents"]["failures"])
 
 
 def test_run_catches_sweep_load_failure_as_insufficient_data_not_a_crash():

@@ -141,12 +141,19 @@ def write_world(root, *, mode="rank", missing_step=None, halt=False, seed=0) -> 
     _w(bh.gate1_path_2h(root), g)
     if halt:
         bh.halt_marker_path_2h(root).write_text("synthetic halt\n")
-    return {"tag_exists": lambda t: t == bh.PREREG_TAG_2H}
+    return {"tag_exists": lambda t: t == bh.PREREG_TAG_2H,
+            "blob_sha": lambda tag, rel: bg.sha256_file(bg.REPO / rel)}
 
 
-def run_world(root, seal, *, manifest_sha=None, n_perm=200, n_boot=50) -> dict:
-    return an.run(root=root, n_perm=n_perm, n_boot=n_boot, referents_sha=None,
-                  power_sha=None,
+def run_world(root, seal, *, manifest_sha=None, referents_sha=None, power_sha=None,
+              n_perm=200, n_boot=50) -> dict:
+    """`referents_sha`/`power_sha` default to None (the manifest and the
+    power record are 2h's OWN committed artifacts, unaffected by a
+    synthetic world's tree) — W7/W8/W9 pass them explicitly so both
+    refusal routes AND the passing route are exercised end to end
+    through `run()` on a full-shape tree (freeze, attack-list item 12)."""
+    return an.run(root=root, n_perm=n_perm, n_boot=n_boot, referents_sha=referents_sha,
+                  power_sha=power_sha,
                   manifest_sha=(manifest_sha if manifest_sha is not None
                                else an.CHECKPOINTS_2H_SHA256),
                   **seal)

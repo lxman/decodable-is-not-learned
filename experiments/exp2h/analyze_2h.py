@@ -134,20 +134,51 @@ def load_power_2h(path=POWER_PATH_2H, *, sha_pin=POWER_2H_SHA256) -> dict:
 
 # ------------------------------------------------------- the prereg tag
 
-def require_prereg_2h(*, tag_exists=None) -> dict:
+# FREEZE F-3. `git tag --list` matches a NAME — lightweight or annotated,
+# on any commit — so the tag's existence alone cannot say the tag captured
+# THIS instrument, and 2h's tag is the ONLY gate between the design and
+# 6.9b's checkpoints (design §7: no stage-1 predictor to seal). These
+# three files ARE the verdict: the analyzer, the battery/pins it reads,
+# and the runner that writes the tree it reads. Each is compared to the
+# blob the tag actually carries — exactly what 2g's `require_seal` did for
+# its sealed predictor, which 2h had dropped along with the seal. The
+# committed data files (checkpoints_2h.json, referents_2h.json,
+# power_2h.json) need no entry here: their sha literals live in
+# analyze_2h.py, which is itself pinned to the tag.
+INSTRUMENT_BLOBS_2H = ("experiments/exp2h/analyze_2h.py",
+                       "experiments/exp2h/battery_2h.py",
+                       "experiments/exp2h/run/sweep_2h.py")
+
+
+def require_prereg_2h(*, tag_exists=None, blob_sha=None) -> dict:
     """No stage-1 predictor build/seal for 2h (design §7): both
     predictors — the sampler primary (2d's committed draws) and the
     probe competitor (2g's already-sealed predictor.json,
     `bh.PREDICTOR_2G_SHA`) — were fixed before this experiment's
     design was written. What gates the 6.9b sweep is the freeze tag
     alone (Task 3's runner refuses without it); the analyzer
-    re-asserts the same tag before trusting any sweep record."""
+    re-asserts the same tag before trusting any sweep record — and,
+    since the freeze (F-3), that the three instrument modules on disk
+    are byte-identical to the blobs that tag carries."""
     tag_exists = tag_exists or pr.git_tag_exists
     if not tag_exists(bh.PREREG_TAG_2H):
         raise RuntimeError(f"refusing: the preregistration tag {bh.PREREG_TAG_2H!r} does "
                            f"not exist — the design must be frozen and tagged before any "
                            f"6.9b checkpoint contact")
-    return {"tag": bh.PREREG_TAG_2H}
+    blob_sha = blob_sha or pr.git_blob_sha256
+    blobs, drift = {}, []
+    for rel in INSTRUMENT_BLOBS_2H:
+        got = bg.sha256_file(bg.REPO / rel)
+        want = blob_sha(bh.PREREG_TAG_2H, rel)
+        blobs[rel] = got
+        if want is None:
+            drift.append(f"{rel}: no blob at {bh.PREREG_TAG_2H}")
+        elif want != got:
+            drift.append(f"{rel}: working copy {got} ≠ {want} at the tag")
+    if drift:
+        raise RuntimeError(f"refusing: the instrument has drifted from "
+                           f"{bh.PREREG_TAG_2H!r} — {'; '.join(drift)}")
+    return {"tag": bh.PREREG_TAG_2H, "instrument_blobs": blobs}
 
 
 # -------------------------------------------------------------- gate 1
@@ -389,6 +420,7 @@ def _git_sha() -> str:
 
 
 def run(root=EXP2H, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=None,
+        blob_sha=None,
         manifest_sha=CHECKPOINTS_2H_SHA256, referents_sha=REFERENTS_2H_SHA256,
         power_sha=POWER_2H_SHA256, out_path=None) -> dict:
     failures = []
@@ -396,7 +428,8 @@ def run(root=EXP2H, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
     failures += f
     _, f = collect(bh.check_frozen_2h, "frozen 2g imports")
     failures += f
-    prereg, f = collect(lambda: require_prereg_2h(tag_exists=tag_exists), "prereg tag")
+    prereg, f = collect(lambda: require_prereg_2h(tag_exists=tag_exists,
+                                                  blob_sha=blob_sha), "prereg tag")
     failures += f
     manifest, f = collect(lambda: bh.load_manifest_69(bh.CHECKPOINTS_PATH_69,
                                                        sha_pin=manifest_sha),

@@ -81,7 +81,8 @@ class _CountedRunner:
 
 
 def _prereg():
-    return dict(tag_exists=lambda t: True)
+    return dict(tag_exists=lambda t: True,
+                blob_sha=lambda tag, rel: bg.sha256_file(bg.REPO / rel))
 
 
 def _shrink_grid(monkeypatch):
@@ -142,6 +143,12 @@ def test_full_fake_sweep_writes_every_record_and_resumes(tmp_path, monkeypatch):
     g = json.loads(bh.gate1_path_2h(tmp_path).read_text())
     assert g["pass"] is True and g["diffs_vs_pin"] == {}
     assert g["prereg_tag"] == bh.PREREG_TAG_2H
+    # freeze F-2: the runner attests the comparison's COVERAGE, and the
+    # analyzer's gate requires the full battery on every rung — the two
+    # sides of the contract exercised against the shared shape, not
+    # against each other's mocks.
+    assert g["continuations_compared_2h_path"] == {r: bt.N_ITEMS for r in bt.RUNGS}
+    assert an_gate_clean(g)
     got_antonym = json.loads(bh.record_path_2h(tmp_path, bh.FINAL_STEP_69,
                                                "antonym").read_text())["correct"]
     assert got_antonym == bh.FINAL_COUNT_PIN_69["antonym"]
@@ -197,3 +204,31 @@ def test_existing_gate1_record_fails_rederivation(tmp_path, monkeypatch):
     with pytest.raises(RuntimeError, match="re-derivation"):
         sw.run_69(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
                   **_prereg())
+
+
+def an_gate_clean(rec) -> bool:
+    """The analyzer's own re-derivation over the runner's committed
+    record (freeze F-2): the record the runner writes must satisfy
+    `analyze_2h.gate1_failures_69` with nothing left over."""
+    from experiments.exp2h import analyze_2h as ah
+    return ah.gate1_failures_69(rec) == []
+
+
+def test_prereg_refusal_precedes_any_loader_construction(tmp_path, monkeypatch):
+    """Attack-list item 6 (the ordering): with `loaders=None` — the REAL
+    path — nothing model-touching may be reachable before the freeze-tag
+    refusal. `_assert_provenance`/`real_loaders` are the first two calls
+    that could import or build anything; neither is reached."""
+    called = []
+    monkeypatch.setattr(sw, "_assert_provenance", lambda: called.append("provenance"))
+    monkeypatch.setattr(sw, "real_loaders", lambda: called.append("loaders") or {})
+    with pytest.raises(RuntimeError, match="preregistration tag"):
+        sw.run_69(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
+                  loaders=None, tag_exists=lambda t: False)
+    assert called == []
+    # and with the tag present but the instrument drifted from it (F-3)
+    with pytest.raises(RuntimeError, match="drifted"):
+        sw.run_69(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu",
+                  loaders=None, tag_exists=lambda t: True,
+                  blob_sha=lambda tag, rel: "0" * 64)
+    assert called == []
