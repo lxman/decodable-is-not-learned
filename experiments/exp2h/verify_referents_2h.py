@@ -20,6 +20,11 @@ freeze. It stops short of the verdict and of any model contact.
  8  stage artifacts: absent before the prereg tag (or, if present,
     pass their pins) — no stranded mutation backup; ALPHA/T_BAR/N_PERM
     are stats_2g's, unchanged
+ 9  the freeze's three closures: `collect_total` collects every
+    exception shape a torn/hand-edited tree presents (F-1); gate 1's
+    zero-diff check is anchored to an attested comparison COVERAGE
+    (F-2); the prereg tag must CARRY the three instrument modules, not
+    merely exist (F-3)
 """
 
 from __future__ import annotations
@@ -177,6 +182,47 @@ def _c8(ctx):
     _eq(list(EXP2H.rglob("*.mutation_backup")), [], "backups")
     _eq((an.ALPHA, an.T_BAR), (st.ALPHA, st.T_BAR), "constants")
     _eq((st.ALPHA, st.T_BAR), (0.01, 0.10), "values")
+
+
+@check(9, "the freeze's closures: refusal surface, gate-1 coverage, tag-bound instrument")
+def _c9(ctx):
+    from experiments.exp2d import battery_2d as bt
+    # F-1: every shape a torn / hand-edited / directory-shaped tree can
+    # present is a COLLECTED failure, not an exception out of run()
+    for exc in (ValueError, KeyError, RuntimeError, TypeError, AttributeError,
+                OSError, FileNotFoundError, IsADirectoryError, json.JSONDecodeError):
+        def boom(e=exc):
+            if e is json.JSONDecodeError:
+                json.loads("{")
+            raise e("x") if e is not IsADirectoryError else e(21, "Is a directory", "/p")
+        val, f = an.collect_total(boom, "probe")
+        _eq((val, len(f)), (None, 1), f"collect_total does not collect {exc.__name__}")
+    _eq(an.collect_total(lambda: 7, "ok"), (7, []), "collect_total passes a value through")
+    # F-2: the gate-1 zero-diff check is anchored to an attested coverage
+    rec = {"size": "6.9b", "rungs": list(bt.RUNGS),
+           "counts_2c_path": dict(bh.FINAL_COUNT_PIN_69), "digest_2c_path": "a",
+           "digest_2h_path": "a", "continuation_diffs_2h_path": {r: 0 for r in bt.RUNGS},
+           "continuations_compared_2h_path": {r: bt.N_ITEMS for r in bt.RUNGS},
+           "model_sha": an2g.pythia_sha("6.9b"), "prereg_tag": bh.PREREG_TAG_2H}
+    _eq(an.gate1_failures_69(rec), [], "coverage-complete gate")
+    short = dict(rec)
+    short["continuations_compared_2h_path"] = {**rec["continuations_compared_2h_path"],
+                                               "antonym": 0}
+    _eq(any("pairs compared" in f for f in an.gate1_failures_69(short)), True,
+       "truncated comparison refused")
+    # F-3: the tag has to CARRY the instrument, not merely exist
+    _eq(len(an.INSTRUMENT_BLOBS_2H), 3, "instrument blobs")
+    for rel in an.INSTRUMENT_BLOBS_2H:
+        _eq((bg.REPO / rel).is_file(), True, f"{rel} present")
+    ok = an.require_prereg_2h(tag_exists=lambda t: True,
+                              blob_sha=lambda tag, rel: bg.sha256_file(bg.REPO / rel))
+    _eq(sorted(ok["instrument_blobs"]), sorted(an.INSTRUMENT_BLOBS_2H), "blob record")
+    for bad in (lambda tag, rel: None, lambda tag, rel: "0" * 64):
+        try:
+            an.require_prereg_2h(tag_exists=lambda t: True, blob_sha=bad)
+        except RuntimeError:
+            continue
+        raise AssertionError("a tag that does not carry the instrument was accepted")
 
 
 def main() -> int:

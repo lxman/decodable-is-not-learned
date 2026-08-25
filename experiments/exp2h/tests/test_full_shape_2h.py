@@ -59,6 +59,25 @@ def test_w4_w5_w6_reasons(worlds):
     assert "checkpoint manifest" in worlds["W6 INSUFFICIENT wrong manifest sha"][0]["reason"]
 
 
+def test_w7_w8_pinned_artifact_refusals(worlds):
+    """Attack-list item 12: the referents-manifest and power-record
+    refusal routes, end to end through run() on a full-shape tree."""
+    v7 = worlds["W7 INSUFFICIENT wrong referents sha"][0]
+    assert "referent manifest" in v7["reason"] and "referents_2h.json" in v7["reason"]
+    v8 = worlds["W8 INSUFFICIENT wrong power sha"][0]
+    assert "power record" in v8["reason"] and "power_2h.json" in v8["reason"]
+
+
+def test_w9_real_pins_pass(worlds):
+    """The other half of item 12: with 2h's REAL referents and power
+    pins in force, the same tree reaches CONFIRMED and the power
+    record's declaration rides on the verdict."""
+    v = worlds["W9 CONFIRMED through the real referents + power pins"][0]
+    assert v["referents"]["power"]["declared_status"] == "POWERED"
+    assert v["referents"]["power"]["sha256"] == an.POWER_2H_SHA256
+    assert v["primary"]["stratified"]["T"] >= 0.10
+
+
 def bh_r69():
     from experiments.exp2h import battery_2h as bh
     return bh.R_69

@@ -169,4 +169,11 @@ def world_specs() -> list:
         ("W5 INSUFFICIENT halted", dict(mode="rank", halt=True), {}, "INSUFFICIENT_DATA"),
         ("W6 INSUFFICIENT wrong manifest sha", dict(mode="rank"),
          {"manifest_sha": "0" * 64}, "INSUFFICIENT_DATA"),
+        ("W7 INSUFFICIENT wrong referents sha", dict(mode="rank"),
+         {"referents_sha": "0" * 64}, "INSUFFICIENT_DATA"),
+        ("W8 INSUFFICIENT wrong power sha", dict(mode="rank"),
+         {"power_sha": "0" * 64}, "INSUFFICIENT_DATA"),
+        ("W9 CONFIRMED through the real referents + power pins", dict(mode="rank"),
+         {"referents_sha": an.REFERENTS_2H_SHA256, "power_sha": an.POWER_2H_SHA256},
+         "CONFIRMED"),
     ]

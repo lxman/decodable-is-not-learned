@@ -302,3 +302,53 @@ def test_loader_family_present_and_not_executed():
     assert not hasattr(bh, "tensor_digest")   # reused via ck import, not redefined
     import experiments.exp2g.checkpoints_2g as ck
     assert bh.ck is ck
+
+
+def _inv_with_stale_main_copy_at(step: int) -> dict:
+    """The real committed inventory with ONE grid step's bin shards
+    replaced by main's own — the 2.8b stale-copy hazard translated to
+    6.9b's SHARDED layout (freeze, attack-list items 5 and 14)."""
+    import copy
+    inv = copy.deepcopy(bh.load_inventory_69())
+    t = inv[bh.REPO_69]
+    main_bins = {n: v for n, v in t["main"]["files"].items()
+                 if n.startswith("pytorch_model") and n.endswith(".bin")}
+    rev = f"step{step}"
+    for n, v in main_bins.items():
+        t[rev]["files"][n] = list(v)
+    return inv
+
+
+def test_manifest_refuses_a_sharded_stale_main_copy_on_the_grid():
+    """Would the manifest logic CATCH a stale copy of the final weights
+    published under an intermediate step label, or does it merely
+    observe its absence? It catches it — but NOT through
+    `stale_main_copies`, which counts single-file copies
+    (`model.safetensors` / `pytorch_model.bin`) that 6.9b's sharded
+    layout never publishes. The duplicate-signature refusal is what
+    actually fires."""
+    inv = _inv_with_stale_main_copy_at(30000)
+    with pytest.raises(ValueError, match="duplicate"):
+        bh.build_manifest_69(inv)
+    # the descriptive counter is blind to it: still {0, 0}, which is why
+    # the refusal — not the counter — is the load-bearing check
+    t = inv[bh.REPO_69]
+    for name in ("model.safetensors", "pytorch_model.bin"):
+        main_sha = t["main"]["files"].get(name, [None])[0]
+        assert main_sha is None            # sharded layout: no single-file weights
+    # and the committed inventory itself has no such duplicate anywhere
+    man = bh.build_manifest_69(bh.load_inventory_69())
+    assert man["stale_main_copies"] == {"model.safetensors": 0, "pytorch_model.bin": 0}
+    assert man["hub_step143000"]["signature_equals_main"] is True
+    sigs = {}
+    for rev, tab in bh.load_inventory_69()[bh.REPO_69].items():
+        c = ck_candidate(rev, tab["files"], t["main"]["files"])
+        if c:
+            sigs.setdefault(tuple(tab["files"][n][0] for n in c["lfs"]), []).append(rev)
+    assert all(len(v) == 1 for v in sigs.values()), \
+        {k: v for k, v in sigs.items() if len(v) > 1}
+
+
+def ck_candidate(rev, files, main_files):
+    from experiments.exp2g import checkpoints_2g as ck
+    return ck.candidate(rev, files, main_files)

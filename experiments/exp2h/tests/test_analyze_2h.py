@@ -375,3 +375,31 @@ def test_run_catches_upstream_frozen_import_failure_as_insufficient_data(monkeyp
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert any(f.startswith("upstream frozen imports: ValueError") and
               "deadbeef" in f for f in v["referents"]["failures"])
+
+
+def test_run_refuses_a_wrong_referents_sha_on_the_real_tree():
+    # Freeze, attack-list item 12 (the cheap half — W7 exercises the
+    # same route on a full-shape tree): the referent manifest is
+    # sha-pinned INSIDE run(), and a mismatch is a collected refusal.
+    v = an.run(referents_sha="0" * 64)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith("referent manifest: ValueError") and
+              "referents_2h.json" in f for f in v["referents"]["failures"])
+
+
+def test_run_refuses_a_wrong_power_sha_on_the_real_tree():
+    # Freeze, attack-list item 12 (the power half; W8 on a full tree).
+    v = an.run(power_sha="0" * 64)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith("power record: ValueError") and
+              "power_2h.json" in f for f in v["referents"]["failures"])
+    assert v["referents"]["power"] is None
+
+
+def test_run_carries_the_power_declaration_when_the_pin_holds():
+    # The other direction: with the real pin the record rides on the
+    # verdict, so a "power-record check skipped" mutant is visible even
+    # on a tree with no sweep.
+    v = an.run()
+    assert v["referents"]["power"]["declared_status"] == "POWERED"
+    assert v["referents"]["power"]["sha256"] == an.POWER_2H_SHA256
