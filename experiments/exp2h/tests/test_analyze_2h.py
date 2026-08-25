@@ -40,6 +40,7 @@ def _gate_rec(**over):
            "counts_2c_path": dict(bh.FINAL_COUNT_PIN_69),
            "digest_2c_path": "d" * 64, "digest_2h_path": "d" * 64,
            "continuation_diffs_2h_path": {r: 0 for r in rungs},
+           "continuations_compared_2h_path": {r: bt.N_ITEMS for r in rungs},
            "model_sha": an2g.pythia_sha("6.9b"), "prereg_tag": bh.PREREG_TAG_2H}
     rec.update(over)
     return rec
@@ -66,6 +67,25 @@ def test_gate1_rederived_not_trusted():
     assert an.gate1_failures_69(bad)
     bad = _gate_rec(size="2.8b")
     assert an.gate1_failures_69(bad)
+
+
+def test_gate1_requires_the_continuation_comparison_coverage():
+    """Freeze F-2 (3d's coverage lesson): the diff count comes from a
+    zip() over the two loader paths' continuation lists, and zip
+    truncates — so a record attesting ZERO diffs over a TRUNCATED
+    comparison must be refused, not credited."""
+    # the field absent entirely (a pre-F-2 record shape)
+    bad = _gate_rec()
+    bad.pop("continuations_compared_2h_path")
+    fails = an.gate1_failures_69(bad)
+    assert len(fails) == len(bt.RUNGS) and all("pairs compared" in f for f in fails)
+    # a truncated comparison on one rung, zero diffs on all of them
+    bad = _gate_rec()
+    bad["continuations_compared_2h_path"] = dict(bad["continuations_compared_2h_path"])
+    bad["continuations_compared_2h_path"]["antonym"] = 0
+    assert any("0 continuation pairs compared" in f for f in an.gate1_failures_69(bad))
+    bad["continuations_compared_2h_path"]["antonym"] = bt.N_ITEMS - 1
+    assert any("pairs compared" in f for f in an.gate1_failures_69(bad))
 
 
 def _entry(commit="c" * 40):

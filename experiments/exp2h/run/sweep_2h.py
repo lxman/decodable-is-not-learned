@@ -167,11 +167,15 @@ def gate1_69(*, out_root, manifest, cache_root, device, battery, verify_fn, prer
         model_b, info_b = loaders["checkpoint"](bh.FINAL_STEP_69, entry, cache_root, device)
         digest_b = loaders["digest"](model_b)
         runner_b = loaders["runner"](loaders["tokenizer"](), model_b)
-        cont_diffs = {}
+        cont_diffs, cont_n = {}, {}
         for r in rungs:
             ev_b = evaluate_items(runner_b, battery[r], verify_fn)
-            cont_diffs[r] = int(sum(1 for x, y in zip(ev_b["continuations"],
-                                                       evs[r]["continuations"]) if x != y))
+            # freeze F-2: attest the COVERAGE of the comparison, not only its
+            # result — zip() truncates to the shorter list, so the analyzer
+            # must be able to tell 500 compared pairs from 0 (3d's lesson).
+            pairs = list(zip(ev_b["continuations"], evs[r]["continuations"]))
+            cont_n[r] = len(pairs)
+            cont_diffs[r] = int(sum(1 for x, y in pairs if x != y))
     finally:
         _release(model_b)
         loaders["free"](bh.FINAL_STEP_69, cache_root)
@@ -180,7 +184,8 @@ def gate1_69(*, out_root, manifest, cache_root, device, battery, verify_fn, prer
            "counts_2c_path": counts, "diffs_vs_pin": diffs,
            "digest_2c_path": digest_a, "digest_2h_path": digest_b,
            "digests_equal": digest_a == digest_b,
-           "continuation_diffs_2h_path": cont_diffs, "loader_info_2h_path": info_b,
+           "continuation_diffs_2h_path": cont_diffs,
+           "continuations_compared_2h_path": cont_n, "loader_info_2h_path": info_b,
            "hub_step143000": manifest["hub_step143000"],
            "prereg_tag": prereg["tag"], "stack": _stack(), "git_sha": _git_sha(),
            "timing": {"seconds": round(time.time() - t0, 1)}}

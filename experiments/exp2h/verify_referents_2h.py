@@ -129,6 +129,7 @@ def _c7(ctx):
     rec = {"size": "6.9b", "rungs": list(bt.RUNGS),
            "counts_2c_path": dict(bh.FINAL_COUNT_PIN_69), "digest_2c_path": "a",
            "digest_2h_path": "a", "continuation_diffs_2h_path": {r: 0 for r in bt.RUNGS},
+           "continuations_compared_2h_path": {r: bt.N_ITEMS for r in bt.RUNGS},
            "model_sha": an2g.pythia_sha("6.9b"), "prereg_tag": bh.PREREG_TAG_2H}
     _eq(an.gate1_failures_69(rec), [], "clean gate")
     bad = dict(rec); bad["counts_2c_path"] = dict(rec["counts_2c_path"])

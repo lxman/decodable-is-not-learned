@@ -134,6 +134,7 @@ def write_world(root, *, mode="rank", missing_step=None, halt=False, seed=0) -> 
          "counts_2c_path": dict(bh.FINAL_COUNT_PIN_69), "diffs_vs_pin": {},
          "digest_2c_path": "D" * 64, "digest_2h_path": ("E" if halt else "D") * 64,
          "continuation_diffs_2h_path": {r: 0 for r in bt.RUNGS},
+         "continuations_compared_2h_path": {r: bt.N_ITEMS for r in bt.RUNGS},
          "prereg_tag": bh.PREREG_TAG_2H, "hub_step143000": man["hub_step143000"]}
     g["failures"] = an.gate1_failures_69(g)
     g["pass"] = not g["failures"]

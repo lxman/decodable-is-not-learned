@@ -179,10 +179,21 @@ def gate1_failures_69(rec: dict) -> list:
         bad.append(f"gate 1 {bh.SIZE}: tensor digest through 2h's loader ({db}) ≠ through "
                    f"2c's ({da}) — the checkpoint loader path is not the production path")
     cd = rec.get("continuation_diffs_2h_path", {})
+    nc = rec.get("continuations_compared_2h_path", {})
     for r in rungs:
         if cd.get(r) != 0:
             bad.append(f"gate 1 {bh.SIZE}/{r}: {cd.get(r)} continuation diffs between the "
                        f"two loader paths")
+        # FREEZE F-2 (3d's coverage lesson): the diff count is produced by a
+        # zip() over the two paths' continuation lists, and zip truncates to
+        # the shorter — a zero over a truncated comparison is not evidence.
+        # The runner attests how many PAIRS it compared; the gate requires the
+        # full battery, so the zero-tolerance check is anchored to a committed
+        # count, not only to itself.
+        if nc.get(r) != bt.N_ITEMS:
+            bad.append(f"gate 1 {bh.SIZE}/{r}: {nc.get(r)} continuation pairs compared, "
+                       f"not the full {bt.N_ITEMS} — a zero diff count over a truncated "
+                       f"comparison is not evidence")
     if rec.get("prereg_tag") != bh.PREREG_TAG_2H:
         bad.append(f"gate 1 {bh.SIZE}: prereg_tag {rec.get('prereg_tag')!r} is not "
                    f"{bh.PREREG_TAG_2H!r}")
