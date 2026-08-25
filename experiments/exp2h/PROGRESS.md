@@ -429,3 +429,84 @@ scan). The real 6.9b checkpoint sweep itself is NOT run by this task
 `exp2h-preregistered` is cut; the analyzer's current INSUFFICIENT_DATA
 output against the untouched tree reflects that. Commit follows this
 entry.
+
+## 2026-08-24 — FREEZE (session 3 of 3), adversarial, cold
+
+Full record in `FREEZE_CHECKLIST.md`; ratification package (findings +
+the exact §-level doc wording) in
+`.superpowers/sdd/2026-08-24-exp2h-build/freeze-report.md`. The design
+doc is NOT edited by this session. Zero model contact, zero network;
+`power_2h.json` untouched (write-once, never re-run); the frozen exp2g
+tree read-only. Every attack-list item (17) attacked with a
+demonstration; three findings, each closed ADDITIVELY, no accepted dial
+moved.
+
+**THE CLASS DEFECT: FOUND — F-1.** The frozen verdict RAISED instead of
+delivering INSUFFICIENT_DATA on nine tree shapes (2d F-1's lineage one
+level over: §6's first terminal unreachable from trees the analyzer can
+be handed). `analyze_2g.collect` names four exceptions; a killed / torn
+/ hand-edited tree also presents `TypeError`/`AttributeError` (a record
+that parses but is not a dict) and `OSError` (`IsADirectoryError` is not
+`FileNotFoundError`) — and the whole primary block (`outcomes_69` →
+`rung_level_69` → `sampler_counts` → `primary_2h`) sat outside any
+`collect()`, so "no eligible rung" and "no informative pair" crashed the
+verdict rather than delivering it (attack-list item 10: argued
+unreachable, not gated). Enumerated over 32 tree shapes on a full-shape
+world: **pre-fix 9 RAISED / 23 terminal, post-fix 0 RAISED / 32
+terminal**, the healthy control still CONFIRMED at the identical T
+(0.9812) and p (0.004975). Closed with `analyze_2h.collect_total` (2g's
+`collect`, surface widened; 2g's own untouched, still used wherever the
+input's BYTES are sha-pinned), applied at the four runner-written
+surfaces, the m4/rung-set check, every non-gating secondary, and around
+a new `_primary_core` that packages the primary computation unchanged;
+plus an `isinstance(gate1, dict)` guard on the referent echo. Widening
+is one-directional — a caught failure lands in `failures` verbatim and
+the verdict is INSUFFICIENT_DATA. Regression-locked in
+`tests/test_totality_2h.py` (17) + referent check 9 + seven mutants.
+
+**F-2 — gate 1's zero-diff check was self-consistent only (3d's
+lesson).** `continuation_diffs_2h_path[r] == 0` comes from a `zip()`
+over the two loader paths' continuation lists, and `zip` truncates: a
+zero over zero compared pairs was indistinguishable from a zero over
+500. Closed additively — the runner attests
+`continuations_compared_2h_path` per rung and `gate1_failures_69`
+requires the full `N_ITEMS` on all 34 (a record without the field is
+refused on all 34). Disclosed: the truncation is not producible through
+2h's own runner (`evaluate_items` raises on a length mismatch), so the
+runner-side attestation is a documented equivalent; the analyzer-side
+requirement is the load-bearing half.
+
+**F-3 — the freeze tag bound a NAME, not the instrument.**
+`git tag --list` is satisfied by a lightweight tag on any commit, and
+2h's tag is the ONLY gate before 6.9b contact (no stage-1 seal, §7), so
+a tag cut early or re-pointed would let post-hoc code decide the verdict
+while the record still says "preregistered". Closed additively by
+restoring 2g's `require_seal` discipline: `INSTRUMENT_BLOBS_2H`
+(`analyze_2h.py`, `battery_2h.py`, `run/sweep_2h.py`) compared to the
+blobs the tag carries, in the analyzer AND in the runner (still before
+any loader is built); drift or a missing blob is a refusal, and the
+three shas ride on the verdict at `referents.prereg.instrument_blobs`.
+The primitive was verified byte-exact against two existing tags first
+(`exp2g-predictor-sealed` → `9eadbac3…`, `exp2g-closed` →
+`eab7c5b9…`). **Tagger's note: cut `exp2h-preregistered` at the commit
+carrying the final instrument; a post-tag edit to any of those three
+files requires a re-tag, by design.**
+
+Disclosures accepted (wording drafted for ratification, no code change):
+D-1 the power record does not apply the primary's eligibility gate and
+uses the committed final count as n_pos — both conservative; D-2
+`stale_main_copies` counts single-file copies, so on 6.9b's sharded
+layout it is structurally `{0,0}` and the duplicate-signature refusal is
+what actually catches a stale copy (demonstrated); D-3 the .979 is a
+claim about the alternative's SHAPE (the sixth lesson).
+
+Cold battery at the freeze HEAD: **suite 79**, **referent battery 9/9**,
+**worlds 9/9 terminals** (W7/W8/W9 new — attack-list item 12 closed by
+adding worlds, not by argument), **totality 32 trees / 0 raised**,
+**mutation 36/36 killed** (26 build + 10 new; sources restored
+byte-identical, no stranded backups), **two-process determinism
+byte-identical** (`a413666f…`), read sweep **918 paths / 2,122 reads,
+113 committed inputs, 0 unpinned**, verify fuzz **50,072 inputs / 0
+escapes**. The real tree still refuses: `run()` on the unmodified repo
+returns INSUFFICIENT_DATA naming the prereg tag, gate 1 and the sweep.
+Analyzer runtime at the frozen `N_PERM = 10,000` ≈ 5–6 min.
