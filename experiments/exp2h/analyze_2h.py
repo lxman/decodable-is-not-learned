@@ -52,8 +52,11 @@ CHECKPOINTS_2H_SHA256 = \
 # referents_2h.json — built and pinned by this task (make_referents_2h.py)
 REFERENTS_2H_SHA256 = \
     "cd06f8e7e9f6749d1b4d57e748e3f75d754728b6fb369f954e1118419b9b4d49"
-# power_2h.json — Task 3 runs power_2h.main() detached and pins this
-POWER_2H_SHA256 = None
+# power_2h.json — POWERED: P(CONFIRMED | D_true = 0.15) = 0.979 against
+# the bar 0.75; null false-CONFIRMED rate 0.000; null SD of T 0.0209
+# (Task 3, power_2h.main() run 2026-08-24)
+POWER_2H_SHA256 = \
+    "1c1738626b3c21e59430ecc096a8c32962ebd5bbe06fb44d6b766415443d3dcd"
 
 WORLDS = ("INSUFFICIENT_DATA", "CONFIRMED", "NOT-CONFIRMED")
 ALPHA, T_BAR = st.ALPHA, st.T_BAR

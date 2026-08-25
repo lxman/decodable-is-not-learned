@@ -293,3 +293,139 @@ Zero model contact, zero network throughout. Commit follows this
 entry.
 
 **Task 2 fix-1 addendum (2026-08-24, supervisor):** review found the referents manifest omitted `experiments/exp2d/results/verdict.json` (read unconditionally via `bg.load_floors()`; already sha-pinned inside battery_2g). Fixed at 9d30d5d5: file added to `referent_files_2h()`, manifest rebuilt — **90 files**, `REFERENTS_2H_SHA256 = cd06f8e7e9f6749d1b4d57e748e3f75d754728b6fb369f954e1118419b9b4d49` (supersedes 84e46d1c… cited above); plus a dedicated torn-JSON refusal test for `load_sweep_69` (suite 38). W5's three-cause conflation parked to the freeze attack list, no code change.
+
+## 2026-08-24 — BUILD, Task 3: `run/sweep_2h.py` + `commit_watcher_2h.sh` + mutation harness + power + close
+
+Instrument: `run/sweep_2h.py`, `run/commit_watcher_2h.sh` (executable),
+`tests/test_sweep_2h.py` (8 tests), `tests/mutation_check.py` (26
+mutants), plus five kill-tests added to Task 2's suites
+(`test_analyze_2h.py` +1, `test_battery_2h.py` +4) and the
+`POWER_2H_SHA256` literal set in `analyze_2h.py`. Zero model contact,
+zero network in anything run: the runner's `real_loaders()` imports
+`torch`/`transformers`/`huggingface_hub`/`harness`/`models` lazily
+inside function bodies never called by the test suite, which exercises
+control flow exclusively through fake loaders.
+
+**`run/sweep_2h.py`** mirrors `run/sweep_2g.py`'s shape and order
+(prereg refusal → gate 1 on the final point, all 34 rungs → the grid
+ascending, streamed, skip-if-exists) with `require_seal` replaced by
+`analyze_2h.require_prereg_2h` (design §7 — no stage-1 predictor seal;
+both predictors were fixed before this experiment's design was
+written, so the only live gate is the freeze tag itself) and every
+2g-only per-size global (`bg.sweep_rungs`, `bg.GRID`, `bg.FINAL_STEP`,
+`bg.record_path`, ...) redefined locally against `battery_2h`'s own
+34-rung/6.9b paths and pins. `evaluate_items` and `item_record` are
+reused directly from `sweep_2g` by import — neither is bound to a
+2g-only global (both take `size`/`cap`/`seal` as plain arguments); the
+"seal" argument this runner passes is `{"tag": bg.SEAL_TAG, "sha256":
+battery_2h.PREDICTOR_2G_SHA}` — 2g's own already-sealed predictor,
+stamped for provenance, not a new seal 2h performs. This is what makes
+the reuse of `analyze_2g.step_record_failures` UNCHANGED inside
+`analyze_2h.load_sweep_69` (Task 2) work with zero adaptation: the
+per-step-per-rung records this runner writes carry exactly the
+`predictor_sha`/`seal_tag` fields that function checks. Gate 1 writes
+2h's own field names (`digest_2h_path`, `continuation_diffs_2h_path`,
+`prereg_tag`) per the contract `analyze_2h.gate1_failures_69` and
+`PROGRESS.md`'s Task 2 entry documented in advance for this task.
+
+**Record-shape agreement, demonstrated executably, not asserted:**
+`tests/test_sweep_2h.py::test_full_fake_sweep_writes_every_record_and_resumes`
+builds a complete fake 3-step × 34-rung sweep tree with the runner's
+own `gate1_69`/`run_step_69`/`run_rungs_69` (i.e. `item_record`/
+`_write`, the actual production record-writing path) and asserts the
+gate1 record's `prereg_tag == bh.PREREG_TAG_2H` and every per-step
+record's `predictor_sha == bh.PREDICTOR_2G_SHA` /
+`seal_tag == bg.SEAL_TAG` — the exact fields
+`analyze_2h.gate1_failures_69` / `analyze_2g.step_record_failures`
+(reused unchanged inside `analyze_2h.load_sweep_69`) check. Separately,
+Task 2's own `test_load_sweep_69_reuses_step_record_failures` already
+proved the read side accepts a record built by hand in this shape and
+refuses a mutated one. Together the two sides of the contract are each
+exercised against the shared shape, never against each other's
+mocks.
+
+**`commit_watcher_2h.sh`** mirrors `commit_watcher_2g.sh` verbatim with
+the exp2g path swapped for exp2h's (`results/sweep/6.9b/...`, same
+two-level `{size}/{unit}` capture since 2h's own sweep tree nests one
+level deeper than the bare rung files, exactly as 2g's does); `chmod
++x` applied.
+
+**Mutation battery** (`tests/mutation_check.py`, mirrors 2g's harness
+shape): targets exp2h's own three modules only — `battery_2h.py` (8:
+rung-set check, manifest grid/excluded check, manifest duplicate-
+candidate check, sampler_counts verify-ignored, sampler_counts size
+guard, m4 pin re-assertion, main-entry commit check, frozen-2g sha
+comparison), `analyze_2h.py` (10: tree effect-bar dropped, gate-1
+counts/digests/continuation-diffs/prereg_tag comparisons ×4,
+`require_prereg_2h` tag check, `load_sweep_69` missing-record
+tolerance, `primary_2h` no-eligible-rung check, `outcomes_69` step0
+counted, and the Task-2-re-review NAMED mutant — `collect()` stripped
+at `run()`'s `load_sweep_69` call site), `run/sweep_2h.py` (8: prereg
+not required, halt marker not written, gate-1 record/halt skipped on
+failure, gate 1 always passes, skip-if-exists disabled, halted-tree
+resume not refused, on-disk gate1 record not re-derived, incomplete
+final-step records not caught). The frozen exp2g modules this
+instrument imports/mirrors are NOT re-targeted (they have their own
+battery in `experiments/exp2g/tests/mutation_check.py`).
+
+First cold run: **22/26 killed, 4 survivors, all in `battery_2h.py`**
+— the grid/excluded check, the duplicate-candidate check, the m4 pin
+re-assertion, and the main-entry-commit check. None had prior test
+coverage: the real committed inventory has no grid drift, no
+duplicate candidates, no m4 drift and no commit mismatch, so every
+existing test exercising these functions ran them only on valid data
+where the guard's presence or absence is unobservable. Closed by four
+new tests in `test_battery_2h.py` — `test_load_manifest_69_refuses_
+wrong_grid` (a truncated on-disk grid field), `test_build_manifest_69_
+refuses_duplicate_candidates` and `_refuses_wrong_main_commit` (both
+construct a minimal synthetic inventory: 2h's real committed `main`
+entry, keeping its true safetensors-shard candidate and 2c-pinned
+commit intact, plus one or two fake `pytorch_model.bin`-only steps —
+duplicated shas for the first, a wrong `main` commit for the second),
+`test_load_m4_counts_69_refuses_pin_mismatch` (a hand-written m4
+record whose `correct` field disagrees with the pin, loaded via a
+monkeypatched `m4_path_69`). The Task-2-re-review named mutant needed
+its own new test too — `test_run_catches_sweep_load_failure_as_
+insufficient_data_not_a_crash` in `test_analyze_2h.py`, added because
+the existing torn-JSON test exercises `load_sweep_69` and a bare
+`collect()` call in isolation, never `run()`'s own call site; the
+new test calls `an.run()` against the real, unmodified, sweep-less
+repo tree (where `load_sweep_69` naturally raises `FileNotFoundError`
+on the first missing record) and asserts a clean `INSUFFICIENT_DATA`
+return rather than an uncaught exception — manually verified to fail
+under the mutant before being added to the permanent suite. **Re-run
+cold after the five additions: 26/26 killed, zero survivors**, files
+restored byte-identical (`git diff --stat` empty on the three mutated
+modules both after the dry verification pass and after the full
+battery). Two full campaigns run (`nohup ... & disown`, polled), each
+~2 minutes.
+
+**`power_2h.py` run** (write-once-guarded `main()`, run detached):
+`experiments/exp2h/power_2h.json` written, sha256
+`1c1738626b3c21e59430ecc096a8c32962ebd5bbe06fb44d6b766415443d3dcd`,
+now pinned as `analyze_2h.POWER_2H_SHA256` (verified independently
+against the committed file's own hash, not merely copied from the run
+log). **POWERED** — P(CONFIRMED | D_true = 0.15) = 0.979 against the
+bar 0.75; null false-CONFIRMED rate 0.000; null SD of T 0.0209
+(D_true 0.10 → P .463, mean T .0994; 0.15 → P .979, mean T .1471;
+0.20 → P 1.000, mean T .1991; min-detectable T at the null's 99th
+percentile 0.0463). `run()` against the real, unmodified repo tree
+still returns exactly the same three named failures (prereg tag, gate
+1, sweep) as before this pin — confirming the power record now loads
+cleanly (no fourth "power record" failure) rather than merely being
+present on disk.
+
+**Suite: 51/51 pass** (`pytest experiments/exp2h/tests/ -q`; 38 from
+Tasks 1-2 + 8 `test_sweep_2h.py` + 1 named-mutant kill test + 4
+battery kill tests). Referent battery: **8/8**
+(`verify_referents_2h.py`, re-run cold after the mutation battery and
+again after the power pin). `git diff 78d74caa --stat` touches only
+paths under `experiments/exp2h/`.
+
+Zero model contact, zero network throughout (the only Hub data
+anywhere in the tree remains the committed `hub_inventory_69.json`
+scan). The real 6.9b checkpoint sweep itself is NOT run by this task
+— that is the freeze session's business, after tag
+`exp2h-preregistered` is cut; the analyzer's current INSUFFICIENT_DATA
+output against the untouched tree reflects that. Commit follows this
+entry.
