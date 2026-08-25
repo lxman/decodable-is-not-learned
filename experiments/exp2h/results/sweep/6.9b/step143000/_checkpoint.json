@@ -1,0 +1,17 @@
+{
+ "size": "6.9b",
+ "step": 143000,
+ "revision": "main",
+ "digest": "ed186097ad590f2adbc6dcbf2f8a9374d902ef949b5912f0f05dc544529d4093",
+ "digest_2h_path": "ed186097ad590f2adbc6dcbf2f8a9374d902ef949b5912f0f05dc544529d4093",
+ "sha256": {
+  "model-00001-of-00002.safetensors": "34782c3cf3cd80d1eae11d42f1b23c024226651da9c3f2ad61e35afbd724f62b",
+  "model-00002-of-00002.safetensors": "f73019e3a2ce46f8a57f3a35509900df3bb21051da3d28408c646487e6c4451c"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "via": "gate 1"
+}
