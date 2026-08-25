@@ -58,6 +58,18 @@ def test_final_count_pin_reproduces_m4_all_34_rungs():
     assert fresh == bh.FINAL_COUNT_PIN_69
 
 
+def test_load_m4_counts_69_refuses_pin_mismatch(tmp_path, monkeypatch):
+    # Task 3: the m4 record's own "correct" field disagreeing with
+    # FINAL_COUNT_PIN_69 must refuse, not silently trust the file
+    rec = {"capability": "antonym", "n": bt.N_ITEMS, "mode": "trained", "size": "6.9b",
+          "correct": bh.FINAL_COUNT_PIN_69["antonym"] + 1}
+    p = tmp_path / "antonym.json"
+    p.write_text(json.dumps(rec))
+    monkeypatch.setattr(bh, "m4_path_69", lambda r: p)
+    with pytest.raises(ValueError, match="correct"):
+        bh.load_m4_counts_69(("antonym",))
+
+
 def test_check_rung_set_69_reproduces_from_floors():
     floors = bg.load_floors()
     assert len(floors) == 34
@@ -139,6 +151,54 @@ def test_manifest_from_committed_inventory():
     assert manifest["excluded"] == {} and manifest["exclusion_evidence"] == {}
     assert manifest["grid"] == list(bh.GRID_69)
     assert manifest["trained_steps"] == list(bh.trained_steps_69())
+
+
+def test_build_manifest_69_refuses_duplicate_candidates(monkeypatch):
+    # Task 3: two non-final revisions whose candidate files are
+    # byte-identical must refuse — a genuinely duplicated grid point is
+    # not a trustworthy checkpoint. The real committed inventory has no
+    # such duplicate (build finding, PROGRESS.md), so this constructs a
+    # minimal synthetic one: a real `main` (so the final-point commit
+    # check passes) plus two fake bin-kind steps sharing one sha.
+    from models import PYTHIA_SHAS
+    monkeypatch.setattr(bh, "GRID_69", (0, 1000, 143000))
+    real_inv = bh.load_inventory_69()
+    main_files = dict(real_inv[bh.REPO_69]["main"]["files"])
+    table = {
+        "main": {"commit": PYTHIA_SHAS["6.9b"], "files": main_files},
+        "step0": {"commit": "c0" * 20, "files": {"pytorch_model.bin": ["s" * 64, 1]}},
+        "step1000": {"commit": "c1" * 20, "files": {"pytorch_model.bin": ["s" * 64, 1]}},
+    }
+    with pytest.raises(ValueError, match="duplicate"):
+        bh.build_manifest_69({bh.REPO_69: table})
+
+
+def test_build_manifest_69_refuses_wrong_main_commit(monkeypatch):
+    # Task 3: the final grid point's commit must equal 2c's pin — a
+    # None-candidate check alone is not enough
+    from models import PYTHIA_SHAS
+    monkeypatch.setattr(bh, "GRID_69", (0, 143000))
+    real_inv = bh.load_inventory_69()
+    main_files = dict(real_inv[bh.REPO_69]["main"]["files"])
+    table = {
+        "main": {"commit": "0" * 40, "files": main_files},   # not 2c's pin
+        "step0": {"commit": "c0" * 20, "files": {"pytorch_model.bin": ["s" * 64, 1]}},
+    }
+    assert "0" * 40 != PYTHIA_SHAS["6.9b"]
+    with pytest.raises(ValueError, match="pinned main commit"):
+        bh.build_manifest_69({bh.REPO_69: table})
+
+
+def test_load_manifest_69_refuses_wrong_grid(tmp_path):
+    # Task 3: an on-disk manifest whose "grid" field disagrees with the
+    # frozen GRID_69 (e.g. truncated) must refuse, not load silently
+    inv = bh.load_inventory_69()
+    manifest = bh.build_manifest_69(inv)
+    manifest["grid"] = list(manifest["grid"])[:-1]
+    p = tmp_path / "checkpoints_2h.json"
+    bh.write_manifest_69(p, manifest)
+    with pytest.raises(ValueError, match="frozen 6.9b grid"):
+        bh.load_manifest_69(p, sha_pin=bg.sha256_file(p))
 
 
 def test_manifest_sha_matches_generated_file():

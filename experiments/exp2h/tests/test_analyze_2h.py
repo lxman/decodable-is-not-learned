@@ -282,3 +282,25 @@ def test_require_prereg_2h():
         {"tag": bh.PREREG_TAG_2H}
     with pytest.raises(RuntimeError, match="refusing"):
         an.require_prereg_2h(tag_exists=lambda t: False)
+
+
+def test_run_catches_sweep_load_failure_as_insufficient_data_not_a_crash():
+    # Task 3 (build): against the real, unmodified repo tree — no 6.9b
+    # sweep has run yet — `manifest`/`battery`/`verify_fn`/`pred` all
+    # load cleanly from committed files, so `_sweep_ready` is True and
+    # `run()` reaches the `collect(lambda: load_sweep_69(...), ...)`
+    # call site; `load_sweep_69` then raises FileNotFoundError on the
+    # first (step, rung) it reads, since no sweep record exists on
+    # disk. This is the exact call site the mutation harness's "strip
+    # the collect() wrapping at run()'s load_sweep_69 call site" mutant
+    # targets (Task 2 re-review finding): the existing torn-JSON test
+    # exercises `load_sweep_69` and a bare `collect()` call in
+    # isolation, never `run()` itself, so it does not catch a stripped
+    # wrapping AT THIS call site. Without collect() here, the
+    # FileNotFoundError would propagate uncaught out of run() instead
+    # of becoming a referent failure — this test fails with an
+    # unhandled exception under that mutant and passes clean otherwise.
+    v = an.run()
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith(f"sweep {bh.SIZE}: FileNotFoundError")
+              for f in v["referents"]["failures"])
