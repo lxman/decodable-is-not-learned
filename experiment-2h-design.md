@@ -59,11 +59,22 @@ discipline). The deltas:
    50k, 60k, 64k, 70k, 80k, 90k, 100k, 110k, 120k, 130k, 140k, final).
    The 2026-08-24 Hub scan: 6.9b is the cleanest size — every step
    branch two unique bin shards, zero stale-main copies, step143000
-   byte-identical to main, step64000 unique (no exclusion). Final
+   byte-identical to main, step64000 unique (no exclusion). ("Zero
+   stale-main copies" is read off a counter of SINGLE-FILE copies;
+   6.9b publishes sharded weights, so that counter is structurally
+   zero and descriptive only. What refuses a stale copy of the final
+   weights published under a step label is the duplicate-signature
+   rule, which rejects any grid step whose candidate files match
+   another revision's — demonstrated at the freeze on a synthetic
+   inventory.) Final
    point = 2c's pinned `main`; gate 1 = 2g's two-loader gate at 6.9b
    (2c's loader must reproduce m4's committed 6.9b counts exactly;
    2g's checkpoint loader must match its tensor digest with byte-
-   identical continuations).
+   identical continuations). Gate 1 also attests the COVERAGE of that
+   comparison — how many continuation pairs were compared on each
+   rung — and the frozen verdict requires the full 500 on all 34: a
+   zero diff count over a truncated comparison is not evidence (3d's
+   coverage lesson).
 3. **The tree has no SURFACE terminal.** The untrained twin's sampled
    counts are all-zero (exp3's twin referent: 0 verified in 576,000),
    so a twin-predictor arm is vacuous by construction — disclosed,
@@ -73,6 +84,14 @@ discipline). The deltas:
    2g). α, the effect bar, the within-rung × stratum permutation
    (10,000, seed 0), eligibility (n_pos ≥ 20 realized), and the
    count outcome with first-correct printed are 2g's unchanged.
+   Every tree the runner can leave — halted at gate 1, killed
+   mid-step, a torn or non-dict record, a directory where a file
+   belongs — reaches INSUFFICIENT_DATA through the frozen verdict
+   rather than raising; so does a sweep on which no rung clears the
+   eligibility floor, or on which the outcome is constant within
+   every stratum. Demonstrated at the freeze over 32 tree shapes,
+   nine of which raised before the closure; the refusal carries its
+   reason verbatim.
 
 ## 4. Rung set and power
 
@@ -88,7 +107,18 @@ table (all eight rungs are in it). Power: 2g's simulation machinery
 re-run over R_6.9b's n_pos bounds; the observed 2.8b effect was
 T .167, and with eight rungs the bar is expected comfortably cleared
 at D = .15 — the record is printed once before the tag, with the
-declaration, as always.
+declaration, as always. The power record is written once, before the
+tag, and read under two disclosures. It sets each rung's
+positive-outcome count to the committed FINAL count — a lower bound
+on the realized n_pos, since 2g measured ever-verifies at ≈ 2× final
+— and it does not apply the primary's own n_pos ≥ 20 eligibility
+gate, so add3_mid is modelled at 19 where the run may drop it as
+thin; both directions are conservative for P(CONFIRMED). And .979 is
+a claim about the alternative's SHAPE: item-level rank concordance
+between the committed sampler count and a monotone emission order
+inside the sealed strata. 2g found transient verification pervasive
+and trajectories non-monotone; if the truth is class-level or
+non-monotone, the number does not transfer.
 
 ## 5. What 2h does not claim
 
@@ -124,7 +154,12 @@ Design (this doc + rulings) → build (a thin `experiments/exp2h`
 importing exp2g frozen: the 6.9b manifest from the committed Hub scan,
 R_6.9b, the swapped primary, the tree; fixtures, worlds for every
 terminal, referents, mutation deltas) → adversarial freeze (the deltas
-attacked; cold batteries re-run) → tag `exp2h-preregistered` →
+attacked; cold batteries re-run) → tag `exp2h-preregistered`
+(the tag is the only gate: with no stage-1 seal, both the runner and
+the analyzer require not merely that the tag exists but that it
+CARRIES this instrument — `analyze_2h.py`, `battery_2h.py` and
+`run/sweep_2h.py` byte-identical to the blobs at the tag, or both
+refuse; a post-tag edit to any of the three requires a re-tag) →
 projection sealed → the 6.9b sweep on Michael's word (gate first;
 ~60 min per checkpoint at 34 rungs from m4's measured pass, 22 + step0
 points, ≈ 288 GB streamed; watcher committing; detached processes per
