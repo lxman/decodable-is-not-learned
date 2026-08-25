@@ -3,7 +3,9 @@
 against the committed trees — run at build, re-run cold at the
 freeze. It stops short of the verdict and of any model contact.
 
- 1  the 10 frozen-2g pins byte-identical (`battery_2h.check_frozen_2h`)
+ 1  the 10 frozen-2g pins byte-identical (`battery_2h.check_frozen_2h`);
+    the 14 upstream frozen-import pins (`battery_2g.check_frozen_imports_2g`)
+    byte-identical too — 2g's own instrument, which 2h's verdict executes
  2  R_69 reproduces from the committed m4 6.9b counts under 2d's bar;
     every m4 6.9b count == the pin
  3  checkpoints_2h.json == rebuilt from the committed inventory; its
@@ -52,10 +54,12 @@ def _eq(got, want, what):
         raise AssertionError(f"{what}: got {got!r}, want {want!r}")
 
 
-@check(1, "frozen-2g pins (10)")
+@check(1, "frozen-2g pins (10); upstream frozen-import pins (14)")
 def _c1(ctx):
     bh.check_frozen_2h()
     _eq(len(bh.FROZEN_2G_SHA256), 10, "pins")
+    bg.check_frozen_imports_2g()
+    _eq(len(bg.FROZEN_IMPORT_SHA256_2G), 14, "upstream pins")
 
 
 @check(2, "R_69 from m4 6.9b counts + 2d's bar; m4 pins")
@@ -72,7 +76,8 @@ def _c3(ctx):
     on_disk = bh.load_manifest_69(bh.CHECKPOINTS_PATH_69, sha_pin=an.CHECKPOINTS_2H_SHA256)
     _eq(on_disk, obj, "manifest rebuild")
     _eq(obj["hub_step143000"]["signature_equals_main"], True, "6.9b hub final")
-    _eq(obj["final_duplicates"], [], "kind-specific signature — see task-1-report.md")
+    _eq(obj["final_duplicates"], [], "kind-specific signature — see PROGRESS.md's "
+       "Task 1 entry (\"Discrepancy against the plan, disclosed rather than bent\")")
 
 
 @check(4, "sampler_counts reproduces analyze_2g.sampler_counts_1b on the overlap")
@@ -131,6 +136,33 @@ def _c7(ctx):
     _eq(len(an.gate1_failures_69(bad)) >= 1, True, "count diff fires")
     bad2 = dict(rec); bad2["prereg_tag"] = "wrong-tag"
     _eq(len(an.gate1_failures_69(bad2)) >= 1, True, "tag mismatch fires")
+
+    # step-record refusals: an2g.step_record_failures, as load_sweep_69 uses
+    # it (M-2: check 7's title covers both gate-1 AND step-record refusals,
+    # but only gate-1 was exercised — this closes the gap)
+    from experiments.exp2d import analyze_2d as a2d
+    cap = bg.load_battery(["antonym"])["antonym"]
+    verify = a2d.load_verify()
+    entry = {"revision": "step1000", "commit": "c" * 40, "kind": "bin",
+             "files": ["pytorch_model.bin"], "lfs_sha256": {"pytorch_model.bin": "f" * 64}}
+    conts = [f" {it['answer']}" if i % 3 == 0 else " zzz"
+            for i, it in enumerate(cap["eval_items"])]
+    bits = [int(verify(c, it["answer"], cap["answer_type"]))
+           for c, it in zip(conts, cap["eval_items"])]
+    step_rec = {"rung": "antonym", "size": "6.9b", "step": 1000,
+               "revision": entry["revision"], "commit": entry["commit"],
+               "items_sha256": cap["items_sha256"], "n": bt.N_ITEMS,
+               "correct": sum(bits), "bits": bits, "continuations": conts,
+               "predictor_sha": bh.PREDICTOR_2G_SHA, "seal_tag": bg.SEAL_TAG,
+               "answer_type": cap["answer_type"]}
+    _eq(an2g.step_record_failures(step_rec, size="6.9b", step=1000, rung="antonym",
+                                  cap=cap, entry=entry, verify_fn=verify,
+                                  seal_sha=bh.PREDICTOR_2G_SHA), [], "clean step record")
+    bad_step = dict(step_rec); bad_step["predictor_sha"] = "t" * 64
+    _eq(len(an2g.step_record_failures(bad_step, size="6.9b", step=1000, rung="antonym",
+                                      cap=cap, entry=entry, verify_fn=verify,
+                                      seal_sha=bh.PREDICTOR_2G_SHA)) >= 1, True,
+       "step record mutation fires")
 
 
 @check(8, "stage artifacts absent (or passing); no backups; constants == stats_2g's")

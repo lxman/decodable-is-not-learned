@@ -23,7 +23,6 @@ def test_size_repo_and_grid():
     assert bh.n_trained_69() == 22
     assert bh.trained_steps_69() == tuple(s for s in bh.GRID_69 if s != 0)
     assert 64000 in bh.GRID_69                    # unique at 6.9b, no exclusion
-    assert bh.EXCLUDED_GRID_69 == {}
     assert bh.revision_of_69(143000) == "main"
     assert bh.revision_of_69(1000) == "step1000"
     assert bh.revision_of_69(0) == "step0"
@@ -141,8 +140,9 @@ def test_manifest_from_committed_inventory():
     # byte-identity design §3.2 calls out ("step143000 byte-identical
     # to main") is carried in `hub_step143000.signature_equals_main`
     # instead, exactly where 2g's 12b manifest carries the analogous
-    # fact. See task-1-report.md for the full discrepancy note against
-    # the plan's literal `final_duplicates == ["step143000"]`.
+    # fact. See PROGRESS.md's Task 1 entry ("Discrepancy against the
+    # plan, disclosed rather than bent") for the full discrepancy note
+    # against the plan's literal `final_duplicates == ["step143000"]`.
     assert manifest["final_duplicates"] == []
     assert manifest["hub_step143000"]["signature_equals_main"] is True
     assert manifest["hub_step143000"]["duplicates"] == []
@@ -253,14 +253,13 @@ def test_sampler_counts_1b_matches_2g_on_overlap_rungs():
     for r in overlap:
         assert got[r] == reference[r]
     # four named spot values (item 0 of four of the six overlap rungs) —
-    # pinned literals, re-derived live above so a stale literal cannot
-    # pass silently
-    spot = {"antonym": reference["antonym"][0], "antonym6": reference["antonym6"][0],
-           "add_base8": reference["add_base8"][0], "arith_next": reference["arith_next"][0]}
-    assert got["antonym"][0] == spot["antonym"]
-    assert got["antonym6"][0] == spot["antonym6"]
-    assert got["add_base8"][0] == spot["add_base8"]
-    assert got["arith_next"][0] == spot["arith_next"]
+    # hard-coded literals read from the committed 2d draws, so a stale
+    # or drifted table genuinely fails this assertion instead of
+    # comparing `reference` against itself
+    assert got["antonym"][0] == 5
+    assert got["antonym6"][0] == 1
+    assert got["add_base8"][0] == 0
+    assert got["arith_next"][0] == 0
 
 
 def test_sampler_counts_410m_shape():

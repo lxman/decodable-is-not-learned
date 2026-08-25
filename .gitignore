@@ -35,4 +35,6 @@ paper/refit.log
 experiments/exp2f/results/activations_eval/
 # exp2g stage-1 eval activations (~2.4 GB): digests live in the sealed predictor; arrays not committed (2b/2c/2f policy)
 experiments/exp2g/results/activations_eval/
+# exp2g sweep/watcher logs — machine-local, never part of the closed record
+experiments/exp2g/*.log
 .superpowers/

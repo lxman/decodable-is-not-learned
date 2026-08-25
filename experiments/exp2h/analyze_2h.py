@@ -340,6 +340,8 @@ def run(root=EXP2H, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
         manifest_sha=CHECKPOINTS_2H_SHA256, referents_sha=REFERENTS_2H_SHA256,
         power_sha=POWER_2H_SHA256, out_path=None) -> dict:
     failures = []
+    _, f = collect(bg.check_frozen_imports_2g, "upstream frozen imports")
+    failures += f
     _, f = collect(bh.check_frozen_2h, "frozen 2g imports")
     failures += f
     prereg, f = collect(lambda: require_prereg_2h(tag_exists=tag_exists), "prereg tag")

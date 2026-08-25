@@ -304,3 +304,19 @@ def test_run_catches_sweep_load_failure_as_insufficient_data_not_a_crash():
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert any(f.startswith(f"sweep {bh.SIZE}: FileNotFoundError")
               for f in v["referents"]["failures"])
+
+
+def test_run_catches_upstream_frozen_import_failure_as_insufficient_data(monkeypatch):
+    # I-1: `battery_2g.check_frozen_imports_2g` (the 14 upstream sha pins
+    # over exp3c/exp2c/exp2d/exp2b/exp1 code 2h's verdict executes) must be
+    # asserted through run(), exactly like the other refusals, so a pin
+    # failure lands as INSUFFICIENT_DATA carrying the reason rather than an
+    # uncaught exception. monkeypatch it to raise, mirroring the existing
+    # check_frozen refusal tests.
+    def _boom():
+        raise ValueError("frozen file <stub> has sha256 deadbeef, expected cafef00d")
+    monkeypatch.setattr(bg, "check_frozen_imports_2g", _boom)
+    v = an.run()
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith("upstream frozen imports: ValueError") and
+              "deadbeef" in f for f in v["referents"]["failures"])

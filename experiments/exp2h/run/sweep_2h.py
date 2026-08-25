@@ -242,6 +242,7 @@ def run_step_69(step, *, out_root, manifest, cache_root, device, battery, verify
 def run_69(*, out_root=EXP2H, cache_root=bh.CKPT_CACHE_69, device="mps", dry_run=False,
           tag_exists=None, loaders=None) -> None:
     prereg = ah.require_prereg_2h(tag_exists=tag_exists)
+    bg.check_frozen_imports_2g()
     bh.check_frozen_2h()
     if loaders is None:
         _assert_provenance()
