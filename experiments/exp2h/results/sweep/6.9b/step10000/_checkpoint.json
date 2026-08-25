@@ -1,0 +1,26 @@
+{
+ "size": "6.9b",
+ "step": 10000,
+ "revision": "step10000",
+ "commit": "b1fc3bd1f00eacbd23e545c6ea97d8522f98d46b",
+ "kind": "bin-shards",
+ "files": [
+  "pytorch_model-00001-of-00002.bin",
+  "pytorch_model-00002-of-00002.bin",
+  "pytorch_model.bin.index.json"
+ ],
+ "sha256": {
+  "pytorch_model-00001-of-00002.bin": "9d467dba7daacae40595b0b3c2c327ba707c542567f59c1bd7d757c52ab4491c",
+  "pytorch_model-00002-of-00002.bin": "e57e273cee4c4e41bd2a6b8c2f0f6bdfca565650d409ee5508d1f3960a16263a",
+  "pytorch_model.bin.index.json": "2f0817c137077abd439e3602330433793bc08ba3660cf9ac2458ad0113bfc52e"
+ },
+ "config_source": "EleutherAI/pythia-6.9b@c0e3eee36dc47af0c49f361c74cfe459c09f7f23",
+ "tokenizer_source": "EleutherAI/pythia-6.9b@c0e3eee36dc47af0c49f361c74cfe459c09f7f23",
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "48967ace74476f65f585ed6637ac4519b0f80ea5c53178a670f3916d6ee12ed2",
+ "download_seconds": 132.0
+}
