@@ -125,10 +125,6 @@ CALIBRATION_SENTENCE_2I = (
     "union of the four worlds is not alpha-calibrated (3d's calibration "
     "lesson, stated in advance).")
 
-ALWAYS_REPORTED_NOTE_2I = (
-    "Any world: the reverse-direction descriptives, main, the twin, the flat "
-    "rungs and the extra rungs are reported in full (design §6).")
-
 
 # ------------------------------------------------------- the prereg tag
 
@@ -630,6 +626,26 @@ def _load_rung_set(root) -> dict:
     return rec
 
 
+def _check_rung_set_vs_endpoint(rung_set: dict, stage1_final: dict) -> list:
+    """The rung set was computed (`endpoint_2i.py`, Task 2) from the
+    SAME `stage1_final` counts committed to disk — re-verify that
+    `per_rung[r]["k"]` (the count `rung_set_from_counts` scored) still
+    equals the endpoint record's own `correct`, rung by rung. A
+    mismatch means the rung set was derived from data that has since
+    drifted — the R_CAP/R_EXTRA split can no longer be trusted."""
+    bad = []
+    per_rung = rung_set.get("per_rung", {})
+    for r in bt.RUNGS:
+        if r not in stage1_final or r not in per_rung:
+            continue
+        want = stage1_final[r]["correct"]
+        got = per_rung[r].get("k")
+        if got != want:
+            bad.append(f"rung set olmo7b/{r}: per_rung k={got!r} disagrees with the "
+                       f"endpoint's stage1_final correct={want!r}")
+    return bad
+
+
 def _load_power(root) -> dict:
     p = bi.power_path(root)
     if not p.is_file():
@@ -722,12 +738,12 @@ def _git_sha() -> str:
 
 
 def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=None,
-        blob_sha=None, blobs_bound=None, manifest_sha=None, referents_sha=None,
-        out_path=None) -> dict:
-    if manifest_sha is None:
-        manifest_sha = bi.CHECKPOINTS_2I_SHA256
-    if referents_sha is None:
-        referents_sha = REFERENTS_2I_SHA256
+        blob_sha=None, blobs_bound=None, manifest_sha=bi.CHECKPOINTS_2I_SHA256,
+        referents_sha=REFERENTS_2I_SHA256, out_path=None) -> dict:
+    # `referents_sha` follows 2g's/2h's own convention: the DEFAULT is
+    # the real committed pin; a caller passes `referents_sha=None`
+    # EXPLICITLY to skip the check entirely (a synthetic world's tree
+    # is unrelated to the real, committed referents_2i.json).
     failures = []
 
     _, f = collect_total(bg.check_frozen_imports_2g, "upstream frozen imports")
@@ -850,6 +866,12 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
                                                  "missing")),
                 "gate 1 olmo7b re-derivation")
             failures += f + (gbad or [])
+
+    if rung_set is not None and stage1_final is not None:
+        rbad, f = collect_total(
+            lambda: _check_rung_set_vs_endpoint(rung_set, stage1_final),
+            "rung set vs endpoint")
+        failures += f + (rbad or [])
 
     _pred_ready = rung_set is not None and battery is not None and verify_fn is not None
     x_a, f = collect_total(

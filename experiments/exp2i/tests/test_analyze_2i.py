@@ -438,6 +438,16 @@ def test_load_rung_set_partition_check(tmp_path):
         an._load_rung_set(tmp_path)
 
 
+def test_check_rung_set_vs_endpoint_clean_and_mismatch():
+    rung_set = {"per_rung": {"antonym": {"k": 12}, "clock24": {"k": 0}}}
+    stage1 = {"antonym": {"correct": 12}, "clock24": {"correct": 0}}
+    assert an._check_rung_set_vs_endpoint(rung_set, stage1) == []
+
+    bad_stage1 = {"antonym": {"correct": 13}, "clock24": {"correct": 0}}
+    fails = an._check_rung_set_vs_endpoint(rung_set, bad_stage1)
+    assert len(fails) == 1 and "antonym" in fails[0]
+
+
 def test_load_power_missing(tmp_path):
     with pytest.raises(FileNotFoundError):
         an._load_power(tmp_path)
