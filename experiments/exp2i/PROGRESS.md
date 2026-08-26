@@ -327,3 +327,210 @@ two additions) and the six new `run/`/`tests/` files.
 
 Committed but not pushed (the controller pushes after review), per
 ruling 12 / the task's standing instruction.
+
+## 2026-08-26 — BUILD, Task 3: `analyze_2i.py` + `power_2i.py` + referents + worlds
+
+Instrument added at `experiments/exp2i/`: `analyze_2i.py` (1023
+lines — see the concern below), `power_2i.py`, `make_referents_2i.py`,
+`verify_referents_2i.py`, `tests/full_shape.py`. Tests:
+`test_analyze_2i.py` (45), `test_power_2i.py` (8), `test_full_shape_2i
+.py` (8), `test_totality_2i.py` (45).
+
+**The two-test tree.** `verdict_tree_2i(failures, A, B)`:
+INSUFFICIENT_DATA → SHARED (A fires, ¬B) / LINEAGE (B fires, ¬A) /
+BOTH (both) / NEITHER (neither), each non-firing test naming "below
+the effect bar" or "inverted" inside it via the one shared rule
+(`fires_2i`/`named_inside_2i`, ruling 9 — `power_2i.py` imports and
+calls these directly, not a re-derived copy). `primary_2h` (frozen,
+`experiments/exp2h/analyze_2h.py`) is reused UNCHANGED as `primary_2i`
+— confirmed by reading it that it is bound to no `bh.R_69`-shaped
+global, so ruling 7's "write `primary_2i` locally" fallback was not
+needed. `_run_test` wraps it: drops degenerate rungs first (design §4
+— a rung whose predictor has < 2 distinct values in every stratum is
+UNDEFINED there, not zero-evidence, since `d_from_pre` would silently
+return 0.0 for a constant predictor and read as "no correlation"),
+then decides `fires`/`named_inside`. Both tests run over R_CAP; Test
+B's strata are the zero-cut composite `f"{s}|{int(xA>0)}"`
+(`_composite_strata`); `cross_beyond_within`'s are the median-bucket
+composite `f"{s}|{b}"` (`_composite_strata_median`, reusing
+`analyze_2h._median_bucket` directly, per Consumes).
+
+**A deviation from my own first draft, corrected mid-build:** the
+brief's Consumes section names `predictor_2g.load_predictor(...,
+sha_pin=battery_2h.PREDICTOR_2G_SHA)` → `strata_2g.from_json` as the
+strata source, matching `analyze_2h`'s own pattern exactly. I first
+implemented a local rebuild via `strata_2g.build_table(bg.load_battery
+(...))` instead (mathematically identical — `strata_for` is a pure
+function of the committed items — but not what the brief specified,
+and it silently drops `experiments/exp2g/results/predictor/predictor
+.json` from the referent set ruling 10 explicitly names). Caught on
+review before any test locked in the wrong shape; fixed to read 2g's
+sealed predictor the same way `analyze_2h.run` does, restoring the
+brief's own dependency and referent list.
+
+**Gate 1** (`gate1_failures_7b`, `GATE1_FIELDS` documented for Task 4):
+the sweep's endpoint-step (928646) record vs the stage-2
+`stage1_final` endpoint record — commit equal, tensor digest equal,
+per-rung bit/continuation diffs zero with the compared count attested
+and REQUIRED at 500 (2h's F-2 coverage lesson), the freeze tag
+stamped. **A cross-check the brief's totality list implied but no
+code yet existed for, added during this task:**
+`_check_rung_set_vs_endpoint(rung_set, stage1_final)` re-verifies
+`rung_set_2i.json`'s `per_rung[r]["k"]` against the endpoint's own
+`correct` count, rung by rung — "endpoint count mismatch vs rung_set
+file" is one of the ≥ 32 required totality shapes (brief, Step 1), and
+without this function nothing in the analyzer would ever notice that
+mismatch. Wired into `run()` as its own `collect_total` call,
+non-raising, contributing directly to `failures`.
+
+**Step/endpoint records** (`step_record_failures_2i`,
+`endpoint_record_failures_2i`, `load_sweep_7b`,
+`load_endpoint_which`): 2g's shape, generalized with `family`/`size`
+and a twin branch (`commit is None`, `kind == "from_config"`) for
+`step_record_failures_2i`; `seal_tag` differs by record kind —
+`ENDPOINT_SEAL_TAG` for sweep step records (Task 4's stage, gated by
+the endpoint seal) vs `PREDICTOR_SEAL_TAG` for endpoint `which`
+records (Task 2's `endpoint_2i.py` stamps `seal["tag"]` where `seal`
+IS the predictor seal) — both confirmed against `endpoint_2i.py`'s
+actual `item_record_2i` before coding the check, not assumed.
+
+**Referents** (`make_referents_2i.py`/`verify_referents_2i.py`): 1,837
+entries — 1,698 committed inputs (34 item files, 2d's 68 x_A draws
+files, 2g's sealed predictor, 16 `FROZEN_SHA256` modules — the
+brief's own file list undercounts this at 15 in three places I
+initially copied verbatim before recounting the actual dict; fixed to
+16 throughout my own comments) — plus 2g's 771-file committed 2.8b
+sweep tree and 2h's 806-file committed 6.9b sweep tree (the
+reverse-direction descriptive's inputs, NOT 2g's 12b tree, which that
+secondary never reads) — plus 139 not-yet-existing stage artifacts
+(34 draws + 34 predictor records + 1 predictor seal, 68 endpoint
+records + 1 rung set + 1 power record), listed with `sha256: null` and
+REQUIRED at analysis time: `check_referents` reports a `null` entry
+whose path is still missing as a refusal naming the path, but accepts
+one that now exists on presence alone (no fixed hash was ever pinned
+for a file the manifest predates). `verify_referents_2i.main()`: 11
+numbered checks, run cold against the real tree — 11/11, correctly
+reporting the 139 stage artifacts as "still missing" (this is the
+CORRECT reading before any stage has run, not a defect; my first draft
+of check 5 asserted an EMPTY failure list and had to be corrected to
+assert exactly the 139 expected "still missing" entries and nothing
+else).
+
+**Worlds** (`tests/full_shape.py` + `test_full_shape_2i.py`): x_A is
+the real committed 2d draws for the eleven strata rungs, never
+synthesized; x_B is written in 2d's own row format and re-derived
+through `sampler_counts_olmo` — the production reader, not a shortcut.
+R_OLMO = R_CAP = the eleven in every world (R_EXTRA empty); the 7B
+sweep is synthetic, its per-rung latent a controlled mix of x_A/x_B
+(`a_only`/`b_only`/`both`/`independent`/`inverted`). All ten terminals
+reached:
+
+| world | mode / route | terminal |
+|---|---|---|
+| W1 | `a_only` | SHARED |
+| W2 | `b_only` | LINEAGE |
+| W3 | `both` | BOTH |
+| W4 | `independent` | NEITHER |
+| W5 | `inverted` | NEITHER (`named_inside` on both tests) |
+| W6 | missing `stage1_final` record | INSUFFICIENT_DATA |
+| W7 | drifted seal (`blobs_bound` returns non-empty) | INSUFFICIENT_DATA |
+| W8 | halt marker present | INSUFFICIENT_DATA |
+| W9 | gate-1 `bit_diffs` non-zero | INSUFFICIENT_DATA |
+| W10 | x_B constant on every R_CAP rung (0 eligible for Test B) | INSUFFICIENT_DATA |
+
+**Two real bugs the worlds caught, both in `analyze_2i.py`, both
+fixed before commit:** (1) `run()`'s `referents_sha` used a
+`None`-as-"use the default" sentinel internally, so a world explicitly
+passing `referents_sha=None` to SKIP the real committed pin check
+(unrelated to any synthetic tree) silently got the real pin
+substituted back in instead, and every world failed INSUFFICIENT_DATA
+on 139 phantom "still missing" entries — fixed by making the
+parameter default the literal itself (2g's/2h's own convention;
+explicit `None` now genuinely skips). (2) `load_sweep_7b`'s checkpoint-
+record requirement is correctly keyed to `step != bi.TWIN` (every
+trained grid step, INCLUDING the 928646 endpoint, is downloaded
+through the same candidate-file path in the sweep — unlike 2g/2h,
+whose final step IS `main`, loaded a different way with no checkpoint
+record) — my first draft of `write_world` skipped writing a checkpoint
+record for the endpoint step specifically, mirroring 2h's world
+builder by habit rather than checking 2i's actual shape; fixed in the
+WORLD BUILDER, not the analyzer, which was already correct.
+
+**Totality** (`test_totality_2i.py`): 45 shapes over a shared
+`base_world` (mode `a_only`) copied fresh per test — missing/torn/
+directory-shaped predictor seal (5), rung set (6), power record (5);
+missing/drifted `PREDICTOR_SEAL_TAG`/`ENDPOINT_SEAL_TAG` bindings (4);
+missing/torn/directory/mutated-field endpoint records (5); gate-1
+missing/torn/directory/wrong-type/bit-diff/halt-marker shapes (8); the
+new rung-set-vs-endpoint mismatch (1); sweep record/checkpoint-record/
+sweep-dir-replaced-by-a-file shapes (4); the primary's own
+no-eligible-rung and no-informative-pair refusals (2); one control
+confirming the same harness still reaches SHARED. One test's own
+needle was wrong on first run (`"gate 1 olmo7b record"` doesn't match
+the `"gate 1 olmo7b re-derivation"` label a bare-list gate1.json
+actually fires through — a bare list parses clean and fails inside
+`gate1_failures_7b`'s own `.get()` calls, not at the JSON load) — the
+needle was loosened to `"gate 1 olmo7b"` to match either failure
+site, not the implementation.
+
+**TDD.** `test_analyze_2i.py` and `test_power_2i.py`: RED confirmed
+by `ImportError: cannot import name 'analyze_2i'`/`'power_2i'` before
+either module existed; GREEN after implementation (a handful of test-
+side fixes along the way — a fake `blob_sha` that unconditionally hit
+the filesystem for `run/sweep_2i.py`, which doesn't exist yet; a
+calibration-sentence assertion checking for lower-case "not" against a
+first draft that had capitalized it). `test_full_shape_2i.py` and
+`test_totality_2i.py`: RED runs surfaced the two real bugs above (not
+staged) plus the needle/assertion fixes noted above; GREEN after
+fixing the implementation (bugs 1–2) or the test itself (needle fix,
+check-5 assertion fix) as appropriate — never the reverse.
+
+**Concern, disclosed rather than resolved unilaterally:**
+`analyze_2i.py` is 1023 lines, over the brief's ~900-line flag. The
+pure statistics/tree functions (`verdict_tree_2i`, `fires_2i`,
+`named_inside_2i`, `_run_test`, `_degenerate_rungs`, the composite-
+strata builders) are already separable from the loading/refusal code
+(`run()` itself, the referent loaders, the record-failure checkers) —
+a split along that seam (e.g. a `tree_2i.py` for the pure half) is
+possible without touching behavior, but per the brief's own
+instruction ("stop and report it as a concern rather than splitting
+on your own") no split was made.
+
+**Verification.** `verify_referents_2i` cold: 11/11, refusals naming
+the 139 missing stage artifacts, no crash. `python -m
+experiments.exp2i.analyze_2i` (no `--write`) on the real tree:
+INSUFFICIENT_DATA, the missing `exp2i-preregistered` tag and every
+missing stage artifact named in the reason, no traceback, no
+`results/verdict.json` written. `git status` confirms no frozen tree
+(`exp2h`/`exp2g`/`exp2d`/`exp2c`/`exp2b`/`exp3`/`exp3c`) changed.
+
+**A Task 2 test file fixed, disclosed.** `test_stages_2i.py`'s own
+`_prereg()` helper and three `"not built yet"` assertions assumed
+`sample_2i.py`/`endpoint_2i.py`'s try/except import would keep
+resolving to the three-file stub — true only until `analyze_2i.py`
+existed. Once this task landed the real `require_prereg_2i` (five-file
+`INSTRUMENT_BLOBS_2I`, including Task 4's not-yet-built `run/sweep_2i
+.py`), those tests broke: `_prereg()`'s `blob_sha` crashed reading a
+file that doesn't exist, and the no-injection refusal now correctly
+names the missing tag rather than saying "not built yet". Fixed
+minimally — `_prereg()` returns `None` for a path not on disk instead
+of raising, an autouse fixture shrinks `INSTRUMENT_BLOBS_2I` to what's
+actually on disk for the duration of that module (the same technique
+`tests/full_shape.py`'s worlds and `test_totality_2i.py`'s totality
+battery both need, since none of them can exercise the real five-file
+set until Task 4 exists either), and the three message assertions now
+expect `"preregistration tag"` — none of `sample_2i.py`/`endpoint_2i
+.py`'s own source was touched.
+
+**Test count: 168 total for `experiments/exp2i/tests`** (59 from
+Tasks 1–2, unchanged, plus 106 new: 45 `test_analyze_2i.py` + 8
+`test_power_2i.py` + 8 `test_full_shape_2i.py` + 45 `test_totality_2i
+.py`), 0 warnings (`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv
+/bin/python -m pytest experiments/exp2i/tests -q` → `168 passed`,
+~3m20s — dominated by the worlds'/totality's real disk I/O against
+2g's/2h's committed sweep trees inside `reverse_direction`, not
+model contact, which this task has zero of).
+
+Committed in three groups (analyze_2i.py + referents; power_2i.py;
+worlds + totality + the rung-set/endpoint cross-check fix), not
+pushed, per the task's standing instruction.
