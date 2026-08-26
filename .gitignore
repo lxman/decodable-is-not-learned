@@ -37,4 +37,6 @@ experiments/exp2f/results/activations_eval/
 experiments/exp2g/results/activations_eval/
 # exp2g sweep/watcher logs — machine-local, never part of the closed record
 experiments/exp2g/*.log
+# exp2i scan/sweep/watcher logs — machine-local, never part of the closed record
+experiments/exp2i/*.log
 .superpowers/

@@ -1,0 +1,764 @@
+{
+ "entries_7b": {
+  "1000": {
+   "commit": "ea9a026581be70db65a9463c0b8a28ae39d79301",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "5d3c739b482402f0c47712dd46091ae200c8e4380e833b7975e6ef5adfe9deb7",
+    "model-00002-of-00006.safetensors": "a2b6df29e8ee10caf655a05b0702fcf0bf4922940436c698b92f2809b21f88d5",
+    "model-00003-of-00006.safetensors": "462d90584dbde09ea44ad66f8b579ca8f37fcc3ae75d674d2a7abb6a81abeb54",
+    "model-00004-of-00006.safetensors": "e07fbf1397c5004025fb2f77b67d41b4b26396715fb166c340b076b8dc7d0df5",
+    "model-00005-of-00006.safetensors": "1436223c7136a2732e88e944e6092d3c816651877ddb1839d280ab32cf228938",
+    "model-00006-of-00006.safetensors": "c954592c45b4bd9814eb55cf0bc19a8d3c8393b8c36b544282de05fda9c2eb63"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step1000-tokens5B"
+  },
+  "128000": {
+   "commit": "012092789e4e83cf454aa020131162fd7f8edfcd",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "5b7cc2f2e7241cdc5b1a93c5c5711bb2a5fe5d4cda56361234449ac11e7eb8af",
+    "model-00002-of-00006.safetensors": "2438d12dda11b2fe7258f8f97c1f9e74f5c789d0c6d4b64d15694cf77becd05a",
+    "model-00003-of-00006.safetensors": "73301bd99bbfe61e2be5411396bf13d096a06138f482538a078db1ad2c622efd",
+    "model-00004-of-00006.safetensors": "b574fda9688c5ae4cdbe03fc2abc4c6d76479b901117ca31f029d6cddda74615",
+    "model-00005-of-00006.safetensors": "bbbf62c8409f87d07385bb072ceb2d6d6e5a5cb69b49c1e5757311212d709020",
+    "model-00006-of-00006.safetensors": "2d6eefbcf45b04c772b19dd8e78e164b6b1dac8b67147f1be518412945f38b0c"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step128000-tokens537B"
+  },
+  "16000": {
+   "commit": "8e84dfe9fd256df681ce043d1da607307dd09e9c",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "9f8bfaf7a35e0935229cf2e665491de349b1821e1a26dc83131892c8ad8715d6",
+    "model-00002-of-00006.safetensors": "a5df8844a70b453e102c80a904821d6156a2b9975b16d63e22ff04d33faa80dd",
+    "model-00003-of-00006.safetensors": "f485fe6d4f7d2081a59793fd2a65bac9f92c29f2e029fe97350248aa8ddde1b0",
+    "model-00004-of-00006.safetensors": "9675df9db4aad72c3766f09327433e44789549e4a23905c7dcef0028e0338916",
+    "model-00005-of-00006.safetensors": "08b9433a233cddb43eee3d778f23067f57c35a129052fa02593f0777465d12e4",
+    "model-00006-of-00006.safetensors": "f8f7b0538b43895ae04532aa4376ada8c3137932defc2b79c79f31ab9989347c"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step16000-tokens68B"
+  },
+  "192000": {
+   "commit": "cc53c0fadb0843a33c2d14c675e0b263688e7281",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "93a1ea1538edea5bc40372759caa0c036e6ade7d1dd15c083445478251d3c362",
+    "model-00002-of-00006.safetensors": "3dd00993d4d7ec55aeac439013568c0325700f0e2f9afb092996af1461b8e722",
+    "model-00003-of-00006.safetensors": "f755d4b8c81b80cf601add3790e248f2c9249b514d2eb38e0652926b6a518260",
+    "model-00004-of-00006.safetensors": "6863dfa642535fc6222ac2fd00cb6a862ab451b14a6b07eda841931ddedcb66e",
+    "model-00005-of-00006.safetensors": "d55b65b75f6bddf8a2e7cfe6b15d2e9bdf08bfca78fac8e5f76303199acfe243",
+    "model-00006-of-00006.safetensors": "1cdcfed099702a0e583d7cabe7cee88c4a2500a7ced63edd195ecd40e19f1e3d"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step192000-tokens806B"
+  },
+  "2000": {
+   "commit": "f872bfe9299c775c947b59d93391c822531cf198",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "7fe51e15f43332388c678be7698e55c9bd61334dce4c4780daafb0bd2201298a",
+    "model-00002-of-00006.safetensors": "44b88fa69e82b784ed9f05e4337f466eb5e06d21cfe00d8a287ada49f0f53980",
+    "model-00003-of-00006.safetensors": "b83a589dd0bd82e9c9f3f95971fc654524c8965cdfddf8dcbee992a38173be4e",
+    "model-00004-of-00006.safetensors": "d7a929af7c1be735a527694371c3c9ad4e5896514030767838eba01aebf9f75a",
+    "model-00005-of-00006.safetensors": "20a26e8fe297049206d3ee932fa2c7b600d637438836a19156dea87d7855e23d",
+    "model-00006-of-00006.safetensors": "88039c1bee080244c097c4eae4b33b48c922f214f9d1e180c3e782da4dc6a767"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step2000-tokens9B"
+  },
+  "256000": {
+   "commit": "0832b89c06d2f5805f78853e9795c0102218fd51",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "bc99bae61ba366777d6634150757f51b3d3c25a53813532f6d8ba0e732d87a0f",
+    "model-00002-of-00006.safetensors": "a27d7f0a0270179cfa553f1e15ddb68d77045156e479b8f5683686039f63e20f",
+    "model-00003-of-00006.safetensors": "0f2b98d4dc2818910981946859ef7d90d422f3e43f5277eb32711f9bab8c743d",
+    "model-00004-of-00006.safetensors": "3b0c49a8a12e321d98918aa5c5a03c8fd04cab55b5354f796b59a7bba7eff3b8",
+    "model-00005-of-00006.safetensors": "bb8cd509f73c233632fd05e8d4deb92973e1e863d2843e1b321c8a7c17b8237a",
+    "model-00006-of-00006.safetensors": "cc1ef19f1e80ea19aeeb08202b7052a70c73757c94adddf53349853c969db1bd"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step256000-tokens1074B"
+  },
+  "32000": {
+   "commit": "c59901be1392c3750e4afa9b16a86b21f1aac591",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "7b0f95f37db367a48554ea746bdca5ed4a1391ffeb83395352afa9d10396db45",
+    "model-00002-of-00006.safetensors": "27cb190d5ffe4e331ebb36b23586379b3ec1ed279c36586ad9fc0f41797ccdee",
+    "model-00003-of-00006.safetensors": "431a3ae982d08c85b444ccc853a00abe9abe35e0dcc02ee8dac16456bb3eb4cb",
+    "model-00004-of-00006.safetensors": "4f6e1a8b2a8be1db6e1010c619cc925ce983a6d2a7dc71e6bb75fc0dfa10053e",
+    "model-00005-of-00006.safetensors": "6cd0fab1f3a44c49585c4c574eeb3ebf85dba5f3ad170369184fec84f22a3010",
+    "model-00006-of-00006.safetensors": "fa52d7da379fdf69209438c68435b1dd05810dc5ea1d066619adc1ae314e4bca"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step32000-tokens135B"
+  },
+  "320000": {
+   "commit": "71e4f6fb8cd6f19ffdd7a00d30e4a701ebb74502",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "1dcf8aeff028809776cb3b592abe9ac0ffacd0f4d98ac62d0f4e81e88ac4cecf",
+    "model-00002-of-00006.safetensors": "50ee0d7c55d7ea6eb1d8cc4bb5553572db0780017f7ee916874acdc5cd990f30",
+    "model-00003-of-00006.safetensors": "433407e249249d22a1141aeb8a2b32c48772f57b374209e65bbb3a86a28bd84b",
+    "model-00004-of-00006.safetensors": "2d22ff0777c5b5e94cc50a444b20596065274a34954cec3a074cb155f8e4b34b",
+    "model-00005-of-00006.safetensors": "7899439e24205ffd433aae07260ff8da68e4216b4244d432c1385291a630be77",
+    "model-00006-of-00006.safetensors": "0ac3331a9259c75c38ea23e4617215df12df9e3b186fa436a80ba621391d29f2"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step320000-tokens1343B"
+  },
+  "384000": {
+   "commit": "d896adc73ddeef53f5b2e16fa9f6ab5129614d00",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "86189f3baf40d47ddefaaff4f90d947c1678c80656a5b66d9e43f920003e2903",
+    "model-00002-of-00006.safetensors": "b1983bbd75116c9a5c543f34474ffab726135208397b312f764a241b27300bfc",
+    "model-00003-of-00006.safetensors": "017b75b401630f7edd00abf2180a961c93c7d30052d6bf0493f16f36942997dc",
+    "model-00004-of-00006.safetensors": "3e1cf1419a4c1d3ef64495d5c7427181868249a40c4c8466de01526eb4b7de2b",
+    "model-00005-of-00006.safetensors": "c589dbf7120b372a3de7b15a9cf59af9c3c3eeddd760b90b6b5ddffaa041e25c",
+    "model-00006-of-00006.safetensors": "f1386b8f610e9aaa4752afee8584aef6f5794f7d271b332be53d7e9e04ea0c10"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step384000-tokens1611B"
+  },
+  "4000": {
+   "commit": "83cfe2642301eb146308aafddd40047d5f66202d",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "5807d4db4e5ddf7e93b33d3bc02d0c6fdfb790f2fdb417fe786de4f7fa6bccb3",
+    "model-00002-of-00006.safetensors": "2a07d547fec53d91f614e83dc39f449795ed4e4ea1e06e6faf398aea12f70245",
+    "model-00003-of-00006.safetensors": "99b9f7fb4ec50272f612525d03707f93b471a7a4866abb89868cd0aade98920d",
+    "model-00004-of-00006.safetensors": "95a69795159a610728ec7edf50a193bba5de6d85de7465ce2c9a7bc1d283444a",
+    "model-00005-of-00006.safetensors": "6422762134e13076919ed48546e4735c0bfe3333b96b9fff5cf18ee1da06f240",
+    "model-00006-of-00006.safetensors": "b2f09f97be3644e21adc877a12b048495a885fc71a629e51d2181cde977aa127"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step4000-tokens17B"
+  },
+  "448000": {
+   "commit": "41b6b3b4f8e378c8a5622d009105c6533bb41b01",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "3539d5bbf3ac14a6379fdafd636d84a0f8e7f3cf49c3c1a060d287b15cf3ad34",
+    "model-00002-of-00006.safetensors": "519963f8a048b0924ce5fd95fda4650ebdef06fefbc7d6a7d21dd4cc76f0255b",
+    "model-00003-of-00006.safetensors": "6681832c79e465ac244c61a7fc3224c4e795855d8d14a45499c627c965fc666a",
+    "model-00004-of-00006.safetensors": "fae50ef2686aa52116b7e83b7539a716698fe83ed67bdf0ea9cb279ac85bfce5",
+    "model-00005-of-00006.safetensors": "bfaca51258dfbf4cb9dc1488feac53c627c6d5c59de7d7b617bcbb095422a421",
+    "model-00006-of-00006.safetensors": "b043d4d8e2e44be0dce7409091f4bb6277b768b7665aea6911448d7df2c91cc1"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step448000-tokens1880B"
+  },
+  "512000": {
+   "commit": "54e33c59246f6c2a8bfee73cf5b18ba60819447c",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "abdbb9ee416776ed8c02b05194444b2da621ff4ad0849934dfcef95affb3e798",
+    "model-00002-of-00006.safetensors": "7d1707cb7ec3cf6ce73fd88d19ddbb7a298228d5d09ba519227f02f27bd822a5",
+    "model-00003-of-00006.safetensors": "8493990c25ba981c4d59bd71759bb154f222fc382b26635d99c74d928ba2c281",
+    "model-00004-of-00006.safetensors": "ff7afbe7ddd263145b494dfaf785c46db63380f7cdafaa63f0d7aa05db8b9dda",
+    "model-00005-of-00006.safetensors": "6dbfe71a65b96849fdf92af1e51bbb43439a7ffd7213b61f8a7af3c6c1d409b9",
+    "model-00006-of-00006.safetensors": "2def8f0ef99550378b424962c5028b621363f79f24ee56c4304933b619e05381"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step512000-tokens2148B"
+  },
+  "576000": {
+   "commit": "de173e627c1d4f19267fe31843c2a3922b2fc3cd",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "9b8ca65165defe4b33824026b66cc721183e14a95a1937ff3e1851f03fe28e9d",
+    "model-00002-of-00006.safetensors": "ad257a4f23c717ca50c6eca3d22ceb52517ee40f70e751e99d1ae7e5090a4bd2",
+    "model-00003-of-00006.safetensors": "8cad2d33aebe22f070900a40263dad799c5b7d12e7fe4ba52a84706ef44859a6",
+    "model-00004-of-00006.safetensors": "612a4960930da34c5f4efb9b402204c374d6ddf97edbf86bcabd4b0140d0d7de",
+    "model-00005-of-00006.safetensors": "af2c25c8cd3f3f840eef2e4888f5e5072e880b51545a29ee53f286206c6d81ef",
+    "model-00006-of-00006.safetensors": "2993d21e6091477523d990eadf406011d070d63c145e2aa0834ef1305b9fcd62"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step576000-tokens2416B"
+  },
+  "64000": {
+   "commit": "82796c235660d05dd70b123d386c84863ad88a40",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "38da2772f91632ab6350db707e9154baa5e711c5ed66e73d4e19ab117ae8d6a5",
+    "model-00002-of-00006.safetensors": "fc791b3aaa6ff4927663f8c865f1dfbe46a73facc3f5b3b2caefa01eabde861a",
+    "model-00003-of-00006.safetensors": "8884cf333303b81852d3e4bbf1e6d311539a9c2f25dd3effac6f6b2819aeb33d",
+    "model-00004-of-00006.safetensors": "f9480f29989cb73bbe596644c798056ae382d253f02e82e411123d864a2ef19b",
+    "model-00005-of-00006.safetensors": "f295e6f8e4e6ba3cd2a641b466b5d85582dccce0684a303bfaf65d700126e680",
+    "model-00006-of-00006.safetensors": "d8bf4d94900a0bfa761dad378186651559dcfface3da54475d0cc13dc6cee5ba"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step64000-tokens269B"
+  },
+  "640000": {
+   "commit": "f1ffcecf49282a06847d7fcf78f0a90cacd318b5",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "cc38c1be0b23698a95d4d9e0aa0e4cb76340babb084c6b48172b68a95df4bc59",
+    "model-00002-of-00006.safetensors": "5cbcc9caf3cc207d24f63f9dad908f4513d8be528ac582447c95630a0c3a8fa3",
+    "model-00003-of-00006.safetensors": "09117634d2456c79fd87b0173caf460b51a191f69bb9d2d2f676a7e39a066f85",
+    "model-00004-of-00006.safetensors": "4a12861ac492a03010340d5d76f71174962189c5d6f1486840a4887474175ca4",
+    "model-00005-of-00006.safetensors": "0373d6cde254385574aa13be3a58a44ef9cc253b643816c5000c309fa1e726b4",
+    "model-00006-of-00006.safetensors": "b160ef7207984d42eeecc10e4eb0e38e953e24cbbaa4fac97fbdb83265620173"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step640000-tokens2685B"
+  },
+  "704000": {
+   "commit": "07fee7b9aca2c69de0643f1885eab91fb276d393",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "b8517676133949022d8e1fe74b5dcca54b5f0aef8f600fd181e37565673d58d1",
+    "model-00002-of-00006.safetensors": "a21c8d5e93c895ce1fe17f81ae406b8de651bf2ccbc1d6b2c7d499e1b0c6d730",
+    "model-00003-of-00006.safetensors": "e0daeb3b9c6abff37b53d4e28f2590fd26d175294c29bd4fa72ea312ba784b20",
+    "model-00004-of-00006.safetensors": "221fa97b391a3e7ecf03bf80906c1c93e877cc94ebcd0eb6799f892eb9b96d19",
+    "model-00005-of-00006.safetensors": "9622efaa775de1e51d25d3a1bdf57d20ddab0c3f07cd520e912d776d213a9224",
+    "model-00006-of-00006.safetensors": "f85d1c025a1dc0e975e6a136ff52a783c340197d841470abdb0497cd099b0fcf"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step704000-tokens2953B"
+  },
+  "768000": {
+   "commit": "e9b8e98b0b885e093af3e230f3ac2704b1cffeed",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "04aed09bde18aefaaf13160a19382d8adb64bd48ee1f50c8ed39d9edfd6dc194",
+    "model-00002-of-00006.safetensors": "9967e2a01d25c3d9ab89796eebb355e8e3c6c084a3ab4c76784fdfd8bfca3f4f",
+    "model-00003-of-00006.safetensors": "e3b6ddd2f3a1a218f8e17b17de13a1857cddb1bba666a5796689deaa3e8e3f86",
+    "model-00004-of-00006.safetensors": "12dd6d6f564063f8559b537452f9d6803776770d9630f8d336fe77c4f07b393b",
+    "model-00005-of-00006.safetensors": "12e8b30fc84af5ef54cdc65e80450a4467c54a071026f02be22b94bd83423724",
+    "model-00006-of-00006.safetensors": "800028c29f9806500a140de2d1f4098cfaa2e01e4c988cbeb2bb7248b7dc7025"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step768000-tokens3222B"
+  },
+  "8000": {
+   "commit": "b8e57d92f98bec06d52dd5401618fff2f060fb75",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "78ebbbbdcf9cc6445a88e026859b48a296109f633ad487523e048ad04e9c8cb0",
+    "model-00002-of-00006.safetensors": "771b4376376d8c36d3fd1aefc5d861602d39fcf0f176dd5c7165607463d4964c",
+    "model-00003-of-00006.safetensors": "f365a6a6d34e940cad974266054396554eaabe185e6a9003a8be813657297082",
+    "model-00004-of-00006.safetensors": "b712b5e2063cdfa74fbdcaa971e8bb3d3fb3a99f8eae4d6b9699a0364d803105",
+    "model-00005-of-00006.safetensors": "17a171c75cd0a855c8f3e85248f2fd623bd0588d748b7ab12bf0df04ecc51d92",
+    "model-00006-of-00006.safetensors": "b334687ebdcfb752d995b663dcfca4d1805cc111f79553655c656a64fa576476"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step8000-tokens34B"
+  },
+  "832000": {
+   "commit": "928f9889dc1088c78a32620cfbeac4947c7dd3d8",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "15af10301bac5f4d2c13899732bdd13f8ebe6df9d5e71e397b514b810aca279d",
+    "model-00002-of-00006.safetensors": "d5675ad433ab3816474d3cd8f0b0d1ffd2a92ec2b3e25871a643d41aa48d47c7",
+    "model-00003-of-00006.safetensors": "6bcdb6f7cbf76f4578600ae99affd6228cefb14c9f1c4d513a643771c7ba679a",
+    "model-00004-of-00006.safetensors": "e1c3e2a33b8d02e73e4f173a9ebb47c40c70a78857b408ff683dd64f8c4c8bd9",
+    "model-00005-of-00006.safetensors": "e4e8b237354fcea77933aef61afb54da42cd13c16a9ce8aba5b3cb86dfe7b908",
+    "model-00006-of-00006.safetensors": "1f83cd4ad2d30cfc611bcbbce783d54862771c71a62ee5682fa96ed64629f06c"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step832000-tokens3490B"
+  },
+  "896000": {
+   "commit": "320060662790e773e4130f879822ce9731ddb1de",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "e724cc608485c0b525cecc78f91dab583a2bcea4ca459171016a261769dbdf4a",
+    "model-00002-of-00006.safetensors": "13210fed64934c16785f32fc106a1f5526e8ab71db0d275aa12a412d7b9e0662",
+    "model-00003-of-00006.safetensors": "b22c6d89e018c9199e57d313ef2d50431cade276f5bdd31f17a6925c9743ab6c",
+    "model-00004-of-00006.safetensors": "619287603241e7ffac3967cc0b65300d9ab47dac390357185bd9f098db44f6ef",
+    "model-00005-of-00006.safetensors": "ee021c55f80520bcaa0a1240657508eabccb32d74e19ff938b38e6a58bb5f5d5",
+    "model-00006-of-00006.safetensors": "cace3b84165246ff138a1f02438fde1b05c1f27098e13a18001ed5a94a8ff897"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step896000-tokens3759B"
+  },
+  "928646": {
+   "commit": "c0371f4281bf2376207646c6b62ddc6c442c7577",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "cd3044e11b7a772f513b4f7b95a50252738c8d61030dcb212dfb8b82fb92c1a2",
+    "model-00002-of-00006.safetensors": "46ff6494a75b1933e5c653875e56d06ee724856973a9308164d2671fe55baa2b",
+    "model-00003-of-00006.safetensors": "eb459f4a7d5a8989e55b528ee6d424156822b9b150df60b5faea0f53f4013df2",
+    "model-00004-of-00006.safetensors": "972f150775e39ac52954db51fd559af3e397df847d8ab2ad9be2a079a8ccc8e4",
+    "model-00005-of-00006.safetensors": "fc3f00bb6c5f820381516cc4e51ca68fd11d5e6c34bed666b0edf2e507ff5184",
+    "model-00006-of-00006.safetensors": "c69fb469d2d3cef04e6ef794f2ff69be35a2702a52740fa1bcb2b91744a4f867"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "stage1-step928646-tokens3896B"
+  },
+  "twin": {
+   "commit": null,
+   "config_commit": "c0371f4281bf2376207646c6b62ddc6c442c7577",
+   "files": [],
+   "kind": "from_config",
+   "revision": "twin",
+   "seed": 0
+  }
+ },
+ "entry_1b_endpoint": {
+  "commit": "9d3e43659f00c17e6da23cf32333afd1fc39fa1a",
+  "files": [
+   "model-00001-of-00002.safetensors",
+   "model-00002-of-00002.safetensors",
+   "model.safetensors.index.json"
+  ],
+  "kind": "safetensors-shards",
+  "lfs_sha256": {
+   "model-00001-of-00002.safetensors": "7e4abea26202188a7b62c69f5274536a8a8e1e5a0f2d72fa53c68b7c8fc2f0e5",
+   "model-00002-of-00002.safetensors": "e380e1d8cc9ef28c75f44b954fe59566bc144d924f3a235a8c6d7bcb040696fd"
+  },
+  "lfs_size": {
+   "model-00001-of-00002.safetensors": 4983360992,
+   "model-00002-of-00002.safetensors": 956326560
+  },
+  "revision": "stage1-step1907359-tokens4001B"
+ },
+ "final_duplicates": [],
+ "grid_7b": [
+  1000,
+  2000,
+  4000,
+  8000,
+  16000,
+  32000,
+  64000,
+  128000,
+  192000,
+  256000,
+  320000,
+  384000,
+  448000,
+  512000,
+  576000,
+  640000,
+  704000,
+  768000,
+  832000,
+  896000,
+  928646
+ ],
+ "main": {
+  "allenai/OLMo-2-0425-1B": {
+   "commit": "a1847dff35000b4271fa70afc5db10fd29fedbdf",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "c52e4ac8bf4867e698d908f9e8c2b84aa891b91dff066d46bf2a7cf453ad77fb",
+    "model-00002-of-00002.safetensors": "5f80762572fe28aca49b01b98895d96ca529b9792fc10925a977a161ad768d30"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4983360992,
+    "model-00002-of-00002.safetensors": 956326560
+   },
+   "revision": "main"
+  },
+  "allenai/OLMo-2-1124-7B": {
+   "commit": "7df9a82518afdecae4e8c026b27adccc8c1f0032",
+   "files": [
+    "model-00001-of-00006.safetensors",
+    "model-00002-of-00006.safetensors",
+    "model-00003-of-00006.safetensors",
+    "model-00004-of-00006.safetensors",
+    "model-00005-of-00006.safetensors",
+    "model-00006-of-00006.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00006.safetensors": "880c0d9bd7311ca020584a7304504918dfcf17bfa35b464b1ab8dc01a06138d3",
+    "model-00002-of-00006.safetensors": "de0b6a357d03676c4986588aaf4dc96afc3f44a0498514961d2b2cfa1940655e",
+    "model-00003-of-00006.safetensors": "c1038a7d346a681a8fb6949e054c2246f3f3c80e826855c1cec6af1155cc607d",
+    "model-00004-of-00006.safetensors": "33c0a21146ace02d36928787ae7f34be868f7c81b894dea98ec7b0e5a3ea01b2",
+    "model-00005-of-00006.safetensors": "e7f82a3014ccfc0f67208f63785ae4bc71f09aba86db48bf6139d18178abbfed",
+    "model-00006-of-00006.safetensors": "2dda0bdc36c113e54909a798f8847f76f052b17a082ceaf1fa8b0fd30b0b3041"
+   },
+   "lfs_size": {
+    "model-00001-of-00006.safetensors": 4949546184,
+    "model-00002-of-00006.safetensors": 4991622816,
+    "model-00003-of-00006.safetensors": 4924546896,
+    "model-00004-of-00006.safetensors": 4857404928,
+    "model-00005-of-00006.safetensors": 4857404928,
+    "model-00006-of-00006.safetensors": 4613984792
+   },
+   "revision": "main"
+  }
+ },
+ "n_revisions": {
+  "allenai/OLMo-2-0425-1B": 3,
+  "allenai/OLMo-2-1124-7B": 965
+ },
+ "repo_1b": "allenai/OLMo-2-0425-1B",
+ "repo_7b": "allenai/OLMo-2-1124-7B",
+ "signature_equals_main": false,
+ "trained_steps_7b": [
+  1000,
+  2000,
+  4000,
+  8000,
+  16000,
+  32000,
+  64000,
+  128000,
+  192000,
+  256000,
+  320000,
+  384000,
+  448000,
+  512000,
+  576000,
+  640000,
+  704000,
+  768000,
+  832000,
+  896000,
+  928646
+ ]
+}
