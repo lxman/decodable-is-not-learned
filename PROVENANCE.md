@@ -263,5 +263,6 @@ adding the Experiment 2e record), release v1.6
 (10.5281/zenodo.22063906, adding the Experiment 2f record) and release
 v1.7 (10.5281/zenodo.22064573, adding the Experiment 1, 1b and 1c
 records) and release v1.8 (10.5281/zenodo.22064649, the paper carried
-to this line with Section 6's ninth lesson)), and release v1.9
-(10.5281/zenodo.22087512, adding the Experiment 2g record).
+to this line with Section 6's ninth lesson)), release v1.9
+(10.5281/zenodo.22087512, adding the Experiment 2g record) and release
+v1.10 (10.5281/zenodo.22104580, adding the Experiment 2h record).

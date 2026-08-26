@@ -37,7 +37,8 @@ and checklist item 23 were added 2026-08-23 from the Experiment 2f
 record on Michael's instruction; the paper was carried to the public
 repository the same day as a direct commit (no re-extraction) and
 archived as v1.8. The Experiment 2g close-out followed the same
-route on 2026-08-24, archived as v1.9.
+route on 2026-08-24, archived as v1.9; the Experiment 2h close-out
+on 2026-08-25, archived as v1.10.
 The supporting repository has been public since 2026-08-06 and was
 re-extracted 2026-08-22 (three times) to carry the exp2d, exp2e and
 exp2f records: twenty-four tags, a preregistered and a closed anchor
@@ -48,9 +49,11 @@ separately filtered line merged with unrelated histories (six more
 tags, every prior anchor untouched, a fast-forward push), thirty
 experiment tags in all; the 2026-08-24 Experiment 2g graft added three
 more (`exp2g-preregistered`, `exp2g-predictor-sealed`,
-`exp2g-closed`), thirty-three. Archived at Zenodo under concept
-DOI 10.5281/zenodo.21830421, latest version v1.9
-(10.5281/zenodo.22087512, the Experiment 2g record; v1.8,
+`exp2g-closed`), thirty-three; the 2026-08-25 Experiment 2h graft added
+two more (`exp2h-preregistered`, `exp2h-closed`), thirty-five. Archived
+at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
+v1.10 (10.5281/zenodo.22104580, the Experiment 2h record; v1.9,
+10.5281/zenodo.22087512, the Experiment 2g record; v1.8,
 10.5281/zenodo.22064649, the paper with the ninth lesson). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
@@ -1585,7 +1588,8 @@ record 10.5281/zenodo.22011547, v1.3 with the Experiment 3e record
 10.5281/zenodo.22063906, v1.7 with the Experiment 1, 1b and 1c
 records 10.5281/zenodo.22064573, v1.8 with this paper's ninth lesson
 10.5281/zenodo.22064649, v1.9 with the Experiment 2g record
-10.5281/zenodo.22087512).
+10.5281/zenodo.22087512, v1.10 with the Experiment 2h record
+10.5281/zenodo.22104580).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
@@ -1597,7 +1601,10 @@ Experiment 2e's record (`exp2e-*`, an analysis-only re-read of 2d's
 draws), named here and not drawn on, and Experiment 2g's record
 (`exp2g-preregistered`, `exp2g-predictor-sealed`, `exp2g-closed`, the
 sealed item-grain forecast against Pythia-2.8B's intermediate
-checkpoints), likewise named and not drawn on; and, since 2026-08-23, the synthetic calibration records of
+checkpoints), likewise named and not drawn on, and Experiment 2h's
+record (`exp2h-preregistered`, `exp2h-closed`, the sampler
+confirmation of that forecast on Pythia-6.9B's checkpoints), likewise
+named and not drawn on; and, since 2026-08-23, the synthetic calibration records of
 Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
 `exp1c-*`), reported in the companion essay and not drawn on here.
 Interim stage tags (e.g. `exp2c-stage1`) exist only in the private
