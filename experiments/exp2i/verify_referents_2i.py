@@ -4,7 +4,7 @@ against the committed trees — run at build, re-run cold at the freeze.
 It stops short of the verdict and of any model contact, and
 deliberately short of any predictor-vs-outcome statistic.
 
- 1  frozen pins byte-identical: `battery_2i.check_frozen_2i` (16),
+ 1  frozen pins byte-identical: `battery_2i.check_frozen_2i` (20),
     `battery_2g.check_frozen_imports_2g` (14 upstream pins — 2g's own
     instrument, which 2i's verdict executes), `battery_2i
     .check_pythia_predictor_files` (68, x_A's real committed input)
@@ -77,10 +77,10 @@ def _eq(got, want, what):
         raise AssertionError(f"{what}: got {got!r}, want {want!r}")
 
 
-@check(1, "frozen pins (16); upstream frozen-import pins (14); x_A pins (68)")
+@check(1, "frozen pins (20); upstream frozen-import pins (14); x_A pins (68)")
 def _c1(ctx):
     bi.check_frozen_2i()
-    _eq(len(bi.FROZEN_SHA256), 16, "pins")
+    _eq(len(bi.FROZEN_SHA256), 20, "pins")
     bg.check_frozen_imports_2g()
     _eq(len(bg.FROZEN_IMPORT_SHA256_2G), 14, "upstream pins")
     bi.check_pythia_predictor_files()

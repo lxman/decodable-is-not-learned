@@ -146,7 +146,7 @@ def revision_of_7b(step) -> str:
     step_i = int(step)
     if step_i not in GRID_7B:
         raise ValueError(f"step {step_i} is not on GRID_7B")
-    manifest = load_manifest(CHECKPOINTS_PATH, sha_pin=None)
+    manifest = load_manifest(CHECKPOINTS_PATH, sha_pin=CHECKPOINTS_2I_SHA256)
     return manifest["entries_7b"][str(step_i)]["revision"]
 
 
@@ -665,6 +665,19 @@ FROZEN_SHA256 = {
         "e33c50d3985b1d6205d886e53726860f364cce1c6cd943ec460524e9110a03ea",
     EXP3C / "analyze_3c.py":
         "66b78ffbedb808625ed33019f29d2ef8ec9d0f31a1115eb7cb08ad3e67d42d84",
+    # whole-branch review fix wave (I-2): four instrument modules that
+    # were imported/mirrored but never pinned. The last two are 2i's
+    # OWN files — a self-pin of a non-tag-bound module is fine (ruling,
+    # review): a post-tag edit to either refuses everywhere
+    # `check_frozen_2i` runs, exactly like any other frozen module.
+    EXP2G / "predictor_2g.py":
+        "3381b43a34fd1fb1f7ef57eb9d02a6a9e9ec41b3ffcadea425c37b86c1e92a4e",
+    EXP2G / "run" / "sweep_2g.py":
+        "850db5831adeffc46a888ca185ef3f1ad819a8db104c9eafd1df69c470c91a87",
+    EXP2I / "run" / "_common_2i.py":
+        "5cc7c97f68b45656d6dbbb5fbf6d7d895d7b1d96e104df543f8c9f1691e5ad4f",
+    EXP2I / "make_referents_2i.py":
+        "c296f9912e1135dc9a79e0a13659e1316d5457aaa0094a0ea7912aa6f75c0760",
 }
 
 
@@ -765,7 +778,8 @@ def blobs_bound(tag: str, paths, *, repo_root=REPO) -> list:
     every path is bound to the tag — both sides are content-addressed,
     so no file bytes are read directly by this function on either
     side. Used by `run/endpoint_2i.py` to bind the predictor seal
-    (`predictor_2i.json` + its draws files) to `PREDICTOR_SEAL_TAG`."""
+    (`predictor_2i.json` + its draws AND record files) to
+    `PREDICTOR_SEAL_TAG`."""
     repo_root = Path(repo_root)
     drift = []
     for rel in paths:

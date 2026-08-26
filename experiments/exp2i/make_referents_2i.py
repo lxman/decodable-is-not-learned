@@ -40,10 +40,13 @@ REPO = bg.REPO
 
 # discovered once by running build() against the real committed trees,
 # then pinned literally (2g's/2h's own referent-manifest convention) —
-# the 34+68+1+1+1+16 fixed-count files plus the two sweep trees' walked
+# the 34+68+1+1+1+20 fixed-count files plus the two sweep trees' walked
 # counts (771 for 2g's 2.8b, 806 for 2h's 6.9b, as committed
 # 2026-08-25/26) plus 139 not-yet-existing stage-artifact placeholders.
-N_FILES_2I = 34 + 68 + 1 + 1 + 1 + 16 + 771 + 806 + 139
+# The 20 (was 16 before the whole-branch review fix wave's I-2) is
+# `len(bi.FROZEN_SHA256)`, read dynamically below via
+# `referent_files_committed()` — never hardcoded as a path list here.
+N_FILES_2I = 34 + 68 + 1 + 1 + 1 + 20 + 771 + 806 + 139
 
 
 def referent_files_committed() -> list:

@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -60,10 +61,12 @@ RESULTS = EXP2I / "results"
 REFERENTS_PATH_2I = EXP2I / "referents_2i.json"
 
 # referents_2i.json's own sha256 — built and pinned by make_referents_2i.py
-# (Task 3), 1837 files (1698 committed inputs + 139 not-yet-existing stage
-# artifacts, listed with sha256: null and required by analysis time).
+# (Task 3), 1841 files (1702 committed inputs + 139 not-yet-existing stage
+# artifacts, listed with sha256: null and required by analysis time). The
+# 1698 -> 1702 committed-input bump (2026-08-25, whole-branch review fix
+# wave, I-2) is FROZEN_SHA256 growing from 16 to 20 pinned modules.
 REFERENTS_2I_SHA256 = \
-    "26c53980be17593001b6c17a36d91103cf3fb41163e257b4b5714b0208576a21"
+    "ea9f22ff998647c32f7830b47355c5d58b9f174b21946b728fb4de866da8cb03"
 
 WORLDS = ("INSUFFICIENT_DATA", "SHARED", "LINEAGE", "BOTH", "NEITHER")
 ALPHA, T_BAR = st.ALPHA, st.T_BAR
@@ -129,11 +132,14 @@ CALIBRATION_SENTENCE_2I = (
 # ------------------------------------------------------- the prereg tag
 
 # design §7 / Global Constraints: the tag `exp2i-preregistered` is
-# blob-bound to these five files — `run/sweep_2i.py` does not exist yet
-# (Task 4); in production a missing instrument file is a refusal. Both
-# `require_prereg_2i` and `require_seal_2i` live here; `sample_2i.py`/
-# `endpoint_2i.py` already try `from experiments.exp2i.analyze_2i import
-# require_prereg_2i` first and fall back to the stub.
+# blob-bound to these five files — all five are on disk (Task 4 landed
+# `run/sweep_2i.py`, the last of them; the fail-closed stub
+# `run/_prereg_stub_2i.py` that `sample_2i.py`/`endpoint_2i.py` fell
+# back onto before this module existed was removed the same task). In
+# production a missing instrument file is still a refusal (`got is
+# None` below). Both `require_prereg_2i` and `require_seal_2i` live
+# here; `sample_2i.py`/`endpoint_2i.py` import `require_prereg_2i`
+# directly from this module now.
 INSTRUMENT_BLOBS_2I = (
     "experiments/exp2i/battery_2i.py",
     "experiments/exp2i/analyze_2i.py",
@@ -275,6 +281,75 @@ def gate1_failures_7b(rec: dict, endpoint_records: dict) -> list:
     if rec.get("prereg_tag") != bi.PREREG_TAG:
         bad.append(f"gate 1 olmo7b: prereg_tag {rec.get('prereg_tag')!r} is not "
                    f"{bi.PREREG_TAG!r}")
+    return bad
+
+
+def gate1_rederive_7b(sweep_endpoint_records: dict, stage1_final_records: dict,
+                      gate_record: dict) -> list:
+    """C-1: gate 1 must RE-DERIVE identity, not trust attestation.
+    `gate1_failures_7b` above only checks the runner's own ATTESTED
+    `bit_diffs`/`continuation_diffs`/`continuations_compared` fields —
+    it never opens the two committed record sets and compares bytes.
+    This does: for every one of the 34 rungs, recompute the bit and
+    continuation diffs directly from `sweep_endpoint_records[rung]`
+    (the sweep's step928646 record) vs `stage1_final_records[rung]`
+    (the already-committed stage-2 endpoint record), and require (a)
+    both re-derived diffs are zero, (b) the re-derived counts AGREE
+    with `gate_record`'s own attested `bit_diffs`/`continuation_diffs`
+    (an attestation that disagrees with the bytes on disk is itself a
+    failure, regardless of which side is right), (c) full coverage —
+    both records are exactly `bt.N_ITEMS` long AND the attested
+    `continuations_compared` is the full count (the same F-2 coverage
+    standard `gate1_failures_7b` already applies to the attested side).
+    Any deviation is a failure naming the rung and the count."""
+    bad = []
+    bd_attested = gate_record.get("bit_diffs", {}) if isinstance(gate_record, dict) else {}
+    cd_attested = gate_record.get("continuation_diffs", {}) if isinstance(gate_record, dict) else {}
+    nc_attested = gate_record.get("continuations_compared", {}) if isinstance(gate_record, dict) else {}
+    for r in bt.RUNGS:
+        if r not in sweep_endpoint_records:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: no sweep step{bi.ENDPOINT_STEP_7B} "
+                       f"record to re-derive against")
+            continue
+        if r not in stage1_final_records:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: no stage1_final endpoint "
+                       f"record to re-derive against")
+            continue
+        s_bits = sweep_endpoint_records[r].get("bits")
+        e_bits = stage1_final_records[r].get("bits")
+        s_conts = sweep_endpoint_records[r].get("continuations")
+        e_conts = stage1_final_records[r].get("continuations")
+        if not isinstance(s_bits, list) or not isinstance(e_bits, list) or                 len(s_bits) != bt.N_ITEMS or len(e_bits) != bt.N_ITEMS:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: sweep/endpoint bits are not "
+                       f"both {bt.N_ITEMS} long — coverage failure")
+            continue
+        if not isinstance(s_conts, list) or not isinstance(e_conts, list) or                 len(s_conts) != bt.N_ITEMS or len(e_conts) != bt.N_ITEMS:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: sweep/endpoint continuations "
+                       f"are not both {bt.N_ITEMS} long — coverage failure")
+            continue
+        bit_diff = sum(1 for a, b in zip(s_bits, e_bits) if int(bool(a)) != int(bool(b)))
+        cont_diff = sum(1 for a, b in zip(s_conts, e_conts) if a != b)
+        if bit_diff != 0:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: {bit_diff} bit diff(s) "
+                       f"between the sweep's step{bi.ENDPOINT_STEP_7B} record and "
+                       f"the stage1_final endpoint record (re-derived from the "
+                       f"bytes, not the attestation)")
+        if cont_diff != 0:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: {cont_diff} continuation "
+                       f"diff(s) (re-derived from the bytes, not the attestation)")
+        if bd_attested.get(r) != bit_diff:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: attested bit_diffs "
+                       f"{bd_attested.get(r)!r} disagrees with the re-derived "
+                       f"{bit_diff}")
+        if cd_attested.get(r) != cont_diff:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: attested continuation_diffs "
+                       f"{cd_attested.get(r)!r} disagrees with the re-derived "
+                       f"{cont_diff}")
+        if nc_attested.get(r) != bt.N_ITEMS:
+            bad.append(f"gate 1 olmo7b re-derive/{r}: attested "
+                       f"continuations_compared {nc_attested.get(r)!r} is not the "
+                       f"full {bt.N_ITEMS} — a zero diff count over a truncated "
+                       f"comparison is not evidence")
     return bad
 
 
@@ -548,17 +623,73 @@ def _degenerate_rungs(counts: dict, strata: dict, rungs) -> list:
     return out
 
 
+# I-4 / Ruling 18: the two "undefined" reasons `_run_test` can land on
+# without ever calling `primary_2i` (or after it raised) — a coarse
+# per-stratum degeneracy pre-check (`_degenerate_rungs`, above) drops
+# every rung before the call is even made, or `primary_2h`/`perm_test`
+# itself raises because no rung is eligible (n_pos-thin) or the last
+# surviving rung has no informative pair. Neither is a referent
+# failure: the test is simply undefined, `fires=False`, and the OTHER
+# test's result still stands.
+_NO_INFORMATIVE_PAIR_RE = re.compile(r"perm_test: rung (\S+) has no informative pair")
+
+
+def _undefined_result_2i(size_label: str, dropped, rungs, reason: str) -> dict:
+    """The shape `_run_test` returns for an undefined test — never an
+    exception. `stratified`/`raw` carry NaN/non-firing placeholders (T
+    is NaN, p is 1.0) so `fires_2i`/`verdict_tree_2i`'s own formatting
+    ('{T:.4f}') works unchanged and a caller can never mistake this for
+    a real, merely-non-firing statistical result."""
+    empty = {"T": float("nan"), "p": 1.0, "n_perm": 0, "n_ge": 0}
+    return {"stratified": dict(empty), "raw": dict(empty), "pooled_d": None,
+           "per_rung": {}, "eligible": [], "thin": list(rungs),
+           "size_pred": size_label, "dropped_degenerate": list(dropped),
+           "fires": False, "named_inside": reason}
+
+
 def _run_test(counts: dict, size_label: str, out: dict, strata: dict, rungs, *,
              n_perm=N_PERM, n_boot=N_BOOT) -> dict:
     """One test's full result: drop degenerate rungs, run `primary_2i`
     on the survivors, decide `fires`/`named_inside` through the one
-    shared rule. Raises (uncaught) if every rung is dropped or thin —
-    the caller wraps this in `collect_total`."""
-    dropped = _degenerate_rungs(counts, strata, rungs)
-    keep = tuple(r for r in rungs if r not in dropped)
-    pred = _scores_predictor_2i(counts, size_label, keep)
-    prim = primary_2i(pred, out, strata, size_pred=size_label, rungs=keep,
-                      n_perm=n_perm, n_boot=n_boot)
+    shared rule.
+
+    Ruling 18: an all-degenerate (or no-eligible-rung) test is NOT a
+    refusal. If `_degenerate_rungs` drops every rung up front, this
+    short-circuits BEFORE ever calling `primary_2i` (`_undefined_
+    result_2i`, 'every eligible rung degenerate'/'no eligible rung' —
+    the latter only when `rungs` itself was already empty). If
+    `primary_2i` raises 'primary_2h: no eligible rung' (every surviving
+    rung is n_pos-thin, inside `cells_for`), that is caught and treated
+    the same way. If it raises `stats_2g.perm_test`'s 'no informative
+    pair' for ONE specific rung — a finer-grained degeneracy than the
+    coarse per-stratum pre-check catches — that single rung is dropped
+    and the call retried, one rung at a time, until either a result
+    comes back or every rung is gone. Any OTHER exception is not
+    caught here; it propagates to the caller's own `collect_total`."""
+    dropped = list(_degenerate_rungs(counts, strata, rungs))
+    keep = [r for r in rungs if r not in dropped]
+    while True:
+        if not keep:
+            reason = ("undefined: every eligible rung degenerate (predictor "
+                      "constant inside every stratum)" if dropped else
+                      "undefined: no eligible rung")
+            return _undefined_result_2i(size_label, dropped, rungs, reason)
+        pred = _scores_predictor_2i(counts, size_label, keep)
+        try:
+            prim = primary_2i(pred, out, strata, size_pred=size_label,
+                              rungs=tuple(keep), n_perm=n_perm, n_boot=n_boot)
+        except ValueError as e:
+            msg = str(e)
+            m = _NO_INFORMATIVE_PAIR_RE.search(msg)
+            if m and m.group(1) in keep:
+                dropped.append(m.group(1))
+                keep = [r for r in keep if r != m.group(1)]
+                continue
+            if "no eligible rung" in msg:
+                return _undefined_result_2i(size_label, dropped, rungs,
+                                            "undefined: no eligible rung")
+            raise
+        break
     prim["dropped_degenerate"] = list(dropped)
     prim["fires"] = fires_2i(prim)
     prim["named_inside"] = named_inside_2i(prim) if not prim["fires"] else None
@@ -587,11 +718,28 @@ def _composite_strata_median(strata: dict, cond: dict, rungs) -> dict:
 
 # --------------------------------------------------------------- tree
 
+# I-4: the verbatim disclosure the reason string AND the licensed
+# sentence must carry when a test is undefined — 2i's own wording, not
+# a template, so it can be asserted for byte-exact equality.
+DISCLOSURE_UNDEFINED_2I = {
+    "A": ("Test A was undefined (predictor degenerate on every comparable "
+          "rung), so the cross-family transfer is untested, not absent"),
+    "B": ("Test B was undefined (predictor degenerate on every comparable "
+          "rung), so the within-family increment is untested, not absent"),
+}
+
+
+def _is_undefined_2i(prim: dict) -> bool:
+    return (not prim.get("fires")
+           and str(prim.get("named_inside") or "").startswith("undefined"))
+
+
 def verdict_tree_2i(failures, A, B) -> dict:
     if failures:
         return {"verdict": "INSUFFICIENT_DATA",
                 "reason": f"{len(failures)} referent/loader failure(s): "
-                          f"{list(failures)[:5]}"}
+                          f"{list(failures)[:5]}",
+                "disclosures": []}
     a, b = A["fires"], B["fires"]
     if a and not b:
         verdict = "SHARED"
@@ -609,7 +757,13 @@ def verdict_tree_2i(failures, A, B) -> dict:
                 f"fires={b}")
     if B.get("named_inside"):
         parts.append(f"B {B['named_inside']}")
-    return {"verdict": verdict, "reason": "; ".join(parts)}
+    disclosures = []
+    if _is_undefined_2i(A):
+        disclosures.append(DISCLOSURE_UNDEFINED_2I["A"])
+    if _is_undefined_2i(B):
+        disclosures.append(DISCLOSURE_UNDEFINED_2I["B"])
+    parts.extend(disclosures)
+    return {"verdict": verdict, "reason": "; ".join(parts), "disclosures": disclosures}
 
 
 # ---------------------------------------------------- referent loaders
@@ -662,16 +816,77 @@ def _check_rung_set_vs_endpoint(rung_set: dict, stage1_final: dict) -> list:
     return bad
 
 
-def _load_power(root) -> dict:
+def _check_rung_set_derivation(rung_set: dict, stage1_final: dict, floors: dict) -> list:
+    """I-1: the rung set must be RE-DERIVED, not merely internally
+    consistent with the endpoint's own count column
+    (`_check_rung_set_vs_endpoint`, above, only checks `k == correct`
+    — a file could carry the right per-rung counts and still have had
+    its R_OLMO/R_CAP/R_EXTRA hand-edited or built by a different rule).
+    `bi.rung_set_from_counts` applied to the endpoint's own `correct`
+    column over ALL 34 rungs must reproduce `rung_set_2i.json`'s
+    R_OLMO/R_CAP/R_EXTRA exactly — as sets (which rungs) and as lists
+    in the file's own order (`rung_set_from_counts` is a deterministic,
+    sorted, pure function of `counts`/`floors`, so an order mismatch
+    with an identical rung SET means the file was hand-edited or built
+    by a different rule, not that the rule is order-insensitive).
+    Mismatch is a failure naming the differing rungs."""
+    bad = []
+    counts = {r: stage1_final[r]["correct"] for r in bt.RUNGS if r in stage1_final}
+    if len(counts) != len(bt.RUNGS):
+        missing = sorted(set(bt.RUNGS) - set(counts))
+        bad.append(f"rung set re-derivation: stage1_final missing rung(s) {missing}")
+        return bad
+    rederived = bi.rung_set_from_counts(counts, floors)
+    for key in ("R_OLMO", "R_CAP", "R_EXTRA"):
+        want = list(rung_set.get(key, []))
+        got = list(rederived[key])
+        if set(got) != set(want):
+            diff = sorted(set(got) ^ set(want))
+            bad.append(f"rung set re-derivation/{key}: re-derived {sorted(got)} "
+                       f"disagrees with the file's {sorted(want)} — differing "
+                       f"rung(s) {diff}")
+        elif got != want:
+            bad.append(f"rung set re-derivation/{key}: content agrees but the "
+                       f"order differs from the re-derived rule's own ({got} vs "
+                       f"the file's {want})")
+    return bad
+
+
+# the value set `power_2i._one_test_power` writes to `declared_status`
+# — shared so the writer and this reader can never drift apart (review
+# minor: "whatever set power_2i writes — make them one shared
+# constant"). THIN is I-3's addition: a test that loses so many rungs
+# to degeneracy that fewer than three survive is not simulated at all.
+DECLARED_STATUSES_2I = ("POWERED", "DECLARED UNDERPOWERED IN ADVANCE", "THIN")
+
+
+def _load_power(root, rung_set=None) -> dict:
     p = bi.power_path(root)
     if not p.is_file():
         raise FileNotFoundError(str(p))
     rec = json.loads(p.read_text())
+    r_cap = (set(rung_set["R_CAP"]) if isinstance(rung_set, dict)
+            and "R_CAP" in rung_set else None)
+    n_trained = len(bi.trained_steps_7b())
     for test in ("A", "B"):
         sub = rec.get(test)
         if not isinstance(sub, dict) or "declared_status" not in sub or \
                 "declaration" not in sub:
             raise ValueError(f"{p}: test {test!r} missing declared_status/declaration")
+        if sub["declared_status"] not in DECLARED_STATUSES_2I:
+            raise ValueError(f"{p}: test {test!r} declared_status "
+                             f"{sub['declared_status']!r} is not one of "
+                             f"{DECLARED_STATUSES_2I}")
+        rungs = sub.get("rungs")
+        if not isinstance(rungs, list):
+            raise ValueError(f"{p}: test {test!r} missing rungs")
+        if r_cap is not None and not set(rungs).issubset(r_cap):
+            raise ValueError(f"{p}: test {test!r} rungs "
+                             f"{sorted(set(rungs) - r_cap)} are not a subset of "
+                             f"R_CAP")
+        if sub.get("n_trained_steps") != n_trained:
+            raise ValueError(f"{p}: test {test!r} n_trained_steps "
+                             f"{sub.get('n_trained_steps')!r} != {n_trained}")
     return rec
 
 
@@ -818,7 +1033,7 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
     rung_set, f = collect_total(lambda: _load_rung_set(root), "rung set")
     failures += f
 
-    power, f = collect_total(lambda: _load_power(root), "power record")
+    power, f = collect_total(lambda: _load_power(root, rung_set), "power record")
     failures += f
     esl = require_seal_2i(bi.ENDPOINT_SEAL_TAG, _endpoint_seal_paths(root),
                           tag_exists=tag_exists, blobs_bound=blobs_bound)
@@ -889,6 +1104,16 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
             "rung set vs endpoint")
         failures += f + (rbad or [])
 
+    # I-1: the rung set must be RE-DERIVED (bi.rung_set_from_counts over
+    # the endpoint's own correct column + the real floors), not merely
+    # internally count-consistent — a hand-edited R_CAP/R_EXTRA can
+    # still pass the check above.
+    if rung_set is not None and stage1_final is not None and floors is not None:
+        rbad2, f = collect_total(
+            lambda: _check_rung_set_derivation(rung_set, stage1_final, floors),
+            "rung set re-derivation")
+        failures += f + (rbad2 or [])
+
     _pred_ready = rung_set is not None and battery is not None and verify_fn is not None
     x_a, f = collect_total(
         lambda: bi.sampler_counts_pythia("1b", rung_set["R_OLMO"]) if _pred_ready else
@@ -912,6 +1137,21 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
         "sweep olmo7b")
     failures += f
 
+    # C-1: gate 1 must RE-DERIVE identity, not trust attestation — this
+    # runs AFTER the sweep is loaded (its own collect_total block, not
+    # folded into the attested-only check above), comparing the
+    # sweep's step928646 records against the already-committed
+    # stage1_final endpoint records byte for byte.
+    _gate_rederive_ready = (sweep is not None and stage1_final is not None and
+                            gate1 is not None)
+    g2bad, f = collect_total(
+        lambda: gate1_rederive_7b(sweep[bi.ENDPOINT_STEP_7B], stage1_final, gate1)
+        if _gate_rederive_ready else
+        (_ for _ in ()).throw(ValueError("sweep, stage1_final endpoint records or "
+                                         "gate 1 record missing")),
+        "gate 1 olmo7b re-derivation (byte identity)")
+    failures += f + (g2bad or [])
+
     core = None
     if not failures:
         core, f = collect_total(
@@ -931,6 +1171,7 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
         tree = verdict_tree_2i(failures, None, None)
         v = {"verdict": tree["verdict"], "reason": tree["reason"],
              "known_inputs_caveat": KNOWN_INPUTS_CAVEAT_2I,
+             "calibration_note": CALIBRATION_SENTENCE_2I,
              "licensed_sentence": LICENSED["INSUFFICIENT_DATA"], "referents": referents,
              "tests": None, "secondaries": None, "n_perm": n_perm,
              "git_sha": _git_sha()}
@@ -1013,9 +1254,17 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
                                              "missing")))
 
         sec["failures"] = sec_failures
+        # I-4: an undefined test's disclosure rides on the licensed
+        # sentence too, not only the reason string — a reader who never
+        # opens `reason` still learns which half of the finding is
+        # untested rather than absent.
+        licensed = LICENSED[tree["verdict"]]
+        if tree.get("disclosures"):
+            licensed = "; ".join([licensed] + list(tree["disclosures"]))
         v = {"verdict": tree["verdict"], "reason": tree["reason"],
              "known_inputs_caveat": KNOWN_INPUTS_CAVEAT_2I,
-             "licensed_sentence": LICENSED[tree["verdict"]], "referents": referents,
+             "calibration_note": CALIBRATION_SENTENCE_2I,
+             "licensed_sentence": licensed, "referents": referents,
              "tests": {"A": A, "B": B}, "secondaries": sec, "n_perm": n_perm,
              "git_sha": _git_sha()}
     if write:

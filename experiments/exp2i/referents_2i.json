@@ -113,6 +113,7 @@
   "experiments/exp2g/battery_2g.py": "aca79dd71ee7dead3c0ce065945bb38eaf1b0b72b5d5f40698dabb0f5a9cf3c1",
   "experiments/exp2g/checkpoints_2g.py": "155fee3ec3933db33930d7ddadb99c02604d893205a8f8c037016cc18609fb10",
   "experiments/exp2g/labels_2g.py": "d86e7cdb4dcc10257986e8a85824365972a75ba993be5a8fde8a825d68e3077d",
+  "experiments/exp2g/predictor_2g.py": "3381b43a34fd1fb1f7ef57eb9d02a6a9e9ec41b3ffcadea425c37b86c1e92a4e",
   "experiments/exp2g/results/predictor/predictor.json": "9eadbac316ddc5db7f7af716e406d3434033ccbaceb64a39467febdba757adc7",
   "experiments/exp2g/results/sweep/2.8b/gate1.json": "e672415585d47daf064b347a1d7f6a175cc6b061e4acac4326a1d0466b01e7ca",
   "experiments/exp2g/results/sweep/2.8b/step0/_checkpoint.json": "a07a22fb6a9b1737ba62367ad364e0a07e4c07b0c8dfd49d0eedd6d2d7ac93fa",
@@ -885,6 +886,7 @@
   "experiments/exp2g/results/sweep/2.8b/step90000/sub3_mid.json": "7df54d4c43d397aaa0a686c3115b7b181de8e6efc7d74e05ff47b208ee9ecd01",
   "experiments/exp2g/results/sweep/2.8b/step90000/sub4_mid.json": "390c356c473e2577ea46ce026c71516b89c81b7110baea5f2f59dd612293f4a4",
   "experiments/exp2g/results/sweep/2.8b/step90000/sub_base8.json": "e30204ad0e7e6f4a7dec23e98b91fc069c5827cdd17ea67f3fe5771e90727f58",
+  "experiments/exp2g/run/sweep_2g.py": "850db5831adeffc46a888ca185ef3f1ad819a8db104c9eafd1df69c470c91a87",
   "experiments/exp2g/stats_2g.py": "cf3c4c89c86fa43c5ba49d5c4be12eabad28ac65d9d12a43b1e31ef6e4bc195f",
   "experiments/exp2g/strata_2g.py": "ea0acbbdfde13655a6b89d3afcc981f348ee6312b4448b70d437f1e4d3f7f594",
   "experiments/exp2h/analyze_2h.py": "52733e8d4280fb41b76cda2dcac024299ce7dd61090f856ba3147c8098b871bf",
@@ -1697,6 +1699,7 @@
   "experiments/exp2h/results/sweep/6.9b/step90000/sub_base8.json": "392641ef487e0782ccda738a6df253fcb5c0829f32db69e86ae6d5b5ae4c9834",
   "experiments/exp2i/checkpoints_2i.json": "029b1cca0529bba6da629229d8fd352c6f118d3eba7d82b4526170c65822325a",
   "experiments/exp2i/hub_inventory_olmo.json": "8038794775e7e7d22b20c57fab82e4cc5d9e13177236ec9df89a4ec74a6851a5",
+  "experiments/exp2i/make_referents_2i.py": "c296f9912e1135dc9a79e0a13659e1316d5457aaa0094a0ea7912aa6f75c0760",
   "experiments/exp2i/results/endpoint/main/add3_mid.json": null,
   "experiments/exp2i/results/endpoint/main/add4_mid.json": null,
   "experiments/exp2i/results/endpoint/main/add_base8.json": null,
@@ -1836,9 +1839,10 @@
   "experiments/exp2i/results/predictor/olmo1b/sub_base8.draws.jsonl.gz": null,
   "experiments/exp2i/results/predictor/olmo1b/sub_base8.json": null,
   "experiments/exp2i/results/predictor/predictor_2i.json": null,
+  "experiments/exp2i/run/_common_2i.py": "5cc7c97f68b45656d6dbbb5fbf6d7d895d7b1d96e104df543f8c9f1691e5ad4f",
   "experiments/exp3/sampler.py": "e33c50d3985b1d6205d886e53726860f364cce1c6cd943ec460524e9110a03ea",
   "experiments/exp3c/analyze_3c.py": "66b78ffbedb808625ed33019f29d2ef8ec9d0f31a1115eb7cb08ad3e67d42d84"
  },
- "n_files": 1837,
+ "n_files": 1841,
  "note": "sha256 of every committed file analyze_2i reads from other trees, relative to the repo root, plus the 139 stage artifacts this experiment itself produces (sha256: null until they exist \u2014 required at analysis time); this file's own sha256 is pinned as analyze_2i.REFERENTS_2I_SHA256"
 }
