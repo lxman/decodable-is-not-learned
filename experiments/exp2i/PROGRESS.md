@@ -856,3 +856,218 @@ source fixes it verifies); (2) 13 totality-survivor tests in
 `test_totality_2i.py`; (3) the strata-gate test fix in the same file;
 (4) this ledger entry. Not pushed, per the task's standing
 instruction (the controller pushes after review).
+
+## 2026-08-25/26 — whole-branch review fix wave (C-1, I-1 to I-4, minors)
+
+An opus whole-branch review of the Task 4 build (HEAD `1a18686b`, suite
+203, mutation 81/81) found one Critical and four Important findings
+plus a set of minors. All additive — no accepted dial or statistic
+touched.
+
+**C-1 (Critical) — gate 1 must RE-DERIVE identity, not trust
+attestation.** `gate1_failures_7b` only ever checked the runner's own
+ATTESTED `bit_diffs`/`continuation_diffs`; it never opened the two
+committed record sets and compared bytes — a runner (or a hand-edited
+tree) whose attestation lies while the records actually differ would
+have passed clean. Added `gate1_rederive_7b(sweep_endpoint_records,
+stage1_final_records, gate_record)`: re-derives bit/continuation diffs
+directly from the two record sets across all 34 rungs, requires (a)
+both zero, (b) agreement with the attested numbers, (c) full
+`bt.N_ITEMS` coverage on the records AND the attested
+`continuations_compared`. Wired into `run()` as its own `collect_total`
+block after `load_sweep_7b`. `full_shape.py`'s `gate1_diff` world now
+flips REAL bytes (self-consistent with `verify_fn`) in `stage1_final`'s
+`add4_mid` record while leaving `gate1.json`'s attestation clean (W9);
+a new `gate1_attested_mismatch` flag is the mirror — records identical,
+attestation lies (W9b).
+
+**I-1 (Important) — the rung set must be re-derived.**
+`_check_rung_set_vs_endpoint` only checked the per-rung COUNT against
+the endpoint; it never re-derived R_OLMO/R_CAP/R_EXTRA themselves.
+Added `_check_rung_set_derivation(rung_set, stage1_final, floors)`:
+`bi.rung_set_from_counts` applied to the endpoint's own `correct`
+column over all 34 rungs must reproduce the file's R_OLMO/R_CAP/R_EXTRA
+exactly, as sets AND as lists (order — the rule is deterministic and
+sorted). `full_shape.py`'s `write_world` now WRITES `rung_set_2i.json`
+by actually CALLING the real rule on the synthetic endpoint's real
+counts + the real committed floors, instead of a hardcoded literal
+(verified numerically: all eleven STRATA_RUNGS floors, .006-.25, clear
+comfortably at the fixture's 200/500 rate, so every world still derives
+R_CAP = the eleven unchanged).
+
+**I-2 (Important) — pin the unpinned instrument code.** Added to
+`battery_2i.FROZEN_SHA256` (16 -> 20): `exp2g/predictor_2g.py`,
+`exp2g/run/sweep_2g.py`, and TWO SELF-PINS — 2i's own `run/_common_2i
+.py` and `make_referents_2i.py` (a post-tag edit to either now refuses
+everywhere `check_frozen_2i` runs, same as any other frozen module).
+`referents_2i.json` rebuilt (1841 files, was 1837;
+`ea9f22ff998647c32f7830b47355c5d58b9f174b21946b728fb4de866da8cb03`),
+`analyze_2i.REFERENTS_2I_SHA256` and the two pin-count assertions
+(`verify_referents_2i.py`, `test_battery_2i.py`) updated to 20.
+
+**I-3 (Important) — power over the rungs the verdict will use.**
+`power_2i._one_test_power` now applies `an._degenerate_rungs` (the
+SAME function, not copied) to the real predictor/strata before
+simulating: `dropped_degenerate` and `rungs_simulated` both printed;
+`thin` is judged on the SURVIVING set. If every rung is lost to
+degeneracy, declares `"THIN"` directly rather than calling
+`simulate_cells_2i`/`perm_test` on zero rungs (which would raise) —
+the power-side analogue of Ruling 18's short-circuit. `power_2i.main`
+now calls `bi.check_frozen_2i()` and `an.require_prereg_2i(...)`
+(injectable) before any write, matching every other stage runner — it
+was the one writer skipping straight to the write-once guard.
+`analyze_2i.DECLARED_STATUSES_2I = ("POWERED", "DECLARED UNDERPOWERED
+IN ADVANCE", "THIN")` is now the one shared constant the writer and
+`_load_power` both use; `_load_power` also requires `rungs` present
+(and, when a `rung_set` is passed, a subset of `R_CAP`) and
+`n_trained_steps == len(bi.trained_steps_7b())`.
+
+**I-4 (Important, controller Ruling 18) — an all-degenerate test is
+not a refusal.** Doc slip (b) in
+`.superpowers/sdd/2026-08-25-exp2i-build/doc-slips.md`, applied as
+specified rather than its disclosed alternative: `_run_test` now
+short-circuits to `fires=False` (never calling `primary_2i`) when
+`_degenerate_rungs` drops every candidate rung, and catches (rather
+than lets propagate) `primary_2i`'s own `"no eligible rung"`
+ValueError and `stats_2g.perm_test`'s per-rung `"no informative pair"`
+— the latter dropping exactly the named rung and RETRYING, one rung at
+a time, until a result comes back or nothing is left. Any OTHER
+exception still propagates (re-raised), preserving the original
+totality contract. The four-world tree is unchanged — an undefined
+test is just another way to be `False`. `verdict_tree_2i` and `run()`'s
+`licensed_sentence` now carry the two verbatim disclosure sentences
+(`DISCLOSURE_UNDEFINED_2I["A"]`/`["B"]`) whenever the corresponding
+test is undefined. `full_shape.py`'s `degenerate_b` world now reaches
+**SHARED** (Test A still fires; Test B is undefined) instead of
+INSUFFICIENT_DATA — renamed accordingly, with a new dedicated
+shape-assertion test. The two `_rewrite_r_cap`-based totality tests
+that used to exercise this path by hand-editing sweep bits were
+REPLACED — under C-1 that would now refuse at gate 1 for an unrelated
+reason (the sweep and stage1_final trees would disagree), and under
+I-1 forcing the outcome's n_pos to literally 0 at the endpoint is
+incompatible with a self-consistently-DERIVED non-empty R_CAP (a rung
+clearing a 15-25% floor at n=500 already has far more than the
+eligibility floor's worth of positives) — driven directly against
+`an.primary_2i` via monkeypatch instead.
+
+**Minors (all fixed):** the stale `run/sweep_2i.py does not exist yet`
+comment; `blobs_bound`'s docstring ("draws files" -> "draws AND
+record files"); `revision_of_7b`'s `sha_pin=None` ->
+`sha_pin=CHECKPOINTS_2I_SHA256`; `CALIBRATION_SENTENCE_2I` now rides on
+the verdict dict `v` itself (`v["calibration_note"]`) in every world
+including INSUFFICIENT_DATA; `endpoint_2i.py`'s `bt.load_battery()` ->
+`bg.load_battery()` (matching `sweep_2i.py`/`analyze_2i.py`);
+`sample_2i.py`'s two `"float32"` literals -> `a2d.SAMPLING_DTYPE`;
+`_common_2i.ckpt_of`'s `repo` is now a REQUIRED keyword (was hardcoded
+to `bi.REPO_7B` in the fallback string construction — every real
+caller now threads its own repo through); `run_twin`'s checkpoint
+record now written AFTER the rung loop, matching `run_gate1`'s/
+`run_step`'s own order; `preflight_2i.py` verifies through `a2d
+.load_verify()` (3c's total wrapper) instead of raw `harness.verify` —
+a malformed continuation now prints `verify=0` instead of crashing;
+removed the no-op `_shrink_instrument_blobs_to_what_exists` autouse
+fixtures in `test_totality_2i.py`/`test_full_shape_2i.py` (left
+`test_stages_2i.py`'s, which is function-scoped and documented as
+deliberately kept); added a `known_outcome: True` assertion on both
+`reverse_direction` descriptives.
+
+**Test count: 235 total** (233 at Task 4 close + this ledger's own
+count verification — `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv
+/bin/python -m pytest experiments/exp2i/tests -q` -> `235 passed`, 0
+warnings). Path from the Task 4 close's 203: +30 from the fix wave's
+new/replaced tests (unit-level coverage for `gate1_rederive_7b`,
+`_check_rung_set_derivation`, `_undefined_result_2i`/`_run_test`'s new
+branches, `verdict_tree_2i`'s disclosure, `_load_power`'s new checks,
+`power_2i`'s degeneracy drop; totality-level coverage for the same
+sites; full-shape shape assertions for W9/W9b/W10) + 2 from the two
+mutation-harness survivors' fixes (below) -> 235.
+
+**Mutants: 89/89 killed** (was 81: 54 non-totality + 27 totality; now
+60 non-totality — the 54 plus the six new I-4/C-1/I-1/I-3 mutants — +
+29 totality — the 27 plus one each for C-1's and I-1's new
+`collect_total` sites). Reached clean on the fourth harness run, after
+two survivors surfaced and were closed one at a time.
+
+**Survivor 1 (first detached run):** caught DURING the run, not after
+— mutant "run(): gate-1 re-derivation ignored" (`failures += f +
+(g2bad or [])` -> `failures += f`) ran for ~19 minutes with no result
+while every other mutant up to it had killed in seconds — the
+signature of a mutant running the full suite to completion rather than
+failing early, i.e. surviving. Killed the process by hand (not the
+mutant), confirmed `analyze_2i.py` was left mid-mutation on disk
+(diffed against the harness's own `.mutation_backup`, restored from
+it). Diagnosis: `f` (an exception `collect_total` caught) and `g2bad`
+(the function's own returned failure list on a clean, non-raising
+call) are two independent sources on that line, and the only covering
+test at the time exercised `f` exclusively (`monkeypatch`-raise, where
+`g2bad` is always `None` regardless of the mutation) — so the mutation
+was behaviourally identical to the original on every input that test
+could produce. I-1's sibling site was checked by the same reasoning
+and found NOT to have the gap (`_check_rung_set_derivation` never
+raises for a hand-edited rung set, so its existing totality test
+already exercises the `(rbad2 or [])` half directly). Fixed with
+`test_gate1_rederive_real_mismatch_is_insufficient_data`
+(`test_totality_2i.py`, not `test_full_shape_2i.py` — DESELECTed from
+the harness): a real, self-consistent byte mismatch in the `world`
+fixture, two items flipped in OPPOSITE directions so `correct` (and
+the world's cached `rung_set_2i.json` per-rung `k`) is unchanged — the
+first draft flipped only one item and discovered a genuine, unrelated
+confound (the `correct` shift tripped the pre-existing
+`_check_rung_set_vs_endpoint` count check instead, still reaching
+INSUFFICIENT_DATA but for the wrong reason). Manually verified both
+directions (hand-mutated: fails; restored: passes) before the full
+suite re-run (234 passed at that point) and the harness restart.
+
+**Survivor 2 (second run, fresh): 88/89 killed.** Mutant "run():
+totality — collect_total stripped at line 1157
+(`_outcomes_and_tests_2i`'s own `collect_total` site, labeled `"primary
+olmo7b"`)" survived. Root cause: Ruling 18's whole point is that
+`_run_test` no longer lets `primary_2i` raise for its two named
+ValueError shapes ('no eligible rung', 'no informative pair') — which
+is exactly what used to drive an exception through this site before
+the fix wave (the two `_rewrite_r_cap`-based totality tests this fix
+wave replaced). Nothing in the new suite drove an UNRELATED exception
+(a different type, or a ValueError matching neither named pattern)
+through `_run_test`'s one remaining `raise` branch and out through
+`_outcomes_and_tests_2i` in a clean-referents world — the site was
+reachable but never actually exercised failing. Fixed with
+`test_primary_computation_unrelated_exception_is_insufficient_data`
+(`test_totality_2i.py`): `an.primary_2i` monkeypatched to raise a plain
+`RuntimeError` on the clean `world` fixture; asserts `an.run()` still
+reaches INSUFFICIENT_DATA via `"primary olmo7b"`. Verified against the
+harness's own exact AST-derived mutation text before the third run:
+mutated — fails with the `RuntimeError` surfacing uncaught; restored —
+passes.
+
+**Process note, not a code finding:** the third harness launch was
+interrupted mid-baseline by an unrelated turn boundary, and the
+detached process (PID 12690) kept running and re-mutating
+`analyze_2i.py` on disk while later verification commands in this same
+session read and copy/restored the file — producing a confusing
+sequence of diffs that briefly looked like two independent, shifting
+mutations plus a spurious `predictor x_B` `FileNotFoundError` in an
+unrelated test. Root cause was a second live mutation-and-restore cycle
+racing the investigation, not a real defect; closed by killing the
+stray process, restoring `analyze_2i.py` from a known-clean snapshot
+byte-for-byte, confirming no `.mutation_backup` files or unexpected
+diff remained anywhere under `experiments/exp2i/`, and re-verifying
+survivor 2's fix against the mutant's exact text in isolation before
+relaunching. Lesson carried forward: never launch a second detached
+mutation-harness run before confirming the prior one has fully exited
+(`ps aux`, not just a background-monitor notification) and no
+`.mutation_backup` file remains.
+
+**Fourth (final) run: 89/89 killed, survivors: [].** Sources restored
+byte-identical (`git diff --stat` back to the pre-run baseline; no
+`.mutation_backup` files anywhere under `experiments/exp2i/`).
+`verify_referents_2i` run cold once afterward: referent battery 11/11,
+the one expected refusal is "0 stage artifact(s) present, 139 still
+missing" (no stage collection has run since the build).
+
+Committed in 5 groups (whole-branch review fix wave), each preceded by
+a green full suite (235 passed, 0 warnings):
+`e061fb93` (1/5, C-1 + I-1 core), `07e6fdb1` (2/5, I-3 + runner
+minors), `6d1ee3e2` (3/5, unit + full-shape coverage), `246d0f3f`
+(4/5, totality coverage), `4dc54c58` (5/5, mutation harness). This
+ledger entry and its ratification status are a separate, final commit.
+Not pushed, per the task's standing instruction.
