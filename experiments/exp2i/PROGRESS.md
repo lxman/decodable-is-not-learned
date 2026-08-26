@@ -175,3 +175,155 @@ tree (`exp2h`/`exp2g`/`exp2d`/`exp2c`/`exp2b`/`exp3`/`exp3c`) changed.
 
 Committed but not pushed (the controller pushes after review), per the
 task's standing instruction.
+
+## 2026-08-25 — BUILD, Task 2: stage runners — x_B sampling, endpoint, predictor seal, preflight, watcher
+
+Instrument added at `experiments/exp2i/run/`: `sample_2i.py` (stage 1,
+OLMo-2 1B's 64 seed-0 draws/item on all 34 rungs), `endpoint_2i.py`
+(stage 2, OLMo-2 7B `stage1_final` + `main` through the thin loader,
+per-item bits/continuations, the rung set by rule), `seal_2i.py`
+(`seal_predictor`, ruling 8), `preflight_2i.py` (dial j's sanctioned
+pre-tag format check), `_prereg_stub_2i.py` (ruling 4's fail-closed
+placeholder for Task 3's `analyze_2i.require_prereg_2i`),
+`commit_watcher_2i.sh` (2h's watcher, `--stage predictor|endpoint|sweep`
+selecting the directory). Two edits to Task 1's `battery_2i.py`, both
+ruled: `CHECKPOINTS_2I_SHA256` (ruling 2) and `blobs_bound(tag, paths,
+*, repo_root=REPO)` (ruling 3, the 2h F-3 primitive generalized —
+`git hash-object` vs `git rev-parse <tag>:<path>`, both content-
+addressed, no file bytes read directly). Test
+`tests/test_stages_2i.py` (26 tests, fakes only — no torch, no
+network; `git` subprocess against a real TEMP repo for `blobs_bound`
+only).
+
+**TDD (ruling 10).** The test file was written and run before any
+fix; three genuine failures on the first pass (RED), not staged:
+`test_sample_writes_rows_2d_format_skip_if_exists_and_counts` asserted
+`full_string == 200` for a 0.4-hit-fraction fake sampler over 500
+items — wrong arithmetic in the TEST (the tally counts DRAWS, not
+items: 200 hit items × 64/64 draws = 12,800; fixed the assertion, not
+the code); `test_endpoint_writes_both_records_and_rung_set_from_stage1
+_final` and `test_endpoint_skip_if_exists_and_dry_run` both raised
+`ValueError: 2d's verdict does not carry the 34 rungs` from
+`battery_2g.load_floors()` — monkeypatching `battery_2d.RUNGS` to a
+3-rung subset (to keep the tests fast) broke `load_floors`'s own
+cross-check against the FULL 34-rung set, which `endpoint_2i.run`
+reads unconditionally (no `rungs=` override in its signature, per the
+brief). Fixed by dropping the monkeypatch and building the amap/fake-
+correctness sets over the REAL, full 34-rung battery instead (`bt
+.load_battery()`, cheap — pure string formatting, no torch; the full
+suite still runs in ~3 s). Command:
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp2i/tests/test_stages_2i.py -q` → RED: `3 failed, 23
+passed`; after the two fixes → GREEN: `26 passed`. Full report has the
+RED transcript.
+
+**Rulings applied verbatim.** (1) endpoint records carry `seal_tag =
+PREDICTOR_SEAL_TAG` and `predictor_sha = predictor_2i.json["sha256"]`;
+`item_record_2i`'s 26-field shape matches the brief's list exactly,
+with `step` (int|`"twin"`) XOR `which` (`"stage1_final"`|`"main"`)
+enforced by a `ValueError` (tested both ways). (2) `CHECKPOINTS_2I_SHA
+256` lives in `battery_2i.py`; every stage runner (`sample_2i`,
+`endpoint_2i`, `seal_2i`, `preflight_2i`) loads the manifest through
+`bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHECKPOINTS_2I_SHA25
+6)` — no re-derivation anywhere. (3) `blobs_bound` — the ONLY other
+edit to `battery_2i.py` — tested on a real temp git repo (init, commit,
+tag; unchanged → `[]`; modified → `["file.txt"]`; restored → `[]`;
+missing path → returned; a path committed AFTER the tag → returned).
+Verified empirically before writing it (`git rev-parse <tag>:<path>`
+resolves `<path>` relative to the repo TOP LEVEL regardless of `cwd`,
+so `cwd=repo_root` + top-level-relative paths is unambiguous — checked
+with a throwaway repo, not assumed). (4) `_prereg_stub_2i
+.require_prereg_2i(*, tag_exists=None, blob_sha=None)` raises the
+literal `"exp2i: analyze_2i.require_prereg_2i not built yet —
+refusing"` unless BOTH are supplied; with both, it runs a real tag+
+blob check mirroring `analyze_2h.require_prereg_2h` — disclosed
+judgment call: its own `INSTRUMENT_BLOBS_STUB_2I` covers only the
+THREE files that exist at Task 2's build time (`battery_2i.py`,
+`run/sample_2i.py`, `run/endpoint_2i.py`), not the brief's full
+five-file `INSTRUMENT_BLOBS_2I` (`analyze_2i.py` and `run/sweep_2i.py`
+don't exist yet — Task 3's real implementation is the authority for
+the complete set; hashing a nonexistent file would otherwise crash
+every prereg check, including the passing ones). (5) untouched —
+Task 1's. (6) `write_draws` copied verbatim into `sample_2i.py`
+(sha256 of `inspect.getsource`:
+`664c001a015a9a7d07758605771e8e672cc8cf3045c3e9cf87f03a5138f80511`,
+pinned in a comment) rather than imported through `exp2d.run
+.run_cell_2d`, whose own docstring calls its exp2b/exp2c `sys.path`
+insertion order "load-bearing, not cosmetic" — a side effect this
+module has no reason to inherit; `test_write_draws_is_byte_identical_
+to_exp3_source` compares live `inspect.getsource` on both functions
+directly (not just the pinned hash), so either one drifting is
+caught. (7) the 1B endpoint's commit is read from the manifest via
+`entry_1b_endpoint(manifest)["commit"]` everywhere, never a literal;
+sampling dtype `"float32"` (a string — matches `load_thin`'s
+`getattr(torch, dtype) if isinstance(dtype, str)` branch); endpoint
+dtype `"float16"`. (8) `seal_predictor`'s shape matches the brief
+field-for-field (`files`, `counts` via `sampler_counts_olmo` — so the
+seal re-verifies every draw, not just what the per-rung records
+already claim — `sha256` over the sorted `"{relpath} {sha}"` lines,
+`tag`, `sampling` with all nine named sub-fields including
+`stream_namespace`/`stream_formula`); refuses if the seal file exists
+or if any of the 34 rungs is missing a draws+record pair. (9)
+`preflight_2i.run` never writes anywhere itself and additionally
+snapshots `root/results` before/after, raising if anything new
+appeared — tested with a PRE-EXISTING unrelated file under `results/`
+to confirm the check is a diff, not an emptiness assertion. (10) see
+above. (11) every fake is injected through `loaders=`/`sampler=`
+(`sample_2i`) or `loaders=`/`blobs_bound=` (`endpoint_2i`) parameters,
+mirroring `sweep_2h.real_loaders()`'s shape; no test imports `torch`;
+the only subprocess calls in any test are `git` against a `tmp_path`
+repo. (12) two commits (battery_2i's two additions +
+run/tests as one group), not pushed.
+
+**Judgment calls, disclosed, none load-bearing on a verdict (this
+task ships instrument, not results):** (a) both `sample_2i.run` and
+`endpoint_2i.run` accept `tag_exists=`/`blob_sha=` beyond the brief's
+terse Produces signature (and `endpoint_2i.run` additionally
+`blobs_bound=`/`repo_root=`) — the exact pattern `exp2g.run.sweep_2g
+.run_size`/`exp2h.run.sweep_2h.run_69` already use for the identical
+reason: without them, the real stub always fails closed and no
+refusal branch is distinguishable in a test. (b) `weight_sha256` in
+both stages' records is `info["tensor_digest"]` (a single hash string
+from `load_thin`) rather than 2g/2h's per-file `lfs_sha256` dict —
+`load_thin`'s thin/ordinary-cache path (unlike `load_checkpoint`'s
+candidate-file path) never returns per-file shas, so the digest of
+the loaded tensors is what's actually available; the brief's own
+wording for the sampling stage ("weight_sha256 (digest of the loaded
+tensors)") is applied identically to the endpoint stage for
+consistency. (c) `rung_set_path`'s written object is
+`{**rung_set_from_counts(...), "endpoint_file_sha256": {...}}` — the
+sha256 of every written endpoint record file (both `which`s, all 34
+rungs), matching "with the endpoint file shas inside." (d) both
+`sample_2i.run` and `endpoint_2i.run` skip the ENTIRE model load (not
+just the per-rung write) when nothing is pending — `endpoint_2i.run`
+additionally requires `rung_set_path` to already exist before taking
+this shortcut, so a crash between "last record written" and "rung set
+computed" still resumes correctly; both paths are tested. (e)
+`preflight_2i` loads OLMo-2 1B `main` at fp16 (2c/2g/2h's argmax
+convention) — the design doc names the checkpoint and the item counts
+for the preflight but not a dtype.
+
+**Verification beyond pytest.** `python -m experiments.exp2i.run
+.sample_2i --dry-run` and `... endpoint_2i --dry-run`, run for real
+against the actual repo state (no tag, no `analyze_2i.py` yet): both
+raise the stub's `"not built yet"` RuntimeError with a full traceback,
+confirmed via `set -x`-free inspection that neither reaches
+`real_loaders()`/`loaders["olmo1b"|"olmo7b"]` (no torch import
+observed, no network). Separately, `run()` called directly with
+injected `tag_exists=lambda t: True, blob_sha=lambda tag, rel:
+bg.sha256_file(bi.REPO / rel)` (i.e., "the tag carries what's on disk
+right now" — 2h's own test idiom) and a `loaders={"olmo1b"|"olmo7b":
+boom}` that raises if invoked: both print the full plan (`sample_2i`:
+"would sample 34 rung(s)"; `endpoint_2i`: "would run 68 (which, rung)
+unit(s)") and return without `boom` ever firing.
+
+**Test count: 59 total for `experiments/exp2i/tests`** (33 from Task 1's
+`test_battery_2i.py`, unchanged — 26 new in `test_stages_2i.py`), 0
+warnings (`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
+-m pytest experiments/exp2i/tests -q` → `59 passed`). `git status`
+confirms nothing under `exp2h`/`exp2g`/`exp2d`/`exp2c`/`exp2b`/`exp3`/
+`exp3c` changed — only `experiments/exp2i/battery_2i.py` (modified,
+two additions) and the six new `run/`/`tests/` files.
+
+Committed but not pushed (the controller pushes after review), per
+ruling 12 / the task's standing instruction.
