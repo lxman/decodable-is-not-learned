@@ -23,7 +23,14 @@ from_config TWIN's `ckpt`/checkpoint-record construction in `sweep_2i
 genuinely differs (`commit=None`, `kind="from_config"`, a tokenizer
 source keyed by `config_commit` not `commit`, no `sha256`/
 `loading_info`/`download_seconds`), and the review's finding named
-only `run_gate1`/`run_step` as the duplicated pair."""
+only `run_gate1`/`run_step` as the duplicated pair.
+
+Whole-branch review fix wave (2026-08-25): `ckpt_of`'s `repo` is a
+REQUIRED keyword argument, not a `bi.REPO_7B` default — every real
+caller happens to load OLMo-2 7B today, but the fallback
+`config_source`/`tokenizer_source` strings it builds would silently
+mislabel a future OLMo-2 1B caller if the repo stayed hardcoded, so
+every caller threads its own `repo=` through explicitly."""
 
 from __future__ import annotations
 
@@ -73,7 +80,7 @@ def release(model) -> None:
         pass
 
 
-def ckpt_of(entry: dict, info: dict, *, revision_fallback=None) -> dict:
+def ckpt_of(entry: dict, info: dict, *, repo, revision_fallback=None) -> dict:
     """The `ckpt` dict `item_record_2i` consumes, built identically to
     what `sweep_2i.run_gate1`/`run_step` and `endpoint_2i.run`'s
     per-`which` loop each built inline before this factor. `commit` is
@@ -81,19 +88,25 @@ def ckpt_of(entry: dict, info: dict, *, revision_fallback=None) -> dict:
     real loader path) falling back to `entry` itself; `config_source`
     prefers `info`'s own (`load_checkpoint`'s candidate-file path
     always sets one) and otherwise reconstructs `endpoint_2i.py`'s
-    exact `f"{REPO_7B}@{commit}"` fallback (`load_thin`'s path never
-    sets one). `revision_fallback` reproduces `endpoint_2i.py`'s own
-    defensive `entry.get("revision", which)` default for a manifest
-    entry that happens to omit `revision`; `sweep_2i.py`'s callers
-    never pass it (their entries always carry one)."""
+    exact `f"{repo}@{commit}"` fallback (`load_thin`'s path never sets
+    one). `repo` is REQUIRED rather than defaulted to `bi.REPO_7B`:
+    every real caller in this build (`sweep_2i.py`'s two call sites,
+    `endpoint_2i.py`'s per-`which` loop) happens to load OLMo-2 7B, but
+    hardcoding that into the fallback string construction would
+    silently mislabel a future OLMo-2 1B caller — so callers thread
+    their own repo through explicitly instead. `revision_fallback`
+    reproduces `endpoint_2i.py`'s own defensive `entry.get("revision",
+    which)` default for a manifest entry that happens to omit
+    `revision`; `sweep_2i.py`'s callers never pass it (their entries
+    always carry one)."""
     commit = info.get("commit", entry.get("commit"))
-    config_source = info.get("config_source") or f"{bi.REPO_7B}@{commit}"
+    config_source = info.get("config_source") or f"{repo}@{commit}"
     return {"revision": entry.get("revision", revision_fallback), "commit": commit,
            "kind": entry.get("kind", "thin-loader"),
            "files": list(entry.get("files", [])),
            "weight_sha256": info.get("tensor_digest"),
            "config_source": config_source,
-           "tokenizer_source": f"{bi.REPO_7B}@{commit}"}
+           "tokenizer_source": f"{repo}@{commit}"}
 
 
 def checkpoint_record(*, step_or_which, ckpt: dict, info: dict, seconds: float) -> dict:

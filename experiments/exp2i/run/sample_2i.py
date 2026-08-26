@@ -80,7 +80,7 @@ def write_draws(path, rows) -> None:
 
 def real_loaders() -> dict:
     def olmo1b(commit, device):
-        return bi.load_thin(bi.REPO_1B, commit, device=device, dtype="float32")
+        return bi.load_thin(bi.REPO_1B, commit, device=device, dtype=a2d.SAMPLING_DTYPE)
     return {"olmo1b": olmo1b}
 
 
@@ -134,7 +134,7 @@ def run_sampling_rung(rung, *, out_root=EXP2I, model_ctx=None, verify_fn=None,
     rec = {"rung": rung, "family": bi.FAMILY, "size": bi.SIZE_PRED, "mode": "trained",
           "tier": "main", "revision": bi.REV_1B_ENDPOINT, "commit": commit,
           "n_items": len(rows), "answers": answers, "answer_type": cap["answer_type"],
-          "n_shots": bt.N_SHOTS, "dtype": "float32", "untrained_seed": None,
+          "n_shots": bt.N_SHOTS, "dtype": a2d.SAMPLING_DTYPE, "untrained_seed": None,
           "model_sha": info.get("tensor_digest"),
           "weight_sha256": info.get("tensor_digest"),
           "items_sha256": cap["items_sha256"], "stream_namespace": STREAM_NAMESPACE,

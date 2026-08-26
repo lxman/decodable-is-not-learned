@@ -25,6 +25,7 @@ REPO = EXPERIMENTS.parent
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
 from experiments.exp2i.run._common_2i import (  # noqa: E402
@@ -67,7 +68,14 @@ def run(*, root=EXP2I, device="mps", loaders=None,
         _assert_provenance()
         loaders = real_loaders()
 
-    from harness import MAX_NEW_TOKENS, render_prompt, verify
+    from harness import MAX_NEW_TOKENS, render_prompt
+
+    # 3c's total wrapper (draw-side IndexError -> False, answer side
+    # stays a hard error) — the same verify criterion every stage uses,
+    # not `harness.verify` directly: a malformed OLMo continuation the
+    # normalizer can't parse prints `verify=0` rather than crashing the
+    # preflight (review minor).
+    verify_fn = a2d.load_verify()
 
     model, tok, info = loaders["olmo1b_main"](commit, device)
     try:
@@ -83,7 +91,7 @@ def run(*, root=EXP2I, device="mps", loaders=None,
                 raise RuntimeError("generate returned the wrong number of "
                                   "continuations")
             for prompt, cont, it in zip(prompts, conts, items):
-                bit = int(bool(verify(cont, str(it["answer"]), cap["answer_type"])))
+                bit = int(bool(verify_fn(cont, str(it["answer"]), cap["answer_type"])))
                 tail = prompt[-80:].replace("\n", "\\n")
                 print(f"[2i preflight] {rung} …{tail!r} -> {cont!r} verify={bit}",
                       flush=True)

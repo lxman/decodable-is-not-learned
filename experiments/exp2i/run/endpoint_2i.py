@@ -167,7 +167,7 @@ def run(*, root=EXP2I, device="mps", loaders=None, dry_run=False,
               f"for both revisions, rung set already written", flush=True)
         return
 
-    battery = bt.load_battery()
+    battery = bg.load_battery()
     verify_fn = a2d.load_verify()
     floors = bg.load_floors()
     seal_ref = {"tag": bi.PREDICTOR_SEAL_TAG, "sha256": seal["sha256"]}
@@ -194,7 +194,7 @@ def run(*, root=EXP2I, device="mps", loaders=None, dry_run=False,
         model, tok, info = loaders["olmo7b"](commit, device)
         try:
             runner = loaders["runner"](tok, model)
-            ckpt = ckpt_of(entry, info, revision_fallback=which)
+            ckpt = ckpt_of(entry, info, repo=bi.REPO_7B, revision_fallback=which)
             for rung in rungs:
                 p = bi.endpoint_record_path(root, which, rung)
                 if p.exists():

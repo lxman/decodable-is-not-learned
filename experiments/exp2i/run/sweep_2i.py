@@ -160,7 +160,7 @@ def run_gate1(*, out_root, manifest, cache_root, device, battery, verify_fn, sea
         model, info = loaders["checkpoint"](entry, cache_root, device)
         tok = loaders["tokenizer"](entry["commit"])
         runner = loaders["runner"](tok, model)
-        ckpt = ckpt_of(entry, info)
+        ckpt = ckpt_of(entry, info, repo=bi.REPO_7B)
         # download_seconds means the SAME thing on every path in this
         # module (review finding 1): time to load the checkpoint,
         # captured here, BEFORE the 34-rung eval loop — not the
@@ -224,10 +224,11 @@ def run_twin(*, out_root, device, manifest, battery, verify_fn, seal, loaders) -
         ckpt = {"revision": "twin", "commit": None, "kind": "from_config", "files": [],
                "weight_sha256": info["tensor_digest"], "config_source": info["config_source"],
                "tokenizer_source": f"{bi.REPO_7B}@{entry['config_commit']}"}
-        _write(bi.checkpoint_record_path(out_root, bi.TWIN),
-              {"family": bi.FAMILY, "size": bi.SIZE_OUT, "step": bi.TWIN, "revision": "twin",
-               "commit": None, "kind": "from_config", "seed": bi.TWIN_SEED,
-               "digest": info["tensor_digest"], "config_source": info["config_source"]})
+        # the checkpoint record is written AFTER the rung loop (review
+        # minor) — matching run_gate1's/run_step's own records -> then
+        # -> checkpoint-record order, so a run interrupted mid-loop
+        # never leaves a checkpoint record for rungs that were never
+        # actually evaluated.
         for rung in bt.RUNGS:
             p = bi.record_path(out_root, bi.TWIN, rung)
             if p.exists():
@@ -238,6 +239,10 @@ def run_twin(*, out_root, device, manifest, battery, verify_fn, seal, loaders) -
                                  seal=seal, t_s=0.0)
             _write(p, rec)
             print(f"[2i sweep] twin/{rung}: {rec['correct']}/{rec['n']}", flush=True)
+        _write(bi.checkpoint_record_path(out_root, bi.TWIN),
+              {"family": bi.FAMILY, "size": bi.SIZE_OUT, "step": bi.TWIN, "revision": "twin",
+               "commit": None, "kind": "from_config", "seed": bi.TWIN_SEED,
+               "digest": info["tensor_digest"], "config_source": info["config_source"]})
     finally:
         _release(model)
     print(f"[2i sweep] twin done in {time.time() - t0:.0f} s", flush=True)
@@ -256,7 +261,7 @@ def run_step(step, *, out_root, manifest, cache_root, device, battery, verify_fn
         model, info = loaders["checkpoint"](entry, cache_root, device)
         tok = loaders["tokenizer"](entry["commit"])
         runner = loaders["runner"](tok, model)
-        ckpt = ckpt_of(entry, info)
+        ckpt = ckpt_of(entry, info, repo=bi.REPO_7B)
         # download_seconds captured here (before the loop) so it means
         # the SAME thing as run_gate1's — review finding 1; the RECORD
         # itself is written after the loop (below), matching

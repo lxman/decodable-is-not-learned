@@ -153,29 +153,50 @@ def _one_test_power(strata, x_real, n_pos, rungs, *, n_steps) -> dict:
     # into every call below — the only way a test's monkeypatch of the
     # module attributes actually shrinks the run.
     n_sim, n_perm = N_SIM, N_PERM_POWER
-    rec = {"rungs": list(rungs), "n_pos_lower_bound": dict(n_pos),
+    # I-3: the SAME degeneracy rule the analyzer applies to the real
+    # predictor/strata before running its own primary test (`an.
+    # _degenerate_rungs`, not a copy) — a rung whose predictor has
+    # fewer than two distinct values inside every stratum contributes
+    # nothing to Somers' D, so simulating power over it would credit
+    # the record with detecting a signal on a rung the real test can
+    # never read. `dropped_degenerate` is printed; `thin` is judged on
+    # the SURVIVING set (`keep`), not the rungs the caller passed in.
+    dropped = an._degenerate_rungs(x_real, strata, rungs)
+    keep = tuple(r for r in rungs if r not in dropped)
+    rec = {"rungs": list(rungs), "dropped_degenerate": list(dropped),
+          "rungs_simulated": list(keep), "n_pos_lower_bound": dict(n_pos),
           "n_trained_steps": n_steps, "bar": BAR, "declare_at": DECLARE_AT,
           "t_bar": an.T_BAR, "alpha": an.ALPHA, "n_sim": n_sim, "n_perm": n_perm,
-          "thin": len(rungs) < 3, "targets": {}}
+          "thin": len(keep) < 3, "targets": {}}
+    if not keep:
+        # every rung lost to degeneracy (or none were eligible to begin
+        # with) — there is nothing left to simulate power over; declare
+        # THIN rather than crash inside `simulate_cells_2i`/`perm_test`
+        # on an empty cell list (ruling 18's power-side analogue).
+        rec["declared_status"] = "THIN"
+        rec["declaration"] = (f"every rung lost to predictor degeneracy "
+                              f"({dropped} of {list(rungs)}) — power cannot be "
+                              f"simulated over zero rungs")
+        return rec
     declare_p = None
     for d in D_TARGETS:
-        rho = calibrate_rho(d, strata, x_real, n_pos, rungs, n_steps=n_steps)
-        p = power_at(rho, strata, x_real, n_pos, rungs, n_steps=n_steps, n_sim=n_sim,
+        rho = calibrate_rho(d, strata, x_real, n_pos, keep, n_steps=n_steps)
+        p = power_at(rho, strata, x_real, n_pos, keep, n_steps=n_steps, n_sim=n_sim,
                      n_perm=n_perm)
         rec["targets"][str(d)] = {**p, "calibrated_rho": rho}
         if d == DECLARE_AT:
             declare_p = p["p_fires"]
         print(f"[2i power] D_true {d}: rho {rho:.3f} P(fires) {p['p_fires']:.3f}",
              flush=True)
-    rec["null"] = null_reference(strata, x_real, n_pos, rungs, n_steps=n_steps,
+    rec["null"] = null_reference(strata, x_real, n_pos, keep, n_steps=n_steps,
                                  n_sim=n_sim, n_perm=n_perm)
     rec["min_detectable_T"] = float(np.quantile(rec["null"]["Ts"], 0.99))
     if declare_p is None:
         # DECLARE_AT is not among the (possibly overridden, e.g. by a test)
         # D_TARGETS — power the declaration off a fresh calibration at
         # DECLARE_AT rather than silently skipping the declaration.
-        rho = calibrate_rho(DECLARE_AT, strata, x_real, n_pos, rungs, n_steps=n_steps)
-        declare_p = power_at(rho, strata, x_real, n_pos, rungs, n_steps=n_steps,
+        rho = calibrate_rho(DECLARE_AT, strata, x_real, n_pos, keep, n_steps=n_steps)
+        declare_p = power_at(rho, strata, x_real, n_pos, keep, n_steps=n_steps,
                              n_sim=n_sim, n_perm=n_perm)["p_fires"]
     rec["declared_status"] = ("POWERED" if declare_p >= BAR
                               else "DECLARED UNDERPOWERED IN ADVANCE")
@@ -186,7 +207,13 @@ def _one_test_power(strata, x_real, n_pos, rungs, *, n_steps) -> dict:
     return rec
 
 
-def main(out_path=None, *, root=EXP2I) -> dict:
+def main(out_path=None, *, root=EXP2I, tag_exists=None, blob_sha=None) -> dict:
+    # review minor: the prereg tag + frozen-instrument checks every
+    # other stage runner applies BEFORE any write — power_2i.main was
+    # the one writer that skipped straight to the write-once guard.
+    an.require_prereg_2i(tag_exists=tag_exists, blob_sha=blob_sha)
+    bi.check_frozen_2i()
+
     out_path = Path(out_path) if out_path is not None else bi.power_path(root)
     if out_path.exists():
         raise RuntimeError(f"{out_path} exists — the power record is written ONCE")
