@@ -7,6 +7,7 @@ the referent loaders, run() on the real (artifact-free) tree."""
 from __future__ import annotations
 
 import json
+import re
 
 import numpy as np
 import pytest
@@ -492,15 +493,29 @@ def test_known_inputs_caveat_mentions_the_2i_boundary():
     assert "Hub" in an.KNOWN_INPUTS_CAVEAT_2I
 
 
+def _design_doc_licenses() -> dict:
+    """§6's four `- **WORLD:** ...` bullets, extracted from the design
+    doc itself and normalized (wrapped lines joined with single spaces,
+    a trailing period stripped) — the doc is the authority; this
+    re-derives what a byte-for-byte-correct `LICENSED` must equal,
+    rather than eyeballing the two side by side."""
+    text = (bi.REPO / "experiment-2i-design.md").read_text(encoding="utf-8")
+    section = re.search(r"## 6\. Licences.*?(?=\n## 7\.)", text, re.DOTALL).group(0)
+    out = {}
+    for m in re.finditer(r"- \*\*(\w+):\*\*\s*(.*?)(?=\n- |\Z)", section, re.DOTALL):
+        label, body = m.group(1), m.group(2)
+        norm = re.sub(r"\s+", " ", body).strip()
+        if norm.endswith("."):
+            norm = norm[:-1]
+        out[label] = norm
+    return out
+
+
 def test_licensed_sentences_are_verbatim_design_text():
-    assert an.LICENSED["SHARED"].startswith(
-        "the essay's sentence changes from")
-    assert "structure latent in the training distribution" in an.LICENSED["SHARED"]
-    assert an.LICENSED["LINEAGE"].startswith(
-        "the essay states the finding as lineage-bound")
-    assert an.LICENSED["BOTH"].startswith("the essay states both components")
-    assert an.LICENSED["NEITHER"].startswith(
-        "the two-outcome finding is demoted")
+    doc = _design_doc_licenses()
+    assert set(doc) == {"SHARED", "LINEAGE", "BOTH", "NEITHER"}
+    for world in ("SHARED", "LINEAGE", "BOTH", "NEITHER"):
+        assert an.LICENSED[world] == doc[world], world
     assert set(an.LICENSED) == set(an.WORLDS)
 
 

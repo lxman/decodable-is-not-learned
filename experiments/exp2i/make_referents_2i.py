@@ -54,7 +54,7 @@ def referent_files_committed() -> list:
     files.append(bg.EXP2G / "results" / "predictor" / "predictor.json")       # 1
     files.append(bi.CHECKPOINTS_PATH)                                         # 1
     files.append(bi.HUB_INVENTORY_PATH)                                       # 1
-    files += list(bi.FROZEN_SHA256)                                           # 15
+    files += list(bi.FROZEN_SHA256)                                           # 16
     files += sorted((bg.EXP2G / "results" / "sweep" / "2.8b").rglob("*.json"))
     files += sorted((bh.EXP2H / "results" / "sweep" / bh.SIZE).rglob("*.json"))
     return files

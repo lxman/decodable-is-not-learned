@@ -98,6 +98,19 @@ def test_predictor_seal_missing_key(world):
     _insufficient(root, seal, "predictor seal content")
 
 
+# ------------------------------------------------------ predictor draws (x_B)
+
+def test_predictor_draws_file_missing(world):
+    """x_B's own per-rung draws file — distinct from `predictor_2i.json`
+    (the seal) and from the per-rung `.json` record: `sampler_counts_
+    olmo` opens only the `.draws.jsonl.gz` file, and raises
+    `FileNotFoundError` naming its path when it's gone."""
+    root, seal = world
+    p = bi.predictor_draws_path(root, "antonym")
+    p.unlink()
+    _insufficient(root, seal, str(p))
+
+
 # -------------------------------------------------------------- rung set
 
 def test_rung_set_missing(world):

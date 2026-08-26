@@ -294,32 +294,23 @@ def _re_verify(conts, bits, cap, verify_fn, label) -> list:
     return bad
 
 
-def step_record_failures_2i(rec: dict, *, step, rung, cap, entry, verify_fn,
-                            predictor_sha) -> list:
-    """2g's step_record_failures shape, generalized: `family`/`size`
-    added, `step` may be an int or the string `bi.TWIN` (the twin: the
-    manifest entry carries `commit=None`, `kind="from_config"`, and the
-    record must match), `seal_tag == ENDPOINT_SEAL_TAG` (Task 4's
-    sweep is gated by the endpoint seal, not the predictor seal)."""
+def _record_common_failures(rec: dict, *, label, cap, verify_fn, predictor_sha,
+                            seal_tag) -> list:
+    """The ~20-line skeleton `step_record_failures_2i` and
+    `endpoint_record_failures_2i` both apply, factored out (finding 5):
+    size/family/n/seal_tag, items_sha256, predictor_sha, the bits/
+    continuations shape (returning early if malformed, exactly as
+    each caller did inline before this split — no correct/re-
+    verification check is reachable on a malformed record), `correct
+    == sum(bits)`, and re-verification of the continuations against
+    the stored bits. `rung` and the step-vs-which/commit checks stay
+    in each caller: their shapes differ too much (the twin's `step`
+    branch has no `which` analogue) to share cleanly."""
     bad = []
-    label = f"olmo7b/step{step}/{rung}"
-    for k, v in (("rung", rung), ("size", bi.SIZE_OUT), ("family", bi.FAMILY),
-                 ("n", bt.N_ITEMS), ("seal_tag", bi.ENDPOINT_SEAL_TAG)):
+    for k, v in (("size", bi.SIZE_OUT), ("family", bi.FAMILY), ("n", bt.N_ITEMS),
+                 ("seal_tag", seal_tag)):
         if rec.get(k) != v:
             bad.append(f"{label}: {k} = {rec.get(k)!r}, expected {v!r}")
-    want_step = bi.TWIN if step == bi.TWIN else int(step)
-    if rec.get("step") != want_step:
-        bad.append(f"{label}: step = {rec.get('step')!r}, expected {want_step!r}")
-    if step == bi.TWIN:
-        if rec.get("commit") is not None:
-            bad.append(f"{label}: commit is {rec.get('commit')!r}, expected None")
-        if rec.get("kind") != "from_config":
-            bad.append(f"{label}: kind = {rec.get('kind')!r}, expected 'from_config'")
-    else:
-        want_commit = entry["commit"]
-        if rec.get("commit") != want_commit:
-            bad.append(f"{label}: commit {rec.get('commit')} is not the "
-                       f"manifest's {want_commit}")
     if rec.get("items_sha256") != cap["items_sha256"]:
         bad.append(f"{label}: items_sha256 is not the pinned item file")
     if rec.get("predictor_sha") != predictor_sha:
@@ -336,37 +327,62 @@ def step_record_failures_2i(rec: dict, *, step, rung, cap, entry, verify_fn,
     return bad
 
 
+def step_record_failures_2i(rec: dict, *, step, rung, cap, entry, verify_fn,
+                            predictor_sha) -> list:
+    """2g's step_record_failures shape, generalized: `family`/`size`
+    added, `step` may be an int or the string `bi.TWIN` (the twin: the
+    manifest entry carries `commit=None`, `kind="from_config"`, and the
+    record must match), `seal_tag == ENDPOINT_SEAL_TAG` (Task 4's
+    sweep is gated by the endpoint seal, not the predictor seal). The
+    shared skeleton (size/family/n/seal_tag, items_sha256,
+    predictor_sha, bits/continuations shape, correct == sum(bits),
+    re-verification) lives in `_record_common_failures`; this adds only
+    the fields the shared core cannot express: `rung`, and the step-or-
+    twin/commit branch."""
+    label = f"olmo7b/step{step}/{rung}"
+    bad = []
+    if rec.get("rung") != rung:
+        bad.append(f"{label}: rung = {rec.get('rung')!r}, expected {rung!r}")
+    want_step = bi.TWIN if step == bi.TWIN else int(step)
+    if rec.get("step") != want_step:
+        bad.append(f"{label}: step = {rec.get('step')!r}, expected {want_step!r}")
+    if step == bi.TWIN:
+        if rec.get("commit") is not None:
+            bad.append(f"{label}: commit is {rec.get('commit')!r}, expected None")
+        if rec.get("kind") != "from_config":
+            bad.append(f"{label}: kind = {rec.get('kind')!r}, expected 'from_config'")
+    else:
+        want_commit = entry["commit"]
+        if rec.get("commit") != want_commit:
+            bad.append(f"{label}: commit {rec.get('commit')} is not the "
+                       f"manifest's {want_commit}")
+    bad += _record_common_failures(rec, label=label, cap=cap, verify_fn=verify_fn,
+                                   predictor_sha=predictor_sha,
+                                   seal_tag=bi.ENDPOINT_SEAL_TAG)
+    return bad
+
+
 def endpoint_record_failures_2i(rec: dict, *, which, rung, cap, entry, verify_fn,
                                 predictor_sha) -> list:
     """The same shape as `step_record_failures_2i` with `which` in
     place of `step` and `seal_tag == PREDICTOR_SEAL_TAG` (the endpoint
     stage is gated by the predictor seal, not the endpoint seal —
     `endpoint_2i.py`'s `item_record_2i` stamps `seal_tag =
-    seal["tag"]` where `seal` is the predictor seal)."""
-    bad = []
+    seal["tag"]` where `seal` is the predictor seal). `rung`/`which`/
+    `commit` here, the shared skeleton in `_record_common_failures`."""
     label = f"endpoint {which}/{rung}"
-    for k, v in (("rung", rung), ("size", bi.SIZE_OUT), ("family", bi.FAMILY),
-                 ("which", which), ("n", bt.N_ITEMS),
-                 ("seal_tag", bi.PREDICTOR_SEAL_TAG)):
-        if rec.get(k) != v:
-            bad.append(f"{label}: {k} = {rec.get(k)!r}, expected {v!r}")
+    bad = []
+    if rec.get("rung") != rung:
+        bad.append(f"{label}: rung = {rec.get('rung')!r}, expected {rung!r}")
+    if rec.get("which") != which:
+        bad.append(f"{label}: which = {rec.get('which')!r}, expected {which!r}")
     want_commit = entry.get("commit")
     if want_commit is not None and rec.get("commit") != want_commit:
         bad.append(f"{label}: commit {rec.get('commit')} is not the manifest's "
                    f"{want_commit}")
-    if rec.get("items_sha256") != cap["items_sha256"]:
-        bad.append(f"{label}: items_sha256 is not the pinned item file")
-    if rec.get("predictor_sha") != predictor_sha:
-        bad.append(f"{label}: predictor_sha {rec.get('predictor_sha')} is not "
-                   f"{predictor_sha}")
-    bits, conts = rec.get("bits"), rec.get("continuations")
-    if not isinstance(bits, list) or not isinstance(conts, list) or \
-            len(bits) != bt.N_ITEMS or len(conts) != bt.N_ITEMS:
-        bad.append(f"{label}: bits/continuations are not {bt.N_ITEMS} long")
-        return bad
-    if rec.get("correct") != sum(bits):
-        bad.append(f"{label}: correct {rec.get('correct')} != sum(bits) {sum(bits)}")
-    bad += _re_verify(conts, bits, cap, verify_fn, label)
+    bad += _record_common_failures(rec, label=label, cap=cap, verify_fn=verify_fn,
+                                   predictor_sha=predictor_sha,
+                                   seal_tag=bi.PREDICTOR_SEAL_TAG)
     return bad
 
 
@@ -710,7 +726,7 @@ def _reverse_direction(x_b: dict, strata: dict, rungs_cap, battery, verify_fn, *
                                      sha_pin=an2h.CHECKPOINTS_2H_SHA256)
     rungs69 = tuple(r for r in rungs_cap if r in bh.R_69)
     sweep69 = an2h.load_sweep_69(bh.EXP2H, battery, verify_fn, manifest=manifest69,
-                                 seal_sha=bh.PREDICTOR_2G_SHA)
+                                 seal_sha=bh.PREDICTOR_2G_SHA, rungs=rungs69)
     out69 = an2h.outcomes_69(sweep69, rungs=rungs69)
     res69 = _run_test(x_b, bi.SIZE_PRED, out69, strata, rungs69, n_perm=n_perm,
                       n_boot=n_boot)
