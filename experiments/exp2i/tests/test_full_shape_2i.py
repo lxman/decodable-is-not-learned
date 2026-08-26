@@ -9,23 +9,6 @@ from experiments.exp2i import battery_2i as bi
 from experiments.exp2i.tests import full_shape as fs
 
 
-@pytest.fixture(scope="module", autouse=True)
-def _shrink_instrument_blobs_to_what_exists():
-    """Task 4 landed `run/sweep_2i.py`, the fifth and final file in
-    `INSTRUMENT_BLOBS_2I` — this is a no-op now (the subset equals the
-    full five-file set). Left in place: it keeps these tests
-    exercising the TREE (their reason for existing), not re-litigating
-    the five-file instrument set — that is `test_analyze_2i.py`'s job.
-    Plain monkeypatching (not the `monkeypatch` fixture, which is
-    function-scoped) so a single module-scoped `worlds` fixture sees
-    it consistently."""
-    subset = tuple(r for r in an.INSTRUMENT_BLOBS_2I if (bi.REPO / r).is_file())
-    original = an.INSTRUMENT_BLOBS_2I
-    an.INSTRUMENT_BLOBS_2I = subset
-    yield
-    an.INSTRUMENT_BLOBS_2I = original
-
-
 @pytest.fixture(scope="module")
 def worlds(tmp_path_factory):
     out = {}
@@ -57,6 +40,13 @@ def test_w1_shared_shape(worlds):
     assert v["secondaries"]["first_correct_A"]
     assert v["secondaries"]["first_correct_B"]
     assert v["secondaries"]["reverse_direction"]
+    # both reverse-direction descriptives were already-known outcomes
+    # (design §2) before x_B was sealed — the stamp is load-bearing,
+    # not decorative: it is what tells a reader this leg is not a
+    # forecast.
+    rd = v["secondaries"]["reverse_direction"]
+    assert rd["vs_2.8b"]["known_outcome"] is True
+    assert rd["vs_6.9b"]["known_outcome"] is True
     assert v["secondaries"]["extra_rungs_raw"] == {}   # R_EXTRA is empty in every world
     assert v["secondaries"]["rung_level"]["table"]
     assert v["secondaries"]["flat_rungs"]
@@ -66,6 +56,7 @@ def test_w1_shared_shape(worlds):
     assert v["referents"]["gate1"]
     assert v["referents"]["power"]["A"]["declared_status"] == "POWERED"
     assert v["known_inputs_caveat"] == an.KNOWN_INPUTS_CAVEAT_2I
+    assert v["calibration_note"] == an.CALIBRATION_SENTENCE_2I
     assert v["licensed_sentence"] == an.LICENSED["SHARED"]
 
 
@@ -99,23 +90,50 @@ def test_w5_inverted_named_on_both(worlds):
     assert "B " in v["reason"]
 
 
-def test_w6_w7_w8_w9_w10_reasons(worlds):
+def test_w6_w7_w8_w9_reasons(worlds):
     assert any("endpoint" in f.lower() for f in
               worlds["W6 INSUFFICIENT missing endpoint"][0]["referents"]["failures"])
     assert any("does not bind" in f for f in
               worlds["W7 INSUFFICIENT drifted seal"][0]["referents"]["failures"])
     assert any("halted" in f for f in
               worlds["W8 INSUFFICIENT halted"][0]["referents"]["failures"])
-    assert any("bit diff" in f for f in
-              worlds["W9 INSUFFICIENT gate-1 diff"][0]["referents"]["failures"])
-    assert any("no eligible rung" in f for f in
-              worlds["W10 INSUFFICIENT degenerate x_B"][0]["referents"]["failures"])
+    # C-1: W9 flips real stage1_final bytes while gate1.json's attested
+    # diffs stay zero — the OLD attested-only `gate1_failures_7b` would
+    # have missed this; only `gate1_rederive_7b`'s re-derivation names it.
+    w9 = worlds["W9 INSUFFICIENT gate-1 diff (real bytes, attestation blind)"][0]
+    assert any("re-derive" in f and "bit diff" in f for f in w9["referents"]["failures"])
+    assert not any("gate 1 olmo7b/add4_mid:" in f for f in w9["referents"]["failures"]), \
+        "the OLD attested-only check must NOT fire on this world (attestation lies clean)"
+    # the mirror: bytes identical, attestation lies — the re-derivation's
+    # OWN agreement check ((b) in the docstring) catches it even though
+    # the byte comparison itself finds nothing.
+    w9b = worlds["W9b INSUFFICIENT gate-1 attested mismatch (bytes identical)"][0]
+    assert any("disagrees with the re-derived" in f for f in w9b["referents"]["failures"])
+
+
+def test_w10_degenerate_b_reaches_shared_with_disclosure(worlds):
+    """I-4/Ruling 18: every R_CAP rung constant in x_B is no longer a
+    referent failure — Test B is undefined, not a crash, and Test A
+    (mode='a_only') still fires, so the world reaches SHARED carrying
+    the verbatim disclosure in both `reason` and `licensed_sentence`."""
+    v, want = worlds["W10 SHARED via degenerate x_B (Test B undefined)"]
+    assert want == "SHARED"
+    assert v["verdict"] == "SHARED", v["reason"]
+    A, B = v["tests"]["A"], v["tests"]["B"]
+    assert A["fires"] is True
+    assert B["fires"] is False
+    assert B["named_inside"] and B["named_inside"].startswith("undefined")
+    assert sorted(B["dropped_degenerate"]) == sorted(bi.STRATA_RUNGS)
+    assert an.DISCLOSURE_UNDEFINED_2I["B"] in v["reason"]
+    assert an.DISCLOSURE_UNDEFINED_2I["B"] in v["licensed_sentence"]
+    assert an.DISCLOSURE_UNDEFINED_2I["A"] not in v["reason"]   # A fired, not undefined
 
 
 def test_insufficient_worlds_carry_no_tests_or_secondaries(worlds):
     for name in ("W6 INSUFFICIENT missing endpoint", "W7 INSUFFICIENT drifted seal",
-                "W8 INSUFFICIENT halted", "W9 INSUFFICIENT gate-1 diff",
-                "W10 INSUFFICIENT degenerate x_B"):
+                "W8 INSUFFICIENT halted",
+                "W9 INSUFFICIENT gate-1 diff (real bytes, attestation blind)",
+                "W9b INSUFFICIENT gate-1 attested mismatch (bytes identical)"):
         v, _ = worlds[name]
         assert v["tests"] is None and v["secondaries"] is None
         assert v["licensed_sentence"] == an.LICENSED["INSUFFICIENT_DATA"]

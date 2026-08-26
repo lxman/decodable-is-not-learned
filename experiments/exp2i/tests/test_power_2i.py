@@ -25,6 +25,17 @@ from experiments.exp2i.run import endpoint_2i as ep
 R_SMALL = ("antonym", "antonym6")   # two of the eleven strata rungs
 
 
+def _prereg_ok():
+    """Fakes `require_prereg_2i`'s tag/blob checks so `pw.main` reaches
+    the refusal/behavior each test actually targets — `power_2i.main`
+    now calls `require_prereg_2i` (review minor) before anything else,
+    and no `exp2i-preregistered` git tag exists in this dev tree."""
+    def blob_sha(tag, rel):
+        p = bi.REPO / rel
+        return bg.sha256_file(p) if p.is_file() else None
+    return {"tag_exists": lambda t: True, "blob_sha": blob_sha}
+
+
 def _setup():
     pred2g = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
     strata = sg.from_json(pred2g["strata"])
@@ -106,6 +117,57 @@ def test_declared_status_boundary_is_inclusive(monkeypatch):
     assert rec["declared_status"] == "POWERED"
 
 
+# --------------------------------------------------- I-3: degeneracy drop
+
+R_THREE = ("antonym", "antonym6", "median5")   # three of the eleven strata rungs
+
+
+def test_one_test_power_drops_a_degenerate_rung_before_simulating(monkeypatch):
+    """A synthetic input where one of three rungs is degenerate (its
+    predictor is the SAME value on every item, in every stratum): the
+    degenerate rung is named in `dropped_degenerate`, simulation runs
+    only over the surviving two, and `thin` reads True on THAT count
+    (2 < 3) even though the caller passed three rungs in."""
+    pred2g = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
+    strata = sg.from_json(pred2g["strata"])
+    x_real = bi.sampler_counts_pythia("1b", R_THREE)
+    x_real = dict(x_real)
+    x_real["median5"] = [7] * len(x_real["median5"])   # constant -> degenerate
+    n_pos = {r: 60 for r in R_THREE}
+
+    monkeypatch.setattr(pw, "N_SIM", 3)
+    monkeypatch.setattr(pw, "N_PERM_POWER", 20)
+    monkeypatch.setattr(pw, "D_TARGETS", (0.15,))
+    n_steps = bi.n_trained_7b()
+
+    rec = pw._one_test_power(strata, x_real, n_pos, R_THREE, n_steps=n_steps)
+    assert rec["rungs"] == list(R_THREE)
+    assert rec["dropped_degenerate"] == ["median5"]
+    assert rec["rungs_simulated"] == ["antonym", "antonym6"]
+    assert rec["thin"] is True   # 2 surviving rungs < 3, judged on the SURVIVORS
+    assert rec["declared_status"] in pw.an.DECLARED_STATUSES_2I
+    assert rec["declared_status"] != "THIN"   # 2 rungs still simulate, not 0
+
+
+def test_one_test_power_all_degenerate_declares_thin_without_crashing():
+    """Every rung degenerate: nothing survives to simulate over —
+    `_one_test_power` must not crash inside `simulate_cells_2i`/
+    `perm_test` on an empty cell list; it declares THIN directly."""
+    pred2g = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
+    strata = sg.from_json(pred2g["strata"])
+    x_real = {r: [7] * bt.N_ITEMS for r in R_THREE}   # constant on every rung
+    n_pos = {r: 60 for r in R_THREE}
+    n_steps = bi.n_trained_7b()
+
+    rec = pw._one_test_power(strata, x_real, n_pos, R_THREE, n_steps=n_steps)
+    assert sorted(rec["dropped_degenerate"]) == sorted(R_THREE)
+    assert rec["rungs_simulated"] == []
+    assert rec["thin"] is True
+    assert rec["declared_status"] == "THIN"
+    assert "declaration" in rec
+    assert rec["targets"] == {}
+
+
 def test_rank_to_count_direction():
     c = pw._ranks_to_counts([10, 20, 30, 40], 21)
     assert c[10] == 21
@@ -176,13 +238,24 @@ def _write_stage1_final(root, rungs, battery, verify_fn, entry, predictor_sha,
 
 def test_main_refuses_without_rung_set(tmp_path):
     with pytest.raises(FileNotFoundError):
-        pw.main(root=tmp_path)
+        pw.main(root=tmp_path, **_prereg_ok())
 
 
 def test_main_refuses_without_predictor_seal(tmp_path):
     _write_rung_set(tmp_path, R_SMALL)
     with pytest.raises(FileNotFoundError):
-        pw.main(root=tmp_path)
+        pw.main(root=tmp_path, **_prereg_ok())
+
+
+def test_main_refuses_a_drifted_instrument(tmp_path):
+    """The new prereg check runs BEFORE the rung-set/predictor-seal
+    refusals — a drifted instrument blob is caught first, not masked
+    by whichever file-missing error would otherwise fire first."""
+    def drifted(tag, rel):
+        return "0" * 64 if rel.endswith("battery_2i.py") else \
+            (bg.sha256_file(bi.REPO / rel) if (bi.REPO / rel).is_file() else None)
+    with pytest.raises(RuntimeError, match="drifted"):
+        pw.main(root=tmp_path, tag_exists=lambda t: True, blob_sha=drifted)
 
 
 def test_main_writes_once_and_declares_at_tiny_n(tmp_path, monkeypatch):
@@ -209,14 +282,16 @@ def test_main_writes_once_and_declares_at_tiny_n(tmp_path, monkeypatch):
     _write_stage1_final(tmp_path, other_rungs, battery, verify_fn, entry, psha,
                         hit_fraction=0.0)
 
-    rec = pw.main(root=tmp_path)
+    rec = pw.main(root=tmp_path, **_prereg_ok())
     for test in ("A", "B"):
         assert rec[test]["declared_status"] in ("POWERED",
                                                  "DECLARED UNDERPOWERED IN ADVANCE")
         assert rec[test]["thin"] is True   # R_SMALL has 2 rungs, < 3 (design §4)
+        assert rec[test]["dropped_degenerate"] == []   # real, non-degenerate x
+        assert rec[test]["rungs_simulated"] == list(R_SMALL)
         assert rec[test]["n_sim"] == 3
         assert "declaration" in rec[test]
     assert bi.power_path(tmp_path).is_file()
 
     with pytest.raises(RuntimeError, match="written ONCE"):
-        pw.main(root=tmp_path)
+        pw.main(root=tmp_path, **_prereg_ok())

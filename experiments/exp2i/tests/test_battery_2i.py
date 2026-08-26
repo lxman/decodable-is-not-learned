@@ -272,7 +272,7 @@ def test_check_loading_info_missing_key_raises_naming_label_and_key():
 
 def test_frozen_sha256_matches_on_disk():
     bi.check_frozen_2i()
-    assert len(bi.FROZEN_SHA256) == 16
+    assert len(bi.FROZEN_SHA256) == 20   # I-2: +predictor_2g/sweep_2g/_common_2i/make_referents_2i
     for path, want in bi.FROZEN_SHA256.items():
         assert bg.sha256_file(path) == want, path
 

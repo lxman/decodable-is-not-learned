@@ -14,7 +14,15 @@ values never enter the primary tree (design §3.6: no twin/SURFACE
 terminal). Every record sits in the production layout, read by
 `analyze_2i.run` through the same loaders the real run uses; R_OLMO =
 R_CAP = the eleven for every world (R_EXTRA empty) — no extra-rung
-degrees of freedom are needed to reach every terminal."""
+degrees of freedom are needed to reach every terminal. `rung_set_2i
+.json` is written by CALLING THE REAL `battery_2i.rung_set_from_counts`
+over the endpoint's own synthetic `correct` counts and the real
+committed floors (whole-branch review fix wave, I-1) — not hand-
+written — so the analyzer's re-derivation check (`analyze_2i
+._check_rung_set_derivation`) passes on every world exactly as it must
+on the real tree; at `N_POS_FIRING=200` of 500 the eleven R_CAP rungs
+clear every one of their real floors, so this reproduces R_OLMO=R_CAP=
+the eleven, R_EXTRA=[] unchanged from the old hardcoded value."""
 
 from __future__ import annotations
 
@@ -30,6 +38,7 @@ if str(EXP2I.parent.parent) not in sys.path:
 
 from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
+from experiments.exp2d import stats_2d as st2d  # noqa: E402
 from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2i import analyze_2i as an  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
@@ -44,6 +53,7 @@ _BATTERY = None
 _MANIFEST = None
 _VERIFY = None
 _X_A = None
+_FLOORS = None
 
 
 def battery():
@@ -72,6 +82,13 @@ def x_a_real():
     if _X_A is None:
         _X_A = bi.sampler_counts_pythia("1b", RUNGS_CAP)
     return _X_A
+
+
+def floors():
+    global _FLOORS
+    if _FLOORS is None:
+        _FLOORS = bg.load_floors()
+    return _FLOORS
 
 
 def _w(path: Path, obj) -> None:
@@ -106,7 +123,8 @@ def _latent(rng, x_a, x_b, mode):
 
 
 def write_world(root, *, mode="a_only", degenerate_b=False, missing_endpoint=False,
-                drifted_seal=False, halt=False, gate1_diff=False, seed=0) -> dict:
+                drifted_seal=False, halt=False, gate1_diff=False,
+                gate1_attested_mismatch=False, seed=0) -> dict:
     root = Path(root)
     rng = np.random.default_rng(seed)
     bat = battery()
@@ -134,10 +152,14 @@ def write_world(root, *, mode="a_only", degenerate_b=False, missing_endpoint=Fal
     psha = "WORLD-PREDICTOR-SEAL"
     _w(bi.predictor_seal_path(root), {"files": {}, "counts": {}, "sha256": psha,
                                       "tag": bi.PREDICTOR_SEAL_TAG, "sampling": {}})
-    _w(bi.rung_set_path(root), {"R_OLMO": list(RUNGS_CAP), "R_CAP": list(RUNGS_CAP),
-                                "R_EXTRA": [], "per_rung": {}, "endpoint_file_sha256": {}})
-    _w(bi.power_path(root), {"A": {"declared_status": "POWERED", "declaration": "x"},
-                             "B": {"declared_status": "POWERED", "declaration": "x"}})
+    # rung_set_2i.json is written LATER, after the endpoint records
+    # exist (I-1: it is computed FOR REAL from their `correct` column,
+    # not hand-written — see the block after the endpoint loop below).
+    _n_trained_2i = len(bi.trained_steps_7b())
+    _w(bi.power_path(root), {"A": {"declared_status": "POWERED", "declaration": "x",
+                                   "rungs": list(RUNGS_CAP), "n_trained_steps": _n_trained_2i},
+                             "B": {"declared_status": "POWERED", "declaration": "x",
+                                   "rungs": list(RUNGS_CAP), "n_trained_steps": _n_trained_2i}})
 
     # ------------------------------------------------------- the sweep
     steps = bi.trained_steps_7b()
@@ -200,11 +222,24 @@ def write_world(root, *, mode="a_only", degenerate_b=False, missing_endpoint=Fal
     # own step928646 record (so gate 1 passes on every world exactly as
     # it must on the real tree); `main` is a trivial all-zero
     # descriptive, never read by the tree.
+    stage1_final_correct = {}
     for r in bt.RUNGS:
         cap = bat[r]
         sw = stage1_from_sweep[r]
-        ev = {"bits": sw["bits"], "correct": sw["correct"],
-             "continuations": sw["continuations"]}
+        bits = list(sw["bits"])
+        conts = list(sw["continuations"])
+        if gate1_diff and r == bt.RUNGS[0]:
+            # C-1: flip REAL record bytes in stage1_final ONLY, leaving
+            # gate1.json's attested diffs at zero (below) — the
+            # analyzer's re-derivation (`gate1_rederive_7b`), not the
+            # attestation, must be what catches this. Self-consistent
+            # with `verify_fn` either way (bit and continuation always
+            # agree), so this is the ONLY refusal the world triggers.
+            new_bit0 = 1 - bits[0]
+            bits[0] = new_bit0
+            conts[0] = (f" {cap['eval_items'][0]['answer']}" if new_bit0 else " zzz")
+        ev = {"bits": bits, "correct": sum(bits), "continuations": conts}
+        stage1_final_correct[r] = ev["correct"]
         ckpt = {"revision": entry_stage1["revision"], "commit": commit_stage1,
                "kind": entry_stage1["kind"], "files": list(entry_stage1.get("files", [])),
                "weight_sha256": "D", "config_source": "cs", "tokenizer_source": "ts"}
@@ -228,9 +263,18 @@ def write_world(root, *, mode="a_only", degenerate_b=False, missing_endpoint=Fal
     if missing_endpoint:
         bi.endpoint_record_path(root, "stage1_final", bt.RUNGS[0]).unlink()
 
+    # I-1: rung_set_2i.json is computed FOR REAL (`rung_set_from_counts`
+    # over the endpoint's own `correct` column + the real committed
+    # floors) rather than hand-written, so `analyze_2i
+    # ._check_rung_set_derivation`'s re-derivation passes on every
+    # world exactly as it must on the real tree.
+    _rung_set = bi.rung_set_from_counts(stage1_final_correct, floors())
+    _w(bi.rung_set_path(root), {**_rung_set, "endpoint_file_sha256": {}})
+
     # --------------------------------------------------------- gate 1
     g = {"rungs": list(bt.RUNGS),
-        "bit_diffs": {r: (1 if gate1_diff and r == bt.RUNGS[0] else 0) for r in bt.RUNGS},
+        "bit_diffs": {r: (1 if gate1_attested_mismatch and r == bt.RUNGS[0] else 0)
+                     for r in bt.RUNGS},
         "continuation_diffs": {r: 0 for r in bt.RUNGS},
         "continuations_compared": {r: bt.N_ITEMS for r in bt.RUNGS},
         "digest_sweep": "D" * 64, "digest_endpoint": "D" * 64,
@@ -269,8 +313,18 @@ def world_specs() -> list:
         ("W7 INSUFFICIENT drifted seal",
          dict(mode="a_only", drifted_seal=True), "INSUFFICIENT_DATA"),
         ("W8 INSUFFICIENT halted", dict(mode="a_only", halt=True), "INSUFFICIENT_DATA"),
-        ("W9 INSUFFICIENT gate-1 diff",
+        # C-1: W9 flips REAL stage1_final record bytes while gate1.json's
+        # attested diffs stay zero — only the re-derivation catches it.
+        # W9b is the mirror: records byte-identical, attestation lies —
+        # only the attested-vs-re-derived AGREEMENT check catches it.
+        ("W9 INSUFFICIENT gate-1 diff (real bytes, attestation blind)",
          dict(mode="a_only", gate1_diff=True), "INSUFFICIENT_DATA"),
-        ("W10 INSUFFICIENT degenerate x_B",
-         dict(mode="a_only", degenerate_b=True), "INSUFFICIENT_DATA"),
+        ("W9b INSUFFICIENT gate-1 attested mismatch (bytes identical)",
+         dict(mode="a_only", gate1_attested_mismatch=True), "INSUFFICIENT_DATA"),
+        # I-4/Ruling 18: x_B degenerate on every R_CAP rung is no longer
+        # a referent failure — Test B is undefined (fires=False, named),
+        # Test A (mode="a_only") still fires, so the world reaches
+        # SHARED with the disclosure carried in reason/licensed_sentence.
+        ("W10 SHARED via degenerate x_B (Test B undefined)",
+         dict(mode="a_only", degenerate_b=True), "SHARED"),
     ]

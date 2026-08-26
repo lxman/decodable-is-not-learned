@@ -217,6 +217,81 @@ def test_gate1_fields_constant():
     assert set(an.GATE1_FIELDS) == set(_gate_rec())
 
 
+# ------------------------------------------- C-1: gate 1 re-derivation
+
+def _identical_records_34():
+    bits = [0] * bt.N_ITEMS
+    conts = [" zzz"] * bt.N_ITEMS
+    sweep = {r: {"bits": list(bits), "continuations": list(conts)} for r in bt.RUNGS}
+    stage1 = {r: {"bits": list(bits), "continuations": list(conts)} for r in bt.RUNGS}
+    gate = {"bit_diffs": {r: 0 for r in bt.RUNGS},
+           "continuation_diffs": {r: 0 for r in bt.RUNGS},
+           "continuations_compared": {r: bt.N_ITEMS for r in bt.RUNGS}}
+    return sweep, stage1, gate
+
+
+def test_gate1_rederive_7b_clean():
+    sweep, stage1, gate = _identical_records_34()
+    assert an.gate1_rederive_7b(sweep, stage1, gate) == []
+
+
+def test_gate1_rederive_7b_catches_a_real_byte_flip_the_attestation_misses():
+    """The class defect C-1 fixes: real bytes differ, but the runner's
+    OWN attestation still claims zero diffs (unchanged) — only the
+    re-derivation (comparing the bytes themselves) catches this; the
+    OLD attested-only `gate1_failures_7b` would have passed it clean."""
+    sweep, stage1, gate = _identical_records_34()
+    r0 = bt.RUNGS[0]
+    stage1[r0] = dict(stage1[r0])
+    stage1[r0]["bits"] = [1] + stage1[r0]["bits"][1:]
+    stage1[r0]["continuations"] = [" answer"] + stage1[r0]["continuations"][1:]
+    assert an.gate1_failures_7b({**_gate_rec(), **gate}, stage1) == []   # attested-only: blind
+    bad = an.gate1_rederive_7b(sweep, stage1, gate)
+    assert any(r0 in f and "bit diff" in f for f in bad)
+    assert any(r0 in f and "continuation diff" in f for f in bad)
+    assert any(r0 in f and "disagrees with the re-derived" in f for f in bad)
+
+
+def test_gate1_rederive_7b_catches_an_attestation_that_disagrees_with_clean_bytes():
+    """The mirror: bytes identical, but the attestation LIES (claims a
+    diff that isn't there) — the agreement check (b) catches it even
+    though the byte comparison itself finds nothing wrong."""
+    sweep, stage1, gate = _identical_records_34()
+    r0 = bt.RUNGS[0]
+    gate["bit_diffs"] = dict(gate["bit_diffs"]); gate["bit_diffs"][r0] = 1
+    bad = an.gate1_rederive_7b(sweep, stage1, gate)
+    assert any(r0 in f and "disagrees with the re-derived" in f for f in bad)
+    assert not any(r0 in f and "bit diff(s) between" in f for f in bad)   # bytes ARE clean
+
+
+def test_gate1_rederive_7b_missing_records():
+    sweep, stage1, gate = _identical_records_34()
+    r0 = bt.RUNGS[0]
+    del sweep[r0]
+    bad = an.gate1_rederive_7b(sweep, stage1, gate)
+    assert any(r0 in f and "no sweep step" in f for f in bad)
+    del stage1[r0]
+    bad2 = an.gate1_rederive_7b(sweep, stage1, gate)
+    assert any(r0 in f and "no sweep step" in f for f in bad2)
+
+
+def test_gate1_rederive_7b_coverage_short_records():
+    sweep, stage1, gate = _identical_records_34()
+    r0 = bt.RUNGS[0]
+    sweep[r0] = dict(sweep[r0]); sweep[r0]["bits"] = sweep[r0]["bits"][:-1]
+    bad = an.gate1_rederive_7b(sweep, stage1, gate)
+    assert any(r0 in f and "coverage failure" in f for f in bad)
+
+
+def test_gate1_rederive_7b_truncated_attested_coverage():
+    sweep, stage1, gate = _identical_records_34()
+    r0 = bt.RUNGS[0]
+    gate["continuations_compared"] = dict(gate["continuations_compared"])
+    gate["continuations_compared"][r0] = 10
+    bad = an.gate1_rederive_7b(sweep, stage1, gate)
+    assert any(r0 in f and "not the full" in f for f in bad)
+
+
 # --------------------------------------------------- step/endpoint records
 
 def _entry(commit="c" * 40):
@@ -400,6 +475,126 @@ def test_degenerate_rungs_not_degenerate_if_any_stratum_has_two_values():
     assert an._degenerate_rungs(counts2, strata, ("a",)) == ["a"]
 
 
+# ------------------------------------------- I-4 / Ruling 18: undefined tests
+
+def test_undefined_result_2i_shape():
+    r = an._undefined_result_2i("1b", ["a", "b"], ("a", "b", "c"), "undefined: no eligible rung")
+    assert r["fires"] is False
+    assert r["named_inside"] == "undefined: no eligible rung"
+    assert r["dropped_degenerate"] == ["a", "b"]
+    assert r["eligible"] == []
+    assert r["thin"] == ["a", "b", "c"]
+    import math
+    assert math.isnan(r["stratified"]["T"])
+    assert r["stratified"]["p"] == 1.0
+    # fires_2i/named_inside_2i must not choke on this shape either — a
+    # caller that (incorrectly) re-derives fires from the raw dict gets
+    # the same answer the short-circuit already committed to.
+    assert an.fires_2i(r) is False
+
+
+def test_run_test_all_degenerate_rungs_is_undefined_not_a_raise():
+    """Every rung dropped by the coarse per-stratum check: `_run_test`
+    short-circuits BEFORE ever calling `primary_2i` (Ruling 18) —
+    fires=False, named 'every eligible rung degenerate', no exception."""
+    n = 300
+    counts = {"a": [7] * n, "b": [3] * n}
+    y = np.zeros(n, int); y[:80] = 1
+    out = {r: {"y": list(y), "n_pos": 80, "first": [None] * n} for r in ("a", "b")}
+    strata = {r: {"strata": [str(i % 3) for i in range(n)]} for r in ("a", "b")}
+    res = an._run_test(counts, "1b", out, strata, ("a", "b"), n_perm=300, n_boot=50)
+    assert res["fires"] is False
+    assert sorted(res["dropped_degenerate"]) == ["a", "b"]
+    assert res["named_inside"] == ("undefined: every eligible rung degenerate "
+                                   "(predictor constant inside every stratum)")
+
+
+def test_run_test_empty_rungs_is_undefined_no_eligible_rung():
+    """`rungs=()` from the start (nothing to drop, nothing to keep):
+    the OTHER named reason — 'no eligible rung', not 'degenerate'."""
+    res = an._run_test({}, "1b", {}, {}, (), n_perm=300, n_boot=50)
+    assert res["fires"] is False
+    assert res["dropped_degenerate"] == []
+    assert res["named_inside"] == "undefined: no eligible rung"
+
+
+def test_run_test_no_eligible_rung_from_primary_2i_is_caught(monkeypatch):
+    """`primary_2i` itself raising 'primary_2h: no eligible rung' (every
+    surviving rung is n_pos-thin, discovered inside `cells_for`, not by
+    the coarse pre-check) is caught the same way — not propagated."""
+    def boom(*a, **kw):
+        raise ValueError("primary_2h: no eligible rung")
+    monkeypatch.setattr(an, "primary_2i", boom)
+    n = 300
+    counts = {"a": list(range(n))}
+    out = {"a": {"y": [0] * n, "n_pos": 0, "first": [None] * n}}
+    strata = {"a": {"strata": [str(i % 3) for i in range(n)]}}
+    res = an._run_test(counts, "1b", out, strata, ("a",), n_perm=300, n_boot=50)
+    assert res["fires"] is False
+    assert res["named_inside"] == "undefined: no eligible rung"
+
+
+def test_run_test_drops_a_single_no_informative_pair_rung_and_retries(monkeypatch):
+    """`stats_2g.perm_test`'s per-rung 'no informative pair' is caught,
+    that ONE rung dropped, and the call retried — proven by a stand-in
+    that fails once (naming a real rung in `rungs`) then delegates to
+    the frozen `primary_2h` for the retry, which must SUCCEED on the
+    two clean rungs that remain."""
+    from experiments.exp2h import analyze_2h as an2h
+    real = an2h.primary_2h
+    rng = np.random.default_rng(0)
+    counts, out, strata = {}, {}, {}
+    for r in ("a", "b"):
+        x, y = _synthetic_cells(rng)
+        counts[r] = x
+        out[r] = {"y": list(y), "n_pos": int((y > 0).sum()), "first": [None] * len(y)}
+        strata[r] = {"strata": [str(i % 3) for i in range(len(y))]}
+    calls = []
+
+    def spy(pred, out_, strata_, *, size_pred, rungs, **kw):
+        calls.append(tuple(rungs))
+        if len(calls) == 1:
+            raise ValueError(f"perm_test: rung {rungs[0]} has no informative "
+                             f"pair — not eligible")
+        return real(pred, out_, strata_, size_pred=size_pred, rungs=rungs, **kw)
+    monkeypatch.setattr(an, "primary_2i", spy)
+    res = an._run_test(counts, "1b", out, strata, ("a", "b"), n_perm=300, n_boot=50)
+    assert len(calls) == 2
+    assert calls[1] == ("b",)
+    assert res["dropped_degenerate"] == ["a"]
+    assert res["fires"] is True   # "b" alone still carries the strong signal
+
+
+def test_run_test_reraises_an_unrelated_value_error(monkeypatch):
+    """Only the two named ValueError shapes are caught — anything else
+    propagates, exactly as before (the caller's own `collect_total`
+    handles it)."""
+    def boom(*a, **kw):
+        raise ValueError("something else entirely")
+    monkeypatch.setattr(an, "primary_2i", boom)
+    with pytest.raises(ValueError, match="something else entirely"):
+        an._run_test({"a": [1, 2, 3]}, "1b", {"a": {"y": [0, 1, 0]}},
+                    {"a": {"strata": ["0", "0", "0"]}}, ("a",), n_perm=10, n_boot=5)
+
+
+def test_verdict_tree_2i_carries_the_undefined_disclosure():
+    A = _A(True)
+    B = an._undefined_result_2i(bi.SIZE_PRED, ["antonym"], ("antonym", "median5"),
+                                "undefined: every eligible rung degenerate "
+                                "(predictor constant inside every stratum)")
+    v = an.verdict_tree_2i([], A, B)
+    assert v["verdict"] == "SHARED"
+    assert an.DISCLOSURE_UNDEFINED_2I["B"] in v["reason"]
+    assert an.DISCLOSURE_UNDEFINED_2I["A"] not in v["reason"]
+    assert v["disclosures"] == [an.DISCLOSURE_UNDEFINED_2I["B"]]
+
+
+def test_verdict_tree_2i_no_disclosure_on_an_ordinary_non_fire():
+    v = an.verdict_tree_2i([], _A(True), _A(False))
+    assert v["disclosures"] == []
+    assert "undefined" not in v["reason"]
+
+
 # --------------------------------------------------------- composite strata
 
 def test_composite_strata_zero_cut():
@@ -459,6 +654,52 @@ def test_check_rung_set_vs_endpoint_clean_and_mismatch():
     assert len(fails) == 1 and "antonym" in fails[0]
 
 
+# --------------------------------------------- I-1: rung set re-derivation
+
+def _real_derived_rung_set():
+    counts = {r: (200 if r in bi.STRATA_RUNGS else 0) for r in bt.RUNGS}
+    flrs = bg.load_floors()
+    rung_set = bi.rung_set_from_counts(counts, flrs)
+    stage1_final = {r: {"correct": counts[r]} for r in bt.RUNGS}
+    return rung_set, stage1_final, flrs
+
+
+def test_check_rung_set_derivation_clean():
+    rung_set, stage1_final, flrs = _real_derived_rung_set()
+    assert rung_set["R_CAP"] and set(rung_set["R_CAP"]) == set(bi.STRATA_RUNGS)
+    assert an._check_rung_set_derivation(rung_set, stage1_final, flrs) == []
+
+
+def test_check_rung_set_derivation_catches_hand_edited_r_cap():
+    """I-1's named world: one rung moved from R_CAP to R_EXTRA — still
+    a valid partition and a valid subset (both of which `_load_rung_
+    set` already checks), so only the re-derivation catches it."""
+    rung_set, stage1_final, flrs = _real_derived_rung_set()
+    moved = rung_set["R_CAP"][0]
+    bad = {**rung_set, "R_CAP": [r for r in rung_set["R_CAP"] if r != moved],
+          "R_EXTRA": rung_set["R_EXTRA"] + [moved]}
+    fails = an._check_rung_set_derivation(bad, stage1_final, flrs)
+    assert any(moved in f for f in fails)
+    assert any("R_CAP" in f for f in fails)
+    assert any("R_EXTRA" in f for f in fails)
+
+
+def test_check_rung_set_derivation_order_mismatch_with_same_content():
+    """Same rung SET, different list order — flagged as an order
+    mismatch distinct from a content mismatch."""
+    rung_set, stage1_final, flrs = _real_derived_rung_set()
+    bad = {**rung_set, "R_CAP": list(reversed(rung_set["R_CAP"]))}
+    fails = an._check_rung_set_derivation(bad, stage1_final, flrs)
+    assert any("order differs" in f for f in fails)
+
+
+def test_check_rung_set_derivation_missing_stage1_rung():
+    rung_set, stage1_final, flrs = _real_derived_rung_set()
+    del stage1_final[bt.RUNGS[0]]
+    fails = an._check_rung_set_derivation(rung_set, stage1_final, flrs)
+    assert any("missing rung" in f for f in fails)
+
+
 def test_load_power_missing(tmp_path):
     with pytest.raises(FileNotFoundError):
         an._load_power(tmp_path)
@@ -472,6 +713,53 @@ def test_load_power_missing_declaration(tmp_path):
         an._load_power(tmp_path)
 
 
+def _valid_power_sub(rungs):
+    return {"declared_status": "POWERED", "declaration": "x", "rungs": list(rungs),
+           "n_trained_steps": len(bi.trained_steps_7b())}
+
+
+def test_load_power_rejects_an_unknown_declared_status(tmp_path):
+    p = bi.power_path(tmp_path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    sub = _valid_power_sub(["antonym"])
+    p.write_text(json.dumps({"A": {**sub, "declared_status": "MAYBE"}, "B": sub}))
+    with pytest.raises(ValueError, match="declared_status"):
+        an._load_power(tmp_path)
+
+
+def test_load_power_accepts_thin(tmp_path):
+    p = bi.power_path(tmp_path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    sub = {**_valid_power_sub(["antonym"]), "declared_status": "THIN"}
+    p.write_text(json.dumps({"A": sub, "B": sub}))
+    assert an._load_power(tmp_path)["A"]["declared_status"] == "THIN"
+
+
+def test_load_power_rejects_rungs_not_a_subset_of_r_cap(tmp_path):
+    p = bi.power_path(tmp_path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    sub = _valid_power_sub(["antonym", "clock24"])   # clock24 not in R_CAP below
+    p.write_text(json.dumps({"A": sub, "B": sub}))
+    rung_set = {"R_CAP": ["antonym"]}
+    with pytest.raises(ValueError, match="not a subset"):
+        an._load_power(tmp_path, rung_set)
+    # no rung_set passed -> the subset check is skipped (nothing to check against)
+    assert an._load_power(tmp_path)["A"]["rungs"] == ["antonym", "clock24"]
+
+
+def test_load_power_rejects_wrong_n_trained_steps(tmp_path):
+    p = bi.power_path(tmp_path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    sub = {**_valid_power_sub(["antonym"]), "n_trained_steps": 3}
+    p.write_text(json.dumps({"A": sub, "B": sub}))
+    with pytest.raises(ValueError, match="n_trained_steps"):
+        an._load_power(tmp_path)
+
+
+def test_declared_statuses_2i_constant():
+    assert an.DECLARED_STATUSES_2I == ("POWERED", "DECLARED UNDERPOWERED IN ADVANCE", "THIN")
+
+
 # --------------------------------------------------------------- run()
 
 def test_run_on_the_real_tree_is_insufficient_data_no_crash():
@@ -481,6 +769,10 @@ def test_run_on_the_real_tree_is_insufficient_data_no_crash():
     assert v["referents"]["failures"]
     assert v["known_inputs_caveat"] == an.KNOWN_INPUTS_CAVEAT_2I
     assert v["licensed_sentence"] == an.LICENSED["INSUFFICIENT_DATA"]
+    # review minor: CALIBRATION_SENTENCE_2I rides on the verdict dict
+    # itself, beside known_inputs_caveat, in EVERY world including this
+    # one — not merely printed in `_one_test_power`'s own record.
+    assert v["calibration_note"] == an.CALIBRATION_SENTENCE_2I
 
 
 def test_run_refuses_a_drifted_instrument_as_insufficient_data():
