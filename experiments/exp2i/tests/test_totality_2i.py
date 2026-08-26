@@ -422,6 +422,154 @@ def test_no_informative_pair_is_a_terminal_not_a_crash(world):
     _insufficient(root, seal, "no informative pair")
 
 
+# ---------------------------------------- totality: every collect_total site
+#
+# Review round-1 finding 4 extended the mutation harness's totality
+# category from six hand-picked `collect_total` sites to all 27 in
+# `run()`, generated programmatically. Thirteen survived on the first
+# pass — not weak mutants, but sites this file had never driven to a
+# real failure (either because the real committed tree never fails
+# there, or because `_run`'s own `referents_sha=None` skips the
+# referent-manifest block entirely). Each gets a dedicated failure
+# here, via `monkeypatch` on the function `collect_total` wraps at
+# that exact site, so the wrapper is the only thing standing between
+# the raise and an uncaught exception out of `run()`.
+
+def test_upstream_frozen_imports_check_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom():
+        raise ValueError("boom frozen imports 2g")
+    monkeypatch.setattr(bg, "check_frozen_imports_2g", boom)
+    _insufficient(root, seal, "upstream frozen imports")
+
+
+def test_check_frozen_2i_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom():
+        raise ValueError("boom frozen 2i")
+    monkeypatch.setattr(bi, "check_frozen_2i", boom)
+    _insufficient(root, seal, "frozen imports")
+
+
+def test_check_pythia_predictor_files_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom():
+        raise ValueError("boom pythia predictor files")
+    monkeypatch.setattr(bi, "check_pythia_predictor_files", boom)
+    _insufficient(root, seal, "pythia predictor files")
+
+
+def test_load_battery_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom(rungs=None):
+        raise ValueError("boom battery")
+    monkeypatch.setattr(bg, "load_battery", boom)
+    _insufficient(root, seal, "battery")
+
+
+def test_load_floors_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom():
+        raise ValueError("boom floors")
+    monkeypatch.setattr(bg, "load_floors", boom)
+    _insufficient(root, seal, "2d floors")
+
+
+def test_load_verify_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+    from experiments.exp2d import analyze_2d as a2d
+
+    def boom():
+        raise ValueError("boom verify")
+    monkeypatch.setattr(a2d, "load_verify", boom)
+    _insufficient(root, seal, "verify criterion")
+
+
+def test_load_predictor_2g_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+    from experiments.exp2g import predictor_2g as pr
+
+    def boom(path, sha_pin):
+        raise ValueError("boom 2g predictor")
+    monkeypatch.setattr(pr, "load_predictor", boom)
+    _insufficient(root, seal, "2g predictor")
+
+
+def test_strata_gate_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+    from experiments.exp2g import strata_2g as sg
+
+    def boom(strata):
+        raise ValueError("boom strata gate")
+    monkeypatch.setattr(sg, "check_strata_pins", boom)
+    _insufficient(root, seal, "strata gate")
+
+
+def test_entry_stage1_lookup_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom(manifest, step):
+        raise ValueError("boom entry_7b")
+    monkeypatch.setattr(bi, "entry_7b", boom)
+    _insufficient(root, seal, "7B endpoint entry")
+
+
+def test_entry_main_lookup_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom(manifest, repo):
+        raise ValueError("boom entry_main")
+    monkeypatch.setattr(bi, "entry_main", boom)
+    _insufficient(root, seal, "7B main entry")
+
+
+def test_rung_set_vs_endpoint_check_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom(rung_set, stage1_final):
+        raise ValueError("boom rung set vs endpoint")
+    monkeypatch.setattr(an, "_check_rung_set_vs_endpoint", boom)
+    _insufficient(root, seal, "rung set vs endpoint")
+
+
+def test_referent_manifest_check_failure_is_insufficient_data(tmp_path, monkeypatch):
+    """The `world`/`_run` fixtures always pass `referents_sha=None`
+    (a synthetic world has no relation to the real committed
+    `referents_2i.json`), so this site is unreachable through them —
+    it needs a call with `referents_sha` set, which only happens on
+    the real, empty tree here (every other refusal fires too; the
+    point is that the referent one is named and nothing raises)."""
+    from experiments.exp2i import make_referents_2i as mkr
+
+    def boom(path, sha_pin):
+        raise ValueError("boom referents")
+    monkeypatch.setattr(mkr, "check_referents", boom)
+    v = an.run(root=tmp_path, referents_sha="not-none",
+              manifest_sha=bi.CHECKPOINTS_2I_SHA256, n_perm=10, n_boot=5)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["verdict"]
+    assert "referent manifest" in v["reason"]
+
+
+def test_secondary_thunk_failure_is_caught_not_raised(world, monkeypatch):
+    """The generic `_sec(name, thunk)` helper's own `collect_total`
+    call: breaking ONE secondary (`extra_rungs_raw`) must land it in
+    `secondaries[name]["failed"]`, not raise out of `run()` —
+    secondaries are non-gating, so the verdict itself is unaffected."""
+    root, seal = world
+
+    def boom(x_a, x_b, out, r_extra):
+        raise ValueError("boom extra_rungs_raw")
+    monkeypatch.setattr(an, "_extra_rungs_raw_2i", boom)
+    v = _run(root, seal)
+    assert v["verdict"] != "INSUFFICIENT_DATA", v["reason"]
+    assert "boom extra_rungs_raw" in v["secondaries"]["extra_rungs_raw"]["failed"]
+
+
 # ------------------------------------------------------------- control
 
 def test_untouched_world_still_reaches_shared(world):
