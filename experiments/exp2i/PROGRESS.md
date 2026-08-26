@@ -534,3 +534,171 @@ model contact, which this task has zero of).
 Committed in three groups (analyze_2i.py + referents; power_2i.py;
 worlds + totality + the rung-set/endpoint cross-check fix), not
 pushed, per the task's standing instruction.
+
+## 2026-08-26 — BUILD, Task 4: `run/sweep_2i.py` (the OLMo-2 7B sweep) + mutation harness + close
+
+Instrument: `experiments/exp2i/run/sweep_2i.py` (the 21-grid-point
+sweep + gate 1 + the from_config TWIN), `experiments/exp2i/tests/
+test_sweep_2i.py` (17 tests), `experiments/exp2i/tests/mutation_check
+.py` (59 mutants targeting the seven NEW modules — every one KILLED,
+sources restored byte-identical). Removes the Task-2 fail-closed stub
+(`run/_prereg_stub_2i.py`); `sample_2i.py`/`endpoint_2i.py` import
+`analyze_2i.require_prereg_2i` unconditionally now — the only edit to
+Task-2 source.
+
+**Runner shape (design §3.4-§3.6, ruling 2).** Refusal order, before
+any model contact: `require_prereg_2i` (all five instrument blobs,
+this file included) → `check_frozen_2i()` → the predictor seal
+(`endpoint_2i._require_predictor_seal`, reused directly, not copied)
+→ the endpoint seal (`_require_endpoint_seal`, new — mirrors the
+predictor seal's path-prefix construction over `rung_set_2i.json` +
+`power_2i.json` + the 68 endpoint records, since the endpoint stage
+has no single aggregate seal-content file the way the predictor's
+`predictor_2i.json` does) → a HALTED-tree resume refusal. Then: gate 1
+(step 928646, `load_checkpoint`'s candidate-file path) → the
+from_config `TWIN` (seed 0, tokenizer loaded at the manifest twin
+entry's `config_commit`) → the 20 remaining grid steps ascending.
+Per-step: skip-if-exists at the rung grain (nested inside the
+step-level skip, so a mid-loop crash resumes from exactly where it
+left off); `free_checkpoint` always keyed by `entry["revision"]` —
+the SAME key `download_entry`/`clean_dir` use internally inside
+`load_checkpoint` (ruling 4: the reviewer-flagged decoupling risk —
+`free_checkpoint(repo, rev_key, ...)` frees `_cache_dir(repo, rev_key,
+...)`, and if the runner ever called it with a DIFFERENT key than the
+download used, the raw HF cache would survive every step
+unboundedly). Verified directly: a fake 'checkpoint' loader creates
+the real `battery_2i._cache_dir(...)/clean` tree (no torch/network)
+for both a clean step and a mid-step exception; both assert the
+directory is gone afterward.
+
+**Gate 1's digest question (ruling 2, disclosed as asked).** The
+endpoint stage's records DO carry a tensor digest — `item_record_2i`
+stamps `weight_sha256 = ckpt["weight_sha256"]`, and `endpoint_2i.py`
+sets that from `info.get("tensor_digest")` (`load_thin`'s own
+`ck.tensor_digest(model)` call), never null in practice. So gate 1
+compares `digest_sweep` (the sweep's own `load_checkpoint` tensor
+digest at step 928646) against `digest_endpoint` (read directly off
+one `stage1_final` record's `weight_sha256` — constant across all 34
+rungs, since it's the same loaded checkpoint evaluated once per
+`which`) — the commit+per-file-sha fallback the ruling flagged as a
+contingency was not needed.
+
+**`item_record_2i`/`evaluate_items` reused unchanged** (imported from
+`endpoint_2i.py`/`exp2g.run.sweep_2g` respectively, per the brief);
+`gate1_failures_7b` (Task 3's) is the production re-derivation this
+runner's own `gate1.json` satisfies — `test_gate1_record_matches_
+analyzer_rederivation` runs it cold against the runner's own committed
+record. Sweep records carry `step` (int or `bi.TWIN`) and
+`seal_tag = ENDPOINT_SEAL_TAG` with `predictor_sha` read from
+`predictor_2i.json`'s own `sha256` field (NOT the endpoint seal's,
+which has no separate content object) — matching `step_record_
+failures_2i`'s own expectation exactly.
+
+**TDD.** `test_sweep_2i.py`: RED confirmed by `ImportError: cannot
+import name 'sweep_2i'` before the module existed (`experiments/exp2i/
+run/__init__.py` had nothing to export). GREEN after implementation,
+with one real bug caught along the way by the FIRST green run of the
+gate-1-diff tests: `FakeRunner`'s hit rule is `(i % 1000) / 1000 <
+frac` over `i` in `[0, 500)` — max `i/1000` is `.499`, so any
+`frac >= 0.5` hits every item, meaning a fixture at `frac=0.5` and a
+mismatched loader at `frac=0.6` produce IDENTICAL bits (both 500/500)
+— the test's own fracs, not the runner, were wrong; fixed to `0.2`/
+`0.4` (both below the ceiling) and re-verified failing-then-passing.
+A second test-only bug (not the runner): a custom fake `checkpoint`
+loader used its fabricated tensor-digest string as the model's own
+dispatch marker (`M(digest)`), which for the gate case wasn't in the
+`"D-{revision}"` shape `runner_factory` parses — the loader's `.d`
+marker and its `tensor_digest` field are now kept separate.
+
+**Mutation harness — 59/59 killed, sources restored byte-identical
+(`git diff` empty for all seven targets, no `.mutation_backup` files
+left).** First detached run: 54/59 killed, 5 survivors, each traced to
+a genuine coverage gap rather than a weak mutant, closed with targeted
+tests (committed separately, before `mutation_check.py` itself):
+`build_manifest`'s duplicate-signature refusal is exercised only by
+the real committed inventory, which has no duplicate among its 21
+grid points by construction (a synthetic-inventory test now forces
+one); `gate1_failures_7b`'s continuation-diff check had no dedicated
+test (only bit-diff did); `power_2i._one`'s `fires_2i` delegation and
+`_one_test_power`'s `>= BAR` boundary are both only reachable near-
+exactly at random-simulation N (replaced with a spy on `an.fires_2i`
+proving delegation, and a fixed `power_at`/`calibrate_rho` stand-in
+pinning `declare_p == BAR` exactly); `sample_2i.run_sampling_rung`'s
+own skip-if-exists branch is shadowed in every existing test path by
+`run()`'s outer pending check (nothing pending → `run_sampling_rung`
+is never even called) — added a direct call with both files already
+present. Second detached run: 59/59. Both runs used the exact
+detached pattern (`nohup … > mutation_build.log 2>&1 & disown` from a
+foreground call, polled via a `run_in_background`/blocking `until`
+loop checking for the harness's own final summary line), never a
+foreground wait; each took ~3.5–4 h (baseline + 59 full-suite runs at
+~3.5 min apiece).
+
+Category coverage: grid/revision (1), candidate/signature refusal
+(1), tokenizer asserts (3), rung-set bar (1), composite-strata bucket
+(1), firing-rule boundaries — p/T/sign (2 + the verdict-table swap),
+world table (1), gate-1 coverage + every other gate-1 field (6),
+seal/prereg refusals (6), runner order/halt/free (10), sampling row
+format (1) + verify_fn-in-tally (1), power write-once (1) + thin
+boundary (1), `fires_2i` shared (1). **Totality is a disclosed,
+deliberate scope reduction**: `analyze_2i.run()` has ~27
+`collect_total(...)` call sites; ruling 6's "one mutant per site" is
+applied to a REPRESENTATIVE six (predictor seal content, rung set,
+power record, gate1.json parse, stage1_final endpoint load, sweep
+load) — specifically the ones a dedicated `test_totality_2i.py` world
+already exercises as a genuine failure, so a stripped `collect_total`
+wrapper is guaranteed reachable and killable; the other ~21 sites
+(mostly early frozen-import/battery/floor/verify-criterion loads that
+never fail on the real committed tree in this suite) are not
+individually mutated. Precedent: 2h's own harness covered a comparable
+fraction of ITS `run()`'s refusal sites, not literally every one.
+
+**Dry-run against the real tree**
+(`python -m experiments.exp2i.run.sweep_2i --dry-run`): raises the
+expected `RuntimeError` naming the missing `exp2i-preregistered` tag,
+via a real traceback (uncaught, as `main()` does no exception
+handling — matching `sample_2i.py`/`endpoint_2i.py`'s own dry-run
+precedent from Task 2/3's reports, not a silently swallowed failure);
+confirmed no loader/torch import is reached (the traceback's own frame
+list stops at `require_prereg_2i`, before `real_loaders`/
+`_assert_provenance` are ever called).
+
+**Self-review.** Completeness: RUN_ORDER, the two-seal refusal chain,
+gate-1's record-then-checkpoint-record-then-gate1.json write order
+(ruling 2, literal), skip-if-exists at both the step and rung grain,
+try/finally release+free on every model-touching branch, `--dry-run`
+building no loader — all present and tested. Discipline: `git status`
+confirms no file under `exp2h`/`exp2g`/`exp2d`/`exp2c`/`exp2b`/`exp3`/
+`exp3c` changed at any point in this task; no test loads a model,
+touches the network, or reads outside the repo (`loaders=` injection
+throughout, mirroring exp2h/exp2g). Testing: behavior asserted against
+on-disk record shapes and `analyze_2i`'s own re-derivation functions,
+not against the runner's own mocks in isolation. `verify_referents_2i`
+cold: 11/11, unchanged from Task 3 (this task added no referents).
+
+**Test count: 187 total for `experiments/exp2i/tests`** (168 from
+Tasks 1–3 + 5 mutation-survivor fixes, plus 17 new in
+`test_sweep_2i.py`; `test_stages_2i.py` net +1 after removing 4 stub
+tests and adding 1), 0 warnings
+(`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
+pytest experiments/exp2i/tests -q` → `187 passed`, ~3m40s). Worlds:
+10 (unchanged, `tests/full_shape.py`, Task 3's). Referents: 11/11.
+Mutants: 59/59 killed.
+
+**Concern, disclosed.** The totality-mutant scope reduction above
+(6 of ~27 `collect_total` sites) is a judgment call under the task's
+time budget, not a claim that the other ~21 sites are provably safe —
+any of them COULD have the same class of gap 2h's own Task-2 re-review
+found (a stripped wrapper on a site nothing in the suite ever drives
+to failure). Flagging rather than deciding unilaterally that it's fine
+long-term.
+
+Committed in four groups: (1) `run/sweep_2i.py` + `test_sweep_2i.py` +
+the stub removal (`run/_prereg_stub_2i.py` deleted, `sample_2i.py`/
+`endpoint_2i.py` edited, `test_stages_2i.py`'s stub tests removed);
+(2) the two Task-3 test fixes whose premise (`sweep_2i.py` absent)
+Task 4 disproved (`test_analyze_2i.py`, `test_full_shape_2i.py`);
+(3) the five mutation-survivor test fixes (`test_battery_2i.py`,
+`test_analyze_2i.py`, `test_power_2i.py`, `test_stages_2i.py`);
+(4) `mutation_check.py` + this ledger entry. Not pushed, per the
+task's standing instruction (the controller pushes after review).
