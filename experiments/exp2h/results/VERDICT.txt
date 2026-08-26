@@ -1,0 +1,119 @@
+EXPERIMENT 2h — THE SAMPLER CONFIRMATION — VERDICT: CONFIRMED
+(read under POWERED: P(CONFIRMED | D = .15) = .979, null false-CONFIRMED 0.000)
+
+Frozen analyzer run ONCE, 2026-08-25, on Michael's go ("run the analyzer"),
+tag exp2h-preregistered (143c98f0; the three instrument blobs re-verified
+byte-identical at run time — analyze_2h.py 52733e8d…, battery_2h.py
+2d721cf8…, run/sweep_2h.py 1c100d18…); projection sealed 3a450cd8 before
+gate 1 or any 6.9b checkpoint loaded. No stage 1: every predictor in this
+experiment was on disk before any intermediate checkpoint of any Pythia
+size had been queried by anyone (design §2).
+
+§4/§6 tree, mechanical:
+  1. INSUFFICIENT_DATA — zero referent failures (manifest c5cd292c…,
+     14 upstream frozen-code pins, prereg blobs exact, gate 1 pass with
+     full coverage on all 34 rungs, power record 1c173862… attached,
+     23/23 grid points complete, no HALTED).  NOT TAKEN.
+  2. CONFIRMED — TAKEN: stratified T = .2020 ≥ .10, p = 1.0e-4
+     (0 of 10,000 permutations ≥ observed; null mean ≈ 0, null SD .0131);
+     raw T = .2049, p = 1.0e-4; pooled D .239; eight of eight R_6.9b rungs
+     eligible (n_pos 63–468 ≥ 20), none THIN.
+  3. NOT-CONFIRMED — not reached.
+
+The primary, in one line: 2d's committed per-item verified counts at 1b —
+64 pure T=1.0 draws per item, on disk since 2026-08-22, the quantity that
+FAILED 2d's rung-level ladder — forecast, through the preregistered
+difficulty strata, the order in which 6.9b's training makes 2c's rising
+items emittable over 22 checkpoints nobody had ever queried. Per-rung
+within-stratum Somers' D (bootstrap CI): sub_base8 .408 [.330, .488];
+antonym6 .291 [.224, .359]; add_base8 .253 [.148, .350]; arith_next .231
+[.149, .316]; odd6 .187 [.109, .256]; antonym .143 [.081, .201];
+count_div13 .090 [.013, .163]; add3_mid .012 [−.025, .075].
+
+THE NAMED COMPETITOR (§3, preregistered): 2g's sealed per-item probe
+reading at 1b, run through 2h's own tree, is NOT-CONFIRMED on the same
+outcome — stratified T = −.0187, p = .8589 (raw .0170, p .155); the
+inversion is itself n.s. (one-sided p ≈ .14). Probe-beyond-sampler:
+T = −.0253, p = .919 — the probe adds NOTHING once the sampled channel is
+conditioned on. Sampler-beyond-probe: T = .2030, p = 1.0e-4 — the whole
+effect survives conditioning on the probe. This is 2g's asymmetry exactly,
+on a second sealed outcome at a second resolution step.
+
+Replication and sensitivities, all preregistered, all in the same
+direction: 410m predictor T = .1417, p = 1.0e-4 (CONFIRMED in its own
+tree; per-rung add_base8 .368, sub_base8 .283, arith_next .240, odd6 .131;
+antonym/antonym6 fall to .053/.093; none THIN); first-correct-step outcome
+T = .1904, p = 1.0e-4; 1b-beyond-410m T = .1813, p = 1.0e-4 (the closest
+committed thing to a model-specific signal, §5 — the 1b count carries
+information the 410m count does not, in strata of the 410m count).
+
+Per-rung concordance loci REPEAT across 2.8b (2g) and 6.9b (2h): sub_base8
+top on both (.386 → .408), antonym6 second on both (.209 → .291),
+add_base8 third on both (.199 → .253); antonym and arith_next swap fourth
+and fifth (.186/.168 → .143/.231); add3_mid ≈ 0 on both. The two rungs new
+to a primary split: odd6 concordant at the level of the core five (.187);
+count_div13 weakest of the eight (.090, CI lower bound .013), the rung
+whose 6.9b clear arrives only at the final checkpoint.
+
+Power context (the §4 record, N_SIM 1000, sha 1c173862…): P(CONFIRMED |
+D = .15) = .979 against the bar .75; null SD of T .0209; null
+false-CONFIRMED rate 0.000. The observed T sits ≈ 15 permutation-null SDs
+above zero. Neither named disconfirmer fired (design §6 / projection:
+(i) T in [.05, .10) at p < .01; (ii) T ≤ .03 n.s.).
+
+Descriptive texture on the record (reported in full per §6, any world):
+- Transient verification pervasive again — items verifying at ≥ 1 grid
+  point vs at the final checkpoint: antonym 468/286, antonym6 345/143,
+  count_div13 434/102, odd6 304/107, arith_next 193/58, sub_base8 178/52,
+  add_base8 103/29, add3_mid 63/19. Rung counts non-monotone within the
+  size: antonym peaks 310/500 at 90k and ends 286; odd6 151 at 100k → 107.
+- Checkpoint-local COLLAPSES, new at this size: count_div13 goes 70 → 0 →
+  71 across 32k/40k/50k because step40000 emits " 13" on all 500 items
+  (echoing the divisor); mod13_comp 43 → 0 → 12 at 16k/20k/30k because
+  step20000 emits " 14" on all 500; roman_sum7 dips 75 → 26 (16k) and
+  19 (30k). Distinct weight shas, other rungs normal at the same
+  checkpoints (antonym 120 at 40k) — model behaviour, not instrument.
+  The count outcome absorbs these; a first-clear outcome at rung level
+  would not (count_div13's s* = 143000 is partly this).
+- Rung-level first-clear steps (descriptive, 8 rungs in 5 family blocks;
+  Spearman vs the mean 1b sampled rate −.41): arith_next 16k;
+  antonym, antonym6, odd6 20k; sub_base8 60k; add_base8, add3_mid 70k;
+  count_div13 143k. Against 2.8b (2g): sub_base8 90k → 60k, add3_mid
+  80k → 70k, arith_next 30k → 16k — the larger model clears earlier in
+  steps on the harder rungs; antonym6 10k → 20k the one reversal.
+- 2g's "no flat rung ever clears" does NOT carry to 6.9b: sub3_mid clears
+  transiently at 70k, 120k, 130k, 140k (peak 39/500 at 130k) and ends at
+  14, below its floor; odd_one_out clears at 110k only (151/500). No other
+  flat rung clears anywhere. The reversal pair stays at the famous zero
+  through the whole 6.9b trajectory at greedy: rev_string7 0/500 at all 23
+  points, reverse_string ≤ 1/500. step0 verifies nothing anywhere except
+  one sub3_mid item (chance).
+
+What CONFIRMED licenses (§6, written in advance; the analyzer's own
+licensed sentence, verbatim): "sampled reachability at 1b, fixed before
+any 6.9b checkpoint was loaded, forecasts the order in which 6.9b's
+training makes 2c's rising items emittable, through difficulty strata,
+with the probe adding nothing beyond it — together with 2g's 2.8b record
+this stands at the reversal case's standing: two sealed outcomes, two
+resolution steps, one committed predictor." The essay's 2g paragraph
+upgrades from "a control I'm glad I preregistered" to a two-outcome
+finding; the OLMo cross-family generalization becomes the named next
+experiment. Disclosed with it (§5): a sampled rate is both reachability
+and un-named difficulty — 2h shows replication with the named difficulty
+held fixed and the probe conditioned out, not the proxy separated;
+CONFIRMED does not resurrect Prediction 2's probe form — the claim is
+about the output channel, and says so. Known to the designer before any
+checkpoint loaded: 2c's final 6.9b counts, 2d's per-item counts, 2g's
+whole verdict; not known to anyone: any quantity at any 6.9b intermediate
+checkpoint.
+
+Campaign: gate 1 FIRST — step143000 through both loader paths, 34/34 rung
+counts exact against the m4 pin, weight digests equal, 17,000/17,000
+continuations compared with 0 diffs (the ninth consecutive byte-identical
+reproduction on this stack — torch 2.12.1 / transformers 5.13.0 — and the
+first at 6.9b); then 22 trained checkpoints + step0 × 34 rungs × 500 items,
+~58 min per checkpoint, 23.3 h wall, 2026-08-24 22:28 → 08-25 21:44 EDT,
+detached (nohup + disown) with the watcher committing and pushing every
+record; zero halts, zero attrition, zero environment-side kills this time.
+Analyzer ≈ 6 min at N_PERM 10,000. One pre-committed change UNSPENT through
+design, build, freeze and campaign. Tag exp2h-closed.

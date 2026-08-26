@@ -1,5 +1,7 @@
 # Experiment 2h — Design Doc: The Sampler Confirmation — Does Output-Channel Reachability Forecast Emission Order on a Second Sealed Outcome?
 
+**CLOSED 2026-08-25: VERDICT CONFIRMED** (tag `exp2h-closed`; analyzer run once on Michael's go) — stratified T .2020, p 1.0e-4, POWERED .979; probe competitor NOT-CONFIRMED (−.0187), probe-beyond-sampler null, sampler-beyond-probe .2030; 410m replication .1417 CONFIRMED; gate 1 exact through both loader paths, 23/23 grid points, zero halts; projection 3a450cd8 HIT. See `experiments/exp2h/results/VERDICT.txt` and `retrospective.md`. The doc below stays frozen as the preregistration record.
+
 **Status: session 1 (design) written 2026-08-24, at Exp 2g's closeout,
 on Michael's word ("run #1 — the sampler confirmation on 6.9b"); §8
 dials RULED the same day (full 34-rung sweep; the rest as recommended). Build and adversarial freeze follow; the ONLY
