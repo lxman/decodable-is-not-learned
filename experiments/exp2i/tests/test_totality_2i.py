@@ -19,15 +19,6 @@ from experiments.exp2i import battery_2i as bi
 from experiments.exp2i.tests import full_shape as fs
 
 
-@pytest.fixture(scope="module", autouse=True)
-def _shrink_instrument_blobs_to_what_exists():
-    subset = tuple(r for r in an.INSTRUMENT_BLOBS_2I if (bi.REPO / r).is_file())
-    original = an.INSTRUMENT_BLOBS_2I
-    an.INSTRUMENT_BLOBS_2I = subset
-    yield
-    an.INSTRUMENT_BLOBS_2I = original
-
-
 @pytest.fixture(scope="module")
 def base_world(tmp_path_factory):
     root = tmp_path_factory.mktemp("totality_base")
@@ -385,41 +376,96 @@ def test_sweep_dir_replaced_by_a_file(world):
 
 # ------------------------------------------------- the primary's own refusals
 
-def _rewrite_r_cap(root, fn):
-    bat = bg.load_battery(list(bi.STRATA_RUNGS))
-    steps = bi.trained_steps_7b() + (bi.TWIN,)
-    for step in steps:
-        for r in bi.STRATA_RUNGS:
-            p = bi.record_path(root, step, r)
-            rec = json.loads(p.read_text())
-            fn(rec, bat[r])
-            rec["correct"] = sum(rec["bits"])
-            p.write_text(json.dumps(rec))
+# I-4 / Ruling 18: `primary_2i` (== `an2h.primary_2h`) raising 'no
+# eligible rung' (every candidate rung n_pos-thin, inside `cells_for`)
+# or `stats_2g.perm_test` raising 'no informative pair' for one
+# specific rung is no longer routed to `collect_total`'s 'primary
+# olmo7b' site at all — `_run_test` catches both INSIDE itself and
+# returns an undefined (fires=False, named) result, so the OTHER
+# test's real result still stands and the tree reaches a real world,
+# not INSUFFICIENT_DATA. Driven directly against `an.primary_2i`
+# (the same object `_run_test` calls, `an.primary_2i is an2h.
+# primary_2h`) rather than by engineering a battery/floor combination
+# that is simultaneously floor-clearing (in R_CAP) and n_pos-thin — I-1
+# makes that combination impossible for the eleven real STRATA_RUNGS
+# floors (a rung that clears a 15-25% floor at n=500 already has far
+# more than `bg.ELIGIBILITY_MIN_POS` positive items).
 
-
-def test_no_eligible_rung_is_a_terminal_not_a_crash(world):
-    """Every R_CAP rung silent (n_pos 0 at every step): both tests'
-    `primary_2i` raise 'no eligible rung' — behind the freeze's
-    refusal it is INSUFFICIENT_DATA, not a crash."""
+def test_no_eligible_rung_is_undefined_not_a_crash(world, monkeypatch):
+    """Every rung `primary_2i` is offered comes back thin (n_pos below
+    the eligibility floor): BOTH tests land on 'undefined: no eligible
+    rung', fires=False, verdict NEITHER — a terminal, not a crash."""
     root, seal = world
 
-    def z(rec, cap):
-        rec["continuations"] = [" zzz"] * len(rec["bits"])
-        rec["bits"] = [0] * len(rec["bits"])
-    _rewrite_r_cap(root, z)
-    _insufficient(root, seal, "no eligible rung")
+    def boom(*a, **kw):
+        raise ValueError("primary_2h: no eligible rung")
+    monkeypatch.setattr(an, "primary_2i", boom)
+    v = _run(root, seal)
+    assert v["verdict"] == "NEITHER", v["reason"]
+    assert v["tests"]["A"]["named_inside"] == "undefined: no eligible rung"
+    assert v["tests"]["B"]["named_inside"] == "undefined: no eligible rung"
+    assert an.DISCLOSURE_UNDEFINED_2I["A"] in v["reason"]
+    assert an.DISCLOSURE_UNDEFINED_2I["B"] in v["reason"]
+    assert an.DISCLOSURE_UNDEFINED_2I["A"] in v["licensed_sentence"]
+    assert an.DISCLOSURE_UNDEFINED_2I["B"] in v["licensed_sentence"]
 
 
-def test_no_informative_pair_is_a_terminal_not_a_crash(world):
-    """y constant on every item of every R_CAP rung: `perm_test` raises
-    'no informative pair' — likewise a terminal."""
+def test_no_informative_pair_drops_the_rung_and_retries(world, monkeypatch):
+    """`stats_2g.perm_test`'s 'no informative pair' for exactly the
+    FIRST call `primary_2i` receives carrying the full eleven-rung
+    R_CAP (Test A's own first attempt — `_outcomes_and_tests_2i` calls
+    A before B, long before any of `run()`'s several OTHER `_run_test`
+    secondaries also reach `primary_2i` with their own eleven- or
+    ten-rung calls, so a plain call-INDEX assertion is not robust
+    against those; a one-shot 'fail on the first eleven-rung call'
+    latch is): `_run_test` drops the named rung and retries with the
+    reduced ten — and here the real 2h machinery takes over for that
+    retry and every later call, proving the retry genuinely reaches a
+    live result, not merely that the exception was swallowed. Test B
+    is untouched (the latch has already fired by the time B's own
+    first call arrives) and so carries no dropped rung at all."""
     root, seal = world
+    from experiments.exp2h import analyze_2h as an2h
+    real = an2h.primary_2h
+    state = {"fired": False, "first_rung": None, "retry_rungs": None}
+    n_cap = len(bi.STRATA_RUNGS)
 
-    def one(rec, cap):
-        rec["continuations"] = [f" {it['answer']}" for it in cap["eval_items"]]
-        rec["bits"] = [1] * len(rec["bits"])
-    _rewrite_r_cap(root, one)
-    _insufficient(root, seal, "no informative pair")
+    def spy(pred, out, strata, *, size_pred, rungs, **kw):
+        if not state["fired"] and len(rungs) == n_cap:
+            state["fired"] = True
+            state["first_rung"] = rungs[0]
+            raise ValueError(f"perm_test: rung {rungs[0]} has no informative "
+                             f"pair — not eligible")
+        if (state["fired"] and state["retry_rungs"] is None
+                and len(rungs) == n_cap - 1):
+            state["retry_rungs"] = tuple(rungs)
+        return real(pred, out, strata, size_pred=size_pred, rungs=rungs, **kw)
+    monkeypatch.setattr(an, "primary_2i", spy)
+    v = _run(root, seal, n_perm=300, n_boot=20)
+    assert v["verdict"] == "SHARED", v["reason"]
+    assert state["fired"] is True
+    assert set(state["retry_rungs"]) == set(bi.STRATA_RUNGS) - {state["first_rung"]}
+    assert v["tests"]["A"]["fires"] is True
+    assert v["tests"]["A"]["dropped_degenerate"] == [state["first_rung"]]
+    assert v["tests"]["B"]["dropped_degenerate"] == []
+
+
+def test_rung_set_derivation_mismatch_hand_edited_r_cap(world):
+    """I-1: R_CAP must be RE-DERIVABLE from the endpoint's own correct
+    counts + the real floors, not merely internally consistent (a
+    subset of the eleven, partitioning R_OLMO with R_EXTRA — both of
+    which `_load_rung_set` already checks). Moving one rung from R_CAP
+    to R_EXTRA by hand keeps it a valid partition and a valid subset,
+    so only the re-derivation catches it."""
+    root, seal = world
+    p = bi.rung_set_path(root)
+    rec = json.loads(p.read_text())
+    moved = rec["R_CAP"][0]
+    rec["R_CAP"] = rec["R_CAP"][1:]
+    rec["R_EXTRA"] = rec["R_EXTRA"] + [moved]
+    p.write_text(json.dumps(rec))
+    v = _insufficient(root, seal, "rung set re-derivation")
+    assert any(moved in f for f in v["referents"]["failures"])
 
 
 # ---------------------------------------- totality: every collect_total site
@@ -552,6 +598,71 @@ def test_rung_set_vs_endpoint_check_failure_is_insufficient_data(world, monkeypa
     _insufficient(root, seal, "rung set vs endpoint")
 
 
+def test_gate1_rederive_check_failure_is_insufficient_data(world, monkeypatch):
+    """C-1's own collect_total site — the same totality standard every
+    other check in `run()` gets. This covers only the RAISE half of
+    `run()`'s own `failures += f + (g2bad or [])` line (`f`, from
+    `collect_total` catching an exception) — see the sibling test below
+    for the OTHER half (`g2bad`, the function's own returned failure
+    list on a clean, non-raising call)."""
+    root, seal = world
+
+    def boom(sweep_endpoint_records, stage1_final_records, gate_record):
+        raise ValueError("boom gate1 rederive")
+    monkeypatch.setattr(an, "gate1_rederive_7b", boom)
+    _insufficient(root, seal, "gate 1 olmo7b re-derivation (byte identity)")
+
+
+def test_gate1_rederive_real_mismatch_is_insufficient_data(world):
+    """The OTHER half: `gate1_rederive_7b` returns NORMALLY with a
+    non-empty failure list (a real, self-consistent byte mismatch — no
+    exception at all) — proving `run()` actually WIRES that returned
+    list into `failures` via `(g2bad or [])`, not merely that a raised
+    exception gets caught (which the sibling test above already
+    covers, and which alone would NOT catch a mutation that drops
+    `(g2bad or [])` from the line, since `g2bad` is always `None` in
+    the raise case regardless). Deliberately NOT in `full_shape.py`
+    (whose worlds `test_full_shape_2i.py` alone exercises) — that file
+    is DESELECTed from the mutation harness's own `run_suite()`.
+
+    Flips TWO items in OPPOSITE directions (one 0->1, one 1->0) so
+    `correct` — and therefore the world's already-cached `rung_set_2i
+    .json` per-rung `k` — is UNCHANGED: isolating this world to the
+    byte-level mismatch alone, not also (accidentally) tripping the
+    unrelated, pre-existing `_check_rung_set_vs_endpoint` count check
+    the first draft of this test discovered firing instead."""
+    root, seal = world
+    from experiments.exp2g import battery_2g as bg
+    cap = bg.load_battery(["antonym"])["antonym"]
+    p = bi.endpoint_record_path(root, "stage1_final", "antonym")
+    rec = json.loads(p.read_text())
+    bits = list(rec["bits"])
+    conts = list(rec["continuations"])
+    i_zero = next(i for i in range(len(bits)) if bits[i] == 0)
+    i_one = next(i for i in range(len(bits)) if bits[i] == 1)
+    bits[i_zero], bits[i_one] = 1, 0
+    for i in (i_zero, i_one):
+        answer = cap["eval_items"][i]["answer"]
+        conts[i] = f" {answer}" if bits[i] else " zzz"
+    rec["bits"], rec["continuations"] = bits, conts
+    rec["correct"] = sum(bits)
+    sweep_correct = json.loads(
+        bi.record_path(root, bi.ENDPOINT_STEP_7B, "antonym").read_text())["correct"]
+    assert rec["correct"] == sweep_correct   # the count is unchanged, only the bytes moved
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "gate 1 olmo7b re-derive")
+
+
+def test_rung_set_derivation_check_failure_is_insufficient_data(world, monkeypatch):
+    """I-1's own collect_total site."""
+    root, seal = world
+
+    def boom(rung_set, stage1_final, floors):
+        raise ValueError("boom rung set derivation")
+    monkeypatch.setattr(an, "_check_rung_set_derivation", boom)
+    _insufficient(root, seal, "rung set re-derivation")
+
+
 def test_referent_manifest_check_failure_is_insufficient_data(tmp_path, monkeypatch):
     """The `world`/`_run` fixtures always pass `referents_sha=None`
     (a synthetic world has no relation to the real committed
@@ -568,6 +679,28 @@ def test_referent_manifest_check_failure_is_insufficient_data(tmp_path, monkeypa
               manifest_sha=bi.CHECKPOINTS_2I_SHA256, n_perm=10, n_boot=5)
     assert v["verdict"] == "INSUFFICIENT_DATA", v["verdict"]
     assert "referent manifest" in v["reason"]
+
+
+def test_primary_computation_unrelated_exception_is_insufficient_data(world, monkeypatch):
+    """`_outcomes_and_tests_2i`'s own `collect_total` site in `run()`
+    (labeled "primary olmo7b"): Ruling 18's `_run_test` only catches
+    the two NAMED ValueError shapes ('no eligible rung', 'no
+    informative pair') — that is precisely what keeps this site from
+    ever seeing an exception via those two paths any more. Anything
+    ELSE `primary_2i` might raise (a different exception type, or a
+    ValueError matching neither pattern) still propagates all the way
+    out of `_outcomes_and_tests_2i` uncaught by `_run_test`, and this
+    site must still catch it — not left to crash `run()`. Distinct
+    from `test_no_eligible_rung_is_undefined_not_a_crash` and
+    `test_no_informative_pair_drops_the_rung_and_retries` above, which
+    exercise the two paths `_run_test` now handles gracefully (and so
+    no longer reach this site at all)."""
+    root, seal = world
+
+    def boom(*a, **kw):
+        raise RuntimeError("boom — not one of Ruling 18's two named ValueError shapes")
+    monkeypatch.setattr(an, "primary_2i", boom)
+    _insufficient(root, seal, "primary olmo7b")
 
 
 def test_secondary_thunk_failure_is_caught_not_raised(world, monkeypatch):
