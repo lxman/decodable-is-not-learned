@@ -155,6 +155,23 @@ M = [
     (AN, "named_inside_2i: sign branch flipped (T > 0 instead of T < 0)",
      "    if T < 0:",
      "    if T > 0:"),
+    # ---------------------------------------- whole-branch review fix wave
+    (AN, "run(): gate-1 re-derivation ignored (failures dropped on the floor)",
+     "    failures += f + (g2bad or [])",
+     "    failures += f"),
+    (AN, "gate1_rederive_7b: continuation diff not re-derived (always 0)",
+     "        cont_diff = sum(1 for a, b in zip(s_conts, e_conts) if a != b)",
+     "        cont_diff = 0"),
+    (AN, "run(): rung-set re-derivation skipped (failures dropped on the floor)",
+     "    failures += f + (rbad2 or [])",
+     "    failures += f"),
+    (AN, "_run_test: an all-degenerate test raises instead of returning "
+         "fires=False (Ruling 18 short-circuit disabled)",
+     "        if not keep:\n            reason = (",
+     "        if False:\n            reason = ("),
+    (AN, "verdict_tree_2i: the undefined disclosure dropped from reason",
+     "    parts.extend(disclosures)",
+     "    pass"),
     # totality: EVERY collect_total(...) call site in analyze_2i.py's
     # run(), generated programmatically below (review finding 4) —
     # appended to M after this literal, not hand-picked here.
@@ -169,8 +186,12 @@ M = [
      '    rec["declared_status"] = ("POWERED" if declare_p >= BAR',
      '    rec["declared_status"] = ("POWERED" if declare_p > BAR'),
     (PW, "_one_test_power: thin threshold off by one",
-     '          "thin": len(rungs) < 3, "targets": {}}',
-     '          "thin": len(rungs) < 2, "targets": {}}'),
+     '          "thin": len(keep) < 3, "targets": {}}',
+     '          "thin": len(keep) < 2, "targets": {}}'),
+    (PW, "_one_test_power: degeneracy drop skipped (simulates over every "
+         "rung, degenerate or not)",
+     "    keep = tuple(r for r in rungs if r not in dropped)",
+     "    keep = tuple(rungs)"),
     # ------------------------------------------------------ run/sample_2i.py
     (SM, "run_sampling_rung: rung skip-if-exists disabled",
      "    if out.exists() and dpath.exists():",
