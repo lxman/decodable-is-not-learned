@@ -34,6 +34,24 @@ from experiments.exp3.run.run_cell import write_draws as exp3_write_draws
 SMALL_RUNGS = ("antonym", "antonym6", "clock24")   # two STRATA_RUNGS + one extra
 
 
+@pytest.fixture(autouse=True)
+def _shrink_instrument_blobs_to_what_exists(monkeypatch):
+    """Task 3 landed the real `analyze_2i.require_prereg_2i`, so
+    sample_2i.py/endpoint_2i.py's try/except import now resolves to it
+    instead of the three-file stub these tests were written against.
+    Its real `INSTRUMENT_BLOBS_2I` names five files, one of which
+    (`run/sweep_2i.py`) is Task 4's and does not exist yet — a correct
+    'not on disk' refusal in production, but it means `_prereg()` can
+    never make the real function succeed as written. Shrinking the set
+    to what is actually on disk for the duration of this module keeps
+    these tests exercising the STAGE RUNNERS' own control flow (their
+    reason for existing), not re-litigating the five-file set — that
+    is `test_analyze_2i.py`'s job."""
+    from experiments.exp2i import analyze_2i as an
+    subset = tuple(r for r in an.INSTRUMENT_BLOBS_2I if (bi.REPO / r).is_file())
+    monkeypatch.setattr(an, "INSTRUMENT_BLOBS_2I", subset)
+
+
 # ------------------------------------------------------------ blobs_bound
 
 def _git(args, cwd):
@@ -122,9 +140,16 @@ def test_stub_passes_with_matching_blob():
 def _prereg():
     """Matches every real file's CURRENT sha, standing in for 'the tag
     carries what is on disk right now' (2h's own `_prereg()` test
-    pattern)."""
-    return dict(tag_exists=lambda t: True,
-               blob_sha=lambda tag, rel: bg.sha256_file(bi.REPO / rel))
+    pattern). None for a path not yet on disk (`run/sweep_2i.py`,
+    Task 4's file) rather than raising — Task 3 landed the real
+    `analyze_2i.require_prereg_2i` (five-file `INSTRUMENT_BLOBS_2I`),
+    which these stage-runner tests now exercise via the try/except
+    import instead of the three-file stub; the missing fifth file is
+    itself a correct 'not on disk' refusal, not a test-harness crash."""
+    def blob_sha(tag, rel):
+        p = bi.REPO / rel
+        return bg.sha256_file(p) if p.is_file() else None
+    return dict(tag_exists=lambda t: True, blob_sha=blob_sha)
 
 
 # --------------------------------------------------------------- helpers
@@ -161,7 +186,13 @@ def _make_fake_sampler(battery, hit_fraction=1.0):
 # ---------------------------------------------------------- sample_2i.run
 
 def test_sample_refuses_without_prereg_tag(tmp_path):
-    with pytest.raises(RuntimeError, match="not built yet"):
+    # Task 3 landed the real analyze_2i.require_prereg_2i, so the
+    # try/except import in sample_2i.py now resolves to it rather than
+    # the stub; called with no injections it falls through to its own
+    # defaults (pr.git_tag_exists), which correctly report that the
+    # real 'exp2i-preregistered' tag does not exist on this repo yet —
+    # not the stub's "not built yet".
+    with pytest.raises(RuntimeError, match="preregistration tag"):
         smp.run(root=tmp_path, device="cpu", rungs=("antonym",), loaders={})
 
 
@@ -197,7 +228,9 @@ def test_sample_prereg_precedes_any_loader_construction(tmp_path, monkeypatch):
     called = []
     monkeypatch.setattr(smp, "_assert_provenance", lambda: called.append("p"))
     monkeypatch.setattr(smp, "real_loaders", lambda: called.append("l") or {})
-    with pytest.raises(RuntimeError, match="not built yet"):
+    # see test_sample_refuses_without_prereg_tag: the real require_prereg_2i
+    # is wired in now, so the no-injection refusal names the missing tag.
+    with pytest.raises(RuntimeError, match="preregistration tag"):
         smp.run(root=tmp_path, device="cpu", rungs=("antonym",))
     assert called == []
 
@@ -271,7 +304,8 @@ def _bound_ok(tag, paths, repo_root=None):
 
 
 def test_endpoint_refuses_without_prereg_tag(tmp_path):
-    with pytest.raises(RuntimeError, match="not built yet"):
+    # see test_sample_refuses_without_prereg_tag
+    with pytest.raises(RuntimeError, match="preregistration tag"):
         ep.run(root=tmp_path, device="cpu", loaders={})
 
 
