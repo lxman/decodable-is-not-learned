@@ -77,10 +77,10 @@ def _eq(got, want, what):
         raise AssertionError(f"{what}: got {got!r}, want {want!r}")
 
 
-@check(1, "frozen pins (20); upstream frozen-import pins (14); x_A pins (68)")
+@check(1, "frozen pins (22); upstream frozen-import pins (14); x_A pins (68)")
 def _c1(ctx):
     bi.check_frozen_2i()
-    _eq(len(bi.FROZEN_SHA256), 20, "pins")
+    _eq(len(bi.FROZEN_SHA256), 22, "pins")   # freeze F-3: +power_2i, +run/seal_2i
     bg.check_frozen_imports_2g()
     _eq(len(bg.FROZEN_IMPORT_SHA256_2G), 14, "upstream pins")
     bi.check_pythia_predictor_files()

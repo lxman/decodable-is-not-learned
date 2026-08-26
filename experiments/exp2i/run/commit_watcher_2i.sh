@@ -30,7 +30,20 @@ while true; do
   units=$(find "$WATCH_DIR" -type f \( -name '*.json' -o -name '*.jsonl.gz' -o -name 'HALTED' \) 2>/dev/null | sort || true)
   for f in ${(f)units}; do
     if [[ "$seen" != *"|$f|"* ]]; then
-      sleep 2
+      # FREEZE attack item 25 (the watcher race): a fixed 2-second
+      # settle is not enough for a ~1 GB `.draws.jsonl.gz` still being
+      # written — a partial blob committed here is the blob
+      # `exp2i-predictor-sealed` would bind, and the file is never
+      # revisited (the `seen` list is append-only). Wait for the size
+      # to stop changing instead of guessing; skip this pass entirely
+      # if it is still growing, so the next 30-second sweep retries.
+      sz1=$(stat -f%z "$f" 2>/dev/null || echo -1)
+      sleep 3
+      sz2=$(stat -f%z "$f" 2>/dev/null || echo -2)
+      if [[ "$sz1" != "$sz2" ]]; then
+        echo "[watcher] $f still growing ($sz1 -> $sz2), deferring"
+        continue
+      fi
       git add "$f" 2>/dev/null || true
       if ! git diff --cached --quiet; then
         unit=$(basename "$f")

@@ -599,6 +599,35 @@ def test_seal_writes_predictor_2i_json(tmp_path, monkeypatch):
         seal.seal_predictor(tmp_path)
 
 
+def test_seal_refuses_a_record_from_the_wrong_checkpoint(tmp_path, monkeypatch):
+    """FREEZE F-1, the runner side: the seal is what the predictor tag
+    binds, so a stage-1 run against the wrong checkpoint / item file /
+    protocol is refused HERE, before the tag exists — through the SAME
+    function the frozen verdict applies (`analyze_2i
+    .predictor_record_failures_2i`), not a second copy."""
+    monkeypatch.setattr(bt, "RUNGS", SMALL_RUNGS)
+    hits = {r: 0.5 for r in SMALL_RUNGS}
+    _sample_small_rungs(tmp_path, SMALL_RUNGS, hits)
+    p = bi.predictor_record_path(tmp_path, SMALL_RUNGS[0])
+    rec = json.loads(p.read_text())
+    rec["revision"] = "main"
+    p.write_text(json.dumps(rec))
+    with pytest.raises(RuntimeError, match="provenance failure"):
+        seal.seal_predictor(tmp_path)
+    assert not bi.predictor_seal_path(tmp_path).exists()
+
+
+def test_seal_refuses_a_record_whose_items_moved(tmp_path, monkeypatch):
+    monkeypatch.setattr(bt, "RUNGS", SMALL_RUNGS)
+    _sample_small_rungs(tmp_path, SMALL_RUNGS, {r: 0.5 for r in SMALL_RUNGS})
+    p = bi.predictor_record_path(tmp_path, SMALL_RUNGS[1])
+    rec = json.loads(p.read_text())
+    rec["items_sha256"] = "de" * 32
+    p.write_text(json.dumps(rec))
+    with pytest.raises(RuntimeError, match="provenance failure"):
+        seal.seal_predictor(tmp_path)
+
+
 # ---------------------------------------------------------- preflight_2i
 
 class PreflightRunner:

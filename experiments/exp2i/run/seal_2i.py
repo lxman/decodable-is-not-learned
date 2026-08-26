@@ -28,6 +28,7 @@ from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
+from experiments.exp2i.analyze_2i import predictor_record_failures_2i  # noqa: E402
 from experiments.exp3 import sampler  # noqa: E402
 
 # Copied verbatim from `experiments/exp3/stream_map.json`'s "formula"
@@ -57,6 +58,24 @@ def seal_predictor(root=EXP2I) -> dict:
     # future divergence cannot hide in the one module that differs).
     battery = bg.load_battery()
     verify_fn = a2d.load_verify()
+
+    # freeze F-1, the runner side: the seal is what the tag binds, so a
+    # stage-1 run against the wrong checkpoint / items / protocol must
+    # be refused HERE, before the tag exists — not merely caught by the
+    # analyzer months later. The same function the frozen verdict
+    # applies (`analyze_2i.predictor_record_failures_2i`), not a second
+    # copy that could drift from it.
+    manifest = bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHECKPOINTS_2I_SHA256)
+    entry_1b = bi.entry_1b_endpoint(manifest)
+    bad = []
+    for rung in bt.RUNGS:
+        rec = json.loads(bi.predictor_record_path(root, rung).read_text())
+        bad += predictor_record_failures_2i(rec, rung=rung, cap=battery[rung],
+                                            entry_1b=entry_1b)
+    if bad:
+        raise RuntimeError(f"refusing to seal: {len(bad)} predictor-record "
+                           f"provenance failure(s): {bad[:5]}")
+
     counts = bi.sampler_counts_olmo(bt.RUNGS, root=root, battery=battery,
                                     verify_fn=verify_fn)
 
@@ -66,8 +85,7 @@ def seal_predictor(root=EXP2I) -> dict:
     lines = "\n".join(f"{rel} {sha}" for rel, sha in sorted(files.items()))
     sha = hashlib.sha256(lines.encode()).hexdigest()
 
-    manifest = bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHECKPOINTS_2I_SHA256)
-    commit = bi.entry_1b_endpoint(manifest)["commit"]
+    commit = entry_1b["commit"]
 
     rec = {"files": files, "counts": {r: list(int(c) for c in v)
                                       for r, v in counts.items()},

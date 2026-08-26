@@ -34,6 +34,7 @@ import os
 import re
 import subprocess
 import sys
+import zlib
 from pathlib import Path
 
 import numpy as np
@@ -61,20 +62,63 @@ RESULTS = EXP2I / "results"
 REFERENTS_PATH_2I = EXP2I / "referents_2i.json"
 
 # referents_2i.json's own sha256 — built and pinned by make_referents_2i.py
-# (Task 3), 1841 files (1702 committed inputs + 139 not-yet-existing stage
+# (Task 3), 1843 files (1704 committed inputs + 139 not-yet-existing stage
 # artifacts, listed with sha256: null and required by analysis time). The
 # 1698 -> 1702 committed-input bump (2026-08-25, whole-branch review fix
-# wave, I-2) is FROZEN_SHA256 growing from 16 to 20 pinned modules.
+# wave, I-2) is FROZEN_SHA256 growing from 16 to 20 pinned modules; the
+# 1702 -> 1704 bump is freeze F-3 (20 -> 22: power_2i.py, run/seal_2i.py).
 REFERENTS_2I_SHA256 = \
-    "ea9f22ff998647c32f7830b47355c5d58b9f174b21946b728fb4de866da8cb03"
+    "8e9a7ab50fc1a5a5239d842cc436bcb17f692cd4d83f64ecb1664b8113df8f6c"
 
 WORLDS = ("INSUFFICIENT_DATA", "SHARED", "LINEAGE", "BOTH", "NEITHER")
 ALPHA, T_BAR = st.ALPHA, st.T_BAR
 N_PERM, N_BOOT = st.N_PERM, st.N_BOOT
 
 collect = an2g.collect              # generic (thunk, label) -> (value, failures)
-collect_total = an2h.collect_total  # the widened exception surface (2h F-1)
+_collect_total_2h = an2h.collect_total   # 2h F-1's widened surface
 _median_bucket = an2h._median_bucket
+
+
+def collect_total(thunk, label):
+    """`analyze_2h.collect_total` (itself `analyze_2g.collect` widened to
+    TypeError/AttributeError/OSError) with the COMPRESSED-STREAM shapes
+    added — freeze F-2, 2h F-1's lineage one file type over.
+
+    2h's widening covered the record shapes a killed or hand-edited
+    tree presents: torn JSON, a list where a dict belongs, a directory
+    where a file belongs. 2i is the first experiment in this line whose
+    analyzer reads a GZIP file on the verdict path (`sampler_counts_
+    olmo` -> `analyze_2d.read_rows` over x_B's own
+    `<rung>.draws.jsonl.gz`), and a gzip stream fails in two ways that
+    are neither `OSError` nor `ValueError`:
+
+      * a TRUNCATED stream raises `EOFError` ("Compressed file ended
+        before the end-of-stream marker was reached") — the exact tree
+        an interrupted `write_draws` leaves, and the exact tree the
+        commit watcher's 2-second settle can commit for a ~1 GB draws
+        file (freeze attack item 25);
+      * a CORRUPT stream raises `zlib.error` ("Error -3 while
+        decompressing data") — a subclass of `Exception`, not `OSError`.
+
+    Demonstrated at the freeze: on a full-shape world with `antonym`'s
+    draws file truncated to 50% (and to 99%), `run()` RAISED `EOFError`
+    instead of delivering INSUFFICIENT_DATA. Widening is additive and
+    one-directional exactly as 2h's was — a caught failure lands in
+    `failures` verbatim and the verdict is INSUFFICIENT_DATA; no tree
+    that produced a verdict can now produce a different one, and no
+    accepted dial is touched.
+
+    `IndexError` is deliberately NOT added: the freeze swept every tree
+    shape the three runners can leave and found none reachable
+    (`read_rows` bounds-checks `item` before any list is indexed by it,
+    and every other indexing site in the verdict path is guarded), and
+    an `IndexError` that IS reachable would be a logic defect in the
+    instrument, which must surface as a crash rather than be laundered
+    into a refusal."""
+    try:
+        return _collect_total_2h(thunk, label)
+    except (EOFError, zlib.error) as e:
+        return None, [f"{label}: {type(e).__name__}: {e}"]
 
 
 # --------------------------------------------------------- known inputs
@@ -208,11 +252,28 @@ def require_seal_2i(tag, paths, *, tag_exists=None, blobs_bound=None,
     return {"tag": tag, "n_paths": len(paths), "failures": []}
 
 
-def _predictor_seal_paths(root) -> list:
+def _predictor_seal_paths(root, seal=None) -> list:
+    """The paths `PREDICTOR_SEAL_TAG` must bind. Freeze attack item 24:
+    `run/endpoint_2i._seal_blob_paths` derives ITS set from the seal's
+    own `files` dict (`seal_2i` hashes EVERYTHING under
+    `results/predictor/`), this one from `bt.RUNGS`. On the real shape
+    the two are equal — 1 seal + 34 draws + 34 records — but a stray
+    file under `results/predictor/` would be in the seal's dict and
+    outside the rule's, so the runner-side gate and the analyzer-side
+    gate would bind different sets. Take the UNION: the seal file is
+    itself blob-bound, so its `files` dict is bound too, and binding
+    more is never weaker."""
     paths = [bi.predictor_seal_path(root)]
     for r in bt.RUNGS:
         paths.append(bi.predictor_draws_path(root, r))
         paths.append(bi.predictor_record_path(root, r))
+    if isinstance(seal, dict) and isinstance(seal.get("files"), dict):
+        known = set(paths)
+        for rel in sorted(seal["files"]):
+            p = Path(root) / rel
+            if p not in known:
+                paths.append(p)
+                known.add(p)
     return paths
 
 
@@ -803,6 +864,186 @@ def _load_predictor_seal_content(root) -> dict:
     return rec
 
 
+# ------------------------------------------- the predictor stage's provenance
+#
+# FREEZE F-1 (THE CLASS DEFECT — 2h's F-2 / 3d's lesson, one stage
+# over). Before this block the analyzer read x_B's raw draws
+# (`sampler_counts_olmo`, which opens ONLY `<rung>.draws.jsonl.gz`) and
+# never once opened `results/predictor/olmo1b/<rung>.json` — the record
+# that says WHICH OLMo-2 1B checkpoint produced those draws, against
+# WHICH item file, at which seed / k / temperature / truncation /
+# dtype. Nor was `predictor_2i.json`'s own `sampling` block ever
+# compared with anything: `run/seal_2i.py` writes `revision` from the
+# code LITERAL `battery_2i.REV_1B_ENDPOINT`, so the seal's attestation
+# is true by construction and carries no information about what
+# actually ran. Demonstrated at the freeze: replacing all 34 records
+# with ones claiming `revision: "main"`, `family: "pythia"`,
+# `items_sha256: <wrong>`, `seeds: [99]`, `draws_per_seed: 1` left the
+# verdict BYTE-IDENTICAL and produced no failure — i.e. a stage 1 run
+# at `main` instead of the pinned stage-1 endpoint (exactly the regime
+# confound design §9 dial d rules out) would have supplied Test B's
+# predictor in silence and DECIDED the world between SHARED and
+# LINEAGE/BOTH.
+#
+# Closed additively, in the shape 2h's F-2 fix took: every field is
+# re-derived against a source that was already pinned — the manifest
+# (`CHECKPOINTS_2I_SHA256`), the battery (`ITEMS_SHA_PIN`), 2i's own
+# frozen constants — and the record's own ATTESTED verified total is
+# compared against the count re-derived from the raw draws through the
+# production reader. Nothing new is trusted; a disagreement is a
+# refusal naming the rung and the field.
+
+PREDICTOR_RECORD_PINS_2I = ("family", "size", "mode", "revision", "n_items",
+                            "seeds", "draws_per_seed", "k_total", "temperature",
+                            "truncation", "dtype", "untrained_seed",
+                            "stream_namespace")
+
+
+def predictor_record_failures_2i(rec: dict, *, rung, cap, entry_1b) -> list:
+    """`results/predictor/olmo1b/<rung>.json` (written by
+    `run/sample_2i.py`) against everything already pinned. Returns a
+    list of failure strings; never raises for a well-typed dict."""
+    from experiments.exp3.sampler import STREAM_NAMESPACE
+    label = f"predictor olmo1b/{rung}"
+    bad = []
+    if rec.get("rung") != rung:
+        bad.append(f"{label}: rung = {rec.get('rung')!r}, expected {rung!r}")
+    want = {
+        "family": bi.FAMILY, "size": bi.SIZE_PRED, "mode": "trained",
+        # design §3.2 / dial d: x_B is the 1B's STAGE-1 ENDPOINT, the
+        # regime-matched checkpoint — never `main`, whose anneal is a
+        # different mixture and a different question.
+        "revision": bi.REV_1B_ENDPOINT,
+        "n_items": bt.N_ITEMS, "seeds": [bi.SAMPLING_SEED],
+        "draws_per_seed": bi.DRAWS_PER_ITEM, "k_total": bi.DRAWS_PER_ITEM,
+        "temperature": 1.0, "truncation": "none", "dtype": a2d.SAMPLING_DTYPE,
+        "untrained_seed": None, "stream_namespace": STREAM_NAMESPACE,
+    }
+    for k in PREDICTOR_RECORD_PINS_2I:
+        if rec.get(k) != want[k]:
+            bad.append(f"{label}: {k} = {rec.get(k)!r}, expected {want[k]!r}")
+    want_commit = entry_1b.get("commit")
+    if rec.get("commit") != want_commit:
+        bad.append(f"{label}: commit {rec.get('commit')!r} is not the manifest's "
+                   f"{want_commit!r} for {bi.REV_1B_ENDPOINT}")
+    # item alignment (freeze attack item 5): the sha of the item file AND
+    # the answer column the draws were actually verified against.
+    if rec.get("items_sha256") != cap["items_sha256"]:
+        bad.append(f"{label}: items_sha256 is not the pinned item file")
+    if rec.get("answer_type") != cap["answer_type"]:
+        bad.append(f"{label}: answer_type = {rec.get('answer_type')!r}, expected "
+                   f"{cap['answer_type']!r}")
+    answers = rec.get("answers")
+    want_answers = [str(it["answer"]) for it in cap["eval_items"]]
+    if not isinstance(answers, list) or len(answers) != len(want_answers):
+        bad.append(f"{label}: answers column is not {len(want_answers)} long")
+    else:
+        n = sum(1 for a, b in zip(answers, want_answers) if a != b)
+        if n:
+            bad.append(f"{label}: the record's answer column differs from the "
+                       f"pinned item file on {n} item(s) — the draws were "
+                       f"verified against different items")
+    if rec.get("max_new_tokens") != bt.max_new_tokens(rung):
+        bad.append(f"{label}: max_new_tokens = {rec.get('max_new_tokens')!r}, "
+                   f"expected 2c's {bt.max_new_tokens(rung)}")
+    tallies = rec.get("per_seed_tallies")
+    key = str(bi.SAMPLING_SEED)
+    if not isinstance(tallies, dict) or key not in tallies or \
+            not isinstance(tallies[key], dict):
+        bad.append(f"{label}: per_seed_tallies has no seed-{key} entry")
+    elif tallies[key].get("n_draws") != bt.N_ITEMS * bi.DRAWS_PER_ITEM:
+        bad.append(f"{label}: {tallies[key].get('n_draws')!r} draws tallied, not "
+                   f"the full {bt.N_ITEMS * bi.DRAWS_PER_ITEM} — a coverage "
+                   f"shortfall, not a rate")
+    if rec.get("draws_file") != bi.predictor_draws_path(bi.EXP2I, rung).name:
+        bad.append(f"{label}: draws_file = {rec.get('draws_file')!r}, expected "
+                   f"{bi.predictor_draws_path(bi.EXP2I, rung).name!r}")
+    return bad
+
+
+def load_predictor_records_2i(root, battery, *, entry_1b) -> dict:
+    out = {}
+    for rung in bt.RUNGS:
+        p = bi.predictor_record_path(root, rung)
+        if not p.is_file():
+            raise FileNotFoundError(f"predictor record missing: {p}")
+        rec = json.loads(p.read_text())
+        bad = predictor_record_failures_2i(rec, rung=rung, cap=battery[rung],
+                                           entry_1b=entry_1b)
+        if bad:
+            raise ValueError("; ".join(bad))
+        out[rung] = rec
+    return out
+
+
+def _check_predictor_seal_sampling(seal: dict, records: dict) -> list:
+    """`predictor_2i.json`'s `sampling` block is written by
+    `run/seal_2i.py` from CODE LITERALS — it agrees with the design by
+    construction and says nothing about the run. Measure it: every
+    field must match both 2i's own frozen constants AND what all 34
+    per-rung records actually recorded."""
+    bad = []
+    s = seal.get("sampling")
+    if not isinstance(s, dict):
+        return ["predictor seal: no sampling block"]
+    for k, want in (("size", bi.SIZE_PRED), ("repo", bi.REPO_1B),
+                    ("revision", bi.REV_1B_ENDPOINT), ("seed", bi.SAMPLING_SEED),
+                    ("draws_per_item", bi.DRAWS_PER_ITEM), ("temperature", 1.0),
+                    ("dtype", a2d.SAMPLING_DTYPE)):
+        if s.get(k) != want:
+            bad.append(f"predictor seal: sampling.{k} = {s.get(k)!r}, expected "
+                       f"{want!r}")
+    for rung, rec in records.items():
+        if rec.get("revision") != s.get("revision"):
+            bad.append(f"predictor seal: sampling.revision {s.get('revision')!r} "
+                       f"disagrees with olmo1b/{rung}'s {rec.get('revision')!r}")
+        if rec.get("commit") != s.get("commit"):
+            bad.append(f"predictor seal: sampling.commit {s.get('commit')!r} "
+                       f"disagrees with olmo1b/{rung}'s {rec.get('commit')!r}")
+    return bad
+
+
+def _check_predictor_counts_2i(seal: dict, records: dict, x_b: dict) -> list:
+    """The other half of F-1's closure, the 3d shape: the record's own
+    ATTESTED verified total and the seal's own per-item `counts` are
+    compared against x_B AS THE VERDICT COMPUTES IT — re-derived from
+    the raw draws through `sampler_counts_olmo`, the production reader.
+    An attestation that disagrees with the bytes is a failure whichever
+    side is right."""
+    bad = []
+    key = str(bi.SAMPLING_SEED)
+    seal_counts = seal.get("counts")
+    # freeze F-2's sibling: a `counts` that is not a dict used to make
+    # this whole cross-check a silent no-op. A check that can be
+    # switched off by the shape of the thing it checks is not a check.
+    if not isinstance(seal_counts, dict):
+        return [f"predictor seal: counts is {type(seal_counts).__name__}, not a "
+                f"per-rung mapping — the seal's per-item claim cannot be "
+                f"compared with the re-derived counts"]
+    missing = sorted(r for r in x_b if r not in seal_counts)
+    if missing:
+        bad.append(f"predictor seal: counts carries no entry for {missing} — "
+                   f"rung(s) x_B is computed over")
+    for rung, counts in sorted(x_b.items()):
+        rec = records.get(rung)
+        if isinstance(rec, dict):
+            t = rec.get("per_seed_tallies", {})
+            att = t.get(key, {}).get("full_string") if isinstance(t, dict) else None
+            if att != sum(counts):
+                bad.append(f"predictor olmo1b/{rung}: attested full_string {att!r} "
+                           f"disagrees with the {sum(counts)} re-derived from the "
+                           f"draws")
+        if isinstance(seal_counts, dict) and rung in seal_counts:
+            got = seal_counts[rung]
+            if list(got) != list(counts):
+                n = (sum(1 for a, b in zip(got, counts) if a != b)
+                     if isinstance(got, list) and len(got) == len(counts)
+                     else "the wrong number of")
+                bad.append(f"predictor seal: counts[{rung!r}] disagrees with the "
+                           f"re-derived per-item counts on {n} item(s)")
+    return bad
+
+
 def _load_rung_set(root) -> dict:
     p = bi.rung_set_path(root)
     if not p.is_file():
@@ -827,6 +1068,17 @@ def _check_rung_set_vs_endpoint(rung_set: dict, stage1_final: dict) -> list:
     drifted — the R_CAP/R_EXTRA split can no longer be trusted."""
     bad = []
     per_rung = rung_set.get("per_rung", {})
+    # freeze F-2's sibling: `per_rung` that is not a dict, or that is
+    # missing rungs, made this check a silent no-op (`r not in []` is
+    # True for every rung, so every rung `continue`d). Require the
+    # mapping the rule actually writes.
+    if not isinstance(per_rung, dict):
+        return [f"rung set olmo7b: per_rung is {type(per_rung).__name__}, not a "
+                f"per-rung mapping"]
+    absent = sorted(r for r in bt.RUNGS if r not in per_rung)
+    if absent:
+        bad.append(f"rung set olmo7b: per_rung carries no entry for {absent} — "
+                   f"`rung_set_from_counts` scores all {len(bt.RUNGS)}")
     for r in bt.RUNGS:
         if r not in stage1_final or r not in per_rung:
             continue
@@ -1048,7 +1300,8 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
     predictor_rec, f = collect_total(lambda: _load_predictor_seal_content(root),
                                      "predictor seal content")
     failures += f
-    psl = require_seal_2i(bi.PREDICTOR_SEAL_TAG, _predictor_seal_paths(root),
+    psl = require_seal_2i(bi.PREDICTOR_SEAL_TAG,
+                          _predictor_seal_paths(root, predictor_rec),
                           tag_exists=tag_exists, blobs_bound=blobs_bound)
     failures += [f"predictor seal: {m}" for m in psl["failures"]]
 
@@ -1061,14 +1314,32 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
                           tag_exists=tag_exists, blobs_bound=blobs_bound)
     failures += [f"endpoint seal: {m}" for m in esl["failures"]]
 
-    entry_stage1 = entry_main = None
+    entry_stage1 = entry_main = entry_1b = None
     if manifest is not None:
         entry_stage1, f = collect_total(lambda: bi.entry_7b(manifest, bi.ENDPOINT_STEP_7B),
                                         "7B endpoint entry")
         failures += f
+        entry_1b, f = collect_total(lambda: bi.entry_1b_endpoint(manifest),
+                                    "1B endpoint entry")
+        failures += f
         entry_main, f = collect_total(lambda: bi.entry_main(manifest, bi.REPO_7B),
                                       "7B main entry")
         failures += f
+
+    # F-1: x_B's own provenance, re-derived — WHICH OLMo-2 1B checkpoint,
+    # against WHICH items, at which seed/k/temperature/truncation/dtype.
+    _prec_ready = battery is not None and entry_1b is not None
+    predictor_records, f = collect_total(
+        lambda: load_predictor_records_2i(root, battery, entry_1b=entry_1b)
+        if _prec_ready else
+        (_ for _ in ()).throw(ValueError("battery or 1B manifest entry missing")),
+        "predictor olmo1b records")
+    failures += f
+    if predictor_rec is not None and predictor_records is not None:
+        sbad, f = collect_total(
+            lambda: _check_predictor_seal_sampling(predictor_rec, predictor_records),
+            "predictor seal sampling block")
+        failures += f + (sbad or [])
 
     _stage1_ready = (battery is not None and verify_fn is not None and
                      predictor_rec is not None and entry_stage1 is not None)
@@ -1155,6 +1426,15 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
         (_ for _ in ()).throw(ValueError("rung set, battery or verify criterion missing")),
         "predictor x_B")
     failures += f
+
+    # F-1's other half (3d's shape): the per-rung record's ATTESTED
+    # verified total and the seal's own per-item counts, against x_B as
+    # the verdict computes it from the raw draws.
+    if predictor_rec is not None and predictor_records is not None and x_b is not None:
+        cbad, f = collect_total(
+            lambda: _check_predictor_counts_2i(predictor_rec, predictor_records, x_b),
+            "predictor counts vs the sealed attestation")
+        failures += f + (cbad or [])
 
     _sweep_ready = (manifest is not None and battery is not None and
                     verify_fn is not None and predictor_rec is not None)

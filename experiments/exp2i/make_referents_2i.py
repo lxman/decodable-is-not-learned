@@ -43,10 +43,11 @@ REPO = bg.REPO
 # the 34+68+1+1+1+20 fixed-count files plus the two sweep trees' walked
 # counts (771 for 2g's 2.8b, 806 for 2h's 6.9b, as committed
 # 2026-08-25/26) plus 139 not-yet-existing stage-artifact placeholders.
-# The 20 (was 16 before the whole-branch review fix wave's I-2) is
+# The 22 (16 at the build, 20 after the whole-branch review fix wave's
+# I-2, 22 after freeze F-3 added `power_2i.py` and `run/seal_2i.py`) is
 # `len(bi.FROZEN_SHA256)`, read dynamically below via
 # `referent_files_committed()` — never hardcoded as a path list here.
-N_FILES_2I = 34 + 68 + 1 + 1 + 1 + 20 + 771 + 806 + 139
+N_FILES_2I = 34 + 68 + 1 + 1 + 1 + 22 + 771 + 806 + 139
 
 
 def referent_files_committed() -> list:
@@ -57,7 +58,7 @@ def referent_files_committed() -> list:
     files.append(bg.EXP2G / "results" / "predictor" / "predictor.json")       # 1
     files.append(bi.CHECKPOINTS_PATH)                                         # 1
     files.append(bi.HUB_INVENTORY_PATH)                                       # 1
-    files += list(bi.FROZEN_SHA256)                                           # 16
+    files += list(bi.FROZEN_SHA256)                                           # 22
     files += sorted((bg.EXP2G / "results" / "sweep" / "2.8b").rglob("*.json"))
     files += sorted((bh.EXP2H / "results" / "sweep" / bh.SIZE).rglob("*.json"))
     return files

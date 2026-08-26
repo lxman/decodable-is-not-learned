@@ -102,6 +102,209 @@ def test_predictor_draws_file_missing(world):
     _insufficient(root, seal, str(p))
 
 
+# ------- F-2: a truncated / corrupt gzip draws file is a terminal, not a raise
+
+def _truncate(root, rung, frac):
+    p = bi.predictor_draws_path(root, rung)
+    b = p.read_bytes()
+    p.write_bytes(b[:int(len(b) * frac)])
+    return p
+
+
+@pytest.mark.parametrize("frac", [0.5, 0.99])
+def test_truncated_draws_gz_is_insufficient_data_not_a_raise(world, frac):
+    """FREEZE F-2 (2h F-1's lineage, one file type over). x_B's draws
+    are the first GZIP file any analyzer in this line reads on the
+    verdict path, and a truncated gzip stream raises `EOFError` — not
+    `OSError`, not `ValueError`, so 2h's widened `collect_total` let it
+    straight through and `run()` RAISED. The tree is not hypothetical:
+    it is what an interrupted `write_draws` leaves and what the commit
+    watcher's settle window could commit for a ~1 GB file.
+
+    `antonym` is used deliberately — it is in R_CAP, so x_B really is
+    read for it (a rung outside R_OLMO never opens its draws file at
+    all, and the old code looked clean on one)."""
+    root, seal = world
+    _truncate(root, "antonym", frac)
+    v = _insufficient(root, seal, "predictor x_B")
+    assert any("EOFError" in f for f in v["referents"]["failures"])
+
+
+def test_corrupt_draws_gz_is_insufficient_data_not_a_raise(world):
+    """The other compressed-stream failure: `zlib.error` (a plain
+    `Exception`, not `OSError`)."""
+    root, seal = world
+    p = bi.predictor_draws_path(root, "antonym")
+    b = bytearray(p.read_bytes())
+    for i in range(20, min(len(b), 400)):     # deflate payload, past the header
+        b[i] ^= 0xFF
+    p.write_bytes(bytes(b))
+    v = _run(root, seal)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert any("predictor x_B" in f for f in v["referents"]["failures"]), \
+        v["referents"]["failures"]
+
+
+def test_zero_length_and_non_gzip_draws_are_terminals(world):
+    root, seal = world
+    bi.predictor_draws_path(root, "antonym").write_bytes(b"")
+    _insufficient(root, seal, "predictor x_B")
+
+
+# ------------------------------- F-1: the predictor stage's own provenance
+
+def test_predictor_record_missing(world):
+    root, seal = world
+    p = bi.predictor_record_path(root, "antonym")
+    p.unlink()
+    _insufficient(root, seal, "predictor olmo1b records")
+
+
+@pytest.mark.parametrize("payload", ["[]", '"x"', '{"rung": "anton'])
+def test_predictor_record_non_dict_or_torn(world, payload):
+    root, seal = world
+    bi.predictor_record_path(root, "antonym").write_text(payload)
+    _insufficient(root, seal, "predictor olmo1b records")
+
+
+def test_predictor_record_is_a_directory(world):
+    root, seal = world
+    p = bi.predictor_record_path(root, "antonym")
+    p.unlink()
+    p.mkdir()
+    _insufficient(root, seal, "predictor olmo1b records")
+
+
+def test_predictor_sampled_at_the_wrong_checkpoint_is_insufficient_data(world):
+    """FREEZE F-1, THE CLASS DEFECT, through `run()`: x_B sampled at
+    OLMo-2 1B's `main` instead of the pinned stage-1 endpoint. Before
+    the freeze this reached SHARED with a BYTE-IDENTICAL verdict — the
+    analyzer never opened the record."""
+    root, seal = world
+    for r in bt.RUNGS:
+        p = bi.predictor_record_path(root, r)
+        rec = json.loads(p.read_text())
+        rec["revision"] = "main"
+        rec["commit"] = "0" * 40
+        p.write_text(json.dumps(rec))
+    v = _insufficient(root, seal, "predictor olmo1b records")
+    assert any(bi.REV_1B_ENDPOINT in f for f in v["referents"]["failures"])
+
+
+def test_predictor_record_misaligned_items_is_insufficient_data(world):
+    """Attack item 5 through `run()`: the record's own answer column no
+    longer matches the pinned item file the outcome and strata use."""
+    root, seal = world
+    p = bi.predictor_record_path(root, "antonym")
+    rec = json.loads(p.read_text())
+    rec["answers"] = rec["answers"][1:] + rec["answers"][:1]
+    p.write_text(json.dumps(rec))
+    v = _insufficient(root, seal, "predictor olmo1b records")
+    assert any("answer column differs" in f for f in v["referents"]["failures"])
+
+
+def test_predictor_seal_sampling_block_disagrees_with_the_records(world):
+    root, seal = world
+    p = bi.predictor_seal_path(root)
+    rec = json.loads(p.read_text())
+    rec["sampling"] = dict(rec["sampling"])
+    rec["sampling"]["seed"] = 99
+    p.write_text(json.dumps(rec))
+    v = _insufficient(root, seal, "sampling.seed")
+    assert any("predictor seal" in f for f in v["referents"]["failures"])
+
+
+def test_predictor_attested_tally_disagrees_with_the_draws(world):
+    """The seal's/record's attestation vs x_B as the verdict re-derives
+    it from the raw draws (3d's shape)."""
+    root, seal = world
+    p = bi.predictor_record_path(root, "antonym")
+    rec = json.loads(p.read_text())
+    rec["per_seed_tallies"]["0"]["full_string"] += 1
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "attested full_string")
+
+
+def test_predictor_seal_counts_disagree_with_the_draws(world):
+    root, seal = world
+    p = bi.predictor_seal_path(root)
+    rec = json.loads(p.read_text())
+    rec["counts"]["antonym"] = [0] * len(rec["counts"]["antonym"])
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "counts['antonym'] disagrees")
+
+
+def test_predictor_seal_counts_of_the_wrong_shape_is_not_a_silent_skip(world):
+    """A check that switches itself off on the shape of the thing it
+    checks is not a check: `counts` as a LIST used to make the whole
+    per-item cross-check a no-op, and a `counts` dict simply missing a
+    rung skipped that rung."""
+    root, seal = world
+    p = bi.predictor_seal_path(root)
+    rec = json.loads(p.read_text())
+    kept = dict(rec["counts"])
+    rec["counts"] = []
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "counts is list")
+
+    rec["counts"] = {k: v for k, v in kept.items() if k != "antonym"}
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "counts carries no entry for ['antonym']")
+
+
+def test_rung_set_per_rung_of_the_wrong_shape_is_not_a_silent_skip(world):
+    """The same shape on `rung_set_2i.json`: `per_rung` as a list made
+    `_check_rung_set_vs_endpoint` skip every rung (`r not in []`)."""
+    root, seal = world
+    p = bi.rung_set_path(root)
+    rec = json.loads(p.read_text())
+    kept = dict(rec["per_rung"])
+    rec["per_rung"] = []
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "per_rung is list")
+
+    rec["per_rung"] = {k: v for k, v in kept.items() if k != "antonym"}
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "per_rung carries no entry for ['antonym']")
+
+
+def test_predictor_record_check_failure_is_insufficient_data(world, monkeypatch):
+    """F-1's own collect_total site (totality, one per site)."""
+    root, seal = world
+
+    def boom(root_, battery, *, entry_1b):
+        raise ValueError("boom predictor records")
+    monkeypatch.setattr(an, "load_predictor_records_2i", boom)
+    _insufficient(root, seal, "predictor olmo1b records")
+
+
+def test_predictor_seal_sampling_check_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom(seal_, records):
+        raise ValueError("boom seal sampling")
+    monkeypatch.setattr(an, "_check_predictor_seal_sampling", boom)
+    _insufficient(root, seal, "predictor seal sampling block")
+
+
+def test_predictor_counts_check_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom(seal_, records, x_b):
+        raise ValueError("boom predictor counts")
+    monkeypatch.setattr(an, "_check_predictor_counts_2i", boom)
+    _insufficient(root, seal, "predictor counts vs the sealed attestation")
+
+
+def test_entry_1b_lookup_failure_is_insufficient_data(world, monkeypatch):
+    root, seal = world
+
+    def boom(manifest):
+        raise ValueError("boom entry_1b")
+    monkeypatch.setattr(bi, "entry_1b_endpoint", boom)
+    _insufficient(root, seal, "1B endpoint entry")
+
+
 # -------------------------------------------------------------- rung set
 
 def test_rung_set_missing(world):

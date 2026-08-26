@@ -677,7 +677,28 @@ FROZEN_SHA256 = {
     EXP2I / "run" / "_common_2i.py":
         "5cc7c97f68b45656d6dbbb5fbf6d7d895d7b1d96e104df543f8c9f1691e5ad4f",
     EXP2I / "make_referents_2i.py":
-        "c296f9912e1135dc9a79e0a13659e1316d5457aaa0094a0ea7912aa6f75c0760",
+        "6de0278cfe85d9efefa11d0b2549afa78dd8836e1ef2b947d00c8709acc3977b",
+    # FREEZE F-3 (I-2's lesson, two files it missed): the remaining 2i
+    # modules that WRITE an artifact the frozen verdict then reads,
+    # neither tag-bound (`INSTRUMENT_BLOBS_2I` names five files, not
+    # these) nor sha-pinned before now.
+    #   `power_2i.py` produces `power_2i.json` — the preregistered
+    #   POWERED / DECLARED UNDERPOWERED IN ADVANCE declaration (design
+    #   §4). The analyzer validates that record's SHAPE (`_load_power`)
+    #   but never the simulation behind it, so an unpinned producer
+    #   could have manufactured the declaration.
+    #   `run/seal_2i.py` produces `predictor_2i.json` — whose `sha256`
+    #   becomes every endpoint and sweep record's `predictor_sha`, and
+    #   which is now also the surface that refuses a stage-1 run at the
+    #   wrong checkpoint (freeze F-1, runner side).
+    # `run/preflight_2i.py` and `verify_referents_2i.py` are
+    # deliberately NOT pinned and the choice is disclosed: neither
+    # writes anything on the verdict path (the preflight asserts that
+    # at run time by snapshotting `results/` before and after).
+    EXP2I / "power_2i.py":
+        "0e5e449ac420e40243ae86eb84e576256e857581ad3c7e000fcea5e08666119d",
+    EXP2I / "run" / "seal_2i.py":
+        "f20132aed4c0b7e995745972abeddec4ba1d7a269147b5d034bff06a3157f078",
 }
 
 

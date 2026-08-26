@@ -318,6 +318,169 @@ def test_gate1_rederive_7b_truncated_attested_coverage():
     assert any(r0 in f and "not the full" in f for f in bad)
 
 
+# ------------------------------- F-1: the predictor stage's own provenance
+
+_PRED_RUNG = "antonym"
+
+
+def _pred_cap():
+    return bg.load_battery([_PRED_RUNG])[_PRED_RUNG]
+
+
+def _pred_entry_1b():
+    man = bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHECKPOINTS_2I_SHA256)
+    return bi.entry_1b_endpoint(man)
+
+
+def _pred_rec(cap=None, entry=None, **over):
+    from experiments.exp2i.tests.full_shape import predictor_record_2i
+    cap = cap or _pred_cap()
+    entry = entry or _pred_entry_1b()
+    rec = predictor_record_2i(_PRED_RUNG, cap, entry, 1234)
+    rec.update(over)
+    return rec
+
+
+def test_predictor_record_failures_2i_clean():
+    assert an.predictor_record_failures_2i(
+        _pred_rec(), rung=_PRED_RUNG, cap=_pred_cap(),
+        entry_1b=_pred_entry_1b()) == []
+
+
+def test_predictor_record_failures_2i_refuses_the_wrong_checkpoint():
+    """F-1's headline: x_B sampled at OLMo-2 1B's `main` instead of the
+    pinned stage-1 endpoint — design §9 dial d's rejected alternative,
+    a different data mixture and a different question. Before the
+    freeze nothing in the frozen verdict looked."""
+    bad = an.predictor_record_failures_2i(
+        _pred_rec(revision="main", commit="0" * 40), rung=_PRED_RUNG,
+        cap=_pred_cap(), entry_1b=_pred_entry_1b())
+    assert any("revision" in f and bi.REV_1B_ENDPOINT in f for f in bad)
+    assert any("commit" in f and "manifest" in f for f in bad)
+
+
+def test_predictor_record_failures_2i_refuses_a_different_family_or_size():
+    bad = an.predictor_record_failures_2i(
+        _pred_rec(family="pythia", size="1b"), rung=_PRED_RUNG, cap=_pred_cap(),
+        entry_1b=_pred_entry_1b())
+    assert any("family" in f for f in bad) and any("size" in f for f in bad)
+
+
+def test_predictor_record_failures_2i_refuses_misaligned_items():
+    """Attack item 5 (2f/3e lineage): x_B's draws must be keyed by the
+    same item index of the SAME item file the outcome and the strata
+    use. Both the sha and the record's own answer column are checked —
+    the second catches a record whose sha field was patched but whose
+    answers came from elsewhere."""
+    cap = _pred_cap()
+    bad = an.predictor_record_failures_2i(
+        _pred_rec(cap=cap, items_sha256="de" * 32), rung=_PRED_RUNG, cap=cap,
+        entry_1b=_pred_entry_1b())
+    assert any("items_sha256" in f for f in bad)
+
+    shifted = [str(it["answer"]) for it in cap["eval_items"]]
+    shifted = shifted[1:] + shifted[:1]
+    bad2 = an.predictor_record_failures_2i(
+        _pred_rec(cap=cap, answers=shifted), rung=_PRED_RUNG, cap=cap,
+        entry_1b=_pred_entry_1b())
+    assert any("answer column differs" in f for f in bad2)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("seeds", [99]), ("draws_per_seed", 32), ("k_total", 32),
+    ("temperature", 0.7), ("truncation", "top_p"), ("dtype", "float16"),
+    ("mode", "untrained"), ("untrained_seed", 7), ("n_items", 250),
+    ("stream_namespace", "exp2i"), ("max_new_tokens", 3),
+])
+def test_predictor_record_failures_2i_refuses_protocol_drift(field, value):
+    bad = an.predictor_record_failures_2i(
+        _pred_rec(**{field: value}), rung=_PRED_RUNG, cap=_pred_cap(),
+        entry_1b=_pred_entry_1b())
+    assert any(field in f for f in bad), bad
+
+
+def test_predictor_record_failures_2i_refuses_a_truncated_tally():
+    """2h's F-2 coverage lesson on the predictor stage: a verified
+    total over fewer than the full 32,000 draws is a coverage
+    shortfall, not a rate."""
+    rec = _pred_rec()
+    rec["per_seed_tallies"] = {"0": {"full_string": 10, "n_draws": 640}}
+    bad = an.predictor_record_failures_2i(rec, rung=_PRED_RUNG, cap=_pred_cap(),
+                                          entry_1b=_pred_entry_1b())
+    assert any("coverage shortfall" in f for f in bad)
+    rec["per_seed_tallies"] = {"99": {"full_string": 10, "n_draws": 32000}}
+    bad2 = an.predictor_record_failures_2i(rec, rung=_PRED_RUNG, cap=_pred_cap(),
+                                           entry_1b=_pred_entry_1b())
+    assert any("no seed-0 entry" in f for f in bad2)
+
+
+def test_predictor_seal_paths_union_binds_a_stray_predictor_file(tmp_path):
+    """Attack item 24: `run/endpoint_2i._seal_blob_paths` derives its
+    bound set from the seal's own `files` dict (everything under
+    `results/predictor/`), the analyzer's from `bt.RUNGS`. Equal on the
+    real shape — 1 + 34 + 34 = 69 — but a stray file would be bound by
+    one gate and not the other. The analyzer now takes the union."""
+    rule_only = an._predictor_seal_paths(tmp_path)
+    assert len(rule_only) == 1 + 2 * len(bt.RUNGS)
+    files = {str(bi.predictor_draws_path(tmp_path, r).relative_to(tmp_path)): "s"
+             for r in bt.RUNGS}
+    files.update({str(bi.predictor_record_path(tmp_path, r).relative_to(tmp_path)): "s"
+                  for r in bt.RUNGS})
+    # a seal whose files dict is exactly the rule's set changes nothing
+    assert an._predictor_seal_paths(tmp_path, {"files": files}) == rule_only
+    # a stray file is added, not dropped
+    files["results/predictor/olmo1b/stray.jsonl.gz"] = "s"
+    got = an._predictor_seal_paths(tmp_path, {"files": files})
+    assert len(got) == len(rule_only) + 1
+    assert tmp_path / "results/predictor/olmo1b/stray.jsonl.gz" in got
+    # a malformed seal degrades to the rule's own set, never fewer
+    assert an._predictor_seal_paths(tmp_path, {"files": []}) == rule_only
+    assert an._predictor_seal_paths(tmp_path, None) == rule_only
+
+
+def _seal_stub(**over):
+    entry = _pred_entry_1b()
+    s = {"size": bi.SIZE_PRED, "repo": bi.REPO_1B, "revision": bi.REV_1B_ENDPOINT,
+         "commit": entry["commit"], "seed": bi.SAMPLING_SEED,
+         "draws_per_item": bi.DRAWS_PER_ITEM, "temperature": 1.0,
+         "dtype": "float32"}
+    s.update(over)
+    return {"sampling": s, "counts": {}}
+
+
+def test_check_predictor_seal_sampling_clean_and_drifted():
+    recs = {_PRED_RUNG: _pred_rec()}
+    assert an._check_predictor_seal_sampling(_seal_stub(), recs) == []
+    # the seal's literal says the endpoint; the records say `main`
+    recs2 = {_PRED_RUNG: _pred_rec(revision="main")}
+    bad = an._check_predictor_seal_sampling(_seal_stub(), recs2)
+    assert any("disagrees with olmo1b/antonym" in f for f in bad)
+    # and the seal's own field against the frozen constant
+    bad2 = an._check_predictor_seal_sampling(_seal_stub(seed=99), recs)
+    assert any("sampling.seed" in f for f in bad2)
+    assert an._check_predictor_seal_sampling({"counts": {}}, recs) == \
+        ["predictor seal: no sampling block"]
+
+
+def test_check_predictor_counts_2i_catches_a_lying_attestation():
+    """The 3d shape: the record's ATTESTED verified total and the
+    seal's per-item counts against x_B as the verdict re-derives it."""
+    x_b = {_PRED_RUNG: [1, 2, 3]}
+    recs = {_PRED_RUNG: _pred_rec(per_seed_tallies={
+        "0": {"full_string": 6, "n_draws": 32000}})}
+    seal = {"counts": {_PRED_RUNG: [1, 2, 3]}}
+    assert an._check_predictor_counts_2i(seal, recs, x_b) == []
+
+    recs_bad = {_PRED_RUNG: _pred_rec(per_seed_tallies={
+        "0": {"full_string": 99, "n_draws": 32000}})}
+    bad = an._check_predictor_counts_2i(seal, recs_bad, x_b)
+    assert any("attested full_string 99" in f and "re-derived" in f for f in bad)
+
+    bad2 = an._check_predictor_counts_2i({"counts": {_PRED_RUNG: [1, 2, 4]}},
+                                         recs, x_b)
+    assert any("counts['antonym'] disagrees" in f and "1 item" in f for f in bad2)
+
+
 # --------------------------------------------------- step/endpoint records
 
 def _entry(commit="c" * 40):
@@ -673,13 +836,27 @@ def test_load_rung_set_partition_check(tmp_path):
 
 
 def test_check_rung_set_vs_endpoint_clean_and_mismatch():
-    rung_set = {"per_rung": {"antonym": {"k": 12}, "clock24": {"k": 0}}}
-    stage1 = {"antonym": {"correct": 12}, "clock24": {"correct": 0}}
+    # `per_rung` must now cover all 34 rungs (the freeze's silent-skip
+    # closure: `r not in []` used to skip every rung on a list-shaped
+    # per_rung, and a missing rung used to skip that rung).
+    rung_set = {"per_rung": {r: {"k": 12 if r == "antonym" else 0}
+                            for r in bt.RUNGS}}
+    stage1 = {r: {"correct": 12 if r == "antonym" else 0} for r in bt.RUNGS}
     assert an._check_rung_set_vs_endpoint(rung_set, stage1) == []
 
-    bad_stage1 = {"antonym": {"correct": 13}, "clock24": {"correct": 0}}
+    bad_stage1 = dict(stage1)
+    bad_stage1["antonym"] = {"correct": 13}
     fails = an._check_rung_set_vs_endpoint(rung_set, bad_stage1)
     assert len(fails) == 1 and "antonym" in fails[0]
+
+
+def test_check_rung_set_vs_endpoint_refuses_a_shape_that_would_skip_itself():
+    stage1 = {r: {"correct": 0} for r in bt.RUNGS}
+    fails = an._check_rung_set_vs_endpoint({"per_rung": []}, stage1)
+    assert len(fails) == 1 and "per_rung is list" in fails[0]
+    partial = {"per_rung": {r: {"k": 0} for r in bt.RUNGS if r != "antonym"}}
+    fails2 = an._check_rung_set_vs_endpoint(partial, stage1)
+    assert any("carries no entry for ['antonym']" in f for f in fails2)
 
 
 # --------------------------------------------- I-1: rung set re-derivation

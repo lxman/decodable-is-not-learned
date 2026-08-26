@@ -191,6 +191,79 @@ M = [
     (AN, "verdict_tree_2i: the undefined disclosure dropped from reason",
      "    parts.extend(disclosures)",
      "    pass"),
+    # ------------------------------------------- freeze F-1 (the class defect)
+    (AN, "predictor_record_failures_2i: the pinned-field loop inert (any "
+         "checkpoint/protocol accepted)",
+     "    for k in PREDICTOR_RECORD_PINS_2I:\n        if rec.get(k) != want[k]:",
+     "    for k in PREDICTOR_RECORD_PINS_2I:\n        if False:"),
+    (AN, "predictor_record_failures_2i: the 1B commit check inert",
+     '    want_commit = entry_1b.get("commit")\n    if rec.get("commit") != want_commit:',
+     '    want_commit = entry_1b.get("commit")\n    if False:'),
+    (AN, "predictor_record_failures_2i: items_sha256 check inert",
+     '    # the answer column the draws were actually verified against.\n'
+     '    if rec.get("items_sha256") != cap["items_sha256"]:',
+     '    # the answer column the draws were actually verified against.\n'
+     "    if False:"),
+    (AN, "predictor_record_failures_2i: the answer-column alignment check inert",
+     "        n = sum(1 for a, b in zip(answers, want_answers) if a != b)\n        if n:",
+     "        n = sum(1 for a, b in zip(answers, want_answers) if a != b)\n        if False:"),
+    (AN, "predictor_record_failures_2i: the tally coverage check inert (F-2 "
+         "lesson on the predictor stage)",
+     '    elif tallies[key].get("n_draws") != bt.N_ITEMS * bi.DRAWS_PER_ITEM:',
+     "    elif False:"),
+    (AN, "_check_predictor_seal_sampling: the seal-vs-records revision "
+         "cross-check inert",
+     '        if rec.get("revision") != s.get("revision"):',
+     "        if False:"),
+    (AN, "_check_predictor_seal_sampling: the seal-vs-frozen-constants loop inert",
+     '        if s.get(k) != want:',
+     "        if False:"),
+    (AN, "_check_predictor_counts_2i: attested full_string not compared with "
+         "the re-derived count",
+     "            if att != sum(counts):",
+     "            if False:"),
+    (AN, "_check_predictor_counts_2i: the seal's per-item counts not compared",
+     "            if list(got) != list(counts):",
+     "            if False:"),
+    (AN, "run(): the predictor-record failures dropped on the floor",
+     "        failures += f + (sbad or [])",
+     "        failures += f"),
+    (AN, "run(): the predictor-counts failures dropped on the floor",
+     "        failures += f + (cbad or [])",
+     "        failures += f"),
+    # ------------------------------------------------------- freeze F-2
+    (AN, "collect_total: the compressed-stream widening removed (a truncated "
+         "draws .gz raises EOFError out of the frozen verdict)",
+     "    except (EOFError, zlib.error) as e:\n"
+     "        return None, [f\"{label}: {type(e).__name__}: {e}\"]",
+     "    except RuntimeError as e:\n"
+     "        raise"),
+    (AN, "_check_predictor_counts_2i: a non-dict `counts` silently skips the "
+         "whole cross-check again",
+     "    if not isinstance(seal_counts, dict):",
+     "    if False:"),
+    (AN, "_check_predictor_counts_2i: a `counts` dict missing a rung skipped",
+     "    missing = sorted(r for r in x_b if r not in seal_counts)\n    if missing:",
+     "    missing = sorted(r for r in x_b if r not in seal_counts)\n    if False:"),
+    (AN, "_check_rung_set_vs_endpoint: a non-dict `per_rung` silently skips "
+         "every rung again",
+     "    if not isinstance(per_rung, dict):",
+     "    if False:"),
+    (AN, "_check_rung_set_vs_endpoint: a `per_rung` missing rungs not reported",
+     "    absent = sorted(r for r in bt.RUNGS if r not in per_rung)\n    if absent:",
+     "    absent = sorted(r for r in bt.RUNGS if r not in per_rung)\n    if False:"),
+    (AN, "_predictor_seal_paths: the seal's own file list no longer unioned "
+         "in (attack item 24)",
+     '    if isinstance(seal, dict) and isinstance(seal.get("files"), dict):',
+     "    if False:"),
+    # -------------------------------------------- freeze: attack item 10
+    (AN, "run(): the rung set re-derived from `main`'s counts, not "
+         "stage1_final's (design section 3.3: main is descriptive only)",
+     "            lambda: _check_rung_set_derivation(rung_set, stage1_final, floors),",
+     "            lambda: _check_rung_set_derivation(rung_set, main_rec, floors),"),
+    (SL, "seal_predictor: the predictor-record provenance refusal inert",
+     "    if bad:\n        raise RuntimeError(f\"refusing to seal: {len(bad)} predictor-record \"",
+     "    if False:\n        raise RuntimeError(f\"refusing to seal: {len(bad)} predictor-record \""),
     # totality: EVERY collect_total(...) call site in analyze_2i.py's
     # run(), generated programmatically below (review finding 4) —
     # appended to M after this literal, not hand-picked here.

@@ -1699,7 +1699,8 @@
   "experiments/exp2h/results/sweep/6.9b/step90000/sub_base8.json": "392641ef487e0782ccda738a6df253fcb5c0829f32db69e86ae6d5b5ae4c9834",
   "experiments/exp2i/checkpoints_2i.json": "029b1cca0529bba6da629229d8fd352c6f118d3eba7d82b4526170c65822325a",
   "experiments/exp2i/hub_inventory_olmo.json": "8038794775e7e7d22b20c57fab82e4cc5d9e13177236ec9df89a4ec74a6851a5",
-  "experiments/exp2i/make_referents_2i.py": "c296f9912e1135dc9a79e0a13659e1316d5457aaa0094a0ea7912aa6f75c0760",
+  "experiments/exp2i/make_referents_2i.py": "6de0278cfe85d9efefa11d0b2549afa78dd8836e1ef2b947d00c8709acc3977b",
+  "experiments/exp2i/power_2i.py": "0e5e449ac420e40243ae86eb84e576256e857581ad3c7e000fcea5e08666119d",
   "experiments/exp2i/results/endpoint/main/add3_mid.json": null,
   "experiments/exp2i/results/endpoint/main/add4_mid.json": null,
   "experiments/exp2i/results/endpoint/main/add_base8.json": null,
@@ -1840,9 +1841,10 @@
   "experiments/exp2i/results/predictor/olmo1b/sub_base8.json": null,
   "experiments/exp2i/results/predictor/predictor_2i.json": null,
   "experiments/exp2i/run/_common_2i.py": "5cc7c97f68b45656d6dbbb5fbf6d7d895d7b1d96e104df543f8c9f1691e5ad4f",
+  "experiments/exp2i/run/seal_2i.py": "f20132aed4c0b7e995745972abeddec4ba1d7a269147b5d034bff06a3157f078",
   "experiments/exp3/sampler.py": "e33c50d3985b1d6205d886e53726860f364cce1c6cd943ec460524e9110a03ea",
   "experiments/exp3c/analyze_3c.py": "66b78ffbedb808625ed33019f29d2ef8ec9d0f31a1115eb7cb08ad3e67d42d84"
  },
- "n_files": 1841,
+ "n_files": 1843,
  "note": "sha256 of every committed file analyze_2i reads from other trees, relative to the repo root, plus the 139 stage artifacts this experiment itself produces (sha256: null until they exist \u2014 required at analysis time); this file's own sha256 is pinned as analyze_2i.REFERENTS_2I_SHA256"
 }

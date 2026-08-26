@@ -57,6 +57,28 @@ D_TARGETS = (0.10, 0.15, 0.20)
 BAR = 0.75
 DECLARE_AT = 0.15
 
+# FREEZE attack item 8 (3d's sixth lesson, stated in advance rather
+# than discovered at close-out). The number this record declares is a
+# claim about the alternative's SHAPE, not only its size: y is
+# generated from a latent that mixes rank(x) with noise at ITEM grain
+# inside each rung's own strata, so P(fires) is calibrated against an
+# item-level rank-concordance alternative. If the true effect is
+# CLASS-level — a shift shared by every item in some stratum or
+# equivalence class, which is exactly the shape 3d's own power table
+# got wrong by a factor of ~6 — this table does not transfer, in
+# either direction. It rides on the record so a reader of the
+# declaration meets the caveat with it, not in a design doc elsewhere.
+SHAPE_NOTE_2I = (
+    "This power table is calibrated against an ITEM-LEVEL alternative: within "
+    "each rung, y is generated from a latent mixing rank(x) with noise inside "
+    "the rung's own strata. It is a claim about the alternative's shape, not "
+    "only its size. A CLASS-level effect — a shift shared by every item in an "
+    "equivalence class, the shape exp 3d's frozen power model mis-specified by "
+    "roughly a factor of six — is not modelled here, and neither POWERED nor "
+    "DECLARED UNDERPOWERED IN ADVANCE transfers to it. No class-level "
+    "sensitivity is simulated (2h did not either); adding one would be a new "
+    "statistic, not a pin, and was left to ratification.")
+
 
 def _ranks_to_counts(order_pos, n_steps):
     """Higher latent -> emittable earlier -> more grid points verified:
@@ -244,7 +266,8 @@ def main(out_path=None, *, root=EXP2I, tag_exists=None, blob_sha=None) -> dict:
 
     rec = {"A": _one_test_power(strata, x_a, n_pos, r_cap, n_steps=n_steps),
           "B": _one_test_power(strata_b, x_b, n_pos, r_cap, n_steps=n_steps),
-          "calibration_note": an.CALIBRATION_SENTENCE_2I}
+          "calibration_note": an.CALIBRATION_SENTENCE_2I,
+          "shape_note": SHAPE_NOTE_2I}
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(rec, indent=1))
     print("A:", rec["A"]["declared_status"], "-", rec["A"]["declaration"])
