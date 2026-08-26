@@ -26,7 +26,6 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -40,6 +39,12 @@ if str(REPO) not in sys.path:
 from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
+from experiments.exp2i.run._common_2i import (  # noqa: E402
+    assert_provenance as _assert_provenance,
+    git_sha as _git_sha,
+    release as _release,
+    stack as _stack,
+)
 from experiments.exp3.sampler import STREAM_NAMESPACE, sample_item  # noqa: E402
 
 try:
@@ -68,44 +73,18 @@ def write_draws(path, rows) -> None:
 
 
 # ------------------------------------------------------------- helpers
-
-def _stack() -> dict:
-    try:
-        import torch
-        import transformers
-        return {"torch": torch.__version__, "transformers": transformers.__version__}
-    except ImportError:                     # fakes in tests
-        return {"torch": "n/a", "transformers": "n/a"}
-
-
-def _git_sha() -> str:
-    return subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO,
-                          capture_output=True, text=True).stdout.strip()
-
-
-def _assert_provenance() -> None:
-    import harness
-    got = Path(sys.modules["harness"].__file__).resolve()
-    if bi.EXP2C.resolve() not in got.parents:
-        raise ImportError(f"harness resolved to {got}, not under {bi.EXP2C}")
-
+#
+# `_stack`/`_git_sha`/`_assert_provenance`/`_release` are imported from
+# `_common_2i` (Task 2 review finding 1 — they were byte-identical
+# across sample_2i.py/endpoint_2i.py/preflight_2i.py); the local
+# underscore-prefixed names are kept so `run_sampling_rung`/`run`'s own
+# calls, and any test that monkeypatches `smp._assert_provenance`,
+# resolve unchanged.
 
 def real_loaders() -> dict:
     def olmo1b(commit, device):
         return bi.load_thin(bi.REPO_1B, commit, device=device, dtype="float32")
     return {"olmo1b": olmo1b}
-
-
-def _release(model) -> None:
-    if model is None:      # a load failure can leave the caller's slot empty
-        return
-    try:
-        import torch
-        del model
-        if torch.backends.mps.is_available():
-            torch.mps.empty_cache()
-    except Exception:      # noqa: BLE001 — fakes
-        pass
 
 
 def _prompts(cap) -> list:

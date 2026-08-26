@@ -27,16 +27,19 @@ if str(REPO) not in sys.path:
 
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
+from experiments.exp2i.run._common_2i import (  # noqa: E402
+    assert_provenance as _assert_provenance,
+    release as _release,
+)
 
 PREFLIGHT_RUNGS = ("antonym", "add3_mid")
 N_ITEMS_PREFLIGHT = 20
 
-
-def _assert_provenance() -> None:
-    import harness
-    got = Path(sys.modules["harness"].__file__).resolve()
-    if bi.EXP2C.resolve() not in got.parents:
-        raise ImportError(f"harness resolved to {got}, not under {bi.EXP2C}")
+# `_assert_provenance`/`_release` come from `_common_2i` (Task 2 review
+# finding 1 — byte-identical across sample_2i.py/endpoint_2i.py/this
+# module); local underscore names kept so this module's own calls
+# resolve unchanged. Preflight writes no record, so it has no need for
+# `_stack`/`_git_sha`.
 
 
 def real_loaders() -> dict:
@@ -46,18 +49,6 @@ def real_loaders() -> dict:
         return bi.load_thin(bi.REPO_1B, commit, device=device, dtype="float16")
 
     return {"olmo1b_main": olmo1b_main, "runner": lambda tok, model: HFRunner(tok, model)}
-
-
-def _release(model) -> None:
-    if model is None:
-        return
-    try:
-        import torch
-        del model
-        if torch.backends.mps.is_available():
-            torch.mps.empty_cache()
-    except Exception:      # noqa: BLE001 — fakes
-        pass
 
 
 def _results_snapshot(root) -> set:

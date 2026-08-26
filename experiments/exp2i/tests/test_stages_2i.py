@@ -392,6 +392,114 @@ def test_endpoint_skip_if_exists_and_dry_run(tmp_path):
           blobs_bound=_bound_ok, **_prereg())
 
 
+def _write_endpoint_records(root, which, rungs, *, correct, seal_sha):
+    """Fabricates valid `which`-records directly via `item_record_2i`
+    (already covered by its own tests) — fast, no `evaluate_items`/
+    battery machinery needed, for tests whose focus is the per-`which`
+    skip (finding 2), not the eval path itself."""
+    for rung in rungs:
+        cap = bt.load_item_file(rung)
+        n = bt.N_ITEMS
+        ev = {"bits": [1] * correct + [0] * (n - correct), "correct": correct,
+             "continuations": ["x"] * n}
+        ckpt = {"revision": which, "commit": "C", "kind": "thin-loader", "files": [],
+               "weight_sha256": "D", "config_source": "cs", "tokenizer_source": "ts"}
+        rec = ep.item_record_2i(rung=rung, family=bi.FAMILY, size=bi.SIZE_OUT,
+                               which=which, cap=cap, ev=ev, ckpt=ckpt,
+                               seal={"tag": bi.PREDICTOR_SEAL_TAG, "sha256": seal_sha},
+                               t_s=0.0)
+        p = bi.endpoint_record_path(root, which, rung)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps(rec, indent=1))
+
+
+def test_endpoint_per_which_skip_stage1_final_present_main_absent(tmp_path):
+    """Finding 2: a `which` with every rung already present must not
+    load a model at all; the other `which` still does, exactly once."""
+    _write_predictor_seal(tmp_path, sha="SEALSHA-3")
+    _write_endpoint_records(tmp_path, "stage1_final", bt.RUNGS, correct=500,
+                            seal_sha="SEALSHA-3")
+    manifest = _manifest()
+    commit_stage1 = bi.entry_7b(manifest, bi.ENDPOINT_STEP_7B)["commit"]
+    commit_main = bi.entry_main(manifest, bi.REPO_7B)["commit"]
+    battery, amap, all_correct = _full_amap_and_correct(bt.RUNGS)
+
+    calls = []
+
+    def olmo7b(commit, device):
+        calls.append(commit)
+        if commit == commit_stage1:
+            raise AssertionError("stage1_final is fully present — must not load it")
+        return ({"commit": commit, "which": "main"}, FakeTok(),
+               {"tensor_digest": "D-main"})
+
+    loaders = {"olmo7b": olmo7b,
+              "runner": lambda tok, model: WhichAwareRunner(amap, all_correct)}
+
+    ep.run(root=tmp_path, device="cpu", loaders=loaders, blobs_bound=_bound_ok,
+          **_prereg())
+
+    assert calls == [commit_main]
+    for rung in bt.RUNGS:
+        assert bi.endpoint_record_path(tmp_path, "main", rung).exists()
+    rung_set = json.loads(bi.rung_set_path(tmp_path).read_text())
+    assert set(rung_set["R_OLMO"]) == set(bt.RUNGS)   # 500/500 clears every floor
+
+
+def test_endpoint_per_which_skip_both_present_writes_rung_set_no_loader(tmp_path):
+    """Finding 2, the second case: both revisions fully present, only
+    the rung set missing — the loader must never be called, and the
+    rung set is still written from the read-back records."""
+    _write_predictor_seal(tmp_path, sha="SEALSHA-4")
+    _write_endpoint_records(tmp_path, "stage1_final", bt.RUNGS, correct=500,
+                            seal_sha="SEALSHA-4")
+    _write_endpoint_records(tmp_path, "main", bt.RUNGS, correct=0,
+                            seal_sha="SEALSHA-4")
+    assert not bi.rung_set_path(tmp_path).exists()
+
+    def boom(commit, device):
+        raise AssertionError("loader must not be called when every record exists")
+
+    ep.run(root=tmp_path, device="cpu", loaders={"olmo7b": boom},
+          blobs_bound=_bound_ok, **_prereg())
+
+    rung_set = json.loads(bi.rung_set_path(tmp_path).read_text())
+    assert set(rung_set["R_OLMO"]) == set(bt.RUNGS)
+
+
+def test_endpoint_seal_check_passes_exact_repo_relative_paths(tmp_path):
+    """Finding 3: `_require_predictor_seal` must hand `blobs_bound`
+    EXACTLY the seal file + all 34 draws files + all 34 record files,
+    as paths relative to `repo_root` — not a narrowed or approximate
+    set. A tmp `root` nested under a (separate) tmp `repo_root`, so a
+    correct implementation cannot get away with `root == repo_root`."""
+    repo_root = tmp_path / "repo"
+    root = repo_root / "experiments" / "exp2i"
+    files = {}
+    for rung in bt.RUNGS:
+        files[str(bi.predictor_draws_path(root, rung).relative_to(root))] = f"d_{rung}"
+        files[str(bi.predictor_record_path(root, rung).relative_to(root))] = f"r_{rung}"
+    _write_predictor_seal(root, files=files, sha="SEALSHA-5")
+
+    received = {}
+
+    def recording_bound(tag, paths, repo_root=None):
+        received["tag"], received["paths"] = tag, list(paths)
+        received["repo_root"] = repo_root
+        return []
+
+    ep._require_predictor_seal(root, blobs_bound=recording_bound, repo_root=repo_root)
+
+    assert received["tag"] == bi.PREDICTOR_SEAL_TAG
+    assert received["repo_root"] == repo_root
+    prefix = "experiments/exp2i"
+    expected = {f"{prefix}/results/predictor/predictor_2i.json"} | \
+        {f"{prefix}/{k}" for k in files}
+    assert len(files) == 2 * len(bt.RUNGS)          # sanity: 34 draws + 34 records
+    assert set(received["paths"]) == expected
+    assert len(received["paths"]) == len(expected)  # no duplicates
+
+
 def test_item_record_2i_requires_exactly_one_of_step_which():
     with pytest.raises(ValueError, match="exactly one"):
         ep.item_record_2i(rung="antonym", family="olmo2", size="olmo7b",

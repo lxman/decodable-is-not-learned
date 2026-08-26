@@ -649,6 +649,8 @@ FROZEN_SHA256 = {
         "eab7c5b91d57351ee2a7adb0e85d71cb92cb4d6ed15d0bb90150c95c2076050e",
     EXP2G / "checkpoints_2g.py":
         "155fee3ec3933db33930d7ddadb99c02604d893205a8f8c037016cc18609fb10",
+    EXP2D / "battery_2d.py":
+        "503a2c09ec320989223561291ff93c71d62d27ed20c5681f9b2d535b7708e81a",
     EXP2D / "analyze_2d.py":
         "01ee334db5fe273a8509cf4bf79757b52a40a123311acd42554ac1a82e40334a",
     EXP2D / "stats_2d.py":

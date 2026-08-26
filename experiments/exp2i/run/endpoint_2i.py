@@ -9,8 +9,12 @@ seals `exp2i-endpoint-sealed`).
 
 Order, load-bearing: (1) the prereg refusal (as `sample_2i`); (2)
 `check_frozen_2i()`; (3) refuses unless `PREDICTOR_SEAL_TAG` exists
-and blob-binds `predictor_2i.json` + every draws file it lists
-(`battery_2i.blobs_bound`, the 2h F-3 primitive). `evaluate_items` is
+and blob-binds `predictor_2i.json` + every file it lists — both the
+draws AND the record for all 34 rungs — to the tag
+(`battery_2i.blobs_bound`, the 2h F-3 primitive). Per `which`
+revision, the loader is built only if at least one rung's record is
+still missing; a fully-written `which` is read back from disk instead
+(review finding 2). `evaluate_items` is
 reused directly from `exp2g.run.sweep_2g` (a pure function of its
 (runner, cap, verify_fn) arguments, not bound to any exp2g-only
 global); `item_record_2i` is written locally — 2g's `item_record`
@@ -25,7 +29,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -41,6 +44,12 @@ from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2g.run.sweep_2g import evaluate_items  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
+from experiments.exp2i.run._common_2i import (  # noqa: E402
+    assert_provenance as _assert_provenance,
+    git_sha as _git_sha,
+    release as _release,
+    stack as _stack,
+)
 
 try:
     from experiments.exp2i.analyze_2i import require_prereg_2i  # noqa: E402
@@ -83,27 +92,11 @@ def item_record_2i(*, rung, family, size, cap, ev, ckpt, seal, t_s,
 
 
 # ------------------------------------------------------------- helpers
-
-def _stack() -> dict:
-    try:
-        import torch
-        import transformers
-        return {"torch": torch.__version__, "transformers": transformers.__version__}
-    except ImportError:                     # fakes in tests
-        return {"torch": "n/a", "transformers": "n/a"}
-
-
-def _git_sha() -> str:
-    return subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO,
-                          capture_output=True, text=True).stdout.strip()
-
-
-def _assert_provenance() -> None:
-    import harness
-    got = Path(sys.modules["harness"].__file__).resolve()
-    if bi.EXP2C.resolve() not in got.parents:
-        raise ImportError(f"harness resolved to {got}, not under {bi.EXP2C}")
-
+#
+# `_stack`/`_git_sha`/`_assert_provenance`/`_release` are imported from
+# `_common_2i` (Task 2 review finding 1 — byte-identical across
+# sample_2i.py/endpoint_2i.py/preflight_2i.py); local underscore names
+# kept so this module's own calls resolve unchanged.
 
 def real_loaders() -> dict:
     from harness import HFRunner
@@ -114,18 +107,6 @@ def real_loaders() -> dict:
     return {"olmo7b": olmo7b, "runner": lambda tok, model: HFRunner(tok, model)}
 
 
-def _release(model) -> None:
-    if model is None:      # a load failure can leave the caller's slot empty
-        return
-    try:
-        import torch
-        del model
-        if torch.backends.mps.is_available():
-            torch.mps.empty_cache()
-    except Exception:      # noqa: BLE001 — fakes
-        pass
-
-
 def _write(path: Path, obj) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=1))
@@ -134,10 +115,16 @@ def _write(path: Path, obj) -> None:
 # ----------------------------------------------------- predictor-seal gate
 
 def _seal_blob_paths(root, seal: dict) -> list:
-    """`predictor_2i.json` + every draws file it lists (not the record
-    files — the brief's own wording), as paths relative to `root`."""
-    draws_keys = sorted(k for k in seal.get("files", {}) if k.endswith(".draws.jsonl.gz"))
-    return ["results/predictor/predictor_2i.json", *draws_keys]
+    """`predictor_2i.json` itself + every file it lists — the seal's
+    `"files"` dict already covers both the draws AND the record file
+    for all 34 rungs (`seal_2i.seal_predictor` hashes everything under
+    `results/predictor/`), so binding the whole set is binding the
+    seal's own integrity claim, not a narrowed reading of it. Paths
+    relative to `root`; the seal's own relpath is derived from
+    `predictor_seal_path`, not a hardcoded literal, so the two can
+    never drift apart (finding 3)."""
+    seal_rel = str(bi.predictor_seal_path(root).relative_to(root))
+    return [seal_rel, *sorted(seal.get("files", {}))]
 
 
 def _require_predictor_seal(root, *, blobs_bound=None, repo_root=None) -> dict:
@@ -192,6 +179,19 @@ def run(*, root=EXP2I, device="mps", loaders=None, dry_run=False,
 
     stage1_final = {}
     for which in WHICH:
+        which_pending = [r for r in rungs
+                        if not bi.endpoint_record_path(root, which, r).exists()]
+        if not which_pending:
+            # every rung record for this revision already exists — no
+            # loader needed for it (review finding 2: only a `which`
+            # with at least one missing record earns a model load).
+            if which == "stage1_final":
+                for rung in rungs:
+                    stage1_final[rung] = json.loads(
+                        bi.endpoint_record_path(root, which, rung).read_text())
+            print(f"[2i endpoint] {which}: all {len(rungs)} rung(s) already "
+                  f"present, skipping the loader", flush=True)
+            continue
         entry = entries[which]
         commit = entry["commit"]
         model, tok, info = loaders["olmo7b"](commit, device)
