@@ -244,6 +244,30 @@ def test_loader_family_present_and_not_executed():
     assert bi.ck is ck
 
 
+# --------------------------------------------------- _check_loading_info
+#
+# The shared shape check `load_checkpoint`/`load_thin` both apply to
+# `output_loading_info` (fix round 1, Important finding: the two
+# loaders duplicated this 4-line block verbatim). Pure — a plain dict
+# shaped like `output_loading_info`, no torch.
+
+def test_check_loading_info_clean_dict_returns_counts_no_raise():
+    li = {"missing_keys": [], "unexpected_keys": [], "mismatched_keys": []}
+    counts = bi._check_loading_info(li, "some/repo@rev")
+    assert counts == {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}
+
+
+def test_check_loading_info_missing_key_raises_naming_label_and_key():
+    li = {"missing_keys": ["lm_head.weight"], "unexpected_keys": [],
+         "mismatched_keys": []}
+    with pytest.raises(ValueError) as exc:
+        bi._check_loading_info(li, "some/repo@rev (candidate files)")
+    msg = str(exc.value)
+    assert "some/repo@rev (candidate files)" in msg
+    assert "missing_keys" in msg
+    assert "lm_head.weight" in msg
+
+
 # ------------------------------------------------------------- frozen pins
 
 def test_frozen_sha256_matches_on_disk():

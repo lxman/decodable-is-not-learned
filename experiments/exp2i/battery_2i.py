@@ -379,6 +379,24 @@ def clean_dir(repo: str, rev_key, cache_root, paths: dict) -> Path:
     return d
 
 
+_LOADING_INFO_FIELDS = ("missing_keys", "unexpected_keys", "mismatched_keys")
+
+
+def _check_loading_info(li: dict, label: str) -> dict:
+    """The shared shape check both loader paths apply to
+    `output_loading_info`: every field must be empty, or the load did
+    not fill the pinned architecture exactly. Raises `ValueError`
+    naming `label` (the caller's own repo/revision description) with
+    the offending fields; returns the per-field counts either way, for
+    the caller's own `info` record. Pure — no torch, no network,
+    tested directly on a stub dict."""
+    bad = {k: list(li.get(k, [])) for k in _LOADING_INFO_FIELDS if li.get(k)}
+    if bad:
+        raise ValueError(f"{label}: the load does not fill the pinned "
+                         f"architecture exactly: {bad}")
+    return {k: len(li.get(k, [])) for k in _LOADING_INFO_FIELDS}
+
+
 def load_checkpoint(repo: str, entry: dict, *, cache_root=CKPT_CACHE,
                     device: str = "mps", dtype="float16"):
     """MODEL CONTACT. The candidate files only, hashed, into a config
@@ -388,8 +406,9 @@ def load_checkpoint(repo: str, entry: dict, *, cache_root=CKPT_CACHE,
     `main` plus the 1B endpoint, so the config is fetched fresh per
     entry rather than written once by `clean_dir`. `dtype` is fp16 for
     the 7B sweep (2c/2g/2h convention). `low_cpu_mem_usage=True`;
-    loading info must be empty; tensor digest via `ck.tensor_digest`
-    (reused, not redefined). Never executed by a test."""
+    loading info must be empty (`_check_loading_info`); tensor digest
+    via `ck.tensor_digest` (reused, not redefined). Never executed by
+    a test."""
     import torch
     from transformers import AutoConfig, AutoModelForCausalLM
     paths = download_entry(repo, entry, cache_root)
@@ -400,17 +419,12 @@ def load_checkpoint(repo: str, entry: dict, *, cache_root=CKPT_CACHE,
     model, li = AutoModelForCausalLM.from_pretrained(
         str(d), config=config, dtype=dt, low_cpu_mem_usage=True,
         output_loading_info=True)
-    bad = {k: list(li.get(k, [])) for k in ("missing_keys", "unexpected_keys",
-                                             "mismatched_keys") if li.get(k)}
-    if bad:
-        raise ValueError(f"{repo}@{entry['revision']}: the candidate files do "
-                         f"not fill the pinned architecture exactly: {bad}")
+    counts = _check_loading_info(li, f"{repo}@{entry['revision']} (candidate files)")
     model = model.to(device).eval()
     info = {"repo": repo, "revision": entry["revision"], "commit": entry["commit"],
             "kind": entry["kind"], "files": list(entry["files"]), "sha256": shas,
             "config_source": f"{repo}@{entry['commit']}",
-            "loading_info": {k: len(li.get(k, [])) for k in
-                             ("missing_keys", "unexpected_keys", "mismatched_keys")},
+            "loading_info": counts,
             "tensor_digest": ck.tensor_digest(model)}
     return model, info
 
@@ -426,16 +440,11 @@ def load_thin(repo: str, revision_commit: str, *, device: str = "mps",
     dt = getattr(torch, dtype) if isinstance(dtype, str) else dtype
     model, li = AutoModelForCausalLM.from_pretrained(
         repo, revision=revision_commit, dtype=dt, output_loading_info=True)
-    bad = {k: list(li.get(k, [])) for k in ("missing_keys", "unexpected_keys",
-                                             "mismatched_keys") if li.get(k)}
-    if bad:
-        raise ValueError(f"{repo}@{revision_commit}: the thin load does not "
-                         f"fill the architecture exactly: {bad}")
+    counts = _check_loading_info(li, f"{repo}@{revision_commit} (thin load)")
     model = model.to(device).eval()
     tok = load_tokenizer(repo, revision_commit)
     info = {"repo": repo, "commit": revision_commit,
-            "loading_info": {k: len(li.get(k, [])) for k in
-                             ("missing_keys", "unexpected_keys", "mismatched_keys")},
+            "loading_info": counts,
             "tensor_digest": ck.tensor_digest(model)}
     return model, tok, info
 
