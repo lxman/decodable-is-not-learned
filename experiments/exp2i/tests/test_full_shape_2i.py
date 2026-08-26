@@ -11,15 +11,14 @@ from experiments.exp2i.tests import full_shape as fs
 
 @pytest.fixture(scope="module", autouse=True)
 def _shrink_instrument_blobs_to_what_exists():
-    """`run/sweep_2i.py` is Task 4's file and does not exist on this
-    tree yet — a correct 'not on disk' refusal from `require_prereg_2i`
-    in production, but it means no world could ever reach a passing
-    prereg check as written. Shrinking `INSTRUMENT_BLOBS_2I` to what is
-    actually on disk keeps these tests exercising the TREE (their
-    reason for existing), not re-litigating the five-file instrument
-    set — that is `test_analyze_2i.py`'s job. Plain monkeypatching
-    (not the `monkeypatch` fixture, which is function-scoped) so a
-    single module-scoped `worlds` fixture sees it consistently."""
+    """Task 4 landed `run/sweep_2i.py`, the fifth and final file in
+    `INSTRUMENT_BLOBS_2I` — this is a no-op now (the subset equals the
+    full five-file set). Left in place: it keeps these tests
+    exercising the TREE (their reason for existing), not re-litigating
+    the five-file instrument set — that is `test_analyze_2i.py`'s job.
+    Plain monkeypatching (not the `monkeypatch` fixture, which is
+    function-scoped) so a single module-scoped `worlds` fixture sees
+    it consistently."""
     subset = tuple(r for r in an.INSTRUMENT_BLOBS_2I if (bi.REPO / r).is_file())
     original = an.INSTRUMENT_BLOBS_2I
     an.INSTRUMENT_BLOBS_2I = subset

@@ -70,17 +70,14 @@ def _blob_ok(tag, rel):
     return bg.sha256_file(p) if p.is_file() else None
 
 
-def test_require_prereg_2i_passes_with_matching_blobs(monkeypatch):
-    # run/sweep_2i.py is Task 4's file and does not exist on this tree
-    # yet — a real "all five files present and bound" pass is not
-    # reachable until then; this exercises the pass path on the subset
-    # that DOES exist today, disclosed rather than faked.
-    subset = tuple(r for r in an.INSTRUMENT_BLOBS_2I if (bi.REPO / r).is_file())
-    assert len(subset) == 4   # sanity: exactly sweep_2i.py is missing
-    monkeypatch.setattr(an, "INSTRUMENT_BLOBS_2I", subset)
+def test_require_prereg_2i_passes_with_matching_blobs():
+    # Task 4 landed `run/sweep_2i.py`, the fifth and final file in
+    # `INSTRUMENT_BLOBS_2I` — all five now on disk, so the pass path is
+    # reachable on the real, unshrunk set.
     got = an.require_prereg_2i(tag_exists=lambda t: t == bi.PREREG_TAG, blob_sha=_blob_ok)
     assert got["tag"] == bi.PREREG_TAG
-    assert set(got["instrument_blobs"]) == set(subset)
+    assert set(got["instrument_blobs"]) == set(an.INSTRUMENT_BLOBS_2I)
+    assert len(got["instrument_blobs"]) == 5
 
 
 def test_require_prereg_2i_refuses_missing_tag():
@@ -88,9 +85,14 @@ def test_require_prereg_2i_refuses_missing_tag():
         an.require_prereg_2i(tag_exists=lambda t: False, blob_sha=_blob_ok)
 
 
-def test_require_prereg_2i_refuses_missing_sweep_module():
-    """run/sweep_2i.py does not exist yet (Task 4) — a missing instrument
-    file is a refusal in production."""
+def test_require_prereg_2i_refuses_missing_instrument_file(monkeypatch):
+    """All five real instrument files are on disk since Task 4 landed
+    `run/sweep_2i.py` — this exercises the 'not on disk' refusal branch
+    directly (`got is None` in `require_prereg_2i`'s loop) against a
+    file that genuinely is not on disk, rather than letting that branch
+    go untested now that the real five-file set is complete."""
+    subset = an.INSTRUMENT_BLOBS_2I + ("experiments/exp2i/run/does_not_exist.py",)
+    monkeypatch.setattr(an, "INSTRUMENT_BLOBS_2I", subset)
     with pytest.raises(RuntimeError, match="not on disk"):
         an.require_prereg_2i(tag_exists=lambda t: True, blob_sha=_blob_ok)
 
