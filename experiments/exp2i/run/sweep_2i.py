@@ -144,7 +144,24 @@ def _load_stage1_final(root) -> dict:
 # --------------------------------------------------------------- steps
 
 def records_complete_7b(out_root, step) -> bool:
-    return all(bi.record_path(out_root, step, r).exists() for r in bt.RUNGS)
+    """A step is complete only when its 34 rung records AND its
+    `_checkpoint.json` are on disk.
+
+    FREEZE R-3 (the resume window): the rung records are written one at
+    a time inside the loop and the checkpoint record only after the
+    loop, so a process killed between the LAST rung write and the
+    checkpoint-record write left a tree that satisfied the old
+    rung-records-only predicate — `run_step`/`run_twin` skipped the
+    step forever on every resume, while `analyze_2i.load_sweep_7b`
+    requires that checkpoint record and refused the tree forever. Both
+    sides were individually correct; together they deadlocked. Requiring
+    the record here closes it: the resume re-enters the step, skips
+    every rung record already present (the rung-grain skip inside the
+    loop is untouched), and writes the checkpoint record — the cost is
+    one checkpoint load, not 34 re-evaluations."""
+    if not all(bi.record_path(out_root, step, r).exists() for r in bt.RUNGS):
+        return False
+    return bi.checkpoint_record_path(out_root, step).exists()
 
 
 # -------------------------------------------------------------- gate 1

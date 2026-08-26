@@ -575,13 +575,23 @@ primary_2i = an2h.primary_2h
 
 def fires_2i(prim: dict) -> bool:
     """The one firing rule, shared between the analyzer and
-    `power_2i.py`'s simulation (ruling 9: one implementation)."""
+    `power_2i.py`'s simulation (ruling 9: one implementation).
+
+    Freeze R-2: an UNDEFINED test carries `T is None` (never NaN — see
+    `_undefined_result_2i`), and an undefined test never fires. The
+    guard is explicit rather than relying on `p < ALPHA` short-
+    circuiting first: a caller that hands this a dict with `p = 0.0`
+    and `T = None` must still get `False`, not a `TypeError`."""
     T, p = prim["stratified"]["T"], prim["stratified"]["p"]
+    if T is None:
+        return False
     return bool(p < ALPHA and T >= T_BAR)
 
 
 def named_inside_2i(prim: dict):
     T, p = prim["stratified"]["T"], prim["stratified"]["p"]
+    if T is None:                      # freeze R-2: an undefined test
+        return None                    # names itself, not its (absent) T
     notes = []
     if p < ALPHA and T < T_BAR:
         notes.append(f"below the effect bar (T = {T:.4f} < {T_BAR}, p = {p:.4g})")
@@ -636,11 +646,17 @@ _NO_INFORMATIVE_PAIR_RE = re.compile(r"perm_test: rung (\S+) has no informative 
 
 def _undefined_result_2i(size_label: str, dropped, rungs, reason: str) -> dict:
     """The shape `_run_test` returns for an undefined test — never an
-    exception. `stratified`/`raw` carry NaN/non-firing placeholders (T
-    is NaN, p is 1.0) so `fires_2i`/`verdict_tree_2i`'s own formatting
-    ('{T:.4f}') works unchanged and a caller can never mistake this for
-    a real, merely-non-firing statistical result."""
-    empty = {"T": float("nan"), "p": 1.0, "n_perm": 0, "n_ge": 0}
+    exception. `stratified`/`raw` carry non-firing placeholders (T is
+    None, p is 1.0) so a caller can never mistake this for a real,
+    merely-non-firing statistical result.
+
+    Freeze R-2: T is `None`, NOT `float("nan")`. `json.dump` writes a
+    bare `NaN` token (allow_nan defaults True) which is not valid JSON
+    — every strict parser (`json.loads(..., parse_constant=raise)`,
+    most non-Python readers) rejects the verdict file. `None` round-
+    trips as `null` everywhere. `fires_2i`/`named_inside_2i` guard on
+    it explicitly and `verdict_tree_2i` formats it through `_fmt_T`."""
+    empty = {"T": None, "p": 1.0, "n_perm": 0, "n_ge": 0}
     return {"stratified": dict(empty), "raw": dict(empty), "pooled_d": None,
            "per_rung": {}, "eligible": [], "thin": list(rungs),
            "size_pred": size_label, "dropped_degenerate": list(dropped),
@@ -734,6 +750,12 @@ def _is_undefined_2i(prim: dict) -> bool:
            and str(prim.get("named_inside") or "").startswith("undefined"))
 
 
+def _fmt_T(T) -> str:
+    """Freeze R-2: an undefined test's T is `None` (never NaN), so the
+    reason string says so in words instead of raising on `{None:.4f}`."""
+    return "undefined" if T is None else f"{T:.4f}"
+
+
 def verdict_tree_2i(failures, A, B) -> dict:
     if failures:
         return {"verdict": "INSUFFICIENT_DATA",
@@ -749,11 +771,11 @@ def verdict_tree_2i(failures, A, B) -> dict:
         verdict = "BOTH"
     else:
         verdict = "NEITHER"
-    parts = [f"A: T={A['stratified']['T']:.4f}, p={A['stratified']['p']:.4g}, "
+    parts = [f"A: T={_fmt_T(A['stratified']['T'])}, p={A['stratified']['p']:.4g}, "
             f"fires={a}"]
     if A.get("named_inside"):
         parts.append(f"A {A['named_inside']}")
-    parts.append(f"B: T={B['stratified']['T']:.4f}, p={B['stratified']['p']:.4g}, "
+    parts.append(f"B: T={_fmt_T(B['stratified']['T'])}, p={B['stratified']['p']:.4g}, "
                 f"fires={b}")
     if B.get("named_inside"):
         parts.append(f"B {B['named_inside']}")
@@ -1095,7 +1117,14 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
                 lambda: gate1_failures_7b(gate1, stage1_final) if _gate_ready else
                 (_ for _ in ()).throw(ValueError("stage1_final endpoint records "
                                                  "missing")),
-                "gate 1 olmo7b re-derivation")
+                # freeze R-4: this site checks the runner's ATTESTED
+                # fields only (`gate1_failures_7b`); the byte-level
+                # re-derivation is the SEPARATE site below, labelled
+                # "... re-derivation (byte identity)". The two labels
+                # used to be prefix-ambiguous ("re-derivation" matched
+                # both), which made every failure needle that names one
+                # of them silently match the other.
+                "gate 1 olmo7b attestation")
             failures += f + (gbad or [])
 
     if rung_set is not None and stage1_final is not None:
@@ -1270,8 +1299,37 @@ def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=Non
     if write:
         outp = Path(out_path or RESULTS / "verdict.json")
         outp.parent.mkdir(parents=True, exist_ok=True)
-        outp.write_text(json.dumps(v, indent=1, default=_jsonable))
+        # freeze R-2: `allow_nan=False` guarantees the written verdict is
+        # STRICT JSON (no bare `NaN`/`Infinity` tokens, which most non-
+        # Python readers reject), and `_json_safe` makes that guarantee
+        # reachable rather than a crash — every non-finite float becomes
+        # `null` BEFORE the encoder sees it. Not only `_undefined_
+        # result_2i`'s T: `stats_2g.d_from_pre` returns NaN for a rung
+        # with no informative pair (reachable in the non-gating
+        # `extra_rungs_raw` descriptive, whose R_EXTRA rungs are never
+        # screened for constant y) and `bootstrap_d` returns NaN
+        # lo/hi when no resample is finite. Presentation only — `v`
+        # itself, and every statistic in it, is untouched.
+        outp.write_text(json.dumps(_json_safe(v), indent=1, default=_jsonable,
+                                   allow_nan=False))
     return v
+
+
+def _json_safe(o):
+    """Recursively replace non-finite floats (NaN, ±Infinity) with
+    None so the written verdict is strict JSON. Containers are rebuilt;
+    everything else is returned untouched for `_jsonable` to handle."""
+    if isinstance(o, float) and not np.isfinite(o):
+        return None
+    if isinstance(o, np.floating):
+        return float(o) if np.isfinite(o) else None
+    if isinstance(o, dict):
+        return {k: _json_safe(x) for k, x in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_json_safe(x) for x in o]
+    if isinstance(o, np.ndarray):
+        return [_json_safe(x) for x in o.tolist()]
+    return o
 
 
 def _jsonable(o):

@@ -449,6 +449,73 @@ def test_checkpoint_record_written_only_once_all_rung_records_exist(tmp_path, mo
     assert rec["step"] == 1000 and "download_seconds" in rec
 
 
+def test_resume_writes_a_missing_checkpoint_record_for_a_complete_step(
+        tmp_path, monkeypatch):
+    """FREEZE R-3, the deadlock: a process killed between the LAST rung
+    record and the checkpoint-record write leaves all 34 rung records
+    and no `_checkpoint.json`. Under the old rung-records-only
+    `records_complete_7b` the step was skipped forever on resume, while
+    `analyze_2i.load_sweep_7b` refuses any tree missing that checkpoint
+    record — the sweep could never complete and the analyzer could
+    never do anything but INSUFFICIENT_DATA.
+
+    Built by running the sweep to completion and then DELETING the
+    checkpoint record (the exact on-disk state the interrupt leaves,
+    not a hand-assembled approximation), then resuming: the step is
+    re-entered, no rung record is rewritten, and the checkpoint record
+    appears."""
+    _shrink_grid(monkeypatch, (1000, bi.ENDPOINT_STEP_7B))
+    setup = _setup_seals(tmp_path, gate_frac=0.5, digest="Dend")
+    loaders, state = _loaders(entry_stage1=setup["entry_stage1"], gate_frac=0.5,
+                              digest_gate="Dend", commit_gate=setup["commit_stage1"],
+                              frac_by_revision={"twin": 0.0})
+    sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
+          **_prereg())
+    assert sw.records_complete_7b(tmp_path, 1000) is True
+
+    cp = bi.checkpoint_record_path(tmp_path, 1000)
+    cp.unlink()
+    before = {r: bi.record_path(tmp_path, 1000, r).read_text() for r in bt.RUNGS}
+    assert sw.records_complete_7b(tmp_path, 1000) is False   # the R-3 predicate
+
+    n_calls = len(state["calls"])
+    sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
+          **_prereg())
+    assert cp.is_file()                                      # the record is back
+    assert len(state["calls"]) == n_calls + 1                # exactly one reload
+    for r in bt.RUNGS:                                       # no rung re-evaluated
+        assert bi.record_path(tmp_path, 1000, r).read_text() == before[r]
+    assert json.loads(cp.read_text())["step"] == 1000
+
+
+def test_resume_writes_a_missing_checkpoint_record_for_the_twin(tmp_path, monkeypatch):
+    """FREEZE R-3 on `run_twin`'s own window. `load_sweep_7b` does not
+    require a checkpoint record for the TWIN (`if step != bi.TWIN`), so
+    this half never deadlocked the analyzer — but the twin's own
+    provenance record (seed, config source, tensor digest) would have
+    been silently absent from the committed tree forever, and the fix
+    is the same predicate."""
+    _shrink_grid(monkeypatch, (1000, bi.ENDPOINT_STEP_7B))
+    setup = _setup_seals(tmp_path, gate_frac=0.5, digest="Dend")
+    loaders, state = _loaders(entry_stage1=setup["entry_stage1"], gate_frac=0.5,
+                              digest_gate="Dend", commit_gate=setup["commit_stage1"],
+                              frac_by_revision={"twin": 0.0})
+    sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
+          **_prereg())
+    cp = bi.checkpoint_record_path(tmp_path, bi.TWIN)
+    assert cp.is_file()
+    cp.unlink()
+    before = {r: bi.record_path(tmp_path, bi.TWIN, r).read_text() for r in bt.RUNGS}
+    assert sw.records_complete_7b(tmp_path, bi.TWIN) is False
+
+    sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
+          **_prereg())
+    assert cp.is_file()
+    assert json.loads(cp.read_text())["step"] == bi.TWIN
+    for r in bt.RUNGS:
+        assert bi.record_path(tmp_path, bi.TWIN, r).read_text() == before[r]
+
+
 def test_download_seconds_excludes_rung_eval_time(tmp_path, monkeypatch):
     """Review finding 1: `download_seconds` must mean the SAME thing
     on both `run_gate1` and `run_step` — the checkpoint's own

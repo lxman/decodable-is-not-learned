@@ -305,7 +305,12 @@ def test_gate1_field_wrong_type(world):
     rec = json.loads(p.read_text())
     rec["bit_diffs"] = [0, 0]
     p.write_text(json.dumps(rec))
-    _insufficient(root, seal, "gate 1 olmo7b re-derivation")
+    # FREEZE R-4: the ATTESTATION site's own label, now unambiguous —
+    # before the rename both sites read "... re-derivation" and this
+    # needle matched either one.
+    v = _insufficient(root, seal, "gate 1 olmo7b attestation")
+    assert not any("gate 1 olmo7b re-derivation" in f
+                  for f in v["referents"]["failures"] if "attestation" in f)
 
 
 def test_gate1_bit_diff_fires(world):
@@ -632,8 +637,7 @@ def test_gate1_rederive_real_mismatch_is_insufficient_data(world):
     unrelated, pre-existing `_check_rung_set_vs_endpoint` count check
     the first draft of this test discovered firing instead."""
     root, seal = world
-    from experiments.exp2g import battery_2g as bg
-    cap = bg.load_battery(["antonym"])["antonym"]
+    cap = bg.load_battery(["antonym"])["antonym"]   # module-level import
     p = bi.endpoint_record_path(root, "stage1_final", "antonym")
     rec = json.loads(p.read_text())
     bits = list(rec["bits"])
@@ -716,6 +720,39 @@ def test_secondary_thunk_failure_is_caught_not_raised(world, monkeypatch):
     v = _run(root, seal)
     assert v["verdict"] != "INSUFFICIENT_DATA", v["reason"]
     assert "boom extra_rungs_raw" in v["secondaries"]["extra_rungs_raw"]["failed"]
+
+
+# ------------------------------------- R-2: the written verdict is strict JSON
+
+def test_written_verdict_is_strict_json_even_with_a_nan(world, monkeypatch, tmp_path):
+    """FREEZE R-2. `json.dump` writes a bare `NaN` token by default —
+    not valid JSON, rejected by every strict reader. NaN is reachable:
+    `stats_2g.d_from_pre` returns it for a rung with no informative
+    pair, which the non-gating `extra_rungs_raw` descriptive never
+    screens for (its R_EXTRA rungs can have constant y), and
+    `bootstrap_d` returns NaN lo/hi when no resample is finite. The
+    writer now sanitizes non-finite floats to `null` and passes
+    `allow_nan=False`, so a NaN that slips through is a hard error at
+    write time rather than a file no one else can parse."""
+    root, seal = world
+
+    def nanny(x_a, x_b, out, r_extra):
+        return {"synthetic": {"raw_d_A": float("nan"), "raw_d_B": 0.5, "n_pos": 0}}
+    monkeypatch.setattr(an, "_extra_rungs_raw_2i", nanny)
+    outp = tmp_path / "verdict_out.json"
+    v = _run(root, seal, write=True, out_path=outp)
+    assert v["verdict"] != "INSUFFICIENT_DATA", v["reason"]
+    raw = outp.read_text()
+    assert "NaN" not in raw and "Infinity" not in raw
+
+    def boom(tok):
+        raise AssertionError(f"non-strict JSON constant {tok!r} in the verdict")
+    obj = json.loads(raw, parse_constant=boom)
+    assert obj["secondaries"]["extra_rungs_raw"]["synthetic"]["raw_d_A"] is None
+    assert obj["secondaries"]["extra_rungs_raw"]["synthetic"]["raw_d_B"] == 0.5
+    # the in-memory verdict is UNtouched — sanitizing is presentation only
+    import math
+    assert math.isnan(v["secondaries"]["extra_rungs_raw"]["synthetic"]["raw_d_A"])
 
 
 # ------------------------------------------------------------- control

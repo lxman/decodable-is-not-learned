@@ -162,6 +162,25 @@ M = [
     (AN, "gate1_rederive_7b: continuation diff not re-derived (always 0)",
      "        cont_diff = sum(1 for a, b in zip(s_conts, e_conts) if a != b)",
      "        cont_diff = 0"),
+    # freeze R-1: the mutant the fix-wave re-review specified and the
+    # harness substituted away — continuation diffs computed from the
+    # BIT arrays. Every other gate-1 test flips a bit and its
+    # continuation together, so only a continuation-ONLY mismatch (bits
+    # held equal) separates this from the real implementation.
+    (AN, "gate1_rederive_7b: continuation diff computed from the BITS, not "
+         "the continuations",
+     "        cont_diff = sum(1 for a, b in zip(s_conts, e_conts) if a != b)",
+     "        cont_diff = sum(1 for a, b in zip(s_bits, e_bits) if a != b)"),
+    # freeze R-2: an undefined test's T back to NaN (a bare `NaN` token
+    # in verdict.json), and the writer's strictness guarantee removed.
+    (AN, "_undefined_result_2i: T back to NaN instead of None (bare NaN in "
+         "verdict.json)",
+     '    empty = {"T": None, "p": 1.0, "n_perm": 0, "n_ge": 0}',
+     '    empty = {"T": float("nan"), "p": 1.0, "n_perm": 0, "n_ge": 0}'),
+    (AN, "run(): the written verdict is no longer sanitized to strict JSON",
+     "        outp.write_text(json.dumps(_json_safe(v), indent=1, default=_jsonable,\n"
+     "                                   allow_nan=False))",
+     "        outp.write_text(json.dumps(v, indent=1, default=_jsonable))"),
     (AN, "run(): rung-set re-derivation skipped (failures dropped on the floor)",
      "    failures += f + (rbad2 or [])",
      "    failures += f"),
@@ -266,6 +285,12 @@ M = [
     (SW, "run_step: skip-if-exists disabled (re-runs an already-complete step)",
      "    if records_complete_7b(out_root, step):\n        return",
      "    if False:\n        return"),
+    # freeze R-3: the resume window — a step whose 34 rung records exist
+    # but whose checkpoint record does not is NOT complete.
+    (SW, "records_complete_7b: checkpoint record no longer required (R-3 "
+         "resume deadlock restored)",
+     "    return bi.checkpoint_record_path(out_root, step).exists()",
+     "    return True"),
     (SW, "run_twin: skip-if-exists disabled (re-runs the twin)",
      "    if records_complete_7b(out_root, bi.TWIN):\n        return",
      "    if False:\n        return"),

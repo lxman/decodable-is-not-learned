@@ -264,15 +264,41 @@ def test_gate1_rederive_7b_catches_an_attestation_that_disagrees_with_clean_byte
     assert not any(r0 in f and "bit diff(s) between" in f for f in bad)   # bytes ARE clean
 
 
+def test_gate1_rederive_7b_catches_a_continuation_only_mismatch():
+    """FREEZE R-1: the two continuations differ while the BITS are
+    identical (both items verify the same way) — the one shape a
+    re-derivation that computed `cont_diff` from the bit arrays instead
+    of the continuation arrays would report as clean. Every other
+    gate-1 test in this file flips a bit and its continuation together,
+    so this is the only input that separates the two implementations."""
+    sweep, stage1, gate = _identical_records_34()
+    r0 = bt.RUNGS[0]
+    stage1[r0] = dict(stage1[r0])
+    stage1[r0]["continuations"] = [" zzy"] + stage1[r0]["continuations"][1:]
+    bad = an.gate1_rederive_7b(sweep, stage1, gate)
+    assert any(r0 in f and "continuation diff" in f for f in bad)
+    assert any(r0 in f and "attested continuation_diffs" in f
+              and "disagrees with the re-derived" in f for f in bad)
+    # the bits really are identical — a bits-derived cont_diff sees nothing
+    assert sweep[r0]["bits"] == stage1[r0]["bits"]
+    assert not any(r0 in f and "bit diff(s) between" in f for f in bad)
+
+
 def test_gate1_rederive_7b_missing_records():
     sweep, stage1, gate = _identical_records_34()
     r0 = bt.RUNGS[0]
     del sweep[r0]
     bad = an.gate1_rederive_7b(sweep, stage1, gate)
     assert any(r0 in f and "no sweep step" in f for f in bad)
-    del stage1[r0]
-    bad2 = an.gate1_rederive_7b(sweep, stage1, gate)
-    assert any(r0 in f and "no sweep step" in f for f in bad2)
+    # FREEZE R-4: the sweep-side branch `continue`s, so a tree missing
+    # BOTH records only ever exercised the sweep branch. The
+    # stage1_final-missing branch needs a tree where the sweep record
+    # is PRESENT and only the endpoint record is gone.
+    sweep2, stage2, gate2 = _identical_records_34()
+    del stage2[r0]
+    bad2 = an.gate1_rederive_7b(sweep2, stage2, gate2)
+    assert any(r0 in f and "no stage1_final endpoint record" in f for f in bad2)
+    assert not any(r0 in f and "no sweep step" in f for f in bad2)
 
 
 def test_gate1_rederive_7b_coverage_short_records():
@@ -484,8 +510,10 @@ def test_undefined_result_2i_shape():
     assert r["dropped_degenerate"] == ["a", "b"]
     assert r["eligible"] == []
     assert r["thin"] == ["a", "b", "c"]
-    import math
-    assert math.isnan(r["stratified"]["T"])
+    # FREEZE R-2: T is None, never NaN — `json.dumps` writes a bare
+    # `NaN` token that strict JSON parsers reject.
+    assert r["stratified"]["T"] is None
+    assert r["raw"]["T"] is None
     assert r["stratified"]["p"] == 1.0
     # fires_2i/named_inside_2i must not choke on this shape either — a
     # caller that (incorrectly) re-derives fires from the raw dict gets

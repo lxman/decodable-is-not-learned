@@ -51,7 +51,11 @@ def seal_predictor(root=EXP2I) -> dict:
         raise RuntimeError(f"refusing: {len(missing)} rung(s) missing a draws+record "
                            f"pair: {missing}")
 
-    battery = bt.load_battery()
+    # freeze R-4: `bg.load_battery()` everywhere (it is `{r: bt
+    # .load_item_file(r) for r in bt.RUNGS}` — the same object this
+    # returned — but one loader name across the instrument means a
+    # future divergence cannot hide in the one module that differs).
+    battery = bg.load_battery()
     verify_fn = a2d.load_verify()
     counts = bi.sampler_counts_olmo(bt.RUNGS, root=root, battery=battery,
                                     verify_fn=verify_fn)

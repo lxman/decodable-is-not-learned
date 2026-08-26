@@ -38,7 +38,6 @@ if str(EXP2I.parent.parent) not in sys.path:
 
 from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
-from experiments.exp2d import stats_2d as st2d  # noqa: E402
 from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2i import analyze_2i as an  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
