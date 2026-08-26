@@ -61,6 +61,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -87,6 +88,12 @@ EXP3C = EXPERIMENTS / "exp3c"
 RESULTS = EXP2I / "results"
 HUB_INVENTORY_PATH = EXP2I / "hub_inventory_olmo.json"
 CHECKPOINTS_PATH = EXP2I / "checkpoints_2i.json"
+
+# checkpoints_2i.json's sha256 (Task 1's committed manifest, written by
+# `--manifest` from the committed inventory) — Task 3 imports this same
+# literal from here rather than re-deriving it, per ruling 2.
+CHECKPOINTS_2I_SHA256 = \
+    "029b1cca0529bba6da629229d8fd352c6f118d3eba7d82b4526170c65822325a"
 
 FAMILY = "olmo2"
 SIZE_PRED = "olmo1b"
@@ -741,6 +748,36 @@ PYTHIA_PREDICTOR_FILES = {
     ("410m", "sub4_mid"): "6ae4a2862b9b3ff94db73932f7d498263226827a7ba5a58c1ba64e237a00ecf2",
     ("410m", "sub_base8"): "9423aef5fb2357494500328b354f64bda331ef1b5d43bab4e187c496328ac0f2",
 }
+
+
+# --------------------------------------------------------- blob binding
+
+def blobs_bound(tag: str, paths, *, repo_root=REPO) -> list:
+    """2h's F-3 primitive, generalized to any tag/path set (ruling 3):
+    the subset of `paths` (relative to `repo_root`, the git top level
+    the tag's blobs are resolved against — `git rev-parse <tag>:<path>`
+    reads `<path>` relative to the repository root regardless of `cwd`,
+    verified empirically against a real temp repo) whose working-tree
+    blob (`git hash-object`) differs from the blob `tag` carries at
+    that path, or that the tag does not carry at all. Empty list =
+    every path is bound to the tag — both sides are content-addressed,
+    so no file bytes are read directly by this function on either
+    side. Used by `run/endpoint_2i.py` to bind the predictor seal
+    (`predictor_2i.json` + its draws files) to `PREDICTOR_SEAL_TAG`."""
+    repo_root = Path(repo_root)
+    drift = []
+    for rel in paths:
+        p = repo_root / rel
+        got = subprocess.run(["git", "hash-object", str(p)], cwd=repo_root,
+                             capture_output=True, text=True)
+        if got.returncode != 0:
+            drift.append(rel)
+            continue
+        want = subprocess.run(["git", "rev-parse", f"{tag}:{rel}"], cwd=repo_root,
+                              capture_output=True, text=True)
+        if want.returncode != 0 or want.stdout.strip() != got.stdout.strip():
+            drift.append(rel)
+    return drift
 
 
 def check_pythia_predictor_files() -> None:
