@@ -1,8 +1,9 @@
 # Experiment 2i — Design Doc: The Cross-Family Test — Is the Sampled Channel's Item Ordering Pythia's, or the Items'?
 
 **Status: session 1 (design) written 2026-08-25, at Exp 2h's closeout,
-on Michael's word ("design"); §9 dials await his ruling. Build and
-adversarial freeze follow the ruling. Model contact comes in three
+on Michael's word ("design"); §9 dials a–k RULED the same day ("dials
+approved" — every dial as recommended). Build (session 2) and the
+adversarial freeze (session 3) follow. Model contact comes in three
 locked stages after the tag (§7): the OLMo-2 1B sampled counts
 (sealed), the OLMo-2 7B stage-1 endpoint (sealed, fixes the rung set
 and the power record), then the 7B checkpoint sweep. No OLMo model has
@@ -288,7 +289,7 @@ and only on his word.
   nothing.
 - **Both** (this design): contains both, one sweep.
 
-## 9. Dials — for Michael's ruling
+## 9. Dials — RULED by Michael 2026-08-25 ("dials approved"): every dial as recommended — a OLMo-2 1B → 7B; b stage 1 only, `main` descriptive; c the 21-point grid; d x_B at the 1B's stage-1 endpoint; e x_A's zero cut; f R_∩ with extra rungs raw; g .10 / .01; h reverse-direction descriptives printed; i Mac for every stage; j the 40-item preflight on his word; k licences as §6
 
 a. **Family and sizes** — OLMo-2 1B (predictor) → OLMo-2 7B (outcome)
    (recommended: fp16 7B fits the Mac at 6.9b's cost; 928 stage-1
