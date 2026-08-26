@@ -169,6 +169,14 @@ def test_gate1_failures_7b_bit_diff():
     assert any("antonym" in f and "bit diff" in f for f in fails)
 
 
+def test_gate1_failures_7b_continuation_diff():
+    bad = _gate_rec()
+    bad["continuation_diffs"] = dict(bad["continuation_diffs"])
+    bad["continuation_diffs"]["antonym"] = 2
+    fails = an.gate1_failures_7b(bad, _endpoint_stub_records())
+    assert any("antonym" in f and "continuation diffs" in f for f in fails)
+
+
 def test_gate1_failures_7b_digest_mismatch():
     bad = _gate_rec(digest_endpoint="e" * 64)
     assert any("digest" in f for f in an.gate1_failures_7b(bad, _endpoint_stub_records()))

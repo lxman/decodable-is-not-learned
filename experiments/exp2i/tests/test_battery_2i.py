@@ -399,6 +399,29 @@ def test_manifest_on_disk_matches_a_fresh_build():
     assert reloaded == fresh
 
 
+def test_build_manifest_refuses_duplicate_signature_among_grid_points():
+    """The real committed inventory has no duplicate among its 21 grid
+    points (`test_build_manifest_from_committed_inventory`'s own
+    `final_duplicates == []`/distinct-signatures assertions), so the
+    refusal branch (`if step != ENDPOINT_STEP_7B and same:`) is never
+    exercised by that test — only by a genuinely duplicated pair,
+    built here by copying one grid revision's file dict onto another's
+    (mutation harness mutant 2)."""
+    import copy
+    inv = copy.deepcopy(bi.load_inventory())
+    steps = [s for s in bi.GRID_7B if s != bi.ENDPOINT_STEP_7B][:2]
+    revs = {}
+    for rev in inv[bi.REPO_7B]:
+        m = bi._STAGE1_RE.fullmatch(rev)
+        if m and int(m.group(1)) in steps:
+            revs[int(m.group(1))] = rev
+    assert set(revs) == set(steps)
+    rev_a, rev_b = revs[steps[0]], revs[steps[1]]
+    inv[bi.REPO_7B][rev_b]["files"] = dict(inv[bi.REPO_7B][rev_a]["files"])
+    with pytest.raises(ValueError, match="duplicate"):
+        bi.build_manifest(inv)
+
+
 def test_write_load_manifest_roundtrip(tmp_path):
     inv = bi.load_inventory()
     manifest = bi.build_manifest(inv)

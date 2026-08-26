@@ -66,6 +66,46 @@ def test_power_at_runs_through_fires_2i():
     assert r["p_fires"] > 0.5
 
 
+def test_one_calls_the_shared_fires_2i(monkeypatch):
+    """Ruling 9: one firing-rule implementation. A spy on `an.fires_2i`
+    (the name `pw._one` calls through, `power_2i.an` being the same
+    `analyze_2i` module object) proves `_one` delegates rather than
+    re-deriving its own close-but-not-identical boundary check —
+    numerically-close boundary mutants of the local re-derivation are
+    otherwise nearly unreachable at random-simulation N."""
+    calls = []
+
+    def spy(prim):
+        calls.append(prim)
+        return True
+
+    monkeypatch.setattr(pw.an, "fires_2i", spy)
+    strata, x_real, n_pos = _setup()
+    n_steps = bi.n_trained_7b()
+    rng = np.random.default_rng(0)
+    fires, strat = pw._one(rng, 0.5, strata, x_real, n_pos, R_SMALL, n_perm=50,
+                           n_steps=n_steps)
+    assert calls == [{"stratified": strat}]
+    assert fires is True
+
+
+def test_declared_status_boundary_is_inclusive(monkeypatch):
+    """`declared_status` must read POWERED at `declare_p == BAR` exactly
+    (`>=`, not `>`) — a boundary random simulation essentially never
+    lands on, so it is pinned directly via a fixed `power_at`/
+    `calibrate_rho` stand-in rather than hoped for from N simulated
+    draws."""
+    strata, x_real, n_pos = _setup()
+    n_steps = bi.n_trained_7b()
+    monkeypatch.setattr(pw, "D_TARGETS", (pw.DECLARE_AT,))
+    monkeypatch.setattr(pw, "calibrate_rho", lambda *a, **k: 0.5)
+    monkeypatch.setattr(pw, "power_at", lambda *a, **k: {
+        "p_fires": pw.BAR, "p_detect": 0.0, "mean_T": 0.0, "sd_T": 0.0,
+        "n_sim": 1, "n_perm": 1, "rho": 0.5, "Ts": [0.0]})
+    rec = pw._one_test_power(strata, x_real, n_pos, R_SMALL, n_steps=n_steps)
+    assert rec["declared_status"] == "POWERED"
+
+
 def test_rank_to_count_direction():
     c = pw._ranks_to_counts([10, 20, 30, 40], 21)
     assert c[10] == 21

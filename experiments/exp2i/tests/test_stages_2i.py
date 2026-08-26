@@ -241,6 +241,30 @@ def test_sample_writes_rows_2d_format_skip_if_exists_and_counts(tmp_path):
            loaders={"olmo1b": boom_loader}, sampler=boom_sampler, **_prereg())
 
 
+def test_run_sampling_rung_skip_if_exists_direct(tmp_path):
+    """`run()`'s OWN pending check (asserted above) short-circuits
+    BEFORE `run_sampling_rung` is ever called when nothing is pending
+    — it never exercises `run_sampling_rung`'s own skip-if-exists
+    branch (`if out.exists() and dpath.exists():`), only reachable via
+    a direct call, e.g. a rung left over from a prior crashed run
+    within an otherwise-still-pending `rungs` list."""
+    rec = {"rung": "antonym", "correct": 1}
+    out = bi.predictor_record_path(tmp_path, "antonym")
+    dpath = bi.predictor_draws_path(tmp_path, "antonym")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(rec))
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    dpath.write_bytes(b"")
+
+    def boom(*a, **k):
+        raise AssertionError("must not sample when both files already exist")
+
+    got = smp.run_sampling_rung("antonym", out_root=tmp_path,
+                                model_ctx=("tok", "model", {}, "commit"),
+                                verify_fn=lambda *a: True, sampler=boom)
+    assert got == rec
+
+
 def test_sample_default_rungs_is_bt_rungs(tmp_path, monkeypatch):
     monkeypatch.setattr(bt, "RUNGS", ("antonym",))
     got = []
