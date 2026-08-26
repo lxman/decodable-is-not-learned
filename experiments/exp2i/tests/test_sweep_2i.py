@@ -134,13 +134,17 @@ def _loaders(*, entry_stage1, gate_frac=0.5, digest_gate="Dend", commit_gate=Non
     def runner_factory(tok, model):
         state["calls"].append(model.d)
         rev = model.d[2:]
-        if rev == entry_stage1["revision"]:
-            return FakeRunner(_amap_and_battery()[1], gate_frac)
-        if rev == "twin":
-            frac = frac_by_revision.get("twin", 0.0)
-            return FakeRunner(_amap_and_battery()[1], frac)
+        # `raise_at_revision` applies to WHICHEVER revision it names —
+        # gate, twin or a grid step — a superset of the earlier
+        # grid-only behavior (no prior test names the gate's/twin's
+        # own revision, so this is additive).
         raise_call = (raise_at_revision[1] if raise_at_revision is not None and
                      raise_at_revision[0] == rev else None)
+        if rev == entry_stage1["revision"]:
+            return FakeRunner(_amap_and_battery()[1], gate_frac, raise_at_call=raise_call)
+        if rev == "twin":
+            frac = frac_by_revision.get("twin", 0.0)
+            return FakeRunner(_amap_and_battery()[1], frac, raise_at_call=raise_call)
         return FakeRunner(_amap_and_battery()[1], frac_by_revision.get(rev, 0.1),
                           raise_at_call=raise_call)
 
@@ -281,6 +285,56 @@ def test_gate1_record_matches_analyzer_rederivation(tmp_path, monkeypatch):
     assert g["prereg_tag"] == bi.PREREG_TAG
 
 
+def test_gate1_mid_loop_exception_releases_and_writes_nothing_then_resumes(
+        tmp_path, monkeypatch):
+    """Review finding 7: a mid-rung exception during gate 1's OWN
+    evaluation loop is a CRASH, not a gate FAILURE — `gate1_failures_7b`
+    never runs, so nothing it could produce (a HALTED marker) is
+    written either. Gate 1's writes are atomic (ruling 2: records,
+    then the checkpoint record, then gate1.json, all after the loop
+    completes, or none of them at all) — so a mid-loop crash leaves NO
+    partial record, no checkpoint record, no gate1.json, no HALTED
+    marker; the model is released and the checkpoint cache freed
+    regardless. A clean re-run (the same loaders, no longer raising)
+    then succeeds from scratch — gate 1 has no PER-RUNG persistence to
+    resume from the way the grid steps/twin do (their skip-if-exists
+    is at the rung grain), so 'resumes' here means the overall sweep
+    recovers cleanly and completes, not that individual gate-1 rungs
+    are individually skipped."""
+    _shrink_grid(monkeypatch, (1000, bi.ENDPOINT_STEP_7B))
+    setup = _setup_seals(tmp_path, gate_frac=0.5, digest="Dend")
+    gate_rev = setup["entry_stage1"]["revision"]
+    loaders, state = _loaders(entry_stage1=setup["entry_stage1"], gate_frac=0.5,
+                              digest_gate="Dend", commit_gate=setup["commit_stage1"],
+                              frac_by_revision={"twin": 0.0},
+                              raise_at_revision=(gate_rev, 10))
+
+    with pytest.raises(RuntimeError, match="boom"):
+        sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
+              **_prereg())
+
+    assert gate_rev in state["freed"]                       # released + freed
+    assert not bi.gate1_path(tmp_path).exists()              # no gate1.json
+    assert not bi.halt_marker_path(tmp_path).exists()         # not a gate failure
+    assert not bi.checkpoint_record_path(tmp_path, bi.ENDPOINT_STEP_7B).exists()
+    for r in bt.RUNGS:
+        assert not bi.record_path(tmp_path, bi.ENDPOINT_STEP_7B, r).exists()
+
+    loaders2, state2 = _loaders(entry_stage1=setup["entry_stage1"], gate_frac=0.5,
+                                digest_gate="Dend", commit_gate=setup["commit_stage1"],
+                                frac_by_revision={"twin": 0.0})
+    sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders2,
+          **_prereg())
+    assert bi.gate1_path(tmp_path).is_file()
+    assert an.gate1_failures_7b(
+        json.loads(bi.gate1_path(tmp_path).read_text()),
+        {r: json.loads(bi.endpoint_record_path(tmp_path, "stage1_final", r).read_text())
+        for r in bt.RUNGS}) == []
+    for r in bt.RUNGS:
+        assert bi.record_path(tmp_path, bi.ENDPOINT_STEP_7B, r).exists()
+        assert bi.record_path(tmp_path, bi.TWIN, r).exists()
+
+
 # ------------------------------------------------------------- the sweep
 
 def test_full_fake_sweep_writes_gate1_twin_grid_and_resumes(tmp_path, monkeypatch):
@@ -347,6 +401,104 @@ def test_mid_step_exception_frees_the_checkpoint(tmp_path, monkeypatch):
     assert bi.record_path(tmp_path, bi.TWIN, "antonym").exists()
     n_step1000 = sum(1 for r in bt.RUNGS if bi.record_path(tmp_path, 1000, r).exists())
     assert n_step1000 < len(bt.RUNGS)
+    # review finding 1: the checkpoint record is written AFTER the
+    # rung loop now (matching run_gate1's own order) — a step left
+    # partial by a mid-loop exception must not have one on disk.
+    assert not bi.checkpoint_record_path(tmp_path, 1000).exists()
+
+
+def test_checkpoint_record_written_only_once_all_rung_records_exist(tmp_path, monkeypatch):
+    """Review finding 1, the positive side: `run_step`'s checkpoint
+    record appears only after all 34 rung records do — verified by
+    running with SIX of the real 34 rungs pre-populated on disk (a
+    step left over from a prior, still-incomplete run) and a fake
+    checkpoint loader that raises if the record already exists at the
+    moment the checkpoint-record write is attempted, catching an
+    early (pre-loop) write immediately rather than merely asserting
+    absence afterward."""
+    _shrink_grid(monkeypatch, (1000, bi.ENDPOINT_STEP_7B))
+    setup = _setup_seals(tmp_path, gate_frac=0.5, digest="Dend")
+    entry_1000 = bi.entry_7b(setup["manifest"], 1000)
+    for r in bt.RUNGS[:6]:
+        p = bi.record_path(tmp_path, 1000, r)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps({"rung": r, "step": 1000}))
+    loaders, state = _loaders(entry_stage1=setup["entry_stage1"], gate_frac=0.5,
+                              digest_gate="Dend", commit_gate=setup["commit_stage1"],
+                              frac_by_revision={"twin": 0.0})
+
+    seen_early = []
+
+    real_checkpoint = loaders["checkpoint"]
+
+    def checking_checkpoint(entry, cache_root, device):
+        if entry["revision"] == entry_1000["revision"]:
+            seen_early.append(bi.checkpoint_record_path(tmp_path, 1000).exists())
+        return real_checkpoint(entry, cache_root, device)
+
+    loaders["checkpoint"] = checking_checkpoint
+
+    sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
+          **_prereg())
+
+    assert seen_early == [False]     # not present at load time (before the loop)
+    assert bi.checkpoint_record_path(tmp_path, 1000).is_file()
+    for r in bt.RUNGS:
+        assert bi.record_path(tmp_path, 1000, r).exists()
+    rec = json.loads(bi.checkpoint_record_path(tmp_path, 1000).read_text())
+    assert rec["step"] == 1000 and "download_seconds" in rec
+
+
+def test_download_seconds_excludes_rung_eval_time(tmp_path, monkeypatch):
+    """Review finding 1: `download_seconds` must mean the SAME thing
+    on both `run_gate1` and `run_step` — the checkpoint's own
+    load time, not load+eval — even though the record housing it is
+    now written AFTER the eval loop on both paths. A real (small)
+    sleep in the fake checkpoint loader plus a real (small) sleep per
+    rung in the runner gives a wall-clock gap wide enough (~4x) to be
+    robust against ordinary CI jitter without waiting long."""
+    import time as _time_mod
+    _shrink_grid(monkeypatch, (1000, bi.ENDPOINT_STEP_7B))
+    setup = _setup_seals(tmp_path, gate_frac=0.5, digest="Dend")
+    loaders, state = _loaders(entry_stage1=setup["entry_stage1"], gate_frac=0.5,
+                              digest_gate="Dend", commit_gate=setup["commit_stage1"],
+                              frac_by_revision={"twin": 0.0})
+
+    real_checkpoint = loaders["checkpoint"]
+
+    def slow_checkpoint(entry, cache_root, device):
+        if entry["revision"] != setup["entry_stage1"]["revision"]:
+            _time_mod.sleep(0.25)
+        return real_checkpoint(entry, cache_root, device)
+
+    real_runner = loaders["runner"]
+
+    def slow_runner(tok, model):
+        r = real_runner(tok, model)
+        if model.d[2:] not in (setup["entry_stage1"]["revision"], "twin"):
+            orig_generate = r.generate
+
+            def slow_generate(prompts, max_new_tokens):
+                _time_mod.sleep(0.02)
+                return orig_generate(prompts, max_new_tokens)
+            r.generate = slow_generate
+        return r
+
+    loaders["checkpoint"] = slow_checkpoint
+    loaders["runner"] = slow_runner
+
+    t_start = _time_mod.perf_counter()
+    sw.run(out_root=tmp_path, cache_root=tmp_path / "c", device="cpu", loaders=loaders,
+          **_prereg())
+    wall = _time_mod.perf_counter() - t_start
+
+    rec = json.loads(bi.checkpoint_record_path(tmp_path, 1000).read_text())
+    # ~0.25 s of checkpoint-load sleep vs. ~0.68 s (34 x 0.02 s) of
+    # additional eval sleep on top of it for this one step alone —
+    # download_seconds must land near the former, nowhere near a
+    # combined figure, and nowhere near the run's total wall time.
+    assert rec["download_seconds"] < 0.6
+    assert wall > 0.8
 
 
 def test_free_checkpoint_key_matches_download_key(tmp_path, monkeypatch):

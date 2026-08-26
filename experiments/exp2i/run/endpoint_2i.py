@@ -46,6 +46,7 @@ from experiments.exp2g.run.sweep_2g import evaluate_items  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
 from experiments.exp2i.run._common_2i import (  # noqa: E402
     assert_provenance as _assert_provenance,
+    ckpt_of,
     git_sha as _git_sha,
     release as _release,
     stack as _stack,
@@ -193,12 +194,7 @@ def run(*, root=EXP2I, device="mps", loaders=None, dry_run=False,
         model, tok, info = loaders["olmo7b"](commit, device)
         try:
             runner = loaders["runner"](tok, model)
-            ckpt = {"revision": entry.get("revision", which), "commit": commit,
-                    "kind": entry.get("kind", "thin-loader"),
-                    "files": list(entry.get("files", [])),
-                    "weight_sha256": info.get("tensor_digest"),
-                    "config_source": f"{bi.REPO_7B}@{commit}",
-                    "tokenizer_source": f"{bi.REPO_7B}@{commit}"}
+            ckpt = ckpt_of(entry, info, revision_fallback=which)
             for rung in rungs:
                 p = bi.endpoint_record_path(root, which, rung)
                 if p.exists():

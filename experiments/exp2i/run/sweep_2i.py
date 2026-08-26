@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -60,6 +61,8 @@ from experiments.exp2i.analyze_2i import (  # noqa: E402
 )
 from experiments.exp2i.run._common_2i import (  # noqa: E402
     assert_provenance as _assert_provenance,
+    checkpoint_record,
+    ckpt_of,
     git_sha as _git_sha,
     release as _release,
     stack as _stack,
@@ -118,7 +121,6 @@ def _require_endpoint_seal(root, *, blobs_bound=None, repo_root=None) -> None:
                            f"{bi.power_path(root)}) is not complete — the sweep runs "
                            f"only after {bi.ENDPOINT_SEAL_TAG!r} is cut")
     blobs_bound = blobs_bound or bi.blobs_bound
-    import os
     rr = Path(repo_root) if repo_root is not None else bi.REPO
     prefix = os.path.relpath(Path(root), rr)
     rel_paths = [os.path.normpath(os.path.join(prefix, p))
@@ -158,10 +160,13 @@ def run_gate1(*, out_root, manifest, cache_root, device, battery, verify_fn, sea
         model, info = loaders["checkpoint"](entry, cache_root, device)
         tok = loaders["tokenizer"](entry["commit"])
         runner = loaders["runner"](tok, model)
-        ckpt = {"revision": entry["revision"], "commit": info.get("commit", entry["commit"]),
-               "kind": entry["kind"], "files": list(entry["files"]),
-               "weight_sha256": info["tensor_digest"], "config_source": info["config_source"],
-               "tokenizer_source": f"{bi.REPO_7B}@{entry['commit']}"}
+        ckpt = ckpt_of(entry, info)
+        # download_seconds means the SAME thing on every path in this
+        # module (review finding 1): time to load the checkpoint,
+        # captured here, BEFORE the 34-rung eval loop — not the
+        # combined download+eval time the write-after-loop ordering
+        # below would otherwise measure.
+        download_seconds = time.time() - t0
         recs, bit_diffs, cont_diffs, cont_n = {}, {}, {}, {}
         for r in rungs:
             ev = evaluate_items(runner, battery[r], verify_fn)
@@ -190,10 +195,8 @@ def run_gate1(*, out_root, manifest, cache_root, device, battery, verify_fn, sea
     for r in rungs:
         _write(bi.record_path(out_root, bi.ENDPOINT_STEP_7B, r), recs[r])
     _write(bi.checkpoint_record_path(out_root, bi.ENDPOINT_STEP_7B),
-          {"family": bi.FAMILY, "size": bi.SIZE_OUT, "step": bi.ENDPOINT_STEP_7B,
-           "revision": entry["revision"], "commit": ckpt["commit"],
-           "sha256": dict(info.get("sha256", {})), "loading_info": info.get("loading_info"),
-           "digest": ckpt["weight_sha256"], "download_seconds": round(time.time() - t0, 1)})
+          checkpoint_record(step_or_which=bi.ENDPOINT_STEP_7B, ckpt=ckpt, info=info,
+                            seconds=download_seconds))
     _write(bi.gate1_path(out_root), gate_rec)
 
     bad = gate1_failures_7b(gate_rec, stage1_final)
@@ -222,7 +225,7 @@ def run_twin(*, out_root, device, manifest, battery, verify_fn, seal, loaders) -
                "weight_sha256": info["tensor_digest"], "config_source": info["config_source"],
                "tokenizer_source": f"{bi.REPO_7B}@{entry['config_commit']}"}
         _write(bi.checkpoint_record_path(out_root, bi.TWIN),
-              {"family": bi.FAMILY, "size": bi.SIZE_OUT, "step": "twin", "revision": "twin",
+              {"family": bi.FAMILY, "size": bi.SIZE_OUT, "step": bi.TWIN, "revision": "twin",
                "commit": None, "kind": "from_config", "seed": bi.TWIN_SEED,
                "digest": info["tensor_digest"], "config_source": info["config_source"]})
         for rung in bt.RUNGS:
@@ -253,15 +256,12 @@ def run_step(step, *, out_root, manifest, cache_root, device, battery, verify_fn
         model, info = loaders["checkpoint"](entry, cache_root, device)
         tok = loaders["tokenizer"](entry["commit"])
         runner = loaders["runner"](tok, model)
-        ckpt = {"revision": entry["revision"], "commit": info.get("commit", entry["commit"]),
-               "kind": entry["kind"], "files": list(entry["files"]),
-               "weight_sha256": info["tensor_digest"], "config_source": info["config_source"],
-               "tokenizer_source": f"{bi.REPO_7B}@{entry['commit']}"}
-        _write(bi.checkpoint_record_path(out_root, step),
-              {"family": bi.FAMILY, "size": bi.SIZE_OUT, "step": int(step),
-               "revision": entry["revision"], "commit": ckpt["commit"],
-               "sha256": dict(info.get("sha256", {})), "loading_info": info.get("loading_info"),
-               "digest": ckpt["weight_sha256"], "download_seconds": round(time.time() - t0, 1)})
+        ckpt = ckpt_of(entry, info)
+        # download_seconds captured here (before the loop) so it means
+        # the SAME thing as run_gate1's — review finding 1; the RECORD
+        # itself is written after the loop (below), matching
+        # run_gate1's own records -> checkpoint record order.
+        download_seconds = time.time() - t0
         for rung in bt.RUNGS:
             p = bi.record_path(out_root, step, rung)
             if p.exists():
@@ -271,6 +271,9 @@ def run_step(step, *, out_root, manifest, cache_root, device, battery, verify_fn
                                  cap=battery[rung], ev=ev, ckpt=ckpt, seal=seal, t_s=0.0)
             _write(p, rec)
             print(f"[2i sweep] step{step}/{rung}: {rec['correct']}/{rec['n']}", flush=True)
+        _write(bi.checkpoint_record_path(out_root, step),
+              checkpoint_record(step_or_which=int(step), ckpt=ckpt, info=info,
+                                seconds=download_seconds))
     finally:
         _release(model)
         loaders["free"](entry["revision"], cache_root)

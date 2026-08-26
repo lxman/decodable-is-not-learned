@@ -5,7 +5,25 @@ provenance/lifecycle checks with no experiment-specific logic, factored
 out here because they were byte-identical across the three (Task 2
 review finding 1). `write_draws` stays copied verbatim in `sample_2i
 .py` (ruling 6) — that one is deliberately NOT shared, and is
-drift-tested against its exp3 source instead."""
+drift-tested against its exp3 source instead.
+
+`ckpt_of`/`checkpoint_record` (Task 4 review finding 2) factor out the
+`ckpt` dict and the on-disk checkpoint-record dict that were
+byte-for-byte duplicated between `sweep_2i.py`'s `run_gate1`/`run_step`
+and (for `ckpt_of` only) `endpoint_2i.py`'s per-`which` loop.
+`ckpt_of` reconciles the two loader-info shapes it's fed: `battery_2i
+.load_checkpoint`'s (which always carries its own `config_source`) and
+`load_thin`'s (which does not — `endpoint_2i.py` built `config_source`
+by hand from `commit`; the fallback here reproduces that construction
+exactly rather than assuming the field is always present). Every
+field's value is unchanged from what each caller computed before this
+factor — verified caller by caller, not merely by shape. The
+from_config TWIN's `ckpt`/checkpoint-record construction in `sweep_2i
+.run_twin` stays bespoke (not routed through either helper): its shape
+genuinely differs (`commit=None`, `kind="from_config"`, a tokenizer
+source keyed by `config_commit` not `commit`, no `sha256`/
+`loading_info`/`download_seconds`), and the review's finding named
+only `run_gate1`/`run_step` as the duplicated pair."""
 
 from __future__ import annotations
 
@@ -53,3 +71,38 @@ def release(model) -> None:
             torch.mps.empty_cache()
     except Exception:      # noqa: BLE001 — fakes
         pass
+
+
+def ckpt_of(entry: dict, info: dict, *, revision_fallback=None) -> dict:
+    """The `ckpt` dict `item_record_2i` consumes, built identically to
+    what `sweep_2i.run_gate1`/`run_step` and `endpoint_2i.run`'s
+    per-`which` loop each built inline before this factor. `commit` is
+    read from `info` (present and equal to `entry["commit"]` on every
+    real loader path) falling back to `entry` itself; `config_source`
+    prefers `info`'s own (`load_checkpoint`'s candidate-file path
+    always sets one) and otherwise reconstructs `endpoint_2i.py`'s
+    exact `f"{REPO_7B}@{commit}"` fallback (`load_thin`'s path never
+    sets one). `revision_fallback` reproduces `endpoint_2i.py`'s own
+    defensive `entry.get("revision", which)` default for a manifest
+    entry that happens to omit `revision`; `sweep_2i.py`'s callers
+    never pass it (their entries always carry one)."""
+    commit = info.get("commit", entry.get("commit"))
+    config_source = info.get("config_source") or f"{bi.REPO_7B}@{commit}"
+    return {"revision": entry.get("revision", revision_fallback), "commit": commit,
+           "kind": entry.get("kind", "thin-loader"),
+           "files": list(entry.get("files", [])),
+           "weight_sha256": info.get("tensor_digest"),
+           "config_source": config_source,
+           "tokenizer_source": f"{bi.REPO_7B}@{commit}"}
+
+
+def checkpoint_record(*, step_or_which, ckpt: dict, info: dict, seconds: float) -> dict:
+    """The on-disk `checkpoint_record_path` payload — the shape
+    `sweep_2i.run_gate1`/`run_step` each wrote inline before this
+    factor (`run_twin`'s own checkpoint record stays bespoke — see the
+    module docstring). `step_or_which` is stored verbatim under
+    `"step"`; the caller owns any int()/`bi.TWIN` normalization."""
+    return {"family": bi.FAMILY, "size": bi.SIZE_OUT, "step": step_or_which,
+           "revision": ckpt["revision"], "commit": ckpt["commit"],
+           "sha256": dict(info.get("sha256", {})), "loading_info": info.get("loading_info"),
+           "digest": ckpt["weight_sha256"], "download_seconds": round(seconds, 1)}

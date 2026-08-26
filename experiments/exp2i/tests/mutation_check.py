@@ -5,16 +5,18 @@ power_2i, run/sample_2i, run/endpoint_2i, run/seal_2i, run/sweep_2i
 exp3/exp3c modules it imports/mirrors have their own mutation
 batteries and are not re-targeted here). Categories per Task 4's
 ruling 6: grid/revision, candidate/signature refusal, tokenizer
-asserts, rung-set bar, composite-strata bucket, firing rule
-boundaries, world table, gate-1 coverage, a representative slice of
-totality (`collect_total` stripped at a call site — not literally
-every one of run()'s ~27 sites; the ones covered are the ones a
-dedicated `test_totality_2i.py` world already exercises as a failure,
-so a stripped wrapper is guaranteed reachable and killable — disclosed
-scope reduction, not the full site count), seal/prereg refusals,
-runner order/halt/free, sampling row format, power write-once,
-fires_2i shared. Mutates sources IN PLACE and restores them — run
-alone, detached (nohup), never under a foreground timeout."""
+asserts, rung-set bar, composite-strata bucket, firing-rule boundaries
+(p/T, plus the `named_inside_2i` sign branch — distinct from the
+world-table swap below, corrected wording per review round 1 finding
+3), world table (`verdict_tree_2i`'s SHARED/LINEAGE swap), gate-1
+coverage, TOTALITY AT EVERY `collect_total` CALL SITE in `run()`
+(review round 1 finding 4 — generated programmatically, below, one
+mutant per site via AST source-segment extraction; NOT a hand-picked
+subset), seal/prereg refusals, runner order/halt/free, sampling row
+format, power write-once, `fires_2i` shared. Mutates sources IN PLACE
+and restores them — run alone, detached (nohup), never under a
+foreground timeout."""
+import ast
 import os
 import shutil
 import subprocess
@@ -30,6 +32,43 @@ SM = I / "run/sample_2i.py"
 EP = I / "run/endpoint_2i.py"
 SL = I / "run/seal_2i.py"
 SW = I / "run/sweep_2i.py"
+
+
+def _totality_mutants(path: Path) -> list:
+    """One mutant per `collect_total(thunk, label)` call site in
+    `path`'s source (review finding 4 — every site, not a hand-picked
+    subset). Found via the AST rather than a regex, so multi-line
+    lambda/ternary/generator-throw thunks are captured exactly as
+    written: any `Call` node whose function is named `collect_total`
+    (bare name or `mod.collect_total`) is replaced, VERBATIM at that
+    exact source span, by `(thunk(), [])` — a plain tuple that still
+    unpacks correctly wherever the call site reads `NAME, f =
+    collect_total(...)`, but calls the thunk directly, uncaught, and
+    reports zero failures regardless of what the thunk does. A site
+    whose thunk is not a lambda/bare-callable (none in this file) or
+    whose exact text is not unique in the source is skipped by main()'s
+    own `count(old) != 1` guard, printed as a surviving SKIP rather
+    than silently omitted."""
+    src = path.read_text()
+    tree = ast.parse(src)
+    out = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        func = node.func
+        name = (func.id if isinstance(func, ast.Name) else
+                func.attr if isinstance(func, ast.Attribute) else None)
+        if name != "collect_total" or not node.args:
+            continue
+        full = ast.get_source_segment(src, node)
+        thunk = ast.get_source_segment(src, node.args[0])
+        if full is None or thunk is None:
+            continue
+        out.append((path, f"run(): totality — collect_total stripped at line "
+                          f"{node.lineno} ({thunk.splitlines()[0][:60]}...)",
+                   full, f"(({thunk})(), [])"))
+    return out
+
 
 M = [
     # -------------------------------------------------------- battery_2i.py
@@ -113,66 +152,12 @@ M = [
     (AN, "_degenerate_rungs: single-value-per-stratum drop rule inert",
      "        if all(len(vals) < 2 for vals in by_stratum.values()):",
      "        if False:"),
-    (AN, "run(): totality — predictor seal content no longer behind a refusal",
-     '    predictor_rec, f = collect_total(lambda: _load_predictor_seal_content(root),\n'
-     '                                     "predictor seal content")\n'
-     '    failures += f',
-     '    predictor_rec = (lambda: _load_predictor_seal_content(root))()\n'
-     '    f = []\n'
-     '    failures += f'),
-    (AN, "run(): totality — rung set no longer behind a refusal",
-     '    rung_set, f = collect_total(lambda: _load_rung_set(root), "rung set")\n'
-     '    failures += f',
-     '    rung_set = (lambda: _load_rung_set(root))()\n'
-     '    f = []\n'
-     '    failures += f'),
-    (AN, "run(): totality — power record no longer behind a refusal",
-     '    power, f = collect_total(lambda: _load_power(root), "power record")\n'
-     '    failures += f',
-     '    power = (lambda: _load_power(root))()\n'
-     '    f = []\n'
-     '    failures += f'),
-    (AN, "run(): totality — gate1.json parse no longer behind a refusal",
-     '        gate1, f = collect_total(lambda: json.loads(g1p.read_text()),\n'
-     '                                 "gate 1 olmo7b record")\n'
-     '        failures += f',
-     '        gate1 = (lambda: json.loads(g1p.read_text()))()\n'
-     '        f = []\n'
-     '        failures += f'),
-    (AN, "run(): totality — stage1_final endpoint load no longer behind a refusal",
-     '    stage1_final, f = collect_total(\n'
-     '        lambda: load_endpoint_which(root, "stage1_final", battery, verify_fn,\n'
-     '                                    entry=entry_stage1,\n'
-     '                                    predictor_sha=predictor_rec["sha256"])\n'
-     '        if _stage1_ready else\n'
-     '        (_ for _ in ()).throw(ValueError("battery, verify criterion, predictor "\n'
-     '                                         "seal or manifest entry missing")),\n'
-     '        "endpoint stage1_final")\n'
-     '    failures += f',
-     '    stage1_final = (\n'
-     '        lambda: load_endpoint_which(root, "stage1_final", battery, verify_fn,\n'
-     '                                    entry=entry_stage1,\n'
-     '                                    predictor_sha=predictor_rec["sha256"])\n'
-     '        if _stage1_ready else\n'
-     '        (_ for _ in ()).throw(ValueError("battery, verify criterion, predictor "\n'
-     '                                         "seal or manifest entry missing")))()\n'
-     '    f = []\n'
-     '    failures += f'),
-    (AN, "run(): totality — sweep load no longer behind a refusal",
-     '    sweep, f = collect_total(\n'
-     '        lambda: load_sweep_7b(root, battery, verify_fn, manifest=manifest,\n'
-     '                              predictor_sha=predictor_rec["sha256"]) if _sweep_ready\n'
-     '        else (_ for _ in ()).throw(ValueError("manifest, battery, verify criterion "\n'
-     '                                              "or predictor seal missing")),\n'
-     '        "sweep olmo7b")\n'
-     '    failures += f',
-     '    sweep = (\n'
-     '        lambda: load_sweep_7b(root, battery, verify_fn, manifest=manifest,\n'
-     '                              predictor_sha=predictor_rec["sha256"]) if _sweep_ready\n'
-     '        else (_ for _ in ()).throw(ValueError("manifest, battery, verify criterion "\n'
-     '                                              "or predictor seal missing")))()\n'
-     '    f = []\n'
-     '    failures += f'),
+    (AN, "named_inside_2i: sign branch flipped (T > 0 instead of T < 0)",
+     "    if T < 0:",
+     "    if T > 0:"),
+    # totality: EVERY collect_total(...) call site in analyze_2i.py's
+    # run(), generated programmatically below (review finding 4) —
+    # appended to M after this literal, not hand-picked here.
     # ------------------------------------------------------------ power_2i.py
     (PW, "main(): write-once guard inert (silently overwrites)",
      "    if out_path.exists():",
@@ -270,6 +255,12 @@ M = [
      "    drift = blobs_bound(bi.ENDPOINT_SEAL_TAG, rel_paths, repo_root=rr)\n    if drift:",
      "    drift = blobs_bound(bi.ENDPOINT_SEAL_TAG, rel_paths, repo_root=rr)\n    if False:"),
 ]
+
+# Review finding 4: one mutant per collect_total(...) call site in
+# analyze_2i.run() — not the six hand-picked ones from the first
+# round. `_totality_mutants` walks the real, current source at import
+# time, so this count tracks the file rather than a number typed here.
+M += _totality_mutants(AN)
 
 TESTS = [str(I / "tests")]
 DESELECT = ["--deselect", "experiments/exp2i/tests/test_full_shape_2i.py"]
