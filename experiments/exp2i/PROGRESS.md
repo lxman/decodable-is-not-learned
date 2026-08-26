@@ -1071,3 +1071,23 @@ minors), `6d1ee3e2` (3/5, unit + full-shape coverage), `246d0f3f`
 (4/5, totality coverage), `4dc54c58` (5/5, mutation harness). This
 ledger entry and its ratification status are a separate, final commit.
 Not pushed, per the task's standing instruction.
+
+## 2026-08-26 — ratification: doc slip (m)
+
+FREEZE_CHECKLIST.md item 20 / design §7's ratified wording: added the
+ONE sampled item to `run/preflight_2i.py` — antonym item 0, k=2 draws,
+seed 0, through exp3's frozen `sample_item`, the same call shape
+`sample_2i.run_sampling_rung` uses (`size=bi.SIZE_PRED`,
+`mode="trained"`, `seeds=(bi.SAMPLING_SEED,)`,
+`max_new_tokens=bt.max_new_tokens("antonym")`, `terminal_ids` from
+`tok.all_special_ids`). Injected through the existing `loaders=` dict
+(key `"sampler"`, default the real `sample_item` imported lazily).
+`real_loaders()`'s `olmo1b_main` now loads at `a2d.SAMPLING_DTYPE`
+(float32, was float16) so one model load serves both the greedy
+format check and the sampled item — the format check does not depend
+on dtype. TDD: `test_preflight_writes_nothing_under_results` extended
+with a fake sampler recording the call and asserting the two draws +
+verify bits print and nothing lands under `root/results`; RED then
+GREEN. Untouched: `battery_2i.py`, `analyze_2i.py`, `FROZEN_SHA256`,
+the tag binding — `preflight_2i.py` stays deliberately unpinned. Full
+suite green after the change: 284 passed, 0 warnings, 336.35s.

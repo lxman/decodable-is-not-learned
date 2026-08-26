@@ -2,13 +2,20 @@
 """Exp 2i preflight (design §7, dial j): the ONE sanctioned pre-tag
 model contact — OLMo-2 1B `main` on 2c's harness, 20 items each of
 `antonym` and `add3_mid`, a format check that the prompt renders, the
-model stops, and the normalizer parses what OLMo emits. Prints prompt
-tail + continuation + verify bit per item to STDOUT ONLY; nothing is
-stored anywhere the analyzer reads (design: "NOT stored anywhere the
-analyzer reads"). Asserts the tokenizer deltas live (left padding,
-OLMo's own pad id, no BOS — `battery_2i.check_tokenizer`) and, after
-running, that nothing under `root/results` was created by it (ruling
-9). Runs only on Michael's word.
+model stops, and the normalizer parses what OLMo emits. Also runs
+exp3's frozen `sample_item` once, on antonym item 0 (k=2, seed 0) —
+that sampler has never touched an OLMo-2 model, so a shape/API
+mismatch surfaces here rather than in stage 1's 7-9 h run (doc slip
+(m)); one model load, at the sampling stage's dtype
+(`a2d.SAMPLING_DTYPE`, float32), serves both parts, since the format
+check does not depend on dtype. Prints prompt tail + continuation +
+verify bit per item, and the two sampled draws + their verify bits,
+to STDOUT ONLY; nothing is stored anywhere the analyzer reads
+(design: "NOT stored anywhere the analyzer reads"). Asserts the
+tokenizer deltas live (left padding, OLMo's own pad id, no BOS —
+`battery_2i.check_tokenizer`) and, after running, that nothing under
+`root/results` was created by it (ruling 9). Runs only on Michael's
+word.
 
 Usage: python -m experiments.exp2i.run.preflight_2i
 """
@@ -47,7 +54,11 @@ def real_loaders() -> dict:
     from harness import HFRunner
 
     def olmo1b_main(commit, device):
-        return bi.load_thin(bi.REPO_1B, commit, device=device, dtype="float16")
+        # a2d.SAMPLING_DTYPE (float32) — one load serves both the greedy
+        # format check and the sampled item below; the format check does
+        # not depend on dtype.
+        return bi.load_thin(bi.REPO_1B, commit, device=device,
+                            dtype=a2d.SAMPLING_DTYPE)
 
     return {"olmo1b_main": olmo1b_main, "runner": lambda tok, model: HFRunner(tok, model)}
 
@@ -95,6 +106,29 @@ def run(*, root=EXP2I, device="mps", loaders=None,
                 tail = prompt[-80:].replace("\n", "\\n")
                 print(f"[2i preflight] {rung} …{tail!r} -> {cont!r} verify={bit}",
                       flush=True)
+
+        # ONE sampled item (design §7, ratified dial j / doc slip (m)):
+        # antonym item 0, k=2 draws, seed 0, through exp3's frozen
+        # sampler — the same call shape sample_2i.run_sampling_rung
+        # uses. Exercised here, before the tag, because that sampler
+        # has never touched an OLMo-2 model.
+        sampler_fn = loaders.get("sampler")
+        if sampler_fn is None:
+            from experiments.exp3.sampler import sample_item
+            sampler_fn = sample_item
+        cap0 = bt.load_item_file("antonym")
+        shots0 = [tuple(s) for s in cap0["shots"]][:bt.N_SHOTS]
+        item0 = cap0["eval_items"][0]
+        prompt0 = render_prompt(item0["question"], shots0)
+        terminal_ids = tuple(sorted(set(tok.all_special_ids)))
+        got = sampler_fn(model, tok, prompt0, rung="antonym", size=bi.SIZE_PRED,
+                         mode="trained", item_idx=0, seeds=(bi.SAMPLING_SEED,),
+                         draws_per_seed=2, max_new_tokens=bt.max_new_tokens("antonym"),
+                         terminal_ids=terminal_ids)
+        for draw in got[bi.SAMPLING_SEED]:
+            bit = int(bool(verify_fn(draw, str(item0["answer"]), cap0["answer_type"])))
+            print(f"[2i preflight] sampled antonym item=0 seed={bi.SAMPLING_SEED} "
+                  f"-> {draw!r} verify={bit}", flush=True)
     finally:
         _release(model)
 

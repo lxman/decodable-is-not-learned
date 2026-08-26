@@ -647,8 +647,18 @@ def test_preflight_writes_nothing_under_results(tmp_path, capsys):
         for it in cap["eval_items"][:pf.N_ITEMS_PREFLIGHT]:
             amap[render_prompt(it["question"], shots)] = str(it["answer"])
 
+    sampler_calls = []
+
+    def fake_sampler(model, tok, prompt, *, rung, size, mode, item_idx, seeds,
+                     draws_per_seed, max_new_tokens, terminal_ids):
+        sampler_calls.append(dict(rung=rung, size=size, mode=mode,
+                                  item_idx=item_idx, seeds=seeds,
+                                  draws_per_seed=draws_per_seed))
+        return {seeds[0]: ["draw-a", "draw-b"]}
+
     loaders = {"olmo1b_main": lambda commit, device: (object(), FakeTok(), {}),
-              "runner": lambda tok, model: PreflightRunner(amap)}
+              "runner": lambda tok, model: PreflightRunner(amap),
+              "sampler": fake_sampler}
 
     # pre-existing, unrelated file under results/ — must survive untouched
     pre = Path(tmp_path) / "results" / "unrelated.txt"
@@ -663,6 +673,14 @@ def test_preflight_writes_nothing_under_results(tmp_path, capsys):
     assert written == []
     out = capsys.readouterr().out
     assert "verify=1" in out
+
+    # dial j's one sampled item: antonym item 0, k=2, seed 0, through
+    # exp3's frozen sample_item call shape (sample_2i.run_sampling_rung's
+    # own args, minus tier/budget specifics that don't apply here).
+    assert sampler_calls == [dict(rung="antonym", size=bi.SIZE_PRED, mode="trained",
+                                  item_idx=0, seeds=(bi.SAMPLING_SEED,),
+                                  draws_per_seed=2)]
+    assert "draw-a" in out and "draw-b" in out
 
 
 def test_preflight_checks_tokenizer(tmp_path):
