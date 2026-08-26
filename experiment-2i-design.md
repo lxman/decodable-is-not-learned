@@ -2,8 +2,17 @@
 
 **Status: session 1 (design) written 2026-08-25, at Exp 2h's closeout,
 on Michael's word ("design"); §9 dials a–k RULED the same day ("dials
-approved" — every dial as recommended). Build (session 2) and the
-adversarial freeze (session 3) follow. Model contact comes in three
+approved" — every dial as recommended). Build (session 2) done
+2026-08-25/26 (four tasks, each reviewed; opus whole-branch review
+found gate 1 attestation-only — closed); adversarial freeze (session
+3) worked 2026-08-26: F-1 THE CLASS DEFECT (the predictor stage's
+provenance attested, never measured), F-2 compressed-stream terminal,
+F-3 two unpinned producers, F-4 `_git_sha` total, F-5 power rungs ==
+R_CAP, all closed additively; cold battery suite 284, referents 11/11,
+worlds 12 → 5 terminals, totality 33/0 raised, verify fuzz 101,040/0,
+read sweep 1,968/0 unpinned, determinism ×3, mutation 118/118.
+Findings and doc slips (a)–(o) RATIFIED by Michael 2026-08-26 and
+applied in place; the tag follows. Model contact comes in three
 locked stages after the tag (§7): the OLMo-2 1B sampled counts
 (sealed), the OLMo-2 7B stage-1 endpoint (sealed, fixes the rung set
 and the power record), then the 7B checkpoint sweep. No OLMo model has
@@ -121,10 +130,29 @@ attestation (2h F-2), blob-bound tags (2h F-3). The deltas:
    (`stage1-step1907359-tokens4001B`, the same regime as the
    outcome), on all 34 rungs × 500 items, through exp3's sampler
    (2d's main-tier protocol: fp32, CPU-float32 softmax, committed
-   RNG substreams under a new namespace `exp2i`, every raw draw
+   RNG substreams — exp3's stream namespace, made distinct from every
+   committed stream by the size label `olmo1b`, which the stream
+   formula includes; the record stores the formula — every raw draw
    stored, verified through 3c's total wrapper). Committed and tagged
-   `exp2i-predictor-sealed` before any 7B weight loads. ≈ 1.09 M
-   draws; 2d's 1b main tier ran ≈ 6 h on the Mac, and OLMo's 100k
+   `exp2i-predictor-sealed` before any 7B weight loads. The frozen
+   verdict re-derives x_B's own provenance before using it (freeze
+   F-1, the class defect): each of the 34
+   `results/predictor/olmo1b/<rung>.json` records is checked against
+   the sha-pinned manifest and battery — the repo and revision
+   (`stage1-step1907359-tokens4001B`, never `main`), the commit, the
+   item file's sha256 AND the record's own answer column, the answer
+   type, 2c's `max_new_tokens`, and the sampling protocol (seed 0, 64
+   draws, T = 1.0, no truncation, fp32, exp3's stream namespace,
+   `mode = trained`, no untrained seed) — with the tallied draw count
+   required to be the full 32,000 per rung. `predictor_2i.json`'s
+   `sampling` block, which `run/seal_2i.py` writes from code
+   literals, is cross-checked against those 34 records rather than
+   taken on trust; and both the per-rung attested verified total and
+   the seal's own per-item `counts` are compared against x_B as the
+   analyzer re-derives it from the raw draws. `run/seal_2i.py`
+   applies the same check and refuses to seal a stage 1 that fails
+   it, so the refusal lands before the tag rather than months later.
+   ≈ 1.09 M draws; 2d's 1b main tier ran ≈ 6 h on the Mac, and OLMo's 100k
    vocabulary makes the per-step softmax ≈ 2× Pythia's, so 7–9 h.
 3. **The endpoint stage.** OLMo-2 7B's stage-1 endpoint
    (`stage1-step928646-tokens3896B`) AND `main` (the stage-2 soup —
@@ -151,7 +179,11 @@ attestation (2h F-2), blob-bound tags (2h F-3). The deltas:
 5. **Gate 1** = the endpoint reproduced through the sweep's checkpoint
    loader: per-item bits identical to the endpoint record on all 34
    rungs, tensor digest equal, 17,000/17,000 continuations compared
-   with 0 diffs, coverage attested and required (2h F-2). Two loader
+   with 0 diffs, coverage attested and required (2h F-2) — and the
+   bit and continuation identity RE-DERIVED by the analyzer from the
+   two committed record sets, the runner's attestation cross-checked
+   against it (a continuation-only mismatch with equal bits refuses:
+   byte identity, not score identity). Two loader
    paths as 2g. A diff halts the sweep with the tree the analyzer
    reads as INSUFFICIENT_DATA.
 6. **The tree.** INSUFFICIENT_DATA → the joint reading of Tests A and
@@ -162,7 +194,19 @@ attestation (2h F-2), blob-bound tags (2h F-3). The deltas:
    KNOWN, so non-gating and disclosed as such; the cheapest
    cross-family reading in the other direction, no new model contact),
    the extra-rung raw D (§4), the flat-rung descriptives, the
-   from_config twin and `main` are all printed in every world. No
+   from_config twin and `main` are all printed in every world. A
+   test all of whose eligible rungs are degenerate (§4) is
+   `fires = False` with "undefined" named inside; the four worlds are
+   unchanged; the verdict's reason and the licensed sentence carry
+   "Test B was undefined (predictor degenerate on every comparable
+   rung), so the within-family increment is untested, not absent"
+   (symmetric for A) — chosen over INSUFFICIENT_DATA, which would
+   discard a computable Test A and 21 checkpoints because a different
+   predictor sat at ceiling (Ruling 18, ratified). The refusal
+   surface covers the compressed-stream failures too: a truncated x_B
+   draws file raises `EOFError` and a corrupt one `zlib.error`,
+   neither an `OSError` nor a `ValueError`; both deliver
+   INSUFFICIENT_DATA naming the rung. No
    SURFACE terminal: the untrained twin's sampled counts are zero by
    construction (2h §3.3), and the from_config 7B twin is a referent,
    not a predictor.
@@ -188,15 +232,31 @@ is declared THIN in the power record and the verdict still runs
 **Predictor degeneracy.** A rung is dropped from a test — printed —
 if its predictor has no two distinct values inside any stratum (D is
 undefined there); expected on rungs where OLMo-2 1B is at ceiling
-(64/64 on nearly every item).
+(64/64 on nearly every item). Test A's predictor is measurably
+NON-degenerate: on the real committed x_A, every one of 2g's eleven
+strata rungs has at least two live strata at 1b (live strata per rung
+2–8) and at 410m (2–6), so no rung is dropped and the undefined-A
+branch is unreachable on this data; Ruling 18 bites on Test B alone,
+where OLMo-2 1B at 4 T tokens may well sit at ceiling. The `thin`
+flag and the `THIN` declared status are distinct: the first is this
+section's fewer-than-three rule, the second says the simulation had
+no rung left to run on.
 
 **Power**, written ONCE at the endpoint stage, before the projection,
 per test, with 2h's machinery: x is the REAL predictor (x_A known now;
 x_B sealed at stage 1), the positive-outcome count bounded below by
 the endpoint count, y generated from a latent mixing rank(x) at
 calibrated strength, every simulated cell through the verdict's own
-tree. Bar: P(fires | D = .15) ≥ .75 per test, else DECLARED
-UNDERPOWERED IN ADVANCE for that test. Disclosed as always: the
+tree. The simulation runs over the rungs surviving the degeneracy
+rule and prints the dropped set per test. Bar: P(fires | D = .15) ≥
+.75 per test, else DECLARED UNDERPOWERED IN ADVANCE for that test.
+The record carries the shape caveat verbatim
+(`power_2i.SHAPE_NOTE_2I`): the simulation's alternative is
+ITEM-LEVEL rank concordance inside sealed strata, so neither
+declaration transfers to a CLASS-level effect — the shape 3d's own
+frozen power model mis-specified by roughly a factor of six; no
+class-level sensitivity is simulated (ratified: a new statistic, not
+a pin). Disclosed as always: the
 number is a claim about the alternative's SHAPE (item-level rank
 concordance inside sealed strata); and the union of the four worlds
 is not α-calibrated — each test is at α .01 and the world is their
@@ -249,7 +309,13 @@ two-test analyzer with the four worlds, power, referents, fixtures,
 worlds for every terminal, mutation deltas) → adversarial freeze →
 tag `exp2i-preregistered` (blob-bound: the analyzer, battery, sampler
 stage, endpoint stage and sweep runner byte-identical to the tag's
-blobs or every one of them refuses) → **stage 1** on Michael's word:
+blobs or every one of them refuses; beside the five tag-bound blobs,
+`FROZEN_SHA256` pins 22 modules — the frozen predecessors plus
+`predictor_2g.py`, `exp2g/run/sweep_2g.py`, `run/_common_2i.py`,
+`make_referents_2i.py`, `power_2i.py` and `run/seal_2i.py`, every
+module that writes an artifact the frozen verdict reads;
+`run/preflight_2i.py` and `verify_referents_2i.py` are deliberately
+not pinned, neither writing anything on the verdict path) → **stage 1** on Michael's word:
 OLMo-2 1B stage-1 endpoint sampled on all 34 rungs (7–9 h), committed,
 tagged `exp2i-predictor-sealed` → **stage 2**: 7B stage-1 endpoint +
 `main` through the thin loader on all 34 rungs (≈ 2 h + 2 × 29 GB
@@ -259,8 +325,11 @@ bracketing the null for EACH test, 2g's lesson) → **stage 3**: the 7B
 sweep, gate 1 first, 21 checkpoints × 34 rungs, ≈ 60 min each at fp16
 from 6.9b's measured pass (same layer count and width), ≈ 21 h, ≈ 610
 GB streamed one checkpoint at a time and deleted (327 GB free), the
-watcher committing every record, processes detached per the reaping
-gotcha → analyzer once → `exp2i-closed`. One pre-committed change.
+watcher committing every record — waiting for each unit's size to
+stop changing before committing it, since a ~1 GB draws file is not
+necessarily complete two seconds after it first appears and the blob
+the seal tag binds is whatever was committed — processes detached per
+the reaping gotcha → analyzer once → `exp2i-closed`. One pre-committed change.
 
 Compute: the Mac for every stage (fp16 7B ≈ 14.6 GB; fp32 1B ≈ 5.9 GB;
 the stack that has produced nine byte-identical reproductions). The HF
@@ -268,13 +337,26 @@ GPU is on the table for this experiment — no byte-identity referent
 from the Mac stack is inherited — but gate 1 is byte identity between
 this experiment's own two loader paths, which is safest on one
 deterministic stack; the GPU is the fallback if the Mac is needed
-elsewhere, and if used, every stage moves with it.
+elsewhere, and if used, every stage moves with it. Disk: stage 2
+loads the 7B endpoint and `main` through the THIN loader, i.e. the
+ordinary HF cache, which nothing in the instrument deletes — 29.2 GB
+per 7B revision (6 fp32 shards) × 2 = 58.4 GB, plus stage 1's 1B
+endpoint at 5.9 GB — on top of the sweep's own per-step cache
+(29.2 GB, freed after every step, gate 1 included; 613.1 GB streamed
+over the 21 grid points); peak ≈ 93 GB against 324 GB free, and the
+operator clears `~/.cache/huggingface` between stage 2 and stage 3 if
+the margin matters.
 
 Sanctioned preflight (dial j): before the tag, 2c's harness on OLMo-2
 1B `main` for 20 items each of `antonym` and `add3_mid`, continuations
 printed to the ledger and NOT stored anywhere the analyzer reads — a
 format check that the prompt renders, the model stops, and the
-normalizer parses what OLMo emits. The only pre-tag model contact,
+normalizer parses what OLMo emits — plus ONE sampled item (item 0 of
+`antonym`, k = 2, seed 0) through exp3's `sample_item`, since that
+sampler has never been run against an OLMo-2 model and a shape or API
+mismatch would otherwise surface in the first minute of a 7–9 h stage
+(ratified: the discovery moves before the tag at the cost of one
+item's sampled contact). The only pre-tag model contact,
 and only on his word.
 
 ## 8. Alternatives considered
