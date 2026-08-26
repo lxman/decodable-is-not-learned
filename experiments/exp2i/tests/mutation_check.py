@@ -256,6 +256,16 @@ M = [
          "in (attack item 24)",
      '    if isinstance(seal, dict) and isinstance(seal.get("files"), dict):',
      "    if False:"),
+    (AN, "_load_power: R_CAP equality relaxed back to issubset (a table over "
+         "a strict subset of the rungs accepted)",
+     "        if r_cap is not None and set(rungs) != r_cap:",
+     "        if r_cap is not None and not set(rungs).issubset(r_cap):"),
+    (AN, "_git_sha: no longer total (raises out of run() when git is absent)",
+     "    try:\n        return subprocess.run([\"git\", \"rev-parse\", \"HEAD\"], cwd=bg.REPO,\n"
+     "                              capture_output=True, text=True).stdout.strip()\n"
+     "    except OSError:\n        return \"\"",
+     "    return subprocess.run([\"git\", \"rev-parse\", \"HEAD\"], cwd=bg.REPO,\n"
+     "                          capture_output=True, text=True).stdout.strip()"),
     # -------------------------------------------- freeze: attack item 10
     (AN, "run(): the rung set re-derived from `main`'s counts, not "
          "stage1_final's (design section 3.3: main is descriptive only)",

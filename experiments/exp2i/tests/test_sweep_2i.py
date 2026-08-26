@@ -522,8 +522,17 @@ def test_download_seconds_excludes_rung_eval_time(tmp_path, monkeypatch):
     load time, not load+eval — even though the record housing it is
     now written AFTER the eval loop on both paths. A real (small)
     sleep in the fake checkpoint loader plus a real (small) sleep per
-    rung in the runner gives a wall-clock gap wide enough (~4x) to be
-    robust against ordinary CI jitter without waiting long."""
+    rung in the runner gives a wall-clock gap wide enough to be robust
+    against ordinary jitter without waiting long.
+
+    FREEZE: the margins were widened (checkpoint sleep 0.25 -> 0.20 s,
+    per-rung sleep 0.02 -> 0.05 s, so the eval side adds ~1.7 s rather
+    than ~0.68 s, and the bound on `download_seconds` moved from 0.6 to
+    1.0 — five times the sleep it is measuring). At the old margins the
+    test failed once during the freeze when three unrelated analysis
+    scripts were running on the same host: a wall-clock assertion that
+    can fail under load is, inside the mutation harness, a false
+    'killed' verdict for whichever mutant happens to be in flight."""
     import time as _time_mod
     _shrink_grid(monkeypatch, (1000, bi.ENDPOINT_STEP_7B))
     setup = _setup_seals(tmp_path, gate_frac=0.5, digest="Dend")
@@ -535,7 +544,7 @@ def test_download_seconds_excludes_rung_eval_time(tmp_path, monkeypatch):
 
     def slow_checkpoint(entry, cache_root, device):
         if entry["revision"] != setup["entry_stage1"]["revision"]:
-            _time_mod.sleep(0.25)
+            _time_mod.sleep(0.20)
         return real_checkpoint(entry, cache_root, device)
 
     real_runner = loaders["runner"]
@@ -546,7 +555,7 @@ def test_download_seconds_excludes_rung_eval_time(tmp_path, monkeypatch):
             orig_generate = r.generate
 
             def slow_generate(prompts, max_new_tokens):
-                _time_mod.sleep(0.02)
+                _time_mod.sleep(0.05)
                 return orig_generate(prompts, max_new_tokens)
             r.generate = slow_generate
         return r
@@ -560,12 +569,12 @@ def test_download_seconds_excludes_rung_eval_time(tmp_path, monkeypatch):
     wall = _time_mod.perf_counter() - t_start
 
     rec = json.loads(bi.checkpoint_record_path(tmp_path, 1000).read_text())
-    # ~0.25 s of checkpoint-load sleep vs. ~0.68 s (34 x 0.02 s) of
+    # ~0.20 s of checkpoint-load sleep vs. ~1.70 s (34 x 0.05 s) of
     # additional eval sleep on top of it for this one step alone —
     # download_seconds must land near the former, nowhere near a
     # combined figure, and nowhere near the run's total wall time.
-    assert rec["download_seconds"] < 0.6
-    assert wall > 0.8
+    assert rec["download_seconds"] < 1.0     # 5x the sleep it measures
+    assert wall > 1.7
 
 
 def test_free_checkpoint_key_matches_download_key(tmp_path, monkeypatch):

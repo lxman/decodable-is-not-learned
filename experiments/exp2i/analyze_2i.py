@@ -1154,10 +1154,16 @@ def _load_power(root, rung_set=None) -> dict:
         rungs = sub.get("rungs")
         if not isinstance(rungs, list):
             raise ValueError(f"{p}: test {test!r} missing rungs")
-        if r_cap is not None and not set(rungs).issubset(r_cap):
-            raise ValueError(f"{p}: test {test!r} rungs "
-                             f"{sorted(set(rungs) - r_cap)} are not a subset of "
-                             f"R_CAP")
+        # freeze: EQUALITY, not `issubset`. `_one_test_power` writes
+        # `rec["rungs"] = list(rungs)` where `rungs` IS R_CAP, so a
+        # power record covering a strict subset — a table computed over
+        # three of eleven rungs, say — is not a power statement about
+        # the test that will run, and `issubset` accepted it.
+        if r_cap is not None and set(rungs) != r_cap:
+            raise ValueError(f"{p}: test {test!r} rungs {sorted(rungs)} are not "
+                             f"R_CAP {sorted(r_cap)} (missing "
+                             f"{sorted(r_cap - set(rungs))}, extra "
+                             f"{sorted(set(rungs) - r_cap)})")
         if sub.get("n_trained_steps") != n_trained:
             raise ValueError(f"{p}: test {test!r} n_trained_steps "
                              f"{sub.get('n_trained_steps')!r} != {n_trained}")
@@ -1238,8 +1244,20 @@ def _outcomes_and_tests_2i(sweep, strata, x_a, x_b, rung_set, *, n_perm, n_boot)
 # ----------------------------------------------------------------- run
 
 def _git_sha() -> str:
-    return subprocess.run(["git", "rev-parse", "HEAD"], cwd=bg.REPO,
-                          capture_output=True, text=True).stdout.strip()
+    """Total by construction. This is the ONE call in `run()` that sits
+    outside every `collect_total` — it is evaluated while building the
+    verdict dict itself, on BOTH branches — and `subprocess.run` raises
+    `FileNotFoundError` when git is not on PATH and `NotADirectoryError`
+    when `cwd` is gone. Either would have turned the very refusal those
+    same conditions cause (`require_prereg_2i` needs git) into an
+    uncaught exception, i.e. the INSUFFICIENT_DATA terminal would be
+    unreachable on exactly the machine that most needs it. Freeze
+    finding, closed one-directionally: an empty string, never a raise."""
+    try:
+        return subprocess.run(["git", "rev-parse", "HEAD"], cwd=bg.REPO,
+                              capture_output=True, text=True).stdout.strip()
+    except OSError:
+        return ""
 
 
 def run(root=EXP2I, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=None,

@@ -129,6 +129,41 @@ def test_w10_degenerate_b_reaches_shared_with_disclosure(worlds):
     assert an.DISCLOSURE_UNDEFINED_2I["A"] not in v["reason"]   # A fired, not undefined
 
 
+def test_undefined_test_a_reaches_lineage_with_the_disclosure(tmp_path, monkeypatch):
+    """FREEZE battery item 11 / Ruling 18, the OTHER direction. The
+    published symmetry is only exercised on Test B by `world_specs()`
+    (x_B is synthetic and can be made constant; x_A is the REAL
+    committed 2d table and is never synthesized), so the A branch gets
+    its own world here: `sampler_counts_pythia` — the production reader
+    `run()` calls for x_A — is substituted by a constant table, i.e.
+    'what if Pythia-1b emitted every item equally often'. Test A is
+    then degenerate on every R_CAP rung and undefined; Test B (mode
+    'b_only') still fires; the world is LINEAGE and carries A's
+    verbatim disclosure in BOTH `reason` and `licensed_sentence`.
+
+    Measured at the freeze and recorded in FREEZE_CHECKLIST.md: on the
+    real committed x_A no rung of the eleven is degenerate at either
+    size (2-8 live strata per rung at 1b, 2-6 at 410m), so this branch
+    is unreachable on the real data — Ruling 18 bites on Test B alone."""
+    from experiments.exp2d import battery_2d as bt
+    root = tmp_path / "w"
+    root.mkdir()
+    seal = fs.write_world(root, mode="b_only")
+    monkeypatch.setattr(bi, "sampler_counts_pythia",
+                        lambda size, rungs: {r: [7] * bt.N_ITEMS for r in rungs})
+    v = fs.run_world(root, seal)
+    assert v["verdict"] == "LINEAGE", v["reason"]
+    A, B = v["tests"]["A"], v["tests"]["B"]
+    assert A["fires"] is False and B["fires"] is True
+    assert A["named_inside"].startswith("undefined")
+    assert A["stratified"]["T"] is None            # R-2: None, never NaN
+    assert sorted(A["dropped_degenerate"]) == sorted(bi.STRATA_RUNGS)
+    assert an.DISCLOSURE_UNDEFINED_2I["A"] in v["reason"]
+    assert an.DISCLOSURE_UNDEFINED_2I["A"] in v["licensed_sentence"]
+    assert an.DISCLOSURE_UNDEFINED_2I["B"] not in v["reason"]
+    assert "T=undefined" in v["reason"]
+
+
 def test_insufficient_worlds_carry_no_tests_or_secondaries(worlds):
     for name in ("W6 INSUFFICIENT missing endpoint", "W7 INSUFFICIENT drifted seal",
                 "W8 INSUFFICIENT halted",

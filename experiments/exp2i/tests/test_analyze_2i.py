@@ -940,16 +940,41 @@ def test_load_power_accepts_thin(tmp_path):
     assert an._load_power(tmp_path)["A"]["declared_status"] == "THIN"
 
 
-def test_load_power_rejects_rungs_not_a_subset_of_r_cap(tmp_path):
+def test_load_power_requires_rungs_to_be_exactly_r_cap(tmp_path):
+    """FREEZE: equality, not `issubset`. `power_2i._one_test_power`
+    writes `rungs = list(R_CAP)`, so a table computed over a strict
+    SUBSET is not a power statement about the test that will run — and
+    `issubset` accepted it."""
     p = bi.power_path(tmp_path)
     p.parent.mkdir(parents=True, exist_ok=True)
-    sub = _valid_power_sub(["antonym", "clock24"])   # clock24 not in R_CAP below
-    p.write_text(json.dumps({"A": sub, "B": sub}))
-    rung_set = {"R_CAP": ["antonym"]}
-    with pytest.raises(ValueError, match="not a subset"):
-        an._load_power(tmp_path, rung_set)
-    # no rung_set passed -> the subset check is skipped (nothing to check against)
-    assert an._load_power(tmp_path)["A"]["rungs"] == ["antonym", "clock24"]
+    extra = _valid_power_sub(["antonym", "clock24"])   # clock24 not in R_CAP
+    p.write_text(json.dumps({"A": extra, "B": extra}))
+    with pytest.raises(ValueError, match="are not R_CAP"):
+        an._load_power(tmp_path, {"R_CAP": ["antonym"]})
+
+    short = _valid_power_sub(["antonym"])              # a STRICT SUBSET
+    p.write_text(json.dumps({"A": short, "B": short}))
+    with pytest.raises(ValueError, match="are not R_CAP"):
+        an._load_power(tmp_path, {"R_CAP": ["antonym", "antonym6"]})
+
+    exact = _valid_power_sub(["antonym6", "antonym"])   # order-insensitive
+    p.write_text(json.dumps({"A": exact, "B": exact}))
+    assert an._load_power(tmp_path, {"R_CAP": ["antonym", "antonym6"]})["A"]["rungs"]
+    # no rung_set passed -> the check is skipped (nothing to check against)
+    assert an._load_power(tmp_path)["A"]["rungs"] == ["antonym6", "antonym"]
+
+
+def test_git_sha_is_total(monkeypatch):
+    """FREEZE: `_git_sha()` is the ONE call in `run()` outside every
+    `collect_total`, on BOTH branches. Without git on PATH it raised
+    `FileNotFoundError` — turning the very refusal that condition
+    causes into an uncaught exception."""
+    import subprocess as _sp
+
+    def boom(*a, **k):
+        raise FileNotFoundError("git")
+    monkeypatch.setattr(_sp, "run", boom)
+    assert an._git_sha() == ""
 
 
 def test_load_power_rejects_wrong_n_trained_steps(tmp_path):

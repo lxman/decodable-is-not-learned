@@ -275,6 +275,36 @@ def test_frozen_sha256_matches_on_disk():
     # I-2: +predictor_2g/sweep_2g/_common_2i/make_referents_2i (16 -> 20)
     # freeze F-3: +power_2i/run/seal_2i (20 -> 22)
     assert len(bi.FROZEN_SHA256) == 22
+
+
+def test_x_a_draws_and_the_item_files_are_the_same_battery():
+    """FREEZE attack item 5, the x_A side. x_B's provenance is
+    re-derived by the analyzer (`predictor_record_failures_2i`); x_A's
+    cannot be, because 2d's per-rung tier RECORDS are not on 2i's
+    referent manifest and reading them would ADD an unpinned verdict
+    input. Both sides of x_A are instead pinned by CONTENT — the draws
+    files by `battery_2i.PYTHIA_PREDICTOR_FILES` (68 literals,
+    re-asserted by `check_pythia_predictor_files`), the item files by
+    `battery_2d.ITEMS_SHA_PIN` — so the pairing is fixed at freeze
+    time and nothing at run time can change it. This test is the
+    demonstration that the pairing is the RIGHT one: 2d's own committed
+    main-tier records, for all 34 rungs at both sizes, name exactly the
+    item files 2i pins, item for item."""
+    from experiments.exp2d import analyze_2d as a2d
+    battery = bg.load_battery()
+    n = 0
+    for size in bt.PROBE_SIZES:
+        for rung in bt.RUNGS:
+            rec = json.loads(a2d.tier_record_path(a2d.EXP2D, "main", size, rung)
+                             .read_text())
+            cap = battery[rung]
+            assert rec["items_sha256"] == cap["items_sha256"], (size, rung)
+            assert rec["answers"] == [str(it["answer"]) for it in cap["eval_items"]]
+            assert rec["n_items"] == bt.N_ITEMS
+            assert rec["draws_per_seed"] == bi.DRAWS_PER_ITEM
+            assert rec["seeds"] == [bi.SAMPLING_SEED]
+            n += 1
+    assert n == 2 * len(bt.RUNGS) == 68
     for path, want in bi.FROZEN_SHA256.items():
         assert bg.sha256_file(path) == want, path
 
