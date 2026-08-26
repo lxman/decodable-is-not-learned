@@ -702,3 +702,157 @@ Task 4 disproved (`test_analyze_2i.py`, `test_full_shape_2i.py`);
 `test_analyze_2i.py`, `test_power_2i.py`, `test_stages_2i.py`);
 (4) `mutation_check.py` + this ledger entry. Not pushed, per the
 task's standing instruction (the controller pushes after review).
+
+## 2026-08-26 — Task 4 review round 1: all seven findings closed
+
+Controller verdict on the Task 4 build above: Needs fixes (round 1 of
+5), seven findings, all required additive to accepted behaviour. All
+seven closed; the mutation harness re-verified 81/81 killed after two
+intermediate rounds surfaced real gaps in the harness's OWN test
+coverage (not the runner). Detail per finding:
+
+**1 (order, Important).** `run_step` wrote its checkpoint record
+BEFORE the 34-rung loop — inconsistent with `run_gate1`'s own
+records-then-checkpoint-record order (ruling 2, literal) and with the
+brief's per-step order. Fixed: the write moves to after the loop.
+`download_seconds` is captured immediately after the checkpoint/
+tokenizer/runner are built, BEFORE the loop starts, on BOTH paths —
+so it means "checkpoint load time" consistently even though the
+record housing it is now written later. This ALSO fixed a latent bug
+in `run_gate1`, present since the original build: its own
+`download_seconds` had always been measuring load+34-rung-eval
+combined (the write already happened after the loop there), not load
+alone — the review caught a bug neither the build nor the first
+mutation harness run had surfaced. New tests: absence after a
+mid-loop exception in `run_step`; presence only once all 34 rung
+records exist, verified with a fake loader that inspects the
+checkpoint record's existence AT LOAD TIME (before the loop even
+starts), not just after the run; a real-small-sleep timing test
+(0.25 s checkpoint load vs. 34 × 0.02 s ≈ 0.68 s of additional eval)
+proving `download_seconds` lands near the load-alone figure with a
+~4x margin, not the combined one.
+
+**2 (duplication, Important).** `ckpt_of`/`checkpoint_record` factored
+into `run/_common_2i.py`, used by `sweep_2i.py`'s `run_gate1`/
+`run_step` and `endpoint_2i.py`'s per-`which` loop. Every field's
+value checked unchanged from what each caller computed inline before
+the factor — `config_source` prefers `info`'s own (`load_checkpoint`'s
+path always sets one) and otherwise reconstructs `endpoint_2i.py`'s
+exact `f"{REPO_7B}@{commit}"` fallback (`load_thin`'s path never sets
+one); `revision_fallback` reproduces `endpoint_2i.py`'s own defensive
+`entry.get("revision", which)` default. `run_twin`'s ckpt/checkpoint-
+record construction stays bespoke, disclosed in `_common_2i.py`'s own
+docstring — its shape genuinely differs (`commit=None`,
+`kind="from_config"`, a tokenizer source keyed by `config_commit`, no
+`sha256`/`loading_info`/`download_seconds`) and the finding named
+only `run_gate1`/`run_step` as duplicated. Existing tests passed
+unchanged (43/43 in `test_sweep_2i.py` + `test_stages_2i.py`) with no
+edits beyond the two source files — confirms byte-identical output.
+
+**3 (mutation claim, Important).** Added a mutant flipping
+`named_inside_2i`'s sign branch (`if T < 0:` -> `if T > 0:`) — killed
+by the existing `T = -0.3` "inverted" assertion in `test_analyze_2i
+.py`, already present since Task 3. Corrected `mutation_check.py`'s
+own category-list wording: the `verdict_tree_2i` SHARED/LINEAGE swap
+is the world-table mutant; the new one is the actual firing-rule sign
+mutant — the two were run together under one loose label before.
+
+**4 (totality, controller ruling).** The harness's totality category
+now covers ALL ~27 `collect_total` call sites in `analyze_2i.run()`,
+not the six hand-picked ones from the Task 4 build. Generated
+programmatically (`_totality_mutants` in `mutation_check.py`): an AST
+walk over the live `analyze_2i.py` source finds every `Call` node
+named `collect_total`, extracts its EXACT source span via
+`ast.get_source_segment` (so multi-line lambda/ternary/generator-throw
+thunks are captured precisely, not regex-approximated), and replaces
+that span with `(thunk(), [])` — a plain tuple that still unpacks
+correctly at `NAME, f = collect_total(...)` call sites but calls the
+thunk directly, uncaught, reporting zero failures. 27 mutants
+generated, all with unique source-text matches confirmed before the
+first run.
+
+First 81-mutant run: 68/81 killed, 13 survivors, ALL in the new
+totality set — none were weak mutants; each site's underlying function
+simply never fails anywhere in the existing test suite (early
+frozen-import/battery/floor/verify-criterion/2g-predictor/strata-gate
+checks that always pass on the real committed tree; the two manifest
+entry lookups; the referent-manifest check, unreachable through
+`_run`'s own `referents_sha=None`; `_check_rung_set_vs_endpoint`; the
+generic `_sec` secondary wrapper). Closed with 13 new tests in
+`test_totality_2i.py`, each monkeypatching the exact function
+`collect_total` wraps at that site to raise, asserting the verdict is
+still `INSUFFICIENT_DATA` (or, for the non-gating `_sec` case, that
+the broken secondary lands in `secondaries[name]["failed"]` without
+demoting the verdict) — never an uncaught exception.
+
+Second run: 80/81 killed, ONE further survivor (mutant 73,
+`sg.check_strata_pins(strata)` at line 807) — the FIRST fix for this
+site was itself wrong in a way worth recording. `predictor_2g
+.load_predictor` calls `sg.check_strata_pins` internally as part of
+its OWN validation, EARLIER in `run()` (the "2g predictor (strata
+source)" `collect_total` site). A bare `monkeypatch.setattr(sg,
+"check_strata_pins", boom)` breaks THAT call first — `pred2g`/`strata`
+come back `None`, and the `if strata is not None:` block housing line
+807 is skipped entirely, mutated or not, so the test passed
+regardless of the mutation and never actually exercised its target.
+Found by manually re-applying the mutation by hand and running the
+ONE test directly (not trusting the harness's own summary line alone)
+— it passed both mutated and unmutated, which is the signature of a
+test not reaching its site. Fixed with a counting wrapper: the FIRST
+call (inside `load_predictor`) is let through to the real function;
+only the SECOND (`run()`'s own explicit call, the actual target)
+raises. Manually verified both directions again after the fix — an
+uncaught `ValueError` with the mutation manually re-applied (restored
+from a backup copy immediately after, before running anything else),
+a clean pass on the real code.
+
+Third run: **81/81 killed.** Sources restored byte-identical after
+every run (`git diff` empty for all seven targets; no
+`.mutation_backup` files left; `git status` confirmed no frozen tree
+changed at any point).
+
+**5 (minor).** `_require_endpoint_seal`'s local `import os` moved to
+module scope in `sweep_2i.py`.
+
+**6 (minor).** `run_twin`'s checkpoint record now stores `bi.TWIN`
+(the named constant) instead of the `"twin"` string literal for
+`"step"` — same value, no behaviour change.
+
+**7 (minor test).** Added a mid-loop-exception test for `run_gate1`'s
+own rung evaluation: the model is released and the checkpoint cache
+freed; no partial record, no `gate1.json`, no `HALTED` marker (an
+exception during the loop is a crash, not a gate FAILURE —
+`gate1_failures_7b` never runs, so nothing it could produce is
+written either); a clean re-run (same loaders, no longer raising)
+then completes the sweep from scratch. Disclosed reading: gate 1 has
+no PER-RUNG persistence to resume from the way the grid steps/twin do
+(their skip-if-exists is at the rung grain) — "resumes" here means
+the overall sweep recovers and completes, not that individual gate-1
+rungs are individually skipped. Flagged rather than silently assumed;
+no request came back to change gate 1's atomicity, so it stands.
+
+**Test count: 203 total for `experiments/exp2i/tests`**
+(`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp2i/tests -q` -> `203 passed`, confirmed at the last
+full-suite run before the third, 81/81 mutation pass; 0 warnings
+throughout every run this round). Path from the Task 4 close's 187:
++3 from findings 1/7's new tests in `test_sweep_2i.py` -> 190
+(confirmed); +13 from finding 4's totality-survivor closures in
+`test_totality_2i.py` -> 203 (confirmed); the strata-gate fix changed
+one existing test's body, not the count (203 unchanged, confirmed
+again at the final full-suite run).
+
+**Mutants: 81/81 killed** (54 non-totality: the Task 4 build's 59,
+minus the 6 hand-picked totality mutants it shipped with, plus the
+new `named_inside_2i` sign mutant — 59 - 6 + 1 = 54 — plus 27
+programmatic totality mutants, one per real `collect_total` call
+site = 81).
+
+Committed in five groups: (1) `run/sweep_2i.py` + `run/endpoint_2i.py`
++ `run/_common_2i.py` + `mutation_check.py` + `test_sweep_2i.py` —
+findings 1/2/3/5/6/7 together (the mutation harness's totality
+generator, since it's mechanical, landed in the same commit as the
+source fixes it verifies); (2) 13 totality-survivor tests in
+`test_totality_2i.py`; (3) the strata-gate test fix in the same file;
+(4) this ledger entry. Not pushed, per the task's standing
+instruction (the controller pushes after review).
