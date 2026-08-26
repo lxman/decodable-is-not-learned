@@ -501,13 +501,28 @@ def test_load_predictor_2g_failure_is_insufficient_data(world, monkeypatch):
 
 
 def test_strata_gate_failure_is_insufficient_data(world, monkeypatch):
+    """`predictor_2g.load_predictor` ALSO calls `sg.check_strata_pins`
+    internally as part of its OWN validation (`predictor_2g.py`,
+    load_predictor's own body) — a bare monkeypatch breaks THAT call
+    first, so `pred2g`/`strata` come back None and the `if strata is
+    not None:` block (this site's actual home) is skipped entirely,
+    never reached regardless of whether the site is mutated. A
+    counting wrapper lets the FIRST call (load_predictor's) through to
+    the real function and only raises on the SECOND (analyze_2i.run()'s
+    own explicit call at this collect_total site, the real target)."""
     root, seal = world
     from experiments.exp2g import strata_2g as sg
+    real = sg.check_strata_pins
+    calls = []
 
-    def boom(strata):
+    def boom(table):
+        calls.append(1)
+        if len(calls) == 1:
+            return real(table)
         raise ValueError("boom strata gate")
     monkeypatch.setattr(sg, "check_strata_pins", boom)
     _insufficient(root, seal, "strata gate")
+    assert len(calls) == 2
 
 
 def test_entry_stage1_lookup_failure_is_insufficient_data(world, monkeypatch):
