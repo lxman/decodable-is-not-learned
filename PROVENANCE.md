@@ -205,6 +205,8 @@ above. Tag anchors:
 | exp2g-preregistered | 891c232 | f2d8b71 |
 | exp2g-predictor-sealed | 321ecbc | 5a22987 |
 | exp2g-closed | ec975c0 | f9ebd8d |
+| exp2h-preregistered | 143c98f | c91c575 |
+| exp2h-closed | cff64a8 | 2491dfc |
 
 Re-extended 2026-08-24 to add the Experiment 2g record (closed
 NO-FORECAST: the sealed item-grain forecast — the per-item matched-label
@@ -224,6 +226,28 @@ identity, redaction scans clean (0 secret-class, 0 LAN literals, 0
 home paths in the series), all 39 prior tags and every prior commit
 untouched. The retained-path list above now includes
 `experiments/exp2g` and `experiment-2g-design.md`.
+
+Re-extended 2026-08-25 to add the Experiment 2h record (closed
+CONFIRMED: the sampler confirmation — 2g's fired non-gating secondary
+promoted to a preregistered primary against Pythia-6.9B's intermediate
+checkpoints, none of which had ever been queried; predictor = 2d's
+committed 64-draw per-item counts at 1B, 410M replicating, 2g's sealed
+probe table as the named competitor; the 6.9B checkpoint manifest with
+its Hub inventory; the two-loader gate-1 record (34/34 counts exact,
+digests equal, 17,000 continuations with 0 diffs); the full per-item
+sweep records at 23 grid points; the power record at N_SIM 1000; the
+freeze checklist and 36/36 mutation record; the sealed projection; the
+analyzer's verdict, VERDICT.txt and retrospective). Same route as the
+2g round, a GRAFT: the 824 private commits touching
+`experiments/exp2h`, `experiment-2h-design.md` and `.gitignore` were
+applied as a path-limited patch series fast-forward onto the previous
+public master (9bce8fd), identities normalized to the single noreply
+identity, author dates preserved, redaction scans clean (0
+secret-class, 0 LAN literals, 0 home paths in the series), the tree at
+both new anchors and at HEAD entry-identical to the private tree on the
+three paths (834 entries under `experiments/exp2h`), all 43 prior tags
+and every prior commit untouched. The retained-path list above now
+includes `experiments/exp2h` and `experiment-2h-design.md`.
 
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
