@@ -6,9 +6,10 @@ whole-file writes — 2d's `run_sampling_rung` protocol reproduced with
 2i's paths/labels (no tiers: 2i samples once, at 2d's main-tier
 (seed, k)).
 
-Order, load-bearing: (1) the prereg refusal (`require_prereg_2i` —
-Task 3's `analyze_2i` module if it exists, else the fail-closed stub
-at `run/_prereg_stub_2i.py`); (2) `check_frozen_2i()`; (3) refuses if
+Order, load-bearing: (1) the prereg refusal (`analyze_2i
+.require_prereg_2i`, Task 3's real implementation — Task 4 removed the
+fail-closed `run/_prereg_stub_2i.py` this module import-guarded onto
+before `analyze_2i.py` existed); (2) `check_frozen_2i()`; (3) refuses if
 `predictor_2i.json` already exists (sealed = done, ruling: the
 sampling stage runs once). Everything frozen is imported from the
 exp2d/exp2c/exp3/exp3c trees, never copied — except `write_draws`,
@@ -46,11 +47,7 @@ from experiments.exp2i.run._common_2i import (  # noqa: E402
     stack as _stack,
 )
 from experiments.exp3.sampler import STREAM_NAMESPACE, sample_item  # noqa: E402
-
-try:
-    from experiments.exp2i.analyze_2i import require_prereg_2i  # noqa: E402
-except ImportError:
-    from experiments.exp2i.run._prereg_stub_2i import require_prereg_2i  # noqa: E402
+from experiments.exp2i.analyze_2i import require_prereg_2i  # noqa: E402
 
 
 # ------------------------------------------------- write_draws (ruling 6)

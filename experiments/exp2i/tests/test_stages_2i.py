@@ -24,7 +24,6 @@ from experiments.exp2d import analyze_2d as a2d
 from experiments.exp2d import battery_2d as bt
 from experiments.exp2g import battery_2g as bg
 from experiments.exp2i import battery_2i as bi
-from experiments.exp2i.run import _prereg_stub_2i as stub
 from experiments.exp2i.run import endpoint_2i as ep
 from experiments.exp2i.run import preflight_2i as pf
 from experiments.exp2i.run import sample_2i as smp
@@ -36,17 +35,14 @@ SMALL_RUNGS = ("antonym", "antonym6", "clock24")   # two STRATA_RUNGS + one extr
 
 @pytest.fixture(autouse=True)
 def _shrink_instrument_blobs_to_what_exists(monkeypatch):
-    """Task 3 landed the real `analyze_2i.require_prereg_2i`, so
-    sample_2i.py/endpoint_2i.py's try/except import now resolves to it
-    instead of the three-file stub these tests were written against.
-    Its real `INSTRUMENT_BLOBS_2I` names five files, one of which
-    (`run/sweep_2i.py`) is Task 4's and does not exist yet — a correct
-    'not on disk' refusal in production, but it means `_prereg()` can
-    never make the real function succeed as written. Shrinking the set
-    to what is actually on disk for the duration of this module keeps
-    these tests exercising the STAGE RUNNERS' own control flow (their
-    reason for existing), not re-litigating the five-file set — that
-    is `test_analyze_2i.py`'s job."""
+    """Task 4 landed `run/sweep_2i.py`, the fifth and final file in
+    `analyze_2i.require_prereg_2i`'s real `INSTRUMENT_BLOBS_2I` — so
+    this is a no-op now (the subset equals the full five-file set).
+    Left in place rather than removed: it keeps these tests exercising
+    the STAGE RUNNERS' own control flow (their reason for existing),
+    independent of whether the five-file set is ever again momentarily
+    incomplete on some future branch — that re-litigation is
+    `test_analyze_2i.py`'s job, not this module's."""
     from experiments.exp2i import analyze_2i as an
     subset = tuple(r for r in an.INSTRUMENT_BLOBS_2I if (bi.REPO / r).is_file())
     monkeypatch.setattr(an, "INSTRUMENT_BLOBS_2I", subset)
@@ -106,46 +102,12 @@ def test_write_draws_writes_gzip_jsonl(tmp_path):
     assert lines == rows
 
 
-# ------------------------------------------------------- _prereg_stub_2i
-
-def test_stub_raises_without_both_injections():
-    with pytest.raises(RuntimeError, match="not built yet"):
-        stub.require_prereg_2i()
-    with pytest.raises(RuntimeError, match="not built yet"):
-        stub.require_prereg_2i(tag_exists=lambda t: True)
-    with pytest.raises(RuntimeError, match="not built yet"):
-        stub.require_prereg_2i(blob_sha=lambda t, r: "x")
-
-
-def test_stub_refuses_missing_tag():
-    with pytest.raises(RuntimeError, match="preregistration tag"):
-        stub.require_prereg_2i(tag_exists=lambda t: False,
-                               blob_sha=lambda t, r: "x")
-
-
-def test_stub_refuses_stale_blob():
-    with pytest.raises(RuntimeError, match="drifted"):
-        stub.require_prereg_2i(tag_exists=lambda t: True,
-                               blob_sha=lambda t, r: "0" * 64)
-
-
-def test_stub_passes_with_matching_blob():
-    got = stub.require_prereg_2i(
-        tag_exists=lambda t: True,
-        blob_sha=lambda tag, rel: bg.sha256_file(bi.REPO / rel))
-    assert got["tag"] == bi.PREREG_TAG
-    assert set(got["instrument_blobs"]) == set(stub.INSTRUMENT_BLOBS_STUB_2I)
-
-
 def _prereg():
     """Matches every real file's CURRENT sha, standing in for 'the tag
     carries what is on disk right now' (2h's own `_prereg()` test
-    pattern). None for a path not yet on disk (`run/sweep_2i.py`,
-    Task 4's file) rather than raising — Task 3 landed the real
-    `analyze_2i.require_prereg_2i` (five-file `INSTRUMENT_BLOBS_2I`),
-    which these stage-runner tests now exercise via the try/except
-    import instead of the three-file stub; the missing fifth file is
-    itself a correct 'not on disk' refusal, not a test-harness crash."""
+    pattern) — `analyze_2i.require_prereg_2i` (the ONLY implementation
+    since Task 4 removed the stub), five-file `INSTRUMENT_BLOBS_2I`,
+    all five now on disk."""
     def blob_sha(tag, rel):
         p = bi.REPO / rel
         return bg.sha256_file(p) if p.is_file() else None

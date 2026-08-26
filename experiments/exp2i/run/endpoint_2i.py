@@ -50,11 +50,7 @@ from experiments.exp2i.run._common_2i import (  # noqa: E402
     release as _release,
     stack as _stack,
 )
-
-try:
-    from experiments.exp2i.analyze_2i import require_prereg_2i  # noqa: E402
-except ImportError:
-    from experiments.exp2i.run._prereg_stub_2i import require_prereg_2i  # noqa: E402
+from experiments.exp2i.analyze_2i import require_prereg_2i  # noqa: E402
 
 WHICH = ("stage1_final", "main")
 
