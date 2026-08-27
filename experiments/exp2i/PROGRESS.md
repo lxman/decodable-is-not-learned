@@ -1313,3 +1313,13 @@ instrument blobs; `battery_2i.py` has drifted from it by this fix.
 Pre-committed change: NOT spent (a loader-path crash before any
 sweep record, closed test-first; no dial, criterion or verdict input
 moved) — Michael's call whether he agrees.
+
+**2026-08-27 — STOP #1 RULING: APPROVED (Michael, "agreed and
+approved").** (a) the fix ratified as landed in `bc7cdb9c` (option B,
+2h's shape); (b) `exp2i-preregistered` RE-TAGGED at this ruling's
+commit — the prior tag object stood at `f57f5888` and is retained
+here by sha; the five `INSTRUMENT_BLOBS_2I` at the new tag differ
+from the old only in `battery_2i.py`'s `clean_dir`/`load_checkpoint`
+(the stop-#1 fix, 24 insertions / 8 deletions, nothing else); both
+seal tags untouched; (c) relaunch authorized — gate 1 first,
+unchanged. Pre-committed change: NOT spent, on his word.
