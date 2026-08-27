@@ -1,0 +1,11 @@
+{
+ "family": "olmo2",
+ "size": "olmo7b",
+ "step": "twin",
+ "revision": "twin",
+ "commit": null,
+ "kind": "from_config",
+ "seed": 0,
+ "digest": "7ba7e3860e0c62167f3335dff15f6b8aac48afcfff655c6eec7a1e79e1eba1fe",
+ "config_source": "allenai/OLMo-2-1124-7B@stage1-step928646-tokens3896B"
+}
