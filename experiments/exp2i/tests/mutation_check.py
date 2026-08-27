@@ -100,6 +100,10 @@ M = [
          "str-keyed row format)",
      'row["draws"][str(SAMPLING_SEED)]',
      'row["draws"][SAMPLING_SEED]'),
+    (BI, "clean_dir: pinned config.json write stripped (campaign stop #1's "
+         "weights-only clean dir)",
+     '    config.to_json_file(str(d / "config.json"))\n    return d',
+     '    return d'),
     # -------------------------------------------------------- analyze_2i.py
     (AN, "require_prereg_2i: tag-existence check inert",
      "    if not tag_exists(bi.PREREG_TAG):",

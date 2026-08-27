@@ -24,6 +24,7 @@ from experiments.exp2d import analyze_2d as a2d
 from experiments.exp2d import battery_2d as bt
 from experiments.exp2g import battery_2g as bg
 from experiments.exp2i import battery_2i as bi
+from experiments.exp2i import analyze_2i as an
 from experiments.exp2i.run import endpoint_2i as ep
 from experiments.exp2i.run import preflight_2i as pf
 from experiments.exp2i.run import sample_2i as smp
@@ -147,13 +148,16 @@ def _make_fake_sampler(battery, hit_fraction=1.0):
 
 # ---------------------------------------------------------- sample_2i.run
 
-def test_sample_refuses_without_prereg_tag(tmp_path):
+def test_sample_refuses_without_prereg_tag(tmp_path, monkeypatch):
     # Task 3 landed the real analyze_2i.require_prereg_2i, so the
     # try/except import in sample_2i.py now resolves to it rather than
     # the stub; called with no injections it falls through to its own
-    # defaults (pr.git_tag_exists), which correctly report that the
-    # real 'exp2i-preregistered' tag does not exist on this repo yet —
-    # not the stub's "not built yet".
+    # DEFAULT (pr.git_tag_exists). Written before the tag existed, this
+    # test relied on the repo lacking 'exp2i-preregistered'; once the
+    # tag was cut (2026-08-26) it fell through to a KeyError instead.
+    # Pin the default's answer rather than the repo's state (stop #1
+    # ledger, 2026-08-27).
+    monkeypatch.setattr(an.pr, "git_tag_exists", lambda t: False)
     with pytest.raises(RuntimeError, match="preregistration tag"):
         smp.run(root=tmp_path, device="cpu", rungs=("antonym",), loaders={})
 
@@ -192,6 +196,7 @@ def test_sample_prereg_precedes_any_loader_construction(tmp_path, monkeypatch):
     monkeypatch.setattr(smp, "real_loaders", lambda: called.append("l") or {})
     # see test_sample_refuses_without_prereg_tag: the real require_prereg_2i
     # is wired in now, so the no-injection refusal names the missing tag.
+    monkeypatch.setattr(an.pr, "git_tag_exists", lambda t: False)
     with pytest.raises(RuntimeError, match="preregistration tag"):
         smp.run(root=tmp_path, device="cpu", rungs=("antonym",))
     assert called == []
@@ -289,8 +294,9 @@ def _bound_ok(tag, paths, repo_root=None):
     return []
 
 
-def test_endpoint_refuses_without_prereg_tag(tmp_path):
+def test_endpoint_refuses_without_prereg_tag(tmp_path, monkeypatch):
     # see test_sample_refuses_without_prereg_tag
+    monkeypatch.setattr(an.pr, "git_tag_exists", lambda t: False)
     with pytest.raises(RuntimeError, match="preregistration tag"):
         ep.run(root=tmp_path, device="cpu", loaders={})
 

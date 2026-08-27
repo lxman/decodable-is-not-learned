@@ -365,14 +365,29 @@ def verify_downloads(entry: dict, paths: dict) -> dict:
     return shas
 
 
-def clean_dir(repo: str, rev_key, cache_root, paths: dict) -> Path:
+def clean_dir(repo: str, rev_key, cache_root, paths: dict, *, config) -> Path:
     """A fresh directory holding only the candidate files, hardlinked
-    (falling back to a copy across filesystems) — no stray Hub file
-    can leak into what `from_pretrained` loads. `rev_key` is the
-    caller's own label for the revision (an int step, `TWIN`, or a
-    repo's `main`), independent of `download_entry`'s own Hub-derived
-    cache path, so a sweep can key its clean dirs by grid step while
-    the raw HF cache is keyed by branch name."""
+    (falling back to a copy across filesystems), plus the entry's
+    pinned `config` written as `config.json` — no stray Hub file can
+    leak into what `from_pretrained` loads. `rev_key` is the caller's
+    own label for the revision (an int step, `TWIN`, or a repo's
+    `main`), independent of `download_entry`'s own Hub-derived cache
+    path, so a sweep can key its clean dirs by grid step while the raw
+    HF cache is keyed by branch name.
+
+    `config` is REQUIRED (campaign stop #1, 2026-08-27, gate 1 of the
+    7B sweep): transformers 5.x loads a generation config from the
+    DIRECTORY after the weights (`adjust_generation_fn`), whatever
+    `config=` object was passed to `from_pretrained` — a missing
+    `generation_config.json` falls back to the directory's
+    `config.json`, and a weights-only directory raises
+    `TypeError: expected str, bytes or os.PathLike object, not
+    NoneType`. 2h's `clean_dir_69` wrote `config.json` (2c's pinned
+    config) and never hit it; the 2i generalisation fetched the config
+    per entry and dropped the write. OLMo-2's Hub `generation_config`
+    is `_from_model_config: true` with the same eos/pad ids as
+    `config.json`, so the fallback reproduces it; gate 1's continuation
+    identity against the thin-loader endpoint records is the check."""
     d = _cache_dir(repo, rev_key, cache_root) / "clean"
     if d.exists():
         shutil.rmtree(d)
@@ -383,6 +398,7 @@ def clean_dir(repo: str, rev_key, cache_root, paths: dict) -> Path:
             os.link(src, dst)
         except OSError:
             shutil.copy2(src, dst)
+    config.to_json_file(str(d / "config.json"))
     return d
 
 
@@ -420,8 +436,8 @@ def load_checkpoint(repo: str, entry: dict, *, cache_root=CKPT_CACHE,
     from transformers import AutoConfig, AutoModelForCausalLM
     paths = download_entry(repo, entry, cache_root)
     shas = verify_downloads(entry, paths)
-    d = clean_dir(repo, entry["revision"], cache_root, paths)
     config = AutoConfig.from_pretrained(repo, revision=entry["commit"])
+    d = clean_dir(repo, entry["revision"], cache_root, paths, config=config)
     dt = getattr(torch, dtype) if isinstance(dtype, str) else dtype
     model, li = AutoModelForCausalLM.from_pretrained(
         str(d), config=config, dtype=dt, low_cpu_mem_usage=True,

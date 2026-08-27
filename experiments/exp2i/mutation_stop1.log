@@ -1,0 +1,121 @@
+[ 1] killed  revision_of_7b: off-grid step check inert
+[ 2] killed  build_manifest: duplicate-signature refusal inert
+[ 3] killed  check_tokenizer: padding_side check inert
+[ 4] killed  check_tokenizer: pad_token_id check inert
+[ 5] killed  check_tokenizer: BOS-prefix check inert
+[ 6] killed  rung_set_from_counts: significance bar inert (accepts every rung)
+[ 7] killed  check_frozen_2i: sha comparison inert
+[ 8] killed  check_pythia_predictor_files: sha comparison inert
+[ 9] killed  sampler_counts_olmo: seed key read as int (KeyError on the real str-keyed row format)
+[10] killed  clean_dir: pinned config.json write stripped (campaign stop #1's weights-only clean dir)
+[11] killed  require_prereg_2i: tag-existence check inert
+[12] killed  require_prereg_2i: instrument-drift check inert
+[13] killed  require_seal_2i: tag-existence check inert (always 'exists')
+[14] killed  require_seal_2i: blob-drift check inert
+[15] killed  gate1_failures_7b: bit-diff check inert
+[16] killed  gate1_failures_7b: continuation-diff check inert
+[17] killed  gate1_failures_7b: coverage (continuations_compared) check inert (F-2)
+[18] killed  gate1_failures_7b: commit-equality check inert
+[19] killed  gate1_failures_7b: digest-equality check inert
+[20] killed  gate1_failures_7b: prereg_tag check inert
+[21] killed  fires_2i: p-value boundary loosened (<= instead of <)
+[22] killed  fires_2i: T-effect boundary tightened (> instead of >=)
+[23] killed  verdict_tree_2i: SHARED/LINEAGE swapped
+[24] killed  _composite_strata: zero-cut boundary widened (>= 0, always true)
+[25] killed  _degenerate_rungs: single-value-per-stratum drop rule inert
+[26] killed  named_inside_2i: sign branch flipped (T > 0 instead of T < 0)
+[27] killed  run(): gate-1 re-derivation ignored (failures dropped on the floor)
+[28] killed  gate1_rederive_7b: continuation diff not re-derived (always 0)
+[29] killed  gate1_rederive_7b: continuation diff computed from the BITS, not the continuations
+[30] killed  _undefined_result_2i: T back to NaN instead of None (bare NaN in verdict.json)
+[31] killed  run(): the written verdict is no longer sanitized to strict JSON
+[32] killed  run(): rung-set re-derivation skipped (failures dropped on the floor)
+[33] killed  _run_test: an all-degenerate test raises instead of returning fires=False (Ruling 18 short-circuit disabled)
+[34] killed  verdict_tree_2i: the undefined disclosure dropped from reason
+[35] killed  predictor_record_failures_2i: the pinned-field loop inert (any checkpoint/protocol accepted)
+[36] killed  predictor_record_failures_2i: the 1B commit check inert
+[37] killed  predictor_record_failures_2i: items_sha256 check inert
+[38] killed  predictor_record_failures_2i: the answer-column alignment check inert
+[39] killed  predictor_record_failures_2i: the tally coverage check inert (F-2 lesson on the predictor stage)
+[40] killed  _check_predictor_seal_sampling: the seal-vs-records revision cross-check inert
+[41] killed  _check_predictor_seal_sampling: the seal-vs-frozen-constants loop inert
+[42] killed  _check_predictor_counts_2i: attested full_string not compared with the re-derived count
+[43] killed  _check_predictor_counts_2i: the seal's per-item counts not compared
+[44] killed  run(): the predictor-record failures dropped on the floor
+[45] killed  run(): the predictor-counts failures dropped on the floor
+[46] killed  collect_total: the compressed-stream widening removed (a truncated draws .gz raises EOFError out of the frozen verdict)
+[47] killed  _check_predictor_counts_2i: a non-dict `counts` silently skips the whole cross-check again
+[48] killed  _check_predictor_counts_2i: a `counts` dict missing a rung skipped
+[49] killed  _check_rung_set_vs_endpoint: a non-dict `per_rung` silently skips every rung again
+[50] killed  _check_rung_set_vs_endpoint: a `per_rung` missing rungs not reported
+[51] killed  _predictor_seal_paths: the seal's own file list no longer unioned in (attack item 24)
+[52] killed  _load_power: R_CAP equality relaxed back to issubset (a table over a strict subset of the rungs accepted)
+[53] killed  _git_sha: no longer total (raises out of run() when git is absent)
+[54] killed  run(): the rung set re-derived from `main`'s counts, not stage1_final's (design section 3.3: main is descriptive only)
+[55] killed  seal_predictor: the predictor-record provenance refusal inert
+[56] killed  main(): write-once guard inert (silently overwrites)
+[57] killed  _one: fires_2i re-derived locally instead of shared
+[58] killed  _one_test_power: declared_status bar tightened (> instead of >=)
+[59] killed  _one_test_power: thin threshold off by one
+[60] killed  _one_test_power: degeneracy drop skipped (simulates over every rung, degenerate or not)
+[61] killed  run_sampling_rung: rung skip-if-exists disabled
+[62] killed  run_sampling_rung: verify_fn ignored in the tally (counts every draw)
+[63] killed  run(): already-sealed refusal inert
+[64] killed  item_record_2i: exactly-one-of-step/which check inert
+[65] killed  _require_predictor_seal: missing-file check inert
+[66] killed  _require_predictor_seal: blob-drift check inert
+[67] killed  run(): per-which full-skip check inert (reloads an already-complete which)
+[68] killed  seal_predictor: already-sealed guard inert
+[69] killed  seal_predictor: missing draws+record pair check inert
+[70] killed  run(): prereg refusal replaced by a stub tag (no real check)
+[71] killed  run(): frozen-imports check not called
+[72] killed  run(): predictor-seal check not called
+[73] killed  run(): endpoint-seal check not called
+[74] killed  run(): halted-tree resume not refused
+[75] killed  run(): dry-run no longer short-circuits (would build a real loader)
+[76] killed  run(): on-disk gate1 record not re-derived on resume
+[77] killed  run(): incomplete-final-step-records check inert on resume
+[78] killed  run_gate1: failure check inert (never halts, no matter the diff)
+[79] killed  run_gate1: HALTED marker not written on failure
+[80] killed  run_gate1: free_checkpoint not called (cache survives the gate)
+[81] killed  run_step: free_checkpoint not called (cache survives the step)
+[82] killed  run_step: skip-if-exists disabled (re-runs an already-complete step)
+[83] killed  records_complete_7b: checkpoint record no longer required (R-3 resume deadlock restored)
+[84] killed  run_twin: skip-if-exists disabled (re-runs the twin)
+[85] killed  _require_endpoint_seal: rung_set/power existence check inert
+[86] killed  _require_endpoint_seal: blob-drift check inert
+[87] killed  run(): totality — collect_total stripped at line 1272 (bg.check_frozen_imports_2g...)
+[88] killed  run(): totality — collect_total stripped at line 1274 (bi.check_frozen_2i...)
+[89] killed  run(): totality — collect_total stripped at line 1276 (bi.check_pythia_predictor_files...)
+[90] killed  run(): totality — collect_total stripped at line 1279 (lambda: require_prereg_2i(tag_exists=tag_exists,...)
+[91] killed  run(): totality — collect_total stripped at line 1283 (lambda: bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=manife...)
+[92] killed  run(): totality — collect_total stripped at line 1295 (bg.load_battery...)
+[93] killed  run(): totality — collect_total stripped at line 1297 (bg.load_floors...)
+[94] killed  run(): totality — collect_total stripped at line 1299 (a2d.load_verify...)
+[95] killed  run(): totality — collect_total stripped at line 1307 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[96] killed  run(): totality — collect_total stripped at line 1318 (lambda: _load_predictor_seal_content(root)...)
+[97] killed  run(): totality — collect_total stripped at line 1326 (lambda: _load_rung_set(root)...)
+[98] killed  run(): totality — collect_total stripped at line 1329 (lambda: _load_power(root, rung_set)...)
+[99] killed  run(): totality — collect_total stripped at line 1350 (lambda: load_predictor_records_2i(root, battery, entry_1b=en...)
+[100] killed  run(): totality — collect_total stripped at line 1364 (lambda: load_endpoint_which(root, "stage1_final", battery, v...)
+[101] killed  run(): totality — collect_total stripped at line 1376 (lambda: load_endpoint_which(root, "main", battery, verify_fn...)
+[102] killed  run(): totality — collect_total stripped at line 1436 (lambda: bi.sampler_counts_pythia("1b", rung_set["R_OLMO"]) i...)
+[103] killed  run(): totality — collect_total stripped at line 1441 (lambda: bi.sampler_counts_olmo(rung_set["R_OLMO"], root=root...)
+[104] killed  run(): totality — collect_total stripped at line 1459 (lambda: load_sweep_7b(root, battery, verify_fn, manifest=man...)
+[105] killed  run(): totality — collect_total stripped at line 1474 (lambda: gate1_rederive_7b(sweep[bi.ENDPOINT_STEP_7B], stage1...)
+[106] killed  run(): totality — collect_total stripped at line 1290 (lambda: mkr.check_referents(REFERENTS_PATH_2I, sha_pin=refer...)
+[107] killed  run(): totality — collect_total stripped at line 1314 (lambda: sg.check_strata_pins(strata)...)
+[108] killed  run(): totality — collect_total stripped at line 1337 (lambda: bi.entry_7b(manifest, bi.ENDPOINT_STEP_7B)...)
+[109] killed  run(): totality — collect_total stripped at line 1340 (lambda: bi.entry_1b_endpoint(manifest)...)
+[110] killed  run(): totality — collect_total stripped at line 1343 (lambda: bi.entry_main(manifest, bi.REPO_7B)...)
+[111] killed  run(): totality — collect_total stripped at line 1357 (lambda: _check_predictor_seal_sampling(predictor_rec, predic...)
+[112] killed  run(): totality — collect_total stripped at line 1390 (lambda: bi.halt_marker_path(root).read_text().strip()[:200]...)
+[113] killed  run(): totality — collect_total stripped at line 1400 (lambda: json.loads(g1p.read_text())...)
+[114] killed  run(): totality — collect_total stripped at line 1420 (lambda: _check_rung_set_vs_endpoint(rung_set, stage1_final)...)
+[115] killed  run(): totality — collect_total stripped at line 1430 (lambda: _check_rung_set_derivation(rung_set, stage1_final, f...)
+[116] killed  run(): totality — collect_total stripped at line 1452 (lambda: _check_predictor_counts_2i(predictor_rec, predictor_...)
+[117] killed  run(): totality — collect_total stripped at line 1484 (lambda: _outcomes_and_tests_2i(sweep, strata, x_a, x_b, rung...)
+[118] killed  run(): totality — collect_total stripped at line 1405 (lambda: gate1_failures_7b(gate1, stage1_final) if _gate_read...)
+[119] killed  run(): totality — collect_total stripped at line 1515 (thunk...)
+
+119/119 killed; survivors: []

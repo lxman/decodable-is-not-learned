@@ -1193,3 +1193,123 @@ three, which will dilute T_A relative to 2h's .2020 by construction.
 commits) + `power_2i.json` + this entry → annotated tag
 `exp2i-endpoint-sealed` at the commit carrying this entry, pushed. No intermediate
 checkpoint has been loaded. One pre-committed change UNSPENT.
+
+## 2026-08-27 — CAMPAIGN STOP #1 (gate 1, the sweep's FIRST model load; nothing scored, no sweep record written, the analyzer never ran) — AWAITING MICHAEL'S RULING
+
+**What happened.** The 7B sweep was launched detached at 00:43 after
+the endpoint seal and the projection (`5b000b7d`). Gate 1 loads the
+stage-1 endpoint (`stage1-step928646-tokens3896B`) through the
+sweep's CHECKPOINT loader (`battery_2i.load_checkpoint`: candidate
+shards only, hardlinked into a clean directory, config pinned to the
+entry's commit) to compare it byte-for-byte against the stage-2
+records produced by the THIN loader. The weights loaded (355/355
+tensors), then `transformers` raised inside `from_pretrained`:
+
+    TypeError: expected str, bytes or os.PathLike object, not NoneType
+    (generation/configuration_utils.py:1072, _dict_from_json_file)
+
+The runner exited with the traceback; `results/sweep/` was never
+created (no `gate1.json`, no HALTED marker, no record of any kind);
+`~/emergence-lab/ckpt_cache_2i` is empty. No outcome quantity exists.
+
+**Root cause (Phase 1, traced through the stack; reproduced without
+model contact).** transformers 5.13.0's `from_pretrained` calls
+`adjust_generation_fn` after the weights load; unless a
+`generation_config=` kwarg is passed it loads the generation config
+FROM THE MODEL DIRECTORY: `GenerationConfig.from_pretrained(dir)` →
+no `generation_config.json` → `OSError` → the fallback re-reads
+`config.json` from the same directory — and `cached_files`
+SPECIAL-CASES a local directory's missing `config.json`
+(`utils/hub.py`: `if _raise_exceptions_for_missing_entries and
+filename != os.path.join(subfolder, "config.json")`), returning
+`None` where any other missing file raises — so the fallback never
+gets the `OSError` it is written to re-raise and passes `None` to
+`_dict_from_json_file` → the `TypeError`. 2i's
+`clean_dir` staged ONLY the candidate shards; the `config=` object
+passed to `from_pretrained` does not reach this path. 2h's
+`clean_dir_69` (battery_2h.py:355) wrote `config.json` into its clean
+dir — 2c's single pinned config — which is why Pythia never hit it;
+2i generalised the config fetch to per-entry commits (21 revisions +
+`main` + the 1B endpoint have no single commit) and dropped the write
+(the build's `load_checkpoint` docstring records the generalisation
+explicitly, i.e. the omission was a design choice made without the
+transformers-5 fact). Stage 2 never hit it because `load_thin` reads
+the Hub snapshot, which carries `config.json` and
+`generation_config.json`. The twin (`from_config`) is unaffected.
+
+Weight-free reproduction (tiny `Olmo2Config`, `save_pretrained`, then
+delete `config.json`/`generation_config.json` to mimic the clean dir):
+- A. weights only + `config=` kwarg → the identical `TypeError`;
+- B. + `config.json` written into the directory (2h's shape) → loads,
+  generation config eos/pad = the config's, loading info empty;
+- C. + `generation_config=` kwarg, no `config.json` → loads.
+
+**Why the fix is verdict-inert, and where gate 1 checks it.** OLMo-2's
+Hub `generation_config.json` at both the endpoint commit
+(`c0371f42…`) and `main` (`7df9a825…`) is `_from_model_config: true`
+with `eos_token_id 100257`, `pad_token_id 100277` — exactly
+`config.json`'s values — so the fallback built from a written
+`config.json` reproduces the thin loader's generation config. Nothing
+in the fix touches a verdict input, a dial, the rung set, the power
+record or either seal; and the design already places the check for
+loader-path disagreement at gate 1 (continuation identity 17,000/17,000
+against the thin-loader endpoint records, re-derived by the analyzer),
+where any residual difference halts the sweep into INSUFFICIENT_DATA
+rather than biasing a count.
+
+**Fix (Phase 4, test-first; option B, 2h's precedent).**
+`battery_2i.clean_dir(repo, rev_key, cache_root, paths, *, config)` —
+`config` REQUIRED (the weights-only shape is now a `TypeError` at the
+call site, not a latent crash 355 tensors later) and written as
+`config.json` beside the hardlinked shards; `load_checkpoint` fetches
+the pinned config BEFORE staging and passes it. Docstring carries the
+stop. Three tests in `test_battery_2i.py`, RED then GREEN:
+`test_clean_dir_writes_the_pinned_config_beside_the_candidate_files`,
+`test_clean_dir_refuses_the_weights_only_shape`,
+`test_load_checkpoint_passes_its_pinned_config_to_clean_dir` (a
+source-level pin — `load_checkpoint` is model contact and never
+executed by a test). One mutant added to `tests/mutation_check.py`
+("clean_dir: pinned config.json write stripped"), killed by the first.
+
+**Found on the way (test hygiene, not a defect in the instrument).**
+Three tests in `test_stages_2i.py`
+(`test_sample_refuses_without_prereg_tag`,
+`test_sample_prereg_precedes_any_loader_construction`,
+`test_endpoint_refuses_without_prereg_tag`) asserted the no-injection
+refusal path by relying on the REPO lacking `exp2i-preregistered` —
+their own comment says so. They passed in every pre-tag cold battery
+and have failed since the tag was cut (falling through to a
+`KeyError: 'olmo1b'` from the empty loaders dict), unnoticed because
+no suite ran post-tag until this stop. Fixed test-side only:
+`monkeypatch.setattr(an.pr, "git_tag_exists", lambda t: False)` pins
+the DEFAULT's answer instead of the repo's state. No instrument file
+touched for this.
+
+**Cold battery after the fix:** suite `287 passed in 344.98s (0:05:44)` (0 failures; 284 at the tag + 3 new); mutation
+harness 119/119 killed, survivors [] (118 at the tag + the new clean_dir mutant, log `mutation_stop1.log`; sources restored byte-identical, no `.mutation_backup` stranded); `verify_referents_2i` deliberately NOT
+run — it binds the five instrument blobs to the tag and refuses on
+the battery_2i.py drift until the re-tag (the fail-closed state the
+freeze designed; the same refusal is what every stage runner and the
+analyzer now deliver).
+
+**Ledgered-state check:** `exp2i-predictor-sealed` and
+`exp2i-endpoint-sealed` bind RESULT files only (predictor draws +
+records + seal; the 68 endpoint records + rung set + power) — none
+touched, both tags stand. `exp2i-preregistered` binds the five
+instrument blobs; `battery_2i.py` has drifted from it by this fix.
+
+**RULING NEEDED (the 3c stop-#1 shape):**
+(a) ratify the fix (option B — `config.json` written into the clean
+    dir, 2h's shape) over option C (a `generation_config=` kwarg
+    fetched from the Hub at the pinned commit; equivalent here, one
+    more network read per step, and it would silently hide a branch
+    that LACKED a generation config instead of falling back the way
+    the thin loader does);
+(b) re-tag `exp2i-preregistered` at the commit carrying the fix (the
+    freeze's own rule: "a post-tag edit to any of the five
+    INSTRUMENT_BLOBS_2I files requires a re-tag"; the old tag object
+    stays in the reflog and in the ledger by sha, f57f5888);
+(c) relaunch the sweep (gate 1 first, unchanged) with the watcher.
+Pre-committed change: NOT spent (a loader-path crash before any
+sweep record, closed test-first; no dial, criterion or verdict input
+moved) — Michael's call whether he agrees.

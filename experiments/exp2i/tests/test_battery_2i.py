@@ -244,6 +244,69 @@ def test_loader_family_present_and_not_executed():
     assert bi.ck is ck
 
 
+# ------------------------------------------------------------ clean_dir
+# Campaign stop #1 (2026-08-27, gate 1, first model load of the sweep):
+# `load_checkpoint` staged a clean dir holding ONLY the candidate
+# shards and passed the pinned config as an object. transformers 5.x
+# loads a generation config from the DIRECTORY after the weights
+# (`adjust_generation_fn`): no `generation_config.json` -> OSError ->
+# fallback reads `config.json` from the same directory -> absent ->
+# `cached_file` returns None -> `TypeError: expected str, bytes or
+# os.PathLike object, not NoneType`. Reproduced weight-free on a tiny
+# Olmo2 config; 2h's `clean_dir_69` wrote `config.json` into its clean
+# dir and never hit it. The fix: `clean_dir` REQUIRES the pinned config
+# and writes it as `config.json` beside the hardlinked shards.
+
+class _StubConfig:
+    def __init__(self):
+        self.written = []
+
+    def to_json_file(self, path):
+        self.written.append(str(path))
+        with open(path, "w") as f:
+            f.write('{"stub": true}')
+
+
+def _fake_shards(tmp_path):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "model-00001-of-00002.safetensors").write_bytes(b"a")
+    (src / "model-00002-of-00002.safetensors").write_bytes(b"b")
+    return {p.name: p for p in src.iterdir()}
+
+
+def test_clean_dir_writes_the_pinned_config_beside_the_candidate_files(tmp_path):
+    paths = _fake_shards(tmp_path)
+    cfg = _StubConfig()
+    d = bi.clean_dir("allenai/OLMo-2-1124-7B", "stage1-step1000-tokens4B",
+                     tmp_path / "cache", paths, config=cfg)
+    assert sorted(p.name for p in d.iterdir()) == [
+        "config.json", "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"]
+    assert cfg.written == [str(d / "config.json")]
+    assert json.loads((d / "config.json").read_text()) == {"stub": True}
+    # the shards are the same bytes (hardlink or copy), nothing else leaks in
+    assert (d / "model-00001-of-00002.safetensors").read_bytes() == b"a"
+
+
+def test_clean_dir_refuses_the_weights_only_shape(tmp_path):
+    # the stop-#1 shape is unreachable: the config is a required keyword
+    paths = _fake_shards(tmp_path)
+    with pytest.raises(TypeError):
+        bi.clean_dir("allenai/OLMo-2-1124-7B", "stage1-step1000-tokens4B",
+                     tmp_path / "cache", paths)
+
+
+def test_load_checkpoint_passes_its_pinned_config_to_clean_dir():
+    # `load_checkpoint` is model contact and never executed here; pin
+    # the call shape at source level so the stop-#1 omission cannot
+    # silently return.
+    import inspect
+    src = inspect.getsource(bi.load_checkpoint)
+    assert "config=config" in src
+    assert src.index("AutoConfig.from_pretrained") < src.index("clean_dir(")
+
+
 # --------------------------------------------------- _check_loading_info
 #
 # The shared shape check `load_checkpoint`/`load_thin` both apply to
