@@ -1,0 +1,344 @@
+{
+ "R_OLMO": [
+  "add3_mid",
+  "add4_mid",
+  "add_base8",
+  "antonym",
+  "antonym6",
+  "arith_next",
+  "odd6",
+  "odd_one_out",
+  "quad_next",
+  "reverse_string",
+  "sub3_mid",
+  "sub4_mid",
+  "sub_base8"
+ ],
+ "R_CAP": [
+  "add3_mid",
+  "add_base8",
+  "antonym",
+  "antonym6",
+  "arith_next",
+  "odd6",
+  "sub3_mid",
+  "sub4_mid",
+  "sub_base8"
+ ],
+ "R_EXTRA": [
+  "add4_mid",
+  "odd_one_out",
+  "quad_next",
+  "reverse_string"
+ ],
+ "per_rung": {
+  "add4_mid": {
+   "k": 165,
+   "n": 500,
+   "rate": 0.33,
+   "p": 6.51229501118076e-232,
+   "significant": true
+  },
+  "sub4_mid": {
+   "k": 308,
+   "n": 500,
+   "rate": 0.616,
+   "p": 0.0,
+   "significant": true
+  },
+  "add3_mid": {
+   "k": 304,
+   "n": 500,
+   "rate": 0.608,
+   "p": 0.0,
+   "significant": true
+  },
+  "sub3_mid": {
+   "k": 495,
+   "n": 500,
+   "rate": 0.99,
+   "p": 0.0,
+   "significant": true
+  },
+  "antonym6": {
+   "k": 416,
+   "n": 500,
+   "rate": 0.832,
+   "p": 4.331947006183371e-234,
+   "significant": true
+  },
+  "antonym": {
+   "k": 481,
+   "n": 500,
+   "rate": 0.962,
+   "p": 1.2189574846671003e-258,
+   "significant": true
+  },
+  "arith_next": {
+   "k": 421,
+   "n": 500,
+   "rate": 0.842,
+   "p": 0.0,
+   "significant": true
+  },
+  "quad_next": {
+   "k": 28,
+   "n": 500,
+   "rate": 0.056,
+   "p": 2.1282674465898076e-07,
+   "significant": true
+  },
+  "base12_digitsum": {
+   "k": 4,
+   "n": 500,
+   "rate": 0.008,
+   "p": 0.9999942291946348,
+   "significant": false
+  },
+  "base13": {
+   "k": 1,
+   "n": 500,
+   "rate": 0.002,
+   "p": 0.9999999999999994,
+   "significant": false
+  },
+  "base7": {
+   "k": 1,
+   "n": 500,
+   "rate": 0.002,
+   "p": 0.6324887451428411,
+   "significant": false
+  },
+  "oct2dec": {
+   "k": 4,
+   "n": 500,
+   "rate": 0.008,
+   "p": 0.01886548978698384,
+   "significant": false
+  },
+  "caesar_len8": {
+   "k": 0,
+   "n": 500,
+   "rate": 0.0,
+   "p": 1.0,
+   "significant": false
+  },
+  "caesar": {
+   "k": 0,
+   "n": 500,
+   "rate": 0.0,
+   "p": 1.0,
+   "significant": false
+  },
+  "clock24_d999": {
+   "k": 26,
+   "n": 500,
+   "rate": 0.052,
+   "p": 0.7995478808523593,
+   "significant": false
+  },
+  "clock24": {
+   "k": 15,
+   "n": 500,
+   "rate": 0.03,
+   "p": 0.9999845931142012,
+   "significant": false
+  },
+  "collatz_step2": {
+   "k": 77,
+   "n": 500,
+   "rate": 0.154,
+   "p": 0.7811375472321875,
+   "significant": false
+  },
+  "count_div13": {
+   "k": 63,
+   "n": 500,
+   "rate": 0.126,
+   "p": 0.9808498690380607,
+   "significant": false
+  },
+  "count_div7": {
+   "k": 20,
+   "n": 500,
+   "rate": 0.04,
+   "p": 0.9999998342932382,
+   "significant": false
+  },
+  "hamming12": {
+   "k": 3,
+   "n": 500,
+   "rate": 0.006,
+   "p": 1.0,
+   "significant": false
+  },
+  "isqrt_gap": {
+   "k": 76,
+   "n": 500,
+   "rate": 0.152,
+   "p": 0.7822685512049521,
+   "significant": false
+  },
+  "median5": {
+   "k": 120,
+   "n": 500,
+   "rate": 0.24,
+   "p": 0.016091803494014782,
+   "significant": false
+  },
+  "median7": {
+   "k": 78,
+   "n": 500,
+   "rate": 0.156,
+   "p": 0.217091488884512,
+   "significant": false
+  },
+  "mod13_comp": {
+   "k": 30,
+   "n": 500,
+   "rate": 0.06,
+   "p": 0.997734938573803,
+   "significant": false
+  },
+  "mod17": {
+   "k": 30,
+   "n": 500,
+   "rate": 0.06,
+   "p": 0.928373943782231,
+   "significant": false
+  },
+  "mod19": {
+   "k": 24,
+   "n": 500,
+   "rate": 0.048,
+   "p": 0.9617008864217205,
+   "significant": false
+  },
+  "mod13": {
+   "k": 41,
+   "n": 500,
+   "rate": 0.082,
+   "p": 0.8405115502072666,
+   "significant": false
+  },
+  "odd6": {
+   "k": 231,
+   "n": 500,
+   "rate": 0.462,
+   "p": 3.179349760006405e-53,
+   "significant": true
+  },
+  "odd_one_out": {
+   "k": 247,
+   "n": 500,
+   "rate": 0.494,
+   "p": 8.182835292483639e-32,
+   "significant": true
+  },
+  "rev_string7": {
+   "k": 2,
+   "n": 500,
+   "rate": 0.004,
+   "p": 0.26424099478496643,
+   "significant": false
+  },
+  "reverse_string": {
+   "k": 28,
+   "n": 500,
+   "rate": 0.056,
+   "p": 6.100166845082937e-31,
+   "significant": true
+  },
+  "roman_sum7": {
+   "k": 66,
+   "n": 500,
+   "rate": 0.132,
+   "p": 0.9252228524676193,
+   "significant": false
+  },
+  "sub_base8": {
+   "k": 308,
+   "n": 500,
+   "rate": 0.616,
+   "p": 6.83316077257568e-248,
+   "significant": true
+  },
+  "add_base8": {
+   "k": 118,
+   "n": 500,
+   "rate": 0.236,
+   "p": 2.360834656457183e-71,
+   "significant": true
+  }
+ },
+ "endpoint_file_sha256": {
+  "results/endpoint/stage1_final/add4_mid.json": "ccbff852a4897526d06b4050d0d1d617e44c917c045d452b55554a311b3d8a08",
+  "results/endpoint/stage1_final/sub4_mid.json": "ed8815d9260d069922431e49c645232d9c85f84ca9e4913ce2e572d0567262a8",
+  "results/endpoint/stage1_final/add3_mid.json": "ddb35b9efa4bf28b239d7aa50af8dcf1197910c3dc3c80c6ec28b7de00695669",
+  "results/endpoint/stage1_final/sub3_mid.json": "36dbca5ff5dede8cee3c52dc06769c4eb47e0aefa9393abfacaa56ab2f3a0501",
+  "results/endpoint/stage1_final/antonym6.json": "c790eae83e71e647ac65aa629bca63c204d916f46c1d7f07f8bd30e9a54088be",
+  "results/endpoint/stage1_final/antonym.json": "b46eeea1a5ddbd1a42beb95fa64ae4cf95f017edcfbfc65a7bb15a4192eb3ded",
+  "results/endpoint/stage1_final/arith_next.json": "d23f74b1e68844f485d1b6ede6987b1b1c6f128ce0d960d4525e9546daf41bb4",
+  "results/endpoint/stage1_final/quad_next.json": "061be969fbde3fc2ede28f6e5a109154e8eed47f677c67c41f2e6a271987e532",
+  "results/endpoint/stage1_final/base12_digitsum.json": "5b60c52e3263e746e494b8c3b291024089b9bfa06dbacc69c6b21d9c85b02e89",
+  "results/endpoint/stage1_final/base13.json": "c6470c1d4b7f7a2a0f45710e1f88c82ef6ab5b7fd8cc2d9e7d8d99ec5d9f8f72",
+  "results/endpoint/stage1_final/base7.json": "e4c96cb8d51ec55ec5eaf9a4a0a9c1fcedfe1d694d18d69880114b414c1d89f0",
+  "results/endpoint/stage1_final/oct2dec.json": "04b40d86d63cdbd769d919a64cd314dd273ee2e58ef21989282be3cb978844f3",
+  "results/endpoint/stage1_final/caesar_len8.json": "915c46bd82298e55325c449e07cf527e25d74019e09f35c65551c7c8f7260453",
+  "results/endpoint/stage1_final/caesar.json": "1cd89426c3351542199ffa9bdc4bc61ef11674dfee11c80b0be22529c76b760a",
+  "results/endpoint/stage1_final/clock24_d999.json": "c11424641282f95f1f8ba5eb670d9732c9b20e870d02bf4d10dc7415b19d877a",
+  "results/endpoint/stage1_final/clock24.json": "56c98851198f29ebf5865c77b8d6153808de0324c0abc30f75768a894da454b1",
+  "results/endpoint/stage1_final/collatz_step2.json": "fd48c197c64d53e08fa7ef63999cf7932f7b9e72dc884dbc12b67a5b32bc558a",
+  "results/endpoint/stage1_final/count_div13.json": "e7f55a043cba090858b0a47f908eae67b4e075922e81ba3c96eac549be9587a0",
+  "results/endpoint/stage1_final/count_div7.json": "f9a86f429b6f586017c558559929df46ddd6e0c3c9652f68cb24fb25e63031e9",
+  "results/endpoint/stage1_final/hamming12.json": "d37aedbbc3a365cb1020538ce75f767d74939d4a607ad76bf276ed1d1423661c",
+  "results/endpoint/stage1_final/isqrt_gap.json": "9eeebcb1ad4bbda155db337a8a3e7b6099eb9ffff23fd4fddc482da9f17c9836",
+  "results/endpoint/stage1_final/median5.json": "930ea03fe850cac5ed67974f5810d90b08eb47938d03ed2c67df3ef117bf345a",
+  "results/endpoint/stage1_final/median7.json": "1a51ed9c8dbeaadf8009f1c01debab27841bb6d034e81247354b7aa6d6732276",
+  "results/endpoint/stage1_final/mod13_comp.json": "5dbf5377e6497f7402d2e460aa4767eb2c49d51cd6f01f37c534e92a8b774bc6",
+  "results/endpoint/stage1_final/mod17.json": "b2409f3d576ae0fd3126c15cf9682c5b42a6db4bf10fce44bf8a3245f9229d5a",
+  "results/endpoint/stage1_final/mod19.json": "3d65d11c6caf792ad2cde0070a917fe4193650c8f988158d0b4f1ef4afa3c893",
+  "results/endpoint/stage1_final/mod13.json": "0d78ffaf7df267bf67545cbab33af54530c09c5834ce72284be0e29f19abb99d",
+  "results/endpoint/stage1_final/odd6.json": "c0174d4c05f28d1f3c8f3fea36c7a75453d1675e81cc5302497cbe931233e93b",
+  "results/endpoint/stage1_final/odd_one_out.json": "00f1c7deb20ec78f54b6512d46a7981e751bc3d0a1b4928b89094175e66c4f31",
+  "results/endpoint/stage1_final/rev_string7.json": "98623ddccc68cf629903f8ba6f116d2a0043111e54a08d98a6e63190f2750183",
+  "results/endpoint/stage1_final/reverse_string.json": "769c0f1850fdb33f5d4b73f2d417ab7cdf74263c3a7ee6cabd23c499f16a965c",
+  "results/endpoint/stage1_final/roman_sum7.json": "d89c389e35156b956dae3215cdedbff6c93bcc90801a92d661b0e2f87a379ed4",
+  "results/endpoint/stage1_final/sub_base8.json": "bed119d65a28e11d042c6b07ebfe27cd5d9c703b5182130cd29d4e10595da977",
+  "results/endpoint/stage1_final/add_base8.json": "513c4d89983ed691b62de15a14b81ed653f9e2394229ef6c039dd232491a3e6e",
+  "results/endpoint/main/add4_mid.json": "9d73be7b23eb39c7ef67b4db02efba2ae85a218caa52822b6fae7116f788a4de",
+  "results/endpoint/main/sub4_mid.json": "e12f45d9d0ba32405098bb005473183c8d377d61271b517ec0bd22277704a9b4",
+  "results/endpoint/main/add3_mid.json": "47ee070562163e0af128e3bab036bb828a5c15a3655abc121b18ea6159c66eee",
+  "results/endpoint/main/sub3_mid.json": "ed954ff2c4fb1a5f115b86bccae7e1380139affb4eb9fe0d26bd674e811823a2",
+  "results/endpoint/main/antonym6.json": "6ec83b4cdb12c1f82a5fa25c6a53ed5d6de4f8fefaf6d80f902ef8bdc836a45f",
+  "results/endpoint/main/antonym.json": "a425e8f054217ce73e2d8bb18b164e3025afd24abf09faf9e88f1c3074d89b38",
+  "results/endpoint/main/arith_next.json": "ea20d62ed3d2de02a23c1251565b964c19e2578cd5c3c92ea35428d2b2d20e57",
+  "results/endpoint/main/quad_next.json": "d81d8c78420e799347efd479d574dffd3a7ff6edd267dbbfd57105b5b344f726",
+  "results/endpoint/main/base12_digitsum.json": "a69f543a5a5c725f70dbebeb954bbd5d70e3fc17cc476052818bc4e0e43c11e3",
+  "results/endpoint/main/base13.json": "fb10bc7c77e54ae8d6de9cfd2498093e5730dca16e6f9800a120d182b7f1b098",
+  "results/endpoint/main/base7.json": "e31aa0000866558afdfefc0376f3e557059ee3e03033732fc28fb7243e9cfaee",
+  "results/endpoint/main/oct2dec.json": "1e01230cabd4df04bca6b4415c9864eb36925cce2a3df2aac73fda8c95802197",
+  "results/endpoint/main/caesar_len8.json": "82c20b59e2f53096643322f9e59f826a855403abd97d43e6a06f1a1af7862d3d",
+  "results/endpoint/main/caesar.json": "d1c925420ca7d9681404d283b022bf8b292fe8b9fbd42ffa6c501c36c1a68b48",
+  "results/endpoint/main/clock24_d999.json": "8c744234e9b8f4da1c5ffe5fcf3a4d6b4a05bbd1d86ac91b2c4648bfc5612d36",
+  "results/endpoint/main/clock24.json": "9b011b8a95602f887e8cbdf72f7a51edecfb4e25ca1ebedb286d6f58e29173b8",
+  "results/endpoint/main/collatz_step2.json": "49116e2811292b08f5faf9cde8166c1ac20b1aa1eddcd39fdaae4b4b361f1a53",
+  "results/endpoint/main/count_div13.json": "e82526cde51a9db02c79842a6bf8c33d1ed32c36009ae2227715165fd58103d6",
+  "results/endpoint/main/count_div7.json": "9d32e20a42b4f3456370f755f8008c7c998658821fdcd77325a58f27b179f6e8",
+  "results/endpoint/main/hamming12.json": "9737e8f5d41c41ec911a48553f52eb5a0ad4f51ee016848915aef551fc1f3e37",
+  "results/endpoint/main/isqrt_gap.json": "01508b287bf8b76b55b81f410bf75836b03320fe3dba34ac04642562f48e3427",
+  "results/endpoint/main/median5.json": "753868d079df5d1faea3d2cbb9ab8efddbdd36c8c43743bd18cfa4cd4b6623fa",
+  "results/endpoint/main/median7.json": "53b561d596e9898b0bef59ba6e99057bc2e2762bb3e0eaadac20bed17622bdaa",
+  "results/endpoint/main/mod13_comp.json": "736f53fe89c8e454c23693f0f7529079573560c2dfd2123c30f1cceeaae0929b",
+  "results/endpoint/main/mod17.json": "e1db7b619aec6f5ce4e321e4a67d91a1f772f1054c134635e3214c7ae6fd470f",
+  "results/endpoint/main/mod19.json": "7812c2b8483b9ad9f2222c74659954d9cadd7b7d1987d72ec6d24bb7e293fd42",
+  "results/endpoint/main/mod13.json": "21c6c16122384bcb2a3932405da0132e3cf3506e3497ee379a43441291790f75",
+  "results/endpoint/main/odd6.json": "9f97a771d1f0a0f147ecbf07c84f3c5f0a1b3470829125a7af38f35ffdb481bd",
+  "results/endpoint/main/odd_one_out.json": "698d3184009d9b0342f2a9de181d0b915318820abe23fd2d6d43b9b4333c5b77",
+  "results/endpoint/main/rev_string7.json": "3e2c89a4220b4d6f4204c4518f503523d4adf7db53838b4cb426cde00e51b7c5",
+  "results/endpoint/main/reverse_string.json": "8740944fd33ae0397ed90525ae9e21d2494ecdf8bb8ea622f3c91b645ef089bc",
+  "results/endpoint/main/roman_sum7.json": "4a6c974ff1c127792d03233c1501b75319d6c27999662eca32477240997c2372",
+  "results/endpoint/main/sub_base8.json": "4869ba957b06d0911dc50253bdcacc4a8e90585c92dac40b0193dab537984006",
+  "results/endpoint/main/add_base8.json": "1aa9b816cfde484caabe985929fbef9ea8b9fc52fb738dc3471031163dda34dc"
+ }
+}
