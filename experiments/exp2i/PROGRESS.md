@@ -1091,3 +1091,105 @@ verify bits print and nothing lands under `root/results`; RED then
 GREEN. Untouched: `battery_2i.py`, `analyze_2i.py`, `FROZEN_SHA256`,
 the tag binding — `preflight_2i.py` stays deliberately unpinned. Full
 suite green after the change: 284 passed, 0 warnings, 336.35s.
+
+## 2026-08-26/27 — PREFLIGHT, STAGE 1 (predictor sealed), STAGE 2 (endpoint sealed)
+
+Three sessions of model contact after the tag, each on Michael's word,
+ledgered here together because the predictor and endpoint stages ran
+across a context boundary (the running state was carried in the
+session handoff, not in this file — this entry closes that gap).
+
+**Preflight (2026-08-26, 'approved - go').**
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
+experiments.exp2i.run.preflight_2i` — 2c's harness on OLMo-2 1B `main`
+for 20 items each of `antonym` and `add3_mid` plus the one sampled item
+(antonym item 0, k = 2, seed 0, through exp3's `sample_item`; doc slip
+(m)). PASSED: the prompt renders, the model stops, the normalizer
+parses what OLMo emits, the sampler's call shape works against an
+OLMo-2 model. Stdout only; nothing written under `results/`.
+
+**Stage 1 — x_B (2026-08-26 12:50 → 22:00, ≈ 9.2 h, the top of the
+7–9 h estimate).** `-m experiments.exp2i.run.sample_2i` detached
+(nohup + disown; runner PID 66141) with `run/commit_watcher_2i.sh
+--stage predictor` alongside. OLMo-2 1B at `stage1-step1907359-
+tokens4001B` (commit 9d3e4365…, weight sha 764c6b9e…) sampled on all
+34 rungs × 500 items × 64 draws, seed 0, T = 1.0, fp32, exp3's stream
+namespace with the size label `olmo1b` — ≈ 1.09 M draws, every raw
+draw stored. 68 files (34 `.draws.jsonl.gz` + 34 records) committed
+one at a time by the watcher (68 commits, size-settle rule; no
+deferred-then-partial commit). Zero halts, zero attrition.
+
+**Seal (2026-08-26 22:03, `da889aae`, tag `exp2i-predictor-sealed`,
+pushed).** `-m experiments.exp2i.run.seal_2i` applied freeze F-1's
+provenance check at the seal — repo/revision/commit, item sha and
+answer column, answer type, `max_new_tokens`, the sampling protocol,
+the full 32,000-draw tally per rung, and the per-item counts re-derived
+from the raw draws — and wrote `results/predictor/predictor_2i.json`
+(sha d80ada50…). Refused nothing: the stage was what it claimed.
+
+**x_B texture (sealed, disclosed before any 7B contact):** OLMo-2 1B at
+4 T tokens sits at ceiling NOWHERE — 0 of 17,000 items at 64/64 on any
+rung. Means per item: antonym 25.9, antonym6 17.3, odd_one_out 13.9,
+sub_base8 8.3, median5 7.9, arith_next 7.4, odd6 7.2, hamming12 6.4,
+count_div13 5.6, isqrt_gap 5.5, roman_sum7 5.2, collatz_step2 4.9,
+median7 4.5, mod13 3.4, add_base8 3.1; the mid-digit rungs near zero
+(add3_mid .19, sub3_mid .11, add4_mid .02, sub4_mid .01); reversal
+rev_string7 0/32,000, caesar_len8 0/32,000, reverse_string 38,
+caesar 9. So Ruling 18's degeneracy branch is unreachable on every one
+of 2g's eleven strata rungs (the concern was a ceiling; the 1B is
+nowhere near it) — Test B is live on all of R_CAP.
+
+**Stage 2 — the 7B endpoint (2026-08-26 22:05 → 2026-08-27 00:22,
+≈ 2.3 h: `stage1_final` 61.7 min + `main` 68.0 min of model time plus
+2 × 29 GB streamed into the HF cache).** `-m
+experiments.exp2i.run.endpoint_2i` detached (runner PID 34991) with the
+watcher `--stage endpoint` (69 commits: 68 records + the rung set).
+OLMo-2 7B `stage1-step928646-tokens3896B` (commit c0371f42…, weight
+sha 10d0a1f8…) and `main` through the thin loader, fp16, 2c's
+harness, all 34 rungs, per-item bits and continuations stored. Zero
+halts.
+
+**Endpoint table (correct / 500; stage-1 endpoint → `main`):**
+sub3_mid 495 → 498; antonym 481 → 482; arith_next 421 → 472; antonym6
+416 → 417; add3_mid 304 → 465; sub4_mid 308 → 361; sub_base8 308 →
+295; odd_one_out 247 → 355; odd6 231 → 410; add4_mid 165 → 369;
+median5 120 → 152; add_base8 118 → 119; median7 78 → 133;
+collatz_step2 77 → 79; isqrt_gap 76 → 82; roman_sum7 66 → 60;
+count_div13 63 → 76; mod13 41 → 45; quad_next 28 → 69; reverse_string
+28 → 65; clock24_d999 26 → 41; mod13_comp 30 → 38; mod17 30 → 33;
+mod19 24 → 31; count_div7 20 → 47; clock24 15 → 31; hamming12 3 → 122;
+oct2dec 4 → 11; base12_digitsum 4 → 1; rev_string7 2 → 9; base13 1 →
+7; base7 1 → 2; caesar 0 → 0; caesar_len8 0 → 0.
+
+**Rung set by rule (§4, 2d's floor + bar, from the stage-1 endpoint
+only):** R_OLMo = 13 — add3_mid, add4_mid, add_base8, antonym,
+antonym6, arith_next, odd6, odd_one_out, quad_next, reverse_string,
+sub3_mid, sub4_mid, sub_base8. **R_CAP = 9** = 2h's eight minus
+count_div13 (63/500 = .126 against its .158 majority-share floor: below the floor at 7B, p .98) plus
+the three mid-digit rungs Pythia never cleared at any size — add3_mid,
+sub3_mid, sub4_mid. R_EXTRA = 4 (add4_mid, odd_one_out, quad_next,
+reverse_string — the last clears the bar at 28/500 against its .002
+floor, p 6e-31; raw single-stratum D only, never in a verdict).
+Nearest miss: median5 120/500 = .24 against .20, p .016 > α .01.
+Descriptive, `main` is never in an outcome: mid-training moves the
+mid-digit rungs most (add3_mid +161, add4_mid +204, odd6 +179,
+hamming12 +119) and the eight-bit and reversal rungs least.
+
+**Two sealed-predictor descriptives, computed before the projection
+and disclosed here (both inputs are committed; no outcome touched):**
+(i) within-rung Spearman between x_A (Pythia-1b's committed 2d counts)
+and x_B on R_CAP is weak — raw .07 (add3_mid) to .30 (add_base8),
+within 2g's strata .06 to .32 — the two predictors carry mostly
+different item orderings, so BOTH is reachable if A fires; (ii) x_A
+is near-silent on the three rungs new to a primary (items ever fired
+at Pythia-1b: add3_mid 10, sub3_mid 31, sub4_mid 13 of 500) where x_B
+has 70 / 35 / 6 — Test A has almost no rank information on those
+three, which will dilute T_A relative to 2h's .2020 by construction.
+
+**Power (`-m experiments.exp2i.power_2i`, ONCE, 2026-08-27):**
+`results/endpoint/power_2i.json`, both tests **POWERED** — P(fires | D_true = .15) = 1.000 against the bar .75 for A and for B; null false-fire rate .000 / .000; null SD of T .0096 (A) / .0111 (B); min-detectable T .0218 / .0257; `thin` False; `dropped_degenerate` [] for both (all nine R_CAP rungs simulated); n_pos lower bounds = the endpoint counts (add3_mid 304 … sub3_mid 495). At the bar itself, D_true = .10 → P(fires) .439 (A) / .381 (B): each test's outcome is decided by the T ≥ .10 bar, not by p — p < .01 is reached at T ≈ .025. Shape caveat carried verbatim (`SHAPE_NOTE_2I`: item-level rank concordance inside sealed strata; no class-level sensitivity); calibration sentence carried (each test at α .01, the world is their conjunction, the union of the four worlds is not α-calibrated).
+
+**Sealed:** the 68 endpoint records + `rung_set_2i.json` (watcher
+commits) + `power_2i.json` + this entry → annotated tag
+`exp2i-endpoint-sealed` at the commit carrying this entry, pushed. No intermediate
+checkpoint has been loaded. One pre-committed change UNSPENT.
