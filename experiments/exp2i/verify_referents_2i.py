@@ -19,7 +19,9 @@ deliberately short of any predictor-vs-outcome statistic.
     its strata pins check clean (the strata source `analyze_2i.run`
     reads)
  5  referents_2i.json: own sha == the literal; N_FILES_2I entries;
-    byte-idempotent
+    the only refusals are the stage artifacts absent on disk right
+    now (139 pre-stage, 0 post-campaign); byte-idempotent with the
+    stage entries normalised to null
  6  the two-test tree on literal inputs (every terminal, the
     boundaries, the 'below the effect bar' and 'inverted' notes per
     test)
@@ -120,11 +122,25 @@ def _c5(ctx):
     bad = mkr.check_referents(an.REFERENTS_PATH_2I, sha_pin=an.REFERENTS_2I_SHA256)
     unexpected = [b for b in bad if "still missing" not in b]
     _eq(unexpected, [], "only 'still missing' stage-artifact entries expected")
-    _eq(len(bad), 139, "exactly the 139 not-yet-existing stage artifacts")
+    # state-aware since stop #1 (2026-08-27): the manifest carries the
+    # 139 stage artifacts at sha256 null ("must exist at analysis
+    # time"; content is the seals' job), so the only admissible
+    # refusals are the stage artifacts ABSENT ON DISK RIGHT NOW — 139
+    # before any stage ran, 0 once every stage has (the literal 139
+    # this check carried until stop #1 encoded the pre-stage tree).
+    n_absent = sum(1 for q in mkr.stage_artifact_files() if not Path(q).is_file())
+    _eq(len(bad), n_absent, f"exactly the {n_absent} stage artifact(s) absent on disk")
     tmp = EXP2I / ".referents_2i.rebuild.json"
     try:
-        mkr.build(tmp)
-        _eq(tmp.read_bytes() == an.REFERENTS_PATH_2I.read_bytes(), True, "byte-idempotent")
+        rec = mkr.build(tmp)
+        # the rebuild fills real shas for stage artifacts that now
+        # exist; the committed manifest holds null there by design —
+        # normalise those entries and require byte identity on the rest
+        for q in mkr.stage_artifact_files():
+            rec["files"][mkr._rel(q)] = None
+        norm = json.dumps(rec, indent=1, sort_keys=True).encode()
+        _eq(norm == an.REFERENTS_PATH_2I.read_bytes(), True,
+            "byte-idempotent (stage entries normalised to null)")
     finally:
         tmp.unlink(missing_ok=True)
 
@@ -203,7 +219,12 @@ def _c8(ctx):
     for p in mkr.stage_artifact_files():
         if Path(p).is_file():
             present += 1
-            json.loads(Path(p).read_text())   # at minimum, valid json
+            if str(p).endswith(".jsonl.gz"):      # the 34 predictor draw files
+                import gzip
+                with gzip.open(p, "rt", encoding="utf-8") as f:
+                    json.loads(f.readline())    # readable gzip, first row valid json
+            else:
+                json.loads(Path(p).read_text())   # at minimum, valid json
         else:
             absent += 1
     print(f"      ({present} stage artifact(s) present, {absent} still missing)")

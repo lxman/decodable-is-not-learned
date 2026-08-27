@@ -1323,3 +1323,25 @@ from the old only in `battery_2i.py`'s `clean_dir`/`load_checkpoint`
 (the stop-#1 fix, 24 insertions / 8 deletions, nothing else); both
 seal tags untouched; (c) relaunch authorized — gate 1 first,
 unchanged. Pre-committed change: NOT spent, on his word.
+
+**2026-08-27 — RE-TAGGED + RELAUNCHED (on the ruling).**
+`exp2i-preregistered` moved f57f5888 → 105066c1 (annotated, force-
+pushed; the tag message names the prior object and the one blob
+delta); `run/sweep_2i.py --dry-run` accepts the instrument; SWEEP
+RELAUNCHED detached (runner PID 87733, watcher PID 87880, gate 1
+first, unchanged). Two more pre-stage premises found in the UNPINNED
+cold tool `verify_referents_2i.py` while running it after the re-tag
+(it had never run on a tree with stage artifacts present): item 5
+asserted the literal 139 'still missing' refusals and byte-idempotence
+against a rebuild that now fills real shas for present artifacts —
+made state-aware (refusals == the stage artifacts absent on disk;
+idempotence with the stage entries normalised to null, so the 1,843
+committed referents are still required byte-identical); item 8
+`json.loads` every present stage artifact and the 34 predictor draw
+files are gzip — made gz-aware (readable gzip, first row valid JSON).
+Neither file is tag-bound or on any verdict path (`analyze_2i.run`
+uses `make_referents_2i.check_referents` directly, which was already
+state-aware by construction — null sha = 'must exist'). Referent
+battery cold after the edits: 11/11. Lesson for the checklist: a cold
+tool written before any stage exists must be run once AFTER each
+stage lands, not only at close-out.
