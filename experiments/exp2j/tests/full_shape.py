@@ -51,18 +51,23 @@ N_POS_FIRING = 200
 # leaves W2 landing RESIDUAL, not ABSORBED — pi's bucket rule is a single
 # MEDIAN split, and a continuous habit weight still varies substantially
 # within each half, so beyond_all's T stayed at .24-.39 (T_BAR .10) at
-# every gamma shape tried (.5/.2/.1/.05). Swapping in a two-level
-# (bimodal) habit weight for the non-'residual' worlds — half the
-# distinct answers 'hot' at 10x the other half's weight, +/-2% noise so
-# ties never degenerate the bucket — makes pi (an average over ~32,000
-# draws) an almost noise-free readout of hot/cold membership, so its
-# median split matches the habit partition closely enough that beyond_all
-# drops to T .093 (< T_BAR) while within_alone still fires at T .30 and
-# alone['pi'] at T .67 — verified by grid search over hot_ratio at
-# {10, 30, 100}: 10 and 100 both clear the bar with margin, 30 sits right
-# on it (T .108, rejected). Final: hot_ratio=10.0, hot_frac=0.5,
-# weight_noise=0.02. 'residual' keeps the original continuous gamma
-# (unaffected — W1 was never the world in question).
+# every gamma shape tried (.5/.2/.1/.05, via a fast debug harness — its
+# rung-iteration order differs from THIS function's, so its specific
+# numbers do not reproduce here; see PROGRESS.md). Swapping in a
+# two-level (bimodal) habit weight for the non-'residual' worlds — half
+# the distinct answers 'hot' at 10x the other half's weight, +/-2%
+# noise so ties never degenerate the bucket — makes pi (an average over
+# ~32,000 draws) an almost noise-free readout of hot/cold membership,
+# so its median split matches the habit partition closely. Verified
+# through THIS module's own write_world_2j/run_world at n_perm=200,
+# n_boot=20, seed 0 (PROGRESS.md carries the full table): at the
+# shipped dial (hot_ratio=10) beyond_all drops to T .0620 (< T_BAR,
+# does not fire) while within_alone still fires at T .2777 and
+# alone['pi'] at T .6449; hot_ratio 30 and 100 verify the same way
+# (beyond_all T .0327 / .0398), all with comfortable margin under
+# T_BAR. Final: hot_ratio=10.0, hot_frac=0.5, weight_noise=0.02.
+# 'residual' keeps the original continuous gamma (unaffected — W1 was
+# never the world in question).
 _HOT_RATIO, _HOT_FRAC, _WEIGHT_NOISE = 10.0, 0.5, 0.02
 
 

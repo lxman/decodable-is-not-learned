@@ -266,17 +266,42 @@ worlds instead: half the distinct answers "hot" at a fixed ratio of
 the other half's weight, with small multiplicative noise so ties never
 degenerate the bucket. Because π averages over ~32,000 draws per rung,
 it becomes an almost noise-free readout of hot/cold membership, so its
-median split matches the habit partition closely. Grid search over
-`hot_ratio` at {10, 30, 100} (seed 0, the real `write_world_2j`
-pipeline): 10 and 100 both clear the bar with margin (`beyond_all` T
-.093 / .100 respectively), 30 sits right on the bar (T .108, rejected
-— too close to be a robust margin). **Final parameters:
-`hot_ratio=10.0, hot_frac=0.5, weight_noise=0.02`** (named
-`_HOT_RATIO`/`_HOT_FRAC`/`_WEIGHT_NOISE` in `full_shape.py`, with the
-finding recorded inline). `'residual'` keeps the original continuous
-gamma unaffected — W1 was never the world in question (its own T
-stayed at .93, comfortably firing throughout). No change to
-`analyze_2j.py`/`functionals_2j.py`.
+median split matches the habit partition closely.
+
+**Fix round 1 correction (2026-08-28): the {10, 30, 100} grid-search
+numbers first recorded here were mislabeled and wrong.** They were
+computed by the same lightweight debug harness as the gamma-shape
+sweep above, not — as the text then claimed — "the real `write_world_2j`
+pipeline". The harness iterates rungs in `RUNGS_CAP`'s own tuple
+order; `write_world_2j` iterates `bt.RUNGS`'s 34-rung order restricted
+to `RUNGS_CAP` membership, a DIFFERENT order (e.g. `sub4_mid` is third
+in `RUNGS_CAP` but first among `RUNGS_CAP` members within `bt.RUNGS`),
+so the two consume the shared `rng` in different sequences and land on
+different draws at the same seed and dial — confirmed directly, not
+inferred. The harness's numbers only ever motivated trying the bimodal
+approach; they do not characterize the shipped code, and `hot_ratio`
+100's harness figure in particular (T .09998, a hair under `T_BAR`)
+does not reproduce.
+
+Re-verified against the REAL pipeline instead —
+`write_world_2j(root, world="absorbed")` + `run_world(root, seal,
+n_perm=200, n_boot=20)`, seed 0 — transcribed directly from that run:
+
+| hot_ratio | within_alone T | beyond_all (primary) T | fires? |
+|---|---|---|---|
+| 10 | 0.2776959534767129 | 0.06200662138616882 | no |
+| 30 | 0.2920507442584531 | 0.03272027753582865 | no |
+| 100 | 0.30255423071138204 | 0.03975761954629447 | no |
+
+All three land ABSORBED with `beyond_all` comfortably under `T_BAR`
+(.10); none of the debug harness's near-boundary numbers (which had
+suggested 30 fires and 100 is borderline) hold against the shipped
+code. **Final parameters, unchanged: `hot_ratio=10.0, hot_frac=0.5,
+weight_noise=0.02`** (named `_HOT_RATIO`/`_HOT_FRAC`/`_WEIGHT_NOISE`
+in `full_shape.py`, with the finding recorded inline). `'residual'`
+keeps the original continuous gamma unaffected — W1 was never the
+world in question (its own T stayed at .93, comfortably firing
+throughout). No change to `analyze_2j.py`/`functionals_2j.py`.
 
 **All nine worlds reach their spec'd terminal**
 (`test_every_terminal_reached`, `n_perm=200, n_boot=20`):
@@ -285,10 +310,10 @@ stayed at .93, comfortably firing throughout). No change to
   within_alone`; `decomposition x_B to olmo7b`'s `beyond_all` T equals
   the primary's T exactly (same construction); `a1.reading` in
   `A1_READINGS`; every outcome's `ladder["64"]["B"].n_blocks == 1`.
-- **W2 ABSORBED (habit)**: `within_alone` fires (T .278); primary does
-  not (T .062, "below the effect bar"); `beyond_single["pi"]` does not
-  fire (T .077); `alone["pi"]` fires (T .674); `fraction_absorbed`
-  .777 (> .5); licensed sentence == `LICENSED_2J["ABSORBED"]`.
+- **W2 ABSORBED (habit)**: `within_alone` fires (T .2777); primary does
+  not (T .0620, "below the effect bar"); `beyond_single["pi"]` does not
+  fire (T .0766); `alone["pi"]` fires (T .6449); `fraction_absorbed`
+  .7767 (> .5); licensed sentence == `LICENSED_2J["ABSORBED"]`.
 - **W3 ABSORBED (independent)**: primary does not fire (T −.018,
   "inverted"); `declared_status` POWERED.
 - **W4 ABSORBED (underpowered)**: same independent world,
