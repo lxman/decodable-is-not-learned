@@ -2,7 +2,15 @@
 
 **Status: session 1 (design) written 2026-08-28, at Exp 2i's
 close-out, on Michael's word ("Approach A, A-1 as named secondary —
-design 2j"). §10 dials await his ruling; no build until then.
+design 2j"). §10 DIALS RULED by Michael 2026-08-28 ("dials as
+recommended — build and freeze"): a joint composite primary; b median
+split with the tie fallback; c the four functionals; d wrong-target
+π; e per-rung density-matched block thinning, T per block, no
+permutation p; f 2i's power simulation once at the build, governing
+how ABSORBED reads; g .10 / .01 unchanged; h build + freeze in one
+session; i the asymmetry re-read printed, non-gating; j the §2
+disclosure verbatim in the verdict record and any licensed sentence;
+k licences as §6. Build + freeze follow in this session per §11.
 ANALYSIS-ONLY: no model is loaded, nothing is sampled; every input is
 a committed 2d, 2g, 2h or 2i artifact, re-derived from raw bytes
 through the predecessor's own frozen loader. Zero model contact,
@@ -516,7 +524,7 @@ something the four functionals do not, not what that something is.
 Nothing about a third family. ABSORBED does not retract 2g/2h/2i —
 the forecasts stand; it says what they were forecasts OF.
 
-## 10. Dials — for Michael's ruling
+## 10. Dials — RULED by Michael 2026-08-28 ("dials as recommended — build and freeze"): every dial as recommended
 
 a. **Primary conditioning** — the JOINT composite (base × all
    surviving functionals; recommended: the residual is what is left
