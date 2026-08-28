@@ -26,6 +26,7 @@ from pathlib import Path
 import pytest
 
 from experiments.exp2g import battery_2g as bg
+from experiments.exp2i import analyze_2i as an2i
 from experiments.exp2i import battery_2i as bi
 from experiments.exp2j import analyze_2j as an
 from experiments.exp2j.tests import full_shape as fs
@@ -220,6 +221,75 @@ def test_x_b_draws_record_attested_tally_disagrees_with_the_draws(world):
     rec["per_seed_tallies"]["0"]["full_string"] += 1
     p.write_text(json.dumps(rec))
     _insufficient(root, seal, "attested full_string")
+
+
+# ---------------------------- downstream consistency-check refusal paths
+# (fix round 1 / Finding 1): every one of these seven collect_total
+# sites is only reached once predictor_rec/predictor_records/rung_set/
+# stage1_final/sweep have ALL already succeeded — exactly what the
+# clean `world` fixture already is (the same technique
+# `test_2i_verdict_torn`'s family uses to kill mutant #57, `_cmp`, one
+# guard level over): monkeypatch the site's own callee to raise and
+# check the run still reaches INSUFFICIENT_DATA under the site's own
+# label, or — for the closing secondaries loop, which does NOT flip
+# the overall verdict — that the one affected secondary carries a
+# `{"failed": …}` shape while the verdict is still delivered.
+
+def _raise_injected(*a, **kw):
+    raise ValueError("injected for a Task 4 fix-round-1 totality mutation test")
+
+
+def test_predictor_seal_sampling_check_failure(world, monkeypatch):
+    root, seal = world
+    monkeypatch.setattr(an2i, "_check_predictor_seal_sampling", _raise_injected)
+    _insufficient(root, seal, "2i predictor seal sampling block")
+
+
+def test_rung_set_vs_endpoint_check_failure(world, monkeypatch):
+    root, seal = world
+    monkeypatch.setattr(an2i, "_check_rung_set_vs_endpoint", _raise_injected)
+    _insufficient(root, seal, "2i rung set vs endpoint")
+
+
+def test_rung_set_derivation_check_failure(world, monkeypatch):
+    root, seal = world
+    monkeypatch.setattr(an2i, "_check_rung_set_derivation", _raise_injected)
+    _insufficient(root, seal, "2i rung set re-derivation")
+
+
+def test_predictor_counts_check_failure(world, monkeypatch):
+    root, seal = world
+    monkeypatch.setattr(an2i, "_check_predictor_counts_2i", _raise_injected)
+    _insufficient(root, seal, "x_B counts vs the sealed attestation")
+
+
+def test_outcomes_7b_load_failure(world, monkeypatch):
+    root, seal = world
+    monkeypatch.setattr(an2i, "outcomes_7b", _raise_injected)
+    _insufficient(root, seal, "outcome olmo7b")
+
+
+def test_core_primary_computation_failure(world, monkeypatch):
+    root, seal = world
+    monkeypatch.setattr(an, "primary_2j", _raise_injected)
+    _insufficient(root, seal, "primary A-2")
+
+
+def test_secondaries_thunk_catches_a_forced_decomposition_failure(world, monkeypatch):
+    """Unlike the six refusal tests above, a secondary's own failure
+    does NOT flip the overall verdict to INSUFFICIENT_DATA — `_sec`
+    catches it locally (`sec[name] = {"failed": f[0]}`) and the
+    primary alone still decides RESIDUAL/ABSORBED. This is exactly
+    what distinguishes the un-mutated code (a graceful `{"failed":
+    …}`) from the totality-strip mutant on `_sec`'s own
+    `collect_total(thunk, name)` call, which would let the injected
+    exception propagate UNCAUGHT and crash `an.run()` outright — a
+    test error, not a clean assertion failure, but still a kill."""
+    root, seal = world
+    monkeypatch.setattr(an, "decomposition", _raise_injected)
+    v = _run(root, seal, n_perm=200, n_boot=20)
+    assert v["verdict"] == "RESIDUAL", v["reason"]
+    assert v["secondaries"]["decomposition x_B to olmo7b"]["failed"]
 
 
 # ------------------------------------------------------------- control

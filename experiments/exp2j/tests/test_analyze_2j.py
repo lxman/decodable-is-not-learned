@@ -515,3 +515,25 @@ def test_ladder_k64_matches_t_only_bit_for_bit():
     assert ladder64["A"]["T"] == want_a["T"]
     for r in rungs:
         assert ladder64["A"]["per_rung"][r]["mean"] == want_a["per_rung"][r]
+
+
+def test_a1_density_gap_exactly_half_reads_density_not_mixed(monkeypatch):
+    """Controller ruling (fix round 1): the brief's 'gap >= 0.5 -> > 0.5
+    (boundary, keep)' meant KEEP the mutant, not exclude it. At
+    gap_fraction_closed == 0.5 EXACTLY, `>=` reads DENSITY while `>`
+    would read MIXED (the two-outcome `all()` checks both fail at the
+    boundary). `an.t_only` is monkeypatched to a constant (0.25,
+    exactly representable in binary so the arithmetic below is exact)
+    so `matched_b["T"]` is 0.25 regardless of the real bits; anchors
+    t_a64=0.0, t_b64=0.5 give gap = (0.5 - 0.25) / (0.5 - 0.0) = 0.5
+    exactly, for both Pythia outcomes."""
+    def fake_t_only(counts, size_label, out, strata, rungs):
+        return {"T": 0.25, "per_rung": {r: 0.25 for r in rungs}, "eligible": list(rungs),
+               "thin": [], "dropped_degenerate": []}
+    monkeypatch.setattr(an, "t_only", fake_t_only)
+    bits_a, bits_b, out, strata, rungs = _a1_toy()
+    outcomes = {"2.8b": (out, rungs, 0.0, 0.5), "6.9b": (out, rungs, 0.0, 0.5)}
+    d = an.a1_density(bits_a, bits_b, outcomes, strata)
+    for lab in ("2.8b", "6.9b"):
+        assert d["outcomes"][lab]["gap_fraction_closed"] == 0.5
+    assert d["reading"] == "DENSITY"

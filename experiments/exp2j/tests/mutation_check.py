@@ -136,6 +136,12 @@ M = [
     (AN, "a1_density: gap_fraction_closed denominator sign flipped — world/totality only",
      '            gap = float((t_b64 - matched_b["T"]) / (t_b64 - t_a64))',
      '            gap = float((t_b64 - matched_b["T"]) / (t_a64 - t_b64))'),
+    # controller ruling (fix round 1): the brief's "gap >= 0.5 -> > 0.5
+    # (boundary, keep)" meant KEEP THE MUTANT, not exclude it — at
+    # gap == 0.5 exactly, `>=` reads DENSITY while `>` reads MIXED.
+    (AN, "a1_density: DENSITY boundary tightened (gap >= 0.5 -> gap > 0.5)",
+     "    elif all(g >= 0.5 for g in readings):",
+     "    elif all(g > 0.5 for g in readings):"),
     (AN, "rederive_2i: 'B' uses _composite_strata_median instead of the zero "
          "cut (_composite_strata) — world/totality only",
      '        "B": _run_test(x_b, bi.SIZE_PRED, out, an2i._composite_strata(strata, x_a, r_cap),\n'
@@ -152,11 +158,16 @@ M = [
 # the real, current source at import time rather than hand-picked.
 M += _totality_mutants(AN)
 
-# Task 4 ruling: fast modules only — the world/totality modules
-# (test_full_shape_2j.py, test_totality_2j.py) take ~14 minutes each and
-# are run ONCE, separately, targeted at the specific mutants the fast
-# modules cannot see (see PROGRESS.md).
+# Task 4 ruling: fast modules only by default — the world/totality
+# modules (test_full_shape_2j.py, test_totality_2j.py) take ~10-14
+# minutes each. Fix round 1 (Finding 2): a `--totality` flag switches
+# the covering suite to TOTALITY_TESTS so a totality-only kill (the
+# block gate, `_cmp`, and the seven refusal-path mutants closed this
+# round) is reproducible from the COMMITTED harness, not a scratch
+# script — every number in the tally must be derivable from a
+# committed log.
 TESTS = [str(J / "tests" / "test_functionals_2j.py"), str(J / "tests" / "test_analyze_2j.py")]
+TOTALITY_TESTS = [str(J / "tests" / "test_totality_2j.py")]
 
 
 def clear_pycache():
@@ -165,21 +176,47 @@ def clear_pycache():
             shutil.rmtree(d, ignore_errors=True)
 
 
-def run_suite():
+def run_suite(tests):
     env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
     r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
-                        *TESTS], cwd=ROOT, env=env, capture_output=True, text=True)
+                        *tests], cwd=ROOT, env=env, capture_output=True, text=True)
     return r.returncode == 0, r.stdout[-600:]
 
 
+def _parse_only(argv) -> set:
+    """`--only N[,N,...]` — 1-based mutant indices (M's own numbering,
+    printed by every run) to restrict this run to. Returns None (no
+    restriction) if `--only` is absent."""
+    for a in argv:
+        if a.startswith("--only="):
+            return {int(x) for x in a[len("--only="):].split(",") if x}
+    if "--only" in argv:
+        i = argv.index("--only")
+        if i + 1 < len(argv):
+            return {int(x) for x in argv[i + 1].split(",") if x}
+    return None
+
+
 def main(argv=None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    totality = "--totality" in argv
+    tests = TOTALITY_TESTS if totality else TESTS
+    only = _parse_only(argv)
+
     clear_pycache()
-    ok, out = run_suite()
+    ok, out = run_suite(tests)
     if not ok:
         print("BASELINE FAILS — fix the suite first\n", out)
         return 2
+    print(f"baseline OK ({'totality' if totality else 'fast'} pass, "
+         f"{'all' if only is None else sorted(only)} mutants)\n", flush=True)
+
     survivors = []
+    considered = 0
     for i, (path, name, old, new) in enumerate(M, 1):
+        if only is not None and i not in only:
+            continue
+        considered += 1
         src = path.read_text()
         if src.count(old) != 1:
             print(f"[{i:2d}] SKIP  {name}: target text not found exactly once in {path.name} "
@@ -191,7 +228,7 @@ def main(argv=None) -> int:
         try:
             path.write_text(src.replace(old, new))
             clear_pycache()
-            ok, out = run_suite()
+            ok, out = run_suite(tests)
         finally:
             shutil.copy2(backup, path)
             backup.unlink()
@@ -199,7 +236,7 @@ def main(argv=None) -> int:
         print(f"[{i:2d}] {'killed' if not ok else 'SURVIVED'}  {name}", flush=True)
         if ok:
             survivors.append((i, name, "survived"))
-    print(f"\n{len(M) - len(survivors)}/{len(M)} killed; survivors: {survivors}")
+    print(f"\n{considered - len(survivors)}/{considered} killed; survivors: {survivors}")
     return 1 if survivors else 0
 
 

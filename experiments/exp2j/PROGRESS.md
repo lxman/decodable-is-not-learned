@@ -656,6 +656,8 @@ the instrument:
   resolving the prefix/stdlib paths before comparison and naming the
   one known nonexistent-path probe explicitly.
 
+**Disclosure (controller ruling, fix round 1):** the sweep at n_perm 30 printed the REAL primary on the real tree — T_beyond .1311 — before the tag; T does not depend on n_perm, so the designer knows the primary's T in advance. No functional, bucket rule or tree element was chosen after it (design §5 was frozen before any computation); the projection will carry this on 2e's precedent.
+
 **Step 6 — cold battery once more + full suite once.**
 `verify_referents_2j` **12/12**. Full suite,
 `pytest experiments/exp2j -q`, run ONCE at the end: **81 passed in
@@ -680,3 +682,109 @@ Nothing under `experiments/exp2i`,
 
 Commits: `bbf102e9` (Step 1), `74326504` (Steps 2–3), and the closing
 commit below (Steps 4–6).
+
+## 2026-08-28 — BUILD, Task 4 fix round 1
+
+Review verified Steps 1/2/3/5/6 clean (every `FROZEN_SHA256_2J` sha
+byte-equal to its literal; the manifest's 2,621 entries carry no
+nulls; `power_2j.json` `POWERED`). Two Important findings and one
+controller ruling on Step 4/5, addressed below. **This section
+SUPERSEDES the original Task 4 entry's "Final tally" and "7 open
+survivors" paragraphs** — those seven are now closed.
+
+**Finding 1 — the seven surviving `collect_total` mutants are
+closable on the existing clean totality world.** The original entry's
+claim that closing them needed a fully mocked pipeline or a new world
+was wrong: mutant `_cmp` (line 708) sits behind the same `if not
+failures:` guard as the seven and WAS killed by `test_totality_2j.py`'s
+`test_2i_verdict_torn` family — a clean world with one targeted
+corruption, exactly the technique already used ten times for the
+root-independent loaders. Seven new tests added to
+`tests/test_totality_2j.py` (module import fixed: `an2i` — used by
+five of the seven — was never imported there before, caught
+immediately by the first baseline run), each on the shared `world`
+fixture: `monkeypatch.setattr` the site's own callee to a raiser
+(`ValueError`, inside `collect_total`'s surface) and assert
+`INSUFFICIENT_DATA` under the site's own label — `an2i._check_
+predictor_seal_sampling` → "2i predictor seal sampling block";
+`an2i._check_rung_set_vs_endpoint` → "2i rung set vs endpoint";
+`an2i._check_rung_set_derivation` → "2i rung set re-derivation";
+`an2i._check_predictor_counts_2i` → "x_B counts vs the sealed
+attestation"; `an2i.outcomes_7b` → "outcome olmo7b"; for `_core`,
+`an.primary_2j` → "primary A-2". The seventh (`_sec`'s own
+`collect_total(thunk, name)`, line 749) is different in kind: a
+secondary's failure does NOT flip the overall verdict (`_sec` catches
+it locally, `sec[name] = {"failed": f[0]}`, and the primary alone
+decides RESIDUAL/ABSORBED) — so `an.decomposition` is patched to raise
+and the test asserts the verdict is STILL `RESIDUAL` (n_perm=200,
+matching the control test) while `v["secondaries"]["decomposition x_B
+to olmo7b"]` carries `{"failed": …}`; the totality-strip mutant would
+instead let the injected exception escape `_sec` uncaught and crash
+`an.run()` outright (a test error, still a kill).
+
+**Finding 2 — the 52/60 headline was not reproducible from the
+committed harness.** `tests/mutation_check.py` gained `TOTALITY_TESTS
+= [test_totality_2j.py]`, an `--only N[,N,...]` selector (mutant
+indices, 1-based, M's own printed numbering), and a `--totality` flag
+switching the covering suite from `TESTS` to `TOTALITY_TESTS`; `main`
+now reads `sys.argv` when `argv=None`. Re-run through the COMMITTED
+harness:
+
+- Fast pass (all 61 mutants — see the ruling below for #23, the new
+  one): `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
+  experiments/exp2j/tests/mutation_check.py`, log rewritten to
+  `experiments/exp2j/mutation_build.log`. **51/61 killed**; survivors
+  `[10, 20, 52, 53, 55, 56, 57, 58, 60, 61]`.
+- Totality pass, the nine world-only mutants (block gate #20 + the
+  seven now-closed refusal-path sites, renumbered #52/53/55/56/57/58/
+  60/61 by the one new hand-picked mutant inserted before them):
+  `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
+  experiments/exp2j/tests/mutation_check.py --totality --only
+  20,52,53,55,56,57,58,60,61`, detached, polled with bounded 20 s
+  loops, log written to `experiments/exp2j/mutation_round1.log`
+  (committed). **9/9 killed**, zero survivors, zero skips — the
+  printed baseline line and every `[N] killed` line transcribed
+  verbatim in the log.
+
+**Corrected, reproducible final tally: 61 mutants — 60 killed (51 via
+`mutation_build.log`'s fast pass + 9 via `mutation_round1.log`'s
+totality pass), 1 documented equivalent (#10, `matched_k`'s clip
+64→65 — unchanged from the original entry: `sparse <= dense` by
+construction bounds the pre-clip value at 64 for any input, so no
+test can distinguish it), 0 open survivors.**
+
+**Ruling — the `a1_density` `gap >= 0.5` boundary mutant (the ⚠️
+item): "boundary, keep" in the original brief meant KEEP THE MUTANT,
+not exclude it.** Added as M's #23 (`elif all(g >= 0.5 …)` → `elif
+all(g > 0.5 …)`), between the denominator-sign-flip mutant and
+`rederive_2i`'s — every totality-generated index above it shifts by
++1 accordingly (documented above). Closed with
+`test_a1_density_gap_exactly_half_reads_density_not_mixed`: `an.
+t_only` monkeypatched to a constant 0.25 (exactly representable in
+binary, so the arithmetic is exact) and anchors `t_a64=0.0,
+t_b64=0.5` give `gap_fraction_closed == 0.5` exactly on both Pythia
+outcomes — under `>=` the reading is `DENSITY`, under `>` it falls
+through both `all()` checks to `MIXED`. Killed in the fast pass
+(`mutation_build.log`, `[23] killed`).
+
+**Files changed**: `experiments/exp2j/tests/mutation_check.py`
+(`TOTALITY_TESTS`, `--only`/`--totality`, the boundary mutant),
+`experiments/exp2j/tests/test_totality_2j.py` (+7 tests, `an2i`
+import added), `experiments/exp2j/tests/test_analyze_2j.py` (+1
+test), `experiments/exp2j/mutation_build.log` (rewritten, 61
+mutants), `experiments/exp2j/mutation_round1.log` (new, committed),
+`experiments/exp2j/PROGRESS.md` (this entry + the read-sweep
+disclosure sentence above). Nothing under `experiments/exp2i`,
+`exp2h`, `exp2g`, `exp2d`, `exp2c`, `exp2b`, `exp3`, `exp3c` touched;
+`power_2j.py` re-verified byte-unchanged (sha
+`19b80593d091663183b7394b101ee5f97c832b5f0dd7dc4227c9b1107721ab1a`).
+
+Full suite run once at the end: `pytest experiments/exp2j -q` → **89
+passed in 892.52 s (14 m 52 s)**, zero failures (was 81 before this
+round; +8 collected — 7 in `test_totality_2j.py`, 1 in
+`test_analyze_2j.py` — exactly accounts for the growth).
+
+Commit: "exp2j: Task 4 fix round 1 — seven refusal-path mutants closed
+on the clean totality world; mutation harness gains
+--only/--totality; boundary mutant added; tally reproducible from
+committed logs".

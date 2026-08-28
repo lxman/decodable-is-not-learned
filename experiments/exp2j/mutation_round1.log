@@ -1,0 +1,13 @@
+baseline OK (totality pass, [20, 52, 53, 55, 56, 57, 58, 60, 61] mutants)
+
+[20] killed  run()/_core: the block gate '!=' flipped to '==' (raises on a correct reproduction instead of a drifted one) — world/totality only
+[52] killed  run(): totality — collect_total stripped at line 603 (lambda: an2i._check_predictor_seal_sampling(predictor_rec, p...)
+[53] killed  run(): totality — collect_total stripped at line 613 (lambda: an2i._check_rung_set_vs_endpoint(rung_set, stage1_fi...)
+[55] killed  run(): totality — collect_total stripped at line 653 (lambda: an2i._check_predictor_counts_2i(predictor_rec, predi...)
+[56] killed  run(): totality — collect_total stripped at line 691 (lambda: an2i.outcomes_7b(sweep, rungs=tuple(bt.RUNGS))...)
+[57] killed  run(): totality — collect_total stripped at line 708 (_cmp...)
+[58] killed  run(): totality — collect_total stripped at line 724 (_core...)
+[60] killed  run(): totality — collect_total stripped at line 616 (lambda: an2i._check_rung_set_derivation(rung_set, stage1_fin...)
+[61] killed  run(): totality — collect_total stripped at line 749 (thunk...)
+
+9/9 killed; survivors: []
