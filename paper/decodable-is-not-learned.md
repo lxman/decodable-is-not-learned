@@ -50,11 +50,15 @@ tags, every prior anchor untouched, a fast-forward push), thirty
 experiment tags in all; the 2026-08-24 Experiment 2g graft added three
 more (`exp2g-preregistered`, `exp2g-predictor-sealed`,
 `exp2g-closed`), thirty-three; the 2026-08-25 Experiment 2h graft added
-two more (`exp2h-preregistered`, `exp2h-closed`), thirty-five. Archived
+two more (`exp2h-preregistered`, `exp2h-closed`), thirty-five; the
+2026-08-28 Experiment 2i graft added four more (`exp2i-preregistered`
+— a disclosed re-tag after a campaign stop, the original object
+recorded in PROVENANCE — `exp2i-predictor-sealed`,
+`exp2i-endpoint-sealed`, `exp2i-closed`), thirty-nine. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.10 (10.5281/zenodo.22104580, the Experiment 2h record; v1.9,
-10.5281/zenodo.22087512, the Experiment 2g record; v1.8,
-10.5281/zenodo.22064649, the paper with the ninth lesson). TMLR's AI-disclosure requirement is met on
+v1.11 (10.5281/zenodo.22145025, the Experiment 2i record; v1.10,
+10.5281/zenodo.22104580, the Experiment 2h record; v1.9,
+10.5281/zenodo.22087512, the Experiment 2g record). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
@@ -1589,7 +1593,8 @@ record 10.5281/zenodo.22011547, v1.3 with the Experiment 3e record
 records 10.5281/zenodo.22064573, v1.8 with this paper's ninth lesson
 10.5281/zenodo.22064649, v1.9 with the Experiment 2g record
 10.5281/zenodo.22087512, v1.10 with the Experiment 2h record
-10.5281/zenodo.22104580).
+10.5281/zenodo.22104580, v1.11 with the Experiment 2i record
+10.5281/zenodo.22145025).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
@@ -1604,7 +1609,11 @@ sealed item-grain forecast against Pythia-2.8B's intermediate
 checkpoints), likewise named and not drawn on, and Experiment 2h's
 record (`exp2h-preregistered`, `exp2h-closed`, the sampler
 confirmation of that forecast on Pythia-6.9B's checkpoints), likewise
-named and not drawn on; and, since 2026-08-23, the synthetic calibration records of
+named and not drawn on, and Experiment 2i's record
+(`exp2i-preregistered`, `exp2i-predictor-sealed`,
+`exp2i-endpoint-sealed`, `exp2i-closed`, the cross-family test of that
+forecast on OLMo-2 7B's checkpoints), likewise named and not drawn on;
+and, since 2026-08-23, the synthetic calibration records of
 Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
 `exp1c-*`), reported in the companion essay and not drawn on here.
 Interim stage tags (e.g. `exp2c-stage1`) exist only in the private
