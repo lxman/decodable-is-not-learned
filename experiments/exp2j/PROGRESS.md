@@ -72,3 +72,111 @@ output were already correct (matching the "median" branch); only the
 to `"R": "median"`, with the reasoning recorded inline as a comment at
 the assertion. `bucket()` and `composite_strata()` are otherwise
 implemented and tested exactly as the brief specifies.
+
+## 2026-08-28 — BUILD, Task 2: `analyze_2j.py` + `make_referents_2j.py`
+
+Instrument at `experiments/exp2j/`: `analyze_2j.py`, `make_referents_2j.py`,
+test `tests/test_analyze_2j.py` (12 new tests; full `experiments/exp2j`
+suite 33 tests, all pass, 0 warnings, "33 passed in 6.16s"). Zero model
+contact — every loader is 2i's own (`analyze_2i`/`battery_2i`), every one
+of them called from inside `run()` sits behind `collect_total`, and
+`run()` is exercised end to end only against an empty root (Task 4 owns
+the real-tree run; the comparison gates alone run ~40s each at N_PERM
+10,000).
+
+**Label set.** 34 direct `collect_total(thunk, "literal label")`
+call-sites in `analyze_2j.py` (counted by the same AST walk the test
+uses); the prefix-disjointness test (`test_collect_total_labels_are_
+prefix_disjoint`) passes over all 34. Nine more loader calls run inside
+the `_sec(name, thunk)` helper (the six decompositions, the two
+sensitivities beyond the primary one, A-1) — `name` is a variable there,
+so those don't register on the AST scan, but were checked by hand for
+collisions too; none found.
+
+**Two 2i-label collisions avoided by construction.** Every 2i loader
+2j calls (checkpoint manifest, predictor seal, rung set, endpoint
+records, sweep, gate 1, `x_A`/`x_B` counts) is wrapped with a label
+prefixed `"2i …"` rather than reusing 2i's own label text (`"checkpoint
+manifest"`, `"predictor seal content"`, etc.) verbatim — 2i's own
+`run()` uses those exact strings for its own referents. Reusing them
+inside 2j's `referents["failures"]` list would make a 2j-side failure
+indistinguishable from (and, under the prefix rule, actually collide
+with a substring match against) a 2i-side one if the two lists were
+ever concatenated or grepped together. The two spots this actually
+would have collided, caught while transcribing the skeleton: 2i's
+`"gate 1 olmo7b record"`/`"gate 1 olmo7b attestation"` pair would have
+made `"2i gate 1 record"` a near-duplicate needle against `"2i gate 1
+byte identity re-derived"` — kept prefix-disjoint (`"2i gate 1 record"`
+vs `"2i gate 1 byte identity re-derived"`: they diverge right after
+`"2i gate 1 "`), and `"functionals under x_A"` (the brief's literal
+label for the tables read under `x_A` at 1b) is an exact string-prefix
+of `"functionals under x_A 410m"` (the 410m sensitivity variant) — this
+one is a real, not merely cosmetic, violation of the prefix rule caught
+by running the test, not by inspection; renamed to `"functionals under
+x_A (1b)"` / `"functionals under x_A (410m)"` (diverge at the character
+after the shared `"(...)"` open-paren) per the controller's ruling.
+
+**The `_LITERAL` sentinel for `referents_sha`.** The brief's skeleton
+included a placeholder `_explicit_kwargs()` function explicitly flagged
+as not allowed to survive into code. Implemented instead: a
+module-level `_LITERAL = object()`; `run(..., referents_sha=_LITERAL,
+...)`; the first line of the body does `if referents_sha is _LITERAL:
+referents_sha = REFERENTS_2J_SHA256` (reads the module constant at
+*call* time, so a test's `monkeypatch.setattr(an, "REFERENTS_2J_SHA256",
+...)` is honored even though the default was bound at import time).
+Then: `referents_sha is None` → refusal `"referent manifest: not pinned
+(build incomplete)"`; `referents_sha is False` → the check is skipped
+entirely (worlds and `test_run_on_an_empty_2i_root_is_insufficient_data`
+pass this explicitly); anything else → `make_referents_2j.check_
+referents` runs behind `collect_total`. `_explicit_kwargs` does not
+exist in the committed file.
+
+**Comparison-gate pins, transcribed and verified against the committed
+records** (not merely copied from the brief — read back out of the
+files directly before trusting the literals):
+`experiments/exp2i/results/verdict.json` → `VERDICT_2I_PIN = {"B":
+0.21533409065382436, "within_alone": 0.22041895894950217, "A":
+0.09491251078607414, "cross_beyond_within": 0.07006211800715849,
+"reverse_2.8b": 0.2612016707857866, "reverse_6.9b":
+0.297364446603449}`; `experiments/exp2g/results/verdict.json` →
+`VERDICT_2G_PIN = {"sampler_competitor": 0.16722141085849532}`;
+`experiments/exp2h/results/verdict.json` → `VERDICT_2H_PIN = {"primary":
+0.20197097010795367}`. All six + two values matched the brief's
+literals to full float precision on direct read.
+
+**`FROZEN_SHA256_2J` at this task is computed, not literal** —
+`_pin_frozen_now()` hashes `FROZEN_FILES_2J` (2i's 22 pinned modules +
+`analyze_2i.py` + `battery_2i.py` + `power_2j.py` + `make_referents_2j.
+py`) filtered to files that exist on disk. `power_2j.py` doesn't exist
+until Task 3, so the dict carries 25 entries (22 + 3), matching the
+controller's ruling that `test_frozen_pins_match_disk` should assert
+`+3` here, not the brief's original `+4` (edited into the committed
+test with a comment explaining why). Task 4 replaces the computed dict
+with a literal one once `power_2j.py` lands and re-tightens the test to
+`+4`.
+
+**`make_referents_2j.py`** is a straight transcription of the brief
+(2i's referent list + 2i's now-committed stage artifacts + 2i's sweep
+tree + the three verdict.json files + 2i's own two instrument modules +
+2j's own power record), with `N_FILES_2J = None` left unpinned per the
+controller's ruling — `check_referents` already treats a `None` pin as
+a failure line, by design, so the manifest check refuses cleanly until
+Task 4 pins the count.
+
+Every produced name in the brief's Interfaces — Produces list for Task
+2 is present with the signature the brief specifies (verified by
+`inspect.signature` against the committed module, not just by the tests
+passing): `EXP2J`, `RESULTS`, `REFERENTS_PATH_2J`, `REFERENTS_2J_SHA256`,
+`PREREG_TAG_2J`, `INSTRUMENT_BLOBS_2J`, `FROZEN_SHA256_2J`, `WORLDS_2J`,
+`VERDICT_2I_PIN`/`_2G_PIN`/`_2H_PIN`, `KNOWN_INPUTS_CAVEAT_2J`,
+`LICENSED_2J` (five keys), `A1_READINGS`, `check_frozen_2j`,
+`require_prereg_2j`, `pin_from_record_2i`/`_2g`/`_2h`, `check_pin`,
+`load_pythia_outcomes`, `rederive_2i`, `rederive_2g2h`, `t_only`,
+`primary_2j`, `decomposition`, `a1_density`, `verdict_tree_2j`, `run`;
+`make_referents_2j.referent_files`/`build`/`check_referents`/
+`N_FILES_2J`. Nothing under `experiments/exp2i`, `exp2h`, `exp2g`,
+`exp2d`, `exp2c`, `exp3`, `exp3c` touched — every name 2j calls from
+those modules is imported and used exactly as documented in the brief's
+Consumes list, confirmed against the real source (line numbers,
+signatures, and — for the pin literals and the label-source modules —
+actual file contents) before writing any call site.
