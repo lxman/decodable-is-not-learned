@@ -1,0 +1,62 @@
+[ 1] killed  bucket: first branch '>' loosened to '>=' (median branch)
+[ 2] killed  bucket: tie_fallback branch disabled (always dropped_after_fallback)
+[ 3] killed  bucket: constant-drop bar loosened (< 2 -> < 1, dropped_constant no longer fires on a genuinely constant array)
+[ 4] killed  wrong_target_propensity: loo/non-loo branches swapped
+[ 5] killed  wrong_target_propensity: non-loo numerator no longer excludes same-answer draws (by_answer[a][0][a] -> 0)
+[ 6] killed  input_overlap: question no longer lowercased before matching
+[ 7] killed  repeated_char: '<' loosened to '<=' (every answer reads as repeated)
+[ 8] killed  answer_length: raw answer instead of normalized
+[ 9] killed  matched_k: floor(...+0.5) replaced by int() truncation
+[10] SURVIVED  matched_k: clip upper bound 64 -> 65 — DOCUMENTED EQUIVALENT: sparse <= dense by construction, so the pre-clip value can never exceed DRAWS_PER_ITEM (64) for any (rate_a, rate_b); the upper bound is dead code (ledgered, PROGRESS.md Task 4)
+[11] killed  thinned_counts: slice start off by one (block * k -> block * k + 1)
+[12] killed  zero_fraction_k: '<' loosened to '<=' (ties prefer the larger k)
+[13] killed  composite_strata: join order reversed
+[14] killed  verdict_tree_2j: the firing branch reports ABSORBED instead of RESIDUAL
+[15] killed  _licensed: the plain POWERED branch returns the UNDERPOWERED licence
+[16] killed  check_pin: exact != loosened to abs(...) > 1e-6
+[17] killed  check_pin: the on-disk-vs-literal check removed
+[18] killed  t_only: mean -> median
+[19] killed  t_only: the degeneracy pre-check removed (dropped always empty)
+[20] SURVIVED  run()/_core: the block gate '!=' flipped to '==' (raises on a correct reproduction instead of a drifted one) — world/totality only
+[21] killed  _load_power_2j: rung-set equality relaxed to a subset check
+[22] killed  a1_density: gap_fraction_closed denominator sign flipped — world/totality only
+[23] killed  rederive_2i: 'B' uses _composite_strata_median instead of the zero cut (_composite_strata) — world/totality only
+[24] killed  rederive_2g2h: 'primary' reads R_28 instead of R_69 — world/totality only
+[25] killed  run(): totality — collect_total stripped at line 552 (lambda: require_prereg_2j(tag_exists=tag_exists,...)
+[26] killed  run(): totality — collect_total stripped at line 565 (bg.load_battery...)
+[27] killed  run(): totality — collect_total stripped at line 566 (bg.load_floors...)
+[28] killed  run(): totality — collect_total stripped at line 567 (a2d.load_verify...)
+[29] killed  run(): totality — collect_total stripped at line 568 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[30] killed  run(): totality — collect_total stripped at line 579 (lambda: bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHE...)
+[31] killed  run(): totality — collect_total stripped at line 582 (lambda: an2i._load_predictor_seal_content(root_2i)...)
+[32] killed  run(): totality — collect_total stripped at line 587 (lambda: an2i._load_rung_set(root_2i)...)
+[33] killed  run(): totality — collect_total stripped at line 598 (lambda: an2i.load_predictor_records_2i(root_2i, battery, ent...)
+[34] killed  run(): totality — collect_total stripped at line 607 (lambda: an2i.load_endpoint_which(root_2i, "stage1_final", ba...)
+[35] killed  run(): totality — collect_total stripped at line 627 (lambda: an2i.load_sweep_7b(root_2i, battery, verify_fn, mani...)
+[36] killed  run(): totality — collect_total stripped at line 633 (lambda: an2i.gate1_rederive_7b(sweep[bi.ENDPOINT_STEP_7B], s...)
+[37] killed  run(): totality — collect_total stripped at line 642 (lambda: bi.sampler_counts_pythia("1b", r_full) if _pr...)
+[38] killed  run(): totality — collect_total stripped at line 645 (lambda: bi.sampler_counts_pythia("410m", r_cap) if _pr...)
+[39] killed  run(): totality — collect_total stripped at line 648 (lambda: bi.sampler_counts_olmo(r_full, root=root_2i, battery...)
+[40] killed  run(): totality — collect_total stripped at line 664 (lambda: _bits("B") if _pr and x_b else...)
+[41] killed  run(): totality — collect_total stripped at line 666 (lambda: _bits("A") if _pr and x_a else...)
+[42] killed  run(): totality — collect_total stripped at line 672 (lambda: _tables("B") if _pr else...)
+[43] killed  run(): totality — collect_total stripped at line 674 (lambda: _tables("A") if _pr else...)
+[44] killed  run(): totality — collect_total stripped at line 676 (lambda: {r: fn.functional_table(battery[r], fn.draw_rows_2d(...)
+[45] killed  run(): totality — collect_total stripped at line 680 (lambda: load_pythia_outcomes(battery, verify_fn) if battery ...)
+[46] killed  run(): totality — collect_total stripped at line 683 (lambda: _load_power_2j(root_2j, r_cap) if r_cap...)
+[47] killed  run(): totality — collect_total stripped at line 550 (thunk...)
+[48] killed  run(): totality — collect_total stripped at line 574 (lambda: sg.check_strata_pins(strata)...)
+[49] killed  run(): totality — collect_total stripped at line 593 (lambda: bi.entry_7b(manifest, bi.ENDPOINT_STEP_7B)...)
+[50] killed  run(): totality — collect_total stripped at line 595 (lambda: bi.entry_1b_endpoint(manifest)...)
+[51] SURVIVED  run(): totality — collect_total stripped at line 603 (lambda: an2i._check_predictor_seal_sampling(predictor_rec, p...)
+[52] SURVIVED  run(): totality — collect_total stripped at line 613 (lambda: an2i._check_rung_set_vs_endpoint(rung_set, stage1_fi...)
+[53] killed  run(): totality — collect_total stripped at line 625 (lambda: json.loads(g1p.read_text())...)
+[54] SURVIVED  run(): totality — collect_total stripped at line 653 (lambda: an2i._check_predictor_counts_2i(predictor_rec, predi...)
+[55] SURVIVED  run(): totality — collect_total stripped at line 691 (lambda: an2i.outcomes_7b(sweep, rungs=tuple(bt.RUNGS))...)
+[56] SURVIVED  run(): totality — collect_total stripped at line 708 (_cmp...)
+[57] SURVIVED  run(): totality — collect_total stripped at line 724 (_core...)
+[58] killed  run(): totality — collect_total stripped at line 559 (lambda: mkr.check_referents(REFERENTS_PATH_2J, sha_pin=refer...)
+[59] SURVIVED  run(): totality — collect_total stripped at line 616 (lambda: an2i._check_rung_set_derivation(rung_set, stage1_fin...)
+[60] SURVIVED  run(): totality — collect_total stripped at line 749 (thunk...)
+
+50/60 killed; survivors: [(10, 'matched_k: clip upper bound 64 -> 65 — DOCUMENTED EQUIVALENT: sparse <= dense by construction, so the pre-clip value can never exceed DRAWS_PER_ITEM (64) for any (rate_a, rate_b); the upper bound is dead code (ledgered, PROGRESS.md Task 4)', 'survived'), (20, "run()/_core: the block gate '!=' flipped to '==' (raises on a correct reproduction instead of a drifted one) — world/totality only", 'survived'), (51, 'run(): totality — collect_total stripped at line 603 (lambda: an2i._check_predictor_seal_sampling(predictor_rec, p...)', 'survived'), (52, 'run(): totality — collect_total stripped at line 613 (lambda: an2i._check_rung_set_vs_endpoint(rung_set, stage1_fi...)', 'survived'), (54, 'run(): totality — collect_total stripped at line 653 (lambda: an2i._check_predictor_counts_2i(predictor_rec, predi...)', 'survived'), (55, 'run(): totality — collect_total stripped at line 691 (lambda: an2i.outcomes_7b(sweep, rungs=tuple(bt.RUNGS))...)', 'survived'), (56, 'run(): totality — collect_total stripped at line 708 (_cmp...)', 'survived'), (57, 'run(): totality — collect_total stripped at line 724 (_core...)', 'survived'), (59, 'run(): totality — collect_total stripped at line 616 (lambda: an2i._check_rung_set_derivation(rung_set, stage1_fin...)', 'survived'), (60, 'run(): totality — collect_total stripped at line 749 (thunk...)', 'survived')]

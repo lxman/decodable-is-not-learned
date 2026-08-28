@@ -41,6 +41,16 @@ def test_input_overlap_lowercases_the_question():
     assert fn.input_overlap(cap) == [1.0]
 
 
+def test_answer_length_uses_normalized_not_raw():
+    """The '33'/'45'/'14' hand cases above don't distinguish normalized
+    from raw (already lowercase digit strings) — this one does: trailing
+    punctuation and case are stripped by normalize_answer before length
+    is taken (a Step 4 mutant: answer_length on the raw answer)."""
+    cap = _cap([("What is the opposite of hot?", "Cold."),
+                (" q1", "  DOG  ")], answer_type="word")
+    assert fn.answer_length(cap) == [4, 3]     # 'cold', 'dog' — not 5, 7
+
+
 def test_wrong_target_propensity_excludes_same_answer_items():
     # items 0 and 1 share the answer '3'; item 2's answer is '5'
     cap = _cap([("q0", "3"), ("q1", "3"), ("q2", "5")])

@@ -12,8 +12,12 @@ import re
 import numpy as np
 import pytest
 
+from experiments.exp2d import analyze_2d as a2d
 from experiments.exp2g import battery_2g as bg
+from experiments.exp2g import predictor_2g as pr
 from experiments.exp2g import stats_2g as st
+from experiments.exp2g import strata_2g as sg
+from experiments.exp2h import battery_2h as bh
 from experiments.exp2i import analyze_2i as an2i
 from experiments.exp2i import battery_2i as bi
 from experiments.exp2j import analyze_2j as an
@@ -85,12 +89,20 @@ def test_realized_thin_primary_absorbed_with_disclosure_regardless_of_power():
     assert an.DISCLOSURE_THIN_2J in lic
 
 
+def test_licensed_plain_absorbed_powered_is_the_absorbed_sentence():
+    """No fast test previously called `_licensed` on a plain
+    (no-disclosure) POWERED ABSORBED tree — closes a Step 4 mutation
+    gap (`_licensed`'s POWERED branch swapped to ABSORBED_UNDERPOWERED)."""
+    v = an.verdict_tree_2j([], _prim(0.05, 0.001, False), _power("POWERED"))
+    assert v["verdict"] == "ABSORBED" and v["disclosures"] == []
+    assert an._licensed(v) == an.LICENSED_2J["ABSORBED"]
+
+
 def test_pins_extract_from_the_committed_records():
     v2i = json.loads((bi.EXP2I / "results" / "verdict.json").read_text())
     assert an.pin_from_record_2i(v2i) == an.VERDICT_2I_PIN
     v2g = json.loads((bg.EXP2G / "results" / "verdict.json").read_text())
     assert an.pin_from_record_2g(v2g) == an.VERDICT_2G_PIN
-    from experiments.exp2h import battery_2h as bh
     v2h = json.loads((bh.EXP2H / "results" / "verdict.json").read_text())
     assert an.pin_from_record_2h(v2h) == an.VERDICT_2H_PIN
 
@@ -102,6 +114,34 @@ def test_check_pin_three_way_exact():
     assert bad and bad[0].startswith("2i comparison") and "A" in bad[0]
     bad = an.check_pin(dict(lit), {"B": 0.5, "A": 0.3}, lit, "2i comparison")
     assert any("verdict.json" in b for b in bad)
+
+
+def test_check_pin_isolates_on_disk_vs_literal_drift():
+    """check_pin's SECOND check (on_disk vs the literal) isolated from
+    its first (rederived vs on_disk): rederived is built to match
+    on_disk exactly, so only the second check can flag on_disk's own
+    drift from the literal pin — the existing test above does not
+    isolate this (its mismatched case's FIRST loop already emits a
+    message containing 'verdict.json', so removing the second check
+    entirely survived it — a Step 4 mutation gap)."""
+    lit = {"B": 0.5}
+    on_disk = {"B": 0.6}          # drifted from the literal
+    rederived = {"B": 0.6}        # matches on_disk exactly -> first loop clean
+    bad = an.check_pin(rederived, on_disk, lit, "iso")
+    assert any("verdict.json" in b and "literal pin" in b for b in bad)
+
+
+def test_load_power_2j_refuses_a_strict_superset_of_rungs(tmp_path):
+    """rung EQUALITY, not a subset relation — a power record whose
+    rungs are a strict superset of r_cap must be refused (a Step 4
+    mutation gap: r_cap.issubset(prim_rungs) is still True when
+    prim_rungs carries extra entries beyond r_cap)."""
+    (tmp_path / "results").mkdir()
+    rec = {"primary": {"declared_status": "POWERED", "rungs": ["a", "b", "extra"],
+                       "n_trained_steps": len(bi.trained_steps_7b())}}
+    (tmp_path / "results" / "power_2j.json").write_text(json.dumps(rec))
+    with pytest.raises(ValueError, match="power rungs"):
+        an._load_power_2j(tmp_path, ("a", "b"))
 
 
 def _toy_cells(seed=0):
@@ -122,6 +162,23 @@ def test_t_only_equals_run_test_T_exactly():
     assert t["per_rung"] == {r: full["per_rung"][r]["d"] for r in ("r1", "r2")}
 
 
+def test_t_only_uses_mean_not_median_over_three_rungs():
+    """The two 2-rung toys above cannot separate mean from median (with
+    exactly two values they coincide); three rungs with distinct d's
+    can. Values transcribed from this exact seed/data (a mean-vs-median
+    mutation on t_only's final `np.mean` call is a Step 4 mutant)."""
+    rng = np.random.default_rng(3)
+    n = 60
+    x = {f"r{i}": [int(v) for v in rng.integers(0, 10, n)] for i in range(3)}
+    out = {r: {"y": [int(v) for v in rng.integers(0, 21, n)], "n_pos": n} for r in x}
+    strata = {r: {"strata": [str(i % 3) for i in range(n)]} for r in x}
+    t = an.t_only(x, "olmo1b", out, strata, tuple(x))
+    vals = list(t["per_rung"].values())
+    assert len(vals) == 3
+    assert t["T"] == pytest.approx(float(np.mean(vals)))
+    assert t["T"] != pytest.approx(float(np.median(vals)))
+
+
 def test_t_only_undefined_on_degenerate_predictor():
     x, out, strata = _toy_cells()
     x = {r: [3] * 60 for r in x}
@@ -139,6 +196,50 @@ def test_decomposition_shape_on_a_toy():
     assert set(d["beyond_single"]) == set(fn.FUNCTIONALS)
     assert d["composite_report"]["r1"]["O"] == "dropped_constant"
     assert "O" not in d["alone"] or d["alone"]["O"] is None
+
+
+def test_rederive_2i_b_uses_the_zero_cut_not_the_median_bucket():
+    """rederive_2i's 'B' test must stratify on `an2i._composite_strata`
+    (the zero cut on x_a), not `_composite_strata_median`
+    (`cross_beyond_within`'s construction) — worlds/full_shape cannot
+    see this mutation (they derive their own embedded comparison pins
+    with the SAME code under test, so a mutated rederive_2i is
+    self-consistent there). x_a is built so the two cuts disagree: 20
+    zeros + 1..40 gives a 20/40 zero-cut split vs a ~30/30 median split."""
+    rng = np.random.default_rng(11)
+    n, r = 60, "r"
+    x_a = {r: [0] * 20 + list(range(1, 41))}
+    x_b = {r: [int(v) for v in rng.integers(0, 64, n)]}
+    out = {r: {"y": [int(v) for v in rng.integers(0, 21, n)], "n_pos": n}}
+    strata = {r: {"strata": [str(i % 3) for i in range(n)]}}
+    py = {"2.8b": out, "6.9b": out}
+    kw = dict(n_perm=15, n_boot=5)
+    red = an.rederive_2i(x_a, x_b, out, strata, (r,), py, **kw)
+    zero_cut = an2i._run_test(x_b, bi.SIZE_PRED, out, an2i._composite_strata(strata, x_a, (r,)),
+                              (r,), **kw)
+    median_cut = an2i._run_test(x_b, bi.SIZE_PRED, out,
+                                an2i._composite_strata_median(strata, x_a, (r,)), (r,), **kw)
+    assert zero_cut["stratified"]["T"] != median_cut["stratified"]["T"]   # the toy is not vacuous
+    assert red["B"]["stratified"]["T"] == zero_cut["stratified"]["T"]
+
+
+def test_rederive_2g2h_primary_uses_r_69_not_r_28():
+    """rederive_2g2h's 'primary' test must run `bh.R_69`'s rungs against
+    py['6.9b'], not `bg.R_28`'s against it — closes a Step 4 mutation
+    gap (both module-level rung tuples monkeypatched to disjoint,
+    single-rung sets so the swap is unmissable: with the mutant, 'primary'
+    would be built over r28, which is absent from py['6.9b'] and raises)."""
+    r28, r69 = "only_28", "only_69"
+    strata = {r28: {"strata": ["0", "1", "0", "1"]}, r69: {"strata": ["0", "1", "0", "1"]}}
+    x_a_full = {r28: [1, 2, 3, 4], r69: [10, 20, 30, 40]}
+    py = {"2.8b": {r28: {"y": [0, 1, 0, 1], "n_pos": 2}},
+         "6.9b": {r69: {"y": [1, 0, 1, 0], "n_pos": 2}}}
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(bg, "R_28", (r28,))
+        mp.setattr(bh, "R_69", (r69,))
+        red = an.rederive_2g2h(x_a_full, py, strata, n_perm=15, n_boot=5)
+    want = an2i._run_test(x_a_full, "1b", py["6.9b"], strata, (r69,), n_perm=15, n_boot=5)
+    assert an._T_of(red["primary"]) == an._T_of(want)
 
 
 def test_require_prereg_2j_refuses_missing_tag_and_drift():
@@ -190,6 +291,146 @@ def test_run_on_an_empty_2i_root_is_insufficient_data(tmp_path):
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert v["primary"] is None and v["secondaries"] is None
     assert v["known_inputs_caveat"] == an.KNOWN_INPUTS_CAVEAT_2J
+
+
+def _raiser(*a, **kw):
+    raise RuntimeError("injected for a Step 4 totality mutation test")
+
+
+def _run_empty(tmp_path, **kw):
+    return an.run(root_2i=tmp_path, root_2j=tmp_path, referents_sha=False, n_perm=10, n_boot=3,
+                  tag_exists=lambda t: True,
+                  blob_sha=lambda t, r: bg.sha256_file(bg.REPO / r) if (bg.REPO / r).is_file() else None,
+                  blobs_bound=lambda tag, paths, repo_root=None: [], **kw)
+
+
+# The block below closes Step 4 mutation gaps at collect_total call
+# sites whose thunks read REAL, root_2i-INDEPENDENT repo data (the
+# battery, the floors, the verify criterion, the 2g strata predictor,
+# the 2i checkpoint manifest, the frozen-import checks, the strata pin
+# check, the manifest-entry lookups, the 2g/2h pythia outcomes) — these
+# all SUCCEED even against the empty `tmp_path` root the test above
+# uses, so stripping their collect_total wrapper is invisible there;
+# each test below forces exactly ONE of them to raise and checks the
+# run still reaches INSUFFICIENT_DATA (not an uncaught exception, which
+# would fail the test with an ERROR rather than a clean assertion).
+
+def test_run_catches_a_forced_battery_load_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(bg, "load_battery", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("battery items" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_floors_load_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(bg, "load_floors", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("floors 2d" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_verify_load_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(a2d, "load_verify", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("verify criterion 3c" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_strata_predictor_load_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(pr, "load_predictor", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("strata source 2g predictor" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_checkpoint_manifest_load_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(bi, "load_manifest", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2i checkpoint manifest" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_pythia_outcomes_load_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(an, "load_pythia_outcomes", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("pythia outcomes 2g 2h" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_frozen_imports_check_failure(tmp_path, monkeypatch):
+    """The frozen-imports loop's ONE `collect_total(thunk, label)` call
+    site cycles through four checks at runtime; forcing any one of them
+    to raise is enough to prove the loop's wrapper is intact."""
+    monkeypatch.setattr(bg, "check_frozen_imports_2g", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2g upstream frozen imports" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_strata_pins_check_failure(tmp_path, monkeypatch):
+    """`sg.check_strata_pins` also runs INSIDE `pr.load_predictor`'s own
+    validation (its first call, which must succeed so `pred2g`/`strata`
+    build normally) — a bare raiser fails at the earlier "strata source
+    2g predictor" label instead, so this only raises from the SECOND
+    call onward (run()'s own downstream "strata pins 2g" site)."""
+    orig = sg.check_strata_pins
+    calls = {"n": 0}
+
+    def flaky(*a, **kw):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return orig(*a, **kw)
+        raise RuntimeError("injected for a Step 4 totality mutation test")
+
+    monkeypatch.setattr(sg, "check_strata_pins", flaky)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("strata pins 2g" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_entry_7b_lookup_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(bi, "entry_7b", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2i 7B endpoint entry" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_entry_1b_endpoint_lookup_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(bi, "entry_1b_endpoint", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2i 1B endpoint entry" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_forced_referent_manifest_check_failure(tmp_path, monkeypatch):
+    """The manifest-check thunk (`mkr.check_referents`) is SKIPPED
+    entirely when the caller passes `referents_sha=False`, as every
+    other empty-root test above does — so it needs its own test that
+    lets `referents_sha` default (to the now-pinned REFERENTS_2J_SHA256
+    literal) instead."""
+    from experiments.exp2j import make_referents_2j as mkr
+    monkeypatch.setattr(mkr, "check_referents", _raiser)
+    v = an.run(root_2i=tmp_path, root_2j=tmp_path, n_perm=10, n_boot=3,
+              tag_exists=lambda t: True,
+              blob_sha=lambda t, r: bg.sha256_file(bg.REPO / r) if (bg.REPO / r).is_file() else None,
+              blobs_bound=lambda tag, paths, repo_root=None: [])
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2j referent manifest" in f for f in v["referents"]["failures"])
+
+
+def test_run_catches_a_torn_gate1_record_on_read(tmp_path):
+    """`collect_total(lambda: json.loads(g1p.read_text()), "2i gate 1
+    record")` is only reached when `g1p.is_file()` — on the empty-root
+    test above `gate1_path` has no file at all, so the branch that
+    would raise (rather than the earlier 'record missing' failure) is
+    never taken; writing a torn file at that exact path (no other
+    monkeypatch needed) reaches it directly and cheaply."""
+    p = bi.gate1_path(tmp_path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text("{not valid json")
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2i gate 1 record" in f for f in v["referents"]["failures"])
 
 
 def test_run_refuses_when_the_manifest_is_not_pinned(tmp_path, monkeypatch):
