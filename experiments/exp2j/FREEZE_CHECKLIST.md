@@ -241,7 +241,7 @@ Mutant #30; tests
 `test_a_firing_but_realized_thin_primary_still_carries_the_thin_
 disclosure` and `test_a_firing_primary_on_three_or_more_rungs_carries_
 no_disclosure`. **If Michael would rather the firing branch stay
-silent, deleting the three lines marked `freeze F-5` in
+silent, a four-line edit at the one line marked `freeze F-5` (drop the `thin` and `reason` assignments, restore the f-string return and `"disclosures": []`) — corrected post-freeze by the independent review; the original sentence said "three lines" in
 `verdict_tree_2j` restores the build's behaviour exactly.**
 
 ## Attack-list disposition (all 18) — CLOSED 4 / CLEARED 12 / DISCLOSED 2
@@ -441,3 +441,30 @@ already discloses that T_beyond's real value is known before the tag.
   immediate, and diagnosable from the message, but it will refuse.
 - `IMPORTED_SHA256_2J` lives inside `analyze_2j.py`, so the prereg tag
   binds it along with everything else in that file.
+
+
+## Post-freeze independent review (opus, 2026-08-28) — corrections to this record
+
+All five closures verified to close as claimed; F-5 judged additive
+(terminal and firing rule untouched, byte-identical on every accepted
+path); no accepted element moved; pins, manifest, power record and
+upstream trees intact; cold numbers reproduced (fast modules 76/76,
+read sweep 4,347/0 unpinned, battery 12/12, both mutation logs
+consistent, determinism byte-identical). Import-surface census by the
+reviewer: 54 distinct `experiments/` files on the verdict path, 0
+unpinned, 0 under `tests/`; 23 of the 28 pinned entries load on the
+verdict path, 5 (the `run/` inits, `endpoint_2i`, `sample_2i`,
+`verify_referents_2j`) never do. Corrections: (1) the F-5 revert is a
+four-line edit at one marker line, not "three lines"; (2) the suite
+delta was +19 in `test_analyze_2j.py` (20 added, 1 refactored) and +5
+in `test_totality_2j.py`, total +24 (113 correct); (3) totality
+shapes are 24 inherited + 5 new = 29 needles plus the RESIDUAL control
+= 30; (4) the read sweep's "frozen_module 33 → 38" is the right number
+with a loose attribution — 25 of the 63 pinned-code reads land in the
+manifest bucket first; (5) doc slip (g)'s §4 wording was narrower than
+the code (corrected in the design doc post-tag, disclosed there);
+(6) `verify_referents_2j.py` is pinned unconditionally though never on
+the verdict path — a post-tag edit to the cold tool now costs a
+re-tag (2i needed exactly such an edit mid-campaign); priced and
+accepted, not changed; (7) slip (c) widened in the design doc: A-1's
+readings were as visible pre-tag as T_beyond; the terminal was not.

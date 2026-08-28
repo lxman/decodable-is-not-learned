@@ -143,7 +143,16 @@ printed by the build's read sweep at n_perm 30 — T does not depend on
 n_perm, so the sweep's incidental output is the real value. No
 functional, bucket rule, partition or tree element was chosen after
 it; §5 was frozen before any computation ran. The projection carries
-the same disclosure, on 2e's precedent.
+the same disclosure, on 2e's precedent. [Post-tag widening
+2026-08-28, from the independent review of the freeze: every
+n_perm-independent quantity the freeze's real-tree workbench run
+printed was equally visible before the tag — A-1's reading and gap
+fractions included — though the controller who sealed the projection
+had read only T_beyond and p from the ledger; the TERMINAL was not
+visible (p floors at 1/31 at 30 permutations). The projection's A-1
+range was sealed before the reviewer's report disclosed those
+numbers to the controller; graded on that basis in the
+retrospective.]
 
 The known texture of the asymmetry, which A-1 is built to read
 (2i `results/verdict.json`, 2h and 2g verdict records; per-rung
@@ -294,9 +303,14 @@ whole run is minutes to an hour on the Mac.
   to `exp2j-preregistered`'s blobs or the analyzer refuses. Two
   further refusal inputs (slip (g), freeze F-1 and F-2): the
   analyzer's own import surface — any module under `experiments/` in
-  `sys.modules` that is not pinned in `IMPORTED_SHA256_2J`, or that
-  has drifted from its pin (files under a `tests/` directory excluded
-  and disclosed), checked at `run()`'s entry and exit; and the power
+  `sys.modules` that is not covered by any instrument pin
+  (`IMPORTED_SHA256_2J`, `FROZEN_SHA256_2J`, 2g's
+  `FROZEN_IMPORT_SHA256_2G`, or the two tag-bound blobs), or that has
+  drifted from its pin (files under a `tests/` directory excluded and
+  disclosed), checked at `run()`'s entry and exit [post-tag wording
+  correction 2026-08-28 from the independent review of the freeze:
+  the tag's text said "not pinned in `IMPORTED_SHA256_2J`", narrower
+  than the code; no instrument change]; and the power
   record's composite partition not equal to the partition the
   analyzer realizes.
 
