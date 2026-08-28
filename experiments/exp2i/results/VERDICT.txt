@@ -1,0 +1,112 @@
+EXPERIMENT 2i — THE CROSS-FAMILY TEST — VERDICT: LINEAGE
+(read under POWERED, both tests: P(fires | D = .15) = 1.000 against the
+bar .75; null false-fire .000/.000; null SD of T .0096 (A) / .0111 (B);
+min-detectable T .0218/.0257; and the power record's own printed line —
+P(fires | D = .10) = .439 (A) / .381 (B): at the bar the outcome is the
+bar's, not p's.)
+
+Frozen analyzer run ONCE, 2026-08-28, on Michael's go ("Run the
+analyzer."), tag exp2i-preregistered at 105066c1 (the stop-#1 re-tag,
+ratified; the prior tag object stood at f57f5888; the five instrument
+blobs re-verified byte-identical at run time); predictor sealed
+exp2i-predictor-sealed (da889aae, x_B sha d80ada50…); endpoint sealed
+exp2i-endpoint-sealed (f59f1f79: 68 records + rung set + power);
+projection sealed 5b000b7d before gate 1 or any intermediate checkpoint
+loaded. Referent failures: ZERO (273-file class of checks: 22 frozen
+pins, 14 upstream pins, 68 x_A pins, both seals blob-bound, predictor
+provenance re-measured per F-1, x_B re-derived from the raw draws,
+gate 1 re-derived — 0 bit diffs, 0 continuation diffs, digests equal —
+22/22 units complete, no HALTED).
+
+§3.6 tree, mechanical:
+  1. INSUFFICIENT_DATA — not taken (zero failures).
+  2. Test A (cross-family: Pythia-1b's committed 2d counts → the order
+     OLMo-2 7B's stage-1 training makes items emittable; 2g's strata;
+     R_CAP = 9): stratified T = .0949, p = 9.999e-05 (0 of 10,000
+     permutations ≥ observed) — FIRES = FALSE, with the tree's own
+     disclosure printed: "below the effect bar (T = .0949 < .1,
+     p = 9.999e-05)". Structured, and under the frozen bar.
+  3. Test B (within-family beyond cross: OLMo-2 1B's sealed counts, in
+     composite strata conditioning on x_A's zero cut): stratified
+     T = .2153, p = 9.999e-05 — FIRES = TRUE.
+  → LINEAGE (B fires, A does not).
+
+The finding in one line: at item grain, on a family nobody had queried,
+emergence order is forecast by the smaller model OF THE SAME LINEAGE
+(T .2153, p 1.0e-4, POWERED), while the cross-family predictor carries
+a real but sub-bar trace (T .0949 at the permutation floor — evidence
+of shared structure, not enough of it to license the cross-family
+sentence; the preregistered licence for that sentence is not granted).
+
+Where A's miss lives (located, not argued away): the three mid-digit
+rungs new to any primary — add3_mid, sub3_mid, sub4_mid, where Pythia-1b
+ever fired on only 10/31/13 items of 500 — came in at D .005 / .020 /
+−.022 and diluted the mean exactly as the sealed projection said they
+would ("contribute ≈ 0 by construction"); the six 2h-carried rungs
+alone average .1418 (descriptive: the frozen primary is the mean over
+R_CAP, and R_CAP was fixed by rule at the endpoint stage).
+
+Per-rung within-stratum Somers' D (bootstrap CI), Test A:
+  sub_base8 .338 [.260, .406]; add_base8 .242 [.156, .319];
+  antonym6 .101 [.035, .162]; odd6 .078 [.013, .140];
+  arith_next .064 [.001, .129]; antonym .028 [−.042, .100];
+  sub3_mid .020 [−.009, .055]; add3_mid .005 [−.010, .019];
+  sub4_mid −.022 [−.042, −.003].
+  The 2g/2h loci repeat at the top of a THIRD outcome: sub_base8 and
+  add_base8 lead on 2.8b, 6.9b and now OLMo-2 7B.
+
+Test B: add_base8 .740 [.680, .795] — the largest single-rung D in the
+  program's record; sub_base8 .298 [.212, .375]; arith_next .266
+  [.198, .328]; antonym .217 [.146, .286]; antonym6 .214 [.147, .282];
+  odd6 .121 [.042, .198]; add3_mid .057 [.017, .099]; sub3_mid .019
+  [−.017, .051]; sub4_mid .005 [−.008, .019]. All nine eligible
+  (n_pos 153–500 ≥ 20), none THIN, none dropped degenerate.
+
+Partials (every p = 1.0e-4): within-alone .2204; cross-beyond-within
+.0701 — the 2g/2h asymmetry repeats one level up: the same-lineage
+sampler carries the forecast; the cross-family component exists and is
+the smaller part. First-correct outcome: A .1127, B .1992. 410m cross
+replication: .1154 — ABOVE the 1b cross point (the sealed projection
+said lower; graded a miss in the retrospective). Reverse direction
+(non-gating, outcomes known and disclosed as such): x_B forecasts
+Pythia-2.8b's committed outcome at T .2612 and Pythia-6.9b's at .2974
+— the OLMo 1B forecasts Pythia's order better than Pythia-1b forecasts
+OLMo's, so what limits the cross reading here looks like predictor
+information density (x_B's counts are ~5–10× richer), not an absence
+of shared structure; named for the mechanism successor.
+
+Texture: the from_config twin verifies 0 items on every rung at every
+point. First clear s*: antonym6 8k; arith_next 16k; antonym,
+add_base8, sub_base8 32k; add3_mid, sub3_mid 64k; odd6, sub4_mid 128k
+— the mid-digit rungs go 0 → 495/500 inside the 64k–928k body of the
+grid. Transient clears on flat rungs (never at the endpoint): median5
+×7, median7 ×6, count_div13 ×3, oct2dec ×2, clock24_d999 ×1 — 2h's
+transient-verification phenomenon on a second family. Non-monotone
+trajectories persist (add_base8 dips to 45/500 at step 512000 against
+~110 at both neighbours). Extra rungs (raw D, outside the verdict):
+quad_next A .106 / B .206; reverse_string B .067 on 114 endpoint
+positives (A has ONE live item); odd_one_out A −.033 / B .090.
+
+Calibration (stated in advance): each test at α .01; the world is
+their conjunction; the union of the four worlds is not α-calibrated.
+Known-inputs caveat printed in verdict.json: x_A, 2g/2h's records and
+the loci were known to the designer; the OLMo outcome was sealed from
+everyone until this sweep.
+
+Licensed by §6 as frozen: the essay states the finding as
+lineage-bound ("the smaller model of the same lineage"), adds that
+Pythia-1b's counts carry Pythia's own path; cross-family forecasting
+is NOT licensed; the named next question is mechanism — what about the
+smaller model's output makes an item reachable?
+
+Campaign: preflight + stage 1 (9.2 h) + stage 2 (2.3 h) + sweep
+(~30 h, 22 units, ~613 GB streamed and freed); one campaign stop
+(#1, a loader crash in gate 1's first model load, before any record —
+root-caused to a transformers-5 directory read, reproduced weight-free,
+fixed test-first, ratified, re-tagged); zero halts, zero attrition
+after the relaunch; gate 1 = the tenth consecutive byte-identical
+greedy reproduction on this stack, the first on OLMo-2 and the first
+at 7B. One pre-committed change UNSPENT end to end.
+
+Records: results/verdict.json (analyzer, run once, --write);
+projection graded in results/retrospective.md; ledger PROGRESS.md.
