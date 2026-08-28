@@ -10,7 +10,25 @@ permutation p; f 2i's power simulation once at the build, governing
 how ABSORBED reads; g .10 / .01 unchanged; h build + freeze in one
 session; i the asymmetry re-read printed, non-gating; j the §2
 disclosure verbatim in the verdict record and any licensed sentence;
-k licences as §6. Build + freeze follow in this session per §11.
+k licences as §6. BUILT + FROZEN the same session (SDD build, four
+tasks each reviewed; adversarial freeze worked cold by a fresh
+reviewer): THE CLASS DEFECT FOUND — F-1, the analyzer's import surface
+had no pin (23 files under `experiments/` executed inside `run()`
+unpinned and invisible to the read sweep; two lines in
+`exp2j/__init__.py` moved T_beyond .13111 → .13302 with every gate
+passing) — closed by `IMPORTED_SHA256_2J` (28 files, literal) checked
+at entry and exit; F-2 the power record's composite partition
+attested, never compared (now a refusal); F-3 the block gate proved
+the mean only (now per-rung D); F-4 two cross-experiment label
+prefixes (disclosed, pinned); F-5 the realized-THIN guard on one
+branch only. Cold at the freeze head: suite 113, nine world terminals,
+totality 30, battery 12/12, mutation 70 (69 killed + 1 equivalent, 0
+open), read sweep 4,347 paths 0 unpinned, determinism byte-identical
+×2; power ONCE POWERED (P(fires | D = .15) = 1.000, null SD .0114,
+min-detectable T .0265). Findings and doc slips (a)–(h) RATIFIED by
+Michael 2026-08-28 ("ratified — apply the slips and tag") and applied
+in place; tag `exp2j-preregistered` follows (blob-bound:
+`analyze_2j.py` + `functionals_2j.py`).
 ANALYSIS-ONLY: no model is loaded, nothing is sampled; every input is
 a committed 2d, 2g, 2h or 2i artifact, re-derived from raw bytes
 through the predecessor's own frozen loader. Zero model contact,
@@ -111,11 +129,21 @@ reader can see what the design knew):
 
 Two consequences the design takes from that table, stated now: the
 input-overlap functional is constant (1.0) on the three
-option-listing rungs and is dropped there by the §5.2 rule; and on
+option-listing rungs of R_CAP (antonym, antonym6, odd6) and is
+dropped there by the §5.2 rule — median5, in 2g's eleven covered
+rungs but outside R_CAP, drops O too (slip (b)); and on
 the three mid-digit rungs the answers are nearly unique, so the
 wrong-target propensity will be zero on most items and the bucket
 rule's tie fallback (§5.2) is what applies — those three rungs
 contributed ≈ 0 to every 2i reading and will contribute ≈ 0 here.
+
+Also known to the designer before the tag (slip (c), ratified
+2026-08-28): the primary's own T_beyond on the real tree (0.1311),
+printed by the build's read sweep at n_perm 30 — T does not depend on
+n_perm, so the sweep's incidental output is the real value. No
+functional, bucket rule, partition or tree element was chosen after
+it; §5 was frozen before any computation ran. The projection carries
+the same disclosure, on 2e's precedent.
 
 The known texture of the asymmetry, which A-1 is built to read
 (2i `results/verdict.json`, 2h and 2g verdict records; per-rung
@@ -246,7 +274,9 @@ whole run is minutes to an hour on the Mac.
   literal at the build from the verdict records. A mismatch is
   INSUFFICIENT_DATA — the statistic is not what 2i ran.
 - **The block machinery's own gate.** Thinning at k = 64 (one block)
-  must reproduce every 64-draw referent above exactly.
+  must reproduce every 64-draw referent above exactly — including the
+  per-rung within-stratum D, not only the mean T (slip (h), freeze
+  F-3).
 - **The strata.** 2g's sealed `predictor.json` by sha; the strata
   gate 2i ran (`check_strata_pins`, `RAW_COUNT_PIN`), re-run.
 - **The item files** through 2d's `load_item_file` (raw bytes
@@ -261,7 +291,14 @@ whole run is minutes to an hour on the Mac.
   by sha (`FROZEN_SHA256`, 2i's list extended); a pin failure is a
   hard error with no verdict — the instrument is not what was tagged.
   Blob-bound tag: 2j's analyzer and functionals module byte-identical
-  to `exp2j-preregistered`'s blobs or the analyzer refuses.
+  to `exp2j-preregistered`'s blobs or the analyzer refuses. Two
+  further refusal inputs (slip (g), freeze F-1 and F-2): the
+  analyzer's own import surface — any module under `experiments/` in
+  `sys.modules` that is not pinned in `IMPORTED_SHA256_2J`, or that
+  has drifted from its pin (files under a `tests/` directory excluded
+  and disclosed), checked at `run()`'s entry and exit; and the power
+  record's composite partition not equal to the partition the
+  analyzer realizes.
 
 ## 5. Operationalization
 
@@ -366,7 +403,12 @@ items, r̄_A,g (Pythia-1b, 2d) and r̄_B,g (OLMo-2 1B, 2i) — both in 2i's
     no selection);
     disjoint consecutive blocks b = 0 … floor(64 / k_g) − 1, block b
     = draws [b·k_g, (b+1)·k_g); T computed per block; the A-1 reading
-    of a rung is the mean over blocks, the block min and max printed.
+    of a rung is the mean over blocks, the block min and max printed —
+    that is, per rung: each block's per-rung d exactly as `t_only`
+    computes it, the rung's reading the mean over ITS OWN blocks with
+    min and max printed, and T the mean over eligible rungs of those
+    readings; the ladder is read the same way, and the zero-fraction
+    sensitivity uses block 0 (slip (d)).
 
 At the committed rates the thinned predictor is x_B on eight rungs
 (k_g: add3_mid 7, add_base8 7, arith_next 9, sub_base8 11, antonym 22,
@@ -374,14 +416,26 @@ antonym6 23, sub3_mid 40, odd6 57) and x_A on one (sub4_mid, k ≈ 26,
 where Pythia-1b is the denser); odd6 is near parity (1.1×) and
 sub4_mid's counts are ≈ 0 on both sides. These k are the formula's
 values on known numbers, printed here so the reader can see them; the
-build re-derives them and refuses on a mismatch.
+build re-derives them and refuses on a mismatch. Because the rule
+thins the DENSER predictor on each rung, a rung where the other
+predictor is denser keeps its full 64 draws in that side's matched
+reading: on the committed rates x_B is denser on eight of the nine
+R_CAP rungs and x_A on one (sub4_mid), so `thinned_B_matched` carries
+sub4_mid un-thinned and `thinned_A_matched` equals the x_A anchor
+exactly on the two Pythia outcomes, where x_B is denser everywhere
+(slip (e)).
 
 Read at matched density, on the same strata as the 64-draw referents:
 
 1. **Reverse direction:** thinned x_B → 2.8b (2g's seven rungs) and
    → 6.9b (2h's eight rungs), against two anchors on each outcome —
    x_A at 64 (2g .1672 / 2h .2020) and x_B at 64 (.2612 / .2974). The
-   headline descriptive: **gap fraction closed** =
+   6.9b anchor is printed twice and they differ by construction: the
+   comparison GATE re-derives 2h's primary over 2h's own eight-rung
+   R_69 (.2020, the literal pin), while A-1's anchor is x_A at 64 over
+   the seven rungs R_CAP ∩ R_69 that A-1's thinned readings use
+   (.2179); the gap fraction is computed against the seven-rung anchor
+   (slip (f)). The headline descriptive: **gap fraction closed** =
    (T_64 − T_k) / (T_64 − T_A) per outcome, with the block range.
 2. **Forward, within lineage at Pythia-1b's density:** thinned x_B →
    y_OLMo against x_A → y_OLMo (.0949) and x_B at 64 (.2204,
@@ -426,11 +480,23 @@ enters.
 1. **INSUFFICIENT_DATA** — any TREE referent fails: a committed file
    not at its sha; a predictor provenance check failing; gate 1 not
    re-deriving; any comparison gate in §4 not reproducing its literal
-   exactly; the block gate at k = 64 not reproducing. Delivered as a
+   exactly; the block gate at k = 64 not reproducing; an unpinned or
+   drifted module on the analyzer's import surface; the power
+   record's partition differing from the realized one. Delivered as a
    verdict record with every collected reason verbatim, never
    raised. An INSTRUMENT pin failure is a hard error with no verdict.
 2. **RESIDUAL** — the primary fires (p < .01, T_beyond ≥ .10).
 3. **ABSORBED** — the primary does not fire.
+
+An undefined primary (x_B constant inside every composite stratum on
+every eligible rung, 2i's Ruling 18) or a realized-THIN primary
+(fewer than three eligible rungs after the composite partition) lands
+ABSORBED with the disclosure carried on the reason string AND the
+licensed sentence, and licenses NOTHING — the residual is untested,
+not absent (2i's I-4 standard). Symmetrically (freeze F-5), a primary
+that FIRES on fewer than three eligible rungs is RESIDUAL — the
+terminal is unchanged — with the same THIN disclosure on its reason
+and its licensed sentence. (Ratified 2026-08-28, slip (a).)
 
 Read under the §7 declaration: under POWERED, ABSORBED is a measured
 absence at this resolution; under DECLARED UNDERPOWERED IN ADVANCE it
