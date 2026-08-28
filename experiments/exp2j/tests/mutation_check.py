@@ -128,8 +128,8 @@ M = [
      "    dropped = []"),
     (AN, "run()/_core: the block gate '!=' flipped to '==' (raises on a "
          "correct reproduction instead of a drifted one) — world/totality only",
-     '            if t64 != _T_of(comparison["rederived_2i"]["within_alone"]):',
-     '            if t64 == _T_of(comparison["rederived_2i"]["within_alone"]):'),
+     "            if t64 != _T_of(wa):",
+     "            if t64 == _T_of(wa):"),
     (AN, "_load_power_2j: rung-set equality relaxed to a subset check",
      '    if set(prim.get("rungs", [])) != set(r_cap):',
      '    if not set(r_cap).issubset(set(prim.get("rungs", []))):'),
@@ -151,6 +151,30 @@ M = [
     (AN, "rederive_2g2h: 'primary' reads R_28 instead of R_69 — world/totality only",
      '            "primary": _run_test(x_a_full, "1b", py["6.9b"], strata, tuple(bh.R_69), **kw)}',
      '            "primary": _run_test(x_a_full, "1b", py["6.9b"], strata, tuple(bg.R_28), **kw)}'),
+    # ---------------------------------------------- the freeze's own closures
+    (AN, "check_imports_2j (F-1): an unpinned imported module is no longer flagged",
+     "        if s not in pinned:\n"
+     '            unpinned.append(f"{name} -> {s}")',
+     "        if False:\n"
+     '            unpinned.append(f"{name} -> {s}")'),
+    (AN, "check_imports_2j (F-1): a drifted pinned module is no longer flagged",
+     "        elif not rp.is_file() or bg.sha256_file(rp) != pinned[s]:\n"
+     '            drifted.append(f"{name} -> {s}")',
+     "        elif False:\n"
+     '            drifted.append(f"{name} -> {s}")'),
+    (AN, "check_power_partition_2j (F-2): the bucket-rule comparison inverted",
+     "        if dict(rec_report[r]) != dict(report[r]):",
+     "        if dict(rec_report[r]) == dict(report[r]):"),
+    (AN, "check_power_partition_2j (F-2): the stratum-count comparison removed",
+     "        if int(rec_n[r]) != int(n_strata[r]):",
+     "        if False:"),
+    (AN, "verdict_tree_2j (F-5): a firing-but-THIN primary no longer discloses",
+     '        thin = ([DISCLOSURE_THIN_2J] if len(primary.get("eligible", [])) < 3 else [])',
+     '        thin = ([DISCLOSURE_THIN_2J] if len(primary.get("eligible", [])) < 0 else [])'),
+    (AN, "run()/_core: the per-rung block gate inverted (raises on a correct "
+         "reproduction) — world/totality only",
+     '            if bad_r or sorted(t64res["per_rung"]) != sorted(wa["per_rung"]):',
+     '            if bad_r or sorted(t64res["per_rung"]) == sorted(wa["per_rung"]):'),
 ]
 
 # Review finding 4's lesson, one experiment later: one mutant per
@@ -236,7 +260,14 @@ def main(argv=None) -> int:
         print(f"[{i:2d}] {'killed' if not ok else 'SURVIVED'}  {name}", flush=True)
         if ok:
             survivors.append((i, name, "survived"))
-    print(f"\n{considered - len(survivors)}/{considered} killed; survivors: {survivors}")
+    # freeze coverage census: a SKIP (the mutant's target text is no
+    # longer in the source — a stale mutant, not an untested one) and a
+    # real survivor are different findings and must not share a line.
+    skipped = [s for s in survivors if s[2] == "target-not-found"]
+    real = [s for s in survivors if s[2] == "survived"]
+    print(f"\n{considered - len(survivors)}/{considered} killed; "
+          f"{len(real)} survivor(s): {real}; "
+          f"{len(skipped)} SKIP (target text not found, stale mutant): {skipped}")
     return 1 if survivors else 0
 
 

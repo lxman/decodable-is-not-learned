@@ -150,6 +150,50 @@ def test_power_2j_unknown_declared_status(world):
     _insufficient(root, seal, "power record")
 
 
+def test_power_2j_partition_disagrees_with_the_analyzer(world):
+    """Freeze F-2: the record's bucket-rule report is not the one the
+    analyzer realizes — the POWERED declaration is then about a
+    partition the verdict never used."""
+    root, seal = world
+    p = root / "results" / "power_2j.json"
+    rec = json.loads(p.read_text())
+    r = sorted(rec["composite_report"])[0]
+    rec["composite_report"] = {**rec["composite_report"],
+                               r: {**rec["composite_report"][r], "L": "terciles"}}
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "2j power partition")
+
+
+def test_power_2j_stratum_count_disagrees_with_the_analyzer(world):
+    root, seal = world
+    p = root / "results" / "power_2j.json"
+    rec = json.loads(p.read_text())
+    r = sorted(rec["n_composite_strata"])[0]
+    rec["n_composite_strata"] = {**rec["n_composite_strata"],
+                                 r: rec["n_composite_strata"][r] + 1}
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "2j power partition")
+
+
+def test_power_2j_with_no_partition_attested(world):
+    """The shape every world carried before F-2: a record that declares
+    POWERED and attests no partition at all."""
+    root, seal = world
+    p = root / "results" / "power_2j.json"
+    rec = json.loads(p.read_text())
+    rec.pop("composite_report"), rec.pop("n_composite_strata")
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "2j power partition")
+
+
+def test_import_surface_failure(world, monkeypatch):
+    """Freeze F-1: an unpinned or drifted `experiments/` module in
+    sys.modules is a refusal, not a silent input."""
+    root, seal = world
+    monkeypatch.setattr(an, "check_imports_2j", _raise_injected)
+    _insufficient(root, seal, "2j import surface")
+
+
 def test_2i_verdict_torn(world):
     root, seal = world
     (root / "results" / "verdict.json").write_text('{"tests": {')

@@ -105,7 +105,7 @@ def _draws_for_rung(rng, cap, world):
 
 
 def write_world_2j(root, *, world="residual", missing=None, seed=0,
-                   power_status="POWERED", wrong_pin=False) -> dict:
+                   power_status="POWERED", wrong_pin=False, power_partition=None) -> dict:
     root = Path(root)
     rng = np.random.default_rng(seed)
     bat, man, verify = fs2i.battery(), fs2i.manifest(), fs2i.verify_fn()
@@ -206,16 +206,30 @@ def write_world_2j(root, *, world="residual", missing=None, seed=0,
              "digest_sweep": "D" * 64, "digest_endpoint": "D" * 64,
              "commit_sweep": entry_stage1["commit"], "commit_endpoint": entry_stage1["commit"],
              "prereg_tag": bi.PREREG_TAG})
-    # ---- 2j's own power record (root_2j == root)
-    r_cap = tuple(rs["R_CAP"])
-    fs2i._w(root / "results" / "power_2j.json",
-            {"primary": {"declared_status": power_status, "declaration": "x", "rungs": list(r_cap),
-                         "n_trained_steps": n_tr}, "shape_note": "x"})
     # ---- the world's own 2i pins: re-derived through 2i's code on the world's bytes
+    r_cap = tuple(rs["R_CAP"])
     sweep = an2i.load_sweep_7b(root, bat, verify, manifest=man, predictor_sha=psha)
     out = an2i.outcomes_7b(sweep, rungs=tuple(bt.RUNGS))
     pred2g = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
     strata = sg.from_json(pred2g["strata"])
+    # ---- 2j's own power record (root_2j == root). Freeze F-2: the
+    # record must carry the composite partition it was simulated over,
+    # and `analyze_2j.check_power_partition_2j` refuses if that
+    # partition is not the one the analyzer realizes — so the world
+    # writes the partition its OWN draws produce (`power_partition` a
+    # deliberate override, for the totality shape that breaks it).
+    _tables = {r: fn.functional_table(bat[r], fn.draw_rows_2i(root, r)) for r in r_cap}
+    _comp, _report = fn.composite_strata(strata, _tables, r_cap)
+    _nstrata = {r: len(set(_comp[r]["strata"])) for r in r_cap}
+    if power_partition == "mismatch":
+        _report = {r: {**rules, "L": "terciles"} for r, rules in _report.items()}
+    elif power_partition == "absent":
+        _report = _nstrata = None
+    fs2i._w(root / "results" / "power_2j.json",
+            {"primary": {"declared_status": power_status, "declaration": "x", "rungs": list(r_cap),
+                         "n_trained_steps": n_tr}, "shape_note": "x",
+             **({} if _report is None else {"composite_report": _report,
+                                            "n_composite_strata": _nstrata})})
     py = an.load_pythia_outcomes(bat, verify)
     x_a_full = bi.sampler_counts_pythia("1b", tuple(sorted(set(r_cap) | set(bg.R_28) | set(bh.R_69))))
     red = an.rederive_2i(x_a_full, x_b, out, strata, r_cap, py, n_perm=20, n_boot=5)

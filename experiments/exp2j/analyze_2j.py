@@ -130,6 +130,136 @@ def check_frozen_2j() -> None:
             raise RuntimeError(f"frozen module drifted: {p} ({got[:12]} != {want[:12]})")
 
 
+# ------------------------------------------- freeze F-1: the import surface
+#
+# The read sweep proves every DATA input is pinned; it cannot prove the
+# same of the instrument's own CODE, and by construction it never
+# could: the import machinery reads a `.py` before any sweep wrapper is
+# installed, and `read_sweep_2j` pre-imports every module deliberately
+# so that import traffic stays out of its table. At the freeze, 24
+# executable files under `experiments/` were loaded into the analyzer's
+# own process and pinned by NOTHING — every package `__init__.py` on
+# the chain (`experiments/exp2j/__init__.py` first, executed on every
+# `import experiments.exp2j.analyze_2j`), 2c's item generators
+# (`battery/generators_rungs.py` and friends, reached by
+# `harness.answer_type_of`, which the sha-pinned item loader calls),
+# 2c's `instrument`/`stats_bounds`/`run/power_table`, 2f's referent
+# maker, 2g's `probe_2g`/`collect_eval_2g`, exp3's `analyze_3`.
+#
+# Demonstrated at the freeze: two lines in `experiments/exp2j/
+# __init__.py` rebinding `functionals_2j.repeated_char` moved the
+# primary's T_beyond from 0.13111044507864672 to 0.13301873485425933
+# while `check_frozen_2j`, `check_frozen_imports_2g`, the referent
+# manifest and `require_prereg_2j` all PASSED and
+# `referents["failures"]` stayed empty.
+#
+# Closed additively: every module under `experiments/` that is in
+# `sys.modules` when the analyzer runs must be covered — by
+# FROZEN_SHA256_2J, by battery_2g's own FROZEN_IMPORT_SHA256_2G, by
+# INSTRUMENT_BLOBS_2J (the prereg tag binds those two by blob, so no
+# sha literal belongs here: one would also kill every mutation-battery
+# mutant trivially), or by IMPORTED_SHA256_2J below, which pins the
+# remainder by sha256. Anything else is a refusal, and a pinned file
+# whose bytes moved is a refusal.
+#
+# DISCLOSED exclusion: files under a `tests/` directory. 2i's and 2j's
+# world fixtures live there and are in `sys.modules` under pytest; the
+# campaign path imports none of them — the scan itself is the evidence,
+# and `__main__` (the campaign's `python -m experiments.exp2j.
+# analyze_2j --write`) is covered because the scan matches on the
+# module's PATH, not its name.
+IMPORTED_SHA256_2J = {
+    bg.REPO / "experiments/exp2c/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2c/battery/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2c/battery/base.py":
+        "6d77c3c91c5ca0eb84e1a011ef64af0e04ade6fe8d1ad42d526be3a37fbacbb2",
+    bg.REPO / "experiments/exp2c/battery/generators_controls.py":
+        "baab6da475f90f8c07acb6d1eb317484bf36afeb40705684f43ecd5ec9fdade6",
+    bg.REPO / "experiments/exp2c/battery/generators_rescues.py":
+        "d70215c89ffd58d3f18f9dcd99940c7e92655ba8185919f50b2090b7e900c257",
+    bg.REPO / "experiments/exp2c/battery/generators_rungs.py":
+        "778bf30da104f71773c26aa909ef2fddcd81291676a2db5d30130581b8d162d0",
+    bg.REPO / "experiments/exp2c/battery/wordlists_2c.py":
+        "f46c6092d6429a59b95531d1a58b1bbfc0576d692d1162b8dfd2b6daf051790f",
+    bg.REPO / "experiments/exp2c/instrument.py":
+        "c486213bfa4753a83593b5383e2c0c90a6379b156f59a236ceeac7d68961e052",
+    bg.REPO / "experiments/exp2c/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2c/run/power_table.py":
+        "89816cf0e7e2418e748104dbc32fd50e12ded78988f2c2c04b05ff1a89c58da1",
+    bg.REPO / "experiments/exp2c/stats_bounds.py":
+        "39057433f1d67cbbf803141dc25ee36cda9e96270b0634006c0fcab245ee49f8",
+    bg.REPO / "experiments/exp2d/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2f/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2f/make_referents_2f.py":
+        "c08eec5cea9f49a05c6754c84b81e1cb8560537881b002faee02bcf085af1c10",
+    bg.REPO / "experiments/exp2g/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2g/collect_eval_2g.py":
+        "392ab84e2bac360bf041858a4b991824a3bda9ca414e34d0f84e44b22610efaf",
+    bg.REPO / "experiments/exp2g/probe_2g.py":
+        "63abc9e6518ac1ab53e4a70e0c716bccd357a11ea3fc2733de52e2ec4e23d451",
+    bg.REPO / "experiments/exp2g/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2h/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2i/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2i/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2i/run/endpoint_2i.py":
+        "8c3718341b22fcdd99c799e45d43ac883f076c2d2080789aa323626c4d808cf2",
+    bg.REPO / "experiments/exp2i/run/sample_2i.py":
+        "6cf3cdfac2f940f12c0365694758578a3655afbf74498f7c7c549ac221b55fe4",
+    bg.REPO / "experiments/exp2j/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2j/verify_referents_2j.py":
+        "66c0c3e9d4ee8bcf13a9044ed4a3689023e2320303c18c5375af233c61f95557",
+    bg.REPO / "experiments/exp3/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp3/analyze_3.py":
+        "aa0cb2374fbdffde2f9eaae26cee1ce51f9f42c0b32fd89f4f8754c983a92274",
+    bg.REPO / "experiments/exp3c/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+}
+_EXPERIMENTS_ROOT_2J = str((bg.REPO / "experiments").resolve())
+
+
+def check_imports_2j() -> None:
+    """Freeze F-1: refuse if any module under `experiments/` that this
+    process has imported is unpinned, or drifted from its pin. Files
+    under a `tests/` directory are excluded (disclosed above)."""
+    covered = {str(Path(p).resolve()) for p in FROZEN_SHA256_2J}
+    covered |= {str(Path(p).resolve()) for p in bg.FROZEN_IMPORT_SHA256_2G}
+    covered |= {str((bg.REPO / rel).resolve()) for rel in INSTRUMENT_BLOBS_2J}
+    pinned = {str(Path(p).resolve()): v for p, v in IMPORTED_SHA256_2J.items()}
+    unpinned, drifted = [], []
+    for name, mod in sorted(sys.modules.items()):
+        f = getattr(mod, "__file__", None)
+        if not f:
+            continue
+        rp = Path(f).resolve()
+        s = str(rp)
+        if not s.startswith(_EXPERIMENTS_ROOT_2J + "/") or "tests" in rp.parts:
+            continue
+        if s in covered:
+            continue
+        if s not in pinned:
+            unpinned.append(f"{name} -> {s}")
+        elif not rp.is_file() or bg.sha256_file(rp) != pinned[s]:
+            drifted.append(f"{name} -> {s}")
+    if unpinned:
+        raise RuntimeError("unpinned module on the import surface: "
+                           + "; ".join(sorted(unpinned)))
+    if drifted:
+        raise RuntimeError("imported module drifted from its pin: "
+                           + "; ".join(sorted(drifted)))
+
+
 def require_prereg_2j(*, tag_exists=None, blob_sha=None) -> dict:
     tag_exists = tag_exists or pr.git_tag_exists
     blob_sha = blob_sha or pr.git_blob_sha256
@@ -447,9 +577,17 @@ def verdict_tree_2j(failures, primary, power) -> dict:
     status = power["declared_status"]
     T, p = primary["stratified"]["T"], primary["stratified"]["p"]
     if primary["fires"]:
+        # freeze F-5: the realized-THIN guard below was installed on the
+        # NON-firing branch only. A primary that fires on fewer than
+        # three eligible rungs is still RESIDUAL — the terminal is not
+        # touched — but the licensed sentence has to say what carried
+        # it, exactly as ABSORBED's does. (Unreachable on the real
+        # tree: all nine R_CAP rungs are eligible under the composite
+        # partition.)
+        thin = ([DISCLOSURE_THIN_2J] if len(primary.get("eligible", [])) < 3 else [])
+        reason = f"primary fires: T_beyond={an2i._fmt_T(T)}, p={p:.4g}; {status}"
         return {"verdict": "RESIDUAL", "declared_status": status,
-                "reason": f"primary fires: T_beyond={an2i._fmt_T(T)}, p={p:.4g}; {status}",
-                "disclosures": []}
+                "reason": "; ".join([reason] + thin), "disclosures": thin}
     # fix round 1 / Finding 1: an undefined primary (2i's Ruling 18 —
     # `_run_test` short-circuits before `primary_2i` is even called
     # when every eligible rung is degenerate inside the COMPOSITE
@@ -493,6 +631,41 @@ def _licensed(tree) -> str:
     if tree.get("disclosures"):
         licensed = "; ".join([licensed] + list(tree["disclosures"]))
     return licensed
+
+
+def check_power_partition_2j(power: dict, report: dict, n_strata: dict, r_cap) -> list:
+    """Freeze F-2: the power record is a claim about the RESOLUTION of a
+    particular partition — `power_2j.main` builds the composite strata
+    from `functionals_2j` and simulates on them, then writes
+    `composite_report` and `n_composite_strata` beside its declaration.
+    Both were attested and never compared to the partition the analyzer
+    realizes: the record's bytes are pinned (it is on the referent
+    manifest) but `functionals_2j.py` is bound only by the prereg TAG,
+    which is cut AFTER the power record is written — so an edit to the
+    bucket rule between the two would leave POWERED describing a
+    partition the verdict never used, and POWERED is what decides how
+    ABSORBED reads (design §6). Returns failures; never raises."""
+    rec_report = (power or {}).get("composite_report")
+    rec_n = (power or {}).get("n_composite_strata")
+    if not isinstance(rec_report, dict) or not isinstance(rec_n, dict):
+        return [f"2j power partition: no composite partition attested (composite_report "
+                f"{type(rec_report).__name__}, n_composite_strata {type(rec_n).__name__})"]
+    bad = []
+    if set(rec_report) != set(r_cap):
+        bad.append(f"2j power partition: composite_report covers {sorted(rec_report)} "
+                   f"!= R_CAP {sorted(r_cap)}")
+    if set(rec_n) != set(r_cap):
+        bad.append(f"2j power partition: n_composite_strata covers {sorted(rec_n)} "
+                   f"!= R_CAP {sorted(r_cap)}")
+    for r in sorted(set(rec_report) & set(r_cap)):
+        if dict(rec_report[r]) != dict(report[r]):
+            bad.append(f"2j power partition: bucket rules on {r} {rec_report[r]} != the "
+                       f"analyzer's {report[r]}")
+    for r in sorted(set(rec_n) & set(r_cap)):
+        if int(rec_n[r]) != int(n_strata[r]):
+            bad.append(f"2j power partition: {r} was simulated over {rec_n[r]} composite "
+                       f"strata, the analyzer built {n_strata[r]}")
+    return bad
 
 
 def _load_power_2j(root_2j, r_cap) -> dict:
@@ -549,6 +722,13 @@ def run(root_2i=bi.EXP2I, root_2j=EXP2J, *, write=False, n_perm=N_PERM, n_boot=N
                          (bi.check_pythia_predictor_files, "x_A draws files pinned")):
         _, f = collect_total(thunk, label)
         failures += f
+    # freeze F-1: the CODE surface, not just the data surface — every
+    # `experiments/` module already imported into this process must be
+    # pinned. Run twice: here, so a drifted instrument refuses before
+    # any expensive load, and again below, so a module imported DURING
+    # the run cannot slip in behind this one.
+    _, f = collect_total(check_imports_2j, "2j import surface (entry)")
+    failures += f
     prereg, f = collect_total(lambda: require_prereg_2j(tag_exists=tag_exists,
                                                         blob_sha=blob_sha), "2j prereg tag")
     failures += f
@@ -715,14 +895,36 @@ def run(root_2i=bi.EXP2I, root_2j=EXP2J, *, write=False, n_perm=N_PERM, n_boot=N
             comp, report = fn.composite_strata(strata, tables_b, r_cap)
             prim = primary_2j(x_b, out, comp, r_cap, n_perm=n_perm, n_boot=n_boot)
             # the block gate: k = 64, one block, must reproduce within-alone's T exactly
-            t64 = t_only({r: fn.thinned_counts(bits_b[r], 64, 0) for r in r_cap}, bi.SIZE_PRED,
-                         out, strata, r_cap)["T"]
-            if t64 != _T_of(comparison["rederived_2i"]["within_alone"]):
+            t64res = t_only({r: fn.thinned_counts(bits_b[r], 64, 0) for r in r_cap},
+                            bi.SIZE_PRED, out, strata, r_cap)
+            t64 = t64res["T"]
+            wa = comparison["rederived_2i"]["within_alone"]
+            if t64 != _T_of(wa):
                 raise ValueError(f"block gate: k=64 T {t64!r} != within-alone "
-                                 f"{_T_of(comparison['rederived_2i']['within_alone'])!r}")
-            return prim, report, t64
+                                 f"{_T_of(wa)!r}")
+            # freeze attack item 4: the gate compared the MEAN only. A
+            # compensating pair of per-rung differences would pass it,
+            # and every A-1 reading is built out of per-rung d's, not
+            # out of T. Assert the per-rung d's too — bit-for-bit, on
+            # the same rung set (identical on all nine at the freeze).
+            bad_r = {r: (t64res["per_rung"].get(r), wa["per_rung"][r]["d"]) for r in r_cap
+                     if t64res["per_rung"].get(r) != wa["per_rung"][r]["d"]}
+            if bad_r or sorted(t64res["per_rung"]) != sorted(wa["per_rung"]):
+                raise ValueError(f"block gate: k=64 per-rung d {bad_r or sorted(t64res['per_rung'])} "
+                                 f"!= within-alone's {sorted(wa['per_rung'])}")
+            return prim, report, t64, {r: len(set(comp[r]["strata"])) for r in r_cap}
         core, f = collect_total(_core, "primary A-2");                             failures += f
+    if not failures and core is not None:
+        # freeze F-2 (3d's / 2h F-2's self-consistent-only lineage): the
+        # power record declares POWERED for a partition IT built; until
+        # now nothing compared that partition to the one the analyzer
+        # realizes, and POWERED is exactly what governs how ABSORBED
+        # reads (design §6).
+        pf, f = collect_total(lambda: check_power_partition_2j(power, core[1], core[3], r_cap),
+                              "2j power partition");                    failures += f + (pf or [])
 
+    _, f = collect_total(check_imports_2j, "2j import surface (exit)")
+    failures += f
     referents = {"failures": list(failures), "gates": gates, "prereg": prereg,
                  "predictor_seal_2i": psl, "endpoint_seal_2i": esl,
                  "gate1_2i": {k: v for k, v in (gate1 if isinstance(gate1, dict) else {}).items()
@@ -741,7 +943,7 @@ def run(root_2i=bi.EXP2I, root_2j=EXP2J, *, write=False, n_perm=N_PERM, n_boot=N
              "primary": None, "secondaries": None, "a1": None, "n_perm": n_perm,
              "git_sha": _git_sha(), "model_contact": "none"}
     else:
-        prim, report, t64 = core
+        prim, report, t64, n_composite_strata = core
         tree = verdict_tree_2j([], prim, power["primary"])
         sec, sec_failures = {}, []
 
@@ -800,7 +1002,8 @@ def run(root_2i=bi.EXP2I, root_2j=EXP2J, *, write=False, n_perm=N_PERM, n_boot=N
              "declared_status": tree["declared_status"],
              "known_inputs_caveat": KNOWN_INPUTS_CAVEAT_2J, "licensed_sentence": _licensed(tree),
              "referents": referents,
-             "primary": {**prim, "composite_report": report, "block_gate_T64": t64},
+             "primary": {**prim, "composite_report": report, "block_gate_T64": t64,
+                         "n_composite_strata": n_composite_strata},
              "secondaries": sec, "a1": sec.get("A-1 density matching"),
              "n_perm": n_perm, "git_sha": _git_sha(), "model_contact": "none"}
     if write:

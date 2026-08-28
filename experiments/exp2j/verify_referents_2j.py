@@ -32,8 +32,11 @@ predictor-vs-outcome statistic.
 10  `t_only`'s T == `_run_test`'s stratified T on a toy, bit-for-bit
 11  2i's committed `power_2i.json` B null SD / min-detectable T equal
     the literals `power_2j.py`'s own source carries
-12  `power_2j.json` exists, `declared_status` valid, rungs == R_CAP —
-    SKIPPED (printed "pending Task 4") until the power record is run
+12  `power_2j.json` exists, `declared_status` valid, rungs == R_CAP,
+    `n_trained_steps` == the grid, and (freeze F-2) the composite
+    partition the record was simulated over == the one the analyzer
+    builds today — SKIPPED (printed "pending Task 4") until the power
+    record is run
 """
 from __future__ import annotations
 
@@ -297,6 +300,19 @@ def _c12(ctx):
     _eq(rec["primary"]["declared_status"] in an2i.DECLARED_STATUSES_2I, True,
        "declared_status valid")
     _eq(set(rec["primary"]["rungs"]), r_cap, "rungs == R_CAP")
+    # freeze coverage census: `_load_power_2j` also refuses on the grid
+    # size, and (F-2) on the composite partition the record was
+    # simulated over — both re-asserted cold here rather than only
+    # inside the analyzer.
+    _eq(rec["primary"]["n_trained_steps"], len(bi.trained_steps_7b()), "n_trained_steps")
+    _eq(set(rec["composite_report"]), r_cap, "composite_report covers R_CAP")
+    _eq(set(rec["n_composite_strata"]), r_cap, "n_composite_strata covers R_CAP")
+    strata, tables = ctx["strata"], ctx["tables"]
+    comp, report = fn.composite_strata(strata, {r: tables[r] for r in r_cap}, tuple(r_cap))
+    _eq(an.check_power_partition_2j(rec, report,
+                                    {r: len(set(comp[r]["strata"])) for r in r_cap},
+                                    tuple(r_cap)), [],
+       "the power record's partition == the one the analyzer builds today")
 
 
 def main() -> int:

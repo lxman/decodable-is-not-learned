@@ -8,6 +8,10 @@ from __future__ import annotations
 import ast
 import json
 import re
+import subprocess
+import sys
+import types
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -267,9 +271,16 @@ def test_frozen_pins_match_disk():
         assert bg.sha256_file(p) == want, p
 
 
-def test_collect_total_labels_are_prefix_disjoint():
+def _all_failure_labels_2j():
+    """Every literal that can head a line in `referents["failures"]`, not
+    only the `collect_total(thunk, "…")` ones the first version of this
+    test scanned (freeze coverage census): the instrument-pin loop's
+    tuple labels, `check_pin`'s 4th argument, `_sec`'s name, and the two
+    seal-binding f-string prefixes (asserted as literals — an f-string's
+    prefix cannot be told from any other f-string by an AST walk without
+    over-collecting every reason string in the module)."""
     src = (an.EXP2J / "analyze_2j.py").read_text()
-    labels = []
+    labels = ["2i predictor seal binding: ", "2i endpoint seal binding: "]
     for node in ast.walk(ast.parse(src)):
         if isinstance(node, ast.Call):
             f = node.func
@@ -277,7 +288,26 @@ def test_collect_total_labels_are_prefix_disjoint():
             if name == "collect_total" and len(node.args) >= 2 and \
                     isinstance(node.args[1], ast.Constant):
                 labels.append(node.args[1].value)
+            elif name == "check_pin" and len(node.args) >= 4 and \
+                    isinstance(node.args[3], ast.Constant):
+                labels.append(node.args[3].value)
+            elif name == "_sec" and node.args and isinstance(node.args[0], ast.Constant):
+                labels.append(node.args[0].value)
+        elif isinstance(node, ast.For) and isinstance(node.iter, ast.Tuple):
+            for elt in node.iter.elts:
+                if isinstance(elt, ast.Tuple) and len(elt.elts) == 2 and \
+                        isinstance(elt.elts[1], ast.Constant):
+                    labels.append(elt.elts[1].value)
+    return [v for v in labels if isinstance(v, str)]
+
+
+def test_collect_total_labels_are_prefix_disjoint():
+    labels = _all_failure_labels_2j()
     assert len(labels) >= 20
+    # the four instrument-pin loop labels and the three comparison-gate
+    # labels are only visible to the widened scan
+    assert "2g upstream frozen imports" in labels and "comparison gate 2i" in labels
+    assert "A-1 density matching" in labels
     for a in labels:
         for b in labels:
             assert a == b or not b.startswith(a), (a, b)
@@ -537,3 +567,258 @@ def test_a1_density_gap_exactly_half_reads_density_not_mixed(monkeypatch):
     for lab in ("2.8b", "6.9b"):
         assert d["outcomes"][lab]["gap_fraction_closed"] == 0.5
     assert d["reading"] == "DENSITY"
+
+
+# ---------------------------------------------------------- freeze F-1
+# The import surface. The read sweep proves every DATA input is pinned;
+# it cannot see a module's own bytes (the import machinery reads a .py
+# before any sweep wrapper is installed, and `read_sweep_2j` pre-imports
+# every module deliberately so import traffic stays out of its table).
+# At the freeze, 24 executable files under `experiments/` were loaded
+# into the analyzer's own process and pinned by nothing.
+
+def test_check_imports_2j_passes_in_this_process():
+    an.check_imports_2j()
+
+
+def test_imported_pins_match_disk():
+    assert len(an.IMPORTED_SHA256_2J) >= 25
+    for p, want in an.IMPORTED_SHA256_2J.items():
+        assert bg.sha256_file(p) == want, p
+
+
+def test_check_imports_2j_refuses_an_unpinned_loaded_module(monkeypatch):
+    fake = types.ModuleType("experiments.exp2j._freeze_probe")
+    fake.__file__ = str(an.EXP2J / "_freeze_probe.py")
+    monkeypatch.setitem(sys.modules, "experiments.exp2j._freeze_probe", fake)
+    with pytest.raises(RuntimeError, match="unpinned module on the import surface"):
+        an.check_imports_2j()
+
+
+def test_check_imports_2j_refuses_a_drifted_pin(monkeypatch):
+    """The payload's own file: `experiments/exp2j/__init__.py` is
+    executed on every `import experiments.exp2j.analyze_2j`."""
+    p = bg.REPO / "experiments/exp2j/__init__.py"
+    assert p in an.IMPORTED_SHA256_2J
+    monkeypatch.setitem(an.IMPORTED_SHA256_2J, p, "0" * 64)
+    with pytest.raises(RuntimeError, match="imported module drifted"):
+        an.check_imports_2j()
+
+
+def test_check_imports_2j_allows_the_dunder_main_path(monkeypatch):
+    """`python -m experiments.exp2j.analyze_2j --write` (the campaign's
+    own command) puts analyze_2j.py into sys.modules under the name
+    `__main__`; the scan is by PATH, so the tag-bound instrument blob
+    covers it and the check does not refuse its own analyzer."""
+    main = types.ModuleType("__main__")
+    main.__file__ = str(an.EXP2J / "analyze_2j.py")
+    monkeypatch.setitem(sys.modules, "__main__", main)
+    an.check_imports_2j()
+
+
+def test_check_imports_2j_excludes_test_helpers(monkeypatch):
+    """Documented exclusion: a file under a `tests/` directory. 2i's and
+    2j's world fixtures live there and are in sys.modules under pytest;
+    the campaign path imports none of them (the scan itself is the
+    evidence)."""
+    fake = types.ModuleType("experiments.exp2j.tests._freeze_probe")
+    fake.__file__ = str(an.EXP2J / "tests" / "_freeze_probe.py")
+    monkeypatch.setitem(sys.modules, "experiments.exp2j.tests._freeze_probe", fake)
+    an.check_imports_2j()
+
+
+def test_run_catches_a_forced_import_surface_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(an, "check_imports_2j", _raiser)
+    v = _run_empty(tmp_path)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2j import surface" in f for f in v["referents"]["failures"])
+
+
+# ---------------------------------------------------------- freeze F-2
+# The power record's composite partition was attested and never
+# compared to the one the analyzer realizes (3d / 2h F-2's
+# self-consistent-only lineage): POWERED governs how ABSORBED reads.
+
+def _power_rec(report, n_strata, rungs):
+    return {"primary": {"declared_status": "POWERED", "rungs": list(rungs),
+                        "n_trained_steps": 21},
+            "composite_report": report, "n_composite_strata": n_strata}
+
+
+def test_check_power_partition_2j_accepts_the_matching_partition():
+    rep = {"a": {"pi": "median", "L": "tie_fallback", "R": "median", "O": "dropped_constant"}}
+    assert an.check_power_partition_2j(_power_rec(rep, {"a": 12}, ("a",)), rep,
+                                       {"a": 12}, ("a",)) == []
+
+
+def test_check_power_partition_2j_refuses_a_different_bucket_rule():
+    rep = {"a": {"pi": "median", "L": "tie_fallback", "R": "median", "O": "dropped_constant"}}
+    other = {"a": {**rep["a"], "L": "median"}}
+    bad = an.check_power_partition_2j(_power_rec(other, {"a": 12}, ("a",)), rep,
+                                      {"a": 12}, ("a",))
+    assert len(bad) == 1 and "bucket rules on a" in bad[0]
+
+
+def test_check_power_partition_2j_refuses_a_different_stratum_count():
+    rep = {"a": {"pi": "median", "L": "median", "R": "median", "O": "median"}}
+    bad = an.check_power_partition_2j(_power_rec(rep, {"a": 11}, ("a",)), rep,
+                                      {"a": 12}, ("a",))
+    assert len(bad) == 1 and "composite strata" in bad[0]
+
+
+def test_check_power_partition_2j_refuses_a_record_with_no_partition():
+    rep = {"a": {"pi": "median", "L": "median", "R": "median", "O": "median"}}
+    rec = {"primary": {"declared_status": "POWERED", "rungs": ["a"], "n_trained_steps": 21}}
+    bad = an.check_power_partition_2j(rec, rep, {"a": 12}, ("a",))
+    assert len(bad) == 1 and "no composite partition attested" in bad[0]
+
+
+def test_check_power_partition_2j_refuses_a_rung_set_mismatch():
+    rep = {"a": {"pi": "median", "L": "median", "R": "median", "O": "median"}}
+    bad = an.check_power_partition_2j(_power_rec(rep, {"a": 12}, ("a",)), rep,
+                                      {"a": 12}, ("a", "b"))
+    assert len(bad) == 2 and all("!= R_CAP" in m for m in bad)
+
+
+def test_the_committed_power_record_carries_its_partition():
+    """The real record: `power_2j.py` writes the report and the
+    per-rung stratum count it actually simulated on."""
+    rec = json.loads((an.RESULTS / "power_2j.json").read_text())
+    assert set(rec["composite_report"]) == set(rec["primary"]["rungs"])
+    assert set(rec["n_composite_strata"]) == set(rec["primary"]["rungs"])
+    for r, rules in rec["composite_report"].items():
+        assert set(rules) == set(fn.FUNCTIONALS)
+
+
+# ---------------------------------------------- freeze attack item 13
+# 2h F-3: the tag must bind the instrument's BLOBS, not merely exist.
+# Exercised against REAL git in a temp repo (the campaign's own
+# `pr.git_tag_exists` / `pr.git_blob_sha256`, not a stub).
+
+def test_prereg_tag_binds_the_instrument_against_real_git(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    (repo / "experiments" / "exp2j").mkdir(parents=True)
+    for rel in an.INSTRUMENT_BLOBS_2J:
+        (repo / rel).write_text("# frozen at the tag\n")
+    git = ["git", "-C", str(repo)]
+    for args in (["init", "-q"], ["config", "user.email", "t@example.com"],
+                 ["config", "user.name", "t"], ["add", "-A"],
+                 ["commit", "-qm", "instrument"], ["tag", an.PREREG_TAG_2J]):
+        subprocess.run(git + args, check=True, capture_output=True)
+    monkeypatch.setattr(pr, "REPO", repo)
+    monkeypatch.setattr(bg, "REPO", repo)
+    got = an.require_prereg_2j()
+    assert set(got["instrument_blobs"]) == set(an.INSTRUMENT_BLOBS_2J)
+
+    # a post-tag edit to functionals_2j.py is refused
+    (repo / an.INSTRUMENT_BLOBS_2J[1]).write_text("# edited after the tag\n")
+    with pytest.raises(RuntimeError, match="does not bind"):
+        an.require_prereg_2j()
+
+    # a file that exists on disk but has no blob at the tag is refused
+    (repo / an.INSTRUMENT_BLOBS_2J[1]).write_text("# frozen at the tag\n")
+    an.require_prereg_2j()
+    subprocess.run(git + ["tag", "-d", an.PREREG_TAG_2J], check=True, capture_output=True)
+    with pytest.raises(RuntimeError, match="preregistration tag"):
+        an.require_prereg_2j()
+
+
+# ---------------------------------------------- freeze attack item 14
+
+def _literal_labels(path):
+    labels = []
+    for node in ast.walk(ast.parse(Path(path).read_text())):
+        if isinstance(node, ast.Call):
+            f = node.func
+            name = f.id if isinstance(f, ast.Name) else getattr(f, "attr", None)
+            if name in ("collect_total", "collect") and len(node.args) >= 2 and \
+                    isinstance(node.args[1], ast.Constant):
+                labels.append(node.args[1].value)
+    return labels
+
+
+# The two prefix relations that hold ACROSS the 2i/2j label sets, found
+# at the freeze and DISCLOSED rather than renamed: both are a 2j label
+# EXTENDING a 2i one, both name the very same loader on both sides
+# (`battery_2g.load_battery`, `analyze_2d.load_verify`), and neither
+# can put a 2j-side failure under a 2i-side name — which is the
+# direction the '2i …' prefix rule protects. 2j's own list stays
+# strictly prefix-disjoint (the test above).
+KNOWN_CROSS_PREFIXES_2I = {("battery items", "battery"),
+                           ("verify criterion 3c", "verify criterion")}
+
+
+def test_no_2j_failure_label_collides_with_a_2i_one():
+    """2j calls 2i's own loaders; if a 2j-side failure carried 2i's own
+    label text, the two failure lists could not be told apart (and the
+    prefix rule would be violated across the pair). Every 2j label that
+    reaches a 2i loader is '2i …'-prefixed by construction — asserted
+    here across BOTH label sets, in both prefix directions, with the two
+    documented extensions above allowed and nothing else."""
+    ours = _literal_labels(an.EXP2J / "analyze_2j.py")
+    theirs = _literal_labels(bi.EXP2I / "analyze_2i.py")
+    assert len(ours) >= 20 and len(theirs) >= 20
+    assert not (set(ours) & set(theirs))
+    for a in ours:
+        for b in theirs:
+            if (a, b) in KNOWN_CROSS_PREFIXES_2I:
+                continue
+            assert not a.startswith(b) and not b.startswith(a), (a, b)
+
+
+# ---------------------------------------------- freeze attack item 17
+
+def test_an_inverted_primary_says_so_in_the_absorbed_reason():
+    """`named_inside_2i` is the two-sided reading (T < 0 prints
+    'inverted' with the one-sided p for T_perm <= T_obs); the tree
+    carries it verbatim into ABSORBED's reason."""
+    prim = {"stratified": {"T": -0.018, "p": 0.87, "n_perm": 10000, "n_ge": 8700},
+            "fires": False, "eligible": ["a", "b", "c"]}
+    prim["named_inside"] = an2i.named_inside_2i(prim)
+    assert "inverted" in prim["named_inside"]
+    t = an.verdict_tree_2j([], prim, _power("POWERED"))
+    assert t["verdict"] == "ABSORBED" and "inverted" in t["reason"]
+    assert t["disclosures"] == []
+
+
+# ---------------------------------------------- freeze attack item 18
+
+def test_a_nan_is_reachable_and_the_written_verdict_stays_strict_json():
+    """`stats_2g.bootstrap_d` returns NaN bounds when no resample has a
+    finite d (a per-rung `ci` inside `primary["per_rung"]`), and NaN is
+    not JSON. The write path's `_json_safe` + `allow_nan=False` is what
+    keeps the verdict file strict — proved reachable, then proved
+    neutralized."""
+    ci = st.bootstrap_d([1.0, 2.0, 3.0, 4.0], [0, 0, 0, 0], ["0"] * 4, n_boot=5)
+    assert np.isnan(ci["lo"]) and np.isnan(ci["hi"]) and ci["n_boot"] == 0
+    v = {"primary": {"per_rung": {"r": {"ci": ci, "d": 0.1}}, "stratified": {"T": 0.1}}}
+    with pytest.raises(ValueError):
+        json.dumps(v, allow_nan=False)
+    s = json.dumps(an2i._json_safe(v), indent=1, default=an2i._jsonable, allow_nan=False)
+    back = json.loads(s)
+    assert back["primary"]["per_rung"]["r"]["ci"]["lo"] is None
+    assert back["primary"]["per_rung"]["r"]["d"] == 0.1
+
+
+# ---------------------------------------------------------- freeze F-5
+# The realized-THIN guard was installed on the non-firing branch only.
+
+def test_a_firing_but_realized_thin_primary_still_carries_the_thin_disclosure():
+    """A primary that FIRES on fewer than three eligible rungs is
+    RESIDUAL — the terminal is untouched — but the licensed sentence
+    must say what carried it, exactly as the ABSORBED branch already
+    does. Unreachable on the real tree (all nine R_CAP rungs are
+    eligible under the composite partition), reachable in principle."""
+    prim = _prim(0.25, 0.0005, True, eligible=("a", "b"))
+    v = an.verdict_tree_2j([], prim, _power("POWERED"))
+    assert v["verdict"] == "RESIDUAL"
+    assert v["disclosures"] == [an.DISCLOSURE_THIN_2J]
+    lic = an._licensed(v)
+    assert lic.startswith(an.LICENSED_2J["RESIDUAL"])
+    assert an.DISCLOSURE_THIN_2J in lic
+
+
+def test_a_firing_primary_on_three_or_more_rungs_carries_no_disclosure():
+    v = an.verdict_tree_2j([], _prim(0.25, 0.0005, True), _power("POWERED"))
+    assert v["verdict"] == "RESIDUAL" and v["disclosures"] == []
+    assert an._licensed(v) == an.LICENSED_2J["RESIDUAL"]
