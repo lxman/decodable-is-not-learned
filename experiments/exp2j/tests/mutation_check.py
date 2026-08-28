@@ -158,10 +158,10 @@ M = [
      "        if False:\n"
      '            unpinned.append(f"{name} -> {s}")'),
     (AN, "check_imports_2j (F-1): a drifted pinned module is no longer flagged",
-     "        elif not rp.is_file() or bg.sha256_file(rp) != pinned[s]:\n"
-     '            drifted.append(f"{name} -> {s}")',
-     "        elif False:\n"
-     '            drifted.append(f"{name} -> {s}")'),
+     "        if not pp.is_file() or bg.sha256_file(pp) != want:\n"
+     '            drifted.append(f"(pin) -> {p}")',
+     "        if False:\n"
+     '            drifted.append(f"(pin) -> {p}")'),
     (AN, "check_power_partition_2j (F-2): the bucket-rule comparison inverted",
      "        if dict(rec_report[r]) != dict(report[r]):",
      "        if dict(rec_report[r]) == dict(report[r]):"),

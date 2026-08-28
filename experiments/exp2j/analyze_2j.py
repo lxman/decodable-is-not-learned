@@ -232,12 +232,23 @@ _EXPERIMENTS_ROOT_2J = str((bg.REPO / "experiments").resolve())
 def check_imports_2j() -> None:
     """Freeze F-1: refuse if any module under `experiments/` that this
     process has imported is unpinned, or drifted from its pin. Files
-    under a `tests/` directory are excluded (disclosed above)."""
+    under a `tests/` directory are excluded (disclosed above).
+
+    Every entry of `IMPORTED_SHA256_2J` is verified against disk
+    UNCONDITIONALLY, exactly as `check_frozen_2j` verifies its own —
+    not merely the entries this process happens to have imported. A
+    module that ran and then removed itself from `sys.modules` would
+    otherwise leave no trace, and the pin's meaning is 'these bytes',
+    not 'these bytes if I notice them'."""
     covered = {str(Path(p).resolve()) for p in FROZEN_SHA256_2J}
     covered |= {str(Path(p).resolve()) for p in bg.FROZEN_IMPORT_SHA256_2G}
     covered |= {str((bg.REPO / rel).resolve()) for rel in INSTRUMENT_BLOBS_2J}
     pinned = {str(Path(p).resolve()): v for p, v in IMPORTED_SHA256_2J.items()}
     unpinned, drifted = [], []
+    for p, want in sorted(pinned.items()):
+        pp = Path(p)
+        if not pp.is_file() or bg.sha256_file(pp) != want:
+            drifted.append(f"(pin) -> {p}")
     for name, mod in sorted(sys.modules.items()):
         f = getattr(mod, "__file__", None)
         if not f:
@@ -250,8 +261,9 @@ def check_imports_2j() -> None:
             continue
         if s not in pinned:
             unpinned.append(f"{name} -> {s}")
-        elif not rp.is_file() or bg.sha256_file(rp) != pinned[s]:
-            drifted.append(f"{name} -> {s}")
+        # a pinned path needs no second check here: the loop above
+        # verified every entry of IMPORTED_SHA256_2J against disk
+        # already, imported or not.
     if unpinned:
         raise RuntimeError("unpinned module on the import surface: "
                            + "; ".join(sorted(unpinned)))
