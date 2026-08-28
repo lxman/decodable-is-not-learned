@@ -234,3 +234,179 @@ the SAME `n_blocks_used` instead of `64 // k_r` each.
 Commit: "exp2j build: analyze_2j fix round 1 — undefined/THIN primary
 disclosed in reason + licence (2i's I-4 standard), A-1 per-rung block
 readings with spread (design §5.4)".
+
+## 2026-08-28 — BUILD, Task 3: worlds, totality, `power_2j.py`, the cold battery
+
+Instrument at `experiments/exp2j/`: `tests/full_shape.py` (synthetic
+2j worlds — a complete 2i tree, provenance-valid, with x_B draws and
+the 7B outcome generated under a controlled mechanism, plus a
+synthetic 2i `verdict.json` carrying the world's own re-derived pins
+and a 2j `power_2j.json`), test `tests/test_full_shape_2j.py` (5
+tests, "5 passed in 630.73s (0:10:30)"), `tests/test_totality_2j.py`
+(18 tests, "18 passed in 204.43s (0:03:24)"), `power_2j.py` + test
+`tests/test_power_2j.py` (2 tests, "2 passed in 12.69s"),
+`verify_referents_2j.py` (12 items, 10/12 executed — items 3 and 12
+print "pending Task 4" and are counted separately from the 10 `ok`s,
+not as failures). Full `experiments/exp2j` suite: **62 passed in
+848.60s (0:14:08), 0 warnings** (Tasks 1–2's 37 + this task's 25).
+Zero model contact throughout — every world is synthetic bytes on a
+2i-shaped tree, read by 2i's own production loaders.
+
+**World generator, tuned (controller's note applied).** The brief's
+literal draft habit-weight generator — `rng.gamma(0.5, 1.0)` over
+every distinct answer, continuous — left W2 (the habit-driven ABSORBED
+world) landing RESIDUAL, not ABSORBED: π's bucket rule is a single
+MEDIAN split, and a continuous habit weight still varies substantially
+within each half, so `beyond_all`'s T stayed at .24–.39 (T_BAR .10)
+across every gamma shape tried (.5/.2/.1/.05 — grid search against a
+lightweight debug harness reusing `an._run_test`/`fn.composite_strata`
+directly, bypassing the ~140s full `run()` pipeline per iteration).
+Swapped in a two-level (bimodal) habit weight for the non-`'residual'`
+worlds instead: half the distinct answers "hot" at a fixed ratio of
+the other half's weight, with small multiplicative noise so ties never
+degenerate the bucket. Because π averages over ~32,000 draws per rung,
+it becomes an almost noise-free readout of hot/cold membership, so its
+median split matches the habit partition closely. Grid search over
+`hot_ratio` at {10, 30, 100} (seed 0, the real `write_world_2j`
+pipeline): 10 and 100 both clear the bar with margin (`beyond_all` T
+.093 / .100 respectively), 30 sits right on the bar (T .108, rejected
+— too close to be a robust margin). **Final parameters:
+`hot_ratio=10.0, hot_frac=0.5, weight_noise=0.02`** (named
+`_HOT_RATIO`/`_HOT_FRAC`/`_WEIGHT_NOISE` in `full_shape.py`, with the
+finding recorded inline). `'residual'` keeps the original continuous
+gamma unaffected — W1 was never the world in question (its own T
+stayed at .93, comfortably firing throughout). No change to
+`analyze_2j.py`/`functionals_2j.py`.
+
+**All nine worlds reach their spec'd terminal**
+(`test_every_terminal_reached`, `n_perm=200, n_boot=20`):
+- **W1 RESIDUAL**: primary fires (T .932, p .005); `within_alone`'s T
+  equals the block-gate T64 equals `referents.comparison.2i.
+  within_alone`; `decomposition x_B to olmo7b`'s `beyond_all` T equals
+  the primary's T exactly (same construction); `a1.reading` in
+  `A1_READINGS`; every outcome's `ladder["64"]["B"].n_blocks == 1`.
+- **W2 ABSORBED (habit)**: `within_alone` fires (T .278); primary does
+  not (T .062, "below the effect bar"); `beyond_single["pi"]` does not
+  fire (T .077); `alone["pi"]` fires (T .674); `fraction_absorbed`
+  .777 (> .5); licensed sentence == `LICENSED_2J["ABSORBED"]`.
+- **W3 ABSORBED (independent)**: primary does not fire (T −.018,
+  "inverted"); `declared_status` POWERED.
+- **W4 ABSORBED (underpowered)**: same independent world,
+  `power_status="DECLARED UNDERPOWERED IN ADVANCE"` passed through
+  `write_world_2j`'s own synthetic `power_2j.json` — `declared_status`
+  reads back UNDERPOWERED and the licensed sentence downgrades to
+  `LICENSED_2J["ABSORBED_UNDERPOWERED"]` ("not detected at this
+  resolution...").
+- **W5–W9 INSUFFICIENT_DATA**: missing x_B draws (needle "x_B counts
+  olmo1b"), missing `power_2j.json` (needle "power record"), missing
+  2i `verdict.json` (needle "comparison gate re-derivation"),
+  comparison pin mismatch (needle "comparison gate 2i:..."), HALTED
+  marker present (needle "HALTED"); on W5/W8, `primary`/`secondaries`/
+  `a1` are all `None`.
+
+**Totality** (`test_totality_2j.py`, 18 tests, `n_perm=30/n_boot=10`
+throughout except the control): a module-scoped `residual` base world,
+`shutil.copytree` per test, `an.run(root_2i=root, root_2j=root,
+referents_sha=False, ...)`. The upstream 2i-tree shapes 2i's own
+totality already proved reach a terminal through ITS loaders,
+exercised once each here through 2j's `run()`: predictor seal missing
+/ non-dict-or-torn (3 payloads) / a directory; a truncated x_B draws
+gzip at 50% (needle "x_B counts olmo1b", `EOFError` in
+`referents.failures`); a torn sweep record (needle "2i sweep
+olmo7b"); rung set missing `R_CAP` (needle "2i rung set file"). The
+2j-only shapes: `power_2j.json` torn / a bare list (needle "power
+record"), wrong `rungs`, an unrecognized `declared_status`; the 2i
+`verdict.json` torn / missing `secondaries` / `reverse_direction`
+missing `vs_6.9b` (needle "comparison gate re-derivation" in all
+three); 2g's `verdict.json` monkeypatched to a torn file (see below);
+an x_B predictor record whose `per_seed_tallies.0.full_string` is
+mutated while the draws are untouched — 2i's own F-1
+attested-vs-re-derived check, reached through 2j's own label "x_B
+counts vs the sealed attestation" (needle "attested full_string").
+Every case asserts `INSUFFICIENT_DATA`, the needle in `reason`,
+`primary`/`secondaries`/`a1` all `None`, nothing raised. The control
+(untouched world) reaches RESIDUAL.
+
+**Process note for the controller: "2g's verdict.json path
+monkeypatched" needed a symlinked stand-in, not a bare empty
+directory.** A bare empty tmp dir assigned to `bg.EXP2G` breaks an
+EARLIER `bg.EXP2G`-rooted load first — `strata source 2g predictor`
+(`bg.predictor_path(bg.EXP2G)`) and `pythia outcomes 2g 2h`
+(`an2g.load_sweep(bg.EXP2G, ...)` inside `load_pythia_outcomes`), both
+read `bg.EXP2G` well before `_cmp()` ever opens its `verdict.json` —
+proven directly (probe script, not committed) before writing the
+test. `experiments/exp2g` is ~2.3 GB, too large to `shutil.copytree`
+per test, so `_fake_exp2g_with_torn_verdict` builds a directory that
+symlinks every entry under the real `bg.EXP2G` (including every entry
+under `results/`) except `results/verdict.json`, which it writes
+torn — every OTHER `bg.EXP2G`-rooted read still succeeds through the
+symlinks, isolating the one read the shape targets. With that
+stand-in the refusal lands exactly at "comparison gate re-derivation"
+as the brief's shape names.
+
+**Process note: the control test needs `n_perm=200`, not the file's
+`n_perm=30` default.** At `n_perm=30` the permutation p-value floor is
+`1/(n_perm+1) ≈ .032`, which can never clear `ALPHA=.01`
+(`fires_2i` requires `p < ALPHA` strictly) regardless of how large T
+is — the control's first run at `n_perm=30` landed ABSORBED
+(T .932, p .032) instead of RESIDUAL, not because the world stopped
+forecasting but because 30 permutations cannot resolve a p-value below
+.01. 2i's own totality control test hits the same floor and raises
+`n_perm` for exactly this reason (300 there); 2j's control raises to
+`n_perm=200` (floor ≈ .005), matching what `test_full_shape_2j.py`
+already uses. Every refusal test in the file stays at 30/10 — only the
+routing to INSUFFICIENT_DATA is at stake there, which n_perm cannot
+affect.
+
+**`power_2j.py`** (`tests/test_power_2j.py`, 2 tests): `main()`
+writes once, from 2i's machinery, on a synthetic `residual` world
+(`pw.N_SIM=4, pw.N_PERM_POWER=10, pw.D_TARGETS=(0.15,)`, monkeypatched)
+— `primary.declared_status` in `an2i.DECLARED_STATUSES_2I`,
+`primary.rungs`/`composite_report`/`n_composite_strata` all cover
+R_CAP exactly, `shape_note`/`note` equal the module's own constants. A
+second call against the same `out_path`, and a fresh call against a
+pre-existing `out_path`, both raise `RuntimeError("... written
+ONCE")`. The `base_strata_reference_2i_B` literals
+(`null_sd_T=0.0111`, `min_detectable_T=0.02569`) equal 2i's committed
+`experiments/exp2i/results/endpoint/power_2i.json`'s `B.null.
+null_sd_T` (rounded 4dp) and `B.min_detectable_T` (rounded 5dp)
+exactly — read from the committed file in the test, not re-typed as a
+second literal.
+
+**Cold battery** (`verify_referents_2j.py`, `python -m
+experiments.exp2j.verify_referents_2j`): **10/12** — items 3
+(`referents_2j.json`) and 12 (`power_2j.json` exists) print "pending
+Task 4" and are counted separately from the 10 `ok`s (`REFERENTS_2J_
+SHA256`/`N_FILES_2J` are still unpinned; no real `power_2j.json` has
+been run against the committed tree yet). The other ten ran against
+the real committed trees, zero model contact:
+- Item 6's real-table drop report surfaced a finding beyond design
+  §2's own worked example: O (input overlap) drops `dropped_constant`
+  on a FOURTH rung the design doc's three (antonym/antonym6/odd6)
+  don't name — **`median5`**, whose answer is always one of the
+  option-listing numbers already verbatim in its own question
+  (`fn.input_overlap` == 1.0 on all 500 items). Recorded as a finding
+  in the check itself, not silently reconciled to the design doc's
+  illustrative three.
+- Item 7's `matched_k` on the real committed mean rates reproduces
+  design §5.4's k table **exactly**: x_B k = {add3_mid 7, add_base8 7,
+  arith_next 9, sub_base8 11, antonym 22, antonym6 23, sub3_mid 40,
+  odd6 57}; x_A k = {sub4_mid 26} (design's own "≈ 26").
+- Item 11 reads `power_2j.py`'s literal off its own source text
+  (regex on the `base_strata_reference_2i_B` dict literal) rather than
+  re-typing the two numbers a third time, so a future edit to the
+  carried literal without a matching edit to 2i's committed reference
+  fails this check, not merely `test_power_2j.py`.
+
+Files: `experiments/exp2j/tests/full_shape.py`,
+`experiments/exp2j/tests/test_full_shape_2j.py`,
+`experiments/exp2j/tests/test_totality_2j.py`,
+`experiments/exp2j/power_2j.py`,
+`experiments/exp2j/tests/test_power_2j.py`,
+`experiments/exp2j/verify_referents_2j.py`. Nothing under
+`experiments/exp2i`, `exp2h`, `exp2g`, `exp2d`, `exp2c`, `exp2b`,
+`exp3`, `exp3c` touched; `analyze_2j.py`/`functionals_2j.py` (Tasks
+1–2) untouched.
+
+Commit: "exp2j build: worlds (RESIDUAL/ABSORBED×3/5 refusals),
+totality sweep, power_2j (once), cold battery".
