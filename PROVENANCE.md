@@ -207,6 +207,10 @@ above. Tag anchors:
 | exp2g-closed | ec975c0 | f9ebd8d |
 | exp2h-preregistered | 143c98f | c91c575 |
 | exp2h-closed | cff64a8 | 2491dfc |
+| exp2i-preregistered | 105066c | b727896 |
+| exp2i-predictor-sealed | da889aa | adcf630 |
+| exp2i-endpoint-sealed | f59f1f7 | 541a8d7 |
+| exp2i-closed | 19fc00e | a5ac0c2 |
 
 Re-extended 2026-08-24 to add the Experiment 2g record (closed
 NO-FORECAST: the sealed item-grain forecast — the per-item matched-label
@@ -248,6 +252,32 @@ both new anchors and at HEAD entry-identical to the private tree on the
 three paths (834 entries under `experiments/exp2h`), all 43 prior tags
 and every prior commit untouched. The retained-path list above now
 includes `experiments/exp2h` and `experiment-2h-design.md`.
+
+Re-extended 2026-08-28 to add the Experiment 2i record (closed
+LINEAGE: the cross-family test on OLMo-2, a family this program had
+never queried — OLMo-2 1B's sampled counts, sealed and tagged before
+any 7B weight loaded, forecast the order in which OLMo-2 7B's stage-1
+training makes items emittable at T .2153, p 1.0e-4, while Pythia-1B's
+committed counts crossing families carried real structure at T .0949,
+p 1.0e-4, below the preregistered .10 bar — the lineage sentence is
+licensed, the cross-family sentence is not). Same GRAFT route: the 949
+private commits touching `experiments/exp2i`,
+`experiment-2i-design.md` and `.gitignore` were applied as a
+path-limited patch series fast-forward onto the previous public master
+(905b6d4), identities normalized to the single noreply identity,
+author dates preserved, redaction scans clean (0 secret-class, 0 LAN
+literals, 0 home paths in the series), the tree at all four new
+anchors and at HEAD entry-identical to the private tree on the three
+paths (946 entries), all 46 prior tags and every prior commit
+untouched. One disclosure this round carries: `exp2i-preregistered` is
+a RE-TAG — the sweep's first model load crashed on a loader defect
+(campaign stop #1, nothing scored, no record written), the fix was
+made test-first, ratified, and the preregistration tag re-cut at the
+fix commit; the original tag object stood at private f57f5888, whose
+content commit maps to 4119c975 here, and the stop, the ruling and the
+one-blob delta are ledgered in `experiments/exp2i/PROGRESS.md` and in
+the tag message itself. The retained-path list above now includes
+`experiments/exp2i` and `experiment-2i-design.md`.
 
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
