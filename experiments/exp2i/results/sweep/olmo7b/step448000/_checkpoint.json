@@ -1,0 +1,23 @@
+{
+ "family": "olmo2",
+ "size": "olmo7b",
+ "step": 448000,
+ "revision": "stage1-step448000-tokens1880B",
+ "commit": "41b6b3b4f8e378c8a5622d009105c6533bb41b01",
+ "sha256": {
+  "model-00001-of-00006.safetensors": "3539d5bbf3ac14a6379fdafd636d84a0f8e7f3cf49c3c1a060d287b15cf3ad34",
+  "model-00002-of-00006.safetensors": "519963f8a048b0924ce5fd95fda4650ebdef06fefbc7d6a7d21dd4cc76f0255b",
+  "model-00003-of-00006.safetensors": "6681832c79e465ac244c61a7fc3224c4e795855d8d14a45499c627c965fc666a",
+  "model-00004-of-00006.safetensors": "fae50ef2686aa52116b7e83b7539a716698fe83ed67bdf0ea9cb279ac85bfce5",
+  "model-00005-of-00006.safetensors": "bfaca51258dfbf4cb9dc1488feac53c627c6d5c59de7d7b617bcbb095422a421",
+  "model-00006-of-00006.safetensors": "b043d4d8e2e44be0dce7409091f4bb6277b768b7665aea6911448d7df2c91cc1",
+  "model.safetensors.index.json": "c285ec59423a5a7203724c6258f61d691c0816e4c3f79b1fede776298f894b07"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "46514451f71de63b5e1054b5359552d9aeb62ab95382467c8d8926307ebd36a2",
+ "download_seconds": 311.1
+}
