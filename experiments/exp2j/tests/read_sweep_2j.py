@@ -10,13 +10,24 @@ The prereg tag `exp2j-preregistered` does not exist yet at this build
 task, so `tag_exists=lambda t: True` and `blob_sha` = a callable that
 returns the CURRENT ON-DISK sha of whatever path it is asked about are
 passed to `an.run()` — SWEEP-ONLY STAND-INS that make `require_prereg_2j`
-and the two 2i seal checks compare a file against itself rather than
-against a real git tag. This is deliberate and documented: the sweep's
-purpose is to enumerate every file `run()` touches on its way to a
-verdict, not to exercise tag binding (`verify_referents_2j` check 2
-already does that against real git). `blobs_bound` is left at its
-default (real git) — 2i's own `PREDICTOR_SEAL_TAG`/`ENDPOINT_SEAL_TAG`
-tags DO already exist and bind, since 2i is closed.
+compare a file against itself rather than against a real git tag. (The
+freeze corrected this paragraph: the stand-ins reach `require_prereg_2j`
+ONLY — the two 2i seal checks take `tag_exists`/`blobs_bound`, and
+`blobs_bound` is left at its default, so those two run against REAL
+git.) This is deliberate and documented: the sweep's purpose is to
+enumerate every file `run()` touches on its way to a verdict, not to
+exercise tag binding — `verify_referents_2j` check 2 does that against
+real git, and `test_prereg_tag_binds_the_instrument_against_real_git`
+does it against a real temp repo with a real tag. 2i's own
+`PREDICTOR_SEAL_TAG`/`ENDPOINT_SEAL_TAG` tags DO already exist and
+bind, since 2i is closed.
+
+The sweep covers `open`/`io.open`/`gzip.open`/`Path.read_text`/
+`read_bytes` — the DATA surface. It does NOT and cannot cover the
+IMPORT surface: the import machinery reads a module's bytes before any
+wrapper here is installed, and this script deliberately pre-imports
+everything so import traffic stays out of the table. That gap is
+freeze F-1, closed separately by `analyze_2j.check_imports_2j`.
 
 At n_perm=30 the comparison gates compare T only (2i's own convention),
 so they PASS on the real tree, and the run reaches a real verdict — but
@@ -32,6 +43,7 @@ from __future__ import annotations
 import builtins
 import gzip
 import io
+import json
 import pathlib
 import sys
 import sysconfig
@@ -161,12 +173,15 @@ SHA_PIN_AT_LOAD = {str(bg.EXP2G / "checkpoints_2g.json"), str(bh.EXP2H / "checkp
 
 def _classify(paths: set, referents_files: set) -> dict:
     frozen = {str(p) for p in an.FROZEN_SHA256_2J} | FROZEN_2G_UPSTREAM
+    frozen |= {str(p) for p in an.IMPORTED_SHA256_2J}     # freeze F-1's own pin
     instrument = {str(bg.REPO / rel) for rel in an.INSTRUMENT_BLOBS_2J}
     manifest = {str(bg.REPO / rel) for rel in referents_files}
     manifest.add(str(an.REFERENTS_PATH_2J))     # the manifest file pins ITSELF (REFERENTS_2J_SHA256)
-    stdlib_dirs = tuple(str(Path(d).resolve()) for d in sysconfig.get_paths().values() if d)
-    venv_prefix = str(Path(sys.prefix).resolve())
-    base_prefix = str(Path(sys.base_prefix).resolve())
+    # freeze coverage census: every prefix carries its separator, so
+    # `/…/lib-notmine/x.py` can never be swallowed by `/…/lib`.
+    stdlib_dirs = tuple(str(Path(d).resolve()) + "/" for d in sysconfig.get_paths().values() if d)
+    venv_prefix = str(Path(sys.prefix).resolve()) + "/"
+    base_prefix = str(Path(sys.base_prefix).resolve()) + "/"
     # library/interpreter probes of a path that doesn't exist on this OS
     # (e.g. a Linux-style /proc/self/maps probed defensively by a C
     # extension's thread-count detection) carry no data either way.
@@ -194,8 +209,19 @@ def _classify(paths: set, referents_files: set) -> dict:
 
 
 def main() -> int:
-    referents_files = set(mkr.referent_files())
-    referents_rel = {str(Path(p).resolve().relative_to(bg.REPO.resolve())) for p in referents_files}
+    # freeze coverage census: classify against the COMMITTED manifest's
+    # key set (whose own sha is pinned as `REFERENTS_2J_SHA256`), not
+    # against a live `referent_files()` call — a live call would list
+    # any file that appeared on disk since the manifest was built and
+    # so could classify an unpinned read as pinned. The live list is
+    # still compared, and a difference is printed.
+    referents_rel = set(json.loads(an.REFERENTS_PATH_2J.read_text())["files"])
+    live_rel = {str(Path(p).resolve().relative_to(bg.REPO.resolve()))
+                for p in mkr.referent_files()}
+    if live_rel != referents_rel:
+        print(f"NOTE: referent_files() lists {len(live_rel)} files, the committed manifest "
+              f"{len(referents_rel)}; only-live={sorted(live_rel - referents_rel)[:5]}, "
+              f"only-manifest={sorted(referents_rel - live_rel)[:5]}")
 
     def blob_sha(tag, rel):
         p = bg.REPO / rel
