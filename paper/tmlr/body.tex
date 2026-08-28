@@ -1044,6 +1044,48 @@ a battery that starves every label without a matched-label control has
 built a generalisation test and called it a presence test. (Record
 under the \texttt{exp2f-*} tags.)
 
+\textbf{The tenth lesson: a fixture suite certifies an instrument's logic,
+and the seam between fake and real inputs is exactly where it stops ---
+every execution path a frozen instrument will take on campaign day
+must run once, end to end, against real inputs before the tag.} The
+cross-family experiment carried the largest freeze battery in this
+record: 284 tests, 118 of 118 mutants killed, a hundred thousand
+fuzzed inputs through the scoring criterion, every file the analyzer
+reads pinned and swept. Its model-contact rehearsals were deliberate
+and passed: a preflight exercised the prompt harness and one sampled
+item against the new family, and the sampling stage's gate re-derived
+a committed stream byte-identically. One path had never touched a
+real model before the tag --- the sweep's checkpoint loader, which
+stages a checkpoint's candidate weight files into a clean directory ---
+by design, since loaders are model contact and the suite exercises
+control flow through injected fakes. The campaign's first model load
+crashed it. The installed library version loads a generation config
+from the model directory after the weights arrive, whatever config
+object was passed in code; a missing generation file falls back to
+the directory's \texttt{config.json}; and the resolver special-cases that
+one filename in a local directory to return None where any other
+absence raises --- so a directory holding only weight shards loads 355
+of 355 tensors and then dies on a None four frames deep in someone
+else's fallback. The predecessor experiment's loader had written
+\texttt{config.json} into its clean directory and never saw any of this; the
+generalisation that dropped the write was made for a good reason,
+per-revision configs, and reviewed by every instrument that could not
+see it. Nothing scored; the campaign lost a night; the preregistration
+tag was re-cut at the fix commit, a disclosure the public record now
+carries. This is the third appearance of one class --- the frozen
+verdict that raised on an input its own producer could leave, the
+refusal terminal reachable only from a tree the runner cannot
+produce, and now the loader whose first real execution was the
+campaign --- and the class has a name: the production path was exactly
+the untested path. The rule: before the tag, enumerate the execution
+paths campaign day will take --- every loader, every producer, every
+halt --- and require of each one real end-to-end execution, however
+small; for a checkpoint loader that is one checkpoint staged, one
+forward pass, one free. What the mutation score certifies is the
+logic under the fixtures; it cannot price the seam the fixtures were
+built to avoid. (Record under the \texttt{exp2i-*} tags; the stop, the fix
+and the ruling are ledgered in that experiment's \texttt{PROGRESS.md}.)
+
 \section{The screen at inclusion time}\label{the-screen-at-inclusion-time}
 
 Both campaigns above ran the untrained control after their batteries
@@ -1499,6 +1541,20 @@ section it distills.
   direct label dissolves to the target, not the representation.
   Starving tests what the probe cannot use, not what the
   representation holds. (\S6)
+\item
+  Enumerate the execution paths a campaign will take --- every loader,
+  producer and halt --- and run each once, end to end, against real
+  inputs before the preregistration tag; for a model loader, one
+  checkpoint staged, one forward pass, one free. Fixtures certify the
+  logic; they cannot price the seam between fake and real inputs.
+  (\S6)
+\item
+  Write pre-campaign checks against invariants, not snapshots. An
+  assertion that encodes the tree's current state --- the tag does not
+  exist yet, N artifacts are absent, every artifact parses as one
+  format --- breaks at the first state transition it was written
+  before. Re-run every cold verification tool once after each stage
+  lands, not only at close-out. (\S6)
 \end{enumerate}
 
 The full record behind this paper --- the design documents, the frozen
@@ -1528,7 +1584,8 @@ Pythia-6.9B's checkpoints), likewise named and not drawn on, and
 Experiment 2i's record (\texttt{exp2i-preregistered},
 \texttt{exp2i-predictor-sealed}, \texttt{exp2i-endpoint-sealed},
 \texttt{exp2i-closed}, the cross-family test of that forecast on
-OLMo-2 7B's checkpoints), likewise named and not drawn on; and,
+OLMo-2 7B's checkpoints), whose campaign stop supplies the tenth;
+and,
 since 2026-08-23, the synthetic calibration records of
 Experiments 1, 1b and 1c (\texttt{exp1-analysis-frozen}, \texttt{exp1b-*},
 \texttt{exp1c-*}), reported in the companion essay and not drawn on here.
