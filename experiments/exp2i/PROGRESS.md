@@ -1365,3 +1365,20 @@ loader. Watcher retired. NEXT: the analyzer ONCE on Michael's go
 (`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
 experiments.exp2i.analyze_2i`), VERDICT.txt, retrospective grading
 projection `5b000b7d`, tag `exp2i-closed`, close-out propagation.
+
+## 2026-08-28 — CLOSED: VERDICT LINEAGE (tag `exp2i-closed` at 19fc00e5)
+
+Analyzer run once on Michael's go ("Run the analyzer."), --write, zero
+referent failures. A (cross-family) T .0949, p 9.999e-05 — below the
+frozen .10 bar, the tree's own "below the effect bar" disclosure
+printed; B (within-family beyond cross) T .2153, p 9.999e-05, fires.
+Within-alone .2204; cross-beyond-within .0701; 410m cross .1154;
+reverse direction x_B→2.8b .2612 / →6.9b .2974; twin 0 everywhere.
+Projection 5b000b7d MISSED at the verdict level (BOTH projected;
+named disconfirmer A-i fired verbatim); graded hit-by-hit in
+results/retrospective.md. VERDICT.txt written. NEXT on Michael's word:
+close-out propagation (essay §6-licensed lineage wording, CLAUDE.md,
+experiments.md, methods-paper lesson candidates in the retrospective,
+supporting repo graft with the exp2i tags — carry the re-tag 105066c1
+and record f57f5888 in PROVENANCE — Zenodo v1.11), then delete the SDD
+workspace.
