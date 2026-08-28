@@ -50,21 +50,70 @@ VERDICT_2G_PIN = {"sampler_competitor": 0.16722141085849532}
 VERDICT_2H_PIN = {"primary": 0.20197097010795367}
 
 # FROZEN_SHA256_2J: 2i's 22 pins carried verbatim + 2i's own instrument
-# and battery + power_2j.py + make_referents_2j.py (Task 4 adds their
-# final shas; power_2j.py does not exist yet at this task, so the
-# computed pin below carries only the files that are actually on disk —
-# 2i's 22 + analyze_2i.py + battery_2i.py + make_referents_2j.py = +3
-# over `bi.FROZEN_SHA256`). Task 4 replaces this with the literal dict.
+# and battery + power_2j.py + make_referents_2j.py = 26. `FROZEN_FILES_2J`
+# stays the documented list (used by `test_frozen_pins_match_disk` to
+# recompute independently of the literal below); `FROZEN_SHA256_2J` is
+# now a LITERAL dict pinned at Task 4 (a one-off `python -c` printed it
+# from the files on disk) — power_2j.py must not change again after
+# this pin (it is also on the referent manifest).
 FROZEN_FILES_2J = tuple(bi.FROZEN_SHA256) + (
     bi.EXP2I / "analyze_2i.py", bi.EXP2I / "battery_2i.py",
     EXP2J / "power_2j.py", EXP2J / "make_referents_2j.py")
 
-
-def _pin_frozen_now() -> dict:
-    return {p: bg.sha256_file(p) for p in FROZEN_FILES_2J if Path(p).is_file()}
-
-
-FROZEN_SHA256_2J = _pin_frozen_now()   # Task 4 replaces this with the literal dict
+FROZEN_SHA256_2J = {
+    bg.REPO / "experiments/exp2h/battery_2h.py":
+        "2d721cf85bbd85937f45a1135e8b5e102685ab424d8ab0dfada527bd8ab4e80a",
+    bg.REPO / "experiments/exp2h/analyze_2h.py":
+        "52733e8d4280fb41b76cda2dcac024299ce7dd61090f856ba3147c8098b871bf",
+    bg.REPO / "experiments/exp2g/battery_2g.py":
+        "aca79dd71ee7dead3c0ce065945bb38eaf1b0b72b5d5f40698dabb0f5a9cf3c1",
+    bg.REPO / "experiments/exp2g/stats_2g.py":
+        "cf3c4c89c86fa43c5ba49d5c4be12eabad28ac65d9d12a43b1e31ef6e4bc195f",
+    bg.REPO / "experiments/exp2g/strata_2g.py":
+        "ea0acbbdfde13655a6b89d3afcc981f348ee6312b4448b70d437f1e4d3f7f594",
+    bg.REPO / "experiments/exp2g/labels_2g.py":
+        "d86e7cdb4dcc10257986e8a85824365972a75ba993be5a8fde8a825d68e3077d",
+    bg.REPO / "experiments/exp2g/analyze_2g.py":
+        "eab7c5b91d57351ee2a7adb0e85d71cb92cb4d6ed15d0bb90150c95c2076050e",
+    bg.REPO / "experiments/exp2g/checkpoints_2g.py":
+        "155fee3ec3933db33930d7ddadb99c02604d893205a8f8c037016cc18609fb10",
+    bg.REPO / "experiments/exp2d/battery_2d.py":
+        "503a2c09ec320989223561291ff93c71d62d27ed20c5681f9b2d535b7708e81a",
+    bg.REPO / "experiments/exp2d/analyze_2d.py":
+        "01ee334db5fe273a8509cf4bf79757b52a40a123311acd42554ac1a82e40334a",
+    bg.REPO / "experiments/exp2d/stats_2d.py":
+        "86243932709013ea15b250e9bf15243ce6209e03e6bcf81af0f7ac3f92644b46",
+    bg.REPO / "experiments/exp2d/results/verdict.json":
+        "d5b1b28bf70f4be1a5acf73df8ad03d8c57349ce4acf15e26f690c6dc1347b61",
+    bg.REPO / "experiments/exp2c/harness.py":
+        "3e72fb3c18772096e8c520ade93e154dd8bc6765c3c473390a9b32a6b24ae111",
+    bg.REPO / "experiments/exp2c/battery/family_map.py":
+        "46477b37683c8ea0e1f2f219dce96858a0dcf91710b15cae45a8cf4c4c7ab375",
+    bg.REPO / "experiments/exp3/sampler.py":
+        "e33c50d3985b1d6205d886e53726860f364cce1c6cd943ec460524e9110a03ea",
+    bg.REPO / "experiments/exp3c/analyze_3c.py":
+        "66b78ffbedb808625ed33019f29d2ef8ec9d0f31a1115eb7cb08ad3e67d42d84",
+    bg.REPO / "experiments/exp2g/predictor_2g.py":
+        "3381b43a34fd1fb1f7ef57eb9d02a6a9e9ec41b3ffcadea425c37b86c1e92a4e",
+    bg.REPO / "experiments/exp2g/run/sweep_2g.py":
+        "850db5831adeffc46a888ca185ef3f1ad819a8db104c9eafd1df69c470c91a87",
+    bg.REPO / "experiments/exp2i/run/_common_2i.py":
+        "5cc7c97f68b45656d6dbbb5fbf6d7d895d7b1d96e104df543f8c9f1691e5ad4f",
+    bg.REPO / "experiments/exp2i/make_referents_2i.py":
+        "6de0278cfe85d9efefa11d0b2549afa78dd8836e1ef2b947d00c8709acc3977b",
+    bg.REPO / "experiments/exp2i/power_2i.py":
+        "0e5e449ac420e40243ae86eb84e576256e857581ad3c7e000fcea5e08666119d",
+    bg.REPO / "experiments/exp2i/run/seal_2i.py":
+        "f20132aed4c0b7e995745972abeddec4ba1d7a269147b5d034bff06a3157f078",
+    bg.REPO / "experiments/exp2i/analyze_2i.py":
+        "85e482fea17e0706476243a0a98a7d2c32efebd6536c5255ae48e729b494c252",
+    bg.REPO / "experiments/exp2i/battery_2i.py":
+        "e0a8d10cb4dde8a3af1a3e9b32447c407b43201513dc758d6cd9a8c38b5cdfcf",
+    bg.REPO / "experiments/exp2j/power_2j.py":
+        "19b80593d091663183b7394b101ee5f97c832b5f0dd7dc4227c9b1107721ab1a",
+    bg.REPO / "experiments/exp2j/make_referents_2j.py":
+        "98e88f3317d0812484803ded6189dc32953980686a286cd0d295d517d596e8c4",
+}   # Task 4: 26-file literal, pinned from disk
 
 
 def check_frozen_2j() -> None:

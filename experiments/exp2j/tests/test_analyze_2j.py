@@ -155,11 +155,15 @@ def test_require_prereg_2j_refuses_missing_tag_and_drift():
 
 def test_frozen_pins_match_disk():
     an.check_frozen_2j()
-    # Ruling (controller, task-2 brief addendum): +3, not +4 — power_2j.py
-    # does not exist until Task 3, so `_pin_frozen_now()` only picks up
-    # analyze_2i.py, battery_2i.py and make_referents_2j.py over 2i's own
-    # FROZEN_SHA256. Task 4 tightens this to the literal dict + 4.
-    assert len(an.FROZEN_SHA256_2J) >= len(bi.FROZEN_SHA256) + 3
+    # Task 4: FROZEN_SHA256_2J is now a LITERAL dict over exactly
+    # FROZEN_FILES_2J's 26 paths (2i's 22 + analyze_2i.py + battery_2i.py
+    # + power_2j.py + make_referents_2j.py) — recomputed here directly
+    # from disk, independent of the literal, so a stale literal fails
+    # loud rather than merely counting entries.
+    assert len(an.FROZEN_SHA256_2J) == 26
+    assert set(an.FROZEN_SHA256_2J) == set(an.FROZEN_FILES_2J)
+    for p, want in an.FROZEN_SHA256_2J.items():
+        assert bg.sha256_file(p) == want, p
 
 
 def test_collect_total_labels_are_prefix_disjoint():
