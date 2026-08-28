@@ -788,3 +788,118 @@ Commit: "exp2j: Task 4 fix round 1 — seven refusal-path mutants closed
 on the clean totality world; mutation harness gains
 --only/--totality; boundary mutant added; tally reproducible from
 committed logs".
+
+## 2026-08-28 — FREEZE (the adversarial freeze = the whole-branch final review)
+
+Worked cold in a fresh process throughout, zero model contact (2j is
+analysis-only). The ratification ledger is `FREEZE_CHECKLIST.md`: the
+standing assignments, the 18-item attack table with CLOSED / CLEARED /
+DISCLOSED per item and its evidence, the findings with their
+demonstrations verbatim, the coverage-census triage, the cold re-run
+numbers and the §-level doc wording for the ratification package. The
+design doc is UNTOUCHED.
+
+**THE CLASS DEFECT: FOUND — F-1, the instrument's IMPORT surface was
+pinned by nothing.** 3c finding A's lineage (every verdict input
+pinned at analysis time), one surface over. The read sweep proves
+every DATA input is pinned and is structurally blind to the CODE
+surface: the import machinery reads a module's bytes before any
+wrapper is installed, and `read_sweep_2j` pre-imports every module by
+design so import traffic stays out of its table. A `sys.modules` scan
+after one real-tree `run()` found **24 module entries under
+`experiments/` loaded into the analyzer's own process and covered by no
+pin — 23 distinct files** (2c's battery package appears twice, under
+`battery` and `experiments.exp2c.battery`) — every package
+`__init__.py` on the chain (`experiments/exp2j/
+__init__.py` executes on every `import experiments.exp2j.analyze_2j`),
+2c's item generators (reached by `harness.answer_type_of`, which the
+sha-pinned item loader calls to set the `answer_type` that
+`normalize_answer`, hence π, hence every composite stratum, branches
+on), 2c's `instrument`/`stats_bounds`/`run/power_table`, 2f's referent
+maker, 2g's `probe_2g`/`collect_eval_2g`, exp3's `analyze_3`.
+Demonstrated: two lines in `experiments/exp2j/__init__.py` rebinding
+`functionals_2j.repeated_char` moved the primary's T_beyond from
+**0.13111044507864672 to 0.13301873485425933** with `check_frozen_2j`,
+`check_frozen_imports_2g`, the referent manifest and
+`require_prereg_2j` all PASSING and `referents["failures"]` empty.
+Closed additively: `IMPORTED_SHA256_2J` (28 files — those 23 plus five
+reached only when the fixtures or the cold tool are imported — each
+verified against disk unconditionally) + `check_imports_2j()`, wired into
+`run()` twice behind `collect_total` ("2j import surface (entry)" /
+"(exit)"). The same payload now delivers INSUFFICIENT_DATA with the
+reason verbatim. Disclosed exclusion: files under a `tests/`
+directory.
+
+**F-2 — the power record's composite partition was attested and never
+compared** (3d / 2h F-2's self-consistent-only lineage). `power_2j.
+main` builds the composite strata and writes `composite_report` /
+`n_composite_strata`; `_load_power_2j` checked the status, the rung
+set and the grid size, never the partition — and POWERED is what
+decides how ABSORBED reads (§6). The record's bytes are pinned, but
+`functionals_2j.py` is bound only by the prereg TAG, cut after the
+power record is written. `check_power_partition_2j` now refuses on any
+mismatch; on the real tree it PASSES (composite strata per rung
+add3_mid 47, add_base8 24, antonym 31, antonym6 48, arith_next 16,
+odd6 48, sub3_mid 39, sub4_mid 55, sub_base8 23 — identical to the
+committed record, every bucket rule identical).
+
+**F-3 — the k=64 block gate proved the MEAN only.** Every A-1 reading
+is built from per-rung d's, so a compensating pair of per-rung
+differences would have passed it. Per-rung equality now asserted;
+verified identical on all 9 rungs on the real tree BEFORE the check
+was added, so the tightening cannot introduce a refusal the committed
+bytes would hit.
+
+**F-4 — two cross-experiment label prefixes, DISCLOSED not renamed**
+(`"battery items"` ⊃ 2i's `"battery"`, `"verify criterion 3c"` ⊃ 2i's
+`"verify criterion"`); no 2j label EQUALS a 2i label, and neither
+extension can put a 2j-side failure under a 2i-side name. Pinned by
+`KNOWN_CROSS_PREFIXES_2I` so a NEW collision fails the test. The
+prefix-disjointness test itself was widened to the instrument-pin
+loop's tuple labels, `check_pin`'s label argument, `_sec`'s name and
+the two seal-binding f-string prefixes.
+
+**F-5 — the realized-THIN guard was installed on the non-firing branch
+only.** A primary that FIRES on fewer than three eligible rungs was
+RESIDUAL with the full licence and no disclosure. Terminal untouched;
+the disclosure now rides the reason and the licensed sentence, as
+ABSORBED's already did. Unreachable on the real tree (all nine R_CAP
+rungs are eligible).
+
+Attack list: 18/18 disposed — 4 CLOSED, 12 CLEARED, 2 DISCLOSED. The
+census of deferred minors: 5 closed, 5 disclosed with reasons. Doc
+slips for ratification: (a)–(d) from the build plus (e)–(h) from the
+freeze, wording in `FREEZE_CHECKLIST.md`.
+
+Notable CLEARED evidence: the π predicate equals `verify_fn` with the
+target swapped on **704,000 committed draws** (11 strata rungs × 2
+predictors × 500 × 64), zero disagreements, zero normalizer
+`IndexError` draws and no normalized answer equal to the `None`
+sentinel (the unreachable branch proved by hand on `'.\xa0.'`);
+`rederive_2i`'s T is unchanged by extra rungs in the counts dict
+(exactly) though rung ORDER moves the last ulp; the size label is a
+dict key and moves no statistic; NaN is reachable (`bootstrap_d`'s
+lo/hi with `n_boot: 0`) and the write path's `_json_safe` +
+`allow_nan=False` is what keeps the verdict strict JSON.
+
+**Cold re-runs at the freeze HEAD** (fresh processes, every number
+transcribed): full suite **113 passed in 929.84 s** (0 failures, 0
+warnings; 89 → 113, +24 tests — 20 in `test_analyze_2j.py`, 4 in
+`test_totality_2j.py`), which includes the nine world terminals and
+**30** totality shapes; cold battery **12/12**; mutation **70 mutants,
+69 killed (58 in the fast pass, 11 in the totality pass), 1 documented
+equivalent (#10), 0 open survivors** — both logs regenerated through
+the committed harness (`mutation_build.log`, `mutation_round1.log`);
+read sweep **4,347 distinct paths read, 0 writes, UNPINNED 0**
+(frozen_module 33 → 38, because F-1's pin loop now hashes all 28
+pinned modules, so the import surface is visible to the data sweep as
+well); determinism **byte-identical across two processes**, sha256
+`d9284f6b8ceabfe0cf93b61bfd2de2a76afaf4729a86acb540c6655a998ad976`.
+Nothing was written under `experiments/exp2j/results/` (only the
+build's `power_2j.json` is there) and no file under `exp2i`, `exp2h`,
+`exp2g`, `exp2d`, `exp2c`, `exp2b`, `exp3` or `exp3c` was touched.
+`functionals_2j.py`, `power_2j.py`, `make_referents_2j.py`,
+`referents_2j.json` and `results/power_2j.json` are UNCHANGED by the
+freeze, so no pin was re-taken and the power record was not recomputed;
+`analyze_2j.py` changed (F-1, F-2, F-3, F-5) and is one of the two
+blob-bound instrument files the tag must be cut over.

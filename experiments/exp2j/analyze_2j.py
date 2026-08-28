@@ -919,11 +919,13 @@ def run(root_2i=bi.EXP2I, root_2j=EXP2J, *, write=False, n_perm=N_PERM, n_boot=N
             # and every A-1 reading is built out of per-rung d's, not
             # out of T. Assert the per-rung d's too — bit-for-bit, on
             # the same rung set (identical on all nine at the freeze).
-            bad_r = {r: (t64res["per_rung"].get(r), wa["per_rung"][r]["d"]) for r in r_cap
-                     if t64res["per_rung"].get(r) != wa["per_rung"][r]["d"]}
-            if bad_r or sorted(t64res["per_rung"]) != sorted(wa["per_rung"]):
-                raise ValueError(f"block gate: k=64 per-rung d {bad_r or sorted(t64res['per_rung'])} "
-                                 f"!= within-alone's {sorted(wa['per_rung'])}")
+            wa_pr = {r: v["d"] for r, v in wa["per_rung"].items()}
+            bad_r = {r: (t64res["per_rung"].get(r), wa_pr.get(r))
+                     for r in sorted(set(t64res["per_rung"]) | set(wa_pr))
+                     if t64res["per_rung"].get(r) != wa_pr.get(r)}
+            if bad_r:
+                raise ValueError(f"block gate: k=64 per-rung d differs from within-alone's "
+                                 f"on {bad_r} (a rung on one side only reads as None)")
             return prim, report, t64, {r: len(set(comp[r]["strata"])) for r in r_cap}
         core, f = collect_total(_core, "primary A-2");                             failures += f
     if not failures and core is not None:

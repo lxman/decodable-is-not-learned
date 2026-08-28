@@ -1,13 +1,15 @@
-baseline OK (totality pass, [20, 52, 53, 55, 56, 57, 58, 60, 61] mutants)
+baseline OK (totality pass, [20, 31, 60, 61, 63, 64, 65, 66, 67, 69, 70] mutants)
 
 [20] killed  run()/_core: the block gate '!=' flipped to '==' (raises on a correct reproduction instead of a drifted one) — world/totality only
-[52] killed  run(): totality — collect_total stripped at line 603 (lambda: an2i._check_predictor_seal_sampling(predictor_rec, p...)
-[53] killed  run(): totality — collect_total stripped at line 613 (lambda: an2i._check_rung_set_vs_endpoint(rung_set, stage1_fi...)
-[55] killed  run(): totality — collect_total stripped at line 653 (lambda: an2i._check_predictor_counts_2i(predictor_rec, predi...)
-[56] killed  run(): totality — collect_total stripped at line 691 (lambda: an2i.outcomes_7b(sweep, rungs=tuple(bt.RUNGS))...)
-[57] killed  run(): totality — collect_total stripped at line 708 (_cmp...)
-[58] killed  run(): totality — collect_total stripped at line 724 (_core...)
-[60] killed  run(): totality — collect_total stripped at line 616 (lambda: an2i._check_rung_set_derivation(rung_set, stage1_fin...)
-[61] killed  run(): totality — collect_total stripped at line 749 (thunk...)
+[31] killed  run()/_core: the per-rung block gate inverted (raises on a correct reproduction) — world/totality only
+[60] killed  run(): totality — collect_total stripped at line 795 (lambda: an2i._check_predictor_seal_sampling(predictor_rec, p...)
+[61] killed  run(): totality — collect_total stripped at line 805 (lambda: an2i._check_rung_set_vs_endpoint(rung_set, stage1_fi...)
+[63] killed  run(): totality — collect_total stripped at line 845 (lambda: an2i._check_predictor_counts_2i(predictor_rec, predi...)
+[64] killed  run(): totality — collect_total stripped at line 883 (lambda: an2i.outcomes_7b(sweep, rungs=tuple(bt.RUNGS))...)
+[65] killed  run(): totality — collect_total stripped at line 900 (_cmp...)
+[66] killed  run(): totality — collect_total stripped at line 930 (_core...)
+[67] killed  run(): totality — collect_total stripped at line 937 (lambda: check_power_partition_2j(power, core[1], core[3], r_...)
+[69] killed  run(): totality — collect_total stripped at line 808 (lambda: an2i._check_rung_set_derivation(rung_set, stage1_fin...)
+[70] killed  run(): totality — collect_total stripped at line 965 (thunk...)
 
-9/9 killed; survivors: []
+11/11 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

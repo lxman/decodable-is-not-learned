@@ -175,6 +175,20 @@ def test_power_2j_stratum_count_disagrees_with_the_analyzer(world):
     _insufficient(root, seal, "2j power partition")
 
 
+def test_power_2j_stratum_count_is_not_an_integer(world):
+    """The one shape that makes the F-2 check itself RAISE rather than
+    return failures (`int("abc")`) — the refusal must still be
+    collected under the site's own label, never escape `run()`."""
+    root, seal = world
+    p = root / "results" / "power_2j.json"
+    rec = json.loads(p.read_text())
+    r = sorted(rec["n_composite_strata"])[0]
+    rec["n_composite_strata"] = {**rec["n_composite_strata"], r: "abc"}
+    p.write_text(json.dumps(rec))
+    v = _insufficient(root, seal, "2j power partition")
+    assert any("ValueError" in f for f in v["referents"]["failures"])
+
+
 def test_power_2j_with_no_partition_attested(world):
     """The shape every world carried before F-2: a record that declares
     POWERED and attests no partition at all."""

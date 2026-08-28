@@ -44,25 +44,29 @@ DATA surface. It cannot see the CODE surface and by construction never
 could: the import machinery reads a module's bytes before any wrapper
 is installed, and the sweep deliberately pre-imports every module first
 so import traffic stays out of its table. A scan of `sys.modules`
-after one real-tree `run()` found **24 executable files under
+after one real-tree `run()` found **24 module entries under
 `experiments/` loaded into the analyzer's own process and covered by
-NO pin** — not `FROZEN_SHA256_2J` (26 named modules), not
-`battery_2g.FROZEN_IMPORT_SHA256_2G` (14), not `INSTRUMENT_BLOBS_2J`
-(the 2 the tag binds), not `referents_2j.json` (2,621 data files, of
-which every `.py` entry is already in `FROZEN_SHA256_2J`):
+NO pin — 23 distinct files** (2c's battery package appears twice, as
+`battery` and as `experiments.exp2c.battery`, a consequence of 2c's
+own `sys.path` manipulation). Not in `FROZEN_SHA256_2J` (26 named
+modules), not in `battery_2g.FROZEN_IMPORT_SHA256_2G` (14), not in
+`INSTRUMENT_BLOBS_2J` (the 2 the tag binds), not on
+`referents_2j.json` (2,621 data files, whose 24 `.py` entries are all
+already in `FROZEN_SHA256_2J` — verified cold, so the manifest adds no
+code coverage of its own):
 
     experiments/exp2j/__init__.py        experiments/exp2i/__init__.py
     experiments/exp2c/__init__.py        experiments/exp2d/__init__.py
     experiments/exp2c/battery/__init__.py    experiments/exp2f/__init__.py
     experiments/exp2c/run/__init__.py    experiments/exp2g/__init__.py
-    experiments/exp2c/battery/base.py    experiments/exp2g/run/__init__.py
-    experiments/exp2c/battery/generators_controls.py   experiments/exp2h/__init__.py
-    experiments/exp2c/battery/generators_rescues.py    experiments/exp3/__init__.py
-    experiments/exp2c/battery/generators_rungs.py      experiments/exp3c/__init__.py
-    experiments/exp2c/battery/wordlists_2c.py          experiments/exp3/analyze_3.py
-    experiments/exp2c/instrument.py      experiments/exp2f/make_referents_2f.py
-    experiments/exp2c/run/power_table.py experiments/exp2g/collect_eval_2g.py
-    experiments/exp2c/stats_bounds.py    experiments/exp2g/probe_2g.py
+    experiments/exp2c/battery/base.py    experiments/exp2h/__init__.py
+    experiments/exp2c/battery/generators_controls.py   experiments/exp3/__init__.py
+    experiments/exp2c/battery/generators_rescues.py    experiments/exp3c/__init__.py
+    experiments/exp2c/battery/generators_rungs.py      experiments/exp3/analyze_3.py
+    experiments/exp2c/battery/wordlists_2c.py          experiments/exp2f/make_referents_2f.py
+    experiments/exp2c/instrument.py      experiments/exp2g/collect_eval_2g.py
+    experiments/exp2c/run/power_table.py experiments/exp2g/probe_2g.py
+    experiments/exp2c/stats_bounds.py
 
 Two of these are on the verdict path in substance, not merely in
 principle: `experiments/exp2j/__init__.py` executes on every `import
@@ -102,8 +106,10 @@ empty, and the read sweep's table would still have printed
 `UNPINNED 0`. A payload with any other content could put T anywhere.
 
 **Closed additively.** `analyze_2j.IMPORTED_SHA256_2J` (28 files: the
-24 above plus `experiments/exp2i/run/{__init__,endpoint_2i,sample_2i}
-.py`, which the world fixtures import, plus `verify_referents_2j.py`)
+23 above plus five reached only when the fixtures or the cold tool are
+imported — `experiments/exp2g/run/__init__.py`,
+`experiments/exp2i/run/{__init__,endpoint_2i,sample_2i}.py` and
+`verify_referents_2j.py`)
 and `check_imports_2j()`, which walks `sys.modules`, keeps every module
 whose resolved file is under `experiments/`, and refuses if any is
 neither covered by an existing pin (`FROZEN_SHA256_2J`,
@@ -196,7 +202,7 @@ per-rung d dict to be equal bit-for-bit and over the same rung set.
 Verified on the real tree BEFORE the check was added — per-rung d's
 identical on all 9 rungs (`per-rung d mismatches: {}`), so the
 tightening cannot introduce a refusal the current bytes would hit.
-Mutant #30 (world/totality).
+Mutant #31 (world/totality).
 
 ### F-4 — two cross-experiment label prefixes, DISCLOSED not renamed
 
@@ -217,7 +223,28 @@ than raising) contributes its own message text, not the
 `check_power_partition_2j` therefore label-prefixes each of its five
 messages itself.
 
-## Attack-list disposition (all 18) — CLOSED 5 / CLEARED 9 / DISCLOSED 4
+### F-5 — the realized-THIN guard was installed on one branch only
+
+The build's fix round 1 (2i's I-4 standard) added a realized-THIN
+disclosure — fewer than three eligible rungs after the composite
+partition, whatever the power record says — to `verdict_tree_2j`'s
+NON-FIRING branch. The firing branch had none: a primary that fires on
+two rungs would have been RESIDUAL with the full mechanism licence and
+no word about what carried it. Closed additively and
+disclosure-only: the same guard now runs in the firing branch, riding
+the reason string and (through `_licensed`) the licensed sentence. The
+TERMINAL is untouched — a firing THIN primary is still RESIDUAL, which
+is the tree Michael accepted; only the sentence gains a clause.
+Unreachable on the real tree (all nine R_CAP rungs are eligible under
+the composite partition, `thin: []`, `dropped_degenerate: []`).
+Mutant #30; tests
+`test_a_firing_but_realized_thin_primary_still_carries_the_thin_
+disclosure` and `test_a_firing_primary_on_three_or_more_rungs_carries_
+no_disclosure`. **If Michael would rather the firing branch stay
+silent, deleting the three lines marked `freeze F-5` in
+`verdict_tree_2j` restores the build's behaviour exactly.**
+
+## Attack-list disposition (all 18) — CLOSED 4 / CLEARED 12 / DISCLOSED 2
 
 | # | item | disposition | evidence |
 |---|---|---|---|
@@ -231,7 +258,7 @@ messages itself.
 | 8 | totality: every tree reaches a terminal, none raises | **CLEARED** | 29 totality shapes green (25 inherited + 4 new: three power-partition shapes and the import surface). No shape raises; every one asserts INSUFFICIENT_DATA, the needle, and `primary`/`secondaries`/`a1` all `None`. |
 | 9 | the comparison gate's `verdict_2i_path` default and the 2g/2h verdict files are on the manifest | **CLEARED** | `experiments/exp2i/results/verdict.json`, `experiments/exp2g/results/verdict.json`, `experiments/exp2h/results/verdict.json` all present in `referents_2j.json`, together with 2i's **771** sweep JSONs, `results/power_2j.json` and `power_2j.py`. |
 | 10 | power-record provenance: does the analyzer check the record's partition? | **CLOSED (F-2)** | it did not; it does now, and the check passes on the real tree. |
-| 11 | read sweep: zero unpinned verdict inputs | **CLEARED + hardened** | re-run cold, table below. Hardened three ways (coverage census): classification is now against the COMMITTED manifest's key set rather than a live `referent_files()` call (a live call would list any file that appeared on disk since the manifest was built, and so could classify an unpinned read as pinned — the live list is still compared and any difference printed); every stdlib/venv prefix carries its separator; the F-1 import pin joins the `frozen` bucket. The docstring's overclaim (that the stand-ins reach the two 2i seal checks — they reach `require_prereg_2j` only, `blobs_bound` being left at real git) corrected. |
+| 11 | read sweep: zero unpinned verdict inputs | **CLOSED (hardened)** | re-run cold, table below. Hardened three ways (coverage census): classification is now against the COMMITTED manifest's key set rather than a live `referent_files()` call (a live call would list any file that appeared on disk since the manifest was built, and so could classify an unpinned read as pinned — the live list is still compared and any difference printed); every stdlib/venv prefix carries its separator; the F-1 import pin joins the `frozen` bucket. The docstring's overclaim (that the stand-ins reach the two 2i seal checks — they reach `require_prereg_2j` only, `blobs_bound` being left at real git) corrected. |
 | 12 | determinism, two processes | **CLEARED** | numbers below. |
 | 13 | the tag binds the instrument, real git | **CLEARED** | `test_prereg_tag_binds_the_instrument_against_real_git`: a real temp repo, real `git init/add/commit/tag`, the campaign's own `pr.git_tag_exists` / `pr.git_blob_sha256` (`git show <tag>:<path>`) — the two blobs bind; a post-tag edit to `functionals_2j.py` raises "does not bind"; deleting the tag raises "preregistration tag". |
 | 14 | label prefixes, incl. against 2i's | **CLOSED (F-4)** + widened | the prefix-disjointness test now scans the instrument-pin loop's tuple labels, `check_pin`'s label argument, `_sec`'s name and the two seal-binding f-string prefixes, not only `collect_total(thunk, "…")` — 2j's own set is prefix-disjoint under the widened scan; the two cross-set extensions are pinned and disclosed. |
@@ -280,7 +307,10 @@ Carried from the build (a)–(d), plus (e)–(h) from the freeze. Exact
 rungs after the composite partition) lands ABSORBED with the
 disclosure carried on the reason string AND the licensed sentence, and
 licenses NOTHING — the residual is untested, not absent (2i's I-4
-standard)."
+standard). Symmetrically (freeze F-5), a primary that FIRES on fewer
+than three eligible rungs is RESIDUAL — the terminal is unchanged —
+with the same THIN disclosure on its reason and its licensed
+sentence."
 
 **(b) §2, the sentence "the input-overlap functional is constant (1.0)
 on the three option-listing rungs".** Amend to: "…constant (1.0) on
@@ -311,7 +341,7 @@ on one (sub4_mid), so `thinned_B_matched` carries sub4_mid un-thinned
 and `thinned_A_matched` equals the x_A anchor exactly on the two
 Pythia outcomes, where x_B is denser everywhere."
 
-**(f) §5.4 §1 (reverse direction), after "x_A at 64 (2g .1672 / 2h
+**(f) §5.4, reading 1 (reverse direction), after "x_A at 64 (2g .1672 / 2h
 .2020)".** Add: "The 6.9b anchor is printed twice and they differ by
 construction: the comparison GATE re-derives 2h's primary over 2h's
 own eight-rung R_69 (.2020, the literal pin), while A-1's anchor is
@@ -319,7 +349,7 @@ x_A at 64 over the seven rungs R_CAP ∩ R_69 that A-1's thinned
 readings use (.2179). The gap fraction is computed against the
 seven-rung anchor."
 
-**(g) §4 and §6.1, the refusal list.** Add two inputs to
+**(g) §4 (instrument pins) and §6's terminal 1 (INSUFFICIENT_DATA), the refusal list.** Add two inputs to
 INSUFFICIENT_DATA: "the analyzer's own import surface — any module
 under `experiments/` in `sys.modules` that is not pinned, or that has
 drifted from its pin (freeze F-1; files under a `tests/` directory
@@ -336,9 +366,58 @@ prefixes (F-4); T's last-ulp dependence on rung ORDER (item 7); the
 discarded permutation tests and `load_pythia_outcomes`' eager run
 (runtime only).
 
+## The W2 seed-robustness probe (coverage census)
+
+W2's ABSORBED rested on a tuned `hot_ratio` at a single seed. Rebuilt
+from scratch at three seeds through the real `write_world_2j` +
+`run_world` path (n_perm 200, n_boot 20), transcribed from the run:
+
+| seed | verdict | within_alone T | beyond_all T (primary) | fires | fraction absorbed |
+|---|---|---|---|---|---|
+| 0 | ABSORBED | 0.277696 | 0.062007 | False | 0.7767 |
+| 1 | ABSORBED | 0.254894 | 0.038623 | False | 0.8485 |
+| 2 | ABSORBED | 0.279176 | 0.093672 | False | 0.6645 |
+
+Seed 0 reproduces the build ledger's numbers exactly
+(0.2776959534767129 / 0.06200662138616882 / .7767) after the fixture
+gained its composite-partition block, so F-2's change to
+`write_world_2j` moved no world statistic. The terminal is stable
+across the three seeds. Stated plainly rather than talked up: seed 2's
+`beyond_all` is 0.0937, within .007 of `T_BAR` — W2's ABSORBED is not
+a wide margin, which is a property of the fixture's tuned habit
+mechanism (a single median split over a bimodal habit weight), not of
+the instrument. The world's job is to route a habit-driven tree to
+ABSORBED, which it does at every seed tried; nothing in the verdict
+depends on the margin.
+
+Pin-coverage arithmetic, re-derived cold: the referent manifest lists
+24 `.py` files, **all 24** already in `FROZEN_SHA256_2J` (so the
+manifest adds no unpinned code); `IMPORTED_SHA256_2J`'s 28 entries
+overlap `FROZEN_SHA256_2J` in 0 and the manifest in 0 — they are 28
+genuinely new pins, which is the size of the hole F-1 names.
+
 ## Cold re-runs at the freeze HEAD
 
-(filled in below at the end of the session)
+Every number transcribed from the run, fresh process,
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python`.
+
+| check | command | result |
+|---|---|---|
+| full suite | `pytest -q experiments/exp2j` | **113 passed in 929.84 s (15:29)**, 0 failures, 0 warnings (was 89 at the build's close; +24 — 20 in `test_analyze_2j.py`, 4 in `test_totality_2j.py`) |
+| worlds (every terminal) | inside the suite, `test_full_shape_2j.py` (5) + `test_power_2j.py` (2) | all green; the nine terminals (RESIDUAL, ABSORBED ×3, five refusals) reached with the fixture's new composite-partition block |
+| totality | inside the suite, `test_totality_2j.py` | **30 shapes**, every one INSUFFICIENT_DATA under its own needle, nothing raised; the control still reaches RESIDUAL |
+| cold battery | `python -m experiments.exp2j.verify_referents_2j` | **12/12**, item 12 now including `n_trained_steps` and the F-2 partition re-derivation |
+| mutation, fast pass | `python experiments/exp2j/tests/mutation_check.py` (committed harness, detached; log `mutation_build.log`) | **70 mutants, 58 killed, 12 survivors** `[10, 20, 31, 60, 61, 63, 64, 65, 66, 67, 69, 70]` — #10 the documented equivalent, the other 11 world/totality-only by construction |
+| mutation, totality pass | `… --totality --only 20,31,60,61,63,64,65,66,67,69,70` (log `mutation_round1.log`) | **11/11 killed, 0 survivors, 0 SKIP** |
+| **mutation, final tally** | both logs, both reproducible from the committed harness | **70 mutants — 69 killed (58 + 11), 1 documented equivalent (#10, `matched_k`'s dead upper clip), 0 open survivors** |
+| read sweep | `python -m experiments.exp2j.tests.read_sweep_2j` | **4,347 distinct paths read (10,313 open/read calls), 0 writes, UNPINNED 0**; buckets: referents_2j.json 2,622, frozen_module 38, instrument_blob 2, sha_pin_at_load 2, python_stdlib_venv 1,683. (frozen_module 33 → 38: F-1's unconditional pin loop hashes all 28 pinned files, so the import surface is now visible to the DATA sweep too.) |
+| determinism ×2 | `run(n_perm=30, n_boot=10)` in two separate processes, sha256 over the JSON-serialized verdict with `git_sha` removed | **byte-identical**: `d9284f6b8ceabfe0cf93b61bfd2de2a76afaf4729a86acb540c6655a998ad976` both times, `ABSORBED T=0.13111044507864672` |
+
+The n_perm-30 verdict printed by the sweep and the determinism runs is
+NOT the experiment's verdict (the p-value floor at 30 permutations is
+1/31 ≈ .032, which can never clear ALPHA .01) and nothing was written
+under `results/`. It is reported here only because doc slip (c)
+already discloses that T_beyond's real value is known before the tag.
 
 ## Notes for the tagger
 
@@ -354,3 +433,11 @@ discarded permutation tests and `load_pythia_outcomes`' eager run
   over is now checked against the analyzer's, and matches.
 - `verify_referents_2j.py` changed (battery item 12) and is pinned in
   `IMPORTED_SHA256_2J`; the pin was taken after the edit.
+- **Operational consequence of F-1, stated plainly:** run the campaign
+  as `python -m experiments.exp2j.analyze_2j --write` (or from a driver
+  that imports only `analyze_2j`). A driver that imports some other
+  `experiments/` module not in the pin sets will REFUSE with
+  "unpinned module on the import surface: <name> -> <path>" — loud,
+  immediate, and diagnosable from the message, but it will refuse.
+- `IMPORTED_SHA256_2J` lives inside `analyze_2j.py`, so the prereg tag
+  binds it along with everything else in that file.

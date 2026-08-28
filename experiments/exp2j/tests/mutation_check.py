@@ -173,8 +173,8 @@ M = [
      '        thin = ([DISCLOSURE_THIN_2J] if len(primary.get("eligible", [])) < 0 else [])'),
     (AN, "run()/_core: the per-rung block gate inverted (raises on a correct "
          "reproduction) — world/totality only",
-     '            if bad_r or sorted(t64res["per_rung"]) != sorted(wa["per_rung"]):',
-     '            if bad_r or sorted(t64res["per_rung"]) == sorted(wa["per_rung"]):'),
+     "            if bad_r:",
+     "            if not bad_r:"),
 ]
 
 # Review finding 4's lesson, one experiment later: one mutant per
