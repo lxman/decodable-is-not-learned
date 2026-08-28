@@ -124,10 +124,30 @@ _L = {
                            "was attempted and not resolved"),
  "ABSORBED_THIN": ("not resolved: fewer than three rungs survived the composite "
                    "partition (THIN); ABSORBED licenses nothing"),
+ "ABSORBED_UNDEFINED": ("no licence: the primary was undefined (x_B constant inside "
+                        "every composite stratum on every eligible rung) — the "
+                        "residual is untested, not absent"),
 }
 LICENSED_2J = {k: f"{v}. Disclosure (design §2): {KNOWN_INPUTS_CAVEAT_2J}"
                for k, v in _L.items()}
 A1_READINGS = ("DENSITY", "NOT-DENSITY", "MIXED")
+
+# fix round 1 / Finding 1 (2i's I-4 standard, analyze_2i.py:797-806 +
+# :1588-1590): a disclosure that rides on BOTH the reason string and the
+# licensed sentence, not merely on the reason. Two cases the power
+# record's `declared_status` alone cannot distinguish from a real
+# POWERED-but-null result: the primary was UNDEFINED (every eligible
+# rung degenerate inside the composite strata — `_run_test` short-
+# circuits before calling `primary_2i` at all, Ruling 18), and the
+# REALIZED eligible set is THIN (< 3 rungs survived composite
+# degeneracy) even though the power record — computed before the
+# composite strata were realized — declared POWERED.
+DISCLOSURE_UNDEFINED_2J = ("the primary was undefined (x_B constant inside every "
+                           "composite stratum on every eligible rung), so the "
+                           "residual is untested, not absent")
+DISCLOSURE_THIN_2J = ("fewer than three rungs survived the composite partition "
+                      "(realized eligible set), so the primary is THIN regardless "
+                      "of the power record")
 
 # ---------------------------------------------------------------- pins
 
@@ -256,9 +276,42 @@ def decomposition(counts, size_label, out, base, tables, rungs, *, n_perm, n_boo
             "beyond_single": single, "alone": alone, "composite_report": report}
 
 
+def _block_reading(r, bits_side, k, n_blocks, size_label, out, strata) -> dict:
+    """One rung's per-block within-stratum d's, over `n_blocks` blocks
+    of width `k` cut from `bits_side` — computed exactly as `t_only`
+    computes a per-rung d, but ONE rung at a time. A rung's d is
+    invariant to whether other rungs share the `t_only` call (Somers'
+    D and the degeneracy screen are both computed within a single rung,
+    with no cross-rung term), so this is bit-identical to what a joint
+    `t_only` call restricted to this rung would have produced — proven
+    for k=64 by `test_ladder_k64_matches_t_only_bit_for_bit`. A `None`
+    (degenerate/ineligible block) is dropped, not averaged in as zero
+    (fix round 1 / Finding 2: `n_blocks_used` counts only the finite
+    ones actually contributing to `mean`/`min`/`max`)."""
+    ds = []
+    for b in range(n_blocks):
+        cnt_r = fn.thinned_counts(bits_side, k, b)
+        d = t_only({r: cnt_r}, size_label, out, strata, (r,))["per_rung"].get(r)
+        if d is not None:
+            ds.append(d)
+    return {"mean": float(np.mean(ds)) if ds else None,
+            "min": min(ds) if ds else None, "max": max(ds) if ds else None,
+            "n_blocks_used": len(ds)}
+
+
 def a1_density(bits_a, bits_b, outcomes: dict, strata) -> dict:
     """outcomes = {label: (out, rungs, T_a64, T_b64)} — the two 64-draw
-    anchors are computed by the caller through `_run_test`."""
+    anchors are computed by the caller through `_run_test`.
+
+    fix round 1 / Finding 2: the matched and ladder readings are now
+    PER RUNG — each rung gets its own block count (`64 // k` on the
+    side being thinned, 1 at the full 64-draw count on the other) and
+    its own mean/min/max over its own blocks, then T is the mean of
+    the per-rung means. The prior version shared one `n_blocks =
+    min(...)` across every thinned rung, so a single large-k rung
+    (design §5.4's own table has odd6 k=57, sub3_mid k=40 — both give
+    `64 // k == 1`) collapsed every OTHER rung's reading to one block
+    too, discarding the spread §5.4 asks to be printed."""
     res = {}
     for label, (out, rungs, t_a64, t_b64) in outcomes.items():
         xa = {r: fn.counts_from_bits(bits_a[r]) for r in rungs}
@@ -270,54 +323,51 @@ def a1_density(bits_a, bits_b, outcomes: dict, strata) -> dict:
                            "zero_fraction_k": (fn.zero_fraction_k(bits_b[r], xa[r])
                                                if fn.mean_rate(xb[r]) > fn.mean_rate(xa[r])
                                                else fn.zero_fraction_k(bits_a[r], xb[r]))}
-        # matched reading: thin the denser predictor per rung, T per block
-        def thinned(side, use_zero_fraction=False):
-            # thin `side` on every rung where it is the denser predictor;
-            # a rung where the OTHER predictor is denser keeps `side`'s full
-            # 64-draw count (design §5.4: "the denser predictor is thinned").
-            # Block b runs over every thinned rung's b-th block; the block
-            # count is the smallest over the thinned rungs (1 if none is
-            # thinned, or for the zero-fraction sensitivity, which is block 0
-            # by definition).
-            thinned_rungs = [r for r in rungs if per_rung[r]["denser"] == side]
-            n_blocks = (1 if use_zero_fraction or not thinned_rungs
-                        else min(per_rung[r]["n_blocks"] for r in thinned_rungs))
-            Ts = []
-            for b in range(n_blocks):
-                cnt = {}
-                for r in rungs:
+
+        # matched reading: thin `side` on every rung where it is the
+        # denser predictor (design §5.4); a rung where the OTHER
+        # predictor is denser keeps `side`'s full 64-draw count — one
+        # block, k=64 (bit-identical to `thinned_counts(bits, 64, 0)`).
+        def matched(side, use_zero_fraction=False):
+            size_label = "A" if side == "A" else bi.SIZE_PRED
+            per_rung_out = {}
+            for r in rungs:
+                bits_side = bits_a[r] if side == "A" else bits_b[r]
+                if per_rung[r]["denser"] == side:
                     k = per_rung[r]["zero_fraction_k"] if use_zero_fraction else per_rung[r]["k"]
-                    if r in thinned_rungs:
-                        cnt[r] = fn.thinned_counts(bits_a[r] if side == "A" else bits_b[r], k, b)
-                    else:
-                        cnt[r] = (xa if side == "A" else xb)[r]
-                Ts.append(t_only(cnt, "A" if side == "A" else bi.SIZE_PRED, out, strata, rungs)["T"])
-            Ts = [t for t in Ts if t is not None]
-            return {"blocks": Ts, "mean": float(np.mean(Ts)) if Ts else None,
-                    "min": min(Ts) if Ts else None, "max": max(Ts) if Ts else None}
-        matched_b = thinned("B")
-        matched_a = thinned("A")
+                    n_blocks = 1 if use_zero_fraction else (64 // k)
+                else:
+                    k, n_blocks = 64, 1
+                per_rung_out[r] = _block_reading(r, bits_side, k, n_blocks, size_label,
+                                                 out, strata)
+            means = [v["mean"] for v in per_rung_out.values() if v["mean"] is not None]
+            return {"T": float(np.mean(means)) if means else None, "per_rung": per_rung_out}
+        matched_b = matched("B")
+        matched_a = matched("A")
         gap = None
-        if matched_b["mean"] is not None and t_b64 is not None and t_a64 is not None \
+        if matched_b["T"] is not None and t_b64 is not None and t_a64 is not None \
                 and t_b64 != t_a64:
-            gap = float((t_b64 - matched_b["mean"]) / (t_b64 - t_a64))
+            gap = float((t_b64 - matched_b["T"]) / (t_b64 - t_a64))
+
+        # ladder: BOTH sides thinned to every k in fn.LADDER over ALL
+        # `64 // k` blocks — the rate structure, not the matched
+        # reading (design §5.4). At k=64 this reduces, rung by rung,
+        # to exactly the joint `t_only` call's per-rung d.
         ladder = {}
         for k in fn.LADDER:
             row = {}
+            n_blocks = 64 // k
             for side, bits in (("A", bits_a), ("B", bits_b)):
-                Ts = []
-                for b in range(64 // k):
-                    cnt = {r: fn.thinned_counts(bits[r], k, b) for r in rungs}
-                    t = t_only(cnt, side if side == "A" else bi.SIZE_PRED, out, strata, rungs)["T"]
-                    if t is not None:
-                        Ts.append(t)
-                row[side] = {"mean": float(np.mean(Ts)) if Ts else None,
-                             "min": min(Ts) if Ts else None, "max": max(Ts) if Ts else None,
-                             "n_blocks": 64 // k}
+                size_label = "A" if side == "A" else bi.SIZE_PRED
+                per_rung_out = {r: _block_reading(r, bits[r], k, n_blocks, size_label,
+                                                  out, strata) for r in rungs}
+                means = [v["mean"] for v in per_rung_out.values() if v["mean"] is not None]
+                row[side] = {"T": float(np.mean(means)) if means else None,
+                             "per_rung": per_rung_out, "n_blocks": n_blocks}
             ladder[str(k)] = row
         res[label] = {"per_rung": per_rung, "anchors": {"x_A_64": t_a64, "x_B_64": t_b64},
                       "thinned_B_matched": matched_b, "thinned_A_matched": matched_a,
-                      "thinned_B_zero_fraction": thinned("B", True),
+                      "thinned_B_zero_fraction": matched("B", True),
                       "gap_fraction_closed": gap, "ladder": ladder}
     readings = [v["gap_fraction_closed"] for k, v in res.items() if k in ("2.8b", "6.9b")]
     if any(g is None for g in readings) or not readings:
@@ -338,27 +388,57 @@ def verdict_tree_2j(failures, primary, power) -> dict:
     if failures:
         return {"verdict": "INSUFFICIENT_DATA",
                 "reason": f"{len(failures)} referent/loader/gate failure(s): "
-                          f"{list(failures)[:5]}", "declared_status": None}
+                          f"{list(failures)[:5]}", "declared_status": None,
+                "disclosures": []}
     status = power["declared_status"]
     T, p = primary["stratified"]["T"], primary["stratified"]["p"]
     if primary["fires"]:
         return {"verdict": "RESIDUAL", "declared_status": status,
-                "reason": f"primary fires: T_beyond={an2i._fmt_T(T)}, p={p:.4g}; {status}"}
-    return {"verdict": "ABSORBED", "declared_status": status,
-            "reason": f"primary does not fire: T_beyond={an2i._fmt_T(T)}, p={p:.4g}"
-                      f"{'; ' + primary['named_inside'] if primary.get('named_inside') else ''}"
-                      f"; {status}"}
+                "reason": f"primary fires: T_beyond={an2i._fmt_T(T)}, p={p:.4g}; {status}",
+                "disclosures": []}
+    # fix round 1 / Finding 1: an undefined primary (2i's Ruling 18 —
+    # `_run_test` short-circuits before `primary_2i` is even called
+    # when every eligible rung is degenerate inside the COMPOSITE
+    # strata, exactly the construction that can leave x_B constant in
+    # every stratum) is not a positive null result, and a realized
+    # eligible set under three rungs is THIN regardless of what the
+    # power record (computed before the composite strata existed)
+    # declared. Both are disclosed on the reason string AND — via
+    # `_licensed` below — on the licensed sentence, 2i's I-4 standard.
+    disclosures = []
+    if an2i._is_undefined_2i(primary):
+        disclosures.append(DISCLOSURE_UNDEFINED_2J)
+    elif len(primary.get("eligible", [])) < 3:
+        disclosures.append(DISCLOSURE_THIN_2J)
+    reason = (f"primary does not fire: T_beyond={an2i._fmt_T(T)}, p={p:.4g}"
+             f"{'; ' + primary['named_inside'] if primary.get('named_inside') else ''}"
+             f"; {status}")
+    if disclosures:
+        reason = "; ".join([reason] + disclosures)
+    return {"verdict": "ABSORBED", "declared_status": status, "reason": reason,
+            "disclosures": disclosures}
 
 
 def _licensed(tree) -> str:
     if tree["verdict"] != "ABSORBED":
-        return LICENSED_2J[tree["verdict"]]
-    s = tree["declared_status"]
-    if s == "POWERED":
-        return LICENSED_2J["ABSORBED"]
-    if s == "THIN":
-        return LICENSED_2J["ABSORBED_THIN"]
-    return LICENSED_2J["ABSORBED_UNDERPOWERED"]
+        licensed = LICENSED_2J[tree["verdict"]]
+    else:
+        disclosures = tree.get("disclosures") or []
+        if DISCLOSURE_UNDEFINED_2J in disclosures:
+            licensed = LICENSED_2J["ABSORBED_UNDEFINED"]
+        elif DISCLOSURE_THIN_2J in disclosures:
+            licensed = LICENSED_2J["ABSORBED_THIN"]
+        else:
+            s = tree["declared_status"]
+            if s == "POWERED":
+                licensed = LICENSED_2J["ABSORBED"]
+            elif s == "THIN":
+                licensed = LICENSED_2J["ABSORBED_THIN"]
+            else:
+                licensed = LICENSED_2J["ABSORBED_UNDERPOWERED"]
+    if tree.get("disclosures"):
+        licensed = "; ".join([licensed] + list(tree["disclosures"]))
+    return licensed
 
 
 def _load_power_2j(root_2j, r_cap) -> dict:

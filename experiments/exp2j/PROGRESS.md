@@ -180,3 +180,57 @@ those modules is imported and used exactly as documented in the brief's
 Consumes list, confirmed against the real source (line numbers,
 signatures, and — for the pin literals and the label-source modules —
 actual file contents) before writing any call site.
+
+## 2026-08-28 — BUILD, Task 2 fix round 1
+
+Two Important findings closed on review; the rest deferred to the
+final review per the controller's instruction. Full `experiments/exp2j`
+suite after both fixes: 37 tests (33 + 4 new), all pass, 0 warnings,
+"37 passed in 3.09s".
+
+**Finding 1 (2i's I-4 standard, one experiment over).** An undefined
+primary — `_run_test` never calling `primary_2i` because every
+eligible rung is degenerate inside the COMPOSITE strata, exactly the
+construction that can leave x_B constant in every stratum — was
+landing ABSORBED with the full positive licence and no disclosure; and
+`ABSORBED_THIN` was read only off the power record's `declared_status`,
+never off the REALIZED eligible set (a power table fixed before the
+composite strata existed can say POWERED while the actual composite
+partition leaves fewer than three rungs). `verdict_tree_2j` now carries
+a `disclosures` list in every branch (mirroring
+`analyze_2i.py:797-806`/`:820-849`); `_licensed` reads it before
+falling back to `declared_status`, and joins any disclosure onto the
+chosen sentence with `"; "` (`analyze_2i.py:1588-1590`'s pattern). Two
+new module constants (`DISCLOSURE_UNDEFINED_2J`, `DISCLOSURE_THIN_2J`)
+and one new licence key (`LICENSED_2J["ABSORBED_UNDEFINED"]`, built
+through the same `_L`/`KNOWN_INPUTS_CAVEAT_2J` machinery as the rest,
+so the §2 disclosure suffix is automatic). The verdict stays ABSORBED
+in both cases — this is a disclosure fix, not a new world.
+
+**Finding 2 (design §5.4, per-rung spread).** A-1's matched reading
+took ONE shared `n_blocks = min(...)` across every rung thinned on a
+side; the design's own k table has rungs (e.g. odd6 k=57, sub3_mid
+k=40) where `64 // k == 1`, and any single such rung in the thinned
+set collapsed every OTHER rung's block count to 1 too — the per-rung
+spread §5.4 asks to be printed was unreachable whenever one difficult
+rung shared the call. Fixed by computing each rung's block readings
+independently: a new `_block_reading(r, bits_side, k, n_blocks,
+size_label, out, strata)` walks one rung's own blocks through
+`t_only({r: cnt}, ...)["per_rung"].get(r)` (a rung's d has no
+cross-rung term, so this is bit-identical to what a joint call
+restricted to that rung would give — proved for k=64 by a bit-exact
+test against `t_only` on the full counts). `thinned_B_matched`,
+`thinned_A_matched`, `thinned_B_zero_fraction` and every ladder cell
+now carry `{"T": <mean over rungs>, "per_rung": {r: {"mean", "min",
+"max", "n_blocks_used"}}}`; `n_blocks_used` is per rung (`64 // k_r` on
+the thinned side, `1` on the untouched side and on the zero-fraction
+sensitivity, one block at the full 64-draw count). `gap_fraction_closed`
+now reads `thinned_B_matched["T"]`. Covering toy in
+`test_analyze_2j.py` (`_a1_toy`, two rungs at deliberately different
+synthetic densities so their `k`s differ) exercises exactly the
+regression a shared block count would have shown — both rungs reporting
+the SAME `n_blocks_used` instead of `64 // k_r` each.
+
+Commit: "exp2j build: analyze_2j fix round 1 — undefined/THIN primary
+disclosed in reason + licence (2i's I-4 standard), A-1 per-rung block
+readings with spread (design §5.4)".

@@ -20,9 +20,19 @@ from experiments.exp2j import analyze_2j as an
 from experiments.exp2j import functionals_2j as fn
 
 
-def _prim(T, p, fires):
+def _prim(T, p, fires, eligible=("r1", "r2", "r3")):
     return {"stratified": {"T": T, "p": p, "n_perm": 10000, "n_ge": 0}, "fires": fires,
-            "named_inside": None}
+            "named_inside": None, "eligible": list(eligible)}
+
+
+def _undefined_prim():
+    """The shape `an2i._undefined_result_2i` actually returns (Ruling
+    18: `_run_test` short-circuits before `primary_2i` when every
+    eligible rung is degenerate inside the composite strata)."""
+    return {"stratified": {"T": None, "p": 1.0, "n_perm": 0, "n_ge": 0}, "fires": False,
+            "named_inside": ("undefined: every eligible rung degenerate (predictor "
+                             "constant inside every stratum)"),
+            "eligible": []}
 
 
 def _power(status):
@@ -36,6 +46,7 @@ def test_tree_worlds_and_declaration():
     assert v["verdict"] == "RESIDUAL"
     v = an.verdict_tree_2j([], _prim(0.05, 0.001, False), _power("POWERED"))
     assert v["verdict"] == "ABSORBED" and v["declared_status"] == "POWERED"
+    assert v["disclosures"] == []
     v = an.verdict_tree_2j([], _prim(0.05, 0.3, False),
                            _power("DECLARED UNDERPOWERED IN ADVANCE"))
     assert v["verdict"] == "ABSORBED"
@@ -44,8 +55,34 @@ def test_tree_worlds_and_declaration():
 
 
 def test_licensed_sentences_carry_the_disclosure():
+    assert "ABSORBED_UNDEFINED" in an.LICENSED_2J
     for k, s in an.LICENSED_2J.items():
         assert an.KNOWN_INPUTS_CAVEAT_2J in s, k
+
+
+def test_undefined_primary_absorbed_with_disclosure_not_full_licence():
+    """fix round 1 / Finding 1 (i): an undefined primary (2i's Ruling
+    18 shape) must not read as a positive ABSORBED result."""
+    v = an.verdict_tree_2j([], _undefined_prim(), _power("POWERED"))
+    assert v["verdict"] == "ABSORBED"
+    assert v["disclosures"] == [an.DISCLOSURE_UNDEFINED_2J]
+    assert "undefined" in v["reason"]
+    lic = an._licensed(v)
+    assert lic.startswith(an.LICENSED_2J["ABSORBED_UNDEFINED"])
+    assert an.DISCLOSURE_UNDEFINED_2J in lic
+
+
+def test_realized_thin_primary_absorbed_with_disclosure_regardless_of_power():
+    """fix round 1 / Finding 1 (ii): a REALIZED eligible set under
+    three rungs is THIN even when the power record (fixed before the
+    composite strata existed) declared POWERED."""
+    prim = _prim(0.05, 0.3, False, eligible=("a", "b"))
+    v = an.verdict_tree_2j([], prim, _power("POWERED"))
+    assert v["verdict"] == "ABSORBED"
+    assert v["disclosures"] == [an.DISCLOSURE_THIN_2J]
+    lic = an._licensed(v)
+    assert lic.startswith(an.LICENSED_2J["ABSORBED_THIN"])
+    assert an.DISCLOSURE_THIN_2J in lic
 
 
 def test_pins_extract_from_the_committed_records():
@@ -158,3 +195,78 @@ def test_run_refuses_when_the_manifest_is_not_pinned(tmp_path, monkeypatch):
                blobs_bound=lambda tag, paths, repo_root=None: [])
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert any("not pinned" in f for f in v["referents"]["failures"])
+
+
+# ---------------------------------------------------- fix round 1 / Finding 2
+
+def _a1_toy(seed=7, n=60, pa=0.15, pb=0.65):
+    """Two rungs, 60 items, 64 synthetic bits per item, B markedly
+    denser than A on both rungs (so `matched("B")` thins every rung and
+    `matched("A")` never does — the clean case the two n_blocks_used
+    assertions below are checking) and a three-level base stratum."""
+    rng = np.random.default_rng(seed)
+    rungs = ("r1", "r2")
+    strata = {r: {"strata": [str(i % 3) for i in range(n)]} for r in rungs}
+    bits_a, bits_b = {}, {}
+    for r in rungs:
+        bits_a[r] = [[int(v) for v in (rng.random(64) < pa)] for _ in range(n)]
+        bits_b[r] = [[int(v) for v in (rng.random(64) < pb)] for _ in range(n)]
+    out = {r: {"y": [int(v) for v in rng.integers(0, 21, n)], "n_pos": n} for r in rungs}
+    return bits_a, bits_b, out, strata, rungs
+
+
+def test_a1_density_per_rung_block_readings_and_gap():
+    bits_a, bits_b, out, strata, rungs = _a1_toy()
+    d = an.a1_density(bits_a, bits_b, {"toy": (out, rungs, 0.1, 0.3)}, strata)
+    o = d["outcomes"]["toy"]
+    assert set(o) == {"per_rung", "anchors", "thinned_B_matched", "thinned_A_matched",
+                      "thinned_B_zero_fraction", "gap_fraction_closed", "ladder"}
+    for key in ("thinned_B_matched", "thinned_A_matched", "thinned_B_zero_fraction"):
+        assert set(o[key]) == {"T", "per_rung"}
+        for r in rungs:
+            assert set(o[key]["per_rung"][r]) == {"mean", "min", "max", "n_blocks_used"}
+
+    # B is the denser predictor on both rungs at these synthetic rates
+    # (asserted, not assumed, so a future rng/parameter change fails
+    # loud rather than silently testing the wrong branch).
+    for r in rungs:
+        assert o["per_rung"][r]["denser"] == "B"
+
+    # the bug this finding fixed: each rung gets ITS OWN block count,
+    # not a shared min() across rungs — on the thinned side that's
+    # `64 // k` (which differs rung to rung), on the untouched side
+    # it's always 1 (the single full-64 "block").
+    for r in rungs:
+        k = o["per_rung"][r]["k"]
+        assert o["thinned_B_matched"]["per_rung"][r]["n_blocks_used"] == 64 // k
+        assert o["thinned_A_matched"]["per_rung"][r]["n_blocks_used"] == 1
+        assert o["thinned_B_zero_fraction"]["per_rung"][r]["n_blocks_used"] == 1
+
+    # gap_fraction_closed is computed from thinned_B_matched["T"] alone
+    # (hand-checkable arithmetic against literal, non-data-derived
+    # anchors — the anchors say nothing about what T actually is).
+    mb_T = o["thinned_B_matched"]["T"]
+    assert mb_T is not None
+    assert o["gap_fraction_closed"] == pytest.approx((0.3 - mb_T) / (0.3 - 0.1))
+
+
+def test_ladder_k64_matches_t_only_bit_for_bit():
+    """design §5.4's k=64 sanity: the ladder's own per-rung machinery,
+    at the coarsest block width, must reduce exactly to `t_only`'s
+    joint per-rung d — not merely a close numerical match."""
+    bits_a, bits_b, out, strata, rungs = _a1_toy()
+    d = an.a1_density(bits_a, bits_b, {"toy": (out, rungs, 0.1, 0.3)}, strata)
+    ladder64 = d["outcomes"]["toy"]["ladder"]["64"]
+    assert ladder64["A"]["n_blocks"] == 1 and ladder64["B"]["n_blocks"] == 1
+
+    x_b = {r: fn.counts_from_bits(bits_b[r]) for r in rungs}
+    want_b = an.t_only(x_b, bi.SIZE_PRED, out, strata, rungs)
+    assert ladder64["B"]["T"] == want_b["T"]
+    for r in rungs:
+        assert ladder64["B"]["per_rung"][r]["mean"] == want_b["per_rung"][r]
+
+    x_a = {r: fn.counts_from_bits(bits_a[r]) for r in rungs}
+    want_a = an.t_only(x_a, "A", out, strata, rungs)
+    assert ladder64["A"]["T"] == want_a["T"]
+    for r in rungs:
+        assert ladder64["A"]["per_rung"][r]["mean"] == want_a["per_rung"][r]
