@@ -34,7 +34,10 @@ from experiments.exp2j import functionals_2j as fn  # noqa: E402
 
 RESULTS = EXP2J / "results"
 REFERENTS_PATH_2J = EXP2J / "referents_2j.json"
-REFERENTS_2J_SHA256 = None      # pinned in Task 4 after make_referents_2j builds it
+# Task 4: pinned literally — make_referents_2j.build() on the real tree
+# (2,621 files under N_FILES_2J), rebuilt once more to confirm byte
+# idempotence (sorted keys, fixed indent) before this sha was taken.
+REFERENTS_2J_SHA256 = "fa56a6512230280f06fcf70ad30b22fea3dc63334c335b733617d61a7ef2e187"
 PREREG_TAG_2J = "exp2j-preregistered"
 INSTRUMENT_BLOBS_2J = ("experiments/exp2j/analyze_2j.py",
                        "experiments/exp2j/functionals_2j.py")
@@ -112,8 +115,10 @@ FROZEN_SHA256_2J = {
     bg.REPO / "experiments/exp2j/power_2j.py":
         "19b80593d091663183b7394b101ee5f97c832b5f0dd7dc4227c9b1107721ab1a",
     bg.REPO / "experiments/exp2j/make_referents_2j.py":
-        "98e88f3317d0812484803ded6189dc32953980686a286cd0d295d517d596e8c4",
-}   # Task 4: 26-file literal, pinned from disk
+        "ac4064ccc0e2a210c6eee720578f2b4c31846cf00d76668070adac5e9ebe1678",
+}   # Task 4: 26-file literal, pinned from disk. make_referents_2j.py's
+   # sha is the POST-Step-3 one (N_FILES_2J set) — the one file besides
+   # power_2j.py this step touches; power_2j.py's own entry is untouched.
 
 
 def check_frozen_2j() -> None:

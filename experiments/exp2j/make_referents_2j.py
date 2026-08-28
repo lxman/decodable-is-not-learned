@@ -24,7 +24,7 @@ from experiments.exp2i import battery_2i as bi  # noqa: E402
 from experiments.exp2i import make_referents_2i as mk2i  # noqa: E402
 
 REPO = bg.REPO
-N_FILES_2J = None   # discovered once by build() on the real tree, then pinned literally (Task 4)
+N_FILES_2J = 2621   # Task 4: pinned literally from build() on the real tree
 
 
 def referent_files() -> list:
