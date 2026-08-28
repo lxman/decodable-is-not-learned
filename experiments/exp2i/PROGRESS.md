@@ -1345,3 +1345,23 @@ state-aware by construction — null sha = 'must exist'). Referent
 battery cold after the edits: 11/11. Lesson for the checklist: a cold
 tool written before any stage exists must be run once AFTER each
 stage lands, not only at close-out.
+
+## 2026-08-28 — SWEEP COMPLETE (campaign model contact done); ANALYZER AWAITS MICHAEL'S GO
+
+`[2i sweep] olmo7b: complete` at ~08:35 after ~30.2 h wall from the
+2026-08-27 02:20 relaunch (per-step ≈ 62–67 min incl. ~5 min download;
+step896000 4,026 s). All 22 units on disk and complete — gate 1 +
+twin + 21 trained grid points × 34 records each, every record
+committed and pushed by the watcher as it landed (749 sweep files;
+zero unpushed at the end), `~/emergence-lab/ckpt_cache_2i` freed to
+0 B by the runner's per-step lifecycle. **Zero halts, zero attrition;
+one campaign stop (#1, gate-1 loader crash before any record —
+ledgered above, ratified, fixed test-first, re-tagged 105066c1).**
+Gate 1: bit_diffs 0, continuation_diffs 0, tensor digest and commit
+equal to the stage-2 endpoint records — the tenth consecutive
+byte-identical reproduction on this stack, the first on OLMo-2 and
+the first at 7B, through the candidate-file loader vs the thin
+loader. Watcher retired. NEXT: the analyzer ONCE on Michael's go
+(`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
+experiments.exp2i.analyze_2i`), VERDICT.txt, retrospective grading
+projection `5b000b7d`, tag `exp2i-closed`, close-out propagation.
