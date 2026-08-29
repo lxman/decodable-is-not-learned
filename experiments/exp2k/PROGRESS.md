@@ -242,6 +242,13 @@ literal before Task 5"): once every `FROZEN_FILES_2K` member exists
 same dict the verbatim version would have. This is the one deviation
 from the brief's literal Step 1 code; every other line is verbatim.
 
+**Correction (Task 5):** the description above is Task 2's point-in-time
+state. `frozen_from_disk` is now `frozen_from_disk(*, strict: bool =
+True)` — strict (raise on any missing path) BY DEFAULT; the `if
+p.is_file()` filter described above lives behind `strict=False`, used
+only by the pre-Task-5 tests that still monkeypatch a partial
+`FROZEN_SHA256_2K`. Task 5's own Step 1 pin uses the strict default.
+
 ### Test run
 
 RED (Step 3): `ImportError: cannot import name 'rehearse_2k' from
@@ -484,6 +491,34 @@ call site over, for the freeze (or Task 5) to close additively (wrap
 both `load_tier_2k(...)` calls in `collect_total("2k tier {size}", ...)`
 or similar, matching the pattern everywhere else in `run()`).
 
+**Closed (Task 5, follow-up 2):** both `load_tier_2k(...)` call sites
+in `run()`'s tier-loading block are now wrapped in `collect_total(...,
+f"2k tier {size} load")`. Restated precisely, since "unwrapped"
+overstated the exposure even before this fix: every RAISER reachable
+inside `load_tier_2k` itself was ALREADY either `collect_total`-wrapped
+(the record read, the rows read, `_gate`, `_bits`) or TOTAL over its
+inputs (`tier_record_failures_2k` never raises, only returns a list of
+strings) — the two plain dict lookups in the function body,
+`battery[rung]` and (inside `tier_record_failures_2k`, via
+`load_tier_2k`'s `committed_sha=bi.PYTHIA_PREDICTOR_FILES[(size,
+rung)]` argument) `bi.PYTHIA_PREDICTOR_FILES[(size, rung)]`, are keyed
+over R_CAP x SIZES_2K, a set `load_2i_tree`/2i's rung-set check and
+`bi`'s own committed pin table both hold complete for every design
+rung at both sizes — so neither lookup is a reachable `KeyError` on any
+tree the two upstream checks have already passed. The outer wrap is
+therefore defence in depth against a FUTURE change to `load_tier_2k`'s
+body reopening a raiser at this call site, not a fix for a reachable
+crash today; `test_load_tier_2k_forced_exception_now_lands_gracefully`
+replaces the "known gap" test, confirming the wrap is live regardless.
+`test_totality_2k.py`'s own `_gate`, one level in: the "gate 1
+coverage" arm (`if len(rows) != bk.N_ITEMS or len(committed) !=
+bk.N_ITEMS: raise ValueError(...)`) is likewise DEAD DEFENSIVE CODE on
+any tree reaching `_gate` — `rows` comes from `bk.read_rows_2k`, which
+already refuses (`"... coverage incomplete"`) unless it sees exactly
+`n_items` distinct items 0..n_items-1, and `committed` comes from 2d's
+own equally coverage-pinned reader; kept as belt-and-suspenders, not
+because either side can arrive short.
+
 ### Step 6: W3 ("structured") tuning
 
 `STRUCTURED_STRENGTH` scales the same density mechanism as W1 (`q_i =
@@ -524,7 +559,8 @@ merely a fast-scan reading.
   functions): 5 passed, ~409 s.
 - `experiments/exp2k/tests/test_totality_2k.py` (one representative
   upstream 2i-tree shape + every shape new to 2k's own readers + the
-  forced-exception injection sites + the control, 32 test functions):
+  forced-exception injection sites + the control, 31 test functions —
+  corrected from the "32" originally recorded here):
   31 passed after one fix (see below), ~252 s.
   - One totality test needed a needle correction after the first
     run: `test_tier_record_is_a_directory` expected the "record read"
@@ -553,3 +589,318 @@ Zero model contact end to end (the seal/power tests and the worlds
 build synthetic trees and re-derive from committed bytes only; no
 `torch`/`transformers` import, no network call, anywhere in the seven
 new files).
+
+---
+
+## Task 5: the real-tree closure — frozen literals, the import-surface
+## pin, the pre-campaign manifest, the mutation harness, the read
+## sweep
+
+### The three literals
+
+`FROZEN_SHA256_2K` pinned from `frozen_from_disk()` (strict): **36
+modules** — 26 inherited from `an2j.FROZEN_SHA256_2J` + 10 new to 2k
+(2j's two tag-bound blobs `analyze_2j.py`/`functionals_2j.py`, the
+three sampler-side modules `rederive_3d.py`/`run_cell.py`/
+`sample_2i.py`, 2b's `models.py`, and 2k's own four artifact writers
+`power_2k.py`/`make_referents_2k.py`/`run/seal_2k.py`/
+`run/campaign_2k.py`). The brief's own count estimate ("38") was
+`wc -l` on the printed JSON, not the entry count; the real count is 36,
+stated and used throughout.
+
+`IMPORTED_SHA256_2K` pinned from `tests/import_scan_2k.py`: **32
+modules**. The first scan (a bare pre-campaign `an.run()` plus
+importing every 2k stage tool) found 28 — matching the brief's
+estimate minus the sampler-side gap it also flagged: 2k's own
+`__init__.py`s, `run/rehearse_2k.py`, `verify_referents_2k.py`,
+`exp2j/__init__.py`, `exp3/__init__.py` + `analyze_3.py`,
+`exp3c/__init__.py`, and the 2c-battery chain 2i's tree already
+imports. Missing: `battery_2k.diff_seed0` LAZILY imports
+`experiments.exp3d.rederive_3d.diff_seed` (gate-1 re-derivation),
+invisible to a plain pre-campaign run since every rung fails "record
+or draws file missing" before `_gate()` ever calls it, and invisible
+to a bare `import experiments.exp2k.run.tier_2k` since the RUNNER's
+own gate-1 is a separate inline comparison that never imports
+`rederive_3d`. `rederive_3d.py` itself is in `FROZEN_FILES_2K`, but
+its own module-level import of `analyze_3d.py` (which imports
+`functional_3d.py`/`rank_test_3d.py`) was not previously pinned
+anywhere. Confirmed by direct dependency read (`analyze_3d.py`'s other
+imports — `exp3.analyze_3`, `exp3.sampler`, `exp3c.analyze_3c` — are
+already frozen) and reproduced by the whole-suite `test_seal_2k.py`
+run, which builds a real tier and genuinely imports this chain: the
+scan script now explicitly `import experiments.exp3d.rederive_3d` to
+capture it without needing real tier data or model contact. Final: 28
++ `exp3d/__init__.py` + `analyze_3d.py` + `functional_3d.py` +
+`rank_test_3d.py` = 32.
+
+`REFERENTS_2K_SHA256` / `N_FILES_2K`: **2649 files**,
+`f00dfe78fb2cc2e4886a51366b03c97fb15814f21c8fc23cacdf0c1818a9e937`,
+byte-idempotent (built twice, same sha). `make_referents_2k.build`'s
+default flipped to `with_campaign=False` (the manifest decision
+already ruled): 2j's 2,621-file list + 2j's verdict/`analyze_2j.py`/
+`functionals_2j.py` + `power_2k.py`/`run/seal_2k.py` + the five stream
+maps + 2d's 36 main-tier record+draws files (18 overlap with 2j's own
+list — 2j already reads 2d's main-tier draws directly — so 2621 + 46
+extras − 18 overlap = 2649, confirmed by direct set intersection, not
+just arithmetic). `--with-campaign` stays for a descriptive
+post-campaign listing nothing in the pipeline consumes.
+
+A `bg.load_battery`/re-pin correction along the way: setting
+`N_FILES_2K` in Step 3 edits `make_referents_2k.py`, one of
+`FROZEN_FILES_2K`'s own members — `FROZEN_SHA256_2K` was re-derived
+and re-pinned a second time (only that one file's hash moved, verified
+by diffing the two literals key-by-key) after this edit, per the
+brief's own contingency ("must not change without re-pinning").
+
+### The bypasses
+
+`full_shape.py`: `_TAG_OK` no longer carries `frozen_check`;
+`write_world_2k`'s return no longer carries it either; `run_world` no
+longer passes `imports_pinned=False`. All three now run for real in
+every world, the seal, and the power tool. Re-run after dropping them:
+`test_full_shape_2k.py` 13/13 worlds still reach their terminal (410s);
+`test_totality_2k.py` unaffected by this change directly but re-run
+throughout as tests were added (see below).
+
+### Six follow-ups from the Task 4 review
+
+1. PROGRESS.md corrections applied in place: the `load_tier_2k`
+   exposure restated precisely (every raiser inside is
+   `collect_total`-wrapped or total; the two dict lookups are over
+   sets proven complete for R_CAP x both sizes — defence in depth, not
+   a reachable crash) with the outer wrap now CLOSED (not just
+   proposed); `_gate`'s "gate 1 coverage" arm declared dead defensive
+   code (`read_rows_2k` already pins coverage); "32 test functions" ->
+   "31" for `test_totality_2k.py`; `frozen_from_disk`'s stale
+   Task-2-era description refreshed (strict by default now).
+2. `analyze_2k.py` `run()`: both `load_tier_2k(...)` calls wrapped in
+   `collect_total(..., f"2k tier {size} load")`; unpacked with
+   `f3, c = result if result is not None else ([], {})`. Label prefix
+   "2k tier " collides at the crude (pre-`{`) level with the existing
+   per-rung labels by construction (2j's own precedent: identical
+   reduced prefixes are skipped by the disjointness test's `a != b`
+   guard) — `test_collect_total_labels_are_prefix_disjoint_and_
+   disjoint_from_2i_2j` still passes; the FULL rendered labels never
+   collide (`"2k tier 1b load"` vs `"2k tier 1b/antonym record read"`).
+3. `full_shape.py` W10: `pin_a`/`pin_a410` now captured BEFORE the
+   `wrong_pin` mutation, so the world passes the honestly re-derived
+   literal and only the on-disk `verdict.json` is corrupted; needle
+   `"comparison gate 2k A"` still holds (now via `re-derived != on-disk`
+   rather than coincidentally-equal wrong values on both sides).
+4. `full_shape.py`: dropped the dead `shutil` and `analyze_2d as a2d`
+   imports (grep-confirmed unused).
+5. `power_2k.py`: a missing seal now raises
+   `RuntimeError(f"refusing: {seal_p} missing — run seal_2k first")`
+   instead of a bare `FileNotFoundError`; `test_power_2k.py`'s
+   missing-seal test matches `RuntimeError` alone.
+6. `analyze_2k.py`: `T_BAR` checked, NOT removed — `verify_referents_2k
+   .py` references `an.T_BAR` directly (five call sites), so it is
+   live, not dead; `s1_blocks`'s `"per_rung"` dict comprehension:
+   `range(4)` -> `range(len(bk.SEEDS_2K))`.
+
+### The mutation harness
+
+`tests/mutation_check.py`, 2j's shape: **83 mutants total** (43
+hand-picked — 15 in `battery_2k.py`, 6 in `run/tier_2k.py`, 22 in
+`analyze_2k.py` — plus 40 AST-generated via 2i's `_totality_mutants`
+over every `collect_total(...)` call site in `analyze_2k.py`, which
+has three such functions — `load_2i_tree`, `load_tier_2k`, `run()` —
+not one). **82/82 real mutants killed; 1 documented equivalent.**
+
+**Equivalent (not a gap): `matched_k_256`'s cap condition `>=` -> `>`.**
+At the EXACT tie `256*rate_a64 == 64*rate_b64` (the only point where
+the two operators diverge), the fall-through branch computes
+`k = floor(64.0 + 0.5) = 64`, `min(64, max(1, 64)) = 64`,
+`capped = (64 == 64) = True`, `n_blocks = 64 // 64 = 1` — algebraically
+identical to the early return's hardcoded `{"k": 64, "capped": True,
+"n_blocks": 1}` for ANY `(rate_a64, rate_b64)` satisfying the tie, not
+merely the four numeric pairs checked (0.25/1.0, 0.025/0.1, 0.5/2.0,
+0.001/0.004, all confirmed byte-identical). Same lineage as 2j's
+`matched_k` upper-clip precedent, one experiment over, same function
+family.
+
+**Fixture gaps closed with a new fast test (preferred route, per the
+ruling), 10 hand-picked mutants:**
+- `read_rows_2k`'s `dps` floor (a stream ONE DRAW LONGER than 64 now
+  refused): new parametrize case, `test_read_rows_2k_refusals`.
+- `bits_2k`'s seed order: `_rows()`'s existing fixture is seed-symmetric
+  by construction (every seed carries the identical i-correct pattern),
+  so a reversed seed order was invisible to it; new
+  `test_bits_2k_preserves_seed_order` (seed 0 all-correct, seeds 1-3
+  all-wrong, asserts the first 64 bits are the all-correct block).
+- `tier_record_failures_2k`'s `items_compared` floor (a value ABOVE
+  `N_ITEMS` now refused): new parametrize case,
+  `test_tier_record_failures`.
+- `check_seed_freshness`'s seed-0 assertion, isolated from the
+  seeds-1-3 assertion via a `stream_collisions` monkeypatch returning
+  `[]` unconditionally: new
+  `test_check_seed_freshness_refuses_when_seed_0_is_not_2ds_main_tier`.
+- `run_rung`'s model_sha refusal: the committed record's OWN
+  `model_sha` field equals 2b's real pin on every real committed cell,
+  so a wrong `model_ctx` sha is ALWAYS also caught by the second,
+  later refusal (`crec.get("model_sha") != model_sha`) regardless of
+  the first — the two checks are behaviorally redundant on real data.
+  Isolated by monkeypatching `bk.pythia_sha` to a fake value while
+  passing the REAL committed model_sha as `model_ctx`'s sha: new
+  `test_run_rung_refuses_against_2bs_pin_even_when_it_matches_the_
+  committed_record`.
+- `run_rung`'s per-item coverage diff: a seed-0 stream one draw SHORT
+  whose matching prefix is byte-identical defeats the per-draw `g != w`
+  comparison alone (`zip` stops at the shorter side) — only the
+  explicit length check catches it. New
+  `test_gate1_catches_a_short_draw_list_even_when_the_matching_
+  prefix_agrees`.
+- `verdict_tree_2k`'s annotation boundary (`p < ALPHA` -> `p < 0.05`,
+  ALPHA = 0.01, not 0.05 — a real gap, not a rounding artifact): new
+  `test_tree_annotation_boundary_is_alpha_not_a_looser_literal`
+  (p = 0.03, between the two bars).
+- `_licensed`'s POWERED branch: no fast test previously asserted the
+  plain-POWERED NOT-DENSITY licence distinct from the
+  DECLARED-UNDERPOWERED one; extended
+  `test_licensed_sentences_carry_the_caveat_and_the_status`.
+- `placement_on_ladder`'s log2 interpolation: the existing test only
+  bracketed the interior case (`8 < k_equivalent < 16`), which a
+  LINEAR interpolation also satisfies; extended
+  `test_placement_on_ladder_interpolates_in_log_k` with the exact log2
+  value AND a `!=` against the linear one.
+- `s3_matched`'s `n_blocks` (hardcoded to 1 would silently pass the
+  existing test, since `per[r]["n_blocks"]` reads `matched_k_256`'s
+  OWN dict, unaffected by what gets PASSED to `_block_reading`):
+  extended `test_s3_matched_thins_b_to_matched_k_and_caps` with
+  `n_blocks_used == n_blocks > 1` (the real fixture's k=1/n_blocks=64
+  reproducibly gives `n_blocks_used == 64`; a hardcoded 1 caps
+  `n_blocks_used` at 1).
+
+**`load_2i_tree` exercised directly on the REAL committed `bi.EXP2I`
+tree (2.85s, zero failures on the control), closing 22 of the
+AST-generated survivors as fast tests instead of a ~250s/mutant
+totality confirmation** — a parametrized
+`test_load_2i_tree_collect_total_sites_land_gracefully` (20 cases) plus
+three standalone tests for shapes the parametrize form can't express:
+the frozen-imports loop (one `collect_total` site executed four times,
+`test_load_2i_tree_frozen_imports_loop_forced_exception`), the strata
+double-call (`sg.check_strata_pins` is ALSO called internally by
+`pr.load_predictor` — a blanket monkeypatch breaks the upstream call
+first and never reaches the target; closed with a call-counting
+wrapper letting the first call through,
+`test_load_2i_tree_strata_pins_direct_call_forced_exception`), and
+`outcomes_7b` (guarded by `if not failures:`, so it must run with
+nothing else broken, `test_load_2i_tree_outcomes_7b_forced_exception`).
+Plus a control, `test_load_2i_tree_clean_on_the_real_committed_tree`.
+
+**`load_tier_2k` exercised directly on one real committed cell
+(`_tier_fixture`, ~1s)**, closing 6 more: record read torn, rows read
+torn, `_gate` forced exception, `_bits` forced exception, a REAL
+seed-0 diff (isolates the `if diffs: raise` line itself, not just
+`diff_seed0` raising), and a wrong `committed_draws_sha256` in the
+record (isolates `committed_sha=` actually being passed through).
+
+**`run()` exercised directly on an empty root (~1s each)**, closing 3
+more: `check_frozen_2k` forced exception, `require_prereg_2k` forced
+exception, `mkr.check_referents` forced exception (needs
+`referents_sha` set to the real pin, since every other test defaults
+it to `False`).
+
+**Totality confirmation (`test_totality_2k.py` alone, ~250-280s per
+run), 16 mutants genuinely require it** — the 9 hand-picked ones the
+brief itself labeled "world/totality only" or that reduce to it
+(#26/#27 `load_tier_2k`'s draws_compared/tallies checks — later
+upgraded to fast, see above — #29-32 `seal_failures_2k`'s four
+sub-checks, #35-37 the comparison/block gates) plus 7 more
+AST-generated sites whose guard conditions require a full, successful
+pipeline (`check_imports_2k` entry AND exit, `seal_failures_2k`'s own
+wrapper, `_cmp`, `_core`, the outer `load_tier_2k` wrap, the `_sec`
+secondary-statistic loop). Two new totality tests were needed beyond
+what already existed:
+- `test_seal_counts_altered` (mutant #29): no existing test isolated
+  the plain 256-draw `counts` check from `counts_by_k` — the world
+  builder's `missing="seal_counts"` corruption always touches BOTH
+  (Ruling 5), so `counts_by_k`'s OWN check alone was enough to fail
+  the world regardless of #29's state. New test corrupts `counts`
+  only.
+- `test_import_surface_exit_failure` (mutant #79): the existing
+  `test_import_surface_entry_failure` monkeypatches
+  `check_imports_2k` globally, which fails ENTRY first and never
+  reaches EXIT (both calls share the same module-level name). Closed
+  with a call-counting wrapper, same pattern as the strata double-call
+  above.
+- `test_comparison_gate_x64_vs_2d_mismatch_detected` /
+  `test_comparison_gate_per_rung_d_mismatch_detected` (mutants #35/36):
+  gate 1 GUARANTEES x_A^(64) equals 2d's committed count on every
+  world this file builds (seed 0 is always the real committed row),
+  so neither loop has anything to catch on any EXISTING world
+  corruption — confirmed empirically (both survived a dedicated
+  `--totality` run before these tests existed). Closed by
+  monkeypatching `bi.sampler_counts_pythia` directly (x64-vs-2d) and
+  by corrupting v2i's per-rung `d` WITHOUT touching `stratified.T`
+  (isolating the per-rung loop from the T-value check that runs
+  first).
+- `test_comparison_gate_forced_exception` (mutant #77): points
+  `verdict_2i_path` at a nonexistent file so `_cmp()`'s first read
+  raises before any bad-entry logic runs.
+
+**A process hazard, recorded so it is not repeated:** two
+`mutation_check.py` invocations were run concurrently early in this
+task (a background `--totality` batch racing a foreground `--only`
+run), both targeting `analyze_2k.py` by path. One crashed
+(`FileNotFoundError` on its own `.mutation_backup` — the other
+process's restore-then-delete cycle raced it) leaving TWO stripped
+`collect_total` sites in the live file (`a2d.load_verify` — caught
+immediately via a leftover `.mutation_backup`; `bg.load_battery` —
+NOT caught by that restore, since the backup itself already carried
+the corruption, and silently changed `_totality_mutants`'s own count
+from 83 to 82 until noticed). Found by diffing the mutant count
+across two fresh imports and confirmed by `git diff` showing the
+`((bg.load_battery)(), [])` stripped form in the tracked file; fixed
+by hand-restoring the one line and re-verifying `git diff --stat` plus
+the fast suite. **Rule going forward, applied for the rest of this
+task: never run two `mutation_check.py` processes concurrently** —
+`--totality`/`--fullshape` confirmation runs and any `--only` run
+against the same three files are strictly sequential, one at a time,
+each verified clean (`git diff --stat`, no `*.mutation_backup`) before
+the next starts.
+
+### The read sweep
+
+`tests/read_sweep_2k.py`, 2j's shape, run on the real pre-campaign
+tree: **4389 distinct paths, 10079 total open/read calls.**
+`referents_2k.json` 2650 (2649 manifest files + the manifest pinning
+itself), `frozen_module` 50 (36 `FROZEN_SHA256_2K` + 14 upstream
+`FROZEN_IMPORT_SHA256_2G`), `instrument_blob` 3, `sha_pin_at_load` 2
+(`checkpoints_2g.json`/`checkpoints_2h.json` — read inside
+`load_pythia_outcomes`, sha-pinned by the LOADER against a literal
+baked into `analyze_2g.py`/`analyze_2h.py`, both frozen — 2j's own
+`read_sweep_2j.py` finding, one experiment over, not newly discovered
+here), `seal_bound_campaign_absent` 1 (only `bk.seal_path` is
+UNCONDITIONALLY attempted pre-`load_power_2k`'s guard; the 36 tier
+record/draws paths are never opened at all — `load_tier_2k` checks
+`.is_file()` first, which does not go through the wrapped `open()`,
+so a missing file never becomes a read attempt), `python_stdlib_venv`
+1683. **(e) unpinned: 0 — clean.** The re-run-after-the-seal-tag half
+of the brief's instruction does not apply yet: no campaign has run,
+so there is no seal tag to re-run after; left for whoever runs the
+campaign.
+
+### Design doc §2 disclosure
+
+`experiment-2k-design.md`'s pre-tag disclosure paragraph updated: the
+import scan and the read sweep each ran `analyze_2k.run()` once on the
+real, pre-campaign tree; both landed INSUFFICIENT_DATA on the missing
+2k tier before reaching a primary; neither printed a T.
+
+### Final numbers
+
+- `FROZEN_SHA256_2K`: 36 modules.
+- `IMPORTED_SHA256_2K`: 32 modules.
+- Pre-campaign manifest: 2649 files,
+  `f00dfe78fb2cc2e4886a51366b03c97fb15814f21c8fc23cacdf0c1818a9e937`.
+- Mutation: 83/83 mutants accounted for — 82 real, all killed (66 by
+  the fast suite alone, 16 more via targeted totality confirmation);
+  1 documented equivalent.
+- Read sweep: 4389 distinct paths, 0 unpinned.
+- Cold battery: 12/12.
+- Whole-directory suite (`experiments/exp2k/tests`, all nine test
+  files): 157 passed, 1 skipped (the pre-Task-5
+  `frozen_from_disk(strict=False)` test, now naturally skipped since
+  every `FROZEN_FILES_2K` member is on disk) — 158 collected, up from
+  111 at the start of this task.

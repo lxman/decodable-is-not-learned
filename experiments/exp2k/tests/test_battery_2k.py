@@ -91,6 +91,7 @@ def test_read_rows_2k_accepts_the_4_seed_shape_and_sorts(tmp_path):
     (lambda rows: rows[0]["draws"].__setitem__("9", rows[0]["draws"]["0"]), "seed streams"),
     (lambda rows: rows[1]["draws"]["2"].pop(), "draws against draws_per_seed"),
     (lambda rows: rows[1]["draws"]["2"].__setitem__(0, 5), "draws against draws_per_seed"),
+    (lambda rows: rows[1]["draws"]["2"].append(" zzz"), "draws against draws_per_seed"),
     (lambda rows: rows.pop(), "coverage incomplete"),
     (lambda rows: rows.append(dict(rows[0])), "bad or duplicate item"),
 ])
@@ -124,6 +125,18 @@ def test_bits_2k_refuses_incomplete_coverage():
     rows, cap = _rows(), _cap()
     with pytest.raises(ValueError, match="coverage"):
         bk.bits_2k(rows[:3], cap, _verify)
+
+
+def test_bits_2k_preserves_seed_order():
+    # seed 0 all-correct, seeds 1-3 all-wrong: a seed-order bug would move
+    # the correct block out of the first 64 bits counts_at_k(64) reads.
+    cap = _cap(n_items=1)
+    row = {"item": 0, "draws": {"0": [" 7"] * 64, "1": [" x"] * 64,
+                                "2": [" x"] * 64, "3": [" x"] * 64}}
+    bits = bk.bits_2k([row], cap, _verify)
+    assert bk.counts_at_k(bits, 64) == [64]
+    assert bk.counts_at_k(bits, 256) == [64]
+    assert bits[0][:64] == [1] * 64 and bits[0][64:] == [0] * 192
 
 
 def test_committed_by_item_and_diff_seed0():
@@ -181,6 +194,9 @@ def test_tier_record_round_trips_through_its_checker():
     ({"mode": "untrained"}, "mode"),
     ({"n_items": 499}, "n_items"),
     ({"gate1": {"seed": 0, "on_production_path": True, "items_compared": 499,
+                "draws_compared": 500 * 64, "n_diffs": 0, "committed_draws_sha256": "C" * 64,
+                "committed_record_sha256": "R" * 64}}, "items_compared"),
+    ({"gate1": {"seed": 0, "on_production_path": True, "items_compared": 501,
                 "draws_compared": 500 * 64, "n_diffs": 0, "committed_draws_sha256": "C" * 64,
                 "committed_record_sha256": "R" * 64}}, "items_compared"),
     ({"gate1": {"seed": 0, "on_production_path": True, "items_compared": 500,
@@ -247,6 +263,15 @@ def test_stream_collisions_on_the_committed_maps():
 def test_check_seed_freshness_refuses_a_reversal_rung():
     with pytest.raises(ValueError, match="collide"):
         bk.check_seed_freshness(("reverse_string",))
+
+
+def test_check_seed_freshness_refuses_when_seed_0_is_not_2ds_main_tier(monkeypatch):
+    # seeds 1-3 collide with nothing (clean), but seed 0 ALSO collides
+    # with nothing — isolates the seed-0-must-be-2d's-main-tier assertion
+    # from the seeds-1-3-must-be-fresh assertion.
+    monkeypatch.setattr(bk, "stream_collisions", lambda rung, size, seeds, mode=bk.MODE: [])
+    with pytest.raises(ValueError, match="is not 2d's main tier"):
+        bk.check_seed_freshness(("antonym",), sizes=("1b",))
 
 
 def test_committed_rows_are_2d_main_seed0():

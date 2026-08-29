@@ -11,19 +11,17 @@ Each `_insufficient` case asserts `v["verdict"] == "INSUFFICIENT_DATA"`
 and the needle in `v["referents"]["failures"]` (the FULL list — not
 `v["reason"]`, which prints only the first five), and never raises.
 
-One documented exception to "never raises": `load_tier_2k`'s two
-per-size calls at the top of `run()`'s tier-loading block (`analyze_2k.
-py`, the "the 2k tiers, the seal, the power record" section) are NOT
-wrapped in `collect_total`, unlike every other loader/statistic in this
-file. Confirmed empirically before writing this suite: a monkeypatched
-`load_tier_2k` that always raises propagates straight out of `run()`.
-This is a genuine gap left by Task 3, out of scope for Task 4 (whose
-brief restricts every edit to `analyze_2k.py` to the one `frozen_check`
-change — Ruling 3); `test_load_tier_2k_forced_exception_is_a_known_gap`
-documents the CURRENT (crashing) behaviour with `pytest.raises` rather
-than silently dropping the shape or pretending it is graceful. Ledgered
-in PROGRESS.md as a finding for the freeze to close additively (2d F-1
-/ 2i F-1 / 2j F-1's lineage, one call site over)."""
+Task 3 left `load_tier_2k`'s two per-size calls at the top of `run()`'s
+tier-loading block (`analyze_2k.py`, the "the 2k tiers, the seal, the
+power record" section) NOT wrapped in `collect_total`, unlike every
+other loader/statistic in this file — Task 4's brief restricted every
+edit to `analyze_2k.py` to the one `frozen_check` change (Ruling 3), so
+the gap stood, ledgered in PROGRESS.md as defence-in-depth for Task 5
+to close. Task 5 follow-up 2 wrapped both call sites in
+`collect_total("2k tier {size} load", ...)`;
+`test_load_tier_2k_forced_exception_now_lands_gracefully` replaces the
+former `..._is_a_known_gap` test, asserting the closed (graceful)
+behaviour like every other case in this file."""
 from __future__ import annotations
 
 import json
@@ -226,6 +224,19 @@ def test_seal_sampling_block_altered(world):
     _insufficient(root, seal, "sampling block")
 
 
+def test_seal_counts_altered(world):
+    root, seal = world
+    p = bk.seal_path(root)
+    rec = json.loads(p.read_text())
+    lst = list(rec["counts"]["1b"]["antonym"])
+    lst[0] += 1
+    rec["counts"] = dict(rec["counts"])
+    rec["counts"]["1b"] = dict(rec["counts"]["1b"])
+    rec["counts"]["1b"]["antonym"] = lst
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "2k seal: counts[")
+
+
 def test_seal_file_sha_altered(world):
     root, seal = world
     p = bk.seal_path(root)
@@ -326,16 +337,35 @@ def test_import_surface_entry_failure(world, monkeypatch):
     assert any("2k import surface (entry)" in f for f in v["referents"]["failures"])
 
 
-def test_load_tier_2k_forced_exception_is_a_known_gap(world, monkeypatch):
-    """See the module docstring: `load_tier_2k`'s call sites in `run()`
-    are not `collect_total`-wrapped, so a forced exception here escapes
-    `run()` uncaught rather than landing on INSUFFICIENT_DATA. This test
-    documents the current behaviour rather than asserting the brief's
-    literal (ungraceful) expectation."""
+def test_import_surface_exit_failure(world, monkeypatch):
+    # check_imports_2k runs TWICE in run() (entry, then exit after core is
+    # computed) through the SAME module-level name — a blanket monkeypatch
+    # would fail entry first and never reach exit, so this lets the first
+    # call through and breaks only the second.
+    root, seal = world
+    orig = an.check_imports_2k
+    calls = {"n": 0}
+
+    def wrapped():
+        calls["n"] += 1
+        if calls["n"] >= 2:
+            raise ValueError("injected for a Task 5 totality test")
+        return orig()
+
+    monkeypatch.setattr(an, "check_imports_2k", wrapped)
+    v = _run(root, seal, imports_pinned=True)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert any("2k import surface (exit)" in f for f in v["referents"]["failures"])
+
+
+def test_load_tier_2k_forced_exception_now_lands_gracefully(world, monkeypatch):
+    """Task 5 follow-up 2 closed the gap the module docstring describes:
+    both per-size `load_tier_2k(...)` calls in `run()` are now
+    `collect_total`-wrapped, so a forced exception lands
+    INSUFFICIENT_DATA instead of escaping uncaught."""
     root, seal = world
     monkeypatch.setattr(an, "load_tier_2k", _raise_injected)
-    with pytest.raises(ValueError, match="injected"):
-        _run(root, seal)
+    _insufficient(root, seal, "2k tier 1b load")
 
 
 def test_seal_failures_2k_forced_exception(world, monkeypatch):
@@ -377,6 +407,51 @@ def test_secondary_forced_exception_leaves_the_verdict_standing(world, monkeypat
     assert v["verdict"] == "DENSITY", v["reason"]
     assert v["secondaries"]["S1 block replication 1b"]["failed"]
     assert any("S1 block replication 1b" in f for f in v["secondaries"]["failures"])
+
+
+def test_comparison_gate_x64_vs_2d_mismatch_detected(world, monkeypatch):
+    # gate 1 GUARANTEES x_A^(64) equals 2d's own committed count on every
+    # world this file builds (seed 0 is always the real committed row),
+    # so this loop never has anything to catch there — perturbing 2d's
+    # SEPARATE cached count directly is the only way to exercise it.
+    root, seal = world
+    real = bi.sampler_counts_pythia
+
+    def wrong(size, rungs):
+        out = dict(real(size, rungs))
+        r = next(iter(out))
+        out[r] = [v + 1 for v in out[r]]
+        return out
+
+    monkeypatch.setattr(bi, "sampler_counts_pythia", wrong)
+    v = _run(root, seal)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert any("comparison gate 2k counts" in f for f in v["referents"]["failures"])
+
+
+def test_comparison_gate_per_rung_d_mismatch_detected(world):
+    # corrupts ONE rung's on-disk per-rung d WITHOUT touching stratified.T,
+    # so the earlier "comparison gate 2k A64" T check passes and only the
+    # per-rung loop can catch it.
+    root, seal = world
+    vpath = root / "results" / "verdict.json"
+    v2i = json.loads(vpath.read_text())
+    r = next(iter(v2i["tests"]["A"]["per_rung"]))
+    v2i["tests"]["A"]["per_rung"][r]["d"] = (v2i["tests"]["A"]["per_rung"][r]["d"] or 0.0) + 100.0
+    vpath.write_text(json.dumps(v2i))
+    v = _run(root, seal)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert any("comparison gate 2k A per-rung" in f for f in v["referents"]["failures"])
+
+
+def test_comparison_gate_forced_exception(world, tmp_path):
+    # _cmp's first read is v2i (verdict_2i_path); pointing it at a
+    # nonexistent file raises before any bad-entry logic runs, isolating
+    # whether _cmp AS A WHOLE is collect_total-wrapped.
+    root, seal = world
+    v = _run(root, seal, verdict_2i_path=tmp_path / "nonexistent_verdict.json")
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert any("2k comparison gate re-derivation" in f for f in v["referents"]["failures"])
 
 
 # ------------------------------------------------------------- control

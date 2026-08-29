@@ -16,11 +16,16 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from experiments.exp2d import analyze_2d as a2d
+from experiments.exp2d import battery_2d as bt
 from experiments.exp2g import battery_2g as bg
+from experiments.exp2g import predictor_2g as pr
 from experiments.exp2g import stats_2g as st
+from experiments.exp2g import strata_2g as sg
 from experiments.exp2i import analyze_2i as an2i
 from experiments.exp2i import battery_2i as bi
 from experiments.exp2j import analyze_2j as an2j
+from experiments.exp2j import functionals_2j as fn
 from experiments.exp2k import analyze_2k as an
 from experiments.exp2k import battery_2k as bk
 
@@ -54,6 +59,14 @@ def test_tree_worlds_and_annotations():
     assert set(an.WORLDS_2K) == {"INSUFFICIENT_DATA", "DENSITY", "NOT-DENSITY"}
 
 
+def test_tree_annotation_boundary_is_alpha_not_a_looser_literal():
+    # ALPHA is 0.01: p = 0.03 sits BETWEEN 0.01 and a loosened 0.05 bar,
+    # so this is the one p value that tells the two apart.
+    assert st.ALPHA == 0.01
+    v = an.verdict_tree_2k([], _prim(0.05, 0.03, False), _power())
+    assert v["annotation"] == "null"
+
+
 def test_tree_disclosures_thin_and_undefined():
     v = an.verdict_tree_2k([], _undefined_prim(), _power())
     assert v["verdict"] == "NOT-DENSITY" and v["annotation"] == "null"
@@ -73,6 +86,11 @@ def test_licensed_sentences_carry_the_caveat_and_the_status():
     assert "not detected at this resolution" in an._licensed(v)
     v = an.verdict_tree_2k([], _prim(0.15, 0.001, True), _power())
     assert "bar cleared" in an._licensed(v) and "not a forecast" in an._licensed(v)
+    # NOT-DENSITY under a plain POWERED status licenses the (non-underpowered)
+    # NOT-DENSITY sentence, not the DECLARED-UNDERPOWERED one.
+    v = an.verdict_tree_2k([], _prim(0.05, 0.3, False), _power("POWERED"))
+    assert an._licensed(v) == an.LICENSED_2K["NOT-DENSITY"]
+    assert "not detected at this resolution" not in an._licensed(v)
 
 
 def test_pins_extract_from_the_committed_2i_record():
@@ -100,6 +118,11 @@ def test_placement_on_ladder_interpolates_in_log_k():
     assert p["k_equivalent"] == pytest.approx(8.0) and p["bracket"] == [8, 8]
     p = an.placement_on_ladder(lad, 0.16)                 # between 8 and 16
     assert 8 < p["k_equivalent"] < 16 and p["bracket"] == [8, 16]
+    frac = (0.16 - 0.145) / (0.176 - 0.145)
+    want_log2 = 2 ** (np.log2(8) + frac * (np.log2(16) - np.log2(8)))
+    want_linear = 8 + frac * (16 - 8)
+    assert p["k_equivalent"] == pytest.approx(want_log2)
+    assert p["k_equivalent"] != pytest.approx(want_linear)   # log2, not linear, interpolation
     assert an.placement_on_ladder(lad, 0.30)["bracket"] == [64, None]
     assert an.placement_on_ladder(lad, 0.01)["bracket"] == [None, 1]
 
@@ -145,6 +168,10 @@ def test_s3_matched_thins_b_to_matched_k_and_caps():
     k = res["per_rung"]["r1"]["k"]
     assert 1 <= k <= 64 and res["per_rung"]["r1"]["n_blocks"] == 64 // k
     assert "thinned_B" in res and "placement" in res and "T_A256" in res
+    # n_blocks_used counts blocks _block_reading actually averaged over —
+    # if n_blocks were hardcoded to 1 (rather than the matched m["n_blocks"]),
+    # this could never exceed 1.
+    assert res["per_rung"]["r1"]["n_blocks_used"] == res["per_rung"]["r1"]["n_blocks"] > 1
     # a rung where A at 256 is at least as dense as B at 64 is capped
     dense_a = {"r1": [64] * n}
     res2 = an.s3_matched(bits_b, {"r1": [16] * n}, dense_a, out, strata, ("r1",), ladder_b={64: 0.2})
@@ -170,6 +197,221 @@ def test_load_power_2k_refusals(tmp_path):
     p.write_text("[]")
     with pytest.raises(ValueError):
         an.load_power_2k(tmp_path, bk.R_CAP_DESIGN, "S" * 64)
+
+
+def _raise_2i(*a, **kw):
+    raise ValueError("injected for a Task 5 load_2i_tree collect_total test")
+
+
+_2I_TAG_OK = dict(tag_exists=lambda t: True, blobs_bound=lambda tag, paths, repo_root=None: [])
+
+
+@pytest.mark.parametrize("mod,attr,label", [
+    (bg, "load_battery", "2k battery items"),
+    (bg, "load_floors", "2k floors 2d"),
+    (a2d, "load_verify", "2k verify criterion 3c"),
+    (pr, "load_predictor", "2k strata source 2g predictor"),
+    (bi, "load_manifest", "2k/2i checkpoint manifest"),
+    (an2i, "_load_predictor_seal_content", "2k/2i predictor seal content"),
+    (an2i, "_load_rung_set", "2k/2i rung set file"),
+    (an2i, "load_predictor_records_2i", "2k/2i predictor olmo1b records"),
+    (an2i, "load_endpoint_which", "2k/2i endpoint stage1_final"),
+    (an2i, "load_sweep_7b", "2k/2i sweep olmo7b"),
+    (an2i, "gate1_rederive_7b", "2k/2i gate 1 byte identity re-derived"),
+    (bi, "sampler_counts_olmo", "2k x_B counts olmo1b"),
+    (fn, "draw_rows_2i", "2k bits x_B"),
+    (an2j, "load_pythia_outcomes", "2k pythia outcomes 2g 2h"),
+    (bi, "entry_7b", "2k/2i 7B endpoint entry"),
+    (bi, "entry_1b_endpoint", "2k/2i 1B endpoint entry"),
+    (an2i, "_check_predictor_seal_sampling", "2k/2i predictor seal sampling block"),
+    (an2i, "_check_rung_set_vs_endpoint", "2k/2i rung set vs endpoint"),
+    (an2i, "_check_predictor_counts_2i", "2k x_B counts vs the sealed attestation"),
+    (an2i, "_check_rung_set_derivation", "2k/2i rung set re-derivation"),
+], ids=lambda v: v if isinstance(v, str) and " " not in v else "-")
+def test_load_2i_tree_collect_total_sites_land_gracefully(monkeypatch, mod, attr, label):
+    # each of load_2i_tree's collect_total sites, forced to raise ONE at a
+    # time on the REAL committed 2i tree (~3s, no world needed): confirms
+    # the site is actually collect_total-wrapped (a bare re-implementation
+    # would let the injected exception escape uncaught) and that the
+    # exact label this task's brief names is what lands in `failures`.
+    monkeypatch.setattr(mod, attr, _raise_2i)
+    failures, ctx = an.load_2i_tree(bi.EXP2I, **_2I_TAG_OK)
+    assert any(label in f for f in failures), (label, failures)
+
+
+def test_load_2i_tree_frozen_imports_loop_forced_exception(monkeypatch):
+    # the "for thunk, label in (...)" loop (line 287) is ONE collect_total
+    # call site executed four times; breaking any one thunk proves the
+    # site is wrapped.
+    monkeypatch.setattr(bg, "check_frozen_imports_2g", _raise_2i)
+    failures, ctx = an.load_2i_tree(bi.EXP2I, **_2I_TAG_OK)
+    assert any("2k upstream 2g frozen imports" in f for f in failures), failures
+
+
+def test_load_2i_tree_strata_pins_direct_call_forced_exception(monkeypatch):
+    # sg.check_strata_pins is ALSO called internally by pr.load_predictor
+    # (predictor_2g.py, on the raw table) before load_2i_tree's OWN direct
+    # call on the converted strata object — a blanket monkeypatch breaks
+    # the upstream call first and never reaches the target site, so this
+    # lets the first (upstream) call through and breaks only the second.
+    orig = sg.check_strata_pins
+    calls = {"n": 0}
+
+    def wrapped(*a, **kw):
+        calls["n"] += 1
+        if calls["n"] >= 2:
+            raise ValueError("injected for a Task 5 load_2i_tree collect_total test")
+        return orig(*a, **kw)
+
+    monkeypatch.setattr(sg, "check_strata_pins", wrapped)
+    failures, ctx = an.load_2i_tree(bi.EXP2I, **_2I_TAG_OK)
+    assert any("2k strata pins 2g" in f for f in failures), failures
+
+
+def test_load_2i_tree_gate1_record_torn(monkeypatch, tmp_path):
+    bad = tmp_path / "gate1.json"
+    bad.write_text('{"broken"')
+    monkeypatch.setattr(bi, "gate1_path", lambda root: bad)
+    failures, ctx = an.load_2i_tree(bi.EXP2I, **_2I_TAG_OK)
+    assert any("2k/2i gate 1 record" in f for f in failures), failures
+
+
+def test_load_2i_tree_outcomes_7b_forced_exception(monkeypatch):
+    # guarded by `if not failures:` — must run with nothing ELSE broken,
+    # so it is its own test rather than a parametrize case.
+    monkeypatch.setattr(an2i, "outcomes_7b", _raise_2i)
+    failures, ctx = an.load_2i_tree(bi.EXP2I, **_2I_TAG_OK)
+    assert any("2k outcome olmo7b" in f for f in failures), failures
+
+
+def test_load_2i_tree_clean_on_the_real_committed_tree():
+    # the control: nothing broken, the real tree loads with zero failures
+    # (every one of the above tests is a controlled deviation from this).
+    failures, ctx = an.load_2i_tree(bi.EXP2I, **_2I_TAG_OK)
+    assert failures == []
+    assert ctx["r_cap"] == bk.R_CAP_DESIGN
+
+
+_RUN_EMPTY_ROOT_OK = dict(referents_sha=False, imports_pinned=False, tag_exists=lambda t: True,
+                          blob_sha=lambda tag, rel: bg.sha256_file(bg.REPO / rel),
+                          blobs_bound=lambda tag, paths, repo_root=None: [])
+
+
+def test_run_frozen_modules_forced_exception(monkeypatch, tmp_path):
+    monkeypatch.setattr(bk, "check_frozen_2k", _raise_2i)
+    v = an.run(root_2i=tmp_path, root_2k=tmp_path, **_RUN_EMPTY_ROOT_OK)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2k frozen modules" in f for f in v["referents"]["failures"])
+
+
+def test_run_prereg_forced_exception(monkeypatch, tmp_path):
+    monkeypatch.setattr(bk, "require_prereg_2k", _raise_2i)
+    v = an.run(root_2i=tmp_path, root_2k=tmp_path, **_RUN_EMPTY_ROOT_OK)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2k prereg tag" in f for f in v["referents"]["failures"])
+
+
+def test_run_referent_manifest_forced_exception(monkeypatch, tmp_path):
+    from experiments.exp2k import make_referents_2k as mkr
+    monkeypatch.setattr(mkr, "check_referents", _raise_2i)
+    kw = {**_RUN_EMPTY_ROOT_OK, "referents_sha": an.REFERENTS_2K_SHA256}
+    v = an.run(root_2i=tmp_path, root_2k=tmp_path, **kw)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2k referent manifest" in f for f in v["referents"]["failures"])
+
+
+def _tier_fixture(tmp_path, rung="antonym", size="1b"):
+    """One real cell's worth of tier data on a fresh root: the record
+    round-trips through tier_record_2k/tier_record_failures_2k (2j F-1's
+    rule — a fixture must carry the real shape), draws = the real
+    committed seed-0 row plus placeholder seeds 1-3, so load_tier_2k's
+    gate-1 re-derivation and per_seed_tallies check both pass cleanly."""
+    battery = bg.load_battery()
+    verify_fn = a2d.load_verify()
+    cap = battery[rung]
+    committed = bk.committed_by_item(bk.committed_rows(size, rung))
+    rows = [{"item": i, "draws": {"0": list(committed[i]), "1": [" x"] * bk.DRAWS_PER_SEED,
+                                  "2": [" x"] * bk.DRAWS_PER_SEED, "3": [" x"] * bk.DRAWS_PER_SEED}}
+            for i in range(bk.N_ITEMS)]
+    crec_p = bk.committed_record_path(size, rung)
+    cgz_p = bk.committed_draws_path(size, rung)
+    rec = bk.tier_record_2k(rung=rung, size=size, cap=cap, rows=rows, verify_fn=verify_fn,
+                            model_sha=bk.pythia_sha(size),
+                            stack={"torch": "n/a", "transformers": "n/a"}, git_sha="", seconds=0.0,
+                            committed_gz_sha=bg.sha256_file(cgz_p),
+                            committed_record_sha=bg.sha256_file(crec_p),
+                            gate1_items_compared=bk.N_ITEMS,
+                            gate1_draws_compared=bk.N_ITEMS * bk.DRAWS_PER_SEED)
+    from experiments.exp2i.run.sample_2i import write_draws
+    bk.tier_draws_path(tmp_path, size, rung).parent.mkdir(parents=True, exist_ok=True)
+    write_draws(bk.tier_draws_path(tmp_path, size, rung), rows)
+    bk.tier_record_path(tmp_path, size, rung).write_text(json.dumps(rec))
+    return battery, verify_fn
+
+
+def test_load_tier_2k_clean_on_one_real_cell(tmp_path):
+    battery, verify_fn = _tier_fixture(tmp_path)
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert failures == []
+    assert set(cells) == {"antonym"}
+    assert cells["antonym"]["gate1_rederived"]["n_diffs"] == 0
+
+
+def test_load_tier_2k_record_read_torn(tmp_path):
+    battery, verify_fn = _tier_fixture(tmp_path)
+    bk.tier_record_path(tmp_path, "1b", "antonym").write_text('{"broken"')
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("record read" in f for f in failures), failures
+
+
+def test_load_tier_2k_rows_read_torn(tmp_path):
+    battery, verify_fn = _tier_fixture(tmp_path)
+    p = bk.tier_draws_path(tmp_path, "1b", "antonym")
+    p.write_bytes(p.read_bytes()[:-50])
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("rows read" in f for f in failures), failures
+
+
+def test_load_tier_2k_gate1_catches_a_real_seed0_diff(tmp_path):
+    from experiments.exp2i.run.sample_2i import write_draws
+    battery, verify_fn = _tier_fixture(tmp_path)
+    p = bk.tier_draws_path(tmp_path, "1b", "antonym")
+    rows = bk.read_rows_2k(p)
+    rows[0]["draws"]["0"][0] = rows[0]["draws"]["0"][0] + "!"
+    write_draws(p, rows)
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("gate 1" in f and "differ" in f for f in failures), failures
+
+
+def test_load_tier_2k_catches_a_wrong_committed_sha_in_the_record(tmp_path):
+    battery, verify_fn = _tier_fixture(tmp_path)
+    p = bk.tier_record_path(tmp_path, "1b", "antonym")
+    rec = json.loads(p.read_text())
+    rec["gate1"]["committed_draws_sha256"] = "0" * 64
+    p.write_text(json.dumps(rec))
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("committed_draws_sha256" in f for f in failures), failures
+
+
+def test_load_tier_2k_gate1_forced_exception(monkeypatch, tmp_path):
+    battery, verify_fn = _tier_fixture(tmp_path)
+    monkeypatch.setattr(bk, "diff_seed0", _raise_2i)
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("gate 1 re-derived" in f for f in failures), failures
+
+
+def test_load_tier_2k_bits_forced_exception(monkeypatch, tmp_path):
+    battery, verify_fn = _tier_fixture(tmp_path)
+    monkeypatch.setattr(bk, "bits_2k", _raise_2i)
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("bits and tallies" in f for f in failures), failures
 
 
 def _all_failure_labels_2k():
@@ -245,7 +487,16 @@ def test_check_imports_2k_refuses_an_unpinned_loaded_module(monkeypatch, tmp_pat
 
 
 def test_check_imports_2k_refuses_a_drifted_pin(monkeypatch):
-    monkeypatch.setattr(an, "IMPORTED_SHA256_2K", {bk.EXP2K / "__init__.py": "0" * 64})
+    # Corrupt ONE real entry's hash rather than replacing the whole dict:
+    # under whole-directory collection, run/__init__.py and
+    # run/rehearse_2k.py are already in sys.modules (test_tier_2k.py
+    # imports rehearse_2k at module scope) by the time this test runs,
+    # so wiping IMPORTED_SHA256_2K wholesale would report THEM unpinned
+    # before ever reaching the drift this test is actually about — a
+    # session-order fragility, not a defect in check_imports_2k itself.
+    corrupted = dict(an.IMPORTED_SHA256_2K)
+    corrupted[bk.EXP2K / "__init__.py"] = "0" * 64
+    monkeypatch.setattr(an, "IMPORTED_SHA256_2K", corrupted)
     with pytest.raises(RuntimeError, match="drifted"):
         an.check_imports_2k()
 

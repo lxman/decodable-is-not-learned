@@ -107,6 +107,42 @@ def test_run_rung_refuses_a_model_sha_that_is_not_2d_s(tmp_path, pinned):
                     verify_fn=a2d.load_verify(), sampler=_fake_sampler(_committed()))
 
 
+def test_gate1_catches_a_short_draw_list_even_when_the_matching_prefix_agrees(tmp_path, pinned):
+    # one draw short on item 0's seed-0 stream, but every draw that IS
+    # present matches — the per-draw `g != w` comparison alone finds
+    # nothing (zip stops at the shorter side); only the explicit
+    # length check catches the missing coverage.
+    committed = _committed()
+
+    def sampler(model, tok, prompt, *, rung, size, mode, item_idx, seeds, draws_per_seed,
+                max_new_tokens, terminal_ids):
+        out = {0: list(committed[item_idx])}
+        if item_idx == 0:
+            out[0] = out[0][:-1]
+        for s in (1, 2, 3):
+            out[s] = [f" zzz{s}"] * 64
+        return out
+
+    with pytest.raises(RuntimeError, match="GATE 1 FIRED"):
+        tr.run_rung("1b", RUNG, out_root=tmp_path, model_ctx=_ctx(), verify_fn=a2d.load_verify(),
+                    sampler=sampler)
+
+
+def test_run_rung_refuses_against_2bs_pin_even_when_it_matches_the_committed_record(
+        tmp_path, pinned, monkeypatch):
+    # the committed record's own model_sha equals 2b's REAL pin, so a
+    # model_ctx sha that matches the record but not 2b's pin only
+    # distinguishes the FIRST refusal (against bk.pythia_sha) from the
+    # SECOND, later one (against the committed record) — closing the gap
+    # where the first check could be silently dropped and the second
+    # would still fire on ordinary drifted input.
+    real_sha = json.loads(bk.committed_record_path("1b", RUNG).read_text())["model_sha"]
+    monkeypatch.setattr(bk, "pythia_sha", lambda size: "not-2bs-real-pin")
+    with pytest.raises(RuntimeError, match="model_sha"):
+        tr.run_rung("1b", RUNG, out_root=tmp_path, model_ctx=(_Tok(), None, real_sha),
+                    verify_fn=a2d.load_verify(), sampler=_fake_sampler(_committed()))
+
+
 def test_rungs_2k_is_2i_r_cap_alphabetical():
     assert tr.rungs_2k() == bk.R_CAP_DESIGN
     with pytest.raises(ValueError, match="R_CAP"):

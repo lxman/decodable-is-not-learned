@@ -120,8 +120,12 @@ every committed stream map).
 **Pre-tag disclosure rule (checklist item 27, 2j's slip c):** any
 execution of 2k's analyzer on the real tree before the tag — a read
 sweep, a determinism check, a smoke run — prints numbers, and every
-number so printed is logged HERE before the tag is cut. At the time
-of writing the analyzer does not exist. The comparison gate (§3.3)
+number so printed is logged HERE before the tag is cut. Task 5's
+import scan (`tests/import_scan_2k.py`) and read sweep
+(`tests/read_sweep_2k.py`) each ran `analyze_2k.run()` once on the
+real, pre-campaign tree (the 2k tier does not exist yet); both landed
+INSUFFICIENT_DATA on the missing tier files before reaching a
+primary, and neither printed a T. The comparison gate (§3.3)
 necessarily reproduces 2i's .0949 pre-tag; that number is already
 public and is listed above.
 

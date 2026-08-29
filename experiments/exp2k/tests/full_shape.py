@@ -28,15 +28,16 @@ replication at `secondaries["replication_410m_cross"]` — the real key
 builder writes that key directly (the brief's draft used
 `"cross_410m"`, superseded).
 
-Ruling 3 (task-4 build): `analyze_2k.run()` is handed a test-only
+Ruling 3 (task-4 build): `analyze_2k.run()` was handed a test-only
 `frozen_check` bypass (a one-line addition at the "2k frozen modules"
 collect_total site, mirroring the `imports_pinned`/`referents_sha`
 bypass pattern already there) because `battery_2k.check_frozen_2k`
-refuses unconditionally until Task 5 pins `FROZEN_SHA256_2K` — without
-the bypass every world would land INSUFFICIENT_DATA on that refusal
-alone. `write_world_2k` returns `"frozen_check": lambda: None` so
-`run_world`'s `**seal` expansion carries it through; Task 5 drops the
-bypass here once the real pin lands."""
+refused unconditionally until Task 5 pinned `FROZEN_SHA256_2K` —
+without the bypass every world would have landed INSUFFICIENT_DATA on
+that refusal alone. Task 5 pinned the literal and dropped the bypass
+here (`_TAG_OK`, `write_world_2k`'s return, and `run_world`'s
+`imports_pinned=False`): the real `check_frozen_2k` now runs in every
+world, the seal, and the power tool."""
 from __future__ import annotations
 
 import json
@@ -64,8 +65,7 @@ from experiments.exp2k import battery_2k as bk  # noqa: E402
 from experiments.exp2k.run import seal_2k  # noqa: E402
 
 _TAG_OK = dict(tag_exists=lambda t: True,
-               blob_sha=lambda tag, rel: bg.sha256_file(bg.REPO / rel),
-               frozen_check=lambda: None)   # Task 5 drops frozen_check (the real pin then applies)
+               blob_sha=lambda tag, rel: bg.sha256_file(bg.REPO / rel))
 STRUCTURED_STRENGTH = 0.0015   # tuned at the build (ledger the landing T); see Step 6 / PROGRESS.md
 
 
@@ -223,13 +223,16 @@ def write_world_2k(root, *, world="density", strength=1.0, seed=0, missing=None,
         rec["predictor_sha256"] = "0" * 64
         p.write_text(json.dumps(rec))
     return {**{k: seal2i[k] for k in ("tag_exists", "blob_sha", "blobs_bound")},
-            "pin_a": pin_a, "pin_a410": pin_a410, "verdict_2i_path": vpath,
-            "frozen_check": lambda: None}
+            "pin_a": pin_a, "pin_a410": pin_a410, "verdict_2i_path": vpath}
 
 
 def run_world(root, seal, *, n_perm=200, n_boot=20) -> dict:
+    # referents_sha=False stays: a synthetic world root is not the real
+    # tree, so the pre-campaign manifest cannot check against it. The
+    # import pin (imports_pinned) and the frozen-module pin (frozen_check)
+    # both now run for real (Task 5 dropped both bypasses).
     return an.run(root_2i=root, root_2k=root, n_perm=n_perm, n_boot=n_boot, referents_sha=False,
-                  imports_pinned=False, **seal)
+                  **seal)
 
 
 def world_specs() -> list:
