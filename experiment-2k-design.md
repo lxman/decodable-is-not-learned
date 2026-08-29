@@ -154,8 +154,23 @@ on the real, pre-campaign tree in total**. Every other number the
 freeze printed came from synthetic worlds (`tests/full_shape.py`, whose
 7B outcome is independent of x_A by construction) or from 2d's
 committed draws; none is a 2k statistic. The freeze's own probes ran
-the analyzer only against world roots. Any cold-tool run between this
-sentence and the tag is appended here before the tag is cut.
+the analyzer only against world roots. Immediately before the tag
+(2026-08-29, after the slips were applied) the two cold tools ran once
+more: `tests/read_sweep_2k.py` — the TENTH `analyze_2k.run()` execution
+on the real, pre-campaign tree, INSUFFICIENT_DATA, no T, 4,389 paths /
+0 unpinned — and `verify_referents_2k.py` (12/12; it never calls
+`run()`). **Ten executions in total before the tag; none printed a
+primary.**
+
+**Dial i's rehearsal (2026-08-29, on Michael's word, pre-tag):** ONE
+item sampled — antonym item 0, Pythia-1b (model sha
+`f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2`, 2b's pin), seeds 0–3, 256
+draws through one `sample_item` call; the seed-0 block was IDENTICAL
+to 2d's committed row (64/64); seeds 1–3 verified 6/3/3 of 64 (seed 0:
+5/64) and were distinct from seed 0 and from each other; nothing was
+written under `results/`. This is the only model contact before the
+tag, and the only sampled quantity on any real cell before the
+campaign.
 
 **Model contact is predictor-side only.** The outcome side is not
 touched, so nothing in 2k can leak the outcome into the predictor

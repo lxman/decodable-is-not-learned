@@ -1140,3 +1140,22 @@ density-shape + every-terminal cases 2/2, both in the foreground.
 the four sha-pinned files (`power_2k.py`, `make_referents_2k.py`,
 `run/seal_2k.py`, `run/campaign_2k.py`) untouched. Mutation harness not
 re-run (the controller's call).
+
+## 2026-08-29 — REHEARSAL (dial i, pre-tag, on Michael's word) and the pre-tag cold tools
+
+`python -m experiments.exp2k.run.rehearse_2k --rung antonym --item 0 --size 1b`:
+model_sha f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2; 256 draws; seed-0
+block vs 2d's committed row: IDENTICAL (64/64). Per seed verified:
+0 → 5/64, 1 → 6/64, 2 → 3/64, 3 → 3/64; seeds 1–3 distinct from seed 0
+and from each other (first draws differ). Nothing under `results/`
+before or after (0 files); tree clean. The four-seed call shape on the
+real model reproduces 2d's committed stream — the executable proof
+beside the freeze's fixture (`tests/sampler_call_shape_2k.py`).
+
+Cold tools immediately before the tag: `tests/read_sweep_2k.py` — the
+TENTH pre-tag `analyze_2k.run()` execution on the real tree
+(INSUFFICIENT_DATA, no T; 4,389 distinct paths: manifest 2,650, frozen
+50, instrument blobs 3, sha_pin_at_load 2, seal-bound-absent 1,
+stdlib/venv 1,683, UNPINNED 0; 0 writes) and `verify_referents_2k.py`
+12/12. Both disclosed in design §2. Tag `exp2k-preregistered` follows
+at the commit carrying this entry.
