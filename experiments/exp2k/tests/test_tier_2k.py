@@ -52,8 +52,7 @@ def _ctx(size="1b"):
 
 @pytest.fixture
 def pinned(monkeypatch):
-    monkeypatch.setattr(bk, "FROZEN_SHA256_2K",
-                        {p: s for p, s in bk.frozen_from_disk().items() if p.is_file()})
+    monkeypatch.setattr(bk, "FROZEN_SHA256_2K", bk.frozen_from_disk(strict=False))
 
 
 def test_run_rung_writes_the_record_and_passes_gate1(tmp_path, pinned):

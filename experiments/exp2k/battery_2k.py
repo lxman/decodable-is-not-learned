@@ -420,14 +420,19 @@ FROZEN_FILES_2K = tuple(an2j.FROZEN_SHA256_2J) + (
 FROZEN_SHA256_2K = {}   # Task 5: pinned as a LITERAL from `frozen_from_disk()`
 
 
-def frozen_from_disk() -> dict:
-    """The dict Task 5 prints and pins. Tests use it to stand in for the
-    literal before Task 5 (monkeypatching `FROZEN_SHA256_2K`). Filters
-    to files that exist: before Task 5 lands `power_2k.py`,
-    `make_referents_2k.py` and `run/seal_2k.py`, `FROZEN_FILES_2K`
-    names paths that are not on disk yet, and `bg.sha256_file` has no
-    graceful path for a missing file — Task 5's literal is pinned once
-    every member exists, so the filter is a no-op at that point."""
+def frozen_from_disk(*, strict: bool = True) -> dict:
+    """The dict Task 5 prints and pins. Strict (the default, and the
+    only mode Task 5 uses): a missing or mistyped path in
+    `FROZEN_FILES_2K` must not be silently omitted from the pinned
+    literal, so this raises `FileNotFoundError` naming the path —
+    `bg.sha256_file`'s own `open()` failure is left to surface
+    unfiltered. `strict=False` filters to files that exist; used ONLY
+    by the pre-Task-5 tests, before `power_2k.py`, `make_referents_2k
+    .py` and `run/seal_2k.py` are on disk (monkeypatching
+    `FROZEN_SHA256_2K` with a partial dict to exercise `check_frozen_2k`
+    itself, which never filters)."""
+    if strict:
+        return {p: bg.sha256_file(p) for p in FROZEN_FILES_2K}
     return {p: bg.sha256_file(p) for p in FROZEN_FILES_2K if p.is_file()}
 
 

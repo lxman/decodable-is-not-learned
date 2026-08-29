@@ -283,13 +283,20 @@ def test_check_frozen_2k_refuses_unpinned_and_drift(monkeypatch):
     monkeypatch.setattr(bk, "FROZEN_SHA256_2K", {})
     with pytest.raises(RuntimeError, match="not pinned"):
         bk.check_frozen_2k()
-    d = {p: s for p, s in bk.frozen_from_disk().items() if p.is_file()}
+    d = bk.frozen_from_disk(strict=False)
     monkeypatch.setattr(bk, "FROZEN_SHA256_2K", d)
     bk.check_frozen_2k()
     k = next(iter(d))
     d[k] = "0" * 64
     with pytest.raises(RuntimeError, match="drifted"):
         bk.check_frozen_2k()
+
+
+def test_frozen_from_disk_strict_raises_on_a_missing_path():
+    if all(p.is_file() for p in bk.FROZEN_FILES_2K):
+        pytest.skip("every FROZEN_FILES_2K member is on disk (post-Task-5 state)")
+    with pytest.raises(FileNotFoundError):
+        bk.frozen_from_disk()
 
 
 def test_require_prereg_2k_refuses_missing_tag_and_drift():
