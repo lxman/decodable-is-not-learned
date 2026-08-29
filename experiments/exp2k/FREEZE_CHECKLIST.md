@@ -558,3 +558,9 @@ tally halt of gate 1's class); the F-4 census widened to every seed
 pair; a torn record+draws pair refuses on resume by name; `placement_on_
 ladder` total on an empty ladder; dead code removed from the tag-bound
 blobs. No sha-pinned file edited; no re-pin.
+
+**RATIFIED by Michael 2026-08-29 ("ratified — apply the slips"): doc
+slips (a)–(l) and the dial-i ruling applied in place to
+`experiment-2k-design.md` (98 insertions / 23 deletions; no `.md` file
+is on `referents_2k.json`, so no pin moved). Next on his word: the
+one-item rehearsal (dial i, pre-tag), then the tag.**

@@ -7,7 +7,12 @@ regenerated as the continuous gate 1; c the 410m replicate runs; d
 2i's bar unchanged, DENSITY / NOT-DENSITY; e S1–S7 printed; f
 texture-first projection; g 1b first; h the three tags; i the
 one-item pre-tag rehearsal on his word; j SDD build + freeze in one
-session. Build follows; nothing is sampled before the tag.** Model
+session. BUILT + FROZEN 2026-08-29 (SDD build, opus adversarial
+freeze — THE CLASS DEFECT FOUND, F-1, the halt scan blind to the
+gz-only halt window — opus whole-branch review, one fix wave); doc
+slips (a)–(l) RATIFIED by Michael 2026-08-29 ("ratified — apply the
+slips") and applied in place; nothing is sampled before the tag except
+dial i's one-item rehearsal, on his word, disclosed in §2.** Model
 contact, when sanctioned: Pythia-1b (and, dial c, Pythia-410m)
 SAMPLING ONLY on nine rungs — the same weights, harness, sampler and
 stream namespace as Experiment 2d's main tier, with three new seeds
@@ -139,6 +144,19 @@ disclosed here for completeness. The comparison gate (§3.3)
 necessarily reproduces 2i's .0949 pre-tag; that number is already
 public and is listed above.
 
+The adversarial freeze (2026-08-29) ran the analyzer on the real tree
+THREE more times as its cold re-runs — `tests/read_sweep_2k.py` once
+and `tests/import_scan_2k.py` twice (once printed, once redirected so
+the literal it emits could be compared against the pinned one) — all
+three landing INSUFFICIENT_DATA on the missing 2k tier before reaching
+a primary and printing no T, for **nine `analyze_2k.run()` executions
+on the real, pre-campaign tree in total**. Every other number the
+freeze printed came from synthetic worlds (`tests/full_shape.py`, whose
+7B outcome is independent of x_A by construction) or from 2d's
+committed draws; none is a 2k statistic. The freeze's own probes ran
+the analyzer only against world roots. Any cold-tool run between this
+sentence and the tag is appended here before the tag is cut.
+
 **Model contact is predictor-side only.** The outcome side is not
 touched, so nothing in 2k can leak the outcome into the predictor
 except through the designer's knowledge of it, and every design
@@ -191,10 +209,16 @@ and stops the campaign. Every one of the 288,000 committed seed-0
 draws per size is compared — coverage is attested by the runner
 (items compared, draws compared) AND re-derived by the analyzer from
 the committed 2d files against the sealed 2k draws (2h F-2 / 2i C-1:
-attestation is not a check). A halt tree — any `.HALTED` marker, or
-a rung whose record is absent or whose draws file is truncated —
+attestation is not a check). A halt tree — EITHER artifact a fire
+leaves (`<rung>.HALTED` or `<rung>.HALTED.jsonl.gz`: the runner writes
+the evidence file first, so a kill or a failed marker write between
+the two leaves only the gz, and either one refuses — freeze F-1), or a
+rung whose record is absent or whose draws file is truncated —
 delivers INSUFFICIENT_DATA from `run()` by construction (2d F-1),
-scanned before any tier loads.
+scanned before any tier loads. The runner also compares its finished
+seed-0 tally to 2d's committed per-seed tally at the end of the rung
+(the cross-criterion check the analyzer's self-re-derivation cannot
+make); a mismatch halts like a diff (a `kind: "tally"` marker).
 
 What gate 1 buys: the twelfth byte-identical reproduction on this
 stack if it holds, on nine cells never re-derived before (2d's own
@@ -207,10 +231,23 @@ The build proves with a fixture (a fake model with a recorded
 generator) that seed 0's bytes do not depend on which other seeds are
 in the same `sample_item` call — the per-seed generator independence
 the sampler's docstring asserts — so that gate 1 is a statement about
-the stream formula and the weights, not about call shape. If that
-fixture cannot be made to pass, the tier runs seed 0 in its own call
-and seeds 1–3 in a second, which is then the production shape
-(disclosed in the build ledger).
+the stream formula and the weights, not about call shape. The
+fixture is `experiments/exp2k/tests/sampler_call_shape_2k.py` (written
+at the freeze, standalone because it is the only 2k module that
+imports `torch`, so pytest never collects it and the committed suite
+stays weight-free). It drives exp3's real, frozen `sample_item` with a
+fake model whose forward is a pure deterministic function of the ids
+it is handed, and requires seed 0's 64 draws to be identical across
+`seeds = (0,)`, `(0, 1)`, `(0, 1, 2)`, the production `(0, 1, 2, 3)`
+and the reordering `(3, 2, 1, 0)`. It passes on all five (60 distinct
+seed-0 draws, so the fake is not degenerate), and it also asserts that
+seeds 1–3 are NOT copies of seed 0 — so the shape that would silently
+make gate 1 a statement about call shape, or make the three new blocks
+fake, is caught by a committed artifact rather than by argument. Two
+things carry the claim beside it: the pre-tag rehearsal (dial i),
+which is the same proof on the real model for one item, and gate 1
+itself, on all 288,000 committed seed-0 draws per size. The failure
+direction is a HALT, not a wrong number.
 
 ### 3.3 The predictor, the comparison gate and the nested ladder
 
@@ -250,10 +287,18 @@ truncated tier, seeds ≠ [0,1,2,3], `draws_per_seed` ≠ 64, `model_sha`
 not merely the same repo — `items_sha256` ≠ 2c's, tally ≠
 re-derivation, comparison gate inexact, rung set or strata or outcome
 pin failure, any frozen-module or import-surface pin failure, power
-record absent or its predictor sha ≠ the sealed draws') → DENSITY →
+record absent or its predictor sha ≠ the sealed draws', the seal's
+`files` table not covering the 36 tier record+draws paths, a cell
+whose seed-s stream reproduces another seed's on all 500 items, a
+power record whose simulation claims do not re-derive) → DENSITY →
 NOT-DENSITY (`structured` / `null`). Refusals are COLLECTED, never
 raised (2h F-1); every tree the runner can leave has been enumerated
-at the freeze and reaches a terminal.
+at the freeze and reaches a terminal. Both sizes are required for tree
+completeness even though only 1b decides the primary: a missing or
+truncated 410m cell delivers INSUFFICIENT_DATA, not a 1b-only verdict.
+The verdict record carries `referents.pins_active`, which stamps which
+test-only bypass, if any, a run took (freeze D-1) — empty on the
+campaign.
 
 ### 3.6 Pins
 
@@ -261,7 +306,12 @@ at the freeze and reaches a terminal.
 `IMPORTED_SHA256_2K` over the resolved module table under
 `experiments/` at `run()`'s entry and exit (the eleventh lesson, from
 the start rather than from the freeze); a referent manifest over every
-file read (§4); blob-bound tags: `exp2k-preregistered` binds the
+file read BEFORE the campaign (§4) — 2,649 files, pinned by
+`REFERENTS_2K_SHA256`; the campaign's own artifacts (the 36 tier files,
+the seal and the power record) are NOT on it and are bound instead by
+`exp2k-predictor-sealed` over `_seal_paths_2k`'s rule set ∪ the seal's
+own `files` table, so the preregistration tag is never re-cut after the
+campaign runs; blob-bound tags: `exp2k-preregistered` binds the
 analyzer, the runner and the tier module; `exp2k-predictor-sealed`
 binds the eighteen (or nine) new draw files and records, the seal
 record and the power record. A post-tag edit to any bound blob makes
@@ -305,8 +355,9 @@ would make 2k a different question.
   the block SD is not small against the .005 bar gap, 2i's
   fires = False was inside sampler noise, and that is said plainly.
 - **S2 — the nested ladder.** T_A at k = 64, 128, 192, 256, nested in
-  seed order, against 2j's prefix-thinned ladder at 1…64 (which S2's
-  first point equals by identity). Whether the increments keep
+  seed order, read against 2j's committed prefix-thinned ladder at
+  1…64 (its A row is read from 2j's `verdict.json`, not reprinted; the
+  k = 64 identity is enforced by the comparison gate). Whether the increments keep
   growing, flatten or turn.
 - **S3 — the matched comparison, at high density.** x_B thinned by
   2j's block rule to k_g = clip(round(256 · r̄_A / r̄_B), 1, 64) per
@@ -316,20 +367,31 @@ would make 2k a different question.
   (.1571 − .0949 = .062 with x_B thinned to x_A's 64-draw density);
   S3 measures it at x_A's 256-draw density. Also printed: x_A^(256)'s
   placement on 2j's x_B ladder (the OLMo-1B-draw equivalent of 256
-  Pythia-1b draws, by linear interpolation in log k).
+  Pythia-1b draws, by linear interpolation in log k). If T_A^(256)
+  exceeds x_B's own T at k = 64 the placement is a BRACKET —
+  `[64, None]`, with no k-equivalent — and "beyond 64 OLMo-1B draws"
+  is the whole of what may be said. The projection and any licensed
+  sentence say it as a bracket, never as a number.
 - **S4 — the 2i partials at 256.** Cross-beyond-within (x_A^(256) in
   2i's composite strata of x_B's median bucket; 2i's .0701) and
   within-beyond-cross (x_B in composite strata conditioning on
   x_A^(256)'s zero cut — a different partition from 2i's, since the
   256-draw zero set is smaller; 2i's .2153 printed beside it).
 - **S5 — within-lineage forward density.** x_A^(256) → 2g's committed
-  2.8b outcome (seven rungs) and 2h's committed 6.9b outcome (eight
-  rungs), 2j's ladder read forward: .1672 and .2179 at 64 → ? at
-  256. Outcomes known; descriptive.
+  2.8b outcome (seven rungs) and 2h's committed 6.9b outcome (seven
+  rungs: R_CAP ∩ R_69; `count_div13` is not in R_CAP), 2j's ladder
+  read forward: .1672 and .2179 at 64 → ? at 256 — the .2179 anchor
+  is 2h's eight-rung primary and is not directly comparable to the
+  seven-rung reading; the seven-rung x_A^(64) anchor is re-derived and
+  printed beside it, as 2j did. Outcomes known; descriptive.
 - **S6 — 410m** (dial c): S1–S5 at 410m; 2i's 410m cross .1154.
 - **S7 — texture.** The six 2h-carried rungs' mean (2i: .1418); the
   three mid-digit rungs' live-item counts at 64 and 256 (2i: 10, 31,
   13 of 500); first-correct outcome (2i: .1127); per-rung D with CI.
+  Also printed in every world, non-gating: the per-cell seed-stream
+  duplication census (for every pair of seeds, how many of the 500
+  items have byte-identical streams; zero on a clean cell), the
+  freeze's F-4 record.
 
 ### 5.3 Sensitivities (printed, non-gating)
 
@@ -384,7 +446,15 @@ component; the T ≥ .10 component is an effect-size rule and carries
 no α; the two worlds are a partition, so no union caveat arises; the
 `structured` / `null` annotation is descriptive. The power record is
 pinned by the seal tag; the analyzer refuses if its predictor sha is
-not the sealed draws' (2j F-2's lineage).
+not the sealed draws' (2j F-2's lineage). The analyzer also RE-DERIVES
+the record's own simulation claims before reading its declaration:
+the degeneracy partition (`dropped_degenerate` / `rungs_simulated`)
+from x_A^(256) and 2g's strata through `analyze_2i._degenerate_rungs`,
+`n_pos_lower_bound` against 2i's committed `stage1_final` counts, and
+`t_bar` / `alpha` against the firing rule's own constants. A record
+that attests none of them is refused as uncheckable (freeze F-2). The
+seal's sha binds the record to the sealed FILES; these six bind it to
+the sealed COUNTS.
 
 ## 8. What the dumbest baseline achieves
 
@@ -445,7 +515,9 @@ is descriptive. Not a statement about a third family. Not "Prediction
   the item-level comparator — rehearse it on ONE item of ONE rung at
   1b (256 draws, ≈ 1 min), the seed-0 block required identical to the
   committed row, the output kept in the ledger and nowhere the
-  analyzer reads, on his word; **recommended**. The sampler, weights
+  analyzer reads, on his word, BEFORE the tag (ruled 2026-08-29: the
+  tenth lesson's rule; its one-item 256-draw model contact is
+  disclosed in §2 when it runs); **recommended**. The sampler, weights
   and harness are otherwise 2d's exact production path.
 - **j. Build + freeze in one session** by SDD (fresh implementers,
   reviewed tasks, an adversarial freeze by a fresh reviewer), the
@@ -457,10 +529,13 @@ Design (this doc) → rulings → build (`experiments/exp2k/`: tier
 runner with the continuous gate 1 and the halt marker, the analyzer
 with the tree and S1–S7, power, referents, `verify_referents_2k.py`,
 fixtures, worlds for every terminal, mutation deltas) → adversarial
-freeze → tag → rehearsal on his word → the 1b tier, then 410m,
-detached (nohup + disown, a watcher committing each rung's record
-after its size stops changing) → seal tag → power once → projection
-sealed → analyzer once → `exp2k-closed` → close-out propagation
+freeze → rehearsal on his word (pre-tag, dial i) → tag → the 1b
+tier, then 410m, detached (nohup + disown, a watcher committing each
+rung's record after its size stops changing) → the seal
+(`run/seal_2k.py`) → power ONCE (`power_2k.py`) → seal tag
+`exp2k-predictor-sealed` (binding the 36 tier files, the seal and the
+power record) → projection sealed → analyzer once, detached (≈ 45–70
+min, no progress output) → `exp2k-closed` → close-out propagation
 (essay under §6, `experiments.md`, the supporting repo graft, Zenodo
 v1.14, paper inventory).
 
