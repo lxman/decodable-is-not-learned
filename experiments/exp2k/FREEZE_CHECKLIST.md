@@ -503,3 +503,58 @@ sealed draws'."** Append (freeze F-2):
   are the freeze's three committed mutation logs; `mutation_build.log`
   / `mutation_round1.log` remain the build's.
 
+
+## Final whole-branch review (2026-08-29, opus) — additions to the ratification package
+
+The final review found no Critical item and judged the instrument
+tag-ready; it found four code-vs-doc differences the slips above miss,
+and one item that must precede the tag. Added here so the package is
+one document.
+
+**(i) §11, the process tail.** The seal tag binds `results/power_2k.json`
+(`_seal_paths_2k`), so the tail's "→ seal tag → power once" would cut a
+tag that can never bind. Replace the tail from "detached" onward with:
+
+> … detached (nohup + disown, a watcher committing each rung's record
+> after its size stops changing) → the seal (`run/seal_2k.py`) → power
+> ONCE (`power_2k.py`) → seal tag `exp2k-predictor-sealed` (binding the
+> 36 tier files, the seal and the power record) → projection sealed →
+> analyzer once → `exp2k-closed` → close-out propagation …
+
+**(j) §5.2, S5.** "2h's committed 6.9b outcome (eight rungs)" → "(seven
+rungs: R_CAP ∩ R_69; `count_div13` is not in R_CAP)", and after
+".1672 and .2179 at 64 → ? at 256" add: "— the .2179 anchor is 2h's
+eight-rung primary and is not directly comparable to the seven-rung
+reading; the seven-rung x_A^(64) anchor is re-derived and printed
+beside it, as 2j did."
+
+**(k) Dial i / §11 / the status block — the rehearsal is PRE-tag.**
+Controller ruling (the tenth lesson's rule; dial i's own title): the
+one-item rehearsal runs BEFORE the tag, on Michael's word. §11's "tag →
+rehearsal on his word" → "rehearsal on his word (pre-tag, dial i) →
+tag"; the status block's "nothing is sampled before the tag" → "nothing
+is sampled before the tag except dial i's one-item rehearsal, on his
+word, disclosed in §2"; and §2's disclosure paragraph gains, when it
+runs: "Dial i's rehearsal sampled ONE item (antonym item 0, 1b, seeds
+0–3, 256 draws) before the tag; its seed-0 block was IDENTICAL to 2d's
+committed row; nothing was stored under results/."
+
+**(l) §3.5 / §5.2 S2.** §3.5's record description names
+`referents.pins_active` (freeze D-1: the verdict record stamps which
+test-only bypass, if any, a run took — empty on the campaign). §5.2 S2:
+"against 2j's prefix-thinned ladder at 1…64" → "read against 2j's
+committed prefix-thinned ladder (its A row is read from 2j's
+`verdict.json`, not reprinted; the k = 64 identity is enforced by the
+comparison gate)".
+
+**Precedence.** Slip (a) (nine pre-tag analyzer executions) is applied
+BEFORE the tag is cut — §2's own rule — together with every slip Michael
+ratifies; no `.md` file is on `referents_2k.json`, so applying them
+touches no pin.
+
+**The fix wave** (commit named in PROGRESS.md's "FINAL REVIEW fix wave"
+entry): §3.2's promised tally comparison implemented in `run_rung` (a
+tally halt of gate 1's class); the F-4 census widened to every seed
+pair; a torn record+draws pair refuses on resume by name; `placement_on_
+ladder` total on an empty ladder; dead code removed from the tag-bound
+blobs. No sha-pinned file edited; no re-pin.
