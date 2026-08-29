@@ -37,8 +37,9 @@ read sweep 4,389 paths / 0 unpinned; `FROZEN_SHA256_2K` 36,
 - [x] The SDD ledger's deferred minors and rulings — triaged, each
       closed, cleared or disclosed with a reason.
 - [x] Cold re-runs: suite, worlds (every terminal), totality, cold
-      battery, mutation (both passes through the committed harness),
-      read sweep, two-process determinism on a world.
+      battery, mutation (three passes through the committed harness),
+      read sweep (pre-campaign AND the success path), two-process
+      determinism on a world.
 - [x] Ratification package: findings + disclosures + the exact §-level
       doc wording.
 
@@ -287,8 +288,8 @@ On the real analyzer run all three are `true`; a world run shows
 | 9 | `placement_on_ladder` above B(64) → `[64, None]` | CLEARED + DISCLOSED | asserted in `test_analyze_2k` (`placement_on_ladder(lad, 0.30)["bracket"] == [64, None]`, and `[None, 1]` below the bottom). `k_equivalent` is `None` there by construction. Projection wording: doc slip (d) — "beyond 64" is a bracket, never a number. |
 | 10 | totality: every tree the runner/seal/power can leave | CLOSED (F-1) + CLEARED | halt with marker (W7), halt with only the evidence gz (**F-1**), killed runner mid-rung (W5, "record or draws file missing"), truncated gz (W6 + `test_draws_gz_truncated_is_eof_not_a_raise` — `analyze_2i.collect_total` is the one imported, `EOFError`/`zlib.error` both routed), corrupt gz (`test_draws_gz_corrupt…`), seal present + power missing (W11), power from a different seal (W13), power with absurd claims (**F-2**, W14), truncated seal files table (**F-3**), whole-cell seed copy (**F-4**). No raise reached `run()`'s caller in any of them. |
 | 11 | `predictor_sha256` vs the seal's own sha; is the post-power tier drift a gap? | CLEARED, stated | the seal FILE does not change when a tier file drifts, so `predictor_sha256 == seal["sha256"]` still holds — and the drift is refused separately by `seal_failures_2k`'s per-file sha loop (mutant "the per-file sha check removed" killed) and, on the real tree, by the seal tag's blob binding. Not a gap; F-3 removes the one way that loop could be made vacuous. |
-| 12 | read sweep: 0 unpinned pre-campaign; campaign side seal-bound | CLEARED, with a coverage caveat | re-run cold at the freeze HEAD (numbers below). The caveat is real and stated: on the pre-campaign tree `run()` refuses at the missing tier, so the sweep enumerates the REFUSAL path only — the comparison gate's and secondaries' reads (2i/2g/2j `verdict.json`) never happen. All four verdict records are on `referents_2k.json`'s manifest (checked), and the success path was swept separately on a world to confirm it opens nothing outside the manifest, the frozen set and the world root. |
-| 13 | determinism: `run()` twice in separate processes on a world | CLEARED | byte-identical verdict JSON, numbers below. |
+| 12 | read sweep: 0 unpinned pre-campaign; campaign side seal-bound | CLEARED, with a coverage caveat CLOSED | re-run cold at the freeze HEAD (4,389 paths / 0 unpinned). The caveat is real and stated: on the pre-campaign tree `run()` refuses at the missing tier, so the sweep enumerates the REFUSAL path only — the comparison gate's and secondaries' reads (2i/2g/2j `verdict.json`) never happen. All four verdict records are on `referents_2k.json`'s manifest (checked), and the success path was swept separately on a world to confirm it opens nothing outside the manifest, the frozen set and the world root. |
+| 13 | determinism: `run()` twice in separate processes on a world | CLEARED | byte-identical verdict JSON, sha256 `fffbc2deeba9c3c584ace8e523b437a059eff37c30bee381b9151dd0346ac1d1` both times. |
 | 14 | the tag binds the instrument, real git, real tag | CLEARED | a real temp repo carrying the three `INSTRUMENT_BLOBS_2K`, committed and annotated-tagged `exp2k-preregistered`: clean → binds 3 blobs; post-tag edit to `run/tier_2k.py` → REFUSED; post-tag edit to `analyze_2k.py` → REFUSED; tag deleted → REFUSED. `tier_2k.run` calls `require_prereg_2k` FIRST, before any frozen check, seal check, halt scan or model load. |
 | 15 | label prefixes disjoint, and disjoint from 2i's and 2j's | CLEARED | `test_collect_total_labels_are_prefix_disjoint_and_disjoint_from_2i_2j` (AST + f-string harvest) passes at the freeze HEAD with the two NEW labels ("2k power claims", "2k tier {size}/{rung} seed-stream census") in the set. |
 | 16 | `s1_blocks` SD with a `None` T | CLEARED | `finite` filtering: `mean/min/max` over the finite T's, `sd` `None` when fewer than two are finite. New fast test drives a degenerate block through it. |
@@ -497,8 +498,8 @@ sealed draws'."** Append (freeze F-2):
 - No sha-pinned file was edited: `FROZEN_SHA256_2K` (36),
   `IMPORTED_SHA256_2K` (32), `N_FILES_2K` (2,649) and
   `REFERENTS_2K_SHA256` all stand unchanged, re-verified cold.
-- `experiments/exp2k/mutation_freeze_fast.log` and
-  `mutation_freeze_totality.log` are the freeze's two committed
-  mutation logs; `mutation_build.log` / `mutation_round1.log` remain
-  the build's.
+- `experiments/exp2k/mutation_freeze_fast.log`,
+  `mutation_freeze_totality.log` and `mutation_freeze_totality2.log`
+  are the freeze's three committed mutation logs; `mutation_build.log`
+  / `mutation_round1.log` remain the build's.
 
