@@ -1,0 +1,392 @@
+# experiments/exp2k/battery_2k.py
+"""Experiment 2k — constants, paths, readers, the tier-record literal
+and its checker, seed freshness and the 256-scaled matched-k rule
+(design §2, §3.1–3.4, §4). Zero model contact: every input is a
+committed file or a hand-built row set.
+
+Seed 0 of every 2k cell IS 2d's committed main-tier stream (same rung,
+size, mode, exp3's `stream_seed` formula and namespace) — regenerated
+on the production path, never copied, and compared draw by draw as
+gate 1 (design §3.2). Seeds 1–3 are fresh on every R_CAP cell at both
+sizes; `check_seed_freshness` proves it against every committed
+stream map before a model loads."""
+from __future__ import annotations
+
+import gzip
+import json
+import sys
+from pathlib import Path
+
+EXP2K = Path(__file__).resolve().parent
+EXPERIMENTS = EXP2K.parent
+REPO = EXPERIMENTS.parent
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))
+
+from experiments.exp2d import analyze_2d as a2d  # noqa: E402
+from experiments.exp2d import battery_2d as bt  # noqa: E402
+from experiments.exp2g import battery_2g as bg  # noqa: E402
+
+RESULTS = EXP2K / "results"
+TIER = "k256"
+MODE = a2d.MODE                                  # "trained"
+SIZES_2K = ("1b", "410m")                        # dial c / g: 1b first, 410m second
+SEEDS_2K = (0, 1, 2, 3)                          # dial a / b
+DRAWS_PER_SEED = 64
+K_TOTAL = DRAWS_PER_SEED * len(SEEDS_2K)         # 256
+LADDER_K = (64, 128, 192, 256)
+N_ITEMS = bt.N_ITEMS
+GATE1_SEED = 0
+PREREG_TAG_2K = "exp2k-preregistered"
+SEAL_TAG_2K = "exp2k-predictor-sealed"
+INSTRUMENT_BLOBS_2K = ("experiments/exp2k/analyze_2k.py",
+                       "experiments/exp2k/battery_2k.py",
+                       "experiments/exp2k/run/tier_2k.py")
+# design §3.4: 2i's committed R_CAP; the analyzer READS 2i's record and
+# refuses if it differs from this literal.
+R_CAP_DESIGN = ("add3_mid", "add_base8", "antonym", "antonym6", "arith_next",
+                "odd6", "sub3_mid", "sub4_mid", "sub_base8")
+# design §2: k_g = clip(round(256 · r̄_A / r̄_B), 1, 64) on the committed rates
+MATCHED_K_DESIGN = {"add_base8": 28, "arith_next": 37, "sub_base8": 45, "add3_mid": 27,
+                    "antonym": 64, "antonym6": 64, "odd6": 64, "sub3_mid": 64, "sub4_mid": 64}
+STREAM_MAPS = (EXPERIMENTS / "exp3" / "stream_map.json",
+               EXPERIMENTS / "exp2d" / "stream_map_2d.json",
+               EXPERIMENTS / "exp3c" / "stream_map_3c.json",
+               EXPERIMENTS / "exp3d" / "stream_map_3d.json",
+               EXPERIMENTS / "exp3e" / "stream_map_3e.json")
+
+
+# ---------------------------------------------------------------- paths
+
+def tier_dir(root, size) -> Path:
+    return Path(root) / "results" / TIER / f"{size}_{MODE}"
+
+
+def tier_record_path(root, size, rung) -> Path:
+    return tier_dir(root, size) / f"{rung}.json"
+
+
+def tier_draws_path(root, size, rung) -> Path:
+    return tier_dir(root, size) / f"{rung}.draws.jsonl.gz"
+
+
+def halt_marker_path(root, size, rung) -> Path:
+    return tier_dir(root, size) / f"{rung}.HALTED"
+
+
+def halted_draws_path(root, size, rung) -> Path:
+    return tier_dir(root, size) / f"{rung}.HALTED.jsonl.gz"
+
+
+def halt_markers(root) -> list:
+    """Every `*.HALTED` marker under the tier tree, ANY size, ANY rung —
+    scanned before any tier loads (2d F-1's lesson)."""
+    base = Path(root) / "results" / TIER
+    return sorted(base.glob("*/*.HALTED")) if base.is_dir() else []
+
+
+def seal_path(root) -> Path:
+    return Path(root) / "results" / "predictor_2k.json"
+
+
+def power_path(root) -> Path:
+    return Path(root) / "results" / "power_2k.json"
+
+
+def committed_draws_path(size, rung) -> Path:
+    return a2d.tier_draws_path(a2d.EXP2D, "main", size, rung)
+
+
+def committed_record_path(size, rung) -> Path:
+    return a2d.tier_record_path(a2d.EXP2D, "main", size, rung)
+
+
+def pythia_sha(size) -> str:
+    """2b's pinned weight revision for a probe size — the `model_sha` 2d
+    wrote and the one every 2k record must carry (same weights)."""
+    if size not in bt.PROBE_SIZES:
+        raise ValueError(f"{size!r} is not a 2d probe size {bt.PROBE_SIZES}")
+    for _p in (EXPERIMENTS / "exp2b", EXPERIMENTS / "exp2c"):   # 2d's order, load-bearing
+        if str(_p) not in sys.path:
+            sys.path.insert(0, str(_p))
+    bt.harness_2c()                 # provenance-asserted
+    from models import PYTHIA_SHAS  # 2b's
+    return PYTHIA_SHAS[size]
+
+
+# -------------------------------------------------------------- readers
+
+def read_rows_2k(path, *, seeds=SEEDS_2K, dps=DRAWS_PER_SEED, n_items=N_ITEMS) -> list:
+    """2d's row format with FOUR seed streams per item; coverage pinned:
+    exactly items 0..n_items−1, each with exactly `seeds` at exactly
+    `dps` string draws each. Sorted by item."""
+    want = {str(s) for s in seeds}
+    rows, seen = [], set()
+    with gzip.open(Path(path), "rt") as f:
+        for line in f:
+            row = json.loads(line)
+            i = row.get("item")
+            if not isinstance(i, int) or i in seen or not 0 <= i < n_items:
+                raise ValueError(f"{path}: bad or duplicate item {i!r}")
+            seen.add(i)
+            draws = row.get("draws")
+            if not isinstance(draws, dict) or set(draws) != want:
+                raise ValueError(f"{path} item {i}: seed streams "
+                                 f"{sorted(draws) if isinstance(draws, dict) else draws!r}"
+                                 f" are not the tier's seeds {sorted(want)}")
+            for s, stream in draws.items():
+                if not isinstance(stream, list) or len(stream) != dps or \
+                        not all(isinstance(x, str) for x in stream):
+                    raise ValueError(f"{path} item {i} seed {s}: stream of "
+                                     f"{len(stream) if isinstance(stream, list) else stream!r}"
+                                     f" draws against draws_per_seed {dps}")
+            rows.append(row)
+    if len(seen) != n_items:
+        raise ValueError(f"{path}: {len(seen)} items against {n_items} — coverage incomplete")
+    rows.sort(key=lambda r: r["item"])
+    return rows
+
+
+def committed_rows(size, rung) -> list:
+    """2d's committed main-tier seed-0 rows for the cell (the gate-1
+    referent), through 2d's own coverage-pinned reader."""
+    spec = a2d.TIERS["main"]
+    return a2d.read_rows(committed_draws_path(size, rung), seed=spec["seed"],
+                         dps=spec["draws_per_seed"], n_items=N_ITEMS)
+
+
+def committed_by_item(rows) -> dict:
+    return {int(r["item"]): list(r["draws"][str(GATE1_SEED)]) for r in rows}
+
+
+def diff_seed0(rows_2k, committed) -> list:
+    """Every differing seed-0 draw between the 2k rows and 2d's committed
+    rows, with addresses — exp3d's `diff_seed` (coverage on both sides
+    a hard error, never a shorter comparison)."""
+    from experiments.exp3d.rederive_3d import diff_seed
+    regenerated = {int(r["item"]): list(r["draws"][str(GATE1_SEED)]) for r in rows_2k}
+    return diff_seed(committed, regenerated, dps=DRAWS_PER_SEED, seed=GATE1_SEED)
+
+
+# --------------------------------------------------------- bits / counts
+
+def bits_2k(rows, cap, verify_fn) -> list:
+    """N_ITEMS × K_TOTAL verified bits in SEED ORDER (seed 0's 64 draws,
+    then 1, 2, 3) — the order every `counts_at_k` prefix reads."""
+    n = len(cap["eval_items"])
+    bits = [None] * n
+    at = cap["answer_type"]
+    for row in rows:
+        ans = cap["eval_items"][row["item"]]["answer"]
+        b = []
+        for s in SEEDS_2K:
+            b.extend(int(bool(verify_fn(d, ans, at))) for d in row["draws"][str(s)])
+        bits[row["item"]] = b
+    if any(b is None for b in bits):
+        raise ValueError("bits_2k: coverage incomplete")
+    return bits
+
+
+def counts_at_k(bits, k) -> list:
+    if k not in LADDER_K:
+        raise ValueError(f"k = {k} is not on the ladder {LADDER_K}")
+    return [int(sum(b[:k])) for b in bits]
+
+
+def block_counts(bits, b) -> list:
+    return [int(sum(row[b * DRAWS_PER_SEED:(b + 1) * DRAWS_PER_SEED])) for row in bits]
+
+
+def counts_by_k(bits) -> dict:
+    return {k: counts_at_k(bits, k) for k in LADDER_K}
+
+
+def tallies_2k(rows, cap, verify_fn) -> dict:
+    at = cap["answer_type"]
+    out = {}
+    for s in SEEDS_2K:
+        v = n = 0
+        for row in rows:
+            ans = cap["eval_items"][row["item"]]["answer"]
+            for d in row["draws"][str(s)]:
+                n += 1
+                v += int(bool(verify_fn(d, ans, at)))
+        out[str(s)] = {"full_string": int(v), "n_draws": int(n)}
+    return out
+
+
+def mean_rate(counts, dps) -> float:
+    return float(sum(counts)) / (len(counts) * dps)
+
+
+# ------------------------------------------------------------- records
+
+# Every field the checker below re-derives from the pins, by name.
+TIER_RECORD_PINS_2K = ("rung", "size", "mode", "tier", "n_items", "answer_type", "n_shots",
+                       "dtype", "untrained_seed", "seeds", "draws_per_seed", "k_total",
+                       "max_new_tokens", "temperature", "truncation", "items_sha256",
+                       "stream_namespace", "model_sha")
+
+
+def tier_record_2k(*, rung, size, cap, rows, verify_fn, model_sha, stack, git_sha, seconds,
+                   committed_gz_sha, committed_record_sha, gate1_items_compared,
+                   gate1_draws_compared) -> dict:
+    """THE record literal (2d's `run_sampling_rung` record with four
+    seeds, a `k_total` of 256 and a `gate1` block). The runner writes
+    it; the worlds write it through this same function (2i F-1: a
+    world must carry the real shape, not a stub)."""
+    return {"rung": rung, "size": size, "mode": MODE, "tier": TIER, "n_items": len(rows),
+            "answers": [str(it["answer"]) for it in cap["eval_items"]],
+            "answer_type": cap["answer_type"], "n_shots": bt.N_SHOTS,
+            "dtype": a2d.SAMPLING_DTYPE, "untrained_seed": None, "model_sha": model_sha,
+            "items_sha256": cap["items_sha256"], "stream_namespace": a2d.STREAM_NAMESPACE,
+            "seeds": list(SEEDS_2K), "draws_per_seed": DRAWS_PER_SEED, "k_total": K_TOTAL,
+            "max_new_tokens": bt.max_new_tokens(rung), "temperature": 1.0,
+            "truncation": "none", "per_seed_tallies": tallies_2k(rows, cap, verify_fn),
+            "gate1": {"seed": GATE1_SEED, "on_production_path": True,
+                      "items_compared": int(gate1_items_compared),
+                      "draws_compared": int(gate1_draws_compared), "n_diffs": 0,
+                      "committed_draws_sha256": committed_gz_sha,
+                      "committed_record_sha256": committed_record_sha},
+            "draws_file": tier_draws_path(EXP2K, size, rung).name, "stack": stack,
+            "git_sha": git_sha, "seconds": round(float(seconds), 1)}
+
+
+def tier_record_failures_2k(rec, *, size, rung, cap, committed_sha=None) -> list:
+    """`results/k256/<size>_trained/<rung>.json` against everything already
+    pinned (2i's `predictor_record_failures_2i` pattern). Returns failure
+    strings; never raises for a well-typed dict. `committed_sha` (the
+    analyzer passes 2i's `PYTHIA_PREDICTOR_FILES` literal) is the sha the
+    gate-1 block must attest for its committed referent."""
+    label = f"tier k256/{size}/{rung}"
+    bad = []
+    want = {"rung": rung, "size": size, "mode": MODE, "tier": TIER, "n_items": N_ITEMS,
+            "answer_type": cap["answer_type"], "n_shots": bt.N_SHOTS,
+            "dtype": a2d.SAMPLING_DTYPE, "untrained_seed": None, "seeds": list(SEEDS_2K),
+            "draws_per_seed": DRAWS_PER_SEED, "k_total": K_TOTAL,
+            "max_new_tokens": bt.max_new_tokens(rung), "temperature": 1.0,
+            "truncation": "none", "items_sha256": cap["items_sha256"],
+            "stream_namespace": a2d.STREAM_NAMESPACE,
+            "model_sha": pythia_sha(size) if size in bt.PROBE_SIZES else None}
+    for k in TIER_RECORD_PINS_2K:
+        if rec.get(k) != want[k]:
+            bad.append(f"{label}: {k} = {rec.get(k)!r}, expected {want[k]!r}")
+    answers = rec.get("answers")
+    want_answers = [str(it["answer"]) for it in cap["eval_items"]]
+    if not isinstance(answers, list) or len(answers) != len(want_answers):
+        bad.append(f"{label}: answers column is not {len(want_answers)} long")
+    else:
+        n = sum(1 for a, b in zip(answers, want_answers) if a != b)
+        if n:
+            bad.append(f"{label}: the record's answer column differs from the pinned item "
+                       f"file on {n} item(s)")
+    tallies = rec.get("per_seed_tallies")
+    if not isinstance(tallies, dict) or set(tallies) != {str(s) for s in SEEDS_2K}:
+        bad.append(f"{label}: per_seed_tallies does not carry exactly seeds {list(SEEDS_2K)}")
+    else:
+        for s, t in tallies.items():
+            if not isinstance(t, dict) or t.get("n_draws") != N_ITEMS * DRAWS_PER_SEED:
+                bad.append(f"{label}: per_seed_tallies[{s}] tallies "
+                           f"{t.get('n_draws') if isinstance(t, dict) else t!r} draws, not "
+                           f"the full {N_ITEMS * DRAWS_PER_SEED}")
+    g = rec.get("gate1")
+    if not isinstance(g, dict):
+        bad.append(f"{label}: gate1 block missing")
+    else:
+        if g.get("seed") != GATE1_SEED or g.get("on_production_path") is not True:
+            bad.append(f"{label}: gate1 seed/on_production_path {g.get('seed')!r}/"
+                       f"{g.get('on_production_path')!r}")
+        if g.get("items_compared") != N_ITEMS:
+            bad.append(f"{label}: gate1 items_compared = {g.get('items_compared')!r}, not "
+                       f"{N_ITEMS} — coverage, not a rate")
+        if g.get("draws_compared") != N_ITEMS * DRAWS_PER_SEED:
+            bad.append(f"{label}: gate1 draws_compared = {g.get('draws_compared')!r}")
+        if g.get("n_diffs") != 0:
+            bad.append(f"{label}: gate1 n_diffs = {g.get('n_diffs')!r} (the runner should "
+                       f"have halted)")
+        if committed_sha is not None and g.get("committed_draws_sha256") != committed_sha:
+            bad.append(f"{label}: gate1 committed_draws_sha256 {g.get('committed_draws_sha256')!r}"
+                       f" is not 2i's pinned {committed_sha!r} for the cell")
+        for k in ("committed_draws_sha256", "committed_record_sha256"):
+            if not isinstance(g.get(k), str) or len(g.get(k)) != 64:
+                bad.append(f"{label}: gate1 {k} is not a sha256")
+    if rec.get("draws_file") != tier_draws_path(EXP2K, size, rung).name:
+        bad.append(f"{label}: draws_file = {rec.get('draws_file')!r}")
+    return bad
+
+
+# ------------------------------------------------------------ freshness
+
+def _cells_of(map_path: Path) -> set:
+    """Every `(rung, size, mode, seed)` a committed stream map covers.
+    All five committed maps (exp3, exp2d, exp3c, exp3d, exp3e) carry a
+    top-level `cells` dict keyed `rung/size/mode/s<seed>` (verified
+    against the real files: exp2d's map ALSO carries a `tiers` block,
+    but `cells` is present there too, so the cells branch always fires
+    on this data — the `tiers` branch below is retained for a future
+    map that might lack `cells`, and is unreachable on the committed
+    five, disclosed in PROGRESS.md). Any other shape is a hard error —
+    the freshness proof must not silently skip a map it cannot parse."""
+    m = json.loads(map_path.read_text())
+    out = set()
+    if "cells" in m and isinstance(m["cells"], dict):
+        for key in m["cells"]:
+            parts = key.split("/")
+            if len(parts) != 4 or not parts[3].startswith("s"):
+                raise ValueError(f"{map_path}: unrecognized cell key {key!r}")
+            out.add((parts[0], parts[1], parts[2], int(parts[3][1:])))
+    elif "tiers" in m and isinstance(m["tiers"], dict):
+        for tier in m["tiers"].values():
+            for rung in bt.RUNGS:
+                for size in bt.PROBE_SIZES:
+                    out.add((rung, size, MODE, int(tier["seed"])))
+    else:
+        raise ValueError(f"{map_path}: neither a cells map nor a tiers map")
+    return out
+
+
+def stream_collisions(rung, size, seeds, *, mode=MODE) -> list:
+    hits = []
+    for mp in STREAM_MAPS:
+        cells = _cells_of(mp)
+        for s in seeds:
+            if (rung, size, mode, int(s)) in cells:
+                hits.append(f"{mp.name}:{rung}/{size}/{mode}/s{s}")
+    return hits
+
+
+def check_seed_freshness(rungs, sizes=SIZES_2K) -> dict:
+    """Seeds 1–3 collide with NO committed stream on any (rung, size);
+    seed 0 collides with 2d's main tier on EVERY (rung, size) — it must,
+    it is the gate-1 referent. Raises otherwise."""
+    new = [s for s in SEEDS_2K if s != GATE1_SEED]
+    bad = []
+    n = 0
+    for rung in rungs:
+        for size in sizes:
+            n += 1
+            hits = stream_collisions(rung, size, new)
+            if hits:
+                bad.append(f"seeds {new} collide with committed streams: {hits}")
+            if not any("stream_map_2d" in h for h in stream_collisions(rung, size, (GATE1_SEED,))):
+                bad.append(f"seed {GATE1_SEED} on {rung}/{size} is not 2d's main tier")
+    if bad:
+        raise ValueError("seed freshness: " + "; ".join(bad))
+    return {"new_seeds": new, "gate1_seed": GATE1_SEED, "cells": n,
+            "maps": [p.name for p in STREAM_MAPS]}
+
+
+# ---------------------------------------------------------- matched k
+
+def matched_k_256(rate_a64, rate_b64) -> dict:
+    """design §2 / §5.2 S3: x_A at 256 draws expects 256·r̄_A verified
+    draws per item; x_B's 64-draw count matches it at
+    k = clip(round(256 · r̄_A / r̄_B), 1, 64), round = floor(x + 0.5)
+    (2j's convention). Capped at 64 when x_A at 256 is at least as dense
+    as x_B at 64 (then the B side is not thinned; disclosed)."""
+    import numpy as np
+    if rate_b64 <= 0 or 256.0 * rate_a64 >= 64.0 * rate_b64:
+        return {"k": DRAWS_PER_SEED, "capped": True, "n_blocks": 1}
+    k = int(np.floor(K_TOTAL * rate_a64 / rate_b64 + 0.5))
+    k = min(DRAWS_PER_SEED, max(1, k))
+    return {"k": k, "capped": k == DRAWS_PER_SEED, "n_blocks": DRAWS_PER_SEED // k}
