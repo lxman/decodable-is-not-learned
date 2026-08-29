@@ -345,3 +345,30 @@ def test_require_prereg_2k_refuses_missing_tag_and_drift():
     assert set(ok["instrument_blobs"]) == set(bk.INSTRUMENT_BLOBS_2K)
     with pytest.raises(RuntimeError, match="does not bind"):
         bk.require_prereg_2k(tag_exists=lambda t: True, blob_sha=lambda tag, rel: "x")
+
+
+def test_bits_2k_lays_seeds_out_in_seed_order_and_k64_is_block_0():
+    """Freeze, attack item 2: `bits_2k` extends in `SEEDS_2K` order and is
+    the only bits producer in the instrument (`load_tier_2k._bits` is its
+    one caller; the worlds and the seal both reach it through that), so
+    the k = 64 prefix every ladder reads IS seed 0's own block."""
+    rows = [{"item": 0, "draws": {"0": [" a"] * 64, "1": [" b"] * 64,
+                                  "2": [" a"] * 64, "3": [" b"] * 64}}]
+    cap = {"eval_items": [{"answer": "a"}], "answer_type": "word"}
+    bits = bk.bits_2k(rows, cap, lambda d, ans, at: d.strip() == ans)
+    assert bk.counts_at_k(bits, 64) == [64] == bk.block_counts(bits, 0)
+    assert bk.block_counts(bits, 1) == [0] and bk.block_counts(bits, 2) == [64]
+    assert bk.counts_at_k(bits, 128) == [64] and bk.counts_at_k(bits, 256) == [128]
+
+
+def test_the_ladder_is_nested_and_k64_never_reads_another_block():
+    rng = __import__("random").Random(7)
+    rates = (0.05, 0.4, 0.7, 0.95)
+    bits = [[int(rng.random() < rates[s]) for s in range(4) for _ in range(64)]
+            for _ in range(30)]
+    assert bk.counts_at_k(bits, 64) == bk.block_counts(bits, 0)
+    assert bk.counts_at_k(bits, 64) != bk.block_counts(bits, 1)
+    for k in bk.LADDER_K:
+        nb = k // bk.DRAWS_PER_SEED
+        assert bk.counts_at_k(bits, k) == [sum(bk.block_counts(bits, j)[i] for j in range(nb))
+                                           for i in range(len(bits))]

@@ -1,0 +1,94 @@
+baseline OK (fast pass, all mutants)
+
+[ 1] killed  read_rows_2k: seed-set exact-match loosened to subset-accepted
+[ 2] killed  read_rows_2k: draws_per_seed exact-match loosened to a floor (>dps silently accepted)
+[ 3] killed  counts_at_k: prefix b[:k] widened to b[:k+1]
+[ 4] killed  block_counts: slice start off by one (b * 64 -> b * 64 + 1)
+[ 5] killed  bits_2k: seed order reversed (breaks the seed-ordered prefix every counts_at_k reads)
+[ 6] killed  tallies_2k: every seed's tally reads seed 0's draws (n_draws/full_string counting only seed 0)
+[ 7] killed  tier_record_failures_2k: gate1 n_diffs != 0 check removed
+[ 8] killed  tier_record_failures_2k: gate1 items_compared exact-match loosened to a floor
+[ 9] killed  tier_record_failures_2k: committed_sha comparison removed
+[10] killed  TIER_RECORD_PINS_2K: model_sha dropped from the pinned-field tuple
+[11] killed  stream_collisions: 2d's own map silently skipped
+[12] killed  check_seed_freshness: the seed-0-is-2d's-main-tier assertion removed
+[13] SURVIVED  matched_k_256: the cap condition >= loosened to > (a tie no longer caps at 64)
+[14] killed  matched_k_256: floor(x + 0.5) rounding replaced by truncation
+[15] killed  require_prereg_2k: blob-binding mismatch inverted (want == got raises instead of !=)
+[16] killed  run_rung: gate-1 diff comparison inverted (g != w -> g == w)
+[17] killed  run_rung: the HALTED marker is no longer written on a gate-1 fire
+[18] killed  run_rung: the normal draws file is ALSO written on a halt (skip-if-exists would then treat a halted rung as done)
+[19] killed  run_rung: _refuse_if_halted removed (a halted tree no longer refuses a later call)
+[20] killed  run_rung: the model_sha refusal removed
+[21] killed  run_rung: the per-item coverage diff (wrong draw count) no longer detected
+[22] killed  verdict_tree_2k: the firing branch reports NOT-DENSITY instead of DENSITY
+[23] killed  verdict_tree_2k: the structured/null annotation boundary decoupled from ALPHA (p < ALPHA -> p < 0.05, ALPHA is 0.01)
+[24] killed  _licensed: the POWERED branch returns the UNDERPOWERED licence
+[25] killed  load_tier_2k/_gate: the gate-1 diff check removed
+[26] killed  load_tier_2k/_gate: the draws_compared attestation check removed
+[27] killed  load_tier_2k/_bits: the per_seed_tallies re-derivation check removed
+[28] killed  load_tier_2k: committed_sha argument dropped from the record check
+[29] SURVIVED  seal_failures_2k: the 256-draw counts check removed
+[30] SURVIVED  seal_failures_2k: the counts_by_k ladder check removed
+[31] SURVIVED  seal_failures_2k: the per-file sha check removed
+[32] SURVIVED  seal_failures_2k: the composite sha256 check removed
+[33] killed  load_power_2k: the rung-set equality loosened to a subset check
+[34] killed  load_power_2k: the predictor_sha256 check removed
+[35] SURVIVED  run()/_cmp: the x_A^(64)-vs-2d comparison loop removed (world/totality only)
+[36] SURVIVED  run()/_cmp: the per-rung d comparison loop removed (world/totality only)
+[37] SURVIVED  run()/_core: the block gate inverted (raises on a correct reproduction) — world/totality only
+[38] killed  run(): the halt-marker scan removed — a halted tree no longer refuses
+[39] killed  s1_blocks: sd uses ddof=0 instead of ddof=1
+[40] killed  placement_on_ladder: log2 interpolation replaced by linear interpolation in k
+[41] killed  s3_matched: n_blocks hardcoded to 1 (the block machinery's block count ignored)
+[42] killed  ladder_2k: iterates only k in (64, 256), dropping 128/192
+[43] killed  check_imports_2k: the tests/-directory exclusion swallows everything ('tests' in rp.parts -> True)
+[44] killed  freeze F-1: halt_markers narrowed back to the marker glob alone (the HALTED.jsonl.gz evidence file no longer refuses)
+[45] killed  freeze F-2: check_power_claims_2k's degeneracy re-derivation removed
+[46] killed  freeze F-2: check_power_claims_2k's n_pos_lower_bound re-derivation removed
+[47] killed  freeze F-3: the seal files-table coverage check removed
+[48] SURVIVED  freeze F-4: the whole-cell seed-stream copy refusal removed (totality only — load_tier_2k needs a real tier)
+[49] killed  run(): totality — collect_total stripped at line 288 (bg.load_battery...)
+[50] killed  run(): totality — collect_total stripped at line 289 (bg.load_floors...)
+[51] killed  run(): totality — collect_total stripped at line 290 (a2d.load_verify...)
+[52] killed  run(): totality — collect_total stripped at line 291 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[53] killed  run(): totality — collect_total stripped at line 297 (lambda: bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHE...)
+[54] killed  run(): totality — collect_total stripped at line 300 (lambda: an2i._load_predictor_seal_content(root_2i)...)
+[55] killed  run(): totality — collect_total stripped at line 306 (lambda: an2i._load_rung_set(root_2i)...)
+[56] killed  run(): totality — collect_total stripped at line 317 (lambda: an2i.load_predictor_records_2i(root_2i, battery, ent...)
+[57] killed  run(): totality — collect_total stripped at line 326 (lambda: an2i.load_endpoint_which(root_2i, "stage1_final", ba...)
+[58] killed  run(): totality — collect_total stripped at line 349 (lambda: an2i.load_sweep_7b(root_2i, battery, verify_fn, mani...)
+[59] killed  run(): totality — collect_total stripped at line 355 (lambda: an2i.gate1_rederive_7b(sweep[bi.ENDPOINT_STEP_7B], s...)
+[60] killed  run(): totality — collect_total stripped at line 361 (lambda: bi.sampler_counts_olmo(r_cap, root=root_2i, battery=...)
+[61] killed  run(): totality — collect_total stripped at line 377 (lambda: _bits_b() if _pr and x_b else...)
+[62] killed  run(): totality — collect_total stripped at line 379 (lambda: an2j.load_pythia_outcomes(battery, verify_fn) if bat...)
+[63] killed  run(): totality — collect_total stripped at line 836 (frozen_check or bk.check_frozen_2k...)
+[64] killed  run(): totality — collect_total stripped at line 841 (lambda: bk.require_prereg_2k(tag_exists=tag_exists, blob_sha...)
+[65] killed  run(): totality — collect_total stripped at line 882 (lambda: json.loads(bk.seal_path(root_2k).read_text())...)
+[66] killed  run(): totality — collect_total stripped at line 890 (lambda: load_power_2k(root_2k, r_cap, seal["sha256"]) if (se...)
+[67] killed  run(): totality — collect_total stripped at line 287 (thunk...)
+[68] killed  run(): totality — collect_total stripped at line 296 (lambda: sg.check_strata_pins(strata)...)
+[69] killed  run(): totality — collect_total stripped at line 312 (lambda: bi.entry_7b(manifest, bi.ENDPOINT_STEP_7B)...)
+[70] killed  run(): totality — collect_total stripped at line 314 (lambda: bi.entry_1b_endpoint(manifest)...)
+[71] killed  run(): totality — collect_total stripped at line 322 (lambda: an2i._check_predictor_seal_sampling(predictor_rec, p...)
+[72] killed  run(): totality — collect_total stripped at line 332 (lambda: an2i._check_rung_set_vs_endpoint(rung_set, stage1_fi...)
+[73] killed  run(): totality — collect_total stripped at line 347 (lambda: json.loads(g1p.read_text())...)
+[74] killed  run(): totality — collect_total stripped at line 366 (lambda: an2i._check_predictor_counts_2i(predictor_rec, predi...)
+[75] killed  run(): totality — collect_total stripped at line 384 (lambda: an2i.outcomes_7b(sweep, rungs=tuple(bt.RUNGS))...)
+[76] killed  run(): totality — collect_total stripped at line 409 (lambda: json.loads(rp.read_text())...)
+[77] killed  run(): totality — collect_total stripped at line 420 (lambda: bk.read_rows_2k(dp)...)
+[78] killed  run(): totality — collect_total stripped at line 441 (_gate...)
+[79] killed  run(): totality — collect_total stripped at line 451 (_bits...)
+[80] SURVIVED  run(): totality — collect_total stripped at line 483 (_dupes...)
+[81] SURVIVED  run(): totality — collect_total stripped at line 838 (check_imports_2k...)
+[82] SURVIVED  run(): totality — collect_total stripped at line 888 (lambda: seal_failures_2k(seal, cells, root_2k)...)
+[83] SURVIVED  run(): totality — collect_total stripped at line 926 (_cmp...)
+[84] SURVIVED  run(): totality — collect_total stripped at line 942 (_core...)
+[85] SURVIVED  run(): totality — collect_total stripped at line 947 (lambda: check_power_claims_2k(power, core[1], strata, r_cap,...)
+[86] SURVIVED  run(): totality — collect_total stripped at line 951 (check_imports_2k if imports_pinned else (lambda: None)...)
+[87] killed  run(): totality — collect_total stripped at line 335 (lambda: an2i._check_rung_set_derivation(rung_set, stage1_fin...)
+[88] killed  run(): totality — collect_total stripped at line 847 (lambda: mkr.check_referents(REFERENTS_PATH_2K, sha_pin=refer...)
+[89] SURVIVED  run(): totality — collect_total stripped at line 875 (_tier...)
+[90] SURVIVED  run(): totality — collect_total stripped at line 989 (thunk...)
+
+72/90 killed; 18 survivor(s): [(13, 'matched_k_256: the cap condition >= loosened to > (a tie no longer caps at 64)', 'survived'), (29, 'seal_failures_2k: the 256-draw counts check removed', 'survived'), (30, 'seal_failures_2k: the counts_by_k ladder check removed', 'survived'), (31, 'seal_failures_2k: the per-file sha check removed', 'survived'), (32, 'seal_failures_2k: the composite sha256 check removed', 'survived'), (35, 'run()/_cmp: the x_A^(64)-vs-2d comparison loop removed (world/totality only)', 'survived'), (36, 'run()/_cmp: the per-rung d comparison loop removed (world/totality only)', 'survived'), (37, 'run()/_core: the block gate inverted (raises on a correct reproduction) — world/totality only', 'survived'), (48, 'freeze F-4: the whole-cell seed-stream copy refusal removed (totality only — load_tier_2k needs a real tier)', 'survived'), (80, 'run(): totality — collect_total stripped at line 483 (_dupes...)', 'survived'), (81, 'run(): totality — collect_total stripped at line 838 (check_imports_2k...)', 'survived'), (82, 'run(): totality — collect_total stripped at line 888 (lambda: seal_failures_2k(seal, cells, root_2k)...)', 'survived'), (83, 'run(): totality — collect_total stripped at line 926 (_cmp...)', 'survived'), (84, 'run(): totality — collect_total stripped at line 942 (_core...)', 'survived'), (85, 'run(): totality — collect_total stripped at line 947 (lambda: check_power_claims_2k(power, core[1], strata, r_cap,...)', 'survived'), (86, 'run(): totality — collect_total stripped at line 951 (check_imports_2k if imports_pinned else (lambda: None)...)', 'survived'), (89, 'run(): totality — collect_total stripped at line 875 (_tier...)', 'survived'), (90, 'run(): totality — collect_total stripped at line 989 (thunk...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []

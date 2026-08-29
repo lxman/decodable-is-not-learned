@@ -234,6 +234,24 @@ M = [
          "('tests' in rp.parts -> True)",
      '        if not s.startswith(_EXPERIMENTS_ROOT_2K + "/") or "tests" in rp.parts:',
      '        if not s.startswith(_EXPERIMENTS_ROOT_2K + "/") or True:'),
+    # --------------------------------------------- the freeze's own closures
+    (BK, "freeze F-1: halt_markers narrowed back to the marker glob alone "
+         "(the HALTED.jsonl.gz evidence file no longer refuses)",
+     '    return sorted(set(base.glob("*/*.HALTED")) | set(base.glob("*/*.HALTED.jsonl.gz")))',
+     '    return sorted(base.glob("*/*.HALTED"))'),
+    (AN, "freeze F-2: check_power_claims_2k's degeneracy re-derivation removed",
+     "    if \"dropped_degenerate\" in prim and sorted(prim[\"dropped_degenerate\"] or []) != sorted(dropped):",
+     '    if False:'),
+    (AN, "freeze F-2: check_power_claims_2k's n_pos_lower_bound re-derivation removed",
+     '    if "n_pos_lower_bound" in prim:',
+     '    if False:'),
+    (AN, "freeze F-3: the seal files-table coverage check removed",
+     '        uncovered = sorted(want_rel - set(files))',
+     '        uncovered = []'),
+    (AN, "freeze F-4: the whole-cell seed-stream copy refusal removed "
+         "(totality only — load_tier_2k needs a real tier)",
+     '                if n == len(rows):',
+     '                if False:'),
 ]
 
 # One mutant per collect_total(...) call site in analyze_2k.py's run() AND

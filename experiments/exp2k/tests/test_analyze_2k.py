@@ -199,6 +199,72 @@ def test_load_power_2k_refusals(tmp_path):
         an.load_power_2k(tmp_path, bk.R_CAP_DESIGN, "S" * 64)
 
 
+def _claims_ctx(n=40):
+    """Toy inputs for `check_power_claims_2k`: one live rung (two values
+    inside a stratum) and one degenerate rung (constant everywhere)."""
+    x = {"live": [i % 3 for i in range(n)], "flat": [7] * n}
+    strata = {r: {"strata": [str(i % 2) for i in range(n)]} for r in x}
+    stage1 = {"live": {"correct": 123}, "flat": {"correct": 45}}
+    rungs = ("flat", "live")
+    prim = {"rungs": list(rungs), "dropped_degenerate": ["flat"], "rungs_simulated": ["live"],
+            "n_pos_lower_bound": {"live": 123, "flat": 45}, "t_bar": an.T_BAR,
+            "alpha": an.ALPHA, "thin": True}
+    return {"primary": prim}, x, strata, rungs, stage1
+
+
+def test_check_power_claims_2k_passes_a_coherent_record():
+    power, x, strata, rungs, stage1 = _claims_ctx()
+    assert an.check_power_claims_2k(power, x, strata, rungs, stage1) == []
+
+
+@pytest.mark.parametrize("field,value,needle", [
+    ("dropped_degenerate", [], "dropped_degenerate"),
+    ("rungs_simulated", ["flat", "live"], "rungs_simulated"),
+    ("n_pos_lower_bound", {"live": 0, "flat": 0}, "n_pos_lower_bound"),
+    ("t_bar", 0.0, "t_bar"),
+    ("alpha", 1.0, "alpha"),
+    ("thin", False, "thin"),
+])
+def test_check_power_claims_2k_catches_each_field(field, value, needle):
+    """Freeze F-2: every field the record attests is re-derived."""
+    power, x, strata, rungs, stage1 = _claims_ctx()
+    power["primary"][field] = value
+    bad = an.check_power_claims_2k(power, x, strata, rungs, stage1)
+    assert any(needle in b for b in bad), bad
+
+
+def test_check_power_claims_2k_refuses_an_unattesting_record():
+    power, x, strata, rungs, stage1 = _claims_ctx()
+    power["primary"] = {"rungs": list(rungs)}
+    bad = an.check_power_claims_2k(power, x, strata, rungs, stage1)
+    assert any("does not attest" in b for b in bad), bad
+    assert an.check_power_claims_2k({}, x, strata, rungs, stage1) == \
+        ["2k power claims: no primary block"]
+
+
+def test_seal_files_table_must_cover_every_tier_file(tmp_path):
+    """Freeze F-3: a files table checked only against itself attested
+    nothing. `seal_failures_2k` now requires coverage of the 36 cells."""
+    files = {}
+    for size in bk.SIZES_2K:
+        for r in bk.R_CAP_DESIGN:
+            for p in (bk.tier_record_path(tmp_path, size, r), bk.tier_draws_path(tmp_path, size, r)):
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(f"{size}/{r}/{p.name}")
+                files[str(p.relative_to(tmp_path))] = bg.sha256_file(p)
+    assert len(files) == 36
+    seal = {"tag": bk.SEAL_TAG_2K, "files": files, "sha256": an.seal_sha_of(files)}
+    bad = an.seal_failures_2k(seal, {}, tmp_path)
+    assert not any("does not cover" in b for b in bad), bad
+    short = {k: v for k, v in files.items() if k != sorted(files)[0]}
+    seal2 = {"tag": bk.SEAL_TAG_2K, "files": short, "sha256": an.seal_sha_of(short)}
+    bad2 = an.seal_failures_2k(seal2, {}, tmp_path)
+    assert any("does not cover 1 of the 36 tier files" in b for b in bad2), bad2
+    seal3 = {"tag": bk.SEAL_TAG_2K, "files": {}, "sha256": an.seal_sha_of({})}
+    bad3 = an.seal_failures_2k(seal3, {}, tmp_path)
+    assert any("does not cover 36 of the 36 tier files" in b for b in bad3), bad3
+
+
 def _raise_2i(*a, **kw):
     raise ValueError("injected for a Task 5 load_2i_tree collect_total test")
 
@@ -616,3 +682,62 @@ def test_mutation_check_refuses_at_start_if_any_backup_exists(monkeypatch, tmp_p
     monkeypatch.setattr(mc, "ROOT", tmp_path)
     with pytest.raises(RuntimeError, match="mutation_backup"):
         mc._refuse_if_any_backup_exists()
+
+
+def _toy_with_dead_blocks(n_dead):
+    """A toy whose LAST `n_dead` 64-draw blocks are constant, so
+    `_run_test` returns `_undefined_result_2i` (T None) for them."""
+    n = 40
+    # both patterns must VARY inside each stratum (strata are i % 2), or
+    # `_degenerate_rungs` drops the block and its T is None too.
+    live = [[1 if (i % 3 == 0) else 0 for _ in range(64)] for i in range(n)]
+    alt = [[1 if (i % 4 < 2) else 0 for _ in range(64)] for i in range(n)]
+    bits = []
+    for i in range(n):
+        row = []
+        for b in range(4):
+            if b >= 4 - n_dead:
+                row += [0] * 64
+            else:
+                row += (live[i] if b % 2 == 0 else alt[i])
+        bits.append(row)
+    y = [int(min(21, 3 * (i % 7))) for i in range(n)]
+    out = {"r1": {"y": y, "n_pos": sum(1 for v in y if v > 0)}}
+    strata = {"r1": {"strata": [str(i % 2) for i in range(n)]}}
+    return {"r1": bits}, out, strata
+
+
+@pytest.mark.parametrize("n_dead,n_finite", [(1, 3), (3, 1)])
+def test_s1_blocks_sd_ignores_undefined_blocks(n_dead, n_finite):
+    """Freeze, attack item 16: a degenerate block's T is `None` (never
+    NaN); mean/min/max are over the finite values and `sd` is `None`
+    when fewer than two remain."""
+    bits, out, strata = _toy_with_dead_blocks(n_dead)
+    s1 = an.s1_blocks(bits, out, strata, ("r1",), "1b", n_perm=30, n_boot=5)
+    finite = [t for t in s1["T"] if t is not None]
+    assert len(s1["T"]) == 4 and len(finite) == n_finite
+    assert s1["mean"] == pytest.approx(float(np.mean(finite)))
+    assert s1["min"] == min(finite) and s1["max"] == max(finite)
+    if n_finite > 1:
+        assert s1["sd"] == pytest.approx(float(np.std(finite, ddof=1)))
+    else:
+        assert s1["sd"] is None
+    assert all(not isinstance(t, float) or t == t for t in s1["T"])   # no NaN
+
+
+def test_verdict_write_path_is_strict_json_against_nonfinite_values():
+    """Freeze, attack item 17: `run(write=True)` writes through
+    `an2i._json_safe` with `allow_nan=False`; every non-finite float —
+    python, numpy scalar, inside an array, at any depth — becomes null,
+    so a NaN per-rung CI cannot make the verdict file unwritable."""
+    v = {"a": float("nan"),
+         "b": [float("inf"), {"c": float("-inf")}],
+         "d": np.float64("nan"),
+         "e": np.array([1.0, np.nan]),
+         "f": {64: 1, "g": None},
+         "h": {"ci": (float("nan"), 0.5)}}
+    s = json.dumps(an2i._json_safe(v), indent=1, default=an2i._jsonable, allow_nan=False)
+    back = json.loads(s)
+    assert back["a"] is None and back["b"][0] is None and back["b"][1]["c"] is None
+    assert back["d"] is None and back["e"] == [1.0, None]
+    assert back["f"] == {"64": 1, "g": None} and back["h"]["ci"] == [None, 0.5]
