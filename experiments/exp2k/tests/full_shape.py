@@ -157,10 +157,25 @@ def write_world_2k(root, *, world="density", strength=1.0, seed=0, missing=None,
                                     gate1_items_compared=bt.N_ITEMS,
                                     gate1_draws_compared=bt.N_ITEMS * bk.DRAWS_PER_SEED)
             fs2i._w(bk.tier_record_path(root, size, r), rec)
-    # ---- the seal through the REAL tool, the power record (literal)
+    # ---- the seal through the REAL tool, the power record (literal
+    # declaration; every field freeze F-2's `check_power_claims_2k`
+    # re-derives is computed here from the world's own tier and endpoint,
+    # exactly as `power_2i._one_test_power` would have)
     seal = seal_2k.seal_predictor(root, **_TAG_OK)
+    pred2g0 = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
+    strata0 = sg.from_json(pred2g0["strata"])
+    x256_w = {r: seal["counts"]["1b"][r] for r in r_cap}
+    dropped_w = list(an2i._degenerate_rungs(x256_w, strata0, r_cap))
+    keep_w = [r for r in r_cap if r not in dropped_w]
+    n_pos_w = {r: int(json.loads(bi.endpoint_record_path(root, "stage1_final", r).read_text())["correct"])
+               for r in r_cap}
     fs2i._w(bk.power_path(root), {"primary": {"declared_status": power_status, "declaration": "x",
-                                              "rungs": list(r_cap), "n_trained_steps": bi.n_trained_7b()},
+                                              "rungs": list(r_cap), "n_trained_steps": bi.n_trained_7b(),
+                                              "dropped_degenerate": dropped_w,
+                                              "rungs_simulated": keep_w,
+                                              "n_pos_lower_bound": n_pos_w,
+                                              "t_bar": an.T_BAR, "alpha": an.ALPHA,
+                                              "thin": len(keep_w) < 3},
                                   "predictor_sha256": seal["sha256"], "shape_note": "x", "note": "x"})
     # ---- the 410m comparison pin re-derived on the world's outcome
     pred2g = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
@@ -222,6 +237,18 @@ def write_world_2k(root, *, world="density", strength=1.0, seed=0, missing=None,
         rec = json.loads(p.read_text())
         rec["predictor_sha256"] = "0" * 64
         p.write_text(json.dumps(rec))
+    if missing == "power_claims":
+        # freeze F-2: POWERED declared over a simulation of NOTHING, at no
+        # bar — every re-derivable field contradicting the analyzer, with
+        # the four `load_power_2k` already checked (sha, rungs, steps,
+        # status) left intact so only the new check can catch it.
+        p = bk.power_path(root)
+        rec = json.loads(p.read_text())
+        rec["primary"] = dict(rec["primary"], declared_status="POWERED",
+                              dropped_degenerate=list(r_cap), rungs_simulated=[],
+                              n_pos_lower_bound={r: 0 for r in r_cap},
+                              t_bar=0.0, alpha=1.0, thin=True)
+        p.write_text(json.dumps(rec))
     return {**{k: seal2i[k] for k in ("tag_exists", "blob_sha", "blobs_bound")},
             "pin_a": pin_a, "pin_a410": pin_a410, "verdict_2i_path": vpath}
 
@@ -257,5 +284,7 @@ def world_specs() -> list:
         ("W12 INSUFFICIENT model sha", dict(world="density", missing="model_sha"),
          "INSUFFICIENT_DATA", None),
         ("W13 INSUFFICIENT power sha", dict(world="density", missing="power_sha"),
+         "INSUFFICIENT_DATA", None),
+        ("W14 INSUFFICIENT power claims", dict(world="density", missing="power_claims"),
          "INSUFFICIENT_DATA", None),
     ]

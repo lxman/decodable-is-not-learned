@@ -305,6 +305,49 @@ def test_power_n_trained_steps_wrong(world):
     _insufficient(root, seal, "n_trained_steps")
 
 
+def _power_edit(root, **fields):
+    p = bk.power_path(root)
+    rec = json.loads(p.read_text())
+    rec["primary"] = dict(rec["primary"], **fields)
+    p.write_text(json.dumps(rec))
+
+
+def test_power_claims_rungs_simulated_wrong(world):
+    """Freeze F-2: the power record's simulation claims are re-derived."""
+    root, seal = world
+    _power_edit(root, rungs_simulated=[], dropped_degenerate=list(seal_rungs(root)))
+    _insufficient(root, seal, "2k power claims: dropped_degenerate", n_perm=200, n_boot=20)
+
+
+def test_power_claims_n_pos_wrong(world):
+    root, seal = world
+    rungs = seal_rungs(root)
+    _power_edit(root, n_pos_lower_bound={r: 0 for r in rungs})
+    _insufficient(root, seal, "n_pos_lower_bound", n_perm=200, n_boot=20)
+
+
+def test_power_claims_t_bar_and_alpha_wrong(world):
+    root, seal = world
+    _power_edit(root, t_bar=0.0, alpha=1.0)
+    v = _insufficient(root, seal, "2k power claims: t_bar", n_perm=200, n_boot=20)
+    assert any("2k power claims: alpha" in f for f in v["referents"]["failures"])
+
+
+def test_power_claims_fields_absent(world):
+    """A record that attests none of them cannot be checked — refuse."""
+    root, seal = world
+    p = bk.power_path(root)
+    rec = json.loads(p.read_text())
+    rec["primary"] = {k: v for k, v in rec["primary"].items()
+                      if k not in an.POWER_CLAIM_FIELDS_2K}
+    p.write_text(json.dumps(rec))
+    _insufficient(root, seal, "does not attest", n_perm=200, n_boot=20)
+
+
+def seal_rungs(root):
+    return sorted(json.loads(bk.power_path(root).read_text())["primary"]["rungs"])
+
+
 def test_power_predictor_sha_wrong(world):
     root, seal = world
     p = bk.power_path(root)

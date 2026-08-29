@@ -536,6 +536,71 @@ def load_power_2k(root_2k, r_cap, seal_sha) -> dict:
     return rec
 
 
+# Freeze F-2: the fields `power_2i._one_test_power` writes that 2k's own
+# analyzer can RE-DERIVE from inputs it already holds. `load_power_2k`
+# above binds the record to the sealed predictor by sha, to R_CAP by its
+# rung list and to the 7B grid by its step count — but everything the
+# simulation actually DID (which rungs survived the degeneracy screen,
+# what positive-outcome floor each rung was given, which bar and alpha
+# the firing rule used) was attested and compared to nothing. 2j's F-2
+# one experiment over: a power record is a claim about the RESOLUTION of
+# a particular test over a particular partition, and the claim has to be
+# measured.
+POWER_CLAIM_FIELDS_2K = ("dropped_degenerate", "rungs_simulated", "n_pos_lower_bound",
+                         "t_bar", "alpha", "thin")
+
+
+def check_power_claims_2k(power, x256, strata, r_cap, stage1_final) -> list:
+    """Every field of `POWER_CLAIM_FIELDS_2K` against the analyzer's own
+    re-derivation, on the SAME predictor the primary just ran on.
+
+    Demonstrated at the freeze on a complete density world: a power
+    record carrying `declared_status "POWERED"`, `rungs_simulated []`,
+    `dropped_degenerate` = all nine rungs, `n_pos_lower_bound` all zero,
+    `t_bar 0.0`, `alpha 1.0`, `n_sim 1` — POWERED declared over a
+    simulation of nothing, at no bar — passed `load_power_2k` untouched
+    and shipped as the verdict's `declared_status`, which is what picks
+    between NOT-DENSITY's "a measured absence" licence and
+    NOT-DENSITY_UNDERPOWERED's "not detected at this resolution". With
+    this check the same record produces four failures and the verdict is
+    INSUFFICIENT_DATA.
+
+    Additive: every disagreement is a new refusal, no accepted dial
+    moves, and a power record the real `power_2k.main` writes satisfies
+    all six by construction (it calls `power_2i._one_test_power` with
+    exactly these inputs)."""
+    bad = []
+    prim = (power or {}).get("primary")
+    if not isinstance(prim, dict):
+        return ["2k power claims: no primary block"]
+    missing = [k for k in POWER_CLAIM_FIELDS_2K if k not in prim]
+    if missing:
+        bad.append(f"2k power claims: the record does not attest {missing} — it cannot be "
+                   f"checked against the re-derivation")
+    dropped = list(an2i._degenerate_rungs(x256, strata, r_cap))
+    keep = [r for r in r_cap if r not in dropped]
+    if "dropped_degenerate" in prim and sorted(prim["dropped_degenerate"] or []) != sorted(dropped):
+        bad.append(f"2k power claims: dropped_degenerate {sorted(prim['dropped_degenerate'] or [])}"
+                   f" != the re-derivation on x_A^(256) {sorted(dropped)}")
+    if "rungs_simulated" in prim and sorted(prim["rungs_simulated"] or []) != sorted(keep):
+        bad.append(f"2k power claims: rungs_simulated {sorted(prim['rungs_simulated'] or [])} != "
+                   f"the surviving rungs {sorted(keep)}")
+    if "n_pos_lower_bound" in prim:
+        want_n = {r: int(stage1_final[r]["correct"]) for r in r_cap} if stage1_final else None
+        got_n = prim["n_pos_lower_bound"]
+        if want_n is None:
+            bad.append("2k power claims: n_pos_lower_bound cannot be re-derived (no endpoint)")
+        elif not isinstance(got_n, dict) or {k: int(v) for k, v in got_n.items()} != want_n:
+            bad.append(f"2k power claims: n_pos_lower_bound {got_n!r} != 2i's committed "
+                       f"stage1_final counts {want_n!r}")
+    for field, want in (("t_bar", T_BAR), ("alpha", ALPHA)):
+        if field in prim and prim[field] != want:
+            bad.append(f"2k power claims: {field} = {prim[field]!r}, the firing rule's {want!r}")
+    if "thin" in prim and bool(prim["thin"]) != (len(keep) < 3):
+        bad.append(f"2k power claims: thin = {prim['thin']!r} against {len(keep)} surviving rung(s)")
+    return bad
+
+
 # ------------------------------------------------------------ tests
 
 def ladder_2k(bits, out, strata, rungs, size_label, **kw) -> dict:
@@ -823,6 +888,13 @@ def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N
                                  f"{comparison['A64']['stratified']['T']!r}")
             return prim, x256
         core, f = collect_total(_core, "2k primary");                               failures += f
+    if not failures and core is not None:
+        # freeze F-2 (2j F-2's lineage): the power record's simulation
+        # claims against the analyzer's own re-derivation, on the same
+        # x_A^(256) the primary just ran on.
+        pf, f = collect_total(
+            lambda: check_power_claims_2k(power, core[1], strata, r_cap, ctx.get("stage1_final")),
+            "2k power claims");                                      failures += f + (pf or [])
     if not failures and core is not None:
         _, f = collect_total(check_imports_2k if imports_pinned else (lambda: None),
                              "2k import surface (exit)");                            failures += f
