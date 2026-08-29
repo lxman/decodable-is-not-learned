@@ -903,3 +903,27 @@ build's `power_2j.json` is there) and no file under `exp2i`, `exp2h`,
 freeze, so no pin was re-taken and the power record was not recomputed;
 `analyze_2j.py` changed (F-1, F-2, F-3, F-5) and is one of the two
 blob-bound instrument files the tag must be cut over.
+
+## 2026-08-28 — CLOSED: VERDICT RESIDUAL (tag `exp2j-closed`)
+
+Analyzer run once on Michael's go ("run the analyzer"), `python -m
+experiments.exp2j.analyze_2j --write`, 18:57–20:32 EDT (94 min),
+zero referent failures, comparison gates exact (2i B .21533,
+within-alone .22042, A .09491, cbw .07006, reverse .26120/.29736; 2g
+.16722; 2h .20197), block gate exact incl. per-rung D. PRIMARY
+T_beyond .13111044507864672, p 9.999e-05 (0/10,000; null mean
+−.00013, SD .01329), nine eligible, none dropped/THIN; fraction
+absorbed .4052 of within-alone .2204. Per rung beyond-all: arith_next
+.267, antonym .236, antonym6 .221, sub_base8 .213, add_base8 .196
+(from .741), odd6 .052, mid-digit ≈ 0. Singles: beyond L .1531, π
+.1759, R .2167, O .2184; alone π .1993 (fires; add_base8 .782,
+sub4_mid .326, sub_base8 .311, add3_mid .269, option rungs ≈ .11), L
+−.163, R −.021, O .026. Asymmetry re-read absorbed .28–.46 on every
+pair, no lineage/cross split. Sensitivities all fire: terciles .1395,
+LOO-π .1289, six rungs .1974, x_A 410m .0626. A-1 DENSITY: gaps 2.8b
+.870, 6.9b 1.051, OLMo .505; ladder monotone; x_B@k=8 ≈ x_A@64 on
+2.8b. Projection b43a414c HIT at the verdict level (known inputs),
+MISSED on texture: the named per-rung disconfirmer fired (antonym /
+antonym6 unabsorbed), L not π the strongest single absorber, π alone
+strongest on the arithmetic rungs. VERDICT.txt + retrospective
+written. One pre-committed change UNSPENT.

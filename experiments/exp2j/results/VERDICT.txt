@@ -1,0 +1,118 @@
+EXPERIMENT 2j — THE MECHANISM QUESTION — VERDICT: RESIDUAL
+(read under POWERED: P(fires | D = .15) = 1.000 against the bar .75;
+null SD of T .0114 in the power record, .0133 realized; min-detectable
+T .0265.)
+
+Frozen analyzer run ONCE, 2026-08-28 18:57–20:32 EDT (94 min), on
+Michael's go ("run the analyzer"), as `python -m
+experiments.exp2j.analyze_2j --write` (freeze F-1: the import surface
+is pinned; the campaign is the analyzer run — zero model contact).
+Tag exp2j-preregistered at cec95d77 (blob-bound: analyze_2j.py +
+functionals_2j.py; 26 frozen pins; 28-file import surface; 2,621-file
+manifest; power record ONCE). Projection sealed b43a414c. Referent
+failures: ZERO. Comparison gates PASS, exact to the last digit: 2i B
+.21533, within-alone .22042, A .09491, cross-beyond-within .07006,
+reverse .26120 / .29736; 2g .16722; 2h .20197. Block gate: k = 64
+reproduces within-alone .22041895894950217 and every per-rung D.
+
+§6 tree, mechanical:
+  1. INSUFFICIENT_DATA — not taken (zero failures; import surface and
+     power partition both verified at entry and exit).
+  2. RESIDUAL — the primary FIRES: T_beyond = 0.13111044507864672,
+     p = 9.999e-05 (n_ge 0 of 10,000; null mean −.00013, null SD
+     .01329), nine of nine R_CAP rungs eligible, none dropped, none
+     THIN; raw (single-stratum) T .2708.
+
+The finding in one line: holding 2g's difficulty stratum AND the
+answer's wrong-target propensity in the smaller model's own draws,
+its length, its character repetition and its overlap with the input
+all fixed at once (16–55 composite cells per rung), OLMo-2 1B's
+sampled count still forecasts the order in which OLMo-2 7B's training
+makes items emittable — 40.5 % of the within-alone forecast (.2204)
+is absorbed by the four functionals, 59.5 % survives.
+
+Per rung, within-alone → beyond-all (bootstrap CI):
+  arith_next   .275 → .267 [.183, .346]
+  antonym      .219 → .236 [.156, .318]
+  antonym6     .226 → .221 [.136, .316]
+  sub_base8    .341 → .213 [.117, .315]
+  add_base8    .741 → .196 [.054, .339]   ← 74 % absorbed
+  odd6         .095 → .052 [−.043, .145]
+  add3_mid     .053 → −.020;  sub3_mid .027 → .015;  sub4_mid .007 → .001
+
+Where the absorption lives (printed, non-gating): beyond each
+functional singly — L (answer length) .1531, π (wrong-target
+propensity) .1759, R .2167, O .2184; i.e. LENGTH is the strongest
+single absorber, π second, repetition and input overlap absorb
+nothing. The functionals alone (within base strata): π forecasts
+emergence order by ITSELF at T .1993, p 1.0e-4 — fires — strongest
+on add_base8 (.782, above the count's own .741), sub4_mid .326,
+sub_base8 .311, add3_mid .269; near zero on the option rungs (antonym
+.108, antonym6 .111, odd6 .059) and on arith_next (−.016). L alone
+−.163 (shorter answers earlier), R −.021, O .026 (n.s.).
+
+What the texture says, plainly: the absorption is NOT the word prior
+on the option rungs — the count's forecast there is untouched — it is
+answer length and answer prior on the base-8 arithmetic rung, where a
+3-digit octal sum (the top carry) and a habitually emitted string
+both order emission; and on the mid-digit rungs, where the count
+forecasts nothing, the small model's habit of saying particular
+4-digit strings forecasts which of them the large model learns first
+(add3_mid .269, sub4_mid .326) — a prior-driven ordering the count
+does not carry.
+
+The asymmetry re-read (§5.5): fraction absorbed by the same four
+functionals — x_B → OLMo-7B .405 (within-lineage); x_A → OLMo-7B .443;
+x_B → 2.8b .368; x_B → 6.9b .360; x_A → 2.8b .453; x_A → 6.9b .281;
+x_A(410m) → OLMo .458. No lineage/cross split: every pair is absorbed
+.28–.46, and every beyond-all still fires at p ≤ 2e-4 except x_A →
+OLMo (.0528, p 2e-4, below the bar as its within-alone was).
+
+Sensitivities (all fire): terciles .1395; π leave-one-out .1289; the
+six 2h-carried rungs .1974; x_A at 410m → OLMo beyond structure .0626
+(from .1154).
+
+A-1, density matching (non-gating; reading DENSITY):
+  reverse direction — thinned x_B (k per rung 7/7/9/11/22/23/40/57)
+  against Pythia outcomes: 2.8b .1795 vs x_A@64 .1672 and x_B@64 .2612
+  → gap fraction closed .870; 6.9b .2139 vs x_A@64 .2179 (7-rung
+  anchor) and x_B@64 .2974 → 1.051. At matched draw budgets OLMo-2 1B
+  forecasts Pythia's emission order no better than Pythia-1b does:
+  the reverse-direction asymmetry 2i named (.26/.30 vs .17/.20) is
+  predictor information density, not the model.
+  forward — thinned x_B → OLMo-7B .1571 vs x_A .0949 and x_B@64 .2204
+  → gap .505: HALF of the within-lineage advantage on OLMo's own
+  outcome is density; the other half survives at Pythia-1b's draw
+  budget (the lineage increment proper, .1571 − .0949 = .062).
+  The ladder (both predictors thinned to k, all three outcomes) is
+  monotone in k throughout: on Pythia's outcomes x_B at k = 8 matches
+  x_A at k = 64 (.1653 vs .1672 on 2.8b); on OLMo's outcome x_B at
+  k = 4 already exceeds x_A at 64 (.1104 vs .0949). Zero-fraction
+  matching gives the same readings (.1612 / .1999 / .2237).
+
+Calibration (stated in advance): one primary at α .01; the printed
+decompositions and A-1 carry no α claim; RESIDUAL/ABSORBED with the
+declaration is not α-calibrated. Known-inputs caveat printed in
+verdict.json (design §2, verbatim): everything was known, including
+T_beyond .1311 before the tag (slip c); the preregistration protected
+the choice of functionals, partition and tree, not the designer's
+knowledge of the concordances.
+
+Licensed by §6 as frozen (RESIDUAL): the essay's lineage sentence
+gains its mechanism clause — what the count carries is not the
+answer's length, its repetitiveness, its overlap with the input, or
+the smaller model's habit of saying that answer anyway; holding all
+four fixed inside the difficulty strata, the forecast survives at
+T .131 — a claim bounded to "not these four", with the §2 disclosure
+attached. A-1's DENSITY reading (non-gating, §6): 2i's sub-bar A
+reads partly as a thin-predictor effect and the cross-family question
+is open, not closed; the named follow-ups are approach B (x_A at
+k = 256 on R_CAP against the known OLMo outcome, 2d's caveat) or
+approach C (the OLMo-2 13B sealed outcome).
+
+Campaign: build (four SDD tasks, each reviewed), adversarial freeze
+(class defect F-1 found and closed: the unpinned import surface), one
+analyzer run; zero model contact throughout; one pre-committed change
+UNSPENT. Records: results/verdict.json (analyzer, run once, --write);
+projection graded in results/retrospective.md; ledger PROGRESS.md;
+freeze record FREEZE_CHECKLIST.md.
