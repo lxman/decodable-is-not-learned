@@ -255,3 +255,140 @@ single disclosed `analyze_2k.py`-absence cause above; no warnings, no
 other failures. Verified separately (throwaway stub, not committed):
 51/51 pass once `analyze_2k.py` exists, confirming Task 2's own code
 is correct.
+
+## Task 3: `analyze_2k.py` + `make_referents_2k.py`
+
+Built: `analyze_2k.py` (pins and the import-surface check
+`check_imports_2k`, `pin_a_from_record_2i`/`pin_a410_from_record_2i`/
+`ladder_b_from_record_2j`, `load_2i_tree` — 2j's `run()` prefix with
+2k-prefixed labels, `load_tier_2k` with the gate-1 re-derivation,
+`_seal_paths_2k`/`seal_sha_of`/`seal_failures_2k`, `load_power_2k`,
+`ladder_2k`/`s1_blocks`/`placement_on_ladder`/`s3_matched`/
+`s4_partials`/`s5_within_lineage`/`s7_texture`, `verdict_tree_2k`/
+`_licensed`, `run()`) and `make_referents_2k.py`
+(`referent_files`/`build`/`check_referents`), both transcribed from
+the brief's Step 4/5 code verbatim except the three deviations below.
+The five Task 1+2 tests that were RED only because `analyze_2k.py`
+didn't exist are now GREEN with no change to their own files.
+
+### The 410m literal (Step 3)
+
+`experiments/exp2i/results/verdict.json`'s `secondaries` dict has no
+`cross_410m` key. Printing `list(v["secondaries"])` and each entry's
+`stratified.T` found `replication_410m_cross` at T =
+0.11537934925951784 — inside the brief's own sanity bound (0.10, 0.13)
+and matching CLAUDE.md's "410m cross .1154 (a projection miss)" for
+2i. `pin_a410_from_record_2i` reads
+`v["secondaries"]["replication_410m_cross"]["stratified"]["T"]` as the
+PRIMARY path, falling back to `secondaries["cross_410m"]["stratified"]
+["T"]` only if the primary key is absent — that fallback is inert on
+every committed record; `VERDICT_2I_PIN_A410 = 0.11537934925951784`.
+
+### `_first_correct_outcome`'s shape (no adaptation needed)
+
+`analyze_2i._first_correct_outcome(out, rungs)` (analyze_2i.py:1175)
+returns exactly `{r: {"y": [...], "n_pos": ...}}` — an outcome dict
+with `"y"` per rung, precisely what the brief's `s7_texture` assumed
+and passes straight into `_run_test` as the `out` argument. No
+adaptation needed; the brief's assumption held.
+
+### Deviation 1: `_L["NOT-DENSITY_UNDERPOWERED"]`'s leading case
+
+The brief's literal string starts "Not detected at this resolution"
+(capital N); `test_licensed_sentences_carry_the_caveat_and_the_status`
+asserts the lowercase substring `"not detected at this resolution"`
+(matching 2j's own `ABSORBED_UNDERPOWERED` string, which is lowercase).
+Lowercased the one word to match the test and 2j's precedent. No other
+change to that sentence.
+
+### Deviation 2: `imports_pinned`'s sentinel resolution in `run()`
+
+The brief's literal line `imports_pinned = IMPORTED_SHA256_2K is not
+None` collapses the tri-state (unset sentinel / explicit False / real
+dict) to a plain bool at the point of resolution, so a caller taking
+the default with `IMPORTED_SHA256_2K = None` becomes indistinguishable
+from a caller who explicitly passed `imports_pinned=False` (skip the
+check) — both end up `False`, and `run()`'s
+`elif imports_pinned is not False` never fires, so the "not pinned
+(build incomplete)" refusal is silently lost. Caught by
+`test_run_refuses_when_the_manifest_or_imports_are_not_pinned`'s
+second half. Fixed to mirror `referents_sha`'s own tri-state exactly:
+`imports_pinned = None if IMPORTED_SHA256_2K is None else True` at
+sentinel-resolution time, preserving `None` (refuse) as distinct from
+an explicitly-passed `False` (skip) all the way to the `if
+imports_pinned: ... elif imports_pinned is not False: ...` branch,
+unchanged from the brief.
+
+### Deviation 3: `check_imports_2k`'s covered set
+
+The brief's literal `covered` set (`bk.FROZEN_SHA256_2K` +
+`bg.FROZEN_IMPORT_SHA256_2G` + `bk.INSTRUMENT_BLOBS_2K`) is
+structurally unable to pass `test_check_imports_2k_refuses_a_drifted_
+pin` at ANY point in this build, not only before Task 5: that test
+monkeypatches `IMPORTED_SHA256_2K` down to one (deliberately wrong)
+entry, so any coverage that would otherwise come from
+`IMPORTED_SHA256_2K` itself (Task 5's eventual full dict) is wiped for
+the duration of the test — the residual `__init__.py`-chain modules
+(exp2c/exp2d/exp2f/exp2g/exp2h/exp2i/exp2j package inits, 2c's
+generators/instrument/stats_bounds/power_table, 2f's
+collect_eval/probe/make_referents, exp3's analyze_3, 2j's
+verify_referents_2j — all already in `sys.modules` because
+`analyze_2k.py` imports `an2j` which imports the whole tree
+transitively) have no OTHER source of coverage in the brief's literal
+code, so `check_imports_2k()` always reports them "unpinned" before it
+ever reaches "drifted", regardless of `FROZEN_SHA256_2K`'s pin state.
+Verified this empirically (removed the fix, reran the test in
+isolation — same failure, same file list, independent of the
+whole-suite ordering issue below).
+
+Fixed in two parts, both inside `check_imports_2k()` only (no change
+to `battery_2k.py`, out of this task's scope):
+- `covered` now derives from `bk.FROZEN_FILES_2K` (the documented path
+  tuple, populated today — 2j's 26 frozen paths carried verbatim plus
+  the sampler-side/2k-artifact additions) rather than
+  `bk.FROZEN_SHA256_2K` (the pinned-hash literal, still `{}` until
+  Task 5); hash-checking those paths stays `check_frozen_2k`'s job,
+  called separately in `run()`.
+- 2j's own residual import-surface pin (`an2j.IMPORTED_SHA256_2J`,
+  closed and immutable since 2j tagged) is folded into the SAME
+  verified-against-disk dict as `IMPORTED_SHA256_2K`'s own entries
+  (not merely added to `covered` untrusted) — a hand-edit to one of
+  2j's residual files is still caught as drift, not silently trusted.
+  2k's `run()` never calls 2j's own `check_imports_2j` to verify this
+  independently (it would also flag 2k's own files, which 2j's
+  covered-set knows nothing about), so this is the only place that
+  verification happens for 2k.
+
+With both parts: `test_analyze_2k.py` alone is 17/17 green, matching
+the brief's own precedent for what a passing single-experiment
+`covered` set looks like. Recorded so Task 5's own scan does not need
+to duplicate 2j's residual pins — only what is genuinely new to 2k.
+
+### Known gap (Task 5's, not this task's): `run/rehearse_2k.py` / `run/__init__.py` under whole-suite collection
+
+`experiments/exp2k/tests -q` (all three test files together) is 69
+tests, 68 pass, 1 fails —
+`test_check_imports_2k_refuses_a_drifted_pin`, same test as above,
+now reporting "unpinned module" for `experiments/exp2k/run/__init__.py`
+and `experiments/exp2k/run/rehearse_2k.py`. Cause: `test_tier_2k.py`
+imports `rehearse_2k` at module scope (`from experiments.exp2k.run
+import rehearse_2k as rh`), and pytest's collection phase imports every
+test module before running any test body, so by the time this test's
+body executes, `rehearse_2k` (and the `run` package `__init__.py`) are
+already in `sys.modules` — neither file is frozen, an instrument blob
+(`INSTRUMENT_BLOBS_2K` names only `tier_2k.py`), or yet in
+`IMPORTED_SHA256_2K`. This is the identical category of gap
+`test_check_imports_2k_excludes_test_helpers` is explicitly written to
+tolerate (Step 6: "may report a real gap in this process — that is
+information for Task 5's scan, not a failure of the test's
+assertion"), just surfacing on a second test the brief did not name.
+Not fixed here: `rehearse_2k.py` is Task 2's own live, unclosed
+tooling (not a closed experiment's immutable bytes, unlike 2j's
+residual pin above), so treating it as pre-covered would be actively
+wrong — it is real, in-progress code Task 5's `IMPORTED_SHA256_2K`
+scan is supposed to discover and pin, not something this task should
+paper over. Confirmed the isolated single-file run
+(`test_analyze_2k.py` alone, the brief's own Step-6 command) is
+17/17 green; the gap appears only when Task 1+2's tests are collected
+alongside it. Test counts: `test_battery_2k.py` + `test_tier_2k.py` =
+52 (unchanged), `test_analyze_2k.py` = 17, whole directory = 69.
