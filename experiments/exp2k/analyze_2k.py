@@ -450,10 +450,42 @@ def load_tier_2k(root_2k, size, *, battery, verify_fn, rungs) -> tuple:
             return b
         bits, f = collect_total(_bits, f"2k tier {size}/{rung} bits and tallies")
         failures += f
+
+        def _dupes():
+            """Freeze F-4: gate 1 proves seed 0 is 2d's committed stream;
+            NOTHING looked at seeds 1–3 as streams. A runner or sampler
+            fault that handed the same 64 draws to more than one seed
+            would leave x_A^(256) an exact multiple of x_A^(64), hence
+            rank-identical inside every stratum, hence T = 2i's .0949 to
+            the last digit — a plausible NOT-DENSITY delivered over a
+            campaign that took no new draws, not a refusal. Census the
+            per-item stream duplication against seed 0 and refuse only
+            the impossible case: every one of the 500 items duplicated,
+            which is the whole-cell copy.
+
+            Priced against 2d's committed data at these exact cells: on
+            all nine R_CAP rungs at both sizes, 0 of 9,000 items has a
+            constant 64-draw seed-0 stream, so a second generator
+            reproducing seed 0's 64 draws on all 500 items of a rung is
+            not producible by the model — only by an instrument fault.
+            The partial counts are printed, never gating."""
+            base0 = {int(r0["item"]): r0["draws"][str(bk.GATE1_SEED)] for r0 in rows}
+            out = {}
+            for s in bk.SEEDS_2K:
+                if s == bk.GATE1_SEED:
+                    continue
+                n = sum(1 for r0 in rows if r0["draws"][str(s)] == base0[int(r0["item"])])
+                out[str(s)] = int(n)
+                if n == len(rows):
+                    raise ValueError(f"seed {s} reproduces seed 0's stream on all {n} items — "
+                                     f"the cell carries no independent draws")
+            return out
+        dupes, f = collect_total(_dupes, f"2k tier {size}/{rung} seed-stream census")
+        failures += f
         if bits is None or g is None:
             continue
         cells[rung] = {"bits": bits, "counts": bk.counts_by_k(bits), "record": rec,
-                       "gate1_rederived": g}
+                       "gate1_rederived": g, "seed_dupes": dupes}
     return failures, cells
 
 
@@ -508,6 +540,26 @@ def seal_failures_2k(seal, cells_by_size, root_2k) -> list:
     if not isinstance(files, dict):
         bad.append("2k seal: files missing")
     else:
+        # freeze F-3 (3d F-2's lineage, one experiment over): the files
+        # table was checked only against ITSELF — every entry hashed
+        # against disk, the composite sha recomputed from the table — so
+        # a TRUNCATED table was perfectly self-consistent and attested
+        # nothing. Demonstrated: `files` emptied, `sha256` recomputed
+        # over {} and the power record's `predictor_sha256` re-pointed at
+        # the new composite -> DENSITY, T = 0.9831911740571431, 0
+        # referent failures, from a seal attesting no file at all. (The
+        # tier bytes stay bound by the seal TAG over `_seal_paths_2k`'s
+        # rule set, which is why this was inert rather than decisive; a
+        # coverage claim still has to be a claim about something.)
+        want_rel = {str(Path(p).relative_to(Path(root_2k)))
+                    for size in bk.SIZES_2K for r in bk.R_CAP_DESIGN
+                    for p in (bk.tier_record_path(root_2k, size, r),
+                              bk.tier_draws_path(root_2k, size, r))}
+        uncovered = sorted(want_rel - set(files))
+        if uncovered:
+            bad.append(f"2k seal: files attests {len(files)} path(s) and does not cover "
+                       f"{len(uncovered)} of the {len(want_rel)} tier files "
+                       f"(first {uncovered[:3]}) — coverage, not a rate")
         for rel, sha in files.items():
             p = Path(root_2k) / rel
             if not p.is_file() or bg.sha256_file(p) != sha:
@@ -903,6 +955,18 @@ def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N
                  "endpoint_seal_2i": ctx.get("esl"), "seal_2k": ssl, "rung_set": ctx.get("rung_set"),
                  "gate1_2k": {s: {r: c["gate1_rederived"] for r, c in cells.get(s, {}).items()}
                               for s in bk.SIZES_2K},
+                 # freeze F-4: the per-cell seed-stream duplication census
+                 # (items whose seed-s stream equals seed 0's); a whole-cell
+                 # copy refuses, anything short of it is printed here.
+                 "seed_stream_census_2k": {
+                     s: {r: c.get("seed_dupes") for r, c in cells.get(s, {}).items()}
+                     for s in bk.SIZES_2K},
+                 # freeze D-1: which test-only bypasses this run took, on the
+                 # face of the record — a verdict produced with a pin skipped
+                 # must say so, not merely carry an empty failure list.
+                 "pins_active": {"frozen_modules": frozen_check is None,
+                                 "import_surface": bool(imports_pinned),
+                                 "referent_manifest": referents_sha not in (False, None)},
                  "comparison": None if comparison is None else
                      {"A64": comparison["A64"]["stratified"]["T"],
                       "A64_410m": comparison["A64_410m"]["stratified"]["T"],

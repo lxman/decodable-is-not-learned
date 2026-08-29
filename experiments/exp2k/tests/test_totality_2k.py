@@ -270,6 +270,68 @@ def test_seal_counts_by_k_altered(world):
     _insufficient(root, seal, "counts_by_k")
 
 
+def test_seal_files_table_truncated_is_a_coverage_failure(world):
+    """Freeze F-3: a self-consistent but incomplete files table (entries
+    dropped, `sha256` recomputed over the survivors, the power record's
+    `predictor_sha256` re-pointed at the new composite) attested nothing
+    and passed. Coverage of the 36 tier files is now required."""
+    root, seal = world
+    p = bk.seal_path(root)
+    rec = json.loads(p.read_text())
+    rec["files"] = {}
+    rec["sha256"] = an.seal_sha_of({})
+    p.write_text(json.dumps(rec))
+    pw = bk.power_path(root)
+    prec = json.loads(pw.read_text())
+    prec["predictor_sha256"] = rec["sha256"]
+    pw.write_text(json.dumps(prec))
+    _insufficient(root, seal, "does not cover 36 of the 36 tier files")
+
+
+def test_seal_files_table_missing_one_entry(world):
+    root, seal = world
+    p = bk.seal_path(root)
+    rec = json.loads(p.read_text())
+    gone = sorted(rec["files"])[0]
+    rec["files"] = {k: v for k, v in rec["files"].items() if k != gone}
+    rec["sha256"] = an.seal_sha_of(rec["files"])
+    p.write_text(json.dumps(rec))
+    pw = bk.power_path(root)
+    prec = json.loads(pw.read_text())
+    prec["predictor_sha256"] = rec["sha256"]
+    pw.write_text(json.dumps(prec))
+    _insufficient(root, seal, "does not cover 1 of the 36 tier files")
+
+
+def test_whole_cell_seed_stream_copy_refuses(world):
+    """Freeze F-4: gate 1 covers seed 0 only. A cell whose seed-2 stream
+    is a byte-copy of seed 0 on all 500 items leaves x^(256) an exact
+    multiple of x^(64) — rank-identical, so T would come back at 2i's
+    own .0949 as a plausible NOT-DENSITY rather than a refusal."""
+    root, seal = world
+    dp = bk.tier_draws_path(root, "1b", "antonym")
+    rows = bk.read_rows_2k(dp)
+    for row in rows:
+        row["draws"]["2"] = list(row["draws"]["0"])
+    fs.write_draws(dp, rows)
+    rp = bk.tier_record_path(root, "1b", "antonym")
+    rec = json.loads(rp.read_text())
+    rec["per_seed_tallies"]["2"] = dict(rec["per_seed_tallies"]["0"])
+    rp.write_text(json.dumps(rec))
+    _insufficient(root, seal, "reproduces seed 0's stream on all 500 items")
+
+
+def test_seed_stream_census_is_printed_on_a_clean_tree(world):
+    root, seal = world
+    v = _run(root, seal, n_perm=200, n_boot=20)
+    assert v["verdict"] == "DENSITY", v["reason"]
+    census = v["referents"]["seed_stream_census_2k"]
+    assert set(census) == set(bk.SIZES_2K)
+    assert census["1b"]["antonym"] == {"1": 0, "2": 0, "3": 0}
+    assert v["referents"]["pins_active"] == {"frozen_modules": True, "import_surface": False,
+                                             "referent_manifest": False}
+
+
 # ------------------------------------------------------------- power
 
 def test_power_torn(world):
