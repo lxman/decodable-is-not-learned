@@ -250,6 +250,32 @@ def test_check_imports_2k_refuses_a_drifted_pin(monkeypatch):
         an.check_imports_2k()
 
 
+def test_check_imports_2k_refuses_when_frozen_sha_does_not_cover_frozen_files(monkeypatch):
+    # fix round 1 / Finding 1: once FROZEN_SHA256_2K is non-empty its
+    # keys must equal FROZEN_FILES_2K's paths exactly, or a path could
+    # be "covered" here and hash-verified by no gate anywhere. Drop the
+    # first documented path from the pinned dict (fake hash values —
+    # the coverage check fires before any hash is ever read).
+    partial = {p: "x" * 64 for p in bk.FROZEN_FILES_2K[1:]}
+    monkeypatch.setattr(bk, "FROZEN_SHA256_2K", partial)
+    monkeypatch.setattr(an, "IMPORTED_SHA256_2K", {})
+    with pytest.raises(RuntimeError, match="does not cover"):
+        an.check_imports_2k()
+
+
+def test_check_imports_2k_empty_frozen_sha_does_not_trigger_the_coverage_check(monkeypatch):
+    # the pre-Task-5 state (FROZEN_SHA256_2K == {}): the coverage
+    # equality check is inert by construction (`if FROZEN_SHA256_2K`),
+    # so whatever else check_imports_2k() does, it must not raise
+    # "does not cover".
+    monkeypatch.setattr(bk, "FROZEN_SHA256_2K", {})
+    monkeypatch.setattr(an, "IMPORTED_SHA256_2K", {})
+    try:
+        an.check_imports_2k()
+    except RuntimeError as e:
+        assert "does not cover" not in str(e)
+
+
 def test_check_imports_2k_excludes_test_helpers(monkeypatch):
     monkeypatch.setattr(an, "IMPORTED_SHA256_2K", {})
     mod = types.ModuleType("experiments.exp2k.tests.helper_x")

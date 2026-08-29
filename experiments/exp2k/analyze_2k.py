@@ -104,8 +104,7 @@ _EXPERIMENTS_ROOT_2K = str((bg.REPO / "experiments").resolve())
 def check_imports_2k() -> None:
     """The eleventh lesson, from commit one: every module under
     `experiments/` this process has imported must be covered — by
-    FROZEN_FILES_2K (the documented path list; hash-checked separately
-    by `check_frozen_2k` once `FROZEN_SHA256_2K` is pinned), battery_2g's
+    FROZEN_FILES_2K (the documented path list), battery_2g's
     FROZEN_IMPORT_SHA256_2G, the three tag-bound INSTRUMENT_BLOBS_2K,
     2j's own closed residual import-surface pin (`IMPORTED_SHA256_2J`,
     verified against disk here — not merely trusted, since 2k's run()
@@ -117,16 +116,36 @@ def check_imports_2k() -> None:
     `sys.modules` only when `test_tier_2k.py` is collected alongside
     this module, are a REAL gap this scan is meant to surface: neither
     is frozen, an instrument blob, or yet in `IMPORTED_SHA256_2K` —
-    Task 5's scan is what closes it, not this function."""
+    Task 5's scan is what closes it, not this function.
+
+    fix round 1 / Finding 1: coverage via FROZEN_FILES_2K (paths) is
+    trusted for import-surface purposes, but the actual byte-level
+    hash-checking of those paths happens in a DIFFERENT function
+    (`check_frozen_2k`, which iterates `FROZEN_SHA256_2K.items()` —
+    the pinned dict, not the documented tuple). Nothing before this
+    fix asserted the two agree, so once Task 5 pins `FROZEN_SHA256_2K`,
+    a path present in `FROZEN_FILES_2K` but missing from that dict
+    would be reported "covered" here and hash-verified by NO gate
+    anywhere in 2k's pipeline. The equality check below makes that
+    silent gap impossible: once `FROZEN_SHA256_2K` is non-empty, its
+    keys must exactly equal `FROZEN_FILES_2K`'s paths, or this refuses
+    before `covered` is even built. Before that pin lands (the current,
+    empty-dict state), the check is inert by construction (`if
+    FROZEN_SHA256_2K`) — path coverage via FROZEN_FILES_2K stays
+    correct-but-momentarily-unverified, same as every other
+    build-incomplete gap in this module, and becomes a live guarantee
+    the moment the literal is pinned."""
     if IMPORTED_SHA256_2K is None:
         raise RuntimeError("IMPORTED_SHA256_2K is None — the import surface is not pinned "
                            "(build incomplete)")
-    # `bk.FROZEN_FILES_2K` (the documented path tuple — 2j's 26 frozen
-    # files carried verbatim + the sampler-side/2k-artifact additions)
-    # is the coverage answer for "which files are frozen", independent
-    # of whether `bk.FROZEN_SHA256_2K` (the pinned-hash literal, Task
-    # 5) exists yet; hash-checking those paths is `check_frozen_2k`'s
-    # separate job (2k's run() calls it as "2k frozen modules").
+    if bk.FROZEN_SHA256_2K:
+        pinned_frozen = {str(Path(p).resolve()) for p in bk.FROZEN_SHA256_2K}
+        documented_frozen = {str(Path(p).resolve()) for p in bk.FROZEN_FILES_2K}
+        if pinned_frozen != documented_frozen:
+            missing = sorted(documented_frozen - pinned_frozen)
+            extra = sorted(pinned_frozen - documented_frozen)
+            raise RuntimeError(f"FROZEN_SHA256_2K does not cover FROZEN_FILES_2K: missing "
+                               f"{missing}; extra {extra}")
     covered = {str(Path(p).resolve()) for p in bk.FROZEN_FILES_2K}
     covered |= {str(Path(p).resolve()) for p in bg.FROZEN_IMPORT_SHA256_2G}
     covered |= {str((bg.REPO / rel).resolve()) for rel in bk.INSTRUMENT_BLOBS_2K}
@@ -172,16 +191,13 @@ def pin_a_from_record_2i(v: dict) -> dict:
 
 def pin_a410_from_record_2i(v: dict) -> float:
     """Step 3: 2i's verdict.json carries the 410m cross replication at
-    `secondaries["replication_410m_cross"]["stratified"]["T"]` (PRIMARY
-    path; located by printing `list(v["secondaries"])` and matching the
-    entry whose T ≈ .1154, 2i's VERDICT.txt names it). Falls back to
-    `secondaries["cross_410m"]["stratified"]["T"]` only if the primary
-    key is absent — inert on every committed record; recorded in
-    PROGRESS.md."""
-    s = v["secondaries"]
-    if "replication_410m_cross" in s:
-        return s["replication_410m_cross"]["stratified"]["T"]
-    return s["cross_410m"]["stratified"]["T"]
+    exactly `secondaries["replication_410m_cross"]["stratified"]["T"]`
+    (located by printing `list(v["secondaries"])` and matching the
+    entry whose T ≈ .1154, 2i's VERDICT.txt names it). No fallback: a
+    record without this exact key raises `KeyError` into the caller's
+    `collect_total` rather than silently reading a different path —
+    fix round 1 / Ruling 3. Task 4's world builder writes this real key."""
+    return v["secondaries"]["replication_410m_cross"]["stratified"]["T"]
 
 
 def ladder_b_from_record_2j(v: dict) -> dict:
@@ -686,7 +702,7 @@ def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N
             a = _run_test(x64["1b"], "1b", out, strata, r_cap, **kw)
             on_disk = pin_a_from_record_2i(v2i)
             bad += an2j.check_pin({"A": a["stratified"]["T"]}, {"A": on_disk["A"]}, {"A": pin_a},
-                                  "comparison gate 2k A")
+                                  "comparison gate 2k A64")
             for r in r_cap:
                 if a["per_rung"].get(r, {}).get("d") != on_disk["per_rung"].get(r):
                     bad.append(f"comparison gate 2k A per-rung: {r} d differs from 2i's record")
