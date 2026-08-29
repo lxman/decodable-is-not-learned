@@ -6,15 +6,13 @@ only, at the tier (the campaign, not this battery).
 
  1  frozen pins byte-identical: `analyze_2j.check_frozen_2j`,
     `battery_2i.check_frozen_2i`, `battery_2g.check_frozen_imports_2g`,
-    `battery_2i.check_pythia_predictor_files` (all real, already pinned
-    by earlier experiments), and `battery_2k.check_frozen_2k` — the one
-    piece pending Task 5's literal (`FROZEN_SHA256_2K` empty), noted but
-    not counted as a SKIP: the other four run for real
+    `battery_2i.check_pythia_predictor_files`, and
+    `battery_2k.check_frozen_2k` (all five real, all pinned)
  2  2i's four tags and 2j's two tags exist; every 2i seal binds
     (`analyze_2i.require_seal_2i` with real git)
  3  referents_2k.json: own sha == the literal; N_FILES_2K entries; zero
-    refusals — SKIPPED (printed "pending Task 5") until Task 5 pins
-    REFERENTS_2K_SHA256 / N_FILES_2K and the manifest is built
+    refusals (Task 5: REFERENTS_2K_SHA256 / N_FILES_2K pinned, the
+    manifest built)
  4  `battery_2k.check_seed_freshness(R_CAP_DESIGN)` -> 18 cells, seeds
     1-3 fresh, seed 0 = 2d's main tier on every cell
  5  `battery_2k.committed_rows` on every R_CAP cell at both sizes:
@@ -40,8 +38,8 @@ only, at the tier (the campaign, not this battery).
     `load_power_2k` PASS after it
 11  `placement_on_ladder` on hand cases (exact point, interior, both
     ends)
-12  the import surface: `check_imports_2k()` in THIS process passes —
-    SKIPPED (printed "pending Task 5") while `IMPORTED_SHA256_2K is None`
+12  the import surface: `check_imports_2k()` in THIS process passes
+    (Task 5: IMPORTED_SHA256_2K pinned)
 """
 from __future__ import annotations
 
@@ -81,7 +79,7 @@ def _eq(got, want, what):
 
 
 @check(1, "frozen pins: check_frozen_2j/check_frozen_2i/check_frozen_imports_2g/"
-         "check_pythia_predictor_files (+ check_frozen_2k once Task 5 pins it)")
+         "check_pythia_predictor_files/check_frozen_2k")
 def _c1(ctx):
     an2j.check_frozen_2j()
     bi.check_frozen_2i()
@@ -90,7 +88,9 @@ def _c1(ctx):
     if bk.FROZEN_SHA256_2K:
         bk.check_frozen_2k()
     else:
-        print("      (check_frozen_2k: FROZEN_SHA256_2K empty, pending Task 5)")
+        # defensive fallback only — FROZEN_SHA256_2K has been pinned
+        # since Task 5; this branch is unreachable on the real tree
+        print("      (check_frozen_2k: FROZEN_SHA256_2K empty)")
 
 
 @check(2, "2i's four tags and 2j's two tags exist; every 2i seal binds")

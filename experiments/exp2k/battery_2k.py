@@ -485,7 +485,7 @@ FROZEN_SHA256_2K = {   # Task 5: pinned as a literal from frozen_from_disk() (36
     REPO / "experiments/exp2k/power_2k.py":
         "318ec4266513200e6a018285184cdae5c1fe5cc78400fe07671a9f45bc92ed4e",
     REPO / "experiments/exp2k/make_referents_2k.py":
-        "a4d6b6a2d821880eb11a01f2f47137c58d7b8e6b7676b079d11aa4b3c5d71aca",
+        "6921feb194bd5971a74af1c25899146c70e5a9b402546be413321b3edee882d4",
     REPO / "experiments/exp2k/run/seal_2k.py":
         "0cbdd982a55075e8c8567acb82d7264ce87c88320d2fa4568a5b419f7ca4b2fb",
     REPO / "experiments/exp2k/run/campaign_2k.py":

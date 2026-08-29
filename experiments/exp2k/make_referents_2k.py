@@ -34,7 +34,7 @@ from experiments.exp2j import make_referents_2j as mk2j  # noqa: E402
 from experiments.exp2k import battery_2k as bk  # noqa: E402
 
 REPO = bg.REPO
-N_FILES_2K = None   # Task 5 / seal stage: pinned literally
+N_FILES_2K = 2649   # pre-campaign manifest (with_campaign=False), Task 5
 
 
 def referent_files(*, with_campaign=False) -> list:

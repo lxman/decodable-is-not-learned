@@ -35,8 +35,73 @@ from experiments.exp2k import battery_2k as bk  # noqa: E402
 
 RESULTS = EXP2K / "results"
 REFERENTS_PATH_2K = EXP2K / "referents_2k.json"
-REFERENTS_2K_SHA256 = None        # Task 5: pinned literally
-IMPORTED_SHA256_2K = None         # Task 5: pinned literally from tests/import_scan_2k.py
+REFERENTS_2K_SHA256 = "f00dfe78fb2cc2e4886a51366b03c97fb15814f21c8fc23cacdf0c1818a9e937"  # Task 5
+IMPORTED_SHA256_2K = {
+    bg.REPO / "experiments/exp2c/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2c/battery/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2c/battery/base.py":
+        "6d77c3c91c5ca0eb84e1a011ef64af0e04ade6fe8d1ad42d526be3a37fbacbb2",
+    bg.REPO / "experiments/exp2c/battery/generators_controls.py":
+        "baab6da475f90f8c07acb6d1eb317484bf36afeb40705684f43ecd5ec9fdade6",
+    bg.REPO / "experiments/exp2c/battery/generators_rescues.py":
+        "d70215c89ffd58d3f18f9dcd99940c7e92655ba8185919f50b2090b7e900c257",
+    bg.REPO / "experiments/exp2c/battery/generators_rungs.py":
+        "778bf30da104f71773c26aa909ef2fddcd81291676a2db5d30130581b8d162d0",
+    bg.REPO / "experiments/exp2c/battery/wordlists_2c.py":
+        "f46c6092d6429a59b95531d1a58b1bbfc0576d692d1162b8dfd2b6daf051790f",
+    bg.REPO / "experiments/exp2c/instrument.py":
+        "c486213bfa4753a83593b5383e2c0c90a6379b156f59a236ceeac7d68961e052",
+    bg.REPO / "experiments/exp2c/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2c/run/power_table.py":
+        "89816cf0e7e2418e748104dbc32fd50e12ded78988f2c2c04b05ff1a89c58da1",
+    bg.REPO / "experiments/exp2c/stats_bounds.py":
+        "39057433f1d67cbbf803141dc25ee36cda9e96270b0634006c0fcab245ee49f8",
+    bg.REPO / "experiments/exp2d/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2f/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2f/make_referents_2f.py":
+        "c08eec5cea9f49a05c6754c84b81e1cb8560537881b002faee02bcf085af1c10",
+    bg.REPO / "experiments/exp2g/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2g/collect_eval_2g.py":
+        "392ab84e2bac360bf041858a4b991824a3bda9ca414e34d0f84e44b22610efaf",
+    bg.REPO / "experiments/exp2g/probe_2g.py":
+        "63abc9e6518ac1ab53e4a70e0c716bccd357a11ea3fc2733de52e2ec4e23d451",
+    bg.REPO / "experiments/exp2h/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2i/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2i/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2j/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2k/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2k/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2k/run/rehearse_2k.py":
+        "026f15552315424e23d1f3fa93312fb7587d31b627a88b1ede328625a159c488",
+    bg.REPO / "experiments/exp2k/verify_referents_2k.py":
+        "e7d2a51bff372642d38a05f5b5c44463c067c65c7330aaddf6ffa86cfa20559e",
+    bg.REPO / "experiments/exp3/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp3/analyze_3.py":
+        "aa0cb2374fbdffde2f9eaae26cee1ce51f9f42c0b32fd89f4f8754c983a92274",
+    bg.REPO / "experiments/exp3c/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp3d/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp3d/analyze_3d.py":
+        "1de2039acac181d0af7bf39ccabbadecb3ea236f541cb21036697ef8d75787a9",
+    bg.REPO / "experiments/exp3d/functional_3d.py":
+        "1ec64ef87139fc52844e82f89b7b2cc83864661fec9ba09ff79fbc641399d855",
+    bg.REPO / "experiments/exp3d/rank_test_3d.py":
+        "417f34fed77630f8aa562d52a77c02934436df73d8ecccd49730176cc30dea1d",
+}   # Task 5: pinned from tests/import_scan_2k.py (32 modules)
 WORLDS_2K = ("INSUFFICIENT_DATA", "DENSITY", "NOT-DENSITY")
 ANNOTATIONS_2K = ("structured", "null")
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
