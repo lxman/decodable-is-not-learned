@@ -2,7 +2,12 @@
 
 **Status: session 1 (design) written 2026-08-28, at Exp 2j's
 close-out, on Michael's word ("Design approach B"). §10 DIALS a–j
-AWAIT HIS RULING; nothing is built, nothing is sampled.** Model
+RULED by Michael 2026-08-28 ("as recommended"): a k = 256; b seed 0
+regenerated as the continuous gate 1; c the 410m replicate runs; d
+2i's bar unchanged, DENSITY / NOT-DENSITY; e S1–S7 printed; f
+texture-first projection; g 1b first; h the three tags; i the
+one-item pre-tag rehearsal on his word; j SDD build + freeze in one
+session. Build follows; nothing is sampled before the tag.** Model
 contact, when sanctioned: Pythia-1b (and, dial c, Pythia-410m)
 SAMPLING ONLY on nine rungs — the same weights, harness, sampler and
 stream namespace as Experiment 2d's main tier, with three new seeds
@@ -383,7 +388,7 @@ rungs). Not a mechanism result: S3's high-density lineage increment
 is descriptive. Not a statement about a third family. Not "Prediction
 2 supported cross-family" under any world.
 
-## 10. Dials — for Michael's ruling
+## 10. Dials — RULED by Michael 2026-08-28 ("as recommended"): every dial as recommended
 
 - **a. Draw budget.** k = 256 (four blocks) as named, ≈ 6.5 h at 1b
   by 2d's measured rate (366 min for 34 rungs × 32,000 draws → 10.8
