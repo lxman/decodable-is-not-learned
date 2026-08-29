@@ -324,7 +324,24 @@ def test_whole_cell_seed_stream_copy_refuses(world):
     # failure is filed under "2k tier 1b load" and the rest of the size's
     # cells never load. Asserting the label is what makes that mutant die.
     v = _insufficient(root, seal, "2k tier 1b/antonym seed-stream census")
-    assert any("reproduces seed 0's stream on all 500 items" in f
+    assert any("seeds 0 and 2 are identical on all 500 items" in f
+               for f in v["referents"]["failures"])
+
+
+def test_whole_cell_seed_stream_copy_between_non_zero_seeds_refuses(world):
+    """Final-review fix wave, item 2: the widened census's rule applies
+    identically to a pair that does not involve seed 0 — a byte-copy of
+    seed 1's stream onto seed 2 on all 500 items refuses exactly like the
+    seed-0 pairs, since gate 1 says nothing about EITHER of these two
+    streams."""
+    root, seal = world
+    dp = bk.tier_draws_path(root, "1b", "antonym")
+    rows = bk.read_rows_2k(dp)
+    for row in rows:
+        row["draws"]["2"] = list(row["draws"]["1"])
+    fs.write_draws(dp, rows)
+    v = _insufficient(root, seal, "2k tier 1b/antonym seed-stream census")
+    assert any("seeds 1 and 2 are identical on all 500 items" in f
                for f in v["referents"]["failures"])
 
 
@@ -334,7 +351,18 @@ def test_seed_stream_census_is_printed_on_a_clean_tree(world):
     assert v["verdict"] == "DENSITY", v["reason"]
     census = v["referents"]["seed_stream_census_2k"]
     assert set(census) == set(bk.SIZES_2K)
-    assert census["1b"]["antonym"] == {"1": 0, "2": 0, "3": 0}
+    # the seed-0 pairs stay at 0 (seed 0 is the real committed stream,
+    # never coincidentally equal to a synthetic seed 1-3 draw), but the
+    # widened census's FIRST real finding: pairs among 1-3 are NOT all
+    # zero on this synthetic world. `_tier_rows` fills every off-target
+    # draw with the same literal " zzz" whenever it misses its per-item
+    # Bernoulli(q[i]); on items where q[i] == 0 (below this rung's
+    # strength-scaled floor), seeds 1, 2 and 3 all degenerate to the
+    # constant 64-draw stream " zzz"*64 — identical to EACH OTHER, not to
+    # seed 0 — which is a real, benign partial duplication (300 of 500
+    # items here), well short of the whole-cell-copy refusal at 500.
+    assert census["1b"]["antonym"] == {"0-1": 0, "0-2": 0, "0-3": 0,
+                                       "1-2": 300, "1-3": 300, "2-3": 300}
     assert v["referents"]["pins_active"] == {"frozen_modules": True, "import_surface": False,
                                              "referent_manifest": False}
 

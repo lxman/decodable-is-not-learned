@@ -79,6 +79,49 @@ def test_run_rung_writes_the_record_and_passes_gate1(tmp_path, pinned):
     assert again == rec
 
 
+def test_run_rung_halts_on_a_tally_mismatch_even_with_byte_identical_draws(tmp_path, pinned):
+    # design §3.2's second gate-1 clause: after every seed-0 draw has
+    # already compared byte-identical (the fake sampler returns 2d's
+    # committed bytes exactly), the RUNNING SEED-0 TALLY, re-derived with
+    # the same verify_fn, must still equal 2d's committed per-seed tally.
+    # A verify_fn that scores even one draw differently from whatever
+    # scored the committed tally halts, even though no byte differed.
+    committed = _committed()
+    real_verify = a2d.load_verify()
+    state = {"flipped": False}
+
+    def flipping_verify(draw, ans, at):
+        if not state["flipped"]:
+            state["flipped"] = True
+            return not real_verify(draw, ans, at)
+        return real_verify(draw, ans, at)
+
+    with pytest.raises(RuntimeError, match="tally"):
+        tr.run_rung("1b", RUNG, out_root=tmp_path, model_ctx=_ctx(), verify_fn=flipping_verify,
+                    sampler=_fake_sampler(committed))
+    m = bk.halt_marker_path(tmp_path, "1b", RUNG)
+    marker = json.loads(m.read_text())
+    assert marker["kind"] == "tally" and marker["rung"] == RUNG and marker["size"] == "1b"
+    assert bk.halted_draws_path(tmp_path, "1b", RUNG).exists()
+    assert not bk.tier_draws_path(tmp_path, "1b", RUNG).exists()
+    assert not bk.tier_record_path(tmp_path, "1b", RUNG).exists()
+
+
+def test_run_rung_refuses_a_torn_pair_on_resume(tmp_path, pinned):
+    committed = _committed()
+    tr.run_rung("1b", RUNG, out_root=tmp_path, model_ctx=_ctx(), verify_fn=a2d.load_verify(),
+               sampler=_fake_sampler(committed))
+    dpath = bk.tier_draws_path(tmp_path, "1b", RUNG)
+    data = dpath.read_bytes()
+    dpath.write_bytes(data[: len(data) // 2])   # a killed write, mid-write
+
+    def boom(*a, **k):
+        raise AssertionError("sampler called on a torn pair")
+    with pytest.raises(RuntimeError, match="torn"):
+        tr.run_rung("1b", RUNG, out_root=tmp_path, model_ctx=_ctx(), verify_fn=a2d.load_verify(),
+                    sampler=boom)
+
+
 def test_gate1_halts_on_one_changed_draw(tmp_path, pinned):
     committed = _committed()
     with pytest.raises(RuntimeError, match="GATE 1 FIRED"):

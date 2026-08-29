@@ -419,7 +419,6 @@ def matched_k_256(rate_a64, rate_b64) -> dict:
 
 # ------------------------------------------------------------ pins
 
-from experiments.exp2i import battery_2i as bi  # noqa: E402
 from experiments.exp2j import analyze_2j as an2j  # noqa: E402
 
 # Every frozen module 2k executes on the verdict path or in a stage

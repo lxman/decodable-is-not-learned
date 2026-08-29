@@ -719,7 +719,12 @@ hand-picked — 15 in `battery_2k.py`, 6 in `run/tier_2k.py`, 22 in
 `analyze_2k.py` — plus 40 AST-generated via 2i's `_totality_mutants`
 over every `collect_total(...)` call site in `analyze_2k.py`, which
 has three such functions — `load_2i_tree`, `load_tier_2k`, `run()` —
-not one). **82/82 real mutants killed; 1 documented equivalent.**
+not one). **89/89 real mutants killed (72 fast + 15 totality + 2 in a
+second totality pass); 1 documented equivalent — three committed logs:
+`mutation_freeze_fast.log`, `mutation_freeze_totality.log`,
+`mutation_freeze_totality2.log`** (the 83-mutant count above is the
+build-time snapshot; the freeze added five more, see "Cold re-runs at
+the freeze HEAD" below for the sourced tally).
 
 **Equivalent (not a gap): `matched_k_256`'s cap condition `>=` -> `>`.**
 At the EXACT tie `256*rate_a64 == 64*rate_b64` (the only point where
@@ -1058,3 +1063,80 @@ blobs, `analyze_2k.py` and `battery_2k.py` changed at the freeze;
 executions on the real tree (read sweep ×1, import scan ×2), all
 INSUFFICIENT_DATA, no T — nine pre-tag executions in total, which doc
 slip (a) records.
+
+## FINAL REVIEW fix wave
+
+The one fix wave after the final whole-branch review, before the
+preregistration tag is cut. All five items additive; no sha-pinned
+file touched; the tag not yet cut, so the three tag-bound blobs
+(`analyze_2k.py`, `battery_2k.py`, `run/tier_2k.py`) were edited
+freely.
+
+1. **§3.2's promised tally comparison.** `run_rung` now compares the
+   rung's re-derived seed-0 tally (`bk.tallies_2k(rows, cap,
+   verify_fn)["0"]`, both `full_string` and `n_draws`) against 2d's
+   committed `crec["per_seed_tallies"]["0"]`, after every seed-0 draw
+   has already compared byte-identical and before any normal file is
+   written. A mismatch writes the same two artifacts a byte-diff halt
+   writes (`<rung>.HALTED` with `kind: "tally"`, both tallies,
+   `model_sha`, `committed_draws_sha256`, `stack`, `git_sha`, and
+   `<rung>.HALTED.jsonl.gz`), writes no normal files, and raises
+   `RuntimeError` containing "GATE 1 FIRED" and "tally". New test:
+   `test_run_rung_halts_on_a_tally_mismatch_even_with_byte_identical_
+   draws` (a `verify_fn` wrapper that flips exactly the first call's
+   verdict). The existing clean-path test already asserted tally
+   equality; unchanged.
+2. **Pairwise seed-stream census.** `load_tier_2k`'s F-4 census widened
+   from the three pairs against seed 0 to all six unordered pairs (0-1,
+   0-2, 0-3, 1-2, 1-3, 2-3), with the identical whole-cell-copy refusal
+   rule applied to every pair. Caught a real gap while widening:
+   `test_analyze_2k.py`'s `_tier_fixture` gave seeds 1-3 the IDENTICAL
+   placeholder stream (`" x"` for all three), which the old census never
+   exercised (it only ever compared seeds 1-3 against seed 0, the real
+   committed data) but the new one immediately flagged as three
+   whole-cell copies; fixed by giving each placeholder seed a distinct
+   string (`" x1"`/`" x2"`/`" x3"`). The freeze's regression test
+   (`test_whole_cell_seed_stream_copy_refuses`) and the clean-tree
+   census-shape test (`test_seed_stream_census_is_printed_on_a_clean_
+   tree`, now asserting the 6-key dict) updated to match; new case
+   `test_whole_cell_seed_stream_copy_between_non_zero_seeds_refuses`
+   (seed 2 copied from seed 1 on all 500 items refuses). A second real
+   finding surfaced running the cold totality suite: on the "density"
+   world fixture, `census["1b"]["antonym"]` is NOT all-zero — pairs
+   1-2, 1-3 and 2-3 read **300** (of 500), not 0, because `_tier_rows`
+   fills every off-target draw that misses its per-item Bernoulli(q[i])
+   with the same literal `" zzz"`, so on any item with q[i] == 0 seeds
+   1, 2 and 3 all degenerate to the identical constant 64-draw stream
+   — a real, benign partial duplication, well short of the 500-item
+   whole-cell-copy bar. The seed-0 pairs stay exactly 0 (seed 0 is the
+   real committed stream). `test_seed_stream_census_is_printed_on_a_
+   clean_tree`'s assertion corrected to the observed values, with the
+   mechanism recorded in the test's own comment.
+3. **Torn-pair refusal on resume.** `run_rung`'s skip-if-exists now
+   validates before trusting the pair: the record must parse as a dict
+   and `bk.read_rows_2k(dpath)` must succeed; any failure raises
+   `RuntimeError` naming the cell and both paths and saying the pair is
+   torn, must be inspected and removed by the operator before a resume,
+   and is never silently overwritten. New test:
+   `test_run_rung_refuses_a_torn_pair_on_resume` (a truncated draws gz
+   with an intact record; the fake sampler is a bare `AssertionError`
+   stub, never called).
+4. **`placement_on_ladder` on an empty ladder.** Returns
+   `{"k_equivalent": None, "bracket": None}` for `{}` instead of raising
+   `IndexError` on `ks[-1]`. New assertion in
+   `test_placement_on_ladder_interpolates_in_log_k`.
+5. **Dead code in the tag-bound blobs.** Removed the unused
+   `from experiments.exp2i import battery_2i as bi` line in
+   `battery_2k.py` (grep-confirmed: no `bi.` reference anywhere in the
+   file; `analyze_2k.py` and `run/tier_2k.py` import their own `bi` and
+   are unaffected) and `run_rung`'s dead `committed_root` parameter
+   (grep-confirmed: no caller or test passed it). `ANNOTATIONS_2K` kept
+   (plan-mandated, documented).
+
+Verification: fast modules 137 passed / 1 skipped; cold battery 12/12;
+`test_totality_2k.py` 46/46 and `test_full_shape_2k.py`'s
+density-shape + every-terminal cases 2/2, both in the foreground.
+`git status --short` touches only files under `experiments/exp2k/`;
+the four sha-pinned files (`power_2k.py`, `make_referents_2k.py`,
+`run/seal_2k.py`, `run/campaign_2k.py`) untouched. Mutation harness not
+re-run (the controller's call).

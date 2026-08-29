@@ -125,6 +125,9 @@ def test_placement_on_ladder_interpolates_in_log_k():
     assert p["k_equivalent"] != pytest.approx(want_linear)   # log2, not linear, interpolation
     assert an.placement_on_ladder(lad, 0.30)["bracket"] == [64, None]
     assert an.placement_on_ladder(lad, 0.01)["bracket"] == [None, 1]
+    # final-review fix wave, item 4: an empty ladder returns the null
+    # placement instead of raising IndexError on `ks[-1]`.
+    assert an.placement_on_ladder({}, 0.145) == {"k_equivalent": None, "bracket": None}
 
 
 def _toy(seed=0, n=80, k_signal=256):
@@ -396,8 +399,13 @@ def _tier_fixture(tmp_path, rung="antonym", size="1b"):
     verify_fn = a2d.load_verify()
     cap = battery[rung]
     committed = bk.committed_by_item(bk.committed_rows(size, rung))
-    rows = [{"item": i, "draws": {"0": list(committed[i]), "1": [" x"] * bk.DRAWS_PER_SEED,
-                                  "2": [" x"] * bk.DRAWS_PER_SEED, "3": [" x"] * bk.DRAWS_PER_SEED}}
+    # seeds 1-3 get DISTINCT placeholder streams (not all " x"): the
+    # widened seed-stream census (final-review fix wave, item 2) checks
+    # every unordered pair, including 1-2/1-3/2-3, and a fixture where
+    # all three placeholders were the identical string would trip its
+    # own whole-cell-copy refusal.
+    rows = [{"item": i, "draws": {"0": list(committed[i]), "1": [" x1"] * bk.DRAWS_PER_SEED,
+                                  "2": [" x2"] * bk.DRAWS_PER_SEED, "3": [" x3"] * bk.DRAWS_PER_SEED}}
             for i in range(bk.N_ITEMS)]
     crec_p = bk.committed_record_path(size, rung)
     cgz_p = bk.committed_draws_path(size, rung)

@@ -459,26 +459,38 @@ def load_tier_2k(root_2k, size, *, battery, verify_fn, rungs) -> tuple:
             rank-identical inside every stratum, hence T = 2i's .0949 to
             the last digit — a plausible NOT-DENSITY delivered over a
             campaign that took no new draws, not a refusal. Census the
-            per-item stream duplication against seed 0 and refuse only
-            the impossible case: every one of the 500 items duplicated,
-            which is the whole-cell copy.
+            per-item stream duplication and refuse only the impossible
+            case: every one of the 500 items duplicated between two
+            seeds, which is the whole-cell copy.
 
             Priced against 2d's committed data at these exact cells: on
             all nine R_CAP rungs at both sizes, 0 of 9,000 items has a
             constant 64-draw seed-0 stream, so a second generator
             reproducing seed 0's 64 draws on all 500 items of a rung is
             not producible by the model — only by an instrument fault.
-            The partial counts are printed, never gating."""
-            base0 = {int(r0["item"]): r0["draws"][str(bk.GATE1_SEED)] for r0 in rows}
+            The partial counts are printed, never gating.
+
+            Final-review fix wave, item 2: widened from the three pairs
+            against seed 0 (the freeze's original scope, since seed 0 is
+            gate 1's referent) to EVERY unordered seed pair — 0-1, 0-2,
+            0-3, 1-2, 1-3, 2-3 — with the identical rule applied to each:
+            a whole-cell copy between ANY two seeds is the same
+            "no independent draws" fault, whichever pair happens to
+            carry it. The seed-0 pairs' rule is unchanged; the other
+            three pairs get it for the first time."""
+            streams = {int(r0["item"]): {str(s): r0["draws"][str(s)] for s in bk.SEEDS_2K}
+                      for r0 in rows}
             out = {}
-            for s in bk.SEEDS_2K:
-                if s == bk.GATE1_SEED:
-                    continue
-                n = sum(1 for r0 in rows if r0["draws"][str(s)] == base0[int(r0["item"])])
-                out[str(s)] = int(n)
-                if n == len(rows):
-                    raise ValueError(f"seed {s} reproduces seed 0's stream on all {n} items — "
-                                     f"the cell carries no independent draws")
+            seeds = sorted(bk.SEEDS_2K)
+            for idx, a in enumerate(seeds):
+                for b in seeds[idx + 1:]:
+                    key = f"{a}-{b}"
+                    n = sum(1 for item in streams
+                           if streams[item][str(a)] == streams[item][str(b)])
+                    out[key] = int(n)
+                    if n == len(rows):
+                        raise ValueError(f"seeds {a} and {b} are identical on all {n} items — "
+                                         f"the cell carries no independent draws")
             return out
         dupes, f = collect_total(_dupes, f"2k tier {size}/{rung} seed-stream census")
         failures += f
@@ -676,7 +688,7 @@ def s1_blocks(bits, out, strata, rungs, size_label, **kw) -> dict:
 
 def placement_on_ladder(ladder_b: dict, t) -> dict:
     ks = sorted(ladder_b)
-    if t is None:
+    if t is None or not ks:
         return {"k_equivalent": None, "bracket": None}
     if t >= ladder_b[ks[-1]]:
         return {"k_equivalent": None, "bracket": [ks[-1], None]}

@@ -95,13 +95,26 @@ def _refuse_if_halted(out_root) -> None:
                            f"later is interpretable — INSUFFICIENT_DATA at the verdict")
 
 
-def run_rung(size, rung, *, out_root=EXP2K, model_ctx, verify_fn, sampler=None,
-             committed_root=None) -> dict:
+def run_rung(size, rung, *, out_root=EXP2K, model_ctx, verify_fn, sampler=None) -> dict:
     """One cell: 500 items × 4 seeds × 64 draws, gate 1 item by item."""
     out = bk.tier_record_path(out_root, size, rung)
     dpath = bk.tier_draws_path(out_root, size, rung)
     if out.exists() and dpath.exists():
-        return json.loads(out.read_text())
+        # final-review fix wave, item 3: validate before trusting a resume —
+        # a killed write can leave a record with no matching draws file (or
+        # vice versa, or a draws file truncated mid-write); skip-if-exists
+        # must not silently hand back or silently overwrite a torn pair.
+        try:
+            rec = json.loads(out.read_text())
+            if not isinstance(rec, dict):
+                raise ValueError(f"{out}: record is not a dict")
+            bk.read_rows_2k(dpath)
+        except Exception as e:
+            raise RuntimeError(
+                f"{rung}/{size}: torn record+draws pair on resume — {out} / {dpath} "
+                f"({type(e).__name__}: {e}). This pair must be inspected and removed by "
+                f"the operator before a resume; it is never silently overwritten.") from e
+        return rec
     _refuse_if_halted(out_root)
     from experiments.exp3.sampler import sample_item
     sampler_fn = sampler or sample_item
@@ -164,6 +177,31 @@ def run_rung(size, rung, *, out_root=EXP2K, model_ctx, verify_fn, sampler=None,
         if (i + 1) % 100 == 0:
             print(f"[2k {size}] {rung}: {i + 1}/{len(prompts)} items, gate 1 identical so "
                   f"far ({(time.time() - t0) / 60:.1f} min)", flush=True)
+
+    # design §3.2's second gate-1 clause: the running seed-0 tally against
+    # 2d's committed per-seed tally, at the end of the rung — a mismatch
+    # here is the same HALT class as a per-draw diff even though every
+    # draw compared byte-identical above (it would catch, e.g., a verify_fn
+    # that drifted from the one 2d's committed tally was scored with).
+    # Nothing normal has been written yet, so a halt here writes nothing.
+    tally0 = bk.tallies_2k(rows, cap, verify_fn)["0"]
+    committed_tally0 = crec["per_seed_tallies"]["0"]
+    if tally0["full_string"] != committed_tally0["full_string"] or \
+            tally0["n_draws"] != committed_tally0["n_draws"]:
+        write_draws(bk.halted_draws_path(out_root, size, rung), rows)
+        m = bk.halt_marker_path(out_root, size, rung)
+        m.parent.mkdir(parents=True, exist_ok=True)
+        m.write_text(json.dumps({"rung": rung, "size": size, "kind": "tally",
+                                 "got": tally0, "committed": committed_tally0,
+                                 "model_sha": model_sha,
+                                 "committed_draws_sha256": committed_gz_sha,
+                                 "stack": _stack(), "git_sha": _git_sha()}, indent=1))
+        raise RuntimeError(
+            f"GATE 1 FIRED at {rung}/{size}: the re-derived seed-0 tally {tally0} disagrees "
+            f"with 2d's committed per-seed tally {committed_tally0} — a tally mismatch even "
+            f"though every seed-0 draw compared byte-identical, so the scoring law drifted "
+            f"rather than the generation law; no later cell is interpretable. Campaign "
+            f"halted; INSUFFICIENT_DATA at the verdict.")
 
     write_draws(dpath, rows)
     rec = bk.tier_record_2k(rung=rung, size=size, cap=cap, rows=rows, verify_fn=verify_fn,
