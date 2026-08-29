@@ -1,0 +1,21 @@
+baseline OK (totality pass, [29, 30, 31, 32, 35, 36, 37, 48, 80, 81, 82, 83, 84, 85, 86, 89, 90] mutants)
+
+[29] killed  seal_failures_2k: the 256-draw counts check removed
+[30] killed  seal_failures_2k: the counts_by_k ladder check removed
+[31] killed  seal_failures_2k: the per-file sha check removed
+[32] killed  seal_failures_2k: the composite sha256 check removed
+[35] killed  run()/_cmp: the x_A^(64)-vs-2d comparison loop removed (world/totality only)
+[36] killed  run()/_cmp: the per-rung d comparison loop removed (world/totality only)
+[37] killed  run()/_core: the block gate inverted (raises on a correct reproduction) — world/totality only
+[48] killed  freeze F-4: the whole-cell seed-stream copy refusal removed (totality only — load_tier_2k needs a real tier)
+[80] SURVIVED  run(): totality — collect_total stripped at line 483 (_dupes...)
+[81] killed  run(): totality — collect_total stripped at line 838 (check_imports_2k...)
+[82] killed  run(): totality — collect_total stripped at line 888 (lambda: seal_failures_2k(seal, cells, root_2k)...)
+[83] killed  run(): totality — collect_total stripped at line 926 (_cmp...)
+[84] killed  run(): totality — collect_total stripped at line 942 (_core...)
+[85] SURVIVED  run(): totality — collect_total stripped at line 947 (lambda: check_power_claims_2k(power, core[1], strata, r_cap,...)
+[86] killed  run(): totality — collect_total stripped at line 951 (check_imports_2k if imports_pinned else (lambda: None)...)
+[89] killed  run(): totality — collect_total stripped at line 875 (_tier...)
+[90] killed  run(): totality — collect_total stripped at line 989 (thunk...)
+
+15/17 killed; 2 survivor(s): [(80, 'run(): totality — collect_total stripped at line 483 (_dupes...)', 'survived'), (85, 'run(): totality — collect_total stripped at line 947 (lambda: check_power_claims_2k(power, core[1], strata, r_cap,...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []

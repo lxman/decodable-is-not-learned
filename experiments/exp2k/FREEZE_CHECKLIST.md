@@ -234,7 +234,7 @@ depend on which other seeds share the `sample_item` call, so that gate
 1 is a statement about the stream formula and the weights, not about
 call shape. Without it the claim rested on reading the sampler.
 
-`experiments/exp2k/tests/sampler_call_shape_2k.py` (`<this commit>`):
+`experiments/exp2k/tests/sampler_call_shape_2k.py` (`286097ae`):
 exp3's real frozen `sample_item`, a fake model whose forward is a pure
 deterministic function of the ids handed to it, a fake tokenizer, no
 weights, no network. Standalone — the only 2k module that imports
@@ -322,7 +322,32 @@ On the real analyzer run all three are `true`; a world run shows
 
 ## Cold re-runs at the freeze HEAD
 
-(filled in below — see "Numbers")
+Every one in a fresh process from the repo root with
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python`.
+
+| run | result |
+|---|---|
+| whole-directory suite (`experiments/exp2k/tests`, nine modules + the standalone fixture) | **185 passed, 1 skipped** (was 161 + 1 at the build's close) |
+| worlds + totality re-run after the last edit | **50 passed** (5 world tests over **14 worlds**, all three terminals + both annotations reached and every refusal reason asserted; 45 totality tests) |
+| cold battery (`verify_referents_2k.py`) | **12/12**, cold, on the real tree; item 10 prints "seal and power record: absent — pre-campaign" |
+| mutation, fast pass (`mutation_freeze_fast.log`) | **90 mutants, 72 killed, 18 survivors** |
+| mutation, totality pass (`mutation_freeze_totality.log`, `--totality --only 29,30,31,32,35,36,37,48,80,81,82,83,84,85,86,89,90`) | **15/17 killed**; survivors 80 and 85 — both the freeze's own new `collect_total` sites, closed with two tests (the census's failure LABEL pinned, not only its message; a forced-exception test for `check_power_claims_2k`) |
+| mutation, second totality pass (`mutation_freeze_totality2.log`, `--totality --only 80,85`) | **2/2 killed, 0 survivors** |
+| **mutation, accounted** | **90 = 89 real, all killed (72 + 15 + 2), + 1 documented equivalent (#13, `matched_k_256`'s cap tie — the build's proof stands)**, entirely from the three committed logs |
+| read sweep (`tests/read_sweep_2k.py`), real pre-campaign tree | **4,389 distinct paths / 10,079 read calls; UNPINNED 0**; referents 2,650, frozen 50, instrument 3, sha_pin_at_load 2, seal-bound-absent 1, stdlib/venv 1,683; 0 writes |
+| read sweep, SUCCESS path (a world — the coverage the pre-campaign sweep structurally cannot reach) | **4,686 distinct paths; UNPINNED 0** — world root (temp) 888, manifest 1,110, frozen/pinned 50, instrument 3, sha_pin_at_load 2, stdlib/venv 2,633. Verdict DENSITY, all 8 secondaries computed, 0 secondary failures |
+| import scan (`tests/import_scan_2k.py`), real tree | re-emits **32 modules, byte-identical to `IMPORTED_SHA256_2K`** |
+| determinism ×2, separate processes, on a world (`n_perm=30`) | **byte-identical verdict JSON**, sha256 `fffbc2deeba9c3c584ace8e523b437a059eff37c30bee381b9151dd0346ac1d1` both times |
+| `frozen_from_disk()` vs the pinned literal | **36 modules, identical: True**; `N_FILES_2K` 2,649 and `referents_2k.json`'s own sha `f00dfe78…` both match, manifest refusals `[]` |
+| the §3.2 fixture (`tests/sampler_call_shape_2k.py`) | **PASS**, seed 0's 64 draws identical across five call shapes incl. `(3, 2, 1, 0)` |
+| one altered byte in a SEALED 2k draws file (attack item 1) | seed 0 → `2k tier 1b/sub_base8 gate 1 re-derived: … 1 seed-0 draw(s) differ from 2d's committed bytes`; seed 2 (outside gate 1) → `2k seal: … missing or changed since the seal`. Both INSUFFICIENT_DATA — the layers are complementary, not redundant |
+
+**Freeze-time executions of `analyze_2k.run()` on the REAL tree: three**
+— `tests/read_sweep_2k.py` once, `tests/import_scan_2k.py` twice (once
+printed, once redirected to compare its emitted literal against the
+pinned one). All three landed INSUFFICIENT_DATA on the missing tier and
+printed no T. Every other number in this checklist came from synthetic
+worlds or from 2d's committed draws. Doc slip (a) carries the count.
 
 ## Ratification package — doc slips (the design doc UNTOUCHED)
 
@@ -333,15 +358,16 @@ doc is byte-identical to its state at the build's close.
 already public and is listed above."** Append:
 
 > The adversarial freeze (2026-08-29) ran the analyzer on the real tree
-> TWICE more — `tests/import_scan_2k.py` once and
-> `tests/read_sweep_2k.py` once, as its cold re-runs — both landing
-> INSUFFICIENT_DATA on the missing 2k tier before reaching a primary
-> and printing no T, for **eight `analyze_2k.run()` executions on the
-> real, pre-campaign tree in total**. Every other number the freeze
-> printed came from synthetic worlds (`tests/full_shape.py`, whose 7B
-> outcome is independent of x_A by construction) or from 2d's committed
-> draws; none is a 2k statistic. The freeze's own probes ran the
-> analyzer only against world roots.
+> THREE more times as its cold re-runs — `tests/read_sweep_2k.py` once
+> and `tests/import_scan_2k.py` twice (once printed, once redirected so
+> the literal it emits could be compared against the pinned one) — all
+> three landing INSUFFICIENT_DATA on the missing 2k tier before
+> reaching a primary and printing no T, for **nine `analyze_2k.run()`
+> executions on the real, pre-campaign tree in total**. Every other
+> number the freeze printed came from synthetic worlds
+> (`tests/full_shape.py`, whose 7B outcome is independent of x_A by
+> construction) or from 2d's committed draws; none is a 2k statistic.
+> The freeze's own probes ran the analyzer only against world roots.
 
 **(b) §3.2, the paragraph beginning "The build proves with a fixture (a
 fake model with a recorded generator)…"** — the build DEFERRED that

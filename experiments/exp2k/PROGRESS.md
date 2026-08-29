@@ -951,3 +951,110 @@ completeness though it sits outside the "prints numbers" rule.
   `frozen_from_disk(strict=False)` test, now naturally skipped since
   every `FROZEN_FILES_2K` member is on disk) — 158 collected, up from
   111 at the start of this task.
+
+## FREEZE (task 6, the adversarial freeze) — 2026-08-29, fresh reviewer
+
+Full record: `experiments/exp2k/FREEZE_CHECKLIST.md` (the class defect
+with its verbatim demonstration, all 19 attack items disposed, the SDD
+ledger's deferred minors and rulings triaged, the cold re-runs, the
+ratification package). Zero model contact, zero network. The design doc
+is byte-identical to its state at the build's close; slips go to Michael
+as exact §-level wording, unapplied.
+
+### THE CLASS DEFECT: FOUND (F-1) — `6abd339d`
+
+The halt scan enumerated ONE of the two artifacts a gate-1 fire leaves.
+`run/tier_2k.run_rung` writes `<rung>.HALTED.jsonl.gz` FIRST and the
+marker `<rung>.HALTED` SECOND; `battery_2k.halt_markers` globbed
+`*/*.HALTED`, which does not match the gz. A kill (or a failed marker
+write) in that window leaves the evidence with no marker; `run_rung`'s
+skip-if-exists reads the NORMAL pair, so a resumed campaign re-samples
+the rung, and if the retry clears gate 1 the tier completes with the
+fire's own evidence in the tree and nothing refusing on it. Demonstrated
+on a complete density world with
+`1b_trained/sub_base8.HALTED.jsonl.gz` present and its marker absent:
+BEFORE `halt_markers()` = [] and `run()` = DENSITY, T =
+0.9831911740571431, 0 referent failures; AFTER INSUFFICIENT_DATA naming
+the gz. All three call sites (analyzer, runner, seal) read that one
+function, so the sha-pinned `run/seal_2k.py` is closed without editing
+it. 2d F-1 / 2h F-1's lineage.
+
+### Findings
+
+- **F-2** (`90cd05d1`, 2j F-2's lineage): the power record's simulation
+  claims were attested and compared to nothing. A record declaring
+  POWERED over `rungs_simulated []` with every rung dropped,
+  `n_pos_lower_bound` all zero, `t_bar 0.0`, `alpha 1.0`, `n_sim 1`
+  passed with 0 failures and its `declared_status` shipped as the field
+  that picks between NOT-DENSITY's two licences. Closed with
+  `check_power_claims_2k`: `dropped_degenerate`/`rungs_simulated`
+  re-derived through `analyze_2i._degenerate_rungs` on the same
+  x_A^(256) the primary ran on, `n_pos_lower_bound` against 2i's
+  committed `stage1_final` counts, `t_bar`/`alpha` against the firing
+  rule's constants, `thin` against the surviving rung count; a record
+  attesting none of them is refused as uncheckable. Six failures on the
+  same record; world W14, four totality tests, eight fast unit tests.
+- **F-3** (`7111e84f`, 3d F-2's lineage): the seal's `files` table was
+  checked only against itself, so an emptied table (composite sha
+  recomputed, power record re-pointed) attested nothing and the verdict
+  stood at DENSITY with 0 failures. Coverage of the 36 tier
+  record+draws paths is now required. Honest weight: inert, because the
+  seal TAG binds the same 36 paths independently of the table.
+- **F-4** (`7111e84f`): gate 1 covers seed 0 and nothing looked at
+  seeds 1–3 AS STREAMS. A fault duplicating a stream leaves x^(256) an
+  exact multiple of x^(64) — rank-identical, so T back at 2i's own
+  .0949: a plausible NOT-DENSITY over a campaign that took no new
+  draws, not a refusal. Per-cell duplication census printed in
+  `referents.seed_stream_census_2k`; the whole-cell copy refuses. The
+  refusal is priced: on 2d's committed draws at these exact cells, 0 of
+  9,000 items has a constant 64-draw seed-0 stream, so the shape is not
+  producible by the model.
+- **F-5** (`286097ae`): design §3.2's fixture, deferred at the build,
+  was written — `tests/sampler_call_shape_2k.py`, exp3's real frozen
+  `sample_item` against a fake deterministic model, no weights, no
+  network, no `test_` prefix so the suite stays torch-free. Seed 0's 64
+  draws are IDENTICAL across `seeds=(0,)`, `(0,1)`, `(0,1,2)`, the
+  production `(0,1,2,3)` and the reordering `(3,2,1,0)`; seeds 1–3 are
+  not copies of seed 0.
+- **D-1** (`7111e84f`): `referents.pins_active` stamps which of the
+  three test-only bypasses a run took, so a verdict written with a pin
+  skipped says so on its face. No production caller passes any of them
+  (grep: only `tests/` and the two scan tools).
+
+### Cold re-runs at the freeze HEAD
+
+- whole-directory suite **185 passed, 1 skipped** (161 + 1 at the
+  build's close); worlds + totality re-run **50 passed** (14 worlds,
+  every terminal and annotation, every refusal reason asserted).
+- cold battery **12/12**.
+- mutation **90 accounted**: 89 real, ALL killed (72 fast + 15 totality
+  + 2 in a second totality pass), 1 documented equivalent (#13). Three
+  committed logs: `mutation_freeze_fast.log`,
+  `mutation_freeze_totality.log`, `mutation_freeze_totality2.log`. Five
+  mutants were added for the freeze's own closures; the two survivors
+  of the first totality pass were both new `collect_total` sites and
+  were closed with two tests, not documented away.
+- read sweep, real pre-campaign tree: **4,389 paths, 0 unpinned**.
+- read sweep, SUCCESS path on a world (the coverage the pre-campaign
+  sweep structurally cannot reach): **4,686 paths, 0 unpinned**;
+  DENSITY, all 8 secondaries computed, 0 secondary failures.
+- import scan re-emits **32 modules byte-identical** to
+  `IMPORTED_SHA256_2K`; `frozen_from_disk()` re-prints the **36**-entry
+  literal identically; `N_FILES_2K` 2,649 and the manifest's own sha
+  both match with zero refusals.
+- determinism: `run()` twice in separate processes on a world →
+  byte-identical verdict JSON, sha256 `fffbc2de…`.
+- one altered byte in a SEALED 2k draws file: seed 0 caught by gate 1's
+  re-derivation against 2d's committed bytes, seed 2 (outside gate 1)
+  caught by the seal's per-file sha. Both INSUFFICIENT_DATA.
+
+### For the tagger
+
+No sha-pinned file was edited, so `FROZEN_SHA256_2K` (36),
+`IMPORTED_SHA256_2K` (32), `N_FILES_2K` (2,649) and
+`REFERENTS_2K_SHA256` all stand unchanged. Of the three tag-bound
+blobs, `analyze_2k.py` and `battery_2k.py` changed at the freeze;
+`run/tier_2k.py` did not. Three freeze-time `analyze_2k.run()`
+executions on the real tree (read sweep ×1, import scan ×2), all
+INSUFFICIENT_DATA, no T — nine pre-tag executions in total, which doc
+slip (a) records.

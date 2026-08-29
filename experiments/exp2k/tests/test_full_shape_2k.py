@@ -78,6 +78,8 @@ def test_refusal_reasons(worlds):
     assert any("power" in x for x in f("W11 INSUFFICIENT missing power"))
     assert any("model_sha" in x for x in f("W12 INSUFFICIENT model sha"))
     assert any("predictor_sha256" in x for x in f("W13 INSUFFICIENT power sha"))
+    # freeze F-2: the power record's simulation claims re-derived
+    assert any("2k power claims" in x for x in f("W14 INSUFFICIENT power claims"))
     for n in ("W5 INSUFFICIENT missing tier record", "W8 INSUFFICIENT gate-1 diff"):
         v = worlds[n][0]
         assert v["primary"] is None and v["secondaries"] is None

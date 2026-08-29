@@ -1,0 +1,6 @@
+baseline OK (totality pass, [80, 85] mutants)
+
+[80] killed  run(): totality — collect_total stripped at line 483 (_dupes...)
+[85] killed  run(): totality — collect_total stripped at line 947 (lambda: check_power_claims_2k(power, core[1], strata, r_cap,...)
+
+2/2 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

@@ -318,7 +318,14 @@ def test_whole_cell_seed_stream_copy_refuses(world):
     rec = json.loads(rp.read_text())
     rec["per_seed_tallies"]["2"] = dict(rec["per_seed_tallies"]["0"])
     rp.write_text(json.dumps(rec))
-    _insufficient(root, seal, "reproduces seed 0's stream on all 500 items")
+    # the LABEL is pinned, not only the message: with the census's own
+    # `collect_total` stripped the ValueError still reaches the outer
+    # `_tier` wrapper and the verdict is still INSUFFICIENT_DATA, but the
+    # failure is filed under "2k tier 1b load" and the rest of the size's
+    # cells never load. Asserting the label is what makes that mutant die.
+    v = _insufficient(root, seal, "2k tier 1b/antonym seed-stream census")
+    assert any("reproduces seed 0's stream on all 500 items" in f
+               for f in v["referents"]["failures"])
 
 
 def test_seed_stream_census_is_printed_on_a_clean_tree(world):
@@ -471,6 +478,15 @@ def test_load_tier_2k_forced_exception_now_lands_gracefully(world, monkeypatch):
     root, seal = world
     monkeypatch.setattr(an, "load_tier_2k", _raise_injected)
     _insufficient(root, seal, "2k tier 1b load")
+
+
+def test_power_claims_forced_exception(world, monkeypatch):
+    """`check_power_claims_2k` returns a failure LIST rather than raising
+    on every tree these fixtures build, so only a forced exception can
+    observe whether its call site is `collect_total`-wrapped."""
+    root, seal = world
+    monkeypatch.setattr(an, "check_power_claims_2k", _raise_injected)
+    _insufficient(root, seal, "2k power claims", n_perm=200, n_boot=20)
 
 
 def test_seal_failures_2k_forced_exception(world, monkeypatch):
