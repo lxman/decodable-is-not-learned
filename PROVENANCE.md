@@ -211,6 +211,8 @@ above. Tag anchors:
 | exp2i-predictor-sealed | da889aa | adcf630 |
 | exp2i-endpoint-sealed | f59f1f7 | 541a8d7 |
 | exp2i-closed | 19fc00e | a5ac0c2 |
+| exp2j-preregistered | cec95d7 | e011ecf |
+| exp2j-closed | aed31ba | 6bdc6e2 |
 
 Re-extended 2026-08-24 to add the Experiment 2g record (closed
 NO-FORECAST: the sealed item-grain forecast — the per-item matched-label
@@ -278,6 +280,35 @@ content commit maps to 4119c975 here, and the stop, the ruling and the
 one-blob delta are ledgered in `experiments/exp2i/PROGRESS.md` and in
 the tag message itself. The retained-path list above now includes
 `experiments/exp2i` and `experiment-2i-design.md`.
+
+Extended 2026-08-28, later the same day, to add the Experiment 2j
+record (closed RESIDUAL: the mechanism question — holding Experiment
+2g's difficulty stratum and four functionals of the answer string
+fixed at once (the smaller model's own wrong-target propensity, the
+answer's length, its character repetition, and its overlap with the
+input), OLMo-2 1B's sampled count still forecasts the order in which
+OLMo-2 7B's training makes items emittable at T .1311, p 1.0e-4 under
+a POWERED declaration; 40.5 % of the within-lineage forecast is
+absorbed by the four functionals and 59.5 % survives, so the
+reachability account is a real part of the mechanism and not the whole
+of it. The named secondary read the 2i reverse-direction asymmetry as
+predictor DENSITY. Analysis-only on already-committed 2d/2g/2h/2i
+bytes: zero model contact, the campaign is the analyzer run). Same
+GRAFT route: the 19 private commits touching `experiments/exp2j`,
+`experiment-2j-design.md` and `.gitignore` were applied as a
+path-limited patch series fast-forward onto the previous public master
+(9fb7a8c), identities normalized to the single noreply identity,
+author dates preserved, redaction scans clean (0 secret-class, 0 LAN
+literals; two home-path lines occur inside one ledger file, quoted
+verbatim from a refusal message the freeze produced — the same class
+as the nine files already carried on this line), the tree at both new
+anchors and at HEAD entry-identical to the private tree on the
+retained paths (25 entries under `experiments/exp2j`), all 51 prior
+tags and every prior commit untouched. The freeze of this experiment
+found its class defect in the analyzer's own import surface (F-1: a
+frozen instrument's pins did not cover the modules it imports at run
+time), which the record documents. The retained-path list above now
+includes `experiments/exp2j` and `experiment-2j-design.md`.
 
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
