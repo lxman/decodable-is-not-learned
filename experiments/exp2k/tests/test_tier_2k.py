@@ -94,7 +94,12 @@ def test_gate1_halts_on_one_changed_draw(tmp_path, pinned):
     with gzip.open(bk.halted_draws_path(tmp_path, "1b", RUNG), "rt") as f:
         n = sum(1 for _ in f)
     assert n == 8
-    assert bk.halt_markers(tmp_path) == [m]
+    # freeze F-1: the scan covers BOTH artifacts the halt leaves — the
+    # marker and the evidence gz — so either alone refuses.
+    assert bk.halt_markers(tmp_path) == [m, bk.halted_draws_path(tmp_path, "1b", RUNG)]
+    m.unlink()
+    assert bk.halt_markers(tmp_path) == [bk.halted_draws_path(tmp_path, "1b", RUNG)]
+    m.write_text(json.dumps(marker))
     # any later call refuses while the marker exists — even a clean sampler
     with pytest.raises(RuntimeError, match="halt"):
         tr.run_rung("1b", RUNG, out_root=tmp_path, model_ctx=_ctx(), verify_fn=a2d.load_verify(),

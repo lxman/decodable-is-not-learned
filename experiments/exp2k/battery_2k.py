@@ -79,10 +79,35 @@ def halted_draws_path(root, size, rung) -> Path:
 
 
 def halt_markers(root) -> list:
-    """Every `*.HALTED` marker under the tier tree, ANY size, ANY rung —
-    scanned before any tier loads (2d F-1's lesson)."""
+    """Every artifact a gate-1 halt leaves under the tier tree, ANY size,
+    ANY rung — scanned before any tier loads (2d F-1's lesson). Both
+    names count as halt evidence and either one refuses.
+
+    FREEZE F-1 (the class defect). This scan used to glob `*/*.HALTED`
+    alone, which is ONE of the two artifacts `run/tier_2k.run_rung`
+    writes when gate 1 fires. It writes the evidence file
+    `<rung>.HALTED.jsonl.gz` (the rows sampled up to the fire) FIRST and
+    the marker `<rung>.HALTED` SECOND, so a kill — or a failed marker
+    write — inside that window leaves the gz with no marker. Nothing
+    then refuses: `run_rung`'s skip-if-exists reads the NORMAL
+    record+draws pair, not the halted one, so a resumed campaign
+    re-samples the rung; if the retry clears gate 1 the tier completes,
+    and the analyzer's halt scan, the seal's and the runner's all saw
+    only the marker glob. Demonstrated at the freeze on a complete
+    density world with `1b_trained/sub_base8.HALTED.jsonl.gz` present
+    and its marker absent: `halt_markers()` returned `[]` and
+    `analyze_2k.run()` returned DENSITY, T = 0.98319, 0 referent
+    failures — a real verdict delivered over a campaign that had a
+    gate-1 fire. With both names globbed the same tree refuses.
+
+    The three call sites (`analyze_2k.run`'s halt scan, `run/tier_2k.
+    _refuse_if_halted`, `run/seal_2k.seal_predictor`) all read this one
+    function, so widening it here closes the sha-pinned seal tool
+    without editing it."""
     base = Path(root) / "results" / TIER
-    return sorted(base.glob("*/*.HALTED")) if base.is_dir() else []
+    if not base.is_dir():
+        return []
+    return sorted(set(base.glob("*/*.HALTED")) | set(base.glob("*/*.HALTED.jsonl.gz")))
 
 
 def seal_path(root) -> Path:

@@ -709,7 +709,10 @@ def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N
         # indistinguishable from one who deliberately opted out.
         imports_pinned = None if IMPORTED_SHA256_2K is None else True
 
-    # ---- the halt scan FIRST (2d F-1): a halted tree never reaches a loader
+    # ---- the halt scan FIRST (2d F-1): a halted tree never reaches a loader.
+    # freeze F-1: `bk.halt_markers` covers BOTH artifacts a gate-1 fire
+    # leaves (the marker AND the `<rung>.HALTED.jsonl.gz` evidence file the
+    # runner writes first), so a tree carrying only the evidence refuses too.
     for m in bk.halt_markers(root_2k):
         failures.append(f"2k tier HALTED marker present: {m.parent.name}/{m.name}")
     # ---- pins, import surface (entry), prereg, manifest

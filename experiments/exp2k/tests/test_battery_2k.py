@@ -77,6 +77,19 @@ def test_paths(tmp_path):
     assert bk.halt_markers(tmp_path) == [m]
 
 
+def test_halt_markers_sees_the_evidence_gz_without_its_marker(tmp_path):
+    """Freeze F-1: `run_rung` writes `<rung>.HALTED.jsonl.gz` BEFORE
+    `<rung>.HALTED`, so a kill (or a failed marker write) in that window
+    leaves the evidence file alone. Either artifact is halt evidence."""
+    gz = bk.halted_draws_path(tmp_path, "410m", "odd6")
+    gz.parent.mkdir(parents=True)
+    gz.write_bytes(b"")
+    assert bk.halt_markers(tmp_path) == [gz]
+    m = bk.halt_marker_path(tmp_path, "410m", "odd6")
+    m.write_text("{}")
+    assert bk.halt_markers(tmp_path) == [m, gz]      # marker sorts first
+
+
 def test_read_rows_2k_accepts_the_4_seed_shape_and_sorts(tmp_path):
     p = tmp_path / "x.draws.jsonl.gz"
     rows = _rows()
