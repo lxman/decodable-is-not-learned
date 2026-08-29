@@ -328,4 +328,5 @@ to this line with Section 6's ninth lesson)), release v1.9
 (10.5281/zenodo.22087512, adding the Experiment 2g record) release
 v1.10 (10.5281/zenodo.22104580, adding the Experiment 2h record) and
 release v1.11 (10.5281/zenodo.22145025, adding the Experiment 2i
-record).
+record) and release v1.12 (10.5281/zenodo.22151832, adding the
+Experiment 2j record).

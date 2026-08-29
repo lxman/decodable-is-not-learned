@@ -39,7 +39,8 @@ repository the same day as a direct commit (no re-extraction) and
 archived as v1.8. The Experiment 2g close-out followed the same
 route on 2026-08-24, archived as v1.9; the Experiment 2h close-out
 on 2026-08-25, archived as v1.10; the Experiment 2i close-out on
-2026-08-28, archived as v1.11. Section 6's tenth lesson (the
+2026-08-28, archived as v1.11; the Experiment 2j close-out the same
+day, archived as v1.12. Section 6's tenth lesson (the
 production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
 inputs before the tag) and checklist items 24 and 25 were added
@@ -60,11 +61,13 @@ two more (`exp2h-preregistered`, `exp2h-closed`), thirty-five; the
 2026-08-28 Experiment 2i graft added four more (`exp2i-preregistered`
 — a disclosed re-tag after a campaign stop, the original object
 recorded in PROVENANCE — `exp2i-predictor-sealed`,
-`exp2i-endpoint-sealed`, `exp2i-closed`), thirty-nine. Archived
+`exp2i-endpoint-sealed`, `exp2i-closed`), thirty-nine; the
+2026-08-28 Experiment 2j graft added two more
+(`exp2j-preregistered`, `exp2j-closed`), forty-one. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.11 (10.5281/zenodo.22145025, the Experiment 2i record; v1.10,
-10.5281/zenodo.22104580, the Experiment 2h record; v1.9,
-10.5281/zenodo.22087512, the Experiment 2g record). TMLR's AI-disclosure requirement is met on
+v1.12 (10.5281/zenodo.22151832, the Experiment 2j record; v1.11,
+10.5281/zenodo.22145025, the Experiment 2i record; v1.10,
+10.5281/zenodo.22104580, the Experiment 2h record). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
@@ -1654,7 +1657,8 @@ records 10.5281/zenodo.22064573, v1.8 with this paper's ninth lesson
 10.5281/zenodo.22064649, v1.9 with the Experiment 2g record
 10.5281/zenodo.22087512, v1.10 with the Experiment 2h record
 10.5281/zenodo.22104580, v1.11 with the Experiment 2i record
-10.5281/zenodo.22145025).
+10.5281/zenodo.22145025, v1.12 with the Experiment 2j record
+10.5281/zenodo.22151832).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
@@ -1673,7 +1677,10 @@ named and not drawn on, and Experiment 2i's record
 (`exp2i-preregistered`, `exp2i-predictor-sealed`,
 `exp2i-endpoint-sealed`, `exp2i-closed`, the cross-family test of that
 forecast on OLMo-2 7B's checkpoints), whose campaign stop supplies
-the tenth;
+the tenth, and Experiment 2j's record (`exp2j-preregistered`,
+`exp2j-closed`, the analysis-only mechanism re-read of that forecast
+against four functionals of the answer string), likewise named and
+not drawn on;
 and, since 2026-08-23, the synthetic calibration records of
 Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
 `exp1c-*`), reported in the companion essay and not drawn on here.
