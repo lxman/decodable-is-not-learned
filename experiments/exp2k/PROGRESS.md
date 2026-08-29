@@ -392,3 +392,164 @@ paper over. Confirmed the isolated single-file run
 17/17 green; the gap appears only when Task 1+2's tests are collected
 alongside it. Test counts: `test_battery_2k.py` + `test_tier_2k.py` =
 52 (unchanged), `test_analyze_2k.py` = 17, whole directory = 69.
+
+---
+
+## Task 4: `run/seal_2k.py`, `power_2k.py`, the worlds, totality, the
+## seal/power tests, the cold battery
+
+Built exactly the brief's file list: `run/seal_2k.py`, `power_2k.py`,
+`tests/full_shape.py`, `tests/test_full_shape_2k.py`,
+`tests/test_totality_2k.py`, `tests/test_seal_2k.py`,
+`tests/test_power_2k.py`, `verify_referents_2k.py`. `seal_2k.py` and
+`power_2k.py` are the brief's Step 1/2 code verbatim (rulings 1/4
+already matched the literal). One edit to `analyze_2k.py` (Ruling 3,
+the only edit made to it): `run()` gained a test-only `frozen_check`
+keyword (default `None` → `bk.check_frozen_2k`), used at the "2k
+frozen modules" `collect_total` site — `bk.check_frozen_2k` refuses
+unconditionally until Task 5 pins `FROZEN_SHA256_2K`, so without the
+bypass every synthetic world lands INSUFFICIENT_DATA on that refusal
+alone regardless of the world's real content. `write_world_2k` returns
+`"frozen_check": lambda: None` in its seal dict so `run_world`'s
+`**seal` expansion carries it through automatically; the campaign
+never passes the kwarg; Task 5 drops the bypass call site once the
+real pin lands (the `frozen_check or bk.check_frozen_2k` reverts to
+just `bk.check_frozen_2k` — or the parameter is removed outright, on
+Task 5's call).
+
+### Build finding: the "independent" 2i tree's natural R_CAP is eleven rungs, not design's nine
+
+`fs2j.write_world_2j(world="independent")` — the world builder the
+brief's Step 3 names verbatim as 2k's 2i-tree source — assigns every
+one of 2i's ELEVEN `STRATA_RUNGS` exactly `N_POS_FIRING=200` positive
+items by the endpoint step, for EVERY world type it supports (not just
+"independent"): its `first[r]` builder applies to `r in RUNGS_CAP`
+unconditionally, with `RUNGS_CAP = tuple(bi.STRATA_RUNGS)` and no
+parameter to restrict which rungs get "hot" treatment. Confirmed by
+direct query (seed 0): the resulting `rung_set.json`'s `R_CAP` is
+`R_CAP_DESIGN`'s nine PLUS `count_div13` and `median5` — eleven, not
+nine. `analyze_2k.load_2i_tree` refuses UNCONDITIONALLY when the live
+2i tree's derived `R_CAP` differs from `battery_2k.R_CAP_DESIGN`
+(design §3.4: 2k's analyzer reads 2i's real, closed nine-rung R_CAP as
+a literal and checks the live tree reproduces it) — with the brief's
+Step 3 code used as given, EVERY world would have failed this check
+and landed INSUFFICIENT_DATA on "R_CAP != design's", never reaching
+DENSITY/NOT-DENSITY at all. 2j itself never hits this because 2j has
+no equivalent frozen-nine restriction (`RUNGS_CAP` = the full eleven
+throughout `analyze_2j.py`); the mismatch is new to 2k's own design.
+
+Fixed in `full_shape.py`, not in frozen code: `_restrict_r_cap_to_design`
+runs immediately after `write_world_2j`, zeroing the two extra rungs'
+ENDPOINT_STEP_7B sweep record AND `stage1_final` endpoint record (both,
+so 2i's gate-1 byte-identity re-derivation still sees a consistent
+pair — the sweep-at-endpoint and stage1_final records must agree
+byte-for-byte) and re-deriving `rung_set.json` fresh through 2i's own
+`bi.rung_set_from_counts` over the (now-corrected) 34-rung count table
+— a real world-construction fix, not a hand-edit of `R_CAP` itself, so
+`analyze_2i._check_rung_set_derivation` (which RE-DERIVES from the
+endpoint's own counts rather than trusting the file) still passes. A
+second, smaller consequence: `write_world_2j` had already written
+`verdict.json`'s `tests.A` (the pin `pin_a_from_record_2i` reads) using
+its OWN eleven-rung R_CAP, computed internally before the restriction
+ran — `write_world_2k` now re-derives and overwrites `v2i["tests"]["A"]`
+over the corrected nine-rung `r_cap` at the same point it already
+re-derives the 410m secondary (only `T`/per-rung `d` are compared by
+the comparison gate, both permutation-independent, so the re-derivation's
+own `n_perm=20` need not match `run()`'s). No other `verdict.json` field
+2k reads (`B`, `within_alone`, `cross_beyond_within`, `reverse_direction`)
+needed a parallel fix — `analyze_2k.py`'s `run()` reads only `tests.A`
+and `secondaries.replication_410m_cross` from the 2i verdict.
+
+### Known gap, not fixed here (Task 5 / the freeze's, per the brief's own edit restriction): `load_tier_2k`'s two `run()` call sites are unwrapped
+
+`analyze_2k.run()`'s tier-loading block (`# ---- the 2k tiers, the
+seal, the power record`) calls `load_tier_2k(root_2k, size, ...)`
+directly, once per size, NOT through `collect_total` — unlike every
+other loader/statistic in this file (`seal_failures_2k`, `_run_test`
+inside `_core`, every secondary's own thunk via `_sec`). Confirmed
+empirically before writing the totality suite: a monkeypatched
+`load_tier_2k` that always raises propagates straight out of `run()`
+as an uncaught exception rather than landing on INSUFFICIENT_DATA
+under a "2k tier" label — the brief's Step 5 bullet ("a forced
+exception from `load_tier_2k` … → `2k tier`") cannot be satisfied as a
+graceful terminal on the code as it stands. Task 4's Code-Organization
+constraint restricts every edit to `analyze_2k.py` to the one
+`frozen_check` change (Ruling 3), so this was left unfixed here rather
+than adding a second `collect_total` wrapper on my own judgment.
+`test_load_tier_2k_forced_exception_is_a_known_gap` (`test_totality_2k
+.py`) documents the CURRENT (crashing) behaviour with `pytest.raises`
+instead of asserting the brief's literal expectation or silently
+dropping the shape — same lineage as 2d F-1 / 2i F-1 / 2j F-1, one
+call site over, for the freeze (or Task 5) to close additively (wrap
+both `load_tier_2k(...)` calls in `collect_total("2k tier {size}", ...)`
+or similar, matching the pattern everywhere else in `run()`).
+
+### Step 6: W3 ("structured") tuning
+
+`STRUCTURED_STRENGTH` scales the same density mechanism as W1 (`q_i =
+clip(strength · y_i / 21, 0, 0.95)` over 192 additional draws per
+item), so even small `strength` compounds heavily; the brief's "each
+halving roughly halves T" heuristic does not hold here — T falls much
+slower than strength near 1.0 and much faster below it. A fast
+scan (one 2i tree built once, only the tier + primary statistic
+recomputed per candidate, bypassing the full `run()`/secondaries
+pipeline) located the landing band before touching the real file:
+
+| strength | T | p |
+|---|---|---|
+| 0.12 (brief's starting value) | 0.8255 | 0.0050 |
+| 0.03 | 0.5832 | 0.0050 |
+| 0.01 | 0.3237 | 0.0050 |
+| 0.003 | 0.1189 | 0.0050 |
+| 0.001 | 0.0350 | 0.0050 |
+| 0.0003 | 0.0003 | 0.4776 |
+| 0.0012 | 0.0443 | 0.0050 |
+| 0.0015 | 0.0564 | 0.0050 |
+| 0.0018 | 0.0704 | 0.0050 |
+| 0.0025 | 0.0977 | 0.0050 |
+
+Shipped `STRUCTURED_STRENGTH = 0.0015` (comfortable margin from both
+0 and the 0.10 bar). Confirmed through the REAL `write_world_2k` /
+`run_world` path (not the fast scan) at the brief's own `n_perm=200,
+n_boot=20`: `NOT-DENSITY structured`, T=0.056427895826048485,
+p=0.004975124378109453 — `0.0 < T < 0.10` and `p < 0.01`, both
+conditions `test_w3_structured_lands_under_the_bar_with_p_below_alpha`
+checks. Landed on the third distinct value tried in the real file
+(0.12 → 0.001 → 0.0015), each an actual edit + real-path re-run, not
+merely a fast-scan reading.
+
+### Test counts and commands run
+
+- `experiments/exp2k/tests/test_full_shape_2k.py` (13 worlds, 5 test
+  functions): 5 passed, ~409 s.
+- `experiments/exp2k/tests/test_totality_2k.py` (one representative
+  upstream 2i-tree shape + every shape new to 2k's own readers + the
+  forced-exception injection sites + the control, 32 test functions):
+  31 passed after one fix (see below), ~252 s.
+  - One totality test needed a needle correction after the first
+    run: `test_tier_record_is_a_directory` expected the "record read"
+    needle, but `load_tier_2k`'s FIRST check is `rp.is_file() and
+    dp.is_file()` — a directory in the record's place is caught
+    THERE ("record or draws file missing"), never reaching the
+    `json.loads` attempt the torn/list shapes exercise. Needle
+    corrected to match; re-run 31/31 green.
+- `experiments/exp2k/tests/test_seal_2k.py` (2), `test_power_2k.py`
+  (2): both green as part of the fast-module and whole-directory runs
+  below.
+- Fast modules (`test_battery_2k.py` + `test_tier_2k.py` +
+  `test_analyze_2k.py` + `test_seal_2k.py` + `test_power_2k.py`):
+  73 passed, 1 known pre-Task-5 failure
+  (`test_check_imports_2k_refuses_a_drifted_pin`, Task 3's ledgered
+  gap above — unchanged, still reproduces the same way), 1 skipped.
+- Whole directory (`experiments/exp2k/tests -q`, all seven test
+  files): 109 passed, 1 known failure (same test, same reason), 1
+  skipped — 111 collected. ~715 s.
+- Cold battery (`python -m experiments.exp2k.verify_referents_2k`):
+  10 PASS + 2 SKIPPED ("pending Task 5" — item 3 `referents_2k.json`,
+  item 12 the import surface), item 10 printed "(seal and power
+  record: absent — pre-campaign)" as expected pre-campaign.
+
+Zero model contact end to end (the seal/power tests and the worlds
+build synthetic trees and re-derive from committed bytes only; no
+`torch`/`transformers` import, no network call, anywhere in the seven
+new files).

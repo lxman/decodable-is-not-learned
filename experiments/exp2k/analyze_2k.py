@@ -620,7 +620,14 @@ _LITERAL = object()
 def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N_BOOT,
         tag_exists=None, blob_sha=None, blobs_bound=None, referents_sha=_LITERAL,
         imports_pinned=_LITERAL, pin_a=None, pin_a410=None, pin_28=None,
-        verdict_2i_path=None, verdict_2j_path=None, out_path=None) -> dict:
+        verdict_2i_path=None, verdict_2j_path=None, out_path=None, frozen_check=None) -> dict:
+    # `frozen_check` is a TEST-ONLY injection point (Ruling 3, Task 4 build):
+    # `bk.check_frozen_2k` refuses unconditionally ("not pinned (build
+    # incomplete)") until Task 5 pins `FROZEN_SHA256_2K`, so every world
+    # would land INSUFFICIENT_DATA on that refusal alone without a bypass.
+    # The worlds pass `lambda: None` through `run_world`'s `**seal`
+    # expansion; the campaign never passes this kwarg. Task 5 drops the
+    # bypass here once the real pin lands.
     failures = []
     root_2i, root_2k = Path(root_2i), Path(root_2k)
     pin_a = VERDICT_2I_PIN_A if pin_a is None else pin_a
@@ -640,7 +647,7 @@ def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N
     for m in bk.halt_markers(root_2k):
         failures.append(f"2k tier HALTED marker present: {m.parent.name}/{m.name}")
     # ---- pins, import surface (entry), prereg, manifest
-    _, f = collect_total(bk.check_frozen_2k, "2k frozen modules");                 failures += f
+    _, f = collect_total(frozen_check or bk.check_frozen_2k, "2k frozen modules"); failures += f
     if imports_pinned:
         _, f = collect_total(check_imports_2k, "2k import surface (entry)");       failures += f
     elif imports_pinned is not False:
