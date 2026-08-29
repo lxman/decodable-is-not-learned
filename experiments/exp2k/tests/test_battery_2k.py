@@ -267,3 +267,36 @@ def test_matched_k_256_on_the_design_rates():
     assert bk.matched_k_256(0.0, 0.1) == {"k": 1, "capped": False, "n_blocks": 64}
     assert bk.matched_k_256(0.5, 0.1) == {"k": 64, "capped": True, "n_blocks": 1}
     assert bk.matched_k_256(0.1, 0.0) == {"k": 64, "capped": True, "n_blocks": 1}
+
+
+def test_frozen_files_cover_2j_and_the_sampler_side():
+    names = {str(p) for p in bk.FROZEN_FILES_2K}
+    for rel in ("exp2j/analyze_2j.py", "exp2j/functionals_2j.py", "exp3d/rederive_3d.py",
+                "exp3/run/run_cell.py", "exp2i/run/sample_2i.py", "exp2b/models.py",
+                "exp2i/analyze_2i.py", "exp3/sampler.py", "exp2d/analyze_2d.py"):
+        assert any(n.endswith(rel) for n in names), rel
+    for rel in bk.INSTRUMENT_BLOBS_2K:
+        assert not any(n.endswith(rel.split("exp2k/")[1]) for n in names), rel
+
+
+def test_check_frozen_2k_refuses_unpinned_and_drift(monkeypatch):
+    monkeypatch.setattr(bk, "FROZEN_SHA256_2K", {})
+    with pytest.raises(RuntimeError, match="not pinned"):
+        bk.check_frozen_2k()
+    d = {p: s for p, s in bk.frozen_from_disk().items() if p.is_file()}
+    monkeypatch.setattr(bk, "FROZEN_SHA256_2K", d)
+    bk.check_frozen_2k()
+    k = next(iter(d))
+    d[k] = "0" * 64
+    with pytest.raises(RuntimeError, match="drifted"):
+        bk.check_frozen_2k()
+
+
+def test_require_prereg_2k_refuses_missing_tag_and_drift():
+    with pytest.raises(RuntimeError, match="does not exist"):
+        bk.require_prereg_2k(tag_exists=lambda t: False)
+    ok = bk.require_prereg_2k(tag_exists=lambda t: True,
+                              blob_sha=lambda tag, rel: bg.sha256_file(bg.REPO / rel))
+    assert set(ok["instrument_blobs"]) == set(bk.INSTRUMENT_BLOBS_2K)
+    with pytest.raises(RuntimeError, match="does not bind"):
+        bk.require_prereg_2k(tag_exists=lambda t: True, blob_sha=lambda tag, rel: "x")

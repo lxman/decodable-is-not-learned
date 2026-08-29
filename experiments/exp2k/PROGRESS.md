@@ -126,3 +126,132 @@ existed (`ImportError: cannot import name 'battery_2k' from
 
 GREEN: `39 passed in 2.16s`, pristine output (no warnings), full file
 run from the repo root with the project venv.
+
+## Task 2: `run/tier_2k.py`, `run/campaign_2k.py`, `run/rehearse_2k.py`, the commit watcher, `battery_2k.py`'s pin block
+
+Built: `battery_2k.py`'s pin block (`FROZEN_FILES_2K`, `FROZEN_SHA256_2K`
+empty pending Task 5, `frozen_from_disk`, `check_frozen_2k`,
+`require_prereg_2k`); `run/tier_2k.py` (`run_rung`, `rungs_2k`,
+`tier_complete`, `run`, `main`, `real_loader`, `_prompts`,
+`_refuse_if_halted`); `run/rehearse_2k.py` (`run`, `main`,
+`_snapshot`); `run/campaign_2k.py` (`main`); `run/commit_watcher_2k.sh`.
+Zero model contact in the build: `torch` is imported only inside
+`real_loader` (via `exp3.run.run_cell._load_model`) and inside
+`sample_item`'s own module, both lazy and uncalled by any test — every
+test drives `run_rung`/`run`/`rehearse_2k.run` with a fake sampler and
+a fake `(tok, model, model_sha)` context.
+
+### Refusal order in `run()`
+
+`require_prereg_2k` (tag exists, three instrument blobs bound) →
+`check_frozen_imports_2g` → `check_frozen_2i` → `check_frozen_2k` →
+`check_pythia_predictor_files` → seal-exists ("sealed") → halt scan
+(`_refuse_if_halted`, any `*.HALTED` under the tier tree) → `rungs_2k`
+(2i's committed R_CAP, must equal `R_CAP_DESIGN`) →
+`check_seed_freshness` → pending-list / dry-run branch → one model
+load per size. Matches the brief's global constraint exactly; exercised
+by `test_run_refuses_without_the_tag_and_with_a_seal`,
+`test_run_refuses_unpinned_frozen`,
+`test_run_dry_run_lists_pending_and_loads_nothing`,
+`test_run_one_rung_end_to_end_with_the_fake`.
+
+### Gate-1 file contract
+
+`run_rung` loads 2d's committed record + draws for the cell, checks
+the committed record is a seed-0×64 main-tier record whose provenance
+(`items_sha256`, `answers`, `answer_type`, `model_sha`) agrees with the
+pinned item file and the live model, and checks the committed draws
+file's sha256 against 2i's `PYTHIA_PREDICTOR_FILES` pin — so the
+comparison target is provably the file 2i read, not just some file on
+disk. Then, item by item: `sample_item` runs, the item's 64 seed-0
+draws are diffed against the committed row; on the first mismatch
+(including a coverage mismatch, i.e. wrong draw count on either side)
+it writes `<rung>.HALTED.jsonl.gz` (via `write_draws`, the rows
+compared so far including the failing one) THEN `<rung>.HALTED`
+(JSON: `rung`, `size`, `item`, `items_compared`, `n_diffs`, `diffs[:5]`,
+`model_sha`, `committed_draws_sha256`, `stack`, `git_sha`), writes no
+normal tier record or draws file, and raises `RuntimeError` whose
+message contains "GATE 1 FIRED". `_refuse_if_halted` scans for any
+`*.HALTED` marker under the tier tree before `run_rung` or `run` does
+anything else, so a halted rung — or any other rung, any size — refuses
+every later call with a message containing "halt". Skip-if-exists
+short-circuits before the gate-1 referent is even loaded, so a
+completed rung's sampler is never called again (proved with a sampler
+that raises `AssertionError` if invoked).
+
+### Commit watcher
+
+`commit_watcher_2k.sh` follows `commit_watcher_2d.sh`'s structure with
+the tree swapped to `experiments/exp2k/results` and the find pattern
+widened to include bare `*.HALTED` (2d's pattern only matched
+`*.HALTED.jsonl.gz`, which has a different suffix). For a
+`*.draws.jsonl.gz` file: wait for its sibling `.json` to exist (as
+2d's does), then take two size samples ten seconds apart and defer
+(without marking the file seen) if the size changed — 2i's
+`commit_watcher_2i.sh` lesson (a growing multi-hundred-KB file is not
+complete the instant it appears), applied at 10s instead of 2i's 3s
+per the brief's dial. Non-draws files (tier records, `.HALTED`
+markers) keep 2d's flat 2-second settle. Commit message format
+`exp2k campaign: <size>_trained <unit> landed (watcher)` — the `sed`
+capture is the tier directory name itself (`k256/<size>_trained/`),
+which already reads as `<size>_trained` with no string concatenation
+needed. Made executable (`chmod +x`); `bash -n` and `zsh -n` both
+parse it clean.
+
+### Concern: `test_require_prereg_2k_refuses_missing_tag_and_drift` and four `test_tier_2k.py` tests fail — not a defect in this task's code
+
+`require_prereg_2k` and every caller of it (`tr.run`) check that all
+three of `INSTRUMENT_BLOBS_2K` — `analyze_2k.py`, `battery_2k.py`,
+`run/tier_2k.py` — exist on disk before checking anything else about
+the tag. `experiments/exp2k/analyze_2k.py` is Task 3's file (see
+`task-3-brief.md`'s Files section) and does not exist yet at the end
+of Task 2. Five tests fail with the identical root cause
+(`RuntimeError: experiments/exp2k/analyze_2k.py not on disk`):
+`test_require_prereg_2k_refuses_missing_tag_and_drift` (in
+`test_battery_2k.py`) and, in `test_tier_2k.py`,
+`test_run_refuses_without_the_tag_and_with_a_seal`,
+`test_run_refuses_unpinned_frozen`,
+`test_run_dry_run_lists_pending_and_loads_nothing`,
+`test_run_one_rung_end_to_end_with_the_fake` — every test that calls
+`tr.run(...)` or `require_prereg_2k`'s happy path. Verified this is
+the sole cause and not a bug in `tier_2k.py`/`battery_2k.py`: with a
+throwaway one-line `analyze_2k.py` stub placed on disk (never
+committed), all 51 tests across both files pass; the stub was removed
+before committing. `require_prereg_2k`'s pin-block code and `run()`'s
+refusal order are both verbatim from the brief/task constraints, so
+this is a genuine cross-task ordering dependency, not something in
+Task 2's scope to fix — creating `analyze_2k.py` here would step on
+Task 3's Produces list. Expect these five to go green once Task 3
+lands `analyze_2k.py` (no change needed on the Task 2 side).
+
+### Fixed within scope: `frozen_from_disk()` needed a filter to be usable before Task 5
+
+The brief's verbatim `frozen_from_disk()` (`{p: bg.sha256_file(p) for p
+in FROZEN_FILES_2K}`) raises `FileNotFoundError` on the first missing
+path — `bg.sha256_file` has no graceful path for a missing file. Since
+`FROZEN_FILES_2K` names `power_2k.py`, `make_referents_2k.py` and
+`run/seal_2k.py` (Task 3/4's files, not yet on disk), the dict
+comprehension never reaches the point where a caller could filter its
+*result*; `test_check_frozen_2k_refuses_unpinned_and_drift`'s own
+`{p: s for p, s in bk.frozen_from_disk().items() if p.is_file()}` line
+crashed before the filter ran. Added `if p.is_file()` inside
+`frozen_from_disk()` itself — a one-line, additive change, consistent
+with the function's own docstring ("Tests use it to stand in for the
+literal before Task 5"): once every `FROZEN_FILES_2K` member exists
+(Task 5's state), the filter is a no-op and the function returns the
+same dict the verbatim version would have. This is the one deviation
+from the brief's literal Step 1 code; every other line is verbatim.
+
+### Test run
+
+RED (Step 3): `ImportError: cannot import name 'rehearse_2k' from
+'experiments.exp2k.run'` (collection error — `test_tier_2k.py`
+imports `rehearse_2k` before `tier_2k`, so that name surfaces first;
+both were absent).
+
+GREEN (Step 7, real end state): `test_battery_2k.py` +
+`test_tier_2k.py` together, 46 passed / 5 failed, all 5 failures the
+single disclosed `analyze_2k.py`-absence cause above; no warnings, no
+other failures. Verified separately (throwaway stub, not committed):
+51/51 pass once `analyze_2k.py` exists, confirming Task 2's own code
+is correct.

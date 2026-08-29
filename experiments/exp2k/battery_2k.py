@@ -390,3 +390,72 @@ def matched_k_256(rate_a64, rate_b64) -> dict:
     k = int(np.floor(K_TOTAL * rate_a64 / rate_b64 + 0.5))
     k = min(DRAWS_PER_SEED, max(1, k))
     return {"k": k, "capped": k == DRAWS_PER_SEED, "n_blocks": DRAWS_PER_SEED // k}
+
+
+# ------------------------------------------------------------ pins
+
+from experiments.exp2i import battery_2i as bi  # noqa: E402
+from experiments.exp2j import analyze_2j as an2j  # noqa: E402
+
+# Every frozen module 2k executes on the verdict path or in a stage
+# tool: 2j's 26 (which carry 2i's 22, 2i's own two, 2j's power/referent
+# tools) + 2j's two tag-bound instrument blobs (2j is closed; its blobs
+# are frozen bytes to 2k) + the sampler-side modules the tier runner
+# and the gate-1 re-derivation use + 2k's own artifact writers. The
+# three 2k blobs the prereg TAG binds (analyze/battery/tier) are NOT
+# here — a sha literal on them would kill every mutation-battery mutant
+# trivially (2j's rule).
+FROZEN_FILES_2K = tuple(an2j.FROZEN_SHA256_2J) + (
+    EXPERIMENTS / "exp2j" / "analyze_2j.py",
+    EXPERIMENTS / "exp2j" / "functionals_2j.py",
+    EXPERIMENTS / "exp3d" / "rederive_3d.py",
+    EXPERIMENTS / "exp3" / "run" / "run_cell.py",
+    EXPERIMENTS / "exp2i" / "run" / "sample_2i.py",
+    EXPERIMENTS / "exp2b" / "models.py",
+    EXP2K / "power_2k.py",
+    EXP2K / "make_referents_2k.py",
+    EXP2K / "run" / "seal_2k.py",
+    EXP2K / "run" / "campaign_2k.py",
+)
+FROZEN_SHA256_2K = {}   # Task 5: pinned as a LITERAL from `frozen_from_disk()`
+
+
+def frozen_from_disk() -> dict:
+    """The dict Task 5 prints and pins. Tests use it to stand in for the
+    literal before Task 5 (monkeypatching `FROZEN_SHA256_2K`). Filters
+    to files that exist: before Task 5 lands `power_2k.py`,
+    `make_referents_2k.py` and `run/seal_2k.py`, `FROZEN_FILES_2K`
+    names paths that are not on disk yet, and `bg.sha256_file` has no
+    graceful path for a missing file — Task 5's literal is pinned once
+    every member exists, so the filter is a no-op at that point."""
+    return {p: bg.sha256_file(p) for p in FROZEN_FILES_2K if p.is_file()}
+
+
+def check_frozen_2k() -> None:
+    if not FROZEN_SHA256_2K:
+        raise RuntimeError("FROZEN_SHA256_2K is empty — not pinned (build incomplete)")
+    for p, want in FROZEN_SHA256_2K.items():
+        got = bg.sha256_file(p)
+        if got != want:
+            raise RuntimeError(f"frozen module drifted: {p} ({got[:12]} != {want[:12]})")
+
+
+def require_prereg_2k(*, tag_exists=None, blob_sha=None) -> dict:
+    """2j's blob binding: the tag must exist and each instrument blob's
+    bytes on disk must equal the blob the tag carries."""
+    from experiments.exp2g import predictor_2g as pr
+    tag_exists = tag_exists or pr.git_tag_exists
+    blob_sha = blob_sha or pr.git_blob_sha256
+    if not tag_exists(PREREG_TAG_2K):
+        raise RuntimeError(f"preregistration tag {PREREG_TAG_2K} does not exist")
+    bound = {}
+    for rel in INSTRUMENT_BLOBS_2K:
+        p = REPO / rel
+        if not p.is_file():
+            raise RuntimeError(f"{rel} not on disk")
+        want, got = blob_sha(PREREG_TAG_2K, rel), bg.sha256_file(p)
+        if want != got:
+            raise RuntimeError(f"tag {PREREG_TAG_2K} does not bind {rel}: "
+                               f"tag {str(want)[:12]} vs disk {got[:12]}")
+        bound[rel] = got
+    return {"tag": PREREG_TAG_2K, "instrument_blobs": bound}
