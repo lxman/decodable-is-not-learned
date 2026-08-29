@@ -487,7 +487,8 @@ def s1_blocks(bits, out, strata, rungs, size_label, **kw) -> dict:
             "mean": float(np.mean(finite)) if finite else None,
             "min": min(finite) if finite else None, "max": max(finite) if finite else None,
             "sd": float(np.std(finite, ddof=1)) if len(finite) > 1 else None,
-            "per_rung": {r: [per[str(b)]["per_rung"].get(r, {}).get("d") for b in range(4)]
+            "per_rung": {r: [per[str(b)]["per_rung"].get(r, {}).get("d")
+                             for b in range(len(bk.SEEDS_2K))]
                          for r in rungs}}
 
 
@@ -672,7 +673,17 @@ def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N
     cells = {}
     if battery is not None and verify_fn is not None and r_cap:
         for size in bk.SIZES_2K:
-            f3, c = load_tier_2k(root_2k, size, battery=battery, verify_fn=verify_fn, rungs=r_cap)
+            # defence in depth (Task 4 review): every raiser inside load_tier_2k
+            # is already collect_total-wrapped or total over the R_CAP x size
+            # sets, so this outer wrap has nothing live to catch on the real
+            # tree — it exists so a future change to load_tier_2k's own body
+            # cannot reopen the 2d/2i/2j F-1 class of gap at this call site.
+            result, f = collect_total(
+                lambda size=size: load_tier_2k(root_2k, size, battery=battery, verify_fn=verify_fn,
+                                               rungs=r_cap),
+                f"2k tier {size} load")
+            failures += f
+            f3, c = result if result is not None else ([], {})
             failures += f3
             cells[size] = c
     else:

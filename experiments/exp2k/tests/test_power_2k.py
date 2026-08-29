@@ -28,5 +28,5 @@ def test_main_writes_once_carries_the_seal_sha_and_2i_reference(tmp_path, monkey
 
 
 def test_main_refuses_without_a_seal(tmp_path):
-    with pytest.raises((FileNotFoundError, RuntimeError)):
+    with pytest.raises(RuntimeError, match="missing"):
         pw2k.main(root_2i=bi.EXP2I, root_2k=tmp_path, **fs._TAG_OK)

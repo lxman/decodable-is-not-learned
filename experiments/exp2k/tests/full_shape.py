@@ -40,7 +40,6 @@ bypass here once the real pin lands."""
 from __future__ import annotations
 
 import json
-import shutil
 import sys
 from pathlib import Path
 
@@ -50,7 +49,6 @@ EXP2K = Path(__file__).resolve().parents[1]
 if str(EXP2K.parent.parent) not in sys.path:
     sys.path.insert(0, str(EXP2K.parent.parent))
 
-from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2g import predictor_2g as pr  # noqa: E402
@@ -183,11 +181,16 @@ def write_world_2k(root, *, world="density", strength=1.0, seed=0, missing=None,
     # Ruling 1: the real key `pin_a410_from_record_2i` reads, no fallback.
     v2i["secondaries"]["replication_410m_cross"] = json.loads(json.dumps(an2i._json_safe(a410),
                                                                         default=an2i._jsonable))
+    # capture pin_a/pin_a410 BEFORE the wrong_pin mutation: the RE-DERIVED
+    # value is what a real freeze would have pinned as the literal, so
+    # `pin_a` stays correct and only the on-disk verdict.json is corrupted —
+    # `run()`'s comparison gate then fails on re-derived != on-disk, not on
+    # a literal that was already wrong (Task 4 review follow-up 3).
+    pin_a = v2i["tests"]["A"]["stratified"]["T"]
+    pin_a410 = v2i["secondaries"]["replication_410m_cross"]["stratified"]["T"]
     if wrong_pin:
         v2i["tests"]["A"]["stratified"]["T"] = 0.123456
     fs2i._w(vpath, v2i)
-    pin_a = v2i["tests"]["A"]["stratified"]["T"]
-    pin_a410 = v2i["secondaries"]["replication_410m_cross"]["stratified"]["T"]
     # ---- the deliberate breakages
     if missing == "tier_record":
         bk.tier_record_path(root, "1b", "antonym").unlink()

@@ -1,12 +1,22 @@
 # experiments/exp2k/make_referents_2k.py
-"""Every committed file analyze_2k reads, sha256'd relative to the repo
-root: 2j's whole referent list (which carries 2i's, the 2i sweep, the
-three verdict records, 2i's instrument) PLUS 2j's verdict record and
-instrument modules, 2d's main-tier records for both sizes, the five
-stream maps, and 2k's own seal and power record (the campaign
-artifacts: absent at the build, so `build()` accepts `allow_missing`
-for the pre-campaign manifest and the Task-5 pin is re-cut at the seal
-stage — see Task 5 and the process tail)."""
+"""Every committed file analyze_2k reads BEFORE the campaign, sha256'd
+relative to the repo root: 2j's whole referent list (which carries
+2i's, the 2i sweep, the three verdict records, 2i's instrument), 2j's
+verdict record and instrument modules (`analyze_2j.py`,
+`functionals_2j.py`), 2k's own `power_2k.py` and `run/seal_2k.py`, the
+five committed stream maps, and 2d's 36 main-tier record+draws files
+(both sizes x nine R_CAP rungs) — every input that exists before a
+model is ever sampled. `build()`'s default is `with_campaign=False`:
+this is the manifest `analyze_2k.REFERENTS_2K_SHA256` pins. The
+campaign artifacts (2k's own 18 tier records, 18 draws files, the seal
+`predictor_2k.json` and the power record `power_2k.json`) are NOT in
+that manifest — they are bound by the seal tag
+(`exp2k-predictor-sealed`, via `analyze_2i.require_seal_2i` on
+`_seal_paths_2k`) and cross-checked at analysis time by
+`seal_failures_2k` and `load_power_2k`, so the preregistration tag is
+never re-cut after the campaign runs. `--with-campaign` on the CLI
+builds the wider, post-campaign manifest for a descriptive listing
+only — nothing in the pipeline consumes it."""
 from __future__ import annotations
 
 import hashlib
@@ -27,7 +37,7 @@ REPO = bg.REPO
 N_FILES_2K = None   # Task 5 / seal stage: pinned literally
 
 
-def referent_files(*, with_campaign=True) -> list:
+def referent_files(*, with_campaign=False) -> list:
     files = list(mk2j.referent_files())
     files += [REPO / "experiments/exp2j/results/verdict.json",
               REPO / "experiments/exp2j/analyze_2j.py", REPO / "experiments/exp2j/functionals_2j.py",
@@ -55,7 +65,7 @@ def _rel(p) -> str:
     return str(Path(p).resolve().relative_to(REPO.resolve()))
 
 
-def build(path, *, with_campaign=True, n_files=None) -> dict:
+def build(path, *, with_campaign=False, n_files=None) -> dict:
     rec = {"note": "sha256 of every committed file analyze_2k reads, relative to the repo root; "
                    "this file's own sha256 is pinned as analyze_2k.REFERENTS_2K_SHA256",
            "base": "REPO", "files": {}}

@@ -46,7 +46,10 @@ def main(out_path=None, *, root_2i=bi.EXP2I, root_2k=EXP2K, tag_exists=None, blo
     out_path = Path(out_path) if out_path is not None else bk.power_path(root_2k)
     if out_path.exists():
         raise RuntimeError(f"{out_path} exists — the power record is written ONCE")
-    seal = json.loads(bk.seal_path(root_2k).read_text())
+    seal_p = bk.seal_path(root_2k)
+    if not seal_p.is_file():
+        raise RuntimeError(f"refusing: {seal_p} missing — run seal_2k first")
+    seal = json.loads(seal_p.read_text())
     rung_set = an2i._load_rung_set(root_2i)
     r_cap = tuple(sorted(rung_set["R_CAP"]))
     predictor_rec = an2i._load_predictor_seal_content(root_2i)
