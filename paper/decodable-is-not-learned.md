@@ -50,7 +50,8 @@ verdict input: a read sweep sees what an analyzer opens, not what the
 interpreter executes on its behalf, and two lines in an empty package
 file moved a primary with every gate passing) and checklist items 26
 and 27 were added 2026-08-28 from the Experiment 2j freeze record on
-Michael's instruction.
+Michael's instruction; the paper was carried to the public repository
+the same day as a direct commit and archived as v1.13.
 The supporting repository has been public since 2026-08-06 and was
 re-extracted 2026-08-22 (three times) to carry the exp2d, exp2e and
 exp2f records: twenty-four tags, a preregistered and a closed anchor
@@ -70,9 +71,9 @@ recorded in PROVENANCE — `exp2i-predictor-sealed`,
 2026-08-28 Experiment 2j graft added two more
 (`exp2j-preregistered`, `exp2j-closed`), forty-one. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.12 (10.5281/zenodo.22151832, the Experiment 2j record; v1.11,
-10.5281/zenodo.22145025, the Experiment 2i record; v1.10,
-10.5281/zenodo.22104580, the Experiment 2h record). TMLR's AI-disclosure requirement is met on
+v1.13 (10.5281/zenodo.22151979, this paper with its eleventh lesson;
+v1.12, 10.5281/zenodo.22151832, the Experiment 2j record; v1.11,
+10.5281/zenodo.22145025, the Experiment 2i record). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
@@ -1714,7 +1715,8 @@ records 10.5281/zenodo.22064573, v1.8 with this paper's ninth lesson
 10.5281/zenodo.22087512, v1.10 with the Experiment 2h record
 10.5281/zenodo.22104580, v1.11 with the Experiment 2i record
 10.5281/zenodo.22145025, v1.12 with the Experiment 2j record
-10.5281/zenodo.22151832).
+10.5281/zenodo.22151832, v1.13 with this paper's eleventh lesson
+10.5281/zenodo.22151979).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
