@@ -1,0 +1,18 @@
+baseline OK (totality pass, [29, 30, 31, 32, 35, 36, 37, 75, 76, 77, 78, 79, 82, 83] mutants)
+
+[29] killed  seal_failures_2k: the 256-draw counts check removed
+[30] killed  seal_failures_2k: the counts_by_k ladder check removed
+[31] killed  seal_failures_2k: the per-file sha check removed
+[32] killed  seal_failures_2k: the composite sha256 check removed
+[35] killed  run()/_cmp: the x_A^(64)-vs-2d comparison loop removed (world/totality only)
+[36] killed  run()/_cmp: the per-rung d comparison loop removed (world/totality only)
+[37] killed  run()/_core: the block gate inverted (raises on a correct reproduction) — world/totality only
+[75] killed  run(): totality — collect_total stripped at line 718 (check_imports_2k...)
+[76] killed  run(): totality — collect_total stripped at line 768 (lambda: seal_failures_2k(seal, cells, root_2k)...)
+[77] killed  run(): totality — collect_total stripped at line 806 (_cmp...)
+[78] killed  run(): totality — collect_total stripped at line 822 (_core...)
+[79] killed  run(): totality — collect_total stripped at line 824 (check_imports_2k if imports_pinned else (lambda: None)...)
+[82] killed  run(): totality — collect_total stripped at line 755 (_tier...)
+[83] killed  run(): totality — collect_total stripped at line 850 (thunk...)
+
+14/14 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

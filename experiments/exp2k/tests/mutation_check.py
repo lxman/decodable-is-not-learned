@@ -273,6 +273,40 @@ def clear_pycache():
             shutil.rmtree(d, ignore_errors=True)
 
 
+def _refuse_if_any_backup_exists() -> None:
+    """Fix round 1 / Finding 3: a stray `.mutation_backup` anywhere under
+    `experiments/exp2k` means either a concurrent run is already in
+    flight or a previous run crashed without restoring — either way,
+    starting a NEW run on top of it is how this task's own process
+    hazard happened (two concurrent runs raced on one backup file and
+    silently corrupted `analyze_2k.py`). Refuse before the baseline
+    check even starts."""
+    found = sorted((ROOT / "experiments" / "exp2k").rglob("*.mutation_backup"))
+    if found:
+        raise RuntimeError(f"refusing: {len(found)} .mutation_backup file(s) already present "
+                           f"under experiments/exp2k (a concurrent run, or a previous crash that "
+                           f"never restored) — resolve by hand before starting a new run: {found}")
+
+
+def _acquire_backup(path):
+    """Exclusive-create `path`'s `.mutation_backup` (`open(..., 'xb')`):
+    a second, concurrent `mutation_check.py` targeting the SAME path
+    refuses immediately instead of racing this run's own restore-then-
+    delete cycle (fix round 1 / Finding 3 — the exact race that
+    corrupted `analyze_2k.py` earlier in this task). Copies `path`'s
+    current bytes into the backup; the caller restores and removes it
+    in `finally`, same as before."""
+    backup = path.with_suffix(path.suffix + ".mutation_backup")
+    try:
+        with open(backup, "xb") as f:
+            f.write(path.read_bytes())
+    except FileExistsError:
+        raise RuntimeError(f"refusing: {backup} already exists — a concurrent mutation_check.py "
+                           f"run may be in flight against {path.name} (or a previous run crashed "
+                           f"without restoring); resolve it by hand before retrying")
+    return backup
+
+
 def run_suite(tests):
     env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
     r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
@@ -301,6 +335,7 @@ def main(argv=None) -> int:
     tests = FULLSHAPE_TESTS if fullshape else (TOTALITY_TESTS if totality else TESTS)
     only = _parse_only(argv)
 
+    _refuse_if_any_backup_exists()
     clear_pycache()
     ok, out = run_suite(tests)
     if not ok:
@@ -322,8 +357,7 @@ def main(argv=None) -> int:
                   f"(count={src.count(old)})")
             survivors.append((i, name, "target-not-found"))
             continue
-        backup = path.with_suffix(path.suffix + ".mutation_backup")
-        shutil.copy2(path, backup)
+        backup = _acquire_backup(path)
         try:
             path.write_text(src.replace(old, new))
             clear_pycache()

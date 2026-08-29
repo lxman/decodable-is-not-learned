@@ -414,6 +414,42 @@ def test_load_tier_2k_bits_forced_exception(monkeypatch, tmp_path):
     assert any("bits and tallies" in f for f in failures), failures
 
 
+def test_load_tier_2k_gate1_catches_a_wrong_draws_compared_attestation(tmp_path):
+    # fix round 1 / Finding 1 (mutant #26): the record's OWN attested
+    # gate1.draws_compared is wrong while the rows/draws file is
+    # untouched, so _gate()'s own re-derivation (against a freshly
+    # computed n_cmp) is what has to catch it. tier_record_failures_2k
+    # ALSO flags a wrong draws_compared (against the fixed N_ITEMS *
+    # DRAWS_PER_SEED constant, which is the same target here) — the
+    # needle below is _gate()'s own distinct message text ("gate 1
+    # attested ... re-derived ..."), so this only passes if _gate()'s
+    # line is intact, not merely because SOME failure was reported.
+    battery, verify_fn = _tier_fixture(tmp_path)
+    p = bk.tier_record_path(tmp_path, "1b", "antonym")
+    rec = json.loads(p.read_text())
+    rec["gate1"]["draws_compared"] = 31999
+    p.write_text(json.dumps(rec))
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("gate 1 attested" in f for f in failures), failures
+
+
+def test_load_tier_2k_bits_catches_a_wrong_per_seed_tallies(tmp_path):
+    # fix round 1 / Finding 1 (mutant #27): corrupts only the VALUE
+    # tallied (full_string), not n_draws — tier_record_failures_2k only
+    # checks n_draws (a fixed constant), so it does NOT independently
+    # catch this; only _bits()'s own re-derivation against the draws
+    # file, freshly re-verified, can.
+    battery, verify_fn = _tier_fixture(tmp_path)
+    p = bk.tier_record_path(tmp_path, "1b", "antonym")
+    rec = json.loads(p.read_text())
+    rec["per_seed_tallies"]["0"]["full_string"] += 1
+    p.write_text(json.dumps(rec))
+    failures, cells = an.load_tier_2k(tmp_path, "1b", battery=battery, verify_fn=verify_fn,
+                                      rungs=("antonym",))
+    assert any("disagree with the re-derivation" in f for f in failures), failures
+
+
 def _all_failure_labels_2k():
     src = (bk.EXP2K / "analyze_2k.py").read_text()
     tree = ast.parse(src)
@@ -431,6 +467,13 @@ def _all_failure_labels_2k():
 
 def test_collect_total_labels_are_prefix_disjoint_and_disjoint_from_2i_2j():
     labels = _all_failure_labels_2k()
+    # fix round 1 / Finding 2: the load_tier_2k wrap's label ("2k tier
+    # {size} load") is only harvestable by the f-string regex if its
+    # thunk is a bare name with no commas (bound via `def _tier(size=
+    # size): ...` rather than an inline lambda calling load_tier_2k with
+    # several keyword arguments) — assert it is actually collected, not
+    # silently skipped.
+    assert any(label.startswith("2k tier ") for label in labels), labels
     for a in labels:
         for b in labels:
             if a != b:
@@ -548,3 +591,28 @@ def test_seal_paths_2k_union_of_rule_and_seal_files(tmp_path):
     assert bk.tier_draws_path(tmp_path, "410m", "odd6") in paths
     assert tmp_path / "results/k256/1b_trained/stray.txt" in paths
     assert len(paths) == 2 + 2 * 9 * 2 + 1
+
+
+# ------------------------------------------- mutation_check.py's own guard
+# (fix round 1 / Finding 3: two concurrent mutation_check.py runs raced on
+# one .mutation_backup and corrupted analyze_2k.py earlier in this task.)
+
+def test_mutation_check_refuses_a_concurrent_run(tmp_path):
+    from experiments.exp2k.tests import mutation_check as mc
+    target = tmp_path / "x.py"
+    target.write_text("VALUE = 1\n")
+    backup = target.with_suffix(target.suffix + ".mutation_backup")
+    backup.write_bytes(b"stale backup from a concurrent or crashed run")
+    with pytest.raises(RuntimeError, match="already exists"):
+        mc._acquire_backup(target)
+    assert target.read_text() == "VALUE = 1\n"   # refused before mutating anything
+
+
+def test_mutation_check_refuses_at_start_if_any_backup_exists(monkeypatch, tmp_path):
+    from experiments.exp2k.tests import mutation_check as mc
+    fake_root = tmp_path / "experiments" / "exp2k"
+    fake_root.mkdir(parents=True)
+    (fake_root / "battery_2k.py.mutation_backup").write_bytes(b"x")
+    monkeypatch.setattr(mc, "ROOT", tmp_path)
+    with pytest.raises(RuntimeError, match="mutation_backup"):
+        mc._refuse_if_any_backup_exists()

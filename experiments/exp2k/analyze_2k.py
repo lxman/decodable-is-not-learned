@@ -743,10 +743,16 @@ def run(root_2i=bi.EXP2I, root_2k=EXP2K, *, write=False, n_perm=N_PERM, n_boot=N
             # sets, so this outer wrap has nothing live to catch on the real
             # tree — it exists so a future change to load_tier_2k's own body
             # cannot reopen the 2d/2i/2j F-1 class of gap at this call site.
-            result, f = collect_total(
-                lambda size=size: load_tier_2k(root_2k, size, battery=battery, verify_fn=verify_fn,
-                                               rungs=r_cap),
-                f"2k tier {size} load")
+            # Bound to a local name first (matching _gate/_bits/_cmp below)
+            # rather than passed as an inline lambda: the f-string-label
+            # regex `_all_failure_labels_2k` uses to harvest this file's
+            # collect_total labels requires the FIRST argument to contain no
+            # commas, and load_tier_2k's own call has several (fix round 1 /
+            # Finding 2).
+            def _tier(size=size):
+                return load_tier_2k(root_2k, size, battery=battery, verify_fn=verify_fn,
+                                    rungs=r_cap)
+            result, f = collect_total(_tier, f"2k tier {size} load")
             failures += f
             f3, c = result if result is not None else ([], {})
             failures += f3

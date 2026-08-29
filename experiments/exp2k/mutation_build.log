@@ -25,8 +25,8 @@ baseline OK (fast pass, all mutants)
 [23] killed  verdict_tree_2k: the structured/null annotation boundary decoupled from ALPHA (p < ALPHA -> p < 0.05, ALPHA is 0.01)
 [24] killed  _licensed: the POWERED branch returns the UNDERPOWERED licence
 [25] killed  load_tier_2k/_gate: the gate-1 diff check removed
-[26] SURVIVED  load_tier_2k/_gate: the draws_compared attestation check removed
-[27] SURVIVED  load_tier_2k/_bits: the per_seed_tallies re-derivation check removed
+[26] killed  load_tier_2k/_gate: the draws_compared attestation check removed
+[27] killed  load_tier_2k/_bits: the per_seed_tallies re-derivation check removed
 [28] killed  load_tier_2k: committed_sha argument dropped from the record check
 [29] SURVIVED  seal_failures_2k: the 256-draw counts check removed
 [30] SURVIVED  seal_failures_2k: the counts_by_k ladder check removed
@@ -59,8 +59,8 @@ baseline OK (fast pass, all mutants)
 [57] killed  run(): totality — collect_total stripped at line 379 (lambda: an2j.load_pythia_outcomes(battery, verify_fn) if bat...)
 [58] killed  run(): totality — collect_total stripped at line 716 (frozen_check or bk.check_frozen_2k...)
 [59] killed  run(): totality — collect_total stripped at line 721 (lambda: bk.require_prereg_2k(tag_exists=tag_exists, blob_sha...)
-[60] killed  run(): totality — collect_total stripped at line 756 (lambda: json.loads(bk.seal_path(root_2k).read_text())...)
-[61] killed  run(): totality — collect_total stripped at line 764 (lambda: load_power_2k(root_2k, r_cap, seal["sha256"]) if (se...)
+[60] killed  run(): totality — collect_total stripped at line 762 (lambda: json.loads(bk.seal_path(root_2k).read_text())...)
+[61] killed  run(): totality — collect_total stripped at line 770 (lambda: load_power_2k(root_2k, r_cap, seal["sha256"]) if (se...)
 [62] killed  run(): totality — collect_total stripped at line 287 (thunk...)
 [63] killed  run(): totality — collect_total stripped at line 296 (lambda: sg.check_strata_pins(strata)...)
 [64] killed  run(): totality — collect_total stripped at line 312 (lambda: bi.entry_7b(manifest, bi.ENDPOINT_STEP_7B)...)
@@ -75,13 +75,13 @@ baseline OK (fast pass, all mutants)
 [73] killed  run(): totality — collect_total stripped at line 441 (_gate...)
 [74] killed  run(): totality — collect_total stripped at line 451 (_bits...)
 [75] SURVIVED  run(): totality — collect_total stripped at line 718 (check_imports_2k...)
-[76] SURVIVED  run(): totality — collect_total stripped at line 762 (lambda: seal_failures_2k(seal, cells, root_2k)...)
-[77] SURVIVED  run(): totality — collect_total stripped at line 800 (_cmp...)
-[78] SURVIVED  run(): totality — collect_total stripped at line 816 (_core...)
-[79] SURVIVED  run(): totality — collect_total stripped at line 818 (check_imports_2k if imports_pinned else (lambda: None)...)
+[76] SURVIVED  run(): totality — collect_total stripped at line 768 (lambda: seal_failures_2k(seal, cells, root_2k)...)
+[77] SURVIVED  run(): totality — collect_total stripped at line 806 (_cmp...)
+[78] SURVIVED  run(): totality — collect_total stripped at line 822 (_core...)
+[79] SURVIVED  run(): totality — collect_total stripped at line 824 (check_imports_2k if imports_pinned else (lambda: None)...)
 [80] killed  run(): totality — collect_total stripped at line 335 (lambda: an2i._check_rung_set_derivation(rung_set, stage1_fin...)
 [81] killed  run(): totality — collect_total stripped at line 727 (lambda: mkr.check_referents(REFERENTS_PATH_2K, sha_pin=refer...)
-[82] SURVIVED  run(): totality — collect_total stripped at line 746 (lambda size=size: load_tier_2k(root_2k, size, battery=batter...)
-[83] SURVIVED  run(): totality — collect_total stripped at line 844 (thunk...)
+[82] SURVIVED  run(): totality — collect_total stripped at line 755 (_tier...)
+[83] SURVIVED  run(): totality — collect_total stripped at line 850 (thunk...)
 
-66/83 killed; 17 survivor(s): [(13, 'matched_k_256: the cap condition >= loosened to > (a tie no longer caps at 64)', 'survived'), (26, 'load_tier_2k/_gate: the draws_compared attestation check removed', 'survived'), (27, 'load_tier_2k/_bits: the per_seed_tallies re-derivation check removed', 'survived'), (29, 'seal_failures_2k: the 256-draw counts check removed', 'survived'), (30, 'seal_failures_2k: the counts_by_k ladder check removed', 'survived'), (31, 'seal_failures_2k: the per-file sha check removed', 'survived'), (32, 'seal_failures_2k: the composite sha256 check removed', 'survived'), (35, 'run()/_cmp: the x_A^(64)-vs-2d comparison loop removed (world/totality only)', 'survived'), (36, 'run()/_cmp: the per-rung d comparison loop removed (world/totality only)', 'survived'), (37, 'run()/_core: the block gate inverted (raises on a correct reproduction) — world/totality only', 'survived'), (75, 'run(): totality — collect_total stripped at line 718 (check_imports_2k...)', 'survived'), (76, 'run(): totality — collect_total stripped at line 762 (lambda: seal_failures_2k(seal, cells, root_2k)...)', 'survived'), (77, 'run(): totality — collect_total stripped at line 800 (_cmp...)', 'survived'), (78, 'run(): totality — collect_total stripped at line 816 (_core...)', 'survived'), (79, 'run(): totality — collect_total stripped at line 818 (check_imports_2k if imports_pinned else (lambda: None)...)', 'survived'), (82, 'run(): totality — collect_total stripped at line 746 (lambda size=size: load_tier_2k(root_2k, size, battery=batter...)', 'survived'), (83, 'run(): totality — collect_total stripped at line 844 (thunk...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []
+68/83 killed; 15 survivor(s): [(13, 'matched_k_256: the cap condition >= loosened to > (a tie no longer caps at 64)', 'survived'), (29, 'seal_failures_2k: the 256-draw counts check removed', 'survived'), (30, 'seal_failures_2k: the counts_by_k ladder check removed', 'survived'), (31, 'seal_failures_2k: the per-file sha check removed', 'survived'), (32, 'seal_failures_2k: the composite sha256 check removed', 'survived'), (35, 'run()/_cmp: the x_A^(64)-vs-2d comparison loop removed (world/totality only)', 'survived'), (36, 'run()/_cmp: the per-rung d comparison loop removed (world/totality only)', 'survived'), (37, 'run()/_core: the block gate inverted (raises on a correct reproduction) — world/totality only', 'survived'), (75, 'run(): totality — collect_total stripped at line 718 (check_imports_2k...)', 'survived'), (76, 'run(): totality — collect_total stripped at line 768 (lambda: seal_failures_2k(seal, cells, root_2k)...)', 'survived'), (77, 'run(): totality — collect_total stripped at line 806 (_cmp...)', 'survived'), (78, 'run(): totality — collect_total stripped at line 822 (_core...)', 'survived'), (79, 'run(): totality — collect_total stripped at line 824 (check_imports_2k if imports_pinned else (lambda: None)...)', 'survived'), (82, 'run(): totality — collect_total stripped at line 755 (_tier...)', 'survived'), (83, 'run(): totality — collect_total stripped at line 850 (thunk...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []

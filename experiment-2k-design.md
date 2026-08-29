@@ -120,12 +120,22 @@ every committed stream map).
 **Pre-tag disclosure rule (checklist item 27, 2j's slip c):** any
 execution of 2k's analyzer on the real tree before the tag — a read
 sweep, a determinism check, a smoke run — prints numbers, and every
-number so printed is logged HERE before the tag is cut. Task 5's
-import scan (`tests/import_scan_2k.py`) and read sweep
-(`tests/read_sweep_2k.py`) each ran `analyze_2k.run()` once on the
-real, pre-campaign tree (the 2k tier does not exist yet); both landed
-INSUFFICIENT_DATA on the missing tier files before reaching a
-primary, and neither printed a T. The comparison gate (§3.3)
+number so printed is logged HERE before the tag is cut. Task 5 ran
+`analyze_2k.run()` on the real, pre-campaign tree (the 2k tier does
+not exist yet) **six times total**: `tests/import_scan_2k.py` three
+times (a 28-module pass; a 32-module pass after fixing the gate-1
+re-derivation import gap; a third, confirmatory pass after an
+unrelated residual-pin file edit, still 32 modules) and
+`tests/read_sweep_2k.py` three times (the first pass, finding two
+reads needing a `sha_pin_at_load` classification; a second pass after
+adding it, clean; a third, confirmatory pass at Task 5's close). All
+six landed INSUFFICIENT_DATA on the missing tier files before reaching
+a primary; none printed a T. Separately, `test_load_2i_tree_*`
+(`tests/test_analyze_2k.py`) executes `analyze_2k.load_2i_tree` — the
+2i-tree loader, not `run()` — directly against the real committed 2i
+tree on every run of the fast test suite; it computes no statistic and
+prints no number, so it sits outside this rule's count but is
+disclosed here for completeness. The comparison gate (§3.3)
 necessarily reproduces 2i's .0949 pre-tag; that number is already
 public and is listed above.
 

@@ -675,13 +675,27 @@ throughout as tests were added (see below).
    Task-2-era description refreshed (strict by default now).
 2. `analyze_2k.py` `run()`: both `load_tier_2k(...)` calls wrapped in
    `collect_total(..., f"2k tier {size} load")`; unpacked with
-   `f3, c = result if result is not None else ([], {})`. Label prefix
-   "2k tier " collides at the crude (pre-`{`) level with the existing
-   per-rung labels by construction (2j's own precedent: identical
-   reduced prefixes are skipped by the disjointness test's `a != b`
-   guard) — `test_collect_total_labels_are_prefix_disjoint_and_
-   disjoint_from_2i_2j` still passes; the FULL rendered labels never
-   collide (`"2k tier 1b load"` vs `"2k tier 1b/antonym record read"`).
+   `f3, c = result if result is not None else ([], {})`.
+
+   **Correction (fix round 1 / Finding 2):** the original entry here
+   ("skipped by the disjointness test's `a != b` guard") was WRONG —
+   the site was not colliding with anything, it was invisible to
+   `_all_failure_labels_2k` entirely. That harvester's f-string branch
+   (`collect_total\([^,]+,\s*f"([^"{]+)`) requires the call's FIRST
+   argument to contain no commas; the original inline
+   `lambda size=size: load_tier_2k(root_2k, size, battery=battery,
+   verify_fn=verify_fn, rungs=r_cap)` has several (one per keyword
+   argument), so the regex could not match past the first internal
+   comma and never captured this label at all — `test_collect_total_
+   labels_are_prefix_disjoint_and_disjoint_from_2i_2j` passed
+   VACUOUSLY, not because of any prefix-collision guard. Fixed by
+   binding the thunk to a local name first, `def _tier(size=size):
+   return load_tier_2k(...)` then `collect_total(_tier, f"2k tier
+   {size} load")`, matching how `_gate`/`_bits`/`_cmp` are already
+   written; the regex now matches (`[^,]+` = `_tier`, no internal
+   commas). The test now asserts `any(l.startswith("2k tier ") for l
+   in labels)` so a future regression is caught rather than silently
+   passing.
 3. `full_shape.py` W10: `pin_a`/`pin_a410` now captured BEFORE the
    `wrong_pin` mutation, so the world passes the honestly re-derived
    literal and only the on-disk `verdict.json` is corrupted; needle
@@ -801,17 +815,28 @@ exception, `mkr.check_referents` forced exception (needs
 `referents_sha` set to the real pin, since every other test defaults
 it to `False`).
 
+**Correction (fix round 1 / Finding 1):** #26/#27 (`load_tier_2k`'s
+`draws_compared`/`per_seed_tallies` checks) are NOT totality-closed —
+they are FAST-closed, by two new tests
+(`test_load_tier_2k_gate1_catches_a_wrong_draws_compared_attestation`,
+`test_load_tier_2k_bits_catches_a_wrong_per_seed_tallies`) added in
+fix round 1 after the review found the two `load_tier_2k`-fixture
+tests originally listed above (`..._gate1_forced_exception`,
+`..._bits_forced_exception`) exercise a DIFFERENT failure inside the
+same wrapped function (`diff_seed0`/`bits_2k` raising outright) and
+never actually corrupt `draws_compared` or `per_seed_tallies` — the
+committed fast log genuinely showed both SURVIVED before this fix.
+Confirmed killed by the fast harness: `mutation_check.py --only 26,27`
+-> `2/2 killed`.
+
 **Totality confirmation (`test_totality_2k.py` alone, ~250-280s per
-run), 16 mutants genuinely require it** — the 9 hand-picked ones the
-brief itself labeled "world/totality only" or that reduce to it
-(#26/#27 `load_tier_2k`'s draws_compared/tallies checks — later
-upgraded to fast, see above — #29-32 `seal_failures_2k`'s four
-sub-checks, #35-37 the comparison/block gates) plus 7 more
-AST-generated sites whose guard conditions require a full, successful
-pipeline (`check_imports_2k` entry AND exit, `seal_failures_2k`'s own
-wrapper, `_cmp`, `_core`, the outer `load_tier_2k` wrap, the `_sec`
-secondary-statistic loop). Two new totality tests were needed beyond
-what already existed:
+run), 14 mutants genuinely require it** — 7 hand-picked (#29-32
+`seal_failures_2k`'s four sub-checks, #35-37 the comparison/block
+gates) plus 7 AST-generated sites whose guard conditions require a
+full, successful pipeline (`check_imports_2k` entry AND exit,
+`seal_failures_2k`'s own wrapper, `_cmp`, `_core`, the outer
+`load_tier_2k` wrap, the `_sec` secondary-statistic loop). Two new
+totality tests were needed beyond what already existed:
 - `test_seal_counts_altered` (mutant #29): no existing test isolated
   the plain 256-draw `counts` check from `counts_by_k` — the world
   builder's `missing="seal_counts"` corruption always touches BOTH
@@ -883,10 +908,24 @@ campaign.
 
 ### Design doc §2 disclosure
 
-`experiment-2k-design.md`'s pre-tag disclosure paragraph updated: the
-import scan and the read sweep each ran `analyze_2k.run()` once on the
-real, pre-campaign tree; both landed INSUFFICIENT_DATA on the missing
-2k tier before reaching a primary; neither printed a T.
+**Corrected (fix round 1 / Ruling 4):** the original entry here
+undercounted — "the import scan and the read sweep each ran
+`analyze_2k.run()` once" was wrong on both halves. The exact count,
+recovered from the distinct scratchpad output files and moments each
+script ran: `tests/import_scan_2k.py` ran **three** times (28 modules;
+32 modules after fixing the gate-1 re-derivation import gap; a third,
+confirmatory run after an unrelated residual-pin file edit, still 32)
+and `tests/read_sweep_2k.py` ran **three** times (first pass, two
+unpinned reads found; second pass after adding the `sha_pin_at_load`
+bucket, clean; a third, confirmatory pass at Task 5's close) — **six
+`analyze_2k.run()` executions on the real, pre-campaign tree total**,
+all landing INSUFFICIENT_DATA on the missing 2k tier before reaching a
+primary, none printing a T. `experiment-2k-design.md`'s §2 disclosure
+paragraph updated to state six and name each script's run count, plus
+a clause noting `test_load_2i_tree_*` (`tests/test_analyze_2k.py`)
+executes `load_2i_tree` — not `run()`, no statistic, no number — on
+the real committed 2i tree on every fast-suite run; disclosed for
+completeness though it sits outside the "prints numbers" rule.
 
 ### Final numbers
 
@@ -894,9 +933,17 @@ real, pre-campaign tree; both landed INSUFFICIENT_DATA on the missing
 - `IMPORTED_SHA256_2K`: 32 modules.
 - Pre-campaign manifest: 2649 files,
   `f00dfe78fb2cc2e4886a51366b03c97fb15814f21c8fc23cacdf0c1818a9e937`.
-- Mutation: 83/83 mutants accounted for — 82 real, all killed (66 by
-  the fast suite alone, 16 more via targeted totality confirmation);
-  1 documented equivalent.
+- Mutation: 83/83 mutants accounted for — 82 real, all killed; 1
+  documented equivalent (#13). The tally sums from two committed logs
+  (fix round 1 / Finding 1): `experiments/exp2k/mutation_build.log`
+  (fast mode, the full 83-mutant run) shows **68/83 killed**, 15
+  survivors — mutant ids 13 (the equivalent) and
+  {29,30,31,32,35,36,37,75,76,77,78,79,82,83} (14 ids). Every one of
+  those 14 is then shown killed in
+  `experiments/exp2k/mutation_round1.log`
+  (`--totality --only 29,30,31,32,35,36,37,75,76,77,78,79,82,83`):
+  `14/14 killed; 0 survivor(s)`. 68 + 14 = 82 real mutants killed + 1
+  equivalent = 83 accounted for, entirely from the two committed logs.
 - Read sweep: 4389 distinct paths, 0 unpinned.
 - Cold battery: 12/12.
 - Whole-directory suite (`experiments/exp2k/tests`, all nine test
