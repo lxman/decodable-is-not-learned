@@ -45,7 +45,12 @@ production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
 inputs before the tag) and checklist items 24 and 25 were added
 2026-08-28 from the Experiment 2i campaign-stop record on Michael's
-instruction.
+instruction. Section 6's eleventh lesson (the import surface is a
+verdict input: a read sweep sees what an analyzer opens, not what the
+interpreter executes on its behalf, and two lines in an empty package
+file moved a primary with every gate passing) and checklist items 26
+and 27 were added 2026-08-28 from the Experiment 2j freeze record on
+Michael's instruction.
 The supporting repository has been public since 2026-08-06 and was
 re-extracted 2026-08-22 (three times) to carry the exp2d, exp2e and
 exp2f records: twenty-four tags, a preregistered and a closed anchor
@@ -1194,6 +1199,46 @@ logic under the fixtures; it cannot price the seam the fixtures were
 built to avoid. (Record under the `exp2i-*` tags; the stop, the fix
 and the ruling are ledgered in that experiment's `PROGRESS.md`.)
 
+**The eleventh lesson: an analyzer's inputs include the code the
+interpreter executes on its behalf, and a sweep of what the analyzer
+reads cannot see what it imports.** The mechanism experiment was
+analysis-only — zero model contact, every number a re-read of committed
+bytes — and its freeze inherited the pinning discipline of every
+predecessor: twenty-six named modules hashed against literals at entry,
+a manifest of 2,621 data files, the two instrument files bound to the
+preregistration tag by blob, and a read sweep that wraps every
+file-opening primitive and reported zero unpinned reads. A scan of the
+interpreter's module table after one real-tree run found twenty-three
+files under the experiments tree loaded into the analyzer's own process
+and covered by no pin: every package `__init__.py` on the import chain,
+the predecessor battery's item generators (reached through the
+sha-pinned item loader, which calls them to set the answer type that
+the normaliser, hence the answer prior, hence every composite stratum
+branches on), and seven further modules reached for a helper each. The read
+sweep could not have seen them by construction — the import machinery
+reads a module's bytes before any wrapper is installed, and the sweep
+pre-imports every module deliberately so that import traffic stays out
+of its table; the tool built to find unpinned inputs was blind to this
+surface in exactly the way that made its zero credible. The
+demonstration was two lines in an empty `__init__.py` rebinding one
+functional: the primary statistic moved from .1311 to .1330 with every
+gate passing, the manifest clean and the sweep's table still reading
+zero, and a payload with other content could have put it anywhere.
+Closed additively: a twenty-eight-file pin over the resolved module
+table, checked at the analyzer's entry and again at its exit, delivering
+the refusal terminal on any mismatch. This is the fourth generation of
+one lineage — every verdict input pinned at analysis time: prompts
+re-rendered from live item files, then a criterion's normalisation
+branch read from an unpinned field, then a predictor stage's provenance
+attested rather than measured — and each generation pinned one surface
+over from the last. The rule: the verdict path's import surface is a
+verdict input; pin the set of repository modules the interpreter has
+loaded, not the set the analyzer names, and check it where the analyzer
+starts and where it stops. A pin on named modules certifies what the
+author remembered to import. (Record under the `exp2j-*` tags; the
+finding and its demonstration are in that experiment's
+`FREEZE_CHECKLIST.md`.)
+
 ## 7. The screen at inclusion time
 
 Both campaigns above ran the untrained control after their batteries
@@ -1635,6 +1680,17 @@ section it distills.
     format — breaks at the first state transition it was written
     before. Re-run every cold verification tool once after each stage
     lands, not only at close-out. (§6)
+26. Pin the import surface. After one real-tree run, walk the
+    interpreter's module table, keep every module resolved under the
+    repository, and require each to be covered by a hash pin — at the
+    analyzer's entry and again at its exit. A read sweep sees data,
+    not code; a pin on named modules sees what the author remembered
+    to import. (§6)
+27. Any pre-tag execution of the analyzer on the real tree — a read
+    sweep, a determinism check, a smoke run at a small permutation
+    count — is a disclosure event. Log what it printed as knowledge
+    held before the tag, in the design document, before the tag is
+    cut. (§6)
 
 The full record behind this paper — the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
@@ -1679,8 +1735,8 @@ named and not drawn on, and Experiment 2i's record
 forecast on OLMo-2 7B's checkpoints), whose campaign stop supplies
 the tenth, and Experiment 2j's record (`exp2j-preregistered`,
 `exp2j-closed`, the analysis-only mechanism re-read of that forecast
-against four functionals of the answer string), likewise named and
-not drawn on;
+against four functionals of the answer string), whose freeze
+supplies the eleventh;
 and, since 2026-08-23, the synthetic calibration records of
 Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
 `exp1c-*`), reported in the companion essay and not drawn on here.
