@@ -359,4 +359,6 @@ v1.10 (10.5281/zenodo.22104580, adding the Experiment 2h record) and
 release v1.11 (10.5281/zenodo.22145025, adding the Experiment 2i
 record) and release v1.12 (10.5281/zenodo.22151832, adding the
 Experiment 2j record) and release v1.13 (10.5281/zenodo.22151979, the
-paper carried to this line with Section 6's eleventh lesson).
+paper carried to this line with Section 6's eleventh lesson) and
+release v1.14 (10.5281/zenodo.22177233, adding the Experiment 2k
+record).
