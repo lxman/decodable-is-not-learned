@@ -328,7 +328,7 @@ file — the same tolerated class as the ten files already on this
 line, disclosed here and not scrubbed), the tree at all three new
 anchors and at HEAD entry-identical to the private tree on the
 retained paths (80 entries under `experiments/exp2k` at the close),
-all 54 prior tags and every prior commit untouched. Three tags carried:
+all 55 prior tags and every prior commit untouched. Three tags carried:
 `exp2k-preregistered` (private 5d3c0d23 → public bd49bfb2, the
 instrument blob-bound), `exp2k-predictor-sealed` (478f0b5b → 2d32b38b,
 the 36 tier files, the seal and the power record), `exp2k-closed`
