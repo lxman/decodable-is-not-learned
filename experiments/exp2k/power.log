@@ -1,0 +1,4 @@
+[2i power] D_true 0.1: rho 0.171 P(fires) 0.489
+[2i power] D_true 0.15: rho 0.256 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.340 P(fires) 1.000
+primary: POWERED - P(fires | D_true = 0.15) = 1.000 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0108
