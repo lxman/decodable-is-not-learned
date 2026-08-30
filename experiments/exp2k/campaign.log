@@ -1,0 +1,120 @@
+[2k] sizes ['1b', '410m'], 2 to run: ['1b', '410m']
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 47946.09it/s]
+[preflight] 1b/float32: OK -> /Users/michaeljordan/emergence-paper/experiments/exp3/preflight_1b_float32.json
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 55889.84it/s]
+[2k 1b] add3_mid: 100/500 items, gate 1 identical so far (6.7 min)
+[2k 1b] add3_mid: 200/500 items, gate 1 identical so far (13.2 min)
+[2k 1b] add3_mid: 300/500 items, gate 1 identical so far (19.8 min)
+[2k 1b] add3_mid: 400/500 items, gate 1 identical so far (26.4 min)
+[2k 1b] add3_mid: 500/500 items, gate 1 identical so far (33.0 min)
+[2k 1b] add3_mid: gate 1 IDENTICAL on 32000 draws; verified per seed [10, 11, 8, 12] of 32000 each; 33.0 min
+[2k 1b] add_base8: 100/500 items, gate 1 identical so far (6.9 min)
+[2k 1b] add_base8: 200/500 items, gate 1 identical so far (14.8 min)
+[2k 1b] add_base8: 300/500 items, gate 1 identical so far (21.9 min)
+[2k 1b] add_base8: 400/500 items, gate 1 identical so far (28.7 min)
+[2k 1b] add_base8: 500/500 items, gate 1 identical so far (35.6 min)
+[2k 1b] add_base8: gate 1 IDENTICAL on 32000 draws; verified per seed [170, 150, 155, 169] of 32000 each; 35.6 min
+[2k 1b] antonym: 100/500 items, gate 1 identical so far (10.9 min)
+[2k 1b] antonym: 200/500 items, gate 1 identical so far (22.0 min)
+[2k 1b] antonym: 300/500 items, gate 1 identical so far (32.9 min)
+[2k 1b] antonym: 400/500 items, gate 1 identical so far (43.8 min)
+[2k 1b] antonym: 500/500 items, gate 1 identical so far (54.6 min)
+[2k 1b] antonym: gate 1 IDENTICAL on 32000 draws; verified per seed [4368, 4251, 4356, 4290] of 32000 each; 54.6 min
+[2k 1b] antonym6: 100/500 items, gate 1 identical so far (11.4 min)
+[2k 1b] antonym6: 200/500 items, gate 1 identical so far (22.8 min)
+[2k 1b] antonym6: 300/500 items, gate 1 identical so far (35.0 min)
+[2k 1b] antonym6: 400/500 items, gate 1 identical so far (47.6 min)
+[2k 1b] antonym6: 500/500 items, gate 1 identical so far (58.9 min)
+[2k 1b] antonym6: gate 1 IDENTICAL on 32000 draws; verified per seed [3147, 3145, 3167, 3249] of 32000 each; 59.0 min
+[2k 1b] arith_next: 100/500 items, gate 1 identical so far (6.9 min)
+[2k 1b] arith_next: 200/500 items, gate 1 identical so far (13.9 min)
+[2k 1b] arith_next: 300/500 items, gate 1 identical so far (20.8 min)
+[2k 1b] arith_next: 400/500 items, gate 1 identical so far (27.7 min)
+[2k 1b] arith_next: 500/500 items, gate 1 identical so far (34.6 min)
+[2k 1b] arith_next: gate 1 IDENTICAL on 32000 draws; verified per seed [531, 555, 518, 489] of 32000 each; 34.6 min
+[2k 1b] odd6: 100/500 items, gate 1 identical so far (11.2 min)
+[2k 1b] odd6: 200/500 items, gate 1 identical so far (22.4 min)
+[2k 1b] odd6: 300/500 items, gate 1 identical so far (33.5 min)
+[2k 1b] odd6: 400/500 items, gate 1 identical so far (44.6 min)
+[2k 1b] odd6: 500/500 items, gate 1 identical so far (55.8 min)
+[2k 1b] odd6: gate 1 IDENTICAL on 32000 draws; verified per seed [3195, 3208, 3268, 3214] of 32000 each; 55.8 min
+[2k 1b] sub3_mid: 100/500 items, gate 1 identical so far (6.6 min)
+[2k 1b] sub3_mid: 200/500 items, gate 1 identical so far (13.2 min)
+[2k 1b] sub3_mid: 300/500 items, gate 1 identical so far (19.8 min)
+[2k 1b] sub3_mid: 400/500 items, gate 1 identical so far (26.4 min)
+[2k 1b] sub3_mid: 500/500 items, gate 1 identical so far (33.0 min)
+[2k 1b] sub3_mid: gate 1 IDENTICAL on 32000 draws; verified per seed [34, 37, 59, 45] of 32000 each; 33.0 min
+[2k 1b] sub4_mid: 100/500 items, gate 1 identical so far (6.6 min)
+[2k 1b] sub4_mid: 200/500 items, gate 1 identical so far (13.3 min)
+[2k 1b] sub4_mid: 300/500 items, gate 1 identical so far (19.9 min)
+[2k 1b] sub4_mid: 400/500 items, gate 1 identical so far (26.5 min)
+[2k 1b] sub4_mid: 500/500 items, gate 1 identical so far (33.2 min)
+[2k 1b] sub4_mid: gate 1 IDENTICAL on 32000 draws; verified per seed [15, 9, 7, 5] of 32000 each; 33.2 min
+[2k 1b] sub_base8: 100/500 items, gate 1 identical so far (6.8 min)
+[2k 1b] sub_base8: 200/500 items, gate 1 identical so far (13.7 min)
+[2k 1b] sub_base8: 300/500 items, gate 1 identical so far (20.5 min)
+[2k 1b] sub_base8: 400/500 items, gate 1 identical so far (27.4 min)
+[2k 1b] sub_base8: 500/500 items, gate 1 identical so far (34.2 min)
+[2k 1b] sub_base8: gate 1 IDENTICAL on 32000 draws; verified per seed [723, 684, 688, 704] of 32000 each; 34.2 min
+[2k 1b] tier complete: 9 rung(s)
+  tier done 1b 373.0 min | elapsed 373.1 min
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 9769.45it/s]
+[preflight] 410m/float32: OK -> /Users/michaeljordan/emergence-paper/experiments/exp3/preflight_410m_float32.json
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 20821.42it/s]
+[2k 410m] add3_mid: 100/500 items, gate 1 identical so far (5.1 min)
+[2k 410m] add3_mid: 200/500 items, gate 1 identical so far (10.3 min)
+[2k 410m] add3_mid: 300/500 items, gate 1 identical so far (15.5 min)
+[2k 410m] add3_mid: 400/500 items, gate 1 identical so far (20.6 min)
+[2k 410m] add3_mid: 500/500 items, gate 1 identical so far (25.8 min)
+[2k 410m] add3_mid: gate 1 IDENTICAL on 32000 draws; verified per seed [17, 23, 17, 14] of 32000 each; 25.8 min
+[2k 410m] add_base8: 100/500 items, gate 1 identical so far (5.2 min)
+[2k 410m] add_base8: 200/500 items, gate 1 identical so far (10.3 min)
+[2k 410m] add_base8: 300/500 items, gate 1 identical so far (15.5 min)
+[2k 410m] add_base8: 400/500 items, gate 1 identical so far (20.9 min)
+[2k 410m] add_base8: 500/500 items, gate 1 identical so far (26.1 min)
+[2k 410m] add_base8: gate 1 IDENTICAL on 32000 draws; verified per seed [242, 241, 259, 222] of 32000 each; 26.1 min
+[2k 410m] antonym: 100/500 items, gate 1 identical so far (8.0 min)
+[2k 410m] antonym: 200/500 items, gate 1 identical so far (16.0 min)
+[2k 410m] antonym: 300/500 items, gate 1 identical so far (24.0 min)
+[2k 410m] antonym: 400/500 items, gate 1 identical so far (32.0 min)
+[2k 410m] antonym: 500/500 items, gate 1 identical so far (40.0 min)
+[2k 410m] antonym: gate 1 IDENTICAL on 32000 draws; verified per seed [5015, 5074, 5077, 5067] of 32000 each; 40.0 min
+[2k 410m] antonym6: 100/500 items, gate 1 identical so far (8.0 min)
+[2k 410m] antonym6: 200/500 items, gate 1 identical so far (16.1 min)
+[2k 410m] antonym6: 300/500 items, gate 1 identical so far (24.1 min)
+[2k 410m] antonym6: 400/500 items, gate 1 identical so far (32.2 min)
+[2k 410m] antonym6: 500/500 items, gate 1 identical so far (40.2 min)
+[2k 410m] antonym6: gate 1 IDENTICAL on 32000 draws; verified per seed [3616, 3594, 3747, 3588] of 32000 each; 40.2 min
+[2k 410m] arith_next: 100/500 items, gate 1 identical so far (5.2 min)
+[2k 410m] arith_next: 200/500 items, gate 1 identical so far (10.4 min)
+[2k 410m] arith_next: 300/500 items, gate 1 identical so far (15.6 min)
+[2k 410m] arith_next: 400/500 items, gate 1 identical so far (20.8 min)
+[2k 410m] arith_next: 500/500 items, gate 1 identical so far (26.0 min)
+[2k 410m] arith_next: gate 1 IDENTICAL on 32000 draws; verified per seed [831, 805, 773, 797] of 32000 each; 26.0 min
+[2k 410m] odd6: 100/500 items, gate 1 identical so far (8.0 min)
+[2k 410m] odd6: 200/500 items, gate 1 identical so far (16.0 min)
+[2k 410m] odd6: 300/500 items, gate 1 identical so far (24.0 min)
+[2k 410m] odd6: 400/500 items, gate 1 identical so far (32.0 min)
+[2k 410m] odd6: 500/500 items, gate 1 identical so far (40.1 min)
+[2k 410m] odd6: gate 1 IDENTICAL on 32000 draws; verified per seed [2804, 2657, 2779, 2757] of 32000 each; 40.1 min
+[2k 410m] sub3_mid: 100/500 items, gate 1 identical so far (5.2 min)
+[2k 410m] sub3_mid: 200/500 items, gate 1 identical so far (10.3 min)
+[2k 410m] sub3_mid: 300/500 items, gate 1 identical so far (15.5 min)
+[2k 410m] sub3_mid: 400/500 items, gate 1 identical so far (20.6 min)
+[2k 410m] sub3_mid: 500/500 items, gate 1 identical so far (25.8 min)
+[2k 410m] sub3_mid: gate 1 IDENTICAL on 32000 draws; verified per seed [35, 33, 23, 28] of 32000 each; 25.8 min
+[2k 410m] sub4_mid: 100/500 items, gate 1 identical so far (5.2 min)
+[2k 410m] sub4_mid: 200/500 items, gate 1 identical so far (10.3 min)
+[2k 410m] sub4_mid: 300/500 items, gate 1 identical so far (15.5 min)
+[2k 410m] sub4_mid: 400/500 items, gate 1 identical so far (20.7 min)
+[2k 410m] sub4_mid: 500/500 items, gate 1 identical so far (25.9 min)
+[2k 410m] sub4_mid: gate 1 IDENTICAL on 32000 draws; verified per seed [12, 12, 2, 6] of 32000 each; 25.9 min
+[2k 410m] sub_base8: 100/500 items, gate 1 identical so far (5.2 min)
+[2k 410m] sub_base8: 200/500 items, gate 1 identical so far (10.3 min)
+[2k 410m] sub_base8: 300/500 items, gate 1 identical so far (15.5 min)
+[2k 410m] sub_base8: 400/500 items, gate 1 identical so far (20.7 min)
+[2k 410m] sub_base8: 500/500 items, gate 1 identical so far (25.9 min)
+[2k 410m] sub_base8: gate 1 IDENTICAL on 32000 draws; verified per seed [710, 637, 685, 657] of 32000 each; 25.9 min
+[2k 410m] tier complete: 9 rung(s)
+  tier done 410m 275.8 min | elapsed 648.9 min
+[2k] complete: 648.9 min

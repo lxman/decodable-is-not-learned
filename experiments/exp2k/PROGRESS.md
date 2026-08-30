@@ -1159,3 +1159,30 @@ TENTH pre-tag `analyze_2k.run()` execution on the real tree
 stdlib/venv 1,683, UNPINNED 0; 0 writes) and `verify_referents_2k.py`
 12/12. Both disclosed in design §2. Tag `exp2k-preregistered` follows
 at the commit carrying this entry.
+
+## 2026-08-29/30 — CAMPAIGN (on Michael's word "Begin the campaign")
+
+Launched 2026-08-29 20:18 EDT, detached (`campaign_2k`, one child process
+per size) with the watcher beside it; complete 2026-08-30 ~07:08 EDT,
+**648.9 min**: preflight 1b/float32 OK; the 1b tier 373.0 min (nine
+rungs, 33–59 min each); preflight 410m/float32 OK; the 410m tier
+275.8 min (26–40 min each). **Gate 1 IDENTICAL on all 18 cells —
+32,000 seed-0 draws per cell, 288,000 per size, 576,000 in all,
+compared item by item on the production path** (the twelfth
+byte-identical reproduction on this stack; the first on nine
+non-reversal cells at two sizes). The tally halt never fired (each
+cell's seed-0 verified count equals 2d's committed tally by
+construction of the identity). No halt marker; zero stops; zero
+attrition. Verified per seed, 1b [s0, s1, s2, s3] of 32,000:
+add3_mid 10/11/8/12; add_base8 170/150/155/169; antonym
+4368/4251/4356/4290; antonym6 3147/3145/3167/3249; arith_next
+531/555/518/489; odd6 3195/3208/3268/3214; sub3_mid 34/37/59/45;
+sub4_mid 15/9/7/5; sub_base8 723/684/688/704. 410m: add3_mid
+17/23/17/14; add_base8 242/241/259/222; antonym 5015/5074/5077/5067;
+antonym6 3616/3594/3747/3588; arith_next 831/805/773/797; odd6
+2804/2657/2779/2757; sub3_mid 35/33/23/28; sub4_mid 12/12/2/6;
+sub_base8 710/637/685/657. The seed-0 column reproduces 2d's committed
+main-tier tallies exactly (e.g. antonym/1b 4368 = 2d's .1365 × 32,000).
+All 36 record+draws pairs committed and pushed by the watcher (36
+commits); watcher stopped after the last pair. Campaign log
+`campaign.log`, watcher log `watcher.log` committed with this entry.
