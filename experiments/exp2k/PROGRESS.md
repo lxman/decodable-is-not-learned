@@ -1204,3 +1204,25 @@ n_perm 30: **T = 0.1548** (p .032 at 30 permutations, not the
 experiment's), five minutes AFTER the projection was sealed. Disclosed
 in design §2 (post-tag paragraph) and here. Analyzer launched once,
 detached, `--write`, 08:18 EDT.
+
+## 2026-08-30 — CLOSED: VERDICT DENSITY
+
+Analyzer ONCE (08:18–08:49, 31 min, detached): **DENSITY — T .1548,
+p 9.999e-05 (0/10,000), POWERED; nine of nine rungs eligible; zero
+referent failures; comparison gates exact (A64 = 0.09491251078607414,
+A64/410m = 0.11537934925951784, A64 → 2.8b = 0.16722141085849532); gate
+1 re-derived 0 diffs on 18 cells; pins_active all real.** Per-rung D:
+add_base8 .476, sub_base8 .440, sub3_mid .147, antonym6 .115, odd6
+.096, arith_next .092, add3_mid .027, antonym .024, sub4_mid −.024.
+S1 blocks .0949/.1077/.0948/.0938 (SD .0066 — one block of four clears
+the bar); S2 .0949/.1256/.1433/.1548; S3 thinned-B .2089 vs .1548
+(+.054), placement k 9.9 [8, 16]; S4 .1148/.2044; S5 .2277/.2813; S6
+410m .1695 (fires), block SD .0034; S7 six-rung mean .207, live items
+39/130/30. Projection cb64f15a: verdict-level HIT (worth nothing),
+texture 15 hits / 5 misses — sub3_mid .147 (the named mid-digit
+disconfirmer fired), add_base8 overtook sub_base8, arith_next +.028
+only, S3 increment above range, first-correct above the count.
+VERDICT.txt + retrospective.md written; tag `exp2k-closed` follows.
+One pre-committed change UNSPENT. Next: close-out propagation on
+Michael's word (essay under §6 DENSITY, experiments.md, the supporting
+repo graft with the exp2k three tags, Zenodo v1.14, paper inventory).

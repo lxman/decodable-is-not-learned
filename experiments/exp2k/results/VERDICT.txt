@@ -1,0 +1,123 @@
+EXPERIMENT 2k — THE DENSITY QUESTION (approach B) — VERDICT: DENSITY
+
+Analyzer run ONCE (2026-08-30 08:18–08:49 EDT, detached, --write) on the
+tree sealed by exp2k-predictor-sealed (478f0b5b), instrument bound by
+exp2k-preregistered (5d3c0d23), projection sealed at cb64f15a before
+the run. Zero referent failures; pins_active = every pin real (frozen
+modules, import surface, referent manifest); n_perm 10,000.
+
+§3.5 tree, mechanical:
+  1. INSUFFICIENT_DATA — not taken (zero failures; gate 1 re-derived
+     0 diffs on all 18 cells; comparison gates exact three-way:
+     A64 = 0.09491251078607414 (2i's Test A reproduced bit for bit
+     from the sealed seed-0 block), A64/410m = 0.11537934925951784,
+     A64 → 2.8b = 0.16722141085849532 (2g's competitor); seal counts ==
+     re-derivation at every k; power record's six claims re-derived).
+  2. Primary — 2i's Test A verbatim with x_A at k = 256 (Pythia-1b,
+     nine rungs, 2g's strata): stratified T = 0.1548, p = 9.999e-05
+     (0 of 10,000 permutations ≥ observed), raw .1311, pooled D .1663,
+     nine of nine rungs eligible, none THIN — FIRES.
+  → DENSITY, read under POWERED (P(fires | D = .15) = 1.000; null SD of
+     T .0108; min-detectable T .0235; P(fires | D = .10) = .489).
+
+The finding in one line: at four times the draw budget, Pythia-1b's
+sampled counts clear the same bar on the same OLMo-2 7B outcome that
+they missed at 64 draws (.0949 → .1548) — 2i's sub-bar cross-family
+reading was, as A-1 read it, predictor information density. The
+outcome was on disk throughout (design §2): this is a bar cleared on a
+known outcome, not a forecast made.
+
+Per-rung within-stratum Somers' D at 256 (bootstrap CI), 1b:
+  add_base8  .476 [.391, .561]  (2i at 64: .242)   — the largest gain
+  sub_base8  .440 [.365, .509]  (.338)
+  sub3_mid   .147 [.091, .204]  (.020)             — a mid-digit rung
+                                                      now carries a D
+  antonym6   .115 [.053, .176]  (.101)
+  odd6       .096 [.032, .160]  (.078)
+  arith_next .092 [.024, .157]  (.064)
+  add3_mid   .027 [−.006, .063] (.005)
+  antonym    .024 [−.046, .091] (.028)             — flat: dense at 64
+  sub4_mid   −.024 [−.047, .002] (−.022)
+  Six 2h-carried rungs' mean .207 (2i: .142).
+
+Where density bought signal: on the rungs where the 64-draw predictor
+was SPARSEST and the outcome had room — add_base8 (rate .0053 at 64;
+live items 133 → 299) and sub3_mid (31 → 130 live items). Where it
+bought nothing: antonym (already dense at 64, rate .137; live 406 →
+471) and arith_next (+.028 despite 4×: its count was already
+informative at 64; the ceiling is the outcome's structure).
+
+S1 — block replication (the first measurement of T_A's sampler-noise
+SD at k = 64): the four independent 64-draw blocks read T = .0949
+(seed 0, 2i's), .1077, .0948, .0938 — mean .0978, SD .0066, against a
+bar gap of .005. One block of four clears .10. 2i's fires = False was
+inside sampler noise, in exactly this sense: a different seed-0 would
+have delivered SHARED or BOTH at the same design.
+
+S2 — the nested ladder: .0949 → .1256 → .1433 → .1548 at k = 64/128/
+192/256, monotone, increments .031/.018/.012 — past the linear-in-log
+phase 2j's prefix ladder showed at ≤ 64; every point p = 1e-4.
+
+S3 — the matched comparison at high density: x_B thinned to k_g
+(add_base8 28, arith_next 37, sub_base8 45, add3_mid 27; cap elsewhere)
+reads .2089 against x_A^(256)'s .1548 — the lineage increment SURVIVES
+at 256 draws, +.054 (2j measured +.062 at 64-draw density). Placement:
+x_A^(256) sits at OLMo-1B's k ≈ 9.9 draws on OLMo's outcome (bracket
+[8, 16]) — 256 Pythia-1b draws buy what ≈ 10 OLMo-1B draws buy. So:
+density explains the cross-family SHORTFALL BELOW THE BAR; it does not
+explain the lineage GAP, which is stable across draw budgets.
+Zero-fraction matching agrees (.2104).
+
+S4 — 2i's partials at 256: cross-beyond-within .1148 (2i: .0701 — the
+shared component grows with density); within-beyond-cross .2044 (2i:
+.2153).
+
+S5 — within-lineage forward density: x_A^(256) → Pythia-2.8b (R_28,
+seven rungs) .2277 (from .1672); → Pythia-6.9b (seven rungs) .2813
+(from the seven-rung anchor .2179, 2j's A-1). Gains of the same size as the
+cross-family one: density is family-blind.
+
+S6 — 410m replicate: primary-form T .1695 (fires; above 1b's, as at 64:
+.1154 vs .0949), ladder .1154/.1434/.1595/.1695, block SD .0034,
+thinned-B .2153 (placement k ≈ 13.7), S5 .2305/.2235; per-rung
+add_base8 .692, sub_base8 .265, odd6 .132, arith_next .123.
+
+S7 — texture: live items at 256 (from 64) add3_mid 39 (10), sub3_mid
+130 (31), sub4_mid 30 (13); first-correct outcome T .1658; the
+six-carried primary .2071 (p 1e-4).
+
+Projection cb64f15a: HIT at the verdict level (worth nothing — the
+ladder said so) and on the primary's point (.155 → .1548), S1's SD,
+S2's shape, S3's sign and placement, S4, S5, S6, the power line;
+MISSED on texture — sub3_mid carries .147 (called ≈ 0; the named
+mid-digit disconfirmer fired), add_base8 overtook sub_base8 (called
+"stays top"), arith_next gained .028 not the second-largest gain
+(sub3_mid's +.127 was), S3's increment .054 above the projected
+.01–.05, first-correct above the count outcome not below. Graded in
+results/retrospective.md.
+
+Licensed by §6 as frozen (DENSITY), with §2's disclosure attached to
+every sentence: the essay's "the cross-family sentence stays
+unlicensed" clause gains "— at four times the draw budget Pythia-1b's
+counts clear the same bar on the same outcome (T .155) — an outcome
+already on disk, so a bar cleared, not a forecast made"; the
+scoreboard's "stopped short of its preregistered bar at .095" gains
+"and clears it at 256 draws"; Prediction 2's "a lineage instrument, not
+a general one" becomes "a lineage instrument at 64 draws; at 256,
+cross-family on a known outcome — the sealed cross-family test is the
+next experiment". The named next experiment is approach C (OLMo-2 13B,
+sealed outcome) with the predictor at 256 draws. NOT licensed:
+"Prediction 2 supported across families"; any mechanism sentence (S3
+is descriptive). Disclosure of note: the post-seal-tag read sweep
+printed T = .1548 at n_perm 30 five minutes after the projection was
+sealed (design §2, post-tag paragraph).
+
+Campaign: 648.9 min detached (1b 373.0, 410m 275.8), gate 1 IDENTICAL
+on 576,000 seed-0 draws compared item by item on the production path
+(the twelfth byte-identical reproduction on this stack, the first on
+nine non-reversal cells at two sizes), zero stops, zero attrition, one
+pre-committed change UNSPENT; model contact = the tier + dial i's
+one-item rehearsal, nothing else. Records: results/verdict.json
+(analyzer, run once, --write), results/power_2k.json (once),
+results/predictor_2k.json (the seal), projection.md (sealed cb64f15a),
+retrospective.md, ledger PROGRESS.md, freeze FREEZE_CHECKLIST.md.
