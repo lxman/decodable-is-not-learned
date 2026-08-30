@@ -367,17 +367,18 @@ def test_verdict_2l_worlds_disclosures_and_licences():
     assert set(an.LICENSED_2L) == {"INSUFFICIENT_DATA", "SHARED", "LINEAGE", "BOTH", "NEITHER"}
 
 
-def _all_failure_labels_2l():
-    # DEVIATION (plan defect, one sentence): the brief's pure-regex
-    # extractor over-captures nested string literals inside multi-arg
-    # thunks (e.g. "stage1_final" inside `load_endpoint_which_2l(root_2l,
-    # "stage1_final", ...)`), so `mine` is extracted by AST instead
-    # (exp2k's own precedent in `test_analyze_2k.py::_all_failure_
-    # labels_2k`), which isolates the true second positional argument
-    # regardless of commas nested inside the first; the f-string
-    # fallback regex (kept, for the one bare-name-thunk label) is
-    # unchanged from the brief.
-    src = (bl.EXP2L / "analyze_2l.py").read_text()
+def _all_failure_labels(path):
+    # DEVIATION (plan defect, one sentence; fix round 1): the brief's
+    # pure-regex extractor under-recovers real labels whenever a
+    # collect_total thunk contains a comma (measured on the committed
+    # upstream files: 14/33 analyze_2i.py, 17/39 analyze_2j.py, 17/37
+    # analyze_2k.py), so this AST-based extractor (exp2k's own
+    # precedent, `test_analyze_2k.py::_all_failure_labels_2k`) is used
+    # for BOTH `mine` and `theirs` — isolating the true second
+    # positional argument regardless of commas nested inside the
+    # first; the f-string fallback regex (kept, for bare-name-thunk
+    # labels) is unchanged from the brief.
+    src = Path(path).read_text()
     tree = ast.parse(src)
     labels = []
     for node in ast.walk(tree):
@@ -389,11 +390,15 @@ def _all_failure_labels_2l():
     return labels
 
 
+def _all_failure_labels_2l():
+    return _all_failure_labels(bl.EXP2L / "analyze_2l.py")
+
+
 def test_failure_labels_disjoint_from_2i_2j_2k():
     mine = set(_all_failure_labels_2l())
     assert mine and all(lab.startswith("2l") for lab in mine)
     for other in (bi.EXP2I / "analyze_2i.py", bg.REPO / "experiments/exp2j/analyze_2j.py", bk.EXP2K / "analyze_2k.py"):
-        theirs = set(re.findall(r'collect_total\([^,]+,\s*f?"([^"{]+)', other.read_text()))
+        theirs = set(_all_failure_labels(other))
         for a in mine:
             for b in theirs:
                 assert not a.startswith(b) and not b.startswith(a), (a, b)
