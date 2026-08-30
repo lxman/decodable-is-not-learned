@@ -96,3 +96,73 @@ skipped (post-scan; 20 passed / 1 skipped pre-scan, the skip being
 zero model contact; one network call — the inventory scan,
 `ef458b435ddcc5c415dbe719d2bb499d7cbb876b9f958016e9b15947e1ffc8f2`
 (`hub_inventory_olmo13b.json`'s sha256).
+
+## Task 4: `power_2l.py`, the worlds, totality, power tests, cold battery
+
+Transcribed Steps 1/2/3/5 (`power_2l.py`, `tests/full_shape.py`,
+`tests/test_full_shape_2l.py`, `tests/test_power_2l.py`) verbatim from
+the task brief. `power_2l.py` overwrote Task 3's 9-line stub wholesale.
+Wrote `tests/test_totality_2l.py` and `verify_referents_2l.py` in
+2k's shape from the brief's prose spec (Steps 4/6).
+
+### Deviation: `full_shape.py`'s `_latent` — coordinator's ruling, applied
+
+First run of the 17-world module: W1 SHARED and W2 LINEAGE both landed
+BOTH instead of their own terminal (W1: A T=.7660 p=.00498 fires=True,
+B T=.1216 p=.00498 fires=True). Diagnosis (coordinator): the brief's
+`_latent` modes were transcribed from 2i's own worlds, which mixed a
+SYNTHETIC x_B independent of x_A by construction; 2l's worlds use the
+REAL, correlated x_A^(256)/x_B (2i disclosed within-stratum rho
+.06-.32), so a latent built from x_A's raw rank alone still leaks into
+Test B through the correlated x_B inside x_A's own median bucket (Test
+B's conditioning), and symmetrically for x_B into Test A. Fix: replace
+`_latent(rng, x_a, x_b, mode)` with `_latent(rng, x_a, x_b, strata_r,
+mode)`, orthogonalizing each mode's latent against the OTHER predictor
+under the analyzer's OWN conditioning — `bucket_A =
+an2h._median_bucket(x_a)` (exactly Test B's own composite-cell split)
+for `a_only`; `resid_B` (x_b's rank with x_a's linear signal regressed
+out WITHIN EACH BASE STRATUM, standardized over the rung) for
+`b_only`; the sum for `both`; the negated sum for `inverted`;
+`independent` unchanged. No production code (analyzer, `power_2l.py`)
+or test assertion touched — only `tests/full_shape.py`'s `_latent` and
+its one call site. Byte-diff against the brief: `power_2l.py`,
+`test_full_shape_2l.py`, `test_power_2l.py` IDENTICAL; `full_shape.py`
+differs only in this function, its new imports (`scipy.stats.
+rankdata`, `experiments.exp2h.analyze_2h`) and the call site passing
+`strata0[r]["strata"]`.
+
+### W1–W5 T's (post-fix; the world's latent is synthetic — a sanity
+### band, not a projection)
+
+Standalone re-derivation (`fs.write_world_2l` + `fs.run_world`, fresh
+tmp dirs, default `n_perm=200, n_boot=20`):
+
+- **W1 SHARED**: verdict SHARED (want SHARED) — A T=.5233 p=.004975
+  fires=True | B T=.0077 p=.378109 fires=False
+- **W2 LINEAGE**: verdict LINEAGE (want LINEAGE) — A T=.0243 p=.019901
+  fires=False | B T=.6889 p=.004975 fires=True
+- **W3 BOTH**: verdict BOTH (want BOTH) — A T=.3118 p=.004975
+  fires=True | B T=.7156 p=.004975 fires=True
+- **W4 NEITHER independent**: verdict NEITHER (want NEITHER) — A
+  T=-.0013 p=.532338 fires=False | B T=-.0042 p=.597015 fires=False
+- **W5 NEITHER inverted**: verdict NEITHER (want NEITHER) — A
+  T=-.2222 p=1 fires=False | B T=-.6200 p=1 fires=False
+
+### Test run (post-fix)
+
+- `test_power_2l.py`: 3 passed in 44.78s (unaffected by the fix — no
+  `_latent` dependency).
+- `verify_referents_2l`: 10/12 (items 3 and 12 SKIP, pending Task 5),
+  clean, unaffected.
+- `test_full_shape_2l.py` (17 worlds, background, real 2k tier + 2i
+  draws at both sizes each): 6 passed in 405.52s (0:06:45).
+- `test_totality_2l.py` (base world + ~22 copies, background): 22
+  passed in 172.40s (0:02:52), including the SHARED control.
+- Whole `experiments/exp2l` suite, no marker filter (the `slow`
+  real-git rehearsal test included, first run in this session): 83
+  passed in 718.84s (0:11:58); `--collect-only` confirms 83 tests
+  collected, matching 83 passed exactly — zero skips.
+
+`git status --short` after `git add experiments/exp2l`: only the six
+Task 4 files (one modified, five new). Committed `914f3508`, pushed
+`origin master` clean.
