@@ -1186,3 +1186,21 @@ main-tier tallies exactly (e.g. antonym/1b 4368 = 2d's .1365 × 32,000).
 All 36 record+draws pairs committed and pushed by the watcher (36
 commits); watcher stopped after the last pair. Campaign log
 `campaign.log`, watcher log `watcher.log` committed with this entry.
+
+## 2026-08-30 — SEAL, POWER, SEAL TAG, PROJECTION, the post-tag sweep, the analyzer
+
+Seal `results/predictor_2k.json` (07:10): 36 files, composite sha
+3c4778b06de20c38…, gate 1 re-derived 0 diffs on 18 cells; committed
+97d433b3. Power ONCE (07:10 → 08:13, detached): **POWERED — P(fires |
+D = .15) = 1.000 against .75; null false-fire rate 0.000; null SD of T
+0.0108; P(fires | D = .10) = .489** (the bar decides); rho .171/.256/
+.340 at D .10/.15/.20; committed 478f0b5b. Seal tag
+`exp2k-predictor-sealed` at 478f0b5b, binds 38 paths (0 failures).
+Projection sealed cb64f15a (08:17). Cold battery 12/12 with the seal
+and power present. The post-seal-tag read sweep (design: re-run once
+after the seal tag) on the complete tree: 4,426 paths, 0 unpinned, the
+38 campaign files seal-bound, 0 writes — and it printed the primary at
+n_perm 30: **T = 0.1548** (p .032 at 30 permutations, not the
+experiment's), five minutes AFTER the projection was sealed. Disclosed
+in design §2 (post-tag paragraph) and here. Analyzer launched once,
+detached, `--write`, 08:18 EDT.

@@ -172,6 +172,19 @@ written under `results/`. This is the only model contact before the
 tag, and the only sampled quantity on any real cell before the
 campaign.
 
+**Post-tag disclosure (2026-08-30, added after `exp2k-preregistered`;
+the tag binds the three instrument blobs, not this doc):** after the
+campaign, the seal, the power record and the seal tag, and AFTER the
+projection was sealed (`cb64f15a`, 08:17 EDT), the post-seal-tag read
+sweep ran the analyzer once more on the now-complete tree at
+n_perm = 30 — 4,426 paths, 0 unpinned, the 38 campaign files
+seal-bound — and printed the primary's T: **0.1548** (its n_perm-30 p
+is not the experiment's). T does not depend on n_perm, so the primary's
+point value was known five minutes after the projection was sealed and
+before the analyzer ran; nothing was chosen after it. The eleventh
+`analyze_2k.run()` execution on the real tree, the first on a complete
+one; the analyzer's single `--write` run followed it.
+
 **Model contact is predictor-side only.** The outcome side is not
 touched, so nothing in 2k can leak the outcome into the predictor
 except through the designer's knowledge of it, and every design
