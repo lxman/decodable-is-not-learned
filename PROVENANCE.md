@@ -310,6 +310,35 @@ frozen instrument's pins did not cover the modules it imports at run
 time), which the record documents. The retained-path list above now
 includes `experiments/exp2j` and `experiment-2j-design.md`.
 
+On 2026-08-30 the Experiment 2k record was added (approach B, the
+density question: does Pythia-1b's sampled count at k = 256 — 2d's
+committed seed-0 block regenerated on the production path as a
+continuous item-level gate 1 plus three fresh seeds — clear the bar
+2i's 64-draw predictor missed on 2i's committed OLMo-2 7B outcome?
+Verdict DENSITY: T .1548 at p 1.0e-4, POWERED; the outcome was on disk
+throughout, so a bar cleared, not a forecast made). Same GRAFT route:
+the 46 private commits touching `experiments/exp2k`,
+`experiment-2k-design.md` and `.gitignore` were applied as a
+path-limited patch series fast-forward onto the previous public master
+(bc354fab), identities normalized to the single noreply identity,
+author dates preserved, redaction scans clean (0 secret-class, 0 LAN
+literals; one file, `experiments/exp2k/campaign.log`, carries two
+home-path lines printed by exp3's preflight tool naming its own output
+file — the same tolerated class as the ten files already on this
+line, disclosed here and not scrubbed), the tree at all three new
+anchors and at HEAD entry-identical to the private tree on the
+retained paths (80 entries under `experiments/exp2k` at the close),
+all 54 prior tags and every prior commit untouched. Three tags carried:
+`exp2k-preregistered` (private 5d3c0d23 → public bd49bfb2, the
+instrument blob-bound), `exp2k-predictor-sealed` (478f0b5b → 2d32b38b,
+the 36 tier files, the seal and the power record), `exp2k-closed`
+(8155cf89 → 97b22281). The freeze of this experiment found its class
+defect in the halt scan (F-1: it enumerated one of the two artifacts a
+gate-1 fire leaves, so a kill between the two writes could have shipped
+a verdict over a fire), which the record documents. The retained-path
+list above now includes `experiments/exp2k` and
+`experiment-2k-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
