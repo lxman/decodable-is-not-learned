@@ -1,8 +1,15 @@
 # Experiment 2l — Design Doc: The Sealed Cross-Family Forecast — Does the 256-Draw Predictor Forecast an Outcome Nobody Has Seen?
 
 **Status: session 1 (design) written 2026-08-30, at Exp 2k's
-close-out, on Michael's word ("Design approach C"). §10 DIALS a–l
-AWAIT HIS RULING; nothing is built, no model is touched.** Model
+close-out, on Michael's word ("Design approach C"). §10 DIALS a–l RULED
+by Michael 2026-08-30 ("as recommended"): a OLMo-2 13B; b Tests A/B,
+four worlds; c 64k spacing, 16 points + step 0; d Test B on x_A's
+median bucket; e R_∩ by the floor rule, the nine printed; f the
+projection sealed after the endpoint stage, placed against the block
+SD; g S5 non-gating; h the power record prints Test A's block SD; i
+the real step 0 as the init referent; j the preflight on his word; k
+bars unchanged; l SDD build + freeze in one session. Build follows;
+no model is touched before the tag and his word.** Model
 contact, when sanctioned: OLMo-2 13B ONLY, on the OUTCOME side — its
 stage-1 endpoint and `main` at the endpoint stage, then its stage-1
 grid in the sweep. Every predictor is already committed and tagged;
@@ -332,7 +339,7 @@ family, one outcome family. Not a mechanism result (S4/S5 are
 descriptive). Not a statement about 13B's mid-training `main`. Not a
 statement about the across-task ranking.
 
-## 10. Dials — for Michael's ruling
+## 10. Dials — RULED by Michael 2026-08-30 ("as recommended"): every dial as recommended
 
 - **a. Outcome model:** OLMo-2 13B stage-1 (`allenai/OLMo-2-1124-13B`),
   **recommended**; the alternative (a third family) is §8's.
