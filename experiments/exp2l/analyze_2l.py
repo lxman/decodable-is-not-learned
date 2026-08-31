@@ -67,10 +67,10 @@ IMPORTED_SHA256_2L = {   # Task 5: pinned from tests/import_scan_2l.py (4 module
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     bg.REPO / "experiments/exp2l/run/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    bg.REPO / "experiments/exp2l/run/preflight_2l.py":
-        "bf86069805a6e0e1e50503a26f4a38a4eacc7a32bdd4cd886688cb95a036cde5",
-    bg.REPO / "experiments/exp2l/verify_referents_2l.py":     # re-pinned at the freeze (F-3)
-        "3273ff897aeb238f7d8cd3515c46ecb12d3963624f73cd562577cab2ec0b014d",
+    bg.REPO / "experiments/exp2l/run/preflight_2l.py":        # re-pinned: fix-wave I-2
+        "5105b3021b8e37875beb7e15aa96775a6e17dd3b891fff8e7c4c5c80ad33fb42",
+    bg.REPO / "experiments/exp2l/verify_referents_2l.py":     # re-pinned: fix-wave M-3/M-4
+        "e558896f67a2679b265df70ca8ccae4593893faa96fc06c62cea7419181673ee",
 }
 WORLDS = an2i.WORLDS
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
@@ -817,8 +817,10 @@ _LITERAL = object()
 def run(root_2l=EXP2L, root_2i=bi.EXP2I, root_2k=bk.EXP2K, *, write=False, n_perm=N_PERM,
         n_boot=N_BOOT, tag_exists=None, blob_sha=None, blobs_bound=None, referents_sha=_LITERAL,
         imports_pinned=_LITERAL, out_path=None, frozen_check=None) -> dict:
-    # `frozen_check` is a TEST-ONLY injection (2k's pattern) until Task 5
-    # pins FROZEN_SHA256_2L; the campaign never passes it.
+    # `frozen_check` is a TEST-ONLY injection (2k's pattern); Task 5
+    # pinned FROZEN_SHA256_2L, and the parameter survives so
+    # `test_run_frozen_check_forced_exception` can still force a
+    # failure — the campaign never passes it.
     failures = []
     root_2l, root_2i, root_2k = Path(root_2l), Path(root_2i), Path(root_2k)
     if referents_sha is _LITERAL:

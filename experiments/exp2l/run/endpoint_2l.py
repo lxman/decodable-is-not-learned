@@ -81,9 +81,7 @@ def require_predictor_seals_2l(*, tag_exists=None, blobs_bound=None, root_2i=bi.
                        (bi.PREDICTOR_SEAL_TAG, an2i._predictor_seal_paths(root_2i, seal_2i))):
         r = an2i.require_seal_2i(tag, paths, tag_exists=tag_exists, blobs_bound=blobs_bound)
         if r["failures"]:
-            msg = r["failures"][0]
-            raise RuntimeError(f"refusing: predictor seal {tag!r} {msg}"
-                               if "does not exist" in msg else f"refusing: {msg}")
+            raise RuntimeError(f"refusing: predictor seal: {r['failures'][0]}")
     if seal_2k.get("sha256") != bl.SEAL_2K_SHA256:
         raise RuntimeError(f"refusing: 2k's seal sha {seal_2k.get('sha256')!r} is not the "
                            f"literal {bl.SEAL_2K_SHA256!r}")

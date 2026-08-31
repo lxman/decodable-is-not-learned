@@ -1,6 +1,8 @@
 # experiments/exp2l/run/preflight_2l.py
-"""Exp 2l preflight (design §7, dial j): the ONE sanctioned pre-tag
-model contact, on Michael's word — (a) OLMo-2 13B `main` through the
+"""Exp 2l preflight (design §7, dial j): the ONE sanctioned model
+contact before the campaign, on Michael's word — run AFTER
+`exp2l-preregistered` is cut, before the endpoint stage (design §7 /
+the plan's Global Constraints) — (a) OLMo-2 13B `main` through the
 thin loader at fp16, 2c's harness on 20 items each of `antonym` and
 `add3_mid` (format + MEMORY check: 13B fp16 ≈ 26 GB on the 48 GB Mac;
 the allocated MPS bytes after load are printed; `--batch-size` is the

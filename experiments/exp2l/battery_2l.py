@@ -554,8 +554,11 @@ def gate1_rederive_13b(sweep_endpoint_records: dict, stage1_final_records: dict,
 # `run/endpoint_2i.py` (imported for `item_record_2i`) + 2l's own
 # artifact writers. The four 2l blobs the prereg TAG binds are NOT here
 # (2j's rule: a sha literal on them would kill every mutant trivially).
-# `run/preflight_2l.py` and `verify_referents_2l.py` are deliberately not
-# pinned (2i's convention, disclosed: neither writes on the verdict path).
+# `run/preflight_2l.py` and `verify_referents_2l.py` are not in THIS
+# frozen dict, but they ARE pinned — by `analyze_2l.IMPORTED_SHA256_2L`
+# (Task 5), whose `check_imports_2l` hashes every pinned path whether
+# or not it was imported. A post-tag byte change to either makes the
+# frozen analyzer refuse until the pin is re-cut with the tag.
 FROZEN_FILES_2L = tuple(bk.FROZEN_SHA256_2K) + tuple(REPO / rel for rel in bk.INSTRUMENT_BLOBS_2K) + (
     EXPERIMENTS / "exp2i" / "run" / "endpoint_2i.py",
     EXP2L / "power_2l.py",

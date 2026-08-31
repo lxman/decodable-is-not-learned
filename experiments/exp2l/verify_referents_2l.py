@@ -283,15 +283,19 @@ def _c9(ctx):
                                           entry=entry_ep, verify_fn=verify)
     _eq(bad2, [], "item_record_2i -> endpoint_record_failures_2l round trip")
 
-    ep_recs = {r: rec2 for r in bt.RUNGS}
+    # M-4 (final review): built as two independently-constructed dicts,
+    # not the same object passed twice, so gate1_rederive_13b compares
+    # two distinct records rather than one aliased to itself.
+    sweep_recs = {r: rec2 for r in bt.RUNGS}
+    stage1_recs = {r: rec2 for r in bt.RUNGS}
     gate_rec = {"rungs": list(bt.RUNGS), "bit_diffs": {r: 0 for r in bt.RUNGS},
                "continuation_diffs": {r: 0 for r in bt.RUNGS},
                "continuations_compared": {r: bk.N_ITEMS for r in bt.RUNGS},
                "digest_sweep": "D", "digest_endpoint": "D", "commit_sweep": "c" * 40,
                "commit_endpoint": "c" * 40, "prereg_tag": bl.PREREG_TAG_2L}
-    bad3 = bl.gate1_failures_13b(gate_rec, ep_recs)
+    bad3 = bl.gate1_failures_13b(gate_rec, stage1_recs)
     _eq(bad3, [], "gate1_failures_13b round trip")
-    bad4 = bl.gate1_rederive_13b(ep_recs, ep_recs, gate_rec)
+    bad4 = bl.gate1_rederive_13b(sweep_recs, stage1_recs, gate_rec)
     _eq(bad4, [], "gate1_rederive_13b round trip")
 
 
@@ -300,8 +304,13 @@ def _c9(ctx):
 def _c10(ctx):
     _eq(bl.halt_marker_path(bl.EXP2L).exists(), False, "no halt marker")
     rung_set_p, power_p = bl.rung_set_path(bl.EXP2L), bl.power_path(bl.EXP2L)
-    if not rung_set_p.is_file() and not power_p.is_file():
-        print("      (endpoint/rung set/power: absent — pre-campaign)")
+    # M-3 (final review): test each artifact independently — the state
+    # between the endpoint stage and power_2l (rung set written, power
+    # absent) must not fall into an "after" branch that dies inside
+    # load_power_2l with a bare FileNotFoundError.
+    rs = None
+    if not rung_set_p.is_file():
+        print("      (endpoint/rung set: absent — pre-campaign)")
     else:
         battery, verify, floors = ctx["battery"], ctx["verify"], ctx["floors"]
         man = ctx["manifest"]
@@ -312,6 +321,11 @@ def _c10(ctx):
         _eq(an._check_rung_set_vs_endpoint_2l(rs, stage1), [], "rung set vs endpoint PASS")
         # freeze F-3: the attested endpoint-record shas, measured
         _eq(an._check_rung_set_endpoint_shas_2l(rs, bl.EXP2L), [], "endpoint_file_sha256 PASS")
+    if not power_p.is_file():
+        print("      (power: absent — pre-campaign)")
+    else:
+        if rs is None:
+            rs = an._load_rung_set_2l(bl.EXP2L)
         power = an.load_power_2l(bl.EXP2L, tuple(rs["R_PRIMARY"]), bl.PREDICTOR_SHA_2L)
         _eq(power["A"]["declared_status"] in an2i.DECLARED_STATUSES_2I, True, "load_power_2l PASS")
     gate1_p = bl.gate1_path(bl.EXP2L)
