@@ -1,0 +1,357 @@
+{
+ "R_13B": [
+  "add3_mid",
+  "add4_mid",
+  "add_base8",
+  "antonym",
+  "antonym6",
+  "arith_next",
+  "count_div13",
+  "median5",
+  "median7",
+  "oct2dec",
+  "odd6",
+  "odd_one_out",
+  "quad_next",
+  "rev_string7",
+  "reverse_string",
+  "sub3_mid",
+  "sub4_mid",
+  "sub_base8"
+ ],
+ "R_PRIMARY": [
+  "add3_mid",
+  "add_base8",
+  "antonym",
+  "antonym6",
+  "arith_next",
+  "odd6",
+  "sub3_mid",
+  "sub4_mid",
+  "sub_base8"
+ ],
+ "R_ELEVEN_EXTRA": [
+  "count_div13",
+  "median5"
+ ],
+ "R_EXTRA": [
+  "add4_mid",
+  "median7",
+  "oct2dec",
+  "odd_one_out",
+  "quad_next",
+  "rev_string7",
+  "reverse_string"
+ ],
+ "primary_is_the_nine": true,
+ "per_rung": {
+  "add4_mid": {
+   "k": 327,
+   "n": 500,
+   "rate": 0.654,
+   "p": 0.0,
+   "significant": true
+  },
+  "sub4_mid": {
+   "k": 327,
+   "n": 500,
+   "rate": 0.654,
+   "p": 0.0,
+   "significant": true
+  },
+  "add3_mid": {
+   "k": 450,
+   "n": 500,
+   "rate": 0.9,
+   "p": 0.0,
+   "significant": true
+  },
+  "sub3_mid": {
+   "k": 499,
+   "n": 500,
+   "rate": 0.998,
+   "p": 0.0,
+   "significant": true
+  },
+  "antonym6": {
+   "k": 423,
+   "n": 500,
+   "rate": 0.846,
+   "p": 5.468402428269064e-244,
+   "significant": true
+  },
+  "antonym": {
+   "k": 486,
+   "n": 500,
+   "rate": 0.972,
+   "p": 2.6259690331340887e-268,
+   "significant": true
+  },
+  "arith_next": {
+   "k": 474,
+   "n": 500,
+   "rate": 0.948,
+   "p": 0.0,
+   "significant": true
+  },
+  "quad_next": {
+   "k": 56,
+   "n": 500,
+   "rate": 0.112,
+   "p": 5.7520892371298525e-27,
+   "significant": true
+  },
+  "base12_digitsum": {
+   "k": 27,
+   "n": 500,
+   "rate": 0.054,
+   "p": 0.045269413180845985,
+   "significant": false
+  },
+  "base13": {
+   "k": 19,
+   "n": 500,
+   "rate": 0.038,
+   "p": 0.9985111811040782,
+   "significant": false
+  },
+  "base7": {
+   "k": 0,
+   "n": 500,
+   "rate": 0.0,
+   "p": 1.0,
+   "significant": false
+  },
+  "oct2dec": {
+   "k": 15,
+   "n": 500,
+   "rate": 0.03,
+   "p": 2.4935890856524707e-13,
+   "significant": true
+  },
+  "caesar_len8": {
+   "k": 0,
+   "n": 500,
+   "rate": 0.0,
+   "p": 1.0,
+   "significant": false
+  },
+  "caesar": {
+   "k": 0,
+   "n": 500,
+   "rate": 0.0,
+   "p": 1.0,
+   "significant": false
+  },
+  "clock24_d999": {
+   "k": 35,
+   "n": 500,
+   "rate": 0.07,
+   "p": 0.1960804370734669,
+   "significant": false
+  },
+  "clock24": {
+   "k": 35,
+   "n": 500,
+   "rate": 0.07,
+   "p": 0.5933732502739206,
+   "significant": false
+  },
+  "collatz_step2": {
+   "k": 69,
+   "n": 500,
+   "rate": 0.138,
+   "p": 0.9618841118393268,
+   "significant": false
+  },
+  "count_div13": {
+   "k": 102,
+   "n": 500,
+   "rate": 0.204,
+   "p": 0.003709820610188921,
+   "significant": true
+  },
+  "count_div7": {
+   "k": 27,
+   "n": 500,
+   "rate": 0.054,
+   "p": 0.9999255746691471,
+   "significant": false
+  },
+  "hamming12": {
+   "k": 57,
+   "n": 500,
+   "rate": 0.114,
+   "p": 0.9999999999627088,
+   "significant": false
+  },
+  "isqrt_gap": {
+   "k": 67,
+   "n": 500,
+   "rate": 0.134,
+   "p": 0.9719197365476727,
+   "significant": false
+  },
+  "median5": {
+   "k": 178,
+   "n": 500,
+   "rate": 0.356,
+   "p": 3.8634696203906755e-16,
+   "significant": true
+  },
+  "median7": {
+   "k": 150,
+   "n": 500,
+   "rate": 0.3,
+   "p": 1.7862260614761374e-19,
+   "significant": true
+  },
+  "mod13_comp": {
+   "k": 32,
+   "n": 500,
+   "rate": 0.064,
+   "p": 0.9936189088670371,
+   "significant": false
+  },
+  "mod17": {
+   "k": 43,
+   "n": 500,
+   "rate": 0.086,
+   "p": 0.22073606854254976,
+   "significant": false
+  },
+  "mod19": {
+   "k": 35,
+   "n": 500,
+   "rate": 0.07,
+   "p": 0.3842853629175676,
+   "significant": false
+  },
+  "mod13": {
+   "k": 35,
+   "n": 500,
+   "rate": 0.07,
+   "p": 0.9761388182629536,
+   "significant": false
+  },
+  "odd6": {
+   "k": 395,
+   "n": 500,
+   "rate": 0.79,
+   "p": 3.848431729886669e-206,
+   "significant": true
+  },
+  "odd_one_out": {
+   "k": 328,
+   "n": 500,
+   "rate": 0.656,
+   "p": 2.882597999873776e-81,
+   "significant": true
+  },
+  "rev_string7": {
+   "k": 11,
+   "n": 500,
+   "rate": 0.022,
+   "p": 9.168601252129851e-09,
+   "significant": true
+  },
+  "reverse_string": {
+   "k": 47,
+   "n": 500,
+   "rate": 0.094,
+   "p": 1.7071457911712816e-61,
+   "significant": true
+  },
+  "roman_sum7": {
+   "k": 77,
+   "n": 500,
+   "rate": 0.154,
+   "p": 0.519008977113833,
+   "significant": false
+  },
+  "sub_base8": {
+   "k": 279,
+   "n": 500,
+   "rate": 0.558,
+   "p": 6.918318302776431e-208,
+   "significant": true
+  },
+  "add_base8": {
+   "k": 97,
+   "n": 500,
+   "rate": 0.194,
+   "p": 8.763353159586332e-51,
+   "significant": true
+  }
+ },
+ "endpoint_file_sha256": {
+  "results/endpoint/stage1_final/add4_mid.json": "fa6a3eca9ae3e39acc678bc13dd7370107be5e08c306a71a58f14a30cfaea78a",
+  "results/endpoint/stage1_final/sub4_mid.json": "1990899aea082b3ff5450efddfb011d957edec673745ab02d18c1e88464a30df",
+  "results/endpoint/stage1_final/add3_mid.json": "c47776ddbe27620e5d40615b759b25f08f2a49a8d1d2acdce05f0307002c697c",
+  "results/endpoint/stage1_final/sub3_mid.json": "f00c79124e2986e76ed3b391b99402403271fde446e273c8d7b940730e4fbabc",
+  "results/endpoint/stage1_final/antonym6.json": "af7224d19194fce001f279a7bf7341d077b6a3ed42697a2b0778d6cbe02a082b",
+  "results/endpoint/stage1_final/antonym.json": "073fc22074d96347e78a4be1bc7200f1a58c0551d2678a6c56cde0b1bc7b6c5e",
+  "results/endpoint/stage1_final/arith_next.json": "2cdc82d17a2e73c18547001f78c275e741771cc8f55d342a9fb047b044910614",
+  "results/endpoint/stage1_final/quad_next.json": "ff855d0a122ec58b2476f772c60611a61caaa39796a0174971a571ebb4a50a03",
+  "results/endpoint/stage1_final/base12_digitsum.json": "343d6cbcf93b666d61622a17eacf5d018cc61830f027d08c0a2a8cb468359aec",
+  "results/endpoint/stage1_final/base13.json": "335ca177ddd902cdcf556899fd992a4bf683aa5777775a037b76fe12d0507ed0",
+  "results/endpoint/stage1_final/base7.json": "985b25ba1f789c231ebff8623f2ce90955ea9783692f10b2c3c8c3308e557bdc",
+  "results/endpoint/stage1_final/oct2dec.json": "87e70e70ced52bf330bf1d026de848026d9dc9cb07ba656ab8110da364aa94b4",
+  "results/endpoint/stage1_final/caesar_len8.json": "45d0204cc0fc34e1bbfb6d5fe57dedc84af48b25169185fd5e0540e47d488f32",
+  "results/endpoint/stage1_final/caesar.json": "ab71a48c550e82db3a548c6a95b15bef7f0973b696e715650d4e84025757bddf",
+  "results/endpoint/stage1_final/clock24_d999.json": "46782a77d67097e4f83fb11fd9c2a0987564bf482ce4b986cd62e6b6be6350fe",
+  "results/endpoint/stage1_final/clock24.json": "3ad25818f75661c3c3d3367efada3228d96942c91d32778660436bda0e3859ba",
+  "results/endpoint/stage1_final/collatz_step2.json": "eb9e6800c61df4fc5e88f3979f558ac07f9d0c981bb90160f2eb7068a2f021b8",
+  "results/endpoint/stage1_final/count_div13.json": "28fbcae6478785b57ff1da52859bf47ee862a22ba0411773af6ef7f74e936de5",
+  "results/endpoint/stage1_final/count_div7.json": "b79686c57c14df196e66d7d3260e0797f4b4199f5ab323ebe9d594e6bbdb1ecb",
+  "results/endpoint/stage1_final/hamming12.json": "c5cd155ae6df9cd5d0c17c1c86f178584a322e77df1710e1638fdfdffd61a0be",
+  "results/endpoint/stage1_final/isqrt_gap.json": "28765cfa67a6917f226e543f743ab1724ade106ecd40880a19de80256c49944a",
+  "results/endpoint/stage1_final/median5.json": "dd9918c25adf70b4597590b214e52d5329e4fee9d72dacc2012930341d7c03e6",
+  "results/endpoint/stage1_final/median7.json": "c4b3f35c23a4115144911e9b971c48a4c3c65ab085d25dc10ee7fcc88d73432b",
+  "results/endpoint/stage1_final/mod13_comp.json": "874dc9000215b32683babc2c799db016fea8576d09756d2dc870b7553e33de9e",
+  "results/endpoint/stage1_final/mod17.json": "73a058320f385233fd14bb748efc2f95ac834cfafcec29d758a397429756a082",
+  "results/endpoint/stage1_final/mod19.json": "0a42097bbbb38b536eef2ae4cade8ef5f93895da1df218dc746ff128607342f6",
+  "results/endpoint/stage1_final/mod13.json": "7dc107e5cd41b4600005a51ea86990676d17094a1dbc5a624a28dd85bf3fcac4",
+  "results/endpoint/stage1_final/odd6.json": "ea9db2020c0ff68db49638350f54c53764468b9c04198f646fe249ec092b3646",
+  "results/endpoint/stage1_final/odd_one_out.json": "77eef24ad473c6d6f8d895b338d08158f83021facbabdabf4b104a5282ca73bc",
+  "results/endpoint/stage1_final/rev_string7.json": "f3506935f5c42bdcb44c223fa0b422a2f1493478b9c1133e9b7733eb501f9590",
+  "results/endpoint/stage1_final/reverse_string.json": "445361076dd43c4013ce82a6bd7d5208a7e52bccd55b4cb71fb23f9567fe830b",
+  "results/endpoint/stage1_final/roman_sum7.json": "15707e50c19b53d49aa424f893b0957050af40c7b6f75170e45aabcd85a5b105",
+  "results/endpoint/stage1_final/sub_base8.json": "ce61ee5f118b28a9190e0e3d177a6fea3a41da64d46b57babd43bd7c73f18d8b",
+  "results/endpoint/stage1_final/add_base8.json": "35485b491ea406c3d9ca9b36a8a086e7b9064cc6265879e136a93f93e7ea474e",
+  "results/endpoint/main/add4_mid.json": "c1084ea11abff5b1555df38035b0e67c5b03643156e0d47b359327006f830d09",
+  "results/endpoint/main/sub4_mid.json": "0cc8bc81d4e68b03d13045350fed09cbfcfed6cf18e751d6bc75f65a47af4fed",
+  "results/endpoint/main/add3_mid.json": "d4064f6f03920846049d3d80687a52c06d2b23ae41bff041e8056e29555fb66f",
+  "results/endpoint/main/sub3_mid.json": "c4eaad21109907ca173f06cc0733c33f4ddbe4108344a24744f987d175394fc6",
+  "results/endpoint/main/antonym6.json": "51b565d2b33ae1448824e81175e81ad013fbdfae6b0a66b7cc501463d5f55fe6",
+  "results/endpoint/main/antonym.json": "6153713524df97c7a499182f606197dc9af30d694cd131b6829479e25edd659f",
+  "results/endpoint/main/arith_next.json": "717e98fe9615170370b0bd303d4040f372726d50170a142d0d6b977d62f891e7",
+  "results/endpoint/main/quad_next.json": "e867696e76836fa3d3db5f124b317edb7c3e480960d0e48475ba75453924c625",
+  "results/endpoint/main/base12_digitsum.json": "93b464d2e43ed4c14df4bfefe62ec5d48e1b8297224cafac41287802d8fe7cc5",
+  "results/endpoint/main/base13.json": "cf3460e66852b6130d8459850addc9f2f518c89a1d4b9406e29d9ac558c7efe6",
+  "results/endpoint/main/base7.json": "06a8d9c35bde62af195e29a861b5fd2cd6000c69d908125b0c7f53039fca6db9",
+  "results/endpoint/main/oct2dec.json": "6bea0ddb3d2f8125195192bb8d3a7ad137f0c5376e9531c210518d0dd3d8ee2c",
+  "results/endpoint/main/caesar_len8.json": "802426504c2606cdbc0a3028b3985a2ccd05b0aa3f6783af2d68a4ce738ed91f",
+  "results/endpoint/main/caesar.json": "0991a8a124cae9721124adf03d29ea720cdcf3ef9f7858e4b259d267bf2ad13b",
+  "results/endpoint/main/clock24_d999.json": "dc359a05cff1afd92b1bf2f0d8c4f3a1000257b758a41d1341e1284632c51d63",
+  "results/endpoint/main/clock24.json": "e4a2b9b55e0089ee6a9c9f5a3869208f0cc9d19675e86cd1af5ec8caef1a8c7f",
+  "results/endpoint/main/collatz_step2.json": "30398c398078f2f1dccc8575f3fadbc0fbf1e940622ddc317b01ae96b429e9e3",
+  "results/endpoint/main/count_div13.json": "cb430955fccd5d7eb95a419a1e29afe072417ff5135d571bdbc2852d6b434852",
+  "results/endpoint/main/count_div7.json": "a3aede161f10f43d92c947a1b69706b60fa1f739e37306b6e1a386203ecb9740",
+  "results/endpoint/main/hamming12.json": "75fec1b5525fa029cb010577e6347a320566c67ccc16c25f7bcc59c402206c53",
+  "results/endpoint/main/isqrt_gap.json": "75bf0ca87dc4a736459fd662d5c9c3f9ca0bbc08131c8fb6aef16188871f0238",
+  "results/endpoint/main/median5.json": "49353feb454eba9e3adfcf15314779557cf538a0e8879643fec1ff13c9a1c30e",
+  "results/endpoint/main/median7.json": "eb5ede383a3fa758bed9b91ee6003c321612e76a381a5aa42f990170776dc7f3",
+  "results/endpoint/main/mod13_comp.json": "6b50642d8e0fa308ad19a91c55df79f745542aa7ae1bd171c50d57fa01ac3d7b",
+  "results/endpoint/main/mod17.json": "d7776c9a9f56948c58458be0b084d831f1e7e8dd7c92bb0f85e47020d1e2136b",
+  "results/endpoint/main/mod19.json": "28b8eaf6ec26f8814db256c04223672dd1950c0389fac66ff076ea676bc366aa",
+  "results/endpoint/main/mod13.json": "1c49f67e60c49beb5caa9bc51fdbdb8051b33b574bad40213d45d197359dfe39",
+  "results/endpoint/main/odd6.json": "143fc2133a61a26dac61a0e240b3ec48e39acd894b23a8926dfc01574e225e36",
+  "results/endpoint/main/odd_one_out.json": "e21f59e0b85876ccd2960ed8d066574731b692e0dfc38a811b10fd7ab5b7aaec",
+  "results/endpoint/main/rev_string7.json": "74a1f20d7b528f2215ea78f4988c82668feb202ce030cd768b4ca44ffbd7195e",
+  "results/endpoint/main/reverse_string.json": "3115716cffafbc683de26a3bcc1eaae547b966c165955ca973f21fb7e308bae7",
+  "results/endpoint/main/roman_sum7.json": "30edb3bffcf0c63fa5338209f545048081168452f1e3189960ba177ab43c494a",
+  "results/endpoint/main/sub_base8.json": "072c833c59484a43147bb5da406b6b9b926a3635927e32607c591f97e566cf62",
+  "results/endpoint/main/add_base8.json": "d7d2f1901986e4ef2d41d16cad6435bde9ca42a0eeb1e8107ecdc5ad6b0b5bb2"
+ }
+}
