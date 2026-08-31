@@ -1,0 +1,26 @@
+baseline OK (fast pass, [4, 5, 10, 15, 20, 26, 27, 37, 44, 55, 56, 57, 58, 59, 60, 61, 62, 65, 66, 67, 68, 69] mutants)
+
+[ 4] killed  build_manifest_13b: the endpoint-revision pin check removed
+[ 5] killed  build_manifest_13b: the step-0 pin check removed
+[10] killed  endpoint_files: missing-file raise removed
+[15] killed  gate1_failures_13b: nc.get(r) != N_ITEMS -> <
+[20] killed  gate1_rederive_13b: coverage len(s_bits) != N_ITEMS -> <
+[26] killed  require_predictor_seals_2l: the 2k-seal literal check removed
+[27] killed  require_predictor_seals_2l: the composite re-derivation check removed
+[37] killed  run: the resume gate-1 re-check removed
+[44] killed  load_power_2l: rungs != -> subset (a superset of R_PRIMARY silently accepted)
+[55] killed  _load_rung_set_2l: partition check removed
+[56] killed  _check_rung_set_derivation_2l: per-key comparison -> set equality (order-blind)
+[57] killed  load_predictors_2l: the 2k-seal literal check removed
+[58] killed  load_predictors_2l: the 2i-seal literal check removed
+[59] killed  load_predictors_2l: the seal_failures_2k call removed
+[60] killed  load_predictors_2l: the _check_predictor_counts_2i call removed
+[61] killed  load_predictors_2l: R_CAP == nine check removed
+[62] killed  load_predictors_2l: x_B bits do not reproduce raise removed
+[65] killed  load_predictors_2l: the halt-marker scan removed
+[66] killed  check_imports_2l: 'tests' in rp.parts swallows everything -> True
+[67] killed  s4_matched_2l: increment sign flipped
+[68] killed  s5_answer_prior_2l: non_gating True -> False
+[69] killed  collapses_13b: threshold >= -> >
+
+22/22 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

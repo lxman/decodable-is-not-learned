@@ -55,8 +55,12 @@ def _run(root, seal, **kw):
     kw.setdefault("n_perm", 30)
     kw.setdefault("n_boot", 10)
     kw.setdefault("referents_sha", False)
-    kw.setdefault("imports_pinned", False)
-    kw.setdefault("frozen_check", lambda: None)
+    # Task 5 dropped the imports_pinned=False and frozen_check=lambda: None
+    # bypasses that used to default here: IMPORTED_SHA256_2L and
+    # FROZEN_SHA256_2L are both pinned now, so the real checks run in
+    # every totality case (a synthetic 13B tree under `root` does not
+    # change which modules are imported or whether the frozen files on
+    # disk still match their pins).
     return an.run(root_2l=root, root_2i=bi.EXP2I, root_2k=bk.EXP2K, **{**seal, **kw})
 
 
@@ -221,6 +225,62 @@ def test_2k_predictor_halt_marker_present(world, monkeypatch):
     root, seal = world
     monkeypatch.setattr(bk, "halt_markers", lambda root_2k: [Path("x/y.HALTED")])
     _insufficient(root, seal, "2l predictor 2k tier HALTED marker present")
+
+
+def test_rung_set_vs_endpoint_check_forced_exception(world, monkeypatch):
+    """Mutation gap (Task 5, #100): _check_rung_set_vs_endpoint_2l reads
+    a rung_set AND a stage1_final that are always well-formed on the
+    real committed 2k/2i data path -- reachable only once both are
+    present, which only a complete synthetic 13B tree provides."""
+    root, seal = world
+    monkeypatch.setattr(an, "_check_rung_set_vs_endpoint_2l",
+                        lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected")))
+    _insufficient(root, seal, "2l rung set vs endpoint")
+
+
+def test_rung_set_derivation_check_forced_exception(world, monkeypatch):
+    """Mutation gap (Task 5, #108): same shape as #100, one check over."""
+    root, seal = world
+    monkeypatch.setattr(an, "_check_rung_set_derivation_2l",
+                        lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected")))
+    _insufficient(root, seal, "2l rung set re-derivation")
+
+
+def test_check_imports_2l_exit_forced_exception(world, monkeypatch):
+    """Mutation gap (Task 5, #104): the EXIT import-surface re-check
+    only runs once the core (A/B) has computed cleanly -- reachable
+    only on a fully successful (SHARED-firing) world, unlike the ENTRY
+    check the FAST suite already exercises. A call-counting mock lets
+    the ENTRY call through so the pipeline reaches `core`, then fails
+    only the second (exit) call."""
+    root, seal = world
+    calls = {"n": 0}
+    real = an.check_imports_2l
+
+    def _flaky():
+        calls["n"] += 1
+        if calls["n"] >= 2:
+            raise ValueError("injected for a Task 5 totality test")
+        return real()
+
+    monkeypatch.setattr(an, "check_imports_2l", _flaky)
+    v = _run(root, seal, n_perm=200, n_boot=20)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert any("2l import surface (exit)" in f for f in v["referents"]["failures"])
+
+
+def test_secondary_computation_forced_exception(world, monkeypatch):
+    """Mutation gap (Task 5, #110): `_sec`'s own collect_total wrapping
+    -- shared by all thirteen-odd named secondaries -- is reachable
+    only once `core` has computed, same as #104. A failing secondary
+    must be recorded gracefully (sec[name]["failed"]), not crash run()."""
+    root, seal = world
+    monkeypatch.setattr(an2k, "ladder_2k",
+                        lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected for a Task 5 totality test")))
+    v = _run(root, seal, n_perm=200, n_boot=20)
+    assert v["verdict"] == "SHARED", v["reason"]      # the main verdict is unaffected
+    assert v["secondaries"]["failures"] and any("injected" in f for f in v["secondaries"]["failures"])
+    assert v["secondaries"]["S1 ladder 1b"]["failed"] is not None
 
 
 # ------------------------------------------------------------------ control

@@ -1,0 +1,23 @@
+baseline OK (fast pass, [70, 71, 72, 73, 77, 80, 81, 82, 83, 91, 92, 93, 95, 96, 97, 98, 99, 106, 107] mutants)
+
+[70] killed  run(): totality — collect_total stripped at line 513 (lambda: json.loads(bk.seal_path(root_2k).read_text())...)
+[71] killed  run(): totality — collect_total stripped at line 518 (lambda: an2i._load_predictor_seal_content(root_2i)...)
+[72] killed  run(): totality — collect_total stripped at line 550 (lambda: an2i._load_rung_set(root_2i)...)
+[73] killed  run(): totality — collect_total stripped at line 555 (lambda: bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHE...)
+[77] killed  run(): totality — collect_total stripped at line 709 (frozen_check or bl.check_frozen_2l...)
+[80] killed  run(): totality — collect_total stripped at line 731 (bg.load_battery...)
+[81] killed  run(): totality — collect_total stripped at line 732 (bg.load_floors...)
+[82] killed  run(): totality — collect_total stripped at line 733 (a2d.load_verify...)
+[83] killed  run(): totality — collect_total stripped at line 734 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[91] killed  run(): totality — collect_total stripped at line 560 (lambda: bi.entry_1b_endpoint(manifest_2i)...)
+[92] killed  run(): totality — collect_total stripped at line 568 (lambda: an2i._check_predictor_seal_sampling(seal_2i, records...)
+[93] killed  run(): totality — collect_total stripped at line 577 (lambda: an2i._check_predictor_counts_2i(seal_2i, records_2i,...)
+[95] killed  run(): totality — collect_total stripped at line 711 (check_imports_2l...)
+[96] killed  run(): totality — collect_total stripped at line 730 (thunk...)
+[97] killed  run(): totality — collect_total stripped at line 739 (lambda: sg.check_strata_pins(strata)...)
+[98] killed  run(): totality — collect_total stripped at line 759 (lambda: bl.entry_13b(manifest, bl.ENDPOINT_STEP_13B)...)
+[99] killed  run(): totality — collect_total stripped at line 761 (lambda: bl.entry_main_13b(manifest)...)
+[106] killed  run(): totality — collect_total stripped at line 544 (lambda: an2k.seal_failures_2k(seal_2k, cells_2k, root_2k)...)
+[107] killed  run(): totality — collect_total stripped at line 723 (lambda: mkr.check_referents(REFERENTS_PATH_2L, sha_pin=refer...)
+
+19/19 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

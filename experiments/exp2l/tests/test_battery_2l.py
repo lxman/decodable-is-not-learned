@@ -119,6 +119,25 @@ def test_build_manifest_13b_endpoint_may_duplicate_and_is_recorded():
     assert m["final_duplicates"] == ["stage2-copy"]
 
 
+def test_build_manifest_13b_refuses_endpoint_and_step0_revision_drift():
+    """Mutation gap (Task 5, #4/#5): the step-number match alone is not
+    enough — the matched revision STRING must equal the pinned literal,
+    or a same-step revision under a different token count (a Hub
+    relabelling, or a same-numbered branch on a different lineage)
+    would silently pass as the endpoint/step-0."""
+    inv = _inventory()
+    wrong_rev = f"stage1-step{bl.ENDPOINT_STEP_13B}-tokens1B"
+    inv[bl.REPO_13B][wrong_rev] = inv[bl.REPO_13B].pop(bl.REV_13B_ENDPOINT)
+    with pytest.raises(ValueError, match="endpoint revision"):
+        bl.build_manifest_13b(inv)
+
+    inv2 = _inventory()
+    wrong_rev0 = f"stage1-step{bl.STEP0}-tokens1B"
+    inv2[bl.REPO_13B][wrong_rev0] = inv2[bl.REPO_13B].pop(bl.REV_13B_STEP0)
+    with pytest.raises(ValueError, match="step-0 revision"):
+        bl.build_manifest_13b(inv2)
+
+
 def test_candidate_rule_accepts_twelve_shard_naming():
     files = _files("x")
     c = ck.candidate("stage1-step1000-tokens1B", files, _files("main"))
@@ -257,6 +276,17 @@ def test_composite_sha_and_endpoint_sha256(tmp_path):
     bl.endpoint_record_path(tmp_path, "main", "odd6").unlink()
     with pytest.raises(FileNotFoundError):
         bl.endpoint_files(tmp_path)
+    # Mutation gap (Task 5, #10): a plain-missing path already raises
+    # FileNotFoundError via bg.sha256_file's own open() even with the
+    # explicit is_file() guard stripped -- same exception class, so
+    # that case alone cannot distinguish the guard from its absence. A
+    # DIRECTORY at the path is not a file (is_file() is False, so the
+    # guard is the only thing standing between it and an attempted
+    # read), but reading it raises IsADirectoryError, not
+    # FileNotFoundError -- exactly the guard's job.
+    bl.endpoint_record_path(tmp_path, "main", "odd6").mkdir(parents=True)
+    with pytest.raises(FileNotFoundError):
+        bl.endpoint_files(tmp_path)
 
 
 # -------------------------------------------------------------- gate 1
@@ -290,6 +320,11 @@ def test_gate1_failures_13b():
     bad = bl.gate1_failures_13b(_gate_rec(continuations_compared={**{r: bt.N_ITEMS for r in bt.RUNGS},
                                                                   "odd6": 499}), ep)
     assert any("499 continuation pairs" in b for b in bad)
+    # Mutation gap (Task 5, #15): OVER-coverage (more pairs than N_ITEMS)
+    # must fail too -- a `!=` loosened to `<` would silently accept it.
+    bad = bl.gate1_failures_13b(_gate_rec(continuations_compared={**{r: bt.N_ITEMS for r in bt.RUNGS},
+                                                                  "odd6": bt.N_ITEMS + 1}), ep)
+    assert any("501 continuation pairs" in b for b in bad)
     bad = bl.gate1_failures_13b(_gate_rec(digest_sweep="X"), ep)
     assert any("tensor digest" in b for b in bad)
     bad = bl.gate1_failures_13b(_gate_rec(commit_sweep="0" * 40), ep)
@@ -323,7 +358,19 @@ def test_gate1_rederive_13b():
     g2 = _gate_rec(continuations_compared={**{r: bt.N_ITEMS for r in bt.RUNGS}, "odd6": 400})
     bad = bl.gate1_rederive_13b(sw, ep, g2)
     assert any("odd6" in b and "400" in b for b in bad)
+    # Mutation gap (Task 5, #20): OVER-length bits/continuations (more
+    # than N_ITEMS on one side) must be a coverage failure too -- a
+    # `!=` loosened to `<` would let zip() silently truncate to the
+    # shorter side instead.
+    over = dict(sw)
+    # ONLY bits over-length -- continuations stays at N_ITEMS so the
+    # (unmutated) continuations coverage check cannot also catch this,
+    # isolating mutant #20's exact branch.
+    over["odd6"] = {"bits": sw["odd6"]["bits"] + [0], "continuations": sw["odd6"]["continuations"]}
+    bad2 = bl.gate1_rederive_13b(over, ep, _gate_rec())
+    assert any("odd6" in b and "coverage failure" in b for b in bad2)
     assert all(b.startswith("gate 1 olmo13b re-derive") for b in bad)
+    assert all(b.startswith("gate 1 olmo13b re-derive") for b in bad2)
 
 
 # -------------------------------------------------------------- loaders

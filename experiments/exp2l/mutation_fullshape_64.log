@@ -1,0 +1,5 @@
+baseline OK (fullshape pass, [64] mutants)
+
+[64] killed  run()/_core: Test A predictor -> counts[64] instead of counts[K_TOTAL]
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

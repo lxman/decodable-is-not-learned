@@ -12,6 +12,8 @@ from __future__ import annotations
 import ast
 import json
 import re
+import sys
+import types
 from pathlib import Path
 
 import numpy as np
@@ -214,6 +216,15 @@ def test_collapses_and_non_monotone_on_hand_data():
     assert nm["antonym"] == {"drops": [[2000, 596057, 30, 20]], "n_drops": 1, "max": 30}
 
 
+def test_collapses_13b_threshold_is_inclusive():
+    """Mutation gap (Task 5, #69): >= is inclusive -- exactly
+    `threshold` (450) identical continuations must still collapse."""
+    sweep = {1000: {"antonym": {"correct": 0,
+                                "continuations": [" 13"] * 450 + [f" x{i}" for i in range(50)]}}}
+    col = an.collapses_13b(sweep, rungs=("antonym",))
+    assert col == [{"rung": "antonym", "step": 1000, "continuation": " 13", "n_identical": 450, "correct": 0}]
+
+
 # --------------------------------------------------------------- rung set
 
 def test_rung_set_load_and_checks(tmp_path, monkeypatch):
@@ -234,6 +245,21 @@ def test_rung_set_load_and_checks(tmp_path, monkeypatch):
     _w(bl.rung_set_path(tmp_path), {**rs, "R_PRIMARY": rs["R_PRIMARY"] + ["count_div13"], "endpoint_file_sha256": {}})
     with pytest.raises(ValueError, match="subset of 2k's nine"):
         an._load_rung_set_2l(tmp_path)
+    # Mutation gap (Task 5, #55): the partition check. Dropping a member
+    # from R_EXTRA (leaving R_PRIMARY, hence the subset-of-nine check,
+    # untouched) so the union no longer equals R_13B must refuse.
+    if rs["R_EXTRA"]:
+        _w(bl.rung_set_path(tmp_path), {**rs, "R_EXTRA": rs["R_EXTRA"][:-1], "endpoint_file_sha256": {}})
+        with pytest.raises(ValueError, match="do not partition"):
+            an._load_rung_set_2l(tmp_path)
+    # Mutation gap (Task 5, #56): _check_rung_set_derivation_2l's
+    # per-key comparison is ORDER-sensitive -- rung_set_from_counts_2l's
+    # own contract is a SORTED tuple, so a same-elements-different-order
+    # file (a hand edit, or a producer that stopped sorting) is itself
+    # drift and must be flagged, not silently accepted as a set match.
+    shuffled = dict(got, R_PRIMARY=list(reversed(got["R_PRIMARY"])))
+    bad_order = an._check_rung_set_derivation_2l(shuffled, st1, floors)
+    assert any("R_PRIMARY" in b for b in bad_order)
 
 
 # ------------------------------------------------------------------ power
@@ -288,6 +314,19 @@ def test_load_power_2l_and_claims(tmp_path):
     assert an.POWER_CLAIM_FIELDS_2L == ("dropped_degenerate", "rungs_simulated", "n_pos_lower_bound", "t_bar", "alpha", "thin")
 
 
+def test_load_power_2l_refuses_a_superset_of_rungs(tmp_path):
+    """Mutation gap (Task 5, #44): rungs != -> subset. A power record
+    whose A.rungs is a SUPERSET of r_primary (an extra, never-audited
+    rung silently along for the ride) must be refused exactly as hard
+    as a subset -- the field is a claim about R_PRIMARY, not merely a
+    superset of it."""
+    r_primary = tuple(sorted(bl.R_CAP_2K))
+    rec = _power_rec(r_primary)
+    _w(bl.power_path(tmp_path), {**rec, "A": dict(rec["A"], rungs=list(r_primary) + ["count_div13"])})
+    with pytest.raises(ValueError, match="rungs"):
+        an.load_power_2l(tmp_path, r_primary, bl.PREDICTOR_SHA_2L)
+
+
 # ------------------------------------------------------------- secondaries
 
 def _fake_out(rungs, seed=0):
@@ -330,6 +369,43 @@ def test_s5_answer_prior_2l_is_2j_functional_on_2i_rows():
     assert s5["source"] == "2j wrong_target_propensity on 2i's sealed OLMo-2 1B draws"
 
 
+def test_matched_density_increment_is_thinned_minus_a256():
+    """Mutation gap (Task 5, #67): the increment is thinned_B's T minus
+    T_A256, not the reverse. Built on hand-synthesized bits_b/x_a64 (not
+    2i's real committed draws / 2k's real committed counts, which is
+    what makes test_s4_matched_2l_uses_2k_rule_and_2j_blocks slow --
+    excluded from the FAST suite by name) so the sign check runs in
+    milliseconds and is reachable from FAST. Named without the 's4'
+    substring so `-k "not test_s4"` cannot sweep it up too."""
+    strata = _strata()
+    rungs = ("antonym", "add_base8")
+    rng = np.random.default_rng(3)
+    bits_b = {r: [[int(v) for v in rng.integers(0, 2, size=64)] for _ in range(bt.N_ITEMS)]
+             for r in rungs}
+    x_a64 = {r: [int(v) for v in rng.integers(0, 65, size=bt.N_ITEMS)] for r in rungs}
+    x_a256 = {r: [min(256, c * 4) for c in x_a64[r]] for r in rungs}
+    out = _fake_out(rungs, seed=4)
+    s4 = an.s4_matched_2l(bits_b, x_a64, x_a256, out, strata, rungs)
+    assert s4["thinned_B"]["T"] is not None and s4["T_A256"] is not None
+    assert s4["increment"] == s4["thinned_B"]["T"] - s4["T_A256"]
+
+
+def test_answer_prior_non_gating_is_a_hardcoded_literal(monkeypatch):
+    """Mutation gap (Task 5, #68): non_gating is a hardcoded True (dial
+    g), independent of the reading -- stub the two real computations
+    (2i's real draws / _run_test's own permutation, what makes
+    test_s5_answer_prior_2l_is_2j_functional_on_2i_rows slow --
+    excluded from the FAST suite by name) so this runs in
+    microseconds and isolates exactly the literal. Named without the
+    's5' substring so `-k "not test_s5"` cannot sweep it up too."""
+    monkeypatch.setattr(fn, "wrong_target_propensity", lambda rows, cap, **kw: 0.5)
+    monkeypatch.setattr(an, "_run_test",
+                        lambda *a, **kw: {"stratified": {"T": 0.0, "p": 1.0, "n_perm": 1, "n_ge": 1},
+                                          "fires": False, "eligible": [], "per_rung": {}})
+    s5 = an.s5_answer_prior_2l({"antonym": []}, {"antonym": {}}, {"antonym": {}}, {}, ("antonym",))
+    assert s5["non_gating"] is True
+
+
 def test_extra_rungs_2l_shape():
     strata = _strata()
     out = _fake_out(("count_div13", "reverse_string"))
@@ -338,6 +414,238 @@ def test_extra_rungs_2l_shape():
     res = an._extra_rungs_2l(x64, x_b, out, strata, r_eleven_extra=("count_div13",), r_extra=("reverse_string",))
     assert set(res["eleven_extra"]["count_div13"]) == {"stratified_d_A64", "stratified_d_B", "n_pos"}
     assert set(res["extra"]["reverse_string"]) == {"raw_d_A64", "raw_d_B", "n_pos"}
+
+
+# -------------------------------------------------------------- predictors
+
+def test_load_predictors_2l_on_the_real_trees_is_clean():
+    """The happy path: both predictors, real and closed, load with
+    zero failures -- the baseline every corruption case below departs
+    from."""
+    battery, verify = _battery(), a2d.load_verify()
+    failures, ctx = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert failures == []
+    assert set(ctx["cells_2k"]) == set(bk.SIZES_2K)
+    assert ctx["x_b"] and ctx["bits_b"] and ctx["rows_2i"]
+
+
+def test_load_predictors_2l_refuses_seal_literal_drift(monkeypatch):
+    """Mutation gap (Task 5, #57)."""
+    battery, verify = _battery(), a2d.load_verify()
+    monkeypatch.setattr(bl, "SEAL_2K_SHA256", "0" * 64)
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("2l predictor 2k seal sha" in f and "is not the literal" in f for f in failures)
+
+
+def test_load_predictors_2l_refuses_2i_seal_literal_drift(monkeypatch):
+    """Mutation gap (Task 5, #58)."""
+    battery, verify = _battery(), a2d.load_verify()
+    monkeypatch.setattr(bl, "SEAL_2I_SHA256", "0" * 64)
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("2l predictor 2i seal sha" in f and "is not the literal" in f for f in failures)
+
+
+def test_load_predictors_2l_carries_the_2k_seal_vs_rederivation_check(monkeypatch):
+    """Mutation gap (Task 5, #59)."""
+    battery, verify = _battery(), a2d.load_verify()
+    monkeypatch.setattr(an2k, "seal_failures_2k", lambda *a, **kw: ["injected 2k seal mismatch"])
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("injected 2k seal mismatch" in f for f in failures)
+
+
+def test_load_predictors_2l_carries_the_2i_counts_check(monkeypatch):
+    """Mutation gap (Task 5, #60)."""
+    battery, verify = _battery(), a2d.load_verify()
+    monkeypatch.setattr(an2i, "_check_predictor_counts_2i", lambda *a, **kw: ["injected 2i counts mismatch"])
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("injected 2i counts mismatch" in f for f in failures)
+
+
+def test_load_predictors_2l_refuses_a_wrong_2i_rung_set(monkeypatch):
+    """Mutation gap (Task 5, #61)."""
+    battery, verify = _battery(), a2d.load_verify()
+    monkeypatch.setattr(an2i, "_load_rung_set", lambda root: {"R_CAP": ["antonym"]})
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("2l predictor 2i rung set: R_CAP" in f for f in failures)
+
+
+def test_load_predictors_2l_refuses_x_b_bits_mismatch(monkeypatch):
+    """Mutation gap (Task 5, #62)."""
+    battery, verify = _battery(), a2d.load_verify()
+    monkeypatch.setattr(bi, "sampler_counts_olmo",
+                        lambda rungs, root=None, battery=None, verify_fn=None: {r: [0] * bt.N_ITEMS for r in rungs})
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("x_B bits do not reproduce the count" in f for f in failures)
+
+
+def test_load_predictors_2l_refuses_a_2k_halt_marker(monkeypatch):
+    """Mutation gap (Task 5, #65)."""
+    battery, verify = _battery(), a2d.load_verify()
+    monkeypatch.setattr(bk, "halt_markers", lambda root_2k: [Path("x/y.HALTED")])
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("2l predictor 2k tier HALTED marker present" in f for f in failures)
+
+
+_TOTALITY_FORCED_CASES_2L = [
+    (an2i, "_load_predictor_seal_content", "2l predictor 2i seal content"),
+    (an2i, "_load_rung_set", "2l predictor 2i rung set file"),
+    (bi, "load_manifest", "2l predictor 2i manifest"),
+    (bi, "entry_1b_endpoint", "2l predictor 2i 1B endpoint entry"),
+    (an2i, "_check_predictor_seal_sampling", "2l predictor 2i seal sampling block"),
+    (an2i, "_check_predictor_counts_2i", "2l predictor x_B counts vs the sealed attestation"),
+    (an2k, "seal_failures_2k", "2l predictor 2k seal vs re-derivation"),
+    (fn, "draw_rows_2i", "2l predictor x_B rows and bits"),
+]
+
+
+@pytest.mark.parametrize("mod,attr,label", _TOTALITY_FORCED_CASES_2L)
+def test_load_predictors_2l_forced_exceptions_are_graceful(monkeypatch, mod, attr, label):
+    """Mutation gap (Task 5, totality survivors #71/#72/#73/#76/#91/
+    #92/#93/#106): every collect_total-wrapped thunk inside
+    load_predictors_2l converts an exception to a graceful failure
+    rather than propagating it. Exercised directly here rather than via
+    test_totality_2l.py: these thunks all read the REAL, always-valid
+    2k/2i predictor trees (2k and 2i are both closed), so no totality
+    world -- which only corrupts the SYNTHETIC 13B tree -- can ever make
+    them raise; test_totality_2l.py's own forced-exception tests only
+    reach thunks downstream of that synthetic tree."""
+    battery, verify = _battery(), a2d.load_verify()
+
+    def _raise(*a, **kw):
+        raise ValueError("injected for a Task 5 mutation-closure test")
+
+    monkeypatch.setattr(mod, attr, _raise)
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any(label in f and "injected" in f for f in failures), (label, failures)
+
+
+def test_load_predictors_2l_seal_read_forced_exception(monkeypatch):
+    """Mutation gap (Task 5, totality survivor #70): bk.seal_path is
+    ALSO called (unwrapped) inside an2k._seal_paths_2k right after this
+    collect_total site -- a blanket mock of the function breaks that
+    unwrapped call too (it doesn't call .read_text(), just needs the
+    path), crashing the test itself rather than isolating the mutant.
+    Scoped instead to the ONE read this label covers: Path.read_text on
+    exactly 2k's seal file raises; every other read (including
+    an2k._seal_paths_2k's own bare call to bk.seal_path) is untouched."""
+    battery, verify = _battery(), a2d.load_verify()
+    seal_file = bk.seal_path(bk.EXP2K)
+    real_read_text = Path.read_text
+
+    def _flaky_read_text(self, *a, **kw):
+        if self == seal_file:
+            raise ValueError("injected for a Task 5 mutation-closure test")
+        return real_read_text(self, *a, **kw)
+
+    monkeypatch.setattr(Path, "read_text", _flaky_read_text)
+    failures, _ = an.load_predictors_2l(bi.EXP2I, bk.EXP2K, battery=battery, verify_fn=verify)
+    assert any("2l predictor 2k seal read" in f and "injected" in f for f in failures), failures
+
+
+_RUN_FORCED_CASES_2L = [
+    (bg, "load_battery", "2l battery items"),
+    (bg, "load_floors", "2l floors 2d"),
+    (a2d, "load_verify", "2l verify criterion 3c"),
+    (pr, "load_predictor", "2l strata source 2g predictor"),
+    (bg, "check_frozen_imports_2g", "2l upstream 2g frozen imports"),
+    (bl, "entry_13b", "2l 13B endpoint entry"),
+    (bl, "entry_main_13b", "2l 13B main entry"),
+]
+
+
+@pytest.mark.parametrize("mod,attr,label", _RUN_FORCED_CASES_2L)
+def test_run_forced_exceptions_on_the_real_tree_are_graceful(monkeypatch, mod, attr, label):
+    """Mutation gap (Task 5, totality survivors #80/#81/#82/#83/#97/
+    #96/#98/#99): every collect_total-wrapped thunk on the ENTRY half
+    of run() -- battery/floors/verify/strata loads, the four-thunk
+    upstream-pins loop, the manifest entry lookups -- must convert an
+    exception to a graceful INSUFFICIENT_DATA, not propagate it.
+    Exercised directly on the REAL pre-campaign tree (root_2l defaults
+    to EXP2L): every totality world sets referents_sha=False and never
+    reaches a complete 13B manifest, so none of these sites are
+    reachable through test_totality_2l.py's synthetic-root harness --
+    the real committed 13B manifest (2k's/2i's real trees too) is what
+    makes them executable at all."""
+    def _raise(*a, **kw):
+        raise ValueError("injected for a Task 5 mutation-closure test")
+
+    monkeypatch.setattr(mod, attr, _raise)
+    v = an.run(n_perm=20, n_boot=5)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(label in f and "injected" in f for f in v["referents"]["failures"]), (label, v["referents"]["failures"])
+
+
+def test_run_strata_pins_forced_exception(monkeypatch):
+    """Mutation gap (Task 5, totality survivor #97): sg.check_strata_pins
+    is ALSO called internally by pr.load_predictor (predictor_2g.py's
+    own validation) -- a blanket mock of the name breaks the EARLIER
+    call site ("2l strata source 2g predictor") before run() ever
+    reaches the later, explicit one this test targets. A call-counting
+    mock lets the internal (first) call through and fails only run()'s
+    own (second) call."""
+    real = sg.check_strata_pins
+    calls = {"n": 0}
+
+    def _flaky(table):
+        calls["n"] += 1
+        if calls["n"] >= 2:
+            raise ValueError("injected for a Task 5 mutation-closure test")
+        return real(table)
+
+    monkeypatch.setattr(sg, "check_strata_pins", _flaky)
+    v = an.run(n_perm=20, n_boot=5)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2l strata pins 2g" in f and "injected" in f for f in v["referents"]["failures"])
+
+
+def test_run_frozen_check_forced_exception(monkeypatch):
+    """Mutation gap (Task 5, totality survivor #77): `frozen_check or
+    bl.check_frozen_2l` always succeeds on the real tree (nothing
+    pinned has drifted), so no totality world can make it raise --
+    `frozen_check` is a test-only injection made exactly for this."""
+    def _raise():
+        raise ValueError("injected for a Task 5 mutation-closure test")
+
+    v = an.run(n_perm=20, n_boot=5, frozen_check=_raise)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2l frozen modules" in f and "injected" in f for f in v["referents"]["failures"])
+
+
+def test_run_import_surface_entry_forced_exception(monkeypatch):
+    """Mutation gap (Task 5, totality survivor #95): the import-surface
+    ENTRY check always passes on the real tree's real import graph."""
+    monkeypatch.setattr(an, "check_imports_2l", lambda: (_ for _ in ()).throw(ValueError("injected")))
+    v = an.run(n_perm=20, n_boot=5)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2l import surface (entry)" in f and "injected" in f for f in v["referents"]["failures"])
+
+
+def test_run_referent_manifest_check_forced_exception(monkeypatch):
+    """Mutation gap (Task 5, totality survivor #107): mkr.check_referents
+    is only ever reached with referents_sha at its real, pinned default
+    -- every totality world explicitly sets referents_sha=False (a
+    synthetic root is not the real committed tree), so no totality test
+    can reach this site at all."""
+    monkeypatch.setattr(mkr, "check_referents", lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected")))
+    v = an.run(n_perm=20, n_boot=5)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2l referent manifest" in f and "injected" in f for f in v["referents"]["failures"])
+
+
+def test_check_imports_2l_real_rule_flags_a_module_outside_tests(monkeypatch):
+    """Mutation gap (Task 5, #66): the existing soft check just below
+    (a bare try/except, deliberately non-asserting -- 'a real gap
+    before Task 5, never a crash elsewhere') cannot distinguish the
+    real 'tests' exclusion rule from one rewritten to swallow
+    everything. This injects a synthetic sys.modules entry resolved
+    under experiments/ but NOT under any tests/ directory and not
+    covered by any pin -- the real rule must flag it as unpinned."""
+    fake_path = str(bl.EXP2L / "PROGRESS.md")
+    assert Path(fake_path).is_file()
+    monkeypatch.setitem(sys.modules, "exp2l_fake_module_for_mutation_test",
+                        types.SimpleNamespace(__file__=fake_path))
+    with pytest.raises(RuntimeError, match="unpinned module"):
+        an.check_imports_2l()
 
 
 # ------------------------------------------------------------------- tree

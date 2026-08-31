@@ -27,7 +27,9 @@ def _small(monkeypatch):
     monkeypatch.setattr(pw, "N_SIM", 4)
     monkeypatch.setattr(pw, "N_PERM_POWER", 30)
     monkeypatch.setattr(pl, "N_SIM_BLOCKS", 3)
-    monkeypatch.setattr(bl, "FROZEN_SHA256_2L", bl.frozen_from_disk(strict=False))
+    # Task 5 dropped the FROZEN_SHA256_2L monkeypatch bypass that used to
+    # stand in here: `bl.check_frozen_2l()` now passes for real against the
+    # committed pin, so `pl.main()` needs no `frozen_check` bypass either.
 
 
 def test_block_sd_A_shape():
@@ -46,7 +48,7 @@ def test_block_sd_A_shape():
 def test_main_writes_once_with_both_tests_and_block_sd(tmp_path):
     seal = fs.write_world_2l(tmp_path, mode="a_only")
     bl.power_path(tmp_path).unlink()
-    rec = pl.main(root_2l=tmp_path, frozen_check=lambda: None, **seal)
+    rec = pl.main(root_2l=tmp_path, **seal)
     assert bl.power_path(tmp_path).is_file()
     assert set(rec) >= {"A", "B", "block_sd_A", "predictor_sha256", "r_primary", "primary_is_the_nine"}
     assert rec["predictor_sha256"] == bl.PREDICTOR_SHA_2L
@@ -55,7 +57,7 @@ def test_main_writes_once_with_both_tests_and_block_sd(tmp_path):
         assert set(rec[t]["rungs"]) == set(fs.RUNGS_PRIMARY)
     assert an.load_power_2l(tmp_path, fs.RUNGS_PRIMARY, bl.PREDICTOR_SHA_2L)["block_sd_A"]["blocks"] == 4
     with pytest.raises(RuntimeError, match="written ONCE"):
-        pl.main(root_2l=tmp_path, frozen_check=lambda: None, **seal)
+        pl.main(root_2l=tmp_path, **seal)
 
 
 def test_main_refuses_without_rung_set(tmp_path):
@@ -63,4 +65,4 @@ def test_main_refuses_without_rung_set(tmp_path):
     bl.power_path(tmp_path).unlink()
     bl.rung_set_path(tmp_path).unlink()
     with pytest.raises(FileNotFoundError):
-        pl.main(root_2l=tmp_path, frozen_check=lambda: None, **seal)
+        pl.main(root_2l=tmp_path, **seal)

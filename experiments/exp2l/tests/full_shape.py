@@ -275,11 +275,13 @@ def write_world_2l(root, *, mode="a_only", seed=0, missing=None, power_status_a=
 
 
 def run_world(root, seal, *, n_perm=200, n_boot=20) -> dict:
-    # referents_sha=False: a synthetic root is not the real tree. frozen_check
-    # and imports_pinned: real once Task 5 pins them (the bypass below drops
-    # then — mirror 2k's Task 5 Step 2).
+    # referents_sha=False stays: a synthetic world root is not the real
+    # tree, so the pre-campaign manifest cannot check against it. The
+    # import pin (imports_pinned) and the frozen-module pin (frozen_check)
+    # both now run for real (Task 5 pinned IMPORTED_SHA256_2L and
+    # FROZEN_SHA256_2L and dropped both bypasses here).
     return an.run(root_2l=root, root_2i=bi.EXP2I, root_2k=bk.EXP2K, n_perm=n_perm, n_boot=n_boot,
-                  referents_sha=False, imports_pinned=False, frozen_check=lambda: None, **seal)
+                  referents_sha=False, **seal)
 
 
 def world_specs() -> list:

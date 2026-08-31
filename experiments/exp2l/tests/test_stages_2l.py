@@ -35,7 +35,9 @@ SHORT_GRID = (1000, 2000, bl.ENDPOINT_STEP_13B)
 def _blobs_that_exist(monkeypatch):
     subset = tuple(r for r in bl.INSTRUMENT_BLOBS_2L if (bl.REPO / r).is_file())
     monkeypatch.setattr(bl, "INSTRUMENT_BLOBS_2L", subset)
-    monkeypatch.setattr(bl, "FROZEN_SHA256_2L", bl.frozen_from_disk(strict=False))
+    # Task 5 dropped the FROZEN_SHA256_2L monkeypatch bypass that used to
+    # stand in here: `bl.check_frozen_2l()` (called directly by
+    # `run/endpoint_2l.run`) now passes for real against the committed pin.
 
 
 def _amap_and_battery():
@@ -109,6 +111,26 @@ def test_require_predictor_seals_2l_rederives_predictor_sha_and_refuses_drift():
 def test_require_predictor_seals_2l_refuses_a_seal_off_its_literal(monkeypatch):
     monkeypatch.setattr(bl, "SEAL_2I_SHA256", "0" * 64)
     with pytest.raises(RuntimeError, match="literal"):
+        ep.require_predictor_seals_2l(root_2i=bi.EXP2I, root_2k=bk.EXP2K, tag_exists=lambda t: True,
+                                      blobs_bound=lambda tag, paths, repo_root=None: [])
+
+
+def test_require_predictor_seals_2l_refuses_2k_seal_off_its_literal(monkeypatch):
+    """Mutation gap (Task 5, #26): the 2i-seal check alone was tested;
+    2k's own literal check needs its own drift case."""
+    monkeypatch.setattr(bl, "SEAL_2K_SHA256", "0" * 64)
+    with pytest.raises(RuntimeError, match="literal"):
+        ep.require_predictor_seals_2l(root_2i=bi.EXP2I, root_2k=bk.EXP2K, tag_exists=lambda t: True,
+                                      blobs_bound=lambda tag, paths, repo_root=None: [])
+
+
+def test_require_predictor_seals_2l_refuses_a_stale_composite(monkeypatch):
+    """Mutation gap (Task 5, #27): both individual seal shas can be
+    correct while PREDICTOR_SHA_2L itself is stale (a hand edit, or a
+    seal rotated without re-deriving the composite) -- the composite
+    re-derivation check is the only thing that catches that."""
+    monkeypatch.setattr(bl, "PREDICTOR_SHA_2L", "0" * 64)
+    with pytest.raises(RuntimeError, match="does not re-derive"):
         ep.require_predictor_seals_2l(root_2i=bi.EXP2I, root_2k=bk.EXP2K, tag_exists=lambda t: True,
                                       blobs_bound=lambda tag, paths, repo_root=None: [])
 
@@ -335,6 +357,28 @@ def test_sweep_resume_skips_complete_steps_and_reenters_incomplete_ones(tmp_path
     sw.run(out_root=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, cache_root=tmp_path / "c", loaders=loaders2, **_fake_seals())
     assert state2["calls"] == [bl.entry_13b(man, 1000)["revision"], bl.entry_13b(man, 2000)["revision"]]
     assert sw.records_complete_13b(tmp_path, 1000) and sw.records_complete_13b(tmp_path, 2000)
+
+
+def test_sweep_resume_reruns_gate1_failures_check_on_stale_disk_record(tmp_path, monkeypatch):
+    """Mutation gap (Task 5, #37): a completed gate1.json is not just
+    replayed on resume -- run() RE-CHECKS it against
+    gate1_failures_13b every time, so a record that has gone stale on
+    disk (hand-edited, or left over) halts the resume instead of being
+    trusted silently."""
+    _shrink_grid(monkeypatch)
+    _setup_endpoint(tmp_path)
+    man = _manifest()
+    e = bl.entry_13b(man, bl.ENDPOINT_STEP_13B)
+    loaders, _ = _sweep_loaders(entry=e)
+    sw.run(out_root=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, cache_root=tmp_path / "c", loaders=loaders, **_fake_seals())
+    assert bl.gate1_path(tmp_path).is_file()
+    g = json.loads(bl.gate1_path(tmp_path).read_text())
+    g["prereg_tag"] = "exp2i-preregistered"        # stale on disk, fails re-derivation
+    bl.gate1_path(tmp_path).write_text(json.dumps(g))
+    loaders2, state2 = _sweep_loaders(entry=e)
+    with pytest.raises(RuntimeError, match="record on disk fails re-derivation"):
+        sw.run(out_root=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, cache_root=tmp_path / "c", loaders=loaders2, **_fake_seals())
+    assert state2["calls"] == []          # refused before any load
 
 
 def test_sweep_dry_run_loads_nothing(tmp_path, monkeypatch, capsys):

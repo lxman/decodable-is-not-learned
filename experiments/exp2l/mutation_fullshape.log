@@ -1,0 +1,3 @@
+baseline OK (fullshape pass, [63, 64] mutants)
+
+[63] killed  run()/_core: Test B strata -> base strata (drops the median-bucket conditioning)

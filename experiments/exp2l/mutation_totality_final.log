@@ -1,0 +1,8 @@
+baseline OK (totality pass, [100, 104, 108, 110] mutants)
+
+[100] killed  run(): totality — collect_total stripped at line 773 (lambda: _check_rung_set_vs_endpoint_2l(rung_set, stage1_fina...)
+[104] killed  run(): totality — collect_total stripped at line 819 (check_imports_2l if imports_pinned else (lambda: None)...)
+[108] killed  run(): totality — collect_total stripped at line 776 (lambda: _check_rung_set_derivation_2l(rung_set, stage1_final...)
+[110] killed  run(): totality — collect_total stripped at line 851 (thunk...)
+
+4/4 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

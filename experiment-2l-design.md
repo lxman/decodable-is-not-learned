@@ -110,6 +110,14 @@ tag is cut, with what it printed. At the time of writing the analyzer
 does not exist; on the real pre-campaign tree every execution lands
 INSUFFICIENT_DATA (no 13B records) and prints no T.
 
+Build Task 5 ran `analyze_2l.run()` on the real pre-campaign tree twice
+before any tag: the import-surface scan (`tests/import_scan_2l.py`)
+and the read sweep (`tests/read_sweep_2l.py`), both at `n_perm=30,
+n_boot=10` — both printed INSUFFICIENT_DATA (the 13B endpoint/rung-set/
+power/sweep records are absent) and no T; both fully exercised the real,
+closed predictor stages (2k's sealed 256-draw tier and 2i's sealed
+OLMo-2 1B counts, zero failures on either) before refusing.
+
 ## 3. Instrument — 2i's, with the outcome model swapped and the cross-family predictor at 256
 
 Everything not named here is `experiments/exp2i` / `exp2k` machinery
