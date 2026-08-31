@@ -14,6 +14,7 @@ import json
 import re
 import sys
 import types
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -45,8 +46,21 @@ def _frozen_pin(monkeypatch):
     monkeypatch.setattr(bl, "FROZEN_SHA256_2L", bl.frozen_from_disk(strict=False))
 
 
+# Freeze (mutation-round feasibility, test-side only): `_tree` builds 34
+# records per step and every `_step_rec`/`_endpoint_rec` used to re-read
+# and re-sha all 34 item files, so one `_tree` call cost thousands of
+# item-file loads and the mutation harness's fast pass ran 5+ minutes per
+# mutant. The three loaders below are pure and their results are treated
+# as read-only everywhere in this file, so they are memoised; the
+# manifest is memoised as RAW BYTES and re-parsed per call, so no caller
+# can share (or mutate) one dict. Behaviour identical, ~4x faster.
+@lru_cache(maxsize=1)
+def _manifest_raw():
+    return bl.CHECKPOINTS_PATH.read_bytes()
+
+
 def _manifest():
-    return json.loads(bl.CHECKPOINTS_PATH.read_text())
+    return json.loads(_manifest_raw())
 
 
 def _shrink(monkeypatch):
@@ -54,10 +68,12 @@ def _shrink(monkeypatch):
     monkeypatch.setattr(bl, "load_manifest_13b", lambda path, sha_pin: _manifest())
 
 
+@lru_cache(maxsize=1)
 def _battery():
     return bg.load_battery()
 
 
+@lru_cache(maxsize=1)
 def _strata():
     pred2g = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
     return sg.from_json(pred2g["strata"])
