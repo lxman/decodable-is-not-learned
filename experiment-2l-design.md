@@ -111,12 +111,25 @@ does not exist; on the real pre-campaign tree every execution lands
 INSUFFICIENT_DATA (no 13B records) and prints no T.
 
 Build Task 5 ran `analyze_2l.run()` on the real pre-campaign tree twice
-before any tag: the import-surface scan (`tests/import_scan_2l.py`)
-and the read sweep (`tests/read_sweep_2l.py`), both at `n_perm=30,
-n_boot=10` — both printed INSUFFICIENT_DATA (the 13B endpoint/rung-set/
-power/sweep records are absent) and no T; both fully exercised the real,
-closed predictor stages (2k's sealed 256-draw tier and 2i's sealed
-OLMo-2 1B counts, zero failures on either) before refusing.
+before any tag as a standalone tool invocation: the import-surface scan
+(`tests/import_scan_2l.py`) and the read sweep (`tests/read_sweep_2l.py`),
+both at `n_perm=30, n_boot=10` — both printed INSUFFICIENT_DATA (the 13B
+endpoint/rung-set/power/sweep records are absent) and no T; both fully
+exercised the real, closed predictor stages (2k's sealed 256-draw tier
+and 2i's sealed OLMo-2 1B counts, zero failures on either) before
+refusing. Task 5's own test suite adds eleven more real-tree executions
+on top of those two: `test_analyze_2l.py`'s five forced-exception tests
+(`test_run_forced_exceptions_on_the_real_tree_are_graceful`, parametrized
+×7 over `_RUN_FORCED_CASES_2L`; `test_run_strata_pins_forced_exception`;
+`test_run_frozen_check_forced_exception`;
+`test_run_import_surface_entry_forced_exception`;
+`test_run_referent_manifest_check_forced_exception`) each call
+`an.run(n_perm=20, n_boot=5)` with the default `root_2l = EXP2L` — the
+real pre-campaign tree — and these eleven re-execute on every FAST pass,
+including every round of the mutation harness. Every one of the eleven
+lands INSUFFICIENT_DATA with no T: an exception is injected into an
+early loader before any statistic is reached, and the 13B records are
+absent regardless of the injection.
 
 ## 3. Instrument — 2i's, with the outcome model swapped and the cross-family predictor at 256
 

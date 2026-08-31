@@ -309,13 +309,24 @@ UNPINNED                           0
 ```
 
 `sha_pin_at_load` and `seal_bound_campaign_absent` both read 0 —
-neither is a gap. `sha_pin_at_load`'s four candidate files
-(`checkpoints_2g.json`/`checkpoints_2h.json`/`checkpoints_2i.json`/
-`checkpoints_2l.json`) are all ALSO already members of
-`referents_2l.json`'s own manifest on this tree (2k's referent list
-inherits 2g's/2h's, and `make_referents_2l.referent_files` lists
-`bl.CHECKPOINTS_PATH` directly), so `_classify`'s manifest check
-claims them first — doubly pinned, not unpinned.
+neither is a gap, but they are zero for different reasons and only two
+of the four `sha_pin_at_load` candidates are pinned elsewhere. Checked
+directly (not assumed): `checkpoints_2i.json` and `checkpoints_2l.json`
+ARE members of `referents_2l.json`'s own manifest on this tree
+(`make_referents_2l.referent_files` lists `bi.CHECKPOINTS_PATH` via
+2k's referent chain and `bl.CHECKPOINTS_PATH` directly), so
+`_classify`'s manifest branch claims their one read each first — doubly
+pinned. `checkpoints_2g.json` and `checkpoints_2h.json` are NOT in the
+manifest, and are in no other bucket either (not `FROZEN_SHA256_2L`,
+not `FROZEN_IMPORT_SHA256_2G`, not any `IMPORTED_SHA256_*`, not
+`INSTRUMENT_BLOBS_2L`) — confirmed by instrumenting the sweep and
+counting read attempts by filename: zero for both. The real reason
+those two read 0 is that `analyze_2l.run()` never reads 2g's or 2h's
+checkpoint manifests on this tree at all; the `SHA_PIN_AT_LOAD` set
+carries them as entries inherited from 2k's own sweep bucket, unread
+rather than shadowed. An unread file cannot be an unpinned read, so (e)
+is still genuinely 0 — but a later code path that DOES start reading
+them would need its own pin, not free coverage from this bucket.
 `seal_bound_campaign_absent` is 0 because every campaign-side loader
 on the real pre-campaign tree fails via a bare `Path.is_file()` guard
 (`_load_rung_set_2l` and its siblings) BEFORE ever calling
