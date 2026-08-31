@@ -561,3 +561,33 @@ run/endpoint_2l 714c8db8…, run/sweep_2l d24babe7…) and
 HF-cache decision (54 GB), the preflight (dial j, AFTER the tag), then
 stage 1 (endpoint) → power ONCE → `exp2l-endpoint-sealed` → projection
 → stage 2 (sweep ≈ 44 h) → analyzer once.
+
+## 2026-08-31 — Preflight (dial j) PASSED, on Michael's word ("clear the 54 GB 7B cache and run the preflight")
+
+Pre-step: the 7B HF cache (54 GB, `models--allenai--OLMo-2-1124-7B`)
+deleted — 2i is closed; disk 259 → 313 GiB free. `mlx_lm.server`
+stopped for the campaign (restart after; standing decision).
+
+The preflight ran detached end to end, exit 0, and PASSED on every
+check (`preflight_2l.log`):
+
+- **batch_size 16 fits**: `BATCH_SIZE_2L = 16` unchanged — no re-tag.
+  13B fp16 at mps_allocated_bytes 27,432,397,312 (≈ 27.4 GB of 48)
+  for BOTH loads.
+- **`main` (thin load, ordinary HF cache, kept — 51 GB)**: antonym
+  18/20, add3_mid 20/20 verified; both misses are model errors in
+  clean format (e.g. " sharp" for the opposite of 'tender', an echo
+  " thick"), the harness parses everything.
+- **step 1000 (`stage1-step1000-tokens9B`) through the candidate-file
+  loader end to end**: downloaded ≈ 55 GB, sha-verified against the
+  manifest, hardlinked with the entry's own `config.json`, loaded
+  (tensor digest e45d7d39 4cdf…), scored on the same 40 items, FREED —
+  `~/emergence-lab/ckpt_cache_2l` is 0 B / 0 files after. Texture: at
+  9B tokens every continuation is a degenerate '!' run, verify 0/40 —
+  model behaviour (2h's collapse class), nothing scored is stored.
+- **Nothing written under `experiments/exp2l/results/`** — asserted by
+  the preflight itself.
+
+Disk after: 257 GiB free (13B `main` cached for the endpoint stage).
+Next on Michael's word: stage 1 (endpoint + `main`, 34 rungs, ≈ 5 h)
+→ power ONCE → tag `exp2l-endpoint-sealed` → projection → sweep.
