@@ -40,3 +40,12 @@ experiments/exp2g/*.log
 # exp2i scan/sweep/watcher logs — machine-local, never part of the closed record
 experiments/exp2i/*.log
 .superpowers/
+# exp2l campaign/stage logs — machine-local, never part of the closed record
+# (the committed mutation_*.log files ARE the mutation battery's record, so
+# this is a named list rather than experiments/exp2l/*.log; freeze D-1)
+experiments/exp2l/preflight.log
+experiments/exp2l/endpoint.log
+experiments/exp2l/power.log
+experiments/exp2l/sweep.log
+experiments/exp2l/analyzer.log
+experiments/exp2l/watcher_*.log

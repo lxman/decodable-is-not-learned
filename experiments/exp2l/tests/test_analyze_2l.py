@@ -349,7 +349,10 @@ def _power_rec(r_primary, *, status="POWERED", psha=bl.PREDICTOR_SHA_2L, x256=No
                 "alpha": an.ALPHA, "thin": len(keep) < 3}
     return {"A": one(dropped_a), "B": one(dropped_b),
             "block_sd_A": {"n_sim": 3, "mean_block_sd_at_declare": 0.01, "mean_block_sd_null": 0.005,
-                           "per_block_mean_T_at_declare": [0.1, 0.1, 0.1, 0.1], "blocks": 4},
+                           "per_block_mean_T_at_declare": [0.1, 0.1, 0.1, 0.1], "blocks": 4,
+                           "rungs": [r for r in r_primary if r not in dropped_a]},
+            "r_primary": list(r_primary),
+            "primary_is_the_nine": tuple(sorted(r_primary)) == tuple(sorted(bl.R_CAP_2K)),
             "predictor_sha256": psha, "calibration_note": an2i.CALIBRATION_SENTENCE_2I,
             "shape_note": "x", "note": "x"}
 
@@ -364,7 +367,16 @@ def test_load_power_2l_and_claims(tmp_path):
                         ({"A": dict(rec["A"], rungs=list(r_primary)[:-1])}, "rungs"),
                         ({"B": dict(rec["B"], n_trained_steps=21)}, "n_trained_steps"),
                         ({"A": dict(rec["A"], declared_status="MAYBE")}, "declared_status"),
-                        (dict(block_sd_A=None), "block_sd_A")):
+                        (dict(block_sd_A=None), "block_sd_A"),
+                        # freeze F-5: the record's own top level, measured
+                        (dict(r_primary=list(r_primary)[:-1]), "r_primary"),
+                        (dict(primary_is_the_nine=False), "primary_is_the_nine"),
+                        (dict(block_sd_A=dict(rec["block_sd_A"], blocks=3)), "blocks"),
+                        (dict(block_sd_A=dict(rec["block_sd_A"],
+                                              per_block_mean_T_at_declare=[0.1])),
+                         "per_block_mean_T_at_declare"),
+                        (dict(block_sd_A={k: v for k, v in rec["block_sd_A"].items()
+                                          if k != "rungs"}), "attests no rung set")):
         _w(bl.power_path(tmp_path), {**rec, **mut})
         with pytest.raises(ValueError, match=needle):
             an.load_power_2l(tmp_path, r_primary, bl.PREDICTOR_SHA_2L)
@@ -379,6 +391,10 @@ def test_load_power_2l_and_claims(tmp_path):
     assert any("rungs_simulated" in b and "B" in b for b in bad)
     bad = an.check_power_claims_2l({**rec, "A": dict(rec["A"], t_bar=0.0)}, x256, x256, strata, r_primary, stage1)
     assert any("t_bar" in b for b in bad)
+    bad = an.check_power_claims_2l(                                     # freeze F-5
+        {**rec, "block_sd_A": dict(rec["block_sd_A"], rungs=list(r_primary)[:-1])},
+        x256, x256, strata, r_primary, stage1)
+    assert any("block_sd_A" in b and "non-degenerate set" in b for b in bad)
     assert an.POWER_CLAIM_FIELDS_2L == ("dropped_degenerate", "rungs_simulated", "n_pos_lower_bound", "t_bar", "alpha", "thin")
 
 

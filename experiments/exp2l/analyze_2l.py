@@ -556,6 +556,26 @@ def load_power_2l(root, r_primary, predictor_sha) -> dict:
     if not isinstance(bsd, dict) or any(k not in bsd for k in BLOCK_SD_FIELDS_2L):
         raise ValueError(f"{p}: block_sd_A missing or incomplete (dial h) — "
                          f"{BLOCK_SD_FIELDS_2L}")
+    # FREEZE F-5 (2i F-1 / 2k F-2, on the record's own top level): the
+    # power record's `r_primary` and `primary_is_the_nine`, and the shape
+    # of the block-SD block the PROJECTION places its verdict call
+    # against (dial f), were attested and compared to nothing.
+    if sorted(rec.get("r_primary") or []) != sorted(r_primary):
+        raise ValueError(f"{p}: r_primary {rec.get('r_primary')!r} is not the rung set's "
+                         f"R_PRIMARY {sorted(r_primary)}")
+    if bool(rec.get("primary_is_the_nine")) != (tuple(sorted(r_primary)) == tuple(sorted(bl.R_CAP_2K))):
+        raise ValueError(f"{p}: primary_is_the_nine {rec.get('primary_is_the_nine')!r} against "
+                         f"R_PRIMARY {sorted(r_primary)}")
+    n_blocks = len(bk.SEEDS_2K)
+    if bsd.get("blocks") != n_blocks:
+        raise ValueError(f"{p}: block_sd_A blocks {bsd.get('blocks')!r} is not the predictor's "
+                         f"{n_blocks} 64-draw blocks")
+    pb = bsd.get("per_block_mean_T_at_declare")
+    if not isinstance(pb, list) or len(pb) != n_blocks:
+        raise ValueError(f"{p}: block_sd_A per_block_mean_T_at_declare is not {n_blocks} long")
+    if bsd.get("n_sim") and "rungs" not in bsd:
+        raise ValueError(f"{p}: block_sd_A simulated {bsd.get('n_sim')!r} time(s) and attests no "
+                         f"rung set — the SD is over an unstated set of rungs")
     return rec
 
 
@@ -594,6 +614,11 @@ def check_power_claims_2l(power, x_a256, x_b, strata, r_primary, stage1_final) -
                 bad.append(f"2l power claims {test}: {field} = {prim[field]!r}, not {want!r}")
         if "thin" in prim and bool(prim["thin"]) != (len(keep) < 3):
             bad.append(f"2l power claims {test}: thin = {prim['thin']!r} against {len(keep)} rung(s)")
+        if test == "A":                                            # freeze F-5
+            bsd = (power or {}).get("block_sd_A")
+            if isinstance(bsd, dict) and "rungs" in bsd and sorted(bsd["rungs"] or []) != sorted(keep):
+                bad.append(f"2l power claims block_sd_A: rungs {sorted(bsd['rungs'] or [])} is not "
+                           f"Test A's non-degenerate set {sorted(keep)}")
     return bad
 
 

@@ -224,7 +224,11 @@ def write_world_2l(root, *, mode="a_only", seed=0, missing=None, power_status_a=
                 "n_pos_lower_bound": n_pos, "t_bar": an.T_BAR, "alpha": an.ALPHA, "thin": len(keep) < 3}
     power = {"A": _block(power_status_a, x_a, strata0), "B": _block(power_status_b, x_b, strata_b),
              "block_sd_A": {"n_sim": 1, "mean_block_sd_at_declare": 0.01, "mean_block_sd_null": 0.005,
-                            "per_block_mean_T_at_declare": [0.1] * 4, "blocks": 4},
+                            "per_block_mean_T_at_declare": [0.1] * 4, "blocks": 4,
+                            "rungs": [r for r in r_primary
+                                      if r not in an2i._degenerate_rungs(x_a, strata0, r_primary)]},
+             "r_primary": list(r_primary),
+             "primary_is_the_nine": bool(rs["primary_is_the_nine"]),
              "predictor_sha256": bl.PREDICTOR_SHA_2L, "calibration_note": "x", "shape_note": "x", "note": "x"}
     if missing == "power_claims":
         power["A"] = dict(power["A"], declared_status="POWERED", dropped_degenerate=list(r_primary),
