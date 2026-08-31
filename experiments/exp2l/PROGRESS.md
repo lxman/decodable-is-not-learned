@@ -542,3 +542,22 @@ file is a member of its manifest — and still hashes to
   pinned by `IMPORTED_SHA256_2L`, so editing the cold tool breaks every
   world until the pin is refreshed — caught immediately by the totality
   suite, but worth knowing before touching it during a campaign.
+
+## 2026-08-31 — Ratification and tag
+
+Michael ratified the freeze package verbatim ("Ratified — apply the
+slips and tag"). Doc slips (a)–(g) applied in place to
+`experiment-2l-design.md` exactly as worded in `FREEZE_CHECKLIST.md`
+(the load-bearing one (a): R_PRIMARY = R_13B ∩ 2i/2k's nine, with the
+F-4 per-test THIN disclosure; the status block brought to the frozen
+state); cold battery re-run after the edits: 12/12 (the doc is not
+manifest-covered — cascade inert, as the freeze's delta note said).
+Slips commit `307ecce3`, pushed. **TAG `exp2l-preregistered` cut at
+`307ecce3` (annotated, object `aaf805da`), pushed**; binding verified
+through the instrument's own `require_prereg_2l()` (all four blobs
+resolved through real git: analyze_2l a76d2603…, battery_2l c85726b9…,
+run/endpoint_2l 714c8db8…, run/sweep_2l d24babe7…) and
+`check_frozen_2l` clean. Next, each on Michael's word per §7: the 7B
+HF-cache decision (54 GB), the preflight (dial j, AFTER the tag), then
+stage 1 (endpoint) → power ONCE → `exp2l-endpoint-sealed` → projection
+→ stage 2 (sweep ≈ 44 h) → analyzer once.
