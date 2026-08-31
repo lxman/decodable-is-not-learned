@@ -8,8 +8,19 @@ median bucket; e R_∩ by the floor rule, the nine printed; f the
 projection sealed after the endpoint stage, placed against the block
 SD; g S5 non-gating; h the power record prints Test A's block SD; i
 the real step 0 as the init referent; j the preflight on his word; k
-bars unchanged; l SDD build + freeze in one session. Build follows;
-no model is touched before the tag and his word.** Model
+bars unchanged; l SDD build + freeze in one session. BUILT + FROZEN
+2026-08-30/31 (SDD Tasks 1–6; final whole-branch review + fix wave
+clean at 6264e59c; freeze findings F-1..F-5 + D-1 closed additively,
+terminal-deciding class defect NOT FOUND; mutation 125/125, worlds
+19/19, cold battery 12/12, read sweep 0 unpinned, determinism ×2;
+freeze record `experiments/exp2l/FREEZE_CHECKLIST.md`). Doc slips
+(a)–(g) RATIFIED by Michael 2026-08-31 ("Ratified — apply the slips
+and tag") and applied in place — the load-bearing one (a) narrows the
+primary to R_PRIMARY = R_13B ∩ 2i/2k's nine (§4), superseding dial e's
+R_∩-over-the-eleven wording for the reason stated there. TAG
+`exp2l-preregistered` cut at the slips commit (annotated, blob-binding
+`analyze_2l.py`, `battery_2l.py`, `run/endpoint_2l.py`,
+`run/sweep_2l.py`); no model touched before it.** Model
 contact, when sanctioned: OLMo-2 13B ONLY, on the OUTCOME side — its
 stage-1 endpoint and `main` at the endpoint stage, then its stage-1
 grid in the sweep. Every predictor is already committed and tagged;
@@ -131,6 +142,17 @@ lands INSUFFICIENT_DATA with no T: an exception is injected into an
 early loader before any statistic is reached, and the 13B records are
 absent regardless of the injection.
 
+The adversarial freeze (Task 6, same session) adds these pre-tag
+executions of `analyze_2l.run()` on the real tree, every one
+INSUFFICIENT_DATA with no T: one further read sweep after the freeze's
+closures (9 referent failures, 4,437 distinct paths read, 0 unpinned,
+0 writes); the eleven forced-exception cases in `test_analyze_2l.py`,
+re-executed on every fast pass of the suite and on every mutant of the
+freeze's mutation rounds; and two cold runs of `verify_referents_2l`,
+whose check 10 reads the real tree's 13B status without calling
+`run()`. No execution of the analyzer on the real tree, in any
+session, has produced a T.
+
 ## 3. Instrument — 2i's, with the outcome model swapped and the cross-family predictor at 256
 
 Everything not named here is `experiments/exp2i` / `exp2k` machinery
@@ -153,7 +175,19 @@ streams. The deltas:
    branch has a REAL step 0 (`stage1-step0-tokens0B`), so the init
    referent is the model's own initialisation, not a seeded
    `from_config` twin (2i's disclosed stand-in) — descriptive, never in
-   an outcome, scored once in the sweep.
+   an outcome, scored once in the sweep. Each grid point's candidate
+   set is the 12 safetensors shards **plus**
+   `model.safetensors.index.json`, which decides which tensor comes out
+   of which shard. The 12 shards carry LFS sha256s in the Hub metadata,
+   are pinned in the committed manifest and are re-checked against the
+   checkpoint record; the index file does not appear in the Hub's LFS
+   listing, so it carries no content pin and is pinned by the revision
+   commit alone. The checkpoint record attests a sha for every
+   candidate file it stages, and the analyzer requires that coverage
+   plus the record's revision, commit and tensor digest (the last
+   against the digest every one of the step's 34 item records carries).
+   Gate 1's tensor-digest identity between the two loader paths covers
+   the endpoint step; the other sixteen points rest on the commit.
 2. **The predictors, loaded through their own seals.** x_A^(256) =
    2k's sealed 1b tier: re-derived from the raw draws through 2k's
    `load_tier_2k` (record provenance, gate-1 re-derivation against 2d's
@@ -209,7 +243,20 @@ streams. The deltas:
    `exp2l-endpoint-sealed`; the sweep records read through the
    endpoint seal's sha as 2i's are. Blob-bound tags: `exp2l-
    preregistered` binds the analyzer, the battery module, the endpoint
-   stage and the sweep runner.
+   stage and the sweep runner. The referent manifest `referents_2l.json`
+   is **pre-campaign** (2,695 files: 2k's post-campaign referent list,
+   2k's verdict, seal, power and tier files, 2i's predictor stage, 2i's
+   `run/endpoint_2i.py`, and 2l's `checkpoints_2l.json`,
+   `hub_inventory_olmo13b.json` and `power_2l.py`), and its own sha is a
+   literal in the analyzer. The campaign's own artifacts are
+   deliberately NOT in it: the 68 endpoint records, the rung set and the
+   power record are bound by `exp2l-endpoint-sealed` and cross-checked
+   at analysis time (record failures; the composite `endpoint_sha256`
+   re-derived from the committed files and required on every sweep
+   record; the rung set re-derived from the endpoint's own counts and
+   its `endpoint_file_sha256` measured against the 68 records; gate 1
+   attested AND re-derived), so the preregistration tag is never re-cut
+   after the campaign.
 
 ## 4. Rung set, strata and power
 
@@ -219,13 +266,25 @@ share, 1/n_options), 2d's α), fixed at the endpoint stage by rule. Not
 known now; at 5.0T tokens it may exceed 7B's thirteen.
 
 **Strata.** 2g's committed table (eleven rungs). The primary for both
-tests runs over **R_∩ = R_13B ∩ those eleven**; rungs outside get raw
-single-stratum D, printed, never in the verdict; fewer than three
-rungs → THIN declared in the power record, the verdict still runs.
-**R_CAP's comparability:** 2i/2k's nine (add3_mid, add_base8, antonym,
-antonym6, arith_next, odd6, sub3_mid, sub4_mid, sub_base8) is printed
-as the comparable subset whenever R_∩ ⊇ it; the primary is over R_∩ as
-fixed by rule, not over the nine (dial e).
+tests runs over **R_PRIMARY = R_13B ∩ 2i/2k's nine** (add3_mid,
+add_base8, antonym, antonym6, arith_next, odd6, sub3_mid, sub4_mid,
+sub_base8) — narrower than R_13B ∩ 2g's eleven, because x_A^(256)
+exists only on the nine: 2k sampled R_CAP, so `predictor_2k.json`
+carries no 256-draw counts for `count_div13` or `median5` and Test A
+has no predictor there. The rest of the eleven that clears the bar is
+printed as **R_ELEVEN_EXTRA** with the 64-draw x_A and x_B in 2g's
+strata; the rest of R_13B is printed as **R_EXTRA** with raw
+single-stratum D; neither is ever in the verdict. Fewer than three
+rungs in R_PRIMARY → THIN declared in the power record, the verdict
+still runs; and a test that ends up READING fewer than three rungs —
+`cells_for` drops a rung with fewer than 20 positive-outcome items,
+`_run_test` drops one whose predictor is constant inside every
+stratum — carries its own THIN disclosure on the reason and the
+licence, naming what it read and what was dropped (freeze F-4: four of
+the nine clear 2d's bar at 9–19 correct items, so this is reachable
+with |R_PRIMARY| ≥ 3). **R_CAP's comparability:** the nine IS the
+primary set whenever all nine clear; `primary_is_the_nine` is printed
+either way.
 
 **Predictor degeneracy.** x_A^(256) has at least two live strata on
 every one of the eleven strata rungs (2k's tiers). x_B at ceiling
@@ -238,12 +297,20 @@ below by the endpoint count, y from a latent mixing rank(x) at
 calibrated strength inside the test's strata, every cell through the
 verdict's own tree; bar P(fires | D = .15) ≥ .75, else DECLARED
 UNDERPOWERED IN ADVANCE per test; P(fires | D = .10) printed (the bar
-decides). **New (2k's process note, applied):** the power record ALSO
-prints Test A's predictor block SD — T_A computed on each of x_A's four
-64-draw blocks against the endpoint's n_pos-bounded latent — beside
-the null SD, so the record says in advance how far a k = 64 reading of
-the same predictor would scatter; and the projection names its
-verdict call inside or outside that scatter. Shape note verbatim
+decides). **New (2k's process note, applied — dial h):** the power
+record also prints Test A's predictor block SD, constructed as
+follows. For each of 200 simulations an outcome is drawn from the
+endpoint-bounded latent at the D = .15 calibration; T_A is computed by
+`analyze_2j.t_only` on each of x_A's four 64-draw blocks (2k's seeds
+0–3); the SD is taken ACROSS THE FOUR BLOCKS within that simulation,
+and those per-simulation SDs are averaged over the 200 — it is not the
+SD of the four per-block means, which are printed separately as
+`per_block_mean_T_at_declare`. The whole construction is repeated at
+rho = 0 on the same n_pos bound, the same strata and the same rungs,
+and printed as `mean_block_sd_null`. The record attests the rung set
+the SD was taken over, and the analyzer re-derives it as Test A's
+non-degenerate set. The projection names its verdict call inside or
+outside that scatter. Shape note verbatim
 (item-level alternative; nothing transfers to a class-level effect);
 the union of the four worlds is not α-calibrated (each test at α .01).
 
@@ -318,7 +385,25 @@ harness on 13B `main` for 20 items each of `antonym` and `add3_mid`,
 continuations printed to the ledger and stored nowhere the analyzer
 reads — a format and MEMORY check (fp16 13B at ≈ 26 GB on 48 GB; the
 generation batch is the dial if it does not fit; ONE checkpoint staged
-through the candidate-file loader end to end, the tenth lesson) →
+through the candidate-file loader end to end — **step 1000** —
+downloaded (≈ 55 GB), sha-verified against the manifest, hardlinked
+into a clean directory with the entry's own `config.json`, loaded,
+scored on the same 40 items and **freed**; the tenth lesson. The
+`main` thin load goes to the ordinary HF cache and is not freed by the
+preflight (the endpoint stage reuses that snapshot). The preflight
+writes nothing under `experiments/exp2l/results/` and asserts so
+afterwards.) **`BATCH_SIZE_2L` (= 16) is a single pre-tag constant**
+in `battery_2l.py`, threaded explicitly into every `HFRunner` the
+preflight, the endpoint stage and the sweep construct; nothing reads
+the harness's own default, and neither record-writing runner exposes a
+batch-size flag. No record carries the batch size, so gate 1 — the
+endpoint reproduced through the sweep's loader at the SAME batch
+size — cannot detect a batch-size-induced drift between the two
+stages. What prevents it is the tag: `battery_2l.py` is blob-bound by
+`exp2l-preregistered`, so a mid-campaign change makes both runners and
+the analyzer refuse. If the preflight shows 16 does not fit, the
+constant changes once, before the tag, and the tag is re-cut (2i's
+precedent, disclosed in PROVENANCE). →
 **stage 1 (endpoint)**: 13B's stage-1 endpoint + `main` through the thin
 loader on all 34 rungs (≈ 5 h, 2 × 55 GB streamed), R fixed by rule,
 power printed once (with the block-SD line), committed, tagged
