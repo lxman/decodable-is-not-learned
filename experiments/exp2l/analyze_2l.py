@@ -61,8 +61,17 @@ from experiments.exp2l import battery_2l as bl  # noqa: E402
 
 RESULTS = EXP2L / "results"
 REFERENTS_PATH_2L = EXP2L / "referents_2l.json"
-REFERENTS_2L_SHA256 = None    # Task 5
-IMPORTED_SHA256_2L = None     # Task 5: pinned from tests/import_scan_2l.py
+REFERENTS_2L_SHA256 = "ae4db62b326642766418323df1abe3d188cf78eeff3c0cbe013a7e38f7b7e902"    # Task 5
+IMPORTED_SHA256_2L = {   # Task 5: pinned from tests/import_scan_2l.py (4 modules)
+    bg.REPO / "experiments/exp2l/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2l/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2l/run/preflight_2l.py":
+        "bf86069805a6e0e1e50503a26f4a38a4eacc7a32bdd4cd886688cb95a036cde5",
+    bg.REPO / "experiments/exp2l/verify_referents_2l.py":
+        "7e7151a9e18c139d93e9f982331fd6cfd59aa1c5a2f33bcc8307fdd6a7c39179",
+}
 WORLDS = an2i.WORLDS
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
 collect_total = an2i.collect_total

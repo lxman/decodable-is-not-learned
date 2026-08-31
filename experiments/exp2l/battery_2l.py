@@ -645,7 +645,7 @@ FROZEN_SHA256_2L = {   # Task 5: pinned as a literal from frozen_from_disk() (42
     REPO / "experiments/exp2l/power_2l.py":
         "99e4c8f978608db64ec0cf3ea00de98e4c43d4447d033ec836c45b82c198b5e9",
     REPO / "experiments/exp2l/make_referents_2l.py":
-        "b7e3cdc5a60f1c94aed98c7f77c73221e1c0fac9e78b0870bbbfd549473373a0",
+        "4b7e0b9660a4bf057af7976e7ca64d8f0a2396f8fce959d9f0285103ed5bacd7",
 }
 
 
