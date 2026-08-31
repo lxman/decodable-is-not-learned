@@ -591,3 +591,30 @@ check (`preflight_2l.log`):
 Disk after: 257 GiB free (13B `main` cached for the endpoint stage).
 Next on Michael's word: stage 1 (endpoint + `main`, 34 rungs, ≈ 5 h)
 → power ONCE → tag `exp2l-endpoint-sealed` → projection → sweep.
+
+## 2026-08-31 — Stage 1 (endpoint) RUN + SEALED, on Michael's word ("Run stage 1")
+
+Endpoint stage ran detached end to end (watcher committing each
+record), exit 0, zero halts: `stage1_final` (step 596057, 5.0T) +
+`main` on all 34 rungs, per-item bits + continuations stored. **R_13B
+= 18 rungs** (7B had 13; the reversal pair enters the line's outcome
+set for the first time — reverse_string 47/500, rev_string7 11/500);
+**R_PRIMARY = the full nine, `primary_is_the_nine` = true**;
+R_ELEVEN_EXTRA = count_div13 (102), median5 (178); R_EXTRA = 7.
+Endpoint texture: sub3_mid 499/500, antonym 486, arith_next 474,
+add3_mid 450 near ceiling; base7/caesar/caesar_len8 exactly 0.
+**Power ONCE** (`power_2l.json`, watcher commit fc68d3ea): A POWERED
+1.000 / B POWERED 1.000 against the .75 bar at D=.15, null false-fire
+.000, null SD of T .0111, P(fires|D=.10) .334 — the T ≥ .10 bar
+decides; block_sd_A .00702 at declare / .00676 null. **TAG
+`exp2l-endpoint-sealed` cut at fc68d3ea (annotated e0b7352a), pushed;
+binding verified through `require_endpoint_seal_2l` (no refusal).**
+Endpoint watcher stopped after the seal. Stage logs renamed to the
+D-1 gitignore names (preflight.log, endpoint.log). PROJECTION sealed
+in `projection.md` (BOTH: T_A ≈ .14 [.10,.19] placed outside the
+block-SD scatter, T_B ≈ .16 [.11,.23]; LINEAGE via A-i the named
+alternative; per-rung table + S1–S7 + collapse-window texture; the §2
+honesty note carried — the verdict-level call is cheap, foresight
+graded on 13B texture). NEXT on Michael's word: stage 2 — the sweep
+(gate 1 first, then step 0 + 15 grid points, ≈ 44 h, watcher beside
+it), then the analyzer once, detached.
