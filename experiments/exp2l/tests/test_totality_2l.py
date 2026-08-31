@@ -269,6 +269,39 @@ def test_check_imports_2l_exit_forced_exception(world, monkeypatch):
     assert any("2l import surface (exit)" in f for f in v["referents"]["failures"])
 
 
+def test_rung_set_endpoint_shas_check_forced_exception(world, monkeypatch):
+    """FREEZE F-3's call site: reachable only once the rung set loads,
+    which only a complete synthetic 13B tree provides."""
+    root, seal = world
+    monkeypatch.setattr(an, "_check_rung_set_endpoint_shas_2l",
+                        lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected")))
+    _insufficient(root, seal, "2l rung set endpoint shas")
+
+
+def test_check_imports_2l_post_secondaries_forced_exception(world, monkeypatch):
+    """FREEZE F-1's call site: the THIRD `check_imports_2l` call, after
+    the secondaries. A call-counting mock lets the entry and exit calls
+    through so the pipeline reaches the secondaries, then fails only the
+    third — the frozen refusal terminal must still be delivered, with the
+    tests and secondaries withdrawn."""
+    root, seal = world
+    calls = {"n": 0}
+    real = an.check_imports_2l
+
+    def _flaky():
+        calls["n"] += 1
+        if calls["n"] >= 3:
+            raise ValueError("injected for a freeze totality test")
+        return real()
+
+    monkeypatch.setattr(an, "check_imports_2l", _flaky)
+    v = _run(root, seal, n_perm=200, n_boot=20)
+    assert calls["n"] == 3
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert any("2l import surface (post-secondaries)" in f for f in v["referents"]["failures"])
+    assert v["tests"] is None and v["secondaries"] is None
+
+
 def test_secondary_computation_forced_exception(world, monkeypatch):
     """Mutation gap (Task 5, #110): `_sec`'s own collect_total wrapping
     -- shared by all thirteen-odd named secondaries -- is reachable

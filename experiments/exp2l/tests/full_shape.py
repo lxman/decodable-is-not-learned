@@ -145,29 +145,44 @@ def _ckpt(entry, digest="D"):
 
 def write_world_2l(root, *, mode="a_only", seed=0, missing=None, power_status_a="POWERED",
                    power_status_b="POWERED", drifted_seal=None, halt=False, gate1_diff=False,
-                   gate1_attested_mismatch=False) -> dict:
+                   gate1_attested_mismatch=False, n_pos_cap=None, zero_rungs=(), all_fire=(),
+                   expect_primary=None) -> dict:
+    """`n_pos_cap` {rung: k} caps how many items ever fire on a primary
+    rung (freeze F-4: a rung can be in R_PRIMARY and still be dropped by
+    `cells_for`'s n_pos floor); `zero_rungs` keeps a primary rung out of
+    R_13B entirely; `all_fire` makes a NON-primary rung verify on every
+    item at every grid point (constant y — R_ELEVEN_EXTRA / R_EXTRA with
+    an undefined Somers' D, freeze item 16); `expect_primary` relaxes the
+    builder's own R_PRIMARY assertion for those worlds."""
     root = Path(root)
     rng = np.random.default_rng(seed)
     bat, man, verify, strata0 = battery(), manifest(), verify_fn(), strata()
     x_a, x_b = x_a256_real(), x_b_real()
     steps = bl.trained_steps_13b()
     n_steps = len(steps)
+    n_pos_cap, zero_rungs, all_fire = dict(n_pos_cap or {}), set(zero_rungs), set(all_fire)
     first = {}
     for r in bt.RUNGS:
-        if r in RUNGS_PRIMARY:
+        if r in RUNGS_PRIMARY and r not in zero_rungs:
             w = _latent(rng, x_a[r], x_b[r], strata0[r]["strata"], mode)
             order = np.argsort(-w)
-            first[r] = {int(i): steps[int(rank * n_steps / N_POS_FIRING)]
-                        for rank, i in enumerate(order[:N_POS_FIRING])}
+            n_fire = max(int(n_pos_cap.get(r, N_POS_FIRING)), 1)
+            first[r] = {int(i): steps[int(rank * n_steps / n_fire)]
+                        for rank, i in enumerate(order[:n_fire])}
         else:
             first[r] = {}
     entry_stage1, entry_main = bl.entry_13b(man, bl.ENDPOINT_STEP_13B), bl.entry_main_13b(man)
+
+    def _bits_at(r, step):
+        if r in all_fire:
+            return [1] * bt.N_ITEMS
+        return [int(i in first[r] and step >= first[r][i]) for i in range(bt.N_ITEMS)]
 
     # ---- the endpoint stage (stage1_final == the sweep's endpoint step; main all-zero)
     stage1_correct, stage1_recs = {}, {}
     for r in bt.RUNGS:
         cap = bat[r]
-        bits = [int(i in first[r] and bl.ENDPOINT_STEP_13B >= first[r][i]) for i in range(bt.N_ITEMS)]
+        bits = _bits_at(r, bl.ENDPOINT_STEP_13B)
         conts = [f" {it['answer']}" if b else " zzz" for b, it in zip(bits, cap["eval_items"])]
         if gate1_diff and r == bt.RUNGS[0]:
             bits[0] = 1 - bits[0]
@@ -185,9 +200,17 @@ def write_world_2l(root, *, mode="a_only", seed=0, missing=None, power_status_a=
                                ckpt=_ckpt(entry_main), seal={"tag": bl.PREDICTOR_TAGS_2L, "sha256": bl.PREDICTOR_SHA_2L},
                                t_s=0.0))
     rs = bl.rung_set_from_counts_2l(stage1_correct, floors())
-    if tuple(rs["R_PRIMARY"]) != RUNGS_PRIMARY:
-        raise AssertionError(f"world builder: R_PRIMARY {rs['R_PRIMARY']} != the nine")
-    _w(bl.rung_set_path(root), {**rs, "endpoint_file_sha256": {}})
+    want_primary = tuple(expect_primary) if expect_primary is not None else RUNGS_PRIMARY
+    if tuple(rs["R_PRIMARY"]) != want_primary:
+        raise AssertionError(f"world builder: R_PRIMARY {rs['R_PRIMARY']} != {list(want_primary)}")
+    # freeze F-3: the runner writes the 68 endpoint records' shas here and
+    # the analyzer now measures them, so the fixture must too.
+    endpoint_shas = {}
+    for which in bl.ENDPOINT_WHICH:
+        for r in bt.RUNGS:
+            p = bl.endpoint_record_path(root, which, r)
+            endpoint_shas[str(p.relative_to(root))] = bg.sha256_file(p)
+    _w(bl.rung_set_path(root), {**rs, "endpoint_file_sha256": endpoint_shas})
     r_primary = tuple(rs["R_PRIMARY"])
     # ---- the power record: literal statuses, re-derivable claims computed for real (2k F-2)
     strata_b = an2i._composite_strata_median(strata0, x_a, r_primary)
@@ -214,9 +237,13 @@ def write_world_2l(root, *, mode="a_only", seed=0, missing=None, power_status_a=
     # ---- the sweep: 16 grid points + step 0 (all-zero), checkpoint records, gate 1
     for step in steps + (bl.STEP0,):
         entry = bl.entry_13b(man, step)
+        # freeze F-2: the real loader hashes every candidate file it
+        # stages (the 12 shards AND the index json), so the fixture must
+        # attest a sha for each; the LFS ones stay the manifest's.
+        lfs = dict(entry.get("lfs_sha256", {}))
         _w(bl.checkpoint_record_path(root, step),
            {"family": bl.FAMILY, "size": bl.SIZE_OUT, "step": step, "revision": entry["revision"], "commit": entry["commit"],
-            "sha256": dict(entry.get("lfs_sha256", {})),
+            "sha256": {n: lfs.get(n, f"non-lfs:{n}") for n in entry["files"]},
             "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}, "digest": "D",
             "download_seconds": 0.0})
         for r in bt.RUNGS:
@@ -230,7 +257,7 @@ def write_world_2l(root, *, mode="a_only", seed=0, missing=None, power_status_a=
             elif step == bl.STEP0:
                 bits, conts = [0] * bt.N_ITEMS, [" zzz"] * bt.N_ITEMS
             else:
-                bits = [int(i in first[r] and step >= first[r][i]) for i in range(bt.N_ITEMS)]
+                bits = _bits_at(r, step)
                 conts = [f" {it['answer']}" if b else " zzz" for b, it in zip(bits, cap["eval_items"])]
             ev = {"bits": bits, "correct": sum(bits), "continuations": conts}
             _w(bl.record_path(root, step, r), bl.item_record_2l(rung=r, cap=cap, ev=ev, ckpt=_ckpt(entry), step=step,
@@ -303,4 +330,15 @@ def world_specs() -> list:
         ("W15 INSUFFICIENT power sha", dict(mode="a_only", missing="power_sha"), "INSUFFICIENT_DATA"),
         ("W16 INSUFFICIENT power claims", dict(mode="a_only", missing="power_claims"), "INSUFFICIENT_DATA"),
         ("W17 INSUFFICIENT endpoint file edited after the sweep stamped its sha", dict(mode="a_only", missing="endpoint_sha"), "INSUFFICIENT_DATA"),
+        # freeze item 16: R_ELEVEN_EXTRA and R_EXTRA non-empty with a
+        # CONSTANT outcome, so `somers_d_within` is undefined (NaN) on the
+        # printed extra rungs and the strict-JSON write path must survive it.
+        ("W18 SHARED extra rungs with an undefined D",
+         dict(mode="a_only", all_fire=("count_div13", "caesar")), "SHARED"),
+        # freeze F-4: |R_PRIMARY| = 4 (no THIN_2L) but `cells_for`'s n_pos
+        # floor leaves each test ONE eligible rung.
+        ("W19 thin eligible set (F-4)",
+         dict(mode="a_only", zero_rungs=("antonym", "antonym6", "odd6", "sub_base8", "arith_next"),
+              n_pos_cap={"add3_mid": 12, "sub3_mid": 18, "sub4_mid": 12},
+              expect_primary=("add3_mid", "add_base8", "sub3_mid", "sub4_mid")), None),
     ]

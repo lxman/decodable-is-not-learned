@@ -309,6 +309,9 @@ def _c10(ctx):
         stage1 = an.load_endpoint_which_2l(bl.EXP2L, "stage1_final", battery, verify, entry=entry_stage1)
         rs = an._load_rung_set_2l(bl.EXP2L)
         _eq(an._check_rung_set_derivation_2l(rs, stage1, floors), [], "rung set re-derivation PASS")
+        _eq(an._check_rung_set_vs_endpoint_2l(rs, stage1), [], "rung set vs endpoint PASS")
+        # freeze F-3: the attested endpoint-record shas, measured
+        _eq(an._check_rung_set_endpoint_shas_2l(rs, bl.EXP2L), [], "endpoint_file_sha256 PASS")
         power = an.load_power_2l(bl.EXP2L, tuple(rs["R_PRIMARY"]), bl.PREDICTOR_SHA_2L)
         _eq(power["A"]["declared_status"] in an2i.DECLARED_STATUSES_2I, True, "load_power_2l PASS")
     gate1_p = bl.gate1_path(bl.EXP2L)

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -451,3 +452,41 @@ def test_require_prereg_2l_with_fakes(monkeypatch):
     assert ok["tag"] == bl.PREREG_TAG_2L and set(ok["instrument_blobs"]) == set(present)
     with pytest.raises(RuntimeError, match="does not bind"):
         bl.require_prereg_2l(tag_exists=lambda t: True, blob_sha=lambda t, r: "0" * 64)
+
+
+def _git(repo, *args):
+    return subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, check=True)
+
+
+def test_require_prereg_2l_binds_the_instrument_in_a_real_git_repo(tmp_path, monkeypatch):
+    """FREEZE attack 1(6) / 2 (2h F-3's lineage): the prereg tag must bind
+    the INSTRUMENT, not a name. Real `git init`, a real annotated tag over
+    the four instrument blobs, and `git show <tag>:<path>` as the
+    comparison — then a post-tag edit to `run/sweep_2l.py` is refused."""
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    _git(repo, "init", "-q")
+    _git(repo, "config", "user.email", "freeze@example.invalid")
+    _git(repo, "config", "user.name", "freeze")
+    for rel in bl.INSTRUMENT_BLOBS_2L:
+        dst = repo / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_bytes((bl.REPO / rel).read_bytes())
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-qm", "instrument")
+    _git(repo, "tag", "-a", bl.PREREG_TAG_2L, "-m", "freeze probe")
+
+    def tag_exists(tag):
+        return tag in _git(repo, "tag", "--list", tag).stdout.split()
+
+    def blob_sha(tag, rel):
+        out = subprocess.run(["git", "show", f"{tag}:{rel}"], cwd=repo, capture_output=True)
+        return None if out.returncode else hashlib.sha256(out.stdout).hexdigest()
+
+    monkeypatch.setattr(bl, "REPO", repo)
+    got = bl.require_prereg_2l(tag_exists=tag_exists, blob_sha=blob_sha)
+    assert set(got["instrument_blobs"]) == set(bl.INSTRUMENT_BLOBS_2L)
+    sweep = repo / "experiments/exp2l/run/sweep_2l.py"
+    sweep.write_bytes(sweep.read_bytes() + b"\n# a post-tag edit\n")
+    with pytest.raises(RuntimeError, match="does not bind experiments/exp2l/run/sweep_2l.py"):
+        bl.require_prereg_2l(tag_exists=tag_exists, blob_sha=blob_sha)

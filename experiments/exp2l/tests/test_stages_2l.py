@@ -20,9 +20,12 @@ from experiments.exp2d import battery_2d as bt
 from experiments.exp2g import battery_2g as bg
 from experiments.exp2g.run.sweep_2g import evaluate_items
 from experiments.exp2g.tests.test_sweep_2g import FakeRunner
+from experiments.exp2i import analyze_2i as an2i
 from experiments.exp2i import battery_2i as bi
 from experiments.exp2i.run import endpoint_2i as ep2i
+from experiments.exp2k import analyze_2k as an2k
 from experiments.exp2k import battery_2k as bk
+from experiments.exp2l import analyze_2l as an
 from experiments.exp2l import battery_2l as bl
 from experiments.exp2l.run import endpoint_2l as ep
 from experiments.exp2l.run import preflight_2l as pf
@@ -140,6 +143,35 @@ def test_predictor_seals_bind_for_real():
     """Real git, real tags, the committed 2k/2i trees (≈ 15 s)."""
     got = ep.require_predictor_seals_2l(root_2i=bi.EXP2I, root_2k=bk.EXP2K)
     assert got["predictor_sha"] == bl.PREDICTOR_SHA_2L
+
+
+@pytest.mark.slow
+def test_seal_binding_is_a_check_not_a_convention():
+    """FREEZE attack 2, link 2 of the composite chain: `blobs_bound` is a
+    content comparison against the blob the seal tag carries, so a path
+    the tag does not carry at all is reported as drift. Real git."""
+    seal_2k = json.loads(bk.seal_path(bk.EXP2K).read_text())
+    paths = an2k._seal_paths_2k(bk.EXP2K, seal_2k)
+    assert an2i.require_seal_2i(bk.SEAL_TAG_2K, paths)["failures"] == []
+    # analyze_2l.py did not exist when `exp2k-predictor-sealed` was cut
+    stray = an2i.require_seal_2i(bk.SEAL_TAG_2K, list(paths) + [bl.EXP2L / "analyze_2l.py"])
+    assert stray["failures"] and "analyze_2l.py" in stray["failures"][0]
+
+
+def test_endpoint_seal_path_sets_agree_three_ways(tmp_path):
+    """FREEZE attack 1(2): the set the endpoint seal TAG binds
+    (`analyze_2l._endpoint_seal_paths_2l`), the set the composite
+    `endpoint_sha256` hashes (`battery_2l.endpoint_files`) and the set the
+    sweep runner asks git about (`sweep_2l.endpoint_seal_blob_paths`) are
+    written three times in three modules and were never asserted equal."""
+    for p in an._endpoint_seal_paths_2l(tmp_path):
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text("x")
+    a = {str(p.relative_to(tmp_path)) for p in an._endpoint_seal_paths_2l(tmp_path)}
+    b = set(bl.endpoint_files(tmp_path))
+    c = set(sw.endpoint_seal_blob_paths(tmp_path))
+    assert a == b == c
+    assert len(a) == 2 + len(bl.ENDPOINT_WHICH) * len(bt.RUNGS) == 70
 
 
 # --------------------------------------------------------------- endpoint

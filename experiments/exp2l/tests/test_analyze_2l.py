@@ -149,9 +149,10 @@ def _tree(root, *, k_by_step=None, step0_k=0, esha="E" * 64, main_k=0):
     k_by_step = k_by_step or {}
     for step in bl.GRID_13B + (bl.STEP0,):
         entry = bl.entry_13b(man, step)
+        lfs = dict(entry["lfs_sha256"])
         _w(bl.checkpoint_record_path(root, step), {"family": bl.FAMILY, "size": bl.SIZE_OUT, "step": step,
                                                    "revision": entry["revision"], "commit": entry["commit"],
-                                                   "sha256": dict(entry["lfs_sha256"]),
+                                                   "sha256": {n: lfs.get(n, f"non-lfs:{n}") for n in entry["files"]},
                                                    "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0},
                                                    "digest": "D", "download_seconds": 0.0})
         for r in bt.RUNGS:
@@ -185,6 +186,45 @@ def test_load_endpoint_and_sweep_13b(tmp_path, monkeypatch):
     c["sha256"] = {k: "0" * 64 for k in c["sha256"]}
     cp.write_text(json.dumps(c))
     with pytest.raises(ValueError, match="downloaded .* sha"):
+        an.load_sweep_13b(tmp_path, battery, verify, manifest=man, endpoint_sha="E" * 64)
+
+
+def test_checkpoint_record_failures_2l_measures_provenance_and_coverage():
+    """FREEZE F-2: the checkpoint record's revision, commit and tensor
+    digest were attested and never measured, and its sha table was
+    checked over the 12 LFS shards only — a coverage claim over an
+    unstated subset of the 13 candidate files the loader stages."""
+    entry = bl.entry_13b(_manifest(), 1000)
+    lfs = dict(entry["lfs_sha256"])
+    assert len(entry["files"]) == 13 and len(lfs) == 12
+    good = {"revision": entry["revision"], "commit": entry["commit"], "digest": "D",
+            "sha256": {n: lfs.get(n, "non-lfs") for n in entry["files"]}}
+    recs = {r: {"weight_sha256": "D"} for r in R_SMALL}
+    assert an.checkpoint_record_failures_2l(good, step=1000, entry=entry, step_records=recs) == []
+    for k in ("revision", "commit"):
+        bad = an.checkpoint_record_failures_2l(dict(good, **{k: "elsewhere"}), step=1000,
+                                               entry=entry, step_records=recs)
+        assert any(k in b and "is not the manifest's" in b for b in bad)
+    bad = an.checkpoint_record_failures_2l(dict(good, sha256=lfs), step=1000, entry=entry,
+                                           step_records=recs)
+    assert any("attests no sha" in b and "index.json" in b for b in bad)
+    bad = an.checkpoint_record_failures_2l(dict(good, sha256=[]), step=1000, entry=entry,
+                                           step_records=recs)
+    assert any("not a table" in b for b in bad)
+    bad = an.checkpoint_record_failures_2l(dict(good, digest="OTHER"), step=1000, entry=entry,
+                                           step_records=recs)
+    assert any("tensor digest" in b and R_SMALL[0] in b for b in bad)
+
+
+def test_load_sweep_13b_carries_the_checkpoint_record_check(tmp_path, monkeypatch):
+    _shrink(monkeypatch)
+    man, battery = _tree(tmp_path, k_by_step={1000: 2, 2000: 5, bl.ENDPOINT_STEP_13B: 9})
+    verify = a2d.load_verify()
+    cp = bl.checkpoint_record_path(tmp_path, 2000)
+    rec = json.loads(cp.read_text())
+    rec["sha256"] = {k: v for k, v in rec["sha256"].items() if not k.endswith("index.json")}
+    cp.write_text(json.dumps(rec))
+    with pytest.raises(ValueError, match="attests no sha"):
         an.load_sweep_13b(tmp_path, battery, verify, manifest=man, endpoint_sha="E" * 64)
 
 
@@ -260,6 +300,34 @@ def test_rung_set_load_and_checks(tmp_path, monkeypatch):
     shuffled = dict(got, R_PRIMARY=list(reversed(got["R_PRIMARY"])))
     bad_order = an._check_rung_set_derivation_2l(shuffled, st1, floors)
     assert any("R_PRIMARY" in b for b in bad_order)
+
+
+def test_check_rung_set_endpoint_shas_2l(tmp_path, monkeypatch):
+    """FREEZE F-3: `endpoint_file_sha256` was required present, published
+    in the verdict's referents, and compared to nothing."""
+    _shrink(monkeypatch)
+    _tree(tmp_path, k_by_step={bl.ENDPOINT_STEP_13B: 480})
+    shas = {}
+    for which in bl.ENDPOINT_WHICH:
+        for r in bt.RUNGS:
+            p = bl.endpoint_record_path(tmp_path, which, r)
+            shas[str(p.relative_to(tmp_path))] = bg.sha256_file(p)
+    assert len(shas) == 68
+    assert an._check_rung_set_endpoint_shas_2l({"endpoint_file_sha256": shas}, tmp_path) == []
+    bad = an._check_rung_set_endpoint_shas_2l({"endpoint_file_sha256": {}}, tmp_path)
+    assert any("attests nothing" in b for b in bad)
+    one_rel = sorted(shas)[0]
+    bad = an._check_rung_set_endpoint_shas_2l(
+        {"endpoint_file_sha256": {**shas, one_rel: "0" * 64}}, tmp_path)
+    assert any(one_rel in b and "is not the committed record's" in b for b in bad)
+    bad = an._check_rung_set_endpoint_shas_2l(
+        {"endpoint_file_sha256": {**shas, "results/endpoint/stray.json": "0" * 64}}, tmp_path)
+    assert any("are not the endpoint records" in b for b in bad)
+    bad = an._check_rung_set_endpoint_shas_2l({"endpoint_file_sha256": []}, tmp_path)
+    assert any("not a table" in b for b in bad)
+    bl.endpoint_record_path(tmp_path, "main", bt.RUNGS[0]).unlink()
+    bad = an._check_rung_set_endpoint_shas_2l({"endpoint_file_sha256": shas}, tmp_path)
+    assert any("is missing" in b for b in bad)
 
 
 # ------------------------------------------------------------------ power
@@ -673,6 +741,27 @@ def test_verdict_2l_worlds_disclosures_and_licences():
     t = an.verdict_2l([], _prim(0.2, 0.001, True), _prim(None, 1.0, False, eligible=(), named="undefined: no eligible rung"), powered, nine)
     assert an2i.DISCLOSURE_UNDEFINED_2I["B"] in t["disclosures"]
     assert set(an.LICENSED_2L) == {"INSUFFICIENT_DATA", "SHARED", "LINEAGE", "BOTH", "NEITHER"}
+
+
+def test_verdict_2l_discloses_a_test_that_read_fewer_than_three_rungs():
+    """FREEZE F-4: §4's THIN rule was keyed to |R_PRIMARY|, so a test
+    that `cells_for` reduced to one eligible rung could fire and be
+    licensed with no THIN caveat anywhere."""
+    powered = {"A": {"declared_status": "POWERED"}, "B": {"declared_status": "POWERED"}}
+    nine = tuple(sorted(bl.R_CAP_2K))
+    A = {**_prim(0.2, 0.001, True, eligible=("add_base8",)),
+         "thin": ["add3_mid", "sub3_mid", "sub4_mid"], "dropped_degenerate": []}
+    t = an.verdict_2l([], A, _prim(0.02, 0.5, False), powered, nine[:4])
+    assert t["verdict"] == "SHARED"
+    assert an.DISCLOSURE_THIN_2L not in t["disclosures"]          # |R_PRIMARY| = 4, not < 3
+    hit = [d for d in t["disclosures"]
+           if d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2L + "A")]
+    assert hit and "add_base8" in hit[0] and "sub3_mid" in hit[0]
+    assert hit[0] in an._licensed_2l(t) and hit[0] in t["reason"]
+    assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2L + "B")
+                   for d in t["disclosures"])                     # B read three
+    t2 = an.verdict_2l([], _prim(0.2, 0.001, True), _prim(0.02, 0.5, False), powered, nine)
+    assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2L) for d in t2["disclosures"])
 
 
 def _all_failure_labels(path):

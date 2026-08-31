@@ -1,9 +1,12 @@
 # experiments/exp2l/tests/test_full_shape_2l.py
 """Every 2l terminal end to end on synthetic 13B trees (REAL predictors
 through their real seal tags) via the production loaders."""
+import json
+
 import pytest
 
 from experiments.exp2i import analyze_2i as an2i
+from experiments.exp2i import battery_2i as bi
 from experiments.exp2k import battery_2k as bk
 from experiments.exp2l import analyze_2l as an
 from experiments.exp2l import battery_2l as bl
@@ -23,9 +26,10 @@ def worlds(tmp_path_factory):
 def test_every_terminal_reached(worlds):
     got = {}
     for name, (v, want) in worlds.items():
-        assert v["verdict"] == want, f"{name}: {v['verdict']} ({v['reason']})"
+        if want is not None:                      # W19 asserts a disclosure, not a terminal
+            assert v["verdict"] == want, f"{name}: {v['verdict']} ({v['reason']})"
         got.setdefault(v["verdict"], name)
-    assert set(got) == set(an.WORLDS)
+    assert set(got) == set(an.WORLDS)     # every verdict comes from WORLDS, so this is equality
 
 
 def test_w1_shared_shape(worlds):
@@ -79,6 +83,47 @@ def test_w6_underpowered_disclosure_rides_on_the_licence(worlds):
     assert v["verdict"] == "SHARED"
     assert an.DISCLOSURE_UNDERPOWERED_2L["B"] in v["licensed_sentence"]
     assert an.DISCLOSURE_UNDERPOWERED_2L["A"] not in v["licensed_sentence"]
+
+
+def test_w18_extra_rungs_carry_an_undefined_d(worlds):
+    """FREEZE item 16: the printed extra rungs have a CONSTANT outcome, so
+    Somers' D is undefined (NaN) — the verdict must still be built."""
+    import math
+    v, _ = worlds["W18 SHARED extra rungs with an undefined D"]
+    ex = v["secondaries"]["extra rungs"]
+    assert set(ex["eleven_extra"]) == {"count_div13"} and set(ex["extra"]) == {"caesar"}
+    assert math.isnan(ex["eleven_extra"]["count_div13"]["stratified_d_A64"])
+    assert math.isnan(ex["extra"]["caesar"]["raw_d_B"])
+    assert v["secondaries"]["failures"] == []
+
+
+def test_w18_verdict_json_is_strict_with_a_nan_secondary(tmp_path):
+    """The same world through the WRITE path: `json.dumps(...,
+    allow_nan=False)` must survive the NaN via `_json_safe`."""
+    seal = fs.write_world_2l(tmp_path, mode="a_only", all_fire=("count_div13", "caesar"))
+    out = tmp_path / "verdict.json"
+    an.run(root_2l=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, n_perm=30, n_boot=10,
+           referents_sha=False, write=True, out_path=out, **seal)
+    rec = json.loads(out.read_text())
+    assert rec["secondaries"]["extra rungs"]["extra"]["caesar"]["raw_d_A64"] is None
+    assert "NaN" not in out.read_text()
+
+
+def test_w19_thin_eligible_set_is_disclosed(worlds):
+    """FREEZE F-4: |R_PRIMARY| = 4, so DISCLOSURE_THIN_2L does not fire —
+    but `cells_for`'s n_pos floor leaves each test one eligible rung."""
+    v, _ = worlds["W19 thin eligible set (F-4)"]
+    assert v["verdict"] != "INSUFFICIENT_DATA", v["reason"]
+    assert v["secondaries"]["sensitivities"]["R_PRIMARY"] == \
+        ["add3_mid", "add_base8", "sub3_mid", "sub4_mid"]
+    A = v["tests"]["A"]
+    assert A["eligible"] == ["add_base8"] and sorted(A["thin"]) == ["add3_mid", "sub3_mid", "sub4_mid"]
+    assert an.DISCLOSURE_THIN_2L not in v["reason"]
+    for t in ("A", "B"):
+        hit = [d for d in v["reason"].split("; ")
+               if d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2L + t)]
+        assert hit, v["reason"]
+        assert hit[0] in v["licensed_sentence"]
 
 
 def test_refusal_reasons(worlds):

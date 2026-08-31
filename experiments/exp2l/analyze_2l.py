@@ -69,8 +69,8 @@ IMPORTED_SHA256_2L = {   # Task 5: pinned from tests/import_scan_2l.py (4 module
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     bg.REPO / "experiments/exp2l/run/preflight_2l.py":
         "bf86069805a6e0e1e50503a26f4a38a4eacc7a32bdd4cd886688cb95a036cde5",
-    bg.REPO / "experiments/exp2l/verify_referents_2l.py":
-        "7e7151a9e18c139d93e9f982331fd6cfd59aa1c5a2f33bcc8307fdd6a7c39179",
+    bg.REPO / "experiments/exp2l/verify_referents_2l.py":     # re-pinned at the freeze (F-3)
+        "3273ff897aeb238f7d8cd3515c46ecb12d3963624f73cd562577cab2ec0b014d",
 }
 WORLDS = an2i.WORLDS
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
@@ -114,6 +114,30 @@ _L = {
 LICENSED_2L = {k: f"{v}. Disclosure (design §2): {KNOWN_INPUTS_CAVEAT_2L}" for k, v in _L.items()}
 DISCLOSURE_THIN_2L = ("fewer than three rungs carried the primary (R_PRIMARY = R_13B ∩ 2k's nine) "
                       "— the reading is THIN regardless of the power record's declaration")
+# FREEZE F-4: §4's "fewer than three rungs → THIN" was keyed to the SIZE
+# OF R_PRIMARY, not to the rungs a test actually read. `cells_for` drops
+# a rung whose outcome has fewer than `ELIGIBILITY_MIN_POS` positive
+# items, and `_run_test` drops a rung whose predictor is degenerate
+# inside every stratum — so a test can run on one or two rungs, fire, and
+# be licensed with no THIN caveat anywhere in the reason or the licence.
+# Reachable: four of 2k's nine clear 2d's bar at 9–19 correct items
+# (add3_mid 9, sub4_mid 9, sub3_mid 15, arith_next 19) and the count
+# outcome's n_pos is bounded below by the endpoint count, not above 20,
+# so a tree with R_PRIMARY = 3–4 mid-digit rungs plus one dense rung
+# leaves the test one eligible rung with |R_PRIMARY| ≥ 3. Additive: a
+# disclosure per test, never a change to `fires`.
+DISCLOSURE_THIN_ELIGIBLE_PREFIX_2L = "fewer than three rungs actually carried Test "
+
+
+def _thin_eligible_2l(test: str, res: dict) -> str | None:
+    elig = list((res or {}).get("eligible") or [])
+    if len(elig) >= 3:
+        return None
+    return (f"{DISCLOSURE_THIN_ELIGIBLE_PREFIX_2L}{test}: it read {len(elig)} rung(s) {elig} — "
+            f"dropped as n_pos-thin {list((res or {}).get('thin') or [])}, as predictor-degenerate "
+            f"{list((res or {}).get('dropped_degenerate') or [])}; the reading is THIN regardless "
+            f"of the power record's declaration, which simulates over R_PRIMARY minus the "
+            f"degenerate rungs only")
 DISCLOSURE_UNDERPOWERED_2L = {
     "A": ("Test A did not fire under DECLARED UNDERPOWERED IN ADVANCE: the cross-family "
           "transfer is not detected at this resolution, neither confirmed nor ruled out"),
@@ -246,6 +270,43 @@ def load_endpoint_which_2l(root, which, battery, verify_fn, *, entry) -> dict:
     return out
 
 
+def checkpoint_record_failures_2l(crec: dict, *, step, entry: dict, step_records: dict) -> list:
+    """FREEZE F-2 (2i F-1's shape one record type over, with 3d F-2's
+    coverage rule): the sweep's checkpoint record was read for its 12 LFS
+    shard shas and otherwise ATTESTED — its revision, its commit, and the
+    tensor digest of the weights that produced the step's 34 item records
+    were never measured, and the sha table was checked over the 12 shards
+    only, i.e. a coverage claim over an unstated subset of the 13
+    candidate files the loader actually stages. Measured here.
+
+    Disclosed rather than closed: the 13th candidate file
+    (`model.safetensors.index.json`, which decides which tensor comes out
+    of which shard) carries no LFS sha in the Hub metadata, so it has no
+    content pin in the manifest — it is pinned by the revision commit
+    alone. Requiring the record to attest a sha for it is a coverage
+    claim; comparing that sha to a manifest entry is not available."""
+    bad = []
+    for k in ("revision", "commit"):
+        if crec.get(k) != entry.get(k):
+            bad.append(f"olmo13b/step{int(step)}: checkpoint record {k} {crec.get(k)!r} is not "
+                       f"the manifest's {entry.get(k)!r}")
+    shas = crec.get("sha256")
+    if not isinstance(shas, dict):
+        bad.append(f"olmo13b/step{int(step)}: checkpoint record sha256 is not a table")
+    else:
+        uncovered = sorted(set(entry.get("files", [])) - set(shas))
+        if uncovered:
+            bad.append(f"olmo13b/step{int(step)}: the checkpoint record attests no sha for "
+                       f"{uncovered} — a sha table over a subset of the candidate files is a "
+                       f"coverage claim about an unstated set")
+    dg = crec.get("digest")
+    off = sorted(r for r, rec in step_records.items() if rec.get("weight_sha256") != dg)
+    if off:
+        bad.append(f"olmo13b/step{int(step)}: the checkpoint record's tensor digest {dg!r} is not "
+                   f"the digest the item records carry on {off}")
+    return bad
+
+
 def load_sweep_13b(root, battery, verify_fn, *, manifest, endpoint_sha, steps=None,
                    rungs=None) -> dict:
     """Every grid step + the real step 0: 34 records each through
@@ -281,6 +342,9 @@ def load_sweep_13b(root, battery, verify_fn, *, manifest, endpoint_sha, steps=No
         if crec.get("size") != bl.SIZE_OUT or crec.get("step") != int(step):
             raise ValueError(f"olmo13b/step{step}: checkpoint record size/step "
                              f"{crec.get('size')!r}/{crec.get('step')!r}")
+        cbad = checkpoint_record_failures_2l(crec, step=step, entry=entry, step_records=out[step])
+        if cbad:
+            raise ValueError("; ".join(cbad))
     return out
 
 
@@ -412,6 +476,41 @@ def _check_rung_set_derivation_2l(rung_set: dict, stage1_final: dict, floors: di
                        f"the file's {want}")
     if bool(rung_set.get("primary_is_the_nine")) != bool(red["primary_is_the_nine"]):
         bad.append("rung set re-derivation olmo13b/primary_is_the_nine disagrees")
+    return bad
+
+
+def _check_rung_set_endpoint_shas_2l(rung_set: dict, root) -> list:
+    """FREEZE F-3 (2i F-1 / 2j F-2's lineage): `rung_set_2l.json` carries
+    an `endpoint_file_sha256` table the endpoint runner writes over the 68
+    endpoint records. `_load_rung_set_2l` REQUIRED the key to be present
+    and the verdict PUBLISHES it inside `referents["rung_set"]` — and
+    nothing ever compared it to anything. An attestation that could be
+    measured is measured here: exactly the 68 endpoint records, each at
+    its committed sha."""
+    root = Path(root)
+    got = rung_set.get("endpoint_file_sha256")
+    if not isinstance(got, dict):
+        return [f"rung set olmo13b: endpoint_file_sha256 is {type(got).__name__}, not a table "
+                f"over the {len(bl.ENDPOINT_WHICH) * len(bt.RUNGS)} endpoint records"]
+    want = {}
+    for which in bl.ENDPOINT_WHICH:
+        for r in bt.RUNGS:
+            p = bl.endpoint_record_path(root, which, r)
+            if not p.is_file():
+                return [f"rung set olmo13b: endpoint record {p} is missing, so "
+                        f"endpoint_file_sha256 cannot be measured"]
+            want[str(p.relative_to(root))] = bg.sha256_file(p)
+    bad = []
+    missing, extra = sorted(set(want) - set(got)), sorted(set(got) - set(want))
+    if missing:
+        bad.append(f"rung set olmo13b: endpoint_file_sha256 attests nothing for {missing}")
+    if extra:
+        bad.append(f"rung set olmo13b: endpoint_file_sha256 carries {extra}, which are not the "
+                   f"endpoint records")
+    for rel in sorted(set(want) & set(got)):
+        if got[rel] != want[rel]:
+            bad.append(f"rung set olmo13b: endpoint_file_sha256[{rel}] {str(got[rel])[:12]} is "
+                       f"not the committed record's {want[rel][:12]}")
     return bad
 
 
@@ -655,6 +754,10 @@ def verdict_2l(failures, A, B, power, r_primary) -> dict:
     disclosures = list(tree.get("disclosures", []))
     if len(r_primary) < 3:
         disclosures.append(DISCLOSURE_THIN_2L)
+    for test, res in (("A", A), ("B", B)):          # freeze F-4
+        d = _thin_eligible_2l(test, res)
+        if d:
+            disclosures.append(d)
     for test, res in (("A", A), ("B", B)):
         status = (power or {}).get(test, {}).get("declared_status")
         if not res["fires"] and status == "DECLARED UNDERPOWERED IN ADVANCE":
@@ -775,6 +878,9 @@ def run(root_2l=EXP2L, root_2i=bi.EXP2I, root_2k=bk.EXP2K, *, write=False, n_per
         if floors is not None:
             rb2, f = collect_total(lambda: _check_rung_set_derivation_2l(rung_set, stage1_final, floors),
                                    "2l rung set re-derivation");                      failures += f + (rb2 or [])
+    if rung_set is not None:
+        rb3, f = collect_total(lambda: _check_rung_set_endpoint_shas_2l(rung_set, root_2l),
+                               "2l rung set endpoint shas");                          failures += f + (rb3 or [])
     endpoint_sha, f = collect_total(lambda: bl.endpoint_sha256(root_2l), "2l endpoint composite sha")
     failures += f
 
@@ -912,6 +1018,26 @@ def run(root_2l=EXP2L, root_2i=bi.EXP2I, root_2k=bk.EXP2K, *, write=False, n_per
         v = {"verdict": tree["verdict"], "reason": tree["reason"], **common,
              "licensed_sentence": _licensed_2l(tree), "referents": referents,
              "tests": {"A": A, "B": B}, "secondaries": sec}
+        # FREEZE F-1 (2j F-1's lineage, one call site over): the "(exit)"
+        # check above runs BEFORE the thirteen secondaries, so a module
+        # first imported inside one of them was never on the pinned
+        # surface. Demonstrated at the freeze: an unpinned `experiments/`
+        # module imported inside S1 left the verdict SHARED with zero
+        # failures, and `check_imports_2l()` raised only when called
+        # afterwards, by hand. Additive: re-check once the record is
+        # complete and deliver the frozen refusal terminal if the surface
+        # grew. (Not reachable through the real producer — no secondary
+        # imports anything new — so this is a pin made total, not a bug
+        # fixed.)
+        _, f = collect_total(check_imports_2l if imports_pinned else (lambda: None),
+                             "2l import surface (post-secondaries)")
+        if f:
+            failures += f
+            referents["failures"] = list(failures)
+            t2 = verdict_2l(failures, None, None, None, ())
+            v = {"verdict": t2["verdict"], "reason": t2["reason"], **common,
+                 "licensed_sentence": LICENSED_2L["INSUFFICIENT_DATA"], "referents": referents,
+                 "tests": None, "secondaries": None}
     if write:
         outp = Path(out_path or RESULTS / "verdict.json")
         outp.parent.mkdir(parents=True, exist_ok=True)

@@ -424,6 +424,45 @@ M = [
     (AN, "collapses_13b: threshold >= -> >",
      '            if n >= threshold:',
      '            if n > threshold:'),
+    # ------------------------------------------------- freeze closures
+    (AN, "F-2: checkpoint_record_failures_2l revision/commit check removed",
+     '''    for k in ("revision", "commit"):
+        if crec.get(k) != entry.get(k):''',
+     '''    for k in ():
+        if crec.get(k) != entry.get(k):'''),
+    (AN, "F-2: checkpoint_record_failures_2l candidate-file coverage check removed",
+     '        uncovered = sorted(set(entry.get("files", [])) - set(shas))',
+     '        uncovered = sorted(set(entry.get("lfs_sha256", {})) - set(shas))'),
+    (AN, "F-2: checkpoint_record_failures_2l digest coherence check removed",
+     '    off = sorted(r for r, rec in step_records.items() if rec.get("weight_sha256") != dg)',
+     '    off = []'),
+    (AN, "F-2: load_sweep_13b does not raise on the checkpoint-record failures",
+     '''        cbad = checkpoint_record_failures_2l(crec, step=step, entry=entry, step_records=out[step])
+        if cbad:''',
+     '''        cbad = checkpoint_record_failures_2l(crec, step=step, entry=entry, step_records=out[step])
+        if False:'''),
+    (AN, "F-3: _check_rung_set_endpoint_shas_2l per-file comparison removed",
+     '''    for rel in sorted(set(want) & set(got)):
+        if got[rel] != want[rel]:''',
+     '''    for rel in sorted(set(want) & set(got)):
+        if False:'''),
+    (AN, "F-3: _check_rung_set_endpoint_shas_2l coverage check removed",
+     '''    if missing:
+        bad.append(f"rung set olmo13b: endpoint_file_sha256 attests nothing for {missing}")''',
+     '''    if False:
+        bad.append(f"rung set olmo13b: endpoint_file_sha256 attests nothing for {missing}")'''),
+    (AN, "F-4: _thin_eligible_2l never fires (len(elig) >= 3 -> >= 0)",
+     '    if len(elig) >= 3:',
+     '    if len(elig) >= 0:'),
+    (AN, "F-1: the post-secondaries import re-check does not refuse",
+     '''        if f:
+            failures += f
+            referents["failures"] = list(failures)
+            t2 = verdict_2l(failures, None, None, None, ())''',
+     '''        if False:
+            failures += f
+            referents["failures"] = list(failures)
+            t2 = verdict_2l(failures, None, None, None, ())'''),
 ]
 
 # One mutant per collect_total(...) call site in analyze_2l.py's run() AND
