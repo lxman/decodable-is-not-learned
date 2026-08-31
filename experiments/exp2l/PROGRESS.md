@@ -399,3 +399,146 @@ run predates Step 2's bypass-drop).
 
 Committed `8cd3c39d` (Steps 2+3) and the closing commit below (Steps
 4–6), pushed `origin master` after each.
+
+## Task 6: the adversarial freeze
+
+Fresh-eyes attack on the frozen instrument at `68fb7ed9`, against the
+brief's eighteen-item attack list. Zero model contact, zero network. The
+full disposition of every item, with its demonstration, and the
+ratification package (findings table, dials confirmed untouched, doc
+slips (a)–(g) as exact §-level wording) are in
+`experiments/exp2l/FREEZE_CHECKLIST.md`.
+
+**THE CLASS DEFECT — one that would silently decide the TERMINAL — was
+NOT found.** Five findings and one hygiene item were, each demonstrated
+executably before closure and each closed additively (a new refusal, pin,
+test or disclosure). No accepted dial was touched; the design doc was not
+edited.
+
+### Findings
+
+- **F-4 (the most consequential): the THIN guard counted `|R_PRIMARY|`,
+  not the rungs a test actually read.** `cells_for` drops any rung with
+  fewer than `ELIGIBILITY_MIN_POS = 20` positive-outcome items and
+  `_run_test` drops any rung whose predictor is constant inside every
+  stratum; neither appeared in the reason or the licence. Reachable, and
+  measured: the smallest endpoint count that puts each of 2k's nine into
+  R_PRIMARY is 9 (add3_mid), 9 (sub4_mid), 15 (sub3_mid), 19
+  (arith_next) — all below 20 — while y includes the endpoint step, so
+  n_pos is bounded BELOW by that count. Demonstrated on new world W19:
+  R_PRIMARY of four rungs (so the frozen guard is silent), three of them
+  capped below 20 firing items, **verdict SHARED at T = .7052,
+  p = .004975, on ONE eligible rung**, carrying §6's full cross-family
+  licence with no caveat. It decides not the terminal but the LICENCE.
+  Closed with a per-test disclosure on the reason and the licence naming
+  what was read and what was dropped; `fires` untouched.
+- **F-1 (2j F-1's lineage, one call site over): the import pin's "(exit)"
+  check ran BEFORE the thirteen secondaries.** Demonstrated by importing
+  an unpinned `experiments/` module inside S1: verdict SHARED, zero
+  failures, and `check_imports_2l()` raised only when called afterwards
+  by hand. Closed with a post-secondaries re-check that delivers the
+  frozen refusal terminal. Stated plainly: not reachable through the real
+  producer — no secondary imports anything new — so this is a pin made
+  total, not a bug fixed.
+- **F-2 (2i F-1's shape one record type over, with 3d F-2's coverage
+  rule): the sweep's checkpoint record was attested, never measured, and
+  its sha table covered an unstated subset.** Its `revision`, `commit`
+  and `digest` (the only quantity tying the step's 34 item records to the
+  checkpoint the record claims was loaded) were never compared, and the
+  sha table was checked over 12 of the **13** candidate files the loader
+  stages. All three measured now. Disclosed rather than closed: the 13th,
+  `model.safetensors.index.json`, carries no LFS sha in the Hub metadata,
+  so it is pinned by the revision commit alone (doc slip (g)).
+- **F-3 (2i F-1 / 2j F-2): `rung_set_2l.json`'s `endpoint_file_sha256`
+  was required present, published in the verdict's referents, and
+  compared to nothing** (the world fixtures wrote `{}` and all seventeen
+  worlds passed). Measured now against the 68 endpoint records on disk.
+- **F-5 (2i F-1 / 2k F-2, on the power record's own top level): its
+  `r_primary`, `primary_is_the_nine` and the shape of `block_sd_A` were
+  attested and compared to nothing** — and dial f grades the projection
+  against `block_sd_A`. All measured now, including the rung set the SD
+  was taken over, re-derived as Test A's non-degenerate keep. The
+  producer→analyzer round trip in `test_power_2l.py` passes unchanged.
+- **D-1: the campaign logs were not gitignored** (2g and 2i ignore
+  theirs); closed with a named list, so the committed `mutation_*.log`
+  record stays tracked.
+
+### What was attacked and cleared
+
+Ten enumerated kill shapes built from a real world (endpoint killed
+mid-`which`, sweep killed mid-step, `run_gate1` killed before
+`gate1.json`, power over a different rung set, an endpoint record edited
+after the sweep stamped its sha, `gate1.json` with attested diffs and no
+marker, rung set deleted, a whole grid step missing, step 0 missing) —
+every one INSUFFICIENT_DATA, control still SHARED. The tag binding
+against **real git** in a real temp repository with a real annotated tag
+(a post-tag byte appended to `run/sweep_2l.py` is refused). The composite
+predictor sha's chain, link by link, each a check. One character changed
+in one seed-0 draw of a **copy** of 2k's tier (the real tree untouched)
+fires `load_tier_2k`'s gate 1; one flipped byte mid-gzip is collected.
+`t_only` and `_run_test` agree on T bit for bit on all four of 2k's real
+64-draw blocks. 2g's committed strata **re-derive identically** from the
+sha-pinned item files, so the item index shared by strata, x_A, x_B and y
+is anchored by three pins rather than by convention. Determinism
+byte-identical across two processes and two roots.
+
+### Disclosure for the projection (computable now, before any 13B weight)
+
+Test B's median-bucket split of x_A^(256) at 1b: **no rung's bucket is
+empty**; bucket-1 sizes run 30 (sub4_mid) to 249 (sub_base8); composite
+cells per rung 4–12; the smallest cell is a singleton on `sub4_mid`
+(dropped by `precompute`, not counted). Test A's degeneracy set on
+x_A^(256) is empty, so §3.6's note holds. Ties fall in bucket 0
+(`_median_bucket` is strict `>`).
+
+### Cold re-runs after every closure
+
+| run | result |
+|---|---|
+| full suite, all six modules, no marker filter, no `-k` | **136 passed in 956.81s** (was 124 at `68fb7ed9`; +12 freeze tests) |
+| worlds | **19/19** — W1–W17 plus W18 (extra rungs, undefined D, strict-JSON write path) and W19 (F-4) |
+| totality | **28/28** |
+| cold battery `verify_referents_2l` | **12/12** |
+| read sweep | INSUFFICIENT_DATA, 4,437 distinct paths, **UNPINNED 0**, writes 0 |
+| determinism ×2, separate processes, two roots | `39b20b2b2ec4682e7afa6c6f7bf12dfb0db28f9770b359ba107b783be7aa8ba1` both — byte-identical |
+| mutation, fast (`mutation_freeze_fast.log`) | 109/125 killed, 16 survivors, 0 SKIP |
+| mutation, totality (`mutation_freeze_totality.log`) | 14/14 killed |
+| mutation, full shape (`mutation_freeze_fullshape.log`) | 2/2 killed |
+| **mutation total** | **125/125 killed, 0 survivors, 0 equivalence claims** |
+
+The three rounds were re-run in full against the CURRENT bytes rather
+than inherited from Task 5, because the closures changed the instrument.
+Thirteen mutants Task 5 had to close with later fixture rounds die on the
+freeze's first fast pass (the real-git prereg test, the seal-binding test
+and the checkpoint-record / rung-set / power tests close them). The
+sixteen fast-round survivors are exactly the shapes another suite must
+observe: `[63]`/`[64]` (a full-shape world alone can see Test A's
+predictor or Test B's conditioning change), `[82]` (F-1's own refusal,
+reachable only after the secondaries run) and the thirteen
+auto-generated `collect_total` strips whose sites need a complete
+synthetic 13B tree. No two runs ever concurrent; no `.mutation_backup`
+left behind; the four mutated files clean in `git diff` before and after
+each round.
+
+### Instrument delta the tag will bind
+
+Of the four blob-bound files, the freeze changed **`analyze_2l.py`
+only**; `battery_2l.py`, `run/endpoint_2l.py` and `run/sweep_2l.py` are
+byte-identical to `68fb7ed9`. Everything else is test-side, the cold tool
+`verify_referents_2l.py` (re-pinned in `IMPORTED_SHA256_2L` the moment
+the totality suite caught the drift), the checklist, this ledger, or
+`.gitignore`. `referents_2l.json` needed no rebuild — neither changed
+file is a member of its manifest — and still hashes to
+`REFERENTS_2L_SHA256` (cold battery item 3).
+
+### Concerns
+
+- None blocking. Two process notes for the record: (1) the mutation
+  harness's fast pass cost 5:24 per mutant because `_tree` re-read and
+  re-sha'd all 34 item files for every one of the 578 records it writes;
+  memoising the three pure loaders in `test_analyze_2l.py` (test-side,
+  behaviour identical) took it to 2:56 and made a full 125-mutant
+  re-run feasible in one session. (2) `verify_referents_2l.py` is
+  pinned by `IMPORTED_SHA256_2L`, so editing the cold tool breaks every
+  world until the pin is refreshed — caught immediately by the totality
+  suite, but worth knowing before touching it during a campaign.

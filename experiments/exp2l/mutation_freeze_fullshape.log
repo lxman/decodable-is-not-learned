@@ -1,0 +1,6 @@
+baseline OK (fullshape pass, [63, 64] mutants)
+
+[63] killed  run()/_core: Test B strata -> base strata (drops the median-bucket conditioning)
+[64] killed  run()/_core: Test A predictor -> counts[64] instead of counts[K_TOTAL]
+
+2/2 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

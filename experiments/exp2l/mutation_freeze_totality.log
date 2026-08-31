@@ -1,0 +1,18 @@
+baseline OK (totality pass, [82, 92, 107, 113, 114, 115, 116, 117, 118, 119, 120, 123, 124, 125] mutants)
+
+[82] killed  F-1: the post-secondaries import re-check does not refuse
+[92] killed  run(): totality — collect_total stripped at line 844 (lambda: bl.load_manifest_13b(bl.CHECKPOINTS_PATH, sha_pin=bl...)
+[107] killed  run(): totality — collect_total stripped at line 831 (lambda: bl.halt_marker_path(root_2l).read_text().strip()[:20...)
+[113] killed  run(): totality — collect_total stripped at line 901 (lambda: _check_rung_set_vs_endpoint_2l(rung_set, stage1_fina...)
+[114] killed  run(): totality — collect_total stripped at line 907 (lambda: _check_rung_set_endpoint_shas_2l(rung_set, root_2l)...)
+[115] killed  run(): totality — collect_total stripped at line 918 (lambda: json.loads(g1p.read_text())...)
+[116] killed  run(): totality — collect_total stripped at line 945 (_core...)
+[117] killed  run(): totality — collect_total stripped at line 947 (lambda: check_power_claims_2l(power, core[1], x_b, strata, r...)
+[118] killed  run(): totality — collect_total stripped at line 950 (check_imports_2l if imports_pinned else (lambda: None)...)
+[119] killed  run(): totality — collect_total stripped at line 1057 (check_imports_2l if imports_pinned else (lambda: None)...)
+[120] killed  run(): totality — collect_total stripped at line 663 (_tier...)
+[123] killed  run(): totality — collect_total stripped at line 904 (lambda: _check_rung_set_derivation_2l(rung_set, stage1_final...)
+[124] killed  run(): totality — collect_total stripped at line 921 (lambda: bl.gate1_failures_13b(gate1, stage1_final) if stage1...)
+[125] killed  run(): totality — collect_total stripped at line 982 (thunk...)
+
+14/14 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []
