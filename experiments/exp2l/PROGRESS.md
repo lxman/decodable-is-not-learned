@@ -713,3 +713,29 @@ panics in one evening, two distinct signatures (memory starvation on
 a 12.5-day-uptime boot; WindowServer/GPU starvation on a fresh one),
 both under the 13B sweep load, neither leaving a mark on the
 experiment tree.
+
+## 2026-09-01/02 — Ruling received, third launch, GATE 1 CLEAN (the eleventh byte-identical reproduction, first at 13B)
+
+Michael ruled 2026-09-01 ("Go ahead and relaunch. Once its running
+I'll disconnect."): option (a)+(b) — relaunch with CRD disconnected
+during compute, `PYTHONUNBUFFERED=1` on the launch command (nothing
+tag-bound touched). The stranded 51 GB endpoint cache was KEPT, not
+cleared: panic #2 struck ~52 min AFTER a successful load from it, so
+its contents were load-proven, and `load_checkpoint_13b` hashes every
+candidate file against the pinned manifest at each launch — a stale
+or partial cache cannot slip through, and reuse saved the re-download.
+Third launch 22:46 EDT (sweep PID 2735, watcher 3100, both detached);
+cache hash-verified, weights loaded in 33 s, Michael disconnected CRD
+after launch. The machine survived the full gate-1 stretch it died in
+twice before.
+
+**GATE 1 CLEAN** (`results/sweep/olmo13b/gate1.json`, watcher-
+committed): 34/34 rungs, **0 bit diffs, 0 continuation diffs**,
+`continuations_compared` = 500 on every rung (F-2's coverage
+requirement met), tensor digest EQUAL between the sweep loader and
+the endpoint loader (828f7e6e…f28ef527), commit pinned both sides
+(08d2aca2), stack torch 2.12.1 / transformers 5.13.0, 7,194.5 s.
+**The eleventh consecutive byte-identical reproduction on this stack,
+the first at 13B.** The sweep proceeded on its own to step 0
+(real-init referent), per-rung records landing and watcher-committed;
+grid points follow, ≈ 40 h remaining.
