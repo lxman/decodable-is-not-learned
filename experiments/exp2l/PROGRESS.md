@@ -618,3 +618,17 @@ honesty note carried — the verdict-level call is cheap, foresight
 graded on 13B texture). NEXT on Michael's word: stage 2 — the sweep
 (gate 1 first, then step 0 + 15 grid points, ≈ 44 h, watcher beside
 it), then the analyzer once, detached.
+
+## 2026-09-01 — Sweep launch, environment-side kill (reboot), clean relaunch
+
+Stage 2 launched on Michael's word ("begin stage 2") at ~19:36 EDT
+(sweep + commit watcher, detached). **The machine rebooted** ~9 min
+in, during gate 1's first weight load (the log ends at "Loading
+weights 443/443"; Michael confirmed the reboot). Environment-side
+kill, 2g's class: `results/sweep/` was never created — zero records,
+no gate1.json, no halt marker, nothing partial. The stranded per-step
+checkpoint scratch (51 GB under `ckpt_cache_2l/olmo13b`) was cleared —
+it is exactly what `free_checkpoint_13b` would have removed. Relaunch
+~21:40 EDT from the untouched tree (a fresh start, not a resume; gate
+1 runs first as frozen). No experiment-side anomaly; nothing scored,
+nothing committed, the seals and projection stand unmodified.
