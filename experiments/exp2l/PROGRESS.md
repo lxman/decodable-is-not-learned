@@ -632,3 +632,43 @@ it is exactly what `free_checkpoint_13b` would have removed. Relaunch
 ~21:40 EDT from the untouched tree (a fresh start, not a resume; gate
 1 runs first as frozen). No experiment-side anomaly; nothing scored,
 nothing committed, the seals and projection stand unmodified.
+
+## 2026-09-01 — Reboot cause pinned (panic log): watchdog panic under memory starvation, not power/thermal
+
+Correction to the entry above, from the system's own records (read on
+Michael's word, "check the panic log"). The reboot was NOT at ~19:45;
+the timeline is:
+
+- **19:36** — sweep launched; gate 1's 13B weight load begins.
+- **19:47:52** — `JetsamEvent-2026-09-01-194752.ips`: kernel
+  memory-pressure event, `largestProcess: "Python"` (the sweep's
+  loader). The load transient (CPU-side shard materialization + the
+  ~26 GB fp16 MPS residency) exceeded what a machine with 12.5 days
+  of uptime and accumulated resident memory could absorb. The sweep
+  log froze at "Loading weights 443/443"; the system entered swap
+  thrash.
+- **21:35:34** — kernel panic
+  (`Retired/panic-full-2026-09-01-213534.0002.panic`, bug_type 210):
+  `watchdog timeout: no checkins from watchdogd in 91 seconds` —
+  userspace starved for ~108 minutes, then the kernel deliberately
+  rebooted. Boot at 21:35:22 per `kern.boottime`. Not a power event,
+  not thermal.
+- **~21:40** — relaunch (PID 1971) onto the fresh boot. The identical
+  load transient ran again and SURVIVED: weight load completed in
+  41 s, at the cost of ~41 GB of swap written in the first minutes
+  (`vm.swapusage` 41,320 MB used at 21:53, pressure level 2 = warn,
+  free RAM 24%, disk 140 Gi free so swap can grow). The difference
+  between death and survival was the fresh boot's memory headroom,
+  not anything in the instrument.
+
+Implications, ledgered: (1) the danger window is each checkpoint's
+weight load — 16 more to come — and the mitigation is a memory-quiet
+machine for the campaign (mlx_lm.server stays down per the standing
+decision; nothing memory-heavy starts), not compute throttling;
+SIGSTOP cannot defuse a wired-memory transient. (2) The loader's
+CPU-side transient could be shrunk in code, but the load path lives
+in the tag-bound runner — off-limits without a re-tag, and the fresh
+boot demonstrably fits the transient. (3) "Nothing partial landed"
+stands: the first launch died before `results/sweep/` existed. The
+seals and projection are untouched; this entry changes the CAUSE
+attribution only.
