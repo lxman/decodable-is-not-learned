@@ -672,3 +672,44 @@ boot demonstrably fits the transient. (3) "Nothing partial landed"
 stands: the first launch died before `results/sweep/` existed. The
 seals and projection are untouched; this entry changes the CAUSE
 attribution only.
+
+## 2026-09-01 — SECOND environment-side kill (panic #2, WindowServer watchdog); campaign HALTED on Michael's word
+
+The relaunched sweep (PID 1971, up 21:40) died with the machine a
+second time: kernel panic at 22:35:52
+(`Retired/panic-full-2026-09-01-223552.0002.panic`), boot 22:35:44.
+**Different killer than #1**: `userspace watchdog timeout: no
+successful checkins from WindowServer (1 induced crashes) in 123
+seconds` — while logd, configd and opendirectoryd all show "last
+successful checkin: 0 seconds ago". Not global memory starvation this
+time; the display server alone starved, was crash-restarted once by
+the watchdog, failed to recover, and the kernel rebooted. WindowServer
+shares the GPU with MPS compute; an active Chrome Remote Desktop
+session (confirmed connected, host encoding at ~39% of a core at
+21:53) makes WindowServer do continuous screen capture/encode on the
+same GPU the 13B generation loop was saturating. GPU contention is
+the best-fit cause; no jetsam event preceded this panic (contrast #1).
+Timeline: generation began ~21:41 after a 41 s weight load; ~52 min
+of gate-1 compute; WindowServer's last checkin 22:33; panic 22:35.
+
+Tree state: `results/sweep/` was never created — zero records, no
+gate1.json, no halt marker, nothing partial, second time. The seals
+and projection stand unmodified. The sweep log again ends at the
+completed weight-load bar (stdout is block-buffered under nohup;
+per-rung progress was in the lost buffer — a relaunch should consider
+`python -u` or line-buffering via `stdbuf`/`PYTHONUNBUFFERED=1`,
+which touches only the launch command, not any tag-bound file).
+
+**Michael said "stop" as the box went down; the campaign is HALTED —
+no relaunch without his ruling** (the campaign-stop convention applied
+to an environment-side kill). Options for the ruling, with the
+evidence: (a) relaunch with CRD disconnected during compute (monitor
+over SSH) and the machine memory-quiet — addresses panic #2's
+signature directly; the Aug-31 endpoint stage survived ~5 h of the
+same 13B fp16 workload; (b) same, plus `PYTHONUNBUFFERED=1` so the
+next log shows where in gate 1 the run actually is; (c) investigate
+further before any relaunch (full backtrace, GPU counters). Two
+panics in one evening, two distinct signatures (memory starvation on
+a 12.5-day-uptime boot; WindowServer/GPU starvation on a fresh one),
+both under the 13B sweep load, neither leaving a mark on the
+experiment tree.
