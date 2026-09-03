@@ -1,0 +1,29 @@
+{
+ "family": "olmo2",
+ "size": "olmo13b",
+ "step": 576000,
+ "revision": "stage1-step576000-tokens4832B",
+ "commit": "a10a15e3c32b60ff4545428d64199410ecb9981c",
+ "sha256": {
+  "model-00001-of-00012.safetensors": "2ee42297aee32e142935625904aebc453014e83a95b3923873cb5e6297392e9e",
+  "model-00002-of-00012.safetensors": "933f1365e322e85eef88fbcf65089185c88421ff98ec064d3231bc682e4dee4f",
+  "model-00003-of-00012.safetensors": "2a4c7cdc24a471ba8f2583976dcc747bfd5ec21010a2ae4f623006ff4b53819b",
+  "model-00004-of-00012.safetensors": "5a57092d096d30ed4b41f752c2f4ec97ccde3b0cadb5710c0c53512e3d61c2b3",
+  "model-00005-of-00012.safetensors": "51d4361509cff350bf3985f6fd5f2da8a57a511cc1d6b108c09e890f7e6fcf98",
+  "model-00006-of-00012.safetensors": "eb6e85a48528fb4cfcfd25dd1d868f0d7afa53906ecac69f16df8d0b736cf440",
+  "model-00007-of-00012.safetensors": "a528bb438de9bd60f4be2f207f1a4ce63aa829307bc267af6e384fe757d86a53",
+  "model-00008-of-00012.safetensors": "90148c038668a242376a220cccd015bbbf6aafa03cd6c2c8c226a0a6fe8302e5",
+  "model-00009-of-00012.safetensors": "709351591e029b63696445bf17d28a51bb4acaa4499869f4d299ec33acc89612",
+  "model-00010-of-00012.safetensors": "1844a48ade488d9e60e5e8956a5d722bae81e27fcd4a8e13c62ce07d4e187ec5",
+  "model-00011-of-00012.safetensors": "98eda9c6c59ca39767e74fa7a31d842dc64b9699b4062c334505088e4e81a1f1",
+  "model-00012-of-00012.safetensors": "001979ca782a066f18310798861964e347f4d7ce54cf5158409cdb409811ed6d",
+  "model.safetensors.index.json": "2d209d1c4ffbc8e6520b868c4d797d02309d98dd8276ce14c1fa2a45e46603b9"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "7b9c09ee50466d48a2db089fbbd54032cea43a50fa8ae54e4f1dcdb879203d0e",
+ "download_seconds": 633.8
+}
