@@ -60,3 +60,59 @@ was hit. `CHECKPOINTS_2M_SHA256` pasted as
 `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2m/tests/test_battery_2m.py -q`
 — 24 passed / 1 skipped before Step 4 (manifest not yet pinned); 25
 passed / 0 skipped after.
+
+## Task 2 (2026-09-03): the stage runners
+
+Built: `run/endpoint_2m.py` (three thin loads — `stage1_final`,
+`stage3_final`, `base` — over all 34 rungs; `require_predictor_seals_2m`
+re-derives `PREDICTOR_SHA_2M` from 2k's and 2i's sealed artifacts rather
+than trusting the literal; the rung set is fixed from `stage1_final`
+counts alone, the other two whichs are descriptive; skip-if-exists +
+dry-run; an exception mid-which leaves no rung set); `run/sweep_2m.py`
+(gate 1 — the endpoint re-derived through the candidate-file loader and
+diffed against the committed `stage1_final` records — then the seeded
+`from_config` twin, then the 25 remaining grid steps ascending; the
+endpoint seal gate binds 102 endpoint records + the rung set + the
+power record; halt-and-refuse-resume on a gate-1 mismatch; resume
+skips complete steps and re-enters incomplete ones, including the
+twin); `run/preflight_2m.py` (the base through the thin loader and one
+grid checkpoint through the candidate-file loader, each under a plain
+and a `<|begin_of_text|>`-prefixed render, with a per-load fp16
+finiteness probe that refuses on any non-finite logit; asserts nothing
+was written under `results/`); `run/commit_watcher_2m.sh` (2l's script,
+`2l`→`2m` throughout, `chmod +x`); the stub `analyze_2m.py` (only
+`_endpoint_seal_paths_2m`, Task 3 will replace the file keeping that
+function byte-identical); `tests/test_stages_2m.py` (fake loaders, no
+torch, no network, no frozen tree touched).
+
+All four runner/test files transcribed byte-for-byte from the task
+brief with one exception, found and fixed while running Step 7:
+`test_preflight_prints_both_renders_and_writes_nothing` and
+`test_preflight_refuses_if_it_wrote_under_results` both KeyErrored,
+because the shared `FakeRunner(amap, 0.5)` instance is reused across
+preflight's plain and `bos `-prefixed render passes (one
+`loaders["runner"]` call per model load), and at `frac=0.5` with only
+20 items every index does a real lookup (`(i % 1000)/1000 < 0.5` for
+i in 0..19) — but `amap` (from `_amap_and_battery()`) only carried
+unprefixed prompt keys, so every BOS-prefixed prompt was a miss.
+Fixed by extending `amap` inside `_preflight_loaders` with a
+BOS-prefixed copy of every entry (same answers) — `FakeRunner` itself
+is frozen and untouched; no production code in `preflight_2m.py`
+changed.
+
+### Tests
+
+Step 2 (before the runners existed):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2m/tests/test_stages_2m.py -q -x`
+— collection ImportError on `experiments.exp2m.run.endpoint_2m`, as
+expected.
+
+Step 7 (fast suite):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2m/tests/test_stages_2m.py -q -m "not slow"`
+— 21 passed, 1 deselected.
+
+Step 7 (slow pair, real git against the committed 2k/2i seal tags):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2m/tests/test_stages_2m.py -q -m slow`
+— 1 passed, 21 deselected.
+
+Full `experiments/exp2m/tests/` (fast): 46 passed, 1 deselected.
