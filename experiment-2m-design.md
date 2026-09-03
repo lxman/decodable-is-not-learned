@@ -5,8 +5,17 @@ close-out, on Michael's word ("Let's continue with the next
 experiment"). The outcome family was RULED by Michael the same day
 from a four-candidate shortlist (SmolLM3-3B, Comma v0.1-1T, Amber,
 Apertus-8B; the shortlist and its reasons are §8): **SmolLM3-3B, stage
-1.** §10 dials b–p AWAIT HIS RULING. No model contact of any kind has
-occurred; the Hub was read for metadata only (§2).** Model contact,
+1.** §10 DIALS b–p RULED by Michael 2026-09-03 ("as recommended"):
+b Tests A/B unconditioned, four worlds, increments + paired difference
+printed; c the dense-head 26-point grid; d three descriptive endpoints;
+e R_3B by the floor rule, R_PRIMARY = R_3B ∩ the nine; f the projection
+by rung type with tolerances, placed against the block SD; g S5
+non-gating; h the block-SD line; i the seeded from_config twin; j the
+preflight on his word; k bars unchanged; l fp16 with the pre-tag fp32
+fallback; m batch 16; n the plain render, pad 128004, left; o the mlx
+server stays up unless the preflight shows pressure; p SDD build +
+freeze in one session. No model contact of any kind has occurred; the
+Hub was read for metadata only (§2).** Model contact,
 when sanctioned: SmolLM3-3B ONLY, on the OUTCOME side — its stage-1
 endpoint, its last pretraining checkpoint and the released base at the
 endpoint stage, then its stage-1 grid and a seeded twin in the sweep.
@@ -481,7 +490,7 @@ Not a mechanism result (S5, S8 descriptive). Not a statement about
 stages 2–3, the context extension or the released base beyond S6's
 descriptives. Not a statement about the across-task ranking.
 
-## 10. Dials — a RULED by Michael 2026-09-03 (SmolLM3-3B, from the shortlist); b–p AWAIT HIS RULING
+## 10. Dials — RULED by Michael 2026-09-03: a (SmolLM3-3B, from the shortlist); b–p "as recommended" — every dial as recommended
 
 - **a. Outcome model:** SmolLM3-3B stage 1 (`HuggingFaceTB/SmolLM3-
   3B-checkpoints`) — **RULED**; the alternatives are §8's.
