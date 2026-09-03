@@ -794,3 +794,27 @@ word: the analyzer, once, detached (`python -m
 experiments.exp2l.analyze_2l`) → verdict vs the sealed projection
 9d3b39f4 → tag `exp2l-closed` → retrospective → close-out
 propagation.
+
+## 2026-09-03 — CLOSED: VERDICT BOTH (tag `exp2l-closed`)
+
+Analyzer run once on Michael's word ("Run the analyzer"), detached
+(--write), 3h35m; zero referent failures (13/13), zero secondary
+failures, n_perm 10,000. **Test A (Pythia-1b x_A^(256) → OLMo-2 13B
+sealed stage-1 emission order) T .1261, p 1.0e-4, FIRES — the
+program's first cross-family forecast to clear its preregistered bar
+on a sealed outcome. Test B (OLMo-2 1B beyond A's median bucket)
+T .1814, p 1.0e-4, FIRES.** Licence condition met (A's CI excludes
+zero on 6 of 9 rungs). Texture headlines: the k=64 blocks all miss
+the bar (.0719–.0798) while 256 clears — 2i's density reading sealed;
+S5 π .1848 — 2j's second mechanism survives its first sealed test;
+antonym splits in SIGN between predictors (A −.066 / B +.256) — the
+cross-family component is arithmetic-heavy, option-rung structure
+lineage-private; the named per-rung disconfirmer fired by .002
+(antonym6 .0977 vs odd6 .1038). Projection 9d3b39f4 graded in
+`results/retrospective.md` (verdict HIT discounted per its own
+honesty note; S1–S6 six for six; per-rung 4 hits / 4 misses, all
+four misses one type-level error). `results/VERDICT.txt` written.
+One pre-committed change UNSPENT end to end. NEXT on Michael's word:
+close-out propagation (essay under the §6 BOTH licence,
+experiments.md, public graft, Zenodo, SDD workspace deletion) and
+the mlx text-server restore.

@@ -1,0 +1,104 @@
+EXPERIMENT 2L — VERDICT: BOTH
+=============================
+
+Closed 2026-09-03. Frozen analyzer run ONCE (--write), detached, on
+Michael's word; verdict.json written at git 7dbba3e7; zero referent
+failures (13/13), zero secondary failures, n_perm 10,000.
+Tags: exp2l-preregistered (307ecce3), exp2l-predictor-sealed (2k/2i
+predictors, tag-bound), exp2l-endpoint-sealed (fc68d3ea),
+exp2l-closed (this commit). Projection sealed at 9d3b39f4 BEFORE any
+intermediate 13B checkpoint was queried; graded in retrospective.md.
+
+PRIMARY (R_PRIMARY = the nine; stratified within 2g's difficulty
+strata; bar T >= .10 at alpha .01; both tests POWERED 1.000 at
+D = .15, null SD of T .0111):
+
+  Test A — cross-family, sealed: Pythia-1b sampled count at k = 256
+  (2k's sealed tier, historically prior to every 13B query) vs the
+  order in which OLMo-2 13B stage-1 training makes 2c's items
+  emittable:  T = .1261, p = 1.0e-4 (0/10,000), FIRES.
+  *** The program's first cross-family forecast to clear its
+  preregistered bar on a sealed outcome. *** 2i's A read .0949 on the
+  known 7B at k = 64; 2k showed .1548 at k = 256 on that same known
+  outcome; 2l seals the claim: at 256 draws the cross-family
+  predictor carries to an outcome nobody had queried.
+
+  Test B — within-lineage beyond A: OLMo-2 1B's sealed counts (2i),
+  conditioned past x_A^(256)'s median bucket:
+  T = .1814, p = 1.0e-4, FIRES.
+
+  Licence condition met: Test A's per-rung CI excludes zero on 6 of
+  9 rungs (majority), so the shared component may be the headline.
+
+PER-RUNG D (A | B):
+  add_base8   +.459 [.378,.537] | +.566 [.479,.648]   (top locus both)
+  sub_base8   +.292 [.203,.379] | +.152 [.050,.252]
+  arith_next  +.139 [.072,.206] | +.269 [.194,.342]
+  odd6        +.104 [.032,.173] | +.065 [-.015,.141]
+  sub3_mid    +.098 [.027,.166] | +.043 [.006,.078]
+  antonym6    +.098 [.026,.164] | +.239 [.164,.310]
+  add3_mid    +.013 [-.019,.048]| +.041 [.001,.083]
+  sub4_mid    -.002 [-.029,.027]| +.001 [-.012,.015]
+  antonym     -.066 [-.134,.020]| +.256 [.178,.334]
+  The base-8 pair tops the fourth consecutive outcome. antonym is the
+  divergence: negative for the cross-family predictor, strongly
+  positive for the lineage one.
+
+SECONDARIES (all preregistered, non-gating):
+  S1 64->256 ladder (1b): .0760 -> .1005 -> .1115 -> .1261 —
+     monotone, increments shrinking. The four 64-draw blocks read
+     .0760/.0798/.0719/.0766 (SD .0032): AT k = 64 NO BLOCK CLEARS
+     THE BAR on the sealed 13B outcome; at 256 it clears — 2i's
+     sub-bar cross-family reading was predictor density, now shown on
+     an outcome that was sealed when the draws were made.
+  S2 410m at 256: T .1270 >= the 1b .1261 (410m >= 1b on
+     cross-family transfer for the third consecutive time).
+  S3 2i's partials: within-alone .2045; cross-beyond-within .0770 —
+     the lineage asymmetry again.
+  S4 matched density: thinned-B .1948 vs T_A256 .1261; the lineage
+     increment at matched draws = +.0687 (2k S3 read +.054) — density
+     does not close the lineage gap.
+  S5 answer prior (2j's second mechanism, FIRST SEALED-OUTCOME TEST):
+     T .1848, p 1.0e-4 — the prior alone forecasts a sealed
+     emergence order; the mechanism claim survives (retirement
+     clause pi <= .05 did not fire).
+  S6 step 0 verifies 0 items on ALL 34 rungs; main >= stage1_final on
+     15 of 18 R_13B rungs (annealing/soup lift carries to 13B).
+  S7 textures: 16 flat rungs; one flat transient (clock24_d999 at
+     256k/512k — 2h's "no flat rung ever clears" does not carry to
+     13B either); 156 collapse records, dominated by the step-1000
+     grid point emitting "!"-runs on ALL 500 items across rungs (the
+     preflight's texture, absorbed by the count outcome as designed)
+     and step 0's init babble (clock24 "EXT liqu" x458); transient
+     verification pervasive with real drops (antonym 353 -> 175
+     between 16k and 32k); first-correct A .1530 / B .2296;
+     x_A live items at 256 vs 64: sub3_mid 31 -> 130, add_base8
+     133 -> 299. Reversal pair (R_EXTRA, descriptive): reverse_string
+     raw D ~0 (A) / +.08 (B) on 160 ever-verified items; rev_string7
+     0.0/0.0 on 39 — no reversal forecast at either density.
+
+GATES / CAMPAIGN:
+  Gate 1 CLEAN: 34/34 rungs, 0 bit diffs, 0 continuation diffs at
+  500/rung coverage, tensor digests equal across both loader paths —
+  the ELEVENTH consecutive byte-identical reproduction on this stack,
+  the first at 13B. Sweep: 596 records (gate1 + step0 + 16 grid
+  points x 35), zero experiment-side halts, zero attrition, one
+  pre-committed change UNSPENT end to end. Three environment-side
+  kills (two kernel panics 09-01: watchdogd memory starvation;
+  WindowServer/GPU watchdog under an active CRD session; one
+  process SIGKILL 09-02 in a checkpoint transition), each leaving
+  the tree byte-clean; evidence and rulings in PROGRESS.md.
+
+DISCLOSURE (design §2, carried verbatim by the analyzer): everything
+through 2k's close-out was known to the designer before any 13B
+weight was loaded — the verdict-level call was cheap; foresight is
+graded on the 13B texture and per-rung tables in retrospective.md.
+Calibration: each test is alpha-.01-calibrated alone; the four-world
+union is not (3d's calibration lesson, §7).
+
+LICENSED (§6 BOTH): both components with their partials — the
+256-draw cross-family predictor clears its bar on a sealed
+second-family outcome, AND the small same-lineage model adds a
+distinct component beyond it. NOT licensed: any claim beyond OLMo-2
+13B stage 1, or "Prediction 2 supported across families" (the essay
+sentence is written from the §6 licence at close-out propagation).
