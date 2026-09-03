@@ -773,3 +773,24 @@ completed steps from the tree and continues at step192000; watcher
 3100 uninterrupted. Six grid points remain (~13 h). Monitoring moved
 to an hourly PID-agnostic cron (tracked pollers were being reaped by
 session events every few minutes overnight).
+
+## 2026-09-03 — SWEEP COMPLETE (stage 2 done): 22/22 units, zero experiment-side halts, zero attrition
+
+The 13B sweep finished cleanly at 10:55 EDT ("[2l sweep] olmo13b:
+complete"): gate 1 + step0 + all 16 grid points (log head 1000–32000,
+every 64k from 64000–576000, endpoint 596057), each with 34 rung
+records + `_checkpoint.json` — 596 records, all watcher-committed and
+pushed; no halt marker, nothing partial, pre-committed change UNSPENT.
+Campaign texture: three environment-side kills (two kernel panics
+2026-09-01 — memory-starvation watchdog, then WindowServer/GPU
+watchdog with CRD connected — and one process-only SIGKILL 2026-09-02
+in a checkpoint transition), each leaving the tree byte-clean; zero
+experiment-side stops. Productive wall time ≈ 35.5 h across the two
+surviving launches (gate 1 alone 7,194.5 s, clean 34/34 — the
+eleventh consecutive byte-identical reproduction, first at 13B).
+Watcher stopped after final push; monitoring cron deleted;
+mlx text-server stays booted out until close-out. NEXT on Michael's
+word: the analyzer, once, detached (`python -m
+experiments.exp2l.analyze_2l`) → verdict vs the sealed projection
+9d3b39f4 → tag `exp2l-closed` → retrospective → close-out
+propagation.
