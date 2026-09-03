@@ -25,8 +25,6 @@ def _small(monkeypatch):
     monkeypatch.setattr(pw, "N_SIM", 4)
     monkeypatch.setattr(pw, "N_PERM_POWER", 30)
     monkeypatch.setattr(pm, "N_SIM_BLOCKS", 3)
-    if not bm.FROZEN_SHA256_2M:
-        monkeypatch.setattr(bm, "FROZEN_SHA256_2M", bm.frozen_from_disk(strict=False))
 
 
 def test_block_sd_A_shape():

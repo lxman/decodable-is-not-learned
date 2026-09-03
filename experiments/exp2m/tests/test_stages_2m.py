@@ -38,8 +38,6 @@ SHORT_SUBSET = (40000, bm.ENDPOINT_STEP_2M)
 def _blobs_that_exist(monkeypatch):
     subset = tuple(r for r in bm.INSTRUMENT_BLOBS_2M if (bm.REPO / r).is_file())
     monkeypatch.setattr(bm, "INSTRUMENT_BLOBS_2M", subset)
-    if not bm.FROZEN_SHA256_2M:                      # until Task 5 pins the literal
-        monkeypatch.setattr(bm, "FROZEN_SHA256_2M", bm.frozen_from_disk(strict=False))
 
 
 def _amap_and_battery():

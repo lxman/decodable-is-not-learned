@@ -706,7 +706,104 @@ FROZEN_FILES_2M = tuple(bl.FROZEN_SHA256_2L) + tuple(REPO / rel for rel in bl.IN
     EXP2M / "power_2m.py",
     EXP2M / "make_referents_2m.py",
 )
-FROZEN_SHA256_2M = {}   # Task 5: pinned as a literal from frozen_from_disk() (48 modules)
+FROZEN_SHA256_2M = {   # Task 5: pinned as a literal from frozen_from_disk() (48 modules)
+    REPO / "experiments/exp2h/battery_2h.py":
+        "2d721cf85bbd85937f45a1135e8b5e102685ab424d8ab0dfada527bd8ab4e80a",
+    REPO / "experiments/exp2h/analyze_2h.py":
+        "52733e8d4280fb41b76cda2dcac024299ce7dd61090f856ba3147c8098b871bf",
+    REPO / "experiments/exp2g/battery_2g.py":
+        "aca79dd71ee7dead3c0ce065945bb38eaf1b0b72b5d5f40698dabb0f5a9cf3c1",
+    REPO / "experiments/exp2g/stats_2g.py":
+        "cf3c4c89c86fa43c5ba49d5c4be12eabad28ac65d9d12a43b1e31ef6e4bc195f",
+    REPO / "experiments/exp2g/strata_2g.py":
+        "ea0acbbdfde13655a6b89d3afcc981f348ee6312b4448b70d437f1e4d3f7f594",
+    REPO / "experiments/exp2g/labels_2g.py":
+        "d86e7cdb4dcc10257986e8a85824365972a75ba993be5a8fde8a825d68e3077d",
+    REPO / "experiments/exp2g/analyze_2g.py":
+        "eab7c5b91d57351ee2a7adb0e85d71cb92cb4d6ed15d0bb90150c95c2076050e",
+    REPO / "experiments/exp2g/checkpoints_2g.py":
+        "155fee3ec3933db33930d7ddadb99c02604d893205a8f8c037016cc18609fb10",
+    REPO / "experiments/exp2d/battery_2d.py":
+        "503a2c09ec320989223561291ff93c71d62d27ed20c5681f9b2d535b7708e81a",
+    REPO / "experiments/exp2d/analyze_2d.py":
+        "01ee334db5fe273a8509cf4bf79757b52a40a123311acd42554ac1a82e40334a",
+    REPO / "experiments/exp2d/stats_2d.py":
+        "86243932709013ea15b250e9bf15243ce6209e03e6bcf81af0f7ac3f92644b46",
+    REPO / "experiments/exp2d/results/verdict.json":
+        "d5b1b28bf70f4be1a5acf73df8ad03d8c57349ce4acf15e26f690c6dc1347b61",
+    REPO / "experiments/exp2c/harness.py":
+        "3e72fb3c18772096e8c520ade93e154dd8bc6765c3c473390a9b32a6b24ae111",
+    REPO / "experiments/exp2c/battery/family_map.py":
+        "46477b37683c8ea0e1f2f219dce96858a0dcf91710b15cae45a8cf4c4c7ab375",
+    REPO / "experiments/exp3/sampler.py":
+        "e33c50d3985b1d6205d886e53726860f364cce1c6cd943ec460524e9110a03ea",
+    REPO / "experiments/exp3c/analyze_3c.py":
+        "66b78ffbedb808625ed33019f29d2ef8ec9d0f31a1115eb7cb08ad3e67d42d84",
+    REPO / "experiments/exp2g/predictor_2g.py":
+        "3381b43a34fd1fb1f7ef57eb9d02a6a9e9ec41b3ffcadea425c37b86c1e92a4e",
+    REPO / "experiments/exp2g/run/sweep_2g.py":
+        "850db5831adeffc46a888ca185ef3f1ad819a8db104c9eafd1df69c470c91a87",
+    REPO / "experiments/exp2i/run/_common_2i.py":
+        "5cc7c97f68b45656d6dbbb5fbf6d7d895d7b1d96e104df543f8c9f1691e5ad4f",
+    REPO / "experiments/exp2i/make_referents_2i.py":
+        "6de0278cfe85d9efefa11d0b2549afa78dd8836e1ef2b947d00c8709acc3977b",
+    REPO / "experiments/exp2i/power_2i.py":
+        "0e5e449ac420e40243ae86eb84e576256e857581ad3c7e000fcea5e08666119d",
+    REPO / "experiments/exp2i/run/seal_2i.py":
+        "f20132aed4c0b7e995745972abeddec4ba1d7a269147b5d034bff06a3157f078",
+    REPO / "experiments/exp2i/analyze_2i.py":
+        "85e482fea17e0706476243a0a98a7d2c32efebd6536c5255ae48e729b494c252",
+    REPO / "experiments/exp2i/battery_2i.py":
+        "e0a8d10cb4dde8a3af1a3e9b32447c407b43201513dc758d6cd9a8c38b5cdfcf",
+    REPO / "experiments/exp2j/power_2j.py":
+        "19b80593d091663183b7394b101ee5f97c832b5f0dd7dc4227c9b1107721ab1a",
+    REPO / "experiments/exp2j/make_referents_2j.py":
+        "ac4064ccc0e2a210c6eee720578f2b4c31846cf00d76668070adac5e9ebe1678",
+    REPO / "experiments/exp2j/analyze_2j.py":
+        "976f1ff1f91affa2fc66d635e6b6d9a8aabfd21bdc7ccc38abfe87482ea09b13",
+    REPO / "experiments/exp2j/functionals_2j.py":
+        "39375f01de4b5bf06787175e25f7f85394844c005c3c4ea66f69954b1fe8bfce",
+    REPO / "experiments/exp3d/rederive_3d.py":
+        "8421433ffe328e7e2ad8d2877150f9bfc0279c9337576fd5860e917dc8690870",
+    REPO / "experiments/exp3/run/run_cell.py":
+        "5c018457d9eb999079b4b0426dc0ecadf10baed6339d32b5eb914f280da35b46",
+    REPO / "experiments/exp2i/run/sample_2i.py":
+        "6cf3cdfac2f940f12c0365694758578a3655afbf74498f7c7c549ac221b55fe4",
+    REPO / "experiments/exp2b/models.py":
+        "a4c5eed26cc92044aeb9ed7b68b177035de3ac2615dbba09a6d21eeb191a55a4",
+    REPO / "experiments/exp2k/power_2k.py":
+        "318ec4266513200e6a018285184cdae5c1fe5cc78400fe07671a9f45bc92ed4e",
+    REPO / "experiments/exp2k/make_referents_2k.py":
+        "6921feb194bd5971a74af1c25899146c70e5a9b402546be413321b3edee882d4",
+    REPO / "experiments/exp2k/run/seal_2k.py":
+        "0cbdd982a55075e8c8567acb82d7264ce87c88320d2fa4568a5b419f7ca4b2fb",
+    REPO / "experiments/exp2k/run/campaign_2k.py":
+        "75f2b4c4f66d3d683d875e2a569bc2ec2b7c72fafa3ca1071c103d54df1337e5",
+    REPO / "experiments/exp2k/analyze_2k.py":
+        "27ea6f7b4dcf18894061363a7d7d64d2a63e867946797a5306a695c9d0e86f1a",
+    REPO / "experiments/exp2k/battery_2k.py":
+        "1066265d689573cc009c73df1b036a9453be7a807d79e153b53ccf52177eec0a",
+    REPO / "experiments/exp2k/run/tier_2k.py":
+        "4729ece9592b27c9aaa1183e8570dc787d4a945edafb82f036bc05b9bee50510",
+    REPO / "experiments/exp2i/run/endpoint_2i.py":
+        "8c3718341b22fcdd99c799e45d43ac883f076c2d2080789aa323626c4d808cf2",
+    REPO / "experiments/exp2l/power_2l.py":
+        "99e4c8f978608db64ec0cf3ea00de98e4c43d4447d033ec836c45b82c198b5e9",
+    REPO / "experiments/exp2l/make_referents_2l.py":
+        "4b7e0b9660a4bf057af7976e7ca64d8f0a2396f8fce959d9f0285103ed5bacd7",
+    REPO / "experiments/exp2l/analyze_2l.py":
+        "a76d26031abc73df0757c9fa20ac5b5254a06128d5fc6897c0cd5876106441b6",
+    REPO / "experiments/exp2l/battery_2l.py":
+        "c85726b9909dfe11dd6481b96e773ce27aa507d83ac05348e0125f79aae50b8b",
+    REPO / "experiments/exp2l/run/endpoint_2l.py":
+        "714c8db8b2ab99a7e04a0ff169e821015caa9cad2e2c47e198beccaf383ad6ad",
+    REPO / "experiments/exp2l/run/sweep_2l.py":
+        "d24babe784d465deea35c3ed06802bd2210a6dd471b01cb7d31b2d17ba1093bd",
+    REPO / "experiments/exp2m/power_2m.py":
+        "71ce8601bb633411d91ab595d6d5adbf979c16ed50ffddab4e7359a8ff31878f",
+    REPO / "experiments/exp2m/make_referents_2m.py":
+        "5f07bbd1c28058e2cc4dc2fa15ef5f8386cc3654a8b49b1c01489cbfa27a068f",
+}
 
 
 def frozen_from_disk(*, strict: bool = True) -> dict:
