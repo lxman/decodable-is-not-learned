@@ -248,3 +248,92 @@ the six `test_run_forced_exceptions_on_the_real_tree_are_graceful`
 cases, `test_s4_matched_2m_uses_2k_rule_and_2j_blocks`,
 `test_s5_answer_prior_2m_is_2j_functional_on_2i_rows` — together with
 the rest of `test_analyze_2m.py` ran in ≈ 157 s of the total).
+
+## Task 4 (2026-09-03): `power_2m.py`, the worlds, totality, power tests, cold battery
+
+Built (Step 1-6, transcribed from the brief verbatim apart from the
+disclosed corrections below): `power_2m.py` (`block_sd_A` — 2j's
+`t_only` on each of x_A's four 64-draw blocks against outcomes drawn
+from the endpoint-bounded latent, at D=.15 and at the null; `main` —
+2i's `_one_test_power` run TWICE on the REAL sealed predictors, Test A
+(x_A^(256)) and Test B (x_B), BOTH on 2g's plain base strata, dial b),
+wholesale-replacing the Task-3 docstring-only stub; `tests/full_shape.py`
+(the 22-world SmolLM3 builder — three endpoint whichs, 26-step sweep,
+twin, gate 1, rung set, power record; the residualized-latent
+construction so each single-predictor mode's rank is orthogonalized
+against the OTHER predictor inside every base stratum, since 2i
+disclosed x_A/x_B correlated at rho .06-.32 within them);
+`tests/test_full_shape_2m.py` (every terminal end to end, W1's full
+secondary shape, W2/W3/W5/W6/W18/W19 spot checks, the strict-JSON NaN
+case, the production S8 loader); `tests/test_totality_2m.py` and
+`verify_referents_2m.py` (2l's files mirrored per the brief's exact
+substitution/addition lists — diff summaries below).
+
+### Task-4 ruling carried out (disclosed per the brief's instruction)
+
+`FROZEN_SHA256_2M` is empty and `IMPORTED_SHA256_2M` is `None` until
+Task 5, so a bare `an.run()` call lands every synthetic world on
+"2m frozen modules"/"not pinned" INSUFFICIENT_DATA regardless of mode
+— the same shape Task 3 already documented on the real (pre-campaign)
+tree above. Per the ruling: `full_shape.run_world` and the two direct
+`an.run()` calls in `test_full_shape_2m.py` (`test_w18_verdict_json_
+is_strict_with_a_nan_secondary`, `test_s8_production_loader_once`) pass
+`frozen_check=(None if bm.FROZEN_SHA256_2M else (lambda: None))` and
+`imports_pinned=(True if an.IMPORTED_SHA256_2M is not None else
+False)`; `test_totality_2m.py`'s `_run` sets the same two via
+`kw.setdefault`. Both expressions revert to the real checks
+automatically once Task 5 pins the two literals — no edit needed here
+then (2l's own Task 5 dropped the equivalent bypass).
+
+### Test-side corrections (disclosed; no production code touched)
+
+1. **`test_totality_2m.py`'s `_run`** — the brief's literal call
+   hardcodes `s8_loader=fs.s8_cached` as an explicit keyword AND
+   unpacks `**kw`; the moment a case (the new `test_s8_loader_forced_
+   exception`) passes `s8_loader` through `kw`, that raises `TypeError:
+   got multiple values for keyword argument 's8_loader'` before `an.run`
+   is even reached. Fixed by `kw.setdefault("s8_loader", fs.s8_cached)`
+   instead of the hardcoded keyword — same default for every other
+   case, overridable by the one that needs to.
+2. **`test_check_imports_2m_exit_forced_exception` /
+   `test_check_imports_2m_post_secondaries_forced_exception`** — found
+   only running the FULL suite, not this file alone. The brief's
+   pattern (`real = an.check_imports_2m; ...; return real()` for the
+   "passing" calls) depends on the REAL `check_imports_2m()` actually
+   succeeding, which depends on which OTHER `experiments/*` modules
+   already sit in `sys.modules` — a property of pytest's collection
+   order across the whole suite (e.g. `test_stages_2m.py` importing
+   `run/preflight_2m.py`, explicitly not yet covered before Task 5),
+   not of this file in isolation, where both passed. A first fix
+   (monkeypatching `IMPORTED_SHA256_2M` to a dict covering just
+   `experiments/exp2m/__init__.py`) also passed in isolation but broke
+   again in the full-suite run for the same underlying reason. Since
+   what these two cases exist to exercise is `run()`'s CALL-SITE
+   SEQUENCING (entry -> exit -> post-secondaries — Task 5/the freeze's
+   target), not `check_imports_2m`'s own correctness, the fix replaces
+   the "passing" calls with a plain no-op and passes `imports_pinned=
+   True` explicitly to `_run` (the default stays `False` while
+   `IMPORTED_SHA256_2M` is `None`). Neither assertion was weakened.
+
+### Tests
+
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2m/tests/test_power_2m.py -q` — 3 passed in 44 s.
+`... pytest experiments/exp2m/tests/test_totality_2m.py -q` — 31 passed in 332 s (0:05:32) after the corrections above.
+`... pytest experiments/exp2m/tests/test_full_shape_2m.py -q` — 10 passed in 649 s (0:10:49).
+`... pytest experiments/exp2m/tests -q -m "not slow"` (the whole suite, once, per Step 7) — 141 passed, 1 deselected in 1212 s (0:20:12).
+`... python -m experiments.exp2m.verify_referents_2m` — `referent battery: 11/13` (items 3, 12 skip pending Task 5); item 13 (S8's four committed outcomes) printed per-source rung/n_pos counts: pythia_2.8b 7 rungs/1769, pythia_6.9b 8 rungs/2088, olmo2_7b 34 rungs/8793, olmo2_13b 34 rungs/8737.
+
+Every world's terminal matched `world_specs()`'s expectation (`test_every_terminal_reached`, all 5 `WORLDS_2M` terminals covered). W1/W2/W3's printed statistics, from a standalone re-run of `write_world_2m`/`run_world` at the default `n_perm=200`:
+- W1 PYTHIA-ONLY: verdict PYTHIA-ONLY — T_A=.7124 p_A=.004975 fires_A=True; T_B=.0095 p_B=.2289 fires_B=False
+- W2 OLMO-ONLY: verdict OLMO-ONLY — T_A=.0251 p_A=.0199 fires_A=False; T_B=.6527 p_B=.004975 fires_B=True
+- W3 SHARED: verdict SHARED — T_A=.5942 p_A=.004975 fires_A=True; T_B=.5367 p_B=.004975 fires_B=True
+
+No world landed the wrong terminal (no leak found); nothing was loosened to make a world pass.
+
+Files changed: `experiments/exp2m/power_2m.py` (replaced wholesale),
+`experiments/exp2m/verify_referents_2m.py` (new),
+`experiments/exp2m/tests/full_shape.py` (new),
+`experiments/exp2m/tests/test_full_shape_2m.py` (new),
+`experiments/exp2m/tests/test_totality_2m.py` (new),
+`experiments/exp2m/tests/test_power_2m.py` (new). Nothing outside
+`experiments/exp2m` touched; no Task 1-3 file edited.
