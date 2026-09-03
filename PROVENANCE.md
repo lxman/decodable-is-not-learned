@@ -339,6 +339,42 @@ a verdict over a fire), which the record documents. The retained-path
 list above now includes `experiments/exp2k` and
 `experiment-2k-design.md`.
 
+On 2026-09-03 the Experiment 2l record was added (approach C, the
+sealed cross-family forecast: does Pythia-1b's committed 256-draw
+count — 2k's sealed tier, historically prior to every 13B query —
+forecast the order in which OLMo-2 13B's stage-1 training, an outcome
+nobody had queried, makes the battery's items emittable, and does
+OLMo-2 1B's committed count forecast it beyond that? Verdict BOTH:
+Test A T .1261 at p 1.0e-4 — the program's first cross-family
+forecast to clear its preregistered bar on a sealed outcome — and
+Test B T .1814 at p 1.0e-4, both POWERED; the four 64-draw blocks all
+sit under the bar, sealing the density reading; the answer-prior
+mechanism survives its first sealed test at .1848). Same GRAFT route:
+the 694 private commits touching `experiments/exp2l`,
+`experiment-2l-design.md` and `.gitignore` were applied as a
+path-limited patch series fast-forward onto the previous public master
+(2c3fa4e8), identities normalized to the single noreply identity,
+author dates preserved, redaction scans clean (0 secret-class, 0 LAN
+literals, 0 home-path lines — the first round with none); twenty
+commit messages from the campaign-recovery period carry a
+`Claude-Session` attribution trailer (an authentication-gated session
+link), preserved verbatim under the messages-preserved rule and
+disclosed here. The tree at all three new anchors and at HEAD is
+entry-identical to the private tree on the retained paths (708
+entries under `experiments/exp2l` at the close), all 59 prior tags
+and every prior commit untouched. Three tags carried:
+`exp2l-preregistered` (private 307ecce3 → public 166085c9, the
+instrument blob-bound), `exp2l-endpoint-sealed` (fc68d3ea → bfbc3cf1,
+the 68 endpoint records, the rung set and the power record),
+`exp2l-closed` (86484811 → 6ba69b26). The predictors took no new
+model contact — they ride `exp2k-predictor-sealed` and 2i's seals
+already on this line. The freeze of this experiment found no class
+defect; its headline finding (F-4) keyed the THIN guard to the size
+of the primary rung set, and the campaign survived three
+environment-side machine kills with the tree byte-clean, which the
+record documents. The retained-path list above now includes
+`experiments/exp2l` and `experiment-2l-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
