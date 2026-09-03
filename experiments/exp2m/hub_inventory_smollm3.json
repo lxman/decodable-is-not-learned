@@ -1,0 +1,2335 @@
+{
+ "HuggingFaceTB/SmolLM3-3B-Base": {
+  "main": {
+   "commit": "d78a42f79198603e614095753484a04c10c2b940",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "7e270ac568ee1880ddbadad66ccdcd9906d52415e8904e2f300c75250b9c7d49",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "c6a6e7690a66dcc386a6a9b456686e7c308d45cba884d116c928dafa7fa987ae",
+     1183919744
+    ],
+    "onnx/model.onnx": [
+     "ed264ed0d95938536ee7e12b69dd198bc2dc3f93352e1aec337627c88c917f96",
+     225803
+    ],
+    "onnx/model.onnx_data": [
+     "001474c54b96269ac124353171621fe99ac7256e848d3b4c5e42becb49fbb210",
+     12333948928
+    ],
+    "onnx/model_bnb4.onnx": [
+     "d61e0e98472cb68509568bf8f19ccc22135787272504beb0d0db77fc8ca17374",
+     297680
+    ],
+    "onnx/model_bnb4.onnx_data": [
+     "4676c15ff248ece42d7a63854ec8df3731edd8b2442b4b47e7ce7c1862a80803",
+     2666733568
+    ],
+    "onnx/model_fp16.onnx": [
+     "4617f70c998cda665117546bde4fe98f31f4e7bfa9378d1486bd04e5e7da88d4",
+     227554
+    ],
+    "onnx/model_fp16.onnx_data": [
+     "3659ff3725e3d7a2b2450744590af9a6edcbe51a6aae2d06efd13ae5e38868d6",
+     6166974464
+    ],
+    "onnx/model_int8.onnx": [
+     "a7e8da07118f86834c8018df8896796375250a40a8bf09c518585d4febc37470",
+     518279
+    ],
+    "onnx/model_int8.onnx_data": [
+     "e3fafae27b3a2e551e1d9ab15557e829faadae842591f7a8225bc37e2589c517",
+     3109101568
+    ],
+    "onnx/model_q4.onnx": [
+     "9db16322adae1710715a50b024280d132e5341c6347ad948263c28332b4adb3f",
+     300202
+    ],
+    "onnx/model_q4.onnx_data": [
+     "72052f72b4d09e2e18a764fd9b221921b4bf91161ce85dbdafdeb3e9be1a8cb3",
+     2842501120
+    ],
+    "onnx/model_q4f16.onnx": [
+     "4947306274ab1353066a1f011a146618b779689e43ab0a4b91d3c5e7a5bcb894",
+     301713
+    ],
+    "onnx/model_q4f16.onnx_data": [
+     "98aecb93fe7f2e6857bdac1d5b0f5459abc5b711eed5d97d39cd608d546e4aa7",
+     2124320768
+    ],
+    "onnx/model_quantized.onnx": [
+     "06e97f8030ca78712fdb8f050c75da10812e803596b4d9a65d9826780ed1131a",
+     520084
+    ],
+    "onnx/model_quantized.onnx_data": [
+     "c56eaf2c1f3280b00781178e4ecf9af9d17698924e3f233947abddb0db8b9266",
+     3109101568
+    ],
+    "onnx/model_uint8.onnx": [
+     "844b5927849ecbce97ccce3cb27a5d36593513591e82164e087ea0a740b493c0",
+     518735
+    ],
+    "onnx/model_uint8.onnx_data": [
+     "c56eaf2c1f3280b00781178e4ecf9af9d17698924e3f233947abddb0db8b9266",
+     3109101568
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  }
+ },
+ "HuggingFaceTB/SmolLM3-3B-checkpoints": {
+  "it-LC-expert": {
+   "commit": "99d07b0a954f07f1237176440b0a61149c7d03d3",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "05221371e9282fdd7e97b84641b07287d7e4bd5c32b79763c24d77e521d3fb12",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ef90d35513c0b14afa7b39d48aaf4d7d29233b969811108913a85749e8239f9f",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "7b6a500b662a34eb3f0374db856ba4ad7de4c81040571d78dc0d357238930005",
+     17208819
+    ]
+   }
+  },
+  "it-SFT": {
+   "commit": "f6ddaa5f2e99f24ea507596c214595769fb06387",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "cee7ae7a57e0f25cacd2f3a4a6b6624712f554668e6f6e5f5c7192fa0b0195ee",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "88381b40891a4c696e39b184d3f53e93e02e5e8ffd239f5b5b13039b705348e4",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "7b6a500b662a34eb3f0374db856ba4ad7de4c81040571d78dc0d357238930005",
+     17208819
+    ]
+   }
+  },
+  "it-mid-training": {
+   "commit": "0485ec16b618f88f6dbb27b23dbdecca1d6a1cdd",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "8f4fad11ea86217998444ea0c96fd882be38943dee9cb3c891ef6a24ee5b6968",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "0265bb97e49eaeea77acd57d6ec2b6d5d1bb172e0bcdb33f65f5ac2159f73627",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "7b6a500b662a34eb3f0374db856ba4ad7de4c81040571d78dc0d357238930005",
+     17208819
+    ]
+   }
+  },
+  "it-soup-APO": {
+   "commit": "cfb32d505f5025ec9be4e704f70cfbf5bdf8da94",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "e35cc4567f783b0947a3b110bd6166f302fe0f3062ee64b275ce8a01d750634b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "f24751fa93bdde6d304b12e2ce7e6829eed316165c23a0900e585d2b36b95ce6",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "7b6a500b662a34eb3f0374db856ba4ad7de4c81040571d78dc0d357238930005",
+     17208819
+    ]
+   }
+  },
+  "lc-32k-to-64k-step-12000": {
+   "commit": "051a0fcee97564f177973775ba1290f06a919135",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "29d26e1843d68eacd792227e57b6a25405033e91efe62c14b3a3857ae3df8f4e",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "2849667217e156f200259305b49ca16a30739be284e2791e4464fb28e6039b9e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-32k-to-64k-step-16000": {
+   "commit": "3205b897215425491cdebe575e5be5e886c18e91",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "fdf52f4b21ee014fe0104d802998fee51f645a74db2f226f6a7d29b3f07251bf",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e9aee352a4563d03cb44d42dd33bb326ddbec1c53e75a9eb265800d51a9291c3",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-32k-to-64k-step-20000": {
+   "commit": "d4d10f417b85b7e385c163118183748bd67a34f6",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d837403bcf3e31b55f8578fffdcdc394e1248f72e8b87979c85c08537d61b6a2",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "7c8cdf12d6541d15cdc06e162e0284f49099d8a92b6a1a49b8f98cefa5ba6048",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-32k-to-64k-step-4000": {
+   "commit": "0bc9ab8e1f594def63be9b1b622e75c6532e1c71",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "49538a921d19365aa9769515c4f0caac1c77e763ccae6e638380869a7a17eab1",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "bd284db5645a63b9cb8e33ee751f95fed6d70cfb949233b2c05f066e536bc856",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-32k-to-64k-step-8000": {
+   "commit": "8d22da80c9239b473b6904db3deed81c01217b5a",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "2cbad74d99234f2777fac6684839af6f3b2c993d8ef2c03bf713278148d1ab61",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "a9ffcaf7e6c6ac7256de34e528654c002f433a2db058fa5f4a4ccc00a5f07a79",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-4k-to-32k-step-12000": {
+   "commit": "da6028eecfb870941d41ded01757aa6b8324c9f7",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "234a2c92f2dbcde7f299dd3bda022fe1d11fb7812d2f059d69223765d8ea3842",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "13fe453704b196b93246266b0414e20104fc51854fc703d818f18f1e8323faee",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-4k-to-32k-step-16000": {
+   "commit": "e8247a89260f3986df74ecad73a8dbbcfb301d1e",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "11b721f27f7420be2a4baf9b6ffa925896104f949e550f17d8f0bbc118f4c17e",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e440e2391aa088aba079537d090675c43c53b5d705e022a95b830dbebe1c8a4d",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-4k-to-32k-step-20000": {
+   "commit": "24cc7e71eb21218315ef02c257b192cdd263b302",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "0c74ed2a570da7a97bce75dd1cd3f79aa4c16489af6966bcfa02b9ce2d4bc79d",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "2d77f947cb9cb0c5da230590d6afedb6878efa2245c43f1cdce7f72f7eea4b4b",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-4k-to-32k-step-4000": {
+   "commit": "c58e6e047b1bc354150fcab63253252dc0cabfa8",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "64a47ec02ce21f1f5e20249a8471958a093b2bfb9759c654db5139f1d1bb1011",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "6e5389cb85ded19287961b5848b4ba75a7027c3c3a1c3b1b85eccfa1112fb961",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "lc-4k-to-32k-step-8000": {
+   "commit": "9005cda3817323e2bf47936bbf8751cfd918c022",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "b2824fc9f52f0fff8f0e6a1d5ccdee11f04bea614618cd79621b86daf125db30",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ac00088fdae4710afe435d73b2bbd4ef51c51f01b8b9b71756e1568e1863967e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "main": {
+   "commit": "d7fe5ce9229bb7b793e8d139e929a02788118cbf",
+   "files": {}
+  },
+  "stage1-step-1000000": {
+   "commit": "088def21bb35e9e81b2ddd5b490d820d5aa51a0e",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "eb632b21f2e830a49fe50a00e233600a3f4aede70d4b69d0ca532834f23e944b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "62071a26b8cc40b389a34dade112d6eef70660f601f43cf2fae3b2f89d17295d",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1040000": {
+   "commit": "0604b3825acc67426778b6c784c47503272bfa6c",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d9209c5e981c893ca132053a0874c477ab4c6e19bf471e19822a9213415b5a77",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "42a12c01498be79545867cfb8408289ddc84dc89b64454b04708ab86b6208f09",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1080000": {
+   "commit": "0248bd409ede7201cf8c14842b58c05626730105",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "39d2c1f2e066b5e5a43fbed7f13e4d89cdd203cd602a31f3e6a005ae35695d9b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "f9732d0bbfcc7fb5b425523e81558d0e769827e1de26641f0546d6f739133512",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1120000": {
+   "commit": "d5c3a61ac0ad6f87084465cce5dd749833e84455",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "cda9aeac003a6a661314bda1c919f0bec742d2b1fbf0867bd1e615ca24580583",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "75decf85210f9f6705977c707d13a93eda3f008eae0a1b7e3a063eff0ca1f05a",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1160000": {
+   "commit": "2f838b8a27b720baadabe263c6d40eb89e42cd70",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "05d8806b325f8ddd3448a9d1fc9ca6b6e8767d3fb959f4d489a26cdf595a9cdc",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ead0bb9aff292b0f60f1d8248db1f342fdb09f4f74b7580ceae1db868275856a",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-120000": {
+   "commit": "a413fa599817fa464a9dc279f6573eb869894e1e",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "de7ab220bcf27ee77073b60081b8d256b8030542651b2c123512adba5e6cc113",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "444da795066368784a7eefe2738554a2c944d41453566b335ac75f9a51c62934",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1200000": {
+   "commit": "897d7e04cc41643b6d1094cce0f922be92acc9b9",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "3eb901ec5d421bd42a9fceca77e90540c401b2de7765fa00b7626ea9af13a23e",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "8d77c48b1a276c9a1dbc9e0f1cf555657580bce6b8f2817b7f52b9ee14f84c79",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1240000": {
+   "commit": "c65de9262e2d8f3de4731b25c57b7bb4b93e3a65",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "3ab8d8117a3322a26e49634c68e078bbd445e05f6282fddeea3a7e505606d9cf",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "6d323d1296127356709c0a25547e8b9e69cf6ea2a4edec87e733874ec3ccf672",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1280000": {
+   "commit": "1be632d4b5f5e4805f4301b253c01fb897d458ea",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "569e1b4118c864c9bdf921818e395999f5bf970f3f5b611305bda1126d8247f3",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5f26b9d0e4dd3e478242f74f69ffd05617f938b6aac7555e641ab88b6d90fa98",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1320000": {
+   "commit": "c472cdf2e3cf57a03a6e3716105febfed32d559a",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "2643f563347fa84445f8d48a6e7d7f7e167b646e7c310ca18af08a519d615e06",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "26179a167dc655d80e7a725c6f89e662f0c5c2ec718d71dbd717ded1a93401f7",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1360000": {
+   "commit": "3d3a7d0298202dae53a2cbbbee1c98f00f85b7a5",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "91fef7821731ec57ca17dc1b16cead0779d9d0e59c646ff15ba0ea11ec6c8f29",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "a8cf3382ff4f2d84e699d971201c20f54ef84b0080a856f143f6d76c5663e2f1",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1400000": {
+   "commit": "c9a251d60c732025494ea201c126b1348e366b00",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "e1af4989346c7261837cebcd6c2394133df614812e35eb6fa0e4f06c34269350",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "6687ac65fdb9972489e00e52f1d8a714ce01b61a1964bd4e4c155ad7bfee94dc",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1440000": {
+   "commit": "5f8c0e78dde9b1c4f6c13b48541f74112257cb61",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "544d74f09f872da407e75e07dce54c06c16daa307ba87040db6acab056c881ff",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ef78dfa7639775e1af10e2a4b8b2c38b5594d612815c203ba14f4a805ebffbef",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1480000": {
+   "commit": "eda06c34794c8158bcbdbeb12a2bafd1733de520",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "e1385c747e982797e26971f18e816cc142ad0db5db56cb3d2a35b1dd41a5efb3",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e890de037baf9724af323fbd60889531753955e3c73a99228394f964f870bc9b",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1520000": {
+   "commit": "7ba0fd5ff1d66b47b129c542635921ba58ff39c5",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "a90426c268264d8b2758feca5f0f7d50223e984463d03f129d96d459fe106657",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "b13a369ed06bb1867a60569b366ee02b36b5c18e34a7ea7fa7063d90b0ff735e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1560000": {
+   "commit": "a124ececd09f28ed7249b70dfa205a00d7ef8f9d",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "035ec3dec645599fc2faf881a803b234c842e9c578fde413c12fa21897479f87",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e7dc62e202ece7b143d2d12dba6e169f401edc1d0fa721797f2070ddfa3b7023",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-160000": {
+   "commit": "f3dd3eba907e8b116578fd946b28340ffa870d11",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "fd412e71371a6e13bd153702959c4b82d2f2dccfc66a0cac75286c65bfb9992f",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "0f48d01d0382501b8d75de242c9afc8124f0a6e911b085d2035edadf436bbf60",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1600000": {
+   "commit": "21d4a315778a69114a0d14632328ed8de8ab3298",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "f7990bddf65920d2b404035a0ec5d8ce3710427a56db6c9c51dab6a2199fc1eb",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "a0dfb4a341503a52bffa52200d333d32fccfb5eaa74eed65cace5f50f0bcdba4",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1640000": {
+   "commit": "79731f840159b0748b75bae047883ffa45085eff",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "72195a8152092069356a312071e23d041f94b7dcbf553f72a6b949f7d47536a4",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "f7c4c373cdf429cfb154522476cffa4fd5c6fa6aa87fcfd427d2f300d4ffd96c",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1680000": {
+   "commit": "f53a322613dea24baee3560acf6da8daee9eb77c",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "dd0bc105f31a8d8616ad23e2ca19b09c3a484d68ccce79569a77bd5d30d70ace",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e0fbb52766216f8d5660c8bf1f40dddc3f250176292a209b50dea96d6fb85dcf",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1720000": {
+   "commit": "6353b38192b36f445f201e883a18ac87f844594b",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "4db60d0460f51f231258c57faf4944670e3dcf535c2a97f1bcb89f7e7c797da2",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "8a7261a0053d1563127e206427a807f8cb42e9eccb194eaf3ad95efb7972cc61",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1760000": {
+   "commit": "96677bd21dac783b2f8338aa8b44f22caa096dd7",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "6eceb8290bbd1d04a66c5a46c5ed327e905d604b63a66908bdb8bce266285b71",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "0d8fe2cb509c54d7466f9d166d2db1e5ddb1b87ea7e02bc4a5e5351eddaf63fc",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1800000": {
+   "commit": "2927491e0c421bbe3a0848d36eed3c528cbe3828",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "405f2f9feccf7b39f81a5d95dcbf786f4be5b0679994910411f9783c3b4528d3",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5523caba241149519907a2a0b15da54f844b0f83c54d7523e64b8f9b85b14249",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1840000": {
+   "commit": "2e3a1316f923df162c540953a423a3f7a3fd90fa",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "486d873b55dc7f69b38909f0f3cfad0b5807ae42dd50418712d7f957695dd77e",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ae4c55818a85790b3d9a6edb8f65c3af19567bc91158ef121dddc98cea671f44",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1880000": {
+   "commit": "27ddf50a80fd030129fea212dfce95be3fd6052c",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "2c4ba63b098ed33499d056fdbc9e5bd095f145eacdfe10b17ee4ae8a92b5ee69",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "351ea835278c84ae510ed1b6e78416dc53d1a368f90a5978d9393ff1e829c073",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1920000": {
+   "commit": "2a7efa1cb8a92f250fef4500e55e3be60413404b",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "a9a45e309e667a28faa5b72f8f344f1b19c7fe4b6ed08ade397417fdbcd265fc",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "9372ecae8364127d32215a821163c14a13f74bd11bd3eb2c36af1bc60dcd9942",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-1960000": {
+   "commit": "6df879cdd7fa00c2ca5c6c0b964aaf6eee0fa848",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "718bf5b51021fdf180f765e68eb7e3b2d39a1f7c329bdcbfb6eb43b5a4f8afcd",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ddc65e267d035061c457a689772e1b229de83de29329e70e21a085cba437b126",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-200000": {
+   "commit": "8089bf9b71ead724010855dd6fabd1deb90b70ff",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d87bdd210b706676417d953ecf08ec4cb83474079ad264403986bcfe4621648b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "b2ef46913a0a6d780024134a81f08d3a623928abf0d9bbfbe14198370767c5d2",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2000000": {
+   "commit": "a5cd329c0f6286829d08e6bb84448edac76e0d09",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "416999291e82dae5ad270aa83f7b7b75bcc6b854ec1f51e1ae1fbd2bc0246ad8",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "07d7afa68b54c871a56b05641eb4cac37f0e89ace7a2443d064af1090c95e074",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2040000": {
+   "commit": "e68245383c4d848f0324d87f1b0f86389b770c17",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "47eb0ce9eb27503e819cc5608dac6f1492097acaff24df04f62d77db10ca05d9",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "c0385e58ea96f223931beef10d6660acf35b647622317a83afae265a0347d9db",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2080000": {
+   "commit": "503a604832c1531326ee452f93113ca17608d714",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "7f64698e6990ae6c40b50cdad85cd4c3e58cc268138f48582b10154b8566f355",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e0cb1d1729c1bd2d6de8ce57d53017095222756f1564f268e4b56a345f60d4a0",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2120000": {
+   "commit": "ac926b74c3cc1983f4ec6841e69e028e8fe813a1",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "e197bd358949ee8aef06cd27f44d105fc99b4aa86db528633264a3e4ab571a24",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "6f503324d610c0c6a4c3edae7895c935210a813eebe69d0b00ef410444ea2214",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2160000": {
+   "commit": "bdd94a7a5c9739faf0b2031a6941a47243c71571",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "7c287be11ddf47845cb81fed3a380f3afc8d35c8b3941e4815f706cff9a3a956",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "6394d1ac77e4da08a982e5ba9021d7f0d72ca9d2b37d7652105413c4ce956bb8",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2200000": {
+   "commit": "839fbcb842db7c1591264f351991bbe717319ce6",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "b03f3b1a2e515ee5ef234b2e7aeaa1ef15d9cd822801f03bf323b3527f6d4166",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "6fbb26e541656376034c1756e477bf7538e37d8f8ceda05fd916a4484f910318",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2240000": {
+   "commit": "ec0e252b17f78d623689f36391564f36665d5b98",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "589b257114346e52a325b00c658a59855426df3fe2ee231a82cbc8572f1b2f80",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "3588b658c2dac6b413018b913288cfbb25e6c45c36d6c331bbfe7dc009689afe",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2280000": {
+   "commit": "90753a311f36542249718bb70d62719f099c8d77",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "966db597673806e931ab792a45617b92dbf30f1ef5d14719594fe34b98737070",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "603bd0cb3bdb5bcae8c528749a7159a29c8c43f1dfa6e61f7443e77aa1af3706",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2320000": {
+   "commit": "73bde99f254f7d5cc31b618dbaa3776a6ce51722",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "99525a8fd4dd123ce866156b52cc1ef5602cdc9702cab8ffc6e79c9ceb5d783f",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "9558f57cc6e48019319b09eb57f80089f9cd934942fd1b196fe73e2fa1356a82",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2360000": {
+   "commit": "aa19ce76eaab63be44f01e53352a8bc3b50f0463",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "448ba55091886e53a305fafd7dc40b397e0bee9ccd0b61911be568ec43e5b850",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "561cd38f852e33e23fcd8059af298aa98829a2a87d54bcffeb6a6c78d61f51c2",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-240000": {
+   "commit": "e5543d4767887f90d74ffd3f73a989db661c131c",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "ef4efc31bca37387d54936f7821c3667eaec4e9d2a3201e679f52093688cddf7",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "47bde6737e57d444609ee105edc3c7f81b8e06a3507c99a773b0a8c69b04c057",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2400000": {
+   "commit": "dbbbac105ee1c53adf998403e4eecaa9d630c369",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "4da50d96ac864d178abc1367bf3ababac7834bbf58cb4508419b8f888da84c81",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "c36ecec97d3a363dd0e65e5702267ec7ffb440410002b8bc7281aa22478fdf78",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2440000": {
+   "commit": "9d39aae5d8694acbfdb383c7931be2f8c854b143",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "5aa14925ac6694dd94673b12eebda0111a6b62977c634a3d2899b7b399156e0b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "80a6ecbbf85371aa389bd2f3321ab57789a4359473e510b40edf9d57078256b6",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2480000": {
+   "commit": "823661c9d59ac1ca3155c366bf9a03901a806421",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "6e4dbddc7869278b6e4e042c24706078ad17772142b0c0a53d44e49cc50bce1f",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "95fafaf38cc645d08a0217895ffb70b28c47d6cb41339f560cb454ca6db71a89",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2520000": {
+   "commit": "c040f4891c2f55a49c4a032968f7af669e0dc9d9",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "5f931c41b45b7950f9f30ff2e31ace12859e56ec33536b8b22e13d30a18f3c7a",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "9b7ce459d2f47322d900b1d59826592d7db103a01b1eef189b829774f503c2ca",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2560000": {
+   "commit": "6ef73a94518ebb94d17dada63f7c21bf760e238f",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "2c43f3570f51acc8948b8cbaa9adbf139ea877795a51a14a1fab529408f78b60",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "2ebf68b15d9c1aaea4a09a60d0e0bded6cee1b408ad4cd912ecce0d6407acea7",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2600000": {
+   "commit": "0eb3ad62c306c236da96bbbfe0abe94df4d97889",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "e93de083e435849cb5427d9604e1b21414d14a8391baf37b48cd0eedba4046b7",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "2d830ca3ffe354be893d7e475dfb4deed36c312a2a1608e4fb00a3a08d2dbefa",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2640000": {
+   "commit": "e0c1050d1e22e13797c7e1010e6c2f8ee57dfd70",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "bf2613b1922cde344d921283be4910bd79553a32b81e009c6fa0e9f1c16d793a",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "38aebebe68f8c5a671c2c0cac3586f99c3af8983a0868ad61e3d5f5fae00aeb9",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2680000": {
+   "commit": "30cccc62326e4f9679538270c44c9ac18314906b",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "26bfdeca26eae68d991c1cf96f620296b780a3072f2eaba3b2ab4ce90ce45f8f",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e4936a01bf924c8afb4641d50b2016d742fbf57f70c1ad05cb4977a7beb44297",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2720000": {
+   "commit": "aa8430383bc504bb88bf0e6b0e293ab0bee6ef13",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "5d5e6eb7850bc6d6cf6d076db3a63eb6fdcea60ddc1752a305bdef4dd630ed0c",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "8c6704ecd3e9b6a285ae361d7bf19a94cb691a2be74eb1815a7dc15c0e77fbdd",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2760000": {
+   "commit": "5329c273d4d610c0baaf9b26236885bca80c415b",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "48c99f214a0e40ab57486614137299b535d42f0dfd00e4f1f0bbd2284f80bd4f",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "3594daa43848aad1f29caf6c02ca289962fca03549a591766af27e36763baf27",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-280000": {
+   "commit": "7a22854a6e02a5a0fb59c0457af7268458cf0cb3",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "567498f1a7de2fd4872512d67cfb8ceba01f9b76260617cad80ecde7310540f3",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "23c3d59d9cfffa1576b392d5f166650d1675317e6e27936f81d57dd1e0028011",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2800000": {
+   "commit": "505dbf972308a690081da14aaeb40d2fb538c28a",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "e23c99630a23b40f8da92a76fe3dc431dc6193eff0c6bb0f371796fae2b58bd6",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "580193c7bc9e489214765e6ed747a7aec5693fe938d7d5939234b7cdacfdc230",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2840000": {
+   "commit": "71b9c5b40764c97b80086f6a3072132cf28abafe",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "f342a472782c865fb49c8abcd79f65e1920120f8d504c46bcf149569d0d893fa",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "936ccf36d4d9c20cd398a5058905f3a92485c8fb7763784609b17e1efcc24910",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2880000": {
+   "commit": "9bc313b216f14654afa2fb961c907cc8efe1818e",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "c64d8570ad4811884c26838b91526abfe4a051c30ca3cb37169a59d6692a95ad",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "6c7e4b1e2cdb2325620de872ec332607bb4dcf6d5177874d296cce04edf9b80e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2920000": {
+   "commit": "aa3cec756a554eef8e2b426bcc5532f6d1e55db5",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "49b78979984f5cf50ff9a2f324e55bd7b7eeae2adeb95adc42df02fce38e3d9a",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "c607c56d9262ef18e3a3618fc4022a6036603845bbbaf1229717ac8f59ab4b0e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-2960000": {
+   "commit": "9d80adce74e5d5c7a0deca0d9fcf436e054b8b49",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "1951541bf9f49b300d2bb9e29befcc68f5c647566c978f9a73137d98bf3518ea",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "f57bc42fdd49bc58ac398c654b307380a76f6ff8a97ecc02afde6a68bfef0207",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3000000": {
+   "commit": "40eb8bf5d7f01d262edf2c2f5cf0ec047a6c5db5",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "dd41f47d94f5b1c46f6e453ad4e43f913d5eeeb1d209f94dccd746660fbc75bf",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "316aaad8df1e37330aee048b3de27e69b1705a85350dab5313060ff890160fca",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3040000": {
+   "commit": "1c74ba05e120036e325788463cc345006a7891f6",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d7b8e8e187165fe500ce575dc4477ed5b6a05c0d65787f87adcd54b5b6d6bf67",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "b4c6be23801cf75509b092b3c66fae7b2cdada16ba766ad699e556d89cdd0938",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3080000": {
+   "commit": "4025aebf08f2f75eac889ebf940ac48e2036c0bb",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "a696a73d6070072c73bddaa248143bddb032a70e8cf3d3df09ead5f67bfad1fa",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "740faef37277e1bbe25219ef1e5f42e029fa866dabc43f0807038f1d83aa125a",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3120000": {
+   "commit": "2dc261289bd7ab444d4c5c490c4c1d3974c232a3",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "8c66c2106cf88a677f518040bb8c332af4fd88d7da49309fb9dd1d70f27e75be",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "00467d8f11945b0917eb518151a89c1d257369c39a607f7b892644c983792d7f",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3160000": {
+   "commit": "a90a31faabad700a9aeac114d0e3dc00324f0e64",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "289199d833d0bf73f2b5687c64029a623edf1970e390bc6dfa4217ed3d2516da",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "cf07c631f15835727cc0daf4f69ae1a0b3c14997adc39daedb11777a0352f96e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-320000": {
+   "commit": "dc2de214427512c4bbc6b9414acd50e2cee6d7fc",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d78aa2724aa2815202394c6e2ab2446278abd5d922a3cdc7c1ca46f407e51ca4",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e087f96995613ea7786b0ea22403fbb6089af139f50cb0335c1cb66fa69661dc",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3200000": {
+   "commit": "f7d43094469521eb04b1cc5643fb3ec34681222a",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d041604beb074d526fea3eb013de38c2a59eb0367fc50652dee8d2a86e33c76b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "2fd762cbe2214f1f656ceb67e256128c9f87f241fd7e1a088e2371e24049290e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3240000": {
+   "commit": "1e3cb1474d1edd2bcf07dbe7856da099db23afc8",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "1e92e12cd5524986805c9c2edb339e8685064c2f1a2d0dff09b3eca2194d4238",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5d83b2e903d5836142ce7cfcc0a0d527e0b613369982db9b1b2a3429398705cc",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3280000": {
+   "commit": "0cfafb0b080fd2197056885a88a938b131fbc00f",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "aec4a0f2869381bd907dfbaba8d936e0576b3fff1d6d8db8670621ef28ea3a50",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "02842a6af7e2151be4aae3b26fe3e2c9ed248281ced1a8973f9869ce0de8bb59",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3320000": {
+   "commit": "51a4cedf6856257545fd7adc6da5451244bfea7c",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "bf00264754eb112b2b7a2bfdc74b55e911651ef5fab2b0e221cef7a5a2c31c8b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "7f652a5595ecce8b11fea0181c989a0eebf62c6ee6ada35fb3edad9a9eab74e4",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3360000": {
+   "commit": "d79e7dd9dbfc6495677020b2b583c07cee2a78f6",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "682913087d74407e7cac5dd011a924e0823585f21fafffc9168aec697abfc047",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "34174284225755f326eebf00c75bbe73b0c3d34d38b4b4d09c8808d92de2c988",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3400000": {
+   "commit": "affb112278beaf6dbe51a8e19e6dce795054fabf",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "ebbe0c80cd2a8b68b338390056f6701f748b1270e6ed0e76984c23debb43ef25",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "f66f6e489ac0013252dfad85771ab8aafb4e3bd5d73d0891bcb5edbcf906b035",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-3440000": {
+   "commit": "d07a5a83dd011f3f084e9d2f1b47f51e524ca8d4",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "76f0129ad93ff4e21fc8958ee49be17c6467feff947d84c09e4a47e850119a94",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5004145ce6b9dd455eeea80f025bdf2438d06e95ec1270ef64da38d057f1949a",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-360000": {
+   "commit": "aac5325219380fe217c5d9c3e87a2a8809ba8550",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "fcaa12a2ce4989411014696db9925340058ab0a32c8ea76b8ee792722e09b26c",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "fc2c763dcdc82e9386d4108af70242eeea62f8407e5419ce7740381db4faa9e7",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-40000": {
+   "commit": "524d818535ee98e56a4f0d621c84dd5c8fb8d3d4",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "c87ec961675c5220149448271eac2cd5e958c131f30c34f31abc9d3d4dcff751",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "33c67067b0c21c1f79774df14a2c27ea6c7f556621e91cb6144e4b8f2e4ba192",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-400000": {
+   "commit": "9470f2ca7b58054e471719f0f800ffdee8b339f8",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "4fc53ac1e1f8343adfe23e7b25ecfa6041da48f61e8e67bd9ce583a37b0a0a23",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ff4d453494f414788a853df0b18db6444c3592c2254807e675d01b2862706969",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-440000": {
+   "commit": "6e05431b0bac7d6d73faf690535ff732e0b43994",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d725419bcfbda3dd5a1c2c77fcf6b52432696c2add2c24268d111e361201441b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "b950ed7feb4ede943cca0e0bb53789f893ee3cb0e6e6256a57739392be8587dc",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-480000": {
+   "commit": "2f875c9eed7ecbb9168027dbc279dfd3eb98e43c",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "1e14c0c4bedb71831e12d71ed3b28e57589ece322f2664b9686b933db671f515",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "75be74c1556ce44cabe1476fe3442d275866527f4f600768d2f46a7bb9b59baa",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-520000": {
+   "commit": "51c873377526f13269b597998aae3dbb92e4781f",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "a8be9ebcf48412e9efae106231a99b4c57efba311059cffc255d9817b15d0673",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5d513012d28d0ff2f48905b20fe18e2dd9106e5ddc0383b315122c5bbba20755",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-560000": {
+   "commit": "9a4d206a208dae74fc2894c4eb480e4e9604efef",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "15c2e2db5c2fc8c346da227ba68679948b14c717316204204b17e9baf8fa9a57",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "d16d465a3cec121b8ccf52d3b1faed5847d05e87bda924bd82e173d9b48f8517",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-600000": {
+   "commit": "a01465db1ded2bfadce05a3cba408bf79a83ed69",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "e3bdf99e3a04a1c2132add926288ca01864dccd1f3cbeb0495000046416b105c",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "3423713eefb5050f8330c7418c3701731d4e796524af3fe1de27e0f678460f65",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-640000": {
+   "commit": "16612752258e67ddb761ca2917ee932cb03f2806",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "44a11a5bf4393f69644cba69afefc3317339464f3809439f4552a72334cf6cd5",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "a87bc54d51bc9c80e7510899377f95e23d696970a78afb67a946f55bde3d31b7",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-680000": {
+   "commit": "86d207f5761cd512454833557fa865267427029c",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "b5231dd827ca7e37947a329475d63e3b7903201484584cb04d34dd8aa619917b",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "57b8f1c85f11d92fd1c8756ba7f360ea0035d9171e23d1eb4d0e0501080ab073",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-720000": {
+   "commit": "fbc653a0f031b7781d25002a949d4b4dcae4733a",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "76f7f78c63ee62b7691f4b06c0dc44b670b292f4aaec4fa2823c24e474a04ca4",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "cc3a969e765f5677c57bf8ad142954c2c8d6be4b898267aeb27f944037be73f6",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-760000": {
+   "commit": "94a77dfcfda2ecf556ea372bba722ab93b925ac4",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "f36d5ba90322ef2888004f2dc91dc44489c9fad801f1802f59950016bfc1fd53",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "105366f982debffad8a687600f8297216de07e3c884bd9e5b3c901073198fa46",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-80000": {
+   "commit": "44e49b7581d34859f3988e252f03c0e6190fd871",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "ec39b5dc5c521bf0535e8a79f7db794c5260c2e2297c9628dd52a8a213761ac6",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "4bbc05b5a6a41da752c707a2970c4683b7ab1d32a0786f1d291a2e454bf9e5c3",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-800000": {
+   "commit": "618b267a639a79282fc3529b4be874081c74f947",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "99895b02330996f5299ab968920c8168a0755d23fe41ae15aa96a58aa684728a",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5eadfe7b09c16e421c6706123a3e6b5cff593686fe954f5eeb47ceb257512c6b",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-840000": {
+   "commit": "b77aba2414702b295d7ec95fd3374b9ed0905725",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "cd735b9267edec5465523c8ffe95b865c0e7930e9c4382da581279f13e940673",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5fbadc978683509f3674bebe34a21c1de2c2389cf95806901e702ad49dc32d20",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-880000": {
+   "commit": "021411ca4949017d58c8dee3c339779975fd846d",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "71f77d35e814af845fa6da65f3b9677e32e4c96901694e47e62f7a7c4761f204",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "2274cbed560975dea70f315a282757fb62fb4d7d86ea26a27c00811846314495",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-920000": {
+   "commit": "1af91c80511c5f7d13b6070af22333ba8c0a4a2d",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "a9d2b6e75ffe7cbb5b70cc48f5be93a4f8dfaa87f2842d2a7afcfb92a4893770",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "a8815f1fed6b75fc3b8c34c1c4e036ca44672c473ba6644da5943870f86b7551",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage1-step-960000": {
+   "commit": "c4baa9855663913d968755cd795dbb0c9d0b8acc",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "9b8424d9164f874db9cee640ace31aa1f48f689ebe3e6c0b829fa077a6cf3a88",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "d09265047762fea8a76d31e9a9c60a9f222c98123da5c4fcfb783eaa6d8da271",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3480000": {
+   "commit": "8808200259c30dad184cb6118f0aadb14388895d",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "4387ba9553c698f8832e4bdb0bc2886572f0b63df1e4f2c1cd8ff2232bc26519",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "428d3d8208000dab95e9013db975833c995ca3e09f23d7e9f2e36384339523e2",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3520000": {
+   "commit": "477012625829c1924df149af609359335d6f4a4f",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "95bb6e5463854d166f8ef794fbc3705f9815548c8cfac558f1c1b90b818f6445",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "f744c9f2f87b6694474588ef116c81ad66646eafa6250c01067cbb988fdf469d",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3560000": {
+   "commit": "6f763c0cbcf6aa7ad452a91f4dc906ff2e5ebf5a",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "4805f52fb2da3c835df2e4df75311061a1fdaafed0cdca14173e08639bd2a2a9",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "fa3ed0d0eb440a050ded1064e76d946610f830db010a8ff62dba2c35c8c1c8df",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3600000": {
+   "commit": "abcb5b7be6f0a36b9a991ac1f534956189c12696",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "ff8c55e72fc4d247984dcc3cadd946b7c02b1789916606f5cf91ceeb4f7670c7",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e9245bc1a8c207d3b09f80554e179e1ab973dd663d2de566c32b51d5c6029297",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3640000": {
+   "commit": "733bfb0d3c0f725cf5fee57ef943d2f3016e7365",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "916e7396cbde95c15a2e65e70b2120183204871bccf37f916da59c69d6e7e690",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ddbb0496f36d1134f8dfea46c5fe4a99320038d5803933590e7b03b566e36340",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3680000": {
+   "commit": "ca055ad90e0d90d51b716dcf5f128d5c540ad0a4",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "6bf7ff2f381183a3c243ac21e5886e078274c67357c0e7c178b7dc079613df0f",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "2305dd22212dd155efd13510e757e433e469d8d70bcc6e6c38a0726b1283bce6",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3720000": {
+   "commit": "fae9a58e30b10c2954478d26cfec7448def65ea7",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "3758d36099c5e145e31e339bd56824bdf7abb3c0631fa912258fe4fcd8fa0d48",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "37df9d0c0d6ffe58b0cbaeccb2473be252ffdd7e52f8723173342254907af66e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3760000": {
+   "commit": "50eee7b7f15458e55c248e892d3a3509b1877d83",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "6fa645d32ae87505a7775ab20507f90943ed28794a2ced2c76cb3cce580ef1cb",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "1ea424eae9dcbc0591246b1cb317cce00876952598fffc741ce0a7f28efbd197",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3800000": {
+   "commit": "aefefc9d2d9fd3ca0da5079a7a88471307f92c14",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "6aa1098a26d5063ffe08cd4a8ada8f6ff05e7a4dba5bda3a201c8c4072ce9fb5",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e26fdec5cc93b78716b4e12696181afe9a12e207993ebacd8c1a7f9f25ca4bf2",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3840000": {
+   "commit": "c0d580cb225494ccaf92e9688b89e1c48f43d43b",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "3a1e6417330b2a181e9a610147dcac569ce95399f1b72ae5f4b6700bad60d7ea",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "044edc9ab92b4b954077c8129ea7885b482c16ceb08e515ba73e90e896611e8f",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3880000": {
+   "commit": "765f7533e57666bdd802ca5dc08be6897fa2d073",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "510dd216c31b7f5676c74c3a52d4575128b34c7357640c7a5eec677955981592",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "254f12806f0f09f0d2eaef95d0f94817804123679f901ee22efbd7caf76fca50",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3920000": {
+   "commit": "6a97d201fb480bc73031ea6903b4da5ba8005fa0",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "f8d57c45a6f976f0d7ba9af260a0cf3fb2ae02750c85fdc7e0383bffb9e3e9e3",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "a0dcb21487a7a816e4a38b15f9a97a79d7a925d949659cdb5bb78ad8aed5aafd",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-3960000": {
+   "commit": "593df8998c7153399f9621bc37c4409c1092aa1e",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "b7ce0a1cbd59cd89773e66db6268c435ed0926bf08a999c0e6c676523df869a9",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ada08cb46c881192a8a34d51f5b752169a39f8d643d5479a5fad1b665e6fe698",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-4000000": {
+   "commit": "34500d3957428b2798103bbe4fbb7aa963d7b624",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "d43714072ae494e4e13aeccf01bbb580d40b4fca3fbc9ef4d664fc4fc2f70e20",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "99e76bd7eecfd1afce46893ffe3b37b73d4dba6620378bc6db8d9be7be3a59f6",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-4040000": {
+   "commit": "773193d4e038927fed806ffe6812f145e3425402",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "f8668cec49db047524788fff4aa43ea8a096db8c7269cc642b3642689fd78865",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "35fa5dc217ddf714b11b81ef9d9b0e36e264908158f7fc5615df1b6acdf60324",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-4080000": {
+   "commit": "816f91a068dfca66c9c92a36d099999cf9bb0db7",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "a800597f7ad533e953b378cfd034bd2fb4128d5768b261ab4f5fab29550b9b89",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "4a468616fa42d16ac6515850ee3ead996ec7f935a9a4ba0e4ac0bb677fb52440",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-4120000": {
+   "commit": "bb55e9629b755b8bc7a5a2b5882b8065b8c37cde",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "7c4b26b0c9079d8de6a7806db49b9bb96dc7a053dc98bed198e0b5c19fb7a59d",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "08016aaa13b34b8a580d23528877c8a42b1f576b57c79720d4fd90716f2c404f",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-4160000": {
+   "commit": "40b8231366615dc47fa661994e2f513d936cc605",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "c44ae97f78e668c507a5cbe3460384bba4fcdfb442e2c09978d40f12c8c4f333",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "035d2e036ce5d6d1acb117ce50666c2b87397365b45683944ab4720b43e5b02a",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage2-step-4200000": {
+   "commit": "eebe6fccea5aa05cf48b0e630d10eeee97f92fc5",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "68402b171829e8dd85459a71d88f06ed1b6eb2e1a7a1ddb35d2461613181d0cc",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "e4605c57214fb98ec64e8b5ab93c0f62345be7fca07cc76cf55a47271a7237ac",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4240000": {
+   "commit": "97156b27171561f576d103251e1d134c896be79f",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "fbf179cea363842cc19b72b3d32da02aff00a48f95e6d7dc2ce08bb4b52df543",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "ad7e4016a48eae1ccb10e8824949fb3b2466a9b3adead21397dc46042cd38c19",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4280000": {
+   "commit": "e445f5b1dfa3c7551dde8a0277eb0ca1003b87d9",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "7ce16a29febecc0b7e051a3d432b121711cab5916d58815506855a698978242f",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "5cf0a3b794acd682f739053fd1b22aa77ef41a316c51c6ba0e183e18202a4c2b",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4320000": {
+   "commit": "2875fee2fed8c3d036563c383e84cb6a7d156a8d",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "8d82d36fbd6c8a3cf153c27162b542dc18be6616abb5696f076cd3d55ca87c58",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "174fec9872b808811a034b4942385d0322f2eb7fc5637db846c2a2de015b8e4b",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4360000": {
+   "commit": "a6a08cc10169fb6319ce1f44c587e13232369b58",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "5927df8c72e0f84b8b396aa384aea4bdb5541efb92fe183649a80896521506cc",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "b23de0c102798272e8e0ecc6f1c97325e71cb57398ff270bf2aa3aaf22d6bb5e",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4400000": {
+   "commit": "1f88bbcd46f3a017feb69b3b1fcf7dc597e39814",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "f52d03262a5165748dc0ce1685f7c93c9c23163fb7ca6d4e6caeb58a9a37d923",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "c95e9b4061fac629c25322b84d95c7fce78c6fb451790180e1225a310a95dad8",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4440000": {
+   "commit": "9364cd15e290b22091f994bbbe0a06ad1d79d7f9",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "2f5fffa0f6f27d2e65c8f44f1b0e01c31c30b9199180060b7b74e0aa66a5f076",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "d8d553172f8de0183903c179a6e006a0855300893e39cf89a802f7b40fb09dd4",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4480000": {
+   "commit": "f95a4359ad288adab977841f11dcc68f5b193cde",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "2adfe6eb989e1712ff3ac0d042ad9215884a902dc507d43144eef0ed23548efa",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "75592cbf8446b12ac62aba32b29db31a81208c4838adcf4be504f770b18b7f91",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4520000": {
+   "commit": "b0f5feb8eb80f68ad2871cf6662343c0fdc24398",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "890062206fdd04793d1d62a1a762d9889a32b0c122535ef2c8df786196d0fa2c",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "24835993a27671341baac071c39683fc029cedc64d12256813f562c18a5b30fc",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4560000": {
+   "commit": "e3156294ff23b57a3cbc055bd1d62d567b8fd7d6",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "1b49b458d125fe51e5bcda3660a60ed43a1252bea1fcc078d481868e3d7edbb3",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "01eddf8a13ffbfaf693f9f09239dfd50cf8d93e9ed56c98d6caee973f136d611",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4600000": {
+   "commit": "5528fe48f5d189af76f86b682425fdc835a4f0e0",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "99ea4c4f7a8e552dd2efb3069cd8c911c67e7ac8a08fd3cfadbfaea4cad9500a",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "7e38c1ab872c57234a5d5074e95ff94e137b2fd714f61fc99a310db2c0f7e8ac",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4640000": {
+   "commit": "3339b4c11c06df277c6f7729521992df246aeaed",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "ed548dc04c47f3196af75f393858478313882b20a1ff21c056edc46e30e4e464",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "3e9ad78868ac2b0f95b60389c993d2bb8ad3d94238ae79dfaad8cd4cd2e343a8",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4680000": {
+   "commit": "559c6d3654c839d202f2dfaa5be96f5122be0021",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "cb548ede94d9e6fe57d70954b370a723e98bb4edabd117e74601d825f6e464a8",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "60a807352da586cf62c0c0f32415cd6a7c083988a1c102ab710f6848d56069ef",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  },
+  "stage3-step-4720000": {
+   "commit": "20e7817e636d6b1f63cffbee0f384721b1f4bb67",
+   "files": {
+    "model-00001-of-00002.safetensors": [
+     "df65cd6b882051bdc4657d7c80ebb6131289e1291b4da74e89f730f6d252f556",
+     4966315264
+    ],
+    "model-00002-of-00002.safetensors": [
+     "3a20cf7a3a64f41dbded108275cb8e8ab053ef70e716d6c22f8b709298707560",
+     1183919744
+    ],
+    "tokenizer.json": [
+     "ab4da6b2aa68247e9c0fa9b97fc7fcc796505038d01f7e144522a65ce0dbd2e5",
+     17208861
+    ]
+   }
+  }
+ }
+}

@@ -49,3 +49,12 @@ experiments/exp2l/power.log
 experiments/exp2l/sweep.log
 experiments/exp2l/analyzer.log
 experiments/exp2l/watcher_*.log
+# exp2m campaign/stage logs — machine-local, never part of the closed record (named list, 2l D-1)
+experiments/exp2m/preflight.log
+experiments/exp2m/endpoint.log
+experiments/exp2m/power.log
+experiments/exp2m/sweep.log
+experiments/exp2m/analyzer.log
+experiments/exp2m/watcher_endpoint.log
+experiments/exp2m/watcher_sweep.log
+experiments/exp2m/mutation_*.log

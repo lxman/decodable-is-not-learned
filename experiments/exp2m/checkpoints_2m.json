@@ -1,0 +1,632 @@
+{
+ "base": {
+  "commit": "d78a42f79198603e614095753484a04c10c2b940",
+  "files": [
+   "model-00001-of-00002.safetensors",
+   "model-00002-of-00002.safetensors",
+   "model.safetensors.index.json"
+  ],
+  "kind": "safetensors-shards",
+  "lfs_sha256": {
+   "model-00001-of-00002.safetensors": "7e270ac568ee1880ddbadad66ccdcd9906d52415e8904e2f300c75250b9c7d49",
+   "model-00002-of-00002.safetensors": "c6a6e7690a66dcc386a6a9b456686e7c308d45cba884d116c928dafa7fa987ae"
+  },
+  "lfs_size": {
+   "model-00001-of-00002.safetensors": 4966315264,
+   "model-00002-of-00002.safetensors": 1183919744
+  },
+  "repo": "HuggingFaceTB/SmolLM3-3B-Base",
+  "revision": "main"
+ },
+ "endpoint_duplicates": [],
+ "entries_3b": {
+  "1000000": {
+   "commit": "088def21bb35e9e81b2ddd5b490d820d5aa51a0e",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "eb632b21f2e830a49fe50a00e233600a3f4aede70d4b69d0ca532834f23e944b",
+    "model-00002-of-00002.safetensors": "62071a26b8cc40b389a34dade112d6eef70660f601f43cf2fae3b2f89d17295d"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-1000000"
+  },
+  "120000": {
+   "commit": "a413fa599817fa464a9dc279f6573eb869894e1e",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "de7ab220bcf27ee77073b60081b8d256b8030542651b2c123512adba5e6cc113",
+    "model-00002-of-00002.safetensors": "444da795066368784a7eefe2738554a2c944d41453566b335ac75f9a51c62934"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-120000"
+  },
+  "1200000": {
+   "commit": "897d7e04cc41643b6d1094cce0f922be92acc9b9",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "3eb901ec5d421bd42a9fceca77e90540c401b2de7765fa00b7626ea9af13a23e",
+    "model-00002-of-00002.safetensors": "8d77c48b1a276c9a1dbc9e0f1cf555657580bce6b8f2817b7f52b9ee14f84c79"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-1200000"
+  },
+  "1400000": {
+   "commit": "c9a251d60c732025494ea201c126b1348e366b00",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "e1af4989346c7261837cebcd6c2394133df614812e35eb6fa0e4f06c34269350",
+    "model-00002-of-00002.safetensors": "6687ac65fdb9972489e00e52f1d8a714ce01b61a1964bd4e4c155ad7bfee94dc"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-1400000"
+  },
+  "160000": {
+   "commit": "f3dd3eba907e8b116578fd946b28340ffa870d11",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "fd412e71371a6e13bd153702959c4b82d2f2dccfc66a0cac75286c65bfb9992f",
+    "model-00002-of-00002.safetensors": "0f48d01d0382501b8d75de242c9afc8124f0a6e911b085d2035edadf436bbf60"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-160000"
+  },
+  "1600000": {
+   "commit": "21d4a315778a69114a0d14632328ed8de8ab3298",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "f7990bddf65920d2b404035a0ec5d8ce3710427a56db6c9c51dab6a2199fc1eb",
+    "model-00002-of-00002.safetensors": "a0dfb4a341503a52bffa52200d333d32fccfb5eaa74eed65cace5f50f0bcdba4"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-1600000"
+  },
+  "1800000": {
+   "commit": "2927491e0c421bbe3a0848d36eed3c528cbe3828",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "405f2f9feccf7b39f81a5d95dcbf786f4be5b0679994910411f9783c3b4528d3",
+    "model-00002-of-00002.safetensors": "5523caba241149519907a2a0b15da54f844b0f83c54d7523e64b8f9b85b14249"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-1800000"
+  },
+  "200000": {
+   "commit": "8089bf9b71ead724010855dd6fabd1deb90b70ff",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "d87bdd210b706676417d953ecf08ec4cb83474079ad264403986bcfe4621648b",
+    "model-00002-of-00002.safetensors": "b2ef46913a0a6d780024134a81f08d3a623928abf0d9bbfbe14198370767c5d2"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-200000"
+  },
+  "2000000": {
+   "commit": "a5cd329c0f6286829d08e6bb84448edac76e0d09",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "416999291e82dae5ad270aa83f7b7b75bcc6b854ec1f51e1ae1fbd2bc0246ad8",
+    "model-00002-of-00002.safetensors": "07d7afa68b54c871a56b05641eb4cac37f0e89ace7a2443d064af1090c95e074"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-2000000"
+  },
+  "2200000": {
+   "commit": "839fbcb842db7c1591264f351991bbe717319ce6",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "b03f3b1a2e515ee5ef234b2e7aeaa1ef15d9cd822801f03bf323b3527f6d4166",
+    "model-00002-of-00002.safetensors": "6fbb26e541656376034c1756e477bf7538e37d8f8ceda05fd916a4484f910318"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-2200000"
+  },
+  "240000": {
+   "commit": "e5543d4767887f90d74ffd3f73a989db661c131c",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "ef4efc31bca37387d54936f7821c3667eaec4e9d2a3201e679f52093688cddf7",
+    "model-00002-of-00002.safetensors": "47bde6737e57d444609ee105edc3c7f81b8e06a3507c99a773b0a8c69b04c057"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-240000"
+  },
+  "2400000": {
+   "commit": "dbbbac105ee1c53adf998403e4eecaa9d630c369",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "4da50d96ac864d178abc1367bf3ababac7834bbf58cb4508419b8f888da84c81",
+    "model-00002-of-00002.safetensors": "c36ecec97d3a363dd0e65e5702267ec7ffb440410002b8bc7281aa22478fdf78"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-2400000"
+  },
+  "2600000": {
+   "commit": "0eb3ad62c306c236da96bbbfe0abe94df4d97889",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "e93de083e435849cb5427d9604e1b21414d14a8391baf37b48cd0eedba4046b7",
+    "model-00002-of-00002.safetensors": "2d830ca3ffe354be893d7e475dfb4deed36c312a2a1608e4fb00a3a08d2dbefa"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-2600000"
+  },
+  "280000": {
+   "commit": "7a22854a6e02a5a0fb59c0457af7268458cf0cb3",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "567498f1a7de2fd4872512d67cfb8ceba01f9b76260617cad80ecde7310540f3",
+    "model-00002-of-00002.safetensors": "23c3d59d9cfffa1576b392d5f166650d1675317e6e27936f81d57dd1e0028011"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-280000"
+  },
+  "2800000": {
+   "commit": "505dbf972308a690081da14aaeb40d2fb538c28a",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "e23c99630a23b40f8da92a76fe3dc431dc6193eff0c6bb0f371796fae2b58bd6",
+    "model-00002-of-00002.safetensors": "580193c7bc9e489214765e6ed747a7aec5693fe938d7d5939234b7cdacfdc230"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-2800000"
+  },
+  "3000000": {
+   "commit": "40eb8bf5d7f01d262edf2c2f5cf0ec047a6c5db5",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "dd41f47d94f5b1c46f6e453ad4e43f913d5eeeb1d209f94dccd746660fbc75bf",
+    "model-00002-of-00002.safetensors": "316aaad8df1e37330aee048b3de27e69b1705a85350dab5313060ff890160fca"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-3000000"
+  },
+  "320000": {
+   "commit": "dc2de214427512c4bbc6b9414acd50e2cee6d7fc",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "d78aa2724aa2815202394c6e2ab2446278abd5d922a3cdc7c1ca46f407e51ca4",
+    "model-00002-of-00002.safetensors": "e087f96995613ea7786b0ea22403fbb6089af139f50cb0335c1cb66fa69661dc"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-320000"
+  },
+  "3200000": {
+   "commit": "f7d43094469521eb04b1cc5643fb3ec34681222a",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "d041604beb074d526fea3eb013de38c2a59eb0367fc50652dee8d2a86e33c76b",
+    "model-00002-of-00002.safetensors": "2fd762cbe2214f1f656ceb67e256128c9f87f241fd7e1a088e2371e24049290e"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-3200000"
+  },
+  "3400000": {
+   "commit": "affb112278beaf6dbe51a8e19e6dce795054fabf",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "ebbe0c80cd2a8b68b338390056f6701f748b1270e6ed0e76984c23debb43ef25",
+    "model-00002-of-00002.safetensors": "f66f6e489ac0013252dfad85771ab8aafb4e3bd5d73d0891bcb5edbcf906b035"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-3400000"
+  },
+  "3440000": {
+   "commit": "d07a5a83dd011f3f084e9d2f1b47f51e524ca8d4",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "76f0129ad93ff4e21fc8958ee49be17c6467feff947d84c09e4a47e850119a94",
+    "model-00002-of-00002.safetensors": "5004145ce6b9dd455eeea80f025bdf2438d06e95ec1270ef64da38d057f1949a"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-3440000"
+  },
+  "360000": {
+   "commit": "aac5325219380fe217c5d9c3e87a2a8809ba8550",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "fcaa12a2ce4989411014696db9925340058ab0a32c8ea76b8ee792722e09b26c",
+    "model-00002-of-00002.safetensors": "fc2c763dcdc82e9386d4108af70242eeea62f8407e5419ce7740381db4faa9e7"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-360000"
+  },
+  "40000": {
+   "commit": "524d818535ee98e56a4f0d621c84dd5c8fb8d3d4",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "c87ec961675c5220149448271eac2cd5e958c131f30c34f31abc9d3d4dcff751",
+    "model-00002-of-00002.safetensors": "33c67067b0c21c1f79774df14a2c27ea6c7f556621e91cb6144e4b8f2e4ba192"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-40000"
+  },
+  "400000": {
+   "commit": "9470f2ca7b58054e471719f0f800ffdee8b339f8",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "4fc53ac1e1f8343adfe23e7b25ecfa6041da48f61e8e67bd9ce583a37b0a0a23",
+    "model-00002-of-00002.safetensors": "ff4d453494f414788a853df0b18db6444c3592c2254807e675d01b2862706969"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-400000"
+  },
+  "600000": {
+   "commit": "a01465db1ded2bfadce05a3cba408bf79a83ed69",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "e3bdf99e3a04a1c2132add926288ca01864dccd1f3cbeb0495000046416b105c",
+    "model-00002-of-00002.safetensors": "3423713eefb5050f8330c7418c3701731d4e796524af3fe1de27e0f678460f65"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-600000"
+  },
+  "80000": {
+   "commit": "44e49b7581d34859f3988e252f03c0e6190fd871",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "ec39b5dc5c521bf0535e8a79f7db794c5260c2e2297c9628dd52a8a213761ac6",
+    "model-00002-of-00002.safetensors": "4bbc05b5a6a41da752c707a2970c4683b7ab1d32a0786f1d291a2e454bf9e5c3"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-80000"
+  },
+  "800000": {
+   "commit": "618b267a639a79282fc3529b4be874081c74f947",
+   "files": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00002.safetensors": "99895b02330996f5299ab968920c8168a0755d23fe41ae15aa96a58aa684728a",
+    "model-00002-of-00002.safetensors": "5eadfe7b09c16e421c6706123a3e6b5cff593686fe954f5eeb47ceb257512c6b"
+   },
+   "lfs_size": {
+    "model-00001-of-00002.safetensors": 4966315264,
+    "model-00002-of-00002.safetensors": 1183919744
+   },
+   "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+   "revision": "stage1-step-800000"
+  }
+ },
+ "grid_3b": [
+  40000,
+  80000,
+  120000,
+  160000,
+  200000,
+  240000,
+  280000,
+  320000,
+  360000,
+  400000,
+  600000,
+  800000,
+  1000000,
+  1200000,
+  1400000,
+  1600000,
+  1800000,
+  2000000,
+  2200000,
+  2400000,
+  2600000,
+  2800000,
+  3000000,
+  3200000,
+  3400000,
+  3440000
+ ],
+ "log_head_subset": [
+  40000,
+  80000,
+  160000,
+  320000,
+  400000,
+  600000,
+  800000,
+  1000000,
+  1200000,
+  1400000,
+  1600000,
+  1800000,
+  2000000,
+  2200000,
+  2400000,
+  2600000,
+  2800000,
+  3000000,
+  3200000,
+  3400000,
+  3440000
+ ],
+ "n_revisions": {
+  "HuggingFaceTB/SmolLM3-3B-Base": 1,
+  "HuggingFaceTB/SmolLM3-3B-checkpoints": 133
+ },
+ "repo_base": "HuggingFaceTB/SmolLM3-3B-Base",
+ "repo_ckpt": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+ "stage3_final": {
+  "commit": "20e7817e636d6b1f63cffbee0f384721b1f4bb67",
+  "files": [
+   "model-00001-of-00002.safetensors",
+   "model-00002-of-00002.safetensors",
+   "model.safetensors.index.json"
+  ],
+  "kind": "safetensors-shards",
+  "lfs_sha256": {
+   "model-00001-of-00002.safetensors": "df65cd6b882051bdc4657d7c80ebb6131289e1291b4da74e89f730f6d252f556",
+   "model-00002-of-00002.safetensors": "3a20cf7a3a64f41dbded108275cb8e8ab053ef70e716d6c22f8b709298707560"
+  },
+  "lfs_size": {
+   "model-00001-of-00002.safetensors": 4966315264,
+   "model-00002-of-00002.safetensors": 1183919744
+  },
+  "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+  "revision": "stage3-step-4720000"
+ },
+ "tokens_per_step": 2359296,
+ "trained_steps_3b": [
+  40000,
+  80000,
+  120000,
+  160000,
+  200000,
+  240000,
+  280000,
+  320000,
+  360000,
+  400000,
+  600000,
+  800000,
+  1000000,
+  1200000,
+  1400000,
+  1600000,
+  1800000,
+  2000000,
+  2200000,
+  2400000,
+  2600000,
+  2800000,
+  3000000,
+  3200000,
+  3400000,
+  3440000
+ ],
+ "twin": {
+  "commit": null,
+  "config_commit": "d07a5a83dd011f3f084e9d2f1b47f51e524ca8d4",
+  "files": [],
+  "kind": "from_config",
+  "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+  "revision": "twin",
+  "seed": 0
+ }
+}
