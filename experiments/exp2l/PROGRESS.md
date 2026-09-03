@@ -739,3 +739,37 @@ the endpoint loader (828f7e6e…f28ef527), commit pinned both sides
 the first at 13B.** The sweep proceeded on its own to step 0
 (real-init referent), per-rung records landing and watcher-committed;
 grid points follow, ≈ 40 h remaining.
+
+## 2026-09-02 — Environment-side kill #3 (process-only, ~20:01), diagnosis, relaunch #4
+
+The sweep (PID 2735) died at ~20:01 EDT after 21h15 of clean running —
+**process-only this time: no reboot** (uptime continuous, watcher
+alive), no panic file, no traceback, no halt marker. Timeline pinned
+from watcher commits and the log: step128000's 34 rung records +
+_checkpoint.json committed 19:46–19:53 ("done in 7694 s"), last log
+write 20:01:18 (the multiprocessing resource_tracker orphan warning —
+an abrupt-SIGKILL signature), death during the step192000
+download/load transition. The 18:32 JetsamEvent is UNRELATED (a
+per-process-limit kill of knowledgeconstructiond; the mlx servers
+idle-swapped at ~3 MB in its snapshot); the system log yielded no
+kill record for 2735. Best fit: a memory-pressure kill in the
+transition window (the class 2g logged as host reaping). Tree exactly
+clean: gate1 + 10 complete checkpoints (596057, 0, 1000, 2000, 4000,
+8000, 16000, 32000, 64000, 128000), 351 records, nothing partial —
+the third environment kill to leave zero marks on the experiment.
+
+Found at diagnosis: the reboot had silently resurrected the mlx
+LaunchAgents (KeepAlive) against the standing campaign decision.
+`com.mlx.text-server` (mlx_lm.server) killed and BOOTED OUT of
+launchd (restore after close-out:
+`launchctl bootstrap gui/501 ~/Library/LaunchAgents/com.mlx.text-server.plist`);
+`com.mlx-embeddings.server` and `com.mlx-vlm-server` left running
+(idle, small, not named by the standing decision — Michael's call
+whether they too should stay down during campaigns).
+
+**Relaunch #4 at 20:44 EDT** (PID 79710, log
+`sweep_relaunch2.log`, unbuffered): the frozen resume path re-derives
+completed steps from the tree and continues at step192000; watcher
+3100 uninterrupted. Six grid points remain (~13 h). Monitoring moved
+to an hourly PID-agnostic cron (tracked pollers were being reaped by
+session events every few minutes overnight).
