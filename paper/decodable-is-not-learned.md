@@ -41,7 +41,8 @@ route on 2026-08-24, archived as v1.9; the Experiment 2h close-out
 on 2026-08-25, archived as v1.10; the Experiment 2i close-out on
 2026-08-28, archived as v1.11; the Experiment 2j close-out the same
 day, archived as v1.12; the Experiment 2k close-out on 2026-08-30,
-archived as v1.14. Section 6's tenth lesson (the
+archived as v1.14; the Experiment 2l close-out on 2026-09-03,
+archived as v1.15. Section 6's tenth lesson (the
 production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
 inputs before the tag) and checklist items 24 and 25 were added
@@ -72,11 +73,14 @@ recorded in PROVENANCE — `exp2i-predictor-sealed`,
 2026-08-28 Experiment 2j graft added two more
 (`exp2j-preregistered`, `exp2j-closed`), forty-one; the 2026-08-30
 Experiment 2k graft added three more (`exp2k-preregistered`,
-`exp2k-predictor-sealed`, `exp2k-closed`), forty-four. Archived
+`exp2k-predictor-sealed`, `exp2k-closed`), forty-four; the
+2026-09-03 Experiment 2l graft added three more
+(`exp2l-preregistered`, `exp2l-endpoint-sealed`, `exp2l-closed`),
+forty-seven. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.14 (10.5281/zenodo.22177233, the Experiment 2k record; v1.13,
-10.5281/zenodo.22151979, this paper with its eleventh lesson; v1.12,
-10.5281/zenodo.22151832, the Experiment 2j record). TMLR's AI-disclosure requirement is met on
+v1.15 (10.5281/zenodo.22286867, the Experiment 2l record; v1.14,
+10.5281/zenodo.22177233, the Experiment 2k record; v1.13,
+10.5281/zenodo.22151979, this paper with its eleventh lesson). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
 number is transcribed from the tagged record
@@ -1720,7 +1724,8 @@ records 10.5281/zenodo.22064573, v1.8 with this paper's ninth lesson
 10.5281/zenodo.22145025, v1.12 with the Experiment 2j record
 10.5281/zenodo.22151832, v1.13 with this paper's eleventh lesson
 10.5281/zenodo.22151979, v1.14 with the Experiment 2k record
-10.5281/zenodo.22177233).
+10.5281/zenodo.22177233, v1.15 with the Experiment 2l record
+10.5281/zenodo.22286867).
 The same repository carries the successor experiments'
 preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
 `exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
@@ -1745,7 +1750,11 @@ against four functionals of the answer string), whose freeze
 supplies the eleventh, and Experiment 2k's record
 (`exp2k-preregistered`, `exp2k-predictor-sealed`, `exp2k-closed`, the
 density question — the cross-family predictor at four times the draw
-budget against the known OLMo-2 7B outcome), named and not drawn on;
+budget against the known OLMo-2 7B outcome), named and not drawn on,
+and Experiment 2l's record (`exp2l-preregistered`,
+`exp2l-endpoint-sealed`, `exp2l-closed`, the sealed cross-family
+forecast against OLMo-2 13B's stage-1 checkpoints), likewise named
+and not drawn on;
 and, since 2026-08-23, the synthetic calibration records of
 Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
 `exp1c-*`), reported in the companion essay and not drawn on here.
