@@ -337,3 +337,239 @@ Files changed: `experiments/exp2m/power_2m.py` (replaced wholesale),
 `experiments/exp2m/tests/test_totality_2m.py` (new),
 `experiments/exp2m/tests/test_power_2m.py` (new). Nothing outside
 `experiments/exp2m` touched; no Task 1-3 file edited.
+
+## Task 5: the real-tree closure — frozen literal, import-surface pin, pre-campaign manifest, mutation harness, read sweep
+
+ZERO model contact, ZERO network end to end. Python
+`~/emergence-lab/.venv/bin/python` with `PYTHONDONTWRITEBYTECODE=1`,
+run from the repo root with `-p no:cacheprovider`; git
+`/opt/homebrew/bin/git`. Started at HEAD `1bf59266`.
+
+### Step 1 — `FROZEN_SHA256_2M` pinned as a literal (48 modules)
+
+`frozen_from_disk()` over `FROZEN_FILES_2M` = 2l's 42 frozen modules +
+2l's four tag-bound instrument blobs (2l is closed; frozen bytes to 2m)
++ 2m's own `power_2m.py` and `make_referents_2m.py` = **48**, pasted in
+`FROZEN_FILES_2M` order. `check_frozen_2m()` passes for real.
+
+The two `if not bm.FROZEN_SHA256_2M:` monkeypatch stand-ins dropped
+(`test_stages_2m.py::_blobs_that_exist`, `test_power_2m.py::_small`).
+`test_analyze_2m.py`'s autouse `_frozen_pin` fixture STAYS (it exercises
+the checker, 2l's precedent), as do `test_battery_2m.py`'s two
+deliberate `FROZEN_SHA256_2M` monkeypatches (the empty-pin refusal and
+the drift raise). `test_battery_2m.py + test_stages_2m.py +
+test_power_2m.py -m "not slow"`: 49 passed, 1 deselected, 64 s.
+Commit `7e1e8a2d`.
+
+**After this, `power_2m.py` and `make_referents_2m.py` cannot change
+without re-pinning** — and Step 3's `N_FILES_2M` literal does exactly
+that, so `make_referents_2m.py`'s one entry inside `FROZEN_SHA256_2M`
+was re-pinned (`5f07bbd1…` → `36340a89…`, marked in the source). 2l's
+Task 5 did the same one-line re-pin.
+
+### Step 2 — the import-surface scan (`IMPORTED_SHA256_2M`, 4 modules)
+
+`tests/import_scan_2m.py` = 2l's tool with 2m's roots, 2l's own
+residual pin folded into `covered` beside 2j's and 2k's, and the six 2m
+stage tools pulled into `sys.modules` by hand. The residual surface is
+**4 modules**: `experiments/exp2m/__init__.py`, `run/__init__.py`,
+`run/preflight_2m.py`, `verify_referents_2m.py` — exactly what the
+brief predicted, and exactly 2l's shape one experiment over.
+
+**DISCLOSURE (checklist 27):** the scan runs `analyze_2m.run()` on the
+REAL pre-campaign tree. It printed **INSUFFICIENT_DATA and no T** (11
+referent/loader failures: the missing prereg tag plus the absent
+endpoint/rung-set/power/sweep records), after executing every
+predictor-side loader (2k's tier at both sizes through its own gate-1
+re-derivation, 2i's sealed OLMo-2 1B counts, both predictor-seal
+reads). Nothing written. The scan was run TWICE — before and after this
+task's edits to `verify_referents_2m.py` — and the pinned literal is
+the second reading. Recorded in `experiment-2m-design.md` §2.
+
+`test_analyze_2m.py` after pinning: 51 passed, 158 s.
+
+### The stand-ins, all removed
+
+| site | what went |
+| --- | --- |
+| `tests/full_shape.py::run_world` | `frozen_check=(None if …)` / `imports_pinned=(True if …)`; only `referents_sha=False` stays (a synthetic root is not the real tree) |
+| `tests/test_full_shape_2m.py` (two direct `an.run` calls) | both expressions and their stand-in comments |
+| `tests/test_totality_2m.py::_run` | the two `kw.setdefault(...)` bypasses |
+| `tests/test_stages_2m.py`, `tests/test_power_2m.py` | the `FROZEN_SHA256_2M` monkeypatches (Step 1) |
+
+The world module re-run ONCE under the real pins (both pins live):
+`test_full_shape_2m.py + test_totality_2m.py -m "not slow"` — **42
+passed in 1036 s**. `test_every_terminal_reached` passed, so every
+world reached its declared terminal and all five `WORLDS_2M` terminals
+were covered; no world landed on "unpinned module", so the pin covers
+every module the suite imports.
+
+### Step 3 — the pre-campaign referent manifest (3,369 files)
+
+`python -m experiments.exp2m.make_referents_2m` → **3,369 files**, sha
+`b237454c88f4de511faa3bf12f348089ff34fafe9e2e2eeaf32878ebfecfc9e1`.
+`N_FILES_2M = 3369` set, re-run: same count, same sha —
+**byte-idempotent**. `REFERENTS_2M_SHA256` pinned to it.
+
+Composition: 2l's 2,695 pre-campaign list + 2l's OWN campaign
+artifacts (102 endpoint records, `rung_set_2l.json`, `power_2l.json`,
+`gate1.json`, `verdict.json`, the 595-path sweep tree — S8 reads the
+13B outcome through 2l's frozen loaders) + 2l's four instrument blobs +
+2m's `checkpoints_2m.json`, `hub_inventory_smollm3.json` and
+`power_2m.py`.
+
+**The manifest decision, ledgered:** `REFERENTS_2M_SHA256` pins the
+PRE-CAMPAIGN manifest only. 2m's own campaign artifacts (102 endpoint
+records + the rung set + the power record) are bound by
+`exp2m-endpoint-sealed`, and every sweep record additionally carries
+the composite `endpoint_sha256` the analyzer re-derives — so the
+preregistration tag is never re-cut after the campaign.
+
+Cold battery: **13/13** (items 3 and 12 live). Item 10 printed
+"endpoint/rung set: absent — pre-campaign", "power: absent —
+pre-campaign", "sweep: absent — pre-campaign". Item 13's four sources:
+pythia_2.8b 7 rungs / n_pos 1769, pythia_6.9b 8 / 2088, olmo2_7b 34 /
+8793, olmo2_13b 34 / 8737. Commit `befb6f8b`.
+
+### Task-4 review carry-overs (same commit)
+
+| # | what | where |
+| --- | --- | --- |
+| 4 | world spec **W23** (`olmo_only` + `power_status_a="DECLARED UNDERPOWERED IN ADVANCE"` → OLMO-ONLY) and `test_w23_underpowered_a_disclosure_rides_on_the_licence` | `tests/full_shape.py`, `tests/test_full_shape_2m.py` |
+| 5 | the REAL power record from `pm.main(...)` re-derived through `an.check_power_claims_2m(rec, x256, x_b, strata, RUNGS_PRIMARY, stage1) == []` | `tests/test_power_2m.py` |
+| 2 | the unused `from experiments.exp2l import analyze_2l as an2l` dropped (item 7 keeps its raw read) | `verify_referents_2m.py` |
+| 3 | 2l's M-4 (item 9, two independently-constructed record dicts) and M-3 (item 10, each artifact tested independently) rationale comments restored with 2l→2m names | `verify_referents_2m.py` |
+| 7 | `'{"R_13B": ['` → `'{"R_3B": ['`; "synthetic 13B tree" → "synthetic SmolLM3 tree" (×2) | `tests/test_totality_2m.py` |
+| — | Task 3's deferred minor: `"n_boot_requested": n_boot` added beside `"n_boot": len(diffs)` (additive; the existing key is unchanged and `s3["n_boot"] == 40` still holds) | `analyze_2m.py::s3_paired_difference_2m` |
+
+`test_every_terminal_reached` does not hard-code the world count, so
+W23 needed no counter change.
+
+### Step 4 — the mutation harness: 140 mutants, **140 killed, 0 survivors, 0 SKIP**
+
+`tests/mutation_check.py` = 2l's harness (the `_totality_mutants`
+import from 2i, `_refuse_if_any_backup_exists`, `_acquire_backup`,
+`run_suite`, `_parse_only`, `main`, the FAST/TOTALITY/FULLSHAPE
+switches) with 2m's paths and `M` = **99 hand-written mutants** (35
+`battery_2m`, 6 `run/endpoint_2m`, 10 `run/sweep_2m`, 48 `analyze_2m`)
+**+ 41 AST-generated `collect_total` totality mutants** = **140**. Every
+`old` occurs exactly once in the pristine source (checked before the
+run and confirmed by the harness: 0 SKIP in every pass). No stray
+`.mutation_backup` before any launch; 0 after every run; `git status`
+after each run showed no production file modified.
+
+| pass | command | result |
+| --- | --- | --- |
+| 1 | `nohup … mutation_check.py` (fast) | **113/140 killed**, 27 survivors, 0 SKIP (baseline 143 s) |
+| 2 | `… --only 35,47,51` (fast, after three new fast tests) | 3/3 killed |
+| 3 | `… --totality --only 98,105,109,110,111,112,113,122,124,126,128,129,130,131,132,133,134,135,138,139,140` | 15/21 killed, 6 survivors |
+| 4 | `… --totality --only 110,111,112,113,124,126` (after six new totality tests) | 6/6 killed |
+| 5 | `… --fullshape --only 88,89,99` | 1/3 killed (89), 88 and 99 survived |
+| 6 | `… --fullshape --only 88,99` (after two new world assertions) | 2/2 killed |
+
+Logs: `mutation_build.log`, `mutation_fast_survivors.log`,
+`mutation_totality.log`, `mutation_totality_rerun.log`,
+`mutation_fullshape.log`, `mutation_fullshape_rerun.log` (all under
+`experiments/exp2m/`; `.gitignore:60` ignores `experiments/exp2m/
+mutation_*.log`, so unlike 2l's they stay local — the table here is the
+committed record).
+
+**Every gap closed, with the closure:**
+
+| # | mutant | closed by |
+| --- | --- | --- |
+| 35 | `load_tokenizer_3b`: `padding_side "left"` → `"right"` | NEW fast test `test_battery_2m.py::test_load_tokenizer_3b_sets_left_padding_and_the_pad_token` — a `_LoadTok` stub in SmolLM3's real shape (right padding, no pad token declared) behind a stub `transformers` module in `sys.modules`; no network, nothing downloaded. The loader's two assignments and its `check_tokenizer_2m` call were previously untested (only `check_tokenizer_2m` itself was) |
+| 47 | `run_twin`: the checkpoint record written BEFORE the rung loop | NEW fast test `test_stages_2m.py::test_run_twin_reads_the_config_commit_and_records_itself_only_after_every_rung` — `sw.evaluate_items` raises on the 3rd rung; the twin's checkpoint record must be absent and `records_complete_3b(root, TWIN)` False (2i's R-3 resume rule: that record is what marks the step done) |
+| 51 | `run_twin`: the tokenizer commit → `bm.REV_BASE_2M` | the same test: `state["tok"] == [(REPO_CKPT, entry_twin["config_commit"])]`. The pre-existing world test only asserted `(REPO_CKPT, e["commit"]) in state["tok"]`, which gate 1's own tokenizer call already satisfied — a membership check where an identity check was needed |
+| 88 | `run()/_core`: Test B on 2l's composite strata | NEW assertion in `test_w1_pythia_only_shape`: `B["stratified"]["T"] != sec["S3 B beyond A"]["stratified"]["T"]` — dial b restated as a test (the primary B is unconditioned; S3 is the conditioned form). Measured on the real worlds: W1 .0095 vs −.1811, W2 .6527 vs .6851. Killed under `--fullshape` |
+| 99 | sensitivities' `log_head_subset` built from `GRID_3B` | NEW assertions in the same test: `sens["log_head_subset"]["A"/"B"]["stratified"]["T"] != A/B["stratified"]["T"]` — the 21-point subset is a different outcome from the 26-point grid (W1: .7165 vs .7124). Killed under `--fullshape` |
+| 110, 111, 112, 113, 124, 126 | `collect_total` stripped from `bg.load_battery`, `bg.load_floors`, `a2d.load_verify`, `pr.load_predictor` (the strata source), the upstream frozen-pin `thunk` loop, and the three-which `entry_which_3b` map | SIX NEW totality tests in `test_totality_2m.py` (`test_load_battery_forced_exception`, `…_load_floors_…`, `…_load_verify_…`, `…_load_predictor_2g_…`, `test_upstream_frozen_import_thunk_forced_exception`, `test_entry_which_3b_forced_exception`), each monkeypatching the callee to raise and asserting INSUFFICIENT_DATA with its own label. These six `collect_total` sites had no forcing case at all — a real totality gap, not a harness artefact |
+| 89, 98, 105, 109, 122, 128–135, 138, 139, 140 | the rest of the first pass's survivors | already covered: killed by `--totality` (the collect_total sites with an existing forcing case, plus F-1's post-secondaries re-check) or by `--fullshape` (89: `S1 ladder 1b[256]["T"] == A["T"]`), confirmed by the targeted runs above. Recorded as "killed by worlds/totality only" per the harness's own rule |
+
+**No documented-equivalent mutant.** The one candidate the brief named
+— `sweep_2m.run`: `endpoint_sha` computed BEFORE the endpoint seal
+binds (#49) — was **killed by the fast suite in pass 1**, so no
+equivalence proof was needed.
+
+### Step 5 — the read sweep: (e) unpinned = 0
+
+`tests/read_sweep_2m.py` = 2l's tool with 2m's roots, `an2l`/`bl`
+pre-imported, 2l's residual pin folded into `frozen`, the sweep tree
+over `GRID_3B + (TWIN,)`, and `SHA_PIN_AT_LOAD` extended with
+`bm.CHECKPOINTS_PATH`. `blobs_bound` left at its default (real git:
+2k's and 2i's predictor seals bind for real); `tag_exists`/`blob_sha`
+are the documented sweep-only stand-ins for the not-yet-cut prereg tag;
+`referents_sha`, `imports_pinned` and `frozen_check` all left at their
+real pinned defaults and all passed.
+
+**DISCLOSURE (checklist 27):** the sweep runs `analyze_2m.run(n_perm=30,
+n_boot=10, write=False)` on the REAL pre-campaign tree. It printed
+**INSUFFICIENT_DATA and no T** — 10 referent/loader failures, all of
+them the absent campaign artifacts (rung set, power record, the
+endpoint seal's 104 blobs, the three endpoint whichs, the composite
+sha, gate 1, the sweep, the gate-1 re-derivation). Recorded in
+`experiment-2m-design.md` §2.
+
+```
+5116 distinct paths opened for reading (7483 total open/read calls)
+  writes observed (should be 0, write=False): 0
+
+category                       count
+referents_2m.json               3370
+frozen_module                     59
+instrument_blob                    4
+sha_pin_at_load                    0
+seal_bound_campaign_absent         0
+python_stdlib_venv              1683
+UNPINNED                           0
+
+(e) unpinned verdict input: 0 — clean
+```
+
+Two bucket readings worth stating rather than passing over:
+
+- `referents_2m.json` 3,370 = the manifest's 3,369 files + the manifest
+  file itself (which pins its own sha). 2l's committed campaign
+  artifacts, which S8 reads once 2m's campaign exists, are inside that
+  count — bucket (a), as intended.
+- `sha_pin_at_load` 0 and `seal_bound_campaign_absent` 0. The first is
+  not a hole: every checkpoint manifest read on this path
+  (`checkpoints_2g/2h/2i/2l/2m.json`) is ALSO a `referents_2m.json`
+  entry, and the classifier tests the manifest first, so the stronger
+  pin claims them. The second is structural: pre-campaign the analyzer
+  refuses on `is_file()` guards and never attempts an `open()` of a
+  seal-bound artifact. Both buckets are expected to become non-empty on
+  the process-tail re-run after `exp2m-endpoint-sealed` exists.
+
+**Process tail:** re-run `tests/read_sweep_2m.py` once AFTER the
+endpoint seal tag is cut — (e) must still be 0, and the campaign-side
+paths must then resolve for real.
+
+### Step 6 — ledger, design §2 disclosure
+
+`experiment-2m-design.md` §2's pre-tag disclosure paragraph gains the
+record of every pre-tag execution of `analyze_2m.run()` on the real
+tree (the import scan ×2, the read sweep, Task 3's real-tree tests and
+the world/totality modules on synthetic roots), each INSUFFICIENT_DATA
+with no T; the paragraph's original "the analyzer does not exist"
+sentence is kept, the log appended after it. The cold battery's item 10
+is noted as inspecting the tree WITHOUT calling `run()`.
+
+### Files changed by Task 5
+
+Production (only at the named literals, plus the one additive record
+field and the two `verify_referents_2m.py` items the Task-4 review
+asked for): `experiments/exp2m/battery_2m.py` (`FROZEN_SHA256_2M`
+literal + the one re-pin), `experiments/exp2m/analyze_2m.py`
+(`IMPORTED_SHA256_2M`, `REFERENTS_2M_SHA256`, `n_boot_requested`),
+`experiments/exp2m/make_referents_2m.py` (`N_FILES_2M`),
+`experiments/exp2m/verify_referents_2m.py` (unused import dropped, two
+rationale comments restored). New: `experiments/exp2m/referents_2m.json`,
+`experiments/exp2m/tests/import_scan_2m.py`,
+`experiments/exp2m/tests/mutation_check.py`,
+`experiments/exp2m/tests/read_sweep_2m.py`. Tests:
+`tests/full_shape.py`, `tests/test_full_shape_2m.py`,
+`tests/test_totality_2m.py`, `tests/test_stages_2m.py`,
+`tests/test_power_2m.py`, `tests/test_battery_2m.py`,
+`tests/test_analyze_2m.py`. Doc: `experiment-2m-design.md` §2. Nothing
+else in the repo touched; no frozen upstream module edited.

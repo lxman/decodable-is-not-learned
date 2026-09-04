@@ -43,6 +43,11 @@ def test_w1_pythia_only_shape(worlds):
     assert len(sec["S1 blocks 1b"]["T"]) == 4 and sec["S1 blocks 1b"]["sd"] is not None
     assert sec["S2 410m at 256"]["primary_form"]["stratified"]["T"] is not None
     assert sec["S3 B beyond A"]["stratified"]["T"] is not None and sec["S3 A beyond B"]["stratified"]["T"] is not None
+    # Mutation closure (Task 5, #88) and dial b restated as a test: the
+    # PRIMARY Test B is UNCONDITIONED, read on 2g's base strata — it is
+    # NOT S3's conditioned form (x_B beyond x_A's median bucket), which
+    # is what 2l's construction made primary.
+    assert B["stratified"]["T"] != sec["S3 B beyond A"]["stratified"]["T"]
     pd = sec["S3 paired difference"]
     assert pd["diff_B_minus_A"] < 0 and pd["ci95"][1] < 0 and pd["rungs"] == list(fs.RUNGS_PRIMARY)
     assert set(sec["S4 matched density"]["per_rung"]) == set(fs.RUNGS_PRIMARY)
@@ -63,6 +68,11 @@ def test_w1_pythia_only_shape(worlds):
     sens = sec["sensitivities"]
     assert sens["primary_is_the_nine"] is True and sens["log_head_subset"]["steps"] == list(bm.LOG_HEAD_SUBSET_2M)
     assert sens["log_head_subset"]["A"]["fires"] is True                             # the subset still carries the order
+    # Mutation closure (Task 5, #99): the sensitivity is computed over
+    # the 21-point LOG_HEAD_SUBSET_2M, not over the full 26-point grid —
+    # a different outcome, so a different T from the primary's.
+    assert sens["log_head_subset"]["A"]["stratified"]["T"] != A["stratified"]["T"]
+    assert sens["log_head_subset"]["B"]["stratified"]["T"] != B["stratified"]["T"]
     assert sens["B_conditioned_on_A_median"]["stratified"]["T"] is not None
     assert sec["failures"] == []
     ref = v["referents"]

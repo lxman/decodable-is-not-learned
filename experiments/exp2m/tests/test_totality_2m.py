@@ -26,6 +26,9 @@ from pathlib import Path
 
 import pytest
 
+from experiments.exp2d import analyze_2d as a2d
+from experiments.exp2g import battery_2g as bg
+from experiments.exp2g import predictor_2g as pr
 from experiments.exp2i import analyze_2i as an2i
 from experiments.exp2i import battery_2i as bi
 from experiments.exp2k import analyze_2k as an2k
@@ -175,6 +178,50 @@ def test_load_manifest_3b_forced_exception(world, monkeypatch):
     root, seal = world
     monkeypatch.setattr(bm, "load_manifest_3b", _raise_injected)
     _insufficient(root, seal, "2m checkpoint manifest SmolLM3")
+
+
+def test_upstream_frozen_import_thunk_forced_exception(world, monkeypatch):
+    """Mutation closure (Task 5, #124): the five upstream frozen-pin
+    thunks are called through one `collect_total` loop; a raise from any
+    of them must be COLLECTED, not propagated."""
+    root, seal = world
+    monkeypatch.setattr(bg, "check_frozen_imports_2g", _raise_injected)
+    _insufficient(root, seal, "2m upstream 2g frozen imports")
+
+
+def test_load_battery_forced_exception(world, monkeypatch):
+    """Mutation closure (Task 5, #110)."""
+    root, seal = world
+    monkeypatch.setattr(bg, "load_battery", _raise_injected)
+    _insufficient(root, seal, "2m battery items")
+
+
+def test_load_floors_forced_exception(world, monkeypatch):
+    """Mutation closure (Task 5, #111)."""
+    root, seal = world
+    monkeypatch.setattr(bg, "load_floors", _raise_injected)
+    _insufficient(root, seal, "2m floors 2d")
+
+
+def test_load_verify_forced_exception(world, monkeypatch):
+    """Mutation closure (Task 5, #112)."""
+    root, seal = world
+    monkeypatch.setattr(a2d, "load_verify", _raise_injected)
+    _insufficient(root, seal, "2m verify criterion 3c")
+
+
+def test_load_predictor_2g_forced_exception(world, monkeypatch):
+    """Mutation closure (Task 5, #113): the strata source."""
+    root, seal = world
+    monkeypatch.setattr(pr, "load_predictor", _raise_injected)
+    _insufficient(root, seal, "2m strata source 2g predictor")
+
+
+def test_entry_which_3b_forced_exception(world, monkeypatch):
+    """Mutation closure (Task 5, #126): the three endpoint entries."""
+    root, seal = world
+    monkeypatch.setattr(bm, "entry_which_3b", _raise_injected)
+    _insufficient(root, seal, "2m SmolLM3 endpoint entries")
 
 
 def test_load_tier_2k_forced_exception(world, monkeypatch):

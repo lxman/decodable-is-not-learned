@@ -14,6 +14,8 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+import sys
+import types
 from pathlib import Path
 
 import pytest
@@ -451,6 +453,48 @@ def test_check_tokenizer_2m_on_stubs():
         bm.check_tokenizer_2m(_Tok(eos=2))
     with pytest.raises(RuntimeError, match="prepended"):
         bm.check_tokenizer_2m(_Tok(bos=True))
+
+
+class _LoadTok(_Tok):
+    """`load_tokenizer_3b`'s stub, in SmolLM3's REAL shape: right padding
+    and NO pad token declared, so both of the loader's own assignments
+    are observable. Setting `pad_token` sets `pad_token_id`, as a real
+    tokenizer does."""
+    def __init__(self):
+        super().__init__(side="right", pad=None)
+        self.set_pad = None
+
+    @property
+    def pad_token(self):
+        return self.set_pad
+
+    @pad_token.setter
+    def pad_token(self, value):
+        self.set_pad = value
+        if value == bm.PAD_TOKEN_2M:
+            self.pad_token_id = bm.PAD_TOKEN_ID_2M
+
+
+def test_load_tokenizer_3b_sets_left_padding_and_the_pad_token(monkeypatch):
+    """Mutation closure (Task 5, #35): `load_tokenizer_3b`'s own two
+    assignments — left padding (dial n) and the vocabulary's own pad
+    token — plus its `check_tokenizer_2m` call. No network: `transformers`
+    is replaced by a stub module for the duration, so nothing is
+    downloaded and no real tokenizer is built."""
+    tok = _LoadTok()
+    seen = {}
+
+    def _from_pretrained(repo, revision=None):
+        seen["args"] = (repo, revision)
+        return tok
+
+    fake = types.ModuleType("transformers")
+    fake.AutoTokenizer = types.SimpleNamespace(from_pretrained=_from_pretrained)
+    monkeypatch.setitem(sys.modules, "transformers", fake)
+    got = bm.load_tokenizer_3b(bm.REPO_CKPT, "c" * 40)
+    assert got is tok and seen["args"] == (bm.REPO_CKPT, "c" * 40)
+    assert tok.padding_side == "left"
+    assert tok.set_pad == bm.PAD_TOKEN_2M and tok.pad_token_id == bm.PAD_TOKEN_ID_2M
 
 
 def test_loader_family_imports_torch_lazily():

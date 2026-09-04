@@ -168,6 +168,31 @@ tag is cut, with what it printed. At the time of writing the analyzer
 does not exist; on the real pre-campaign tree every execution must
 land INSUFFICIENT_DATA (no SmolLM3 records) and print no T.
 
+Logged (build Task 5, 2026-09-03/04, before the tag). Every execution
+of `analyze_2m.run()` on the REAL pre-campaign tree landed
+INSUFFICIENT_DATA and printed no T — no SmolLM3-3B endpoint, sweep,
+rung-set or power record exists, so the run refuses at the endpoint
+stage after executing every predictor-side loader:
+
+1. `experiments/exp2m/tests/import_scan_2m.py`, run twice (once before
+   and once after Task 5's edits to `verify_referents_2m.py`) to pin
+   `IMPORTED_SHA256_2M`: `INSUFFICIENT_DATA`, 11 referent/loader
+   failures (the missing prereg tag plus the absent endpoint/rung-set/
+   power/sweep records), no T, nothing written.
+2. `experiments/exp2m/tests/read_sweep_2m.py`, once:
+   `INSUFFICIENT_DATA`, 10 referent/loader failures (the prereg tag
+   binds through the sweep's own stand-in, so only the absent campaign
+   artifacts remain), no T, `write=False`, 0 writes observed.
+3. Task 3's real-tree analyzer tests and Task 5's world/totality
+   modules, which run `analyze_2m.run()` on SYNTHETIC roots and, in
+   `test_run_on_empty_tree_is_insufficient_never_raises`, on an empty
+   one: INSUFFICIENT_DATA in every case, no T on the real tree.
+
+The cold battery's item 10 inspects the real `EXP2M` tree directly and
+does not call `run()`; it printed "endpoint/rung set: absent —
+pre-campaign", "power: absent — pre-campaign", "sweep: absent —
+pre-campaign".
+
 ## 3. Instrument — 2l's, with the outcome model swapped and Test B unconditioned
 
 Everything not named here is `experiments/exp2l` / `exp2k` / `exp2i`

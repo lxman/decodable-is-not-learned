@@ -325,6 +325,41 @@ def test_sweep_refuses_without_endpoint_seal_then_runs_gate1_twin_and_grid(tmp_p
     assert not bm.halt_marker_path(tmp_path).exists()
 
 
+def test_run_twin_reads_the_config_commit_and_records_itself_only_after_every_rung(tmp_path, monkeypatch):
+    """Mutation closure (Task 5, #47 and #51). Two properties of
+    `run_twin` no other case observes: (a) the twin's tokenizer is read
+    at the ENDPOINT's config commit — the stage-1 config the from_config
+    referent was built from — not at the base revision; (b) its bespoke
+    checkpoint record is written AFTER the rung loop, so an interruption
+    mid-twin leaves no checkpoint record standing for rungs that were
+    never evaluated (2i's R-3 resume rule: `records_complete_3b` reads
+    that record as 'this step is done')."""
+    man = _manifest()
+    e = bm.entry_3b(man, bm.ENDPOINT_STEP_2M)
+    entry_twin = bm.entry_3b(man, bm.TWIN)
+    loaders, state = _sweep_loaders(entry=e)
+    battery = bg.load_battery()
+    verify = a2d.load_verify()
+    real_eval, calls = sw.evaluate_items, {"n": 0}
+
+    def _boom(runner, cap, verify_fn):
+        calls["n"] += 1
+        if calls["n"] == 3:
+            raise RuntimeError("interrupted mid-twin")
+        return real_eval(runner, cap, verify_fn)
+
+    monkeypatch.setattr(sw, "evaluate_items", _boom)
+    with pytest.raises(RuntimeError, match="interrupted mid-twin"):
+        sw.run_twin(out_root=tmp_path, manifest=man, device="cpu", battery=battery, verify_fn=verify,
+                    endpoint_sha="E" * 64, loaders=loaders)
+    assert calls["n"] == 3 and state["twin"] == [entry_twin["config_commit"]]
+    assert state["tok"] == [(bm.REPO_CKPT, entry_twin["config_commit"])]
+    assert entry_twin["config_commit"] == e["commit"] != bm.REV_BASE_2M
+    assert bm.record_path(tmp_path, bm.TWIN, bt.RUNGS[0]).exists()          # two rungs did land
+    assert not bm.checkpoint_record_path(tmp_path, bm.TWIN).exists()
+    assert not sw.records_complete_3b(tmp_path, bm.TWIN)
+
+
 def test_sweep_gate1_diff_halts_with_marker_and_refuses_resume(tmp_path, monkeypatch):
     _shrink_grid(monkeypatch)
     _setup_endpoint(tmp_path, gate_frac=0.5)
