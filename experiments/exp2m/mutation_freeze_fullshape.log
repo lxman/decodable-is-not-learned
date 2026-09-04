@@ -1,0 +1,6 @@
+baseline OK (fullshape pass, [89, 99] mutants)
+
+[89] killed  run()/_core: Test A predictor -> counts[64] instead of counts[K_TOTAL]
+[99] killed  sensitivities: log_head_subset computed over bm.GRID_3B, not LOG_HEAD_SUBSET_2M
+
+2/2 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

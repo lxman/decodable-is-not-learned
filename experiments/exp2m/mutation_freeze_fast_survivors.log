@@ -1,0 +1,9 @@
+baseline OK (fast pass, [95, 102, 104, 106, 107] mutants)
+
+[95] killed  s8_outcome_order_2m: descriptive True -> False
+[102] killed  F-1: the partial disclosure names the rungs READ, not the rungs missed
+[104] killed  F-2: load_endpoint_which_2m does not apply the coherence check
+[106] SURVIVED  F-3: the S8 rows drop the no-alpha note
+[107] SURVIVED  F-3: the S5 row drops the no-alpha note
+
+3/5 killed; 2 survivor(s): [(106, 'F-3: the S8 rows drop the no-alpha note', 'survived'), (107, 'F-3: the S5 row drops the no-alpha note', 'survived')]; 0 SKIP (target text not found, stale mutant): []

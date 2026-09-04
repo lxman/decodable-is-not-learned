@@ -193,6 +193,27 @@ does not call `run()`; it printed "endpoint/rung set: absent —
 pre-campaign", "power: absent — pre-campaign", "sweep: absent —
 pre-campaign".
 
+Logged (the adversarial freeze, 2026-09-04, before the tag). Two more
+executions of `analyze_2m.run()` on the REAL pre-campaign tree, both
+INSUFFICIENT_DATA with no T and nothing written:
+
+4. `experiments/exp2m/tests/import_scan_2m.py`, once more, after freeze
+   F-2's edit to `verify_referents_2m.py` — this is the reading now
+   pinned as `IMPORTED_SHA256_2M` (4 modules, unchanged in membership):
+   `INSUFFICIENT_DATA`, 11 referent/loader failures (the missing prereg
+   tag plus the absent endpoint/rung-set/power/sweep records), no T.
+5. `experiments/exp2m/tests/read_sweep_2m.py`, once more, cold at the
+   freeze: `INSUFFICIENT_DATA`, 10 referent/loader failures, no T,
+   `write=False`, 0 writes observed, 5,116 distinct paths read, bucket
+   (e) unpinned = 0.
+
+The freeze's own other `run()` calls were all on SYNTHETIC roots — the
+seventeen runner-left tree shapes it enumerated, the F-1 and F-2
+demonstrations, the determinism pair and the world/totality modules —
+the same class as the build's, and none of them touched the real tree.
+No model was loaded and no network call was made at any point in the
+freeze.
+
 ## 3. Instrument — 2l's, with the outcome model swapped and Test B unconditioned
 
 Everything not named here is `experiments/exp2l` / `exp2k` / `exp2i`

@@ -198,6 +198,16 @@ def test_load_endpoint_and_sweep_3b(tmp_path, monkeypatch):
     for which, want in (("stage1_final", 9), ("stage3_final", 3), ("base", 4)):
         got = an.load_endpoint_which_2m(tmp_path, which, battery, verify, entry=bm.entry_which_3b(man, which))
         assert set(got) == set(bt.RUNGS) and got["antonym"]["correct"] == want
+    # Freeze F-2: the which-coherence check is applied BY the loader, not
+    # merely available beside it — one record from a second load refuses.
+    p_odd = bm.endpoint_record_path(tmp_path, "base", "odd6")
+    orig = p_odd.read_text()
+    rec_odd = json.loads(orig)
+    rec_odd["weight_sha256"] = "OTHER"
+    p_odd.write_text(json.dumps(rec_odd))
+    with pytest.raises(ValueError, match="did not come from one load"):
+        an.load_endpoint_which_2m(tmp_path, "base", battery, verify, entry=bm.entry_which_3b(man, "base"))
+    p_odd.write_text(orig)
     sweep = an.load_sweep_3b(tmp_path, battery, verify, manifest=man, endpoint_sha="E" * 64)
     assert set(sweep) == set(SHORT_GRID) | {bm.TWIN}
     assert sweep[bm.TWIN]["antonym"]["correct"] == 1
@@ -757,7 +767,7 @@ def test_verdict_2m_discloses_a_test_that_read_fewer_than_three_rungs():
     assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M + "B") for d in t["disclosures"])
 
 
-def test_s5_s8_rows_say_their_fires_key_is_not_a_rule():
+def test_descriptive_rows_say_their_fires_key_is_not_a_rule():
     """Freeze F-3: `_run_test` stamps `fires` on every test it runs,
     descriptives included. S5 and S8 make no alpha claim, so each row
     says so in words beside the flag."""
@@ -766,6 +776,17 @@ def test_s5_s8_rows_say_their_fires_key_is_not_a_rule():
         note = an.NO_ALPHA_NOTE_2M.format(name=name)
         assert "not a firing rule" in note.lower() and "no alpha claim" in note
         assert "secondaries.failures" in note
+    # the rows themselves, built through the production functions on an
+    # empty rung set (`_run_test` short-circuits to the undefined result,
+    # so no committed bytes are needed)
+    s5 = an.s5_answer_prior_2m({}, {}, {}, {}, (), n_perm=10, n_boot=5)
+    assert s5["non_gating"] is True and s5["no_alpha_claim"] is True
+    assert s5["note"] == an.NO_ALPHA_NOTE_2M.format(name="S5")
+    s8 = an.s8_outcome_order_2m({}, {}, (), {"olmo2_13b": {}, "pythia_2.8b": {}}, n_perm=10, n_boot=5)
+    assert set(s8) == {"olmo2_13b", "pythia_2.8b"}
+    for row in s8.values():
+        assert row["descriptive"] is True and row["no_alpha_claim"] is True
+        assert row["note"] == an.NO_ALPHA_NOTE_2M.format(name="S8")
 
 
 def test_which_coherence_failures_2m():
@@ -800,7 +821,11 @@ def test_verdict_2m_discloses_a_reading_narrower_than_r_primary():
     for test in ("A", "B"):
         hit = [d for d in t["disclosures"]
                if d.startswith(an.DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M + test)]
-        assert hit and "add3_mid" in hit[0] and hit[0] in an._licensed_2m(t) and hit[0] in t["reason"]
+        # the MISSED rungs, not the read ones: assert the exact clause, since
+        # the rung also appears later inside the `thin` list either way
+        assert hit and "— ['add3_mid'] did not carry it" in hit[0]
+        assert "add_base8" not in hit[0].split("did not carry it")[0]
+        assert hit[0] in an._licensed_2m(t) and hit[0] in t["reason"]
     # the full reading discloses nothing; a sub-three reading takes 2l F-4's
     # wording and NOT this one (mutual exclusion)
     full = {**_prim(0.2, 0.001, True, eligible=nine), "thin": [], "dropped_degenerate": []}

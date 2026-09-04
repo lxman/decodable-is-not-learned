@@ -1,0 +1,6 @@
+baseline OK (fast pass, [106, 107] mutants)
+
+[106] killed  F-3: the S8 rows drop the no-alpha note
+[107] killed  F-3: the S5 row drops the no-alpha note
+
+2/2 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

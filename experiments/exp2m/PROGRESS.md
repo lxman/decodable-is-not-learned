@@ -591,3 +591,48 @@ rationale comments restored). New: `experiments/exp2m/referents_2m.json`,
 `tests/test_power_2m.py`, `tests/test_battery_2m.py`,
 `tests/test_analyze_2m.py`. Doc: `experiment-2m-design.md` §2. Nothing
 else in the repo touched; no frozen upstream module edited.
+
+---
+
+## Task 6 — the adversarial freeze (2026-09-04, fresh eyes, cold)
+
+Full record: `experiments/exp2m/FREEZE_CHECKLIST.md` (findings, the
+23-item attack list with what each execution printed, the ratification
+package with doc slips (a)–(k), and the cold re-runs). Summary:
+
+**Class defect: NOT FOUND.** No reachable path was found on which 2m
+delivers a verdict computed from the wrong bytes, and all seventeen
+enumerated runner-left tree shapes reach a frozen terminal
+(INSUFFICIENT_DATA, never a raise). Three findings, each demonstrated
+executably before closure and closed ADDITIVELY:
+
+| # | finding | closure |
+| --- | --- | --- |
+| F-1 | 2l F-4 one level over: a rung can clear 2d's endpoint bar (k = 9 on `add3_mid`/`sub4_mid`, 15 on `sub3_mid`, 19 on `arith_next` — all below the n_pos ≥ 20 eligibility floor), enter R_PRIMARY, and be dropped by BOTH tests as n_pos-thin. The power record still declares POWERED over `rungs_simulated` = R_PRIMARY minus the degenerate rungs, `check_power_claims_2m` re-derives exactly that set, and 2l F-4's guard speaks only below THREE eligible rungs — so `3 ≤ eligible < R_PRIMARY` left the licence stated over a wider set than the reading | `_partial_eligible_2m` + `DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M`, consulted by `verdict_2m` in the else-branch of 2l F-4's guard; names the rungs not read and rides on the licence. Fast fixture + world **W24** + 3 mutants |
+| F-2 | 2i F-1 / 3d F-2 on the endpoint side: the three whichs have no checkpoint record, so nothing measured that a which's 34 records came from ONE load (the stage is resumable, `load_thin_3b` does not sha-verify against the manifest, and the rung set's sha table and the 104-file composite are both computed after the records). Gate 1 attested `digest_endpoint`/`commit_endpoint` from ONE rung and compared them only to the sweep's own attestation. Demonstrated: 17 of 34 records per which rewritten to another model's digest loaded CLEAN and `gate1_failures_3b` returned NO FAILURES | `which_coherence_failures_2m` (one non-empty digest, commit and config source per which) applied inside `load_endpoint_which_2m`; `gate1_failures_3b` and `gate1_rederive_3b` now measure both attestations over the 34 records on their own side. Fixtures in three modules + cold battery item 9 + world **W25** + 5 mutants. **PIN MOVED**: `IMPORTED_SHA256_2M` (`verify_referents_2m.py` `c06a104f…` → `7baa94e1…`) |
+| F-3 | build deferred minor 40, the freeze objects: `_run_test` stamps `fires` at 2g's bar on EVERY test, so S5 and S8 — descriptive, non-gating, no α claim — shipped a `fires: true` a reader could take for a result | `NO_ALPHA_NOTE_2M` + `no_alpha_claim: True` on every S5 and S8 row, saying what the key is not and that a failure inside the secondary lands in `secondaries.failures`. Fast fixture + world assertions + 2 mutants |
+
+**DISCLOSURE (checklist 27):** the freeze ran `analyze_2m.run()` on the
+REAL pre-campaign tree twice — one `tests/import_scan_2m.py` (after
+F-2's edit to `verify_referents_2m.py`; this is the pinned reading:
+INSUFFICIENT_DATA, 11 referent/loader failures, no T) and one
+`tests/read_sweep_2m.py` (INSUFFICIENT_DATA, 10 failures, no T,
+`write=False`, 0 writes, 5,116 paths, bucket (e) = 0). Every other
+`run()` call the freeze made was on a SYNTHETIC root. Zero model
+contact, zero network. Recorded in `experiment-2m-design.md` §2.
+
+**Mutation battery.** 150 mutants (140 + 10 for the three closures).
+Fast pass `mutation_freeze_fast.log`: 122 killed, 27 survivors, 1 stale
+(`#95`, whose target line F-3 edited — retargeted). Four of the new
+survivors were mine and were closed with FAST tests
+(`mutation_freeze_fast_survivors.log`,
+`mutation_freeze_fast_survivors2.log`: #95, #102, #104, #106, #107 all
+killed); one of them, `#106/#107`, had been surviving only because the
+new test's name matched the harness's `-k "not test_s5"` deselection —
+renamed `test_descriptive_rows_say_their_fires_key_is_not_a_rule`, a
+worked example of a fixture that exists and never runs. The remaining
+survivors are the documented worlds/totality-only kills the build
+already recorded (#89, #99 by `--fullshape`; #98 and the twenty
+AST-generated `collect_total` mutants by `--totality`), re-confirmed at
+the freeze in `mutation_freeze_totality.log` and
+`mutation_freeze_fullshape.log`.
