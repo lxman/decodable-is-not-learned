@@ -59,6 +59,15 @@ def test_main_writes_once_with_both_tests_on_base_strata(tmp_path, monkeypatch):
         assert rec[t]["n_trained_steps"] == 26 and rec[t]["declared_status"] in an2i.DECLARED_STATUSES_2I
         assert set(rec[t]["rungs"]) == set(fs.RUNGS_PRIMARY)
     assert an.load_power_2m(tmp_path, fs.RUNGS_PRIMARY, bm.PREDICTOR_SHA_2M)["block_sd_A"]["blocks"] == 4
+    # Task-4 review carry-over (5): the seam between power_2m's writer and
+    # the analyzer's re-derivation of its claims — the REAL record through
+    # `check_power_claims_2m` on the same base strata, zero disagreements.
+    strata = fs.strata()
+    x256 = {r: v for r, v in fs.x_a256_real().items() if r in fs.RUNGS_PRIMARY}
+    x_b = {r: v for r, v in fs.x_b_real().items() if r in fs.RUNGS_PRIMARY}
+    stage1 = an.load_endpoint_which_2m(tmp_path, "stage1_final", fs.battery(), fs.verify_fn(),
+                                       entry=bm.entry_which_3b(fs.manifest(), "stage1_final"))
+    assert an.check_power_claims_2m(rec, x256, x_b, strata, fs.RUNGS_PRIMARY, stage1) == []
     with pytest.raises(RuntimeError, match="written ONCE"):
         pm.main(root_2m=tmp_path, **seal)
 

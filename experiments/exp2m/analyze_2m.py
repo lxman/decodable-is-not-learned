@@ -62,8 +62,17 @@ from experiments.exp2m import battery_2m as bm  # noqa: E402
 
 RESULTS = EXP2M / "results"
 REFERENTS_PATH_2M = EXP2M / "referents_2m.json"
-REFERENTS_2M_SHA256 = None    # Task 5
-IMPORTED_SHA256_2M = None     # Task 5: pinned from tests/import_scan_2m.py
+REFERENTS_2M_SHA256 = "b237454c88f4de511faa3bf12f348089ff34fafe9e2e2eeaf32878ebfecfc9e1"  # Task 5
+IMPORTED_SHA256_2M = {   # Task 5: pinned from tests/import_scan_2m.py (4 modules)
+    bg.REPO / "experiments/exp2m/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2m/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2m/run/preflight_2m.py":
+        "931f5d90210c1030069d34038f744750d4fee5ab23e3f106f6887cb9317da18d",
+    bg.REPO / "experiments/exp2m/verify_referents_2m.py":
+        "c06a104f2eaef5128ab8238329657f8067c9a752f6b3cb0342fedcb192009246",
+}
 WORLDS_2M = ("INSUFFICIENT_DATA", "SHARED", "PYTHIA-ONLY", "OLMO-ONLY", "NEITHER")
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
 collect_total = an2i.collect_total
@@ -781,7 +790,7 @@ def s3_paired_difference_2m(x_a, x_b, out, strata, rungs, *, n_boot=N_BOOT, seed
     ci = [float(np.percentile(diffs, 2.5)), float(np.percentile(diffs, 97.5))] if diffs else None
     diff = None if (t_a is None or t_b is None or not np.isfinite(t_a) or not np.isfinite(t_b)) else t_b - t_a
     return {"rungs": rungs, "T_A": t_a, "T_B": t_b, "diff_B_minus_A": diff, "ci95": ci,
-            "n_boot": len(diffs),
+            "n_boot": len(diffs), "n_boot_requested": n_boot,
             "note": "paired item bootstrap within rung on one tie structure; the densities differ "
                     "(256 vs 64 draws); descriptive, no alpha claim"}
 

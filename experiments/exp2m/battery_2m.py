@@ -801,8 +801,8 @@ FROZEN_SHA256_2M = {   # Task 5: pinned as a literal from frozen_from_disk() (48
         "d24babe784d465deea35c3ed06802bd2210a6dd471b01cb7d31b2d17ba1093bd",
     REPO / "experiments/exp2m/power_2m.py":
         "71ce8601bb633411d91ab595d6d5adbf979c16ed50ffddab4e7359a8ff31878f",
-    REPO / "experiments/exp2m/make_referents_2m.py":
-        "5f07bbd1c28058e2cc4dc2fa15ef5f8386cc3654a8b49b1c01489cbfa27a068f",
+    REPO / "experiments/exp2m/make_referents_2m.py":     # re-pinned: Step 3's N_FILES_2M literal
+        "36340a89d3086e25b35377065e714803ccc33ff9821a696312a02d8a11e221c9",
 }
 
 

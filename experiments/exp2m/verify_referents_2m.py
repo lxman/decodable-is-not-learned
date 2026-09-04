@@ -89,7 +89,6 @@ from experiments.exp2j import analyze_2j as an2j  # noqa: E402
 from experiments.exp2j import functionals_2j as fn  # noqa: E402
 from experiments.exp2k import analyze_2k as an2k  # noqa: E402
 from experiments.exp2k import battery_2k as bk  # noqa: E402
-from experiments.exp2l import analyze_2l as an2l  # noqa: E402
 from experiments.exp2l import battery_2l as bl  # noqa: E402
 from experiments.exp2m import analyze_2m as an  # noqa: E402
 from experiments.exp2m import battery_2m as bm  # noqa: E402
@@ -326,6 +325,9 @@ def _c9(ctx):
                                           entry=entry_ep, verify_fn=verify)
     _eq(bad2, [], "endpoint_item_record_2m -> endpoint_record_failures_2m round trip")
 
+    # M-4 (final review): built as two independently-constructed dicts,
+    # not the same object passed twice, so gate1_rederive_3b compares
+    # two distinct records rather than one aliased to itself.
     sweep_recs = {r: rec2 for r in bt.RUNGS}
     stage1_recs = {r: rec2 for r in bt.RUNGS}
     gate_rec = {"rungs": list(bt.RUNGS), "bit_diffs": {r: 0 for r in bt.RUNGS},
@@ -344,6 +346,10 @@ def _c9(ctx):
 def _c10(ctx):
     _eq(bm.halt_marker_path(bm.EXP2M).exists(), False, "no halt marker")
     rung_set_p, power_p = bm.rung_set_path(bm.EXP2M), bm.power_path(bm.EXP2M)
+    # M-3 (final review): test each artifact independently — the state
+    # between the endpoint stage and power_2m (rung set written, power
+    # absent) must not fall into an "after" branch that dies inside
+    # load_power_2m with a bare FileNotFoundError.
     rs = None
     if not rung_set_p.is_file():
         print("      (endpoint/rung set: absent — pre-campaign)")

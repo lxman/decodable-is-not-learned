@@ -95,6 +95,13 @@ def test_w6_underpowered_disclosure_rides_on_the_licence(worlds):
     assert an.DISCLOSURE_UNDERPOWERED_2M["A"] not in v["licensed_sentence"]
 
 
+def test_w23_underpowered_a_disclosure_rides_on_the_licence(worlds):
+    v, _ = worlds["W23 OLMO-ONLY underpowered A disclosed"]
+    assert v["verdict"] == "OLMO-ONLY"
+    assert an.DISCLOSURE_UNDERPOWERED_2M["A"] in v["licensed_sentence"]
+    assert an.DISCLOSURE_UNDERPOWERED_2M["B"] not in v["licensed_sentence"]
+
+
 def test_w18_extra_rungs_carry_an_undefined_d(worlds):
     v, _ = worlds["W18 PYTHIA-ONLY extra rungs with an undefined D"]
     ex = v["secondaries"]["extra rungs"]
@@ -107,14 +114,8 @@ def test_w18_extra_rungs_carry_an_undefined_d(worlds):
 def test_w18_verdict_json_is_strict_with_a_nan_secondary(tmp_path):
     seal = fs.write_world_2m(tmp_path, mode="pythia_only", all_fire=("count_div13", "caesar"))
     out = tmp_path / "verdict.json"
-    # Test-side stand-in (same root cause as `full_shape.run_world`,
-    # disclosed there and in PROGRESS.md): the frozen/import pins are
-    # empty until Task 5, so a bare `an.run()` call here would refuse
-    # with INSUFFICIENT_DATA regardless of the world.
     an.run(root_2m=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, n_perm=30, n_boot=10,
-           referents_sha=False, write=True, out_path=out, s8_loader=fs.s8_cached,
-           frozen_check=(None if bm.FROZEN_SHA256_2M else (lambda: None)),
-           imports_pinned=(True if an.IMPORTED_SHA256_2M is not None else False), **seal)
+           referents_sha=False, write=True, out_path=out, s8_loader=fs.s8_cached, **seal)
     rec = json.loads(out.read_text())
     assert rec["secondaries"]["extra rungs"]["extra"]["caesar"]["raw_d_A64"] is None
     assert "NaN" not in out.read_text()
@@ -137,11 +138,8 @@ def test_s8_production_loader_once(tmp_path):
     """The production S8 path (no injection) on one world: the four
     committed outcomes through their own frozen readers (≈ 2–4 min)."""
     seal = fs.write_world_2m(tmp_path, mode="shared")
-    # Test-side stand-in (same root cause as `full_shape.run_world`).
     v = an.run(root_2m=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, n_perm=30, n_boot=10,
-               referents_sha=False,
-               frozen_check=(None if bm.FROZEN_SHA256_2M else (lambda: None)),
-               imports_pinned=(True if an.IMPORTED_SHA256_2M is not None else False), **seal)
+               referents_sha=False, **seal)
     s8 = v["secondaries"]["S8 outcome order"]
     assert set(s8) == {"pythia_2.8b", "pythia_6.9b", "olmo2_7b", "olmo2_13b"}
     assert s8["pythia_2.8b"]["rungs"] == [r for r in fs.RUNGS_PRIMARY if r in bm.bg.R_28]

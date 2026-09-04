@@ -653,11 +653,10 @@ def test_run_frozen_check_forced_exception():
 
 
 def test_run_import_surface_entry_forced_exception(monkeypatch):
-    # IMPORTED_SHA256_2M is None until Task 5, so run()'s default resolves
-    # imports_pinned to None (the "not pinned (build incomplete)" branch)
-    # and never reaches check_imports_2m at all; force the branch so the
-    # injected exception is the thing under test (2l's analogous test only
-    # works bare because IMPORTED_SHA256_2L is already a real pinned dict).
+    # `imports_pinned=True` is passed explicitly rather than left to the
+    # default: it makes the branch under test independent of whether
+    # IMPORTED_SHA256_2M happens to be pinned (it is, since Task 5), so
+    # the injected exception is the only thing this case observes.
     monkeypatch.setattr(an, "check_imports_2m", lambda: (_ for _ in ()).throw(ValueError("injected")))
     v = an.run(n_perm=20, n_boot=5, imports_pinned=True)
     assert v["verdict"] == "INSUFFICIENT_DATA"
@@ -665,9 +664,9 @@ def test_run_import_surface_entry_forced_exception(monkeypatch):
 
 
 def test_run_referent_manifest_check_forced_exception(monkeypatch):
-    # Same reasoning as above for REFERENTS_2M_SHA256 (also None until
-    # Task 5): force a truthy referents_sha so mkr.check_referents is
-    # actually called.
+    # Same reasoning as above for REFERENTS_2M_SHA256: a truthy
+    # referents_sha is passed explicitly so mkr.check_referents is
+    # actually called whatever the pinned literal is.
     monkeypatch.setattr(mkr, "check_referents", lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected")))
     v = an.run(n_perm=20, n_boot=5, referents_sha="0" * 64)
     assert v["verdict"] == "INSUFFICIENT_DATA"

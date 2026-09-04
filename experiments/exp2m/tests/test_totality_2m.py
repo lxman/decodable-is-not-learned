@@ -63,16 +63,11 @@ def _run(root, seal, **kw):
     # through `kw.setdefault` instead keeps the same default for every
     # other case while letting that one case override it.
     kw.setdefault("s8_loader", fs.s8_cached)
-    # Task-4 ruling (disclosed in PROGRESS.md; mirrors `full_shape.
-    # run_world`'s stand-in): FROZEN_SHA256_2M is empty and
-    # IMPORTED_SHA256_2M is None until Task 5, so the bare defaults
-    # would land every totality case on "2m frozen modules"/"not
-    # pinned" INSUFFICIENT_DATA before its OWN injected defect is ever
-    # reached. Both expressions revert to the real checks automatically
-    # once Task 5 pins the two literals (2l's own Task 5 dropped the
-    # equivalent bypass here — no edit needed at that point).
-    kw.setdefault("frozen_check", None if bm.FROZEN_SHA256_2M else (lambda: None))
-    kw.setdefault("imports_pinned", True if an.IMPORTED_SHA256_2M is not None else False)
+    # Task 5: the frozen-module pin and the import pin both run for real
+    # here now (FROZEN_SHA256_2M and IMPORTED_SHA256_2M are pinned), so
+    # the bypasses this defaulted while they were empty are gone; only
+    # `referents_sha=False` stays, because a synthetic tree is not the
+    # real pre-campaign tree the manifest describes.
     return an.run(root_2m=root, root_2i=bi.EXP2I, root_2k=bk.EXP2K, **{**seal, **kw})
 
 
@@ -92,7 +87,7 @@ def _raise_injected(*a, **kw):
 
 def test_rung_set_torn(world):
     root, seal = world
-    bm.rung_set_path(root).write_text('{"R_13B": [')
+    bm.rung_set_path(root).write_text('{"R_3B": [')
     _insufficient(root, seal, "2m rung set file")
 
 
@@ -243,7 +238,7 @@ def test_rung_set_vs_endpoint_check_forced_exception(world, monkeypatch):
     """Mutation gap (Task 5, #100): _check_rung_set_vs_endpoint_2m reads
     a rung_set AND a stage1_final that are always well-formed on the
     real committed 2k/2i data path -- reachable only once both are
-    present, which only a complete synthetic 13B tree provides."""
+    present, which only a complete synthetic SmolLM3 tree provides."""
     root, seal = world
     monkeypatch.setattr(an, "_check_rung_set_vs_endpoint_2m",
                         lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected")))
@@ -278,8 +273,9 @@ def test_check_imports_2m_exit_forced_exception(world, monkeypatch):
     cases exist to exercise is `run()`'s CALL-SITE SEQUENCING (entry ->
     exit -> post-secondaries) -- Task 5/the freeze's target -- not
     `check_imports_2m`'s own correctness, so the passing calls are a
-    plain no-op and `imports_pinned=True` is passed explicitly (the
-    default stays False while IMPORTED_SHA256_2M is None)."""
+    plain no-op and `imports_pinned=True` is passed explicitly (Task 5
+    pinned IMPORTED_SHA256_2M, so this now agrees with the default; it
+    is kept to state the intent at the call site)."""
     root, seal = world
     calls = {"n": 0}
 
@@ -297,7 +293,7 @@ def test_check_imports_2m_exit_forced_exception(world, monkeypatch):
 
 def test_rung_set_endpoint_shas_check_forced_exception(world, monkeypatch):
     """FREEZE F-3's call site: reachable only once the rung set loads,
-    which only a complete synthetic 13B tree provides."""
+    which only a complete synthetic SmolLM3 tree provides."""
     root, seal = world
     monkeypatch.setattr(an, "_check_rung_set_endpoint_shas_2m",
                         lambda *a, **kw: (_ for _ in ()).throw(ValueError("injected")))

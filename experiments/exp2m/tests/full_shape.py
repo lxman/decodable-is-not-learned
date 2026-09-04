@@ -312,19 +312,13 @@ def write_world_2m(root, *, mode="pythia_only", seed=0, missing=None, power_stat
 
 
 def run_world(root, seal, *, n_perm=200, n_boot=20) -> dict:
-    # Test-side stand-in (task-4 ruling, disclosed in PROGRESS.md): with
-    # FROZEN_SHA256_2M empty and IMPORTED_SHA256_2M None until Task 5,
-    # the DEFAULT frozen_check/imports_pinned would land every world on
-    # "2m frozen modules"/"not pinned" INSUFFICIENT_DATA regardless of
-    # mode. `frozen_check` stands in with a no-op only while the pin is
-    # empty; `imports_pinned=False` skips the import-surface check only
-    # while it is unpinned. Both expressions revert to the real checks
-    # automatically the moment Task 5 pins the two literals — no edit
-    # needed here then (2l's own Task 5 dropped the equivalent bypass).
+    # referents_sha=False stays: a synthetic world root is not the real
+    # tree, so the pre-campaign manifest cannot check against it. The
+    # import pin (imports_pinned) and the frozen-module pin (frozen_check)
+    # both now run for real (Task 5 pinned IMPORTED_SHA256_2M and
+    # FROZEN_SHA256_2M and dropped both bypasses here).
     return an.run(root_2m=root, root_2i=bi.EXP2I, root_2k=bk.EXP2K, n_perm=n_perm, n_boot=n_boot,
-                  referents_sha=False, s8_loader=s8_cached,
-                  frozen_check=(None if bm.FROZEN_SHA256_2M else (lambda: None)),
-                  imports_pinned=(True if an.IMPORTED_SHA256_2M is not None else False), **seal)
+                  referents_sha=False, s8_loader=s8_cached, **seal)
 
 
 def world_specs() -> list:
@@ -354,4 +348,5 @@ def world_specs() -> list:
         ("W20 INSUFFICIENT missing base record", dict(mode="pythia_only", missing="base_record"), "INSUFFICIENT_DATA"),
         ("W21 INSUFFICIENT missing twin record", dict(mode="pythia_only", missing="twin_record"), "INSUFFICIENT_DATA"),
         ("W22 INSUFFICIENT a record at another precision", dict(mode="pythia_only", missing="dtype"), "INSUFFICIENT_DATA"),
+        ("W23 OLMO-ONLY underpowered A disclosed", dict(mode="olmo_only", power_status_a="DECLARED UNDERPOWERED IN ADVANCE"), "OLMO-ONLY"),
     ]
