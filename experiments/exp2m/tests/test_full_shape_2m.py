@@ -6,6 +6,7 @@ import math
 
 import pytest
 
+from experiments.exp2i import analyze_2i as an2i
 from experiments.exp2i import battery_2i as bi
 from experiments.exp2k import battery_2k as bk
 from experiments.exp2m import analyze_2m as an
@@ -19,13 +20,16 @@ def worlds(tmp_path_factory):
     for name, kw, want in fs.world_specs():
         root = tmp_path_factory.mktemp(name.split()[0])
         seal = fs.write_world_2m(root, **kw)
-        out[name] = (fs.run_world(root, seal), want)
+        # The world ROOT is kept in the tuple (Task 5 fix round 1): the
+        # dial-b equality guard in `test_w1_pythia_only_shape` re-derives
+        # Test B from the same synthetic tree the verdict was computed on.
+        out[name] = (fs.run_world(root, seal), want, root)
     return out
 
 
 def test_every_terminal_reached(worlds):
     got = {}
-    for name, (v, want) in worlds.items():
+    for name, (v, want, _root) in worlds.items():
         if want is not None:
             assert v["verdict"] == want, f"{name}: {v['verdict']} ({v['reason']})"
         got.setdefault(v["verdict"], name)
@@ -33,7 +37,7 @@ def test_every_terminal_reached(worlds):
 
 
 def test_w1_pythia_only_shape(worlds):
-    v, _ = worlds["W1 PYTHIA-ONLY"]
+    v, _, root = worlds["W1 PYTHIA-ONLY"]
     A, B = v["tests"]["A"], v["tests"]["B"]
     assert A["fires"] is True and B["fires"] is False
     assert A["stratified"]["T"] >= 0.10 and A["stratified"]["p"] < 0.01
@@ -72,6 +76,7 @@ def test_w1_pythia_only_shape(worlds):
     # the 21-point LOG_HEAD_SUBSET_2M, not over the full 26-point grid —
     # a different outcome, so a different T from the primary's.
     assert sens["log_head_subset"]["A"]["stratified"]["T"] != A["stratified"]["T"]
+    assert sens["log_head_subset"]["B"]["stratified"]["T"] is not None
     assert sens["log_head_subset"]["B"]["stratified"]["T"] != B["stratified"]["T"]
     assert sens["B_conditioned_on_A_median"]["stratified"]["T"] is not None
     assert sec["failures"] == []
@@ -84,13 +89,25 @@ def test_w1_pythia_only_shape(worlds):
     assert ref["dtype"] == bm.DTYPE_2M and ref["batch_size"] == bm.BATCH_SIZE_2M
     assert v["licensed_sentence"] == an.LICENSED_2M["PYTHIA-ONLY"]
     assert v["known_inputs_caveat"] == an.KNOWN_INPUTS_CAVEAT_2M and v["calibration_note"] == an.CALIBRATION_SENTENCE_2M
+    # Dial b in its EXACT form (mutation closure, Task 5 fix round 1, #88):
+    # Test B re-derived from this world's own tree on the BARE base strata
+    # must be the verdict's B, statistic for statistic. `_run_test` is
+    # deterministic at a fixed seed and the inputs here are the same objects
+    # `run()` used, so this is an equality, not a tolerance. The `!=` line
+    # above rules out S3's conditioned form; this rules IN the base one.
+    sweep = an.load_sweep_3b(root, fs.battery(), fs.verify_fn(), manifest=fs.manifest(),
+                             endpoint_sha=bm.endpoint_sha256(root))
+    out = an.outcomes_3b(sweep, rungs=tuple(bm.bt.RUNGS))
+    B_base = an2i._run_test(fs.x_b_real(), bi.SIZE_PRED, out, fs.strata(), fs.RUNGS_PRIMARY,
+                            n_perm=200, n_boot=20)
+    assert B_base["stratified"]["T"] == B["stratified"]["T"]
 
 
 def test_w2_olmo_only_and_w3_shared(worlds):
-    v, _ = worlds["W2 OLMO-ONLY"]
+    v, _, _root = worlds["W2 OLMO-ONLY"]
     assert v["tests"]["B"]["fires"] is True and v["tests"]["A"]["fires"] is False
     assert v["secondaries"]["S3 paired difference"]["diff_B_minus_A"] > 0
-    v, _ = worlds["W3 SHARED"]
+    v, _, _root = worlds["W3 SHARED"]
     assert v["tests"]["A"]["fires"] and v["tests"]["B"]["fires"]
 
 
@@ -99,21 +116,21 @@ def test_w5_inverted_names_inversion(worlds):
 
 
 def test_w6_underpowered_disclosure_rides_on_the_licence(worlds):
-    v, _ = worlds["W6 PYTHIA-ONLY underpowered B disclosed"]
+    v, _, _root = worlds["W6 PYTHIA-ONLY underpowered B disclosed"]
     assert v["verdict"] == "PYTHIA-ONLY"
     assert an.DISCLOSURE_UNDERPOWERED_2M["B"] in v["licensed_sentence"]
     assert an.DISCLOSURE_UNDERPOWERED_2M["A"] not in v["licensed_sentence"]
 
 
 def test_w23_underpowered_a_disclosure_rides_on_the_licence(worlds):
-    v, _ = worlds["W23 OLMO-ONLY underpowered A disclosed"]
+    v, _, _root = worlds["W23 OLMO-ONLY underpowered A disclosed"]
     assert v["verdict"] == "OLMO-ONLY"
     assert an.DISCLOSURE_UNDERPOWERED_2M["A"] in v["licensed_sentence"]
     assert an.DISCLOSURE_UNDERPOWERED_2M["B"] not in v["licensed_sentence"]
 
 
 def test_w18_extra_rungs_carry_an_undefined_d(worlds):
-    v, _ = worlds["W18 PYTHIA-ONLY extra rungs with an undefined D"]
+    v, _, _root = worlds["W18 PYTHIA-ONLY extra rungs with an undefined D"]
     ex = v["secondaries"]["extra rungs"]
     assert set(ex["eleven_extra"]) == {"count_div13"} and set(ex["extra"]) == {"caesar"}
     assert math.isnan(ex["eleven_extra"]["count_div13"]["stratified_d_A64"])
@@ -132,7 +149,7 @@ def test_w18_verdict_json_is_strict_with_a_nan_secondary(tmp_path):
 
 
 def test_w19_thin_eligible_set_is_disclosed(worlds):
-    v, _ = worlds["W19 thin eligible set (2l F-4)"]
+    v, _, _root = worlds["W19 thin eligible set (2l F-4)"]
     assert v["verdict"] != "INSUFFICIENT_DATA", v["reason"]
     assert v["secondaries"]["sensitivities"]["R_PRIMARY"] == ["add3_mid", "add_base8", "sub3_mid", "sub4_mid"]
     A = v["tests"]["A"]

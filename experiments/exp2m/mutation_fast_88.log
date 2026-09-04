@@ -1,0 +1,5 @@
+baseline OK (fast pass, [88] mutants)
+
+[88] killed  run()/_core: Test B on 2l's composite strata (drops dial b's unconditioned form)
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

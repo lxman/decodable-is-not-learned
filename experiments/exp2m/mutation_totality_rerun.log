@@ -1,0 +1,10 @@
+baseline OK (totality pass, [110, 111, 112, 113, 124, 126] mutants)
+
+[110] killed  run(): totality — collect_total stripped at line 998 (bg.load_battery...)
+[111] killed  run(): totality — collect_total stripped at line 999 (bg.load_floors...)
+[112] killed  run(): totality — collect_total stripped at line 1000 (a2d.load_verify...)
+[113] killed  run(): totality — collect_total stripped at line 1001 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[124] killed  run(): totality — collect_total stripped at line 997 (thunk...)
+[126] killed  run(): totality — collect_total stripped at line 1026 (lambda: {w: bm.entry_which_3b(manifest, w) for w in bm.ENDPO...)
+
+6/6 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

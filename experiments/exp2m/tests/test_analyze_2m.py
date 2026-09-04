@@ -673,6 +673,32 @@ def test_run_referent_manifest_check_forced_exception(monkeypatch):
     assert any("2m referent manifest" in f and "injected" in f for f in v["referents"]["failures"])
 
 
+def test_core_reads_both_tests_on_the_bare_base_strata_ast():
+    """Dial b as a property of the SOURCE (mutation closure, Task 5 fix
+    round 1, #88), at zero cost: inside `run()`'s nested `_core`, BOTH
+    `_run_test` calls pass `strata` — the bare base strata, an
+    `ast.Name` — as their fourth positional argument, never a composite
+    built by a call. 2l made Test B's strata a composite; 2m's dial b
+    does not, and a world test that only rules the composite OUT costs a
+    full predictor load to run."""
+    tree = ast.parse((an.EXP2M / "analyze_2m.py").read_text())
+    run_fn = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "run")
+    core = next(n for n in ast.walk(run_fn) if isinstance(n, ast.FunctionDef) and n.name == "_core")
+    calls = [n for n in ast.walk(core)
+             if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "_run_test"]
+    assert len(calls) == 2, [ast.dump(c) for c in calls]
+    for c in calls:
+        arg = c.args[3]
+        assert isinstance(arg, ast.Name) and arg.id == "strata", ast.dump(arg)
+    labels = []
+    for c in calls:
+        a1 = c.args[1]
+        labels.append(a1.value if isinstance(a1, ast.Constant) else
+                      (a1.attr if isinstance(a1, ast.Attribute) else ast.dump(a1)))
+    assert labels == ["1b:k256", "SIZE_PRED"], labels
+    assert isinstance(calls[1].args[1], ast.Attribute)          # bi.SIZE_PRED, not a literal
+
+
 def test_check_imports_2m_real_rule_flags_a_module_outside_tests(monkeypatch):
     fake_path = str(bm.EXP2M / "PROGRESS.md")
     assert Path(fake_path).is_file()

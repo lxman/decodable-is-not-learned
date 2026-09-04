@@ -1,0 +1,7 @@
+baseline OK (fullshape pass, [88, 89, 99] mutants)
+
+[88] SURVIVED  run()/_core: Test B on 2l's composite strata (drops dial b's unconditioned form)
+[89] killed  run()/_core: Test A predictor -> counts[64] instead of counts[K_TOTAL]
+[99] SURVIVED  sensitivities: log_head_subset computed over bm.GRID_3B, not LOG_HEAD_SUBSET_2M
+
+1/3 killed; 2 survivor(s): [(88, "run()/_core: Test B on 2l's composite strata (drops dial b's unconditioned form)", 'survived'), (99, 'sensitivities: log_head_subset computed over bm.GRID_3B, not LOG_HEAD_SUBSET_2M', 'survived')]; 0 SKIP (target text not found, stale mutant): []

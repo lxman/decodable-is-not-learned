@@ -412,7 +412,8 @@ every module the suite imports.
 **byte-idempotent**. `REFERENTS_2M_SHA256` pinned to it.
 
 Composition: 2l's 2,695 pre-campaign list + 2l's OWN campaign
-artifacts (102 endpoint records, `rung_set_2l.json`, `power_2l.json`,
+artifacts (68 endpoint records — 2l has two whichs × 34 rungs, where 2m
+has three — `rung_set_2l.json`, `power_2l.json`,
 `gate1.json`, `verdict.json`, the 595-path sweep tree — S8 reads the
 13B outcome through 2l's frozen loaders) + 2l's four instrument blobs +
 2m's `checkpoints_2m.json`, `hub_inventory_smollm3.json` and
@@ -467,12 +468,15 @@ after each run showed no production file modified.
 | 5 | `… --fullshape --only 88,89,99` | 1/3 killed (89), 88 and 99 survived |
 | 6 | `… --fullshape --only 88,99` (after two new world assertions) | 2/2 killed |
 
-Logs: `mutation_build.log`, `mutation_fast_survivors.log`,
-`mutation_totality.log`, `mutation_totality_rerun.log`,
-`mutation_fullshape.log`, `mutation_fullshape_rerun.log` (all under
-`experiments/exp2m/`; `.gitignore:60` ignores `experiments/exp2m/
-mutation_*.log`, so unlike 2l's they stay local — the table here is the
-committed record).
+Logs, all COMMITTED under `experiments/exp2m/` (fix round 1 removed the
+`.gitignore` line that had been ignoring `experiments/exp2m/
+mutation_*.log` — a plan defect: 2l's ten mutation logs are tracked, and
+`.gitignore`'s own comment says the committed mutation logs ARE the
+battery's record): `mutation_build.log` (pass 1),
+`mutation_fast_survivors.log` (pass 2), `mutation_totality.log` (3),
+`mutation_totality_rerun.log` (4), `mutation_fullshape.log` (5),
+`mutation_fullshape_rerun.log` (6), `mutation_fast_88.log` (fix round
+1's fast re-confirmation of #88).
 
 **Every gap closed, with the closure:**
 
@@ -481,7 +485,7 @@ committed record).
 | 35 | `load_tokenizer_3b`: `padding_side "left"` → `"right"` | NEW fast test `test_battery_2m.py::test_load_tokenizer_3b_sets_left_padding_and_the_pad_token` — a `_LoadTok` stub in SmolLM3's real shape (right padding, no pad token declared) behind a stub `transformers` module in `sys.modules`; no network, nothing downloaded. The loader's two assignments and its `check_tokenizer_2m` call were previously untested (only `check_tokenizer_2m` itself was) |
 | 47 | `run_twin`: the checkpoint record written BEFORE the rung loop | NEW fast test `test_stages_2m.py::test_run_twin_reads_the_config_commit_and_records_itself_only_after_every_rung` — `sw.evaluate_items` raises on the 3rd rung; the twin's checkpoint record must be absent and `records_complete_3b(root, TWIN)` False (2i's R-3 resume rule: that record is what marks the step done) |
 | 51 | `run_twin`: the tokenizer commit → `bm.REV_BASE_2M` | the same test: `state["tok"] == [(REPO_CKPT, entry_twin["config_commit"])]`. The pre-existing world test only asserted `(REPO_CKPT, e["commit"]) in state["tok"]`, which gate 1's own tokenizer call already satisfied — a membership check where an identity check was needed |
-| 88 | `run()/_core`: Test B on 2l's composite strata | NEW assertion in `test_w1_pythia_only_shape`: `B["stratified"]["T"] != sec["S3 B beyond A"]["stratified"]["T"]` — dial b restated as a test (the primary B is unconditioned; S3 is the conditioned form). Measured on the real worlds: W1 .0095 vs −.1811, W2 .6527 vs .6851. Killed under `--fullshape` |
+| 88 | `run()/_core`: Test B on 2l's composite strata | **Killed by the FAST pass and by `--fullshape`** (fix round 1). Fast: NEW `test_analyze_2m.py::test_core_reads_both_tests_on_the_bare_base_strata_ast` — dial b as a property of the SOURCE (both `_run_test` calls inside `run()`'s `_core` pass `strata`, an `ast.Name`, as their fourth positional argument, never an `ast.Call`; labels `"1b:k256"` and `bi.SIZE_PRED`), 0.5 s, no predictor load. Worlds: `test_w1_pythia_only_shape` rules the composite OUT (`B["stratified"]["T"] != sec["S3 B beyond A"]["stratified"]["T"]` — W1 .0095 vs −.1811, W2 .6527 vs .6851) AND rules the base form IN by exact equality (`an2i._run_test(fs.x_b_real(), bi.SIZE_PRED, out, fs.strata(), fs.RUNGS_PRIMARY, n_perm=200, n_boot=20)["stratified"]["T"] == v["tests"]["B"]["stratified"]["T"]`, re-derived from the world's own tree; the `worlds` fixture now carries the root for it). Confirmed: `mutation_check.py --only 88` (fast) → `1/1 killed` |
 | 99 | sensitivities' `log_head_subset` built from `GRID_3B` | NEW assertions in the same test: `sens["log_head_subset"]["A"/"B"]["stratified"]["T"] != A/B["stratified"]["T"]` — the 21-point subset is a different outcome from the 26-point grid (W1: .7165 vs .7124). Killed under `--fullshape` |
 | 110, 111, 112, 113, 124, 126 | `collect_total` stripped from `bg.load_battery`, `bg.load_floors`, `a2d.load_verify`, `pr.load_predictor` (the strata source), the upstream frozen-pin `thunk` loop, and the three-which `entry_which_3b` map | SIX NEW totality tests in `test_totality_2m.py` (`test_load_battery_forced_exception`, `…_load_floors_…`, `…_load_verify_…`, `…_load_predictor_2g_…`, `test_upstream_frozen_import_thunk_forced_exception`, `test_entry_which_3b_forced_exception`), each monkeypatching the callee to raise and asserting INSUFFICIENT_DATA with its own label. These six `collect_total` sites had no forcing case at all — a real totality gap, not a harness artefact |
 | 89, 98, 105, 109, 122, 128–135, 138, 139, 140 | the rest of the first pass's survivors | already covered: killed by `--totality` (the collect_total sites with an existing forcing case, plus F-1's post-secondaries re-check) or by `--fullshape` (89: `S1 ladder 1b[256]["T"] == A["T"]`), confirmed by the targeted runs above. Recorded as "killed by worlds/totality only" per the harness's own rule |
@@ -532,14 +536,28 @@ Two bucket readings worth stating rather than passing over:
   file itself (which pins its own sha). 2l's committed campaign
   artifacts, which S8 reads once 2m's campaign exists, are inside that
   count — bucket (a), as intended.
-- `sha_pin_at_load` 0 and `seal_bound_campaign_absent` 0. The first is
-  not a hole: every checkpoint manifest read on this path
-  (`checkpoints_2g/2h/2i/2l/2m.json`) is ALSO a `referents_2m.json`
-  entry, and the classifier tests the manifest first, so the stronger
-  pin claims them. The second is structural: pre-campaign the analyzer
-  refuses on `is_file()` guards and never attempts an `open()` of a
-  seal-bound artifact. Both buckets are expected to become non-empty on
-  the process-tail re-run after `exp2m-endpoint-sealed` exists.
+- `sha_pin_at_load` 0. `SHA_PIN_AT_LOAD` names five checkpoint
+  manifests, and they divide into two cases. `checkpoints_2i.json`,
+  `checkpoints_2l.json` and `checkpoints_2m.json` ARE read on this
+  path, but each is also a `referents_2m.json` entry, and `_classify`
+  tests the manifest bucket first, so the stronger pin claims them —
+  they land in (a). `checkpoints_2g.json` and `checkpoints_2h.json` are
+  NOT `referents_2m.json` entries; the bucket is empty of them because
+  they are never OPENED pre-campaign. Their only reader is S8's Pythia
+  path (`an2j.load_pythia_outcomes` → `ck2g.load_manifest` /
+  `an2h.load_manifest_69`), which lives inside the secondaries, and the
+  pre-campaign run refuses long before the secondaries are reached.
+  Both files stay in `SHA_PIN_AT_LOAD` (no code change): the bucket
+  exists so that when they ARE read they are classified correctly.
+- `seal_bound_campaign_absent` 0 is structural: pre-campaign the
+  analyzer refuses on `is_file()` guards and never attempts an `open()`
+  of a seal-bound artifact, so the wrapper records nothing to classify.
+  This bucket becomes non-empty at the process-tail re-run after
+  `exp2m-endpoint-sealed` exists. `sha_pin_at_load` does NOT: the
+  endpoint seal adds no sweep, so the analyzer still refuses before S8
+  and the two Pythia manifests still go unread — that bucket first
+  fills at the post-campaign analyzer run, when the secondaries
+  actually execute.
 
 **Process tail:** re-run `tests/read_sweep_2m.py` once AFTER the
 endpoint seal tag is cut — (e) must still be 0, and the campaign-side

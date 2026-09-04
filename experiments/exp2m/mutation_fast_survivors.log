@@ -1,0 +1,7 @@
+baseline OK (fast pass, [35, 47, 51] mutants)
+
+[35] killed  load_tokenizer_3b: padding_side 'left' -> 'right'
+[47] killed  run_twin: the checkpoint record written BEFORE the rung loop
+[51] killed  run_twin: the tokenizer commit -> bm.REV_BASE_2M
+
+3/3 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

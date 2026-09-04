@@ -57,4 +57,3 @@ experiments/exp2m/sweep.log
 experiments/exp2m/analyzer.log
 experiments/exp2m/watcher_endpoint.log
 experiments/exp2m/watcher_sweep.log
-experiments/exp2m/mutation_*.log

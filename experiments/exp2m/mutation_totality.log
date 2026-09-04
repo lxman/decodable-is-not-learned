@@ -1,0 +1,25 @@
+baseline OK (totality pass, [98, 105, 109, 110, 111, 112, 113, 122, 124, 126, 128, 129, 130, 131, 132, 133, 134, 135, 138, 139, 140] mutants)
+
+[98] killed  run(): the post-secondaries import re-check does not refuse
+[105] killed  run(): totality — collect_total stripped at line 732 (lambda: bi.sampler_counts_olmo(bm.R_CAP_2K, root=root_2i, ba...)
+[109] killed  run(): totality — collect_total stripped at line 982 (lambda: bm.load_manifest_3b(bm.CHECKPOINTS_PATH, sha_pin=bm....)
+[110] SURVIVED  run(): totality — collect_total stripped at line 998 (bg.load_battery...)
+[111] SURVIVED  run(): totality — collect_total stripped at line 999 (bg.load_floors...)
+[112] SURVIVED  run(): totality — collect_total stripped at line 1000 (a2d.load_verify...)
+[113] SURVIVED  run(): totality — collect_total stripped at line 1001 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[122] killed  run(): totality — collect_total stripped at line 969 (lambda: bm.halt_marker_path(root_2m).read_text().strip()[:20...)
+[124] SURVIVED  run(): totality — collect_total stripped at line 997 (thunk...)
+[126] SURVIVED  run(): totality — collect_total stripped at line 1026 (lambda: {w: bm.entry_which_3b(manifest, w) for w in bm.ENDPO...)
+[128] killed  run(): totality — collect_total stripped at line 1038 (lambda: _check_rung_set_vs_endpoint_2m(rung_set, stage1_fina...)
+[129] killed  run(): totality — collect_total stripped at line 1044 (lambda: _check_rung_set_endpoint_shas_2m(rung_set, root_2m)...)
+[130] killed  run(): totality — collect_total stripped at line 1055 (lambda: json.loads(g1p.read_text())...)
+[131] killed  run(): totality — collect_total stripped at line 1081 (_core...)
+[132] killed  run(): totality — collect_total stripped at line 1083 (lambda: check_power_claims_2m(power, core[1], x_b, strata, r...)
+[133] killed  run(): totality — collect_total stripped at line 1086 (check_imports_2m if imports_pinned else (lambda: None)...)
+[134] killed  run(): totality — collect_total stripped at line 1198 (check_imports_2m if imports_pinned else (lambda: None)...)
+[135] killed  run(): totality — collect_total stripped at line 701 (_tier...)
+[138] killed  run(): totality — collect_total stripped at line 1041 (lambda: _check_rung_set_derivation_2m(rung_set, stage1_final...)
+[139] killed  run(): totality — collect_total stripped at line 1058 (lambda: bm.gate1_failures_3b(gate1, stage1_final) if stage1_...)
+[140] killed  run(): totality — collect_total stripped at line 1118 (thunk...)
+
+15/21 killed; 6 survivor(s): [(110, 'run(): totality — collect_total stripped at line 998 (bg.load_battery...)', 'survived'), (111, 'run(): totality — collect_total stripped at line 999 (bg.load_floors...)', 'survived'), (112, 'run(): totality — collect_total stripped at line 1000 (a2d.load_verify...)', 'survived'), (113, 'run(): totality — collect_total stripped at line 1001 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)', 'survived'), (124, 'run(): totality — collect_total stripped at line 997 (thunk...)', 'survived'), (126, 'run(): totality — collect_total stripped at line 1026 (lambda: {w: bm.entry_which_3b(manifest, w) for w in bm.ENDPO...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []

@@ -1,0 +1,144 @@
+baseline OK (fast pass, all mutants)
+
+[ 1] killed  GRID_3B missing 3200000
+[ 2] killed  LOG_HEAD_SUBSET_2M with 120000 added (no longer 2i's log-head shape)
+[ 3] killed  trained_steps_3b returns GRID_3B + (TWIN,) (the twin leaks into an outcome)
+[ 4] killed  build_manifest_3b: duplicate refusal `step != ENDPOINT_STEP_2M and same` -> `False and ...`
+[ 5] killed  build_manifest_3b: the endpoint-revision pin check removed
+[ 6] killed  build_manifest_3b: the stage-3 duplicate refusal removed
+[ 7] killed  build_manifest_3b: the twin's config_commit -> 'main'
+[ 8] killed  load_manifest_3b: the frozen-grid check removed
+[ 9] killed  entry_3b: the twin branch reads entries_3b['twin'] instead of the twin entry
+[10] killed  rung_set_from_counts_2m: r in R_CAP_2K -> r in STRATA_RUNGS
+[11] killed  rung_set_from_counts_2m: R_ELEVEN_EXTRA computed without `not in R_CAP_2K`
+[12] killed  rung_set_from_counts_2m: primary_is_the_nine -> True
+[13] killed  endpoint_files: missing-file raise removed
+[14] killed  endpoint_files: only two whichs (the base's 34 records leave the composite)
+[15] killed  composite_sha: unsorted
+[16] killed  item_record_2m: seal_tag ENDPOINT_SEAL_TAG_2M -> PREDICTOR_TAGS_2M
+[17] killed  item_record_2m: endpoint_sha256 key dropped from the record
+[18] killed  item_record_2m: the dtype override removed
+[19] killed  endpoint_item_record_2m: the dtype override removed
+[20] killed  checkpoint_record_2m: size SIZE_OUT -> bi.SIZE_OUT
+[21] killed  twin_checkpoint_record_2m: commit None -> ''
+[22] killed  gate1_failures_3b: nc.get(r) != N_ITEMS -> <
+[23] killed  gate1_failures_3b: bd.get(r) != 0 removed
+[24] killed  gate1_failures_3b: digest check removed
+[25] killed  gate1_failures_3b: prereg_tag check removed
+[26] killed  gate1_rederive_3b: attested-vs-re-derived bit_diffs check removed
+[27] killed  gate1_rederive_3b: coverage len(s_bits) != N_ITEMS -> <
+[28] killed  predictor_sha_2m: the '2m|' prefix dropped (2l's composite of the same two seals)
+[29] killed  require_prereg_2m: want != got -> ==
+[30] killed  check_frozen_2m: drift check removed
+[31] killed  clean_dir_3b: config.to_json_file line removed (2i stop #1)
+[32] killed  check_tokenizer_2m: the pad-id check removed
+[33] killed  check_tokenizer_2m: the eos-id check removed
+[34] killed  check_tokenizer_2m: the prepended-special (BOS) check removed
+[35] SURVIVED  load_tokenizer_3b: padding_side 'left' -> 'right'
+[36] killed  require_predictor_seals_2m: the 2i-seal literal check removed
+[37] killed  require_predictor_seals_2m: the 2k-seal literal check removed
+[38] killed  require_predictor_seals_2m: the composite re-derivation check removed
+[39] killed  run: rung_set_from_counts_2m fed the base's counts instead of stage1_final's
+[40] killed  run: seal_tag stamped ENDPOINT_SEAL_TAG_2M instead of PREDICTOR_TAGS_2M
+[41] killed  run: the endpoint loop skips the base (the rung set is still written)
+[42] killed  run_gate1: the HALTED marker is no longer written on a gate-1 fire
+[43] killed  run_gate1: bit_diffs comparison inverted (a != b -> a == b)
+[44] killed  records_complete_3b: checkpoint-record requirement removed
+[45] killed  run_step: free called with entry['commit'] instead of entry['revision']
+[46] killed  run: the twin dropped from rest
+[47] SURVIVED  run_twin: the checkpoint record written BEFORE the rung loop
+[48] killed  run: require_endpoint_seal_2m removed from run
+[49] killed  run: endpoint_sha computed BEFORE the endpoint seal binds (reorder) — documented-equivalent candidate, prove or kill
+[50] killed  run: the resume gate-1 re-check removed
+[51] SURVIVED  run_twin: the tokenizer commit -> bm.REV_BASE_2M
+[52] killed  verdict_tree_2m: PYTHIA-ONLY and OLMO-ONLY swapped
+[53] killed  verdict_2m: THIN threshold < 3 -> < 2
+[54] killed  verdict_2m: the UNDERPOWERED disclosure condition inverted
+[55] killed  _licensed_2m: disclosures dropped
+[56] killed  load_power_2m: n_trained_steps check removed
+[57] killed  load_power_2m: block_sd_A presence check removed
+[58] killed  load_power_2m: predictor_sha256 check removed
+[59] killed  load_power_2m: rungs != -> subset (a superset of R_PRIMARY silently accepted)
+[60] killed  check_power_claims_2m: B re-derived on 2l's composite strata, not the base (dial b)
+[61] killed  check_power_claims_2m: n_pos_lower_bound check removed
+[62] killed  _record_common_failures_2m: predictor_sha check removed
+[63] killed  _record_common_failures_2m: size expected bm.SIZE_OUT -> bi.SIZE_OUT
+[64] killed  _record_common_failures_2m: the dtype pin dropped from the tuple
+[65] killed  step_record_failures_2m: endpoint_sha256 check removed
+[66] killed  step_record_failures_2m: the twin's kind check removed
+[67] killed  step_record_failures_2m: commit check removed
+[68] killed  load_sweep_3b: steps default without the TWIN
+[69] killed  load_sweep_3b: LFS sha check removed
+[70] killed  load_sweep_3b: the twin routed through the generic checkpoint check
+[71] killed  twin_checkpoint_record_failures_2m: seed check removed
+[72] killed  outcomes_3b: steps default -> GRID_3B + (TWIN,) (the twin leaks into an outcome)
+[73] killed  outcomes_3b: the off-grid steps refusal removed
+[74] killed  ceiling_fraction_3b: v == n_steps -> v >= 1
+[75] killed  _load_rung_set_2m: subset-of-nine check removed
+[76] killed  _load_rung_set_2m: partition check removed
+[77] killed  _check_rung_set_derivation_2m: per-key comparison -> set equality (order-blind)
+[78] killed  _check_rung_set_endpoint_shas_2m: per-file comparison removed
+[79] killed  _check_rung_set_endpoint_shas_2m: coverage check removed
+[80] killed  _endpoint_seal_paths_2m: only two whichs bound by the seal
+[81] killed  load_predictors_2m: the 2k-seal literal check removed
+[82] killed  load_predictors_2m: the 2i-seal literal check removed
+[83] killed  load_predictors_2m: the seal_failures_2k call removed
+[84] killed  load_predictors_2m: the _check_predictor_counts_2i call removed
+[85] killed  load_predictors_2m: R_CAP == nine check removed
+[86] killed  load_predictors_2m: x_B bits do not reproduce raise removed
+[87] killed  load_predictors_2m: the halt-marker scan removed
+[88] SURVIVED  run()/_core: Test B on 2l's composite strata (drops dial b's unconditioned form)
+[89] SURVIVED  run()/_core: Test A predictor -> counts[64] instead of counts[K_TOTAL]
+[90] killed  check_imports_2m: 'tests' in rp.parts swallows everything -> True
+[91] killed  s3_paired_difference_2m: the difference sign flipped (b - a -> a - b)
+[92] killed  s3_paired_difference_2m: the bootstrap unpaired (A and B on DIFFERENT index draws)
+[93] killed  s4_matched_2m: increment sign flipped
+[94] killed  s5_answer_prior_2m: non_gating True -> False
+[95] killed  s8_outcome_order_2m: descriptive True -> False
+[96] killed  s8_outcome_order_2m: every rung of the committed outcome, not R_PRIMARY ∩ it
+[97] killed  collapses_3b: threshold >= -> >
+[98] SURVIVED  run(): the post-secondaries import re-check does not refuse
+[99] SURVIVED  sensitivities: log_head_subset computed over bm.GRID_3B, not LOG_HEAD_SUBSET_2M
+[100] killed  run(): totality — collect_total stripped at line 676 (lambda: json.loads(bk.seal_path(root_2k).read_text())...)
+[101] killed  run(): totality — collect_total stripped at line 681 (lambda: an2i._load_predictor_seal_content(root_2i)...)
+[102] killed  run(): totality — collect_total stripped at line 711 (lambda: an2i._load_rung_set(root_2i)...)
+[103] killed  run(): totality — collect_total stripped at line 715 (lambda: bi.load_manifest(bi.CHECKPOINTS_PATH, sha_pin=bi.CHE...)
+[104] killed  run(): totality — collect_total stripped at line 723 (lambda: an2i.load_predictor_records_2i(root_2i, battery, ent...)
+[105] SURVIVED  run(): totality — collect_total stripped at line 732 (lambda: bi.sampler_counts_olmo(bm.R_CAP_2K, root=root_2i, ba...)
+[106] killed  run(): totality — collect_total stripped at line 749 (lambda: _rows_bits() if (_xb and x_b) else...)
+[107] killed  run(): totality — collect_total stripped at line 975 (frozen_check or bm.check_frozen_2m...)
+[108] killed  run(): totality — collect_total stripped at line 980 (lambda: bm.require_prereg_2m(tag_exists=tag_exists, blob_sha...)
+[109] SURVIVED  run(): totality — collect_total stripped at line 982 (lambda: bm.load_manifest_3b(bm.CHECKPOINTS_PATH, sha_pin=bm....)
+[110] SURVIVED  run(): totality — collect_total stripped at line 998 (bg.load_battery...)
+[111] SURVIVED  run(): totality — collect_total stripped at line 999 (bg.load_floors...)
+[112] SURVIVED  run(): totality — collect_total stripped at line 1000 (a2d.load_verify...)
+[113] SURVIVED  run(): totality — collect_total stripped at line 1001 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[114] killed  run(): totality — collect_total stripped at line 1016 (lambda: _load_rung_set_2m(root_2m)...)
+[115] killed  run(): totality — collect_total stripped at line 1018 (lambda: load_power_2m(root_2m, r_primary, bm.PREDICTOR_SHA_2...)
+[116] killed  run(): totality — collect_total stripped at line 1046 (lambda: bm.endpoint_sha256(root_2m)...)
+[117] killed  run(): totality — collect_total stripped at line 1062 (lambda: load_sweep_3b(root_2m, battery, verify_fn, manifest=...)
+[118] killed  run(): totality — collect_total stripped at line 1067 (lambda: bm.gate1_rederive_3b(sweep[bm.ENDPOINT_STEP_2M], sta...)
+[119] killed  run(): totality — collect_total stripped at line 720 (lambda: bi.entry_1b_endpoint(manifest_2i)...)
+[120] killed  run(): totality — collect_total stripped at line 728 (lambda: an2i._check_predictor_seal_sampling(seal_2i, records...)
+[121] killed  run(): totality — collect_total stripped at line 737 (lambda: an2i._check_predictor_counts_2i(seal_2i, records_2i,...)
+[122] SURVIVED  run(): totality — collect_total stripped at line 969 (lambda: bm.halt_marker_path(root_2m).read_text().strip()[:20...)
+[123] killed  run(): totality — collect_total stripped at line 977 (check_imports_2m...)
+[124] SURVIVED  run(): totality — collect_total stripped at line 997 (thunk...)
+[125] killed  run(): totality — collect_total stripped at line 1006 (lambda: sg.check_strata_pins(strata)...)
+[126] SURVIVED  run(): totality — collect_total stripped at line 1026 (lambda: {w: bm.entry_which_3b(manifest, w) for w in bm.ENDPO...)
+[127] killed  run(): totality — collect_total stripped at line 1031 (lambda which=which: load_endpoint_which_2m(root_2m, which, b...)
+[128] SURVIVED  run(): totality — collect_total stripped at line 1038 (lambda: _check_rung_set_vs_endpoint_2m(rung_set, stage1_fina...)
+[129] SURVIVED  run(): totality — collect_total stripped at line 1044 (lambda: _check_rung_set_endpoint_shas_2m(rung_set, root_2m)...)
+[130] SURVIVED  run(): totality — collect_total stripped at line 1055 (lambda: json.loads(g1p.read_text())...)
+[131] SURVIVED  run(): totality — collect_total stripped at line 1081 (_core...)
+[132] SURVIVED  run(): totality — collect_total stripped at line 1083 (lambda: check_power_claims_2m(power, core[1], x_b, strata, r...)
+[133] SURVIVED  run(): totality — collect_total stripped at line 1086 (check_imports_2m if imports_pinned else (lambda: None)...)
+[134] SURVIVED  run(): totality — collect_total stripped at line 1198 (check_imports_2m if imports_pinned else (lambda: None)...)
+[135] SURVIVED  run(): totality — collect_total stripped at line 701 (_tier...)
+[136] killed  run(): totality — collect_total stripped at line 706 (lambda: an2k.seal_failures_2k(seal_2k, cells_2k, root_2k)...)
+[137] killed  run(): totality — collect_total stripped at line 989 (lambda: mkr.check_referents(REFERENTS_PATH_2M, sha_pin=refer...)
+[138] SURVIVED  run(): totality — collect_total stripped at line 1041 (lambda: _check_rung_set_derivation_2m(rung_set, stage1_final...)
+[139] SURVIVED  run(): totality — collect_total stripped at line 1058 (lambda: bm.gate1_failures_3b(gate1, stage1_final) if stage1_...)
+[140] SURVIVED  run(): totality — collect_total stripped at line 1118 (thunk...)
+
+113/140 killed; 27 survivor(s): [(35, "load_tokenizer_3b: padding_side 'left' -> 'right'", 'survived'), (47, 'run_twin: the checkpoint record written BEFORE the rung loop', 'survived'), (51, 'run_twin: the tokenizer commit -> bm.REV_BASE_2M', 'survived'), (88, "run()/_core: Test B on 2l's composite strata (drops dial b's unconditioned form)", 'survived'), (89, 'run()/_core: Test A predictor -> counts[64] instead of counts[K_TOTAL]', 'survived'), (98, 'run(): the post-secondaries import re-check does not refuse', 'survived'), (99, 'sensitivities: log_head_subset computed over bm.GRID_3B, not LOG_HEAD_SUBSET_2M', 'survived'), (105, 'run(): totality — collect_total stripped at line 732 (lambda: bi.sampler_counts_olmo(bm.R_CAP_2K, root=root_2i, ba...)', 'survived'), (109, 'run(): totality — collect_total stripped at line 982 (lambda: bm.load_manifest_3b(bm.CHECKPOINTS_PATH, sha_pin=bm....)', 'survived'), (110, 'run(): totality — collect_total stripped at line 998 (bg.load_battery...)', 'survived'), (111, 'run(): totality — collect_total stripped at line 999 (bg.load_floors...)', 'survived'), (112, 'run(): totality — collect_total stripped at line 1000 (a2d.load_verify...)', 'survived'), (113, 'run(): totality — collect_total stripped at line 1001 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)', 'survived'), (122, 'run(): totality — collect_total stripped at line 969 (lambda: bm.halt_marker_path(root_2m).read_text().strip()[:20...)', 'survived'), (124, 'run(): totality — collect_total stripped at line 997 (thunk...)', 'survived'), (126, 'run(): totality — collect_total stripped at line 1026 (lambda: {w: bm.entry_which_3b(manifest, w) for w in bm.ENDPO...)', 'survived'), (128, 'run(): totality — collect_total stripped at line 1038 (lambda: _check_rung_set_vs_endpoint_2m(rung_set, stage1_fina...)', 'survived'), (129, 'run(): totality — collect_total stripped at line 1044 (lambda: _check_rung_set_endpoint_shas_2m(rung_set, root_2m)...)', 'survived'), (130, 'run(): totality — collect_total stripped at line 1055 (lambda: json.loads(g1p.read_text())...)', 'survived'), (131, 'run(): totality — collect_total stripped at line 1081 (_core...)', 'survived'), (132, 'run(): totality — collect_total stripped at line 1083 (lambda: check_power_claims_2m(power, core[1], x_b, strata, r...)', 'survived'), (133, 'run(): totality — collect_total stripped at line 1086 (check_imports_2m if imports_pinned else (lambda: None)...)', 'survived'), (134, 'run(): totality — collect_total stripped at line 1198 (check_imports_2m if imports_pinned else (lambda: None)...)', 'survived'), (135, 'run(): totality — collect_total stripped at line 701 (_tier...)', 'survived'), (138, 'run(): totality — collect_total stripped at line 1041 (lambda: _check_rung_set_derivation_2m(rung_set, stage1_final...)', 'survived'), (139, 'run(): totality — collect_total stripped at line 1058 (lambda: bm.gate1_failures_3b(gate1, stage1_final) if stage1_...)', 'survived'), (140, 'run(): totality — collect_total stripped at line 1118 (thunk...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []
