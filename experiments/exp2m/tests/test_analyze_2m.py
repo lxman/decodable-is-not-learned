@@ -838,34 +838,74 @@ def test_verdict_2m_discloses_a_reading_narrower_than_r_primary():
     assert an._partial_eligible_2m("A", full, nine) is None
 
 
-def test_partial_eligible_2m_same_set_when_missing_all_degenerate():
-    """M-1 (final review): the declaration's set (R_PRIMARY minus the
-    predictor-degenerate rungs) equals the reading's set — not a WIDER
-    one — when every rung the test did not read was itself dropped as
-    predictor-degenerate. The disclosure still fires (the licence stays
-    bounded to the rungs named as read) but must not overstate the gap
-    between the reading and the declaration."""
+def test_partial_eligible_2m_same_set_when_rungs_simulated_matches_eligible():
+    """R-1 (ratified): SAME/WIDER is decided against the power record's
+    OWN `rungs_simulated` list, not re-derived from
+    `res['dropped_degenerate']`. When the declared list equals the
+    read set exactly, the two are the SAME set reached by a different
+    route (every unread rung was itself dropped as predictor-
+    degenerate). The disclosure still fires (the licence stays bounded
+    to the rungs named as read) but must not overstate the gap between
+    the reading and the declaration."""
     nine = tuple(sorted(bm.R_CAP_2K))
     eight = tuple(r for r in nine if r != "add3_mid")
     same = {"eligible": eight, "thin": [], "dropped_degenerate": ["add3_mid"]}
-    msg = an._partial_eligible_2m("A", same, nine)
+    msg = an._partial_eligible_2m("A", same, nine, rungs_simulated=eight)
     assert msg is not None
-    assert "the SAME set as the reading" in msg
-    assert "a WIDER set" not in msg
+    assert "the SAME set" in msg
+    assert "WIDER" not in msg
     assert "bounded to the rungs named as read" in msg
 
 
+def test_partial_eligible_2m_wider_when_rungs_simulated_exceeds_eligible_despite_dropped_degenerate():
+    """R-1 (ratified) — the discriminating case the fix wave's condition
+    missed: every rung the test did not read (`missing`) is ITSELF
+    listed in `res['dropped_degenerate']` (`_run_test`'s retry loop
+    folds a 'no informative pair' rung into that same field, 2i's
+    analyze_2i ~746-770), so the fix wave's
+    `all(r in dropped_degenerate for r in missing)` would read SAME.
+    But the power record's own `rungs_simulated`, computed from the
+    coarser `_degenerate_rungs` pre-check that never caught this rung,
+    is WIDER than the reading by exactly that rung — the sentence must
+    say so, naming it."""
+    nine = tuple(sorted(bm.R_CAP_2K))
+    eight = tuple(r for r in nine if r != "arith_next")
+    wider = {"eligible": eight, "thin": [], "dropped_degenerate": ["arith_next"]}
+    msg = an._partial_eligible_2m("A", wider, nine, rungs_simulated=nine)
+    assert msg is not None
+    assert "a WIDER set" in msg
+    assert "arith_next" in msg.split("(also")[-1]
+    assert "SAME" not in msg
+
+
 def test_partial_eligible_2m_wider_set_when_a_missing_rung_is_thin():
-    """M-1 (final review): when at least one missing rung was dropped
-    as n_pos-thin rather than predictor-degenerate, the declaration's
-    set genuinely is wider than the reading's — the original wording."""
+    """A genuinely thin missing rung: the power record's coarse
+    degenerate-only `rungs_simulated` never drops a thin rung at all,
+    so it is wider than the reading for the ordinary reason."""
     nine = tuple(sorted(bm.R_CAP_2K))
     eight = tuple(r for r in nine if r != "add3_mid")
     wider = {"eligible": eight, "thin": ["add3_mid"], "dropped_degenerate": []}
-    msg = an._partial_eligible_2m("A", wider, nine)
+    msg = an._partial_eligible_2m("A", wider, nine, rungs_simulated=nine)
     assert msg is not None
     assert "a WIDER set than the reading" in msg
+    assert "add3_mid" in msg.split("(also")[-1]
     assert "the SAME set" not in msg
+
+
+def test_verdict_2m_partial_eligible_wider_via_power_rungs_simulated():
+    """R-1: the plumbing through `verdict_2m`, not only the helper —
+    `verdict_2m` must pass the power record's `rungs_simulated` list
+    through to `_partial_eligible_2m`, not leave the SAME/WIDER
+    decision to the helper's default (unreadable) branch."""
+    nine = tuple(sorted(bm.R_CAP_2K))
+    eight = tuple(r for r in nine if r != "arith_next")
+    A = {**_prim(0.2, 0.001, True, eligible=eight), "thin": [], "dropped_degenerate": ["arith_next"]}
+    B = {**_prim(0.02, 0.5, False, eligible=nine), "thin": [], "dropped_degenerate": []}
+    power = {"A": {"rungs_simulated": list(nine)}, "B": {"rungs_simulated": list(nine)}}
+    t = an.verdict_2m([], A, B, power, nine)
+    hit = [d for d in t["disclosures"]
+           if d.startswith(an.DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M + "A")]
+    assert hit and "a WIDER set" in hit[0] and "arith_next" in hit[0].split("(also")[-1]
 
 
 def _all_failure_labels(path):

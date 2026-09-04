@@ -706,3 +706,75 @@ M-2's docstring, M-3's re-pin), `experiments/exp2m/verify_referents_2m.py`
 `experiment-2m-design.md` §2 (the third import-scan execution),
 `FREEZE_CHECKLIST.md` (the instrument delta note + cold re-run rows).
 No frozen upstream module touched, zero model contact, zero network.
+
+---
+
+## Ratification (2026-09-04)
+
+Michael's ruling ("go"): the freeze's findings F-1..F-3 stand closed;
+design-doc slips (a)–(k) ratified with one amendment to (i); the final
+review's recommended pre-tag fix R-1 ratified; M-8 (the untracked 2l
+log, ruled out of the fix wave's own scope) ratified into 2l's
+`.gitignore` list. Applied per
+`.superpowers/sdd/2026-09-03-exp2m-build/ratification-apply-brief.md`.
+The controller cuts `exp2m-preregistered` after this lands; no tag
+created or pushed here.
+
+**R-1** (`experiments/exp2m/analyze_2m.py`, `_partial_eligible_2m` and
+its call site in `verdict_2m`): the fix wave's SAME-set condition
+(`all(r in dropped_degenerate for r in missing)`) equals "the power
+record's `rungs_simulated` == the test's `eligible`" only when
+`_run_test`'s retry loop ('no informative pair', 2i's analyze_2i
+~746-770) never fired — that loop folds a retry-dropped rung into
+`res['dropped_degenerate']` too, finer than the coarse
+`_degenerate_rungs` check `check_power_claims_2m` re-derives
+`rungs_simulated` from, so the old condition could read SAME while the
+declaration was wider by exactly the retry-dropped rung. Fixed by
+deciding SAME/WIDER against the power record's own `rungs_simulated`
+list instead: `_partial_eligible_2m` takes `rungs_simulated=None`;
+`verdict_2m` passes `power[test]["rungs_simulated"]`; `sim =
+sorted(set(rungs_simulated or []))`, `same = bool(sim) and sim ==
+sorted(set(elig))`; WIDER names the extra rungs or, when the list is
+unreadable, discloses that instead of guessing.
+
+TDD: wrote three helper fixtures (SAME; the WIDER-discriminating case
+— every missing rung in `dropped_degenerate` yet `rungs_simulated`
+carries one rung beyond eligible; a genuinely thin missing rung) plus
+one `verdict_2m`-level plumbing fixture, replacing the fix wave's two
+M-1 fixtures — before touching the source. Ran the WIDER-
+discriminating and plumbing fixtures against the unedited code first:
+the helper fixture hit `TypeError: _partial_eligible_2m() got an
+unexpected keyword argument 'rungs_simulated'` (the interface did not
+exist yet); the plumbing fixture — calling `verdict_2m` exactly as
+production does — RAN and FAILED on an assertion, printing the actual
+pre-fix defect: `"...reached by a different route (every unread rung
+was dropped as predictor-degenerate)..."` (SAME wording) where WIDER
+naming `arith_next` was expected. That second failure is the red-run
+evidence for the defect itself, not just a missing parameter. Then
+applied the fix, rewrote mutant #103 to target the new `same = ...`
+line (confirmed #100-102 still resolve unchanged; #101's target text
+necessarily changed too, since the call site itself changed — its
+description is unchanged).
+
+R-1 cold re-runs (all green): fast modules (`test_battery_2m`,
+`test_stages_2m`, `test_analyze_2m`, `test_power_2m`): **111 passed**,
+226.34 s (109 + R-1's net two new fixtures); worlds + totality
+(`test_full_shape_2m` + `test_totality_2m`): **50 passed**, 1151.51 s
+(0:19:11) — matches the freeze's and fix wave's readings exactly (25
+world specs, every terminal reached); W24's own assertions do not pin
+the old SAME/WIDER wording, so no fixture edit was needed there; cold
+referent battery `verify_referents_2m.py`: **13/13**; determinism ×2,
+separate processes, `shared` world seed 0, n_perm 30: byte-identical
+(478,157 bytes, sha `b45721b1…`) — same byte count as every prior
+reading, since the `shared` world's eligible sets are full R_PRIMARY
+on both tests and `_partial_eligible_2m` returns `None` regardless of
+R-1; mutation target resolution: all 151 entries in `mutation_check.M`
+resolve exactly once; targeted `--only 100,101,102,103`: **4/4
+killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup`.
+
+Files changed (this entry): `experiments/exp2m/analyze_2m.py` (R-1's
+code), `experiments/exp2m/tests/mutation_check.py` (mutant #101's
+call-site text, #103 rewritten), `experiments/exp2m/tests/
+test_analyze_2m.py` (R-1's four fixtures), this file and
+`FREEZE_CHECKLIST.md` (R-1's records). No frozen upstream module
+touched, zero model contact, zero network.

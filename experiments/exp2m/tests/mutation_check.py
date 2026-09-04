@@ -594,7 +594,9 @@ M = [
      '    if True:\n        return None'),
     (AN, "F-1: verdict_2m does not consult _partial_eligible_2m",
      '''        else:
-            d2 = _partial_eligible_2m(test, res, r_primary)   # freeze F-1
+            d2 = _partial_eligible_2m(
+                test, res, r_primary,
+                rungs_simulated=(power or {}).get(test, {}).get("rungs_simulated"))   # freeze F-1 / R-1
             if d2:
                 disclosures.append(d2)''',
      '''        else:
@@ -604,10 +606,9 @@ M = [
     (AN, "F-1: the partial disclosure names the rungs READ, not the rungs missed",
      '    missing = [r for r in prim if r not in elig]',
      '    missing = [r for r in prim if r in elig]'),
-    (AN, "M-1 (final review): the SAME-set/WIDER-set branch condition inverted, "
-        "so the wrong scope clause prints",
-     '    if all(r in dropped_degenerate for r in missing):',
-     '    if not all(r in dropped_degenerate for r in missing):'),
+    (AN, "R-1 (ratified): the SAME/WIDER decision inverted, so the wrong scope clause prints",
+     '    same = bool(sim) and sim == sorted(set(elig))',
+     '    same = not (bool(sim) and sim == sorted(set(elig)))'),
     # ---- freeze F-2: a which assembled from two loads
     (AN, "F-2: which_coherence_failures_2m never speaks",
      '''    for field, label in (("weight_sha256", "tensor digest"), ("commit", "commit"),

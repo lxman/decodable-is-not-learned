@@ -168,7 +168,7 @@ def _thin_eligible_2m(test: str, res: dict) -> str | None:
             f"degenerate rungs only")
 
 
-def _partial_eligible_2m(test: str, res: dict, r_primary) -> str | None:
+def _partial_eligible_2m(test: str, res: dict, r_primary, rungs_simulated=None) -> str | None:
     """FREEZE F-1 (2l F-4's shape one level over). The power record
     declares over R_PRIMARY minus the PREDICTOR-degenerate rungs, and
     `check_power_claims_2m` re-derives exactly that set — but a rung can
@@ -182,13 +182,22 @@ def _partial_eligible_2m(test: str, res: dict, r_primary) -> str | None:
     did not read. Mutually exclusive with `_thin_eligible_2m` by the
     `< 3` guard.
 
-    M-1 (final review): "wider" is only true when some missing rung was
-    dropped for a reason OTHER than predictor-degeneracy (i.e. n_pos-thin).
-    When every missing rung is itself predictor-degenerate, the
-    declaration's set (R_PRIMARY minus the degenerate rungs) equals the
-    reading's set exactly — the disclosure still fires and the licence
-    stays bounded to the rungs named as read, but the sentence says so
-    instead of overstating a gap that is not there."""
+    R-1 (final review, ratified): SAME/WIDER is decided against the
+    power record's OWN `rungs_simulated` list (passed in by
+    `verdict_2m`; `None` when the record does not carry one), never
+    re-derived from `res['dropped_degenerate']`. M-1's condition
+    `all(r in dropped_degenerate for r in missing)` equals "the power
+    record's `rungs_simulated` == the test's `eligible`" only when no
+    rung was retry-dropped by `_run_test`'s 'no informative pair' path
+    (2i's analyze_2i ~746-770): that retry loop folds a retry-dropped
+    rung into `res['dropped_degenerate']` too, which is finer than the
+    coarse `_degenerate_rungs` check `check_power_claims_2m` re-derives
+    `rungs_simulated` from — so M-1's condition could read SAME while
+    the declaration is wider by exactly the retry-dropped rung. Now:
+    SAME means the declared `rungs_simulated` list equals the eligible
+    set exactly (a different route to the same set — every unread rung
+    was dropped as predictor-degenerate); otherwise WIDER, naming the
+    extra rungs, or disclosing that the list was not readable at all."""
     elig = list((res or {}).get("eligible") or [])
     prim = list(r_primary or [])
     if len(elig) < 3 or len(elig) >= len(prim):
@@ -196,13 +205,20 @@ def _partial_eligible_2m(test: str, res: dict, r_primary) -> str | None:
     missing = [r for r in prim if r not in elig]
     dropped_degenerate = list((res or {}).get('dropped_degenerate') or [])
     thin = list((res or {}).get('thin') or [])
-    if all(r in dropped_degenerate for r in missing):
+    sim = sorted(set(rungs_simulated or []))
+    same = bool(sim) and sim == sorted(set(elig))
+    if same:
+        scope = ("the power record's declaration and its rungs_simulated list cover exactly "
+                 "the rungs the test read, the SAME set reached by a different route (every "
+                 "unread rung was dropped as predictor-degenerate)")
+    elif rungs_simulated is None:
         scope = ("the power record's declaration and its rungs_simulated list cover R_PRIMARY "
-                 "minus the degenerate rungs, the SAME set as the reading, reached by a "
-                 "different route (every unread rung was dropped as predictor-degenerate)")
+                 "minus the degenerate rungs, a WIDER set than the reading (its rungs_simulated "
+                 "list was not readable)")
     else:
+        extra = [r for r in sim if r not in elig]
         scope = ("the power record's declaration and its rungs_simulated list cover R_PRIMARY "
-                 "minus the degenerate rungs, a WIDER set than the reading")
+                 f"minus the degenerate rungs, a WIDER set than the reading (also {extra})")
     return (f"{DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M}{test}: it read {len(elig)} of the "
             f"{len(prim)} rungs in R_PRIMARY — {missing} did not carry it, dropped as n_pos-thin "
             f"{thin} and as predictor-degenerate {dropped_degenerate}; {scope}, so the licence is "
@@ -1001,7 +1017,9 @@ def verdict_2m(failures, A, B, power, r_primary) -> dict:
         if d:
             disclosures.append(d)
         else:
-            d2 = _partial_eligible_2m(test, res, r_primary)   # freeze F-1
+            d2 = _partial_eligible_2m(
+                test, res, r_primary,
+                rungs_simulated=(power or {}).get(test, {}).get("rungs_simulated"))   # freeze F-1 / R-1
             if d2:
                 disclosures.append(d2)
     for test, res in (("A", A), ("B", B)):

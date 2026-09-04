@@ -755,6 +755,7 @@ asserts its needle against that list, not against `reason`.
 | F-1 | a reading narrower than R_PRIMARY carried no disclosure (2l F-4 one level over) | CLOSED additively, fixture + world W24 + 3 mutants |
 | F-2 | an endpoint `which` assembled from two loads; gate 1's digest/commit attestations checked only against each other | CLOSED additively (analyzer + both gate halves), fixtures + world W25 + 5 mutants; ONE PIN MOVED |
 | F-3 | S5/S8 carried a `fires` key with no rule behind it | CLOSED additively (record field + note), fixture + 2 mutants |
+| R-1 | the fix wave's SAME-set condition (`all(r in dropped_degenerate for r in missing)`) read SAME even when the power record's own `rungs_simulated` was wider by a rung `_run_test`'s retry loop dropped (final review) | applied post-ratification, fixture ×4 + mutant #103 rewritten |
 
 **Class defect: NOT FOUND.**
 
@@ -878,7 +879,11 @@ the mutation harness restores files in place):
   the **final-review fix wave** (2026-09-04) additionally carries M-1's
   SAME-set/WIDER-set conditional in `_partial_eligible_2m` and M-2's
   `collapses_3b` docstring correction ("the twin included (last, after
-  the grid)")
+  the grid)"); **the ratification apply (2026-09-04) additionally
+  carries R-1** — `_partial_eligible_2m` takes `rungs_simulated=None`
+  and decides SAME/WIDER against the power record's own declared list
+  (passed by `verdict_2m` from `power[test]["rungs_simulated"]`), not
+  against `res['dropped_degenerate']`
 - `experiments/exp2m/battery_2m.py` — F-2's two gate-1 measurements
 - `experiments/exp2m/run/endpoint_2m.py` — UNCHANGED by the freeze
 - `experiments/exp2m/run/sweep_2m.py` — UNCHANGED by the freeze
@@ -939,6 +944,7 @@ still outside every pin.
 | **fix wave, import scan `tests/import_scan_2m.py` (third pre-tag execution)** | 4 modules, INSUFFICIENT_DATA, 11 referent/loader failures, no T — `verify_referents_2m.py` at the new sha, printed literal identical to the pin (no drift) |
 | **fix wave, determinism ×2, separate processes, one world (`shared`, seed 0), n_perm 30** | **byte-identical** (sha `177e48cf…`, 478,157 bytes — same byte count as the freeze's reading; sha differs only because the verdict's `git_sha` field now reads HEAD `1c95e3b8` instead of the freeze's commit — confirmed by inspecting the field directly) |
 | **fix wave, mutation target resolution + `--only` (M-1's new mutant #103, the three pre-existing F-1 mutants #100-102, `collapses_3b` #97)** | all **151** entries in `mutation_check.M` resolve exactly once (150 + the new mutant, 0 stale, 0 ambiguous); targeted run **5/5 killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup`, `git status --porcelain experiments/exp2m` clean of anything but this wave's own edits after the harness. Full 151-mutant harness NOT re-run (scoped per the brief: wording/docstring/test-only edits, none touching a `collect_total` site or a totality/fullshape-only shape) |
+| **R-1, mutation target resolution + `--only 100,101,102,103` (R-1's rewritten #103, the three pre-existing F-1 mutants #100-102)** | all **151** entries in `mutation_check.M` resolve exactly once (0 stale, 0 ambiguous); targeted run **4/4 killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup` |
 
 **The full-suite confirmation run** (`pytest experiments/exp2m/tests
 -q`, every module including the slow real-tree cases the mutation fast
