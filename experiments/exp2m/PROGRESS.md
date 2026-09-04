@@ -756,25 +756,44 @@ line (confirmed #100-102 still resolve unchanged; #101's target text
 necessarily changed too, since the call site itself changed — its
 description is unchanged).
 
-R-1 cold re-runs (all green): fast modules (`test_battery_2m`,
-`test_stages_2m`, `test_analyze_2m`, `test_power_2m`): **111 passed**,
-226.34 s (109 + R-1's net two new fixtures); worlds + totality
-(`test_full_shape_2m` + `test_totality_2m`): **50 passed**, 1151.51 s
-(0:19:11) — matches the freeze's and fix wave's readings exactly (25
-world specs, every terminal reached); W24's own assertions do not pin
-the old SAME/WIDER wording, so no fixture edit was needed there; cold
-referent battery `verify_referents_2m.py`: **13/13**; determinism ×2,
-separate processes, `shared` world seed 0, n_perm 30: byte-identical
-(478,157 bytes, sha `b45721b1…`) — same byte count as every prior
-reading, since the `shared` world's eligible sets are full R_PRIMARY
-on both tests and `_partial_eligible_2m` returns `None` regardless of
-R-1; mutation target resolution: all 151 entries in `mutation_check.M`
-resolve exactly once; targeted `--only 100,101,102,103`: **4/4
-killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup`.
+Slips (a)–(k) inserted into `experiment-2m-design.md` as plain
+paragraphs (block-quote markers dropped) immediately after the anchor
+sentence each names; anchors were phrase matches, not the checklist's
+approximate line numbers (see the apply report for the exact line each
+slip lands after). Amendment to (i) applied verbatim: "and stating
+that the declaration covers a wider set" → "and stating whether the
+declaration covers a wider set than the reading or the same set
+reached by a different route, decided against the power record's own
+`rungs_simulated` list." Status block gained the RATIFIED sentence.
 
-Files changed (this entry): `experiments/exp2m/analyze_2m.py` (R-1's
-code), `experiments/exp2m/tests/mutation_check.py` (mutant #101's
-call-site text, #103 rewritten), `experiments/exp2m/tests/
-test_analyze_2m.py` (R-1's four fixtures), this file and
-`FREEZE_CHECKLIST.md` (R-1's records). No frozen upstream module
-touched, zero model contact, zero network.
+M-8: `.gitignore`'s exp2l named list gains
+`experiments/exp2l/sweep_relaunch2.log` with a one-line comment;
+confirmed `git status --short` no longer lists it.
+
+**Cold re-runs (all green):**
+
+- fast modules (`test_battery_2m`, `test_stages_2m`, `test_analyze_2m`,
+  `test_power_2m`): **111 passed**, 226.34 s (109 + R-1's net two new
+  fixtures).
+- worlds + totality (`test_full_shape_2m` + `test_totality_2m`):
+  **50 passed**, 1151.51 s (0:19:11) — matches the freeze's and fix
+  wave's readings exactly (25 world specs, every terminal reached);
+  W24's own assertions do not pin the old SAME/WIDER wording, so no
+  fixture edit was needed there.
+- cold referent battery `verify_referents_2m.py`: **13/13**.
+- determinism ×2, separate processes, `shared` world seed 0, n_perm 30:
+  byte-identical (478,157 bytes, sha `b45721b1…`) — same byte count as
+  every prior reading, since the `shared` world's eligible sets are
+  full R_PRIMARY on both tests and `_partial_eligible_2m` returns
+  `None` regardless of R-1.
+- mutation target resolution: all 151 entries in `mutation_check.M`
+  resolve exactly once; targeted `--only 100,101,102,103`: **4/4
+  killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup`.
+
+Files changed: `experiments/exp2m/analyze_2m.py` (R-1's code),
+`experiments/exp2m/tests/mutation_check.py` (mutant #101's call-site
+text, #103 rewritten), `experiments/exp2m/tests/test_analyze_2m.py`
+(R-1's four fixtures), `experiment-2m-design.md` (status line + slips
+(a)–(k) with the (i) amendment), `.gitignore` (M-8), this file and
+`FREEZE_CHECKLIST.md` (ratification records). No frozen upstream
+module touched, zero model contact, zero network.

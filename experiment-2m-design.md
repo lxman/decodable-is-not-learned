@@ -20,6 +20,9 @@ when sanctioned: SmolLM3-3B ONLY, on the OUTCOME side — its stage-1
 endpoint, its last pretraining checkpoint and the released base at the
 endpoint stage, then its stage-1 grid and a seeded twin in the sweep.
 Every predictor is already committed and tagged; nothing is sampled.
+**RATIFIED by Michael 2026-09-04 ('go'): freeze findings F-1..F-3 closed;
+slips (a)–(k) applied with the (i) amendment; final-review R-1 applied;
+tag `exp2m-preregistered` follows.**
 
 2l closed BOTH — the program's first cross-family forecast to clear
 its preregistered bar on a sealed outcome — and its §6 licence named
@@ -240,7 +243,15 @@ per-entry `config.json` write (2i stop #1), the THIN guard keyed to
    construction: a seeded `from_config` twin of the stage-1 config —
    descriptive, never in an outcome, scored once in the sweep, and
    disclosed as a stand-in for an initialisation this program cannot
-   download. The checkpoint record attests a sha for every candidate
+   download.
+
+   The twin's config AND its tokenizer are taken at the ENDPOINT's
+   commit (`config_commit` in the manifest's twin entry): a twin built
+   from another commit's config is a different initialisation, and the
+   analyzer measures `config_source` against
+   `f"{REPO_CKPT}@{config_commit}"`.
+
+   The checkpoint record attests a sha for every candidate
    file it stages; the analyzer requires that coverage plus the
    record's revision, commit and tensor digest (the last against the
    digest every one of the step's 34 item records carries).
@@ -263,8 +274,18 @@ per-entry `config.json` write (2i stop #1), the THIN guard keyed to
    x_A^(64/128/192) from the same rows (S1); x_A^(256) at 410m (S2).
    x_B = 2i's sealed OLMo-2 1B counts through `load_predictor_records_
    2i` + provenance + `_check_predictor_counts_2i`, `exp2i-predictor-
-   sealed` required to bind. π = 2j's `wrong_target_propensity` on
-   2i's x_B rows (S5). No new sampled quantity anywhere in 2m.
+   sealed` required to bind.
+
+   `PREDICTOR_SHA_2M` is `sha256("2m|" + <2k seal sha> + "|" + <2i seal
+   sha>)`. The `"2m|"` prefix is what makes it differ from 2l's
+   composite of the SAME two seals, so a 2l record cannot pass 2m's
+   `predictor_sha` check and a 2m record cannot pass 2l's. Note that
+   `seal_tag` alone does not separate them — both experiments stamp
+   `exp2k-predictor-sealed+exp2i-predictor-sealed`; `predictor_sha`,
+   `size` and `family` do.
+
+   π = 2j's `wrong_target_propensity` on 2i's x_B rows (S5). No new
+   sampled quantity anywhere in 2m.
 4. **The endpoint stage.** Three thin loads on all 34 rungs, per-item
    bits and continuations stored (2c's greedy harness, `BATCH_SIZE_2M`
    = 16 a single pre-tag constant as in 2l, `DTYPE_2M` = fp16 likewise
@@ -273,8 +294,32 @@ per-entry `config.json` write (2i stop #1), the THIN guard keyed to
    gate 1's referent), `stage3-step-4720000` (the last pretraining
    checkpoint before context extension — the `main` analogue, 2l S6,
    descriptive) and `HuggingFaceTB/SmolLM3-3B-Base` (the released
-   base, descriptive). Committed and tagged `exp2m-endpoint-sealed`
-   before any intermediate checkpoint loads. ≈ 3 × 40 min.
+   base, descriptive).
+
+   Every 2m record's `dtype` field is OVERRIDDEN to `DTYPE_2M` — 2i's
+   `item_record_2i`, which 2m's two record wrappers call, hard-codes
+   `"float16"` — and the analyzer pins it on every endpoint and sweep
+   record. `BATCH_SIZE_2M` is carried by NO record: gate 1 cannot
+   detect a batch or a precision change between the stages, because it
+   re-derives the endpoint step through the sweep's own loader at
+   whatever the constants currently say, so both sides move together.
+   The tag-bound constants are what prevent a mid-campaign change; the
+   fp32 fallback is a pre-tag change plus a re-tag.
+
+   Committed and tagged `exp2m-endpoint-sealed` before any intermediate
+   checkpoint loads. ≈ 3 × 40 min.
+
+   The seal binds 104 files: 3 × 34 endpoint records + `rung_set_2m.json`
+   + `power_2m.json`. The composite `endpoint_sha256` every sweep record
+   stamps is taken over the same 104, and `endpoint_files` raises on the
+   first missing one rather than forming a composite over a subset.
+
+   The three endpoint whichs carry no checkpoint record, so the analyzer
+   measures each which's coherence directly: all 34 of its records must
+   carry the same non-empty tensor digest, commit and config source.
+   Gate 1's `digest_endpoint`/`commit_endpoint` and
+   `digest_sweep`/`commit_sweep` are likewise measured against the 34
+   records on their own side, not merely against each other.
 5. **The outcome is SmolLM3-3B's stage-1 grid** — dial c, recommended
    shape (the "dense head"), on the 40k-step lattice the branch offers:
 
@@ -319,7 +364,18 @@ per-entry `config.json` write (2i stop #1), the THIN guard keyed to
    composite `endpoint_sha256` required on every sweep record; the
    rung set re-derived from the endpoint's own counts; gate 1 attested
    AND re-derived), so the preregistration tag is never re-cut after
-   the campaign. Blob-bound tags: `exp2m-preregistered` binds the
+   the campaign.
+
+   The manifest is PRE-CAMPAIGN and deliberately includes 2l's OWN
+   campaign artifacts (its 68 endpoint records, rung set, power record,
+   gate 1, verdict and the whole 13B sweep tree), because S8 reads the
+   13B outcome through 2l's frozen loaders: a post-close edit to a 2l
+   record is refused at `check_referents` on entry, before the
+   predictors and long before the secondaries. The only files S8 reads
+   that are not manifest entries are `checkpoints_2g.json` and
+   `checkpoints_2h.json`, each sha-pinned at load from a frozen module.
+
+   Blob-bound tags: `exp2m-preregistered` binds the
    analyzer, the battery module, the endpoint stage and the sweep
    runner.
 
@@ -341,7 +397,20 @@ rest of R_3B as **R_EXTRA** with raw single-stratum D; neither is ever
 in the verdict. Fewer than three rungs in R_PRIMARY → THIN declared in
 the power record, the verdict still runs; a test that ends up READING
 fewer than three rungs carries 2l F-4's disclosure on the reason and
-the licence. `primary_is_the_nine` printed either way.
+the licence.
+
+A rung can be INSIDE R_PRIMARY and outside both tests: 2d's endpoint
+bar clears at k = 9 on `add3_mid` and `sub4_mid`, 15 on `sub3_mid`
+and 19 on `arith_next` — all below the n_pos ≥ 20 analysis-time
+eligibility floor. The power record declares over R_PRIMARY minus the
+predictor-degenerate rungs, so whenever a test READS fewer rungs than
+R_PRIMARY the verdict carries a disclosure naming the rungs it did
+not read and stating whether the declaration covers a wider set than
+the reading or the same set reached by a different route, decided
+against the power record's own `rungs_simulated` list; the licence is
+bounded to the rungs named as read.
+
+`primary_is_the_nine` printed either way.
 
 **Predictor degeneracy.** x_A^(256) has at least two live strata on
 every strata rung (2k). x_B at ceiling (64/64) inside a stratum drops
@@ -381,6 +450,15 @@ level effect).
   form) and x_A^(256) in strata of x_B's median bucket (A-beyond-B:
   2l's cross-beyond-within); T_B − T_A with a bootstrap interval,
   under the density caveat.
+
+  The interval is a PAIRED item bootstrap within each rung — items
+  resampled with replacement and BOTH predictors read on the same
+  resample — over the intersection of the two tests' eligible sets, and
+  the full-data T is the plain mean of within-stratum Somers' D over
+  those rungs. It is a bootstrap of one statistic on one tie structure,
+  at two different predictor densities (256 vs 64 draws); the record
+  carries `n_boot` beside `n_boot_requested` so a silently thinned
+  bootstrap is visible.
 - **S4 — the matched comparison** (2j/2k's block rule): x_B thinned to
   k_g = clip(round(256 · r̄_A / r̄_B), 1, 64) per rung against
   x_A^(256) on the sealed outcome — with both predictors cross-family
@@ -402,7 +480,16 @@ level effect).
 - **S8 — outcome-to-outcome order (new).** The committed per-item
   count outcomes of Pythia-2.8b (2g), Pythia-6.9b (2h), OLMo-2 7B (2i)
   and OLMo-2 13B (2l), each read as x against 3B's order with 2g's
-  statistic in the same strata. Not a from-below forecast (those are
+  statistic in the same strata.
+
+  S8 uses 2i's permutation machinery, so each row carries a T and a p;
+  no α claim is made and its `test.fires` key is `fires_2i` applied
+  mechanically at 2g's bar, not a firing rule for S8. Each row says so
+  in the record (`no_alpha_claim`, and a note naming the fact that a
+  failure inside S8 lands in `secondaries.failures`, never in
+  `referents.failures`). The same holds of S5.
+
+  Not a from-below forecast (those are
   large models with known outcomes); a descriptive of whether
   emergence ORDER itself is shared across three families at item
   grain, independent of any small-model read — the "structure latent
@@ -413,6 +500,11 @@ level effect).
   conditioned form beside the unconditioned one; the log-head grid
   subset (21 of the 26 points) as y, to show what the dense head
   bought.
+
+  The subset sensitivity RE-COUNTS y over its own 21 points (so
+  `max y = 21`, not 26) and is descriptive: the power record's
+  `n_trained_steps = 26` describes the primary outcome only and makes
+  no claim about the subset.
 
 ## 6. Licences, written in advance
 
@@ -461,7 +553,10 @@ the candidate-file loader end to end — **step 40,000** — downloaded
 (6.15 GB), sha-verified against the manifest, hardlinked into a clean
 directory with the entry's own `config.json`, loaded, scored on the
 same 40 items and **freed**. The preflight writes nothing under
-`experiments/exp2m/results/` and asserts so afterwards. `BATCH_SIZE_2M`
+`experiments/exp2m/results/` and asserts so afterwards. The preflight
+applies `check_frozen_2m` but not `require_prereg_2m`; it stores
+nothing the analyzer reads, and design §7 already places it after the
+tag. `BATCH_SIZE_2M`
 (= 16) and `DTYPE_2M` (= fp16) are single pre-tag constants in
 `battery_2m.py`, threaded explicitly into every runner (2l's
 construction; no record carries them, the tag is what prevents a mid-

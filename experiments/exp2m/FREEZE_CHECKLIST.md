@@ -748,6 +748,8 @@ asserts its needle against that list, not against `reason`.
 
 ## Ratification package for Michael
 
+RATIFIED by Michael 2026-09-04 ('go'): slips (a)–(k) applied with the (i) amendment; R-1 applied; M-8 → 2l's gitignore list.
+
 ### Findings
 
 | # | finding | status |
@@ -944,6 +946,10 @@ still outside every pin.
 | **fix wave, import scan `tests/import_scan_2m.py` (third pre-tag execution)** | 4 modules, INSUFFICIENT_DATA, 11 referent/loader failures, no T — `verify_referents_2m.py` at the new sha, printed literal identical to the pin (no drift) |
 | **fix wave, determinism ×2, separate processes, one world (`shared`, seed 0), n_perm 30** | **byte-identical** (sha `177e48cf…`, 478,157 bytes — same byte count as the freeze's reading; sha differs only because the verdict's `git_sha` field now reads HEAD `1c95e3b8` instead of the freeze's commit — confirmed by inspecting the field directly) |
 | **fix wave, mutation target resolution + `--only` (M-1's new mutant #103, the three pre-existing F-1 mutants #100-102, `collapses_3b` #97)** | all **151** entries in `mutation_check.M` resolve exactly once (150 + the new mutant, 0 stale, 0 ambiguous); targeted run **5/5 killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup`, `git status --porcelain experiments/exp2m` clean of anything but this wave's own edits after the harness. Full 151-mutant harness NOT re-run (scoped per the brief: wording/docstring/test-only edits, none touching a `collect_total` site or a totality/fullshape-only shape) |
+| **ratification apply (2026-09-04), fast modules (`test_battery_2m`, `test_stages_2m`, `test_analyze_2m`, `test_power_2m`)** | **111 passed**, 226.34 s — 109 + R-1's net two new fixtures (three helper fixtures replacing the fix wave's two, plus one `verdict_2m`-level plumbing fixture) |
+| **ratification apply, worlds + totality (`test_full_shape_2m` + `test_totality_2m`)** | **50 passed**, 1151.51 s (0:19:11) — matches the freeze's and fix wave's readings exactly (25 world specs, every terminal reached); W24's assertions did not pin the old SAME/WIDER wording, so no fixture edit was needed |
+| **ratification apply, cold referent battery `verify_referents_2m.py`** | **13/13** |
+| **ratification apply, determinism ×2, separate processes, `shared` world seed 0, n_perm 30** | **byte-identical** (sha `b45721b1…`, 478,157 bytes — same byte count as every prior reading; the `shared` world's eligible sets are full R_PRIMARY on both tests, so `_partial_eligible_2m` returns `None` regardless of R-1; `git_sha` field reads HEAD `7e9e2018`, the pre-commit state) |
 | **R-1, mutation target resolution + `--only 100,101,102,103` (R-1's rewritten #103, the three pre-existing F-1 mutants #100-102)** | all **151** entries in `mutation_check.M` resolve exactly once (0 stale, 0 ambiguous); targeted run **4/4 killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup` |
 
 **The full-suite confirmation run** (`pytest experiments/exp2m/tests

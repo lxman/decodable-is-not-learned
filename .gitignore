@@ -49,6 +49,9 @@ experiments/exp2l/power.log
 experiments/exp2l/sweep.log
 experiments/exp2l/analyzer.log
 experiments/exp2l/watcher_*.log
+# exp2l's relaunch log after the 2026-09-01/02 environment-side kills
+# (ledgered in experiments/exp2l/PROGRESS.md); machine-local
+experiments/exp2l/sweep_relaunch2.log
 # exp2m campaign/stage logs — machine-local, never part of the closed record (named list, 2l D-1)
 experiments/exp2m/preflight.log
 experiments/exp2m/endpoint.log
