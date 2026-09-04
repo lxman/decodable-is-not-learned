@@ -750,6 +750,8 @@ asserts its needle against that list, not against `reason`.
 
 RATIFIED by Michael 2026-09-04 ('go'): slips (a)–(k) applied with the (i) amendment; R-1 applied; M-8 → 2l's gitignore list.
 
+BOUND 2026-09-04: tag `exp2m-preregistered` at 77301c13 (object 7270179d) binds analyze_2m.py 034c8a7359a2…, battery_2m.py 0c5e1f07f888…, run/endpoint_2m.py 52bd2fe173e5…, run/sweep_2m.py 30fa4b4f73cf… — verified through `require_prereg_2m` against real git; any post-tag edit to these four needs a re-tag.
+
 ### Findings
 
 | # | finding | status |

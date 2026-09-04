@@ -797,3 +797,9 @@ text, #103 rewritten), `experiments/exp2m/tests/test_analyze_2m.py`
 (a)–(k) with the (i) amendment), `.gitignore` (M-8), this file and
 `FREEZE_CHECKLIST.md` (ratification records). No frozen upstream
 module touched, zero model contact, zero network.
+
+## 2026-09-04 — TAG `exp2m-preregistered` CUT at 77301c13 (annotated object 7270179d), pushed
+
+Scoped re-review of R-1 (sonnet) clean — every required element at file:line, the WIDER-discriminating fixture reproduces the M-1 defect through `verdict_2m`, all 151 mutant targets resolve once (independently re-derived), `--only 100,101,102,103` 4/4 reproduced by the reviewer, tree clean. One out-of-scope observation PARKED with a ruling: a present-but-EMPTY `rungs_simulated` list would print "WIDER (also [])" — unreachable through a consistent tree, because `check_power_claims_2m` requires that list to equal R_PRIMARY minus the degenerate rungs, so an empty list means every rung degenerate, the test's eligible set is empty and the `< 3` guard returns before any wording is chosen; cost if wrong: a mislabeled disclosure on a tree the analyzer already refuses.
+
+Tag cut on the slips commit; binding verified through `require_prereg_2m()` against real git (analyze_2m.py 034c8a7359a2…, battery_2m.py 0c5e1f07f888…, run/endpoint_2m.py 52bd2fe173e5…, run/sweep_2m.py 30fa4b4f73cf…); `check_frozen_2m()` clean. Zero model contact before the tag. Next, each on Michael's word per §7: the OLMo-2 13B HF-cache decision (102 GB; 219 GB free), the preflight (dial j), then the endpoint stage → power ONCE → `exp2m-endpoint-sealed` → projection by rung type → sweep (≈ 17.5 h) → analyzer once.

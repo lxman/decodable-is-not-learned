@@ -22,7 +22,7 @@ endpoint stage, then its stage-1 grid and a seeded twin in the sweep.
 Every predictor is already committed and tagged; nothing is sampled.
 **RATIFIED by Michael 2026-09-04 ('go'): freeze findings F-1..F-3 closed;
 slips (a)–(k) applied with the (i) amendment; final-review R-1 applied;
-tag `exp2m-preregistered` follows.**
+tag `exp2m-preregistered` CUT 2026-09-04 at 77301c13 (annotated object 7270179d), pushed; binding verified through the instrument's own `require_prereg_2m` against real git (analyze_2m 034c8a73…, battery_2m 0c5e1f07…, run/endpoint_2m 52bd2fe1…, run/sweep_2m 30fa4b4f…) and `check_frozen_2m` clean. FROZEN. Model contact from here only on Michael's word (§7: the preflight first).**
 
 2l closed BOTH — the program's first cross-family forecast to clear
 its preregistered bar on a sealed outcome — and its §6 licence named
