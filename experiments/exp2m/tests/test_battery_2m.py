@@ -413,6 +413,17 @@ def test_gate1_rederive_3b():
     assert any("attested bit_diffs 0 disagrees with the re-derived 1" in b for b in bad)
     g = _gate_rec(bit_diffs={**{r: 0 for r in bt.RUNGS}, "antonym": 1})
     assert any("attested bit_diffs 1 disagrees with the re-derived 0" in b for b in bm.gate1_rederive_3b(sw, ep, g))
+    # Freeze F-2 (the sweep side): digest_sweep/commit_sweep measured over
+    # all 34 sweep step-3440000 records, not merely against digest_endpoint.
+    mixed_sw = _endpoint_records({"antonym": [1] * 10 + [0] * 490}, odd_rung="odd6")
+    assert any("re-derive" in b and "2 different tensor digests" in b
+               for b in bm.gate1_rederive_3b(mixed_sw, ep, _gate_rec()))
+    other_sw = _endpoint_records({"antonym": [1] * 10 + [0] * 490}, digest="E")
+    assert any("is not the tensor digest every step" in b
+               for b in bm.gate1_rederive_3b(other_sw, ep, _gate_rec()))
+    other_c = _endpoint_records({"antonym": [1] * 10 + [0] * 490}, commit="e" * 40)
+    assert any("is not the commit every step" in b
+               for b in bm.gate1_rederive_3b(other_c, ep, _gate_rec()))
     short = dict(sw)
     short["odd6"] = {"bits": [0] * 10, "continuations": [" zzz"] * 10}
     assert any("odd6" in b and "coverage failure" in b for b in bm.gate1_rederive_3b(short, ep, _gate_rec()))

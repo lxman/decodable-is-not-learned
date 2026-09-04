@@ -57,6 +57,10 @@ def test_w1_pythia_only_shape(worlds):
     assert set(sec["S4 matched density"]["per_rung"]) == set(fs.RUNGS_PRIMARY)
     assert sec["S4 matched density"]["T_A256"] == A["stratified"]["T"]
     assert sec["S5 answer prior"]["non_gating"] is True
+    # Freeze F-3: the descriptives say in words that their `fires` key is
+    # not a firing rule.
+    assert sec["S5 answer prior"]["no_alpha_claim"] is True
+    assert sec["S5 answer prior"]["note"] == an.NO_ALPHA_NOTE_2M.format(name="S5")
     s6 = sec["S6 twin stage3 base"]
     assert set(s6["twin_counts"]) == set(bm.bt.RUNGS) and all(c == 0 for c in s6["twin_counts"].values())
     assert set(s6["stage3_final_vs_endpoint"]) == set(bm.bt.RUNGS) and set(s6["base_vs_endpoint"]) == set(bm.bt.RUNGS)
@@ -68,6 +72,8 @@ def test_w1_pythia_only_shape(worlds):
     s8 = sec["S8 outcome order"]
     assert set(s8) == {"pythia_2.8b", "pythia_6.9b", "olmo2_7b", "olmo2_13b"}
     assert s8["olmo2_13b"]["rungs"] == list(fs.RUNGS_PRIMARY) and all(x["descriptive"] for x in s8.values())
+    assert all(x["no_alpha_claim"] and x["note"] == an.NO_ALPHA_NOTE_2M.format(name="S8")
+               for x in s8.values())
     assert sec["extra rungs"] == {"eleven_extra": {}, "extra": {}}
     sens = sec["sensitivities"]
     assert sens["primary_is_the_nine"] is True and sens["log_head_subset"]["steps"] == list(bm.LOG_HEAD_SUBSET_2M)

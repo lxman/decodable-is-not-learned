@@ -136,6 +136,17 @@ DISCLOSURE_UNDERPOWERED_2M = {
     "B": ("Test B did not fire under DECLARED UNDERPOWERED IN ADVANCE: the OLMo-2 1B read of the "
           "third family's order is not detected at this resolution, neither confirmed nor ruled out"),
 }
+# FREEZE F-3: `_run_test` stamps a `fires` key computed by `fires_2i` at
+# 2g's bar on EVERY test it runs, including the descriptives. S5 and S8
+# are non-gating with no alpha claim (design §5, dial g), so a reader of
+# `secondaries[...]["test"]["fires"] == true` would be reading a firing
+# rule that does not exist for them. The flag stays (it is `_run_test`'s
+# own shape, frozen upstream); the row says in words what it is not.
+NO_ALPHA_NOTE_2M = ("{name} is DESCRIPTIVE and non-gating (design §5): its `test.fires` is "
+                    "`fires_2i` applied mechanically at 2g's bar and is NOT a firing rule for "
+                    "{name} — no alpha claim is made, only T and p are reported, and nothing here "
+                    "can move the verdict (a failure inside it lands in secondaries.failures, "
+                    "never in referents.failures)")
 DISCLOSURE_UNDEFINED_2M = {
     "A": ("Test A was undefined (the Pythia-1b predictor degenerate on every comparable rung), so "
           "the Pythia read is untested, not absent"),
@@ -878,7 +889,7 @@ def s5_answer_prior_2m(rows_2i, battery, out, strata, rungs, **kw) -> dict:
     sealed-outcome test (2l read .1848)."""
     pi = {r: fn.wrong_target_propensity(rows_2i[r], battery[r]) for r in rungs}
     return {"pi": pi, "test": _run_test(pi, "olmo1b:pi", out, strata, rungs, **kw),
-            "non_gating": True,
+            "non_gating": True, "no_alpha_claim": True, "note": NO_ALPHA_NOTE_2M.format(name="S5"),
             "source": "2j wrong_target_propensity on 2i's sealed OLMo-2 1B draws"}
 
 
@@ -911,7 +922,8 @@ def s8_outcome_order_2m(out_3b, strata, r_primary, committed: dict, **kw) -> dic
         x = {r: [int(v) for v in out_k[r]["y"]] for r in rungs_k}
         res[name] = {"rungs": rungs_k,
                      "test": _run_test(x, f"{name}:count", out_3b, strata, rungs_k, **kw),
-                     "descriptive": True}
+                     "descriptive": True, "no_alpha_claim": True,
+                     "note": NO_ALPHA_NOTE_2M.format(name="S8")}
     return res
 
 

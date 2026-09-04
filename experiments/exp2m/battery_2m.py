@@ -666,6 +666,23 @@ def gate1_rederive_3b(sweep_endpoint_records: dict, stage1_final_records: dict,
     g = gate_record if isinstance(gate_record, dict) else {}
     bd_att, cd_att, nc_att = g.get("bit_diffs", {}), g.get("continuation_diffs", {}), \
         g.get("continuations_compared", {})
+    # FREEZE F-2 (the sweep side): `digest_sweep`/`commit_sweep` are the
+    # runner's attestation of its OWN load. Measure them against the
+    # digest and commit all 34 sweep step-ENDPOINT records carry, so the
+    # gate's two halves are both tied to committed bytes rather than to
+    # each other.
+    for field, att, label in (("weight_sha256", g.get("digest_sweep"), "tensor digest"),
+                              ("commit", g.get("commit_sweep"), "commit")):
+        vals = sorted({str(sweep_endpoint_records[r].get(field)) for r in bt.RUNGS
+                       if r in sweep_endpoint_records})
+        if len(vals) > 1:
+            bad.append(f"gate 1 smollm3_3b re-derive: the sweep's step{ENDPOINT_STEP_2M} records "
+                       f"carry {len(vals)} different {label}s {vals} — they did not come from one "
+                       f"load")
+        elif vals and att is not None and vals[0] != str(att):
+            bad.append(f"gate 1 smollm3_3b re-derive: attested {label} through the sweep loader "
+                       f"{att!r} is not the {label} every step{ENDPOINT_STEP_2M} record carries "
+                       f"({vals[0]!r})")
     for r in bt.RUNGS:
         if r not in sweep_endpoint_records:
             bad.append(f"gate 1 smollm3_3b re-derive/{r}: no sweep step{ENDPOINT_STEP_2M} record "

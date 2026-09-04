@@ -757,6 +757,17 @@ def test_verdict_2m_discloses_a_test_that_read_fewer_than_three_rungs():
     assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M + "B") for d in t["disclosures"])
 
 
+def test_s5_s8_rows_say_their_fires_key_is_not_a_rule():
+    """Freeze F-3: `_run_test` stamps `fires` on every test it runs,
+    descriptives included. S5 and S8 make no alpha claim, so each row
+    says so in words beside the flag."""
+    assert "{name}" in an.NO_ALPHA_NOTE_2M
+    for name in ("S5", "S8"):
+        note = an.NO_ALPHA_NOTE_2M.format(name=name)
+        assert "not a firing rule" in note.lower() and "no alpha claim" in note
+        assert "secondaries.failures" in note
+
+
 def test_which_coherence_failures_2m():
     """Freeze F-2: a `which` has no checkpoint record, so nothing
     measured that its 34 records came from ONE load."""
