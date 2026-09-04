@@ -980,3 +980,38 @@ The 102 GB OLMo-2 13B HF cache (2l's outcome, closed and archived at v1.15) was 
 [2m preflight] ckpt bos add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 571 + 578?\\nA:' -> ' 1069\n\nQ: What is' verify=0
 [2m preflight] complete: 2 rung(s) × 20 item(s) × 2 renders on the base and on stage1-step-40000; nothing written under results/
 ```
+
+## 2026-09-04 — Endpoint stage RUN (on Michael's word, the same "go"): 12:57:40 → 14:26:23 (89 min), zero halts, zero attrition
+
+Three thin loads on all 34 rungs (`stage1_final` = the stage-1 endpoint at step 3,440,000, the OUTCOME's endpoint; `stage3_final` at step 4,720,000, descriptive; `base` = the released Base, descriptive), fp16, batch 16; 102 records + `rung_set_2m.json`, every file watcher-committed and pushed as it landed (the rung set at 6c56b4d9). The runner's three entry gates (prereg binding, frozen set, both predictor seals) passed silently. No traceback.
+
+**Rung set by rule (2d's floor at the stage-1 endpoint):** R_3B = 14 rungs — add3_mid, add4_mid, add_base8, antonym, antonym6, arith_next, odd6, odd_one_out, quad_next, rev_string7, reverse_string, sub3_mid, sub4_mid, sub_base8. **R_PRIMARY = the nine** (`primary_is_the_nine` True); R_ELEVEN_EXTRA = ∅ (count_div13 does not clear); R_EXTRA = add4_mid, odd_one_out, quad_next, rev_string7, reverse_string (the reversal pair clears, as it did on 13B). The nine clear by wide margins — the counts at the three endpoints:
+
+| rung | stage1_final | stage3_final | base |
+| --- | --- | --- | --- |
+| add3_mid | 330 | 498 | 499 |
+| add4_mid | 246 | 469 | 476 |
+| add_base8 | 118 | 147 | 147 |
+| antonym | 435 | 425 | 433 |
+| antonym6 | 199 | 313 | 267 |
+| arith_next | 473 | 500 | 500 |
+| odd6 | 120 | 324 | 336 |
+| odd_one_out | 176 | 328 | 337 |
+| quad_next | 24 | 115 | 121 |
+| rev_string7 | 9 | 51 | 54 |
+| reverse_string | 37 | 179 | 163 |
+| sub3_mid | 494 | 500 | 500 |
+| sub4_mid | 243 | 488 | 490 |
+| sub_base8 | 309 | 269 | 301 |
+
+Texture to carry into the projection: SmolLM3-3B at 8.1T tokens is far stronger on arithmetic than OLMo-2 13B at 5T (sub3_mid 494/500, arith_next 473, add3_mid 330 — 13B's endpoint had sub3_mid 495 but add3_mid 304 and arith_next 421), so the ceiling fraction at the endpoint is high on the mid-digit and arith rungs and the forecast resolution lives in WHEN items clear across the 26-point grid, not whether. The stage-3 endpoint and the Base move the nine little from the stage-1 endpoint (descriptives S6/S7 will say by how much).
+
+Power ONCE launched detached 14:26:51 (pid 59764, `experiments/exp2m/power.log`); declarations transcribed below when it lands.
+
+**Power ONCE (dial h) — 14:26:51 → 16:34:02 (127 min), `power_2m.json` written once, watcher-committed at 5772a616; the endpoint watcher then stopped (its stage is done).** Both tests on 2g's base strata over R_PRIMARY = the nine, `dropped_degenerate` = ∅ for both (neither predictor is constant inside every stratum on any rung), n_sim 1,000, n_trained_steps 26, n_pos bounded below by the stage-1 endpoint counts (add3_mid 330, add_base8 118, antonym 435, antonym6 199, arith_next 473, odd6 120, sub3_mid 494, sub4_mid 243, sub_base8 309):
+
+- **A (x_A^(256), Pythia-1b at 256 draws): POWERED** — P(fires | D = .15) = 1.000 against the bar .75; null false-fire rate .000; null SD of T .0116; min-detectable T .0268; sensitivity P(fires | D = .10) = .457 (ρ .162), .20 → 1.000 (ρ .324).
+- **B (x_B, OLMo-2 1B at 64 draws): POWERED** — P(fires | D = .15) = 1.000; null false-fire rate .000; null SD of T .0122; min-detectable T .0276; P(fires | D = .10) = .408 (ρ .174), .20 → 1.000 (ρ .350).
+- **block_sd_A (2k's process note, dial h):** T_A across x_A's four 64-draw blocks at D = .15 — mean block SD **.00705** at declare, **.00685** under the null (n_sim 200, calibrated ρ .244); per-block mean T at declare .0967 / .0952 / .0945 / .0950 — a single 64-draw block at the declared effect sits just UNDER the .10 bar, the density lesson (2i → 2k) reproduced in the power record before any sweep point is seen. The bar sits 1.4 block-SDs and 0.9 null-SDs from a T of .11.
+
+As in 2l: the T ≥ .10 bar decides each test, not p (P(fires | .10) ≈ .4–.46).
