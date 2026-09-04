@@ -184,6 +184,20 @@ def test_w24_partial_eligible_set_is_disclosed(worlds):
         assert "add3_mid" in hit[0] and hit[0] in v["licensed_sentence"]
 
 
+def test_w25_a_which_assembled_from_two_loads_refuses(worlds):
+    """Freeze F-2: `stage3_final`'s 34 records carry two different tensor
+    digests, written before the rung set's sha table and the 104-file
+    composite were computed, so both agree with the mixed tree. Gate 1
+    never reads stage3_final and no sha check fires — the which-coherence
+    measurement is the only thing that can refuse."""
+    v, _, _root = worlds["W25 INSUFFICIENT a which assembled from two loads (freeze F-2)"]
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    hits = [x for x in v["referents"]["failures"] if "did not come from one load" in x]
+    assert hits and "stage3_final" in hits[0], v["referents"]["failures"]
+    assert not any("endpoint_file_sha256" in x for x in v["referents"]["failures"])
+    assert not any("endpoint_sha256" in x for x in v["referents"]["failures"])
+
+
 def test_s8_production_loader_once(tmp_path):
     """The production S8 path (no injection) on one world: the four
     committed outcomes through their own frozen readers (≈ 2–4 min)."""

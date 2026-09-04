@@ -604,6 +604,27 @@ M = [
     (AN, "F-1: the partial disclosure names the rungs READ, not the rungs missed",
      '    missing = [r for r in prim if r not in elig]',
      '    missing = [r for r in prim if r in elig]'),
+    # ---- freeze F-2: a which assembled from two loads
+    (AN, "F-2: which_coherence_failures_2m never speaks",
+     '''    for field, label in (("weight_sha256", "tensor digest"), ("commit", "commit"),
+                         ("config_source", "config source")):''',
+     '''    for field, label in ():'''),
+    (AN, "F-2: load_endpoint_which_2m does not apply the coherence check",
+     '''    coh = which_coherence_failures_2m(which, out)   # freeze F-2
+    if coh:
+        raise ValueError("; ".join(coh))''',
+     '''    coh = []
+    if coh:
+        raise ValueError("; ".join(coh))'''),
+    (BK, "F-2: gate 1 does not measure digest_endpoint/commit_endpoint over the 34 records",
+     '''    for field, att, label in (("weight_sha256", dg_e, "tensor digest"),
+                              ("commit", ce, "commit")):''',
+     '''    for field, att, label in ():'''),
+    (BK, "F-2: gate 1 measures the attestation against ONE endpoint record, not all 34",
+     '''        vals = sorted({str(endpoint_records[r].get(field)) for r in rungs
+                       if r in endpoint_records})''',
+     '''        vals = sorted({str(endpoint_records[r].get(field)) for r in rungs[:1]
+                       if r in endpoint_records})'''),
 ]
 
 # One mutant per collect_total(...) call site in analyze_2m.py's run() AND

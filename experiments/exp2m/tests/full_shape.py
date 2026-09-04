@@ -152,7 +152,12 @@ def _twin_ckpt(entry, digest="T"):
 def write_world_2m(root, *, mode="pythia_only", seed=0, missing=None, power_status_a="POWERED",
                    power_status_b="POWERED", drifted_seal=None, halt=False, gate1_diff=False,
                    gate1_attested_mismatch=False, n_pos_cap=None, zero_rungs=(), all_fire=(),
-                   expect_primary=None) -> dict:
+                   expect_primary=None, mixed_digest_which=None) -> dict:
+    # `mixed_digest_which` (freeze F-2): the LAST rung of that which is
+    # written with a different tensor digest AT WRITE TIME, so the rung
+    # set's own sha table and the 104-file composite are both computed
+    # over the mixed tree and agree with it — the shape a resumed
+    # endpoint stage leaves, not a post-hoc edit.
     root = Path(root)
     rng = np.random.default_rng(seed)
     bat, man, verify, strata0 = battery(), manifest(), verify_fn(), strata()
@@ -188,15 +193,18 @@ def write_world_2m(root, *, mode="pythia_only", seed=0, missing=None, power_stat
             conts[0] = f" {cap['eval_items'][0]['answer']}" if bits[0] else " zzz"
         ev = {"bits": bits, "correct": sum(bits), "continuations": conts}
         stage1_correct[r] = ev["correct"]
-        rec = bm.endpoint_item_record_2m(rung=r, cap=cap, ev=ev, ckpt=_ckpt(entries["stage1_final"]),
+        _dg1 = "OTHER" if (mixed_digest_which == "stage1_final" and r == bt.RUNGS[-1]) else "D"
+        rec = bm.endpoint_item_record_2m(rung=r, cap=cap, ev=ev,
+                                         ckpt=_ckpt(entries["stage1_final"], _dg1),
                                          which="stage1_final", seal=seal_ep, t_s=0.0)
         stage1_recs[r] = rec
         _w(bm.endpoint_record_path(root, "stage1_final", r), rec)
         ev0 = {"bits": [0] * bt.N_ITEMS, "correct": 0, "continuations": [" zzz"] * bt.N_ITEMS}
         for which in ("stage3_final", "base"):
+            _dg = "OTHER" if (mixed_digest_which == which and r == bt.RUNGS[-1]) else "D"
             _w(bm.endpoint_record_path(root, which, r),
-               bm.endpoint_item_record_2m(rung=r, cap=cap, ev=ev0, ckpt=_ckpt(entries[which]), which=which,
-                                          seal=seal_ep, t_s=0.0))
+               bm.endpoint_item_record_2m(rung=r, cap=cap, ev=ev0, ckpt=_ckpt(entries[which], _dg),
+                                          which=which, seal=seal_ep, t_s=0.0))
     rs = bm.rung_set_from_counts_2m(stage1_correct, floors())
     want_primary = tuple(expect_primary) if expect_primary is not None else RUNGS_PRIMARY
     if tuple(rs["R_PRIMARY"]) != want_primary:
@@ -354,4 +362,10 @@ def world_specs() -> list:
         # n_pos-thin; eligible = 8 >= 3, so 2l F-4's guard stays silent.
         ("W24 PYTHIA-ONLY partial eligible set disclosed (freeze F-1)",
          dict(mode="pythia_only", n_pos_cap={"add3_mid": 12}), "PYTHIA-ONLY"),
+        # Freeze F-2: a `which` assembled from two loads. stage3_final is
+        # chosen deliberately — gate 1 never looks at it and the rung
+        # set's sha table agrees with the mixed bytes, so the ONLY thing
+        # that can refuse is the new which-coherence check.
+        ("W25 INSUFFICIENT a which assembled from two loads (freeze F-2)",
+         dict(mode="pythia_only", mixed_digest_which="stage3_final"), "INSUFFICIENT_DATA"),
     ]

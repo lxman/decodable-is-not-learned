@@ -330,15 +330,29 @@ def _c9(ctx):
     # two distinct records rather than one aliased to itself.
     sweep_recs = {r: rec2 for r in bt.RUNGS}
     stage1_recs = {r: rec2 for r in bt.RUNGS}
+    # Freeze F-2: `digest_endpoint`/`commit_endpoint` are now MEASURED
+    # against the digest and commit all 34 stage1_final records carry,
+    # so the hand pair states the real ones (the "c"*40 placeholder this
+    # fixture used before was a fiction the old gate could not see).
     gate_rec = {"rungs": list(bt.RUNGS), "bit_diffs": {r: 0 for r in bt.RUNGS},
                "continuation_diffs": {r: 0 for r in bt.RUNGS},
                "continuations_compared": {r: bk.N_ITEMS for r in bt.RUNGS},
-               "digest_sweep": "D", "digest_endpoint": "D", "commit_sweep": "c" * 40,
-               "commit_endpoint": "c" * 40, "prereg_tag": bm.PREREG_TAG_2M}
+               "digest_sweep": "D", "digest_endpoint": "D",
+               "commit_sweep": entry_ep["commit"], "commit_endpoint": entry_ep["commit"],
+               "prereg_tag": bm.PREREG_TAG_2M}
     bad3 = bm.gate1_failures_3b(gate_rec, stage1_recs)
     _eq(bad3, [], "gate1_failures_3b round trip")
     bad4 = bm.gate1_rederive_3b(sweep_recs, stage1_recs, gate_rec)
     _eq(bad4, [], "gate1_rederive_3b round trip")
+    mixed = dict(stage1_recs)
+    mixed["odd6"] = {**rec2, "weight_sha256": "OTHER"}
+    _eq(any("did not come from one load" in b for b in bm.gate1_failures_3b(gate_rec, mixed)), True,
+       "gate1_failures_3b measures the endpoint digest over all 34 records (freeze F-2)")
+    _eq(any("did not come from one load" in b
+           for b in an.which_coherence_failures_2m("stage1_final", mixed)), True,
+       "which_coherence_failures_2m refuses a which assembled from two loads (freeze F-2)")
+    _eq(an.which_coherence_failures_2m("stage1_final", stage1_recs), [],
+       "which_coherence_failures_2m clean on one load")
 
 
 @check(10, "the SmolLM3 tree on the real EXP2M: no halt marker; endpoint/rung-set/power/sweep "

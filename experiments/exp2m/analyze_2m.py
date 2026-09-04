@@ -71,7 +71,7 @@ IMPORTED_SHA256_2M = {   # Task 5: pinned from tests/import_scan_2m.py (4 module
     bg.REPO / "experiments/exp2m/run/preflight_2m.py":
         "931f5d90210c1030069d34038f744750d4fee5ab23e3f106f6887cb9317da18d",
     bg.REPO / "experiments/exp2m/verify_referents_2m.py":
-        "c06a104f2eaef5128ab8238329657f8067c9a752f6b3cb0342fedcb192009246",
+        "7baa94e1d7044f0d9f6fe5f6eb40a9567f8babd7a2a4f675ed369084869ff9cb",   # freeze F-2: item 9's hand pair + the F-2 assertions
 }
 WORLDS_2M = ("INSUFFICIENT_DATA", "SHARED", "PYTHIA-ONLY", "OLMO-ONLY", "NEITHER")
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
@@ -301,6 +301,31 @@ def step_record_failures_2m(rec: dict, *, step, rung, cap, entry, verify_fn, end
     return bad
 
 
+def which_coherence_failures_2m(which: str, records: dict) -> list:
+    """FREEZE F-2 (2i F-1 / 3d F-2's shape on the endpoint side): the
+    three endpoint `which`es have no checkpoint record, so — unlike a
+    sweep step, whose `_checkpoint.json` digest is MEASURED against all
+    34 item records — nothing checked that a which's 34 records came
+    from ONE load. The stage is resumable (`endpoint_2m.run` re-loads
+    and evaluates only the missing rungs), `load_thin_3b` goes through
+    the ordinary HF cache with no sha verification against the
+    manifest's `lfs_sha256`, and the rung set's own sha table and the
+    104-file composite are both computed AFTER the records, so a mixed
+    which is internally consistent. Additive: every record of a which
+    must carry the same non-empty tensor digest, the same commit and
+    the same config source."""
+    bad = []
+    for field, label in (("weight_sha256", "tensor digest"), ("commit", "commit"),
+                         ("config_source", "config source")):
+        vals = sorted({str(rec.get(field)) for rec in records.values()})
+        if len(vals) > 1:
+            bad.append(f"endpoint smollm3_3b {which}: the 34 records carry {len(vals)} different "
+                       f"{label}s {vals} — they did not come from one load")
+        elif vals and vals[0] in ("None", ""):
+            bad.append(f"endpoint smollm3_3b {which}: every record's {label} is empty")
+    return bad
+
+
 def load_endpoint_which_2m(root, which, battery, verify_fn, *, entry) -> dict:
     out = {}
     for rung in bt.RUNGS:
@@ -313,6 +338,9 @@ def load_endpoint_which_2m(root, which, battery, verify_fn, *, entry) -> dict:
         if bad:
             raise ValueError("; ".join(bad))
         out[rung] = rec
+    coh = which_coherence_failures_2m(which, out)   # freeze F-2
+    if coh:
+        raise ValueError("; ".join(coh))
     return out
 
 

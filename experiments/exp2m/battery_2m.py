@@ -619,6 +619,22 @@ def gate1_failures_3b(rec: dict, endpoint_records: dict) -> list:
         bad.append(f"gate 1 smollm3_3b: tensor digest through the sweep loader ({dg_s}) != "
                    f"through the endpoint loader ({dg_e}) — the checkpoint loader path is "
                    f"not the production path")
+    # FREEZE F-2: `digest_endpoint`/`commit_endpoint` are attested by the
+    # runner from `stage1_final[rungs[0]]` — ONE rung's record. Measure
+    # them against the digest and commit all 34 stage1_final records
+    # carry, so a which assembled from two loads cannot pass gate 1 on
+    # the one record the runner happened to read.
+    for field, att, label in (("weight_sha256", dg_e, "tensor digest"),
+                              ("commit", ce, "commit")):
+        vals = sorted({str(endpoint_records[r].get(field)) for r in rungs
+                       if r in endpoint_records})
+        if len(vals) > 1:
+            bad.append(f"gate 1 smollm3_3b: the stage1_final endpoint records carry "
+                       f"{len(vals)} different {label}s {vals} — they did not come from one load")
+        elif vals and att is not None and vals[0] != str(att):
+            bad.append(f"gate 1 smollm3_3b: attested {label} through the endpoint loader "
+                       f"{att!r} is not the {label} every stage1_final record carries "
+                       f"({vals[0]!r}) — the attestation was read from one rung")
     bd, cd, nc = rec.get("bit_diffs", {}), rec.get("continuation_diffs", {}), \
         rec.get("continuations_compared", {})
     for r in rungs:

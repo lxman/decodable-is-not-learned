@@ -757,6 +757,23 @@ def test_verdict_2m_discloses_a_test_that_read_fewer_than_three_rungs():
     assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M + "B") for d in t["disclosures"])
 
 
+def test_which_coherence_failures_2m():
+    """Freeze F-2: a `which` has no checkpoint record, so nothing
+    measured that its 34 records came from ONE load."""
+    recs = {r: {"weight_sha256": "D", "commit": "c" * 40, "config_source": "repo@c"}
+            for r in bm.bt.RUNGS}
+    assert an.which_coherence_failures_2m("stage1_final", recs) == []
+    for field, label in (("weight_sha256", "tensor digest"), ("commit", "commit"),
+                         ("config_source", "config source")):
+        mixed = {r: dict(v) for r, v in recs.items()}
+        mixed["odd6"][field] = "OTHER"
+        bad = an.which_coherence_failures_2m("base", mixed)
+        assert bad and f"2 different {label}s" in bad[0] and bad[0].startswith("endpoint smollm3_3b base")
+    empty = {r: {"weight_sha256": None, "commit": "c" * 40, "config_source": "repo@c"}
+             for r in bm.bt.RUNGS}
+    assert any("empty" in b for b in an.which_coherence_failures_2m("stage3_final", empty))
+
+
 def test_verdict_2m_discloses_a_reading_narrower_than_r_primary():
     """Freeze F-1: 3 <= |eligible| < |R_PRIMARY| carried no disclosure —
     2l F-4's guard speaks only below three. The two are mutually

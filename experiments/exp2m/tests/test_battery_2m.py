@@ -353,11 +353,17 @@ def _gate_rec(**over):
     return g
 
 
-def _endpoint_records(bits_by_rung=None):
+def _endpoint_records(bits_by_rung=None, *, digest="D", commit="c" * 40, odd_rung=None,
+                      odd_digest="OTHER", odd_commit=None):
+    """Freeze F-2: a real endpoint record carries `weight_sha256` and
+    `commit`, and gate 1 now MEASURES both across all 34 — the fixture
+    carries them. `odd_rung` gives one rung a different digest/commit."""
     out = {}
     for r in bt.RUNGS:
         bits = (bits_by_rung or {}).get(r, [0] * bt.N_ITEMS)
-        out[r] = {"bits": list(bits), "continuations": [" zzz" if not b else " ok" for b in bits]}
+        out[r] = {"bits": list(bits), "continuations": [" zzz" if not b else " ok" for b in bits],
+                  "weight_sha256": odd_digest if r == odd_rung else digest,
+                  "commit": (odd_commit or commit) if r == odd_rung else commit}
     return out
 
 
@@ -381,6 +387,20 @@ def test_gate1_failures_3b():
     assert any("no stage1_final endpoint record" in b for b in bm.gate1_failures_3b(_gate_rec(), ep2))
     for b in bm.gate1_failures_3b(_gate_rec(digest_sweep="X"), ep):
         assert b.startswith("gate 1 smollm3_3b")
+    # Freeze F-2: `digest_endpoint`/`commit_endpoint` are attested by the
+    # runner from ONE rung's record; both are now measured over all 34.
+    mixed = _endpoint_records(odd_rung="odd6")
+    bad = bm.gate1_failures_3b(_gate_rec(), mixed)
+    assert any("2 different tensor digests" in b and "one load" in b for b in bad)
+    mixed_c = _endpoint_records(odd_rung="odd6", odd_digest="D", odd_commit="d" * 40)
+    assert any("2 different commits" in b for b in bm.gate1_failures_3b(_gate_rec(), mixed_c))
+    coherent_but_other = _endpoint_records(digest="E")
+    bad = bm.gate1_failures_3b(_gate_rec(digest_sweep="E", digest_endpoint="E"), _endpoint_records(digest="E"))
+    assert bad == []
+    bad = bm.gate1_failures_3b(_gate_rec(), coherent_but_other)      # attested "D", records all "E"
+    assert any("is not the tensor digest every stage1_final record carries" in b for b in bad)
+    bad = bm.gate1_failures_3b(_gate_rec(), _endpoint_records(commit="e" * 40))
+    assert any("is not the commit every stage1_final record carries" in b for b in bad)
 
 
 def test_gate1_rederive_3b():
