@@ -1015,3 +1015,13 @@ Power ONCE launched detached 14:26:51 (pid 59764, `experiments/exp2m/power.log`)
 - **block_sd_A (2k's process note, dial h):** T_A across x_A's four 64-draw blocks at D = .15 — mean block SD **.00705** at declare, **.00685** under the null (n_sim 200, calibrated ρ .244); per-block mean T at declare .0967 / .0952 / .0945 / .0950 — a single 64-draw block at the declared effect sits just UNDER the .10 bar, the density lesson (2i → 2k) reproduced in the power record before any sweep point is seen. The bar sits 1.4 block-SDs and 0.9 null-SDs from a T of .11.
 
 As in 2l: the T ≥ .10 bar decides each test, not p (P(fires | .10) ≈ .4–.46).
+
+## 2026-09-04 — TAG `exp2m-endpoint-sealed` CUT at 3c70fdb5 (object dbfaaf42), pushed; post-seal checks; PROJECTION SEALED at eaf69ad4
+
+The seal binds the 104 files (3 × 34 records + `rung_set_2m.json` + `power_2m.json`); binding verified through the sweep runner's own `require_endpoint_seal_2m` against real git (no refusal; composite `endpoint_sha256` ad004cd04c499d29…). The endpoint watcher was stopped after it committed the power record (its stage is done; the sweep gets its own).
+
+Post-seal cold checks (plan step 5), both foreground:
+- read sweep `tests/read_sweep_2m.py`: 5,220 distinct paths (7,897 open/read calls), 0 writes, **(e) unpinned = 0**, **(f) seal-bound campaign artifacts = 104** (the endpoint files, now bound); `run()` on the real tree landed INSUFFICIENT_DATA (3 referent/loader failures — the absent gate-1 record and sweep) and printed no T. This is a post-tag execution of the analyzer on the real tree, before any sweep point exists; disclosed here.
+- cold referent battery `verify_referents_2m.py`: **13/13**, item 10 now present.
+
+**Projection (dial f) SEALED at `eaf69ad4`** — `experiments/exp2m/projection.md`, committed after both tags and before gate 1: **SHARED**, T_A ≈ .11 [.06, .16] placed INSIDE the block-SD scatter around the bar (1.4 block-SDs, 0.9 null-SDs), T_B ≈ .15 [.09, .21]; the named alternative OLMO-ONLY via A-i; per-rung table BY RUNG TYPE with tolerances (arithmetic rungs the cross-family carrier, add_base8 the top locus for both; option rungs lineage-private for A with antonym's sign split repeating, x_B's option forecast roughly halved); paired difference positive with an interval including zero; S4 near zero (density, not lineage, sealed a second time); S5 π ≈ .15; S8 ordering 13B ≥ 7B > 6.9b ≥ 2.8b; twin 0; no battery-wide collapse; the §2 disclosure verbatim.
