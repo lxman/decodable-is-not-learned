@@ -1,0 +1,12 @@
+{
+ "family": "smollm3",
+ "size": "smollm3_3b",
+ "step": "twin",
+ "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+ "revision": "twin",
+ "commit": null,
+ "kind": "from_config",
+ "seed": 0,
+ "digest": "488eef1d6a2dbb6831e5b32ae2dd29aa01906148497746f9cc67e828743f5075",
+ "config_source": "HuggingFaceTB/SmolLM3-3B-checkpoints@d07a5a83dd011f3f084e9d2f1b47f51e524ca8d4"
+}
