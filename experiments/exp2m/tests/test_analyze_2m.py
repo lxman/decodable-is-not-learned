@@ -838,6 +838,36 @@ def test_verdict_2m_discloses_a_reading_narrower_than_r_primary():
     assert an._partial_eligible_2m("A", full, nine) is None
 
 
+def test_partial_eligible_2m_same_set_when_missing_all_degenerate():
+    """M-1 (final review): the declaration's set (R_PRIMARY minus the
+    predictor-degenerate rungs) equals the reading's set — not a WIDER
+    one — when every rung the test did not read was itself dropped as
+    predictor-degenerate. The disclosure still fires (the licence stays
+    bounded to the rungs named as read) but must not overstate the gap
+    between the reading and the declaration."""
+    nine = tuple(sorted(bm.R_CAP_2K))
+    eight = tuple(r for r in nine if r != "add3_mid")
+    same = {"eligible": eight, "thin": [], "dropped_degenerate": ["add3_mid"]}
+    msg = an._partial_eligible_2m("A", same, nine)
+    assert msg is not None
+    assert "the SAME set as the reading" in msg
+    assert "a WIDER set" not in msg
+    assert "bounded to the rungs named as read" in msg
+
+
+def test_partial_eligible_2m_wider_set_when_a_missing_rung_is_thin():
+    """M-1 (final review): when at least one missing rung was dropped
+    as n_pos-thin rather than predictor-degenerate, the declaration's
+    set genuinely is wider than the reading's — the original wording."""
+    nine = tuple(sorted(bm.R_CAP_2K))
+    eight = tuple(r for r in nine if r != "add3_mid")
+    wider = {"eligible": eight, "thin": ["add3_mid"], "dropped_degenerate": []}
+    msg = an._partial_eligible_2m("A", wider, nine)
+    assert msg is not None
+    assert "a WIDER set than the reading" in msg
+    assert "the SAME set" not in msg
+
+
 def _all_failure_labels(path):
     src = Path(path).read_text()
     tree = ast.parse(src)
@@ -867,10 +897,8 @@ def test_check_imports_2m_refuses_unpinned_and_covers_upstream(monkeypatch):
     with pytest.raises(RuntimeError, match="not pinned"):
         an.check_imports_2m()
     monkeypatch.setattr(an, "IMPORTED_SHA256_2M", {})
-    try:
+    with pytest.raises(RuntimeError, match="unpinned module"):
         an.check_imports_2m()
-    except RuntimeError as e:
-        assert str(e).startswith("unpinned module")
 
 
 def test_run_on_empty_tree_is_insufficient_never_raises(tmp_path):

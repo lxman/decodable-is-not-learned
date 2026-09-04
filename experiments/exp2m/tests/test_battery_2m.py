@@ -395,7 +395,7 @@ def test_gate1_failures_3b():
     mixed_c = _endpoint_records(odd_rung="odd6", odd_digest="D", odd_commit="d" * 40)
     assert any("2 different commits" in b for b in bm.gate1_failures_3b(_gate_rec(), mixed_c))
     coherent_but_other = _endpoint_records(digest="E")
-    bad = bm.gate1_failures_3b(_gate_rec(digest_sweep="E", digest_endpoint="E"), _endpoint_records(digest="E"))
+    bad = bm.gate1_failures_3b(_gate_rec(digest_sweep="E", digest_endpoint="E"), coherent_but_other)
     assert bad == []
     bad = bm.gate1_failures_3b(_gate_rec(), coherent_but_other)      # attested "D", records all "E"
     assert any("is not the tensor digest every stage1_final record carries" in b for b in bad)

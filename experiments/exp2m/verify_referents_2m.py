@@ -325,11 +325,22 @@ def _c9(ctx):
                                           entry=entry_ep, verify_fn=verify)
     _eq(bad2, [], "endpoint_item_record_2m -> endpoint_record_failures_2m round trip")
 
-    # M-4 (final review): built as two independently-constructed dicts,
-    # not the same object passed twice, so gate1_rederive_3b compares
-    # two distinct records rather than one aliased to itself.
+    # M-3 (final review, fixing the restored M-4 comment): `rec2` is
+    # built a second time from an identical call, bound to `rec2b`, so
+    # `sweep_recs` and `stage1_recs` are two independently-constructed
+    # records with identical content rather than two dicts aliasing one
+    # `rec2` object. The pair is deliberately IDENTICAL in content (a
+    # clean gate 1 should see no diff between a genuine sweep record and
+    # a genuine stage1_final record built the same way); the
+    # diff-detecting cases — a corrupted digest, commit, or continuation
+    # set — live in `test_battery_2m.py::test_gate1_rederive_3b`, not
+    # here.
+    rec2b = bm.endpoint_item_record_2m(rung="antonym", cap=cap, ev=ev, ckpt=_ckpt(entry_ep),
+                                       which="stage1_final",
+                                       seal={"tag": bm.PREDICTOR_TAGS_2M, "sha256": bm.PREDICTOR_SHA_2M},
+                                       t_s=0.0)
     sweep_recs = {r: rec2 for r in bt.RUNGS}
-    stage1_recs = {r: rec2 for r in bt.RUNGS}
+    stage1_recs = {r: rec2b for r in bt.RUNGS}
     # Freeze F-2: `digest_endpoint`/`commit_endpoint` are now MEASURED
     # against the digest and commit all 34 stage1_final records carry,
     # so the hand pair states the real ones (the "c"*40 placeholder this

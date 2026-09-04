@@ -874,18 +874,28 @@ the freeze's final commit (recomputed and stated in the report, since
 the mutation harness restores files in place):
 
 - `experiments/exp2m/analyze_2m.py` — F-1's disclosure, F-2's
-  which-coherence check, F-3's note, the re-pinned `IMPORTED_SHA256_2M`
+  which-coherence check, F-3's note, the re-pinned `IMPORTED_SHA256_2M`;
+  the **final-review fix wave** (2026-09-04) additionally carries M-1's
+  SAME-set/WIDER-set conditional in `_partial_eligible_2m` and M-2's
+  `collapses_3b` docstring correction ("the twin included (last, after
+  the grid)")
 - `experiments/exp2m/battery_2m.py` — F-2's two gate-1 measurements
 - `experiments/exp2m/run/endpoint_2m.py` — UNCHANGED by the freeze
 - `experiments/exp2m/run/sweep_2m.py` — UNCHANGED by the freeze
 
 Also changed (not tag-bound, but pinned elsewhere):
 `experiments/exp2m/verify_referents_2m.py` (pinned by
-`IMPORTED_SHA256_2M`, re-pinned) and the four test modules
-(`tests/full_shape.py`, `tests/test_full_shape_2m.py`,
+`IMPORTED_SHA256_2M`, re-pinned at the freeze for F-2, and **re-pinned a
+second time at the fix wave for M-3** — the restored M-4 comment's
+aliased `rec2` split into independently-constructed `rec2`/`rec2b`) and
+the test modules (`tests/full_shape.py`, `tests/test_full_shape_2m.py`,
 `tests/test_analyze_2m.py`, `tests/test_battery_2m.py`,
 `tests/mutation_check.py`) which are outside every pin by the disclosed
-`tests/` exclusion.
+`tests/` exclusion. The fix wave additionally changed
+`tests/mutation_check.py` (M-1's mutant, M-6's `-k` filter fix),
+`tests/test_analyze_2m.py` (M-1's two-branch fixture, M-4's
+`pytest.raises` fix) and `tests/test_battery_2m.py` (M-7's dedup) — all
+still outside every pin.
 
 ### What the freeze did NOT do
 
@@ -923,6 +933,12 @@ Also changed (not tag-bound, but pinned elsewhere):
 | tag binding in a real temp git repo | 4/4 blobs bound; every post-tag edit refused by `require_prereg_2m`, by the sweep runner and by the endpoint runner |
 | the seventeen runner-left tree shapes | 17/17 INSUFFICIENT_DATA, 0 raises |
 | full-suite confirmation run (`pytest experiments/exp2m/tests -q`, every module including the slow real-tree cases the mutation fast pass deselects; detached, read 2026-09-04 after the session boundary) | **157 passed**, 1,393 s (0:23:13) — the 152 pre-freeze baseline + the freeze's five new fixtures (three fast tests; W24 and W25's two world tests), log `freeze_suite_final.log` |
+| **fix wave (M-1..M-4, M-6, M-7), fast modules (`test_battery_2m`, `test_stages_2m`, `test_analyze_2m`, `test_power_2m`)** | **109 passed**, 233.6 s (four modules, not three — the brief added `test_power_2m`; 104 + the two new M-1 fixtures + `test_power_2m`'s own tests) |
+| **fix wave, worlds + totality** | **50 passed**, 1,161.5 s (0:19:21) — unchanged from the freeze's own reading (25 world specs, every terminal reached); none of the six fixes touch `full_shape.py` or `test_totality_2m.py` |
+| **fix wave, cold referent battery `verify_referents_2m.py`** | **13/13**, run twice — once immediately after M-3's `rec2`/`rec2b` code edit and BEFORE the re-pin (item 12 correctly FAILED: "imported module drifted from its pin"), once after the re-pin (13/13 clean, item 9 exercising the M-3 edit) |
+| **fix wave, import scan `tests/import_scan_2m.py` (third pre-tag execution)** | 4 modules, INSUFFICIENT_DATA, 11 referent/loader failures, no T — `verify_referents_2m.py` at the new sha, printed literal identical to the pin (no drift) |
+| **fix wave, determinism ×2, separate processes, one world (`shared`, seed 0), n_perm 30** | **byte-identical** (sha `177e48cf…`, 478,157 bytes — same byte count as the freeze's reading; sha differs only because the verdict's `git_sha` field now reads HEAD `1c95e3b8` instead of the freeze's commit — confirmed by inspecting the field directly) |
+| **fix wave, mutation target resolution + `--only` (M-1's new mutant #103, the three pre-existing F-1 mutants #100-102, `collapses_3b` #97)** | all **151** entries in `mutation_check.M` resolve exactly once (150 + the new mutant, 0 stale, 0 ambiguous); targeted run **5/5 killed**, 0 survivors, 0 SKIP; no stray `.mutation_backup`, `git status --porcelain experiments/exp2m` clean of anything but this wave's own edits after the harness. Full 151-mutant harness NOT re-run (scoped per the brief: wording/docstring/test-only edits, none touching a `collect_total` site or a totality/fullshape-only shape) |
 
 **The full-suite confirmation run** (`pytest experiments/exp2m/tests
 -q`, every module including the slow real-tree cases the mutation fast

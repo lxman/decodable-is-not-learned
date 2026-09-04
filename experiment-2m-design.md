@@ -174,11 +174,14 @@ INSUFFICIENT_DATA and printed no T — no SmolLM3-3B endpoint, sweep,
 rung-set or power record exists, so the run refuses at the endpoint
 stage after executing every predictor-side loader:
 
-1. `experiments/exp2m/tests/import_scan_2m.py`, run twice (once before
-   and once after Task 5's edits to `verify_referents_2m.py`) to pin
+1. `experiments/exp2m/tests/import_scan_2m.py`, run three times (once
+   before Task 5's edits to `verify_referents_2m.py`, once after, and
+   once more after the final-review fix wave's M-3 correction to the
+   same file re-moved its sha a second time) to pin
    `IMPORTED_SHA256_2M`: `INSUFFICIENT_DATA`, 11 referent/loader
    failures (the missing prereg tag plus the absent endpoint/rung-set/
-   power/sweep records), no T, nothing written.
+   power/sweep records), no T, nothing written, same 4-module shape all
+   three times.
 2. `experiments/exp2m/tests/read_sweep_2m.py`, once:
    `INSUFFICIENT_DATA`, 10 referent/loader failures (the prereg tag
    binds through the sweep's own stand-in, so only the absent campaign

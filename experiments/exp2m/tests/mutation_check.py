@@ -604,6 +604,10 @@ M = [
     (AN, "F-1: the partial disclosure names the rungs READ, not the rungs missed",
      '    missing = [r for r in prim if r not in elig]',
      '    missing = [r for r in prim if r in elig]'),
+    (AN, "M-1 (final review): the SAME-set/WIDER-set branch condition inverted, "
+        "so the wrong scope clause prints",
+     '    if all(r in dropped_degenerate for r in missing):',
+     '    if not all(r in dropped_degenerate for r in missing):'),
     # ---- freeze F-2: a which assembled from two loads
     (AN, "F-2: which_coherence_failures_2m never speaks",
      '''    for field, label in (("weight_sha256", "tensor digest"), ("commit", "commit"),
@@ -657,9 +661,15 @@ M += _totality_mutants(AN)
 # endpoint-composite/gate-1/power-record byte-level corruptions).
 FAST_TESTS = [str(L / "tests" / "test_battery_2m.py"), str(L / "tests" / "test_stages_2m.py"),
              str(L / "tests" / "test_analyze_2m.py")]
+
+# M-6 (final review): these are SUBSTRING matches against the pytest node id
+# (`-k`), not exact test-name matches — any future fast test whose name
+# happens to contain `test_s4`, `test_s5` or `real_tree` silently drops out
+# of the mutation fast pass (the freeze hit this once and renamed a
+# fixture off `test_s5`). `not real_trees` was redundant with `not
+# real_tree` (the substring subsumes it) and has been dropped.
 FAST_EXTRA_ARGS = ["-m", "not slow", "-k",
-                  "not test_run_on_empty_tree and not test_s4 and not test_s5 and not real_trees "
-                  "and not real_tree"]
+                  "not test_run_on_empty_tree and not test_s4 and not test_s5 and not real_tree"]
 TOTALITY_TESTS = [str(L / "tests" / "test_totality_2m.py")]
 FULLSHAPE_TESTS = [str(L / "tests" / "test_full_shape_2m.py")]
 

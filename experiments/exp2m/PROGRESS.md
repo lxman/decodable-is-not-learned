@@ -636,3 +636,73 @@ already recorded (#89, #99 by `--fullshape`; #98 and the twenty
 AST-generated `collect_total` mutants by `--totality`), re-confirmed at
 the freeze in `mutation_freeze_totality.log` and
 `mutation_freeze_fullshape.log`.
+
+---
+
+## Task 7 — final whole-branch review fix wave (2026-09-04)
+
+Full record: `.superpowers/sdd/2026-09-03-exp2m-build/final-review-report.md`
+(the review), `final-fix-brief.md` (the controller's ruled fixes) and
+`final-fix-report.md` (this wave's execution log). Summary:
+
+**Review verdict: 0 Critical / 1 Important (I-1) / 8 Minor (M-1..M-8).**
+I-1 (the design-doc ratification slips (a)-(k), `FREEZE_CHECKLIST.md`
+lines 761-868) is the ratification step and stays open, waiting on
+Michael — not part of this wave. M-5 (dead names, 2l-inherited shape
+the plan mandates verbatim) and M-8 (an untracked 2l log,
+`experiments/exp2l/sweep_relaunch2.log`, out of 2m's scope) were ruled
+OUT of this wave by the controller.
+
+Six fixes landed, all additive/cosmetic (no accepted dial moved):
+
+| # | fix |
+| --- | --- |
+| M-1 | `_partial_eligible_2m`'s disclosure said "a WIDER set than the reading" unconditionally, which is false when every missing rung is itself predictor-degenerate (`rungs_simulated == eligible`). Made the clause conditional: SAME-set wording when `missing ⊆ dropped_degenerate`, the original WIDER wording otherwise. TDD: two-branch fixture written first and watched red, then the conditional, then mutant #103, killed. |
+| M-2 | `collapses_3b`'s docstring corrected — the twin sorts LAST (after the grid), not first; the sort key was always right. |
+| M-3 | `verify_referents_2m.py`'s restored M-4 comment claimed two independently-constructed records; both aliased one `rec2`. Built `rec2b` from a second identical call; `stage1_recs` now uses it. `IMPORTED_SHA256_2M`'s pin for `verify_referents_2m.py` re-moved a second time (`7baa94e1…` → `7b3c1b91…`). |
+| M-4 | `test_check_imports_2m_refuses_unpinned_and_covers_upstream`'s second half asserted nothing on the no-raise path; now `pytest.raises(RuntimeError, match="unpinned module")`. |
+| M-6 | `mutation_check.py`'s `FAST_EXTRA_ARGS` dropped the redundant `not real_trees` clause; added a comment warning the `-k` clauses are substring matches (the freeze's own trap, once). |
+| M-7 | `test_gate1_failures_3b`'s `coherent_but_other` was built and immediately rebuilt inline; now reused. |
+
+**Disclosure (M-3):** `tests/import_scan_2m.py` executes
+`analyze_2m.run()` on the REAL pre-campaign tree (`scan()` calls
+`an.run(root_2m=bm.EXP2M, ...)`), so re-running it to verify the moved
+pin is a pre-tag disclosure event (checklist item 27). Ran once after
+the M-3 edit: `INSUFFICIENT_DATA`, 11 referent/loader failures, no T,
+same 4-module shape as the freeze's two prior readings — this is the
+THIRD pre-tag execution of `import_scan_2m.py` on the real tree.
+Recorded in `experiment-2m-design.md` §2, item 1 (now "run three
+times... same 4-module shape all three times").
+
+**Cold re-runs (all green; full detail and shas in `final-fix-report.md`
+and the `FREEZE_CHECKLIST.md` "Cold re-runs" table):**
+
+- fast modules (`test_battery_2m`, `test_stages_2m`, `test_analyze_2m`,
+  `test_power_2m`): **109 passed**, 233.6 s.
+- worlds + totality (`test_full_shape_2m` + `test_totality_2m`):
+  **50 passed**, 1,161.5 s — unchanged from the freeze's own reading.
+- cold referent battery `verify_referents_2m.py`: **13/13** (twice:
+  red at item 12 before the re-pin as expected, green after).
+- import scan: 4 modules pinned, no drift.
+- determinism ×2, separate processes, `shared` world seed 0, n_perm 30:
+  byte-identical (478,157 bytes; sha differs from the freeze's only
+  because the verdict's `git_sha` field now reads the fix wave's HEAD).
+- mutation-target resolution: all 151 entries in `mutation_check.M`
+  (150 + the new M-1 mutant) resolve exactly once.
+- mutation `--only 97,100,101,102,103` targeted kill (M-1's new mutant
+  #103, the three pre-existing F-1 mutants #100-102, `collapses_3b`
+  #97): **5/5 killed**, 0 survivors, 0 SKIP; no stray
+  `.mutation_backup`, `git status --porcelain experiments/exp2m` clean
+  of anything but this wave's own edits. Full detail in
+  `final-fix-report.md` (scoped per the brief — the full 151-mutant
+  harness was NOT re-run; these edits are wording, a docstring, a
+  test-side aliasing fix and test hygiene).
+
+Files changed: `experiments/exp2m/analyze_2m.py` (M-1's conditional,
+M-2's docstring, M-3's re-pin), `experiments/exp2m/verify_referents_2m.py`
+(M-3), `experiments/exp2m/tests/mutation_check.py` (M-1's mutant, M-6),
+`experiments/exp2m/tests/test_analyze_2m.py` (M-1's fixture, M-4),
+`experiments/exp2m/tests/test_battery_2m.py` (M-7). Doc:
+`experiment-2m-design.md` §2 (the third import-scan execution),
+`FREEZE_CHECKLIST.md` (the instrument delta note + cold re-run rows).
+No frozen upstream module touched, zero model contact, zero network.

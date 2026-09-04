@@ -71,7 +71,7 @@ IMPORTED_SHA256_2M = {   # Task 5: pinned from tests/import_scan_2m.py (4 module
     bg.REPO / "experiments/exp2m/run/preflight_2m.py":
         "931f5d90210c1030069d34038f744750d4fee5ab23e3f106f6887cb9317da18d",
     bg.REPO / "experiments/exp2m/verify_referents_2m.py":
-        "7baa94e1d7044f0d9f6fe5f6eb40a9567f8babd7a2a4f675ed369084869ff9cb",   # freeze F-2: item 9's hand pair + the F-2 assertions
+        "7b3c1b91370b93db67a38bfca786c5fcfe47d1969f818da44449ed1905d06139",   # M-3 (final review): item 9's rec2/rec2b pair built independently, comment corrected
 }
 WORLDS_2M = ("INSUFFICIENT_DATA", "SHARED", "PYTHIA-ONLY", "OLMO-ONLY", "NEITHER")
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
@@ -180,18 +180,33 @@ def _partial_eligible_2m(test: str, res: dict, r_primary) -> str | None:
     declaration's scope — and therefore the licence's — silently wider
     than the reading's. Additive: a disclosure naming the rungs the test
     did not read. Mutually exclusive with `_thin_eligible_2m` by the
-    `< 3` guard."""
+    `< 3` guard.
+
+    M-1 (final review): "wider" is only true when some missing rung was
+    dropped for a reason OTHER than predictor-degeneracy (i.e. n_pos-thin).
+    When every missing rung is itself predictor-degenerate, the
+    declaration's set (R_PRIMARY minus the degenerate rungs) equals the
+    reading's set exactly — the disclosure still fires and the licence
+    stays bounded to the rungs named as read, but the sentence says so
+    instead of overstating a gap that is not there."""
     elig = list((res or {}).get("eligible") or [])
     prim = list(r_primary or [])
     if len(elig) < 3 or len(elig) >= len(prim):
         return None
     missing = [r for r in prim if r not in elig]
+    dropped_degenerate = list((res or {}).get('dropped_degenerate') or [])
+    thin = list((res or {}).get('thin') or [])
+    if all(r in dropped_degenerate for r in missing):
+        scope = ("the power record's declaration and its rungs_simulated list cover R_PRIMARY "
+                 "minus the degenerate rungs, the SAME set as the reading, reached by a "
+                 "different route (every unread rung was dropped as predictor-degenerate)")
+    else:
+        scope = ("the power record's declaration and its rungs_simulated list cover R_PRIMARY "
+                 "minus the degenerate rungs, a WIDER set than the reading")
     return (f"{DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M}{test}: it read {len(elig)} of the "
             f"{len(prim)} rungs in R_PRIMARY — {missing} did not carry it, dropped as n_pos-thin "
-            f"{list((res or {}).get('thin') or [])} and as predictor-degenerate "
-            f"{list((res or {}).get('dropped_degenerate') or [])}; the power record's declaration "
-            f"and its rungs_simulated list cover R_PRIMARY minus the degenerate rungs, a WIDER "
-            f"set than the reading, so the licence is bounded to the rungs named as read")
+            f"{thin} and as predictor-degenerate {dropped_degenerate}; {scope}, so the licence is "
+            f"bounded to the rungs named as read")
 
 
 # ------------------------------------------------------------ pins
@@ -503,8 +518,7 @@ def _first_correct_outcome_3b(out: dict, rungs) -> dict:
 def collapses_3b(sweep: dict, *, rungs, threshold: int = 450) -> list:
     """2h's checkpoint-local pathology: a (step, rung) where ≥
     `threshold` of the 500 continuations are one identical string.
-    Descriptive; the twin included (its init babble is the first
-    entry)."""
+    Descriptive; the twin included (last, after the grid)."""
     from collections import Counter
     res = []
     for step in sorted(sweep, key=lambda s: (s == bm.TWIN, s if s != bm.TWIN else 0)):
