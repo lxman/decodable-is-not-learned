@@ -922,25 +922,24 @@ Also changed (not tag-bound, but pinned elsewhere):
 | mutation battery, 150 mutants (140 + 10 for the closures) | **150/150 killed**: 122 in the fast pass (`mutation_freeze_fast.log`), 5 more after the survivor fixtures (`mutation_freeze_fast_survivors.log`, `…_survivors2.log`), 21 under `--totality` (`mutation_freeze_totality.log`), 2 under `--fullshape` (`mutation_freeze_fullshape.log`). No stray `.mutation_backup`; the sources are restored (`git status` shows no diff on the four instrument blobs after the harness) |
 | tag binding in a real temp git repo | 4/4 blobs bound; every post-tag edit refused by `require_prereg_2m`, by the sweep runner and by the endpoint runner |
 | the seventeen runner-left tree shapes | 17/17 INSUFFICIENT_DATA, 0 raises |
+| full-suite confirmation run (`pytest experiments/exp2m/tests -q`, every module including the slow real-tree cases the mutation fast pass deselects; detached, read 2026-09-04 after the session boundary) | **157 passed**, 1,393 s (0:23:13) — the 152 pre-freeze baseline + the freeze's five new fixtures (three fast tests; W24 and W25's two world tests), log `freeze_suite_final.log` |
 
 **The full-suite confirmation run** (`pytest experiments/exp2m/tests
 -q`, every module including the slow real-tree cases the mutation fast
-pass deselects) was LAUNCHED detached at the end of the session and its
-log is `experiments/exp2m/freeze_suite_final.log` (a snapshot; the live
-file is the scratchpad copy). It is a pytest run, not a mutation run —
-it mutates nothing and can leave nothing stranded. Every module in it
-has already passed post-edit inside one of the three mutation baselines
-above (fast modules, worlds, totality); the run exists to confirm the
-handful of slow cases those baselines deselect. **The resuming freeze
-should read that log and record the count.** The pre-freeze baseline
-was 152 passed; the expected count is 152 + the freeze's new fixtures
-(three fast tests, W24, W25 and their two world tests).
+pass deselects) was launched detached at the end of the freeze session
+and READ 2026-09-04 after the session boundary: **157 passed in
+1,393 s**, the 152 pre-freeze baseline plus the freeze's five new
+fixtures (three fast tests; W24 and W25's two world tests). The log is
+`experiments/exp2m/freeze_suite_final.log` (the completed run, copied
+from the live scratchpad file; the snapshot committed at d4194641 had
+been taken mid-run and lacked the summary line). It is a pytest run,
+not a mutation run — it mutates nothing and can leave nothing stranded.
 
 ### Note on the state at the session boundary
 
 The freeze is complete: all three findings closed with fixtures and
 mutants, all 23 attack items disposed with executions, the mutation
 battery green at 150/150, and every cold battery re-run above green.
-The only outstanding item is reading the full-suite log named above.
+The full-suite log named above has been read (157 passed); nothing in the freeze is outstanding.
 No mutation harness is running; `find experiments/exp2m -name
 '*.mutation_backup'` is empty.
