@@ -349,4 +349,9 @@ def world_specs() -> list:
         ("W21 INSUFFICIENT missing twin record", dict(mode="pythia_only", missing="twin_record"), "INSUFFICIENT_DATA"),
         ("W22 INSUFFICIENT a record at another precision", dict(mode="pythia_only", missing="dtype"), "INSUFFICIENT_DATA"),
         ("W23 OLMO-ONLY underpowered A disclosed", dict(mode="olmo_only", power_status_a="DECLARED UNDERPOWERED IN ADVANCE"), "OLMO-ONLY"),
+        # Freeze F-1: `add3_mid` clears 2d's endpoint bar at k = 9, so a
+        # 12-positive rung is in R_PRIMARY and out of BOTH tests as
+        # n_pos-thin; eligible = 8 >= 3, so 2l F-4's guard stays silent.
+        ("W24 PYTHIA-ONLY partial eligible set disclosed (freeze F-1)",
+         dict(mode="pythia_only", n_pos_cap={"add3_mid": 12}), "PYTHIA-ONLY"),
     ]

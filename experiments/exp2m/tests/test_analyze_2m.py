@@ -757,6 +757,34 @@ def test_verdict_2m_discloses_a_test_that_read_fewer_than_three_rungs():
     assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M + "B") for d in t["disclosures"])
 
 
+def test_verdict_2m_discloses_a_reading_narrower_than_r_primary():
+    """Freeze F-1: 3 <= |eligible| < |R_PRIMARY| carried no disclosure —
+    2l F-4's guard speaks only below three. The two are mutually
+    exclusive and both ride on the licence."""
+    powered = {"A": {"declared_status": "POWERED"}, "B": {"declared_status": "POWERED"}}
+    nine = tuple(sorted(bm.R_CAP_2K))
+    eight = tuple(r for r in nine if r != "add3_mid")
+    A = {**_prim(0.2, 0.001, True, eligible=eight), "thin": ["add3_mid"], "dropped_degenerate": []}
+    B = {**_prim(0.02, 0.5, False, eligible=eight), "thin": ["add3_mid"], "dropped_degenerate": []}
+    t = an.verdict_2m([], A, B, powered, nine)
+    assert t["verdict"] == "PYTHIA-ONLY"
+    assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M) for d in t["disclosures"])
+    for test in ("A", "B"):
+        hit = [d for d in t["disclosures"]
+               if d.startswith(an.DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M + test)]
+        assert hit and "add3_mid" in hit[0] and hit[0] in an._licensed_2m(t) and hit[0] in t["reason"]
+    # the full reading discloses nothing; a sub-three reading takes 2l F-4's
+    # wording and NOT this one (mutual exclusion)
+    full = {**_prim(0.2, 0.001, True, eligible=nine), "thin": [], "dropped_degenerate": []}
+    t_full = an.verdict_2m([], full, full, powered, nine)
+    assert t_full["disclosures"] == []
+    two = {**_prim(0.2, 0.001, True, eligible=nine[:2]), "thin": list(nine[2:]), "dropped_degenerate": []}
+    t_two = an.verdict_2m([], two, two, powered, nine)
+    assert all(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M) for d in t_two["disclosures"])
+    assert an._partial_eligible_2m("A", two, nine) is None
+    assert an._partial_eligible_2m("A", full, nine) is None
+
+
 def _all_failure_labels(path):
     src = Path(path).read_text()
     tree = ast.parse(src)

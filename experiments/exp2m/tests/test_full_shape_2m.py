@@ -161,6 +161,29 @@ def test_w19_thin_eligible_set_is_disclosed(worlds):
         assert hit[0] in v["licensed_sentence"]
 
 
+def test_w24_partial_eligible_set_is_disclosed(worlds):
+    """Freeze F-1: R_PRIMARY carries nine rungs, both tests read eight
+    (`add3_mid` has 12 positives — it clears 2d's endpoint bar at k = 9
+    and misses the n_pos >= 20 eligibility), the power record still
+    declares POWERED over all nine, and 2l F-4's guard is silent because
+    eight >= three. The disclosure names the rung and rides on the
+    licence."""
+    v, _, _root = worlds["W24 PYTHIA-ONLY partial eligible set disclosed (freeze F-1)"]
+    assert v["verdict"] == "PYTHIA-ONLY", v["reason"]
+    A, B = v["tests"]["A"], v["tests"]["B"]
+    assert A["thin"] == ["add3_mid"] and "add3_mid" not in A["eligible"] and len(A["eligible"]) == 8
+    assert B["thin"] == ["add3_mid"] and len(B["eligible"]) == 8
+    assert v["referents"]["power"]["A"]["rungs_simulated"] == list(fs.RUNGS_PRIMARY)
+    assert v["referents"]["power"]["A"]["declared_status"] == "POWERED"
+    assert an.DISCLOSURE_THIN_2M not in v["reason"]
+    assert not any(d.startswith(an.DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M) for d in v["reason"].split("; "))
+    for t in ("A", "B"):
+        hit = [d for d in v["reason"].split("; ")
+               if d.startswith(an.DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M + t)]
+        assert hit, v["reason"]
+        assert "add3_mid" in hit[0] and hit[0] in v["licensed_sentence"]
+
+
 def test_s8_production_loader_once(tmp_path):
     """The production S8 path (no injection) on one world: the four
     committed outcomes through their own frozen readers (≈ 2–4 min)."""

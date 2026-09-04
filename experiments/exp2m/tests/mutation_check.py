@@ -588,6 +588,22 @@ M = [
     (AN, "sensitivities: log_head_subset computed over bm.GRID_3B, not LOG_HEAD_SUBSET_2M",
      '            sub = outcomes_3b(sweep, rungs=tuple(bt.RUNGS), steps=bm.LOG_HEAD_SUBSET_2M)',
      '            sub = outcomes_3b(sweep, rungs=tuple(bt.RUNGS), steps=bm.GRID_3B)'),
+    # ---- freeze F-1: the reading-narrower-than-R_PRIMARY disclosure
+    (AN, "F-1: _partial_eligible_2m never speaks (the pre-freeze behaviour)",
+     '    if len(elig) < 3 or len(elig) >= len(prim):\n        return None',
+     '    if True:\n        return None'),
+    (AN, "F-1: verdict_2m does not consult _partial_eligible_2m",
+     '''        else:
+            d2 = _partial_eligible_2m(test, res, r_primary)   # freeze F-1
+            if d2:
+                disclosures.append(d2)''',
+     '''        else:
+            d2 = None
+            if d2:
+                disclosures.append(d2)'''),
+    (AN, "F-1: the partial disclosure names the rungs READ, not the rungs missed",
+     '    missing = [r for r in prim if r not in elig]',
+     '    missing = [r for r in prim if r in elig]'),
 ]
 
 # One mutant per collect_total(...) call site in analyze_2m.py's run() AND

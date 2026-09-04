@@ -129,6 +129,7 @@ LICENSED_2M = {k: f"{v}. Disclosure (design §2): {KNOWN_INPUTS_CAVEAT_2M}" for 
 DISCLOSURE_THIN_2M = ("fewer than three rungs carried the primary (R_PRIMARY = R_3B ∩ 2k's nine) "
                       "— the reading is THIN regardless of the power record's declaration")
 DISCLOSURE_THIN_ELIGIBLE_PREFIX_2M = "fewer than three rungs actually carried Test "
+DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M = "R_PRIMARY is wider than the reading of Test "
 DISCLOSURE_UNDERPOWERED_2M = {
     "A": ("Test A did not fire under DECLARED UNDERPOWERED IN ADVANCE: the Pythia-1b read of the "
           "third family's order is not detected at this resolution, neither confirmed nor ruled out"),
@@ -154,6 +155,32 @@ def _thin_eligible_2m(test: str, res: dict) -> str | None:
             f"{list((res or {}).get('dropped_degenerate') or [])}; the reading is THIN regardless "
             f"of the power record's declaration, which simulates over R_PRIMARY minus the "
             f"degenerate rungs only")
+
+
+def _partial_eligible_2m(test: str, res: dict, r_primary) -> str | None:
+    """FREEZE F-1 (2l F-4's shape one level over). The power record
+    declares over R_PRIMARY minus the PREDICTOR-degenerate rungs, and
+    `check_power_claims_2m` re-derives exactly that set — but a rung can
+    enter R_PRIMARY by clearing 2d's endpoint bar (as low as k = 9 on
+    `add3_mid`/`sub4_mid`, 15 on `sub3_mid`, 19 on `arith_next`, all
+    below the n_pos >= 20 eligibility floor) and then be dropped at
+    analysis as n_pos-thin. 2l F-4's guard speaks only when fewer than
+    THREE rungs survive, so `3 <= |eligible| < |R_PRIMARY|` left the
+    declaration's scope — and therefore the licence's — silently wider
+    than the reading's. Additive: a disclosure naming the rungs the test
+    did not read. Mutually exclusive with `_thin_eligible_2m` by the
+    `< 3` guard."""
+    elig = list((res or {}).get("eligible") or [])
+    prim = list(r_primary or [])
+    if len(elig) < 3 or len(elig) >= len(prim):
+        return None
+    missing = [r for r in prim if r not in elig]
+    return (f"{DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2M}{test}: it read {len(elig)} of the "
+            f"{len(prim)} rungs in R_PRIMARY — {missing} did not carry it, dropped as n_pos-thin "
+            f"{list((res or {}).get('thin') or [])} and as predictor-degenerate "
+            f"{list((res or {}).get('dropped_degenerate') or [])}; the power record's declaration "
+            f"and its rungs_simulated list cover R_PRIMARY minus the degenerate rungs, a WIDER "
+            f"set than the reading, so the licence is bounded to the rungs named as read")
 
 
 # ------------------------------------------------------------ pins
@@ -919,6 +946,10 @@ def verdict_2m(failures, A, B, power, r_primary) -> dict:
         d = _thin_eligible_2m(test, res)
         if d:
             disclosures.append(d)
+        else:
+            d2 = _partial_eligible_2m(test, res, r_primary)   # freeze F-1
+            if d2:
+                disclosures.append(d2)
     for test, res in (("A", A), ("B", B)):
         status = (power or {}).get(test, {}).get("declared_status")
         if not res["fires"] and status == "DECLARED UNDERPOWERED IN ADVANCE":
