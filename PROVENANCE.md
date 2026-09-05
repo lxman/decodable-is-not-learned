@@ -375,6 +375,41 @@ environment-side machine kills with the tree byte-clean, which the
 record documents. The retained-path list above now includes
 `experiments/exp2l` and `experiment-2l-design.md`.
 
+On 2026-09-05 the Experiment 2m record was added (the third family:
+does Pythia-1b's committed 256-draw count — 2k's sealed tier — and does
+OLMo-2 1B's committed 64-draw count — 2i's seal — each forecast the
+order in which SmolLM3-3B's stage-1 training, an outcome nobody had
+queried and a family that is neither Pythia nor OLMo, makes the
+battery's items emittable? Verdict SHARED: Test A T .1696 at p 1.0e-4
+— above both OLMo readings — and Test B T .2514 at p 1.0e-4 — the OLMo
+predictor's first reading outside its lineage, at or above every
+within-lineage reading it gave; both POWERED; the antonym sign split
+repeats on a third family; the answer-prior mechanism reads .2417 on
+its second sealed test; three of the four 64-draw blocks clear the bar
+where none did on 13B). Same GRAFT route: the 1,077 private commits
+touching `experiments/exp2m`, `experiment-2m-design.md` and
+`.gitignore` were applied as a path-limited series fast-forward onto
+the previous public master (6eac49a1), identities normalized to the
+single noreply identity, author and committer dates preserved,
+redaction scans clean (0 secret-class, 0 LAN literals, 0 home-path
+lines); twenty-nine commit messages carry a `Claude-Session`
+attribution trailer (an authentication-gated session link), preserved
+verbatim under the messages-preserved rule and disclosed here. The
+tree at all three new anchors and at HEAD is entry-identical to the
+private tree on the retained paths (1,097 entries at the close), all
+63 prior tags and every prior commit untouched. Three tags carried:
+`exp2m-preregistered` (private 77301c13 → public f8aec4d1, the
+instrument blob-bound), `exp2m-endpoint-sealed` (3c70fdb5 → 4b8ec84a,
+the 102 endpoint records, the rung set and the power record),
+`exp2m-closed` (fbb99d62 → c4627c15). The predictors took no new model
+contact — they ride `exp2k-predictor-sealed` and 2i's seals already on
+this line. The freeze of this experiment found no class defect; the
+final whole-branch review's one ratified pre-tag fix and the
+design-doc slips were applied before the tag; the campaign survived
+one environment-side process kill with the tree byte-clean, which the
+record documents. The retained-path list above now includes
+`experiments/exp2m` and `experiment-2m-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
