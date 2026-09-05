@@ -1,0 +1,151 @@
+EXPERIMENT 2M — VERDICT: SHARED
+===============================
+
+Closed 2026-09-05. Frozen analyzer run ONCE (--write), detached in its
+own session, on Michael's word ("Run the analyzer."); verdict.json
+written at git 601a2227 (11:06, 32 min); zero referent failures, zero
+secondary failures, every pin active (frozen modules, import surface,
+referent manifest), n_perm 10,000. Model contact at analysis: none.
+Tags: exp2m-preregistered (77301c13; blob-bound analyzer, battery,
+endpoint runner, sweep runner), the two predictor seals
+exp2k-predictor-sealed / exp2i-predictor-sealed (tag-bound, nothing
+sampled in 2m), exp2m-endpoint-sealed (3c70fdb5; 104 files),
+exp2m-closed (this commit). Projection sealed at eaf69ad4 BEFORE gate 1
+or any intermediate SmolLM3-3B checkpoint was queried; graded in
+retrospective.md.
+
+THE OUTCOME (a third family, neither Pythia nor OLMo): the order in
+which SmolLM3-3B's stage-1 training (8.1T tokens of DCLM / FineWeb-Edu
+/ FineMath / code; a NoPE-hybrid architecture; a 128k Llama-3-style
+tokenizer) makes 2c's items emittable, read as the per-item count of
+verifying checkpoints over the 26-point grid (every 40k steps to 400k,
+every 200k to 3.4M, the endpoint 3,440,000). Sweep: gate 1 PASS (the
+endpoint through two loader paths, 34 rungs at 500/rung, 0 bit / 0
+continuation diffs, digest + commit equal — the first byte-identical
+reproduction on SmolLM3-3B), the seeded from_config twin, 25 grid
+points; 946 files, zero halts, one environment-side kill (harness
+teardown; tree clean; relaunched), 1,780 s per point.
+
+PRIMARY (R_PRIMARY = the nine — R_3B = 14 by 2d's floor rule at the
+stage-1 endpoint, the nine inside it, R_ELEVEN_EXTRA empty; stratified
+within 2g's difficulty strata; bar T >= .10 at alpha .01; BOTH tests
+UNCONDITIONED on their own bar; both POWERED 1.000 at D = .15, null SD
+of T .0116 / .0122 declared, .0105 / .0103 realized; all nine rungs
+eligible on both tests, none thin, none predictor-degenerate):
+
+  Test A — cross-family: Pythia-1b's sealed sampled count at k = 256
+  (2k's tier; the Pile predates DCLM) vs SmolLM3-3B's emission order:
+  T = .1696, p = 1.0e-4 (0/10,000), FIRES. Raw (unstratified) .1367.
+  *** Higher than on either OLMo outcome: 2l's sealed 13B read .1261,
+  2k's known 7B .1548. The projection attenuated for a third family,
+  a different tokenizer and no corpus overlap; none of it showed. ***
+
+  Test B — cross-family, x_B's FIRST reading outside its lineage:
+  OLMo-2 1B's sealed 64-draw count (2i; DCLM-class web shared with
+  SmolLM3) vs the same outcome, unconditioned:
+  T = .2514, p = 1.0e-4, FIRES. Raw .2962.
+  *** At or above every within-lineage reading x_B has ever given
+  (.2153 conditioned / .2204 within-alone on 7B; .1814 / .2045 on
+  13B). The projection's named upper disconfirmer B-iii (T_B >= .25)
+  fired by .0014 — its stated reading, "the DCLM-class overlap doing
+  most of the work, S8 would have to agree", is what S8 shows. ***
+
+  Licence condition met: Test A's per-rung CI excludes zero on 6 of 9
+  rungs (the same six as on 13B), so the shared component may be the
+  headline.
+
+PER-RUNG D (A | B), by rung type:
+  arithmetic
+  sub_base8   +.453 [.390,.511] | +.407 [.345,.464]
+  add_base8   +.439 [.356,.517] | +.750 [.702,.793]   (B: the program's
+                                                        largest D since
+                                                        2i's .740)
+  arith_next  +.220 [.162,.275] | +.433 [.380,.481]
+  sub3_mid    +.152 [.103,.206] | +.052 [.020,.090]
+  add3_mid    +.019 [-.013,.055]| +.050 [.013,.089]
+  sub4_mid    -.020 [-.043,.005]| -.001 [-.011,.008]
+  option
+  antonym6    +.170 [.106,.229] | +.222 [.158,.280]
+  odd6        +.133 [.063,.197] | +.180 [.115,.244]
+  antonym     -.041 [-.106,.024]| +.168 [.107,.223]
+  The base-8 pair tops the fifth consecutive outcome for A. antonym's
+  sign split repeats on a third family: negative for the Pile-trained
+  predictor, positive for the DCLM-class one — the option-rung
+  structure travels with the corpus, not with the lineage.
+
+SECONDARIES (all preregistered, non-gating):
+  S1 64->256 ladder (1b): .1095 -> .1400 -> .1612 -> .1696 — monotone,
+     increments shrinking. The four 64-draw blocks read
+     .1095/.1106/.1106/.0998 (SD .0052): three of four CLEAR the bar
+     at k = 64 on this outcome (on 13B none did) — the density
+     shortfall 2i/2k/2l traced is outcome-dependent; 256 still adds
+     +.06 over the best block.
+  S2 410m at 256: T .1693 vs the 1b .1696 — equal to the third
+     decimal; the "410m >= 1b" streak (2k, 2l ×2) ends in a tie. 410m's
+     ladder .1178/.1517/.1644/.1693; all four of its 64-draw blocks
+     clear the bar; add_base8 .693 at 410m.
+  S3 conditioned forms (descriptive): B beyond x_A's median bucket
+     .2306 (fires); A beyond x_B's median bucket .1226 (fires) — each
+     predictor carries structure the other's bucket does not absorb.
+     Paired difference T_B - T_A = +.0818, paired item bootstrap CI95
+     [.057, .106] — excludes zero (the projection said it would not).
+  S4 matched density: x_B thinned to x_A's per-rung rate reads .2355
+     vs T_A256 .1696 — increment +.0659 (2k +.054, 2l +.069): at
+     matched draws the DCLM-class predictor still leads by the same
+     margin the lineage predictor led by on its own family.
+  S5 answer prior (2j's pi on 2i's sealed draws; no alpha claim):
+     T .2417, p 1.0e-4 — the second mechanism's second sealed test,
+     stronger than on 13B (.1848); add_base8 .729, sub_base8 .375,
+     sub4_mid .323, add3_mid .304 — the arithmetic rungs where the
+     counts are silent; arith_next -.016.
+  S6 the three whichs + the twin: the twin verifies 0 on 32 of 34
+     rungs and 1/500 on quad_next and roman_sum7; stage3_final >=
+     stage1_final on 12 of 14 R_3B rungs and the released Base on 12
+     of 14, the exceptions antonym and sub_base8 both times.
+  S7 textures: five of the nine already clear 2d's bar at the FIRST
+     grid point (94B tokens: add_base8, antonym, antonym6, arith_next,
+     sub_base8; sub3_mid/add3_mid at 80k, sub4_mid 200k, odd6 240k) —
+     but the items at ceiling across all 26 points are few (arith_next
+     47, antonym 23, sub_base8 23, add_base8 15, the rest <= 1), so
+     the coarse head cost little resolution; the log-head 21-point
+     subset re-reads A .1702 / B .2498 (grid density is not what lifted
+     the readings). No transient clear on the nine; transient clears on
+     flat rungs (median5 ×12, median7 ×10, oct2dec ×4). Non-monotone
+     counts on the nine (sub3_mid 492 -> 393 between 2.6M and 2.8M;
+     antonym6 four drops). Checkpoint-local collapses (>= 450 of 500
+     identical): 55 (step, rung) pairs, ALL on flat rungs (hamming12 at
+     18 points, isqrt_gap, mod13_comp, mod17, mod19, collatz_step2,
+     roman_sum7) — 2h's class at scale, absorbed by the count outcome;
+     no battery-wide collapse. First-correct outcome: A .1751, B .2431.
+  S8 outcome-to-outcome order (the committed orders read as x against
+     3B's; no alpha claim): OLMo-2 7B .4615, OLMo-2 13B .3958, Pythia
+     2.8b .2472, Pythia 6.9b .2286 — the DCLM-class pair far closer to
+     SmolLM3's order than the Pile pair, the corpus-overlap asymmetry
+     in the outcome itself.
+  Extra rungs (R_EXTRA, raw D A64 | B): quad_next .074 | .203,
+     odd_one_out .061 | .121, add4_mid .000 | .017, reverse_string .005
+     | .046, rev_string7 .000 | .000 — the reversal pair carries no
+     forecast at either density, as on 13B.
+  Sensitivities: B conditioned on x_A's median bucket .2306; B on the
+     zero cut .2405; primary_is_the_nine true.
+
+LICENSED (design §6, SHARED, verbatim from verdict.json):
+  the essay's cross-family sentence generalises — "smaller models of
+  two families, given enough draws, forecast what a third family's
+  training surfaces first" — with Prediction 2's output-channel form
+  holding across families at item grain on two predictor families and
+  two outcome families (still one battery); the "structure latent in
+  the training distribution" reading gains its second cross-family
+  leg. Carried verbatim: NOT disjoint text — the corpus question (an
+  outcome trained without web crawl: Comma v0.1) is the named next;
+  the mechanism question stays open.
+
+DISCLOSURES: design §2 (six pre-tag analyzer executions on the real
+tree — four import scans, two read sweeps — every one INSUFFICIENT_DATA
+with no T; one post-seal read sweep, INSUFFICIENT_DATA, no T; the
+known-inputs caveat carried in verdict.json). Calibration: each test at
+alpha .01 on its own; the four-world union is not alpha-calibrated
+(3d's lesson). No partial-eligibility disclosure (every rung read on
+both tests). One pre-committed change UNSPENT end to end. Campaign: one
+environment-side stop (harness teardown at ≈ 17:45 on 2026-09-04,
+ledgered), zero experiment-side stops, zero attrition.
