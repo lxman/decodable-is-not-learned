@@ -1,0 +1,20 @@
+{
+ "family": "smollm3",
+ "size": "smollm3_3b",
+ "step": 1000000,
+ "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+ "revision": "stage1-step-1000000",
+ "commit": "088def21bb35e9e81b2ddd5b490d820d5aa51a0e",
+ "sha256": {
+  "model-00001-of-00002.safetensors": "eb632b21f2e830a49fe50a00e233600a3f4aede70d4b69d0ca532834f23e944b",
+  "model-00002-of-00002.safetensors": "62071a26b8cc40b389a34dade112d6eef70660f601f43cf2fae3b2f89d17295d",
+  "model.safetensors.index.json": "e3a7254c086c4a78f95ad5864f435d165ffed1ed8998326ce5107b4423c15b76"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "aeb1817f9de17590e378b8e7376d8325658d3397db74c620131b3de52258cbf4",
+ "download_seconds": 58.2
+}
