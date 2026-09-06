@@ -79,7 +79,7 @@ from experiments.exp2n import battery_2n as bn  # noqa: E402
 
 RESULTS = EXP2N / "results"
 REFERENTS_PATH_2N = EXP2N / "referents_2n.json"
-REFERENTS_2N_SHA256 = None   # Task 5
+REFERENTS_2N_SHA256 = "09ddc3aed6f0229d38fb4aed83b4c17f5b9a3bc96d077845f1526a1849d6431a"   # Task 5
 IMPORTED_SHA256_2N = {
     bg.REPO / "experiments/exp2n/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

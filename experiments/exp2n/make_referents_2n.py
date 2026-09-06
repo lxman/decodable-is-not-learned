@@ -30,7 +30,7 @@ from experiments.exp2m import make_referents_2m as mk2m  # noqa: E402
 from experiments.exp2n import battery_2n as bn  # noqa: E402
 
 REPO = bg.REPO
-N_FILES_2N = None   # Task 5: the pre-campaign manifest, byte-idempotent
+N_FILES_2N = 4427   # Task 5: the pre-campaign manifest, byte-idempotent
 
 
 def _2m_campaign_files() -> list:

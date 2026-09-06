@@ -921,7 +921,7 @@ FROZEN_SHA256_2N = {
     REPO / "experiments/exp2m/run/sweep_2m.py":
         "30fa4b4f73cff09aac0200ee15269a8b6b61b75d85e56c660fbca91a0b72b636",
     REPO / "experiments/exp2n/make_referents_2n.py":
-        "67dcbf7d0f5b3db8e189056e14a5f1472c8cc4b90e15401b88b408a1376195cf",
+        "98eb723c9284aa47b2b9f0905cb9500a93ca168f36db0c738042f3bbccb4ba4a",   # re-pinned Task 5 Step 3 (N_FILES_2N set)
     REPO / "experiments/exp2n/power_2n.py":
         "9c7d71b0a4d1133358f2c1d198af308caf6abb904549c8f27738798c68e9f58f",
     REPO / "experiments/exp3/run/run_cell.py":
