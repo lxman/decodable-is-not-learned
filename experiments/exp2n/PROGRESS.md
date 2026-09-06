@@ -246,3 +246,189 @@ which the literal substitution rule does not call for — reverted).
 `grep -n "RENDER_2N\|EOS_STOP_ID_2N" experiments/exp2n/run/{endpoint,sweep}_2n.py`
 returns nothing. `git status` shows nothing under `experiments/exp2m`
 and `experiments/exp2n/battery_2n.py` untouched.
+
+## Task 3 (2026-09-06): `analyze_2n.py` + `make_referents_2n.py`
+
+Built (replacing Task 2's stub, `_endpoint_seal_paths_2n` kept
+byte-identical — confirmed by extracting both function bodies and
+comparing them programmatically): `analyze_2n.py` — the pins
+(`check_imports_2n`, folding `an2j`'s/`an2k`'s/`an2l`'s/`an2m`'s own
+residual import pins into `upstream` beside `IMPORTED_SHA256_2N`); the
+record-failure functions (`_record_common_failures_2n` — gains
+`render`/`eos_stop_id` to the pinned tuple, `endpoint_record_failures_2n`,
+`step_record_failures_2n`, `checkpoint_record_failures_2n`,
+`twin_checkpoint_record_failures_2n` — both gain the
+`generation_eos_token_id` pin against `EOS_STOP_ID_2N`) with the
+`dtype` pin and the twin's bespoke shape; the Comma loaders
+(`load_endpoint_which_2n`, `load_sweep_comma` over the 24-point grid +
+twin); the outcomes (`outcomes_comma` over the grid or the every-40k
+subset, `rung_level_comma`, `_first_correct_outcome_comma`,
+`collapses_comma`, `non_monotone_comma`, `ceiling_fraction_comma`); the
+rung set (`_load_rung_set_2n` + `_check_rung_set_vs_endpoint_2n` /
+`_check_rung_set_derivation_2n` / `_check_rung_set_endpoint_shas_2n`,
+all on the `R_COMMA` key); the power record (`load_power_2n`,
+`check_power_claims_2n` — B on 2g's BASE strata per dial b, not a
+composite); the predictors through their own seals (`load_predictors_2n`
+— x_A^(256) via 2k's `load_tier_2k` + `seal_failures_2k`, x_B via 2i's
+`sampler_counts_olmo` after `load_predictor_records_2i` +
+`_check_predictor_seal_sampling`, cross-checked by
+`_check_predictor_counts_2i`); the secondaries (`s3_paired_difference_2n`
+— 2m's paired item bootstrap of T_B − T_A unchanged, `s4_matched_2n`,
+`s5_answer_prior_2n`, `load_committed_outcomes_2n` — 2m's four sources
+plus a fifth (SmolLM3-3B via `analyze_2m.load_sweep_3b` +
+`outcomes_3b`) — + `s8_outcome_order_2n`, `_extra_rungs_2n`); the NEW
+generalised paired bootstrap `paired_contrast_2n` (every predictor in
+both groups read on the SAME within-rung resample; 2n's
+`s3_paired_difference_2n` is the case group_a={B}, group_b={A}); the
+NEW thinned predictor `thinned_x_b_2n` (2k's block rule, first k_g
+draws, no seed) and the NEW annotation `annotation_c_2n` (Δ = thinned-B
+T − A256 T, the CI rule B-LEADS/A-LEADS/NO-LEAD/UNDEFINED,
+`covers_3b_increment` against `read_increment_3b_2n`'s read of 2m's
+own committed `results/verdict.json`); the NEW `s8c_corpus_contrast_2n`
+(Pile rows Pythia-2.8b/6.9b vs DCLM-class rows OLMo-2 7B/13B/SmolLM3-3B,
+same paired bootstrap) and the NEW `s9_sign_ledger_2n` (per-rung D on
+the three option rungs for this run beside 2l's and 2m's committed
+per-rung D read from their `verdict.json` files, plus 2k's/2i's 7B
+readings as literals); the tree (`verdict_tree_2n` → SHARED /
+PYTHIA-ONLY / OLMO-ONLY / NEITHER, `verdict_2n` — gains `annotation`
+and carries `"C: <reading> (delta …, ci95 […])"` in the reason,
+`_licensed_2n` — gains the `C_MODIFIERS_2N` clause keyed by
+`_c_modifier_key_2n`) with 2n's disclosures; `run()` (halt scan first,
+pins/prereg/manifest/referents, upstream pins, battery/floors/verify/
+strata, the NEW increment-3b read + literal check right after strata,
+the predictors, the Comma endpoint stage + rung set + power record +
+seal, gate 1 attested then re-derived, the gating core with both tests
+UNCONDITIONED on the base strata, the NEW annotation C computed and
+gated as a REFERENT failure before the tree, S1–S9 + C + the paired
+difference + extra rungs + sensitivities with the every-40k control,
+the import-surface re-check after the secondaries). Also built
+`make_referents_2n.py` (`referent_files` = 2m's whole pre-campaign list
++ 2m's OWN campaign artifacts — endpoint records, rung set, power
+record, sweep tree, gate1.json, verdict.json, since S8 reads the
+SmolLM3-3B outcome through 2m's frozen loaders — + 2m's four
+instrument blobs + 2n's own `checkpoints_2n.json`,
+`hub_inventory_comma.json`, `power_2n.py`; `build`, `check_referents`);
+`tests/test_analyze_2n.py`; `power_2n.py` as a docstring-only STUB
+(Task 4 owns its content — the same role `power_2m.py` played for
+`make_referents_2m` before its own Task 4).
+
+### The per-rung D key finding
+
+The brief asked for one entry of 2m's committed `results/verdict.json`
+(`tests.A.per_rung.antonym`) to be read before writing `_per_rung_d`,
+to confirm the key name `_run_test` emits. Read directly: the key is
+`"d"` (alongside `n_pairs`, `n_pos`, `ci`, `raw_d`) — `2m`'s
+`tests.A.per_rung.antonym.d` is `-0.040536876355748375` (rounds to
+`-0.041`) and `tests.B.per_rung.antonym.d` is `0.16790943600867678`
+(rounds to `0.168`), matching the brief's literals exactly. Cross-
+checked against 2l's committed `results/verdict.json` the same way:
+`tests.A.per_rung.antonym.d` = `-0.06577875529488433` (rounds to
+`-0.066`), `tests.B.per_rung.antonym.d` = `0.25597990523491465`
+(rounds to `0.256`) — both match the brief's literals too. No
+deviation from the brief needed; `_per_rung_d` reads `v.get("d")`.
+
+### `power_2n.py` and `DELTA_SD_FIELDS_2N`/`check_power_claims_2n`
+
+Per the task's own resolution #2, `check_power_claims_2n` keeps 2m's
+exact signature (`power, x_a256, x_b, strata, r_primary, stage1_final`)
+in this task; `load_power_2n` does NOT require a `delta_sd` block yet.
+Correspondingly `DELTA_SD_FIELDS_2N` and `DELTA_FORMULA_LITERAL_2N`
+(named in the brief's "Produces" list, but explicitly deferred by
+resolution #2) are NOT defined in this task's `analyze_2n.py` — Task 4
+adds both alongside the power record's real content. `POWER_CLAIM_
+FIELDS_2N` and `BLOCK_SD_FIELDS_2N` are defined (unchanged from 2m's
+values).
+
+### A documentation-only note on `bm.`'s survival in `check_imports_2n`
+
+The self-review checklist names `check_imports_2n` among the functions
+where `bm.` should survive. In the actual file `bm.` appears only
+inside `load_committed_outcomes_2n` and the default `root_2m=bm.EXP2M`
+— `check_imports_2n`, `read_increment_3b_2n` and `s9_sign_ledger_2n`
+take `root_2m` (or reach 2m only via `an2m.IMPORTED_SHA256_2M`) as
+explicit parameters/attributes rather than reaching for `bm.` directly,
+exactly as the brief's own verbatim NEW-code bodies for the latter two
+do (neither snippet given in the brief references `bm.` at all).
+`bn.FROZEN_FILES_2N` (built in `battery_2n.py`, already committed)
+transitively carries 2m's `FROZEN_SHA256_2M` bytes and
+`INSTRUMENT_BLOBS_2M` paths, so `check_imports_2n`'s `covered` set
+already covers everything 2m contributes without a second, redundant
+`bm.` reference at the analyzer level. Flagged for the reviewer as a
+defensible reading rather than silently asserted.
+
+### Pre-tag disclosure (design §2 / checklist 27)
+
+`an.run()` executed on the real committed tree many times during this
+task's test runs (no `results/` directory exists yet, no Comma record
+of any kind, no prereg tag cut). A representative bare
+`an.run(n_perm=20, n_boot=5)` call prints:
+
+```
+verdict: INSUFFICIENT_DATA
+n_failures: 14
+ - 2n frozen modules: RuntimeError: FROZEN_SHA256_2N is empty — not pinned (build incomplete)
+ - 2n import surface: not pinned (build incomplete)
+ - 2n prereg tag: RuntimeError: preregistration tag exp2n-preregistered does not exist
+ - 2n referent manifest: not pinned (build incomplete)
+ - 2n rung set file: FileNotFoundError: .../experiments/exp2n/results/endpoint/rung_set_2n.json
+ - 2n power record: ValueError: rung set missing
+ - 2n endpoint seal binding: the tag 'exp2n-endpoint-sealed' does not exist
+ - 2n endpoint stage1_final/stage2_final/main: FileNotFoundError (endpoint records missing)
+ - 2n endpoint composite sha: FileNotFoundError
+ - 2n gate 1 comma_7b: record missing
+ - 2n sweep comma_7b: ValueError: manifest/battery/verify/endpoint sha missing
+ - 2n gate 1 comma_7b re-derivation (byte identity): ValueError: sweep, endpoint or gate 1 record missing
+```
+
+The increment-3b read against 2m's committed `verdict.json` SUCCEEDS
+even on this empty tree (it depends only on `root_2m`, which defaults
+to the real, closed `experiments/exp2m`) — it never appears among the
+failures above. Every `an.run()` call the test suite makes (the six
+`test_run_forced_exceptions_on_the_real_tree_are_graceful` cases,
+`test_run_strata_pins_forced_exception`, `test_run_frozen_check_
+forced_exception`, `test_run_import_surface_entry_forced_exception`,
+`test_run_referent_manifest_check_forced_exception`, plus
+`test_run_on_empty_tree_is_insufficient_never_raises` on a `tmp_path`
+root) lands the same way: `verdict == "INSUFFICIENT_DATA"`, with the
+injected label present among `referents["failures"]`. No statistic of
+any kind is computed or printed — the gating core (`_core`) is never
+reached because `failures` is non-empty by the time it would run.
+Nothing here is a projection or a result; it is the expected shape of
+every pre-tag execution while Tasks 4–5 (power record,
+`FROZEN_SHA256_2N`, `IMPORTED_SHA256_2N`, `REFERENTS_2N_SHA256`, the
+prereg tag) remain unbuilt.
+
+### Tests
+
+Step 2 (RED, before `analyze_2n.py` existed): collection failed with
+`AttributeError`s on `an.WORLDS_2N` etc. against the Task-2 stub, as
+expected.
+
+Step 4 (fast suite, single module):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2n/tests/test_analyze_2n.py -q -m "not slow"`
+— 67 passed (≈ 179 s; the real-tree predictor/run cases dominate the
+wall time, as in 2m's own Task 3).
+
+Step 4 (full `experiments/exp2n/tests/` directory, fast):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2n/tests/test_analyze_2n.py experiments/exp2n/tests/test_stages_2n.py experiments/exp2n/tests/test_battery_2n.py -q -m "not slow"`
+— 122 passed, 1 deselected (the slow real-git seal-binding test in
+`test_stages_2n.py`; ≈ 189 s).
+
+### Self-review
+
+`_endpoint_seal_paths_2n` confirmed byte-identical to the Task-2 stub
+(extracted and compared both function bodies programmatically, not by
+eye). `bm.` in `analyze_2n.py` appears only inside
+`load_committed_outcomes_2n` (the fifth S8 source, SmolLM3-3B) and the
+`run()` default `root_2m=bm.EXP2M` (see the note above on
+`check_imports_2n`). A programmatic scan confirmed every name in the
+brief's "Produces" list for `analyze_2n.py` (minus the deferred
+`DELTA_SD_FIELDS_2N`/`DELTA_FORMULA_LITERAL_2N`) and for
+`make_referents_2n.py` is actually defined; `referent_files()` returns
+4,427 files, all unique (no duplicates from the merge of 2m's list,
+2m's campaign files, 2m's instrument blobs and 2n's own three paths).
+`git status` shows nothing under `experiments/exp2m` and nothing
+changed in Tasks 1–2's files (`battery_2n.py`, `run/*`,
+`test_battery_2n.py`, `test_stages_2n.py`, `conftest.py`) — only
+`analyze_2n.py` (modified from the stub), `make_referents_2n.py`,
+`power_2n.py` and `tests/test_analyze_2n.py` are new/changed.
