@@ -80,7 +80,16 @@ from experiments.exp2n import battery_2n as bn  # noqa: E402
 RESULTS = EXP2N / "results"
 REFERENTS_PATH_2N = EXP2N / "referents_2n.json"
 REFERENTS_2N_SHA256 = None   # Task 5
-IMPORTED_SHA256_2N = None    # Task 5: pinned from tests/import_scan_2n.py
+IMPORTED_SHA256_2N = {
+    bg.REPO / "experiments/exp2n/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2n/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    bg.REPO / "experiments/exp2n/run/preflight_2n.py":
+        "353df1efc4cb97ab180d9f6fe2db778bd5d5378e30cef5706573c5e3c0591812",
+    bg.REPO / "experiments/exp2n/verify_referents_2n.py":
+        "d9305ac96240ab11d5ca664763c88f6142ce323b03629092d02979ed866f1228",
+}   # 4 modules, pinned from tests/import_scan_2n.py at Task 5
 WORLDS_2N = ("INSUFFICIENT_DATA", "SHARED", "PYTHIA-ONLY", "OLMO-ONLY", "NEITHER")
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
 collect_total = an2i.collect_total
