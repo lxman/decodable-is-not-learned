@@ -305,6 +305,33 @@ Mac stack with `HF_HUB_CACHE` pointed at the session scratchpad (4.3 MB
 of tokenizer files; the real HF cache holds no Comma entry; no weight,
 no forward pass). Nothing was written under `experiments/`.
 
+Logged (build Task 5, 2026-09-06, before the tag). Every execution of
+`analyze_2n.run()` on the REAL pre-campaign tree landed
+INSUFFICIENT_DATA and printed no T — no Comma endpoint, sweep, rung-set
+or power record exists, so the run refuses at the endpoint stage after
+executing every predictor-side loader:
+
+1. `experiments/exp2n/tests/import_scan_2n.py`, run once, to pin
+   `IMPORTED_SHA256_2N`: `INSUFFICIENT_DATA`, 11 referent/loader
+   failures (the missing prereg tag plus the absent endpoint/rung-set/
+   power/sweep records), no T, nothing written; residual surface 4
+   modules (both `__init__.py`, `run/preflight_2n.py`,
+   `verify_referents_2n.py`).
+2. `experiments/exp2n/tests/read_sweep_2n.py`, run once:
+   `INSUFFICIENT_DATA`, 10 referent/loader failures (the prereg tag
+   binds through the sweep's own stand-in, so only the absent campaign
+   artifacts remain), no T, `write=False`, 0 writes observed, 6,179
+   distinct paths read, bucket (e) unpinned = 0.
+3. Task 3's real-tree analyzer tests and Task 5's world/totality
+   modules, which run `analyze_2n.run()` on SYNTHETIC roots and, in
+   `test_run_on_empty_tree_is_insufficient_never_raises`, on an empty
+   one: INSUFFICIENT_DATA in every case, no T on the real tree.
+
+The cold battery's item 10 inspects the real `EXP2N` tree directly and
+does not call `run()`; it printed "endpoint/rung set: absent —
+pre-campaign", "power: absent — pre-campaign", "sweep: absent —
+pre-campaign".
+
 ## 3. Instrument — 2m's, with the outcome model swapped, the render and stop id pinned, and the corpus annotation added
 
 Everything not named here is `experiments/exp2m` / `exp2l` / `exp2k` /

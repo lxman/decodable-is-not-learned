@@ -657,3 +657,149 @@ imports `experiments.exp2j.functionals_2j as fn` at module scope (2m's
 file has no such import) — keeping the parameter named `fn` would shadow
 the module alias inside every call site. Purely a naming fix, same
 behavior.
+
+## Task 5: the real-tree closure — frozen literals, the import-surface pin, the pre-campaign manifest, the mutation harness, the read sweep
+
+ZERO model contact, ZERO network end to end. Python
+`~/emergence-lab/.venv/bin/python` with `PYTHONDONTWRITEBYTECODE=1`,
+run from the repo root with `-p no:cacheprovider`. Started at HEAD
+`c3737446`.
+
+### Step 1 — `FROZEN_SHA256_2N` pinned as a literal (54 modules)
+
+`frozen_from_disk()` over `FROZEN_FILES_2N` = 2m's 48 frozen modules +
+2m's four now-frozen tag-bound instrument blobs + 2n's own
+`power_2n.py` and `make_referents_2n.py` = **54**. `check_frozen_2n()`
+passes for real.
+
+The `if not bn.FROZEN_SHA256_2N:` monkeypatch stand-in dropped
+(`test_stages_2n.py::_blobs_that_exist`) and the `frozen_check`
+no-op-override bypass dropped at both `pm.main()` call sites in
+`test_power_2n.py`. `test_analyze_2n.py`'s unconditional `_frozen_pin`
+autouse fixture STAYS (2m kept its own equivalent at Task 5 — verified
+by `git log -p` on 2m's file, no `if not` guard on it); as do
+`test_battery_2n.py`'s two deliberate `FROZEN_SHA256_2N` monkeypatches
+(the empty-pin refusal and the drift raise). `test_battery_2n.py +
+test_stages_2n.py + test_power_2n.py -m "not slow"`: 59 passed, 1
+deselected, 81 s. Commit `8d939e31`.
+
+**After this, `power_2n.py` and `make_referents_2n.py` cannot change
+without re-pinning** — Step 3's `N_FILES_2N` literal did exactly that
+(see below).
+
+### Step 2 — the import-surface scan (`IMPORTED_SHA256_2N`, 4 modules)
+
+`tests/import_scan_2n.py` = 2m's `import_scan_2m.py` with 2n's roots,
+2m's own residual pin (`analyze_2m.IMPORTED_SHA256_2M`) folded into
+`covered` beside 2j's/2k's/2l's, and the six 2n stage tools pulled into
+`sys.modules` by hand. The residual surface is **4 modules**:
+`experiments/exp2n/__init__.py`, `run/__init__.py`,
+`run/preflight_2n.py`, `verify_referents_2n.py` — exactly the brief's
+predicted shape.
+
+**DISCLOSURE (checklist 27):** the scan runs `analyze_2n.run()` on the
+REAL pre-campaign tree. It printed **INSUFFICIENT_DATA and no T** (11
+referent/loader failures: the missing prereg tag plus the absent
+endpoint/rung-set/power/sweep records), after executing every
+predictor-side loader (2k's tier at both sizes through its own gate-1
+re-derivation, 2i's sealed OLMo-2 1B counts, both predictor-seal
+reads). Nothing written. Recorded in `experiment-2n-design.md` §2.
+
+`test_analyze_2n.py` after pinning: 67 passed, 161 s. Commit `591ad281`.
+
+### Step 3 — the pre-campaign referent manifest (4,427 files)
+
+`python -m experiments.exp2n.make_referents_2n` → **4,427 files**, sha
+`09ddc3aed6f0229d38fb4aed83b4c17f5b9a3bc96d077845f1526a1849d6431a`.
+`N_FILES_2N = 4427` set, re-run: same count, same sha —
+**byte-idempotent**. `REFERENTS_2N_SHA256` pinned to it.
+
+Setting `N_FILES_2N` changed `make_referents_2n.py`'s own bytes, so its
+entry inside `FROZEN_SHA256_2N` needed re-pinning (`67dcbf7d…` →
+`98eb723c…`, marked in the source) — 2m's Task 5 did the same one-line
+re-pin.
+
+Composition: 2m's whole pre-campaign referent list (2l's/2k's/2j's/
+2i's lists, the 2i predictor stage and sweep, 2k's tier files, seal and
+power record, 2l's OWN campaign artifacts) + 2m's OWN campaign
+artifacts (102 endpoint records, rung set, power record, the 26-step
+sweep tree, `gate1.json`, `verdict.json` — S8 reads the SmolLM3-3B
+outcome through 2m's frozen loaders) + 2m's four instrument blobs +
+2n's own `checkpoints_2n.json`, `hub_inventory_comma.json` and
+`power_2n.py`.
+
+**The manifest decision, ledgered:** `REFERENTS_2N_SHA256` pins the
+PRE-CAMPAIGN manifest only. 2n's own campaign artifacts (102 endpoint
+records + the rung set + the power record) are bound by
+`exp2n-endpoint-sealed`, and every sweep record additionally carries
+the composite `endpoint_sha256` the analyzer re-derives — so the
+preregistration tag is never re-cut after the campaign.
+
+`verify_referents_2n`: **14/14** (items 3 and 12 now live). Commit
+`5f0bce17`.
+
+### Stand-in removal (interstitial, both pins live)
+
+| site | what went |
+| --- | --- |
+| `tests/full_shape.py::run_world` | `frozen_check=(None if …)` / `imports_pinned=(True if …)`; only `referents_sha=False` stays (a synthetic root is not the real tree) |
+| `tests/test_full_shape_2n.py` (two direct `an.run` calls) | both expressions and their stand-in comments |
+| `tests/test_totality_2n.py::_run` | the two `kw.setdefault(...)` bypasses |
+
+Commit `3d3cda97`. `test_battery_2n.py + test_stages_2n.py +
+test_analyze_2n.py + test_power_2n.py -m "not slow"`: **126 passed, 1
+deselected, 248 s** — every fast module clean under the real pins.
+
+### Step 5 — the read sweep: (e) unpinned = 0
+
+`tests/read_sweep_2n.py` = 2m's `read_sweep_2m.py` with 2n's roots,
+`an2m`/`bm` pre-imported, 2m's residual pin folded into `frozen`, the
+sweep tree over `GRID_COMMA + (TWIN,)`, and `SHA_PIN_AT_LOAD` extended
+with `bm.CHECKPOINTS_PATH` and `bn.CHECKPOINTS_PATH`. `blobs_bound`
+left at its default (real git: 2k's and 2i's predictor seals bind for
+real); `tag_exists`/`blob_sha` are the documented sweep-only stand-ins
+for the not-yet-cut prereg tag; `referents_sha`, `imports_pinned` and
+`frozen_check` all left at their real pinned defaults and all passed.
+
+Run BEFORE the mutation harness's first mutant write (verified: no
+`.mutation_backup` file present immediately before or after the run,
+and `git status` on the four mutated files was clean throughout) —
+deliberately sequenced to avoid reading a temporarily-mutated file.
+
+**DISCLOSURE (checklist 27):** the sweep runs `analyze_2n.run(n_perm=30,
+n_boot=10, write=False)` on the REAL pre-campaign tree. It printed
+**INSUFFICIENT_DATA and no T** — 10 referent/loader failures, all of
+them the absent campaign artifacts (rung set, power record, the
+endpoint seal's 104 blobs, the three endpoint whichs, the composite
+sha, gate 1, the sweep, the gate-1 re-derivation). Recorded in
+`experiment-2n-design.md` §2.
+
+```
+6179 distinct paths opened for reading (8553 total open/read calls)
+  writes observed (should be 0, write=False): 0
+
+category                       count
+referents_2n.json               4428
+frozen_module                     64
+instrument_blob                    4
+sha_pin_at_load                    0
+seal_bound_campaign_absent         0
+python_stdlib_venv              1683
+UNPINNED                           0
+
+(e) unpinned verdict input: 0 — clean
+(f) seal-bound campaign artifact, absent pre-campaign: 0
+```
+
+`referents_2n.json` 4,428 = the manifest's 4,427 files + the manifest
+file itself (which pins its own sha). 2m's committed campaign
+artifacts, which S8 reads once 2n's campaign exists, are inside that
+count — bucket (a), as intended. `seal_bound_campaign_absent` 0 is
+structural: pre-campaign the analyzer refuses on `is_file()` guards
+before attempting an `open()` of a seal-bound artifact, so the wrapper
+records nothing to classify; this bucket becomes non-empty at the
+process-tail re-run after `exp2n-endpoint-sealed` exists.
+
+**Process tail:** re-run `tests/read_sweep_2n.py` once AFTER the
+endpoint seal tag is cut — (e) must still be 0, and the campaign-side
+paths must then resolve for real.
