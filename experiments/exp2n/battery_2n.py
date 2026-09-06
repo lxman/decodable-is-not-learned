@@ -234,6 +234,8 @@ def build_manifest_comma(inv: dict) -> dict:
     under `endpoint_duplicates`). The twin entry carries the endpoint's
     commit as `config_commit`."""
     table = inv[REPO_COMMA]
+    if REV_MAIN_2N not in table:
+        raise ValueError(f"{REPO_COMMA}: the main revision {REV_MAIN_2N!r} is not in the inventory")
     main_files = table[REV_MAIN_2N]["files"]
     cands = {rev: ck.candidate(rev, t["files"], main_files) for rev, t in table.items()}
     sigs = {rev: (ck.signature(table[rev]["files"], c) if c else None) for rev, c in cands.items()}

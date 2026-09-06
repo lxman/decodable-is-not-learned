@@ -168,16 +168,24 @@ def test_build_manifest_comma_refusals():
         bn.build_manifest_comma(_inventory(drop_stage2=True))
     with pytest.raises(ValueError, match="stage2_final.*duplicate"):
         bn.build_manifest_comma(_inventory(dup_stage2=True))
-    with pytest.raises(KeyError):
-        # `main_files = table[REV_MAIN_2N]["files"]` is dereferenced before
-        # any refusal path in build_manifest_comma (production never drops
-        # main — it is the ONE repo's default branch, always present).
-        bn.build_manifest_comma(_inventory(drop_main=True))
     inv = _inventory()
     bad_rev = bn.REV_ENDPOINT_2N.replace("965B", "999B")          # same step, wrong tokens label
     inv[bn.REPO_COMMA][bad_rev] = inv[bn.REPO_COMMA].pop(bn.REV_ENDPOINT_2N)
     with pytest.raises(ValueError, match="endpoint revision"):
         bn.build_manifest_comma(inv)
+
+
+def test_build_manifest_comma_refuses_an_inventory_without_main():
+    """Fix round 1, Important finding: `main_files =
+    table[REV_MAIN_2N]["files"]` used to be dereferenced unconditionally
+    before any refusal path, so a hand-built inventory missing `main`
+    crashed with a bare `KeyError` instead of the `ValueError` its
+    `stage2_final` sibling raises. The additive guard now raises
+    `ValueError` before the dereference; the later
+    `for name, rev in (("stage2_final", …), ("main", …))` loop's `main`
+    branch is unreachable-but-harmless, unchanged."""
+    with pytest.raises(ValueError, match="main revision"):
+        bn.build_manifest_comma(_inventory(drop_main=True))
 
 
 def test_build_manifest_comma_endpoint_may_duplicate_and_is_recorded():
