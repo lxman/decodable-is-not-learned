@@ -815,7 +815,15 @@ process-tail re-run after `exp2n-endpoint-sealed` exists.
 endpoint seal tag is cut — (e) must still be 0, and the campaign-side
 paths must then resolve for real.
 
-### Step 4 — the mutation harness: 191 mutants, STATUS AS OF 2026-09-06 15:29 EDT — fast pass running, pid 62266, log `experiments/exp2n/mutation_build.log`, 5 killed / 0 survivors so far, NOT YET COMPLETE
+### Step 4 — the mutation harness: 191 mutants, STATUS AS OF 2026-09-06 15:32 EDT — fast pass running, pid 62266, log `experiments/exp2n/mutation_build.log`, 48 killed / 1 SURVIVED / 0 SKIP of 49 completed so far, NOT YET COMPLETE
+
+**Survivor #6** (`build_manifest_comma: main duplicate refusal removed`)
+needs a NEW fast test (dropping `("main", REV_MAIN_2N)` from the
+duplicate-refusal loop's iteration tuple is unobserved by the existing
+suite) — deferred to the follow-up round. **`_STAGE1_RE_2N`'s
+documented-equivalent CANDIDATE (#11) was KILLED**, resolving it as
+NOT equivalent, no proof needed. The `run/sweep_2n.py` reorder
+candidate has not been reached yet.
 
 `tests/mutation_check.py` = 2m's harness (the `_totality_mutants`
 import from 2i, `_refuse_if_any_backup_exists`, `_acquire_backup`,
