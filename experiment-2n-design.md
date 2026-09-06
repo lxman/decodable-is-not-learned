@@ -5,7 +5,19 @@ close-out, on Michael's word ("Design the corpus question (Comma v0.1)
 as 2n"). The outcome family is the one 2m's §6 SHARED licence named:
 **Comma v0.1-1T, stage 1** (common-pile; the corpus is the Common Pile
 v0.1 — openly licensed text, no DCLM- or FineWeb-class web crawl). §10
-DIALS a–r AWAIT MICHAEL'S RULING. No model contact of any kind has
+DIALS a–r RULED by Michael 2026-09-06 ("Dials as recommended — build
+and freeze"): every dial as recommended — a Comma v0.1-1T; b Tests A/B
+unconditioned, four worlds, increments + paired difference; c the
+uniform 24-point grid with the every-40k control; d three descriptive
+whichs; e R_Comma by the floor rule, R_PRIMARY = R_Comma ∩ the nine;
+f the projection by rung type with tolerances both directions and the
+corpus/predictor accounts as claims; g the corpus annotation C as a
+CI rule; h the block SD + the null SD of Δ; i the seeded twin; j the
+preflight on his word; k bars unchanged; l fp16 with the pre-tag fp32
+fallback; m batch 16; n `render: "bos"`; o `eos_stop_id` 3 set in both
+loaders; p the mlx servers stay up unless the preflight shows
+pressure; q S8 extended + S8c + S9; r SDD build + freeze in one
+session. No model contact of any kind has
 occurred; the Hub was read for metadata only, and the tokenizer files
 (4.3 MB, no weight) were loaded once through the Mac stack's
 transformers into a scratchpad cache to measure the plain render (§2).
@@ -688,7 +700,7 @@ descriptive). Not a statement about the cool-down stage or the
 averaged release beyond S6's descriptives. Not "from below" in tokens
 for Test B. Not a statement about the across-task ranking.
 
-## 10. Dials — AWAITING MICHAEL'S RULING
+## 10. Dials — RULED by Michael 2026-09-06 ("Dials as recommended — build and freeze"): every dial as recommended
 
 - **a. Outcome model:** Comma v0.1-1T stage 1 (`common-pile/comma-
   v0.1-1t`), **recommended** — the family 2m's licence named; the
