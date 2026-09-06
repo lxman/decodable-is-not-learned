@@ -814,3 +814,108 @@ process-tail re-run after `exp2n-endpoint-sealed` exists.
 **Process tail:** re-run `tests/read_sweep_2n.py` once AFTER the
 endpoint seal tag is cut — (e) must still be 0, and the campaign-side
 paths must then resolve for real.
+
+### Step 4 — the mutation harness: 191 mutants, STATUS AS OF 2026-09-06 15:29 EDT — fast pass running, pid 62266, log `experiments/exp2n/mutation_build.log`, 5 killed / 0 survivors so far, NOT YET COMPLETE
+
+`tests/mutation_check.py` = 2m's harness (the `_totality_mutants`
+import from 2i, `_refuse_if_any_backup_exists`, `_acquire_backup`,
+`run_suite`, `_parse_only`, `main`, the FAST/TOTALITY/FULLSHAPE
+switches) with 2n's paths and `M` = **147 hand-written mutants**
+(2m's 110 hand-written mutants transposed to 2n's identifiers, minus
+one dropped, plus one split into two, plus the brief's 2n-specific
+additions — see below) **+ 44 AST-generated `collect_total` totality
+mutants** via `_totality_mutants(Path("experiments/exp2n/analyze_2n.py"))`
+= **191**. Before launch: a target-resolution check confirmed every
+`old` occurs EXACTLY ONCE in the pristine source (0 mismatches across
+191 entries) and every mutation, applied, still parses (`ast.parse`,
+0 syntax errors across 191).
+
+**Transposition notes (2m's 110 hand-written mutants → 2n):**
+
+- **Dropped, no 2n analog:** `LOG_HEAD_SUBSET_2M with 120000 added` —
+  2n has no two-tier grid/log-head-subset pair; its single
+  `EVERY40K_SUBSET_2N` control is covered instead by the brief's own
+  "`EVERY40K_SUBSET_2N` fed `GRID_COMMA`" mutant (drop 460000 from the
+  tuple, still a valid strict subset so the load-time check stays
+  silent) plus the analyze-level "sensitivities: every40k_subset fed
+  GRID_COMMA" mutant (2m's #99 transposed).
+- **Split into two:** 2m's "the stage-3 duplicate refusal removed"
+  (#6) has no clean 1:1 map — 2n's `build_manifest_comma` checks
+  `stage2_final` and `main` (both duplicate-signature-checked, unlike
+  2m's weightless `base`) in ONE shared loop over
+  `(("stage2_final", REV_STAGE2_FINAL_2N), ("main", REV_MAIN_2N))`, so
+  a single textual edit cannot isolate either check. Two mutants
+  target the SAME `old` (the loop line) with different `new` (drop one
+  tuple entry each): "main duplicate refusal removed" and "the
+  stage2_final duplicate refusal removed" — both explicitly named in
+  the brief's own list.
+- **Structure changed, replaced rather than transposed:** 2m's #32–34
+  (`check_tokenizer_2m`'s separate `if pad_id != …`/`if eos_id != …`/
+  BOS-prepend checks) don't exist in 2n's form — `check_tokenizer_2n`
+  merges pad/eos/bos/unk into ONE loop tuple. Replaced by the brief's
+  four `check_tokenizer_2n`-specific mutants (plain-render special
+  check, BOS-render check, `len(tok)` check, the bos/unk loop entries)
+  which target the actual 2n shape.
+- **Consolidated with a brief-listed 2n mutant:** 2m's #41 ("the
+  endpoint loop skips the base") IS the brief's "the stage2_final load
+  dropped from the loop" (`ENDPOINT_WHICH_2N` → `("stage1_final",
+  "main")`); 2m's #51 ("the tokenizer commit -> bm.REV_BASE_2M") IS
+  the brief's "the twin's tokenizer commit → REV_MAIN_2N". Not
+  double-counted.
+- **All other 106 of 2m's 110** transposed 1:1 (`bm`→`bn`, `_2m`→`_2n`,
+  `_3b`→`_comma`/`comma`, `GRID_3B`→`GRID_COMMA`, `SIZE_OUT`/`FAMILY`/
+  `N_ITEMS`/`TWIN_SEED` unchanged, `ENDPOINT_WHICH_2M`
+  `("stage1_final","stage3_final","base")` → `ENDPOINT_WHICH_2N`
+  `("stage1_final","stage2_final","main")`), each verified against the
+  real 2n source text before inclusion.
+
+**2n-specific additions (44 mutants, the brief's named list):** the
+BOS render + eos-stop plumbing (`render_2n`, `BosRunner.generate`,
+`set_eos_stop_2n` ×2); the render/eos_stop_id overrides on
+`item_record_2n` (×2) and `endpoint_item_record_2n` (×2, alongside the
+transposed dtype-override mutants on both); `checkpoint_record_2n`'s
+`generation_eos_token_id` key; `check_tokenizer_2n`'s four checks;
+`EVERY40K_SUBSET_2N`/`_STAGE1_RE_2N`/the two duplicate-refusal splits/
+`R_COMMA` key rename; both files' `real_loaders` BosRunner; the twin's
+`REV_MAIN_2N`/stage2_final-loop-drop (both = transposed #51/#41, not
+double-counted); `_record_common_failures_2n`'s render/eos_stop_id pin
+drops (×2, alongside the transposed dtype-pin-drop); the checkpoint/
+twin `generation_eos_token_id` failure checks (×2); `thinned_x_b_2n`'s
+two variants (last-block, no-thinning); `paired_contrast_2n`'s
+unpaired-draws variant + `_contrast` sign flip; `annotation_c_2n`'s
+four CI-rule mutants (ci[0], ci[1], branches swapped, covers negated);
+`read_increment_3b_2n`'s literal-substitution; the `round(…,4)` guard
+in `run()`; `s8c_corpus_contrast_2n`'s groups-swapped + smollm3_3b-
+dropped-from-dclm; `load_committed_outcomes_2n`'s smollm3_3b key drop;
+`s9_sign_ledger_2n`'s OPTION_RUNGS_2N→the-nine; `verdict_2n`'s
+annotation-not-returned; `_licensed_2n`'s modifier-dropped;
+`_c_modifier_key_2n`'s covers/excludes swap; the C-failure-misrouted-
+to-`sec_failures_c` mutant (named in the brief as "must be KILLED by
+the totality case" — `test_totality_2n.py`'s existing
+`_insufficient(root, seal, "2n annotation C")` case is expected to
+catch it, since the misrouted failure leaves `failures` empty and the
+run proceeds past the INSUFFICIENT_DATA gate into a real verdict,
+failing that test's `v["verdict"] == "INSUFFICIENT_DATA"` assertion —
+unconfirmed, the harness has not reached this mutant yet); the
+sensitivities' every40k_subset-fed-GRID_COMMA + control-flag flip;
+`load_power_2n`/`check_power_claims_2n`'s delta_sd requirement/
+formula/k_by_rung/rungs mutants.
+
+Documented-equivalent CANDIDATES named by the brief, not yet resolved
+(the harness has not reached them): `_STAGE1_RE_2N`'s `\d{6}` → `\d+`
+(2n's real inventory/manifest data is always 6-digit zero-padded, so
+this may be observationally equivalent absent a fixture with a
+malformed step name — needs a hand inventory with a 5-digit step name
+to prove or kill, per the brief); the `run/sweep_2n.py` reorder mutant
+(`endpoint_sha` computed before the endpoint seal binds) — 2m's own
+identical candidate was KILLED by the fast suite in pass 1, so this
+one may resolve the same way.
+
+**Progress at this ledger entry:** baseline OK; mutants 1–5 (battery
+constant/manifest mutants) all KILLED by the fast suite; mutant 6 in
+flight. `killed/total`, every closed gap, and the documented-equivalent
+rulings will be recorded here once the fast pass (and any
+`--totality`/`--fullshape` confirmation runs) complete — deferred to a
+follow-up round; **this build session is reporting DONE_WITH_CONCERNS**
+on Task 5 for exactly this reason (the ~45-minute session poll budget
+is spent; the harness itself is untouched and continues unattended).
