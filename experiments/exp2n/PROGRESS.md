@@ -749,6 +749,17 @@ preregistration tag is never re-cut after the campaign.
 Commit `3d3cda97`. `test_battery_2n.py + test_stages_2n.py +
 test_analyze_2n.py + test_power_2n.py -m "not slow"`: **126 passed, 1
 deselected, 248 s** — every fast module clean under the real pins.
+`test_full_shape_2n.py + test_totality_2n.py`: **57 passed, 1293.5 s
+(21.5 min)** — every world reaches its declared terminal and every
+totality case observes its forced exception, under the real pins. (The
+first attempt at this run collided with the mutation harness's own
+first-pass baseline check, launched concurrently, and was killed by the
+OS for memory pressure ~15 min in, nothing partial written; the
+mutation harness was stopped, its one in-flight mutant's
+`.mutation_backup` restored byte-identically — `check_frozen_2n()`
+verified clean — and this run re-launched alone; the mutation harness
+restarted from mutant 1 afterward, so the two heavy suites never run
+concurrently again.)
 
 ### Step 5 — the read sweep: (e) unpinned = 0
 
