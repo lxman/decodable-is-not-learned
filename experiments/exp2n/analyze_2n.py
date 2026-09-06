@@ -731,6 +731,10 @@ POWER_CLAIM_FIELDS_2N = ("dropped_degenerate", "rungs_simulated", "n_pos_lower_b
                          "alpha", "thin")
 BLOCK_SD_FIELDS_2N = ("n_sim", "mean_block_sd_at_declare", "mean_block_sd_null",
                       "per_block_mean_T_at_declare", "blocks")
+DELTA_SD_FIELDS_2N = ("n_sim", "delta_null_sd", "delta_sd_at_declare_A", "delta_sd_at_declare_B",
+                      "delta_boot_sd_null", "min_detectable_delta", "formula", "k_by_rung", "rungs")
+DELTA_FORMULA_LITERAL_2N = ("min_detectable_delta = 2.63 * delta_boot_sd_null (normal approximation: CI95 excludes "
+                            "zero with power .75)")
 
 
 def load_power_2n(root, r_primary, predictor_sha) -> dict:
@@ -774,15 +778,26 @@ def load_power_2n(root, r_primary, predictor_sha) -> dict:
     if bsd.get("n_sim") and "rungs" not in bsd:
         raise ValueError(f"{p}: block_sd_A simulated {bsd.get('n_sim')!r} time(s) and attests no "
                          f"rung set — the SD is over an unstated set of rungs")
+    dsd = rec.get("delta_sd")
+    if not isinstance(dsd, dict) or any(k not in dsd for k in DELTA_SD_FIELDS_2N):
+        raise ValueError(f"{p}: delta_sd missing or incomplete (dial h) — {DELTA_SD_FIELDS_2N}")
+    if dsd.get("formula") != DELTA_FORMULA_LITERAL_2N:
+        raise ValueError(f"{p}: delta_sd formula {dsd.get('formula')!r} is not the literal "
+                         f"{DELTA_FORMULA_LITERAL_2N!r}")
     return rec
 
 
-def check_power_claims_2n(power, x_a256, x_b, strata, r_primary, stage1_final) -> list:
+def check_power_claims_2n(power, x_a256, x_b, strata, r_primary, stage1_final, *, bits_b, x_a64) -> list:
     """2k F-2: every re-derivable claim of both tests' power blocks
     against the analyzer's own re-derivation — BOTH on the base strata
-    (dial b: Test B is unconditioned)."""
+    (dial b: Test B is unconditioned). Also re-derives the `delta_sd`
+    block's `k_by_rung` (via `thinned_x_b_2n`) and `rungs` (design §4,
+    dial h) over R_PRIMARY minus the UNION of both predictors' degenerate
+    rungs."""
     bad = []
+    dropped_by_test = {}
     for test, x in (("A", x_a256), ("B", x_b)):
+        dropped_by_test[test] = set(an2i._degenerate_rungs(x, strata, r_primary))
         prim = (power or {}).get(test)
         if not isinstance(prim, dict):
             bad.append(f"2n power claims {test}: no block")
@@ -790,7 +805,7 @@ def check_power_claims_2n(power, x_a256, x_b, strata, r_primary, stage1_final) -
         missing = [k for k in POWER_CLAIM_FIELDS_2N if k not in prim]
         if missing:
             bad.append(f"2n power claims {test}: the record does not attest {missing}")
-        dropped = list(an2i._degenerate_rungs(x, strata, r_primary))
+        dropped = list(dropped_by_test[test])
         keep = [r for r in r_primary if r not in dropped]
         if "dropped_degenerate" in prim and sorted(prim["dropped_degenerate"] or []) != sorted(dropped):
             bad.append(f"2n power claims {test}: dropped_degenerate "
@@ -815,6 +830,20 @@ def check_power_claims_2n(power, x_a256, x_b, strata, r_primary, stage1_final) -
             if isinstance(bsd, dict) and "rungs" in bsd and sorted(bsd["rungs"] or []) != sorted(keep):
                 bad.append(f"2n power claims block_sd_A: rungs {sorted(bsd['rungs'] or [])} is not "
                            f"Test A's non-degenerate set {sorted(keep)}")
+    dropped_both = dropped_by_test.get("A", set()) | dropped_by_test.get("B", set())
+    keep_both = [r for r in r_primary if r not in dropped_both]
+    dsd = (power or {}).get("delta_sd")
+    if not isinstance(dsd, dict):
+        bad.append("2n power claims delta_sd: no block")
+    else:
+        if sorted(dsd.get("rungs") or []) != sorted(keep_both):
+            bad.append(f"2n power claims delta_sd: rungs {sorted(dsd.get('rungs') or [])} != "
+                       f"{sorted(keep_both)} (R_PRIMARY minus the union of both predictors' degenerate rungs)")
+        _, want_k_raw = thinned_x_b_2n(bits_b, x_a64, tuple(keep_both))
+        want_k = {r: int(v) for r, v in want_k_raw.items()}
+        got_k = {r: int(v) for r, v in (dsd.get("k_by_rung") or {}).items() if isinstance(v, (int, float))}
+        if got_k != want_k:
+            bad.append(f"2n power claims delta_sd: k_by_rung {got_k!r} != re-derived {want_k!r}")
     return bad
 
 
@@ -1414,8 +1443,11 @@ def run(root_2n=EXP2N, root_2i=bi.EXP2I, root_2k=bk.EXP2K, root_2l=bl.EXP2L, roo
             return out, x256, A, B
         core, f = collect_total(_core, "2n primary comma_7b");                       failures += f
     if not failures and core is not None:
-        pf, f = collect_total(lambda: check_power_claims_2n(power, core[1], x_b, strata, r_primary, stage1_final),
-                              "2n power claims");                                      failures += f + (pf or [])
+        def _power_claims():
+            x64 = {r: cells_2k["1b"][r]["counts"][64] for r in r_primary}
+            return check_power_claims_2n(power, core[1], x_b, strata, r_primary, stage1_final,
+                                         bits_b=bits_b, x_a64=x64)
+        pf, f = collect_total(_power_claims, "2n power claims");                        failures += f + (pf or [])
     if not failures and core is not None:
         _, f = collect_total(check_imports_2n if imports_pinned else (lambda: None),
                              "2n import surface (exit)");                              failures += f

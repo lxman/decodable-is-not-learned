@@ -395,6 +395,18 @@ def test_check_rung_set_endpoint_shas_2n_over_102(tmp_path, monkeypatch):
 
 # ------------------------------------------------------------------ power
 
+@lru_cache(maxsize=None)
+def _bits_b_and_x64_for(r_primary):
+    """The real committed 2i rows/bits and the real Pythia-1b 64-draw
+    counts over `r_primary` — Ruling R-1's fixture inputs for the
+    `delta_sd` block, cached since several tests share the same
+    r_primary."""
+    battery, verify = _battery(), a2d.load_verify()
+    bits_b = {r: fn.verified_bits(fn.draw_rows_2i(bi.EXP2I, r), battery[r], verify) for r in r_primary}
+    x_a64 = bi.sampler_counts_pythia("1b", r_primary)
+    return bits_b, x_a64
+
+
 def _power_rec(r_primary, *, status="POWERED", psha=bn.PREDICTOR_SHA_2N, x256=None, x_b=None, n_pos=None):
     strata = _strata()
     x256 = x256 or bi.sampler_counts_pythia("1b", r_primary)
@@ -409,10 +421,20 @@ def _power_rec(r_primary, *, status="POWERED", psha=bn.PREDICTOR_SHA_2N, x256=No
                 "n_trained_steps": bn.n_trained_comma(), "dropped_degenerate": dropped,
                 "rungs_simulated": keep, "n_pos_lower_bound": n_pos, "t_bar": an.T_BAR,
                 "alpha": an.ALPHA, "thin": len(keep) < 3}
+
+    bits_b_fix, x_a64_fix = _bits_b_and_x64_for(tuple(r_primary))
+    dropped_both = set(dropped_a) | set(dropped_b)
+    keep_both = [r for r in r_primary if r not in dropped_both]
+    _, k_by_rung = an.thinned_x_b_2n(bits_b_fix, x_a64_fix, keep_both)
+    delta_sd = {"n_sim": 3, "delta_null_sd": 0.01, "delta_sd_at_declare_A": 0.01,
+                "delta_sd_at_declare_B": 0.01, "delta_boot_sd_null": 0.012,
+                "min_detectable_delta": 2.63 * 0.012, "formula": an.DELTA_FORMULA_LITERAL_2N,
+                "k_by_rung": {r: int(k) for r, k in k_by_rung.items()}, "rungs": keep_both}
     return {"A": one(dropped_a), "B": one(dropped_b),
             "block_sd_A": {"n_sim": 3, "mean_block_sd_at_declare": 0.01, "mean_block_sd_null": 0.005,
                            "per_block_mean_T_at_declare": [0.1, 0.1, 0.1, 0.1], "blocks": 4,
                            "rungs": [r for r in r_primary if r not in dropped_a]},
+            "delta_sd": delta_sd,
             "r_primary": list(r_primary),
             "primary_is_the_nine": tuple(sorted(r_primary)) == tuple(sorted(bn.R_CAP_2K)),
             "predictor_sha256": psha, "calibration_note": an.CALIBRATION_SENTENCE_2N,
@@ -435,21 +457,42 @@ def test_load_power_2n_and_claims_on_base_strata(tmp_path):
                         (dict(primary_is_the_nine=False), "primary_is_the_nine"),
                         (dict(block_sd_A=dict(rec["block_sd_A"], blocks=3)), "blocks"),
                         (dict(block_sd_A=dict(rec["block_sd_A"], per_block_mean_T_at_declare=[0.1])), "per_block_mean_T_at_declare"),
-                        (dict(block_sd_A={k: v for k, v in rec["block_sd_A"].items() if k != "rungs"}), "attests no rung set")):
+                        (dict(block_sd_A={k: v for k, v in rec["block_sd_A"].items() if k != "rungs"}), "attests no rung set"),
+                        # Ruling R-1: load_power_2n requires the delta_sd
+                        # block and its pinned formula literal.
+                        (dict(delta_sd=None), "delta_sd"),
+                        (dict(delta_sd={**rec["delta_sd"], "formula": "wrong"}), "formula")):
         _w(bn.power_path(tmp_path), {**rec, **mut})
         with pytest.raises(ValueError, match=needle):
             an.load_power_2n(tmp_path, r_primary, bn.PREDICTOR_SHA_2N)
     strata = _strata()
     x256 = bi.sampler_counts_pythia("1b", r_primary)
     stage1 = {r: {"correct": 100} for r in r_primary}
-    assert an.check_power_claims_2n(rec, x256, x256, strata, r_primary, stage1) == []
+    bits_b, x_a64 = _bits_b_and_x64_for(r_primary)
+    assert an.check_power_claims_2n(rec, x256, x256, strata, r_primary, stage1,
+                                    bits_b=bits_b, x_a64=x_a64) == []
     assert any("n_pos_lower_bound" in b and "A" in b for b in an.check_power_claims_2n(
-        {**rec, "A": dict(rec["A"], n_pos_lower_bound={r: 0 for r in r_primary})}, x256, x256, strata, r_primary, stage1))
+        {**rec, "A": dict(rec["A"], n_pos_lower_bound={r: 0 for r in r_primary})}, x256, x256, strata, r_primary,
+        stage1, bits_b=bits_b, x_a64=x_a64))
     assert any("rungs_simulated" in b and "B" in b for b in an.check_power_claims_2n(
-        {**rec, "B": dict(rec["B"], rungs_simulated=[])}, x256, x256, strata, r_primary, stage1))
-    assert any("t_bar" in b for b in an.check_power_claims_2n({**rec, "A": dict(rec["A"], t_bar=0.0)}, x256, x256, strata, r_primary, stage1))
+        {**rec, "B": dict(rec["B"], rungs_simulated=[])}, x256, x256, strata, r_primary, stage1,
+        bits_b=bits_b, x_a64=x_a64))
+    assert any("t_bar" in b for b in an.check_power_claims_2n(
+        {**rec, "A": dict(rec["A"], t_bar=0.0)}, x256, x256, strata, r_primary, stage1,
+        bits_b=bits_b, x_a64=x_a64))
     assert any("block_sd_A" in b and "non-degenerate set" in b for b in an.check_power_claims_2n(
-        {**rec, "block_sd_A": dict(rec["block_sd_A"], rungs=list(r_primary)[:-1])}, x256, x256, strata, r_primary, stage1))
+        {**rec, "block_sd_A": dict(rec["block_sd_A"], rungs=list(r_primary)[:-1])}, x256, x256, strata, r_primary,
+        stage1, bits_b=bits_b, x_a64=x_a64))
+    # Ruling R-1: check_power_claims_2n refuses a k_by_rung off by one on
+    # one rung, and a rungs list missing one rung.
+    one_rung = rec["delta_sd"]["rungs"][0]
+    bad_k = {**rec["delta_sd"], "k_by_rung": {**rec["delta_sd"]["k_by_rung"],
+                                              one_rung: rec["delta_sd"]["k_by_rung"][one_rung] + 1}}
+    assert any("k_by_rung" in b for b in an.check_power_claims_2n(
+        {**rec, "delta_sd": bad_k}, x256, x256, strata, r_primary, stage1, bits_b=bits_b, x_a64=x_a64))
+    bad_rungs = {**rec["delta_sd"], "rungs": rec["delta_sd"]["rungs"][1:]}
+    assert any("delta_sd" in b and "rungs" in b for b in an.check_power_claims_2n(
+        {**rec, "delta_sd": bad_rungs}, x256, x256, strata, r_primary, stage1, bits_b=bits_b, x_a64=x_a64))
     assert an.POWER_CLAIM_FIELDS_2N == ("dropped_degenerate", "rungs_simulated", "n_pos_lower_bound", "t_bar", "alpha", "thin")
 
 
@@ -464,8 +507,11 @@ def test_check_power_claims_2n_reads_b_on_base_strata_not_a_composite():
     rec = _power_rec(r_primary, x256=x256, x_b=x_b)
     assert rec["B"]["dropped_degenerate"] == ["antonym"]
     stage1 = {r: {"correct": 100} for r in r_primary}
-    assert an.check_power_claims_2n(rec, x256, x_b, strata, r_primary, stage1) == []
-    bad = an.check_power_claims_2n({**rec, "B": dict(rec["B"], dropped_degenerate=[])}, x256, x_b, strata, r_primary, stage1)
+    bits_b, x_a64 = _bits_b_and_x64_for(r_primary)
+    assert an.check_power_claims_2n(rec, x256, x_b, strata, r_primary, stage1,
+                                    bits_b=bits_b, x_a64=x_a64) == []
+    bad = an.check_power_claims_2n({**rec, "B": dict(rec["B"], dropped_degenerate=[])}, x256, x_b, strata, r_primary,
+                                   stage1, bits_b=bits_b, x_a64=x_a64)
     assert any("dropped_degenerate" in b and "B" in b for b in bad)
 
 

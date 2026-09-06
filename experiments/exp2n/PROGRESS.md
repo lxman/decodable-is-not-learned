@@ -432,3 +432,228 @@ changed in Tasks 1–2's files (`battery_2n.py`, `run/*`,
 `test_battery_2n.py`, `test_stages_2n.py`, `conftest.py`) — only
 `analyze_2n.py` (modified from the stub), `make_referents_2n.py`,
 `power_2n.py` and `tests/test_analyze_2n.py` are new/changed.
+
+## Task 4 (2026-09-06): power_2n.py, the worlds, totality, power tests, cold battery
+
+### What was built
+
+`power_2n.py` (replacing Task 3's stub): 2m's `power_2m.py` verbatim
+with the substitutions (`3b`→`comma`, `SmolLM3-3B`→`Comma v0.1-1T`,
+`n_trained_steps = 24`) plus the new `delta_sd_2n(strata, bits_b,
+x_a64, x_a256, x_b, n_pos, rungs, *, n_steps, n_sim, n_boot, seed)` —
+the SD of Delta = t_only(x_B thinned) − t_only(x_A256) across simulated
+outcomes at the null and at each test's own calibrated D=.15 latent,
+plus the paired-bootstrap SD of Delta on the first null draw, from
+which `min_detectable_delta = 2.63 * delta_boot_sd_null` follows.
+`main()` now also computes `bits_b`/`x_a64` from the predictor context
+and writes `rec["delta_sd"]`.
+
+`analyze_2n.py` extended (only as the brief/rulings allow):
+`DELTA_SD_FIELDS_2N` and `DELTA_FORMULA_LITERAL_2N` added beside
+`BLOCK_SD_FIELDS_2N`; `load_power_2n` now requires the `delta_sd` block
+with every field and the pinned formula literal; `check_power_claims_2n`
+gained required keyword-only `bits_b`/`x_a64` and now also re-derives
+`delta_sd.k_by_rung` (via `thinned_x_b_2n`) and `delta_sd.rungs`
+(R_PRIMARY minus the union of both predictors' degenerate rungs, computed
+per-test inside the same loop that already computed each test's own
+degeneracy set); `run()`'s call site wraps the extra `x64` computation
+inside the same `collect_total`-wrapped closure as the claims check
+itself, so a malformed `cells_2k` there still reaches INSUFFICIENT_DATA
+rather than raising.
+
+`tests/full_shape.py`: 2m's world builder verbatim with the
+substitutions (`3b`→`comma`, `smollm3_3b`→`comma_7b`, `stage3`→`stage2`,
+`base`→`main`, `600000`→`200000` as the edited/unlinked mid-grid step,
+`26`→`24` trained steps) plus `x_a64_real()`, `bits_b_real()` (both
+cached on the real committed 2i/2k data) and `s8_cached()` now loading
+the FIVE committed outcomes via `an.load_committed_outcomes_2n(...,
+root_2i=bi.EXP2I, root_2l=bl.EXP2L, root_2m=bm.EXP2M)`. Every checkpoint
+record (grid steps and the twin) now carries `"config_eos_token_id": 2,
+"generation_eos_token_id": 3`. Two new `missing` modes: `"render"`
+(rewrites the step-200000/odd6 sweep record's `render` to `"plain"`) and
+`"eos_stop"` (rewrites the step-200000 checkpoint record's
+`generation_eos_token_id` to `2`). `world_specs()` = 2m's 25 (with the
+`base`→`main`/`stage3`→`stage2` renames, including
+`"main_record"`/`"stage2_final"` mode names) plus W26 and W27.
+
+`tests/test_full_shape_2n.py`, `tests/test_totality_2n.py`,
+`tests/test_power_2n.py`: 2m's three files verbatim with the
+substitutions plus the brief's literal new tests
+(`test_annotation_c_cells_across_the_worlds`,
+`test_s8_five_rows_s8c_and_s9`, `test_w26_w27_render_and_stop_id_
+refusals`; `test_increment_3b_read_forced_exception`,
+`test_annotation_c_forced_exception`, `test_s8c_forced_exception`,
+`test_s9_forced_exception`, `test_stage2_endpoint_record_is_a_list`;
+`test_delta_sd_2n_shape_and_formula`, the `test_main_writes_once_with_
+both_tests_on_base_strata` extension).
+
+`verify_referents_2n.py`: 2m's 13-item cold battery verbatim with the
+substitutions (item 1 gains `bm.check_frozen_2m()` as a real upstream
+check since 2m is now frozen; item 2 gains 2m's three tags; item 4's
+literals rebuilt from the real `checkpoints_2n.json` — 24 grid entries,
+3 shards each, endpoint commit `e295235994f32d763c359d324265a176e591f632`;
+item 7 prints 2m's committed endpoint's R_PRIMARY instead of 2l's; item
+13 checks the FIVE sources) plus item 14: a pure `_Tok` stand-in
+exercising `check_tokenizer_2n`'s accept path and its four refusal
+paths (right padding, a foreign pad id, a plain render beginning with a
+special id, a BOS render the stub swallows), `set_eos_stop_2n` on a
+`_Model`/`_Config`/`_GenConfig` stub, `render_2n`'s prefixing,
+`read_increment_3b_2n(bm.EXP2M)` against the literal, and
+`s9_sign_ledger_2n` reproducing the four known-answer per-rung D
+literals (2l's and 2m's own committed `A`/`B` on `antonym`) read
+straight from their committed `verdict.json` files.
+
+### Test commands and results (RED before, GREEN after)
+
+Step 2 (RED): `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest -p no:cacheprovider experiments/exp2n/tests/test_power_2n.py -v`
+against the Task-3 stub failed on `pw.delta_sd_2n` missing (`AttributeError`),
+and the world module failed collecting/asserting on the W26/W27/C/S8c/S9
+keys, as expected — `power_2n.py` didn't yet define `delta_sd_2n` and
+`analyze_2n.py` didn't yet carry the annotation-C/S8c/S9 secondaries
+(those actually landed in Task 3; the RED here was specifically the new
+Task-4 surface: `pw.delta_sd_2n`, the `delta_sd` power-record block, and
+W26/W27).
+
+Step 4 (GREEN), run in the sequence below:
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest -p no:cacheprovider experiments/exp2n/tests/test_power_2n.py -q
+```
+4 passed in 63.0 s.
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest -p no:cacheprovider experiments/exp2n/tests/test_analyze_2n.py -m "not slow" -q
+```
+67 passed in 167.0 s (Ruling R-1's `_power_rec` extension and the two
+new refusal cases included).
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest -p no:cacheprovider experiments/exp2n/tests/test_full_shape_2n.py -v
+```
+16 passed in 804.5 s (≈ 13.4 min), after two test-side corrections (below).
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest -p no:cacheprovider experiments/exp2n/tests/test_totality_2n.py -v
+```
+41 passed in 480.3 s (8.0 min).
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m experiments.exp2n.verify_referents_2n
+```
+12/14 (items 3 and 12 skip, pending Task 5's `REFERENTS_2N_SHA256`/
+`N_FILES_2N`/`IMPORTED_SHA256_2N`), after one test-side fix (below).
+
+### Test-side corrections (and why)
+
+1. **`power_2n.py`'s own `frozen_check` bypass, four call sites.**
+   `power_2n.main()` (like `analyze_2n.run()`) calls `bn.check_frozen_2n`
+   unconditionally unless `frozen_check` is passed, and `FROZEN_SHA256_2N`
+   is still `{}` pending Task 5. The brief's Ruling 5 named this stand-in
+   for `run_world` and the direct `an.run()` calls but not for
+   `pm.main()`; by the same logic it needed the identical bypass
+   (`frozen_check=(None if bn.FROZEN_SHA256_2N else (lambda: None))`) at
+   both `pm.main()` call sites in `test_power_2n.py`'s
+   `test_main_writes_once_with_both_tests_on_base_strata` (including the
+   "written ONCE" re-call) and in `test_main_refuses_without_rung_set`.
+   Root cause diagnosed by reading `power_2n.main()`'s call order (the
+   frozen check runs before the `out_path.exists()`/rung-set checks the
+   tests are actually exercising). Also caught the same gap in
+   `tests/full_shape.py`'s `run_world` and the two direct `an.run()`
+   calls in `test_full_shape_2n.py` and `test_totality_2n.py`'s `_run`
+   — all four now pass `frozen_check`/`imports_pinned` per Ruling 5's
+   stated pattern; Task 5 removes all of these once the real pins exist
+   (2m's own history repeats: "the bypasses this defaulted while they
+   were empty are gone").
+2. **`test_delta_sd_2n_shape_and_formula`'s explicit `_small(monkeypatch)`
+   call.** `_small` is already `@pytest.fixture(autouse=True)` on every
+   test in the module (as in 2m's file); this pytest version (9.1.1)
+   raises "Fixture ... called directly" on a bare call to a fixture
+   function. The brief's literal snippet included the call; removed as
+   redundant (autouse already applies it) rather than worked around.
+3. **`test_w1_pythia_only_shape`'s exact-equality licensed-sentence
+   check.** 2m's own test (never carrying an annotation) checked
+   `v["licensed_sentence"] == an.LICENSED_2M["PYTHIA-ONLY"]` exactly; 2n's
+   `_licensed_2n` ALWAYS appends the `C_MODIFIERS_2N` text after the base
+   licence (2n always carries the annotation C), so an exact match can
+   never hold here — changed to `.startswith(...)`, the same style
+   already used by the referent battery's item-8 "licence prefix" checks.
+4. **`test_annotation_c_cells_across_the_worlds`'s unrounded
+   `increment_3b` comparison.** The brief's literal snippet compared
+   `c["increment_3b"] == an.INCREMENT_3B_2N` directly, but
+   `c["increment_3b"]` is the RAW value `read_increment_3b_2n` pulls from
+   2m's committed `verdict.json` (0.06585331726660634), while
+   `INCREMENT_3B_2N` is the literal rounded to 4 dp (0.0659) — the same
+   comparison `run()` itself makes with `round(increment_3b, 4)`, and the
+   same rounding the SAME test's next assertion already applies two
+   lines down. Fixed to `round(c["increment_3b"], 4) == an.INCREMENT_3B_2N`.
+5. **`verify_referents_2n.py` item 14's `_Model` stub.**
+   `set_eos_stop_2n` calls `eos_facts_2n`, which reads
+   `getattr(model.config, "eos_token_id", None)` — `getattr`'s default
+   only covers the attribute lookup, not the `model.config` expression
+   itself, so a bare `_Model` with only `generation_config` raised
+   `AttributeError: '_Model' object has no attribute 'config'`. Fixed by
+   adding a `_Config` stub (`eos_token_id`/`bos_token_id`) as
+   `_Model.config`.
+
+### World statistics (W1/W2/W3) and the three C readings
+
+```
+W1 PYTHIA-ONLY: A T=0.7127 p=0.004975 fires=True | B T=0.0091 p=0.2289 fires=False
+  C: A-LEADS, delta=-0.6985, ci95=[-0.7292, -0.6797], covers_3b_increment=False
+W2 OLMO-ONLY:   A T=0.0246 p=0.0199  fires=False | B T=0.6527 p=0.004975 fires=True
+  C: B-LEADS, delta=+0.5820, ci95=[0.5536, 0.6150], covers_3b_increment=False
+W3 SHARED:      A T=0.5948 p=0.004975 fires=True  | B T=0.5371 p=0.004975 fires=True
+  C: A-LEADS, delta=-0.0969, ci95=[-0.1224, -0.0655], covers_3b_increment=False
+```
+
+All three synthetic-latent readings land far outside 2m's committed
+±0.0659 increment (the latents here are engineered to fire hard, unlike
+a real sealed outcome), so `covers_3b_increment` is `False` in every
+world — expected and orthogonal to the assertions, which check the
+mechanics of the CI rule and the disclosure plumbing, not a real-outcome
+prediction.
+
+### Cold battery output (12/14)
+
+```
+ [ 1] ok    frozen pins (incl. check_frozen_2m; check_frozen_2n: empty, printed)
+ [ 2] ok    2k/2i/2j/2l/2m tags exist; both predictor seals bind; PREDICTOR_SHA_2N re-derives
+ [ 3] skip  referents_2n.json (pending Task 5)
+ [ 4] ok    manifest: 24 grid + twin + stage2_final + main; 3 shards each; candidate reproduces files
+ [ 5] ok    2k tier: zero failures; x_A^(256) == predictor_2k.json; four blocks sum to 256
+ [ 6] ok    x_B == 2i's sealed counts; 2i's R_CAP == the nine
+ [ 7] ok    rung_set_from_counts_2n hand case + 2m's committed endpoint descriptive
+             (R_PRIMARY the nine minus none: full R_CAP_2K)
+ [ 8] ok    the tree on literal inputs: every terminal, THIN/UNDERPOWERED, T_BAR/ALPHA
+ [ 9] ok    record round trips incl. twin; gate1_failures_comma/gate1_rederive_comma clean
+ [10] ok    real EXP2N tree: no halt marker; endpoint/rung-set/power/sweep all absent (pre-campaign)
+ [11] ok    s4_matched_2n: k in [1,64], n_blocks == 64 // k
+ [12] skip  import surface (pending Task 5)
+ [13] ok    S8's five sources load clean (pythia_2.8b 7 rungs/1769 pos, pythia_6.9b 8/2088,
+             olmo2_7b 34/8793, olmo2_13b 34/8737, smollm3_3b 34/9076)
+ [14] ok    check_tokenizer_2n accept + 4 refusals; set_eos_stop_2n; render_2n; read_increment_3b_2n; s9_sign_ledger_2n
+referent battery: 12/14
+```
+
+### Self-review
+
+Diffed each file against its 2m original with the brief's substitutions
+applied: every remaining difference is one the brief/rulings name (the
+new `delta_sd`/C/S8c/S9/W26/W27 surfaces) or a NEW block, no stray
+edits. `grep` for `import torch`/`import transformers`/`from torch`/
+`from transformers` across every Task-4 file: zero hits. `git status`
+shows nothing under `experiments/exp2m` and nothing changed in Tasks
+1–2's files (`battery_2n.py`, `run/*`, `test_battery_2n.py`,
+`test_stages_2n.py`, `conftest.py`, `make_referents_2n.py`) — only
+`analyze_2n.py`, `power_2n.py`, `tests/test_analyze_2n.py` (modified,
+per the brief's allowance) and the five new files. `power_2n.
+DELTA_FORMULA_2N == analyze_2n.DELTA_FORMULA_LITERAL_2N` confirmed
+`True` at the interpreter.
+
+One deliberate deviation from pure verbatim in `tests/full_shape.py`:
+the internal `_cached(name, fn)` helper's second parameter was renamed
+to `fn_` (2m's file used `fn`), because `full_shape.py` now also
+imports `experiments.exp2j.functionals_2j as fn` at module scope (2m's
+file has no such import) — keeping the parameter named `fn` would shadow
+the module alias inside every call site. Purely a naming fix, same
+behavior.
