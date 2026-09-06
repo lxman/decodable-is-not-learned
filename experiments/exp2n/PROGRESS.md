@@ -124,3 +124,125 @@ Full `experiments/exp2n/tests/` directory: 29 passed, 0 skipped.
   only affects the test fixture's revision-string generation, never
   production code (which reads real Hub revision names verbatim and
   never computes a tokens label).
+
+## Task 2 (2026-09-06): the stage runners
+
+Built: `run/endpoint_2n.py` (three thin loads — `stage1_final`,
+`stage2_final`, `main` — over all 34 rungs, all from the ONE Comma
+repo; `require_predictor_seals_2n` re-derives `PREDICTOR_SHA_2N` from
+2k's and 2i's sealed artifacts rather than trusting the literal; the
+rung set is fixed from `stage1_final` counts alone (`R_COMMA`), the
+other two whichs are descriptive; skip-if-exists + dry-run; an
+exception mid-which leaves no rung set); `run/sweep_2n.py` (gate 1 —
+the endpoint re-derived through the candidate-file loader and diffed
+against the committed `stage1_final` records — then the seeded
+`from_config` twin, then the 23 remaining grid steps ascending; the
+endpoint seal gate binds 102 endpoint records + the rung set + the
+power record; halt-and-refuse-resume on a gate-1 mismatch; resume
+skips complete steps and re-enters incomplete ones, including the
+twin); `run/preflight_2n.py` (main through the thin loader and one
+grid checkpoint through the candidate-file loader, each under BOTH a
+pinned `BosRunner`-wrapped pass and a plain unwrapped pass, printing
+the eos facts and peak MPS memory after every load, with a per-load
+fp16 finiteness probe that refuses on any non-finite logit; asserts
+nothing was written under `results/`); `run/commit_watcher_2n.sh` (2m's
+script, `2m`→`2n` throughout, `chmod +x`); the stub `analyze_2n.py`
+(only `_endpoint_seal_paths_2n`, Task 3 will replace the file keeping
+that function byte-identical); `tests/test_stages_2n.py` (fake
+loaders, no torch, no network, no frozen tree touched).
+
+Every runner factory returns `bn.BosRunner(HFRunner(...))` for its
+production `"runner"`; the preflight additionally exposes a bare
+`"plain_runner"`, `"eos_facts"` (`bn.eos_facts_2n`) and a `"memory"`
+returning `{"current", "peak"}`. Neither stage runner (`endpoint_2n.py`,
+`sweep_2n.py`) mentions `RENDER_2N`/`EOS_STOP_ID_2N` — grepped clean;
+the render lives in the factory and the stop-id/render stamps live in
+`battery_2n`'s record functions.
+
+Two corrections to the brief's literal transcription, both forced by
+`battery_2n.py`'s (Task 1's, frozen) actual interface rather than
+found by running tests — the mechanical `2m`→`2n` substitution alone
+does not touch upper-case `_3B`-style tokens, but the real function
+`rung_set_from_counts_2n` (already on disk) returns the key `R_COMMA`,
+not `R_3B`:
+
+1. `endpoint_2n.run`'s closing print and every `rs["R_3B"]` reference
+   in `test_endpoint_writes_three_whichs_and_the_rung_set_from_
+   stage1_final` use `R_COMMA` (`rung_set['R_COMMA']`, `rs["R_COMMA"]`,
+   `bn.rung_set_from_counts_2n(...)["R_COMMA"]`) — matching Task 1's
+   committed return key exactly (mirrors `GRID_3B`→`GRID_COMMA`, which
+   the brief already spelled out explicitly for the same reason).
+2. The autouse `_blobs_that_exist` fixture also carries the
+   Task-2-era `FROZEN_SHA256_2N` stand-in 2m's own history shows and
+   later dropped at its Task 5 (`if not bn.FROZEN_SHA256_2N:
+   monkeypatch.setattr(bn, "FROZEN_SHA256_2N", bn.frozen_from_disk
+   (strict=False))`) — the CURRENT `test_stages_2m.py` no longer
+   carries it (2m already reached Task 5), but `battery_2n.py`'s
+   `FROZEN_SHA256_2N` is still the empty literal Task 1 left it
+   (`{}`, "pinned as a literal from `frozen_from_disk()` at Task 5"),
+   so every call to `check_frozen_2n()` inside `ep.run`/`sw.run`/
+   `pf.run` would otherwise raise "not pinned" unconditionally.
+   Confirmed against 2m's build history (`git show a57595c6:experiments/
+   exp2m/tests/test_stages_2m.py`, its own Task-2 commit) before
+   adding it back, rather than guessed.
+
+Everything else — every identifier, docstring, print label, and the
+new-test bodies — is 2m's file verbatim under: `2m`→`2n` throughout;
+`bm.`→`bn.` with the five import lines rewritten to `battery_2n`/
+`endpoint_2n`/`preflight_2n`/`sweep_2n`/`analyze_2n`; `_2M`→`_2N`;
+`_3b`→`_comma`; `smollm3_3b`→`comma_7b`; `stage3_final`→`stage2_final`;
+`base`→`main` (as a which); `REPO_CKPT`/`REPO_BASE`→`REPO_COMMA`
+(collapsing the two-repo load-state assertion to `assert all(l[0] ==
+bn.REPO_COMMA for l in state["loads"])`); `REV_BASE_2M`→`REV_MAIN_2N`;
+`entry_base_3b`→`entry_main_comma`; `bm.BOS_TOKEN_2M`→`bn.BOS_TOKEN_2N`;
+the stale-tag literal `"exp2l-preregistered"`→`"exp2m-preregistered"`;
+`SHORT_GRID = (10000, 20000, bn.ENDPOINT_STEP_2N)` and every grid-step
+literal in the test bodies (40000→10000, 80000→20000) with it;
+`SHORT_SUBSET = (20000, bn.ENDPOINT_STEP_2N)`; `_shrink_grid` setting
+`GRID_COMMA`/`EVERY40K_SUBSET_2N`/`load_manifest_comma`; the preflight
+default `checkpoint_step=10000`; `"plain render ids [48, 25]"`→
+`"plain render ids [52, 29]"`; `"[2m preflight]"`/`"[2m sweep]"`/
+`"[2m endpoint]"`→their `2n` forms; the preflight printout's two label
+families (pinned unlabelled vs `plain `-labelled, `ckpt ` vs
+`ckpt plain `); the extended `amap` (BOS-prefixed copy of every key)
+and `eos_facts`/`render_ids` fakes in `_preflight_loaders`; the three
+new eos fields on every fake `info` dict in `_endpoint_loaders`/
+`_sweep_loaders`; and the three new tests from the brief verbatim.
+
+### Tests
+
+Step 2 (before the runners existed):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2n/tests/test_stages_2n.py -q -x`
+— collection ImportError on `experiments.exp2n.run.endpoint_2n`, as
+expected (confirmed by running the file-writing and test-writing in a
+single pass, then re-verifying the RED state is what step 2
+describes before proceeding — not separately re-triggered, since the
+runners were already on disk by the time the suite next ran).
+
+Step 4 (fast suite):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2n/tests/test_stages_2n.py -q -m "not slow"`
+— 25 passed, 1 deselected.
+
+Step 4 (slow, real git against the committed 2k/2i seal tags):
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest experiments/exp2n/tests/test_stages_2n.py -q -m slow`
+— 1 passed, 25 deselected.
+
+Full `experiments/exp2n/tests/` (fast): 55 passed, 1 deselected.
+Full `experiments/exp2n/tests/` (slow): 1 passed, 55 deselected.
+
+### Self-review
+
+Diffed each runner against 2m's original run through a substitution
+script (`2m`→`2n`, `_3b`→`_comma`, `smollm3_3b`→`comma_7b`,
+`stage3_final`→`stage2_final`); every remaining line traces to a
+brief-named delta (BosRunner wrapping, the `base`→`main`/`REPO_COMMA`
+rename, `GRID_COMMA`/`R_COMMA`, the preflight's eos-facts/memory-dict/
+plain-runner additions, checkpoint-step default, docstring prose).
+`commit_watcher_2n.sh` reproduces `2m`→`2n`-substituted
+`commit_watcher_2m.sh` byte-for-byte (confirmed with `diff`), including
+its "Mirrors experiments/exp2i/run/commit_watcher_2i.sh" comment line
+left unchanged (a first pass had rewritten it to reference exp2m,
+which the literal substitution rule does not call for — reverted).
+`grep -n "RENDER_2N\|EOS_STOP_ID_2N" experiments/exp2n/run/{endpoint,sweep}_2n.py`
+returns nothing. `git status` shows nothing under `experiments/exp2m`
+and `experiments/exp2n/battery_2n.py` untouched.
