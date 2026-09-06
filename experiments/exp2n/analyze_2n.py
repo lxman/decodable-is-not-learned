@@ -181,8 +181,8 @@ INCREMENT_7B_2K_2N = 0.054          # 2k S3 (known outcome), literal, source: ex
 INCREMENT_13B_2L_2N = 0.0687        # 2l S4 (sealed), literal, source: experiments/exp2l/results/VERDICT.txt
 OPTION_RUNGS_2N = ("antonym", "antonym6", "odd6")
 SIGN_LEDGER_LITERALS_2N = {"olmo2_7b_known": {"antonym": {"A": 0.024, "B": 0.217},
-                                              "antonym6": {"A": None, "B": 0.214},
-                                              "odd6": {"A": None, "B": 0.121}}}   # 2k VERDICT (A at 256, antonym only stated); 2i VERDICT (Test B per rung)
+                                              "antonym6": {"A": 0.115, "B": 0.214},
+                                              "odd6": {"A": 0.096, "B": 0.121}}}   # 2k VERDICT per-rung table at 256 (A); 2i VERDICT Test B per rung (B)
 C_MODIFIERS_2N = {
     "B-LEADS-covers": ("with B-LEADS covering 2m's +.066: the DCLM predictor's margin is predictor-shaped, not "
                        "corpus-shaped; 2m's 'corpus plus density' reading is retired in favour of 'density plus "

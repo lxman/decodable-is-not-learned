@@ -132,7 +132,7 @@ def test_endpoint_record_failures_2n_pins_every_field_incl_dtype():
     for field, value, needle in (("size", "olmo13b", "size"), ("family", "olmo2", "family"),
                                  ("which", "stage1_final", "which"), ("rung", "odd6", "rung"),
                                  ("seal_tag", bi.PREDICTOR_SEAL_TAG, "seal_tag"),
-                                 ("predictor_sha", bl.PREDICTOR_SHA_2L, "predictor_sha"),
+                                 ("predictor_sha", bm.PREDICTOR_SHA_2M, "predictor_sha"),
                                  ("items_sha256", "x", "items_sha256"), ("commit", "0" * 40, "commit"),
                                  ("correct", 11, "correct"), ("n", 499, "n"), ("dtype", "bfloat16", "dtype"),
                                  ("render", "plain", "render"), ("eos_stop_id", 2, "eos_stop_id")):
@@ -642,6 +642,8 @@ def test_s9_sign_ledger_2n_reads_the_committed_option_rung_ds():
     assert round(ant["olmo2_13b_2l"]["A"], 3) == -0.066 and round(ant["olmo2_13b_2l"]["B"], 3) == 0.256
     assert round(ant["smollm3_3b_2m"]["A"], 3) == -0.041 and round(ant["smollm3_3b_2m"]["B"], 3) == 0.168
     assert ant["olmo2_7b_known"]["A"] == 0.024 and ant["olmo2_7b_known"]["B"] == 0.217 and ant["comma_7b"] == {"A": 0.1, "B": 0.2}
+    assert led["rows"]["antonym6"]["olmo2_7b_known"]["A"] == 0.115
+    assert led["rows"]["odd6"]["olmo2_7b_known"]["A"] == 0.096
     assert led["sources"]["olmo2_7b_known"].startswith("literals")
 
 
