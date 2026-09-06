@@ -70,13 +70,7 @@ def test_main_writes_once_with_both_tests_on_base_strata(tmp_path, monkeypatch):
         return real(strata, x_real, n_pos, rungs, n_steps=n_steps)
 
     monkeypatch.setattr(pw, "_one_test_power", _spy)
-    # Test-side correction (2m's Task 4 pattern, ruling 5): FROZEN_SHA256_2N
-    # is still empty pending Task 5, so `main()`'s own frozen-module check
-    # needs a no-op override here; Task 5 removes this bypass once the
-    # real pin exists (2m's history: "the bypasses this defaulted while
-    # they were empty are gone").
-    frozen_check = None if bn.FROZEN_SHA256_2N else (lambda: None)
-    rec = pm.main(root_2n=tmp_path, frozen_check=frozen_check, **seal)
+    rec = pm.main(root_2n=tmp_path, **seal)
     assert bn.power_path(tmp_path).is_file()
     assert len(calls) == 2 and calls[0] is calls[1]                  # B on the SAME base strata as A, not a composite
     assert set(rec) >= {"A", "B", "block_sd_A", "delta_sd", "predictor_sha256", "r_primary", "primary_is_the_nine"}
@@ -102,13 +96,12 @@ def test_main_writes_once_with_both_tests_on_base_strata(tmp_path, monkeypatch):
     rec_disk = json.loads(bn.power_path(tmp_path).read_text())
     assert set(rec_disk["delta_sd"]) >= set(an.DELTA_SD_FIELDS_2N)
     with pytest.raises(RuntimeError, match="written ONCE"):
-        pm.main(root_2n=tmp_path, frozen_check=frozen_check, **seal)
+        pm.main(root_2n=tmp_path, **seal)
 
 
 def test_main_refuses_without_rung_set(tmp_path):
     seal = fs.write_world_2n(tmp_path, mode="pythia_only")
     bn.power_path(tmp_path).unlink()
     bn.rung_set_path(tmp_path).unlink()
-    frozen_check = None if bn.FROZEN_SHA256_2N else (lambda: None)
     with pytest.raises(FileNotFoundError):
-        pm.main(root_2n=tmp_path, frozen_check=frozen_check, **seal)
+        pm.main(root_2n=tmp_path, **seal)
