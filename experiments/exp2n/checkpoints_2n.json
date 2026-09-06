@@ -1,0 +1,655 @@
+{
+ "endpoint_duplicates": [],
+ "entries_comma": {
+  "10000": {
+   "commit": "2394498c14653a1a0dd4891b0f709c3e48d2753e",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "87520bb5cd24e1bd9e303b2627f809b4ab1d8441175fe22c79ab68f616cbd8f0",
+    "model-00002-of-00003.safetensors": "177efe4b6b557cf0111181fe89242a661229338f78631efad9f341fe921f3897",
+    "model-00003-of-00003.safetensors": "2b7ea1daaae6082c37e802af232266765b75750c0511b894e2d62de109f4b880"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step010000-tokens21B"
+  },
+  "100000": {
+   "commit": "4c91e22344c919266a0910b1230bcd36bb0cc113",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "bfd24d71843edcff7ca69b0090dc37a6dd0dcf126a43a63986ba9f8cd9edd0f6",
+    "model-00002-of-00003.safetensors": "94fbbe7b4b1ec80a11514c8162ed4fba828a48f3548ff421036c58de1ad3b3d5",
+    "model-00003-of-00003.safetensors": "6bff0406ed265ac78aa6c69470258e7aecd306b6b7929fc5151c3b0c058c87a1"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step100000-tokens210B"
+  },
+  "120000": {
+   "commit": "3c7b439a6f4405df2ae12468be54cbb98f5f832f",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "6910000ef8528344ab92cdd558e74abe612f8b734e72f63fb23b03bcd5051841",
+    "model-00002-of-00003.safetensors": "8de5a8ead051686e25c03162eded76cdea0ecfcd20e0996fd723347fbe18ed84",
+    "model-00003-of-00003.safetensors": "51639c42ebe719f1c46bbe79cdd17b16001aa31fe579eec4195145b6afbc1c46"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step120000-tokens252B"
+  },
+  "140000": {
+   "commit": "8907cff0df3ac3861819e613760c53a452b9da95",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "f77afcefe800fa070827cf713c4318fbe0b847a4018112450f6eac9268fb12e5",
+    "model-00002-of-00003.safetensors": "81c4f46267f186dd0b9e34abdb2b1f659bd75d4d5ed376c27d30b452a5e57657",
+    "model-00003-of-00003.safetensors": "8e6847aefce08541ddfe6e001e69efb6543905b26026de6ea888021c00f0419f"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step140000-tokens294B"
+  },
+  "160000": {
+   "commit": "3bdd7caee4c472cd0c6c93c7d580ec7ad58fb3d9",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "fe4408d01d6eb99e99754b065ed13598e2e1f801c366a1c555d86ef5f4886415",
+    "model-00002-of-00003.safetensors": "8addbf62211dc10433e223aba97ddf1307c1714f79cfd8265e414d841bc746b7",
+    "model-00003-of-00003.safetensors": "87fe005701452bd085097c0c451ff4897690ce56c217cef08fc47bab5c727890"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step160000-tokens336B"
+  },
+  "180000": {
+   "commit": "d64be65666d393fab6392f848c6923194a480470",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "c2472c98bbe091bd968a9d3ccf5813608963b5a84c3b01a32078951c4940a4e4",
+    "model-00002-of-00003.safetensors": "8ebf5147f558186ccae9e947622961528c1191676bcee608fe00d26bffd93469",
+    "model-00003-of-00003.safetensors": "5e5d647b07600225f0f8912414c731ede8b2c53f59621d607c9b6288e345d22b"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step180000-tokens377B"
+  },
+  "20000": {
+   "commit": "d131fd948ad673114817863ebf7ba51bada5c2ed",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "74c18e7688811f1ea45192da1bbea3d55b988bfd2e069c19555ecdc5389bd5f4",
+    "model-00002-of-00003.safetensors": "d11759b2e873305bb347d2428538537ce0fdcdc40f190821a8d1584c51d4e0fd",
+    "model-00003-of-00003.safetensors": "32a95cc2c5a9ee9691b507408b534c431e8a1ebe4655d06f94cd70064be80fa4"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step020000-tokens42B"
+  },
+  "200000": {
+   "commit": "d7aeda701326c5b353b927c78df7a7aa3b336347",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "8eacd99ea011eaf2d67e8e5ebe5bf0c17218e18d1e392f75a37a7ddc03dfc18a",
+    "model-00002-of-00003.safetensors": "e9c83ea7cc4cf0dd287731e304056551887002ccc210028b8f79cc8d9db56ba9",
+    "model-00003-of-00003.safetensors": "c3cb9fbf98178993f49ebe9e8f090f2d34c8849b8f2e59fd90b2f3304caa4d37"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step200000-tokens419B"
+  },
+  "220000": {
+   "commit": "878b29dc81693209da10f16be1f69eaa9c9463d1",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "a88bda6a05147e05f996aa8d0450c3dc374ab2ea1a064ba3000bcfb31d09f331",
+    "model-00002-of-00003.safetensors": "43a442b3802f7f73ec0ec24dd0237d164d83d2b24cf265d4d168016f5f80d488",
+    "model-00003-of-00003.safetensors": "d49b94162c4a58afd643af2de1222860b0e4fa816e34d456e9d9b9b292be04f0"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step220000-tokens461B"
+  },
+  "240000": {
+   "commit": "c3f6803b6c30ab147437074d24e4f643b4c8c98d",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "08c3a9b76c2a10212f470887f40aa81bbd248efdfbbef3611da44632bd2662e7",
+    "model-00002-of-00003.safetensors": "563f28e29a4b6010f1e4d00aeb82fa17805f72fb26bca07cc58b166dc26d22bb",
+    "model-00003-of-00003.safetensors": "319be00823aa9812ea9668dc0bc641f18a95b2f8b8baf052222449bd56760e76"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step240000-tokens503B"
+  },
+  "260000": {
+   "commit": "0cda8468f8360d80b186d5528655c8d8c5732654",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "a7c9b32daa97bc8f332aeadd5a0c1501abaeade5105038fa6c2adf117b26420b",
+    "model-00002-of-00003.safetensors": "f172ad8cc70f8beb6c11ceb0855c8057dc71c14940055e51f3960f2b2e7ecc58",
+    "model-00003-of-00003.safetensors": "6c776a40395fe808195b82664291eaa0202788323d092eb5285438fbd661ac87"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step260000-tokens545B"
+  },
+  "280000": {
+   "commit": "9f052070918a7d343eeae088f250746b1f6d0d73",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "8328c3d1c6f3e7ca54033d98c749c7f646f52e0f0eb71bfa84b5f826d155c9e2",
+    "model-00002-of-00003.safetensors": "3e7ef6ca54354de050a4f740d5c2b18536abcbd35b06f95e5f04176f3e00bc9b",
+    "model-00003-of-00003.safetensors": "9e8f5a6f4c684931e15f408ce2bffe111316dd8762852a6897dca9f1c1604751"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step280000-tokens587B"
+  },
+  "300000": {
+   "commit": "3875dc0946608a2262898cc79d80229c4387d370",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "9c98d067f056fbe21743b9a85ed5c6b65a151fc12c15fab776e11c95c9dff0a0",
+    "model-00002-of-00003.safetensors": "f3e5a0f1c4c5ea9f17cb7c76d9c57a13e84f7dff19c27fcf6d289a6d68d76199",
+    "model-00003-of-00003.safetensors": "45517f8fc60fef05ef59cc36751519a0a142c96ee2764511bb4a432145749fbd"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step300000-tokens629B"
+  },
+  "320000": {
+   "commit": "d5214d253d28ce44548f734ae1b8939910c1d4d8",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "de2deeedc5a73a2bd3482d50b13eecde92f3e47da7101b82245f640d5a4351f7",
+    "model-00002-of-00003.safetensors": "8df6a1738766139a8d4bcb2c0487ec7df51148f93293075195a7b48ddabd034d",
+    "model-00003-of-00003.safetensors": "0cea374b91d203aad52c4126ac24c54ee7c30949e7cec29a80cbb6bfb928d17a"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step320000-tokens671B"
+  },
+  "340000": {
+   "commit": "4ae9e1299c794c0b6a0923298f78367c94ced78e",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "531e8b19f94968a1767e1adf102ba50513bc2cd775aa1b1691698aa7e45ca4cf",
+    "model-00002-of-00003.safetensors": "c3430852ea84040df80293e23584addd558e14f41bc854fe674eb2d7cd30baa8",
+    "model-00003-of-00003.safetensors": "e29c11e71a4b910e76384c55138bfdb8e60cefab15ec4358ed1d9aefa225fc8a"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step340000-tokens713B"
+  },
+  "360000": {
+   "commit": "86c2c72c2252cc84b957535d0f3846384c7fdedd",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "58f6af08a3decd0a626d25a50c44603f4fd3fc0ad932be9c6243bf97a8aa53f7",
+    "model-00002-of-00003.safetensors": "fcbb5a1d11a7889888396525c2206686dda6d9c19c4edc3e8393e4c595a8405a",
+    "model-00003-of-00003.safetensors": "59d9efeb2af6086f868a6538b19e130d7f87980547e50315520cdbb31c369e42"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step360000-tokens755B"
+  },
+  "380000": {
+   "commit": "64d02eee99f97e803ada8f6480331ea89517c5f0",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "ce4ff3f9033803dbb69e8bd5121c41640387805340005d08824e85716268dd28",
+    "model-00002-of-00003.safetensors": "4156e5c8ad124b7b1aa0aabec450f702f0519ebcef66de7348df3e7514d635a1",
+    "model-00003-of-00003.safetensors": "aee05e2c3523f28c5f083d3f8ef5db808559baef4539176f71bdd89126655302"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step380000-tokens797B"
+  },
+  "40000": {
+   "commit": "47465436b4ac35b894bc07a93944d7101a505fda",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "cd2631d56dbff42769dfaecd25250a528ab3aa4420545e6aded06854013cafc4",
+    "model-00002-of-00003.safetensors": "a10c67e0343628135798a363abcf10ab6caf49a1c5e220cc2b483dc840f60931",
+    "model-00003-of-00003.safetensors": "2fad4adeca4b049186ea2412912794c1315f3f3dfa7cdda9c50cfb38884709b2"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step040000-tokens84B"
+  },
+  "400000": {
+   "commit": "a39b1185275c801c43d1d18bb14d7ae62f4aeb8b",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "25341ff53f760f41750d796020400747f640847b3f1e64e0812f07ecea222456",
+    "model-00002-of-00003.safetensors": "48592fca03754fc18e7a536ffe56c57c304ecfe3a3e0b732dec267d086c09e32",
+    "model-00003-of-00003.safetensors": "638a4988d00c4867354b10a2587cfcdc35515bc9422ddb2aac68f4793a70c8b4"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step400000-tokens839B"
+  },
+  "420000": {
+   "commit": "0d6e636c62dcfaaaeaee3e4e0baee61f7b929a02",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "a30428026b228413fd74387f34eac1d40663b3d29b5a74d51e7b6e5ebf1b45df",
+    "model-00002-of-00003.safetensors": "bdd7d01e642f7d84dfff6e0c814ff7421ec133caf920c4c38ec245125f1fe3f7",
+    "model-00003-of-00003.safetensors": "f9f50e7b73f9ff2b5abb06a76055c837978cdd7673c3de439c62325a1a85b4d0"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step420000-tokens881B"
+  },
+  "440000": {
+   "commit": "d389b96ff8b93de033aff72fe83ea8de4c4375d6",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "e3b7131e129d1b7f3b26474d980e648afadd11e0b315a6d4114b5d8e0db8ecef",
+    "model-00002-of-00003.safetensors": "22b738226ef1593a469faa03c28f7ae91c5dc6f99ee17be7202d4fccff22a4c7",
+    "model-00003-of-00003.safetensors": "0829462b37befaff04908c4594981983377459e46d3adafa0b33aed25e0053e4"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step440000-tokens923B"
+  },
+  "460000": {
+   "commit": "e295235994f32d763c359d324265a176e591f632",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "b0242908c758394131e783e560986add837698053b9809a1466936b11f74d110",
+    "model-00002-of-00003.safetensors": "3e1043fda13c95b6322b0e39c3bb0484c8770a6bdeb7d14e2c1d7438b2b69748",
+    "model-00003-of-00003.safetensors": "7ccde54fc8074ebdebe29b69a170211fd133d7090a36350236bfdc2bbca0a25e"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step460000-tokens965B"
+  },
+  "60000": {
+   "commit": "387f14aa877eda9f30ba9018df1356889647d5e5",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "6148b5eecd83e2bd1035562aff01b6ebdd70d452de62de6c0f008757c5288a58",
+    "model-00002-of-00003.safetensors": "4acfe239e3ab88443d68f1f5d348d32f84bbaff8b5337caf92025be13fd203b4",
+    "model-00003-of-00003.safetensors": "0696a419c1eade1723da353da07111caa20ca639233f7cce2b75471a42a40df1"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step060000-tokens126B"
+  },
+  "80000": {
+   "commit": "bc90bd48976d7d4ff72c467deeaa2e99a634025b",
+   "files": [
+    "model-00001-of-00003.safetensors",
+    "model-00002-of-00003.safetensors",
+    "model-00003-of-00003.safetensors",
+    "model.safetensors.index.json"
+   ],
+   "kind": "safetensors-shards",
+   "lfs_sha256": {
+    "model-00001-of-00003.safetensors": "fc5be6b7536dbbb207b3c1383eb8e8c44e3cf3097b9ec3a6ab92cad7440e50c2",
+    "model-00002-of-00003.safetensors": "a1b48af428aff8335e6e54617ed5f977756a889e149e7cd2a19d4d4e623882d6",
+    "model-00003-of-00003.safetensors": "eb874d3167163da9e22213d292dcc70e45fa53a08c99dfed58cc77b153f35942"
+   },
+   "lfs_size": {
+    "model-00001-of-00003.safetensors": 4978830664,
+    "model-00002-of-00003.safetensors": 4991431432,
+    "model-00003-of-00003.safetensors": 4035085288
+   },
+   "repo": "common-pile/comma-v0.1-1t",
+   "revision": "stage1-step080000-tokens168B"
+  }
+ },
+ "every40k_subset": [
+  40000,
+  80000,
+  120000,
+  160000,
+  200000,
+  240000,
+  280000,
+  320000,
+  360000,
+  400000,
+  440000,
+  460000
+ ],
+ "grid_comma": [
+  10000,
+  20000,
+  40000,
+  60000,
+  80000,
+  100000,
+  120000,
+  140000,
+  160000,
+  180000,
+  200000,
+  220000,
+  240000,
+  260000,
+  280000,
+  300000,
+  320000,
+  340000,
+  360000,
+  380000,
+  400000,
+  420000,
+  440000,
+  460000
+ ],
+ "main": {
+  "commit": "5af409118da3cbea94684c622c66ab8c2ea7f4fe",
+  "files": [
+   "model-00001-of-00003.safetensors",
+   "model-00002-of-00003.safetensors",
+   "model-00003-of-00003.safetensors",
+   "model.safetensors.index.json"
+  ],
+  "kind": "safetensors-shards",
+  "lfs_sha256": {
+   "model-00001-of-00003.safetensors": "540e9985c483f7d82ab9555f628ecb5b18a7373c395bdcc7425e86f84ba7140b",
+   "model-00002-of-00003.safetensors": "65a9ec78bbd98a8141033c8baacf2037a146f246b8028be62858209372f5c361",
+   "model-00003-of-00003.safetensors": "4844d2697238ed755b6dce9c5809469b12daf119eb659c20b9b1dac3e1a4b5ee"
+  },
+  "lfs_size": {
+   "model-00001-of-00003.safetensors": 4978830664,
+   "model-00002-of-00003.safetensors": 4991431432,
+   "model-00003-of-00003.safetensors": 4035085288
+  },
+  "repo": "common-pile/comma-v0.1-1t",
+  "revision": "main"
+ },
+ "n_revisions": 56,
+ "repo": "common-pile/comma-v0.1-1t",
+ "stage2_final": {
+  "commit": "0d77335ff4b7219b1766ceb7103d4f2d780fccad",
+  "files": [
+   "model-00001-of-00003.safetensors",
+   "model-00002-of-00003.safetensors",
+   "model-00003-of-00003.safetensors",
+   "model.safetensors.index.json"
+  ],
+  "kind": "safetensors-shards",
+  "lfs_sha256": {
+   "model-00001-of-00003.safetensors": "3debb10ad348fa6baada442b449dbef96d9f8408f7003ee80fa2deb027b7c963",
+   "model-00002-of-00003.safetensors": "b1337d8fbaea0c3ef807e9dd5c98c5cbed7c34ebc088622253e7cc16a7886326",
+   "model-00003-of-00003.safetensors": "78c148863f571665cdfb0a87abc7dc6e2713359da61a6f17424c72fc4c26ed29"
+  },
+  "lfs_size": {
+   "model-00001-of-00003.safetensors": 4978830664,
+   "model-00002-of-00003.safetensors": 4991431432,
+   "model-00003-of-00003.safetensors": 4035085288
+  },
+  "repo": "common-pile/comma-v0.1-1t",
+  "revision": "stage2-step018000-tokens1002B"
+ },
+ "tokens_per_step": 2097152,
+ "trained_steps_comma": [
+  10000,
+  20000,
+  40000,
+  60000,
+  80000,
+  100000,
+  120000,
+  140000,
+  160000,
+  180000,
+  200000,
+  220000,
+  240000,
+  260000,
+  280000,
+  300000,
+  320000,
+  340000,
+  360000,
+  380000,
+  400000,
+  420000,
+  440000,
+  460000
+ ],
+ "twin": {
+  "commit": null,
+  "config_commit": "e295235994f32d763c359d324265a176e591f632",
+  "files": [],
+  "kind": "from_config",
+  "repo": "common-pile/comma-v0.1-1t",
+  "revision": "twin",
+  "seed": 0
+ }
+}
