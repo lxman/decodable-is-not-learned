@@ -356,16 +356,12 @@ def write_world_2n(root, *, mode="pythia_only", seed=0, missing=None, power_stat
 
 def run_world(root, seal, *, n_perm=200, n_boot=20) -> dict:
     # referents_sha=False stays: a synthetic world root is not the real
-    # tree, so the pre-campaign manifest cannot check against it.
-    # FROZEN_SHA256_2N / IMPORTED_SHA256_2N are still empty/None pending
-    # Task 5 (Ruling 5), so `frozen_check`/`imports_pinned` get the same
-    # stand-ins Task 5 will remove once the real pins exist (2m's Task 4
-    # pattern).
-    frozen_check = None if bn.FROZEN_SHA256_2N else (lambda: None)
-    imports_pinned = True if an.IMPORTED_SHA256_2N is not None else False
+    # tree, so the pre-campaign manifest cannot check against it. The
+    # import pin (imports_pinned) and the frozen-module pin (frozen_check)
+    # both now run for real (Task 5 pinned IMPORTED_SHA256_2N and
+    # FROZEN_SHA256_2N and dropped both bypasses here).
     return an.run(root_2n=root, root_2i=bi.EXP2I, root_2k=bk.EXP2K, root_2l=bl.EXP2L, root_2m=bm.EXP2M,
-                  n_perm=n_perm, n_boot=n_boot, referents_sha=False, s8_loader=s8_cached,
-                  frozen_check=frozen_check, imports_pinned=imports_pinned, **seal)
+                  n_perm=n_perm, n_boot=n_boot, referents_sha=False, s8_loader=s8_cached, **seal)
 
 
 def world_specs() -> list:

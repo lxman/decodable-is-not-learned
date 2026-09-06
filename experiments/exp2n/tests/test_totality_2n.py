@@ -66,13 +66,11 @@ def _run(root, seal, **kw):
     # through `kw.setdefault` instead keeps the same default for every
     # other case while letting that one case override it.
     kw.setdefault("s8_loader", fs.s8_cached)
-    # Ruling 5 / 2m's Task 4 pattern: FROZEN_SHA256_2N/IMPORTED_SHA256_2N
-    # are still empty/None pending Task 5, so these two get the same
-    # stand-ins as `run_world` until Task 5 removes them; `referents_sha
-    # =False` stays permanently, because a synthetic tree is not the
+    # Task 5: the frozen-module pin and the import pin both run for real
+    # here now (FROZEN_SHA256_2N and IMPORTED_SHA256_2N are pinned), so
+    # the bypasses this defaulted while they were empty are gone; only
+    # `referents_sha=False` stays, because a synthetic tree is not the
     # real pre-campaign tree the manifest describes.
-    kw.setdefault("frozen_check", None if bn.FROZEN_SHA256_2N else (lambda: None))
-    kw.setdefault("imports_pinned", True if an.IMPORTED_SHA256_2N is not None else False)
     return an.run(root_2n=root, root_2i=bi.EXP2I, root_2k=bk.EXP2K, **{**seal, **kw})
 
 

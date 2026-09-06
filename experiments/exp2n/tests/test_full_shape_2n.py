@@ -152,13 +152,8 @@ def test_w18_extra_rungs_carry_an_undefined_d(worlds):
 def test_w18_verdict_json_is_strict_with_a_nan_secondary(tmp_path):
     seal = fs.write_world_2n(tmp_path, mode="pythia_only", all_fire=("count_div13", "caesar"))
     out = tmp_path / "verdict.json"
-    # Ruling 5: FROZEN_SHA256_2N/IMPORTED_SHA256_2N still empty/None
-    # pending Task 5 — the same stand-ins as `run_world`.
-    frozen_check = None if bn.FROZEN_SHA256_2N else (lambda: None)
-    imports_pinned = True if an.IMPORTED_SHA256_2N is not None else False
     an.run(root_2n=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, n_perm=30, n_boot=10,
-           referents_sha=False, write=True, out_path=out, s8_loader=fs.s8_cached,
-           frozen_check=frozen_check, imports_pinned=imports_pinned, **seal)
+           referents_sha=False, write=True, out_path=out, s8_loader=fs.s8_cached, **seal)
     rec = json.loads(out.read_text())
     assert rec["secondaries"]["extra rungs"]["extra"]["caesar"]["raw_d_A64"] is None
     assert "NaN" not in out.read_text()
@@ -218,10 +213,8 @@ def test_s8_production_loader_once(tmp_path):
     """The production S8 path (no injection) on one world: the five
     committed outcomes through their own frozen readers (≈ 3–5 min)."""
     seal = fs.write_world_2n(tmp_path, mode="shared")
-    frozen_check = None if bn.FROZEN_SHA256_2N else (lambda: None)
-    imports_pinned = True if an.IMPORTED_SHA256_2N is not None else False
     v = an.run(root_2n=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, n_perm=30, n_boot=10,
-               referents_sha=False, frozen_check=frozen_check, imports_pinned=imports_pinned, **seal)
+               referents_sha=False, **seal)
     s8 = v["secondaries"]["S8 outcome order"]
     assert set(s8) == {"pythia_2.8b", "pythia_6.9b", "olmo2_7b", "olmo2_13b", "smollm3_3b"}
     assert s8["pythia_2.8b"]["rungs"] == [r for r in fs.RUNGS_PRIMARY if r in bn.bg.R_28]
