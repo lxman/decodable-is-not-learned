@@ -986,6 +986,15 @@ existing `test_check_imports_2n_post_secondaries_forced_exception` and
 `test_annotation_c_forced_exception` may already reach them, unverified
 until the pass runs).
 
+**[CORRECTED AT THE FREEZE, 2026-09-07 — the T5 deferred minor.** The
+28-id plan above was superseded within the hour: mutant #192 is closed
+by `test_analyze_2n.py::test_run_refuses_a_2m_increment_off_the_literal`,
+a FAST test outside the totality module, so it was dropped from the
+totality list. The pass that actually ran — the controller's clean
+single-instance relaunch at 22:58, after the two-instance incident
+ledgered below — targeted **27** ids, and the round-2 tally table is
+the right one. The paragraph is kept verbatim as the interim record.]
+
 **STATUS: totality confirmation pass LAUNCHED detached, pid `27702`,
 log `experiments/exp2n/mutation_totality.log`, targeting the 28 ids
 `134,135,136,137,153,157,158,159,160,161,162,171,173,175,177,178,179,
