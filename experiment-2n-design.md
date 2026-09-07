@@ -332,6 +332,30 @@ does not call `run()`; it printed "endpoint/rung set: absent —
 pre-campaign", "power: absent — pre-campaign", "sweep: absent —
 pre-campaign".
 
+Logged (the adversarial freeze, 2026-09-07, before the tag). The freeze
+ran `analyze_2n.run()` on the REAL pre-campaign tree twice through its
+two cold tools; both landed INSUFFICIENT_DATA, printed no T and wrote
+nothing. Its own findings were demonstrated on SYNTHETIC roots
+(temporary directories) and on hand inputs, never on `EXP2N`:
+
+4. `experiments/exp2n/tests/import_scan_2n.py`, run once, to re-pin
+   `IMPORTED_SHA256_2N` after finding F-1 added assertions to
+   `verify_referents_2n.py`: `INSUFFICIENT_DATA`, 11 referent/loader
+   failures (the missing prereg tag plus the absent endpoint/rung-set/
+   power/sweep records), no T, nothing written; residual surface
+   unchanged at 4 modules, one sha moved
+   (`verify_referents_2n.py` → `e80653b5…`).
+5. `experiments/exp2n/tests/read_sweep_2n.py`, run once after that
+   re-pin: `INSUFFICIENT_DATA`, 10 referent/loader failures, no T,
+   `write=False`, 0 writes observed, 6,179 distinct paths read (8,553
+   open/read calls), bucket (e) unpinned = 0, bucket (f)
+   seal-bound-and-absent = 0.
+6. The freeze's own fast/world/totality re-runs, which execute
+   `analyze_2n.run()` on synthetic roots and, in
+   `test_run_on_empty_tree_is_insufficient_never_raises`, on an empty
+   one, plus the real-tree forced-exception tests already covered by
+   entry 3: INSUFFICIENT_DATA in every case, no T on the real tree.
+
 ## 3. Instrument — 2m's, with the outcome model swapped, the render and stop id pinned, and the corpus annotation added
 
 Everything not named here is `experiments/exp2m` / `exp2l` / `exp2k` /

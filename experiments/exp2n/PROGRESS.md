@@ -1066,3 +1066,83 @@ anywhere under `experiments/exp2n`; the four instrument blobs
 (`analyze_2n.py`, `battery_2n.py`, `run/endpoint_2n.py`,
 `run/sweep_2n.py`) byte-equal to HEAD; `mutation_totality.log` and
 `mutation_fullshape.log` committed alongside this ledger entry.
+
+## Task 6 — the adversarial freeze (2026-09-07)
+
+Fresh opus reviewer, cold, on `experiments/exp2n/` at build HEAD
+`ef0fa6b6`; brief `.superpowers/sdd/2026-09-06-exp2n-build/task-6-brief.md`
+(the plan's attack list 1–33 + item 34 from Ruling R-6); template
+`experiments/exp2m/FREEZE_CHECKLIST.md`. Zero model contact and zero
+network throughout. Full record: `experiments/exp2n/FREEZE_CHECKLIST.md`.
+
+**Verdict on the assignment: the CLASS DEFECT was NOT FOUND.** No
+reachable path was found on which 2n delivers a verdict computed from
+the wrong bytes; every tree the two runners can leave reaches a frozen
+terminal (19 shapes, 19/19 INSUFFICIENT_DATA, 0 raises). Four findings
+were found and closed additively.
+
+### Chronology
+
+| when | what | result |
+| --- | --- | --- |
+| baseline, cold | fast modules (four, no `-m` filter) | 135 passed, 257.5 s |
+| baseline, cold | worlds + totality | 58 passed, 1,306.9 s |
+| baseline, cold | `verify_referents_2n.py` | 14/14 |
+| before the closures | F-1/F-2/F-3/F-4 demonstrations + attack executions | see FREEZE_CHECKLIST |
+| before the closures | the 19 runner-left tree shapes | 19/19 frozen terminal |
+| closures | F-1..F-4 applied, `IMPORTED_SHA256_2N` re-pinned | commit `68a0fd42` |
+| after | the same demonstrations, the same shapes | every refusal fires |
+| after | cold battery, read sweep, worlds + totality, determinism, mutation | see the cold re-run table |
+
+### Findings
+
+- **F-1 — the endpoint whichs' stop-id attestation was the CONSTANT,
+  not a measurement.** The three endpoint `which`es carry no checkpoint
+  record (2m F-2's shape), so unlike every sweep step nothing measured
+  that dial o's `set_eos_stop_2n` had run: `eos_stop_id` is stamped
+  from `EOS_STOP_ID_2N` whatever the load did. Demonstrated:
+  `run/endpoint_2n.run` driven twice with loaders whose `info` reported
+  generation eos 3 and 2 produced **102 records with ZERO differing
+  fields**, both clean through `endpoint_record_failures_2n`, both
+  yielding the same R_PRIMARY. Gate 1 cannot see it either — it
+  compares the thin-loaded endpoint against the candidate-loaded
+  step 460000, and a miss on BOTH sides leaves both continuation sets
+  equal (a one-sided miss it does catch). Closed additively:
+  `endpoint_item_record_2n` takes a REQUIRED `eos_facts` (the loader's
+  own `info`) and stamps `config_eos_token_id` /
+  `generation_eos_token_id`; `endpoint_record_failures_2n` requires the
+  measured id to equal the pinned stop id; `run/endpoint_2n` passes
+  `info`. World W29, four fixtures, mutants 193/194.
+- **F-2 (Ruling R-6) — the `delta_sd` power line could describe a wider
+  rung set than the annotation C reads.** `power_2n.delta_sd_2n` fixes
+  `rungs` to R_PRIMARY minus the two predictors' degeneracy union;
+  `run()` computes C over the two tests' ELIGIBLE intersection, which
+  also drops n_pos-thin rungs. So `min_detectable_delta` — the number
+  the projection places its Δ call against — could cover rungs the
+  interval never read, with no disclosure. Closed additively:
+  `_delta_sd_scope_2n` + a disclosure in `verdict_2n` naming the extra
+  rungs, riding on the licence (2l F-4 / 2m F-1's shape on the third
+  declaration). No bar, rule or dial moved. World W28, two fixtures,
+  mutants 195/196.
+- **F-3 (attack item 33) — `min_detectable_delta` was attested and
+  never re-derived.** `load_power_2n` pinned the `formula` STRING; the
+  NUMBER rode under it, so `min_detectable_delta = 10.0` against a
+  `delta_boot_sd_null` of 0.012 passed every check. Closed additively:
+  `check_power_claims_2n` re-derives it from the record's own
+  `delta_boot_sd_null` by that literal (both-`None`, the writer's
+  degenerate return, stays legal). Three fixtures, mutant 197.
+- **F-4 — `pins_active` stated three of `run()`'s seven test-only
+  injections.** A record produced with git stubbed
+  (`tag_exists`/`blob_sha`/`blobs_bound`) or with S8's committed readers
+  replaced said nothing about it. Closed additively: `prereg_binding`,
+  `seal_binding`, `s8_committed_readers` (2k D-1's field, completed).
+  Three fixtures, mutant 198.
+
+### Disclosures (design §2 entries 4–6)
+
+The freeze ran `analyze_2n.run()` on the REAL pre-campaign tree twice —
+`tests/import_scan_2n.py` (the `IMPORTED_SHA256_2N` re-pin;
+INSUFFICIENT_DATA, 11 failures, no T) and `tests/read_sweep_2n.py`
+(INSUFFICIENT_DATA, 10 failures, no T, 0 writes, 6,179 distinct paths,
+bucket (e) = 0). Every finding was demonstrated on synthetic roots or
+hand inputs.
