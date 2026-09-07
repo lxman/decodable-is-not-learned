@@ -1416,3 +1416,7 @@ Launched 15:33 detached after the rung set, exited 17:40 (2 h 7 min — under th
 - predictor_sha256 95cec11f77a7b521…; primary_is_the_nine true; the calibration and shape notes verbatim on the record.
 
 Endpoint watcher stopped by PID after the record's commit. Next: tag `exp2n-endpoint-sealed` at HEAD → read sweep + cold battery → projection → the sweep (authorized 16:2x: 'Go on the sweep.').
+
+## Seal + projection — 2026-09-07 17:47
+
+Tag `exp2n-endpoint-sealed` cut at 024b7e30 (annotated object fde3c52c) after the power record's commit; `require_endpoint_seal_2n` binds; master and the tag pushed. Post-seal cold tools (2i's lesson — run after each stage lands): `tests/read_sweep_2n.py` → INSUFFICIENT_DATA (gate 1 / sweep absent), no T, `write=False`, bucket (e) unpinned = 0, bucket (f) seal-bound-absent = 104; `verify_referents_2n.py` 14/14 (item 10 reads endpoint / rung set / power present, sweep absent — pre-campaign; item 13 loads S8's five committed outcomes; item 14 reproduces S9's literals). Projection SEALED at `projection.md` before gate 1 or any intermediate Comma checkpoint loads — SHARED, T_A ≈ .15 [.10, .20], T_B ≈ .18 [.11, .25], C = B-LEADS at Δ_C ≈ +.04 [−.01, +.09] (covers +.0659 a coin flip), the two accounts each a claim with its own disconfirmer, per-rung by type, S8c ≈ −.05, S9 antonym A ≈ +.02 / B ≈ +.12. Sweep launch follows on Michael's word of 16:2x ('Go on the sweep.').
