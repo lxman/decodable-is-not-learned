@@ -862,6 +862,18 @@ M = [
 # file).
 M += _totality_mutants(AN)
 
+# Fix round 1 (2026-09-06): this mutant was described in the brief's
+# analyze_2n bullet list ("the round(…, 4) != guard in run() removed")
+# and in the build ledger, but was never actually added to M — found by
+# review after the fast pass exited. Appended HERE, after the
+# totality-mutant extension, so every existing mutant's index (1-191)
+# is unchanged; this one is 192.
+M.append((AN, "run(): the round(…, 4) != guard removed",
+         '''    if increment_3b is not None and round(increment_3b, 4) != round(INCREMENT_3B_2N, 4):
+        failures.append(f"2n increment 3b: 2m's committed {increment_3b} is not the literal {INCREMENT_3B_2N}")''',
+         '''    if False:
+        failures.append(f"2n increment 3b: 2m's committed {increment_3b} is not the literal {INCREMENT_3B_2N}")'''))
+
 # Task 5 ruling: fast modules only by default (test_battery_2n.py,
 # test_stages_2n.py, test_analyze_2n.py, test_power_2n.py with the
 # real-tree/slow cases deselected — they take minutes and observe

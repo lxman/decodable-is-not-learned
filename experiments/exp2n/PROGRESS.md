@@ -919,11 +919,84 @@ to prove or kill, per the brief); the `run/sweep_2n.py` reorder mutant
 identical candidate was KILLED by the fast suite in pass 1, so this
 one may resolve the same way.
 
-**Progress at this ledger entry:** baseline OK; mutants 1–5 (battery
-constant/manifest mutants) all KILLED by the fast suite; mutant 6 in
-flight. `killed/total`, every closed gap, and the documented-equivalent
-rulings will be recorded here once the fast pass (and any
-`--totality`/`--fullshape` confirmation runs) complete — deferred to a
-follow-up round; **this build session is reporting DONE_WITH_CONCERNS**
-on Task 5 for exactly this reason (the ~45-minute session poll budget
-is spent; the harness itself is untouched and continues unattended).
+**The fast pass EXITED (2026-09-06, before fix round 1): 153/191
+killed, 38 survivors, 0 SKIP, tree clean, no stray backup.**
+
+### Fix round 1 (2026-09-06 evening)
+
+**Important finding (from review): mutant "the `round(…, 4) !=` guard
+in run() removed" was DESCRIBED in this ledger and in the build report
+but was never actually added to `M`.** Corrected: appended as mutant
+**#192** (after `M += _totality_mutants(AN)`, so it does not renumber
+any of 1–191) — `run(): the round(…, 4) != guard removed`, on
+`analyze_2n.py`'s `if increment_3b is not None and round(increment_3b,
+4) != round(INCREMENT_3B_2N, 4):` guard. Ran alone with `--only 192`:
+**SURVIVED** on the first run (the guard is unreachable on any real
+committed tree, where `read_increment_3b_2n` already agrees with
+`INCREMENT_3B_2N` to 4dp). Closed with a new totality test,
+`test_increment_3b_mismatch_is_a_referent_failure` (mocks
+`read_increment_3b_2n` to return a mismatched-but-non-raising value) —
+queued for `--totality --only 192` confirmation alongside the other
+totality-class survivors (below); not yet confirmed killed.
+
+**38 fast-pass survivors, split by what can observe them:**
+
+**11 closable at fast-test speed** (no `run()` on a synthetic tree
+needed) — all now closed and CONFIRMED KILLED via `--only <id>`:
+
+| id | mutant | closed by |
+| --- | --- | --- |
+| 6 | `build_manifest_comma`: main duplicate refusal removed | NEW `test_battery_2n.py::test_build_manifest_comma_refuses_a_non_grid_revision_duplicating_main` + `_inventory(dup_main=True)`: the EXISTING `test_build_manifest_comma_main_is_a_weight_bearing_entry_and_grid_dups_against_it_refuse` makes a GRID revision duplicate main, which the per-grid-step loop ALSO catches (`step != ENDPOINT_STEP_2N and same`) — doesn't isolate the `("main", …)` tuple entry. A NON-grid, non-canonical revision (step 99997, not in `GRID_COMMA`) duplicating main is reachable ONLY through that entry |
+| 71 | `verdict_2n`: annotation not carried into the return | extended `test_verdict_2n_reason_carries_the_annotation` with `assert t["annotation"] == {...}` / `t2["annotation"] is None` — the existing test only checked the `reason` STRING, never the returned dict's `annotation` key |
+| 73 | `_licensed_2n`: the annotation modifier dropped | NEW `test_licensed_2n_appends_the_c_modifier_keyed_by_reading_and_covers` — no existing test called `_licensed_2n` on a tree carrying an `annotation` at all |
+| 74 | `_c_modifier_key_2n`: covers/excludes swapped | same new test, two cases (`covers_3b_increment` True/False) asserting the OPPOSITE modifier text is absent |
+| 116 | `run()/_core`: Test A predictor -> counts[64] instead of counts[K_TOTAL] | NEW `test_core_x256_indexes_k_total_not_a_bare_literal`, extending the existing AST-based `_core` test (2m's #88 pattern) to the `x256` dict-comprehension's subscript index (`DictComp.value`, not `.elt`) |
+| 125 | `annotation_c_2n`: ci[0] > 0 -> >= 0 | NEW `test_annotation_c_2n_ci_boundary_readings_and_covers_flag`, `paired_contrast_2n` mocked to return `ci95=[0.0, 0.05]` — the real bootstrap in the existing test never lands a bound exactly on zero |
+| 126 | `annotation_c_2n`: ci[1] < 0 -> <= 0 | same new test, `ci95=[-0.05, 0.0]` |
+| 128 | `annotation_c_2n`: covers -> not covers | same new test, `ci95=[0.01, 0.03]` against `increment_3b` inside vs. outside the interval |
+| 129 | `read_increment_3b_2n`: returning the literal instead of the file's value | NEW `test_increment_reader_returns_the_files_own_value_not_a_hardcoded_literal` — **two names needed**: the first attempt, `test_read_increment_3b_2n_returns_...`, itself matched the `-k "not test_read_increment"` substring exclusion (the same trap `mutation_check.py`'s own docstring warns about for `test_s4`/`test_s5`/`real_tree`) and SURVIVED under that name; renamed, confirmed killed |
+| 140 | `load_committed_outcomes_2n`: the smollm3_3b key dropped | NEW `test_load_committed_outcomes_2n_covers_all_five_sources`, all five upstream loaders (`an2j.load_pythia_outcomes`, `bi.load_manifest`, `an2i.load_sweep_7b`/`outcomes_7b`, `bl.load_manifest_13b`/`endpoint_sha256`, `an2l.load_sweep_13b`/`outcomes_13b`, `bm.load_manifest_3b`/`endpoint_sha256`, `an2m.load_sweep_3b`/`outcomes_3b`) mocked to sentinels — no real tree reads |
+| 141 | `s9_sign_ledger_2n`: OPTION_RUNGS_2N -> the nine | NEW `test_sign_ledger_rows_are_exactly_the_three_option_rungs` (hand-built 2l/2m verdict.json stand-ins in `tmp_path`) — the EXISTING `test_s9_sign_ledger_2n_reads_the_committed_option_rung_ds` already asserts the same thing but is excluded from the fast pass by the same `-k "not test_s9_sign"` substring filter |
+
+Confirmation commands and results:
+```
+--only 6,71,73,74,116,125,126,128,129,140,141   (first pass)
+-> 10/11 killed; 1 survivor: 129 (the -k substring-exclusion trap, above)
+--only 129   (after the rename)
+-> 1/1 killed; 0 survivors
+```
+
+**27 need `run()` on a synthetic tree** (the fast pass structurally
+cannot observe them — `test_totality_2n.py`/`test_full_shape_2n.py`
+aren't in `FAST_TESTS`), queued for the confirmation passes, NOT YET
+RUN: `run()`-internal ids **134, 135, 136, 137**, and totality-class
+`collect_total`-strip ids **153, 157, 158, 159, 160, 161, 162, 171,
+173, 175, 177, 178, 179, 180, 181, 182, 183, 184, 187, 188, 189, 190,
+191**, plus the new **192** (the round-guard mutant, above) = **28
+ids total**. Plan: `--totality --only <the 28 ids>` first (cheaper,
+≈ 6 min/mutant ≈ 2.8 h); whatever survives THAT escalates to
+`--fullshape --only <survivors>` (≈ 15–20 min/mutant) as a second
+pass. `test_totality_2n.py`'s own existing ~40-case suite is expected
+to kill most of these outright (they were never given a dedicated
+totality test — the suite's EXISTING forced-exception/world coverage
+is the first line of defense); #134/#135/#192 additionally got NEW
+totality cases in this fix round (`test_increment_3b_mismatch_is_a_
+referent_failure` for #192; #134/#135 not yet covered by name — the
+existing `test_check_imports_2n_post_secondaries_forced_exception` and
+`test_annotation_c_forced_exception` may already reach them, unverified
+until the pass runs).
+
+**STATUS: totality confirmation pass launched detached, NOT YET
+COMPLETE — see the launch line below for pid/log.** This build session
+is reporting **DONE_WITH_CONCERNS** again for exactly this reason.
+
+### Ruling R-7 (fix round 1): `.gitignore`
+
+Removed `experiments/exp2n/mutation_*.log` from `.gitignore` (the
+committed mutation logs ARE the mutation battery's record, 2l D-1's
+precedent — kept for 2l/2m but never applied to 2n's own block); the
+seven 2n stage logs (`preflight.log`, `endpoint.log`, `power.log`,
+`sweep.log`, `analyzer.log`, `watcher_endpoint.log`,
+`watcher_sweep.log`) stay ignored. `mutation_build.log`,
+`mutation_fast_survivors.log` (the two `--only` confirmation runs
+above), and `mutation_totality.log` (once it exists) are committed.

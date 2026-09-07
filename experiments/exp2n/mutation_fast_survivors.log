@@ -1,0 +1,31 @@
+=== pass: --only 6,71,73,74,116,125,126,128,129,140,141 (first confirmation, before the #129 rename) ===
+clean before starting
+baseline OK (fast pass, [6, 71, 73, 74, 116, 125, 126, 128, 129, 140, 141] mutants)
+
+[ 6] killed  build_manifest_comma: main duplicate refusal removed (main's own check dropped from the loop)
+[71] killed  verdict_2n: annotation not carried into the return
+[73] killed  _licensed_2n: the annotation modifier dropped
+[74] killed  _c_modifier_key_2n: covers/excludes swapped
+[116] killed  run()/_core: Test A predictor -> counts[64] instead of counts[K_TOTAL]
+[125] killed  annotation_c_2n: ci[0] > 0 -> >= 0
+[126] killed  annotation_c_2n: ci[1] < 0 -> <= 0
+[128] killed  annotation_c_2n: covers -> not covers
+[129] SURVIVED  read_increment_3b_2n: returning the literal instead of the file's value
+[140] killed  load_committed_outcomes_2n: the smollm3_3b key dropped
+[141] killed  s9_sign_ledger_2n: OPTION_RUNGS_2N -> the nine
+
+10/11 killed; 1 survivor(s): [(129, "read_increment_3b_2n: returning the literal instead of the file's value", 'survived')]; 0 SKIP (target text not found, stale mutant): []
+
+=== pass: --only 129 (after renaming test_read_increment_3b_2n_returns_... -> test_increment_reader_returns_...) ===
+baseline OK (fast pass, [129] mutants)
+
+[129] killed  read_increment_3b_2n: returning the literal instead of the file's value
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []
+
+=== pass: --only 192 (the round-guard mutant found missing from M, added, then run alone) ===
+baseline OK (fast pass, [192] mutants)
+
+[192] SURVIVED  run(): the round(…, 4) != guard removed
+
+0/1 killed; 1 survivor(s): [(192, 'run(): the round(…, 4) != guard removed', 'survived')]; 0 SKIP (target text not found, stale mutant): []

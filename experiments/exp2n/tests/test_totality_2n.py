@@ -374,6 +374,19 @@ def test_increment_3b_read_forced_exception(world, monkeypatch):
     _insufficient(root, seal, "2n increment 3b")
 
 
+def test_increment_3b_mismatch_is_a_referent_failure(world, monkeypatch):
+    """Fix round 1: mutant #192 ('the round(…, 4) != guard removed') was
+    found missing from M by review after the fast pass exited, added,
+    and confirmed SURVIVED with `--only 192` — the guard is unreachable
+    on any real committed tree, where `read_increment_3b_2n` already
+    agrees with `INCREMENT_3B_2N` to 4dp, so only a MISMATCHED but
+    successful (non-raising) read exercises it; the sibling test above
+    only forces a raise."""
+    root, seal = world
+    monkeypatch.setattr(an, "read_increment_3b_2n", lambda root_2m: 0.1234)
+    _insufficient(root, seal, "is not the literal")
+
+
 def test_annotation_c_forced_exception(world, monkeypatch):
     """C is preregistered, so its failure is a REFERENT failure (the
     world never reaches the tests/secondaries block), unlike S8c/S9

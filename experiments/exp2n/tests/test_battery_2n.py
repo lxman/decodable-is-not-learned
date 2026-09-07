@@ -115,7 +115,7 @@ def _stage2_rev(step):
 
 
 def _inventory(*, dup_step=None, drop_endpoint=False, drop_stage2=False, drop_main=False,
-               dup_stage2=False):
+               dup_stage2=False, dup_main=False):
     table = {}
     for step in range(10000, 460001, 10000):
         table[_stage1_rev(step)] = {"commit": f"c{step:07d}" + "0" * 32, "files": _files(f"s{step}")}
@@ -128,6 +128,14 @@ def _inventory(*, dup_step=None, drop_endpoint=False, drop_stage2=False, drop_ma
     if dup_stage2:
         table["stage2-step099999-tokens999B"] = {"commit": "e" * 40,
             "files": dict(table[bn.REV_STAGE2_FINAL_2N]["files"])}
+    if dup_main:
+        # a NON-grid, non-canonical revision (99997 is not in GRID_COMMA)
+        # whose files duplicate main's — the per-grid-step loop never
+        # visits it, so ONLY the ("main", REV_MAIN_2N) tuple entry in
+        # build_manifest_comma's stage2_final/main duplicate-refusal
+        # loop can catch it (fix round 1, mutation #6).
+        table["stage1-step099997-tokens999B"] = {"commit": "f" * 40,
+            "files": dict(table[bn.REV_MAIN_2N]["files"])}
     if drop_endpoint:
         del table[bn.REV_ENDPOINT_2N]
     if drop_stage2:
@@ -135,6 +143,20 @@ def _inventory(*, dup_step=None, drop_endpoint=False, drop_stage2=False, drop_ma
     if drop_main:
         del table[bn.REV_MAIN_2N]
     return {bn.REPO_COMMA: table}
+
+
+def test_build_manifest_comma_refuses_a_non_grid_revision_duplicating_main():
+    """Fix round 1, mutation #6 (SURVIVED the fast pass):
+    `build_manifest_comma`'s existing
+    `test_build_manifest_comma_main_is_a_weight_bearing_entry_and_grid_dups_against_it_refuse`
+    makes a GRID revision duplicate main, which is ALSO caught by the
+    per-step loop's own `step != ENDPOINT_STEP_2N and same` check
+    (mutation #4's territory) — so it doesn't isolate the
+    stage2_final/main duplicate-refusal loop's OWN `("main", …)` entry.
+    A revision outside the 24-point grid that duplicates main is
+    reachable ONLY through that loop."""
+    with pytest.raises(ValueError, match="main.*duplicate"):
+        bn.build_manifest_comma(_inventory(dup_main=True))
 
 
 def test_build_manifest_comma_shape():

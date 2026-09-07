@@ -41,6 +41,7 @@ from experiments.exp2j import analyze_2j as an2j
 from experiments.exp2j import functionals_2j as fn
 from experiments.exp2k import analyze_2k as an2k
 from experiments.exp2k import battery_2k as bk
+from experiments.exp2l import analyze_2l as an2l
 from experiments.exp2l import battery_2l as bl
 from experiments.exp2m import analyze_2m as an2m
 from experiments.exp2m import battery_2m as bm
@@ -624,11 +625,67 @@ def test_annotation_c_2n_readings_and_covers_flag():
     assert an.C_READINGS_2N == ("B-LEADS", "A-LEADS", "NO-LEAD", "UNDEFINED")
 
 
+def test_annotation_c_2n_ci_boundary_readings_and_covers_flag(monkeypatch):
+    """Fix round 1, #125/#126/#128: the real bootstrap in
+    `test_annotation_c_2n_readings_and_covers_flag` never lands a CI
+    bound EXACTLY on zero or an increment EXACTLY on a CI bound, so it
+    cannot distinguish `>` from `>=` (#125), `<` from `<=` (#126), or
+    `covers` from `not covers` (#128). `paired_contrast_2n` mocked to
+    return hand-picked boundary values instead."""
+    strata = _strata()
+    rungs = ("antonym",)
+    battery, verify = _battery(), a2d.load_verify()
+    bits_b = {r: fn.verified_bits(fn.draw_rows_2i(bi.EXP2I, r), battery[r], verify) for r in rungs}
+    x_a64 = bi.sampler_counts_pythia("1b", rungs)
+    x_a256 = {r: [min(256, c * 4) for c in x_a64[r]] for r in rungs}
+    out = _fake_out(rungs, seed=1)
+
+    def _pc(ci95, contrast):
+        return lambda *a, **kw: {"rungs": list(rungs), "T": {"A256": 0.0, "B_thinned": 0.0},
+                                 "contrast": contrast, "ci95": ci95, "n_boot": 10,
+                                 "n_boot_requested": 10, "note": "mocked"}
+
+    monkeypatch.setattr(an, "paired_contrast_2n", _pc([0.0, 0.05], 0.02))
+    c = an.annotation_c_2n(bits_b, x_a64, x_a256, out, strata, rungs, increment_3b=0.0659, n_boot=5)
+    assert c["reading"] == "NO-LEAD", c["reading"]     # ci[0] == 0 is NOT strictly > 0
+
+    monkeypatch.setattr(an, "paired_contrast_2n", _pc([-0.05, 0.0], -0.02))
+    c2 = an.annotation_c_2n(bits_b, x_a64, x_a256, out, strata, rungs, increment_3b=0.0659, n_boot=5)
+    assert c2["reading"] == "NO-LEAD", c2["reading"]    # ci[1] == 0 is NOT strictly < 0
+
+    monkeypatch.setattr(an, "paired_contrast_2n", _pc([0.01, 0.03], 0.02))
+    c3 = an.annotation_c_2n(bits_b, x_a64, x_a256, out, strata, rungs, increment_3b=0.02, n_boot=5)
+    assert c3["covers_3b_increment"] is True             # increment_3b sits inside [0.01, 0.03]
+    c4 = an.annotation_c_2n(bits_b, x_a64, x_a256, out, strata, rungs, increment_3b=0.5, n_boot=5)
+    assert c4["covers_3b_increment"] is False
+
+
 def test_read_increment_3b_2n_matches_the_literal():
     got = an.read_increment_3b_2n(bm.EXP2M)
     assert round(got, 4) == round(an.INCREMENT_3B_2N, 4) == 0.0659
     with pytest.raises(ValueError, match="increment"):
         an.read_increment_3b_2n(Path("/nonexistent"))
+
+
+def test_increment_reader_returns_the_files_own_value_not_a_hardcoded_literal(tmp_path):
+    """Fix round 1, #129: `test_read_increment_3b_2n_matches_the_literal`
+    is excluded from the mutation fast pass by name (`-k "... and not
+    test_read_increment ..."`) — and the FIRST attempt at this closing
+    test, named `test_read_increment_3b_2n_returns_...`, was ALSO
+    excluded, because `-k`'s exclusion is a SUBSTRING match against the
+    node id, not an exact name match (the file's own mutation_check.py
+    docstring warns of exactly this trap re: test_s4/test_s5/real_tree,
+    and it caught this test too — confirmed via `--only 129`: still
+    SURVIVED with the first name, killed after this rename). A
+    hand-built verdict.json carrying an increment far from
+    INCREMENT_3B_2N must be read back exactly."""
+    results = tmp_path / "results"
+    results.mkdir()
+    (results / "verdict.json").write_text(json.dumps(
+        {"secondaries": {"S4 matched density": {"increment": 0.987654}}}))
+    got = an.read_increment_3b_2n(tmp_path)
+    assert got == 0.987654
+    assert round(got, 4) != round(an.INCREMENT_3B_2N, 4)
 
 
 def test_s5_answer_prior_2n_is_2j_functional_on_2i_rows():
@@ -666,6 +723,28 @@ def test_s8_outcome_order_2n_reads_each_committed_outcome_over_its_own_rungs():
     assert all(v["descriptive"] is True for v in s8.values())
 
 
+def test_load_committed_outcomes_2n_covers_all_five_sources(monkeypatch):
+    """Fix round 1, #140: `load_committed_outcomes_2n`'s five loaders
+    mocked to canned sentinels (no real 2i/2l/2m tree reads) — kills
+    'the smollm3_3b key dropped' at unit-test speed."""
+    monkeypatch.setattr(an2j, "load_pythia_outcomes", lambda battery, verify_fn: {"2.8b": "P28", "6.9b": "P69"})
+    monkeypatch.setattr(bi, "load_manifest", lambda *a, **kw: "MAN2I")
+    monkeypatch.setattr(an2i, "load_sweep_7b", lambda *a, **kw: "SWEEP7B")
+    monkeypatch.setattr(an2i, "outcomes_7b", lambda *a, **kw: "OUT7B")
+    monkeypatch.setattr(bl, "load_manifest_13b", lambda *a, **kw: "MAN2L")
+    monkeypatch.setattr(bl, "endpoint_sha256", lambda *a, **kw: "ESHA13B")
+    monkeypatch.setattr(an2l, "load_sweep_13b", lambda *a, **kw: "SWEEP13B")
+    monkeypatch.setattr(an2l, "outcomes_13b", lambda *a, **kw: "OUT13B")
+    monkeypatch.setattr(bm, "load_manifest_3b", lambda *a, **kw: "MAN2M")
+    monkeypatch.setattr(bm, "endpoint_sha256", lambda *a, **kw: "ESHA3B")
+    monkeypatch.setattr(an2m, "load_sweep_3b", lambda *a, **kw: "SWEEP3B")
+    monkeypatch.setattr(an2m, "outcomes_3b", lambda *a, **kw: "OUT3B")
+    out = an.load_committed_outcomes_2n({}, None, root_2i=bi.EXP2I, root_2l=bl.EXP2L, root_2m=bm.EXP2M)
+    assert set(out) == {"pythia_2.8b", "pythia_6.9b", "olmo2_7b", "olmo2_13b", "smollm3_3b"}
+    assert out == {"pythia_2.8b": "P28", "pythia_6.9b": "P69", "olmo2_7b": "OUT7B",
+                   "olmo2_13b": "OUT13B", "smollm3_3b": "OUT3B"}
+
+
 def test_s8c_corpus_contrast_2n_groups_and_direction():
     strata = _strata()
     r_primary = tuple(sorted(bn.R_CAP_2K))
@@ -691,6 +770,27 @@ def test_s9_sign_ledger_2n_reads_the_committed_option_rung_ds():
     assert led["rows"]["antonym6"]["olmo2_7b_known"]["A"] == 0.115
     assert led["rows"]["odd6"]["olmo2_7b_known"]["A"] == 0.096
     assert led["sources"]["olmo2_7b_known"].startswith("literals")
+
+
+def test_sign_ledger_rows_are_exactly_the_three_option_rungs(tmp_path):
+    """Fix round 1, #141: `test_s9_sign_ledger_2n_reads_the_committed_
+    option_rung_ds` is excluded from the mutation fast pass by name
+    (`-k "... and not test_s9_sign ..."`). Hand-built 2l/2m verdict.json
+    stand-ins (no real committed trees) so this is fast and
+    independently named. `OPTION_RUNGS_2N -> bn.R_CAP_2K` (the nine)
+    would KeyError on `SIGN_LEDGER_LITERALS_2N["olmo2_7b_known"][r]`
+    for any of the six non-option rungs it adds."""
+    per_rung = {r: {"d": 0.3} for r in an.OPTION_RUNGS_2N}
+    verdict = {"tests": {"A": {"per_rung": per_rung}, "B": {"per_rung": per_rung}}}
+    for who in ("2l", "2m"):
+        d = tmp_path / who / "results"
+        d.mkdir(parents=True)
+        (d / "verdict.json").write_text(json.dumps(verdict))
+    A = {"per_rung": {r: {"d": 0.1} for r in an.OPTION_RUNGS_2N}}
+    B = {"per_rung": {r: {"d": 0.2} for r in an.OPTION_RUNGS_2N}}
+    led = an.s9_sign_ledger_2n(A, B, root_2l=tmp_path / "2l", root_2m=tmp_path / "2m")
+    assert set(led["rows"]) == set(an.OPTION_RUNGS_2N) == {"antonym", "antonym6", "odd6"}
+    assert led["option_rungs"] == list(an.OPTION_RUNGS_2N)
 
 
 def test_extra_rungs_2n_shape():
@@ -872,6 +972,27 @@ def test_core_reads_both_tests_on_the_bare_base_strata_ast():
     assert isinstance(calls[1].args[1], ast.Attribute)          # bi.SIZE_PRED, not a literal
 
 
+def test_core_x256_indexes_k_total_not_a_bare_literal():
+    """Fix round 1, #116: `x256 = {r: cells_2k["1b"][r]["counts"][bk.K_TOTAL]
+    for r in r_primary}` inside `_core` must subscript `counts` with the
+    module constant `bk.K_TOTAL` (an ast.Attribute), never a bare int
+    literal like `64` (a 4-block predictor read where a 256-draw read
+    is required)."""
+    tree = ast.parse((an.EXP2N / "analyze_2n.py").read_text())
+    run_fn = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "run")
+    core = next(n for n in ast.walk(run_fn) if isinstance(n, ast.FunctionDef) and n.name == "_core")
+    assign = next(n for n in ast.walk(core) if isinstance(n, ast.Assign)
+                 and any(isinstance(t, ast.Name) and t.id == "x256" for t in n.targets))
+    dictcomp = assign.value
+    assert isinstance(dictcomp, ast.DictComp), ast.dump(dictcomp)
+    value_expr = dictcomp.value          # DictComp uses .key/.value, not .elt
+    assert isinstance(value_expr, ast.Subscript), ast.dump(value_expr)
+    idx = value_expr.slice
+    if isinstance(idx, getattr(ast, "Index", ())):    # py<3.9 wraps the slice; harmless no-op on 3.9+
+        idx = idx.value
+    assert isinstance(idx, ast.Attribute) and idx.attr == "K_TOTAL", ast.dump(idx)
+
+
 def test_check_imports_2n_real_rule_flags_a_module_outside_tests(monkeypatch):
     fake_path = str(bn.EXP2N / "PROGRESS.md")
     assert Path(fake_path).is_file()
@@ -928,6 +1049,44 @@ def test_verdict_2n_reason_carries_the_annotation():
     assert t["verdict"] == "SHARED"
     t2 = an.verdict_2n([], _prim(0.2, 0.001, True), _prim(0.2, 0.001, True), powered, nine, annotation=None)
     assert "C:" not in t2["reason"]
+    # Fix round 1, #71: `annotation` must be carried into verdict_2n's own
+    # return dict, not just baked into the `reason` string.
+    assert t["annotation"] == {"C": {"reading": "NO-LEAD", "delta": 0.01, "ci95": [-0.02, 0.04]}}
+    assert t2["annotation"] is None
+
+
+def test_licensed_2n_appends_the_c_modifier_keyed_by_reading_and_covers(monkeypatch):
+    """Fix round 1, #71/#73/#74: no existing test exercised `_licensed_2n`
+    with a tree carrying an `annotation`, so neither the "modifier
+    dropped" mutant (#73) nor the "covers/excludes swapped" mutant
+    (#74, `_c_modifier_key_2n`) nor #71 (annotation not returned by
+    `verdict_2n`, which starves this code path entirely) had a covering
+    test."""
+    powered = {"A": {"declared_status": "POWERED"}, "B": {"declared_status": "POWERED"}}
+    nine = tuple(sorted(bn.R_CAP_2K))
+
+    def _t(annotation):
+        return an.verdict_2n([], _prim(0.2, 0.001, True), _prim(0.2, 0.001, True), powered, nine,
+                             annotation=annotation)
+
+    t_covers = _t({"C": {"reading": "B-LEADS", "covers_3b_increment": True}})
+    lic_covers = an._licensed_2n(t_covers)
+    assert lic_covers.startswith(an.LICENSED_2N["SHARED"])
+    assert an.C_MODIFIERS_2N["B-LEADS-covers"] in lic_covers
+
+    t_excludes = _t({"C": {"reading": "B-LEADS", "covers_3b_increment": False}})
+    lic_excludes = an._licensed_2n(t_excludes)
+    assert an.C_MODIFIERS_2N["B-LEADS-excludes"] in lic_excludes
+    assert an.C_MODIFIERS_2N["B-LEADS-covers"] not in lic_excludes
+
+    t_a = _t({"C": {"reading": "A-LEADS"}})
+    assert an.C_MODIFIERS_2N["A-LEADS"] in an._licensed_2n(t_a)
+
+    # a tree with no annotation at all: the modifier block must not run
+    t_none = _t(None)
+    lic_none = an._licensed_2n(t_none)
+    assert lic_none.startswith(an.LICENSED_2N["SHARED"])
+    assert not any(m in lic_none for m in an.C_MODIFIERS_2N.values())
 
 
 def test_verdict_2n_discloses_a_test_that_read_fewer_than_three_rungs():

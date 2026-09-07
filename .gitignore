@@ -68,4 +68,6 @@ experiments/exp2n/sweep.log
 experiments/exp2n/analyzer.log
 experiments/exp2n/watcher_endpoint.log
 experiments/exp2n/watcher_sweep.log
-experiments/exp2n/mutation_*.log
+# Ruling R-7 (fix round 1): the committed mutation_*.log files ARE the
+# mutation battery's record (2l D-1's own precedent), so unlike the
+# seven stage logs above they are NOT ignored.
