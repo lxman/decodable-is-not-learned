@@ -948,6 +948,20 @@ def test_run_referent_manifest_check_forced_exception(monkeypatch):
     assert any("2n referent manifest" in f and "injected" in f for f in v["referents"]["failures"])
 
 
+def test_run_refuses_a_2m_increment_off_the_literal(monkeypatch):
+    """Fix round 2, mutant #192 (fix round 1 added it to M but the closing
+    totality test, test_increment_3b_mismatch_is_a_referent_failure, sits
+    in test_totality_2n.py and is not one of the FAST_TESTS files, so it
+    never observed the fast pass): `run()`'s `round(increment_3b, 4) !=
+    round(INCREMENT_3B_2N, 4)` guard, forced by a MISMATCHED but
+    successfully-read increment (no exception -- the sibling forced-
+    exception tests above only cover the raise path, not this compare)."""
+    monkeypatch.setattr(an, "read_increment_3b_2n", lambda root_2m: 0.07)
+    v = an.run(n_perm=20, n_boot=5)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any("2n increment 3b" in f and "0.07" in f for f in v["referents"]["failures"]), v["referents"]["failures"]
+
+
 def test_core_reads_both_tests_on_the_bare_base_strata_ast():
     """Dial b as a property of the SOURCE (mutation closure, 2m's Task 5
     fix round 1, #88), at zero cost: inside `run()`'s nested `_core`,

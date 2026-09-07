@@ -29,3 +29,10 @@ baseline OK (fast pass, [192] mutants)
 [192] SURVIVED  run(): the round(…, 4) != guard removed
 
 0/1 killed; 1 survivor(s): [(192, 'run(): the round(…, 4) != guard removed', 'survived')]; 0 SKIP (target text not found, stale mutant): []
+
+=== pass: --only 192 (round 2) ===
+baseline OK (fast pass, [192] mutants)
+
+[192] killed  run(): the round(…, 4) != guard removed
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []
