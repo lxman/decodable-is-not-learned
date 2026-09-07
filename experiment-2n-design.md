@@ -441,8 +441,8 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    anywhere in the render" — one constant, ruled before the tag.
 3. **The stop id (dial o, recommended: the tokenizer's EOS).** Both
    loader paths set `model.generation_config.eos_token_id = EOS_TOKEN_
-   ID_2N` (3) after loading and assert it,
-   and every record carries `eos_stop_id: 3`. Because the three
+   ID_2N` (3) after loading and assert it, and every record carries
+   `eos_stop_id: 3`. Because the three
    endpoint `which`es carry no checkpoint record, each ENDPOINT ITEM
    RECORD additionally carries the loader's OWN measured
    `config_eos_token_id` and `generation_eos_token_id`
@@ -514,7 +514,15 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    override makes them agree by construction, and gate 1 measures it.
 8. **The corpus annotation C** — new. Computed from S4's thinned x_B
    (2k's block rule: k_g = clip(round(256 · r̄_A / r̄_B), 1, 64) per
-   rung, the first k_g draws, no seed).
+   rung, the first k_g draws, no seed) and x_A^(256) over the
+   intersection of the two tests' eligible sets, Δ = T_B,matched −
+   T_A,256; CI95 by 2m's paired item bootstrap (items resampled with
+   replacement within each rung, both predictors read on the same
+   resample, `n_boot` beside `n_boot_requested`). Reads B-LEADS /
+   A-LEADS / NO-LEAD by the rule in §1; `covers_3b_increment` (+.0659)
+   and the three committed increments (+.054 / +.069 / +.066) printed
+   beside it. Printed in every world; it never enters the verdict's
+   world.
 
    "The first k_g draws" is exactly `row[:k_g]` on every item — one
    deterministic block. S4's own `per_rung` reading, the MEAN over all
@@ -534,13 +542,6 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    projection quotes both numbers, C's first-block Δ and S4's
    all-blocks increment, when it places the annotation.
 
-   and x_A^(256) over the
-   intersection of the two tests' eligible sets, Δ = T_B,matched −
-   T_A,256; CI95 by 2m's paired item bootstrap (items resampled with
-   replacement within each rung, both predictors read on the same
-   resample, `n_boot` beside `n_boot_requested`). Reads B-LEADS /
-   A-LEADS / NO-LEAD by the rule in §1; `covers_3b_increment` (+.0659).
-
    `covers_3b_increment` is measured against 2m's OWN committed
    number, read at analysis time from
    `experiments/exp2m/results/verdict.json` → `secondaries["S4 matched
@@ -549,10 +550,6 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    equal to the literal `0.0659` to four decimals as a known-answer
    gate. The 2k and 2l increments (+.054, +.0687) are printed as
    literals with their sources named, not read.
-
-   and the three committed increments (+.054 / +.069 / +.066) printed
-   beside it. Printed in every world; it never enters the verdict's
-   world.
 9. **The tree.** INSUFFICIENT_DATA → the joint reading of Tests A and
    B → SHARED / PYTHIA-ONLY / OLMO-ONLY / NEITHER, each carrying the
    annotation C. Every quantity of §5 printed in every world. Ruling
@@ -566,12 +563,10 @@ F-1 SAME/WIDER disclosure decided against the power record's own
     referent manifest (2m's list + 2m's verdict, seal, power, endpoint
     and sweep records — S8 now reads 2m's committed per-item outcome
     too — plus 2n's `checkpoints_2n.json`, the Hub inventory and
-    `power_2n.py`)
-    — 4,427 files in total, including 2m's OWN campaign artifacts (its
-    102 endpoint records, rung set, power record, 946-file sweep tree,
-    `gate1.json` and `verdict.json`), which S8, S9 and C read.
-    , its sha a literal in the analyzer;
-    the campaign's
+    `power_2n.py`) — 4,427 files in total, including 2m's OWN campaign
+    artifacts (its 102 endpoint records, rung set, power record,
+    946-file sweep tree, `gate1.json` and `verdict.json`), which S8, S9
+    and C read — its sha a literal in the analyzer; the campaign's
     own artifacts bound by `exp2n-endpoint-sealed` and cross-checked at
     analysis time exactly as 2m's were, so the preregistration tag is
     never re-cut after the campaign. Blob-bound tags: `exp2n-
@@ -808,9 +803,9 @@ never on outcome data (nothing the preflight prints enters any
 record). → **stage 1 (endpoint)**: the stage-1 endpoint, the cool-down
 endpoint and `main` through the thin loader on all 34 rungs (≈ 4 h,
 3 × 14 GB), R fixed by rule, power printed once (with the block-SD and
-Δ-SD lines). The Δ-SD line adds three 200-simulation arms and two
+Δ-SD lines — the Δ-SD line adds three 200-simulation arms and two
 `calibrate_rho` calls to the power stage, so budget roughly twice 2m's
-127 minutes for `power_2n`. , committed, tagged
+127 minutes for `power_2n`), committed, tagged
 `exp2n-endpoint-sealed` → projection
 sealed (by rung type; the corpus account's swap and the predictor
 account's constancy each a claim with its own disconfirmer; tolerances
