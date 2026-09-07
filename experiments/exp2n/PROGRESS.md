@@ -986,9 +986,16 @@ existing `test_check_imports_2n_post_secondaries_forced_exception` and
 `test_annotation_c_forced_exception` may already reach them, unverified
 until the pass runs).
 
-**STATUS: totality confirmation pass launched detached, NOT YET
-COMPLETE — see the launch line below for pid/log.** This build session
-is reporting **DONE_WITH_CONCERNS** again for exactly this reason.
+**STATUS: totality confirmation pass LAUNCHED detached, pid `27702`,
+log `experiments/exp2n/mutation_totality.log`, targeting the 28 ids
+`134,135,136,137,153,157,158,159,160,161,162,171,173,175,177,178,179,
+180,181,182,183,184,187,188,189,190,191,192`. Full fast-suite sanity
+check re-run first (after all fix-round-1 test edits): `test_battery_2n.py
++ test_stages_2n.py + test_analyze_2n.py + test_power_2n.py -m "not
+slow"` → **133 passed, 1 deselected, 252.8 s** (7 more passing than
+the pre-fix-round 126, matching the 7 new/extended test functions).
+NOT YET COMPLETE.** This build session is reporting
+**DONE_WITH_CONCERNS** again for exactly this reason.
 
 ### Ruling R-7 (fix round 1): `.gitignore`
 
