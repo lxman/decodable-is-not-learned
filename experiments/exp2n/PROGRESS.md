@@ -1392,3 +1392,15 @@ fp16 STANDS — 0 non-finite logits on both loads (max_abs 18.34 on `main`, 12.5
 [2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 571 + 578?\\nA:' -> ' 571\n\nQ: What is ' verify=0
 [2n preflight] complete: 2 rung(s) × 20 item(s) × 2 renders on main and on stage1-step010000-tokens21B; nothing written under results/
 ```
+
+## Endpoint stage — 2026-09-07 (Michael: 'Go on the endpoint stage.')
+
+Launched 12:21 detached with the commit watcher (`--stage endpoint`), exited 15:31 (≈ 3 h 10 min wall; summed record time 3.10 h). 102 records (three thin loads × 34 rungs × 500 items, greedy, fp16, `render: "bos"`, stop id 3) + `results/endpoint/rung_set_2n.json`, every file watcher-committed and pushed; zero halts, zero attrition, no HALTED marker. Measured on every record: `render` bos, `dtype` float16, `eos_stop_id` 3, `config_eos_token_id` 2 (the LlamaConfig default — the tokenizer's BOS, dial o's trap) overridden to `generation_eos_token_id` 3 on every load; n = 500 on all 102.
+
+Rung set (2d's floor rule on stage1_final, step 460000): **R_COMMA = 16** — add3_mid, add4_mid, add_base8, antonym, antonym6, arith_next, clock24_d999, median7, oct2dec, odd6, quad_next, rev_string7, reverse_string, sub3_mid, sub4_mid, sub_base8; **R_PRIMARY = the nine** (`primary_is_the_nine: true`); R_ELEVEN_EXTRA = ∅; **R_EXTRA = 7** — add4_mid 360, clock24_d999 52, median7 105, oct2dec 9, quad_next 64, rev_string7 5, reverse_string 41. Flat (18): base12_digitsum 12, base13 0, base7 0, caesar 0, caesar_len8 0, clock24 25, collatz_step2 75, count_div13 80, count_div7 42, hamming12 98, isqrt_gap 71, median5 114, mod13 37, mod13_comp 31, mod17 32, mod19 20, odd_one_out 127, roman_sum7 76.
+
+Counts on the nine (stage1_final / stage2_final / main): add3_mid 490/492/496 | add_base8 118/119/119 | antonym 327/344/350 | antonym6 327/280/302 | arith_next 491/476/486 | odd6 127/141/147 | sub3_mid 500/500/500 | sub4_mid 407/401/418 | sub_base8 306/308/307. `main` ≥ stage1_final on 7/9; stage2_final ≥ stage1_final on 6/9.
+
+Against 2m's SmolLM3-3B stage-1 endpoint (Comma stage1_final vs SmolLM3): add3_mid 490 vs 330, add_base8 118 vs 118, antonym 327 vs 435, antonym6 327 vs 199, arith_next 491 vs 473, odd6 127 vs 120, sub3_mid 500 vs 494, sub4_mid 407 vs 243, sub_base8 306 vs 309. Comma at 1 T is stronger on the mid-digit rungs and antonym6, weaker on antonym; the base-8 pair and odd6 land within a few items of SmolLM3's — recorded here before the projection.
+
+Power LAUNCHED ONCE 2026-09-07 15:35 (detached, log `power.log`); the record `results/endpoint/power_2n.json` is written once and watcher-committed. Next: seal tag `exp2n-endpoint-sealed` → read sweep + cold battery → projection → the sweep on Michael's word.
