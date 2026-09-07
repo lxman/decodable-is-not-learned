@@ -1,0 +1,31 @@
+baseline OK (totality pass, [134, 135, 136, 137, 153, 157, 158, 159, 160, 161, 162, 171, 173, 175, 177, 178, 179, 180, 181, 182, 183, 184, 187, 188, 189, 190, 191] mutants)
+
+[134] killed  run(): the post-secondaries import re-check does not refuse
+[135] killed  run(): the annotation C failure misrouted away from `failures`
+[136] SURVIVED  sensitivities: every40k_subset computed over bn.GRID_COMMA, not EVERY40K_SUBSET_2N
+[137] SURVIVED  sensitivities: every40k_subset 'control' True -> False
+[153] killed  run(): totality — collect_total stripped at line 928 (lambda: bi.sampler_counts_olmo(bn.R_CAP_2K, root=root_2i, ba...)
+[157] killed  run(): totality — collect_total stripped at line 1348 (lambda: bn.load_manifest_comma(bn.CHECKPOINTS_PATH, sha_pin=...)
+[158] killed  run(): totality — collect_total stripped at line 1364 (bg.load_battery...)
+[159] killed  run(): totality — collect_total stripped at line 1365 (bg.load_floors...)
+[160] killed  run(): totality — collect_total stripped at line 1366 (a2d.load_verify...)
+[161] killed  run(): totality — collect_total stripped at line 1367 (lambda: pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_p...)
+[162] killed  run(): totality — collect_total stripped at line 1375 (lambda: read_increment_3b_2n(root_2m)...)
+[171] killed  run(): totality — collect_total stripped at line 1335 (lambda: bn.halt_marker_path(root_2n).read_text().strip()[:20...)
+[173] killed  run(): totality — collect_total stripped at line 1363 (thunk...)
+[175] killed  run(): totality — collect_total stripped at line 1398 (lambda: {w: bn.entry_which_comma(manifest, w) for w in bn.EN...)
+[177] killed  run(): totality — collect_total stripped at line 1410 (lambda: _check_rung_set_vs_endpoint_2n(rung_set, stage1_fina...)
+[178] killed  run(): totality — collect_total stripped at line 1416 (lambda: _check_rung_set_endpoint_shas_2n(rung_set, root_2n)...)
+[179] killed  run(): totality — collect_total stripped at line 1427 (lambda: json.loads(g1p.read_text())...)
+[180] killed  run(): totality — collect_total stripped at line 1453 (_core...)
+[181] killed  run(): totality — collect_total stripped at line 1459 (_power_claims...)
+[182] killed  run(): totality — collect_total stripped at line 1461 (check_imports_2n if imports_pinned else (lambda: None)...)
+[183] killed  run(): totality — collect_total stripped at line 1490 (lambda: annotation_c_2n(bits_b, x64, x256, out, strata,...)
+[184] killed  run(): totality — collect_total stripped at line 897 (_tier...)
+[187] killed  run(): totality — collect_total stripped at line 1413 (lambda: _check_rung_set_derivation_2n(rung_set, stage1_final...)
+[188] killed  run(): totality — collect_total stripped at line 1430 (lambda: bn.gate1_failures_comma(gate1, stage1_final) if stag...)
+[189] killed  run(): totality — collect_total stripped at line 1559 (s8_loader or _s8_loader...)
+[190] killed  run(): totality — collect_total stripped at line 1595 (check_imports_2n if imports_pinned else (lambda: None)...)
+[191] killed  run(): totality — collect_total stripped at line 1507 (thunk...)
+
+25/27 killed; 2 survivor(s): [(136, 'sensitivities: every40k_subset computed over bn.GRID_COMMA, not EVERY40K_SUBSET_2N', 'survived'), (137, "sensitivities: every40k_subset 'control' True -> False", 'survived')]; 0 SKIP (target text not found, stale mutant): []

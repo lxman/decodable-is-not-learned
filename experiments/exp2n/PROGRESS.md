@@ -815,7 +815,7 @@ process-tail re-run after `exp2n-endpoint-sealed` exists.
 endpoint seal tag is cut — (e) must still be 0, and the campaign-side
 paths must then resolve for real.
 
-### Step 4 — the mutation harness: 191 mutants, STATUS AS OF 2026-09-06 15:32 EDT — fast pass running, pid 62266, log `experiments/exp2n/mutation_build.log`, 48 killed / 1 SURVIVED / 0 SKIP of 49 completed so far, NOT YET COMPLETE
+### Step 4 — the mutation harness: 192 mutants (191 + the round-guard mutant added in fix round 1), **192 killed, 0 survivors, 0 SKIP — CLOSED (fix round 2)**
 
 **Survivor #6** (`build_manifest_comma: main duplicate refusal removed`)
 needs a NEW fast test (dropping `("main", REV_MAIN_2N)` from the
@@ -1007,3 +1007,62 @@ seven 2n stage logs (`preflight.log`, `endpoint.log`, `power.log`,
 `watcher_sweep.log`) stay ignored. `mutation_build.log`,
 `mutation_fast_survivors.log` (the two `--only` confirmation runs
 above), and `mutation_totality.log` (once it exists) are committed.
+
+### Fix round 2 (2026-09-06/07) — mutation harness CLOSED, 192/192 killed
+
+**The 22:58 incident (one sentence):** the previous implementer, stopped
+but not yet reaped, briefly launched a second `--totality` instance
+beside the controller's own relaunch — both were killed within minutes,
+no `.mutation_backup` was left, the four instrument blobs stayed
+byte-clean against HEAD, and the one partial `mutation_totality.log`
+from that overlapping window was discarded and overwritten by the
+clean single-instance relaunch, so nothing from it is counted below.
+
+**Final tally by pass:**
+
+| pass | command | log | result |
+| --- | --- | --- | --- |
+| 1 (fast) | `mutation_check.py` (detached) | `mutation_build.log` | 153/191 killed, 38 survivors, 0 SKIP |
+| 2 (fast, `--only`) | 11 fast-closable survivors, first try | `mutation_fast_survivors.log` | 10/11 killed; #129 survived (a `-k "not test_read_increment"` substring-exclusion trap on the closing test's own name) |
+| 3 (fast, `--only 129`) | after renaming the closing test | `mutation_fast_survivors.log` | 1/1 killed |
+| 4 (fast, `--only 192`) | the round-guard mutant, added to `M` in fix round 1 after review found it missing; its own closing test lives in `test_totality_2n.py`, not one of the four `FAST_TESTS` files, so the fast pass never saw a covering test | `mutation_fast_survivors.log` | 0/1 killed — SURVIVED |
+| 5 (totality, `--only` 27 ids) | `134,135,136,137` + 23 `collect_total`-strip ids | `mutation_totality.log` | 25/27 killed; survivors #136, #137 (the `every40k_subset` sensitivity — observable only through the world module) |
+| 6 (fast, `--only 192`, round 2) | after `test_run_refuses_a_2m_increment_off_the_literal` (a NEW `test_analyze_2n.py` test, monkeypatching `read_increment_3b_2n` to a mismatched-but-non-raising 0.07) | `mutation_fast_survivors.log` | 1/1 killed |
+| 7 (fullshape, `--only 136,137`) | detached, ≈ 25 min | `mutation_fullshape.log` | 2/2 killed — both already asserted by the existing world test `test_s8_five_rows_s8c_and_s9` (`sens["every40k_subset"]["control"] is True` and `["steps"] == list(bn.EVERY40K_SUBSET_2N)`), no new assertion needed |
+
+**192 mutants total (the 147 hand-written + 44 AST-generated `collect_total` totality mutants = 191, plus the round-guard mutant added post-hoc as #192), 192/192 killed, 0 open survivors, 0 SKIP across every pass.**
+
+**Documented-equivalent candidates: none needed a proof.** Both
+mutants the brief flagged as possible equivalents —
+`_STAGE1_RE_2N`'s `\d{6}` → `\d+` (#11) and the `run/sweep_2n.py`
+reorder mutant, `endpoint_sha` computed before the endpoint seal binds
+(#65) — were **killed outright by the fast pass** (`mutation_build.log`
+lines 13 and 67), so both resolve as NOT equivalent with no fixture or
+proof required.
+
+**Every gap closed:**
+
+| id(s) | mutant | closed by |
+| --- | --- | --- |
+| 6, 71, 73, 74, 116, 125, 126, 128, 129, 140, 141 | see the fix-round-1 table above (unchanged this round) | fix round 1's eleven new/extended fast tests |
+| 192 | `run()`'s `round(increment_3b, 4) != round(INCREMENT_3B_2N, 4)` guard removed | NEW `test_analyze_2n.py::test_run_refuses_a_2m_increment_off_the_literal` (fix round 2) — monkeypatches `an.read_increment_3b_2n` to return `0.07` (a mismatch that does NOT raise, unlike the sibling forced-exception tests) and asserts `an.run(n_perm=20, n_boot=5)` lands `INSUFFICIENT_DATA` with `"2n increment 3b"` and `"0.07"` in `v["referents"]["failures"]`. Fix round 1's totality-side test, `test_totality_2n.py::test_increment_3b_mismatch_is_a_referent_failure`, stands as additional coverage but does not sit in a `FAST_TESTS` file, so it could not close the fast-pass survivor by itself |
+| 136, 137 | `sensitivities`: `every40k_subset` computed over `bn.GRID_COMMA` instead of `EVERY40K_SUBSET_2N`; `every40k_subset`'s `"control"` `True` → `False` | ALREADY closed by the existing world test `test_full_shape_2n.py::test_s8_five_rows_s8c_and_s9` (`sens["every40k_subset"]["control"] is True and sens["every40k_subset"]["steps"] == list(bn.EVERY40K_SUBSET_2N)`), confirmed by a targeted `--fullshape --only 136,137` run — no new test written |
+
+**Test counts, reconciled (correcting the original Task 5 report's
+unreconciled "793 total tests" claim — see the report's Fix round 2
+section):** fast modules (`test_battery_2n.py` + `test_stages_2n.py` +
+`test_analyze_2n.py` + `test_power_2n.py`, `-m "not slow"`) **134
+passed, 1 deselected** (133 after fix round 1's seven new/extended
+functions, +1 for this round's new test); world + totality
+(`test_full_shape_2n.py` + `test_totality_2n.py`, full, no `-m`
+filter) **58 passed** (0 deselected — full_shape 16 + totality 42
+raw `def test_` counts under-report the parametrized total; 58 is the
+pytest-collected figure, 22:12 wall); cold battery (`verify_referents_2n`)
+**14/14**. No figure anywhere adds to 793; that number never
+corresponded to a run this build actually made.
+
+Confirmed clean at the close of this round: no `*.mutation_backup`
+anywhere under `experiments/exp2n`; the four instrument blobs
+(`analyze_2n.py`, `battery_2n.py`, `run/endpoint_2n.py`,
+`run/sweep_2n.py`) byte-equal to HEAD; `mutation_totality.log` and
+`mutation_fullshape.log` committed alongside this ledger entry.

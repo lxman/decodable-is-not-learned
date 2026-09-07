@@ -1,0 +1,6 @@
+baseline OK (fullshape pass, [136, 137] mutants)
+
+[136] killed  sensitivities: every40k_subset computed over bn.GRID_COMMA, not EVERY40K_SUBSET_2N
+[137] killed  sensitivities: every40k_subset 'control' True -> False
+
+2/2 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []
