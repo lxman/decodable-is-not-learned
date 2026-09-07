@@ -995,7 +995,9 @@ single-instance relaunch at 22:58, after the two-instance incident
 ledgered below — targeted **27** ids, and the round-2 tally table is
 the right one. The paragraph is kept verbatim as the interim record.]
 
-**STATUS: totality confirmation pass LAUNCHED detached, pid `27702`,
+**SUPERSEDED (the committed `mutation_totality.log` shows 27 ids;
+#192 was never in the totality pass — see the fix-round-2 table):
+STATUS: totality confirmation pass LAUNCHED detached, pid `27702`,
 log `experiments/exp2n/mutation_totality.log`, targeting the 28 ids
 `134,135,136,137,153,157,158,159,160,161,162,171,173,175,177,178,179,
 180,181,182,183,184,187,188,189,190,191,192`. Full fast-suite sanity
@@ -1179,3 +1181,31 @@ The instrument delta the tag will bind (post-freeze shas):
 Both mutation logs are committed (Ruling R-7). No stray
 `.mutation_backup` after either run; the four instrument blobs
 byte-clean against the working tree after each.
+
+### Ratification apply (2026-09-07)
+
+Michael: "Ratified — apply the slips and tag." Applied to
+`experiment-2n-design.md`: doc slips (a)–(m) from
+`FREEZE_CHECKLIST.md`, verbatim, at their named anchors (§1, §3.1,
+§3.2, §3.3, §3.6, §3.8 ×2, §3.10 ×2, §4, §5 ×2, §7); plus the two
+slips from the final whole-branch review, (c′) (§3.8, the first-block-
+vs-all-blocks asymmetry beside slip (c)) and (n) (§5 Sensitivities,
+striking the uncomputable "primary over the nine when R_Comma ∩
+eleven ⊋ nine" row in favour of R_ELEVEN_EXTRA); the status block now
+records the ratification, the F-1..F-4 closure commit, and the four
+tag-bound blob shas. `experiments/exp2n/tests/test_analyze_2n.py`
+gains `test_licence_composes_every_annotation_modifier_key` (final
+review Minor 3): all six `_c_modifier_key_2n` outcomes (NO-LEAD ×2,
+UNDEFINED, B-LEADS ×2, A-LEADS) driven through `verdict_2n` →
+`_licensed_2n` and checked against `an.C_MODIFIERS_2N`, plus a lock on
+`C_MODIFIERS_2N`'s key set — run alone (PASSED) and as the full module
+`-m "not slow"` (**77 passed, 169.07 s**). This file's fix-round-1
+"targeting the 28 ids" sentence (Minor 7) is marked SUPERSEDED in
+place, pointing at the fix-round-2 27-id table. Verified: the four
+tag-bound blobs (`battery_2n.py`, `analyze_2n.py`,
+`run/endpoint_2n.py`, `run/sweep_2n.py`) are byte-identical to
+`4d6e1663` (`git diff --quiet` empty) and their shas match the
+FREEZE_CHECKLIST table exactly; `git status --porcelain` touches only
+this file, `experiment-2n-design.md` and `tests/test_analyze_2n.py`.
+No tag cut here — the controller cuts `exp2n-preregistered` after
+verifying this diff.

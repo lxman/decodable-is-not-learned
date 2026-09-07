@@ -1133,6 +1133,32 @@ def test_licensed_2n_appends_the_c_modifier_keyed_by_reading_and_covers(monkeypa
     assert lic_none == "; ".join([an.LICENSED_2N["SHARED"]] + list(t_none["disclosures"]))
 
 
+def test_licence_composes_every_annotation_modifier_key():
+    """Final review, Minor 3: the prior test spot-checked B-LEADS and
+    A-LEADS; this one drives every (reading, covers) combination
+    `_c_modifier_key_2n` can produce — including NO-LEAD, both
+    covers/excludes directions, and UNDEFINED — through `verdict_2n`
+    and `_licensed_2n` on the SAME tree shape, and locks the modifier
+    dict's key set."""
+    powered = {"A": {"declared_status": "POWERED"}, "B": {"declared_status": "POWERED"}}
+    nine = tuple(sorted(bn.R_CAP_2K))
+    cases = [
+        {"reading": "NO-LEAD", "delta": 0.01, "ci95": [-0.02, 0.09], "covers_3b_increment": True},
+        {"reading": "NO-LEAD", "delta": 0.01, "ci95": [-0.02, 0.04], "covers_3b_increment": False},
+        {"reading": "UNDEFINED", "delta": None, "ci95": None, "covers_3b_increment": False},
+        {"reading": "B-LEADS", "delta": 0.08, "ci95": [0.05, 0.11], "covers_3b_increment": True},
+        {"reading": "B-LEADS", "delta": 0.08, "ci95": [0.02, 0.05], "covers_3b_increment": False},
+        {"reading": "A-LEADS", "delta": -0.05, "ci95": [-0.09, -0.01], "covers_3b_increment": False},
+    ]
+    for c in cases:
+        t = an.verdict_2n([], _prim(0.2, 0.001, True), _prim(0.2, 0.001, True), powered, nine,
+                          annotation={"C": c})
+        key = an._c_modifier_key_2n(c)
+        assert an._licensed_2n(t).endswith(an.C_MODIFIERS_2N[key])
+    assert set(an.C_MODIFIERS_2N) == {"B-LEADS-covers", "B-LEADS-excludes", "A-LEADS",
+                                      "NO-LEAD-excludes", "NO-LEAD-covers", "UNDEFINED"}
+
+
 def test_verdict_2n_discloses_a_test_that_read_fewer_than_three_rungs():
     powered = {"A": {"declared_status": "POWERED"}, "B": {"declared_status": "POWERED"}}
     nine = tuple(sorted(bn.R_CAP_2K))

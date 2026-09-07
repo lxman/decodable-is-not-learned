@@ -25,7 +25,15 @@ Model contact, when sanctioned: Comma v0.1-1T ONLY, on the OUTCOME side
 — its stage-1 endpoint, its last cool-down checkpoint and the released
 average at the endpoint stage, then its stage-1 grid and a seeded twin
 in the sweep. Every predictor is already committed and tagged; nothing
-is sampled.**
+is sampled.
+RATIFIED by Michael 2026-09-07 ('Ratified — apply the slips and tag'):
+freeze findings F-1..F-4 closed additively (68a0fd42); slips (a)–(n)
+applied — (c′) and (n) from the final whole-branch review; the tag
+`exp2n-preregistered` is cut at the commit carrying this doc
+(blob-bound: analyze_2n.py a860a4e7…, battery_2n.py e85165bd…,
+run/endpoint_2n.py 62d62959…, run/sweep_2n.py 4d077ae8…; verified
+through `require_prereg_2n` against real git). FROZEN. Model contact
+from here only on Michael's word (§7: the preflight first).**
 
 2m closed SHARED: both committed predictors — Pythia-1b's 256-draw
 count (2k) and OLMo-2 1B's 64-draw count (2i) — forecast the order in
@@ -102,6 +110,12 @@ a paired item bootstrap CI95 (S3's machinery),
 - **B-LEADS** — CI95 lower bound > 0;
 - **A-LEADS** — CI95 upper bound < 0;
 - **NO-LEAD** — otherwise;
+
+C is printed in EVERY world and its modifier rides on the licence in
+every world: §6's cells are written under SHARED because that is where
+the two accounts agree on the world and disagree on C, but the
+annotation is defined independently of the tests (dial g) and the
+licence carries its sentence whichever world fires.
 
 and printed beside it whether the CI95 covers 2m's +.0659
 (`covers_3b_increment`). The corpus account predicts A-LEADS or
@@ -386,7 +400,7 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    initialisation this program cannot download. The twin's config AND
    tokenizer are taken at the ENDPOINT's commit (`config_commit`); the
    analyzer measures `config_source` against
-   `f"{REPO_CKPT}@{config_commit}"`. The checkpoint record attests a
+   `f"{REPO_COMMA}@{config_commit}"`. The checkpoint record attests a
    sha for every candidate file it stages; the analyzer requires that
    coverage plus the record's revision, commit and tensor digest (the
    last against the digest every one of the step's 34 item records
@@ -408,14 +422,37 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    after the pads under an attention mask of 1, as the training
    sequences had it at position 0. The pinned render is carried on
    every record (`render: "bos"`), and the analyzer refuses a record
-   without it. If dial n is ruled the other way, the constant flips to
+   without it.
+
+   The prefix is applied by `battery_2n.BosRunner`, which wraps 2c's
+   frozen `HFRunner` and prepends `BOS_TOKEN_2N` to every prompt
+   STRING before delegating to `generate` — `evaluate_items` (2g,
+   frozen) renders the prompt text itself, so the prefix has to go
+   between it and the model. Every stage builds its runner through
+   that class (three factory sites; the preflight additionally builds
+   one bare `HFRunner` to print the plain render, and nothing it
+   prints is stored). Gate 1 cannot detect a render change between the
+   two stages — both loader paths render through the same tag-bound
+   `BosRunner` — exactly as it cannot detect a dtype change; the
+   tag-bound constant is the check.
+
+   If dial n is ruled the other way, the constant flips to
    `render: "plain"` and the second assertion becomes "no special id
    anywhere in the render" — one constant, ruled before the tag.
 3. **The stop id (dial o, recommended: the tokenizer's EOS).** Both
    loader paths set `model.generation_config.eos_token_id = EOS_TOKEN_
-   ID_2N` (3) after loading and assert it, and every record carries
-   `eos_stop_id: 3`; `config.json`'s 2 is disclosed on the record as
-   `config_eos_token_id`. The harness itself is untouched (2c's
+   ID_2N` (3) after loading and assert it,
+   and every record carries `eos_stop_id: 3`. Because the three
+   endpoint `which`es carry no checkpoint record, each ENDPOINT ITEM
+   RECORD additionally carries the loader's OWN measured
+   `config_eos_token_id` and `generation_eos_token_id`
+   (`eos_facts_2n`, read off the loaded model after the override), and
+   the analyzer requires the measured generation eos to be the pinned
+   stop id — the `eos_stop_id` field is the constant the record
+   wrapper stamps and is not, on its own, evidence that the override
+   ran (freeze F-1). Sweep steps and the twin carry the same two ids
+   on their `_checkpoint.json` and are barred the same way.
+   The harness itself is untouched (2c's
    `HFRunner.generate` verbatim). If ruled the other way, nothing is
    set and the record carries `eos_stop_id: 2` with the disclosure.
 4. **The predictors, loaded through their own seals** — 2m §3.3
@@ -454,7 +491,14 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    correct step printed beside it. The **every-40k subset** ({40k · j :
    j = 1 … 11} ∪ {460,000}, 12 points, y re-counted over its own points,
    max 12) is printed as the grid-density CONTROL (2m's process note 3
-   — a control, not a descriptive). Alternatives: all 46 stage-1 points
+   — a control, not a descriptive).
+
+   The sensitivity's row is stamped `"control": True` as a LITERAL in
+   the verdict record, not as a computed rule — so a reader cannot
+   mistake the control for a descriptive that happens to have been
+   printed.
+
+   Alternatives: all 46 stage-1 points
    (≈ 65 h) or a 2m-shaped dense head (every 10k to 100k + every 40k
    to 460k, 19 points, ≈ 28 h).
 7. **Gate 1** = the endpoint reproduced through the sweep's checkpoint
@@ -470,12 +514,42 @@ F-1 SAME/WIDER disclosure decided against the power record's own
    override makes them agree by construction, and gate 1 measures it.
 8. **The corpus annotation C** — new. Computed from S4's thinned x_B
    (2k's block rule: k_g = clip(round(256 · r̄_A / r̄_B), 1, 64) per
-   rung, the first k_g draws, no seed) and x_A^(256) over the
+   rung, the first k_g draws, no seed).
+
+   "The first k_g draws" is exactly `row[:k_g]` on every item — one
+   deterministic block. S4's own `per_rung` reading, the MEAN over all
+   `64 // k_g` blocks of that width (2j's `_block_reading`), is
+   printed beside C in the same verdict under `secondaries["S4 matched
+   density"]` — two numbers, one rule, and the rule C reads is the
+   first block's.
+
+   C's Δ is a first-block estimator while `covers_3b_increment`'s
+   referent — 2m's +.0659 — and the 2k/2l increments printed beside it
+   (+.054, +.0687) are all-blocks means (S4's `per_rung` mean over `64
+   // k_g` blocks of that width). The comparison is therefore between
+   a single-block statistic and a block-averaged one. The asymmetry is
+   conservative in direction — the single block carries more sampling
+   noise, so C's interval is wider, never narrower, than an all-blocks
+   interval would be — and it is disclosed here rather than fixed; the
+   projection quotes both numbers, C's first-block Δ and S4's
+   all-blocks increment, when it places the annotation.
+
+   and x_A^(256) over the
    intersection of the two tests' eligible sets, Δ = T_B,matched −
    T_A,256; CI95 by 2m's paired item bootstrap (items resampled with
    replacement within each rung, both predictors read on the same
    resample, `n_boot` beside `n_boot_requested`). Reads B-LEADS /
-   A-LEADS / NO-LEAD by the rule in §1; `covers_3b_increment` (+.0659)
+   A-LEADS / NO-LEAD by the rule in §1; `covers_3b_increment` (+.0659).
+
+   `covers_3b_increment` is measured against 2m's OWN committed
+   number, read at analysis time from
+   `experiments/exp2m/results/verdict.json` → `secondaries["S4 matched
+   density"]["increment"]` — a pre-campaign referent-manifest entry,
+   so a post-close edit refuses at `check_referents` — and asserted
+   equal to the literal `0.0659` to four decimals as a known-answer
+   gate. The 2k and 2l increments (+.054, +.0687) are printed as
+   literals with their sources named, not read.
+
    and the three committed increments (+.054 / +.069 / +.066) printed
    beside it. Printed in every world; it never enters the verdict's
    world.
@@ -492,12 +566,23 @@ F-1 SAME/WIDER disclosure decided against the power record's own
     referent manifest (2m's list + 2m's verdict, seal, power, endpoint
     and sweep records — S8 now reads 2m's committed per-item outcome
     too — plus 2n's `checkpoints_2n.json`, the Hub inventory and
-    `power_2n.py`), its sha a literal in the analyzer; the campaign's
+    `power_2n.py`)
+    — 4,427 files in total, including 2m's OWN campaign artifacts (its
+    102 endpoint records, rung set, power record, 946-file sweep tree,
+    `gate1.json` and `verdict.json`), which S8, S9 and C read.
+    , its sha a literal in the analyzer;
+    the campaign's
     own artifacts bound by `exp2n-endpoint-sealed` and cross-checked at
     analysis time exactly as 2m's were, so the preregistration tag is
     never re-cut after the campaign. Blob-bound tags: `exp2n-
     preregistered` binds the analyzer, the battery module, the endpoint
     stage and the sweep runner.
+
+    The mutation battery's four logs (`mutation_build.log`,
+    `mutation_fast_survivors.log`, `mutation_totality.log`,
+    `mutation_fullshape.log`, plus the freeze's own) are COMMITTED
+    (Ruling R-7), so the tally is reproducible from git rather than
+    from the ledger's table alone.
 
 ## 4. Rung set, strata and power
 
@@ -541,12 +626,24 @@ below by the endpoint count, y from a latent mixing rank(x) at
 calibrated strength inside the test's strata, every cell through the
 verdict's own tree; bar P(fires | D = .15) ≥ .75, else DECLARED
 UNDERPOWERED IN ADVANCE per test; P(fires | D = .10) printed (the bar
-decides). Test A's predictor block SD printed as in 2l/2m (dial h). New
-line (dial h): **the null SD of Δ** — per simulation, with both
-predictors mixed at the SAME strength (D = 0 and D = .15), the SD of
-Δ = T_B,matched − T_A,256 across simulations, and the smallest |Δ| at
-which the paired bootstrap CI95 excludes zero in ≥ 75 % of simulations
-(`min_detectable_delta`). The projection places its Δ call against
+decides). Test A's predictor block SD printed as in 2l/2m (dial h).
+New line (dial h): the SD of Δ = T(x_B thinned) − T(x_A^(256)) across
+simulated outcomes, in THREE arms — a null arm (ρ = 0) and one arm per
+test at its own calibrated strength at D = .15 (`delta_null_sd`,
+`delta_sd_at_declare_A`, `delta_sd_at_declare_B`) — plus the paired
+item bootstrap SD of Δ on the FIRST null outcome
+(`delta_boot_sd_null`, taken as the CI95 width over 2 × 1.96), from
+which `min_detectable_delta = 2.63 × delta_boot_sd_null` follows by
+the normal approximation (CI95 excludes zero with power .75). That
+formula is carried on the record as a pinned string AND the number is
+re-derived from it at analysis time (freeze F-3). The block also
+carries `k_by_rung` and `rungs`; `rungs` is R_PRIMARY minus the UNION
+of the two predictors' degeneracy sets, which can be WIDER than the
+set the annotation C reads (the intersection of the two tests'
+eligible sets, which also drops n_pos-thin rungs) — whenever it is,
+the verdict discloses the extra rungs and the licence is bounded to
+the rungs C named as read (freeze F-2, Ruling R-6). The projection
+places its Δ call against
 that SD; the annotation is read under it. Shape note verbatim (item-
 level alternative; nothing transfers to a class-level effect).
 
@@ -583,7 +680,16 @@ level alternative; nothing transfers to a class-level effect).
   construction plus one row; `fires_2i` mechanical, `no_alpha_claim`
   on every row. **S8c — the corpus contrast:** mean of the two Pile-
   trained rows minus mean of the three DCLM-class rows, paired item
-  bootstrap CI95. On SmolLM3 the DCLM pair read .46 / .40 and the Pile
+  bootstrap CI95.
+
+  The two groups are exactly `{pythia_2.8b, pythia_6.9b}` and
+  `{olmo2_7b, olmo2_13b, smollm3_3b}`, and the contrast is mean(Pile)
+  − mean(DCLM-class) over the rungs every one of the five rows covers,
+  through the same `paired_contrast_2n` the annotation C uses — every
+  row read on the SAME within-rung item resample, `n_boot` reported
+  beside `n_boot_requested`.
+
+  On SmolLM3 the DCLM pair read .46 / .40 and the Pile
   pair .25 / .23; the corpus account predicts the sign to flip here,
   the predictor account is silent (S8 involves no predictor). The
   outcome-side, density-free read of the corpus question.
@@ -591,10 +697,26 @@ level alternative; nothing transfers to a class-level effect).
   and B across the four cross-family-readable outcomes (7B from 2k/2i,
   13B from 2l, SmolLM3 from 2m — committed verdict records, referents —
   and Comma from this run), one table, descriptive.
+
+  S9's four sources: this run's per-rung D for A and B; 2l's and 2m's
+  per-rung D READ from their committed `results/verdict.json`
+  (`tests.A/B.per_rung.<rung>.d`, referent-manifest entries, and a
+  known-answer gate in the cold battery); and 2k's / 2i's OLMo-2 7B
+  readings as LITERALS with their sources named — antonym A +.024 (2k
+  VERDICT, the 256-draw per-rung table) / B +.217 (2i VERDICT, Test B
+  per rung), antonym6 A **+.115** / B +.214, odd6 A **+.096** / B
+  +.121 (the antonym6 and odd6 A values corrected pre-tag by Ruling
+  R-5 from the committed 2k VERDICT).
+
 - **Sensitivities:** the first-correct outcome as y; the every-40k
   subset as y (the density control, §3.6); Test B in 2i/2l's
-  conditioned form beside the unconditioned one; the primary over the
-  nine when R_Comma ∩ eleven ⊋ nine; C under the plain (unmatched)
+  conditioned form beside the unconditioned one;
+  (struck at ratification, 2026-09-07: 'the primary over the nine when
+  R_Comma ∩ eleven ⊋ nine' — x_A^(256) exists only on the nine, so
+  R_PRIMARY can never exceed them and that sensitivity has no
+  computable row; the eleven's remainder is printed as R_ELEVEN_EXTRA
+  with the 64-draw predictors, §4);
+  C under the plain (unmatched)
   paired difference beside the matched one.
 
 ## 6. Licences, written in advance
@@ -686,7 +808,10 @@ never on outcome data (nothing the preflight prints enters any
 record). → **stage 1 (endpoint)**: the stage-1 endpoint, the cool-down
 endpoint and `main` through the thin loader on all 34 rungs (≈ 4 h,
 3 × 14 GB), R fixed by rule, power printed once (with the block-SD and
-Δ-SD lines), committed, tagged `exp2n-endpoint-sealed` → projection
+Δ-SD lines). The Δ-SD line adds three 200-simulation arms and two
+`calibrate_rho` calls to the power stage, so budget roughly twice 2m's
+127 minutes for `power_2n`. , committed, tagged
+`exp2n-endpoint-sealed` → projection
 sealed (by rung type; the corpus account's swap and the predictor
 account's constancy each a claim with its own disconfirmer; tolerances
 both directions; the analyzer's ceiling definition quoted; the verdict
