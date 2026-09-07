@@ -150,6 +150,14 @@ def _latent(rng, x_a, x_b, strata_r, mode):
     raise ValueError(mode)
 
 
+# FREEZE F-1: every endpoint record carries the loader's own measured
+# eos facts; `_EOS_FACTS_BAD` is what a loader that never applied
+# `set_eos_stop_2n` would report (the `endpoint_eos_stop` world).
+_EOS_FACTS = {"config_eos_token_id": bn.CONFIG_EOS_TOKEN_ID_2N, "generation_eos_token_id": bn.EOS_STOP_ID_2N}
+_EOS_FACTS_BAD = {"config_eos_token_id": bn.CONFIG_EOS_TOKEN_ID_2N,
+                  "generation_eos_token_id": bn.CONFIG_EOS_TOKEN_ID_2N}
+
+
 def _ckpt(entry, digest="D"):
     return {"revision": entry["revision"], "commit": entry["commit"], "kind": entry["kind"],
             "files": list(entry.get("files", [])), "weight_sha256": digest, "config_source": "cs",
@@ -209,7 +217,9 @@ def write_world_2n(root, *, mode="pythia_only", seed=0, missing=None, power_stat
         _dg1 = "OTHER" if (mixed_digest_which == "stage1_final" and r == bt.RUNGS[-1]) else "D"
         rec = bn.endpoint_item_record_2n(rung=r, cap=cap, ev=ev,
                                          ckpt=_ckpt(entries["stage1_final"], _dg1),
-                                         which="stage1_final", seal=seal_ep, t_s=0.0)
+                                         which="stage1_final", seal=seal_ep, t_s=0.0,
+                                         eos_facts=(_EOS_FACTS_BAD if missing == "endpoint_eos_stop"
+                                                    and r == bt.RUNGS[-1] else _EOS_FACTS))
         stage1_recs[r] = rec
         _w(bn.endpoint_record_path(root, "stage1_final", r), rec)
         ev0 = {"bits": [0] * bt.N_ITEMS, "correct": 0, "continuations": [" zzz"] * bt.N_ITEMS}
@@ -217,7 +227,7 @@ def write_world_2n(root, *, mode="pythia_only", seed=0, missing=None, power_stat
             _dg = "OTHER" if (mixed_digest_which == which and r == bt.RUNGS[-1]) else "D"
             _w(bn.endpoint_record_path(root, which, r),
                bn.endpoint_item_record_2n(rung=r, cap=cap, ev=ev0, ckpt=_ckpt(entries[which], _dg),
-                                          which=which, seal=seal_ep, t_s=0.0))
+                                          which=which, seal=seal_ep, t_s=0.0, eos_facts=_EOS_FACTS))
     rs = bn.rung_set_from_counts_2n(stage1_correct, floors())
     want_primary = tuple(expect_primary) if expect_primary is not None else RUNGS_PRIMARY
     if tuple(rs["R_PRIMARY"]) != want_primary:
@@ -405,4 +415,17 @@ def world_specs() -> list:
          dict(mode="pythia_only", mixed_digest_which="stage2_final"), "INSUFFICIENT_DATA"),
         ("W26 INSUFFICIENT a record at another render", dict(mode="pythia_only", missing="render"), "INSUFFICIENT_DATA"),
         ("W27 INSUFFICIENT a checkpoint record without the stop-id override", dict(mode="pythia_only", missing="eos_stop"), "INSUFFICIENT_DATA"),
+        # Freeze F-2 / Ruling R-6: `sub4_mid` clears 2d's endpoint bar at
+        # k = 9, so 12 positives put it INSIDE R_PRIMARY (and inside the
+        # power record's delta_sd rung set, which drops only degenerate
+        # rungs) and OUTSIDE both tests as n_pos-thin — so the annotation
+        # C reads eight rungs while `min_detectable_delta` describes nine.
+        ("W28 PYTHIA-ONLY delta_sd wider than C disclosed (freeze F-2)",
+         dict(mode="pythia_only", n_pos_cap={"sub4_mid": 12}), "PYTHIA-ONLY"),
+        # Freeze F-1: the endpoint stage's own MEASUREMENT that dial o's
+        # override was applied. The record is written with the bad facts
+        # AT WRITE TIME, so the rung set's sha table and the 104-file
+        # composite both agree with it — nothing but the new bar can refuse.
+        ("W29 INSUFFICIENT an endpoint record whose loader missed the stop-id override (freeze F-1)",
+         dict(mode="pythia_only", missing="endpoint_eos_stop"), "INSUFFICIENT_DATA"),
     ]

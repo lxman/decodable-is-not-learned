@@ -456,3 +456,12 @@ def test_untouched_world_still_reaches_pythia_only(world):
     v = _run(root, seal, n_perm=200, n_boot=20)
     assert v["verdict"] == "PYTHIA-ONLY", v["reason"]
     assert v["tests"]["A"]["fires"] is True
+    # FREEZE F-4: `pins_active` states every one of run()'s test-only
+    # injections, not three of seven. This harness stubs git
+    # (`tag_exists`/`blob_sha`/`blobs_bound`) and injects S8's loader, so
+    # the record must say the prereg binding, the seal binding and S8's
+    # committed readers were NOT the real ones.
+    pa = v["referents"]["pins_active"]
+    assert pa["prereg_binding"] is False and pa["seal_binding"] is False
+    assert pa["s8_committed_readers"] is False
+    assert pa["frozen_modules"] is True and pa["import_surface"] is True

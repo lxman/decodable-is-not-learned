@@ -145,8 +145,13 @@ def run(*, root=EXP2N, root_2i=bi.EXP2I, root_2k=bk.EXP2K, device="mps", loaders
                 else:
                     t0 = time.time()
                     ev = evaluate_items(runner, battery[rung], verify_fn)
+                    # FREEZE F-1: the loader's OWN measured eos facts
+                    # (`eos_facts_2n` after `set_eos_stop_2n`) go on the
+                    # record; the endpoint whichs have no checkpoint
+                    # record to carry them.
                     rec = bn.endpoint_item_record_2n(rung=rung, cap=battery[rung], ev=ev, ckpt=ckpt,
-                                                     which=which, seal=seal_ref, t_s=time.time() - t0)
+                                                     which=which, seal=seal_ref, t_s=time.time() - t0,
+                                                     eos_facts=info)
                     _write(p, rec)
                     print(f"[2n endpoint] {which}/{rung}: {rec['correct']}/{rec['n']}", flush=True)
                 if which == "stage1_final":

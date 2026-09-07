@@ -360,10 +360,24 @@ def test_endpoint_item_record_2n_and_checkpoint_records():
             "files": ["a"], "weight_sha256": "D", "config_source": "cs", "tokenizer_source": "ts"}
     seal = {"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N}
     rec = bn.endpoint_item_record_2n(rung="antonym", cap=cap, ev=_ev0(cap), ckpt=ckpt, which="main",
-                                     seal=seal, t_s=0.0)
+                                     seal=seal, t_s=0.0,
+                                     eos_facts={"config_eos_token_id": 2, "generation_eos_token_id": 3})
     assert rec["which"] == "main" and "step" not in rec and rec["dtype"] == bn.DTYPE_2N
     assert rec["seal_tag"] == bn.PREDICTOR_TAGS_2N and rec["size"] == bn.SIZE_OUT
     assert rec["render"] == bn.RENDER_2N and rec["eos_stop_id"] == bn.EOS_STOP_ID_2N
+    # FREEZE F-1: the loader's own MEASURED ids, not the constant. The
+    # record wrapper stamps `eos_stop_id` from EOS_STOP_ID_2N whatever the
+    # load did; these two come from `eos_facts` (the loader's `info`), so
+    # a loader that never applied `set_eos_stop_2n` leaves a record the
+    # analyzer can refuse.
+    assert rec["config_eos_token_id"] == 2 and rec["generation_eos_token_id"] == 3
+    missed = bn.endpoint_item_record_2n(rung="antonym", cap=cap, ev=_ev0(cap), ckpt=ckpt, which="main",
+                                        seal=seal, t_s=0.0,
+                                        eos_facts={"config_eos_token_id": 2, "generation_eos_token_id": 2})
+    assert missed["eos_stop_id"] == bn.EOS_STOP_ID_2N and missed["generation_eos_token_id"] == 2
+    with pytest.raises(TypeError):
+        bn.endpoint_item_record_2n(rung="antonym", cap=cap, ev=_ev0(cap), ckpt=ckpt, which="main",
+                                   seal=seal, t_s=0.0)
     info = {"repo": bn.REPO_COMMA, "sha256": {"a": "1"},
             "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0},
             "config_eos_token_id": 2, "generation_eos_token_id": 3}

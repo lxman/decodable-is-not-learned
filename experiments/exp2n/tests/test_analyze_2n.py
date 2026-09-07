@@ -96,6 +96,11 @@ def _ev(cap, k):
     return {"bits": bits, "correct": k, "continuations": conts}
 
 
+# FREEZE F-1: the loader's own measured eos facts, required on every
+# endpoint record.
+_EOS_FACTS = {"config_eos_token_id": bn.CONFIG_EOS_TOKEN_ID_2N, "generation_eos_token_id": bn.EOS_STOP_ID_2N}
+
+
 def _ckpt(entry, digest="D"):
     return {"revision": entry["revision"], "commit": entry["commit"], "kind": entry["kind"],
             "files": list(entry["files"]), "weight_sha256": digest, "config_source": "cs",
@@ -112,7 +117,8 @@ def _endpoint_rec(which, rung, k, *, entry=None):
     entry = entry or bn.entry_which_comma(_manifest(), which)
     cap = _battery()[rung]
     return bn.endpoint_item_record_2n(rung=rung, cap=cap, ev=_ev(cap, k), ckpt=_ckpt(entry), which=which,
-                                      seal={"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N}, t_s=0.0)
+                                      seal={"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N}, t_s=0.0,
+                                      eos_facts=_EOS_FACTS)
 
 
 def _step_rec(step, rung, k, esha="E" * 64):
@@ -136,7 +142,10 @@ def test_endpoint_record_failures_2n_pins_every_field_incl_dtype():
                                  ("predictor_sha", bm.PREDICTOR_SHA_2M, "predictor_sha"),
                                  ("items_sha256", "x", "items_sha256"), ("commit", "0" * 40, "commit"),
                                  ("correct", 11, "correct"), ("n", 499, "n"), ("dtype", "bfloat16", "dtype"),
-                                 ("render", "plain", "render"), ("eos_stop_id", 2, "eos_stop_id")):
+                                 ("render", "plain", "render"), ("eos_stop_id", 2, "eos_stop_id"),
+                                 # FREEZE F-1: the loader's own measurement, not the constant
+                                 ("generation_eos_token_id", 2, "generation_eos_token_id"),
+                                 ("generation_eos_token_id", None, "generation_eos_token_id")):
         bad = an.endpoint_record_failures_2n(dict(rec, **{field: value}), which="main", rung="antonym",
                                              cap=cap, entry=entry, verify_fn=verify)
         assert any(needle in b for b in bad), (field, bad)
@@ -484,6 +493,20 @@ def test_load_power_2n_and_claims_on_base_strata(tmp_path):
     assert any("block_sd_A" in b and "non-degenerate set" in b for b in an.check_power_claims_2n(
         {**rec, "block_sd_A": dict(rec["block_sd_A"], rungs=list(r_primary)[:-1])}, x256, x256, strata, r_primary,
         stage1, bits_b=bits_b, x_a64=x_a64))
+    # FREEZE F-3 (attack item 33): `min_detectable_delta` is re-derived
+    # from the record's OWN `delta_boot_sd_null` by the formula literal
+    # the record carries — before the freeze only the formula STRING was
+    # pinned and any number could ride under it.
+    assert any("min_detectable_delta" in b for b in an.check_power_claims_2n(
+        {**rec, "delta_sd": {**rec["delta_sd"], "min_detectable_delta": 10.0}}, x256, x256, strata,
+        r_primary, stage1, bits_b=bits_b, x_a64=x_a64))
+    assert any("one is absent" in b for b in an.check_power_claims_2n(
+        {**rec, "delta_sd": {**rec["delta_sd"], "delta_boot_sd_null": None}}, x256, x256, strata,
+        r_primary, stage1, bits_b=bits_b, x_a64=x_a64))
+    assert not any("min_detectable_delta" in b for b in an.check_power_claims_2n(
+        {**rec, "delta_sd": {**rec["delta_sd"], "delta_boot_sd_null": None,
+                             "min_detectable_delta": None}},
+        x256, x256, strata, r_primary, stage1, bits_b=bits_b, x_a64=x_a64))
     # Ruling R-1: check_power_claims_2n refuses a k_by_rung off by one on
     # one rung, and a rungs list missing one rung.
     one_rung = rec["delta_sd"]["rungs"][0]
@@ -1102,6 +1125,13 @@ def test_licensed_2n_appends_the_c_modifier_keyed_by_reading_and_covers(monkeypa
     assert lic_none.startswith(an.LICENSED_2N["SHARED"])
     assert not any(m in lic_none for m in an.C_MODIFIERS_2N.values())
 
+    # Deferred minor (Task 4 m2), closed at the freeze: the EXACT
+    # composition, not only a prefix and a membership — base licence,
+    # then every disclosure in order, then the one C modifier.
+    assert lic_covers == "; ".join([an.LICENSED_2N["SHARED"]] + list(t_covers["disclosures"])
+                                   + [an.C_MODIFIERS_2N["B-LEADS-covers"]])
+    assert lic_none == "; ".join([an.LICENSED_2N["SHARED"]] + list(t_none["disclosures"]))
+
 
 def test_verdict_2n_discloses_a_test_that_read_fewer_than_three_rungs():
     powered = {"A": {"declared_status": "POWERED"}, "B": {"declared_status": "POWERED"}}
@@ -1237,6 +1267,50 @@ def test_partial_eligible_2n_wider_set_when_a_missing_rung_is_thin():
     assert "the SAME set" not in msg
 
 
+def test_delta_sd_scope_2n_names_the_rungs_c_did_not_read():
+    """Freeze F-2 / Ruling R-6: `delta_sd.rungs` is R_PRIMARY minus the
+    predictors' degeneracy union; C reads the intersection of the two
+    tests' ELIGIBLE sets, which also drops n_pos-thin rungs. The gap
+    carried no disclosure, so `min_detectable_delta` described a wider
+    set than the interval it is read against."""
+    nine = tuple(sorted(bn.R_CAP_2K))
+    eight = [r for r in nine if r != "sub4_mid"]
+    dsd = {"rungs": list(nine), "min_detectable_delta": 0.0316}
+    msg = an._delta_sd_scope_2n({"delta_sd": dsd}, {"C": {"rungs": eight}})
+    assert msg is not None and msg.startswith(an.DISCLOSURE_DELTA_SD_WIDER_PREFIX_2N)
+    assert "sub4_mid" in msg.split("covers also")[-1]
+    assert "0.0316" in msg
+    # the same set: silent
+    assert an._delta_sd_scope_2n({"delta_sd": {**dsd, "rungs": eight}}, {"C": {"rungs": eight}}) is None
+    # no delta_sd block, no annotation, no rung list: silent, never a raise
+    assert an._delta_sd_scope_2n({}, {"C": {"rungs": eight}}) is None
+    assert an._delta_sd_scope_2n({"delta_sd": dsd}, None) is None
+    assert an._delta_sd_scope_2n({"delta_sd": dsd}, {"C": {"reading": "NO-LEAD"}}) is None
+    assert an._delta_sd_scope_2n(None, None) is None
+
+
+def test_verdict_2n_discloses_a_delta_sd_line_wider_than_c():
+    """Freeze F-2: the plumbing through `verdict_2n` — the disclosure
+    must reach the reason AND the licence, and a full-width reading must
+    stay silent."""
+    powered = {"A": {"declared_status": "POWERED", "rungs_simulated": list(sorted(bn.R_CAP_2K))},
+               "B": {"declared_status": "POWERED", "rungs_simulated": list(sorted(bn.R_CAP_2K))},
+               "delta_sd": {"rungs": list(sorted(bn.R_CAP_2K)), "min_detectable_delta": 0.0316}}
+    nine = tuple(sorted(bn.R_CAP_2K))
+    eight = tuple(r for r in nine if r != "sub4_mid")
+    A = {**_prim(0.2, 0.001, True, eligible=eight), "thin": ["sub4_mid"], "dropped_degenerate": []}
+    B = {**_prim(0.02, 0.5, False, eligible=eight), "thin": ["sub4_mid"], "dropped_degenerate": []}
+    C = {"reading": "NO-LEAD", "covers_3b_increment": True, "rungs": list(eight)}
+    t = an.verdict_2n([], A, B, powered, nine, annotation={"C": C})
+    hit = [d for d in t["disclosures"] if d.startswith(an.DISCLOSURE_DELTA_SD_WIDER_PREFIX_2N)]
+    assert hit and "sub4_mid" in hit[0].split("covers also")[-1]
+    assert hit[0] in t["reason"] and hit[0] in an._licensed_2n(t)
+    full = an.verdict_2n([], {**_prim(0.2, 0.001, True, eligible=nine), "thin": [], "dropped_degenerate": []},
+                         {**_prim(0.2, 0.001, True, eligible=nine), "thin": [], "dropped_degenerate": []},
+                         powered, nine, annotation={"C": {**C, "rungs": list(nine)}})
+    assert not any(d.startswith(an.DISCLOSURE_DELTA_SD_WIDER_PREFIX_2N) for d in full["disclosures"])
+
+
 def test_verdict_2n_partial_eligible_wider_via_power_rungs_simulated():
     """R-1: the plumbing through `verdict_2n`, not only the helper —
     `verdict_2n` must pass the power record's `rungs_simulated` list
@@ -1294,7 +1368,12 @@ def test_run_on_empty_tree_is_insufficient_never_raises(tmp_path):
                blobs_bound=lambda tag, paths, repo_root=None: [])
     assert v["verdict"] == "INSUFFICIENT_DATA" and v["tests"] is None and v["secondaries"] is None
     assert any("2n endpoint stage1_final" in f or "2n rung set" in f for f in v["referents"]["failures"])
-    assert v["referents"]["pins_active"] == {"frozen_modules": True, "import_surface": False, "referent_manifest": False}
+    # FREEZE F-4: `pins_active` now states all SEVEN of run()'s test-only
+    # injections, not three. Here git is stubbed (prereg + seal binding
+    # False) and S8's committed readers are NOT injected (True).
+    assert v["referents"]["pins_active"] == {"frozen_modules": True, "import_surface": False,
+                                             "referent_manifest": False, "prereg_binding": False,
+                                             "seal_binding": False, "s8_committed_readers": True}
     assert v["known_inputs_caveat"] == an.KNOWN_INPUTS_CAVEAT_2N and v["model_contact"] == "none at analysis"
     assert v["calibration_note"] == an.CALIBRATION_SENTENCE_2N
 

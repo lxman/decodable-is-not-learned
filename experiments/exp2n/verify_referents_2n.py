@@ -123,6 +123,11 @@ def _eq(got, want, what):
         raise AssertionError(f"{what}: got {got!r}, want {want!r}")
 
 
+# FREEZE F-1: the loader's own measured eos facts, which every
+# endpoint record must now carry (`endpoint_item_record_2n(eos_facts=…)`).
+_EOS_FACTS = {"config_eos_token_id": bn.CONFIG_EOS_TOKEN_ID_2N, "generation_eos_token_id": bn.EOS_STOP_ID_2N}
+
+
 def _ckpt(entry, digest="D"):
     return {"revision": entry["revision"], "commit": entry["commit"], "kind": entry["kind"],
             "files": list(entry.get("files", [])), "weight_sha256": digest, "config_source": "cs",
@@ -136,9 +141,17 @@ class _Tok:
     with pad/unk/bos/eos unless a flag deliberately makes it."""
 
     def __init__(self, *, padding_side="left", pad_token_id=None, eos_token_id=None, bos_token_id=None,
-                unk_token_id=None, vocab_len=None, plain_adds_special=False, swallow_bos=False):
+                unk_token_id=None, vocab_len=None, plain_adds_special=False, swallow_bos=False,
+                pad_absent=False):
         self.padding_side = padding_side
-        self.pad_token_id = bn.PAD_TOKEN_ID_2N if pad_token_id is None else pad_token_id
+        # FREEZE (attack item 8): `pad_token_id=None` means "the default"
+        # in this stub's own vocabulary, so before the freeze the cold
+        # battery could not express the tokenizer shape that DECLARES no
+        # pad at all — the one `check_tokenizer_2n` must refuse hardest,
+        # since 2c's harness passes `tok.pad_token_id` straight into
+        # `generate`. `pad_absent=True` is that shape.
+        self.pad_token_id = None if pad_absent else (bn.PAD_TOKEN_ID_2N if pad_token_id is None
+                                                     else pad_token_id)
         self.eos_token_id = bn.EOS_TOKEN_ID_2N if eos_token_id is None else eos_token_id
         self.bos_token_id = bn.BOS_TOKEN_ID_2N if bos_token_id is None else bos_token_id
         self.unk_token_id = bn.UNK_TOKEN_ID_2N if unk_token_id is None else unk_token_id
@@ -369,10 +382,26 @@ def _c9(ctx):
     rec2 = bn.endpoint_item_record_2n(rung="antonym", cap=cap, ev=ev, ckpt=_ckpt(entry_ep),
                                       which="stage1_final",
                                       seal={"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N},
-                                      t_s=0.0)
+                                      t_s=0.0, eos_facts=_EOS_FACTS)
     bad2 = an.endpoint_record_failures_2n(rec2, which="stage1_final", rung="antonym", cap=cap,
                                           entry=entry_ep, verify_fn=verify)
     _eq(bad2, [], "endpoint_item_record_2n -> endpoint_record_failures_2n round trip")
+    # FREEZE F-1: the endpoint record carries the LOADER's measured eos
+    # ids, and a record whose loader never applied `set_eos_stop_2n` is
+    # refused even though `eos_stop_id` still reads the constant.
+    _eq(rec2["generation_eos_token_id"], bn.EOS_STOP_ID_2N, "endpoint record carries the measured stop id")
+    _eq(rec2["config_eos_token_id"], bn.CONFIG_EOS_TOKEN_ID_2N, "endpoint record discloses config's eos")
+    missed = bn.endpoint_item_record_2n(rung="antonym", cap=cap, ev=ev, ckpt=_ckpt(entry_ep),
+                                        which="stage1_final",
+                                        seal={"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N},
+                                        t_s=0.0,
+                                        eos_facts={"config_eos_token_id": bn.CONFIG_EOS_TOKEN_ID_2N,
+                                                   "generation_eos_token_id": bn.CONFIG_EOS_TOKEN_ID_2N})
+    _eq(missed["eos_stop_id"], bn.EOS_STOP_ID_2N, "the constant is unchanged on a missed override")
+    bad_eos = an.endpoint_record_failures_2n(missed, which="stage1_final", rung="antonym", cap=cap,
+                                             entry=entry_ep, verify_fn=verify)
+    _eq(any("generation_eos_token_id" in b and "not a measurement" in b for b in bad_eos), True,
+       f"a missed stop-id override is refused: {bad_eos}")
 
     # M-3 (2m's final review, carried forward): `rec2` is built a second
     # time from an identical call, bound to `rec2b`, so `sweep_recs` and
@@ -381,7 +410,7 @@ def _c9(ctx):
     rec2b = bn.endpoint_item_record_2n(rung="antonym", cap=cap, ev=ev, ckpt=_ckpt(entry_ep),
                                        which="stage1_final",
                                        seal={"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N},
-                                       t_s=0.0)
+                                       t_s=0.0, eos_facts=_EOS_FACTS)
     sweep_recs = {r: rec2 for r in bt.RUNGS}
     stage1_recs = {r: rec2b for r in bt.RUNGS}
     gate_rec = {"rungs": list(bt.RUNGS), "bit_diffs": {r: 0 for r in bt.RUNGS},
@@ -505,6 +534,11 @@ def _c14(ctx):
     bn.check_tokenizer_2n(_Tok())
     for kw, needle in ((dict(padding_side="right"), "padding_side"),
                        (dict(pad_token_id=5), "pad_token_id"),
+                       (dict(pad_absent=True), "pad_token_id"),
+                       (dict(eos_token_id=2), "eos_token_id"),
+                       (dict(bos_token_id=1), "bos_token_id"),
+                       (dict(unk_token_id=0), "unk_token_id"),
+                       (dict(vocab_len=bn.CONFIG_VOCAB_2N), "64000"),
                        (dict(plain_adds_special=True), "special"),
                        (dict(swallow_bos=True), "BOS")):
         try:
@@ -547,6 +581,24 @@ def _c14(ctx):
            "2m B": (s9["rows"]["antonym"]["smollm3_3b_2m"]["B"], v2m["tests"]["B"]["per_rung"]["antonym"]["d"])}
     for name, (got, want) in lits.items():
         _eq(got, want, f"s9 antonym {name} reproduces the committed verdict literal")
+    # Deferred minors (Task 3 m3 / Task 4 m5), closed at the freeze: the
+    # four known-answer numbers as LITERALS, so this is a known-answer
+    # gate and not a re-read of the dict it copies from. Sources: 2l's
+    # VERDICT (antonym A -.066 / B +.256) and 2m's (A -.041 / B +.168).
+    for name, got, want in (("2l A", s9["rows"]["antonym"]["olmo2_13b_2l"]["A"], -0.066),
+                           ("2l B", s9["rows"]["antonym"]["olmo2_13b_2l"]["B"], 0.256),
+                           ("2m A", s9["rows"]["antonym"]["smollm3_3b_2m"]["A"], -0.041),
+                           ("2m B", s9["rows"]["antonym"]["smollm3_3b_2m"]["B"], 0.168)):
+        _eq(round(float(got), 3), want, f"s9 antonym {name} == the committed literal to 3 dp")
+    # 2k's/2i's 7B row is a literal table in analyze_2n; assert its values
+    # here rather than re-reading the dict s9 copies from.
+    _eq({r: dict(v) for r, v in an.SIGN_LEDGER_LITERALS_2N["olmo2_7b_known"].items()},
+       {"antonym": {"A": 0.024, "B": 0.217}, "antonym6": {"A": 0.115, "B": 0.214},
+        "odd6": {"A": 0.096, "B": 0.121}},
+       "s9 7B literals (2k VERDICT A at 256; 2i VERDICT Test B per rung)")
+    for r in an.OPTION_RUNGS_2N:
+        _eq(s9["rows"][r]["olmo2_7b_known"], an.SIGN_LEDGER_LITERALS_2N["olmo2_7b_known"][r],
+           f"s9 {r} 7B row is the literal table")
 
 
 def main() -> int:

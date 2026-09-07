@@ -68,6 +68,21 @@ experiments/exp2n/sweep.log
 experiments/exp2n/analyzer.log
 experiments/exp2n/watcher_endpoint.log
 experiments/exp2n/watcher_sweep.log
+experiments/exp2n/freeze_baseline_fast.log
+experiments/exp2n/freeze_baseline_worlds.log
+experiments/exp2n/freeze_before.log
+experiments/exp2n/freeze_after.log
+experiments/exp2n/freeze_shapes_before.log
+experiments/exp2n/freeze_shapes_after.log
+experiments/exp2n/freeze_fast_1.log
+experiments/exp2n/freeze_fast_2.log
+experiments/exp2n/freeze_worlds.log
+experiments/exp2n/freeze_import_scan_1.log
+experiments/exp2n/freeze_import_scan_2.log
+experiments/exp2n/freeze_read_sweep.log
+experiments/exp2n/freeze_battery.log
+experiments/exp2n/freeze_determinism_a.log
+experiments/exp2n/freeze_determinism_b.log
 # Ruling R-7 (fix round 1): the committed mutation_*.log files ARE the
 # mutation battery's record (2l D-1's own precedent), so unlike the
 # seven stage logs above they are NOT ignored.

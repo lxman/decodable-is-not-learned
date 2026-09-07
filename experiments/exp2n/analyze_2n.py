@@ -88,7 +88,7 @@ IMPORTED_SHA256_2N = {
     bg.REPO / "experiments/exp2n/run/preflight_2n.py":
         "353df1efc4cb97ab180d9f6fe2db778bd5d5378e30cef5706573c5e3c0591812",
     bg.REPO / "experiments/exp2n/verify_referents_2n.py":
-        "d9305ac96240ab11d5ca664763c88f6142ce323b03629092d02979ed866f1228",
+        "e80653b5f417ef159df1390bd232cbe0ea9ccf919a46f9e4585d2099e44e0895",   # re-pinned at the freeze (F-1's item-9/14 additions)
 }   # 4 modules, pinned from tests/import_scan_2n.py at Task 5
 WORLDS_2N = ("INSUFFICIENT_DATA", "SHARED", "PYTHIA-ONLY", "OLMO-ONLY", "NEITHER")
 ALPHA, T_BAR, N_PERM, N_BOOT = st.ALPHA, st.T_BAR, st.N_PERM, st.N_BOOT
@@ -157,6 +157,8 @@ DISCLOSURE_THIN_2N = ("fewer than three rungs carried the primary (R_PRIMARY = R
                       "nine) — the reading is THIN regardless of the power record's declaration")
 DISCLOSURE_THIN_ELIGIBLE_PREFIX_2N = "fewer than three rungs actually carried Test "
 DISCLOSURE_PARTIAL_ELIGIBLE_PREFIX_2N = "R_PRIMARY is wider than the reading of Test "
+DISCLOSURE_DELTA_SD_WIDER_PREFIX_2N = ("the power record's delta_sd line describes a WIDER rung set than "
+                                       "the annotation C reads")
 DISCLOSURE_UNDERPOWERED_2N = {
     "A": ("Test A did not fire under DECLARED UNDERPOWERED IN ADVANCE: the Pythia-1b read of "
           "Comma's order is not detected at this resolution, neither confirmed nor ruled out"),
@@ -283,6 +285,41 @@ def _partial_eligible_2n(test: str, res: dict, r_primary, rungs_simulated=None) 
             f"bounded to the rungs named as read")
 
 
+def _delta_sd_scope_2n(power, annotation) -> str | None:
+    """FREEZE F-2 (Ruling R-6; 2l F-4 / 2m F-1's shape on the THIRD
+    declaration). `power_2n.delta_sd_2n` fixes its `rungs` to R_PRIMARY
+    minus the UNION of the two predictors' degeneracy sets, and
+    `check_power_claims_2n` re-derives exactly that set — but the
+    annotation C is read over the INTERSECTION OF THE TWO TESTS'
+    ELIGIBLE SETS (design §3.8, §4), which additionally drops every
+    n_pos-thin rung. So `min_detectable_delta` — the annotation's own
+    resolution claim, and the number the projection places its Δ call
+    against — can describe a strictly wider set of rungs than the
+    interval it is read against, with nothing surfacing the gap.
+    Demonstrated at the freeze on the hand inputs of W28's shape
+    (delta_sd over nine, C read over eight, no disclosure anywhere).
+
+    Additive: a disclosure naming the extra rungs, riding on the
+    licence exactly as the two eligibility disclosures do. No bar, no
+    rule and no dial moves; the annotation's reading is untouched. The
+    same-set case is silent (nothing to disclose)."""
+    c = (annotation or {}).get("C") or {}
+    dsd = (power or {}).get("delta_sd")
+    if not isinstance(dsd, dict) or not isinstance(c.get("rungs"), list):
+        return None
+    sim = sorted(set(dsd.get("rungs") or []))
+    read = sorted(set(c["rungs"]))
+    if not sim or sim == read:
+        return None
+    extra = [r for r in sim if r not in read]
+    if not extra:
+        return None
+    return (f"{DISCLOSURE_DELTA_SD_WIDER_PREFIX_2N}: the power record simulated Δ over {sim} and C "
+            f"read {read} — its min_detectable_delta "
+            f"({dsd.get('min_detectable_delta')!r}) covers also {extra}, rung(s) the annotation did "
+            f"not read, so C's interval is read at its own resolution over the rungs named as read")
+
+
 # ------------------------------------------------------------ pins
 
 _EXPERIMENTS_ROOT_2N = str((bg.REPO / "experiments").resolve())
@@ -373,6 +410,18 @@ def endpoint_record_failures_2n(rec: dict, *, which, rung, cap, entry, verify_fn
         bad.append(f"{label}: which = {rec.get('which')!r}, expected {which!r}")
     if rec.get("commit") != entry.get("commit"):
         bad.append(f"{label}: commit {rec.get('commit')} is not the manifest's {entry.get('commit')}")
+    # FREEZE F-1: `eos_stop_id` is the CONSTANT the record wrapper stamps;
+    # `generation_eos_token_id` is the id read off the LOADED MODEL after
+    # `set_eos_stop_2n` (dial o) and threaded in from the loader's `info`.
+    # The endpoint whichs carry no checkpoint record, so this is the
+    # stage's only measurement that the override was applied — the same
+    # field, at the same bar, that `checkpoint_record_failures_2n`
+    # already required of every sweep step and of the twin.
+    if rec.get("generation_eos_token_id") != bn.EOS_STOP_ID_2N:
+        bad.append(f"{label}: generation_eos_token_id {rec.get('generation_eos_token_id')!r} is not "
+                   f"the pinned stop id {bn.EOS_STOP_ID_2N} — the loader did not apply "
+                   f"set_eos_stop_2n (eos_stop_id {rec.get('eos_stop_id')!r} is the constant the "
+                   f"record wrapper stamps, not a measurement)")
     bad += _record_common_failures_2n(rec, label=label, cap=cap, verify_fn=verify_fn,
                                       seal_tag=bn.PREDICTOR_TAGS_2N)
     return bad
@@ -853,6 +902,25 @@ def check_power_claims_2n(power, x_a256, x_b, strata, r_primary, stage1_final, *
         got_k = {r: int(v) for r, v in (dsd.get("k_by_rung") or {}).items() if isinstance(v, (int, float))}
         if got_k != want_k:
             bad.append(f"2n power claims delta_sd: k_by_rung {got_k!r} != re-derived {want_k!r}")
+        # FREEZE F-3 (attack item 33): `min_detectable_delta` is the
+        # annotation's whole resolution claim and was ATTESTED, never
+        # re-derived — `load_power_2n` pins the `formula` STRING and
+        # nothing checked the number against it. Re-derive it from the
+        # record's own `delta_boot_sd_null` by the literal the same
+        # record carries. Both-None (every rung degenerate, or no
+        # bootstrap interval) is the writer's own degenerate return and
+        # is allowed; one-of-two is not.
+        bsd_null, mdd = dsd.get("delta_boot_sd_null"), dsd.get("min_detectable_delta")
+        if bsd_null is None or mdd is None:
+            if not (bsd_null is None and mdd is None):
+                bad.append(f"2n power claims delta_sd: delta_boot_sd_null {bsd_null!r} and "
+                           f"min_detectable_delta {mdd!r} — one is absent and the other is not; "
+                           f"{DELTA_FORMULA_LITERAL_2N}")
+        elif not (isinstance(bsd_null, (int, float)) and isinstance(mdd, (int, float))
+                  and abs(float(mdd) - 2.63 * float(bsd_null)) <= 1e-9 * max(1.0, abs(float(mdd)))):
+            bad.append(f"2n power claims delta_sd: min_detectable_delta {mdd!r} is not "
+                       f"{2.63 * float(bsd_null) if isinstance(bsd_null, (int, float)) else '?'} — "
+                       f"the record's own {DELTA_FORMULA_LITERAL_2N}")
     return bad
 
 
@@ -1278,6 +1346,9 @@ def verdict_2n(failures, A, B, power, r_primary, annotation=None) -> dict:
         status = (power or {}).get(test, {}).get("declared_status")
         if not res["fires"] and status == "DECLARED UNDERPOWERED IN ADVANCE":
             disclosures.append(DISCLOSURE_UNDERPOWERED_2N[test])
+    d_delta = _delta_sd_scope_2n(power, annotation)        # freeze F-2 / R-6
+    if d_delta:
+        disclosures.append(d_delta)
     reason = tree["reason"]
     extra = [d for d in disclosures if d not in tree.get("disclosures", [])]
     if extra:
@@ -1469,9 +1540,18 @@ def run(root_2n=EXP2N, root_2i=bi.EXP2I, root_2k=bk.EXP2K, root_2l=bl.EXP2L, roo
                            if k not in ("timing",)},
                  "gate1_2k": {s: {r: c["gate1_rederived"] for r, c in cells_2k.get(s, {}).items()}
                               for s in bk.SIZES_2K},
+                 # FREEZE F-4 (2k D-1's field, completed): `pins_active`
+                 # stated three of run()'s SEVEN test-only injections, so
+                 # a record produced with stubbed git (`tag_exists`,
+                 # `blob_sha`, `blobs_bound`) or with S8's committed
+                 # readers replaced said nothing about it — the campaign
+                 # path passes none of them, and the record now says so.
                  "pins_active": {"frozen_modules": frozen_check is None,
                                  "import_surface": bool(imports_pinned),
-                                 "referent_manifest": referents_sha not in (False, None)},
+                                 "referent_manifest": referents_sha not in (False, None),
+                                 "prereg_binding": tag_exists is None and blob_sha is None,
+                                 "seal_binding": blobs_bound is None,
+                                 "s8_committed_readers": s8_loader is None},
                  "dtype": bn.DTYPE_2N, "batch_size": bn.BATCH_SIZE_2N, "render": bn.RENDER_2N,
                  "eos_stop_id": bn.EOS_STOP_ID_2N, "increment_3b": increment_3b, "power": power}
     common = {"known_inputs_caveat": KNOWN_INPUTS_CAVEAT_2N,

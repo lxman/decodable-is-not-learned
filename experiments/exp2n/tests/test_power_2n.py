@@ -59,6 +59,18 @@ def test_delta_sd_2n_shape_and_formula():
     assert set(d["k_by_rung"]) == set(R_SMALL) and d["delta_null_sd"] >= 0
 
 
+def test_delta_formula_literal_is_the_same_string_on_both_sides():
+    """Deferred minor (Task 4 m1), closed at the freeze: the writer's
+    `power_2n.DELTA_FORMULA_2N` and the reader's
+    `analyze_2n.DELTA_FORMULA_LITERAL_2N` are ONE string. Before the
+    freeze the invariant was only enforced transitively, through a
+    written record passing `load_power_2n`; the freeze's F-3
+    re-derivation reads the same literal, so the identity is now
+    asserted directly."""
+    assert pm.DELTA_FORMULA_2N == an.DELTA_FORMULA_LITERAL_2N
+    assert "2.63" in an.DELTA_FORMULA_LITERAL_2N
+
+
 def test_main_writes_once_with_both_tests_on_base_strata(tmp_path, monkeypatch):
     seal = fs.write_world_2n(tmp_path, mode="pythia_only")
     bn.power_path(tmp_path).unlink()

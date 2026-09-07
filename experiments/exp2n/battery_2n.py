@@ -643,16 +643,34 @@ def item_record_2n(*, rung, cap, ev, ckpt, step, endpoint_sha, t_s) -> dict:
     return rec
 
 
-def endpoint_item_record_2n(*, rung, cap, ev, ckpt, which, seal, t_s) -> dict:
+def endpoint_item_record_2n(*, rung, cap, ev, ckpt, which, seal, t_s, eos_facts) -> dict:
     """An endpoint record: `item_record_2i(which=…)` with the `dtype`
     override and the render/stop-id pins — used by the endpoint stage
-    and every fixture."""
+    and every fixture.
+
+    FREEZE F-1. `eos_stop_id` is written from the CONSTANT, so it
+    attests dial o's RULING, not the load. The three endpoint `which`es
+    carry no checkpoint record (2m F-2's shape), so a sweep step's
+    `_checkpoint.json` — which does carry the loader's own measured
+    `generation_eos_token_id` — has no counterpart here, and the
+    endpoint stage's only evidence that `set_eos_stop_2n` ran was a
+    constant the writer stamps unconditionally. Demonstrated at the
+    freeze: `run/endpoint_2n.run` driven twice with loaders whose
+    `info` reported generation eos 3 and 2 produced 102 records with
+    ZERO differing fields and the same R_PRIMARY. Additive closure:
+    `eos_facts` is the loader's own `info` (`eos_facts_2n` read off the
+    loaded model AFTER `set_eos_stop_2n`), and its two ids are stamped
+    here. REQUIRED, so no construction site can omit the measurement;
+    `analyze_2n.endpoint_record_failures_2n` requires the measured
+    generation eos to be the pinned stop id."""
     from experiments.exp2i.run.endpoint_2i import item_record_2i
     rec = item_record_2i(rung=rung, family=FAMILY, size=SIZE_OUT, which=which, cap=cap, ev=ev,
                          ckpt=ckpt, seal=seal, t_s=t_s)
     rec["dtype"] = DTYPE_2N
     rec["render"] = RENDER_2N
     rec["eos_stop_id"] = EOS_STOP_ID_2N
+    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")
+    rec["generation_eos_token_id"] = (eos_facts or {}).get("generation_eos_token_id")
     return rec
 
 

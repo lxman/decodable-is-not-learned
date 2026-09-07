@@ -279,6 +279,57 @@ def test_s8_five_rows_s8c_and_s9(worlds):
     assert sens["every40k_subset"]["A"]["stratified"]["T"] != v["tests"]["A"]["stratified"]["T"]
 
 
+def test_w28_delta_sd_line_wider_than_c_is_disclosed(worlds):
+    """Freeze F-2 / Ruling R-6: `sub4_mid` has 12 positives — inside
+    R_PRIMARY (it clears 2d's endpoint bar at k = 9) and inside the
+    power record's `delta_sd` rung set (which drops only degenerate
+    rungs), but outside both tests as n_pos-thin, so the annotation C
+    reads eight rungs while `min_detectable_delta` describes nine. The
+    disclosure names the extra rung and rides on the licence."""
+    v, _, _root = worlds["W28 PYTHIA-ONLY delta_sd wider than C disclosed (freeze F-2)"]
+    assert v["verdict"] == "PYTHIA-ONLY", v["reason"]
+    sim = sorted(v["referents"]["power"]["delta_sd"]["rungs"])
+    read = sorted(v["annotation"]["C"]["rungs"])
+    assert "sub4_mid" in sim and "sub4_mid" not in read and len(read) == len(sim) - 1
+    hit = [d for d in v["reason"].split("; ") if d.startswith(an.DISCLOSURE_DELTA_SD_WIDER_PREFIX_2N)]
+    assert hit, v["reason"]
+    assert "sub4_mid" in hit[0].split("covers also")[-1]
+    assert hit[0] in v["licensed_sentence"]
+    # the full-reading worlds disclose nothing about delta_sd
+    v1, _, _ = worlds["W1 PYTHIA-ONLY"]
+    assert not any(d.startswith(an.DISCLOSURE_DELTA_SD_WIDER_PREFIX_2N)
+                   for d in v1["reason"].split("; "))
+
+
+def test_w29_endpoint_record_without_the_measured_stop_id_refuses(worlds):
+    """Freeze F-1: `stage1_final`'s last rung is written by a loader whose
+    `info` reports generation eos 2 — the record's `eos_stop_id` still
+    reads 3 (the constant the wrapper stamps), the rung set's sha table
+    and the 104-file composite agree with the bytes, and the ONLY thing
+    that can refuse is the measured field the freeze added."""
+    v, _, _root = worlds["W29 INSUFFICIENT an endpoint record whose loader missed the stop-id "
+                         "override (freeze F-1)"]
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    hits = [x for x in v["referents"]["failures"] if "generation_eos_token_id" in x]
+    assert hits and "endpoint comma_7b stage1_final" in hits[0], v["referents"]["failures"]
+    assert "not a measurement" in hits[0]
+    assert not any("endpoint_file_sha256" in x or "endpoint_sha256" in x
+                   for x in v["referents"]["failures"])
+
+
+def test_pins_active_states_every_injection(worlds):
+    """Freeze F-4: the worlds run with git stubbed (`tag_exists`,
+    `blob_sha`, `blobs_bound`) and with S8's committed readers replaced,
+    and the record now says so; the frozen-module, import-surface and
+    referent pins keep their build-era meaning."""
+    v, _, _ = worlds["W1 PYTHIA-ONLY"]
+    pa = v["referents"]["pins_active"]
+    assert pa["frozen_modules"] is True and pa["import_surface"] is True
+    assert pa["referent_manifest"] is False                       # a synthetic root, by design
+    assert pa["prereg_binding"] is False and pa["seal_binding"] is False
+    assert pa["s8_committed_readers"] is False
+
+
 def test_w26_w27_render_and_stop_id_refusals(worlds):
     assert worlds["W26 INSUFFICIENT a record at another render"][0]["verdict"] == "INSUFFICIENT_DATA"
     assert any("render" in x for x in worlds["W26 INSUFFICIENT a record at another render"][0]["referents"]["failures"])

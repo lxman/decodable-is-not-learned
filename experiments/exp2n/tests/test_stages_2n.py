@@ -80,7 +80,7 @@ def _which_of(repo, commit):
     raise AssertionError((repo, commit))
 
 
-def _endpoint_loaders(*, frac_by_which=None, digest="Dend", raise_at_which=None):
+def _endpoint_loaders(*, frac_by_which=None, digest="Dend", raise_at_which=None, generation_eos=3):
     frac_by_which = frac_by_which or {}
     state = {"loads": [], "released": []}
 
@@ -93,7 +93,7 @@ def _endpoint_loaders(*, frac_by_which=None, digest="Dend", raise_at_which=None)
                                              "loading_info": {"missing_keys": 0, "unexpected_keys": 0,
                                                               "mismatched_keys": 0},
                                              "config_eos_token_id": 2, "config_bos_token_id": 1,
-                                             "generation_eos_token_id": 3}
+                                             "generation_eos_token_id": generation_eos}
 
     battery, amap = _amap_and_battery()
 
@@ -241,7 +241,8 @@ def _setup_endpoint(tmp_path, *, gate_frac=0.5, digest="Dend", commit=None):
                     "kind": ew["kind"], "files": list(ew["files"]), "weight_sha256": digest,
                     "config_source": "cs", "tokenizer_source": "ts"}
             rec = bn.endpoint_item_record_2n(rung=rung, cap=cap, ev=ev, ckpt=ckpt, which=which,
-                                             seal={"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N}, t_s=0.0)
+                                             seal={"tag": bn.PREDICTOR_TAGS_2N, "sha256": bn.PREDICTOR_SHA_2N}, t_s=0.0,
+                                             eos_facts={"config_eos_token_id": 2, "generation_eos_token_id": 3})
             p = bn.endpoint_record_path(tmp_path, which, rung)
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(json.dumps(rec, indent=1))
@@ -550,6 +551,33 @@ def test_records_carry_render_and_eos_stop_id(tmp_path, monkeypatch):
     assert cr["config_eos_token_id"] == 2 and cr["generation_eos_token_id"] == 3
     ct = json.loads(bn.checkpoint_record_path(tmp_path, bn.TWIN).read_text())
     assert ct["generation_eos_token_id"] == 3
+
+
+def test_endpoint_records_carry_the_loaders_own_eos_measurement(tmp_path, monkeypatch):
+    """FREEZE F-1: the endpoint whichs have no checkpoint record, so the
+    item record is the only place the loader's MEASURED
+    `generation_eos_token_id` can live. Driven with a loader whose
+    `info` reports 2 — what a load that never applied `set_eos_stop_2n`
+    would report — the stage still writes `eos_stop_id` 3 (the constant),
+    but the measured field reads 2 and the analyzer refuses the record."""
+    _shrink_grid(monkeypatch)
+    loaders, _ = _endpoint_loaders()
+    ep.run(root=tmp_path, root_2i=bi.EXP2I, root_2k=bk.EXP2K, loaders=loaders, **_fake_seals())
+    rec = json.loads(bn.endpoint_record_path(tmp_path, "stage1_final", "antonym").read_text())
+    assert rec["config_eos_token_id"] == 2 and rec["generation_eos_token_id"] == 3
+
+    missed = tmp_path / "missed"
+    loaders2, _ = _endpoint_loaders(generation_eos=2)
+    ep.run(root=missed, root_2i=bi.EXP2I, root_2k=bk.EXP2K, loaders=loaders2, **_fake_seals())
+    rec2 = json.loads(bn.endpoint_record_path(missed, "stage1_final", "antonym").read_text())
+    assert rec2["eos_stop_id"] == bn.EOS_STOP_ID_2N == 3        # the constant is unchanged
+    assert rec2["generation_eos_token_id"] == 2                 # the measurement is not
+    entry = bn.entry_which_comma(_manifest(), "stage1_final")
+    battery, _amap = _amap_and_battery()
+    bad = an.endpoint_record_failures_2n(rec2, which="stage1_final", rung="antonym",
+                                         cap=battery["antonym"], entry=entry,
+                                         verify_fn=a2d.load_verify())
+    assert any("generation_eos_token_id" in b and "not a measurement" in b for b in bad), bad
 
 
 def test_real_loaders_wrap_the_harness_in_bos_runner(monkeypatch):

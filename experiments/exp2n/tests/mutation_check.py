@@ -186,31 +186,31 @@ M = [
     rec["dtype"] = DTYPE_2N
     rec["render"] = RENDER_2N
     rec["eos_stop_id"] = EOS_STOP_ID_2N
-    return rec''',
+    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")''',
      '''                         ckpt=ckpt, seal=seal, t_s=t_s)
     rec["render"] = RENDER_2N
     rec["eos_stop_id"] = EOS_STOP_ID_2N
-    return rec'''),
+    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")'''),
     (BK, "endpoint_item_record_2n: the render override removed",
      '''                         ckpt=ckpt, seal=seal, t_s=t_s)
     rec["dtype"] = DTYPE_2N
     rec["render"] = RENDER_2N
     rec["eos_stop_id"] = EOS_STOP_ID_2N
-    return rec''',
+    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")''',
      '''                         ckpt=ckpt, seal=seal, t_s=t_s)
     rec["dtype"] = DTYPE_2N
     rec["eos_stop_id"] = EOS_STOP_ID_2N
-    return rec'''),
+    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")'''),
     (BK, "endpoint_item_record_2n: the eos_stop_id override removed",
      '''                         ckpt=ckpt, seal=seal, t_s=t_s)
     rec["dtype"] = DTYPE_2N
     rec["render"] = RENDER_2N
     rec["eos_stop_id"] = EOS_STOP_ID_2N
-    return rec''',
+    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")''',
      '''                         ckpt=ckpt, seal=seal, t_s=t_s)
     rec["dtype"] = DTYPE_2N
     rec["render"] = RENDER_2N
-    return rec'''),
+    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")'''),
     (BK, "checkpoint_record_2n: generation_eos_token_id key dropped",
      '''            "digest": ckpt["weight_sha256"], "download_seconds": round(seconds, 1),
             "config_eos_token_id": info.get("config_eos_token_id"),
@@ -873,6 +873,49 @@ M.append((AN, "run(): the round(…, 4) != guard removed",
         failures.append(f"2n increment 3b: 2m's committed {increment_3b} is not the literal {INCREMENT_3B_2N}")''',
          '''    if False:
         failures.append(f"2n increment 3b: 2m's committed {increment_3b} is not the literal {INCREMENT_3B_2N}")'''))
+
+# The adversarial freeze (2026-09-07): six mutants for the four closures,
+# appended after #192 so every existing index (1-192) is unchanged.
+# 193-197 are fast-class; 198 is observed only by the totality control
+# (the verdict record's `pins_active`), so it is confirmed under
+# `--totality --only 198`.
+M.append((BK, "FREEZE F-1: endpoint_item_record_2n's measured generation_eos_token_id stamp removed",
+         '''    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")
+    rec["generation_eos_token_id"] = (eos_facts or {}).get("generation_eos_token_id")''',
+         '''    rec["config_eos_token_id"] = (eos_facts or {}).get("config_eos_token_id")'''))
+M.append((AN, "FREEZE F-1: endpoint_record_failures_2n's measured-stop-id bar removed",
+         '''    if rec.get("generation_eos_token_id") != bn.EOS_STOP_ID_2N:
+        bad.append(f"{label}: generation_eos_token_id {rec.get('generation_eos_token_id')!r} is not "
+                   f"the pinned stop id {bn.EOS_STOP_ID_2N} — the loader did not apply "
+                   f"set_eos_stop_2n (eos_stop_id {rec.get('eos_stop_id')!r} is the constant the "
+                   f"record wrapper stamps, not a measurement)")
+    bad += _record_common_failures_2n(rec, label=label, cap=cap, verify_fn=verify_fn,
+                                      seal_tag=bn.PREDICTOR_TAGS_2N)''',
+         '''    bad += _record_common_failures_2n(rec, label=label, cap=cap, verify_fn=verify_fn,
+                                      seal_tag=bn.PREDICTOR_TAGS_2N)'''))
+M.append((AN, "FREEZE F-2: _delta_sd_scope_2n's extra-rung guard inverted (never discloses)",
+         '''    extra = [r for r in sim if r not in read]
+    if not extra:
+        return None''',
+         '''    extra = [r for r in sim if r not in read]
+    if extra:
+        return None'''))
+M.append((AN, "FREEZE F-2: verdict_2n drops the delta_sd scope disclosure",
+         '''    d_delta = _delta_sd_scope_2n(power, annotation)        # freeze F-2 / R-6
+    if d_delta:
+        disclosures.append(d_delta)
+    reason = tree["reason"]''',
+         '''    reason = tree["reason"]'''))
+M.append((AN, "FREEZE F-3: check_power_claims_2n's min_detectable_delta re-derivation removed",
+         '''        elif not (isinstance(bsd_null, (int, float)) and isinstance(mdd, (int, float))
+                  and abs(float(mdd) - 2.63 * float(bsd_null)) <= 1e-9 * max(1.0, abs(float(mdd)))):''',
+         '''        elif False:'''))
+M.append((AN, "FREEZE F-4: pins_active drops the three injection fields",
+         '''                                 "referent_manifest": referents_sha not in (False, None),
+                                 "prereg_binding": tag_exists is None and blob_sha is None,
+                                 "seal_binding": blobs_bound is None,
+                                 "s8_committed_readers": s8_loader is None},''',
+         '''                                 "referent_manifest": referents_sha not in (False, None)},'''))
 
 # Task 5 ruling: fast modules only by default (test_battery_2n.py,
 # test_stages_2n.py, test_analyze_2n.py, test_power_2n.py with the
