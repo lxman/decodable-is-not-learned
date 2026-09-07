@@ -1,0 +1,14 @@
+{
+ "family": "comma",
+ "size": "comma_7b",
+ "step": "twin",
+ "repo": "common-pile/comma-v0.1-1t",
+ "revision": "twin",
+ "commit": null,
+ "kind": "from_config",
+ "seed": 0,
+ "digest": "50564697ff7229e98da58fd1eb88ab18e88800a4a1314a4d5552e82fc1af15cb",
+ "config_source": "common-pile/comma-v0.1-1t@e295235994f32d763c359d324265a176e591f632",
+ "config_eos_token_id": 2,
+ "generation_eos_token_id": 3
+}
