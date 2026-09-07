@@ -87,11 +87,21 @@ each other (and different from what the design intends), and gate 1
 reports zero diffs. A ONE-sided miss it does catch — the stop ids would
 differ, the continuations would differ past the first `<|end_of_text|>`,
 and the re-derivation would fire. Executed on hand records through
-`gate1_rederive_comma`: identical continuation sets → `[]` (gate 1
-PASSES); one side's continuation lengthened on one item → `1
-continuation diff(s) … (re-derived from the bytes, not the
-attestation)`. So gate 1 is not the check here; the record had to
-become one.
+both production checkers, with a missed stop id modelled as a
+continuation that runs on past `<|end_of_text|>`:
+
+```
+both applied      : gate1_failures 0  | re-derive 0  -> gate 1 PASSES
+TWO-SIDED miss    : gate1_failures 0  | re-derive 0  -> gate 1 PASSES (blind)
+ONE-SIDED miss    : gate1_failures 34 | re-derive 34 -> gate 1 FIRES
+  first re-derive message: gate 1 comma_7b re-derive/add4_mid: 500 continuation
+  diff(s) (re-derived from the bytes, not the attestation)
+  the record's own bar on the two-sided tree: ['endpoint comma_7b
+  stage1_final/antonym: generation_eos_token_id 2 is not the pinned stop id 3 …']
+```
+
+So gate 1 is not the check here; the record had to become one, and now
+is.
 
 **The closure (additive).** `battery_2n.endpoint_item_record_2n` takes
 a REQUIRED keyword `eos_facts` — the loader's own `info`, whose
@@ -502,8 +512,10 @@ inner message the label wraps).
 ### 16. Determinism — CLEARED
 
 Two `analyze_2n.run(write=True)` executions on ONE synthetic world
-(`shared`, seed 0, n_perm 30), in SEPARATE processes: see the cold
-re-run table for the byte comparison.
+(`shared`, seed 0, n_perm 30), in SEPARATE processes, each building its
+own world from scratch: **482,499 bytes and sha256
+`ec00395b3a702d0bfae5eb23c874916cbc41842f77e40ceddb5e84a68328c041` on
+both**, `cmp` clean — byte-identical.
 
 ### 17. Read sweep — CLEARED
 
@@ -775,9 +787,12 @@ add:
 > `BosRunner` — exactly as it cannot detect a dtype change; the
 > tag-bound constant is the check.
 
-**(b) §3.3, after "…and every record carries `eos_stop_id: 3`;
-`config.json`'s 2 is disclosed on the record as
-`config_eos_token_id`."** — replace that clause with:
+**(b) §3.3.** Note first that the doc was AHEAD of the build here: it
+already says "every record carries `eos_stop_id: 3`; `config.json`'s 2
+is disclosed on the record as `config_eos_token_id`" — and before the
+freeze only the CHECKPOINT records carried `config_eos_token_id`, never
+the endpoint item records. F-1's closure makes the sentence true.
+Replace the clause with:
 
 > …and every record carries `eos_stop_id: 3`. Because the three
 > endpoint `which`es carry no checkpoint record, each ENDPOINT ITEM
@@ -791,13 +806,15 @@ add:
 > and are barred the same way.
 
 **(c) §3.8, after "…(2k's block rule: k_g = clip(round(256 · r̄_A /
-r̄_B), 1, 64) per rung, the first k_g draws, no seed)"** — add:
+r̄_B), 1, 64) per rung, the first k_g draws, no seed)"** — the doc
+already pins the first block; add what sits beside it:
 
-> C's thinned predictor is exactly the FIRST k_g-draw block of x_B
-> (`row[:k_g]` on every item), one deterministic block and no seed.
-> S4's `per_rung` mean over all `64 // k_g` blocks is printed beside it
-> in the same verdict — two numbers, one rule, and the rule C reads is
-> the first block's.
+> "The first k_g draws" is exactly `row[:k_g]` on every item — one
+> deterministic block. S4's own `per_rung` reading, the MEAN over all
+> `64 // k_g` blocks of that width (2j's `_block_reading`), is printed
+> beside C in the same verdict under `secondaries["S4 matched
+> density"]` — two numbers, one rule, and the rule C reads is the first
+> block's.
 
 **(d) §3.8, after "…and `covers_3b_increment` (+.0659)"** — add:
 
@@ -863,12 +880,14 @@ verdict, seal, power, endpoint and sweep records…)"** — add:
 > 102 endpoint records, rung set, power record, 946-file sweep tree,
 > `gate1.json` and `verdict.json`), which S8, S9 and C read.
 
-**(i) §3.6, after "The every-40k subset … is printed as the grid-density
-CONTROL"** — add:
+**(i) §3.6.** The doc already says the subset re-counts y over its own
+points with a maximum of 12 (verified executable: `max y` is 24 over
+the grid and 12 over the subset). Add only:
 
-> y is RE-COUNTED over the subset's own 12 points (its maximum is 12,
-> not a slice of the 24-point count), and the row is stamped
-> `"control": True` as a literal, not as a computed rule.
+> The sensitivity's row is stamped `"control": True` as a LITERAL in
+> the verdict record, not as a computed rule — so a reader cannot
+> mistake the control for a descriptive that happens to have been
+> printed.
 
 **(j) §3.1, after "the init referent is the seeded `from_config` twin of
 the stage-1 config (2i/2m's construction)"** — the doc already says
@@ -910,12 +929,15 @@ runner."** — add:
 
 | blob | sha256 |
 | --- | --- |
-| `experiments/exp2n/analyze_2n.py` | (filled at the end of the freeze) |
-| `experiments/exp2n/battery_2n.py` | (filled at the end of the freeze) |
-| `experiments/exp2n/run/endpoint_2n.py` | (filled at the end of the freeze) |
-| `experiments/exp2n/run/sweep_2n.py` | (filled at the end of the freeze) |
+| `experiments/exp2n/analyze_2n.py` | `a860a4e7fe3d40cba923d72f89e84facbfcfdfb92567930f55427587cb90c80b` |
+| `experiments/exp2n/battery_2n.py` | `e85165bd0ca1dd9f93eb07c89b74851ea2413d32f7ef9e694082ade49170a3e8` |
+| `experiments/exp2n/run/endpoint_2n.py` | `62d62959361e6591ea530dc2dbe3136e614c26ecd04a60ad6e173bedecc7002d` |
+| `experiments/exp2n/run/sweep_2n.py` | `4d077ae894819030daddc6f3f588c472da45886675099b54e9e6935d493e4213` |
 
-`run/sweep_2n.py` is UNCHANGED by the freeze — no finding touched it.
+`run/sweep_2n.py` is UNCHANGED by the freeze — no finding touched it
+(`git diff ef0fa6b6 -- experiments/exp2n/run/sweep_2n.py` is empty).
+These are the shas the tag must bind; any further edit to any of the
+four needs a re-cut.
 
 ### What the freeze did NOT do
 
@@ -945,11 +967,13 @@ runner."** — add:
 | battery | result |
 | --- | --- |
 | fast modules, first pass after F-1..F-4 | 138 passed, 1 failed (the empty-tree test's `pins_active` literal, test-side, fixed), 260.5 s |
-| fast modules, after the fixture correction | (filled at the end) |
-| worlds + totality | (filled at the end) |
+| fast modules, after the fixture correction | **139 passed**, 263.2 s (the 135 baseline + the freeze's four new fast tests) |
+| worlds + totality | **61 passed**, 1,374.2 s (0:22:54) — **29 world specs**, every terminal reached |
 | cold referent battery `verify_referents_2n.py` | **14/14**, run after the closures and after the `IMPORTED_SHA256_2N` re-pin |
 | read sweep `tests/read_sweep_2n.py` | 6,179 distinct paths, 8,553 open/read calls, **(e) unpinned = 0**, 0 writes, INSUFFICIENT_DATA |
 | import scan `tests/import_scan_2n.py` | 4 modules, INSUFFICIENT_DATA, 11 failures, no T (the re-pinned reading) |
 | the nineteen runner-left tree shapes | **19/19 INSUFFICIENT_DATA, 0 raises** — before AND after |
-| determinism ×2, separate processes, one world, n_perm 30 | (filled at the end) |
-| mutation battery | (filled at the end) |
+| determinism ×2, separate processes, one world (`shared`, seed 0), n_perm 30 | **byte-identical** — 482,499 bytes, sha `ec00395b3a702d0bfae5eb23c874916cbc41842f77e40ceddb5e84a68328c041` on both |
+| mutation battery, `--only 24,25,26,71,73,74,193,194,195,196,197` (fast) | **11/11 killed**, 0 survivors, 0 SKIP — `mutation_freeze_fast.log`. The three retargeted `endpoint_item_record_2n` mutants (24–26), the three annotation/licence mutants whose covering test the freeze extended (71, 73, 74), and five of the six freeze mutants |
+| mutation battery, `--only 198 --totality` | **1/1 killed**, 0 survivors, 0 SKIP — `mutation_freeze_totality.log` (F-4 is observed only through the verdict record's `pins_active`, which the totality control asserts) |
+| mutation battery, total | **198 entries in `mutation_check.M`, every target resolving exactly once**; the build's committed 192/192 plus the freeze's 6, with 24–26 retargeted and re-killed. No stray `.mutation_backup`; `git status --porcelain experiments/exp2n` clean of anything but this freeze's own edits after each harness run |

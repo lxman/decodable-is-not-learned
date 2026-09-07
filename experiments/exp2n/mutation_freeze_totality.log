@@ -1,0 +1,5 @@
+baseline OK (totality pass, [198] mutants)
+
+[198] killed  FREEZE F-4: pins_active drops the three injection fields
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []

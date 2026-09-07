@@ -1155,3 +1155,27 @@ INSUFFICIENT_DATA, 11 failures, no T) and `tests/read_sweep_2n.py`
 (INSUFFICIENT_DATA, 10 failures, no T, 0 writes, 6,179 distinct paths,
 bucket (e) = 0). Every finding was demonstrated on synthetic roots or
 hand inputs.
+
+### Cold re-runs and the mutation battery (the freeze)
+
+| battery | baseline (cold, before) | after the closures |
+| --- | --- | --- |
+| fast modules (four, no `-m` filter) | 135 passed, 257.5 s | **139 passed**, 263.2 s |
+| worlds + totality | 58 passed, 1,306.9 s (27 specs) | **61 passed**, 1,374.2 s (**29 specs**, every terminal) |
+| cold referent battery `verify_referents_2n.py` | 14/14 | **14/14** (after the closures AND after the `IMPORTED_SHA256_2N` re-pin) |
+| read sweep `tests/read_sweep_2n.py` | — | 6,179 distinct paths, 8,553 open/read calls, **(e) unpinned = 0**, 0 writes, INSUFFICIENT_DATA |
+| import scan `tests/import_scan_2n.py` | — | 4 modules, INSUFFICIENT_DATA, 11 failures, no T; one sha re-pinned (`verify_referents_2n.py`) |
+| the nineteen runner-left tree shapes | 19/19 | **19/19 INSUFFICIENT_DATA, 0 raises** |
+| determinism ×2, separate processes, one world (`shared`, seed 0), n_perm 30 | — | **byte-identical**, 482,499 bytes, sha `ec00395b3a702d0bfae5eb23c874916cbc41842f77e40ceddb5e84a68328c041` |
+| mutation, fast `--only 24,25,26,71,73,74,193,194,195,196,197` | — | **11/11 killed** (`mutation_freeze_fast.log`) |
+| mutation, `--totality --only 198` | — | **1/1 killed** (`mutation_freeze_totality.log`) |
+| mutation battery size | 192 | **198**, every target resolving exactly once |
+
+The instrument delta the tag will bind (post-freeze shas):
+`analyze_2n.py` `a860a4e7…`, `battery_2n.py` `e85165bd…`,
+`run/endpoint_2n.py` `62d62959…`, `run/sweep_2n.py` `4d077ae8…`
+(sweep UNCHANGED by the freeze).
+
+Both mutation logs are committed (Ruling R-7). No stray
+`.mutation_backup` after either run; the four instrument blobs
+byte-clean against the working tree after each.

@@ -1,0 +1,15 @@
+baseline OK (fast pass, [24, 25, 26, 71, 73, 74, 193, 194, 195, 196, 197] mutants)
+
+[24] killed  endpoint_item_record_2n: the dtype override removed
+[25] killed  endpoint_item_record_2n: the render override removed
+[26] killed  endpoint_item_record_2n: the eos_stop_id override removed
+[71] killed  verdict_2n: annotation not carried into the return
+[73] killed  _licensed_2n: the annotation modifier dropped
+[74] killed  _c_modifier_key_2n: covers/excludes swapped
+[193] killed  FREEZE F-1: endpoint_item_record_2n's measured generation_eos_token_id stamp removed
+[194] killed  FREEZE F-1: endpoint_record_failures_2n's measured-stop-id bar removed
+[195] killed  FREEZE F-2: _delta_sd_scope_2n's extra-rung guard inverted (never discloses)
+[196] killed  FREEZE F-2: verdict_2n drops the delta_sd scope disclosure
+[197] killed  FREEZE F-3: check_power_claims_2n's min_detectable_delta re-derivation removed
+
+11/11 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []
