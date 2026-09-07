@@ -29,8 +29,8 @@ is sampled.
 RATIFIED by Michael 2026-09-07 ('Ratified — apply the slips and tag'):
 freeze findings F-1..F-4 closed additively (68a0fd42); slips (a)–(n)
 applied — (c′) and (n) from the final whole-branch review; the tag
-`exp2n-preregistered` is cut at the commit carrying this doc
-(blob-bound: analyze_2n.py a860a4e7…, battery_2n.py e85165bd…,
+`exp2n-preregistered` CUT 2026-09-07 at 013d67ba (annotated object
+5c139c0f), pushed (blob-bound: analyze_2n.py a860a4e7…, battery_2n.py e85165bd…,
 run/endpoint_2n.py 62d62959…, run/sweep_2n.py 4d077ae8…; verified
 through `require_prereg_2n` against real git). FROZEN. Model contact
 from here only on Michael's word (§7: the preflight first).**

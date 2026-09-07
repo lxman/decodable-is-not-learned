@@ -1209,3 +1209,7 @@ FREEZE_CHECKLIST table exactly; `git status --porcelain` touches only
 this file, `experiment-2n-design.md` and `tests/test_analyze_2n.py`.
 No tag cut here — the controller cuts `exp2n-preregistered` after
 verifying this diff.
+
+## 2026-09-07 — RATIFIED + TAG `exp2n-preregistered` CUT at 013d67ba (annotated object 5c139c0f), pushed
+
+Michael: "Ratified — apply the slips and tag." Slips (a)–(n) applied (1e3d1c96; the four prose seams the application left rejoined at 013d67ba, ratified wording unchanged); the licence-modifier composition test and the superseded ledger sentence landed with them. The tag binds analyze_2n.py a860a4e7fe3d…, battery_2n.py e85165bd0ca1…, run/endpoint_2n.py 62d62959361e…, run/sweep_2n.py 4d077ae89481… — verified through `require_prereg_2n` against real git; `check_frozen_2n` clean. Any post-tag edit to these four needs a re-tag. FROZEN. Model contact from here only on Michael's word (§7: the preflight first).
