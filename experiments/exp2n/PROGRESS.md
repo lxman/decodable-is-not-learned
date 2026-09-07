@@ -1213,3 +1213,182 @@ verifying this diff.
 ## 2026-09-07 — RATIFIED + TAG `exp2n-preregistered` CUT at 013d67ba (annotated object 5c139c0f), pushed
 
 Michael: "Ratified — apply the slips and tag." Slips (a)–(n) applied (1e3d1c96; the four prose seams the application left rejoined at 013d67ba, ratified wording unchanged); the licence-modifier composition test and the superseded ledger sentence landed with them. The tag binds analyze_2n.py a860a4e7fe3d…, battery_2n.py e85165bd0ca1…, run/endpoint_2n.py 62d62959361e…, run/sweep_2n.py 4d077ae89481… — verified through `require_prereg_2n` against real git; `check_frozen_2n` clean. Any post-tag edit to these four needs a re-tag. FROZEN. Model contact from here only on Michael's word (§7: the preflight first).
+
+## 2026-09-07 — PREFLIGHT (dial j) PASSED on Michael's word ("Go on the preflight"): 05:2x → 05:48, detached, the first model contact of 2n
+
+fp16 STANDS — 0 non-finite logits on both loads (max_abs 18.34 on `main`, 12.53 on step 10,000). Renders as pinned: bos render ids [2, 52, 29], plain render ids [52, 29]. Stop ids: `config eos 2 | generation eos 3` on both loads — the override runs. Memory: `main` (thin) 14.0 GB allocated / 15.0 GB peak; step 10,000 (candidate files) 28.0 GB allocated / 29.0 GB peak — the second load did not reclaim the first's pool (dial p input). Verify tallies over 20 items: main antonym 13/20 (bos) vs 15/20 (plain), main add3_mid 20/20 both; step-10k antonym 5/20 both, step-10k add3_mid 0/20 both — the pinned BOS render is not degenerate where the plain one is not; dial n stands, no re-tag. Nothing written under results/; the staged checkpoint freed. Full printout (download progress lines stripped):
+
+```
+[2n preflight] batch_size 16 dtype float16
+[2n preflight] main: config eos 2 | generation eos 3
+[2n preflight] main loaded (thin): mps_allocated_bytes 14005314048 peak_mps_bytes 15041249280
+[2n preflight] bos render ids [2, 52, 29]
+[2n preflight] plain render ids [52, 29]
+[2n preflight] main: n_nonfinite 0 max_abs 18.34375
+[2n preflight] antonym …"ns the opposite of 'awake': asleep, genuine, open, exact?\\nA:" -> ' asleep\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"he opposite of 'sturdy': deep, fragile, tall, horizontal?\\nA:" -> ' fragile\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"e opposite of 'noisy': minimum, silent, expensive, small?\\nA:" -> ' silent\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"pposite of 'mobile': heavy, stationary, dangerous, brave?\\nA:" -> ' heavy\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] antonym …"s the opposite of 'early': plentiful, harsh, late, eager?\\nA:" -> ' late\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"means the opposite of 'tender': sharp, limp, arid, tough?\\nA:" -> ' limp\n\nQ: Which of these means the opposite' verify=0
+[2n preflight] antonym …"ns the opposite of 'thick': slender, sad, graceful, thin?\\nA:" -> ' slender\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] antonym …"he opposite of 'absent': forced, present, diligent, tall?\\nA:" -> ' forced\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] antonym …"ans the opposite of 'sober': graceful, matte, drunk, wet?\\nA:" -> ' drunk\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"s the opposite of 'young': old, simple, straight, scarce?\\nA:" -> ' old\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …" opposite of 'graceful': clumsy, rigid, timid, plentiful?\\nA:" -> ' clumsy\n\nQ: Which of these means the' verify=1
+[2n preflight] antonym …"te of 'exact': alive, superficial, approximate, wasteful?\\nA:" -> ' superficial\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] antonym …"e opposite of 'certain': broad, doubtful, occupied, cold?\\nA:" -> ' doubtful\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"ite of 'optimistic': idle, slender, visible, pessimistic?\\nA:" -> ' pessimistic\n\nQ: Which of these means the' verify=1
+[2n preflight] antonym …"posite of 'guilty': glossy, foolish, innocent, temporary?\\nA:" -> ' innocent\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"the opposite of 'clean': timid, dirty, pessimistic, tidy?\\nA:" -> ' timid\n\nQ: Which of these means the opposite' verify=0
+[2n preflight] antonym …"pposite of 'victory': destitute, open, difficult, defeat?\\nA:" -> ' defeat\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] antonym …"the opposite of 'glossy': free, sick, approximate, matte?\\nA:" -> ' matte\n\nQ: Which of these means the opposite' verify=1
+[2n preflight] antonym …"opposite of 'permanent': chaotic, temporary, exact, loud?\\nA:" -> ' chaotic\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] antonym …"ns the opposite of 'polite': wet, rude, inferior, opaque?\\nA:" -> ' rude\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 744 + 660?\\nA:' -> ' 1404\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 317 + 663?\\nA:' -> ' 980\n\nQ: What is ' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 280 + 950?\\nA:' -> ' 1230\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 460 + 152?\\nA:' -> ' 612\n\nQ: What is ' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 446 + 134?\\nA:' -> ' 580\n\nQ: What is ' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 808 + 867?\\nA:' -> ' 1675\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 510 + 864?\\nA:' -> ' 1374\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 491 + 593?\\nA:' -> ' 1084\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 514 + 340?\\nA:' -> ' 854\n\nQ: What is ' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 831 + 889?\\nA:' -> ' 1720\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 154 + 631?\\nA:' -> ' 785\n\nQ: What is ' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 415 + 522?\\nA:' -> ' 937\n\nQ: What is ' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 734 + 706?\\nA:' -> ' 1440\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 431 + 250?\\nA:' -> ' 681\n\nQ: What is ' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 996 + 133?\\nA:' -> ' 1129\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 780 + 495?\\nA:' -> ' 1275\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 835 + 681?\\nA:' -> ' 1516\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 959 + 638?\\nA:' -> ' 1597\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 895 + 363?\\nA:' -> ' 1258\n\nQ: What is' verify=1
+[2n preflight] add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 571 + 578?\\nA:' -> ' 1149\n\nQ: What is' verify=1
+[2n preflight] plain antonym …"ns the opposite of 'awake': asleep, genuine, open, exact?\\nA:" -> ' asleep' verify=1
+[2n preflight] plain antonym …"he opposite of 'sturdy': deep, fragile, tall, horizontal?\\nA:" -> ' fragile' verify=1
+[2n preflight] plain antonym …"e opposite of 'noisy': minimum, silent, expensive, small?\\nA:" -> ' silent' verify=1
+[2n preflight] plain antonym …"pposite of 'mobile': heavy, stationary, dangerous, brave?\\nA:" -> ' heavy' verify=0
+[2n preflight] plain antonym …"s the opposite of 'early': plentiful, harsh, late, eager?\\nA:" -> ' late' verify=1
+[2n preflight] plain antonym …"means the opposite of 'tender': sharp, limp, arid, tough?\\nA:" -> ' limp' verify=0
+[2n preflight] plain antonym …"ns the opposite of 'thick': slender, sad, graceful, thin?\\nA:" -> ' slender' verify=0
+[2n preflight] plain antonym …"he opposite of 'absent': forced, present, diligent, tall?\\nA:" -> ' forced' verify=0
+[2n preflight] plain antonym …"ans the opposite of 'sober': graceful, matte, drunk, wet?\\nA:" -> ' drunk' verify=1
+[2n preflight] plain antonym …"s the opposite of 'young': old, simple, straight, scarce?\\nA:" -> ' old' verify=1
+[2n preflight] plain antonym …" opposite of 'graceful': clumsy, rigid, timid, plentiful?\\nA:" -> ' clumsy' verify=1
+[2n preflight] plain antonym …"te of 'exact': alive, superficial, approximate, wasteful?\\nA:" -> ' approximate' verify=1
+[2n preflight] plain antonym …"e opposite of 'certain': broad, doubtful, occupied, cold?\\nA:" -> ' doubtful' verify=1
+[2n preflight] plain antonym …"ite of 'optimistic': idle, slender, visible, pessimistic?\\nA:" -> ' pessimistic' verify=1
+[2n preflight] plain antonym …"posite of 'guilty': glossy, foolish, innocent, temporary?\\nA:" -> ' innocent' verify=1
+[2n preflight] plain antonym …"the opposite of 'clean': timid, dirty, pessimistic, tidy?\\nA:" -> ' timid' verify=0
+[2n preflight] plain antonym …"pposite of 'victory': destitute, open, difficult, defeat?\\nA:" -> ' defeat' verify=1
+[2n preflight] plain antonym …"the opposite of 'glossy': free, sick, approximate, matte?\\nA:" -> ' matte' verify=1
+[2n preflight] plain antonym …"opposite of 'permanent': chaotic, temporary, exact, loud?\\nA:" -> ' temporary' verify=1
+[2n preflight] plain antonym …"ns the opposite of 'polite': wet, rude, inferior, opaque?\\nA:" -> ' rude' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 744 + 660?\\nA:' -> ' 1404' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 317 + 663?\\nA:' -> ' 980' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 280 + 950?\\nA:' -> ' 1230' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 460 + 152?\\nA:' -> ' 612' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 446 + 134?\\nA:' -> ' 580' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 808 + 867?\\nA:' -> ' 1675' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 510 + 864?\\nA:' -> ' 1374' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 491 + 593?\\nA:' -> ' 1084' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 514 + 340?\\nA:' -> ' 854' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 831 + 889?\\nA:' -> ' 1720' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 154 + 631?\\nA:' -> ' 785' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 415 + 522?\\nA:' -> ' 937' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 734 + 706?\\nA:' -> ' 1440' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 431 + 250?\\nA:' -> ' 681' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 996 + 133?\\nA:' -> ' 1129' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 780 + 495?\\nA:' -> ' 1275' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 835 + 681?\\nA:' -> ' 1516' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 959 + 638?\\nA:' -> ' 1597' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 895 + 363?\\nA:' -> ' 1258' verify=1
+[2n preflight] plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 571 + 578?\\nA:' -> ' 1149' verify=1
+[2n preflight] stage1-step010000-tokens21B: config eos 2 | generation eos 3
+[2n preflight] stage1-step010000-tokens21B loaded (candidate files): digest 7961bac0f077, mps_allocated_bytes 28010628096 peak_mps_bytes 29002137600
+[2n preflight] bos render ids [2, 52, 29]
+[2n preflight] plain render ids [52, 29]
+[2n preflight] stage1-step010000-tokens21B: n_nonfinite 0 max_abs 12.53125
+[2n preflight] ckpt antonym …"ns the opposite of 'awake': asleep, genuine, open, exact?\\nA:" -> ' open\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"he opposite of 'sturdy': deep, fragile, tall, horizontal?\\nA:" -> ' deep\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"e opposite of 'noisy': minimum, silent, expensive, small?\\nA:" -> ' silent\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt antonym …"pposite of 'mobile': heavy, stationary, dangerous, brave?\\nA:" -> ' mobile\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"s the opposite of 'early': plentiful, harsh, late, eager?\\nA:" -> ' late\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt antonym …"means the opposite of 'tender': sharp, limp, arid, tough?\\nA:" -> ' tender\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"ns the opposite of 'thick': slender, sad, graceful, thin?\\nA:" -> ' slender\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"he opposite of 'absent': forced, present, diligent, tall?\\nA:" -> ' forced\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"ans the opposite of 'sober': graceful, matte, drunk, wet?\\nA:" -> ' graceful\n\nQ: Which of these means the opposite' verify=0
+[2n preflight] ckpt antonym …"s the opposite of 'young': old, simple, straight, scarce?\\nA:" -> ' simple\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …" opposite of 'graceful': clumsy, rigid, timid, plentiful?\\nA:" -> ' rigid\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"te of 'exact': alive, superficial, approximate, wasteful?\\nA:" -> ' superficial\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"e opposite of 'certain': broad, doubtful, occupied, cold?\\nA:" -> ' certain\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"ite of 'optimistic': idle, slender, visible, pessimistic?\\nA:" -> ' slender\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"posite of 'guilty': glossy, foolish, innocent, temporary?\\nA:" -> ' innocent\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt antonym …"the opposite of 'clean': timid, dirty, pessimistic, tidy?\\nA:" -> ' tidy\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"pposite of 'victory': destitute, open, difficult, defeat?\\nA:" -> ' defeat\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt antonym …"the opposite of 'glossy': free, sick, approximate, matte?\\nA:" -> ' free\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt antonym …"opposite of 'permanent': chaotic, temporary, exact, loud?\\nA:" -> ' temporary\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt antonym …"ns the opposite of 'polite': wet, rude, inferior, opaque?\\nA:" -> ' wet\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 744 + 660?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 317 + 663?\\nA:' -> ' 1,000\n\nQ: What' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 280 + 950?\\nA:' -> ' 1050\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 460 + 152?\\nA:' -> ' 1\n\nQ: What is ' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 446 + 134?\\nA:' -> ' 1\n\nQ: What is ' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 808 + 867?\\nA:' -> ' 1238\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 510 + 864?\\nA:' -> ' 1025\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 491 + 593?\\nA:' -> ' 1,000\n\nQ: What' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 514 + 340?\\nA:' -> ' 1145\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 831 + 889?\\nA:' -> ' 1,000\n\nQ: What' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 154 + 631?\\nA:' -> ' 123\n\nQ: What is ' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 415 + 522?\\nA:' -> ' 1,000\n\nQ: What' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 734 + 706?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 431 + 250?\\nA:' -> ' 1000\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 996 + 133?\\nA:' -> ' 1217\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 780 + 495?\\nA:' -> ' 1050\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 835 + 681?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 959 + 638?\\nA:' -> ' 1217\n\nQ: What is' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 895 + 363?\\nA:' -> ' 1,000\n\nQ: What' verify=0
+[2n preflight] ckpt add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 571 + 578?\\nA:' -> ' 571\n\nQ: What is ' verify=0
+[2n preflight] ckpt plain antonym …"ns the opposite of 'awake': asleep, genuine, open, exact?\\nA:" -> ' open\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"he opposite of 'sturdy': deep, fragile, tall, horizontal?\\nA:" -> ' deep\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"e opposite of 'noisy': minimum, silent, expensive, small?\\nA:" -> ' silent\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt plain antonym …"pposite of 'mobile': heavy, stationary, dangerous, brave?\\nA:" -> ' mobile\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"s the opposite of 'early': plentiful, harsh, late, eager?\\nA:" -> ' late\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt plain antonym …"means the opposite of 'tender': sharp, limp, arid, tough?\\nA:" -> ' tender\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"ns the opposite of 'thick': slender, sad, graceful, thin?\\nA:" -> ' slender\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"he opposite of 'absent': forced, present, diligent, tall?\\nA:" -> ' forced\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"ans the opposite of 'sober': graceful, matte, drunk, wet?\\nA:" -> ' graceful\n\nQ: Which of these means the opposite' verify=0
+[2n preflight] ckpt plain antonym …"s the opposite of 'young': old, simple, straight, scarce?\\nA:" -> ' simple\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …" opposite of 'graceful': clumsy, rigid, timid, plentiful?\\nA:" -> ' rigid\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"te of 'exact': alive, superficial, approximate, wasteful?\\nA:" -> ' superficial\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"e opposite of 'certain': broad, doubtful, occupied, cold?\\nA:" -> ' certain\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"ite of 'optimistic': idle, slender, visible, pessimistic?\\nA:" -> ' slender\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"posite of 'guilty': glossy, foolish, innocent, temporary?\\nA:" -> ' innocent\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt plain antonym …"the opposite of 'clean': timid, dirty, pessimistic, tidy?\\nA:" -> ' tidy\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"pposite of 'victory': destitute, open, difficult, defeat?\\nA:" -> ' defeat\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt plain antonym …"the opposite of 'glossy': free, sick, approximate, matte?\\nA:" -> ' free\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain antonym …"opposite of 'permanent': chaotic, temporary, exact, loud?\\nA:" -> ' temporary\n\nQ: Which of these means the opposite o' verify=1
+[2n preflight] ckpt plain antonym …"ns the opposite of 'polite': wet, rude, inferior, opaque?\\nA:" -> ' wet\n\nQ: Which of these means the opposite o' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 744 + 660?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 317 + 663?\\nA:' -> ' 1035\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 280 + 950?\\nA:' -> ' 1050\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 460 + 152?\\nA:' -> ' 1\n\nQ: What is ' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 446 + 134?\\nA:' -> ' 1\n\nQ: What is ' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 808 + 867?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 510 + 864?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 491 + 593?\\nA:' -> ' 1,000\n\nQ: What' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 514 + 340?\\nA:' -> ' 1048\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 831 + 889?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 154 + 631?\\nA:' -> ' 154\n\nQ: What is ' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 415 + 522?\\nA:' -> ' 555\n\nQ: What is ' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 734 + 706?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 431 + 250?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 996 + 133?\\nA:' -> ' 1217\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 780 + 495?\\nA:' -> ' 1050\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 835 + 681?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 959 + 638?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 895 + 363?\\nA:' -> ' 1057\n\nQ: What is' verify=0
+[2n preflight] ckpt plain add3_mid …'801\\n\\nQ: What is 912 + 145?\\nA: 1057\\n\\nQ: What is 571 + 578?\\nA:' -> ' 571\n\nQ: What is ' verify=0
+[2n preflight] complete: 2 rung(s) × 20 item(s) × 2 renders on main and on stage1-step010000-tokens21B; nothing written under results/
+```
