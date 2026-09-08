@@ -1,0 +1,23 @@
+{
+ "family": "comma",
+ "size": "comma_7b",
+ "step": 360000,
+ "repo": "common-pile/comma-v0.1-1t",
+ "revision": "stage1-step360000-tokens755B",
+ "commit": "86c2c72c2252cc84b957535d0f3846384c7fdedd",
+ "sha256": {
+  "model-00001-of-00003.safetensors": "58f6af08a3decd0a626d25a50c44603f4fd3fc0ad932be9c6243bf97a8aa53f7",
+  "model-00002-of-00003.safetensors": "fcbb5a1d11a7889888396525c2206686dda6d9c19c4edc3e8393e4c595a8405a",
+  "model-00003-of-00003.safetensors": "59d9efeb2af6086f868a6538b19e130d7f87980547e50315520cdbb31c369e42",
+  "model.safetensors.index.json": "0680bed29d47232ebc63b88927a885d398c8656770faa49c2770bf06c252b2bb"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "50057f93319425289659bf86b32f54aef0d0fa6ca550931e4088dd0a48bb41a1",
+ "download_seconds": 135.8,
+ "config_eos_token_id": 2,
+ "generation_eos_token_id": 3
+}
