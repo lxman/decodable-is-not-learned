@@ -1,0 +1,207 @@
+EXPERIMENT 2N — VERDICT: SHARED; ANNOTATION C: B-LEADS (excluding +.066)
+=======================================================================
+
+Closed 2026-09-08. Frozen analyzer run ONCE (--write), detached in its
+own session, on Michael's word ("Run the analyzer then tag."):
+launched 21:18, verdict.json written 21:52 at git 252dccd2 (34 min);
+zero referent failures, zero secondary failures, every pin active
+(frozen modules, import surface, referent manifest of 4,427 files),
+n_perm 10,000. Model contact at analysis: none. Tags:
+exp2n-preregistered (013d67ba; blob-bound analyzer, battery, endpoint
+runner, sweep runner), the two predictor seals exp2k-predictor-sealed /
+exp2i-predictor-sealed (tag-bound; nothing sampled in 2n),
+exp2n-endpoint-sealed (024b7e30; 102 endpoint records + the rung set +
+the power record), exp2n-closed (this commit). Projection sealed at
+f1fc3370 BEFORE gate 1 or any intermediate Comma checkpoint was
+queried; graded in retrospective.md.
+
+THE OUTCOME (a fourth family; the first with NO DCLM-class web): the
+order in which Comma v0.1-1T's stage-1 training — 7.0 B parameters,
+Llama-3 architecture, its own 64k BPE, 965 B tokens of the Common Pile
+v0.1 (openly licensed text: papers, forums, code, patents, law, books;
+≈ 9 % CC-licensed crawl pages the only crawl-derived text) — makes
+2c's items emittable, read as the per-item count of verifying
+checkpoints over the 24-point grid (10k, 20k, then every 20k to
+440k, the endpoint 460,000; 21 B tokens per 10k steps). Render: BOS
+prefixed on every prompt (the model was trained with one; the
+tokenizer's default adds none — dial n); stop id 3 (the tokenizer's
+EOS, not config.json's LlamaConfig default 2 — dial o); fp16, batch
+16. Sweep: gate 1 PASS (the endpoint through two loader paths, 34
+rungs at 500/rung, 0 bit / 0 continuation diffs, digest + commit
+equal — the first byte-identical reproduction on Comma v0.1-1T and
+the twelfth consecutive on this stack), the seeded from_config twin,
+23 grid points; 876 files, 26.7 h wall, zero halts, zero
+experiment-side stops, zero kills of the sweep.
+
+PRIMARY (R_PRIMARY = the nine — R_COMMA = 16 by 2d's floor rule at the
+stage-1 endpoint, the nine inside it, R_ELEVEN_EXTRA empty, R_EXTRA =
+add4_mid, clock24_d999, median7, oct2dec, quad_next, rev_string7,
+reverse_string; stratified within 2g's difficulty strata; bar
+T >= .10 at alpha .01; BOTH tests UNCONDITIONED on their own bar; both
+POWERED 1.000 at D = .15, null SD of T .0115 / .0119 declared, .0107 /
+.0104 realized; all nine rungs eligible on both tests, none thin, none
+predictor-degenerate):
+
+  Test A — cross-family: Pythia-1b's sealed sampled count at k = 256
+  (2k's tier; the Pile shares the Common Pile's dominant source kinds)
+  vs Comma's emission order:
+  T = .1599, p = 1.0e-4 (0/10,000), FIRES. Raw (unstratified) .1438.
+  The fourth outcome for this predictor: 7B .1548 (known), 13B .1261,
+  SmolLM3 .1696, Comma .1599 — a band of .04 across two lineages,
+  three tokenizers and three corpora.
+
+  Test B — cross-family: OLMo-2 1B's sealed 64-draw count (2i;
+  DCLM-class web, of which Comma has none) vs the same outcome,
+  unconditioned:
+  T = .2097, p = 1.0e-4, FIRES. Raw .2645.
+  Below its SmolLM3 reading (.2514) and its within-lineage 7B readings
+  (.2153 / .2204), above 13B (.1814 / .2045).
+
+  Licence condition met: Test A's per-rung CI excludes zero on 5 of 9
+  rungs (add_base8, sub_base8, arith_next, sub3_mid, antonym6), so the
+  shared component may be the headline.
+
+THE CORPUS ANNOTATION C (design §1; a CI rule, never in the world, no
+alpha claim): Δ = T(x_B thinned to x_A's per-rung rate, first block) −
+T(x_A^256) over the nine = .1956 − .1599 = **+.0357, paired item
+bootstrap CI95 [+.0111, +.0622] — B-LEADS**, and the interval
+**EXCLUDES 2m's +.0659** (`covers_3b_increment: false`; the committed
+increments +.054 / +.0687 / +.0659 all lie above it). Read under the
+power record's min-detectable Δ of .0325: the lead clears resolution
+by .003 at the point and .011 at the lower bound. The licence modifier
+this cell carries (verdict.json, written in advance): "the DCLM
+predictor still leads, by a different margin than on every DCLM-class
+outcome — the margin moved with the corpus without reversing; neither
+account is retired." S4's all-blocks matched increment reads +.0332
+(thinned-B .1931), the smallest of the four (2k +.054, 2l +.0687, 2m
++.0659).
+
+PER-RUNG D (A | B), by rung type:
+  arithmetic
+  sub_base8   +.564 [.518,.607] | +.397 [.323,.460]   (A: the program's
+                                                        largest A D)
+  add_base8   +.452 [.368,.544] | +.764 [.714,.813]   (B: the largest D
+                                                        in the line)
+  arith_next  +.141 [.084,.200] | +.407 [.357,.460]
+  sub3_mid    +.097 [.038,.150] | +.007 [-.027,.038]
+  add3_mid    +.011 [-.021,.047]| +.066 [.028,.105]
+  sub4_mid    -.022 [-.046,.003]| +.006 [-.007,.021]
+  option
+  antonym6    +.097 [.023,.166] | +.119 [.060,.188]
+  antonym     +.056 [-.010,.118]| +.127 [.064,.187]
+  odd6        +.044 [-.025,.117]| -.004 [-.070,.061]
+  The base-8 pair tops a sixth consecutive outcome for A, with the
+  order inverted (sub_base8 over add_base8) for the first time.
+  antonym's sign for A turns POSITIVE on the Pile-like outcome (7B
+  +.024, 13B -.066, SmolLM3 -.041, Comma +.056) while B's antonym
+  falls (.217 / .256 / .168 / .127): the sign split NARROWS, as the
+  corpus account predicted at rung level and the projection called;
+  A's antonym interval still covers zero. odd6 is the first option rung
+  on which B reads null.
+
+SECONDARIES (all preregistered, non-gating):
+  S1 64->256 ladder (1b): .1000 -> .1347 -> .1503 -> .1599 — monotone,
+     increments shrinking. The four 64-draw blocks read
+     .1000/.1151/.0989/.0974 (SD .0083): ONE clears the bar and block 0
+     misses it by 1.6e-6 — the k = 64 reading is a coin flip at the
+     bar on this outcome (13B: none; SmolLM3: three of four); 256 adds
+     +.045 over the best block.
+  S2 410m at 256: T .1773 > the 1b .1599 (410m >= 1b for the fourth
+     outcome: 2k, 2l, the 2m tie, now +.017); ladder .1216/.1558/
+     .1687/.1773, all four 64-draw blocks above the bar (.119-.122,
+     SD .0014); add_base8 .721 at 410m.
+  S3 conditioned forms (descriptive): B beyond x_A's median bucket
+     .1915; A beyond x_B's bucket .1143 — each carries structure the
+     other's bucket does not absorb. Paired difference T_B - T_A =
+     +.0498, CI95 [.025, .076] — excludes zero; smaller than SmolLM3's
+     +.0818 [.057, .106].
+  S4 matched density: thinned-B .1931 vs T_A256 .1599 — increment
+     +.0332 (2k +.054, 2l +.0687, 2m +.0659): the smallest matched
+     lead the DCLM predictor has held, on the outcome that shares the
+     least with its corpus.
+  S5 answer prior (2j's pi on 2i's sealed draws; no alpha claim):
+     T .2267, p 1.0e-4 — the second mechanism's third sealed test
+     (13B .1848, SmolLM3 .2417); add_base8 .780, sub_base8 .465,
+     add3_mid .309, sub4_mid .278, antonym .168; arith_next -.054 and
+     sub3_mid -.056 — the prior forecasts the arithmetic rungs the
+     counts leave silent, and misses the two the counts read best.
+  S6 the referents: the twin verifies 0 on 33 of 34 rungs (mod17
+     1/500); the cool-down endpoint (stage2-step018000) >= the stage-1
+     endpoint on 8 of 16 R_COMMA rungs and the released average `main`
+     on 11 of 16 — antonym6 (327 -> 280 / 302) and arith_next (491 ->
+     476 / 486) drop under both, the named exceptions; antonym rises
+     (327 -> 344 / 350).
+  S7 textures: first clears on the nine at 10k (arith_next), 40k
+     (add3_mid, antonym, antonym6, sub3_mid, sub_base8), 60k
+     (add_base8, sub4_mid) and 380k (odd6); ever/final antonym
+     493/327, antonym6 471/327, odd6 393/127, add_base8 144/118 —
+     transient verification pervasive; non-monotone counts on 7 of the
+     nine (sub_base8 four drops, incl. 309 -> 207 -> 195 -> 306 through
+     the cosine tail; sub3_mid 228 -> 97 at 40k -> 60k); checkpoint-
+     local collapses (>= 450 of 500 identical): 71 (step, rung) pairs,
+     70 on flat rungs (mod19 16, hamming12 13, mod17 11, isqrt_gap 11)
+     and ONE on the nine (add_base8 at 20k: " 70" on 454 of 500, 9
+     correct); no battery-wide collapse (at most 6 rungs at one step).
+     Transient clears on flat rungs: median5 x8, count_div13 x2. The
+     ceiling fraction under the analyzer's definition (items verifying
+     at EVERY grid point) is 0 on every rung — the head at 21 B tokens
+     leaves no item at ceiling. First-correct outcome: A .1573, B
+     .1828. Live items for x_A at 256: add3_mid 39, sub4_mid 30,
+     sub3_mid 130, the rest >= 299.
+  S8 outcome-to-outcome order (the committed orders read as x against
+     Comma's; no alpha claim): SmolLM3-3B .4397, OLMo-2 7B .3808,
+     OLMo-2 13B .3245, Pythia-2.8b .2522, Pythia-6.9b .1985 — the
+     three DCLM-class outcomes are CLOSER to Comma's order than the two
+     Pile-trained ones, and the closest of all is the family that
+     shares no source kind with the Common Pile.
+  S8c corpus contrast (mean of the two Pile rows - mean of the three
+     DCLM-class rows, six shared rungs, paired bootstrap): -.1754,
+     CI95 [-.198, -.150] — the same sign and size as on SmolLM3
+     (where the DCLM pair read .46/.40 vs the Pile pair .25/.23). The
+     outcome-side, density-free reading of the corpus question is
+     NEGATIVE: outcome-order similarity does not follow source-kind
+     overlap.
+  S9 sign ledger (option rungs, A | B, four outcomes 7B / 13B / 3B /
+     Comma): antonym +.024/-.066/-.041/+.056 | .217/.256/.168/.127;
+     antonym6 .115/.098/.170/.097 | .214/.239/.222/.119; odd6
+     .096/.104/.133/.044 | .121/.065/.180/-.004.
+  Every-40k control (12 points, `control: true`): A .1489, B .2039 —
+     within .011 / .006 of the 24-point readings; grid density did not
+     make the readings.
+  Extra rungs (R_EXTRA, raw D A64 | B): oct2dec .194 | .393 (n_pos
+     14), clock24_d999 -.053 | .281, quad_next .082 | .133, median7
+     .142 | .104, reverse_string .007 | .049, add4_mid .003 | .014,
+     rev_string7 .000 | .000 — the reversal pair carries no forecast at
+     either density, as on 13B and SmolLM3.
+  Sensitivities: B conditioned on x_A's median bucket .1915; B on the
+     zero cut .1958; primary_is_the_nine true.
+
+LICENSED (design §6, SHARED, with the C modifier; verbatim from
+verdict.json):
+  the essay's cross-family sentence generalises to a fourth family —
+  "smaller models of two families, given enough draws, forecast what a
+  fourth family's training surfaces first, including a family trained
+  on no DCLM-class web" — with Prediction 2's output-channel form
+  holding across families at item grain on two predictor families and
+  three outcome families (still one battery); the "structure latent in
+  the training distribution" reading gains a leg that does not run
+  through shared web text. Headline condition met (A's CI excludes
+  zero on 5 of 9). C modifier: with B-LEADS but the interval excluding
+  2m's +.066 — the DCLM predictor still leads, by a different margin
+  than on every DCLM-class outcome; the margin moved with the corpus
+  without reversing; neither account is retired. "From below" holds in
+  parameters for both predictors and in tokens for x_A only (OLMo-2 1B
+  saw ≈ 4 T tokens to Comma's 1 T; design §2).
+
+DISCLOSURES: design §2 (six pre-tag analyzer executions on the real
+tree — two import scans, two read sweeps, the synthetic-root suites —
+every one INSUFFICIENT_DATA with no T; one post-seal read sweep,
+INSUFFICIENT_DATA, no T, (e) unpinned 0; the read sweep was NOT run on
+the complete tree, so no T was printed before this run). Calibration:
+each test at alpha .01 on its own; the four-world union is not
+alpha-calibrated (3d's lesson); C is a CI rule with no alpha claim.
+delta_sd.rungs == the set C read (the nine): no WIDER disclosure. No
+partial-eligibility disclosure. One pre-committed change UNSPENT end
+to end. Campaign: zero experiment-side stops, zero halts, zero
+attrition; one harness-tracked poller reaped under memory pressure
+(the sweep, in its own session, untouched).
