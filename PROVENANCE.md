@@ -410,6 +410,47 @@ one environment-side process kill with the tree byte-clean, which the
 record documents. The retained-path list above now includes
 `experiments/exp2m` and `experiment-2m-design.md`.
 
+On 2026-09-08 the Experiment 2n record was added (the corpus question:
+does Pythia-1b's committed 256-draw count — 2k's sealed tier; the Pile
+shares the Common Pile's dominant source kinds — and does OLMo-2 1B's
+committed 64-draw count — 2i's seal; DCLM-class web, of which the
+outcome has none — each forecast the order in which Comma v0.1-1T's
+stage-1 training, an outcome nobody had queried and a fourth family
+trained on 965 B tokens of openly licensed text with no web crawl,
+makes the battery's items emittable? Verdict SHARED: Test A T .1599 at
+p 1.0e-4 and Test B T .2097 at p 1.0e-4, both POWERED, nine rungs of
+nine; the preregistered corpus annotation reads B-LEADS — the DCLM
+predictor's matched-density lead +.036 with CI95 [+.011, +.062],
+excluding the +.066 it held on SmolLM3-3B, so the margin moved with the
+corpus without reversing and neither account is retired; the
+outcome-side contrast −.175 [−.198, −.150] says the training orders
+themselves do not follow the corpus; the answer-prior mechanism reads
+.2267 on its third sealed test). Same GRAFT route: the 1,016 private
+commits touching `experiments/exp2n`, `experiment-2n-design.md` and
+`.gitignore` were applied as a path-limited series fast-forward onto
+the previous public master (a840a74d), identities normalized to the
+single noreply identity, author and committer dates preserved,
+redaction scans clean (0 secret-class, 0 home-path lines; the LAN
+pattern's two hits are the substring `.local` inside two sampled
+model continuations in the committed draw records, not addresses);
+thirty-six commit messages carry a `Claude-Session` attribution
+trailer (an authentication-gated session link), preserved verbatim
+under the messages-preserved rule and disclosed here. The tree at all
+three new anchors and at HEAD is entry-identical to the private tree
+on the retained paths (1,018 entries at the close), all 67 prior tags
+and every prior commit untouched. Three tags carried:
+`exp2n-preregistered` (private 013d67ba → public e44afa43, the
+instrument blob-bound), `exp2n-endpoint-sealed` (024b7e30 → 23342ef1,
+the 102 endpoint records, the rung set and the power record with its
+Δ-resolution line), `exp2n-closed` (66a9995a → c9e88319). The
+predictors took no new model contact — they ride
+`exp2k-predictor-sealed` and 2i's seals already on this line. The
+freeze of this experiment found no class defect; the design-doc slips
+were applied before the tag; the campaign ran with zero experiment-side
+stops, zero halts and no kill of the sweep, which the record documents.
+The retained-path list above now includes `experiments/exp2n` and
+`experiment-2n-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
