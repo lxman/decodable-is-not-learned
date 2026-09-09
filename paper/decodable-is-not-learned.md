@@ -43,7 +43,8 @@ on 2026-08-25, archived as v1.10; the Experiment 2i close-out on
 day, archived as v1.12; the Experiment 2k close-out on 2026-08-30,
 archived as v1.14; the Experiment 2l close-out on 2026-09-03,
 archived as v1.15; the Experiment 2m close-out on 2026-09-05,
-archived as v1.16. Section 6's tenth lesson (the
+archived as v1.16; the Experiment 2n close-out on 2026-09-08,
+archived as v1.17. Section 6's tenth lesson (the
 production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
 inputs before the tag) and checklist items 24 and 25 were added
@@ -79,10 +80,12 @@ Experiment 2k graft added three more (`exp2k-preregistered`,
 (`exp2l-preregistered`, `exp2l-endpoint-sealed`, `exp2l-closed`),
 forty-seven; the 2026-09-05 Experiment 2m graft added three more
 (`exp2m-preregistered`, `exp2m-endpoint-sealed`, `exp2m-closed`),
-fifty. Archived
+fifty; the 2026-09-08 Experiment 2n graft added three more
+(`exp2n-preregistered`, `exp2n-endpoint-sealed`, `exp2n-closed`),
+fifty-three. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.16 (10.5281/zenodo.22413760, the Experiment 2m record; v1.15,
-10.5281/zenodo.22286867, the Experiment 2l record; v1.13,
+v1.17 (10.5281/zenodo.22667987, the Experiment 2n record; v1.16,
+10.5281/zenodo.22413760, the Experiment 2m record; v1.13,
 10.5281/zenodo.22151979, this paper with its eleventh lesson). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. Every
@@ -1760,7 +1763,10 @@ forecast against OLMo-2 13B's stage-1 checkpoints), likewise named
 and not drawn on, and Experiment 2m's record (`exp2m-preregistered`,
 `exp2m-endpoint-sealed`, `exp2m-closed`, the third-family forecast
 against SmolLM3-3B's stage-1 checkpoints), likewise named and not
-drawn on;
+drawn on, and Experiment 2n's record (`exp2n-preregistered`,
+`exp2n-endpoint-sealed`, `exp2n-closed`, the corpus-question forecast
+against Comma v0.1-1T's stage-1 checkpoints, an outcome trained on no
+web crawl), likewise named and not drawn on;
 and, since 2026-08-23, the synthetic calibration records of
 Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
 `exp1c-*`), reported in the companion essay and not drawn on here.

@@ -77,6 +77,9 @@ here; see PROVENANCE.md),
 `exp2i-preregistered`, `exp2i-predictor-sealed`, `exp2i-endpoint-sealed`, `exp2i-closed`,
 `exp2j-preregistered` / `exp2j-closed`,
 `exp2k-preregistered` / `exp2k-predictor-sealed` / `exp2k-closed`,
+`exp2l-preregistered` / `exp2l-endpoint-sealed` / `exp2l-closed`,
+`exp2m-preregistered` / `exp2m-endpoint-sealed` / `exp2m-closed`,
+`exp2n-preregistered` / `exp2n-endpoint-sealed` / `exp2n-closed`,
 `exp3a-preregistered` / `exp3a-closed`,
 `exp3b-preregistered` / `exp3b-closed`,
 `exp3-preregistered` / `exp3-closed`,
@@ -84,7 +87,7 @@ here; see PROVENANCE.md),
 `exp3d-preregistered` / `exp3d-closed`,
 `exp3e-preregistered` / `exp3e-closed`.
 Other interim stage tags exist only in the private repository. `v1.0`,
-`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15` and `v1.16` anchor the Zenodo-archived snapshots
+`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16` and `v1.17` anchor the Zenodo-archived snapshots
 (concept DOI 10.5281/zenodo.21830421) and deliberately point outside
 the current line, so each deposit remains exactly what was deposited.
 
