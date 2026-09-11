@@ -474,6 +474,55 @@ def check_rung_set_pins_4(traj: str, rung_sets: dict) -> list:
 
 CKPT_CACHE_4 = Path.home() / "emergence-lab" / "ckpt_cache_4"
 
+# The eight fields every loader's `info` dict must carry (design's
+# loader-dispatch contract) and the closed set of loader-path labels
+# `info["kind"]` may take. "2b" = 2b's `load_pythia` path; "thin" =
+# any family's plain `load_thin*` (no candidate-file selection);
+# "candidate" = the candidate-file/clean-dir path (`ck.load_checkpoint`
+# and each family's own `load_checkpoint*`); "from_config" = a seeded
+# init-referent twin (no weights loaded from any file at all).
+_INFO_CONTRACT_FIELDS_4 = ("tensor_digest", "commit", "revision", "repo", "kind",
+                           "config_source", "n_hidden", "loading_info")
+_INFO_KIND_VALUES_4 = ("2b", "thin", "candidate", "from_config")
+
+# A `from_config` build (a twin) loads no weights from any file, so
+# there is no missing/unexpected/mismatched-key comparison to make —
+# the all-zero record is the true statement "nothing was compared",
+# not a laundered absence. The same true statement holds for the 2b
+# path (`models_2b.load_pythia` does not request
+# `output_loading_info`, but the frozen `from_pretrained` call it makes
+# is a full, untouched checkpoint — no candidate-file subsetting to
+# verify against).
+_ZERO_LOADING_INFO_4 = {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}
+
+
+def _complete_info(info: dict, *, commit, revision, repo, kind, config_source,
+                   n_hidden, loading_info) -> dict:
+    """Fills only the fields `info` is missing (absent or `None`) with
+    the given values — never overrides a value the underlying frozen
+    loader already set — then asserts every one of the eight
+    contractual fields (`_INFO_CONTRACT_FIELDS_4`) is present and
+    non-null, and that `kind` is one of `_INFO_KIND_VALUES_4`. A
+    caller that has no real default for a field it EXPECTS the frozen
+    loader to have already supplied (e.g. `tensor_digest`, or
+    `loading_info` on a real weight load) passes `None` for it: if the
+    loader really did supply it, `None` never overrides; if it did
+    not, this raises rather than papering over the gap with a made-up
+    value."""
+    info = dict(info)
+    defaults = {"commit": commit, "revision": revision, "repo": repo, "kind": kind,
+                "config_source": config_source, "n_hidden": n_hidden,
+                "loading_info": loading_info}
+    for field, value in defaults.items():
+        if info.get(field) is None and value is not None:
+            info[field] = value
+    missing = [f for f in _INFO_CONTRACT_FIELDS_4 if info.get(f) is None]
+    if missing:
+        raise ValueError(f"info is missing required field(s) {missing} after _complete_info")
+    if info["kind"] not in _INFO_KIND_VALUES_4:
+        raise ValueError(f"info[\"kind\"] {info['kind']!r} is not one of {_INFO_KIND_VALUES_4}")
+    return info
+
 
 def _assert_n_hidden(info: dict, key: str) -> dict:
     pin = N_HIDDEN_PIN_4[key]
@@ -496,10 +545,11 @@ def load_key_4(key: str, *, cache_root=CKPT_CACHE_4, device: str = "mps"):
         commit = PYTHIA_COMMITS_4[size]
         if size in models_2b.PYTHIA_SHAS:
             tok, model = models_2b.load_pythia(size, device=device)
-            info = {"repo": repo, "commit": commit, "revision": "main", "kind": "2b",
-                    "config_source": f"{repo}@{commit}", "loading_info": None,
-                    "tensor_digest": ck.tensor_digest(model),
-                    "n_hidden": int(model.config.num_hidden_layers) + 1}
+            info = {"tensor_digest": ck.tensor_digest(model)}
+            info = _complete_info(info, commit=commit, revision="main", repo=repo, kind="2b",
+                                  config_source=f"{repo}@{commit}",
+                                  n_hidden=int(model.config.num_hidden_layers) + 1,
+                                  loading_info=_ZERO_LOADING_INFO_4)
         else:
             from transformers import AutoModelForCausalLM, AutoTokenizer
             tok = AutoTokenizer.from_pretrained(repo, revision=commit)
@@ -510,10 +560,11 @@ def load_key_4(key: str, *, cache_root=CKPT_CACHE_4, device: str = "mps"):
                 repo, revision=commit, dtype=torch.float16, output_loading_info=True)
             counts = bi._check_loading_info(li, f"{repo}@{commit} (thin load)")
             model = model.to(device).eval()
-            info = {"repo": repo, "commit": commit, "revision": "main", "kind": "thin",
-                    "config_source": f"{repo}@{commit}", "loading_info": counts,
-                    "tensor_digest": ck.tensor_digest(model),
-                    "n_hidden": int(model.config.num_hidden_layers) + 1}
+            info = {"loading_info": counts, "tensor_digest": ck.tensor_digest(model)}
+            info = _complete_info(info, commit=commit, revision="main", repo=repo, kind="thin",
+                                  config_source=f"{repo}@{commit}",
+                                  n_hidden=int(model.config.num_hidden_layers) + 1,
+                                  loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key in ("endpoint_pythia_2.8b", "init_pythia_2.8b"):
@@ -524,82 +575,125 @@ def load_key_4(key: str, *, cache_root=CKPT_CACHE_4, device: str = "mps"):
                                          device=device)
         tok = models_2b.load_tokenizer("2.8b")
         info = dict(info)
-        info["repo"] = bg.REPO_OF["2.8b"]
-        info["kind"] = "candidate"
         info["tensor_digest"] = ck.tensor_digest(model)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        info["kind"] = "candidate"  # ck.load_checkpoint's own "kind" is the candidate FILE
+                                    # FORMAT (e.g. "safetensors-shards"), not a loader-path
+                                    # label — _complete_info would never override an
+                                    # already-present value, so this must be set explicitly
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bg.REPO_OF["2.8b"], kind="candidate",
+                              config_source=None,
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "ref_olmo2_7b":
         m = bi.load_manifest(sha_pin=bi.CHECKPOINTS_2I_SHA256)
-        commit = bi.entry_main(m, bi.REPO_7B)["commit"]
-        model, tok, info = bi.load_thin(bi.REPO_7B, commit, device=device)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        entry = bi.entry_main(m, bi.REPO_7B)
+        model, tok, info = bi.load_thin(bi.REPO_7B, entry["commit"], device=device)
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bi.REPO_7B, kind="thin",
+                              config_source=f"{bi.REPO_7B}@{entry['commit']}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "endpoint_olmo2_7b":
         m = bi.load_manifest(sha_pin=bi.CHECKPOINTS_2I_SHA256)
-        commit = bi.entry_7b(m, ENDPOINT_STEP_4["olmo2_7b"])["commit"]
-        model, tok, info = bi.load_thin(bi.REPO_7B, commit, device=device)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        entry = bi.entry_7b(m, ENDPOINT_STEP_4["olmo2_7b"])
+        model, tok, info = bi.load_thin(bi.REPO_7B, entry["commit"], device=device)
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bi.REPO_7B, kind="thin",
+                              config_source=f"{bi.REPO_7B}@{entry['commit']}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "twin_olmo2_7b":
         m = bi.load_manifest(sha_pin=bi.CHECKPOINTS_2I_SHA256)
-        commit = bi.entry_7b(m, ENDPOINT_STEP_4["olmo2_7b"])["commit"]
+        entry = bi.entry_7b(m, ENDPOINT_STEP_4["olmo2_7b"])
         model, info = bi.load_twin_7b(device=device)
-        tok = bi.load_tokenizer(bi.REPO_7B, commit)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        tok = bi.load_tokenizer(bi.REPO_7B, entry["commit"])
+        info = _complete_info(info, commit=entry["commit"], revision=bi.TWIN, repo=bi.REPO_7B,
+                              kind="from_config",
+                              config_source=f"{bi.REPO_7B}@{entry['commit']}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=_ZERO_LOADING_INFO_4)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "ref_smollm3_3b":
         m = bm.load_manifest_3b(bm.CHECKPOINTS_PATH, sha_pin=bm.CHECKPOINTS_2M_SHA256)
         e = bm.entry_base_3b(m)
         model, tok, info = bm.load_thin_3b(e["repo"], e["commit"], device=device)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        info = _complete_info(info, commit=e["commit"], revision=e["revision"], repo=e["repo"],
+                              kind="thin", config_source=f"{e['repo']}@{e['commit']}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "endpoint_smollm3_3b":
         m = bm.load_manifest_3b(bm.CHECKPOINTS_PATH, sha_pin=bm.CHECKPOINTS_2M_SHA256)
         e = bm.entry_3b(m, ENDPOINT_STEP_4["smollm3_3b"])
         model, tok, info = bm.load_thin_3b(e["repo"], e["commit"], device=device)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        info = _complete_info(info, commit=e["commit"], revision=e["revision"], repo=e["repo"],
+                              kind="thin", config_source=f"{e['repo']}@{e['commit']}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "twin_smollm3_3b":
         m = bm.load_manifest_3b(bm.CHECKPOINTS_PATH, sha_pin=bm.CHECKPOINTS_2M_SHA256)
-        model, info = bm.load_twin_3b(config_commit=m["twin"]["config_commit"], device=device)
-        tok = bm.load_tokenizer_3b(m["twin"]["repo"], m["twin"]["config_commit"])
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        config_commit = m["twin"]["config_commit"]
+        model, info = bm.load_twin_3b(config_commit=config_commit, device=device)
+        tok = bm.load_tokenizer_3b(m["twin"]["repo"], config_commit)
+        info = _complete_info(info, commit=config_commit, revision=bm.TWIN,
+                              repo=m["twin"]["repo"], kind="from_config",
+                              config_source=f"{m['twin']['repo']}@{config_commit}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=_ZERO_LOADING_INFO_4)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "ref_comma_7b":
         m = bn.load_manifest_comma(bn.CHECKPOINTS_PATH, sha_pin=bn.CHECKPOINTS_2N_SHA256)
-        commit = bn.entry_which_comma(m, "main")["commit"]
-        model, tok, info = bn.load_thin_comma(bn.REPO_COMMA, commit, device=device)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        entry = bn.entry_which_comma(m, "main")
+        model, tok, info = bn.load_thin_comma(bn.REPO_COMMA, entry["commit"], device=device)
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bn.REPO_COMMA, kind="thin",
+                              config_source=f"{bn.REPO_COMMA}@{entry['commit']}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "endpoint_comma_7b":
         m = bn.load_manifest_comma(bn.CHECKPOINTS_PATH, sha_pin=bn.CHECKPOINTS_2N_SHA256)
-        commit = bn.entry_which_comma(m, "stage1_final")["commit"]
-        model, tok, info = bn.load_thin_comma(bn.REPO_COMMA, commit, device=device)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        entry = bn.entry_which_comma(m, "stage1_final")
+        model, tok, info = bn.load_thin_comma(bn.REPO_COMMA, entry["commit"], device=device)
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bn.REPO_COMMA, kind="thin",
+                              config_source=f"{bn.REPO_COMMA}@{entry['commit']}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, key)
 
     if key == "twin_comma_7b":
         m = bn.load_manifest_comma(bn.CHECKPOINTS_PATH, sha_pin=bn.CHECKPOINTS_2N_SHA256)
-        model, info = bn.load_twin_comma(config_commit=m["twin"]["config_commit"], device=device)
-        tok = bn.load_tokenizer_comma(bn.REPO_COMMA, m["twin"]["config_commit"])
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        config_commit = m["twin"]["config_commit"]
+        model, info = bn.load_twin_comma(config_commit=config_commit, device=device)
+        tok = bn.load_tokenizer_comma(bn.REPO_COMMA, config_commit)
+        info = _complete_info(info, commit=config_commit, revision=bn.TWIN, repo=bn.REPO_COMMA,
+                              kind="from_config",
+                              config_source=f"{bn.REPO_COMMA}@{config_commit}",
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=_ZERO_LOADING_INFO_4)
         return model, tok, _assert_n_hidden(info, key)
 
     raise ValueError(f"{key!r} is not a recognised exp4 key")
 
 
 def load_step_4(traj: str, step, *, cache_root=CKPT_CACHE_4, device: str = "mps"):
-    """MODEL CONTACT. The candidate-file loader of the family — the
-    sweep's own path. Never executed by a test."""
+    """MODEL CONTACT. The candidate-file loader of the family (every
+    branch's `info["kind"]` is `"candidate"`) — the sweep's own path.
+    Never executed by a test."""
     if traj == "pythia_2.8b":
         m = ck.load_manifest(sha_pin=an2g.CHECKPOINTS_SHA256)
         entry = ck.entry_for(m, "2.8b", step)
@@ -607,9 +701,12 @@ def load_step_4(traj: str, step, *, cache_root=CKPT_CACHE_4, device: str = "mps"
                                          device=device)
         tok = models_2b.load_tokenizer("2.8b")
         info = dict(info)
-        info["repo"] = bg.REPO_OF["2.8b"]
+        info["kind"] = "candidate"
         info["tensor_digest"] = ck.tensor_digest(model)
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bg.REPO_OF["2.8b"], kind="candidate", config_source=None,
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, traj)
 
     if traj == "olmo2_7b":
@@ -618,7 +715,11 @@ def load_step_4(traj: str, step, *, cache_root=CKPT_CACHE_4, device: str = "mps"
         model, info = bi.load_checkpoint(bi.REPO_7B, entry, cache_root=cache_root,
                                          device=device, dtype=DTYPE_4)
         tok = bi.load_tokenizer(bi.REPO_7B, entry["commit"])
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        info["kind"] = "candidate"
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bi.REPO_7B, kind="candidate", config_source=None,
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, traj)
 
     if traj == "smollm3_3b":
@@ -627,7 +728,11 @@ def load_step_4(traj: str, step, *, cache_root=CKPT_CACHE_4, device: str = "mps"
         model, info = bm.load_checkpoint_3b(entry, cache_root=cache_root, device=device,
                                             dtype=DTYPE_4)
         tok = bm.load_tokenizer_3b(entry["repo"], entry["commit"])
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        info["kind"] = "candidate"
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=entry["repo"], kind="candidate", config_source=None,
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, traj)
 
     if traj == "comma_7b":
@@ -636,7 +741,11 @@ def load_step_4(traj: str, step, *, cache_root=CKPT_CACHE_4, device: str = "mps"
         model, info = bn.load_checkpoint_comma(entry, cache_root=cache_root, device=device,
                                                dtype=DTYPE_4)
         tok = bn.load_tokenizer_comma(bn.REPO_COMMA, entry["commit"])
-        info["n_hidden"] = int(model.config.num_hidden_layers) + 1
+        info["kind"] = "candidate"
+        info = _complete_info(info, commit=entry["commit"], revision=entry["revision"],
+                              repo=bn.REPO_COMMA, kind="candidate", config_source=None,
+                              n_hidden=int(model.config.num_hidden_layers) + 1,
+                              loading_info=None)
         return model, tok, _assert_n_hidden(info, traj)
 
     raise ValueError(f"{traj!r} is not an exp4 trajectory")
@@ -800,6 +909,12 @@ def load_record_failures_4(rec: dict, *, key, expected_family, expected_render,
         bad.append(f"{key}: refs {rec.get('refs')!r} != {list(expected_refs)!r}")
     if rec.get("prereg_tag") != PREREG_TAG_4:
         bad.append(f"{key}: prereg_tag {rec.get('prereg_tag')!r} != {PREREG_TAG_4!r}")
+
+    for field in _INFO_CONTRACT_FIELDS_4:
+        if rec.get(field) is None:
+            bad.append(f"{key}: {field} is not present on the record")
+    if rec.get("kind") is not None and rec.get("kind") not in _INFO_KIND_VALUES_4:
+        bad.append(f"{key}: kind {rec.get('kind')!r} is not one of {_INFO_KIND_VALUES_4}")
 
     d = key_dir_4(root, key)
     sets_sha = rec.get("sets_sha256") or {}

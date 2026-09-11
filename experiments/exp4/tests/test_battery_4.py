@@ -306,6 +306,62 @@ def test_key_dir_4_dispatch(tmp_path):
     assert b4.key_dir_4(tmp_path, ["pythia_2.8b", 1000]) == b4.unit_dir(tmp_path, "pythia_2.8b", 1000)
 
 
+# ------------------------------------------------------------ _complete_info
+# (fix round 1: the loader-info completeness helper `load_key_4`/`load_step_4`
+# route every branch through; pure, so directly testable.)
+
+def _full_info(**overrides):
+    base = {"commit": "c1", "revision": "r1", "repo": "repo1", "kind": "thin",
+           "config_source": "cs1", "n_hidden": 17,
+           "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0},
+           "tensor_digest": "d1"}
+    base.update(overrides)
+    return base
+
+
+def test_complete_info_fills_missing_and_never_overrides_present():
+    info = {"commit": "already-here", "tensor_digest": "d1"}
+    out = b4._complete_info(info, commit="ignored-default", revision="r1", repo="repo1",
+                            kind="thin", config_source="cs1", n_hidden=17,
+                            loading_info={"missing_keys": 0, "unexpected_keys": 0,
+                                         "mismatched_keys": 0})
+    assert out["commit"] == "already-here"   # a present value is never overridden
+    assert out["revision"] == "r1"           # a missing value is filled
+    assert out["kind"] == "thin"
+    assert out["n_hidden"] == 17
+    for field in b4._INFO_CONTRACT_FIELDS_4:
+        assert out.get(field) is not None
+
+
+def test_complete_info_raises_when_a_field_has_no_default_and_is_missing():
+    info = {"commit": "c1", "revision": "r1", "repo": "repo1", "kind": "thin",
+           "config_source": "cs1", "n_hidden": 17}   # no tensor_digest, no loading_info
+    with pytest.raises(ValueError, match="tensor_digest"):
+        b4._complete_info(info, commit=None, revision=None, repo=None, kind=None,
+                          config_source=None, n_hidden=None, loading_info=None)
+
+
+def test_complete_info_raises_on_an_invalid_kind():
+    info = _full_info(kind="bogus")
+    with pytest.raises(ValueError, match="kind"):
+        b4._complete_info(info, commit=None, revision=None, repo=None, kind=None,
+                          config_source=None, n_hidden=None, loading_info=None)
+
+
+def test_complete_info_fills_the_twin_shape_from_load_twin_like_fixtures():
+    """Mirrors what `twin_*` branches pass: `_complete_info` supplies
+    `commit` (the config commit), `kind="from_config"` and the all-zero
+    `loading_info` — none of which a `load_twin_*` frozen function
+    returns on its own."""
+    info = {"repo": "repo1", "revision": "twin", "config_source": "cs1", "tensor_digest": "d1"}
+    out = b4._complete_info(info, commit="config-commit", revision="twin", repo="repo1",
+                            kind="from_config", config_source="cs1", n_hidden=33,
+                            loading_info=b4._ZERO_LOADING_INFO_4)
+    assert out["commit"] == "config-commit"
+    assert out["kind"] == "from_config"
+    assert out["loading_info"] == {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}
+
+
 # --------------------------------------------------------------- records
 
 def _write_npz_like(p: Path, payload: bytes) -> str:
@@ -378,6 +434,43 @@ def test_load_record_failures_4_catches_each_field(tmp_path, field, bad_value, l
                                      expected_committed_digest="deadbeef",
                                      expected_refs=("ref_olmo2_7b",), root=tmp_path)
     assert bad and any(label in f for f in bad)
+
+
+@pytest.mark.parametrize("field", list(b4._INFO_CONTRACT_FIELDS_4))
+def test_load_record_failures_4_catches_a_null_contract_field(tmp_path, field):
+    """Fix round 1: every one of the eight loader-info fields
+    (`_INFO_CONTRACT_FIELDS_4`) must be present and non-null on the
+    record, including `kind` and `commit` explicitly (the reviewer's
+    two named cases)."""
+    key, d, rec = _good_record_and_dir(tmp_path)
+    rec = dict(rec)
+    rec[field] = None
+    bad = b4.load_record_failures_4(rec, key=key, expected_family="pythia",
+                                     expected_render="plain", expected_batch=16,
+                                     expected_committed_digest="deadbeef",
+                                     expected_refs=("ref_olmo2_7b",), root=tmp_path)
+    assert bad and any(field in f for f in bad)
+
+
+def test_load_record_failures_4_catches_an_invalid_kind_value(tmp_path):
+    key, d, rec = _good_record_and_dir(tmp_path)
+    rec = dict(rec)
+    rec["kind"] = "bogus"
+    bad = b4.load_record_failures_4(rec, key=key, expected_family="pythia",
+                                     expected_render="plain", expected_batch=16,
+                                     expected_committed_digest="deadbeef",
+                                     expected_refs=("ref_olmo2_7b",), root=tmp_path)
+    assert bad and any("kind" in f for f in bad)
+
+
+def test_load_record_failures_4_clean_round_trip_covers_every_contract_field(tmp_path):
+    """The good fixture itself must already satisfy every contract
+    field non-null — otherwise the parametrized null-field test above
+    would be vacuous for that field."""
+    key, d, rec = _good_record_and_dir(tmp_path)
+    for field in b4._INFO_CONTRACT_FIELDS_4:
+        assert rec.get(field) is not None, field
+    assert rec["kind"] in b4._INFO_KIND_VALUES_4
 
 
 def test_load_record_failures_4_catches_sets_sha_mismatch(tmp_path):
