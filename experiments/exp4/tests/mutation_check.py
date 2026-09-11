@@ -34,7 +34,9 @@ foreground timeout, never concurrently with another mutation run."""
 from __future__ import annotations
 
 import ast
+import hashlib
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -43,6 +45,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+def _slug(text: str) -> str:
+    """Review round 2, IMPORTANT 1(a) (the controller's ruling): a
+    stable, comma-free, CLI-selectable label derived from a mutant's own
+    description text. Used for the hand-authored mutants, whose
+    descriptions are already unique and content-stable (they never shift
+    when an unrelated edit elsewhere in the file moves line numbers)."""
+    s = re.sub(r"[^A-Za-z0-9]+", "_", text).strip("_").lower()
+    return s[:72]
+
 
 L = ROOT / "experiments" / "exp4"
 MT = L / "metric_4.py"
@@ -63,7 +75,28 @@ def _totality_mutants_4(path: Path) -> list:
     failures regardless of what it does. A site whose exact text is
     not unique in the source is skipped by main()'s own `count(old) !=
     1` guard, printed as a surviving SKIP rather than silently
-    omitted."""
+    omitted.
+
+    Review round 2, IMPORTANT 1(a) (the controller's ruling): each
+    mutant's numeric position in this list is an artifact of
+    `ast.walk`'s traversal order over the CURRENT source, which shifts
+    -- non-trivially, not just by a constant offset after the insertion
+    point -- whenever a `collect_total_4(...)` call site is added,
+    removed, or reordered anywhere in `run()`. Round 1 learned this the
+    hard way: adding ONE new site renumbered mutants in a way that made
+    an old, already-verified index silently refer to a DIFFERENT site.
+    Every totality mutant therefore also carries a `label` -- a hash of
+    the call site's own FULL source text (`full`: the thunk plus its
+    message-label argument, not the thunk alone -- two real sites in
+    this file share textually IDENTICAL thunk code, `lambda refs=refs:
+    collect_4.load_ref_tables_4(root, refs)` at both the gate-0 and the
+    per-trajectory series stages, distinguished only by their different
+    message strings, so hashing the thunk alone collides; verified by
+    a duplicate-label assertion at import time below) -- stable across
+    any edit that does not touch the site itself, independent of its
+    line number or position in the walk. `--only=` accepts this label
+    directly; the numeric index remains available as a secondary,
+    run-local identifier only."""
     src = path.read_text()
     tree = ast.parse(src)
     out = []
@@ -79,9 +112,10 @@ def _totality_mutants_4(path: Path) -> list:
         thunk = ast.get_source_segment(src, node.args[0])
         if full is None or thunk is None:
             continue
+        label = "totality_" + hashlib.sha256(full.encode()).hexdigest()[:10]
         out.append((path, f"run(): totality -- collect_total_4 stripped at line "
                           f"{node.lineno} ({thunk.splitlines()[0][:60]}...)",
-                   full, f"(({thunk})(), [])"))
+                   full, f"(({thunk})(), [])", label))
     return out
 
 
@@ -455,9 +489,22 @@ M = [
         raise RuntimeError(f"{out_path} exists — the power record is written ONCE")'''),
 ]
 
+# Review round 2, IMPORTANT 1(a): give every hand-authored mutant above
+# a stable label too, derived from its own (already unique, already
+# content-stable) description text -- never from its position in this
+# list, which can and does change as mutants are added/removed/reordered.
+M = [(path, desc, old, new, _slug(desc)) for (path, desc, old, new) in M]
+
 # One mutant per collect_total_4(...) call site in analyze_4.py's run(),
-# generated from the real, current source at import time.
+# generated from the real, current source at import time. Each carries
+# its own stable, hash-of-thunk-source label (see `_totality_mutants_4`'s
+# docstring) -- NOT the numeric index, which shifts non-trivially
+# whenever a call site is added/removed/reordered anywhere in run().
 M += _totality_mutants_4(AN)
+
+_labels = [m[4] for m in M]
+assert len(_labels) == len(set(_labels)), (
+    f"mutation_check.py: duplicate mutant labels -- {[l for l in _labels if _labels.count(l) > 1]}")
 
 FAST_TESTS = [str(L / "tests" / "test_metric_4.py"), str(L / "tests" / "test_battery_4.py"),
              str(L / "tests" / "test_collect_4.py"), str(L / "tests" / "test_stages_4.py"),
@@ -520,13 +567,18 @@ def run_suite(tests, extra_args=None, timeout=None):
 
 
 def _parse_only(argv) -> set:
+    """Review round 2, IMPORTANT 1(a): tokens are kept as raw strings,
+    not cast to `int` -- a token may be a stable mutant LABEL (e.g.
+    `totality_a1b2c3d4e5`, or a hand-authored mutant's own slugged
+    description) or a plain numeric INDEX (kept working, secondary,
+    run-local only -- see `main()`'s matching logic)."""
     for a in argv:
         if a.startswith("--only="):
-            return {int(x) for x in a[len("--only="):].split(",") if x}
+            return {x for x in a[len("--only="):].split(",") if x}
     if "--only" in argv:
         i = argv.index("--only")
         if i + 1 < len(argv):
-            return {int(x) for x in argv[i + 1].split(",") if x}
+            return {x for x in argv[i + 1].split(",") if x}
     return None
 
 
@@ -577,15 +629,20 @@ def main(argv=None) -> int:
     survivors = []
     timeouts = []
     considered = 0
-    for i, (path, name, old, new) in enumerate(M, 1):
-        if only is not None and i not in only:
+    for i, (path, name, old, new, mlabel) in enumerate(M, 1):
+        # Review round 2, IMPORTANT 1(a): a `--only=` token matches
+        # EITHER the stable label (preferred) OR the run-local numeric
+        # index (secondary, kept for the hand-authored mutants' existing
+        # usage) -- never the index alone for a totality mutant, whose
+        # numeric position is not stable across edits.
+        if only is not None and mlabel not in only and str(i) not in only:
             continue
         considered += 1
         src = path.read_text()
         if src.count(old) != 1:
-            print(f"[{i:3d}] SKIP  {name}: target text not found exactly once in {path.name} "
-                  f"(count={src.count(old)})")
-            survivors.append((i, name, "target-not-found"))
+            print(f"[{mlabel}] (#{i}) SKIP  {name}: target text not found exactly once in "
+                 f"{path.name} (count={src.count(old)})")
+            survivors.append((mlabel, i, name, "target-not-found"))
             continue
         backup = _acquire_backup(path)
         try:
@@ -597,15 +654,15 @@ def main(argv=None) -> int:
             backup.unlink()
             clear_pycache()
         if timed_out:
-            print(f"[{i:3d}] TIMEOUT  {name}  (no verdict — not counted as killed or survived; "
-                 f"a timeout is not a kill)", flush=True)
-            timeouts.append((i, name, "timeout"))
+            print(f"[{mlabel}] (#{i}) TIMEOUT  {name}  (no verdict — not counted as killed or "
+                 f"survived; a timeout is not a kill)", flush=True)
+            timeouts.append((mlabel, i, name, "timeout"))
             continue
-        print(f"[{i:3d}] {'killed' if not ok else 'SURVIVED'}  {name}", flush=True)
+        print(f"[{mlabel}] (#{i}) {'killed' if not ok else 'SURVIVED'}  {name}", flush=True)
         if ok:
-            survivors.append((i, name, "survived"))
-    skipped = [s for s in survivors if s[2] == "target-not-found"]
-    real = [s for s in survivors if s[2] == "survived"]
+            survivors.append((mlabel, i, name, "survived"))
+    skipped = [s for s in survivors if s[3] == "target-not-found"]
+    real = [s for s in survivors if s[3] == "survived"]
     killed = considered - len(survivors) - len(timeouts)
     print(f"\n{killed}/{considered} killed; "
           f"{len(real)} survivor(s): {real}; "

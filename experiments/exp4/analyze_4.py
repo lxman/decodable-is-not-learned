@@ -72,7 +72,7 @@ SE_MULTIPLE_4 = 2.0
 MIN_CLEAR_INDEX_4 = 2
 GATE0_MIN_FRACTION_4 = 0.90
 
-REFERENTS_4_SHA256 = "432f645a9adb24bdec636d210f8dccebec0a0e636dd8466f6465fa82ea2c7e91"
+REFERENTS_4_SHA256 = "fe1140c197636d6bb94bc28425c45f2163d078d5e3a8d90990ca8c10e0b6cb7c"
 # Task 5: exp4's OWN residual import surface -- every non-test module
 # inside experiments/exp4 that is not one of the four blob-bound
 # INSTRUMENT_BLOBS_4 files, from tests/import_scan_4.py's scan.
@@ -82,7 +82,7 @@ IMPORTED_SHA256_4 = {
     battery_4.REPO / "experiments/exp4/make_referents_4.py":
         "e8b9cff34a34c830e2e07302eae6bcd811fe22fe978f77c0ea32ff07d4491b7e",
     battery_4.REPO / "experiments/exp4/power_4.py":
-        "33b4ff53900d436a1353256b4d854787d59a29e0f9e49fde44d7c19d838b6419",
+        "5d4769e8f7ae0f1ccac605bbdeda90044d53183a98f3df90a91442268197ce38",
     battery_4.REPO / "experiments/exp4/run/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     battery_4.REPO / "experiments/exp4/run/preflight_4.py":
@@ -1363,11 +1363,20 @@ def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
     field a real `power_4.compute()` record actually carries is now
     checked for VALUE, not presence: `n_sim` against the expected
     campaign constant (injectable for tests), `phis` the exact triple,
-    every arm's six `P_*` fields plus `mean_T`/`sd_T`/
-    `mean_eligible_cells` as floats, `declaration` one of the two real
-    values, `null_sd_T`/`min_detectable_T` floats, and `construction`
-    present at all (its own per-cell shape is power_4's concern, not
-    re-validated here)."""
+    every arm's five `P_*` fields plus `mean_eligible_cells` as floats,
+    `declaration` one of the two real values, and `construction` present
+    at all (its own per-cell shape is power_4's concern, not
+    re-validated here).
+
+    Review round 2, NEW B(ii) (the controller's ruling): `mean_T`/`sd_T`
+    (per arm) and `null_sd_T`/`min_detectable_T` (top-level, gated on the
+    NULL arm, phi=0.0) are `None` exactly when there is no T distribution
+    to summarize -- `power_4.compute()` legitimately writes `None` for an
+    arm whose `mean_eligible_cells == 0.0` (every simulated draw landed
+    zero eligible cells; see its own zero-candidates-overall carve-out).
+    `None` is accepted ONLY when the corresponding `mean_eligible_cells`
+    is exactly `0.0`; a float is required otherwise, and a `None` paired
+    with a nonzero `mean_eligible_cells` is refused as a real gap."""
     bad = []
     for field in ("cells", "rungs", "eligibility_sha256", "declaration", "n_sim", "arms",
                  "phis", "null_sd_T", "min_detectable_T", "construction"):
@@ -1406,15 +1415,33 @@ def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
                 bad.append(f"power record arms[{phi_key!r}] is not a dict")
                 continue
             for field in ("P_LEADS", "P_PARTIAL", "P_FOLLOWS", "P_UNDETERMINED",
-                         "P_NO_CONVERGENCE", "mean_T", "sd_T", "mean_eligible_cells"):
+                         "P_NO_CONVERGENCE", "mean_eligible_cells"):
                 v = arm.get(field)
                 if not isinstance(v, (int, float)) or isinstance(v, bool):
                     bad.append(f"power record arms[{phi_key!r}][{field!r}] is not a float: {v!r}")
+            mec = arm.get("mean_eligible_cells")
+            zero_elig = isinstance(mec, (int, float)) and not isinstance(mec, bool) and mec == 0.0
+            for field in ("mean_T", "sd_T"):
+                v = arm.get(field)
+                if v is None:
+                    if not zero_elig:
+                        bad.append(f"power record arms[{phi_key!r}][{field!r}] is None but "
+                                   f"mean_eligible_cells != 0.0")
+                elif not isinstance(v, (int, float)) or isinstance(v, bool):
+                    bad.append(f"power record arms[{phi_key!r}][{field!r}] is not a float: {v!r}")
     if power.get("declaration") not in ("POWERED", "UNDERPOWERED IN ADVANCE"):
         bad.append(f"power record declaration {power.get('declaration')!r} is not a valid value")
+    null_arm = arms.get("0.0") if isinstance(arms, dict) else None
+    null_mec = null_arm.get("mean_eligible_cells") if isinstance(null_arm, dict) else None
+    null_zero_elig = (isinstance(null_mec, (int, float)) and not isinstance(null_mec, bool)
+                     and null_mec == 0.0)
     for field in ("null_sd_T", "min_detectable_T"):
         v = power.get(field)
-        if not isinstance(v, (int, float)) or isinstance(v, bool):
+        if v is None:
+            if not null_zero_elig:
+                bad.append(f"power record {field!r} is None but the null arm's "
+                           f"mean_eligible_cells != 0.0")
+        elif not isinstance(v, (int, float)) or isinstance(v, bool):
             bad.append(f"power record {field!r} is not a float: {v!r}")
     return bad
 

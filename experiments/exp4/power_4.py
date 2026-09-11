@@ -168,7 +168,31 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
            phis: tuple = (0.0, 0.25, 0.5)) -> dict:
     candidates = _candidates(elig)
     if not candidates:
-        raise ValueError("power_4.compute: no eligible cells in the eligibility table")
+        # Review round 2, NEW B(i) (the controller's ruling): zero
+        # eligible cells is not an error to raise on -- it is a real,
+        # disclosable outcome (the eligibility stage itself produced
+        # nothing to simulate over). Every arm reads NO-CONVERGENCE with
+        # certainty; there is no T distribution to summarize, so mean_T/
+        # sd_T/null_sd_T/min_detectable_T are None -- legitimate, not
+        # missing data (see `_check_power_matches_eligibility_4`'s
+        # matching `mean_eligible_cells == 0.0` carve-out in analyze_4.py).
+        arms = {str(phi): {
+            "P_LEADS": 0.0, "P_PARTIAL": 0.0, "P_FOLLOWS": 0.0, "P_UNDETERMINED": 0.0,
+            "P_NO_CONVERGENCE": 1.0, "mean_T": None, "sd_T": None,
+            "mean_eligible_cells": 0.0, "construction_miss_count": 0,
+        } for phi in phis}
+        return {
+            "n_sim": n_sim, "seed": seed, "phis": list(phis), "arms": arms,
+            "null_sd_T": None, "min_detectable_T": None,
+            "min_detectable_T_note": MIN_DETECTABLE_T_NOTE_4,
+            "declaration": "UNDERPOWERED IN ADVANCE",
+            "cells": [], "rungs": [],
+            "flip_resolution": None,
+            "assumptions": ASSUMPTIONS_4,
+            "eligibility_bar_null_crossing_note": ELIGIBILITY_BAR_NULL_CROSSING_NOTE_4,
+            "construction": {},
+            "eligibility_sha256": None, "prereg_tag": None,
+        }
     rungs = sorted({r for _, r in candidates})
     n_rungs = len(rungs)
     trajs = sorted({t for t, _ in candidates})
@@ -335,8 +359,8 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
     }
 
 
-def main(root=battery_4.EXP4, *, n_sim: int = 1000, seed: int = 0,
-        phis: tuple = (0.0, 0.25, 0.5)) -> dict:
+def main(root=battery_4.EXP4, *, n_sim: int = N_SIM_4, seed: int = 0,
+        phis: tuple = an.POWER_PHIS_4) -> dict:
     root = Path(root)
     out_path = battery_4.power_path(root)
     if out_path.exists():

@@ -217,7 +217,8 @@ def build_world(root, mode: str, *, seed=0, stage: str = "full") -> dict:
     `eligibility_table_4` alone. `stage="full"` additionally sweeps
     every grid point of every written trajectory, writes gate1 records,
     the eligibility record (via `analyze_4.eligibility_table_4` itself)
-    and a power-record stub with the fields the analyzer requires."""
+    and a real power record via `power_4.compute()` (review round 1's
+    fix -- the old stub, `_write_power_stub`, is deleted)."""
     root = Path(root)
     world = _World(seed)
     offset = _OFFSET_BY_MODE[mode]

@@ -302,11 +302,38 @@ def test_gate1_failures_4_call_is_collected_not_raised_on_a_list_shape():
 
 
 def test_check_power_matches_eligibility_4_call_is_collected_not_raised_on_a_scalar():
+    # Review round 2 fix: this call was missing the now-required
+    # `expected_n_sim` keyword-only argument (added in review round 1,
+    # IMPORTANT 3), so the test was passing for the WRONG reason -- a
+    # `TypeError: missing 1 required keyword-only argument`, not the
+    # intended "power record is a scalar, not a dict" exception.
+    # Verified directly before this fix: `f[0]` read "...TypeError:
+    # _check_power_matches_eligibility_4() missing 1 required
+    # keyword-only argument: 'expected_n_sim'".
     val, f = an.collect_total_4(
-        lambda: an._check_power_matches_eligibility_4(42, {}, "deadbeef" * 8),
+        lambda: an._check_power_matches_eligibility_4(42, {}, "deadbeef" * 8, expected_n_sim=10),
         "4 power vs eligibility check")
     assert val is None
     assert f and "4 power vs eligibility check" in f[0]
+    assert "expected_n_sim" not in f[0]
+
+
+def test_check_imports_4_and_check_referents_pass_on_the_committed_tree():
+    # Review round 2, NEW A: both frozen-code pins must be self-
+    # consistent against the committed tree -- a future edit to any
+    # pinned file (power_4.py, make_referents_4.py, preflight_4.py,
+    # verify_referents_4.py, or anything in FROZEN_SHA256_4) without a
+    # matching re-pin now fails the fast suite immediately, rather than
+    # drifting silently until a real-tree `analyze_4.run()` execution
+    # surfaces it. `check_imports_4()`'s drift check runs over every
+    # `IMPORTED_SHA256_4` entry unconditionally (independent of what
+    # this process has actually imported); its "unpinned module" check
+    # only examines modules already in `sys.modules`, which a plain
+    # analyze_4-only test context won't have pulled in.
+    from experiments.exp4 import make_referents_4 as mkr
+    an.check_imports_4()   # raises on any drift or unpinned module
+    bad = mkr.check_referents(an.REFERENTS_PATH_4, sha_pin=an.REFERENTS_4_SHA256)
+    assert bad == []
 
 
 def test_verdict_4_does_not_crash_on_a_malformed_eligibility_shape():

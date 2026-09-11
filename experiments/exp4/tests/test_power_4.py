@@ -126,9 +126,22 @@ def test_compute_flags_construction_miss_at_the_grid_last_index():
     assert rec["arms"]["0.0"]["construction_miss_count"] == 1
 
 
-def test_compute_raises_on_empty_eligibility():
-    with pytest.raises(ValueError, match="no eligible cells"):
-        pw.compute({"t": {"R": {}, "flat": {}}}, {"t": {"R": [], "flat": []}}, {"t": [0, 10]})
+def test_compute_returns_the_zero_cell_record_on_empty_eligibility():
+    # Review round 2, NEW B(i) (the controller's ruling): zero eligible
+    # cells does NOT raise -- it's a real, disclosable outcome.
+    rec = pw.compute({"t": {"R": {}, "flat": {}}}, {"t": {"R": [], "flat": []}}, {"t": [0, 10]},
+                     phis=(0.0, 0.25, 0.5))
+    assert rec["declaration"] == "UNDERPOWERED IN ADVANCE"
+    assert rec["cells"] == [] and rec["rungs"] == []
+    assert rec["null_sd_T"] is None and rec["min_detectable_T"] is None
+    assert rec["flip_resolution"] is None
+    assert rec["construction"] == {}
+    assert set(rec["arms"]) == {"0.0", "0.25", "0.5"}
+    for arm in rec["arms"].values():
+        assert arm["P_NO_CONVERGENCE"] == 1.0
+        assert arm["P_LEADS"] == arm["P_PARTIAL"] == arm["P_FOLLOWS"] == arm["P_UNDETERMINED"] == 0.0
+        assert arm["mean_T"] is None and arm["sd_T"] is None
+        assert arm["mean_eligible_cells"] == 0.0
 
 
 def test_main_writes_once_and_refuses_a_second_write(tmp_path):
@@ -281,3 +294,54 @@ def test_analyzer_refuses_power_record_field_by_field(tmp_path):
     bad_construction = an._check_power_matches_eligibility_4(
         no_construction, elig, real_sha, expected_n_sim=10)
     assert any("construction" in b for b in bad_construction)
+
+
+def test_analyzer_none_mean_t_sd_t_both_directions(tmp_path):
+    # Review round 2, NEW B(ii) (the controller's ruling): `mean_T`/
+    # `sd_T` may legitimately be `None`, but ONLY when that arm's
+    # `mean_eligible_cells == 0.0` -- a `None` paired with a nonzero
+    # `mean_eligible_cells` is a real gap, refused; a `None` paired with
+    # exactly `0.0` is `power_4.compute()`'s own real output, accepted.
+    elig = {"t": {"R": {"r1": {"eligible": True}, "r2": {"eligible": True},
+                       "r3": {"eligible": True}}}}
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    real_sha = bg.sha256_file(elig_path)
+    ok = _valid_power_record(real_sha)
+
+    # direction 1: None with a NONZERO mean_eligible_cells -- refused.
+    arms_bad = dict(ok["arms"])
+    arms_bad["0.5"] = dict(ok["arms"]["0.5"], mean_T=None, sd_T=None)  # mean_eligible_cells stays 3.0
+    bad = an._check_power_matches_eligibility_4(
+        dict(ok, arms=arms_bad), elig, real_sha, expected_n_sim=10)
+    assert any("mean_T" in b for b in bad) and any("sd_T" in b for b in bad)
+
+    # direction 2: None with mean_eligible_cells == 0.0 -- accepted.
+    arms_zero = dict(ok["arms"])
+    arms_zero["0.5"] = dict(ok["arms"]["0.5"], mean_T=None, sd_T=None, mean_eligible_cells=0.0)
+    good = an._check_power_matches_eligibility_4(
+        dict(ok, arms=arms_zero), elig, real_sha, expected_n_sim=10)
+    assert good == []
+
+
+def test_analyzer_none_null_sd_t_min_detectable_t_both_directions(tmp_path):
+    # Same rule, top-level, gated on the NULL arm ("0.0") specifically.
+    elig = {"t": {"R": {"r1": {"eligible": True}, "r2": {"eligible": True},
+                       "r3": {"eligible": True}}}}
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    real_sha = bg.sha256_file(elig_path)
+    ok = _valid_power_record(real_sha)
+
+    # direction 1: None with the null arm's NONZERO mean_eligible_cells -- refused.
+    bad = an._check_power_matches_eligibility_4(
+        dict(ok, null_sd_T=None, min_detectable_T=None), elig, real_sha, expected_n_sim=10)
+    assert any("null_sd_T" in b for b in bad) and any("min_detectable_T" in b for b in bad)
+
+    # direction 2: None with the null arm's mean_eligible_cells == 0.0 -- accepted.
+    arms_zero_null = dict(ok["arms"])
+    arms_zero_null["0.0"] = dict(ok["arms"]["0.0"], mean_T=None, sd_T=None, mean_eligible_cells=0.0)
+    good = an._check_power_matches_eligibility_4(
+        dict(ok, arms=arms_zero_null, null_sd_T=None, min_detectable_T=None),
+        elig, real_sha, expected_n_sim=10)
+    assert good == []

@@ -3614,7 +3614,7 @@
   "experiments/exp2n/results/sweep/comma_7b/twin/sub4_mid.json": "5883c41b3fe3bfcc2a7a94c377b82ef8059ba1dc3ecd1a8b16c4335adaa94721",
   "experiments/exp2n/results/sweep/comma_7b/twin/sub_base8.json": "18c72cb80377a34b8aa5583c25744bbb68d861bf79d1606a167eeeb488622e82",
   "experiments/exp4/hub_inventory_pythia_4.json": "2fe269324716fb917a8c3a620a8b2f59f96b4544aabcede0a60259feadc1c09e",
-  "experiments/exp4/power_4.py": "33b4ff53900d436a1353256b4d854787d59a29e0f9e49fde44d7c19d838b6419",
+  "experiments/exp4/power_4.py": "5d4769e8f7ae0f1ccac605bbdeda90044d53183a98f3df90a91442268197ce38",
   "experiments/exp4/tests/fixtures/calibration_curve_4.json": "970c6f80dec81749c1e1c9fb0581dae8190ba028e25b7263860d2a30ec3030f8"
  },
  "n_files": 3615,

@@ -4,7 +4,8 @@ can leave gives `analyze_4.run()` INSUFFICIENT_DATA, never a raise.
 Built on a SHARED, cheap `stage="reference_only"` base tree (19
 reference-stage keys + 4 first units — `full_shape.build_world`'s own
 documented minimum for `eligibility_table_4`), with eligibility_4.json
-and a power stub added once, module-scoped; each case corrupts a fresh
+and a real power record (via `power_4.compute()`, review round 1's fix
+-- the old stub is deleted) added once, module-scoped; each case corrupts a fresh
 copy. Deliberately NOT a `stage="full"` (92-point) world: `run()`'s
 per-trajectory loop reads `STAGE1_KEYS_4`/`STAGE1_FIRST_UNITS_4` for
 stage_tables/gate 0/eligibility/power (none of them touch an interior
@@ -289,3 +290,55 @@ def test_reference_key_sets_sha_off_by_one_gives_insufficient_data(_totality_bas
     v = an.run(root=root, **_run_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
     assert _needle_in_failures(v, "ref_comma_7b")
+
+
+# ------------------------------------------------- 12. _power_summary_4 raises
+# (review round 2, IMPORTANT 1(b): `verdict_4`'s `collect_total_4(lambda:
+# _power_summary_4(power), ...)` call site -- new to review round 1,
+# never before run through totality. `_totality_base` reaches this site
+# UNCONDITIONALLY every run (verdict_4 is called at the end of run() no
+# matter what failures accumulated earlier, and the totality base's
+# power file always loads to a valid dict), but `_power_summary_4`
+# never naturally raises on real, well-formed data -- so the established
+# pattern here is to monkeypatch the callee itself to raise, on the
+# clean totality world, and confirm run() still returns a well-formed
+# INSUFFICIENT_DATA verdict (the base's OWN verdict either way, since
+# `world`/`tree` are decided before verdict_4 runs) with the failure
+# caught and named, rather than propagating out of run() as a raise.)
+
+@pytest.mark.slow
+def test_power_summary_4_call_is_collected_not_raised(_totality_base, tmp_path, monkeypatch):
+    root = _fresh_copy(_totality_base, tmp_path)
+
+    def _boom(power):
+        raise RuntimeError("synthetic _power_summary_4 failure (test-injected)")
+
+    monkeypatch.setattr(an, "_power_summary_4", _boom)
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "power summary")
+
+
+# ------------------------------------ 13. _check_power_matches_eligibility_4 raises
+# Review round 2, IMPORTANT 1(b): the review's re-derived renumbering
+# account names this site as the one existing before review round 1
+# (old part-2 log, `--only=99`) but under DIFFERENT source text -- its
+# call gained an `expected_n_sim=` keyword argument this task, so the
+# exact substitution text the harness matches on has changed, and the
+# old "killed" result no longer applies to the CURRENT text. Same
+# monkeypatch pattern: this site is reached whenever both `power` and
+# `eligibility` are present and non-None (true on `_totality_base`),
+# which normally never raises on real data.
+
+@pytest.mark.slow
+def test_check_power_matches_eligibility_4_call_is_collected_not_raised(_totality_base, tmp_path,
+                                                                        monkeypatch):
+    root = _fresh_copy(_totality_base, tmp_path)
+
+    def _boom(power, eligibility, eligibility_sha, *, expected_n_sim):
+        raise RuntimeError("synthetic _check_power_matches_eligibility_4 failure (test-injected)")
+
+    monkeypatch.setattr(an, "_check_power_matches_eligibility_4", _boom)
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "power vs eligibility")
