@@ -97,7 +97,6 @@ experiments/exp4/sweep_comma_7b.log
 experiments/exp4/analyzer.log
 experiments/exp4/watcher_reference.log
 experiments/exp4/watcher_sweep.log
-experiments/exp4/mutation_*.log
 experiments/exp4/freeze_*.log
 experiments/exp4/results/**/attested/
 experiments/exp4/results/**/activations/
