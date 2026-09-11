@@ -109,6 +109,13 @@ class FakeTokenizer:
         if return_tensors == "pt":
             return _ShimBatch(input_ids=_ShimTensor(np.array(input_ids, dtype=np.int64)),
                               attention_mask=_ShimTensor(np.array(attn, dtype=np.int64)))
+        if single:
+            # A real tokenizer's single-string, non-tensor call is
+            # UNBATCHED (`tok(prompt)["input_ids"]` is the flat id
+            # list) — required for `screen._position_indices`'s
+            # `len(...)` reads (Task 3's `positions_4`) to count
+            # tokens rather than the constant 1-row batch dimension.
+            return {"input_ids": input_ids[0], "attention_mask": attn[0]}
         return {"input_ids": input_ids, "attention_mask": attn}
 
 
