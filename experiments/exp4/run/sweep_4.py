@@ -84,13 +84,14 @@ def run_gate1(*, traj, root, cache_root, device, battery, refs, ref_tables, load
         raise SystemExit(2)
 
     t0 = time.time()
+    ref_activation_paths = collect_4.ref_activation_paths_4(root, refs)
     try:
         collect_4.process_model_4(
             model, tok, key_or_unit=(traj, endpoint_step), family=collect_4.family_of_traj_4(traj),
-            info=info, root=root, battery=battery, ref_tables=ref_tables, ref_activation_paths=None,
-            batch_size=battery_4.BATCH_4[traj], device=device, keep_activations=False,
-            sites=metric_4.sites_4(info["n_hidden"]), refs=refs, committed_digest=want,
-            stack=_stack(), git_sha=_git_sha())
+            info=info, root=root, battery=battery, ref_tables=ref_tables,
+            ref_activation_paths=ref_activation_paths, batch_size=battery_4.BATCH_4[traj],
+            device=device, keep_activations=False, sites=metric_4.sites_4(info["n_hidden"]),
+            refs=refs, committed_digest=want, stack=_stack(), git_sha=_git_sha())
     finally:
         loaders["release"](model)
         loaders["free_step"](traj, endpoint_step, cache_root=cache_root)
@@ -146,6 +147,7 @@ def run(*, traj, root=EXP4, cache_root=None, device: str = "mps", dry_run: bool 
     battery = bt.load_battery()
     refs = battery_4.REFS_FOR_4[traj]
     ref_tables = collect_4.load_ref_tables_4(root, refs)
+    ref_activation_paths = collect_4.ref_activation_paths_4(root, refs)
 
     if not gate_done:
         run_gate1(traj=traj, root=root, cache_root=cache_root, device=device, battery=battery,
@@ -176,9 +178,9 @@ def run(*, traj, root=EXP4, cache_root=None, device: str = "mps", dry_run: bool 
             collect_4.process_model_4(
                 model, tok, key_or_unit=(traj, step), family=collect_4.family_of_traj_4(traj),
                 info=info, root=root, battery=battery, ref_tables=ref_tables,
-                ref_activation_paths=None, batch_size=battery_4.BATCH_4[traj], device=device,
-                keep_activations=False, sites=metric_4.sites_4(info["n_hidden"]), refs=refs,
-                committed_digest=want, stack=_stack(), git_sha=_git_sha())
+                ref_activation_paths=ref_activation_paths, batch_size=battery_4.BATCH_4[traj],
+                device=device, keep_activations=False, sites=metric_4.sites_4(info["n_hidden"]),
+                refs=refs, committed_digest=want, stack=_stack(), git_sha=_git_sha())
         finally:
             loaders["release"](model)
             loaders["free_step"](traj, step, cache_root=cache_root)

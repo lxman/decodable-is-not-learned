@@ -155,24 +155,65 @@ def test_align_scalars_4_keys():
     ref_sets_pool = rng.integers(0, n, size=(n_sites, n, k)).astype(np.uint16)
     ref_act = rng.standard_normal((n, n_sites, d)).astype(np.float32)
     refs = {"ref_x": {"sets_prompt_end": ref_sets_pe, "sets_question_end": ref_sets_qe,
-                      "sets_pooled": ref_sets_pool, "activations_prompt_end": ref_act},
+                      "sets_pooled": ref_sets_pool, "activations_prompt_end": ref_act,
+                      "sites_q": [5, 15]},
            "ref_y": {"sets_prompt_end": ref_sets_pe, "sets_question_end": None,
-                      "sets_pooled": None, "activations_prompt_end": None}}
+                      "sets_pooled": None, "activations_prompt_end": None, "sites_q": [5, 15]}}
     pairing_by_ref = {"ref_x": [0, 1], "ref_y": [1, 0]}
 
-    got = c4.align_scalars_4(sets_m_pos, sets_m_pooled, X_m, refs, pairing_by_ref, k=k)
+    got = c4.align_scalars_4(sets_m_pos, sets_m_pooled, X_m, refs, pairing_by_ref, k=k,
+                             sites_m=[10, 20])
 
     assert set(got) == {"ref_x", "ref_y"}
     want_keys = {"knn_prompt_end", "knn_question_end", "knn_pooled",
-                "knn_max_over_pairs_prompt_end", "knn_max_over_pairs_pooled", "cka_prompt_end"}
+                "knn_max_over_pairs_prompt_end", "knn_max_over_pairs_pooled",
+                "knn_argmax_pair_prompt_end", "knn_argmax_pair_pooled", "cka_prompt_end"}
     assert set(got["ref_x"]) == want_keys
     assert len(got["ref_x"]["knn_prompt_end"]) == n_sites
     assert got["ref_x"]["cka_prompt_end"] is not None and len(got["ref_x"]["cka_prompt_end"]) == n_sites
+    assert got["ref_x"]["knn_argmax_pair_prompt_end"][0] in (10, 20)
+    assert got["ref_x"]["knn_argmax_pair_prompt_end"][1] in (5, 15)
+    assert got["ref_x"]["knn_argmax_pair_pooled"][0] in (10, 20)
+    assert got["ref_x"]["knn_argmax_pair_pooled"][1] in (5, 15)
     assert got["ref_y"]["knn_question_end"] is None
     assert got["ref_y"]["knn_pooled"] is None
     assert got["ref_y"]["knn_max_over_pairs_pooled"] is None
+    assert got["ref_y"]["knn_argmax_pair_pooled"] is None
     assert got["ref_y"]["cka_prompt_end"] is None
     assert got["ref_y"]["knn_prompt_end"] is not None
+    assert got["ref_y"]["knn_max_over_pairs_prompt_end"] is not None
+    assert got["ref_y"]["knn_argmax_pair_prompt_end"] is not None
+
+
+def test_align_scalars_4_max_over_pairs_is_the_full_cross_product_not_the_depth_matched_pair():
+    """Fix round 1, finding 2: hand-built so the depth-matched pairing
+    (m-site0<->q-site0, m-site1<->q-site1, both by construction the
+    WORST pair — overlap 0) disagrees with the true best pair (the
+    off-diagonal one, overlap = k on every item). The old formula
+    (max over ITEMS of the depth-matched per-item overlap, then mean)
+    would read 0.0 here; the fixed formula (Huh's full cross-product
+    max of the per-pair MEAN) reads 1.0 and names the winning pair by
+    hidden-state LAYER INDEX, not array position."""
+    k, n = 2, 4
+    m0 = np.tile(np.array([2, 3], dtype=np.uint16), (n, 1))
+    m1 = np.tile(np.array([0, 1], dtype=np.uint16), (n, 1))
+    q0 = np.tile(np.array([0, 1], dtype=np.uint16), (n, 1))
+    q1 = np.tile(np.array([2, 3], dtype=np.uint16), (n, 1))
+    sets_m_prompt_end = np.stack([m0, m1])   # [2, n, k]
+    sets_q_prompt_end = np.stack([q0, q1])   # [2, n, k]
+    sets_m_pos = {"question_end": sets_m_prompt_end, "prompt_end": sets_m_prompt_end}
+    pairing_by_ref = {"ref_x": [0, 1]}       # depth-matched: m0<->q0, m1<->q1 (both overlap 0)
+    refs = {"ref_x": {"sets_prompt_end": sets_q_prompt_end, "sets_question_end": None,
+                      "sets_pooled": None, "activations_prompt_end": None, "sites_q": [0, 10]}}
+
+    got = c4.align_scalars_4(sets_m_pos, None, None, refs, pairing_by_ref, k=k, sites_m=[0, 10])
+
+    # the depth-matched (primary) reading really is 0.0 on both sites —
+    # confirms the scenario is genuinely adversarial to the old formula
+    assert got["ref_x"]["knn_prompt_end"] == [0.0, 0.0]
+    # the fixed full-cross-product maximum finds the off-diagonal pair
+    assert got["ref_x"]["knn_max_over_pairs_prompt_end"] == pytest.approx(1.0)
+    assert got["ref_x"]["knn_argmax_pair_prompt_end"] == [0, 10]
 
 
 # --------------------------------------------------------------- storage

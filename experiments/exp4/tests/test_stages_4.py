@@ -224,6 +224,39 @@ def test_cross_reference_4_fills_every_ref_with_three_others(tmp_path, monkeypat
         assert set(one_rung) == {r for r in battery_4.REFERENCES_4 if r != ref}
 
 
+def test_cka_is_wired_through_both_runners_present_vs_absent(tmp_path, monkeypatch):
+    """Fix round 1, finding 1: `ref_activation_paths` used to be
+    hardcoded `None` at every real `process_model_4` call site in both
+    runners, so `cka_prompt_end` was `None` for every reference on
+    every non-reference unit. Runs only the four references (their
+    activation files are kept on disk, `keep_activations=True`), then
+    ONE endpoint aligned against them — asserts real CKA numbers for
+    the two references whose activation files remain, and `None` for
+    a third whose activation file was removed to simulate absence."""
+    _shrink_all_grids(monkeypatch)
+    seeds = _Seeds()
+    _install_digests(monkeypatch, seeds)
+    monkeypatch.setattr("experiments.exp4.run.reference_4.bt.load_battery", _tiny_battery)
+    for ref in battery_4.REFERENCES_4:
+        rf.run(root=tmp_path, loaders=seeds.loaders(), only=ref, **_fake_prereg())
+
+    import shutil
+    shutil.rmtree(battery_4.reference_dir(tmp_path, "ref_comma_7b") / "activations")
+
+    rf.run(root=tmp_path, loaders=seeds.loaders(), only="endpoint_pythia_2.8b", **_fake_prereg())
+
+    align = json.loads(battery_4.align_path(tmp_path, "endpoint_pythia_2.8b").read_text())
+    refs = battery_4.REFS_FOR_4["pythia_2.8b"]
+    assert "ref_comma_7b" in refs
+    one_rung = align[battery_4.RUNGS[0]]
+    assert one_rung["ref_comma_7b"]["cka_prompt_end"] is None
+    for ref in refs:
+        if ref == "ref_comma_7b":
+            continue
+        assert one_rung[ref]["cka_prompt_end"] is not None
+        assert any(v is not None for v in one_rung[ref]["cka_prompt_end"])
+
+
 def test_endpoint_digest_mismatch_halts_with_no_record(tmp_path, monkeypatch):
     _shrink_all_grids(monkeypatch)
     seeds = _Seeds()

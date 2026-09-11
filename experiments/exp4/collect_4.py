@@ -244,21 +244,52 @@ def overlap_table_4(sets_m, sets_q, pairing) -> np.ndarray:
 
 # ------------------------------------------------------------ alignment
 
+def _max_over_pairs(sets_m_all, sites_m, sets_q_all, sites_q, k: int):
+    """Huh et al.'s reading (design §5 S5(a)): the maximum, over the
+    FULL cross product of M's sites and Q's sites (not the fixed
+    depth-matched pairing), of the per-pair mutual-k-NN mean over
+    items. Returns `(max_mean, [layer_m, layer_q])` — the winning
+    pair's HIDDEN-STATE LAYER INDICES (not array positions)."""
+    sets_m_all = np.asarray(sets_m_all)
+    sets_q_all = np.asarray(sets_q_all)
+    n_sites_m, n_sites_q = sets_m_all.shape[0], sets_q_all.shape[0]
+    best, best_pair = -1.0, None
+    for i in range(n_sites_m):
+        for j in range(n_sites_q):
+            mean = float(metric_4.overlap_counts(sets_m_all[i], sets_q_all[j]).mean()) / k
+            if mean > best:
+                best, best_pair = mean, [int(sites_m[i]), int(sites_q[j])]
+    return best, best_pair
+
+
 def align_scalars_4(sets_m_pos: dict, sets_m_pooled, X_m, refs: dict, pairing_by_ref: dict,
-                    k: int = metric_4.K_4) -> dict:
+                    k: int = metric_4.K_4, *, sites_m=None) -> dict:
     """Per reference: `knn_prompt_end`/`knn_question_end`/`knn_pooled`
-    (per-site mean overlap fraction, `None` when the reference side is
-    unavailable), the two max-over-pairs scalars, and `cka_prompt_end`
-    (per site, `None` unless `refs[ref]["activations_prompt_end"]` is
-    given — resolution 7)."""
+    (per-site mean overlap fraction under the fixed depth-matched
+    pairing, `None` when the reference side is unavailable);
+    `knn_max_over_pairs_{prompt_end,pooled}` + `knn_argmax_pair_
+    {prompt_end,pooled}` — Huh's full-cross-product maximum (design §5
+    S5(a); `_max_over_pairs`, independent of `pairing_by_ref`'s
+    depth-matched pairing), `None` when `sites_m` or the reference's
+    `sites_q` is not given; and `cka_prompt_end` (per site, `None`
+    unless `refs[ref]["activations_prompt_end"]` is given —
+    resolution 7)."""
     out = {}
     for ref, data in refs.items():
         pairing = pairing_by_ref[ref]
+        sites_q = data.get("sites_q")
         entry = {}
 
         ov_pe = overlap_table_4(sets_m_pos["prompt_end"], data["sets_prompt_end"], pairing)
         entry["knn_prompt_end"] = (ov_pe.astype(np.float64) / k).mean(axis=1).tolist()
-        entry["knn_max_over_pairs_prompt_end"] = float(ov_pe.max(axis=0).mean() / k)
+        if sites_m is not None and sites_q is not None:
+            mx, arg = _max_over_pairs(sets_m_pos["prompt_end"], sites_m, data["sets_prompt_end"],
+                                      sites_q, k)
+            entry["knn_max_over_pairs_prompt_end"] = mx
+            entry["knn_argmax_pair_prompt_end"] = arg
+        else:
+            entry["knn_max_over_pairs_prompt_end"] = None
+            entry["knn_argmax_pair_prompt_end"] = None
 
         qe = data.get("sets_question_end")
         if qe is not None:
@@ -271,10 +302,17 @@ def align_scalars_4(sets_m_pos: dict, sets_m_pooled, X_m, refs: dict, pairing_by
         if pooled is not None and sets_m_pooled is not None:
             ov_p = overlap_table_4(sets_m_pooled, pooled, pairing)
             entry["knn_pooled"] = (ov_p.astype(np.float64) / k).mean(axis=1).tolist()
-            entry["knn_max_over_pairs_pooled"] = float(ov_p.max(axis=0).mean() / k)
+            if sites_m is not None and sites_q is not None:
+                mx, arg = _max_over_pairs(sets_m_pooled, sites_m, pooled, sites_q, k)
+                entry["knn_max_over_pairs_pooled"] = mx
+                entry["knn_argmax_pair_pooled"] = arg
+            else:
+                entry["knn_max_over_pairs_pooled"] = None
+                entry["knn_argmax_pair_pooled"] = None
         else:
             entry["knn_pooled"] = None
             entry["knn_max_over_pairs_pooled"] = None
+            entry["knn_argmax_pair_pooled"] = None
 
         act = data.get("activations_prompt_end")
         if act is not None and X_m is not None:
@@ -433,6 +471,23 @@ def write_load_4(root, key_or_unit, *, record_fields, sets_by_rung, overlaps_by_
     return rec
 
 
+def ref_activation_paths_4(root, refs) -> dict:
+    """`{ref: {rung: path to that reference's activations/<rung>.npz}}`
+    for every `ref` in `refs` — the `ref_activation_paths` argument
+    every real `process_model_4` caller threads through so CKA (§3.2)
+    actually runs against the references' kept activations, not just
+    inside `cross_reference_4`. `ref` is always a reference-stage str
+    key, so `battery_4.activations_path` (which resolves through
+    `reference_dir`) applies directly. A path is handed over whether
+    or not the file currently exists on disk — `process_model_4`/
+    `align_scalars_4` check `.is_file()` themselves and degrade to
+    `None` for that reference/rung when it doesn't (e.g. a first unit,
+    where `keep_activations=False` — never a reference, though: every
+    reference is `keep_activations=True`)."""
+    return {ref: {rung: battery_4.activations_path(root, ref, rung) for rung in battery_4.RUNGS}
+           for ref in (refs or ())}
+
+
 def load_ref_tables_4(root, ref_keys) -> dict:
     """Per reference key: the committed prompt-end `sets` (sha-checked
     against `_load.json`'s `sets_sha256`, refusing on drift), plus
@@ -557,11 +612,11 @@ def process_model_4(model, tok, *, key_or_unit, family, info, root, battery, ref
                 ref_data[ref] = {"sets_prompt_end": rt["sets"][rung],
                                  "sets_question_end": rt.get("sets_question_end", {}).get(rung),
                                  "sets_pooled": rt.get("sets_pooled", {}).get(rung),
-                                 "activations_prompt_end": act}
+                                 "activations_prompt_end": act, "sites_q": rt["sites"]}
                 ov[ref] = overlap_table_4(sets[:, 1, :, :], rt["sets"][rung], pairing_by_ref[ref])
             X_m = X[:, :, 1, :].astype(np.float32)
             align_by_rung[rung] = align_scalars_4(sets_m_pos, pooled, X_m, ref_data,
-                                                  pairing_by_ref, k=metric_4.K_4)
+                                                  pairing_by_ref, k=metric_4.K_4, sites_m=sites)
             overlaps_by_rung[rung] = ov
         else:
             align_by_rung[rung] = {}
@@ -608,9 +663,10 @@ def cross_reference_4(root) -> dict:
                 ref_data[o] = {"sets_prompt_end": oth["sets"][rung],
                                "sets_question_end": oth["sets_question_end"].get(rung),
                                "sets_pooled": oth["sets_pooled"].get(rung),
-                               "activations_prompt_end": _load_activations_prompt_end(root, o, rung)}
+                               "activations_prompt_end": _load_activations_prompt_end(root, o, rung),
+                               "sites_q": oth["sites"]}
             align_by_rung[rung] = align_scalars_4(sets_m_pos, pooled_m, X_m, ref_data,
-                                                  pairing_by_ref, k=metric_4.K_4)
+                                                  pairing_by_ref, k=metric_4.K_4, sites_m=sites)
         d = battery_4.reference_dir(root, ref)
         _align_p(d).write_text(json.dumps(align_by_rung, indent=1))
         out[ref] = align_by_rung

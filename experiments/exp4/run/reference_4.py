@@ -73,11 +73,16 @@ def _keyed(key: str, only) -> bool:
 
 def _process(*, model, tok, root, key_or_unit, family, info, battery, ref_tables, refs, batch_size,
             device, keep_activations, committed_digest, loaders):
+    # The references' own activation files are on disk (keep_activations
+    # =True for every one of the four) by the time any endpoint/first-
+    # unit/init/ladder load runs, so CKA (design §3.2) is wired here
+    # rather than left permanently None (fix round 1, finding 1).
+    ref_activation_paths = collect_4.ref_activation_paths_4(root, refs)
     return collect_4.process_model_4(
         model, tok, key_or_unit=key_or_unit, family=family, info=info, root=root, battery=battery,
-        ref_tables=ref_tables, ref_activation_paths=None, batch_size=batch_size, device=device,
-        keep_activations=keep_activations, sites=metric_4.sites_4(info["n_hidden"]), refs=refs,
-        committed_digest=committed_digest, stack=_stack(), git_sha=_git_sha())
+        ref_tables=ref_tables, ref_activation_paths=ref_activation_paths, batch_size=batch_size,
+        device=device, keep_activations=keep_activations, sites=metric_4.sites_4(info["n_hidden"]),
+        refs=refs, committed_digest=committed_digest, stack=_stack(), git_sha=_git_sha())
 
 
 def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, only=None,
