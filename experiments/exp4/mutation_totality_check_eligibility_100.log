@@ -1,0 +1,5 @@
+baseline OK (totality pass, ['totality_35e8a47a0b'] mutants)
+
+[totality_35e8a47a0b] (#100) killed  run(): totality -- collect_total_4 stripped at line 1742 (lambda: _check_power_matches_eligibility_4(...)
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []
