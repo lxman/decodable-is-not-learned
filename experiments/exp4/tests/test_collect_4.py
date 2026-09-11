@@ -71,6 +71,39 @@ def test_collect_rung_4_shapes_and_determinism_and_device_independence():
     assert np.array_equal(out1["P"], out2["P"])
 
 
+def test_collect_rung_4_pooled_mean_excludes_padded_tokens():
+    # Task 5 mutation harness: `_tiny_cap`'s items are same-length
+    # after rendering, so padding never fires and a dropped attention
+    # mask goes unnoticed. Two items of very different QUESTION length
+    # (single char vs. ten) render to very different token counts, so
+    # the shorter one is genuinely right-padded; FakeModel's layer-0
+    # state for the pad token id (0) is a real, nonzero, distinct
+    # embedding row, so an unmasked mean would differ measurably from
+    # the masked one -- cross-checked here against a by-hand
+    # recomputation using ONLY the true (non-padded) token positions.
+    cap = {"shots": [], "eval_items": [{"question": "a", "answer": "x"},
+                                       {"question": "b" * 10, "answer": "y"}]}
+    n_hidden, d = 7, 8
+    sites = metric_4.sites_4(n_hidden)
+    model = fakes_4.FakeModel(seed=3, n_hidden=n_hidden, d=d)
+    tok = fakes_4.FakeTokenizer()
+
+    prompts = c4.render_prompts_4("pythia", cap)
+    lengths = [len(tok._ids(p)) for p in prompts]
+    assert lengths[0] != lengths[1], "the two prompts must render to different lengths"
+
+    out = c4.collect_rung_4(model, tok, "pythia", cap, sites=sites, batch_size=2, device="mps")
+
+    for item_idx, prompt in enumerate(prompts):
+        ids = np.array(tok._ids(prompt), dtype=np.int64) % model.vocab_size
+        for site_pos, layer in enumerate(sites):
+            hs = model._embed[ids] * (layer + 1) + model._offsets[layer]   # [T, d], every token
+            want = hs.mean(axis=0).astype(np.float16)          # the MASKED mean == every real token
+            got = out["P"][item_idx, site_pos, :]
+            assert np.allclose(got.astype(np.float32), want.astype(np.float32), atol=1e-3), \
+                (item_idx, layer)
+
+
 def test_collect_rung_4_wrong_batch_size_raises(monkeypatch):
     cap = _tiny_cap(4)
     sites = metric_4.sites_4(7)
@@ -87,6 +120,19 @@ def test_collect_rung_4_wrong_batch_size_raises(monkeypatch):
 
 
 # ---------------------------------------------------------- set tables
+
+def test_non_pythia_refs_4_excludes_pythia():
+    refs = c4.non_pythia_refs_4()
+    assert "ref_pythia_12b" not in refs
+    assert set(refs) == set(battery_4.REFERENCES_4) - {"ref_pythia_12b"}
+    assert len(refs) == 3
+
+
+def test_family_of_traj_4_matches_family_of_key():
+    for traj, want in (("pythia_2.8b", "pythia"), ("olmo2_7b", "olmo2"),
+                       ("smollm3_3b", "smollm3"), ("comma_7b", "comma")):
+        assert c4.family_of_traj_4(traj) == want
+
 
 def test_set_tables_4_shape_dtype():
     n, n_sites, d = 6, 3, 5
@@ -259,6 +305,43 @@ def test_write_load_4_round_trip(tmp_path):
         assert np.array_equal(z["sets"], sets_by_rung[battery_4.RUNGS[0]])
         assert np.array_equal(z["overlap_ref_x"], overlaps_by_rung[battery_4.RUNGS[0]]["ref_x"])
     assert battery_4.unit_complete_4(tmp_path, "test_key")
+
+
+def test_write_load_4_raises_on_sets_reread_mismatch(tmp_path, monkeypatch):
+    # Task 5 mutation harness: a real write always round-trips
+    # correctly, so this defensive check needs an INJECTED corruption
+    # to observe at all -- wrap np.load so the "sets" array it returns
+    # never matches what was written.
+    sets_by_rung = {r: _small_sets() for r in battery_4.RUNGS}
+    align = {r: {} for r in battery_4.RUNGS}
+    real_load = c4.np.load
+
+    class _BadSets:
+        def __init__(self, real_ctx):
+            self._ctx = real_ctx
+        def __enter__(self):
+            self._z = self._ctx.__enter__()
+            return self
+        def __exit__(self, *a):
+            return self._ctx.__exit__(*a)
+        def __getitem__(self, key):
+            if key == "sets":
+                return np.zeros((1, 1, 1), dtype=np.uint16)
+            return self._z[key]
+        @property
+        def files(self):
+            return self._z.files
+
+    def fake_load(path, *a, **kw):
+        return _BadSets(real_load(path, *a, **kw))
+
+    monkeypatch.setattr(c4.np, "load", fake_load)
+    with pytest.raises(ValueError, match="sets re-read mismatch"):
+        c4.write_load_4(tmp_path, "test_key_bad_reread", record_fields=_record_fields(),
+                        sets_by_rung=sets_by_rung, overlaps_by_rung={},
+                        attested_by_rung={r: {} for r in battery_4.RUNGS},
+                        activations_by_rung={}, global_sets=None, align=align,
+                        keep_activations=True)
 
 
 def test_write_load_4_keep_activations_false_leaves_no_activations_dir(tmp_path):

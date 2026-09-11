@@ -516,6 +516,23 @@ def test_unit_complete_4_true_then_false_on_corruption(tmp_path):
     assert b4.unit_complete_4(tmp_path, (traj, step)) is False
 
 
+def test_unit_complete_4_false_when_sets_sha256_under_covers_the_34_rungs(tmp_path):
+    # Task 5 mutation harness: `sets_sha256` missing ONE rung's key
+    # (but that rung's own file still present on disk, with SOME
+    # content) must read incomplete via the coverage check -- not
+    # merely happen to be caught by a missing-file check, which a
+    # `sets_sha256` coverage bypass would not trip.
+    traj, step = "pythia_2.8b", 1000
+    d = b4.unit_dir(tmp_path, traj, step)
+    rungs = list(bt.RUNGS)
+    covered = rungs[1:]   # every rung but rungs[0]
+    sets_sha = {r: _write_npz_like(d / "sets" / f"{r}.npz", f"data-{r}".encode()) for r in covered}
+    _write_npz_like(d / "sets" / f"{rungs[0]}.npz", b"data-uncovered")   # file present, key absent
+    (d / "align.json").write_text("{}")
+    (d / "_load.json").write_text(json.dumps({"sets_sha256": sets_sha}))
+    assert b4.unit_complete_4(tmp_path, (traj, step)) is False
+
+
 def test_unit_complete_4_false_when_missing(tmp_path):
     assert b4.unit_complete_4(tmp_path, ("pythia_2.8b", 999999)) is False
     assert b4.unit_complete_4(tmp_path, "ref_pythia_12b") is False
@@ -551,6 +568,13 @@ def test_gate1_record_4_and_gate1_failures_4_roundtrip():
     g1_bad_digest["digest_equal"] = False
     fails3 = b4.gate1_failures_4(g1_bad_digest, traj="pythia_2.8b")
     assert fails3 and any("digest_equal" in f for f in fails3)
+
+    bad_act = dict(act_equal)
+    bad_act[bt.RUNGS[0]] = False
+    g1_bad_act = dict(g1)
+    g1_bad_act["activation_sha_equal"] = bad_act
+    fails4 = b4.gate1_failures_4(g1_bad_act, traj="pythia_2.8b")
+    assert fails4 and any("activation_sha_equal" in f for f in fails4)
 
 
 def _write_gate1_tree(tmp_path, traj: str, *, sweep_bytes_by_rung, ref_bytes_by_rung,

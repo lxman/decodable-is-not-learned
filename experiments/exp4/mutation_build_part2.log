@@ -1,0 +1,72 @@
+baseline OK (fast pass, [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106] mutants)
+
+[ 39] killed  reference_4 run(): the endpoint digest pin skipped
+[ 40] SURVIVED  reference_4 run(): the first-unit digest pin skipped
+[ 41] killed  reference_4 run(): the init digest pin skipped
+[ 42] SURVIVED  reference_4 run(): eligibility is written even when `only` restricts the run
+[ 43] killed  sweep_4 run(): the reference-seal requirement removed
+[ 44] SURVIVED  sweep_4 run(): the eligibility-record-present requirement removed
+[ 45] killed  sweep_4 run(): the power-record-present requirement removed
+[ 46] killed  sweep_4 run(): the HALTED-for-this-trajectory guard removed
+[ 47] killed  sweep_4 run(): the first unit is not required complete before the rest run
+[ 48] killed  sweep_4 run_gate1(): the endpoint digest pin skipped
+[ 49] killed  sweep_4 run(): the per-step digest pin skipped
+[ 50] killed  T_BAR_4 = 0.25 -> 0.2
+[ 51] killed  ALPHA_4 = 0.01 -> 0.05
+[ 52] killed  MIN_CELLS_4 = 3 -> 1
+[ 53] killed  MIN_RUNGS_4 = 3 -> 1
+[ 54] killed  SE_MULTIPLE_4 = 2.0 -> 1.0 (eligibility at 1x SE, not 2x)
+[ 55] killed  MIN_CLEAR_INDEX_4 = 2 -> 1
+[ 56] killed  GATE0_MIN_FRACTION_4 = 0.90 -> 0.5
+[ 57] killed  cells_4: trend computed over R instead of flat
+[ 58] killed  phi_4: reads x[t_clear_index] instead of x[t_clear_index - 1]
+[ 59] killed  primary_4: sign flips applied per cell, not per rung
+[ 60] killed  primary_4: the bootstrap resamples individual cells, not whole rungs
+[ 61] killed  verdict_tree_4: PARTIAL and UNDETERMINED swapped
+[ 62] killed  verdict_tree_4: the LEADS condition uses OR instead of AND
+[ 63] killed  verdict_tree_4: NO-CONVERGENCE requires both bars low (and instead of or)
+[ 64] killed  _flip_signs: sign values are (1, -2) instead of (+-1)
+[ 65] killed  per_item_alignment_4: the stored overlap is not cross-checked against the re-derivation
+[ 66] killed  gate0_4/_gate0_site_means_4: averaged over references instead of kept per reference
+[ 67] killed  run(): gate 1's attested_sha_equal agreement not required
+[ 68] killed  s2_known_answer_gates_4: 2d's AUC tolerance weakened from 1e-12 to 1e-1
+[ 69] killed  s2_known_answer_gates_4: 2e's AUC tolerance weakened from 1e-12 to 1e-1
+[ 70] killed  cells_4: the eligible flag is not checked, only presence
+[ 71] killed  _compare_eligibility_4: the numeric tolerance weakened from 1e-12 to 1e-1
+[ 72] killed  s1_order_4: concordant/discordant counts swapped
+[ 73] killed  _eligibility_summary_4: counts every R rung, not only the eligible ones
+[ 74] killed  gate0_4: the pass bar compares with > instead of >=
+[ 75] killed  _solve_m: phi* = 0 uses c_r + 1 instead of the disclosed c_r + 3
+[ 76] killed  compute(): eligibility re-derived with the wrong SE multiple (1x instead of SE_MULTIPLE_4)
+[ 77] killed  compute(): the declaration bar reads .5 instead of .75
+[ 78] killed  main(): the ONCE guard (power record exists) removed
+[ 79] killed  run(): totality -- collect_total_4 stripped at line 1502 (frozen_check or battery_4.check_frozen_4...)
+[ 80] killed  run(): totality -- collect_total_4 stripped at line 1509 (lambda: battery_4.require_prereg_4(tag_exists=tag_exists, bl...)
+[ 81] killed  run(): totality -- collect_total_4 stripped at line 1513 (battery_4.manifests_4...)
+[ 82] killed  run(): totality -- collect_total_4 stripped at line 1535 (bt.load_battery...)
+[ 83] killed  run(): totality -- collect_total_4 stripped at line 1536 (bg.load_floors...)
+[ 84] killed  run(): totality -- collect_total_4 stripped at line 1558 (lambda: an2i.require_seal_2i(battery_4.REFERENCE_SEAL_TAG_4,...)
+[ 85] killed  run(): totality -- collect_total_4 stripped at line 1569 (lambda: load_stage_tables_4(root, keys=stage_keys)...)
+[ 86] killed  run(): totality -- collect_total_4 stripped at line 1414 (lambda: _eligibility_summary_4(eligibility)...)
+[ 87] killed  run(): totality -- collect_total_4 stripped at line 1505 (check_imports_4...)
+[ 88] killed  run(): totality -- collect_total_4 stripped at line 1584 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)
+[ 89] killed  run(): totality -- collect_total_4 stripped at line 1591 (lambda traj=traj, ref_tables_g0=ref_tables_g0:...)
+[ 90] killed  run(): totality -- collect_total_4 stripped at line 1608 (lambda: json.loads(elig_path.read_text())...)
+[ 91] killed  run(): totality -- collect_total_4 stripped at line 1623 (lambda: json.loads(power_path.read_text())...)
+[ 92] killed  run(): totality -- collect_total_4 stripped at line 1687 (lambda: cells_4(series_by_traj, rs_available, eligibility)...)
+[ 93] killed  run(): totality -- collect_total_4 stripped at line 1694 (lambda: primary_4(cells, n_boot=n_boot, seed=0)...)
+[ 94] killed  run(): totality -- collect_total_4 stripped at line 1784 (check_imports_4 if imports_pinned else (lambda: None)...)
+[ 95] killed  run(): totality -- collect_total_4 stripped at line 1497 (lambda p=p: p.read_text().strip()[:200]...)
+[ 96] killed  run(): totality -- collect_total_4 stripped at line 1529 (lambda: mkr.check_referents(REFERENTS_PATH_4, sha_pin=refere...)
+[ 97] killed  run(): totality -- collect_total_4 stripped at line 1541 (lambda traj=traj: battery_4.load_outcome_4(traj, battery=bat...)
+[ 98] killed  run(): totality -- collect_total_4 stripped at line 1611 (lambda: eligibility_table_4(root)...)
+[ 99] killed  run(): totality -- collect_total_4 stripped at line 1626 (lambda: _check_power_matches_eligibility_4(power, eligibilit...)
+[100] killed  run(): totality -- collect_total_4 stripped at line 1652 (lambda traj=traj: battery_4.gate1_rederive_4(root, traj)...)
+[101] killed  run(): totality -- collect_total_4 stripped at line 1666 (lambda traj=traj: load_sweep_tables_4(root, traj)...)
+[102] killed  run(): totality -- collect_total_4 stripped at line 1671 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)
+[103] killed  run(): totality -- collect_total_4 stripped at line 1676 (lambda traj=traj, ref_tables=ref_tables, sweep_tables=sweep_...)
+[104] killed  run(): totality -- collect_total_4 stripped at line 1708 (thunk...)
+[105] killed  run(): totality -- collect_total_4 stripped at line 1546 (lambda oc=oc: battery_4.rung_sets_4(oc, floors)...)
+[106] killed  run(): totality -- collect_total_4 stripped at line 1641 (lambda p=g1_path: json.loads(p.read_text())...)
+
+65/68 killed; 3 survivor(s): [(40, 'reference_4 run(): the first-unit digest pin skipped', 'survived'), (42, 'reference_4 run(): eligibility is written even when `only` restricts the run', 'survived'), (44, 'sweep_4 run(): the eligibility-record-present requirement removed', 'survived')]; 0 SKIP (target text not found, stale mutant): []

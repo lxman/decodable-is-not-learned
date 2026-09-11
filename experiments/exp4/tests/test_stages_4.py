@@ -197,6 +197,27 @@ def test_reference_runs_all_23_in_order_and_layout_is_complete(tmp_path, monkeyp
     assert json.loads(battery_4.eligibility_path(tmp_path).read_text()) == {"cells": []}
 
 
+def test_reference_only_restricted_run_never_writes_eligibility(tmp_path, monkeypatch):
+    # Task 5 mutation harness: an `only=`-restricted run must not write
+    # eligibility_4.json (the file's own presence is a "the full 19 +
+    # 4 keys are complete" signal reference_4.py's other callers rely
+    # on -- a partial run must not fake it).
+    _shrink_all_grids(monkeypatch)
+    seeds = _Seeds()
+    _install_digests(monkeypatch, seeds)
+    monkeypatch.setattr("experiments.exp4.run.reference_4.bt.load_battery", _tiny_battery)
+    calls = []
+
+    def eligibility_fn(root):
+        calls.append(root)
+        return {"cells": []}
+
+    rf.run(root=tmp_path, loaders=seeds.loaders(), only="ref_pythia_12b",
+          eligibility_fn=eligibility_fn, **_fake_prereg())
+    assert calls == []
+    assert not battery_4.eligibility_path(tmp_path).is_file()
+
+
 def test_reference_skip_if_complete_is_idempotent(tmp_path, monkeypatch):
     seeds, _ = _run_full_reference(tmp_path, monkeypatch)
     before = battery_4.load_record_path(tmp_path, "ref_pythia_12b").read_text()
@@ -285,6 +306,34 @@ def test_endpoint_digest_mismatch_halts_with_no_record(tmp_path, monkeypatch):
     assert not battery_4.load_record_path(tmp_path, "endpoint_pythia_2.8b").is_file()
 
 
+def test_first_unit_digest_mismatch_halts_with_no_record(tmp_path, monkeypatch):
+    # Task 5 mutation harness: distinct from the endpoint/init digest-
+    # mismatch tests -- STAGE1_FIRST_UNITS_4's OWN digest pin, keyed by
+    # (traj, step), not a reference-stage string key.
+    _shrink_all_grids(monkeypatch)
+    seeds = _Seeds()
+    _install_digests(monkeypatch, seeds)
+    monkeypatch.setattr("experiments.exp4.run.reference_4.bt.load_battery", _tiny_battery)
+
+    for ref in battery_4.REFERENCES_4:
+        rf.run(root=tmp_path, loaders=seeds.loaders(), only=ref, **_fake_prereg())
+    traj = "pythia_2.8b"
+    first_step = battery_4.FIRST_STEP_4[traj]
+    assert not battery_4.unit_complete_4(tmp_path, (traj, first_step))
+
+    def wrong_step_digest(t, s):
+        if t == traj and int(s) == first_step:
+            return "not-the-real-digest"
+        return seeds.step_digest(t, s)
+    monkeypatch.setattr(battery_4, "committed_step_digest_4", wrong_step_digest)
+
+    with pytest.raises(SystemExit) as ei:
+        rf.run(root=tmp_path, loaders=seeds.loaders(), only=traj, **_fake_prereg())
+    assert ei.value.code == 2
+    assert c4.reference_halt_marker_path(tmp_path).is_file()
+    assert not (battery_4.unit_dir(tmp_path, traj, first_step) / "_load.json").is_file()
+
+
 def test_init_twin_digest_mismatch_halts(tmp_path, monkeypatch):
     _shrink_all_grids(monkeypatch)
     seeds = _Seeds()
@@ -340,6 +389,31 @@ def test_sweep_refuses_without_eligibility_or_power(tmp_path, monkeypatch):
     seeds, _ = _run_full_reference(tmp_path, monkeypatch)
     # eligibility/power never written this time
     with pytest.raises(RuntimeError, match="not present"):
+        sw.run(traj="pythia_2.8b", root=tmp_path, loaders=seeds.loaders(), **_fake_auth())
+
+
+def test_sweep_refuses_without_eligibility_specifically(tmp_path, monkeypatch):
+    # Task 5 mutation harness: distinct from the "neither present" case
+    # above -- power PRESENT, eligibility ABSENT, so only the
+    # eligibility check can be what fires. `_run_full_reference` itself
+    # writes eligibility_4.json (its own `eligibility_fn` argument), so
+    # it must be removed again here to get the "eligibility absent"
+    # half of this scenario.
+    seeds, _ = _run_full_reference(tmp_path, monkeypatch)
+    battery_4.eligibility_path(tmp_path).unlink()
+    battery_4.power_path(tmp_path).write_text(json.dumps({"power": 1.0}))
+    assert not battery_4.eligibility_path(tmp_path).is_file()
+    with pytest.raises(RuntimeError, match="eligibility"):
+        sw.run(traj="pythia_2.8b", root=tmp_path, loaders=seeds.loaders(), **_fake_auth())
+
+
+def test_sweep_refuses_without_power_specifically(tmp_path, monkeypatch):
+    # Task 5 mutation harness: eligibility PRESENT, power ABSENT, so
+    # only the power check can be what fires.
+    seeds, _ = _run_full_reference(tmp_path, monkeypatch)
+    battery_4.eligibility_path(tmp_path).write_text(json.dumps({"cells": []}))
+    assert not battery_4.power_path(tmp_path).is_file()
+    with pytest.raises(RuntimeError, match="power"):
         sw.run(traj="pythia_2.8b", root=tmp_path, loaders=seeds.loaders(), **_fake_auth())
 
 

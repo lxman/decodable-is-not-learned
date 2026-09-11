@@ -89,6 +89,30 @@ def test_ties_break_by_ascending_index():
     assert list(S[0]) == [1, 2] and list(S[5]) == [0, 1] and list(S[3]) == [0, 1]
 
 
+def test_chance_4_exact_formula():
+    # Task 5 mutation harness: the tolerance band in
+    # test_independent_features_sit_at_chance is too loose to catch a
+    # denominator off by one (k/n vs k/(n-1) differ by < .1% at
+    # n=500) -- an exact check on the formula itself.
+    assert mt.chance_4(500, 10) == pytest.approx(10 / 499)
+    assert mt.chance_4(500, 10) != pytest.approx(10 / 500)
+    assert mt.chance_4(11, 5) == pytest.approx(0.5)
+
+
+def test_unit_rows_refuses_non_finite_or_zero_rows():
+    # Task 5 mutation harness: no existing test exercised this guard --
+    # knn_sets's own inputs are always finite, non-zero random arrays.
+    X_nan = _rand(n=5, d=4)
+    X_nan[2, 0] = np.nan
+    with pytest.raises(ValueError, match="non-finite or zero"):
+        mt.knn_sets(X_nan, k=2)
+
+    X_zero = _rand(n=5, d=4)
+    X_zero[3, :] = 0.0
+    with pytest.raises(ValueError, match="non-finite or zero"):
+        mt.knn_sets(X_zero, k=2)
+
+
 def test_overlap_counts_and_mean():
     A = np.array([[1, 2, 3], [0, 2, 3]], dtype=np.uint16)
     B = np.array([[1, 2, 5], [4, 5, 6]], dtype=np.uint16)
@@ -131,6 +155,19 @@ def test_planted_calibration_curve_matches_fixture():
     fx = json.loads(FIXTURE.read_text())
     assert fx["curve"] == pytest.approx(curve, abs=1e-9)
     assert fx["levels"] == levels
+
+
+def test_depth_pairs_exact_tie_breaks_to_the_smaller_q():
+    # Task 5 mutation harness: the real (33, 37) shapes never produce
+    # an EXACT tie (the survivor `depth_pairs` mutant that flips
+    # tie-break direction to the larger q passed unnoticed on them), so
+    # a hand-built exact tie is needed. h=2 of dm=4 sits at relative
+    # depth .5, exactly between sites_q=[0, 4] of dq=4 (both at
+    # distance .5) -- the documented rule picks the SMALLER q, 0.
+    assert mt.depth_pairs([2], 5, [0, 4], 5) == [0]
+    # A second, differently-shaped exact tie: h=3 of dm=6 (depth .5)
+    # against sites_q=[0, 6] of dq=6 (both at distance .5).
+    assert mt.depth_pairs([3], 7, [0, 6], 7) == [0]
 
 
 def test_site_family_pins_and_depth_pairs():

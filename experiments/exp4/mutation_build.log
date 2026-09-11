@@ -1,0 +1,39 @@
+baseline OK (fast pass, all mutants)
+
+[  1] killed  K_4 = 10 -> 9
+[  2] killed  knn_sets: self not excluded (fill_diagonal dropped)
+[  3] killed  knn_sets: ties broken by descending index, not ascending
+[  4] killed  overlap_counts: union instead of intersection
+[  5] SURVIVED  chance_4: denominator off by one (n instead of n-1)
+[  6] SURVIVED  depth_pairs: ties broken to the LARGER q (rounding up), not the smaller
+[  7] killed  _hsic_unbiased: t1 uses K + L instead of K * L
+[  8] killed  planted_pair: base normalised by d_latent instead of sqrt(d_latent)
+[  9] killed  sites_4: sorted() dropped (returns an unordered set)
+[ 10] SURVIVED  _unit_rows: the non-finite/zero-row guard disabled
+[ 11] killed  RENDER_4: comma is 'plain' instead of 'bos'
+[ 12] killed  BATCH_4: the 6e9 threshold's batch sizes inverted
+[ 13] killed  load_record_failures_4: the committed_digest pin skipped
+[ 14] killed  load_record_failures_4: the render pin (RENDER_4) unchecked on the record
+[ 15] killed  load_record_failures_4: the family pin skipped
+[ 16] killed  load_record_failures_4: the batch_size pin skipped
+[ 17] killed  load_record_failures_4: the refs pin skipped
+[ 18] killed  load_record_failures_4: the prereg_tag pin skipped
+[ 19] killed  gate1_rederive_4: sets_equal compares 33 rungs, not 34
+[ 20] killed  check_rung_set_pins_4: the R-set comparison against RUNG_SET_PIN_4 skipped
+[ 21] killed  t_clear_4: takes the LAST significant step instead of the first (break removed)
+[ 22] killed  clears_and_stays_4: any() instead of all() (a transient rung reads as clears-and-stays)
+[ 23] killed  rung_sets_4: a rung with a t_clear reads as flat (elif inverted)
+[ 24] killed  require_prereg_4: the tag_exists check skipped
+[ 25] killed  require_prereg_4: the blob-binding equality check skipped
+[ 26] SURVIVED  unit_complete_4: the sets_sha256 34-rung coverage check skipped
+[ 27] SURVIVED  gate1_failures_4: the activation_sha_equal per-rung check skipped
+[ 28] killed  gate1_failures_4: the digest_equal check skipped
+[ 29] killed  _N_HIDDEN_TRAJ_4: smollm3_3b's n_hidden off by one (37 -> 36)
+[ 30] SURVIVED  collect_rung_4: the pooled mean averages over PADDED tokens too (mask dropped)
+[ 31] killed  align_scalars_4: knn_prompt_end means over sites instead of items (wrong axis)
+[ 32] killed  overlap_table_4: the pairing-length check skipped
+[ 33] SURVIVED  non_pythia_refs_4: returns the Pythia reference instead of excluding it
+[ 34] SURVIVED  family_of_traj_4: looks up the raw traj name instead of its endpoint key
+[ 35] SURVIVED  write_load_4: the sets re-read integrity check disabled
+[ 36] killed  write_load_4: the endpoint's activation sha is not recorded before deletion
+[ 37] killed  set_tables_4: site and position axes swapped
