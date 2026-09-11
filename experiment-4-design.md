@@ -5,7 +5,8 @@
 original five-experiment program (`experiments.md` §"Experiment 4:
 Convergence tracks scale (the lens extension)"), never designed until
 now; every other line of the program (1/1b/1c, 2 through 2n, 3a
-through 3e) has closed. §10 DIALS a–s AWAIT MICHAEL'S RULING. No model
+through 3e) has closed. §10 DIALS a–s RULED by Michael 2026-09-10 ("go"): every dial as
+recommended — build and freeze. No model
 contact of any kind has occurred and none is proposed before the tag;
 the Hub has not been read — every checkpoint manifest this design
 needs is already committed by 2g, 2i, 2m and 2n and is reused
@@ -717,7 +718,7 @@ reading. Not about any family, position, site family or metric other
 than those pinned. Not "from below" in any sense: the references are
 released models larger than most trajectory points.
 
-## 10. Dials — AWAITING MICHAEL'S RULING
+## 10. Dials — RULED by Michael 2026-09-10 ("go"): every dial as recommended
 
 - **a. Trajectories:** the four cross-family-scored grids — Pythia
   2.8b (2g), OLMo-2 7B (2i), SmolLM3-3B (2m), Comma v0.1-1T (2n) —
