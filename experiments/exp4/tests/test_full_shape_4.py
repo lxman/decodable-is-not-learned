@@ -59,6 +59,41 @@ def _needle_in_failures(v, needle):
 
 # ---------------------------------------------------------------- terminals
 
+def _assert_every_secondary_and_sensitivity_present(v):
+    # I-5(c): every S1-S11 entry and every sensitivity entry must be a
+    # REAL value, never the `{"failed": ...}` shape `_sec` writes when
+    # `collect_total_4` catches an exception -- a passing LEADS world
+    # is exactly the case where nothing should be silently degraded.
+    for name, entry in (v["secondaries"] or {}).items():
+        assert not (isinstance(entry, dict) and "failed" in entry), (name, entry)
+    for name, entry in (v["sensitivities"] or {}).items():
+        assert not (isinstance(entry, dict) and "failed" in entry), (name, entry)
+
+
+@pytest.mark.slow
+def test_leads_world_reaches_leads(_leads_world):
+    # I-4: the non-xfail half -- verdict, cell count, gate 0/1 PASS on
+    # every trajectory, every secondary/sensitivity a real value. The
+    # strict per-cell phi band (the one known, disclosed gap) is its
+    # own xfail test below so a real assertion failure here can never
+    # be masked by `xfail(strict=True)`.
+    v = an.run(root=_leads_world, **_run_kwargs())
+    assert v["verdict"] == "LEADS", v["reason"]
+    cells = v["cells"]
+    assert len(cells) >= 3
+    for name in ("S1", "S8", "S10", "S11"):
+        assert name in v["secondaries"]
+    assert v["sensitivities"]
+    for traj in battery_4.TRAJECTORIES_4:
+        g0 = v["gate0"][traj]
+        assert g0 is not None and g0["pass"] is True, (traj, g0)
+        g1 = v["gate1"][traj]
+        assert g1 is not None and all(g1["sets_equal"].values()) \
+            and all(g1["activation_sha_equal"].values()) \
+            and all(g1["attested_sha_equal"].values()) and g1["digest_equal"], (traj, g1)
+    _assert_every_secondary_and_sensitivity_present(v)
+
+
 @pytest.mark.slow
 @pytest.mark.xfail(
     reason="KNOWN GAP (see PROGRESS.md 'World verification'): five "
@@ -73,16 +108,11 @@ def _needle_in_failures(v, needle):
     "closes the gap, exactly as happened for the UNDETERMINED world.",
     strict=True,
 )
-def test_leads_world_reaches_leads_with_every_cell_phi_in_band(_leads_world):
+def test_leads_world_every_cell_phi_in_band(_leads_world):
     v = an.run(root=_leads_world, **_run_kwargs())
     assert v["verdict"] == "LEADS", v["reason"]
-    cells = v["cells"]
-    assert len(cells) >= 3
-    for c in cells:
+    for c in v["cells"]:
         assert 0.4 < c["phi"] < 0.8, c
-    for name in ("S1", "S8", "S10", "S11"):
-        assert name in v["secondaries"]
-    assert v["sensitivities"]
 
 
 @pytest.mark.slow
@@ -174,6 +204,85 @@ def test_missing_route_gives_insufficient_data(missing, _leads_world, tmp_path):
     v = an.run(root=root, **_run_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA", (missing, v["reason"])
     assert _needle_in_failures(v, needle), (missing, v["reason"], v["referents"]["failures"])
+
+
+# ------------------------------------------------------------- I-1 totality
+
+@pytest.mark.slow
+def test_gate1_json_as_a_list_gives_insufficient_data(_leads_world, tmp_path):
+    # I-1: `battery_4.gate1_failures_4(g1_att, ...)` must not RAISE on
+    # a malformed gate1.json (a list, not a dict) -- `collect_total_4`
+    # catches it and the tree lands INSUFFICIENT_DATA, not a crash.
+    root = _fresh_copy(_leads_world, tmp_path)
+    battery_4.gate1_path(root, "pythia_2.8b").write_text(json.dumps([1, 2, 3]))
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "gate 1 pythia_2.8b")
+
+
+@pytest.mark.slow
+def test_power_record_as_a_scalar_gives_insufficient_data(_leads_world, tmp_path):
+    # I-1: `_check_power_matches_eligibility_4(power, ...)` must not
+    # RAISE on a scalar power record.
+    root = _fresh_copy(_leads_world, tmp_path)
+    battery_4.power_path(root).write_text(json.dumps(42))
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "power")
+
+
+@pytest.mark.slow
+def test_eligibility_record_as_a_list_gives_insufficient_data(_leads_world, tmp_path):
+    # I-1: `_eligibility_summary_4(eligibility)` inside `verdict_4`
+    # must not RAISE on a malformed (list) eligibility file -- it
+    # fires AFTER the comparison step already recorded its own
+    # disagreement failure, and previously threw that INSUFFICIENT_
+    # DATA away with an unhandled AttributeError.
+    root = _fresh_copy(_leads_world, tmp_path)
+    battery_4.eligibility_path(root).write_text(json.dumps([1, 2, 3]))
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "eligibility")
+
+
+# ------------------------------------------------------------------- I-8
+
+@pytest.mark.slow
+def test_referent_manifest_pin_hook_runs_the_real_check(_leads_world, tmp_path, monkeypatch):
+    # I-8: when referents_sha is a string, run() must actually CALL a
+    # referent-manifest checker (lazily imported as `experiments.exp4.
+    # make_referents_4`), not merely assume "pinned" from the sha's
+    # mere presence -- `pins_active["referent_manifest"]` reflects
+    # whether that check ran AND passed.
+    import sys
+    import types
+    root = _fresh_copy(_leads_world, tmp_path)
+    kwargs = dict(_run_kwargs())
+    kwargs["referents_sha"] = "a" * 64
+
+    calls = []
+    stub_pass = types.ModuleType("experiments.exp4.make_referents_4")
+
+    def check_referents_pass(path, *, sha_pin):
+        calls.append((path, sha_pin))
+        return {"ok": True}
+    stub_pass.check_referents = check_referents_pass
+    monkeypatch.setitem(sys.modules, "experiments.exp4.make_referents_4", stub_pass)
+
+    v = an.run(root=root, **kwargs)
+    assert calls == [(an.REFERENTS_PATH_4, "a" * 64)]
+    assert v["pins_active"]["referent_manifest"] is True
+
+    stub_fail = types.ModuleType("experiments.exp4.make_referents_4")
+
+    def check_referents_fail(path, *, sha_pin):
+        raise ValueError("referent manifest sha mismatch")
+    stub_fail.check_referents = check_referents_fail
+    monkeypatch.setitem(sys.modules, "experiments.exp4.make_referents_4", stub_fail)
+
+    v2 = an.run(root=root, **kwargs)
+    assert v2["pins_active"]["referent_manifest"] is False
+    assert _needle_in_failures(v2, "referent manifest")
 
 
 # --------------------------------------------------------- secondaries/JSON

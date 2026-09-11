@@ -70,9 +70,11 @@ MIN_CELLS_4 = 3
 MIN_RUNGS_4 = 3
 SE_MULTIPLE_4 = 2.0
 MIN_CLEAR_INDEX_4 = 2
+GATE0_MIN_FRACTION_4 = 0.90
 
 REFERENTS_4_SHA256 = None    # Task 5
 IMPORTED_SHA256_4 = None     # Task 5
+REFERENTS_PATH_4 = EXP4 / "referents_4.json"   # Task 5 writes this file
 
 KNOWN_OUTCOME_CAVEAT_4 = (
     "whatever fires is a preregistered reading on a known outcome, not a forecast"
@@ -235,8 +237,11 @@ def _read_sets_and_overlaps(d: Path, rec: dict):
             sets_by_rung[rung] = sets
             for ref in refs:
                 name = f"overlap_{ref}"
-                if name in z.files:
-                    overlaps_by_ref[ref][rung] = np.asarray(z[name])
+                if name not in z.files:
+                    raise ValueError(f"{d}/{rung}: {name} missing — a unit whose record "
+                                     f"lists refs {refs!r} must carry one overlap_<ref> "
+                                     f"array per (ref, rung)")
+                overlaps_by_ref[ref][rung] = np.asarray(z[name])
     if set(sets_by_rung) != set(battery_4.RUNGS):
         raise ValueError(f"{d}: unit short — missing "
                          f"{sorted(set(battery_4.RUNGS) - set(sets_by_rung))}")
@@ -256,6 +261,10 @@ def _load_one_unit_4(root, key) -> dict:
         expected_refs=exp["refs"], root=root)
     if bad:
         raise ValueError(f"{key}: {bad}")
+    if set(rec.get("sets_sha256") or {}) != set(battery_4.RUNGS):
+        raise ValueError(f"{key}: sets_sha256 covers "
+                         f"{sorted(set(rec.get('sets_sha256') or {}))} — unit short "
+                         f"(need all {len(battery_4.RUNGS)} rungs)")
     if rec.get("n_hidden") != exp["n_hidden"]:
         raise ValueError(f"{key}: n_hidden {rec.get('n_hidden')!r} != pinned {exp['n_hidden']}")
     want_sites = metric_4.sites_4(exp["n_hidden"])
@@ -307,6 +316,51 @@ def per_item_alignment_4(tables_m: dict, ref_tables: dict, pairing_by_ref: dict)
         stacked = np.stack(per_ref, axis=0)          # [n_refs, n_sites, 500]
         out[rung] = stacked.mean(axis=(0, 1))
     return out
+
+
+def _gate0_site_means_4(tables: dict, ref_tables: dict, pairing_by_ref: dict) -> dict:
+    """`{rung: float64[n_sites]}` = mean over refs AND items (sites
+    KEPT separate) of overlap/k, re-derived via `metric_4.
+    overlap_counts` — the per-(rung, site) granularity gate 0 needs,
+    at the prompt-end position (the committed `sets` are always
+    prompt-end, per Task 3's storage convention)."""
+    sets_m = tables["sets"]
+    out = {}
+    for rung in battery_4.RUNGS:
+        sm = sets_m[rung]
+        per_ref = []
+        for ref, pairing in pairing_by_ref.items():
+            sq = ref_tables[ref][rung]
+            ov = collect_4.overlap_table_4(sm, sq, pairing)      # [n_sites, 500] uint8
+            per_ref.append(ov.astype(np.float64) / metric_4.K_4)
+        stacked = np.stack(per_ref, axis=0)          # [n_refs, n_sites, 500]
+        out[rung] = stacked.mean(axis=(0, 2))         # mean over refs AND items -> [n_sites]
+    return out
+
+
+def gate0_4(root, traj: str, ref_tables: dict, stage_tables: dict) -> dict:
+    """Design §3.7 gate 0 — the instrument sees training: re-derived
+    from the committed set tables of `INIT_KEY_4[traj]` (the seeded
+    twin) and `endpoint_<traj>` (both already loaded in `stage_tables`
+    — both are `STAGE1_KEYS_4` members). For every (rung, site) at the
+    prompt-end position, `fraction_below` = the twin's mean-over-refs
+    overlap fraction strictly below the endpoint's; passes iff that
+    fraction is >= `GATE0_MIN_FRACTION_4` (0.90)."""
+    twin_key = battery_4.INIT_KEY_4[traj]
+    endpoint_key = f"endpoint_{traj}"
+    twin_tables = stage_tables[twin_key]
+    endpoint_tables = stage_tables[endpoint_key]
+    twin_site = _gate0_site_means_4(twin_tables, ref_tables, twin_tables["record"]["pairing"])
+    endpoint_site = _gate0_site_means_4(endpoint_tables, ref_tables,
+                                        endpoint_tables["record"]["pairing"])
+    below, total = 0, 0
+    for rung in battery_4.RUNGS:
+        tw, ep = twin_site[rung], endpoint_site[rung]
+        below += int(np.sum(tw < ep))
+        total += tw.shape[0]
+    fraction_below = (below / total) if total else 0.0
+    return {"fraction_below": float(fraction_below), "n_cells": int(total),
+           "pass": bool(fraction_below >= GATE0_MIN_FRACTION_4)}
 
 
 def alignment_series_4(root, traj: str, ref_tables: dict, stage_tables: dict) -> dict:
@@ -624,51 +678,62 @@ def s1_order_4(series_by_traj, rung_sets_by_traj, *, frac=0.5) -> dict:
         if d_val is not None:
             ds.append(d_val)
     pooled = float(np.mean(ds)) if ds else None
-    return {"pooled_d": pooled, "per_traj": per_traj, "no_alpha_claim": True}
+    return {"pooled_d": pooled, "per_traj": per_traj, "source": "re-derived", "no_alpha_claim": True}
 
 
 def s2_from_below_4(root) -> dict:
-    """x_r at Pythia 1b `main` against the three non-Pythia references,
-    with the Pythia ladder's flat pool (2d's own flat rungs) as trend,
-    as the predictor in 2d's rung-level primary — AUC rising vs flat
-    over the 34 rungs; 2d's bars printed for comparison, not applied."""
+    """The design §3.5 two-point excess: x_r(1b) = (a_r(1b) -
+    a_r(70m)) - (trend(1b) - trend(70m)), trend = the Pythia ladder's
+    23 flat rungs (2d's own flat rungs), a_r at Pythia's 1b/70m `main`
+    against the three non-Pythia references — as the predictor in 2d's
+    rung-level primary — AUC rising vs flat over the 34 rungs; 2d's
+    bars printed for comparison, not applied."""
     non_pythia = collect_4.non_pythia_refs_4()
     ref_tables = {ref: rt["sets"] for ref, rt in
                  collect_4.load_ref_tables_4(root, non_pythia).items()}
     unit_1b = _load_one_unit_4(root, "ladder_pythia_1b")
-    pia = per_item_alignment_4(unit_1b, ref_tables, unit_1b["record"]["pairing"])
-    a = {r: float(pia[r].mean()) for r in bt.RUNGS}
+    unit_70m = _load_one_unit_4(root, "ladder_pythia_70m")
+    pia_1b = per_item_alignment_4(unit_1b, ref_tables, unit_1b["record"]["pairing"])
+    pia_70m = per_item_alignment_4(unit_70m, ref_tables, unit_70m["record"]["pairing"])
+    a_1b = {r: float(pia_1b[r].mean()) for r in bt.RUNGS}
+    a_70m = {r: float(pia_70m[r].mean()) for r in bt.RUNGS}
 
     v2d = json.loads((a2d.EXP2D / "results" / "verdict.json").read_bytes())
     rising = {r: bool(v2d["per_rung"][r]["rising"]) for r in bt.RUNGS}
     flat_rungs = [r for r in bt.RUNGS if not rising[r]]
-    trend = float(np.mean([a[r] for r in flat_rungs])) if flat_rungs else 0.0
-    x = a2d._family_contiguous({r: a[r] - trend for r in bt.RUNGS})
+    trend_1b = float(np.mean([a_1b[r] for r in flat_rungs])) if flat_rungs else 0.0
+    trend_70m = float(np.mean([a_70m[r] for r in flat_rungs])) if flat_rungs else 0.0
+    x_r = {r: (a_1b[r] - a_70m[r]) - (trend_1b - trend_70m) for r in bt.RUNGS}
+    x = a2d._family_contiguous(x_r)
     y = a2d._family_contiguous({r: int(rising[r]) for r in bt.RUNGS})
     fams = [bt.FAMILY_OF[r] for r in bt.RUNGS]
     res = st.primary_test(x, y, bt.FAMILY_SIZES, fams)
     return {"auc": res["auc"], "block_p": res["block"]["p"], "ci95": res["bootstrap"]["ci"],
            "bar_2d_sampled": 0.5454545454545454, "bar_2d_floor_adjusted": 0.6126482213438735,
-           "no_alpha_claim": True}
+           "source": "re-derived", "no_alpha_claim": True}
 
 
 def s2_per_trajectory_4(series_by_traj, rung_sets_by_traj) -> dict:
-    """The same at each trajectory's second grid point (t_2) against
-    rising-vs-flat at M's own endpoint."""
+    """The design §3.5 two-point excess at each trajectory's own first
+    two grid points: x_r(t2) = (a_r(t2) - a_r(t1)) - (trend(t2) -
+    trend(t1)), trend = M's own flat rungs, against rising-vs-flat at
+    M's own endpoint (rs["R"])."""
     out = {}
     for traj, rs in rung_sets_by_traj.items():
         series = series_by_traj.get(traj)
         if series is None or len(series["steps"]) < 2:
             out[traj] = None
             continue
+        a_t1 = {r: series["a"][r][0] for r in bt.RUNGS}
         a_t2 = {r: series["a"][r][1] for r in bt.RUNGS}
         flat = rs["flat"]
         if not flat:
             out[traj] = None
             continue
+        trend_t1 = float(np.mean([a_t1[r] for r in flat]))
         trend_t2 = float(np.mean([a_t2[r] for r in flat]))
         elig_rungs = sorted(set(rs["R"]) | set(flat))
-        x = np.array([a_t2[r] - trend_t2 for r in elig_rungs])
+        x = np.array([(a_t2[r] - a_t1[r]) - (trend_t2 - trend_t1) for r in elig_rungs])
         y = np.array([1 if r in rs["R"] else 0 for r in elig_rungs])
         auc = None
         if (y == 1).any() and (y == 0).any():
@@ -676,7 +741,8 @@ def s2_per_trajectory_4(series_by_traj, rung_sets_by_traj) -> dict:
                 auc = st.auc(x, y)
             except ValueError:
                 auc = None
-        out[traj] = {"auc": auc, "n_rising": int((y == 1).sum()), "n_flat": int((y == 0).sum())}
+        out[traj] = {"auc": auc, "n_rising": int((y == 1).sum()), "n_flat": int((y == 0).sum()),
+                    "source": "re-derived", "no_alpha_claim": True}
     return out
 
 
@@ -694,16 +760,38 @@ def s3_scale_4(root) -> dict:
     'not available' when `global.npz` was not committed for a key —
     disclosed rather than silently omitted)."""
     non_pythia = collect_4.non_pythia_refs_4()
-    ref_tables = {ref: rt["sets"] for ref, rt in
-                 collect_4.load_ref_tables_4(root, non_pythia).items()}
+    ref_tables_raw = collect_4.load_ref_tables_4(root, non_pythia)
+    ref_tables = {ref: rt["sets"] for ref, rt in ref_tables_raw.items()}
     sizes = battery_4.LADDER_SIZES_4
     a_by_size = {}
     units = {}
+    pairings = {}
     for size in sizes:
         key = "ref_pythia_12b" if size == "12b" else f"ladder_pythia_{size}"
         unit = _load_one_unit_4(root, key)
         units[size] = (key, unit)
-        pia = per_item_alignment_4(unit, ref_tables, unit["record"]["pairing"])
+        pairing_by_ref = unit["record"]["pairing"]
+        if not pairing_by_ref:
+            # A reference-stage key (e.g. ref_pythia_12b, "12b" on
+            # this axis) is written with refs=() -- its OWN record
+            # carries no pairing against the non-Pythia references.
+            # Re-derive it directly, the same way S8's within-family
+            # reading does; without this, `per_item_alignment_4` was
+            # handed an empty pairing dict and `np.stack([])` on zero
+            # per-ref arrays raised "need at least one array to
+            # stack" -- a real, pre-existing crash on ANY tree (not
+            # only synthetic worlds), never caught before because no
+            # test checked S3's actual VALUE, only that the key
+            # existed in `secondaries`.
+            sites_u, n_hidden_u = unit["record"]["sites"], unit["record"]["n_hidden"]
+            pairing_by_ref = {
+                ref: collect_4._pairing_positions(sites_u, n_hidden_u,
+                                                  ref_tables_raw[ref]["sites"],
+                                                  ref_tables_raw[ref]["n_hidden"])
+                for ref in non_pythia
+            }
+        pairings[size] = pairing_by_ref
+        pia = per_item_alignment_4(unit, ref_tables, pairing_by_ref)
         a_by_size[size] = {r: float(pia[r].mean()) for r in bt.RUNGS}
     logp = np.array([np.log(battery_4.PYTHIA_PARAMS_4[s]) for s in sizes])
     per_rung = {}
@@ -721,7 +809,7 @@ def s3_scale_4(root) -> dict:
         for size in sizes:
             key, unit = units[size]
             g = _load_global(root, key)
-            pairing = unit["record"]["pairing"]
+            pairing = pairings[size]
             vals = []
             for ref in non_pythia:
                 ov = collect_4.overlap_table_4(g, refs_global[ref], pairing[ref])
@@ -734,7 +822,7 @@ def s3_scale_4(root) -> dict:
         global_reading = {"available": False,
                           "note": "global.npz not committed for one or more ladder keys"}
     return {"per_rung": per_rung, "sizes": list(sizes), "global": global_reading,
-           "no_alpha_claim": True}
+           "source": "re-derived", "no_alpha_claim": True}
 
 
 def _argmax_correct_4(root_2d, size, rung):
@@ -751,14 +839,20 @@ def _m4_count_4(size, rung):
     return bg.load_m4_counts(size, rungs=(rung,))[rung]
 
 
+AXIS_SIZES_4 = ("70m", "410m", "1b", "2.8b", "6.9b", "12b")   # I-3: the outcome axis only
+
+
 def s4_size_axis_4(s3_result) -> dict:
     """The size-axis pre-clear fraction over the 11 rising Pythia-
-    ladder rungs, outcome sizes (410m, 1b, 2.8b, 6.9b, 12b), 70m as
-    t_1, the 23 flat rungs as trend."""
+    ladder rungs, on the six-point OUTCOME axis {70m, 410m, 1b, 2.8b,
+    6.9b, 12b} (t_1 = 70m; 160m and 1.4b are S3-curve-only points, not
+    part of this axis, so a rung first clearing at 410m has index 1
+    and is excluded by MIN_CLEAR_INDEX_4, and a rung first clearing at
+    2.8b reads t_minus = 1b), the 23 flat rungs as trend."""
     v2d = json.loads((a2d.EXP2D / "results" / "verdict.json").read_bytes())
     rising_2d = [r for r in bt.RUNGS if v2d["per_rung"][r]["rising"]]
     flat_2d = [r for r in bt.RUNGS if not v2d["per_rung"][r]["rising"]]
-    sizes = list(battery_4.LADDER_SIZES_4)
+    sizes = list(AXIS_SIZES_4)
     a = {r: [s3_result["per_rung"][r]["a_by_size"][s] for s in sizes] for r in bt.RUNGS}
     trend = trend_4(a, flat_2d, sizes)
     excess = excess_4(a, trend, sizes)
@@ -779,14 +873,19 @@ def s4_size_axis_4(s3_result) -> dict:
         tci = sizes.index(first_clear_size)
         per_rung[r] = {"phi": phi_4(excess[r], tci), "first_clear_size": first_clear_size,
                        "t_clear_index": tci, "x_end": excess[r][-1]}
-    return {"per_rung": per_rung, "sizes": sizes, "no_alpha_claim": True}
+    return {"per_rung": per_rung, "sizes": sizes, "source": "re-derived", "no_alpha_claim": True}
 
 
 def s5_site_sensitivities_4(root, traj, rung_sets, eligibility_R) -> dict:
     """(a) max over all site pairs, (b) the single site with the
     largest endpoint excess read along the trajectory, (c) the final
     layer only — all from the per-site data `align.json` already
-    carries."""
+    carries. The three parts are computed INDEPENDENTLY (I-5): (a)'s
+    attested `knn_max_over_pairs_prompt_end` reading is `None` on any
+    unit built with `compute_max_pairs=False` (most sweep units, per
+    the worlds' own construction) — that degrades ONLY part (a) to
+    `{"available": False}`, never the whole function to a `failed`
+    entry; (b)/(c) read `knn_prompt_end`, which is always populated."""
     steps = list(battery_4.GRID_4[traj])
     refs = battery_4.REFS_FOR_4[traj]
     align_by_step = _align_by_step_4(root, traj, steps)
@@ -802,27 +901,44 @@ def s5_site_sensitivities_4(root, traj, rung_sets, eligibility_R) -> dict:
         return out
 
     def series_max_pairs(rung):
-        return [float(np.mean([align_by_step[s][rung][ref]["knn_max_over_pairs_prompt_end"]
-                              for ref in refs])) for s in steps]
+        vals = []
+        for s in steps:
+            per_ref = [align_by_step[s][rung][ref].get("knn_max_over_pairs_prompt_end")
+                      for ref in refs]
+            if any(v is None for v in per_ref):
+                return None
+            vals.append(float(np.mean(per_ref)))
+        return vals
 
     flat = rung_sets["flat"]
-    flat_max = {r: series_max_pairs(r) for r in flat}
     flat_site = {r: series_per_site(r) for r in flat}
-    trend_max = trend_4(flat_max, flat, steps) if flat else [0.0] * len(steps)
     trend_final = (trend_4({r: flat_site[r][-1, :].tolist() for r in flat}, flat, steps)
                   if flat else [0.0] * len(steps))
     trend_site_arr = (np.mean([flat_site[r] for r in flat], axis=0) if flat
                       else np.zeros((n_sites, len(steps))))
 
-    out = {"max_over_pairs": {}, "best_site": {}, "final_layer": {}}
+    flat_max = {r: series_max_pairs(r) for r in flat} if flat else {}
+    max_pairs_available = bool(flat) and all(v is not None for v in flat_max.values())
+    trend_max = trend_4(flat_max, flat, steps) if max_pairs_available else None
+
+    out = {"max_over_pairs": {}, "best_site": {}, "final_layer": {},
+          "source": "attested", "no_alpha_claim": True}
     for rung in rung_sets["R"]:
         e = eligibility_R.get(rung)
         if not e or not e.get("eligible"):
             continue
         tci = e["t_clear_index"]
-        a_max_r = series_max_pairs(rung)
-        x_max = excess_4({rung: a_max_r}, trend_max, steps)[rung]
-        out["max_over_pairs"][rung] = {"phi": phi_4(x_max, tci), "x_end": x_max[-1]}
+
+        if max_pairs_available:
+            a_max_r = series_max_pairs(rung)
+            if a_max_r is None:
+                out["max_over_pairs"][rung] = {"available": False}
+            else:
+                x_max = excess_4({rung: a_max_r}, trend_max, steps)[rung]
+                out["max_over_pairs"][rung] = {"available": True, "phi": phi_4(x_max, tci),
+                                               "x_end": x_max[-1]}
+        else:
+            out["max_over_pairs"][rung] = {"available": False}
 
         site_r = series_per_site(rung)
         a_final_r = site_r[-1, :].tolist()
@@ -853,7 +969,7 @@ def s6_question_end_4(root, traj, rung_sets, eligibility_R) -> dict:
     flat = rung_sets["flat"]
     a_flat = {r: v for r, v in ((r, series(r)) for r in flat) if v is not None}
     if not a_flat:
-        return {"available": False}
+        return {"available": False, "source": "attested", "no_alpha_claim": True}
     trend = trend_4(a_flat, list(a_flat), steps)
     out = {}
     for rung in rung_sets["R"]:
@@ -866,7 +982,7 @@ def s6_question_end_4(root, traj, rung_sets, eligibility_R) -> dict:
             continue
         x = excess_4({rung: a_r}, trend, steps)[rung]
         out[rung] = {"phi": phi_4(x, e["t_clear_index"]), "x_end": x[-1]}
-    return {"available": True, "per_rung": out}
+    return {"available": True, "per_rung": out, "source": "attested", "no_alpha_claim": True}
 
 
 def s7_huh_construction_4(root, traj, rung_sets, eligibility_R) -> dict:
@@ -904,7 +1020,8 @@ def s7_huh_construction_4(root, traj, rung_sets, eligibility_R) -> dict:
             per_rung[rung] = {"phi": phi_4(x, e["t_clear_index"]), "x_end": x[-1]}
     return {"per_rung": per_rung, "global_bank": None,
            "note": "pooled global bank not committed by this build (Task 3 stores the "
-                   "prompt-end position's global bank only)", "no_alpha_claim": True}
+                   "prompt-end position's global bank only)",
+           "source": "attested", "no_alpha_claim": True}
 
 
 def s8_referents_4(root, series_by_traj) -> dict:
@@ -929,23 +1046,27 @@ def s8_referents_4(root, series_by_traj) -> dict:
         ceiling[ref] = {r: {o: float(np.mean(align[r][o]["knn_prompt_end"]))
                             for o in align[r]} for r in bt.RUNGS}
 
-    within = {}
+    # M-6: one `_load_one_unit_4` per STEP (it reads all 34 rungs'
+    # sets in one call), not one per (rung, step) -- the original
+    # rung-outer loop called it 34x per step, redundantly reloading
+    # the same unit's bytes 34 times.
+    within = {r: [] for r in bt.RUNGS}
     traj, ref = "pythia_2.8b", "ref_pythia_12b"
     ref_tables_pyt = collect_4.load_ref_tables_4(root, (ref,))[ref]
     ref_sets = ref_tables_pyt["sets"]
     ref_rec = json.loads((battery_4.reference_dir(root, ref) / "_load.json").read_text())
     steps = battery_4.GRID_4[traj]
-    for r in bt.RUNGS:
-        vals = []
-        for s in steps:
-            unit = _load_one_unit_4(root, (traj, s))
-            sites, n_hidden = unit["record"]["sites"], unit["record"]["n_hidden"]
-            pairing = collect_4._pairing_positions(sites, n_hidden, ref_rec["sites"],
-                                                   ref_rec["n_hidden"])
+    for s in steps:
+        unit = _load_one_unit_4(root, (traj, s))
+        sites, n_hidden = unit["record"]["sites"], unit["record"]["n_hidden"]
+        pairing = collect_4._pairing_positions(sites, n_hidden, ref_rec["sites"],
+                                               ref_rec["n_hidden"])
+        for r in bt.RUNGS:
             ov = collect_4.overlap_table_4(unit["sets"][r], ref_sets[r], pairing)
-            vals.append(float((ov.astype(np.float64) / metric_4.K_4).mean()))
-        within[r] = vals
-    return {"twins": twins, "ceiling": ceiling, "within_family": {"steps": list(steps), "a": within},
+            within[r].append(float((ov.astype(np.float64) / metric_4.K_4).mean()))
+    return {"twins": twins, "twins_source": "re-derived",
+           "ceiling": ceiling, "ceiling_source": "attested",
+           "within_family": {"steps": list(steps), "a": within}, "within_family_source": "re-derived",
            "no_alpha_claim": True}
 
 
@@ -967,7 +1088,8 @@ def s9_cka_4(root) -> dict:
                             else [c for c in cka if c is not None] or None)
             per_rung[r] = vals
         out[traj] = per_rung
-    return {"per_traj": out, "scope": "endpoints and references only", "no_alpha_claim": True}
+    return {"per_traj": out, "scope": "endpoints and references only",
+           "source": "attested", "no_alpha_claim": True}
 
 
 def k_sensitivity_4(root, k) -> dict:
@@ -1024,7 +1146,7 @@ def k_sensitivity_4(root, k) -> dict:
                 per_rung[rung] = float(np.mean(vals))
         out[traj] = per_rung if per_rung else None
     return {"per_traj_endpoint": out, "k": k, "scope": "endpoints and references only",
-           "no_alpha_claim": True}
+           "source": "re-derived", "no_alpha_claim": True}
 
 
 def s10_item_grain_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
@@ -1034,14 +1156,21 @@ def s10_item_grain_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
     battery = bt.load_battery()
     pred2g = pr.load_predictor(bg.predictor_path(bg.EXP2G), sha_pin=bh.PREDICTOR_2G_SHA)
     strata_table = sg.from_json(pred2g["strata"])
+    outcome_cache: dict = {}   # M-6: one load_outcome_4 per trajectory, not per cell
     out = {}
     for c in cells:
         traj, rung, t_minus = c["traj"], c["rung"], c["t_minus"]
-        outcome = battery_4.load_outcome_4(traj, battery=battery)
+        if traj not in outcome_cache:
+            outcome_cache[traj] = battery_4.load_outcome_4(traj, battery=battery)
+        outcome = outcome_cache[traj]
         per_item = series_by_traj[traj]["per_item"][t_minus]
         flat_rungs = rung_sets_by_traj[traj]["flat"]
-        flat_vals = (np.mean([per_item[fr] for fr in flat_rungs], axis=0) if flat_rungs
-                    else np.zeros(bt.N_ITEMS))
+        # M-4 (ruling): the flat-pool expectation is the SCALAR mean
+        # over ALL flat rungs and ALL their items of o_i(t_minus) --
+        # not a position-wise (per-item) vector -- subtracted from
+        # every one of rung r's per-item overlaps alike.
+        flat_vals = (float(np.mean([per_item[fr] for fr in flat_rungs])) if flat_rungs
+                    else 0.0)
         x = per_item[rung] - flat_vals
         y = np.array([sum(outcome["per_step"][s]["rungs"][rung]["bits"][i]
                           for s in outcome["steps"]) for i in range(bt.N_ITEMS)], dtype=float)
@@ -1051,12 +1180,26 @@ def s10_item_grain_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
             strata = ["0"] * bt.N_ITEMS
         res = sg2.somers_d_within(x, y, strata)
         out[f"{traj}/{rung}"] = {"d": res["d"], "n_pairs": res["n_pairs"], "n": res["n"]}
-    return {"per_cell": out, "no_alpha_claim": True}
+    return {"per_cell": out, "source": "re-derived", "no_alpha_claim": True}
 
 
 def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
     battery = bt.load_battery()
     floors = bg.load_floors()
+    bar_count_cache: dict = {}
+
+    def bar_count(rung, floor):
+        # M-5 (ruling): the bar COUNT is the smallest k in 0..500 for
+        # which `stats_2d.binomial_bar(k, 500, floor)["significant"]`
+        # -- a linear search, memoised per rung.
+        if rung not in bar_count_cache:
+            k = 0
+            while k <= bt.N_ITEMS and not st.binomial_bar(k, bt.N_ITEMS, floor)["significant"]:
+                k += 1
+            bar_count_cache[rung] = min(k, bt.N_ITEMS)
+        return bar_count_cache[rung]
+
+    outcome_cache: dict = {}   # M-6: one load_outcome_4 per trajectory, not per cell
     per_cell = {}
     for c in cells:
         traj, rung = c["traj"], c["rung"]
@@ -1068,15 +1211,19 @@ def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
         largest_i = int(np.argmax(diffs)) if len(diffs) else None
         largest_step = steps[largest_i + 1] if largest_i is not None else None
         non_monotone = int(np.sum(diffs < -1e-12))
-        outcome = battery_4.load_outcome_4(traj, battery=battery)
+        if traj not in outcome_cache:
+            outcome_cache[traj] = battery_4.load_outcome_4(traj, battery=battery)
+        outcome = outcome_cache[traj]
         rec = outcome["per_step"][c["t_minus"]]["rungs"][rung]
         rate = rec["correct"] / rec["n"]
         floor = floors[rung]
+        bc = bar_count(rung, floor)
         per_cell[f"{traj}/{rung}"] = {
             "largest_step": largest_step, "coincides_with_t_clear": largest_step == c["t_clear"],
             "non_monotone_count": non_monotone, "excess_series": excess,
             "rate_at_t_minus": rate, "floor": floor,
-            "rate_over_floor_at_t_minus": (rate / floor) if floor else None,
+            "correct_at_t_minus": rec["correct"], "bar_count": bc,
+            "count_fraction_of_bar_at_t_minus": (rec["correct"] / bc) if bc else None,
         }
     transient_series, trend_shapes, steps_by_traj = {}, {}, {}
     for traj, rs in rung_sets_by_traj.items():
@@ -1092,7 +1239,7 @@ def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
     return {"per_cell": per_cell, "transient_series": transient_series,
            "trend_shapes": trend_shapes, "steps_by_traj": steps_by_traj,
            "note": "grid values are training steps, not token counts (a token-per-step "
-                   "conversion was not built)", "no_alpha_claim": True}
+                   "conversion was not built)", "source": "re-derived", "no_alpha_claim": True}
 
 
 # ---------------------------------------------------------------- verdict
@@ -1182,8 +1329,25 @@ def _json_rung_sets_4(rung_sets_by_traj) -> dict:
 
 
 def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj, gate1_records,
-             secondaries, sensitivities, pins_active, n_boot) -> dict:
+             gate0_records=None, secondaries, sensitivities, pins_active, n_boot) -> dict:
     world = tree["verdict"]
+    failures = list(failures)
+    # I-1: a malformed eligibility file (e.g. a list, not a dict) must
+    # not crash the whole packaging step and throw away a verdict the
+    # tree already correctly decided (e.g. INSUFFICIENT_DATA from an
+    # earlier comparison failure) — `tree`/`reason` above are already
+    # fixed from the caller's own `failures` snapshot, so a late
+    # failure here only ever reaches `referents.failures`.
+    elig_summary = None
+    if eligibility:
+        elig_summary, f = collect_total_4(lambda: _eligibility_summary_4(eligibility),
+                                          "4 eligibility summary")
+        failures += f
+    gate0_summary = None
+    if gate0_records:
+        gate0_summary = {t: ({"fraction_below": g["fraction_below"], "n_cells": g["n_cells"],
+                             "pass": g["pass"]} if g else None)
+                         for t, g in gate0_records.items()}
     return {
         "verdict": world,
         "reason": tree["reason"],
@@ -1191,9 +1355,10 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
         "licensed_sentence": LICENSED_4[world],
         "primary": primary,
         "cells": cells,
-        "eligibility_summary": _eligibility_summary_4(eligibility) if eligibility else None,
+        "eligibility_summary": elig_summary,
         "rung_sets": _json_rung_sets_4(rung_sets_by_traj) if rung_sets_by_traj else None,
         "gate1": gate1_records,
+        "gate0": gate0_summary,
         "secondaries": secondaries or None,
         "sensitivities": sensitivities or None,
         "referents": {"failures": list(failures)},
@@ -1276,9 +1441,19 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
 
     _, f = collect_total_4(battery_4.manifests_4, "4 checkpoint manifests"); failures += f
 
+    # I-8: referents_sha is False in tests that deliberately skip this
+    # (no referent tool yet); a string means the manifest must
+    # actually be re-checked, not merely assumed pinned.
+    referent_manifest_ok = False
     if referents_sha is None:
         failures.append("4 referent manifest: not pinned (build incomplete)")
-    # referents_sha is False in tests that deliberately skip this (no referent tool yet)
+    elif referents_sha is not False:
+        from experiments.exp4 import make_referents_4 as mkr
+        _, f = collect_total_4(
+            lambda: mkr.check_referents(REFERENTS_PATH_4, sha_pin=referents_sha),
+            "4 referent manifest")
+        failures += f
+        referent_manifest_ok = not f
 
     battery, f = collect_total_4(bt.load_battery, "4 battery items"); failures += f
     floors, f = collect_total_4(bg.load_floors, "4 floors 2d"); failures += f
@@ -1314,8 +1489,38 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
         failures += [f"4 reference seal: {m}" for m in seal["failures"]]
 
     stage_keys = list(battery_4.STAGE1_KEYS_4) + list(battery_4.STAGE1_FIRST_UNITS_4)
-    _, f = collect_total_4(lambda: load_stage_tables_4(root, keys=stage_keys), "4 stage tables")
+    stage_tables_4, f = collect_total_4(lambda: load_stage_tables_4(root, keys=stage_keys),
+                                        "4 stage tables")
     failures += f
+
+    # C-1 (design §3.7): gate 0, right after the stage tables load and
+    # before gate 1 — for every trajectory, unconditionally (not
+    # gated behind `if not failures`, so a gate-0 failure is always
+    # collected, matching eligibility/power's own unconditional checks
+    # just below).
+    gate0_records = {}
+    for traj in battery_4.TRAJECTORIES_4:
+        if stage_tables_4 is None:
+            gate0_records[traj] = None
+            continue
+        refs = battery_4.REFS_FOR_4[traj]
+        ref_tables_raw_g0, f = collect_total_4(
+            lambda refs=refs: collect_4.load_ref_tables_4(root, refs), f"4 gate 0 {traj} ref tables")
+        failures += f
+        if ref_tables_raw_g0 is None:
+            gate0_records[traj] = None
+            continue
+        ref_tables_g0 = {ref: rt["sets"] for ref, rt in ref_tables_raw_g0.items()}
+        g0, f = collect_total_4(
+            lambda traj=traj, ref_tables_g0=ref_tables_g0:
+                gate0_4(root, traj, ref_tables_g0, stage_tables_4),
+            f"4 gate 0 {traj}")
+        failures += f
+        gate0_records[traj] = g0
+        if g0 is not None and not g0["pass"]:
+            failures.append(f"4 gate 0 {traj}: the instrument does not see training (twin "
+                            f"below endpoint on {g0['fraction_below']:.3f} of cells, need "
+                            f"≥ {GATE0_MIN_FRACTION_4:.2f})")
 
     elig_path = battery_4.eligibility_path(root)
     eligibility, elig_sha = None, None
@@ -1341,7 +1546,10 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
         power, f = collect_total_4(lambda: json.loads(power_path.read_text()),
                                   "4 power record"); failures += f
         if power is not None and eligibility is not None:
-            bad = _check_power_matches_eligibility_4(power, eligibility, elig_sha)
+            bad, f = collect_total_4(
+                lambda: _check_power_matches_eligibility_4(power, eligibility, elig_sha),
+                "4 power vs eligibility check")
+            failures += f
             if bad:
                 failures += [f"4 power record: {b}" for b in bad]
 
@@ -1356,7 +1564,10 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
                 g1_att, f = collect_total_4(lambda p=g1_path: json.loads(p.read_text()),
                                            f"4 gate 1 {traj} record"); failures += f
                 if g1_att is not None:
-                    bad = battery_4.gate1_failures_4(g1_att, traj=traj)
+                    bad, f = collect_total_4(
+                        lambda g1_att=g1_att, traj=traj: battery_4.gate1_failures_4(g1_att, traj=traj),
+                        f"4 gate 1 {traj} failures check")
+                    failures += f
                     if bad:
                         failures += [f"4 {b}" for b in bad]
             gate1_records[traj] = g1_att
@@ -1364,7 +1575,15 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
             g1_der, f = collect_total_4(lambda traj=traj: battery_4.gate1_rederive_4(root, traj),
                                        f"4 gate 1 {traj} re-derivation"); failures += f
             if g1_der is not None:
-                if not all(g1_der["sets_equal"].values()) or not g1_der["digest_equal"]:
+                # I-6: require ALL FOUR re-derived agreements, not
+                # just sets_equal/digest_equal -- activation_sha_equal
+                # was already computed by gate1_rederive_4 and
+                # silently discarded; attested_sha_equal (design §3.7:
+                # identity on every (rung, site, position)) is new.
+                if (not all(g1_der["sets_equal"].values())
+                    or not all(g1_der["activation_sha_equal"].values())
+                    or not all(g1_der["attested_sha_equal"].values())
+                    or not g1_der["digest_equal"]):
                     failures.append(f"4 gate 1 {traj}: re-derived bytes disagree")
 
             sweep_tables, f = collect_total_4(lambda traj=traj: load_sweep_tables_4(root, traj),
@@ -1405,7 +1624,11 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
     secondaries, sensitivities = {}, {}
     if not failures:
         def _sec(name, thunk, store):
-            val, f = collect_total_4(thunk, name)
+            # M-3: the collect_total_4 label starts "4 " like every
+            # other refusal label in run(); the dict key (`name`, what
+            # callers/tests look up under `secondaries`/
+            # `sensitivities`) is untouched.
+            val, f = collect_total_4(thunk, f"4 {name}")
             store[name] = {"failed": f[0]} if f else val
 
         _sec("S1", lambda: s1_order_4(series_by_traj, rung_sets), secondaries)
@@ -1478,14 +1701,15 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
     pins_active = {
         "frozen_modules": frozen_check is None,
         "import_surface": bool(imports_pinned),
-        "referent_manifest": referents_sha not in (False, None),
+        "referent_manifest": referent_manifest_ok,
         "prereg_binding": tag_exists is None and blob_sha is None,
         "seal_binding": blobs_bound is None,
     }
 
     v = verdict_4(failures=failures, tree=tree, primary=primary, cells=cells,
                  eligibility=eligibility or {}, rung_sets_by_traj=rung_sets,
-                 gate1_records=gate1_records, secondaries=secondaries, sensitivities=sensitivities,
+                 gate1_records=gate1_records, gate0_records=gate0_records,
+                 secondaries=secondaries, sensitivities=sensitivities,
                  pins_active=pins_active, n_boot=n_boot)
     # Sanitised (no numpy scalars/arrays, no NaN/Inf) unconditionally,
     # not only when writing: `run()`'s return value must itself be

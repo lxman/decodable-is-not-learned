@@ -350,12 +350,20 @@ def build_world(root, mode: str, *, seed=0, stage: str = "full") -> dict:
 
             digest = battery_4.committed_step_digest_4(traj, step)
             batch_traj = battery_4.BATCH_4[traj]
+            # I-5(b): S5(a)'s max-over-pairs sensitivity is only ever
+            # real when at least one trajectory's SWEEP units (what
+            # `_align_by_step_4` reads) were built with the full
+            # site-pair cross product -- pythia_2.8b (tied for the
+            # shortest grid) carries it; the other three trajectories'
+            # sweep units stay `compute_max_pairs=False` (S5(a) reads
+            # {"available": False} there, same as before I-5).
+            cmp_max = (traj == "pythia_2.8b")
             if i == 0:
                 _write_synthetic_unit(root, (traj, step), family=family, n_hidden=n_hidden,
                                       sites=sites, batch_size=batch_traj, refs=refs,
                                       ref_tables=ref_tables, committed_digest=digest,
                                       X_provider=cached_provider, keep_activations=False,
-                                      compute_max_pairs=False)
+                                      compute_max_pairs=cmp_max)
             elif i == n_steps - 1:
                 _write_synthetic_unit(root, f"endpoint_{traj}", family=family, n_hidden=n_hidden,
                                       sites=sites, batch_size=battery_4.BATCH_4[f"endpoint_{traj}"],
@@ -366,13 +374,13 @@ def build_world(root, mode: str, *, seed=0, stage: str = "full") -> dict:
                                       sites=sites, batch_size=batch_traj, refs=refs,
                                       ref_tables=ref_tables, committed_digest=digest,
                                       X_provider=cached_provider, keep_activations=False,
-                                      compute_max_pairs=False)
+                                      compute_max_pairs=cmp_max)
             else:
                 _write_synthetic_unit(root, (traj, step), family=family, n_hidden=n_hidden,
                                       sites=sites, batch_size=batch_traj, refs=refs,
                                       ref_tables=ref_tables, committed_digest=digest,
                                       X_provider=cached_provider, keep_activations=False,
-                                      compute_max_pairs=False)
+                                      compute_max_pairs=cmp_max)
 
         if stage == "full":
             _write_gate1(root, traj)
@@ -394,6 +402,7 @@ def _write_gate1(root, traj):
     ref_rec = json.loads((battery_4.reference_dir(root, f"endpoint_{traj}") / "_load.json").read_text())
     rec = battery_4.gate1_record_4(traj=traj, sweep_rec=sweep_rec, reference_rec=ref_rec,
                                    sets_equal=g1["sets_equal"], activation_sha_equal=g1["activation_sha_equal"],
+                                   attested_sha_equal=g1["attested_sha_equal"],
                                    digest_equal=g1["digest_equal"], seconds=0.05)
     battery_4.gate1_path(root, traj).parent.mkdir(parents=True, exist_ok=True)
     battery_4.gate1_path(root, traj).write_text(json.dumps(rec, indent=1))
@@ -420,6 +429,7 @@ def _write_power_stub(root, eligibility_table, trajectories):
 MISSING_ROUTES = (
     "unit", "short_unit", "halted", "gate1_endpoint_edited", "first_unit_absent",
     "eligibility_edited", "power_cells_edited", "reference_load_sha_edited", "sets_reindex",
+    "gate0_twin_trained", "gate1_sweep_endpoint_edited",
 )
 
 
@@ -516,4 +526,49 @@ def apply_missing(root, missing: str, *, traj="pythia_2.8b") -> str:
         rec["sets_sha256"][rung] = bg.sha256_file(p)
         rec_path.write_text(json.dumps(rec, indent=1))
         return "stored overlap disagrees"
+    if missing == "gate0_twin_trained":
+        # Replaces the twin's OWN "sets" bytes, rung by rung, with the
+        # trained endpoint's (same shape: same n_hidden/sites, same
+        # trajectory family) -- fraction_below becomes exactly 0 (the
+        # twin no longer sees LESS of training than the endpoint; it
+        # equals it), firing gate 0's own refusal. Every rung's sha is
+        # re-stamped to match the copied bytes so the earlier coarse
+        # whole-file integrity check passes and gate 0's own
+        # fraction-below check is what actually disagrees.
+        twin_key = battery_4.INIT_KEY_4[traj]
+        twin_dir = battery_4.reference_dir(root, twin_key)
+        endpoint_dir = battery_4.reference_dir(root, f"endpoint_{traj}")
+        rec_path = twin_dir / "_load.json"
+        rec = json.loads(rec_path.read_text())
+        for rung in battery_4.RUNGS:
+            src = endpoint_dir / "sets" / f"{rung}.npz"
+            dst = twin_dir / "sets" / f"{rung}.npz"
+            shutil.copyfile(src, dst)
+            rec["sets_sha256"][rung] = bg.sha256_file(dst)
+        rec_path.write_text(json.dumps(rec, indent=1))
+        return "gate 0"
+    if missing == "gate1_sweep_endpoint_edited":
+        # I-6: edits the SWEEP's OWN copy of the endpoint unit's sets
+        # bytes (NOT the reference stage's `endpoint_<traj>`, which
+        # `gate1_endpoint_edited` above already covers) -- re-stamps
+        # this unit's own sha so the coarse whole-file integrity check
+        # passes, and eligibility re-derivation (which reads only the
+        # REFERENCE's endpoint) is untouched and agrees with the
+        # stored eligibility record, letting the per-trajectory loop
+        # actually reach gate 1's OWN byte-level re-derivation
+        # (`gate1_rederive_4`), which is what disagrees here.
+        endpoint_step = battery_4.ENDPOINT_STEP_4[traj]
+        d = battery_4.unit_dir(root, traj, endpoint_step)
+        rung = battery_4.RUNGS[0]
+        p = d / "sets" / f"{rung}.npz"
+        with np.load(p) as z:
+            arrays = dict(z)
+        arrays["sets"] = (arrays["sets"].astype(np.int64) + 1) % battery_4.N_ITEMS
+        arrays["sets"] = arrays["sets"].astype(np.uint16)
+        np.savez_compressed(p, **arrays)
+        rec_path = d / "_load.json"
+        rec = json.loads(rec_path.read_text())
+        rec["sets_sha256"][rung] = bg.sha256_file(p)
+        rec_path.write_text(json.dumps(rec, indent=1))
+        return "re-derived bytes disagree"
     raise ValueError(f"unknown missing route {missing!r}")

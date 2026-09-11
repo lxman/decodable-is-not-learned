@@ -526,10 +526,12 @@ def test_unit_complete_4_false_when_missing(tmp_path):
 def test_gate1_record_4_and_gate1_failures_4_roundtrip():
     sets_equal = {r: True for r in bt.RUNGS}
     act_equal = {r: True for r in bt.RUNGS}
+    att_equal = {r: True for r in bt.RUNGS}
     g1 = b4.gate1_record_4(traj="pythia_2.8b",
                            sweep_rec={"commit": "c1", "tensor_digest": "d1"},
                            reference_rec={"commit": "c1", "tensor_digest": "d1"},
                            sets_equal=sets_equal, activation_sha_equal=act_equal,
+                           attested_sha_equal=att_equal,
                            digest_equal=True, seconds=12.0)
     assert b4.gate1_failures_4(g1, traj="pythia_2.8b") == []
 
@@ -557,15 +559,18 @@ def _write_gate1_tree(tmp_path, traj: str, *, sweep_bytes_by_rung, ref_bytes_by_
     ref_dir = b4.reference_dir(tmp_path, f"endpoint_{traj}")
     sweep_d = b4.unit_dir(tmp_path, traj, endpoint)
     act_sha = {}
+    att_sha = {}
     for r in bt.RUNGS:
         (ref_dir / "sets" / f"{r}.npz").parent.mkdir(parents=True, exist_ok=True)
         (ref_dir / "sets" / f"{r}.npz").write_bytes(ref_bytes_by_rung(r))
         (sweep_d / "sets" / f"{r}.npz").parent.mkdir(parents=True, exist_ok=True)
         (sweep_d / "sets" / f"{r}.npz").write_bytes(sweep_bytes_by_rung(r))
         act_sha[r] = hashlib.sha256(f"activation-{r}".encode()).hexdigest()
-    ref_rec = {"tensor_digest": "same-digest", "activation_sha256": act_sha}
+        att_sha[r] = hashlib.sha256(f"attested-{r}".encode()).hexdigest()
+    ref_rec = {"tensor_digest": "same-digest", "activation_sha256": act_sha,
+              "attested_sha256": att_sha}
     sweep_rec = {"tensor_digest": "same-digest" if same_digest else "different-digest",
-                "activation_sha256": dict(act_sha)}
+                "activation_sha256": dict(act_sha), "attested_sha256": dict(att_sha)}
     (ref_dir / "_load.json").write_text(json.dumps(ref_rec))
     (sweep_d / "_load.json").write_text(json.dumps(sweep_rec))
     return ref_dir, sweep_d
@@ -580,6 +585,7 @@ def test_gate1_rederive_4_all_equal(tmp_path):
     assert out["n_rungs"] == len(bt.RUNGS)
     assert all(out["sets_equal"].values())
     assert all(out["activation_sha_equal"].values())
+    assert all(out["attested_sha_equal"].values())
     assert out["digest_equal"] is True
 
 

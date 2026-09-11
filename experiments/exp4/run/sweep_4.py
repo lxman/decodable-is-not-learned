@@ -101,6 +101,7 @@ def run_gate1(*, traj, root, cache_root, device, battery, refs, ref_tables, load
     rec = battery_4.gate1_record_4(traj=traj, sweep_rec=sweep_rec, reference_rec=ref_rec,
                                    sets_equal=g1["sets_equal"],
                                    activation_sha_equal=g1["activation_sha_equal"],
+                                   attested_sha_equal=g1["attested_sha_equal"],
                                    digest_equal=g1["digest_equal"], seconds=time.time() - t0)
     battery_4.gate1_path(root, traj).parent.mkdir(parents=True, exist_ok=True)
     battery_4.gate1_path(root, traj).write_text(json.dumps(rec, indent=1))

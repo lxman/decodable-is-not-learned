@@ -968,12 +968,14 @@ def unit_complete_4(root, key_or_unit) -> bool:
 # -------------------------------------------------------------------- gate 1
 
 def gate1_record_4(*, traj, sweep_rec, reference_rec, sets_equal: dict,
-                   activation_sha_equal: dict, digest_equal: bool, seconds) -> dict:
+                   activation_sha_equal: dict, attested_sha_equal: dict,
+                   digest_equal: bool, seconds) -> dict:
     return {
         "traj": traj,
         "rungs": sorted(sets_equal),
         "sets_equal": dict(sets_equal),
         "activation_sha_equal": dict(activation_sha_equal),
+        "attested_sha_equal": dict(attested_sha_equal),
         "digest_equal": bool(digest_equal),
         "sweep_commit": sweep_rec.get("commit"),
         "reference_commit": reference_rec.get("commit"),
@@ -985,18 +987,22 @@ def gate1_record_4(*, traj, sweep_rec, reference_rec, sets_equal: dict,
 
 
 def gate1_failures_4(g1: dict, *, traj) -> list:
-    """Attested: every rung's `sets_equal`/`activation_sha_equal` True,
-    `digest_equal` True, all 34 rungs present, the prereg tag stamped."""
+    """Attested: every rung's `sets_equal`/`activation_sha_equal`/
+    `attested_sha_equal` True, `digest_equal` True, all 34 rungs
+    present, the prereg tag stamped."""
     bad = []
     rungs = g1.get("rungs") or []
     if sorted(rungs) != sorted(RUNGS):
         bad.append(f"gate 1 {traj}: rung list is not the full 34-rung sweep set")
     se, ae = g1.get("sets_equal", {}), g1.get("activation_sha_equal", {})
+    tae = g1.get("attested_sha_equal", {})
     for r in RUNGS:
         if se.get(r) is not True:
             bad.append(f"gate 1 {traj}/{r}: sets_equal is not True")
         if ae.get(r) is not True:
             bad.append(f"gate 1 {traj}/{r}: activation_sha_equal is not True")
+        if tae.get(r) is not True:
+            bad.append(f"gate 1 {traj}/{r}: attested_sha_equal is not True")
     if g1.get("digest_equal") is not True:
         bad.append(f"gate 1 {traj}: digest_equal is not True")
     if g1.get("prereg_tag") != PREREG_TAG_4:
@@ -1008,7 +1014,11 @@ def gate1_rederive_4(root, traj: str) -> dict:
     """From bytes, not attestation: `reference/endpoint_<traj>/sets/
     <rung>.npz` vs `sweep/<traj>/step<endpoint>/sets/<rung>.npz`
     byte-equal per rung; the two `_load.json`s' `activation_sha256` per
-    rung equal; `tensor_digest` equal."""
+    rung equal; the two records' `attested_sha256` per rung equal
+    (design §3.7: identity on every (rung, site, position) — equal
+    shas of the attested npz means the question-end/pooled sets are
+    identical too, not only the committed prompt-end sets); `tensor_
+    digest` equal."""
     ref_key = f"endpoint_{traj}"
     ref_dir = reference_dir(root, ref_key)
     sweep_d = unit_dir(root, traj, ENDPOINT_STEP_4[traj])
@@ -1025,9 +1035,14 @@ def gate1_rederive_4(root, traj: str) -> dict:
     sweep_act = sweep_rec.get("activation_sha256") or {}
     activation_sha_equal = {r: (ref_act.get(r) is not None and ref_act.get(r) == sweep_act.get(r))
                             for r in RUNGS}
+    ref_att = ref_rec.get("attested_sha256") or {}
+    sweep_att = sweep_rec.get("attested_sha256") or {}
+    attested_sha_equal = {r: (ref_att.get(r) is not None and ref_att.get(r) == sweep_att.get(r))
+                          for r in RUNGS}
     digest_equal = bool(ref_rec.get("tensor_digest") is not None
                         and ref_rec.get("tensor_digest") == sweep_rec.get("tensor_digest"))
     return {"sets_equal": sets_equal, "activation_sha_equal": activation_sha_equal,
+            "attested_sha_equal": attested_sha_equal,
             "digest_equal": digest_equal, "n_rungs": len(RUNGS)}
 
 
