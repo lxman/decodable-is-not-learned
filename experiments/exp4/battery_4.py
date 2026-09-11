@@ -517,6 +517,32 @@ def load_outcome_4(traj: str, *, battery=None) -> dict:
             if rec.get("items_sha256") != want_sha:
                 raise ValueError(f"{p}: items_sha256 {rec.get('items_sha256')!r} "
                                  f"!= the committed battery's {want_sha!r}")
+            # FREEZE F-3 (2n F-1's shape, one field over): design §3.1
+            # says the representation is collected "rendered exactly as
+            # the committed outcome sweep of M's family rendered them
+            # ... asserted against the committed records' `render`
+            # field where one exists". Nothing asserted it. Gate 1 is
+            # structurally blind here — both of its sides are exp4
+            # loads through the same `RENDER_4`, so a wrong render
+            # agrees with itself — and nothing in exp4 generates, so no
+            # continuation can disagree either. The committed outcome
+            # record is the only witness, and it is on disk: 2n's carry
+            # `render: "bos"`, 2g/2i/2m carry no `render` key at all
+            # (plain by construction of their frozen harness).
+            want_render = RENDER_4[_FAMILY_OF_TRAJ_4[traj]]
+            got_render = rec["render"] if "render" in rec else "plain"
+            if got_render != want_render:
+                raise ValueError(f"{p}: the committed outcome's render {got_render!r} != "
+                                 f"RENDER_4[{_FAMILY_OF_TRAJ_4[traj]!r}] {want_render!r} — "
+                                 f"exp4 would read the representation off prompts the "
+                                 f"outcome never saw")
+            if rec.get("dtype") != DTYPE_4:
+                raise ValueError(f"{p}: the committed outcome's dtype {rec.get('dtype')!r} != "
+                                 f"DTYPE_4 {DTYPE_4!r}")
+            want_shots = len(battery[rung]["shots"])
+            if int(rec.get("n_shots", -1)) != want_shots:
+                raise ValueError(f"{p}: the committed outcome's n_shots "
+                                 f"{rec.get('n_shots')!r} != the battery's {want_shots}")
             rungs[rung] = {"correct": int(rec["correct"]), "n": int(rec["n"]),
                            "bits": list(bits)}
         per_step[step] = {"digest": digest, "rungs": rungs}
@@ -1044,6 +1070,20 @@ def load_record_failures_4(rec: dict, *, key, expected_family, expected_render,
     if rec.get("committed_digest") != expected_committed_digest:
         bad.append(f"{key}: committed_digest {rec.get('committed_digest')!r} != "
                    f"{expected_committed_digest!r}")
+    # FREEZE F-1 (2i F-1 / 3d's lesson): `committed_digest` is the
+    # runner's copy of the EXPECTATION; `tensor_digest` is the loader's
+    # own MEASUREMENT of the weights that produced these activations.
+    # Comparing only the former checks that the runner wrote the right
+    # number down, not that the right checkpoint was loaded — design
+    # §3.4 says "the alignment is read on the bytes the outcome came
+    # from, or not at all", and the runner's own halt was, from the
+    # analyzer's side, an attestation. Required wherever a committed
+    # outcome digest exists (references and ladder sizes have none).
+    if expected_committed_digest is not None \
+            and rec.get("tensor_digest") != expected_committed_digest:
+        bad.append(f"{key}: tensor_digest {rec.get('tensor_digest')!r} != the committed "
+                   f"outcome's digest {expected_committed_digest!r} — the loader's own "
+                   f"measurement, not the record's copy of the expectation (design §3.4)")
     if tuple(rec.get("refs") or ()) != tuple(expected_refs):
         bad.append(f"{key}: refs {rec.get('refs')!r} != {list(expected_refs)!r}")
     if rec.get("prereg_tag") != PREREG_TAG_4:

@@ -418,3 +418,28 @@ def test_fake_loaders_shape():
     assert info2["n_hidden"] == 33
     loaders["free_step"]("pythia_2.8b", 1000)
     loaders["release"](model)
+
+
+def test_load_ref_tables_4_refuses_a_rung_with_no_recorded_sha(tmp_path):
+    """FREEZE F-6: `want is None` used to SKIP the sha check, so a rung
+    dropped from a reference record's `sets_sha256` had its bytes read
+    unchecked. `_load_one_unit_4` requires full 34-rung coverage, but
+    `eligibility_table_4` — what the reference stage calls to WRITE the
+    committed eligibility table, before any analyzer runs — reaches
+    this loader directly."""
+    sets_by_rung = {r: _small_sets() for r in battery_4.RUNGS}
+    attested_by_rung = {r: {"question_end": _small_sets(), "pooled": _small_sets()}
+                        for r in battery_4.RUNGS}
+    c4.write_load_4(tmp_path, "ref_pythia_12b", record_fields=_record_fields(),
+                    sets_by_rung=sets_by_rung, overlaps_by_rung={},
+                    attested_by_rung=attested_by_rung, activations_by_rung={},
+                    global_sets=None, align={r: {} for r in battery_4.RUNGS},
+                    keep_activations=True)
+    assert set(c4.load_ref_tables_4(tmp_path, ["ref_pythia_12b"])["ref_pythia_12b"]["sets"]) \
+        == set(battery_4.RUNGS)
+    p = battery_4.load_record_path(tmp_path, "ref_pythia_12b")
+    rec = json.loads(p.read_text())
+    del rec["sets_sha256"][battery_4.RUNGS[0]]
+    p.write_text(json.dumps(rec, indent=1))
+    with pytest.raises(ValueError, match="no sets_sha256"):
+        c4.load_ref_tables_4(tmp_path, ["ref_pythia_12b"])

@@ -187,10 +187,13 @@ def test_main_refuses_when_eligibility_file_absent(tmp_path):
 # -------------------------------------- analyzer cross-check (a stub tree)
 
 def _valid_power_record(real_sha, n_sim=10):
-    """A power record shaped like a REAL `power_4.compute()` output --
-    every field `_check_power_matches_eligibility_4` now requires
-    (review round 1, IMPORTANT 3), not merely the old cells/rungs/sha/
-    declaration/n_sim/arms presence check."""
+    """A power record shaped like a REAL `power_4.compute()` output
+    stamped by `power_4.main()` -- every field
+    `_check_power_matches_eligibility_4` now requires (review round 1,
+    IMPORTANT 3; the freeze's F-4 added `prereg_tag` and the
+    declaration's own re-derivation, so the record must be
+    declaration-CONSISTENT: `P_LEADS` at phi=.5 is .8, above the .75
+    bar, hence "POWERED")."""
     def arm(p_leads):
         return {"P_LEADS": p_leads, "P_PARTIAL": 0.1, "P_FOLLOWS": 0.1, "P_UNDETERMINED": 0.1,
                "P_NO_CONVERGENCE": 0.0, "mean_T": 0.1, "sd_T": 0.05, "mean_eligible_cells": 3.0}
@@ -198,7 +201,8 @@ def _valid_power_record(real_sha, n_sim=10):
            "eligibility_sha256": real_sha, "declaration": "POWERED", "n_sim": n_sim,
            "phis": [0.0, 0.25, 0.5],
            "arms": {"0.0": arm(0.0), "0.25": arm(0.3), "0.5": arm(0.8)},
-           "null_sd_T": 0.02, "min_detectable_T": 0.06, "construction": {}}
+           "null_sd_T": 0.02, "min_detectable_T": 0.06, "construction": {},
+           "prereg_tag": battery_4.PREREG_TAG_4}
 
 
 def test_analyzer_refuses_power_record_with_wrong_eligibility_sha(tmp_path):
@@ -345,3 +349,52 @@ def test_analyzer_none_null_sd_t_min_detectable_t_both_directions(tmp_path):
         dict(ok, arms=arms_zero_null, null_sd_T=None, min_detectable_T=None),
         elig, real_sha, expected_n_sim=10)
     assert good == []
+
+
+# ----------------------------------------------------- freeze closure (F-4)
+
+def test_analyzer_re_derives_the_power_declaration_from_the_records_own_arms(tmp_path):
+    """FREEZE F-4: the declaration is what the verdict is READ UNDER
+    (design §4; `write_verdict_txt_4` prints it) and it was attested —
+    a record claiming POWERED with P(LEADS | phi = .5) = .10 passed
+    every check. Both directions, plus the record's own prereg tag."""
+    elig = {"t": {"R": {"r1": {"eligible": True}, "r2": {"eligible": True},
+                       "r3": {"eligible": True}}}}
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    real_sha = bg.sha256_file(elig_path)
+    ok = _valid_power_record(real_sha)
+    assert an._check_power_matches_eligibility_4(ok, elig, real_sha, expected_n_sim=10) == []
+
+    # POWERED claimed with P_LEADS(.5) below the bar -> refused.
+    arms_weak = dict(ok["arms"]); arms_weak["0.5"] = dict(ok["arms"]["0.5"], P_LEADS=0.10)
+    bad = an._check_power_matches_eligibility_4(dict(ok, arms=arms_weak), elig, real_sha,
+                                                expected_n_sim=10)
+    assert any("declaration" in b and "POWERED" in b for b in bad), bad
+
+    # UNDERPOWERED claimed with P_LEADS(.5) above the bar -> also refused.
+    bad2 = an._check_power_matches_eligibility_4(
+        dict(ok, declaration="UNDERPOWERED IN ADVANCE"), elig, real_sha, expected_n_sim=10)
+    assert any("declaration" in b for b in bad2), bad2
+
+    # Exactly at the bar reads POWERED (design §4: P >= .75).
+    arms_bar = dict(ok["arms"]); arms_bar["0.5"] = dict(ok["arms"]["0.5"], P_LEADS=an.POWER_BAR_4)
+    assert an._check_power_matches_eligibility_4(dict(ok, arms=arms_bar), elig, real_sha,
+                                                 expected_n_sim=10) == []
+
+    for tag in (None, "exp4-reference-sealed", "exp2n-preregistered"):
+        b = an._check_power_matches_eligibility_4(dict(ok, prereg_tag=tag), elig, real_sha,
+                                                  expected_n_sim=10)
+        assert any("prereg_tag" in m for m in b), (tag, b)
+
+
+def test_a_real_compute_record_passes_the_re_derived_declaration_check(tmp_path):
+    """The closure must not fire on a record `power_4` itself writes."""
+    elig, rung_sets, grids = _synthetic_eligibility(n_rungs_per_traj=4, n_traj=2)
+    rec = pw.compute(elig, rung_sets, grids, n_sim=20, seed=3, phis=an.POWER_PHIS_4)
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    rec["eligibility_sha256"] = bg.sha256_file(elig_path)
+    rec["prereg_tag"] = battery_4.PREREG_TAG_4
+    assert an._check_power_matches_eligibility_4(rec, elig, rec["eligibility_sha256"],
+                                                 expected_n_sim=20) == []

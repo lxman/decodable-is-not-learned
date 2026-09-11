@@ -504,7 +504,18 @@ def load_ref_tables_4(root, ref_keys) -> dict:
             sp = _sets_p(d, rung)
             got = bg.sha256_file(sp)
             want = sets_sha.get(rung)
-            if want is not None and got != want:
+            # FREEZE F-6: `want is None` (the record's `sets_sha256`
+            # does not cover this rung) used to SKIP the check, so a
+            # record with a rung dropped from `sets_sha256` had that
+            # rung's bytes read unchecked. `_load_one_unit_4` requires
+            # full 34-rung coverage, but `eligibility_table_4` — which
+            # is what the reference stage calls to WRITE the committed
+            # eligibility table, before any analyzer has run — reaches
+            # this loader directly. An absent sha is now a refusal.
+            if want is None:
+                raise ValueError(f"load_ref_tables_4: {ref}/{rung}: no sets_sha256 on the "
+                                 f"record — the file cannot be checked and is not read")
+            if got != want:
                 raise ValueError(f"load_ref_tables_4: {sp} sha256 {got} != recorded {want}")
             with np.load(sp) as z:
                 sets_pe[rung] = z["sets"]

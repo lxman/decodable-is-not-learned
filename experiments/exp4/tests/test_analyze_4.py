@@ -429,3 +429,61 @@ def test_s4_size_axis_4_is_the_six_point_outcome_axis(monkeypatch):
     assert pr[r_mid]["t_clear_index"] == 3
     assert list(an.AXIS_SIZES_4)[pr[r_mid]["t_clear_index"] - 1] == "1b"
     assert pr[r_mid]["phi"] is not None
+
+
+# --------------------------------------------- freeze closures (F-2, F-5)
+
+def test_expected_pairing_4_matches_the_producers_own_re_derivation():
+    """FREEZE F-2: the analyzer's re-derivation must be the producer's
+    own function on the pinned site families, for every real
+    (trajectory-or-key, reference) shape — otherwise the new refusal
+    would fire on honest records."""
+    for key in list(battery_4.STAGE1_KEYS_4) + [u for u in battery_4.STAGE1_FIRST_UNITS_4]:
+        exp = an._expected_fields_4(key)
+        got = an.expected_pairing_4(exp["n_hidden"], exp["refs"])
+        assert sorted(got) == sorted(exp["refs"])
+        sites_m = metric_4.sites_4(exp["n_hidden"])
+        for ref in exp["refs"]:
+            n_q = battery_4.N_HIDDEN_PIN_4[ref]
+            want = collect_4._pairing_positions(sites_m, exp["n_hidden"], metric_4.sites_4(n_q), n_q)
+            assert got[ref] == [int(j) for j in want]
+            assert len(got[ref]) == len(sites_m)
+            assert all(0 <= j < len(metric_4.sites_4(n_q)) for j in got[ref])
+
+
+def test_expected_pairing_4_on_the_real_33_to_37_shape_is_not_the_identity():
+    """The 12-site to 13-site pairing (Pythia/OLMo/Comma against
+    SmolLM3 or Pythia-12b) is the only non-identity one on the real
+    shapes; it is what a dropped or rotated pairing would corrupt."""
+    p = an.expected_pairing_4(33, ("ref_smollm3_3b",))["ref_smollm3_3b"]
+    assert p == [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12]
+    assert an.expected_pairing_4(33, ("ref_olmo2_7b",))["ref_olmo2_7b"] == list(range(12))
+
+
+def _write_sets_tree(root, key, arrays):
+    d = battery_4.reference_dir(root, key) / "sets"
+    d.mkdir(parents=True, exist_ok=True)
+    for rung in battery_4.RUNGS:
+        np.savez_compressed(d / f"{rung}.npz", sets=arrays[rung])
+
+
+def test_ladder_known_answer_4_equal_absent_and_unequal(tmp_path):
+    """FREEZE F-5: design §7's known-answer check (the ladder's 2.8b
+    `main` against the step143000 endpoint) was never built. It is
+    DESCRIPTIVE, not gating."""
+    rng = np.random.default_rng(0)
+    a = {r: rng.integers(0, 500, size=(2, 4, 10), dtype=np.uint16) for r in battery_4.RUNGS}
+    assert an.ladder_known_answer_4(tmp_path)["available"] is False
+    _write_sets_tree(tmp_path, "ladder_pythia_2.8b", a)
+    assert an.ladder_known_answer_4(tmp_path)["available"] is False    # one side only
+    _write_sets_tree(tmp_path, "endpoint_pythia_2.8b", a)
+    eq = an.ladder_known_answer_4(tmp_path)
+    assert eq["available"] and eq["equal"] and eq["gating"] is False
+    assert eq["n_equal"] == eq["n_rungs"] == len(battery_4.RUNGS)
+    b = dict(a)
+    b[battery_4.RUNGS[0]] = (a[battery_4.RUNGS[0]].astype(np.int64) + 1).astype(np.uint16)
+    _write_sets_tree(tmp_path, "endpoint_pythia_2.8b", b)
+    ne = an.ladder_known_answer_4(tmp_path)
+    assert ne["available"] and ne["equal"] is False and ne["gating"] is False
+    assert ne["n_equal"] == len(battery_4.RUNGS) - 1
+    assert ne["per_rung"][battery_4.RUNGS[0]] is False

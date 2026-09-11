@@ -342,3 +342,82 @@ def test_check_power_matches_eligibility_4_call_is_collected_not_raised(_totalit
     v = an.run(root=root, **_run_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
     assert _needle_in_failures(v, "power vs eligibility")
+
+
+# ---------------------------------- 16. FREEZE F-2: a pairing missing a reference
+
+@pytest.mark.slow
+def test_unit_pairing_missing_a_reference_gives_insufficient_data(_totality_base, tmp_path):
+    """FREEZE F-2, through the production loader: the depth pairing was
+    read off the record and never re-derived, and its KEY SET was
+    unchecked — a unit whose `pairing` names two of its three `refs`
+    made a_r a mean over two references instead of the design's three,
+    with every gate passing and no cross-check firing (the stored
+    `overlap_<ref>` arrays of the remaining two still agree)."""
+    root = _fresh_copy(_totality_base, tmp_path)
+    traj, step = "pythia_2.8b", battery_4.FIRST_STEP_4["pythia_2.8b"]
+    p = battery_4.unit_dir(root, traj, step) / "_load.json"
+    rec = json.loads(p.read_text())
+    dropped = sorted(rec["pairing"])[0]
+    rec["pairing"] = {r: v for r, v in rec["pairing"].items() if r != dropped}
+    assert rec["refs"] == list(battery_4.REFS_FOR_4[traj])    # refs field untouched
+    p.write_text(json.dumps(rec, indent=1))
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "pairing keys"), v["referents"]["failures"][:5]
+
+
+@pytest.mark.slow
+def test_unit_pairing_rotated_gives_insufficient_data(_totality_base, tmp_path):
+    """The same closure on the VALUES: caught downstream by
+    `per_item_alignment_4`'s stored-overlap cross-check before this
+    freeze, but never on the gate-0 path (`_gate0_site_means_4` makes
+    no cross-check) — now refused at the loader, by re-derivation."""
+    root = _fresh_copy(_totality_base, tmp_path)
+    traj, step = "pythia_2.8b", battery_4.FIRST_STEP_4["pythia_2.8b"]
+    p = battery_4.unit_dir(root, traj, step) / "_load.json"
+    rec = json.loads(p.read_text())
+    rec["pairing"] = {r: list(v[1:]) + [v[0]] for r, v in rec["pairing"].items()}
+    p.write_text(json.dumps(rec, indent=1))
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "depth pairing"), v["referents"]["failures"][:5]
+
+
+# --------------------------- 17. a reference-STAGE halt marker (not a trajectory's)
+
+@pytest.mark.slow
+def test_reference_stage_halt_marker_gives_insufficient_data(_totality_base, tmp_path):
+    """`run()` reads five halt paths; the world builder's `halted`
+    route only ever writes a TRAJECTORY's. The reference stage's own
+    marker (`collect_4.reference_halt_marker_path`, what
+    `run/reference_4._halt_reference` writes on a digest mismatch) had
+    no world or totality case."""
+    from experiments.exp4 import collect_4 as c4
+    root = _fresh_copy(_totality_base, tmp_path)
+    p = c4.reference_halt_marker_path(root)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text("endpoint_comma_7b: digest deadbeef != committed cafe\n")
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "the runner halted")
+
+
+# ------------------- 18. FREEZE F-1: a measured digest that is not the committed one
+
+@pytest.mark.slow
+def test_unit_tensor_digest_not_the_committed_one_gives_insufficient_data(_totality_base, tmp_path):
+    """FREEZE F-1 through the production loader: `committed_digest` is
+    the runner's copy of the expectation, `tensor_digest` the loader's
+    own measurement. A record naming ANOTHER trajectory's checkpoint in
+    `tensor_digest` used to pass every analyzer check."""
+    root = _fresh_copy(_totality_base, tmp_path)
+    traj, step = "pythia_2.8b", battery_4.FIRST_STEP_4["pythia_2.8b"]
+    p = battery_4.unit_dir(root, traj, step) / "_load.json"
+    rec = json.loads(p.read_text())
+    rec["tensor_digest"] = battery_4.committed_step_digest_4("olmo2_7b", 1000)
+    assert rec["committed_digest"] == battery_4.committed_step_digest_4(traj, step)
+    p.write_text(json.dumps(rec, indent=1))
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "tensor_digest"), v["referents"]["failures"][:5]

@@ -259,6 +259,26 @@ def _expected_fields_4(key) -> dict:
     raise ValueError(f"{key!r} is not a recognised exp4 key")
 
 
+def expected_pairing_4(n_hidden_m: int, refs) -> dict:
+    """FREEZE F-2. The depth-matched site pairing (design §3.3) that
+    `collect_4.process_model_4` stores on every record, RE-DERIVED here
+    from pinned constants alone: M's own `n_hidden` (already pinned
+    against `N_HIDDEN_PIN_4` by `_load_one_unit_4`), each reference's
+    `N_HIDDEN_PIN_4` entry, and `metric_4.sites_4` on both sides. The
+    producer computes the same thing from the references' own records,
+    whose `sites`/`n_hidden` this analyzer pins to exactly these
+    constants — so the two agree by construction and a disagreement is
+    a real one."""
+    sites_m = metric_4.sites_4(int(n_hidden_m))
+    out = {}
+    for ref in refs:
+        n_q = battery_4.N_HIDDEN_PIN_4[ref]
+        out[ref] = [int(j) for j in
+                    collect_4._pairing_positions(sites_m, int(n_hidden_m),
+                                                 metric_4.sites_4(n_q), n_q)]
+    return out
+
+
 def _read_sets_and_overlaps(d: Path, rec: dict):
     """`{rung: uint16[n_sites,500,k]}`, `{ref: {rung: uint8[n_sites,500]}}`
     for every one of the 34 rungs — a short unit (any rung's `sets/
@@ -315,6 +335,28 @@ def _load_one_unit_4(root, key) -> dict:
     want_sites = metric_4.sites_4(exp["n_hidden"])
     if list(rec.get("sites") or []) != want_sites:
         raise ValueError(f"{key}: sites {rec.get('sites')!r} != {want_sites}")
+    # FREEZE F-2: the pairing is a verdict input — it decides which
+    # reference site every M site is compared against, hence a_r(t),
+    # the trend, the excess, phi and T. It was read off the record and
+    # never re-derived. Wrong VALUES are caught downstream by
+    # `per_item_alignment_4`'s stored-overlap cross-check, but a wrong
+    # KEY SET is not: a record whose `pairing` names two of its three
+    # `refs` silently makes a_r a mean over two references instead of
+    # the design's three, with every gate passing (demonstrated at the
+    # freeze), and `_gate0_site_means_4` has no cross-check at all, so
+    # both attacks land on gate 0.
+    want_pairing = expected_pairing_4(exp["n_hidden"], exp["refs"])
+    got_pairing = rec.get("pairing")
+    if not isinstance(got_pairing, dict) or sorted(got_pairing) != sorted(want_pairing):
+        raise ValueError(f"{key}: pairing keys {sorted(got_pairing) if isinstance(got_pairing, dict) else got_pairing!r} "
+                         f"!= the record's own refs {sorted(want_pairing)} — the alignment "
+                         f"would average over the wrong reference set")
+    for ref, want_p in want_pairing.items():
+        got_p = got_pairing.get(ref)
+        if not isinstance(got_p, (list, tuple)) or [int(j) for j in got_p] != want_p:
+            raise ValueError(f"{key}/{ref}: pairing {got_p!r} != the depth pairing "
+                             f"re-derived from the pinned site families {want_p!r} "
+                             f"(design §3.3)")
     sets_by_rung, overlaps_by_ref = _read_sets_and_overlaps(d, rec)
     return {"record": rec, "sets": sets_by_rung, "overlaps": overlaps_by_ref}
 
@@ -1352,6 +1394,10 @@ def _compare_eligibility_4(a, b, path="") -> list:
 
 
 POWER_PHIS_4 = (0.0, 0.25, 0.5)
+# Design §4's power bar: P(LEADS | phi = .5) >= .75, else DECLARED
+# UNDERPOWERED IN ADVANCE. `power_4.compute` applies it; the freeze's
+# F-4 re-derives the written declaration from it.
+POWER_BAR_4 = 0.75
 
 
 def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
@@ -1431,6 +1477,23 @@ def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
                     bad.append(f"power record arms[{phi_key!r}][{field!r}] is not a float: {v!r}")
     if power.get("declaration") not in ("POWERED", "UNDERPOWERED IN ADVANCE"):
         bad.append(f"power record declaration {power.get('declaration')!r} is not a valid value")
+    # FREEZE F-4: the declaration is what the verdict is READ UNDER
+    # (design §4; `write_verdict_txt_4` prints it), and it was
+    # attested — a record claiming POWERED with P(LEADS | phi = .5) =
+    # .10 passed every check. Re-derived here from the record's own
+    # arms by power_4's own rule, and the record's prereg tag
+    # required (it was written but never checked).
+    arm_half = arms.get(str(0.5)) if isinstance(arms, dict) else None
+    p_leads_half = arm_half.get("P_LEADS") if isinstance(arm_half, dict) else None
+    if isinstance(p_leads_half, (int, float)) and not isinstance(p_leads_half, bool):
+        want_decl = "POWERED" if p_leads_half >= POWER_BAR_4 else "UNDERPOWERED IN ADVANCE"
+        if power.get("declaration") != want_decl:
+            bad.append(f"power record declaration {power.get('declaration')!r} != "
+                       f"{want_decl!r} re-derived from its own arms "
+                       f"(P_LEADS at phi=.5 is {p_leads_half!r}, bar {POWER_BAR_4})")
+    if power.get("prereg_tag") != battery_4.PREREG_TAG_4:
+        bad.append(f"power record prereg_tag {power.get('prereg_tag')!r} != "
+                   f"{battery_4.PREREG_TAG_4!r}")
     null_arm = arms.get("0.0") if isinstance(arms, dict) else None
     null_mec = null_arm.get("mean_eligible_cells") if isinstance(null_arm, dict) else None
     null_zero_elig = (isinstance(null_mec, (int, float)) and not isinstance(null_mec, bool)
@@ -1490,9 +1553,46 @@ def _json_rung_sets_4(rung_sets_by_traj) -> dict:
            for t, rs in rung_sets_by_traj.items() if rs is not None}
 
 
+def ladder_known_answer_4(root) -> dict:
+    """FREEZE F-5. Design §7's known-answer check, which the build never
+    implemented: 2g's manifest records the step143000 branch's files as
+    a DIFFERENT signature from `main`'s, and 2g's gate 1 found the two
+    byte-identical in their continuations, so the ladder's Pythia-2.8b
+    `main` load and the endpoint_pythia_2.8b step143000 load should
+    produce the SAME representation. Both are reference-stage keys with
+    the same pinned n_hidden (33), the same 12 sites, the same battery
+    and the same batch (32), so their committed prompt-end set tables
+    are comparable rung by rung from committed bytes — the activations
+    themselves are gitignored and may be gone by analysis time.
+
+    DESCRIPTIVE, NOT GATING: reported as a record field, never added to
+    `failures`. Whether §7's "required identical" should halt the
+    analysis is a ratification item (the two loads take different
+    loader paths — 2b's `from_pretrained` at `main` vs 2g's
+    candidate-file path with 2g's pinned config — and the design's §3.7
+    escape hatch covers gate 1 only)."""
+    a_dir = battery_4.reference_dir(root, "ladder_pythia_2.8b")
+    b_dir = battery_4.reference_dir(root, "endpoint_pythia_2.8b")
+    per_rung, equal = {}, 0
+    for rung in battery_4.RUNGS:
+        pa, pb = a_dir / "sets" / f"{rung}.npz", b_dir / "sets" / f"{rung}.npz"
+        if not (pa.is_file() and pb.is_file()):
+            return {"available": False, "reason": f"{rung}: one side's set table is absent",
+                    "gating": False, "no_alpha_claim": True}
+        with np.load(pa) as za, np.load(pb) as zb:
+            same = bool(np.array_equal(np.asarray(za["sets"]), np.asarray(zb["sets"])))
+        per_rung[rung] = same
+        equal += int(same)
+    return {"available": True, "gating": False, "equal": equal == len(battery_4.RUNGS),
+            "n_equal": equal, "n_rungs": len(battery_4.RUNGS), "per_rung": per_rung,
+            "note": "design §7: the ladder's 2.8b `main` against the trajectory endpoint "
+                    "step143000, prompt-end k-NN set tables, from committed bytes",
+            "no_alpha_claim": True}
+
+
 def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj, gate1_records,
              gate0_records=None, secondaries, sensitivities, pins_active, n_boot,
-             power=None) -> dict:
+             power=None, known_answer=None) -> dict:
     world = tree["verdict"]
     failures = list(failures)
     # I-1: a malformed eligibility file (e.g. a list, not a dict) must
@@ -1529,6 +1629,7 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
         "gate1": gate1_records,
         "gate0": gate0_summary,
         "power": power_summary,
+        "known_answer": known_answer,
         "secondaries": secondaries or None,
         "sensitivities": sensitivities or None,
         "referents": {"failures": list(failures), "power": power_summary},
@@ -1569,6 +1670,16 @@ def write_verdict_txt_4(v: dict) -> str:
         lines.append(f"  {c['traj']}/{c['rung']}: phi={c['phi']:.4f} t_clear={c['t_clear']} "
                     f"x_end={c['x_end']:.4f}")
     lines.append("")
+    ka = v.get("known_answer")
+    if ka:
+        if ka.get("available"):
+            lines.append(f"Known answer (design §7, DESCRIPTIVE, not gating): the ladder's "
+                        f"Pythia-2.8b `main` set tables equal the step143000 endpoint's on "
+                        f"{ka['n_equal']} of {ka['n_rungs']} rungs")
+        else:
+            lines.append(f"Known answer (design §7, DESCRIPTIVE, not gating): unavailable — "
+                        f"{ka.get('reason')}")
+        lines.append("")
     sec = v.get("secondaries") or {}
     lines.append(f"Secondaries present: {sorted(sec)}")
     sens = v.get("sensitivities") or {}
@@ -1902,6 +2013,16 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
                                "4 import surface (exit)")
         failures += f
 
+    # FREEZE F-5: design §7's ladder/endpoint known-answer check,
+    # measured from committed bytes and RECORDED. Non-gating by this
+    # freeze's own ruling request — `known_answer_failures` is never
+    # added to `failures`.
+    known_answer, _ka_f = collect_total_4(lambda: ladder_known_answer_4(root),
+                                          "4 ladder known-answer (descriptive)")
+    if _ka_f:
+        known_answer = {"available": False, "gating": False, "reason": _ka_f[0],
+                        "no_alpha_claim": True}
+
     pins_active = {
         "frozen_modules": frozen_check is None,
         "import_surface": bool(imports_pinned),
@@ -1916,7 +2037,8 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
                  eligibility=eligibility or {}, rung_sets_by_traj=rung_sets,
                  gate1_records=gate1_records, gate0_records=gate0_records,
                  secondaries=secondaries, sensitivities=sensitivities,
-                 pins_active=pins_active, n_boot=n_boot, power=power)
+                 pins_active=pins_active, n_boot=n_boot, power=power,
+                 known_answer=known_answer)
     # Sanitised (no numpy scalars/arrays, no NaN/Inf) unconditionally,
     # not only when writing: `run()`'s return value must itself be
     # strict-JSON-able (brief Step 3), and a numpy type left in

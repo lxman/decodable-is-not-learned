@@ -21,6 +21,7 @@ import shutil
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -650,3 +651,127 @@ def test_check_frozen_4_raises_on_drift(monkeypatch, tmp_path):
     monkeypatch.setattr(b4, "FROZEN_SHA256_4", {p: "0" * 64})
     with pytest.raises(ValueError):
         b4.check_frozen_4()
+
+
+# ------------------------------------------------- freeze closures (F-1, F-3)
+
+def test_load_record_failures_4_refuses_a_tensor_digest_that_is_not_the_committed_one(tmp_path):
+    """FREEZE F-1: `committed_digest` is the runner's copy of the
+    EXPECTATION; `tensor_digest` is the loader's own MEASUREMENT. A
+    record naming another trajectory's checkpoint in `tensor_digest`
+    while `committed_digest` still reads correctly used to pass every
+    analyzer check (demonstrated at the freeze)."""
+    traj, step = "pythia_2.8b", b4.FIRST_STEP_4["pythia_2.8b"]
+    want = b4.committed_step_digest_4(traj, step)
+    other = b4.committed_step_digest_4("olmo2_7b", 1000)
+    assert other != want
+    d = b4.unit_dir(tmp_path, traj, step)
+    (d / "sets").mkdir(parents=True)
+    sets_sha = {}
+    for rung in b4.RUNGS:
+        p = d / "sets" / f"{rung}.npz"
+        np.savez_compressed(p, sets=np.zeros((1, 1, 1), dtype=np.uint16))
+        sets_sha[rung] = bg.sha256_file(p)
+
+    def rec_with(td):
+        return b4.load_record_4(
+            key=(traj, step), family="pythia",
+            info={"tensor_digest": td, "commit": "c", "revision": "r", "repo": "x",
+                 "kind": "candidate", "config_source": "s", "n_hidden": 33,
+                 "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}},
+            sites=list(range(12)), d=8, render="plain", batch_size=b4.BATCH_4[traj],
+            refs=list(b4.REFS_FOR_4[traj]), pairing={}, sets_sha=sets_sha, global_sha=None,
+            attested_sha={r: "a" for r in b4.RUNGS}, activation_sha={r: "b" for r in b4.RUNGS},
+            committed_digest=want, seconds=1.0, stack={}, git_sha="0" * 40,
+            prereg_tag=b4.PREREG_TAG_4)
+
+    kw = dict(key=(traj, step), expected_family="pythia", expected_render="plain",
+              expected_batch=b4.BATCH_4[traj], expected_committed_digest=want,
+              expected_refs=b4.REFS_FOR_4[traj], root=tmp_path)
+    assert b4.load_record_failures_4(rec_with(want), **kw) == []
+    for wrong in (other, "0" * 64, None):
+        bad = b4.load_record_failures_4(rec_with(wrong), **kw)
+        assert any("tensor_digest" in m for m in bad), (wrong, bad)
+
+
+def test_load_record_failures_4_does_not_require_a_tensor_digest_match_where_none_is_committed(tmp_path):
+    """A reference or ladder key has no committed outcome digest
+    (`expected_committed_digest is None`) — F-1's bar must not fire
+    there, only the contract's own "present and non-null" check."""
+    key = "ref_olmo2_7b"
+    d = b4.reference_dir(tmp_path, key)
+    (d / "sets").mkdir(parents=True)
+    sets_sha = {}
+    for rung in b4.RUNGS:
+        p = d / "sets" / f"{rung}.npz"
+        np.savez_compressed(p, sets=np.zeros((1, 1, 1), dtype=np.uint16))
+        sets_sha[rung] = bg.sha256_file(p)
+    rec = b4.load_record_4(
+        key=key, family="olmo2",
+        info={"tensor_digest": "whatever-the-loader-measured", "commit": "c", "revision": "r",
+             "repo": "x", "kind": "thin", "config_source": "s", "n_hidden": 33,
+             "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}},
+        sites=list(range(12)), d=8, render="plain", batch_size=b4.BATCH_4[key], refs=[],
+        pairing={}, sets_sha=sets_sha, global_sha=None,
+        attested_sha={r: "a" for r in b4.RUNGS}, activation_sha={r: "b" for r in b4.RUNGS},
+        committed_digest=None, seconds=1.0, stack={}, git_sha="0" * 40,
+        prereg_tag=b4.PREREG_TAG_4)
+    assert b4.load_record_failures_4(
+        rec, key=key, expected_family="olmo2", expected_render="plain",
+        expected_batch=b4.BATCH_4[key], expected_committed_digest=None,
+        expected_refs=(), root=tmp_path) == []
+
+
+@pytest.mark.parametrize("field,value,needle", [
+    ("render", "plain", "render"),
+    ("dtype", "float32", "dtype"),
+    ("n_shots", 1, "n_shots"),
+])
+def test_load_outcome_4_refuses_an_outcome_whose_render_dtype_or_shots_disagree(
+        tmp_path, monkeypatch, field, value, needle):
+    """FREEZE F-3: design §3.1 asserts the render against the committed
+    outcome record's own `render` field. Nothing did. Gate 1 is
+    structurally blind (both its sides are exp4 loads through the same
+    RENDER_4) and nothing generates, so the committed record is the
+    only witness. 2n's records carry `render: "bos"`; the other three
+    carry no `render` key (plain)."""
+    traj, step = "comma_7b", 10000
+    mini = _mini_sweep_root(tmp_path, traj, step)
+    p = mini / f"step{step}" / "antonym.json"
+    rec = json.loads(p.read_text())
+    assert rec["render"] == "bos" and rec["dtype"] == "float16" and rec["n_shots"] == 2
+    rec[field] = value
+    p.write_text(json.dumps(rec))
+    monkeypatch.setitem(b4.SWEEP_ROOT_4, traj, mini)
+    monkeypatch.setitem(b4.GRID_4, traj, (step,))
+    with pytest.raises(ValueError, match=needle):
+        b4.load_outcome_4(traj, battery=BATTERY)
+
+
+def test_load_outcome_4_refuses_a_comma_record_with_the_render_key_removed(tmp_path, monkeypatch):
+    """The absent-key branch: no `render` key means "plain" (2g/2i/2m's
+    shape), which is exactly the two-sided miss of dial n that F-3 is
+    about — on the comma family it must refuse."""
+    traj, step = "comma_7b", 10000
+    mini = _mini_sweep_root(tmp_path, traj, step)
+    p = mini / f"step{step}" / "antonym.json"
+    rec = json.loads(p.read_text())
+    del rec["render"]
+    p.write_text(json.dumps(rec))
+    monkeypatch.setitem(b4.SWEEP_ROOT_4, traj, mini)
+    monkeypatch.setitem(b4.GRID_4, traj, (step,))
+    with pytest.raises(ValueError, match="render"):
+        b4.load_outcome_4(traj, battery=BATTERY)
+
+
+def test_load_outcome_4_accepts_the_three_plain_families_with_no_render_key(tmp_path, monkeypatch):
+    """The other three trajectories' committed records carry no
+    `render` key at all — the absent-key default must read as "plain"
+    and pass, not refuse."""
+    for traj, step in (("pythia_2.8b", 1000), ("olmo2_7b", 1000), ("smollm3_3b", 40000)):
+        mini = _mini_sweep_root(tmp_path / traj, traj, step)
+        assert "render" not in json.loads((mini / f"step{step}" / "antonym.json").read_text())
+        monkeypatch.setitem(b4.SWEEP_ROOT_4, traj, mini)
+        monkeypatch.setitem(b4.GRID_4, traj, (step,))
+        oc = b4.load_outcome_4(traj, battery=BATTERY)
+        assert set(oc["per_step"][step]["rungs"]) == set(b4.RUNGS)
