@@ -73,8 +73,14 @@ def test_compute_leads_more_often_at_phi_half_than_phi_zero():
     assert rec["flip_resolution"] == pytest.approx(1.0 / 256)
     assert rec["null_sd_T"] == rec["arms"]["0.0"]["sd_T"]
     assert rec["min_detectable_T"] is not None and rec["min_detectable_T"] > 0
-    assert rec["assumptions"] == pw.TREND_SHAPE_NOTE_4
+    assert rec["assumptions"] == pw.ASSUMPTIONS_4
     assert rec["eligibility_bar_null_crossing_note"] == pw.ELIGIBILITY_BAR_NULL_CROSSING_NOTE_4
+    assert "construction" in rec
+    for phi_key in ("0.0", "0.5"):
+        assert set(rec["construction"][phi_key]) == {"cells", "construction_miss",
+                                                      "construction_miss_count"}
+        assert rec["arms"][phi_key]["construction_miss_count"] == \
+            rec["construction"][phi_key]["construction_miss_count"]
     for phi_key in ("0.0", "0.5"):
         arm = rec["arms"][phi_key]
         for field in ("P_LEADS", "P_PARTIAL", "P_FOLLOWS", "P_UNDETERMINED", "P_NO_CONVERGENCE"):
@@ -100,6 +106,24 @@ def test_compute_mean_eligible_cells_drops_when_signal_is_weak():
     elig, rung_sets, grids = _synthetic_eligibility(x_end=0.045, se=0.02)   # 2*se = 0.04
     rec = pw.compute(elig, rung_sets, grids, n_sim=80, seed=2, phis=(0.0,))
     assert rec["arms"]["0.0"]["mean_eligible_cells"] < 8.0
+
+
+def test_compute_flags_construction_miss_at_the_grid_last_index():
+    # Review round 1, IMPORTANT 2: at phi*=0, a cell whose t_clear
+    # sits at the grid's LAST index (c_r = G-1) uses the fixed m=c_r+3
+    # asymptote formula regardless of how close c_r is to G, giving a
+    # realized_ratio well above 0 (empirically ~.267 for G=6, c_r=5)
+    # -- must be flagged, not silently accepted as "phi*=0 achieved".
+    elig, rung_sets, grids = _synthetic_eligibility(n_rungs_per_traj=1, n_traj=1, G=6, c_r=5)
+    rec = pw.compute(elig, rung_sets, grids, n_sim=5, seed=0, phis=(0.0,))
+    block = rec["construction"]["0.0"]
+    cell_key = next(iter(block["cells"]))
+    c = block["cells"][cell_key]
+    assert c["realized_ratio"] == pytest.approx(0.2671, abs=1e-3)
+    assert c["construction_miss"] is True
+    assert cell_key in block["construction_miss"]
+    assert block["construction_miss_count"] == 1
+    assert rec["arms"]["0.0"]["construction_miss_count"] == 1
 
 
 def test_compute_raises_on_empty_eligibility():
@@ -149,6 +173,21 @@ def test_main_refuses_when_eligibility_file_absent(tmp_path):
 
 # -------------------------------------- analyzer cross-check (a stub tree)
 
+def _valid_power_record(real_sha, n_sim=10):
+    """A power record shaped like a REAL `power_4.compute()` output --
+    every field `_check_power_matches_eligibility_4` now requires
+    (review round 1, IMPORTANT 3), not merely the old cells/rungs/sha/
+    declaration/n_sim/arms presence check."""
+    def arm(p_leads):
+        return {"P_LEADS": p_leads, "P_PARTIAL": 0.1, "P_FOLLOWS": 0.1, "P_UNDETERMINED": 0.1,
+               "P_NO_CONVERGENCE": 0.0, "mean_T": 0.1, "sd_T": 0.05, "mean_eligible_cells": 3.0}
+    return {"cells": [["t", "r1"], ["t", "r2"], ["t", "r3"]], "rungs": ["r1", "r2", "r3"],
+           "eligibility_sha256": real_sha, "declaration": "POWERED", "n_sim": n_sim,
+           "phis": [0.0, 0.25, 0.5],
+           "arms": {"0.0": arm(0.0), "0.25": arm(0.3), "0.5": arm(0.8)},
+           "null_sd_T": 0.02, "min_detectable_T": 0.06, "construction": {}}
+
+
 def test_analyzer_refuses_power_record_with_wrong_eligibility_sha(tmp_path):
     elig = {"t": {"R": {"r1": {"eligible": True}, "r2": {"eligible": True},
                        "r3": {"eligible": True}}}}
@@ -156,19 +195,89 @@ def test_analyzer_refuses_power_record_with_wrong_eligibility_sha(tmp_path):
     elig_path.write_text(json.dumps(elig, indent=1))
     real_sha = bg.sha256_file(elig_path)
 
-    power_ok = {"cells": [["t", "r1"], ["t", "r2"], ["t", "r3"]], "rungs": ["r1", "r2", "r3"],
-               "eligibility_sha256": real_sha, "declaration": "POWERED", "n_sim": 10, "arms": {}}
-    bad_ok = an._check_power_matches_eligibility_4(power_ok, elig, real_sha)
+    power_ok = _valid_power_record(real_sha)
+    bad_ok = an._check_power_matches_eligibility_4(power_ok, elig, real_sha, expected_n_sim=10)
     assert bad_ok == []
 
     power_bad_sha = dict(power_ok, eligibility_sha256="deadbeef" * 8)
-    bad_sha = an._check_power_matches_eligibility_4(power_bad_sha, elig, real_sha)
+    bad_sha = an._check_power_matches_eligibility_4(power_bad_sha, elig, real_sha, expected_n_sim=10)
     assert any("eligibility_sha256" in b for b in bad_sha)
 
     power_bad_cells = dict(power_ok, cells=[["t", "r1"]])
-    bad_cells = an._check_power_matches_eligibility_4(power_bad_cells, elig, real_sha)
+    bad_cells = an._check_power_matches_eligibility_4(power_bad_cells, elig, real_sha, expected_n_sim=10)
     assert any("cells" in b for b in bad_cells)
 
     power_bad_rungs = dict(power_ok, rungs=["r1", "r2", "bogus_rung"])
-    bad_rungs = an._check_power_matches_eligibility_4(power_bad_rungs, elig, real_sha)
+    bad_rungs = an._check_power_matches_eligibility_4(power_bad_rungs, elig, real_sha, expected_n_sim=10)
     assert any("rungs" in b for b in bad_rungs)
+
+
+def test_analyzer_refuses_a_power_record_no_power_computation_produced(tmp_path):
+    # Review round 1, IMPORTANT 3 (2i F-1's lesson): a STUB like
+    # `full_shape._write_power_stub` used to write (n_sim=0, arms={},
+    # declaration a placeholder string) passed the OLD gate, which
+    # only checked cells/rungs/eligibility_sha256 and mere PRESENCE of
+    # the rest. It must now be refused, for multiple independent
+    # reasons at once.
+    elig = {"t": {"R": {"r1": {"eligible": True}, "r2": {"eligible": True},
+                       "r3": {"eligible": True}}}}
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    real_sha = bg.sha256_file(elig_path)
+
+    stub = {"cells": [["t", "r1"], ["t", "r2"], ["t", "r3"]], "rungs": ["r1", "r2", "r3"],
+           "eligibility_sha256": real_sha, "declaration": "STUB (Task 5 not built)",
+           "n_sim": 0, "arms": {}}
+    bad = an._check_power_matches_eligibility_4(stub, elig, real_sha, expected_n_sim=1000)
+    assert bad, "the stub shape must be refused, not silently accepted"
+    assert any("n_sim" in b for b in bad)
+    assert any("phis" in b or "arms" in b for b in bad)
+    assert any("declaration" in b for b in bad)
+    assert any("null_sd_T" in b or "min_detectable_T" in b or "construction" in b for b in bad)
+
+
+def test_analyzer_refuses_power_record_field_by_field(tmp_path):
+    elig = {"t": {"R": {"r1": {"eligible": True}, "r2": {"eligible": True},
+                       "r3": {"eligible": True}}}}
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    real_sha = bg.sha256_file(elig_path)
+    ok = _valid_power_record(real_sha)
+
+    bad_n_sim = an._check_power_matches_eligibility_4(
+        dict(ok, n_sim=999), elig, real_sha, expected_n_sim=10)
+    assert any("n_sim" in b for b in bad_n_sim)
+
+    bad_phis = an._check_power_matches_eligibility_4(
+        dict(ok, phis=[0.0, 0.5]), elig, real_sha, expected_n_sim=10)
+    assert any("phis" in b for b in bad_phis)
+
+    arms_missing_arm = {k: v for k, v in ok["arms"].items() if k != "0.5"}
+    bad_arm_keys = an._check_power_matches_eligibility_4(
+        dict(ok, arms=arms_missing_arm), elig, real_sha, expected_n_sim=10)
+    assert any("arms" in b for b in bad_arm_keys)
+
+    arms_missing_field = dict(ok["arms"])
+    arms_missing_field["0.0"] = {k: v for k, v in ok["arms"]["0.0"].items() if k != "sd_T"}
+    bad_arm_field = an._check_power_matches_eligibility_4(
+        dict(ok, arms=arms_missing_field), elig, real_sha, expected_n_sim=10)
+    assert any("sd_T" in b for b in bad_arm_field)
+
+    arms_non_float = dict(ok["arms"])
+    arms_non_float["0.0"] = dict(ok["arms"]["0.0"], P_LEADS="not-a-float")
+    bad_arm_type = an._check_power_matches_eligibility_4(
+        dict(ok, arms=arms_non_float), elig, real_sha, expected_n_sim=10)
+    assert any("P_LEADS" in b for b in bad_arm_type)
+
+    bad_declaration = an._check_power_matches_eligibility_4(
+        dict(ok, declaration="MAYBE"), elig, real_sha, expected_n_sim=10)
+    assert any("declaration" in b for b in bad_declaration)
+
+    bad_null_sd = an._check_power_matches_eligibility_4(
+        dict(ok, null_sd_T=None), elig, real_sha, expected_n_sim=10)
+    assert any("null_sd_T" in b for b in bad_null_sd)
+
+    no_construction = {k: v for k, v in ok.items() if k != "construction"}
+    bad_construction = an._check_power_matches_eligibility_4(
+        no_construction, elig, real_sha, expected_n_sim=10)
+    assert any("construction" in b for b in bad_construction)

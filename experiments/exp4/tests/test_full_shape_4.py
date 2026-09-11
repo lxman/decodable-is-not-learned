@@ -46,9 +46,14 @@ def _blob_sha(tag, rel):
 
 
 def _run_kwargs():
+    # Review round 1, IMPORTANT 3: build_world's power record is now a
+    # REAL power_4.compute(n_sim=fs.WORLD_POWER_N_SIM_4, ...) call, not
+    # a stub -- expected_n_sim must match for the analyzer's shape
+    # check to accept it.
     return dict(tag_exists=lambda t: True, blob_sha=_blob_sha,
                blobs_bound=lambda tag, paths, repo_root=None: [],
-               referents_sha=False, imports_pinned=False)
+               referents_sha=False, imports_pinned=False,
+               expected_n_sim=fs.WORLD_POWER_N_SIM_4)
 
 
 def _needle_in_failures(v, needle):

@@ -1,0 +1,5 @@
+baseline OK (totality pass, [107] mutants)
+
+[107] killed  run(): totality -- collect_total_4 stripped at line 1731 (lambda p=g1_path: json.loads(p.read_text())...)
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []

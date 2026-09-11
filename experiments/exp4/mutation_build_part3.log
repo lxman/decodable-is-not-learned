@@ -1,0 +1,16 @@
+baseline OK (fast pass, [5, 6, 10, 26, 27, 30, 33, 34, 35, 40, 42, 44] mutants)
+
+[  5] killed  chance_4: denominator off by one (n instead of n-1)
+[  6] killed  depth_pairs: ties broken to the LARGER q (rounding up), not the smaller
+[ 10] killed  _unit_rows: the non-finite/zero-row guard disabled
+[ 26] killed  unit_complete_4: the sets_sha256 34-rung coverage check skipped
+[ 27] killed  gate1_failures_4: the activation_sha_equal per-rung check skipped
+[ 30] killed  collect_rung_4: the pooled mean averages over PADDED tokens too (mask dropped)
+[ 33] killed  non_pythia_refs_4: returns the Pythia reference instead of excluding it
+[ 34] SURVIVED  family_of_traj_4: looks up the raw traj name instead of its endpoint key
+[ 35] killed  write_load_4: the sets re-read integrity check disabled
+[ 40] killed  reference_4 run(): the first-unit digest pin skipped
+[ 42] killed  reference_4 run(): eligibility is written even when `only` restricts the run
+[ 44] killed  sweep_4 run(): the eligibility-record-present requirement removed
+
+11/12 killed; 1 survivor(s): [(34, 'family_of_traj_4: looks up the raw traj name instead of its endpoint key', 'survived')]; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []

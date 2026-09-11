@@ -1,0 +1,5 @@
+baseline OK (totality pass, [100] mutants)
+
+[100] SURVIVED  run(): totality -- collect_total_4 stripped at line 1715 (lambda: _check_power_matches_eligibility_4(...)
+
+0/1 killed; 1 survivor(s): [(100, 'run(): totality -- collect_total_4 stripped at line 1715 (lambda: _check_power_matches_eligibility_4(...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []

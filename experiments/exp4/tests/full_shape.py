@@ -205,6 +205,9 @@ def _rung_sets(traj):
     return battery_4.rung_sets_4(outcome, bg.load_floors())
 
 
+WORLD_POWER_N_SIM_4 = 20   # review round 1, IMPORTANT 3: world tests pass expected_n_sim=20
+
+
 def build_world(root, mode: str, *, seed=0, stage: str = "full") -> dict:
     """Writes a synthetic exp4 tree under `root` for the given `mode`
     ("leads" / "partial" / "follows" / "no_convergence" /
@@ -387,10 +390,21 @@ def build_world(root, mode: str, *, seed=0, stage: str = "full") -> dict:
 
     if stage == "full":
         from experiments.exp4 import analyze_4 as an4
+        from experiments.exp4 import power_4
         table = an4.eligibility_table_4(root)
         battery_4.eligibility_path(root).parent.mkdir(parents=True, exist_ok=True)
         battery_4.eligibility_path(root).write_text(json.dumps(table, indent=1))
-        _write_power_stub(root, table, trajectories)
+        # Review round 1, IMPORTANT 3: a REAL power_4.compute() call,
+        # not a stub -- WORLD_POWER_N_SIM_4 (small, for build speed)
+        # is what world tests must pass as `expected_n_sim` to
+        # `an.run(...)`.
+        grids = {traj: list(battery_4.GRID_4[traj]) for traj in battery_4.TRAJECTORIES_4}
+        power_rec = power_4.compute(table, rung_sets_by_traj, grids, n_sim=WORLD_POWER_N_SIM_4,
+                                    seed=seed, phis=(0.0, 0.25, 0.5))
+        power_rec["eligibility_sha256"] = bg.sha256_file(battery_4.eligibility_path(root))
+        power_rec["prereg_tag"] = battery_4.PREREG_TAG_4
+        battery_4.power_path(root).parent.mkdir(parents=True, exist_ok=True)
+        battery_4.power_path(root).write_text(json.dumps(power_rec, indent=1))
 
     return {"mode": mode, "trajectories": list(trajectories), "seed": seed}
 
@@ -406,22 +420,6 @@ def _write_gate1(root, traj):
                                    digest_equal=g1["digest_equal"], seconds=0.05)
     battery_4.gate1_path(root, traj).parent.mkdir(parents=True, exist_ok=True)
     battery_4.gate1_path(root, traj).write_text(json.dumps(rec, indent=1))
-
-
-def _write_power_stub(root, eligibility_table, trajectories):
-    """Task 5's power tool is not built yet; a stub with the fields
-    `analyze_4.run()` requires (resolution 5)."""
-    cells = []
-    for traj in trajectories:
-        for rung, e in (eligibility_table.get(traj) or {}).get("R", {}).items():
-            if e.get("eligible"):
-                cells.append([traj, rung])
-    rungs = sorted({r for _, r in cells})
-    elig_sha = bg.sha256_file(battery_4.eligibility_path(root))
-    power = {"cells": cells, "rungs": rungs, "eligibility_sha256": elig_sha,
-            "declaration": "STUB (Task 5 not built)", "n_sim": 0, "arms": {}}
-    battery_4.power_path(root).parent.mkdir(parents=True, exist_ok=True)
-    battery_4.power_path(root).write_text(json.dumps(power, indent=1))
 
 
 # ------------------------------------------------------------- corruptions

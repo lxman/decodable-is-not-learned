@@ -497,12 +497,26 @@ def _acquire_backup(path):
     return backup
 
 
-def run_suite(tests, extra_args=None):
+def run_suite(tests, extra_args=None, timeout=None):
+    """Returns `(ok, out, timed_out)`. A timeout is NOT a kill (the
+    controller's ruling, review round 1): `subprocess.run(...,
+    timeout=...)` kills the child itself on expiry (SIGKILL after the
+    grace period) and raises `TimeoutExpired`, caught here and
+    reported as `timed_out=True` with whatever partial stdout the
+    child had produced — the caller must never fold this into either
+    `ok` or `survived`."""
     env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
     args = list(extra_args or [])
-    r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
-                        *tests, *args], cwd=ROOT, env=env, capture_output=True, text=True)
-    return r.returncode == 0, r.stdout[-600:]
+    try:
+        r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
+                            *tests, *args], cwd=ROOT, env=env, capture_output=True, text=True,
+                           timeout=timeout)
+        return r.returncode == 0, r.stdout[-600:], False
+    except subprocess.TimeoutExpired as e:
+        partial = e.stdout or ""
+        if isinstance(partial, bytes):
+            partial = partial.decode(errors="replace")
+        return False, partial[-600:], True
 
 
 def _parse_only(argv) -> set:
@@ -513,6 +527,22 @@ def _parse_only(argv) -> set:
         i = argv.index("--only")
         if i + 1 < len(argv):
             return {int(x) for x in argv[i + 1].split(",") if x}
+    return None
+
+
+def _parse_timeout(argv):
+    """`--timeout=SECONDS` (review round 1, IMPORTANT 1): applied to
+    EVERY `run_suite` call in this invocation, baseline included --
+    used to bound a single pathological mutant (e.g. #38) without
+    risking another multi-minute block of the whole harness. `None`
+    (no bound) unless given."""
+    for a in argv:
+        if a.startswith("--timeout="):
+            return float(a[len("--timeout="):])
+    if "--timeout" in argv:
+        i = argv.index("--timeout")
+        if i + 1 < len(argv):
+            return float(argv[i + 1])
     return None
 
 
@@ -527,18 +557,25 @@ def main(argv=None) -> int:
     else:
         tests, extra = FAST_TESTS, FAST_EXTRA_ARGS
     only = _parse_only(argv)
+    timeout = _parse_timeout(argv)
 
     _refuse_if_any_backup_exists()
     clear_pycache()
-    ok, out = run_suite(tests, extra)
+    ok, out, timed_out = run_suite(tests, extra, timeout=timeout)
+    if timed_out:
+        print(f"BASELINE TIMED OUT after {timeout}s — the covering suite itself is not this "
+             f"slow normally; investigate before trusting any mutant result from this run\n", out)
+        return 3
     if not ok:
         print("BASELINE FAILS — fix the suite first\n", out)
         return 2
     label = "fullshape" if fullshape else ("totality" if totality else "fast")
     print(f"baseline OK ({label} pass, "
-         f"{'all' if only is None else sorted(only)} mutants)\n", flush=True)
+         f"{'all' if only is None else sorted(only)} mutants"
+         f"{f', timeout={timeout}s' if timeout else ''})\n", flush=True)
 
     survivors = []
+    timeouts = []
     considered = 0
     for i, (path, name, old, new) in enumerate(M, 1):
         if only is not None and i not in only:
@@ -554,20 +591,27 @@ def main(argv=None) -> int:
         try:
             path.write_text(src.replace(old, new))
             clear_pycache()
-            ok, out = run_suite(tests, extra)
+            ok, out, timed_out = run_suite(tests, extra, timeout=timeout)
         finally:
             shutil.copy2(backup, path)
             backup.unlink()
             clear_pycache()
+        if timed_out:
+            print(f"[{i:3d}] TIMEOUT  {name}  (no verdict — not counted as killed or survived; "
+                 f"a timeout is not a kill)", flush=True)
+            timeouts.append((i, name, "timeout"))
+            continue
         print(f"[{i:3d}] {'killed' if not ok else 'SURVIVED'}  {name}", flush=True)
         if ok:
             survivors.append((i, name, "survived"))
     skipped = [s for s in survivors if s[2] == "target-not-found"]
     real = [s for s in survivors if s[2] == "survived"]
-    print(f"\n{considered - len(survivors)}/{considered} killed; "
+    killed = considered - len(survivors) - len(timeouts)
+    print(f"\n{killed}/{considered} killed; "
           f"{len(real)} survivor(s): {real}; "
-          f"{len(skipped)} SKIP (target text not found, stale mutant): {skipped}")
-    return 1 if survivors else 0
+          f"{len(skipped)} SKIP (target text not found, stale mutant): {skipped}; "
+          f"{len(timeouts)} TIMEOUT (not a kill, not a survivor): {timeouts}")
+    return 1 if (survivors or timeouts) else 0
 
 
 if __name__ == "__main__":

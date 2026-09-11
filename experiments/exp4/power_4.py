@@ -53,6 +53,51 @@ TREND_SHAPE_NOTE_4 = (
     "analyzer's reading does not depend on it)."
 )
 
+# Review round 1, IMPORTANT 2: for a cell whose t_clear sits at or near
+# the grid's last index (c_r close to G-1), phi*=0's FIXED m=c_r+3
+# construction (never bisected -- the disclosed asymptote formula) can
+# leave F_end small regardless of the true achievable floor, giving a
+# simulated endpoint excess well below the cell's real E_r (e.g. ~1.8%
+# of E_r when c_r == G-1: G-1-m = G-1-(c_r+3) = -4 exactly whenever
+# c_r == G-1, for ANY G). An alternative arm's BISECTED construction
+# searches for the m that best hits its own (higher) target ratio, and
+# in doing so typically keeps F_end larger for the same cell -- so the
+# null arm's simulated excess is more likely to miss the eligibility
+# bar (SE_MULTIPLE_4 * se) than an alternative arm's, and the null
+# arm's eligible-cell set can read SMALLER for exactly the cells this
+# affects. null_sd_T/min_detectable_T/the realized alpha are all
+# computed on the null arm's own (possibly smaller) eligible set. See
+# the per-cell `construction` block and `construction_miss`
+# (|realized_ratio - phi*| > .02, computed once per (phi, cell) below,
+# never silently) for exactly which cells and arms this affects.
+CONSTRUCTION_NOTE_4 = (
+    "for a cell whose t_clear sits at or near the grid's last index, phi*=0's fixed m=c_r+3 "
+    "construction can leave F_end small regardless of the true achievable floor (e.g. ~1.8% of "
+    "E_r when c_r == G-1), more likely to miss the eligibility bar than an alternative arm's "
+    "bisected construction -- the null arm's eligible-cell set can therefore read SMALLER than an "
+    "alternative arm's for the affected cells, and null_sd_T/min_detectable_T/the realized alpha "
+    "are computed on the null arm's own (possibly smaller) eligible set; see the per-cell "
+    "`construction` block and `construction_miss` (|realized_ratio - phi*| > .02) for exactly "
+    "which cells and arms this affects."
+)
+
+NOISE_SCALE_NOTE_4 = (
+    "noise is drawn independently at EVERY grid point (not only t_1/t_end), so a two-point "
+    "difference like the endpoint excess itself combines two independent N(0, se) draws at "
+    "sqrt(2) times the nominal se -- part of why null cells cross the eligibility bar above its "
+    "nominal rate (see eligibility_bar_null_crossing_note)."
+)
+
+RNG_ORDER_NOTE_4 = (
+    "a single numpy Generator stream (seeded once from `seed`) is consumed sequentially across "
+    "every arm in `phis` order, each arm's n_sim draws run to completion before the next arm "
+    "begins -- the arms are successive draws from one stream, not independently-seeded replicates "
+    "of each other."
+)
+
+ASSUMPTIONS_4 = " ".join(
+    [TREND_SHAPE_NOTE_4, CONSTRUCTION_NOTE_4, NOISE_SCALE_NOTE_4, RNG_ORDER_NOTE_4])
+
 ELIGIBILITY_BAR_NULL_CROSSING_NOTE_4 = (
     "the item bootstrap does not resample neighbour sets, so null cells cross the one-sided 2-SE "
     "bar above the nominal 2.3% (2-12% in the worlds) -- a disclosure carried from Task 4's "
@@ -67,6 +112,8 @@ MIN_DETECTABLE_T_NOTE_4 = (
 
 N_BOOT_POWER_4 = 200
 LOGISTIC_WIDTH_4 = 0.75
+N_SIM_4 = 1000   # the campaign constant (review round 1, IMPORTANT 3); tests inject a smaller n_sim
+CONSTRUCTION_MISS_TOL_4 = 0.02
 
 
 def _logistic(x):
@@ -117,7 +164,7 @@ def _candidates(elig: dict) -> list:
     return sorted(out)
 
 
-def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = 1000, seed: int = 0,
+def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, seed: int = 0,
            phis: tuple = (0.0, 0.25, 0.5)) -> dict:
     candidates = _candidates(elig)
     if not candidates:
@@ -148,6 +195,12 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = 1000, seed
     for traj, ti in traj_info.items():
         steps_arr = np.asarray(ti["steps"], dtype=np.float64)
         s0, s1 = steps_arr[0], steps_arr[-1]
+        # Review round 1 minor: real grids never start at step 0
+        # (log-linear interpolation needs a strictly positive t_1) --
+        # refuse rather than silently produce log(0) = -inf / nan.
+        if s0 <= 0:
+            raise ValueError(f"power_4.compute: {traj}'s grid starts at step {s0!r} <= 0 -- "
+                             f"log-linear trend interpolation needs a strictly positive t_1")
         if s1 == s0:
             frac = np.zeros_like(steps_arr)
         else:
@@ -156,6 +209,28 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = 1000, seed
 
     m_by_phi = {phi: {key: _solve_m(info["c_r"], info["G"], phi) for key, info in cell_info.items()}
                for phi in phis}
+
+    # Review round 1, IMPORTANT 2: record the REALIZED construction
+    # (m, F_end, realized_ratio) per (phi, cell) -- a deterministic
+    # property of (c_r, G, phi*) alone, computed once here, never
+    # inferred from the noisy simulated draws.
+    construction = {}
+    for phi in phis:
+        per_cell, miss_list = {}, []
+        for (traj, rung), info in cell_info.items():
+            m = m_by_phi[phi][(traj, rung)]
+            G, c_r = info["G"], info["c_r"]
+            F_end = float(_logistic((G - 1 - m) / LOGISTIC_WIDTH_4))
+            F_pre = float(_logistic((c_r - 1 - m) / LOGISTIC_WIDTH_4))
+            realized = (F_pre / F_end) if F_end > 0.0 else 0.0
+            miss = abs(realized - phi) > CONSTRUCTION_MISS_TOL_4
+            key = f"{traj}/{rung}"
+            per_cell[key] = {"m": float(m), "F_end": F_end, "realized_ratio": float(realized),
+                             "construction_miss": bool(miss)}
+            if miss:
+                miss_list.append(key)
+        construction[str(phi)] = {"cells": per_cell, "construction_miss": miss_list,
+                                  "construction_miss_count": len(miss_list)}
 
     rng = np.random.default_rng(seed)
 
@@ -229,6 +304,7 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = 1000, seed
             "P_NO_CONVERGENCE": world_counts.get("NO-CONVERGENCE", 0) / n_sim,
             "mean_T": mean_T, "sd_T": sd_T,
             "mean_eligible_cells": float(np.mean(elig_counts)) if elig_counts else 0.0,
+            "construction_miss_count": construction[str(phi)]["construction_miss_count"],
         }
 
     null_key = str(0.0)
@@ -252,8 +328,9 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = 1000, seed
         "declaration": declaration,
         "cells": [[t, r] for t, r in candidates], "rungs": rungs,
         "flip_resolution": 1.0 / (2 ** n_rungs) if n_rungs else None,
-        "assumptions": TREND_SHAPE_NOTE_4,
+        "assumptions": ASSUMPTIONS_4,
         "eligibility_bar_null_crossing_note": ELIGIBILITY_BAR_NULL_CROSSING_NOTE_4,
+        "construction": construction,
         "eligibility_sha256": None, "prereg_tag": None,
     }
 

@@ -1,0 +1,5 @@
+baseline OK (totality pass, [108] mutants)
+
+[108] killed  run(): totality -- collect_total_4 stripped at line 1734 (lambda g1_att=g1_att, traj=traj: battery_4.gate1_failures_4(...)
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []

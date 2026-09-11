@@ -45,10 +45,14 @@ def _blob_sha(tag, rel):
     return bg.sha256_file(p) if p.is_file() else None
 
 
+TOTALITY_POWER_N_SIM_4 = 10   # review round 1, IMPORTANT 3: a real (not stub) power record
+
+
 def _run_kwargs():
     return dict(tag_exists=lambda t: True, blob_sha=_blob_sha,
                blobs_bound=lambda tag, paths, repo_root=None: [],
-               referents_sha=False, imports_pinned=False)
+               referents_sha=False, imports_pinned=False,
+               expected_n_sim=TOTALITY_POWER_N_SIM_4)
 
 
 def _needle_in_failures(v, needle):
@@ -64,7 +68,16 @@ def _totality_base(tmp_path_factory):
     table = an.eligibility_table_4(root)
     battery_4.eligibility_path(root).parent.mkdir(parents=True, exist_ok=True)
     battery_4.eligibility_path(root).write_text(json.dumps(table, indent=1))
-    fs._write_power_stub(root, table, battery_4.TRAJECTORIES_4)
+    # Review round 1, IMPORTANT 3: a REAL power_4.compute() record,
+    # not a stub the analyzer's own shape check would now refuse.
+    from experiments.exp4 import power_4
+    rung_sets_by_traj = {traj: fs._rung_sets(traj) for traj in battery_4.TRAJECTORIES_4}
+    grids = {traj: list(battery_4.GRID_4[traj]) for traj in battery_4.TRAJECTORIES_4}
+    power_rec = power_4.compute(table, rung_sets_by_traj, grids, n_sim=TOTALITY_POWER_N_SIM_4,
+                                seed=11, phis=(0.0, 0.25, 0.5))
+    power_rec["eligibility_sha256"] = bg.sha256_file(battery_4.eligibility_path(root))
+    power_rec["prereg_tag"] = battery_4.PREREG_TAG_4
+    battery_4.power_path(root).write_text(json.dumps(power_rec, indent=1))
     return root
 
 
@@ -153,6 +166,25 @@ def test_gate1_json_list_gives_insufficient_data(_totality_base, tmp_path):
     v = an.run(root=root, **_run_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
     assert _needle_in_failures(v, "gate 1 pythia_2.8b")
+
+
+# ----------------------------------------------------- 5b. torn gate1.json
+# (review round 1 follow-up: adding the `_check_power_matches_eligibility_4`
+# collect_total_4 site earlier in run() shifted every totality mutant index
+# by one, and re-running the renumbered mutant set surfaced a real gap --
+# case 5 above writes VALID json (a list), which only exercises the
+# gate1_failures_4 call site, not the json.loads(p.read_text()) call
+# immediately before it; nothing previously corrupted gate1.json's raw
+# bytes into unparseable JSON.)
+
+@pytest.mark.slow
+def test_gate1_json_torn_gives_insufficient_data(_totality_base, tmp_path):
+    root = _fresh_copy(_totality_base, tmp_path)
+    battery_4.gate1_path(root, "pythia_2.8b").parent.mkdir(parents=True, exist_ok=True)
+    battery_4.gate1_path(root, "pythia_2.8b").write_text('{"activation_sha_equal": tr')
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "gate 1 pythia_2.8b") and _needle_in_failures(v, "JSONDecodeError")
 
 
 # --------------------------------------------------------------- 6. HALTED present

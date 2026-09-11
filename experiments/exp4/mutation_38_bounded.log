@@ -1,0 +1,5 @@
+baseline OK (fast pass, [38] mutants, timeout=180.0s)
+
+[ 38] TIMEOUT  reference_4 run(): the any-HALTED-marker guard disabled  (no verdict — not counted as killed or survived; a timeout is not a kill)
+
+0/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []; 1 TIMEOUT (not a kill, not a survivor): [(38, 'reference_4 run(): the any-HALTED-marker guard disabled', 'timeout')]

@@ -1294,7 +1294,7 @@ def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
             "rate_at_t_minus": rate, "floor": floor,
             "correct_at_t_minus": rec["correct"], "bar_count": bc,
             "bar_count_available": bc is not None,
-            "count_fraction_of_bar_at_t_minus": (rec["correct"] / bc) if bc else None,
+            "count_fraction_of_bar_at_t_minus": (rec["correct"] / bc) if bc is not None else None,
         }
     transient_series, trend_shapes, steps_by_traj = {}, {}, {}
     for traj, rs in rung_sets_by_traj.items():
@@ -1351,9 +1351,26 @@ def _compare_eligibility_4(a, b, path="") -> list:
     return bad
 
 
-def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha) -> list:
+POWER_PHIS_4 = (0.0, 0.25, 0.5)
+
+
+def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
+                                       expected_n_sim) -> list:
+    """Review round 1, IMPORTANT 3 (2i F-1's lesson applied here): the
+    prior version checked only cells/rungs/eligibility_sha256 and mere
+    PRESENCE of the rest, so `full_shape._write_power_stub` (n_sim=0,
+    arms={}, declaration a placeholder string) passed the gate. Every
+    field a real `power_4.compute()` record actually carries is now
+    checked for VALUE, not presence: `n_sim` against the expected
+    campaign constant (injectable for tests), `phis` the exact triple,
+    every arm's six `P_*` fields plus `mean_T`/`sd_T`/
+    `mean_eligible_cells` as floats, `declaration` one of the two real
+    values, `null_sd_T`/`min_detectable_T` floats, and `construction`
+    present at all (its own per-cell shape is power_4's concern, not
+    re-validated here)."""
     bad = []
-    for field in ("cells", "rungs", "eligibility_sha256", "declaration", "n_sim", "arms"):
+    for field in ("cells", "rungs", "eligibility_sha256", "declaration", "n_sim", "arms",
+                 "phis", "null_sd_T", "min_detectable_T", "construction"):
         if field not in power:
             bad.append(f"power record missing {field!r}")
     elig_pairs = set()
@@ -1371,7 +1388,54 @@ def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha) -> l
             bad.append("power record rungs != eligibility's eligible rung set")
     if "eligibility_sha256" in power and power["eligibility_sha256"] != eligibility_sha:
         bad.append("power record eligibility_sha256 != the eligibility file's sha")
+
+    if power.get("n_sim") != expected_n_sim:
+        bad.append(f"power record n_sim {power.get('n_sim')!r} != expected {expected_n_sim!r}")
+    want_phis = list(POWER_PHIS_4)
+    if power.get("phis") != want_phis:
+        bad.append(f"power record phis {power.get('phis')!r} != {want_phis!r}")
+    want_arm_keys = {str(p) for p in POWER_PHIS_4}
+    arms = power.get("arms")
+    if not isinstance(arms, dict) or set(arms) != want_arm_keys:
+        bad.append(f"power record arms keys "
+                   f"{sorted(arms) if isinstance(arms, dict) else arms!r} != "
+                   f"{sorted(want_arm_keys)}")
+    else:
+        for phi_key, arm in arms.items():
+            if not isinstance(arm, dict):
+                bad.append(f"power record arms[{phi_key!r}] is not a dict")
+                continue
+            for field in ("P_LEADS", "P_PARTIAL", "P_FOLLOWS", "P_UNDETERMINED",
+                         "P_NO_CONVERGENCE", "mean_T", "sd_T", "mean_eligible_cells"):
+                v = arm.get(field)
+                if not isinstance(v, (int, float)) or isinstance(v, bool):
+                    bad.append(f"power record arms[{phi_key!r}][{field!r}] is not a float: {v!r}")
+    if power.get("declaration") not in ("POWERED", "UNDERPOWERED IN ADVANCE"):
+        bad.append(f"power record declaration {power.get('declaration')!r} is not a valid value")
+    for field in ("null_sd_T", "min_detectable_T"):
+        v = power.get(field)
+        if not isinstance(v, (int, float)) or isinstance(v, bool):
+            bad.append(f"power record {field!r} is not a float: {v!r}")
     return bad
+
+
+def _power_summary_4(power) -> dict:
+    """Review round 1, IMPORTANT 4: the verdict-carried power block --
+    declaration, null_sd_T, min_detectable_T, flip_resolution, n_sim,
+    P_LEADS per arm, construction_miss counts per arm."""
+    if not power:
+        return None
+    arms = power.get("arms") or {}
+    return {
+        "declaration": power.get("declaration"),
+        "null_sd_T": power.get("null_sd_T"),
+        "min_detectable_T": power.get("min_detectable_T"),
+        "flip_resolution": power.get("flip_resolution"),
+        "n_sim": power.get("n_sim"),
+        "P_LEADS": {phi: (arm or {}).get("P_LEADS") for phi, arm in arms.items()},
+        "construction_miss_count": {phi: (arm or {}).get("construction_miss_count")
+                                    for phi, arm in arms.items()},
+    }
 
 
 def _jsonify_4(obj):
@@ -1400,7 +1464,8 @@ def _json_rung_sets_4(rung_sets_by_traj) -> dict:
 
 
 def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj, gate1_records,
-             gate0_records=None, secondaries, sensitivities, pins_active, n_boot) -> dict:
+             gate0_records=None, secondaries, sensitivities, pins_active, n_boot,
+             power=None) -> dict:
     world = tree["verdict"]
     failures = list(failures)
     # I-1: a malformed eligibility file (e.g. a list, not a dict) must
@@ -1419,6 +1484,12 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
         gate0_summary = {t: ({"fraction_below": g["fraction_below"], "n_cells": g["n_cells"],
                              "per_reference": g.get("per_reference"), "pass": g["pass"]} if g else None)
                          for t, g in gate0_records.items()}
+    # Review round 1, IMPORTANT 4: the power block, carried both at
+    # the top level and under `referents` (2n's own pattern).
+    power_summary = None
+    if power:
+        power_summary, f = collect_total_4(lambda: _power_summary_4(power), "4 power summary")
+        failures += f
     return {
         "verdict": world,
         "reason": tree["reason"],
@@ -1430,9 +1501,10 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
         "rung_sets": _json_rung_sets_4(rung_sets_by_traj) if rung_sets_by_traj else None,
         "gate1": gate1_records,
         "gate0": gate0_summary,
+        "power": power_summary,
         "secondaries": secondaries or None,
         "sensitivities": sensitivities or None,
-        "referents": {"failures": list(failures)},
+        "referents": {"failures": list(failures), "power": power_summary},
         "pins_active": pins_active,
         "n_boot": n_boot,
         "git_sha": _git_sha_4(),
@@ -1443,6 +1515,11 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
 def write_verdict_txt_4(v: dict) -> str:
     lines = [f"EXPERIMENT 4 VERDICT: {v['verdict']}", "", v["reason"], "",
             f"Caveat: {v['known_outcome_caveat']}", "", f"Licence: {v['licensed_sentence']}", ""]
+    pw = v.get("power")
+    if pw:
+        lines.append(f"Power: read under {pw['declaration']}: null SD of T {pw['null_sd_T']}, "
+                    f"min-detectable T {pw['min_detectable_T']}")
+        lines.append("")
     p = v.get("primary")
     if p:
         lines.append(f"Primary: T={p['T']:.4f} p+={p['p_plus']:.4g} p-={p['p_minus']:.4g} "
@@ -1481,9 +1558,21 @@ _LITERAL = object()
 
 def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, blob_sha=None,
        blobs_bound=None, referents_sha=_LITERAL, imports_pinned=_LITERAL, out_path=None,
-       frozen_check=None) -> dict:
+       frozen_check=None, expected_n_sim=None) -> dict:
+    """`expected_n_sim`: review round 1, IMPORTANT 3 (2n's `frozen_
+    check`/`s8_loader` TEST-ONLY injection pattern) -- defaults to
+    `power_4.N_SIM_4` (the campaign constant); a non-None value is
+    disclosed via `pins_active["power_n_sim_injected"]` so a world
+    test's smaller `n_sim` is never silently mistaken for the real
+    campaign's own record."""
     failures = []
     root = Path(root)
+    # Lazy import: power_4 imports analyze_4, so a module-level import
+    # here would be circular; by call time both modules are already
+    # loaded in every real caller (test files import both).
+    from experiments.exp4 import power_4 as pw4
+    power_n_sim_expected = pw4.N_SIM_4 if expected_n_sim is None else expected_n_sim
+    power_n_sim_injected = expected_n_sim is not None
     if referents_sha is _LITERAL:
         referents_sha = REFERENTS_4_SHA256
     if imports_pinned is _LITERAL:
@@ -1624,7 +1713,8 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
                                   "4 power record"); failures += f
         if power is not None and eligibility is not None:
             bad, f = collect_total_4(
-                lambda: _check_power_matches_eligibility_4(power, eligibility, elig_sha),
+                lambda: _check_power_matches_eligibility_4(
+                    power, eligibility, elig_sha, expected_n_sim=power_n_sim_expected),
                 "4 power vs eligibility check")
             failures += f
             if bad:
@@ -1791,13 +1881,15 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
         "referent_manifest": referent_manifest_ok,
         "prereg_binding": tag_exists is None and blob_sha is None,
         "seal_binding": blobs_bound is None,
+        "power_n_sim_expected": power_n_sim_expected,
+        "power_n_sim_injected": power_n_sim_injected,
     }
 
     v = verdict_4(failures=failures, tree=tree, primary=primary, cells=cells,
                  eligibility=eligibility or {}, rung_sets_by_traj=rung_sets,
                  gate1_records=gate1_records, gate0_records=gate0_records,
                  secondaries=secondaries, sensitivities=sensitivities,
-                 pins_active=pins_active, n_boot=n_boot)
+                 pins_active=pins_active, n_boot=n_boot, power=power)
     # Sanitised (no numpy scalars/arrays, no NaN/Inf) unconditionally,
     # not only when writing: `run()`'s return value must itself be
     # strict-JSON-able (brief Step 3), and a numpy type left in
