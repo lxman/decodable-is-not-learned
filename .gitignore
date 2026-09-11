@@ -86,3 +86,18 @@ experiments/exp2n/freeze_determinism_b.log
 # Ruling R-7 (fix round 1): the committed mutation_*.log files ARE the
 # mutation battery's record (2l D-1's own precedent), so unlike the
 # seven stage logs above they are NOT ignored.
+# exp4 campaign/stage logs — machine-local, never part of the closed record
+experiments/exp4/preflight.log
+experiments/exp4/reference.log
+experiments/exp4/power.log
+experiments/exp4/sweep_pythia_2.8b.log
+experiments/exp4/sweep_olmo2_7b.log
+experiments/exp4/sweep_smollm3_3b.log
+experiments/exp4/sweep_comma_7b.log
+experiments/exp4/analyzer.log
+experiments/exp4/watcher_reference.log
+experiments/exp4/watcher_sweep.log
+experiments/exp4/mutation_*.log
+experiments/exp4/freeze_*.log
+experiments/exp4/results/**/attested/
+experiments/exp4/results/**/activations/
