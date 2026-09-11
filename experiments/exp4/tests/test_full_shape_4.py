@@ -265,7 +265,7 @@ def test_referent_manifest_pin_hook_runs_the_real_check(_leads_world, tmp_path, 
 
     def check_referents_pass(path, *, sha_pin):
         calls.append((path, sha_pin))
-        return {"ok": True}
+        return []          # the real contract: a list of drift failures, empty = clean
     stub_pass.check_referents = check_referents_pass
     monkeypatch.setitem(sys.modules, "experiments.exp4.make_referents_4", stub_pass)
 
@@ -283,6 +283,21 @@ def test_referent_manifest_pin_hook_runs_the_real_check(_leads_world, tmp_path, 
     v2 = an.run(root=root, **kwargs)
     assert v2["pins_active"]["referent_manifest"] is False
     assert _needle_in_failures(v2, "referent manifest")
+
+    # Task 5 finding 2: a check that returns a NON-EMPTY list of drift
+    # failures WITHOUT raising must also be consumed, not discarded —
+    # the bug the finding fixes was exactly `_, f =
+    # collect_total_4(...)` throwing the returned list away.
+    stub_drift = types.ModuleType("experiments.exp4.make_referents_4")
+
+    def check_referents_drift(path, *, sha_pin):
+        return ["experiments/exp2g/results/predictor/predictor.json: sha drift"]
+    stub_drift.check_referents = check_referents_drift
+    monkeypatch.setitem(sys.modules, "experiments.exp4.make_referents_4", stub_drift)
+
+    v3 = an.run(root=root, **kwargs)
+    assert v3["pins_active"]["referent_manifest"] is False
+    assert _needle_in_failures(v3, "predictor.json: sha drift")
 
 
 # --------------------------------------------------------- secondaries/JSON

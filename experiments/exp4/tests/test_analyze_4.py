@@ -245,7 +245,17 @@ def test_gate0_4_passes_on_a_synthetic_leads_reference_tree(tmp_path):
         assert g0["pass"] is True, (traj, g0)
         assert g0["fraction_below"] >= an.GATE0_MIN_FRACTION_4
         n_sites = len(metric_4.sites_4(battery_4.N_HIDDEN_PIN_4[traj]))
-        assert g0["n_cells"] == len(battery_4.RUNGS) * n_sites
+        n_refs = len(battery_4.REFS_FOR_4[traj])
+        # Task 5 finding 1: cells are per (rung, site, REFERENCE), not
+        # averaged over references first -- n_cells scales by n_refs.
+        assert g0["n_cells"] == len(battery_4.RUNGS) * n_sites * n_refs
+        assert set(g0["per_reference"]) == set(refs)
+        for ref in refs:
+            assert g0["per_reference"][ref]["n_cells"] == len(battery_4.RUNGS) * n_sites
+            assert 0.0 <= g0["per_reference"][ref]["fraction_below"] <= 1.0
+        total_below = sum(round(g0["per_reference"][r]["fraction_below"]
+                                * g0["per_reference"][r]["n_cells"]) for r in refs)
+        assert total_below == pytest.approx(g0["fraction_below"] * g0["n_cells"], abs=1e-6)
 
 
 def test_gate0_4_fails_when_twin_equals_endpoint():
@@ -260,6 +270,7 @@ def test_gate0_4_fails_when_twin_equals_endpoint():
     g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
     assert g0["pass"] is False
     assert g0["fraction_below"] == pytest.approx(0.0)
+    assert g0["per_reference"]["refX"]["fraction_below"] == pytest.approx(0.0)
 
 
 def test_gate0_4_passes_when_twin_strictly_below_everywhere():
@@ -277,6 +288,7 @@ def test_gate0_4_passes_when_twin_strictly_below_everywhere():
     g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
     assert g0["pass"] is True
     assert g0["fraction_below"] == pytest.approx(1.0)
+    assert g0["per_reference"]["refX"]["fraction_below"] == pytest.approx(1.0)
 
 
 # ------------------------------------------------------------------- I-1

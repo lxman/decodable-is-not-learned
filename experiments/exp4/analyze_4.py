@@ -72,8 +72,24 @@ SE_MULTIPLE_4 = 2.0
 MIN_CLEAR_INDEX_4 = 2
 GATE0_MIN_FRACTION_4 = 0.90
 
-REFERENTS_4_SHA256 = None    # Task 5
-IMPORTED_SHA256_4 = None     # Task 5
+REFERENTS_4_SHA256 = "432f645a9adb24bdec636d210f8dccebec0a0e636dd8466f6465fa82ea2c7e91"
+# Task 5: exp4's OWN residual import surface -- every non-test module
+# inside experiments/exp4 that is not one of the four blob-bound
+# INSTRUMENT_BLOBS_4 files, from tests/import_scan_4.py's scan.
+IMPORTED_SHA256_4 = {
+    battery_4.REPO / "experiments/exp4/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    battery_4.REPO / "experiments/exp4/make_referents_4.py":
+        "e8b9cff34a34c830e2e07302eae6bcd811fe22fe978f77c0ea32ff07d4491b7e",
+    battery_4.REPO / "experiments/exp4/power_4.py":
+        "33b4ff53900d436a1353256b4d854787d59a29e0f9e49fde44d7c19d838b6419",
+    battery_4.REPO / "experiments/exp4/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    battery_4.REPO / "experiments/exp4/run/preflight_4.py":
+        "865d4f8c08b66cb5be708af4e46f728b660fd5accb4b19c394142856a2a33057",
+    battery_4.REPO / "experiments/exp4/verify_referents_4.py":
+        "4e59bdfbb3ff1c8510324f80b2d1265300c0dd1c782d3559a09cb1a572d5d1b6",
+}
 REFERENTS_PATH_4 = EXP4 / "referents_4.json"   # Task 5 writes this file
 
 KNOWN_OUTCOME_CAVEAT_4 = (
@@ -152,12 +168,41 @@ def collect_total_4(thunk, label):
 
 
 def check_imports_4() -> None:
-    """Task 5 fills the real pin-checking body; until then this always
-    raises when called (matching 2n's `check_imports_2n` shape) — but
-    `run()` only calls it when `imports_pinned` is explicitly True."""
+    """2j F-1 (2n's `check_imports_2n` shape, no upstream residual pins
+    to fold in — exp4 is a fresh experiment): every module under
+    `experiments/` this process has imported (excluding `tests/`) must
+    be covered by `FROZEN_SHA256_4` (everything outside `experiments/
+    exp4/`), `INSTRUMENT_BLOBS_4`, or `IMPORTED_SHA256_4` (exp4's own
+    residual — everything inside `experiments/exp4/` that isn't one of
+    the four instrument blobs), each byte-identical to its pin. `run()`
+    only calls this when `imports_pinned` is truthy."""
     if IMPORTED_SHA256_4 is None:
         raise RuntimeError("IMPORTED_SHA256_4 is None — the import surface is not pinned "
                            "(build incomplete)")
+    covered = {str(Path(p).resolve()) for p in battery_4.FROZEN_SHA256_4}
+    covered |= {str((battery_4.REPO / rel).resolve()) for rel in battery_4.INSTRUMENT_BLOBS_4}
+    pinned = {str(Path(p).resolve()): v for p, v in IMPORTED_SHA256_4.items()}
+    drifted, unpinned = [], []
+    for p, want in sorted(pinned.items()):
+        pp = Path(p)
+        if not pp.is_file() or bg.sha256_file(pp) != want:
+            drifted.append(f"(pin) -> {p}")
+    exp_root = str((battery_4.REPO / "experiments").resolve())
+    for name, mod in sorted(sys.modules.items()):
+        f = getattr(mod, "__file__", None)
+        if not f:
+            continue
+        rp = Path(f).resolve()
+        s = str(rp)
+        if not s.startswith(exp_root + "/") or "tests" in rp.parts:
+            continue
+        if s in covered or s in pinned:
+            continue
+        unpinned.append(f"{name} -> {s}")
+    if unpinned:
+        raise RuntimeError("unpinned module on the import surface: " + "; ".join(sorted(unpinned)))
+    if drifted:
+        raise RuntimeError("imported module drifted from its pin: " + "; ".join(sorted(drifted)))
 
 
 def _git_sha_4() -> str:
@@ -319,22 +364,23 @@ def per_item_alignment_4(tables_m: dict, ref_tables: dict, pairing_by_ref: dict)
 
 
 def _gate0_site_means_4(tables: dict, ref_tables: dict, pairing_by_ref: dict) -> dict:
-    """`{rung: float64[n_sites]}` = mean over refs AND items (sites
-    KEPT separate) of overlap/k, re-derived via `metric_4.
-    overlap_counts` — the per-(rung, site) granularity gate 0 needs,
-    at the prompt-end position (the committed `sets` are always
-    prompt-end, per Task 3's storage convention)."""
+    """`{rung: {ref: float64[n_sites]}}` = mean over items ONLY (sites
+    AND references KEPT separate) of overlap/k, re-derived via
+    `metric_4.overlap_counts` — the per-(rung, site, reference)
+    granularity gate 0 needs (Task 5 finding 1: cells are per
+    REFERENCE, not averaged over references first), at the prompt-end
+    position (the committed `sets` are always prompt-end, per Task 3's
+    storage convention)."""
     sets_m = tables["sets"]
     out = {}
     for rung in battery_4.RUNGS:
         sm = sets_m[rung]
-        per_ref = []
+        per_ref = {}
         for ref, pairing in pairing_by_ref.items():
             sq = ref_tables[ref][rung]
             ov = collect_4.overlap_table_4(sm, sq, pairing)      # [n_sites, 500] uint8
-            per_ref.append(ov.astype(np.float64) / metric_4.K_4)
-        stacked = np.stack(per_ref, axis=0)          # [n_refs, n_sites, 500]
-        out[rung] = stacked.mean(axis=(0, 2))         # mean over refs AND items -> [n_sites]
+            per_ref[ref] = (ov.astype(np.float64) / metric_4.K_4).mean(axis=1)   # -> [n_sites]
+        out[rung] = per_ref
     return out
 
 
@@ -342,10 +388,13 @@ def gate0_4(root, traj: str, ref_tables: dict, stage_tables: dict) -> dict:
     """Design §3.7 gate 0 — the instrument sees training: re-derived
     from the committed set tables of `INIT_KEY_4[traj]` (the seeded
     twin) and `endpoint_<traj>` (both already loaded in `stage_tables`
-    — both are `STAGE1_KEYS_4` members). For every (rung, site) at the
-    prompt-end position, `fraction_below` = the twin's mean-over-refs
-    overlap fraction strictly below the endpoint's; passes iff that
-    fraction is >= `GATE0_MIN_FRACTION_4` (0.90)."""
+    — both are `STAGE1_KEYS_4` members). Task 5 finding 1: cells are
+    per (rung, site, REFERENCE) — the twin's mean-over-items overlap
+    with reference Q at site s must be below the endpoint's for the
+    SAME (rung, s, Q), never averaged over references first. Passes
+    iff the pooled `fraction_below` over all 34 x n_sites x n_refs
+    cells is >= `GATE0_MIN_FRACTION_4` (0.90); a per-reference
+    breakdown is also returned."""
     twin_key = battery_4.INIT_KEY_4[traj]
     endpoint_key = f"endpoint_{traj}"
     twin_tables = stage_tables[twin_key]
@@ -354,12 +403,25 @@ def gate0_4(root, traj: str, ref_tables: dict, stage_tables: dict) -> dict:
     endpoint_site = _gate0_site_means_4(endpoint_tables, ref_tables,
                                         endpoint_tables["record"]["pairing"])
     below, total = 0, 0
+    per_ref_below: dict = {}
+    per_ref_total: dict = {}
     for rung in battery_4.RUNGS:
-        tw, ep = twin_site[rung], endpoint_site[rung]
-        below += int(np.sum(tw < ep))
-        total += tw.shape[0]
+        tw_by_ref, ep_by_ref = twin_site[rung], endpoint_site[rung]
+        for ref in tw_by_ref:
+            tw, ep = tw_by_ref[ref], ep_by_ref[ref]
+            b = int(np.sum(tw < ep))
+            n = int(tw.shape[0])
+            below += b; total += n
+            per_ref_below[ref] = per_ref_below.get(ref, 0) + b
+            per_ref_total[ref] = per_ref_total.get(ref, 0) + n
     fraction_below = (below / total) if total else 0.0
+    per_reference = {
+        ref: {"fraction_below": float(per_ref_below[ref] / per_ref_total[ref])
+             if per_ref_total[ref] else 0.0, "n_cells": int(per_ref_total[ref])}
+        for ref in per_ref_total
+    }
     return {"fraction_below": float(fraction_below), "n_cells": int(total),
+           "per_reference": per_reference,
            "pass": bool(fraction_below >= GATE0_MIN_FRACTION_4)}
 
 
@@ -1191,12 +1253,20 @@ def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
     def bar_count(rung, floor):
         # M-5 (ruling): the bar COUNT is the smallest k in 0..500 for
         # which `stats_2d.binomial_bar(k, 500, floor)["significant"]`
-        # -- a linear search, memoised per rung.
+        # -- a linear search, memoised per rung. Task 5 finding 3: when
+        # NO k in 0..500 clears the bar, this must report `None` (not
+        # clamp to 500 -- 500 is itself never checked for significance
+        # by the loop below once k > N_ITEMS, so clamping silently
+        # manufactured a bar count that was never verified significant).
         if rung not in bar_count_cache:
             k = 0
-            while k <= bt.N_ITEMS and not st.binomial_bar(k, bt.N_ITEMS, floor)["significant"]:
+            found = None
+            while k <= bt.N_ITEMS:
+                if st.binomial_bar(k, bt.N_ITEMS, floor)["significant"]:
+                    found = k
+                    break
                 k += 1
-            bar_count_cache[rung] = min(k, bt.N_ITEMS)
+            bar_count_cache[rung] = found
         return bar_count_cache[rung]
 
     outcome_cache: dict = {}   # M-6: one load_outcome_4 per trajectory, not per cell
@@ -1223,6 +1293,7 @@ def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
             "non_monotone_count": non_monotone, "excess_series": excess,
             "rate_at_t_minus": rate, "floor": floor,
             "correct_at_t_minus": rec["correct"], "bar_count": bc,
+            "bar_count_available": bc is not None,
             "count_fraction_of_bar_at_t_minus": (rec["correct"] / bc) if bc else None,
         }
     transient_series, trend_shapes, steps_by_traj = {}, {}, {}
@@ -1346,7 +1417,7 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
     gate0_summary = None
     if gate0_records:
         gate0_summary = {t: ({"fraction_below": g["fraction_below"], "n_cells": g["n_cells"],
-                             "pass": g["pass"]} if g else None)
+                             "per_reference": g.get("per_reference"), "pass": g["pass"]} if g else None)
                          for t, g in gate0_records.items()}
     return {
         "verdict": world,
@@ -1448,12 +1519,18 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
     if referents_sha is None:
         failures.append("4 referent manifest: not pinned (build incomplete)")
     elif referents_sha is not False:
+        # Task 5 finding 2: `check_referents` returns a LIST of per-
+        # file drift failures (raising only on the sha-pin mismatch
+        # itself) — the returned list must be CONSUMED, not discarded,
+        # else a non-empty drift list from an otherwise-non-raising
+        # check would silently mark `pins_active["referent_manifest"]`
+        # True.
         from experiments.exp4 import make_referents_4 as mkr
-        _, f = collect_total_4(
+        mf, f = collect_total_4(
             lambda: mkr.check_referents(REFERENTS_PATH_4, sha_pin=referents_sha),
             "4 referent manifest")
-        failures += f
-        referent_manifest_ok = not f
+        failures += f + (mf or [])
+        referent_manifest_ok = not f and not mf
 
     battery, f = collect_total_4(bt.load_battery, "4 battery items"); failures += f
     floors, f = collect_total_4(bg.load_floors, "4 floors 2d"); failures += f
@@ -1697,6 +1774,16 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
         _sec("primary_clears_and_stays", _clears_and_stays_primary, sensitivities)
         _sec("k=5", lambda: k_sensitivity_4(root, 5), sensitivities)
         _sec("k=20", lambda: k_sensitivity_4(root, 20), sensitivities)
+
+    # 2j F-1, Task 5: the import surface is itself a verdict input — a
+    # read sweep sees what an analyzer opens, not what the interpreter
+    # executes on its behalf (2j's own lesson). Checked at ENTRY
+    # (above) and again at EXIT, after every secondary/sensitivity has
+    # had the chance to import something the entry check never saw.
+    if not failures:
+        _, f = collect_total_4(check_imports_4 if imports_pinned else (lambda: None),
+                               "4 import surface (exit)")
+        failures += f
 
     pins_active = {
         "frozen_modules": frozen_check is None,
