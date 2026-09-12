@@ -143,7 +143,17 @@ SHA_PIN_AT_LOAD = {str(bg.CHECKPOINTS_PATH), str(bi.CHECKPOINTS_PATH), str(bm.CH
 SEAL_BOUND_CAMPAIGN_PATHS = {str(p) for p in battery_4.reference_seal_paths_4(battery_4.EXP4)}
 
 
-def _classify(paths: set, referents_files: set) -> dict:
+def _classify(paths: set, referents_files: set, *, root=None) -> dict:
+    """FREEZE, attack item 19: with `root` given (a synthetic POST-SEAL
+    world), every path under `<root>/results/` is a campaign artifact —
+    on the real tree those are the seal-bound files of bucket (f). They
+    are bucketed as such here so that (e) UNPINNED answers the question
+    the pre-campaign sweep structurally cannot: once the run gets PAST
+    the reference seal, does it open any non-campaign file that no pin
+    covers? (The secondaries' reads — 2d's and 2e's verdicts, 2d's
+    argmax records, 2c's m4 files, 2g's predictor/strata — happen only
+    on that side of the refusal.)"""
+    world_prefix = (str((Path(root) / "results").resolve()) + "/") if root is not None else None
     frozen = {str(p) for p in battery_4.FROZEN_SHA256_4}
     frozen |= {str(p) for p in bg.FROZEN_IMPORT_SHA256_2G}
     frozen |= {str(p) for p in an.IMPORTED_SHA256_4} if an.IMPORTED_SHA256_4 else set()
@@ -157,8 +167,12 @@ def _classify(paths: set, referents_files: set) -> dict:
 
     buckets = {"referents_4.json": [], "frozen_module": [], "instrument_blob": [],
               "sha_pin_at_load": [], "seal_bound_campaign_absent": [],
+              "world_campaign_artifact": [],
               "python_stdlib_venv": [], "UNPINNED": []}
     for p in sorted(paths):
+        if world_prefix is not None and str(Path(p).resolve()).startswith(world_prefix):
+            buckets["world_campaign_artifact"].append(str(Path(p).resolve()))
+            continue
         if p in SEAL_BOUND_CAMPAIGN_PATHS:
             buckets["seal_bound_campaign_absent"].append(p)
             continue
@@ -187,7 +201,12 @@ def _classify(paths: set, referents_files: set) -> dict:
     return buckets
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    world_root = None
+    for a in argv:
+        if a.startswith("--root="):
+            world_root = Path(a[len("--root="):]).resolve()
     referents_rel = set(json.loads(an.REFERENTS_PATH_4.read_text())["files"])
     live_rel = {str(Path(p).resolve().relative_to(bg.REPO.resolve())) for p in mkr.referent_files()}
     if live_rel != referents_rel:
@@ -199,10 +218,18 @@ def main() -> int:
         p = bg.REPO / rel
         return bg.sha256_file(p) if p.is_file() else None
 
+    run_kw = dict(n_boot=10, write=False, tag_exists=lambda t: True, blob_sha=blob_sha)
+    if world_root is not None:
+        # A synthetic world's campaign artifacts are not in git, so the
+        # seal's blob binding cannot apply; its power record is written
+        # at the world's own n_sim. Everything else — the frozen pins,
+        # the import surface, the referent manifest — stays REAL.
+        from experiments.exp4.tests import full_shape as fs
+        run_kw.update(blobs_bound=lambda tag, paths, repo_root=None: [],
+                      expected_n_sim=fs.WORLD_POWER_N_SIM_4)
     restore = _install()
     try:
-        v = an.run(root=battery_4.EXP4, n_boot=10, write=False, tag_exists=lambda t: True,
-                  blob_sha=blob_sha)
+        v = an.run(root=(world_root or battery_4.EXP4), **run_kw)
     finally:
         restore()
 
@@ -213,7 +240,9 @@ def main() -> int:
             print("   -", f)
 
     distinct_reads = {p for p, _src in SWEEP.reads}
-    buckets = _classify(distinct_reads, referents_rel)
+    buckets = _classify(distinct_reads, referents_rel, root=world_root)
+    if world_root is not None:
+        print(f"POST-SEAL sweep against the synthetic world {world_root}")
 
     print(f"\n{len(distinct_reads)} distinct paths opened for reading "
          f"({len(SWEEP.reads)} total open/read calls)")
