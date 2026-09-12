@@ -1,5 +1,6 @@
 # experiments/exp4/power_4.py
-"""Experiment 4's power record (design §4; Task 5 brief + resolutions),
+"""Experiment 4's power record (design §4; Task 5 brief + resolutions;
+final review IMPORTANT 2 / ratification item R-7 adds the fourth arm),
 written ONCE at the reference stage, before the projection, through the
 verdict's own code: for each arm phi* in {0.0, 0.25, 0.5}, N_SIM
 simulated alignment tables are built from the REAL measured endpoint
@@ -17,6 +18,14 @@ a candidate cell's endpoint excess can still fail to clear
 cells, printed as `mean_eligible_cells`) -> `cells_4` -> `primary_4`
 (n_boot=200) -> `verdict_tree_4` -- the exact same functions the real
 analyzer calls, never a re-implementation.
+
+A FOURTH arm, `"zero_excess"` (R-7), injects E_r = 0 for EVERY rung of
+R_M -- the whole candidate pool, not only the eligible cells -- through
+the same path, because phi's null mean is ~.5, not 0, for cells
+SELECTED at the 2-SE bar; its P_LEADS is the record's
+`realized_alpha_leads`, and `zero_excess_scatter` re-runs it at noise
+multiples 1/1.5/2/3 so the analyzer's measured `lambda_hat` can be
+placed against it. See ZERO_EXCESS_NOTE_4.
 
 No torch, no model contact: `main(root)` reads the committed
 `eligibility_4.json` (written by the reference stage) and the real
@@ -92,11 +101,44 @@ RNG_ORDER_NOTE_4 = (
     "a single numpy Generator stream (seeded once from `seed`) is consumed sequentially across "
     "every arm in `phis` order, each arm's n_sim draws run to completion before the next arm "
     "begins -- the arms are successive draws from one stream, not independently-seeded replicates "
-    "of each other."
+    "of each other; the zero-excess arms follow the phi arms on the same stream, in ascending "
+    "scatter-multiple order, so adding them leaves every phi arm's draws byte-identical."
+)
+
+# Final review, IMPORTANT 2 -> ratification item R-7. The arm the LEADS
+# licence is read against, and the reason it exists: phi's null mean is
+# ~.5, not 0, for cells SELECTED at the eligibility bar. x_r(t_1) and
+# trend(t_1) enter BOTH the numerator x_r(t-) and the denominator
+# x_r(t_end), so Cov(x_pre, x_end) = Var(noise at t_1) and the
+# correlation is exactly .5 under pure noise -- conditioning on a large
+# positive x_end drags x(t-) up with it (the reviewer measured a
+# selected-cell mean phi of .4957 under pure noise). The phi = 0 arm
+# CANNOT see this: it injects each cell's real E_r, so the eligibility
+# bar is not binding there and the selection that inflates phi never
+# happens. The zero-excess arm injects E_r = 0 for EVERY rung of R_M --
+# the whole candidate pool, not only the cells the eligibility stage
+# selected -- at the measured SEs, with the flat pool as trend and the
+# eligibility rule re-applied per draw, through the verdict's own tree.
+ZERO_EXCESS_NOTE_4 = (
+    "the `zero_excess` arm (final review IMPORTANT 2 / ratification item R-7) injects E_r = 0 for "
+    "EVERY rung of R_M -- the whole candidate pool, not only the cells the eligibility stage "
+    "selected -- at the measured SEs (rising rungs' `se`, flat rungs' `se_at_end`), with the flat "
+    "pool as trend and the eligibility rule re-applied per draw, through cells_4 -> primary_4 -> "
+    "verdict_tree_4. It exists because phi's null mean is ~.5, not 0, for cells SELECTED at the "
+    "2-SE bar (the shared a_r(t_1) - trend(t_1) baseline sits in both the numerator x_r(t-) and "
+    "the denominator x_r(t_end), so conditioning on a large positive x_end drags x(t-) up with "
+    "it); the phi = 0 arm injects each cell's real E_r, so the selection is not binding there. "
+    "`realized_alpha_leads` is this arm's own P_LEADS. `zero_excess_scatter` re-runs the arm with "
+    "the per-step noise multiplied by each of the `zero_excess_multiples` while the eligibility "
+    "bar stays at the measured (unmultiplied) SE, so the analyzer's realized lambda_hat -- the "
+    "flat pool's between-step scatter over its own item-bootstrap SE, reported per trajectory "
+    "under the verdict's `calibration` -- can be placed against the grid. The multiple 1.0 run IS "
+    "the `zero_excess` arm, not a second draw of it."
 )
 
 ASSUMPTIONS_4 = " ".join(
-    [TREND_SHAPE_NOTE_4, CONSTRUCTION_NOTE_4, NOISE_SCALE_NOTE_4, RNG_ORDER_NOTE_4])
+    [TREND_SHAPE_NOTE_4, CONSTRUCTION_NOTE_4, NOISE_SCALE_NOTE_4, RNG_ORDER_NOTE_4,
+     ZERO_EXCESS_NOTE_4])
 
 ELIGIBILITY_BAR_NULL_CROSSING_NOTE_4 = (
     "the item bootstrap does not resample neighbour sets, so null cells cross the one-sided 2-SE "
@@ -164,10 +206,120 @@ def _candidates(elig: dict) -> list:
     return sorted(out)
 
 
+def _pool(elig: dict) -> list:
+    """EVERY (traj, rung) of R_M in the eligibility table -- the whole
+    candidate pool the zero-excess arm simulates, eligible or not (R-7:
+    the selection at the 2-SE bar is the thing that arm exists to
+    price, so it must not be conditioned on)."""
+    out = []
+    for traj, block in elig.items():
+        for rung in (block.get("R") or {}):
+            out.append((traj, rung))
+    return sorted(out)
+
+
+def _multiple_key(m) -> str:
+    return str(float(m))
+
+
+def _degenerate_arm() -> dict:
+    """An arm with nothing to simulate: every draw is NO-CONVERGENCE
+    with certainty, and there is no T distribution to summarize, so
+    mean_T/sd_T are None -- legitimate, not missing data (analyze_4's
+    `_check_power_matches_eligibility_4` accepts None exactly when
+    `mean_eligible_cells == 0.0`)."""
+    return {"P_LEADS": 0.0, "P_PARTIAL": 0.0, "P_FOLLOWS": 0.0, "P_UNDETERMINED": 0.0,
+            "P_NO_CONVERGENCE": 1.0, "mean_T": None, "sd_T": None,
+            "mean_eligible_cells": 0.0, "construction_miss_count": 0}
+
+
+def _arm_from_counts(world_counts, Ts, elig_counts, n_sim, *, construction_miss_count=0) -> dict:
+    mean_T = float(np.mean(Ts)) if Ts else None
+    sd_T = float(np.std(Ts, ddof=1)) if len(Ts) > 1 else (0.0 if len(Ts) == 1 else None)
+    return {
+        "P_LEADS": world_counts.get("LEADS", 0) / n_sim,
+        "P_PARTIAL": world_counts.get("PARTIAL", 0) / n_sim,
+        "P_FOLLOWS": world_counts.get("FOLLOWS", 0) / n_sim,
+        "P_UNDETERMINED": world_counts.get("UNDETERMINED", 0) / n_sim,
+        "P_NO_CONVERGENCE": world_counts.get("NO-CONVERGENCE", 0) / n_sim,
+        "mean_T": mean_T, "sd_T": sd_T,
+        "mean_eligible_cells": float(np.mean(elig_counts)) if elig_counts else 0.0,
+        "construction_miss_count": construction_miss_count,
+    }
+
+
+def _simulate_zero_excess(*, pool_info, traj_info, trend_arr, rung_sets, rng, n_sim, scale,
+                          seed, scale_index) -> dict:
+    """R-7's arm at one scatter multiple: E_r = 0 for every rung of the
+    pool, per-step Gaussian noise at `scale` x the measured SE, the flat
+    pool as trend, and the ELIGIBILITY BAR LEFT AT THE MEASURED SE (the
+    multiple models between-checkpoint scatter that the item bootstrap
+    does not see; multiplying the bar too would defeat the reading).
+    Runs through `analyze_4.trend_4` -> `excess_4` -> the eligibility
+    rule -> `cells_4` -> `primary_4` -> `verdict_tree_4`, the same
+    functions the real analyzer calls."""
+    pool_trajs = sorted(traj_info)
+    world_counts = {w: 0 for w in an.WORLDS_4}
+    Ts, elig_counts = [], []
+    for draw in range(n_sim):
+        series_by_traj = {}
+        for traj in pool_trajs:
+            ti = traj_info[traj]
+            steps = ti["steps"]
+            G = len(steps)
+            a = {}
+            for r in ti["flat"]:
+                noise = rng.normal(0.0, ti["flat_se"][r] * scale, size=G)
+                a[r] = (trend_arr[traj] + noise).tolist()
+            series_by_traj[traj] = {"steps": steps, "a": a}
+        for (traj, rung), info in pool_info.items():
+            noise = rng.normal(0.0, info["se_r"] * scale, size=info["G"])
+            series_by_traj[traj]["a"][rung] = (trend_arr[traj] + noise).tolist()
+
+        eligibility_sim = {}
+        for traj in pool_trajs:
+            rs = rung_sets[traj]
+            trend = an.trend_4(series_by_traj[traj]["a"], rs["flat"], series_by_traj[traj]["steps"])
+            excess = an.excess_4(series_by_traj[traj]["a"], trend, series_by_traj[traj]["steps"])
+            Rdict = {}
+            for (t2, rung), info in pool_info.items():
+                if t2 != traj:
+                    continue
+                ok = excess[rung][-1] >= an.SE_MULTIPLE_4 * info["se_r"]
+                Rdict[rung] = {"eligible": bool(ok), "t_clear": info["t_clear"],
+                              "t_clear_index": info["c_r"]}
+            eligibility_sim[traj] = {"R": Rdict}
+
+        rs_subset = {traj: rung_sets[traj] for traj in pool_trajs}
+        cells = an.cells_4(series_by_traj, rs_subset, eligibility_sim)
+        n_cells = len(cells)
+        elig_counts.append(n_cells)
+        if n_cells == 0:
+            tree = an.verdict_tree_4([], 0, 0, {})
+            T = None
+        else:
+            n_rungs_draw = len({c["rung"] for c in cells})
+            boot_seed = seed * 7919 + (911_000 + scale_index) * 1_000_003 + draw
+            primary = an.primary_4(cells, n_boot=N_BOOT_POWER_4, seed=boot_seed)
+            tree = an.verdict_tree_4([], n_cells, n_rungs_draw, primary)
+            T = primary["T"]
+        world_counts[tree["verdict"]] = world_counts.get(tree["verdict"], 0) + 1
+        if T is not None:
+            Ts.append(T)
+
+    if world_counts.get("INSUFFICIENT_DATA", 0):
+        raise RuntimeError("power_4._simulate_zero_excess: a simulated draw reached "
+                           "INSUFFICIENT_DATA (should be unreachable — failures is always [])")
+    arm = _arm_from_counts(world_counts, Ts, elig_counts, n_sim)
+    arm["scatter_multiple"] = float(scale)
+    return arm
+
+
 def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, seed: int = 0,
            phis: tuple = (0.0, 0.25, 0.5)) -> dict:
     candidates = _candidates(elig)
-    if not candidates:
+    pool = _pool(elig)
+    if not pool:
         # Review round 2, NEW B(i) (the controller's ruling): zero
         # eligible cells is not an error to raise on -- it is a real,
         # disclosable outcome (the eligibility stage itself produced
@@ -176,11 +328,12 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
         # sd_T/null_sd_T/min_detectable_T are None -- legitimate, not
         # missing data (see `_check_power_matches_eligibility_4`'s
         # matching `mean_eligible_cells == 0.0` carve-out in analyze_4.py).
-        arms = {str(phi): {
-            "P_LEADS": 0.0, "P_PARTIAL": 0.0, "P_FOLLOWS": 0.0, "P_UNDETERMINED": 0.0,
-            "P_NO_CONVERGENCE": 1.0, "mean_T": None, "sd_T": None,
-            "mean_eligible_cells": 0.0, "construction_miss_count": 0,
-        } for phi in phis}
+        # R-7: with an EMPTY POOL the zero-excess arm has nothing to
+        # simulate either (it reads R_M, not the eligible set), so it
+        # takes the same degenerate shape.
+        arms = {str(phi): _degenerate_arm() for phi in phis}
+        arms[an.ZERO_EXCESS_ARM_4] = dict(_degenerate_arm(), scatter_multiple=1.0,
+                                          realized_alpha_leads=0.0)
         return {
             "n_sim": n_sim, "seed": seed, "phis": list(phis), "arms": arms,
             "null_sd_T": None, "min_detectable_T": None,
@@ -191,11 +344,16 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
             "assumptions": ASSUMPTIONS_4,
             "eligibility_bar_null_crossing_note": ELIGIBILITY_BAR_NULL_CROSSING_NOTE_4,
             "construction": {},
+            "zero_excess_multiples": [float(m) for m in an.ZERO_EXCESS_MULTIPLES_4],
+            "zero_excess_scatter": {_multiple_key(m): 0.0 for m in an.ZERO_EXCESS_MULTIPLES_4},
+            "zero_excess_note": ZERO_EXCESS_NOTE_4,
+            "zero_excess_pool_cells": [],
             "eligibility_sha256": None, "prereg_tag": None,
         }
     rungs = sorted({r for _, r in candidates})
     n_rungs = len(rungs)
     trajs = sorted({t for t, _ in candidates})
+    pool_trajs = sorted({t for t, _ in pool})
 
     cell_info = {}
     for traj, rung in candidates:
@@ -206,8 +364,21 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
         cell_info[(traj, rung)] = dict(G=G, c_r=c_r, E_r=float(e["x_end"]), se_r=float(e["se"]),
                                        t_clear=e["t_clear"])
 
+    # R-7: the zero-excess arm's own pool -- every rung of R_M, with its
+    # measured SE and its fixed t_clear index. A rung with no pre-clear
+    # window (t_clear_index None or < MIN_CLEAR_INDEX_4) stays in the
+    # pool and is dropped by `phi_4` inside `cells_4`, exactly as the
+    # real analyzer drops it.
+    pool_info = {}
+    for traj, rung in pool:
+        e = elig[traj]["R"][rung]
+        tci = e.get("t_clear_index")
+        pool_info[(traj, rung)] = dict(G=len(list(grids[traj])),
+                                       c_r=None if tci is None else int(tci),
+                                       se_r=float(e["se"]), t_clear=e.get("t_clear"))
+
     traj_info = {}
-    for traj in trajs:
+    for traj in pool_trajs:
         flat = list(rung_sets[traj]["flat"])
         flat_se = {r: float(elig[traj]["flat"][r]["se_at_end"]) for r in flat}
         steps = list(grids[traj])
@@ -264,7 +435,8 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
         Ts, elig_counts = [], []
         for draw in range(n_sim):
             series_by_traj = {}
-            for traj, ti in traj_info.items():
+            for traj in trajs:
+                ti = traj_info[traj]
                 steps = ti["steps"]
                 G = len(steps)
                 a = {}
@@ -318,18 +490,26 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
             raise RuntimeError("power_4.compute: a simulated draw reached INSUFFICIENT_DATA "
                                "(should be unreachable — failures is always [])")
 
-        mean_T = float(np.mean(Ts)) if Ts else None
-        sd_T = float(np.std(Ts, ddof=1)) if len(Ts) > 1 else (0.0 if len(Ts) == 1 else None)
-        arms[str(phi)] = {
-            "P_LEADS": world_counts.get("LEADS", 0) / n_sim,
-            "P_PARTIAL": world_counts.get("PARTIAL", 0) / n_sim,
-            "P_FOLLOWS": world_counts.get("FOLLOWS", 0) / n_sim,
-            "P_UNDETERMINED": world_counts.get("UNDETERMINED", 0) / n_sim,
-            "P_NO_CONVERGENCE": world_counts.get("NO-CONVERGENCE", 0) / n_sim,
-            "mean_T": mean_T, "sd_T": sd_T,
-            "mean_eligible_cells": float(np.mean(elig_counts)) if elig_counts else 0.0,
-            "construction_miss_count": construction[str(phi)]["construction_miss_count"],
-        }
+        arms[str(phi)] = _arm_from_counts(
+            world_counts, Ts, elig_counts, n_sim,
+            construction_miss_count=construction[str(phi)]["construction_miss_count"])
+
+    # R-7: the zero-excess arms, after every phi arm, on the same stream
+    # and in ascending multiple order (so the phi arms' draws are
+    # byte-identical to what they were before this arm existed). The
+    # multiple-1.0 run IS the `zero_excess` arm; the grid is the same
+    # simulation with the per-step noise scaled, so the realized
+    # lambda_hat the analyzer measures can be placed against it.
+    zero_by_multiple = {}
+    for i, mult in enumerate(an.ZERO_EXCESS_MULTIPLES_4):
+        zero_by_multiple[float(mult)] = _simulate_zero_excess(
+            pool_info=pool_info, traj_info=traj_info, trend_arr=trend_arr, rung_sets=rung_sets,
+            rng=rng, n_sim=n_sim, scale=float(mult), seed=seed, scale_index=i)
+    zero_arm = dict(zero_by_multiple[1.0])
+    zero_arm["realized_alpha_leads"] = zero_arm["P_LEADS"]
+    arms[an.ZERO_EXCESS_ARM_4] = zero_arm
+    zero_excess_scatter = {_multiple_key(m): zero_by_multiple[float(m)]["P_LEADS"]
+                          for m in an.ZERO_EXCESS_MULTIPLES_4}
 
     null_key = str(0.0)
     null_sd_T = arms[null_key]["sd_T"] if null_key in arms else None
@@ -355,6 +535,10 @@ def compute(elig: dict, rung_sets: dict, grids: dict, *, n_sim: int = N_SIM_4, s
         "assumptions": ASSUMPTIONS_4,
         "eligibility_bar_null_crossing_note": ELIGIBILITY_BAR_NULL_CROSSING_NOTE_4,
         "construction": construction,
+        "zero_excess_multiples": [float(m) for m in an.ZERO_EXCESS_MULTIPLES_4],
+        "zero_excess_scatter": zero_excess_scatter,
+        "zero_excess_note": ZERO_EXCESS_NOTE_4,
+        "zero_excess_pool_cells": [[t, r] for t, r in pool],
         "eligibility_sha256": None, "prereg_tag": None,
     }
 
@@ -387,8 +571,11 @@ def main(root=battery_4.EXP4, *, n_sim: int = N_SIM_4, seed: int = 0,
     out_path.write_text(json.dumps(rec, indent=1))
     print(f"declaration: {rec['declaration']}")
     for phi, arm in rec["arms"].items():
-        print(f"  phi={phi}: P_LEADS={arm['P_LEADS']:.3f} mean_T={arm['mean_T']} "
+        print(f"  arm={phi}: P_LEADS={arm['P_LEADS']:.3f} mean_T={arm['mean_T']} "
              f"mean_eligible_cells={arm['mean_eligible_cells']:.2f}")
+    zero = rec["arms"].get(an.ZERO_EXCESS_ARM_4) or {}
+    print(f"realized_alpha_leads (zero excess)={zero.get('realized_alpha_leads')}; "
+         f"zero_excess_scatter={rec.get('zero_excess_scatter')}")
     print(f"null_sd_T={rec['null_sd_T']} min_detectable_T={rec['min_detectable_T']}")
     return rec
 

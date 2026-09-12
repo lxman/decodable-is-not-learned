@@ -853,6 +853,70 @@ applied to `experiment-4-design.md` yet. The freeze's reading of each:
   keys' `tensor_digest`s, which the reference stage already measures
   and records for both.
 
+- **R-7 — φ's null mean is ≈ .5, not 0, for cells selected at the
+  eligibility bar. What does the LEADS licence get read against?**
+  (Raised by the final whole-branch review, not the freeze; the code
+  below is in, additively, and the reading is Michael's call.)
+
+  **The mechanism, exactly.** §3.5's excess is
+  `x_r(t) = [a_r(t) − a_r(t₁)] − [trend(t) − trend(t₁)]`, and
+  `φ = x_r(t⁻) / x_r(t_end)`. The baseline `a_r(t₁) − trend(t₁)` is
+  therefore in BOTH the numerator and the denominator, so under pure
+  noise `Cov(x_pre, x_end) = Var(the t₁ term)` and the correlation is
+  exactly ½. Conditioning on `x_end ≥ 2·SE` — §4's eligibility rule
+  (ii) — selects cells with a large positive denominator and drags the
+  numerator up with it. **The reviewer measured a selected-cell mean φ
+  of .4957 under pure noise**; this build's own fixture reproduces it
+  (`test_zero_excess_arm_selected_cell_phi_sits_near_one_half`:
+  mean_T .4608 at n_sim 120, .53/.51 at two other seeds). The
+  preregistered φ = 0 power arm CANNOT see this: it injects each
+  cell's real `E_r`, so the eligibility bar is not binding in that arm
+  and the selection never happens. Nothing preregistered is wrong —
+  T's null is the SIGN-FLIP null, not "φ = 0" — but the number a
+  reader will take as "the null value of φ" is ½, and the realized α
+  of the LEADS rule depends on how much between-checkpoint scatter the
+  real tree carries.
+
+  **What was added (additive; no bar, statistic, rule or tree
+  touched).** (a) A fourth power arm, `zero_excess`: `E_r = 0` for
+  EVERY rung of R_M — the whole candidate pool, not only the cells the
+  eligibility stage selected — at the measured SEs, the flat pool as
+  trend, the eligibility rule re-applied per draw, through
+  `cells_4 → primary_4 → verdict_tree_4`, recording the same fields as
+  the other arms plus `realized_alpha_leads = P_LEADS`. (b) A
+  `lambda_hat` readout computed in the ANALYZER from the sweep tables
+  (the flat pool's between-step scatter of `x_r(t)` about its own
+  trend, pooled in quadrature over flat rungs, over the quadrature-
+  pooled item-bootstrap SE of the same quantity), carried per
+  trajectory in the verdict under `calibration`; and the zero-excess
+  arm re-run at noise multiples λ ∈ {1, 1.5, 2, 3} as
+  `zero_excess_scatter`, so the realized λ̂ can be placed against the
+  grid. (c) The analyzer REQUIRES the arm, its `realized_alpha_leads`
+  (which must equal that arm's own `P_LEADS`) and the four-key scatter
+  grid. (d) `verdict.json` carries `power.realized_alpha_leads`,
+  `power.zero_excess_scatter` and `calibration.lambda_hat`;
+  `VERDICT.txt` prints them and every arm's `P_LEADS`. (e) Tests
+  above, plus the worlds' power record (n_sim 20) gains the arm.
+
+  **The reviewer's measured numbers, which are what this is for.**
+  P(LEADS | zero excess) = **.000 / .073 / .260 / .327 at λ = 1 / 1.5
+  / 2 / 3**; the zero-signal worlds read T .38 / .28 at 6 eligible
+  cells. So at λ = 1 the LEADS rule is calibrated (α ≈ 0 ≪ .01) and at
+  λ ≥ 2 it is not (a quarter to a third of pure-noise trees reach
+  LEADS) — and λ is not assumed, it is measured, per trajectory, on
+  the real tree.
+
+  **Recommended reading (Michael rules):** the LEADS licence is read
+  against the zero-excess arm's realized α AT THE OBSERVED λ̂ — i.e.
+  the verdict quotes `calibration.lambda_hat` beside
+  `power.zero_excess_scatter`, and a LEADS that lands where the grid
+  says pure noise reaches LEADS a quarter of the time is disclosed as
+  such in the projection and the licence sentence. The alternative
+  readings, both rejected here as changes to a preregistered quantity
+  rather than disclosures: re-centring φ on ½ (that IS a new
+  statistic), or raising `T_BAR_4` (that IS moving a bar after seeing
+  a mechanism). Neither is proposed.
+
 ### Doc slips (apply to `experiment-4-design.md` with the ratification)
 
 - (a) §7's "19 loads, forward-only, ≈ 6–8 h" → 23 loads (B-1).

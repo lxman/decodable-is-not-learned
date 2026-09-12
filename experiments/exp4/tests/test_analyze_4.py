@@ -574,6 +574,68 @@ def test_cells_4_uses_the_flat_pool_as_the_trend_not_r():
     assert an.excess_4(a, trend_over_R, steps)["rise"] == [0.0, 0.0, 0.0, 0.0]
 
 
+def test_lambda_hat_4_reads_the_flat_pools_scatter_over_its_bootstrap_se():
+    """R-7(b): lambda_hat = the flat pool's between-step scatter (the
+    SD over grid steps of each flat rung's own excess, pooled in
+    quadrature) over the quadrature-pooled item-bootstrap SE the
+    eligibility record carries. Built so the answer is arithmetic, not
+    a fit: two flat rungs whose excesses are exact +-d square waves
+    about zero, so each rung's own SD is known in closed form."""
+    steps = [10, 20, 30, 40]
+    # flat1/flat2 wobble in opposite directions, so the POOLED trend is
+    # flat and each rung's excess is its own wobble exactly.
+    a = {"rise": [0.10, 0.14, 0.18, 0.22],
+         "flat1": [0.10, 0.12, 0.10, 0.12],
+         "flat2": [0.10, 0.08, 0.10, 0.08]}
+    rs = {"R": ["rise"], "flat": ["flat1", "flat2"], "transient": [],
+          "t_clear": {"rise": 30}, "clears_and_stays": {}, "endpoint_step": 40}
+    elig = {"t": {"R": {}, "flat": {"flat1": {"se_at_end": 0.01},
+                                    "flat2": {"se_at_end": 0.01}}}}
+    series = {"t": _series_for_cells(steps, a)}
+    out = an.lambda_hat_4(series, {"t": rs}, elig)
+    block = out["per_traj"]["t"]
+    # flat1's excess is [0, .02, 0, .02]; flat2's is [0, -.02, 0, -.02]
+    want_sd = float(np.std([0.0, 0.02, 0.0, 0.02], ddof=1))
+    assert block["per_rung"]["flat1"]["scatter_sd"] == pytest.approx(want_sd)
+    assert block["per_rung"]["flat2"]["scatter_sd"] == pytest.approx(want_sd)
+    assert block["scatter_sd"] == pytest.approx(want_sd)      # quadrature over equal SDs
+    assert block["bootstrap_se"] == pytest.approx(0.01)
+    assert block["lambda_hat"] == pytest.approx(want_sd / 0.01)
+    assert block["n_flat"] == 2 and block["n_flat_with_se"] == 2 and block["n_steps"] == 4
+    assert out["no_alpha_claim"] is True and out["source"] == "re-derived"
+    assert out["note"] == an.LAMBDA_HAT_NOTE_4
+
+
+def test_lambda_hat_4_degrades_rather_than_raises_without_a_flat_pool():
+    steps = [10, 20]
+    rs = {"R": ["rise"], "flat": [], "transient": [], "t_clear": {}, "clears_and_stays": {},
+          "endpoint_step": 20}
+    out = an.lambda_hat_4({"t": _series_for_cells(steps, {"rise": [0.1, 0.2]})}, {"t": rs},
+                          {"t": {"R": {}, "flat": {}}})
+    assert out["per_traj"]["t"]["lambda_hat"] is None
+    # a trajectory with no rung sets at all (a failed load) is the other
+    # shape run() can hand it
+    out2 = an.lambda_hat_4({"t": _series_for_cells(steps, {"rise": [0.1, 0.2]})}, {"t": None}, {})
+    assert out2["per_traj"]["t"]["lambda_hat"] is None
+
+
+def test_licence_condition_4_counts_qualifying_trajectories():
+    """Minor 9 / design §6: LEADS on at least two of the four
+    per-model readings, each at its own p < .05 and T >= .25."""
+    def pt(T, p):
+        return {"T": T, "p_plus": p, "n_cells": 3, "n_rungs": 3, "flip_method": "exact"}
+    one = an.licence_condition_4({"per_traj": {"a": pt(0.4, 0.01), "b": pt(0.4, 0.20),
+                                               "c": pt(0.1, 0.001), "d": pt(0.9, 0.049)}})
+    assert one["trajectories"] == ["a", "d"] and one["n_qualifying"] == 2
+    assert one["met"] is True and one["descriptive"] is True
+    # exactly at the bars: T == .25 qualifies (>=), p == .05 does not (<)
+    edge = an.licence_condition_4({"per_traj": {"a": pt(an.T_BAR_4, 0.049),
+                                                "b": pt(0.9, an.LICENCE_TRAJ_ALPHA_4)}})
+    assert edge["trajectories"] == ["a"] and edge["met"] is False
+    assert an.licence_condition_4(None)["met"] is False
+    assert an.licence_condition_4({})["n_trajectories_read"] == 0
+
+
 def test_primary_4_bootstrap_resamples_whole_rungs_not_cells():
     """§3.6's CI95 is a RUNG-clustered bootstrap: a rung carrying four
     cells enters or leaves as a block. Built so cell-level resampling

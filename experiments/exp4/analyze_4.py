@@ -1355,6 +1355,71 @@ def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
                    "conversion was not built)", "source": "re-derived", "no_alpha_claim": True}
 
 
+# ------------------------------------------------------------ calibration
+
+def lambda_hat_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
+    """R-7(b): the flat pool's between-step scatter over its own
+    item-bootstrap SE, per trajectory — the number that says which of
+    the power record's `zero_excess_scatter` multiples the realized
+    tree sits at, and therefore what the LEADS licence's realized alpha
+    actually is. Computed from the sweep tables (S11's own inputs: the
+    per-step alignment series and the flat pool) and the eligibility
+    record's `se_at_end`. DESCRIPTIVE: it moves no bar and enters no
+    refusal; see `LAMBDA_HAT_NOTE_4` for the construction and its one
+    disclosed quirk (x_r(t_1) is identically zero and is in the SD)."""
+    out = {}
+    for traj in sorted(series_by_traj):
+        series = series_by_traj[traj]
+        rs = rung_sets_by_traj.get(traj)
+        flat_se = ((eligibility or {}).get(traj) or {}).get("flat") or {}
+        if rs is None or not rs["flat"]:
+            out[traj] = {"lambda_hat": None, "reason": "no flat pool"}
+            continue
+        steps = list(series["steps"])
+        trend = trend_4(series["a"], rs["flat"], steps)
+        excess = excess_4(series["a"], trend, steps)
+        sds, ses, per_rung = [], [], {}
+        for r in rs["flat"]:
+            x = np.asarray(excess[r], dtype=np.float64)
+            sd = float(np.std(x, ddof=1)) if x.size > 1 else 0.0
+            se = (flat_se.get(r) or {}).get("se_at_end")
+            se_ok = isinstance(se, (int, float)) and not isinstance(se, bool) and se > 0
+            per_rung[r] = {"scatter_sd": sd, "bootstrap_se": (float(se) if se_ok else None),
+                          "ratio": (sd / float(se)) if se_ok else None}
+            sds.append(sd)
+            if se_ok:
+                ses.append(float(se))
+        scatter = float(np.sqrt(np.mean(np.square(sds)))) if sds else None
+        boot = float(np.sqrt(np.mean(np.square(ses)))) if ses else None
+        lam = (scatter / boot) if (scatter is not None and boot) else None
+        out[traj] = {"lambda_hat": lam, "scatter_sd": scatter, "bootstrap_se": boot,
+                    "n_flat": len(rs["flat"]), "n_flat_with_se": len(ses), "n_steps": len(steps),
+                    "per_rung": per_rung}
+    return {"per_traj": out, "note": LAMBDA_HAT_NOTE_4, "source": "re-derived",
+           "no_alpha_claim": True}
+
+
+def licence_condition_4(primary) -> dict:
+    """Design §6's LEADS licence condition (final review Minor 9),
+    computed rather than left to the reader: "LEADS on at least two of
+    the four per-model readings (each at its own p < .05 and T >=
+    .25); otherwise the sentence names the trajectories on which it
+    held". DESCRIPTIVE — the pooled statistic governs the verdict
+    (§3.9), and this decides only which sentence §6 licenses."""
+    rule = (f"design §6: at least {LICENCE_MIN_TRAJECTORIES_4} of the four per-trajectory "
+            f"readings at p_+ < {LICENCE_TRAJ_ALPHA_4} and T >= {T_BAR_4}")
+    per_traj = (primary or {}).get("per_traj") or {}
+    qualifying = sorted(
+        t for t, pt in per_traj.items()
+        if isinstance(pt, dict)
+        and isinstance(pt.get("p_plus"), (int, float)) and pt["p_plus"] < LICENCE_TRAJ_ALPHA_4
+        and isinstance(pt.get("T"), (int, float)) and pt["T"] >= T_BAR_4)
+    return {"met": bool(len(qualifying) >= LICENCE_MIN_TRAJECTORIES_4),
+           "n_qualifying": len(qualifying), "trajectories": qualifying,
+           "n_trajectories_read": len(per_traj), "rule": rule,
+           "descriptive": True, "no_alpha_claim": True}
+
+
 # ---------------------------------------------------------------- verdict
 
 def _eligibility_summary_4(eligibility) -> dict:
@@ -1398,6 +1463,30 @@ POWER_PHIS_4 = (0.0, 0.25, 0.5)
 # UNDERPOWERED IN ADVANCE. `power_4.compute` applies it; the freeze's
 # F-4 re-derives the written declaration from it.
 POWER_BAR_4 = 0.75
+
+# Final review IMPORTANT 2 -> ratification item R-7. The names live
+# HERE, not in power_4, so the producer (`power_4.compute`, which
+# imports this module) and the checker below cannot drift apart.
+ZERO_EXCESS_ARM_4 = "zero_excess"
+ZERO_EXCESS_MULTIPLES_4 = (1.0, 1.5, 2.0, 3.0)
+LAMBDA_HAT_NOTE_4 = (
+    "lambda_hat is the flat pool's BETWEEN-STEP scatter divided by the item-bootstrap SE of the "
+    "same quantity: per flat rung, the SD over grid steps of its own excess x_r(t) (which is "
+    "already de-trended, so this is its scatter about its own mean), pooled over the flat rungs "
+    "in quadrature, over the quadrature-pooled `se_at_end` the eligibility bootstrap measured. "
+    "It is 1 when a rung's step-to-step wobble is no larger than item-resampling noise and > 1 "
+    "when checkpoints move together in ways the item bootstrap cannot see. The power record's "
+    "`zero_excess_scatter` prices P(LEADS | no task-specific excess) at multiples 1/1.5/2/3 of "
+    "that noise, so the realized lambda_hat places the LEADS licence against its own realized "
+    "alpha. x_r(t_1) is identically 0 by construction, which is IN the SD -- disclosed, not "
+    "corrected, because the same zero is in the simulation the multiples price. Descriptive: no "
+    "alpha claim, and it moves no bar."
+)
+# Design §6's LEADS licence condition, computed descriptively (final
+# review Minor 9): "LEADS on at least two of the four per-model
+# readings (each at its own p < .05 and T >= .25)".
+LICENCE_TRAJ_ALPHA_4 = 0.05
+LICENCE_MIN_TRAJECTORIES_4 = 2
 
 
 def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
@@ -1449,7 +1538,7 @@ def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
     want_phis = list(POWER_PHIS_4)
     if power.get("phis") != want_phis:
         bad.append(f"power record phis {power.get('phis')!r} != {want_phis!r}")
-    want_arm_keys = {str(p) for p in POWER_PHIS_4}
+    want_arm_keys = {str(p) for p in POWER_PHIS_4} | {ZERO_EXCESS_ARM_4}
     arms = power.get("arms")
     if not isinstance(arms, dict) or set(arms) != want_arm_keys:
         bad.append(f"power record arms keys "
@@ -1475,6 +1564,36 @@ def _check_power_matches_eligibility_4(power, eligibility, eligibility_sha, *,
                                    f"mean_eligible_cells != 0.0")
                 elif not isinstance(v, (int, float)) or isinstance(v, bool):
                     bad.append(f"power record arms[{phi_key!r}][{field!r}] is not a float: {v!r}")
+    # R-7: the zero-excess arm and its scatter grid are REQUIRED, and
+    # `realized_alpha_leads` must BE that arm's own P_LEADS (not a
+    # separately attested number). The LEADS licence is read against
+    # them, so a record that does not carry them cannot be read at all.
+    zero_arm = arms.get(ZERO_EXCESS_ARM_4) if isinstance(arms, dict) else None
+    if not isinstance(zero_arm, dict):
+        bad.append(f"power record arms[{ZERO_EXCESS_ARM_4!r}] is missing (R-7): the LEADS "
+                   f"licence is read against the zero-excess arm's realized alpha")
+    else:
+        ral = zero_arm.get("realized_alpha_leads")
+        if not isinstance(ral, (int, float)) or isinstance(ral, bool):
+            bad.append(f"power record arms[{ZERO_EXCESS_ARM_4!r}]['realized_alpha_leads'] is not "
+                       f"a float: {ral!r}")
+        elif ral != zero_arm.get("P_LEADS"):
+            bad.append(f"power record arms[{ZERO_EXCESS_ARM_4!r}]['realized_alpha_leads'] {ral!r} "
+                       f"!= that arm's own P_LEADS {zero_arm.get('P_LEADS')!r}")
+    scatter = power.get("zero_excess_scatter")
+    want_scatter = {str(float(m)) for m in ZERO_EXCESS_MULTIPLES_4}
+    if not isinstance(scatter, dict) or set(scatter) != want_scatter:
+        bad.append(f"power record zero_excess_scatter keys "
+                   f"{sorted(scatter) if isinstance(scatter, dict) else scatter!r} != "
+                   f"{sorted(want_scatter)} (R-7)")
+    else:
+        for key, v in sorted(scatter.items()):
+            if not isinstance(v, (int, float)) or isinstance(v, bool):
+                bad.append(f"power record zero_excess_scatter[{key!r}] is not a float: {v!r}")
+        if isinstance(zero_arm, dict) and scatter.get("1.0") != zero_arm.get("P_LEADS"):
+            bad.append(f"power record zero_excess_scatter['1.0'] {scatter.get('1.0')!r} != the "
+                       f"zero-excess arm's own P_LEADS {zero_arm.get('P_LEADS')!r} — the "
+                       f"multiple-1.0 run IS the arm (R-7)")
     if power.get("declaration") not in ("POWERED", "UNDERPOWERED IN ADVANCE"):
         bad.append(f"power record declaration {power.get('declaration')!r} is not a valid value")
     # FREEZE F-4: the declaration is what the verdict is READ UNDER
@@ -1525,6 +1644,11 @@ def _power_summary_4(power) -> dict:
         "P_LEADS": {phi: (arm or {}).get("P_LEADS") for phi, arm in arms.items()},
         "construction_miss_count": {phi: (arm or {}).get("construction_miss_count")
                                     for phi, arm in arms.items()},
+        # R-7: the realized alpha the LEADS licence is read against, and
+        # the scatter grid the measured lambda_hat is placed on.
+        "realized_alpha_leads": (arms.get(ZERO_EXCESS_ARM_4) or {}).get("realized_alpha_leads"),
+        "zero_excess_scatter": power.get("zero_excess_scatter"),
+        "zero_excess_multiples": power.get("zero_excess_multiples"),
     }
 
 
@@ -1592,7 +1716,7 @@ def ladder_known_answer_4(root) -> dict:
 
 def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj, gate1_records,
              gate0_records=None, secondaries, sensitivities, pins_active, n_boot,
-             power=None, known_answer=None) -> dict:
+             power=None, known_answer=None, calibration=None) -> dict:
     world = tree["verdict"]
     failures = list(failures)
     # I-1: a malformed eligibility file (e.g. a list, not a dict) must
@@ -1617,11 +1741,17 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
     if power:
         power_summary, f = collect_total_4(lambda: _power_summary_4(power), "4 power summary")
         failures += f
+    # Minor 9: §6's LEADS licence condition, computed (descriptive).
+    licence, f = collect_total_4(lambda: licence_condition_4(primary), "4 licence condition")
+    failures += f
     return {
         "verdict": world,
         "reason": tree["reason"],
         "known_outcome_caveat": KNOWN_OUTCOME_CAVEAT_4,
         "licensed_sentence": LICENSED_4[world],
+        "licence_condition": licence,
+        "licence_condition_met": (licence or {}).get("met"),
+        "calibration": calibration,
         "primary": primary,
         "cells": cells,
         "eligibility_summary": elig_summary,
@@ -1647,6 +1777,31 @@ def write_verdict_txt_4(v: dict) -> str:
     if pw:
         lines.append(f"Power: read under {pw['declaration']}: null SD of T {pw['null_sd_T']}, "
                     f"min-detectable T {pw['min_detectable_T']}")
+        # Minor 8: every arm's P_LEADS, not only the declaration's.
+        arms_p = pw.get("P_LEADS") or {}
+        lines.append("  P_LEADS by arm: "
+                    + ", ".join(f"{k}={arms_p[k]}" for k in sorted(arms_p, key=str)))
+        lines.append(f"  realized alpha (LEADS under zero excess, R-7): "
+                    f"{pw.get('realized_alpha_leads')}")
+        lines.append(f"  zero-excess scatter grid (P_LEADS by noise multiple): "
+                    f"{pw.get('zero_excess_scatter')}")
+        lines.append("")
+    cal = v.get("calibration")
+    if cal:
+        lines.append("Calibration (R-7): lambda_hat = the flat pool's between-step scatter over "
+                    "its item-bootstrap SE")
+        for traj, block in sorted((cal.get("per_traj") or {}).items()):
+            lines.append(f"  {traj}: lambda_hat={(block or {}).get('lambda_hat')} "
+                        f"(scatter {(block or {}).get('scatter_sd')}, "
+                        f"bootstrap SE {(block or {}).get('bootstrap_se')})")
+        if isinstance(cal, dict) and "failed" in cal:
+            lines.append(f"  unavailable: {cal['failed']}")
+        lines.append("")
+    lc = v.get("licence_condition")
+    if lc:
+        lines.append(f"Licence condition (§6, descriptive): met={lc.get('met')} — "
+                    f"{lc.get('n_qualifying')} of {lc.get('n_trajectories_read')} per-trajectory "
+                    f"readings qualify {lc.get('trajectories')}; rule: {lc.get('rule')}")
         lines.append("")
     p = v.get("primary")
     if p:
@@ -1926,6 +2081,15 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
     n_eligible_rungs = len({c["rung"] for c in cells}) if cells else 0
     tree = verdict_tree_4(failures, n_eligible_cells, n_eligible_rungs, primary or {})
 
+    # R-7(b): the realized lambda_hat, from the sweep tables the series
+    # already carry. Descriptive — a refusal here degrades the block,
+    # never the verdict (the same shape `_sec` uses for a secondary).
+    calibration = None
+    if not failures and series_by_traj and eligibility is not None:
+        cal, f = collect_total_4(
+            lambda: lambda_hat_4(series_by_traj, rung_sets, eligibility), "4 lambda_hat")
+        calibration = {"failed": f[0]} if f else cal
+
     secondaries, sensitivities = {}, {}
     if not failures:
         def _sec(name, thunk, store):
@@ -2038,7 +2202,7 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
                  gate1_records=gate1_records, gate0_records=gate0_records,
                  secondaries=secondaries, sensitivities=sensitivities,
                  pins_active=pins_active, n_boot=n_boot, power=power,
-                 known_answer=known_answer)
+                 known_answer=known_answer, calibration=calibration)
     # Sanitised (no numpy scalars/arrays, no NaN/Inf) unconditionally,
     # not only when writing: `run()`'s return value must itself be
     # strict-JSON-able (brief Step 3), and a numpy type left in

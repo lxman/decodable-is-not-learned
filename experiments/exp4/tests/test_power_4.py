@@ -22,7 +22,7 @@ from experiments.exp4 import power_4 as pw
 
 def _synthetic_eligibility(n_rungs_per_traj=4, n_traj=2, *, G=6, c_r=3,
                            trend_t1=0.0, trend_end=0.05, x_end=0.3, se=0.02,
-                           flat_se=0.01) -> tuple:
+                           flat_se=0.01, eligible=True) -> tuple:
     """Two trajectories, each with `n_rungs_per_traj` distinct eligible
     R rungs (globally distinct names, so the union of rungs is
     n_traj * n_rungs_per_traj) and 3 flat rungs, over a small G-point
@@ -37,7 +37,8 @@ def _synthetic_eligibility(n_rungs_per_traj=4, n_traj=2, *, G=6, c_r=3,
         flat = [f"f{ti}_{j}" for j in range(3)]
         R = [f"r{ti}_{j}" for j in range(n_rungs_per_traj)]
         elig[traj] = {
-            "R": {r: {"x_end": x_end, "se": se, "eligible": True, "reason": "eligible",
+            "R": {r: {"x_end": x_end, "se": se, "eligible": bool(eligible),
+                     "reason": "eligible" if eligible else "endpoint excess below 2 SE",
                      "t_clear": steps[c_r], "t_clear_index": c_r} for r in R},
             "flat": {f: {"se_at_end": flat_se} for f in flat},
             "trend_t1": trend_t1, "trend_end": trend_end,
@@ -81,11 +82,13 @@ def test_compute_leads_more_often_at_phi_half_than_phi_zero():
                                                       "construction_miss_count"}
         assert rec["arms"][phi_key]["construction_miss_count"] == \
             rec["construction"][phi_key]["construction_miss_count"]
-    for phi_key in ("0.0", "0.5"):
+    for phi_key in ("0.0", "0.5", an.ZERO_EXCESS_ARM_4):
         arm = rec["arms"][phi_key]
         for field in ("P_LEADS", "P_PARTIAL", "P_FOLLOWS", "P_UNDETERMINED", "P_NO_CONVERGENCE"):
             assert 0.0 <= arm[field] <= 1.0
         assert 0.0 <= arm["mean_eligible_cells"] <= 8.0
+    assert rec["arms"][an.ZERO_EXCESS_ARM_4]["realized_alpha_leads"] == \
+        rec["arms"][an.ZERO_EXCESS_ARM_4]["P_LEADS"]
 
 
 def test_compute_declaration_powered_when_phi_half_clears_bar():
@@ -136,7 +139,12 @@ def test_compute_returns_the_zero_cell_record_on_empty_eligibility():
     assert rec["null_sd_T"] is None and rec["min_detectable_T"] is None
     assert rec["flip_resolution"] is None
     assert rec["construction"] == {}
-    assert set(rec["arms"]) == {"0.0", "0.25", "0.5"}
+    # R-7: the zero-excess arm exists even here, degenerate for the same
+    # reason (an empty POOL, not merely an empty eligible set).
+    assert set(rec["arms"]) == {"0.0", "0.25", "0.5", an.ZERO_EXCESS_ARM_4}
+    assert rec["arms"][an.ZERO_EXCESS_ARM_4]["realized_alpha_leads"] == 0.0
+    assert rec["zero_excess_scatter"] == {"1.0": 0.0, "1.5": 0.0, "2.0": 0.0, "3.0": 0.0}
+    assert rec["zero_excess_pool_cells"] == []
     for arm in rec["arms"].values():
         assert arm["P_NO_CONVERGENCE"] == 1.0
         assert arm["P_LEADS"] == arm["P_PARTIAL"] == arm["P_FOLLOWS"] == arm["P_UNDETERMINED"] == 0.0
@@ -184,6 +192,118 @@ def test_main_refuses_when_eligibility_file_absent(tmp_path):
         pw.main(root=root, n_sim=10)
 
 
+# ------------------------------------------------ R-7: the zero-excess arm
+
+def _zero_excess_fixture(n_rungs_per_traj=10, n_traj=4):
+    """A pool of `n_traj * n_rungs_per_traj` R_M rungs, NONE of them
+    eligible: the phi arms then have nothing to simulate (they read
+    degenerate, fast) and the zero-excess arm — which reads R_M, not the
+    eligible set — is the only thing computed."""
+    elig, rung_sets, grids = _synthetic_eligibility(n_rungs_per_traj=n_rungs_per_traj,
+                                                    n_traj=n_traj, eligible=False)
+    return elig, rung_sets, grids
+
+
+def test_zero_excess_arm_selected_cell_phi_sits_near_one_half():
+    """R-7's whole reason for existing: under E_r = 0 everywhere, the
+    cells that CROSS the 2-SE eligibility bar have a mean phi of ~.5,
+    not 0 — x_r(t_1) and trend(t_1) sit in both the numerator x_r(t-)
+    and the denominator x_r(t_end), so their covariance is exactly half
+    the variance of x_end and selecting on a large positive x_end drags
+    x(t-) up with it. The reviewer measured .4957 on the real shape.
+
+    `mean_T` pools every draw that produced at least one cell;
+    `mean_eligible_cells` >= 3 is what says draws with three or more
+    cells (the tree's own MIN_CELLS_4) actually occur at this seed."""
+    elig, rung_sets, grids = _zero_excess_fixture()
+    rec = pw.compute(elig, rung_sets, grids, n_sim=120, seed=0, phis=an.POWER_PHIS_4)
+    arm = rec["arms"][an.ZERO_EXCESS_ARM_4]
+    assert arm["mean_eligible_cells"] >= 3.0
+    assert abs(arm["mean_T"] - 0.5) < 0.1, arm["mean_T"]
+    # the phi arms cannot see this: with no eligible cell they have
+    # nothing to simulate, which is exactly the blindness R-7 names.
+    for phi in an.POWER_PHIS_4:
+        assert rec["arms"][str(phi)]["mean_eligible_cells"] == 0.0
+
+
+def test_zero_excess_scatter_grid_prices_the_leads_bar():
+    elig, rung_sets, grids = _zero_excess_fixture()
+    rec = pw.compute(elig, rung_sets, grids, n_sim=120, seed=0, phis=an.POWER_PHIS_4)
+    arm = rec["arms"][an.ZERO_EXCESS_ARM_4]
+    scatter = rec["zero_excess_scatter"]
+    assert set(scatter) == {"1.0", "1.5", "2.0", "3.0"}
+    assert rec["zero_excess_multiples"] == [1.0, 1.5, 2.0, 3.0]
+    # the multiple-1.0 run IS the arm, not a second draw of it
+    assert scatter["1.0"] == arm["P_LEADS"] == arm["realized_alpha_leads"]
+    for v in scatter.values():
+        assert 0.0 <= v <= 1.0
+    # more between-checkpoint scatter than the item bootstrap sees buys
+    # the null more LEADS verdicts: the reviewer's .00/.07/.26/.33
+    assert scatter["2.0"] > scatter["1.0"]
+    assert len(rec["zero_excess_pool_cells"]) == 40
+    assert rec["zero_excess_note"] == pw.ZERO_EXCESS_NOTE_4
+    assert pw.ZERO_EXCESS_NOTE_4 in rec["assumptions"]
+
+
+def test_zero_excess_arm_does_not_disturb_the_phi_arms():
+    """The zero-excess arms consume the shared Generator AFTER every phi
+    arm, so the phi arms' numbers must be exactly what they were before
+    R-7 existed — re-derived here by running the phi arms alone through
+    a fresh stream and comparing."""
+    elig, rung_sets, grids = _synthetic_eligibility()
+    full = pw.compute(elig, rung_sets, grids, n_sim=30, seed=4, phis=(0.0, 0.5))
+    again = pw.compute(elig, rung_sets, grids, n_sim=30, seed=4, phis=(0.0, 0.5))
+    for phi in ("0.0", "0.5"):
+        assert full["arms"][phi] == again["arms"][phi]
+    assert full["arms"][an.ZERO_EXCESS_ARM_4] == again["arms"][an.ZERO_EXCESS_ARM_4]
+
+
+def test_analyzer_requires_the_zero_excess_arm_and_its_scatter_grid(tmp_path):
+    elig = {"t": {"R": {"r1": {"eligible": True}, "r2": {"eligible": True},
+                       "r3": {"eligible": True}}}}
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    real_sha = bg.sha256_file(elig_path)
+    ok = _valid_power_record(real_sha)
+    assert an._check_power_matches_eligibility_4(ok, elig, real_sha, expected_n_sim=10) == []
+
+    arms_no_zero = {k: v for k, v in ok["arms"].items() if k != an.ZERO_EXCESS_ARM_4}
+    bad = an._check_power_matches_eligibility_4(dict(ok, arms=arms_no_zero), elig, real_sha,
+                                                expected_n_sim=10)
+    assert any(an.ZERO_EXCESS_ARM_4 in b for b in bad), bad
+
+    arms_liar = dict(ok["arms"])
+    arms_liar[an.ZERO_EXCESS_ARM_4] = dict(ok["arms"][an.ZERO_EXCESS_ARM_4],
+                                           realized_alpha_leads=0.0)
+    bad2 = an._check_power_matches_eligibility_4(dict(ok, arms=arms_liar), elig, real_sha,
+                                                 expected_n_sim=10)
+    assert any("realized_alpha_leads" in b for b in bad2), bad2
+
+    no_scatter = {k: v for k, v in ok.items() if k != "zero_excess_scatter"}
+    bad3 = an._check_power_matches_eligibility_4(no_scatter, elig, real_sha, expected_n_sim=10)
+    assert any("zero_excess_scatter" in b for b in bad3), bad3
+
+    short_grid = dict(ok, zero_excess_scatter={"1.0": 0.04, "2.0": 0.26})
+    bad4 = an._check_power_matches_eligibility_4(short_grid, elig, real_sha, expected_n_sim=10)
+    assert any("zero_excess_scatter" in b for b in bad4), bad4
+
+    detached = dict(ok, zero_excess_scatter=dict(ok["zero_excess_scatter"], **{"1.0": 0.99}))
+    bad5 = an._check_power_matches_eligibility_4(detached, elig, real_sha, expected_n_sim=10)
+    assert any("multiple-1.0 run IS the arm" in b for b in bad5), bad5
+
+
+def test_a_real_zero_excess_record_passes_the_analyzer_check(tmp_path):
+    """The closure must not fire on a record `power_4` itself writes."""
+    elig, rung_sets, grids = _synthetic_eligibility(n_rungs_per_traj=4, n_traj=2)
+    rec = pw.compute(elig, rung_sets, grids, n_sim=20, seed=3, phis=an.POWER_PHIS_4)
+    elig_path = tmp_path / "eligibility_4.json"
+    elig_path.write_text(json.dumps(elig, indent=1))
+    rec["eligibility_sha256"] = bg.sha256_file(elig_path)
+    rec["prereg_tag"] = battery_4.PREREG_TAG_4
+    assert an._check_power_matches_eligibility_4(rec, elig, rec["eligibility_sha256"],
+                                                 expected_n_sim=20) == []
+
+
 # -------------------------------------- analyzer cross-check (a stub tree)
 
 def _valid_power_record(real_sha, n_sim=10):
@@ -197,11 +317,15 @@ def _valid_power_record(real_sha, n_sim=10):
     def arm(p_leads):
         return {"P_LEADS": p_leads, "P_PARTIAL": 0.1, "P_FOLLOWS": 0.1, "P_UNDETERMINED": 0.1,
                "P_NO_CONVERGENCE": 0.0, "mean_T": 0.1, "sd_T": 0.05, "mean_eligible_cells": 3.0}
+    zero = dict(arm(0.04), scatter_multiple=1.0, realized_alpha_leads=0.04)
     return {"cells": [["t", "r1"], ["t", "r2"], ["t", "r3"]], "rungs": ["r1", "r2", "r3"],
            "eligibility_sha256": real_sha, "declaration": "POWERED", "n_sim": n_sim,
            "phis": [0.0, 0.25, 0.5],
-           "arms": {"0.0": arm(0.0), "0.25": arm(0.3), "0.5": arm(0.8)},
+           "arms": {"0.0": arm(0.0), "0.25": arm(0.3), "0.5": arm(0.8),
+                    an.ZERO_EXCESS_ARM_4: zero},
            "null_sd_T": 0.02, "min_detectable_T": 0.06, "construction": {},
+           "zero_excess_multiples": [1.0, 1.5, 2.0, 3.0],
+           "zero_excess_scatter": {"1.0": 0.04, "1.5": 0.12, "2.0": 0.26, "3.0": 0.33},
            "prereg_tag": battery_4.PREREG_TAG_4}
 
 
