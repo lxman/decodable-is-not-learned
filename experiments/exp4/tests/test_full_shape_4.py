@@ -86,9 +86,24 @@ def test_leads_world_reaches_leads(_leads_world):
     assert v["verdict"] == "LEADS", v["reason"]
     cells = v["cells"]
     assert len(cells) >= 3
-    for name in ("S1", "S8", "S10", "S11"):
+    for name in ("S1", "S8", "S10", "S11", "S11 per-reference"):
         assert name in v["secondaries"]
     assert v["sensitivities"]
+    # Final review IMPORTANT 3: the two preregistered descriptives the
+    # build never implemented must be real values on a passing world.
+    fam = v["sensitivities"]["family-matched trend"]
+    assert fam["per_cell"] and fam["no_alpha_claim"] is True
+    per_ref = v["secondaries"]["S11 per-reference"]["per_traj"]
+    assert any((b or {}).get("available") for b in per_ref.values()), per_ref
+    # R-7 (IMPORTANT 2) + Minor 9: the calibration block, the realized
+    # alpha, the scatter grid and the computed licence condition.
+    assert v["calibration"] and v["calibration"]["per_traj"]
+    assert "failed" not in v["calibration"]
+    assert (v["power"] or {}).get("realized_alpha_leads") is not None
+    assert set((v["power"] or {}).get("zero_excess_scatter") or {}) == \
+        {"1.0", "1.5", "2.0", "3.0"}
+    assert isinstance(v["licence_condition_met"], bool)
+    assert v["licence_condition"]["rule"]
     for traj in battery_4.TRAJECTORIES_4:
         g0 = v["gate0"][traj]
         assert g0 is not None and g0["pass"] is True, (traj, g0)
@@ -313,7 +328,7 @@ def test_secondaries_and_strict_json_leads(_leads_world, tmp_path):
     v = an.run(root=root, write=True, **_run_kwargs())
     assert v["verdict"] != "INSUFFICIENT_DATA"
     for name in ("S1", "S2 from-below (1b)", "S2 per-trajectory", "S2 known-answer gates",
-                "S3", "S4", "S8", "S10", "S11"):
+                "S3", "S4", "S8", "S10", "S11", "S11 per-reference"):
         assert name in v["secondaries"], (name, sorted(v["secondaries"]))
     assert v["sensitivities"] is not None
     sens_keys = sorted(v["sensitivities"])
@@ -322,6 +337,7 @@ def test_secondaries_and_strict_json_leads(_leads_world, tmp_path):
     assert "S9" in v["sensitivities"]
     assert "S1 quarter/three-quarter" in v["sensitivities"]
     assert "primary_clears_and_stays" in v["sensitivities"]
+    assert "family-matched trend" in v["sensitivities"]
     assert "k=5" in v["sensitivities"] and "k=20" in v["sensitivities"]
     assert v["known_outcome_caveat"]
     assert v["licensed_sentence"]

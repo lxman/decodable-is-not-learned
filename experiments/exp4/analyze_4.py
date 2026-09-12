@@ -378,15 +378,21 @@ def load_sweep_tables_4(root, traj: str) -> dict:
 
 # ------------------------------------------------------------- alignment
 
-def per_item_alignment_4(tables_m: dict, ref_tables: dict, pairing_by_ref: dict) -> dict:
-    """`{rung: float64[500]}` = mean over refs and M's sites of
-    overlap/k, RE-DERIVED from the two set tables via `metric_4.
-    overlap_counts` (through `collect_4.overlap_table_4`); asserts
-    equality with the stored `overlap_<ref>` array when present,
-    naming the rung/ref/site on disagreement."""
+def _alignment_parts_4(tables_m: dict, ref_tables: dict, pairing_by_ref: dict):
+    """`(pooled, per_reference)` from ONE pass over the overlaps:
+    `pooled[rung]` is `per_item_alignment_4`'s own `float64[500]`
+    (the mean over references and M's sites, computed by the identical
+    `np.stack(...).mean(axis=(0, 1))` so its bits are unchanged), and
+    `per_reference[ref][rung]` is the same quantity for a SINGLE
+    reference (mean over M's sites only) — §3.3's "per-reference values
+    are printed in every world" and S11's per-reference clause, which
+    the build never implemented. Factored so the per-reference reading
+    costs no second overlap pass: `overlap_counts` is a Python loop
+    over 500 items x n_sites x n_refs x 34 rungs x every grid step, by
+    far the most expensive thing the analyzer does."""
     sets_m = tables_m["sets"]
     stored = tables_m.get("overlaps") or {}
-    out = {}
+    pooled, per_reference = {}, {ref: {} for ref in pairing_by_ref}
     for rung in battery_4.RUNGS:
         sm = sets_m[rung]
         per_ref = []
@@ -399,10 +405,21 @@ def per_item_alignment_4(tables_m: dict, ref_tables: dict, pairing_by_ref: dict)
                 site0 = int(diff_sites[0]) if len(diff_sites) else -1
                 raise ValueError(f"per_item_alignment_4: {rung}/{ref}/site{site0}: stored "
                                  f"overlap disagrees with the re-derived value")
-            per_ref.append(ov.astype(np.float64) / metric_4.K_4)
+            frac = ov.astype(np.float64) / metric_4.K_4
+            per_ref.append(frac)
+            per_reference[ref][rung] = frac.mean(axis=0)      # [500], this reference alone
         stacked = np.stack(per_ref, axis=0)          # [n_refs, n_sites, 500]
-        out[rung] = stacked.mean(axis=(0, 1))
-    return out
+        pooled[rung] = stacked.mean(axis=(0, 1))
+    return pooled, per_reference
+
+
+def per_item_alignment_4(tables_m: dict, ref_tables: dict, pairing_by_ref: dict) -> dict:
+    """`{rung: float64[500]}` = mean over refs and M's sites of
+    overlap/k, RE-DERIVED from the two set tables via `metric_4.
+    overlap_counts` (through `collect_4.overlap_table_4`); asserts
+    equality with the stored `overlap_<ref>` array when present,
+    naming the rung/ref/site on disagreement."""
+    return _alignment_parts_4(tables_m, ref_tables, pairing_by_ref)[0]
 
 
 def _gate0_site_means_4(tables: dict, ref_tables: dict, pairing_by_ref: dict) -> dict:
@@ -475,14 +492,20 @@ def alignment_series_4(root, traj: str, ref_tables: dict, stage_tables: dict) ->
     1 wrote, read uniformly with every other grid step."""
     steps = list(battery_4.GRID_4[traj])
     per_item, a = {}, {r: [] for r in battery_4.RUNGS}
+    a_by_ref = {}
     for step in steps:
         unit = stage_tables[step]
         pairing_by_ref = unit["record"]["pairing"]
-        pia = per_item_alignment_4(unit, ref_tables, pairing_by_ref)
+        pia, per_ref = _alignment_parts_4(unit, ref_tables, pairing_by_ref)
         per_item[step] = pia
         for r in battery_4.RUNGS:
             a[r].append(float(pia[r].mean()))
-    return {"steps": steps, "a": a, "per_item": per_item}
+        # §3.3 / S11: the same series against EACH reference alone.
+        for ref, by_rung in per_ref.items():
+            block = a_by_ref.setdefault(ref, {r: [] for r in battery_4.RUNGS})
+            for r in battery_4.RUNGS:
+                block[r].append(float(by_rung[r].mean()))
+    return {"steps": steps, "a": a, "per_item": per_item, "a_by_ref": a_by_ref}
 
 
 # --------------------------------------------------- primary code (exact)
@@ -1355,6 +1378,108 @@ def s11_textures_4(root, cells, series_by_traj, rung_sets_by_traj) -> dict:
                    "conversion was not built)", "source": "re-derived", "no_alpha_claim": True}
 
 
+def family_matched_trend_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
+    """§5's named sensitivity, which the build never implemented: "the
+    family-matched trend (flat siblings from the same 2c family, where
+    any exist) in place of the pooled flat trend". For each eligible
+    cell whose rung's `battery_2d.FAMILY_OF` family contains at least
+    one FLAT rung on the same trajectory, phi is recomputed with the
+    trend taken over those siblings ALONE, and reported beside the
+    pooled-trend phi; the primary T is re-read over exactly the cells
+    that have a sibling. DESCRIPTIVE — `no_alpha_claim`, no bar, no
+    tree branch: a cell with no flat sibling in its family is printed
+    with its reason, not imputed."""
+    per_cell, phis = {}, []
+    n_without = 0
+    for traj in sorted(series_by_traj):
+        series = series_by_traj[traj]
+        rs = rung_sets_by_traj.get(traj)
+        if rs is None or not rs["flat"]:
+            continue
+        steps = list(series["steps"])
+        elig_R = ((eligibility or {}).get(traj) or {}).get("R") or {}
+        trend_pooled = trend_4(series["a"], rs["flat"], steps)
+        excess_pooled = excess_4(series["a"], trend_pooled, steps)
+        for rung in rs["R"]:
+            e = elig_R.get(rung)
+            if not e or not e.get("eligible"):
+                continue
+            tci = e["t_clear_index"]
+            fam = bt.FAMILY_OF.get(rung)
+            siblings = [f for f in rs["flat"] if bt.FAMILY_OF.get(f) == fam]
+            key = f"{traj}/{rung}"
+            phi_pooled = phi_4(excess_pooled[rung], tci)
+            if not siblings:
+                n_without += 1
+                per_cell[key] = {"family": fam, "n_siblings": 0, "siblings": [],
+                                "phi_family_matched": None, "phi_pooled": phi_pooled,
+                                "reason": "no flat sibling in the rung's 2c family"}
+                continue
+            trend_fam = trend_4(series["a"], siblings, steps)
+            x = excess_4({rung: series["a"][rung]}, trend_fam, steps)[rung]
+            phi_fam = phi_4(x, tci)
+            per_cell[key] = {"family": fam, "n_siblings": len(siblings),
+                            "siblings": list(siblings), "phi_family_matched": phi_fam,
+                            "phi_pooled": phi_pooled, "x_end": x[-1], "reason": "eligible"}
+            if phi_fam is not None:
+                phis.append(phi_fam)
+    return {"per_cell": per_cell,
+           "T_family_matched": (float(np.mean(phis)) if phis else None),
+           "n_cells": len(phis), "n_cells_without_a_sibling": n_without,
+           "source": "re-derived", "no_alpha_claim": True}
+
+
+def s11_per_reference_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
+    """S11's per-reference clause and §3.3's "per-reference values are
+    printed in every world", which the build never implemented: the
+    excess series computed against EACH reference separately (the same
+    excess/phi code with one reference), the per-reference phi per
+    eligible cell, `leading_reference` = the reference with the largest
+    pre-clear excess fraction on that cell, and a per-trajectory tally
+    of which reference leads most often — "does one lens lead the
+    others?". DESCRIPTIVE, `no_alpha_claim`."""
+    out = {}
+    for traj in sorted(series_by_traj):
+        series = series_by_traj[traj]
+        rs = rung_sets_by_traj.get(traj)
+        a_by_ref = series.get("a_by_ref") or {}
+        if rs is None or not rs["flat"]:
+            out[traj] = {"available": False, "reason": "no flat pool"}
+            continue
+        if not a_by_ref:
+            out[traj] = {"available": False, "reason": "no per-reference series on this tree"}
+            continue
+        steps = list(series["steps"])
+        elig_R = ((eligibility or {}).get(traj) or {}).get("R") or {}
+        refs = sorted(a_by_ref)
+        excess_by_ref = {}
+        for ref in refs:
+            trend_ref = trend_4(a_by_ref[ref], rs["flat"], steps)
+            excess_by_ref[ref] = excess_4(a_by_ref[ref], trend_ref, steps)
+        per_cell, tally = {}, {ref: 0 for ref in refs}
+        for rung in rs["R"]:
+            e = elig_R.get(rung)
+            if not e or not e.get("eligible"):
+                continue
+            tci = e["t_clear_index"]
+            phi_by_ref, x_end_by_ref = {}, {}
+            for ref in refs:
+                x = excess_by_ref[ref][rung]
+                phi_by_ref[ref] = phi_4(x, tci)
+                x_end_by_ref[ref] = x[-1]
+            live = {ref: v for ref, v in phi_by_ref.items() if v is not None}
+            lead = max(sorted(live), key=lambda r: live[r]) if live else None
+            if lead is not None:
+                tally[lead] += 1
+            per_cell[rung] = {"phi_by_ref": phi_by_ref, "x_end_by_ref": x_end_by_ref,
+                             "leading_reference": lead}
+        leads_most = (max(sorted(tally), key=lambda r: tally[r]) if any(tally.values()) else None)
+        out[traj] = {"available": True, "references": refs, "per_cell": per_cell,
+                    "leads_tally": tally, "leads_most_often": leads_most,
+                    "n_cells": len(per_cell)}
+    return {"per_traj": out, "source": "re-derived", "no_alpha_claim": True}
+
+
 # ------------------------------------------------------------ calibration
 
 def lambda_hat_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
@@ -2125,6 +2250,8 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
             _sec(f"S7 {traj}", lambda traj=traj, rs=rs, elig_R=elig_R:
                 s7_huh_construction_4(root, traj, rs, elig_R), sensitivities)
         _sec("S8", lambda: s8_referents_4(root, series_by_traj), secondaries)
+        _sec("S11 per-reference",
+             lambda: s11_per_reference_4(series_by_traj, rung_sets, eligibility), secondaries)
         _sec("S9", lambda: s9_cka_4(root), sensitivities)
         _sec("S10", lambda: s10_item_grain_4(root, cells, series_by_traj, rung_sets), secondaries)
         _sec("S11", lambda: s11_textures_4(root, cells, series_by_traj, rung_sets), secondaries)
@@ -2164,6 +2291,9 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
                 return None
             return primary_4(cells_cas, n_boot=n_boot, seed=0)
         _sec("primary_clears_and_stays", _clears_and_stays_primary, sensitivities)
+        _sec("family-matched trend",
+             lambda: family_matched_trend_4(series_by_traj, rung_sets, eligibility),
+             sensitivities)
         _sec("k=5", lambda: k_sensitivity_4(root, 5), sensitivities)
         _sec("k=20", lambda: k_sensitivity_4(root, 20), sensitivities)
 

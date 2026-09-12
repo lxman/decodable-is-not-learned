@@ -574,6 +574,110 @@ def test_cells_4_uses_the_flat_pool_as_the_trend_not_r():
     assert an.excess_4(a, trend_over_R, steps)["rise"] == [0.0, 0.0, 0.0, 0.0]
 
 
+def test_family_matched_trend_4_uses_only_the_flat_siblings_of_the_rungs_own_family():
+    """§5's named sensitivity: the trend taken over the flat rungs of
+    the cell's OWN 2c family. Built so the two readings differ by
+    construction — `antonym6` (family `antonym`) has one flat sibling,
+    `antonym`, whose growth is twice the pooled flat pool's, so the
+    family-matched excess is strictly smaller than the pooled one; and
+    `add_base8` (family `base_arith`) has NO flat sibling here, so it
+    is printed with its reason and left out of T."""
+    steps = [10, 20, 30, 40]
+    a = {"antonym6": [0.10, 0.30, 0.35, 0.50],    # the eligible cell, family `antonym`
+         "antonym": [0.10, 0.20, 0.25, 0.30],     # its ONE flat sibling
+         "add_base8": [0.10, 0.30, 0.35, 0.50],   # eligible, family `base_arith`, no sibling
+         "mod13": [0.10, 0.10, 0.15, 0.20],       # pooled-only flat rungs
+         "mod17": [0.10, 0.10, 0.15, 0.20]}
+    rs = {"R": ["antonym6", "add_base8"], "flat": ["antonym", "mod13", "mod17"],
+          "transient": [], "t_clear": {"antonym6": 30, "add_base8": 30},
+          "clears_and_stays": {}, "endpoint_step": 40}
+    elig = {"t": {"R": {"antonym6": {"eligible": True, "t_clear": 30, "t_clear_index": 2},
+                        "add_base8": {"eligible": True, "t_clear": 30, "t_clear_index": 2}}}}
+    out = an.family_matched_trend_4({"t": _series_for_cells(steps, a)}, {"t": rs}, elig)
+
+    cell = out["per_cell"]["t/antonym6"]
+    assert cell["family"] == "antonym" and cell["siblings"] == ["antonym"]
+    # family-matched: the rung grows .20 by t- (index 1, the last step
+    # before t_clear at index 2) and .40 by t_end; the sibling grows
+    # .10 / .20 -> excess .10 / .20 -> phi .5
+    assert cell["phi_family_matched"] == pytest.approx(0.5)
+    # pooled: the flat pool's mean growth is (.10 + 0 + 0)/3 at t- and
+    # (.20 + .10 + .10)/3 at t_end -> phi .625, a different reading
+    assert cell["phi_pooled"] == pytest.approx(0.625)
+
+    no_sib = out["per_cell"]["t/add_base8"]
+    assert no_sib["n_siblings"] == 0 and no_sib["phi_family_matched"] is None
+    assert "no flat sibling" in no_sib["reason"]
+    assert no_sib["phi_pooled"] is not None
+
+    # T is re-read over exactly the cells that HAVE a sibling
+    assert out["n_cells"] == 1 and out["n_cells_without_a_sibling"] == 1
+    assert out["T_family_matched"] == pytest.approx(0.5)
+    assert out["no_alpha_claim"] is True and out["source"] == "re-derived"
+
+
+def test_s11_per_reference_4_reads_each_reference_alone_and_names_the_leader():
+    """S11's per-reference clause / §3.3's "per-reference values are
+    printed in every world": one excess series per reference, a phi per
+    (cell, reference), the leading reference per cell and the
+    per-trajectory tally. Built so the three references disagree by
+    construction — refA's excess arrives before the clear, refB's
+    after, refC's not at all."""
+    steps = [10, 20, 30, 40]
+    flat = {"mod13": [0.10, 0.10, 0.10, 0.10], "mod17": [0.10, 0.10, 0.10, 0.10]}
+    a_by_ref = {
+        "refA": {"antonym6": [0.10, 0.18, 0.22, 0.30], **flat},   # early: phi ~ .4
+        "refB": {"antonym6": [0.10, 0.11, 0.12, 0.30], **flat},   # late: phi ~ .1
+        "refC": {"antonym6": [0.10, 0.10, 0.10, 0.10], **flat},   # nothing: x_end 0 -> None
+    }
+    pooled = {r: [float(np.mean([a_by_ref[ref][r][i] for ref in a_by_ref]))
+                  for i in range(len(steps))] for r in ("antonym6", "mod13", "mod17")}
+    series = {"t": {"steps": steps, "a": pooled, "per_item": {}, "a_by_ref": a_by_ref}}
+    rs = {"R": ["antonym6"], "flat": ["mod13", "mod17"], "transient": [],
+          "t_clear": {"antonym6": 30}, "clears_and_stays": {}, "endpoint_step": 40}
+    elig = {"t": {"R": {"antonym6": {"eligible": True, "t_clear": 30, "t_clear_index": 2}}}}
+
+    out = an.s11_per_reference_4(series, {"t": rs}, elig)
+    block = out["per_traj"]["t"]
+    assert block["available"] is True and block["references"] == ["refA", "refB", "refC"]
+    cell = block["per_cell"]["antonym6"]
+    # t- is index 1 (t_clear at index 2): refA's excess is .08 of .20,
+    # refB's is .01 of .20
+    assert cell["phi_by_ref"]["refA"] == pytest.approx(0.08 / 0.20)
+    assert cell["phi_by_ref"]["refB"] == pytest.approx(0.01 / 0.20)
+    assert cell["phi_by_ref"]["refC"] is None          # no endpoint excess at all
+    assert cell["leading_reference"] == "refA"
+    assert block["leads_tally"] == {"refA": 1, "refB": 0, "refC": 0}
+    assert block["leads_most_often"] == "refA"
+    assert out["no_alpha_claim"] is True
+
+    # a tree with no per-reference series degrades, it does not raise
+    bare = an.s11_per_reference_4({"t": {"steps": steps, "a": pooled, "per_item": {}}},
+                                  {"t": rs}, elig)
+    assert bare["per_traj"]["t"]["available"] is False
+
+
+def test_alignment_parts_4_pooled_half_is_bit_identical_to_per_item_alignment_4():
+    """The per-reference reading was factored INTO the pooled one so it
+    costs no second overlap pass; the pooled half must be the same
+    bits it was before the factor (it decides a_r(t), the excess, phi
+    and T)."""
+    rng = np.random.default_rng(0)
+    n, k, n_sites = 40, metric_4.K_4, 3
+    sets_m = {r: rng.integers(0, n, size=(n_sites, n, k), dtype=np.uint16)
+              for r in battery_4.RUNGS}
+    refs = {f"ref{i}": {r: rng.integers(0, n, size=(n_sites, n, k), dtype=np.uint16)
+                        for r in battery_4.RUNGS} for i in range(3)}
+    pairing = {ref: list(range(n_sites)) for ref in refs}
+    tables = {"sets": sets_m, "overlaps": {}}
+    pooled, per_ref = an._alignment_parts_4(tables, refs, pairing)
+    direct = an.per_item_alignment_4(tables, refs, pairing)
+    for r in battery_4.RUNGS:
+        assert np.array_equal(pooled[r], direct[r])
+        # and the pooled value IS the mean over the per-reference ones
+        assert np.allclose(pooled[r], np.mean([per_ref[ref][r] for ref in refs], axis=0))
+
+
 def test_lambda_hat_4_reads_the_flat_pools_scatter_over_its_bootstrap_se():
     """R-7(b): lambda_hat = the flat pool's between-step scatter (the
     SD over grid steps of each flat rung's own excess, pooled in
@@ -790,7 +894,7 @@ def test_every_collect_total_4_refusal_label_is_present():
     assert sorted(labels) == sorted(COLLECT_TOTAL_LABELS_4), (
         f"the refusal surface changed: added {sorted(set(labels) - set(COLLECT_TOTAL_LABELS_4))}, "
         f"removed {sorted(set(COLLECT_TOTAL_LABELS_4) - set(labels))}")
-    assert len(labels) == len(set(labels)) == 31
+    assert len(labels) == len(set(labels)) == 33
     for lab in labels:
         assert lab.startswith('"4 ') or lab.startswith('f"4 '), lab
 
@@ -800,7 +904,8 @@ COLLECT_TOTAL_LABELS_4 = [
     '"4 eligibility re-derivation"', '"4 eligibility record"', '"4 eligibility summary"',
     '"4 floors 2d"', '"4 frozen modules"', '"4 halt marker read"',
     '"4 import surface (entry)"', '"4 import surface (exit)"',
-    '"4 ladder known-answer (descriptive)"', '"4 power record"', '"4 power summary"',
+    '"4 ladder known-answer (descriptive)"', '"4 lambda_hat"', '"4 licence condition"',
+    '"4 power record"', '"4 power summary"',
     '"4 power vs eligibility check"', '"4 prereg tag"', '"4 primary"', '"4 reference seal"',
     '"4 referent manifest"', '"4 stage tables"',
     'f"4 alignment series {traj}"', 'f"4 gate 0 {traj} ref tables"', 'f"4 gate 0 {traj}"',
