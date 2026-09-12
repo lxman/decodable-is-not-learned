@@ -41,6 +41,8 @@ REPO = EXP4.parent.parent
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+from experiments.exp4 import _threads_4  # noqa: E402,F401 — BEFORE numpy: pins the BLAS threads
+
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2i import analyze_2i as an2i  # noqa: E402
 from experiments.exp2i import battery_2i as bi  # noqa: E402
@@ -85,15 +87,17 @@ def run_gate1(*, traj, root, cache_root, device, battery, refs, ref_tables, load
 
     t0 = time.time()
     ref_activation_paths = collect_4.ref_activation_paths_4(root, refs)
+    release = collect_4.release_once_4(loaders, model)
     try:
         collect_4.process_model_4(
             model, tok, key_or_unit=(traj, endpoint_step), family=collect_4.family_of_traj_4(traj),
             info=info, root=root, battery=battery, ref_tables=ref_tables,
             ref_activation_paths=ref_activation_paths, batch_size=battery_4.BATCH_4[traj],
             device=device, keep_activations=False, sites=metric_4.sites_4(info["n_hidden"]),
-            refs=refs, committed_digest=want, stack=_stack(), git_sha=_git_sha())
+            refs=refs, committed_digest=want, stack=_stack(), git_sha=_git_sha(),
+            release_model=release)
     finally:
-        loaders["release"](model)
+        release()
         loaders["free_step"](traj, endpoint_step, cache_root=cache_root)
 
     g1 = battery_4.gate1_rederive_4(root, traj)
@@ -175,15 +179,17 @@ def run(*, traj, root=EXP4, cache_root=None, device: str = "mps", dry_run: bool 
                               f"committed {want}")
             raise SystemExit(2)
         t0 = time.time()
+        release = collect_4.release_once_4(loaders, model)
         try:
             collect_4.process_model_4(
                 model, tok, key_or_unit=(traj, step), family=collect_4.family_of_traj_4(traj),
                 info=info, root=root, battery=battery, ref_tables=ref_tables,
                 ref_activation_paths=ref_activation_paths, batch_size=battery_4.BATCH_4[traj],
                 device=device, keep_activations=False, sites=metric_4.sites_4(info["n_hidden"]),
-                refs=refs, committed_digest=want, stack=_stack(), git_sha=_git_sha())
+                refs=refs, committed_digest=want, stack=_stack(), git_sha=_git_sha(),
+                release_model=release)
         finally:
-            loaders["release"](model)
+            release()
             loaders["free_step"](traj, step, cache_root=cache_root)
         print(f"[4 sweep] {traj} step{step}: done in {time.time() - t0:.0f}s", flush=True)
 

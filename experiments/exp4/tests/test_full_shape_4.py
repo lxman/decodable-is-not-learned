@@ -104,6 +104,8 @@ def test_leads_world_reaches_leads(_leads_world):
         {"1.0", "1.5", "2.0", "3.0"}
     assert isinstance(v["licence_condition_met"], bool)
     assert v["licence_condition"]["rule"]
+    # Minor 7: the verdict carries the thread pin.
+    assert v["pins_active"]["threads_pinned"] is True
     for traj in battery_4.TRAJECTORIES_4:
         g0 = v["gate0"][traj]
         assert g0 is not None and g0["pass"] is True, (traj, g0)

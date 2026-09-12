@@ -34,14 +34,21 @@ import sys
 import zipfile
 from pathlib import Path
 
-import numpy as np
-from scipy.stats import spearmanr
-
 EXP4 = Path(__file__).resolve().parent
 EXPERIMENTS = EXP4.parent
 REPO = EXPERIMENTS.parent
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
+
+# Final review Minor 7: BEFORE numpy (and before every `experiments.*`
+# import that pulls numpy in transitively) — the BLAS thread pool is
+# sized when the library is first loaded, and a multi-threaded
+# reduction is not bit-reproducible across processes. Design §3.2's
+# "single-threaded, pinned kernel".
+from experiments.exp4 import _threads_4  # noqa: E402
+
+import numpy as np  # noqa: E402
+from scipy.stats import spearmanr  # noqa: E402
 
 from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
@@ -72,22 +79,24 @@ SE_MULTIPLE_4 = 2.0
 MIN_CLEAR_INDEX_4 = 2
 GATE0_MIN_FRACTION_4 = 0.90
 
-REFERENTS_4_SHA256 = "fe1140c197636d6bb94bc28425c45f2163d078d5e3a8d90990ca8c10e0b6cb7c"
+REFERENTS_4_SHA256 = "241da3a71cf059e51db7b34388ac6dc2cd272e7983eb1b471a062203dcbe7eb4"
 # Task 5: exp4's OWN residual import surface -- every non-test module
 # inside experiments/exp4 that is not one of the four blob-bound
 # INSTRUMENT_BLOBS_4 files, from tests/import_scan_4.py's scan.
 IMPORTED_SHA256_4 = {
-    battery_4.REPO / "experiments/exp4/__init__.py":
+    REPO / "experiments/exp4/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    battery_4.REPO / "experiments/exp4/make_referents_4.py":
+    REPO / "experiments/exp4/_threads_4.py":
+        "8cb23d6de4d1a6f57a05cdde83fa2f1b13150867046132836baddaa0db0d5667",
+    REPO / "experiments/exp4/make_referents_4.py":
         "e8b9cff34a34c830e2e07302eae6bcd811fe22fe978f77c0ea32ff07d4491b7e",
-    battery_4.REPO / "experiments/exp4/power_4.py":
-        "5d4769e8f7ae0f1ccac605bbdeda90044d53183a98f3df90a91442268197ce38",
-    battery_4.REPO / "experiments/exp4/run/__init__.py":
+    REPO / "experiments/exp4/power_4.py":
+        "99949ed9f573959110779e6b3826c12606f8f7c0ccafefe6bcf8cddd4463515d",
+    REPO / "experiments/exp4/run/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    battery_4.REPO / "experiments/exp4/run/preflight_4.py":
-        "865d4f8c08b66cb5be708af4e46f728b660fd5accb4b19c394142856a2a33057",
-    battery_4.REPO / "experiments/exp4/verify_referents_4.py":
+    REPO / "experiments/exp4/run/preflight_4.py":
+        "28accc387e5cb42e73eba30ca923c4f719cadd73375920c002695d632d35f854",
+    REPO / "experiments/exp4/verify_referents_4.py":
         "4e59bdfbb3ff1c8510324f80b2d1265300c0dd1c782d3559a09cb1a572d5d1b6",
 }
 REFERENTS_PATH_4 = EXP4 / "referents_4.json"   # Task 5 writes this file
@@ -2325,6 +2334,10 @@ def run(root=battery_4.EXP4, *, write=False, n_boot=N_BOOT_4, tag_exists=None, b
         "seal_binding": blobs_bound is None,
         "power_n_sim_expected": power_n_sim_expected,
         "power_n_sim_injected": power_n_sim_injected,
+        # Minor 7: the four BLAS thread variables, pinned to 1 before
+        # numpy was imported (design §3.2's single-threaded kernel).
+        "threads_pinned": _threads_4.threads_pinned_4(),
+        "threads_pinned_before_numpy": bool(_threads_4.PINNED_BEFORE_NUMPY_4),
     }
 
     v = verdict_4(failures=failures, tree=tree, primary=primary, cells=cells,

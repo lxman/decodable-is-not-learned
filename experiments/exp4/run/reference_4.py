@@ -46,6 +46,8 @@ REPO = EXP4.parent.parent
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+from experiments.exp4 import _threads_4  # noqa: E402,F401 — BEFORE numpy: pins the BLAS threads
+
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2i.run._common_2i import git_sha as _git_sha, stack as _stack  # noqa: E402
 from experiments.exp4 import battery_4  # noqa: E402
@@ -72,7 +74,7 @@ def _keyed(key: str, only) -> bool:
 
 
 def _process(*, model, tok, root, key_or_unit, family, info, battery, ref_tables, refs, batch_size,
-            device, keep_activations, committed_digest, loaders):
+            device, keep_activations, committed_digest, loaders, release_model=None):
     # The references' own activation files are on disk (keep_activations
     # =True for every one of the four) by the time any endpoint/first-
     # unit/init/ladder load runs, so CKA (design §3.2) is wired here
@@ -82,7 +84,8 @@ def _process(*, model, tok, root, key_or_unit, family, info, battery, ref_tables
         model, tok, key_or_unit=key_or_unit, family=family, info=info, root=root, battery=battery,
         ref_tables=ref_tables, ref_activation_paths=ref_activation_paths, batch_size=batch_size,
         device=device, keep_activations=keep_activations, sites=metric_4.sites_4(info["n_hidden"]),
-        refs=refs, committed_digest=committed_digest, stack=_stack(), git_sha=_git_sha())
+        refs=refs, committed_digest=committed_digest, stack=_stack(), git_sha=_git_sha(),
+        release_model=release_model)
 
 
 def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, only=None,
@@ -134,12 +137,14 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             print("[4 reference] ref_pythia_12b: the mlx text-server LaunchAgent must be "
                   "down before this load (dial j) — operational, not enforced", flush=True)
         model, tok, info = loaders["key"](ref, cache_root=cache_root, device=device)
+        release = collect_4.release_once_4(loaders, model)
         try:
             _process(model=model, tok=tok, root=root, key_or_unit=ref, family=battery_4.FAMILY_OF_KEY_4[ref], info=info,
                     battery=battery, ref_tables={}, refs=(), batch_size=battery_4.BATCH_4[ref],
-                    device=device, keep_activations=True, committed_digest=None, loaders=loaders)
+                    device=device, keep_activations=True, committed_digest=None, loaders=loaders,
+                    release_model=release)
         finally:
-            loaders["release"](model)
+            release()
         print(f"[4 reference] {ref}: done", flush=True)
 
     if all(battery_4.unit_complete_4(root, r) for r in battery_4.REFERENCES_4) and only is None:
@@ -161,15 +166,16 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             _halt_reference(root, f"endpoint_{traj}: digest {info['tensor_digest']} != "
                                   f"committed {want}")
             raise SystemExit(2)
+        release = collect_4.release_once_4(loaders, model)
         try:
             refs = battery_4.REFS_FOR_4[traj]
             ref_tables = collect_4.load_ref_tables_4(root, refs)
             _process(model=model, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
                     battery=battery, ref_tables=ref_tables, refs=refs,
                     batch_size=battery_4.BATCH_4[key], device=device, keep_activations=True,
-                    committed_digest=want, loaders=loaders)
+                    committed_digest=want, loaders=loaders, release_model=release)
         finally:
-            loaders["release"](model)
+            release()
         print(f"[4 reference] {key}: done", flush=True)
 
     # ------------------------------------------------------- (3) first units
@@ -186,15 +192,16 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             _halt_reference(root, f"{traj} step{step}: digest {info['tensor_digest']} != "
                                   f"committed {want}")
             raise SystemExit(2)
+        release = collect_4.release_once_4(loaders, model)
         try:
             refs = battery_4.REFS_FOR_4[traj]
             ref_tables = collect_4.load_ref_tables_4(root, refs)
             _process(model=model, tok=tok, root=root, key_or_unit=(traj, step), family=collect_4.family_of_traj_4(traj),
                     info=info, battery=battery, ref_tables=ref_tables, refs=refs,
                     batch_size=battery_4.BATCH_4[traj], device=device, keep_activations=False,
-                    committed_digest=want, loaders=loaders)
+                    committed_digest=want, loaders=loaders, release_model=release)
         finally:
-            loaders["release"](model)
+            release()
             loaders["free_step"](traj, step, cache_root=cache_root)
         print(f"[4 reference] {traj} step{step} (first unit): done", flush=True)
 
@@ -211,15 +218,16 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             loaders["release"](model)
             _halt_reference(root, f"{key}: digest {info['tensor_digest']} != committed {want}")
             raise SystemExit(2)
+        release = collect_4.release_once_4(loaders, model)
         try:
             refs = battery_4.REFS_FOR_4[traj]
             ref_tables = collect_4.load_ref_tables_4(root, refs)
             _process(model=model, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
                     battery=battery, ref_tables=ref_tables, refs=refs,
                     batch_size=battery_4.BATCH_4[key], device=device, keep_activations=True,
-                    committed_digest=want, loaders=loaders)
+                    committed_digest=want, loaders=loaders, release_model=release)
         finally:
-            loaders["release"](model)
+            release()
         print(f"[4 reference] {key}: done", flush=True)
 
     # ------------------------------------------------------------- (5) ladder
@@ -234,15 +242,16 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
         if battery_4.unit_complete_4(root, key):
             continue
         model, tok, info = loaders["key"](key, cache_root=cache_root, device=device)
+        release = collect_4.release_once_4(loaders, model)
         try:
             if ref_tables_ladder is None:
                 ref_tables_ladder = collect_4.load_ref_tables_4(root, non_pythia)
             _process(model=model, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
                     battery=battery, ref_tables=ref_tables_ladder, refs=non_pythia,
                     batch_size=battery_4.BATCH_4[key], device=device, keep_activations=True,
-                    committed_digest=None, loaders=loaders)
+                    committed_digest=None, loaders=loaders, release_model=release)
         finally:
-            loaders["release"](model)
+            release()
         print(f"[4 reference] {key}: done", flush=True)
 
     print("[4 reference] all 19 keys + 4 first units complete", flush=True)

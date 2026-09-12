@@ -1020,7 +1020,7 @@ def key_dir_4(root, key_or_unit):
 
 def load_record_4(*, key, family, info, sites, d, render, batch_size, refs, pairing,
                   sets_sha, global_sha, attested_sha, activation_sha, committed_digest,
-                  seconds, stack, git_sha, prereg_tag) -> dict:
+                  seconds, stack, git_sha, prereg_tag, threads_pinned=None) -> dict:
     """The `_load.json` record for a reference key or a sweep unit.
     `key` is a str for a reference key, a `[traj, step]` pair for a
     sweep unit (JSON has no tuples)."""
@@ -1048,6 +1048,9 @@ def load_record_4(*, key, family, info, sites, d, render, batch_size, refs, pair
         "committed_digest": committed_digest,
         "seconds": round(float(seconds), 3),
         "stack": dict(stack),
+        # Final review Minor 7: whether this process had the four BLAS
+        # thread variables pinned to 1 when the k-NN sets were built.
+        "threads_pinned": threads_pinned,
         "git_sha": git_sha,
         "prereg_tag": prereg_tag,
     }

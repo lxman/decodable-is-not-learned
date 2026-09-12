@@ -262,6 +262,80 @@ def test_align_scalars_4_max_over_pairs_is_the_full_cross_product_not_the_depth_
     assert got["ref_x"]["knn_argmax_pair_prompt_end"] == [0, 10]
 
 
+# ------------------------------------------------- IMPORTANT 4 (peak load)
+
+def _tiny_battery_34(n=12):
+    """All 34 rungs (`process_model_4` loops over them unconditionally)
+    with 12 varied items each — k=10 needs n > k."""
+    import random
+    words = ["cat", "dog", "blue", "fast", "moon", "tree", "gold", "iron", "leaf", "wave",
+             "frost", "spark", "amber", "cliff", "delta", "ember"]
+    battery = {}
+    for r in battery_4.RUNGS:
+        rng = random.Random(r)
+        battery[r] = {
+            "shots": [["amber cliff quartz willow", "2"], ["delta ember frost spark", "4"]],
+            "eval_items": [{"question": " ".join(rng.choice(words) for _ in range(4)) + f" {i}",
+                           "answer": str(i)} for i in range(n)]}
+    return battery
+
+
+def test_process_model_4_releases_the_model_before_the_bank_and_records_numpy(tmp_path,
+                                                                             monkeypatch):
+    """Final review IMPORTANT 4: stage 1's first load is the memory and
+    time peak — the weights must go after the LAST FORWARD PASS and
+    before the 17,000-row global bank and the write, not when the
+    caller's `finally` runs. And the record must name numpy, since
+    gate 1's npz byte-identity requirement rests on numpy's zip
+    writer."""
+    events = []
+    real_bank, real_write = c4.global_sets_4, c4.write_load_4
+
+    def spy_bank(X_by_rung, k=metric_4.K_4):
+        events.append("bank")
+        return real_bank(X_by_rung, k=k)
+
+    def spy_write(*a, **kw):
+        events.append("write")
+        return real_write(*a, **kw)
+
+    monkeypatch.setattr(c4, "global_sets_4", spy_bank)
+    monkeypatch.setattr(c4, "write_load_4", spy_write)
+
+    key = "ref_pythia_12b"
+    model = fakes_4.FakeModel(seed=3, n_hidden=7, d=8)
+    tok = fakes_4.FakeTokenizer()
+    info = {"n_hidden": 7, "tensor_digest": "digest", "commit": "c", "revision": "main",
+           "repo": "fake/x", "kind": "2b", "config_source": "fake/x@main",
+           "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}}
+    rec = c4.process_model_4(
+        model, tok, key_or_unit=key, family="pythia", info=info, root=tmp_path,
+        battery=_tiny_battery_34(), ref_tables={}, ref_activation_paths={},
+        batch_size=battery_4.BATCH_4[key], device="cpu", keep_activations=False,
+        sites=[0, 3, 6], refs=(), committed_digest=None,
+        stack={"torch": "x", "transformers": "y"}, git_sha="0" * 40,
+        release_model=lambda: events.append("release"))
+
+    assert events == ["release", "bank", "write"], events
+    assert rec["stack"]["numpy"] == np.__version__
+    assert rec["stack"]["torch"] == "x" and rec["stack"]["transformers"] == "y"
+    assert rec["global_sha256"] is not None      # the bank really was built
+
+
+def test_release_once_4_is_idempotent():
+    calls = []
+    release = c4.release_once_4({"release": calls.append}, "the-model")
+    release()
+    release()
+    release()
+    assert calls == ["the-model"]
+
+
+def test_stack_record_4_keeps_a_callers_own_numpy_entry():
+    assert c4.stack_record_4({"torch": "2.12.1"})["numpy"] == np.__version__
+    assert c4.stack_record_4({"numpy": "pinned"})["numpy"] == "pinned"
+
+
 # --------------------------------------------------------------- storage
 
 def _record_fields(**over):

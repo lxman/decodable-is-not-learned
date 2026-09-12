@@ -938,3 +938,18 @@ applied to `experiment-4-design.md` yet. The freeze's reading of each:
   the same way (F-3).
 - (h) §7's ladder sentence gains "recorded as a descriptive
   known-answer field in the verdict" or "and required" per R-1 (F-5).
+- (i) §7's timing sentence is wrong about the global bank, and stage 1's
+  budget follows from it (final review IMPORTANT 4). "the k-NN kernel
+  over 442 cells per position (seconds) and the global bank (≈ 1–2 min)"
+  → the global bank is **≈ 8–11 minutes per key**: `knn_sets` on the
+  17,000-row bank is a 17,000 × 17,000 float32 similarity matrix (≈ 1.2
+  GB) plus a full `argsort` of every row, once per site — 12 or 13 sites
+  per key, at d ≈ 5,120 for the 12b reference. With slip (a)'s 23 loads
+  (19 of which build a bank), **stage 1 should be budgeted at 10–12 h,
+  not "≈ 6–8 h"**. Operationally, and not a design change: run
+  `--only ref_pythia_12b` FIRST, alone, with the mlx agents down (dial
+  j) — it is the one load whose weights (≈ 24 GB) and bank (≈ 4.5 GB of
+  collected activations held while the bank runs) coincide as the
+  campaign's memory peak, and the build now releases the weights before
+  the bank rather than after the write, so the peak is the weights OR
+  the bank, not both.

@@ -70,6 +70,7 @@ from experiments.exp2c.run import screen  # noqa: E402
 from experiments.exp2g import battery_2g as bg  # noqa: E402
 from experiments.exp2i.run._common_2i import release as _release  # noqa: E402
 from experiments.exp2n import battery_2n as bn  # noqa: E402
+from experiments.exp4 import _threads_4  # noqa: E402
 from experiments.exp4 import battery_4  # noqa: E402
 from experiments.exp4 import metric_4  # noqa: E402
 
@@ -571,16 +572,58 @@ def _load_activations_prompt_end(root, key_or_unit, rung):
 
 # --------------------------------------------------------- orchestration
 
+def release_once_4(loaders, model):
+    """Final review IMPORTANT 4: `process_model_4` frees the weights
+    itself, after the last forward pass and BEFORE the 17,000-row
+    global bank and the write; every call site keeps its own
+    `finally: release` for the raise-before-that path, so the callable
+    has to be idempotent. Lives here, not in a runner, because both
+    runners need it and neither may import the other."""
+    state = {"done": False}
+
+    def release():
+        if state["done"]:
+            return
+        state["done"] = True
+        loaders["release"](model)
+
+    return release
+
+
+def stack_record_4(stack) -> dict:
+    """The runner's `_common_2i.stack()` dict (torch/transformers)
+    plus **numpy's version** (final review IMPORTANT 4): gate 1's
+    requirement is byte identity of the stored `.npz` files, and what
+    writes those bytes is `np.savez_compressed` — numpy's zip writer,
+    with its fixed (1980-01-01) member timestamp and its zlib level.
+    torch and transformers were recorded from the first commit; the
+    library the identity requirement actually rests on was not."""
+    out = dict(stack)
+    out.setdefault("numpy", np.__version__)
+    return out
+
+
 def process_model_4(model, tok, *, key_or_unit, family, info, root, battery, ref_tables,
                     ref_activation_paths, batch_size, device, keep_activations, sites, refs,
-                    committed_digest, stack, git_sha) -> dict:
+                    committed_digest, stack, git_sha, release_model=None) -> dict:
     """The whole per-load pipeline over all 34 rungs: collect, build
     the model's own set/pooled tables, align against every reference in
     `refs` (using `ref_tables`, plus `ref_activation_paths[ref][rung]`
     — a path to that reference's `activations/<rung>.npz` — for CKA
     when given and present on disk), write everything, and (only for a
     reference-stage str key — a sweep `(traj, step)` unit never gets
-    one, matching `reference_seal_paths_4`) the global bank."""
+    one, matching `reference_seal_paths_4`) the global bank.
+
+    `release_model` (final review IMPORTANT 4): a callable invoked
+    ONCE, after the last forward pass and BEFORE the 17,000-row global
+    bank and the write. Stage 1's first load is the memory and time
+    peak — the 12b reference is ≈ 24 GB resident while this function
+    holds ≈ 4.5 GB of collected activations, and the global bank's
+    k-NN pass over 17,000 x 5,120 is ≈ 8–11 minutes per key, all of it
+    with the weights still on the device for no reason. The caller
+    keeps its own `finally: release` (the callable must be idempotent —
+    the runners wrap it in a once-guard), so a raise anywhere in here
+    still frees the model."""
     t0 = time.time()
     n_hidden = info["n_hidden"]
     key_for_batch = key_or_unit[0] if isinstance(key_or_unit, (tuple, list)) else key_or_unit
@@ -635,13 +678,22 @@ def process_model_4(model, tok, *, key_or_unit, family, info, root, battery, ref
         if X_by_rung is not None:
             X_by_rung[rung] = X
 
+    # IMPORTANT 4: the last forward pass has happened. Everything below
+    # — the global bank, the compression, the write-and-re-read — is
+    # host-side numpy, so the weights go now, not when the caller's
+    # `finally` runs.
+    if release_model is not None:
+        release_model()
+
     global_sets = global_sets_4(X_by_rung, k=metric_4.K_4) if X_by_rung is not None else None
 
     record_fields = dict(family=family, info=info, sites=list(sites), d=int(d_hidden),
                          render=battery_4.RENDER_4[family], batch_size=int(batch_size),
                          refs=list(refs or ()), pairing={r: list(p) for r, p in pairing_by_ref.items()},
                          committed_digest=committed_digest, seconds=time.time() - t0,
-                         stack=dict(stack), git_sha=git_sha, prereg_tag=battery_4.PREREG_TAG_4)
+                         stack=stack_record_4(stack), git_sha=git_sha,
+                         threads_pinned=_threads_4.threads_pinned_4(),
+                         prereg_tag=battery_4.PREREG_TAG_4)
     return write_load_4(root, key_or_unit, record_fields=record_fields, sets_by_rung=sets_by_rung,
                         overlaps_by_rung=overlaps_by_rung, attested_by_rung=attested_by_rung,
                         activations_by_rung=activations_by_rung, global_sets=global_sets,

@@ -574,6 +574,41 @@ def test_cells_4_uses_the_flat_pool_as_the_trend_not_r():
     assert an.excess_4(a, trend_over_R, steps)["rise"] == [0.0, 0.0, 0.0, 0.0]
 
 
+def test_every_exp4_entry_point_pins_the_blas_threads_before_numpy():
+    """Final review Minor 7. The BLAS thread pool is sized when the
+    library is first loaded, so `_threads_4` has to be imported before
+    numpy AND before every `experiments.*` import that pulls numpy in
+    transitively. Structural, by AST on the source, because by the time
+    a test runs, pytest's own conftest has long since imported numpy
+    and the runtime order cannot be observed from inside."""
+    import ast
+    import os
+    from experiments.exp4 import _threads_4
+
+    assert _threads_4.threads_pinned_4() is True
+    for v in _threads_4.THREAD_ENV_4:
+        assert os.environ[v] == "1", v
+    assert _threads_4.thread_pin_record_4()["threads_pinned"] is True
+
+    for rel in ("analyze_4.py", "run/reference_4.py", "run/sweep_4.py", "run/preflight_4.py"):
+        src = (an.EXP4 / rel).read_text()
+        tree = ast.parse(src)
+        threads_line, numpy_lines, other_exp_lines = None, [], []
+        for node in ast.walk(tree):
+            is_threads = (isinstance(node, ast.ImportFrom) and node.module == "experiments.exp4"
+                          and any(a.name == "_threads_4" for a in node.names))
+            if is_threads:
+                threads_line = node.lineno
+            elif isinstance(node, ast.Import) and any(a.name == "numpy" for a in node.names):
+                numpy_lines.append(node.lineno)
+            elif isinstance(node, ast.ImportFrom) and (node.module or "").startswith("experiments."):
+                other_exp_lines.append(node.lineno)
+        assert threads_line is not None, f"{rel} does not import _threads_4"
+        for ln in numpy_lines:
+            assert threads_line < ln, f"{rel}: numpy imported at line {ln}, before the pin"
+        assert threads_line < min(other_exp_lines), rel
+
+
 def test_family_matched_trend_4_uses_only_the_flat_siblings_of_the_rungs_own_family():
     """§5's named sensitivity: the trend taken over the flat rungs of
     the cell's OWN 2c family. Built so the two readings differ by

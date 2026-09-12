@@ -487,6 +487,47 @@ M = [
         raise RuntimeError(f"{out_path} exists — the power record is written ONCE")''',
      '''    if False:
         raise RuntimeError(f"{out_path} exists — the power record is written ONCE")'''),
+
+    # ------------------------------- final review fix wave: R-7's arm + lambda_hat
+    # NOTE, disclosed rather than worked around: any mutation of
+    # power_4.py ALSO trips `test_analyze_4.test_check_imports_4_and_
+    # check_referents_pass_on_the_committed_tree`, because power_4.py
+    # is in the referent manifest. That makes every power_4 mutant's
+    # kill over-determined through the FAST suite. Each of the four
+    # below was therefore ALSO confirmed by hand against
+    # `test_power_4.py` alone, which contains no pin check -- see
+    # PROGRESS.md's "Final review fix wave" for the per-mutant result.
+    (PW, "compute(): the zero-excess arm simulates only the ELIGIBLE cells, not the R_M pool",
+     "    pool = _pool(elig)",
+     "    pool = _candidates(elig)"),
+    (PW, "_simulate_zero_excess: the eligibility bar is scaled with the noise, not left at the "
+         "measured SE",
+     '                ok = excess[rung][-1] >= an.SE_MULTIPLE_4 * info["se_r"]',
+     '                ok = excess[rung][-1] >= an.SE_MULTIPLE_4 * info["se_r"] * scale'),
+    (PW, "compute(): realized_alpha_leads read from the phi=0 arm, not the zero-excess arm's own",
+     '    zero_arm["realized_alpha_leads"] = zero_arm["P_LEADS"]',
+     '    zero_arm["realized_alpha_leads"] = arms[str(0.0)]["P_LEADS"]'),
+    (PW, "compute(): the scatter grid's multiple-1.0 entry is a separate draw, not the arm itself",
+     '''    zero_excess_scatter = {_multiple_key(m): zero_by_multiple[float(m)]["P_LEADS"]
+                          for m in an.ZERO_EXCESS_MULTIPLES_4}''',
+     '''    zero_excess_scatter = {_multiple_key(m): zero_by_multiple[float(m)]["P_LEADS"]
+                          for m in an.ZERO_EXCESS_MULTIPLES_4}
+    zero_excess_scatter[_multiple_key(1.0)] = float(zero_arm["P_LEADS"]) / 2.0'''),
+    (AN, "_check_power_matches_eligibility_4: the zero-excess arm is not a required arm key",
+     '    want_arm_keys = {str(p) for p in POWER_PHIS_4} | {ZERO_EXCESS_ARM_4}',
+     '    want_arm_keys = {str(p) for p in POWER_PHIS_4}'),
+    (AN, "lambda_hat_4: the per-rung scatter SD uses ddof=0, not the sample SD",
+     '            sd = float(np.std(x, ddof=1)) if x.size > 1 else 0.0',
+     '            sd = float(np.std(x, ddof=0)) if x.size > 1 else 0.0'),
+    (AN, "lambda_hat_4: the ratio is inverted (bootstrap SE over scatter)",
+     '        lam = (scatter / boot) if (scatter is not None and boot) else None',
+     '        lam = (boot / scatter) if (boot is not None and scatter) else None'),
+    (AN, "family_matched_trend_4: the siblings are every flat rung, not the rung's own family",
+     '            siblings = [f for f in rs["flat"] if bt.FAMILY_OF.get(f) == fam]',
+     '            siblings = list(rs["flat"])'),
+    (AN, "s11_per_reference_4: the leading reference is the SMALLEST pre-clear fraction",
+     '            lead = max(sorted(live), key=lambda r: live[r]) if live else None',
+     '            lead = min(sorted(live), key=lambda r: live[r]) if live else None'),
 ]
 
 # Review round 2, IMPORTANT 1(a): give every hand-authored mutant above
