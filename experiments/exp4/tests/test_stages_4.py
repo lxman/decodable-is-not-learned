@@ -503,20 +503,76 @@ def test_sweep_resume_reenters_an_incomplete_unit(tmp_path, monkeypatch):
 
 # --------------------------------------------------------------- preflight
 
-def test_preflight_writes_nothing_and_prints_identity_line(tmp_path, monkeypatch, capsys):
+def _loaders_with_a_second_load(seeds, key, second_seed):
+    """The fake `loaders` dict, with `load_key(key)` returning DIFFERENT
+    weights on its second call — the preflight's (a) arm now releases
+    and RELOADS between its two collections (final-review IMPORTANT 1),
+    so a two-load identity check must be able to see two loads differ."""
+    base = seeds.loaders()
+    real_key = base["key"]
+    alt = dict(seeds.seed_by_key)
+    alt[key] = second_seed
+    alt_key = fakes_4.fake_loaders(alt, n_hidden_by=_n_hidden_by())["key"]
+    calls = {"n": 0}
+
+    def load_key(k, *, cache_root=None, device="mps"):
+        if k == key:
+            calls["n"] += 1
+            if calls["n"] == 2:
+                return alt_key(k, cache_root=cache_root, device=device)
+        return real_key(k, cache_root=cache_root, device=device)
+
+    return {**base, "key": load_key}
+
+
+def test_preflight_writes_nothing_and_two_loads_of_the_same_weights_are_identical(
+        tmp_path, monkeypatch, capsys):
     seeds = _Seeds()
+    # The cross-loader-path arm (design §7's ladder check, rehearsed on
+    # one rung) compares `ladder_pythia_2.8b` against a pythia_2.8b
+    # GRID STEP: give the step the ladder key's own seed, so the fake
+    # stands for the case the design asserts (the same weights reached
+    # two ways) and the printed line must read True.
+    seeds.seed_by_key[("pythia_2.8b", 2000)] = seeds.seed_by_key["ladder_pythia_2.8b"]
     monkeypatch.setattr(battery_4, "committed_step_digest_4", seeds.step_digest)
     monkeypatch.setattr("experiments.exp4.run.preflight_4.bt.load_battery", _tiny_battery)
     (tmp_path / "results").mkdir()
     (tmp_path / "results" / "keep.txt").write_text("x")
 
-    pf.run(root=tmp_path, loaders=seeds.loaders(), checkpoint_step=2000)
+    pf.run(root=tmp_path, loaders=seeds.loaders(), checkpoint_step=2000, ladder_step=2000)
 
     out = capsys.readouterr().out
-    assert "X byte-identical across the two passes = True" in out
+    assert "the two loads' tensor digests equal = True" in out
+    for rung in pf.PREFLIGHT_RUNGS:
+        assert f"{rung}: X byte-identical across the two LOADS = True" in out
+        assert "set_tables_4 identical across the two LOADS = True" in out
+    assert "X identical across the two LOADER PATHS = True" in out
     assert "set_tables_4 identical = True" in out
     assert (tmp_path / "results" / "keep.txt").read_text() == "x"
     assert not any((tmp_path / "results").rglob("*.npz"))
+
+
+def test_preflight_two_loads_of_different_weights_are_not_identical(
+        tmp_path, monkeypatch, capsys):
+    """The other direction: if the second LOAD of `ladder_pythia_2.8b`
+    brings different weights, the preflight says so — the check the
+    build's single-load/two-collection version could not make (it
+    measured forward-pass determinism, never two loads)."""
+    seeds = _Seeds()
+    monkeypatch.setattr(battery_4, "committed_step_digest_4", seeds.step_digest)
+    monkeypatch.setattr("experiments.exp4.run.preflight_4.bt.load_battery", _tiny_battery)
+    loaders = _loaders_with_a_second_load(seeds, "ladder_pythia_2.8b", second_seed=999_001)
+
+    pf.run(root=tmp_path, loaders=loaders, checkpoint_step=2000, ladder_step=2000)
+
+    out = capsys.readouterr().out
+    assert "the two loads' tensor digests equal = False" in out
+    for rung in pf.PREFLIGHT_RUNGS:
+        assert f"{rung}: X byte-identical across the two LOADS = False" in out
+    assert "set_tables_4 identical across the two LOADS = False" in out
+    # the cross-loader-path arm reuses the FIRST load, and this fixture
+    # gives the grid step its own distinct seed -> not identical
+    assert "X identical across the two LOADER PATHS = False" in out
 
 
 def test_preflight_raises_if_results_changed(tmp_path, monkeypatch):
@@ -539,7 +595,7 @@ def test_preflight_raises_if_results_changed(tmp_path, monkeypatch):
 
     loaders["release"] = sneaky_release
     with pytest.raises(RuntimeError, match="preflight wrote"):
-        pf.run(root=tmp_path, loaders=loaders, checkpoint_step=2000)
+        pf.run(root=tmp_path, loaders=loaders, checkpoint_step=2000, ladder_step=2000)
 
 
 # ----------------------------------------------------------------- watcher
