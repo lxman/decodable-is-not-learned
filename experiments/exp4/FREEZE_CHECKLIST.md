@@ -34,11 +34,16 @@ check as long as `committed_digest` (the runner's copy of the
 `a_r(t)` and decided T. Design §3.4's spine is "the alignment is read
 on the bytes the outcome came from, or not at all"; the runner's halt
 was, from the analyzer's side, an attestation — 2i F-1's shape, 3d's
-self-consistency lesson. Five further findings were found and closed,
-all additively. Nothing preregistered moved: `T_BAR_4`, `ALPHA_4`,
-`MIN_CLEAR_INDEX_4`, `SE_MULTIPLE_4`, `GATE0_MIN_FRACTION_4`,
-`MIN_CELLS_4`/`MIN_RUNGS_4`, the null, the bootstrap, the tree and
-every §5 secondary are byte-identical to the build's.
+self-consistency lesson. Six further findings were found and closed,
+all additively — including F-7, which the assignment's own item 20
+uncovered: the build's mutation tally was not reproducible against the
+current source, and the protection of every preregistered bar rested
+on tests that no battery had ever shown could see them. Nothing
+preregistered moved: `T_BAR_4`, `ALPHA_4`, `MIN_CLEAR_INDEX_4`,
+`SE_MULTIPLE_4`, `GATE0_MIN_FRACTION_4`, `MIN_CELLS_4`/`MIN_RUNGS_4`,
+the null, the bootstrap, the tree and every §5 secondary are
+byte-identical to the build's — and are now pinned by a test that says
+so, which is F-7's own closure.
 
 ---
 
@@ -599,22 +604,142 @@ on the same bytes is `test_metric_4.py`'s
 `test_rotation_and_scale_invariance_exact` (its third assertion,
 `np.array_equal(knn_sets(X), knn_sets(X))`).
 
-## Mutation battery (attack item 20)
+## Mutation battery (attack item 20) — FINDING F-7, closed
 
-PENDING — one harness instance, detached, `mutation_freeze_full.log`.
+### F-7 — the build's mutation tally was not reproducible against the current source. CLOSED.
+
+**The defect.** The build ledger records "108 mutants, 106 confirmed
+killed, 1 proven equivalent, 1 not killable through the harness, 0
+open", with 26 of the 30 totality mutants' kills "traced by content" to
+`mutation_build_part2.log`'s original run rather than re-executed. The
+build itself flagged the residual risk and asked for a ruling on
+whether a full re-sweep was warranted. It was. Re-run in full against
+the current source, one harness instance at a time, detached, log
+committed as `mutation_freeze_full.log`:
+
+| pass | scope | suite | result |
+| --- | --- | --- | --- |
+| B1 | the 78 static mutants | fast modules, `--timeout=300` | **61 killed, 16 SURVIVED, 1 TIMEOUT** |
+| B2 | all 31 totality mutants | `--totality`, `--timeout=900` | **7 killed, 24 SURVIVED** |
+
+**The structural reason, established at the freeze.** `grep` over the
+six FAST_TESTS modules: **no fast-suite test calls
+`analyze_4.run()`** — the only callers anywhere are
+`test_full_shape_4.py`, `test_totality_4.py` and the two cold tools.
+A totality mutant strips a `collect_total_4(thunk, label)` wrapper
+INSIDE `run()`, so the fast suite cannot observe any of mutants
+79–109 even in principle; yet `mutation_build_part2.log`'s fast pass
+reports every one of them killed. Those log lines cannot mean what
+they appear to mean. And the sixteen static survivors are
+preregistered dials (`T_BAR_4`, `ALPHA_4`, `MIN_CELLS_4`,
+`SE_MULTIPLE_4`, `GATE0_MIN_FRACTION_4`) and verdict-path rules
+(`cells_4`'s trend, `primary_4`'s rung-clustered bootstrap,
+`_flip_signs`, the 1e-12 comparison tolerances, S1's sign, gate 0's
+inclusive bar, run()'s four gate-1 agreements) whose only behavioural
+cover is the world suite — which no mutation pass, at the build or
+since, has ever run (`--fullshape` is ~100 minutes per mutant).
+
+So the instrument's protection against a lowered bar or an inverted
+rule rested on tests that no battery had ever demonstrated could see
+them. Nothing in the instrument was wrong; the EVIDENCE that it was
+right did not exist.
+
+**The closure (additive — eleven new fast tests, no source change).**
+`test_analyze_4.py` gains:
+
+- `test_preregistered_bars_and_dials_are_at_their_design_values` —
+  every §3.6/§4 dial pinned as a literal (kills #50, #51, #52, #54,
+  #56 and any future edit to a preregistered bar).
+- `test_verdict_tree_4_decides_at_the_exact_bars` — T at exactly .25,
+  T at .22 and .21, p at exactly .01 and at .02, CI95 upper at exactly
+  .25, and the cell/rung floors at 2 and 3.
+- `test_cells_4_uses_the_flat_pool_as_the_trend_not_r` (#57) — built so
+  a trend over R gives an excess of exactly zero at every step.
+- `test_primary_4_bootstrap_resamples_whole_rungs_not_cells` (#60) —
+  one 4-cell rung at .9 against three 1-cell rungs at .1: rung
+  clustering reads CI95 [.1, .8385] (four cold picks at 31.6 %, three
+  hot of four at 5.1 %), cell-level resampling of the same seven cells
+  reads [.214, .786] and can reach neither bound.
+- `test_flip_signs_values_are_exactly_plus_minus_one` (#64).
+- `test_compare_eligibility_4_resolves_drift_far_below_a_tenth` (#71).
+- `test_eligibility_summary_4_counts_only_the_eligible_rungs` (#73).
+- `test_gate0_4_bar_is_inclusive_at_exactly_the_fraction` (#74) — a
+  hand-built 170-cell case landing on exactly .90, where `>` and `>=`
+  disagree.
+- `test_s2_known_answer_gates_4_refuses_a_perturbed_auc` (#68, #69) —
+  the 2d and 2e verdict records copied to a tmp tree and perturbed, so
+  a tolerance of 1e-1 would accept a reproduction that is wrong.
+- `test_s1_order_4_reports_concordance_not_discordance` (#72).
+- `test_every_collect_total_4_refusal_label_is_present` — the general
+  closure for all 31 wrapper mutants: the refusal surface is read from
+  the source by AST and pinned by its own 31-label set, so stripping a
+  wrapper removes its label and fails in milliseconds.
+- `test_run_requires_all_four_gate1_agreements` (#67) — run()'s
+  gate-1 condition must name `sets_equal`, `activation_sha_equal`,
+  `attested_sha_equal` and `digest_equal`, with all three per-rung
+  dicts fully quantified.
+
+The last two pin a STRUCTURE rather than a behaviour, because no fast
+test can reach the behaviour; disclosed as ratification item R-5.
+
+**The confirming pass (B3), same log, against the current source:**
+the 16 static survivors + all 31 totality mutants, fast suite,
+`--timeout=400` — **46/47 killed**. The one survivor is #34, re-proved
+equivalent below. A four-mutant probe before launching (`#50`, `#57`,
+`#67` and a totality wrapper) read 4/4 killed.
+
+**The reconciled tally, every kill pointing at a committed log line of
+a run against the CURRENT source:**
+
+| | count | evidence |
+| --- | --- | --- |
+| mutants | **109** (78 static + 31 totality) | `mutation_check.M`, introspected; 109 not 108 because F-5's closure added a `collect_total_4` call site |
+| killed | **107** | `mutation_freeze_full.log`: B1 (61 static) + B3 (15 static + 31 totality); B2 independently killed 7 of the totality mutants under `--totality` |
+| proven equivalent | **1** (#34) | below |
+| not killable through the harness | **1** (#38) | B1's `TIMEOUT` line at 300 s; the build's own bounded runs at 60 s and 180 s |
+| open | **0** | |
+| SKIP (stale target) | **0** | every anchor still unique after the closures, checked by introspection before B1 |
+
+**#34 re-proved equivalent at the freeze** (not taken from the ledger):
+
+```
+mutant: FAMILY_OF_KEY_4[f'endpoint_{traj}']  ->  FAMILY_OF_KEY_4[traj]
+  pythia_2.8b    real 'pythia'    mutant 'pythia'    equal True
+  olmo2_7b       real 'olmo2'     mutant 'olmo2'     equal True
+  smollm3_3b     real 'smollm3'   mutant 'smollm3'   equal True
+  comma_7b       real 'comma'     mutant 'comma'     equal True
+```
+
+`battery_4` populates both keys from the SAME source dict
+(`FAMILY_OF_KEY_4.update(_FAMILY_OF_TRAJ_4)` and
+`FAMILY_OF_KEY_4[f"endpoint_{t}"] = _FAMILY_OF_TRAJ_4[t]`), and
+`family_of_traj_4` is only ever called on a member of
+`TRAJECTORIES_4`, so no black-box test on the real module can
+distinguish the mutant.
+
+**#38 — not killable through the harness, disclosed.** Removing
+`run/reference_4.run`'s any-HALTED-marker guard makes the one test
+that does not mock `bt.load_battery` (it does not need to: in
+unmutated code the guard raises first) proceed to collect the real
+500-item × 34-rung battery through the fake-loader path. Bounded
+confirmations at 60 s (build), 180 s (review round 1) and 300 s (this
+freeze) all time out without resolving. A timeout is not a kill, per
+the controller's standing ruling; the mechanism is understood and the
+mutated path is genuinely expensive real work, not a hang.
 
 ## Cold battery, after the closures
 
 | battery | result |
 | --- | --- |
-| fast modules (`-m "not slow"`) | **162 passed** (151 before; eleven new tests) |
+| fast modules (`-m "not slow"`) | **176 passed**, 5 deselected, 149.2 s (151 before: six closure tests for F-1/F-3/F-4/F-6, two for F-2 and F-5, twelve for F-7, and one pre-existing pin test) |
 | totality (`test_totality_4.py`) | **19 passed**, 327.8 s (15 before; four new cases) |
 | cold referent battery | **11/11** |
 | import scan | 57 + 6, byte-identical to the pins |
 | read sweep, real pre-campaign tree | 3,684 paths, **0 UNPINNED**, INSUFFICIENT_DATA at "4 reference seal" |
 | read sweep, synthetic POST-SEAL world | 8,084 paths, **0 UNPINNED**, terminal reached (LEADS) |
 | worlds + slow analyzer (`test_full_shape_4` + `test_analyze_4`) | **47 passed, 1 xfailed**, 6,296.5 s — every terminal (LEADS / PARTIAL / FOLLOWS / UNDETERMINED / NO-CONVERGENCE), all missing routes, gate 0's pass path, the determinism fixture, strict JSON. The xfail is the build's own pre-existing `test_leads_world_every_cell_phi_in_band` (one synthetic cell 0.0067 below the fixture's band), unrelated to the closures |
-| mutants | PENDING |
+| mutants | **109; 107 killed, 1 proven equivalent (#34), 1 not killable through the harness (#38), 0 open** — every kill on a committed `mutation_freeze_full.log` line of a run against the current source |
+| `check_imports_4()` / `check_referents(...)` called directly | no unpinned module, no drift, 0 referent drift |
 
 ## Real-tree disclosures (checklist item 27; every `analyze_4.run()` on `experiments/exp4/results/`)
 
@@ -623,4 +748,129 @@ all INSUFFICIENT_DATA, none writing anything under `results/`.
 
 ## Ratification items
 
-PENDING.
+### Design deltas the build raised (attack item 22)
+
+Each is in `docs/superpowers/plans/2026-09-10-exp4-build.md` under
+"Design deltas raised by this plan, ledgered for ratification"; none is
+applied to `experiment-4-design.md` yet. The freeze's reading of each:
+
+- **B-1 — the first grid point joins the reference stage.** §4's
+  eligibility rule (ii) and the power stage need `a_r(t_1)` and
+  `trend(t_1)`, which the design's reference stage never loads. The
+  build adds the four first grid points (Pythia 1000, OLMo-2 1000,
+  SmolLM3 40000, Comma 10000) to stage 1, writing them into their
+  natural sweep paths, binding them with `exp4-reference-sealed`, and
+  having the sweep treat them as complete and REFUSE if they are not
+  (`run/sweep_4.run`). 23 loads at stage 1, not 19. **Touches a
+  preregistered quantity only in the sense that §4's rule becomes
+  computable at all**; the rule itself is unchanged. Needs Michael's
+  word in §7, and §7's "19 loads, forward-only, ≈ 6–8 h" becomes 23.
+- **B-2 — S7's pooled variant is thinned to the site family.** §3.1
+  says "the average over valid tokens at every block (Huh's
+  pooling)"; the build stores the pooled mean at the SITE FAMILY's
+  layers only (every-3rd + final), because every-block pooled storage
+  is ≈ 4.6 GB per 7B load. S7 is a named sensitivity with no α claim
+  (§5, dial r), so this narrows a sensitivity, not the primary — but
+  it does mean S7 is "Huh's construction at this program's depths",
+  not Huh's construction verbatim, and §5's S7 wording should say so.
+- **B-3 — the Pythia metadata scan.** One Hub call, metadata only
+  (`HfApi().model_info(repo).sha` for 70m/160m/1.4b, the three ladder
+  sizes 2b never pinned), run once on 2026-09-11T04:01:37Z, written to
+  the committed `hub_inventory_pythia_4.json`, asserted against the
+  `PYTHIA_COMMITS_4` literals at import, and refusing to run twice.
+  Disclosed in the build ledger; belongs in §2's disclosure paragraph.
+- **B-4 — the global bank is committed for reference-stage keys only;**
+  the sweep records its global scalar attested. Dial g's own shape
+  (only the primary's position is committed for every load) one field
+  over; S3's global-bank curve is the affected reading.
+
+### Rulings the freeze needs
+
+- **R-1 — F-5: should §7's ladder known-answer check GATE?** The design
+  says the ladder's 2.8b `main` activations are "required identical" to
+  step143000's. The freeze implements the comparison on committed
+  bytes and records it, non-gating. The two loads take different loader
+  paths (2b's `from_pretrained` at `main` vs 2g's candidate-file path
+  with 2g's pinned config) and the program has never measured whether
+  they agree; §3.7's identity escape hatch covers gate 1 only. Making
+  it a refusal risks halting the analysis over a descriptive check
+  (the ladder feeds S3/S4 only). **Recommended: keep it descriptive,
+  and read the printed number in the projection.**
+- **R-2 — the escape hatch's scope (attack item 9).** §3.7: if the
+  preflight shows two loads of the same weights disagreeing at the ulp
+  level, the identity requirement is replaced BEFORE the tag "by a
+  k-NN-set identity requirement alone plus a disclosed activation
+  tolerance". The build's gate 1 requires FOUR agreements, and the
+  hatch's wording covers neither `activation_sha_equal` (a sha over the
+  fp16 activation npz — a tolerance cannot be expressed as a sha
+  equality) nor the `pooled` member inside `attested_sha_equal` (a
+  float32 mean over valid tokens, the most ulp-sensitive quantity in
+  the instrument). **If the hatch is ever invoked, it must say what
+  becomes of those two.** Recommended wording: k-NN-set identity on
+  the committed prompt-end tables AND on the attested question-end
+  tables; `activation_sha_equal` and the pooled tables demoted to a
+  printed max-abs deviation under the disclosed tolerance.
+- **R-3 — the `refs=()` cross-check gap.** `per_item_alignment_4`
+  cross-checks its re-derived overlaps against the stored
+  `overlap_<ref>` arrays, but the four reference keys are written with
+  `refs=()` and carry none, and `_gate0_site_means_4` cross-checks
+  nothing at all. After F-2 the pairing is re-derived, so the only
+  remaining unchecked input on those paths is the reference set tables
+  themselves — which ARE sha-pinned on their own records, re-hashed at
+  every read (twice: `load_record_failures_4` and `load_ref_tables_4`),
+  and seal-bound. **The freeze judges the gap closed by the shas and
+  recommends no further change**; recorded because the asymmetry
+  (trajectory units carry a second, independent check that reference
+  keys do not) is real and a reader should know it.
+- **R-4 — torch on the analyzer's import surface (M-7).** exp4's own
+  modules import torch and transformers only inside function bodies,
+  as the build's Global Constraints require — but importing
+  `analyze_4` still pulls both into `sys.modules`, via the FROZEN
+  `experiments/exp2b/models.py`, which imports torch at module level
+  and which `battery_4` imports for `PYTHIA_SHAS`/`load_pythia`/
+  `load_tokenizer`. Frozen code is never edited, so this cannot be
+  closed inside exp4 without a lazy-import wrapper around `models_2b`.
+  Verdict-inert: the analyzer's numerics are numpy/scipy only, no exp4
+  code calls a torch function outside `run/`, and `check_imports_4`
+  scopes to `experiments/` by construction (torch, numpy and scipy are
+  unpinned in every prior experiment too, bucketed
+  `python_stdlib_venv` by the read sweep). **Recommended: disclose in
+  §7 and leave it**; the "zero model contact" claim rests on which
+  functions run, not on torch being unimportable, and always has.
+- **R-5 — F-7's structural tests.** Two of the freeze's closures pin a
+  STRUCTURE rather than a behaviour, because no fast test can reach
+  the behaviour: `test_every_collect_total_4_refusal_label_is_present`
+  (the 31-label refusal surface, read by AST) and
+  `test_run_requires_all_four_gate1_agreements` (the gate-1 condition
+  must name all four re-derived agreements). They are honest about
+  what they check and they kill the mutants that no fast test could,
+  but they are not behavioural. **Recommended: accept them, and read
+  the world suite as the behavioural cover** — `test_full_shape_4.py`
+  exercises both paths for real, at 100 minutes a run.
+- **R-6 — the 2.8b `main` vs step143000 loader paths (a consequence of
+  R-1).** If Michael wants §7's check to gate, the cheap version is to
+  require it only where it is cheap to satisfy: equality of the two
+  keys' `tensor_digest`s, which the reference stage already measures
+  and records for both.
+
+### Doc slips (apply to `experiment-4-design.md` with the ratification)
+
+- (a) §7's "19 loads, forward-only, ≈ 6–8 h" → 23 loads (B-1).
+- (b) §3.1's "the average over valid tokens at every block (Huh's
+  pooling)" → at the site family's layers (B-2), with S7's §5 wording
+  matched.
+- (c) §2's disclosure paragraph gains the one Hub metadata call (B-3).
+- (d) §3.8's storage list gains "the global bank is committed for the
+  reference-stage keys; the sweep's global scalar is attested" (B-4).
+- (e) §3.4's "Each trajectory point's tensor digest must equal the
+  committed sweep record's `digest` for that step ... else the unit
+  halts" gains "and the analyzer requires the same equality on the
+  record, so the halt is not the only check" (F-1).
+- (f) §3.3's pairing sentence gains "re-derived at analysis time from
+  the pinned site families; the stored pairing is required to equal
+  it" (F-2).
+- (g) §3.1's "asserted against the committed records' `render` field
+  where one exists" gains dtype and the shot count, which are asserted
+  the same way (F-3).
+- (h) §7's ladder sentence gains "recorded as a descriptive
+  known-answer field in the verdict" or "and required" per R-1 (F-5).

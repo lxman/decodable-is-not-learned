@@ -487,3 +487,295 @@ def test_ladder_known_answer_4_equal_absent_and_unequal(tmp_path):
     assert ne["available"] and ne["equal"] is False and ne["gating"] is False
     assert ne["n_equal"] == len(battery_4.RUNGS) - 1
     assert ne["per_rung"][battery_4.RUNGS[0]] is False
+
+
+# ============================================================ freeze F-7
+# The freeze's full mutation re-sweep (`mutation_freeze_full.log`) found
+# sixteen static mutants surviving the fast suite and twenty-four
+# totality mutants surviving the totality suite, against a build ledger
+# claiming 106/108 killed. The structural reason: NO fast-suite test
+# calls `analyze_4.run()`, so the fast pass the build credits with
+# killing the `collect_total_4` wrapper mutants could not have observed
+# them; and the sixteen static survivors are preregistered dials and
+# verdict-path rules whose only covering tests live in the 100-minute
+# world suite, which no mutation pass has ever run. The tests below
+# observe each survivor directly, in the fast suite.
+
+def test_preregistered_bars_and_dials_are_at_their_design_values():
+    """Every dial §3.6/§4 fixes, pinned as a literal. A post-tag edit to
+    any of them — or a mutation of one — fails here immediately, which
+    is what the mutation re-sweep found nothing else doing."""
+    assert an.T_BAR_4 == 0.25              # §3.6: LEADS needs T >= .25
+    assert an.ALPHA_4 == 0.01              # §3.6: the program's alpha
+    assert an.MIN_CELLS_4 == 3             # §3.9: NO-CONVERGENCE below 3 cells
+    assert an.MIN_RUNGS_4 == 3             # §3.9: ... or below 3 rungs
+    assert an.SE_MULTIPLE_4 == 2.0         # §4 rule (ii): x_end >= 2 x SE
+    assert an.MIN_CLEAR_INDEX_4 == 2       # §3.5: t_clear >= t_3
+    assert an.GATE0_MIN_FRACTION_4 == 0.90  # §3.7 gate 0
+    assert an.N_BOOT_4 == 10_000           # §3.6 CI95
+    assert an.N_FLIP_SAMPLE_4 == 10_000    # §3.6, above the enumeration cap
+    assert an.MAX_ENUMERATE_4 == 20        # §3.6: exact below this
+    assert an.N_BOOT_ELIG_4 == 2000        # §4's item bootstrap
+    assert an.POWER_BAR_4 == 0.75          # §4: P(LEADS | phi=.5) >= .75
+    assert an.POWER_PHIS_4 == (0.0, 0.25, 0.5)
+    assert metric_4.K_4 == 10 and battery_4.DTYPE_4 == "float16"
+    assert battery_4.PRIMARY_POSITION_4 == 1     # §3.1: the prompt end
+    assert an.WORLDS_4 == ("INSUFFICIENT_DATA", "NO-CONVERGENCE", "LEADS",
+                           "PARTIAL", "FOLLOWS", "UNDETERMINED")
+
+
+def test_verdict_tree_4_decides_at_the_exact_bars():
+    """The tie cases §3.9's wording fixes, each one bar-width from its
+    neighbour — a lowered T_BAR_4 or a raised ALPHA_4 flips one."""
+    b = {"T": 0.3, "p_plus": 0.004, "p_minus": 1.0, "ci95": [0.1, 0.5]}
+    # T exactly at the bar with p under alpha: LEADS.
+    assert an.verdict_tree_4([], 5, 4, dict(b, T=0.25))["verdict"] == "LEADS"
+    # T just under the bar: PARTIAL, not LEADS (kills T_BAR_4 -> .2).
+    assert an.verdict_tree_4([], 5, 4, dict(b, T=0.22))["verdict"] == "PARTIAL"
+    assert an.verdict_tree_4([], 5, 4, dict(b, T=0.21))["verdict"] == "PARTIAL"
+    # p exactly at alpha is NOT significant (strict <) ...
+    assert an.verdict_tree_4([], 5, 4, dict(b, p_plus=0.01))["verdict"] == "UNDETERMINED"
+    # ... and p between .01 and .05 must not fire either (kills ALPHA_4 -> .05).
+    assert an.verdict_tree_4([], 5, 4, dict(b, p_plus=0.02))["verdict"] == "UNDETERMINED"
+    assert an.verdict_tree_4([], 5, 4, dict(b, T=0.15, p_plus=0.02,
+                                            ci95=[0.05, 0.24]))["verdict"] == "FOLLOWS"
+    # CI95 upper exactly at the bar is NOT excluded (strict <).
+    assert an.verdict_tree_4([], 5, 4, dict(b, T=0.02, p_plus=0.4,
+                                            ci95=[-0.05, 0.25]))["verdict"] == "UNDETERMINED"
+    # the cell/rung floors (kills MIN_CELLS_4 -> 1)
+    assert an.verdict_tree_4([], 2, 4, b)["verdict"] == "NO-CONVERGENCE"
+    assert an.verdict_tree_4([], 3, 3, b)["verdict"] == "LEADS"
+
+
+def _series_for_cells(steps, a_by_rung):
+    return {"steps": list(steps), "a": {r: list(v) for r, v in a_by_rung.items()}}
+
+
+def test_cells_4_uses_the_flat_pool_as_the_trend_not_r():
+    """§3.5: the excess nets out the FLAT rungs' growth. A trend taken
+    over R instead would subtract the rising rungs' own growth and
+    collapse phi — built so the two readings differ by construction."""
+    steps = [10, 20, 30, 40]
+    a = {"rise": [0.02, 0.04, 0.05, 0.06],     # rises early
+         "other": [0.02, 0.04, 0.05, 0.06],    # a second R rung, same shape
+         "flat1": [0.02, 0.02, 0.02, 0.02],    # the flat pool: no growth at all
+         "flat2": [0.02, 0.02, 0.02, 0.02]}
+    rs = {"R": ["rise", "other"], "flat": ["flat1", "flat2"], "transient": [],
+          "t_clear": {"rise": 30, "other": 30}, "clears_and_stays": {}, "endpoint_step": 40}
+    elig = {"t": {"R": {"rise": {"eligible": True, "t_clear": 30, "t_clear_index": 2},
+                        "other": {"eligible": True, "t_clear": 30, "t_clear_index": 2}}}}
+    cells = an.cells_4({"t": _series_for_cells(steps, a)}, {"t": rs}, elig)
+    assert len(cells) == 2
+    # flat pool flat => excess == the rung's own growth => phi = .02/.04 = .5
+    assert cells[0]["phi"] == pytest.approx(0.5)
+    # a trend over R would be the mean of the two identical rising rungs,
+    # leaving an excess of exactly 0 at every step and no cell at all.
+    trend_over_R = an.trend_4(a, rs["R"], steps)
+    assert an.excess_4(a, trend_over_R, steps)["rise"] == [0.0, 0.0, 0.0, 0.0]
+
+
+def test_primary_4_bootstrap_resamples_whole_rungs_not_cells():
+    """§3.6's CI95 is a RUNG-clustered bootstrap: a rung carrying four
+    cells enters or leaves as a block. Built so cell-level resampling
+    cannot reproduce the interval — one 4-cell rung at .9 against three
+    1-cell rungs at .1, where rung clustering must put real mass on
+    .9-heavy and .1-only draws."""
+    cells = ([{"traj": "t", "rung": "hot", "phi": 0.9} for _ in range(4)]
+             + [{"traj": "t", "rung": f"c{i}", "phi": 0.1} for i in range(3)])
+    p = an.primary_4(cells, n_boot=2000, seed=0)
+    assert p["n_cells"] == 7 and p["n_rungs"] == 4
+    lo, hi = p["ci95"]
+    # Drawing four "cold" rungs (p = (3/4)^4 = 31.6 %, far above 2.5 %)
+    # puts the lower bound at exactly .1; three hot picks of four puts
+    # the upper at (12*.9 + .1)/13 = .8385. Cell-level resampling of the
+    # same 7 cells concentrates near the mean (.557) and reads
+    # [.214, .786] — it can reach NEITHER of these bounds.
+    assert lo == pytest.approx(0.1), p["ci95"]
+    assert hi == pytest.approx(0.8384615384615386), p["ci95"]
+
+
+def test_flip_signs_values_are_exactly_plus_minus_one():
+    """§3.6's null flips a rung's sign — +-1, nothing else, and the
+    enumeration is complete below the cap."""
+    S, method = an._flip_signs(4, seed=0)
+    assert method == "exact" and S.shape == (16, 4)
+    assert set(np.unique(S).tolist()) == {-1, 1}
+    assert S.sum() == 0                     # every sign pattern once
+    assert len({tuple(r) for r in S.tolist()}) == 16
+    S2, m2 = an._flip_signs(an.MAX_ENUMERATE_4 + 1, seed=0)
+    assert m2 == "sampled" and set(np.unique(S2).tolist()) == {-1, 1}
+
+
+def test_compare_eligibility_4_resolves_drift_far_below_a_tenth():
+    """The committed eligibility record is compared to its own
+    re-derivation at 1e-12 — a tolerance of 1e-1 would accept a table
+    that disagrees about every excess."""
+    a = {"t": {"R": {"r": {"x_end": 0.30000000000, "se": 0.01}}}}
+    b = {"t": {"R": {"r": {"x_end": 0.30000000001, "se": 0.01}}}}
+    assert an._compare_eligibility_4(a, b) != []
+    c = {"t": {"R": {"r": {"x_end": 0.35, "se": 0.01}}}}
+    assert an._compare_eligibility_4(a, c) != []
+    assert an._compare_eligibility_4(a, a) == []
+
+
+def test_eligibility_summary_4_counts_only_the_eligible_rungs():
+    elig = {"t": {"R": {"a": {"eligible": True}, "b": {"eligible": False},
+                        "c": {"eligible": True}},
+                  "flat": {"f1": {}, "f2": {}}, "transient": ["x"]}}
+    s = an._eligibility_summary_4(elig)["t"]
+    assert s == {"n_R": 3, "n_eligible": 2, "n_flat": 2, "n_transient": 1}
+
+
+def test_gate0_4_bar_is_inclusive_at_exactly_the_fraction():
+    """§3.7: gate 0 passes at `fraction_below >= .90`. Built to land on
+    exactly .90 — 153 of 170 cells below — so `>` and `>=` disagree."""
+    traj = "pythia_2.8b"
+    n_sites, n, k = 5, 10, 3
+    rungs = list(battery_4.RUNGS)              # 34 rungs x 5 sites x 1 ref = 170 cells
+    ref = np.tile(np.arange(k, dtype=np.uint16), (n_sites, n, 1))
+    endpoint_sets = ref.copy()                 # full overlap everywhere
+    low = np.tile(np.arange(k, dtype=np.uint16) + 50, (n_sites, n, 1))   # zero overlap
+    pairing = list(range(n_sites))
+    # 17 of the 170 (rung, site) cells must NOT be below: give three
+    # rungs' first five sites, and two sites of a fourth rung, full
+    # overlap in the twin too (3*5 + 2 = 17).
+    twin = {}
+    for i, r in enumerate(rungs):
+        if i < 3:
+            twin[r] = endpoint_sets.copy()
+        elif i == 3:
+            t = low.copy(); t[:2] = ref[:2]
+            twin[r] = t
+        else:
+            twin[r] = low
+    stage_tables = {
+        battery_4.INIT_KEY_4[traj]: {"sets": twin, "record": {"pairing": {"refX": pairing}}},
+        f"endpoint_{traj}": {"sets": {r: endpoint_sets for r in rungs},
+                             "record": {"pairing": {"refX": pairing}}},
+    }
+    ref_tables = {"refX": {r: ref for r in rungs}}
+    g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
+    assert g0["n_cells"] == 170
+    assert g0["fraction_below"] == pytest.approx(0.90)
+    assert g0["pass"] is True          # >= , not > : exactly at the bar passes
+
+
+def test_s2_known_answer_gates_4_refuses_a_perturbed_auc(tmp_path, monkeypatch):
+    """The 2d/2e AUC known-answer gate is exact to 1e-12. A tolerance of
+    1e-1 would accept a reproduction that is wrong in the second
+    decimal — built by perturbing a committed predictor score."""
+    import shutil
+    from experiments.exp2d import analyze_2d as a2d
+    real_2d, real_2e = a2d.EXP2D, an.EXPERIMENTS / "exp2e"
+    for src, name in ((real_2d, "exp2d"), (real_2e, "exp2e")):
+        (tmp_path / name / "results").mkdir(parents=True)
+        shutil.copy2(src / "results" / "verdict.json", tmp_path / name / "results" / "verdict.json")
+    monkeypatch.setattr(a2d, "EXP2D", tmp_path / "exp2d")
+    monkeypatch.setattr(an, "EXPERIMENTS", tmp_path)
+    assert an.s2_known_answer_gates_4()["auc_2d"] == pytest.approx(0.5454545454545454, abs=1e-15)
+
+    p = tmp_path / "exp2d" / "results" / "verdict.json"
+    obj = json.loads(p.read_text())
+    r0 = sorted(obj["per_rung"])[0]
+    obj["per_rung"][r0]["predictor_score"] = 1e9      # reorders the AUC's ranking
+    p.write_text(json.dumps(obj))
+    with pytest.raises(ValueError, match="2d's AUC"):
+        an.s2_known_answer_gates_4()
+
+    shutil.copy2(real_2d / "results" / "verdict.json", p)
+    q = tmp_path / "exp2e" / "results" / "verdict.json"
+    obj = json.loads(q.read_text())
+    r0 = sorted(obj["per_rung"])[0]
+    obj["per_rung"][r0]["F1"] = 1e9
+    q.write_text(json.dumps(obj))
+    with pytest.raises(ValueError, match="2e's AUC"):
+        an.s2_known_answer_gates_4()
+
+
+def test_s1_order_4_reports_concordance_not_discordance():
+    """S1's Somers' D is concordant MINUS discordant: a rung that agrees
+    earlier and clears earlier is a POSITIVE contribution."""
+    steps = [10, 20, 30, 40]
+    a = {"early": [0.02, 0.06, 0.06, 0.06],    # half-rises at index 1
+         "late": [0.02, 0.02, 0.02, 0.06],     # half-rises at index 3
+         "flat1": [0.02, 0.02, 0.02, 0.02],
+         "flat2": [0.02, 0.02, 0.02, 0.02]}
+    rs = {"R": ["early", "late"], "flat": ["flat1", "flat2"], "transient": [],
+          "t_clear": {"early": 20, "late": 40}, "clears_and_stays": {}, "endpoint_step": 40}
+    out = an.s1_order_4({"t": _series_for_cells(steps, a)}, {"t": rs})
+    assert out["pooled_d"] == pytest.approx(1.0), out
+    per = out["per_traj"]["t"]
+    assert per["n_concordant"] == 1 and per["n_discordant"] == 0 and per["d"] == 1.0
+
+
+def test_every_collect_total_4_refusal_label_is_present():
+    """FREEZE F-7's general closure. Every `collect_total_4(thunk,
+    label)` site in `analyze_4.py` is a refusal the analyzer must
+    COLLECT rather than raise (2d F-1 / 2h F-1's lesson); the mutation
+    harness generates one mutant per site by stripping the wrapper, and
+    NO fast test could observe any of them because no fast test calls
+    `run()`. The refusal surface is pinned here by its own label set,
+    read from the source by AST: stripping a wrapper removes its label
+    and fails this test in milliseconds."""
+    import ast
+    src = (an.EXP4 / "analyze_4.py").read_text()
+    labels = []
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+                and node.func.id == "collect_total_4":
+            assert len(node.args) >= 2, "every collect_total_4 call carries a label"
+            labels.append(ast.get_source_segment(src, node.args[1]))
+    assert sorted(labels) == sorted(COLLECT_TOTAL_LABELS_4), (
+        f"the refusal surface changed: added {sorted(set(labels) - set(COLLECT_TOTAL_LABELS_4))}, "
+        f"removed {sorted(set(COLLECT_TOTAL_LABELS_4) - set(labels))}")
+    assert len(labels) == len(set(labels)) == 31
+    for lab in labels:
+        assert lab.startswith('"4 ') or lab.startswith('f"4 '), lab
+
+
+COLLECT_TOTAL_LABELS_4 = [
+    '"4 battery items"', '"4 cells"', '"4 checkpoint manifests"',
+    '"4 eligibility re-derivation"', '"4 eligibility record"', '"4 eligibility summary"',
+    '"4 floors 2d"', '"4 frozen modules"', '"4 halt marker read"',
+    '"4 import surface (entry)"', '"4 import surface (exit)"',
+    '"4 ladder known-answer (descriptive)"', '"4 power record"', '"4 power summary"',
+    '"4 power vs eligibility check"', '"4 prereg tag"', '"4 primary"', '"4 reference seal"',
+    '"4 referent manifest"', '"4 stage tables"',
+    'f"4 alignment series {traj}"', 'f"4 gate 0 {traj} ref tables"', 'f"4 gate 0 {traj}"',
+    'f"4 gate 1 {traj} failures check"', 'f"4 gate 1 {traj} re-derivation"',
+    'f"4 gate 1 {traj} record"', 'f"4 outcome {traj}"', 'f"4 ref tables {traj}"',
+    'f"4 rung sets {traj}"', 'f"4 sweep tables {traj}"', 'f"4 {name}"',
+]
+
+
+def test_run_requires_all_four_gate1_agreements():
+    """I-6's fix, pinned. `gate1_rederive_4` computes four independent
+    agreements — the committed prompt-end set bytes per rung, the two
+    records' per-rung `activation_sha256`, their per-rung
+    `attested_sha256` (design §3.7: identity on every (rung, site,
+    position), which is what covers the question-end and pooled
+    tables), and the two `tensor_digest`s — and `run()` must require ALL
+    FOUR. Dropping one is a mutation only the 100-minute world route
+    `gate1_sweep_endpoint_edited` can observe behaviourally, so the
+    requirement is pinned structurally here: the condition that raises
+    "re-derived bytes disagree" must name every one of them."""
+    import ast
+    src = (an.EXP4 / "analyze_4.py").read_text()
+    needle = "re-derived bytes disagree"
+    found = []
+    for node in ast.walk(ast.parse(src)):
+        # the INNERMOST branch: one statement, and it is the append
+        # itself (ast.walk also reaches the enclosing `if not failures:`
+        # and the `for` body's own `if`, whose source contains the
+        # needle transitively).
+        if not isinstance(node, ast.If) or len(node.body) != 1 \
+                or not isinstance(node.body[0], ast.Expr):
+            continue
+        body_src = ast.get_source_segment(src, node.body[0]) or ""
+        if needle in body_src and "failures.append" in body_src:
+            found.append(ast.get_source_segment(src, node.test))
+    assert len(found) == 1, f"expected exactly one gate-1 disagreement branch, got {len(found)}"
+    cond = found[0]
+    for key in ("sets_equal", "activation_sha_equal", "attested_sha_equal", "digest_equal"):
+        assert key in cond, f"run()'s gate-1 condition does not require {key}: {cond}"
+    assert cond.count("all(") == 3          # the three per-rung dicts, each fully quantified

@@ -1,0 +1,180 @@
+=== exp4 FREEZE mutation re-sweep against the CURRENT source (109 mutants: 78 static + 31 totality) ===
+=== [B1] STATIC 78, fast modules, --timeout=300 (bounds mutant 38, the documented non-terminator), Fri Sep 11 20:46:10 EDT 2026 ===
+baseline OK (fast pass, ['align_scalars_4_knn_prompt_end_means_over_sites_instead_of_items_wrong_a', 'alpha_4_0_01_0_05', 'batch_4_the_6e9_threshold_s_batch_sizes_inverted', 'cells_4_the_eligible_flag_is_not_checked_only_presence', 'cells_4_trend_computed_over_r_instead_of_flat', 'chance_4_denominator_off_by_one_n_instead_of_n_1', 'check_rung_set_pins_4_the_r_set_comparison_against_rung_set_pin_4_skippe', 'clears_and_stays_4_any_instead_of_all_a_transient_rung_reads_as_clears_a', 'collect_rung_4_the_pooled_mean_averages_over_padded_tokens_too_mask_drop', 'compare_eligibility_4_the_numeric_tolerance_weakened_from_1e_12_to_1e_1', 'compute_eligibility_re_derived_with_the_wrong_se_multiple_1x_instead_of_', 'compute_the_declaration_bar_reads_5_instead_of_75', 'depth_pairs_ties_broken_to_the_larger_q_rounding_up_not_the_smaller', 'eligibility_summary_4_counts_every_r_rung_not_only_the_eligible_ones', 'family_of_traj_4_looks_up_the_raw_traj_name_instead_of_its_endpoint_key', 'flip_signs_sign_values_are_1_2_instead_of_1', 'gate0_4_gate0_site_means_4_averaged_over_references_instead_of_kept_per_', 'gate0_4_the_pass_bar_compares_with_instead_of', 'gate0_min_fraction_4_0_90_0_5', 'gate1_failures_4_the_activation_sha_equal_per_rung_check_skipped', 'gate1_failures_4_the_digest_equal_check_skipped', 'gate1_rederive_4_sets_equal_compares_33_rungs_not_34', 'hsic_unbiased_t1_uses_k_l_instead_of_k_l', 'k_4_10_9', 'knn_sets_self_not_excluded_fill_diagonal_dropped', 'knn_sets_ties_broken_by_descending_index_not_ascending', 'load_record_failures_4_the_batch_size_pin_skipped', 'load_record_failures_4_the_committed_digest_pin_skipped', 'load_record_failures_4_the_family_pin_skipped', 'load_record_failures_4_the_prereg_tag_pin_skipped', 'load_record_failures_4_the_refs_pin_skipped', 'load_record_failures_4_the_render_pin_render_4_unchecked_on_the_record', 'main_the_once_guard_power_record_exists_removed', 'min_cells_4_3_1', 'min_clear_index_4_2_1', 'min_rungs_4_3_1', 'n_hidden_traj_4_smollm3_3b_s_n_hidden_off_by_one_37_36', 'non_pythia_refs_4_returns_the_pythia_reference_instead_of_excluding_it', 'overlap_counts_union_instead_of_intersection', 'overlap_table_4_the_pairing_length_check_skipped', 'per_item_alignment_4_the_stored_overlap_is_not_cross_checked_against_the', 'phi_4_reads_x_t_clear_index_instead_of_x_t_clear_index_1', 'planted_pair_base_normalised_by_d_latent_instead_of_sqrt_d_latent', 'primary_4_sign_flips_applied_per_cell_not_per_rung', 'primary_4_the_bootstrap_resamples_individual_cells_not_whole_rungs', 'reference_4_run_eligibility_is_written_even_when_only_restricts_the_run', 'reference_4_run_the_any_halted_marker_guard_disabled', 'reference_4_run_the_endpoint_digest_pin_skipped', 'reference_4_run_the_first_unit_digest_pin_skipped', 'reference_4_run_the_init_digest_pin_skipped', 'render_4_comma_is_plain_instead_of_bos', 'require_prereg_4_the_blob_binding_equality_check_skipped', 'require_prereg_4_the_tag_exists_check_skipped', 'run_gate_1_s_attested_sha_equal_agreement_not_required', 'rung_sets_4_a_rung_with_a_t_clear_reads_as_flat_elif_inverted', 's1_order_4_concordant_discordant_counts_swapped', 's2_known_answer_gates_4_2d_s_auc_tolerance_weakened_from_1e_12_to_1e_1', 's2_known_answer_gates_4_2e_s_auc_tolerance_weakened_from_1e_12_to_1e_1', 'se_multiple_4_2_0_1_0_eligibility_at_1x_se_not_2x', 'set_tables_4_site_and_position_axes_swapped', 'sites_4_sorted_dropped_returns_an_unordered_set', 'solve_m_phi_0_uses_c_r_1_instead_of_the_disclosed_c_r_3', 'sweep_4_run_gate1_the_endpoint_digest_pin_skipped', 'sweep_4_run_the_eligibility_record_present_requirement_removed', 'sweep_4_run_the_first_unit_is_not_required_complete_before_the_rest_run', 'sweep_4_run_the_halted_for_this_trajectory_guard_removed', 'sweep_4_run_the_per_step_digest_pin_skipped', 'sweep_4_run_the_power_record_present_requirement_removed', 'sweep_4_run_the_reference_seal_requirement_removed', 't_bar_4_0_25_0_2', 't_clear_4_takes_the_last_significant_step_instead_of_the_first_break_rem', 'unit_complete_4_the_sets_sha256_34_rung_coverage_check_skipped', 'unit_rows_the_non_finite_zero_row_guard_disabled', 'verdict_tree_4_no_convergence_requires_both_bars_low_and_instead_of_or', 'verdict_tree_4_partial_and_undetermined_swapped', 'verdict_tree_4_the_leads_condition_uses_or_instead_of_and', 'write_load_4_the_endpoint_s_activation_sha_is_not_recorded_before_deleti', 'write_load_4_the_sets_re_read_integrity_check_disabled'] mutants, timeout=300.0s)
+
+[k_4_10_9] (#1) killed  K_4 = 10 -> 9
+[knn_sets_self_not_excluded_fill_diagonal_dropped] (#2) killed  knn_sets: self not excluded (fill_diagonal dropped)
+[knn_sets_ties_broken_by_descending_index_not_ascending] (#3) killed  knn_sets: ties broken by descending index, not ascending
+[overlap_counts_union_instead_of_intersection] (#4) killed  overlap_counts: union instead of intersection
+[chance_4_denominator_off_by_one_n_instead_of_n_1] (#5) killed  chance_4: denominator off by one (n instead of n-1)
+[depth_pairs_ties_broken_to_the_larger_q_rounding_up_not_the_smaller] (#6) killed  depth_pairs: ties broken to the LARGER q (rounding up), not the smaller
+[hsic_unbiased_t1_uses_k_l_instead_of_k_l] (#7) killed  _hsic_unbiased: t1 uses K + L instead of K * L
+[planted_pair_base_normalised_by_d_latent_instead_of_sqrt_d_latent] (#8) killed  planted_pair: base normalised by d_latent instead of sqrt(d_latent)
+[sites_4_sorted_dropped_returns_an_unordered_set] (#9) killed  sites_4: sorted() dropped (returns an unordered set)
+[unit_rows_the_non_finite_zero_row_guard_disabled] (#10) killed  _unit_rows: the non-finite/zero-row guard disabled
+[render_4_comma_is_plain_instead_of_bos] (#11) killed  RENDER_4: comma is 'plain' instead of 'bos'
+[batch_4_the_6e9_threshold_s_batch_sizes_inverted] (#12) killed  BATCH_4: the 6e9 threshold's batch sizes inverted
+[load_record_failures_4_the_committed_digest_pin_skipped] (#13) killed  load_record_failures_4: the committed_digest pin skipped
+[load_record_failures_4_the_render_pin_render_4_unchecked_on_the_record] (#14) killed  load_record_failures_4: the render pin (RENDER_4) unchecked on the record
+[load_record_failures_4_the_family_pin_skipped] (#15) killed  load_record_failures_4: the family pin skipped
+[load_record_failures_4_the_batch_size_pin_skipped] (#16) killed  load_record_failures_4: the batch_size pin skipped
+[load_record_failures_4_the_refs_pin_skipped] (#17) killed  load_record_failures_4: the refs pin skipped
+[load_record_failures_4_the_prereg_tag_pin_skipped] (#18) killed  load_record_failures_4: the prereg_tag pin skipped
+[gate1_rederive_4_sets_equal_compares_33_rungs_not_34] (#19) killed  gate1_rederive_4: sets_equal compares 33 rungs, not 34
+[check_rung_set_pins_4_the_r_set_comparison_against_rung_set_pin_4_skippe] (#20) killed  check_rung_set_pins_4: the R-set comparison against RUNG_SET_PIN_4 skipped
+[t_clear_4_takes_the_last_significant_step_instead_of_the_first_break_rem] (#21) killed  t_clear_4: takes the LAST significant step instead of the first (break removed)
+[clears_and_stays_4_any_instead_of_all_a_transient_rung_reads_as_clears_a] (#22) killed  clears_and_stays_4: any() instead of all() (a transient rung reads as clears-and-stays)
+[rung_sets_4_a_rung_with_a_t_clear_reads_as_flat_elif_inverted] (#23) killed  rung_sets_4: a rung with a t_clear reads as flat (elif inverted)
+[require_prereg_4_the_tag_exists_check_skipped] (#24) killed  require_prereg_4: the tag_exists check skipped
+[require_prereg_4_the_blob_binding_equality_check_skipped] (#25) killed  require_prereg_4: the blob-binding equality check skipped
+[unit_complete_4_the_sets_sha256_34_rung_coverage_check_skipped] (#26) killed  unit_complete_4: the sets_sha256 34-rung coverage check skipped
+[gate1_failures_4_the_activation_sha_equal_per_rung_check_skipped] (#27) killed  gate1_failures_4: the activation_sha_equal per-rung check skipped
+[gate1_failures_4_the_digest_equal_check_skipped] (#28) killed  gate1_failures_4: the digest_equal check skipped
+[n_hidden_traj_4_smollm3_3b_s_n_hidden_off_by_one_37_36] (#29) killed  _N_HIDDEN_TRAJ_4: smollm3_3b's n_hidden off by one (37 -> 36)
+[collect_rung_4_the_pooled_mean_averages_over_padded_tokens_too_mask_drop] (#30) killed  collect_rung_4: the pooled mean averages over PADDED tokens too (mask dropped)
+[align_scalars_4_knn_prompt_end_means_over_sites_instead_of_items_wrong_a] (#31) killed  align_scalars_4: knn_prompt_end means over sites instead of items (wrong axis)
+[overlap_table_4_the_pairing_length_check_skipped] (#32) killed  overlap_table_4: the pairing-length check skipped
+[non_pythia_refs_4_returns_the_pythia_reference_instead_of_excluding_it] (#33) killed  non_pythia_refs_4: returns the Pythia reference instead of excluding it
+[family_of_traj_4_looks_up_the_raw_traj_name_instead_of_its_endpoint_key] (#34) SURVIVED  family_of_traj_4: looks up the raw traj name instead of its endpoint key
+[write_load_4_the_sets_re_read_integrity_check_disabled] (#35) killed  write_load_4: the sets re-read integrity check disabled
+[write_load_4_the_endpoint_s_activation_sha_is_not_recorded_before_deleti] (#36) killed  write_load_4: the endpoint's activation sha is not recorded before deletion
+[set_tables_4_site_and_position_axes_swapped] (#37) killed  set_tables_4: site and position axes swapped
+[reference_4_run_the_any_halted_marker_guard_disabled] (#38) TIMEOUT  reference_4 run(): the any-HALTED-marker guard disabled  (no verdict — not counted as killed or survived; a timeout is not a kill)
+[reference_4_run_the_endpoint_digest_pin_skipped] (#39) killed  reference_4 run(): the endpoint digest pin skipped
+[reference_4_run_the_first_unit_digest_pin_skipped] (#40) killed  reference_4 run(): the first-unit digest pin skipped
+[reference_4_run_the_init_digest_pin_skipped] (#41) killed  reference_4 run(): the init digest pin skipped
+[reference_4_run_eligibility_is_written_even_when_only_restricts_the_run] (#42) killed  reference_4 run(): eligibility is written even when `only` restricts the run
+[sweep_4_run_the_reference_seal_requirement_removed] (#43) killed  sweep_4 run(): the reference-seal requirement removed
+[sweep_4_run_the_eligibility_record_present_requirement_removed] (#44) killed  sweep_4 run(): the eligibility-record-present requirement removed
+[sweep_4_run_the_power_record_present_requirement_removed] (#45) killed  sweep_4 run(): the power-record-present requirement removed
+[sweep_4_run_the_halted_for_this_trajectory_guard_removed] (#46) killed  sweep_4 run(): the HALTED-for-this-trajectory guard removed
+[sweep_4_run_the_first_unit_is_not_required_complete_before_the_rest_run] (#47) killed  sweep_4 run(): the first unit is not required complete before the rest run
+[sweep_4_run_gate1_the_endpoint_digest_pin_skipped] (#48) killed  sweep_4 run_gate1(): the endpoint digest pin skipped
+[sweep_4_run_the_per_step_digest_pin_skipped] (#49) killed  sweep_4 run(): the per-step digest pin skipped
+[t_bar_4_0_25_0_2] (#50) SURVIVED  T_BAR_4 = 0.25 -> 0.2
+[alpha_4_0_01_0_05] (#51) SURVIVED  ALPHA_4 = 0.01 -> 0.05
+[min_cells_4_3_1] (#52) SURVIVED  MIN_CELLS_4 = 3 -> 1
+[min_rungs_4_3_1] (#53) killed  MIN_RUNGS_4 = 3 -> 1
+[se_multiple_4_2_0_1_0_eligibility_at_1x_se_not_2x] (#54) SURVIVED  SE_MULTIPLE_4 = 2.0 -> 1.0 (eligibility at 1x SE, not 2x)
+[min_clear_index_4_2_1] (#55) killed  MIN_CLEAR_INDEX_4 = 2 -> 1
+[gate0_min_fraction_4_0_90_0_5] (#56) SURVIVED  GATE0_MIN_FRACTION_4 = 0.90 -> 0.5
+[cells_4_trend_computed_over_r_instead_of_flat] (#57) SURVIVED  cells_4: trend computed over R instead of flat
+[phi_4_reads_x_t_clear_index_instead_of_x_t_clear_index_1] (#58) killed  phi_4: reads x[t_clear_index] instead of x[t_clear_index - 1]
+[primary_4_sign_flips_applied_per_cell_not_per_rung] (#59) killed  primary_4: sign flips applied per cell, not per rung
+[primary_4_the_bootstrap_resamples_individual_cells_not_whole_rungs] (#60) SURVIVED  primary_4: the bootstrap resamples individual cells, not whole rungs
+[verdict_tree_4_partial_and_undetermined_swapped] (#61) killed  verdict_tree_4: PARTIAL and UNDETERMINED swapped
+[verdict_tree_4_the_leads_condition_uses_or_instead_of_and] (#62) killed  verdict_tree_4: the LEADS condition uses OR instead of AND
+[verdict_tree_4_no_convergence_requires_both_bars_low_and_instead_of_or] (#63) killed  verdict_tree_4: NO-CONVERGENCE requires both bars low (and instead of or)
+[flip_signs_sign_values_are_1_2_instead_of_1] (#64) SURVIVED  _flip_signs: sign values are (1, -2) instead of (+-1)
+[per_item_alignment_4_the_stored_overlap_is_not_cross_checked_against_the] (#65) killed  per_item_alignment_4: the stored overlap is not cross-checked against the re-derivation
+[gate0_4_gate0_site_means_4_averaged_over_references_instead_of_kept_per_] (#66) killed  gate0_4/_gate0_site_means_4: averaged over references instead of kept per reference
+[run_gate_1_s_attested_sha_equal_agreement_not_required] (#67) SURVIVED  run(): gate 1's attested_sha_equal agreement not required
+[s2_known_answer_gates_4_2d_s_auc_tolerance_weakened_from_1e_12_to_1e_1] (#68) SURVIVED  s2_known_answer_gates_4: 2d's AUC tolerance weakened from 1e-12 to 1e-1
+[s2_known_answer_gates_4_2e_s_auc_tolerance_weakened_from_1e_12_to_1e_1] (#69) SURVIVED  s2_known_answer_gates_4: 2e's AUC tolerance weakened from 1e-12 to 1e-1
+[cells_4_the_eligible_flag_is_not_checked_only_presence] (#70) killed  cells_4: the eligible flag is not checked, only presence
+[compare_eligibility_4_the_numeric_tolerance_weakened_from_1e_12_to_1e_1] (#71) SURVIVED  _compare_eligibility_4: the numeric tolerance weakened from 1e-12 to 1e-1
+[s1_order_4_concordant_discordant_counts_swapped] (#72) SURVIVED  s1_order_4: concordant/discordant counts swapped
+[eligibility_summary_4_counts_every_r_rung_not_only_the_eligible_ones] (#73) SURVIVED  _eligibility_summary_4: counts every R rung, not only the eligible ones
+[gate0_4_the_pass_bar_compares_with_instead_of] (#74) SURVIVED  gate0_4: the pass bar compares with > instead of >=
+[solve_m_phi_0_uses_c_r_1_instead_of_the_disclosed_c_r_3] (#75) killed  _solve_m: phi* = 0 uses c_r + 1 instead of the disclosed c_r + 3
+[compute_eligibility_re_derived_with_the_wrong_se_multiple_1x_instead_of_] (#76) killed  compute(): eligibility re-derived with the wrong SE multiple (1x instead of SE_MULTIPLE_4)
+[compute_the_declaration_bar_reads_5_instead_of_75] (#77) killed  compute(): the declaration bar reads .5 instead of .75
+[main_the_once_guard_power_record_exists_removed] (#78) killed  main(): the ONCE guard (power record exists) removed
+
+61/78 killed; 16 survivor(s): [('family_of_traj_4_looks_up_the_raw_traj_name_instead_of_its_endpoint_key', 34, 'family_of_traj_4: looks up the raw traj name instead of its endpoint key', 'survived'), ('t_bar_4_0_25_0_2', 50, 'T_BAR_4 = 0.25 -> 0.2', 'survived'), ('alpha_4_0_01_0_05', 51, 'ALPHA_4 = 0.01 -> 0.05', 'survived'), ('min_cells_4_3_1', 52, 'MIN_CELLS_4 = 3 -> 1', 'survived'), ('se_multiple_4_2_0_1_0_eligibility_at_1x_se_not_2x', 54, 'SE_MULTIPLE_4 = 2.0 -> 1.0 (eligibility at 1x SE, not 2x)', 'survived'), ('gate0_min_fraction_4_0_90_0_5', 56, 'GATE0_MIN_FRACTION_4 = 0.90 -> 0.5', 'survived'), ('cells_4_trend_computed_over_r_instead_of_flat', 57, 'cells_4: trend computed over R instead of flat', 'survived'), ('primary_4_the_bootstrap_resamples_individual_cells_not_whole_rungs', 60, 'primary_4: the bootstrap resamples individual cells, not whole rungs', 'survived'), ('flip_signs_sign_values_are_1_2_instead_of_1', 64, '_flip_signs: sign values are (1, -2) instead of (+-1)', 'survived'), ('run_gate_1_s_attested_sha_equal_agreement_not_required', 67, "run(): gate 1's attested_sha_equal agreement not required", 'survived'), ('s2_known_answer_gates_4_2d_s_auc_tolerance_weakened_from_1e_12_to_1e_1', 68, "s2_known_answer_gates_4: 2d's AUC tolerance weakened from 1e-12 to 1e-1", 'survived'), ('s2_known_answer_gates_4_2e_s_auc_tolerance_weakened_from_1e_12_to_1e_1', 69, "s2_known_answer_gates_4: 2e's AUC tolerance weakened from 1e-12 to 1e-1", 'survived'), ('compare_eligibility_4_the_numeric_tolerance_weakened_from_1e_12_to_1e_1', 71, '_compare_eligibility_4: the numeric tolerance weakened from 1e-12 to 1e-1', 'survived'), ('s1_order_4_concordant_discordant_counts_swapped', 72, 's1_order_4: concordant/discordant counts swapped', 'survived'), ('eligibility_summary_4_counts_every_r_rung_not_only_the_eligible_ones', 73, '_eligibility_summary_4: counts every R rung, not only the eligible ones', 'survived'), ('gate0_4_the_pass_bar_compares_with_instead_of', 74, 'gate0_4: the pass bar compares with > instead of >=', 'survived')]; 0 SKIP (target text not found, stale mutant): []; 1 TIMEOUT (not a kill, not a survivor): [('reference_4_run_the_any_halted_marker_guard_disabled', 38, 'reference_4 run(): the any-HALTED-marker guard disabled', 'timeout')]
+=== [B1] exit=1 Fri Sep 11 22:22:37 EDT 2026 ===
+
+=== [B2] TOTALITY 31, --totality, --timeout=900, Fri Sep 11 22:22:37 EDT 2026 ===
+baseline OK (totality pass, ['totality_05b0885d8b', 'totality_0acad9da21', 'totality_327526f3ec', 'totality_35e8a47a0b', 'totality_3c10f51c0d', 'totality_51113f0d57', 'totality_603a1fd849', 'totality_611fe07500', 'totality_651aa63272', 'totality_6b2891deb6', 'totality_796e6ffdbe', 'totality_93e5f42972', 'totality_943e975a2a', 'totality_ad21f16fca', 'totality_b0d959461a', 'totality_b1860e3187', 'totality_b8b5bc02f9', 'totality_b969656895', 'totality_bbdee5cd9a', 'totality_c1245f9981', 'totality_c5210707e1', 'totality_c65c8fdcd5', 'totality_ce2bd8981b', 'totality_d73f8c8629', 'totality_de8257440b', 'totality_dfadca58e4', 'totality_eb41efaec1', 'totality_eb80b4dab6', 'totality_ece7e383c6', 'totality_ee0a2249a1', 'totality_f09a489678'] mutants, timeout=900.0s)
+
+[totality_dfadca58e4] (#79) SURVIVED  run(): totality -- collect_total_4 stripped at line 1729 (frozen_check or battery_4.check_frozen_4...)
+[totality_c1245f9981] (#80) SURVIVED  run(): totality -- collect_total_4 stripped at line 1736 (lambda: battery_4.require_prereg_4(tag_exists=tag_exists, bl...)
+[totality_651aa63272] (#81) SURVIVED  run(): totality -- collect_total_4 stripped at line 1740 (battery_4.manifests_4...)
+[totality_d73f8c8629] (#82) SURVIVED  run(): totality -- collect_total_4 stripped at line 1762 (bt.load_battery...)
+[totality_bbdee5cd9a] (#83) SURVIVED  run(): totality -- collect_total_4 stripped at line 1763 (bg.load_floors...)
+[totality_51113f0d57] (#84) SURVIVED  run(): totality -- collect_total_4 stripped at line 1785 (lambda: an2i.require_seal_2i(battery_4.REFERENCE_SEAL_TAG_4,...)
+[totality_796e6ffdbe] (#85) killed  run(): totality -- collect_total_4 stripped at line 1796 (lambda: load_stage_tables_4(root, keys=stage_keys)...)
+[totality_611fe07500] (#86) SURVIVED  run(): totality -- collect_total_4 stripped at line 2020 (lambda: ladder_known_answer_4(root)...)
+[totality_ece7e383c6] (#87) SURVIVED  run(): totality -- collect_total_4 stripped at line 1606 (lambda: _eligibility_summary_4(eligibility)...)
+[totality_de8257440b] (#88) killed  run(): totality -- collect_total_4 stripped at line 1618 (lambda: _power_summary_4(power)...)
+[totality_eb41efaec1] (#89) SURVIVED  run(): totality -- collect_total_4 stripped at line 1732 (check_imports_4...)
+[totality_ce2bd8981b] (#90) SURVIVED  run(): totality -- collect_total_4 stripped at line 1811 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)
+[totality_943e975a2a] (#91) SURVIVED  run(): totality -- collect_total_4 stripped at line 1818 (lambda traj=traj, ref_tables_g0=ref_tables_g0:...)
+[totality_93e5f42972] (#92) SURVIVED  run(): totality -- collect_total_4 stripped at line 1835 (lambda: json.loads(elig_path.read_text())...)
+[totality_327526f3ec] (#93) SURVIVED  run(): totality -- collect_total_4 stripped at line 1850 (lambda: json.loads(power_path.read_text())...)
+[totality_c5210707e1] (#94) SURVIVED  run(): totality -- collect_total_4 stripped at line 1915 (lambda: cells_4(series_by_traj, rs_available, eligibility)...)
+[totality_0acad9da21] (#95) SURVIVED  run(): totality -- collect_total_4 stripped at line 1922 (lambda: primary_4(cells, n_boot=n_boot, seed=0)...)
+[totality_b1860e3187] (#96) SURVIVED  run(): totality -- collect_total_4 stripped at line 2012 (check_imports_4 if imports_pinned else (lambda: None)...)
+[totality_6b2891deb6] (#97) SURVIVED  run(): totality -- collect_total_4 stripped at line 1724 (lambda p=p: p.read_text().strip()[:200]...)
+[totality_b0d959461a] (#98) SURVIVED  run(): totality -- collect_total_4 stripped at line 1756 (lambda: mkr.check_referents(REFERENTS_PATH_4, sha_pin=refere...)
+[totality_b969656895] (#99) SURVIVED  run(): totality -- collect_total_4 stripped at line 1768 (lambda traj=traj: battery_4.load_outcome_4(traj, battery=bat...)
+[totality_05b0885d8b] (#100) killed  run(): totality -- collect_total_4 stripped at line 1838 (lambda: eligibility_table_4(root)...)
+[totality_35e8a47a0b] (#101) killed  run(): totality -- collect_total_4 stripped at line 1853 (lambda: _check_power_matches_eligibility_4(...)
+[totality_f09a489678] (#102) SURVIVED  run(): totality -- collect_total_4 stripped at line 1880 (lambda traj=traj: battery_4.gate1_rederive_4(root, traj)...)
+[totality_c65c8fdcd5] (#103) killed  run(): totality -- collect_total_4 stripped at line 1894 (lambda traj=traj: load_sweep_tables_4(root, traj)...)
+[totality_603a1fd849] (#104) SURVIVED  run(): totality -- collect_total_4 stripped at line 1899 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)
+[totality_eb80b4dab6] (#105) SURVIVED  run(): totality -- collect_total_4 stripped at line 1904 (lambda traj=traj, ref_tables=ref_tables, sweep_tables=sweep_...)
+[totality_b8b5bc02f9] (#106) SURVIVED  run(): totality -- collect_total_4 stripped at line 1936 (thunk...)
+[totality_ad21f16fca] (#107) SURVIVED  run(): totality -- collect_total_4 stripped at line 1773 (lambda oc=oc: battery_4.rung_sets_4(oc, floors)...)
+[totality_3c10f51c0d] (#108) killed  run(): totality -- collect_total_4 stripped at line 1869 (lambda p=g1_path: json.loads(p.read_text())...)
+[totality_ee0a2249a1] (#109) killed  run(): totality -- collect_total_4 stripped at line 1872 (lambda g1_att=g1_att, traj=traj: battery_4.gate1_failures_4(...)
+
+7/31 killed; 24 survivor(s): [('totality_dfadca58e4', 79, 'run(): totality -- collect_total_4 stripped at line 1729 (frozen_check or battery_4.check_frozen_4...)', 'survived'), ('totality_c1245f9981', 80, 'run(): totality -- collect_total_4 stripped at line 1736 (lambda: battery_4.require_prereg_4(tag_exists=tag_exists, bl...)', 'survived'), ('totality_651aa63272', 81, 'run(): totality -- collect_total_4 stripped at line 1740 (battery_4.manifests_4...)', 'survived'), ('totality_d73f8c8629', 82, 'run(): totality -- collect_total_4 stripped at line 1762 (bt.load_battery...)', 'survived'), ('totality_bbdee5cd9a', 83, 'run(): totality -- collect_total_4 stripped at line 1763 (bg.load_floors...)', 'survived'), ('totality_51113f0d57', 84, 'run(): totality -- collect_total_4 stripped at line 1785 (lambda: an2i.require_seal_2i(battery_4.REFERENCE_SEAL_TAG_4,...)', 'survived'), ('totality_611fe07500', 86, 'run(): totality -- collect_total_4 stripped at line 2020 (lambda: ladder_known_answer_4(root)...)', 'survived'), ('totality_ece7e383c6', 87, 'run(): totality -- collect_total_4 stripped at line 1606 (lambda: _eligibility_summary_4(eligibility)...)', 'survived'), ('totality_eb41efaec1', 89, 'run(): totality -- collect_total_4 stripped at line 1732 (check_imports_4...)', 'survived'), ('totality_ce2bd8981b', 90, 'run(): totality -- collect_total_4 stripped at line 1811 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)', 'survived'), ('totality_943e975a2a', 91, 'run(): totality -- collect_total_4 stripped at line 1818 (lambda traj=traj, ref_tables_g0=ref_tables_g0:...)', 'survived'), ('totality_93e5f42972', 92, 'run(): totality -- collect_total_4 stripped at line 1835 (lambda: json.loads(elig_path.read_text())...)', 'survived'), ('totality_327526f3ec', 93, 'run(): totality -- collect_total_4 stripped at line 1850 (lambda: json.loads(power_path.read_text())...)', 'survived'), ('totality_c5210707e1', 94, 'run(): totality -- collect_total_4 stripped at line 1915 (lambda: cells_4(series_by_traj, rs_available, eligibility)...)', 'survived'), ('totality_0acad9da21', 95, 'run(): totality -- collect_total_4 stripped at line 1922 (lambda: primary_4(cells, n_boot=n_boot, seed=0)...)', 'survived'), ('totality_b1860e3187', 96, 'run(): totality -- collect_total_4 stripped at line 2012 (check_imports_4 if imports_pinned else (lambda: None)...)', 'survived'), ('totality_6b2891deb6', 97, 'run(): totality -- collect_total_4 stripped at line 1724 (lambda p=p: p.read_text().strip()[:200]...)', 'survived'), ('totality_b0d959461a', 98, 'run(): totality -- collect_total_4 stripped at line 1756 (lambda: mkr.check_referents(REFERENTS_PATH_4, sha_pin=refere...)', 'survived'), ('totality_b969656895', 99, 'run(): totality -- collect_total_4 stripped at line 1768 (lambda traj=traj: battery_4.load_outcome_4(traj, battery=bat...)', 'survived'), ('totality_f09a489678', 102, 'run(): totality -- collect_total_4 stripped at line 1880 (lambda traj=traj: battery_4.gate1_rederive_4(root, traj)...)', 'survived'), ('totality_603a1fd849', 104, 'run(): totality -- collect_total_4 stripped at line 1899 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)', 'survived'), ('totality_eb80b4dab6', 105, 'run(): totality -- collect_total_4 stripped at line 1904 (lambda traj=traj, ref_tables=ref_tables, sweep_tables=sweep_...)', 'survived'), ('totality_b8b5bc02f9', 106, 'run(): totality -- collect_total_4 stripped at line 1936 (thunk...)', 'survived'), ('totality_ad21f16fca', 107, 'run(): totality -- collect_total_4 stripped at line 1773 (lambda oc=oc: battery_4.rung_sets_4(oc, floors)...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []
+=== [B2] exit=1 Sat Sep 12 01:11:50 EDT 2026 ===
+
+=== [B3] FREEZE F-7 closure pass: the 16 static survivors + all 31 totality mutants,
+===      re-run against the CURRENT source under the FAST suite (the closing tests are
+===      fast by construction: the dial pins, the hand-built rules, and the AST pins of
+===      the 31-label refusal surface and run()'s four gate-1 agreements). Sat Sep 12 01:34:01 EDT 2026 ===
+baseline OK (fast pass, ['alpha_4_0_01_0_05', 'cells_4_trend_computed_over_r_instead_of_flat', 'compare_eligibility_4_the_numeric_tolerance_weakened_from_1e_12_to_1e_1', 'eligibility_summary_4_counts_every_r_rung_not_only_the_eligible_ones', 'family_of_traj_4_looks_up_the_raw_traj_name_instead_of_its_endpoint_key', 'flip_signs_sign_values_are_1_2_instead_of_1', 'gate0_4_the_pass_bar_compares_with_instead_of', 'gate0_min_fraction_4_0_90_0_5', 'min_cells_4_3_1', 'primary_4_the_bootstrap_resamples_individual_cells_not_whole_rungs', 'run_gate_1_s_attested_sha_equal_agreement_not_required', 's1_order_4_concordant_discordant_counts_swapped', 's2_known_answer_gates_4_2d_s_auc_tolerance_weakened_from_1e_12_to_1e_1', 's2_known_answer_gates_4_2e_s_auc_tolerance_weakened_from_1e_12_to_1e_1', 'se_multiple_4_2_0_1_0_eligibility_at_1x_se_not_2x', 't_bar_4_0_25_0_2', 'totality_05b0885d8b', 'totality_0acad9da21', 'totality_327526f3ec', 'totality_35e8a47a0b', 'totality_3c10f51c0d', 'totality_51113f0d57', 'totality_603a1fd849', 'totality_611fe07500', 'totality_651aa63272', 'totality_6b2891deb6', 'totality_796e6ffdbe', 'totality_93e5f42972', 'totality_943e975a2a', 'totality_ad21f16fca', 'totality_b0d959461a', 'totality_b1860e3187', 'totality_b8b5bc02f9', 'totality_b969656895', 'totality_bbdee5cd9a', 'totality_c1245f9981', 'totality_c5210707e1', 'totality_c65c8fdcd5', 'totality_ce2bd8981b', 'totality_d73f8c8629', 'totality_de8257440b', 'totality_dfadca58e4', 'totality_eb41efaec1', 'totality_eb80b4dab6', 'totality_ece7e383c6', 'totality_ee0a2249a1', 'totality_f09a489678'] mutants, timeout=400.0s)
+
+[family_of_traj_4_looks_up_the_raw_traj_name_instead_of_its_endpoint_key] (#34) SURVIVED  family_of_traj_4: looks up the raw traj name instead of its endpoint key
+[t_bar_4_0_25_0_2] (#50) killed  T_BAR_4 = 0.25 -> 0.2
+[alpha_4_0_01_0_05] (#51) killed  ALPHA_4 = 0.01 -> 0.05
+[min_cells_4_3_1] (#52) killed  MIN_CELLS_4 = 3 -> 1
+[se_multiple_4_2_0_1_0_eligibility_at_1x_se_not_2x] (#54) killed  SE_MULTIPLE_4 = 2.0 -> 1.0 (eligibility at 1x SE, not 2x)
+[gate0_min_fraction_4_0_90_0_5] (#56) killed  GATE0_MIN_FRACTION_4 = 0.90 -> 0.5
+[cells_4_trend_computed_over_r_instead_of_flat] (#57) killed  cells_4: trend computed over R instead of flat
+[primary_4_the_bootstrap_resamples_individual_cells_not_whole_rungs] (#60) killed  primary_4: the bootstrap resamples individual cells, not whole rungs
+[flip_signs_sign_values_are_1_2_instead_of_1] (#64) killed  _flip_signs: sign values are (1, -2) instead of (+-1)
+[run_gate_1_s_attested_sha_equal_agreement_not_required] (#67) killed  run(): gate 1's attested_sha_equal agreement not required
+[s2_known_answer_gates_4_2d_s_auc_tolerance_weakened_from_1e_12_to_1e_1] (#68) killed  s2_known_answer_gates_4: 2d's AUC tolerance weakened from 1e-12 to 1e-1
+[s2_known_answer_gates_4_2e_s_auc_tolerance_weakened_from_1e_12_to_1e_1] (#69) killed  s2_known_answer_gates_4: 2e's AUC tolerance weakened from 1e-12 to 1e-1
+[compare_eligibility_4_the_numeric_tolerance_weakened_from_1e_12_to_1e_1] (#71) killed  _compare_eligibility_4: the numeric tolerance weakened from 1e-12 to 1e-1
+[s1_order_4_concordant_discordant_counts_swapped] (#72) killed  s1_order_4: concordant/discordant counts swapped
+[eligibility_summary_4_counts_every_r_rung_not_only_the_eligible_ones] (#73) killed  _eligibility_summary_4: counts every R rung, not only the eligible ones
+[gate0_4_the_pass_bar_compares_with_instead_of] (#74) killed  gate0_4: the pass bar compares with > instead of >=
+[totality_dfadca58e4] (#79) killed  run(): totality -- collect_total_4 stripped at line 1729 (frozen_check or battery_4.check_frozen_4...)
+[totality_c1245f9981] (#80) killed  run(): totality -- collect_total_4 stripped at line 1736 (lambda: battery_4.require_prereg_4(tag_exists=tag_exists, bl...)
+[totality_651aa63272] (#81) killed  run(): totality -- collect_total_4 stripped at line 1740 (battery_4.manifests_4...)
+[totality_d73f8c8629] (#82) killed  run(): totality -- collect_total_4 stripped at line 1762 (bt.load_battery...)
+[totality_bbdee5cd9a] (#83) killed  run(): totality -- collect_total_4 stripped at line 1763 (bg.load_floors...)
+[totality_51113f0d57] (#84) killed  run(): totality -- collect_total_4 stripped at line 1785 (lambda: an2i.require_seal_2i(battery_4.REFERENCE_SEAL_TAG_4,...)
+[totality_796e6ffdbe] (#85) killed  run(): totality -- collect_total_4 stripped at line 1796 (lambda: load_stage_tables_4(root, keys=stage_keys)...)
+[totality_611fe07500] (#86) killed  run(): totality -- collect_total_4 stripped at line 2020 (lambda: ladder_known_answer_4(root)...)
+[totality_ece7e383c6] (#87) killed  run(): totality -- collect_total_4 stripped at line 1606 (lambda: _eligibility_summary_4(eligibility)...)
+[totality_de8257440b] (#88) killed  run(): totality -- collect_total_4 stripped at line 1618 (lambda: _power_summary_4(power)...)
+[totality_eb41efaec1] (#89) killed  run(): totality -- collect_total_4 stripped at line 1732 (check_imports_4...)
+[totality_ce2bd8981b] (#90) killed  run(): totality -- collect_total_4 stripped at line 1811 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)
+[totality_943e975a2a] (#91) killed  run(): totality -- collect_total_4 stripped at line 1818 (lambda traj=traj, ref_tables_g0=ref_tables_g0:...)
+[totality_93e5f42972] (#92) killed  run(): totality -- collect_total_4 stripped at line 1835 (lambda: json.loads(elig_path.read_text())...)
+[totality_327526f3ec] (#93) killed  run(): totality -- collect_total_4 stripped at line 1850 (lambda: json.loads(power_path.read_text())...)
+[totality_c5210707e1] (#94) killed  run(): totality -- collect_total_4 stripped at line 1915 (lambda: cells_4(series_by_traj, rs_available, eligibility)...)
+[totality_0acad9da21] (#95) killed  run(): totality -- collect_total_4 stripped at line 1922 (lambda: primary_4(cells, n_boot=n_boot, seed=0)...)
+[totality_b1860e3187] (#96) killed  run(): totality -- collect_total_4 stripped at line 2012 (check_imports_4 if imports_pinned else (lambda: None)...)
+[totality_6b2891deb6] (#97) killed  run(): totality -- collect_total_4 stripped at line 1724 (lambda p=p: p.read_text().strip()[:200]...)
+[totality_b0d959461a] (#98) killed  run(): totality -- collect_total_4 stripped at line 1756 (lambda: mkr.check_referents(REFERENTS_PATH_4, sha_pin=refere...)
+[totality_b969656895] (#99) killed  run(): totality -- collect_total_4 stripped at line 1768 (lambda traj=traj: battery_4.load_outcome_4(traj, battery=bat...)
+[totality_05b0885d8b] (#100) killed  run(): totality -- collect_total_4 stripped at line 1838 (lambda: eligibility_table_4(root)...)
+[totality_35e8a47a0b] (#101) killed  run(): totality -- collect_total_4 stripped at line 1853 (lambda: _check_power_matches_eligibility_4(...)
+[totality_f09a489678] (#102) killed  run(): totality -- collect_total_4 stripped at line 1880 (lambda traj=traj: battery_4.gate1_rederive_4(root, traj)...)
+[totality_c65c8fdcd5] (#103) killed  run(): totality -- collect_total_4 stripped at line 1894 (lambda traj=traj: load_sweep_tables_4(root, traj)...)
+[totality_603a1fd849] (#104) killed  run(): totality -- collect_total_4 stripped at line 1899 (lambda refs=refs: collect_4.load_ref_tables_4(root, refs)...)
+[totality_eb80b4dab6] (#105) killed  run(): totality -- collect_total_4 stripped at line 1904 (lambda traj=traj, ref_tables=ref_tables, sweep_tables=sweep_...)
+[totality_b8b5bc02f9] (#106) killed  run(): totality -- collect_total_4 stripped at line 1936 (thunk...)
+[totality_ad21f16fca] (#107) killed  run(): totality -- collect_total_4 stripped at line 1773 (lambda oc=oc: battery_4.rung_sets_4(oc, floors)...)
+[totality_3c10f51c0d] (#108) killed  run(): totality -- collect_total_4 stripped at line 1869 (lambda p=g1_path: json.loads(p.read_text())...)
+[totality_ee0a2249a1] (#109) killed  run(): totality -- collect_total_4 stripped at line 1872 (lambda g1_att=g1_att, traj=traj: battery_4.gate1_failures_4(...)
+
+46/47 killed; 1 survivor(s): [('family_of_traj_4_looks_up_the_raw_traj_name_instead_of_its_endpoint_key', 34, 'family_of_traj_4: looks up the raw traj name instead of its endpoint key', 'survived')]; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []
+=== [B3] exit=1 Sat Sep 12 03:31:22 EDT 2026 ===

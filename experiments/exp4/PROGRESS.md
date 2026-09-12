@@ -846,3 +846,144 @@ Neither run wrote to `experiments/exp4/results/`; both scripts pass `write=False
 ### Files changed / created
 
 Created: `experiments/exp4/power_4.py`, `make_referents_4.py`, `verify_referents_4.py`, `referents_4.json`, `tests/test_power_4.py`, `tests/test_totality_4.py`, `tests/mutation_check.py`, `tests/read_sweep_4.py`, `tests/import_scan_4.py`, `mutation_build.log`, `mutation_build_part2.log`. Modified: `analyze_4.py` (carried findings 1–3; the real `check_imports_4` body; the run()-exit import check; `REFERENTS_4_SHA256`/`IMPORTED_SHA256_4` pasted), `battery_4.py` (`FROZEN_SHA256_4`/`T_CLEAR_PIN_4` pasted), `tests/test_analyze_4.py` (gate-0 per-reference assertions), `tests/test_full_shape_4.py` (the referent-hook stub contract fix + the drift-list regression test), `tests/test_metric_4.py` (+3 new tests: `chance_4` exact formula, `depth_pairs` exact tie, `_unit_rows` non-finite/zero-row refusal), `tests/test_battery_4.py` (+1 new test: `unit_complete_4` coverage; plus one new corruption case added to the existing `test_gate1_record_4_and_gate1_failures_4_roundtrip`, `activation_sha_equal`), `tests/test_collect_4.py` (+4 new tests: padded-token pooled mean, `non_pythia_refs_4`, `family_of_traj_4`, `write_load_4` re-read mismatch), `tests/test_stages_4.py` (+4 new tests: first-unit digest mismatch, `only=`-restricted eligibility, eligibility-specific and power-specific sweep refusals).
+
+## Freeze (2026-09-11/12): adversarial freeze, Task 6
+
+Fresh-eyes reviewer, cold, on `experiments/exp4/` at build HEAD
+`304c9e9f`. Full record in `experiments/exp4/FREEZE_CHECKLIST.md`
+(cold baseline, findings F-1..F-7 with their demonstrations and
+closures, the attack list with a disposition and an execution per
+item, the batteries after, determinism, the ratification items). Zero
+model contact, zero network.
+
+**Verdict on the assignment: the CLASS DEFECT WAS FOUND (F-1).** The
+analyzer never compared a unit's MEASURED tensor digest to the
+committed outcome's; `load_record_failures_4` checked
+`committed_digest` — the runner's copy of the *expectation* — and
+required `tensor_digest` merely to be present. A record naming another
+trajectory's checkpoint in its own measured field passed every check
+while its alignment entered a_r(t) and decided T. Design §3.4's spine
+is "the alignment is read on the bytes the outcome came from, or not
+at all"; the runner's halt was, from the analyzer's side, an
+attestation (2i F-1; 3d's self-consistency lesson).
+
+Seven findings, all closed ADDITIVELY (a new refusal, a new record
+field, new tests). No accepted dial moved and no preregistered
+statistic or bar was touched — `T_BAR_4`, `ALPHA_4`, `MIN_CLEAR_INDEX_4`,
+`SE_MULTIPLE_4`, `GATE0_MIN_FRACTION_4`, `MIN_CELLS_4`/`MIN_RUNGS_4`,
+the sign-flip null, the cluster bootstrap, the tree and every §5
+secondary are byte-identical to the build's, and are now PINNED by a
+test that says so.
+
+- **F-1** the measured digest vs the committed one (above).
+- **F-2** the depth pairing was a runner-written record field the
+  analyzer never re-derived; its KEY SET was unchecked, so a unit
+  naming two of its three references silently averaged a_r over two
+  lenses. Closed by `expected_pairing_4` + a refusal in
+  `_load_one_unit_4`.
+- **F-3** the committed outcome's `render`/`dtype`/`n_shots` were never
+  compared to `RENDER_4`/`DTYPE_4`/the battery, and gate 1 is
+  structurally blind to all three (both its sides are exp4 loads
+  through the same render; nothing generates). 2n F-1's shape one
+  field over. Closed by refusals in `load_outcome_4`.
+- **F-4** the power record's `declaration` — what the verdict is READ
+  UNDER — and its `prereg_tag` were attested. Closed by re-deriving
+  the declaration from the record's own arms at design §4's .75 bar.
+- **F-5** design §7's ladder-2.8b known-answer check was never built.
+  Closed as a measured, recorded, NON-GATING verdict field
+  (`known_answer`) with a VERDICT.txt line; whether it should gate is
+  ratification item R-1.
+- **F-6** `load_ref_tables_4` skipped its sha check for a rung absent
+  from the record's `sets_sha256`, and the reference stage's own
+  eligibility writer reaches that loader directly. Closed by a refusal.
+- **F-7** the build's mutation tally was not reproducible against the
+  current source. The full re-sweep read 61/78 static killed (fast
+  suite) and 7/31 totality killed (`--totality`), against a ledger
+  claiming 106/108 with 0 open. The structural reason: **no fast-suite
+  test calls `analyze_4.run()`**, so the fast pass that
+  `mutation_build_part2.log` credits with killing the wrapper mutants
+  79–106 could not have observed them; and the sixteen static
+  survivors are preregistered dials and verdict-path rules whose only
+  behavioural cover is the 100-minute world suite, which no mutation
+  pass has ever run. Nothing in the instrument was wrong; the evidence
+  that it was right did not exist. Closed with twelve new fast tests
+  (the dial pins, the tree's exact-bar ties, the flat-pool trend, the
+  rung-clustered bootstrap, the sign flips, the 1e-12 tolerances, the
+  eligibility summary, gate 0's inclusive bar, S1's sign, and two AST
+  pins — the 31-label refusal surface and run()'s four gate-1
+  agreements). Confirming pass: **46/47 killed**. Reconciled tally:
+  109 mutants, **107 killed**, 1 proven equivalent (#34, re-proved at
+  the freeze), 1 not killable through the harness (#38, TIMEOUT at
+  300 s), **0 open** — every kill on a committed
+  `mutation_freeze_full.log` line of a run against the current source.
+
+### Real-tree disclosures (2j's F-1 / checklist item 27)
+
+Every `analyze_4.run()` execution the freeze made on
+`experiments/exp4/results/` (empty pre-campaign). None wrote anything
+under `results/`; all landed INSUFFICIENT_DATA.
+
+1. `tests/import_scan_4.py` (baseline, before any edit): INSUFFICIENT_DATA
+   — `4 prereg tag: RuntimeError: preregistration tag exp4-preregistered
+   does not exist; 4 reference seal: the tag 'exp4-reference-sealed'
+   does not exist; 4 stage tables: ValueError: ref_pythia_12b: unit
+   missing`. Scan output byte-identical to the committed pins (57
+   frozen + 6 exp4-own residual modules).
+2. `tests/read_sweep_4.py` (baseline, before any edit): INSUFFICIENT_DATA
+   at `4 reference seal: 'exp4-reference-sealed' does not bind [...]`
+   — 3,684 distinct paths, 10,210 open/read calls, 0 writes, **0
+   UNPINNED** (referents 3,611 / frozen 62 / instrument 6 / sha-pinned
+   at load 5).
+3. `tests/read_sweep_4.py` (after the F-1..F-6 closures): the same
+   verdict and the same table — 3,684 paths, **0 UNPINNED**.
+
+4. `tests/import_scan_4.py` (final, after every closure): the same
+   INSUFFICIENT_DATA at `4 prereg tag`, and the scan output still
+   byte-identical to the committed pins — 57 frozen + 6 exp4-own
+   residual modules, `FROZEN_SHA256_4` unchanged (no new frozen
+   import), `IMPORTED_SHA256_4` unchanged (the closures touched only
+   tag-bound instrument blobs and test files, neither of which that pin
+   covers), `REFERENTS_4_SHA256` unchanged (the manifest's only exp4
+   entries are `hub_inventory_pythia_4.json`, `power_4.py` and the
+   calibration fixture, none of them edited). `check_imports_4()` and
+   `check_referents(...)` called directly: no unpinned module, no
+   drift, zero referent drift.
+5. `tests/read_sweep_4.py` (final, after every closure): INSUFFICIENT_DATA
+   at `4 reference seal`, 3,684 distinct paths, 10,210 open/read calls,
+   0 writes, **0 UNPINNED** — the same table as the baseline.
+6. `tests/read_sweep_4.py --root=<a synthetic POST-SEAL world>`: the
+   run reached a TERMINAL (LEADS at n_boot=10 — not the experiment's
+   verdict), so gate 0, gate 1, eligibility, the primary and every
+   S1–S11 secondary executed; 8,084 distinct paths, 48,662 calls, 0
+   writes, **0 UNPINNED** (4,400 of them the world's own campaign
+   artifacts, which on the real tree are the seal-bound files). This is
+   attack item 19: the pre-campaign sweep refuses before the
+   secondaries' reads, so "0 unpinned" had never been demonstrated on
+   that side of the seal. It is now.
+
+### Batteries after the closures
+
+| battery | before | after |
+| --- | --- | --- |
+| fast modules (`-m "not slow"`) | 151 passed | **176 passed**, 5 deselected |
+| totality (`test_totality_4.py`) | 15 passed | **19 passed** |
+| worlds + slow analyzer | (build: 18 passed / 1 xfailed) | **47 passed, 1 xfailed**, 6,296 s |
+| cold referent battery | 11/11 | **11/11** |
+| import scan | 57 + 6, at the pins | **57 + 6, at the pins** |
+| read sweep (real tree) | 3,684 paths, 0 unpinned | **3,684 paths, 0 unpinned** |
+| read sweep (post-seal world) | never run | **8,084 paths, 0 unpinned** |
+| mutants | 108 claimed 106 killed | **109; 107 killed, 1 equivalent, 1 timeout, 0 open** |
+
+The one xfail is the build's own pre-existing
+`test_leads_world_every_cell_phi_in_band` (one synthetic cell 0.0067
+below the fixture's band), unrelated to the closures.
+
+### Ratification items
+
+B-1..B-4 (the build's design deltas), R-1..R-6 (the rulings the freeze
+needs — F-5's gating question, the §3.7 escape hatch's scope, the
+`refs=()` cross-check asymmetry, torch on the analyzer's import
+surface, the two structural tests, and the cheap form of §7's check)
+and doc slips (a)–(h) are written out in
+`experiments/exp4/FREEZE_CHECKLIST.md`. **The tag is not cut until
+Michael rules.**
