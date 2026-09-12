@@ -710,9 +710,11 @@ Not re-run a third time end-to-end given the fix's narrow scope (only `s3_scale_
 
 **TDD**: RED (the file did not exist; `test_power_4.py` written first) → wrote `power_4.py` → first run hit a `RuntimeWarning`/`nan` from a test fixture that used step 0 as `t_1` (real grids never start at step 0 — log(0); fixed the FIXTURE, not the module) and an `exp` overflow warning (switched `_logistic` to `scipy.special.expit`, and guarded the bisection's `ratio()` against a 0/0 at the extreme bracket bound) → GREEN: `pytest experiments/exp4/tests/test_power_4.py` — 8 passed in 2.95s, zero warnings.
 
-`test_power_4.py` (8 tests): `test_solve_m_hits_the_target_ratio` (bisection re-derives the target ratio to `1e-6` at four φ values, and the φ=0 asymptote is the literal `c_r+3`); `test_compute_leads_more_often_at_phi_half_than_phi_zero` (a hand-built two-trajectory, 8-distinct-rung synthetic eligibility table — 8 rungs is the SMALLEST union clearing `1/2^n_rungs < ALPHA_4`, needed since `n_rungs=3` would make `p_+ < .01` structurally unreachable regardless of signal strength) — `P(LEADS|.5) > P(LEADS|0)` and `P(LEADS|0) <= .1`, plus every field-shape/range assertion; `test_compute_declaration_powered_when_phi_half_clears_bar`; `test_compute_mean_eligible_cells_drops_when_signal_is_weak` (a cell whose `x_end` barely clears `2*se` shows `mean_eligible_cells < 8` at φ*=0, reproducing "cells can drop out by noise" directly); `test_compute_raises_on_empty_eligibility`; `test_main_writes_once_and_refuses_a_second_write` (a fake `eligibility_4.json` reusing REAL Pythia rung names — `cells_4` only ever reads rungs already present in `rs["R"]`, so a synthetic eligibility file must name real R rungs of a real trajectory — `main()` still reads the OTHER three real trajectories' real rung sets/grids harmlessly); `test_main_refuses_when_eligibility_file_absent`; `test_analyzer_refuses_power_record_with_wrong_eligibility_sha` (direct tests of `analyze_4._check_power_matches_eligibility_4` on a stub eligibility file with a wrong sha / wrong cells / a bogus rung — three separate mismatch assertions, per the brief's own "a fast test on a tmp tree with a stub eligibility file").
+`test_power_4.py` (8 tests): `test_solve_m_hits_the_target_ratio` (bisection re-derives the target ratio to `1e-6` at four φ values, and the φ=0 asymptote is the literal `c_r+3`); `test_compute_leads_more_often_at_phi_half_than_phi_zero` (a hand-built two-trajectory, 8-distinct-rung synthetic eligibility table — 8 rungs is the SMALLEST union clearing `1/2^n_rungs < ALPHA_4`, needed since `n_rungs=3` would make `p_+ < .01` structurally unreachable regardless of signal strength) — `P(LEADS|.5) > P(LEADS|0)` and `P(LEADS|0) <= .1`, plus every field-shape/range assertion; `test_compute_declaration_powered_when_phi_half_clears_bar`; `test_compute_mean_eligible_cells_drops_when_signal_is_weak` (a cell whose `x_end` barely clears `2*se` shows `mean_eligible_cells < 8` at φ*=0, reproducing "cells can drop out by noise" directly); `test_compute_returns_the_zero_cell_record_on_empty_eligibility` (named `test_compute_raises_on_empty_eligibility` when this line was written — review round 2's zero-cell ruling replaced the raise with a disclosable record, and the FINAL REVIEW FIX WAVE below extends it again with R-7's `zero_excess` arm); `test_main_writes_once_and_refuses_a_second_write` (a fake `eligibility_4.json` reusing REAL Pythia rung names — `cells_4` only ever reads rungs already present in `rs["R"]`, so a synthetic eligibility file must name real R rungs of a real trajectory — `main()` still reads the OTHER three real trajectories' real rung sets/grids harmlessly); `test_main_refuses_when_eligibility_file_absent`; `test_analyzer_refuses_power_record_with_wrong_eligibility_sha` (direct tests of `analyze_4._check_power_matches_eligibility_4` on a stub eligibility file with a wrong sha / wrong cells / a bogus rung — three separate mismatch assertions, per the brief's own "a fast test on a tmp tree with a stub eligibility file").
 
 ### Totality (`test_totality_4.py`, 12 tests: the control + the brief's 11 needles)
+
+**SUPERSEDED (final review fix wave, 2026-09-12).** Three counts in this Task 5 section went stale and are corrected here rather than edited in place, so the record of what was true when reads straight: (1) the totality suite is **19 tests**, not 12 — the freeze added four cases (F-1/F-3/F-4/F-6's closures) and review round 2 three more; (2) the `*_OPEN.log` survivor recorded below (`mutation_totality_power_check_100_OPEN.log`, mutant `totality_35e8a47a0b`) was CLOSED later in the same round — see "Re-confirmed killed: `mutation_totality_check_eligibility_100.log`, 1/1 killed" below; the log file keeps its `_OPEN` name because it is the committed evidence of the survival, not of the close; (3) the mutation tally moved 107 -> 108 -> 109 during review round 1 and the freeze, and moves again in the fix wave (new `collect_total_4` call sites are generated from the live source by design). The authoritative counts are always the LAST battery table in this file.
 
 Built on a SHARED `stage="reference_only"` base tree (`fs.build_world(root, "leads", seed=11, stage="reference_only")` — 19 reference-stage keys + 4 first units, `full_shape.py`'s own documented minimum for `eligibility_table_4`) with `eligibility_4.json` and a real power record (`power_4.compute(...)`, review round 1's fix — the old stub, `fs._write_power_stub`, is deleted) added once, module-scoped (`_totality_base`); each case corrupts a `_fresh_copy`. Deliberately NOT a `stage="full"` (92-point) world: `run()`'s stage-tables/gate-0/eligibility/power stages read only `STAGE1_KEYS_4`/`STAGE1_FIRST_UNITS_4` (never an interior sweep step), and the per-trajectory sweep loader's dict comprehension over `GRID_4[traj]` stops at the FIRST bad step it meets, so a needle at a trajectory's SECOND real grid step (case 9) is reached without ever populating the other ~90 interior points — `test_full_shape_4.py`'s own docstring records why grid-shrinking is off the table (the manifest-grid gate compares live `GRID_4` against the real committed manifest with no test-injection point).
 
@@ -746,7 +748,7 @@ Opus review of Task 5 returned four Important findings. All four plus the ruled 
 - **A renumbering, found mid-round**: IMPORTANT 3's fix adds a NEW `collect_total_4(...)` call site to `run()` (wrapping `_check_power_matches_eligibility_4`). `_totality_mutants_4` walks the CURRENT source at import time, so this shifted the total mutant count from 107 to **108** and renumbered every totality-generated mutant from the new site onward. Verified directly (`len(mc.M) == 108`, and by matching each mutant's printed thunk text across old/new numbering): the OLD #107 (`gate1_failures_4` call site, "the LAST totality mutant") is now **NEW #108**; a genuinely different, previously-untested lambda (`json.loads(p.read_text())` on `gate1.json`, OLD #106) is now **NEW #107**. Running `--totality --only=107` against the CURRENT numbering therefore does not re-test the same mutant the review's IMPORTANT 1 named — it tests a different, adjacent one.
 - `mutation_totality.log` (`--totality --only=107`, the json.loads-on-gate1.json site): **SURVIVED on the first clean run** — confirmed a real, reproducible gap by hand (stripped the wrapper directly in the source, ran the full fast suite: 148/148 passed with the bug present — no test anywhere currently supplies unparseable `gate1.json` bytes; test_totality_4.py's existing case 5 writes a valid JSON list, which only exercises the NEXT call site). Closed with a new totality case, `test_gate1_json_torn_gives_insufficient_data` (`gate1.json` truncated mid-token, mirroring case 1's `_load.json` pattern), confirmed GREEN on unmutated code (219.39s) then re-run clean: **`--totality --only=107`: 1/1 killed**.
 - `mutation_totality_gate1_failures_108.log` (`--totality --only=108`, the mutant formerly known as OLD #107 — the `gate1_failures_4` call site the review's IMPORTANT 1 actually named): re-confirmed **1/1 killed** via the same mechanism as before (`test_totality_4.py`'s case 5).
-- `mutation_totality_power_check_100_OPEN.log` (`--totality --only=100`, the NEW `_check_power_matches_eligibility_4` call site IMPORTANT 3 itself adds): **SURVIVED, OPEN — not closed this round.** The controller's final instruction for this round was to stop launching processes and commit with any unconfirmed survivor listed as open rather than killed; this is that survivor. `test_power_4.py`'s direct tests of `_check_power_matches_eligibility_4` (the field-by-field refusal tests) exercise the function's MECHANISM but not `run()`'s wiring at this specific call site — the same gap pattern #107/#108 above had, before totality closed it. **Needs a totality case (or a targeted `--totality` confirmation against an existing one) supplying a power record shaped so `_check_power_matches_eligibility_4` itself RAISES** (not merely returns a non-empty `bad` list — most malformed inputs are handled by ordinary `if`/`.get()` checks inside the function and never reach the `collect_total_4` wrapper's exception path at all; `test_power_record_references_a_rung_not_in_eligibility` in `test_totality_4.py`, the closest existing case, supplies a well-typed bad rung name and does not raise). Left for the next round.
+- **[SUPERSEDED — closed later this round; see `totality_35e8a47a0b` below]** `mutation_totality_power_check_100_OPEN.log` (`--totality --only=100`, the NEW `_check_power_matches_eligibility_4` call site IMPORTANT 3 itself adds): **SURVIVED, OPEN — not closed this round.** The controller's final instruction for this round was to stop launching processes and commit with any unconfirmed survivor listed as open rather than killed; this is that survivor. `test_power_4.py`'s direct tests of `_check_power_matches_eligibility_4` (the field-by-field refusal tests) exercise the function's MECHANISM but not `run()`'s wiring at this specific call site — the same gap pattern #107/#108 above had, before totality closed it. **Needs a totality case (or a targeted `--totality` confirmation against an existing one) supplying a power record shaped so `_check_power_matches_eligibility_4` itself RAISES** (not merely returns a non-empty `bad` list — most malformed inputs are handled by ordinary `if`/`.get()` checks inside the function and never reach the `collect_total_4` wrapper's exception path at all; `test_power_record_references_a_rung_not_in_eligibility` in `test_totality_4.py`, the closest existing case, supplies a well-typed bad rung name and does not raise). Left for the next round.
 - `mutation_38_bounded.log` (`--only=38 --timeout=180`, the new `--timeout` harness feature added this round): **TIMEOUT, not a kill** (`0/1 killed; 1 TIMEOUT`). Per the controller's ruling, a timeout is not a kill. Disposition: **#38 is not killable through the harness** — removing the any-HALTED-marker guard makes `run()` load the real 500-item × 34-rung battery through the fake-loader collection path, which the ORIGINAL build's 60-second bounded confirmation already showed does not return quickly; this round's 180-second bound reproduces the same non-termination, not a hang artifact. Recorded as "not killable through the harness: the mutated path is genuinely expensive real work (full battery collection), bounded confirmation at both 60s (original build) and 180s (this round) times out without resolving either way."
 - Three separate SIGINT interruptions occurred mid-round when concurrent harness instances collided with each other and with a foreground world test (`test_leads_world_reaches_leads`) — recorded per the controller's instruction: launching `--totality --only=107` via `nohup ... & disown` left an orphaned child process when the parent was killed by hand rather than by process group, and a second orchestrator launched moments later collided with it on the SAME mutated file; the harness's own `.mutation_backup` exclusive-create guard meant only one mutant was ever actually applied at a time, and after all interrupts resolved, no `.mutation_backup` remained and every source file matched HEAD (verified via `git status`/`git diff --stat` after each incident) — no stranded mutant ever reached a committed log. **Rule applied for the rest of the round and going forward**: exactly one harness instance at a time, launched via `Popen(..., start_new_session=True)` (never `nohup ... & disown` — it does not survive the tool shell, per the project's own gotcha memory), never concurrent with any world/totality pytest run, `ps aux | grep mutation_check` checked before every launch.
 
@@ -987,3 +989,169 @@ surface, the two structural tests, and the cheap form of §7's check)
 and doc slips (a)–(h) are written out in
 `experiments/exp4/FREEZE_CHECKLIST.md`. **The tag is not cut until
 Michael rules.**
+
+## Final review fix wave (2026-09-12)
+
+The final whole-branch review (opus, `bd37da53..1c01e8d4`) found 0
+Critical, 4 Important, 8 Minor. The controller ruled each; this wave
+applies them. **Every change is ADDITIVE** — a new record field,
+readout, test, refusal or disclosure. Nothing preregistered moved:
+`T_BAR_4`, `ALPHA_4`, `MIN_CELLS_4`/`MIN_RUNGS_4`, `SE_MULTIPLE_4`,
+`MIN_CLEAR_INDEX_4`, `GATE0_MIN_FRACTION_4`, `POWER_BAR_4`, the excess,
+phi, the sign-flip null, the cluster bootstrap and the six-world tree
+are byte-identical to the freeze's. Zero model contact, zero network.
+
+**IMPORTANT 1 — the preflight measured forward determinism, not two
+loads.** `run/preflight_4.py` loaded `ladder_pythia_2.8b` ONCE and
+collected twice from the same model object, so it could not answer
+design §3.7's question (whether two LOADS of the same weights agree at
+the ulp level — a fresh `from_pretrained`, device placement and kernel
+selection). Arm (a) now releases and RELOADS between its two
+collections and prints both loads' digests and whether the two `X`
+arrays and their `set_tables_4` are byte-identical ACROSS THE LOADS.
+New arm (b): one cross-loader-path comparison on `antonym` —
+`ladder_pythia_2.8b` through 2b's `from_pretrained` against
+`load_step_4("pythia_2.8b", 143000)` through 2g's candidate-file loader
+(design §7's ladder check, F-5/R-1's non-gating record), digests
+printed, the step checkpoint freed after. Arm (c) is the unchanged
+Comma step-10000 rehearsal. Tests assert the identity line in BOTH
+directions (same seed on the second load -> True; a different seed ->
+False), which the single-load version could not do.
+
+**IMPORTANT 2 -> ratification item R-7 — phi's null mean is ~.5, not 0,
+for cells selected at the eligibility bar.** Written up in full in
+`FREEZE_CHECKLIST.md` under R-7 with the reviewer's measured numbers
+(selected-cell mean phi .4957 under pure noise; P(LEADS | zero excess)
+.000/.073/.260/.327 at lambda 1/1.5/2/3; the zero-signal worlds' T
+.38/.28 at 6 cells) and the recommended reading. Built here:
+`power_4.compute` gains a fourth arm `zero_excess` (E_r = 0 for EVERY
+rung of R_M, not only the eligible cells, at the measured SEs, the flat
+pool as trend, the eligibility rule re-applied per draw, through
+`cells_4 -> primary_4 -> verdict_tree_4`) with `realized_alpha_leads`;
+`zero_excess_scatter` re-runs it at noise multiples 1/1.5/2/3 with the
+eligibility bar left at the measured SE; `analyze_4.lambda_hat_4`
+measures the realized scatter-over-bootstrap-SE ratio per trajectory
+from the sweep tables and the verdict carries it under `calibration`.
+The zero-excess arms consume the shared Generator AFTER every phi arm,
+so the phi arms' draws are byte-identical to what they were before the
+arm existed (`test_zero_excess_arm_does_not_disturb_the_phi_arms`). The
+analyzer REQUIRES the arm, its `realized_alpha_leads` (which must BE
+that arm's own `P_LEADS`) and the four-key scatter grid.
+
+**IMPORTANT 3 — two preregistered descriptives were absent.** §5's
+family-matched trend (the trend over the flat rungs of the cell's own
+2c family, where any exist, beside the pooled-trend phi, with T re-read
+over exactly the cells that have a sibling) and S11's per-reference
+clause / §3.3's "per-reference values are printed in every world" (one
+excess series per reference, the per-reference phi per cell, the
+`leading_reference` and a per-trajectory tally). Both descriptive,
+`no_alpha_claim`. `_alignment_parts_4` computes the pooled and the
+per-reference readings in ONE overlap pass — `per_item_alignment_4`
+delegates to it and its output is asserted BIT-IDENTICAL, because it
+decides a_r(t), the excess, phi and T, and `overlap_counts` is a Python
+loop over 500 items x n_sites x n_refs x 34 rungs x every grid step.
+
+**IMPORTANT 4 — stage 1's first load is the memory and time peak.**
+`process_model_4` now takes a `release_model` callable, invoked after
+the last forward pass and BEFORE the 17,000-row global bank, the
+compression and the write; both runners pass an idempotent
+`collect_4.release_once_4` and keep their own `finally: release`. The
+12b reference is ~24 GB resident while the function holds ~4.5 GB of
+collected activations, and the bank is ~8-11 min per key. The load
+record's `stack` gains **numpy's version** (`stack_record_4`): gate 1's
+requirement is byte identity of `.npz` files, and what writes those
+bytes is numpy's zip writer. Doc slip (i) in `FREEZE_CHECKLIST.md`
+corrects §7's "~1-2 min" bank estimate, budgets stage 1 at 10-12 h and
+records the operational plan (`--only ref_pythia_12b` first, alone,
+with the mlx agents down).
+
+**Minor 7 — thread pinning.** `experiments/exp4/_threads_4.py` sets
+`VECLIB_MAXIMUM_THREADS`/`OMP_NUM_THREADS`/`OPENBLAS_NUM_THREADS`/
+`MKL_NUM_THREADS` to 1 and is imported FIRST by `analyze_4`,
+`run/reference_4`, `run/sweep_4` and `run/preflight_4` — above `import
+numpy` and above every `experiments.*` import that pulls numpy in
+transitively (a structural test asserts the order by AST on all four).
+The load record and the verdict's `pins_active` carry `threads_pinned`;
+`PINNED_BEFORE_NUMPY_4` discloses whether the pin actually preceded
+numpy in the process. Measured cost: none — the fast suite reads
+151.2 s against the freeze's 149.2 s.
+**Minor 8** — `write_verdict_txt_4` prints every arm's `P_LEADS`, the
+realized alpha and the scatter grid. **Minor 9** — §6's LEADS licence
+condition (two of the four per-trajectory readings at p < .05 and
+T >= .25) is computed into the verdict as `licence_condition` /
+`licence_condition_met`, descriptive.
+
+### Ledger corrections (this wave)
+
+- The Task 5 totality/mutation counts are corrected by a supersession
+  paragraph placed at that section's head rather than edited in place:
+  the totality suite is **19 tests**, not 12; the `_OPEN.log` survivor
+  was closed later in the same round (the file keeps its name because
+  it is the evidence of the SURVIVAL, not of the close); the mutation
+  tally has moved 107 -> 108 -> 109 -> **120** as `collect_total_4` call
+  sites were added and generated from the live source by design.
+- The deleted test name `test_compute_raises_on_empty_eligibility` is
+  corrected in place to
+  `test_compute_returns_the_zero_cell_record_on_empty_eligibility`.
+- **Deferred minor 65 (M-7) was WRONG and is withdrawn.** It read
+  "torch reaches the process via `collect_4`'s module-level imports
+  (analyze_4 itself imports no torch)". `collect_4` imports torch only
+  INSIDE function bodies. Torch reaches the process through the FROZEN
+  `experiments/exp2b/models.py`, which `battery_4` imports for
+  `PYTHIA_SHAS`/`load_pythia`/`load_tokenizer` and which imports torch
+  at module level — the freeze found this independently and recorded it
+  as **R-4**, whose recommendation (disclose in §7 and leave it; frozen
+  code is never edited, and the "zero model contact" claim rests on
+  which functions run) stands. Nothing to fix in `collect_4`.
+
+### Batteries (fix wave)
+
+| battery | freeze | fix wave |
+| --- | --- | --- |
+| fast modules (`-m "not slow"`) | 176 passed | **192 passed**, 5 deselected, 151.2 s |
+| totality (`test_totality_4.py`) | 19 passed | **19 passed**, 328.8 s |
+| cold referent battery | 11/11 | **11/11** |
+| import scan | 57 frozen + 6 exp4-own | **57 frozen + 7 exp4-own** (`_threads_4.py` new), at the pins |
+| read sweep (real pre-campaign tree) | 3,684 paths, 0 unpinned | **3,685 paths, 0 UNPINNED** (+1: `_threads_4.py`) |
+| mutants | 109 | **120** (87 static + 33 totality); the 9 new hand-authored ones run this wave: **9/9 killed, 0 survivors, 0 skip, 0 timeout** (`mutation_fixwave.log`) |
+| worlds (targeted LEADS subset) | (47 passed, 1 xfailed, 6,296 s) | **3 passed**, 20 deselected, 1,061.8 s — `test_leads_world_reaches_leads`, `test_secondaries_and_strict_json_leads`, `test_determinism_fixture_two_processes` on one full-grid LEADS world |
+
+The world run is the targeted subset, not the full 47-test suite: it builds ONE full-grid
+LEADS world and exercises exactly the paths this wave added — the two new descriptives
+present and non-failed, `calibration.lambda_hat` real (not `{"failed": ...}`),
+`power.realized_alpha_leads` and the four-key `zero_excess_scatter` on the verdict,
+`licence_condition_met` a bool, `pins_active["threads_pinned"]` True, strict JSON, and
+two-process determinism over the enlarged verdict. The missing-route and other-terminal
+world tests were NOT re-run in this wave (the freeze's 47 passed / 1 xfailed stands; the
+changes are additive and the fast + totality batteries are green) — stated rather than
+implied.
+
+Disclosed about the mutation pass: any mutation of `power_4.py` ALSO
+trips `test_analyze_4.test_check_imports_4_and_check_referents_pass_on_
+the_committed_tree`, because `power_4.py` is in the referent manifest —
+so a power_4 mutant's kill through the FAST suite is over-determined.
+All four R-7 power mutants were therefore ALSO confirmed by hand
+against `test_power_4.py` alone, which contains no pin check: all four
+**KILLED by test_power_4 alone**, the file restored and verified
+byte-clean afterwards. The two new AUTO-GENERATED totality mutants (the
+`collect_total_4` sites for `lambda_hat` and the licence condition)
+were NOT run in this wave — they need a `--totality` pass of their own,
+and both wrap functions no totality case currently makes raise, so
+running them would most likely have recorded two survivors needing new
+totality cases. Stated as the open item it is, not as coverage.
+
+### Real-tree disclosures (checklist item 27)
+
+Every `analyze_4.run()` execution against `experiments/exp4/results/`
+(empty pre-campaign) in this wave, each reaching INSUFFICIENT_DATA and
+writing nothing:
+
+- `tests/import_scan_4.py`, run TWICE (once to read the literals, once
+  to capture them for the paste): "INSUFFICIENT_DATA — 4 prereg tag:
+  RuntimeError: preregistration tag exp4-preregistered does not exist;
+  4 reference seal: the tag 'exp4-reference-sealed' does not exist; 4
+  stage tables: ValueError: ref_pythia_12b: unit missing ...".
+- `tests/read_sweep_4.py`, run once on the real tree: the same terminal,
+  3,685 distinct paths / 10,211 open-read calls / 0 writes / **0
+  UNPINNED**; buckets `referents_4.json` 3,611, `frozen_module` 63,
+  `instrument_blob` 6, `sha_pin_at_load` 5, everything else 0.

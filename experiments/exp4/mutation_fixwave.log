@@ -1,0 +1,14 @@
+=== exp4 FINAL REVIEW FIX WAVE mutation pass: the 9 new hand-authored mutants (R-7's zero-excess arm, lambda_hat, the family-matched trend, S11's per-reference reading), fast modules ===
+baseline OK (fast pass, ['check_power_matches_eligibility_4_the_zero_excess_arm_is_not_a_required_', 'compute_realized_alpha_leads_read_from_the_phi_0_arm_not_the_zero_excess', 'compute_the_scatter_grid_s_multiple_1_0_entry_is_a_separate_draw_not_the', 'compute_the_zero_excess_arm_simulates_only_the_eligible_cells_not_the_r_', 'family_matched_trend_4_the_siblings_are_every_flat_rung_not_the_rung_s_o', 'lambda_hat_4_the_per_rung_scatter_sd_uses_ddof_0_not_the_sample_sd', 'lambda_hat_4_the_ratio_is_inverted_bootstrap_se_over_scatter', 's11_per_reference_4_the_leading_reference_is_the_smallest_pre_clear_frac', 'simulate_zero_excess_the_eligibility_bar_is_scaled_with_the_noise_not_le'] mutants)
+
+[compute_the_zero_excess_arm_simulates_only_the_eligible_cells_not_the_r_] (#79) killed  compute(): the zero-excess arm simulates only the ELIGIBLE cells, not the R_M pool
+[simulate_zero_excess_the_eligibility_bar_is_scaled_with_the_noise_not_le] (#80) killed  _simulate_zero_excess: the eligibility bar is scaled with the noise, not left at the measured SE
+[compute_realized_alpha_leads_read_from_the_phi_0_arm_not_the_zero_excess] (#81) killed  compute(): realized_alpha_leads read from the phi=0 arm, not the zero-excess arm's own
+[compute_the_scatter_grid_s_multiple_1_0_entry_is_a_separate_draw_not_the] (#82) killed  compute(): the scatter grid's multiple-1.0 entry is a separate draw, not the arm itself
+[check_power_matches_eligibility_4_the_zero_excess_arm_is_not_a_required_] (#83) killed  _check_power_matches_eligibility_4: the zero-excess arm is not a required arm key
+[lambda_hat_4_the_per_rung_scatter_sd_uses_ddof_0_not_the_sample_sd] (#84) killed  lambda_hat_4: the per-rung scatter SD uses ddof=0, not the sample SD
+[lambda_hat_4_the_ratio_is_inverted_bootstrap_se_over_scatter] (#85) killed  lambda_hat_4: the ratio is inverted (bootstrap SE over scatter)
+[family_matched_trend_4_the_siblings_are_every_flat_rung_not_the_rung_s_o] (#86) killed  family_matched_trend_4: the siblings are every flat rung, not the rung's own family
+[s11_per_reference_4_the_leading_reference_is_the_smallest_pre_clear_frac] (#87) killed  s11_per_reference_4: the leading reference is the SMALLEST pre-clear fraction
+
+9/9 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []
