@@ -66,6 +66,9 @@ from experiments.exp4 import metric_4  # noqa: E402
 # ---------------------------------------------------------------- worlds
 
 WORLDS_4 = ("INSUFFICIENT_DATA", "NO-CONVERGENCE", "LEADS", "PARTIAL", "FOLLOWS", "UNDETERMINED")
+# The one world that is a REFUSAL rather than a reading (§3.9): the run
+# produced no verdict, so no §6 licence condition is read against it.
+REFUSAL_WORLD_4 = "INSUFFICIENT_DATA"
 
 T_BAR_4 = 0.25
 ALPHA_4 = 0.01
@@ -81,8 +84,9 @@ GATE0_MIN_FRACTION_4 = 0.90
 
 REFERENTS_4_SHA256 = "241da3a71cf059e51db7b34388ac6dc2cd272e7983eb1b471a062203dcbe7eb4"
 # Task 5: exp4's OWN residual import surface -- every non-test module
-# inside experiments/exp4 that is not one of the four blob-bound
-# INSTRUMENT_BLOBS_4 files, from tests/import_scan_4.py's scan.
+# inside experiments/exp4 that is not one of the SIX blob-bound
+# INSTRUMENT_BLOBS_4 files (analyze/battery/metric/collect + both
+# runners), from tests/import_scan_4.py's scan.
 IMPORTED_SHA256_4 = {
     REPO / "experiments/exp4/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -1446,7 +1450,18 @@ def s11_per_reference_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
     eligible cell, `leading_reference` = the reference with the largest
     pre-clear excess fraction on that cell, and a per-trajectory tally
     of which reference leads most often — "does one lens lead the
-    others?". DESCRIPTIVE, `no_alpha_claim`."""
+    others?". DESCRIPTIVE, `no_alpha_claim`.
+
+    Ratification open item 2: EVERY rising rung of R_M is reported, not
+    only the cells the eligibility rule selected. §5's S11 and §3.3 say
+    per-reference values are printed in every world, and the rungs the
+    rule drops are exactly the ones a reader wants the per-reference
+    picture of — a rung excluded for "endpoint excess below 2 SE" may
+    still have one lens agreeing about its items. A rung with no
+    pre-clear window has no phi to report: it carries `phi_by_ref`
+    None per reference and its eligibility `reason`, and the
+    `leading_reference` and the tally are computed over the cells where
+    phi exists. Nothing here enters T."""
     out = {}
     for traj in sorted(series_by_traj):
         series = series_by_traj[traj]
@@ -1466,11 +1481,13 @@ def s11_per_reference_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
             trend_ref = trend_4(a_by_ref[ref], rs["flat"], steps)
             excess_by_ref[ref] = excess_4(a_by_ref[ref], trend_ref, steps)
         per_cell, tally = {}, {ref: 0 for ref in refs}
+        n_eligible = n_with_phi = 0
         for rung in rs["R"]:
-            e = elig_R.get(rung)
-            if not e or not e.get("eligible"):
-                continue
-            tci = e["t_clear_index"]
+            e = elig_R.get(rung) or {}
+            eligible = bool(e.get("eligible"))
+            n_eligible += int(eligible)
+            tci = e.get("t_clear_index")
+            reason = e.get("reason") or "no eligibility record for this rung"
             phi_by_ref, x_end_by_ref = {}, {}
             for ref in refs:
                 x = excess_by_ref[ref][rung]
@@ -1480,12 +1497,15 @@ def s11_per_reference_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
             lead = max(sorted(live), key=lambda r: live[r]) if live else None
             if lead is not None:
                 tally[lead] += 1
+            n_with_phi += int(bool(live))
             per_cell[rung] = {"phi_by_ref": phi_by_ref, "x_end_by_ref": x_end_by_ref,
-                             "leading_reference": lead}
+                             "leading_reference": lead, "eligible": eligible,
+                             "reason": reason}
         leads_most = (max(sorted(tally), key=lambda r: tally[r]) if any(tally.values()) else None)
         out[traj] = {"available": True, "references": refs, "per_cell": per_cell,
                     "leads_tally": tally, "leads_most_often": leads_most,
-                    "n_cells": len(per_cell)}
+                    "n_cells": len(per_cell), "n_eligible_cells": n_eligible,
+                    "n_cells_with_phi": n_with_phi}
     return {"per_traj": out, "source": "re-derived", "no_alpha_claim": True}
 
 
@@ -1512,22 +1532,33 @@ def lambda_hat_4(series_by_traj, rung_sets_by_traj, eligibility) -> dict:
         steps = list(series["steps"])
         trend = trend_4(series["a"], rs["flat"], steps)
         excess = excess_4(series["a"], trend, steps)
-        sds, ses, per_rung = [], [], {}
+        # Ratification ruled minor: numerator and denominator pool over
+        # the SAME flat rungs — those with a usable `se_at_end`. The
+        # build pooled the scatter over every flat rung and the SE over
+        # the subset that had one, so a missing SE inflated lambda_hat
+        # by adding a rung to the numerator alone. Both counts are
+        # printed; a dropped rung still appears in `per_rung`.
+        sds, ses, per_rung, dropped = [], [], {}, []
         for r in rs["flat"]:
             x = np.asarray(excess[r], dtype=np.float64)
             sd = float(np.std(x, ddof=1)) if x.size > 1 else 0.0
             se = (flat_se.get(r) or {}).get("se_at_end")
             se_ok = isinstance(se, (int, float)) and not isinstance(se, bool) and se > 0
             per_rung[r] = {"scatter_sd": sd, "bootstrap_se": (float(se) if se_ok else None),
-                          "ratio": (sd / float(se)) if se_ok else None}
-            sds.append(sd)
+                          "ratio": (sd / float(se)) if se_ok else None,
+                          "pooled": bool(se_ok)}
             if se_ok:
+                sds.append(sd)
                 ses.append(float(se))
+            else:
+                dropped.append(r)
         scatter = float(np.sqrt(np.mean(np.square(sds)))) if sds else None
         boot = float(np.sqrt(np.mean(np.square(ses)))) if ses else None
         lam = (scatter / boot) if (scatter is not None and boot) else None
         out[traj] = {"lambda_hat": lam, "scatter_sd": scatter, "bootstrap_se": boot,
-                    "n_flat": len(rs["flat"]), "n_flat_with_se": len(ses), "n_steps": len(steps),
+                    "n_flat": len(rs["flat"]), "n_flat_with_se": len(ses),
+                    "n_flat_pooled": len(sds), "n_flat_dropped_no_se": len(dropped),
+                    "flat_dropped_no_se": dropped, "n_steps": len(steps),
                     "per_rung": per_rung}
     return {"per_traj": out, "note": LAMBDA_HAT_NOTE_4, "source": "re-derived",
            "no_alpha_claim": True}
@@ -1608,6 +1639,9 @@ LAMBDA_HAT_NOTE_4 = (
     "same quantity: per flat rung, the SD over grid steps of its own excess x_r(t) (which is "
     "already de-trended, so this is its scatter about its own mean), pooled over the flat rungs "
     "in quadrature, over the quadrature-pooled `se_at_end` the eligibility bootstrap measured. "
+    "Both sides pool over the SAME rungs -- the flat rungs that HAVE a usable `se_at_end`; a rung "
+    "without one is dropped from both and counted in `n_flat_dropped_no_se`, never added to the "
+    "numerator alone. "
     "It is 1 when a rung's step-to-step wobble is no larger than item-resampling noise and > 1 "
     "when checkpoints move together in ways the item bootstrap cannot see. The power record's "
     "`zero_excess_scatter` prices P(LEADS | no task-specific excess) at multiples 1/1.5/2/3 of "
@@ -1876,8 +1910,17 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
         power_summary, f = collect_total_4(lambda: _power_summary_4(power), "4 power summary")
         failures += f
     # Minor 9: §6's LEADS licence condition, computed (descriptive).
+    # Ratification ruled minor: it is a reading of the per-trajectory
+    # primaries, and a refusal has none — "met=False, 0 of 0 readings
+    # qualify" printed beside an INSUFFICIENT_DATA verdict states a §6
+    # finding the run never made. The call itself stays unconditional
+    # (it is a totality site: a raise here must become a collected
+    # failure, never an exception); only the READING is withheld, the
+    # way the power block is.
     licence, f = collect_total_4(lambda: licence_condition_4(primary), "4 licence condition")
     failures += f
+    if world == REFUSAL_WORLD_4:
+        licence = None
     return {
         "verdict": world,
         "reason": tree["reason"],

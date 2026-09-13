@@ -692,6 +692,66 @@ def test_s11_per_reference_4_reads_each_reference_alone_and_names_the_leader():
     assert bare["per_traj"]["t"]["available"] is False
 
 
+def test_s11_per_reference_4_covers_every_rising_rung_not_only_the_eligible_ones():
+    """Ratification open item 2. §5's S11 and §3.3 print per-reference
+    values in EVERY world; the build reported only the cells the
+    eligibility rule selected, so the rungs a reader most wants the
+    per-reference picture of — the ones the rule dropped — were the
+    ones missing. Three rising rungs here: one eligible, one dropped
+    for a small endpoint excess (phi still computable, and reported),
+    one with no pre-clear window (phi None per reference, the
+    eligibility reason carried). The tally and `n_cells_with_phi` count
+    only the cells where phi exists; nothing here enters T."""
+    steps = [10, 20, 30, 40]
+    flat = {"mod13": [0.10] * 4, "mod17": [0.10] * 4}
+    rising = {
+        "antonym6": [0.10, 0.18, 0.22, 0.30],    # eligible
+        "add3_mid": [0.10, 0.11, 0.12, 0.13],    # below 2 SE at the endpoint
+        "arith_next": [0.10, 0.20, 0.24, 0.30],  # clears at grid index 1: no window
+    }
+    a_by_ref = {"refA": {**rising, **flat},
+                "refB": {r: [v + 0.01 * i for i, v in enumerate(s)]
+                         for r, s in {**rising, **flat}.items()}}
+    pooled = {r: [float(np.mean([a_by_ref[ref][r][i] for ref in a_by_ref]))
+                  for i in range(len(steps))] for r in {**rising, **flat}}
+    series = {"t": {"steps": steps, "a": pooled, "per_item": {}, "a_by_ref": a_by_ref}}
+    rs = {"R": ["antonym6", "add3_mid", "arith_next"], "flat": ["mod13", "mod17"],
+          "transient": [], "t_clear": {"antonym6": 30, "add3_mid": 30, "arith_next": 20},
+          "clears_and_stays": {}, "endpoint_step": 40}
+    elig = {"t": {"R": {
+        "antonym6": {"eligible": True, "reason": "eligible", "t_clear": 30,
+                     "t_clear_index": 2},
+        "add3_mid": {"eligible": False, "reason": "endpoint excess below 2 SE",
+                     "t_clear": 30, "t_clear_index": 2},
+        "arith_next": {"eligible": False,
+                       "reason": "no pre-clear window (t_clear at grid index < 2)",
+                       "t_clear": 20, "t_clear_index": 1}}}}
+
+    block = an.s11_per_reference_4(series, {"t": rs}, elig)["per_traj"]["t"]
+
+    assert set(block["per_cell"]) == {"antonym6", "add3_mid", "arith_next"}
+    assert block["n_cells"] == 3 and block["n_eligible_cells"] == 1
+    assert block["per_cell"]["antonym6"]["eligible"] is True
+    assert block["per_cell"]["antonym6"]["phi_by_ref"]["refA"] == pytest.approx(0.08 / 0.20)
+
+    dropped = block["per_cell"]["add3_mid"]
+    assert dropped["eligible"] is False
+    assert dropped["reason"] == "endpoint excess below 2 SE"
+    assert dropped["phi_by_ref"]["refA"] == pytest.approx(0.01 / 0.03)   # reported, not dropped
+    assert dropped["leading_reference"] is not None
+
+    no_window = block["per_cell"]["arith_next"]
+    assert no_window["eligible"] is False
+    assert no_window["reason"].startswith("no pre-clear window")
+    assert all(v is None for v in no_window["phi_by_ref"].values())
+    assert no_window["leading_reference"] is None
+    assert no_window["x_end_by_ref"]["refA"] == pytest.approx(0.20)      # still printed
+
+    # the tally counts the two cells that have a phi, not all three
+    assert block["n_cells_with_phi"] == 2
+    assert sum(block["leads_tally"].values()) == 2
+
+
 def test_alignment_parts_4_pooled_half_is_bit_identical_to_per_item_alignment_4():
     """The per-reference reading was factored INTO the pooled one so it
     costs no second overlap pass; the pooled half must be the same
@@ -758,6 +818,32 @@ def test_lambda_hat_4_degrades_rather_than_raises_without_a_flat_pool():
     assert out2["per_traj"]["t"]["lambda_hat"] is None
 
 
+def test_lambda_hat_4_pools_both_sides_over_the_same_flat_rungs():
+    """Ratification ruled minor: the build pooled the SCATTER over every
+    flat rung and the SE over the subset that had a usable `se_at_end`,
+    so a flat rung missing its SE entered the numerator alone and
+    inflated lambda_hat. Here flat2 has no SE: lambda_hat must be
+    flat1's own ratio exactly, and both counts must be printed."""
+    steps = [10, 20, 30, 40]
+    a = {"rise": [0.10, 0.14, 0.18, 0.22],
+         "flat1": [0.10, 0.12, 0.10, 0.12],
+         "flat2": [0.10, 0.30, 0.10, 0.30]}        # a much larger wobble, no SE
+    rs = {"R": ["rise"], "flat": ["flat1", "flat2"], "transient": [],
+          "t_clear": {"rise": 30}, "clears_and_stays": {}, "endpoint_step": 40}
+    elig = {"t": {"R": {}, "flat": {"flat1": {"se_at_end": 0.01},
+                                    "flat2": {"se_at_end": None}}}}
+    block = an.lambda_hat_4({"t": _series_for_cells(steps, a)}, {"t": rs},
+                            elig)["per_traj"]["t"]
+
+    assert block["n_flat"] == 2
+    assert block["n_flat_with_se"] == 1 and block["n_flat_pooled"] == 1
+    assert block["n_flat_dropped_no_se"] == 1 and block["flat_dropped_no_se"] == ["flat2"]
+    assert block["per_rung"]["flat2"]["pooled"] is False
+    assert block["per_rung"]["flat2"]["scatter_sd"] > 0        # still printed
+    assert block["scatter_sd"] == pytest.approx(block["per_rung"]["flat1"]["scatter_sd"])
+    assert block["lambda_hat"] == pytest.approx(block["per_rung"]["flat1"]["ratio"])
+
+
 def test_licence_condition_4_counts_qualifying_trajectories():
     """Minor 9 / design §6: LEADS on at least two of the four
     per-model readings, each at its own p < .05 and T >= .25."""
@@ -773,6 +859,31 @@ def test_licence_condition_4_counts_qualifying_trajectories():
     assert edge["trajectories"] == ["a"] and edge["met"] is False
     assert an.licence_condition_4(None)["met"] is False
     assert an.licence_condition_4({})["n_trajectories_read"] == 0
+
+
+def test_the_licence_condition_is_withheld_on_a_refusal_verdict():
+    """Ratification ruled minor: a §6 licence condition is a reading of
+    the per-trajectory primaries, and INSUFFICIENT_DATA has none — the
+    build printed "met=False, 0 of 0 readings qualify" beside a refusal,
+    which states a finding the run never made. Guarded like the power
+    block; the non-refusal worlds still carry it."""
+    def _v(world, primary):
+        return an.verdict_4(failures=([] if world != an.REFUSAL_WORLD_4 else ["a failure"]),
+                            tree={"verdict": world, "reason": "r"}, primary=primary, cells=[],
+                            eligibility=None, rung_sets_by_traj=None, gate1_records=None,
+                            secondaries={}, sensitivities={}, pins_active={}, n_boot=10)
+
+    refused = _v(an.REFUSAL_WORLD_4, {})
+    assert refused["licence_condition"] is None
+    assert refused["licence_condition_met"] is None
+    assert "Licence condition" not in an.write_verdict_txt_4(refused)
+
+    pt = {"T": 0.4, "p_plus": 0.001, "n_cells": 3, "n_rungs": 3, "flip_method": "exact"}
+    led = _v("LEADS", {"T": 0.4, "p_plus": 0.001, "p_minus": 0.9, "ci95": [0.3, 0.5],
+                       "n_cells": 3, "n_rungs": 3, "flip_method": "exact",
+                       "per_traj": {"a": pt, "b": pt}, "per_type": {}})
+    assert led["licence_condition_met"] is True
+    assert "Licence condition" in an.write_verdict_txt_4(led)
 
 
 def test_primary_4_bootstrap_resamples_whole_rungs_not_cells():

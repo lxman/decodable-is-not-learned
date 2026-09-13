@@ -3,7 +3,7 @@
 check_frozen_4`'s pin — every module `experiments/exp4` imports
 transitively OUTSIDE `experiments/exp4`) and `IMPORTED_SHA256_4`
 (`analyze_4.check_imports_4`'s residual pin — every non-test module
-INSIDE `experiments/exp4` that isn't one of the four blob-bound
+INSIDE `experiments/exp4` that isn't one of the six blob-bound
 `INSTRUMENT_BLOBS_4` files; 2j's F-1 lineage). Unlike 2n (which merges
 four PRIOR sibling experiments' own residual import pins), exp4 is a
 fresh experiment with no upstream residual pins to fold in — the split

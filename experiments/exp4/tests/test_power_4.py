@@ -245,17 +245,40 @@ def test_zero_excess_scatter_grid_prices_the_leads_bar():
     assert pw.ZERO_EXCESS_NOTE_4 in rec["assumptions"]
 
 
-def test_zero_excess_arm_does_not_disturb_the_phi_arms():
-    """The zero-excess arms consume the shared Generator AFTER every phi
-    arm, so the phi arms' numbers must be exactly what they were before
-    R-7 existed — re-derived here by running the phi arms alone through
-    a fresh stream and comparing."""
+def test_power_compute_is_deterministic_at_a_seed():
+    """Ratification ruled minor: this test used to be named for a claim
+    it did not make (that the zero-excess arm leaves the phi arms
+    alone) while comparing a run to an identical re-run — which is
+    determinism. Named for what it measures; the ordering claim is the
+    test below."""
     elig, rung_sets, grids = _synthetic_eligibility()
     full = pw.compute(elig, rung_sets, grids, n_sim=30, seed=4, phis=(0.0, 0.5))
     again = pw.compute(elig, rung_sets, grids, n_sim=30, seed=4, phis=(0.0, 0.5))
     for phi in ("0.0", "0.5"):
         assert full["arms"][phi] == again["arms"][phi]
     assert full["arms"][an.ZERO_EXCESS_ARM_4] == again["arms"][an.ZERO_EXCESS_ARM_4]
+
+
+def test_the_zero_excess_arms_consume_the_stream_after_every_phi_arm(monkeypatch):
+    """R-7's build claim, tested against the pre-wave arm order rather
+    than against a re-run: the zero-excess arms share the phi arms'
+    Generator, so if they ran first (or between them) their draw count
+    would move the phi arms. Changing how much the zero-excess stage
+    draws — a one-multiple grid instead of four — must leave the phi
+    arms byte-identical, which is what "the phi arms' draws are what
+    they were before the arm existed" means operationally."""
+    elig, rung_sets, grids = _synthetic_eligibility()
+    four = pw.compute(elig, rung_sets, grids, n_sim=20, seed=4, phis=(0.0, 0.5))
+    monkeypatch.setattr(an, "ZERO_EXCESS_MULTIPLES_4", (1.0,))
+    one = pw.compute(elig, rung_sets, grids, n_sim=20, seed=4, phis=(0.0, 0.5))
+
+    # the zero-excess stage really did different work in the two runs
+    assert len(four["zero_excess_scatter"]) == 4 and len(one["zero_excess_scatter"]) == 1
+    # ... and every phi arm is untouched by it
+    for phi in ("0.0", "0.5"):
+        assert four["arms"][phi] == one["arms"][phi]
+    # the multiple-1.0 arm is itself the first zero-excess draw in both
+    assert four["arms"][an.ZERO_EXCESS_ARM_4] == one["arms"][an.ZERO_EXCESS_ARM_4]
 
 
 def test_analyzer_requires_the_zero_excess_arm_and_its_scatter_grid(tmp_path):
