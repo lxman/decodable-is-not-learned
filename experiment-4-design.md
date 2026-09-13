@@ -20,7 +20,11 @@ S7); the primary uses this program's own positions and site family.
 Model contact, when sanctioned: forward passes only — no generation,
 no sampling, no new outcome. Every outcome this experiment reads is
 committed and tagged (2c/2d for the Pythia size ladder; 2g, 2i, 2m, 2n
-for the four training trajectories).**
+for the four training trajectories).
+RATIFIED by Michael 2026-09-12 ("Ratified — apply the slips, close the
+open items, and tag"): freeze findings F-1..F-7 closed additively;
+B-1..B-4, R-1..R-7 ruled as recommended; slips (a)–(i) applied; the
+tag `exp4-preregistered` cut at (see PROGRESS.md).**
 
 The essay's convergence paragraph is the one leg of the lens claim the
 program has never tested. It cites Huh et al.: as models scale, their
@@ -112,6 +116,23 @@ bound to a blob-level tag before any activation is stored. The caveat
 reading on a known outcome, not a forecast**, and the licensed
 sentences in §6 say so.
 
+**The build's one network call, and the analyzer's pre-tag executions.**
+The build made a single Hub call, metadata only: `HfApi().model_info
+(repo).sha` for the three ladder sizes 2b never pinned (70m, 160m,
+1.4b), run once on 2026-09-11, written to the committed
+`hub_inventory_pythia_4.json`, asserted against the `PYTHIA_COMMITS_4`
+literals at import and refusing to run twice. No weights were fetched
+and nothing was loaded. Separately, `analyze_4.run()` was executed 18
+times before the tag — 8 import scans and 9 read sweeps on the real
+pre-campaign tree, plus one read sweep over a SYNTHETIC post-seal world
+(the one execution that reaches a terminal, so that "zero unpinned
+reads" could be demonstrated past the seal) — each one a disclosure
+event (2j F-1, checklist item 27) and each recorded in
+`experiments/exp4/PROGRESS.md`. All 17 real-tree executions landed
+INSUFFICIENT_DATA on the empty `results/` tree and none wrote anything
+under it, so no verdict quantity of this experiment was visible to the
+designer at the tag.
+
 **What the reference stage will reveal before the projection.** The
 projection is sealed after the reference stage (§7) and before any
 trajectory point loads. The reference stage computes, for every outcome
@@ -201,7 +222,11 @@ rendered them (a literal table `RENDER_4 = {pythia: "plain", olmo2:
 "plain", smollm3: "plain", comma: "bos"}`, asserted against the
 committed records' `render` field where one exists and against the
 tokenizer facts each family's frozen `check_tokenizer_*` pins), through
-M's own tokenizer. Stored as fp16 `[500, n_sites, 2, d]` per rung (2f's
+M's own tokenizer. The dtype (`DTYPE_4`) and the shot count are
+asserted against the committed record the same way (freeze F-3): gate 1
+is structurally blind to all three, because both its sides are exp4
+loads through the same render and nothing generates. Stored as fp16
+`[500, n_sites, 2, d]` per rung (2f's
 layout), gitignored, sha256 per file committed on the record. **The
 batch composition is pinned** — item order as in the item file, a fixed
 batch size per family (dial l), right padding to the batch's longest
@@ -211,7 +236,12 @@ if both loader paths batch identically, and the collector refuses any
 other layout. **The
 primary reads the prompt-end position** (dial c); the question-end
 position is S6. Additionally, for S7 only, the average over valid
-tokens at every block (Huh's pooling), same storage.
+tokens at **the site family's layers** — every 3rd block plus the last,
+not every block — same storage. Storing the pooled variant at every
+block is ≈ 4.6 GB per 7B load, so S7 is Huh's construction at this
+program's depths rather than Huh's construction verbatim; it is a named
+sensitivity with no α claim (§5, dial r), and the narrowing is of a
+sensitivity, not of the primary.
 
 No generation. `max_new_tokens` is never called; the harness's
 `generate` path is not imported.
@@ -253,7 +283,9 @@ stored (gitignored, sha-pinned, ≈ 13 GB for the four). For a
 trajectory point of M and a reference Q, the **site pairing is by
 relative depth**: M's site at hidden-state index ℓ of L_M is paired
 with Q's site nearest in ℓ/L_M (12-site to 13-site pairings are fixed
-by a committed table); the per-rung alignment between M-at-t and Q is
+by a committed table), re-derived at analysis time from the pinned site
+families, with the stored pairing required to equal it — key set
+included (freeze F-2); the per-rung alignment between M-at-t and Q is
 the mean over M's sites of the paired-site mutual k-NN; and
 
     a_r(t) = mean over the three references Q of m_r(M_t, Q)
@@ -289,7 +321,10 @@ per-rung table, identical on every model (it is a property of the
 item file). Each trajectory point's tensor digest must equal the
 committed sweep record's `digest` for that step (`_checkpoint.json`,
 2g/2i/2m/2n), else the unit halts: the alignment is read on the bytes
-the outcome came from, or not at all.
+the outcome came from, or not at all. And the analyzer requires the
+same equality on the record — against the digest the loader MEASURED,
+not the runner's copy of what it expected — so the halt is not the only
+check (freeze F-1).
 
 ### 3.5 The excess and the pre-clear fraction
 
@@ -373,10 +408,17 @@ program's α). The effect bar is the dial the power stage prices (§4).
   the tree the analyzer reads as INSUFFICIENT_DATA; both halt
   artifacts refuse (2k F-1). If the preflight (§7) shows two loads of
   the same weights disagreeing at the ulp level under the pinned
-  batching, the identity requirement is replaced BEFORE the tag by a
-  k-NN-set identity requirement alone plus a disclosed activation
-  tolerance, ruled by Michael on the printed deviations — never after
-  a sweep has started.
+  batching, the identity requirement is replaced BEFORE the tag, ruled
+  by Michael on the printed deviations — never after a sweep has
+  started — and what replaces it is stated here rather than left to
+  the moment: **k-NN-set identity on the committed prompt-end tables
+  AND on the attested question-end tables**, with `activation_sha_equal`
+  and the pooled tables demoted to a printed max-abs deviation under
+  the disclosed tolerance. Gate 1 requires four agreements, and two of
+  them cannot survive a tolerance as they stand: a sha over an fp16
+  activation `.npz` is an equality or nothing, and the pooled table is
+  a float32 mean over valid tokens, the most ulp-sensitive quantity in
+  the instrument.
 - **Per-unit digest pin** (§3.4): every trajectory point's tensor
   digest against the committed sweep record's; a mismatch halts.
 - **Coverage per unit**: 34 rungs × 500 items × every site × both
@@ -394,7 +436,11 @@ site, position, reference) alignment and CKA scalars (committed, small),
 the per-item overlaps at the prompt-end position (committed, `uint8
 [500]` per cell — what S10 and the bootstrap read), the checkpoint
 record (revision, commit, per-file sha, tensor digest, download and
-compute seconds, stack). The activations themselves are kept for the
+compute seconds, stack). The global bank is **committed for the
+reference-stage keys**; the sweep's global scalar is attested, not
+re-derivable — dial g's own shape (only the primary's position is
+committed for every load) one field over, and S3's global-bank curve is
+the reading that rests on it. The activations themselves are kept for the
 references, the endpoints, the ladder sizes and the twins (≈ 40 GB at
 the site family, ≈ 80 GB with S7's pooled variant, gitignored, sha on
 the record) and DELETED for interior trajectory
@@ -479,6 +525,25 @@ resolution of the sign-flip null (1/2^n_rungs) printed. The endpoint
 excess table, the SE table and the eligibility count are the power
 record's inputs and are committed with it.
 
+**φ's null mean is ≈ ½, not 0, for cells selected at the eligibility
+bar, and a fourth arm prices it.** The baseline `a_r(t_1) −
+trend(t_1)` sits in both φ's numerator and its denominator, so under
+pure noise the two are correlated at exactly ½; conditioning on
+`x_r(t_end) ≥ 2 × SE` — eligibility rule (ii) — selects a large
+positive denominator and drags the numerator with it. The φ = 0 arm
+cannot see this: it injects each cell's real endpoint excess, so the
+eligibility bar never binds there. Nothing preregistered changes —
+T's null is the sign-flip null, not "φ = 0" — but the number a reader
+will take as the null value of φ is ½, so a **zero-excess arm** is
+added: E_r = 0 for every rung of R_M (the whole candidate pool, not
+the selected cells), at the measured SEs, with the eligibility rule
+re-applied per draw and the same tree, recording its realized α for
+the LEADS rule; it is re-run at noise multiples λ ∈ {1, 1.5, 2, 3},
+and the analyzer measures the realized λ̂ on the tree (the flat pool's
+between-step excess scatter over its item-bootstrap SE) so the arm can
+be read at the λ̂ that actually obtained. The arm is additive: no bar,
+statistic, rule or tree is touched.
+
 Process rule 4 (the bar ≥ 4σ from the null): with n = 500 items per
 rung and o_i's SD ≈ .05–.15, a rung's alignment has SE ≈ .003–.007;
 the excess is a difference of four such means; φ's noise is that
@@ -526,8 +591,9 @@ enforces, and the power record measures rather than assumes.
   (c) the final layer only.
 - **S6 — the question-end position** as the representation.
 - **S7 — Huh et al.'s construction reproduced:** average-pooled
-  tokens, every block, maximum over block pairs, k = 10; per rung and
-  on the global bank.
+  tokens, maximum over block pairs, k = 10; per rung and on the global
+  bank. Read at the site family's layers, not at every block (§3.1),
+  so it is Huh's construction at this program's depths.
 - **S8 — the referents.** The twins' alignments per rung (the surface
   floor at init); Pythia 2.8b's real step 0 beside them; the
   references' mutual alignments (the ceiling); the within-family
@@ -575,7 +641,13 @@ sentence: "a preregistered reading on a known outcome").
   scoreboard; `experiments.md` gains the section. Condition: LEADS on
   at least two of the four per-model readings (each at its own p < .05
   and T ≥ .25); otherwise the sentence names the trajectories on which
-  it held.
+  it held. LEADS is read against the power record's zero-excess arm:
+  the realized α of the LEADS rule at the trajectory's observed λ̂ (the
+  flat pool's between-step excess scatter over its item-bootstrap SE)
+  is printed beside T, and the licence is claimed only where that α is
+  below .05 at the observed λ̂; otherwise the world is reported as
+  LEADS with the calibration disclosed and the sentence bounded to
+  "above the selection-inflated null".
 - **PARTIAL:** the sentence reads "a measurable part of the task-
   specific agreement precedes performance, below the preregistered
   quarter"; the lens reading is supported in direction and bounded in
@@ -635,9 +707,15 @@ Pythia 2.8b's is its step143000 grid point through 2g's loader —
 2g's manifest records that branch's files as a DIFFERENT signature
 from `main`'s, and 2g's gate 1 found the two byte-identical in their
 continuations, so the ladder's 2.8b `main` (2c's pinned revision) is
-loaded separately and its activations are required identical to
-step143000's as a known-answer check) — 19 loads, forward-only,
-≈ 6–8 h; the
+loaded separately and its activations are compared to step143000's as
+a known-answer check, recorded as a descriptive, NON-GATING field in
+the verdict and read in the projection: the two take different loader
+paths and the program has never measured whether they agree, and §3.7's
+identity escape hatch covers gate 1 only, so a refusal here would halt
+the analysis over a check that feeds S3 and S4 alone) — **23 loads**,
+forward-only (stage 1 also takes the four trajectories' first grid
+points, which §4's eligibility rule and the power stage need and which
+the sweep then treats as complete and refuses without), ≈ 10–12 h; the
 endpoint excess and SE tables; eligibility; gate 0; power ONCE;
 committed and tagged **`exp4-reference-sealed`** (binds every stage-1
 record, the set tables, the activation shas, the power record) →
@@ -660,9 +738,23 @@ word → `exp4-closed`. One pre-committed change.
 Per-point cost, estimated: 17,000 prompts × one forward pass with
 hidden states at fp16, batch 16 at 7B (dial l), ≈ 8 prompts/s at 7B
 (≈ 35 min), ≈ 18/s at 3B (≈ 16 min); the k-NN kernel over 442 cells
-per position (seconds) and the global bank (≈ 1–2 min); load 2–4 min;
-download ≈ 2 min. The preflight replaces these estimates with
-measurements before the sweep is budgeted.
+per position (seconds) and the global bank **≈ 8–11 minutes per key**
+(`knn_sets` on the 17,000-row bank is a 17,000 × 17,000 float32
+similarity matrix, ≈ 1.2 GB, plus a full `argsort` of every row, once
+per site — 12 or 13 sites per key, at d ≈ 5,120 for the 12b
+reference); load 2–4 min; download ≈ 2 min. With 23 loads, 19 of which
+build a bank, stage 1 is budgeted at 10–12 h. The preflight replaces
+these estimates with measurements before the sweep is budgeted.
+
+Operationally, and not a design change: run `--only ref_pythia_12b`
+first, alone, with the mlx agents down (dial j). It is the one load
+whose weights (≈ 24 GB) and bank (≈ 4.5 GB of collected activations
+held while the bank runs) would otherwise coincide as the campaign's
+memory peak, and the build releases the weights after the last forward
+pass, before the bank, rather than after the write — measured, not
+asserted: a weakref read inside the bank on the production runner path
+finds the model already unreachable, so the peak is the weights or the
+bank, not both.
 
 Compute: the Mac for every stage. Memory: the 12b reference at fp16 is
 ≈ 24 GB plus hidden states for a batch — the mlx text servers come
@@ -670,6 +762,17 @@ down for that one load and go back up (dial j); 7B at 14 GB ran with
 them up on 2i/2n. Disk: peak ≈ 14 GB (one checkpoint) + ≈ 80 GB kept
 activations + the ordinary HF cache (the four references ≈ 60 GB with
 12b); 224 GB free at design time.
+
+Disclosed about "zero model contact" on the analysis side: exp4's own
+modules import torch and transformers inside function bodies only, but
+importing the analyzer still pulls both into `sys.modules`, through the
+FROZEN `experiments/exp2b/models.py` — which imports torch at module
+level and which the battery imports for `PYTHIA_SHAS`/`load_pythia`/
+`load_tokenizer`. Frozen code is never edited, so this is stated rather
+than fixed. It is verdict-inert: the analyzer's numerics are numpy and
+scipy, no exp4 code calls a torch function outside `run/`, and the
+claim rests on which functions run, not on torch being unimportable —
+as it has in every experiment of this program.
 
 ## 8. Alternatives considered
 
