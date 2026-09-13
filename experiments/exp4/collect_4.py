@@ -578,14 +578,31 @@ def release_once_4(loaders, model):
     global bank and the write; every call site keeps its own
     `finally: release` for the raise-before-that path, so the callable
     has to be idempotent. Lives here, not in a runner, because both
-    runners need it and neither may import the other."""
-    state = {"done": False}
+    runners need it and neither may import the other.
+
+    Ratification open item 1: the model is held in MUTABLE STATE, not
+    in the closure's cell, and the state is CLEARED before the frozen
+    `loaders["release"]` runs. A closure cell keeps its object alive
+    for the life of the closure, and the closure outlives the release
+    (both runners hold it for their own `finally`), so the cell alone
+    would have kept ≈ 24 GB of 12b weights resident through the global
+    bank — the very thing the release exists to prevent. The frozen
+    release is `del model` on its own argument plus an MPS cache
+    empty: it frees only if every other strong reference is already
+    gone."""
+    state = {"done": False, "model": model}
+    del model                      # not in this frame's cell either
 
     def release():
         if state["done"]:
             return
         state["done"] = True
-        loaders["release"](model)
+        m = state["model"]
+        state["model"] = None      # cleared BEFORE the frozen release
+        try:
+            loaders["release"](m)
+        finally:
+            del m                  # ... and this frame's last reference
 
     return release
 
@@ -603,7 +620,7 @@ def stack_record_4(stack) -> dict:
     return out
 
 
-def process_model_4(model, tok, *, key_or_unit, family, info, root, battery, ref_tables,
+def process_model_4(model_box, tok, *, key_or_unit, family, info, root, battery, ref_tables,
                     ref_activation_paths, batch_size, device, keep_activations, sites, refs,
                     committed_digest, stack, git_sha, release_model=None) -> dict:
     """The whole per-load pipeline over all 34 rungs: collect, build
@@ -623,7 +640,25 @@ def process_model_4(model, tok, *, key_or_unit, family, info, root, battery, ref
     with the weights still on the device for no reason. The caller
     keeps its own `finally: release` (the callable must be idempotent —
     the runners wrap it in a once-guard), so a raise anywhere in here
-    still frees the model."""
+    still frees the model.
+
+    **`model_box` is a ONE-ELEMENT LIST holding the model, not the
+    model** (ratification open item 1). Measured, not assumed: with a
+    plain `model` parameter the weights survive the release anyway,
+    because CPython retains a call's positional arguments in a tuple
+    owned by the CALLER's frame for the whole of a keyword call, and
+    that frame is the runner's loop body — so `release_model()` freed
+    nothing and the 12b reference stayed resident through the ≈ 8–11
+    minute bank, which is the one thing it exists to prevent. The box
+    is emptied here, before the first forward pass; the runner holds an
+    empty list, this frame's `model` is cleared before the release, and
+    the release closure clears its own state, so the frozen `del model`
+    is the last reference to go. `test_the_weights_are_unreachable_by_
+    the_time_the_global_bank_runs` reads a weakref inside the bank."""
+    if not isinstance(model_box, list) or len(model_box) != 1:
+        raise TypeError("process_model_4: model_box must be a one-element list holding the "
+                        "model (ratification open item 1), not the model itself")
+    model = model_box.pop()
     t0 = time.time()
     n_hidden = info["n_hidden"]
     key_for_batch = key_or_unit[0] if isinstance(key_or_unit, (tuple, list)) else key_or_unit
@@ -681,7 +716,12 @@ def process_model_4(model, tok, *, key_or_unit, family, info, root, battery, ref
     # IMPORTANT 4: the last forward pass has happened. Everything below
     # — the global bank, the compression, the write-and-re-read — is
     # host-side numpy, so the weights go now, not when the caller's
-    # `finally` runs.
+    # `finally` runs. Ratification open item 1: THIS frame's reference
+    # goes first, before the release is invoked — the frozen release
+    # frees nothing while a caller still names the model, and this
+    # frame is alive for the whole bank.
+    model = None
+    del model
     if release_model is not None:
         release_model()
 

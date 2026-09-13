@@ -87,10 +87,12 @@ def run_gate1(*, traj, root, cache_root, device, battery, refs, ref_tables, load
 
     t0 = time.time()
     ref_activation_paths = collect_4.ref_activation_paths_4(root, refs)
-    release = collect_4.release_once_4(loaders, model)
+    box = [model]
+    del model                          # ratification open item 1: the box is the only holder,
+    release = collect_4.release_once_4(loaders, box[0])   # and process_model_4 empties it
     try:
         collect_4.process_model_4(
-            model, tok, key_or_unit=(traj, endpoint_step), family=collect_4.family_of_traj_4(traj),
+            box, tok, key_or_unit=(traj, endpoint_step), family=collect_4.family_of_traj_4(traj),
             info=info, root=root, battery=battery, ref_tables=ref_tables,
             ref_activation_paths=ref_activation_paths, batch_size=battery_4.BATCH_4[traj],
             device=device, keep_activations=False, sites=metric_4.sites_4(info["n_hidden"]),
@@ -179,10 +181,12 @@ def run(*, traj, root=EXP4, cache_root=None, device: str = "mps", dry_run: bool 
                               f"committed {want}")
             raise SystemExit(2)
         t0 = time.time()
-        release = collect_4.release_once_4(loaders, model)
+        box = [model]
+        del model                      # ratification open item 1
+        release = collect_4.release_once_4(loaders, box[0])
         try:
             collect_4.process_model_4(
-                model, tok, key_or_unit=(traj, step), family=collect_4.family_of_traj_4(traj),
+                box, tok, key_or_unit=(traj, step), family=collect_4.family_of_traj_4(traj),
                 info=info, root=root, battery=battery, ref_tables=ref_tables,
                 ref_activation_paths=ref_activation_paths, batch_size=battery_4.BATCH_4[traj],
                 device=device, keep_activations=False, sites=metric_4.sites_4(info["n_hidden"]),

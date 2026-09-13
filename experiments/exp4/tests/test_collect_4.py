@@ -7,6 +7,7 @@ model uses `fakes_4`."""
 from __future__ import annotations
 
 import json
+import weakref
 
 import numpy as np
 import pytest
@@ -309,7 +310,7 @@ def test_process_model_4_releases_the_model_before_the_bank_and_records_numpy(tm
            "repo": "fake/x", "kind": "2b", "config_source": "fake/x@main",
            "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}}
     rec = c4.process_model_4(
-        model, tok, key_or_unit=key, family="pythia", info=info, root=tmp_path,
+        [model], tok, key_or_unit=key, family="pythia", info=info, root=tmp_path,
         battery=_tiny_battery_34(), ref_tables={}, ref_activation_paths={},
         batch_size=battery_4.BATCH_4[key], device="cpu", keep_activations=False,
         sites=[0, 3, 6], refs=(), committed_digest=None,
@@ -320,6 +321,65 @@ def test_process_model_4_releases_the_model_before_the_bank_and_records_numpy(tm
     assert rec["stack"]["numpy"] == np.__version__
     assert rec["stack"]["torch"] == "x" and rec["stack"]["transformers"] == "y"
     assert rec["global_sha256"] is not None      # the bank really was built
+
+
+def test_the_weights_are_unreachable_by_the_time_the_global_bank_runs(tmp_path, monkeypatch):
+    """Ratification open item 1. The ordering test above proves the
+    release is CALLED before the bank; it cannot prove the weights are
+    actually gone, and before this closure they were not: the
+    `release_once_4` closure's cell and `process_model_4`'s own `model`
+    parameter both outlived the call, so the frozen release's `del
+    model` freed nothing and ≈ 24 GB stayed resident through the
+    ≈ 8–11 minute bank. Measured here with a weakref read INSIDE an
+    injected `global_sets_4`: the model must already be dead.
+
+    The model is passed out of a dict by `.pop()` and never bound to a
+    test-local name, so the only strong references in play are the ones
+    the instrument holds — and it goes in a one-element box, because a
+    plain argument is retained by the CALLER's frame for the whole
+    call (measured; `process_model_4`'s docstring says so)."""
+    seen = {}
+    real_bank = c4.global_sets_4
+
+    key = "ref_pythia_12b"
+    holder = {"m": fakes_4.FakeModel(seed=3, n_hidden=7, d=8)}
+    ref = weakref.ref(holder["m"])
+    released = []
+    release = c4.release_once_4({"release": lambda m: released.append(m is not None)}, holder["m"])
+
+    def spy_bank(X_by_rung, k=metric_4.K_4):
+        seen["alive_at_bank"] = ref() is not None
+        return real_bank(X_by_rung, k=k)
+
+    monkeypatch.setattr(c4, "global_sets_4", spy_bank)
+
+    tok = fakes_4.FakeTokenizer()
+    info = {"n_hidden": 7, "tensor_digest": "digest", "commit": "c", "revision": "main",
+           "repo": "fake/x", "kind": "2b", "config_source": "fake/x@main",
+           "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0}}
+    c4.process_model_4(
+        [holder.pop("m")], tok, key_or_unit=key, family="pythia", info=info, root=tmp_path,
+        battery=_tiny_battery_34(), ref_tables={}, ref_activation_paths={},
+        batch_size=battery_4.BATCH_4[key], device="cpu", keep_activations=False,
+        sites=[0, 3, 6], refs=(), committed_digest=None,
+        stack={"torch": "x", "transformers": "y"}, git_sha="0" * 40,
+        release_model=release)
+
+    assert released == [True]                    # the frozen release really ran, with the model
+    assert seen["alive_at_bank"] is False        # ... and nothing still referenced it
+    assert ref() is None
+
+
+def test_release_once_4_clears_its_own_state_so_the_closure_holds_nothing():
+    """The closure outlives the release (both runners keep it for their
+    `finally`), so what it retains is retained for the whole bank."""
+    holder = {"m": fakes_4.FakeModel(seed=1, n_hidden=3, d=4)}
+    ref = weakref.ref(holder["m"])
+    release = c4.release_once_4({"release": lambda m: None}, holder.pop("m"))
+    assert ref() is not None                     # held until released
+    release()
+    assert ref() is None                         # and not one instant longer
+    release()                                    # still idempotent afterwards
 
 
 def test_release_once_4_is_idempotent():

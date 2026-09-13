@@ -11,6 +11,7 @@ shrunk to three points (1000/2000/3000) so the sweep tests run fast;
 from __future__ import annotations
 
 import json
+import weakref
 
 import numpy as np
 import pytest
@@ -169,6 +170,43 @@ def _run_full_reference(tmp_path, monkeypatch):
 
     rf.run(root=tmp_path, loaders=seeds.loaders(), eligibility_fn=eligibility_fn, **_fake_prereg())
     return seeds, written
+
+
+def test_the_reference_runner_frees_the_weights_before_the_global_bank(tmp_path, monkeypatch):
+    """Ratification open item 1, on the REAL runner path (the direct
+    `process_model_4` test in `test_collect_4.py` cannot see `_process`
+    or the runner's own loop body). The loader hands out a model the
+    test never names; a weakref read inside an injected `global_sets_4`
+    must find it already dead, and the box the runner passes must be
+    empty by then."""
+    _shrink_all_grids(monkeypatch)
+    seeds = _Seeds()
+    _install_digests(monkeypatch, seeds)
+    monkeypatch.setattr("experiments.exp4.run.reference_4.bt.load_battery", _tiny_battery)
+
+    real_bank = c4.global_sets_4
+    seen = {}
+    handed = []
+
+    loaders = seeds.loaders()
+    real_key = loaders["key"]
+
+    def load_key(key, *, cache_root=None, device="mps"):
+        model, tok, info = real_key(key, cache_root=cache_root, device=device)
+        handed.append(weakref.ref(model))
+        return model, tok, info
+
+    def spy_bank(X_by_rung, k=None):
+        seen["alive_at_bank"] = handed[-1]() is not None
+        return real_bank(X_by_rung) if k is None else real_bank(X_by_rung, k=k)
+
+    monkeypatch.setattr(c4, "global_sets_4", spy_bank)
+    rf.run(root=tmp_path, loaders={**loaders, "key": load_key}, only="ref_pythia_12b",
+          **_fake_prereg())
+
+    assert len(handed) == 1
+    assert seen["alive_at_bank"] is False
+    assert handed[0]() is None
 
 
 def test_reference_runs_all_23_in_order_and_layout_is_complete(tmp_path, monkeypatch):

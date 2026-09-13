@@ -73,15 +73,23 @@ def _keyed(key: str, only) -> bool:
     return only is None or only == key
 
 
-def _process(*, model, tok, root, key_or_unit, family, info, battery, ref_tables, refs, batch_size,
-            device, keep_activations, committed_digest, loaders, release_model=None):
+def _process(*, model_box, tok, root, key_or_unit, family, info, battery, ref_tables, refs,
+            batch_size, device, keep_activations, committed_digest, loaders, release_model=None):
     # The references' own activation files are on disk (keep_activations
     # =True for every one of the four) by the time any endpoint/first-
     # unit/init/ladder load runs, so CKA (design §3.2) is wired here
     # rather than left permanently None (fix round 1, finding 1).
+    #
+    # `model_box` is a one-element list, not a model (ratification open
+    # item 1): a `model=` parameter would keep the weights alive for
+    # the whole of `process_model_4`, including the global bank the
+    # release exists to run without them — CPython holds a keyword
+    # call's positional arguments in the CALLER's frame until the call
+    # returns. `process_model_4` empties the box.
     ref_activation_paths = collect_4.ref_activation_paths_4(root, refs)
     return collect_4.process_model_4(
-        model, tok, key_or_unit=key_or_unit, family=family, info=info, root=root, battery=battery,
+        model_box, tok, key_or_unit=key_or_unit, family=family, info=info, root=root,
+        battery=battery,
         ref_tables=ref_tables, ref_activation_paths=ref_activation_paths, batch_size=batch_size,
         device=device, keep_activations=keep_activations, sites=metric_4.sites_4(info["n_hidden"]),
         refs=refs, committed_digest=committed_digest, stack=_stack(), git_sha=_git_sha(),
@@ -137,9 +145,11 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             print("[4 reference] ref_pythia_12b: the mlx text-server LaunchAgent must be "
                   "down before this load (dial j) — operational, not enforced", flush=True)
         model, tok, info = loaders["key"](ref, cache_root=cache_root, device=device)
-        release = collect_4.release_once_4(loaders, model)
+        box = [model]
+        del model                      # ratification open item 1: the box is the only holder
+        release = collect_4.release_once_4(loaders, box[0])
         try:
-            _process(model=model, tok=tok, root=root, key_or_unit=ref, family=battery_4.FAMILY_OF_KEY_4[ref], info=info,
+            _process(model_box=box, tok=tok, root=root, key_or_unit=ref, family=battery_4.FAMILY_OF_KEY_4[ref], info=info,
                     battery=battery, ref_tables={}, refs=(), batch_size=battery_4.BATCH_4[ref],
                     device=device, keep_activations=True, committed_digest=None, loaders=loaders,
                     release_model=release)
@@ -166,11 +176,13 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             _halt_reference(root, f"endpoint_{traj}: digest {info['tensor_digest']} != "
                                   f"committed {want}")
             raise SystemExit(2)
-        release = collect_4.release_once_4(loaders, model)
+        box = [model]
+        del model                      # ratification open item 1
+        release = collect_4.release_once_4(loaders, box[0])
         try:
             refs = battery_4.REFS_FOR_4[traj]
             ref_tables = collect_4.load_ref_tables_4(root, refs)
-            _process(model=model, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
+            _process(model_box=box, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
                     battery=battery, ref_tables=ref_tables, refs=refs,
                     batch_size=battery_4.BATCH_4[key], device=device, keep_activations=True,
                     committed_digest=want, loaders=loaders, release_model=release)
@@ -192,11 +204,13 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             _halt_reference(root, f"{traj} step{step}: digest {info['tensor_digest']} != "
                                   f"committed {want}")
             raise SystemExit(2)
-        release = collect_4.release_once_4(loaders, model)
+        box = [model]
+        del model                      # ratification open item 1
+        release = collect_4.release_once_4(loaders, box[0])
         try:
             refs = battery_4.REFS_FOR_4[traj]
             ref_tables = collect_4.load_ref_tables_4(root, refs)
-            _process(model=model, tok=tok, root=root, key_or_unit=(traj, step), family=collect_4.family_of_traj_4(traj),
+            _process(model_box=box, tok=tok, root=root, key_or_unit=(traj, step), family=collect_4.family_of_traj_4(traj),
                     info=info, battery=battery, ref_tables=ref_tables, refs=refs,
                     batch_size=battery_4.BATCH_4[traj], device=device, keep_activations=False,
                     committed_digest=want, loaders=loaders, release_model=release)
@@ -218,11 +232,13 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
             loaders["release"](model)
             _halt_reference(root, f"{key}: digest {info['tensor_digest']} != committed {want}")
             raise SystemExit(2)
-        release = collect_4.release_once_4(loaders, model)
+        box = [model]
+        del model                      # ratification open item 1
+        release = collect_4.release_once_4(loaders, box[0])
         try:
             refs = battery_4.REFS_FOR_4[traj]
             ref_tables = collect_4.load_ref_tables_4(root, refs)
-            _process(model=model, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
+            _process(model_box=box, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
                     battery=battery, ref_tables=ref_tables, refs=refs,
                     batch_size=battery_4.BATCH_4[key], device=device, keep_activations=True,
                     committed_digest=want, loaders=loaders, release_model=release)
@@ -242,11 +258,13 @@ def run(*, root=EXP4, device: str = "mps", loaders=None, dry_run: bool = False, 
         if battery_4.unit_complete_4(root, key):
             continue
         model, tok, info = loaders["key"](key, cache_root=cache_root, device=device)
-        release = collect_4.release_once_4(loaders, model)
+        box = [model]
+        del model                      # ratification open item 1
+        release = collect_4.release_once_4(loaders, box[0])
         try:
             if ref_tables_ladder is None:
                 ref_tables_ladder = collect_4.load_ref_tables_4(root, non_pythia)
-            _process(model=model, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
+            _process(model_box=box, tok=tok, root=root, key_or_unit=key, family=battery_4.FAMILY_OF_KEY_4[key], info=info,
                     battery=battery, ref_tables=ref_tables_ladder, refs=non_pythia,
                     batch_size=battery_4.BATCH_4[key], device=device, keep_activations=True,
                     committed_digest=None, loaders=loaders, release_model=release)
