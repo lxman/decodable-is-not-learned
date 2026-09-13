@@ -352,6 +352,37 @@ def test_secondaries_and_strict_json_leads(_leads_world, tmp_path):
     json.dumps(on_disk, allow_nan=False)
 
 
+# ------------------- RATIFICATION: the lambda_hat site, where it is REACHED
+
+@pytest.mark.slow
+def test_lambda_hat_4_call_is_collected_not_raised(_leads_world, tmp_path, monkeypatch):
+    """Ratification open item 3. R-7(b)'s `collect_total_4(lambda:
+    lambda_hat_4(...), "4 lambda_hat")` site is guarded by `not
+    failures`, so NO tree the totality base can produce reaches it —
+    that base is reference-only and its failures are non-empty by
+    construction, which is why its auto-generated mutant survives a
+    `--totality` pass. It is reached on a complete world, and its
+    contract there is not the tree's: a raise DEGRADES the calibration
+    block and leaves the verdict alone (`calibration = {"failed": ...}`),
+    it does not refuse. Tested here, on the world where the site runs.
+    The wrapper itself is also pinned structurally by
+    `test_every_collect_total_4_refusal_label_is_present`, which the
+    fast suite runs and which the mutant fails in milliseconds."""
+    root = _fresh_copy(_leads_world, tmp_path)
+    clean = an.run(root=root, **_run_kwargs())
+    assert clean["verdict"] != "INSUFFICIENT_DATA", clean["reason"]
+    assert isinstance(clean["calibration"], dict) and "failed" not in clean["calibration"]
+
+    def _boom(series_by_traj, rung_sets_by_traj, eligibility):
+        raise RuntimeError("synthetic lambda_hat_4 failure (test-injected)")
+
+    monkeypatch.setattr(an, "lambda_hat_4", _boom)
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == clean["verdict"], v["reason"]     # the verdict is untouched
+    assert list(v["calibration"]) == ["failed"]
+    assert "4 lambda_hat" in v["calibration"]["failed"]
+
+
 # ----------------------------------------------------------------- determ.
 
 _DET_SCRIPT = """

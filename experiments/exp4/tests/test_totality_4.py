@@ -421,3 +421,35 @@ def test_unit_tensor_digest_not_the_committed_one_gives_insufficient_data(_total
     v = an.run(root=root, **_run_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
     assert _needle_in_failures(v, "tensor_digest"), v["referents"]["failures"][:5]
+
+
+# ------------------------- 19. RATIFICATION: licence_condition_4 raises
+# The `collect_total_4(lambda: licence_condition_4(primary), "4 licence
+# condition")` site inside `verdict_4` is new to the final review fix
+# wave and was never run through totality: its auto-generated mutant
+# (`totality_aac94f02b5`) SURVIVED the first ratification pass, because
+# `licence_condition_4` never raises on real data. Same monkeypatch
+# pattern as cases 12 and 13. The site is reached UNCONDITIONALLY —
+# `verdict_4` runs at the end of `run()` whatever failures accumulated —
+# so the base's own INSUFFICIENT_DATA verdict is the expected one either
+# way; what is under test is that the raise is COLLECTED and named
+# rather than propagating out of run().
+
+@pytest.mark.slow
+def test_licence_condition_4_call_is_collected_not_raised(_totality_base, tmp_path, monkeypatch):
+    root = _fresh_copy(_totality_base, tmp_path)
+
+    def _boom(primary):
+        raise RuntimeError("synthetic licence_condition_4 failure (test-injected)")
+
+    monkeypatch.setattr(an, "licence_condition_4", _boom)
+    v = an.run(root=root, **_run_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    # asserted on the failure list itself, not through
+    # `_needle_in_failures`: that helper searches text that embeds the
+    # world's PATH, and pytest names `tmp_path` after the test — so a
+    # needle appearing in this test's own name would match the path and
+    # pass for free. (Found here: a `lambda_hat` case written the same
+    # way passed on a tree that never reaches the lambda_hat site.)
+    assert any(f.startswith("4 licence condition:") for f in v["referents"]["failures"]), \
+        v["referents"]["failures"]

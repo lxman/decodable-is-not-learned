@@ -1,0 +1,28 @@
+
+=== ratification mutant A: totality_aac94f02b5 (licence condition site) ===
+baseline OK (totality pass, ['totality_aac94f02b5'] mutants)
+
+[totality_aac94f02b5] (#88) SURVIVED  run(): totality -- collect_total_4 stripped at line 1920 (lambda: licence_condition_4(primary)...)
+
+0/1 killed; 1 survivor(s): [('totality_aac94f02b5', 88, 'run(): totality -- collect_total_4 stripped at line 1920 (lambda: licence_condition_4(primary)...)', 'survived')]; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []
+
+=== ratification mutant A, re-run after the totality case: totality_aac94f02b5 ===
+baseline OK (totality pass, ['totality_aac94f02b5'] mutants)
+
+[totality_aac94f02b5] (#88) killed  run(): totality -- collect_total_4 stripped at line 1920 (lambda: licence_condition_4(primary)...)
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []
+
+=== ratification mutant B: totality_330c0ce640 (lambda_hat site), FAST suite ===
+The `4 lambda_hat` site is guarded by `not failures`; the totality base is
+reference-only and its failures are non-empty by construction, so a --totality
+pass CANNOT observe this mutant (measured: on that tree `calibration` is None
+with and without an injected raise). Killed here by the fast suite's structural
+pin (test_every_collect_total_4_refusal_label_is_present), with behavioural
+cover added on the world where the site IS reached
+(test_full_shape_4.py::test_lambda_hat_4_call_is_collected_not_raised).
+baseline OK (fast pass, ['totality_330c0ce640'] mutants)
+
+[totality_330c0ce640] (#106) killed  run(): totality -- collect_total_4 stripped at line 2266 (lambda: lambda_hat_4(series_by_traj, rung_sets, eligibility)...)
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found, stale mutant): []; 0 TIMEOUT (not a kill, not a survivor): []
