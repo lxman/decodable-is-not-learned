@@ -24,7 +24,7 @@ for the four training trajectories).
 RATIFIED by Michael 2026-09-12 ("Ratified — apply the slips, close the
 open items, and tag"): freeze findings F-1..F-7 closed additively;
 B-1..B-4, R-1..R-7 ruled as recommended; slips (a)–(i) applied; the
-tag `exp4-preregistered` cut at (see PROGRESS.md).**
+tag `exp4-preregistered` cut at e6e0d9cd (annotated object cc75d86d; binding verified through `require_prereg_4` against real git, all six instrument blobs).**
 
 The essay's convergence paragraph is the one leg of the lens claim the
 program has never tested. It cites Huh et al.: as models scale, their

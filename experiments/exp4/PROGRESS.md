@@ -1364,3 +1364,8 @@ Every `analyze_4.run()` execution against `experiments/exp4/results/`
 import scans and 9 read sweeps on the real tree, plus the freeze's one
 read sweep over a synthetic post-seal world (the only execution that
 reaches a terminal).
+
+
+## Tag (2026-09-13)
+
+`exp4-preregistered` cut at e6e0d9cd (annotated object cc75d86d) on Michael's word ('Ratified — apply the slips, close the open items, and tag'), after the cold referent battery read 11/11 on the clean tree; `require_prereg_4()` against real git binds all six instrument blobs (analyze_4.py 3ffe1155…, battery_4.py 7c6ea888…, metric_4.py 814125a4…, collect_4.py fb45b86b…, run/reference_4.py a517ea82…, run/sweep_4.py 8f76ed1e…); pushed. FROZEN. Model contact from here only on Michael's word (§7: the preflight first).
