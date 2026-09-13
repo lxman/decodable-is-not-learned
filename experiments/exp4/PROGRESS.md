@@ -1155,3 +1155,212 @@ writing nothing:
   3,685 distinct paths / 10,211 open-read calls / 0 writes / **0
   UNPINNED**; buckets `referents_4.json` 3,611, `frozen_module` 63,
   `instrument_blob` 6, `sha_pin_at_load` 5, everything else 0.
+
+## Ratification (2026-09-12)
+
+Michael: **"Ratified — apply the slips, close the open items, and
+tag."** Every ruling is recorded one line each in
+`FREEZE_CHECKLIST.md` under `### Ratified 2026-09-12`; this section is
+the application. Zero model contact, zero network. Nothing
+preregistered moved: `T_BAR_4`, `ALPHA_4`, `MIN_CELLS_4`/`MIN_RUNGS_4`,
+`SE_MULTIPLE_4`, `MIN_CLEAR_INDEX_4`, `GATE0_MIN_FRACTION_4`,
+`POWER_BAR_4`, the excess, phi, the sign-flip null, the cluster
+bootstrap and the six-world tree are byte-identical to the fix wave's.
+
+### The rulings
+
+B-1..B-4 accepted as written. R-1: §7's ladder check stays DESCRIPTIVE
+(non-gating). R-2: the §3.7 escape hatch takes the checklist's
+recommended wording (k-NN-set identity on the committed prompt-end
+tables AND the attested question-end tables; `activation_sha_equal` and
+the pooled tables demoted to a printed max-abs deviation under the
+disclosed tolerance) — applied as a §3.7 slip. R-3: no change,
+recorded. R-4: disclosed in §7, left. R-5: the two structural tests
+accepted, the world suite their behavioural cover. R-6: not needed.
+R-7: YES — the LEADS licence is read against the zero-excess arm's
+realized α at the observed λ̂; §6's LEADS bullet carries the ruled
+sentence verbatim and §4 gains the mechanism paragraph (the shared t₁
+baseline in φ's numerator and denominator) naming the arm.
+
+### Open item 1 — the model release did not free the weights
+
+**What was wrong, measured rather than argued.** `release_once_4` held
+the model in its closure CELL, and the closure outlives the release
+(both runners keep it for their own `finally`), so the frozen
+`release`'s `del model` freed nothing. `process_model_4` held a second
+reference in its own frame for the whole of the 17,000-row global bank.
+And a third, which is the one that decides the question: **CPython
+retains a call's positional arguments in a tuple owned by the CALLER's
+frame for the duration of a keyword call**, so the runner's loop body
+kept the weights alive no matter what the callee did. Probed three
+ways (a plain positional argument, an all-keyword call, a one-element
+box) — only the box actually frees.
+
+**The closure.** (a) `release_once_4` holds the model in mutable state,
+clears the state BEFORE calling the frozen release, and drops its own
+frame reference after. (b) `process_model_4`'s first parameter is now
+`model_box`, a ONE-ELEMENT LIST it empties before the first forward
+pass; it clears its own `model` binding after the last forward pass and
+before `release_model()`, and it refuses a non-box argument with a
+`TypeError` naming the item. (c) Both runners build the box, `del`
+their own local, and hand the box through (`reference_4._process` takes
+`model_box`; `sweep_4` passes the box at both call sites), so no frame
+between the loader and the bank names the model.
+
+**Tests.** `test_the_weights_are_unreachable_by_the_time_the_global_bank
+_runs` (a weakref read INSIDE an injected `global_sets_4`: dead, and
+the frozen release is confirmed to have run with the model);
+`test_release_once_4_clears_its_own_state_so_the_closure_holds_nothing`
+(alive until released, dead immediately after, still idempotent); and
+`test_the_reference_runner_frees_the_weights_before_the_global_bank`,
+the same weakref on the REAL runner path (`reference_4.run` →
+`_process` → `process_model_4` → the bank), which the direct call
+cannot see. The build's existing ordering test (release → bank →
+write) stands unchanged.
+
+**Doc slip (i)'s last sentence is KEPT.** The weakref test proves the
+weights are unreachable before the bank on the production path, so
+"the peak is the weights OR the bank, not both" is a measurement.
+§7 says so in those terms, with "measured, not asserted" attached.
+
+### Open item 2 — S11's per-reference values over every rising rung
+
+`s11_per_reference_4` reported only the cells the eligibility rule
+selected; §5's S11 and §3.3 say per-reference values are printed in
+every world, and the dropped rungs are exactly the ones a reader wants
+the per-reference picture of. The eligible-only `continue` is gone:
+every rung of R_M is reported, a rung with no pre-clear window carries
+`phi_by_ref` None per reference with its eligibility `reason`, each
+cell carries `eligible` and `reason`, and `leading_reference` / the
+tally / `n_cells_with_phi` are computed over the cells where phi
+exists. Nothing here enters T. New test:
+`test_s11_per_reference_4_covers_every_rising_rung_not_only_the_eligible
+_ones` on hand-built series (one eligible cell, one dropped for a small
+endpoint excess whose phi is still reported, one with no window).
+
+### Ruled minors
+
+- `test_zero_excess_arm_does_not_disturb_the_phi_arms` compared a run
+  to an identical re-run, which is DETERMINISM, not the claim its name
+  made. Renamed `test_power_compute_is_deterministic_at_a_seed`, and
+  the claim itself is now tested against the pre-wave arm order by
+  `test_the_zero_excess_arms_consume_the_stream_after_every_phi_arm`:
+  changing how much the zero-excess stage draws (a one-multiple grid
+  instead of four) leaves every phi arm byte-identical.
+- The §6 licence block is withheld on a refusal verdict
+  (`REFUSAL_WORLD_4`), the way the power block is — "met=False, 0 of 0
+  readings qualify" beside an INSUFFICIENT_DATA verdict stated a §6
+  finding the run never made. The `collect_total_4` CALL stays
+  unconditional (it is a totality site); only the reading is withheld.
+  Test: `test_the_licence_condition_is_withheld_on_a_refusal_verdict`.
+- `lambda_hat_4` pooled the scatter over every flat rung and the SE
+  over the subset that had a usable `se_at_end`, so a missing SE
+  inflated λ̂ by entering the numerator alone. Both sides now pool over
+  the same rungs, with `n_flat`, `n_flat_with_se`, `n_flat_pooled`,
+  `n_flat_dropped_no_se` and the dropped names printed, and
+  `LAMBDA_HAT_NOTE_4` saying so. Test:
+  `test_lambda_hat_4_pools_both_sides_over_the_same_flat_rungs`.
+- The stale "four blob-bound files" comment above `IMPORTED_SHA256_4`
+  (and the same phrase in `tests/import_scan_4.py`'s docstring) reads
+  SIX, which is what `INSTRUMENT_BLOBS_4` holds.
+
+### Open item 3 — the two undisposed totality mutants
+
+Both are auto-generated `collect_total_4`-stripping mutants at call
+sites the final review fix wave added, and neither had ever been run.
+Run ONE AT A TIME, detached, on `mutation_ratification.log` (committed).
+
+**`totality_aac94f02b5` (#88, the `licence_condition_4` site).** First
+pass under `--totality`: **SURVIVED** — `licence_condition_4` never
+raises on real data, so nothing in the suite could observe the stripped
+wrapper. Closed with the established pattern (cases 12 and 13's):
+`test_licence_condition_4_call_is_collected_not_raised` monkeypatches
+the callee to raise on the clean totality world and asserts
+INSUFFICIENT_DATA with the failure COLLECTED under its own label. The
+site is reached unconditionally (`verdict_4` runs at the end of `run()`
+whatever failures accumulated). Re-run: **1/1 killed, 0 survivors.**
+
+**`totality_330c0ce640` (#106, the `lambda_hat_4` site).** This one
+cannot be closed that way, and the reason is worth recording: the site
+is guarded by `if not failures and series_by_traj and eligibility is
+not None`, and the totality base is a REFERENCE-ONLY tree whose
+failures are non-empty by construction (`4 sweep tables <traj>: unit
+missing` for all four). Measured, not assumed: on that tree
+`calibration` is `None` with and without an injected raise, and the
+failure list is byte-identical either way. So the mutant is
+unobservable under `--totality` by construction. Disposed instead as:
+
+- **killed by the FAST suite** (`--only=totality_330c0ce640`, no
+  `--totality`): **1/1 killed** — freeze F-7's structural pin
+  `test_every_collect_total_4_refusal_label_is_present` reads the 33
+  `collect_total_4` labels out of the source by AST, and stripping a
+  wrapper removes its label. This is R-5's structural test doing
+  exactly what it was accepted for;
+- **covered behaviourally** on the world where the site IS reached:
+  `test_full_shape_4.py::test_lambda_hat_4_call_is_collected_not_raised`
+  runs the LEADS world clean, then with `lambda_hat_4` raising, and
+  asserts the contract that site actually has — a raise DEGRADES the
+  calibration block (`calibration == {"failed": "4 lambda_hat: ..."}`)
+  and leaves the verdict untouched. It does not refuse, and the tree
+  branch is not involved.
+
+**A false pass caught on the way, worth the checklist.** The first
+version of the lambda_hat case was written as a totality case and
+PASSED — on a tree that never reaches the site. `_needle_in_failures`
+searches the failure strings and the reason, both of which embed the
+world's PATH, and pytest names `tmp_path` after the test: the needle
+"lambda_hat" matched
+`/private/var/.../test_lambda_hat_4_call_is_col0/world/...`, not
+anything the analyzer said. The surviving case asserts on the failure
+list directly (`f.startswith("4 licence condition:")`) and says why in
+a comment. Any needle that is a substring of its own test's name is a
+free pass under that helper.
+
+### Batteries (ratification)
+
+| battery | fix wave | ratification |
+| --- | --- | --- |
+| fast (`experiments/exp4/tests -m "not slow"`) | 192 passed | **203 passed**, 45 deselected, 402.9 s |
+| totality (`test_totality_4.py`) | 19 passed | **20 passed**, 346.7 s |
+| LEADS world (targeted subset) | 3 passed, 1,061.8 s | **4 passed**, 20 deselected, 1,336.0 s |
+| cold referent battery | 11/11 | **11/11** |
+| import scan | 57 frozen + 7 exp4-own, at the pins | **57 + 7, byte-identical to the committed pins** |
+| read sweep (real pre-campaign tree) | 3,685 paths, 0 UNPINNED | **3,685 paths, 10,211 open/read calls, 0 writes, 0 UNPINNED** |
+| referent manifest | 3,615 files | **3,615 files, sha `241da3a7…` unchanged** |
+| mutants | 120 (2 of them never run) | **both new-site totality mutants disposed** — see open item 3 |
+
+The LEADS world subset is the fix wave's three tests plus this round's
+`test_lambda_hat_4_call_is_collected_not_raised`, which needs the same
+world. The other full-shape tests (missing routes, the other four
+terminals) were NOT re-run: this round's changes are additive, and the
+freeze's 47 passed / 1 xfailed stands — stated rather than implied.
+
+**Neither pin moved.** `IMPORTED_SHA256_4` (7 entries) and
+`FROZEN_SHA256_4` (57) are byte-identical to the scan's output, and
+`make_referents_4` regenerated `referents_4.json` byte-identically, so
+`REFERENTS_4_SHA256` is unchanged: this round touched only tag-bound
+instrument blobs and test files, which neither pin covers. The scan and
+the manifest were re-run LAST among the code steps regardless.
+
+### Real-tree disclosures (checklist item 27)
+
+Every `analyze_4.run()` execution against `experiments/exp4/results/`
+(still empty pre-campaign) this session, each INSUFFICIENT_DATA at
+`4 prereg tag` / `4 reference seal`, none writing anything under
+`results/`:
+
+- `tests/import_scan_4.py`, run TWICE (once read, once captured to a
+  file for a byte comparison against the committed pins): the same
+  INSUFFICIENT_DATA — "4 prereg tag: RuntimeError: preregistration tag
+  exp4-preregistered does not exist; 4 reference seal: …; 4 stage
+  tables: ValueError: ref_pythia_12b: unit missing …" — and the scan
+  output byte-identical to `FROZEN_SHA256_4`/`IMPORTED_SHA256_4`.
+- `tests/read_sweep_4.py`, run ONCE on the real tree: INSUFFICIENT_DATA
+  at "4 reference seal", 3,685 distinct paths / 10,211 open-read calls
+  / 0 writes / **0 UNPINNED** (referents 3,611, frozen 63, instrument
+  blobs 6, sha-pinned-at-load 5, everything else 0).
+
+**Running total, disclosed in design §2: 18 pre-tag executions** — 8
+import scans and 9 read sweeps on the real tree, plus the freeze's one
+read sweep over a synthetic post-seal world (the only execution that
+reaches a terminal).

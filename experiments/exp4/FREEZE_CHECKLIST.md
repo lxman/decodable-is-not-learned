@@ -953,3 +953,103 @@ applied to `experiment-4-design.md` yet. The freeze's reading of each:
   campaign's memory peak, and the build now releases the weights before
   the bank rather than after the write, so the peak is the weights OR
   the bank, not both.
+
+### Ratified 2026-09-12
+
+Michael: "Ratified — apply the slips, close the open items, and tag."
+One line per item, as ruled; the application is recorded in
+`PROGRESS.md` under `## Ratification`.
+
+- **B-1** accepted as written: the four first grid points join stage 1
+  (23 loads, not 19), bound by `exp4-reference-sealed`, the sweep
+  refusing if they are not complete — slip (a) applied to §7.
+- **B-2** accepted as written: S7's pooled variant is stored at the
+  site family's layers, and §3.1/§5 say so — slip (b) applied.
+- **B-3** accepted as written: the one Hub metadata call is disclosed
+  in §2 — slip (c) applied.
+- **B-4** accepted as written: the global bank is committed for the
+  reference-stage keys, the sweep's global scalar attested — slip (d)
+  applied to §3.8.
+- **R-1** ruled: §7's ladder known-answer check stays DESCRIPTIVE
+  (non-gating), its printed number read in the projection — slip (h)
+  applied in the descriptive form.
+- **R-2** ruled: the §3.7 escape hatch takes the recommended wording —
+  k-NN-set identity on the committed prompt-end tables AND on the
+  attested question-end tables, with `activation_sha_equal` and the
+  pooled tables demoted to a printed max-abs deviation under the
+  disclosed tolerance. Applied to §3.7 as a slip.
+- **R-3** ruled: no change. The `refs=()` cross-check asymmetry stands,
+  closed by the shas that cover it; recorded here so a reader knows the
+  trajectory units carry a second check the reference keys do not.
+- **R-4** ruled: disclose in §7 and leave it. Torch reaches the process
+  through the frozen `experiments/exp2b/models.py`; frozen code is
+  never edited and the claim rests on which functions run. Applied as a
+  §7 paragraph.
+- **R-5** ruled: the two structural tests
+  (`test_every_collect_total_4_refusal_label_is_present`,
+  `test_run_requires_all_four_gate1_agreements`) are accepted, with the
+  world suite read as their behavioural cover.
+- **R-6** ruled: not needed (it was the cheap gating form of R-1, and
+  R-1 does not gate).
+- **R-7** ruled YES: the LEADS licence is read against the zero-excess
+  arm's realized α at the observed λ̂. §6's LEADS bullet gains the
+  ruled sentence verbatim, and §4 gains a paragraph naming the
+  mechanism (the shared t₁ baseline in φ's numerator and denominator,
+  correlated at exactly ½ under noise, with eligibility rule (ii)
+  selecting on the denominator) and the zero-excess arm that prices it.
+- **Doc slips (a)–(i)** applied to `experiment-4-design.md`, with
+  (i)'s last sentence KEPT: the weakref test proves the weights are
+  unreachable before the bank on the production runner path (open item
+  1 below), so "the peak is the weights OR the bank, not both" is a
+  measurement, not a hope.
+
+### Ratification open items, closed (2026-09-12)
+
+- **1 — the model release did not free the weights.** Three references
+  outlived the release: `release_once_4`'s closure CELL, the
+  `process_model_4` frame's own `model`, and — the one that decides it
+  — the runner's frame, because CPython retains a call's positional
+  arguments in a tuple for the whole of a keyword call. Closed: the
+  closure holds the model in mutable state and clears it before the
+  frozen release; `process_model_4` takes a ONE-ELEMENT BOX it empties
+  before the first forward pass and clears its own binding before the
+  release; both runners `del` their local and hand the box through. A
+  weakref read inside an injected `global_sets_4` finds the model dead
+  — on the direct call and on the real runner path. Doc slip (i)'s
+  last sentence is kept on that evidence.
+- **2 — S11's per-reference values** now cover every rising rung of
+  R_M, not only the eligible cells, with `phi_by_ref` None + the
+  eligibility reason where there is no pre-clear window, and the tally
+  over the cells that have a phi. Nothing enters T.
+- **3 — the two undisposed totality mutants**, one at a time, detached,
+  on the committed `mutation_ratification.log`:
+  `totality_aac94f02b5` (licence condition) SURVIVED, was closed with a
+  totality case and re-run **1/1 killed**; `totality_330c0ce640`
+  (lambda_hat) is UNOBSERVABLE under `--totality` — its site is guarded
+  by `not failures` and the totality base is reference-only, measured
+  (`calibration` is None with and without an injected raise, failure
+  list byte-identical) — so it was killed by the FAST suite's
+  structural label pin (**1/1 killed**) and given behavioural cover in
+  the full-shape world, where the site is actually reached and where
+  its contract is "degrade the calibration block, leave the verdict
+  alone". A false pass was caught writing it: `_needle_in_failures`
+  searches text containing the world PATH, and pytest names `tmp_path`
+  after the test, so a needle that is a substring of its own test's
+  name passes for free.
+
+### Cold battery, after the ratification
+
+| battery | result |
+| --- | --- |
+| fast (`experiments/exp4/tests -m "not slow"`) | **203 passed**, 45 deselected, 402.9 s (11 new tests: three for open item 1, one for open item 2, one totality case, and the four ruled-minor tests) |
+| totality (`test_totality_4.py`) | **20 passed**, 346.7 s (19 + the licence-condition case) |
+| LEADS world (the fix wave's three + the lambda_hat case) | **4 passed**, 20 deselected, 1,336.0 s |
+| cold referent battery | **11/11** |
+| import scan | **57 frozen + 7 exp4-own**, output byte-identical to the committed pins |
+| read sweep, real pre-campaign tree | **3,685 paths, 0 UNPINNED**, INSUFFICIENT_DATA at "4 reference seal" |
+| referent manifest | **3,615 files**, sha unchanged |
+| mutants | the two `collect_total_4` sites the fix wave added — the only mutants of the 120 never run — are **both disposed**, one killed after its totality case, one killed by the fast suite's structural pin; the freeze's #34 (equivalent) and #38 (timeout) dispositions are untouched |
+
+Pre-tag `analyze_4.run()` executions now total **18** (8 import scans,
+9 real-tree read sweeps, 1 synthetic post-seal world), disclosed in
+design §2 and itemised in `PROGRESS.md`.
