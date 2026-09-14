@@ -81,6 +81,21 @@ MIN_RUNGS_4 = 3
 SE_MULTIPLE_4 = 2.0
 MIN_CLEAR_INDEX_4 = 2
 GATE0_MIN_FRACTION_4 = 0.90
+# Campaign stop #1, RULED 2026-09-14 — the ONE pre-committed change
+# (process rule 6), locked in PROGRESS.md before this line was written.
+# Gate 0's cells EXCLUDE hidden-state index 0: it is the token-
+# embedding output, and at the prompt-end position the token is the
+# same ":" in every item, so the site's k-NN sets are degenerate (all
+# similarities equal, ties broken by index) and identical for every
+# model — its alignment is 1.0 by construction for twin and endpoint
+# alike, and a cell that cannot differ between an untrained and a
+# trained network cannot test "the instrument sees training". The bar
+# (GATE0_MIN_FRACTION_4), the per-(rung, site, reference) cell
+# definition and everything else in gate 0 are unchanged; nothing
+# outside gate 0 reads this constant (site 0's constant cancels
+# exactly in the excess, so the primary is untouched, and the
+# alignment LEVELS in S3/S8 keep the site family as pinned).
+GATE0_EXCLUDED_SITES_4 = (0,)
 
 REFERENTS_4_SHA256 = "241da3a71cf059e51db7b34388ac6dc2cd272e7983eb1b471a062203dcbe7eb4"
 # Task 5: exp4's OWN residual import surface -- every non-test module
@@ -100,8 +115,12 @@ IMPORTED_SHA256_4 = {
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     REPO / "experiments/exp4/run/preflight_4.py":
         "28accc387e5cb42e73eba30ca923c4f719cadd73375920c002695d632d35f854",
+    # Stop #1: re-pinned for referent item 12 (gate 0 recomputed from
+    # the committed reference tables). `IMPORTED_SHA256_4` checks every
+    # entry unconditionally, imported or not, so editing the referent
+    # tool moves this literal — the pin is not optional.
     REPO / "experiments/exp4/verify_referents_4.py":
-        "4e59bdfbb3ff1c8510324f80b2d1265300c0dd1c782d3559a09cb1a572d5d1b6",
+        "801b2a74c4ea0472ca02b047873bfc0f8798900627f540fbbd2f81c32e2cc6d3",
 }
 REFERENTS_PATH_4 = EXP4 / "referents_4.json"   # Task 5 writes this file
 
@@ -456,6 +475,30 @@ def _gate0_site_means_4(tables: dict, ref_tables: dict, pairing_by_ref: dict) ->
     return out
 
 
+def _gate0_kept_positions_4(twin_tables: dict, endpoint_tables: dict, traj: str):
+    """`(sites, keep)` — the site family gate 0 is scored over and the
+    ARRAY POSITIONS it keeps. `GATE0_EXCLUDED_SITES_4` names hidden-
+    state LAYER indices (the records' own `sites`, which
+    `_load_one_unit_4` has already pinned to `metric_4.sites_4(
+    n_hidden)`), never array positions: position i of a
+    `_gate0_site_means_4` row is layer `sites[i]`, and the two coincide
+    only for i = 0. The twin and the endpoint are the same model at
+    two training times, so their site families must be identical —
+    a mismatch would mean the cells are not comparable at all."""
+    twin_sites = [int(s) for s in (twin_tables["record"].get("sites") or [])]
+    ep_sites = [int(s) for s in (endpoint_tables["record"].get("sites") or [])]
+    if not twin_sites or twin_sites != ep_sites:
+        raise ValueError(f"gate0_4 {traj}: the twin's sites {twin_sites!r} and the endpoint's "
+                         f"{ep_sites!r} must be the same non-empty site family — gate 0's cells "
+                         f"are per (rung, SITE, reference) and its exclusion is by layer index")
+    keep = [i for i, s in enumerate(twin_sites) if s not in GATE0_EXCLUDED_SITES_4]
+    if not keep:
+        raise ValueError(f"gate0_4 {traj}: GATE0_EXCLUDED_SITES_4 "
+                         f"{list(GATE0_EXCLUDED_SITES_4)!r} excludes the whole site family "
+                         f"{twin_sites!r} — gate 0 would have no cells")
+    return twin_sites, keep
+
+
 def gate0_4(root, traj: str, ref_tables: dict, stage_tables: dict) -> dict:
     """Design §3.7 gate 0 — the instrument sees training: re-derived
     from the committed set tables of `INIT_KEY_4[traj]` (the seeded
@@ -463,36 +506,54 @@ def gate0_4(root, traj: str, ref_tables: dict, stage_tables: dict) -> dict:
     — both are `STAGE1_KEYS_4` members). Task 5 finding 1: cells are
     per (rung, site, REFERENCE) — the twin's mean-over-items overlap
     with reference Q at site s must be below the endpoint's for the
-    SAME (rung, s, Q), never averaged over references first. Passes
-    iff the pooled `fraction_below` over all 34 x n_sites x n_refs
-    cells is >= `GATE0_MIN_FRACTION_4` (0.90); a per-reference
-    breakdown is also returned."""
+    SAME (rung, s, Q), never averaged over references first. Campaign
+    stop #1's ruling: cells whose site is in `GATE0_EXCLUDED_SITES_4`
+    are DROPPED for both the twin and the endpoint (hidden state 0 is
+    degenerate at the constant prompt-end token — alignment 1.0 by
+    construction for every model, so the cell cannot see training);
+    `excluded_sites`/`n_cells_excluded` record what was dropped and
+    `n_cells` counts the rest. Passes iff the pooled `fraction_below`
+    over the remaining 34 x (n_sites - |excluded|) x n_refs cells is
+    >= `GATE0_MIN_FRACTION_4` (0.90); a per-reference breakdown is
+    also returned."""
     twin_key = battery_4.INIT_KEY_4[traj]
     endpoint_key = f"endpoint_{traj}"
     twin_tables = stage_tables[twin_key]
     endpoint_tables = stage_tables[endpoint_key]
+    sites, keep = _gate0_kept_positions_4(twin_tables, endpoint_tables, traj)
     twin_site = _gate0_site_means_4(twin_tables, ref_tables, twin_tables["record"]["pairing"])
     endpoint_site = _gate0_site_means_4(endpoint_tables, ref_tables,
                                         endpoint_tables["record"]["pairing"])
-    below, total = 0, 0
+    below, total, dropped = 0, 0, 0
     per_ref_below: dict = {}
     per_ref_total: dict = {}
+    per_ref_dropped: dict = {}
     for rung in battery_4.RUNGS:
         tw_by_ref, ep_by_ref = twin_site[rung], endpoint_site[rung]
         for ref in tw_by_ref:
             tw, ep = tw_by_ref[ref], ep_by_ref[ref]
-            b = int(np.sum(tw < ep))
-            n = int(tw.shape[0])
-            below += b; total += n
+            if tw.shape[0] != len(sites) or ep.shape[0] != len(sites):
+                raise ValueError(f"gate0_4 {traj}/{rung}/{ref}: site means of length "
+                                 f"{tw.shape[0]}/{ep.shape[0]} against a {len(sites)}-site "
+                                 f"record {sites!r} — the exclusion is read by layer index "
+                                 f"off `sites`, so the two must describe the same family")
+            b = int(np.sum(tw[keep] < ep[keep]))
+            n = len(keep)
+            d = len(sites) - n
+            below += b; total += n; dropped += d
             per_ref_below[ref] = per_ref_below.get(ref, 0) + b
             per_ref_total[ref] = per_ref_total.get(ref, 0) + n
+            per_ref_dropped[ref] = per_ref_dropped.get(ref, 0) + d
     fraction_below = (below / total) if total else 0.0
     per_reference = {
         ref: {"fraction_below": float(per_ref_below[ref] / per_ref_total[ref])
-             if per_ref_total[ref] else 0.0, "n_cells": int(per_ref_total[ref])}
+             if per_ref_total[ref] else 0.0, "n_cells": int(per_ref_total[ref]),
+             "n_cells_excluded": int(per_ref_dropped[ref])}
         for ref in per_ref_total
     }
     return {"fraction_below": float(fraction_below), "n_cells": int(total),
+           "excluded_sites": [int(s) for s in GATE0_EXCLUDED_SITES_4],
+           "n_cells_excluded": int(dropped),
            "per_reference": per_reference,
            "pass": bool(fraction_below >= GATE0_MIN_FRACTION_4)}
 
@@ -1901,6 +1962,8 @@ def verdict_4(*, failures, tree, primary, cells, eligibility, rung_sets_by_traj,
     gate0_summary = None
     if gate0_records:
         gate0_summary = {t: ({"fraction_below": g["fraction_below"], "n_cells": g["n_cells"],
+                             "excluded_sites": g.get("excluded_sites"),
+                             "n_cells_excluded": g.get("n_cells_excluded"),
                              "per_reference": g.get("per_reference"), "pass": g["pass"]} if g else None)
                          for t, g in gate0_records.items()}
     # Review round 1, IMPORTANT 4: the power block, carried both at

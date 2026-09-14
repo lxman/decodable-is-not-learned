@@ -1,9 +1,12 @@
 # experiments/exp4/verify_referents_4.py
-"""The Exp 4 referent battery (Task 5 brief's 11 items; 2n's `@check`
-shape): every pre-campaign referent re-asserted EXECUTABLE against the
-committed trees — run at build, re-run cold at the freeze. Stops SHORT
-of any alignment statistic (no k-NN, no overlap, no CKA) — those need
-exp4's own campaign, which has not run.
+"""The Exp 4 referent battery (Task 5 brief's 11 items + item 12, added
+at campaign stop #1's closure; 2n's `@check` shape): every referent
+re-asserted EXECUTABLE against the committed trees — run at build,
+re-run cold at the freeze, re-run at the stop. Items 1–11 stop SHORT of
+any alignment statistic (no k-NN, no overlap, no CKA); item 12 is the
+one exception, and it is a GATE on the reference stage's own committed
+tables (twin vs endpoint), not a trend — exp4's sweep has not run.
+Committed bytes throughout: no model contact.
 
  1  frozen pins byte-identical (`battery_4.check_frozen_4`; prints
     "empty" when FROZEN_SHA256_4 is not yet pinned)
@@ -29,6 +32,10 @@ exp4's own campaign, which has not run.
 11  the referent manifest's file count: `make_referents_4.
     referent_files()` (live) == `N_FILES_4` == the committed
     `referents_4.json`'s own `n_files`
+12  gate 0 recomputed by `analyze_4.gate0_4` from the committed
+    reference tables PASSES on all four trajectories with hidden state
+    0 excluded (campaign stop #1's ruling), and the four fractions are
+    printed; SKIPs before the reference stage has run
 """
 from __future__ import annotations
 
@@ -186,6 +193,45 @@ def _c11(ctx):
     _eq(live, mkr.N_FILES_4, "live referent_files() count vs N_FILES_4")
     committed = json.loads((EXP4 / "referents_4.json").read_text())
     _eq(committed["n_files"], mkr.N_FILES_4, "committed referents_4.json n_files vs N_FILES_4")
+
+
+@check(12, "gate 0 on the committed reference tables: all four trajectories PASS "
+           "with site 0 excluded")
+def _c12(ctx):
+    """Campaign stop #1's closure, re-asserted EXECUTABLE on the real
+    tree: `analyze_4.gate0_4` — the production function, unmodified,
+    called exactly as `run()` calls it — recomputed from the committed
+    twin/endpoint/reference set tables of the reference stage must PASS
+    the .90 bar on every trajectory once `GATE0_EXCLUDED_SITES_4`
+    drops the degenerate hidden-state-0 cells. Committed bytes only:
+    no model contact, no checkpoint load, nothing written. (This is the
+    one item that computes an overlap statistic; it is a GATE, not an
+    alignment trend — the primary needs the sweep, which is still
+    ahead.) Prints the four fractions."""
+    from experiments.exp4 import collect_4  # noqa: PLC0415
+    root = battery_4.EXP4
+    if not battery_4.reference_dir(root, f"endpoint_{battery_4.TRAJECTORIES_4[0]}").is_dir():
+        return "SKIP"
+    _eq(list(an.GATE0_EXCLUDED_SITES_4), [0], "GATE0_EXCLUDED_SITES_4")
+    ref_cache = ctx.setdefault("gate0_ref_tables", {})
+    out = []
+    for traj in battery_4.TRAJECTORIES_4:
+        keys = [battery_4.INIT_KEY_4[traj], f"endpoint_{traj}"]
+        stage_tables = an.load_stage_tables_4(root, keys=keys)
+        refs = battery_4.REFS_FOR_4[traj]
+        for ref in refs:
+            if ref not in ref_cache:
+                ref_cache[ref] = collect_4.load_ref_tables_4(root, [ref])[ref]["sets"]
+        ref_tables = {ref: ref_cache[ref] for ref in refs}
+        g0 = an.gate0_4(root, traj, ref_tables, stage_tables)
+        _eq(g0["excluded_sites"], [0], f"{traj} excluded_sites")
+        if not g0["pass"] or g0["fraction_below"] < an.GATE0_MIN_FRACTION_4:
+            raise AssertionError(f"{traj}: gate 0 {g0['fraction_below']:.4f} < "
+                                 f"{an.GATE0_MIN_FRACTION_4} over {g0['n_cells']} cells "
+                                 f"({g0['n_cells_excluded']} excluded)")
+        out.append(f"{traj} {g0['fraction_below']:.4f} ({g0['n_cells']} cells, "
+                   f"{g0['n_cells_excluded']} excluded)")
+    print("       gate 0 (site 0 excluded): " + "; ".join(out), flush=True)
 
 
 def main() -> int:

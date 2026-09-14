@@ -244,33 +244,141 @@ def test_gate0_4_passes_on_a_synthetic_leads_reference_tree(tmp_path):
         g0 = an.gate0_4(root, traj, ref_tables, stage_tables)
         assert g0["pass"] is True, (traj, g0)
         assert g0["fraction_below"] >= an.GATE0_MIN_FRACTION_4
-        n_sites = len(metric_4.sites_4(battery_4.N_HIDDEN_PIN_4[traj]))
+        sites = metric_4.sites_4(battery_4.N_HIDDEN_PIN_4[traj])
         n_refs = len(battery_4.REFS_FOR_4[traj])
+        # Stop #1: the site-0 cells are excluded, by LAYER index.
+        kept = [s for s in sites if s not in an.GATE0_EXCLUDED_SITES_4]
+        n_dropped = len(sites) - len(kept)
+        assert n_dropped == 1 and 0 in sites
+        assert g0["excluded_sites"] == [0]
         # Task 5 finding 1: cells are per (rung, site, REFERENCE), not
         # averaged over references first -- n_cells scales by n_refs.
-        assert g0["n_cells"] == len(battery_4.RUNGS) * n_sites * n_refs
+        assert g0["n_cells"] == len(battery_4.RUNGS) * len(kept) * n_refs
+        assert g0["n_cells_excluded"] == len(battery_4.RUNGS) * n_dropped * n_refs
         assert set(g0["per_reference"]) == set(refs)
         for ref in refs:
-            assert g0["per_reference"][ref]["n_cells"] == len(battery_4.RUNGS) * n_sites
+            assert g0["per_reference"][ref]["n_cells"] == len(battery_4.RUNGS) * len(kept)
+            assert g0["per_reference"][ref]["n_cells_excluded"] == \
+                len(battery_4.RUNGS) * n_dropped
             assert 0.0 <= g0["per_reference"][ref]["fraction_below"] <= 1.0
         total_below = sum(round(g0["per_reference"][r]["fraction_below"]
                                 * g0["per_reference"][r]["n_cells"]) for r in refs)
         assert total_below == pytest.approx(g0["fraction_below"] * g0["n_cells"], abs=1e-6)
 
 
+def test_gate0_4_excludes_the_degenerate_site_0_cells():
+    """Campaign stop #1's one pre-committed change: gate 0 drops every
+    cell whose SITE (the hidden-state layer index off the record's own
+    `sites`, not the array position) is in `GATE0_EXCLUDED_SITES_4`.
+    Hand-built two-site table, sites [0, 3]: site 0 is degenerate — the
+    twin's sets are IDENTICAL to the endpoint's there, so the two
+    overlaps are equal and "twin < endpoint" is False by construction —
+    while site 3 is a clean pass (zero-overlap twin against an endpoint
+    that fully agrees with the reference). Pooled fraction 1.0 after
+    the exclusion; the same table measured over BOTH positions (what
+    the gate did before the ruling) reads .5, computed here from
+    `_gate0_site_means_4` rather than recalled."""
+    traj = "pythia_2.8b"
+    _sets_m, sets_q, pairing = _two_site_pair()
+    twin_sets = sets_q.copy()
+    # site 3 (array position 1) only: neighbours disjoint from sets_q's
+    # 0..3 range -> zero overlap, strictly below the endpoint.
+    twin_sets[1] = np.array([[10, 11], [11, 12], [12, 13]], dtype=np.uint16)
+    record = {"pairing": {"refX": pairing}, "sites": [0, 3]}
+    twin = {"sets": {r: twin_sets for r in battery_4.RUNGS}, "record": record}
+    endpoint = {"sets": {r: sets_q for r in battery_4.RUNGS}, "record": record}
+    stage_tables = {battery_4.INIT_KEY_4[traj]: twin, f"endpoint_{traj}": endpoint}
+    ref_tables = {"refX": {r: sets_q for r in battery_4.RUNGS}}
+    g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
+    assert g0["excluded_sites"] == [0]
+    assert g0["n_cells"] == len(battery_4.RUNGS)                 # 34 x 1 site x 1 ref
+    assert g0["n_cells_excluded"] == len(battery_4.RUNGS)        # the 34 site-0 cells
+    assert g0["fraction_below"] == pytest.approx(1.0)
+    assert g0["pass"] is True
+    pr = g0["per_reference"]["refX"]
+    assert pr == {"fraction_below": pytest.approx(1.0), "n_cells": len(battery_4.RUNGS),
+                  "n_cells_excluded": len(battery_4.RUNGS)}
+    # The pre-ruling number, measured on the same bytes: site 0 equal,
+    # site 3 below -> 1 of 2 positions per (rung, ref) = .5, which the
+    # .90 bar would have FAILED.
+    tw = an._gate0_site_means_4(twin, ref_tables, record["pairing"])
+    ep = an._gate0_site_means_4(endpoint, ref_tables, record["pairing"])
+    all_positions = [(tw[r]["refX"] < ep[r]["refX"]) for r in battery_4.RUNGS]
+    assert float(np.mean(np.concatenate(all_positions))) == pytest.approx(0.5)
+    assert tw[battery_4.RUNGS[0]]["refX"][0] == ep[battery_4.RUNGS[0]]["refX"][0]
+
+
+def test_gate0_4_excludes_by_layer_index_not_by_array_position():
+    """On every real record `sites[0] == 0`, so position and layer
+    coincide and the two readings are indistinguishable there. Built so
+    they disagree: `sites = [3, 0]` puts layer 0 in POSITION 1. Layer 0
+    (position 1) is the degenerate column here, and the scored cell is
+    position 0 — an implementation that dropped position 0 would score
+    the degenerate column and read 0.0 instead of 1.0."""
+    traj = "pythia_2.8b"
+    _sets_m, sets_q, pairing = _two_site_pair()
+    twin_sets = sets_q.copy()
+    twin_sets[0] = np.array([[10, 11], [11, 12], [12, 13]], dtype=np.uint16)   # below
+    record = {"pairing": {"refX": pairing}, "sites": [3, 0]}
+    twin = {"sets": {r: twin_sets for r in battery_4.RUNGS}, "record": record}
+    endpoint = {"sets": {r: sets_q for r in battery_4.RUNGS}, "record": record}
+    stage_tables = {battery_4.INIT_KEY_4[traj]: twin, f"endpoint_{traj}": endpoint}
+    ref_tables = {"refX": {r: sets_q for r in battery_4.RUNGS}}
+    g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
+    assert g0["fraction_below"] == pytest.approx(1.0)
+    assert g0["n_cells"] == len(battery_4.RUNGS)
+    assert g0["n_cells_excluded"] == len(battery_4.RUNGS)
+
+
+def test_gate0_4_refuses_a_twin_endpoint_site_family_mismatch():
+    """The exclusion is read by layer index, so the twin's and the
+    endpoint's `sites` must be the same family — they are the same
+    model at two training times."""
+    traj = "pythia_2.8b"
+    sets_m, sets_q, pairing = _two_site_pair()
+    twin = {"sets": {r: sets_m for r in battery_4.RUNGS},
+            "record": {"pairing": {"refX": pairing}, "sites": [0, 3]}}
+    endpoint = {"sets": {r: sets_q for r in battery_4.RUNGS},
+                "record": {"pairing": {"refX": pairing}, "sites": [0, 4]}}
+    stage_tables = {battery_4.INIT_KEY_4[traj]: twin, f"endpoint_{traj}": endpoint}
+    ref_tables = {"refX": {r: sets_q for r in battery_4.RUNGS}}
+    with pytest.raises(ValueError, match="same non-empty site family"):
+        an.gate0_4(None, traj, ref_tables, stage_tables)
+
+
+def test_gate0_4_refuses_site_means_shorter_than_the_record_s_site_family():
+    """A record whose `sites` does not describe its own set tables would
+    silence the exclusion (or drop the wrong layer) — refuse instead."""
+    traj = "pythia_2.8b"
+    sets_m, sets_q, pairing = _two_site_pair()
+    record = {"pairing": {"refX": pairing}, "sites": [0, 3, 6]}     # 3 sites, 2-site tables
+    unit = {"sets": {r: sets_m for r in battery_4.RUNGS}, "record": record}
+    stage_tables = {battery_4.INIT_KEY_4[traj]: unit, f"endpoint_{traj}": unit}
+    ref_tables = {"refX": {r: sets_q for r in battery_4.RUNGS}}
+    with pytest.raises(ValueError, match="site means of length"):
+        an.gate0_4(None, traj, ref_tables, stage_tables)
+
+
 def test_gate0_4_fails_when_twin_equals_endpoint():
     # A hand-built pair of tables where the twin's sets are IDENTICAL
     # to the endpoint's -- fraction_below must be exactly 0 (never
-    # strictly below), well under GATE0_MIN_FRACTION_4.
+    # strictly below), well under GATE0_MIN_FRACTION_4. Stop #1: site 0
+    # is excluded, so the 34 scored cells are site 3's alone.
     traj = "pythia_2.8b"
     sets_m, sets_q, pairing = _two_site_pair()
-    unit = {"sets": {r: sets_m for r in battery_4.RUNGS}, "record": {"pairing": {"refX": pairing}}}
+    unit = {"sets": {r: sets_m for r in battery_4.RUNGS},
+            "record": {"pairing": {"refX": pairing}, "sites": [0, 3]}}
     stage_tables = {battery_4.INIT_KEY_4[traj]: unit, f"endpoint_{traj}": unit}
     ref_tables = {"refX": {r: sets_q for r in battery_4.RUNGS}}
     g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
     assert g0["pass"] is False
     assert g0["fraction_below"] == pytest.approx(0.0)
     assert g0["per_reference"]["refX"]["fraction_below"] == pytest.approx(0.0)
+    assert g0["excluded_sites"] == [0]
+    assert g0["n_cells"] == len(battery_4.RUNGS)
+    assert g0["n_cells_excluded"] == len(battery_4.RUNGS)
+    assert g0["per_reference"]["refX"]["n_cells"] == len(battery_4.RUNGS)
+    assert g0["per_reference"]["refX"]["n_cells_excluded"] == len(battery_4.RUNGS)
 
 
 def test_gate0_4_passes_when_twin_strictly_below_everywhere():
@@ -281,14 +389,16 @@ def test_gate0_4_passes_when_twin_strictly_below_everywhere():
     # a reference that fully agrees with the endpoint.
     twin_sets = np.array([[[10, 11], [11, 12], [12, 13]], [[13, 10], [10, 11], [11, 12]]],
                          dtype=np.uint16)   # disjoint from sets_q's 0..3 range -> 0 overlap
-    twin = {"sets": {r: twin_sets for r in battery_4.RUNGS}, "record": {"pairing": {"refX": pairing}}}
-    endpoint = {"sets": {r: sets_q for r in battery_4.RUNGS}, "record": {"pairing": {"refX": pairing}}}
+    record = {"pairing": {"refX": pairing}, "sites": [0, 3]}
+    twin = {"sets": {r: twin_sets for r in battery_4.RUNGS}, "record": record}
+    endpoint = {"sets": {r: sets_q for r in battery_4.RUNGS}, "record": record}
     stage_tables = {battery_4.INIT_KEY_4[traj]: twin, f"endpoint_{traj}": endpoint}
     ref_tables = {"refX": {r: sets_q for r in battery_4.RUNGS}}
     g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
     assert g0["pass"] is True
     assert g0["fraction_below"] == pytest.approx(1.0)
     assert g0["per_reference"]["refX"]["fraction_below"] == pytest.approx(1.0)
+    assert g0["excluded_sites"] == [0] and g0["n_cells"] == len(battery_4.RUNGS)
 
 
 # ------------------------------------------------------------------- I-1
@@ -940,34 +1050,43 @@ def test_eligibility_summary_4_counts_only_the_eligible_rungs():
 
 def test_gate0_4_bar_is_inclusive_at_exactly_the_fraction():
     """§3.7: gate 0 passes at `fraction_below >= .90`. Built to land on
-    exactly .90 — 153 of 170 cells below — so `>` and `>=` disagree."""
+    exactly .90 — 153 of 170 SCORED cells below — so `>` and `>=`
+    disagree. Stop #1: the table carries SIX sites, layer 0 first, and
+    the 34 site-0 cells are excluded, so the 170 scored cells are the
+    five kept sites' (the excluded column is left degenerate — twin
+    equal to endpoint — so before the ruling this same table read
+    153/204 = .75 and would have failed)."""
     traj = "pythia_2.8b"
-    n_sites, n, k = 5, 10, 3
-    rungs = list(battery_4.RUNGS)              # 34 rungs x 5 sites x 1 ref = 170 cells
+    sites = [0, 3, 6, 9, 12, 15]
+    n_sites, n, k = len(sites), 10, 3
+    rungs = list(battery_4.RUNGS)          # 34 rungs x 5 KEPT sites x 1 ref = 170 cells
     ref = np.tile(np.arange(k, dtype=np.uint16), (n_sites, n, 1))
     endpoint_sets = ref.copy()                 # full overlap everywhere
     low = np.tile(np.arange(k, dtype=np.uint16) + 50, (n_sites, n, 1))   # zero overlap
+    low[0] = ref[0]        # the excluded site 0: twin == endpoint, never "below"
     pairing = list(range(n_sites))
-    # 17 of the 170 (rung, site) cells must NOT be below: give three
-    # rungs' first five sites, and two sites of a fourth rung, full
-    # overlap in the twin too (3*5 + 2 = 17).
+    # 17 of the 170 scored (rung, site) cells must NOT be below: give
+    # three rungs' five kept sites, and two kept sites of a fourth
+    # rung, full overlap in the twin too (3*5 + 2 = 17).
     twin = {}
     for i, r in enumerate(rungs):
         if i < 3:
             twin[r] = endpoint_sets.copy()
         elif i == 3:
-            t = low.copy(); t[:2] = ref[:2]
+            t = low.copy(); t[1:3] = ref[1:3]
             twin[r] = t
         else:
             twin[r] = low
+    record = {"pairing": {"refX": pairing}, "sites": sites}
     stage_tables = {
-        battery_4.INIT_KEY_4[traj]: {"sets": twin, "record": {"pairing": {"refX": pairing}}},
-        f"endpoint_{traj}": {"sets": {r: endpoint_sets for r in rungs},
-                             "record": {"pairing": {"refX": pairing}}},
+        battery_4.INIT_KEY_4[traj]: {"sets": twin, "record": record},
+        f"endpoint_{traj}": {"sets": {r: endpoint_sets for r in rungs}, "record": record},
     }
     ref_tables = {"refX": {r: ref for r in rungs}}
     g0 = an.gate0_4(None, traj, ref_tables, stage_tables)
+    assert g0["excluded_sites"] == [0]
     assert g0["n_cells"] == 170
+    assert g0["n_cells_excluded"] == 34
     assert g0["fraction_below"] == pytest.approx(0.90)
     assert g0["pass"] is True          # >= , not > : exactly at the bar passes
 

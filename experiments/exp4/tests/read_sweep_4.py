@@ -5,9 +5,9 @@
 manifest, (b) a `FROZEN_SHA256_4` / `battery_2g.FROZEN_IMPORT_SHA256_2G`
 / `IMPORTED_SHA256_4` module, (c) an `INSTRUMENT_BLOBS_4` file, (d)
 python/stdlib/venv/site-packages, (e) unpinned verdict input — must be
-empty, (f) a `REFERENCE_SEAL_TAG_4`-bound campaign artifact absent
-pre-campaign (the 849 `reference_seal_paths_4` paths — none exist yet,
-exp4 has not run its reference stage), or (g) sha-pinned at load: the
+empty, (f) a `REFERENCE_SEAL_TAG_4`-bound campaign artifact (the 849
+`reference_seal_paths_4` paths — absent before the reference stage
+ran, read for real from the stage tables on), or (g) sha-pinned at load: the
 four upstream checkpoint manifests (`checkpoints_2g.json` via
 `analyze_2g.CHECKPOINTS_SHA256`, `checkpoints_2i.json` via
 `battery_2i.CHECKPOINTS_2I_SHA256`, `checkpoints_2m.json` via
@@ -140,7 +140,14 @@ def _install():
 SHA_PIN_AT_LOAD = {str(bg.CHECKPOINTS_PATH), str(bi.CHECKPOINTS_PATH), str(bm.CHECKPOINTS_PATH),
                   str(bn.CHECKPOINTS_PATH), str(battery_4.HUB_INVENTORY_PYTHIA_PATH)}
 
-SEAL_BOUND_CAMPAIGN_PATHS = {str(p) for p in battery_4.reference_seal_paths_4(battery_4.EXP4)}
+# `reference_seal_paths_4` returns paths RELATIVE to its root (run()'s
+# own caller rejoins them); bucketing the sweep's ABSOLUTE reads against
+# relative strings matched nothing. Invisible before the reference stage
+# ran — the run refused at the seal and never opened a campaign file —
+# and every one of them would have landed in (e) UNPINNED afterwards.
+# Stale premise in a cold tool, fixed at campaign stop #1's closure.
+SEAL_BOUND_CAMPAIGN_PATHS = {str((battery_4.EXP4 / p).resolve())
+                            for p in battery_4.reference_seal_paths_4(battery_4.EXP4)}
 
 
 def _classify(paths: set, referents_files: set, *, root=None) -> dict:
@@ -173,7 +180,7 @@ def _classify(paths: set, referents_files: set, *, root=None) -> dict:
         if world_prefix is not None and str(Path(p).resolve()).startswith(world_prefix):
             buckets["world_campaign_artifact"].append(str(Path(p).resolve()))
             continue
-        if p in SEAL_BOUND_CAMPAIGN_PATHS:
+        if str(Path(p).resolve()) in SEAL_BOUND_CAMPAIGN_PATHS:
             buckets["seal_bound_campaign_absent"].append(p)
             continue
         rp = str(Path(p).resolve()) if p not in KNOWN_NONEXISTENT_PROBES else p
@@ -259,8 +266,8 @@ def main(argv=None) -> int:
             print("  -", p)
         return 1
     print("\n(e) unpinned verdict input: 0 — clean")
-    print(f"(f) seal-bound campaign artifact, absent pre-campaign: "
-         f"{len(buckets['seal_bound_campaign_absent'])}")
+    print(f"(f) seal-bound campaign artifact (absent pre-campaign, read from the "
+         f"reference stage on): {len(buckets['seal_bound_campaign_absent'])}")
     return 0
 
 

@@ -1389,3 +1389,150 @@ reaches a terminal).
 ## Campaign stop #1 — RULED 2026-09-14 (Michael: "Ruled — exclude site 0 from gate 0, re-tag, and go.")
 
 **The one pre-committed change (process rule 6), locked here BEFORE the code changes:** gate 0's cells exclude hidden-state index 0. Mechanism, stated without reference to the outcome it rescues: hidden state 0 is the token-embedding output; at the prompt-end position the token is the same ":" in every item, so the site's k-NN sets are degenerate (all similarities equal, ties broken by index) and identical for every model — its alignment is 1.0 by construction for twin and endpoint alike, and a cell that cannot differ between an untrained and a trained network cannot test "the instrument sees training". The bar (.90), the per-(rung, site, reference) cell definition and everything else in gate 0 are unchanged; `GATE0_EXCLUDED_SITES_4 = (0,)` is the only new constant, the gate-0 record names the excluded site and the cell count over the rest. The primary is untouched (site 0's constant cancels exactly in the excess); the alignment LEVELS in S3/S8 keep the site family as pinned and carry a disclosure. Because `analyze_4.py` is tag-bound, `exp4-preregistered` is RE-CUT at the closing commit (2i stop #1's precedent: one blob delta, force-pushed, disclosed here, in the design's status block and in PROVENANCE at the graft). The reference seal is unaffected (no record changes). Design slip (j) applied to §3.7 with this ruling. The pre-committed change is now SPENT.
+
+## Stop #1 closure (2026-09-14)
+
+The ruling above, implemented. **Code:** `GATE0_EXCLUDED_SITES_4 = (0,)`
+beside `GATE0_MIN_FRACTION_4`; `_gate0_kept_positions_4` reads the site
+family off BOTH records (`sites`, already pinned by `_load_one_unit_4`
+to `metric_4.sites_4(n_hidden)`) and returns the array positions whose
+LAYER index survives the exclusion; `gate0_4` scores only those, for
+the twin and the endpoint alike, and its record gains `excluded_sites:
+[0]` and `n_cells_excluded`, with `n_cells` now the count over the
+remaining cells (`per_reference` likewise). The bar, the per-(rung,
+site, reference) cell definition, the failure label and `run()`'s
+gate-0 block are untouched; `verdict_4` carries the two new fields into
+`v["gate0"][traj]`. **Nothing else in the analyzer moved** — the
+primary, the excess, the cells, S1–S11 and every sensitivity read the
+same bytes they read before (the 120 committed mutation anchors all
+still match their targets exactly once, so the freeze's mutation
+battery applies unchanged; no new mutant was added for the exclusion —
+on every real record `sites[0] == 0`, so layer and position coincide
+there and a position-based mutant is unkillable on the real tree; the
+distinction is made executable by a test instead).
+
+**Gate 0 on the committed reference tables, recomputed cold by the
+production function** (referent item 12, below): pythia_2.8b **.9545**
+(1,122 cells, 102 excluded), olmo2_7b **.9893** (1,122 / 102),
+smollm3_3b **.9902** (1,224 / 102), comma_7b **.9911** (1,122 / 102) —
+all four PASS the .90 bar, reproducing the endpoint stage's hand
+diagnosis to four decimals. The excluded 102 per trajectory are 34
+rungs × 3 references × the one site.
+
+**Tests.** Four new fast tests in `test_analyze_4.py`: (a) a hand-built
+two-site table (`sites = [0, 3]`) whose site 0 is degenerate — twin
+sets identical to the endpoint's, so "twin < endpoint" is False by
+construction — and whose site 3 is a clean pass: pooled 1.0 after the
+exclusion, and the pre-ruling .5 measured on the same bytes through
+`_gate0_site_means_4` rather than recalled; (b) `sites = [3, 0]`, which
+puts layer 0 in POSITION 1 — the only construction on which the two
+readings disagree (production 1.0, a position-based reading 0.0,
+demonstrated executably before the test was written); (c) two refusals
+— a twin/endpoint site-family mismatch, and site means whose length
+disagrees with the record's own `sites`. The three existing gate-0
+tests were updated for the new fields; the bar-inclusive test now
+carries SIX sites with the degenerate column first, so the 170 scored
+cells and the exact .90 are unchanged while the same table reads
+153/204 = .75 before the exclusion. The synthetic-reference-tree test
+asserts the cell counts by kept site and `excluded_sites == [0]`.
+
+| battery | ratification | stop #1 closure |
+| --- | --- | --- |
+| fast (`experiments/exp4/tests -m "not slow"`) | 203 passed | **207 passed**, 45 deselected, 398.3 s |
+| totality (`test_totality_4.py`) | 20 passed | **20 passed**, 346.1 s |
+| LEADS world (`reaches_leads` + the `gate0_twin_trained` route) | 4 passed | **2 passed**, 22 deselected, 931.3 s |
+| slow gate 0 on a synthetic reference tree | 1 passed | **1 passed**, 204.6 s |
+| cold referent battery | 11/11 | **12/12** |
+| import scan | 57 frozen + 7 exp4-own | **57 + 7, byte-identical to the committed pins** |
+| read sweep (real tree, post-reference-stage) | 3,685 paths, 0 UNPINNED | **4,651 paths, 21,827 read calls, 0 writes — see below** |
+
+The `gate0_twin_trained` route still refuses: it copies the endpoint's
+own set bytes over the twin's, so every scored cell reads equal, not
+below, and `fraction_below` is 0 over the surviving cells.
+
+**Two re-pins, one of them a correction to the brief.** (1)
+`analyze_4.py` is tag-bound, not sha-pinned, so `IMPORTED_SHA256_4` and
+`FROZEN_SHA256_4` do not cover it — but `verify_referents_4.py` IS an
+`IMPORTED_SHA256_4` entry, and `check_imports_4` checks every entry
+unconditionally, imported or not. Adding referent item 12 therefore
+moved that literal to `801b2a74…`; the pin is not optional, and the
+fast pin test is what caught it. (2) `REFERENTS_4_SHA256` is unmoved —
+none of the four edited files is on the referent manifest. The import
+scan re-run at the end reproduces both pin dicts byte-identically
+(57 frozen modules, 7 exp4-own residual).
+
+**Referent item 12** (`verify_referents_4.py`): gate 0 recomputed by
+`analyze_4.gate0_4` itself — the production function, called the way
+`run()` calls it — from the committed twin/endpoint/reference set
+tables, must PASS on all four trajectories with site 0 excluded, and
+the four fractions are printed. Committed bytes only: no model contact,
+no checkpoint load, nothing written; it SKIPs before the reference
+stage has run. It is the one item that computes an overlap statistic,
+and the module docstring now says so — items 1–11 still stop short of
+any alignment statistic, and item 12 is a GATE on the reference
+stage's own tables, not a trend.
+
+**A stale premise in a cold tool, fixed before it was run.**
+`tests/read_sweep_4.py` built its bucket (f) from
+`battery_4.reference_seal_paths_4(EXP4)`, which returns paths RELATIVE
+to its root (`run()`'s own caller rejoins them) — so the bucket held
+849 relative strings and matched none of the sweep's absolute reads.
+Invisible before the reference stage ran, because the run refused at
+the seal and never opened a campaign file; from the stage tables on,
+every one of those 826 reads would have landed in (e) UNPINNED. The
+join is fixed and the classifier resolves before comparing. (2i stop
+#1's lesson one experiment over: run the cold tools again after each
+stage, because their premises go stale under them.)
+
+**Read sweep, run once on the real post-reference-stage tree, reported
+as measured.** 4,651 distinct paths / 21,827 open-read calls / 0
+writes, INSUFFICIENT_DATA at gate 1 (`results/sweep/…/gate1.json`
+missing — the sweep has not run), so no series, no cells, no primary,
+no secondary and no T was computed. The NON-campaign read surface is
+exactly the pre-campaign one: referents 3,611 + frozen 63 + instrument
+blobs 6 + sha-pinned-at-load 5 = **3,685 paths, 0 unpinned**, the
+ratification figure to the file. All 966 new reads are campaign
+artifacts under `results/`: 826 seal-bound (bucket (f), now matching),
+and **140 that no pin or tag covers, which the tool reports as (e)
+UNPINNED and which exits 1** — 136 of them the gitignored
+`results/reference/ref_*/attested/<rung>.npz` arrays (the reference
+stage's question-end/pooled tables, which `load_ref_tables_4` reads
+when present and gate 1 attests per unit via `attested_sha_equal`, but
+which are not committed, so no tag can bind them) and 4 nonexistent-
+file probes at the sweep endpoints during gate 1's own refusal. The
+count is left AS MEASURED and the classifier was not widened after
+seeing it: re-bucketing 140 paths into a friendlier category having
+watched them land in (e) is exactly the move this program refuses.
+**Open item for the controller** (a rule decision, not a closure's):
+either (f) widens to "campaign artifact under `results/`" — the
+freeze's own `world_campaign_artifact` precedent, which is how the
+synthetic post-seal sweep already reads 0 — or the gitignored attested
+arrays get a bucket of their own keyed to the per-unit attestation that
+does cover them. Either way the answer to the question (e) exists to
+ask is unchanged: **no non-campaign file is unpinned.**
+
+### Real-tree disclosures (checklist item 27)
+
+Three `analyze_4.run()` executions against the real tree this session,
+none writing anything under `results/`, none reaching a primary:
+
+- `tests/import_scan_4.py` once (the pin producer): INSUFFICIENT_DATA at
+  "4 prereg tag" — `exp4-preregistered` still binds the pre-edit
+  `analyze_4.py` blob (tag 3ffe1155 vs disk 0cbf7dc9), which is what
+  the controller's re-tag closes — so the run stopped before the stage
+  tables and computed no gate.
+- `tests/read_sweep_4.py` once (with the tag stand-ins it has always
+  used): INSUFFICIENT_DATA at gate 1, as above. It DID compute gate 0
+  on all four trajectories and re-derive the eligibility table; both
+  agree with the endpoint stage's committed records, and gate 0's four
+  fractions are the ones tabled above and already disclosed in the
+  ruling entry. Nothing downstream of `if not failures:` ran.
+- `verify_referents_4.py` item 12 calls `gate0_4` directly (not
+  `run()`), on committed bytes.
+
+**Running total, disclosed in design §2: 21 pre-tag executions** — 9
+import scans and 10 read sweeps on the real tree, plus the freeze's one
+over a synthetic post-seal world, plus item 12's direct gate-0 call.
+
+The one pre-committed change is SPENT. No tag was touched by this
+commit: `exp4-preregistered` is the controller's to re-cut at it.
