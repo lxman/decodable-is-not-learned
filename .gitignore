@@ -94,6 +94,7 @@ experiments/exp4/sweep_pythia_2.8b.log
 experiments/exp4/sweep_olmo2_7b.log
 experiments/exp4/sweep_smollm3_3b.log
 experiments/exp4/sweep_comma_7b.log
+experiments/exp4/sweep_chain.log
 experiments/exp4/analyzer.log
 experiments/exp4/watcher_reference.log
 experiments/exp4/watcher_sweep.log
