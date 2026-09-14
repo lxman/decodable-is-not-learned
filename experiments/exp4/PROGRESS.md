@@ -1536,3 +1536,7 @@ over a synthetic post-seal world, plus item 12's direct gate-0 call.
 
 The one pre-committed change is SPENT. No tag was touched by this
 commit: `exp4-preregistered` is the controller's to re-cut at it.
+
+## Re-tag + projection sealed (2026-09-14)
+
+**`exp4-preregistered` RE-CUT at 5596b065 (annotated object b7c197c7; was e6e0d9cd / cc75d86d)** after the stop-#1 closure: ONE blob delta (analyze_4.py, +73/−10: `GATE0_EXCLUDED_SITES_4`, the excluded-site accounting), the other five bound blobs byte-identical; `require_prereg_4` binds all six against real git; force-pushed; disclosed here, in the design's status block and (at the graft) in PROVENANCE. The reference seal (11a0edd5 / a232f819) is unaffected. Ruling on the read sweep's bucket (e): the 140 new entries are gitignored `attested/*.npz` reads whose shas the seal-bound `_load.json` records carry, plus four absent-unit probes — campaign artifacts attested by record, not unpinned verdict inputs; the cold tool's bucket (f) is widened at close-out (the freeze's `world_campaign_artifact` precedent); not a blocker. **Projection sealed at this commit (`projection.md`): LEADS, T ≈ .50 in [.35, .65]; per trajectory OLMo-2 ≈ .50, Comma ≈ .55, Pythia ≈ .40 (thin), SmolLM3 ≈ .55 (thin); per type string ≈ .75 / option ≈ .35 / arithmetic-order ≈ .50; the R-7 cell (LEADS with the licence condition not met at λ̂ ≥ 1.5) at .25; PARTIAL .25, UNDETERMINED .10, FOLLOWS .05.** Sweep 1 (pythia_2.8b) launched next, on Michael's word ("Go on the sweep.").
