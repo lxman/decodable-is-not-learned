@@ -24,7 +24,7 @@ for the four training trajectories).
 RATIFIED by Michael 2026-09-12 ("Ratified — apply the slips, close the
 open items, and tag"): freeze findings F-1..F-7 closed additively;
 B-1..B-4, R-1..R-7 ruled as recommended; slips (a)–(i) applied; the
-tag `exp4-preregistered` cut at e6e0d9cd (annotated object cc75d86d; binding verified through `require_prereg_4` against real git, all six instrument blobs).**
+tag `exp4-preregistered` cut at e6e0d9cd (annotated object cc75d86d; binding verified through `require_prereg_4` against real git, all six instrument blobs); RE-CUT after campaign stop #1 (slip (j): gate 0 excludes hidden-state 0 — the one pre-committed change) at the commit named in PROGRESS.md, one blob delta (analyze_4.py), force-pushed, disclosed.**
 
 The essay's convergence paragraph is the one leg of the lens claim the
 program has never tested. It cites Huh et al.: as models scale, their
@@ -395,7 +395,21 @@ program's α). The effect bar is the dial the power stage prices (§4).
   trained endpoint's on at least 90 % of cells at the prompt-end
   position; the twin's values printed (S8). And the references'
   mutual alignments (each pair of the four released models, per rung)
-  printed as the ceiling the trajectories approach.
+  printed as the ceiling the trajectories approach. **Slip (j), campaign stop #1,
+  ruled by Michael 2026-09-14 — the one pre-committed change, spent:**
+  gate 0's cells exclude hidden-state index 0, the token-embedding
+  output, because at the prompt-end position every item carries the
+  same token and that site's k-NN sets are degenerate and identical
+  for every model (alignment 1.0 by construction for twin and
+  endpoint alike); a site that cannot differ between an untrained and
+  a trained network cannot test the gate's question. Measured at the
+  reference stage before the change: pythia_2.8b .875 (its init is the
+  real step 0), the other three .907–.914, every site-0 cell failing;
+  excluding site 0 the four read .955 / .989 / .990 / .991. The bar and
+  the cell definition are otherwise unchanged; the primary is untouched
+  (the constant cancels exactly in the excess); S3's and S8's alignment
+  LEVELS keep the pinned site family and are read with the disclosure
+  that site 0 contributes a constant (1 − ā)/n_sites.
 - **Gate 1 — identity** (first unit of every trajectory's sweep, by
   rule): M's endpoint re-derived through the sweep's candidate-file
   loader against the reference stage's thin-loader collection —
