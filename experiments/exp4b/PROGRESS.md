@@ -265,3 +265,101 @@ Covering tests: 30 passed (was 29 — one test added), zero warnings,
 experiments/exp4b/tests/test_placebo_4b.py -p no:cacheprovider -q`.
 Fix report round 2 appended to
 `.superpowers/sdd/2026-09-16-exp4b-build/task-2-report.md`.
+
+## Task 3: `power_ext_4b.py` — the power-record reproduction gate and the extension arms
+
+Built the two pieces design §3.5/§3.6 gate (4) call for:
+
+- `reproduce_power_record_4b(root4, *, rec=None)` — `power_4.compute`
+  re-run at the committed record's own `n_sim`/`seed`/`phis`, with
+  `elig` read from `battery_4.eligibility_path(root4)` and
+  `floors`/`battery`/`rung_sets`/`grids` built exactly as `power_4.
+  main` builds them (none of those four depend on `root4` — they read
+  the same real committed exp2g/2i/2m/2n bytes and `battery_4.GRID_4`
+  regardless of which tree's `power_4.json` is under test), re-
+  serialized with `json.dumps(reproduced, indent=1)` after setting
+  `eligibility_sha256`/`prereg_tag` exactly as `main` does, and
+  compared byte for byte against the FILE at `battery_4.power_path
+  (root4)`. `rec=None` loads that file for its own `n_sim`/`seed`/
+  `phis`; a `rec` argument overrides only what gets re-run, but
+  `identical`/`committed_sha256` always refer to the file on disk
+  (ambiguity resolution 1). `first_diff` is the first differing line,
+  1-based, both texts truncated to 200 chars (resolution 2). Never
+  writes.
+- `simulate_zero_excess_scaled` — `power_4._simulate_zero_excess`'s
+  body copied verbatim with the two `* scale` noise-draw sites (the
+  flat-rung loop, the pool loop) replaced by `* scale_by_traj[traj]`;
+  the eligibility bar stays at the unmultiplied SE (it was never
+  multiplied by `scale` in the frozen original either). Returns the
+  frozen arm shape plus `"Ts"` (draw-order T list, `None` dropped —
+  the same list `_arm_from_counts` already reduces to `mean_T`/
+  `sd_T`) and `"scale_by_traj"`; `"scatter_multiple"` is `None` (no
+  single scalar when the scale is per-trajectory). A line-by-line diff
+  against the frozen function (script run, not committed) confirms the
+  ONLY changes are: the signature, the two `* scale` sites, the
+  qualified names `power_4.N_BOOT_POWER_4`/`power_4._arm_from_counts`
+  (necessary — different module), the `"4b: "`-prefixed error message,
+  and the appended `scatter_multiple=None`/`Ts`/`scale_by_traj` in
+  place of the frozen arm's `scatter_multiple = float(scale)`.
+- `_pool_inputs_4b` — reproduces the part of `power_4.compute`'s body
+  between `pool = _pool(elig)` and the end of the `trend_arr` loop
+  (those three dicts are not exposed as a callable frozen helper, so
+  the block is copied; `power_4._pool` itself is CALLED). Skips
+  `compute()`'s empty-pool early return (never reachable from real
+  `compute()` calls — production data always yields a nonempty pool,
+  and `cells_4`/`verdict_tree_4` degrade to a `NO-CONVERGENCE`-only,
+  zero-`mean_eligible_cells` reading on an empty `traj_info` without
+  needing a special case, disclosed here rather than special-cased)
+  and `cell_info`/`m_by_phi`/`construction` (phi-arms-only, not needed
+  by the zero-excess arms). A second line-by-line diff against the
+  corresponding `compute()` block confirms the only differences are
+  the qualified `power_4._pool` call, comments trimmed (explained in
+  the docstring instead), and the same `"4b: "` error-message
+  re-prefixing.
+- `extension_arms_4b(elig, rung_sets, grids, lambda_by_traj, *,
+  multiples=EXT_MULTIPLES_4B, n_sim=N_SIM_EXT_4B, seed=EXT_SEED_4B)` —
+  ONE `rng = np.random.default_rng(seed)` consumed in order:
+  `"observed_lambda"` (`simulate_zero_excess_scaled` at the per-
+  trajectory λ̂), then `"4.0"`/`"6.0"`/`"8.0"`/`"12.0"` (the frozen
+  function at each multiple), then `"rms_lambda"` (the frozen function
+  at `sqrt(mean(λ̂²))` over `lambda_by_traj`'s values) — six arms,
+  `scale_index` 0..5 gapless across all of them so their bootstrap
+  seeds never collide.
+- `p_iid_4b(Ts, T4)` — `p_iid = (1 + #{T >= T4 - 1e-15}) / (len(Ts) +
+  1)` plus the null's mean/sample SD (`ddof=1`), `None` below n=2
+  (mean additionally `None` at n=0).
+
+Tests: `experiments/exp4b/tests/test_power_ext_4b.py`, 9 tests (4
+fast — `p_iid_4b`'s hand example, its exact-boundary case, and its
+n=0/n=1 edges; 5 marked `slow` — the reproduction gate identical/
+byte-flip/never-writes, the `simulate_zero_excess_scaled` equivalence
+gate, `extension_arms_4b`'s six-arm order), against ONE module-scoped
+`full_shape.build_world(root, "leads", seed=11, stage="full")` tree
+(`test_full_shape_4.py`'s own shared-fixture pattern; mutating tests
+work on a `shutil.copytree`). RED confirmed by moving `power_ext_4b.py`
+aside (`ImportError` on collection); GREEN after restoring it:
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp4b/tests/test_power_ext_4b.py -p no:cacheprovider -q -m "not slow"
+4 passed, 5 deselected in 1.89s
+
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp4b/tests/test_power_ext_4b.py -p no:cacheprovider -q -m slow
+5 passed, 4 deselected in 794.43s (0:13:14)
+```
+
+The 5 slow tests' 794 s is almost entirely the ONE `stage="full"`
+world build (`experiments/exp4/PROGRESS.md`'s own measured ~11
+minutes for the real, full 92-point grid) shared across all five — the
+reproduction gate at the world's own `n_sim=20`, the equivalence gate
+at `n_sim=5`, and `extension_arms_4b` at `n_sim=20` (six arms) each
+run in seconds on top of that. Full `experiments/exp4b/tests/` under
+`-m "not slow"`: 50 passed in 17.90 s (Tasks 1+2's fast tests
+unaffected).
+
+**Note for Task 5**: the REAL exp4 tree's `power_4.json` was written
+at `n_sim=1000` (`N_SIM_4`), not the world's `n_sim=20` — gate (4)'s
+runtime against the real tree (`design §7`/dial (g)'s "if it exceeds
+four hours, fall back" clause) is unmeasured here per the brief's
+resolution (4) and is Task 5's job to measure.
