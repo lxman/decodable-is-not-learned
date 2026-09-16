@@ -101,3 +101,6 @@ experiments/exp4/watcher_sweep.log
 experiments/exp4/freeze_*.log
 experiments/exp4/results/**/attested/
 experiments/exp4/results/**/activations/
+# exp4b — machine-local logs
+experiments/exp4b/analyzer.log
+experiments/exp4b/freeze_*.log
