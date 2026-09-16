@@ -418,3 +418,148 @@ reproduce_power_record_4b seconds (world, n_sim=20): 0.6146
 Full `experiments/exp4b/tests/` under `-m "not slow"`: `50 passed, 7
 deselected in 19.56s` (7, was 6 — one new slow test added). Fix report
 appended to `.superpowers/sdd/2026-09-16-exp4b-build/task-3-report.md`.
+
+## Task 4: `levels_4b.py` — S6, the level descriptives with hidden-state 0 excluded
+
+Built the site-family filter and the five level descriptives on top of
+it, all re-derived from `experiments/exp4/`'s committed set tables
+through its own frozen loaders/machinery (`analyze_4._load_one_unit_4`,
+`analyze_4._load_global`, `analyze_4.trend_4`/`excess_4`/`phi_4`,
+`collect_4.overlap_table_4`/`_max_over_pairs`/`load_ref_tables_4`/
+`_pairing_positions`/`non_pythia_refs_4`) — none of it reimplemented:
+
+- `kept_positions_4b(sites, excluded=an.GATE0_EXCLUDED_SITES_4)` —
+  `analyze_4._gate0_kept_positions_4`'s array-position rule
+  generalised to a raw site list (gate 0's version additionally
+  asserts a twin/endpoint site-family match, which does not apply
+  here — this module calls it once per already-loaded unit).
+- `per_item_level_4b(tables_m, ref_tables, pairing_by_ref, *,
+  excluded)` — `analyze_4._alignment_parts_4`'s pooled construction
+  (mean over references and M's sites of overlap/k under the FIXED
+  depth-matched pairing) with M's site axis filtered to
+  `kept_positions_4b` before the mean, plus the `"_by_ref"` per-
+  reference half; refuses when the exclusion would drop every site.
+  Iterates `sorted(tables_m["sets"])` rather than `battery_4.RUNGS`
+  directly (a real unit carries exactly `battery_4.RUNGS` — enforced
+  upstream by `_load_one_unit_4` — so production callers see the
+  real battery; a fast test can build just the rung(s) it needs).
+- `level_ci_4b(vec, *, n_boot=N_BOOT_LEVELS_4B, seed=0)` — an
+  item-level percentile bootstrap of `vec`'s mean.
+- `ladder_4b(root4, *, excluded)` — S6(a): the Pythia size ladder
+  (`analyze_4.s3_scale_4`'s per-rung structure, re-derived with the
+  filter) — `a_by_size`/`ci_by_size` per rung per size, Spearman with
+  log parameters, the largest single-step share, plus the global bank
+  (`_ladder_global_4b`, degrading to `{"available": False, "note":
+  ...}` when `global.npz` is missing for a ladder key, exactly as
+  `s3_scale_4` itself degrades — ambiguity resolution 2). Carries
+  `known_in_advance: True` — design §2 discloses this reading's
+  headline as known to the designer before the freeze.
+- `twins_4b`/`ceiling_4b`/`within_family_4b(root4, *, excluded)` —
+  S6(b)/(c)/(d), each re-derived from `collect_4.load_ref_tables_4`
+  rather than Exp 4's own ATTESTED `align.json` reads (`s8_referents_4`'s
+  `ceiling` block is attested; this recomputes it from committed set
+  tables so the site filter has array positions to act on).
+  `ceiling_4b` treats one reference of each ordered pair as "M",
+  filtered by its own kept positions (the pairing is re-derived via
+  `collect_4._pairing_positions`, since reference units carry no
+  pairing of their own — `s3_scale_4`'s own fallback). `within_family_4b`
+  is `pythia_2.8b`'s sweep against `ref_pythia_12b`, point values at
+  every grid step, an item-bootstrap CI only at t_1/t_end (ambiguity
+  resolution 3: `ref_pythia_12b` shares Pythia's family with
+  `pythia_2.8b`, so `REFS_FOR_4["pythia_2.8b"]` — cross-family only —
+  excludes it, and a sweep unit's `record["pairing"]` never carries a
+  `"ref_pythia_12b"` entry on a real tree; the pairing is re-derived via
+  `collect_4._pairing_positions` — the `.get(ref)` direct read is kept
+  as a no-op fast path only).
+- `max_pair_alignment_4b(sets_m, sites_m, sets_q, sites_q, *,
+  excluded)` + `max_over_pairs_4b(root4, cells, *, excluded)` — S6(e),
+  the Huh max-over-pairs reading Exp 4 could not produce with site 0
+  excluded (its own `series_max_pairs` reads an ATTESTED reading
+  computed over the FULL site family). Per ambiguity resolution 1,
+  this is the ONE place the exclusion applies to BOTH sides of the
+  comparison before the full cross product is scanned (everywhere
+  else in this module the fixed depth-matched pairing means only M's
+  side is filtered, post-hoc, on the already-computed overlap table).
+  Per real cell: the flat-rung pool's max-over-pairs series (mean over
+  the trajectory's cross-family references) at every grid step builds
+  the trend via `analyze_4.trend_4` (called unmodified); the cell's
+  own rung reduces to excess/phi via `analyze_4.excess_4`/`phi_4`.
+  Returns per cell `{"traj", "rung", "phi", "x_end", "series"}` plus
+  `pooled_phi`, `n_cells`, `n_phi`, `excluded_pair_note`.
+
+Tests: `experiments/exp4b/tests/fakes_4b.py` gained `planted_tables`
+(two set tables where site 0 is IDENTICAL on both sides — alignment
+exactly 1.0 — and every site i >= 1 shares exactly `round(v*k)` ids
+between the two models — alignment exactly `v`, bit for bit; each
+site additionally owns a private, disjoint id-universe slice, so a
+CROSS-site pair reads exactly `0.0`, which is what makes "the best
+KEPT pair is v" exact rather than merely likely) and `match_sets`
+(a new table sharing a controllable id count with a FIXED reference
+table, used by the `max_over_pairs_4b` wiring test below to vary one
+side's alignment level per grid step against a reference table that
+must otherwise stay fixed across the whole trajectory).
+
+`experiments/exp4b/tests/test_levels_4b.py`, 17 tests. Step 1(a)-(c)
++ (e) are FAST, on `planted_tables`/direct-array tests (13 tests
+under `-m "not slow"` incl. three `kept_positions_4b` tests, three
+`per_item_level_4b` tests — excluded-equals-v, included-equals-the-
+1/n-share, and a refusal when exclusion drops every site — three
+`level_ci_4b` tests, three `max_pair_alignment_4b` tests on
+`planted_tables` — unfiltered best pair is the degenerate (0, 0) at
+1.0, filtered best pair is exactly `v`, and a direct check that an
+off-diagonal cross-site pair reads exactly `0.0`). RED confirmed by
+attempting to import `levels_4b` before the module existed
+(`ImportError` on collection); GREEN after writing it:
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp4b/tests/test_levels_4b.py -p no:cacheprovider -q -m "not slow"
+13 passed, 4 deselected in 2.79s
+```
+
+Step 1(d) (`ladder_4b` on a `full_shape` world) is SLOW, and so —
+for completeness against the brief's full Interfaces block, which
+names five real-tree functions but Step 1 only tests one of them on a
+tree — are `twins_4b`/`ceiling_4b`/`within_family_4b`: one
+module-scoped `full_shape.build_world(..., "leads", stage="full")`
+tree (`test_power_ext_4b.py`'s own pattern) shared read-only by all
+four:
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp4b/tests/test_levels_4b.py -p no:cacheprovider -q -m slow -s
+4 passed, 13 deselected in 802.81s (0:13:22)
+```
+
+`max_over_pairs_4b` is deliberately NOT exercised against the world:
+its full cross product (`collect_4._max_over_pairs` scans every
+`(site_m, site_q)` pair, each a python-level `overlap_counts` loop
+over every item) at real site counts (3-13 per `metric_4.
+SITE_COUNT_PIN_4`) across a real ~21-26-step grid, ~15-27 flat rungs
+and 3 references is tens of millions of python-level set-intersection
+calls per trajectory — exactly why `full_shape.py` itself restricts
+`compute_max_pairs=True` to one trajectory even for the single
+ATTESTED reading it stores (a fact discovered by estimating the cost
+before running it, not by timing out). Its wiring — the needed-rung
+union, per-reference averaging, `trend_4`/`excess_4`/`phi_4`, per-cell
+reduction, `pooled_phi` — is instead exercised FAST: the real
+committed outcome/grid/rung-set machinery
+(`battery_4.load_outcome_4`/`rung_sets_4`/`GRID_4`/`REFS_FOR_4`, all
+cheap JSON reads) stays real, and only the per-unit set tables are
+monkeypatched to a small `n_sites=4`/`n_items=30` size via
+`match_sets`, with the cell rung's alignment rising across grid steps
+against a fixed reference so `phi_4` exercises its real (non-`None`)
+branch, not just the constant-series degenerate case.
+
+Full `experiments/exp4b/tests/` under `-m "not slow"`: `63 passed, 11
+deselected in 18.91s` (63, was 50 — Task 4's 13 fast tests added; 11
+deselected, was 7 — Task 4's 4 slow tests added).
+
+One deviation from the brief's Interfaces block, disclosed: an
+additional function, `max_pair_alignment_4b`, factors out
+`max_over_pairs_4b`'s per-(rung, step, ref) core (the exclusion +
+`collect_4._max_over_pairs` call) so it is directly fast-testable on
+`planted_tables` without a committed tree — the brief's own Step 1(e)
+language ("`max_over_pairs_4b` on planted tables ... returns v")
+describes this building block, since the top-level function's
+signature (`root4, cells`) cannot itself run on raw arrays.

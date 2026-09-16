@@ -87,6 +87,98 @@ def matching_pia(series: dict, flat: list, *, item_sigma=0.02, seed=0, n_items=5
     return {"steps": list(series["steps"]), "a": a}, pia_t1, pia_end
 
 
+def planted_tables(n_sites, *, n_items=500, v, k=10, seed=0):
+    """Two synthetic set tables `(sets_m, sets_q)`, each `int64[n_sites,
+    n_items, k]`, for `levels_4b`'s fast tests (Task 4 brief Step 1,
+    resolution 5): site 0 is IDENTICAL on both sides — `sets_m[0] ==
+    sets_q[0]` elementwise, so `metric_4.overlap_counts`/
+    `mutual_knn_from_sets` reads exactly `1.0` there, the degenerate
+    constant-token reading `GATE0_EXCLUDED_SITES_4` exists to drop —
+    and every site `i >= 1` shares exactly `round(v*k)` of its `k`
+    neighbour ids between the two models, so that site reads exactly
+    `v`, bit for bit (no residual noise: the shared ids are the SAME
+    array slice on both sides, and the non-shared ids are drawn from
+    disjoint integer ranges so they can never accidentally coincide).
+
+    Each site additionally owns a private, disjoint slice of the id
+    universe (`3*10*k` ids wide, offset by `3*10*k*i`), so a CROSS-site
+    pair — site i on one side against site j != i on the other — has
+    structurally ZERO shared ids: exactly `0.0`, always below `v` for
+    `v > 0`. This is what makes `levels_4b.max_pair_alignment_4b`'s
+    "the best KEPT pair is v" exact rather than merely likely — the
+    max over every kept cross-pair lands on a diagonal (same-index,
+    non-zero) pair, never an off-diagonal one.
+
+    Returns `(sets_m, sets_q, sites_m, sites_q)` with `sites_m ==
+    sites_q == list(range(n_sites))` (both models use the same LAYER
+    labels — a `depth_pairs`/`_pairing_positions` re-derivation over
+    these labels reduces to the identity pairing)."""
+    n_shared = int(round(v * k))
+    if not 0 <= n_shared <= k:
+        raise ValueError(f"planted_tables: v={v} at k={k} gives n_shared={n_shared} outside [0, {k}]")
+    rng = np.random.default_rng(seed)
+    block = 10 * k
+    sets_m = np.zeros((n_sites, n_items, k), dtype=np.int64)
+    sets_q = np.zeros((n_sites, n_items, k), dtype=np.int64)
+    for i in range(n_sites):
+        base = i * 3 * block          # each site's own disjoint id range
+        for t in range(n_items):
+            if i == 0:
+                full = rng.choice(block, size=k, replace=False) + base
+                sets_m[i, t] = full
+                sets_q[i, t] = full
+                continue
+            shared = rng.choice(block, size=n_shared, replace=False) + base
+            row_m, row_q = list(shared), list(shared)
+            rest = k - n_shared
+            if rest:
+                extra_m = rng.choice(np.arange(block, 2 * block), size=rest, replace=False) + base
+                extra_q = rng.choice(np.arange(2 * block, 3 * block), size=rest, replace=False) + base
+                row_m += list(extra_m)
+                row_q += list(extra_q)
+            sets_m[i, t] = row_m
+            sets_q[i, t] = row_q
+    sites = list(range(n_sites))
+    return sets_m, sets_q, sites, sites
+
+
+def match_sets(sets_q, v, *, k=10, seed=0):
+    """A new set table `sets_m` (same shape as `sets_q`) sharing
+    EXACTLY `round(v*k)` ids per item, at EVERY site uniformly (no
+    site-0 special case — `planted_tables` models that; this is for a
+    test that wants a controllable alignment level against a FIXED
+    reference table it does not otherwise get to construct, e.g.
+    `test_levels_4b.py`'s `max_over_pairs_4b` wiring test, where the
+    reference side is loaded once per trajectory and the model side
+    varies per grid step). The shared ids are literal elements of
+    `sets_q`'s own row (so the intersection count is exact); the
+    non-shared ids are drawn from an ever-advancing, always-disjoint
+    id block, so they can never accidentally coincide with `sets_q`'s
+    own ids or with a previous item's non-shared ids."""
+    sets_q = np.asarray(sets_q)
+    n_sites, n_items, k_q = sets_q.shape
+    if k_q != k:
+        raise ValueError(f"match_sets: sets_q's k={k_q} != {k}")
+    n_shared = int(round(v * k))
+    if not 0 <= n_shared <= k:
+        raise ValueError(f"match_sets: v={v} at k={k} gives n_shared={n_shared} outside [0, {k}]")
+    rng = np.random.default_rng(seed)
+    out = np.zeros_like(sets_q)
+    fresh_base = int(sets_q.max()) + 1000
+    for i in range(n_sites):
+        for t in range(n_items):
+            row_q = sets_q[i, t]
+            shared_idx = rng.choice(k, size=n_shared, replace=False)
+            row = list(row_q[shared_idx])
+            rest = k - n_shared
+            if rest:
+                extra = rng.choice(np.arange(fresh_base, fresh_base + 10 * k), size=rest, replace=False)
+                row += list(extra)
+                fresh_base += 10 * k
+            out[i, t] = row
+    return out
+
+
 def autocorr_world(*, n_flat=30, n_steps=20, rho=0.0, sigma=0.05, seed=0):
     """Flat rungs whose LOO-excess INCREMENTS carry lag-1
     autocorrelation `rho` (0.0 -> iid increments; 0.5 -> AR(1)) —
