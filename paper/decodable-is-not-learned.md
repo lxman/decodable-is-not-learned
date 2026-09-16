@@ -44,7 +44,8 @@ day, archived as v1.12; the Experiment 2k close-out on 2026-08-30,
 archived as v1.14; the Experiment 2l close-out on 2026-09-03,
 archived as v1.15; the Experiment 2m close-out on 2026-09-05,
 archived as v1.16; the Experiment 2n close-out on 2026-09-08,
-archived as v1.17. Section 6's tenth lesson (the
+archived as v1.17; the Experiment 4 close-out on 2026-09-16, archived
+as v1.18. Section 6's tenth lesson (the
 production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
 inputs before the tag) and checklist items 24 and 25 were added
@@ -82,13 +83,22 @@ forty-seven; the 2026-09-05 Experiment 2m graft added three more
 (`exp2m-preregistered`, `exp2m-endpoint-sealed`, `exp2m-closed`),
 fifty; the 2026-09-08 Experiment 2n graft added three more
 (`exp2n-preregistered`, `exp2n-endpoint-sealed`, `exp2n-closed`),
-fifty-three. Archived
+fifty-three; the 2026-09-16 Experiment 4 graft added three more
+(`exp4-preregistered` — a disclosed re-tag after a campaign stop, the
+original object recorded in PROVENANCE — `exp4-reference-sealed`,
+`exp4-closed`), fifty-six. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.17 (10.5281/zenodo.22667987, the Experiment 2n record; v1.16,
-10.5281/zenodo.22413760, the Experiment 2m record; v1.13,
+v1.18 (10.5281/zenodo.22793373, the Experiment 4 record; v1.17,
+10.5281/zenodo.22667987, the Experiment 2n record; v1.13,
 10.5281/zenodo.22151979, this paper with its eleventh lesson). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
-of AI assistance section, wording approved 2026-08-19. Every
+of AI assistance section, wording approved 2026-08-19. A verbosity pass was applied 2026-09-09 after TMLR's desk rejection
+(no reviews): the abstract, Sections 1, 3, 6 and 10 and the appendix
+notes were compressed in place with every number, rule sentence,
+checklist item and section number kept, Section 6's lessons 5 to 11
+cut to their rules and carrying facts, the version-DOI list and tag
+inventory moved to Appendix C; md and TeX at parity, three PDFs
+rebuilt. Awaiting Michael's read. Every
 number is transcribed from the tagged record
 (`exp2-preregistered`, `exp2-closed`, `exp2b-preregistered`,
 `exp2b-closed`, `exp2c-preregistered`, `exp2c-closed`,
@@ -105,47 +115,29 @@ The inference is unsound: a network's activations are a
 high-dimensional expansion of the visible tokens, and a linear readout
 on such an expansion decodes many functions of the input that training
 never put there. This paper prescribes three controls that make the
-inference testable — an untrained-weights twin of the model run through
-the identical probe pipeline as an acceptance test; basis-starved
-splits, whose validation items share no surface-component values with
-probe training; and tolerances calibrated from the mechanism that
-generates each control's events rather than set to zero — and reports
-two preregistered probing campaigns that the controls terminated before
-any outcome measurement. In the first, the untrained twin fired on 120
-of 120 fits: under standard splits, probe significance measured
-reservoir decodability, not learning. In the second, starving closed
-the lookup class and the untrained twin exposed a class beneath it: 13
-of 25 capabilities decodable from untrained weights at margins of .06
-to .82, reproducing across independent initializations, via surface
-statistics that no value holdout can remove. The screen is passable:
-the twelve surviving capabilities read exactly zero untrained margin
-in every cell, and string reversal's untrained readout, which fired
-under standard splits, fell to zero under starving while the trained
-margin held. A successor battery was then constructed with the screen
-at inclusion time: the screen caught a leak whose mechanism the
-design analysis had missed, exposed a new leak class at the cost of a
-screening pass rather than a campaign, confirmed three mechanism
-attributions by construction, and froze a 34-rung battery with the
-untrained gate clean (two fires in 220 fits against 1.4 expected),
-the program's first. That battery then reached an outcome
-measurement, where we committed the outcome-side form of the error
-this paper is about: normalizing argmax accuracy against an untrained
-floor, which sits at zero because an untrained model emits malformed
-text rather than wrong answers, credits a model that has learned only
-the task's output format with its entire guessing rate as capability.
-Ten of thirty-four capabilities landed within noise of their own
-chance rate; one scored below chance and ranked fifth on the outcome
-variable. Re-scoring against within-answer-space chance moved the
-headline rank correlation down, from .368 to .200 — the contamination
-manufactured correlation rather than masking it — and none of the
-controls prescribed here detects it, because all of them are pointed
-at the representation while the defect is in the behaviour. Report
-both floors. Running the other way, the two capabilities carrying the
-second and third highest starved margins scored exactly zero argmax
-accuracy at every eval scale: decodable is not learned, and on this
-evidence it is not generable either. A taxonomy of the leak
-mechanisms and a checklist written for verbatim adoption distill the
-record.
+inference testable, an untrained-weights twin of the model run through
+the identical probe pipeline as an acceptance test, basis-starved
+splits whose validation items share no surface-component values with
+probe training, and tolerances calibrated from the mechanism that
+generates each control's events, and reports two preregistered probing
+campaigns that the controls terminated before any outcome measurement.
+In the first, the untrained twin fired on 120 of 120 fits: under
+standard splits, probe significance measured reservoir decodability,
+not learning. In the second, starving closed the lookup class and the
+twin exposed a class beneath it, 13 of 25 capabilities decodable from
+untrained weights at margins of .06 to .82 via surface statistics that
+no value holdout can remove; the twelve survivors read exactly zero
+untrained margin in every cell. A successor battery built with the
+screen at inclusion time froze with the untrained gate clean, the
+program's first, and then committed the outcome-side form of the same
+error: an untrained floor sits at zero on a generation task, so it
+credited format acquisition as capability, and re-scoring against
+within-answer-space chance moved the headline rank correlation from
+.368 to .200. The two capabilities carrying the second and third
+highest starved margins scored exactly zero argmax accuracy at every
+scale: decodable is not learned, and on this evidence not generable
+either. A taxonomy of the leak mechanisms and a checklist written for
+verbatim adoption distill the record.
 
 ## 1. The problem and the prescription
 
@@ -173,8 +165,8 @@ The prescription is short enough to state completely on page one.
   only on the trained-minus-untrained gap. The screen belongs at
   inclusion time, before a capability enters the battery; the
   campaigns reported here ran it post hoc and spent both batteries
-  learning where it belongs. Section 7 reports the battery that was
-  then built with the screen at inclusion.
+  learning where it belongs. Section 7 reports the battery then built
+  with the screen at inclusion.
 - **P2. Basis-starved splits.** Wherever the label could be looked up
   from surface components of the prompt, name those components against
   the tokenizer's actual token inventory, then validate only on items
@@ -198,30 +190,30 @@ class (the prior campaign's proven offender fell from margin 1.0 to
 about 0.1 untrained), and the untrained control then exposed a second
 class underneath: 86 of 250 untrained fits fired structurally, on
 thirteen of twenty-five capabilities, at margins from .06 to .82 that
-reproduce across two independently initialized models — labels
+reproduce across two independently initialized models, labels
 partially computable from surface statistics that no holdout of basis
 values can remove. Both experiments returned INSUFFICIENT_DATA under
 their frozen rules. The deaths are the point: every failure was a
 detection, and every verdict was projected in a timestamped ledger
 before the frozen adjudication ran.
 
-The paper contributes, in order of expected reuse: an operational
-checklist for probing hygiene written for verbatim adoption (Table T2,
-Section 10); a taxonomy of surface-computability leaks, with
-per-capability anatomy and the trained-versus-untrained comparison
-that separates rescuable tasks from surface-all-the-way-down ones
-(Section 5); the starved-probe instrument, its calibrated gates, and
-its determinism infrastructure (Section 3); the two campaign records
-as worked examples of the controls operating under preregistration
-discipline (Section 4); the successor battery's screening arc, in
-which the controls ran at inclusion time, confirmed three taxonomy
-mechanisms by construction, and produced the program's first clean
-untrained gate (Section 7); and four calibration rules for frozen
-criteria, learned from defects in my own frozen code and promoted to
-standing practice, the last of them measured by re-fitting what the
-campaign's own records had discarded — a probe's best site is a
-selected value, inflated 1.28x on untrained networks by the selection
-alone (Section 6).
+The paper contributes, in order of expected reuse, the following. An
+operational checklist for probing hygiene, written for verbatim
+adoption (Table T2, Section 10). A taxonomy of surface-computability
+leaks with per-capability anatomy, separating rescuable tasks from
+surface-all-the-way-down ones (Section 5). The starved-probe
+instrument with its calibrated gates and determinism infrastructure
+(Section 3), and the two campaign records as worked examples of the
+controls under preregistration discipline (Section 4). The successor
+battery's screening arc, in which the controls ran at inclusion time,
+confirmed three taxonomy mechanisms by construction and produced the
+program's first clean untrained gate (Section 7), and the outcome-side
+error that battery then committed (Section 8). And eleven calibration
+rules for frozen criteria, learned from defects in my own frozen code
+and promoted to standing practice, one of them measured by re-fitting
+what the campaign's own records had discarded: a probe's best site is
+a selected value, inflated 1.28x on untrained networks by the
+selection alone (Section 6).
 
 ## 2. Background
 
@@ -281,7 +273,7 @@ projections approximate kernel machines. Cover (1965) supplied the
 arithmetic that says when to worry: a linear separator with d degrees
 of freedom has a separating capacity of about 2d points in general
 position. The probes in Sections 4 and 5 fit on the order of 1,500
-training rows against hidden widths of 1,024 at 410M and 2,048 at 1B —
+training rows against hidden widths of 1,024 at 410M and 2,048 at 1B,
 at or under capacity, where a clean training fit is free and means
 nothing. Everything rests on validation, and validation is where the
 reservoir property bites: a readout generalizes whenever the label is a
@@ -299,100 +291,94 @@ press on that dispute is to look below threshold with something sharper
 than a benchmark: if linear-probe margins at 410M and 1B forecast which
 capabilities later appear up the Pythia ladder (Biderman et al., 2023),
 the capability was developing smoothly before the benchmark could see
-it. This paper argues neither side of that question and contributes no
-evidence to it; both campaigns closed before any outcome variable was
-measured. What the program contributed here is discipline. Probe
-readings meant as forecasts had to be committed before the forecasted
-models were queried, so no outcome data existed to sanity-check the
-probes against, and the controls of Section 3 had to carry the whole
-burden of trust. The methods in this paper are what that constraint
-produced, and they stand or fall independent of the program that
-motivated them.
+it. This paper argues neither side of that question; both campaigns
+closed before any outcome variable was measured. What the program
+contributed here is discipline: probe readings meant as forecasts had
+to be committed before the forecasted models were queried, so no
+outcome data existed to sanity-check the probes against, and the
+controls of Section 3 had to carry the whole burden of trust.
 
 ## 3. The instrument
 
 The instrument is a linear probe with its evaluation moved onto ground
 the confound can't reach. This section describes it as frozen for
 Experiment 2b; everything here was committed and tagged before the
-campaign produced data.
-
-The probe machinery is one experiment older than the campaigns of
-Section 4. Experiment 1 validated the instrument class on synthetic
-ground truth: small transformers trained from scratch on tasks where
-the presence or absence of the capability was known by construction,
-including percolation-style cells engineered to have no structure
-below threshold. The permutation-null probe module frozen there is
-the one Experiments 2 and 2b inherit, and its closeout also supplied
-the first entry in Section 6's catalog of frozen-criterion defects — a
-magnitude criterion misspecified across incomparable chance floors,
-ledgered as such and left to stand.
+campaign produced data. The probe machinery is one experiment older
+than the campaigns of Section 4: Experiment 1 validated the instrument
+class on synthetic ground truth, small transformers trained from
+scratch on tasks where the presence or absence of the capability was
+known by construction, and the permutation-null probe module frozen
+there is the one Experiments 2 and 2b inherit. Its closeout also
+supplied the first entry in Section 6's catalog of frozen-criterion
+defects, a magnitude criterion misspecified across incomparable chance
+floors, ledgered as such and left to stand.
 
 **Targets and items.** Each capability contributes about 2,000 probe
-items: a prompt, the model's hidden states over that prompt, and a probe
-label defined by the capability's specification. The label is never the
-free-form answer; it's a small-alphabet function of the answer chosen at
-design time (the ones digit of the root, the first letter of the
+items: a prompt, the model's hidden states over that prompt, and a
+probe label defined by the capability's specification. The label is
+never the free-form answer but a small-alphabet function of it chosen
+at design time (the ones digit of the root, the first letter of the
 solution, the power of ten), which keeps probe classes balanced enough
-to test and forces every capability's specification to say exactly what
-the probe is supposed to find. A specification must declare five things
-before an item is generated: the probe target, the surface basis, the
+to test and forces every specification to say exactly what the probe
+is supposed to find. A specification must declare five things before
+an item is generated: the probe target, the surface basis, the
 starving split with a feasibility count, an oracle, and a
 dumbest-baseline analysis stating what a lookup table or a random
-network should score. Capabilities that can't fill in those fields
+network should score. Capabilities that can't fill those fields
 honestly don't enter the battery. Table 1 lists the scored battery in
 full.
 
 **The probe.** Activations are harvested at two fixed token positions
-per layer (position 0 is the question-end token), with layers thinned to
-every third plus the final one: nine layer positions at 410M and seven
-at 1B, so a capability's fit sweeps a family of 18 or 14
-(layer, position) candidates. Each candidate is a standard pipeline, a
-scaler and a logistic regression (C = 1.0, 100 iterations) fit on probe
-training rows and scored as accuracy on the starved validation rows,
-with the scaler fit inside the split. Significance comes from a
-permutation null: 2,500 label permutations over all items under the
-fixed split, refitting the probe each time, which under the null of no
-activation-label association is exact regardless of the split's
-structure, because a lookup strategy is starved in the observed fit and
-in every permuted fit alike. The best candidate's p-value is Bonferroni
-corrected for the family, a capability reads "present" when the
-corrected p clears .01, and the reported effect size is the margin,
-accuracy relative to the null mean rescaled to the interval up to 1,
-zeroed when the significance bar isn't met. The add-one permutation
-floor fixes the smallest achievable corrected p at 18/2501 ≈ .0072 for
-410M and 14/2501 ≈ .0056 for 1B; those two constants generate all the
-gate arithmetic below.
+per layer (position 0 is the question-end token), with layers thinned
+to every third plus the final one: nine layer positions at 410M and
+seven at 1B, so a capability's fit sweeps a family of 18 or 14
+(layer, position) candidates. Each candidate is a scaler and a
+logistic regression (C = 1.0, 100 iterations) fit on probe training
+rows and scored as accuracy on the starved validation rows, with the
+scaler fit inside the split. Significance comes from a permutation
+null of 2,500 label permutations over all items under the fixed split,
+refitting the probe each time; under the null of no activation-label
+association this is exact regardless of the split's structure, because
+a lookup strategy is starved in the observed fit and in every permuted
+fit alike. The best candidate's p-value is Bonferroni corrected for
+the family, a capability reads "present" when the corrected p clears
+.01, and the reported effect size is the margin, accuracy relative to
+the null mean rescaled to the interval up to 1, zeroed when the
+significance bar isn't met. The add-one permutation floor fixes the
+smallest achievable corrected p at 18/2501 ≈ .0072 for 410M and
+14/2501 ≈ .0056 for 1B; those two constants generate all the gate
+arithmetic below.
 
-**The basis and the starving split.** The basis is the construction that
-distinguishes this instrument from a standard probe. For each
-capability, the specification names the tuple of surface components a
-lookup strategy would key on, analyzed against the tokenizer rather than
-against human intuition about the task. Experiment 2's addition lesson
-is the reason for that clause: Pythia's BPE splits numbers into digit
+**The basis and the starving split.** The basis is what distinguishes
+this instrument from a standard probe. For each capability, the
+specification names the tuple of surface components a lookup strategy
+would key on, analyzed against the tokenizer rather than against
+intuition about the task: Pythia's BPE splits numbers into digit
 chunks, so an operand-level basis under-specifies what the readout can
-key on for any digit-local label, and digit-local targets are banned at
-design time rather than starved badly. Given the basis, a starving
-split draws a held-out value set per component. Validation items are
-those whose components are all held out; training items those whose
-components are all kept; items mixing the two are discarded from the
-fit entirely (Figure 1). A readout keyed on any component therefore meets only
-unseen values at validation and scores chance by construction, and the
-same holds for additive combinations of per-component scores. Splits
-must hold out at least 15 values per component, produce at least 300
-validation items, and keep every probe class present on both sides,
-enforced by seeded rejection with a bounded number of redraws; each of
-the five probe seeds redraws which values are held out, so a
-capability's five fits starve five different corners of its basis. Two
-variants cover geometries the plain construction handles badly: when
-components share one value space, a single holdout set drawn from the
-union applies to every position, closing the leak where a value held
-out at one position remains learnable at another; and when the label is
-a function of the basis value with rare classes, the holdout is drawn
-proportionally within label groups, which is what keeps rare classes on
-both sides of the split. Capabilities that can't satisfy the
-constraints for all five seeds are ejected before the freeze, with the
-failure recorded; five candidates died that way, including one whose
-entire item space was smaller than the permutation count.
+key on for any digit-local label, and digit-local targets are banned
+at design time rather than starved badly (Experiment 2's addition
+lesson). Given the basis, a starving split draws a held-out value set
+per component. Validation items are those whose components are all
+held out; training items those whose components are all kept; items
+mixing the two are discarded from the fit entirely (Figure 1). A
+readout keyed on any component, or on an additive combination of
+per-component scores, therefore meets only unseen values at validation
+and scores chance by construction. Splits must hold out at least 15
+values per component, produce at least 300 validation items, and keep
+every probe class present on both sides, enforced by seeded rejection
+with a bounded number of redraws; each of the five probe seeds redraws
+which values are held out, so a capability's five fits starve five
+different corners of its basis. Two variants cover geometries the
+plain construction handles badly: when components share one value
+space, a single holdout set drawn from the union applies to every
+position, closing the leak where a value held out at one position
+remains learnable at another; and when the label is a function of the
+basis value with rare classes, the holdout is drawn proportionally
+within label groups, which keeps rare classes on both sides.
+Capabilities that can't satisfy the constraints for all five seeds are
+ejected before the freeze with the failure recorded; five candidates
+died that way, one because its entire item space was smaller than the
+permutation count.
 
 ![Figure 1: the basis-starved split](figures/fig1_split.png)
 
@@ -403,62 +389,46 @@ all held out; mixed items are discarded. A readout keyed on any
 component meets only unseen values at validation and scores chance by
 construction.*
 
-**The gates.** Four controls surround the scored fits, each with its
+**The gates.** Four controls surround the scored fits, each with a
 tolerance derived from the floor arithmetic rather than set by feel.
-The untrained-weights gate runs the identical pipeline, splits and all,
-on a twin of each model with weights at seeded random initialization
-and nothing else changed. Its expected clean-machinery fire count is
-the number of fits times the family-adjusted floor rate, about 1.6
-fires across this campaign's 250 untrained fits, and the gate tests the
-observed count against that rate binomially instead of demanding zero.
-Fires that are structurally above the floor mark real leaks: the
-capability is dropped, and the experiment's own rules decide whether
-enough battery survives to continue (the floor here was twenty of
-twenty-five; Section 4 records the outcome, and Section 6 records what
-the closeout found wrong with the per-fire classification rule as
-frozen). The shuffled-label gate refits trained activations against
-labels permuted by a seeded generator, using the same split geometry as
-the real fits and permuting only the fit labels (the ordering as
+The untrained-weights gate runs the identical pipeline, splits and
+all, on a twin of each model with weights at seeded random
+initialization. Its expected clean-machinery fire count is the number
+of fits times the family-adjusted floor rate, about 1.6 fires across
+this campaign's 250 untrained fits, and the gate tests the observed
+count against that rate binomially instead of demanding zero. Fires
+structurally above the floor mark real leaks: the capability is
+dropped, and the experiment's own rules decide whether enough battery
+survives (the floor here was twenty of twenty-five; Section 4 records
+the outcome, and Section 6 what the closeout found wrong with the
+per-fire rule as frozen). The shuffled-label gate refits trained
+activations against labels permuted by a seeded generator under the
+same split geometry, permuting only the fit labels (the ordering as
 corrected mid-campaign; Section 4.2 discloses the original defect); it
-carries the same binomial tolerance, and a structurally-above fire there is grounds for
-declaring the pipeline itself unsound. The known-present gate points
-the instrument at capabilities that plainly exist (an entity-tracking
-task and a copy control) and requires seed-majority detection at both
-sizes with a mean starved margin of at least 0.2 at 1B, on the argument
-that an instrument that can't see what's there has no business ruling
-on what isn't. And an argmax gate requires the copy control to be
+carries the same binomial tolerance, and a structurally-above fire
+there is grounds for declaring the pipeline unsound. The known-present
+gate points the instrument at capabilities that plainly exist, an
+entity-tracking task and a copy control, and requires seed-majority
+detection at both sizes with a mean starved margin of at least 0.2 at
+1B: an instrument that can't see what's there has no business ruling
+on what isn't. An argmax gate requires the copy control to be
 generated correctly greedily at least 90% of the time at both probe
-sizes, certifying the generation-side harness that the battery's
-inclusion decisions depend on.
+sizes, certifying the generation-side harness the battery's inclusion
+decisions depend on.
 
-**Determinism.** Because probe fits were distributed across three
-machines with three BLAS stacks, a box's results counted only after it
-reproduced a reference fixture through the real probe path bit for bit,
-prediction counts and all, against the Mac-computed reference. The rule
-was reproduce-or-be-excluded, with no debugging tier in between; in the
-event, arm64 Accelerate, x86-64 OpenBLAS, and Windows all matched
-exactly under single-threaded BLAS, and the campaign's 770 fits merge
-idempotently from any box that passed. I mention the infrastructure not
-as engineering color but because it's part of the claim: every number
-in Sections 4 and 5 recomputes from committed fit files.
-
-That last clause used to continue "and the fits themselves don't depend
-on which machine produced them." It is corrected here, because a later
-re-fit of the whole campaign from its stored activations says otherwise.
-All 731 fits computed on the reference machine reproduce their stored
-accuracy exactly. Of the 39 computed on the two remote workers — both of
-which had passed the fixture gate — 15 do not, by at most 0.0098 and a
-median of 0.0026, which on these validation sets is one to four items.
-That is a different BLAS accumulating a different sum, not a defect in
-anyone's code, and it moves no verdict and no taxonomy assignment in
-this paper. But it is a smaller guarantee than the one the gate appeared
-to give. One fixture, exercising one code path on one input, cannot
-certify that every subsequent fit on that machine lands on the same
-floating-point value. The rule that would have established the stronger
-claim is to certify a worker by re-running a random sample of the units
-it actually produced, rather than a fixture chosen in advance — and
-where exact cross-machine agreement is load-bearing rather than
-reassuring, to compute the load-bearing fits on one machine.
+**Determinism.** Probe fits were distributed across three machines
+with three BLAS stacks, and a box's results counted only after it
+reproduced a reference fixture through the real probe path bit for
+bit against the Mac-computed reference, with no debugging tier in
+between; arm64 Accelerate, x86-64 OpenBLAS and Windows all matched
+under single-threaded BLAS, and the campaign's 770 fits merge
+idempotently from any box that passed. The infrastructure is part of
+the claim: every number in Sections 4 and 5 recomputes from committed
+fit files. The fits themselves do depend on which machine produced
+them, by at most one to four validation items on 15 of the 39 remote
+fits, a smaller guarantee than the fixture gate appeared to give;
+Appendix C carries the re-fit and the rule it promotes, and no verdict
+or taxonomy assignment moves.
 
 *Table 1. The scored battery as frozen (n = 25), grouped by gate-1
 fate: task, probe label, surface basis, and starving-split parameters.
@@ -507,14 +477,11 @@ verdicts were projected in a timestamped ledger before the formal report
 executed. The full record, including every number below, is in the tagged
 repository history.
 
-Both experiments serve a larger program that asks whether linear-probe
-margins at small scale forecast which capabilities later emerge up a model
-ladder. That question imposes an unusual discipline: probe results at
-410M and 1B parameters had to be committed before any larger model was
-queried, so the probe instrument had to be trustworthy on its own, with no
-outcome data available to rescue it. The controls below exist because of
-that constraint. Neither experiment ever queried the larger models. The
-program's question remains open, and this paper makes no claim about it.
+Both serve the program described at the end of Section 2: probe
+results at 410M and 1B had to be committed before any larger model was
+queried, so the instrument had to be trustworthy on its own, with no
+outcome data available to rescue it. Neither experiment ever queried
+the larger models.
 
 ### 4.1 Experiment 2: standard splits, and what a random network decodes
 
@@ -557,7 +524,7 @@ It isn't computing arithmetic; it's storing a per-operand-token offset
 table and mixing it additively.
 
 The diagnostic's sharper finding is about the trained network. On the
-same held-out-operand split, the trained mod-7 probe collapses to 0.009 —
+same held-out-operand split, the trained mod-7 probe collapses to 0.009,
 below chance, the signature of a lookup that's systematically wrong off
 its table. The trained probe's perfect in-distribution margin was lookup
 too. And a trained-minus-untrained gap score, the obvious repair, turned
@@ -608,10 +575,8 @@ that fired at margin 1.000 under standard splits fired at seed-maximum
 margins of 0.10 to 0.26 under starved ones, scattered one-to-two-seed
 events at the weak edge of detection.
 
-The campaign fit 770 probe cells over eight days on three machines, with
-a determinism gate requiring each worker to reproduce a reference fixture
-bit-for-bit before its results counted (the fixture passed identically on
-arm64 Accelerate, x86-64 OpenBLAS, and Windows). One implementation bug
+The campaign fit 770 probe cells over eight days on three machines
+under Section 3's determinism gate. One implementation bug
 surfaced mid-campaign: the shuffled-control stage permuted labels before
 building the split, which is undefined for label-stratified splits. The
 fix was argued from mechanism in the ledger before rerunning (the
@@ -648,15 +613,9 @@ three days before the frozen report ran; the report confirmed it without
 surprise. For a preregistered program, that's the intended shape of even
 a failure.
 
-One honesty note on the adjudication itself. The frozen report contained
-two drafting defects, caught at closeout: a pooled count test that would
-have declared pipeline abort under any attrition event at all, and a
-floor-signature check whose two conditions contradict each other on order
-statistics grounds. Neither changed the verdict, both were ruled from
-mechanism arguments written before the report ran, and both became
-design rules for successors. Section 6 treats them as first-class
-results: frozen criteria are code, and code written to implement a
-preregistration can misimplement it.
+One honesty note on the adjudication itself: the frozen report
+contained two drafting defects, caught at closeout, and neither changed
+the verdict. Section 6 treats them as first-class results.
 
 ## 5. The leak taxonomy
 
@@ -781,34 +740,36 @@ order looks like.
 Preregistration moves analysis decisions ahead of the data, but the
 decisions still get written down as thresholds and code, and both can
 misimplement the design they encode. A defect frozen in good faith
-binds like any other frozen choice. Experiment 2b's closeout found two,
-of different kinds, and since neither changed the verdict, what's worth
-extracting is the class each belongs to and the rule that would have
-caught it before the freeze.
+binds like any other frozen choice. This section catalogues the ones
+this program found in its own frozen instruments, each with the rule
+that would have caught it before the freeze. One fact holds for every
+ruling below and is stated once: the mechanism argument behind it was
+written before, or demonstrably independent of, the outcome it
+touched, and every projection was timestamped in the ledger before the
+frozen report ran. That is what makes a ruling adjudication rather
+than rescue. Lessons 1 to 4 come from the campaigns this paper
+reports; lessons 5 to 11 come from the successor experiments in the
+supporting record, each named by its tags.
 
-The first was a per-fire predicate that contradicts its own arithmetic.
-The design tolerated occasional control fires at the permutation floor
-as the pipeline's designed false-positive rate, and the frozen report
-classified a fire as tolerable when it sat at the add-one floor and
-within 3 SD of its permutation null's mean. But sitting at the floor
-means the observed accuracy beat all 2,500 permuted fits, and the
-expected maximum of 2,500 null draws lies about 3.5 SD above the null
-mean (Figure 3b). The conjuncts are in tension: the tolerated class is nearly empty
-by construction, and a clean null was expected to hand the predicate
-about 1.6 misclassified fires per 250 (at least one with probability
-about .8). The shuffled control then behaved exactly as designed (two
-fires in 250, count test p = .538, the fires at 3.6 and 4.7 null SD),
-and the predicate read both as structural and projected a pipeline
-abort on a control whose own count test was passing. The closeout ruled
-the fires floor-rate events and the predicate a design-level
-miscalibration; the order-statistics argument was timestamped in the
-ledger before the frozen report ran, which is what makes that ruling
-adjudication rather than rescue. The rule it promotes: a signature bar
-is derived from the mechanism that generates the events it classifies,
-here the distribution of the maximum of N permuted fits, never from an
-SD intuition. Experiment 1 had already paid for one instance of the
-same class, the misspecified magnitude criterion of Section 3's
-provenance note, so the rule is now standing rather than advisory.
+**The first lesson: a signature bar is derived from the mechanism that
+generates the events it classifies, never from an SD intuition.**
+Experiment 2b tolerated occasional control fires at the permutation
+floor as the pipeline's designed false-positive rate, and its frozen
+report classified a fire as tolerable when it sat at the add-one floor
+and within 3 SD of the null mean. But a fire at the floor beat all
+2,500 permuted fits, and the expected maximum of 2,500 null draws lies
+about 3.5 SD above the null mean (Figure 3b). The tolerated class is
+nearly empty by construction, and a clean null was expected to hand
+the predicate about 1.6 misclassified fires per 250, at least one with
+probability about .8. The shuffled control then behaved exactly as
+designed, two fires in 250 with a count-test p of .538, at 3.6 and 4.7
+null SD, and the predicate read both as structural and projected a
+pipeline abort on a control whose own count test was passing. The
+closeout ruled the fires floor-rate events and the predicate a
+design-level miscalibration. Experiment 1 had already paid for one
+instance of the same class, the misspecified magnitude criterion of
+Section 3's provenance note, so the rule is standing rather than
+advisory.
 
 ![Figure 3: gate arithmetic](figures/fig3_gates.png)
 
@@ -822,72 +783,48 @@ only fires within 3 SD of the null mean, a region the maximum reaches
 with probability ≈ .03. The two observed shuffled fires, at 3.6 and
 4.7 SD, were both misread as structural.*
 
-The second was an implementation deviation. The design gives the
+**The second lesson: adjudication code freezes together with fixture
+tests derived from the design document's own worked examples, plus one
+synthetic case per preregistered provision.** The design gave the
 untrained gate exactly one remedy, attrition of the leaking capability,
-and reserves pipeline abort for the shuffled gate. The report's code
+and reserved pipeline abort for the shuffled gate. The report's code
 instead pooled every structural fire into one binomial count test
 against the floor rate, which trips at seven fires in 250, while a
-single leaking capability contributes ten fits. As coded, any attrition
-event at all was an abort: the design's attrition provision could never
-have operated for any possible data. On the observed 86 fires the
-pooled test returned p = 6.5e-117 and declared the pipeline unsound;
-the closeout ruled the deviation against the design text and closed the
-gate as attrition times thirteen. The ruling was safe to make because
-both readings end in the same place, twelve survivors against a floor
-of twenty, and it selects a label, not an outcome. The defect isn't
-that the code was careless in any unusual way; it's that no test ever
-executed the provision before real data did. The rule it promotes:
-adjudication code freezes together with fixture tests derived from the
-design document's own worked examples, plus one synthetic case per
-preregistered provision. "One leaking capability" must yield
-attrition-without-abort before the freeze happens. Both of 2b's
-implementation deviations, this one and the shuffle-before-split
-ordering bug of Section 4.2, fail that fixture suite immediately.
+single leaking capability contributes ten fits: any attrition event
+was an abort, and the provision could never have operated for any
+possible data. On the observed 86 fires the pooled test returned p =
+6.5e-117 and declared the pipeline unsound; the closeout ruled the
+deviation against the design text and closed the gate as attrition
+times thirteen, safe to rule because both readings end in the same
+place, twelve survivors against a floor of twenty. No test had
+executed the provision before real data did. "One leaking capability"
+must yield attrition-without-abort before the freeze; both of 2b's
+implementation deviations, this one and the shuffle-before-split bug
+of Section 4.2, fail that fixture immediately.
 
-The third lesson is about scheduling rather than a criterion. The
-argmax control's 410M failure was computable from the committed
-inclusion record eight days before the campaign spent its compute; the
-frozen report surfaced it at campaign end because nothing required
-checking a gate the moment its inputs existed. Gates whose inputs are
-committed before the freeze get adjudicated before the freeze. The
-skipped check cost nothing this time only because the battery died of
-something else first.
-
-What ties the three together is the ledger. Every ruling above rests on
-a mechanism argument written before, or demonstrably independent of,
-the outcome it touches, and every projection was timestamped before the
-frozen report ran. Frozen criteria are code, and code has defects; the
-practice that keeps a preregistered program honest through its own
-defects is the same one that makes its results legible afterward —
-write the argument down before you know what it buys you.
-
-A fourth lesson arrived later, from re-reading what the campaign's own
-records had discarded rather than from its closeout. It is the same
-claim this paper makes everywhere else, in a place we had not looked:
-not that the signal came for free, but that the number reported for it
-is larger than the thing it names.
+**The third lesson: gates whose inputs are committed before the freeze
+get adjudicated before the freeze.** The argmax control's 410M failure
+was computable from the committed inclusion record eight days before
+the campaign spent its compute; the frozen report surfaced it at
+campaign end because nothing required checking a gate the moment its
+inputs existed. The skipped check cost nothing only because the
+battery died of something else first.
 
 **The fourth lesson: the number reported beside a corrected test is a
 selected value, and selection is not what the correction protects
-against.** Our instrument sweeps fourteen to eighteen candidate sites,
+against.** The instrument sweeps fourteen to eighteen candidate sites,
 tests each against a permutation null, applies a Bonferroni correction
-across the family, and reports the site with the smallest corrected p —
-ties broken by accuracy. The correction is right and does its job: it
-controls the false-positive rate of the *detection*. But the accuracy
-printed alongside is the accuracy *at the site the selection chose*,
-and the null was evaluated at that same site. Nothing in the procedure
-makes that number an unbiased estimate of what the representation
-contains.
-
-The records stored only that one number per fit, so the campaign could
-not quantify its own exposure. Re-fitting every candidate from the
-stored activations — same starving splits, same seeds, same estimator,
-no permutation null needed — recovers what was discarded. Of 770 fits,
-755 reproduce their stored accuracy exactly at the record's own
-selected site; the measurement below uses those.
-
-The cleanest read is the untrained stage, where there is no trained
-structure to find and every candidate is measuring the same nothing:
+across the family, and reports the site with the smallest corrected p,
+ties broken by accuracy. The correction controls the false-positive
+rate of the detection. The accuracy printed beside it is the accuracy
+at the site the selection chose, and nothing in the procedure makes it
+an unbiased estimate of what the representation contains. The records
+stored only that one number per fit, so the campaign could not
+quantify its own exposure; re-fitting every candidate from the stored
+activations recovers what was discarded (of 770 fits, 755 reproduce
+their stored accuracy exactly at the selected site, and the
+measurement uses those). The untrained stage is the cleanest read,
+because every candidate there is measuring the same nothing:
 
 | stage | selected site | mean over candidates | inflation |
 |---|---|---|---|
@@ -896,376 +833,234 @@ structure to find and every candidate is measuring the same nothing:
 | scored battery | 0.3046 | 0.2215 | +0.0831 |
 
 On a randomly initialized network the reported site reads 1.28 times
-the average site, and the inflation is positive in **246 of 247
-untrained fits** — the single exception being a fit in which all
-fourteen candidates returned the identical accuracy, so there was
-nothing for the selection to choose between. That is selection, measured, on the paper's own
-control condition. The selected site was also the highest-accuracy site
-in 92 to 100 percent of fits across stages, so in practice the rule
-reports a maximum whatever its tie-breaking says.
+the average site, positive in **246 of 247 untrained fits**; the
+exception is a fit in which all fourteen candidates returned the
+identical accuracy. The selected site was also the highest-accuracy
+site in 92 to 100 percent of fits, so in practice the rule reports a
+maximum whatever its tie-breaking says. The successor battery,
+replayed the same way, gives 0.1393 against 0.1045, a ratio of 1.33,
+positive in **227 of 227** fits. The artifact was not holding that
+battery's result up: its primary rank correlation, recomputed with the
+profile mean in place of the selected site over the same 22 rungs,
+moves from .431 to .456 (neither is the frozen verdict, which
+normalizes against a permutation null; the contrast is the point).
+That is the opposite of Section 8's floor defect, where the correction
+cut the correlation from .368 to .200. A selection artifact is not
+automatically load-bearing; what it changes is what the number means.
+The prescription is not to prefer the mean, which dilutes a signal
+localized to one block, but to **report the per-site profile, with the
+untrained twin's value beside each site.** Every candidate was already
+fit in order to take the maximum, so the cost is storage, which is
+what we failed to spend.
 
-The same measurement on the successor battery, replayed the same way,
-gives the same answer: selected site 0.1393 against a candidate mean of
-0.1045 on untrained networks, a ratio of 1.33 and positive in **227 of
-227** fits. Two independent batteries, two model sizes each, no
-exceptions in either.
-
-What the successor battery also shows is that the artifact was not
-holding its result up. Its primary statistic is a rank correlation over
-these selected values; recomputing that correlation with the profile
-mean in place of the selected site moves it from .431 to .456 — very
-slightly *up*. (Neither figure is that experiment's frozen verdict,
-which normalizes against a permutation null and zeroes below a
-significance bar; the contrast is what matters, and both sides of it use
-the identical aggregation over 22 rungs.) This is the opposite of §8's
-floor defect, where correcting the artifact cut the correlation from
-.368 to .200. A selection artifact is not automatically load-bearing,
-and we would be overclaiming to say that finding it changes a
-conclusion. What it changes is what the number means.
-
-The prescription is therefore not to prefer the mean — if a
-representation's signal is genuinely localized to one block, a mean over
-fourteen sites dilutes it, and the maximum is the more sensitive
-statistic. The maximum is not wrong; it is answering a different
-question. What is wrong is reporting one number of either kind and
-letting the reader supply the interpretation. **Report the per-site
-profile, with the untrained twin's value beside each site.** Every
-candidate was already fit in order to take the maximum, so the cost is
-storage, not compute — and storage is what we failed to spend.
-
-One corroboration from outside this paper's evidence base is worth a
-sentence, with its weakness attached. The same two-gate apparatus —
-permutation null conjoined with an untrained-twin floor, applied per
-site rather than at a selected one — was run on a synthetic formal
-language whose per-class co-occurrence graph has a percolation
-threshold, on forty models trained below it where the generating theory
-says the capability cannot form. Both controls came back silent: zero
-fires in 480 untrained sites and zero in 320 trained ones. That bounds
-the worry a reader is entitled to after eight sections of controls
-catching things — that an apparatus which always finds a leak is
-measuring its own sensitivity. It bounds it weakly, though, and we say
-so: that probe uses one prompt per entity, so its split is entity-wise
-by construction, which is the starved condition of Section 4.2 obtained
-for free. It is a system built to be hygienic, and finding it hygienic
-is close to circular. The clean gate of Section 7, on this paper's own
-battery and its own tokenizer, is the stronger evidence for the same
-claim.
+One corroboration from outside this paper's evidence base, with its
+weakness attached: the same two-gate apparatus, applied per site, ran
+on a synthetic formal language with a percolation threshold, on forty
+models trained below it where the capability cannot form, and both
+controls were silent, zero fires in 480 untrained and 320 trained
+sites. That bounds the worry that an apparatus which always finds a
+leak is measuring its own sensitivity, but weakly: that probe's split
+is entity-wise by construction, the starved condition of Section 4.2
+for free, and finding a hygienic system hygienic is close to circular.
+Section 7's clean gate on this paper's own battery is the stronger
+evidence.
 
 **The freeze as an adversarial instrument.** Everything above was
-caught by gates and controls running against data. The successor
-experiments added a place to catch defects before any data exists: the
-freeze itself became a session with an adversarial assignment. The
-protocol is three sessions, design, build, and freeze, separated by
-context boundaries, and the freeze opens with a cold re-read of the
-design and the build under one instruction: assume the tree still
-contains a class defect and find it. The assumption has paid out every
-time we have made it. One freeze found the campaign's mass statistic
-crediting set-level lexical priming: a position-blind primer with
-nothing of the capability in it scored 500 of 500 on the statistic
-(p ≈ 3e-151), so the statistic was amended ledger-first before any
-model ran — and the campaign's own data later showed the superseded
-form would have decided the verdict, because the measured position
-gradient came out inverted and the original statistic would have read
-the inversion as elevation. The next freeze, on the deepening
-successor, found the two inputs its fixture suite could not see: the
-leak gate's prompts were re-rendered from live item files at analysis
-time with no hash pin against the preregistered referents, and the
-byte-continuity gate's attestation ("I compared against the file with
-this hash") was never checked against the tree the analysis actually
-pooled. Every synthetic world injected prompts and attestation
-strings, so the production paths were exactly the untested paths; both
-were closed with refusals, and the closures were then mutation-tested
-like any other provision. The pattern behind the catches is the same
-each time: the defect lives on a path the test suite substitutes for.
-A fixture suite at a 100 percent mutation kill rate can still miss it,
-because the mutation battery only exercises what the fixtures reach.
-The assignment "find the class defect" is a search of the seams
-between the tested and the real, and it belongs on the checklist, not
-in the discretion of whoever feels adversarial that day. (Full rulings
-under the `exp3-*`, `exp3c-*`, `exp3d-*` and `exp3e-*` tags in the supporting
-record.)
+caught by gates running against data. The successor experiments added
+a place to catch defects before any data exists: a three-session
+protocol, design, build and freeze, separated by context boundaries,
+where the freeze opens with a cold re-read of design and build under
+one instruction, assume the tree still contains a class defect and
+find it. The assumption has paid out every time. One freeze found a
+mass statistic crediting set-level lexical priming, a position-blind
+primer with nothing of the capability in it scoring 500 of 500
+(p ≈ 3e-151), and the campaign's own data later showed the superseded
+form would have decided the verdict; the next found the leak gate
+re-rendering its prompts from live item files with no hash pin, and a
+byte-continuity attestation never checked against the tree the
+analysis pooled (`exp3-*`, `exp3c-*`). The pattern is the same each
+time: the defect lives on a path the test suite substitutes for, so a
+fixture suite at a 100 percent mutation kill rate can still miss it.
+"Find the class defect" is a search of the seams between the tested
+and the real, and it belongs on the checklist. Lessons 5 to 11 are
+what those freezes and the campaigns after them found, each stated as
+its rule with the evidence cut to what carries it.
 
 **The fifth lesson: a frozen criterion must be total over the alphabet
-it scores.** The scoring criterion those freezes protected then failed
-in a way none of them was looking for. The exact-match verifier behind
-every generation number in this program normalizes the model's text
-before comparing, and its normalizer indexes the first whitespace
-token of the first line, an operation that assumes a token exists. On
-text whose first line is bare non-space whitespace wrapped in
-punctuation (the observed instance: quote, tab, quote), the wrapping
-is stripped, the whitespace survives, and the criterion raises instead
-of returning. The defect ran 4.2 million temperature-1 draws across
-four closed experiments without firing, then stopped a campaign on the
-one draw in 384,000 that landed in the class. Two properties made this
-survivable. The defect can only raise, never mis-score, so every
-closed verdict stood without re-adjudication: a criterion that crashes
-on garbage cannot silently credit it. And the fix could be proven
-verdict-preserving executably rather than by argument — a wrapper
-mapping the crash class to a non-fire (whitespace never matches a
-letters answer), guarded on the measurement side only, with a gold
-answer that crashes the normalizer kept a hard error because it means
-the battery itself is broken; the wrapper recomputed the full
-committed corpus to identical counts before the campaign resumed. The
-rule it promotes: adversarial review interrogates what a criterion
-credits, and totality is a different property needing a different
-test. Property-fuzz the frozen verifier over the emission alphabet at
-the freeze (whitespace classes, control characters, punctuation
-wrappers, empty and near-empty strings) and require a verdict, not an
-exception, on all of it. A frozen criterion is a function on
-everything a model can emit, not only on the answers a designer
-imagined.
+it scores.** The exact-match verifier behind every generation number
+in this program normalizes the model's text and indexes the first
+whitespace token of the first line, which assumes a token exists. On a
+first line that is bare whitespace wrapped in punctuation it raises
+instead of returning. The defect ran 4.2 million temperature-1 draws
+across four closed experiments without firing, then stopped a campaign
+on the one draw in 384,000 that landed in the class. It could only
+raise, never mis-score, so every closed verdict stood; the fix, a
+measurement-side wrapper mapping the crash class to a non-fire, was
+proven verdict-preserving by recomputing the full committed corpus to
+identical counts before the campaign resumed. Adversarial review
+interrogates what a criterion credits; totality is a different
+property and needs a different test. Property-fuzz the frozen verifier
+over the emission alphabet at the freeze and require a verdict, not an
+exception, on all of it. (Record under the `exp3c-*` tags.)
 
 **The sixth lesson: a preregistered power table is a claim about the
-alternative's shape, not only its size.** The same program's
-rank-prediction experiment declared itself underpowered in advance —
-computed power 0.26 against a house bar of 0.75 — published that
-concession in its frozen design, ran anyway, and then rejected its
-null at p = 1.6e-4, four orders of magnitude below the level. A
-p-value that far past a test's stated reach is not good luck; it is
-evidence the alternative was specified wrongly, and the
-specification error is recoverable from the committed power record.
-The frozen alternative distributed rate mass over the individual
-items that had been observed to succeed — thirteen of them,
-add-smoothed — while the structure the data actually carried was a
-forty-five-item equivalence class of which those thirteen were an
-unrepresentative sample. A success helped the statistic only if it
-landed on one of the modelled items; in reality it helped if it
-landed anywhere in the class. The target was roughly six times
-larger than modelled, and no amount of tuning the smoothing constant
-would have revealed that, because the sensitivity analysis varied
-how strongly an item-level story was diluted and never asked whether
-the story was item-level at all. The freeze had already printed the
-predictor's tie structure and recorded that one stratum was binary —
-the information needed to catch this was in the frozen record,
-unread. The rule: when a design freezes a predictor whose ties
-collapse items into equivalence classes, compute the power table
-over those realized classes as well as over per-item counts, and
-treat a large discrepancy between the two as the design question it
-is. The corollary is worth stating separately because it cuts
-against intuition: a coarse instrument is not a weak one. Tie
-structure bounds what a statistic can express, not how large an
-effect it can detect, and a design that confuses the two will
-under-power itself on paper and be surprised by its own result.
+alternative's shape, not only its size.** The rank-prediction
+experiment declared itself underpowered in advance, computed power
+0.26 against a house bar of 0.75, ran anyway, and rejected its null at
+p = 1.6e-4. A p-value that far past a test's stated reach is evidence
+the alternative was specified wrongly, and the error is recoverable
+from the committed power record: the frozen alternative spread rate
+mass over the thirteen items observed to succeed, while the structure
+the data carried was a forty-five-item equivalence class of which
+those thirteen were an unrepresentative sample, a target roughly six
+times larger than modelled. The sensitivity analysis varied how
+strongly an item-level story was diluted and never asked whether the
+story was item-level at all; the freeze had printed the predictor's
+tie structure, unread. When a frozen predictor's ties collapse items
+into classes, compute power over the realized classes as well as per
+item, and treat a large discrepancy as the design question it is. The
+corollary cuts against intuition: a coarse instrument is not a weak
+one. Tie structure bounds what a statistic can express, not how large
+an effect it can detect. (Record under the `exp3d-*` tags.)
 
 **The seventh lesson: a conservative rule is conservative relative to
-a test, and "applied identically" can flip its sign.** The leak rule
-this program has carried since its sampling experiments began is
-simple: if the gold answer occurs verbatim in the rendered prompt, a
-draw that emits it is void, disclosed but counted by nothing. For a
-fire count that rule can only lower the number, so it is safe wherever
-a higher count would argue for the claim. The shortcut experiment that
-followed the rank-prediction result then applied the same rule, in the
-design's own words "identically", to competitor strings inside a
-relative test: for each item the exact reverse was scored against its
-one-edit neighbours that begin with the same letter, under a null that
-designates one of those strings "the reverse" uniformly at random,
-conditional on the observed counts. Zeroing a void competitor's count
-inside that vector lowers nothing the claim depends on; it removes a
-slot that could have scored and leaves the reverse's share larger
-against what remains. The exact arithmetic on a three-item instance
-makes the direction plain: with the competitor's emissions live the
-designation p is 1/4, with the item excluded it is 1/8, with the
-competitor zeroed it is 1/24. The rule that was conservative for the
-absolute count argued for the claim in the relative one. The freeze
-caught it by asking, for each null separately, whether any handling of
-a void could move the statistic in the claim's favour, and the closure
-was to drop from the relative test any item carrying a void target and
-disclose its raw vector, not to zero a slot. On the committed battery
-no target was void, so the correction changed no number; the lesson is
-about the words. "Apply the same rule" is a statement about an
-operation, not about its effect, and the effect depends on whether the
-statistic the rule feeds is an absolute count or a share. A freeze
-should classify every exclusion rule by the test it feeds and
-re-derive its direction there, rather than inheriting the direction
-from the test the rule was written for. (Record under the `exp3e-*`
-tags.)
+a test, and "applied identically" can flip its sign.** The program's
+leak rule voids any draw that emits a gold answer occurring verbatim
+in the rendered prompt. For a fire count the rule can only lower the
+number, so it is safe wherever a higher count argues for the claim.
+The shortcut experiment applied it, in its own words "identically",
+to competitor strings inside a relative test that designates one of an
+item's one-edit neighbours "the reverse" at random, conditional on the
+observed counts. Zeroing a void competitor's count there removes a
+slot that could have scored and leaves the reverse's share larger: on
+a three-item instance the designation p is 1/4 with the competitor
+live, 1/8 with the item excluded, 1/24 with the competitor zeroed. The
+closure was to drop any item carrying a void target from the relative
+test; on the committed battery no target was void, so no number moved.
+"Apply the same rule" describes an operation, not its effect, and the
+effect depends on whether the statistic is an absolute count or a
+share. Classify every exclusion rule by the test it feeds and
+re-derive its direction there. (Record under the `exp3e-*` tags.)
 
 **The eighth lesson: a frozen verdict must be able to deliver its own
-refusal terminal from the tree the runner actually leaves behind.** The
-sampling-ladder experiment that closed this program's Prediction 2 arc
-had a verdict tree whose first terminal, INSUFFICIENT_DATA, fires when
-the production path's byte comparison against a committed stream finds
-any difference. The runner implemented the halt correctly: on a
-differing draw it wrote the comparison record, parked the rows in a
-separate file, withheld the rung's normal draws file so that a resumed
-campaign could never mistake a halted rung for a finished one, and
-stopped. That design makes the main tier incomplete by construction
-whenever the gate fires. The frozen analyzer loaded the main tier
-before it read the gate, and its loader refused an incomplete tier with
-a hard error, as it should. So on exactly the tree a halted campaign
-leaves, the verdict did not say INSUFFICIENT_DATA; it raised
-FileNotFoundError. The full-shape world that had "reached" that
-terminal during the build was a complete tree with one altered draw, a
-tree the runner could never produce, because not producing it is what
-the halt is for. Every synthetic world had been built from the
-analyzer's own loaders and writers; none had been built from the
-runner's failure path. The freeze found it by running the runner's halt
-function on a synthetic tranche and handing the result to the
-analyzer, and the closure was to read the gate records first,
-re-derive any recorded difference from the parked rows through the
-frozen comparator, and return the terminal with the tree's completeness
-stated, before any tier is loaded. The defect never fired on the real
-campaign, which reproduced all 128,000 committed draws byte for byte.
-It is the class of Experiment 3a's crash one level up: a verdict that
-crashes where it should refuse has an unreachable terminal, and an
-unreachable terminal is a preregistered outcome the instrument cannot
-honour. The rule: for every refusal terminal of a frozen tree, build
-the full-shape world with the producer's own failure path, not with
-the analyzer's writers, and require the analyzer to return that
-terminal from the tree as left rather than from a tree as imagined.
-(Record under the `exp2d-*` tags.)
+refusal terminal from the tree the runner actually leaves behind.**
+The sampling-ladder experiment's verdict tree opened with
+INSUFFICIENT_DATA, fired when the byte comparison against a committed
+stream found any difference. The runner implemented the halt
+correctly, parking the differing rows and withholding the rung's
+normal draws file so a resumed campaign could never mistake a halted
+rung for a finished one. The frozen analyzer loaded that tier before
+it read the gate, and its loader refused an incomplete tier with a
+hard error: on exactly the tree a halted campaign leaves, the verdict
+raised FileNotFoundError instead of saying INSUFFICIENT_DATA. Every
+synthetic world had been built from the analyzer's own writers and
+none from the runner's failure path. The closure reads the gate
+records first and returns the terminal before any tier loads; the
+defect never fired on the real campaign, which reproduced all 128,000
+committed draws byte for byte. A verdict that crashes where it should
+refuse has an unreachable terminal, and an unreachable terminal is a
+preregistered outcome the instrument cannot honour. For every refusal
+terminal, build the full-shape world with the producer's own failure
+path, not the analyzer's writers. (Record under the `exp2d-*` tags.)
 
 **The ninth lesson: the target is part of the instrument, and a
 probe's silence is a statement about a label and a split until the
 same activations have been read against a label the representation
-could carry.** The screened battery of Section 7 left two rungs that
-its probe read as silent at both sizes and its outcome read as rising
-by 2.8B: three-digit subtraction scored on the middle digit of the
-difference, and the next term of an arithmetic sequence. Under the
-program's own discriminator that is the interesting pattern, structure
-absent below threshold that appears above it, and the preregistered
-projection had named it as the sharpest disconfirmation available. The
-sampling-ladder experiment then found both rungs far from silent under
-temperature-1 sampling, and a design session that laid the two records
-side by side found that the instruments had never read the same
-quantity. The probe's label for the sequence rung was the next term's
-residue modulo 7, chosen at inclusion so that no lookup table could
-score it, and validated on held-out basis values so that memorising a
-basis could not score it either; the subtraction rung's label was
-already the middle digit, under the same starved split; the generators
-had been scored on the full answer; and the probe's committed best site
-for both rungs was a layer-0 constant feature at corrected p 1.0, an
-accuracy equal to the training majority rate and below the majority
-share. Experiment 2f put the three instruments on one label per rung,
-the middle digit and the last digit, with one floor and one bar, on
-the same weights and the same 500 items, the probe trained on the
-committed probe-item activations so that the screened battery's own
-records reproduced exactly as the machinery gate. The probe read the
-digit in every cell, .23 to .27 against bars of .17 to .19 with the
-untrained twins at .04 to .10, while the generators read it in one cell
-of four. The sensitivity that settles the attribution ran on the same
-bytes: the activations that read the last digit at .262 and .270 read
-the mod-7 residue at .124 against a .212 bar, at both sizes. The
-residue is not a linear feature of those activations, and on the
-subtraction rung, where the label never changed, the basis-starved
-validation set alone had produced the silence: it measures
-generalisation to held-out basis values, which is a different quantity
-from presence. Nothing in the probe machinery was wrong. Section 3's
-two gates did what they were built to do and the twin stayed silent
-throughout. What produced the silence was two choices made for good
-reasons at inclusion time, a label chosen to defeat lookup and a split
-chosen to test generalisation, each argued for separately in the
-design document and neither asked by the freeze to justify itself as a
-measurement of presence. The kinship with Section 8 is exact and on the
-other side of the correlation: there the outcome variable credited
-format as capability; here the predictor variable scored
-generalisation as presence, and the two together made a rung look like
-a percolation case. The rule: a frozen probe label carries a burden
-that the permutation null and the twin floor cannot discharge, that
-the representation could carry it linearly at all. Before a silence is
-read as absence, read the same activations against the most direct
-label the task admits, and if the two disagree the silence belongs to
-the target. Starving is a statement about what the probe must not be
-able to use; it says nothing about what the representation holds, and
-a battery that starves every label without a matched-label control has
-built a generalisation test and called it a presence test. (Record
-under the `exp2f-*` tags.)
+could carry.** Section 7's battery left two rungs the probe read as
+silent at both sizes and the outcome read as rising by 2.8B:
+three-digit subtraction scored on the middle digit, and the next term
+of an arithmetic sequence. Under the program's own discriminator that
+is the interesting pattern, and the projection had named it as the
+sharpest disconfirmation available. Laying the records side by side
+showed the instruments had never read the same quantity: the sequence
+rung's probe label was the next term's residue modulo 7, chosen so
+that no lookup table could score it and validated on held-out basis
+values so that a memorised basis could not either; the generators had
+been scored on the full answer; and the probe's committed best site
+for both rungs was a layer-0 constant feature at corrected p 1.0.
+Experiment 2f put the three instruments on one label per rung, the
+middle digit and the last digit, with one floor and one bar, on the
+same weights and the same 500 items. The probe read the digit in every
+cell, .23 to .27 against bars of .17 to .19 with the untrained twins
+at .04 to .10, while the generators read it in one cell of four; and
+the activations that read the last digit at .262 and .270 read the
+mod-7 residue at .124 against a .212 bar. Nothing in the probe
+machinery was wrong. A label chosen to defeat lookup and a split
+chosen to test generalisation, neither asked to justify itself as a
+measurement of presence, together made a rung look like a percolation
+case: the kinship with Section 8 is exact and on the other side of the
+correlation, an outcome variable that credited format as capability
+there, a predictor variable that scored generalisation as presence
+here. Before a silence is read as absence, read the same activations
+against the most direct label the task admits, and if the two disagree
+the silence belongs to the target. A battery that starves every label
+without a matched-label control has built a generalisation test and
+called it a presence test. (Record under the `exp2f-*` tags.)
 
 **The tenth lesson: a fixture suite certifies an instrument's logic,
-and the seam between fake and real inputs is exactly where it stops —
+and the seam between fake and real inputs is exactly where it stops;
 every execution path a frozen instrument will take on campaign day
 must run once, end to end, against real inputs before the tag.** The
 cross-family experiment carried the largest freeze battery in this
-record: 284 tests, 118 of 118 mutants killed, a hundred thousand
-fuzzed inputs through the scoring criterion, every file the analyzer
-reads pinned and swept. Its model-contact rehearsals were deliberate
-and passed: a preflight exercised the prompt harness and one sampled
-item against the new family, and the sampling stage's gate re-derived
-a committed stream byte-identically. One path had never touched a
-real model before the tag — the sweep's checkpoint loader, which
-stages a checkpoint's candidate weight files into a clean directory —
-by design, since loaders are model contact and the suite exercises
-control flow through injected fakes. The campaign's first model load
-crashed it. The installed library version loads a generation config
-from the model directory after the weights arrive, whatever config
-object was passed in code; a missing generation file falls back to
-the directory's `config.json`; and the resolver special-cases that
-one filename in a local directory to return None where any other
-absence raises — so a directory holding only weight shards loads 355
-of 355 tensors and then dies on a None four frames deep in someone
-else's fallback. The predecessor experiment's loader had written
-`config.json` into its clean directory and never saw any of this; the
-generalisation that dropped the write was made for a good reason,
-per-revision configs, and reviewed by every instrument that could not
-see it. Nothing scored; the campaign lost a night; the preregistration
-tag was re-cut at the fix commit, a disclosure the public record now
-carries. This is the third appearance of one class — the frozen
-verdict that raised on an input its own producer could leave, the
-refusal terminal reachable only from a tree the runner cannot
-produce, and now the loader whose first real execution was the
-campaign — and the class has a name: the production path was exactly
-the untested path. The rule: before the tag, enumerate the execution
-paths campaign day will take — every loader, every producer, every
-halt — and require of each one real end-to-end execution, however
-small; for a checkpoint loader that is one checkpoint staged, one
-forward pass, one free. What the mutation score certifies is the
-logic under the fixtures; it cannot price the seam the fixtures were
-built to avoid. (Record under the `exp2i-*` tags; the stop, the fix
-and the ruling are ledgered in that experiment's `PROGRESS.md`.)
+record, 284 tests, 118 of 118 mutants killed, a hundred thousand
+fuzzed inputs through the scoring criterion, and its model-contact
+rehearsals passed. One path had never touched a real model before the
+tag, the sweep's checkpoint loader, because loaders are model contact
+and the suite drives them through injected fakes. The campaign's first
+model load crashed it: the installed library reads a generation config
+from the model directory after the weights, falls back to
+`config.json`, and special-cases that one filename in a local
+directory to return None where any other absence raises, so a
+directory holding only weight shards loaded 355 of 355 tensors and
+died four frames deep in someone else's fallback. The predecessor's
+loader had written `config.json`; the generalisation that dropped the
+write was made for a good reason and reviewed by every instrument that
+could not see it. Nothing scored; the preregistration tag was re-cut
+at the fix commit, a disclosure the public record carries. This is the
+third appearance of one class, after the fifth and eighth lessons, and
+the class has a name: the production path was exactly the untested
+path. Before the tag, enumerate the paths campaign day will take,
+every loader, producer and halt, and require of each one real
+end-to-end execution, however small. (Record under the `exp2i-*`
+tags.)
 
 **The eleventh lesson: an analyzer's inputs include the code the
 interpreter executes on its behalf, and a sweep of what the analyzer
 reads cannot see what it imports.** The mechanism experiment was
-analysis-only — zero model contact, every number a re-read of committed
-bytes — and its freeze inherited the pinning discipline of every
-predecessor: twenty-six named modules hashed against literals at entry,
-a manifest of 2,621 data files, the two instrument files bound to the
-preregistration tag by blob, and a read sweep that wraps every
-file-opening primitive and reported zero unpinned reads. A scan of the
+analysis-only, every number a re-read of committed bytes, and its
+freeze inherited the full pinning discipline: twenty-six named modules
+hashed against literals, a manifest of 2,621 data files, the
+instrument files bound to the tag by blob, and a read sweep over every
+file-opening primitive reporting zero unpinned reads. A scan of the
 interpreter's module table after one real-tree run found twenty-three
-files under the experiments tree loaded into the analyzer's own process
-and covered by no pin: every package `__init__.py` on the import chain,
-the predecessor battery's item generators (reached through the
-sha-pinned item loader, which calls them to set the answer type that
-the normaliser, hence the answer prior, hence every composite stratum
-branches on), and seven further modules reached for a helper each. The read
-sweep could not have seen them by construction — the import machinery
-reads a module's bytes before any wrapper is installed, and the sweep
-pre-imports every module deliberately so that import traffic stays out
-of its table; the tool built to find unpinned inputs was blind to this
-surface in exactly the way that made its zero credible. The
-demonstration was two lines in an empty `__init__.py` rebinding one
-functional: the primary statistic moved from .1311 to .1330 with every
-gate passing, the manifest clean and the sweep's table still reading
-zero, and a payload with other content could have put it anywhere.
-Closed additively: a twenty-eight-file pin over the resolved module
-table, checked at the analyzer's entry and again at its exit, delivering
-the refusal terminal on any mismatch. This is the fourth generation of
-one lineage — every verdict input pinned at analysis time: prompts
-re-rendered from live item files, then a criterion's normalisation
-branch read from an unpinned field, then a predictor stage's provenance
-attested rather than measured — and each generation pinned one surface
-over from the last. The rule: the verdict path's import surface is a
-verdict input; pin the set of repository modules the interpreter has
-loaded, not the set the analyzer names, and check it where the analyzer
-starts and where it stops. A pin on named modules certifies what the
-author remembered to import. (Record under the `exp2j-*` tags; the
-finding and its demonstration are in that experiment's
-`FREEZE_CHECKLIST.md`.)
+files under the experiments tree loaded into the analyzer's process
+and covered by no pin: every package `__init__.py` on the import
+chain, the predecessor battery's item generators reached through the
+pinned item loader, and seven further helpers. The sweep could not
+have seen them by construction, because the import machinery reads a
+module's bytes before any wrapper is installed. Two lines in an empty
+`__init__.py` rebinding one functional moved the primary statistic
+from .1311 to .1330 with every gate passing and the sweep still
+reading zero. Closed with a twenty-eight-file pin over the resolved
+module table, checked at the analyzer's entry and again at its exit.
+This is the fourth generation of one lineage, every verdict input
+pinned at analysis time, each generation pinning one surface over from
+the last. Pin the set of repository modules the interpreter has
+loaded, not the set the analyzer names; a pin on named modules
+certifies what the author remembered to import. (Record under the
+`exp2j-*` tags.)
 
 ## 7. The screen at inclusion time
 
 Both campaigns above ran the untrained control after their batteries
 were built, and Section 4's verdicts are the price of that ordering.
-The successor experiment ran it where P1 says it belongs. Its battery
+The successor experiment ran it where P1 says it belongs: its battery
 was constructed under the screen and frozen in August 2026 (tag
-`exp2c-preregistered`), and the construction record is the
-prescription's field test: everything in this section is probe-side
-screening data, committed at or before that experiment's freeze, with
-its campaign still ahead. The paper claims nothing about that
-experiment's outcome. What the record shows is what the screen
-catches at design time, what the catches cost, and what a battery
-that passes looks like.
+`exp2c-preregistered`), and everything in this section is probe-side
+screening data committed at or before that freeze. What the record
+shows is what the screen catches at design time, what the catches
+cost, and what a battery that passes looks like; Section 8 reports
+the outcome.
 
 The screen is tiered so it can live inside the design loop. Tier 1
 runs at candidate-design time: two untrained seeds at both sizes
@@ -1342,9 +1137,9 @@ general lesson: a split can meet its committed counts while the draws
 that meet them change what the margin measures, so the holdout's
 actual contents get inspected, not just its arithmetic. In the other
 direction, a six-option antonym rung came out of adversarial review
-with a named and measured carrier — wordlist slot-asymmetry gives
+with a named and measured carrier, wordlist slot-asymmetry giving
 cheap heuristics (answer length, edit distance to the cue, shared
-letters) about 0.20 accuracy against 0.167 chance — ledgered before
+letters) about 0.20 accuracy against 0.167 chance, ledgered before
 its screen ran, with the screen preregistered as the adjudicator. The
 screen never fired; corrected p was 1.0 in every fit. A
 sequence-extrapolation family carrying disclosed on-surface mod-7
@@ -1359,8 +1154,7 @@ behaviorally absent at the probe scales, normalized argmax margin at
 1B with a 95% upper confidence bound under 0.25, the bar frozen in
 2b. A Hamming-match-count rung read 0.282 trained accuracy at 1B,
 upper bound 0.324, over the bar; the plausible mechanism is
-modal-answer guessing over its mid-range count distribution, an
-artifact of the answer distribution rather than task competence. The
+modal-answer guessing over its mid-range count distribution. The
 frozen rule is mechanical and carries no mechanism escape, so the
 rung ejected, the mechanism went into the ejection record, and the
 power gate was re-run on the reduced battery before the freeze (0.769
@@ -1386,8 +1180,7 @@ clean, and Section 9's worry that an acceptance test nothing has
 passed may be unpassable now has the only answer it could get: a
 battery passed, by being built to. Whether a battery that passes the
 screen measures anything worth measuring is that experiment's
-question. It reached its answer while this paper was under
-submission, and Section 8 reports what it cost us to get there.
+question, and Section 8 reports what it cost us to get there.
 
 ## 8. The same error on the outcome side
 
@@ -1395,7 +1188,7 @@ The battery that passed the screen went on to be scored against an
 eval side: argmax accuracy on held-out items at 2.8b, 6.9b and 12b,
 with each capability's score normalized against a floor, exactly as
 the probe margins are normalized against a permutation null. The floor
-we chose was the one this paper argues for everywhere else — the
+we chose was the one this paper argues for everywhere else, the
 untrained network. Randomly initialized weights, same architecture,
 same items, same prompt. It is the control we spent seven sections
 recommending, and on the outcome side it is the wrong one.
@@ -1406,15 +1199,15 @@ the normalizer that extracts an answer finds nothing to score. So the
 untrained floor came back at or indistinguishable from zero on all
 thirty-four capabilities, for a reason that has nothing to do with any
 capability: the model cannot participate in the task's format at all.
-A trained model that has acquired only the format — that has learned
-to emit a small integer after `A:` and nothing more — sits at one over
-the size of the answer space. Against a floor of zero, that entire
+A trained model that has acquired only the format, one that has
+learned to emit a small integer after `A:` and nothing more, sits at
+one over the size of the answer space. Against a floor of zero, that entire
 guessing rate is scored as capability.
 
 The consequence was not marginal. Of thirty-four capabilities, ten
 landed within noise of their own chance rate and were credited the
 whole of it. Modular arithmetic at modulus 13 scored .046 against a
-chance rate of 1/13 = .077 — *below* chance — and was credited a
+chance rate of 1/13 = .077, *below* chance, and was credited a
 normalized margin of .071. The effect is sharpest where chance is
 highest, which is exactly where a reader's intuition is weakest: for
 multiple-choice items the chance rate is one over the number of
@@ -1436,16 +1229,15 @@ version in our own frozen operationalization, which is the strongest
 evidence we can offer that the control is not obvious once the
 question changes.
 
-Two properties of the error are worth recording, because they
-determine how much damage it does.
+Two properties of the error determine how much damage it does.
 
 It is not conservative. Re-scoring against within-answer-space chance
 rates, as a disclosed descriptive that could not touch the frozen
 verdict, moved the primary rank correlation *down*, from .368 to .200,
 and cut the count of capabilities with nonzero outcome scores from
 twenty-five to thirteen. The contamination was manufacturing
-correlation, not masking it. A reader's natural assumption — that a
-too-generous floor adds noise and biases toward the null — is wrong
+correlation, not masking it. A reader's natural assumption, that a
+too-generous floor adds noise and biases toward the null, is wrong
 here, because the inflation is systematic rather than random: it
 scales with the inverse of the answer space, and answer-space size is
 correlated with task type across any battery organized by task family.
@@ -1468,21 +1260,20 @@ which is how we recovered it.
 A third observation from the same scoring is worth stating because it
 runs the other way and is, if anything, the more useful result. The
 two capabilities carrying the second and third highest starved probe
-margins in the battery — character-level string reversal at two
-lengths — scored an outcome of zero at every eval scale, and as first
+margins in the battery, character-level string reversal at two
+lengths, scored an outcome of zero at every eval scale, and as first
 reported that contrast was confounded twice: the probe decoded one
 character where the eval demanded all seven exactly, and the margins
 lived at 410m and 1b while the zeros lived at 2.8b and above. A
-follow-up experiment (preregistered, frozen, run once — tags
+follow-up experiment (preregistered, frozen, run once; tags
 `exp3b-preregistered`, `exp3b-closed` in the supporting record)
 removed both confounds at once: it scored the first character of the
-greedy continuation against the probe's own label, in the probe's own
-26-way space, on the probe's own models. The dissociation survived
-intact. On the same weights where the starved probe reads the answer's
+greedy continuation against the probe's own label, in the probe's own 26-way space, on the probe's own models. On the
+same weights where the starved probe reads the answer's
 first character at margins .6263 and .7725 (seven-character reversal,
 410m/1b) and .5731 and .6749 (variable-length), first-character
 emission is .0520/.0280 and .0320/.0260 against marginal floors of
-.056 and .054 — at or below floor in all four cells, while the same
+.056 and .054, at or below floor in all four cells, while the same
 instrument scores a copy control at .9940 on the same weights. The
 eval-scale zeros stand as committed, including the one item of five
 hundred at 6.9b, which the follow-up reproduced byte for byte. The
@@ -1494,10 +1285,10 @@ true rate below .092, so this is no emission at that resolution, not a
 certified zero. Decodable is not learned, and on this evidence
 decodable is not *generable* either, now on the same weights, the same
 prompt, and the same label space. A probe margin licenses a claim
-about what a representation contains. It does not license a claim
-about what the model will do, and the gap between those is not a
-technicality: here it is the difference between the strongest signal
-in the battery and behaviour indistinguishable from chance.
+about what a representation contains, not about what the model will
+do, and here the gap between those is the difference between the
+strongest signal in the battery and behaviour indistinguishable from
+chance.
 
 ## 9. Limitations
 
@@ -1524,8 +1315,8 @@ the letter tasks, so the confound should be assumed to grow with model
 size, not wash out.
 
 The untrained control is necessary, not sufficient. The program found
-its two confound classes sequentially — the lookup class, then, after
-starving closed it, the surface-statistics class underneath — and the
+its two confound classes sequentially, the lookup class and then, after
+starving closed it, the surface-statistics class underneath, and the
 honest induction from that sequence is that more classes exist. A
 control against a random substrate bounds what comes for free; it
 cannot flag a shortcut that random features can't express but training
@@ -1552,10 +1343,7 @@ error. A failure mode that fires under that much deliberate care is
 not plausibly rarer in work that reports untrained baselines as
 decoration, claims zeros without confidence bounds, and selects sites
 without selection statistics. What n = 1 cannot supply is a prevalence
-estimate, and none is claimed. The checklist's warrant is that the
-traps exist, that they are cheap to fall into while watching for them,
-and that every detection it prescribes costs design-time analysis or
-one extra pass of machinery a probing study already has.
+estimate, and none is claimed.
 
 Finally, the method's positive record is one battery frozen and one
 campaign completed, not one hypothesis supported. Both campaigns of
@@ -1568,8 +1356,8 @@ test with seven effective blocks where its frozen power table had
 assumed sixteen. So the controls detect bad batteries, and a battery
 can be built to pass them, and the one that did went quiet rather
 than dirty. Surface computability of the kind Section 5 maps stayed
-dense in practice — the successor's construction still ejected four
-candidates across three distinct mechanisms — and whether enough task
+dense in practice (the successor's construction still ejected four
+candidates across three distinct mechanisms), and whether enough task
 diversity survives the screen *while retaining measurable spread* is
 now the open question, sharper than before and not favourable: this
 paper's prescriptions buy a clean battery, and a clean battery is not
@@ -1579,14 +1367,14 @@ computable at freeze and was computable here.
 
 ## 10. Recommendations
 
-The checklist below compresses Sections 3 through 7 into the form I
-wish the program had started with. It's written to be adopted verbatim.
-Every item is either design-time analysis or a reuse of machinery a
-probing study already has; the one genuinely new cost, fitting the
-untrained twin, is a second pass of a pipeline that already exists.
+The checklist below compresses Sections 3 through 8 into the form I
+wish the program had started with. It's written to be adopted
+verbatim. Every item is design-time analysis or a reuse of machinery a
+probing study already has; the one new cost, fitting the untrained
+twin, is a second pass of a pipeline that already exists. Each item
+ends with the section that supplies its evidence.
 
-**Table T2. The probing-hygiene checklist.** Each item ends with the
-section it distills.
+**Table T2. The probing-hygiene checklist.**
 
 1. Write every probe label as an explicit function of the prompt, and
    record what a lookup table and a random network should score on it
@@ -1594,11 +1382,11 @@ section it distills.
 2. Name the surface basis a lookup would key on, analyzed against the
    tokenizer's actual token inventory, not against task intuition.
    (§3)
-3. Reject label targets that are local to single surface tokens (a
-   digit-local label under digit BPE can't be starved). (§3, §4.1)
+3. Reject label targets that are local to single surface tokens: a
+   digit-local label under digit BPE can't be starved. (§3, §4.1)
 4. Starve the basis: hold out values per component, validate only on
-   items whose components are all held out, discard mixed items, and
-   commit the feasibility counts; eject capabilities that can't
+   items whose components are all held out, discard mixed items,
+   commit the feasibility counts, and eject capabilities that can't
    satisfy them. (§3)
 5. Run the untrained twin through the identical pipeline (prompts,
    splits, candidate sweep, permutation null, correction) as a
@@ -1618,162 +1406,78 @@ section it distills.
 11. Report every zero as a Clopper–Pearson bound. (§4.2)
 12. Project the verdict in a timestamped ledger before the frozen
     report runs. (§4.2, §6)
-13. If fits are distributed, admit a machine's results only after it
-    reproduces a reference fixture through the real probe path bit
-    for bit — and treat that as necessary, not sufficient. Both of our
-    workers passed the fixture gate and 15 of their 39 fits still
-    failed to reproduce on replay, by one to four items. Certify a
-    worker on a random sample of the units it actually produced, and
-    put load-bearing fits on one machine. (§3)
+13. If fits are distributed, admit a machine only after it reproduces
+    a reference fixture through the real probe path bit for bit, and
+    treat that as necessary, not sufficient: certify a worker on a
+    random sample of the units it actually produced, and put
+    load-bearing fits on one machine. (§3)
 14. Inspect what the starving holdout actually draws, not only its
-    counts: a split can satisfy its feasibility floors degenerately
-    (one swallowed category made starved validation
-    leave-one-category-out), which changes what the margin measures.
-    (§7)
-15. If the study reaches a behavioural outcome, normalize it against
-    the task's within-answer-space chance rate as well as against the
-    untrained network, and report both. An untrained floor answers
-    whether signal is in the weights; it sits at zero on a generation
-    task because an untrained model emits malformed text, so it
-    credits format acquisition as capability. Commit the option count
-    for every multiple-choice item at freeze. (§8)
-16. Gate on predictor spread before spending an outcome campaign. A
-    battery whose predictor is mostly ties has few effective
-    permutable blocks, and the resulting power is computable at freeze
-    from the realized predictor alone. (§8, §10)
-17. Do not claim a probe margin licenses a behavioural prediction. The
-    two highest-margin capabilities in a screened battery scored
-    exactly zero argmax accuracy at every scale tested. (§8)
+    counts; a split can satisfy its feasibility floors degenerately,
+    which changes what the margin measures. (§7)
+15. Normalize a behavioural outcome against the task's
+    within-answer-space chance rate as well as against the untrained
+    network, and report both; an untrained floor sits at zero on a
+    generation task and credits format acquisition as capability.
+    Commit the option count for every multiple-choice item at freeze.
+    (§8)
+16. Gate on predictor spread before spending an outcome campaign; the
+    power of a mostly-tied predictor is computable at freeze from the
+    realized predictor alone. (§8)
+17. Do not claim a probe margin licenses a behavioural prediction.
+    (§8)
 18. Store and report the per-site profile, not only the selected site,
-    with the untrained twin's value beside each site. Every candidate
-    was already fit in order to select one, so the cost is storage. On
-    untrained networks the selected site reads 1.28x the candidate
-    mean, positive in 246 of 247 fits; a Bonferroni correction protects
-    the detection and does nothing to the number reported beside it.
+    with the untrained twin's value beside each site; every candidate
+    was already fit in order to select one, so the cost is storage.
     (§6)
 19. Freeze a producer for every input the adjudication function takes,
-    not only for the ones carrying the primary statistic. A frozen
-    `verdict(a, b, c)` whose `c` has no frozen computing function is
-    not frozen; the mechanical check is that every parameter has either
-    a frozen producer or a fixture pinning its value. We froze the
-    record loader after being burned by its absence, then shipped a
-    verdict-adjacent diagnostic with no producer in the next
-    experiment. (§6)
+    not only the ones carrying the primary statistic: every parameter
+    has either a frozen producer or a fixture pinning its value, or
+    the verdict is not frozen. (§6)
 20. Open the freeze adversarially: a cold re-read of design and build
     under the assignment "find the class defect," aimed at the seams
-    the fixture suite substitutes for — injected inputs, unpinned
-    analysis-time referents, attestations never compared against the
-    tree in hand. A suite at 100 percent mutation kill can still miss
-    what its fixtures inject around. (§6)
+    the fixture suite substitutes for. (§6)
 21. Property-fuzz every frozen scoring criterion for totality over the
-    emission alphabet before freezing: on garbage it must return a
-    verdict, never raise. Guard the measurement side only; a referent
-    that crashes the criterion is a broken battery and stays a hard
-    error. (§6)
+    emission alphabet before freezing: on garbage it returns a verdict,
+    never raises. Guard the measurement side only; a referent that
+    crashes the criterion is a broken battery and stays a hard error.
+    (§6)
 22. For every refusal terminal of a frozen verdict tree, build the
-    full-shape world with the producer's own failure path (the runner's
-    halt, not the analyzer's writers) and require the analyzer to return
-    that terminal from the tree as left. A terminal reachable only on a
-    tree the runner cannot produce is unreachable. (§6)
-23. Before a frozen probe label's silence is read as absence, show the
-    label linearly readable from the activations it will be scored on:
-    pair every starved or transformed label with the most direct label
-    the task admits, on the same bytes, and attribute a silence the
-    direct label dissolves to the target, not the representation.
-    Starving tests what the probe cannot use, not what the
-    representation holds. (§6)
-24. Enumerate the execution paths a campaign will take — every loader,
-    producer and halt — and run each once, end to end, against real
-    inputs before the preregistration tag; for a model loader, one
-    checkpoint staged, one forward pass, one free. Fixtures certify
-    the logic; they cannot price the seam between fake and real
-    inputs. (§6)
-25. Write pre-campaign checks against invariants, not snapshots. An
-    assertion that encodes the tree's current state — the tag does not
-    exist yet, N artifacts are absent, every artifact parses as one
-    format — breaks at the first state transition it was written
-    before. Re-run every cold verification tool once after each stage
-    lands, not only at close-out. (§6)
-26. Pin the import surface. After one real-tree run, walk the
-    interpreter's module table, keep every module resolved under the
-    repository, and require each to be covered by a hash pin — at the
-    analyzer's entry and again at its exit. A read sweep sees data,
-    not code; a pin on named modules sees what the author remembered
-    to import. (§6)
-27. Any pre-tag execution of the analyzer on the real tree — a read
-    sweep, a determinism check, a smoke run at a small permutation
-    count — is a disclosure event. Log what it printed as knowledge
-    held before the tag, in the design document, before the tag is
-    cut. (§6)
+    full-shape world with the producer's own failure path and require
+    the analyzer to return that terminal from the tree as left. (§6)
+23. Before a frozen probe label's silence is read as absence, pair it
+    with the most direct label the task admits, on the same bytes, and
+    attribute a silence the direct label dissolves to the target, not
+    the representation. (§6)
+24. Enumerate the execution paths a campaign will take, every loader,
+    producer and halt, and run each once, end to end, against real
+    inputs before the preregistration tag. (§6)
+25. Write pre-campaign checks against invariants, not snapshots, and
+    re-run every cold verification tool after each stage lands, not
+    only at close-out. (§6)
+26. Pin the import surface: after one real-tree run, require every
+    module resolved under the repository to be covered by a hash pin,
+    checked at the analyzer's entry and again at its exit. (§6)
+27. Any pre-tag execution of the analyzer on the real tree is a
+    disclosure event; log what it printed as knowledge held before the
+    tag, in the design document, before the tag is cut. (§6)
 
-The full record behind this paper — the design documents, the frozen
+The full record behind this paper, the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
 campaign ledgers, and the adjudication rulings behind every number
-quoted here — sits under six git tags (`exp2-preregistered`,
+quoted here, sits under six git tags (`exp2-preregistered`,
 `exp2-closed`, `exp2b-preregistered`, `exp2b-closed`,
-`exp2c-preregistered`, `exp2c-closed`) in the
-supporting repository, github.com/lxman/decodable-is-not-learned: a
-history-preserving extraction of the working repository, public since
-the paper's arXiv submission and archived at Zenodo (concept
-DOI 10.5281/zenodo.21830421, resolving to the latest archived
-release; v1.0 10.5281/zenodo.21830422, v1.1 with the Experiment 3
-and 3c records 10.5281/zenodo.21998671, v1.2 with the Experiment 3d
-record 10.5281/zenodo.22011547, v1.3 with the Experiment 3e record
-10.5281/zenodo.22045940, v1.4 with the Experiment 2d record
-10.5281/zenodo.22056230, v1.5 with the Experiment 2e record
-10.5281/zenodo.22059612, v1.6 with the Experiment 2f record
-10.5281/zenodo.22063906, v1.7 with the Experiment 1, 1b and 1c
-records 10.5281/zenodo.22064573, v1.8 with this paper's ninth lesson
-10.5281/zenodo.22064649, v1.9 with the Experiment 2g record
-10.5281/zenodo.22087512, v1.10 with the Experiment 2h record
-10.5281/zenodo.22104580, v1.11 with the Experiment 2i record
-10.5281/zenodo.22145025, v1.12 with the Experiment 2j record
-10.5281/zenodo.22151832, v1.13 with this paper's eleventh lesson
-10.5281/zenodo.22151979, v1.14 with the Experiment 2k record
-10.5281/zenodo.22177233, v1.15 with the Experiment 2l record
-10.5281/zenodo.22286867).
-The same repository carries the successor experiments'
-preregistered-and-closed records (`exp3a-*`, `exp3b-*`, `exp3-*`,
-`exp3c-*`, `exp3d-*`, `exp3e-*`), whose freeze rulings, totality stop and power
-mis-specification Section 6 draws on, Experiment 2d's record
-(`exp2d-*`), whose freeze supplies Section 6's eighth lesson,
-Experiment 2f's record (`exp2f-*`, the ladder-order test on the two
-rungs 2c's probe had read as silent), which supplies the ninth, and
-Experiment 2e's record (`exp2e-*`, an analysis-only re-read of 2d's
-draws), named here and not drawn on, and Experiment 2g's record
-(`exp2g-preregistered`, `exp2g-predictor-sealed`, `exp2g-closed`, the
-sealed item-grain forecast against Pythia-2.8B's intermediate
-checkpoints), likewise named and not drawn on, and Experiment 2h's
-record (`exp2h-preregistered`, `exp2h-closed`, the sampler
-confirmation of that forecast on Pythia-6.9B's checkpoints), likewise
-named and not drawn on, and Experiment 2i's record
-(`exp2i-preregistered`, `exp2i-predictor-sealed`,
-`exp2i-endpoint-sealed`, `exp2i-closed`, the cross-family test of that
-forecast on OLMo-2 7B's checkpoints), whose campaign stop supplies
-the tenth, and Experiment 2j's record (`exp2j-preregistered`,
-`exp2j-closed`, the analysis-only mechanism re-read of that forecast
-against four functionals of the answer string), whose freeze
-supplies the eleventh, and Experiment 2k's record
-(`exp2k-preregistered`, `exp2k-predictor-sealed`, `exp2k-closed`, the
-density question — the cross-family predictor at four times the draw
-budget against the known OLMo-2 7B outcome), named and not drawn on,
-and Experiment 2l's record (`exp2l-preregistered`,
-`exp2l-endpoint-sealed`, `exp2l-closed`, the sealed cross-family
-forecast against OLMo-2 13B's stage-1 checkpoints), likewise named
-and not drawn on, and Experiment 2m's record (`exp2m-preregistered`,
-`exp2m-endpoint-sealed`, `exp2m-closed`, the third-family forecast
-against SmolLM3-3B's stage-1 checkpoints), likewise named and not
-drawn on, and Experiment 2n's record (`exp2n-preregistered`,
-`exp2n-endpoint-sealed`, `exp2n-closed`, the corpus-question forecast
-against Comma v0.1-1T's stage-1 checkpoints, an outcome trained on no
-web crawl), likewise named and not drawn on;
-and, since 2026-08-23, the synthetic calibration records of
-Experiments 1, 1b and 1c (`exp1-analysis-frozen`, `exp1b-*`,
-`exp1c-*`), reported in the companion essay and not drawn on here.
-Interim stage tags (e.g. `exp2c-stage1`) exist only in the private
-repository, with the one exception of `exp1c-stage-a`, the 1c power
-declaration made in advance. Commit SHAs quoted inside the ledgers
-resolve through that repository's PROVENANCE.md.
+`exp2c-preregistered`, `exp2c-closed`) in the supporting repository,
+github.com/lxman/decodable-is-not-learned: a history-preserving
+extraction of the working repository, public since the paper's arXiv
+submission and archived at Zenodo under concept DOI
+10.5281/zenodo.21830421, which resolves to the latest archived
+release. The same repository carries the successor experiments'
+records under the same tag convention; Table C1 in Appendix C lists
+every tag, which of Section 6's lessons each supplies, and the
+versioned DOI of every archived release. Interim stage tags exist only
+in the private repository, with the one exception of `exp1c-stage-a`,
+a power declaration made in advance. Commit SHAs quoted inside the
+ledgers resolve through that repository's PROVENANCE.md.
 
 ## Disclosure of AI assistance
 
@@ -1991,16 +1695,60 @@ Windows under single-threaded BLAS, each machine admitted only after
 reproducing the reference fixture bit for bit through the real probe
 path.
 
+A later re-fit of the whole campaign from its stored activations found
+that all 731 fits computed on the reference machine reproduce their
+stored accuracy exactly, while 15 of the 39 computed on the two remote
+workers, both of which had passed the fixture gate, do not, by at most
+0.0098 and a median of 0.0026, one to four items on these validation
+sets: a different BLAS accumulating a different sum, moving no verdict
+and no taxonomy assignment. One fixture, exercising one code path on
+one input, cannot certify that every subsequent fit on that machine
+lands on the same floating-point value. The rule it promotes is
+checklist item 13: certify a worker on a random sample of the units it
+actually produced, and where exact cross-machine agreement is
+load-bearing, compute those fits on one machine.
+
 **Artifacts.** 770 probe-fit JSONs (Experiment 2b) and 480
 (Experiment 2) under the experiments' results trees; `m2_report.json`;
 campaign and inclusion logs; SHA-256 digests of all 108 activation
 files (`activations_sha256.txt`; the npz files stay local by
 convention). Battery item files carry per-capability generation seeds.
 Figures 2 and 3, Table 1, and Appendix A regenerate from these
-artifacts via the committed scripts in `paper/`. The four tags —
-`exp2-preregistered`, `exp2-closed`, `exp2b-preregistered`,
-`exp2b-closed` — mark the freeze and closeout commits of the two
-campaigns; a fifth, `exp2c-preregistered`, marks the successor
+artifacts via the committed scripts in `paper/`. The tags `exp2-preregistered`, `exp2-closed`,
+`exp2b-preregistered` and `exp2b-closed` mark the freeze and closeout
+commits of the two campaigns, and `exp2c-preregistered` the successor
 battery's freeze (Section 7). All of it is in the supporting
 repository (Section 10).
 
+**The record's tags and releases.** Table C1 lists the supporting
+repository's experiment tags and the versioned Zenodo releases; the
+concept DOI in Section 10 resolves to the latest.
+
+*Table C1. Experiment tags in the supporting repository. Each
+experiment carries a `-preregistered` tag at its freeze and a
+`-closed` tag at its verdict; the sealed-stage tags are named where
+they exist.*
+
+| experiment | tags | in this paper |
+|---|---|---|
+| 2, 2b, 2c | `exp2-*`, `exp2b-*`, `exp2c-*` | Sections 3–8 |
+| 3a, 3b, 3 | `exp3a-*`, `exp3b-*`, `exp3-*` | §8 (3b); §6 freeze block (3) |
+| 3c, 3d, 3e | `exp3c-*`, `exp3d-*`, `exp3e-*` | §6 lessons 5, 6, 7 |
+| 2d, 2e | `exp2d-*`, `exp2e-*` | §6 lesson 8 (2d); 2e named, not drawn on |
+| 2f | `exp2f-*` | §6 lesson 9 |
+| 2g, 2h | `exp2g-*` (+ `-predictor-sealed`), `exp2h-*` | named, not drawn on |
+| 2i | `exp2i-*` (+ `-predictor-sealed`, `-endpoint-sealed`; the preregistration tag re-cut after a campaign stop, disclosed in PROVENANCE) | §6 lesson 10 |
+| 2j | `exp2j-*` | §6 lesson 11 |
+| 2k | `exp2k-*` (+ `-predictor-sealed`) | named, not drawn on |
+| 2l, 2m, 2n | `exp2l-*`, `exp2m-*`, `exp2n-*` (each + `-endpoint-sealed`) | named, not drawn on |
+| 4 | `exp4-*` (+ `-reference-sealed`; the preregistration tag re-cut after a campaign stop, disclosed in PROVENANCE) | named, not drawn on |
+| 1, 1b, 1c | `exp1-analysis-frozen`, `exp1b-*`, `exp1c-*` (+ `exp1c-stage-a`) | companion essay; not drawn on |
+
+Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
+(the original snapshot); v1.1 21998671 (Experiments 3 and 3c); v1.2
+22011547 (3d); v1.3 22045940 (3e); v1.4 22056230 (2d); v1.5 22059612
+(2e); v1.6 22063906 (2f); v1.7 22064573 (1, 1b, 1c); v1.8 22064649
+(this paper's ninth lesson); v1.9 22087512 (2g); v1.10 22104580 (2h);
+v1.11 22145025 (2i); v1.12 22151832 (2j); v1.13 22151979 (this
+paper's eleventh lesson); v1.14 22177233 (2k); v1.15 22286867 (2l);
+v1.16 22413760 (2m); v1.17 22667987 (2n); v1.18 22793373 (4).

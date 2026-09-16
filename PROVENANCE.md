@@ -532,4 +532,5 @@ release v1.14 (10.5281/zenodo.22177233, adding the Experiment 2k
 record) and release v1.15 (10.5281/zenodo.22286867, adding the
 Experiment 2l record) and release v1.16 (10.5281/zenodo.22413760,
 adding the Experiment 2m record) and release v1.17
-(10.5281/zenodo.22667987, adding the Experiment 2n record).
+(10.5281/zenodo.22667987, adding the Experiment 2n record) and release
+v1.18 (10.5281/zenodo.22793373, adding the Experiment 4 record).
