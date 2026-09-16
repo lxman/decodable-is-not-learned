@@ -149,6 +149,43 @@ def test_max_pair_alignment_4b_off_diagonal_pairs_score_zero():
     assert np.all(frac == 0.0)
 
 
+# ----------------------------------------------------------------- ceiling_4b
+
+
+def test_ceiling_4b_pinned_values_on_planted_tables(monkeypatch):
+    # Review fix: `ceiling_4b` was refactored to call `per_item_level_4b`
+    # once per reference (reading the per-pair vectors off its
+    # "_by_ref" output, `twins_4b`'s own structure) instead of
+    # duplicating the overlap -> filter -> mean arithmetic. This pins
+    # its output on `planted_tables`, both `excluded` and `included`,
+    # so a future drift between the two call sites `per_item_level_4b`
+    # now serves is caught here rather than only at the (bit-identical
+    # by construction, but unchecked at this grain) world level.
+    n_sites, v, n_items = 4, 0.3, 40   # round(v*10)=3 exactly -- avoids the round-half-to-even edge
+    sets_m, sets_q, sites, _ = fakes_4b.planted_tables(n_sites, n_items=n_items, v=v, seed=3)
+    rungs = ["rungA", "rungB"]
+    refs = ("ref_pythia_12b", "ref_olmo2_7b")
+    arr_by_ref = {refs[0]: sets_m, refs[1]: sets_q}
+
+    def fake_load_one_unit(root, key):
+        return {"record": {"sites": list(sites), "n_hidden": n_sites},
+               "sets": {r: arr_by_ref[key] for r in rungs}}
+
+    monkeypatch.setattr(levels_4b.an, "_load_one_unit_4", fake_load_one_unit)
+    monkeypatch.setattr(levels_4b.battery_4, "REFERENCES_4", refs)
+
+    out_excluded = levels_4b.ceiling_4b("unused-root", excluded=(0,))
+    out_included = levels_4b.ceiling_4b("unused-root", excluded=())
+
+    expected_included = (1.0 + (n_sites - 1) * v) / n_sites
+    for a, b in ((refs[0], refs[1]), (refs[1], refs[0])):
+        assert set(out_excluded["pairs"][a]) == {b}
+        assert set(out_excluded["pairs"][a][b]) == set(rungs)
+        for r in rungs:
+            assert out_excluded["pairs"][a][b][r]["mean"] == pytest.approx(v)
+            assert out_included["pairs"][a][b][r]["mean"] == pytest.approx(expected_included)
+
+
 # ------------------------------------------------------------- slow: world
 
 WORLD_SEED_4B = 401

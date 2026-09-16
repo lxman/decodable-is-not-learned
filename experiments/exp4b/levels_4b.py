@@ -282,40 +282,40 @@ def twins_4b(root4, *, excluded=(0,)) -> dict:
 def ceiling_4b(root4, *, excluded=(0,)) -> dict:
     """S6(c): the references' mutual alignment per pair per rung
     (`analyze_4.s8_referents_4`'s `ceiling` block read ATTESTED from
-    `align.json`; this recomputes it from the committed set tables via
-    `collect_4.load_ref_tables_4`/`overlap_table_4`, the same machinery
-    `s3_scale_4`'s ladder-pairing fallback and `s8_referents_4`'s own
-    within-family block already use, so the site filter has array
-    positions to act on). For an ordered pair `(a, b)`, `a` plays the
-    "M" role and is filtered by ITS OWN kept positions (the general
-    M-only rule this module uses everywhere except
-    `max_over_pairs_4b`); the depth-matched pairing from `a`'s sites to
-    `b`'s is re-derived via `collect_4._pairing_positions` (reference
-    units carry no pairing of their own — they are written with
-    `refs=()`, `s3_scale_4`'s own fallback comment). Returns
-    `{"pairs": {a: {b: {rung: {"mean", "ci95", ...}}}}}` for every
-    ordered pair `a != b` in `battery_4.REFERENCES_4`."""
-    tables = collect_4.load_ref_tables_4(root4, battery_4.REFERENCES_4)
-    rungs = sorted(battery_4.RUNGS)
+    `align.json`; this recomputes it from the committed set tables so
+    the site filter has array positions to act on). A reference-stage
+    key loads cleanly through `analyze_4._load_one_unit_4` — the SAME
+    unit shape `twins_4b`/`ladder_4b` already load (`s3_scale_4`'s own
+    "12b" ladder point IS `ref_pythia_12b` loaded this way) — so this
+    is `twins_4b`'s structure with the reference itself standing in for
+    the trained unit: `per_item_level_4b` is called once per reference
+    `a` (playing the "M" role, filtered by ITS OWN kept positions — the
+    general M-only rule this module uses everywhere except
+    `max_over_pairs_4b`) against every OTHER reference as `ref_tables`,
+    and the per-pair per-rung CIs are read straight off its `"_by_ref"`
+    output — no second implementation of the overlap -> filter -> mean
+    arithmetic. The depth-matched pairing from `a`'s sites to each
+    other reference's is re-derived via `collect_4._pairing_positions`
+    (reference units carry no pairing of their own — they are written
+    with `refs=()`). Returns `{"pairs": {a: {b: {rung: {"mean",
+    "ci95", ...}}}}}` for every ordered pair `a != b` in
+    `battery_4.REFERENCES_4`."""
+    units = {ref: an._load_one_unit_4(root4, ref) for ref in battery_4.REFERENCES_4}
     pairs = {}
     for a in battery_4.REFERENCES_4:
-        sites_a = [int(s) for s in tables[a]["sites"]]
-        n_hidden_a = tables[a]["n_hidden"]
-        keep_a = kept_positions_4b(sites_a, excluded)
-        pairs[a] = {}
-        for b in battery_4.REFERENCES_4:
-            if b == a:
-                continue
-            sites_b = [int(s) for s in tables[b]["sites"]]
-            n_hidden_b = tables[b]["n_hidden"]
-            pairing = collect_4._pairing_positions(sites_a, n_hidden_a, sites_b, n_hidden_b)
-            per_rung = {}
-            for r in rungs:
-                ov = collect_4.overlap_table_4(tables[a]["sets"][r], tables[b]["sets"][r], pairing)
-                frac = ov.astype(np.float64) / metric_4.K_4
-                vec = frac[keep_a].mean(axis=0)
-                per_rung[r] = level_ci_4b(vec)
-            pairs[a][b] = per_rung
+        others = [b for b in battery_4.REFERENCES_4 if b != a]
+        sites_a = [int(s) for s in units[a]["record"]["sites"]]
+        n_hidden_a = units[a]["record"]["n_hidden"]
+        ref_tables = {b: units[b]["sets"] for b in others}
+        pairing_by_ref = {
+            b: collect_4._pairing_positions(sites_a, n_hidden_a,
+                                            [int(s) for s in units[b]["record"]["sites"]],
+                                            units[b]["record"]["n_hidden"])
+            for b in others
+        }
+        levels = per_item_level_4b(units[a], ref_tables, pairing_by_ref, excluded=excluded)
+        pairs[a] = {b: {r: level_ci_4b(vec) for r, vec in levels["_by_ref"][b].items()}
+                   for b in others}
     return {"pairs": pairs, "source": "re-derived"}
 
 
