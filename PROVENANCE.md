@@ -451,6 +451,62 @@ stops, zero halts and no kill of the sweep, which the record documents.
 The retained-path list above now includes `experiments/exp2n` and
 `experiment-2n-design.md`.
 
+On 2026-09-16 the Experiment 4 record was added (convergence tracks
+scale, the lens claim's own test: on the four training trajectories
+the program had already scored at item grain — Pythia 2.8b, OLMo-2 7B,
+SmolLM3-3B, Comma v0.1-1T; 92 committed checkpoints — does the mutual
+k-NN agreement between a model's residual stream on a task's 500
+items and three other families' released models, read as an excess
+over the flat tasks' pooled trend, arrive before the task first clears
+the argmax bar? A preregistered reading on a known outcome, not a
+forecast. Verdict LEADS: T .6102 over 26 eligible cells on 15 rungs,
+p₊ 4.9e-4 by an exact sign-flip null, CI95 [.325, .950]; per
+trajectory OLMo-2 7B .959, Comma .512, SmolLM3 .474, Pythia 2.8b .183;
+the licence condition met through OLMo-2 and Comma. The record's own
+calibration bounds the licence: the observed λ̂ — the flat pool's
+between-checkpoint scatter over its item-bootstrap SE — is 6.2–7.3 on
+every trajectory, above the zero-excess power arm's top multiple of
+3.0 where the LEADS rule's realized α is already .264, so the verdict
+is reported as LEADS with the calibration disclosed and the licensed
+sentence bounded to "above the selection-inflated null"). Same GRAFT
+route: the 3,928 private commits touching `experiments/exp4`,
+`experiment-4-design.md` and `.gitignore` were applied as a
+path-limited series fast-forward onto the previous public master
+(1d234aba) at index level, identities normalized to the single
+noreply identity, author and committer dates and commit messages
+preserved byte for byte, redaction scans clean (0 secret-class, 0
+home-path lines, 0 LAN literals across the 279 text files and the
+3,928 messages added); fifty-one commit messages carry a
+`Claude-Session` attribution trailer (an authentication-gated session
+link), preserved verbatim under the messages-preserved rule and
+disclosed here. The tree at all three new anchors and at HEAD is
+entry-identical to the private tree on the retained paths (4,073
+entries at the close), all 71 prior tags and every prior commit
+untouched. Three tags carried: `exp4-preregistered` (private 5596b065
+→ public e0b5f05b, the six instrument blobs bound), `exp4-reference-
+sealed` (11a0edd5 → fab9ea5e: the 19 reference keys and four first
+units of the reference stage, the eligibility table and the power
+record with its zero-excess calibration arm), `exp4-closed` (12d747df
+→ 344d29aa). One disclosure this round carries: `exp4-preregistered`
+is a RE-TAG — the campaign's first gate read after the reference
+stage, gate 0 (the untrained twin below the endpoint on at least .90
+of cells), failed on Pythia 2.8b at .875 because hidden-state 0, the
+embedding output at the constant prompt-end token, has identical
+k-NN sets in every model and so fails one cell in twelve by
+construction; the one pre-committed change excluded that site from
+gate 0 (the primary statistic cancels the constant and was
+unaffected), Michael ruled it, and the preregistration tag was re-cut
+at the fix commit with one blob delta; the original tag object stood
+at private e6e0d9cd (annotated object cc75d86d), whose content commit
+maps to 923f208b here, and the stop, the ruling and the delta are
+ledgered in `experiments/exp4/PROGRESS.md`, in the design document's
+status block and in the tag message itself. The campaign otherwise
+ran with zero halts, zero experiment-side stops and zero attrition,
+and gate 1 reproduced the stage-1 endpoint byte-identically through a
+second loader path on all four trajectories, which the record
+documents. The retained-path list above now includes
+`experiments/exp4` and `experiment-4-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 

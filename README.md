@@ -85,7 +85,9 @@ here; see PROVENANCE.md),
 `exp3-preregistered` / `exp3-closed`,
 `exp3c-preregistered` / `exp3c-closed`,
 `exp3d-preregistered` / `exp3d-closed`,
-`exp3e-preregistered` / `exp3e-closed`.
+`exp3e-preregistered` / `exp3e-closed`,
+`exp4-preregistered` / `exp4-reference-sealed` / `exp4-closed` (the
+preregistration tag re-cut once after a campaign stop; see PROVENANCE.md).
 Other interim stage tags exist only in the private repository. `v1.0`,
 `v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16` and `v1.17` anchor the Zenodo-archived snapshots
 (concept DOI 10.5281/zenodo.21830421) and deliberately point outside
