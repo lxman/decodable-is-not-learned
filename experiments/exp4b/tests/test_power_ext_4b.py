@@ -13,10 +13,18 @@
       (`scale_by_traj = {t: 2.0 for t in traj_info}`) equals `power_4.
       _simulate_zero_excess(..., scale=2.0, ...)` field for field on
       the same seeded stream and the same `seed`/`scale_index` -- the
-      equivalence gate the brief requires.
+      equivalence gate the brief requires; PLUS (review Finding 2) the
+      same equivalence per REAL trajectory at that trajectory's own
+      distinct `LAMBDA_BY_TRAJ` scale, on `pool_info`/`traj_info`/
+      `trend_arr`/`rung_sets` restricted to just that trajectory --
+      pins `scale_by_traj[traj]` itself, which a uniform scale cannot.
   (c) `extension_arms_4b` at `n_sim=20` on the world produces the six
       arms in the documented order, with `Ts` present (length <= 20)
-      only on the "observed_lambda" arm.
+      only on the "observed_lambda" arm; PLUS (review Finding 1) a
+      hand-rolled reference built from ONE fresh `default_rng` seeded
+      and consumed in the same order (observed_lambda, then the "4.0"
+      multiple) reproduces those two arms bit for bit -- the single-
+      shared-stream contract `RNG_ORDER_NOTE_4` carries over.
   (d) `p_iid_4b`'s hand example, plus its `n < 2` edge cases.
 
 Every world is ONE `full_shape.build_world(..., "leads", seed=11,
@@ -91,6 +99,10 @@ def test_reproduce_power_record_identical(_leads_world):
     assert out["first_diff"] is None
     assert out["committed_sha256"] == out["reproduced_sha256"]
     assert out["seconds"] >= 0.0
+    # Recorded (not asserted) for Task 5, which measures the real exp4
+    # tree's n_sim=1000 record separately: this is the world's own
+    # n_sim=20 figure, a first-order lower bound on gate (4)'s cost.
+    print(f"\nreproduce_power_record_4b seconds (world, n_sim=20): {out['seconds']:.4f}")
 
 
 @pytest.mark.slow
@@ -153,6 +165,53 @@ def test_simulate_zero_excess_scaled_equals_frozen_at_uniform_scale(_leads_world
     assert len(scaled_ts) <= 5
 
 
+@pytest.mark.slow
+def test_simulate_zero_excess_scaled_per_trajectory_mapping(_leads_world):
+    """Finding 2 (review): the uniform-scale gate above cannot tell
+    `scale_by_traj[traj]` apart from a mis-keyed lookup (a stale
+    outer-loop `traj`, `next(iter(scale_by_traj.values()))`, always
+    the first pool trajectory, ...) -- every trajectory gets the same
+    2.0 either way, so any of those bugs passes it too. Restrict
+    `pool_info`/`traj_info`/`trend_arr`/`rung_sets` to ONE real
+    trajectory at a time (dict slices -- straightforward, per the
+    review's own note) and require `simulate_zero_excess_scaled({t:
+    s})` to equal `power_4._simulate_zero_excess(scale=s)` for that
+    trajectory's OWN `s`, run across all four real trajectories at
+    their own distinct `LAMBDA_BY_TRAJ` values -- a lookup that
+    silently returns some OTHER trajectory's scale, or a name absent
+    from the single-entry restricted map, fails immediately (a wrong
+    value or a `KeyError`), which the chosen implementation of Finding
+    2's fix (task-3-report.md) documents in place of the weaker
+    single-trajectory-differs alternative the review also offered."""
+    elig, rung_sets, grids = _load_inputs(_leads_world)
+    pool, pool_info, traj_info, trend_arr = pe._pool_inputs_4b(elig, rung_sets, grids)
+
+    for traj in sorted(traj_info):
+        s = float(LAMBDA_BY_TRAJ[traj])
+        pool_info_t = {k: v for k, v in pool_info.items() if k[0] == traj}
+        traj_info_t = {traj: traj_info[traj]}
+        trend_arr_t = {traj: trend_arr[traj]}
+        rung_sets_t = {traj: rung_sets[traj]}
+
+        scaled_t = pe.simulate_zero_excess_scaled(
+            pool_info=pool_info_t, traj_info=traj_info_t, trend_arr=trend_arr_t,
+            rung_sets=rung_sets_t, rng=np.random.default_rng(31), n_sim=8,
+            scale_by_traj={traj: s}, seed=13, scale_index=0)
+        frozen_t = power_4._simulate_zero_excess(
+            pool_info=pool_info_t, traj_info=traj_info_t, trend_arr=trend_arr_t,
+            rung_sets=rung_sets_t, rng=np.random.default_rng(31), n_sim=8, scale=s, seed=13,
+            scale_index=0)
+
+        scaled_t_cmp = dict(scaled_t)
+        scaled_t_cmp.pop("Ts")
+        scaled_t_cmp.pop("scale_by_traj")
+        scaled_t_cmp.pop("scatter_multiple")
+        frozen_t_cmp = dict(frozen_t)
+        frozen_t_cmp.pop("scatter_multiple")
+
+        assert scaled_t_cmp == frozen_t_cmp, traj
+
+
 # --------------------------------------------------- extension_arms_4b
 
 
@@ -179,6 +238,35 @@ def test_extension_arms_order_and_ts(_leads_world):
     assert out["arms"]["4.0"]["scatter_multiple"] == 4.0
     assert out["arms"]["rms_lambda"]["scatter_multiple"] == pytest.approx(
         float(np.sqrt(np.mean([v ** 2 for v in LAMBDA_BY_TRAJ.values()]))))
+
+    # Finding 1 (review): the single-stream contract is the whole point
+    # of extension_arms_4b -- ONE rng, consumed by every arm in order,
+    # not a fresh stream per arm -- and nothing above distinguishes the
+    # two. Hand-roll the same first two draws (observed_lambda at
+    # scale_index=0, then the "4.0" multiple at scale_index=1) on a
+    # FRESH rng seeded identically to what extension_arms_4b used
+    # internally, in the same order, and require bit-for-bit equality
+    # with what it actually produced. A refactor that gave each arm
+    # its own fresh `default_rng(seed)` (destroying RNG_ORDER_NOTE_4's
+    # "successive draws from one stream" property and the reason
+    # `scale_index` is gapless) would still pass every assertion above
+    # but fail this one -- observed_lambda would match (it is still
+    # the first draw off a `default_rng(seed)`), but the "4.0" arm
+    # would draw from its OWN fresh stream at index 0 instead of
+    # continuing the shared one, and disagree.
+    pool, pool_info, traj_info, trend_arr = pe._pool_inputs_4b(elig, rung_sets, grids)
+    scale_by_traj_ref = {traj: float(LAMBDA_BY_TRAJ[traj]) for traj in sorted(traj_info)}
+    ref_rng = np.random.default_rng(battery_4b.EXT_SEED_4B)
+    observed_ref = pe.simulate_zero_excess_scaled(
+        pool_info=pool_info, traj_info=traj_info, trend_arr=trend_arr, rung_sets=rung_sets,
+        rng=ref_rng, n_sim=20, scale_by_traj=scale_by_traj_ref, seed=battery_4b.EXT_SEED_4B,
+        scale_index=0)
+    multiple_ref = power_4._simulate_zero_excess(
+        pool_info=pool_info, traj_info=traj_info, trend_arr=trend_arr, rung_sets=rung_sets,
+        rng=ref_rng, n_sim=20, scale=4.0, seed=battery_4b.EXT_SEED_4B, scale_index=1)
+
+    assert observed_ref == out["arms"]["observed_lambda"]
+    assert multiple_ref == out["arms"]["4.0"]
 
 
 # --------------------------------------------------------------- p_iid_4b

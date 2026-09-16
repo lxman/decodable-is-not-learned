@@ -362,4 +362,59 @@ unaffected).
 at `n_sim=1000` (`N_SIM_4`), not the world's `n_sim=20` — gate (4)'s
 runtime against the real tree (`design §7`/dial (g)'s "if it exceeds
 four hours, fall back" clause) is unmeasured here per the brief's
-resolution (4) and is Task 5's job to measure.
+resolution (4) and is Task 5's job to measure. **Measured on the
+world** (n_sim=20, captured post-review — see the fix round below):
+`reproduce_power_record_4b` took **0.6146 s**; a naive linear scaling
+to the real tree's n_sim=1000 (~50x) puts gate (4) in the tens-of-
+seconds range, well inside the four-hour bar, but Task 5 measures it
+directly rather than relying on this extrapolation.
+
+### Task 3 fix round: two Important test-power gaps (post-review)
+
+The implementation was approved unchanged; both findings were gaps in
+`test_power_ext_4b.py`'s coverage, closed with new assertions on the
+SAME module-scoped `_leads_world` (no second world build):
+
+1. **The single-stream contract was untested** — nothing distinguished
+   `extension_arms_4b`'s one shared `rng`, consumed by every arm in
+   order, from a refactor giving each arm its own fresh stream (which
+   would still pass every prior assertion: arm names, order, `Ts`
+   shape, `scatter_multiple`). Fix: `test_extension_arms_order_and_ts`
+   now hand-rolls the SAME first two calls (`simulate_zero_excess_
+   scaled` for `"observed_lambda"` at `scale_index=0`, then
+   `power_4._simulate_zero_excess` for `"4.0"` at `scale_index=1`) on
+   one fresh `default_rng(EXT_SEED_4B)`, in order, and asserts both
+   equal what `extension_arms_4b` produced internally, bit for bit.
+2. **The equivalence gate never exercised a heterogeneous scale** — a
+   uniform `scale_by_traj = {t: 2.0 for t}` cannot distinguish
+   `scale_by_traj[traj]` from a mis-keyed lookup (every plausible bug
+   also reads `2.0`). Fix: new slow test
+   `test_simulate_zero_excess_scaled_per_trajectory_mapping` restricts
+   `pool_info`/`traj_info`/`trend_arr`/`rung_sets` to ONE real
+   trajectory at a time (dict slices) and asserts `simulate_zero_
+   excess_scaled({t: s})` equals the frozen function at `scale=s` for
+   that trajectory's own distinct `LAMBDA_BY_TRAJ` value, across all
+   four trajectories — the stronger of the two forms the review
+   offered, chosen because the restricted inputs are straightforward
+   dict slices (one residual, disclosed-not-live gap: a
+   `next(iter(scale_by_traj.values()))`-style bug is behaviourally
+   unreachable to distinguish on a single-entry map; the actual
+   implementation does keyed lookups, not iterator calls, per the
+   original report's line-by-line copy-fidelity diff).
+
+Covering tests: `test_extension_arms_order_and_ts`, `test_simulate_
+zero_excess_scaled_per_trajectory_mapping`, `test_reproduce_power_
+record_identical` (now prints `seconds`). One combined slow run (all
+six slow tests, one world build):
+
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp4b/tests/test_power_ext_4b.py -p no:cacheprovider -q -m slow -s
+reproduce_power_record_4b seconds (world, n_sim=20): 0.6146
+......
+6 passed, 4 deselected in 795.61s (0:13:15)
+```
+
+Full `experiments/exp4b/tests/` under `-m "not slow"`: `50 passed, 7
+deselected in 19.56s` (7, was 6 — one new slow test added). Fix report
+appended to `.superpowers/sdd/2026-09-16-exp4b-build/task-3-report.md`.
