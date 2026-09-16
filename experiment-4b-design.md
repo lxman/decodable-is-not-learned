@@ -1,6 +1,6 @@
 # Experiment 4b — the calibration successor: how far above the drift-and-selection null does the lens lead sit?
 
-**Status: DRAFT — session 1 (design) of three (design | build | freeze), written 2026-09-16 on Michael's word ("Design the calibration successor."). §10 dials await his ruling. ANALYSIS-ONLY on Experiment 4's committed bytes: zero model contact end to end.**
+**Status: session 1 (design) written 2026-09-16 on Michael's word ("Design the calibration successor."); §10 DIALS a–l RULED by Michael 2026-09-16 ("dials approved - proceed"): every dial as recommended; session 2 (build) and session 3 (freeze) follow. ANALYSIS-ONLY on Experiment 4's committed bytes: zero model contact end to end.**
 
 Predecessor: `experiment-4-design.md` (CLOSED 2026-09-16, VERDICT LEADS at T .6102, tag `exp4-closed` at 12d747df). Exp 4's §6 licence was claimed only where the LEADS rule's realized α at the observed λ̂ is below .05, and the observed λ̂ (6.2–7.3) fell above the zero-excess arm's grid (top multiple 3.0, realized α already .264), so the essay's sentence went out bounded to "above the selection-inflated null" with the strength of the lead unquantified. 4b quantifies it, on the bytes already on disk, with a null built from the flat rungs' own drift.
 
@@ -123,7 +123,7 @@ Bounded to: Exp 4's battery, trajectories, position, site family and rung grain;
 
 No forecast: T_4 and the outcome are known. No claim about the size axis beyond S6's descriptive. No mechanism: S3/S5 say whether the drift accumulates, not why. No statement about other batteries, positions, site families, or models. Under CALIBRATED the essay's sentence is calibrated against the flat rungs' drift on this battery — it does not become a claim that the lead would survive on rungs whose non-task-specific drift differs from the flat rungs' (§4 (i)). Under NOT-DISTINGUISHABLE the construction account is still not licensed — Exp 4's sign-flip reading against φ ≈ 0 stands, and the placebo null's own lower quantile is printed beside it.
 
-## 10. Dials — for Michael's ruling
+## 10. Dials — RULED by Michael 2026-09-16 ("dials approved - proceed"): every dial as recommended
 
 - (a) **Primary** = the placebo-calibrated p of Exp 4's committed T (recommended), the iid-parametric p at the observed λ̂ as S1; or the parametric reading as primary with the placebo as secondary.
 - (b) **Placebo battery** = n_M rungs drawn with replacement from P_M, the real clear multiset C_M permuted onto them (recommended); or all eligible placebo rungs per trajectory, weighted 4/9/4/9, each with an independent clear draw.
