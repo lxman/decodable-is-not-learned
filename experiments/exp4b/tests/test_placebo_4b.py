@@ -131,16 +131,46 @@ def test_placebo_pool_4b_refuses_series_pia_mismatch():
         pl.placebo_pool_4b(bad_series, pia_t1, pia_end, flat, n_boot=50, seed=0)
 
 
-def test_placebo_pool_4b_eligibility_bar_is_two_se_inclusive():
-    """Finding 3: the eligibility bar itself, `x_end >=
-    SE_MULTIPLE_4 * se`, tested at its boundary. Every rung's pia
-    arrays are CONSTANT (every item identical), so resampling with
-    replacement always returns the same constant and `se == 0.0`
-    EXACTLY -- the bootstrap distribution collapses to a point mass,
-    bit-for-bit, with no floating-point residual -- letting `x_end` be
-    placed at exactly `0.0` (`== 2*se`), just above, and just below
-    without any risk of the boundary landing on the wrong side by
-    numerical noise."""
+def test_placebo_pool_4b_eligibility_bar_pins_multiple_and_boundary():
+    """Finding 3, round 2: the round-1 version fixed `se` at exactly
+    `0.0` via constant pia arrays for EVERY rung, including f -- which
+    collapses `SE_MULTIPLE_4 * se` to `0.0` for ANY multiple (so a
+    mutant `multiple = 1.0` or `3.0` passed unnoticed), and put the
+    "AT the bar" case's actual measured `x_end` (1.665e-16, a hair
+    ABOVE zero) behind `pytest.approx(0.0, abs=1e-9)`, which cannot
+    distinguish `>=` from `>` (a strictly-positive x_end clears either
+    operator) while reading as if it proved the inclusive case.
+
+    Fixed: f's own end-array carries REAL, seeded item-level
+    dispersion (an `N(0, .02)` draw, fixed seed), so `se` -- read from
+    a bootstrap, deterministic given the fixed seed -- is a genuine
+    nonzero float, measured once as `se_ref` from an unshifted
+    reference build. Every other placement shifts that SAME array by a
+    constant (changing its realized MEAN, hence `x_end`, while leaving
+    its DISPERSION -- hence `se` -- unchanged to floating precision),
+    and every assertion reads the CONSTRUCTED pool's own fresh
+    `x_end`/`se` back rather than assuming the target was hit exactly.
+    Five placements: `2*se-1e-9` / `2*se+1e-9` pin the boundary at a
+    resolvable (1e-9) scale (ineligible / eligible); `1.5*se` /
+    `2.5*se` pin the MULTIPLE itself (ineligible under 2 but would be
+    eligible under a mutant 1.0; eligible under 2 but would be
+    ineligible under a mutant 3.0) -- the +-1e-9 cases alone cannot do
+    this, since scaling `SE_MULTIPLE_4` by a wrong constant moves the
+    bar without moving a FIXED 1e-9 offset off of "clearly one side or
+    the other"; `2*se` itself (`at`) is placed as close to the bar as
+    the construction can manage, WITHOUT claiming bit-exact equality --
+    the realized residual is measured and asserted small (documented,
+    not approximated away), and the assertion checks `eligible ==
+    (residual >= 0)` (self-consistency against whichever side the
+    residual actually lands on), NOT `eligible is True`, because the
+    residual's sign is not controllable by this construction. This
+    means the `at` case does NOT by itself distinguish `>=` from `>`
+    (both operators agree on any nonzero residual) --
+    `test_placebo_pool_4b_eligibility_bar_exact_equality_with_stubbed_se`
+    below is the companion test that does, by removing the round trip
+    entirely. `multiple=1.0`/`multiple=3.0` mutants each fail one
+    assertion HERE (`below`/`above` respectively); see the fix report
+    for the by-hand confirmation of all three named mutants."""
     n = battery_4.N_ITEMS
     flat = ["a", "b", "f"]
 
@@ -162,32 +192,127 @@ def test_placebo_pool_4b_eligibility_bar_is_two_se_inclusive():
 
     trend_t1 = (realized_t1["a"] + realized_t1["b"]) / 2.0
     trend_end = (realized_end_pool["a"] + realized_end_pool["b"]) / 2.0
-    zero_point = f_t1 + (trend_end - trend_t1)  # a_f(end) that makes x_end == 0.0
 
-    def build(a_f_end_value):
-        arr_f_end, f_end = const_pia(a_f_end_value)
+    # f's own end-array: real, seeded item-level dispersion -- the
+    # SOLE source of a genuinely nonzero se (a, b, and f's t_1 array
+    # are all constant, contributing zero bootstrap variance).
+    base_f_end = 0.5 + np.random.default_rng(0).normal(0.0, 0.02, size=n)
+
+    def build(a_f_end_array):
         pia_end = dict(pia_end_pool)
-        pia_end["f"] = arr_f_end
+        pia_end["f"] = a_f_end_array
         series = {
             "steps": [0, 1],
             "a": {
                 "a": [realized_t1["a"], realized_end_pool["a"]],
                 "b": [realized_t1["b"], realized_end_pool["b"]],
-                "f": [f_t1, f_end],
+                "f": [f_t1, float(a_f_end_array.mean())],
             },
         }
-        return pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=50, seed=0)
+        return pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=200, seed=0)
 
-    at = build(zero_point)
-    assert at["f"]["se"] == 0.0
-    assert at["f"]["x_end"] == pytest.approx(0.0, abs=1e-9)
-    assert at["f"]["eligible"] is True, "AT the bar (x_end == 2*se == 0) must be eligible (>=)"
+    def target_array(target_x_end):
+        """f's end-array, shifted by a constant so `x_end` lands at
+        `target_x_end` (up to floating precision): the shift preserves
+        the array's dispersion (hence `se`) exactly, to floating
+        precision, since every item moves by the SAME amount."""
+        target_a_f_end = target_x_end + f_t1 + (trend_end - trend_t1)
+        delta = target_a_f_end - float(base_f_end.mean())
+        return base_f_end + delta
 
-    above = build(zero_point + 1e-6)
-    assert above["f"]["eligible"] is True, "just above the bar must be eligible"
+    ref = build(base_f_end)
+    se_ref = ref["f"]["se"]
+    assert se_ref > 0.0, "the reference se must be a genuine nonzero float"
 
-    below = build(zero_point - 1e-6)
-    assert below["f"]["eligible"] is False, "just below the bar must be ineligible"
+    below = build(target_array(2.0 * se_ref - 1e-9))
+    assert below["f"]["x_end"] < 2.0 * below["f"]["se"]
+    assert below["f"]["eligible"] is False, (
+        f"x_end {below['f']['x_end']!r} just below 2*se {2 * below['f']['se']!r} "
+        f"must be ineligible")
+
+    above = build(target_array(2.0 * se_ref + 1e-9))
+    assert above["f"]["x_end"] > 2.0 * above["f"]["se"]
+    assert above["f"]["eligible"] is True, (
+        f"x_end {above['f']['x_end']!r} just above 2*se {2 * above['f']['se']!r} "
+        f"must be eligible")
+
+    at = build(target_array(2.0 * se_ref))
+    residual = at["f"]["x_end"] - 2.0 * at["f"]["se"]
+    # "At the bar, to the extent floating point allows": constructing
+    # a_f(end) from a target x_end and then re-deriving x_end from
+    # a_f(end) is a round trip through subtraction and re-subtraction
+    # of the SAME t_1/trend terms, which floating point does not
+    # guarantee is lossless -- the residual measured here is small
+    # (order 1e-16 to 1e-9 depending on the run) but its SIGN is not
+    # controllable by this construction, so the assertion is written
+    # against whichever side the residual actually lands on (self-
+    # consistency: `eligible` must track the sign of `x_end - 2*se`
+    # exactly, whatever that sign is) rather than assuming the
+    # eligible side. See the fix report for the residual measured when
+    # this test was written and for what this case does and does not
+    # prove about `>=` versus `>`.
+    assert abs(residual) < 1e-9, f"residual {residual!r} (x_end - 2*se) larger than expected"
+    assert at["f"]["eligible"] == (residual >= 0), (
+        f"eligible {at['f']['eligible']} inconsistent with x_end {at['f']['x_end']!r} "
+        f"vs 2*se {2 * at['f']['se']!r} (residual {residual!r}): `eligible` must equal "
+        f"exactly `x_end >= 2*se`")
+
+    below_multiple = build(target_array(1.5 * se_ref))
+    assert below_multiple["f"]["eligible"] is False, (
+        "1.5*se must be ineligible under SE_MULTIPLE_4 = 2.0 "
+        "(would be eligible under a mutant multiple = 1.0)")
+
+    above_multiple = build(target_array(2.5 * se_ref))
+    assert above_multiple["f"]["eligible"] is True, (
+        "2.5*se must be eligible under SE_MULTIPLE_4 = 2.0 "
+        "(would be ineligible under a mutant multiple = 3.0)")
+
+
+def test_placebo_pool_4b_eligibility_bar_exact_equality_with_stubbed_se(monkeypatch):
+    """Companion to the test above: that test's `at` case cannot
+    GUARANTEE `x_end == 2*se` to the bit (the construction round-trips
+    a target through subtraction and re-subtraction of the t_1/trend
+    terms, which floating point does not promise is lossless -- the
+    measured residual there was -5.75e-17, i.e. NOT exactly zero, so a
+    `>` mutant is indistinguishable from `>=` in that case and is NOT
+    caught by it). This test removes the round trip: `placebo_se_4b`
+    is monkeypatched to return a literal `0.25` (a dyadic fraction,
+    exact in float64), and every other value (f's t_1, the trend, f's
+    end value) is ALSO chosen as a dyadic fraction, so `x_end =
+    (f_end - f_t1) - (trend_end - trend_t1) = (1.0 - 0.25) - (0.5 -
+    0.25)` is bit-exact with no rounding at any step -- verified below
+    with `==`, not `pytest.approx`. `x_end == 0.5 == 2*0.25` exactly,
+    letting `>=` be told apart from `>` directly."""
+    n = battery_4.N_ITEMS
+    flat = ["a", "b", "f"]
+
+    def const(v):
+        return np.full(n, v, dtype=np.float64)
+
+    pia_t1 = {"a": const(0.25), "b": const(0.25), "f": const(0.25)}
+    monkeypatch.setattr(pl, "placebo_se_4b", lambda *a, **k: 0.25)
+
+    def build(f_end):
+        # Read the array's OWN realized mean back rather than assuming
+        # `const(f_end).mean() == f_end` -- for `f_end` values very
+        # close to 1.0 (the `just_below` case below) that assumption
+        # is false by one ULP, which `placebo_pool_4b`'s series/pia
+        # consistency check (finding 2) correctly refuses.
+        arr_f_end = const(f_end)
+        realized_f_end = float(arr_f_end.mean())
+        pia_end = {"a": const(0.5), "b": const(0.5), "f": arr_f_end}
+        series = {"steps": [0, 1],
+                 "a": {"a": [0.25, 0.5], "b": [0.25, 0.5], "f": [0.25, realized_f_end]}}
+        return pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=1, seed=0)
+
+    at = build(1.0)
+    assert at["f"]["se"] == 0.25
+    assert at["f"]["x_end"] == 0.5
+    assert at["f"]["eligible"] is True, "x_end == 2*se exactly (0.5 == 2*0.25) must be eligible"
+
+    just_below = build(np.nextafter(1.0, 0.0))  # the largest double strictly < 1.0
+    assert just_below["f"]["x_end"] < 0.5
+    assert just_below["f"]["eligible"] is False
 
 
 # -------------------------------------------------- (d)/(e) calibration worlds

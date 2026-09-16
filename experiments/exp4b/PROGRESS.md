@@ -180,9 +180,13 @@ matches exactly). The controller rules on whether to keep
    pia arrays' own realized means rather than assuming a target);
    every test calling `placebo_pool_4b` was updated to use it.
 3. Added `test_placebo_pool_4b_eligibility_bar_is_two_se_inclusive` —
-   the `>=`-at-the-bar boundary itself had no test. Constant pia
-   arrays make the bootstrap SD exactly `0.0` (no floating residual),
-   so `x_end` can be placed at exactly `2*se`/just above/just below.
+   the `>=`-at-the-bar boundary itself had no test. **Round-2
+   correction (below): this first version fixed `se` at `0.0` via
+   constant pia arrays for every rung, which collapses `SE_MULTIPLE_4
+   * se` to `0.0` for ANY multiple (untested) and, despite the
+   docstring's claim, does NOT place `x_end` at exactly `2*se` —
+   the measured value was `1.665e-16` (a hair above zero), hidden by
+   `pytest.approx(0.0, abs=1e-9)`. See the round-2 entry.**
 4. `per_type_4b` now refuses (`p_cal`/`T_star`/etc. all `None`, with a
    `reason`) when the type battery's null doesn't cover every
    trajectory contributing to `T_obs`, or is empty outright, detected
@@ -203,4 +207,61 @@ Covering tests: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
 -m pytest experiments/exp4b/tests/test_placebo_4b.py -p no:cacheprovider -q`
 → 29 passed, zero warnings, 17.54 s. Full `experiments/exp4b/tests/`
 (incl. Task 1 + the `slow` gate): 46 passed. Fix report appended to
+`.superpowers/sdd/2026-09-16-exp4b-build/task-2-report.md`.
+
+### Task 2 fix round 2: finding 3 not addressed + a documentation defect
+
+Round 1's eligibility-bar test fixed `se` at exactly `0.0` (every
+rung's pia arrays constant), which collapses `SE_MULTIPLE_4 * se` to
+`0.0` for ANY multiple — a mutant `multiple = 1.0` or `3.0` passed
+every test in the file — and its "AT the bar" case did not land at
+`x_end == 0.0`: the measured value was `1.665e-16` (a hair above
+zero), reported honestly nowhere and instead hidden behind
+`pytest.approx(0.0, abs=1e-9)`, which cannot distinguish `>=` from `>`
+(a strictly-positive `x_end` clears either operator) while reading as
+if it had proven the inclusive case. The docstring's "bit-for-bit, no
+floating-point residual" claim was false.
+
+Replaced with two tests:
+
+- `test_placebo_pool_4b_eligibility_bar_pins_multiple_and_boundary` —
+  f's own end-array now carries real, seeded item-level dispersion
+  (`N(0, .02)`), so `se` is a genuine nonzero deterministic float,
+  measured once (`se_ref`) from a reference build. Every other
+  placement shifts that SAME array by a constant (changes the
+  realized mean, hence `x_end`; leaves the dispersion, hence `se`,
+  unchanged to floating precision) and reads the constructed pool's
+  own fresh `x_end`/`se` back. Five cases: `2*se-1e-9` (ineligible),
+  `2*se+1e-9` (eligible) — pin the boundary at a resolvable scale;
+  `1.5*se` (ineligible under `SE_MULTIPLE_4=2`), `2.5*se` (eligible
+  under 2) — pin the MULTIPLE itself; `2*se` exactly ("at") — the
+  construction cannot guarantee a bit-exact hit (round-tripping a
+  target through subtraction and re-subtraction of the t_1/trend terms
+  is not lossless in floating point), so the residual is measured
+  (`-5.75e-17` when this was written — NOT exactly zero, and its sign
+  is not controllable by this construction) and the assertion is
+  written against whichever side it actually lands on
+  (`eligible == (residual >= 0)`), not assumed.
+- `test_placebo_pool_4b_eligibility_bar_exact_equality_with_stubbed_se`
+  (new) — `placebo_se_4b` is monkeypatched to return a literal `0.25`
+  (a dyadic fraction, exact in float64); f's t_1, the trend, and f's
+  end value are ALSO dyadic fractions, so `x_end = (1.0 - 0.25) -
+  (0.5 - 0.25) == 0.5 == 2*0.25` is bit-exact — verified with `==`,
+  not `approx`. This is the case the first test's "at" placement
+  could not reliably produce, and it is what actually tells `>=` apart
+  from `>`.
+
+Confirmed by hand (temporarily editing the source, one mutation at a
+time, then reverting): `multiple = 1.0` fails the first test's `below`
+assertion (also the second test's `just_below`); `multiple = 3.0`
+fails the first test's `above` assertion (also the second test's
+`at`); `>` in place of `>=` fails ONLY the second (stubbed-se) test —
+the first test's `at` case does not and cannot catch it, since its
+residual is never exactly zero by construction, honestly documented
+in both the docstring and this entry rather than claimed otherwise.
+
+Covering tests: 30 passed (was 29 — one test added), zero warnings,
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp4b/tests/test_placebo_4b.py -p no:cacheprovider -q`.
+Fix report round 2 appended to
 `.superpowers/sdd/2026-09-16-exp4b-build/task-2-report.md`.
