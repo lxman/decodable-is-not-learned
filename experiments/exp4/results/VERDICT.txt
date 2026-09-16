@@ -1,0 +1,68 @@
+EXPERIMENT 4 VERDICT: LEADS
+
+T 0.6102 ≥ 0.25, p+ 0.0004883 < 0.01
+
+Caveat: whatever fires is a preregistered reading on a known outcome, not a forecast
+
+Licence: on N tasks across four families' training runs, the agreement between a model's representation of a task's items and three unrelated released models' ran ahead of the general convergence trend before the task first performed, by a preregistered margin, and the lens reading of Huh et al. is upgraded from a citation to a measurement at task grain in the scoreboard. Condition: LEADS on at least two of the four per-model readings (each at its own p < .05 and T >= .25); otherwise the sentence names the trajectories on which it held. Disclosure (design §2): whatever fires is a preregistered reading on a known outcome, not a forecast.
+
+Power: read under POWERED: null SD of T 0.03946096702774157, min-detectable T 0.11841595454561955
+  P_LEADS by arm: 0.0=0.0, 0.25=0.323, 0.5=1.0, zero_excess=0.019
+  realized alpha (LEADS under zero excess, R-7): 0.019
+  zero-excess scatter grid (P_LEADS by noise multiple): {'1.0': 0.019, '1.5': 0.144, '2.0': 0.246, '3.0': 0.264}
+
+Calibration (R-7): lambda_hat = the flat pool's between-step scatter over its item-bootstrap SE
+  comma_7b: lambda_hat=7.319506759543889 (scatter 0.01829675381090629, bootstrap SE 0.002499724969452237)
+  olmo2_7b: lambda_hat=7.30426747910062 (scatter 0.026321843388271166, bootstrap SE 0.003603625341430157)
+  pythia_2.8b: lambda_hat=6.234518176738769 (scatter 0.01918635071911499, bootstrap SE 0.0030774392142603763)
+  smollm3_3b: lambda_hat=6.469124822936492 (scatter 0.018411546850185513, bootstrap SE 0.002846064553416372)
+
+Licence condition (§6, descriptive): met=True — 2 of 4 per-trajectory readings qualify ['comma_7b', 'olmo2_7b']; rule: design §6: at least 2 of the four per-trajectory readings at p_+ < 0.05 and T >= 0.25
+
+Primary: T=0.6102 p+=0.0004883 p-=0.9995 CI95=[0.3251, 0.9501] n_cells=26 n_rungs=15 flip_method=exact
+
+Per-trajectory T:
+  comma_7b: T=0.5120 p+=0.005859 n_cells=9
+  olmo2_7b: T=0.9589 p+=0.003906 n_cells=9
+  pythia_2.8b: T=0.1834 p+=0.375 n_cells=4
+  smollm3_3b: T=0.4736 p+=0.125 n_cells=4
+
+Per-type T:
+  arithmetic: T=0.6282 p+=0.02148 n_cells=13
+  option: T=0.5780 p+=0.0625 n_cells=9
+  string: T=0.6243 p+=0.25 n_cells=4
+
+Per-cell phi:
+  pythia_2.8b/antonym: phi=0.3912 t_clear=30000 x_end=0.1173
+  pythia_2.8b/antonym6: phi=0.6433 t_clear=10000 x_end=0.0691
+  pythia_2.8b/arith_next: phi=0.8201 t_clear=30000 x_end=0.1396
+  pythia_2.8b/sub3_mid: phi=-1.1208 t_clear=70000 x_end=0.0185
+  olmo2_7b/add_base8: phi=2.9701 t_clear=32000 x_end=0.0186
+  olmo2_7b/antonym: phi=0.5698 t_clear=32000 x_end=0.0625
+  olmo2_7b/antonym6: phi=1.3170 t_clear=8000 x_end=0.0732
+  olmo2_7b/arith_next: phi=0.5857 t_clear=16000 x_end=0.0810
+  olmo2_7b/odd6: phi=0.9639 t_clear=128000 x_end=0.0393
+  olmo2_7b/odd_one_out: phi=0.9113 t_clear=256000 x_end=0.0482
+  olmo2_7b/quad_next: phi=0.7252 t_clear=320000 x_end=0.0439
+  olmo2_7b/sub3_mid: phi=-0.1227 t_clear=64000 x_end=0.0269
+  olmo2_7b/sub_base8: phi=0.7100 t_clear=32000 x_end=0.0427
+  smollm3_3b/add4_mid: phi=0.8530 t_clear=120000 x_end=0.0243
+  smollm3_3b/rev_string7: phi=0.6969 t_clear=1600000 x_end=0.0517
+  smollm3_3b/reverse_string: phi=-0.0736 t_clear=120000 x_end=0.0079
+  smollm3_3b/sub4_mid: phi=0.4180 t_clear=200000 x_end=0.0214
+  comma_7b/antonym: phi=-0.2449 t_clear=40000 x_end=0.0524
+  comma_7b/antonym6: phi=0.3283 t_clear=40000 x_end=0.0686
+  comma_7b/clock24_d999: phi=0.7897 t_clear=380000 x_end=0.0617
+  comma_7b/median7: phi=0.0961 t_clear=200000 x_end=0.0126
+  comma_7b/odd6: phi=0.3223 t_clear=380000 x_end=0.0048
+  comma_7b/quad_next: phi=1.1492 t_clear=280000 x_end=0.0192
+  comma_7b/rev_string7: phi=1.0885 t_clear=420000 x_end=0.0868
+  comma_7b/reverse_string: phi=0.7853 t_clear=180000 x_end=0.0441
+  comma_7b/sub3_mid: phi=0.2935 t_clear=40000 x_end=0.0508
+
+Known answer (design §7, DESCRIPTIVE, not gating): the ladder's Pythia-2.8b `main` set tables equal the step143000 endpoint's on 34 of 34 rungs
+
+Secondaries present: ['S1', 'S10', 'S11', 'S11 per-reference', 'S2 from-below (1b)', 'S2 known-answer gates', 'S2 per-trajectory', 'S3', 'S4', 'S8']
+Sensitivities present: ['S1 quarter/three-quarter', 'S5 comma_7b', 'S5 olmo2_7b', 'S5 pythia_2.8b', 'S5 smollm3_3b', 'S6 comma_7b', 'S6 olmo2_7b', 'S6 pythia_2.8b', 'S6 smollm3_3b', 'S7 comma_7b', 'S7 olmo2_7b', 'S7 pythia_2.8b', 'S7 smollm3_3b', 'S9', 'family-matched trend', 'k=20', 'k=5', 'primary_clears_and_stays']
+
+git_sha=610a6af3eda1c85f917b6dc5335256fb1fb49a70
