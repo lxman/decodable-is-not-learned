@@ -164,3 +164,43 @@ every battery reads LEADS; the real tree's rung mix will differ, but
 the cost driver is battery/cell/bootstrap COUNT, which this probe
 matches exactly). The controller rules on whether to keep
 `B_ALPHA_4B = B_4B` unchanged.
+
+### Task 2 fix round: five Important review findings
+
+1. `loo_trend_4b` now calls `an.trend_4(a, pool, steps)` (kept the
+   `"4b: "`-prefixed empty-pool check, which `trend_4` itself doesn't
+   carry) instead of reimplementing the mean — it had been
+   `trend_4`'s body verbatim, against the global constraint.
+2. `placebo_pool_4b` now refuses (`ValueError` naming the rung) unless
+   `series["a"][f][0]`/`[-1]` EXACTLY equal `pia_t1[f].mean()`/
+   `pia_end[f].mean()` for every f — nothing had checked the series and
+   the per-item alignment arrays came from the same checkpoint, so a
+   wrong pair would silently change P_M and the whole null. New
+   `fakes_4b.matching_pia` builds a consistent triple (reads back the
+   pia arrays' own realized means rather than assuming a target);
+   every test calling `placebo_pool_4b` was updated to use it.
+3. Added `test_placebo_pool_4b_eligibility_bar_is_two_se_inclusive` —
+   the `>=`-at-the-bar boundary itself had no test. Constant pia
+   arrays make the bootstrap SD exactly `0.0` (no floating residual),
+   so `x_end` can be placed at exactly `2*se`/just above/just below.
+4. `per_type_4b` now refuses (`p_cal`/`T_star`/etc. all `None`, with a
+   `reason`) when the type battery's null doesn't cover every
+   trajectory contributing to `T_obs`, or is empty outright, detected
+   BEFORE `p_cal_4b`/`t_star_4b` are called. `draw_batteries_4b`'s
+   `T[b]` also gained an empty-cells guard (`float("nan")` directly,
+   not `np.mean([])`) so the degenerate path is silent, not merely
+   tolerated — both `RuntimeWarning`s the review found are gone,
+   proven by `warnings.simplefilter("error")` in the covering test.
+5. (d)/(e) rewritten as pooled-over-seeds tests
+   (`_pooled_eligible_phi`, `range(60)`, never a searched seed) — the
+   single-seed versions passed by seed selection (the reviewer found
+   per-seed deviations from .16 to .97 against the committed .3
+   item_sigma); pooling every eligible rung's phi across 60
+   independent worlds gives deviations of .01–.06 (iid, bound .08) and
+   .001–.03 (random-walk, bound .1) with no seed chosen. ~7.9 s each.
+
+Covering tests: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
+-m pytest experiments/exp4b/tests/test_placebo_4b.py -p no:cacheprovider -q`
+→ 29 passed, zero warnings, 17.54 s. Full `experiments/exp4b/tests/`
+(incl. Task 1 + the `slow` gate): 46 passed. Fix report appended to
+`.superpowers/sdd/2026-09-16-exp4b-build/task-2-report.md`.

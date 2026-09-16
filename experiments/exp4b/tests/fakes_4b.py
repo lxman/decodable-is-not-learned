@@ -5,7 +5,12 @@ model contact. `make_series` builds the `alignment_series_4` shape
 `iid_noise_world`/`random_walk_world` are the two calibration worlds
 Step 1(d)/(e) run the placebo null against; `pia_from_means` builds
 per-item alignment arrays (`float64[n_items]`) of the shape
-`placebo_se_4b`'s bootstrap reads."""
+`placebo_se_4b`'s bootstrap reads; `matching_pia` builds a `(series,
+pia_t1, pia_end)` triple that satisfies `placebo_pool_4b`'s
+series/pia consistency refusal EXACTLY (review finding 2) -- use this,
+not a `series` and a separately-built `pia_from_means`, wherever a
+test calls `placebo_pool_4b` (directly or through a function that
+does)."""
 from __future__ import annotations
 
 import numpy as np
@@ -46,10 +51,40 @@ def random_walk_world(*, n_flat=30, n_steps=20, step_sigma=0.05, seed=0):
 def pia_from_means(rung_means: dict, *, n_items=500, item_sigma=0.02, seed=0) -> dict:
     """`{rung: float64[n_items]}` whose item mean is (in expectation)
     `rung_means[rung]`, with iid item-level noise so the leave-one-out
-    bootstrap SE is nonzero and rung-specific."""
+    bootstrap SE is nonzero and rung-specific. The REALIZED mean of
+    each array will differ from `rung_means[rung]` by the sample's own
+    noise -- callers that need `placebo_pool_4b`'s series/pia identity
+    to hold EXACTLY (every real caller) must use `matching_pia`
+    instead, which reads the realized mean back rather than assuming
+    it equals the target."""
     rng = np.random.default_rng(seed)
     return {r: (m + rng.normal(0.0, item_sigma, size=n_items)).astype(np.float64)
             for r, m in rung_means.items()}
+
+
+def matching_pia(series: dict, flat: list, *, item_sigma=0.02, seed=0, n_items=500):
+    """Builds per-item alignment arrays around `series["a"][f][0]`/
+    `[-1]` for every f in `flat`, then returns a NEW series whose
+    endpoints are REPLACED by those arrays' own realized means --
+    reproducing `alignment_series_4`'s own construction (`a[r].append(
+    float(pia[r].mean()))`) exactly, so `placebo_pool_4b`'s series/pia
+    consistency check (placebo_4b's own refusal) is satisfied
+    bit-for-bit rather than approximately. Intermediate steps are left
+    unchanged (no pia exists for them; only t_1 and the endpoint are
+    ever read against a pia array). Returns
+    `(series_matched, pia_t1, pia_end)`."""
+    rng_t1 = np.random.default_rng(seed * 2 + 1)
+    rng_end = np.random.default_rng(seed * 2 + 2)
+    a = {r: list(vals) for r, vals in series["a"].items()}
+    pia_t1, pia_end = {}, {}
+    for f in flat:
+        arr_t1 = (series["a"][f][0] + rng_t1.normal(0.0, item_sigma, size=n_items)).astype(np.float64)
+        arr_end = (series["a"][f][-1] + rng_end.normal(0.0, item_sigma, size=n_items)).astype(np.float64)
+        pia_t1[f] = arr_t1
+        pia_end[f] = arr_end
+        a[f][0] = float(arr_t1.mean())
+        a[f][-1] = float(arr_end.mean())
+    return {"steps": list(series["steps"]), "a": a}, pia_t1, pia_end
 
 
 def autocorr_world(*, n_flat=30, n_steps=20, rho=0.0, sigma=0.05, seed=0):

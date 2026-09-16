@@ -56,11 +56,14 @@ def loo_trend_4b(a: dict, flat: list, steps: list, f: str) -> list:
     pool of every OTHER flat rung; f itself must never contribute to
     its own trend, or its excess would be identically zero). Raises
     `ValueError` when the leave-one-out pool is empty (`flat == [f]`
-    or `f` not among a singleton `flat`)."""
+    or `f` not among a singleton `flat`) -- checked here, with a
+    "4b: "-prefixed message, because `analyze_4.trend_4`'s own empty
+    check carries no prefix and names no rung. The computation itself
+    is `trend_4`'s own (called, never reimplemented)."""
     pool = [r for r in flat if r != f]
     if not pool:
         raise ValueError(f"4b: leave-one-out pool empty for {f}")
-    return [float(np.mean([a[r][i] for r in pool])) for i in range(len(steps))]
+    return an.trend_4(a, pool, steps)
 
 
 def loo_excess_4b(a: dict, flat: list, steps: list, f: str) -> list:
@@ -118,11 +121,27 @@ def placebo_pool_4b(series: dict, pia_t1: dict, pia_end: dict, flat: list, *,
     the leave-one-out item-bootstrap SE (the SAME `seed` re-seeds a
     fresh generator per f, so the pool is order-independent), and the
     one-sided `SE_MULTIPLE_4`-SE eligibility bar. `P_M = [f for f in
-    flat if pool[f]["eligible"]]` is read off this by the caller."""
+    flat if pool[f]["eligible"]]` is read off this by the caller.
+
+    Refuses, per f, unless `series["a"][f][0]`/`[-1]` are EXACTLY the
+    means of `pia_t1[f]`/`pia_end[f]` -- `alignment_series_4` sets
+    `a[r].append(float(pia[r].mean()))`, so a real (t_1, endpoint)
+    series/pia pair satisfies this identically; a mismatch means the
+    excess (from `series`) and the SE (from `pia_t1`/`pia_end`) were
+    built from different checkpoints, which would silently change P_M
+    and the whole null with no other gate catching it."""
     steps = series["steps"]
     a = series["a"]
     out = {}
     for f in flat:
+        want_t1 = float(pia_t1[f].mean())
+        want_end = float(pia_end[f].mean())
+        if a[f][0] != want_t1 or a[f][-1] != want_end:
+            raise ValueError(
+                f"4b: series/pia mismatch for {f} -- series[\"a\"][{f!r}] is "
+                f"[{a[f][0]!r}, ..., {a[f][-1]!r}] but pia_t1[{f!r}].mean() = "
+                f"{want_t1!r} and pia_end[{f!r}].mean() = {want_end!r}; these must "
+                f"be the SAME checkpoint's tables (alignment_series_4's own identity)")
         excess = loo_excess_4b(a, flat, steps, f)
         x_end = excess[-1]
         se = placebo_se_4b(pia_t1, pia_end, flat, f, n_boot=n_boot, seed=seed)
@@ -180,7 +199,13 @@ def draw_batteries_4b(pools: dict, design: dict, *, B: int, seed: int, rng=None)
                 cells.append({"traj": t, "rung": f, "phi": phi, "c": int(c)})
                 phis.append(phi)
             per_traj[t][b] = float(np.mean(phis))
-        T[b] = float(np.mean([c["phi"] for c in cells]))
+        # A guard, not a behaviour change: every REAL design has at
+        # least one trajectory with n > 0, so `cells` is never empty in
+        # the main pipeline. A type-restricted design (per_type_4b) can
+        # zero every trajectory, though -- `np.mean([])` would still
+        # return nan there, but noisily (RuntimeWarning); this reaches
+        # the same nan without it.
+        T[b] = float(np.mean([c["phi"] for c in cells])) if cells else float("nan")
         n_distinct[b] = len({c["rung"] for c in cells})
         cells_all.append(cells)
     return {"T": T, "per_traj_mean": per_traj, "cells": cells_all,
@@ -271,7 +296,15 @@ def per_type_4b(pools: dict, cells: list, *, B: int, seed: int) -> dict:
     but no eligible SAME-TYPE placebo rung contributes no cells to
     that trajectory (its deficit is printed under `feasibility`,
     `draw_batteries_4b`'s totality raise never triggers for it). A
-    type with no real cells at all reads `None`."""
+    type with no real cells at all reads `None`.
+
+    Refuses (p_cal/T_star/interval/null_mean/null_sd all `None`, with
+    a `reason` string) rather than compute a calibration when the type
+    battery's null does not cover every trajectory that contributes to
+    `T_obs` (T_obs would average in a trajectory the null says nothing
+    about) or is empty outright (every trajectory zeroed). Both are
+    detected BEFORE `p_cal_4b`/`t_star_4b` are called, so neither the
+    NaN propagation nor its RuntimeWarning ever happens."""
     offset = {"arithmetic": 1, "option": 2, "string": 3}
     out = {}
     for typ in battery_4b.TYPES_4B:
@@ -294,12 +327,30 @@ def per_type_4b(pools: dict, cells: list, *, B: int, seed: int) -> dict:
             pools_typ[t] = pool_t
         batteries_typ = draw_batteries_4b(pools_typ, design_typ, B=B, seed=seed + offset[typ])
         T_obs = float(np.mean([c["phi"] for c in type_cells]))
+        n_cells_obs = len(type_cells)
+
+        obs_trajs = {c["traj"] for c in type_cells}
+        covered_trajs = {t for t, d in design_typ.items() if d["n"] > 0}
+        uncovered = sorted(obs_trajs - covered_trajs)
+        null_empty = bool(np.all(np.isnan(batteries_typ["T"])))
+
+        if uncovered or null_empty:
+            reason = (f"4b: {typ} type battery's null does not cover every "
+                      f"trajectory contributing to T_obs (uncovered: {uncovered})"
+                      if uncovered else
+                      f"4b: {typ} type battery's null is empty (no eligible "
+                      f"same-type placebo rung on any contributing trajectory)")
+            out[typ] = {"T_obs": T_obs, "p_cal": None, "T_star": None, "interval": None,
+                        "null_mean": None, "null_sd": None, "n_cells": n_cells_obs,
+                        "feasibility": feasibility, "reason": reason}
+            continue
+
         pc = p_cal_4b(batteries_typ["T"], T_obs)
         ts = t_star_4b(batteries_typ["T"], T_obs)
         out[typ] = {"T_obs": T_obs, "p_cal": pc["p_cal"], "T_star": ts["T_star"],
                     "interval": ts["interval"], "null_mean": ts["null_mean"],
-                    "null_sd": ts["null_sd"], "n_cells": len(type_cells),
-                    "feasibility": feasibility}
+                    "null_sd": ts["null_sd"], "n_cells": n_cells_obs,
+                    "feasibility": feasibility, "reason": None}
     return out
 
 

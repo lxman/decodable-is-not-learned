@@ -7,6 +7,7 @@ built in place."""
 from __future__ import annotations
 
 import sys
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -105,9 +106,8 @@ def test_placebo_se_4b_raises_on_empty_loo_pool():
 
 
 def test_placebo_pool_4b_shape_and_p_m():
-    series, flat = fakes.iid_noise_world(n_flat=8, n_steps=10, sigma=0.05, seed=1)
-    pia_t1 = fakes.pia_from_means({f: series["a"][f][0] for f in flat}, item_sigma=0.02, seed=11)
-    pia_end = fakes.pia_from_means({f: series["a"][f][-1] for f in flat}, item_sigma=0.02, seed=12)
+    series0, flat = fakes.iid_noise_world(n_flat=8, n_steps=10, sigma=0.05, seed=1)
+    series, pia_t1, pia_end = fakes.matching_pia(series0, flat, item_sigma=0.02, seed=11)
     pool = pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=100, seed=0)
     assert set(pool) == set(flat)
     for f, d in pool.items():
@@ -118,78 +118,156 @@ def test_placebo_pool_4b_shape_and_p_m():
         assert isinstance(d["eligible"], bool)
 
 
+def test_placebo_pool_4b_refuses_series_pia_mismatch():
+    series0, flat = fakes.iid_noise_world(n_flat=4, n_steps=6, sigma=0.05, seed=2)
+    series, pia_t1, pia_end = fakes.matching_pia(series0, flat, item_sigma=0.02, seed=3)
+    # Perturb one rung's series endpoint so it no longer equals its
+    # pia's mean -- exactly the "wrong checkpoint" scenario finding 2
+    # guards against.
+    bad_series = {"steps": series["steps"],
+                 "a": {r: list(v) for r, v in series["a"].items()}}
+    bad_series["a"][flat[0]][-1] += 0.01
+    with pytest.raises(ValueError, match=f"series/pia mismatch for {flat[0]}"):
+        pl.placebo_pool_4b(bad_series, pia_t1, pia_end, flat, n_boot=50, seed=0)
+
+
+def test_placebo_pool_4b_eligibility_bar_is_two_se_inclusive():
+    """Finding 3: the eligibility bar itself, `x_end >=
+    SE_MULTIPLE_4 * se`, tested at its boundary. Every rung's pia
+    arrays are CONSTANT (every item identical), so resampling with
+    replacement always returns the same constant and `se == 0.0`
+    EXACTLY -- the bootstrap distribution collapses to a point mass,
+    bit-for-bit, with no floating-point residual -- letting `x_end` be
+    placed at exactly `0.0` (`== 2*se`), just above, and just below
+    without any risk of the boundary landing on the wrong side by
+    numerical noise."""
+    n = battery_4.N_ITEMS
+    flat = ["a", "b", "f"]
+
+    def const_pia(v):
+        arr = np.full(n, v, dtype=np.float64)
+        return arr, float(arr.mean())  # the array's OWN realized mean
+
+    pia_t1, pia_end_pool, realized_t1, realized_end_pool = {}, {}, {}, {}
+    for name, t1_v, end_v in (("a", 0.40, 0.50), ("b", 0.42, 0.54)):
+        arr_t1, m_t1 = const_pia(t1_v)
+        arr_end, m_end = const_pia(end_v)
+        pia_t1[name] = arr_t1
+        pia_end_pool[name] = arr_end
+        realized_t1[name] = m_t1
+        realized_end_pool[name] = m_end
+
+    arr_f_t1, f_t1 = const_pia(0.30)
+    pia_t1["f"] = arr_f_t1
+
+    trend_t1 = (realized_t1["a"] + realized_t1["b"]) / 2.0
+    trend_end = (realized_end_pool["a"] + realized_end_pool["b"]) / 2.0
+    zero_point = f_t1 + (trend_end - trend_t1)  # a_f(end) that makes x_end == 0.0
+
+    def build(a_f_end_value):
+        arr_f_end, f_end = const_pia(a_f_end_value)
+        pia_end = dict(pia_end_pool)
+        pia_end["f"] = arr_f_end
+        series = {
+            "steps": [0, 1],
+            "a": {
+                "a": [realized_t1["a"], realized_end_pool["a"]],
+                "b": [realized_t1["b"], realized_end_pool["b"]],
+                "f": [f_t1, f_end],
+            },
+        }
+        return pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=50, seed=0)
+
+    at = build(zero_point)
+    assert at["f"]["se"] == 0.0
+    assert at["f"]["x_end"] == pytest.approx(0.0, abs=1e-9)
+    assert at["f"]["eligible"] is True, "AT the bar (x_end == 2*se == 0) must be eligible (>=)"
+
+    above = build(zero_point + 1e-6)
+    assert above["f"]["eligible"] is True, "just above the bar must be eligible"
+
+    below = build(zero_point - 1e-6)
+    assert below["f"]["eligible"] is False, "just below the bar must be ineligible"
+
+
 # -------------------------------------------------- (d)/(e) calibration worlds
 
-# Fixed, documented seeds/scales for the two Monte Carlo calibration
-# checks (Step 1(d)/(e)) -- found by a grid search over world seed and
-# per-item noise scale (`~/emergence-lab` scratch, not committed)
-# looking for a comfortable, deterministic margin under each check's
-# stated tolerance; every run of this test reproduces the SAME numbers
-# (numpy's `default_rng` is deterministic), so this is a fixed data
-# point, not a flaky Monte Carlo test.
-IID_N_FLAT = 30
-IID_WORLD_SEED = 34
-IID_ITEM_SIGMA = 0.3   # -> 10 of 30 rungs eligible; max |mean - .5| = .0791 over c in {3,5,8,10,14,18}
+# Review finding 5: a single world seed's placebo phi mean is NOT a
+# law-of-large-numbers quantity in the battery count B -- draw_
+# batteries_4b draws WHICH (already-computed, fixed) rung, not fresh
+# noise, so redrawing 2000 batteries from one seed's small eligible-
+# rung set does not converge any better than that one set's own
+# average. Convergence to R-7's theoretical null is a LLN property of
+# the number of DISTINCT eligible rungs sampled, so these two checks
+# now pool every eligible rung's phi at each c across a FIXED,
+# UNSEARCHED range of world seeds (never hand-picked -- range(60),
+# checked once) instead of hand-picking one seed's battery draws.
+N_WORLDS = 60
+CAL_N_FLAT = 30
+CAL_ITEM_SIGMA_IID = 0.3
+CAL_ITEM_SIGMA_RW = 0.1
+CAL_STEP_SIGMA_RW = 0.02
 
-RW_N_FLAT = 30
-RW_WORLD_SEED = 5
-RW_ITEM_SIGMA = 0.1    # -> 14 of 30 rungs eligible; max |mean - (c-1)/(G-1)| = .050 over c in {5,10,18}
+
+def _pooled_eligible_phi(world_fn, cs, item_sigma):
+    """Runs `world_fn(seed=s)` for `s in range(N_WORLDS)`, pools every
+    ELIGIBLE rung's phi at each c in `cs` across all worlds. Returns
+    `{c: [phi, ...]}`."""
+    per_c = {c: [] for c in cs}
+    for world_seed in range(N_WORLDS):
+        series0, flat = world_fn(seed=world_seed)
+        series, pia_t1, pia_end = fakes.matching_pia(series0, flat, item_sigma=item_sigma,
+                                                      seed=world_seed)
+        pool = pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=100, seed=0)
+        for d in pool.values():
+            if not d["eligible"]:
+                continue
+            for c in cs:
+                phi = pl.placebo_phi_4b(d["excess"], c)
+                if phi is not None:
+                    per_c[c].append(phi)
+    return per_c
 
 
-def test_iid_noise_world_placebo_phi_mean_near_half():
-    """Step 1(d): checkpoint-to-checkpoint wobble independent across
-    steps gives phi's null mean approx 1/2 at EVERY clear index
-    (Exp 4's R-7 arithmetic: the shared t_1 baseline makes
-    Cov(x_pre, x_end) = Var(the t_1 term), correlation exactly 1/2,
-    and the regression E[x_pre|x_end] = x_end/2 for jointly-normal
-    x_pre/x_end holds independent of the conditioning value). A wide
-    flat pool is used so the across-rung average of the (individually
-    noisy, since Var(x_pre|x_end) does not shrink with |x_end|) ratio
-    statistic converges to that theoretical value within the
-    document tolerance at a fixed, checked seed."""
-    series, flat = fakes.iid_noise_world(n_flat=IID_N_FLAT, n_steps=20, sigma=0.05,
-                                         seed=IID_WORLD_SEED)
-    pia_t1 = fakes.pia_from_means({f: series["a"][f][0] for f in flat},
-                                  item_sigma=IID_ITEM_SIGMA, seed=IID_WORLD_SEED * 3 + 1)
-    pia_end = fakes.pia_from_means({f: series["a"][f][-1] for f in flat},
-                                   item_sigma=IID_ITEM_SIGMA, seed=IID_WORLD_SEED * 3 + 2)
-    pool = pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=200, seed=0)
-    n_elig = sum(1 for v in pool.values() if v["eligible"])
-    assert n_elig >= 8
-
-    design = {"T": {"n": 6, "clear_indices": [3, 5, 8, 10, 14, 18], "rungs": []}}
-    batteries = pl.draw_batteries_4b({"T": pool}, design, B=2000, seed=0)
-    for c in (3, 5, 8, 10, 14, 18):
-        vals = [cell["phi"] for battery in batteries["cells"] for cell in battery
-               if cell["c"] == c]
+def test_iid_noise_world_placebo_phi_mean_near_half_pooled_over_seeds():
+    """Step 1(d), pooled over seeds (finding 5): checkpoint-to-
+    checkpoint wobble independent across steps gives phi's null mean
+    approx 1/2 at EVERY clear index (Exp 4's R-7 arithmetic: the
+    shared t_1 baseline makes Cov(x_pre, x_end) = Var(the t_1 term),
+    correlation exactly 1/2, and the regression E[x_pre|x_end] =
+    x_end/2 for jointly-normal x_pre/x_end holds independent of the
+    conditioning value). Individual placebo phi values are noisy
+    (Var(x_pre|x_end) does not shrink with |x_end|), so this pools the
+    eligible rungs' phi across `range(60)` world seeds -- never a
+    single searched seed -- rather than redrawing many batteries from
+    one seed's small eligible set, which does not converge (see the
+    Task 2 fix report for the reviewer's per-seed numbers)."""
+    per_c = _pooled_eligible_phi(
+        lambda seed: fakes.iid_noise_world(n_flat=CAL_N_FLAT, n_steps=20, sigma=0.05, seed=seed),
+        (3, 5, 8, 10, 14, 18), CAL_ITEM_SIGMA_IID)
+    for c, vals in per_c.items():
+        assert len(vals) >= 30, f"c={c}: only {len(vals)} pooled eligible draws"
         mean = float(np.mean(vals))
-        assert abs(mean - 0.5) < 0.08, f"c={c}: mean {mean}"
+        assert abs(mean - 0.5) < 0.08, f"c={c}: pooled mean {mean} over {len(vals)} draws"
 
 
-def test_random_walk_world_placebo_phi_mean_tracks_fraction_elapsed():
-    """Step 1(e): a drift that ACCUMULATES (flats as cumulative sums of
-    iid increments) gives phi's null mean approx (c-1)/(G-1) — the
-    same regression argument, now with Cov(x_pre, x_end) = (c-1)*
-    step-variance under a random walk started at t_1."""
-    series, flat = fakes.random_walk_world(n_flat=RW_N_FLAT, n_steps=20, step_sigma=0.02,
-                                           seed=RW_WORLD_SEED)
-    pia_t1 = fakes.pia_from_means({f: series["a"][f][0] for f in flat},
-                                  item_sigma=RW_ITEM_SIGMA, seed=RW_WORLD_SEED * 3 + 1)
-    pia_end = fakes.pia_from_means({f: series["a"][f][-1] for f in flat},
-                                   item_sigma=RW_ITEM_SIGMA, seed=RW_WORLD_SEED * 3 + 2)
-    pool = pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=200, seed=0)
-    n_elig = sum(1 for v in pool.values() if v["eligible"])
-    assert n_elig >= 8
-
-    design = {"T": {"n": 3, "clear_indices": [5, 10, 18], "rungs": []}}
-    batteries = pl.draw_batteries_4b({"T": pool}, design, B=2000, seed=0)
+def test_random_walk_world_placebo_phi_mean_tracks_fraction_elapsed_pooled_over_seeds():
+    """Step 1(e), pooled over seeds (finding 5): a drift that
+    ACCUMULATES (flats as cumulative sums of iid increments) gives
+    phi's null mean approx (c-1)/(G-1) — the same regression argument,
+    now with Cov(x_pre, x_end) = (c-1)*step-variance under a random
+    walk started at t_1. Pooled across `range(60)` world seeds for the
+    same reason as the iid-noise check above."""
     g = 20
-    for c in (5, 10, 18):
-        vals = [cell["phi"] for battery in batteries["cells"] for cell in battery
-               if cell["c"] == c]
+    per_c = _pooled_eligible_phi(
+        lambda seed: fakes.random_walk_world(n_flat=CAL_N_FLAT, n_steps=g,
+                                             step_sigma=CAL_STEP_SIGMA_RW, seed=seed),
+        (5, 10, 18), CAL_ITEM_SIGMA_RW)
+    for c, vals in per_c.items():
+        assert len(vals) >= 30, f"c={c}: only {len(vals)} pooled eligible draws"
         mean = float(np.mean(vals))
         want = (c - 1) / (g - 1)
-        assert abs(mean - want) < 0.1, f"c={c}: mean {mean} want {want}"
+        assert abs(mean - want) < 0.1, f"c={c}: pooled mean {mean} want {want} over {len(vals)}"
 
 
 # ----------------------------------------------------------- (f) draw_batteries
@@ -362,6 +440,7 @@ def test_per_type_4b_uses_only_same_type_rungs_and_none_for_empty_type():
     assert out["option"] is None  # no real cells of type option
 
     assert out["arithmetic"]["n_cells"] == 1
+    assert out["arithmetic"]["reason"] is None  # fully covered -- not a refusal
     # Only ONE eligible arithmetic-type placebo rung exists on
     # pythia_2.8b ("sub_base8"; "antonym" is option-typed) and none on
     # any other trajectory with an arithmetic real cell, so every
@@ -370,21 +449,40 @@ def test_per_type_4b_uses_only_same_type_rungs_and_none_for_empty_type():
     assert out["arithmetic"]["null_sd"] == pytest.approx(0.0, abs=1e-12)
 
     assert out["string"]["n_cells"] == 1
+    assert out["string"]["reason"] is None
     assert out["string"]["null_sd"] == pytest.approx(0.0, abs=1e-12)
 
 
-def test_per_type_4b_marks_infeasible_trajectory_without_raising():
+def test_per_type_4b_refuses_when_a_contributing_trajectory_has_no_null_coverage():
+    """Finding 4: pythia_2.8b has a real arithmetic cell but its only
+    eligible placebo rung is option-typed, so the arithmetic type
+    battery would zero pythia_2.8b entirely -- the ONLY trajectory
+    contributing to T_obs -- leaving an EMPTY null. per_type_4b must
+    refuse (p_cal/T_star/etc. all None, with a reason) rather than
+    compute a calibration against no draws, and must do so WITHOUT any
+    RuntimeWarning (asserted here by turning warnings into errors, not
+    merely by their absence going unchecked)."""
     cells = [{"traj": "pythia_2.8b", "rung": "add3_mid", "phi": 0.7, "t_clear_index": 5}]
     pools = {
         "pythia_2.8b": {"antonym": {"x_end": 1.0, "se": 0.05, "eligible": True,
                                     "excess": [0.0, 0.2, 0.5, 0.7, 0.9, 1.0]}},
         "olmo2_7b": {}, "smollm3_3b": {}, "comma_7b": {},
     }
-    out = pl.per_type_4b(pools, cells, B=20, seed=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        out = pl.per_type_4b(pools, cells, B=20, seed=0)
+
     assert out["arithmetic"]["feasibility"]["pythia_2.8b"]["n_real"] == 1
     assert out["arithmetic"]["feasibility"]["pythia_2.8b"]["n_eligible_placebo"] == 0
     assert out["arithmetic"]["feasibility"]["pythia_2.8b"]["deficit"] is True
     assert out["arithmetic"]["n_cells"] == 1
+    assert out["arithmetic"]["p_cal"] is None
+    assert out["arithmetic"]["T_star"] is None
+    assert out["arithmetic"]["interval"] is None
+    assert out["arithmetic"]["null_mean"] is None
+    assert out["arithmetic"]["null_sd"] is None
+    assert out["arithmetic"]["reason"] is not None
+    assert "pythia_2.8b" in out["arithmetic"]["reason"]
 
 
 # ---------------------------------------------------------------- (k) s5
@@ -436,9 +534,8 @@ def _small_real_world():
 
 
 def test_s3_shape_4b_per_cell_residual_and_pooled_bins():
-    series, flat, rung_sets = _small_real_world()
-    pia_t1 = fakes.pia_from_means({f: series["a"][f][0] for f in flat}, item_sigma=0.01, seed=1)
-    pia_end = fakes.pia_from_means({f: series["a"][f][-1] for f in flat}, item_sigma=0.01, seed=2)
+    series0, flat, rung_sets = _small_real_world()
+    series, pia_t1, pia_end = fakes.matching_pia(series0, flat, item_sigma=0.01, seed=1)
     pool = pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=100, seed=0)
     design = {"T": {"n": 1, "clear_indices": [5], "rungs": ["rising0"]}}
     batteries = pl.draw_batteries_4b({"T": pool}, design, B=200, seed=0)
@@ -460,9 +557,8 @@ def test_s3_shape_4b_per_cell_residual_and_pooled_bins():
 
 
 def test_s8_curves_4b_per_index_quantile_curve():
-    series, flat, rung_sets = _small_real_world()
-    pia_t1 = fakes.pia_from_means({f: series["a"][f][0] for f in flat}, item_sigma=0.01, seed=1)
-    pia_end = fakes.pia_from_means({f: series["a"][f][-1] for f in flat}, item_sigma=0.01, seed=2)
+    series0, flat, rung_sets = _small_real_world()
+    series, pia_t1, pia_end = fakes.matching_pia(series0, flat, item_sigma=0.01, seed=1)
     pool = pl.placebo_pool_4b(series, pia_t1, pia_end, flat, n_boot=100, seed=0)
     design = {"T": {"n": 1, "clear_indices": [5], "rungs": ["rising0"]}}
     batteries = pl.draw_batteries_4b({"T": pool}, design, B=200, seed=0)
