@@ -45,7 +45,8 @@ archived as v1.14; the Experiment 2l close-out on 2026-09-03,
 archived as v1.15; the Experiment 2m close-out on 2026-09-05,
 archived as v1.16; the Experiment 2n close-out on 2026-09-08,
 archived as v1.17; the Experiment 4 close-out on 2026-09-16, archived
-as v1.18. Section 6's tenth lesson (the
+as v1.18; the Experiment 4b close-out on 2026-09-17, archived as
+v1.19. Section 6's tenth lesson (the
 production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
 inputs before the tag) and checklist items 24 and 25 were added
@@ -86,10 +87,11 @@ fifty; the 2026-09-08 Experiment 2n graft added three more
 fifty-three; the 2026-09-16 Experiment 4 graft added three more
 (`exp4-preregistered` — a disclosed re-tag after a campaign stop, the
 original object recorded in PROVENANCE — `exp4-reference-sealed`,
-`exp4-closed`), fifty-six. Archived
+`exp4-closed`), fifty-six; the 2026-09-17 Experiment 4b graft added
+two more (`exp4b-preregistered`, `exp4b-closed`), fifty-eight. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.18 (10.5281/zenodo.22793373, the Experiment 4 record; v1.17,
-10.5281/zenodo.22667987, the Experiment 2n record; v1.13,
+v1.19 (10.5281/zenodo.22819695, the Experiment 4b record; v1.18,
+10.5281/zenodo.22793373, the Experiment 4 record; v1.13,
 10.5281/zenodo.22151979, this paper with its eleventh lesson). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
 of AI assistance section, wording approved 2026-08-19. A verbosity pass was applied 2026-09-09 after TMLR's desk rejection
@@ -1742,6 +1744,7 @@ they exist.*
 | 2k | `exp2k-*` (+ `-predictor-sealed`) | named, not drawn on |
 | 2l, 2m, 2n | `exp2l-*`, `exp2m-*`, `exp2n-*` (each + `-endpoint-sealed`) | named, not drawn on |
 | 4 | `exp4-*` (+ `-reference-sealed`; the preregistration tag re-cut after a campaign stop, disclosed in PROVENANCE) | named, not drawn on |
+| 4b | `exp4b-*` | named, not drawn on |
 | 1, 1b, 1c | `exp1-analysis-frozen`, `exp1b-*`, `exp1c-*` (+ `exp1c-stage-a`) | companion essay; not drawn on |
 
 Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
@@ -1751,4 +1754,5 @@ Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
 (this paper's ninth lesson); v1.9 22087512 (2g); v1.10 22104580 (2h);
 v1.11 22145025 (2i); v1.12 22151832 (2j); v1.13 22151979 (this
 paper's eleventh lesson); v1.14 22177233 (2k); v1.15 22286867 (2l);
-v1.16 22413760 (2m); v1.17 22667987 (2n); v1.18 22793373 (4).
+v1.16 22413760 (2m); v1.17 22667987 (2n); v1.18 22793373 (4); v1.19
+22819695 (4b).
