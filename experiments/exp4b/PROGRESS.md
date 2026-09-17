@@ -563,3 +563,151 @@ additional function, `max_pair_alignment_4b`, factors out
 language ("`max_over_pairs_4b` on planted tables ... returns v")
 describes this building block, since the top-level function's
 signature (`root4, cells`) cannot itself run on raw arrays.
+
+## Task 5: `analyze_4b.py`, `make_referents_4b.py`, `verify_referents_4b.py` — gates, tree, secondaries, verdict, `run()`, referents, cold battery
+
+Built the whole verdict path: `analyze_4b.py` (`collect_total_4b` =
+`analyze_4.collect_total_4` unchanged; `check_imports_4b` — the widened
+covered set, ambiguity resolution 1; `gate1_rederive_4b`/
+`gate2_rederive_4b`/`gate3_rederive_4b`/`gate5_rederive_4b` — COLD,
+standalone re-derivations `run()` wraps in `collect_total_4b` and
+`verify_referents_4b.py` calls directly, so the same gate logic is
+never computed two different ways; `verdict_tree_4b` — cells decided
+by `p_cal` only (ambiguity resolution 2); `verdict_4b`/
+`write_verdict_txt_4b` — the 21-key record, the design §2 caveat
+sentence verbatim; `run()` — the full refusal order (frozen ->
+imports -> prereg -> referents -> exp4 verdict/eligibility/power (B-5)
+-> battery/floors/outcomes/rung sets -> stage/sweep tables -> gates
+1/2/3/5 -> gate 4 -> `stop_before="placebo"` early exit -> the placebo
+pipeline (pools -> feasibility -> batteries -> p_cal/T*/alpha_placebo/
+per_traj/per_type/S3/S4/S5/S8) -> S1 (extension arms) -> S6 (levels)
+-> S7 (both Exp 4 sensitivities calibrated against the PRIMARY placebo
+null, `clear_multiset_source` disclosed for (a), `mismatch_disclosed`
+for (b) — ambiguity resolution 5, since `primary_clears_and_stays`'s
+committed record never carries a per-cell list) -> the tree ->
+`_jsonify_4` -> write); `make_referents_4b.py` (the manifest union,
+`N_FILES_4B` = 7,639 — see the count derivation below); `verify_
+referents_4b.py` (the 10-check `@check` battery, `DESIGN_CLEAR_
+MULTISETS_4B` added to `battery_4b.py` per the carried note);
+`tests/full_shape_4b.py` (`build_world_4b` = `full_shape.build_world`
++ `analyze_4.run(write=True, ...)` with `test_full_shape_4.py`'s own
+stand-ins); `tests/conftest.py` gained the session-scoped
+`_leads_world_4b` fixture (seed=11, exp4's own choice) shared by both
+new test modules, and `fresh_copy_4b`.
+
+**Referent manifest build (real-tree execution 1/4, a hash walk):**
+`python -m experiments.exp4b.make_referents_4b` against the real,
+closed exp4 tree — **7,639 files, 3.7 s** (measured twice, byte-
+identical: `sha256 6f83de15ffa13ec4e78c66b1c63a4abf24dc91392bf602ba30
+d5d2e85c621d36`, pinned as `analyze_4b.REFERENTS_4B_SHA256`). Count
+derivation (in `make_referents_4b.py`'s own comment): 3,615 (exp4's
+own referents) + 849 (reference-seal paths) + 3,312 (interior sweep-
+unit files, 92 grid steps × 36) + 4 (`gate1.json`) + 5 (exp4 top-level
+files) − 146 overlap (the four `STAGE1_FIRST_UNITS_4` already counted
+by the interior sweep walk, 4×36=144; `eligibility_4.json`/`power_4.
+json` already counted by `reference_seal_paths_4`, which appends both)
+= 7,639.
+
+**`verify_referents_4b.py` (real-tree execution 2/4, no placebo
+quantity):** all 10 checks pass cold against the real tree, run twice
+(before and after the gate-wiring refactor below) — `python -m
+experiments.exp4b.verify_referents_4b` → `10/10`. Checks (4)/(5)/(6)/
+(9) call `analyze_4b.gate1_rederive_4b`/`gate3_rederive_4b`/
+`gate5_rederive_4b`/`gate2_rederive_4b` DIRECTLY (the same functions
+`run()` wraps), not a second `run()` execution — printed: gate 1
+T_4 = `0.6102443158323546` (bit-for-bit the design doc's own literal,
+§3.3); gate 3 lambda_hat = `{comma_7b: 7.3195, olmo2_7b: 7.3043,
+pythia_2.8b: 6.2345, smollm3_3b: 6.4691}` (the design's `{6.23, 6.47,
+7.30, 7.32}` set, §2); gate 5 fractions `{pythia_2.8b: .9545,
+olmo2_7b: .9893, smollm3_3b: .9902, comma_7b: .9911}` (the design's
+own gate-(5) literal, §3.6) — every one of these numbers independently
+confirms Tasks 1-4's building blocks wire together correctly.
+
+**Real-tree execution 3/4 — `run(root4b=<tmp>, root4=battery_4.EXP4,
+stop_before="placebo", write=False, tag_exists=<fake: always True>,
+blob_sha=<fake: the file's own sha256>, referents_sha=REFERENTS_4B_
+SHA256, imports_pinned=False, power_gate="full")`:** **86.2 s total**;
+verdict `INSUFFICIENT_DATA`, reason `"4b: stopped before the placebo
+null (pre-tag tool run)"`; **every one of gates 1-5 PASSES** — gate 1
+T_4/cells exact (26/26), gate 2 eligibility 0 diffs, gate 3 lambda_hat
+0 diffs, gate 5 fractions exact on all four trajectories, **gate 4
+(the power-record reproduction) `identical=True` in 21.94 s** — dial
+g's four-hour fallback (`POWER_GATE_MODE_4B = "fresh_1.0"`) is not
+needed; nothing written (`write=False`; `experiments/exp4b/results/`
+confirmed absent afterward).
+
+**Real-tree execution 4/4 — `levels_4b.max_over_pairs_4b(battery_4.
+EXP4, cells)` on the real committed 26 cells:** **397.74 s (6.6
+minutes)**, well under the design's 30-minute concern; `n_cells=26,
+n_phi=26, pooled_phi=0.6130906109635486` — a real, non-degenerate
+reading (distinct from the primary's T_4=.6102, as expected: a
+different site-pair construction). No restriction to a rung subset
+needed.
+
+No other execution in this task touched the real tree; every placebo
+quantity (the null, the batteries, p_cal/T*/alpha_placebo, S1/S3-S5/
+S7/S8) was computed ONLY on synthetic `full_shape` worlds, per B-4.
+
+**Build finding (Task 5): `IMPLEMENTATION BUG in the test helper, not
+in `run()`** — the first draft of `_run4b_kwargs()`'s `blob_sha` fake
+returned `None` unconditionally, so `require_prereg_4b`'s equality
+check failed on every call; masked on the fast (non-world) tests
+(other failures already dominated `v["reason"]`) but fatal once the
+slow gate/completion tests ran against a clean synthetic world — every
+gate read `"inputs unavailable"`. Fixed by reusing `full_shape_4b.
+blob_sha_4b` (the `test_full_shape_4.py` pattern: the "tag-bound" sha
+IS the file's own sha) in both test files' `_run4b_kwargs()`, plus a
+missing `expected_n_sim=fs.WORLD_POWER_N_SIM_4` injection for world
+trees (a world's `power_4.json` is written at `n_sim=20`, not the real
+campaign's 1000 — `power4.get("n_sim") != power_n_sim_expected` was
+failing every world run for a second, independent reason). Confirmed
+by hand: after both fixes, `stop_before="placebo"` on the shared
+seed=11 world reaches every gate PASSING, matching the real tree's own
+reading above.
+
+**Build finding: the shared seed=11 "leads" world hits the design §4
+feasibility floor.** Under the placebo construction's leave-one-out
+2-SE eligibility bar, the seed=11 synthetic LEADS world (`conftest.
+py`'s `_leads_world_4b`, exp4's own `test_full_shape_4.py` choice)
+pools only **7** eligible placebo rungs across the four trajectories —
+below `MIN_PLACEBO_TOTAL_4B` (8) — so exp4b's own feasibility floor
+fires, correctly, reaching `INSUFFICIENT_DATA` with every one of gates
+1-5 still PASSING (`test_leads_world_feasibility_floor`, renamed from
+the brief's literal "leads reaches a non-INSUFFICIENT terminal"
+language). This is a property of `full_shape.build_world`'s synthetic
+noise construction under exp4b's placebo statistic — frozen under
+`experiments/exp4/`, never edited here — not a defect in the floor or
+in any gate. The "follows" world (`test_follows_world_reaches_not_
+distinguishable_or_marginal`, its own fresh `stage="full"` build,
+seed=3) DOES clear the floor and completes the full pipeline end to
+end, reaching `NOT-DISTINGUISHABLE` at `p_cal=0.9908`, and carries
+every full-completion assertion (`s1.arms` six entries, S3-S8 present,
+gates 1-5 passing, `placebo_record_sha256`/`power_ext_sha256` set) —
+so ambiguity resolution 6's intent (a genuinely completing world
+reaching a non-INSUFFICIENT terminal) is still exercised in full, on a
+different world than originally assumed.
+
+Tests: `experiments/exp4b/tests/test_analyze_4b.py` (12 fast + 8 slow)
+and `experiments/exp4b/tests/test_full_shape_4b.py` (1 fast + 3 slow).
+Fast:
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp4b/tests/ -p no:cacheprovider -q -m "not slow"
+77 passed, 20 deselected in 21.04s
+```
+Slow (both files, one session — the "leads" world built once and
+shared, "follows" built once in `test_full_shape_4b.py`):
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp4b/tests/test_analyze_4b.py \
+  experiments/exp4b/tests/test_full_shape_4b.py \
+  -p no:cacheprovider -q -m slow -s
+9 passed, 13 deselected in 2880.13s (0:48:00)
+```
+`verify_referents_4b.py` cold: `10/10`.
+
+Real-tree executions in this task (B-4 accounted for, all four listed
+above with their measurements): the referent manifest build (hash
+walk); `verify_referents_4b.py` (twice, no placebo quantity); ONE
+`run(stop_before="placebo")`; ONE `max_over_pairs_4b` timing. No
+placebo quantity was ever computed against `battery_4.EXP4`.

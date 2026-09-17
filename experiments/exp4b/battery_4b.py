@@ -82,6 +82,17 @@ N_BOOT_LEVELS_4B = 2000
 WORLDS_4B = ("INSUFFICIENT_DATA", "CALIBRATED", "MARGINAL", "NOT-DISTINGUISHABLE")
 TYPES_4B = ("arithmetic", "option", "string")
 
+# design §3.2's own printed clear-index multiset table (the design
+# doc's literal, retyped once, a KNOWN-ANSWER PIN only -- never an
+# input to any computation; `verify_referents_4b.py` check 7 reproduces
+# it from the committed cells and asserts equality).
+DESIGN_CLEAR_MULTISETS_4B = {
+    "pythia_2.8b": (4, 7, 7, 12),
+    "olmo2_7b": (3, 4, 5, 5, 5, 6, 7, 9, 10),
+    "smollm3_3b": (2, 2, 4, 15),
+    "comma_7b": (2, 2, 2, 9, 10, 14, 19, 19, 21),
+}
+
 # -------------------------------------------------------------------- paths
 
 
