@@ -1,0 +1,117 @@
+EXPERIMENT 4B VERDICT: NOT-DISTINGUISHABLE
+
+p_cal 0.2516 >= 0.05
+
+Caveat (design §2, verbatim): Every input is committed and known, INCLUDING TO THE DESIGNER.
+
+Primary: T4=0.6102443158323546 p_cal=0.2516 p_low=0.7485 T*=0.1745 interval=[-0.26494380070741186, 0.6952494360738296] null_mean=0.4357 null_sd=0.2465 q95=0.8126 q99=0.9369 B=10000 n_cells=26
+  p_cal Monte Carlo SE: 0.004339181272186319; bars within 2 SE: []
+    bar 0.01: margin=0.2415748425157484 (55.67290863468114 MC SE)
+    bar 0.05: margin=0.20157484251574842 (46.45457976319664 MC SE)
+  p_cal is a Monte Carlo estimate over B draws; a bar it sits within ~1 SE of is decided by the seeded draw, not by the data. The seed is fixed pre-tag and tag-bound; this is a resolution disclosure.
+
+Feasibility (design §4): total_eligible=26 min_required=8 floor_ok=True
+  comma_7b: n_real=9 n_eligible_placebo=5 deficit=False
+  olmo2_7b: n_real=9 n_eligible_placebo=4 deficit=False
+  pythia_2.8b: n_real=4 n_eligible_placebo=11 deficit=False
+  smollm3_3b: n_real=4 n_eligible_placebo=6 deficit=False
+
+Calibration (Exp 4's LEADS rule vs the placebo null vs the iid arm):
+  alpha_placebo=0.1171 (n_batteries=10000, n_leads=1171)
+  world_counts={'INSUFFICIENT_DATA': 0, 'NO-CONVERGENCE': 0, 'LEADS': 1171, 'PARTIAL': 0, 'FOLLOWS': 1, 'UNDETERMINED': 8828}
+  flip regime: batteries={'exact': 10000, 'sampled': 0} vs the real verdict's {'flip_method': 'exact', 'n_rungs': 15}
+  alpha_iid=0.17 p_iid=0.3826173826173826
+  placebo null mean/SD=0.4357351255270307/0.24650632209207518
+  iid null mean/SD=0.4992949739683514/0.42000740509409024
+  S1 reading (design §5, one-sided)='drift-like' [tol=0.05; S3 rising=True, delta=1.091124953839727 over bins [0,.2)->[.8,1]; one of ['same shape', 'drift-like', 'above-iid', 'below-iid, S3 not rising']]
+
+Construction account: Experiment 4's own sign-flip reading against the construction account (agreement arriving with performance, phi ~ 0) stands: T 0.6102443158323546, p+ 0.00048828125, T_bar 0.25; the placebo null's own 1st percentile (-0.19442401356949784) is printed beside it.
+
+Licence naming: 0 trajectories at p_cal,M < .05: []
+  rule: design §6/§10(l): the sentence names the trajectories at p_cal,M < .05; unqualified at two or more.
+
+Licence (design §6, world=NOT-DISTINGUISHABLE):
+  design §6 NOT-DISTINGUISHABLE: Exp 4's measurement is DEMOTED in the essay -- the convergence paragraph keeps the disclosure that the test ran and states that the task-specific lead did not separate from the flat tasks' drift under the same selection (p_cal, T* with its interval covering zero); the scoreboard sentence is rewritten to say so; the lens claim's task-grain measurement retreats to Huh et al.'s global result plus the disclosure; `experiments.md` records the demotion beside Exp 4's section. What survives in every world: the construction account's cell stays excluded by Exp 4's own sign-flip reading (T .61 at p+ 4.9e-4 against phi ~ 0), and the sentence says so -- 'the agreement did not arrive with performance; whether it led the general drift is not distinguishable at this resolution'.
+  naming: fewer than two trajectories qualify ([]); the sentence names them
+  design §6 Any world: S1-S8 in full in `experiments.md`; S6's site-0-excluded ladder replaces Exp 4's frozen S3 in the program record as the reading of the size axis, with the frozen number kept beside it as what the instrument printed; the known-input caveat verbatim in every sentence.
+  T* interval covers zero: True
+
+Per trajectory:
+  comma_7b: T_obs=0.5119994449197274 p_cal=0.16148385161483853 T*=0.5723436643047265 n_cells=9
+  olmo2_7b: T_obs=0.9589224793295164 p_cal=0.2226777322267773 T*=0.12359317383488178 n_cells=9
+  pythia_2.8b: T_obs=0.18343363787402422 p_cal=0.7811218878112188 T*=-0.48216599787306436 n_cells=4
+  smollm3_3b: T_obs=0.47358008547548214 p_cal=0.46965303469653036 T*=0.05061784904355099 n_cells=4
+
+Per type:
+  arithmetic: T_obs=0.6282400096150877 p_cal=0.3922607739226077 n_cells=13 reason=None
+  option: T_obs=0.5780167301472143 p_cal=None n_cells=9 reason=4b: option type battery's null does not cover every trajectory contributing to T_obs (uncovered: ['comma_7b', 'olmo2_7b'])
+  string: T_obs=0.6242703788300371 p_cal=1.0 n_cells=4 reason=None
+
+S3 -- the null's shape, per (trajectory, clear index):
+  comma_7b c=2: mean=-1.2577506998353118 sd=2.577511252570987 n=30000
+  comma_7b c=9: mean=0.038135933150424094 sd=0.8491364015025495 n=10000
+  comma_7b c=10: mean=0.4474640984006486 sd=0.4083746209493623 n=10000
+  comma_7b c=14: mean=0.7843785415226207 sd=1.0474659975277003 n=10000
+  comma_7b c=19: mean=0.48165180826489556 sd=1.3561785385509637 n=20000
+  comma_7b c=21: mean=0.9968719354374597 sd=0.3918828009228642 n=10000
+  olmo2_7b c=3: mean=0.496960514375584 sd=0.7870323096286896 n=10000
+  olmo2_7b c=4: mean=0.6359164724815333 sd=0.7476037069963658 n=10000
+  olmo2_7b c=5: mean=0.9453915393932726 sd=0.4119753407453529 n=30000
+  olmo2_7b c=6: mean=1.0213090059232397 sd=0.23641188338955524 n=10000
+  olmo2_7b c=7: mean=0.7183127352822055 sd=0.2691328245423777 n=10000
+  olmo2_7b c=9: mean=0.9811889855330239 sd=0.23735777756791637 n=10000
+  olmo2_7b c=10: mean=0.8281014176763077 sd=0.11739339750073091 n=10000
+  pythia_2.8b c=4: mean=0.43727723218371656 sd=1.9569689907043277 n=10000
+  pythia_2.8b c=7: mean=0.679934114323365 sd=1.1470216399072024 n=20000
+  pythia_2.8b c=12: mean=0.865253082157908 sd=1.1089982948313164 n=10000
+  smollm3_3b c=2: mean=0.08886721736341147 sd=0.8307748324572377 n=20000
+  smollm3_3b c=4: mean=0.03442542811569333 sd=1.4319333167761146 n=10000
+  smollm3_3b c=15: mean=1.479689082885208 sd=1.400710314327404 n=10000
+  pooled bins by clear-index fraction:
+    [0,.2): mean=-0.4377331031839767 sd=1.9874176398929535 n=70000
+    [.2,.4): mean=0.7046994225847666 sd=0.9578051280013238 n=100000
+    [.4,.6): mean=0.75225150053666 sd=0.35960160372624067 n=30000
+    [.6,.8): mean=1.0431069021885788 sd=1.235307203117186 n=30000
+    [.8,1]: mean=0.6533918506557502 sd=1.155986561446008 n=30000
+
+S5 -- lag-1 autocorrelation of the flat rungs' excess increments:
+  comma_7b: mean_of_rungs=-0.40232941150001766 pooled=-0.5241515721237106
+  olmo2_7b: mean_of_rungs=-0.023286972625377107 pooled=-0.07204045577499055
+  pythia_2.8b: mean_of_rungs=-0.24482424838159836 pooled=-0.27990979251595266
+  smollm3_3b: mean_of_rungs=-0.5373928418686021 pooled=-0.5364691066457721
+
+S4 -- the scatter ratio, pooled: 1.333711230612543 (rising 0.02930573531158041 / flat 0.02197307381007878)
+  compared: RMS of the RISING cells' full-flat-pool excess increments over each cell's pre-clear window (grid indices strictly before its clear) / RMS of the FLAT rungs' leave-one-out excess increments over the whole grid; both sides target-outside-pool and raw (no rescale), differing only in pool size (n vs n-1), whose matched-scale expectation is sqrt(1 - 1/n^2) -- see pool_size_expected_ratio
+    comma_7b: ratio=1.0662050489752437 rms_rising=0.02807145033039737 rms_flat=0.02632837872731661 pool_size_expected_ratio=0.998044963916957 (n_flat factor 1.0666666666666667, disclosure only)
+    olmo2_7b: ratio=1.1809714575217214 rms_rising=0.02790148687709945 rms_flat=0.02362587740744468 pool_size_expected_ratio=0.998044963916957 (n_flat factor 1.0666666666666667, disclosure only)
+    pythia_2.8b: ratio=2.2780386331247002 rms_rising=0.04163311042982571 rms_flat=0.01827585793517432 pool_size_expected_ratio=0.9993138935727438 (n_flat factor 1.0384615384615385, disclosure only)
+    smollm3_3b: ratio=0.6603467647819407 rms_rising=0.013570316729732797 rms_flat=0.02055028880805372 pool_size_expected_ratio=0.9974457174120672 (n_flat factor 1.0769230769230769, disclosure only)
+
+S7 -- clears-and-stays T=0.5814874459089997 p_cal=0.45925407459254075; best-site T=0.5784688004650052 [mismatched construction -- the best-site series is not available for flat rungs; not a calibration]
+
+S6 present: ['ceiling', 'ladder', 'max_over_pairs', 'twins', 'within_family']
+
+Gates:
+  gate 1: pass=True [cells_match=True, t_match=True]
+  gate 2: pass=True
+  gate 3: pass=True
+  gate 4: pass=True [identical=True]
+  gate 5: pass=True
+  gate 6: pass=True [n_rungs_checked=136]
+
+Pins active (design §3.6; anything False or True-for-skip is a TEST-ONLY invocation, not the sanctioned run):
+  frozen_modules=True
+  import_surface=True
+  numpy_version=2.4.6
+  power_gate_skipped=False
+  power_n_sim_expected=1000
+  power_n_sim_injected=False
+  prereg_binding=True
+  referent_manifest=True
+  scipy_version=1.17.1
+  threads_pinned=True
+  threads_pinned_before_numpy=True
+
+exp4: verdict=LEADS T=0.6102443158323546
+
+git_sha=8842c8f43a165f3339c16df5000057765471335d
