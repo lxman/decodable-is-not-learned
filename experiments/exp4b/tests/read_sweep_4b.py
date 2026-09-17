@@ -296,7 +296,7 @@ def _run_world_sweep() -> int:
 
     print(f"verdict (world='follows' seed=3, FULL pipeline): {v['verdict']} — "
          f"{(v['reason'] or '')[:200]}")
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         g = v["gates"].get(n) or {}
         print(f"  gate {n}: pass={g.get('pass')}")
 
@@ -442,7 +442,7 @@ def main(argv=None) -> int:
 
     print(f"verdict (stop_before='placebo', NOT the experiment's verdict): {v['verdict']} — "
          f"{v['reason'][:200]}")
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         g = v["gates"].get(n) or {}
         print(f"  gate {n}: pass={g.get('pass')}")
 

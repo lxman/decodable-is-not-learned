@@ -70,7 +70,10 @@ def loo_trend_4b(a: dict, flat: list, steps: list, f: str) -> list:
     because it is the exact analogue of a rising rung's own
     construction (never a member of the pool that scores it) --
     S4 (`s4_scatter_ratio_4b`) is the one statistic this scale factor
-    actually touches, and it corrects for it explicitly. Raises
+    actually touches, and it DISCLOSES it (freeze NB-1: nothing
+    corrects for it; both of S4's sides are raw, and their residual
+    pool-size mismatch is printed as `pool_size_expected_ratio`).
+    Raises
     `ValueError` when the leave-one-out pool is empty (`flat == [f]`
     or `f` not among a singleton `flat`) -- checked here, with a
     "4b: "-prefixed message, because `analyze_4.trend_4`'s own empty

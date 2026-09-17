@@ -69,7 +69,7 @@ def _assert_full_completion(v, v4):
         sorted(["observed_lambda", "4.0", "6.0", "8.0", "12.0", "rms_lambda"])
     for name in ("s3", "s4", "s5", "s6", "s7", "s8"):
         assert v[name] is not None, name
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         assert v["gates"][n]["pass"] is True, (n, v["gates"][n])
     assert v["placebo_record_sha256"] is not None
     assert v["power_ext_sha256"] is not None
@@ -95,7 +95,7 @@ def test_leads_world_feasibility_floor(_leads_world_4b, tmp_path):
     v = an4b.run(root4b=tmp_path / "4b", root4=root4, power_gate="full", **_run4b_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert "design §4 floor" in v["reason"], v["reason"]
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         assert v["gates"][n]["pass"] is True, (n, v["gates"][n])
     # Task 5 review, finding 4: the feasibility block is now
     # UNCONDITIONAL -- reachable exactly on the path where `primary`

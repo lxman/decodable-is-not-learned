@@ -1255,3 +1255,70 @@ frozen/instrument/gitignored-attested classification).
 **Real-tree executions this wave** (design §2 disclosure): (1) `import_scan_4b.py` re-run to re-pin `IMPORTED_SHA256_4B` after editing `verify_referents_4b.py` — `an4b.run(root4=battery_4.EXP4, stop_before="placebo", power_gate="full", ...)`, gate 4 power-record reproduction 20.975s identical=True, B-4 respected (no placebo quantity); (2) `verify_referents_4b.py` cold battery — **12/12 PASS**, check 6's new `_eq` exercised for real against `v4["gate0"]`; (3)-(6) the four r4 shape-only smokes above.
 
 Full account, per-item file:line references, and every command run: `.superpowers/sdd/2026-09-16-exp4b-build/fixwave-report.md`.
+
+## Adversarial freeze (session 3, 2026-09-17)
+
+Base `0a87dc2e`. Full attack list, dispositions, executable
+demonstrations and disclosures: `experiments/exp4b/FREEZE_CHECKLIST.md`.
+Verdict on the assignment, closures, doc slips with exact replacement
+sentences, the §2 disclosure count and the open items:
+`.superpowers/sdd/2026-09-16-exp4b-build/freeze-report.md`.
+
+**Class defect: NOT FOUND.** Seven findings, all closed additively;
+nothing preregistered moved.
+
+- **NB-1** (carried Important): S4's flat side carried an n/(n−1)
+  rescale no construction warranted — both sides are
+  target-outside-pool, so they differ only in pool size and the raw
+  ratio's matched-scale expectation is sqrt(1 − 1/n²). The division
+  inverted the bias by 3.8–7.7 %, toward "the null is too narrow".
+  Dropped; `rms_flat_loo`/`loo_scale_factor` kept as disclosure fields;
+  `pool_size_expected_ratio` printed per trajectory; the fixture
+  replaced (the old one built the rising rung out of the flat pool's own
+  realized mean, so the pool wobble cancelled and the rescale looked
+  like a correction).
+- **NB-2** (carried Important): S1's reading label was two-sided where
+  design §5 is one-sided and dropped §5's S3 conjunct. Four named
+  labels; the conjunct's rule made exact in
+  `placebo_4b.s3_pooled_rising_4b`.
+- **F-1**: the placebo screen's endpoint input is a different FILE from
+  the real eligibility rule's (`sweep/<M>/step<endpoint>` vs
+  `reference/endpoint_<M>`), and 4b measured their identity nowhere —
+  `gate1.json` is sha-pinned and never read. Exp 4's own closed
+  analyzer did measure it, so this was an inherited measurement; now
+  re-asserted as gate 6 and cold check 13. Real tree: 13/13, 136 rung
+  comparisons.
+- **F-2**: p_cal is a Monte Carlo estimate read against two bars with
+  no tolerance; its binomial SE and each bar's margin in SE units are
+  printed. Measured seed-to-seed SD .00274 at p ≈ .09 on a synthetic
+  pool at this design's sizes — the binomial law to the third decimal.
+- **F-3**: design §6's NOT-DISTINGUISHABLE licence asserts "T* with its
+  interval covering zero", which is FALSE whenever T_4 sits below the
+  null's 2.5th percentile — the construction account's own direction,
+  in a world that is still NOT-DISTINGUISHABLE. Checked now, with the
+  unnamed cell named and handed to Michael.
+- **F-4**: VERDICT.txt disclosed neither `pins_active` nor gate 4's
+  `skipped` flag, so a TEST-ONLY invocation read identically to the
+  sanctioned run; and the read sweep's (e)=0 covered the pre-placebo
+  half only (`--world` sweeps the full pipeline but on a synthetic tree,
+  where every exp4-tree read buckets as a world artifact). Both closed:
+  the pins block, and real-tree `--levels`/`--levels-maxpairs` modes
+  over S6's five readers — **UNPINNED 0, (f) 0** on both.
+- **F-5**: the two sha-attested companion records are written before
+  `verdict.json`, so a committed verdict never attests a record that
+  does not exist.
+
+Batteries after the closures: fast **124 passed** (was 103); cold
+referent battery **13/13** on the real tree; read sweep real-tree
+`--levels` 7,371 paths / **UNPINNED 0** / (f) 0 and
+`--levels-maxpairs` 6,751 / **0** / 0 (attested-unused 136 on both);
+import scan 3 residual modules, `IMPORTED_SHA256_4B` re-pinned after
+cold check 13 (its own drift test caught the stale hash first);
+mutants **83** (71 + 12 for the freeze's closures), log
+`mutation_freeze.log`; gate 6 PASS on both cached worlds.
+
+Environment note for the ledger: this box carries no `timeout(1)`
+binary and the session's foreground call cap is 600 s, so the mutation
+harness and the slow world modules ran detached
+(`Popen(start_new_session=True)`) and were polled — disclosed rather
+than claimed as foreground runs.

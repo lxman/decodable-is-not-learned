@@ -1,0 +1,41 @@
+# Adversarial freeze, worlds-mode confirmation (2026-09-17)
+#
+# The freeze's fast pass (mutation_freeze.log) killed 47 of 83 and left
+# 36 survivors: the 34 totality-AST call sites plus the S7 cas-gate hand
+# mutant -- all 35 with labels UNCHANGED from the two committed
+# --fullshape logs (mutation_worlds.log, mutation_worlds_pass2.log,
+# mutation_worlds_pass3.log), where each was already confirmed killed --
+# and ONE new survivor, the freeze's own F-1 mutant. That one is
+# confirmed here.
+#
+# Why it survived the fast pass: on an EMPTY root4 (the only tree the
+# fast tests can use) every earlier gate already fails, so removing gate
+# 6's own `failures.append(...)` leaves the verdict INSUFFICIENT_DATA
+# regardless. A world where gates 1-5 PASS and gate 6 is the only thing
+# wrong is needed to observe it.
+#
+# Procedure (the fix wave's own precedent for a single mutant, avoiding
+# --fullshape's unavoidable whole-file baseline): the mutant applied by
+# hand through the harness's own M-list entry (target text verified
+# unique), the ONE covering test run against the cached LEADS world,
+# then the file restored from a temp backup and the fast suite re-run.
+
+mutant: f_1_gate_6_s_failure_no_longer_refuses_the_verdict (#43)
+  site:   analyze_4b.run(), "if not gate6_ok: failures.append(...)" -> "if False:"
+  test:   test_totality_4b.py -m slow -k gate6_failure_refuses
+  clean:  1 passed in 67.08s
+  mutant: 1 FAILED in 71.39s -- KILLED
+          assert '4b gate 6' in '4b: 7 eligible placebo rungs total < 8 (design §4 floor)'
+          (without the refusal the run walks past the gate into the
+          placebo stage and the verdict becomes the feasibility-floor
+          refusal instead of gate 6's -- the observable difference)
+  restored: analyze_4b.py byte-identical to its committed state
+            (git diff --stat empty); no stranded .mutation_backup
+
+TALLY (freeze): 47 fast-killed (mutation_freeze.log)
+              + 35 already confirmed in the committed --fullshape logs
+                (34 totality-AST sites + the S7 cas-gate mutant, every
+                label unchanged)
+              + 1 confirmed here
+              = 83/83 killed, 0 survivors, 0 equivalent, 0 open, 0 SKIP,
+                0 TIMEOUT.

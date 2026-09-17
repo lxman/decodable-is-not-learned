@@ -550,3 +550,31 @@ def test_follows_world_placebo_stage_raise_is_collected(_follows_world_4b, tmp_p
     v = an4b.run(root4b=tmp_path / "4b", root4=root4, power_gate="full", **_run4b_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
     assert needle in v["reason"], v["reason"]
+
+
+@pytest.mark.slow
+def test_gate6_failure_refuses_the_verdict_on_a_world_where_everything_else_passes(
+        _leads_world_4b, tmp_path, monkeypatch):
+    """FREEZE F-1, the mutant its own fast tests could not see: on an
+    EMPTY `root4` every earlier gate already fails, so removing gate
+    6's `failures.append(...)` leaves the verdict INSUFFICIENT_DATA
+    anyway (`mutation_freeze.log`, mutant #43 SURVIVED the fast pass).
+    Here gates 1-5 all PASS on the cached world and gate 6 is the ONLY
+    thing wrong -- reported as a clean `pass=False`, not a raise, so
+    this tests the REFUSAL, not the wrapper -- and the verdict must
+    still be INSUFFICIENT_DATA naming gate 6. The placebo stage is
+    never reached (gate 6 runs before it), so this costs one world copy
+    plus one gate pass."""
+    root4, v4 = _leads_world_4b
+
+    def _fails(root):
+        return {"pass": False, "per_traj": {}, "bad": [f"synthetic disagreement on {root}"],
+                "n_rungs_checked": 0}
+
+    monkeypatch.setattr(an4b, "gate6_endpoint_identity_4b", _fails)
+    v = an4b.run(root4b=tmp_path / "4b", root4=root4, **_run4b_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert "4b gate 6" in v["reason"], v["reason"]
+    assert v["gates"]["6"]["pass"] is False
+    for n in ("1", "2", "3", "4", "5"):
+        assert v["gates"][n]["pass"] is True, (n, v["gates"][n])

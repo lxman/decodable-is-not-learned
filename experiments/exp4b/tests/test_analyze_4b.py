@@ -103,7 +103,7 @@ def test_run_on_empty_root4_gives_insufficient_data_and_is_json_serializable(tmp
     raw = json.dumps(v, allow_nan=False)
     reparsed = json.loads(raw)
     assert reparsed["verdict"] == v["verdict"]
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         assert n in v["gates"]
 
 
@@ -188,7 +188,7 @@ def test_stop_before_placebo_never_calls_the_placebo_functions_on_a_real_world(_
                 **_run4b_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert v["reason"] == "4b: stopped before the placebo null (pre-tag tool run)"
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         assert v["gates"][n]["pass"] is True, (n, v["gates"][n])
 
 
@@ -202,7 +202,7 @@ def test_stop_before_placebo_gives_insufficient_data_with_every_gate_passing(_le
                 **_run4b_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert v["reason"] == "4b: stopped before the placebo null (pre-tag tool run)"
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         g = v["gates"].get(n)
         assert g is not None and g["pass"] is True, (n, g)
     # nothing placebo-side was ever computed

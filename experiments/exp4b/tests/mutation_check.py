@@ -362,7 +362,11 @@ FULLSHAPE_MUTANT_TEST_4B = {
     # into_insufficient_data`, which reaches the site on an EMPTY
     # root4 -- `gate1_rederive_4` raises when the files are not there),
     # so --fullshape never sees it.
-    "totality_7764f70ca9": "test_gate5_wrapper_catches_a_raise_from_gate5_rederive_4b",
+    "totality_7764f70ca9": "test_gate6",
+    # F-1's refusal (not its wrapper): the only new mutant the fast
+    # pass cannot observe, since on an empty root4 every earlier gate
+    # already fails. Confirmed against the cached world.
+    "f_1_gate_6_s_failure_no_longer_refuses_the_verdict": "test_gate6_failure_refuses_the_verdict",
     "s7_the_clears_and_stays_known_answer_gate_against_the_committed_t_disabl":
         "test_s7_known_answer_gate_catches_a_corrupted_committed_t",
 }
