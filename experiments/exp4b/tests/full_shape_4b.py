@@ -11,6 +11,9 @@ own docstring: "structurally complete, behaviourally restricted"),
 ~11-13 minutes per call."""
 from __future__ import annotations
 
+import json
+import os
+import shutil
 import sys
 from pathlib import Path
 
@@ -49,8 +52,38 @@ def build_world_4b(root, mode: str, *, seed=0) -> Path:
     then `analyze_4.run(root=root, write=True, n_boot=200, ...)` with
     the stand-ins above, so the returned root carries a real
     `verdict.json`/`eligibility_4.json`/`power_4.json` exp4b's own
-    loaders can read. Returns `root` (a `Path`)."""
+    loaders can read. Returns `(root, v4)`.
+
+    Task 6 (mutation-confirmation infrastructure): when the
+    `EXP4B_WORLD_CACHE` environment variable names a scratch directory,
+    a build for a given `(mode, seed)` is written there ONCE (a
+    `_BUILD_COMPLETE` marker file gates a genuine completion) and every
+    later call for the SAME `(mode, seed)` `shutil.copytree`s the
+    cached tree into `root` instead of re-running `full_shape.
+    build_world`'s ~11-13 minute sweep generation, reading `v4` back
+    off the copy's own `verdict.json` rather than re-running `analyze_
+    4.run()` too (both already committed to the cache by the first,
+    genuine build). Never used when the env var is unset -- every
+    existing caller (the test suite's own fixtures) is unaffected. The
+    cache directory itself is scratch and must never be committed."""
     root = Path(root)
+    cache_root = os.environ.get("EXP4B_WORLD_CACHE")
+    if not cache_root:
+        fs.build_world(root, mode, seed=seed, stage="full")
+        v4 = an.run(root=root, write=True, n_boot=200, **exp4_run_kwargs_4b())
+        return root, v4
+
+    cache_dir = Path(cache_root) / f"{mode}_seed{seed}"
+    marker = cache_dir / "_BUILD_COMPLETE"
+    if marker.is_file():
+        shutil.copytree(cache_dir, root, dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns("_BUILD_COMPLETE"))
+        v4 = json.loads(battery_4.verdict_path(root).read_text())
+        return root, v4
+
     fs.build_world(root, mode, seed=seed, stage="full")
     v4 = an.run(root=root, write=True, n_boot=200, **exp4_run_kwargs_4b())
+    cache_dir.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(root, cache_dir, dirs_exist_ok=True)
+    marker.touch()
     return root, v4

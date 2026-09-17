@@ -132,6 +132,34 @@ def test_reproduce_power_record_never_writes(_leads_world, tmp_path):
     assert p.read_bytes() == before
 
 
+def test_reproduce_power_record_detects_byte_difference_fast(tmp_path, monkeypatch):
+    """Mutation harness finding (Task 6, controller ruling): the slow
+    byte-flip test above (`test_reproduce_power_record_detects_one_
+    byte_flip`) needs a full `_leads_world` and never runs in the
+    mutation harness's FAST suite. `power_4.compute` -- the one real
+    input that is actually expensive (n_sim simulations) -- is
+    monkeypatched to a trivial, instant stub that ignores its
+    arguments; every other real input `reproduce_power_record_4b`
+    reads (`bg.load_floors`, `bt.load_battery`, `battery_4.
+    load_outcome_4`/`rung_sets_4` per real trajectory) is cheap and
+    left genuine, so what is under test is `reproduce_power_record_4b`'s
+    OWN byte-comparison logic, not a synthetic world's plausibility."""
+    battery_4.eligibility_path(tmp_path).parent.mkdir(parents=True, exist_ok=True)
+    battery_4.eligibility_path(tmp_path).write_text("{}")
+    committed = {"n_sim": 5, "seed": 0, "phis": [0.0], "eligibility_sha256": "committed-marker",
+                "prereg_tag": "committed-tag"}
+    battery_4.power_path(tmp_path).write_text(json.dumps(committed, indent=1))
+
+    def fake_compute(elig, rung_sets, grids, *, n_sim, seed, phis):
+        return {"n_sim": n_sim, "seed": seed, "phis": list(phis), "marker": "reproduced-not-committed"}
+
+    monkeypatch.setattr(power_4, "compute", fake_compute)
+    out = pe.reproduce_power_record_4b(tmp_path)
+    assert out["identical"] is False
+    assert out["first_diff"] is not None
+    assert out["committed_sha256"] != out["reproduced_sha256"]
+
+
 # ------------------------------------------- simulate_zero_excess_scaled
 
 
@@ -267,6 +295,46 @@ def test_extension_arms_order_and_ts(_leads_world):
 
     assert observed_ref == out["arms"]["observed_lambda"]
     assert multiple_ref == out["arms"]["4.0"]
+
+
+def test_simulate_zero_excess_scaled_eligibility_bar_is_inclusive_at_the_boundary():
+    """Mutation harness finding (Task 6, controller ruling): weakening
+    the eligibility bar from `>=` to `>` is a measure-zero event under
+    REAL (continuous) simulated noise -- confirmed empirically: applying
+    ONLY this mutation and re-running the two slow equivalence tests
+    above changes NOTHING (6/6 still pass; `test-injected` mutation
+    reverted immediately after). A fixed, deterministic noise stand-in
+    (never `np.random.default_rng`, so the exact excess value is chosen,
+    not hoped for) engineers the boundary EXACTLY: one flat rung with
+    zero noise (trend stays 0 at every step), one pool rung whose last-
+    step noise puts `excess[rung][-1]` at PRECISELY `SE_MULTIPLE_4 *
+    se_r` (2.0 * 1.0 = 2.0) -- `>=` counts it eligible (`cells_4` keeps
+    the one cell, `mean_eligible_cells` = 1.0), `>` does not (0 cells,
+    `mean_eligible_cells` = 0.0). `t_clear_index` = 2 (>= `MIN_CLEAR_
+    INDEX_4` = 2 -- one below that, `phi_4` returns `None` regardless of
+    eligibility, which would mask the very thing under test)."""
+    class _FixedRng:
+        """A `.normal()`-only stand-in for `np.random.Generator`:
+        returns each caller-supplied array in order, ignoring
+        loc/scale/size beyond bookkeeping -- deterministic in place of
+        random, so an exact floating-point boundary can be engineered."""
+        def __init__(self, sequence):
+            self._seq = list(sequence)
+
+        def normal(self, loc, scale, size):
+            return np.asarray(self._seq.pop(0), dtype=np.float64)
+
+    pool_info = {("T", "X"): {"G": 3, "c_r": 2, "se_r": 1.0, "t_clear": 2}}
+    traj_info = {"T": {"flat": ["F"], "flat_se": {"F": 1.0}, "steps": [0, 1, 2],
+                       "trend_t1": 0.0, "trend_end": 0.0}}
+    trend_arr = {"T": np.array([0.0, 0.0, 0.0])}
+    rung_sets = {"T": {"flat": ["F"], "R": {"X": {}}}}
+
+    fake_rng = _FixedRng([[0.0, 0.0, 0.0], [0.0, 0.0, 2.0]])   # flat noise, then pool noise
+    out = pe.simulate_zero_excess_scaled(
+        pool_info=pool_info, traj_info=traj_info, trend_arr=trend_arr, rung_sets=rung_sets,
+        rng=fake_rng, n_sim=1, scale_by_traj={"T": 1.0}, seed=0, scale_index=0)
+    assert out["mean_eligible_cells"] == 1.0, out
 
 
 # --------------------------------------------------------------- p_iid_4b

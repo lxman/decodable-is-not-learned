@@ -54,11 +54,21 @@ REFERENTS_PATH_4B = EXP4B / "referents_4b.json"
 # PROGRESS.md) -- the ONE hash walk this task performs before the tag,
 # the exact analogue of `analyze_4.REFERENTS_4_SHA256`.
 REFERENTS_4B_SHA256 = "6f83de15ffa13ec4e78c66b1c63a4abf24dc91392bf602ba30d5d2e85c621d36"
-# Task 6 fills this in (the residual import surface: every non-test
-# module inside experiments/exp4b that is not one of the five
-# INSTRUMENT_BLOBS_4B files) -- exactly `analyze_4.IMPORTED_SHA256_4`'s
-# own placeholder pattern one task before it was filled.
-IMPORTED_SHA256_4B = None
+# Filled by Task 6 (`import_scan_4b.py`, run on the real closed exp4
+# tree): the residual import surface -- every non-test module inside
+# experiments/exp4b that is not one of the five INSTRUMENT_BLOBS_4B
+# files (`__init__.py`, `make_referents_4b.py`, `verify_referents_4b.py`
+# -- pulled in by `run()`'s own `make_referents_4b` import and
+# `import_scan_4b.py`'s stage-tool pull-in) -- exactly `analyze_4.
+# IMPORTED_SHA256_4`'s own pattern one experiment over.
+IMPORTED_SHA256_4B = {
+    REPO / "experiments/exp4b/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp4b/make_referents_4b.py":
+        "043f793abf58290842b9c6a6f0383472430ae3b16dbfd77f6f58e90fb6199fec",
+    REPO / "experiments/exp4b/verify_referents_4b.py":
+        "3ed5980208f687611907e8e810c910d554d533789b064a626fe42c0a2be3d3af",
+}
 
 # Design §2's disclosure paragraph, first sentence, quoted verbatim
 # (checklist obligation: every licensed sentence carries it).

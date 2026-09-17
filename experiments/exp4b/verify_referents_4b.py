@@ -203,6 +203,21 @@ def _c11(ctx):
     print(f"       S7(b) mean best-site phi = {bs['T']!r}", flush=True)
 
 
+@check(12, "S7(a): clears-and-stays T re-derived == committed sensitivities.primary_clears_and_stays.T")
+def _c12(ctx):
+    real = _load_real_tree(ctx)
+    cas_cells = an4b.clears_and_stays_cells_4b(real["series_by_traj"], real["rung_sets"],
+                                               real["elig4"])
+    committed = ((real["v4"].get("sensitivities") or {}).get("primary_clears_and_stays") or {})
+    committed_T = committed.get("T")
+    if not cas_cells:
+        raise AssertionError("no clears-and-stays cells re-derived from the real tree")
+    cas_T = an.primary_4(cas_cells, n_boot=an.N_BOOT_4, seed=0)["T"]
+    _eq(cas_T, committed_T, "re-derived clears-and-stays T vs committed sensitivities."
+                            "primary_clears_and_stays.T")
+    print(f"       S7(a) clears-and-stays T = {cas_T!r}", flush=True)
+
+
 def main() -> int:
     ctx = {}
     n_ok = 0

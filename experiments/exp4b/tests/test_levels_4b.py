@@ -120,6 +120,28 @@ def test_level_ci_4b_different_seed_gives_different_ci():
     assert out_a["ci95"] != out_b["ci95"]
 
 
+def test_level_ci_4b_uses_exactly_the_2_5_97_5_percentiles(monkeypatch):
+    """Mutation harness finding (Task 6): widening the percentile pair
+    to [5.0, 95.0] narrows the CI but does not put it OUTSIDE the mean
+    (`test_level_ci_4b_ci_contains_the_mean` still holds either way) and
+    does not change determinism/seed-sensitivity -- none of the
+    existing tests pin the LITERAL percentile values. Spies on
+    `np.percentile` (imported into `levels_4b` as `np`, called
+    unqualified inside the module) and asserts the exact `[2.5, 97.5]`
+    pair was requested."""
+    calls = []
+    real_percentile = levels_4b.np.percentile
+
+    def spy(a, q, *a2, **kw):
+        calls.append(list(q) if hasattr(q, "__iter__") else q)
+        return real_percentile(a, q, *a2, **kw)
+
+    monkeypatch.setattr(levels_4b.np, "percentile", spy)
+    rng = np.random.default_rng(5)
+    levels_4b.level_ci_4b(rng.normal(0.4, 0.05, size=50), n_boot=100, seed=0)
+    assert [2.5, 97.5] in calls, calls
+
+
 # ------------------------------------------------------- max_pair_alignment_4b
 
 

@@ -23,7 +23,9 @@ REPO = Path(__file__).resolve().parents[3]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+from experiments.exp4 import analyze_4 as an  # noqa: E402
 from experiments.exp4 import battery_4  # noqa: E402
+from experiments.exp4 import collect_4  # noqa: E402
 from experiments.exp4b import analyze_4b as an4b  # noqa: E402
 from experiments.exp4b.tests import full_shape_4b as fs4b  # noqa: E402
 from experiments.exp4b.tests.conftest import fresh_copy_4b  # noqa: E402
@@ -55,6 +57,12 @@ def _run4b_kwargs(*, world=True):
     (0.0499, "MARGINAL"),
     (0.2, "NOT-DISTINGUISHABLE"),
     (1.0, "NOT-DISTINGUISHABLE"),
+    # Mutation harness finding (Task 6): the two bars are exclusive at
+    # the boundary itself (`<`, not `<=`) -- none of the cases above
+    # land EXACTLY on `battery_4b.ALPHA_4B`/`MARGINAL_4B`, so weakening
+    # either comparison to `<=` was undetectable.
+    (0.01, "MARGINAL"),             # == ALPHA_4B exactly: not CALIBRATED
+    (0.05, "NOT-DISTINGUISHABLE"),  # == MARGINAL_4B exactly: not MARGINAL
 ])
 def test_tree_p_cal_levels(p_cal, want):
     v = an4b.verdict_tree_4b([], True, p_cal)
@@ -151,6 +159,37 @@ def test_stop_before_placebo_never_calls_the_placebo_functions(tmp_path, monkeyp
                 **_run4b_kwargs())
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert v["reason"] == "4b: stopped before the placebo null (pre-tag tool run)"
+
+
+@pytest.mark.slow
+def test_stop_before_placebo_never_calls_the_placebo_functions_on_a_real_world(_leads_world_4b,
+                                                                               tmp_path, monkeypatch):
+    """Task 5 review, carried item (c): the fast version above proves
+    the guard fires on an EMPTY `root4`, where the placebo pipeline was
+    never going to be reached anyway (every upstream loader already
+    failed) -- it cannot distinguish "stop_before wins" from "nothing
+    got far enough to call these functions regardless". On the shared
+    "leads" world every gate passes and the per-trajectory placebo-pool
+    loop IS reached (`test_full_shape_4b.py::test_leads_world_
+    feasibility_floor` -- the floor fires only AFTER the pool loop),
+    so this is the genuine test: `stop_before="placebo"` must win even
+    when the pipeline is otherwise healthy enough to have called these
+    functions for real."""
+    from experiments.exp4b import placebo_4b
+
+    def _boom(*a, **k):
+        raise AssertionError("placebo_4b function called despite stop_before='placebo'")
+
+    monkeypatch.setattr(placebo_4b, "placebo_pool_4b", _boom)
+    monkeypatch.setattr(placebo_4b, "draw_batteries_4b", _boom)
+
+    root4, v4 = _leads_world_4b
+    v = an4b.run(root4b=tmp_path / "4b", root4=root4, stop_before="placebo", power_gate="full",
+                **_run4b_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert v["reason"] == "4b: stopped before the placebo null (pre-tag tool run)"
+    for n in ("1", "2", "3", "4", "5"):
+        assert v["gates"][n]["pass"] is True, (n, v["gates"][n])
 
 
 # --------------------------------------------------------- gates, a world
@@ -253,3 +292,84 @@ def test_power_gate_skip_is_disclosed_in_pins_active(_leads_world_4b, tmp_path):
                 power_gate="skip", **_run4b_kwargs())
     assert v["gates"]["4"] == {"pass": True, "skipped": True}
     assert v["pins_active"]["power_gate_skipped"] is True
+
+
+# --------------------------------- gate rederivation, unit-level (fast, hand data)
+#
+# Mutation harness finding (Task 6, controller ruling): gate1/2/3/5_
+# rederive_4b are pure comparison functions over already-validated
+# inputs -- the slow gate-perturbation tests above cover the SAME
+# sites reached through a full `run()` on a real/synthetic world
+# (needed for the FULL re-derivation's own correctness), but the
+# mutation harness's FAST suite never reaches them that way. These
+# unit-test the comparison logic directly: gate1 with hand-built
+# series/rung_sets/eligibility/cells (no file I/O at all -- `cells_4`/
+# `primary_4` are pure functions of in-memory data); gate2/3/5 with the
+# one real-file-reading call monkeypatched to a fixed stub (`an.
+# eligibility_table_4`, `an.lambda_hat_4`, `an.gate0_4`/`collect_4.
+# load_ref_tables_4` respectively), so what is under test is each
+# gate's OWN `got != want` comparison, never a fresh re-derivation.
+
+
+def test_gate1_rederive_4b_fails_on_mismatched_t4():
+    # One trajectory "T", one flat rung "F" (identically zero, so the
+    # trend is flat and excess("X") == a("X") exactly), one real rung
+    # "X" clearing at index 3: phi = x[2]/x[3] = 2.0/4.0 = 0.5.
+    series_by_traj = {"T": {"a": {"F": [0.0, 0.0, 0.0, 0.0], "X": [0.0, 1.0, 2.0, 4.0]},
+                            "steps": [0, 1, 2, 3]}}
+    rung_sets = {"T": {"flat": ["F"], "R": {"X": {}}}}
+    elig4 = {"T": {"R": {"X": {"eligible": True, "t_clear_index": 3, "t_clear": 3}}}}
+    cells4 = [{"traj": "T", "rung": "X", "phi": 0.5, "t_clear": 3}]
+
+    g_ok = an4b.gate1_rederive_4b(series_by_traj, rung_sets, elig4, cells4, T4=0.5)
+    assert g_ok["pass"] is True, g_ok
+    assert g_ok["t_match"] is True and g_ok["cells_match"] is True
+
+    g_bad = an4b.gate1_rederive_4b(series_by_traj, rung_sets, elig4, cells4, T4=0.999)
+    assert g_bad["pass"] is False
+    assert g_bad["t_match"] is False
+
+
+def test_gate2_rederive_4b_fails_on_mismatched_eligibility(monkeypatch):
+    recomputed = {"T": {"R": {"X": {"eligible": True, "se": 0.1}}}}
+    monkeypatch.setattr(an, "eligibility_table_4", lambda root4: recomputed)
+
+    g_ok = an4b.gate2_rederive_4b(root4="unused", elig4=recomputed)
+    assert g_ok["pass"] is True, g_ok
+    assert g_ok["diffs"] == []
+
+    committed_wrong = {"T": {"R": {"X": {"eligible": True, "se": 0.2}}}}
+    g_bad = an4b.gate2_rederive_4b(root4="unused", elig4=committed_wrong)
+    assert g_bad["pass"] is False
+    assert g_bad["diffs"]
+
+
+def test_gate3_rederive_4b_fails_on_mismatched_lambda_hat(monkeypatch):
+    monkeypatch.setattr(
+        an, "lambda_hat_4",
+        lambda series_by_traj, rung_sets, elig4: {"per_traj": {"T": {"lambda_hat": 2.0}}})
+
+    v4_ok = {"calibration": {"per_traj": {"T": {"lambda_hat": 2.0}}}}
+    g_ok = an4b.gate3_rederive_4b({}, {}, {}, v4_ok)
+    assert g_ok["pass"] is True, g_ok
+    assert g_ok["diffs"] == []
+
+    v4_bad = {"calibration": {"per_traj": {"T": {"lambda_hat": 3.0}}}}
+    g_bad = an4b.gate3_rederive_4b({}, {}, {}, v4_bad)
+    assert g_bad["pass"] is False
+    assert g_bad["diffs"]
+
+
+def test_gate5_rederive_4b_fails_on_mismatched_fraction_below(monkeypatch):
+    monkeypatch.setattr(collect_4, "load_ref_tables_4",
+                        lambda root4, refs: {ref: {"sets": {}} for ref in refs})
+    monkeypatch.setattr(an, "gate0_4",
+                        lambda root4, traj, ref_tables, stage_tables: {"fraction_below": 0.9})
+
+    v4_ok = {"gate0": {traj: {"fraction_below": 0.9} for traj in battery_4.TRAJECTORIES_4}}
+    g_ok = an4b.gate5_rederive_4b(root4="unused", stage_tables_4={}, v4=v4_ok)
+    assert g_ok["pass"] is True, g_ok
+
+    v4_bad = {"gate0": {traj: {"fraction_below": 0.1} for traj in battery_4.TRAJECTORIES_4}}
+    g_bad = an4b.gate5_rederive_4b(root4="unused", stage_tables_4={}, v4=v4_bad)
+    assert g_bad["pass"] is False

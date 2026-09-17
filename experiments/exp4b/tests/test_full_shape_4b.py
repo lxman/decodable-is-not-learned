@@ -97,17 +97,27 @@ def test_leads_world_feasibility_floor(_leads_world_4b, tmp_path):
     assert "design §4 floor" in v["reason"], v["reason"]
     for n in ("1", "2", "3", "4", "5"):
         assert v["gates"][n]["pass"] is True, (n, v["gates"][n])
+    # Task 5 review, finding 4: the feasibility block is now
+    # UNCONDITIONAL -- reachable exactly on the path where `primary`
+    # stays `None` (the floor fires before any calibration is
+    # attempted), so this is the ONE terminal that actually exercises
+    # `floor_ok is False` with real per-trajectory deficits attached.
+    feas = v["feasibility"]
+    assert feas["floor_ok"] is False, feas
+    assert set(feas["per_traj"]) == set(battery_4.TRAJECTORIES_4)
+    for traj, rec in feas["per_traj"].items():
+        assert set(rec) == {"n_real", "n_eligible_placebo", "deficit"}, (traj, rec)
     out_v = battery_4.verdict_path(tmp_path / "4b")
     assert not out_v.exists()          # write=False (default)
 
 
-@pytest.fixture(scope="module")
-def _follows_world_4b(tmp_path_factory):
-    """ONE fresh `stage="full"` "follows"-mode build (seed=3), shared
-    read-only by the follows-terminal test and the two forced-p_cal
-    tests below (finding 3) -- no second build."""
-    root = tmp_path_factory.mktemp("follows_world_4b")
-    return fs4b.build_world_4b(root, "follows", seed=3)
+# `_follows_world_4b` is now `conftest.py`'s own SESSION-scoped fixture
+# (Task 6: promoted from this module's own module-scoped copy so
+# `test_totality_4b.py`/`test_determinism_4b.py` can share the same
+# ~11-13 minute `stage="full"` build rather than paying for their own --
+# see conftest.py's docstring). Still shared read-only by the
+# follows-terminal test and the two forced-p_cal tests below (finding
+# 3) -- no second build, now session-wide rather than module-wide.
 
 
 @pytest.mark.slow
@@ -117,6 +127,14 @@ def test_follows_world_reaches_not_distinguishable_or_marginal(_follows_world_4b
     v = an4b.run(root4b=tmp_path / "4b", root4=root4, power_gate="full", **_run4b_kwargs())
     _assert_full_completion(v, v4)
     assert v["verdict"] in ("NOT-DISTINGUISHABLE", "MARGINAL"), v["verdict"]
+    # Task 5 review, finding 4 (the completing side of the assertion
+    # added to the "leads" floor test above): on a world that CLEARS
+    # the floor, `feasibility`'s `per_traj` is the AUTHORITATIVE block
+    # `draw_batteries_4b` itself used (run()'s own preference), not the
+    # hand-rolled duplicate -- still present, still one entry per
+    # trajectory.
+    assert v["feasibility"]["per_traj"], v["feasibility"]
+    assert set(v["feasibility"]["per_traj"]) == set(battery_4.TRAJECTORIES_4)
     print(f"\n    follows world -> exp4b verdict {v['verdict']} (p_cal={v['primary']['p_cal']})")
 
 
@@ -148,6 +166,11 @@ def test_follows_world_reaches_calibrated_when_p_cal_forced(_follows_world_4b, t
     assert v["primary"]["p_low"] is not None and v["primary"]["B"] is not None   # genuine, not faked
     txt = an4b.write_verdict_txt_4b(v)
     assert "CALIBRATED" in txt
+    # Task 5 review, finding 3's follow-on: forcing `p_cal` alone does
+    # not touch anything else the pipeline computed -- the whole
+    # completion contract (S1-S8, every gate, both sha256 records)
+    # still holds on this terminal.
+    _assert_full_completion(v, v4)
 
 
 @pytest.mark.slow
@@ -160,6 +183,7 @@ def test_follows_world_reaches_marginal_when_p_cal_forced(_follows_world_4b, tmp
     assert v["primary"]["p_low"] is not None and v["primary"]["B"] is not None
     txt = an4b.write_verdict_txt_4b(v)
     assert "MARGINAL" in txt
+    _assert_full_completion(v, v4)
 
 
 def test_no_convergence_world_gives_insufficient_data(tmp_path):

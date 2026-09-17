@@ -772,3 +772,278 @@ repeat `stop_before="placebo"` run against `battery_4.EXP4`;
 `max_over_pairs_4b`'s timing was NOT re-run per instruction. Every
 gate-4 timing printed this round (`0.5355s`-`0.6123s`) is from
 synthetic-world runs, never the real tree.
+
+## Task 6: totality, mutation, read sweep, import scan, determinism; the import pin
+
+New files: `experiments/exp4b/tests/test_totality_4b.py`,
+`mutation_check.py`, `read_sweep_4b.py`, `import_scan_4b.py`,
+`test_determinism_4b.py`. Modified: `analyze_4b.py`
+(`IMPORTED_SHA256_4B` filled), `verify_referents_4b.py` (cold check 12
+added, carried item (a)), `conftest.py`/`full_shape_4b.py`/
+`test_full_shape_4b.py`/`test_analyze_4b.py`/`test_placebo_4b.py`/
+`test_levels_4b.py`/`test_power_ext_4b.py` (carried items (b)/(c) and
+mutation-harness closures, below).
+
+### Carried items (a)-(g) from Task 5's review
+
+(a) Cold check 12 in `verify_referents_4b.py`: re-derives the
+clears-and-stays cells via `analyze_4b.clears_and_stays_cells_4b` →
+`analyze_4.primary_4(cells, n_boot=N_BOOT_4, seed=0)["T"]`, compares
+bit for bit against the committed `sensitivities.
+primary_clears_and_stays.T` (0.5814874459089997) — a known-answer
+check, no placebo quantity, no new real-tree execution beyond the
+existing `_load_real_tree` cache. **12/12 on the real tree.**
+
+(b) The determinism fixture (`test_determinism_4b.py`) uses the
+FOLLOWS world, not leads (leads hits the design §4 feasibility floor
+and writes no `placebo_4b.json`): two subprocesses run `analyze_4b.
+run(write=True, B=200, n_sim_ext=10, power_gate="full")` against the
+SAME shared follows-world `root4` (read-only — `run()` never writes
+into `root4`, only `root4b`, so no `fresh_copy_4b` needed) into two
+different `root4b` tmp dirs; `verdict.json`, `placebo_4b.json` and
+`power_ext_4b.json` compared byte-identical. The follows world is now
+`conftest.py`'s own SESSION-scoped fixture (promoted from `test_full_
+shape_4b.py`'s module-scoped one) so every slow module that needs a
+completing world shares the SAME ~15-16 minute `stage="full"` build
+rather than paying for its own. First run FAILED on a script bug, not
+a real divergence: the subprocess script's stdout carried `run()`'s
+own gate-4 wall-clock print (`"4b gate 4: power record reproduction
+took {seconds}s ..."`) ahead of the verdict line, and comparing whole-
+stdout text caught the (expected) wall-clock difference between the
+two processes — fixed by marking the verdict line (`"DETERMINISM_
+VERDICT=" + v["verdict"]`) and reading only that; the FILE comparisons
+were never affected (`gates["4"]`'s own `seconds` field is stripped
+before persisting). Re-run: **1/1 passed**, byte-identical.
+
+(c) `test_stop_before_placebo_never_calls_the_placebo_functions_on_a_
+real_world` added to `test_analyze_4b.py` (the fast version kept): the
+fast test's empty `root4` never reaches the pools loop regardless of
+`stop_before`, so it cannot distinguish "the guard wins" from "nothing
+got far enough to call these functions anyway" — this one runs on the
+shared LEADS world (gates all pass, the placebo-pool loop IS entered,
+the design §4 floor only fires after it) and confirms the guard still
+wins. Also added: feasibility-block assertions on `test_full_shape_
+4b.py`'s `test_leads_world_feasibility_floor` (`floor_ok is False` +
+per-trajectory keys) and on `test_follows_world_reaches_not_
+distinguishable_or_marginal` (`per_traj` present, the AUTHORITATIVE
+block); `_assert_full_completion` added to both forced-p_cal tests.
+
+(d)-(e) `test_totality_4b.py`: every one of the 37 `collect_total_4b`
+call sites in `run()` (AST-enumerated the same way as (g) below)
+reached by a corrupted input or a monkeypatched raise — cheap
+(no-world) sites (frozen check, prereg tag, referent manifest, battery
+items, floors, outcome, rung sets, import-surface entry) via kwarg
+injection or monkeypatching a frozen loader; pre-placebo sites needing
+a real tree (torn JSON in verdict/eligibility/power, a non-numeric
+`T`, an off-grid `t_clear`, a missing sweep unit, a missing reference
+key, gate 1-3/5's OWN wrapper — as opposed to the perturbation tests,
+which only make the gate function return `pass=False`, never raise;
+the WRAPPER needs a genuine raise to be observable) on the shared
+LEADS world; placebo-stage sites (draw batteries onward — no committed
+file backs them, since the placebo null is computed fresh every run
+with no on-disk "placebo-stage input" until it is written) via
+monkeypatch-raise on the shared FOLLOWS world, one parametrized test
+per site (`_FOLLOWS_SITES`) plus a dedicated test for S7's OWN
+internal known-answer check (`_s7`'s `cas_T != committed_cas_T` raise,
+distinct from the wrapper around the whole `_s7()` call) — S1/S6 are
+stubbed to a cheap, valid shape so the test reaches S7 without paying
+S1's real simulation cost or S6's real overlap recomputation.
+
+(f) `read_sweep_4b.py`: `run(stop_before="placebo", B=10, n_sim_ext=2)`
+on the real, closed exp4 tree. **7,371 distinct paths** (32,217 total
+open/read calls, 0 writes): `referents_4b.json` 7,167, `frozen_module`
+57, `instrument_blob` 5, `exp4_closed_module` 6, `sha_pin_at_load` 0
+(exp4b's analyzer never loads a checkpoint/Hub inventory — kept for
+structural parity with exp4's own sweep only), `exp4_campaign_
+artifact_not_in_manifest` **0**, `python_stdlib_venv` 0, `UNPINNED`
+**0**. One finding along the way, closed by adding a bucket rather
+than by patching data: the FIRST sweep found 136 reads of `results/
+reference/<ref>/attested/<rung>.npz` (34 rungs x 4 references) outside
+every pin — `collect_4.load_ref_tables_4` (exp4's own frozen code)
+unconditionally attempts this read per rung when the file exists;
+`collect_4.py`'s own module docstring already discloses these files as
+"sha-attested, gitignored", exp4's OWN `referents_4.json` carries ZERO
+of them, `load_ref_tables_4` reads them UNCHECKED (no sha comparison,
+unlike `sets`), and every one of exp4b's five call sites (`analyze_
+4b.run`'s two, `levels_4b.py`'s three, `verify_referents_4b.py`'s one)
+reduces the raw dict to `{ref: rt["sets"] for ...}` or reads only
+`sets`/`sites`/`n_hidden`/`record` — grepped exhaustively, confirmed:
+`sets_question_end`/`sets_pooled` (what `attested/*.npz` populates)
+are never read anywhere in `experiments/exp4b/`. Bucketed as (i)
+`gitignored_attested_unused`, disclosed rather than pinned (pinning a
+gitignored file's content is incoherent — a fresh clone never has it),
+leaving (f) itself at its own "should be 0".
+
+`import_scan_4b.py`: `run(stop_before="placebo")` on the real tree,
+then imports every exp4b stage tool by hand (`make_referents_4b.py`,
+`verify_referents_4b.py`). **3 exp4b-own residual modules**
+(`__init__.py`, `make_referents_4b.py`, `verify_referents_4b.py`) —
+`IMPORTED_SHA256_4B` filled in `analyze_4b.py`; `check_imports_4b()`
+verified to PASS directly, and `run(..., imports_pinned=True)`
+verified to reach every gate (1-5) on the real tree without an
+"unpinned module" failure. Re-run twice more (after the cold-check-12
+edit, which predated the FIRST scan — no drift; and once more as the
+final record) — **the hash never moved**.
+
+### Mutation harness (`mutation_check.py`), the import pin's fill, and
+### the batteries
+
+The M list: 31 hand-authored mutants across `battery_4b.py`
+(`ALPHA_4B`/`MARGINAL_4B`/`MIN_PLACEBO_TOTAL_4B`/`MIN_PLACEBO_PER_
+TRAJ_4B`, `check_exp4_closed_4b`'s pin comparison, `require_prereg_
+4b`'s two checks), `placebo_4b.py` (the LOO pool exclusion, the
+eligibility bar, draw-with-replacement, the clear-index permutation,
+α's LEADS count, `p_cal`'s add-one smoothing and `p_low`'s tolerance,
+`T*`'s sign and interval), `power_ext_4b.py` (gate (4)'s byte
+equality, the scaled arm's two scale sites, its own eligibility bar),
+`levels_4b.py` (`kept_positions_4b`'s exclusion, `level_ci_4b`'s
+percentiles), `analyze_4b.py` (the tree's two bars, the `stop_before`
+guard and its early-return branch, gates 1/2/3/5's comparisons, S7's
+cas gate) — plus 37 AST-generated mutants, one per `collect_total_4b`
+call site in `run()` (`_totality_mutants_4b`, exp4's own `_totality_
+mutants_4` with the name check changed). **68 mutants total.**
+
+**Pass 1** (fast suite only): 21/68 killed, 47 survivors — log
+`mutation_build.log`. Investigation found the survivors split into two
+classes: genuine fast-suite gaps (6: #11 `draw_batteries_4b`'s
+permutation, undetectable because the existing test only checks the
+SET of clear indices, not their per-draw assignment; #14 `p_cal_4b`'s
+`p_low` boundary, undetectable at any T4 not EXACTLY at `T4 + eps`;
+#17 `reproduce_power_record_4b`'s identical flag, #18/#19/#20
+`simulate_zero_excess_scaled`'s two scale sites and its eligibility
+bar — all four only exercised by `test_power_ext_4b.py`'s OWN slow
+suite; #22 `level_ci_4b`'s percentiles, never pinned to the literal
+values; #23/#24 `verdict_tree_4b`'s two bars, never probed exactly AT
+the boundary; #27-#30 gates 1/2/3/5's comparison logic, only exercised
+through a full `run()`; #31 S7's cas gate, no test ever corrupted the
+committed T it compares against) and totality/worlds-only sites (the
+remaining ~33, all `collect_total_4b` wrapper strips whose
+corresponding test lives in `test_totality_4b.py` — not part of the
+FAST_TESTS list by design, exp4's own precedent, so these survive the
+fast suite by construction).
+
+**Ten new fast tests + one new slow test closed the first class**
+(all in the table below); **Pass 2** (fast suite, same M list): 31/68
+killed, 37 survivors — log `mutation_build_pass2.log`. Confirmed every
+one of #11/#14/#17/#22/#23/#24/#27-#30 now killed; #18/#19/#20 and the
+33 totality-AST + S7 survivors remain (as expected — they need a real
+or cached world).
+
+| # | Site | Closure |
+|---|------|---------|
+| 11 | `draw_batteries_4b` permutation | new fast test: 300 draws, first cell's `c` takes >1 distinct value |
+| 14 | `p_cal_4b` `p_low` boundary | new fast test: `T_b=[1e-15], T4=0.0` — `T4+eps` hit exactly |
+| 17 | `reproduce_power_record_4b` identical flag | new fast test: `power_4.compute` monkeypatched to a stub, real byte comparison |
+| 22 | `level_ci_4b` percentiles | new fast test: spies on `np.percentile`, asserts `[2.5, 97.5]` was requested |
+| 23/24 | `verdict_tree_4b` bars | two new parametrize cases: `p_cal` exactly `.01`/`.05` |
+| 27-30 | gates 1/2/3/5 comparison logic | four new fast unit tests: gate1 hand-built series/cells (pure functions, no I/O); gate2/3/5 with the one real-file read monkeypatched to a fixed stub |
+| 39 | import-surface entry (`check_imports_4b`) | new fast test: `imports_pinned=True` + monkeypatched raise (every other test uses `imports_pinned=False`, which skips this site entirely) |
+| 43-46 | gates 1/2/3/5's WRAPPER (not the comparison logic) | four new slow tests on the LEADS world: the gate function itself monkeypatched to raise — the perturbation tests never make it raise, only return `pass=False`, so the wrapper strip is unobservable there |
+| 31 | S7's cas gate | new slow test on the FOLLOWS world: corrupts the committed T, S1/S6 stubbed cheap so the pipeline reaches S7 without their real cost |
+| 18/19 | `simulate_zero_excess_scaled` scale drop | confirmed via `test_power_ext_4b.py -m slow` (its own module-scoped LEADS world) with both mutations applied together — the two equivalence tests against the frozen reference both FAILED as expected (mean_T/sd_T/P_LEADS all diverged); reverted |
+| 20 | `simulate_zero_excess_scaled` eligibility bar | **the existing slow tests do NOT catch it even in isolation** (confirmed: applied alone, `6 passed` unchanged) — a measure-zero boundary under real continuous noise; closed instead with a new PERMANENT fast test using a fixed (non-random) `.normal()` stand-in that engineers `excess[rung][-1]` to land EXACTLY on `SE_MULTIPLE_4 * se_r`, empirically verified to read `mean_eligible_cells` 1.0 (original) vs 0.0 (mutant) |
+| 33 remaining totality-AST sites | `run()`'s `collect_total_4b` wrappers at every other site | `--fullshape` pass, below |
+
+**`--fullshape` mode + world cache** (`full_shape_4b.build_world_4b`
+honors `EXP4B_WORLD_CACHE=<dir>`: a `_BUILD_COMPLETE`-marked cache hit
+`shutil.copytree`s the built tree and reads `v4` off its own
+`verdict.json`, skipping BOTH the ~15-16 minute sweep generation AND
+the `an.run()` re-derivation; unset, every existing caller is
+unaffected). Cache built ONCE in the foreground (`/private/tmp/
+exp4b_world_cache`, never committed): follows 936.7s, leads 925.5s;
+a cache-hit re-build measured at 1.38s. `FULLSHAPE_MUTANT_TEST_4B`
+maps each of the 34 remaining survivors (33 totality-AST + S7's hand
+mutant) to the ONE test that targets its exact site, run via `-k`
+against `test_totality_4b.py` — running the WHOLE file per mutant (as
+exp4's own `--totality` does) is not affordable here the way it is for
+exp4: exp4's totality base is a cheap `stage="reference_only"` tree,
+exp4b's needs a COMPLETE exp4 verdict (`stage="full"`), so even cached
+the full file's own test EXECUTION time (not the build) would cost
+about an hour per mutant. Launched detached (`Popen(start_new_session
+=True)`), polled with short `kill -0` checks, log `mutation_worlds.
+log`. **CLOSED 34/34 — every mapped mutant killed, 0 survivors, 0
+skips, 0 timeouts.** No stranded `.mutation_backup`; the five
+instrument files verified byte-clean after every pass (the one
+legitimate diff throughout: `analyze_4b.py`'s `IMPORTED_SHA256_4B`
+fill).
+
+**Tally, reconciled across the three logs:** pass 1 fast 21 killed +
+pass 2 fast (after the ten-test closure) 31 killed + fullshape-cached
+34 killed (of the 37 pass-2 survivors) + power_ext manual confirmation
+3 (#18/#19 via the combined slow run, #20 via the new deterministic
+fast test) = 31 + 34 + 3 = **68/68 killed. Zero survivors, zero
+equivalent, zero open.**
+
+**Race-condition finding, disclosed** (process, not code): editing
+`analyze_4b.py` (filling `IMPORTED_SHA256_4B`) WHILE `mutation_check.
+py`'s pass-1 harness was still running clobbered the edit — the
+harness's own `_acquire_backup`/restore cycle captured the file's
+PRE-edit content as that mutant's backup and restored it after the
+mutant's test run, silently discarding the concurrent edit with no
+error of any kind. Caught by chance (a later `run(..., imports_
+pinned=True)` check showed `IMPORTED_SHA256_4B = None` again) rather
+than by any guard — `_refuse_if_any_backup_exists()` only protects
+against a SECOND harness instance, not a concurrent hand-edit of the
+same file. Recovered by waiting for the harness to fully finish (no
+stranded backup, file confirmed byte-clean) and re-applying the edit
+once nothing else was touching the file. Lesson for future sessions:
+never edit ANY of `INSTRUMENT_BLOBS_4B` while a mutation harness pass
+is in flight against the same experiment, even if the edit looks
+unrelated to that pass's own M list.
+
+### Batteries, final tally
+
+- Fast: **98 passed**, 54 deselected, `~24s` (`-m "not slow"`, whole
+  `experiments/exp4b/tests/` tree).
+- Slow, by file (each run standalone, `-m slow`, `-k` split where a
+  file mixes LEADS- and FOLLOWS-dependent tests to avoid paying for
+  both worlds in one invocation that would exceed a foreground
+  budget): `test_analyze_4b.py` 7/7, `1367.81s` (0:22:47, includes the
+  LEADS build); `test_full_shape_4b.py` LEADS 2/2 `1045.94s` (0:17:25,
+  own build) + FOLLOWS 3/3 `2623.02s` (0:43:43, own build);
+  `test_totality_4b.py` LEADS 12/12 `1175.98s` (0:19:35, world reused
+  from conftest's session fixture — no rebuild) + FOLLOWS 13/13
+  `2475.66s` (0:41:15, ditto); `test_determinism_4b.py` 1/1 `1969.15s`
+  (0:32:49, after the stdout-comparison fix; world reused). Every
+  slow test across every file: **PASS**, no flakes, no skips.
+- Cold battery (`verify_referents_4b.py`, real tree): **12/12**
+  (checks 1-11 unchanged from Task 5; check 12 new this task).
+- Read sweep (`read_sweep_4b.py`, real tree, run 3 times across this
+  task as the codebase changed): **7,371 distinct paths, (e) UNPINNED
+  = 0, (f) unaccounted campaign artifact = 0** every time.
+- Import scan (`import_scan_4b.py`, real tree, run 3 times): **the
+  pin never moved** (`3ed5980...` for `verify_referents_4b.py` even
+  across the check-12 edit, since that edit predated the first scan).
+- Mutation: **68/68 killed** (21 pass-1 fast + 10 pass-2 fast
+  closures/31 pass-2 fast + 34 fullshape-cached + 3 power_ext manual
+  = 0 survivors); logs `mutation_build.log`, `mutation_build_pass2.
+  log`, `mutation_worlds.log`, all three committed.
+
+### Real-tree executions this task (B-4 accounted for)
+
+Every real-tree touch used `stop_before="placebo"` (or, for `verify_
+referents_4b.py`, called the cold gate-rederivation functions
+directly — never `run()`'s placebo pipeline at all); **no placebo
+battery or null was ever computed against `battery_4.EXP4`.** Listed:
+`read_sweep_4b.py` (3 runs), `import_scan_4b.py` (3 runs, one scan
+call each), two direct `check_imports_4b()`/`run(..., imports_
+pinned=True)` sanity calls, `verify_referents_4b.py`'s cold battery
+(2 runs, both 12/12). Gate (4)'s own power-record reproduction
+(`power_4.compute` at the real `n_sim=1000`, ~22s each time) fires as
+part of every one of these `run()` calls' gates 1-5 — a gate
+verification, not a placebo quantity, and identical to Task 5's own
+established pattern.
+
+### Files
+
+`experiments/exp4b/tests/test_totality_4b.py` (totality suite, 30
+tests total incl. the S7 known-answer-gate test), `mutation_check.py`
+(the harness + `FULLSHAPE_MUTANT_TEST_4B` map), `read_sweep_4b.py`,
+`import_scan_4b.py`, `test_determinism_4b.py`; `analyze_4b.py`
+(`IMPORTED_SHA256_4B` filled); `verify_referents_4b.py` (check 12);
+`conftest.py` (`_follows_world_4b` promoted to session scope);
+`full_shape_4b.py` (`EXP4B_WORLD_CACHE` support); `test_full_shape_
+4b.py`, `test_analyze_4b.py`, `test_placebo_4b.py`, `test_levels_4b.
+py`, `test_power_ext_4b.py` (carried-item fixes + mutation-harness
+closures). `experiments/exp4b/mutation_build.log`, `mutation_build_
+pass2.log`, `mutation_worlds.log` committed (never gitignored).

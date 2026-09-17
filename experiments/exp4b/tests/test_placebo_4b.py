@@ -454,6 +454,24 @@ def test_draw_batteries_4b_rng_reused_when_given():
     assert out_a["cells"] == out_b["cells"]
 
 
+def test_draw_batteries_4b_clear_index_assignment_is_permuted_per_draw():
+    """Mutation harness finding (Task 6): the multiset check above
+    (`sorted(c["c"] ...) == [2,3,3,4]`) holds whether or not `order =
+    rng.permutation(n)` is a genuine per-draw permutation or the fixed
+    identity `np.arange(n)` -- both produce the SAME set of `c` values
+    on every battery, just paired with the picked rungs differently.
+    Distinguishes by checking that the FIRST cell's `c` value (bound to
+    `order[0]`) takes more than one distinct value across many draws --
+    under the identity-order mutant, `order[0]` is always 0, so the
+    first cell's `c` is always `clear_indices[0]` (2) on every one of
+    the 300 draws; under a genuine permutation it varies."""
+    pools = _hand_pool()
+    design = {"T": {"n": 4, "clear_indices": [2, 3, 3, 4], "rungs": []}}
+    batteries = pl.draw_batteries_4b(pools, design, B=300, seed=0)
+    first_cs = {battery_cells[0]["c"] for battery_cells in batteries["cells"]}
+    assert len(first_cs) > 1, first_cs
+
+
 # ---------------------------------------------------------------- (g) p_cal_4b
 
 
@@ -467,6 +485,21 @@ def test_p_cal_4b_hand_example():
     out3 = pl.p_cal_4b(T_b, 0.2)
     assert out3["p_low"] == pytest.approx((1 + 2) / 5)  # .1,.2 <= .2
     assert out["B"] == 4
+
+
+def test_p_cal_4b_p_low_boundary_at_exactly_t4_plus_eps():
+    """Mutation harness finding (Task 6): `p_low`'s tolerance band is
+    `T_b <= T4 + eps` (eps = 1e-15) -- weakening it to `<` is
+    undetectable at any T_b value that is not EXACTLY `T4 + eps` (a
+    T_b element equal to T4 itself, e.g. the hand example above's 0.2
+    against T4=0.2, satisfies BOTH `0.2 <= 0.2+eps` and `0.2 <
+    0.2+eps`, since floating-point addition of 1e-15 to 0.2 is itself
+    representable as strictly larger). Constructed at T4=0.0 so `T4 +
+    eps` IS exactly `1e-15` in float64, and the one T_b element is
+    exactly that boundary value: `<=` counts it (p_low = (1+1)/2 = 1.0),
+    `<` does not (p_low = (1+0)/2 = 0.5)."""
+    out = pl.p_cal_4b(np.array([1e-15]), 0.0)
+    assert out["p_low"] == pytest.approx(1.0)
 
 
 # --------------------------------------------------------------- (h) t_star_4b
