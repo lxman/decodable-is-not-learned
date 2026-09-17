@@ -67,12 +67,57 @@ IMPORTED_SHA256_4B = {
     REPO / "experiments/exp4b/make_referents_4b.py":
         "043f793abf58290842b9c6a6f0383472430ae3b16dbfd77f6f58e90fb6199fec",
     REPO / "experiments/exp4b/verify_referents_4b.py":
-        "3ed5980208f687611907e8e810c910d554d533789b064a626fe42c0a2be3d3af",
+        "2a80de84aa0de81fdcadf7e1b8fb1b641d068b131cd31fd762cec1c2524dde9f",
 }
 
 # Design §2's disclosure paragraph, first sentence, quoted verbatim
 # (checklist obligation: every licensed sentence carries it).
 KNOWN_INPUT_CAVEAT_4B = "Every input is committed and known, INCLUDING TO THE DESIGNER."
+
+# Ruled addition r1 (final review): design §6's licence sentence for
+# each reached world, quoted (lightly normalized -- '§' kept, quote
+# marks straightened, symbols spelled out) rather than paraphrased, so
+# a reader of VERDICT.txt/verdict.json sees the SAME words the design
+# doc licenses. `run()` selects one of these four by `tree["verdict"]`
+# and prints it beside the CALIBRATED-only alpha_placebo sub-clause
+# (`LICENCE_ALPHA_PLACEBO_CLAUSE_4B`) and the naming rule's outcome.
+LICENCE_4B = {
+    "CALIBRATED": (
+        "design §6 CALIBRATED: the essay's convergence sentence loses its bound -- "
+        "'bounded below rather than measured' and 'above the selection-inflated null' are "
+        "replaced by 'above the null built from the flat tasks' own drift under the same "
+        "selection, p = p_cal, a lead of T* (interval) beyond it' -- and the scoreboard "
+        "sentence follows; the lens reading of Huh et al. is a measurement at task grain with "
+        "a calibrated p."
+    ),
+    "MARGINAL": (
+        "design §6 MARGINAL: the sentence reads 'above the drift null at p = p_cal, short of "
+        "the program's alpha; the lead T* (interval)'; the bound is replaced by a measured "
+        "margin, no more. The scoreboard says 'marginal'."
+    ),
+    "NOT-DISTINGUISHABLE": (
+        "design §6 NOT-DISTINGUISHABLE: Exp 4's measurement is DEMOTED in the essay -- the "
+        "convergence paragraph keeps the disclosure that the test ran and states that the "
+        "task-specific lead did not separate from the flat tasks' drift under the same "
+        "selection (p_cal, T* with its interval covering zero); the scoreboard sentence is "
+        "rewritten to say so; the lens claim's task-grain measurement retreats to Huh et al.'s "
+        "global result plus the disclosure. What survives: the construction account's cell "
+        "stays excluded by Exp 4's own sign-flip reading (T .61 at p+ 4.9e-4 against phi ~ 0) -- "
+        "'the agreement did not arrive with performance; whether it led the general drift is "
+        "not distinguishable at this resolution'."
+    ),
+    "INSUFFICIENT_DATA": "design §6: nothing changes in the essay; the reason is ledgered.",
+}
+
+# design §6 CALIBRATED's own alpha_placebo sub-branch: keyed by
+# `alpha_placebo < LICENCE_TRAJ_ALPHA_4b's own .05 bar` (an.
+# LICENCE_TRAJ_ALPHA_4, m4's own constant -- the same bar the naming
+# rule uses, design §6 never names a second one).
+LICENCE_ALPHA_PLACEBO_CLAUSE_4B = {
+    True: "alpha_placebo < .05: the Exp 4 licence is claimed in full.",
+    False: ("alpha_placebo >= .05: the sentence adds that the preregistered decision rule's own "
+           "false-positive rate at this scatter was alpha_placebo, and rests on p_cal."),
+}
 
 _LITERAL = object()
 
@@ -94,10 +139,15 @@ def check_imports_4b() -> None:
     INSTRUMENT_BLOBS_4` (exp4's own instrument, tag-bound at
     `exp4-closed`), `battery_4b.EXP4_CLOSED_SHA256_4B` (exp4's seven
     files, re-pinned here too since exp4b imports them as modules),
-    `analyze_4.IMPORTED_SHA256_4` (exp4's own residual), `battery_4b.
+    `analyze_4.IMPORTED_SHA256_4` (exp4's own residual -- DRIFT-CHECKED
+    here too, not merely membership-covered: final review Important 1
+    found that a drifted file among exp4's five residual pins, e.g.
+    `_threads_4.py`, the BLAS thread pin, would have passed silently,
+    since membership in `covered` never compares a file's current hash
+    against its pin), `battery_4b.
     INSTRUMENT_BLOBS_4B` (exp4b's own instrument, tag-bound at
     `exp4b-preregistered`), or `IMPORTED_SHA256_4B` (exp4b's own
-    residual -- this task leaves it `None`; Task 6 fills it and
+    residual, below -- filled by Task 6's `import_scan_4b.py`;
     `run()` only calls this function when `imports_pinned` is
     truthy)."""
     if IMPORTED_SHA256_4B is None:
@@ -106,9 +156,12 @@ def check_imports_4b() -> None:
     covered = {str(Path(p).resolve()) for p in battery_4.FROZEN_SHA256_4}
     covered |= {str((battery_4.REPO / rel).resolve()) for rel in battery_4.INSTRUMENT_BLOBS_4}
     covered |= {str((battery_4b.REPO / rel).resolve()) for rel in battery_4b.EXP4_CLOSED_SHA256_4B}
-    covered |= {str(Path(p).resolve()) for p in (an.IMPORTED_SHA256_4 or {})}
     covered |= {str((battery_4b.REPO / rel).resolve()) for rel in battery_4b.INSTRUMENT_BLOBS_4B}
     pinned = {str(Path(p).resolve()): v for p, v in IMPORTED_SHA256_4B.items()}
+    # Important 1: fold exp4's own residual pins into `pinned` too, so
+    # they are drift-checked exactly like exp4b's own -- previously
+    # only added to `covered` (membership only, no hash comparison).
+    pinned |= {str(Path(p).resolve()): v for p, v in (an.IMPORTED_SHA256_4 or {}).items()}
     drifted, unpinned = [], []
     for p, want in sorted(pinned.items()):
         pp = Path(p)
@@ -330,6 +383,7 @@ def verdict_tree_4b(failures, feasibility_ok, p_cal) -> dict:
 def verdict_4b(*, tree, gates, exp4_block, pins_active, primary=None, feasibility=None,
               alpha_placebo=None,
               per_traj=None, per_type=None, licence_naming=None, construction_statement=None,
+              licence=None,
               s1=None, s3=None, s4=None, s5=None, s6=None, s7=None, s8=None,
               placebo_record_sha256=None, power_ext_sha256=None) -> dict:
     return {
@@ -342,6 +396,7 @@ def verdict_4b(*, tree, gates, exp4_block, pins_active, primary=None, feasibilit
         "per_type": per_type,
         "licence_naming": licence_naming,
         "construction_statement": construction_statement,
+        "licence": licence,
         "s1": s1, "s3": s3, "s4": s4, "s5": s5, "s6": s6, "s7": s7, "s8": s8,
         "gates": gates,
         "exp4": exp4_block,
@@ -416,6 +471,15 @@ def write_verdict_txt_4b(v: dict) -> str:
                     f"{ln.get('trajectories')}")
         lines.append(f"  rule: {ln.get('rule')}")
         lines.append("")
+    lic = v.get("licence")
+    if lic:
+        lines.append(f"Licence (design §6, world={lic.get('world')}):")
+        lines.append(f"  {lic.get('text')}")
+        if lic.get("alpha_placebo_clause"):
+            lines.append(f"  {lic['alpha_placebo_clause']}")
+        if lic.get("naming_outcome"):
+            lines.append(f"  naming: {lic['naming_outcome']}")
+        lines.append("")
     pt = v.get("per_traj") or {}
     if pt:
         lines.append("Per trajectory:")
@@ -461,10 +525,18 @@ def write_verdict_txt_4b(v: dict) -> str:
         lines.append("")
     s7v = v.get("s7")
     if s7v:
+        # Important 2 (final review): the (b) line used to print
+        # best-site phi's p_cal/interval as if it were a calibration --
+        # it is read against the PRIMARY placebo null (flat rungs' own
+        # best-site series is not available to build a matched one), so
+        # only T is printed here, with the mismatch disclosed inline;
+        # the record itself (v["s7"]["best_site"]) still carries every
+        # field (p_cal/interval included) for anyone reading the JSON.
         lines.append(f"S7 -- clears-and-stays T={((s7v.get('clears_and_stays') or {}).get('T'))} "
                     f"p_cal={((s7v.get('clears_and_stays') or {}).get('p_cal'))}; "
                     f"best-site T={((s7v.get('best_site') or {}).get('T'))} "
-                    f"p_cal={((s7v.get('best_site') or {}).get('p_cal'))}")
+                    f"[mismatched construction -- the best-site series is not available for "
+                    f"flat rungs; not a calibration]")
         lines.append("")
     s6v = v.get("s6")
     if s6v:
@@ -792,9 +864,15 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
         t_star_block, f = collect_total_4b(lambda: placebo_4b.t_star_4b(batteries["T"], T4),
                                            "4b t_star")
         failures += f
+        # r3: the real verdict's own flip regime, read live off the
+        # committed v4["primary"] -- never retyped (the design's own
+        # literal, "exact, 15 rungs", is exactly what this reads).
+        real_regime = {"flip_method": (v4.get("primary") or {}).get("flip_method"),
+                       "n_rungs": (v4.get("primary") or {}).get("n_rungs")}
         alpha_block, f = collect_total_4b(
             lambda: placebo_4b.alpha_placebo_4b(batteries, seed=battery_4b.SEED_4B,
-                                               b_alpha=battery_4b.B_ALPHA_4B),
+                                               b_alpha=battery_4b.B_ALPHA_4B,
+                                               real_regime=real_regime),
             "4b alpha_placebo")
         failures += f
         per_traj_cal, f = collect_total_4b(
@@ -824,9 +902,18 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
                                                   n_sim=n_sim_ext)
             piid = power_ext_4b.p_iid_4b(arms["arms"]["observed_lambda"]["Ts"], T4)
             alpha_iid = arms["arms"]["observed_lambda"].get("P_LEADS")
-            comparison = {"placebo_null_mean": (t_star_block or {}).get("null_mean"),
+            placebo_mean = (t_star_block or {}).get("null_mean")
+            iid_mean = piid["null_mean"]
+            # r2 (design §5 S1's own reading rule, ruled addition):
+            # "same shape" when the two null means agree within .05,
+            # "drift-like" otherwise -- `None` when either mean is
+            # unavailable (never a bare boolean guess).
+            reading = (None if placebo_mean is None or iid_mean is None
+                      else ("same shape" if abs(placebo_mean - iid_mean) <= 0.05 else "drift-like"))
+            comparison = {"placebo_null_mean": placebo_mean,
                          "placebo_null_sd": (t_star_block or {}).get("null_sd"),
-                         "iid_null_mean": piid["null_mean"], "iid_null_sd": piid["null_sd"]}
+                         "iid_null_mean": iid_mean, "iid_null_sd": piid["null_sd"],
+                         "reading": reading}
             return {"arms": arms, "p_iid": piid["p_iid"], "alpha_iid": alpha_iid,
                     "comparison": comparison}
         s1, f = collect_total_4b(_s1, "4b S1")
@@ -924,13 +1011,39 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
 
     licence_naming = None
     if per_traj_cal is not None:
+        # m4 (final review): the naming bar is exp4's own LICENCE_TRAJ_
+        # ALPHA_4 (0.05), read off the frozen instrument rather than
+        # retyped as a literal here.
         naming_trajs = sorted(t for t, pt in per_traj_cal.items()
-                              if pt.get("p_cal") is not None and pt["p_cal"] < 0.05)
+                              if pt.get("p_cal") is not None
+                              and pt["p_cal"] < an.LICENCE_TRAJ_ALPHA_4)
         licence_naming = {
             "trajectories": naming_trajs, "n": len(naming_trajs),
             "rule": "design §6/§10(l): the sentence names the trajectories at p_cal,M < .05; "
                     "unqualified at two or more.",
         }
+
+    # r1 (final review): the design §6 licence sentence for the
+    # reached world, the CALIBRATED-only alpha_placebo sub-clause, and
+    # the naming rule's own outcome -- printed in VERDICT.txt beside
+    # the primary reading, never computed twice (this block only reads
+    # fields already built above).
+    licence_block = None
+    licence_text = LICENCE_4B.get(tree["verdict"])
+    if licence_text is not None:
+        alpha_clause = None
+        if tree["verdict"] == "CALIBRATED" and alpha_block is not None:
+            alpha_clause = LICENCE_ALPHA_PLACEBO_CLAUSE_4B[
+                alpha_block["alpha_placebo"] < an.LICENCE_TRAJ_ALPHA_4]
+        naming_outcome = None
+        if licence_naming is not None:
+            naming_outcome = (
+                f"{licence_naming['n']} trajectories qualify at p_cal,M < .05: "
+                f"{licence_naming['trajectories']}" if licence_naming["n"] >= 2 else
+                f"fewer than two trajectories qualify ({licence_naming['trajectories']}); "
+                f"the sentence names them")
+        licence_block = {"world": tree["verdict"], "text": licence_text,
+                         "alpha_placebo_clause": alpha_clause, "naming_outcome": naming_outcome}
 
     construction_statement = None
     if v4 is not None and T4 is not None:
@@ -950,7 +1063,7 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
                   primary=primary_block, feasibility=feasibility_block,
                   alpha_placebo=alpha_block, per_traj=per_traj_cal,
                   per_type=per_type_cal, licence_naming=licence_naming,
-                  construction_statement=construction_statement,
+                  construction_statement=construction_statement, licence=licence_block,
                   s1=s1, s3=s3, s4=s4, s5=s5, s6=s6, s7=s7, s8=s8)
 
     placebo_bytes = power_ext_bytes = None

@@ -59,12 +59,23 @@ by Python's own import machinery, as opposed to this module's own
 sha256-of-a-pinned-file reads) stays out of the table.
 
 Run: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
-experiments.exp4b.tests.read_sweep_4b` from the repo root."""
+experiments.exp4b.tests.read_sweep_4b` from the repo root.
+
+Important 5 (final review): `--world` runs a SECOND sweep, the FULL
+pipeline (no `stop_before`) against a synthetic "follows" world
+(`full_shape_4b.build_world_4b`, `EXP4B_WORLD_CACHE` reused so the
+~15-minute sweep generation is skipped), covering S1/S3-S8/S6 -- the
+half of the pipeline the plain, real-tree sweep above never reaches
+(B-4 forbids computing a placebo quantity against the REAL tree, but a
+synthetic world carries no such restriction). Run:
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
+experiments.exp4b.tests.read_sweep_4b --world`."""
 from __future__ import annotations
 
 import builtins
 import io
 import json
+import os
 import pathlib
 import sys
 import sysconfig
@@ -162,7 +173,7 @@ def _install():
 SHA_PIN_AT_LOAD = {str(battery_4.HUB_INVENTORY_PYTHIA_PATH)}
 
 
-def _classify(paths: set, referents_files: set) -> dict:
+def _classify(paths: set, referents_files: set, *, world_root=None) -> dict:
     frozen = {str(p) for p in battery_4.FROZEN_SHA256_4}
     frozen |= {str(p) for p in bg.FROZEN_IMPORT_SHA256_2G}
     frozen |= {str(p) for p in (an.IMPORTED_SHA256_4 or {})}
@@ -174,10 +185,15 @@ def _classify(paths: set, referents_files: set) -> dict:
     venv_prefix = str(Path(sys.prefix).resolve()) + "/"
     base_prefix = str(Path(sys.base_prefix).resolve()) + "/"
     exp4_root_prefix = str(battery_4.EXP4.resolve()) + "/"
+    # Important 5: `--world` mode runs the analyzer against a SYNTHETIC
+    # tree (never `battery_4.EXP4`), so every read under it needs its
+    # own bucket -- it is neither a real-tree campaign artifact nor an
+    # UNPINNED verdict input, it is the synthetic world's own data.
+    world_prefix = str(Path(world_root).resolve()) + "/" if world_root is not None else None
 
     buckets = {"referents_4b.json": [], "frozen_module": [], "instrument_blob": [],
               "exp4_closed_module": [], "sha_pin_at_load": [],
-              "gitignored_attested_unused": [],
+              "gitignored_attested_unused": [], "world_artifact": [],
               "exp4_campaign_artifact_not_in_manifest": [],
               "python_stdlib_venv": [], "UNPINNED": []}
     for p in sorted(paths):
@@ -207,6 +223,8 @@ def _classify(paths: set, referents_files: set) -> dict:
             # quantity is computed — grepped exhaustively, PROGRESS.md's
             # Task 6 entry carries the proof.
             buckets["gitignored_attested_unused"].append(rp)
+        elif world_prefix is not None and rp.startswith(world_prefix):
+            buckets["world_artifact"].append(rp)
         elif rp.startswith(exp4_root_prefix):
             # Anything ELSE under the real, closed exp4 tree not
             # already covered by referents_4b.json's manifest, the
@@ -219,7 +237,82 @@ def _classify(paths: set, referents_files: set) -> dict:
     return buckets
 
 
+# Important 5 (final review): the plain sweep below stops `analyze_4b.
+# run()` before `placebo_4b.draw_batteries_4b` is ever called (design
+# B-4's real-tree rule), so its own (e)=0 finding covers only the
+# pre-placebo HALF of the pipeline -- everything S1/S3-S8/S6 reads was
+# never swept. `--world` runs the FULL pipeline (no `stop_before`)
+# against a SYNTHETIC "follows" world (B-4 restricts the REAL tree
+# only; a synthetic world is fair game for the complete run), reusing
+# `EXP4B_WORLD_CACHE` (a `_BUILD_COMPLETE`-marked cache skips the
+# ~15-minute sweep generation -- Task 6's cache, already built), and
+# classifies every read against the world's own tree (bucket
+# "world_artifact") in addition to every bucket the plain sweep uses.
+WORLD_CACHE_DIR = "/private/tmp/exp4b_world_cache"
+
+
+def _run_world_sweep() -> int:
+    os.environ.setdefault("EXP4B_WORLD_CACHE", WORLD_CACHE_DIR)
+    from experiments.exp4.tests import full_shape as fs
+    from experiments.exp4b.tests import full_shape_4b as fs4b
+
+    referents_rel = set(json.loads(an4b.REFERENTS_PATH_4B.read_text())["files"])
+
+    # The world is built (or `shutil.copytree`'d from the cache)
+    # BEFORE the sweep installs its wrappers -- `build_world_4b`'s own
+    # copy is not part of the analyzer's read footprint, and wrapping
+    # `open`/`read_bytes` around a ~1.9 GB copytree would misclassify
+    # every source-side read under `EXP4B_WORLD_CACHE` as an UNPINNED
+    # verdict input (caught empirically: the first run of this mode
+    # did exactly that).
+    tmp_ctx = tempfile.TemporaryDirectory()
+    tmp = Path(tmp_ctx.name)
+    world_root, v4 = fs4b.build_world_4b(tmp / "world", "follows", seed=3)
+
+    restore = _install()
+    try:
+        run_kw = dict(root4b=tmp / "4b", root4=world_root, write=False,
+                     B=200, n_sim_ext=10, power_gate="full",
+                     tag_exists=lambda t: True, blob_sha=fs4b.blob_sha_4b,
+                     referents_sha=False, imports_pinned=False, frozen_check=lambda: None,
+                     expected_n_sim=fs.WORLD_POWER_N_SIM_4)
+        v = an4b.run(**run_kw)
+    finally:
+        restore()
+        tmp_ctx.cleanup()
+
+    print(f"verdict (world='follows' seed=3, FULL pipeline): {v['verdict']} — "
+         f"{(v['reason'] or '')[:200]}")
+    for n in ("1", "2", "3", "4", "5"):
+        g = v["gates"].get(n) or {}
+        print(f"  gate {n}: pass={g.get('pass')}")
+
+    distinct_reads = {p for p, _src in SWEEP.reads}
+    buckets = _classify(distinct_reads, referents_rel, world_root=world_root)
+
+    print(f"\n{len(distinct_reads)} distinct paths opened for reading "
+         f"({len(SWEEP.reads)} total open/read calls)")
+    print(f"  writes observed (should be 0, write=False): {len(SWEEP.writes)}")
+    for w in SWEEP.writes[:10]:
+        print("   - WRITE", w)
+    print()
+    print(f"{'category':<40}{'count':>8}")
+    for k, v_ in buckets.items():
+        print(f"{k:<40}{len(v_):>8}")
+    if buckets["UNPINNED"]:
+        print("\nUNPINNED VERDICT INPUTS (must be empty):")
+        for p in buckets["UNPINNED"]:
+            print("  -", p)
+        return 1
+    print("\n(e) unpinned verdict input: 0 — clean (full pipeline, synthetic follows world)")
+    return 0
+
+
 def main(argv=None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if "--world" in argv:
+        return _run_world_sweep()
+
     referents_rel = set(json.loads(an4b.REFERENTS_PATH_4B.read_text())["files"])
     live_rel = {str(Path(p).resolve().relative_to(bg.REPO.resolve()))
                for p in mkr4b.referent_files_4b()}

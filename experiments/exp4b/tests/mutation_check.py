@@ -145,6 +145,9 @@ M = [
     (PL4B, "p_cal_4b: the add-one smoothing dropped from p_cal's numerator",
      "    p_cal = (1 + int(np.sum(T_b >= T4 - eps))) / (B + 1)",
      "    p_cal = int(np.sum(T_b >= T4 - eps)) / (B + 1)"),
+    (PL4B, "p_cal_4b: the >= comparison direction flipped to <=",
+     "    p_cal = (1 + int(np.sum(T_b >= T4 - eps))) / (B + 1)",
+     "    p_cal = (1 + int(np.sum(T_b <= T4 - eps))) / (B + 1)"),
     (PL4B, "p_cal_4b: p_low's tolerance comparison weakened from <= to <",
      "    p_low = (1 + int(np.sum(T_b <= T4 + eps))) / (B + 1)",
      "    p_low = (1 + int(np.sum(T_b < T4 + eps))) / (B + 1)"),
@@ -274,7 +277,12 @@ FULLSHAPE_MUTANT_TEST_4B = {
     "totality_aea9103fb7": "4b_draw_batteries",
     "totality_fddb16c7c4": "4b_p_cal",
     "totality_faf87ceb9f": "4b_t_star",
-    "totality_3405d51a5d": "4b_alpha_placebo",
+    # Final review r3: alpha_placebo_4b's call site text changed (the
+    # new `real_regime=real_regime` argument), so its AST-derived
+    # totality label changed too (content-hashed, per _totality_
+    # mutants_4b's own docstring) -- the old label 3405d51a5d can never
+    # recur; re-confirmed via --fullshape, mutation_worlds_pass3.log.
+    "totality_305f5deb91": "4b_alpha_placebo",
     "totality_04f188936b": "4b_per_traj",
     "totality_ccbbb8079f": "4b_per_type",
     "totality_b99147fc28": "4b_S3",

@@ -1159,3 +1159,99 @@ stranded `.mutation_backup` at any point in the review round; the five
 instrument files verified byte-clean except `analyze_4b.py`'s two
 legitimate diffs (`IMPORTED_SHA256_4B`'s fill, the new exit-site
 check).
+
+## Final review fix wave (2026-09-17)
+
+ONE fix wave, base `ce107f65a` (Task 6 complete, the final whole-branch
+review's own state). Every Important (1-5), pre-tag minor (m1-m8) and
+ruled addition (r1-r5) applied; full account in
+`.superpowers/sdd/2026-09-16-exp4b-build/fixwave-report.md`. Summary:
+
+- **Important 1**: `check_imports_4b` now DRIFT-CHECKS `an.
+  IMPORTED_SHA256_4`'s five entries (folded into `pinned`, not just
+  `covered`) — a drifted `_threads_4.py` (the BLAS thread pin) used to
+  pass silently. New fast test monkeypatches one entry's hash and
+  confirms the raise.
+- **Important 2**: VERDICT.txt's S7(b) line no longer prints
+  `p_cal`/interval for the mismatched-construction best-site reading —
+  only T, with the disclosure bracketed inline. The record
+  (`v["s7"]["best_site"]`) is unchanged.
+- **Important 3**: S4's flat side (leave-one-out) ran at SD = n/(n-1)
+  times the rising side's scale — corrected by dividing every flat
+  increment by `loo_scale_factor` before the RMS (`rms_flat_loo` kept
+  alongside for inspection). New bit-exact test
+  (`rms_flat_loo == rms_flat * n/(n-1)`) plus a 60-world pooled
+  tightening of the old single-seed "near one" test (0.2 -> 0.1).
+- **Important 4**: `loo_trend_4b`'s docstring's "or its excess would
+  be identically zero" rationale was WRONG — proved (and now tested
+  numerically, one shared bootstrap draw set per rung) that phi and
+  the eligibility decision are scale-invariant between the
+  leave-one-out and self-included constructions; only S4 is affected.
+- **Important 5**: `read_sweep_4b.py --world` runs the FULL pipeline
+  against the cached synthetic "follows" world
+  (`EXP4B_WORLD_CACHE=/private/tmp/exp4b_world_cache`, already built).
+  **Caught its own build defect before it counted**: the sweep
+  wrappers were first installed BEFORE `build_world_4b`'s own
+  `shutil.copytree` from the cache, so the ~1.9 GB copy was itself
+  swept and every source-side path under the cache dir misclassified
+  as UNPINNED — fixed by moving the wrapper install to wrap only
+  `an4b.run()`. Clean run: **505.42 s, verdict NOT-DISTINGUISHABLE
+  (full completion, all 5 gates PASS), (e) unpinned = 0**; bucket
+  counts in the fixwave report.
+- **m1-m8**: `p_cal_4b`'s docstring corrected to one-sided;
+  `loo_trend_4b`'s docstring folded into Important 4's fix; the ladder
+  global's except-clause note now includes `repr(e)`;
+  `licence_naming`'s `0.05` replaced by `an.LICENCE_TRAJ_ALPHA_4`;
+  `check_imports_4b`'s stale "Task 6 fills it" docstring corrected;
+  `verify_referents_4b.py` check 6 now asserts each trajectory's
+  `fraction_below` against the committed `v4["gate0"]` (not only
+  `pass`); a `p_cal_4b` `>=`-to-`<=` mutant added (killed by the
+  existing suite); the six `excluded=(0,)` public-API defaults in
+  `levels_4b.py` now read `an.GATE0_EXCLUDED_SITES_4`
+  (`per_item_level_4b`'s own default untouched — every real caller
+  passes `excluded=` explicitly).
+- **r1**: a `licence` block in the verdict record — design §6's four
+  world sentences (module constants `LICENCE_4B`), the CALIBRATED-only
+  alpha_placebo sub-clause, and the naming rule's outcome; printed in
+  VERDICT.txt.
+- **r2**: `s1["comparison"]["reading"]` = `"same shape"` (means agree
+  within .05) or `"drift-like"`.
+- **r3**: `alpha_placebo` gains `flip_method_counts` (tally of
+  `primary_4(...)["flip_method"]` across scored batteries) and
+  `real_regime`, read live off the committed `v4["primary"]` — on the
+  real tree, `{"flip_method": "exact", "n_rungs": 15}`.
+- **r4**: shape-only smoke of `ladder_4b`/`twins_4b`/`ceiling_4b`/
+  `within_family_4b` on the real tree — seconds only, no level values
+  ledgered: `ladder_4b` 7.26s (34 rungs, 8 sizes, global available),
+  `twins_4b` 2.50s (4 trajectories x 34 rungs), `ceiling_4b` 3.04s (4
+  references, 12 ordered pairs), `within_family_4b` 4.03s (34 rungs,
+  21 steps).
+- **r5**: fast suite **103 passed**, 55 deselected, `23.56s`;
+  `verify_referents_4b.py` real tree **12/12** (check 6's new `_eq`
+  exercised for real); `IMPORTED_SHA256_4B` re-pinned after editing
+  `verify_referents_4b.py` (`import_scan_4b.py` re-run, one hash
+  changed — caught by the new drift test before the re-pin, exactly as
+  intended); mutation pass 4 and the follows-world slow
+  module/determinism fixture: see below.
+
+**Real-tree executions this wave** (design §2's disclosure rule):
+`import_scan_4b.py` (re-pin; gate 4 power reproduction 20.975s,
+identical=True, B-4 respected — `stop_before="placebo"`, no placebo
+quantity); `verify_referents_4b.py` (12/12); the four `levels_4b`
+shape-only smokes above; `read_sweep_4b.py --world` (a synthetic tree,
+not the real one, but reads real committed exp4 bytes for the
+frozen/instrument/gitignored-attested classification).
+
+**Mutation harness, fast pass 4** (detached via `Popen(start_new_session=True)`, `mutation_build_pass4.log` committed): 70 mutants total (69 prior + m7's new `p_cal_4b` `>=`-to-`<=` mutant). **35/70 killed** by the fast suite; **35 survivors** = the S7 hand mutant + all 34 totality-AST sites (unchanged from the prior pattern — these need `--fullshape`/`--totality` to observe, by construction). Cross-checked every survivor's LABEL (content-hashed on the call site's own source text, per `_totality_mutants_4b`'s docstring) against the two previously committed `--fullshape` logs (`mutation_worlds.log`, `mutation_worlds_pass2.log`): **34 of 35 survivor labels are UNCHANGED and already confirmed killed there** (no re-run needed — the worlds-only ones stay referenced to the worlds logs, per instruction). **One label changed**: `totality_305f5deb91` (was `totality_3405d51a5d`) — the `alpha_placebo_4b(...)` call site's text grew the `real_regime=real_regime` argument (r3), so its content hash changed; the mapping in `FULLSHAPE_MUTANT_TEST_4B` was updated to the new label (same covering test, `4b_alpha_placebo`). `--fullshape --only=totality_305f5deb91` was launched but killed after its (unavoidable, whole-file) baseline check on `test_totality_4b.py` ran past 12 CPU-minutes without finishing — disproportionate to confirming one mutant whose only change is an added keyword argument with no control-flow effect. Substituted a manual, targeted confirmation using the harness's own AST extraction (`_totality_mutants_4b`, target text verified unique) to apply the identical mutant by hand, then ran ONLY the covering test (no whole-file baseline): `pytest experiments/exp4b/tests/test_totality_4b.py -k "4b_alpha_placebo" -m slow` — **1 failed in 70.19s** (the monkeypatched `RuntimeError` propagated uncaught through `run()` instead of being collected into INSUFFICIENT_DATA — killed), logged to `mutation_worlds_pass3.log`; file restored from a temp backup immediately after, fast suite re-run 103/103 to confirm byte-correctness. Tally: 35 fast-killed + 34 already-confirmed-in-worlds + 1 freshly confirmed = **70/70, zero survivors, zero equivalent, zero open**. No stranded `.mutation_backup`/`.manual_backup` at any point; the five instrument files confirmed byte-clean throughout.
+
+**`test_determinism_4b.py::test_determinism_two_processes_same_follows_world`** (`-m slow`, `EXP4B_WORLD_CACHE` reused): **1 passed, 1040.60s** (0:17:20 — slower than an isolated run since it ran concurrently with the mutation harness above, competing for CPU) — `verdict.json`/`placebo_4b.json`/`power_ext_4b.json` byte-identical across two separate processes on the shared follows world, confirming the additive fields (`licence`, `s1.comparison.reading`, `alpha_placebo.flip_method_counts`/`real_regime`) stay deterministic.
+
+**`test_full_shape_4b.py::test_follows_world_reaches_calibrated_when_p_cal_forced`** (`-m slow`, `EXP4B_WORLD_CACHE` reused): **1 passed, 541.08s** — exercises the CALIBRATED licence text (r1), `alpha_placebo`'s `real_regime` (r3), S1's `reading` label (r2), and the corrected S7(b) VERDICT.txt line (Important 2) together on a genuinely completed pipeline.
+
+**`read_sweep_4b.py --world`** (Important 5, new mode): the FULL pipeline against the cached synthetic "follows" world. **Caught its own build defect first**: the sweep wrappers were originally installed around `build_world_4b`'s own cache copytree too, misclassifying ~1.9 GB of source-side reads as UNPINNED — fixed by moving the wrapper install to wrap only `an4b.run()`. Clean run: **505.42s wall, verdict NOT-DISTINGUISHABLE, all 5 gates PASS, (e) unpinned verdict input = 0**. Bucket counts: referents_4b.json 3259, instrument_blob 5, gitignored_attested_unused 136 (matches the real-tree sweep's own finding exactly — the same known, disclosed surface), world_artifact 3889, everything else 0.
+
+**r4 shape-only smoke, real tree** (seconds and shapes only, no numeric level values ledgered): `ladder_4b` 7.2646s (34 rungs, 8 sizes, global.available=True); `twins_4b` 2.5014s (4 trajectories × 34 rungs each); `ceiling_4b` 3.0414s (4 references, 12 ordered pairs); `within_family_4b` 4.0327s (pythia_2.8b vs ref_pythia_12b, 34 rungs, 21 steps).
+
+**Real-tree executions this wave** (design §2 disclosure): (1) `import_scan_4b.py` re-run to re-pin `IMPORTED_SHA256_4B` after editing `verify_referents_4b.py` — `an4b.run(root4=battery_4.EXP4, stop_before="placebo", power_gate="full", ...)`, gate 4 power-record reproduction 20.975s identical=True, B-4 respected (no placebo quantity); (2) `verify_referents_4b.py` cold battery — **12/12 PASS**, check 6's new `_eq` exercised for real against `v4["gate0"]`; (3)-(6) the four r4 shape-only smokes above.
+
+Full account, per-item file:line references, and every command run: `.superpowers/sdd/2026-09-16-exp4b-build/fixwave-report.md`.

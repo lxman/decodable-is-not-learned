@@ -315,6 +315,74 @@ def test_placebo_pool_4b_eligibility_bar_exact_equality_with_stubbed_se(monkeypa
     assert just_below["f"]["eligible"] is False
 
 
+def test_loo_vs_full_pool_construction_invariance_of_phi_and_eligibility():
+    """Important 4 (final review): `loo_trend_4b`'s own docstring used
+    to justify leaving f out of its own trend by claiming a self-
+    included ("full-pool") construction would make f's excess
+    identically zero. It would not -- `x_full(t) = ((n-1)/n) *
+    x_loo(t)` EXACTLY (an algebraic identity in the realized data, not
+    merely in expectation: proved by substituting `trend_full = (1/n)*
+    (a_f + (n-1)*trend_loo)` into `excess_4`'s formula), and the SAME
+    scale factor divides the item-bootstrap SE, so `phi` (a ratio of
+    two excess values) and the eligibility decision (`x_end >= 2*SE`,
+    both sides scaled identically) are INVARIANT to which construction
+    f is read against -- design §10 dial (c)'s choice of leave-one-out
+    is for the RESEMBLANCE to a rising rung's own construction (S4
+    exists to measure that), not because the alternative would be
+    degenerate.
+
+    Verified numerically: the excess side compares the real `loo_
+    excess_4b` against an independently hand-built self-inclusive
+    excess (`an.trend_4`/`an.excess_4` over the FULL `flat` list, f
+    included). The SE side builds ONE shared set of item-bootstrap
+    resamples per rung so both the leave-one-out and self-inclusive
+    SEs are computed from the IDENTICAL underlying draws -- the
+    algebraic relation then holds to floating precision rather than
+    only approximately (a fresh, independently-seeded bootstrap for
+    each side would only agree in expectation, not per draw)."""
+    series0, flat = fakes.iid_noise_world(n_flat=12, n_steps=20, sigma=0.05, seed=7)
+    series, pia_t1, pia_end = fakes.matching_pia(series0, flat, item_sigma=0.02, seed=13)
+    a, steps = series["a"], series["steps"]
+    n_flat = len(flat)
+    scale = (n_flat - 1) / n_flat
+    n = battery_4.N_ITEMS
+    n_boot = 300
+
+    rng = np.random.default_rng(0)
+    draws = {}
+    for r in flat:
+        idx = rng.integers(0, n, size=(n_boot, n))
+        draws[r] = (pia_t1[r][idx].mean(axis=1), pia_end[r][idx].mean(axis=1))
+
+    for f in flat:
+        x_loo = pl.loo_excess_4b(a, flat, steps, f)
+        trend_full = an.trend_4(a, flat, steps)          # f INCLUDED
+        x_full = an.excess_4({f: a[f]}, trend_full, steps)[f]
+        assert x_full[-1] == pytest.approx(x_loo[-1] * scale, rel=1e-9, abs=1e-12)
+
+        c = 5   # an arbitrary clear index >= MIN_CLEAR_INDEX_4
+        phi_loo = an.phi_4(x_loo, c)
+        phi_full = an.phi_4(x_full, c)
+        assert phi_full == pytest.approx(phi_loo, rel=1e-9)
+
+        others = [r for r in flat if r != f]
+        trend_t1_loo = np.mean([draws[r][0] for r in others], axis=0)
+        trend_e_loo = np.mean([draws[r][1] for r in others], axis=0)
+        f_t1, f_e = draws[f]
+        x_end_b_loo = (f_e - f_t1) - (trend_e_loo - trend_t1_loo)
+        se_loo = float(np.std(x_end_b_loo, ddof=1))
+
+        trend_t1_full = np.mean([draws[r][0] for r in flat], axis=0)
+        trend_e_full = np.mean([draws[r][1] for r in flat], axis=0)
+        x_end_b_full = (f_e - f_t1) - (trend_e_full - trend_t1_full)
+        se_full = float(np.std(x_end_b_full, ddof=1))
+        assert se_full == pytest.approx(se_loo * scale, rel=1e-9)
+
+        eligible_loo = x_loo[-1] >= an.SE_MULTIPLE_4 * se_loo
+        eligible_full = x_full[-1] >= an.SE_MULTIPLE_4 * se_full
+        assert eligible_full == eligible_loo
+
+
 # -------------------------------------------------- (d)/(e) calibration worlds
 
 # Review finding 5: a single world seed's placebo phi mean is NOT a
@@ -661,15 +729,62 @@ def test_s5_autocorr_4b_near_zero_on_iid_near_half_on_ar1():
 # ---------------------------------------------------------------- (l) s4
 
 
-def test_s4_scatter_ratio_4b_near_one_when_scales_match():
+def test_s4_scatter_ratio_4b_flat_side_scale_relationship_is_exact():
+    """Important 3/4 (final review): the flat side's UNCORRECTED
+    leave-one-out RMS (`rms_flat_loo`) and its CORRECTED value
+    (`rms_flat`) satisfy `rms_flat_loo == rms_flat * loo_scale_factor`
+    EXACTLY (Important 4's algebraic identity: `x_full(t) = ((n-1)/n) *
+    x_loo(t)` holds pointwise for the SAME realized data, not merely in
+    expectation, so this is a bit-level check, not a statistical one --
+    a mutant that drops the division, or computes the factor as
+    `(n-1)/n` instead of `n/(n-1)`, fails it deterministically).
+    `loo_scale_factor` itself is independently re-derived from
+    `len(flat)` here, not read back from the function's own output."""
     series, flat = fakes.iid_noise_world(n_flat=10, n_steps=20, sigma=0.05, seed=5)
     a = fakes.rising_rung_series(series["steps"], series["a"], rung="rising0",
                                  extra_drift=[0.0] * 20, base_sigma=0.05, seed=9)
     series2 = {"steps": series["steps"], "a": a}
     cells = [{"traj": "T", "rung": "rising0", "t_clear_index": 12}]
     out = pl.s4_scatter_ratio_4b({"T": series2}, {"T": {"flat": flat}}, cells)
-    assert abs(out["pooled"]["ratio"] - 1.0) < 0.2
-    assert abs(out["per_traj"]["T"]["ratio"] - 1.0) < 0.2
+    rec = out["per_traj"]["T"]
+    n = len(flat)
+    want_factor = n / (n - 1)
+    assert rec["loo_scale_factor"] == pytest.approx(want_factor)
+    assert rec["rms_flat_loo"] == pytest.approx(rec["rms_flat"] * want_factor)
+    # sanity: the corrected value is strictly SMALLER than the raw LOO
+    # value (n/(n-1) > 1 for n >= 2, so dividing shrinks it).
+    assert rec["rms_flat"] < rec["rms_flat_loo"]
+
+
+def test_s4_scatter_ratio_4b_near_one_when_scales_match_pooled_over_worlds():
+    """Important 3, "the existing test (l) tightened accordingly": a
+    single seed's ratio has substantial sampling noise (one rising rung
+    contributes only `n_steps - 2` increments), so this pools rising/
+    flat increments across `N_WORLDS` independent synthetic
+    trajectories (the same `s4_scatter_ratio_4b` call, given many
+    `series_by_traj`/`rung_sets`/`cells` entries, already pools every
+    trajectory's increments into ONE `pooled` ratio -- this reuses that
+    machinery rather than averaging per-world ratios by hand) before
+    reading `pooled.ratio`, tightened from the original single-seed
+    0.2 to 0.1 -- comfortably inside what a matched-scale world gives
+    post-fix (empirically ~1.0-1.04 at n_flat=30/60 pooled worlds) and
+    tighter than the pre-fix bias would have allowed (empirically
+    ~0.98, itself close to 1 at this n_flat -- see
+    `test_s4_scatter_ratio_4b_flat_side_scale_relationship_is_exact`
+    above for the test that actually discriminates the fix, bit-exact
+    rather than statistical)."""
+    n_flat, n_worlds = 30, 60
+    series_by_traj, rung_sets, cells = {}, {}, []
+    for i in range(n_worlds):
+        series, flat = fakes.iid_noise_world(n_flat=n_flat, n_steps=20, sigma=0.05, seed=i)
+        a = fakes.rising_rung_series(series["steps"], series["a"], rung="rising0",
+                                     extra_drift=[0.0] * 20, base_sigma=0.05, seed=i + 10_000)
+        key = f"W{i}"
+        series_by_traj[key] = {"steps": series["steps"], "a": a}
+        rung_sets[key] = {"flat": flat}
+        cells.append({"traj": key, "rung": "rising0", "t_clear_index": 12})
+    out = pl.s4_scatter_ratio_4b(series_by_traj, rung_sets, cells)
+    assert abs(out["pooled"]["ratio"] - 1.0) < 0.1
 
 
 # --------------------------------------------------------------------- S3/S8

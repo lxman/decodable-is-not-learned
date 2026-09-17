@@ -402,3 +402,27 @@ def test_imported_sha256_4b_pin_matches_disk_and_covers_every_residual_module():
     on_disk = {p.resolve() for p in an4b.EXP4B.glob("*.py")} - instrument
     pinned = {Path(p).resolve() for p in an4b.IMPORTED_SHA256_4B}
     assert pinned == on_disk, f"only pinned: {pinned - on_disk}; only on disk: {on_disk - pinned}"
+
+
+def test_check_imports_4b_drift_checks_exp4s_own_residual_pins(monkeypatch):
+    """Final review Important 1: `an.IMPORTED_SHA256_4`'s five entries
+    (exp4's own residual, e.g. `_threads_4.py`, the BLAS thread pin)
+    used to sit only in `covered` (set membership) inside `check_
+    imports_4b` -- a drifted file there passed silently, since
+    membership never compares a file's CURRENT hash against its pin.
+    They are now folded into `pinned` too (see the fix), so a drifted
+    entry there must raise "drifted from its pin" exactly like exp4b's
+    own residual pins already did. Calls `check_imports_4b()` directly
+    (a real scan of `sys.modules`, not a monkeypatched stand-in) --
+    every module this test file's own imports pull in is already
+    covered/pinned (`test_imported_sha256_4b_pin_matches_disk_and_
+    covers_every_residual_module`, above, exercises that half), so the
+    only thing perturbed here is one entry's hash."""
+    real = dict(an4b.an.IMPORTED_SHA256_4)
+    assert real, "an.IMPORTED_SHA256_4 must carry at least one entry to perturb"
+    bad_path = next(iter(real))
+    bad = dict(real)
+    bad[bad_path] = "0" * 64
+    monkeypatch.setattr(an4b.an, "IMPORTED_SHA256_4", bad)
+    with pytest.raises(RuntimeError, match="drifted from its pin"):
+        an4b.check_imports_4b()

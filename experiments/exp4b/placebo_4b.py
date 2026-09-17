@@ -53,8 +53,24 @@ from experiments.exp4b import battery_4b  # noqa: E402
 def loo_trend_4b(a: dict, flat: list, steps: list, f: str) -> list:
     """`trend_loo(t) = mean over r in flat \\ {f} of a_r(t)` — design
     §3.2's leave-one-out trend a placebo rung f is scored against (the
-    pool of every OTHER flat rung; f itself must never contribute to
-    its own trend, or its excess would be identically zero). Raises
+    pool of every OTHER flat rung).
+
+    Final review Important 4: f is left out NOT because a self-included
+    trend would make f's excess "identically zero" (it would not: a
+    flat rung's self-included, full-pool excess is exactly
+    `(n-1)/n` times its leave-one-out excess, n = `len(flat)`, both
+    nonzero together or zero together) but because the self-included
+    and leave-one-out constructions differ only by that same constant
+    scale factor at every step -- `phi` (a ratio of two excess values)
+    and the one-sided `x_end >= 2*SE` eligibility bar (both sides
+    scaled identically) are PROVABLY INVARIANT to which of the two a
+    placebo rung is read against (verified numerically in
+    `test_placebo_pool_4b_loo_vs_full_pool_invariance_of_phi_and_
+    eligibility`). Leave-one-out is used anyway (design §10 dial (c))
+    because it is the exact analogue of a rising rung's own
+    construction (never a member of the pool that scores it) --
+    S4 (`s4_scatter_ratio_4b`) is the one statistic this scale factor
+    actually touches, and it corrects for it explicitly. Raises
     `ValueError` when the leave-one-out pool is empty (`flat == [f]`
     or `f` not among a singleton `flat`) -- checked here, with a
     "4b: "-prefixed message, because `analyze_4.trend_4`'s own empty
@@ -216,9 +232,12 @@ def draw_batteries_4b(pools: dict, design: dict, *, B: int, seed: int, rng=None)
 
 
 def p_cal_4b(T_b, T4: float) -> dict:
-    """`p_cal = (1 + #{b: T_b >= T4 - eps}) / (B + 1)`; `p_low` the
-    mirror (`<= T4 + eps`) — the placebo null's two-sided calibration
-    reading of the observed T4, add-one smoothed against the B draws."""
+    """`p_cal = (1 + #{b: T_b >= T4 - eps}) / (B + 1)` — design §3.3's
+    ONE-SIDED calibration reading of the observed T4 (the lens
+    account's direction), add-one smoothed against the B draws.
+    `p_low = (1 + #{b: T_b <= T4 + eps}) / (B + 1)` is printed beside
+    it as its two-sided COMPLEMENT only (design §3.3: "nothing more"),
+    not a second calibration."""
     T_b = np.asarray(T_b, dtype=np.float64)
     B = int(len(T_b))
     eps = 1e-15
@@ -242,16 +261,28 @@ def t_star_4b(T_b, T4: float) -> dict:
             "null_mean": null_mean, "null_sd": null_sd, "q95": q95, "q99": q99}
 
 
-def alpha_placebo_4b(batteries: dict, *, seed: int, b_alpha=None) -> dict:
+def alpha_placebo_4b(batteries: dict, *, seed: int, b_alpha=None, real_regime: dict = None) -> dict:
     """Exp 4's own LEADS rule run on every placebo battery's cells,
     through `analyze_4.primary_4`/`verdict_tree_4` unchanged —
     `alpha_placebo` is the false-positive rate of Exp 4's rule on the
     real flat-rung scatter. `b_alpha` (default `None` -> every
-    battery) caps how many of `batteries["cells"]` are scored."""
+    battery) caps how many of `batteries["cells"]` are scored.
+
+    Ruled addition r3 (final review): `flip_method_counts` tallies how
+    many of the scored batteries' own `primary_4(...)["flip_method"]`
+    came back `"exact"` (the rung-level sign-flip null enumerated,
+    `n_rungs <= MAX_ENUMERATE_4`) versus `"sampled"` (Monte Carlo
+    flips) — the regime a given placebo battery's rung count happened
+    to land in, disclosed rather than assumed uniform. `real_regime`
+    (default `None`) is passed through VERBATIM, never recomputed —
+    the caller reads it straight off the committed `v4["primary"]`
+    (`flip_method`/`n_rungs`), so the record can be read beside the
+    tally without this function ever touching `v4` itself."""
     cells_all = batteries["cells"]
     B = len(cells_all)
     n_batteries = B if b_alpha is None else min(int(b_alpha), B)
     world_counts = {w: 0 for w in an.WORLDS_4}
+    flip_method_counts = {"exact": 0, "sampled": 0}
     n_leads = 0
     for b in range(n_batteries):
         cells = cells_all[b]
@@ -260,11 +291,14 @@ def alpha_placebo_4b(batteries: dict, *, seed: int, b_alpha=None) -> dict:
         v = an.verdict_tree_4([], len(cells), n_rungs, primary)
         world = v["verdict"]
         world_counts[world] = world_counts.get(world, 0) + 1
+        method = primary.get("flip_method")
+        flip_method_counts[method] = flip_method_counts.get(method, 0) + 1
         if world == "LEADS":
             n_leads += 1
     alpha_placebo = (n_leads / n_batteries) if n_batteries else 0.0
     return {"alpha_placebo": float(alpha_placebo), "n_batteries": int(n_batteries),
-            "world_counts": world_counts, "n_leads": int(n_leads)}
+            "world_counts": world_counts, "n_leads": int(n_leads),
+            "flip_method_counts": flip_method_counts, "real_regime": real_regime}
 
 
 def per_traj_4b(batteries: dict, design: dict, v4_per_traj: dict) -> dict:
@@ -447,13 +481,36 @@ def s4_scatter_ratio_4b(series_by_traj: dict, rung_sets: dict, cells: list) -> d
     leave-one-out excess over the whole grid — the two scatters S4
     exists to compare (design §4(i): a rising rung whose representation
     wobbles more between checkpoints than a flat rung's, for reasons
-    unrelated to the lead, makes the placebo null too narrow)."""
+    unrelated to the lead, makes the placebo null too narrow).
+
+    Final review Important 3: the flat side's raw leave-one-out
+    increments run at SD = n/(n-1) times a self-included full-pool
+    construction's (n = `len(flat)`, verified algebraically and
+    numerically -- see `loo_trend_4b`'s docstring), while the rising
+    side's increments are the plain full-pool construction (a rising
+    rung is never a flat-pool member, so there is no leave-one-out
+    variant of it to match). Left uncorrected the flat side runs
+    n/(n-1) too HIGH relative to the rising side's scale, biasing the
+    ratio LOW by 3.7-7.1% at this battery's flat-pool sizes (27/16/
+    14/16). Corrected here by dividing every flat increment by
+    n/(n-1) (equivalently, multiplying by (n-1)/n) before the RMS is
+    taken -- homogeneous of degree 1, so this is exactly "divide the
+    flat side's RMS by n/(n-1)". The per-trajectory factor is printed
+    as `loo_scale_factor`, and the UNCORRECTED leave-one-out RMS is
+    kept alongside as `rms_flat_loo` for inspection. Disclosed, not
+    corrected for: the rising side is read ONLY over each cell's
+    pre-clear window (so no lead enters the comparison) while the flat
+    side pools leave-one-out increments over the WHOLE grid -- the two
+    scatters are windows of different length as well as (now) the
+    same scale."""
     per_traj = {}
     pooled_rising, pooled_flat = [], []
     for t in sorted(series_by_traj):
         series = series_by_traj[t]
         a, steps, flat = series["a"], series["steps"], rung_sets[t]["flat"]
         excess = _full_pool_excess_4b(series, flat)
+        n_flat = len(flat)
+        loo_scale_factor = (n_flat / (n_flat - 1)) if n_flat > 1 else None
 
         rising_incs = []
         for rc in cells:
@@ -463,15 +520,20 @@ def s4_scatter_ratio_4b(series_by_traj: dict, rung_sets: dict, cells: list) -> d
             if len(window) > 1:
                 rising_incs.extend(np.diff(window).tolist())
 
-        flat_incs = []
+        flat_incs_loo = []
         for f in flat:
             loo = loo_excess_4b(a, flat, steps, f)
-            flat_incs.extend(np.diff(loo).tolist())
+            flat_incs_loo.extend(np.diff(loo).tolist())
+        flat_incs = ([v / loo_scale_factor for v in flat_incs_loo] if loo_scale_factor
+                    else list(flat_incs_loo))
 
         rms_rising = float(np.sqrt(np.mean(np.square(rising_incs)))) if rising_incs else None
         rms_flat = float(np.sqrt(np.mean(np.square(flat_incs)))) if flat_incs else None
+        rms_flat_loo = float(np.sqrt(np.mean(np.square(flat_incs_loo)))) if flat_incs_loo else None
         ratio = (rms_rising / rms_flat) if (rms_rising is not None and rms_flat) else None
-        per_traj[t] = {"rms_rising": rms_rising, "rms_flat": rms_flat, "ratio": ratio,
+        per_traj[t] = {"rms_rising": rms_rising, "rms_flat": rms_flat,
+                       "rms_flat_loo": rms_flat_loo, "loo_scale_factor": loo_scale_factor,
+                       "ratio": ratio,
                        "n_rising_increments": len(rising_incs), "n_flat_increments": len(flat_incs)}
         pooled_rising.extend(rising_incs)
         pooled_flat.extend(flat_incs)

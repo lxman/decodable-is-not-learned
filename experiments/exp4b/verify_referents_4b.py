@@ -139,6 +139,16 @@ def _c6(ctx):
     g5 = an4b.gate5_rederive_4b(real["root4"], real["stage_tables_4"], real["v4"])
     if not g5["pass"]:
         raise AssertionError(f"gate 5 disagrees: {g5}")
+    # m6 (final review): assert the re-derived fraction against the
+    # committed v4["gate0"][traj]["fraction_below"] directly, not only
+    # `g5["pass"]` (which already made this comparison internally, but
+    # this check's own job is to re-assert it against the committed
+    # bytes, not merely trust the gate's verdict).
+    committed_gate0 = real["v4"].get("gate0") or {}
+    for traj in battery_4.TRAJECTORIES_4:
+        want = (committed_gate0.get(traj) or {}).get("fraction_below")
+        got = (g5["per_traj"].get(traj) or {}).get("got")
+        _eq(got, want, f"{traj} gate0 fraction_below (re-derived vs committed v4)")
     print(f"       gate 5: {g5['per_traj']}", flush=True)
 
 

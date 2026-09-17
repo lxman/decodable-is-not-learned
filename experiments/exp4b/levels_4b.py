@@ -207,12 +207,17 @@ def _ladder_global_4b(root4, units, ref_tables_raw, non_pythia, sizes, logp, exc
         vals = np.array([means[s] for s in sizes])
         rho = float(spearmanr(vals, logp).statistic) if len(set(vals.tolist())) > 1 else None
         return {"a_by_size": means, "ci_by_size": cis, "rho_log_params": rho, "available": True}
-    except (FileNotFoundError, OSError, zipfile.BadZipFile, ValueError):
+    except (FileNotFoundError, OSError, zipfile.BadZipFile, ValueError) as e:
+        # m3 (final review): the fixed note used to read identically
+        # for "global.npz genuinely missing" and for a ValueError
+        # raised somewhere else in this block (e.g. a malformed
+        # pairing) -- repr(e) distinguishes them without changing the
+        # degrade-not-crash contract itself.
         return {"available": False,
-               "note": "global.npz not committed for one or more ladder keys"}
+               "note": f"global.npz not committed for one or more ladder keys ({e!r})"}
 
 
-def ladder_4b(root4, *, excluded=(0,)) -> dict:
+def ladder_4b(root4, *, excluded=an.GATE0_EXCLUDED_SITES_4) -> dict:
     """S6(a): the Pythia size ladder (`analyze_4.s3_scale_4`'s per-rung
     structure, re-derived with the site filter) — per rung, per size in
     `battery_4.LADDER_SIZES_4` (70m..12b, "12b" read off `ref_pythia_
@@ -258,7 +263,7 @@ def ladder_4b(root4, *, excluded=(0,)) -> dict:
 # ------------------------------------------------------------- (b) twins
 
 
-def twins_4b(root4, *, excluded=(0,)) -> dict:
+def twins_4b(root4, *, excluded=an.GATE0_EXCLUDED_SITES_4) -> dict:
     """S6(b): the untrained twins per trajectory per rung
     (`analyze_4.s8_referents_4`'s `twins` block, re-derived with the
     site filter), each with an item-bootstrap CI95."""
@@ -279,7 +284,7 @@ def twins_4b(root4, *, excluded=(0,)) -> dict:
 # ----------------------------------------------------------- (c) ceiling
 
 
-def ceiling_4b(root4, *, excluded=(0,)) -> dict:
+def ceiling_4b(root4, *, excluded=an.GATE0_EXCLUDED_SITES_4) -> dict:
     """S6(c): the references' mutual alignment per pair per rung
     (`analyze_4.s8_referents_4`'s `ceiling` block read ATTESTED from
     `align.json`; this recomputes it from the committed set tables so
@@ -322,7 +327,7 @@ def ceiling_4b(root4, *, excluded=(0,)) -> dict:
 # ------------------------------------------------------ (d) within-family
 
 
-def within_family_4b(root4, *, excluded=(0,)) -> dict:
+def within_family_4b(root4, *, excluded=an.GATE0_EXCLUDED_SITES_4) -> dict:
     """S6(d): Pythia 2.8b's trajectory against `ref_pythia_12b`
     (`analyze_4.s8_referents_4`'s `within_family` block, re-derived
     with the site filter) — point values at every grid step, an
@@ -382,7 +387,7 @@ MAX_PAIRS_EXCLUDED_NOTE_4B = (
     "pairing argument here to route the exclusion through one side only")
 
 
-def max_pair_alignment_4b(sets_m, sites_m, sets_q, sites_q, *, excluded=(0,)):
+def max_pair_alignment_4b(sets_m, sites_m, sets_q, sites_q, *, excluded=an.GATE0_EXCLUDED_SITES_4):
     """The Huh max-over-pairs reading (`collect_4._max_over_pairs`) with
     the excluded layer dropped from BOTH `sites_m` and `sites_q` before
     the full cross product is scanned. Returns `(best_mean, [layer_m,
@@ -400,7 +405,7 @@ def max_pair_alignment_4b(sets_m, sites_m, sets_q, sites_q, *, excluded=(0,)):
     return collect_4._max_over_pairs(sm, sm_labels, sq, sq_labels, metric_4.K_4)
 
 
-def max_over_pairs_4b(root4, cells, *, excluded=(0,)) -> dict:
+def max_over_pairs_4b(root4, cells, *, excluded=an.GATE0_EXCLUDED_SITES_4) -> dict:
     """S6(e): the max-over-pairs alignment with the degenerate site
     excluded from both sides, per real cell — the S5(a) reading Exp 4
     could not produce (its own `series_max_pairs` reads an ATTESTED
