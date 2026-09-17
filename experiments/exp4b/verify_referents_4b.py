@@ -183,6 +183,26 @@ def _c10(ctx):
     _eq(committed["n_files"], mkr4b.N_FILES_4B, "committed referents_4b.json n_files vs N_FILES_4B")
 
 
+# Finding 5's free known-answer pin: the mean over the 26 committed
+# cells of sensitivities["S5 <traj>"]["best_site"][rung]["phi"] --
+# read straight off the committed `v4`, no placebo quantity, no new
+# real-tree execution (v4/cells4 are already loaded by `_load_real_
+# tree` for checks 4-6/9). Verified once against the real tree; a
+# regression pin, not a retyped guess.
+BEST_SITE_MEAN_PHI_PIN_4B = 0.578468800465005
+
+
+@check(11, "S7(b)'s free known-answer pin: mean best-site phi over the 26 committed cells")
+def _c11(ctx):
+    real = _load_real_tree(ctx)
+    bs = an4b.best_site_mean_phi_4b(real["v4"], real["cells4"])
+    _eq(bs["n_cells"], len(real["cells4"]), "best-site phi coverage (every real cell has one)")
+    if bs["T"] is None or abs(bs["T"] - BEST_SITE_MEAN_PHI_PIN_4B) > 1e-12:
+        raise AssertionError(f"mean best-site phi {bs['T']!r} != pinned "
+                             f"{BEST_SITE_MEAN_PHI_PIN_4B!r}")
+    print(f"       S7(b) mean best-site phi = {bs['T']!r}", flush=True)
+
+
 def main() -> int:
     ctx = {}
     n_ok = 0

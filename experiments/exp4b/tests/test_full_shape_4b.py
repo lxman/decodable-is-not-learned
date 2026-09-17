@@ -17,11 +17,15 @@ totality collector, never a raise.
 
 Per the brief's "keep the slow module to ONE world build plus cheap
 copies": ONE genuinely new `stage="full"` build happens in THIS
-module ("follows", `test_follows_world_...` below) -- "leads" reuses
-`conftest.py`'s session-scoped `_leads_world_4b` fixture (already
-paid for by `test_analyze_4b.py`'s own slow tests in the same
+module ("follows", module-scoped `_follows_world_4b`) -- "leads"
+reuses `conftest.py`'s session-scoped `_leads_world_4b` fixture
+(already paid for by `test_analyze_4b.py`'s own slow tests in the same
 session), "no_convergence" needs no build at all, and the truncated-
-npz case is a `shutil.copytree` of the shared leads world."""
+npz case is a `shutil.copytree` of the shared leads world. Finding 3:
+neither synthetic world's OWN noise lands `run()` in CALIBRATED or
+MARGINAL ("leads" hits the feasibility floor first; "follows" lands at
+p_cal=.99), so `placebo_4b.p_cal_4b` is monkeypatched to force each
+boundary case on the SAME shared "follows" world -- no third build."""
 from __future__ import annotations
 
 import sys
@@ -97,14 +101,65 @@ def test_leads_world_feasibility_floor(_leads_world_4b, tmp_path):
     assert not out_v.exists()          # write=False (default)
 
 
+@pytest.fixture(scope="module")
+def _follows_world_4b(tmp_path_factory):
+    """ONE fresh `stage="full"` "follows"-mode build (seed=3), shared
+    read-only by the follows-terminal test and the two forced-p_cal
+    tests below (finding 3) -- no second build."""
+    root = tmp_path_factory.mktemp("follows_world_4b")
+    return fs4b.build_world_4b(root, "follows", seed=3)
+
+
 @pytest.mark.slow
-def test_follows_world_reaches_not_distinguishable_or_marginal(tmp_path):
-    root4, v4 = fs4b.build_world_4b(tmp_path / "follows_world", "follows", seed=3)
+def test_follows_world_reaches_not_distinguishable_or_marginal(_follows_world_4b, tmp_path):
+    root4, v4 = _follows_world_4b
     assert v4["verdict"] == "FOLLOWS", v4["reason"]
     v = an4b.run(root4b=tmp_path / "4b", root4=root4, power_gate="full", **_run4b_kwargs())
     _assert_full_completion(v, v4)
     assert v["verdict"] in ("NOT-DISTINGUISHABLE", "MARGINAL"), v["verdict"]
     print(f"\n    follows world -> exp4b verdict {v['verdict']} (p_cal={v['primary']['p_cal']})")
+
+
+def _force_p_cal_4b(monkeypatch, forced):
+    """Finding 3: no synthetic world's OWN noise lands `run()` in
+    CALIBRATED or MARGINAL ("leads" hits the feasibility floor first;
+    "follows" lands NOT-DISTINGUISHABLE on its own p_cal=.99) --
+    `placebo_4b.p_cal_4b` is monkeypatched to force the boundary case
+    while keeping `p_low`/`B` genuine (computed through the real
+    function on the actual `T_b`/`T4`, only `p_cal` overridden). Every
+    call site (the primary, `per_traj_4b`, `per_type_4b`, S7) sees the
+    same forced value -- benign for what these tests check."""
+    from experiments.exp4b import placebo_4b
+    real_p_cal_4b = placebo_4b.p_cal_4b
+
+    def fake(T_b, T4_arg):
+        return {**real_p_cal_4b(T_b, T4_arg), "p_cal": forced}
+
+    monkeypatch.setattr(placebo_4b, "p_cal_4b", fake)
+
+
+@pytest.mark.slow
+def test_follows_world_reaches_calibrated_when_p_cal_forced(_follows_world_4b, tmp_path, monkeypatch):
+    root4, v4 = _follows_world_4b
+    _force_p_cal_4b(monkeypatch, 0.005)
+    v = an4b.run(root4b=tmp_path / "4b", root4=root4, power_gate="full", **_run4b_kwargs())
+    assert v["verdict"] == "CALIBRATED", v["reason"]
+    assert v["primary"]["p_cal"] == 0.005
+    assert v["primary"]["p_low"] is not None and v["primary"]["B"] is not None   # genuine, not faked
+    txt = an4b.write_verdict_txt_4b(v)
+    assert "CALIBRATED" in txt
+
+
+@pytest.mark.slow
+def test_follows_world_reaches_marginal_when_p_cal_forced(_follows_world_4b, tmp_path, monkeypatch):
+    root4, v4 = _follows_world_4b
+    _force_p_cal_4b(monkeypatch, 0.03)
+    v = an4b.run(root4b=tmp_path / "4b", root4=root4, power_gate="full", **_run4b_kwargs())
+    assert v["verdict"] == "MARGINAL", v["reason"]
+    assert v["primary"]["p_cal"] == 0.03
+    assert v["primary"]["p_low"] is not None and v["primary"]["B"] is not None
+    txt = an4b.write_verdict_txt_4b(v)
+    assert "MARGINAL" in txt
 
 
 def test_no_convergence_world_gives_insufficient_data(tmp_path):

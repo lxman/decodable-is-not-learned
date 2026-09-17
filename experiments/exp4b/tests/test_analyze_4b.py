@@ -119,6 +119,40 @@ def test_power_gate_must_be_full_or_skip(tmp_path):
                 **_run4b_kwargs())
 
 
+def test_stop_before_must_be_none_or_placebo(tmp_path):
+    """Finding 1: any value other than `None`/"placebo" used to fall
+    through and run the full placebo pipeline -- fatal under the
+    pre-tag stand-ins, since that would compute the null on whatever
+    `root4` was given, including the real tree."""
+    with pytest.raises(ValueError, match="stop_before"):
+        an4b.run(root4b=tmp_path / "4b", root4=tmp_path / "4", stop_before="bogus",
+                **_run4b_kwargs())
+
+
+def test_stop_before_placebo_never_calls_the_placebo_functions(tmp_path, monkeypatch):
+    """Finding 2: `stop_before="placebo"` must return BEFORE any
+    placebo function is called, not merely before the null happens to
+    be USED -- the previous test only observed `v["primary"] is None`,
+    which a bug two lines later (calling `placebo_pool_4b` and
+    discarding the result) would not have caught. Monkeypatches the
+    two functions the placebo pipeline calls first (`placebo_pool_4b`,
+    per trajectory, then `draw_batteries_4b`) to raise; `root4` is
+    empty (no world needed -- `stop_before` must win regardless of
+    what else has already failed)."""
+    from experiments.exp4b import placebo_4b
+
+    def _boom(*a, **k):
+        raise AssertionError("placebo_4b function called despite stop_before='placebo'")
+
+    monkeypatch.setattr(placebo_4b, "placebo_pool_4b", _boom)
+    monkeypatch.setattr(placebo_4b, "draw_batteries_4b", _boom)
+
+    v = an4b.run(root4b=tmp_path / "4b", root4=tmp_path / "4", stop_before="placebo",
+                **_run4b_kwargs())
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert v["reason"] == "4b: stopped before the placebo null (pre-tag tool run)"
+
+
 # --------------------------------------------------------- gates, a world
 
 @pytest.mark.slow

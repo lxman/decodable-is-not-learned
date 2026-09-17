@@ -711,3 +711,64 @@ above with their measurements): the referent manifest build (hash
 walk); `verify_referents_4b.py` (twice, no placebo quantity); ONE
 `run(stop_before="placebo")`; ONE `max_over_pairs_4b` timing. No
 placebo quantity was ever computed against `battery_4.EXP4`.
+
+### Task 5 fix round: seven Important + two promoted minors (review round 1)
+
+Eight findings, all fixed — full detail (recipes, code, before/after)
+in `task-5-report.md`'s "Fix report" section; summary here:
+
+1. `stop_before` was unvalidated (any value but `None`/`"placebo"` ran
+   the full placebo pipeline) — now raises, mirroring `power_gate`.
+2. Nothing proved `stop_before="placebo"` returns BEFORE a placebo
+   call, only that it left `primary` unset — a new fast test
+   monkeypatches `placebo_pool_4b`/`draw_batteries_4b` to raise and
+   confirms neither fires.
+3. No world reached CALIBRATED/MARGINAL end to end — two new slow
+   tests force `p_cal_4b`'s return (keeping `p_low`/`B` genuine) on
+   the SAME shared "follows" world (no third build), reaching each
+   terminal and exercising `write_verdict_txt_4b` on a live record.
+4. The feasibility-floor path surfaced no per-trajectory deficits
+   (`primary` stays `None` exactly there) — a top-level `feasibility`
+   block is now UNCONDITIONAL (`deficit` computed by
+   `draw_batteries_4b`'s own rule), merged with the AUTHORITATIVE
+   `batteries["feasibility"]` once batteries are actually drawn.
+5. S7(a) was calibrated against the PRIMARY null though the
+   clears-and-stays cells are re-derivable (controller ruling: build
+   the matched null) — three new composable functions
+   (`clears_and_stays_rung_sets_4b`/`_eligibility_4b`/`_cells_4b`,
+   replicating Exp 4's own `_clears_and_stays_primary` without
+   reimplementing `cells_4`/`primary_4`) plus
+   `clears_and_stays_design_4b` rebuild the matched design and battery
+   (`seed=SEED_4B + 7`); the re-derived T is now a known-answer GATE
+   against the committed `sensitivities["primary_clears_and_stays"]
+   ["T"]`, bit for bit. S7(b)'s statistic extracted as standalone
+   `best_site_mean_phi_4b`; `verify_referents_4b.py` gained check 11,
+   the free known-answer pin (no new real-tree execution — `v4`/
+   `cells4` already loaded): **measured `0.5784688004650052`** against
+   the reviewer's `0.578468800465005` (matches at `1e-12`), `11/11`.
+6. `VERDICT.txt` gained a Feasibility section, a combined Calibration
+   section (α_placebo vs S1's α_iid/p_iid, the two nulls' mean/SD side
+   by side), S3's full per-(trajectory, clear-index) table above the
+   pooled bins, and `per_type[typ]["reason"]` verbatim.
+7. (promoted minor) `gates["4"]` carried wall-clock `seconds` —
+   stripped from the persisted record (kept: `identical`/
+   `committed_sha256`/`reproduced_sha256`/`first_diff`), printed to
+   stdout instead; audited every other field, nothing else
+   environment-varying.
+8. (promoted minor) `results/placebo.json`/`power_ext.json` renamed to
+   `results/placebo_4b.json`/`power_ext_4b.json` (the plan's B-6
+   naming) in `battery_4b.py`; the one test asserting the literal
+   paths updated.
+
+Re-verified: fast `79 passed, 22 deselected in ~21s`; slow (both
+files, one session, two world builds — leads reused, follows built
+once and shared by three tests) `11 passed, 15 deselected in
+3960.83s (1:06:00)`; `verify_referents_4b.py` cold, run three times
+across this round, `11/11` every time, byte-identical printed numbers.
+
+Real-tree rule (B-4) this round: no execution touched the real tree
+beyond `verify_referents_4b.py` (non-placebo, run three times); no
+repeat `stop_before="placebo"` run against `battery_4.EXP4`;
+`max_over_pairs_4b`'s timing was NOT re-run per instruction. Every
+gate-4 timing printed this round (`0.5355s`-`0.6123s`) is from
+synthetic-world runs, never the real tree.

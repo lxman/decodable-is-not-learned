@@ -189,8 +189,8 @@ def test_paths():
     root = Path("/tmp/_exp4b_paths_test_root")
     assert b4b.verdict_path_4b(root) == root / "results" / "verdict.json"
     assert b4b.verdict_txt_path_4b(root) == root / "results" / "VERDICT.txt"
-    assert b4b.placebo_record_path_4b(root) == root / "results" / "placebo.json"
-    assert b4b.power_ext_path_4b(root) == root / "results" / "power_ext.json"
+    assert b4b.placebo_record_path_4b(root) == root / "results" / "placebo_4b.json"
+    assert b4b.power_ext_path_4b(root) == root / "results" / "power_ext_4b.json"
 
 
 def test_tag_names_and_instrument_blobs():

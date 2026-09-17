@@ -196,6 +196,98 @@ def gate5_rederive_4b(root4, stage_tables_4, v4) -> dict:
     return {"pass": ok_all, "per_traj": detail}
 
 
+# --------------------------------------------------------- S7 (clears-and-stays)
+#
+# Finding 5 (controller ruling): S7(a) must be calibrated against the
+# MATCHED null, not the primary null -- the clears-and-stays cells ARE
+# re-derivable (Exp 4's own `analyze_4.run()._clears_and_stays_primary`,
+# `experiments/exp4/analyze_4.py` around line 2378, read and replicated
+# here in three composable steps rather than copied as one block, never
+# reimplementing `cells_4`/`primary_4` themselves).
+
+
+def clears_and_stays_rung_sets_4b(rung_sets: dict) -> dict:
+    """Exp 4's own `_clears_and_stays_primary`'s rung-set transform:
+    for each trajectory, `t_clear` is replaced by `clears_and_stays`
+    wherever the latter is not `None` (a rung whose significance
+    reverted keeps its ordinary, first-rise `t_clear`)."""
+    rs_cas = {}
+    for traj, rs in rung_sets.items():
+        if rs is None:
+            continue
+        cas = rs["clears_and_stays"]
+        rs_cas[traj] = {**rs, "t_clear": {r: (cas[r] if cas.get(r) is not None else rs["t_clear"].get(r))
+                                          for r in rs["t_clear"]}}
+    return rs_cas
+
+
+def clears_and_stays_eligibility_4b(elig4: dict, rs_cas: dict) -> dict:
+    """Exp 4's own `_clears_and_stays_primary`'s eligibility re-keying:
+    every rung's `t_clear`/`t_clear_index` swapped to the clears-and-
+    stays position; every other eligibility field (`eligible`, `se`,
+    `x_end`, `reason`) untouched -- eligibility is not recomputed for
+    the new clear position, matching Exp 4's own sensitivity exactly."""
+    elig_cas = {}
+    for traj, block in elig4.items():
+        rs2 = rs_cas.get(traj)
+        if rs2 is None:
+            continue
+        newR = {}
+        for r, e in (block.get("R") or {}).items():
+            steps = list(battery_4.GRID_4[traj])
+            tclear = rs2["t_clear"].get(r)
+            tci = steps.index(tclear) if tclear is not None else None
+            e2 = dict(e); e2["t_clear"] = tclear; e2["t_clear_index"] = tci
+            newR[r] = e2
+        elig_cas[traj] = {**block, "R": newR}
+    return elig_cas
+
+
+def clears_and_stays_cells_4b(series_by_traj: dict, rung_sets: dict, elig4: dict) -> list:
+    """The clears-and-stays cells, via `analyze_4.cells_4` unchanged
+    (never reimplemented) -- Exp 4's own `_clears_and_stays_primary`'s
+    cell-building half, composed from the two functions above."""
+    rs_cas = clears_and_stays_rung_sets_4b(rung_sets)
+    elig_cas = clears_and_stays_eligibility_4b(elig4, rs_cas)
+    series_cas = {t: series_by_traj[t] for t in series_by_traj if t in rs_cas}
+    return an.cells_4(series_cas, rs_cas, elig_cas)
+
+
+def clears_and_stays_design_4b(cas_cells: list) -> dict:
+    """`battery_4b.real_design_4b`'s input needs `t_clear_index`,
+    which `cells_4`'s own cell shape does not carry (it carries
+    `t_clear`/`t_minus` instead) -- added here by the same grid lookup
+    `cells_from_verdict_4b` uses, never retyped."""
+    augmented = []
+    for c in cas_cells:
+        grid = list(battery_4.GRID_4[c["traj"]])
+        augmented.append({**c, "t_clear_index": grid.index(c["t_clear"])})
+    return battery_4b.real_design_4b(augmented)
+
+
+def best_site_mean_phi_4b(v4: dict, cells4: list) -> dict:
+    """S7(b)'s statistic, extracted standalone (`verify_referents_4b.
+    py`'s free known-answer pin calls this directly on the real tree,
+    finding 5's own note): the plain mean, over every real cell whose
+    trajectory's `S5 <traj>` sensitivity carries a `best_site[rung]
+    .phi`, of that phi -- Exp 4's own per-site-best excess reading
+    (`s5_site_sensitivities_4`), pooled over cells the same way the
+    primary pools phi. Returns `{"T": float | None, "n_cells": int,
+    "phis": [...]}`."""
+    phis = []
+    for traj in battery_4.TRAJECTORIES_4:
+        s5_rec = ((v4.get("sensitivities") or {}).get(f"S5 {traj}") or {})
+        best_site = s5_rec.get("best_site") or {}
+        for c in cells4:
+            if c["traj"] != traj:
+                continue
+            entry = best_site.get(c["rung"])
+            if entry and entry.get("phi") is not None:
+                phis.append(entry["phi"])
+    T = float(np.mean(phis)) if phis else None
+    return {"T": T, "n_cells": len(phis), "phis": phis}
+
+
 # ------------------------------------------------------------------ tree
 
 
@@ -225,7 +317,8 @@ def verdict_tree_4b(failures, feasibility_ok, p_cal) -> dict:
 # --------------------------------------------------------------- verdict
 
 
-def verdict_4b(*, tree, gates, exp4_block, pins_active, primary=None, alpha_placebo=None,
+def verdict_4b(*, tree, gates, exp4_block, pins_active, primary=None, feasibility=None,
+              alpha_placebo=None,
               per_traj=None, per_type=None, licence_naming=None, construction_statement=None,
               s1=None, s3=None, s4=None, s5=None, s6=None, s7=None, s8=None,
               placebo_record_sha256=None, power_ext_sha256=None) -> dict:
@@ -233,6 +326,7 @@ def verdict_4b(*, tree, gates, exp4_block, pins_active, primary=None, alpha_plac
         "verdict": tree["verdict"],
         "reason": tree["reason"],
         "primary": primary,
+        "feasibility": feasibility,
         "alpha_placebo": alpha_placebo,
         "per_traj": per_traj,
         "per_type": per_type,
@@ -250,6 +344,17 @@ def verdict_4b(*, tree, gates, exp4_block, pins_active, primary=None, alpha_plac
     }
 
 
+def _sort_key_4b(k):
+    """Numeric-aware sort key for dict keys that may be ints (a fresh
+    `v`, e.g. in a hand-built test record) or strings (a `v` that has
+    already passed through `_jsonify_4`, which stringifies every dict
+    key) -- `write_verdict_txt_4b` reads both."""
+    try:
+        return (0, int(k))
+    except (TypeError, ValueError):
+        return (1, str(k))
+
+
 def write_verdict_txt_4b(v: dict) -> str:
     lines = [f"EXPERIMENT 4B VERDICT: {v['verdict']}", "", v.get("reason") or "", "",
             f"Caveat (design §2, verbatim): {KNOWN_INPUT_CAVEAT_4B}", ""]
@@ -260,10 +365,36 @@ def write_verdict_txt_4b(v: dict) -> str:
                     f"null_mean={p['null_mean']:.4f} null_sd={p['null_sd']:.4f} "
                     f"q95={p['q95']:.4f} q99={p['q99']:.4f} B={p['B']} n_cells={p['n_cells']}")
         lines.append("")
+    feas = v.get("feasibility")
+    if feas:
+        lines.append(f"Feasibility (design §4): total_eligible={feas.get('total_eligible')} "
+                    f"min_required={feas.get('min_required')} floor_ok={feas.get('floor_ok')}")
+        for t, rec in sorted((feas.get("per_traj") or {}).items()):
+            lines.append(f"  {t}: n_real={rec.get('n_real')} "
+                        f"n_eligible_placebo={rec.get('n_eligible_placebo')} "
+                        f"deficit={rec.get('deficit')}")
+        lines.append("")
+    # Finding 6: the calibration line -- alpha_placebo (Exp 4's own
+    # LEADS rule's false-positive rate on the real flat-rung scatter)
+    # beside S1's alpha_iid/p_iid and the two nulls' mean/SD, side by
+    # side (design §3.5's own reading rule: "same shape" if the two
+    # means agree within .05).
     ap = v.get("alpha_placebo")
-    if ap:
-        lines.append(f"alpha_placebo (Exp 4's own LEADS rule, false-positive rate on the flat-rung "
-                    f"scatter): {ap.get('alpha_placebo')}")
+    s1v = v.get("s1")
+    if ap or s1v:
+        parts = []
+        if ap:
+            parts.append(f"alpha_placebo={ap.get('alpha_placebo')} "
+                        f"(n_batteries={ap.get('n_batteries')}, n_leads={ap.get('n_leads')})")
+        if s1v:
+            parts.append(f"alpha_iid={s1v.get('alpha_iid')} p_iid={s1v.get('p_iid')}")
+            comp = s1v.get("comparison") or {}
+            parts.append(f"placebo null mean/SD={comp.get('placebo_null_mean')}/"
+                        f"{comp.get('placebo_null_sd')}")
+            parts.append(f"iid null mean/SD={comp.get('iid_null_mean')}/{comp.get('iid_null_sd')}")
+        lines.append("Calibration (Exp 4's LEADS rule vs the placebo null vs the iid arm):")
+        for part in parts:
+            lines.append(f"  {part}")
         lines.append("")
     cs = v.get("construction_statement")
     if cs:
@@ -290,13 +421,21 @@ def write_verdict_txt_4b(v: dict) -> str:
                 lines.append(f"  {typ}: (no cells)")
             else:
                 lines.append(f"  {typ}: T_obs={rec.get('T_obs')} p_cal={rec.get('p_cal')} "
-                            f"n_cells={rec.get('n_cells')}")
+                            f"n_cells={rec.get('n_cells')} reason={rec.get('reason')}")
         lines.append("")
     s3v = v.get("s3")
     if s3v:
-        lines.append("S3 -- the null's shape, pooled bins by clear-index fraction:")
+        lines.append("S3 -- the null's shape, per (trajectory, clear index):")
+        per_traj_c = s3v.get("per_traj_c") or {}
+        for t in sorted(per_traj_c):
+            for c in sorted(per_traj_c[t], key=_sort_key_4b):
+                stat = per_traj_c[t][c]
+                lines.append(f"  {t} c={c}: mean={stat.get('mean')} sd={stat.get('sd')} "
+                            f"n={stat.get('n')}")
+        lines.append("  pooled bins by clear-index fraction:")
         for label, stat in (s3v.get("pooled_bins") or {}).items():
-            lines.append(f"  {label}: mean={stat.get('mean')} sd={stat.get('sd')} n={stat.get('n')}")
+            lines.append(f"    {label}: mean={stat.get('mean')} sd={stat.get('sd')} "
+                        f"n={stat.get('n')}")
         lines.append("")
     s5v = v.get("s5")
     if s5v:
@@ -342,6 +481,8 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
        expected_n_sim=None) -> dict:
     if power_gate not in ("full", "skip"):
         raise ValueError(f"4b: power_gate must be 'full' or 'skip', got {power_gate!r}")
+    if stop_before not in (None, "placebo"):
+        raise ValueError(f"4b: stop_before must be None or 'placebo', got {stop_before!r}")
 
     failures = []
     root4b = Path(root4b)
@@ -522,7 +663,16 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
                                   "4b gate 4 power reproduction")
         failures += f
         gate4_ok = bool(rep and rep.get("identical"))
-        gates["4"] = {"pass": gate4_ok, **(rep or {})}
+        if rep is not None:
+            # Promoted minor (finding 7): `seconds` is wall-clock, not a
+            # verdict quantity -- it must not sit in the persisted
+            # record (Task 6's cross-process determinism fixture needs
+            # verdict.json byte-identical). Printed for the ledger
+            # instead of carried.
+            print(f"4b gate 4: power record reproduction took {rep['seconds']:.4f}s "
+                 f"(identical={rep['identical']})", flush=True)
+        rep_persisted = {k: v for k, v in (rep or {}).items() if k != "seconds"}
+        gates["4"] = {"pass": gate4_ok, **rep_persisted}
         if not gate4_ok:
             failures.append(f"4b gate 4: power record not reproduced: "
                             f"{(rep or {}).get('first_diff')}")
@@ -584,15 +734,28 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
             failures += f
             pools[traj] = pool
 
-    total_eligible, per_traj_deficit, feasibility_ok = 0, {}, False
+    # Finding 4: a top-level, UNCONDITIONAL feasibility block -- the
+    # feasibility-floor refusal path previously left this reachable
+    # only through `primary`, which stays `None` on exactly that path
+    # (no per-trajectory deficits were ever surfaced when the floor
+    # fired). `deficit` matches `draw_batteries_4b`'s own rule
+    # (`n_real > 0 and n_eligible < MIN_PLACEBO_PER_TRAJ_4B`) so the
+    # two constructions agree even before batteries are drawn.
+    feasibility_block, feasibility_ok = None, False
     if not failures:
+        per_traj_feas, total_eligible = {}, 0
         for traj in battery_4.TRAJECTORIES_4:
             pool = pools.get(traj)
             n_elig = sum(1 for d in (pool or {}).values() if d["eligible"]) if pool else 0
+            n_real = (design4.get(traj, {}) if design4 else {}).get("n", 0)
+            deficit = n_real > 0 and n_elig < battery_4b.MIN_PLACEBO_PER_TRAJ_4B
+            per_traj_feas[traj] = {"n_real": n_real, "n_eligible_placebo": n_elig,
+                                   "deficit": deficit}
             total_eligible += n_elig
-            per_traj_deficit[traj] = {"n_eligible_placebo": n_elig,
-                                      "n_real": (design4.get(traj, {}) if design4 else {}).get("n", 0)}
         feasibility_ok = total_eligible >= battery_4b.MIN_PLACEBO_TOTAL_4B
+        feasibility_block = {"per_traj": per_traj_feas, "total_eligible": total_eligible,
+                             "min_required": battery_4b.MIN_PLACEBO_TOTAL_4B,
+                             "floor_ok": feasibility_ok}
         if not feasibility_ok:
             failures.append(f"4b: {total_eligible} eligible placebo rungs total < "
                             f"{battery_4b.MIN_PLACEBO_TOTAL_4B} (design §4 floor)")
@@ -603,6 +766,12 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
             lambda: placebo_4b.draw_batteries_4b(pools, design4, B=B, seed=battery_4b.SEED_4B),
             "4b draw batteries")
         failures += f
+        # On the completing path, prefer the AUTHORITATIVE per-
+        # trajectory feasibility `draw_batteries_4b` itself used over
+        # the hand-rolled duplicate above (same shape, same rule;
+        # this is the one that actually decided the batteries).
+        if batteries is not None and feasibility_block is not None and batteries.get("feasibility"):
+            feasibility_block = {**feasibility_block, "per_traj": batteries["feasibility"]}
 
     p_cal_block = t_star_block = alpha_block = per_traj_cal = per_type_cal = None
     s3 = s4 = s5 = s8 = None
@@ -669,31 +838,42 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
     s7 = None
     if not failures:
         def _s7():
-            cas_rec = ((v4.get("sensitivities") or {}).get("primary_clears_and_stays") or {})
-            cas_T = cas_rec.get("T")
-            a_cas = {"T": cas_T,
-                    "clear_multiset_source": "primary (clears-and-stays cells not committed)"}
-            if cas_T is not None:
-                a_cas.update(placebo_4b.p_cal_4b(batteries["T"], cas_T))
-                a_cas.update(placebo_4b.t_star_4b(batteries["T"], cas_T))
+            # Finding 5 (controller ruling): S7(a) against the MATCHED
+            # (clears-and-stays) null, re-derived from the cells --
+            # Exp 4's own `_clears_and_stays_primary` construction, via
+            # `clears_and_stays_cells_4b` above. The re-derived T is
+            # itself a known-answer gate against the committed
+            # `sensitivities["primary_clears_and_stays"]["T"]`, bit for
+            # bit -- a mismatch raises (caught by `collect_total_4b`
+            # like every other totality site here).
+            cas_cells = clears_and_stays_cells_4b(series_by_traj, rung_sets, elig4)
+            committed_cas_T = ((v4.get("sensitivities") or {})
+                              .get("primary_clears_and_stays") or {}).get("T")
+            if cas_cells:
+                cas_T = an.primary_4(cas_cells, n_boot=an.N_BOOT_4, seed=0)["T"]
+                if committed_cas_T is not None and cas_T != committed_cas_T:
+                    raise ValueError(
+                        f"4b S7(a): re-derived clears-and-stays T {cas_T!r} != the committed "
+                        f"sensitivities['primary_clears_and_stays']['T'] {committed_cas_T!r}")
+                design_cas = clears_and_stays_design_4b(cas_cells)
+                batteries_cas = placebo_4b.draw_batteries_4b(pools, design_cas, B=B,
+                                                              seed=battery_4b.SEED_4B + 7)
+                a_cas = {"T": cas_T, "clear_multiset_source": "clears-and-stays cells re-derived"}
+                a_cas.update(placebo_4b.p_cal_4b(batteries_cas["T"], cas_T))
+                a_cas.update(placebo_4b.t_star_4b(batteries_cas["T"], cas_T))
             else:
-                a_cas["reason"] = "primary_clears_and_stays carries no T on the committed verdict"
+                a_cas = {"T": None, "clear_multiset_source": "clears-and-stays cells re-derived",
+                        "reason": "no clears-and-stays cells re-derived"}
 
-            best_site_phis = []
-            for traj in battery_4.TRAJECTORIES_4:
-                s5_rec = ((v4.get("sensitivities") or {}).get(f"S5 {traj}") or {})
-                best_site = s5_rec.get("best_site") or {}
-                for c in cells4:
-                    if c["traj"] != traj:
-                        continue
-                    entry = best_site.get(c["rung"])
-                    if entry and entry.get("phi") is not None:
-                        best_site_phis.append(entry["phi"])
-            if best_site_phis:
-                T_best = float(np.mean(best_site_phis))
-                b_best = {"T": T_best, "n_cells": len(best_site_phis)}
-                b_best.update(placebo_4b.p_cal_4b(batteries["T"], T_best))
-                b_best.update(placebo_4b.t_star_4b(batteries["T"], T_best))
+            # S7(b) stays against the PRIMARY null (mismatched
+            # construction, disclosed): the flat rungs' best-site
+            # series is not available, so there is no matched null to
+            # build here.
+            bs = best_site_mean_phi_4b(v4, cells4)
+            if bs["T"] is not None:
+                b_best = {"T": bs["T"], "n_cells": bs["n_cells"]}
+                b_best.update(placebo_4b.p_cal_4b(batteries["T"], bs["T"]))
+                b_best.update(placebo_4b.t_star_4b(batteries["T"], bs["T"]))
             else:
                 b_best = {"T": None, "n_cells": 0}
             b_best["mismatch_disclosed"] = (
@@ -714,9 +894,7 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
             "null_mean": t_star_block["null_mean"], "null_sd": t_star_block["null_sd"],
             "q95": t_star_block["q95"], "q99": t_star_block["q99"],
             "B": p_cal_block["B"], "n_cells": len(cells4) if cells4 else None,
-            "feasibility": {"total_eligible_placebo": total_eligible,
-                           "min_required": battery_4b.MIN_PLACEBO_TOTAL_4B,
-                           "per_traj": per_traj_deficit, "ok": feasibility_ok},
+            "feasibility": feasibility_block,
         }
 
     licence_naming = None
@@ -744,7 +922,8 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
         }
 
     v = verdict_4b(tree=tree, gates=gates, exp4_block=exp4_block, pins_active=pins_active,
-                  primary=primary_block, alpha_placebo=alpha_block, per_traj=per_traj_cal,
+                  primary=primary_block, feasibility=feasibility_block,
+                  alpha_placebo=alpha_block, per_traj=per_traj_cal,
                   per_type=per_type_cal, licence_naming=licence_naming,
                   construction_statement=construction_statement,
                   s1=s1, s3=s3, s4=s4, s5=s5, s6=s6, s7=s7, s8=s8)

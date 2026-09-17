@@ -105,11 +105,11 @@ def verdict_txt_path_4b(root) -> Path:
 
 
 def placebo_record_path_4b(root) -> Path:
-    return Path(root) / "results" / "placebo.json"
+    return Path(root) / "results" / "placebo_4b.json"
 
 
 def power_ext_path_4b(root) -> Path:
-    return Path(root) / "results" / "power_ext.json"
+    return Path(root) / "results" / "power_ext_4b.json"
 
 
 # ----------------------------------------------------------------- binding
