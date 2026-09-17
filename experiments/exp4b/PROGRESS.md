@@ -1322,3 +1322,7 @@ binary and the session's foreground call cap is 600 s, so the mutation
 harness and the slow world modules ran detached
 (`Popen(start_new_session=True)`) and were polled — disclosed rather
 than claimed as foreground runs.
+
+## RATIFIED + TAGGED + PROJECTION SEALED (2026-09-17, on Michael's word "go on the freeze")
+
+Doc slips (a)–(s) applied to `experiment-4b-design.md` exactly as the freeze report wrote them (ef7c8979), with the F-3 sub-cell sentence and F-2's disclosure-only reading as recommended and NB-1's reversal confirmed. **TAG `exp4b-preregistered` cut at ef7c8979 (annotated object 3fb678df), binding the five instrument blobs; `battery_4b.require_prereg_4b()` verified against real git (5 blobs bound); pushed.** Projection sealed at e3f7c549 (`projection.md`): NOT-DISTINGUISHABLE, p_cal ≈ .20 [.08, .40], null mean ≈ .48 / SD ≈ .12 (a mean-reverting wobble null, read off Exp 4's S11 flat-pool textures); CALIBRATED via the drift account .25, MARGINAL .25; α_placebo ≈ .30; S1 "same shape"; OLMo-2 the one trajectory below .05; S5 negative; S3 flat; S6 (b)–(d) points; tolerances at both bars. Next, on Michael's explicit go only: the analyzer ONCE, detached (~15–25 min) → `exp4b-closed` → retrospective → close-out.
