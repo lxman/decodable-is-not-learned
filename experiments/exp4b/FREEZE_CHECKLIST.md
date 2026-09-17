@@ -32,7 +32,7 @@ Baseline, measured cold BEFORE the freeze touched anything:
 | fast suite (`experiments/exp4b/tests/`, `-m "not slow"`) | **103 passed**, 55 deselected, 23.2 s |
 | cold referent battery (`verify_referents_4b.py`, real tree) | **12/12** |
 | world cache (`/private/tmp/exp4b_world_cache`) | present, 1.9 GB, `follows_seed3` + `leads_seed11` |
-| mutants at base | 71 (36 hand + 35 AST totality sites) |
+| mutants at base | 70 (32 hand + 38 AST totality sites) |
 
 **Verdict on the assignment: the CLASS DEFECT WAS NOT FOUND.** The
 primary chain is closed by construction and the freeze says how: every
@@ -373,7 +373,7 @@ re-derivation.
 1. **Every pre-tag real-tree execution** — the count design §2 must
    carry — is tabulated in the freeze report
    (`.superpowers/sdd/2026-09-16-exp4b-build/freeze-report.md` §5):
-   **34** across Tasks 5–6, the fix wave and this freeze, of which 11
+   **34** across Tasks 5–6, the fix wave and this freeze, of which 14
    are `run(stop_before="placebo")` calls (each containing one gate-4
    power-record reproduction, 20.9–21.9 s, `identical=True` every time).
    No placebo battery or null was ever drawn against `battery_4.EXP4`.
@@ -416,7 +416,43 @@ re-derivation.
 | read sweep, real tree, `--levels` | 7,371 distinct paths, **UNPINNED 0**, (f) 0, attested-unused 136; gates 1–6 all PASS |
 | read sweep, real tree, `--levels-maxpairs` | 6,751 distinct paths, **UNPINNED 0**, (f) 0, attested-unused 136 |
 | import scan (`import_scan_4b.py`, real tree) | 3 exp4b-own residual modules; `IMPORTED_SHA256_4B` re-pinned after check 13 (its own drift test caught the stale hash first) |
-| mutants | **83** (71 + 12 for the freeze's own closures), every target text unique |
+| mutants | **83** = 44 hand + 39 AST (base 70, plus 12 hand mutants for the freeze's own closures and one new AST site for gate 6); every target text unique |
 | gate 6 on both cached worlds | PASS, 136 comparisons each (the slow world tests still reach their terminals) |
 
 (The slow world/totality/determinism results are recorded in §F.)
+
+## F. The slow batteries, the mutation pass, determinism
+
+Run after every closure, on the cached worlds
+(`EXP4B_WORLD_CACHE=/private/tmp/exp4b_world_cache`). Four pytest
+sessions detached in parallel and polled (the environment has no
+`timeout(1)` and a 600 s foreground cap; disclosed in the header), then
+the cold tools in the foreground.
+
+| battery | result |
+| --- | --- |
+| `test_full_shape_4b.py -m slow` | **5 passed**, 1,835 s — every terminal end to end: the leads world's §4 feasibility floor (×2), the follows world's natural NOT-DISTINGUISHABLE, and the forced-p_cal MARGINAL and CALIBRATED runs, which are what exercise the licence block, the F-2 `mc_resolution` print, S1's one-sided label and the corrected S7(b)/S4 lines on a live record |
+| `test_totality_4b.py -m slow` | **32 passed**, 2,383 s (31 + the freeze's gate-6 refusal test) |
+| `test_analyze_4b.py` + `test_levels_4b.py` + `test_power_ext_4b.py`, `-m slow` | **17 passed**, 2,148 s |
+| `test_determinism_4b.py -m slow` | **1 passed**, 1,069 s — `verdict.json`, `placebo_4b.json` and `power_ext_4b.json` byte-identical across two separate processes on the shared follows world, WITH every field the freeze added (the licence block, `mc_resolution`, `pins_active`'s numpy/scipy versions, S1's reading, S4's new fields, gate 6's per-trajectory block) |
+| `test_battery_4b.py -m slow` (real git) | **1 passed** |
+| fast suite, final | **124 passed**, 56 deselected, 29.3 s |
+| cold referent battery, final (real tree) | **13/13** |
+| import scan, final (real tree) | 3 residual modules, pin unchanged from the freeze's re-pin (gate 4 21.8 s, `identical=True`) |
+| `read_sweep_4b --world` (full pipeline, cached follows world) | 7,289 distinct paths, **UNPINNED 0**, (f) 0, gates 1–**6** all PASS, verdict NOT-DISTINGUISHABLE; `world_artifact` 3,889 — the bucket that is exactly why this mode cannot answer the manifest question for the real tree (F-4) |
+| mutation, fast pass (`mutation_freeze.log`) | 83 mutants, **47 killed**, 36 survivors |
+| mutation, worlds confirmation (`mutation_freeze_worlds.log`) | 35 of the 36 are the established worlds-only set with labels UNCHANGED from the committed `--fullshape` logs, where each is already confirmed killed; the 36th — the freeze's own F-1 refusal mutant — confirmed here by hand: clean 1 passed / mutant 1 FAILED. **83/83 killed, zero survivors, zero equivalent, zero open, zero SKIP, zero TIMEOUT** |
+
+Two observations worth keeping from these runs:
+
+* the real-tree `--levels` sweep found **the same 7,371 distinct paths
+  as the plain `stop_before` sweep** — S6's four cheap readers open no
+  file that gates 1–6 have not already opened (the ladder, twin and
+  reference units come in through gate 5's stage tables and gate 1's
+  sweep tables). Only `--levels-maxpairs` adds nothing either: its
+  6,751 paths are a subset. So S6 adds real-tree READS but no new
+  real-tree PATHS, which is why the manifest already covered them;
+* the F-1 mutant is a reminder about where a refusal's test has to
+  live: on an empty tree every earlier gate already fails, so a gate's
+  own `failures.append` is unobservable there. Only a tree where that
+  gate is the ONLY thing wrong can see it.
