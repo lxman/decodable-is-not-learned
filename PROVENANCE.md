@@ -507,6 +507,48 @@ second loader path on all four trajectories, which the record
 documents. The retained-path list above now includes
 `experiments/exp4` and `experiment-4-design.md`.
 
+On 2026-09-17 the Experiment 4b record was added (the calibration
+successor to Experiment 4, analysis-only on Experiment 4's committed
+bytes with zero model contact: is Experiment 4's T = .6102
+distinguishable from the T that the flat tasks produce when put
+through the identical measurement — the same excess over the pooled
+trend, the same eligibility bar, the real cells' clear positions
+permuted onto eligible flat tasks, 10,000 placebo batteries? Every
+input was committed and known, including to the designer; the null
+was the only unknown. Verdict NOT-DISTINGUISHABLE: p_cal .2516
+against a placebo null of mean .4357 and SD .2465; the lead over the
+null is +.1745 with an interval of [−.265, +.695], covering zero; the
+four per-trajectory nulls run from −.06 (Comma) to .84 (OLMo-2 7B,
+whose .959 in Experiment 4 sits at p .22 against it), no trajectory
+separates by itself, and Experiment 4's frozen decision rule fires on
+.117 of null batteries. Experiment 4's verdict is not revised; the
+sentence it licenses is demoted — the agreement did not arrive with
+performance, and whether it led the general drift is not
+distinguishable at this resolution). Same GRAFT route: the 23 private
+commits touching `experiments/exp4b`, `experiment-4b-design.md` and
+`.gitignore` were applied as a path-limited series fast-forward onto
+the previous public master (4a3e531f) at index level, identities
+normalized to the single noreply identity, author and committer dates
+and commit and tag messages preserved byte for byte, redaction scans
+clean (0 secret-class, 0 home-path lines, 0 LAN literals across the
+41 text files and the 23 commit and 2 tag messages added); all
+twenty-three commit messages carry a `Claude-Session` attribution
+trailer (an authentication-gated session link), preserved verbatim
+under the messages-preserved rule and disclosed here. The tree at
+both new anchors and at HEAD is entry-identical to the private tree on
+the added paths (43 entries at the close), every other path is
+untouched, and all 75 prior tags and every prior commit are untouched.
+Two tags carried: `exp4b-preregistered` (private ef7c8979 → public
+86b59063, the five instrument blobs bound) and `exp4b-closed`
+(4abb019e → 8b597753); the retrospective grading the sealed
+projection follows the closing tag (private 8c5e6c1d → public
+6282b298). The freeze of this experiment found no class defect; its
+closures and the design-document slips were applied before the tag,
+and thirty-four pre-tag executions of the analyzer against the real
+tree are disclosed in the design document, none of which drew a
+placebo battery. The retained-path list above now includes
+`experiments/exp4b` and `experiment-4b-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
