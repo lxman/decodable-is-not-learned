@@ -1036,14 +1036,126 @@ established pattern.
 
 ### Files
 
-`experiments/exp4b/tests/test_totality_4b.py` (totality suite, 30
-tests total incl. the S7 known-answer-gate test), `mutation_check.py`
-(the harness + `FULLSHAPE_MUTANT_TEST_4B` map), `read_sweep_4b.py`,
-`import_scan_4b.py`, `test_determinism_4b.py`; `analyze_4b.py`
-(`IMPORTED_SHA256_4B` filled); `verify_referents_4b.py` (check 12);
-`conftest.py` (`_follows_world_4b` promoted to session scope);
-`full_shape_4b.py` (`EXP4B_WORLD_CACHE` support); `test_full_shape_
-4b.py`, `test_analyze_4b.py`, `test_placebo_4b.py`, `test_levels_4b.
-py`, `test_power_ext_4b.py` (carried-item fixes + mutation-harness
-closures). `experiments/exp4b/mutation_build.log`, `mutation_build_
-pass2.log`, `mutation_worlds.log` committed (never gitignored).
+`experiments/exp4b/tests/test_totality_4b.py` (totality suite, **39
+tests total at the end of this task's first cut** incl. the S7
+known-answer-gate test — see the review-round section below for the
+final count of 39 unchanged, one test's kwargs fixed), `mutation_
+check.py` (the harness + `FULLSHAPE_MUTANT_TEST_4B` map), `read_
+sweep_4b.py`, `import_scan_4b.py`, `test_determinism_4b.py`;
+`analyze_4b.py` (`IMPORTED_SHA256_4B` filled); `verify_referents_4b.
+py` (check 12); `conftest.py` (`_follows_world_4b` promoted to
+session scope); `full_shape_4b.py` (`EXP4B_WORLD_CACHE` support);
+`test_full_shape_4b.py`, `test_analyze_4b.py`, `test_placebo_4b.py`,
+`test_levels_4b.py`, `test_power_ext_4b.py` (carried-item fixes +
+mutation-harness closures). `experiments/exp4b/mutation_build.log`,
+`mutation_build_pass2.log`, `mutation_worlds.log` committed (never
+gitignored).
+
+### Review round: four Important findings, fixed
+
+A whole-branch review of this task found four issues. All four fixed;
+covering tests re-run; a third fast pass and a second worlds pass
+committed as logs.
+
+**Finding 1 — the 68/68 tally was narrated, not reproducible.**
+`mutation_build_pass2.log` ends at 31/68 with #18/#19/#20 surviving;
+the remaining three kills were described in this file's prose (a
+JOINT application of #18+#19, a fast test for #20 written after pass
+2) with no log behind them, and a joint failure does not attribute a
+kill to either mutant individually. Fixed: `test_simulate_zero_
+excess_scaled_noise_draws_are_scaled_at_each_site` (new fast test,
+`test_power_ext_4b.py`) spies on `.normal()` itself (real value
+generation delegated to a genuine `np.random.Generator`, only the
+`scale` ARGUMENT recorded) and asserts each of the two calls — the
+flat-rung site, the pool-rung site — carries the correct `se *
+scale_by_traj[traj]`; verified by hand to independently fail when
+EITHER #18 or #19 is applied alone (both checked, both reverted). #20
+already had its own dedicated fast test from before the review
+(`test_simulate_zero_excess_scaled_eligibility_bar_is_inclusive_at_
+the_boundary`) — no change needed there, just a log to show it.
+
+**Finding 2 — nothing asserted the filled pin itself.** Every test
+passes `imports_pinned=False`; the one `imports_pinned=True` test
+monkeypatches `check_imports_4b` away, never exercising `IMPORTED_
+SHA256_4B`'s own content. Fixed: `test_imported_sha256_4b_pin_
+matches_disk_and_covers_every_residual_module` (new fast test, `test_
+analyze_4b.py`) asserts (a) the pin is not `None` and every pinned
+path's CURRENT `sha256_file` matches its literal, (b) the pin's key
+set equals `experiments/exp4b/*.py`'s directory listing minus
+`INSTRUMENT_BLOBS_4B` — a module added later without re-running
+`import_scan_4b.py` now fails THIS test instead of silently existing
+uncovered.
+
+**Finding 3 — the import surface was checked at ENTRY only.** Exp 4's
+own analyzer checks it twice (entry, then again at exit, "after every
+secondary/sensitivity has had the chance to import something the
+entry check never saw", 2j F-1); `analyze_4b.run()` lazily imports
+`make_referents_4b` after the entry check and runs S1/S6/S7 later,
+each of which COULD import something new. Fixed: mirrored exp4's own
+exit site verbatim — `collect_total_4b(check_imports_4b if imports_
+pinned else (lambda: None), "4b import surface (exit)")` inserted
+right after S7, gated `if not failures:` (exp4's own rule). AST site
+count: **37 → 38.** New slow test `test_import_surface_exit_check_
+raise_gives_insufficient_data` (`test_totality_4b.py`, FOLLOWS world,
+S1/S6 stubbed cheap as the S7 test already does) — needs a STATEFUL
+monkeypatch (the entry call must succeed for real so the run reaches
+the exit site at all; only the SECOND call raises). First version had
+a real bug, caught by the fullshape baseline check itself (belt and
+suspenders working as designed): the test's hand-written kwargs
+omitted `expected_n_sim=fs.WORLD_POWER_N_SIM_4` (every OTHER test gets
+this from `_run4b_kwargs()`, which this one couldn't use since it
+needs `imports_pinned=True` where that helper hardcodes `False`) — the
+power-record `n_sim` mismatch failed FIRST, cascading into gates 1/3/5
+also failing before `not failures` was ever true, so the exit site was
+never reached and the assertion failed on the WRONG reason string.
+Fixed by adding the missing kwarg; re-verified against the cached
+world, passes.
+
+**Finding 4 — `--fullshape`'s kill criterion counted "no tests
+collected" as a kill.** `ok = r.returncode == 0`; pytest exits 5 when
+a `-k` pattern selects nothing, so a typo'd `FULLSHAPE_MUTANT_TEST_4B`
+entry would read as `ok=False` (a "kill") with nothing actually run.
+Fixed two ways: (1) `run_suite` now also returns `no_tests_collected`
+(`returncode == 5`), routed to a NEW "SKIP" category in the tally,
+never a kill; (2) `_k_selects_something` runs a `--collect-only` check
+against the mapped `-k` BEFORE the mutant is ever applied — a stale
+mapping value is a SKIP with a clear reason at that point, never
+reaching the timed mutant run at all.
+
+**Pass 3** (fast suite, full M list — now **69 mutants**, `mutation_
+build_pass3.log`): **34/69 killed**, 35 survivors — every survivor
+confirmed to be genuinely totality/worlds-only (the 33 pre-existing
+`collect_total_4b` AST sites, the new exit-site AST mutant, S7's hand
+mutant). Confirms #18/#19/#20 are now ALSO fast-suite kills (up from
+31 in pass 2).
+
+**`mutation_worlds_pass2.log`** (targeted `--fullshape` confirmation
+for the one NEW survivor not already in `mutation_worlds.log` — the
+exit-site AST mutant `totality_cf7a1c9dd6`): **1/1 killed.** (First
+attempt hit the finding-3 test bug above and was discarded/re-run, not
+committed — the committed log is the clean re-run.)
+
+**Reconciled tally, every one of the 69 mutants traceable to a
+committed log:**
+
+| Source | Count | Log |
+|---|---|---|
+| Fast suite, pass 3 (final) | 34 killed | `mutation_build_pass3.log` |
+| `--fullshape`, pass 1 | 34 killed | `mutation_worlds.log` |
+| `--fullshape`, pass 2 | 1 killed | `mutation_worlds_pass2.log` |
+| **Total** | **69/69 killed** | — |
+
+Zero survivors, zero equivalent, zero open, across all 69. (`mutation_
+build.log`/`mutation_build_pass2.log` are the pass-1/pass-2 fast
+records superseded by pass 3 as the CURRENT fast-suite disposition;
+kept committed as the build history, not re-narrated here.)
+
+Fast suite after the review round: **100 passed**, 55 deselected
+(`~25-28s`). `test_totality_4b.py` collects **39 tests: 8 fast, 31
+slow** (the coordinator's own prediction of "38: 8 fast + 30 slow"
+undercounted by one — the exit-site test itself; verified directly via
+`pytest --collect-only`, both with and without `-m "not slow"`). No
+stranded `.mutation_backup` at any point in the review round; the five
+instrument files verified byte-clean except `analyze_4b.py`'s two
+legitimate diffs (`IMPORTED_SHA256_4B`'s fill, the new exit-site
+check).

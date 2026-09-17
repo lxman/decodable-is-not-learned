@@ -349,6 +349,56 @@ def test_s7_known_answer_gate_catches_a_corrupted_committed_t(_follows_world_4b,
 
 
 @pytest.mark.slow
+def test_import_surface_exit_check_raise_gives_insufficient_data(_follows_world_4b, tmp_path,
+                                                                  monkeypatch):
+    """Mutation harness review finding 3: the import surface is
+    checked at ENTRY only in Task 6's first cut -- exp4's own `analyze_
+    4.run()` checks it twice (entry, then again at exit, "after every
+    secondary/sensitivity has had the chance to import something the
+    entry check never saw", 2j F-1). Mirrored in `analyze_4b.run()`
+    right after S7. A STATEFUL monkeypatch is required here (not a
+    plain `_boom`): `imports_pinned=True` means `check_imports_4b`
+    fires at BOTH the entry and exit sites, and the entry call must
+    succeed for real (real `sys.modules` scan) so the run gets far
+    enough to reach the exit site at all -- only the SECOND call
+    raises. S1/S6 stubbed cheap (the S7 test's own trick) so this
+    doesn't pay S1's real simulation cost."""
+    root4, v4 = _follows_world_4b
+
+    def _fast_s1(elig, rung_sets, grids, lambda_by_traj, *, n_sim):
+        return {"arms": {"observed_lambda": {"Ts": [], "P_LEADS": 0.0}, "4.0": {}, "6.0": {},
+                        "8.0": {}, "12.0": {}, "rms_lambda": {}},
+                "order": [], "seed": 0, "n_sim": 0, "lambda_by_traj": {}}
+
+    monkeypatch.setattr(power_ext_4b, "extension_arms_4b", _fast_s1)
+    monkeypatch.setattr(levels_4b, "ladder_4b", lambda root4: {})
+    monkeypatch.setattr(levels_4b, "twins_4b", lambda root4: {})
+    monkeypatch.setattr(levels_4b, "ceiling_4b", lambda root4: {})
+    monkeypatch.setattr(levels_4b, "within_family_4b", lambda root4: {})
+    monkeypatch.setattr(levels_4b, "max_over_pairs_4b", lambda root4, cells4: {})
+
+    real_check = an4b.check_imports_4b
+    calls = {"n": 0}
+
+    def _flaky():
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return real_check()
+        raise RuntimeError("synthetic check_imports_4b failure (test-injected, exit site)")
+
+    monkeypatch.setattr(an4b, "check_imports_4b", _flaky)
+
+    from experiments.exp4.tests import full_shape as fs
+    v = an4b.run(root4b=tmp_path / "4b", root4=root4, power_gate="full",
+                tag_exists=lambda t: True, blob_sha=fs4b.blob_sha_4b,
+                referents_sha=False, imports_pinned=True, frozen_check=lambda: None,
+                expected_n_sim=fs.WORLD_POWER_N_SIM_4)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert "4b import surface (exit)" in v["reason"], v["reason"]
+    assert calls["n"] == 2, calls
+
+
+@pytest.mark.slow
 def test_gate5_fails_when_a_gate0_fraction_is_perturbed(_leads_world_4b, tmp_path):
     """Task 6: gate (5) had no perturbation test in `test_analyze_4b.py`
     (only gates 1-4 did) -- added here, same shape as its siblings."""

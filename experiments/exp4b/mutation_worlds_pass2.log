@@ -1,0 +1,5 @@
+baseline OK (fullshape pass, ['totality_cf7a1c9dd6'] mutants)
+
+[totality_cf7a1c9dd6] (#61) killed  run(): totality -- collect_total_4b stripped at line 908 (check_imports_4b if imports_pinned else (lambda: None)...)  (-k 'test_import_surface_exit_check_raise_gives_insufficient_data')
+
+1/1 killed; 0 survivor(s): []; 0 SKIP (target text not found / stale mutant / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []

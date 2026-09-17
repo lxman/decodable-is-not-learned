@@ -894,6 +894,21 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
         s7, f = collect_total_4b(_s7, "4b S7")
         failures += f
 
+    # Mutation harness review finding 3 (2j F-1's lineage, exp4's own
+    # analyze_4.run() pattern at its own entry/exit sites): the import
+    # surface is itself a verdict input -- a read sweep sees what an
+    # analyzer OPENS, not what the interpreter EXECUTES on its behalf.
+    # Checked at ENTRY (`"4b import surface (entry)"`, above, before
+    # `make_referents_4b` is even imported) and again at EXIT, after
+    # S1/S6/S7 have each had the chance to import something the entry
+    # check never saw. Gated by `if not failures:` (exp4's own rule) --
+    # `imports_pinned` falsy uses a no-op thunk, so the wrapper site
+    # itself is still exercised (and totality-testable) either way.
+    if not failures:
+        _, f = collect_total_4b(check_imports_4b if imports_pinned else (lambda: None),
+                                "4b import surface (exit)")
+        failures += f
+
     tree = verdict_tree_4b(failures, feasibility_ok, (p_cal_block or {}).get("p_cal"))
 
     primary_block = None

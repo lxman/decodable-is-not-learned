@@ -373,3 +373,32 @@ def test_gate5_rederive_4b_fails_on_mismatched_fraction_below(monkeypatch):
     v4_bad = {"gate0": {traj: {"fraction_below": 0.1} for traj in battery_4.TRAJECTORIES_4}}
     g_bad = an4b.gate5_rederive_4b(root4="unused", stage_tables_4={}, v4=v4_bad)
     assert g_bad["pass"] is False
+
+
+def test_imported_sha256_4b_pin_matches_disk_and_covers_every_residual_module():
+    """Mutation harness review finding 2: nothing in the suite asserts
+    the FILLED pin itself -- every other test passes `imports_pinned=
+    False`, and the one `imports_pinned=True` test (`test_totality_4b.
+    py`'s import-surface-entry test) monkeypatches `check_imports_4b`
+    away rather than exercising the pin's own content.
+
+    (a) `IMPORTED_SHA256_4B` is not `None` and every pinned path's
+    CURRENT `sha256_file` matches its literal -- catches silent drift a
+    one-shot manual `import_scan_4b.py` run would not.
+    (b) its key set equals the directory listing of every `*.py` file
+    directly under `experiments/exp4b/` (not `tests/`) MINUS
+    `INSTRUMENT_BLOBS_4B`'s five tag-bound files -- a module added
+    later without re-running `import_scan_4b.py` fails THIS test
+    instead of silently slipping past `check_imports_4b`, which only
+    complains about modules the CURRENT process actually imported, not
+    modules that exist on disk but were never reached this run."""
+    assert an4b.IMPORTED_SHA256_4B is not None
+    for p, want in an4b.IMPORTED_SHA256_4B.items():
+        got = an4b.bg.sha256_file(Path(p))
+        assert got == want, f"{p}: sha256_file drifted from the pin ({got!r} != {want!r})"
+
+    instrument = {(an4b.battery_4b.REPO / rel).resolve()
+                 for rel in an4b.battery_4b.INSTRUMENT_BLOBS_4B}
+    on_disk = {p.resolve() for p in an4b.EXP4B.glob("*.py")} - instrument
+    pinned = {Path(p).resolve() for p in an4b.IMPORTED_SHA256_4B}
+    assert pinned == on_disk, f"only pinned: {pinned - on_disk}; only on disk: {on_disk - pinned}"

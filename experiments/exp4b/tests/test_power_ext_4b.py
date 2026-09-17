@@ -337,6 +337,49 @@ def test_simulate_zero_excess_scaled_eligibility_bar_is_inclusive_at_the_boundar
     assert out["mean_eligible_cells"] == 1.0, out
 
 
+def test_simulate_zero_excess_scaled_noise_draws_are_scaled_at_each_site():
+    """Mutation harness review finding 1: the two slow equivalence
+    tests above kill the flat-rung and pool-rung scale-drop mutations
+    only JOINTLY (both dropped at once, in one `test_power_ext_4b.py
+    -m slow` run against a real world) -- a joint failure does not
+    attribute a kill to either mutant site specifically, and no fast
+    test observed either. `_FixedRng` (used just above) cannot do this
+    either: it ignores `scale` by design. This spies on `.normal()`
+    itself (real value generation delegated to a genuine `Generator`,
+    so downstream code sees real noise, not a fixture the test had to
+    hand-craft) and asserts each of the TWO calls carries the CORRECT
+    `scale` argument: the flat-rung site's `ti["flat_se"][r] *
+    scale_by_traj[traj]`, the pool-rung site's `info["se_r"] *
+    scale_by_traj[traj]` -- one trajectory, one flat rung, one pool
+    rung, DISTINCT `flat_se`/`se_r`/`scale_by_traj` values so a
+    stale/mis-keyed lookup at either site would read as a wrong
+    number, not accidentally the right one."""
+    class _SpyRng:
+        def __init__(self, real):
+            self._real = real
+            self.calls = []   # [(loc, scale, size), ...] in call order
+
+        def normal(self, loc, scale, size):
+            self.calls.append((loc, scale, size))
+            return self._real.normal(loc, scale, size)
+
+    pool_info = {("T", "X"): {"G": 1, "c_r": 0, "se_r": 5.0, "t_clear": 0}}
+    traj_info = {"T": {"flat": ["F"], "flat_se": {"F": 3.0}, "steps": [0],
+                       "trend_t1": 0.0, "trend_end": 0.0}}
+    trend_arr = {"T": np.array([0.0])}
+    rung_sets = {"T": {"flat": ["F"], "R": {"X": {}}}}
+
+    spy = _SpyRng(np.random.default_rng(0))
+    pe.simulate_zero_excess_scaled(
+        pool_info=pool_info, traj_info=traj_info, trend_arr=trend_arr, rung_sets=rung_sets,
+        rng=spy, n_sim=1, scale_by_traj={"T": 2.0}, seed=0, scale_index=0)
+
+    assert len(spy.calls) == 2, spy.calls
+    flat_call, pool_call = spy.calls
+    assert flat_call[1] == pytest.approx(3.0 * 2.0), flat_call     # kills #18 alone
+    assert pool_call[1] == pytest.approx(5.0 * 2.0), pool_call     # kills #19 alone
+
+
 # --------------------------------------------------------------- p_iid_4b
 
 

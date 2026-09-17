@@ -263,6 +263,7 @@ FULLSHAPE_MUTANT_TEST_4B = {
     "totality_a1b6f9d618": "test_battery_items_raise_gives_insufficient_data",
     "totality_3b119f6978": "test_floors_raise_gives_insufficient_data",
     "totality_2f5ee2baca": "test_import_surface_entry_check_raise_gives_insufficient_data",
+    "totality_cf7a1c9dd6": "test_import_surface_exit_check_raise_gives_insufficient_data",
     "totality_0ec22598ad": "test_t4_from_verdict_non_numeric_gives_insufficient_data",
     "totality_ef3e324a80": "test_cells_from_verdict_off_grid_t_clear_gives_insufficient_data",
     "totality_3f47837ddb": "test_stage_tables_torn_json_gives_insufficient_data",
@@ -327,24 +328,46 @@ def _acquire_backup(path):
 
 
 def run_suite(tests, extra_args=None, timeout=None, extra_env=None):
-    """Returns `(ok, out, timed_out)`. A timeout is NOT a kill (exp4's
-    own ruling): `subprocess.run(..., timeout=...)` kills the child
-    itself on expiry and raises `TimeoutExpired`, caught here and
-    reported as `timed_out=True` — the caller must never fold this into
-    either `ok` or `survived`. `extra_env` (e.g. `EXP4B_WORLD_CACHE`
-    for `--fullshape`) is merged in on top of the inherited environment."""
+    """Returns `(ok, out, timed_out, no_tests_collected)`. A timeout is
+    NOT a kill (exp4's own ruling): `subprocess.run(..., timeout=...)`
+    kills the child itself on expiry and raises `TimeoutExpired`,
+    caught here and reported as `timed_out=True` — the caller must
+    never fold this into either `ok` or `survived`. Review finding 4:
+    pytest exits 5 ("no tests ran") when a `-k` pattern selects
+    nothing — that is NOT `returncode == 0`, so it was already never
+    `ok`, but it was being folded into `survived` (a kill requires the
+    covering test to FAIL, and "no test ran" trivially satisfies
+    `returncode != 0` the same shape a real failure does) — a typo in
+    `FULLSHAPE_MUTANT_TEST_4B` would silently read as a kill.
+    `no_tests_collected` (`returncode == 5`) lets the caller route this
+    to a SKIP instead. `extra_env` (e.g. `EXP4B_WORLD_CACHE` for
+    `--fullshape`) is merged in on top of the inherited environment."""
     env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1", **(extra_env or {})}
     args = list(extra_args or [])
     try:
         r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
                             *tests, *args], cwd=ROOT, env=env, capture_output=True, text=True,
                            timeout=timeout)
-        return r.returncode == 0, r.stdout[-600:], False
+        return r.returncode == 0, r.stdout[-600:], False, r.returncode == 5
     except subprocess.TimeoutExpired as e:
         partial = e.stdout or ""
         if isinstance(partial, bytes):
             partial = partial.decode(errors="replace")
-        return False, partial[-600:], True
+        return False, partial[-600:], True, False
+
+
+def _k_selects_something(tests, k_pattern, *, extra_env=None) -> bool:
+    """Review finding 4's second half: BEFORE a mutant is applied,
+    confirm its `-k` selector matches at least one test on the REAL,
+    unmutated source via `--collect-only` — a typo'd mapping value is
+    caught here, as a SKIP with a clear reason, rather than only
+    showing up (or not) as a `no_tests_collected` result from the timed
+    mutant run itself."""
+    env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1", **(extra_env or {})}
+    r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
+                        "--collect-only", *tests, "-k", k_pattern],
+                       cwd=ROOT, env=env, capture_output=True, text=True)
+    return r.returncode == 0
 
 
 def _parse_only(argv) -> set:
@@ -395,7 +418,7 @@ def main(argv=None) -> int:
     # The baseline always runs the WHOLE file (no `-k`): a real,
     # unmutated confirmation that every mapped test still passes, not
     # just the one a given mutant's `-k` will later isolate.
-    ok, out, timed_out = run_suite(tests, extra, timeout=timeout)
+    ok, out, timed_out, _ = run_suite(tests, extra, timeout=timeout)
     if timed_out:
         print(f"BASELINE TIMED OUT after {timeout}s — the covering suite itself is not this "
              f"slow normally; investigate before trusting any mutant result from this run\n", out)
@@ -420,6 +443,17 @@ def main(argv=None) -> int:
             mapped = FULLSHAPE_MUTANT_TEST_4B.get(mlabel)
             if mapped:
                 mutant_extra = ["-k", mapped]
+                # Review finding 4: confirm the `-k` selector matches
+                # at least one test on the REAL, unmutated source
+                # BEFORE the mutant is ever applied — a typo'd mapping
+                # value is a SKIP with a clear reason, never silently
+                # folded into a "kill" once the mutant's own run also
+                # collects nothing.
+                if not _k_selects_something(tests, mapped):
+                    print(f"[{mlabel}] (#{i}) SKIP  {name}: -k {mapped!r} selects no test in "
+                         f"{tests} (stale FULLSHAPE_MUTANT_TEST_4B entry)", flush=True)
+                    survivors.append((mlabel, i, name, "k-selects-nothing"))
+                    continue
         src = path.read_text()
         if src.count(old) != 1:
             print(f"[{mlabel}] (#{i}) SKIP  {name}: target text not found exactly once in "
@@ -430,7 +464,7 @@ def main(argv=None) -> int:
         try:
             path.write_text(src.replace(old, new))
             clear_pycache()
-            ok, out, timed_out = run_suite(tests, mutant_extra, timeout=timeout)
+            ok, out, timed_out, no_tests = run_suite(tests, mutant_extra, timeout=timeout)
         finally:
             shutil.copy2(backup, path)
             backup.unlink()
@@ -440,16 +474,28 @@ def main(argv=None) -> int:
                  f"survived; a timeout is not a kill)", flush=True)
             timeouts.append((mlabel, i, name, "timeout"))
             continue
+        if no_tests:
+            # pytest exit 5 ("no tests ran"): `ok` is already False
+            # here (5 != 0), which would otherwise read as a "kill" —
+            # the pre-check above should have caught a stale mapping,
+            # but this is the defense-in-depth backstop (e.g. a
+            # selector that matches on the real tree but not after
+            # some OTHER, unrelated mutation's side effect).
+            print(f"[{mlabel}] (#{i}) SKIP  {name}  (-k {mutant_extra[1]!r} collected 0 tests "
+                 f"against the MUTATED source — not counted as killed or survived)", flush=True)
+            survivors.append((mlabel, i, name, "no-tests-collected"))
+            continue
         via = f"  (-k {mutant_extra[1]!r})" if fullshape and mutant_extra != extra else ""
         print(f"[{mlabel}] (#{i}) {'killed' if not ok else 'SURVIVED'}  {name}{via}", flush=True)
         if ok:
             survivors.append((mlabel, i, name, "survived"))
-    skipped = [s for s in survivors if s[3] == "target-not-found"]
+    skipped = [s for s in survivors if s[3] in ("target-not-found", "k-selects-nothing", "no-tests-collected")]
     real = [s for s in survivors if s[3] == "survived"]
     killed = considered - len(survivors) - len(timeouts)
     print(f"\n{killed}/{considered} killed; "
           f"{len(real)} survivor(s): {real}; "
-          f"{len(skipped)} SKIP (target text not found, stale mutant): {skipped}; "
+          f"{len(skipped)} SKIP (target text not found / stale mutant / -k selected nothing): "
+          f"{skipped}; "
           f"{len(timeouts)} TIMEOUT (not a kill, not a survivor): {timeouts}")
     return 1 if (survivors or timeouts) else 0
 
