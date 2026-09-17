@@ -227,6 +227,63 @@ M = [(path, desc, old, new, _slug(desc)) for (path, desc, old, new) in M]
 
 # One mutant per collect_total_4b(...) call site in analyze_4b.py's
 # run(), generated from the real, current source at import time.
+# ------------------------------------------------- the freeze's own closures
+#
+# NB-1/NB-2 and F-1..F-5. Every one of these is killed by the FAST
+# suite (the new fast tests in `test_placebo_4b.py`/
+# `test_analyze_4b.py`); the gate-6 totality site is an AST mutant
+# below and is also fast-killed, since `test_gate6_wrapper_collects_a_
+# raise_into_insufficient_data` reaches that site on an EMPTY root4.
+_FREEZE_M = [
+    (PL4B, "NB-1: the n/(n-1) rescale reinstated on S4's flat side",
+     """        flat_incs = []
+        for f in flat:
+            loo = loo_excess_4b(a, flat, steps, f)
+            flat_incs.extend(np.diff(loo).tolist())""",
+     """        flat_incs = []
+        for f in flat:
+            loo = loo_excess_4b(a, flat, steps, f)
+            flat_incs.extend((np.diff(loo) / (loo_scale_factor or 1.0)).tolist())"""),
+    (PL4B, "NB-1: rms_flat_loo decoupled from rms_flat (the disclosure field faked)",
+     "        rms_flat_loo = rms_flat",
+     "        rms_flat_loo = rms_flat if rms_flat is None else rms_flat * 1.001"),
+    (PL4B, "NB-2: s3_pooled_rising_4b's tolerance dropped (any rise reads rising)",
+     '    out.update({"rising": bool(delta > S1_SHAPE_TOL_4B), "first_bin": live[0][0],',
+     '    out.update({"rising": bool(delta > 0.0), "first_bin": live[0][0],'),
+    (PL4B, "NB-2: s3_pooled_rising_4b decides on ONE bin (the >= 2 guard dropped)",
+     "    if len(live) < 2:",
+     "    if len(live) < 1:"),
+    (PL4B, "F-2: p_cal's Monte Carlo SE formula loses its 1/B",
+     "    return float(np.sqrt(max(p * (1.0 - p), 0.0) / B))",
+     "    return float(np.sqrt(max(p * (1.0 - p), 0.0)))"),
+    (PL4B, "F-2: bar_margins_4b's 2-SE band widened to 0 (no bar ever flagged)",
+     "            if abs(p_cal - bar) <= 2.0 * se:",
+     "            if abs(p_cal - bar) <= 0.0 * se:"),
+    (AN4B, "NB-2: s1_reading_4b's above-iid branch removed (two-sided again, r2's defect)",
+     '''    elif placebo_null_mean > iid_null_mean + tol:
+        reading = "above-iid"
+    elif rising.get("rising"):''',
+     '''    elif rising.get("rising"):'''),
+    (AN4B, "NB-2: s1_reading_4b's S3 conjunct dropped",
+     '    elif rising.get("rising"):',
+     '    elif True:'),
+    (AN4B, "F-1: gate 6 drops the tensor_digest agreement",
+     "        if not (sets_ok and act_ok and att_ok and g[\"digest_equal\"]):",
+     "        if not (sets_ok and act_ok and att_ok):"),
+    (AN4B, "F-1: gate 6 drops the per-rung sets byte agreement",
+     "        if not (sets_ok and act_ok and att_ok and g[\"digest_equal\"]):",
+     "        if not (act_ok and att_ok and g[\"digest_equal\"]):"),
+    (AN4B, "F-1: gate 6's failure no longer refuses the verdict",
+     '''    if not gate6_ok:
+        failures.append(f"4b gate 6: the endpoint units' bytes disagree, so the placebo ''',
+     '''    if False:
+        failures.append(f"4b gate 6: the endpoint units' bytes disagree, so the placebo '''),
+    (AN4B, "F-3: interval_covers_zero_4b always reads True",
+     "    return bool(interval[0] <= 0.0 <= interval[1])",
+     "    return True"),
+]
+M += [(path, desc, old, new, _slug(desc)) for (path, desc, old, new) in _FREEZE_M]
+
 M += _totality_mutants_4b(AN4B)
 
 _labels = [m[4] for m in M]
@@ -300,6 +357,12 @@ FULLSHAPE_MUTANT_TEST_4B = {
     "totality_9dbaf2e5a8": "test_alignment_series_raise_gives_insufficient_data",
     "totality_f6819c9e67": "test_placebo_pool_raise_gives_insufficient_data",
     "totality_2e4f7f4de5": "test_rung_sets_raise_gives_insufficient_data",
+    # FREEZE F-1's gate-6 site. Mapped for completeness only: it is
+    # killed by the FAST suite (`test_gate6_wrapper_collects_a_raise_
+    # into_insufficient_data`, which reaches the site on an EMPTY
+    # root4 -- `gate1_rederive_4` raises when the files are not there),
+    # so --fullshape never sees it.
+    "totality_7764f70ca9": "test_gate5_wrapper_catches_a_raise_from_gate5_rederive_4b",
     "s7_the_clears_and_stays_known_answer_gate_against_the_committed_t_disabl":
         "test_s7_known_answer_gate_catches_a_corrupted_committed_t",
 }

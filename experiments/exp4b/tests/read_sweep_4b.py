@@ -69,7 +69,20 @@ half of the pipeline the plain, real-tree sweep above never reaches
 (B-4 forbids computing a placebo quantity against the REAL tree, but a
 synthetic world carries no such restriction). Run:
 `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
-experiments.exp4b.tests.read_sweep_4b --world`."""
+experiments.exp4b.tests.read_sweep_4b --world`.
+
+FREEZE F-4: `--world`'s own table cannot answer the manifest question
+for the REAL tree -- on a synthetic world every exp4-tree read lands in
+the `world_artifact` bucket instead of being checked against
+`referents_4b.json`. The stage that adds real-tree reads past the stop
+point is S6 and only S6 (the placebo stage and S1 open no files at
+all; their inputs are already in memory). `--levels` and
+`--levels-maxpairs` sweep exactly that, on the real tree, S6 being no
+placebo quantity: see `_run_levels_sweep`. The `gitignored_attested_
+unused` count is 136 on the real tree (34 rungs x 4 references); the
+same 136 appears under `--world` because `build_world_4b`'s world
+carries its own copies of those reference units, not because the world
+mode re-confirmed the real tree's finding."""
 from __future__ import annotations
 
 import builtins
@@ -308,10 +321,102 @@ def _run_world_sweep() -> int:
     return 0
 
 
+def _report_4b(buckets, label) -> int:
+    distinct = sum(len(v) for v in buckets.values())
+    print(f"\n{distinct} distinct paths opened for reading "
+         f"({len(SWEEP.reads)} total open/read calls)")
+    print(f"  writes observed (should be 0): {len(SWEEP.writes)}")
+    print()
+    print(f"{'category':<40}{'count':>8}")
+    for k, v_ in buckets.items():
+        print(f"{k:<40}{len(v_):>8}")
+    if buckets["UNPINNED"]:
+        print("\nUNPINNED VERDICT INPUTS (must be empty):")
+        for p in buckets["UNPINNED"]:
+            print("  -", p)
+        return 1
+    print(f"\n(e) unpinned verdict input: 0 -- clean ({label})")
+    print(f"(f) exp4 campaign artifact not in exp4b's manifest: "
+         f"{len(buckets['exp4_campaign_artifact_not_in_manifest'])} (should be 0)")
+    return 0
+
+
+def _run_levels_sweep(*, include_run: bool, include_maxpairs: bool) -> int:
+    """FREEZE F-4: the plain sweep stops before the placebo stage
+    (B-4), and `--world` sweeps the full pipeline on a SYNTHETIC tree
+    where every exp4-tree read is bucketed as `world_artifact` rather
+    than checked against the manifest -- so neither answers "is every
+    REAL-tree file the full pipeline reads in the manifest?".
+
+    The placebo stage itself (pools, batteries, p_cal/T*/alpha, S3/S4/
+    S5/S8) and S1 open NO files: their inputs are the already-loaded
+    series, per-item arrays, eligibility record and rung sets (grep-
+    verified, and visible in `--world`'s own table: every read past
+    the stop point belongs to a `levels_4b` reader). S6 is the ONE
+    stage that adds real-tree reads -- the ladder units and their
+    `global.npz`, the four `init_<traj>` twins, the four reference
+    units read as "M", the Pythia sweep against `ref_pythia_12b`, and
+    `max_over_pairs_4b`'s full sweep x reference scan.
+
+    S6 is not a placebo quantity, so running its readers against the
+    real tree is permitted under B-4 (Task 5 and the fix wave both
+    already did, as timings); this mode runs them UNDER the sweep and
+    classifies every path. Split in two invocations so neither exceeds
+    a foreground budget: `--levels` (stop_before + the four cheap
+    readers) and `--levels-maxpairs` (`max_over_pairs_4b` alone, ~400
+    s). Values are never printed -- shapes and seconds only, design
+    §2's own rule for a real-tree timing run."""
+    import time
+    referents_rel = set(json.loads(an4b.REFERENTS_PATH_4B.read_text())["files"])
+
+    def blob_sha(tag, rel):
+        p = battery_4b.REPO / rel
+        return bg.sha256_file(p) if p.is_file() else None
+
+    root4 = battery_4.EXP4
+    cells = battery_4b.cells_from_verdict_4b(battery_4b.load_exp4_verdict_4b(root4))
+    restore = _install()
+    try:
+        if include_run:
+            with tempfile.TemporaryDirectory() as tmp:
+                v = an4b.run(root4b=Path(tmp) / "4b", root4=root4, write=False,
+                            stop_before="placebo", B=10, n_sim_ext=2,
+                            tag_exists=lambda t: True, blob_sha=blob_sha,
+                            referents_sha=False, imports_pinned=False)
+            print(f"verdict (stop_before='placebo'): {v['verdict']}")
+            for n in ("1", "2", "3", "4", "5", "6"):
+                g = v["gates"].get(n) or {}
+                print(f"  gate {n}: pass={g.get('pass')}")
+            for name, fn in (("ladder_4b", levels_4b.ladder_4b),
+                            ("twins_4b", levels_4b.twins_4b),
+                            ("ceiling_4b", levels_4b.ceiling_4b),
+                            ("within_family_4b", levels_4b.within_family_4b)):
+                t0 = time.time()
+                out = fn(root4)
+                print(f"  {name}: {time.time() - t0:.2f}s, top-level keys "
+                      f"{sorted(out)[:8]} (no values printed)")
+        if include_maxpairs:
+            t0 = time.time()
+            out = levels_4b.max_over_pairs_4b(root4, cells)
+            print(f"  max_over_pairs_4b: {time.time() - t0:.2f}s, n_cells={out['n_cells']} "
+                  f"n_phi={out['n_phi']} (pooled phi already DISCLOSED as known, design §2)")
+    finally:
+        restore()
+
+    buckets = _classify({p for p, _src in SWEEP.reads}, referents_rel)
+    label = ("real tree, stop_before + S6's four cheap readers" if include_run
+             else "real tree, S6(e) max_over_pairs only")
+    return _report_4b(buckets, label)
+
+
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     if "--world" in argv:
         return _run_world_sweep()
+    if "--levels" in argv:
+        return _run_levels_sweep(include_run=True, include_maxpairs=False)
+    if "--levels-maxpairs" in argv:
+        return _run_levels_sweep(include_run=False, include_maxpairs=True)
 
     referents_rel = set(json.loads(an4b.REFERENTS_PATH_4B.read_text())["files"])
     live_rel = {str(Path(p).resolve().relative_to(bg.REPO.resolve()))

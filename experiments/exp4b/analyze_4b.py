@@ -66,8 +66,12 @@ IMPORTED_SHA256_4B = {
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     REPO / "experiments/exp4b/make_referents_4b.py":
         "043f793abf58290842b9c6a6f0383472430ae3b16dbfd77f6f58e90fb6199fec",
+    # Re-pinned at the ADVERSARIAL FREEZE after cold check 13 (F-1's
+    # gate-6 re-assertion) was added to `verify_referents_4b.py`; the
+    # pin's own drift test caught the stale hash before the re-pin,
+    # exactly as the fix wave's did.
     REPO / "experiments/exp4b/verify_referents_4b.py":
-        "2a80de84aa0de81fdcadf7e1b8fb1b641d068b131cd31fd762cec1c2524dde9f",
+        "077a6382a58d2b1c8923ee129d073e7e8684049dffd0366e9aeae4bf450d5383",
 }
 
 # Design §2's disclosure paragraph, first sentence, quoted verbatim
@@ -101,13 +105,42 @@ LICENCE_4B = {
         "task-specific lead did not separate from the flat tasks' drift under the same "
         "selection (p_cal, T* with its interval covering zero); the scoreboard sentence is "
         "rewritten to say so; the lens claim's task-grain measurement retreats to Huh et al.'s "
-        "global result plus the disclosure. What survives: the construction account's cell "
-        "stays excluded by Exp 4's own sign-flip reading (T .61 at p+ 4.9e-4 against phi ~ 0) -- "
-        "'the agreement did not arrive with performance; whether it led the general drift is "
-        "not distinguishable at this resolution'."
+        "global result plus the disclosure; `experiments.md` records the demotion beside Exp 4's "
+        "section. What survives in every world: the construction account's cell stays excluded "
+        "by Exp 4's own sign-flip reading (T .61 at p+ 4.9e-4 against phi ~ 0), and the sentence "
+        "says so -- 'the agreement did not arrive with performance; whether it led the general "
+        "drift is not distinguishable at this resolution'."
     ),
     "INSUFFICIENT_DATA": "design §6: nothing changes in the essay; the reason is ledgered.",
 }
+
+# FREEZE NB-2 minor: design §6's LAST bullet ("Any world"), quoted --
+# it applies whatever cell is reached and was missing from the licence
+# block entirely.
+LICENCE_ANY_WORLD_4B = (
+    "design §6 Any world: S1-S8 in full in `experiments.md`; S6's site-0-excluded ladder "
+    "replaces Exp 4's frozen S3 in the program record as the reading of the size axis, with the "
+    "frozen number kept beside it as what the instrument printed; the known-input caveat "
+    "verbatim in every sentence."
+)
+
+# FREEZE F-3: design §6's NOT-DISTINGUISHABLE sentence asserts "T* with
+# its interval covering zero" as a matter of fact. It is not one: the
+# interval is [T4 - Q.975, T4 - Q.025], so its UPPER end is negative
+# whenever T4 sits below the placebo null's 2.5th percentile -- exactly
+# the direction the construction account predicts -- and the world is
+# still NOT-DISTINGUISHABLE (p_cal >= .05). The analyzer checks the
+# clause instead of printing it unchecked, and names the cell §6 did
+# not: the licence block carries `interval_covers_zero` and, when it is
+# False, this sentence beside the quoted one.
+LICENCE_INTERVAL_BELOW_NULL_4B = (
+    "CELL NOT NAMED IN design §6: the quoted sentence's parenthetical does not hold on this "
+    "reading -- T* 's placebo interval lies entirely BELOW zero (T_4 sits under the placebo "
+    "null's 2.5th percentile, p_low printed beside p_cal), so the flat rungs' own drift EXCEEDS "
+    "the task-specific lead at this resolution. The demotion §6 prescribes still governs; the "
+    "'interval covering zero' clause must not be written, and which sentence the essay takes "
+    "instead is Michael's call (a freeze disclosure, not a licence this analyzer grants)."
+)
 
 # design §6 CALIBRATED's own alpha_placebo sub-branch: keyed by
 # `alpha_placebo < LICENCE_TRAJ_ALPHA_4b's own .05 bar` (an.
@@ -119,7 +152,25 @@ LICENCE_ALPHA_PLACEBO_CLAUSE_4B = {
            "false-positive rate at this scatter was alpha_placebo, and rests on p_cal."),
 }
 
+# FREEZE NB-2: design §5 S1's reading is one-sided; these are the two
+# names §5 gives plus the two cells it does not license. The rule is in
+# `run()._s1`; the S3 conjunct's own rule is
+# `placebo_4b.s3_pooled_rising_4b`'s.
+S1_READINGS_4B = ("same shape", "drift-like", "above-iid", "below-iid, S3 not rising")
+
 _LITERAL = object()
+
+
+def _scipy_version_4b():
+    """scipy's version, for `pins_active`'s stack disclosure -- read
+    through `levels_4b`'s own already-imported `scipy.stats` rather
+    than a fresh import, `None` if it is somehow absent (never a
+    raise: this is a disclosure field, not a gate)."""
+    try:
+        import scipy
+        return scipy.__version__
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def collect_total_4b(thunk, label):
@@ -238,6 +289,97 @@ def gate3_rederive_4b(series_by_traj, rung_sets, elig4, v4) -> dict:
             diffs.append(f"{traj}: {got!r} != {want!r}")
     return {"pass": not diffs and bool(cal_re["per_traj"]), "diffs": diffs,
            "lambda_by_traj": lambda_by_traj}
+
+
+def interval_covers_zero_4b(interval):
+    """FREEZE F-3: design §6's NOT-DISTINGUISHABLE sentence asserts
+    that T*'s placebo interval covers zero. `None` when there is no
+    interval; otherwise the checked fact. The interval is
+    `[T4 - Q.975(T_b), T4 - Q.025(T_b)]`, so its UPPER end is negative
+    exactly when T_4 sits below the placebo null's 2.5th percentile --
+    the construction account's own direction, and a world that is
+    still NOT-DISTINGUISHABLE."""
+    if interval is None:
+        return None
+    return bool(interval[0] <= 0.0 <= interval[1])
+
+
+def s1_reading_4b(placebo_null_mean, iid_null_mean, s3) -> dict:
+    """FREEZE NB-2 (supersedes the fix wave's r2, which was
+    two-sided): design §5 S1's reading rule, exactly as §5 writes it --
+    "same shape (means within .05) or drift-like (placebo mean BELOW
+    the iid mean by more than .05, WITH the per-index table S3
+    rising)".
+
+    r2 labelled every |difference| > .05 "drift-like", which would
+    have read a placebo mean ABOVE the iid mean -- the opposite
+    direction, no accumulating drift at all -- as drift, and dropped
+    the S3 conjunct entirely. Four labels (`S1_READINGS_4B`): §5's two,
+    plus the two cells §5 does not license, named rather than folded
+    into one of its own ("above-iid"; "below-iid, S3 not rising").
+    `None` only when a null mean is unavailable. The S3 conjunct's own
+    rule is `placebo_4b.s3_pooled_rising_4b`'s, stated in its
+    docstring; `S1_SHAPE_TOL_4B` (.05) is §5's own tolerance, which §5
+    uses for both halves and names no second one for."""
+    rising = placebo_4b.s3_pooled_rising_4b(s3)
+    tol = placebo_4b.S1_SHAPE_TOL_4B
+    if placebo_null_mean is None or iid_null_mean is None:
+        reading = None
+    elif abs(placebo_null_mean - iid_null_mean) <= tol:
+        reading = "same shape"
+    elif placebo_null_mean > iid_null_mean + tol:
+        reading = "above-iid"
+    elif rising.get("rising"):
+        reading = "drift-like"
+    else:
+        reading = "below-iid, S3 not rising"
+    return {"reading": reading, "readings": list(S1_READINGS_4B), "shape_tol": tol,
+            "s3_rising": rising}
+
+
+def gate6_endpoint_identity_4b(root4) -> dict:
+    """FREEZE F-1 (design §3.6's "the exact analogue of Exp 4's rule",
+    attacked): the placebo screen's ENDPOINT input is a DIFFERENT FILE
+    from the real rule's.
+
+    `eligibility_table_4` -- the rule 4b's placebo eligibility claims
+    to be the analogue of -- reads its endpoint per-item alignments
+    from the REFERENCE-stage unit `reference/endpoint_<traj>/`. The
+    placebo pool reads them from the SWEEP unit `sweep/<traj>/
+    step<endpoint>/`, because `run()` feeds `placebo_pool_4b` the
+    alignment series' OWN `per_item` arrays (the Task 2 note: the
+    series/pia consistency refusal requires it). The two units are the
+    same checkpoint computed twice, and their byte identity is what
+    makes the placebo screen the analogue -- but nothing in exp4b ever
+    measured it: `gate1.json` is sha-pinned in the manifest and never
+    READ, and no exp4b gate compares the two directories to each
+    other. Exp 4's own closed analyzer did measure it (`analyze_4.py`'s
+    "4 gate 1 <traj> re-derivation", gating on all four agreements), so
+    on the committed tree this is an INHERITED measurement over
+    manifest-pinned bytes; re-asserted here so 4b's own placebo input
+    provenance is measured rather than inherited (2i F-1 / 3d /
+    exp4 F-1's attested-vs-measured lineage).
+
+    `battery_4.gate1_rederive_4` is Exp 4's own frozen byte
+    comparison, called unmodified: `sets_equal` per rung (npz bytes),
+    `activation_sha_equal`/`attested_sha_equal` per rung (the two
+    records' own shas), `tensor_digest` equal. All four required, as
+    Exp 4 required them. ~0.01 s warm for 4 x 34 x 2 files."""
+    detail, bad = {}, []
+    for traj in battery_4.TRAJECTORIES_4:
+        g = battery_4.gate1_rederive_4(root4, traj)
+        sets_ok = all(g["sets_equal"].values())
+        act_ok = all(g["activation_sha_equal"].values())
+        att_ok = all(g["attested_sha_equal"].values())
+        detail[traj] = {"sets_equal": bool(sets_ok), "activation_sha_equal": bool(act_ok),
+                        "attested_sha_equal": bool(att_ok),
+                        "digest_equal": bool(g["digest_equal"]), "n_rungs": g["n_rungs"],
+                        "n_sets_differ": sum(1 for v in g["sets_equal"].values() if not v)}
+        if not (sets_ok and act_ok and att_ok and g["digest_equal"]):
+            bad.append(f"{traj}: reference/endpoint_{traj} and sweep/{traj}/step<endpoint> "
+                       f"disagree ({detail[traj]})")
+    return {"pass": not bad, "per_traj": detail, "bad": bad,
+            "n_rungs_checked": sum(d["n_rungs"] for d in detail.values())}
 
 
 def gate5_rederive_4b(root4, stage_tables_4, v4) -> dict:
@@ -429,6 +571,15 @@ def write_verdict_txt_4b(v: dict) -> str:
                     f"T*={p['T_star']:.4f} interval={p['interval']} "
                     f"null_mean={p['null_mean']:.4f} null_sd={p['null_sd']:.4f} "
                     f"q95={p['q95']:.4f} q99={p['q99']:.4f} B={p['B']} n_cells={p['n_cells']}")
+        # F-2: p_cal's Monte Carlo resolution against the tree's bars.
+        mc = p.get("mc_resolution") or {}
+        if mc:
+            lines.append(f"  p_cal Monte Carlo SE: {mc.get('p_cal_mc_se')}; "
+                        f"bars within 2 SE: {mc.get('within_2_mc_se')}")
+            for bar, rec in sorted((mc.get("per_bar") or {}).items()):
+                lines.append(f"    bar {bar}: margin={rec.get('margin')} "
+                            f"({rec.get('margin_in_mc_se')} MC SE)")
+            lines.append(f"  {mc.get('note')}")
         lines.append("")
     feas = v.get("feasibility")
     if feas:
@@ -451,12 +602,29 @@ def write_verdict_txt_4b(v: dict) -> str:
         if ap:
             parts.append(f"alpha_placebo={ap.get('alpha_placebo')} "
                         f"(n_batteries={ap.get('n_batteries')}, n_leads={ap.get('n_leads')})")
+            # FREEZE disclosure: alpha_placebo's DENOMINATOR is every
+            # scored battery, including any that Exp 4's own tree reads
+            # NO-CONVERGENCE (fewer than MIN_RUNGS_4 distinct placebo
+            # rungs drawn, or fewer than MIN_CELLS_4 cells) and which
+            # therefore cannot read LEADS by construction; and the flip
+            # regime a battery lands in (exact enumeration at <= 20
+            # distinct rungs, sampled above) need not be the real
+            # verdict's. Both printed, not assumed uniform.
+            parts.append(f"world_counts={ap.get('world_counts')}")
+            parts.append(f"flip regime: batteries={ap.get('flip_method_counts')} "
+                        f"vs the real verdict's {ap.get('real_regime')}")
         if s1v:
             parts.append(f"alpha_iid={s1v.get('alpha_iid')} p_iid={s1v.get('p_iid')}")
             comp = s1v.get("comparison") or {}
             parts.append(f"placebo null mean/SD={comp.get('placebo_null_mean')}/"
                         f"{comp.get('placebo_null_sd')}")
             parts.append(f"iid null mean/SD={comp.get('iid_null_mean')}/{comp.get('iid_null_sd')}")
+            # NB-2: the one-sided §5 S1 label, with its S3 conjunct.
+            rising = comp.get("s3_rising") or {}
+            parts.append(f"S1 reading (design §5, one-sided)={comp.get('reading')!r} "
+                        f"[tol={comp.get('shape_tol')}; S3 rising={rising.get('rising')}, "
+                        f"delta={rising.get('delta')} over bins {rising.get('first_bin')}"
+                        f"->{rising.get('last_bin')}; one of {comp.get('readings')}]")
         lines.append("Calibration (Exp 4's LEADS rule vs the placebo null vs the iid arm):")
         for part in parts:
             lines.append(f"  {part}")
@@ -479,6 +647,12 @@ def write_verdict_txt_4b(v: dict) -> str:
             lines.append(f"  {lic['alpha_placebo_clause']}")
         if lic.get("naming_outcome"):
             lines.append(f"  naming: {lic['naming_outcome']}")
+        if lic.get("any_world"):
+            lines.append(f"  {lic['any_world']}")
+        if "interval_covers_zero" in lic:
+            lines.append(f"  T* interval covers zero: {lic.get('interval_covers_zero')}")
+        if lic.get("unnamed_cell"):
+            lines.append(f"  {lic['unnamed_cell']}")
         lines.append("")
     pt = v.get("per_traj") or {}
     if pt:
@@ -520,8 +694,16 @@ def write_verdict_txt_4b(v: dict) -> str:
     s4v = v.get("s4")
     if s4v:
         pooled = s4v.get("pooled") or {}
-        lines.append(f"S4 -- the scatter ratio (rising pre-clear window RMS / flat RMS), "
-                    f"pooled: {pooled.get('ratio')}")
+        lines.append(f"S4 -- the scatter ratio, pooled: {pooled.get('ratio')} "
+                    f"(rising {pooled.get('rms_rising')} / flat {pooled.get('rms_flat')})")
+        # NB-1: say WHAT is compared, and print the residual pool-size
+        # expectation per trajectory -- the ratio is raw on both sides.
+        lines.append(f"  compared: {s4v.get('compared')}")
+        for t, rec in sorted((s4v.get("per_traj") or {}).items()):
+            lines.append(f"    {t}: ratio={rec.get('ratio')} "
+                        f"rms_rising={rec.get('rms_rising')} rms_flat={rec.get('rms_flat')} "
+                        f"pool_size_expected_ratio={rec.get('pool_size_expected_ratio')} "
+                        f"(n_flat factor {rec.get('loo_scale_factor')}, disclosure only)")
         lines.append("")
     s7v = v.get("s7")
     if s7v:
@@ -543,10 +725,30 @@ def write_verdict_txt_4b(v: dict) -> str:
         lines.append(f"S6 present: {sorted(k for k in s6v if s6v.get(k) is not None)}")
         lines.append("")
     lines.append("Gates:")
-    for n in ("1", "2", "3", "4", "5"):
+    for n in ("1", "2", "3", "4", "5", "6"):
         g = (v.get("gates") or {}).get(n) or {}
-        lines.append(f"  gate {n}: pass={g.get('pass')}")
+        # FREEZE F-4: `pass=True` is not the whole story for gate 4 --
+        # `power_gate="skip"` (TEST-ONLY) also reads pass=True, and the
+        # only record of it was `pins_active`, which this file never
+        # printed. Every gate's own qualifying flags are printed now.
+        extra = ", ".join(f"{k}={g[k]}" for k in ("skipped", "identical", "cells_match",
+                                                  "t_match", "n_rungs_checked")
+                          if k in g)
+        lines.append(f"  gate {n}: pass={g.get('pass')}" + (f" [{extra}]" if extra else ""))
     lines.append("")
+    # FREEZE F-4: the pins that were ACTIVE when this verdict was
+    # written -- the frozen-module check, the import surface, the
+    # referent manifest, the prereg binding, the power gate, the
+    # injected n_sim, the thread pin. A stubbed pin leaves a verdict
+    # that reads identically everywhere else; exp4's own VERDICT.txt
+    # does not print them either (precedent noted, not followed).
+    pa = v.get("pins_active") or {}
+    if pa:
+        lines.append("Pins active (design §3.6; anything False or True-for-skip is a "
+                     "TEST-ONLY invocation, not the sanctioned run):")
+        for k in sorted(pa):
+            lines.append(f"  {k}={pa[k]}")
+        lines.append("")
     exp4_blk = v.get("exp4") or {}
     lines.append(f"exp4: verdict={exp4_blk.get('verdict')} T={exp4_blk.get('T')}")
     lines.append("")
@@ -739,6 +941,26 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
         failures.append(f"4b gate 5: gate0 fractions disagree with the committed record: "
                         f"{gate5_detail}")
 
+    # ---- gate (6): the endpoint units' byte identity (FREEZE F-1)
+    #
+    # Unconditional: it needs only `root4`. The placebo screen's
+    # endpoint input (the SWEEP endpoint unit, through the series'
+    # per_item arrays) and the real eligibility rule's (the REFERENCE
+    # endpoint unit) are different files; the placebo is the analogue
+    # of Exp 4's rule only if they are byte-identical.
+    gate6_ok, gate6_detail = False, {}
+    g6, f = collect_total_4b(lambda: gate6_endpoint_identity_4b(root4), "4b gate 6")
+    failures += f
+    if g6 is not None:
+        gate6_ok, gate6_detail = g6["pass"], g6
+    gates["6"] = {"pass": gate6_ok,
+                  "per_traj": gate6_detail.get("per_traj", {}),
+                  "n_rungs_checked": gate6_detail.get("n_rungs_checked")}
+    if not gate6_ok:
+        failures.append(f"4b gate 6: the endpoint units' bytes disagree, so the placebo "
+                        f"eligibility screen is not the analogue of Exp 4's rule: "
+                        f"{gate6_detail.get('bad') or 'inputs unavailable'}")
+
     # ---- gate (4): the power record reproduction
     if power_gate == "full":
         rep, f = collect_total_4b(lambda: power_ext_4b.reproduce_power_record_4b(root4),
@@ -777,6 +999,14 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
         "power_n_sim_injected": power_n_sim_injected,
         "threads_pinned": _threads_4.threads_pinned_4(),
         "threads_pinned_before_numpy": bool(_threads_4.PINNED_BEFORE_NUMPY_4),
+        # FREEZE F-4 (disclosure): the analysis stack. Nothing here
+        # gates -- gate 1's bit-for-bit T re-derivation is the stack
+        # check, since a numpy/BLAS reduction-order change would move
+        # the series -- but "which numpy decided this" belongs in the
+        # record, as every campaign experiment in this program records
+        # its torch/transformers versions.
+        "numpy_version": np.__version__,
+        "scipy_version": _scipy_version_4b(),
     }
 
     if stop_before == "placebo":
@@ -904,16 +1134,22 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
             alpha_iid = arms["arms"]["observed_lambda"].get("P_LEADS")
             placebo_mean = (t_star_block or {}).get("null_mean")
             iid_mean = piid["null_mean"]
-            # r2 (design §5 S1's own reading rule, ruled addition):
-            # "same shape" when the two null means agree within .05,
-            # "drift-like" otherwise -- `None` when either mean is
-            # unavailable (never a bare boolean guess).
-            reading = (None if placebo_mean is None or iid_mean is None
-                      else ("same shape" if abs(placebo_mean - iid_mean) <= 0.05 else "drift-like"))
+            # FREEZE NB-2 (supersedes r2, which was two-sided): design
+            # §5 S1's reading is ONE-SIDED -- "same shape (means within
+            # .05) or drift-like (placebo mean BELOW the iid mean by
+            # more than .05, WITH the per-index table S3 rising)". r2
+            # labelled every |difference| > .05 "drift-like", which
+            # would have read a placebo mean ABOVE the iid mean as
+            # evidence of accumulating drift (the opposite direction)
+            # and dropped the S3 conjunct entirely. Four labels now,
+            # `S1_READINGS_4B`: the two §5 names, plus the two cells §5
+            # does not license -- "above-iid" and "below-iid, S3 not
+            # rising". `None` only when a mean is unavailable. The rule
+            # itself is `s1_reading_4b` (one fast test per label).
             comparison = {"placebo_null_mean": placebo_mean,
                          "placebo_null_sd": (t_star_block or {}).get("null_sd"),
-                         "iid_null_mean": iid_mean, "iid_null_sd": piid["null_sd"],
-                         "reading": reading}
+                         "iid_null_mean": iid_mean, "iid_null_sd": piid["null_sd"]}
+            comparison.update(s1_reading_4b(placebo_mean, iid_mean, s3))
             return {"arms": arms, "p_iid": piid["p_iid"], "alpha_iid": alpha_iid,
                     "comparison": comparison}
         s1, f = collect_total_4b(_s1, "4b S1")
@@ -1007,6 +1243,9 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
             "q95": t_star_block["q95"], "q99": t_star_block["q99"],
             "B": p_cal_block["B"], "n_cells": len(cells4) if cells4 else None,
             "feasibility": feasibility_block,
+            # FREEZE F-2: p_cal's own Monte Carlo resolution against the
+            # tree's two bars, which carry no tolerance.
+            "mc_resolution": placebo_4b.bar_margins_4b(p_cal_block["p_cal"], p_cal_block["B"]),
         }
 
     licence_naming = None
@@ -1042,8 +1281,17 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
                 f"{licence_naming['trajectories']}" if licence_naming["n"] >= 2 else
                 f"fewer than two trajectories qualify ({licence_naming['trajectories']}); "
                 f"the sentence names them")
+        # FREEZE F-3: §6's NOT-DISTINGUISHABLE sentence asserts that
+        # T*'s interval covers zero. Checked, not assumed.
+        covers_zero = interval_covers_zero_4b((t_star_block or {}).get("interval"))
+        unnamed_cell = (LICENCE_INTERVAL_BELOW_NULL_4B
+                        if (tree["verdict"] == "NOT-DISTINGUISHABLE" and covers_zero is False)
+                        else None)
         licence_block = {"world": tree["verdict"], "text": licence_text,
-                         "alpha_placebo_clause": alpha_clause, "naming_outcome": naming_outcome}
+                         "alpha_placebo_clause": alpha_clause, "naming_outcome": naming_outcome,
+                         "any_world": LICENCE_ANY_WORLD_4B,
+                         "interval_covers_zero": covers_zero,
+                         "unnamed_cell": unnamed_cell}
 
     construction_statement = None
     if v4 is not None and T4 is not None:
@@ -1085,11 +1333,23 @@ def run(root4b=battery_4b.EXP4B, root4=battery_4.EXP4, *, write=False, B=battery
     v = an._jsonify_4(v)
 
     if write:
-        _write_verdict_only_4b(root4b, v)
+        # FREEZE F-5: the two companions are written BEFORE
+        # verdict.json, not after. verdict.json carries their sha256s
+        # (B-6), so the old order left a window -- and, on a write
+        # failure (a full disk, a `results` path that is a file, a
+        # read-only tree), a PERMANENT state -- in which a committed
+        # verdict attested two records that do not exist. The writes
+        # are deliberately NOT wrapped in `collect_total_4b`: a write
+        # failure must be loud, not a verdict. Ordering it this way
+        # makes "verdict.json exists" imply "its attested companions
+        # exist", whatever fails.
+        root_out = Path(root4b)
+        battery_4b.verdict_path_4b(root_out).parent.mkdir(parents=True, exist_ok=True)
         if placebo_bytes is not None:
-            battery_4b.placebo_record_path_4b(root4b).write_bytes(placebo_bytes)
+            battery_4b.placebo_record_path_4b(root_out).write_bytes(placebo_bytes)
         if power_ext_bytes is not None:
-            battery_4b.power_ext_path_4b(root4b).write_bytes(power_ext_bytes)
+            battery_4b.power_ext_path_4b(root_out).write_bytes(power_ext_bytes)
+        _write_verdict_only_4b(root4b, v)
 
     return v
 

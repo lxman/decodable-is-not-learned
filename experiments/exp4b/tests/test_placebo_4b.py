@@ -729,62 +729,95 @@ def test_s5_autocorr_4b_near_zero_on_iid_near_half_on_ar1():
 # ---------------------------------------------------------------- (l) s4
 
 
-def test_s4_scatter_ratio_4b_flat_side_scale_relationship_is_exact():
-    """Important 3/4 (final review): the flat side's UNCORRECTED
-    leave-one-out RMS (`rms_flat_loo`) and its CORRECTED value
-    (`rms_flat`) satisfy `rms_flat_loo == rms_flat * loo_scale_factor`
-    EXACTLY (Important 4's algebraic identity: `x_full(t) = ((n-1)/n) *
-    x_loo(t)` holds pointwise for the SAME realized data, not merely in
-    expectation, so this is a bit-level check, not a statistical one --
-    a mutant that drops the division, or computes the factor as
-    `(n-1)/n` instead of `n/(n-1)`, fails it deterministically).
-    `loo_scale_factor` itself is independently re-derived from
-    `len(flat)` here, not read back from the function's own output."""
-    series, flat = fakes.iid_noise_world(n_flat=10, n_steps=20, sigma=0.05, seed=5)
-    a = fakes.rising_rung_series(series["steps"], series["a"], rung="rising0",
-                                 extra_drift=[0.0] * 20, base_sigma=0.05, seed=9)
-    series2 = {"steps": series["steps"], "a": a}
-    cells = [{"traj": "T", "rung": "rising0", "t_clear_index": 12}]
-    out = pl.s4_scatter_ratio_4b({"T": series2}, {"T": {"flat": flat}}, cells)
+def test_s4_scatter_ratio_4b_flat_side_carries_no_rescale():
+    """FREEZE NB-1 (reverses the fix wave's Important-3 fix, which the
+    re-review found unwarranted): BOTH sides of S4 are target-OUTSIDE-
+    pool, so the flat side must be the RAW leave-one-out RMS. The
+    bit-exact discriminator: `rms_flat == rms_flat_loo` EXACTLY (not
+    `approx`), which a reinstated `/ n/(n-1)` division fails
+    deterministically at every n >= 2. `loo_scale_factor` stays in the
+    record as a disclosure field and is re-derived here from
+    `len(flat)` independently; `pool_size_expected_ratio` is the
+    matched-scale expectation sqrt(1 - 1/n^2), likewise re-derived."""
+    series, flat, rung = fakes.matched_scale_world(n_flat=10, n_steps=20, sigma=0.05, seed=5)
+    cells = [{"traj": "T", "rung": rung, "t_clear_index": 12}]
+    out = pl.s4_scatter_ratio_4b({"T": series}, {"T": {"flat": flat}}, cells)
     rec = out["per_traj"]["T"]
     n = len(flat)
-    want_factor = n / (n - 1)
-    assert rec["loo_scale_factor"] == pytest.approx(want_factor)
-    assert rec["rms_flat_loo"] == pytest.approx(rec["rms_flat"] * want_factor)
-    # sanity: the corrected value is strictly SMALLER than the raw LOO
-    # value (n/(n-1) > 1 for n >= 2, so dividing shrinks it).
-    assert rec["rms_flat"] < rec["rms_flat_loo"]
+    assert rec["rms_flat"] == rec["rms_flat_loo"]          # bit-exact: no rescale
+    assert rec["loo_scale_factor"] == pytest.approx(n / (n - 1))   # disclosure only
+    assert rec["pool_size_expected_ratio"] == pytest.approx((1.0 - 1.0 / n ** 2) ** 0.5)
+    assert rec["ratio"] == pytest.approx(rec["rms_rising"] / rec["rms_flat"])
+    assert out["compared"] == pl.S4_COMPARED_NOTE_4B
 
 
-def test_s4_scatter_ratio_4b_near_one_when_scales_match_pooled_over_worlds():
-    """Important 3, "the existing test (l) tightened accordingly": a
-    single seed's ratio has substantial sampling noise (one rising rung
-    contributes only `n_steps - 2` increments), so this pools rising/
-    flat increments across `N_WORLDS` independent synthetic
-    trajectories (the same `s4_scatter_ratio_4b` call, given many
-    `series_by_traj`/`rung_sets`/`cells` entries, already pools every
-    trajectory's increments into ONE `pooled` ratio -- this reuses that
-    machinery rather than averaging per-world ratios by hand) before
-    reading `pooled.ratio`, tightened from the original single-seed
-    0.2 to 0.1 -- comfortably inside what a matched-scale world gives
-    post-fix (empirically ~1.0-1.04 at n_flat=30/60 pooled worlds) and
-    tighter than the pre-fix bias would have allowed (empirically
-    ~0.98, itself close to 1 at this n_flat -- see
-    `test_s4_scatter_ratio_4b_flat_side_scale_relationship_is_exact`
-    above for the test that actually discriminates the fix, bit-exact
-    rather than statistical)."""
-    n_flat, n_worlds = 30, 60
+def test_s4_scatter_ratio_4b_raw_ratio_is_near_one_at_matched_scale_pooled():
+    """FREEZE NB-1's calibration check, on the construction the old
+    test lacked: the rising rung is an INDEPENDENT series at the same
+    wobble scale (`fakes.matched_scale_world`), never the pool's own
+    realized mean, so the RAW ratio's expectation is sqrt(1 - 1/n^2)
+    and the n/(n-1) rescale is a visible bias rather than a hidden
+    correction. n_flat = 5 makes that bias 25%, far outside this
+    bound; 60 pooled worlds put the estimator's own SE near 2%."""
+    n_flat, n_worlds = 5, 60
     series_by_traj, rung_sets, cells = {}, {}, []
     for i in range(n_worlds):
-        series, flat = fakes.iid_noise_world(n_flat=n_flat, n_steps=20, sigma=0.05, seed=i)
-        a = fakes.rising_rung_series(series["steps"], series["a"], rung="rising0",
-                                     extra_drift=[0.0] * 20, base_sigma=0.05, seed=i + 10_000)
+        series, flat, rung = fakes.matched_scale_world(n_flat=n_flat, n_steps=20,
+                                                       sigma=0.05, seed=i)
         key = f"W{i}"
-        series_by_traj[key] = {"steps": series["steps"], "a": a}
+        series_by_traj[key] = series
         rung_sets[key] = {"flat": flat}
-        cells.append({"traj": key, "rung": "rising0", "t_clear_index": 12})
+        cells.append({"traj": key, "rung": rung, "t_clear_index": 12})
     out = pl.s4_scatter_ratio_4b(series_by_traj, rung_sets, cells)
-    assert abs(out["pooled"]["ratio"] - 1.0) < 0.1
+    expected = (1.0 - 1.0 / n_flat ** 2) ** 0.5           # 0.9798 at n_flat = 5
+    assert abs(out["pooled"]["ratio"] - expected) < 0.08
+    # the rescaled value the fix wave would have produced is far outside
+    # the same bound -- this is what gives the test power, not the
+    # closeness to 1 per se.
+    assert abs(out["pooled"]["ratio"] * (n_flat / (n_flat - 1)) - expected) > 0.08
+
+
+def test_s3_pooled_rising_4b_rule():
+    """FREEZE NB-2: design §5 S1's "WITH the per-index table S3
+    rising" conjunct, made exact -- the LAST bin with draws must exceed
+    the FIRST by more than `S1_SHAPE_TOL_4B`; fewer than two bins with
+    draws is `None` (undecidable), never a silent False."""
+    def s3(means):
+        return {"pooled_bins": {label: ({"mean": m, "sd": 0.0, "n": 100} if m is not None
+                                        else {"mean": None, "sd": None, "n": 0})
+                                for label, m in zip(pl.POOLED_BIN_ORDER_4B, means)}}
+    r = pl.s3_pooled_rising_4b(s3([0.30, 0.40, 0.50, 0.60, 0.70]))
+    assert r["rising"] is True and r["delta"] == pytest.approx(0.40)
+    assert r["bins_nondecreasing"] is True and r["n_bins_with_draws"] == 5
+    assert r["first_bin"] == "[0,.2)" and r["last_bin"] == "[.8,1]"
+    # flat in c: within the tolerance either way
+    assert pl.s3_pooled_rising_4b(s3([0.50, 0.52, 0.48, 0.51, 0.53]))["rising"] is False
+    # exactly AT the bar is not rising (strict >). 0.05 - 0.0 is the
+    # one pair whose float difference is EXACTLY S1_SHAPE_TOL_4B
+    # (0.50 -> 0.55 differs by 0.05000000000000004 and would read
+    # rising, which is what makes this construction the honest one).
+    at_bar = pl.s3_pooled_rising_4b(s3([0.0, None, None, None, pl.S1_SHAPE_TOL_4B]))
+    assert at_bar["delta"] == pl.S1_SHAPE_TOL_4B and at_bar["rising"] is False
+    assert pl.s3_pooled_rising_4b(s3([0.0, None, None, None, 0.0501]))["rising"] is True
+    # falling in c
+    assert pl.s3_pooled_rising_4b(s3([0.70, 0.60, 0.50, 0.40, 0.30]))["rising"] is False
+    # one bin, or none, is undecidable
+    assert pl.s3_pooled_rising_4b(s3([0.50, None, None, None, None]))["rising"] is None
+    assert pl.s3_pooled_rising_4b(s3([None] * 5))["rising"] is None
+    assert pl.s3_pooled_rising_4b({})["rising"] is None
+    assert pl.s3_pooled_rising_4b(s3([0.30, 0.40, 0.50, 0.60, 0.70]))["tol"] == 0.05
+
+
+def test_s3_shape_4b_pooled_bin_keys_equal_the_named_bin_order():
+    """NB-2's rule reads `s3_shape_4b`'s own bins by name; the two must
+    not drift apart."""
+    series, flat = fakes.iid_noise_world(n_flat=6, n_steps=10, sigma=0.05, seed=2)
+    pools = {"T": {f: {"x_end": 1.0, "se": 0.0, "eligible": True,
+                       "excess": [0.0] + [0.1 * i for i in range(1, 10)]} for f in flat}}
+    design = {"T": {"n": 2, "clear_indices": [2, 7], "rungs": []}}
+    b = pl.draw_batteries_4b(pools, design, B=25, seed=0)
+    s3 = pl.s3_shape_4b(b, design, [])
+    assert tuple(s3["pooled_bins"]) == pl.POOLED_BIN_ORDER_4B
 
 
 # --------------------------------------------------------------------- S3/S8

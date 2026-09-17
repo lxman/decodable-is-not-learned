@@ -243,7 +243,48 @@ def p_cal_4b(T_b, T4: float) -> dict:
     eps = 1e-15
     p_cal = (1 + int(np.sum(T_b >= T4 - eps))) / (B + 1)
     p_low = (1 + int(np.sum(T_b <= T4 + eps))) / (B + 1)
-    return {"p_cal": float(p_cal), "p_low": float(p_low), "B": B}
+    return {"p_cal": float(p_cal), "p_low": float(p_low), "B": B,
+            "p_cal_mc_se": _mc_se_4b(p_cal, B)}
+
+
+def _mc_se_4b(p: float, B: int):
+    """FREEZE F-2: p_cal is a Monte Carlo estimate over B battery
+    draws, and design §3.7's tree reads it against two HARD bars (.01,
+    .05) with no tolerance at either. Its own resolution is the
+    binomial SE sqrt(p(1-p)/B) -- .00099 at p = .01, .00218 at p = .05,
+    B = 10,000 (measured at the freeze on a synthetic pool at this
+    design's own sizes: the seed-to-seed SD of p_cal over twelve seeds
+    matched the binomial law to the third decimal). The seed is fixed
+    pre-tag in `battery_4b.SEED_4B` and tag-bound, so this is a
+    RESOLUTION disclosure, not a manipulation channel -- but a p_cal
+    within about one of these SEs of a bar is decided by the draw, and
+    the record says so rather than leaving a reader to compute it
+    (2l/2n's lesson: a bar needs a tolerance)."""
+    if not B:
+        return None
+    return float(np.sqrt(max(p * (1.0 - p), 0.0) / B))
+
+
+def bar_margins_4b(p_cal: float, B: int, bars=None) -> dict:
+    """F-2's reading: each tree bar's distance from `p_cal` in units of
+    p_cal's own Monte Carlo SE. `within_mc_se` names every bar the
+    estimate sits closer to than 2 SE -- the cells where the world
+    turns on the draw rather than on the data."""
+    if bars is None:
+        bars = (battery_4b.ALPHA_4B, battery_4b.MARGINAL_4B)
+    se = _mc_se_4b(p_cal, B)
+    out, close = {}, []
+    for bar in bars:
+        if se:
+            out[str(bar)] = {"margin": float(p_cal - bar), "margin_in_mc_se": float((p_cal - bar) / se)}
+            if abs(p_cal - bar) <= 2.0 * se:
+                close.append(str(bar))
+        else:
+            out[str(bar)] = {"margin": float(p_cal - bar), "margin_in_mc_se": None}
+    return {"p_cal_mc_se": se, "per_bar": out, "within_2_mc_se": close,
+            "note": ("p_cal is a Monte Carlo estimate over B draws; a bar it sits within ~1 SE "
+                     "of is decided by the seeded draw, not by the data. The seed is fixed "
+                     "pre-tag and tag-bound; this is a resolution disclosure.")}
 
 
 def t_star_4b(T_b, T4: float) -> dict:
@@ -464,6 +505,61 @@ def s3_shape_4b(batteries: dict, design: dict, cells: list) -> dict:
     return {"per_traj_c": per_traj_c, "pooled_bins": pooled_bins_summary, "per_cell": per_cell}
 
 
+# FREEZE NB-1 minor: VERDICT.txt's S4 line and the record's pooled
+# block state WHAT is compared, so a reader is never left to infer it
+# from the field names.
+S4_COMPARED_NOTE_4B = (
+    "RMS of the RISING cells' full-flat-pool excess increments over each cell's pre-clear "
+    "window (grid indices strictly before its clear) / RMS of the FLAT rungs' leave-one-out "
+    "excess increments over the whole grid; both sides target-outside-pool and raw (no "
+    "rescale), differing only in pool size (n vs n-1), whose matched-scale expectation is "
+    "sqrt(1 - 1/n^2) -- see pool_size_expected_ratio")
+
+# design §5's own reading bins for the pooled null-mean-of-phi against
+# c/(G-1), in order. `s3_shape_4b` builds exactly these keys; a fast
+# test pins the two against each other.
+POOLED_BIN_ORDER_4B = ("[0,.2)", "[.2,.4)", "[.4,.6)", "[.6,.8)", "[.8,1]")
+
+# FREEZE NB-2: design §5 S1's "WITH the per-index table S3 rising"
+# made EXACT -- the design doc names the conjunct without a rule, and
+# S1's reading label is printed in VERDICT.txt, so the rule is fixed
+# here rather than left to the reader. RISING means: at least two of
+# `POOLED_BIN_ORDER_4B`'s bins carry draws (n > 0 and a non-None
+# mean), and the LAST such bin's pooled mean of placebo phi exceeds
+# the FIRST such bin's by more than `S1_SHAPE_TOL_4B` (.05, design
+# §5's own tolerance for the same-shape comparison -- §5 names no
+# second one). Monotonicity across every non-empty bin is printed
+# beside it as `bins_nondecreasing`, descriptive, never the rule: five
+# bins estimated from at most |P_M| rungs are too coarse for a
+# monotonicity test (design §4 (iii)).
+S1_SHAPE_TOL_4B = 0.05
+
+
+def s3_pooled_rising_4b(s3: dict) -> dict:
+    """The `S1_SHAPE_TOL_4B` rule above, applied to `s3_shape_4b`'s
+    `pooled_bins`. Returns `{"rising": bool | None, "first_bin",
+    "last_bin", "delta", "n_bins_with_draws", "bins_nondecreasing",
+    "tol", "rule"}`; `rising` is `None` (undecidable, never a silent
+    False) when fewer than two bins carry draws."""
+    bins = (s3 or {}).get("pooled_bins") or {}
+    live = [(label, bins[label]) for label in POOLED_BIN_ORDER_4B
+            if (bins.get(label) or {}).get("n") and bins[label].get("mean") is not None]
+    out = {"n_bins_with_draws": len(live), "tol": S1_SHAPE_TOL_4B,
+           "rule": ("rising = the last bin with draws exceeds the first by more than "
+                    f"{S1_SHAPE_TOL_4B} (design §5 S1's conjunct, made exact at the freeze)")}
+    if len(live) < 2:
+        out.update({"rising": None, "first_bin": live[0][0] if live else None,
+                    "last_bin": live[-1][0] if live else None, "delta": None,
+                    "bins_nondecreasing": None})
+        return out
+    means = [rec["mean"] for _, rec in live]
+    delta = float(means[-1] - means[0])
+    out.update({"rising": bool(delta > S1_SHAPE_TOL_4B), "first_bin": live[0][0],
+                "last_bin": live[-1][0], "delta": delta,
+                "bins_nondecreasing": bool(all(b >= a for a, b in zip(means, means[1:])))})
+    return out
+
+
 def _full_pool_excess_4b(series: dict, flat: list) -> dict:
     """`analyze_4.trend_4`/`excess_4` over the FULL flat pool — the
     same construction a real cell's own phi uses (never leave-one-out:
@@ -483,26 +579,33 @@ def s4_scatter_ratio_4b(series_by_traj: dict, rung_sets: dict, cells: list) -> d
     wobbles more between checkpoints than a flat rung's, for reasons
     unrelated to the lead, makes the placebo null too narrow).
 
-    Final review Important 3: the flat side's raw leave-one-out
-    increments run at SD = n/(n-1) times a self-included full-pool
-    construction's (n = `len(flat)`, verified algebraically and
-    numerically -- see `loo_trend_4b`'s docstring), while the rising
-    side's increments are the plain full-pool construction (a rising
-    rung is never a flat-pool member, so there is no leave-one-out
-    variant of it to match). Left uncorrected the flat side runs
-    n/(n-1) too HIGH relative to the rising side's scale, biasing the
-    ratio LOW by 3.7-7.1% at this battery's flat-pool sizes (27/16/
-    14/16). Corrected here by dividing every flat increment by
-    n/(n-1) (equivalently, multiplying by (n-1)/n) before the RMS is
-    taken -- homogeneous of degree 1, so this is exactly "divide the
-    flat side's RMS by n/(n-1)". The per-trajectory factor is printed
-    as `loo_scale_factor`, and the UNCORRECTED leave-one-out RMS is
-    kept alongside as `rms_flat_loo` for inspection. Disclosed, not
-    corrected for: the rising side is read ONLY over each cell's
-    pre-clear window (so no lead enters the comparison) while the flat
-    side pools leave-one-out increments over the WHOLE grid -- the two
-    scatters are windows of different length as well as (now) the
-    same scale."""
+    FREEZE NB-1 (the fix wave's own re-review; the final review's
+    Important 3 mis-identified the comparator and its fix is REVERSED
+    here). BOTH sides are target-OUTSIDE-pool: a rising rung is never
+    a member of the flat pool that scores it, and a placebo rung is
+    left out of its own leave-one-out pool. The two constructions
+    therefore differ ONLY in pool SIZE -- n-1 rungs behind the flat
+    side's trend, n behind the rising side's -- which at matched wobble
+    scale sigma makes the RAW ratio's expectation
+    sqrt((sigma^2 + sigma^2/n) / (sigma^2 (1 + 1/(n-1)))) =
+    sqrt(1 - 1/n^2), i.e. 1 to within 1/(2n^2): 0.07% at n = 27, 0.26%
+    at n = 14. The fix wave divided the flat side by n/(n-1) on the
+    reading that it was self-included; it is not, so the division
+    INVERTED the bias -- inflating the ratio by 3.8-7.4% at this
+    battery's flat-pool sizes (27/16/14/16), in the direction design
+    §4(i) reads as "the rising rungs wobble more, so the placebo null
+    is too narrow and p_cal is anti-conservative". The division is
+    dropped: `rms_flat` is the RAW leave-one-out RMS, and it is what
+    `ratio` compares against. `rms_flat_loo` (the same quantity under
+    its build-time name) and `loo_scale_factor` (n/(n-1)) stay as
+    DISCLOSURE fields only -- nothing divides by them.
+
+    Disclosed, not corrected for: (i) the residual pool-size mismatch,
+    expectation sqrt(1 - 1/n^2) at matched scale, printed per
+    trajectory as `pool_size_expected_ratio`; (ii) the rising side is
+    read ONLY over each cell's pre-clear window (so no lead enters the
+    comparison) while the flat side pools leave-one-out increments over
+    the WHOLE grid -- the two scatters are windows of different length."""
     per_traj = {}
     pooled_rising, pooled_flat = [], []
     for t in sorted(series_by_traj):
@@ -520,19 +623,21 @@ def s4_scatter_ratio_4b(series_by_traj: dict, rung_sets: dict, cells: list) -> d
             if len(window) > 1:
                 rising_incs.extend(np.diff(window).tolist())
 
-        flat_incs_loo = []
+        flat_incs = []
         for f in flat:
             loo = loo_excess_4b(a, flat, steps, f)
-            flat_incs_loo.extend(np.diff(loo).tolist())
-        flat_incs = ([v / loo_scale_factor for v in flat_incs_loo] if loo_scale_factor
-                    else list(flat_incs_loo))
+            flat_incs.extend(np.diff(loo).tolist())
 
         rms_rising = float(np.sqrt(np.mean(np.square(rising_incs)))) if rising_incs else None
         rms_flat = float(np.sqrt(np.mean(np.square(flat_incs)))) if flat_incs else None
-        rms_flat_loo = float(np.sqrt(np.mean(np.square(flat_incs_loo)))) if flat_incs_loo else None
+        # NB-1: the same quantity, kept under its build-time name as a
+        # disclosure field -- `rms_flat` is no longer a rescale of it.
+        rms_flat_loo = rms_flat
         ratio = (rms_rising / rms_flat) if (rms_rising is not None and rms_flat) else None
+        expected = (float(np.sqrt(1.0 - 1.0 / (n_flat ** 2))) if n_flat > 1 else None)
         per_traj[t] = {"rms_rising": rms_rising, "rms_flat": rms_flat,
                        "rms_flat_loo": rms_flat_loo, "loo_scale_factor": loo_scale_factor,
+                       "pool_size_expected_ratio": expected,
                        "ratio": ratio,
                        "n_rising_increments": len(rising_incs), "n_flat_increments": len(flat_incs)}
         pooled_rising.extend(rising_incs)
@@ -542,7 +647,8 @@ def s4_scatter_ratio_4b(series_by_traj: dict, rung_sets: dict, cells: list) -> d
     rms_flat_p = float(np.sqrt(np.mean(np.square(pooled_flat)))) if pooled_flat else None
     ratio_p = (rms_rising_p / rms_flat_p) if (rms_rising_p is not None and rms_flat_p) else None
     return {"per_traj": per_traj,
-            "pooled": {"rms_rising": rms_rising_p, "rms_flat": rms_flat_p, "ratio": ratio_p}}
+            "pooled": {"rms_rising": rms_rising_p, "rms_flat": rms_flat_p, "ratio": ratio_p},
+            "compared": S4_COMPARED_NOTE_4B}
 
 
 def _lag1_autocorr_4b(x: np.ndarray):

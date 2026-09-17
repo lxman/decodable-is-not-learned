@@ -228,6 +228,26 @@ def _c12(ctx):
     print(f"       S7(a) clears-and-stays T = {cas_T!r}", flush=True)
 
 
+@check(13, "gate (6): the two endpoint units' bytes are identical (the placebo screen's "
+           "own input provenance)")
+def _c13(ctx):
+    """FREEZE F-1. `eligibility_table_4` -- the rule 4b's placebo
+    eligibility is the analogue of -- reads its endpoint per-item
+    alignments from `reference/endpoint_<traj>/`; the placebo pool
+    reads them from `sweep/<traj>/step<endpoint>/` (the alignment
+    series' own `per_item` arrays). Different files. Their byte
+    identity is re-derived here through Exp 4's own frozen
+    `battery_4.gate1_rederive_4`, cold on the real tree -- no placebo
+    quantity, ~0.01 s warm."""
+    g6 = an4b.gate6_endpoint_identity_4b(battery_4.EXP4)
+    if not g6["pass"]:
+        raise AssertionError(f"gate 6 disagrees: {g6['bad']}")
+    _eq(g6["n_rungs_checked"], len(battery_4.TRAJECTORIES_4) * len(battery_4.RUNGS),
+        "gate 6 coverage (4 trajectories x 34 rungs)")
+    print(f"       gate 6: {g6['n_rungs_checked']} rung comparisons, all four agreements per "
+          f"trajectory", flush=True)
+
+
 def main() -> int:
     ctx = {}
     n_ok = 0

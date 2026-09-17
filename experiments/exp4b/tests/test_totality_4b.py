@@ -1,6 +1,11 @@
 # experiments/exp4b/tests/test_totality_4b.py
 """Totality (Task 6 brief, carried item (d)): every `collect_total_4b`
-call site in `analyze_4b.run()` -- 37 of them, AST-enumerated the same
+call site in `analyze_4b.run()` -- 39 of them at the freeze (37 at
+Task 6's first cut, 38 with the import-surface EXIT check, 39 with the
+freeze's gate 6, whose own wrapper test is FAST and lives in
+`test_analyze_4b.py`: an empty `root4` makes
+`battery_4.gate1_rederive_4` raise, so no world is needed to reach
+that site) -- AST-enumerated the same
 way `experiments/exp4/tests/mutation_check.py`'s `_totality_mutants_4`
 does (name check changed to `collect_total_4b`; see `mutation_check.py`
 in this directory for the generator itself) -- gives `INSUFFICIENT_

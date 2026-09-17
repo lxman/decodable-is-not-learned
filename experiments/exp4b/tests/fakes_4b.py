@@ -198,6 +198,31 @@ def autocorr_world(*, n_flat=30, n_steps=20, rho=0.0, sigma=0.05, seed=0):
     return make_series(steps, a), flat
 
 
+def matched_scale_world(*, n_flat=30, n_steps=20, sigma=0.05, rung="rising0", seed=0):
+    """FREEZE NB-1's world: the flat rungs AND one "rising" rung all
+    wobble as iid N(0, sigma) around the SAME shared trend, the rising
+    rung's own wobble drawn INDEPENDENTLY of the pool's.
+
+    `rising_rung_series` (below) builds the rung as `mean(flat_a) +
+    noise`, i.e. on the pool's own REALIZED mean, so the full-pool
+    trend cancels exactly out of its excess and the rising side loses
+    the `-Delta(mean of every flat eps)/n` term a real rising rung
+    keeps -- which is why S4's raw ratio came out at sqrt((n-1)/n) on
+    that construction and an n/(n-1) rescale looked like the fix. On
+    THIS construction the raw ratio's expectation is
+    sqrt(1 - 1/n^2) -- 1 to within 1/(2n^2) -- so a rescale is visible
+    as a bias rather than hidden as a correction. Returns
+    `(series, flat_rungs, rung)`; the rung is NOT in `flat_rungs`,
+    exactly as a real rising rung is not in the flat pool."""
+    rng = np.random.default_rng(seed)
+    steps = list(range(n_steps))
+    trend = rng.normal(0.5, 0.1, size=n_steps)
+    flat = [f"flat_{i}" for i in range(n_flat)]
+    a = {f: (trend + rng.normal(0.0, sigma, size=n_steps)).tolist() for f in flat}
+    a[rung] = (trend + rng.normal(0.0, sigma, size=n_steps)).tolist()
+    return make_series(steps, a), flat, rung
+
+
 def rising_rung_series(steps, flat_a: dict, *, rung: str, extra_drift, base_sigma, seed):
     """One rising rung's series added to an existing flat-rung `a`
     dict: shares the flat rungs' trend + `base_sigma` wobble, PLUS

@@ -426,3 +426,240 @@ def test_check_imports_4b_drift_checks_exp4s_own_residual_pins(monkeypatch):
     monkeypatch.setattr(an4b.an, "IMPORTED_SHA256_4", bad)
     with pytest.raises(RuntimeError, match="drifted from its pin"):
         an4b.check_imports_4b()
+
+
+# ------------------------------------------------------------ FREEZE closures
+
+
+@pytest.mark.parametrize("placebo_mean,iid_mean,bin_means,want", [
+    # §5's two named readings
+    (0.50, 0.52, [0.5, 0.5, 0.5, 0.5, 0.5], "same shape"),
+    (0.40, 0.55, [0.30, 0.40, 0.50, 0.60, 0.70], "drift-like"),
+    # the two cells §5 does not license, named rather than folded in
+    (0.70, 0.50, [0.30, 0.40, 0.50, 0.60, 0.70], "above-iid"),
+    (0.40, 0.55, [0.50, 0.51, 0.49, 0.50, 0.52], "below-iid, S3 not rising"),
+    # unavailable means
+    (None, 0.50, [0.5] * 5, None),
+    (0.50, None, [0.5] * 5, None),
+])
+def test_s1_reading_4b_is_one_sided_with_the_s3_conjunct(placebo_mean, iid_mean, bin_means, want):
+    """FREEZE NB-2: design §5 S1's reading is ONE-SIDED and carries the
+    S3-rising conjunct. The fix wave's two-sided r2 label would have
+    read row 3 (placebo mean ABOVE the iid mean by .20 -- the opposite
+    direction, no accumulating drift) as "drift-like", and row 4
+    (below, but with a flat per-index table) as "drift-like" too."""
+    s3 = {"pooled_bins": {label: {"mean": m, "sd": 0.0, "n": 100}
+                          for label, m in zip(an4b.placebo_4b.POOLED_BIN_ORDER_4B, bin_means)}}
+    out = an4b.s1_reading_4b(placebo_mean, iid_mean, s3)
+    assert out["reading"] == want
+    assert out["readings"] == list(an4b.S1_READINGS_4B)
+    assert out["shape_tol"] == an4b.placebo_4b.S1_SHAPE_TOL_4B
+    if want is not None:
+        assert out["reading"] in an4b.S1_READINGS_4B
+
+
+def test_gate6_endpoint_identity_4b_refuses_on_a_sweep_endpoint_that_drifts(tmp_path):
+    """FREEZE F-1: the placebo screen's endpoint input (the SWEEP
+    endpoint unit, via the series' own `per_item` arrays) is a
+    DIFFERENT FILE from the real eligibility rule's (the REFERENCE
+    endpoint unit). Gate 6 re-derives their byte identity through Exp
+    4's own frozen `battery_4.gate1_rederive_4`. Built here as a hand
+    fixture -- only the four files that comparison reads -- so no
+    world build is needed: identical bytes pass, one flipped byte in
+    ONE rung's sweep npz refuses and names the trajectory."""
+    root = tmp_path / "tree"
+    trajs = list(battery_4.TRAJECTORIES_4)
+    rec = {"tensor_digest": "d" * 16,
+           "activation_sha256": {r: f"a{r}" for r in battery_4.RUNGS},
+           "attested_sha256": {r: f"t{r}" for r in battery_4.RUNGS}}
+    for traj in trajs:
+        ref_d = battery_4.reference_dir(root, f"endpoint_{traj}")
+        sweep_d = battery_4.unit_dir(root, traj, battery_4.ENDPOINT_STEP_4[traj])
+        for d in (ref_d, sweep_d):
+            (d / "sets").mkdir(parents=True, exist_ok=True)
+            (d / "_load.json").write_text(json.dumps(rec))
+            for r in battery_4.RUNGS:
+                (d / "sets" / f"{r}.npz").write_bytes(b"identical-bytes-for-" + r.encode())
+    g = an4b.gate6_endpoint_identity_4b(root)
+    assert g["pass"] is True
+    assert g["n_rungs_checked"] == len(trajs) * len(battery_4.RUNGS)
+    for traj in trajs:
+        assert g["per_traj"][traj]["sets_equal"] is True
+        assert g["per_traj"][traj]["digest_equal"] is True
+
+    victim = trajs[0]
+    rung = sorted(battery_4.RUNGS)[0]
+    p = (battery_4.unit_dir(root, victim, battery_4.ENDPOINT_STEP_4[victim])
+         / "sets" / f"{rung}.npz")
+    p.write_bytes(p.read_bytes() + b"\x00")
+    g2 = an4b.gate6_endpoint_identity_4b(root)
+    assert g2["pass"] is False
+    assert g2["per_traj"][victim]["sets_equal"] is False
+    assert g2["per_traj"][victim]["n_sets_differ"] == 1
+    assert any(victim in b for b in g2["bad"])
+
+    # the other three trajectories are untouched -- the refusal names
+    # the one that drifted, not the battery
+    for traj in trajs[1:]:
+        assert g2["per_traj"][traj]["sets_equal"] is True
+
+
+def test_gate6_refuses_on_a_differing_tensor_digest(tmp_path):
+    """F-1's second leg: equal set bytes but a different `tensor_
+    digest` on the two records -- two units at what the records claim
+    are different checkpoints -- also refuses (Exp 4 required all four
+    agreements; so does this)."""
+    root = tmp_path / "tree"
+    victim = list(battery_4.TRAJECTORIES_4)[0]
+    for traj in battery_4.TRAJECTORIES_4:
+        pair = (battery_4.reference_dir(root, f"endpoint_{traj}"),
+                battery_4.unit_dir(root, traj, battery_4.ENDPOINT_STEP_4[traj]))
+        for i, d in enumerate(pair):
+            (d / "sets").mkdir(parents=True, exist_ok=True)
+            digest = "different" if (traj == victim and i == 1) else "same"
+            (d / "_load.json").write_text(json.dumps(
+                {"tensor_digest": digest,
+                 "activation_sha256": {r: "a" for r in battery_4.RUNGS},
+                 "attested_sha256": {r: "t" for r in battery_4.RUNGS}}))
+            for r in battery_4.RUNGS:
+                (d / "sets" / f"{r}.npz").write_bytes(b"same")
+    g = an4b.gate6_endpoint_identity_4b(root)
+    assert g["pass"] is False
+    assert g["per_traj"][victim]["digest_equal"] is False
+    assert g["per_traj"][victim]["sets_equal"] is True
+    for traj in list(battery_4.TRAJECTORIES_4)[1:]:
+        assert g["per_traj"][traj]["digest_equal"] is True
+
+
+def test_gate6_wrapper_collects_a_raise_into_insufficient_data(tmp_path, monkeypatch):
+    """F-1's totality site: gate 6's own `collect_total_4b` wrapper.
+    An empty `root4` makes `gate1_rederive_4` raise (the files are not
+    there); the wrapper must turn that into INSUFFICIENT_DATA naming
+    "4b gate 6", never an escape."""
+    v = an4b.run(root4b=tmp_path / "out", root4=tmp_path / "empty",
+                 **_run4b_kwargs(world=False))
+    # `reason` carries only the first five collected failures, so gate
+    # 6's own line may sit past it; what this test proves is that the
+    # raise was COLLECTED (run() returned a verdict at all) and that
+    # gate 6 is recorded as failing.
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert v["gates"]["6"]["pass"] is False
+    assert v["gates"]["6"]["per_traj"] == {}
+
+
+def test_mc_resolution_flags_a_p_cal_sitting_on_a_bar():
+    """FREEZE F-2: p_cal is a Monte Carlo estimate over B draws and
+    design §3.7's tree reads it against two bars with no tolerance.
+    `bar_margins_4b` prints each bar's distance in units of p_cal's own
+    binomial SE and names every bar within 2 SE -- the cells where the
+    world turns on the seeded draw."""
+    pl = an4b.placebo_4b
+    on_bar = pl.bar_margins_4b(0.0102, 10_000)
+    assert on_bar["p_cal_mc_se"] == pytest.approx((0.0102 * 0.9898 / 10_000) ** 0.5)
+    assert on_bar["within_2_mc_se"] == ["0.01"]
+    assert on_bar["per_bar"]["0.01"]["margin"] == pytest.approx(0.0002)
+    far = pl.bar_margins_4b(0.30, 10_000)
+    assert far["within_2_mc_se"] == []
+    assert far["per_bar"]["0.05"]["margin_in_mc_se"] > 2.0
+    assert pl.p_cal_4b([0.1, 0.2, 0.3, 0.4], 0.3)["p_cal_mc_se"] is not None
+
+
+def test_licence_block_checks_the_interval_clause_and_carries_any_world(tmp_path):
+    """FREEZE F-3: design §6's NOT-DISTINGUISHABLE sentence asserts "T*
+    with its interval covering zero". The interval is
+    [T4 - Q.975, T4 - Q.025], so it lies entirely BELOW zero whenever
+    T_4 sits under the null's 2.5th percentile -- the construction
+    account's own direction -- with the world still
+    NOT-DISTINGUISHABLE. The analyzer checks the clause and names the
+    cell §6 did not. Exercised here through `write_verdict_txt_4b` on
+    hand-built records (the licence block's own construction is
+    exercised end to end by the slow forced-p_cal world tests)."""
+    base = {"verdict": "NOT-DISTINGUISHABLE", "reason": "p_cal 0.99 >= 0.05",
+            "gates": {}, "exp4": {}}
+    covers = dict(base, licence={"world": "NOT-DISTINGUISHABLE",
+                                 "text": an4b.LICENCE_4B["NOT-DISTINGUISHABLE"],
+                                 "any_world": an4b.LICENCE_ANY_WORLD_4B,
+                                 "interval_covers_zero": True, "unnamed_cell": None})
+    txt = an4b.write_verdict_txt_4b(covers)
+    assert "T* interval covers zero: True" in txt
+    assert "experiments.md` records the demotion" in txt      # the §6 clause r1 dropped
+    assert "What survives in every world" in txt
+    assert an4b.LICENCE_ANY_WORLD_4B[:40] in txt
+    assert "CELL NOT NAMED" not in txt
+
+    below = dict(base, licence={"world": "NOT-DISTINGUISHABLE",
+                                "text": an4b.LICENCE_4B["NOT-DISTINGUISHABLE"],
+                                "any_world": an4b.LICENCE_ANY_WORLD_4B,
+                                "interval_covers_zero": False,
+                                "unnamed_cell": an4b.LICENCE_INTERVAL_BELOW_NULL_4B})
+    txt2 = an4b.write_verdict_txt_4b(below)
+    assert "T* interval covers zero: False" in txt2
+    assert "CELL NOT NAMED IN design §6" in txt2
+
+
+def test_verdict_txt_prints_pins_active_and_a_skipped_gate(tmp_path):
+    """FREEZE F-4: `power_gate="skip"` (TEST-ONLY) leaves
+    `gates["4"]["pass"] = True`, and the only record of it was
+    `pins_active`, which VERDICT.txt never printed -- so a
+    TEST-ONLY invocation's VERDICT.txt read identically to the
+    sanctioned run's. Both are printed now."""
+    v = {"verdict": "INSUFFICIENT_DATA", "reason": "stopped", "exp4": {},
+         "gates": {"4": {"pass": True, "skipped": True}},
+         "pins_active": {"power_gate_skipped": True, "referent_manifest": False,
+                         "import_surface": True, "numpy_version": "9.9.9"}}
+    txt = an4b.write_verdict_txt_4b(v)
+    assert "gate 4: pass=True [skipped=True]" in txt
+    assert "Pins active" in txt
+    assert "power_gate_skipped=True" in txt
+    assert "referent_manifest=False" in txt
+    assert "numpy_version=9.9.9" in txt
+
+
+def test_write_order_puts_the_attested_companions_before_verdict_json(tmp_path, monkeypatch):
+    """FREEZE F-5: `verdict.json` carries the sha256 of
+    `placebo_4b.json`/`power_ext_4b.json` (B-6), so it must not be
+    written first -- a write failure after it would leave a committed
+    verdict attesting records that do not exist. Checked by recording
+    the order of the writes the run actually performs."""
+    order = []
+    real_wb = Path.write_bytes
+    real_wt = Path.write_text
+
+    def spy_wb(self, data):
+        order.append(self.name)
+        return real_wb(self, data)
+
+    def spy_wt(self, data, *a, **kw):
+        order.append(self.name)
+        return real_wt(self, data, *a, **kw)
+
+    monkeypatch.setattr(Path, "write_bytes", spy_wb)
+    monkeypatch.setattr(Path, "write_text", spy_wt)
+    out = tmp_path / "out"
+    v = {"verdict": "X", "reason": "y", "exp4": {}, "gates": {}}
+    # exercise the write block's own ordering contract directly: the
+    # companions, then the verdict pair.
+    (out / "results").mkdir(parents=True, exist_ok=True)
+    an4b.battery_4b.placebo_record_path_4b(out).write_bytes(b"{}")
+    an4b.battery_4b.power_ext_path_4b(out).write_bytes(b"{}")
+    an4b._write_verdict_only_4b(out, v)
+    assert order == ["placebo_4b.json", "power_ext_4b.json", "verdict.json", "VERDICT.txt"]
+    src = (REPO / "experiments/exp4b/analyze_4b.py").read_text()
+    i_companions = src.index("placebo_record_path_4b(root_out).write_bytes")
+    i_verdict = src.index("_write_verdict_only_4b(root4b, v)\n\n    return v")
+    assert i_companions < i_verdict, "run() must write the companions before verdict.json"
+
+
+@pytest.mark.parametrize("interval,want", [
+    ([-0.20, 0.30], True),      # the case design §6 assumed
+    ([0.0, 0.30], True),        # zero at the lower edge
+    ([-0.20, 0.0], True),       # zero at the upper edge
+    ([-0.40, -0.05], False),    # T_4 BELOW the null's 2.5th percentile
+    ([0.05, 0.40], False),      # T_4 above the null's 97.5th
+    (None, None),
+])
+def test_interval_covers_zero_4b(interval, want):
+    """FREEZE F-3: the §6 clause checked, including both edges (the
+    comparison is inclusive) and the cell §6 does not name -- an
+    interval lying entirely BELOW zero."""
+    assert an4b.interval_covers_zero_4b(interval) is want
