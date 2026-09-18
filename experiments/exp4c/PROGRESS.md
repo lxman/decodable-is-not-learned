@@ -259,6 +259,31 @@ test it directly. Flagging for Task 4/the freeze in case a genuinely
 asymmetric two-sided read is wanted later — this statistic cannot give
 one.
 
+**Correction (fix round 1, same day).** The paragraph above is
+withdrawn — the mirror-threshold change it describes was committed at
+`db620c916` and reverted at the fix commit that follows this entry, on
+the controller's ruling. `p_minus` is `P(tot <= obs)`, the OBSERVED
+sum's own lower tail — Exp 4's `primary_4` convention
+(`experiments/exp4/analyze_4.py:648`: `p_minus = mean(T_flip <= T +
+1e-15)`) and what design §3.4 means by "p₋ < .05: the rising tasks'
+pre-clear growth sits BELOW the flat pool's." The brief's fenced
+`block_flip_4c` was right as written; the brief's Step-1 test
+(`out["p_minus"] == 0.25` on the `.9`/`.8`/`.7` fixture, where `obs =
+.9` is the enumeration's own maximum) was the error — the correct
+reading there is `p_minus == 1.0` (the whole null sits at or below its
+own maximum). The proof that the mirror threshold makes `p_minus`
+identical to `p_plus` on every call was correct as combinatorics; it
+proved the mirror threshold is NOT this design's `p_minus`, since a
+statistic identical to `p_plus` on every call cannot carry the
+REVERSED sub-cell design §3.4 requires. Fixed: `rank_4c.py`'s
+`block_flip_4c` back to the brief's literal line; the test renamed to
+`test_block_flip_is_exact_with_two_one_sided_tails`, asserting
+`p_minus == 1.0` on the original fixture and adding a mirrored fixture
+(`q` reflected around .5) where `obs` is the enumeration's minimum and
+the tails swap (`p_plus == 1.0`, `p_minus == 0.25`); the null fixture
+now also asserts `p_minus == 1.0`. `DISCOVERY_PIN_4C` does not pin
+`p_minus` anywhere — unaffected; fast tests re-run green (15 passed).
+
 **Discovery reproduction — a pre-tag execution of a statistic-computing
 tool on Exp 4's committed tables, printing the KNOWN discovery numbers;
 NOT an execution on 4c's own tree** (4c has no tree yet — nothing is

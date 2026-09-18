@@ -45,13 +45,21 @@ def test_cells_drop_no_window_and_transient():
     assert ("A", "add3_mid") not in {(c["traj"], c["rung"]) for c in rk.cells_4c(S, RS)}
 
 
-def test_block_flip_is_exact_and_symmetric():
+def test_block_flip_is_exact_with_two_one_sided_tails():
     cells = [{"family": "f1", "rung": "r1", "q": 0.9}, {"family": "f1", "rung": "r2", "q": 0.8}, {"family": "f2", "rung": "r3", "q": 0.7}]
     out = rk.block_flip_4c(cells)
     assert out["n_blocks"] == 2 and out["n_flips"] == 4 and out["method"] == "exact"
-    assert out["p_plus"] == 0.25 and out["p_minus"] == 0.25 and out["observed"] == pytest.approx(0.9)
+    # obs = .9 is the enumeration's own maximum (both block sums positive): p_plus is the whole
+    # upper tail (1 of 4), p_minus the empirical CDF at obs — the whole distribution sits at or
+    # below its own maximum, so p_minus == 1.0 (Exp 4's `primary_4` convention, analyze_4.py:648).
+    assert out["p_plus"] == 0.25 and out["p_minus"] == 1.0 and out["observed"] == pytest.approx(0.9)
+    # The mirror fixture (q's reflected around .5): obs is now the minimum, so the tails swap.
+    mirrored = [{"family": "f1", "rung": "r1", "q": 0.1}, {"family": "f1", "rung": "r2", "q": 0.2}, {"family": "f2", "rung": "r3", "q": 0.3}]
+    m = rk.block_flip_4c(mirrored)
+    assert m["p_plus"] == 1.0 and m["p_minus"] == 0.25 and m["observed"] == pytest.approx(-0.9)
     null = [{"family": f, "rung": f, "q": 0.5} for f in "abc"]
-    assert rk.block_flip_4c(null)["p_plus"] == 1.0
+    nl = rk.block_flip_4c(null)
+    assert nl["p_plus"] == 1.0 and nl["p_minus"] == 1.0
     with pytest.raises(ValueError):
         rk.block_flip_4c([{"family": str(i), "rung": str(i), "q": .6} for i in range(21)])
 

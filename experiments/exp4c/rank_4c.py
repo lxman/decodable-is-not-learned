@@ -26,22 +26,12 @@ Everything under `experiments/exp2*`, `experiments/exp3*`,
 `experiments/exp4/` and `experiments/exp4b/` is FROZEN: read, never
 edited.
 
-A note on `block_flip_4c`'s `p_minus`, disclosed here because a later
-reader of this module needs it to interpret `verdict_tree_4c`'s
-"reversed" branch correctly: for ANY cells and ANY block assignment,
-the full 2^n-flip enumeration pairs each sign pattern with its
-bitwise complement, whose total is the negative of the first pattern's
-total (`_threads_4`-free, pure combinatorics — verified in
-`test_block_flip_is_exact_and_symmetric`, whose name says so). That
-makes `p_plus` (`P(tot >= obs)`) and `p_minus` (`P(tot <= -obs)`, the
-mirror threshold) IDENTICAL by construction on every real call —
-`block_flip_4c` can never itself produce the asymmetric
-(p_plus, p_minus) pair `verdict_tree_4c`'s REVERSED branch is written
-to catch. That branch is exercised only by hand-built dicts (this
-module's own tests, and `verdict_tree_4c`'s callers elsewhere), the
-same "prove the refusal path and test it directly since the real
-producer cannot reach it" pattern used throughout this program (e.g.
-Exp 3d's `IndexError`-only totality result)."""
+`block_flip_4c`'s `p_plus` and `p_minus` are the two one-sided tails of
+the exact sign-flip distribution at the OBSERVED sum (Exp 4's
+`primary_4` convention, `experiments/exp4/analyze_4.py`): `p_plus =
+P(tot >= obs)`, `p_minus = P(tot <= obs)`; `p_minus < .05` is
+`verdict_tree_4c`'s REVERSED sub-cell — the rising tasks' pre-clear
+growth sitting BELOW the flat pool's (design §3.4)."""
 from __future__ import annotations
 
 import sys
@@ -172,10 +162,8 @@ def block_flip_4c(cells, *, key="q", block="family") -> dict:
     """Exact enumeration of every sign flip of `(q - 1/2)` over the
     named block (family or rung) — never sampled; `block_flip_4c`
     refuses above `MAX_ENUMERATE_4C` blocks rather than degrade
-    silently to a Monte Carlo estimate. `p_minus` is read at the
-    MIRROR threshold `-obs` (module docstring): identical to `p_plus`
-    on every real call, by the sign-flip null's own symmetry, and
-    exercised asymmetrically only via hand-built dicts."""
+    silently to a Monte Carlo estimate. `p_plus`/`p_minus` are the two
+    one-sided tails at the observed sum (module docstring)."""
     cells = [c for c in cells if c.get(key) is not None]
     blocks = sorted({c[block] for c in cells})
     n = len(blocks)
@@ -196,7 +184,7 @@ def block_flip_4c(cells, *, key="q", block="family") -> dict:
     return {"n_blocks": n, "blocks": blocks, "n_flips": int(m), "method": "exact", "observed": obs,
             "block_sums": {b: float(sums[idx[b]]) for b in blocks},
             "p_plus": float(np.mean(tot >= obs - 1e-12)),
-            "p_minus": float(np.mean(tot <= -obs + 1e-12)),
+            "p_minus": float(np.mean(tot <= obs + 1e-12)),
             "resolution": 1.0 / m}
 
 
@@ -315,9 +303,8 @@ def verdict_tree_4c(failures, primary) -> dict:
     """INSUFFICIENT_DATA on any named failure; else REPLICATES /
     MARGINAL / NOT-REPLICATED by `primary["p_plus"]` against `ALPHA_4C`
     / `MARGINAL_4C`, with a REVERSED sub-cell inside NOT-REPLICATED
-    when `primary["p_minus"] < MARGINAL_4C` — unreachable through
-    `block_flip_4c`'s own output (module docstring), tested directly
-    here for the branch's own correctness."""
+    when `primary["p_minus"] < MARGINAL_4C` — the rising tasks' growth
+    sitting below the flat pool's rather than above it (design §3.4)."""
     if failures:
         return {"verdict": "INSUFFICIENT_DATA", "reason": "; ".join(failures[:5]), "reversed": None}
     p, pm = primary["p_plus"], primary["p_minus"]
