@@ -386,3 +386,85 @@ Full exp4c fast suite: 26 passed. Slow discovery test not re-run
 confirmed by inspection). `git status` after: only
 `experiments/exp4c/rank_4c.py`, `experiments/exp4c/tests/test_rank_4c.py`
 and this paragraph.
+
+## 2026-09-18 — Task 3: `collect_4c.py`, `run/sweep_4c.py`, `run/preflight_4c.py`, `run/commit_watcher_4c.sh`
+
+Instrument at `experiments/exp4c/collect_4c.py` and
+`experiments/exp4c/run/`: `process_model_4c` (Exp 4's `process_model_4`
+with the brief's five deltas — 4c's own batch pin checked before the
+per-rung loop against `BATTERY_4C.BATCH_4C` rather than `collect_4.
+collect_rung_4`'s own table, which does not know 4c's keys; no CKA,
+ever — a reference's `activations_prompt_end` is always `None`; no
+global bank, ever — `X_by_rung` never built, `write_load_4` always gets
+`global_sets=None`, even for the 13B thin endpoint's str key, which
+would read as "reference-stage" under Exp 4's own test; 4c's own
+render/prereg_tag; `keep_activations=False` hard-coded at the write);
+`real_loaders_4c`; the sweep runner (`run_thin_endpoint`/`run_gate1`/
+`run`/`main`, refusal order require_prereg_4c -> check_frozen_4c ->
+Exp 4's reference seal over the five reused keys -> `results/
+power_4c.json` present -> halt marker; the unit order step 0 first,
+then the grid ascending, endpoint via gate 1; resume = skip-if-
+complete); the preflight (two interior checkpoints, 13B then 6.9b, two
+rungs each, digest + site-count pins, peak-MPS-memory guarded by
+`hasattr`, asserts `results/` untouched); the watcher (one WATCH_DIR,
+no `--stage` split — unlike Exp 4, 4c has no separate reference stage).
+Zero model contact, zero network in every test.
+
+**One gap in the brief, fixed rather than followed verbatim.** The
+brief's fenced `_process` reads `device` inside its body but does not
+take it as a parameter, and neither `run_thin_endpoint` nor `run_gate1`
+passes one to it — an undefined name on any real call. Added `device`
+as a keyword parameter to `_process`, threaded from all three call
+sites (`run_thin_endpoint`, `run_gate1`, `run`'s own per-step loop,
+each already holding a `device` value). No other line of the brief's
+fenced code was changed; `_halt`/`run_thin_endpoint`/`run_gate1` are
+otherwise verbatim.
+
+**Test construction for the two gate-1 references (no fixture named
+`fake_loaders_4c` exists — built directly in each test file).** For
+`process_model_4c`'s own tests (`test_collect_4c.py`): `tmp_root4`
+carries three Exp-4-shaped reference units (`ref_olmo2_7b`,
+`ref_smollm3_3b`, `ref_comma_7b`, `refs=()`) written through Exp 4's
+frozen `full_shape._write_synthetic_unit` — no model, no torch. For the
+sweep's own tests (`test_stages_4c.py`): the OLMo-2 13B gate-1
+reference is self-contained (the sweep writes `reference/
+endpoint_olmo2_13b` itself via `run_thin_endpoint`, then compares the
+sweep endpoint against it — both loader calls share one seed by
+construction in `_Seeds4c`, so gate 1 passes without any extra test
+scaffolding). The Pythia 6.9b gate-1 reference is Exp 4's OWN
+`ladder_pythia_6.9b` table, which nothing in 4c's own tree can write —
+built in the test via Exp 4's frozen `collect_4.process_model_4`
+directly (not exp4c's wrapper), same three refs
+(`collect_4.non_pythia_refs_4()`), same batch (16), a FakeModel of the
+SAME seed the fake step loader gives the 6.9b sweep endpoint. This
+byte-equal construction was verified to actually produce a clean gate
+1 (`test_sweep_6_9b_gate1_compares_against_exp4s_ladder_table`;
+`gate1_failures_4c(...) == []`) — no concern to report on ruling 3.
+
+**Tests.** RED verified first: with `collect_4c.py`/`run/sweep_4c.py`/
+`run/preflight_4c.py` absent, `pytest experiments/exp4c/tests/
+test_collect_4c.py experiments/exp4c/tests/test_stages_4c.py`
+raised `ModuleNotFoundError`/`ImportError`. After implementation,
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp4c -p no:cacheprovider -W error -q`: fast (`-m "not
+slow"`) 46 passed in ~8 s; slow 4 passed in ~102 s (unaffected by this
+task, re-run for confidence) — 50/50. `test_collect_4c.py` (7 tests):
+the happy-path record (34-rung align, no CKA, no activations dir, all
+`activation_sha256` present, `unit_complete_4` True), the 13B thin-
+endpoint key gets no `global.npz` either, the wrong-batch refusal, the
+model-box-emptied-before-the-first-forward-pass contract, the non-
+boxed-model `TypeError`, `release_model` called exactly once, and
+`real_loaders_4c`'s shape. `test_stages_4c.py` (13 tests): five
+refusals (no prereg tag, no Exp 4 reference seal, no power record, a
+halt marker, dry-run loads nothing), the 6.9b happy path + idempotent
+resume, the 13B happy path (asserting the exact call order `["thin",
+"step:3000", "step:0", "step:1000", "step:2000"]`), three halts (gate-1
+digest mismatch before any processing — no record written; gate-1 byte
+mismatch — `gate1_rederive_4c` patched to flip one rung's `sets_equal`,
+proving the record IS written before the halt; a per-step digest
+mismatch, proving the checkpoint is freed), the preflight's
+writes-nothing structural test, and the watcher's `zsh -n` parse check.
+`git status` after: only `experiments/exp4c/collect_4c.py`,
+`experiments/exp4c/run/` (new), `experiments/exp4c/tests/
+test_collect_4c.py`, `experiments/exp4c/tests/test_stages_4c.py` and
+this paragraph.
