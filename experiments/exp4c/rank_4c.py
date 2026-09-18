@@ -559,6 +559,12 @@ def discovery_set_4c(root4=None) -> dict:
         "U_nonarith": modifier["nonarith"]["U"] if modifier["nonarith"] else None,
         "n_nonarith": modifier["nonarith"]["n_cells"] if modifier["nonarith"] else 0,
         "family_sums": dict(flip_family["block_sums"]),
+        # Task 4: S6 pools the discovery set's own cells with the
+        # confirmation set's, so the per-cell table travels with the
+        # record. Additive — `DISCOVERY_PIN_4C` and
+        # `check_discovery_pins_4c` are untouched and compare the same
+        # scalar fields they always did.
+        "cells": cells_incl,
         "site0_excluded": {"n_cells_q_identical": n_ident,
                            "max_abs_q_diff": float(max(diffs)) if diffs else 0.0,
                            "n_common_cells": len(common)},

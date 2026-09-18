@@ -468,3 +468,161 @@ writes-nothing structural test, and the watcher's `zsh -n` parse check.
 `experiments/exp4c/run/` (new), `experiments/exp4c/tests/
 test_collect_4c.py`, `experiments/exp4c/tests/test_stages_4c.py` and
 this paragraph.
+
+## 2026-09-18 — Task 4: `analyze_4c.py`, the worlds, the refusal routes, determinism
+
+Instrument at `experiments/exp4c/analyze_4c.py`, in `analyze_4.py`'s
+own order (pins → loaders → gates → primary → secondaries → verdict →
+run → main) so the two read side by side: `collect_total_4c`;
+`check_imports_4c`; `_load_one_unit_4c` (every pin
+`load_record_failures_4c` makes plus 34-rung coverage of
+`sets_sha256`, `n_hidden`, `sites` and the depth pairing RE-DERIVED —
+Exp 4 F-2's key-set attack); `load_run_tables_4c`;
+`_attested_question_end_4c`; `gate0_4c` (Exp 4's gate 0 with the two
+units passed in — 4c's referent is the run's REAL step 0, and both
+units live under `sweep/<traj>/`); `gate7_ties_4c` (the tie count
+printed, never gating); `eligibility_4c` (Exp 4's
+`eligibility_table_4` per-run body, site 0 INCLUDED — S4 is the
+continuity arm and `per_item_alignment_4` is that code); `primary_4c`;
+`s4_continuity_4c`; S1/S2/S3/S6/S8/S9/S10 (S5 and S7 are `rank_4c`'s);
+`references_ceiling_4c`; the licence block; `verdict_4c`;
+`write_verdict_txt_4c`; `run()`.
+
+**`run()`'s refusal order, as built** (each step a `collect_total_4c`
+site, labels "4c …"): halt markers (both trajectories) → frozen
+modules → the import surface (entry) → the prereg tag → the 2h/2l
+manifests → the referent manifest → battery + floors → the committed
+outcomes, rung sets and the §3.2 pins per trajectory → Exp 4's
+reference seal over the five reused keys → the reference tables per
+trajectory → **the discovery gate** (§3.7(1)) → the power record →
+per trajectory, only with a clean slate: gate 1 (record + attestation
++ byte re-derivation), the 13B thin endpoint unit, `(traj, 0)`, the
+grid, gate 0, the alignment series (site 0 excluded), the S4 series
+(site 0 included), `eligibility_4c` and the t1/endpoint per-item
+alignments → cells → primary → placebo → modifier → gate 7 → tree →
+the calibration read → S1–S10 → the import surface (exit) →
+`pins_active` → `verdict_4c` → `_jsonify_4` → write.
+
+**Three deviations from the brief's letter, each for a reason.**
+
+1. **`power_gate="skip"` skips only what needs `power_4c`.** The
+   controller's ruling said the power stage is bypassed under
+   `"skip"`; taken literally that makes the brief's own
+   "power record missing" refusal route unreachable before Task 5.
+   As built, `"skip"` bypasses the two checks that need the module —
+   the live cell structure's sha and the byte reproduction — and
+   leaves the record's presence, `prereg_tag`, `declaration` and
+   `n_sim` checked. The world builder therefore writes a four-field
+   power stand-in (`_write_power_stub_4c`), the world tests pass
+   `expected_n_sim=WORLD_N_SIM_4C`, and both the missing-record and
+   the wrong-`n_sim` routes are live now. Task 5 replaces the stub
+   with `power_4c.compute(n_sim=WORLD_N_SIM_4C)` and the worlds move
+   to `power_gate="full"`.
+2. **`collect_total_4c` catches `ImportError` as well.** Three inputs
+   on the verdict path live in Task 5's modules (`power_4c`,
+   `make_referents_4c`); a module named on that path that cannot be
+   imported is a missing INPUT and must arrive as INSUFFICIENT_DATA
+   naming it (lesson 8), not as a traceback out of `run()`. The
+   laundering risk 2i's docstring names is bounded by
+   `check_imports_4c`, which runs at entry and exit over every module
+   the interpreter actually executed.
+3. **S4's design is built locally, not by `real_design_4b`.** Both
+   `battery_4b.real_design_4b` and `battery_4b.cells_from_verdict_4b`
+   key on `battery_4.TRAJECTORIES_4` / `battery_4.GRID_4`, which have
+   no entry for either 4c trajectory — called on a `pythia_6.9b` cell
+   they raise `KeyError`. `_design_4c` and `_clear_indices_4c`
+   reproduce the two rules over 4c's own tables, and
+   `test_design_4c_agrees_with_real_design_4b_on_exp4_cells` proves
+   the equality on cells the frozen function CAN take (and asserts
+   the `KeyError` on one it cannot). Everything else in S4 —
+   `placebo_pool_4b`, `draw_batteries_4b`, `p_cal_4b`, `t_star_4b`,
+   `alpha_placebo_4b`, `cells_4`, `primary_4`, `lambda_hat_4`,
+   `s5_autocorr_4b` — is the frozen code, called directly.
+
+**One edit to `rank_4c.py`** (the only one the controller permitted):
+`discovery_set_4c`'s return gains a `cells` field, the 42 cells S6
+pools with the confirmation set's 26. Additive — `DISCOVERY_PIN_4C`
+and `check_discovery_pins_4c` are untouched, and the slow discovery
+test still passes at the pins.
+
+**The worlds** (`tests/full_shape_4c.py`, 41 units under `root4c` and
+5 Exp 4 reference-stage keys under `root4`, ≈ 4.5 min per build, ≈ 80 s
+per analyzer run). Exp 4's own mixture generator, its canonical
+per-rung V, and the REAL outcome side: the rung sets and clear indices
+are the §3.2 pins, so a world's texture sits on the real emergence
+order. What differs per mode is where the task component sits relative
+to the task's own clear index: `replicates`/`type_general` m = c − 2.5;
+`not_replicated` m = c + 1.5; `type_bound` non-arithmetic at c − 2.5
+and arithmetic at c + 1.5; `reversed` rising rungs at c + 1.5 AND the
+FLAT pool given its own early component (m = 0.5). The two gate-1
+references are byte-equal by construction: Exp 4's `ladder_pythia_6.9b`
+is written by Exp 4's OWN frozen writer from the SAME moment tag as
+4c's 6.9b sweep endpoint, and the 13B thin endpoint from the same
+moment as the 13B sweep endpoint — so gate 1's raw-byte comparison is
+a real cross-writer test, and it passes 34/34 on both runs.
+
+**Why `reversed` moves the flat pool rather than damping the rising
+rungs' surface component** (the brief's construction): pre-clear the
+surface component is a few hundredths of a match probability — at
+13B's clear indices 4–7 it is .018, scaled .4 it is .007 — and the
+difference between those two is well inside the k-NN sampling noise,
+so the world would reach `p_minus < .05` by luck or not at all.
+Raising the flat pool puts the rising tasks' pre-clear growth below
+the never-performing tasks' BY CONSTRUCTION, which is what REVERSED
+means. Disclosed here and in the module docstring.
+
+**World verdicts** (seed 0, `n_boot` 200, `B` 200): `replicates`
+REPLICATES, U 1.0, p₊ .001953 (= 1/512, the flip's own resolution),
+26 cells on 9 families, modifier TYPE-GENERAL (U_arith 1.0, p₊
+.015625), gate 0 1.000 / .9993, gate 1 34/34 both runs;
+`not_replicated` NOT-REPLICATED, U .5298, p₊ .3008, p₋ .7012,
+`reversed` False; `reversed` NOT-REPLICATED + REVERSED, U 0.0,
+p₋ .001953, modifier NEITHER; `type_bound` modifier TYPE-BOUND
+(U_arith .453 at p₊ .734, U_nonarith 1.0), verdict NOT-REPLICATED at
+p₊ .0723. MARGINAL is reached on the `replicates` world with
+`rank_4c.ALPHA_4C` monkeypatched below the flip's resolution. Every
+terminal of the tree and every cell of the modifier is therefore
+reached through the production path.
+
+**Refusal routes** (`MISSING_ROUTES_4C`, nine): the 13B thin endpoint
+removed; `gate1.json` missing; one rung's `sets_equal` set False; step
+0 removed; a grid unit short (a rung dropped from `sets_sha256`); a
+`sets_sha256` value wrong; a `HALTED` marker; Exp 4's `ref_comma_7b`
+record's sets sha edited; the power record removed. Each lands
+INSUFFICIENT_DATA with its own needle in `failures`, none raises.
+Three more totality cases beside them: `gate1.json` written as a JSON
+list, a power record with the wrong `n_sim`, and a discovery record
+one nanounit off its pin.
+
+**Tests.** RED verified first: with `analyze_4c.py` absent,
+`test_analyze_4c.py` raised `ImportError: cannot import name
+'analyze_4c'`. GREEN: `PYTHONDONTWRITEBYTECODE=1
+~/emergence-lab/.venv/bin/python -m pytest experiments/exp4c
+-p no:cacheprovider -W error -q` — fast (`-m "not slow"`) 62 passed
+in 9.9 s; slow (`-m slow`) 24 passed in 2,496 s (41 min 36 s), which
+includes Task 2's own slow discovery test, so the `cells` addition to
+`discovery_set_4c` holds at the pins. `test_analyze_4c.py` (16 fast): four
+`_load_one_unit_4c` refusals (the exp4 tag, a pairing key set short of
+the record's refs, a 33-rung unit, a missing unit); gate 0 on
+hand-built site means (cells per rung × site × reference, site 0
+dropped into `n_cells_excluded`) and gate 0 below its bar;
+`eligibility_4c` equal TO THE FLOAT to `analyze_4.eligibility_table_4`
+on the same synthetic tables (Exp 4's function run with its trajectory
+table, grids, refs, loaders and outcome monkeypatched onto the same
+two in-memory units — chosen over a hand fixture because the quantity
+under test is the CLAIM that this is Exp 4's own instrument, which a
+hand fixture would not touch); `_design_4c` against
+`real_design_4b`; the licence block's three modifier nouns, the
+BOUNDED and REVERSED sentences, the power quote and the missing-record
+placeholder, and INSUFFICIENT_DATA's refusal sentence; `pins_active`'s
+every injection flag; and the discovery pin's exactness.
+`test_full_shape_4c.py` (20 slow) and `test_determinism_4c.py` (1
+slow): the terminals above, the nine routes, strict JSON on the
+returned verdict AND the written one, `VERDICT.txt`'s sections, the
+placebo's two B-element arrays summarized out of the record, and the
+two-process determinism fixture (byte-identical `verdict.json` after
+dropping `git_sha`/`seconds`/`elapsed`).
+
+**Pre-tag executions of `analyze_4c.run()` against the REAL tree
+(root=EXP4C, root4=EXP4): 0.** Every run in this task was on a
+synthetic tree under the session scratchpad.
