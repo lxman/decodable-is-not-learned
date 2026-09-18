@@ -94,6 +94,28 @@ def test_placebo_pool_is_the_common_flat_set_and_removes_the_drawn_task():
     assert 0.0 <= out["p_placebo"] <= 1.0 and 0.0 <= out["alpha_placebo_01"] <= out["alpha_placebo_05"] <= 1.0
 
 
+def test_placebo_carries_the_non_arithmetic_stratum_reading():
+    # design §3.5: "the non-arithmetic stratum's rung-level flip and its placebo p are printed
+    # as descriptives" — of the fixture's three cells, only ("A", "antonym") is non-arithmetic.
+    S, RS = _two_runs(); cells = rk.cells_4c(S, RS)
+    out = rk.placebo_4c(S, RS, cells, B=50, seed=0)
+    assert out["n_nonarith_cells"] == 1
+    assert out["U_b_nonarith"].shape == (50,) and not np.any(np.isnan(out["U_b_nonarith"]))
+    assert out["U_nonarith"] is not None
+    assert 0.0 <= out["p_placebo_nonarith"] <= 1.0
+
+
+def test_placebo_nonarith_reading_is_none_without_a_nonarithmetic_rising_task():
+    S, RS = _two_runs()
+    RS = {"A": dict(RS["A"], R=["add3_mid"]), "B": RS["B"]}   # drop antonym, the only non-arithmetic riser
+    cells = rk.cells_4c(S, RS)
+    assert {c["type"] for c in cells} == {"arithmetic"}
+    out = rk.placebo_4c(S, RS, cells, B=20, seed=0)
+    assert out["n_nonarith_cells"] == 0
+    assert out["U_nonarith"] is None and out["p_placebo_nonarith"] is None
+    assert out["U_b_nonarith"].shape == (20,) and np.all(np.isnan(out["U_b_nonarith"]))
+
+
 def test_window_mean_cells_averages_over_the_full_preclear_window():
     S, RS = _two_runs(); cells = rk.window_mean_cells_4c(S, RS)
     by = {(c["traj"], c["rung"]): c for c in cells}
@@ -112,6 +134,23 @@ def test_within_riser_ranks_against_other_not_yet_cleared_risers():
     assert by[("A", "antonym")]["n_comparators"] == 0 and by[("A", "antonym")]["q_within"] is None
     assert by[("B", "add3_mid")]["n_comparators"] == 0 and by[("B", "add3_mid")]["q_within"] is None
     assert out["n_with_comparators"] == 1 and out["U_within"] == pytest.approx(1.0)
+
+
+def test_within_riser_counts_a_co_clearing_task_as_a_comparator():
+    # design §5: comparators are the run's rising tasks that "have NOT yet cleared at t⁻" — a
+    # task with clear index c2 has not cleared at index c-1 iff c2 >= c (the design's binding
+    # rule, over the plan's stricter c2 > c). r1 and r2 co-clear at c=3: each must count the
+    # OTHER as a comparator despite c2 == c. r3 cleared EARLIER (c=2 < 3): excluded as r1/r2's
+    # comparator, but r1 and r2 (not yet cleared at r3's own t⁻) count as r3's comparators.
+    steps = [0, 1, 2, 3, 4]
+    a = {"r1": [0.0, 0.1, 0.2, 0.9, 1.0], "r2": [0.0, 0.1, 0.3, 0.8, 0.9], "r3": [0.0, 0.1, 0.05, 0.2, 0.3]}
+    S = {"A": _series(a, steps)}
+    RS = {"A": {"R": ["r1", "r2", "r3"], "flat": [], "transient": [], "t_clear": {"r1": 3, "r2": 3, "r3": 2}}}
+    out = rk.within_riser_4c(S, RS)
+    by = {c["rung"]: c for c in out["cells"]}
+    assert by["r1"]["n_comparators"] == 1 and by["r1"]["q_within"] == pytest.approx(0.0)
+    assert by["r2"]["n_comparators"] == 1 and by["r2"]["q_within"] == pytest.approx(1.0)
+    assert by["r3"]["n_comparators"] == 2 and by["r3"]["q_within"] == pytest.approx(0.5)
 
 
 def test_never_performing_type_check_ranks_nonarith_flat_among_arith_flat():

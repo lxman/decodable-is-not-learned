@@ -336,3 +336,53 @@ synthetic set/overlap fixture: the single-reference identity, the
 empty-kept-site refusal, and the named stored-overlap-disagreement
 refusal). `git status` after: only `experiments/exp4c/rank_4c.py`,
 `experiments/exp4c/tests/test_rank_4c.py` and this entry.
+
+**Fix round 2, same day — three findings from the task review, each
+ruled and closed.**
+
+1. `calibration_read_4c`'s docstring stated the opposite of what the
+   code computes (the code was right — `bounded = alpha >
+   CAL_MULTIPLE_4C * bar`, verified against its own three-case test
+   before and after). Docstring replaced with the design's direction:
+   `bounded` is True when alpha_placebo at the deciding bar EXCEEDS
+   `CAL_MULTIPLE_4C` times that bar — the rule's measured false-
+   positive rate is close enough to the bar that the licence sentence
+   must say so (design §3.6). Code unchanged.
+2. S5 `within_riser_4c`'s comparator rule was `c2 > c` (the plan's
+   narrowing); design §5 says a rising task's comparators are the
+   run's OTHER rising tasks that "have not yet cleared at t⁻" — a task
+   with clear index c2 has not cleared at index c-1 iff `c2 >= c`.
+   Ruled binding: changed to `c2 >= c`, so a CO-CLEARING task (same
+   clear index) now counts as a comparator on both sides. On the
+   `_two_runs()` fixture this changes nothing (no co-clearing pair
+   exists there), so a dedicated three-rung fixture was added
+   (`test_within_riser_counts_a_co_clearing_task_as_a_comparator`):
+   two tasks co-clearing at c=3 each count the other; a third task
+   that cleared earlier (c=2) is excluded from THEIR comparator pools
+   but gains both of them as ITS comparators (they have not cleared
+   yet at its own t⁻). `discovery_set_4c` never calls `within_riser_4c`
+   — the pins are unaffected.
+3. Design §3.5 ("the non-arithmetic stratum's rung-level flip and its
+   placebo p are printed as descriptives") was a gap: `placebo_4c`
+   read the pooled ALL-cells placebo only. Added: each placebo cell now
+   carries the real cell's `type`; `U_b_nonarith` (float64[B], the
+   per-battery mean over placebo cells whose real cell is
+   non-arithmetic, an all-NaN array when there are none);
+   `U_nonarith`/`p_placebo_nonarith`/`n_nonarith_cells` (the real
+   cells' non-arithmetic mean / its placebo p / the count — `None`/
+   `None`/`0` when there is no non-arithmetic stratum). `type_modifier_
+   4c` is unchanged (it never sees the placebo). Two tests added on
+   `_two_runs()`: the present case (`n_nonarith_cells == 1`, the
+   antonym cell) and the absent case (R narrowed to drop antonym —
+   `U_nonarith`/`p_placebo_nonarith` both `None`, `U_b_nonarith` all
+   NaN). `discovery_set_4c` never calls `placebo_4c` — the pins are
+   unaffected.
+
+Covering tests: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/
+python -m pytest experiments/exp4c/tests/test_rank_4c.py -p
+no:cacheprovider -q -m "not slow" -W error` — 18 passed (15 + 3 new).
+Full exp4c fast suite: 26 passed. Slow discovery test not re-run
+(neither changed function is on `discovery_set_4c`'s call path,
+confirmed by inspection). `git status` after: only
+`experiments/exp4c/rank_4c.py`, `experiments/exp4c/tests/test_rank_4c.py`
+and this paragraph.

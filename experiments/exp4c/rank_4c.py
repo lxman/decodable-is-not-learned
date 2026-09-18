@@ -220,15 +220,23 @@ def placebo_4c(series_by_traj, rung_sets_by_traj, cells, *, B=B_PLACEBO_4C,
     `_05` are `block_flip_4c`'s own false-positive rate on this null,
     measured in the run rather than assumed (4b's process note 3,
     applied in advance): `no_alpha_claim` marks that this placebo run
-    is not itself a preregistered significance test."""
+    is not itself a preregistered significance test. Also carries the
+    non-arithmetic stratum's own placebo reading (design §3.5: "the
+    non-arithmetic stratum's rung-level flip and its placebo p are
+    printed as descriptives") — `U_b_nonarith` restricts each battery's
+    mean to the placebo cells whose REAL cell is non-arithmetic (an
+    all-NaN array when there are none); `U_nonarith`/`p_placebo_
+    nonarith`/`n_nonarith_cells` are `None`/`None`/`0` in that case."""
     pool = sorted(set.intersection(*[set(rung_sets_by_traj[t]["flat"]) for t in series_by_traj]))
     if not pool:
         raise ValueError("placebo_4c: the flat pools share no task")
     g = {t: {r: growth_4c(series_by_traj[t]["a"][r]) for r in series_by_traj[t]["a"]}
          for t in series_by_traj}
     tasks = sorted({c["rung"] for c in cells})
+    nonarith_idx = [j for j, c in enumerate(cells) if c["type"] != "arithmetic"]
     rng = np.random.default_rng(seed)
     U_b = np.empty(B)
+    U_b_nonarith = np.full(B, np.nan)
     fires01 = np.zeros(B, bool)
     fires05 = np.zeros(B, bool)
     for b in range(B):
@@ -239,16 +247,24 @@ def placebo_4c(series_by_traj, rung_sets_by_traj, cells, *, B=B_PLACEBO_4C,
             i = c["t_minus_index"]
             flat = [h for h in rung_sets_by_traj[c["traj"]]["flat"] if h != f]
             q, _ = q_cell_4c(g[c["traj"]][f][i], [g[c["traj"]][h][i] for h in flat])
-            pc.append({"family": c["family"], "rung": c["rung"], "q": q})
+            pc.append({"family": c["family"], "rung": c["rung"], "type": c["type"], "q": q})
         U_b[b] = np.mean([p["q"] for p in pc])
+        if nonarith_idx:
+            U_b_nonarith[b] = np.mean([pc[j]["q"] for j in nonarith_idx])
         fl = block_flip_4c(pc)
         fires01[b] = fl["p_plus"] < ALPHA_4C
         fires05[b] = fl["p_plus"] < MARGINAL_4C
     U = U_4c(cells)
+    na_real = [c for c in cells if c["type"] != "arithmetic"]
+    U_nonarith = U_4c(na_real) if na_real else None
+    p_placebo_nonarith = (float(np.mean(U_b_nonarith >= U_nonarith - 1e-12))
+                          if na_real else None)
     return {"B": int(B), "seed": int(seed), "pool_common": pool, "n_pool": len(pool), "U_b": U_b,
             "null_mean": float(U_b.mean()), "null_sd": float(U_b.std(ddof=1)),
             "p_placebo": float(np.mean(U_b >= U - 1e-12)), "alpha_placebo_01": float(fires01.mean()),
-            "alpha_placebo_05": float(fires05.mean()), "no_alpha_claim": True}
+            "alpha_placebo_05": float(fires05.mean()), "no_alpha_claim": True,
+            "U_b_nonarith": U_b_nonarith, "U_nonarith": U_nonarith,
+            "p_placebo_nonarith": p_placebo_nonarith, "n_nonarith_cells": len(na_real)}
 
 
 # ------------------------------------------------------ modifier, tree
@@ -287,10 +303,10 @@ def type_modifier_4c(cells) -> dict:
 
 
 def calibration_read_4c(placebo, world) -> dict:
-    """Is the deciding alpha_placebo bounded comfortably clear of the
-    bar it decides at (`CAL_MULTIPLE_4C`x), or is the rule's own false-
-    positive rate uncomfortably close to the world it is about to
-    declare?"""
+    """`bounded` is True when alpha_placebo at the deciding bar EXCEEDS
+    `CAL_MULTIPLE_4C` times that bar — the rule's measured false-
+    positive rate is close enough to the bar that the licence sentence
+    must say so (design §3.6)."""
     bar = ALPHA_4C if world == "REPLICATES" else MARGINAL_4C
     alpha = placebo["alpha_placebo_01"] if world == "REPLICATES" else placebo["alpha_placebo_05"]
     return {"deciding_bar": bar, "alpha_at_bar": float(alpha), "multiple": CAL_MULTIPLE_4C,
@@ -363,11 +379,13 @@ def window_mean_cells_4c(series_by_traj, rung_sets_by_traj, *, type_of=None, fam
 def within_riser_4c(series_by_traj, rung_sets_by_traj, *,
                      min_clear_index=MIN_CLEAR_INDEX_4C) -> dict:
     """S5: read at its own t_minus_index, is a rising task's growth
-    high relative to the run's OTHER rising tasks that have not yet
-    cleared by that same step (their own clear index > this task's c)
-    — the within-run comparator pool the primary's flat-only
-    construction never uses? A rung with zero such comparators (the
-    last riser to clear, or the only riser in R) contributes no
+    high relative to the run's OTHER rising tasks that "have NOT yet
+    cleared at t⁻" (design §5) — a task with clear index c2 has not
+    yet cleared at index c-1 iff c2 >= c (design's binding rule; a
+    co-clearing task, c2 == c, counts as a comparator too) — the
+    within-run comparator pool the primary's flat-only construction
+    never uses? A rung with zero such comparators (the last riser to
+    clear with no co-clearer, or the only riser in R) contributes no
     `q_within` (`None`) and is excluded from `U_within`, but stays in
     `cells` for accounting."""
     cells = []
@@ -386,7 +404,7 @@ def within_riser_4c(series_by_traj, rung_sets_by_traj, *,
             if c < min_clear_index:
                 continue
             i = c - 1
-            comparators = sorted(r2 for r2, c2 in rung_c.items() if r2 != r and c2 > c)
+            comparators = sorted(r2 for r2, c2 in rung_c.items() if r2 != r and c2 >= c)
             if comparators:
                 q, _ = q_cell_4c(g[r][i], [g[r2][i] for r2 in comparators])
             else:
