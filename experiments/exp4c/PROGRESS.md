@@ -218,3 +218,96 @@ and `require_prereg_4c()`/`check_frozen_4c()` (refuses correctly: the
 prereg tag does not exist yet, `FROZEN_SHA256_4C` is `None`) exercised
 directly. `git status` after: only files under `experiments/exp4c/`
 and `.gitignore` touched.
+
+## 2026-09-18 — Task 2: `rank_4c.py`
+
+Instrument at `experiments/exp4c/rank_4c.py`: the statistic (g/q/cells,
+U, exact family- and rung-block sign flips, the family-clustered
+bootstrap CI), the rung-coupled placebo null and its own
+`alpha_placebo`, the arithmetic/non-arithmetic type modifier (no
+family p for the non-arithmetic stratum — 3 families give 8 flips,
+resolution .125 > the .05 bar, so none is printed), the calibration
+read, the four-world tree, S3 (`window_mean_cells_4c`), S5
+(`within_riser_4c`), S7 (`never_performing_type_check_4c`), the
+site-0-excluded alignment series (`alignment_series_4c`), and the
+discovery-set reproduction (`discovery_set_4c`) with its pins. Zero
+model contact, zero network, zero writes under `results/`.
+
+**One fix to the brief's verbatim `block_flip_4c`, disclosed per the
+brief's own rule.** The fenced code's `p_minus` read `mean(tot <= obs +
+1e-12)` — the empirical-CDF reading, "how much of the null sits at or
+below the observed value." On `test_block_flip_is_exact_and_symmetric`'s
+fixture (two block sums, both positive, so `obs` is the enumeration's
+own maximum) that formula gives 1.0, not the test's asserted 0.25.
+Fixed to `mean(tot <= -obs + 1e-12)` (the mirror threshold — one sign
+flipped). Proved this makes `p_minus` IDENTICAL to `p_plus` on EVERY
+call, for any cells: the exact enumeration pairs each sign pattern with
+its bitwise complement (`i' = m-1-i`), whose total is exactly the
+negative of the first pattern's (`signs(i') = -signs(i)`, so
+`tot(i') = -tot(i)`), which makes `count(tot >= obs) ==
+count(tot <= -obs)` an identity, not a property of the data. Verified
+algebraically and empirically (five random `n=3` trials — printed
+`p_plus`/mirror-`p_minus` pairs identical to machine precision every
+time; the literal formula's numbers, by contrast, varied and did not
+match). Left as a module-docstring disclosure: `verdict_tree_4c`'s
+REVERSED sub-cell of NOT-REPLICATED can therefore never fire from
+`block_flip_4c`'s own output — only from a hand-built dict, which is
+exactly what `test_tree_and_modifier_cells` feeds it. Same pattern the
+program already uses elsewhere (Exp 3d's `IndexError`-only totality
+result): prove a branch unreachable through the real producer, keep it,
+test it directly. Flagging for Task 4/the freeze in case a genuinely
+asymmetric two-sided read is wanted later — this statistic cannot give
+one.
+
+**Discovery reproduction — a pre-tag execution of a statistic-computing
+tool on Exp 4's committed tables, printing the KNOWN discovery numbers;
+NOT an execution on 4c's own tree** (4c has no tree yet — nothing is
+tagged, no model has been contacted). Run once,
+`~/emergence-lab/.venv/bin/python -c "from experiments.exp4c import
+rank_4c as rk; rec = rk.discovery_set_4c(); ..."`, 101 s, reading Exp
+4's committed, git-tracked, `exp4-closed` bytes only. Printed output:
+
+```
+U 0.6223702443940539
+n_cells 42
+p_family 0.0390625
+p_rung 0.00922393798828125
+per_run {'pythia_2.8b': 0.4867724867724868, 'olmo2_7b': 0.6298076923076923, 'smollm3_3b': 0.6938775510204083, 'comma_7b': 0.6458333333333334}
+U_arith 0.5102564102564103
+n_arith 26
+p_arith_family 0.453125
+U_nonarith 0.7595486111111112
+n_nonarith 16
+family_sums {'antonym': 1.4027777777777777, 'base_arith': -0.3773148148148148, 'base_repr': -0.25, 'clock': 0.5, 'mid_digit': -0.2685185185185185, 'odd_one_out': 1.4285714285714284, 'order_stat': 0.1875, 'reversal': 1.3214285714285716, 'seq_extrap': 1.19510582010582}
+site0_excluded {'n_cells_q_identical': 42, 'max_abs_q_diff': 0.0, 'n_common_cells': 42}
+```
+
+Every rounded value matches the design session's README literals
+exactly (U .6224, family-block p .0391 = exactly 20/512, rung-block p
+.0092, `U_arith` .5103 over 26, `U_nonarith` .7595 over 16, per-run
+.487/.630/.694/.646) — no discrepancy, nothing escalated to Michael.
+Pinned verbatim into `DISCOVERY_PIN_4C`; `check_discovery_pins_4c`
+compares every field by `==`.
+
+**Site-0-excluded invariance.** `alignment_series_4c` (hidden state 0
+dropped before the mean over sites — Exp 4's own gate-0 exclusion,
+campaign stop #1) against `analyze_4.alignment_series_4` (site 0
+included, the design session's own construction) on the SAME committed
+sweep tables: 42/42 cells' `q` identical to machine precision
+(`max_abs_q_diff = 0.0`, `n_common_cells = 42`) — the primary does not
+move when the degenerate constant-token site is dropped.
+
+**Tests.** RED verified first: `rank_4c.py` moved aside,
+`pytest experiments/exp4c/tests/test_rank_4c.py -m "not slow"` raised
+`ImportError`. `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/
+python -m pytest experiments/exp4c/tests/ -p no:cacheprovider -q
+-W error` — 27 passed (15 fast + 1 slow from `test_rank_4c.py`, 8 fast
++ 3 slow carried from Task 1's `test_battery_4c.py`), 108 s total; the
+slow tests read Exp 4's and the 2h/2l committed trees, zero model
+contact throughout. Three fixture-only tests beyond the brief's Step-1
+list added for S3/S5/S7 (hand-computed expected values off the same
+two-run fixture) and three for `alignment_series_4c` (a tiny 34-rung
+synthetic set/overlap fixture: the single-reference identity, the
+empty-kept-site refusal, and the named stored-overlap-disagreement
+refusal). `git status` after: only `experiments/exp4c/rank_4c.py`,
+`experiments/exp4c/tests/test_rank_4c.py` and this entry.
