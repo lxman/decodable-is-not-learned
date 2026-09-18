@@ -118,3 +118,103 @@ Pre-tag executions of `analyze_4c.run()` on the real tree: 0 (nothing
 built yet). The discovery-set gate, when it first runs (Task 2), prints
 the KNOWN U .6224 on Exp 4's committed tables — a disclosure event,
 counted separately from executions on 4c's own tree.
+
+## 2026-09-18 — Task 1: `battery_4c.py`
+
+Instrument at `experiments/exp4c/battery_4c.py`: constants and pins,
+the two outcome readers (2h's Pythia 6.9b sweep, 2l's OLMo-2 13B
+sweep), the rung-set and clear-index pins reproduced from the
+committed bits, the loader dispatch (including the 13B thin endpoint
+2l never built), records stamped with the 4c tag, the gate-1 checkers
+against the two gate-1 references, and the `exp4-closed`/`exp4b-closed`
+pins. Zero model contact, zero network — `load_step_4c` and
+`load_thin_endpoint_4c` import torch/transformers/huggingface_hub
+lazily inside their own bodies; nothing else calls them and no test
+does.
+
+**The four sha tables' provenance** (all recomputed 2026-09-18 and
+verified equal to the files on disk before pinning — no drift since
+their tags):
+
+```
+/opt/homebrew/bin/git show exp4-closed:experiments/exp4/_threads_4.py | shasum -a 256
+  -> 8cb23d6de4d1a6f57a05cdde83fa2f1b13150867046132836baddaa0db0d5667
+for f in __init__.py battery_4b.py placebo_4b.py; do
+  /opt/homebrew/bin/git show exp4b-closed:experiments/exp4b/$f | shasum -a 256
+done
+  -> __init__.py    e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  -> battery_4b.py  e5f947c7f3d508768c846cbee0e4a43e9f787a5acf1c98e7addd176d6473ac57
+  -> placebo_4b.py  f24b9a0c9cd45324bf6046ba0f0267da7908922b4972ace79b9c5b94b8ff1b88
+```
+
+`EXP4_CLOSED_SHA256_4C` = `battery_4b.EXP4_CLOSED_SHA256_4B` (the seven
+`experiments/exp4/` files 4b already pins) plus `_threads_4.py` above.
+`EXP4B_CLOSED_SHA256_4C` = the three `experiments/exp4b/` files above,
+at `exp4b-closed` — the ones the placebo machinery (S4) will reuse.
+
+**The SITE pin for 41 hidden states** (B-4, `metric_4.SITE_COUNT_PIN_4`
+has no entry for OLMo-2 13B): `SITE_COUNT_PIN_4C = {33: 12, 41: 15}`,
+asserted at import against `metric_4.sites_4`; `sites_4(41) ==
+[0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 40]` (15 sites).
+
+**`--rungs` run BEFORE pinning** `RUNG_SET_PIN_4C`/`CLEAR_INDEX_PIN_4C`
+(`python -m experiments.exp4c.battery_4c --rungs`, zero model contact —
+reads the committed 2h/2l sweep JSON only). 6.9b's R/flat/transient and
+every clear index matched a first-draft literal transcribed from the
+design brief's compressed hint exactly. 13B's R/flat/transient matched,
+but the per-rung clear-index table did not (the brief's text gave only
+the distinct index VALUES appearing across R_13B — "4 / 5 / 6 / 7 / 11
+/ 15" — not a full per-rung mapping, which this session had guessed at
+and gotten wrong in several entries). Per the brief's own rule ("run
+before pinning and paste what it prints"), the printed table is the
+pin — not the guess. The distinct-value set the printed table produces
+({4, 5, 6, 7, 11, 15}) matches the brief's compressed hint exactly, so
+this is a first-draft transcription error corrected against the
+computed ground truth, not a disagreement with the design doc; nothing
+was escalated. Full output:
+
+```json
+{
+ "olmo2_13b": {
+  "R": ["add3_mid", "add4_mid", "add_base8", "antonym", "antonym6",
+        "arith_next", "count_div13", "median5", "median7", "oct2dec",
+        "odd6", "odd_one_out", "quad_next", "rev_string7",
+        "reverse_string", "sub3_mid", "sub4_mid", "sub_base8"],
+  "clear_indices": {"add3_mid": 6, "add4_mid": 6, "add_base8": 4,
+   "antonym": 4, "antonym6": 4, "arith_next": 4, "count_div13": 15,
+   "median5": 6, "median7": 6, "oct2dec": 6, "odd6": 5, "odd_one_out": 6,
+   "quad_next": 7, "rev_string7": 11, "reverse_string": 4, "sub3_mid": 5,
+   "sub4_mid": 6, "sub_base8": 4},
+  "flat": ["base12_digitsum", "base13", "base7", "caesar", "caesar_len8",
+           "clock24", "collatz_step2", "count_div7", "hamming12",
+           "isqrt_gap", "mod13", "mod13_comp", "mod17", "mod19",
+           "roman_sum7"],
+  "pin_failures": [],
+  "transient": ["clock24_d999"]
+ },
+ "pythia_6.9b": {
+  "R": ["add3_mid", "add_base8", "antonym", "antonym6", "arith_next",
+        "count_div13", "odd6", "sub_base8"],
+  "clear_indices": {"add3_mid": 13, "add_base8": 13, "antonym": 6,
+   "antonym6": 6, "arith_next": 5, "count_div13": 21, "odd6": 6,
+   "sub_base8": 11},
+  "flat": ["add4_mid", "base12_digitsum", "base13", "base7", "caesar",
+           "caesar_len8", "clock24", "clock24_d999", "collatz_step2",
+           "count_div7", "hamming12", "isqrt_gap", "median5", "median7",
+           "mod13", "mod13_comp", "mod17", "mod19", "oct2dec",
+           "quad_next", "rev_string7", "reverse_string", "roman_sum7",
+           "sub4_mid"],
+  "pin_failures": [],
+  "transient": ["odd_one_out", "sub3_mid"]
+ }
+}
+```
+
+**Tests:** `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
+-m pytest experiments/exp4c/tests/test_battery_4c.py -p no:cacheprovider
+-q` — 11 passed (8 fast + 3 slow, ~2 s total; the slow tests read the
+two committed sweep trees, zero model contact). `check_exp4_closed_4c()`
+and `require_prereg_4c()`/`check_frozen_4c()` (refuses correctly: the
+prereg tag does not exist yet, `FROZEN_SHA256_4C` is `None`) exercised
+directly. `git status` after: only files under `experiments/exp4c/`
+and `.gitignore` touched.

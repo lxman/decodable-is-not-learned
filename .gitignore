@@ -104,3 +104,13 @@ experiments/exp4/results/**/activations/
 # exp4b — machine-local logs
 experiments/exp4b/analyzer.log
 experiments/exp4b/freeze_*.log
+# exp4c campaign/stage logs — machine-local, never part of the closed record
+experiments/exp4c/preflight.log
+experiments/exp4c/sweep_pythia_6.9b.log
+experiments/exp4c/sweep_olmo2_13b.log
+experiments/exp4c/sweep_chain.log
+experiments/exp4c/analyzer.log
+experiments/exp4c/watcher_sweep.log
+experiments/exp4c/freeze_*.log
+experiments/exp4c/results/**/attested/
+experiments/exp4c/results/**/activations/
