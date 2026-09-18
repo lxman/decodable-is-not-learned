@@ -1,0 +1,397 @@
+{
+ "arms": {
+  "discovery_shape": {
+   "P_01": 0.06625,
+   "P_05": 0.26875,
+   "P_arith_05": 0.05525,
+   "by_rho": [
+    {
+     "P_01": 0.07875,
+     "P_05": 0.289,
+     "P_arith_05": 0.06025,
+     "mean_U": 0.5970761217948709,
+     "rho": 0.0,
+     "sd_U": 0.05675958271051306
+    },
+    {
+     "P_01": 0.06625,
+     "P_05": 0.26875,
+     "P_arith_05": 0.05525,
+     "mean_U": 0.5956403044871804,
+     "rho": 0.5,
+     "sd_U": 0.06384399376311439
+    }
+   ],
+   "mean_U": 0.5956403044871804,
+   "mu_arith": 0.51,
+   "mu_nonarith": 0.76,
+   "sd_U": 0.06384399376311439
+  },
+  "null": {
+   "P_01": 0.0085,
+   "P_05": 0.05075,
+   "P_arith_05": 0.039,
+   "by_rho": [
+    {
+     "P_01": 0.0115,
+     "P_05": 0.0525,
+     "P_arith_05": 0.04875,
+     "mean_U": 0.5008291666666672,
+     "rho": 0.0,
+     "sd_U": 0.059633823684612106
+    },
+    {
+     "P_01": 0.0085,
+     "P_05": 0.05075,
+     "P_arith_05": 0.039,
+     "mean_U": 0.5008219551282043,
+     "rho": 0.5,
+     "sd_U": 0.06652687771227977
+    }
+   ],
+   "mean_U": 0.5008219551282043,
+   "mu_arith": 0.5,
+   "mu_nonarith": 0.5,
+   "sd_U": 0.06652687771227977
+  },
+  "uniform_60": {
+   "P_01": 0.12625,
+   "P_05": 0.37375,
+   "P_arith_05": 0.24025,
+   "by_rho": [
+    {
+     "P_01": 0.161,
+     "P_05": 0.4355,
+     "P_arith_05": 0.27875,
+     "mean_U": 0.5998028846153862,
+     "rho": 0.0,
+     "sd_U": 0.05671440964953071
+    },
+    {
+     "P_01": 0.12625,
+     "P_05": 0.37375,
+     "P_arith_05": 0.24025,
+     "mean_U": 0.598739262820512,
+     "rho": 0.5,
+     "sd_U": 0.06659441395446308
+    }
+   ],
+   "mean_U": 0.598739262820512,
+   "mu_arith": 0.6,
+   "mu_nonarith": 0.6,
+   "sd_U": 0.06659441395446308
+  },
+  "uniform_65": {
+   "P_01": 0.30625,
+   "P_05": 0.64825,
+   "P_arith_05": 0.40425,
+   "by_rho": [
+    {
+     "P_01": 0.36625,
+     "P_05": 0.73175,
+     "P_arith_05": 0.4675,
+     "mean_U": 0.6501860576923074,
+     "rho": 0.0,
+     "sd_U": 0.05644465599572211
+    },
+    {
+     "P_01": 0.30625,
+     "P_05": 0.64825,
+     "P_arith_05": 0.40425,
+     "mean_U": 0.6485990384615375,
+     "rho": 0.5,
+     "sd_U": 0.06482622484061294
+    }
+   ],
+   "mean_U": 0.6485990384615375,
+   "mu_arith": 0.65,
+   "mu_nonarith": 0.65,
+   "sd_U": 0.06482622484061294
+  },
+  "uniform_70": {
+   "P_01": 0.543,
+   "P_05": 0.86475,
+   "P_arith_05": 0.6175,
+   "by_rho": [
+    {
+     "P_01": 0.64425,
+     "P_05": 0.92475,
+     "P_arith_05": 0.69325,
+     "mean_U": 0.7005874999999995,
+     "rho": 0.0,
+     "sd_U": 0.05336248174039734
+    },
+    {
+     "P_01": 0.543,
+     "P_05": 0.86475,
+     "P_arith_05": 0.6175,
+     "mean_U": 0.7012774038461551,
+     "rho": 0.5,
+     "sd_U": 0.06107069338815831
+    }
+   ],
+   "mean_U": 0.7012774038461551,
+   "mu_arith": 0.7,
+   "mu_nonarith": 0.7,
+   "sd_U": 0.06107069338815831
+  }
+ },
+ "assumptions": "B-3: independent comparator pools per simulated cell (the flat pool is n_flat i.i.d. N(0,1) draws per cell, the first n_flat_arith of them the arithmetic comparators); the placebo arm (design \u00a73.6), not this power record, measures the real cross-run dependence among the flat tasks.",
+ "blind_region": "any type-bound effect, and any uniform lead under the min-detectable value",
+ "cells_sha256": "a4f694ba9591aef6a91657ba8644ce66c8f7d303e753975c58e5f9ae60037d7a",
+ "declaration": "DECLARED UNDERPOWERED IN ADVANCE",
+ "min_detectable_grid": [
+  {
+   "P_01": 0.0405,
+   "mu": 0.55
+  },
+  {
+   "P_01": 0.12625,
+   "mu": 0.6
+  },
+  {
+   "P_01": 0.30625,
+   "mu": 0.65
+  },
+  {
+   "P_01": 0.543,
+   "mu": 0.7
+  },
+  {
+   "P_01": 0.78375,
+   "mu": 0.75
+  },
+  {
+   "P_01": 0.926,
+   "mu": 0.8
+  }
+ ],
+ "min_detectable_uniform_lead": 0.7429906542056075,
+ "n_cells": 26,
+ "n_families": 9,
+ "n_sim": 4000,
+ "prereg_tag": "exp4c-preregistered",
+ "realized_alpha_01": [
+  0.0115,
+  0.0085
+ ],
+ "realized_alpha_05": [
+  0.0525,
+  0.05075
+ ],
+ "rhos": [
+  0.0,
+  0.5
+ ],
+ "seed": 0,
+ "structure": [
+  {
+   "family": "mid_digit",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "add3_mid",
+   "traj": "pythia_6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "base_arith",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "add_base8",
+   "traj": "pythia_6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "antonym",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "antonym",
+   "traj": "pythia_6.9b",
+   "type": "option"
+  },
+  {
+   "family": "antonym",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "antonym6",
+   "traj": "pythia_6.9b",
+   "type": "option"
+  },
+  {
+   "family": "seq_extrap",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "arith_next",
+   "traj": "pythia_6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "counting",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "count_div13",
+   "traj": "pythia_6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "odd_one_out",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "odd6",
+   "traj": "pythia_6.9b",
+   "type": "option"
+  },
+  {
+   "family": "base_arith",
+   "n_flat": 24,
+   "n_flat_arith": 19,
+   "rung": "sub_base8",
+   "traj": "pythia_6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "mid_digit",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "add3_mid",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "mid_digit",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "add4_mid",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "base_arith",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "add_base8",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "antonym",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "antonym",
+   "traj": "olmo2_13b",
+   "type": "option"
+  },
+  {
+   "family": "antonym",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "antonym6",
+   "traj": "olmo2_13b",
+   "type": "option"
+  },
+  {
+   "family": "seq_extrap",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "arith_next",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "counting",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "count_div13",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "order_stat",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "median5",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "order_stat",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "median7",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "base_repr",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "oct2dec",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "odd_one_out",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "odd6",
+   "traj": "olmo2_13b",
+   "type": "option"
+  },
+  {
+   "family": "odd_one_out",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "odd_one_out",
+   "traj": "olmo2_13b",
+   "type": "option"
+  },
+  {
+   "family": "seq_extrap",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "quad_next",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "reversal",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "rev_string7",
+   "traj": "olmo2_13b",
+   "type": "string"
+  },
+  {
+   "family": "reversal",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "reverse_string",
+   "traj": "olmo2_13b",
+   "type": "string"
+  },
+  {
+   "family": "mid_digit",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "sub3_mid",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "mid_digit",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "sub4_mid",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  },
+  {
+   "family": "base_arith",
+   "n_flat": 15,
+   "n_flat_arith": 12,
+   "rung": "sub_base8",
+   "traj": "olmo2_13b",
+   "type": "arithmetic"
+  }
+ ]
+}

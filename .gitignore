@@ -112,5 +112,9 @@ experiments/exp4c/sweep_chain.log
 experiments/exp4c/analyzer.log
 experiments/exp4c/watcher_sweep.log
 experiments/exp4c/freeze_*.log
-experiments/exp4c/results/**/attested/
+# B-5 (Task 5 controller ruling): design §3.9 counts "2 positions" in
+# the committed set tables — 4c's attested/<rung>.npz (question-end +
+# pooled sets) ARE part of the committed record, sha-bound by the
+# record, unlike exp4's own (never committed). Only activations/ stays
+# gitignored.
 experiments/exp4c/results/**/activations/

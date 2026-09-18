@@ -156,21 +156,20 @@ def _write_gate1_4c(root4c, root4, traj) -> dict:
     return rec
 
 
-def _write_power_stub_4c(root4c, *, n_sim=WORLD_N_SIM_4C) -> dict:
-    """A stand-in for Task 5's `power_4c.compute` record: exactly the
-    fields `analyze_4c._power_record_failures_4c` reads under
-    `power_gate="skip"`. Task 5 replaces this call with the real
-    `power_4c.compute(n_sim=WORLD_N_SIM_4C)` and the worlds then run
-    `power_gate="full"`."""
-    rec = {"prereg_tag": bc.PREREG_TAG_4C, "n_sim": int(n_sim), "seed": 0,
-           "declaration": "DECLARED UNDERPOWERED IN ADVANCE",
-           "blind_region": "any type-bound effect, and any uniform lead under about .65",
-           "stub": True,
-           "note": "Task 4 world stand-in; Task 5 writes the real power_4c.compute record"}
+def _write_power_record_4c(root4c, *, n_sim=WORLD_N_SIM_4C, seed=0) -> dict:
+    """Task 5: the REAL `power_4c.compute` record, over the real (live,
+    committed-pin) cell structure — `power_4c` is data-free, so a
+    world's record is a genuine small-`n_sim` power record, not a
+    stand-in. The worlds run `power_gate="full"`, so this record must
+    reproduce byte-for-byte when the analyzer re-derives it, which it
+    does trivially (same structure, same n_sim/seed)."""
+    from experiments.exp4c import power_4c as pw4c
+    structure = pw4c.cell_structure_4c()
+    rec = pw4c.compute(structure, n_sim=n_sim, seed=seed)
     p = EXP4C / "results" / "power_4c.json" if root4c is None else \
         Path(root4c) / "results" / "power_4c.json"
     p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(rec, indent=1))
+    p.write_text(json.dumps(rec, indent=1, sort_keys=True, allow_nan=False))
     return rec
 
 
@@ -281,7 +280,7 @@ def build_world(root4c, root4, mode: str, *, seed=0) -> dict:
 
         _write_gate1_4c(root4c, root4, traj)
 
-    _write_power_stub_4c(root4c)
+    _write_power_record_4c(root4c)
     return {"root4c": root4c, "root4": root4, "mode": mode, "seed": seed}
 
 
@@ -317,7 +316,9 @@ def world_run_kwargs_4c(**over) -> dict:
     in `pins_active`: no real git tag, no real seal, no referent
     manifest and no import pin (Task 5 writes both), the discovery gate
     stubbed (a synthetic `root4` has no Exp 4 sweep tree), and
-    `power_gate="skip"` (Task 5 writes `power_4c`)."""
+    `power_gate="full"` (Task 5's `power_4c` is data-free, so the
+    world's own small-`n_sim` record reproduces byte for byte against
+    the live cell structure exactly as the real record will)."""
     kw = dict(frozen_check=lambda: None,
               tag_exists=lambda t: True,
               blob_sha=lambda tag, rel: (bg.sha256_file(REPO / rel)
@@ -325,7 +326,7 @@ def world_run_kwargs_4c(**over) -> dict:
               blobs_bound=lambda tag, paths, repo_root=None: [],
               referents_sha=False, imports_pinned=False,
               discovery_check=discovery_stub_4c,
-              power_gate="skip", expected_n_sim=WORLD_N_SIM_4C,
+              power_gate="full", expected_n_sim=WORLD_N_SIM_4C,
               n_boot=WORLD_N_BOOT_4C, B=WORLD_B_4C)
     kw.update(over)
     return kw

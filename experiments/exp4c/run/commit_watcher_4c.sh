@@ -4,11 +4,15 @@
 # reference stage to scope with --stage: it watches the whole results
 # tree (results/reference/, just the 13B thin endpoint, and
 # results/sweep/, together) as one stage. Committed file types:
-# *.json, *.npz, HALTED — EXCLUDING any path containing /attested/ or
-# /activations/ (both gitignored, sha-attested-not-committed). Run
-# alongside the sweep with Michael's launch authorization; the push is
-# covered by the standing push policy for this repo. Mirrors
-# experiments/exp4/run/commit_watcher_4.sh, minus the --stage split.
+# *.json, *.npz, HALTED — EXCLUDING any path containing /activations/
+# (gitignored, sha-attested-not-committed). Task 5 controller ruling
+# B-5: /attested/ is NOT excluded here — design §3.9 counts it among
+# the committed set tables (question-end + pooled sets, sha-bound by
+# the record), and `.gitignore`'s own exp4c/attested/ line was removed
+# to match. Run alongside the sweep with Michael's launch
+# authorization; the push is covered by the standing push policy for
+# this repo. Mirrors experiments/exp4/run/commit_watcher_4.sh, minus
+# the --stage split.
 set -euo pipefail
 REPO=~/emergence-paper
 cd "$REPO"
@@ -18,7 +22,7 @@ WATCH_DIR=experiments/exp4c/results
 seen=""
 while true; do
   units=$(find "$WATCH_DIR" -type f \( -name '*.json' -o -name '*.npz' -o -name 'HALTED' \) 2>/dev/null \
-    | grep -v '/attested/' | grep -v '/activations/' | sort || true)
+    | grep -v '/activations/' | sort || true)
   for f in ${(f)units}; do
     if [[ "$seen" != *"|$f|"* ]]; then
       # 2i FREEZE attack item 25 (the watcher race): a fixed 2-second
