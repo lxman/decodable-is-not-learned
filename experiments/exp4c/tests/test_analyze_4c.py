@@ -162,6 +162,34 @@ def test_gate0_4c_counts_cells_per_rung_site_reference_and_drops_site_0(monkeypa
     assert set(g["per_reference"]) == set(refs)
 
 
+def test_gate0_4c_equals_analyze_4s_gate0_on_the_same_tables():
+    """`gate0_4c` IS `analyze_4.gate0_4` with the two units passed in
+    rather than looked up in a reference-stage table. Proved by running
+    BOTH over the identical synthetic tables — Exp 4's function through
+    a `stage_tables` dict keyed the way it expects
+    (`INIT_KEY_4[traj]` / `endpoint_<traj>`), 4c's with the same two
+    units as arguments — and asserting every shared field equal. The
+    trajectory names differ only because each function looks its own
+    constants up by that name (`INIT_KEY_4` on one side, the printed
+    `init_step`/`endpoint_step` on the other); no cell depends on it."""
+    refs = ("ref_comma_7b",)
+    rng = np.random.default_rng(23)
+    twin = _unit(rng, n_hidden=33, refs=refs, n=60)
+    end = _unit(rng, n_hidden=33, refs=refs, n=60)
+    ref_tables = _ref_tables(rng, refs, n=60)
+
+    exp4_traj = "pythia_2.8b"
+    stage_tables = {battery_4.INIT_KEY_4[exp4_traj]: twin, f"endpoint_{exp4_traj}": end}
+    want = a4.gate0_4(None, exp4_traj, ref_tables, stage_tables)
+    got = an.gate0_4c(None, "pythia_6.9b", ref_tables, twin, end)
+
+    for field in ("fraction_below", "n_cells", "excluded_sites", "n_cells_excluded",
+                  "per_reference", "pass"):
+        assert got[field] == want[field], field
+    assert set(want) - set(got) == set()
+    assert set(got) - set(want) == {"init_step", "endpoint_step"}
+
+
 def test_gate0_4c_fails_below_the_bar(monkeypatch):
     refs = ("ref_comma_7b",)
     n_hidden = 33
@@ -283,6 +311,24 @@ def test_licence_block_quotes_the_power_record_when_present():
                                "blind_region": "any type-bound effect"})
     assert "DECLARED UNDERPOWERED IN ADVANCE" in lic["sentence"]
     assert "any type-bound effect" in lic["sentence"]
+
+
+def test_known_outcome_caveat_is_design_6s_first_line_verbatim():
+    """I-2: the caveat the licence block prints is design §6's own
+    first line, not a paraphrase. §2's reading ("not a forecast") is a
+    SECOND sentence, appended beside it."""
+    assert an.KNOWN_OUTCOME_CAVEAT_4C == (
+        "Bounded in every world to: 2c's battery; two runs, one from each of two families; "
+        "the prompt-end position; Exp 4's site family and references; a sealed representation "
+        "read against a KNOWN outcome; a statistic, a null and an alternative fixed on four "
+        "runs the designer had seen.")
+    assert an.NOT_A_FORECAST_4C == (
+        "whatever fires is a preregistered reading on a known outcome, not a forecast.")
+    lic = an.licence_block_4c("REPLICATES", {"modifier": "TYPE-GENERAL"},
+                              {"bounded": False, "alpha_at_bar": 0.001, "deciding_bar": 0.01},
+                              {"reversed": False}, None)
+    assert f"{an.KNOWN_OUTCOME_CAVEAT_4C} {an.NOT_A_FORECAST_4C}" in lic["sentence"]
+    assert lic["not_a_forecast"] == an.NOT_A_FORECAST_4C
 
 
 def test_insufficient_data_licence_is_a_refusal():

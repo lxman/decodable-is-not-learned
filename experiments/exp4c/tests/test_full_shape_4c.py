@@ -82,6 +82,18 @@ def test_replicates_world_reaches_replicates(replicates_world):
         entry = v["secondaries"][name]
         assert not (isinstance(entry, dict) and "failed" in entry), (name, entry)
     assert v["licence"]["sentence"].startswith("on two training runs nobody had read")
+    assert f"{an.KNOWN_OUTCOME_CAVEAT_4C} {an.NOT_A_FORECAST_4C}" in v["licence"]["sentence"]
+    # S8 (design §5): the per-reference series over the grid, per rung —
+    # not a level
+    s8 = v["secondaries"]["S8"]["per_traj"]
+    for traj, block in s8.items():
+        steps = list(bc.GRID_4C[traj])
+        assert block["steps"] == steps
+        assert set(block["a_by_ref"]) == set(bc.REFS_FOR_4C[traj])
+        for ref, by_rung in block["a_by_ref"].items():
+            assert set(by_rung) == set(bc.RUNGS)
+            assert all(len(vals) == len(steps) for vals in by_rung.values())
+        assert set(block["a_by_ref_endpoint_mean"]) == set(bc.REFS_FOR_4C[traj])
     # the world reaches REPLICATES for the RIGHT reason: every cell's
     # pre-clear growth is ahead of its own run's flat pool
     assert all(c["q"] > 0.5 for c in v["primary"]["cells"])
@@ -147,6 +159,30 @@ def test_every_refusal_route_lands_insufficient(route, replicates_world, tmp_pat
     v = fs4c.run_world(w)
     assert v["verdict"] == "INSUFFICIENT_DATA", (route, v["reason"])
     assert _needle_in_failures(v, needle), (route, v["failures"])
+    assert v["licence"]["sentence"].startswith("no licence")
+
+
+def test_a_failing_exit_import_pin_reaches_the_verdict(replicates_world, tmp_path, monkeypatch):
+    """I-1: the tree is computed AFTER the exit import check. A pin that
+    passes at entry and fails at exit (a secondary imported something
+    the entry check never saw — 2j F-1's own shape) must turn the
+    verdict INSUFFICIENT_DATA, not sit in `failures` beside a
+    REPLICATES."""
+    w = fs4c.copy_world(replicates_world, tmp_path)
+    calls = {"n": 0}
+
+    def flaky_check():
+        calls["n"] += 1
+        if calls["n"] >= 2:
+            raise RuntimeError("unpinned module on the import surface: synthetic")
+
+    monkeypatch.setattr(an, "check_imports_4c", flaky_check)
+    v = fs4c.run_world(w, imports_pinned=True)
+    assert calls["n"] == 2, calls
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "import surface (exit)")
+    assert v["pins_active"]["import_surface"] is True
+    assert v["calibration"] is None
     assert v["licence"]["sentence"].startswith("no licence")
 
 

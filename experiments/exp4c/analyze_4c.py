@@ -98,10 +98,17 @@ def power_path_4c(root) -> Path:
 
 # ---------------------------------------------------------------- licences
 
+# Design §6's first line, VERBATIM — the bounds that hold in EVERY
+# world. Printed on every licence and carried in the verdict.
 KNOWN_OUTCOME_CAVEAT_4C = (
-    "a sealed representation read against a KNOWN outcome, with a statistic, a null and an "
-    "alternative fixed on four runs the designer had seen; whatever fires is a preregistered "
-    "reading on a known outcome, not a forecast"
+    "Bounded in every world to: 2c's battery; two runs, one from each of two families; the "
+    "prompt-end position; Exp 4's site family and references; a sealed representation read "
+    "against a KNOWN outcome; a statistic, a null and an alternative fixed on four runs the "
+    "designer had seen."
+)
+# Design §2's reading of the same fact, appended as its own sentence.
+NOT_A_FORECAST_4C = (
+    "whatever fires is a preregistered reading on a known outcome, not a forecast."
 )
 
 # Design §6: "The modifier governs the noun."
@@ -738,8 +745,13 @@ def s8_levels_4c(root, series_by_traj, init_units, ref_tables_by_traj, ref_raw_b
             "first_grid_point": first,
             "first_grid_point_mean": float(np.mean(list(first.values()))),
             "endpoint": endpoint, "endpoint_mean": float(np.mean(list(endpoint.values()))),
-            "a_by_ref_mean": {ref: float(np.mean([v[-1] for v in by_rung.values()]))
-                              for ref, by_rung in (series.get("a_by_ref") or {}).items()},
+            # design §5 S8: "per-reference a_r(t)" — the SERIES over the
+            # grid, per reference and per rung, not a single level.
+            "a_by_ref": {ref: {rung: [float(x) for x in vals] for rung, vals in by_rung.items()}
+                         for ref, by_rung in (series.get("a_by_ref") or {}).items()},
+            "a_by_ref_endpoint_mean": {ref: float(np.mean([v[-1] for v in by_rung.values()]))
+                                       for ref, by_rung in (series.get("a_by_ref") or {}).items()},
+            "steps": list(series["steps"]),
             "ceiling": references_ceiling_4c(ref_raw_by_traj[traj]),
         }
     return out
@@ -870,9 +882,10 @@ def licence_block_4c(world, modifier, calibration, tree, power) -> dict:
     if world == "NOT-REPLICATED":
         parts.append(_power_quote_4c(power))
     parts.append(BATTERY_LIMIT_4C)
-    parts.append(f"Disclosure (design §2): {KNOWN_OUTCOME_CAVEAT_4C}.")
+    parts.append(f"Disclosure (design §6): {KNOWN_OUTCOME_CAVEAT_4C} {NOT_A_FORECAST_4C}")
     return {"world": world, "modifier": mod, "bounded": bounded, "reversed": reversed_,
-            "sentence": " ".join(parts), "known_outcome_caveat": KNOWN_OUTCOME_CAVEAT_4C}
+            "sentence": " ".join(parts), "known_outcome_caveat": KNOWN_OUTCOME_CAVEAT_4C,
+            "not_a_forecast": NOT_A_FORECAST_4C}
 
 
 # ---------------------------------------------------------------- verdict
@@ -1404,6 +1417,10 @@ def run(root=bc.EXP4C, root4=EXP4, *, write=False, n_boot=N_BOOT_4C, B=B_PLACEBO
 
     if not failures and primary is None:
         failures.append("4c primary: no primary statistic was produced")
+    # A PROVISIONAL reading, used only to pick the calibration read's
+    # deciding bar (§3.6: alpha for REPLICATES, the marginal bar
+    # otherwise). The tree that DECIDES is recomputed below, after
+    # every remaining step that can append to `failures` — I-1.
     tree = rk.verdict_tree_4c(failures, primary or {})
 
     if not failures and placebo is not None:
@@ -1445,6 +1462,20 @@ def run(root=bc.EXP4C, root4=EXP4, *, write=False, n_boot=N_BOOT_4C, B=B_PLACEBO
         _, f = collect_total_4c(check_imports_4c if imports_pinned else (lambda: None),
                                 "4c import surface (exit)")
         failures += f
+
+    # I-1: the tree that decides is computed HERE, after the exit import
+    # check and after every `_sec` block — the last steps that can append
+    # to `failures`. Computed any earlier, a failing exit pin would land
+    # in `failures` and in `referents.failures` while the verdict still
+    # read REPLICATES, with `pins_active["import_surface"]` True beside
+    # it: the one shape 2j's lesson exists to prevent. The calibration
+    # read follows the same rule — a refusal produced no world, so it
+    # carries no deciding bar. Exp 4's frozen analyzer has the earlier
+    # ordering (`analyze_4.py:2322` against its exit check at `:2422`);
+    # that is disclosed here, not edited.
+    tree = rk.verdict_tree_4c(failures, primary or {})
+    if tree["verdict"] == REFUSAL_WORLD_4C:
+        calibration = None
 
     pins_active = {
         "frozen_modules": frozen_check is None,

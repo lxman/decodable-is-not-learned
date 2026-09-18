@@ -356,7 +356,7 @@ def copy_world(world, dst_dir) -> dict:
 MISSING_ROUTES_4C = (
     "thin_endpoint_missing", "gate1_missing", "gate1_sets_equal_false", "step0_missing",
     "short_unit", "sets_sha_off", "halted", "exp4_ref_record_tampered",
-    "power_record_missing",
+    "power_record_missing", "gate1_bytes_disagree",
 )
 
 
@@ -411,4 +411,32 @@ def apply_missing_4c(world, route: str) -> str:
     if route == "power_record_missing":
         (root4c / "results" / "power_4c.json").unlink()
         return "power record missing"
+    if route == "gate1_bytes_disagree":
+        # The one route ONLY `gate1_rederive_4c`'s raw-byte comparison
+        # catches. The sweep's OWN endpoint unit gets a different set
+        # table for one rung, its stored `overlap_<ref>` arrays are
+        # RECOMPUTED from the new table (so `alignment_series_4c`'s
+        # stored-vs-re-derived cross-check agrees), and its own
+        # `sets_sha256` is restamped (so the loader's whole-file
+        # integrity check agrees). `gate1.json` still attests
+        # `sets_equal` True for every rung, `attested_sha256` and
+        # `tensor_digest` are untouched — every other gate passes, and
+        # the endpoint's bytes simply are not the gate-1 reference's.
+        d = battery_4.unit_dir(root4c, traj, bc.ENDPOINT_STEP_4C[traj])
+        rung = battery_4.RUNGS[0]
+        p = d / "sets" / f"{rung}.npz"
+        with np.load(p) as z:
+            arrays = dict(z)
+        arrays["sets"] = ((arrays["sets"].astype(np.int64) + 1)
+                          % battery_4.N_ITEMS).astype(np.uint16)
+        rec_p = d / "_load.json"
+        rec = json.loads(rec_p.read_text())
+        ref_raw = collect_4.load_ref_tables_4(root4, bc.REFS_FOR_4C[traj])
+        for ref, pairing in rec["pairing"].items():
+            arrays[f"overlap_{ref}"] = collect_4.overlap_table_4(
+                arrays["sets"], ref_raw[ref]["sets"][rung], pairing)
+        np.savez_compressed(p, **arrays)
+        rec["sets_sha256"][rung] = bg.sha256_file(p)
+        rec_p.write_text(json.dumps(rec, indent=1))
+        return "re-derived bytes disagree"
     raise ValueError(f"unknown route {route!r}")

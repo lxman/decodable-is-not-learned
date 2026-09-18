@@ -626,3 +626,60 @@ dropping `git_sha`/`seconds`/`elapsed`).
 **Pre-tag executions of `analyze_4c.run()` against the REAL tree
 (root=EXP4C, root4=EXP4): 0.** Every run in this task was on a
 synthetic tree under the session scratchpad.
+
+### Fix round 1 (five items)
+
+**I-1 — the tree recomputed after the exit import check.** `run()`
+computed the tree BEFORE the exit import-surface check appended to
+`failures`, so a pin that passed at entry and failed at exit (2j F-1's
+own shape: a secondary imports something the entry check never saw)
+shipped a REPLICATES verdict with the failure sitting beside it and
+`pins_active["import_surface"]` True. The tree that DECIDES is now
+computed after the exit check and after every `_sec` block; the first
+computation is explicitly provisional and used only to pick the
+calibration read's deciding bar (§3.6 reads α for REPLICATES, the
+marginal bar otherwise), and the calibration read is set to `None`
+when the deciding tree is INSUFFICIENT_DATA. Exp 4's frozen analyzer
+has the earlier ordering (`analyze_4.py:2322` against its exit check at
+`:2422`); that is disclosed in the comment, not edited. Covering test:
+`check_imports_4c` monkeypatched to raise only on its second call, on
+the `replicates` world with `imports_pinned=True` — verdict
+INSUFFICIENT_DATA, the failure named, `calibration` None.
+
+**I-2 — §6's first line verbatim.** `KNOWN_OUTCOME_CAVEAT_4C` is now
+design §6's own first sentence word for word; §2's reading is the
+separate `NOT_A_FORECAST_4C`, appended beside it on every licence and
+carried as `licence["not_a_forecast"]`. Both literals pinned by a fast
+test.
+
+**I-3 — a refusal route only `gate1_rederive_4c` catches.**
+`gate1_bytes_disagree` (the tenth route) rewrites one rung's set table
+on the sweep's own endpoint unit and then makes the unit internally
+consistent — the stored `overlap_<ref>` arrays recomputed from the new
+table, `sets_sha256[rung]` restamped — so the loader's integrity check
+and `alignment_series_4c`'s stored-vs-re-derived cross-check both
+agree, `gate1.json` still attests every rung True, and the digests are
+untouched. Result: INSUFFICIENT_DATA with exactly one failure, `4c gate
+1 pythia_6.9b: re-derived bytes disagree`. **Confirmed executably:**
+with the `if der is not None:` block temporarily replaced by a no-op
+the same tree returns `REPLICATES` with `failures []` — the byte
+re-derivation is the only thing that catches it. Block restored and the
+file verified byte-identical to its backup.
+
+**I-4 — `gate0_4c` locked to `gate0_4` by equality.** A fast test runs
+Exp 4's `gate0_4` (through a `stage_tables` dict keyed the way it
+expects) and `gate0_4c` over the SAME synthetic tables and asserts
+`fraction_below`, `n_cells`, `excluded_sites`, `n_cells_excluded`,
+`per_reference` and `pass` equal, and that 4c's record is a strict
+superset whose only extra keys are `init_step`/`endpoint_step`.
+
+**S8 per-reference series (controller's addition, design §5).**
+`s8_levels_4c` returns `a_by_ref[ref][rung]` as the list over the grid
+with `steps` beside it, the old single number kept as
+`a_by_ref_endpoint_mean`; asserted in the `replicates` world test
+(keys = `REFS_FOR_4C[traj]`, 34 rungs each, one entry per grid point).
+
+Fast suite 64 passed; the three covering slow tests (one shared world
+build) 3 passed in 477 s. `MISSING_ROUTES_4C` is now ten, so the full
+slow suite is 25 tests. Pre-tag executions of `analyze_4c.run()`
+against the REAL tree: still 0.
