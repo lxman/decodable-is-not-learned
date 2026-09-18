@@ -889,7 +889,10 @@ suite 41 passed, 0 failed (`-m slow`, 3,197.69 s = 53 min 17 s — incl.
 `test_totality_4c.py`'s 15, `test_full_shape_4c.py`'s ~21, `test_
 determinism_4c.py`'s 1, and the slow tests in `test_battery_4c.py`/
 `test_rank_4c.py`); cold battery 10/12 (+2 skip, both legitimate);
-read sweep 0 unpinned; import scan pins stable across reruns.
+read sweep 0 unpinned. **The import-scan pins were NOT actually
+re-verified after the LAST edit to `make_referents_4c.py` in this
+session (the argmax-outcome-files fix) — that claim was wrong and is
+corrected in Fix round 1 below, which is where the drift was caught.**
 
 **Pre-tag executions of `analyze_4c.run()` against the REAL tree
 (root=EXP4C, root4=EXP4) this task: 6** — two `import_scan_4c.py`
@@ -903,3 +906,54 @@ referents_4c.py`'s item 10 (which independently re-derives U on Exp
 seals. No `analyze_4c.run()` call this task ever reached a real
 sweep/reference unit under `experiments/exp4c/results/`; none exists
 yet.
+
+### Fix round 1a — import pin drift (controller-caught at HEAD 3c19b94c9)
+
+`make_referents_4c.py` was edited (the `_exp4_argmax_outcome_files`
+fix, closing the read sweep's 3,222-UNPINNED finding) AFTER
+`IMPORTED_SHA256_4C` had already been pasted into `analyze_4c.py`
+earlier in the SAME session — the import scan was never re-run
+following that edit, so the committed pin was stale from the moment
+of commit `3c19b94c9`. Caught by the controller running, in a fresh
+process: `battery_4c.check_frozen_4c()` (passed — the table is empty)
+then `analyze_4c.check_imports_4c()` (raised "imported module drifted
+from its pin: .../make_referents_4c.py") after importing `analyze_4c`,
+`power_4c`, `make_referents_4c`, `verify_referents_4c`, `run.sweep_4c`,
+`run.preflight_4c`. On the real tree `analyze_4c.run()` (with
+`imports_pinned` truthy) now refuses at "4c import surface (entry)"
+before reaching anything else — a real, if narrow, regression.
+
+**Fix:** re-ran `tests/import_scan_4c.py` (pre-tag execution — see
+below). `FROZEN_SHA256_4C` unchanged (still `{}`, still genuinely
+empty — every module exp4c imports outside itself remains covered by
+Exp 4's/Exp 4b's own closed pins). `IMPORTED_SHA256_4C`'s
+`make_referents_4c.py` entry moved from
+`ba5014e65662178952d752677ffba0db9ef4fba515cd10c57ab9ebeeb645bcb3` to
+`ea97e4b0ba85acc623d25c9ca05cc56d331b065b5b684059f957d211a68d0652`
+(the other four entries unchanged). Verified in a fresh process,
+importing exactly the six modules the controller named: both
+`check_frozen_4c()` and `check_imports_4c()` now pass. Fast suite
+re-run clean: 100 passed, 41 deselected, 36.68 s.
+
+**Pre-tag real-tree executions this fix round: 3** (running total
+6 -> 9), each a disclosure, none a new quantity:
+- `import_scan_4c.py` (the re-cut scan itself) — refused at "4c gate 1
+  pythia_6.9b: record missing" after the discovery gate and the power
+  record's byte reproduction both ran; `FROZEN_SHA256_4C`/
+  `IMPORTED_SHA256_4C` printed as above.
+- `read_sweep_4c.py` (re-run to confirm the fix didn't disturb
+  anything) — 8,093 distinct paths, 17,762 reads, **0 UNPINNED**,
+  buckets identical to the pre-fix run (`referents_4c.json` 7,947,
+  `exp4_campaign_artifact` 136, `exp4c_own_future_campaign_artifact`
+  2, `sha_pin_at_load` 2, `instrument_blob` 6) — the import-pin drift
+  fix touched no read path.
+- `verify_referents_4c.py`'s item 10 (`rank_4c.discovery_set_4c()`) —
+  `U=0.6224 over 42 cells, family p=0.03906`, exact match to
+  `DISCOVERY_PIN_4C`, as before. Full cold battery: 10/12 ok, 2 skip
+  (item 1 frozen pins, item 12 gate 0 — both still legitimate, nothing
+  changed there).
+
+The two direct calls to `battery_4c.check_frozen_4c()`/`analyze_4c.
+check_imports_4c()` used to diagnose and confirm the fix are NOT
+counted above — neither reaches the discovery gate or any other
+real-tree quantity; they check only the import/frozen pin tables.

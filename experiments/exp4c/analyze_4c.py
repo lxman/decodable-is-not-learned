@@ -91,12 +91,14 @@ REFERENTS_4C_SHA256 = "eb3546582b2a85fa2787880d0273d4b96ddbd54f30c8795128ea7398a
 # the plan) — 4c's own residual: the two package `__init__.py` files
 # and the three stage tools no verdict path imports
 # (`make_referents_4c.py`, `run/preflight_4c.py`,
-# `verify_referents_4c.py`).
+# `verify_referents_4c.py`). Fix round 1a: re-cut after `make_
+# referents_4c.py`'s post-pin edit (the argmax-outcome-files fix) had
+# left the ORIGINAL scan's sha stale in the same commit.
 IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     REPO / "experiments/exp4c/make_referents_4c.py":
-        "ba5014e65662178952d752677ffba0db9ef4fba515cd10c57ab9ebeeb645bcb3",
+        "ea97e4b0ba85acc623d25c9ca05cc56d331b065b5b684059f957d211a68d0652",
     REPO / "experiments/exp4c/run/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     REPO / "experiments/exp4c/run/preflight_4c.py":
