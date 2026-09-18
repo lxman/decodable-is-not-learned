@@ -1,6 +1,6 @@
 # Experiment 4c — the sealed replication: pre-clear alignment growth ranked against the whole flat pool, on the two training runs Experiment 4 never touched
 
-**Status: DRAFT — session 1 (design) of three, written 2026-09-17 on Michael's word ("begin 4c"). §10's dials await his ruling. Nothing is built, nothing is tagged, no model has been contacted. The design session ran five analysis-only computations on committed bytes, all listed in §2; two of them changed what 4c is, and §2 says how.**
+**Status: RULED 2026-09-18 — §10's dials a–o ruled as recommended on Michael's word ("Proceed with 4c"): dial (a) = RUN with §4's declaration printed. Build (session 2) by SDD from `docs/superpowers/plans/2026-09-18-exp4c-build.md`; four build deltas B-1..B-4 named there for ratification at the freeze. Session 1 (design) was written 2026-09-17 on his word ("begin 4c"). Nothing is tagged, no model has been contacted. The design session ran five analysis-only computations on committed bytes, all listed in §2; two of them changed what 4c is, and §2 says how.**
 
 ## 1. The question
 
@@ -171,7 +171,7 @@ Design (this doc + rulings) → build (`experiments/exp4c/`: the statistic modul
 
 No forecast — the outcome is known. No statement about "tasks" in general from nine non-arithmetic cells on six tasks; no type-matched comparison exists for them on this battery, so a TYPE-BOUND result cannot distinguish "option and string tasks lead" from "option and string tasks align faster than modular arithmetic before they perform" beyond what S5 and S7 show descriptively. No effect size in Exp 4's units: q is a rank. No mechanism. Nothing about other positions, site families, k, references or models. A NOT-REPLICATED is not evidence of absence (§4). The discovery-set numbers are not evidence of anything.
 
-## 10. Dials — AWAITING Michael's ruling (recommendation first in each)
+## 10. Dials — RULED 2026-09-18 ("Proceed with 4c"): every dial as recommended (recommendation first in each)
 
 - **(a) Run it, given §4's declaration?** Recommended: **RUN, with the declaration printed** — the Mac is idle, the cost is compute and bandwidth, the one thing the program lacks on this question is a reading on unseen data, and the secondaries (S4's continuity with 4b, S5, S7, S10) are informative in every world. Alternative: STOP here and record §2 in `experiments.md` as 4b's addendum; defensible, since two outcomes in three are uninformative between the hypotheses.
 - **(b) The primary statistic:** the pre-clear growth rank U (§3.3). Alternative: 4b's φ / p_cal (§8).

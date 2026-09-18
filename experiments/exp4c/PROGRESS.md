@@ -79,3 +79,42 @@ same reading a fresh checkout of the public record gives, since the
 activations were never part of it. Exp 4's verdict is unaffected (its
 primary and every referent are on committed bytes; the cold battery
 above proves it).
+
+## 2026-09-18 — §10 RULED ("Proceed with 4c"); build plan written
+
+Michael's word was "Proceed with 4c." Read as the ruling on §10: every
+dial a–o as recommended, dial (a) = RUN with §4's declaration printed.
+Recorded in the design doc's status line and §10 heading (no dial text
+changed). If any dial was meant otherwise, this is the entry to correct.
+
+Build plan: `docs/superpowers/plans/2026-09-18-exp4c-build.md` (six
+tasks by SDD; the process tail after the tag). Four build deltas named
+there for ratification at the freeze, not applied to the design doc:
+
+- **B-1** the 13B endpoint costs one extra 55 GB load — §3.7 gate 4 asks
+  for two loader paths per endpoint; Exp 4 holds a committed 6.9b table
+  (`reference/ladder_pythia_6.9b`, digest == 2h's step143000, the same
+  three references, batch 16) but no 13B table, so the runner writes
+  `reference/endpoint_olmo2_13b` through `load_thin_13b` before gate 1.
+- **B-2** the per-load pipeline is re-expressed as
+  `collect_4c.process_model_4c` — `collect_4.process_model_4` binds
+  Exp 4's tag and pins the batch through `BATCH_4` by key; neither table
+  knows 4c's keys. Same frozen primitives, same order, no global bank.
+- **B-3** power simulates independent comparator pools per cell; the
+  placebo arm measures the real dependence (§3.6).
+- **B-4** `SITE_COUNT_PIN_4C[41] = 15` — `metric_4.SITE_COUNT_PIN_4` has
+  no entry for OLMo-2 13B's 41 hidden states.
+
+Two facts the plan rests on, verified from committed bytes this session:
+Exp 4's `ladder_pythia_6.9b` record carries `tensor_digest` ed186097…
+(== `experiments/exp2h/results/sweep/6.9b/step143000/_checkpoint.json`),
+refs `ref_olmo2_7b`/`ref_smollm3_3b`/`ref_comma_7b`, `batch_size` 16,
+`n_hidden` 33 — so the 6.9b gate 1 needs no second 6.9b load; and both
+runs have a REAL step 0 in their manifests and committed records (2h
+`entries["0"]`, digest d5843706…; 2l `entries_13b["0"]`, digest
+024edbfd…), the init referent for gate 0.
+
+Pre-tag executions of `analyze_4c.run()` on the real tree: 0 (nothing
+built yet). The discovery-set gate, when it first runs (Task 2), prints
+the KNOWN U .6224 on Exp 4's committed tables — a disclosure event,
+counted separately from executions on 4c's own tree.
