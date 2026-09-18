@@ -82,9 +82,28 @@ REFUSAL_WORLD_4C = "INSUFFICIENT_DATA"
 # 4b's own placebo pool bootstrap size.
 N_BOOT_ELIG_4C = a4.N_BOOT_ELIG_4
 
-# Task 5 fills both.
-REFERENTS_4C_SHA256 = None
-IMPORTED_SHA256_4C = None
+# Task 5's referent manifest, pinned to the sha256 `make_referents_4c.
+# build` printed for `referents_4c.json` (8,160 files — 4,940 plus the
+# 92-unit upstream argmax-outcome finding, `_exp4_argmax_outcome_
+# files`, the read sweep's own UNPINNED count before the fix).
+REFERENTS_4C_SHA256 = "eb3546582b2a85fa2787880d0273d4b96ddbd54f30c8795128ea7398afef9ff9"
+# Task 5's import scan (`tests/import_scan_4c.py`), pinned LAST (§8 of
+# the plan) — 4c's own residual: the two package `__init__.py` files
+# and the three stage tools no verdict path imports
+# (`make_referents_4c.py`, `run/preflight_4c.py`,
+# `verify_referents_4c.py`).
+IMPORTED_SHA256_4C = {
+    REPO / "experiments/exp4c/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp4c/make_referents_4c.py":
+        "ba5014e65662178952d752677ffba0db9ef4fba515cd10c57ab9ebeeb645bcb3",
+    REPO / "experiments/exp4c/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp4c/run/preflight_4c.py":
+        "31cffdd3bfa49ef595c16cc1f337baf53d72071d43cf766bee7f06fb5104a924",
+    REPO / "experiments/exp4c/verify_referents_4c.py":
+        "a67ca232cdd6e4ac42b348b39a6e80cd930eddde2b9ee68ffeda83551a5cbc86",
+}
 REFERENTS_PATH_4C = EXP4C / "referents_4c.json"
 
 POWER_DECLARATIONS_4C = ("POWERED", "DECLARED UNDERPOWERED IN ADVANCE")

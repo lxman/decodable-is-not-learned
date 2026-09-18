@@ -251,6 +251,24 @@ def test_eligibility_4c_equals_exp4s_eligibility_table_on_the_same_tables(monkey
     assert json.dumps(got, sort_keys=True) == json.dumps(want, sort_keys=True)
 
 
+# --------------------------------------------------------------- primary
+
+def test_primary_4c_groups_the_family_flip_by_family_not_by_rung():
+    """Two rungs sharing one family, a third rung alone in a second
+    family: `n_families` must read 2 (not 3, the rung count), and the
+    primary's own `p_plus`/`block_sums` must match `block_flip_4c(...,
+    block="family")` called directly — the family-block statistic is
+    the primary's OWN null, never the rung-block one (that is a
+    separate, printed-beside-it secondary)."""
+    cells = [{"family": "F1", "rung": "a", "q": 0.9}, {"family": "F1", "rung": "b", "q": 0.8},
+             {"family": "F2", "rung": "c", "q": 0.7}]
+    p = an.primary_4c(cells)
+    want = an.rk.block_flip_4c(cells, block="family")
+    assert p["n_families"] == want["n_blocks"] == 2
+    assert p["p_plus"] == want["p_plus"] and p["p_minus"] == want["p_minus"]
+    assert p["block_sums"] == want["block_sums"]
+
+
 # ------------------------------------------------------------ S4's design
 
 def test_design_4c_agrees_with_real_design_4b_on_exp4_cells():

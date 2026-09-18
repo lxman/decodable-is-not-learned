@@ -53,6 +53,60 @@ def test_step0_digests_are_readable_and_distinct_from_endpoints():
         assert len(d0) == 64 and len(de) == 64 and d0 != de
 
 
+def _write_valid_outcome_step(root, traj, step, battery, *, render_override=None,
+                              dtype_override=None):
+    """A minimal, fully valid `load_outcome_4c` step directory — one
+    `_checkpoint.json` plus all 34 rung records, real `bt.load_battery()`
+    item hashes/shot counts (no model contact), so the ONLY thing off
+    from a real committed step is whatever `_override` sets."""
+    d = root / f"step{int(step)}"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "_checkpoint.json").write_text(json.dumps({"digest": "d" * 64}))
+    fam = b.FAMILY_OF_TRAJ_4C[traj]
+    render = render_override if render_override is not None else b.RENDER_4C[fam]
+    dtype = dtype_override if dtype_override is not None else b.DTYPE_4C
+    for rung in b.RUNGS:
+        rec = {"rung": rung, "step": int(step), "n": b.N_ITEMS, "bits": [0] * b.N_ITEMS,
+               "items_sha256": battery[rung]["items_sha256"], "render": render, "dtype": dtype,
+               "n_shots": len(battery[rung]["shots"]), "correct": 0}
+        (d / f"{rung}.json").write_text(json.dumps(rec))
+
+
+def _shrunk_outcome_env(monkeypatch, tmp_path, traj, step=1000):
+    root = tmp_path / "sweep"
+    monkeypatch.setattr(b, "GRID_4C", {traj: (step,)})
+    monkeypatch.setattr(b, "SWEEP_ROOT_4C", {traj: root})
+    return root
+
+
+def test_load_outcome_4c_accepts_a_well_formed_synthetic_step(tmp_path, monkeypatch):
+    battery = bt.load_battery()
+    traj = "pythia_6.9b"
+    root = _shrunk_outcome_env(monkeypatch, tmp_path, traj)
+    _write_valid_outcome_step(root, traj, 1000, battery)
+    oc = b.load_outcome_4c(traj, battery=battery)
+    assert oc["steps"] == [1000]
+    assert set(oc["per_step"][1000]["rungs"]) == set(b.RUNGS)
+
+
+def test_load_outcome_4c_refuses_the_wrong_render(tmp_path, monkeypatch):
+    battery = bt.load_battery()
+    traj = "pythia_6.9b"
+    root = _shrunk_outcome_env(monkeypatch, tmp_path, traj)
+    _write_valid_outcome_step(root, traj, 1000, battery, render_override="chat")
+    with pytest.raises(ValueError, match="render"):
+        b.load_outcome_4c(traj, battery=battery)
+
+
+def test_load_outcome_4c_refuses_the_wrong_dtype(tmp_path, monkeypatch):
+    battery = bt.load_battery()
+    traj = "pythia_6.9b"
+    root = _shrunk_outcome_env(monkeypatch, tmp_path, traj)
+    _write_valid_outcome_step(root, traj, 1000, battery, dtype_override="float32")
+    with pytest.raises(ValueError, match="dtype"):
+        b.load_outcome_4c(traj, battery=battery)
+
+
 def test_expected_fields_for_step0_and_thin_endpoint(monkeypatch):
     monkeypatch.setattr(b, "committed_step_digest_4c", lambda traj, step: f"d:{traj}:{step}")
     e = b.expected_fields_4c(("olmo2_13b", 0))

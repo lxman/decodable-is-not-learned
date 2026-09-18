@@ -683,3 +683,223 @@ Fast suite 64 passed; the three covering slow tests (one shared world
 build) 3 passed in 477 s. `MISSING_ROUTES_4C` is now ten, so the full
 slow suite is 25 tests. Pre-tag executions of `analyze_4c.run()`
 against the REAL tree: still 0.
+
+## Task 5 — `power_4c.py`, totality, mutation, read sweep, import scan, referents, pins, cold battery
+
+**`power_4c.py`** (data-free, through `rank_4c.q_cell_4c`/`block_flip_4c`
+directly — the primary's null distribution does not depend on the
+data, design §4): `cell_structure_4c()` reproduces the 26-cell
+structure from the pins alone (26 cells / 9 families / 17 arithmetic,
+n_flat 24/15, n_flat_arith 19/12 — matches the brief's own numbers
+exactly); `delta_of_mu_4c` = `sqrt(2) * norm.ppf(mu)`; `compute()` runs
+one `np.random.default_rng(seed)` stream in a fixed order (arms in
+`ARMS_4C` order, rho ascending, then the min-detectable-lead grid's
+un-reused points). The two decision bars are HARDCODED LITERALS in
+`power_4c.py` (`_P01_BAR_4C`/`_P05_BAR_4C` = .01/.05), not read from
+`rank_4c.ALPHA_4C`/`MARGINAL_4C` — otherwise a test that monkeypatches
+those globals mid-run (`test_marginal_terminal_is_reachable_by_the_
+tree`) would move a re-derived power record out from under the
+analyzer's byte-reproduction gate; `test_compute_insulated_from_rank_
+4c_alpha_monkeypatch` proves it.
+
+**Record written ONCE**, `python -m experiments.exp4c.power_4c`, 41.6 s:
+
+    declaration: DECLARED UNDERPOWERED IN ADVANCE
+    P(p+<.01 | discovery shape): rho=0 .0788, rho=.5 .0663 (decides on rho=.5)
+    P(p+<.05 | discovery shape): rho=0 .2890, rho=.5 .2688
+    uniform-lead table (rho=.5): .60 -> P01 .1263 P05 .3738; .65 -> .3063/.6483; .70 -> .5430/.8648
+    realized_alpha_01 (null, rho 0/.5): .0115 / .0085   realized_alpha_05: .0525 / .0508
+    min_detectable_uniform_lead: .7430
+    n_cells 26, n_families 9, cells_sha256 a4f694ba9591aef6...
+
+Matches design §4's own estimate (≈.09 discovery-shape P01, ≈.32
+discovery-shape P05) closely enough that no disagreement is ledgered;
+DECLARED UNDERPOWERED IN ADVANCE stands. `results/power_4c.json`
+committed; `analyze_4c.run()`'s power gate (`_power_record_failures_4c`
++ `_reproduce_power_4c`, already wired by Task 4 in anticipation) now
+has a real `power_4c` to import and reproduces the committed record
+byte for byte on the real tree (confirmed via the read sweep and the
+cold battery's item 11). Worlds switched from the stand-in
+(`_write_power_stub_4c`) to the real `power_4c.compute(n_sim=
+WORLD_N_SIM_4C)` (`full_shape_4c._write_power_record_4c`) and
+`power_gate="skip"` to `power_gate="full"` in `world_run_kwargs_4c`;
+the whole slow suite (below) passes under this switch.
+
+**`test_power_4c.py`**: 26 fast tests — the structure/pins/delta/
+simulation/compute/main/analyzer-gate coverage the brief's Step 1
+lists, plus the insulation-from-monkeypatch test above.
+
+**Totality (`test_totality_4c.py`, 15 tests incl. control)**: torn
+`_load.json`; a directory where an npz belongs; an npz that isn't a
+zip; a truncated npz; `gate1.json` a JSON list; `HALTED` under
+`sweep/olmo2_13b/`; the thin endpoint's `prereg_tag` set to exp4's;
+`power_4c.json` with `n_sim` 39; `power_4c.json` with a probability
+edited; a grid unit missing `sets/roman_sum7.npz`; step 0 missing
+entirely; the 2h manifest copied with one bit flipped (via
+monkeypatched `bh.CHECKPOINTS_PATH_69`); Exp 4's `ref_comma_7b` sets
+sha changed; the discovery pin's `U` off by 1e-9 — all fourteen land
+INSUFFICIENT_DATA, never raise; the control (an untouched copy of the
+shared `replicates` world) still REPLICATES.
+
+**Mutation (`mutation_check.py`)**: 58 hand mutants (≥55 required) +
+48 AST-derived totality mutants (`_totality_mutants_4c`, one per
+`collect_total_4c` call site in `run()`) = 106 total, every target
+text found exactly once. **Two independent full runs of the fast pass
+gave IDENTICAL results — 43 killed directly, 60 survived — which is
+trusted as the real split**; an EARLIER first run read 94/106 killed
+and is NOT trusted: it ran before several `--only`-verified fixes
+landed and, on inspection, its extra "kills" cannot be reproduced and
+most likely came from `-x` cascading off an unrelated point in that
+particular process rather than the mutants' own intended discriminators
+(the two later runs are byte-for-byte identical to each other, which a
+genuinely flaky suite would not produce twice in a row).
+
+Of the original 12 named survivors from the (untrusted) first pass, 9
+were closed with new fast tests this session, each confirmed via an
+isolated `--only` rerun after writing the test (never while another
+mutation run was in flight):
+- `cells_4c`'s q_arith ranked against the WHOLE flat pool, not `flat_ar`
+  — new fixture in `test_rank_4c.py` where the rising task's growth
+  sits below the non-arithmetic flat member but above both arithmetic
+  ones, so `q` and `q_arith` provably differ (2/3 vs 1.0).
+- `EXCLUDED_SITES_4C` site-0 exclusion dropped — a new test calling
+  `alignment_series_4c` WITHOUT `excluded_sites` (the previous test
+  passed `(0,)` explicitly, never exercising the default).
+- `primary_4c`'s family block silently swapped to the rung block — a
+  new `test_analyze_4c.py` test with two rungs sharing one family,
+  asserting `n_families`/`p_plus`/`block_sums` equal `block_flip_4c(...,
+  block="family")` called directly.
+- `cluster_bootstrap_ci_4c` resampling individual cells instead of
+  blocks — 100 zeros in one family, one 1.0 in a second: block
+  resampling puts 25% of draws at the all-1.0 combination (hi == 1.0
+  exactly over 4,000 draws), cell-level resampling of the true 101-cell
+  pool essentially never does.
+- `placebo_4c` not excluding the drawn task from its own comparator
+  pool — two trajectories sharing exactly one common flat task makes
+  the draw deterministic regardless of seed; scored with/without
+  self-exclusion gives 1.0 vs .833.
+- `placebo_4c`'s `alpha_placebo_01` read at the .05 bar — seven
+  families, one a zero-deviation tie, gives a family-block p+ of
+  exactly 2/128 = .015625 (between the two bars): `alpha_placebo_01`
+  must read 0.0, `alpha_placebo_05` must read 1.0.
+- `type_modifier_4c`'s TYPE-GENERAL decided at ALPHA_4C not
+  MARGINAL_4C — the same 2/128 construction, arithmetic-only.
+- `load_outcome_4c`'s render/dtype checks dropped — two new
+  `test_battery_4c.py` tests writing a minimal, fully valid synthetic
+  step (real `bt.load_battery()` item hashes/shot counts, no model
+  contact) with one field deliberately wrong.
+
+One hand mutant (`CLEAR_INDEX_PIN_4C`'s pythia_6.9b/arith_next literal
+off by one) is confirmed **killed by the slow suite** by hand: mutant
+applied, `pytest test_battery_4c.py -m slow -k test_outcomes_
+reproduce_the_design_pins` fails ("clear indices != pinned"), source
+restored byte-identical.
+
+Two hand mutants are **documented equivalent** (reasoning in
+`mutation_check.py`'s `EQUIVALENT_MUTANTS`, verbatim):
+`block_flip_4c`'s `p_plus` `>` vs `>=` (the two differ only for a flip
+whose tot lands EXACTLY on the `obs - 1e-12` boundary — a directed
+search over ±20,000 ULPs near every plausible construction found no
+such input, and the identity flip's tot is bit-identical to `obs` on
+every cell this program has ever produced); `discovery_set_4c`'s
+site0-excluded invariance check compared against the wrong cell set
+(on the ONE input this function is ever called with — Exp 4's real,
+sha-pinned tree — site-0 exclusion provably does not move a single
+cell's `q`, so comparing `cells_incl` to itself gives the same
+all-zero diff array the correct comparison does; `EXCLUDED_SITES_4C`'s
+own dropped-exclusion mutant already covers the core logic directly).
+
+The remaining **58 survivors** (14 hand + 44 totality — the `run()`
+per-trajectory-loop/S1-S10 hand mutants and the AST-derived totality
+mutants covering the same territory) are, by code inspection, the SAME
+class as the three confirmed-by-hand cases above: every one sits
+behind a real-2h/2l-data pin comparison or a `collect_total_4c` site
+only reachable after a full per-trajectory load — nothing the FAST
+suite's hand-built fixtures drive into a raising state. **Two
+representative members were spent confirming this by hand this
+session** (`mutation_check.py --fullshape --only=run_the_exit_
+import_surface_check_skipped_...` — killed, the I-1 regression guard;
+`mutation_check.py --totality --only=totality_5742ce6a67` — killed,
+`gate1_failures_4c` on a JSON-list-shaped record); each rebuild of a
+full world from a fresh subprocess costs 10-40 minutes on this
+machine's ambient load, and 58 more at that cost did not fit this
+session's remaining time. **Open item for a follow-up session:** burn
+down this list with `--totality`/`--fullshape --only=` a few at a
+time; all 58 labels are named in `mutation_check.py`'s
+`KILLED_BY_WORLDS_ONLY` set with this same disclosure.
+
+`mutation_check.py --fullshape` was also fixed this session — it had
+been pointed at `TOTALITY_TESTS` (test_totality_4c.py) identically to
+`--totality`, never at `FULLSHAPE_TESTS` (test_full_shape_4c.py); the
+I-1 confirmation above is what surfaced it.
+
+**Read sweep** (`read_sweep_4c.py`, real pre-campaign tree,
+`tag_exists`/`blob_sha`/`frozen_check` stubbed so `run()` reaches as
+deep as the tree allows): 8,093 distinct paths, 17,762 total reads.
+First pass found 3,222 UNPINNED — Exp 4's `load_outcome_4` reads the
+argmax-outcome records (`_checkpoint.json` + 34 rung `.json` per grid
+step) from each of its four trajectories' UPSTREAM experiment's own
+committed sweep tree (2g's/2i's/2m's/2n's, via `battery_4.
+SWEEP_ROOT_4`), which `make_referents_4c.py`'s first pass never
+listed — only the k-NN alignment side (`_load.json` + `sets/*.npz` +
+`align.json`) was covered. Fixed (`_exp4_argmax_outcome_files`,
++3,220 files = 92 units × 35 files each); a SECOND, distinct finding
+(2 files) was gate 1's own byte-rederivation attempting to read
+`add4_mid.npz` under exp4c's OWN not-yet-existing sweep/reference
+tree — a legitimate pre-campaign FileNotFoundError, bucketed as
+`exp4c_own_future_campaign_artifact`. Final: **0 UNPINNED**.
+`REFERENTS_4C_SHA256` and `N_FILES_4C` both moved from 4,940 to 8,160
+files to match.
+
+**Import scan** (`import_scan_4c.py`, same tree/stub pattern):
+`FROZEN_SHA256_4C` = `{}` — genuinely empty, verified directly: every
+module `experiments/exp4c` imports outside itself (2h's `battery_2h`/
+`analyze_2h`, 2l's `battery_2l` — the discovery gate's and the gate-1
+byte-rederivation's own transitive imports) is already covered by
+`battery_4.FROZEN_SHA256_4` (Exp 4's own size-ladder reference reads
+2h's 6.9b table already) or by `EXP4_CLOSED_SHA256_4C`/
+`EXP4B_CLOSED_SHA256_4C`. `IMPORTED_SHA256_4C` = the 5 residual exp4c
+files not blob-bound: `__init__.py`, `run/__init__.py`,
+`make_referents_4c.py`, `run/preflight_4c.py`, `verify_referents_4c.py`.
+
+**Referents**: `make_referents_4c.py`, `referent_files_4c()` = 8,160
+files (0 missing on disk), `N_FILES_4C = 8160`,
+`REFERENTS_4C_SHA256 = eb3546582b2a85fa2787880d0273d4b96ddbd54f30c8795128ea7398afef9ff9`.
+
+**Cold battery** (`verify_referents_4c.py`, 12 items): 10 ok, 2 skip —
+item 1 (frozen pins) skips because `FROZEN_SHA256_4C` is the empty
+dict (nothing to check, not a gap); item 12 (gate 0 on the new runs)
+skips because the sweep has not run. Item 10 prints `discovery U=0.6224
+over 42 cells, family p=0.03906` (exact match to `DISCOVERY_PIN_4C`);
+item 11 prints `power declaration: DECLARED UNDERPOWERED IN ADVANCE`
+and reproduces `power_4c.json` byte for byte.
+
+**`.gitignore`/watcher** (controller ruling B-5): design §3.9 counts
+"2 positions" (question-end + pooled) in the committed set tables, so
+`attested/<rung>.npz` IS part of exp4c's committed record — the
+`experiments/exp4c/results/**/attested/` line removed from
+`.gitignore` (the `activations/` line stays); `run/commit_watcher_4c.sh`
+no longer excludes `/attested/` from what it commits (only
+`/activations/` still excluded).
+
+**Full verification, end to end, run clean and in isolation (no
+concurrent pytest/mutation processes) after the mutation harness's
+final pass**: fast suite 100 passed (`-m "not slow"`, 37 s); full slow
+suite 41 passed, 0 failed (`-m slow`, 3,197.69 s = 53 min 17 s — incl.
+`test_totality_4c.py`'s 15, `test_full_shape_4c.py`'s ~21, `test_
+determinism_4c.py`'s 1, and the slow tests in `test_battery_4c.py`/
+`test_rank_4c.py`); cold battery 10/12 (+2 skip, both legitimate);
+read sweep 0 unpinned; import scan pins stable across reruns.
+
+**Pre-tag executions of `analyze_4c.run()` against the REAL tree
+(root=EXP4C, root4=EXP4) this task: 6** — two `import_scan_4c.py`
+attempts that reached the real tree (an earlier bug-fixing attempt
+raised before reaching `run()` at all and is not counted), three
+`read_sweep_4c.py` runs (two before the referent fix, one confirming
+it), and the discovery-gate's own reproduction inside `verify_
+referents_4c.py`'s item 10 (which independently re-derives U on Exp
+4's committed tree) — each printed the known discovery numbers (U
+.6224 et al.), a disclosure, never a new quantity on the two runs 4c
+seals. No `analyze_4c.run()` call this task ever reached a real
+sweep/reference unit under `experiments/exp4c/results/`; none exists
+yet.

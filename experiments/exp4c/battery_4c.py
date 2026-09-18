@@ -93,11 +93,21 @@ EXP4B_CLOSED_SHA256_4C = {
         "f24b9a0c9cd45324bf6046ba0f0267da7908922b4972ace79b9c5b94b8ff1b88",
 }
 
-# Task 5 fills this with every OTHER module the import scan finds
-# (2h, 2l, 2k, ... — everything outside exp4/exp4b's own tables above).
-# `None` until then; `check_frozen_4c` raises rather than silently
-# skipping the check.
-FROZEN_SHA256_4C = None
+# Task 5's import scan (`tests/import_scan_4c.py`), run on the REAL
+# pre-campaign tree with `tag_exists`/`blob_sha` stubbed so `run()`
+# reaches as deep as the tree allows (through the discovery gate and
+# the power record's byte reproduction, refusing at "4c gate 1
+# pythia_6.9b: record missing"): EMPTY — every module `experiments/
+# exp4c` imports outside itself (2h's battery_2h/analyze_2h, 2l's
+# battery_2l, plus everything `rank_4c.discovery_set_4c`/`power_4c`
+# touch) is already covered by `battery_4.FROZEN_SHA256_4` (Exp 4's own
+# ladder reference reads 2h's 6.9b table already) or by
+# `EXP4_CLOSED_SHA256_4C`/`EXP4B_CLOSED_SHA256_4C` above — verified
+# directly (2h/2l modules already present in `battery_4.
+# FROZEN_SHA256_4`'s covered set before this scan ever ran).
+# `check_frozen_4c` no longer raises "not pinned" once this is a real
+# (even if empty) dict.
+FROZEN_SHA256_4C = {}
 
 RUNG_TYPE_4C = a4.RUNG_TYPE_4
 FAMILY_OF = bt.FAMILY_OF

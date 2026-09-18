@@ -40,6 +40,26 @@ def test_cells_read_growth_at_the_last_pre_clear_index_among_the_flat_pool():
     assert {c["family"] for c in cells} == {"mid_digit", "antonym"}
 
 
+def test_cells_q_arith_ranks_against_the_arithmetic_flat_pool_only():
+    """The existing `add3_mid`/caesar fixture above doesn't discriminate
+    the arithmetic ranking pool from the whole one (add3_mid's growth
+    exceeds every flat member either way); this one does: the rising
+    task's growth sits BELOW the non-arithmetic flat member (caesar)
+    but ABOVE both arithmetic flat members, so q (whole pool) and
+    q_arith (arithmetic-only pool) must differ."""
+    steps = [1, 2, 3]
+    a = {"add3_mid": [0.0, 0.5, 0.6], "caesar": [0.0, 0.9, 0.95], "mod13": [0.0, 0.1, 0.15],
+        "mod17": [0.0, 0.2, 0.25]}
+    rs = {"A": {"R": ["add3_mid"], "flat": ["caesar", "mod13", "mod17"], "transient": [],
+                "t_clear": {"add3_mid": 3}}}
+    S = {"A": _series(a, steps)}
+    cells = rk.cells_4c(S, rs)
+    c = cells[0]
+    assert c["t_minus_index"] == 1 and c["n_flat"] == 3 and c["n_flat_arith"] == 2
+    assert c["q"] == pytest.approx(2 / 3)          # below caesar(.9), above mod13(.1)/mod17(.2)
+    assert c["q_arith"] == pytest.approx(1.0)       # ranked among mod13/mod17 ONLY: above both
+
+
 def test_cells_drop_no_window_and_transient():
     S, RS = _two_runs(); RS["A"]["t_clear"]["add3_mid"] = 2   # index 1 < 2
     assert ("A", "add3_mid") not in {(c["traj"], c["rung"]) for c in rk.cells_4c(S, RS)}
@@ -70,6 +90,22 @@ def test_bootstrap_is_family_clustered_and_seeded():
     assert a == b and a["lo"] in (0.1, 0.5, 0.9) and a["hi"] in (0.1, 0.5, 0.9)
 
 
+def test_bootstrap_resamples_whole_blocks_not_individual_cells():
+    """The PREVIOUS test's fixture (1 cell per family) cannot tell block
+    resampling from cell resampling apart — with 1 cell per block the
+    two coincide. Here family A holds 100 zeros and family B a single
+    1.0: resampling BLOCKS (2 of them, with replacement) draws the
+    all-B combination (mean 1.0) on 1/4 of draws, so with n_boot=4000
+    the 97.5th percentile must be exactly 1.0; resampling the 101
+    underlying CELLS directly would essentially never draw all ones."""
+    cells = ([{"family": "A", "rung": f"a{i}", "q": 0.0} for i in range(100)]
+            + [{"family": "B", "rung": "b0", "q": 1.0}])
+    out = rk.cluster_bootstrap_ci_4c(cells, n_boot=4000, seed=0)
+    assert out["n_blocks"] == 2
+    assert out["hi"] == 1.0
+    assert out["lo"] == 0.0
+
+
 def test_tree_and_modifier_cells():
     assert rk.verdict_tree_4c(["x"], None)["verdict"] == "INSUFFICIENT_DATA"
     assert rk.verdict_tree_4c([], {"p_plus": 0.009, "p_minus": 0.99})["verdict"] == "REPLICATES"
@@ -79,6 +115,19 @@ def test_tree_and_modifier_cells():
     assert rk.calibration_read_4c({"alpha_placebo_01": 0.03, "alpha_placebo_05": 0.06}, "REPLICATES")["bounded"] is True
     assert rk.calibration_read_4c({"alpha_placebo_01": 0.019, "alpha_placebo_05": 0.2}, "REPLICATES")["bounded"] is False
     assert rk.calibration_read_4c({"alpha_placebo_01": 0.5, "alpha_placebo_05": 0.11}, "MARGINAL")["bounded"] is True
+
+
+def test_modifier_type_general_decided_at_the_marginal_bar_not_alpha():
+    """Seven arithmetic families (the same zero-deviation construction
+    as the placebo alpha test): U_arith's family-block p+ lands at
+    2/128 = .015625 — inside [ALPHA_4C, MARGINAL_4C) = [.01, .05).
+    TYPE-GENERAL fires because the modifier reads MARGINAL_4C, not
+    ALPHA_4C."""
+    cells = ([{"family": f"f{k}", "type": "arithmetic", "q_arith": 1.0} for k in range(1, 7)]
+            + [{"family": "f7", "type": "arithmetic", "q_arith": 0.5}])
+    out = rk.type_modifier_4c(cells)
+    assert out["arith"]["p_plus"] == pytest.approx(2 / 128)
+    assert out["modifier"] == "TYPE-GENERAL"
 
 
 def test_modifier_refuses_a_family_p_for_the_nonarith_stratum():
@@ -92,6 +141,50 @@ def test_placebo_pool_is_the_common_flat_set_and_removes_the_drawn_task():
     out = rk.placebo_4c(S, RS, cells, B=50, seed=0)
     assert out["pool_common"] == ["mod13", "mod17"] and out["U_b"].shape == (50,)
     assert 0.0 <= out["p_placebo"] <= 1.0 and 0.0 <= out["alpha_placebo_01"] <= out["alpha_placebo_05"] <= 1.0
+
+
+def test_placebo_draw_excludes_itself_from_its_own_comparator_pool():
+    """A numeric, draw-independent discriminator: two trajectories'
+    flat sets intersect at exactly one task ("h1"), so the placebo
+    draw is DETERMINISTIC (`rng.integers(1)` is always 0) regardless of
+    seed. Traj A's own flat pool has two more members (h2/h3) the
+    drawn task must be scored against with itself excluded."""
+    steps = [1, 2]
+    a = {"h1": [0.0, 0.9], "h2": [0.0, 0.1], "h3": [0.0, 0.2]}
+    b = {"h1": [0.0, 0.9], "hX": [0.0, 0.5]}
+    S = {"A": _series(a, steps), "B": _series(b, steps)}
+    RS = {"A": {"flat": ["h1", "h2", "h3"]}, "B": {"flat": ["h1", "hX"]}}
+    cells = [{"traj": "A", "rung": "r", "family": "F", "type": "arithmetic", "t_minus_index": 1,
+             "q": 0.5}]                                    # "q": placebo_4c's own U_4c(cells) needs it
+    out = rk.placebo_4c(S, RS, cells, B=2, seed=0)          # B=2, not 1: std(ddof=1) needs >=2 points
+    assert out["pool_common"] == ["h1"]                 # deterministic draw: always "h1"
+    # self (h1=.9) excluded: ranked among h2=.1/h3=.2 only -> both below -> q=1.0
+    assert out["null_mean"] == pytest.approx(1.0)
+
+
+def test_placebo_alpha_01_uses_the_01_bar_not_the_05_bar():
+    """Seven families, one deterministic placebo battery (pool_common
+    size 1, so the draw never varies): six score q=1.0, one scores
+    exactly q=0.5 (a zero-deviation family, so BOTH its sign choices
+    tie at the observed maximum) — the family-block enumeration over 7
+    blocks (128 flips) then has EXACTLY 2 flips at or above the
+    observed sum, p_plus = 2/128 = .015625, strictly between ALPHA_4C
+    (.01) and MARGINAL_4C (.05): `alpha_placebo_01` must read 0.0 and
+    `alpha_placebo_05` must read 1.0 — if they read the same value,
+    fires01 used the wrong bar."""
+    steps = list(range(8))
+    h1 = [0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5]
+    m1 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    m2 = [0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 1.0]
+    S = {"A": _series({"h1": h1, "m1": m1, "m2": m2}, steps),
+        "B": _series({"h1": [0.0] * 8, "hY": [0.0] * 8}, steps)}
+    RS = {"A": {"flat": ["h1", "m1", "m2"]}, "B": {"flat": ["h1", "hY"]}}
+    cells = [{"traj": "A", "rung": f"r{k}", "family": f"f{k}", "type": "arithmetic",
+             "t_minus_index": k, "q": 0.5} for k in range(1, 8)]   # "q": U_4c(cells) needs it
+    out = rk.placebo_4c(S, RS, cells, B=2, seed=0)
+    assert out["pool_common"] == ["h1"]                 # deterministic draw
+    assert out["alpha_placebo_01"] == 0.0
+    assert out["alpha_placebo_05"] == 1.0
 
 
 def test_placebo_carries_the_non_arithmetic_stratum_reading():
@@ -168,6 +261,16 @@ def _tiny_alignment_fixture(k=4, n_items=3):
     ref_tables = {"ref_x": sets_q}
     unit = {"record": {"pairing": {"ref_x": [0, 1]}, "sites": [0, 1]}, "sets": sets_m, "overlaps": {}}
     return {1: unit}, ref_tables
+
+
+def test_alignment_series_4c_excludes_site0_by_default():
+    """The PREVIOUS test passes `excluded_sites=(0,)` explicitly, which
+    exercises the module's DEFAULT-independent behaviour but not the
+    default itself — a source-level mutation of `EXCLUDED_SITES_4C`
+    would go unnoticed there. This one relies on the default."""
+    tables_by_step, ref_tables = _tiny_alignment_fixture()
+    out = rk.alignment_series_4c(tables_by_step, ref_tables, steps=[1])
+    assert out["n_sites_kept"] == 1 and out["excluded_sites"] == [0]
 
 
 def test_alignment_series_4c_excludes_site0_and_matches_the_single_reference():
