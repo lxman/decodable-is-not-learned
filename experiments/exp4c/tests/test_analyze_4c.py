@@ -123,6 +123,24 @@ def test_load_one_unit_refuses_a_missing_unit(tmp_path):
         an._load_one_unit_4c(tmp_path, _key_69())
 
 
+def test_load_one_unit_refuses_an_n_hidden_pin_mismatch(tmp_path):
+    """`n_hidden` written to the record disagrees with the pin, but
+    `sites`/`pairing` are built from the PINNED value (33, not the
+    written 34) so they agree — isolating the n_hidden check itself.
+    A mutant dropping only that check (Task 5 fix round 1b) would load
+    this unit clean instead of refusing it."""
+    rng = np.random.default_rng(3)
+    key = _key_69()
+    refs = bc.REFS_FOR_4C["pythia_6.9b"]
+    pinned_sites = list(metric_4.sites_4(33))
+    pinned_pairing = {k_: list(v) for k_, v in a4.expected_pairing_4(33, refs).items()}
+    _write_unit_on_disk(tmp_path, key, n_hidden=34, refs=refs,
+                        committed_digest=bc.committed_step_digest_4c(*key), rng=rng, n=12,
+                        sites=pinned_sites, pairing=pinned_pairing)
+    with pytest.raises(ValueError, match="n_hidden"):
+        an._load_one_unit_4c(tmp_path, key)
+
+
 # ---------------------------------------------------------------- gate 0
 
 def test_gate0_4c_counts_cells_per_rung_site_reference_and_drops_site_0(monkeypatch):
@@ -203,6 +221,49 @@ def test_gate0_4c_fails_below_the_bar(monkeypatch):
     assert g["pass"] is False and g["fraction_below"] == 0.0
 
 
+def test_gate0_4c_fails_between_half_and_the_bar(monkeypatch):
+    """A fraction strictly between .5 and the real .90 bar
+    (`a4.GATE0_MIN_FRACTION_4`) must still fail — the value that
+    distinguishes the real bar from a mutant that replaced it with .5
+    (Task 5 fix round 1b). 9 of the 14 kept (non-zero) sites below, 5
+    not, applied identically to every rung/reference: fraction_below
+    == 9/14 ≈ .643."""
+    refs = ("ref_comma_7b",)
+    n_hidden = 41
+    sites = metric_4.sites_4(n_hidden)
+    n = len(sites)
+    n_kept = n - 1
+    n_below = 9
+    assert 0.5 < n_below / n_kept < a4.GATE0_MIN_FRACTION_4
+    rec = {"sites": list(sites), "n_hidden": n_hidden, "refs": list(refs),
+           "pairing": {r: [0] * n for r in refs}}
+    twin = {"record": rec, "sets": {}, "overlaps": {}}
+    end = {"record": rec, "sets": {}, "overlaps": {}}
+
+    lo = {r: {ref: np.full(n, 0.10) for ref in refs} for r in bc.RUNGS}
+    hi = {r: {ref: np.full(n, 0.30) for ref in refs} for r in bc.RUNGS}
+    for r in bc.RUNGS:
+        for ref in refs:
+            lo[r][ref] = lo[r][ref].copy()
+            hi[r][ref] = hi[r][ref].copy()
+            for i in range(1, n):   # index 0 is dropped regardless
+                if (i - 1) < n_below:
+                    lo[r][ref][i], hi[r][ref][i] = 0.10, 0.30   # below
+                else:
+                    lo[r][ref][i], hi[r][ref][i] = 0.30, 0.10   # not below
+
+    calls = {"n": 0}
+
+    def fake_site_means(tables, ref_tables, pairing_by_ref):
+        calls["n"] += 1
+        return lo if calls["n"] == 1 else hi
+
+    monkeypatch.setattr(a4, "_gate0_site_means_4", fake_site_means)
+    g = an.gate0_4c(None, "olmo2_13b", {}, twin, end)
+    assert 0.5 < g["fraction_below"] < a4.GATE0_MIN_FRACTION_4, g["fraction_below"]
+    assert g["pass"] is False
+
+
 # ----------------------------------------------------------- eligibility
 
 def test_eligibility_4c_equals_exp4s_eligibility_table_on_the_same_tables(monkeypatch):
@@ -249,6 +310,28 @@ def test_eligibility_4c_equals_exp4s_eligibility_table_on_the_same_tables(monkey
     got = an.eligibility_4c("ignored", traj, ref_tables, unit_t1, unit_end, rs,
                             n_boot=50, seed=0)
     assert json.dumps(got, sort_keys=True) == json.dumps(want, sort_keys=True)
+
+
+def test_eligibility_4c_2se_bar_is_inclusive_at_the_boundary(monkeypatch):
+    """Constant per-item alignments (zero variance under every bootstrap
+    resample) put a rising rung's endpoint excess AND its 2*SE bar both
+    EXACTLY at 0.0 — no floating-point tolerance needed. The real
+    code's `>=` reads 0.0 >= 0.0 as True (eligible); a mutant weakening
+    it to `>` (Task 5 fix round 1b) would read the same cell as
+    ineligible."""
+    traj = "pythia_6.9b"
+    n = battery_4.N_ITEMS
+    const = {r: np.full(n, 0.5) for r in bc.RUNGS}
+    monkeypatch.setattr(a4, "per_item_alignment_4", lambda *a_, **k_: const)
+    steps = list(bc.GRID_4C[traj])
+    rs = {"R": ["antonym"], "flat": ["mod13"], "transient": [],
+          "t_clear": {"antonym": steps[2]}}
+    fake_unit = {"record": {"pairing": {}}}
+    g = an.eligibility_4c(None, traj, {}, fake_unit, fake_unit, rs, n_boot=8, seed=0)
+    cell = g["R"]["antonym"]
+    assert cell["se"] == 0.0
+    assert cell["x_end"] == 0.0
+    assert cell["eligible"] is True, cell["reason"]
 
 
 # --------------------------------------------------------------- primary

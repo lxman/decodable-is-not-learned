@@ -368,77 +368,163 @@ FAST_TESTS = [str(L / "tests" / "test_battery_4c.py"), str(L / "tests" / "test_r
 FAST_EXTRA_ARGS = ["-m", "not slow"]
 TOTALITY_TESTS = [str(L / "tests" / "test_totality_4c.py")]
 FULLSHAPE_TESTS = [str(L / "tests" / "test_full_shape_4c.py")]
+# Fix round 1b: the four battery_4c.py pin-vs-real-committed-data
+# mutants (CLEAR_INDEX_PIN_4C, check_rung_set_pins_4c, manifests_4c x2)
+# need REAL 2h/2l data, not a synthetic world — the slow tests in
+# test_battery_4c.py already read it.
+BATTERY_SLOW_TESTS = [str(L / "tests" / "test_battery_4c.py")]
+BATTERY_SLOW_EXTRA_ARGS = ["-m", "slow"]
 
-# Mutants killed ONLY by a slow test (the two-run, fully reproducible
-# fast-suite pass split 43 killed-fast / 60 survived-fast identically
-# across two independent full runs — see PROGRESS.md's Task 5 entry;
-# run 1's higher fast-kill count was an artifact of `-x` cascading from
-# an unrelated point in the suite and is NOT trusted). Every label
-# below lives deep in `run()`'s per-trajectory loop, its S1-S10
-# secondaries, or a real-committed-data pin comparison — none of which
-# any hand-built FAST fixture drives into a raising state; the slow
-# totality/full-shape suite's built worlds do.
+# Mutants killed ONLY by a slow test (fast-suite baseline: 43 killed
+# fast, the rest survive fast identically across independent runs).
+# Every label below lives deep in `run()`'s per-trajectory loop, its
+# S1-S10 secondaries, its S4 continuity arm, or a real-committed-data
+# pin comparison — none of which any hand-built FAST fixture drives
+# into a raising state; the slow totality/full-shape/battery(-m slow)
+# suites' built worlds (or real 2h/2l data) do.
 #
-# EMPIRICALLY CONFIRMED this session, one targeted run each, source
-# restored byte-identical after (`git diff` clean, no stray
-# `.mutation_backup`):
-#   - "clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6":
-#     `pytest test_battery_4c.py -m slow -k test_outcomes_reproduce_the_design_pins`
-#     FAILS ("pythia_6.9b: clear indices != pinned").
-#   - "run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced":
-#     `mutation_check.py --fullshape --only=<label>` reports killed
-#     (test_full_shape_4c.py's `test_a_failing_exit_import_pin_reaches_
-#     the_verdict`, the I-1 covering test, needs `imports_pinned=True`
-#     with a flaky check — only that file's fixture sets it up).
-#   - "totality_5742ce6a67" (gate1_failures_4c wrapped, line 1324):
-#     `mutation_check.py --totality --only=<label>` reports killed
-#     (test_totality_4c.py's `test_gate1_json_a_list_gives_
-#     insufficient_data` — a JSON list parses fine, then
-#     `gate1_failures_4c`'s `.get()` on a list raises `AttributeError`,
-#     caught only by the wrapper this mutant strips).
-#
-# The remaining labels below are the SAME class by code inspection (a
-# pin compared against real 2h/2l data, or a `collect_total_4c` site
-# reachable only after a full per-trajectory load/S1-S10 pass) but were
-# NOT individually re-confirmed this session: each confirmation rebuilds
-# a full world from a fresh subprocess (~10-40 min per label with this
-# machine's ambient load), and 58 more at that cost was not affordable
-# in this task's remaining time. Flagged in PROGRESS.md as an open item
-# — a follow-up session should burn down this list with `--totality`/
-# `--fullshape --only=` a few at a time.
-KILLED_BY_WORLDS_ONLY = {
-    "clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6",
-    "check_rung_set_pins_4c_the_clear_index_comparison_dropped",
-    "manifests_4c_the_6_9b_grid_agreement_check_dropped",
-    "manifests_4c_the_step_0_entry_present_check_dropped",
-    "gate0_4c_the_90_bar_replaced_by_5",
-    "run_the_reference_seal_s_own_failures_are_never_appended",
-    "run_the_discovery_gate_s_known_answer_pin_check_dropped",
-    "run_the_power_record_s_byte_reproduction_never_checked_presence_only",
-    "run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced",
-    "load_one_unit_4c_the_n_hidden_vs_pin_check_dropped",
-    "eligibility_4c_the_2_se_eligibility_bar_weakened_from_to",
-    "delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped",
-    "power_bar_4c_the_declared_power_bar_75_5",
-    "interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to",
-    "cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped",
-    "totality_d9a804a211", "totality_73f9815ef4", "totality_d6d5f230f6",
-    "totality_45c8d0147c", "totality_bf2e926cc6", "totality_54fdd34130",
-    "totality_efe912cfae", "totality_4c50327e8b", "totality_946b2d8ff4",
-    "totality_9a47cf39d9", "totality_4ae7eb8e01", "totality_7c26425e08",
-    "totality_98f598282a", "totality_890e2e645a", "totality_1a4450362d",
-    "totality_2dbe40e17b", "totality_e9f600ab3c", "totality_4cd3e551b9",
-    "totality_2395e1c6a2", "totality_7f0d909665", "totality_401377c2ee",
-    "totality_f599225b3f", "totality_882e7be6db", "totality_2f0d358116",
-    "totality_85c26ea5da", "totality_b1d2a427a5", "totality_e7f5959f35",
-    "totality_1998a8e42c", "totality_785e68faae", "totality_4db1f27c39",
-    "totality_56872f0008", "totality_7fc25d1cb3", "totality_38e82d2f6f",
-    "totality_1493707fcd", "totality_5bec55dfda", "totality_0392026ab8",
-    "totality_b720cefaf0", "totality_8cc99ff2b7", "totality_0569241841",
-    "totality_dd93a6d647", "totality_8613fd6ec8", "totality_c7587d08f8",
-    "totality_4089e0701e", "totality_0f1437d2df", "totality_8a9bab2364",
-    "totality_5742ce6a67",
+# Task 5 fix round 1b closed this dict out completely (the controller's
+# ruling: "an inferred kill is not a kill"). Every one of the 61
+# entries below was EXECUTED individually this round — its own
+# mutation applied alone, source restored after — and observed to fail
+# the NAMED test: 5 were closed with brand-new FAST unit tests that
+# call the mutated function directly with hand-built boundary/corrupt
+# inputs (moved out of this dict entirely, see `test_analyze_4c.py`/
+# `test_power_4c.py`/`test_battery_4c.py`); the other 40 need a real
+# tree (mostly a cached synthetic `replicates` world via
+# `EXP4C_WORLD_CACHE`, three need real committed 2h/2l data) and are
+# recorded here as `label: "file.py::test_name"`. Each of the 40 was
+# individually reconfirmed via a single mutation + `pytest test_
+# totality_4c.py -k <test_name>` (or the `--fullshape`/`-m slow`
+# equivalent) — narrowed with `-k` rather than the full `-x` file run
+# so 40 confirmations cost minutes, not the ~10-40 min/label a full-file
+# `-x` run costs when the killing test sits late in file order. See
+# `PROGRESS.md`'s "Fix round 1b" entry for the full transcript.
+NON_FAST_KILLS_4C = {
+    "clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6":
+        "test_battery_4c.py::test_outcomes_reproduce_the_design_pins (-m slow)",
+    "run_the_discovery_gate_s_known_answer_pin_check_dropped":
+        "test_totality_4c.py::test_discovery_pin_u_off_by_a_nanounit_gives_insufficient_data",
+    "run_the_power_record_s_byte_reproduction_never_checked_presence_only":
+        "test_totality_4c.py::test_power_record_probability_edited_gives_insufficient_data",
+    "run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced":
+        "test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict",
+    "delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped":
+        "test_totality_4c.py::test_control_untouched_copy_still_replicates "
+        "(the world's own committed power record no longer byte-reproduces)",
+    "power_bar_4c_the_declared_power_bar_75_5":
+        "test_totality_4c.py::test_control_untouched_copy_still_replicates "
+        "(same mechanism as delta_of_mu above)",
+    "totality_54fdd34130": "test_totality_4c.py::test_2h_manifest_one_byte_flipped_gives_"
+                           "insufficient_data",
+    "totality_2f0d358116": "test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_"
+                           "the_verdict",
+    "totality_7fc25d1cb3": "test_full_shape_4c.py::test_every_refusal_route_lands_"
+                           "insufficient[thin_endpoint_missing]",
+    "totality_38e82d2f6f": "test_totality_4c.py::test_step0_missing_entirely_gives_"
+                           "insufficient_data",
+    "totality_1493707fcd": "test_totality_4c.py::test_torn_load_json_gives_insufficient_data",
+    "totality_4089e0701e": "test_totality_4c.py::test_thin_endpoint_wrong_prereg_tag_gives_"
+                           "insufficient_data",
+    "totality_5742ce6a67": "test_totality_4c.py::test_gate1_json_a_list_gives_"
+                           "insufficient_data",
+    # ---- the 40 closed in fix round 1b (new totality tests, monkeypatch- or
+    # file-corruption-based; the reference-seal hand mutant needs the same
+    # machinery as its neighbouring totality site).
+    "run_the_reference_seal_s_own_failures_are_never_appended":
+        "test_totality_4c.py::test_reference_seal_failures_are_appended_gives_"
+        "insufficient_data",
+    "totality_1998a8e42c": "test_totality_4c.py::test_halt_marker_unreadable_gives_"
+                           "insufficient_data",
+    "totality_bf2e926cc6": "test_totality_4c.py::test_frozen_check_raising_gives_"
+                           "insufficient_data",
+    "totality_890e2e645a": "test_totality_4c.py::test_import_surface_entry_raising_gives_"
+                           "insufficient_data",
+    "totality_785e68faae": "test_totality_4c.py::test_referent_manifest_check_raising_gives_"
+                           "insufficient_data",
+    "totality_efe912cfae": "test_totality_4c.py::test_load_battery_raising_gives_"
+                           "insufficient_data",
+    "totality_4c50327e8b": "test_totality_4c.py::test_load_floors_raising_gives_"
+                           "insufficient_data",
+    "totality_4db1f27c39": "test_totality_4c.py::test_load_outcome_per_traj_raising_gives_"
+                           "insufficient_data",
+    "totality_dd93a6d647": "test_totality_4c.py::test_rung_sets_per_traj_raising_gives_"
+                           "insufficient_data",
+    "totality_8a9bab2364": "test_totality_4c.py::test_check_rung_set_pins_per_traj_raising_"
+                           "gives_insufficient_data",
+    "totality_946b2d8ff4": "test_totality_4c.py::test_reference_seal_raising_gives_"
+                           "insufficient_data",
+    "totality_9a47cf39d9": "test_totality_4c.py::test_discovery_gate_raising_gives_"
+                           "insufficient_data",
+    "totality_1a4450362d": "test_totality_4c.py::test_discovery_pins_check_raising_gives_"
+                           "insufficient_data",
+    "totality_2dbe40e17b": "test_totality_4c.py::test_power_module_import_raising_gives_"
+                           "insufficient_data",
+    "totality_e9f600ab3c": "test_totality_4c.py::test_power_record_torn_json_gives_"
+                           "insufficient_data",
+    "totality_56872f0008": "test_totality_4c.py::test_power_record_fields_check_raising_"
+                           "gives_insufficient_data",
+    "totality_8613fd6ec8": "test_totality_4c.py::test_power_record_reproduction_raising_"
+                           "gives_insufficient_data",
+    "totality_c7587d08f8": "test_totality_4c.py::test_gate1_torn_json_gives_insufficient_"
+                           "data",
+    "totality_5bec55dfda": "test_totality_4c.py::test_alignment_series_raising_gives_"
+                           "insufficient_data",
+    "totality_0392026ab8": "test_totality_4c.py::test_alignment_series_raising_gives_"
+                           "insufficient_data (same fake, the other call site)",
+    "totality_b720cefaf0": "test_totality_4c.py::test_per_item_alignment_raising_gives_"
+                           "insufficient_data",
+    "totality_8cc99ff2b7": "test_totality_4c.py::test_per_item_alignment_raising_gives_"
+                           "insufficient_data (same fake, the other call site)",
+    "totality_0f1437d2df": "test_totality_4c.py::test_gate0_per_traj_raising_gives_"
+                           "insufficient_data",
+    "totality_4cd3e551b9": "test_totality_4c.py::test_cells_4c_raising_gives_insufficient_"
+                           "data",
+    "totality_2395e1c6a2": "test_totality_4c.py::test_primary_4c_raising_gives_insufficient_"
+                           "data",
+    "totality_7f0d909665": "test_totality_4c.py::test_placebo_4c_raising_gives_insufficient_"
+                           "data",
+    "totality_401377c2ee": "test_totality_4c.py::test_type_modifier_4c_raising_gives_"
+                           "insufficient_data",
+    "totality_f599225b3f": "test_totality_4c.py::test_gate7_ties_4c_raising_gives_"
+                           "insufficient_data",
+    "totality_882e7be6db": "test_totality_4c.py::test_calibration_read_4c_raising_gives_"
+                           "insufficient_data",
+    "totality_0569241841": "test_totality_4c.py::test_secondaries_wrapper_degrades_one_"
+                           "block_not_the_verdict",
+    "totality_d9a804a211": "test_totality_4c.py::test_s4_cells_4_raising_collapses_only_s4",
+    "totality_4ae7eb8e01": "test_totality_4c.py::test_s4_primary_4_raising_collapses_only_"
+                           "s4",
+    "totality_73f9815ef4": "test_totality_4c.py::test_s4_lambda_hat_4_raising_collapses_"
+                           "only_s4",
+    "totality_7c26425e08": "test_totality_4c.py::test_s4_placebo_pool_4b_raising_collapses_"
+                           "only_s4",
+    "totality_d6d5f230f6": "test_totality_4c.py::test_s4_design_4c_raising_collapses_only_"
+                           "s4",
+    "totality_98f598282a": "test_totality_4c.py::test_s4_draw_batteries_4b_raising_"
+                           "collapses_only_s4",
+    "totality_85c26ea5da": "test_totality_4c.py::test_s4_p_cal_4b_raising_collapses_only_s4",
+    "totality_b1d2a427a5": "test_totality_4c.py::test_s4_t_star_4b_raising_collapses_only_"
+                           "s4",
+    "totality_e7f5959f35": "test_totality_4c.py::test_s4_alpha_placebo_4b_raising_collapses_"
+                           "only_s4",
+    "totality_45c8d0147c": "test_totality_4c.py::test_licence_block_raising_still_returns_"
+                           "the_tree_verdict",
 }
+# 8 more of the original 61 were closed with FAST tests instead (moved
+# out of this dict; `main()`'s default fast run now kills them
+# directly): "gate0_4c_the_90_bar_replaced_by_5" (test_analyze_4c.py::
+# test_gate0_4c_fails_between_half_and_the_bar), "check_rung_set_pins_
+# 4c_the_clear_index_comparison_dropped"/"manifests_4c_the_6_9b_grid_
+# agreement_check_dropped"/"manifests_4c_the_step_0_entry_present_
+# check_dropped" (test_battery_4c.py's three new fast tests),
+# "load_one_unit_4c_the_n_hidden_vs_pin_check_dropped" (test_analyze_
+# 4c.py::test_load_one_unit_refuses_an_n_hidden_pin_mismatch),
+# "eligibility_4c_the_2_se_eligibility_bar_weakened_from_to" (test_
+# analyze_4c.py::test_eligibility_4c_2se_bar_is_inclusive_at_the_
+# boundary), "interpolate_min_detectable_4c_the_crossing_comparison_
+# widened_from_to"/"cell_structure_4c_the_r_vs_clear_index_pin_
+# consistency_check_dropped" (test_power_4c.py's two new fast tests).
 
 # Mutants proven equivalent (the mutated source produces byte-identical
 # behaviour on every reachable input) — reasoning in PROGRESS.md.
@@ -527,6 +613,164 @@ def run_suite(tests, extra_args=None, timeout=None, extra_env=None):
         return False, partial[-600:], True, False
 
 
+def _extract_failed_test(stdout: str) -> str:
+    """The pytest node id of the first FAILED test in a `-x` run's
+    FULL stdout (never the 600-char-truncated `run_suite` tail) — the
+    line pytest's own short summary prints, `FAILED <path>::<test> ...`
+    (with `-x`, at most one). `None` if the run's own error output
+    doesn't have that shape (e.g. a collection error)."""
+    for line in stdout.splitlines():
+        if line.startswith("FAILED "):
+            return line[len("FAILED "):].split(" ")[0].strip()
+    return None
+
+
+def _run_suite_full(tests, extra_args=None, timeout=None):
+    """`run_suite`'s body, returning the FULL stdout (not the last 600
+    chars) so `_extract_failed_test` can find the summary line — used
+    only by `run_worlds_only`, which logs the identified killing test
+    rather than a truncated tail."""
+    env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+    args = list(extra_args or [])
+    try:
+        r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
+                            *tests, *args], cwd=ROOT, env=env, capture_output=True, text=True,
+                           timeout=timeout)
+        return r.returncode == 0, r.stdout, False, r.returncode == 5
+    except subprocess.TimeoutExpired as e:
+        partial = e.stdout or ""
+        if isinstance(partial, bytes):
+            partial = partial.decode(errors="replace")
+        return False, partial, True, False
+
+
+# Fix round 1b (controller ruling): every one of these must be
+# EXECUTED, never inferred. `clear_index_pin_4c...` was confirmed
+# KILLED by `battery-slow` (test_battery_4c.py -m slow); `check_rung_
+# set_pins_4c_the_clear_index_comparison_dropped` and the two
+# `manifests_4c_*` mutants turned out to be OPEN survivors of every
+# world/slow route (the real committed data already agrees with the
+# pins either way, so no real-tree or synthetic-world input can
+# exercise the dropped comparison) and were closed instead with three
+# new FAST unit tests (`test_check_rung_set_pins_4c_catches_a_clear_
+# index_mismatch`, `test_manifests_4c_catches_the_69_grid_mismatch`,
+# `test_manifests_4c_catches_a_missing_step0_entry`) that hand-build/
+# monkeypatch the disagreement directly — all four removed from this
+# list. `totality_5742ce6a67` was confirmed KILLED by `totality`
+# earlier this session and is also removed. The remaining 56 are tried
+# against test_totality_4c.py's shared REPLICATES world first (cheap
+# once cached), then test_full_shape_4c.py's four worlds + ten
+# MISSING_ROUTES_4C corruptions if totality doesn't catch them.
+WORLD_ONLY_BATTERY_PIN_LABELS = set()
+
+WORLD_ONLY_LABELS = [
+    "gate0_4c_the_90_bar_replaced_by_5",
+    "run_the_reference_seal_s_own_failures_are_never_appended",
+    "run_the_discovery_gate_s_known_answer_pin_check_dropped",
+    "run_the_power_record_s_byte_reproduction_never_checked_presence_only",
+    "run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced",
+    "load_one_unit_4c_the_n_hidden_vs_pin_check_dropped",
+    "eligibility_4c_the_2_se_eligibility_bar_weakened_from_to",
+    "delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped",
+    "power_bar_4c_the_declared_power_bar_75_5",
+    "interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to",
+    "cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped",
+    "totality_d9a804a211", "totality_73f9815ef4", "totality_d6d5f230f6",
+    "totality_45c8d0147c", "totality_bf2e926cc6", "totality_54fdd34130",
+    "totality_efe912cfae", "totality_4c50327e8b", "totality_946b2d8ff4",
+    "totality_9a47cf39d9", "totality_4ae7eb8e01", "totality_7c26425e08",
+    "totality_98f598282a", "totality_890e2e645a", "totality_1a4450362d",
+    "totality_2dbe40e17b", "totality_e9f600ab3c", "totality_4cd3e551b9",
+    "totality_2395e1c6a2", "totality_7f0d909665", "totality_401377c2ee",
+    "totality_f599225b3f", "totality_882e7be6db", "totality_2f0d358116",
+    "totality_85c26ea5da", "totality_b1d2a427a5", "totality_e7f5959f35",
+    "totality_1998a8e42c", "totality_785e68faae", "totality_4db1f27c39",
+    "totality_56872f0008", "totality_7fc25d1cb3", "totality_38e82d2f6f",
+    "totality_1493707fcd", "totality_5bec55dfda", "totality_0392026ab8",
+    "totality_b720cefaf0", "totality_8cc99ff2b7", "totality_0569241841",
+    "totality_dd93a6d647", "totality_8613fd6ec8", "totality_c7587d08f8",
+    "totality_4089e0701e", "totality_0f1437d2df", "totality_8a9bab2364",
+]
+assert len(WORLD_ONLY_LABELS) == 56 == len(set(WORLD_ONLY_LABELS))
+
+
+def run_worlds_only(argv) -> int:
+    """Fix round 1b's driver: executes EVERY label in
+    `WORLD_ONLY_LABELS` — the four battery-pin labels against
+    `BATTERY_SLOW_TESTS`, everything else against `TOTALITY_TESTS`
+    first and `FULLSHAPE_TESTS` second if totality alone doesn't catch
+    it. `EXP4C_WORLD_CACHE`, if set in THIS process's own environment,
+    is inherited by every pytest subprocess automatically. Prints one
+    line per label with the identified killing test (or OPEN if every
+    route survives) and a final tally; writes nothing to
+    `NON_FAST_KILLS_4C` itself — the caller reads this run's own stdout
+    log and updates that table by hand, so the committed record is
+    never wider than what was actually observed."""
+    only = _parse_only(argv)
+    labels = [lbl for lbl in WORLD_ONLY_LABELS if only is None or lbl in only]
+    by_label = {m[4]: m for m in M}
+    missing = [lbl for lbl in labels if lbl not in by_label]
+    if missing:
+        raise RuntimeError(f"run_worlds_only: label(s) not found in M: {missing}")
+
+    _refuse_if_any_backup_exists()
+    clear_pycache()
+    cache = os.environ.get("EXP4C_WORLD_CACHE")
+    cache_note = "set — cached copies" if cache else "UNSET — every world rebuilds from scratch, slow"
+    print(f"EXP4C_WORLD_CACHE={cache!r} ({cache_note})", flush=True)
+
+    killed_by, open_survivors, errors = {}, [], []
+    for n, label in enumerate(labels, 1):
+        path, name, old, new, mlabel = by_label[label]
+        if label in WORLD_ONLY_BATTERY_PIN_LABELS:
+            sequence = [("battery-slow", BATTERY_SLOW_TESTS, BATTERY_SLOW_EXTRA_ARGS)]
+        else:
+            sequence = [("totality", TOTALITY_TESTS, []), ("fullshape", FULLSHAPE_TESTS, [])]
+
+        src = path.read_text()
+        if src.count(old) != 1:
+            print(f"[{label}] ({n}/{len(labels)}) SKIP: target text not found exactly once "
+                 f"(count={src.count(old)})", flush=True)
+            errors.append((label, "target-not-found"))
+            continue
+
+        found = False
+        for mode_name, tests, extra in sequence:
+            backup = _acquire_backup(path)
+            try:
+                path.write_text(src.replace(old, new))
+                clear_pycache()
+                ok, out, timed_out, no_tests = _run_suite_full(tests, extra)
+            finally:
+                shutil.copy2(backup, path)
+                backup.unlink()
+                clear_pycache()
+            if timed_out:
+                print(f"[{label}] ({n}/{len(labels)}) {mode_name}: TIMEOUT", flush=True)
+                continue
+            if no_tests:
+                print(f"[{label}] ({n}/{len(labels)}) {mode_name}: no tests collected", flush=True)
+                continue
+            if not ok:
+                test_id = _extract_failed_test(out) or "(unidentified — see full stdout)"
+                print(f"[{label}] ({n}/{len(labels)}) KILLED by {mode_name}: {test_id}", flush=True)
+                killed_by[label] = f"{mode_name}:{test_id}"
+                found = True
+                break
+            print(f"[{label}] ({n}/{len(labels)}) survived {mode_name}", flush=True)
+        if not found:
+            print(f"[{label}] ({n}/{len(labels)}) OPEN SURVIVOR — every route tried failed to "
+                 f"kill it: {name}", flush=True)
+            open_survivors.append(label)
+
+    print(f"\n=== run_worlds_only tally === considered={len(labels)} "
+         f"killed={len(killed_by)} open_survivors={len(open_survivors)} errors={len(errors)}")
+    print(f"killed_by = {killed_by}")
+    print(f"open_survivors = {open_survivors}")
+    print(f"errors = {errors}")
+    return 1 if (open_survivors or errors) else 0
+
+
 def _parse_only(argv) -> set:
     for a in argv:
         if a.startswith("--only="):
@@ -551,6 +795,8 @@ def _parse_timeout(argv):
 
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    if "--worlds-only" in argv:
+        return run_worlds_only(argv)
     totality = "--totality" in argv
     fullshape = "--fullshape" in argv
     if fullshape:
@@ -614,9 +860,10 @@ def main(argv=None) -> int:
                  f"source — not counted as killed or survived)", flush=True)
             survivors.append((mlabel, i, name, "no-tests-collected"))
             continue
-        if ok and mlabel in KILLED_BY_WORLDS_ONLY:
-            print(f"[{mlabel}] (#{i}) survived-fast, KILLED BY THE SLOW SUITE (confirmed by hand "
-                 f"— see PROGRESS.md)  {name}", flush=True)
+        if ok and mlabel in NON_FAST_KILLS_4C:
+            print(f"[{mlabel}] (#{i}) survived-fast, killed by the slow suite — "
+                 f"{NON_FAST_KILLS_4C[mlabel]} (individually re-confirmed, see PROGRESS.md's "
+                 f"Task 5 fix round 1b)  {name}", flush=True)
             n_killed_slow += 1
             continue
         if ok and mlabel in EQUIVALENT_MUTANTS:

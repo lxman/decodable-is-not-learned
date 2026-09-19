@@ -35,6 +35,7 @@ means. Disclosed here and in PROGRESS.md."""
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -176,12 +177,53 @@ def _write_power_record_4c(root4c, *, n_sim=WORLD_N_SIM_4C, seed=0) -> dict:
 # ----------------------------------------------------------------- worlds
 
 def build_world(root4c, root4, mode: str, *, seed=0) -> dict:
-    """Writes the Exp 4 reference-stage keys under `root4` and 4c's own
-    41 units, two gate-1 records and the power stand-in under
-    `root4c`."""
+    """Cache-aware entry point (Task 5 fix round 1b): if the
+    `EXP4C_WORLD_CACHE` env var is set, a world for this exact
+    `(mode, seed)` is built ONCE into `<cache>/<mode>_<seed>/` and every
+    later call for the SAME `(mode, seed)` copies from there instead of
+    re-running `_build_world_uncached` (the expensive part — synthetic
+    activations written through the real production persistence for
+    every grid step of both real trajectories). Falls back to building
+    directly, every time, when the env var is unset — the committed
+    test suite's own behaviour is UNCHANGED without it. The cache
+    directory is gitignored scratch, never committed, never read by
+    any non-test code."""
     if mode not in MODES_4C:
         raise ValueError(f"unknown mode {mode!r}; one of {MODES_4C}")
     root4c, root4 = Path(root4c), Path(root4)
+    cache_env = os.environ.get("EXP4C_WORLD_CACHE")
+    if not cache_env:
+        return _build_world_uncached(root4c, root4, mode, seed=seed)
+
+    cache_dir = Path(cache_env) / f"{mode}_{seed}"
+    marker = cache_dir / "_BUILD_COMPLETE"
+    if marker.is_file():
+        shutil.copytree(cache_dir / "root4c", root4c)
+        shutil.copytree(cache_dir / "root4", root4)
+        return {"root4c": root4c, "root4": root4, "mode": mode, "seed": seed}
+
+    result = _build_world_uncached(root4c, root4, mode, seed=seed)
+    tmp_cache = cache_dir.with_name(cache_dir.name + f".building.{os.getpid()}")
+    tmp_cache.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(root4c, tmp_cache / "root4c")
+    shutil.copytree(root4, tmp_cache / "root4")
+    (tmp_cache / "_BUILD_COMPLETE").write_text("done\n")
+    # Atomic-ish publish: another concurrent builder for the SAME
+    # (mode, seed) would have raced the same rename; last one standing
+    # wins, both had a correct build.
+    if not marker.is_file():
+        if cache_dir.exists():
+            shutil.rmtree(cache_dir, ignore_errors=True)
+        tmp_cache.rename(cache_dir)
+    else:
+        shutil.rmtree(tmp_cache, ignore_errors=True)
+    return result
+
+
+def _build_world_uncached(root4c, root4, mode: str, *, seed=0) -> dict:
+    """Writes the Exp 4 reference-stage keys under `root4` and 4c's own
+    41 units, two gate-1 records and the power stand-in under
+    `root4c`."""
     world = fs._World(seed)
 
     # ---- Exp 4's four released references (p_union = 1, no refs of

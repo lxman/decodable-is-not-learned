@@ -72,6 +72,22 @@ def test_structure_sha256_is_a_pure_function_of_the_structure(structure):
     assert c != a
 
 
+def test_cell_structure_4c_catches_an_r_vs_clear_index_mismatch(monkeypatch):
+    """`RUNG_SET_PIN_4C[traj]["R"]` and `CLEAR_INDEX_PIN_4C[traj]`'s
+    keys must name the same rising-rung set — the two pins asserted
+    equal BEFORE either is trusted. A mutant dropping this check (Task
+    5 fix round 1b) would build a structure off the two pins even when
+    they disagree."""
+    traj = "pythia_6.9b"
+    bad_ci = dict(bc.CLEAR_INDEX_PIN_4C)
+    trimmed = dict(bad_ci[traj])
+    trimmed.pop(next(iter(trimmed)))
+    bad_ci[traj] = trimmed
+    monkeypatch.setattr(bc, "CLEAR_INDEX_PIN_4C", bad_ci)
+    with pytest.raises(ValueError, match="RUNG_SET_PIN_4C"):
+        pw.cell_structure_4c()
+
+
 # ------------------------------------------------------------------- delta
 
 def test_delta_of_mu_symmetry_point():
@@ -172,6 +188,14 @@ def test_compute_min_detectable_grid_reuses_the_arms(structure):
     assert grid[0.60] == rec["arms"]["uniform_60"]["P_01"]
     assert grid[0.65] == rec["arms"]["uniform_65"]["P_01"]
     assert grid[0.70] == rec["arms"]["uniform_70"]["P_01"]
+
+
+def test_interpolate_min_detectable_4c_bar_is_inclusive_at_the_crossing():
+    """A grid point sitting EXACTLY on the bar must clear it (the real
+    code's `>=`); a mutant widening this to `>` (Task 5 fix round 1b)
+    would read the same point as not clearing and return `None`."""
+    assert pw._interpolate_min_detectable_4c([(1.0, 0.75)], 0.75) == 1.0
+    assert pw._interpolate_min_detectable_4c([(1.0, 0.749999)], 0.75) is None
 
 
 def test_compute_insulated_from_rank_4c_alpha_monkeypatch(structure, monkeypatch):

@@ -957,3 +957,157 @@ The two direct calls to `battery_4c.check_frozen_4c()`/`analyze_4c.
 check_imports_4c()` used to diagnose and confirm the fix are NOT
 counted above — neither reaches the discovery gate or any other
 real-tree quantity; they check only the import/frozen pin tables.
+
+### Fix round 1b — every world-only mutant EXECUTED, not inferred
+
+`mutation_build.log` (original Task 5 work) ended "60 UNRESOLVED
+survivor(s)" with `KILLED_BY_WORLDS_ONLY` naming 61 mutants that had
+never actually been run — only inferred by class analogy. Controller's
+ruling: "every one of them is EXECUTED — an inferred kill is not a
+kill" (Exp 4's F-7 lesson: a mutation tally must be reproducible
+against the source).
+
+**Cached-world mode** (`tests/full_shape_4c.py`'s `build_world`): when
+`EXP4C_WORLD_CACHE` is set, a world for a given `(mode, seed)` is built
+ONCE into `<cache>/<mode>_<seed>/{root4c,root4}` and every later call
+for the same pair copies from there (`shutil.copytree`) instead of
+rebuilding; falls back to building directly, every time, when the env
+var is unset, so the committed tests work unchanged in CI. Measured
+speedup: 262.1 s cold build vs 0.46 s cached copy. Cache used this
+round: `/private/tmp/exp4c_world_cache` (4 pre-built worlds:
+`replicates_0`, `not_replicated_0`, `reversed_0`, `type_bound_0` —
+gitignored scratch, not committed).
+
+**`tests/mutation_check.py --worlds-only`** (new driver, `run_worlds_
+only`): iterates `WORLD_ONLY_LABELS` (the 61 original minus 5 already
+closed with fast tests during the SAME round — see below — leaving
+56), applies each mutation alone, tries `totality` then `fullshape`
+(or `battery -m slow` for the four battery-pin labels), restores, logs
+KILLED/OPEN per label. Detached run (`nohup`-equivalent via a plain
+background process, `ps aux | grep mutation_check` checked before/
+after, nothing else touching exp4c meanwhile), logged verbatim to
+`mutation_worlds.log` (committed). **Result: 56 considered, 11 killed
+by the EXISTING totality/fullshape suite, 0 errors, 45 OPEN SURVIVORS**
+— i.e. 45 of the 61 original labels had a real, uncaught defect no
+existing test reached, exactly the "inferred, not executed" gap the
+controller flagged.
+
+**Closing the 45 (plus the 6 that were open even before this round's
+`--worlds-only` run, since 4 of the "5 already closed" battery-pin
+labels and one totality label were resolved with brand-new fast tests
+in the SAME session before the 56-mutant batch — 5 there, 8 in total
+across the whole 61 once the run-worlds-only batch's own survivors are
+folded in):**
+
+- **8 closed with brand-new FAST unit tests** (call the mutated
+  function directly, hand-built inputs at the exact boundary the
+  mutant moves — no world, no `run()`):
+  - `test_battery_4c.py`: `test_check_rung_set_pins_4c_catches_a_
+    clear_index_mismatch`, `test_manifests_4c_catches_the_69_grid_
+    mismatch`, `test_manifests_4c_catches_a_missing_step0_entry` (3
+    battery-pin-vs-real-data mutants — a monkeypatched `bh.load_
+    manifest_69`/`bl.load_manifest_13b` pair, no real 2h/2l fetch
+    needed for the corruption itself).
+  - `test_analyze_4c.py`: `test_load_one_unit_refuses_an_n_hidden_
+    pin_mismatch` (n_hidden=34 written, `sites`/`pairing` built from
+    the PINNED 33 so only the n_hidden check itself fires);
+    `test_gate0_4c_fails_between_half_and_the_bar` (9/14 kept sites
+    below → fraction .643, strictly between .5 and the real .90 bar);
+    `test_eligibility_4c_2se_bar_is_inclusive_at_the_boundary`
+    (constant per-item alignments → x_end and 2·SE both EXACTLY 0.0,
+    no floating-point tolerance needed).
+  - `test_power_4c.py`: `test_interpolate_min_detectable_4c_bar_is_
+    inclusive_at_the_crossing` (`[(1.0, 0.75)]` at bar 0.75 — `>=`
+    returns 1.0, `>` returns `None`); `test_cell_structure_4c_catches_
+    an_r_vs_clear_index_mismatch` (a trimmed `CLEAR_INDEX_PIN_4C`
+    copy via monkeypatch).
+- **40 closed with new `test_totality_4c.py` tests** (37 new test
+  functions; 2 of them — `test_alignment_series_raising_gives_
+  insufficient_data` and `test_per_item_alignment_raising_gives_
+  insufficient_data` — each kill TWO labels with one unconditionally-
+  raising fake, because the mutation harness only ever strips ONE of a
+  function's two call sites at a time: whichever one is unprotected in
+  a given mutant is the one that lets the raise through uncaught).
+  Two patterns cover all 40:
+  - **Hard-gate sites** (raise → `INSUFFICIENT_DATA`): `run()`'s
+    TEST-ONLY kwarg injections (`frozen_check`, `discovery_check`)
+    override directly; everything else is `monkeypatch.setattr` on the
+    real module attribute `run()` calls unqualified or through its own
+    `a4`/`rk`/`bt`/`bg`/`an2i`/`placebo_4b`/`mkr` aliases — the SAME
+    module object `analyze_4c.py` holds, so patching it in the test
+    reaches the call inside `run()`. Two are file-corruptions instead
+    (a torn power record / gate-1 JSON payload; a halt-marker path
+    turned into a directory so `.read_text()` raises
+    `IsADirectoryError`). One (`run_the_reference_seal_s_own_failures_
+    are_never_appended`) is the inverse: `require_seal_2i` returns
+    CLEANLY with a non-empty `failures` list, proving `run()` itself
+    appends them rather than dropping them silently.
+  - **S4-continuity / secondaries / licence-block sites** (raise →
+    the OUTER verdict is untouched, only ONE descriptive block
+    degrades): `_sec`'s shared wrapper catches an S1-S10 secondary's
+    raise without moving the top-level verdict off REPLICATES;
+    `s4_continuity_4c`'s nine inner `collect_total_4c` calls (`a4.
+    cells_4`, `a4.primary_4`, `a4.lambda_hat_4`, `placebo_4b.
+    placebo_pool_4b`/`draw_batteries_4b`/`p_cal_4b`/`t_star_4b`/
+    `alpha_placebo_4b`, `_design_4c`) each independently catch their
+    own raise so the REST of the S4 dict keeps populating — a mutant
+    stripping just one inner wrapper instead collapses the WHOLE S4
+    block to `{"failed": [...]}`, which is the assertion each test
+    checks (`"lambda_hat" in s4` etc., never merely the top verdict);
+    `licence_block_4c` raising still returns the tree's real verdict
+    with the documented default licence sentinel.
+
+**Every one of the 45 open survivors (the 5 fast-suite-only + 40
+totality-only) was individually re-confirmed this round** — its own
+mutation applied alone, `pytest test_totality_4c.py -k <test_name>` (or
+the fast-suite equivalent) run, source restored, repeated once per
+label rather than trusted from the batch survey. `-k` narrowing
+(rather than the full-file `-x` runs `--worlds-only`/`--totality` use)
+turned confirmation from ~10-40 min/label into single-digit seconds to
+tens of seconds each: **40/40 confirmed KILLED, 0 problems.** The 5
+fast-suite ones were confirmed together via `mutation_check.py
+--only=<the 5 labels>` (no `--totality`/`--fullshape`): 5/5 killed
+directly by the fast suite.
+
+**`KILLED_BY_WORLDS_ONLY` (the stale, never-executed 61-label set) is
+GONE.** Replaced by `NON_FAST_KILLS_4C` — 53 entries, each `label:
+"file.py::test_name"` naming the ACTUAL confirmed killing test (13
+pre-existing kills from before this round + the 40 closed here); the
+8 labels closed with brand-new FAST tests are documented in a comment
+and simply absent from the dict, since `main()`'s default fast run now
+kills them directly. `main()`'s special-case branch (for a label that
+survives the FAST suite but is known to need the slow suite) now
+prints the specific killing test from `NON_FAST_KILLS_4C` instead of
+"confirmed by hand". Zero new EQUIVALENT mutants found this round —
+`EQUIVALENT_MUTANTS` is unchanged (2 entries, both from before this
+task). **Zero OPEN survivors remain.**
+
+**Verification after all edits, in a fresh process / clean tree:**
+fast suite green under `-W error` (108 passed, 4 deselected, 36.31 s —
+the same 4 slow-marked `test_battery_4c.py` tests deselected as
+before); `battery_4c.check_frozen_4c()` and `analyze_4c.
+check_imports_4c()` both pass after importing `analyze_4c`, `power_
+4c`, `make_referents_4c`, `verify_referents_4c`, `run.sweep_4c`, `run.
+preflight_4c` — no source file drifted from its pin (only test files
+changed, which are outside `FROZEN_SHA256_4C`/`IMPORTED_SHA256_4C` by
+design); `read_sweep_4c.py` re-run: 8,093 distinct paths, 17,762
+reads, **0 UNPINNED**, same buckets as fix round 1a, landing at "4c
+gate 1 pythia_6.9b: record missing" after the discovery gate and power
+record both ran; `verify_referents_4c.py` cold battery re-run: 10/12
+ok, 2 skip (items 1 and 12, both still legitimate, unchanged); `git
+status` clean of anything but the intended edits; no stray
+`.mutation_backup`.
+
+**Pre-tag real-tree executions this fix round: 2** (running total
+9 -> 11), neither a new quantity: the `read_sweep_4c.py` and `verify_
+referents_4c.py` re-runs above (both reproduce their fix-round-1a
+numbers exactly). The totality/fullshape/fast suites' many `run()`
+calls this round are ALL on synthetic worlds or in-memory fixtures,
+never the real committed tree, so — consistent with fix round 1a's own
+convention — they are not counted here.
+
+**Wall-clock this fix round:** the `--worlds-only` batch (56 labels,
+cached worlds) ran ~2-3 h detached; the 40-label `-k`-narrowed
+confirmation pass ran a few minutes; fast-suite/pin/read-sweep/cold-
+battery re-verification a few more minutes. Cache directory:
+`/private/tmp/exp4c_world_cache` (gitignored scratch).

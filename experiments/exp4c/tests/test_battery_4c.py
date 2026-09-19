@@ -32,6 +32,59 @@ def test_manifests_load_at_their_pins_and_reproduce_the_grids():
     assert tuple(m["olmo2_13b"]["grid_13b"]) == b.GRID_4C["olmo2_13b"]
 
 
+def test_manifests_4c_catches_the_69_grid_mismatch(monkeypatch):
+    """Fix round 1b (mutant `manifests_4c_the_6_9b_grid_agreement_
+    check_dropped` — an OPEN survivor of the cached-world harness: on
+    the REAL committed manifests both sides agree either way, so
+    `test_manifests_load_at_their_pins_and_reproduce_the_grids`'s
+    external equality assertion cannot discriminate whether the
+    INTERNAL check inside `manifests_4c()` fired or was dropped — no
+    real-tree or synthetic-world route reaches this defect at all).
+    Monkeypatches BOTH loaders directly: a 13b manifest that satisfies
+    every OTHER check, a 69 manifest whose `trained_steps` disagrees
+    with `GRID_4C` — correct code raises there before ever reaching
+    the 13b/step-0 checks; the mutant does not."""
+    good13 = {"grid_13b": list(b.GRID_4C["olmo2_13b"]), "entries_13b": {"0": {}}}
+    bad69 = {"trained_steps": [1, 2, 3], "entries": {"0": {}}}
+    monkeypatch.setattr(b.bh, "load_manifest_69", lambda *a, **k: bad69)
+    monkeypatch.setattr(b.bl, "load_manifest_13b", lambda *a, **k: good13)
+    with pytest.raises(ValueError, match="trained_steps"):
+        b.manifests_4c()
+
+
+def test_manifests_4c_catches_a_missing_step0_entry(monkeypatch):
+    """Fix round 1b (mutant `manifests_4c_the_step_0_entry_present_
+    check_dropped` — an OPEN survivor for the same reason as above:
+    the real committed manifests always carry a step-0 entry, so
+    nothing on the real tree or a synthetic world can exercise the
+    ABSENT case). Both manifests satisfy their own grid check; the 69
+    manifest's `entries` dict lacks the `"0"` key."""
+    good69 = {"trained_steps": list(b.GRID_4C["pythia_6.9b"]), "entries": {}}
+    good13 = {"grid_13b": list(b.GRID_4C["olmo2_13b"]), "entries_13b": {"0": {}}}
+    monkeypatch.setattr(b.bh, "load_manifest_69", lambda *a, **k: good69)
+    monkeypatch.setattr(b.bl, "load_manifest_13b", lambda *a, **k: good13)
+    with pytest.raises(ValueError, match="step-0"):
+        b.manifests_4c()
+
+
+def test_check_rung_set_pins_4c_catches_a_clear_index_mismatch():
+    """Fix round 1b (mutant `check_rung_set_pins_4c_the_clear_index_
+    comparison_dropped` — an OPEN survivor: on the REAL committed
+    outcome data the clear indices already agree with the pin, so
+    `test_outcomes_reproduce_the_design_pins`'s `== []` assertion holds
+    whether or not the internal comparison ran). Uses the pin's own
+    R/flat/transient verbatim (so those three checks pass identically
+    either way) with a hand-built `t_clear`/`steps` pair whose clear
+    indices are deliberately shifted by +1 from `CLEAR_INDEX_PIN_4C`."""
+    traj = "pythia_6.9b"
+    pin = b.RUNG_SET_PIN_4C[traj]
+    steps = list(range(30))
+    t_clear = {r: idx + 1 for r, idx in b.CLEAR_INDEX_PIN_4C[traj].items()}
+    rs = {"R": pin["R"], "flat": pin["flat"], "transient": pin["transient"], "t_clear": t_clear}
+    bad = b.check_rung_set_pins_4c(traj, rs, steps)
+    assert any("clear indices" in m for m in bad), bad
+
+
 @pytest.mark.slow
 def test_outcomes_reproduce_the_design_pins():
     floors, battery = bg.load_floors(), bt.load_battery()
