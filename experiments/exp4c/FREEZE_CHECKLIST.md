@@ -8,7 +8,9 @@ would silently DECIDE the verdict — and close what is found ADDITIVELY
 accepted dial, never a change to a preregistered statistic or bar).
 Precedents read first for the form: `experiments/exp4/FREEZE_CHECKLIST.md`
 (F-1, attested vs measured digest), `experiments/exp4b/FREEZE_CHECKLIST.md`
-(F-3, a licence sentence that asserts a fact about the data).
+(F-3, a licence sentence that asserts a fact about the data — 4c's
+F-7 is that class again, against the power record rather than the
+data).
 
 Zero model contact and zero network throughout. Every execution of
 `analyze_4c.run()` against the REAL tree (`root=EXP4C`, `root4=EXP4`)
@@ -48,8 +50,8 @@ modules sit outside every table it checks —
 `experiments/exp4c/__init__.py` and `experiments/exp4c/run/__init__.py`
 — and both are covered only by `IMPORTED_SHA256_4C`, which only the
 ANALYZER reads. A drift present during the 45-hour sweep and reverted
-before the analyzer ran was invisible on both sides. Six findings in
-all, every one closed additively. Nothing preregistered moved:
+before the analyzer ran was invisible on both sides. **Seven findings**
+in all, every one closed additively (F-5 as a disclosure). Nothing preregistered moved:
 `ALPHA_4C`, `MARGINAL_4C`, `MIN_CLEAR_INDEX_4C`, `CAL_MULTIPLE_4C`,
 `N_BOOT_4C`, `B_PLACEBO_4C`, `SEED_4C`, `EXCLUDED_SITES_4C`,
 `MAX_ENUMERATE_4C`, the family-block null, the placebo's construction,
@@ -282,6 +284,44 @@ record, and a new FAST test that runs the same assertions against
 not carry) so the doc-vs-pin comparison is not confined to the slow
 lane. The slow test passed with the additions in 106 s on Exp 4's
 committed tree.
+
+---
+
+### F-7 — the NOT-REPLICATED licence sentence asserts a resolution its own tag-bound power record contradicts (4b F-3's class, against the record rather than the data). CLOSED.
+
+**The defect.** `_LICENCE_BODY_4C["NOT-REPLICATED"]` — the sentence §6
+tells the essay to quote — prints design §4's DESIGN-STAGE figure
+verbatim: "at a resolution that would have missed an effect of the size
+seen on the first four runs **two times in three**", i.e. a miss rate of
+.6667 against the discovery shape at the .05 bar. §4 itself says the
+BUILD's record supersedes the design-stage table, and the committed,
+tag-bound record gives `P(p₊ < .05 | discovery shape, ρ = .5) = .26875`
+— a miss rate of **.7312**, roughly three times in four. Nothing
+compared the two, and by the record's own numbers NOT-REPLICATED is the
+MODAL world: the sentence most likely to be printed is the one carrying
+the superseded figure.
+
+```
+Power, quoted from the record written before the tag: DECLARED UNDERPOWERED IN ADVANCE.
+Blind region: any type-bound effect, and any uniform lead under the min-detectable value.
+Correction (FREEZE F-7): the sentence above quotes design §4's design-stage figure — a miss
+rate of 0.6667 against the discovery shape — but the committed power record, which §4 says
+supersedes it, gives P(p+ < 0.05 | discovery shape) = 0.2687, i.e. a miss rate of 0.7312.
+Read the record's figure, not the literal.
+```
+
+**The closure (additive).** The preregistered sentence is NOT rewritten
+— the doc's literal is the controller's (ratification item R-1). The
+analyzer reads `arms.discovery_shape.P_05` off the record
+(`_discovery_shape_p05_4c`) and appends `POWER_MISS_CORRECTION_4C`
+naming both figures whenever the implied miss rate differs from
+`POWER_MISS_LITERAL_4C` by more than `POWER_MISS_TOLERANCE_4C` (.02).
+It rides only on the NOT-REPLICATED licence, where the literal lives.
+
+**Tests.** five fast in `test_analyze_4c.py`: the finding itself pinned
+on the committed record; silent when the record agrees with the
+literal; present on NOT-REPLICATED and absent on REPLICATES/MARGINAL,
+printing .7312; total over five malformed `arms` shapes. One mutant.
 
 ---
 
@@ -526,6 +566,16 @@ sound; the four items that became findings say so.
   `window_mean_cells_4c` and `never_performing_type_check_4c` sort
   their pools explicitly; `placebo_4c`'s unsorted comprehension feeds
   only integer counts, which are order-free. CLEARED.
+- **The licence sentences' DIRECTION (4b F-3's own class).** REPLICATES
+  and MARGINAL both assert the rising tasks grew MORE; REVERSED asserts
+  they grew LESS. Neither is checked anywhere — but both are implied:
+  the enumeration contains `-s` for every sign vector `s` and
+  `tot(-s) = −tot(s)`, so the flip distribution is exactly symmetric
+  about 0 and `p_plus = P(tot ≥ obs) ≥ ½` whenever `obs ≤ 0`. Hence
+  `p_plus < .05` forces `obs > 0`, i.e. U > ½, and `p_minus < .05`
+  forces U < ½. Proved rather than asserted, and pinned by a new fast
+  test over 400 random batteries on the real family structure plus the
+  `obs == 0` boundary. CLEARED.
 - **The provisional vs the deciding tree.** `calibration_read_4c` takes
   the PROVISIONAL tree's world to pick its deciding bar, and the
   deciding tree is recomputed after the exit import check. The two can
@@ -547,6 +597,110 @@ sound; the four items that became findings say so.
 
 ---
 
-## E. For ratification
+## E. For ratification (the controller's, not the freeze's)
 
-(filled in below)
+**R-1 — design §4's design-stage table is superseded by the committed
+power record, and one of its figures is printed in a licence.** The
+record (n_sim 4000, seed 0, tag-bound) gives, at the deciding rho .5:
+`P(p₊ < .01 | discovery shape) = .06625` (§4 says "about one time in
+eleven" = .0909), `P(p₊ < .05) = .26875` (§4: "one time in three"),
+realized α .0085 / .05075 at the two bars (§4: .007–.009 / .042–.043),
+and `min_detectable_uniform_lead = .7430` (§4: "about .70"). §4 states
+the build's record supersedes; the doc's own sentences should carry the
+built numbers. The one that bites is **§4's "Two in three times, a real
+effect of the size and shape seen on the four known runs returns
+NOT-REPLICATED"**, which §6 tells the essay to quote and which
+`_LICENCE_BODY_4C["NOT-REPLICATED"]` prints verbatim: the record makes
+it **.7312, roughly three times in four**. F-7 closes it by checking and
+printing the record's figure beside the sentence; correcting the doc's
+and the body's literal is a ratification slip, not a freeze edit.
+NOT-REPLICATED is the modal world by the record's own numbers, so this
+is the sentence most likely to go out.
+
+**R-2 — two items the build carried.** (a) S5's comparator rule was
+corrected from the plan's `c2 > c` to design §5's `c2 >= c` (controller
+ruling, applied); the doc is already right, the plan was not. (b)
+Design §2's "**No other statistic was computed**" list should gain the
+nine discovery **family sums** (`DISCOVERY_PIN_4C["family_sums"]`),
+which the design session computed and the build pins.
+
+**R-3 — F-5's routing.** Three steps that feed only S4 (and S10) append
+to `failures` and would therefore deliver INSUFFICIENT_DATA for the
+whole experiment. Not independently reachable; disclosed in `run()`'s
+docstring; narrowing a refusal is not an additive closure, so the
+freeze did not do it. If the controller wants the routing changed, it
+is a one-line move of three `failures += f` into a secondary-scoped
+list.
+
+**R-4 — `calibration.bounded = True` is not reached by any world
+through the production path.** §3.8 requires a world for every terminal
+and every MODIFIER cell; `bounded` is a licence flag, not a modifier
+cell, so the letter holds — but 4b F-3's lesson is about licence
+sentences, and this one prints α_placebo and rewrites what the licence
+rests on. Measured in all five modes (§C): the placebo is symmetric by
+construction in every existing mode, because a placebo cell is a
+common-pool flat task ranked among the remaining flat tasks of its own
+run. A sixth world mode would reach it: depress the **nine tasks that
+are flat on 6.9b but absent from the common pool** (the pool is the
+13B flat set, 15 of 6.9b's 24), so every common-pool draw outranks them
+and the rule fires on most placebo batteries. Adding a world mode after
+the batteries are measured is the controller's call.
+
+**R-5 — a disclosure about the CLOSED Exp 4 instrument, not editable.**
+`analyze_4.py` computes its verdict tree at :2322, BEFORE its exit
+import check at :2420, so a failing exit pin lands in `failures` while
+the verdict still reads its world — the shape 2j's lesson exists to
+prevent. 4c fixed its own ordering (I-1) and `run()` says so in a
+comment. Recorded here because a freeze that noticed it and said
+nothing would be the wrong kind of quiet.
+
+**R-6 — two scope sentences the doc may want.** (a) §3.7 gate 4 says
+"each run's endpoint through two loader paths": on `pythia_6.9b` that
+is genuinely two WRITERS (Exp 4's own `collect_4.process_model_4` wrote
+the ladder table, months earlier, on a different stack revision), but
+on `olmo2_13b` both sides come from `collect_4c.process_model_4c` in
+one process, so it is two loader paths and NOT a check on the
+collection — demonstrated under F-1. (b) No real cell has clear index
+2, so `MIN_CLEAR_INDEX_4C`'s boundary is exercised by fixtures only
+(6.9b's minimum is 5, 13B's is 4).
+
+**R-7 — the build deltas B-1..B-5, unchanged by the freeze and still
+design-doc slips.** B-1 the 13B thin endpoint (Exp 4 holds no committed
+13B reference, so gate 4's second path costs one extra 55 GB load);
+B-2 `collect_4c.process_model_4c` (4c's batch pin and tag, no CKA, no
+global bank, activations never kept); B-3 power simulates independent
+comparator pools per cell, the placebo arm measures the real dependence
+(in the record's `assumptions`); B-4 `SITE_COUNT_PIN_4C[41] = 15`
+(`metric_4.SITE_COUNT_PIN_4` has no 41-hidden-state entry); B-5 the
+`.gitignore` change that commits 4c's `attested/` question-end tables
+so S9 is re-derivable from a fresh clone (≈ 30 MB).
+
+**R-8 — harness efficiency, not a finding.** The worlds-only mutation
+pass costs ≈ 7.5 h because each label runs `pytest -x` over the whole
+totality file. `NON_FAST_KILLS_4C` already names the killing test per
+label and the harness already takes `--only=<labels>`, so a
+`--only-named-test` mode is a small addition whenever that pass must be
+repeated. The freeze did not need it: the five closures add no
+world-only mutant (all seven freeze mutants are fast-killable) and
+change no existing world-only mutant's killer.
+
+---
+
+## F. Files touched by the freeze
+
+- `experiments/exp4c/run/sweep_4c.py` — F-1 (the import pin), F-3 (the
+  cold comparator refusal), docstring.
+- `experiments/exp4c/analyze_4c.py` — F-2 (`power_structure_failures_4c`
+  + its `collect_total_4c` site), F-5 (the `run()` docstring
+  disclosure), F-7 (`_discovery_shape_p05_4c`, the correction constants
+  and the check in `_power_quote_4c`), `IMPORTED_SHA256_4C` re-cut.
+- `experiments/exp4c/battery_4c.py` — F-3
+  (`gate1_comparator_failures_4c`).
+- `experiments/exp4c/verify_referents_4c.py` — F-3 (cold-battery item
+  13).
+- `experiments/exp4c/tests/full_shape_4c.py` — F-4 (the cache key).
+- `experiments/exp4c/tests/` — the new tests and seven freeze mutants.
+- `experiments/exp4c/FREEZE_CHECKLIST.md`, `PROGRESS.md`.
+
+`results/power_4c.json` was NOT touched. No dial, bar, statistic, null,
+tree or modifier rule was touched.

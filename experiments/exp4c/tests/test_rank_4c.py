@@ -333,3 +333,39 @@ def test_the_discovery_pins_themselves_carry_the_design_docs_literals():
     assert round(pin["U_arith"], 4) == 0.5103 and round(pin["U_nonarith"], 4) == 0.7595
     _assert_design_doc_literals_4c(pin, counts=False)
     assert len(pin["family_sums"]) == 9
+
+
+# ---------------- FREEZE: the licence sentences' DIRECTION (4b F-3's
+# class) — REPLICATES and MARGINAL both assert the rising tasks grew
+# MORE, and REVERSED asserts they grew LESS. Both are implied by the
+# exact flip's own symmetry rather than checked anywhere, so the
+# implication is pinned here.
+
+def test_a_significant_p_plus_implies_U_above_one_half_and_p_minus_below_implies_under():
+    """`tot(-s) = -tot(s)` and the enumeration contains `-s` for every
+    `s`, so the flip distribution is exactly symmetric about 0 and
+    `p_plus = P(tot >= obs)` is at least 1/2 whenever `obs <= 0`.
+    Hence `p_plus < MARGINAL_4C` forces `obs > 0`, i.e. U > 1/2 — the
+    direction the REPLICATES and MARGINAL licence bodies assert — and
+    `p_minus < MARGINAL_4C` forces U < 1/2, the direction REVERSED
+    asserts. Checked over random batteries on the real family
+    structure, both tails, including the obs == 0 boundary."""
+    rng = np.random.default_rng(4)
+    fams = [f"f{i}" for i in range(9)]
+    seen_pos = seen_neg = 0
+    for _ in range(400):
+        cells = [{"family": fams[i % 9], "rung": f"r{i}",
+                  "q": float(0.5 + rng.normal(scale=0.35))} for i in range(26)]
+        fl = rk.block_flip_4c(cells)
+        U = rk.U_4c(cells)
+        if fl["p_plus"] < rk.MARGINAL_4C:
+            assert U > 0.5 and fl["observed"] > 0
+            seen_pos += 1
+        if fl["p_minus"] < rk.MARGINAL_4C:
+            assert U < 0.5 and fl["observed"] < 0
+            seen_neg += 1
+        assert fl["p_plus"] >= 1.0 / fl["n_flips"] and fl["p_minus"] >= 1.0 / fl["n_flips"]
+    assert seen_pos and seen_neg, (seen_pos, seen_neg)
+    flat = [{"family": fams[i % 9], "rung": f"r{i}", "q": 0.5} for i in range(26)]
+    fl0 = rk.block_flip_4c(flat)
+    assert fl0["observed"] == 0.0 and fl0["p_plus"] >= 0.5 and fl0["p_minus"] >= 0.5
