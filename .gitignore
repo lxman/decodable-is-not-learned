@@ -110,6 +110,8 @@ experiments/exp4c/preflight.log
 # reading is quoted in PROGRESS.md) and the relaunch pid file — kept locally
 experiments/exp4c/preflight.*.log
 experiments/exp4c/preflight.pid
+experiments/exp4c/*.pid
+experiments/exp4c/watcher_4c.log
 experiments/exp4c/sweep_pythia_6.9b.log
 experiments/exp4c/sweep_olmo2_13b.log
 experiments/exp4c/sweep_chain.log
