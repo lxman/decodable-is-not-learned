@@ -387,6 +387,36 @@ def test_sweep_runs_thin_endpoint_then_gate1_then_step0_then_grid_for_13b(tmp_pa
     assert calls == ["thin", "step:3000", "step:0", "step:1000", "step:2000"]
 
 
+def test_the_cold_gate1_comparator_check_passes_on_a_resumed_13b_campaign(tmp_path, monkeypatch):
+    """FREEZE F-3's boundary on the 13B side: before the campaign the
+    comparator is this run's OWN thin endpoint and `available` is
+    False; once it exists, every field the cold check compares must
+    already agree, or a resumed campaign would refuse at the launch
+    for a reason gate 1 would not have found. Both halves, on the same
+    tree."""
+    root4c, root4 = tmp_path / "root4c", tmp_path / "root4"
+    _shrink_grid(monkeypatch)
+    seeds = _Seeds4c()
+    _install_digests(monkeypatch, seeds)
+    monkeypatch.setattr("experiments.exp4c.run.sweep_4c.bt.load_battery", _tiny_battery)
+    _write_refs_under_root4(root4)
+    _powered_root(root4c)
+
+    before = battery_4c.gate1_comparator_failures_4c(root4c, root4, "olmo2_13b")
+    assert before["available"] is False and before["failures"] == []
+
+    sw.run(traj="olmo2_13b", root=root4c, root4=root4, loaders=seeds.loaders(),
+          **_fake_auth())
+
+    after = battery_4c.gate1_comparator_failures_4c(root4c, root4, "olmo2_13b")
+    assert after["available"] is True
+    assert after["failures"] == [], after["failures"]
+    assert after["digest_equal"] is True
+    # and the resumed run itself does not refuse
+    sw.run(traj="olmo2_13b", root=root4c, root4=root4, loaders=seeds.loaders(),
+          **_fake_auth())
+
+
 # ------------------------------------------------------------------ halts
 
 def test_gate1_digest_mismatch_halts_before_any_processing(tmp_path, monkeypatch):
