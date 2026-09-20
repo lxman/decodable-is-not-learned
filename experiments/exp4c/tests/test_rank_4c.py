@@ -369,3 +369,43 @@ def test_a_significant_p_plus_implies_U_above_one_half_and_p_minus_below_implies
     flat = [{"family": fams[i % 9], "rung": f"r{i}", "q": 0.5} for i in range(26)]
     fl0 = rk.block_flip_4c(flat)
     assert fl0["observed"] == 0.0 and fl0["p_plus"] >= 0.5 and fl0["p_minus"] >= 0.5
+
+
+# ------------- FINAL REVIEW minor: `p_family_reason` checks its own claim
+
+def test_p_family_reason_says_the_null_cannot_resolve_at_three_families():
+    """Design §3.5's expected case: 3 non-arithmetic families give
+    2**3 = 8 flips, finest attainable p 1/8 = .125, above the .05 bar
+    — the sentence's original, unconditional claim."""
+    s = rk._p_family_reason_4c(3)
+    assert "3 families give 8 flips" in s
+    assert "cannot resolve" in s and "0.125" in s and "no p printed" in s
+
+
+def test_p_family_reason_calls_the_refusal_categorical_when_the_null_could_resolve():
+    """At 5 families the null gives 32 flips, finest p .03125 — BELOW
+    the .05 bar — so the old sentence asserted something false while
+    the refusal itself stayed right. The reason now names design §3.5
+    instead."""
+    s = rk._p_family_reason_4c(5)
+    assert "5 families give 32 flips" in s
+    assert "cannot resolve" not in s
+    assert "categorical by design" in s and "0.03125" in s
+
+
+def test_p_family_reason_switches_exactly_at_the_marginal_bar():
+    fine = [1.0 / (1 << n) for n in range(1, 8)]
+    for n, p in enumerate(fine, start=1):
+        s = rk._p_family_reason_4c(n)
+        assert ("cannot resolve" in s) is (p > rk.MARGINAL_4C), (n, p, s)
+
+
+def test_the_modifier_still_refuses_the_family_p_in_both_branches():
+    """The refusal is unconditional — only the reason moves."""
+    for n_fams, needle in ((3, "cannot resolve"), (5, "categorical by design")):
+        cells = [{"family": f"f{k}", "type": "option", "q": 0.9, "q_arith": None,
+                  "rung": f"r{k}"} for k in range(n_fams)]
+        out = rk.type_modifier_4c(cells)
+        assert out["nonarith"]["p_family"] is None
+        assert out["nonarith"]["n_families"] == n_fams
+        assert needle in out["nonarith"]["p_family_reason"]

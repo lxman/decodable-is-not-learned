@@ -269,13 +269,38 @@ def placebo_4c(series_by_traj, rung_sets_by_traj, cells, *, B=B_PLACEBO_4C,
 
 # ------------------------------------------------------ modifier, tree
 
+def _p_family_reason_4c(n_fams: int) -> str:
+    """FINAL REVIEW minor: the sentence printed beside
+    `nonarith["p_family"] = None` used to assert, unconditionally, that
+    the null "cannot resolve the .05 bar" — true at the 3 families
+    design §3.5 expects (2**3 = 8 flips, finest p 1/8 = .125 > .05),
+    false the moment a run carries 5 or more (2**5 = 32 flips, finest p
+    .03125 < .05), where the refusal is the DESIGN's, not arithmetic's.
+    The reason now checks itself against the same bar the modifier
+    reads. The refusal itself is unconditional either way: design §3.5
+    prints no family p for the non-arithmetic stratum, and neither the
+    statistic nor the modifier rule is touched here."""
+    flips = 1 << n_fams
+    if 1.0 / flips > MARGINAL_4C:
+        why = (f"the null cannot resolve the {MARGINAL_4C} bar (finest attainable p = "
+               f"1/{flips} = {1.0 / flips:.4g}; 4b process note 3)")
+    else:
+        why = (f"the finest attainable p (1/{flips} = {1.0 / flips:.4g}) would clear the "
+               f"{MARGINAL_4C} bar, so the refusal is categorical by design §3.5, not a "
+               f"resolution limit")
+    return f"{n_fams} families give {flips} flips — {why}; no p printed"
+
+
 def type_modifier_4c(cells) -> dict:
     """Does the pooled signal generalise past arithmetic, or live only
     in the option/string tasks? `nonarith["p_family"]` is deliberately
-    `None`: with as few as 3 non-arithmetic families the exact
+    `None`: design §3.5 prints no family p for the non-arithmetic
+    stratum — at the 3 families this battery gives, the exact
     family-block null cannot resolve below the .05 bar (4b's process
-    note 3), so no p is printed there — `p_rung_descriptive` is
-    reported instead, labelled as carrying no alpha claim."""
+    note 3); at 5 or more it could, and the refusal is then the
+    design's alone. `_p_family_reason_4c` says which case obtains.
+    `p_rung_descriptive` is reported instead, labelled as carrying no
+    alpha claim."""
     ar = [c for c in cells if c["type"] == "arithmetic" and c["q_arith"] is not None]
     na = [c for c in cells if c["type"] != "arithmetic"]
     out = {"arith": None, "nonarith": None, "modifier": None}
@@ -288,9 +313,7 @@ def type_modifier_4c(cells) -> dict:
         rf = block_flip_4c(na, block="rung")
         out["nonarith"] = {"U": U_4c(na), "n_cells": len(na), "n_families": len(fams),
                            "p_family": None,
-                           "p_family_reason": f"{len(fams)} families give {1 << len(fams)} flips "
-                                              f"— the null cannot resolve the .05 bar (4b process "
-                                              f"note 3); no p printed",
+                           "p_family_reason": _p_family_reason_4c(len(fams)),
                            "p_rung_descriptive": rf["p_plus"], "n_rungs": rf["n_blocks"],
                            "no_alpha_claim": True}
     if out["arith"] and out["arith"]["p_plus"] < MARGINAL_4C:

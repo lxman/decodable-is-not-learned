@@ -1,0 +1,186 @@
+# experiments/exp4c/mutation_fixwave.log
+# Final-review fix wave, 2026-09-20T05:46:11Z. Two runs, in order:
+#  (1) the targeted --worlds-only confirmation of the ONE new world-only
+#      label (totality_54171f1735, S4's per-run nulls collect site),
+#      EXP4C_WORLD_CACHE set;
+#  (2) the full fast mutation pass on the committed tree.
+# The freeze's own logs (freeze_mutation_fast.log, mutation_worlds.log,
+# mutation_build.log) are left exactly as committed.
+
+==============================================================
+(1) run_worlds_only --only=totality_54171f1735
+==============================================================
+EXP4C_WORLD_CACHE='/private/tmp/exp4c_world_cache' (set — cached copies)
+[totality_54171f1735] (1/1) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_p_cal_4b_raising_collapses_only_s4
+
+=== run_worlds_only tally === considered=1 killed=1 open_survivors=0 errors=0
+killed_by = {'totality_54171f1735': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_p_cal_4b_raising_collapses_only_s4'}
+open_survivors = []
+errors = []
+worlds-only exit=0
+
+==============================================================
+(2) fast mutation pass (all mutants)
+==============================================================
+baseline OK (fast pass, all mutants)
+
+[q_cell_4c_ties_counted_whole_1_instead_of_one_half] (#1) killed  q_cell_4c: ties counted whole (1) instead of one-half
+[q_cell_4c_below_comparison_widened_from_to] (#2) killed  q_cell_4c: below comparison widened from < to <=
+[growth_4c_growth_read_since_the_second_grid_point_a_0_a_1] (#3) killed  growth_4c: growth read since the SECOND grid point (a[0] -> a[1])
+[cells_4c_t_minus_index_reads_the_clear_index_itself_c_1_c] (#4) killed  cells_4c: t-minus index reads the clear index itself (c-1 -> c)
+[cells_4c_the_arithmetic_q_arith_ranked_among_the_whole_flat_pool_not_fla] (#5) killed  cells_4c: the arithmetic q_arith ranked among the WHOLE flat pool, not flat_ar
+[min_clear_index_4c_2_1] (#6) killed  MIN_CLEAR_INDEX_4C = 2 -> 1
+[alpha_4c_0_01_0_05] (#7) killed  ALPHA_4C = 0.01 -> 0.05
+[marginal_4c_0_05_0_1] (#8) killed  MARGINAL_4C = 0.05 -> 0.1
+[cal_multiple_4c_2_0_3_0] (#9) killed  CAL_MULTIPLE_4C = 2.0 -> 3.0
+[excluded_sites_4c_the_site_0_exclusion_dropped] (#10) killed  EXCLUDED_SITES_4C: the site-0 exclusion dropped
+[primary_4c_the_primary_null_grouped_by_family_stripped_to_per_rung_wrong] (#11) killed  primary_4c: the primary null grouped by family stripped to per-rung (wrong block)
+[block_flip_4c_p_plus_uses_instead_of] (#12) survived, EQUIVALENT (documented reasoning in mutation_check.py)  block_flip_4c: p_plus uses > instead of >=
+[cluster_bootstrap_ci_4c_bootstrap_resamples_individual_cells_not_blocks] (#13) killed  cluster_bootstrap_ci_4c: bootstrap resamples INDIVIDUAL CELLS, not blocks
+[placebo_4c_the_pool_is_one_run_s_own_flat_set_not_the_intersection_acros] (#14) killed  placebo_4c: the pool is ONE run's own flat set, not the intersection across runs
+[placebo_4c_the_drawn_placebo_task_is_not_removed_from_its_own_comparator] (#15) killed  placebo_4c: the drawn placebo task is not removed from its own comparator pool
+[placebo_4c_alpha_placebo_01_measured_at_the_05_bar_instead_of_01] (#16) killed  placebo_4c: alpha_placebo_01 measured at the .05 bar instead of .01
+[type_modifier_4c_a_p_is_printed_for_the_non_arithmetic_stratum_design_s_] (#17) killed  type_modifier_4c: a p IS printed for the non-arithmetic stratum (design's own rule violated)
+[type_modifier_4c_type_general_decided_at_alpha_4c_01_not_marginal_4c_05] (#18) killed  type_modifier_4c: TYPE-GENERAL decided at ALPHA_4C (.01), not MARGINAL_4C (.05)
+[verdict_tree_4c_reversed_decided_at_alpha_4c_01_not_marginal_4c_05] (#19) killed  verdict_tree_4c: REVERSED decided at ALPHA_4C (.01), not MARGINAL_4C (.05)
+[alignment_series_4c_the_stored_vs_re_derived_overlap_cross_check_dropped] (#20) killed  alignment_series_4c: the stored-vs-re-derived overlap cross-check dropped
+[within_riser_4c_co_clearing_tasks_c2_c_excluded_as_comparators] (#21) killed  within_riser_4c: co-clearing tasks (c2 == c) excluded as comparators (>= -> >)
+[window_mean_cells_4c_the_pre_clear_window_includes_index_0_t_1_itself] (#22) killed  window_mean_cells_4c: the pre-clear window includes index 0 (t_1 itself)
+[never_performing_type_check_4c_the_grid_scan_includes_index_0_t_1_itself] (#23) killed  never_performing_type_check_4c: the grid scan includes index 0 (t_1 itself)
+[discovery_set_4c_the_site0_excluded_invariance_check_computed_on_the_wro] (#24) survived, EQUIVALENT (documented reasoning in mutation_check.py)  discovery_set_4c: the site0-excluded invariance check computed on the WRONG cell set
+[clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6] (#25) survived-fast, killed by the slow suite — test_battery_4c.py::test_outcomes_reproduce_the_design_pins (-m slow) (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  CLEAR_INDEX_PIN_4C: pythia_6.9b's arith_next clear index off by one (5 -> 6)
+[rung_set_pin_4c_pythia_6_9b_s_flat_pin_drops_sub4_mid] (#26) killed  RUNG_SET_PIN_4C: pythia_6.9b's flat pin drops sub4_mid
+[load_outcome_4c_the_render_check_dropped] (#27) killed  load_outcome_4c: the render check dropped
+[load_outcome_4c_the_dtype_check_dropped] (#28) killed  load_outcome_4c: the dtype check dropped
+[batch_4c_pythia_6_9b_s_batch_pin_16_32] (#29) killed  BATCH_4C: pythia_6.9b's batch pin 16 -> 32
+[n_hidden_pin_4c_olmo2_13b_s_n_hidden_pin_41_37] (#30) killed  N_HIDDEN_PIN_4C: olmo2_13b's n_hidden pin 41 -> 37
+[check_rung_set_pins_4c_the_clear_index_comparison_dropped] (#31) killed  check_rung_set_pins_4c: the clear-index comparison dropped
+[manifests_4c_the_6_9b_grid_agreement_check_dropped] (#32) killed  manifests_4c: the 6.9b grid-agreement check dropped
+[manifests_4c_the_step_0_entry_present_check_dropped] (#33) killed  manifests_4c: the step-0-entry-present check dropped
+[gate1_failures_4c_coverage_checked_against_33_rungs_not_the_full_34] (#34) killed  gate1_failures_4c: coverage checked against 33 rungs, not the full 34
+[gate1_failures_4c_n_rungs_not_checked] (#35) killed  gate1_failures_4c: n_rungs not checked
+[gate1_reference_4c_pythia_6_9b_s_gate_1_reference_swapped_to_the_13b_thi] (#36) killed  GATE1_REFERENCE_4C: pythia_6.9b's gate-1 reference swapped to the 13B thin endpoint
+[load_record_failures_4c_the_tensor_digest_vs_committed_check_dropped] (#37) killed  load_record_failures_4c: the tensor_digest-vs-committed check dropped
+[load_record_failures_4c_the_4c_preregistration_tag_check_dropped] (#38) killed  load_record_failures_4c: the 4c preregistration-tag check dropped
+[process_model_4c_the_batch_size_assertion_dropped] (#39) killed  process_model_4c: the batch-size assertion dropped
+[process_model_4c_exp_4_s_own_preregistration_tag_stamped_instead_of_exp4] (#40) killed  process_model_4c: Exp 4's own preregistration tag stamped instead of exp4c's
+[process_model_4c_the_prompt_end_set_slice_read_at_index_0_question_end_i] (#41) killed  process_model_4c: the prompt-end set slice read at index 0 (question-end) instead of 1
+[run_the_13b_thin_endpoint_stage_skipped] (#42) killed  run(): the 13B thin-endpoint stage skipped
+[run_gate_1_is_never_run_always_takes_the_already_done_branch] (#43) killed  run(): gate 1 is never run (always takes the already-done branch)
+[run_step_0_dropped_from_the_unit_list_no_longer_processed_first] (#44) killed  run(): step 0 dropped from the unit list (no longer processed first)
+[run_the_per_step_digest_pin_dropped] (#45) killed  run(): the per-step digest pin dropped
+[freeze_f_1_the_runner_s_import_surface_pin_dropped] (#46) killed  FREEZE F-1: the runner's import-surface pin dropped
+[freeze_f_3_the_runner_s_cold_gate_1_comparator_check_dropped] (#47) killed  FREEZE F-3: the runner's cold gate-1 comparator check dropped
+[freeze_f_3_gate1_comparator_failures_4c_stops_comparing_the_sweep_endpoi] (#48) killed  FREEZE F-3: gate1_comparator_failures_4c stops comparing the sweep-endpoint pins
+[freeze_f_2_power_structure_failures_4c_stops_naming_a_cell_the_verdict_n] (#49) killed  FREEZE F-2: power_structure_failures_4c stops naming a cell the verdict never read
+[freeze_f_7_the_not_replicated_sentence_s_resolution_figure_stops_being_c] (#50) killed  FREEZE F-7: the NOT-REPLICATED sentence's resolution figure stops being checked
+[freeze_f_2_power_structure_failures_4c_stops_comparing_the_comparator_po] (#51) killed  FREEZE F-2: power_structure_failures_4c stops comparing the comparator pools
+[gate0_4c_the_90_bar_replaced_by_5] (#52) killed  gate0_4c: the .90 bar replaced by .5
+[run_the_reference_seal_s_own_failures_are_never_appended] (#53) survived-fast, killed by the slow suite — test_totality_4c.py::test_reference_seal_failures_are_appended_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): the reference seal's own failures are never appended
+[run_the_discovery_gate_s_known_answer_pin_check_dropped] (#54) survived-fast, killed by the slow suite — test_totality_4c.py::test_discovery_pin_u_off_by_a_nanounit_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): the discovery gate's known-answer pin check dropped
+[run_the_power_record_s_byte_reproduction_never_checked_presence_only] (#55) survived-fast, killed by the slow suite — test_totality_4c.py::test_power_record_probability_edited_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): the power record's byte reproduction never checked (presence-only)
+[run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced] (#56) survived-fast, killed by the slow suite — test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): the exit import-surface check skipped (I-1's own defect, reintroduced)
+[load_one_unit_4c_the_34_rung_sets_sha256_coverage_check_dropped] (#57) killed  _load_one_unit_4c: the 34-rung sets_sha256 coverage check dropped
+[load_one_unit_4c_the_n_hidden_vs_pin_check_dropped] (#58) killed  _load_one_unit_4c: the n_hidden-vs-pin check dropped
+[eligibility_4c_the_2_se_eligibility_bar_weakened_from_to] (#59) killed  eligibility_4c: the 2-SE eligibility bar weakened from >= to >
+[delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped] (#60) killed  delta_of_mu_4c: the sqrt(2) unit-normal placement factor dropped
+[power_bar_4c_the_declared_power_bar_75_5] (#61) killed  POWER_BAR_4C: the declared power bar .75 -> .5
+[interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to] (#62) killed  _interpolate_min_detectable_4c: the crossing comparison widened from >= to >
+[cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped] (#63) killed  cell_structure_4c: the R-vs-clear-index-pin consistency check dropped
+[main_the_write_once_refusal_dropped_a_second_write_silently_overwrites] (#64) killed  main: the write-once refusal dropped (a second write silently overwrites)
+[totality_d9a804a211] (#65) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_cells_4_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 611 (lambda: a4.cells_4(series_by_traj, rung_sets_by_traj, eligib...)
+[totality_73f9815ef4] (#66) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_lambda_hat_4_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 628 (lambda: a4.lambda_hat_4(series_by_traj, rung_sets_by_traj, e...)
+[totality_d6d5f230f6] (#67) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_design_4c_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 656 (lambda: _design_4c(_clear_indices_4c(cells or []))...)
+[totality_45c8d0147c] (#68) survived-fast, killed by the slow suite — test_totality_4c.py::test_licence_block_raising_still_returns_the_tree_verdict (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1140 (lambda: licence_block_4c(world, modifier, calibration, tree,...)
+[totality_bf2e926cc6] (#69) survived-fast, killed by the slow suite — test_totality_4c.py::test_frozen_check_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1359 (frozen_check or bc.check_frozen_4c...)
+[totality_d3ea8f5392] (#70) killed  run(): totality — collect_total_4c stripped at line 1368 (lambda: bc.require_prereg_4c(tag_exists=tag_exists, blob_sha...)
+[totality_54fdd34130] (#71) survived-fast, killed by the slow suite — test_totality_4c.py::test_2h_manifest_one_byte_flipped_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1372 (bc.manifests_4c...)
+[totality_efe912cfae] (#72) survived-fast, killed by the slow suite — test_totality_4c.py::test_load_battery_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1386 (bt.load_battery...)
+[totality_4c50327e8b] (#73) survived-fast, killed by the slow suite — test_totality_4c.py::test_load_floors_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1388 (bg.load_floors...)
+[totality_946b2d8ff4] (#74) survived-fast, killed by the slow suite — test_totality_4c.py::test_reference_seal_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1413 (lambda: an2i.require_seal_2i(battery_4.REFERENCE_SEAL_TAG_4,...)
+[totality_9a47cf39d9] (#75) survived-fast, killed by the slow suite — test_totality_4c.py::test_discovery_gate_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1438 (lambda: disc_fn(root4)...)
+[totality_4ae7eb8e01] (#76) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_primary_4_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 619 (lambda: a4.primary_4(cells, n_boot=n_boot, seed=seed)...)
+[totality_7c26425e08] (#77) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_placebo_pool_4b_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 644 (lambda traj=traj, pia=pia: placebo_4b.placebo_pool_4b(...)
+[totality_98f598282a] (#78) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_draw_batteries_4b_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 661 (lambda: placebo_4b.draw_batteries_4b(pools, design, B=B, see...)
+[totality_890e2e645a] (#79) survived-fast, killed by the slow suite — test_totality_4c.py::test_import_surface_entry_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1363 (check_imports_4c...)
+[totality_88a6a642d5] (#80) killed  run(): totality — collect_total_4c stripped at line 1426 (lambda refs=refs: collect_4.load_ref_tables_4(root4, refs)...)
+[totality_1a4450362d] (#81) survived-fast, killed by the slow suite — test_totality_4c.py::test_discovery_pins_check_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1441 (lambda: rk.check_discovery_pins_4c(discovery)...)
+[totality_2dbe40e17b] (#82) survived-fast, killed by the slow suite — test_totality_4c.py::test_power_module_import_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1451 (_import_power_4c...)
+[totality_e9f600ab3c] (#83) survived-fast, killed by the slow suite — test_totality_4c.py::test_power_record_torn_json_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1459 (lambda: json.loads(power_p.read_text())...)
+[totality_4cd3e551b9] (#84) survived-fast, killed by the slow suite — test_totality_4c.py::test_cells_4c_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1585 (lambda: rk.cells_4c(series_by_traj, rung_sets)...)
+[totality_2395e1c6a2] (#85) survived-fast, killed by the slow suite — test_totality_4c.py::test_primary_4c_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1600 (lambda: primary_4c(cells, n_boot=n_boot, seed=SEED_4C)...)
+[totality_7f0d909665] (#86) survived-fast, killed by the slow suite — test_totality_4c.py::test_placebo_4c_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1603 (lambda: rk.placebo_4c(series_by_traj, rung_sets, cells, B=B,...)
+[totality_401377c2ee] (#87) survived-fast, killed by the slow suite — test_totality_4c.py::test_type_modifier_4c_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1607 (lambda: rk.type_modifier_4c(cells)...)
+[totality_f599225b3f] (#88) survived-fast, killed by the slow suite — test_totality_4c.py::test_gate7_ties_4c_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1609 (lambda: gate7_ties_4c(cells)...)
+[totality_882e7be6db] (#89) survived-fast, killed by the slow suite — test_totality_4c.py::test_calibration_read_4c_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1621 (lambda: rk.calibration_read_4c(placebo, tree["verdict"])...)
+[totality_2f0d358116] (#90) survived-fast, killed by the slow suite — test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1658 (check_imports_4c if imports_pinned else (lambda: None)...)
+[totality_02e3a8ac32] (#91) killed  run(): totality — collect_total_4c stripped at line 1716 (_write_verdict_4c...)
+[totality_85c26ea5da] (#92) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_p_cal_4b_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 667 (lambda: placebo_4b.p_cal_4b(batteries["T"], T4)...)
+[totality_b1d2a427a5] (#93) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_t_star_4b_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 670 (lambda: placebo_4b.t_star_4b(batteries["T"], T4)...)
+[totality_e7f5959f35] (#94) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_alpha_placebo_4b_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 673 (lambda: placebo_4b.alpha_placebo_4b(...)
+[totality_54171f1735] (#95) survived-fast, killed by the slow suite — test_totality_4c.py::test_s4_per_traj_4b_raising_collapses_only_s4 (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 687 (lambda: placebo_4b.per_traj_4b(batteries, design, primary["p...)
+[totality_1998a8e42c] (#96) survived-fast, killed by the slow suite — test_totality_4c.py::test_halt_marker_unreadable_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1353 (lambda p=p: p.read_text().strip()[:200]...)
+[totality_785e68faae] (#97) survived-fast, killed by the slow suite — test_totality_4c.py::test_referent_manifest_check_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1382 (_check_referents...)
+[totality_4db1f27c39] (#98) survived-fast, killed by the slow suite — test_totality_4c.py::test_load_outcome_per_traj_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1394 (lambda traj=traj: bc.load_outcome_4c(traj, battery=battery)...)
+[totality_56872f0008] (#99) survived-fast, killed by the slow suite — test_totality_4c.py::test_power_record_fields_check_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1462 (lambda: _power_record_failures_4c(power, expected_n_sim=powe...)
+[totality_7fc25d1cb3] (#100) survived-fast, killed by the slow suite — test_full_shape_4c.py::test_every_refusal_route_lands_insufficient[thin_endpoint_missing] (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1498 (lambda traj=traj: bc.gate1_rederive_4c(root, root4, traj)...)
+[totality_38e82d2f6f] (#101) survived-fast, killed by the slow suite — test_totality_4c.py::test_step0_missing_entirely_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1516 (lambda traj=traj: _load_one_unit_4c(root, (traj, bc.INIT_STE...)
+[totality_1493707fcd] (#102) survived-fast, killed by the slow suite — test_totality_4c.py::test_torn_load_json_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1523 (lambda traj=traj: load_run_tables_4c(root, traj)...)
+[totality_5bec55dfda] (#103) survived-fast, killed by the slow suite — test_totality_4c.py::test_alignment_series_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1544 (lambda traj=traj, tables=tables: rk.alignment_series_4c(...)
+[totality_0392026ab8] (#104) survived-fast, killed by the slow suite — test_totality_4c.py::test_alignment_series_raising_gives_insufficient_data (same fake, the other call site) (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1553 (lambda traj=traj, tables=tables: rk.alignment_series_4c(...)
+[totality_b720cefaf0] (#105) survived-fast, killed by the slow suite — test_totality_4c.py::test_per_item_alignment_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1564 (lambda traj=traj, unit_t1=unit_t1, unit_end=unit_end: eligib...)
+[totality_8cc99ff2b7] (#106) survived-fast, killed by the slow suite — test_totality_4c.py::test_per_item_alignment_raising_gives_insufficient_data (same fake, the other call site) (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1571 (lambda traj=traj, unit_t1=unit_t1, unit_end=unit_end: {...)
+[totality_0569241841] (#107) survived-fast, killed by the slow suite — test_totality_4c.py::test_secondaries_wrapper_degrades_one_block_not_the_verdict (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1630 (thunk...)
+[totality_dd93a6d647] (#108) survived-fast, killed by the slow suite — test_totality_4c.py::test_rung_sets_per_traj_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1399 (lambda oc=oc: bc.rung_sets_4c(oc, floors)...)
+[totality_8613fd6ec8] (#109) survived-fast, killed by the slow suite — test_totality_4c.py::test_power_record_reproduction_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1468 (lambda: _reproduce_power_4c(power)...)
+[totality_c7587d08f8] (#110) survived-fast, killed by the slow suite — test_totality_4c.py::test_gate1_torn_json_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1488 (lambda p=g1_path: json.loads(p.read_text())...)
+[totality_4089e0701e] (#111) survived-fast, killed by the slow suite — test_totality_4c.py::test_thin_endpoint_wrong_prereg_tag_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1511 (lambda: _load_one_unit_4c(root, bc.THIN_ENDPOINT_KEY_4C)...)
+[totality_0f1437d2df] (#112) survived-fast, killed by the slow suite — test_totality_4c.py::test_gate0_per_traj_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1531 (lambda traj=traj, unit0=unit0, tables=tables: gate0_4c(...)
+[totality_ffe2f03f35] (#113) survived-fast, killed by the slow suite — test_totality_4c.py::test_power_structure_failures_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1594 (lambda: power_structure_failures_4c(power, cells)...)
+[totality_8a9bab2364] (#114) survived-fast, killed by the slow suite — test_totality_4c.py::test_check_rung_set_pins_per_traj_raising_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1403 (lambda traj=traj, rs=rs, oc=oc: bc.check_rung_set_pins_4c(...)
+[totality_5742ce6a67] (#115) survived-fast, killed by the slow suite — test_totality_4c.py::test_gate1_json_a_list_gives_insufficient_data (individually re-confirmed, see PROGRESS.md's Task 5 fix round 1b)  run(): totality — collect_total_4c stripped at line 1492 (lambda g1=g1, traj=traj: bc.gate1_failures_4c(g1, traj=traj)...)
+
+60 killed by the fast suite directly; 53 killed by the slow suite (each individually re-confirmed via --worlds-only/--totality/--fullshape, not inferred — see mutation_worlds.log); 2 documented equivalent; considered=115; 0 UNRESOLVED survivor(s): []; 0 SKIP (target text not found / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []
+fast-pass exit=0
+DONE 2026-09-20T07:10:11Z
+
+==============================================================
+(3) narrowed confirmation of totality_54171f1735's NAMED test
+==============================================================
+# run_worlds_only (1) runs `pytest -x` over the WHOLE totality file and
+# reports the FIRST failure, which here is an EARLIER test:
+# test_s4_p_cal_4b_raising_collapses_only_s4 — with the per-traj collect
+# site stripped, per_traj_4b calls p_cal_4b internally, so THAT test's
+# monkeypatch already escapes run(). The kill is real, but the
+# NON_FAST_KILLS_4C entry names the test written FOR the site, so it is
+# confirmed directly below: mutate, run only that test, restore, and
+# assert the source came back byte-for-byte.
+confirming totality_54171f1735 against its NAMED test test_s4_per_traj_4b_raising_collapses_only_s4
+baseline (unmutated source, the named test alone):
+[totality_54171f1735] baseline: rc=0
+.                                                                        [100%]
+1 passed, 58 deselected in 83.27s (0:01:23)
+
+[totality_54171f1735] MUTATED: rc=1
+E        +    where <built-in method get of dict object at 0x118dfc740> = {'failed': '4c S4: RuntimeError: forced (Task 5 fix round 1b totality probe)'}.get
+
+experiments/exp4c/tests/test_totality_4c.py:720: AssertionError
+=========================== short test summary info ============================
+FAILED experiments/exp4c/tests/test_totality_4c.py::test_s4_per_traj_4b_raising_collapses_only_s4
+1 failed, 58 deselected in 83.16s (0:01:23)
+
+source restored byte-for-byte: True
+RESULT: baseline rc=0 (0 = the named test passes), mutated rc=1 (non-zero = the named test KILLS the mutant)
+KILLED by the named test
+
+==============================================================
+TALLY AFTER THE FIX WAVE
+==============================================================
+115 considered (was 113 at the freeze): +2 auto-generated totality
+mutants, one per NEW collect_total_4c call site —
+  totality_02e3a8ac32  the verdict write        -> FAST-killed
+  totality_54171f1735  S4's per-run nulls       -> slow-killed (named test above)
+60 killed by the fast suite (was 59: the verdict-write site's mutant)
+53 killed by the slow suite (was 52: the per-traj-null site's mutant)
+2 documented equivalent (unchanged)
+0 UNRESOLVED survivors, 0 SKIP, 0 TIMEOUT

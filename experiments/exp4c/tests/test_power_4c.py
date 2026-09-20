@@ -310,15 +310,26 @@ def test_analyzer_reproduction_catches_an_extra_committed_key(small_record):
     k in power}` lets a key present in the committed record but absent
     from `compute`'s live output pass silently (the extra key is
     simply dropped before the byte comparison ever runs). The key SETS
-    must be asserted equal first."""
+    are compared first.
+
+    FINAL REVIEW I-1: that comparison used to be a bare `assert`, and
+    this test used to assert the RAISE. `AssertionError` is not in
+    `collect_total_4c`'s caught set, so the raise left `run()` instead
+    of arriving as INSUFFICIENT_DATA — the mismatch is now RETURNED in
+    the ordinary shape and named in `first_diff`. The cold tool
+    (`verify_referents_4c._c11`) still raises; that is its failure
+    mode, and `test_verify_referents_4c.py` pins it."""
     extra = dict(small_record)
     extra["a_key_compute_never_produces"] = 1
-    with pytest.raises(AssertionError, match="a_key_compute_never_produces"):
-        an._reproduce_power_4c(extra)
+    rep = an._reproduce_power_4c(extra)
+    assert rep["identical"] is False
+    assert "key set mismatch" in rep["first_diff"]
+    assert "a_key_compute_never_produces" in rep["first_diff"]
 
 
 def test_analyzer_reproduction_catches_a_missing_committed_key(small_record):
     missing = dict(small_record)
     del missing["arms"]
-    with pytest.raises(AssertionError, match="arms"):
-        an._reproduce_power_4c(missing)
+    rep = an._reproduce_power_4c(missing)
+    assert rep["identical"] is False
+    assert "key set mismatch" in rep["first_diff"] and "arms" in rep["first_diff"]

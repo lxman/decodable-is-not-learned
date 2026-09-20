@@ -546,6 +546,10 @@ NON_FAST_KILLS_4C = {
                            "s4",
     "totality_e7f5959f35": "test_totality_4c.py::test_s4_alpha_placebo_4b_raising_collapses_"
                            "only_s4",
+    # FINAL-REVIEW FIX WAVE: design §5 S4's "per-run nulls"
+    # (`placebo_4b.per_traj_4b`) under its own collect site.
+    "totality_54171f1735": "test_totality_4c.py::test_s4_per_traj_4b_raising_"
+                           "collapses_only_s4",
     "totality_45c8d0147c": "test_totality_4c.py::test_licence_block_raising_still_returns_"
                            "the_tree_verdict",
 }

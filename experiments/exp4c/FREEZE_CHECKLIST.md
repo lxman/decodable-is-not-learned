@@ -846,3 +846,64 @@ closures add refusals that no world drives into a raising state.
 
 `results/power_4c.json` was NOT touched. No dial, bar, statistic, null,
 tree or modifier rule was touched.
+
+---
+
+## G. Final-review fix wave (2026-09-20, after the freeze)
+
+§F above is the freeze's own file list; this section is the ONE fix
+wave the final whole-branch review dispatched (0 Critical, 2 Important,
+minors triaged). Base `9615ff93c`. Every item ADDITIVE — a refusal, a
+record field, a test, a descriptive. No preregistered bar, statistic,
+null, tree or modifier rule touched; `results/power_4c.json`
+byte-identical; `exp2*`/`exp3*`/`exp4/`/`exp4b/` untouched. Zero model
+contact, zero network.
+
+1. **I-1 — the bare assert on the verdict path.**
+   `analyze_4c._reproduce_power_4c` asserted the power record's key set
+   equal to `power_4c.compute`'s live output; `AssertionError` is not
+   in `collect_total_4c`'s caught set, so a post-tag key drift RAISED
+   out of `run()`. It now RETURNS `{"identical": False, "first_diff":
+   "key set mismatch: extra […], missing […]"}` through the existing
+   "not reproduced byte for byte" failure. `collect_total_4c` NOT
+   widened; `verify_referents_4c._c11` keeps its assert.
+2. **I-2 — design §5 S4's "per-run nulls"** (`placebo_4b.per_traj_4b`)
+   under its own collect site inside S4's `batteries` block, with its
+   named killing totality test and a `NON_FAST_KILLS_4C` entry.
+3. **Cold-battery item 12 decides its SKIP PER TRAJECTORY** — between
+   the two sweeps it would otherwise have reported a gate-0 FAILURE for
+   a run not yet collected.
+4. **Cold-battery item 6 requires the 40 committed digests PAIRWISE
+   DISTINCT** (a unit copied between steps matches its own record and
+   passes every analyzer pin). Distinct on the real tree.
+5. **S9's UNIT side reads `available: False`** on a missing or
+   sha-mismatched `attested/<rung>.npz`, as its docstring promised and
+   as the reference side already did.
+6. **One collect site around the verdict write**: an unwritable
+   `results/` lands as `write_failure` in the returned verdict instead
+   of raising after the whole computation, and `VERDICT.txt` is
+   rendered BEFORE either write. (`_git_sha_4c`/`_jsonify_4` left
+   outside — disclosed, not closed.)
+7. **`p_family_reason` self-checking**: conditioned on
+   `1 / 2**n_fams > MARGINAL_4C`, so it stops asserting "the null
+   cannot resolve the .05 bar" at 5+ families where it could. The
+   refusal stays unconditional; `rank_4c.py`'s statistic and modifier
+   rule are untouched.
+8. **A per-trajectory stack-consistency descriptive** in
+   `secondaries["stack_consistency"]` (`no_alpha_claim`, never a
+   refusal): the distinct numpy/torch/transformers blocks across a
+   run's units and its thin endpoint — a campaign spanning a library
+   upgrade passes every pin in this analyzer otherwise.
+
+**Post-wave batteries:** fast **175 passed** (was 153); slow
+`test_full_shape_4c.py` **26 passed** (0:20:07); slow totality S4/S9/
+power subset **20 passed** (0:17:40); cold battery **12/13 + 1
+legitimate skip**; mutation **115 considered — 60 fast-killed, 53
+slow-killed, 2 equivalent, 0 UNRESOLVED** (`mutation_fixwave.log`;
++2 auto-generated totality mutants, one per NEW collect site — the
+review's dispatch anticipated one, the verdict-write site is the
+second); `check_frozen_4c()`/`check_imports_4c()` OK in a fresh process
+after importing all nine exp4c modules; `IMPORTED_SHA256_4C` re-cut a
+FOURTH time, LAST, for `verify_referents_4c.py`'s moved sha. Pre-tag
+real-tree executions this wave: **2** (running total 18 → 20) — the
+import scan and the cold battery, neither a new quantity.

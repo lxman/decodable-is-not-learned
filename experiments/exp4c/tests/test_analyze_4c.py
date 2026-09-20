@@ -594,3 +594,184 @@ def test_the_correction_is_total_on_a_record_that_carries_no_p05(arms):
     rec["arms"] = arms
     assert an._discovery_shape_p05_4c(rec) is None
     assert "FREEZE F-7" not in an._power_quote_4c(rec)
+
+
+# ------------------------------------- FINAL REVIEW I-1: the power record's
+# key-set mismatch is DELIVERED, never raised
+
+def _fake_power_record_4c(**over):
+    rec = {"n_sim": 3, "seed": 0, "prereg_tag": bc.PREREG_TAG_4C, "declaration": "d", "x": 1}
+    rec.update(over)
+    return rec
+
+
+def test_reproduce_power_4c_returns_a_key_set_mismatch_instead_of_raising(monkeypatch):
+    """FINAL REVIEW I-1: `_reproduce_power_4c` used to `assert` the key
+    sets equal. `AssertionError` is deliberately NOT in
+    `collect_total_4c`'s caught set, so a post-tag key drift in
+    `power_4c.py` RAISED out of `run()`. It must RETURN the ordinary
+    mismatch shape instead, naming the keys on both sides."""
+    from experiments.exp4c import power_4c as pw4c
+    monkeypatch.setattr(pw4c, "compute",
+                        lambda structure, n_sim, seed: {"x": 1,
+                                                        "a_key_the_record_never_had": 2})
+    rep = an._reproduce_power_4c(_fake_power_record_4c())
+    assert rep["identical"] is False
+    assert "key set mismatch" in rep["first_diff"]
+    # both directions named: extra in the committed record, missing from it
+    assert "a_key_the_record_never_had" in rep["first_diff"]
+    assert "declaration" in rep["first_diff"] and "n_sim" in rep["first_diff"]
+
+
+def test_reproduce_power_4c_still_reports_identical_on_equal_key_sets(monkeypatch):
+    from experiments.exp4c import power_4c as pw4c
+    monkeypatch.setattr(pw4c, "compute",
+                        lambda structure, n_sim, seed: {"n_sim": 3, "seed": 0,
+                                                        "declaration": "d", "x": 1})
+    rep = an._reproduce_power_4c(_fake_power_record_4c())
+    assert rep == {"identical": True, "first_diff": None}
+
+
+def test_reproduce_power_4c_names_the_first_differing_key(monkeypatch):
+    from experiments.exp4c import power_4c as pw4c
+    monkeypatch.setattr(pw4c, "compute",
+                        lambda structure, n_sim, seed: {"n_sim": 3, "seed": 0,
+                                                        "declaration": "d", "x": 99})
+    rep = an._reproduce_power_4c(_fake_power_record_4c())
+    assert rep["identical"] is False and rep["first_diff"] == "x"
+
+
+# ------------------- FINAL REVIEW minor: S9's UNIT side reads unavailable too
+
+def _s9_inputs_4c(root, traj="pythia_6.9b", ref="ref_pythia_12b"):
+    ref_raw = {traj: {ref: {"record": {}, "sets_question_end": {r: None for r in bc.RUNGS}}}}
+    unit = {"record": {"sites": [0, 1], "pairing": {ref: [0, 1]},
+                       "attested_sha256": {r: "0" * 64 for r in bc.RUNGS}}}
+    tables = {traj: {step: unit for step in bc.GRID_4C[traj]}}
+    return ref_raw, tables
+
+
+def test_s9_question_end_4c_reads_unavailable_when_the_units_attested_npz_is_absent(
+        tmp_path, monkeypatch):
+    """The docstring promises `available: False` when 4c's OWN attested
+    npz is missing; the code let `_attested_question_end_4c` raise and
+    the caller landed `{"failed": ...}` — a different shape from the
+    reference side's, for the same gitignored-artifact cause."""
+    monkeypatch.setattr(an, "_reference_attested_sha_ok_4c", lambda root4, ref, rec: (True, None))
+    ref_raw, tables = _s9_inputs_4c(tmp_path)
+    out = an.s9_question_end_4c(tmp_path, tmp_path, tables, ref_raw, {})
+    assert out["available"] is False and out["no_alpha_claim"] is True
+    assert "absent" in out["reason"] and bc.RUNGS[0] in out["reason"]
+
+
+def test_s9_question_end_4c_reads_unavailable_on_a_units_attested_sha_mismatch(
+        tmp_path, monkeypatch):
+    monkeypatch.setattr(an, "_reference_attested_sha_ok_4c", lambda root4, ref, rec: (True, None))
+    traj = "pythia_6.9b"
+    ref_raw, tables = _s9_inputs_4c(tmp_path, traj=traj)
+    d = battery_4.unit_dir(tmp_path, traj, bc.GRID_4C[traj][0]) / "attested"
+    d.mkdir(parents=True)
+    for r in bc.RUNGS:
+        (d / f"{r}.npz").write_bytes(b"not the bytes the record pins")
+    out = an.s9_question_end_4c(tmp_path, tmp_path, tables, ref_raw, {})
+    assert out["available"] is False
+    assert "attested sha != the record's" in out["reason"]
+
+
+# ------------ FINAL REVIEW minor: the verdict write is a collect site
+
+def _fast_run_kwargs_4c(**over):
+    """`run()` driven to its refusal terminal without touching Exp 4's
+    real trees: the tag, referent manifest, import pin and discovery
+    gate are all injected, and the power gate is skipped."""
+    kw = dict(write=True, frozen_check=lambda: None, tag_exists=lambda t: False,
+              blob_sha=lambda tag, rel: None, blobs_bound=lambda tag, paths, repo_root=None: [],
+              referents_sha=False, imports_pinned=False,
+              discovery_check=lambda root4: {}, power_gate="skip", expected_n_sim=1)
+    kw.update(over)
+    return kw
+
+
+def test_an_unwritable_results_dir_lands_as_write_failure_not_a_raise(tmp_path):
+    """The two writes sat outside every collect site: an unwritable
+    `results/` raised out of `run()` AFTER the whole computation."""
+    results = tmp_path / "results"
+    results.mkdir()
+    results.chmod(0o500)
+    try:
+        v = an.run(root=tmp_path, root4=tmp_path / "no_exp4", **_fast_run_kwargs_4c())
+    finally:
+        results.chmod(0o700)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert "write_failure" in v
+    assert "4c verdict write" in v["write_failure"]
+    assert not (results / "verdict.json").exists()
+
+
+def test_a_writable_results_dir_writes_both_files_and_sets_no_write_failure(tmp_path):
+    v = an.run(root=tmp_path, root4=tmp_path / "no_exp4", **_fast_run_kwargs_4c())
+    assert "write_failure" not in v
+    assert json.loads((tmp_path / "results" / "verdict.json").read_text()) == v
+    assert "EXPERIMENT 4c VERDICT" in (tmp_path / "results" / "VERDICT.txt").read_text()
+
+
+# ---------- FINAL REVIEW: the per-trajectory stack-consistency descriptive
+
+def _stack_4c(**over):
+    s = {"torch": "2.12.1", "transformers": "5.13.0", "numpy": "2.3.1"}
+    s.update(over)
+    return s
+
+
+def _tables_with_stacks_4c(traj, stacks):
+    steps = list(bc.GRID_4C[traj])
+    return {step: {"record": {"stack": stacks.get(step, _stack_4c())}} for step in steps}
+
+
+def test_stack_consistency_4c_reads_one_block_when_the_whole_run_agrees(tmp_path):
+    traj = "pythia_6.9b"
+    tables = {traj: _tables_with_stacks_4c(traj, {})}
+    out = an.stack_consistency_4c(tmp_path, tables,
+                                  {traj: {"record": {"stack": _stack_4c()}}})
+    assert out["consistent"] is True
+    assert out["per_traj"][traj]["n_distinct"] == 1
+    assert out["per_traj"][traj]["n_units"] == len(bc.GRID_4C[traj]) + 1
+    assert out["no_alpha_claim"] is True
+
+
+def test_stack_consistency_4c_names_both_blocks_when_one_unit_differs(tmp_path):
+    traj = "pythia_6.9b"
+    odd = list(bc.GRID_4C[traj])[3]
+    tables = {traj: _tables_with_stacks_4c(traj, {odd: _stack_4c(transformers="5.14.0")})}
+    out = an.stack_consistency_4c(tmp_path, tables, {})
+    assert out["consistent"] is False
+    blk = out["per_traj"][traj]
+    assert blk["n_distinct"] == 2
+    minority = [b for b in blk["blocks"] if b["n_units"] == 1][0]
+    assert minority["units"] == [battery_4.step_key(odd)]
+    assert minority["stack"]["transformers"] == "5.14.0"
+
+
+def test_stack_consistency_4c_folds_in_the_thin_endpoint_record(tmp_path):
+    traj = "olmo2_13b"
+    d = battery_4.key_dir_4(tmp_path, bc.THIN_ENDPOINT_KEY_4C)
+    d.mkdir(parents=True)
+    (d / "_load.json").write_text(json.dumps({"stack": _stack_4c(torch="2.99.0")}))
+    tables = {traj: _tables_with_stacks_4c(traj, {})}
+    out = an.stack_consistency_4c(tmp_path, tables, {})
+    blk = out["per_traj"][traj]
+    assert blk["n_distinct"] == 2
+    thin = [b for b in blk["blocks"] if b["units"] == [bc.THIN_ENDPOINT_KEY_4C]][0]
+    assert thin["stack"]["torch"] == "2.99.0"
+
+
+def test_stack_consistency_4c_counts_a_record_with_no_stack_block(tmp_path):
+    traj = "pythia_6.9b"
+    tables = {traj: _tables_with_stacks_4c(traj, {})}
+    first = list(bc.GRID_4C[traj])[0]
+    tables[traj][first] = {"record": {}}
+    out = an.stack_consistency_4c(tmp_path, tables, {})
+    blk = out["per_traj"][traj]
+    assert blk["n_distinct"] == 2
+    absent = [b for b in blk["blocks"] if b["stack"] is None][0]
+    assert absent["units"] == [battery_4.step_key(first)]

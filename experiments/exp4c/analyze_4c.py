@@ -101,6 +101,10 @@ REFERENTS_4C_SHA256 = "eb3546582b2a85fa2787880d0273d4b96ddbd54f30c8795128ea7398a
 # battery item 13 (F-3, gate 1's comparator checked cold); again only
 # that one file's sha moved, and the pin is cut LAST, after every
 # closure, and verified by `check_imports_4c` in a fresh process.
+# re-cut a FOURTH time in the final-review fix wave, after
+# `verify_referents_4c.py`'s items 6 (the 40 committed digests
+# pairwise distinct) and 12 (the SKIP decided per trajectory); again
+# only that one file's sha moved, and again the pin was cut LAST.
 IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -111,7 +115,7 @@ IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/run/preflight_4c.py":
         "31cffdd3bfa49ef595c16cc1f337baf53d72071d43cf766bee7f06fb5104a924",
     REPO / "experiments/exp4c/verify_referents_4c.py":
-        "c622828682e403ce6d80588af454fb6bab3a3aca16848644ac5713e8af770cdd",
+        "5d8bd4ba8788cb72ff0e9d1af83af53698fc4ddfb8fd6d04d8c2216ce6fa5ddd",
 }
 REFERENTS_PATH_4C = EXP4C / "referents_4c.json"
 
@@ -357,10 +361,11 @@ def load_run_tables_4c(root, traj) -> dict:
 def _attested_question_end_4c(root, key, rec) -> dict:
     """`{rung: uint16[n_sites, n, k]}` from `attested/<rung>.npz`'s
     `question_end` member — read only when the file is present AND its
-    sha equals the record's own `attested_sha256[rung]`. Raises,
-    naming the rung, otherwise; S9's caller collects that and prints
-    `available: False` (the attested files are gitignored and may be
-    absent on a fresh clone)."""
+    sha equals the record's own `attested_sha256[rung]`. Raises
+    `ValueError`, naming the rung, otherwise; `s9_question_end_4c`
+    catches that and reads `available: False` with the same reason
+    (the attested files are gitignored and may be absent on a fresh
+    clone)."""
     d = battery_4.key_dir_4(root, key)
     att_sha = rec.get("attested_sha256") or {}
     out = {}
@@ -672,6 +677,18 @@ def s4_continuity_4c(series_by_traj, rung_sets_by_traj, eligibility_by_traj, pia
                                  "n_rungs": primary.get("n_rungs")}),
                 "4c S4 alpha_placebo")
             fails += f
+            # FINAL REVIEW I-2: design §5 S4 names "per-run nulls" and
+            # the build dropped them — `draw_batteries_4b` already
+            # carries `per_traj_mean`, which this block discarded.
+            # `placebo_4b.per_traj_4b` is 4b's own frozen function: each
+            # trajectory's observed T (read from `primary_4`'s own
+            # `per_traj`) against that trajectory's OWN placebo null.
+            # Its own collect site — a refusal degrades S4 alone.
+            per_traj_null, f = collect_total_4c(
+                lambda: placebo_4b.per_traj_4b(batteries, design, primary["per_traj"]),
+                "4c S4 per-traj null")
+            fails += f
+            out["per_traj_null"] = per_traj_null
             out["p_cal"] = p_cal
             out["t_star"] = t_star
             out["alpha_placebo"] = alpha
@@ -891,7 +908,18 @@ def s9_question_end_4c(root, root4, run_tables_by_traj, ref_raw_by_traj,
             rec = unit["record"]
             sites = rec["sites"]
             keep = [i for i, s in enumerate(sites) if int(s) not in rk.EXCLUDED_SITES_4C]
-            qe_m = _attested_question_end_4c(root, (traj, step), rec)
+            # FINAL REVIEW minor: the docstring above promises
+            # `available: False` when 4c's OWN attested npz is absent
+            # or has drifted from its record's sha; the code let
+            # `_attested_question_end_4c` raise, which `_sec` collected
+            # into `{"failed": ...}` — a different shape from the
+            # reference side's, for the same gitignored-artifact cause.
+            # The unit side now reads unavailable too, naming the
+            # rung/path.
+            try:
+                qe_m = _attested_question_end_4c(root, (traj, step), rec)
+            except ValueError as e:
+                return {"available": False, "reason": str(e), "no_alpha_claim": True}
             for rung in bc.RUNGS:
                 per_ref = []
                 for ref, pairing in rec["pairing"].items():
@@ -911,6 +939,48 @@ def s9_question_end_4c(root, root4, run_tables_by_traj, ref_raw_by_traj,
             "p_plus": fl["p_plus"], "p_minus": fl["p_minus"], "n_families": fl["n_blocks"],
             "modifier": mod["modifier"], "position": "question_end",
             "source": "attested (gitignored; absent on a fresh clone)",
+            "descriptive": True, "no_alpha_claim": True}
+
+
+def stack_consistency_4c(root, run_tables_by_traj, init_units) -> dict:
+    """FINAL REVIEW (additive descriptive): per trajectory, the set of
+    DISTINCT `stack` blocks (numpy / torch / transformers versions)
+    across the units the verdict actually read — every grid step, that
+    run's own step 0, and, for the trajectory whose gate-1 comparator
+    is 4c's own thin endpoint, that endpoint's record.
+
+    Why it is worth printing: gate 1's whole claim is BYTE identity of
+    `.npz` files, and what writes those bytes is numpy's zip writer on
+    top of torch and transformers. A campaign that spanned a library
+    upgrade would still pass every pin in this analyzer (each unit's
+    digest matches its own record), and the reader would have no way
+    to see it. `n_distinct == 1` says the whole run was written under
+    one stack; anything else names each block and the units that carry
+    it. Never a refusal and never a bar: descriptive, `no_alpha_claim`.
+    A unit whose record has no `stack` block is counted under the key
+    `"(absent)"` rather than dropped."""
+    out = {}
+    for traj in sorted(run_tables_by_traj or {}):
+        items = [(battery_4.step_key(step), (u.get("record") or {}).get("stack"))
+                 for step, u in sorted((run_tables_by_traj[traj] or {}).items())]
+        u0 = (init_units or {}).get(traj)
+        if u0 is not None:
+            items.append((battery_4.step_key(bc.INIT_STEP_4C), (u0.get("record") or {}).get("stack")))
+        thin_root, thin_key = bc.GATE1_REFERENCE_4C.get(traj, (None, None))
+        if thin_root == "exp4c":
+            p = battery_4.key_dir_4(root, thin_key) / "_load.json"
+            if p.is_file():
+                items.append((thin_key, (json.loads(p.read_text()) or {}).get("stack")))
+        blocks = {}
+        for name, stack in items:
+            k = json.dumps(stack, sort_keys=True) if stack else "(absent)"
+            blocks.setdefault(k, []).append(name)
+        out[traj] = {"n_units": len(items), "n_distinct": len(blocks),
+                     "blocks": [{"stack": (json.loads(k) if k != "(absent)" else None),
+                                 "n_units": len(names), "units": sorted(names)}
+                                for k, names in sorted(blocks.items())]}
+    return {"per_traj": out,
+            "consistent": all(b["n_distinct"] == 1 for b in out.values()) if out else None,
             "descriptive": True, "no_alpha_claim": True}
 
 
@@ -1579,6 +1649,8 @@ def run(root=bc.EXP4C, root4=EXP4, *, write=False, n_boot=N_BOOT_4C, B=B_PLACEBO
         _sec("S9", lambda: s9_question_end_4c(root, root4, run_tables_by_traj, ref_raw_by_traj,
                                               rung_sets))
         _sec("S10", lambda: s10_texture_4c(s4, series_incl_by_traj, rung_sets))
+        _sec("stack_consistency",
+             lambda: stack_consistency_4c(root, run_tables_by_traj, init_units))
 
     # ---- the import surface again, at EXIT (2j F-1): a secondary may
     # have imported something the entry check never saw.
@@ -1624,12 +1696,28 @@ def run(root=bc.EXP4C, root4=EXP4, *, write=False, n_boot=N_BOOT_4C, B=B_PLACEBO
                    secondaries=secondaries, pins_active=pins_active, n_boot=n_boot, B=B)
     v = a4._jsonify_4(v)
 
+    # FINAL REVIEW minor: the two writes sat outside every collect
+    # site, so an unwritable `results/` raised out of `run()` AFTER the
+    # whole computation — the verdict computed and then thrown away.
+    # The block is collected: the failure lands in the returned verdict
+    # as `write_failure` and the in-memory verdict is still returned.
+    # VERDICT.txt is RENDERED before either write, so a rendering
+    # failure can never leave a `verdict.json` on disk with no
+    # `VERDICT.txt` beside it.
     if write:
-        out_v = Path(out_path) if out_path else battery_4.verdict_path(root)
-        out_txt = battery_4.verdict_txt_path(root)
-        out_v.parent.mkdir(parents=True, exist_ok=True)
-        out_v.write_text(json.dumps(v, indent=1, allow_nan=False))
-        out_txt.write_text(write_verdict_txt_4c(v))
+        def _write_verdict_4c():
+            out_v = Path(out_path) if out_path else battery_4.verdict_path(root)
+            out_txt = battery_4.verdict_txt_path(root)
+            txt = write_verdict_txt_4c(v)
+            out_v.parent.mkdir(parents=True, exist_ok=True)
+            out_v.write_text(json.dumps(v, indent=1, allow_nan=False))
+            out_txt.write_text(txt)
+            return True
+        _, f = collect_total_4c(_write_verdict_4c, "4c verdict write")
+        if f:
+            # Set only on failure: on success the returned dict stays
+            # byte-for-byte the dict that was written.
+            v["write_failure"] = f[0]
     return v
 
 
@@ -1705,19 +1793,29 @@ def power_structure_failures_4c(power, cells) -> list:
 def _reproduce_power_4c(power) -> dict:
     """Task 5's byte reproduction: `power_4c.compute` re-run at the
     record's own `n_sim`/`seed` must produce the same record. The key
-    SETS are asserted equal first — fix round 2 finding 5: comparing
-    only the keys `rec2` happens to have would let a key present in
-    the committed record but absent from `compute`'s live output (or
-    vice versa) pass silently."""
+    SETS are compared first — fix round 2 finding 5: comparing only
+    the keys `rec2` happens to have would let a key present in the
+    committed record but absent from `compute`'s live output (or vice
+    versa) pass silently.
+
+    FINAL REVIEW I-1: that comparison used to be a bare `assert`, and
+    `AssertionError` is deliberately NOT in `collect_total_4c`'s caught
+    set (widening it there would launder logic defects as refusals), so
+    a post-tag key drift in `power_4c.py` RAISED out of `run()` instead
+    of arriving as INSUFFICIENT_DATA. It now RETURNS the same shape
+    every other mismatch returns, and travels the existing "not
+    reproduced byte for byte" failure. The cold tool
+    (`verify_referents_4c._c11`) keeps its assert: a cold tool's raise
+    IS its failure mode."""
     from experiments.exp4c import power_4c as pw4c
     rec2 = pw4c.compute(pw4c.cell_structure_4c(), n_sim=int(power["n_sim"]),
                         seed=int(power["seed"]))
     rec2["prereg_tag"] = power.get("prereg_tag")
     extra = sorted(set(power) - set(rec2))
     missing = sorted(set(rec2) - set(power))
-    assert not extra and not missing, (
-        f"power record key set mismatch: extra in committed {extra}, missing from committed "
-        f"{missing}")
+    if extra or missing:
+        return {"identical": False,
+                "first_diff": f"key set mismatch: extra {extra}, missing {missing}"}
     a_s = json.dumps(rec2, sort_keys=True)
     b_s = json.dumps(power, sort_keys=True)
     identical = a_s == b_s

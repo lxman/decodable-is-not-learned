@@ -24,7 +24,9 @@ run). Committed bytes throughout: no model contact.
     indices reproduce `CLEAR_INDEX_PIN_4C`
     (`battery_4c.check_rung_set_pins_4c`)
  6  every grid step's + every step-0's committed digest is readable,
-    non-empty and 64 hex characters (22 + 16 + 2 = 40)
+    non-empty and 64 hex characters (22 + 16 + 2 = 40), and the 40 are
+    PAIRWISE DISTINCT (a unit copied from one step to another would
+    otherwise carry a digest matching its own record and pass every pin)
  7  `battery_4c.SITE_COUNT_PIN_4C` reproduces through `metric_4.
     sites_4` for every `n_hidden` `battery_4c.N_HIDDEN_PIN_4C` uses
  8  the five Exp 4 reference keys are complete (`battery_4.
@@ -43,8 +45,11 @@ run). Committed bytes throughout: no model contact.
     `cells_sha256` equals the LIVE `power_4c.structure_sha256_4c(
     power_4c.cell_structure_4c())`; prints the declaration
 12  gate 0 (`analyze_4c.gate0_4c`) on the two new runs' own committed
-    sweep trees, site 0 excluded, PASSES on both trajectories; SKIPs
-    before 4c's own sweep has produced a step-0 AND an endpoint unit
+    sweep trees, site 0 excluded, PASSES on every trajectory PRESENT on
+    disk. The skip is decided PER TRAJECTORY, so between the two sweeps
+    (6.9b complete, 13B not) the complete run is checked and the other
+    prints "SKIP (sweep not run)" instead of failing gate 0; the item
+    SKIPs outright while neither run has a step-0 AND an endpoint unit
 """
 from __future__ import annotations
 
@@ -137,8 +142,9 @@ def _c5(ctx):
     ctx["rung_sets"] = rung_sets
 
 
-@check(6, "every grid step's + step-0's committed digest is readable (22 + 16 + 2 = 40)")
+@check(6, "every grid step's + step-0's committed digest is readable and the 40 are distinct")
 def _c6(ctx):
+    digests = {}
     n = 0
     for traj in bc.TRAJECTORIES_4C:
         for step in (bc.INIT_STEP_4C,) + tuple(bc.GRID_4C[traj]):
@@ -146,8 +152,20 @@ def _c6(ctx):
             if not d or len(d) != 64:
                 raise AssertionError(f"{traj} step{step}: digest {d!r} is not 64 hex chars")
             int(d, 16)   # raises ValueError if not hex
+            digests.setdefault(d, []).append(f"{traj} step{step}")
             n += 1
     _eq(n, 40, "22 + 16 + 2 committed digests")
+    # FINAL REVIEW minor: readable-and-64-hex is not enough — a unit
+    # copied from one step into another would carry a digest that
+    # matches its own record and passes every pin in the analyzer. The
+    # 40 committed digests are 40 DISTINCT checkpoints, so they must be
+    # pairwise distinct.
+    dupes = {d: names for d, names in digests.items() if len(names) > 1}
+    if dupes:
+        raise AssertionError(f"{len(dupes)} committed digest(s) shared by more than one step: "
+                             + "; ".join(f"{d[:12]}… <- {names}" for d, names in
+                                         sorted(dupes.items())))
+    _eq(len(digests), 40, "pairwise-distinct committed digests")
 
 
 @check(7, "SITE_COUNT_PIN_4C reproduces through metric_4.sites_4")
@@ -219,18 +237,25 @@ def _c11(ctx):
     print(f"       power declaration: {power['declaration']}", flush=True)
 
 
-@check(12, "gate 0 on the two new runs' own sweep trees: PASS with site 0 excluded")
+@check(12, "gate 0 on each new run's own sweep tree (per-trajectory SKIP): PASS, site 0 excluded")
 def _c12(ctx):
-    traj0 = bc.TRAJECTORIES_4C[0]
-    d0 = battery_4.unit_dir(bc.EXP4C, traj0, bc.INIT_STEP_4C)
-    dend = battery_4.unit_dir(bc.EXP4C, traj0, bc.ENDPOINT_STEP_4C[traj0])
-    if not d0.is_dir() or not dend.is_dir():
-        return "SKIP"
+    # FINAL REVIEW minor: the SKIP used to be decided from
+    # `TRAJECTORIES_4C[0]` alone and then both trajectories were
+    # looped — so BETWEEN the two sweeps (6.9b complete, 13B not) this
+    # item reported a gate-0 FAILURE for a run that simply has not been
+    # collected yet. The skip is now decided per trajectory; the item
+    # passes when every trajectory PRESENT on disk passes.
     from experiments.exp4c import analyze_4c as an4c
     from experiments.exp4 import collect_4
     _eq(list(rk.EXCLUDED_SITES_4C), [0], "EXCLUDED_SITES_4C")
-    out = []
+    out, present = [], 0
     for traj in bc.TRAJECTORIES_4C:
+        d0 = battery_4.unit_dir(bc.EXP4C, traj, bc.INIT_STEP_4C)
+        dend = battery_4.unit_dir(bc.EXP4C, traj, bc.ENDPOINT_STEP_4C[traj])
+        if not d0.is_dir() or not dend.is_dir():
+            out.append(f"{traj} SKIP (sweep not run)")
+            continue
+        present += 1
         refs = bc.REFS_FOR_4C[traj]
         ref_raw = collect_4.load_ref_tables_4(battery_4.EXP4, refs)
         ref_tables = {r: t["sets"] for r, t in ref_raw.items()}
@@ -242,6 +267,8 @@ def _c12(ctx):
                                  f"{g0['n_cells']} cells ({g0['n_cells_excluded']} excluded)")
         out.append(f"{traj} {g0['fraction_below']:.4f} ({g0['n_cells']} cells, "
                    f"{g0['n_cells_excluded']} excluded)")
+    if not present:
+        return "SKIP"
     print("       gate 0 (site 0 excluded): " + "; ".join(out), flush=True)
 
 

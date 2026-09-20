@@ -258,3 +258,50 @@ def test_the_cache_key_moves_when_a_world_writing_module_moves(tmp_path, monkeyp
 def test_the_cache_key_is_not_only_mode_and_seed():
     d = fs4c.world_inputs_digest_4c()
     assert len(d) == 12 and d.isalnum()
+
+
+# ------- FINAL REVIEW: the per-trajectory stack-consistency descriptive
+
+def test_stack_consistency_reads_one_block_per_trajectory_on_an_untouched_world(
+        replicates_world, tmp_path):
+    w = fs4c.copy_world(replicates_world, tmp_path)
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "REPLICATES", v["reason"]
+    sc = v["secondaries"]["stack_consistency"]
+    assert not sc.get("failed"), sc
+    assert sc["consistent"] is True and sc["no_alpha_claim"] is True
+    assert set(sc["per_traj"]) == set(bc.TRAJECTORIES_4C)
+    for traj, blk in sc["per_traj"].items():
+        assert blk["n_distinct"] == 1
+        # every grid step + this run's own step 0 (+ the thin endpoint
+        # on the trajectory whose gate-1 comparator 4c wrote itself)
+        want = len(bc.GRID_4C[traj]) + 1
+        if bc.GATE1_REFERENCE_4C[traj][0] == "exp4c":
+            want += 1
+        assert blk["n_units"] == want
+
+
+def test_stack_consistency_names_a_unit_written_under_a_different_stack(replicates_world,
+                                                                        tmp_path):
+    """A campaign that spanned a library upgrade passes every pin in
+    this analyzer — each unit's digest matches its own record. The
+    descriptive is what makes it visible."""
+    from experiments.exp4 import battery_4
+    w = fs4c.copy_world(replicates_world, tmp_path)
+    traj = "pythia_6.9b"
+    step = list(bc.GRID_4C[traj])[3]
+    p = battery_4.unit_dir(w["root4c"], traj, step) / "_load.json"
+    rec = json.loads(p.read_text())
+    rec["stack"] = dict(rec["stack"], transformers="5.14.0-not-the-others")
+    p.write_text(json.dumps(rec))
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "REPLICATES", v["reason"]
+    sc = v["secondaries"]["stack_consistency"]
+    assert sc["consistent"] is False
+    blk = sc["per_traj"][traj]
+    assert blk["n_distinct"] == 2
+    odd = [b for b in blk["blocks"] if b["n_units"] == 1][0]
+    assert odd["units"] == [battery_4.step_key(step)]
+    assert odd["stack"]["transformers"] == "5.14.0-not-the-others"
+    # the other trajectory is untouched
+    assert sc["per_traj"]["olmo2_13b"]["n_distinct"] == 1

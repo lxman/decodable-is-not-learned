@@ -163,6 +163,37 @@ def test_power_record_probability_edited_gives_insufficient_data(_totality_base,
     assert _needle_in_failures(v, "power record")
 
 
+def test_power_record_with_an_extra_key_gives_insufficient_data(_totality_base, tmp_path):
+    """FINAL REVIEW I-1: a key present in the committed record but
+    absent from `power_4c.compute`'s live output used to trip a bare
+    `assert` inside `_reproduce_power_4c`, and `AssertionError` is not
+    in `collect_total_4c`'s caught set — so a post-tag key drift RAISED
+    out of `run()` instead of arriving as INSUFFICIENT_DATA. It now
+    travels the existing "not reproduced byte for byte" failure."""
+    w = fs4c.copy_world(_totality_base, tmp_path)
+    p = w["root4c"] / "results" / "power_4c.json"
+    rec = json.loads(p.read_text())
+    rec["a_key_compute_never_produces"] = 1
+    p.write_text(json.dumps(rec))
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "not reproduced byte for byte")
+    assert _needle_in_failures(v, "key set mismatch")
+    assert _needle_in_failures(v, "a_key_compute_never_produces")
+
+
+def test_power_record_with_a_missing_key_gives_insufficient_data(_totality_base, tmp_path):
+    w = fs4c.copy_world(_totality_base, tmp_path)
+    p = w["root4c"] / "results" / "power_4c.json"
+    rec = json.loads(p.read_text())
+    del rec["arms"]
+    p.write_text(json.dumps(rec))
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "key set mismatch")
+    assert _needle_in_failures(v, "arms")
+
+
 # ------------------------------------- 10. grid unit missing roman_sum7.npz
 
 def test_grid_unit_missing_a_rung_gives_insufficient_data(_totality_base, tmp_path):
@@ -673,6 +704,41 @@ def test_s4_alpha_placebo_4b_raising_collapses_only_s4(_totality_base, tmp_path,
     assert not s4.get("failed"), s4
     assert s4.get("alpha_placebo") is None
     assert "design" in s4 and "p_cal" in s4 and "t_star" in s4
+
+
+def test_s4_per_traj_4b_raising_collapses_only_s4(_totality_base, tmp_path, monkeypatch):
+    """FINAL REVIEW I-2: design §5 S4 names "per-run nulls" and the
+    build dropped them. `placebo_4b.per_traj_4b` now runs under its own
+    collect site — this is the named killing test for that site's
+    totality mutant: with the site stripped, the raise leaves `run()`
+    instead of degrading S4 alone."""
+    w = fs4c.copy_world(_totality_base, tmp_path)
+    monkeypatch.setattr(placebo_4b, "per_traj_4b", _raiser)
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "REPLICATES", v["reason"]
+    s4 = _s4_dict(v)
+    assert not s4.get("failed"), s4
+    assert s4.get("per_traj_null") is None
+    assert "design" in s4 and "p_cal" in s4 and "t_star" in s4 and "alpha_placebo" in s4
+    assert any("per-traj null" in d for d in (s4.get("degraded") or [])), s4.get("degraded")
+
+
+def test_s4_carries_the_per_run_nulls_on_an_untouched_world(_totality_base, tmp_path):
+    """The positive side of I-2: every trajectory the primary reads has
+    its own placebo null, calibrated against its own per-trajectory
+    battery mean (4b's `per_traj_4b`)."""
+    w = fs4c.copy_world(_totality_base, tmp_path)
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "REPLICATES", v["reason"]
+    s4 = _s4_dict(v)
+    assert not s4.get("degraded"), s4.get("degraded")
+    ptn = s4["per_traj_null"]
+    assert set(ptn) == set(s4["primary"]["per_traj"])
+    for traj, rec in ptn.items():
+        assert rec["T_obs"] == pytest.approx(s4["primary"]["per_traj"][traj]["T"])
+        assert 0.0 <= rec["p_cal"] <= 1.0
+        assert rec["n_cells"] == s4["design"][traj]["n"]
+        assert len(rec["interval"]) == 2
 
 
 # --------------------------------------------------------------- licence block
