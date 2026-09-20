@@ -1332,8 +1332,24 @@ placebo's construction, the tree, the modifier rule, §5's statistics and
   sentence is not rewritten (R-1); the analyzer checks it and prints the
   record's figure.
 
+**Batteries after the closures** (every cold tool re-run last, in a
+fresh process, `IMPORTED_SHA256_4C` re-cut once for item 13): fast
+suite **153 passed**; cold referent battery **12/13** + 1 legitimate
+skip; import scan 5 residual modules, `scan == committed pins: True`;
+read sweep 8,093 distinct paths, **0 UNPINNED**, 0 writes; slow suite
+**80 passed, 0 failed** (totality 55, full-shape 24, determinism 1) in
+50 min; mutation fast pass **113 considered — 59 fast-killed, 52
+slow-killed, 2 equivalent, 0 UNRESOLVED**. The five world modes were
+rebuilt from scratch under F-4's new cache key and reach **all three
+modifier cells** (TYPE-GENERAL, TYPE-BOUND, NEITHER) and the REVERSED
+sub-cell through the production path; `calibration.bounded` is False in
+all five because at the worlds' `B = 200` four of them land on
+α₀₁ = 0.02 = 2 × 0.01 **exactly**, one placebo battery short of a
+strict `>` — the campaign runs at B = 10,000 where no such tie exists
+(carried item 3, handed up as R-4).
+
 **Pre-tag executions of `analyze_4c.run()` / a statistic-computing tool
-against the REAL tree this session: 6** (running total 11 → 17), none a
+against the REAL tree this session: 7** (running total 11 → 18), none a
 new quantity on the two runs 4c exists to read:
 
 1. the baseline cold battery (`verify_referents_4c`) — item 10 printed
@@ -1345,10 +1361,15 @@ new quantity on the two runs 4c exists to read:
 3. the slow discovery test re-run after F-6's added literals —
    `discovery_set_4c()` on Exp 4's committed tree, the same pinned
    numbers, 106 s.
-4. the post-closure read sweep — 8,093 distinct paths, **0 UNPINNED**,
-   same landing point, 136 files in the named (h) attested bucket.
-5. the post-closure cold battery.
-6. the post-closure import scan.
+4. the read sweep after F-1..F-4 — 8,093 distinct paths, **0
+   UNPINNED**, same landing point, 136 files in the named (h) attested
+   bucket.
+5. the read sweep again with every closure in place — the same table
+   byte for byte (neither F-6 nor F-7 adds a file read).
+6. the post-closure cold battery — 12/13 + 1 legitimate skip; item 13
+   printed `pythia_6.9b: exp4/ladder_pythia_6.9b digest_equal, pins
+   equal`.
+7. the post-closure import scan — `scan == committed pins: True`.
 
 Everything else this session ran on synthetic worlds under the session
 scratchpad; worlds on tmp trees do not count.

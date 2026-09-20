@@ -15,7 +15,7 @@ data).
 Zero model contact and zero network throughout. Every execution of
 `analyze_4c.run()` against the REAL tree (`root=EXP4C`, `root4=EXP4`)
 is a disclosure event; the running total was **11** at the start of the
-session and is **17** at the end — §D below lists this session's six
+session and is **18** at the end — §D below lists this session's seven
 and what each printed. Worlds on tmp trees do not count.
 
 Python `~/emergence-lab/.venv/bin/python`, `PYTHONDONTWRITEBYTECODE=1`,
@@ -592,13 +592,111 @@ sound; the four items that became findings say so.
 
 ## C. Post-closure batteries
 
-(filled in below)
+### The five world modes, rebuilt from scratch under the new cache key
+
+Measured before the post-closure suites, to answer carried item 3 and
+to confirm §3.8's "every terminal and every modifier cell is reached by
+a synthetic world through the production path":
+
+```
+mode             build    run    verdict           modifier       a01   a05   bar   bounded  reversed
+replicates       261.9s   82.1s  REPLICATES        TYPE-GENERAL   0.02  0.07  0.01  False    False
+not_replicated   275.0s   79.7s  NOT-REPLICATED    TYPE-BOUND     0.02  0.07  0.05  False    False
+reversed         273.2s   82.0s  NOT-REPLICATED    NEITHER        0.00  0.05  0.05  False    True
+type_bound       272.8s   79.8s  NOT-REPLICATED    TYPE-BOUND     0.02  0.07  0.05  False    False
+type_general     270.5s   80.2s  REPLICATES        TYPE-GENERAL   0.02  0.07  0.01  False    False
+```
+
+**All three modifier cells are reached** — TYPE-GENERAL, TYPE-BOUND and
+NEITHER — and so is the REVERSED sub-cell, each through the production
+path. MARGINAL is reached by the tree in `test_full_shape_4c.py` and
+INSUFFICIENT_DATA by ten refusal routes plus the totality battery.
+
+**`calibration.bounded` is False in all five, and the reason is now
+exact rather than assumed.** `bounded` is `alpha > CAL_MULTIPLE_4C *
+bar`, strictly. At the worlds' `B = 200` the achievable α values are
+multiples of 1/200, and four of the five modes land on **α₀₁ = 0.02 =
+2 × 0.01 exactly** — one placebo battery short of the bound, sitting on
+`CAL_MULTIPLE_4C`'s boundary. That is Task 4's deferred concern
+("at world B = 200 the REPLICATES world sits on the boundary")
+measured. The campaign runs at `B = 10,000`, where α has resolution
+1e-4 and no such tie is possible. Carried item 3 therefore closes as:
+the branch is one fire away in a world and cannot be expressed at
+`B = 200`; reaching it needs either a larger `B` or the sixth world
+mode sketched in R-4 (depress the nine tasks flat on 6.9b but absent
+from the common pool). Handed up rather than added after the batteries
+were measured.
+
+The incidental reading is worth recording: **α₀₁ ≈ .02 against a
+nominal .01 even on a synthetic world**, which is exactly the quantity
+§3.6 exists to measure and the reason dial (n) is in the design.
+
+### The batteries
+
+| battery | baseline | after the closures |
+| --- | --- | --- |
+| fast suite (`-m "not slow" -W error`) | 117 passed, 79 deselected, 42.4 s | **153 passed**, 83 deselected, 46.7 s |
+| cold referent battery | 11/12 + 1 legitimate skip | **12/13** + 1 legitimate skip (item 12, gate 0, pre-campaign) — item 13 is F-3's |
+| import scan | 5 residual modules, byte-identical | **5 residual modules, byte-identical to the committed `IMPORTED_SHA256_4C`** (0 frozen) |
+| read sweep | (not measured cold) | **8,093 distinct paths, 0 UNPINNED, 0 writes** |
+| totality + full-shape + determinism (slow) | totality 53, worlds 24 + 1 xfail | **80 passed**, 0 failed, 3,018.7 s (totality 55, full-shape 24, determinism 1) |
+| mutation fast pass | 106 considered, 53 fast-killed | **113 considered — 59 fast-killed, 51 by the slow suite, 2 equivalent, 1 unresolved → 52 by the slow suite, 0 unresolved after the entry** |
+| world cache | 1.4 GB, `<mode>_<seed>` | rebuilt, `<mode>_<seed>_e4bc3de9f900` |
+
+**The mutation tally, in full.** The first post-closure pass
+(`freeze_mutation_fast.log`) read 113 considered / **59 killed by the
+fast suite** (the build's 53 plus the freeze's six hand-written
+mutants) / 51 killed by the slow suite via `NON_FAST_KILLS_4C` / 2
+documented equivalent / **1 UNRESOLVED: `totality_ffe2f03f35`** — the
+auto-generated totality mutant for F-2's new `collect_total_4c` site,
+whose entry was not yet in `NON_FAST_KILLS_4C` when the pass ran. It
+was then executed ALONE (mutation applied, source restored) and
+observed to FAIL its named test:
+
+```
+experiments/exp4c/analyze_4c.py:1524: in run
+    bad, f = ((lambda: power_structure_failures_4c(power, cells))(), [])
+E       RuntimeError: forced (Task 5 fix round 1b totality probe)
+FAILED test_totality_4c.py::test_power_structure_failures_raising_gives_insufficient_data
+RESTORED; target text present once again: True
+```
+
+— i.e. with the collector stripped the forced error escapes `run()`
+instead of arriving as INSUFFICIENT_DATA, which is the lesson-8
+property the site exists for. The entry was added to
+`NON_FAST_KILLS_4C` (52 labels) and the **whole pass re-run on the
+committed tree**, so the committed log carries the tally rather than
+an inference.
+
+### Cold tools, re-run LAST (the pins are cut last — fix round 1a's lesson)
+
+`IMPORTED_SHA256_4C` was re-cut once, for `verify_referents_4c.py`'s
+new item 13, and then every cold tool was re-run in a fresh process
+after every closure was in place:
+
+```
+fast suite            153 passed, 84 deselected, 45.7 s
+import scan           0 frozen + 5 exp4c-own residual modules; scan == committed pins: True
+cold referent battery 12/13 + 1 legitimate skip
+   [13] pythia_6.9b: exp4/ladder_pythia_6.9b digest_equal, pins equal;
+        olmo2_13b: exp4c/endpoint_olmo2_13b not written yet (this run's own)
+read sweep            8,093 distinct paths / 17,762 open-read calls, 0 writes,
+                      referents 7,947 | instrument_blob 6 | sha_pin_at_load 2 |
+                      exp4_reference_attested_unhashed 136 (the named bucket) |
+                      exp4c_own_future_campaign_artifact 2 | UNPINNED 0
+slow suite            80 passed, 0 failed (totality 55, full-shape 24, determinism 1)
+mutation fast pass    113 considered | 59 fast-killed | 52 slow-killed | 2 equivalent | 0 UNRESOLVED
+```
+
+No `.mutation_backup`, `.freezebak` or other stray anywhere under
+`experiments/exp4c/`; the working tree carries only the freeze's own
+edits.
 
 ---
 
 ## D. Pre-tag executions against the REAL tree this session
 
-Six, running total **11 → 17**. None is a new quantity on the two runs
+Seven, running total **11 → 18**. None is a new quantity on the two runs
 4c exists to read: every one either prints the KNOWN discovery numbers
 (which `DISCOVERY_PIN_4C` already carries in the committed source) or
 refuses at "4c gate 1 pythia_6.9b: record missing", which is what a
@@ -616,12 +714,18 @@ pre-campaign tree gives.
 3. **the slow discovery test re-run after F-6's added literals**
    (`pytest -k discovery`) — `rk.discovery_set_4c()` on Exp 4's
    committed tree; the same pinned numbers; 106 s.
-4. **post-closure read sweep** (`tests/read_sweep_4c.py`) — 8,093
+4. **read sweep after F-1..F-4** (`tests/read_sweep_4c.py`) — 8,093
    distinct paths over 17,762 open/read calls, **0 UNPINNED**, 0
    writes, the same landing point, 7,947 in the referent manifest, 136
    in the named (h) `exp4_reference_attested_unhashed` bucket.
-5. **post-closure cold battery** — §C.
-6. **post-closure import scan** — §C.
+5. **read sweep again after F-6 and F-7**, with every closure in place
+   — byte-for-byte the same table (neither closure adds a file read).
+6. **post-closure cold battery** — **12/13** + 1 legitimate skip; item
+   10 printed the same KNOWN discovery numbers, item 11 the same
+   declaration, and the new item 13 printed
+   `pythia_6.9b: exp4/ladder_pythia_6.9b digest_equal, pins equal`.
+7. **post-closure import scan** — 0 frozen + 5 residual, `scan ==
+   committed pins: True`.
 
 Everything else this session ran on synthetic worlds under the session
 scratchpad (`.../scratchpad/fz/`): the three attack probes, the five

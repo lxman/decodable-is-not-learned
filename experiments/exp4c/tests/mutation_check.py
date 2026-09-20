@@ -510,6 +510,12 @@ NON_FAST_KILLS_4C = {
                            "insufficient_data (same fake, the other call site)",
     "totality_0f1437d2df": "test_totality_4c.py::test_gate0_per_traj_raising_gives_"
                            "insufficient_data",
+    # FREEZE F-2's new collect_total_4c site. Executed alone at the
+    # freeze (mutation applied, source restored) and observed to FAIL
+    # the named test: the forced RuntimeError escapes `run()` instead
+    # of being collected — the lesson-8 property the site exists for.
+    "totality_ffe2f03f35": "test_totality_4c.py::test_power_structure_failures_raising_"
+                           "gives_insufficient_data",
     "totality_4cd3e551b9": "test_totality_4c.py::test_cells_4c_raising_gives_insufficient_"
                            "data",
     "totality_2395e1c6a2": "test_totality_4c.py::test_primary_4c_raising_gives_insufficient_"
