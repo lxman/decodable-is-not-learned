@@ -172,7 +172,8 @@ _LICENCE_BODY_4C = {
     "NOT-REPLICATED": (
         "on two training runs nobody had read, a sealed rank test did not detect the lead (U, "
         "its interval, p), at a resolution that would have missed an effect of the size seen on "
-        "the first four runs two times in three. \"Still a citation\" stands, and this is not "
+        "the first four runs three times in four (.73 on the tag-bound record). \"Still a citation\" "
+        "stands, and this is not "
         "evidence of absence. The modifier's reading, for the record, is {noun}."
     ),
     "INSUFFICIENT_DATA": (
@@ -204,12 +205,12 @@ REVERSED_SENTENCE_4C = (
 # §4 states that the BUILD's power record supersedes the design-stage
 # table, and the committed record (tag-bound, `results/power_4c.json`)
 # gives P(p+ < .05 | discovery shape, rho = .5) = .26875, a miss rate of
-# .73 — "roughly three times in four". The literal is not corrected here
-# (the doc's own sentence is the controller's, ratification item R-1);
-# it is CHECKED against the record, and a disagreement is printed beside
+# .73 — "roughly three times in four". Ratification slip R-1 (2026-09-20)
+# corrected the literal above and in design §4/§6 to the record's figure;
+# the check stays: the literal is CHECKED against the record, and a disagreement is printed beside
 # the licence so the sentence cannot go out asserting a resolution its
 # own record contradicts.
-POWER_MISS_LITERAL_4C = 2.0 / 3.0
+POWER_MISS_LITERAL_4C = 0.73125   # = 1 − P_05 (discovery shape, rho .5) on results/power_4c.json; ratification slip R-1
 POWER_MISS_TOLERANCE_4C = 0.02
 POWER_MISS_CORRECTION_4C = (
     "Correction (FREEZE F-7): the sentence above quotes design §4's design-stage figure — a "

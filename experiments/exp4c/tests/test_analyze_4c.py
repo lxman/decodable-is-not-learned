@@ -559,15 +559,21 @@ def test_power_structure_failures_4c_refuses_a_record_with_no_structure():
 # ------------------ FREEZE F-7: the NOT-REPLICATED sentence's resolution
 # figure, checked against the record it says supersedes it
 
-def test_the_committed_record_contradicts_the_not_replicated_sentences_literal():
-    """The finding itself, pinned: design §4's design-stage "two times
-    in three" is NOT what the committed power record says, so the
-    correction must fire on the real record."""
+def test_the_committed_record_agrees_with_the_ratified_literal_and_the_check_still_bites():
+    """Ratification slip R-1 (2026-09-20): the NOT-REPLICATED body's
+    literal was corrected from design §4's design-stage "two times in
+    three" to the record's own "three times in four (.73)", so on the
+    committed record the correction is SILENT — and the F-7 check
+    keeps its teeth: a record that disagrees with the literal (a
+    stand-in with P_05 .5, miss rate .5) makes it fire."""
     rec = _committed_power_4c()
     p05 = an._discovery_shape_p05_4c(rec)
     assert p05 is not None
-    assert abs((1.0 - p05) - an.POWER_MISS_LITERAL_4C) > an.POWER_MISS_TOLERANCE_4C
-    assert "FREEZE F-7" in an._power_quote_4c(rec)
+    assert abs((1.0 - p05) - an.POWER_MISS_LITERAL_4C) <= an.POWER_MISS_TOLERANCE_4C
+    assert "FREEZE F-7" not in an._power_quote_4c(rec)
+    stand_in = dict(rec)
+    stand_in["arms"] = {"discovery_shape": {"P_05": 0.5}}
+    assert "FREEZE F-7" in an._power_quote_4c(stand_in)
 
 
 def test_the_correction_is_silent_when_the_record_agrees_with_the_literal():
@@ -577,14 +583,18 @@ def test_the_correction_is_silent_when_the_record_agrees_with_the_literal():
 
 
 def test_the_correction_only_rides_on_the_not_replicated_licence():
-    rec = _committed_power_4c()
+    # Ratification slip R-1: the committed record agrees with the body's
+    # literal, so the correction is exercised on a stand-in that does not
+    # (P_05 .5 → miss rate .5 against the literal .73125).
+    rec = dict(_committed_power_4c())
+    rec["arms"] = {"discovery_shape": {"P_05": 0.5}}
     for world in ("REPLICATES", "MARGINAL"):
         lic = an.licence_block_4c(world, {"modifier": "TYPE-BOUND"}, None,
                                   {"reversed": False}, rec)
         assert "FREEZE F-7" not in lic["sentence"]
     lic = an.licence_block_4c("NOT-REPLICATED", {"modifier": "TYPE-BOUND"}, None,
                               {"reversed": False}, rec)
-    assert "FREEZE F-7" in lic["sentence"] and "0.7312" in lic["sentence"]
+    assert "FREEZE F-7" in lic["sentence"] and "0.5" in lic["sentence"]
 
 
 @pytest.mark.parametrize("arms", [None, {}, {"discovery_shape": {}},

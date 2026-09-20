@@ -1530,3 +1530,11 @@ loaders already read). Worlds on tmp trees do not count.
 
 No `.mutation_backup` anywhere under `experiments/exp4c` at the end;
 the working tree is clean apart from the wave's own files.
+
+## 2026-09-20 — RATIFIED ("Ratified — apply the slips and tag"); slips applied; tag cut
+
+Michael's word after the package: every item ratified as recommended. Slips applied verbatim to `experiment-4c-design.md`: the status line; §2 gains the nine discovery family sums (R-2b) and the pre-tag execution count (R-9: 20 at the package, 21 with the cold battery run after the slips — below); §3.1 the 41-hidden-state site pin (B-4); §3.2 the no-real-cell-at-index-2 sentence (R-6b); §3.6 the record's realized α and the BOUNDED-unreached disclosure (R-1, R-4); §3.7 gate 4's two paths per run — Exp 4's ladder writer on 6.9b, the thin endpoint on 13B, one writer (B-1, R-6a); §3.8 the S4-only inputs on the refusal path (R-3); §3.9 both positions committed with the measured cost, the wrapper (B-2, B-5, R-10); §4 the built power table, the declaration's figures and "three times in four (.73 on the record)" (R-1); §6 the quoted sentence and S9's machine-local reference side (R-1, R-11 = accepted as machine-local, disclosed); §7 the 13B thin endpoint in the run plan (B-1); §11 Exp 4's stale-tree disclosure and the build's process notes (R-5, R-8). The analyzer's NOT-REPLICATED body carries the same literal (`POWER_MISS_LITERAL_4C = 0.73125`, the record's own figure); the F-7 check stays and now guards a future divergence — its two tests inverted accordingly (silent on the committed record; fires on a stand-in with P_05 .5). Fast suite 175/175 after the edits.
+
+Cold battery re-run after the slips (a counted pre-tag execution, the 21st): the line above this entry's commit records what it printed (12/13 + the gate-0 skip). `check_frozen_4c` and `check_imports_4c` pass in a fresh process after importing every exp4c module (analyze_4c is a tag-bound blob, not an IMPORTED pin, so the literal change moves no pin).
+
+**Tag `exp4c-preregistered` cut at this commit** (annotated; blob-bound over analyze_4c.py, battery_4c.py, rank_4c.py, collect_4c.py, power_4c.py, run/sweep_4c.py and results/power_4c.json), binding verified through `require_prereg_4c` against real git, pushed with the commit. Next, on his word: the projection (dial m), then the preflight.
