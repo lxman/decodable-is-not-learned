@@ -268,6 +268,45 @@ M = [
      "        sets_by_rung[rung] = sets[:, 1, :, :]",
      "        sets_by_rung[rung] = sets[:, 0, :, :]"),
 
+    # ---------------------------------- AMENDMENT 2026-09-20: the 13B bf16 forward
+    (BC4C, "amendment: cast_forward_4c never casts (the fp16 forward kept for 13B)",
+     "    if want != DTYPE_4C:\n"
+     "        if torch_mod is None:",
+     "    if False:\n"
+     "        if torch_mod is None:"),
+    (BC4C, "amendment: cast_forward_4c's measured-dtype refusal dropped",
+     "    got = _dtype_name_4c(getattr(model, \"dtype\", None))\n"
+     "    if got != want:",
+     "    got = _dtype_name_4c(getattr(model, \"dtype\", None))\n"
+     "    if False:"),
+    (BC4C, "amendment: the 13B forward dtype pin flipped back to float16",
+     'FORWARD_DTYPE_4C = {"pythia_6.9b": "float16", "olmo2_13b": "bfloat16",',
+     'FORWARD_DTYPE_4C = {"pythia_6.9b": "float16", "olmo2_13b": "float16",'),
+    (BC4C, "amendment: the record contract no longer checks forward_dtype",
+     '                     ("forward_dtype", e["forward_dtype"]), ("x_dtype", e["x_dtype"]),',
+     '                     ("x_dtype", e["x_dtype"]),'),
+    (CL4C, "amendment: collect_rung_for_4c routes float32 keys to the frozen fp16 collector",
+     '    if want == "float16":\n'
+     '        out = collect_4.collect_rung_4(',
+     '    if want in ("float16", "float32"):\n'
+     '        out = collect_4.collect_rung_4('),
+    (CL4C, "amendment: process_model_4c's forward-dtype refusal dropped",
+     "    got_fwd = info.get(\"forward_dtype\")\n"
+     "    if got_fwd != want_fwd:",
+     "    got_fwd = info.get(\"forward_dtype\")\n"
+     "    if False:"),
+    (CL4C, "amendment: stamp_dtypes_4c writes a constant x_dtype instead of the measured one",
+     '    rec["x_dtype"] = x_dtype\n',
+     '    rec["x_dtype"] = "float16"\n'),
+    (CL4C, "amendment: the bf16 tensor-side upcast dropped (numpy has no bfloat16)",
+     '    if str(getattr(x, "dtype", "")) == "torch.bfloat16":\n'
+     '        x = x.float()',
+     '    if False:\n'
+     '        x = x.float()'),
+    (CL4C, "amendment: collect_rung_4c_fp32 stores X in fp16 after all",
+     "    X = np.stack(X_chunks).astype(np.float32)   # [n, n_sites, 2, d]",
+     "    X = np.stack(X_chunks).astype(np.float16)   # [n, n_sites, 2, d]"),
+
     # -------------------------------------------------------- run/sweep_4c.py
     (SW4C, "run(): the 13B thin-endpoint stage skipped",
      "    if thin_needed:\n"

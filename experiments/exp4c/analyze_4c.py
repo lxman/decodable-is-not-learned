@@ -113,7 +113,7 @@ IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/run/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     REPO / "experiments/exp4c/run/preflight_4c.py":
-        "31cffdd3bfa49ef595c16cc1f337baf53d72071d43cf766bee7f06fb5104a924",
+        "4c9956eda67800ec534aca3c3f2d9d688757475f6697c3d2fcb9de9db4db5b82",
     REPO / "experiments/exp4c/verify_referents_4c.py":
         "5d8bd4ba8788cb72ff0e9d1af83af53698fc4ddfb8fd6d04d8c2216ce6fa5ddd",
 }

@@ -75,6 +75,9 @@ def _write_unit_on_disk(tmp_path, key, *, n_hidden, refs, committed_digest, rng,
                                                   "mismatched_keys": 0},
            "sets_sha256": sets_sha, "attested_sha256": {r: "a" for r in rungs},
            "activation_sha256": {r: None for r in rungs}}
+    # amendment 2026-09-20: every 4c record carries the producer's measured dtypes
+    dk = bc.dtype_key_4c(key)
+    rec.update(forward_dtype=bc.FORWARD_DTYPE_4C[dk], x_dtype=bc.X_DTYPE_4C[dk], load_dtype=bc.DTYPE_4C)
     (d / "_load.json").write_text(json.dumps(rec, indent=1))
     return d, rec
 
@@ -785,3 +788,18 @@ def test_stack_consistency_4c_counts_a_record_with_no_stack_block(tmp_path):
     assert blk["n_distinct"] == 2
     absent = [b for b in blk["blocks"] if b["stack"] is None][0]
     assert absent["units"] == [battery_4.step_key(first)]
+
+
+def test_load_one_unit_refuses_a_13b_unit_that_ran_in_fp16(tmp_path):
+    """AMENDMENT 2026-09-20: a 13B unit whose record says the forward ran in
+    float16 (the pre-amendment path) is refused at load — the analyzer never
+    reads its tables."""
+    rng = np.random.default_rng(2)
+    key = ("olmo2_13b", bc.GRID_4C["olmo2_13b"][0])
+    d, rec = _write_unit_on_disk(tmp_path, key, n_hidden=41, refs=bc.REFS_FOR_4C["olmo2_13b"],
+                                 committed_digest=bc.committed_step_digest_4c(*key), rng=rng)
+    an._load_one_unit_4c(tmp_path, key)                              # the stamped record loads
+    rec["forward_dtype"] = "float16"; rec["x_dtype"] = "float16"
+    (d / "_load.json").write_text(json.dumps(rec, indent=1))
+    with pytest.raises(ValueError, match="forward_dtype"):
+        an._load_one_unit_4c(tmp_path, key)

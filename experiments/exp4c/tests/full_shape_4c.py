@@ -54,6 +54,7 @@ from experiments.exp4 import collect_4  # noqa: E402
 from experiments.exp4 import metric_4  # noqa: E402
 from experiments.exp4.tests import full_shape as fs  # noqa: E402
 from experiments.exp4c import battery_4c as bc  # noqa: E402
+from experiments.exp4c import collect_4c as c4c  # noqa: E402
 
 WORLD_N_SIM_4C = 40
 WORLD_N_BOOT_4C = 200
@@ -166,11 +167,14 @@ def _write_synthetic_unit_4c(root, key_or_unit, *, family, n_hidden, sites, batc
         pairing={r: list(p) for r, p in pairing_by_ref.items()},
         committed_digest=committed_digest, seconds=0.01, stack={"synthetic": True},
         git_sha="0" * 40, prereg_tag=bc.PREREG_TAG_4C)
-    return collect_4.write_load_4(root, key_or_unit, record_fields=record_fields,
+    dk = bc.dtype_key_4c(key_or_unit)
+    rec = collect_4.write_load_4(root, key_or_unit, record_fields=record_fields,
                                   sets_by_rung=sets_by_rung, overlaps_by_rung=overlaps_by_rung,
                                   attested_by_rung=attested_by_rung,
                                   activations_by_rung=activations_by_rung, global_sets=None,
                                   align=align_by_rung, keep_activations=False)
+    return c4c.stamp_dtypes_4c(root, key_or_unit, rec, forward_dtype=bc.FORWARD_DTYPE_4C[dk],
+                               x_dtype=bc.X_DTYPE_4C[dk], load_dtype=bc.DTYPE_4C)
 
 
 def _write_gate1_4c(root4c, root4, traj) -> dict:

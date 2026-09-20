@@ -79,8 +79,12 @@ def small_battery():
 
 
 def _info(n_hidden=33, digest="d"):
+    # the loader's measured dtypes ride on `info` (amendment 2026-09-20); the
+    # 33-hidden-state fake is a pythia unit (fp16), the 41 an olmo2 one (bf16)
+    fwd = "float16" if n_hidden == 33 else "bfloat16"
     return {"tensor_digest": digest, "commit": "c", "revision": "r", "repo": "p",
-           "kind": "candidate", "config_source": "s", "n_hidden": n_hidden, "loading_info": {}}
+           "kind": "candidate", "config_source": "s", "n_hidden": n_hidden, "loading_info": {},
+           "forward_dtype": fwd, "load_dtype": "float16"}
 
 
 # ---------------------------------------------------------------- happy path
@@ -201,3 +205,124 @@ def test_real_loaders_4c_shape():
     assert loaders["step"] is b.load_step_4c
     assert loaders["thin"] is b.load_thin_endpoint_4c
     assert loaders["free_step"] is b.free_step_4c
+
+
+# ------------------------------------- AMENDMENT 2026-09-20: the 13B
+# forward in bf16 and its pooled activations kept in fp32 (fp16 storage
+# would overflow on the same values the fp16 forward overflowed on).
+# The Pythia path is provably untouched: for a float16 key the dispatch
+# returns the FROZEN `collect_4.collect_rung_4` output itself.
+
+def _cap_and_sites(small_battery, n_hidden):
+    rung = next(iter(small_battery))
+    return small_battery[rung], metric_4.sites_4(n_hidden)
+
+
+def test_collect_rung_4c_fp32_equals_the_frozen_collector_after_an_fp16_cast(fake_model_tok, small_battery):
+    model, tok = fake_model_tok(n_hidden=41, seed=3)
+    cap, sites = _cap_and_sites(small_battery, 41)
+    frozen = collect_4.collect_rung_4(model, tok, "olmo2", cap, sites=sites, batch_size=16, device="cpu")
+    fp32 = c4c.collect_rung_4c_fp32(model, tok, "olmo2", cap, sites=sites, batch_size=16, device="cpu")
+    assert fp32["X"].dtype == np.float32 and fp32["P"].dtype == np.float32
+    assert frozen["X"].dtype == np.float16
+    assert np.array_equal(fp32["X"].astype(np.float16), frozen["X"])
+    assert np.array_equal(fp32["P"].astype(np.float16), frozen["P"])
+
+
+def test_collect_rung_4c_fp32_stays_finite_where_fp16_storage_overflows(fake_model_tok, small_battery, monkeypatch):
+    model, tok = fake_model_tok(n_hidden=41, seed=3)
+    cap, sites = _cap_and_sites(small_battery, 41)
+    real = collect_4._stacked_sites
+    monkeypatch.setattr(collect_4, "_stacked_sites",
+                        lambda hs, s: fakes_4._ShimTensor(np.asarray(real(hs, s)) * 1e5))
+    frozen = collect_4.collect_rung_4(model, tok, "olmo2", cap, sites=sites, batch_size=16, device="cpu")
+    fp32 = c4c.collect_rung_4c_fp32(model, tok, "olmo2", cap, sites=sites, batch_size=16, device="cpu")
+    assert not np.isfinite(frozen["X"].astype(np.float32)).all()      # the fp16 storage overflowed
+    assert np.isfinite(fp32["X"]).all() and np.isfinite(fp32["P"]).all()
+
+
+def test_collect_rung_for_4c_dispatches_on_the_key(fake_model_tok, small_battery):
+    model, tok = fake_model_tok(n_hidden=33, seed=5)
+    cap, sites = _cap_and_sites(small_battery, 33)
+    out16 = c4c.collect_rung_for_4c(model, tok, "pythia", cap, key="pythia_6.9b", sites=sites,
+                                    batch_size=16, device="cpu")
+    frozen = collect_4.collect_rung_4(model, tok, "pythia", cap, sites=sites, batch_size=16, device="cpu")
+    assert out16["X"].dtype == np.float16 and np.array_equal(out16["X"], frozen["X"])
+    model41, tok41 = fake_model_tok(n_hidden=41, seed=5)
+    cap41, sites41 = _cap_and_sites(small_battery, 41)
+    out32 = c4c.collect_rung_for_4c(model41, tok41, "olmo2", cap41, key="olmo2_13b", sites=sites41,
+                                    batch_size=16, device="cpu")
+    assert out32["X"].dtype == np.float32
+    thin = c4c.collect_rung_for_4c(model41, tok41, "olmo2", cap41, key=b.THIN_ENDPOINT_KEY_4C,
+                                   sites=sites41, batch_size=16, device="cpu")
+    assert thin["X"].dtype == np.float32
+    with pytest.raises(ValueError):
+        c4c.collect_rung_for_4c(model, tok, "pythia", cap, key="ladder_pythia_6.9b", sites=sites,
+                                batch_size=16, device="cpu")
+
+
+def test_process_model_4c_records_the_measured_dtypes_and_refuses_a_mismatch(
+        tmp_root4c, fake_model_tok, small_battery):
+    model, tok = fake_model_tok(n_hidden=41, seed=7)
+    info = _info(n_hidden=41, digest="e")
+    info["forward_dtype"] = "bfloat16"; info["load_dtype"] = "float16"
+    rec = c4c.process_model_4c(
+        [model], tok, key_or_unit=b.THIN_ENDPOINT_KEY_4C, family="olmo2", info=info,
+        root=tmp_root4c, battery=small_battery, ref_tables={}, batch_size=16, device="cpu",
+        sites=metric_4.sites_4(41), refs=(), committed_digest="e", stack={"torch": "x"},
+        git_sha="0" * 40)
+    assert rec["forward_dtype"] == "bfloat16" and rec["x_dtype"] == "float32" and rec["load_dtype"] == "float16"
+    on_disk = json.loads((battery_4.reference_dir(tmp_root4c, b.THIN_ENDPOINT_KEY_4C) / "_load.json").read_text())
+    assert on_disk["forward_dtype"] == "bfloat16" and on_disk["x_dtype"] == "float32"   # stamped on disk too
+    fails = b.load_record_failures_4c(on_disk, key=b.THIN_ENDPOINT_KEY_4C, root=tmp_root4c)
+    assert not any("dtype" in m for m in fails)                    # the dtype pins pass (fake digests/refs aside)
+
+    model2, tok2 = fake_model_tok(n_hidden=41, seed=8)
+    wrong = _info(n_hidden=41, digest="f"); wrong["forward_dtype"] = "float16"; wrong["load_dtype"] = "float16"
+    with pytest.raises(ValueError, match="forward_dtype"):
+        c4c.process_model_4c(
+            [model2], tok2, key_or_unit=("olmo2_13b", 1000), family="olmo2", info=wrong,
+            root=tmp_root4c, battery=small_battery, ref_tables={}, batch_size=16, device="cpu",
+            sites=metric_4.sites_4(41), refs=(), committed_digest="f", stack={"torch": "x"},
+            git_sha="0" * 40)
+    assert not (battery_4.unit_dir(tmp_root4c, "olmo2_13b", 1000) / "_load.json").exists()
+
+    missing = _info(n_hidden=41, digest="g"); del missing["forward_dtype"]   # no forward_dtype on the info at all
+    with pytest.raises(ValueError, match="forward_dtype"):
+        c4c.process_model_4c(
+            [fake_model_tok(n_hidden=41, seed=9)[0]], tok2, key_or_unit=("olmo2_13b", 2000), family="olmo2",
+            info=missing, root=tmp_root4c, battery=small_battery, ref_tables={}, batch_size=16,
+            device="cpu", sites=metric_4.sites_4(41), refs=(), committed_digest="g",
+            stack={"torch": "x"}, git_sha="0" * 40)
+
+
+def test_fp32_collector_upcasts_bf16_hidden_states_before_numpy(small_battery):
+    """The rehearsal's crash (2026-09-20): numpy has no bfloat16, so the
+    frozen `_to_numpy` raises on a bf16 forward's hidden states. The fp32
+    collector must upcast ON THE TENSOR SIDE first; the result equals the
+    fp32 cast of the same states."""
+    torch = pytest.importorskip("torch")
+
+    class _Bf16Model:
+        def __init__(self, n_hidden=41, d=8):
+            self.config = type("C", (), {"num_hidden_layers": n_hidden - 1})()
+            g = torch.Generator().manual_seed(0)
+            self.emb = torch.randn(1024, d, generator=g)
+            self.n_hidden = n_hidden
+
+        def __call__(self, input_ids, attention_mask=None, output_hidden_states=True):
+            ids = torch.as_tensor(np.asarray(input_ids.numpy() if hasattr(input_ids, "numpy") else input_ids)) % 1024
+            base = self.emb[ids]                                            # [B, T, d] fp32
+            states = tuple((base * (k + 1) * 3000.0).to(torch.bfloat16) for k in range(self.n_hidden))
+            return fakes_4._FakeOutput(states)                              # bf16, some > fp16 max
+
+    model = _Bf16Model()
+    tok = fakes_4.FakeTokenizer()
+    cap = next(iter(small_battery.values()))
+    sites = metric_4.sites_4(41)
+    out = c4c.collect_rung_4c_fp32(model, tok, "olmo2", cap, sites=sites, batch_size=16, device="cpu")
+    assert out["X"].dtype == np.float32 and np.isfinite(out["X"]).all()
+    assert out["X"].max() > 65504.0                                          # beyond fp16's range, kept
+    # the frozen collector cannot take these states at all
+    with pytest.raises(TypeError):
+        collect_4.collect_rung_4(model, tok, "olmo2", cap, sites=sites, batch_size=16, device="cpu")

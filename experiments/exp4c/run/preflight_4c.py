@@ -91,13 +91,14 @@ def run(*, root=EXP4C, device: str = "mps", loaders=None, cache_root=None,
                   flush=True)
             for rung in rungs:
                 t0 = time.time()
-                out = collect_4.collect_rung_4(model, tok, battery_4c.FAMILY_OF_TRAJ_4C[traj],
-                                               battery[rung], sites=sites,
-                                               batch_size=battery_4c.BATCH_4C[traj], device=device,
-                                               key=None)
+                out = collect_4c.collect_rung_for_4c(model, tok, battery_4c.FAMILY_OF_TRAJ_4C[traj],
+                                                     battery[rung], key=traj, sites=sites,
+                                                     batch_size=battery_4c.BATCH_4C[traj],
+                                                     device=device)
                 dt = time.time() - t0
                 finite = bool(np.isfinite(out["X"].astype(np.float32)).all())
                 print(f"[4c preflight] {traj} step{step} {rung}: {dt:.1f}s finite={finite} "
+                      f"forward_dtype={info.get('forward_dtype')} x_dtype={out['X'].dtype} "
                       f"shape={out['X'].shape} peak_mps_bytes={_peak_mps_memory()}", flush=True)
         finally:
             loaders["release"](model)

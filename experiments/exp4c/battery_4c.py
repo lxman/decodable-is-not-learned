@@ -127,6 +127,58 @@ RENDER_4C = {"pythia": "plain", "olmo2": "plain"}
 DTYPE_4C = "float16"
 BATCH_4C = {"pythia_6.9b": 16, "olmo2_13b": 16, "endpoint_olmo2_13b": 16}
 
+# AMENDMENT 2026-09-20 (the one pre-committed change, SPENT — design §2/
+# §3.1/§11): the OLMo-2 13B forward runs in bfloat16. The preflight
+# found the fp16 forward NON-FINITE at step 1000 on both rehearsal
+# rungs (2l's committed record: every continuation on every item is "!"
+# at steps 1000-8000 — argmax over NaN logits), and `metric_4.knn_sets`
+# refuses non-finite rows, so the 13B run as frozen could not produce
+# its own t_1. `DTYPE_4C` is unchanged: the LOAD stays fp16, so the
+# identity digest measured by the loader still equals 2l's committed
+# one; the cast to `FORWARD_DTYPE_4C` happens AFTER the digest and is
+# MEASURED from the model object (`cast_forward_4c`), never assumed.
+# The pooled activations of a bf16 forward are kept in fp32
+# (`X_DTYPE_4C`): fp16 storage would overflow on the same values. The
+# Pythia path is untouched (fp16 load, no cast, the frozen collector).
+FORWARD_DTYPE_4C = {"pythia_6.9b": "float16", "olmo2_13b": "bfloat16",
+                    "endpoint_olmo2_13b": "bfloat16"}
+X_DTYPE_4C = {"pythia_6.9b": "float16", "olmo2_13b": "float32", "endpoint_olmo2_13b": "float32"}
+
+
+def dtype_key_4c(key_or_unit) -> str:
+    """The `FORWARD_DTYPE_4C`/`X_DTYPE_4C` key of a `(traj, step)` unit
+    (its trajectory) or of the thin endpoint key (itself)."""
+    if isinstance(key_or_unit, (tuple, list)):
+        k = key_or_unit[0]
+    else:
+        k = key_or_unit
+    if k not in FORWARD_DTYPE_4C:
+        raise ValueError(f"{key_or_unit!r} has no forward dtype pin")
+    return k
+
+
+def _dtype_name_4c(dt) -> str:
+    return str(dt).replace("torch.", "")
+
+
+def cast_forward_4c(model, key, *, torch_mod=None):
+    """After the identity digest: cast `model` to `FORWARD_DTYPE_4C[key]`
+    when that differs from the load dtype, and return `(model, measured)`
+    where `measured` is the dtype READ BACK from the model object. A
+    key whose forward dtype equals `DTYPE_4C` gets the very object back
+    with no `.to` call (the Pythia path never moves). Raises if the model
+    did not land on the pinned dtype."""
+    key = dtype_key_4c(key)
+    want = FORWARD_DTYPE_4C[key]
+    if want != DTYPE_4C:
+        if torch_mod is None:
+            import torch as torch_mod   # noqa: PLC0415 — model contact paths only
+        model = model.to(getattr(torch_mod, want))
+    got = _dtype_name_4c(getattr(model, "dtype", None))
+    if got != want:
+        raise ValueError(f"{key}: the model reads {got!r} after the cast, not the pinned {want!r}")
+    return model, got
+
 THIN_ENDPOINT_KEY_4C = "endpoint_olmo2_13b"
 GATE1_REFERENCE_4C = {"pythia_6.9b": ("exp4", "ladder_pythia_6.9b"),
                       "olmo2_13b": ("exp4c", "endpoint_olmo2_13b")}
@@ -340,6 +392,8 @@ def load_step_4c(traj, step, *, cache_root=CKPT_CACHE_4C, device="mps"):
         raise ValueError(f"{traj!r} is not an exp4c trajectory")
     if info["n_hidden"] != N_HIDDEN_PIN_4C[traj]:
         raise ValueError(f"{traj}: n_hidden {info['n_hidden']} != pinned {N_HIDDEN_PIN_4C[traj]}")
+    model, info["forward_dtype"] = cast_forward_4c(model, traj)     # after the digest; measured
+    info["load_dtype"] = DTYPE_4C
     return model, tok, info
 
 
@@ -360,6 +414,8 @@ def load_thin_endpoint_4c(key, *, device="mps"):
                                     loading_info=None)
     if info["n_hidden"] != N_HIDDEN_PIN_4C[key]:
         raise ValueError(f"{key}: n_hidden {info['n_hidden']}")
+    model, info["forward_dtype"] = cast_forward_4c(model, key)      # after the digest; measured
+    info["load_dtype"] = DTYPE_4C
     return model, tok, info
 
 
@@ -384,13 +440,15 @@ def expected_fields_4c(key) -> dict:
         traj, step = key
         fam = FAMILY_OF_TRAJ_4C[traj]
         return dict(family=fam, render=RENDER_4C[fam], batch=BATCH_4C[traj], refs=REFS_FOR_4C[traj],
-                    n_hidden=N_HIDDEN_PIN_4C[traj], committed_digest=committed_step_digest_4c(traj, step))
+                    n_hidden=N_HIDDEN_PIN_4C[traj], committed_digest=committed_step_digest_4c(traj, step),
+                    forward_dtype=FORWARD_DTYPE_4C[traj], x_dtype=X_DTYPE_4C[traj], load_dtype=DTYPE_4C)
     if key == THIN_ENDPOINT_KEY_4C:
         traj = "olmo2_13b"
         fam = "olmo2"
         return dict(family=fam, render=RENDER_4C[fam], batch=BATCH_4C[key], refs=REFS_FOR_4C[traj],
                     n_hidden=N_HIDDEN_PIN_4C[key],
-                    committed_digest=committed_step_digest_4c(traj, ENDPOINT_STEP_4C[traj]))
+                    committed_digest=committed_step_digest_4c(traj, ENDPOINT_STEP_4C[traj]),
+                    forward_dtype=FORWARD_DTYPE_4C[key], x_dtype=X_DTYPE_4C[key], load_dtype=DTYPE_4C)
     raise ValueError(f"{key!r} is not an exp4c key")
 
 
@@ -401,7 +459,10 @@ def load_record_failures_4c(rec, *, key, root) -> list:
     e = expected_fields_4c(key)
     bad = []
     for f_, want in (("family", e["family"]), ("render", e["render"]),
-                     ("batch_size", e["batch"]), ("committed_digest", e["committed_digest"])):
+                     ("batch_size", e["batch"]), ("committed_digest", e["committed_digest"]),
+                     # amendment 2026-09-20: the producer's MEASURED dtypes against the pins
+                     ("forward_dtype", e["forward_dtype"]), ("x_dtype", e["x_dtype"]),
+                     ("load_dtype", e["load_dtype"])):
         if rec.get(f_) != want:
             bad.append(f"{key}: {f_} {rec.get(f_)!r} != {want!r}")
     if rec.get("tensor_digest") != e["committed_digest"]:

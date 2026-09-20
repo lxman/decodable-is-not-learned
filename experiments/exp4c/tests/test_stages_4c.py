@@ -165,15 +165,23 @@ class _Seeds4c:
         real_step, real_key, real_free, real_release = (base["step"], base["key"],
                                                          base["free_step"], base["release"])
 
+        def _stamp(model, tok, info, key):
+            # the real loaders cast after the digest and record the MEASURED
+            # forward dtype (amendment 2026-09-20); the fakes carry the pin
+            info = dict(info)
+            info["forward_dtype"] = battery_4c.FORWARD_DTYPE_4C[battery_4c.dtype_key_4c(key)]
+            info["load_dtype"] = battery_4c.DTYPE_4C
+            return model, tok, info
+
         def step(traj, s, *, cache_root=None, device="mps"):
             if calls is not None:
                 calls.append(f"step:{s}")
-            return real_step(traj, s, cache_root=cache_root, device=device)
+            return _stamp(*real_step(traj, s, cache_root=cache_root, device=device), key=traj)
 
         def thin(key, *, device="mps"):
             if calls is not None:
                 calls.append("thin")
-            return real_key(key, device=device)
+            return _stamp(*real_key(key, device=device), key=key)
 
         return {"step": step, "thin": thin, "free_step": real_free, "release": real_release}
 

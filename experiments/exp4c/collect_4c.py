@@ -43,7 +43,10 @@ already-loaded model through `model_box`."""
 from __future__ import annotations
 
 import sys
+import json
 import time
+
+import numpy as np
 from pathlib import Path
 
 EXP4C = Path(__file__).resolve().parent
@@ -59,6 +62,91 @@ from experiments.exp4 import metric_4  # noqa: E402
 from experiments.exp4c import battery_4c  # noqa: E402
 
 _release = collect_4._release
+
+
+def stamp_dtypes_4c(root, key_or_unit, rec, *, forward_dtype, x_dtype, load_dtype) -> dict:
+    """AMENDMENT 2026-09-20: `battery_4.load_record_4` (frozen, Exp 4)
+    copies a fixed key set, so the three MEASURED dtype fields are
+    stamped onto the record AFTER `collect_4.write_load_4` returns and
+    the record is written back in the writer's own format
+    (`json.dumps(rec, indent=1)` to `_load.json`). Every 4c record
+    carries them; `battery_4c.load_record_failures_4c` requires them."""
+    rec = dict(rec)
+    rec["forward_dtype"] = forward_dtype
+    rec["x_dtype"] = x_dtype
+    rec["load_dtype"] = load_dtype
+    d = battery_4.key_dir_4(root, key_or_unit)
+    (d / "_load.json").write_text(json.dumps(rec, indent=1))
+    return rec
+
+
+def _to_f32_numpy_4c(x):
+    """`collect_4._to_numpy` with one step first: a bfloat16 tensor is
+    upcast to float32 ON THE TENSOR SIDE (numpy has no bfloat16 — the
+    rehearsal of 2026-09-20 crashed exactly there). Any other input goes
+    through the frozen helper unchanged, then to float32."""
+    if str(getattr(x, "dtype", "")) == "torch.bfloat16":
+        x = x.float()
+    return collect_4._to_numpy(x).astype(np.float32)
+
+
+def collect_rung_4c_fp32(model, tok, family, cap, *, sites, batch_size, device) -> dict:
+    """AMENDMENT 2026-09-20: `collect_4.collect_rung_4`'s body with the
+    fp16 storage casts removed — `X`/`P` returned in float32. Used only
+    for keys whose `battery_4c.X_DTYPE_4C` is float32 (the bf16-forward
+    OLMo-2 13B path): the fp16 forward overflowed on these checkpoints,
+    so fp16 storage of the same activations would too. Same prompts,
+    padding side, `add_special_tokens=False`, site selection before
+    `.cpu()`, mask-weighted pooling — `test_collect_rung_4c_fp32_equals_
+    the_frozen_collector_after_an_fp16_cast` proves the equality."""
+    import torch
+
+    prompts = collect_4.render_prompts_4(family, cap)
+    old_side = tok.padding_side
+    tok.padding_side = "right"
+    X_chunks, P_chunks = [], []
+    try:
+        for i in range(0, len(prompts), batch_size):
+            chunk = prompts[i:i + batch_size]
+            enc = tok(chunk, return_tensors="pt", padding=True,
+                      add_special_tokens=False).to(device)
+            with torch.no_grad():
+                out = model(**enc, output_hidden_states=True)
+            hs = collect_4._stacked_sites(out.hidden_states, sites)          # [n_sites, B, T, d]
+            attn = enc["attention_mask"]
+            positions = collect_4.positions_4(tok, chunk)
+            for b, (q_idx, p_idx) in enumerate(positions):
+                hs_b = _to_f32_numpy_4c(hs[:, b, :, :])                        # [n_sites, T, d] fp32
+                X_chunks.append(hs_b[:, [q_idx, p_idx], :])                    # [n_sites, 2, d] fp32
+                mask_b = collect_4._to_numpy(attn[b]).astype(np.float32)       # [T]
+                valid = float(mask_b.sum())
+                P_chunks.append((hs_b * mask_b[:, None]).sum(axis=1) / valid)   # [n_sites, d] fp32
+    finally:
+        tok.padding_side = old_side
+    X = np.stack(X_chunks).astype(np.float32)   # [n, n_sites, 2, d]
+    P = np.stack(P_chunks).astype(np.float32)   # [n, n_sites, d]
+    return {"X": X, "P": P}
+
+
+def collect_rung_for_4c(model, tok, family, cap, *, key, sites, batch_size, device) -> dict:
+    """The one collector entry for a 4c key: `battery_4c.X_DTYPE_4C[key]`
+    float16 -> the FROZEN `collect_4.collect_rung_4` itself (`key=None`,
+    4c's batch pin is checked by `process_model_4c`); float32 -> this
+    module's `collect_rung_4c_fp32`. The returned `X` dtype is asserted
+    against the pin."""
+    k = battery_4c.dtype_key_4c(key)
+    want = battery_4c.X_DTYPE_4C[k]
+    if want == "float16":
+        out = collect_4.collect_rung_4(model, tok, family, cap, sites=sites,
+                                       batch_size=batch_size, device=device, key=None)
+    elif want == "float32":
+        out = collect_rung_4c_fp32(model, tok, family, cap, sites=sites,
+                                   batch_size=batch_size, device=device)
+    else:  # pragma: no cover - the pin table holds only these two
+        raise ValueError(f"{k}: X dtype pin {want!r}")
+    if str(out["X"].dtype) != want:
+        raise ValueError(f"{k}: collected X dtype {out['X'].dtype} != the pinned {want!r}")
+    return out
 
 
 def process_model_4c(model_box, tok, *, key_or_unit, family, info, root, battery, ref_tables,
@@ -83,6 +171,15 @@ def process_model_4c(model_box, tok, *, key_or_unit, family, info, root, battery
     if int(batch_size) != int(want_batch):
         raise ValueError(f"process_model_4c: batch_size {batch_size} != the pinned "
                          f"{want_batch} for {key_for_batch!r}")
+    # amendment 2026-09-20: the loader's MEASURED forward dtype must be the
+    # pinned one before a single forward pass — a unit run under the wrong
+    # dtype is refused here, never written.
+    want_fwd = battery_4c.FORWARD_DTYPE_4C[battery_4c.dtype_key_4c(key_for_batch)]
+    got_fwd = info.get("forward_dtype")
+    if got_fwd != want_fwd:
+        raise ValueError(f"process_model_4c: {key_for_batch!r} info forward_dtype {got_fwd!r} != "
+                         f"the pinned {want_fwd!r}")
+    x_dtype_seen = None
 
     pairing_by_ref = {}
     for ref in (refs or ()):
@@ -96,10 +193,11 @@ def process_model_4c(model_box, tok, *, key_or_unit, family, info, root, battery
 
     for rung in battery_4.RUNGS:
         cap = battery[rung]
-        collected = collect_4.collect_rung_4(model, tok, family, cap, sites=sites,
-                                             batch_size=batch_size, device=device, key=None)
+        collected = collect_rung_for_4c(model, tok, family, cap, key=key_for_batch, sites=sites,
+                                        batch_size=batch_size, device=device)
         X, P = collected["X"], collected["P"]
         d_hidden = X.shape[-1]
+        x_dtype_seen = str(X.dtype)                                 # measured, not the pin
         sets = collect_4.set_tables_4(X, k=metric_4.K_4)          # [n_sites, 2, n, k]
         pooled = collect_4.pooled_sets_4(P, k=metric_4.K_4)        # [n_sites, n, k]
 
@@ -142,11 +240,13 @@ def process_model_4c(model_box, tok, *, key_or_unit, family, info, root, battery
                          stack=collect_4.stack_record_4(stack), git_sha=git_sha,
                          threads_pinned=_threads_4.threads_pinned_4(),
                          prereg_tag=battery_4c.PREREG_TAG_4C)
-    return collect_4.write_load_4(root, key_or_unit, record_fields=record_fields,
-                                  sets_by_rung=sets_by_rung, overlaps_by_rung=overlaps_by_rung,
-                                  attested_by_rung=attested_by_rung,
-                                  activations_by_rung=activations_by_rung, global_sets=None,
-                                  align=align_by_rung, keep_activations=False)
+    rec = collect_4.write_load_4(root, key_or_unit, record_fields=record_fields,
+                                 sets_by_rung=sets_by_rung, overlaps_by_rung=overlaps_by_rung,
+                                 attested_by_rung=attested_by_rung,
+                                 activations_by_rung=activations_by_rung, global_sets=None,
+                                 align=align_by_rung, keep_activations=False)
+    return stamp_dtypes_4c(root, key_or_unit, rec, forward_dtype=got_fwd, x_dtype=x_dtype_seen,
+                           load_dtype=info.get("load_dtype"))
 
 
 def real_loaders_4c() -> dict:

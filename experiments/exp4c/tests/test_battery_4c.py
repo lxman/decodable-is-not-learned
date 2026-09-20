@@ -1,4 +1,5 @@
 import json, pytest
+import types
 from experiments.exp4c import battery_4c as b
 from experiments.exp2d import battery_2d as bt
 from experiments.exp2g import battery_2g as bg
@@ -167,7 +168,8 @@ def test_expected_fields_for_step0_and_thin_endpoint(monkeypatch):
     monkeypatch.setattr(b, "committed_step_digest_4c", lambda traj, step: f"d:{traj}:{step}")
     e = b.expected_fields_4c(("olmo2_13b", 0))
     assert e == dict(family="olmo2", render="plain", batch=16, refs=b.REFS_FOR_4C["olmo2_13b"],
-                     n_hidden=41, committed_digest="d:olmo2_13b:0")
+                     n_hidden=41, committed_digest="d:olmo2_13b:0",
+                     forward_dtype="bfloat16", x_dtype="float32", load_dtype="float16")
     t = b.expected_fields_4c(b.THIN_ENDPOINT_KEY_4C)
     assert t["committed_digest"] == "d:olmo2_13b:596057" and t["n_hidden"] == 41 and t["batch"] == 16
     with pytest.raises(ValueError):
@@ -180,7 +182,8 @@ def test_record_failures_requires_the_4c_tag_and_measured_digest(tmp_path, monke
            "tensor_digest": "dd", "refs": list(b.REFS_FOR_4C["pythia_6.9b"]), "prereg_tag": b.PREREG_TAG_4C,
            "commit": "c", "revision": "r", "repo": "p", "kind": "candidate", "config_source": "s",
            "n_hidden": 33, "loading_info": {}, "sets_sha256": {}, "attested_sha256": {"x": "y"},
-           "activation_sha256": {"x": None}}
+           "activation_sha256": {"x": None},
+           "forward_dtype": "float16", "x_dtype": "float16", "load_dtype": "float16"}
     assert b.load_record_failures_4c(rec, key=("pythia_6.9b", 1000), root=tmp_path) == []
     bad = dict(rec, prereg_tag="exp4-preregistered"); assert any("prereg_tag" in m for m in b.load_record_failures_4c(bad, key=("pythia_6.9b", 1000), root=tmp_path))
     bad = dict(rec, tensor_digest="other"); assert any("tensor_digest" in m for m in b.load_record_failures_4c(bad, key=("pythia_6.9b", 1000), root=tmp_path))
@@ -284,3 +287,93 @@ def test_gate1_comparator_refuses_an_unreadable_record(tmp_path):
     (d / "_load.json").write_text("{not json")
     c = b.gate1_comparator_failures_4c(tmp_path, tmp_path, "pythia_6.9b")
     assert c["available"] and c["failures"] and "unreadable record" in c["failures"][0]
+
+
+# ------------------------------------- AMENDMENT 2026-09-20 (the one
+# pre-committed change, SPENT): the OLMo-2 13B forward runs in bf16.
+# The preflight found the fp16 forward non-finite at step 1000 on both
+# rehearsal rungs, and 2l's committed record shows the same collapse on
+# every item at steps 1000-8000. The load stays fp16 (the identity
+# digest against 2l's committed one is unchanged); the cast to the
+# forward dtype happens AFTER the digest and is MEASURED from the model.
+
+class _Dt:
+    def __init__(self, name): self.name = name
+    def __str__(self): return self.name
+    def __repr__(self): return self.name
+
+
+class _CastableModel:
+    def __init__(self, dtype_name): self.dtype = _Dt(dtype_name); self.to_calls = []
+    def to(self, dt):
+        self.to_calls.append(dt); return _CastableModel(str(dt))
+
+
+class _UncastableModel:
+    dtype = _Dt("torch.float16")
+    def to(self, dt): raise AssertionError("a pythia model must never be cast")
+
+
+_STUB_TORCH = types.SimpleNamespace(float16=_Dt("torch.float16"), bfloat16=_Dt("torch.bfloat16"),
+                                    float32=_Dt("torch.float32"))
+
+
+def test_forward_and_x_dtype_pins_cover_every_key_and_keep_the_load_dtype():
+    keys = tuple(b.TRAJECTORIES_4C) + (b.THIN_ENDPOINT_KEY_4C,)
+    assert set(b.FORWARD_DTYPE_4C) == set(keys) == set(b.X_DTYPE_4C)
+    assert b.DTYPE_4C == "float16"                              # the load / identity / outcome dtype: unchanged
+    assert b.FORWARD_DTYPE_4C["pythia_6.9b"] == "float16" and b.X_DTYPE_4C["pythia_6.9b"] == "float16"
+    for k in ("olmo2_13b", b.THIN_ENDPOINT_KEY_4C):
+        assert b.FORWARD_DTYPE_4C[k] == "bfloat16" and b.X_DTYPE_4C[k] == "float32"
+    assert b.dtype_key_4c(("pythia_6.9b", 1000)) == "pythia_6.9b"
+    assert b.dtype_key_4c(("olmo2_13b", 0)) == "olmo2_13b"
+    assert b.dtype_key_4c(b.THIN_ENDPOINT_KEY_4C) == b.THIN_ENDPOINT_KEY_4C
+    with pytest.raises(ValueError):
+        b.dtype_key_4c("ladder_pythia_6.9b")
+
+
+def test_cast_forward_4c_is_a_no_op_for_pythia_and_a_measured_cast_for_olmo():
+    m = _UncastableModel()
+    same, got = b.cast_forward_4c(m, "pythia_6.9b", torch_mod=_STUB_TORCH)
+    assert same is m and got == "float16"                       # no `.to` call, the object itself
+    m2 = _CastableModel("torch.float16")
+    cast, got = b.cast_forward_4c(m2, "olmo2_13b", torch_mod=_STUB_TORCH)
+    assert got == "bfloat16" and str(cast.dtype) == "torch.bfloat16"
+    assert [str(x) for x in m2.to_calls] == ["torch.bfloat16"]
+    cast, got = b.cast_forward_4c(_CastableModel("torch.float16"), b.THIN_ENDPOINT_KEY_4C,
+                                  torch_mod=_STUB_TORCH)
+    assert got == "bfloat16"
+
+
+def test_cast_forward_4c_refuses_a_model_that_did_not_land_on_the_pinned_dtype():
+    class _Stubborn(_CastableModel):
+        def to(self, dt): return self                            # ignores the request
+    with pytest.raises(ValueError, match="bfloat16"):
+        b.cast_forward_4c(_Stubborn("torch.float16"), "olmo2_13b", torch_mod=_STUB_TORCH)
+
+
+def test_expected_fields_and_record_failures_carry_the_measured_dtypes(tmp_path, monkeypatch):
+    monkeypatch.setattr(b, "committed_step_digest_4c", lambda traj, step: "dd")
+    e = b.expected_fields_4c(("olmo2_13b", 1000))
+    assert e["forward_dtype"] == "bfloat16" and e["x_dtype"] == "float32"
+    assert b.expected_fields_4c(b.THIN_ENDPOINT_KEY_4C)["forward_dtype"] == "bfloat16"
+    assert b.expected_fields_4c(("pythia_6.9b", 1000))["forward_dtype"] == "float16"
+    base = {"family": "pythia", "render": "plain", "batch_size": 16, "committed_digest": "dd",
+            "tensor_digest": "dd", "refs": list(b.REFS_FOR_4C["pythia_6.9b"]), "prereg_tag": b.PREREG_TAG_4C,
+            "commit": "c", "revision": "r", "repo": "p", "kind": "candidate", "config_source": "s",
+            "n_hidden": 33, "loading_info": {}, "sets_sha256": {}, "attested_sha256": {"x": "y"},
+            "activation_sha256": {"x": None}, "forward_dtype": "float16", "x_dtype": "float16",
+            "load_dtype": "float16"}
+    key = ("pythia_6.9b", 1000)
+    assert b.load_record_failures_4c(base, key=key, root=tmp_path) == []
+    for f_ in ("forward_dtype", "x_dtype", "load_dtype"):
+        missing = dict(base); del missing[f_]
+        assert any(f_ in m for m in b.load_record_failures_4c(missing, key=key, root=tmp_path))
+    wrong = dict(base, forward_dtype="bfloat16")                 # a pythia unit run in bf16 is refused
+    assert any("forward_dtype" in m for m in b.load_record_failures_4c(wrong, key=key, root=tmp_path))
+    olmo = dict(base, family="olmo2", refs=list(b.REFS_FOR_4C["olmo2_13b"]), n_hidden=41,
+                forward_dtype="bfloat16", x_dtype="float32")
+    assert b.load_record_failures_4c(olmo, key=("olmo2_13b", 1000), root=tmp_path) == []
+    fp16_olmo = dict(olmo, forward_dtype="float16", x_dtype="float16")   # the pre-amendment path is refused
+    bad = b.load_record_failures_4c(fp16_olmo, key=("olmo2_13b", 1000), root=tmp_path)
+    assert any("forward_dtype" in m for m in bad) and any("x_dtype" in m for m in bad)

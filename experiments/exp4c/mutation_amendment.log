@@ -1,0 +1,18 @@
+baseline OK (fast pass, ['amendment_cast_forward_4c_never_casts_the_fp16_forward_kept_for_13b', 'amendment_cast_forward_4c_s_measured_dtype_refusal_dropped', 'amendment_collect_rung_4c_fp32_stores_x_in_fp16_after_all', 'amendment_collect_rung_for_4c_routes_float32_keys_to_the_frozen_fp16_col', 'amendment_process_model_4c_s_forward_dtype_refusal_dropped', 'amendment_stamp_dtypes_4c_writes_a_constant_x_dtype_instead_of_the_measu', 'amendment_the_13b_forward_dtype_pin_flipped_back_to_float16', 'amendment_the_record_contract_no_longer_checks_forward_dtype'] mutants)
+
+[amendment_cast_forward_4c_never_casts_the_fp16_forward_kept_for_13b] (#42) killed  amendment: cast_forward_4c never casts (the fp16 forward kept for 13B)
+[amendment_cast_forward_4c_s_measured_dtype_refusal_dropped] (#43) killed  amendment: cast_forward_4c's measured-dtype refusal dropped
+[amendment_the_13b_forward_dtype_pin_flipped_back_to_float16] (#44) killed  amendment: the 13B forward dtype pin flipped back to float16
+[amendment_the_record_contract_no_longer_checks_forward_dtype] (#45) killed  amendment: the record contract no longer checks forward_dtype
+[amendment_collect_rung_for_4c_routes_float32_keys_to_the_frozen_fp16_col] (#46) killed  amendment: collect_rung_for_4c routes float32 keys to the frozen fp16 collector
+[amendment_process_model_4c_s_forward_dtype_refusal_dropped] (#47) killed  amendment: process_model_4c's forward-dtype refusal dropped
+[amendment_stamp_dtypes_4c_writes_a_constant_x_dtype_instead_of_the_measu] (#48) killed  amendment: stamp_dtypes_4c writes a constant x_dtype instead of the measured one
+[amendment_collect_rung_4c_fp32_stores_x_in_fp16_after_all] (#49) killed  amendment: collect_rung_4c_fp32 stores X in fp16 after all
+
+8 killed by the fast suite directly; 0 killed by the slow suite (each individually re-confirmed via --worlds-only/--totality/--fullshape, not inferred — see mutation_worlds.log); 0 documented equivalent; considered=8; 0 UNRESOLVED survivor(s): []; 0 SKIP (target text not found / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []
+exit=0
+baseline OK (fast pass, ['amendment_the_bf16_tensor_side_upcast_dropped_numpy_has_no_bfloat16'] mutants)
+
+[amendment_the_bf16_tensor_side_upcast_dropped_numpy_has_no_bfloat16] (#49) killed  amendment: the bf16 tensor-side upcast dropped (numpy has no bfloat16)
+
+1 killed by the fast suite directly; 0 killed by the slow suite (each individually re-confirmed via --worlds-only/--totality/--fullshape, not inferred — see mutation_worlds.log); 0 documented equivalent; considered=1; 0 UNRESOLVED survivor(s): []; 0 SKIP (target text not found / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []

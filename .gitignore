@@ -106,6 +106,10 @@ experiments/exp4b/analyzer.log
 experiments/exp4b/freeze_*.log
 # exp4c campaign/stage logs — machine-local, never part of the closed record
 experiments/exp4c/preflight.log
+# 2026-09-20: the stalled fp16 run's log, the completed fp16 run's log (its
+# reading is quoted in PROGRESS.md) and the relaunch pid file — kept locally
+experiments/exp4c/preflight.*.log
+experiments/exp4c/preflight.pid
 experiments/exp4c/sweep_pythia_6.9b.log
 experiments/exp4c/sweep_olmo2_13b.log
 experiments/exp4c/sweep_chain.log
