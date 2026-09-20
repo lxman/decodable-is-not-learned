@@ -286,6 +286,33 @@ M = [
      '        if info["tensor_digest"] != want:',
      '        if False:'),
 
+    # FREEZE (session 3) — the three code closures, each fast-killable
+    (SW4C, "FREEZE F-1: the runner's import-surface pin dropped",
+     "    an4c.check_imports_4c()",
+     "    pass  # the import surface unpinned on the producer's path"),
+    (SW4C, "FREEZE F-3: the runner's cold gate-1 comparator check dropped",
+     '    cmp_ = battery_4c.gate1_comparator_failures_4c(root, root4, traj)\n'
+     '    if cmp_["failures"]:\n'
+     '        raise RuntimeError(f"refusing: {cmp_[\'failures\'][0]}")',
+     '    cmp_ = battery_4c.gate1_comparator_failures_4c(root, root4, traj)\n'
+     '    if False:\n'
+     '        raise RuntimeError(f"refusing: {cmp_[\'failures\'][0]}")'),
+    (BC4C, "FREEZE F-3: gate1_comparator_failures_4c stops comparing the sweep-endpoint pins",
+     "    for name, got, want in checks:\n"
+     "        if got != want:",
+     "    for name, got, want in checks:\n"
+     "        if False:"),
+    (AN4C, "FREEZE F-2: power_structure_failures_4c stops naming a cell the verdict never read",
+     "    only_power = sorted(set(want) - set(got))\n"
+     "    only_cells = sorted(set(got) - set(want))",
+     "    only_power = []\n"
+     "    only_cells = sorted(set(got) - set(want))"),
+    (AN4C, "FREEZE F-2: power_structure_failures_4c stops comparing the comparator pools",
+     "    for k in sorted(set(want) & set(got)):\n"
+     "        if want[k] != got[k]:",
+     "    for k in sorted(set(want) & set(got)):\n"
+     "        if False:"),
+
     # --------------------------------------------------------- analyze_4c.py
     (AN4C, "gate0_4c: the .90 bar replaced by .5",
      '    return {"fraction_below": float(fraction_below), "n_cells": int(total),\n'
