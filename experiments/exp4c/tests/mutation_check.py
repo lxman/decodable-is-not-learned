@@ -24,10 +24,14 @@ run each mutant against the FAST modules only (`test_battery_4c.py`,
 under a minute, observing nothing a `--totality`/`--fullshape` mutant
 changes. A mutant that survives the fast modules is either closed with
 a new fast test (preferred) or, when only totality/full-shape can
-observe the behaviour it changes, recorded as 'killed by worlds/
-totality only' after one targeted confirmation run under
-`--totality`/`--fullshape` — see `PROGRESS.md`'s Task 5 entry for
-which mutants took that path.
+observe the behaviour it changes, recorded in `NON_FAST_KILLS_4C`
+below and confirmed by `run_worlds_only` (`--worlds-only`). The two
+reproducible records of which mutants took which path are the
+committed `mutation_build.log` (`main()`'s own fast-pass run, one
+mutant per line) and `mutation_worlds.log` (`run_worlds_only`'s
+non-fast pass) — both regenerated from the CURRENT source by re-
+running this file, never hand-edited; `PROGRESS.md`'s Task 5 entries
+narrate what changed between runs but are not themselves the record.
 
 Mutates sources IN PLACE (with an exclusive `.mutation_backup`) and
 restores them in `finally` — run alone, detached, never under a
@@ -364,7 +368,8 @@ assert len(_labels) == len(set(_labels)), (
 
 FAST_TESTS = [str(L / "tests" / "test_battery_4c.py"), str(L / "tests" / "test_rank_4c.py"),
              str(L / "tests" / "test_collect_4c.py"), str(L / "tests" / "test_power_4c.py"),
-             str(L / "tests" / "test_stages_4c.py"), str(L / "tests" / "test_analyze_4c.py")]
+             str(L / "tests" / "test_stages_4c.py"), str(L / "tests" / "test_analyze_4c.py"),
+             str(L / "tests" / "test_verify_referents_4c.py")]
 FAST_EXTRA_ARGS = ["-m", "not slow"]
 TOTALITY_TESTS = [str(L / "tests" / "test_totality_4c.py")]
 FULLSHAPE_TESTS = [str(L / "tests" / "test_full_shape_4c.py")]
@@ -409,12 +414,6 @@ NON_FAST_KILLS_4C = {
         "test_totality_4c.py::test_power_record_probability_edited_gives_insufficient_data",
     "run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced":
         "test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict",
-    "delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped":
-        "test_totality_4c.py::test_control_untouched_copy_still_replicates "
-        "(the world's own committed power record no longer byte-reproduces)",
-    "power_bar_4c_the_declared_power_bar_75_5":
-        "test_totality_4c.py::test_control_untouched_copy_still_replicates "
-        "(same mechanism as delta_of_mu above)",
     "totality_54fdd34130": "test_totality_4c.py::test_2h_manifest_one_byte_flipped_gives_"
                            "insufficient_data",
     "totality_2f0d358116": "test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_"
@@ -511,8 +510,8 @@ NON_FAST_KILLS_4C = {
     "totality_45c8d0147c": "test_totality_4c.py::test_licence_block_raising_still_returns_"
                            "the_tree_verdict",
 }
-# 8 more of the original 61 were closed with FAST tests instead (moved
-# out of this dict; `main()`'s default fast run now kills them
+# 10 more of the original 61 were closed with FAST tests instead
+# (moved out of this dict; `main()`'s default fast run now kills them
 # directly): "gate0_4c_the_90_bar_replaced_by_5" (test_analyze_4c.py::
 # test_gate0_4c_fails_between_half_and_the_bar), "check_rung_set_pins_
 # 4c_the_clear_index_comparison_dropped"/"manifests_4c_the_6_9b_grid_
@@ -525,6 +524,15 @@ NON_FAST_KILLS_4C = {
 # boundary), "interpolate_min_detectable_4c_the_crossing_comparison_
 # widened_from_to"/"cell_structure_4c_the_r_vs_clear_index_pin_
 # consistency_check_dropped" (test_power_4c.py's two new fast tests).
+# Fix round 2 finding 2 ADDED two more, previously mis-recorded here
+# as killed by `test_control_untouched_copy_still_replicates` — that
+# was a WORLD-CACHE ARTIFACT, not a real kill (see `WORLD_WRITING_
+# PATHS_4C`'s docstring): "delta_of_mu_4c_the_sqrt_2_unit_normal_
+# placement_factor_dropped" (test_power_4c.py::test_delta_of_mu_4c_
+# pins_the_sqrt2_unit_normal_placement_factor) and "power_bar_4c_the_
+# declared_power_bar_75_5" (test_power_4c.py::test_power_bar_4c_pins_
+# design_section_4s_bar) — both now pin the design's own numeric value
+# directly instead of relying on a cached world's byte reproduction.
 
 # Mutants proven equivalent (the mutated source produces byte-identical
 # behaviour on every reachable input) — reasoning in PROGRESS.md.
@@ -625,12 +633,15 @@ def _extract_failed_test(stdout: str) -> str:
     return None
 
 
-def _run_suite_full(tests, extra_args=None, timeout=None):
+def _run_suite_full(tests, extra_args=None, timeout=None, extra_env=None):
     """`run_suite`'s body, returning the FULL stdout (not the last 600
     chars) so `_extract_failed_test` can find the summary line — used
     only by `run_worlds_only`, which logs the identified killing test
-    rather than a truncated tail."""
-    env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+    rather than a truncated tail. `extra_env` overrides/adds on top of
+    the inherited environment (fix round 2 finding 2: `run_worlds_only`
+    uses it to FORCE `EXP4C_WORLD_CACHE=""` — cache bypass — for any
+    mutant on the world-writing path)."""
+    env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1", **(extra_env or {})}
     args = list(extra_args or [])
     try:
         r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
@@ -644,54 +655,56 @@ def _run_suite_full(tests, extra_args=None, timeout=None):
         return False, partial, True, False
 
 
-# Fix round 1b (controller ruling): every one of these must be
-# EXECUTED, never inferred. `clear_index_pin_4c...` was confirmed
-# KILLED by `battery-slow` (test_battery_4c.py -m slow); `check_rung_
-# set_pins_4c_the_clear_index_comparison_dropped` and the two
-# `manifests_4c_*` mutants turned out to be OPEN survivors of every
-# world/slow route (the real committed data already agrees with the
-# pins either way, so no real-tree or synthetic-world input can
-# exercise the dropped comparison) and were closed instead with three
-# new FAST unit tests (`test_check_rung_set_pins_4c_catches_a_clear_
-# index_mismatch`, `test_manifests_4c_catches_the_69_grid_mismatch`,
-# `test_manifests_4c_catches_a_missing_step0_entry`) that hand-build/
-# monkeypatch the disagreement directly — all four removed from this
-# list. `totality_5742ce6a67` was confirmed KILLED by `totality`
-# earlier this session and is also removed. The remaining 56 are tried
-# against test_totality_4c.py's shared REPLICATES world first (cheap
-# once cached), then test_full_shape_4c.py's four worlds + ten
-# MISSING_ROUTES_4C corruptions if totality doesn't catch them.
-WORLD_ONLY_BATTERY_PIN_LABELS = set()
+# Fix round 2 finding 1: `WORLD_ONLY_LABELS`/`WORLD_ONLY_BATTERY_PIN_
+# LABELS` used to be a hand-maintained literal that could (and did)
+# drift from `NON_FAST_KILLS_4C` — the exact "tally that doesn't
+# reproduce from committed logs" the finding named. Both are now
+# DERIVED from `NON_FAST_KILLS_4C` itself: `run_worlds_only`'s
+# candidate set can never name a label the dict doesn't also claim to
+# resolve, and adding/removing an entry from the dict is the ONLY edit
+# needed to change what a future `run_worlds_only` run considers.
+# `clear_index_pin_4c...`'s recorded killer names `test_battery_4c.py`
+# `-m slow`, not `test_totality_4c.py`/`test_full_shape_4c.py`, so it
+# alone routes through `BATTERY_SLOW_TESTS`; everything else in the
+# dict is tried against test_totality_4c.py's shared REPLICATES world
+# first (cheap once cached), then test_full_shape_4c.py's four worlds
+# + ten MISSING_ROUTES_4C corruptions if totality doesn't catch it.
+WORLD_ONLY_BATTERY_PIN_LABELS = {
+    "clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6",
+}
 
-WORLD_ONLY_LABELS = [
-    "gate0_4c_the_90_bar_replaced_by_5",
-    "run_the_reference_seal_s_own_failures_are_never_appended",
-    "run_the_discovery_gate_s_known_answer_pin_check_dropped",
-    "run_the_power_record_s_byte_reproduction_never_checked_presence_only",
-    "run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced",
-    "load_one_unit_4c_the_n_hidden_vs_pin_check_dropped",
-    "eligibility_4c_the_2_se_eligibility_bar_weakened_from_to",
-    "delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped",
-    "power_bar_4c_the_declared_power_bar_75_5",
-    "interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to",
-    "cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped",
-    "totality_d9a804a211", "totality_73f9815ef4", "totality_d6d5f230f6",
-    "totality_45c8d0147c", "totality_bf2e926cc6", "totality_54fdd34130",
-    "totality_efe912cfae", "totality_4c50327e8b", "totality_946b2d8ff4",
-    "totality_9a47cf39d9", "totality_4ae7eb8e01", "totality_7c26425e08",
-    "totality_98f598282a", "totality_890e2e645a", "totality_1a4450362d",
-    "totality_2dbe40e17b", "totality_e9f600ab3c", "totality_4cd3e551b9",
-    "totality_2395e1c6a2", "totality_7f0d909665", "totality_401377c2ee",
-    "totality_f599225b3f", "totality_882e7be6db", "totality_2f0d358116",
-    "totality_85c26ea5da", "totality_b1d2a427a5", "totality_e7f5959f35",
-    "totality_1998a8e42c", "totality_785e68faae", "totality_4db1f27c39",
-    "totality_56872f0008", "totality_7fc25d1cb3", "totality_38e82d2f6f",
-    "totality_1493707fcd", "totality_5bec55dfda", "totality_0392026ab8",
-    "totality_b720cefaf0", "totality_8cc99ff2b7", "totality_0569241841",
-    "totality_dd93a6d647", "totality_8613fd6ec8", "totality_c7587d08f8",
-    "totality_4089e0701e", "totality_0f1437d2df", "totality_8a9bab2364",
-]
-assert len(WORLD_ONLY_LABELS) == 56 == len(set(WORLD_ONLY_LABELS))
+WORLD_ONLY_LABELS = sorted(NON_FAST_KILLS_4C)
+assert len(WORLD_ONLY_LABELS) == len(set(WORLD_ONLY_LABELS))
+assert WORLD_ONLY_BATTERY_PIN_LABELS <= set(WORLD_ONLY_LABELS)
+
+
+# Fix round 2 finding 2 (cache-artifact kills): `EXP4C_WORLD_CACHE`
+# makes `full_shape_4c.build_world` COPY a pre-built world instead of
+# rebuilding it — sound only because the world's committed contents
+# (a `power_4c.json`, battery/rung-set/collect_4c-shaped data, and the
+# BUILDER CODE that assembled them) are written by whatever source was
+# on disk the FIRST time that `(mode, seed)` was cached. A mutant to
+# `power_4c.py` (or `battery_4c.py`/`collect_4c.py`, which the world
+# builder also calls, or `tests/full_shape_4c.py`, the builder itself)
+# changes what a FRESH build would write but NOT what the STALE cached
+# copy already contains — so a cached run compares the mutated
+# analyzer against an unmutated world and can "kill" a mutant for a
+# reason that has nothing to do with the mutation (`delta_of_mu_4c_
+# the_sqrt_2...`/`power_bar_4c_the_declared_power_bar_75_5` were
+# exactly this: recorded killed by `test_control_untouched_copy_still_
+# replicates`, which cannot observe a `power_4c` mutation on a
+# genuinely fresh world at all — replaced by direct pins in
+# `test_power_4c.py`). `run_worlds_only` closes this by FORCING a
+# fresh build (`EXP4C_WORLD_CACHE=""`, falsy, `full_shape_4c.
+# build_world`'s own bypass) for any mutant whose file is on the
+# world-writing path, regardless of what the calling process's own
+# environment has set.
+WORLD_WRITING_PATHS_4C = {
+    str(L / "power_4c.py"),
+    str(L / "battery_4c.py"),
+    str(L / "collect_4c.py"),
+    str(L / "tests" / "full_shape_4c.py"),
+}
 
 
 def run_worlds_only(argv) -> int:
@@ -700,7 +713,10 @@ def run_worlds_only(argv) -> int:
     `BATTERY_SLOW_TESTS`, everything else against `TOTALITY_TESTS`
     first and `FULLSHAPE_TESTS` second if totality alone doesn't catch
     it. `EXP4C_WORLD_CACHE`, if set in THIS process's own environment,
-    is inherited by every pytest subprocess automatically. Prints one
+    is inherited by every pytest subprocess automatically EXCEPT for a
+    mutant on `WORLD_WRITING_PATHS_4C` (fix round 2 finding 2), whose
+    subprocess gets the cache forced off — see that constant's
+    docstring for the hazard a stale cache creates there. Prints one
     line per label with the identified killing test (or OPEN if every
     route survives) and a final tally; writes nothing to
     `NON_FAST_KILLS_4C` itself — the caller reads this run's own stdout
@@ -727,6 +743,12 @@ def run_worlds_only(argv) -> int:
         else:
             sequence = [("totality", TOTALITY_TESTS, []), ("fullshape", FULLSHAPE_TESTS, [])]
 
+        bypass_cache = str(path) in WORLD_WRITING_PATHS_4C
+        extra_env = {"EXP4C_WORLD_CACHE": ""} if bypass_cache else None
+        if bypass_cache:
+            print(f"[{label}] ({n}/{len(labels)}) {path.name} is on the world-writing path — "
+                 f"cache bypassed, building fresh", flush=True)
+
         src = path.read_text()
         if src.count(old) != 1:
             print(f"[{label}] ({n}/{len(labels)}) SKIP: target text not found exactly once "
@@ -740,7 +762,7 @@ def run_worlds_only(argv) -> int:
             try:
                 path.write_text(src.replace(old, new))
                 clear_pycache()
-                ok, out, timed_out, no_tests = _run_suite_full(tests, extra)
+                ok, out, timed_out, no_tests = _run_suite_full(tests, extra, extra_env=extra_env)
             finally:
                 shutil.copy2(backup, path)
                 backup.unlink()
@@ -842,10 +864,12 @@ def main(argv=None) -> int:
             survivors.append((mlabel, i, name, "target-not-found"))
             continue
         backup = _acquire_backup(path)
+        extra_env = {"EXP4C_WORLD_CACHE": ""} if str(path) in WORLD_WRITING_PATHS_4C else None
         try:
             path.write_text(src.replace(old, new))
             clear_pycache()
-            ok, out, timed_out, no_tests = run_suite(tests, extra, timeout=timeout)
+            ok, out, timed_out, no_tests = run_suite(tests, extra, timeout=timeout,
+                                                     extra_env=extra_env)
         finally:
             shutil.copy2(backup, path)
             backup.unlink()
@@ -878,7 +902,8 @@ def main(argv=None) -> int:
     real = [s for s in survivors if s[3] == "survived"]
     killed_fast = considered - len(survivors) - len(timeouts) - n_killed_slow - n_equivalent
     print(f"\n{killed_fast} killed by the fast suite directly; "
-          f"{n_killed_slow} killed by the slow suite (confirmed by hand); "
+          f"{n_killed_slow} killed by the slow suite (each individually re-confirmed via "
+          f"--worlds-only/--totality/--fullshape, not inferred — see mutation_worlds.log); "
           f"{n_equivalent} documented equivalent; "
           f"considered={considered}; "
           f"{len(real)} UNRESOLVED survivor(s): {real}; "

@@ -8,8 +8,10 @@ tables — the discovery gate's known-answer reproduction, design
 §3.7(1)); item 12 is a GATE on 4c's OWN sweep (SKIPs before it has
 run). Committed bytes throughout: no model contact.
 
- 1  frozen pins byte-identical (`battery_4c.check_frozen_4c`; prints
-    "empty" when `FROZEN_SHA256_4C` is not yet pinned)
+ 1  frozen pins byte-identical (`battery_4c.check_frozen_4c`, which ALSO
+    verifies `battery_4.FROZEN_SHA256_4` (57) + `EXP4_CLOSED_SHA256_4C`
+    (8) + `EXP4B_CLOSED_SHA256_4C` (3) = 68 files even while 4c's own
+    `FROZEN_SHA256_4C` stays empty; this item never SKIPs)
  2  the five upstream/sibling closed tags exist: `exp2h-closed`,
     `exp2l-closed`, `exp4-closed`, `exp4-reference-sealed`,
     `exp4b-closed`
@@ -87,9 +89,12 @@ CLOSED_TAGS_4C = ("exp2h-closed", "exp2l-closed", "exp4-closed", "exp4-reference
 
 @check(1, "frozen pins byte-identical")
 def _c1(ctx):
-    if not bc.FROZEN_SHA256_4C:
-        return "SKIP"
     bc.check_frozen_4c()
+    if not bc.FROZEN_SHA256_4C:
+        n = (len(battery_4.FROZEN_SHA256_4) + len(bc.EXP4_CLOSED_SHA256_4C)
+            + len(bc.EXP4B_CLOSED_SHA256_4C))
+        print(f"       FROZEN_SHA256_4C empty (covered by exp4/exp4b's own tables); "
+             f"{n} pinned files verified", flush=True)
 
 
 @check(2, "the five upstream/sibling closed tags exist")
@@ -199,8 +204,12 @@ def _c11(ctx):
     rec2 = pw4c.compute(pw4c.cell_structure_4c(), n_sim=int(power["n_sim"]),
                         seed=int(power["seed"]))
     rec2["prereg_tag"] = power.get("prereg_tag")
+    extra = sorted(set(power) - set(rec2))
+    missing = sorted(set(rec2) - set(power))
+    if extra or missing:
+        raise AssertionError(f"power_4c.json key set mismatch: extra {extra}, missing {missing}")
     a_s = json.dumps(rec2, sort_keys=True)
-    b_s = json.dumps({k: power[k] for k in rec2 if k in power}, sort_keys=True)
+    b_s = json.dumps(power, sort_keys=True)
     if a_s != b_s:
         raise AssertionError("power_4c.json did not reproduce byte for byte")
     live_sha = pw4c.structure_sha256_4c(pw4c.cell_structure_4c())

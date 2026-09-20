@@ -93,7 +93,10 @@ REFERENTS_4C_SHA256 = "eb3546582b2a85fa2787880d0273d4b96ddbd54f30c8795128ea7398a
 # (`make_referents_4c.py`, `run/preflight_4c.py`,
 # `verify_referents_4c.py`). Fix round 1a: re-cut after `make_
 # referents_4c.py`'s post-pin edit (the argmax-outcome-files fix) had
-# left the ORIGINAL scan's sha stale in the same commit.
+# left the ORIGINAL scan's sha stale in the same commit. Fix round 2:
+# re-cut again after `verify_referents_4c.py`'s edits (items 3 and 5 —
+# the always-verifying frozen-pin check and the power-record key-set
+# assertion); only that one file's sha moved.
 IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -104,7 +107,7 @@ IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/run/preflight_4c.py":
         "31cffdd3bfa49ef595c16cc1f337baf53d72071d43cf766bee7f06fb5104a924",
     REPO / "experiments/exp4c/verify_referents_4c.py":
-        "a67ca232cdd6e4ac42b348b39a6e80cd930eddde2b9ee68ffeda83551a5cbc86",
+        "52aced84251923f023fd85a0090d6a2b304b6ea39315c7960db243156aa0eca1",
 }
 REFERENTS_PATH_4C = EXP4C / "referents_4c.json"
 
@@ -803,17 +806,47 @@ def references_ceiling_4c(ref_raw) -> dict:
     return out
 
 
-def s9_question_end_4c(root, run_tables_by_traj, ref_raw_by_traj, rung_sets_by_traj) -> dict:
+def _reference_attested_sha_ok_4c(root4, ref, rec) -> tuple:
+    """True/None, or False/a reason — the REFERENCE side of S9's
+    gitignored-and-hash-checked contract. `_attested_question_end_4c`
+    already sha-checks the MODEL/unit side's `attested/<rung>.npz`
+    against its own record before S9 ever sees it; `collect_4.
+    load_ref_tables_4`'s reference loader reads a reference's
+    `attested/<rung>.npz` with NO sha check at all (fix round 2
+    finding 4b) — this closes that gap by re-hashing the file on disk
+    against the reference's OWN `_load.json` record's
+    `attested_sha256[rung]` before `s9_question_end_4c` reads
+    `sets_question_end`."""
+    att_sha = rec.get("attested_sha256") or {}
+    for rung in bc.RUNGS:
+        p = battery_4.attested_path(root4, ref, rung)
+        if not p.is_file():
+            return False, f"{ref}/{rung}: attested/{rung}.npz absent (gitignored)"
+        if bg.sha256_file(p) != att_sha.get(rung):
+            return False, f"{ref}/{rung}: attested sha != the reference record's"
+    return True, None
+
+
+def s9_question_end_4c(root, root4, run_tables_by_traj, ref_raw_by_traj,
+                       rung_sets_by_traj) -> dict:
     """S9 (dial l): the identical statistic at the QUESTION-END
     position — M's own attested question-end set tables against the
     references' attested question-end tables. Both sides are
-    gitignored artifacts: when either is absent, or a unit's attested
-    sha does not equal its record's, the block reads `available:
-    False` and says which."""
+    GITIGNORED artifacts, absent on a fresh clone, and both are
+    HASH-CHECKED against their own committed `_load.json` record
+    before use (the model side by `_attested_question_end_4c`, the
+    reference side by `_reference_attested_sha_ok_4c` above — fix
+    round 2 finding 4b closed a real gap: `collect_4.load_ref_tables_4`
+    itself never checks the reference's attested sha). Descriptive
+    only: when either side is absent, or a sha does not match its
+    record, the block reads `available: False` and says which."""
     qe_refs = {}
     for traj, raw in ref_raw_by_traj.items():
         block = {}
         for ref, rt in raw.items():
+            ok, reason = _reference_attested_sha_ok_4c(root4, ref, rt.get("record") or {})
+            if not ok:
+                return {"available": False, "reason": reason, "no_alpha_claim": True}
             qe = rt.get("sets_question_end") or {}
             if set(qe) != set(bc.RUNGS):
                 return {"available": False,
@@ -1473,7 +1506,7 @@ def run(root=bc.EXP4C, root4=EXP4, *, write=False, n_boot=N_BOOT_4C, B=B_PLACEBO
         _sec("S7", lambda: rk.never_performing_type_check_4c(series_by_traj, rung_sets))
         _sec("S8", lambda: s8_levels_4c(root, series_by_traj, init_units, ref_tables_by_traj,
                                         ref_raw_by_traj))
-        _sec("S9", lambda: s9_question_end_4c(root, run_tables_by_traj, ref_raw_by_traj,
+        _sec("S9", lambda: s9_question_end_4c(root, root4, run_tables_by_traj, ref_raw_by_traj,
                                               rung_sets))
         _sec("S10", lambda: s10_texture_4c(s4, series_incl_by_traj, rung_sets))
 
@@ -1558,13 +1591,22 @@ def _power_record_failures_4c(power, *, expected_n_sim, power_gate) -> list:
 
 def _reproduce_power_4c(power) -> dict:
     """Task 5's byte reproduction: `power_4c.compute` re-run at the
-    record's own `n_sim`/`seed` must produce the same record."""
+    record's own `n_sim`/`seed` must produce the same record. The key
+    SETS are asserted equal first — fix round 2 finding 5: comparing
+    only the keys `rec2` happens to have would let a key present in
+    the committed record but absent from `compute`'s live output (or
+    vice versa) pass silently."""
     from experiments.exp4c import power_4c as pw4c
     rec2 = pw4c.compute(pw4c.cell_structure_4c(), n_sim=int(power["n_sim"]),
                         seed=int(power["seed"]))
     rec2["prereg_tag"] = power.get("prereg_tag")
+    extra = sorted(set(power) - set(rec2))
+    missing = sorted(set(rec2) - set(power))
+    assert not extra and not missing, (
+        f"power record key set mismatch: extra in committed {extra}, missing from committed "
+        f"{missing}")
     a_s = json.dumps(rec2, sort_keys=True)
-    b_s = json.dumps({k: power[k] for k in rec2 if k in power}, sort_keys=True)
+    b_s = json.dumps(power, sort_keys=True)
     identical = a_s == b_s
     first_diff = None
     if not identical:

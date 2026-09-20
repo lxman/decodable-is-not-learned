@@ -1111,3 +1111,160 @@ cached worlds) ran ~2-3 h detached; the 40-label `-k`-narrowed
 confirmation pass ran a few minutes; fast-suite/pin/read-sweep/cold-
 battery re-verification a few more minutes. Cache directory:
 `/private/tmp/exp4c_world_cache` (gitignored scratch).
+
+### Fix round 2 — five task-review findings (four Important, one promoted minor)
+
+**1. The tally must reproduce from committed logs.** `mutation_build.
+log`/`mutation_worlds.log` were snapshots from earlier states of the
+source — 8 of `mutation_build.log`'s recorded survivors were already
+fast-killed by fix round 1b's own new tests, and the "45 closures"
+narrative lived only in PROGRESS.md prose, not in either committed
+log. Fixed by making the CANDIDATE SET itself derived, not hand-
+maintained: `WORLD_ONLY_LABELS = sorted(NON_FAST_KILLS_4C)` and
+`WORLD_ONLY_BATTERY_PIN_LABELS = {"clear_index_pin_4c..."}` (the one
+label whose recorded killer is `test_battery_4c.py -m slow`, not
+totality/fullshape) — a future label can only enter `run_worlds_only`'s
+survey by first being added to `NON_FAST_KILLS_4C`, so the two can
+never drift apart again. Both logs regenerated from a clean tree by
+re-running `main()`'s default (fast) pass and `--worlds-only`
+detached, one at a time, nothing else touching exp4c meanwhile. The
+stale pointer at the top of `mutation_check.py` (which named a
+PROGRESS.md transcript with no committed record) now names the two
+logs themselves as the reproducible record.
+
+**2. Two kills were world-cache artifacts.**
+`delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped` and
+`power_bar_4c_the_declared_power_bar_75_5` were recorded as killed by
+`test_control_untouched_copy_still_replicates` — but that test can
+never observe a `power_4c` mutation on a FRESHLY BUILT world (the
+world's own committed `power_4c.json` and the analyzer's re-derived
+reproduction are written by the SAME `compute` call chain, so they
+move together regardless of the mutation); they had only "died" because
+the CACHED world's `power_4c.json` had been written by the unmutated
+source before caching, and the mutated `power_4c.py` was never actually
+exercised to build a NEW committed record. Fixed three ways: (a) two
+direct pins in `test_power_4c.py` —
+`test_delta_of_mu_4c_pins_the_sqrt2_unit_normal_placement_factor`
+(`sqrt(2) * norm.ppf(0.76)` == 0.9988626635073269, not `norm.ppf(0.76)`
+alone) and `test_power_bar_4c_pins_design_section_4s_bar`
+(`POWER_BAR_4C == 0.75`) — both moved OUT of `NON_FAST_KILLS_4C`
+entirely, now killed directly by the fast suite; (b) `WORLD_WRITING_
+PATHS_4C` (`power_4c.py`, `battery_4c.py`, `collect_4c.py`, `tests/
+full_shape_4c.py`) — the harness now FORCES `EXP4C_WORLD_CACHE=""`
+(bypass, build fresh) for any mutant on this list, in both `run_worlds_
+only` and `main()`'s own totality/fullshape loop, documented in both
+the constant's own docstring and here; (c) the two labels re-recorded
+under their new fast tests (visible in `mutation_build.log` as `killed`
+directly, not `survived-fast, killed by the slow suite`).
+
+**3. Cold battery item 1 skipped the frozen-pin check entirely.**
+`verify_referents_4c.py`'s `_c1` returned `"SKIP"` whenever `bc.
+FROZEN_SHA256_4C` was empty — but `bc.check_frozen_4c()` ALSO verifies
+`battery_4.FROZEN_SHA256_4` (57 files) + `EXP4_CLOSED_SHA256_4C` (8) +
+`EXP4B_CLOSED_SHA256_4C` (3) = 68 real, committed pins, entirely
+independent of whether 4c's OWN residual table has anything in it yet.
+Fixed: item 1 now ALWAYS calls `bc.check_frozen_4c()` and, only when
+`FROZEN_SHA256_4C` is (still, legitimately) empty, prints "FROZEN_
+SHA256_4C empty (covered by exp4/exp4b's own tables); 68 pinned files
+verified" instead of skipping. The referent battery now reads 11/12 (+
+1 legitimate skip, item 12 — 4c's own sweep hasn't run yet).
+
+**4. The read sweep's bucket (f) absorbed 136 files its own docstring
+never described.** Every one of the 136 `exp4_campaign_artifact`
+entries was, verified directly, `experiments/exp4/results/reference/
+<ref>/attested/<rung>.npz` — gitignored, untracked, absent from
+`referents_4c.json`, read by `collect_4.load_ref_tables_4` with NO sha
+check at all — while the docstring described the discovery gate's
+OTHER inputs (`_load.json`, `sets/*.npz`, etc.), which never actually
+reach this bucket (they're covered by `battery_4.FROZEN_SHA256_4`
+before the classifier ever sees them). Fixed two ways: (a) a new named
+bucket `exp4_reference_attested_unhashed` carries exactly these 136
+paths, with a printed disclosure line, and the docstring corrected —
+bucket (f) `exp4_campaign_artifact` is now (correctly) EMPTY in this
+pre-campaign sweep; (b) ADDITIVE in the analyzer: `_reference_attested_
+sha_ok_4c(root4, ref, rec)` re-hashes a reference's `attested/<rung>
+.npz` on disk against ITS OWN `_load.json` record's `attested_sha256
+[rung]` — the reference-side counterpart to `_attested_question_end_
+4c`, which already did this for the MODEL side. `s9_question_end_4c`
+gained a `root4` parameter (threaded from `run()`, which already has
+it) and now calls this check for every reference BEFORE trusting its
+`sets_question_end`; on any absence or mismatch S9 reads `available:
+False` with the check's own reason. Two new fast tests in `test_
+analyze_4c.py`: `test_reference_attested_sha_ok_4c_catches_a_tampered_
+file` (a 2-rung fake universe — absent, then tampered, then matching)
+and `test_s9_question_end_4c_reads_unavailable_on_a_reference_attested_
+mismatch` (the integration point, via monkeypatch). Read sweep re-run:
+`exp4_reference_attested_unhashed` 136, `exp4_campaign_artifact` 0, 0
+UNPINNED — identical landing point and every other bucket unchanged.
+
+**5. "Byte for byte" compared restricted key sets.**
+`analyze_4c._reproduce_power_4c` (line ~1567) and `verify_referents_
+4c.py`'s item 11 (`_c11`, line ~203) both built the comparison string
+as `{k: power[k] for k in rec2 if k in power}` — a key present in the
+COMMITTED record but ABSENT from `compute`'s live output (or vice
+versa) would be silently dropped from one side before the string
+comparison ever ran, passing a genuine drift as byte-identical. Fixed
+in both places: `set(power) == set(rec2)` asserted first, naming the
+extra/missing keys, before the byte comparison. Four new fast tests:
+`test_analyzer_reproduction_catches_an_extra_committed_key`/`_a_
+missing_committed_key` in `test_power_4c.py` (targets `_reproduce_
+power_4c` directly) and `test_c11_catches_an_extra_key_in_the_
+committed_power_record`/`_a_missing_key_in_the_committed_power_record`
+in the new `test_verify_referents_4c.py` (targets `_c11` via a `vr.
+EXP4C` monkeypatch to a `tmp_path`, since `_c11` hard-codes its own
+results path) — plus `test_c11_skips_when_no_power_record_is_on_disk`
+for the pre-existing SKIP route. `test_verify_referents_4c.py` added to
+`FAST_TESTS`.
+
+**Import pin drift (same class as fix round 1a, caught before commit
+this time):** editing `verify_referents_4c.py` (items 3 and 5) moved
+its sha, so `analyze_4c.check_imports_4c()` raised on a fresh-process
+check. Caught by running that exact check BEFORE committing (the fix
+round 1a lesson applied in advance) — re-ran `import_scan_4c.py`,
+confirmed only `verify_referents_4c.py`'s sha moved (`a67ca232...` ->
+`52aced84...`), pasted the fresh `IMPORTED_SHA256_4C` entry, re-
+verified `check_frozen_4c()`/`check_imports_4c()` clean in a fresh
+process.
+
+**Verification after every edit, in a fresh process / clean tree:**
+fast suite green under `-W error` (117 passed, 4 deselected, ~45 s —
+was 108 after fix round 1b, +9 new tests: 2 S9, 2 delta_of_mu/
+power_bar pins, 2 power-reproduction key-set, 3 in the new `test_
+verify_referents_4c.py`); the FULL slow totality suite re-run in full
+(53 passed, 1746 s) to confirm the S9 signature change and the
+`WORLD_WRITING_PATHS_4C` cache-bypass mechanism introduced no
+regression; `check_frozen_4c()`/`check_imports_4c()` both clean after
+importing all six modules; read sweep re-run (0 UNPINNED, new bucket
+present, landing point unchanged); cold battery re-run (11/12 + 1
+legitimate skip); `git status` clean; no `.mutation_backup` anywhere.
+
+**The two harness logs, regenerated from the CURRENT source on a clean
+tree, detached (`Popen(start_new_session=True)`), one at a time:**
+`mutation_build.log` (fast pass): **53 killed by the fast suite
+directly; 51 killed by the slow suite (each individually reconfirmed);
+2 documented equivalent; considered=106; 0 UNRESOLVED.** `mutation_
+worlds.log` (`--worlds-only`, cached worlds, `WORLD_WRITING_PATHS_4C`
+bypass active for the one battery-pin label that needed it):
+**considered=51, killed=51, open_survivors=0, errors=0** — every
+label's logged killer matches `NON_FAST_KILLS_4C` exactly. (53 fast +
+51 non-fast + 2 equivalent = 106, matching `M`'s total; the 53/51 split
+differs from this finding's own "51/53" description because finding
+2's fix moves 2 mutants from non-fast to fast in the SAME round — the
+pre-finding-2 state was 51 fast / 53 non-fast, exactly as described.)
+
+**Wall-clock this fix round:** items 3-5's code/tests: under an hour.
+The full slow-suite regression check: ~29 min. The fast mutation pass:
+~2 runs (one before, one after the wording fix to the summary line
+and `NON_FAST_KILLS_4C`/`WORLD_ONLY_LABELS` refactor), each a few
+minutes. **The `--worlds-only` re-run: ~7.5 h** — each of the 51
+labels applies its mutation alone and runs pytest with `-x` against
+the FULL `test_totality_4c.py` (now 91 tests after fix rounds 1b/2);
+`-x` stops at the first failure, so a label whose killing test sits
+LATE in file order (most of fix round 1b's ~37 new tests, appended at
+the end) costs nearly the full ~29-30 min baseline regardless of
+caching (the cache only amortizes the one-time world BUILD, not each
+test's own `run()` computation). No interruption was attempted mid-run
+at any point (the apply/run/restore cycle has no externally-observable
+safe window between mutants short enough to poll for, and interrupting
+mid-mutation risks stranding a mutated source file — the same
+constraint documented from earlier mutation-harness work this task).

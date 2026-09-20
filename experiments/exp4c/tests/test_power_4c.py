@@ -12,8 +12,10 @@ from __future__ import annotations
 
 import copy
 import json
+import math
 
 import pytest
+from scipy.stats import norm
 
 from experiments.exp4c import analyze_4c as an
 from experiments.exp4c import battery_4c as bc
@@ -92,6 +94,28 @@ def test_cell_structure_4c_catches_an_r_vs_clear_index_mismatch(monkeypatch):
 
 def test_delta_of_mu_symmetry_point():
     assert pw.delta_of_mu_4c(0.5) == 0.0
+
+
+def test_delta_of_mu_4c_pins_the_sqrt2_unit_normal_placement_factor():
+    """Fix round 2 finding 2: `test_control_untouched_copy_still_
+    replicates` only killed this mutant because a cached synthetic
+    world's committed power record had been written by the UNMUTATED
+    `compute` — the world and the analyzer's reproduction move
+    together, so a stale cache can't observe a `power_4c` drift at
+    all. This pins the design's own formula directly: `sqrt(2) *
+    norm.ppf(mu)`, not `norm.ppf(mu)` alone (mu=0.76 -> ~.99886, a
+    mutant dropping the sqrt(2) factor gives ~.70642 instead)."""
+    want = math.sqrt(2.0) * norm.ppf(0.76)
+    assert pw.delta_of_mu_4c(0.76) == pytest.approx(want)
+    assert pw.delta_of_mu_4c(0.76) == pytest.approx(0.9988626635073269)
+
+
+def test_power_bar_4c_pins_design_section_4s_bar():
+    """Sibling of the delta_of_mu pin above, same fix round 2 finding
+    2: design §4's declared power bar is .75 — pinned directly rather
+    than relying on a cached world's `compute` output moving with the
+    mutant."""
+    assert pw.POWER_BAR_4C == 0.75
 
 
 def test_delta_of_mu_monotone():
@@ -279,3 +303,22 @@ def test_analyzer_reproduction_fails_when_bytes_were_not_reproduced(small_record
     rep = an._reproduce_power_4c(tampered)
     assert rep["identical"] is False
     assert rep["first_diff"] is not None
+
+
+def test_analyzer_reproduction_catches_an_extra_committed_key(small_record):
+    """Fix round 2 finding 5: comparing `{k: power[k] for k in rec2 if
+    k in power}` lets a key present in the committed record but absent
+    from `compute`'s live output pass silently (the extra key is
+    simply dropped before the byte comparison ever runs). The key SETS
+    must be asserted equal first."""
+    extra = dict(small_record)
+    extra["a_key_compute_never_produces"] = 1
+    with pytest.raises(AssertionError, match="a_key_compute_never_produces"):
+        an._reproduce_power_4c(extra)
+
+
+def test_analyzer_reproduction_catches_a_missing_committed_key(small_record):
+    missing = dict(small_record)
+    del missing["arms"]
+    with pytest.raises(AssertionError, match="arms"):
+        an._reproduce_power_4c(missing)

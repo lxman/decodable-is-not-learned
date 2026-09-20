@@ -463,3 +463,51 @@ def test_the_design_session_pins_are_what_the_gate_compares():
     rec = dict(an.rk.DISCOVERY_PIN_4C)
     rec["U"] = rec["U"] + 1e-12
     assert an.rk.check_discovery_pins_4c(rec)
+
+
+# ------------------------------------- S9's reference-side attested hash check
+
+def test_reference_attested_sha_ok_4c_catches_a_tampered_file(tmp_path, monkeypatch):
+    """Fix round 2 finding 4b: `collect_4.load_ref_tables_4` reads a
+    reference's `attested/<rung>.npz` with NO sha check at all —
+    `_reference_attested_sha_ok_4c` closes that gap directly,
+    independent of the loader. Three states on a 2-rung fake universe:
+    one rung's file absent, then tampered (bytes disagree with the
+    pinned sha), then matching."""
+    monkeypatch.setattr(bc, "RUNGS", ["r1", "r2"])
+    ref = "ref_test"
+    p1 = battery_4.attested_path(tmp_path, ref, "r1")
+    p1.parent.mkdir(parents=True, exist_ok=True)
+    p1.write_bytes(b"r1's real bytes")
+    rec = {"attested_sha256": {"r1": bg.sha256_file(p1), "r2": "f" * 64}}
+
+    # r2's file does not exist at all
+    ok, reason = an._reference_attested_sha_ok_4c(tmp_path, ref, rec)
+    assert ok is False
+    assert "r2" in reason and "absent" in reason
+
+    # r2 exists but its bytes don't match the pinned sha
+    p2 = battery_4.attested_path(tmp_path, ref, "r2")
+    p2.write_bytes(b"tampered bytes, wrong sha")
+    ok, reason = an._reference_attested_sha_ok_4c(tmp_path, ref, rec)
+    assert ok is False
+    assert "r2" in reason and "sha" in reason
+
+    # fix the pin to the real on-disk sha -> passes
+    rec["attested_sha256"]["r2"] = bg.sha256_file(p2)
+    ok, reason = an._reference_attested_sha_ok_4c(tmp_path, ref, rec)
+    assert ok is True and reason is None
+
+
+def test_s9_question_end_4c_reads_unavailable_on_a_reference_attested_mismatch(monkeypatch):
+    """Integration point: `s9_question_end_4c` must consult
+    `_reference_attested_sha_ok_4c` for EVERY reference before trusting
+    its `sets_question_end`, and read `available: False` with the
+    check's own reason on a mismatch — never silently use the
+    unhashed table `collect_4.load_ref_tables_4` handed it."""
+    monkeypatch.setattr(an, "_reference_attested_sha_ok_4c",
+                        lambda root4, ref, rec: (False, f"{ref}: forced mismatch"))
+    ref_raw_by_traj = {"pythia_6.9b": {"ref_comma_7b": {"record": {}, "sets_question_end": {}}}}
+    out = an.s9_question_end_4c(None, None, {}, ref_raw_by_traj, {})
+    assert out["available"] is False
+    assert "forced mismatch" in out["reason"]

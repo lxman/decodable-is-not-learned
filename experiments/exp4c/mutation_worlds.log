@@ -1,155 +1,61 @@
 EXP4C_WORLD_CACHE='/private/tmp/exp4c_world_cache' (set — cached copies)
-[gate0_4c_the_90_bar_replaced_by_5] (1/56) survived totality
-[gate0_4c_the_90_bar_replaced_by_5] (1/56) survived fullshape
-[gate0_4c_the_90_bar_replaced_by_5] (1/56) OPEN SURVIVOR — every route tried failed to kill it: gate0_4c: the .90 bar replaced by .5
-[run_the_reference_seal_s_own_failures_are_never_appended] (2/56) survived totality
-[run_the_reference_seal_s_own_failures_are_never_appended] (2/56) survived fullshape
-[run_the_reference_seal_s_own_failures_are_never_appended] (2/56) OPEN SURVIVOR — every route tried failed to kill it: run(): the reference seal's own failures are never appended
-[run_the_discovery_gate_s_known_answer_pin_check_dropped] (3/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_discovery_pin_u_off_by_a_nanounit_gives_insufficient_data
-[run_the_power_record_s_byte_reproduction_never_checked_presence_only] (4/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_power_record_probability_edited_gives_insufficient_data
-[run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced] (5/56) survived totality
-[run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced] (5/56) KILLED by fullshape: experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict
-[load_one_unit_4c_the_n_hidden_vs_pin_check_dropped] (6/56) survived totality
-[load_one_unit_4c_the_n_hidden_vs_pin_check_dropped] (6/56) survived fullshape
-[load_one_unit_4c_the_n_hidden_vs_pin_check_dropped] (6/56) OPEN SURVIVOR — every route tried failed to kill it: _load_one_unit_4c: the n_hidden-vs-pin check dropped
-[eligibility_4c_the_2_se_eligibility_bar_weakened_from_to] (7/56) survived totality
-[eligibility_4c_the_2_se_eligibility_bar_weakened_from_to] (7/56) survived fullshape
-[eligibility_4c_the_2_se_eligibility_bar_weakened_from_to] (7/56) OPEN SURVIVOR — every route tried failed to kill it: eligibility_4c: the 2-SE eligibility bar weakened from >= to >
-[delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped] (8/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_control_untouched_copy_still_replicates
-[power_bar_4c_the_declared_power_bar_75_5] (9/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_control_untouched_copy_still_replicates
-[interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to] (10/56) survived totality
-[interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to] (10/56) survived fullshape
-[interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to] (10/56) OPEN SURVIVOR — every route tried failed to kill it: _interpolate_min_detectable_4c: the crossing comparison widened from >= to >
-[cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped] (11/56) survived totality
-[cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped] (11/56) survived fullshape
-[cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped] (11/56) OPEN SURVIVOR — every route tried failed to kill it: cell_structure_4c: the R-vs-clear-index-pin consistency check dropped
-[totality_d9a804a211] (12/56) survived totality
-[totality_d9a804a211] (12/56) survived fullshape
-[totality_d9a804a211] (12/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 577 (lambda: a4.cells_4(series_by_traj, rung_sets_by_traj, eligib...)
-[totality_73f9815ef4] (13/56) survived totality
-[totality_73f9815ef4] (13/56) survived fullshape
-[totality_73f9815ef4] (13/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 594 (lambda: a4.lambda_hat_4(series_by_traj, rung_sets_by_traj, e...)
-[totality_d6d5f230f6] (14/56) survived totality
-[totality_d6d5f230f6] (14/56) survived fullshape
-[totality_d6d5f230f6] (14/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 622 (lambda: _design_4c(_clear_indices_4c(cells or []))...)
-[totality_45c8d0147c] (15/56) survived totality
-[totality_45c8d0147c] (15/56) survived fullshape
-[totality_45c8d0147c] (15/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 989 (lambda: licence_block_4c(world, modifier, calibration, tree,...)
-[totality_bf2e926cc6] (16/56) survived totality
-[totality_bf2e926cc6] (16/56) survived fullshape
-[totality_bf2e926cc6] (16/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1193 (frozen_check or bc.check_frozen_4c...)
-[totality_54fdd34130] (17/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_2h_manifest_one_byte_flipped_gives_insufficient_data
-[totality_efe912cfae] (18/56) survived totality
-[totality_efe912cfae] (18/56) survived fullshape
-[totality_efe912cfae] (18/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1220 (bt.load_battery...)
-[totality_4c50327e8b] (19/56) survived totality
-[totality_4c50327e8b] (19/56) survived fullshape
-[totality_4c50327e8b] (19/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1222 (bg.load_floors...)
-[totality_946b2d8ff4] (20/56) survived totality
-[totality_946b2d8ff4] (20/56) survived fullshape
-[totality_946b2d8ff4] (20/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1247 (lambda: an2i.require_seal_2i(battery_4.REFERENCE_SEAL_TAG_4,...)
-[totality_9a47cf39d9] (21/56) survived totality
-[totality_9a47cf39d9] (21/56) survived fullshape
-[totality_9a47cf39d9] (21/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1272 (lambda: disc_fn(root4)...)
-[totality_4ae7eb8e01] (22/56) survived totality
-[totality_4ae7eb8e01] (22/56) survived fullshape
-[totality_4ae7eb8e01] (22/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 585 (lambda: a4.primary_4(cells, n_boot=n_boot, seed=seed)...)
-[totality_7c26425e08] (23/56) survived totality
-[totality_7c26425e08] (23/56) survived fullshape
-[totality_7c26425e08] (23/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 610 (lambda traj=traj, pia=pia: placebo_4b.placebo_pool_4b(...)
-[totality_98f598282a] (24/56) survived totality
-[totality_98f598282a] (24/56) survived fullshape
-[totality_98f598282a] (24/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 627 (lambda: placebo_4b.draw_batteries_4b(pools, design, B=B, see...)
-[totality_890e2e645a] (25/56) survived totality
-[totality_890e2e645a] (25/56) survived fullshape
-[totality_890e2e645a] (25/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1197 (check_imports_4c...)
-[totality_1a4450362d] (26/56) survived totality
-[totality_1a4450362d] (26/56) survived fullshape
-[totality_1a4450362d] (26/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1275 (lambda: rk.check_discovery_pins_4c(discovery)...)
-[totality_2dbe40e17b] (27/56) survived totality
-[totality_2dbe40e17b] (27/56) survived fullshape
-[totality_2dbe40e17b] (27/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1285 (_import_power_4c...)
-[totality_e9f600ab3c] (28/56) survived totality
-[totality_e9f600ab3c] (28/56) survived fullshape
-[totality_e9f600ab3c] (28/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1293 (lambda: json.loads(power_p.read_text())...)
-[totality_4cd3e551b9] (29/56) survived totality
-[totality_4cd3e551b9] (29/56) survived fullshape
-[totality_4cd3e551b9] (29/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1419 (lambda: rk.cells_4c(series_by_traj, rung_sets)...)
-[totality_2395e1c6a2] (30/56) survived totality
-[totality_2395e1c6a2] (30/56) survived fullshape
-[totality_2395e1c6a2] (30/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1427 (lambda: primary_4c(cells, n_boot=n_boot, seed=SEED_4C)...)
-[totality_7f0d909665] (31/56) survived totality
-[totality_7f0d909665] (31/56) survived fullshape
-[totality_7f0d909665] (31/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1430 (lambda: rk.placebo_4c(series_by_traj, rung_sets, cells, B=B,...)
-[totality_401377c2ee] (32/56) survived totality
-[totality_401377c2ee] (32/56) survived fullshape
-[totality_401377c2ee] (32/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1434 (lambda: rk.type_modifier_4c(cells)...)
-[totality_f599225b3f] (33/56) survived totality
-[totality_f599225b3f] (33/56) survived fullshape
-[totality_f599225b3f] (33/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1436 (lambda: gate7_ties_4c(cells)...)
-[totality_882e7be6db] (34/56) survived totality
-[totality_882e7be6db] (34/56) survived fullshape
-[totality_882e7be6db] (34/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1448 (lambda: rk.calibration_read_4c(placebo, tree["verdict"])...)
-[totality_2f0d358116] (35/56) survived totality
-[totality_2f0d358116] (35/56) KILLED by fullshape: experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict
-[totality_85c26ea5da] (36/56) survived totality
-[totality_85c26ea5da] (36/56) survived fullshape
-[totality_85c26ea5da] (36/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 633 (lambda: placebo_4b.p_cal_4b(batteries["T"], T4)...)
-[totality_b1d2a427a5] (37/56) survived totality
-[totality_b1d2a427a5] (37/56) survived fullshape
-[totality_b1d2a427a5] (37/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 636 (lambda: placebo_4b.t_star_4b(batteries["T"], T4)...)
-[totality_e7f5959f35] (38/56) survived totality
-[totality_e7f5959f35] (38/56) survived fullshape
-[totality_e7f5959f35] (38/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 639 (lambda: placebo_4b.alpha_placebo_4b(...)
-[totality_1998a8e42c] (39/56) survived totality
-[totality_1998a8e42c] (39/56) survived fullshape
-[totality_1998a8e42c] (39/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1187 (lambda p=p: p.read_text().strip()[:200]...)
-[totality_785e68faae] (40/56) survived totality
-[totality_785e68faae] (40/56) survived fullshape
-[totality_785e68faae] (40/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1216 (_check_referents...)
-[totality_4db1f27c39] (41/56) survived totality
-[totality_4db1f27c39] (41/56) survived fullshape
-[totality_4db1f27c39] (41/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1228 (lambda traj=traj: bc.load_outcome_4c(traj, battery=battery)...)
-[totality_56872f0008] (42/56) survived totality
-[totality_56872f0008] (42/56) survived fullshape
-[totality_56872f0008] (42/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1296 (lambda: _power_record_failures_4c(power, expected_n_sim=powe...)
-[totality_7fc25d1cb3] (43/56) survived totality
-[totality_7fc25d1cb3] (43/56) KILLED by fullshape: experiments/exp4c/tests/test_full_shape_4c.py::test_every_refusal_route_lands_insufficient[thin_endpoint_missing]
-[totality_38e82d2f6f] (44/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_step0_missing_entirely_gives_insufficient_data
-[totality_1493707fcd] (45/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_torn_load_json_gives_insufficient_data
-[totality_5bec55dfda] (46/56) survived totality
-[totality_5bec55dfda] (46/56) survived fullshape
-[totality_5bec55dfda] (46/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1378 (lambda traj=traj, tables=tables: rk.alignment_series_4c(...)
-[totality_0392026ab8] (47/56) survived totality
-[totality_0392026ab8] (47/56) survived fullshape
-[totality_0392026ab8] (47/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1387 (lambda traj=traj, tables=tables: rk.alignment_series_4c(...)
-[totality_b720cefaf0] (48/56) survived totality
-[totality_b720cefaf0] (48/56) survived fullshape
-[totality_b720cefaf0] (48/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1398 (lambda traj=traj, unit_t1=unit_t1, unit_end=unit_end: eligib...)
-[totality_8cc99ff2b7] (49/56) survived totality
-[totality_8cc99ff2b7] (49/56) survived fullshape
-[totality_8cc99ff2b7] (49/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1405 (lambda traj=traj, unit_t1=unit_t1, unit_end=unit_end: {...)
-[totality_0569241841] (50/56) survived totality
-[totality_0569241841] (50/56) survived fullshape
-[totality_0569241841] (50/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1457 (thunk...)
-[totality_dd93a6d647] (51/56) survived totality
-[totality_dd93a6d647] (51/56) survived fullshape
-[totality_dd93a6d647] (51/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1233 (lambda oc=oc: bc.rung_sets_4c(oc, floors)...)
-[totality_8613fd6ec8] (52/56) survived totality
-[totality_8613fd6ec8] (52/56) survived fullshape
-[totality_8613fd6ec8] (52/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1302 (lambda: _reproduce_power_4c(power)...)
-[totality_c7587d08f8] (53/56) survived totality
-[totality_c7587d08f8] (53/56) survived fullshape
-[totality_c7587d08f8] (53/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1322 (lambda p=g1_path: json.loads(p.read_text())...)
-[totality_4089e0701e] (54/56) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_thin_endpoint_wrong_prereg_tag_gives_insufficient_data
-[totality_0f1437d2df] (55/56) survived totality
-[totality_0f1437d2df] (55/56) survived fullshape
-[totality_0f1437d2df] (55/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1365 (lambda traj=traj, unit0=unit0, tables=tables: gate0_4c(...)
-[totality_8a9bab2364] (56/56) survived totality
-[totality_8a9bab2364] (56/56) survived fullshape
-[totality_8a9bab2364] (56/56) OPEN SURVIVOR — every route tried failed to kill it: run(): totality — collect_total_4c stripped at line 1237 (lambda traj=traj, rs=rs, oc=oc: bc.check_rung_set_pins_4c(...)
+[clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6] (1/51) battery_4c.py is on the world-writing path — cache bypassed, building fresh
+[clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6] (1/51) KILLED by battery-slow: experiments/exp4c/tests/test_battery_4c.py::test_outcomes_reproduce_the_design_pins
+[run_the_discovery_gate_s_known_answer_pin_check_dropped] (2/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_discovery_pin_u_off_by_a_nanounit_gives_insufficient_data
+[run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced] (3/51) survived totality
+[run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced] (3/51) KILLED by fullshape: experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict
+[run_the_power_record_s_byte_reproduction_never_checked_presence_only] (4/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_power_record_probability_edited_gives_insufficient_data
+[run_the_reference_seal_s_own_failures_are_never_appended] (5/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_reference_seal_failures_are_appended_gives_insufficient_data
+[totality_0392026ab8] (6/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_alignment_series_raising_gives_insufficient_data
+[totality_0569241841] (7/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_secondaries_wrapper_degrades_one_block_not_the_verdict
+[totality_0f1437d2df] (8/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_gate0_per_traj_raising_gives_insufficient_data
+[totality_1493707fcd] (9/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_torn_load_json_gives_insufficient_data
+[totality_1998a8e42c] (10/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_halt_marker_unreadable_gives_insufficient_data
+[totality_1a4450362d] (11/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_discovery_pins_check_raising_gives_insufficient_data
+[totality_2395e1c6a2] (12/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_primary_4c_raising_gives_insufficient_data
+[totality_2dbe40e17b] (13/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_power_module_import_raising_gives_insufficient_data
+[totality_2f0d358116] (14/51) survived totality
+[totality_2f0d358116] (14/51) KILLED by fullshape: experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict
+[totality_38e82d2f6f] (15/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_step0_missing_entirely_gives_insufficient_data
+[totality_401377c2ee] (16/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_type_modifier_4c_raising_gives_insufficient_data
+[totality_4089e0701e] (17/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_thin_endpoint_wrong_prereg_tag_gives_insufficient_data
+[totality_45c8d0147c] (18/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_licence_block_raising_still_returns_the_tree_verdict
+[totality_4ae7eb8e01] (19/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_primary_4_raising_collapses_only_s4
+[totality_4c50327e8b] (20/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_load_floors_raising_gives_insufficient_data
+[totality_4cd3e551b9] (21/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_cells_4c_raising_gives_insufficient_data
+[totality_4db1f27c39] (22/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_load_outcome_per_traj_raising_gives_insufficient_data
+[totality_54fdd34130] (23/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_2h_manifest_one_byte_flipped_gives_insufficient_data
+[totality_56872f0008] (24/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_power_record_fields_check_raising_gives_insufficient_data
+[totality_5742ce6a67] (25/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_gate1_json_a_list_gives_insufficient_data
+[totality_5bec55dfda] (26/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_alignment_series_raising_gives_insufficient_data
+[totality_73f9815ef4] (27/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_lambda_hat_4_raising_collapses_only_s4
+[totality_785e68faae] (28/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_referent_manifest_check_raising_gives_insufficient_data
+[totality_7c26425e08] (29/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_placebo_pool_4b_raising_collapses_only_s4
+[totality_7f0d909665] (30/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_placebo_4c_raising_gives_insufficient_data
+[totality_7fc25d1cb3] (31/51) survived totality
+[totality_7fc25d1cb3] (31/51) KILLED by fullshape: experiments/exp4c/tests/test_full_shape_4c.py::test_every_refusal_route_lands_insufficient[thin_endpoint_missing]
+[totality_85c26ea5da] (32/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_p_cal_4b_raising_collapses_only_s4
+[totality_8613fd6ec8] (33/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_power_record_reproduction_raising_gives_insufficient_data
+[totality_882e7be6db] (34/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_calibration_read_4c_raising_gives_insufficient_data
+[totality_890e2e645a] (35/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_import_surface_entry_raising_gives_insufficient_data
+[totality_8a9bab2364] (36/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_check_rung_set_pins_per_traj_raising_gives_insufficient_data
+[totality_8cc99ff2b7] (37/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_per_item_alignment_raising_gives_insufficient_data
+[totality_946b2d8ff4] (38/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_reference_seal_raising_gives_insufficient_data
+[totality_98f598282a] (39/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_draw_batteries_4b_raising_collapses_only_s4
+[totality_9a47cf39d9] (40/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_discovery_gate_raising_gives_insufficient_data
+[totality_b1d2a427a5] (41/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_t_star_4b_raising_collapses_only_s4
+[totality_b720cefaf0] (42/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_per_item_alignment_raising_gives_insufficient_data
+[totality_bf2e926cc6] (43/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_frozen_check_raising_gives_insufficient_data
+[totality_c7587d08f8] (44/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_gate1_torn_json_gives_insufficient_data
+[totality_d6d5f230f6] (45/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_design_4c_raising_collapses_only_s4
+[totality_d9a804a211] (46/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_cells_4_raising_collapses_only_s4
+[totality_dd93a6d647] (47/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_rung_sets_per_traj_raising_gives_insufficient_data
+[totality_e7f5959f35] (48/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_s4_alpha_placebo_4b_raising_collapses_only_s4
+[totality_e9f600ab3c] (49/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_power_record_torn_json_gives_insufficient_data
+[totality_efe912cfae] (50/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_load_battery_raising_gives_insufficient_data
+[totality_f599225b3f] (51/51) KILLED by totality: experiments/exp4c/tests/test_totality_4c.py::test_gate7_ties_4c_raising_gives_insufficient_data
 
-=== run_worlds_only tally === considered=56 killed=11 open_survivors=45 errors=0
-killed_by = {'run_the_discovery_gate_s_known_answer_pin_check_dropped': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_discovery_pin_u_off_by_a_nanounit_gives_insufficient_data', 'run_the_power_record_s_byte_reproduction_never_checked_presence_only': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_power_record_probability_edited_gives_insufficient_data', 'run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced': 'fullshape:experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict', 'delta_of_mu_4c_the_sqrt_2_unit_normal_placement_factor_dropped': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_control_untouched_copy_still_replicates', 'power_bar_4c_the_declared_power_bar_75_5': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_control_untouched_copy_still_replicates', 'totality_54fdd34130': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_2h_manifest_one_byte_flipped_gives_insufficient_data', 'totality_2f0d358116': 'fullshape:experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict', 'totality_7fc25d1cb3': 'fullshape:experiments/exp4c/tests/test_full_shape_4c.py::test_every_refusal_route_lands_insufficient[thin_endpoint_missing]', 'totality_38e82d2f6f': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_step0_missing_entirely_gives_insufficient_data', 'totality_1493707fcd': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_torn_load_json_gives_insufficient_data', 'totality_4089e0701e': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_thin_endpoint_wrong_prereg_tag_gives_insufficient_data'}
-open_survivors = ['gate0_4c_the_90_bar_replaced_by_5', 'run_the_reference_seal_s_own_failures_are_never_appended', 'load_one_unit_4c_the_n_hidden_vs_pin_check_dropped', 'eligibility_4c_the_2_se_eligibility_bar_weakened_from_to', 'interpolate_min_detectable_4c_the_crossing_comparison_widened_from_to', 'cell_structure_4c_the_r_vs_clear_index_pin_consistency_check_dropped', 'totality_d9a804a211', 'totality_73f9815ef4', 'totality_d6d5f230f6', 'totality_45c8d0147c', 'totality_bf2e926cc6', 'totality_efe912cfae', 'totality_4c50327e8b', 'totality_946b2d8ff4', 'totality_9a47cf39d9', 'totality_4ae7eb8e01', 'totality_7c26425e08', 'totality_98f598282a', 'totality_890e2e645a', 'totality_1a4450362d', 'totality_2dbe40e17b', 'totality_e9f600ab3c', 'totality_4cd3e551b9', 'totality_2395e1c6a2', 'totality_7f0d909665', 'totality_401377c2ee', 'totality_f599225b3f', 'totality_882e7be6db', 'totality_85c26ea5da', 'totality_b1d2a427a5', 'totality_e7f5959f35', 'totality_1998a8e42c', 'totality_785e68faae', 'totality_4db1f27c39', 'totality_56872f0008', 'totality_5bec55dfda', 'totality_0392026ab8', 'totality_b720cefaf0', 'totality_8cc99ff2b7', 'totality_0569241841', 'totality_dd93a6d647', 'totality_8613fd6ec8', 'totality_c7587d08f8', 'totality_0f1437d2df', 'totality_8a9bab2364']
+=== run_worlds_only tally === considered=51 killed=51 open_survivors=0 errors=0
+killed_by = {'clear_index_pin_4c_pythia_6_9b_s_arith_next_clear_index_off_by_one_5_6': 'battery-slow:experiments/exp4c/tests/test_battery_4c.py::test_outcomes_reproduce_the_design_pins', 'run_the_discovery_gate_s_known_answer_pin_check_dropped': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_discovery_pin_u_off_by_a_nanounit_gives_insufficient_data', 'run_the_exit_import_surface_check_skipped_i_1_s_own_defect_reintroduced': 'fullshape:experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict', 'run_the_power_record_s_byte_reproduction_never_checked_presence_only': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_power_record_probability_edited_gives_insufficient_data', 'run_the_reference_seal_s_own_failures_are_never_appended': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_reference_seal_failures_are_appended_gives_insufficient_data', 'totality_0392026ab8': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_alignment_series_raising_gives_insufficient_data', 'totality_0569241841': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_secondaries_wrapper_degrades_one_block_not_the_verdict', 'totality_0f1437d2df': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_gate0_per_traj_raising_gives_insufficient_data', 'totality_1493707fcd': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_torn_load_json_gives_insufficient_data', 'totality_1998a8e42c': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_halt_marker_unreadable_gives_insufficient_data', 'totality_1a4450362d': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_discovery_pins_check_raising_gives_insufficient_data', 'totality_2395e1c6a2': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_primary_4c_raising_gives_insufficient_data', 'totality_2dbe40e17b': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_power_module_import_raising_gives_insufficient_data', 'totality_2f0d358116': 'fullshape:experiments/exp4c/tests/test_full_shape_4c.py::test_a_failing_exit_import_pin_reaches_the_verdict', 'totality_38e82d2f6f': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_step0_missing_entirely_gives_insufficient_data', 'totality_401377c2ee': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_type_modifier_4c_raising_gives_insufficient_data', 'totality_4089e0701e': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_thin_endpoint_wrong_prereg_tag_gives_insufficient_data', 'totality_45c8d0147c': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_licence_block_raising_still_returns_the_tree_verdict', 'totality_4ae7eb8e01': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_primary_4_raising_collapses_only_s4', 'totality_4c50327e8b': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_load_floors_raising_gives_insufficient_data', 'totality_4cd3e551b9': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_cells_4c_raising_gives_insufficient_data', 'totality_4db1f27c39': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_load_outcome_per_traj_raising_gives_insufficient_data', 'totality_54fdd34130': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_2h_manifest_one_byte_flipped_gives_insufficient_data', 'totality_56872f0008': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_power_record_fields_check_raising_gives_insufficient_data', 'totality_5742ce6a67': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_gate1_json_a_list_gives_insufficient_data', 'totality_5bec55dfda': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_alignment_series_raising_gives_insufficient_data', 'totality_73f9815ef4': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_lambda_hat_4_raising_collapses_only_s4', 'totality_785e68faae': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_referent_manifest_check_raising_gives_insufficient_data', 'totality_7c26425e08': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_placebo_pool_4b_raising_collapses_only_s4', 'totality_7f0d909665': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_placebo_4c_raising_gives_insufficient_data', 'totality_7fc25d1cb3': 'fullshape:experiments/exp4c/tests/test_full_shape_4c.py::test_every_refusal_route_lands_insufficient[thin_endpoint_missing]', 'totality_85c26ea5da': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_p_cal_4b_raising_collapses_only_s4', 'totality_8613fd6ec8': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_power_record_reproduction_raising_gives_insufficient_data', 'totality_882e7be6db': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_calibration_read_4c_raising_gives_insufficient_data', 'totality_890e2e645a': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_import_surface_entry_raising_gives_insufficient_data', 'totality_8a9bab2364': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_check_rung_set_pins_per_traj_raising_gives_insufficient_data', 'totality_8cc99ff2b7': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_per_item_alignment_raising_gives_insufficient_data', 'totality_946b2d8ff4': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_reference_seal_raising_gives_insufficient_data', 'totality_98f598282a': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_draw_batteries_4b_raising_collapses_only_s4', 'totality_9a47cf39d9': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_discovery_gate_raising_gives_insufficient_data', 'totality_b1d2a427a5': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_t_star_4b_raising_collapses_only_s4', 'totality_b720cefaf0': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_per_item_alignment_raising_gives_insufficient_data', 'totality_bf2e926cc6': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_frozen_check_raising_gives_insufficient_data', 'totality_c7587d08f8': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_gate1_torn_json_gives_insufficient_data', 'totality_d6d5f230f6': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_design_4c_raising_collapses_only_s4', 'totality_d9a804a211': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_cells_4_raising_collapses_only_s4', 'totality_dd93a6d647': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_rung_sets_per_traj_raising_gives_insufficient_data', 'totality_e7f5959f35': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_s4_alpha_placebo_4b_raising_collapses_only_s4', 'totality_e9f600ab3c': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_power_record_torn_json_gives_insufficient_data', 'totality_efe912cfae': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_load_battery_raising_gives_insufficient_data', 'totality_f599225b3f': 'totality:experiments/exp4c/tests/test_totality_4c.py::test_gate7_ties_4c_raising_gives_insufficient_data'}
+open_survivors = []
 errors = []

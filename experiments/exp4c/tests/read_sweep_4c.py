@@ -21,12 +21,24 @@ Classifies every distinct read path into one of:
   (d) python/stdlib/venv/site-packages
   (e) UNPINNED verdict input — must be 0
   (f) an Exp 4 campaign artifact under `battery_4.EXP4` not already
-      classified above — the discovery gate's own inputs (the 92 sweep
-      units' `_load.json`/`sets/*.npz`/`align.json`, the five reference
-      keys, `eligibility_4.json`, `power_4.json`) all land here
+      classified above, NOT under `results/reference/*/attested/`
+      (bucket h below carves that out) — in this pre-campaign sweep
+      this bucket is EMPTY: the discovery gate's other committed
+      inputs (`_load.json`, `sets/*.npz`, `align.json`, `eligibility_
+      4.json`, `power_4.json`) are all covered by `battery_4.
+      FROZEN_SHA256_4`/`EXP4_CLOSED_SHA256_4C` (bucket b) before ever
+      reaching this classifier
   (g) sha-pinned at load — the 2h/2l upstream checkpoint manifests,
       read through `load_manifest_69`/`load_manifest_13b`'s own
       `sha_pin=` argument rather than this module's classifier
+  (h) `exp4_reference_attested_unhashed`: Exp 4's reference-stage
+      `results/reference/<ref>/attested/<rung>.npz` files (gitignored,
+      untracked, absent from `referents_4c.json`) — `collect_4.
+      load_ref_tables_4` reads them with NO sha check; S9's own
+      `_reference_attested_sha_ok_4c` re-hashes them against the
+      reference record's `attested_sha256` before using them, so this
+      bucket is a disclosure of what the read sweep sees unchecked at
+      the READ layer, not a verdict input left unpinned
 
 The sweep covers `open`/`io.open`/`Path.read_text`/`read_bytes` — the
 DATA surface, not the IMPORT surface (closed separately by
@@ -147,13 +159,14 @@ def _classify(paths: set, referents_files: set) -> dict:
     venv_prefix = str(Path(sys.prefix).resolve()) + "/"
     base_prefix = str(Path(sys.base_prefix).resolve()) + "/"
     exp4_root_prefix = str(battery_4.EXP4.resolve()) + "/"
+    exp4_reference_prefix = str((battery_4.EXP4 / "results" / "reference").resolve()) + "/"
 
     exp4c_results_prefix = str((bc.EXP4C / "results").resolve()) + "/"
 
     buckets = {"referents_4c.json": [], "pinned_module": [], "instrument_blob": [],
               "python_stdlib_venv": [], "sha_pin_at_load": [],
-              "exp4_campaign_artifact": [], "exp4c_own_future_campaign_artifact": [],
-              "UNPINNED": []}
+              "exp4_reference_attested_unhashed": [], "exp4_campaign_artifact": [],
+              "exp4c_own_future_campaign_artifact": [], "UNPINNED": []}
     for p in sorted(paths):
         rp = str(Path(p).resolve())
         if rp in SHA_PIN_AT_LOAD:
@@ -167,6 +180,19 @@ def _classify(paths: set, referents_files: set) -> dict:
         elif rp.startswith(venv_prefix) or any(rp.startswith(d) for d in stdlib_dirs) \
                 or "/site-packages/" in rp or rp.startswith(base_prefix):
             buckets["python_stdlib_venv"].append(rp)
+        elif (rp.startswith(exp4_reference_prefix) and "/attested/" in rp
+              and rp.endswith(".npz")):
+            # Fix round 2 finding 4a: every one of this bucket's
+            # entries observed in practice is `results/reference/<ref>/
+            # attested/<rung>.npz` — Exp 4's reference-stage k-NN set
+            # tables at the question-end/pooled positions, gitignored,
+            # untracked, absent from `referents_4c.json`, and read by
+            # `collect_4.load_ref_tables_4` with NO sha check (S9's own
+            # `_reference_attested_sha_ok_4c` now hash-checks these
+            # against the reference record's `attested_sha256` before
+            # using them — this bucket exists so the read sweep names
+            # the gap the analyzer closes, not to close it itself).
+            buckets["exp4_reference_attested_unhashed"].append(rp)
         elif rp.startswith(exp4_root_prefix):
             buckets["exp4_campaign_artifact"].append(rp)
         elif rp.startswith(exp4c_results_prefix):
@@ -219,6 +245,11 @@ def main() -> int:
     print(f"{'category':<28}{'count':>8}")
     for k, v_ in buckets.items():
         print(f"{k:<28}{len(v_):>8}")
+    if buckets["exp4_reference_attested_unhashed"]:
+        print(f"\n(h) disclosure: {len(buckets['exp4_reference_attested_unhashed'])} reference "
+             f"attested/*.npz file(s) read with no sha check by collect_4.load_ref_tables_4 — "
+             f"S9's own _reference_attested_sha_ok_4c hash-checks them against the reference "
+             f"record's attested_sha256 before use; not an unpinned verdict input.")
     if buckets["UNPINNED"]:
         print("\nUNPINNED VERDICT INPUTS (must be empty):")
         for p in buckets["UNPINNED"]:
