@@ -711,3 +711,16 @@ def test_a_cell_the_power_record_never_modelled_gives_insufficient_data(_totalit
     assert v["verdict"] == "INSUFFICIENT_DATA"
     assert _needle_in_failures(v, "power record structure")
     assert _needle_in_failures(v, "antonym")
+
+
+def test_power_structure_failures_raising_gives_insufficient_data(_totality_base, tmp_path,
+                                                                 monkeypatch):
+    """FREEZE F-2's own `collect_total_4c` site (totality_ffe2f03f35):
+    a raise inside the power-structure comparison is COLLECTED and
+    delivered as INSUFFICIENT_DATA naming the site, never a traceback
+    out of `run()` (lesson 8)."""
+    w = fs4c.copy_world(_totality_base, tmp_path)
+    monkeypatch.setattr(an, "power_structure_failures_4c", _raiser)
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "INSUFFICIENT_DATA", v["reason"]
+    assert _needle_in_failures(v, "power cell structure")
