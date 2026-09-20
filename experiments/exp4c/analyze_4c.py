@@ -1202,7 +1202,22 @@ def run(root=bc.EXP4C, root4=EXP4, *, write=False, n_boot=N_BOOT_4C, B=B_PLACEBO
     record's presence, tag, declaration and `n_sim` checked.
     `discovery_check` (TEST-ONLY) replaces `rank_4c.discovery_set_4c`,
     which reads Exp 4's committed sweep tree: a synthetic world has no
-    such tree."""
+    such tree.
+
+    FREEZE F-5, disclosed rather than changed: three of the per-
+    trajectory steps below feed ONLY the S4 continuity arm (and, for
+    the site-0-included series, S10) — `alignment series (site 0
+    included)`, `eligibility (S4)` and `per-item alignment (S4)` — yet
+    their refusals go into `failures`, so a refusal inside a purely
+    descriptive arm delivers INSUFFICIENT_DATA for the whole
+    experiment, against this module's own "a refusal inside a secondary
+    degrades that secondary alone". Nothing changes here because the
+    three are not independently reachable: each reads exactly the units
+    and reference tables the primary series already read successfully,
+    through Exp 4's own frozen code, and every later step is pure numpy
+    over arrays whose shapes those loaders pinned. The routing is a
+    ratification item for the controller, not a freeze edit — widening
+    a refusal is additive, narrowing one is not."""
     if power_gate not in ("full", "skip"):
         raise ValueError(f"4c: power_gate must be 'full' or 'skip', got {power_gate!r}")
     failures = []

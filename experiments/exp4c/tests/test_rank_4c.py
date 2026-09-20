@@ -304,3 +304,32 @@ def test_discovery_set_reproduces_the_design_session_and_is_site0_invariant():
     assert round(rec["U"], 4) == 0.6224 and rec["n_cells"] == 42 and round(rec["p_family"], 4) == 0.0391
     assert round(rec["U_arith"], 4) == 0.5103 and round(rec["U_nonarith"], 4) == 0.7595
     assert rec["site0_excluded"]["n_cells_q_identical"] == 42 and rec["site0_excluded"]["max_abs_q_diff"] == 0.0
+    _assert_design_doc_literals_4c(rec)
+
+
+def _assert_design_doc_literals_4c(rec, *, counts=True):
+    """FREEZE F-6: design §2(3)/§2(4)/§3.7(1) print EVERY discovery
+    number to four decimals, and only five of them were asserted
+    against the doc — `DISCOVERY_PIN_4C`'s own full-precision entries
+    are checked against themselves by `check_discovery_pins_4c`, so a
+    pin mistyped relative to the doc it was copied from would have
+    shown nowhere. The rest of §3.7(1)'s list, asserted here."""
+    assert round(rec["p_rung"], 4) == 0.0092
+    if counts:
+        # `DISCOVERY_PIN_4C` does not carry the two stratum counts; the
+        # slow test, which has the real record, asserts them.
+        assert rec["n_arith"] == 26 and rec["n_nonarith"] == 16
+    assert {k: round(v, 3) for k, v in rec["per_run"].items()} == {
+        "pythia_2.8b": 0.487, "olmo2_7b": 0.630, "smollm3_3b": 0.694, "comma_7b": 0.646}
+
+
+def test_the_discovery_pins_themselves_carry_the_design_docs_literals():
+    """FREEZE F-6, without touching Exp 4's tree: the SAME assertions
+    against `DISCOVERY_PIN_4C` directly, so the doc-vs-pin comparison
+    runs in the FAST suite and not only in the slow one."""
+    pin = dict(rk.DISCOVERY_PIN_4C)
+    assert round(pin["U"], 4) == 0.6224 and pin["n_cells"] == 42
+    assert round(pin["p_family"], 4) == 0.0391
+    assert round(pin["U_arith"], 4) == 0.5103 and round(pin["U_nonarith"], 4) == 0.7595
+    _assert_design_doc_literals_4c(pin, counts=False)
+    assert len(pin["family_sums"]) == 9
