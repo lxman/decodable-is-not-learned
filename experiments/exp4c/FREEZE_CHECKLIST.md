@@ -133,7 +133,12 @@ by the existing tables (71 modules with the analyzer loaded, 0
 unpinned), so the new refusal is a gate and not a permanent halt. No
 new record field is needed: `require_prereg_4c` binds
 `run/sweep_4c.py` itself to the tag, so a unit written under the tag
-was written by a runner that ran the check.
+was written by a runner that ran the check. Scope: the sweep is the
+ONLY producer of a verdict input — `run/preflight_4c.py` makes model
+contact but writes nothing under `results/` (its own test says so), and
+`power_4c` and `make_referents_4c` write artifacts the analyzer
+re-derives or re-hashes — so pinning the sweep's surface closes the
+producer side entirely.
 
 **Tests.** `test_stages_4c.py::test_sweep_refuses_a_drifted_import_surface`,
 `::test_sweep_refuses_an_unpinned_module_on_its_own_import_surface`
