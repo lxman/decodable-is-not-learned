@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import json
 import random
+import sys
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -22,6 +24,7 @@ from experiments.exp4 import collect_4 as c4
 from experiments.exp4 import metric_4
 from experiments.exp4.tests import fakes_4
 from experiments.exp4.tests import full_shape
+from experiments.exp4c import analyze_4c as an4c
 from experiments.exp4c import battery_4c
 from experiments.exp4c import collect_4c
 from experiments.exp4c.run import preflight_4c as pf
@@ -215,6 +218,58 @@ def test_sweep_refuses_with_a_halt_marker(tmp_path, monkeypatch):
 def _powered_root(tmp_path):
     (tmp_path / "results").mkdir(parents=True, exist_ok=True)
     (tmp_path / "results" / "power_4c.json").write_text(json.dumps({"power": 1.0}))
+
+
+def test_sweep_refuses_a_drifted_import_surface(tmp_path, monkeypatch):
+    """FREEZE F-1 (THE CLASS DEFECT): the runner writes every set table
+    the verdict is read on, and an interior checkpoint's tables have no
+    comparator anywhere — gate 1 covers the endpoint only, and on
+    `olmo2_13b` it compares two units this same code wrote. Before the
+    closure the runner's whole refusal chain (prereg tag, frozen
+    modules, Exp 4's seal, the power record, the halt marker) passed a
+    two-line `experiments/exp4c/__init__.py` that repointed the
+    collector, because those two package files sit in
+    `IMPORTED_SHA256_4C`, which only the ANALYZER read."""
+    _shrink_grid(monkeypatch)
+    _powered_root(tmp_path)
+    drifted = dict(an4c.IMPORTED_SHA256_4C)
+    drifted[battery_4c.REPO / "experiments/exp4c/__init__.py"] = "0" * 64
+    monkeypatch.setattr(an4c, "IMPORTED_SHA256_4C", drifted)
+    with pytest.raises(RuntimeError, match="drifted from its pin"):
+        sw.run(traj="pythia_6.9b", root=tmp_path, root4=tmp_path / "root4", dry_run=True,
+              loaders={}, **_fake_auth())
+
+
+def test_sweep_refuses_an_unpinned_module_on_its_own_import_surface(tmp_path, monkeypatch):
+    """FREEZE F-1, the other half: a module under `experiments/` that no
+    pin table covers refuses the RUNNER, not only the analyzer."""
+    _shrink_grid(monkeypatch)
+    _powered_root(tmp_path)
+    thinned = {k: v for k, v in an4c.IMPORTED_SHA256_4C.items()
+              if "exp4c/__init__.py" not in str(k)}
+    monkeypatch.setattr(an4c, "IMPORTED_SHA256_4C", thinned)
+    with pytest.raises(RuntimeError, match="unpinned module on the import surface"):
+        sw.run(traj="pythia_6.9b", root=tmp_path, root4=tmp_path / "root4", dry_run=True,
+              loaders={}, **_fake_auth())
+
+
+def test_the_runners_own_import_surface_is_covered_by_the_analyzers_table(tmp_path, monkeypatch):
+    """FREEZE F-1: the positive side — every module the runner's own
+    import chain executes is covered by one of the pinned tables, so
+    the new refusal is a real gate and not a permanent halt."""
+    an4c.check_imports_4c()
+    covered = {str(Path(x).resolve()) for x in battery_4.FROZEN_SHA256_4}
+    covered |= {str((battery_4c.REPO / r).resolve())
+               for t in (battery_4c.EXP4_CLOSED_SHA256_4C, battery_4c.EXP4B_CLOSED_SHA256_4C)
+               for r in t}
+    covered |= {str((battery_4c.REPO / r).resolve()) for r in battery_4c.INSTRUMENT_BLOBS_4C}
+    covered |= {str(Path(k).resolve()) for k in an4c.IMPORTED_SHA256_4C}
+    exp_root = str((battery_4c.REPO / "experiments").resolve())
+    live = [str(Path(m.__file__).resolve()) for m in sys.modules.values()
+           if getattr(m, "__file__", None)
+           and str(Path(m.__file__).resolve()).startswith(exp_root + "/")
+           and "tests" not in Path(m.__file__).resolve().parts]
+    assert [p for p in live if p not in covered] == []
 
 
 def test_sweep_dry_run_loads_nothing(tmp_path, monkeypatch):

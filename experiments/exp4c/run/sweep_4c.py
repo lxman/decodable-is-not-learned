@@ -8,7 +8,9 @@ own `root` on demand. The Pythia 6.9b gate rereads Exp 4's own
 committed `ladder_pythia_6.9b` table under `root4` instead.
 
 Refusal order: `battery_4c.require_prereg_4c` -> `battery_4c.
-check_frozen_4c` -> `an2i.require_seal_2i` over Exp 4's own reference
+check_frozen_4c` -> `analyze_4c.check_imports_4c` (FREEZE F-1: the
+producer pins the same import surface the analyzer does, so a drifted
+`__init__.py` cannot reach a set table) -> `an2i.require_seal_2i` over Exp 4's own reference
 seal tag (`battery_4.REFERENCE_SEAL_TAG_4`, the five keys exp4c reuses
 from Exp 4's tree — `battery_4c.exp4_reference_paths_4c(root4)`; any
 failure refuses) -> `results/power_4c.json` present (else "run
@@ -55,6 +57,7 @@ from experiments.exp2i.run._common_2i import git_sha as _git_sha, stack as _stac
 from experiments.exp4 import battery_4  # noqa: E402
 from experiments.exp4 import collect_4  # noqa: E402
 from experiments.exp4 import metric_4  # noqa: E402
+from experiments.exp4c import analyze_4c as an4c  # noqa: E402 (FREEZE F-1: the import pin)
 from experiments.exp4c import battery_4c  # noqa: E402
 from experiments.exp4c import collect_4c  # noqa: E402
 
@@ -147,6 +150,20 @@ def run(*, traj, root=EXP4C, root4=EXP4, cache_root=None, device: str = "mps",
        blobs_bound=None) -> None:
     prereg = battery_4c.require_prereg_4c(tag_exists=tag_exists, blob_sha=blob_sha)
     battery_4c.check_frozen_4c()
+    # FREEZE F-1 (2j F-1 / lesson 11, applied to the PRODUCER): every
+    # set table the verdict is read on is written by THIS process, and
+    # an interior checkpoint's tables have no comparator anywhere — gate
+    # 1 covers the endpoint only, and on `olmo2_13b` it compares two
+    # units this same code wrote. `require_prereg_4c` binds the seven
+    # instrument blobs and `check_frozen_4c` binds every closed upstream
+    # module, but the two package `__init__.py` files this process
+    # executes (`experiments/exp4c/__init__.py`, `experiments/exp4c/run/
+    # __init__.py`) sit in `IMPORTED_SHA256_4C`, which only the ANALYZER
+    # ever reads — so a drift present during the sweep and reverted
+    # before the analyzer ran was invisible on both sides. The analyzer's
+    # own table is used here so the producer and the consumer are pinned
+    # by ONE surface.
+    an4c.check_imports_4c()
     seal = an2i.require_seal_2i(battery_4.REFERENCE_SEAL_TAG_4,
                                 battery_4c.exp4_reference_paths_4c(root4),
                                 tag_exists=tag_exists, blobs_bound=blobs_bound, repo_root=REPO)
