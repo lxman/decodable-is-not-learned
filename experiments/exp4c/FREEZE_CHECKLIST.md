@@ -15,7 +15,7 @@ data).
 Zero model contact and zero network throughout. Every execution of
 `analyze_4c.run()` against the REAL tree (`root=EXP4C`, `root4=EXP4`)
 is a disclosure event; the running total was **11** at the start of the
-session and is **15** at the end — §D below lists this session's four
+session and is **17** at the end — §D below lists this session's six
 and what each printed. Worlds on tmp trees do not count.
 
 Python `~/emergence-lab/.venv/bin/python`, `PYTHONDONTWRITEBYTECODE=1`,
@@ -591,9 +591,37 @@ sound; the four items that became findings say so.
 
 ---
 
-## D. Pre-tag executions of `analyze_4c.run()` on the REAL tree this session
+## D. Pre-tag executions against the REAL tree this session
 
-(filled in below)
+Six, running total **11 → 17**. None is a new quantity on the two runs
+4c exists to read: every one either prints the KNOWN discovery numbers
+(which `DISCOVERY_PIN_4C` already carries in the committed source) or
+refuses at "4c gate 1 pythia_6.9b: record missing", which is what a
+pre-campaign tree gives.
+
+1. **baseline cold battery** (`verify_referents_4c`) — item 10 printed
+   `discovery U=0.6224 over 42 cells, family p=0.03906`, item 11 the
+   power declaration `DECLARED UNDERPOWERED IN ADVANCE`; **11/12** + 1
+   legitimate skip (item 12, gate 0, pre-campaign).
+2. **baseline import scan** (`tests/import_scan_4c.py`, which runs
+   `analyze_4c.run()` with the tag/seal stubbed) —
+   `INSUFFICIENT_DATA — 4c gate 1 pythia_6.9b: record missing`; 0
+   frozen + 5 exp4c-own residual modules, **byte-identical to the
+   committed pins**.
+3. **the slow discovery test re-run after F-6's added literals**
+   (`pytest -k discovery`) — `rk.discovery_set_4c()` on Exp 4's
+   committed tree; the same pinned numbers; 106 s.
+4. **post-closure read sweep** (`tests/read_sweep_4c.py`) — 8,093
+   distinct paths over 17,762 open/read calls, **0 UNPINNED**, 0
+   writes, the same landing point, 7,947 in the referent manifest, 136
+   in the named (h) `exp4_reference_attested_unhashed` bucket.
+5. **post-closure cold battery** — §C.
+6. **post-closure import scan** — §C.
+
+Everything else this session ran on synthetic worlds under the session
+scratchpad (`.../scratchpad/fz/`): the three attack probes, the five
+world modes, the totality and full-shape suites and the mutation
+harness. Worlds on tmp trees do not count.
 
 ---
 
