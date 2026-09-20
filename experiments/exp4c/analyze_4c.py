@@ -192,6 +192,28 @@ REVERSED_SENTENCE_4C = (
     "unremarked."
 )
 
+# FREEZE F-7 (4b F-3's class: a licence sentence asserting a fact the
+# analyzer printed unchecked). `_LICENCE_BODY_4C["NOT-REPLICATED"]`
+# above quotes design §4's DESIGN-STAGE sentence — "would have missed an
+# effect of the size seen on the first four runs two times in three" —
+# i.e. a miss rate of 2/3 against the discovery shape at the .05 bar.
+# §4 states that the BUILD's power record supersedes the design-stage
+# table, and the committed record (tag-bound, `results/power_4c.json`)
+# gives P(p+ < .05 | discovery shape, rho = .5) = .26875, a miss rate of
+# .73 — "roughly three times in four". The literal is not corrected here
+# (the doc's own sentence is the controller's, ratification item R-1);
+# it is CHECKED against the record, and a disagreement is printed beside
+# the licence so the sentence cannot go out asserting a resolution its
+# own record contradicts.
+POWER_MISS_LITERAL_4C = 2.0 / 3.0
+POWER_MISS_TOLERANCE_4C = 0.02
+POWER_MISS_CORRECTION_4C = (
+    "Correction (FREEZE F-7): the sentence above quotes design §4's design-stage figure — a "
+    "miss rate of {literal:.4g} against the discovery shape — but the committed power record, "
+    "which §4 says supersedes it, gives P(p+ < {bar:g} | discovery shape) = {p05:.4g}, i.e. a "
+    "miss rate of {measured:.4g}. Read the record's figure, not the literal."
+)
+
 _POWER_MISSING_4C = (
     "§4's power statement cannot be quoted: the power record is not available to this run, so "
     "the resolution this NOT-REPLICATED is read at is not on the record."
@@ -905,9 +927,26 @@ def s10_texture_4c(s4, series_incl_by_traj, rung_sets_by_traj) -> dict:
 
 # ---------------------------------------------------------- licence block
 
+def _discovery_shape_p05_4c(power) -> float:
+    """FREEZE F-7: `arms.discovery_shape.P_05` off the committed record
+    — the DECIDING rho's value, which `power_4c.compute` stores at the
+    top of the arm (`RHOS_4C`'s last entry). `None` when the record does
+    not carry it."""
+    arms = (power or {}).get("arms")
+    disc = arms.get("discovery_shape") if isinstance(arms, dict) else None
+    v = disc.get("P_05") if isinstance(disc, dict) else None
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
 def _power_quote_4c(power) -> str:
     """§4's declaration and blind region, quoted from the power record
-    (never retyped). A missing record is named, not papered over."""
+    (never retyped). A missing record is named, not papered over. FREEZE
+    F-7: the NOT-REPLICATED body's own "two times in three" is checked
+    against the record's `P_05` for the discovery shape and a
+    disagreement beyond `POWER_MISS_TOLERANCE_4C` is printed."""
     if not power:
         return _POWER_MISSING_4C
     decl = power.get("declaration")
@@ -915,7 +954,12 @@ def _power_quote_4c(power) -> str:
     if not decl:
         return _POWER_MISSING_4C
     tail = f" Blind region: {blind}." if blind else ""
-    return f"Power, quoted from the record written before the tag: {decl}.{tail}"
+    out = f"Power, quoted from the record written before the tag: {decl}.{tail}"
+    p05 = _discovery_shape_p05_4c(power)
+    if p05 is not None and abs((1.0 - p05) - POWER_MISS_LITERAL_4C) > POWER_MISS_TOLERANCE_4C:
+        out += " " + POWER_MISS_CORRECTION_4C.format(
+            literal=POWER_MISS_LITERAL_4C, bar=MARGINAL_4C, p05=p05, measured=1.0 - p05)
+    return out
 
 
 def licence_block_4c(world, modifier, calibration, tree, power) -> dict:

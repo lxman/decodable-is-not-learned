@@ -307,6 +307,12 @@ M = [
      "    only_cells = sorted(set(got) - set(want))",
      "    only_power = []\n"
      "    only_cells = sorted(set(got) - set(want))"),
+    (AN4C, "FREEZE F-7: the NOT-REPLICATED sentence's resolution figure stops being checked",
+     "    p05 = _discovery_shape_p05_4c(power)\n"
+     "    if p05 is not None and abs((1.0 - p05) - POWER_MISS_LITERAL_4C) > "
+     "POWER_MISS_TOLERANCE_4C:",
+     "    p05 = _discovery_shape_p05_4c(power)\n"
+     "    if False:"),
     (AN4C, "FREEZE F-2: power_structure_failures_4c stops comparing the comparator pools",
      "    for k in sorted(set(want) & set(got)):\n"
      "        if want[k] != got[k]:",
