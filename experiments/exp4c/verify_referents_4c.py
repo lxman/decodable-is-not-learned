@@ -245,6 +245,32 @@ def _c12(ctx):
     print("       gate 0 (site 0 excluded): " + "; ".join(out), flush=True)
 
 
+@check(13, "gate 1's comparator matches the sweep endpoint's pins, cold (FREEZE F-3)")
+def _c13(ctx):
+    """FREEZE F-3: everything that decides whether gate 1's BYTE
+    comparison can succeed is readable without loading a model. For
+    `pythia_6.9b` the comparator is Exp 4's committed, seal-bound
+    `ladder_pythia_6.9b` table — checkpoint identity, render, batch
+    composition, site family, reference set, depth pairing and 34-rung
+    coverage, all answerable today, before 15 h of shard streaming. For
+    `olmo2_13b` the comparator is 4c's own thin endpoint, which the
+    campaign writes; `available` is False until it exists."""
+    lines = []
+    for traj in bc.TRAJECTORIES_4C:
+        c = bc.gate1_comparator_failures_4c(bc.EXP4C, battery_4.EXP4, traj)
+        if not c["available"]:
+            lines.append(f"{traj}: {c['root']}/{c['key']} not written yet (this run's own)")
+            continue
+        if c["failures"]:
+            raise AssertionError(f"{traj}: {c['failures']}")
+        if not c["digest_equal"]:
+            raise AssertionError(f"{traj}: comparator {c['root']}/{c['key']} was collected on "
+                                 f"{c['digest']!r}, the committed endpoint is "
+                                 f"{c['committed_digest']!r}")
+        lines.append(f"{traj}: {c['root']}/{c['key']} digest_equal, pins equal")
+    print("       " + "; ".join(lines), flush=True)
+
+
 def main() -> int:
     ctx = {}
     n_ok = 0

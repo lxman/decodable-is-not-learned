@@ -511,3 +511,46 @@ def test_s9_question_end_4c_reads_unavailable_on_a_reference_attested_mismatch(m
     out = an.s9_question_end_4c(None, None, {}, ref_raw_by_traj, {})
     assert out["available"] is False
     assert "forced mismatch" in out["reason"]
+
+
+# ------------------------------------------------- FREEZE F-2: the power
+# record's structure against the REALIZED cells
+
+def _struct_cells_4c():
+    from experiments.exp4c import power_4c as pw4c
+    return [dict(c, q=0.5) for c in pw4c.cell_structure_4c()]
+
+
+def _committed_power_4c():
+    return json.loads((bc.EXP4C / "results" / "power_4c.json").read_text())
+
+
+def test_power_structure_failures_4c_is_empty_on_the_committed_record():
+    assert an.power_structure_failures_4c(_committed_power_4c(), _struct_cells_4c()) == []
+
+
+def test_power_structure_failures_4c_names_a_cell_the_verdict_never_read():
+    cells = _struct_cells_4c()
+    bad = an.power_structure_failures_4c(_committed_power_4c(), cells[:-1])
+    assert bad and "no reading for" in bad[0]
+
+
+def test_power_structure_failures_4c_names_a_cell_the_record_never_modelled():
+    cells = _struct_cells_4c()
+    cells.append(dict(cells[0], rung="not_a_rung"))
+    bad = an.power_structure_failures_4c(_committed_power_4c(), cells)
+    assert bad and "never modelled" in bad[0]
+
+
+@pytest.mark.parametrize("field,value", [("n_flat", 23), ("n_flat_arith", 1),
+                                         ("family", "elsewhere"), ("type", "option")])
+def test_power_structure_failures_4c_names_a_changed_comparator_pool(field, value):
+    cells = _struct_cells_4c()
+    cells[0] = dict(cells[0], **{field: value})
+    bad = an.power_structure_failures_4c(_committed_power_4c(), cells)
+    assert bad and field in bad[0]
+
+
+def test_power_structure_failures_4c_refuses_a_record_with_no_structure():
+    bad = an.power_structure_failures_4c({"n_cells": 26}, _struct_cells_4c())
+    assert bad == ["the record carries no cell structure to compare the realized cells to"]

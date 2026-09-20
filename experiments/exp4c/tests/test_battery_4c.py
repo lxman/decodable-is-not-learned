@@ -2,6 +2,9 @@ import json, pytest
 from experiments.exp4c import battery_4c as b
 from experiments.exp2d import battery_2d as bt
 from experiments.exp2g import battery_2g as bg
+from experiments.exp4 import analyze_4 as a4
+from experiments.exp4 import battery_4
+from experiments.exp4 import metric_4 as metric_4
 
 
 def test_grids_are_the_literals():
@@ -199,3 +202,85 @@ def test_exp4_closed_pins_hold():
 
 def test_exp4_reference_paths_count(tmp_path):
     assert len(b.exp4_reference_paths_4c(tmp_path)) == 5 * 37
+
+
+# ------------------------------------- FREEZE F-3: gate 1's comparator,
+# checked cold (no model loaded)
+
+def _cold_comparator(tmp_path, traj="pythia_6.9b", **over):
+    """A synthetic comparator unit record under a temp exp4 root, filled
+    from the very pins 4c's own endpoint unit is held to."""
+    e = b.expected_fields_4c((traj, b.ENDPOINT_STEP_4C[traj]))
+    where, key = b.GATE1_REFERENCE_4C[traj]
+    d = battery_4.reference_dir(tmp_path, key)
+    d.mkdir(parents=True, exist_ok=True)
+    rec = {"tensor_digest": e["committed_digest"], "render": e["render"],
+           "batch_size": e["batch"], "n_hidden": e["n_hidden"],
+           "sites": metric_4.sites_4(e["n_hidden"]), "refs": list(e["refs"]),
+           "pairing": a4.expected_pairing_4(e["n_hidden"], e["refs"]),
+           "sets_sha256": {r: "0" * 64 for r in b.RUNGS}}
+    rec.update(over)
+    (d / "_load.json").write_text(json.dumps(rec))
+    return d
+
+
+def test_gate1_comparator_is_absent_before_the_campaign_writes_it(tmp_path):
+    c = b.gate1_comparator_failures_4c(tmp_path, tmp_path / "exp4", "olmo2_13b")
+    assert c == {"available": False, "key": "endpoint_olmo2_13b", "root": "exp4c",
+                 "failures": []}
+
+
+def test_gate1_comparator_passes_on_exp4s_real_committed_ladder_table():
+    c = b.gate1_comparator_failures_4c(b.EXP4C, battery_4.EXP4, "pythia_6.9b")
+    assert c["available"] and c["failures"] == [] and c["digest_equal"] is True
+
+
+def test_gate1_comparator_accepts_a_matching_record(tmp_path):
+    _cold_comparator(tmp_path)
+    c = b.gate1_comparator_failures_4c(tmp_path, tmp_path, "pythia_6.9b")
+    assert c["available"] and c["failures"] == [] and c["digest_equal"] is True
+
+
+@pytest.mark.parametrize("field,value,needle", [
+    ("render", "chat", "render"),
+    ("batch_size", 8, "batch_size"),
+    ("n_hidden", 41, "n_hidden"),
+    ("sites", [0, 1, 2], "sites"),
+    ("refs", ["ref_comma_7b"], "refs"),
+])
+def test_gate1_comparator_names_a_field_that_makes_a_byte_comparison_impossible(
+        tmp_path, field, value, needle):
+    _cold_comparator(tmp_path, **{field: value})
+    c = b.gate1_comparator_failures_4c(tmp_path, tmp_path, "pythia_6.9b")
+    assert c["failures"] and needle in c["failures"][0]
+
+
+def test_gate1_comparator_names_a_wrong_pairing(tmp_path):
+    e = b.expected_fields_4c(("pythia_6.9b", b.ENDPOINT_STEP_4C["pythia_6.9b"]))
+    p = a4.expected_pairing_4(e["n_hidden"], e["refs"])
+    p[e["refs"][0]] = list(reversed(p[e["refs"][0]]))
+    _cold_comparator(tmp_path, pairing=p)
+    c = b.gate1_comparator_failures_4c(tmp_path, tmp_path, "pythia_6.9b")
+    assert c["failures"] and "pairing" in c["failures"][0]
+
+
+def test_gate1_comparator_names_a_short_sets_table(tmp_path):
+    _cold_comparator(tmp_path, sets_sha256={r: "0" * 64 for r in b.RUNGS[:-1]})
+    c = b.gate1_comparator_failures_4c(tmp_path, tmp_path, "pythia_6.9b")
+    assert c["failures"] and "sets_sha256 short by 1" in c["failures"][0]
+
+
+def test_gate1_comparator_reports_but_does_not_refuse_a_digest_mismatch(tmp_path):
+    """The checkpoint identity is `run_gate1`'s own preregistered halt
+    route; this cold check reports it so the cold battery can assert it,
+    and must not pre-empt the halt."""
+    _cold_comparator(tmp_path, tensor_digest="0" * 64)
+    c = b.gate1_comparator_failures_4c(tmp_path, tmp_path, "pythia_6.9b")
+    assert c["failures"] == [] and c["digest_equal"] is False
+
+
+def test_gate1_comparator_refuses_an_unreadable_record(tmp_path):
+    d = _cold_comparator(tmp_path)
+    (d / "_load.json").write_text("{not json")
+    c = b.gate1_comparator_failures_4c(tmp_path, tmp_path, "pythia_6.9b")
+    assert c["available"] and c["failures"] and "unreadable record" in c["failures"][0]

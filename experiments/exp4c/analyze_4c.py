@@ -96,7 +96,11 @@ REFERENTS_4C_SHA256 = "eb3546582b2a85fa2787880d0273d4b96ddbd54f30c8795128ea7398a
 # left the ORIGINAL scan's sha stale in the same commit. Fix round 2:
 # re-cut again after `verify_referents_4c.py`'s edits (items 3 and 5 —
 # the always-verifying frozen-pin check and the power-record key-set
-# assertion); only that one file's sha moved.
+# assertion); only that one file's sha moved. FREEZE (session 3):
+# re-cut a third time after `verify_referents_4c.py` gained cold-
+# battery item 13 (F-3, gate 1's comparator checked cold); again only
+# that one file's sha moved, and the pin is cut LAST, after every
+# closure, and verified by `check_imports_4c` in a fresh process.
 IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -107,7 +111,7 @@ IMPORTED_SHA256_4C = {
     REPO / "experiments/exp4c/run/preflight_4c.py":
         "31cffdd3bfa49ef595c16cc1f337baf53d72071d43cf766bee7f06fb5104a924",
     REPO / "experiments/exp4c/verify_referents_4c.py":
-        "52aced84251923f023fd85a0090d6a2b304b6ea39315c7960db243156aa0eca1",
+        "c622828682e403ce6d80588af454fb6bab3a3aca16848644ac5713e8af770cdd",
 }
 REFERENTS_PATH_4C = EXP4C / "referents_4c.json"
 
@@ -1454,6 +1458,13 @@ def run(root=bc.EXP4C, root4=EXP4, *, write=False, n_boot=N_BOOT_4C, B=B_PLACEBO
         cells = got or []
         if not cells:
             failures.append("4c cells: no rising task has a pre-clear window")
+        elif power is not None:
+            # FREEZE F-2: the power record's structure against the cells
+            # the verdict is actually read on, not against a second
+            # re-derivation from the same pins.
+            bad, f = collect_total_4c(
+                lambda: power_structure_failures_4c(power, cells), "4c power cell structure")
+            failures += f + [f"4c power record structure: {b}" for b in (bad or [])]
 
     primary, placebo, modifier, calibration, gate7 = None, None, None, None, None
     if not failures and cells:
@@ -1586,6 +1597,49 @@ def _power_record_failures_4c(power, *, expected_n_sim, power_gate) -> list:
         if power.get("cells_sha256") != want:
             bad.append(f"cells_sha256 {power.get('cells_sha256')!r} != the live cell "
                        f"structure's {want}")
+    return bad
+
+
+def power_structure_failures_4c(power, cells) -> list:
+    """FREEZE F-2 (3d's lesson, one experiment over). `_power_record_
+    failures_4c` compares the record's `cells_sha256` to a structure
+    `power_4c.cell_structure_4c()` re-derives from the SAME pins the
+    record was written from — a self-consistency check. What §4's
+    declaration is a claim about is the decision on the cells the
+    verdict is actually read on, and nothing compared the two. `[]`
+    when the realized cells and the committed record's own `structure`
+    agree cell for cell on `(traj, rung, family, type, n_flat,
+    n_flat_arith)`.
+
+    Not reachable through the real producer — `check_rung_set_pins_4c`
+    fixes R, flat, transient and every clear index against the tag-
+    bound literals, so `cells_4c` cannot drop or add a cell while that
+    gate passes — and stated that way rather than talked up. It is here
+    because the power record's claim needs the comparison it names, and
+    because a future amendment to either side would otherwise move the
+    decision's modelled structure away from its realized one in
+    silence."""
+    bad = []
+    structure = (power or {}).get("structure")
+    if not isinstance(structure, list):
+        return ["the record carries no cell structure to compare the realized cells to"]
+    keys = ("traj", "rung", "family", "type", "n_flat", "n_flat_arith")
+    want = {(c.get("traj"), c.get("rung")): tuple(c.get(k) for k in keys) for c in structure}
+    got = {(c.get("traj"), c.get("rung")): tuple(c.get(k) for k in keys) for c in (cells or [])}
+    if len(structure) != len(want) or len(cells or []) != len(got):
+        bad.append("a (trajectory, rung) pair appears twice")
+    only_power = sorted(set(want) - set(got))
+    only_cells = sorted(set(got) - set(want))
+    if only_power:
+        bad.append(f"the power record models {len(only_power)} cell(s) the verdict has no "
+                   f"reading for: {only_power[:4]}")
+    if only_cells:
+        bad.append(f"the verdict reads {len(only_cells)} cell(s) the power record never "
+                   f"modelled: {only_cells[:4]}")
+    for k in sorted(set(want) & set(got)):
+        if want[k] != got[k]:
+            bad.append(f"{k[0]}/{k[1]}: {dict(zip(keys, got[k]))} != the power record's "
+                       f"{dict(zip(keys, want[k]))}")
     return bad
 
 

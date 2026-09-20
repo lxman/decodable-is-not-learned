@@ -499,6 +499,86 @@ def gate1_failures_4c(g1, *, traj) -> list:
     return bad
 
 
+def gate1_comparator_failures_4c(root, root4, traj) -> dict:
+    """FREEZE F-3. Gate 1 compares the sweep's endpoint unit against the
+    reference `GATE1_REFERENCE_4C[traj]` names, and every field that
+    decides whether a byte comparison CAN succeed — the checkpoint the
+    comparator was collected on, the render, the batch composition, the
+    site family, the reference set and the depth pairing — is readable
+    without loading a model. For `pythia_6.9b` the comparator is Exp 4's
+    committed, seal-bound `ladder_pythia_6.9b` table, so this is
+    answerable TODAY; the runner, before this check, only learned the
+    answer after ~40 minutes of shard streaming inside `run_gate1`, and
+    a mismatch there halts the campaign rather than the launch (2i's
+    pre-tag loader-rehearsal lesson, applied to a comparator nobody
+    has to load).
+
+    `{"available", "key", "root", "failures", "digest_equal",
+    "digest", "committed_digest"}`. `available` is False when the
+    comparator unit is not on disk — for `olmo2_13b` the comparator is
+    4c's OWN thin endpoint, which the campaign writes, so there is
+    nothing to check before it runs. Never raises on an absent
+    comparator; a malformed one is a failure.
+
+    `failures` deliberately EXCLUDES the checkpoint identity:
+    `run/sweep_4c.py`'s `run_gate1` already compares the loaded
+    endpoint's measured `tensor_digest` against BOTH the committed
+    outcome's and the comparator record's, and halts with a marker on
+    a mismatch — a preregistered refusal route this check must not
+    pre-empt. The comparison is reported here as `digest_equal` so the
+    cold battery can assert it before the campaign; the runner refuses
+    only on the fields nothing else ever checks."""
+    where, key = GATE1_REFERENCE_4C[traj]
+    base = root4 if where == "exp4" else root
+    ref_dir = battery_4.reference_dir(base, key)
+    rec_path = ref_dir / "_load.json"
+    out = {"available": False, "key": key, "root": where, "failures": []}
+    if not rec_path.is_file():
+        return out
+    out["available"] = True
+    try:
+        rec = json.loads(rec_path.read_text())
+    except (json.JSONDecodeError, OSError) as e:
+        out["failures"].append(f"gate 1 comparator {where}/{key}: unreadable record ({e})")
+        return out
+    e = expected_fields_4c((traj, ENDPOINT_STEP_4C[traj]))
+    want_sites = metric_4.sites_4(e["n_hidden"])
+    want_pairing = a4.expected_pairing_4(e["n_hidden"], e["refs"])
+    out["digest"] = rec.get("tensor_digest")
+    out["committed_digest"] = e["committed_digest"]
+    out["digest_equal"] = bool(rec.get("tensor_digest") is not None
+                               and rec.get("tensor_digest") == e["committed_digest"])
+    checks = (
+        ("render", rec.get("render"), e["render"]),
+        ("batch_size", rec.get("batch_size"), e["batch"]),
+        ("n_hidden", rec.get("n_hidden"), e["n_hidden"]),
+        ("sites", list(rec.get("sites") or []), want_sites),
+        ("refs", tuple(rec.get("refs") or ()), tuple(e["refs"])),
+    )
+    for name, got, want in checks:
+        if got != want:
+            out["failures"].append(
+                f"gate 1 comparator {where}/{key}: {name} {got!r} != the sweep endpoint's "
+                f"{want!r} — a byte comparison cannot succeed")
+    got_pairing = rec.get("pairing")
+    if not isinstance(got_pairing, dict) or sorted(got_pairing) != sorted(want_pairing):
+        out["failures"].append(
+            f"gate 1 comparator {where}/{key}: pairing keys "
+            f"{sorted(got_pairing) if isinstance(got_pairing, dict) else got_pairing!r} != "
+            f"{sorted(want_pairing)}")
+    else:
+        for ref, want_p in want_pairing.items():
+            if [int(j) for j in (got_pairing.get(ref) or [])] != want_p:
+                out["failures"].append(
+                    f"gate 1 comparator {where}/{key}/{ref}: pairing "
+                    f"{got_pairing.get(ref)!r} != the re-derived {want_p!r}")
+    missing = sorted(set(RUNGS) - set(rec.get("sets_sha256") or {}))
+    if missing:
+        out["failures"].append(f"gate 1 comparator {where}/{key}: sets_sha256 short by "
+                               f"{len(missing)} rung(s), first {missing[0]}")
+    return out
+
+
 def exp4_reference_paths_4c(root4) -> list:
     """The five keys' seal-bound files exp4c reuses from Exp 4's
     committed reference tree (the three cross-family refs plus

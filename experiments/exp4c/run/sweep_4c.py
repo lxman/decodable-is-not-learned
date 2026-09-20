@@ -16,7 +16,8 @@ from Exp 4's tree — `battery_4c.exp4_reference_paths_4c(root4)`; any
 failure refuses) -> `results/power_4c.json` present (else "run
 power_4c.main first — the record precedes the tag": the power record
 precedes the tag, same as every other campaign in this program) -> a
-HALTED marker for THIS trajectory refuses.
+HALTED marker for THIS trajectory refuses -> gate 1's comparator checked COLD
+(FREEZE F-3: `battery_4c.gate1_comparator_failures_4c`, no model loaded).
 
 Then, for `olmo2_13b` only and only if its thin endpoint is not
 already complete: the thin endpoint (`run_thin_endpoint`). Gate 1
@@ -176,6 +177,17 @@ def run(*, traj, root=EXP4C, root4=EXP4, cache_root=None, device: str = "mps",
     if battery_4.halt_marker_path(root, traj).exists():
         raise RuntimeError(f"refusing: {traj} sweep is halted "
                            f"({battery_4.halt_marker_path(root, traj)})")
+    # FREEZE F-3: gate 1's comparator, checked COLD. For `pythia_6.9b`
+    # the comparator is Exp 4's committed ladder table and every field
+    # that decides whether the byte comparison can succeed is readable
+    # now; before this the runner learned it only after the endpoint's
+    # shards had streamed, and a mismatch halted the campaign rather
+    # than the launch. For `olmo2_13b` the comparator is this run's own
+    # thin endpoint, so `available` is False until it is written and
+    # there is nothing to check.
+    cmp_ = battery_4c.gate1_comparator_failures_4c(root, root4, traj)
+    if cmp_["failures"]:
+        raise RuntimeError(f"refusing: {cmp_['failures'][0]}")
 
     cache_root = cache_root if cache_root is not None else battery_4c.CKPT_CACHE_4C
     endpoint = battery_4c.ENDPOINT_STEP_4C[traj]

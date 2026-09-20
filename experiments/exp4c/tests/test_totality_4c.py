@@ -691,3 +691,23 @@ def test_licence_block_raising_still_returns_the_tree_verdict(_totality_base, tm
     assert v["licence"]["modifier"] is None
     assert v["licence"]["bounded"] is None
     assert v["licence"]["sentence"] == an.LICENSED_4C["INSUFFICIENT_DATA"]
+
+
+def test_a_cell_the_power_record_never_modelled_gives_insufficient_data(_totality_base, tmp_path,
+                                                                       monkeypatch):
+    """FREEZE F-2 through the production path: `cells_4c` returning a
+    cell set the committed power record does not model is delivered as
+    INSUFFICIENT_DATA naming the pair, instead of a verdict read on
+    cells whose decision nobody simulated."""
+    w = fs4c.copy_world(_totality_base, tmp_path)
+    real = rk.cells_4c
+
+    def fewer(*a, **k):
+        out = real(*a, **k)
+        return [c for c in out if c["rung"] != "antonym"]
+
+    monkeypatch.setattr(rk, "cells_4c", fewer)
+    v = fs4c.run_world(w)
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert _needle_in_failures(v, "power record structure")
+    assert _needle_in_failures(v, "antonym")

@@ -272,6 +272,43 @@ def test_the_runners_own_import_surface_is_covered_by_the_analyzers_table(tmp_pa
     assert [p for p in live if p not in covered] == []
 
 
+def test_sweep_refuses_a_gate1_comparator_that_cannot_byte_match(tmp_path, monkeypatch):
+    """FREEZE F-3: the fields that decide whether gate 1's BYTE
+    comparison can succeed are readable with no model loaded, and the
+    runner refuses at the launch rather than after the endpoint's
+    shards have streamed."""
+    _shrink_grid(monkeypatch)
+    _powered_root(tmp_path)
+    root4 = tmp_path / "root4"
+
+    def bad(root, r4, traj):
+        return {"available": True, "key": "ladder_pythia_6.9b", "root": "exp4",
+               "failures": ["gate 1 comparator exp4/ladder_pythia_6.9b: render 'chat' != the "
+                            "sweep endpoint's 'plain' — a byte comparison cannot succeed"],
+               "digest_equal": True}
+
+    monkeypatch.setattr(battery_4c, "gate1_comparator_failures_4c", bad)
+    with pytest.raises(RuntimeError, match="a byte comparison cannot succeed"):
+        sw.run(traj="pythia_6.9b", root=tmp_path, root4=root4, dry_run=True, loaders={},
+              **_fake_auth())
+
+
+def test_sweep_does_not_refuse_on_a_comparator_digest_mismatch(tmp_path, monkeypatch):
+    """FREEZE F-3, the boundary: the checkpoint identity stays
+    `run_gate1`'s own halt route — the cold check reports it and must
+    not pre-empt the preregistered halt."""
+    _shrink_grid(monkeypatch)
+    _powered_root(tmp_path)
+
+    def digest_off(root, r4, traj):
+        return {"available": True, "key": "k", "root": "exp4", "failures": [],
+               "digest_equal": False, "digest": "a", "committed_digest": "b"}
+
+    monkeypatch.setattr(battery_4c, "gate1_comparator_failures_4c", digest_off)
+    sw.run(traj="pythia_6.9b", root=tmp_path, root4=tmp_path / "root4", dry_run=True,
+          loaders={}, **_fake_auth())
+
+
 def test_sweep_dry_run_loads_nothing(tmp_path, monkeypatch):
     _shrink_grid(monkeypatch)
     _powered_root(tmp_path)
