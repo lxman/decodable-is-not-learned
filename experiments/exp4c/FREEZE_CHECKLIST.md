@@ -680,9 +680,14 @@ pass costs ≈ 7.5 h because each label runs `pytest -x` over the whole
 totality file. `NON_FAST_KILLS_4C` already names the killing test per
 label and the harness already takes `--only=<labels>`, so a
 `--only-named-test` mode is a small addition whenever that pass must be
-repeated. The freeze did not need it: the five closures add no
-world-only mutant (all seven freeze mutants are fast-killable) and
-change no existing world-only mutant's killer.
+repeated. The freeze needed exactly one label of it: the closures add
+**seven mutants — six hand-written, all fast-killable, plus ONE
+auto-generated totality mutant** for F-2's new `collect_total_4c` site
+(`totality_ffe2f03f35`), whose killing test is necessarily a totality
+one. That single label was confirmed with
+`--worlds-only --only=totality_ffe2f03f35` rather than a 7.5-hour
+re-run of all 51. No existing world-only mutant's killer changed: the
+closures add refusals that no world drives into a raising state.
 
 ---
 
