@@ -1268,3 +1268,87 @@ at any point (the apply/run/restore cycle has no externally-observable
 safe window between mutants short enough to poll for, and interrupting
 mid-mutation risks stranding a mutated source file — the same
 constraint documented from earlier mutation-harness work this task).
+
+## 2026-09-19 — Task 6: the adversarial freeze
+
+Fresh-eyes reviewer, cold, on `experiments/exp4c/` at build HEAD
+`d2cbc8fb8`. Zero model contact, zero network. Full record:
+`experiments/exp4c/FREEZE_CHECKLIST.md`; report at
+`.superpowers/sdd/2026-09-18-exp4c-build/task-6-report.md`.
+
+**THE CLASS DEFECT WAS FOUND — F-1: `run/sweep_4c.py`, the producer of
+every set table the verdict is read on, never pinned its own import
+surface.** The analyzer pins it at entry and exit (2j F-1, lesson 11);
+the runner checked only the seven instrument blobs and the frozen
+upstream tables, and on its own import chain exactly two modules sit
+outside every table it checks — `experiments/exp4c/__init__.py` and
+`experiments/exp4c/run/__init__.py`, both covered only by
+`IMPORTED_SHA256_4C`, which only the ANALYZER reads. A drift present
+during the 45-hour sweep and reverted before the analyzer ran was
+invisible on both sides. Demonstrated executably in two halves: two
+lines in `experiments/exp4c/__init__.py` repointing
+`collect_4.set_tables_4` passed the runner's whole refusal chain with NO
+REFUSAL (the analyzer's own check raised on the same file); and on a
+`replicates` world, randomising every rung's set table of ONE interior
+13B checkpoint moved U from 1.0000 to 0.9487 with ZERO failures and gate
+0 and gate 1 passing on both trajectories — an interior unit has no
+comparator anywhere, and on `olmo2_13b` gate 1 compares two units the
+same code wrote. Closed additively: the runner calls the analyzer's own
+`check_imports_4c()`.
+
+**Seven findings, every one closed additively; nothing preregistered
+moved** (`ALPHA_4C`, `MARGINAL_4C`, `MIN_CLEAR_INDEX_4C`,
+`CAL_MULTIPLE_4C`, `N_BOOT_4C`, `B_PLACEBO_4C`, `SEED_4C`,
+`EXCLUDED_SITES_4C`, `MAX_ENUMERATE_4C`, the family-block null, the
+placebo's construction, the tree, the modifier rule, §5's statistics and
+`results/power_4c.json` are byte-identical to the build's):
+
+- **F-1** the runner's unpinned import surface (THE CLASS DEFECT).
+- **F-2** the power record's cell structure was compared only to a
+  second re-derivation from the same pins, never to the cells the
+  verdict is read on (3d's lesson) — `power_structure_failures_4c`
+  added as a `collect_total_4c` site; not reachable through the real
+  producer, stated that way.
+- **F-3** gate 1's comparator is answerable COLD and nothing answered it
+  until ~40 min of shard streaming — `gate1_comparator_failures_4c`,
+  called by the runner before any loader is built, plus cold-battery
+  item 13; the checkpoint identity is reported, not refused, so
+  `run_gate1`'s own halt route is not pre-empted. Measured today:
+  6.9b's ladder comparator is digest-equal and pin-equal.
+- **F-4** the world cache was keyed on `(mode, seed)` alone, so a freeze
+  closure could silently invalidate its own verification — the four
+  world-writing modules' content now enters the key.
+- **F-5** three S4-only inputs append to `failures` and would deliver
+  INSUFFICIENT_DATA for the whole experiment; not independently
+  reachable, DISCLOSED in `run()`'s docstring, routing handed up (R-3)
+  because narrowing a refusal is not an additive closure.
+- **F-6** the design doc's discovery literals were asserted five-of-many
+  and the pins were checked only against themselves — the rest of
+  §3.7(1)'s list now asserted, in the slow test and in a new fast one.
+- **F-7** the NOT-REPLICATED licence sentence quotes §4's DESIGN-STAGE
+  "two times in three" while the committed, tag-bound power record makes
+  it .7312 — 4b F-3's class against the record rather than the data, and
+  NOT-REPLICATED is the modal world by the record's own numbers. The
+  sentence is not rewritten (R-1); the analyzer checks it and prints the
+  record's figure.
+
+**Pre-tag executions of `analyze_4c.run()` / a statistic-computing tool
+against the REAL tree this session: 6** (running total 11 → 17), none a
+new quantity on the two runs 4c exists to read:
+
+1. the baseline cold battery (`verify_referents_4c`) — item 10 printed
+   the KNOWN discovery `U=0.6224 over 42 cells, family p=0.03906`, item
+   11 the power declaration; 11/12 + 1 legitimate skip.
+2. the baseline import scan — `INSUFFICIENT_DATA — 4c gate 1
+   pythia_6.9b: record missing`; 0 frozen + 5 residual modules,
+   byte-identical to the committed pins.
+3. the slow discovery test re-run after F-6's added literals —
+   `discovery_set_4c()` on Exp 4's committed tree, the same pinned
+   numbers, 106 s.
+4. the post-closure read sweep — 8,093 distinct paths, **0 UNPINNED**,
+   same landing point, 136 files in the named (h) attested bucket.
+5. the post-closure cold battery.
+6. the post-closure import scan.
+
+Everything else this session ran on synthetic worlds under the session
+scratchpad; worlds on tmp trees do not count.
