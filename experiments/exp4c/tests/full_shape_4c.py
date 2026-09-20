@@ -34,6 +34,7 @@ never-performing tasks' by construction, which is what REVERSED
 means. Disclosed here and in PROGRESS.md."""
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -58,6 +59,35 @@ WORLD_N_SIM_4C = 40
 WORLD_N_BOOT_4C = 200
 WORLD_B_4C = 200
 MODES_4C = ("replicates", "not_replicated", "reversed", "type_bound", "type_general")
+
+# FREEZE F-4: the cache key. `build_world` used to key on (mode, seed)
+# alone, so ANY edit to a module that writes into a world — the four
+# below, the same set `mutation_check.WORLD_WRITING_PATHS_4C` names and
+# the mutation harness bypasses the cache for — silently reused a world
+# built by the previous version. The mutation harness had its own
+# per-mutant workaround; an ORDINARY edit (a fix round, a freeze
+# closure) had none, and the worlds run that is supposed to verify the
+# closure would have re-measured the pre-closure build. The four
+# modules' content now enters the key, so a stale world cannot be
+# served: it is simply a cache miss.
+WORLD_INPUT_MODULES_4C = (
+    EXP4C / "battery_4c.py",
+    EXP4C / "collect_4c.py",
+    EXP4C / "power_4c.py",
+    EXP4C / "tests" / "full_shape_4c.py",
+)
+
+
+def world_inputs_digest_4c() -> str:
+    """A short digest of every module whose content decides what
+    `_build_world_uncached` writes."""
+    h = hashlib.sha256()
+    for p in WORLD_INPUT_MODULES_4C:
+        h.update(p.name.encode())
+        h.update(b"\0")
+        h.update(p.read_bytes() if p.is_file() else b"<absent>")
+    return h.hexdigest()[:12]
+
 
 INIT_P_UNION_4C = 0.02          # the real step 0: near-noise, well below the endpoint
 LEAD_OFFSET_4C = -2.5           # m = c + offset: the task signal is up before t-
@@ -179,8 +209,9 @@ def _write_power_record_4c(root4c, *, n_sim=WORLD_N_SIM_4C, seed=0) -> dict:
 def build_world(root4c, root4, mode: str, *, seed=0) -> dict:
     """Cache-aware entry point (Task 5 fix round 1b): if the
     `EXP4C_WORLD_CACHE` env var is set, a world for this exact
-    `(mode, seed)` is built ONCE into `<cache>/<mode>_<seed>/` and every
-    later call for the SAME `(mode, seed)` copies from there instead of
+    `(mode, seed, world_inputs_digest_4c())` is built ONCE into
+    `<cache>/<mode>_<seed>_<digest>/` and every later call for the SAME
+    key copies from there instead of
     re-running `_build_world_uncached` (the expensive part — synthetic
     activations written through the real production persistence for
     every grid step of both real trajectories). Falls back to building
@@ -195,7 +226,7 @@ def build_world(root4c, root4, mode: str, *, seed=0) -> dict:
     if not cache_env:
         return _build_world_uncached(root4c, root4, mode, seed=seed)
 
-    cache_dir = Path(cache_env) / f"{mode}_{seed}"
+    cache_dir = Path(cache_env) / f"{mode}_{seed}_{world_inputs_digest_4c()}"
     marker = cache_dir / "_BUILD_COMPLETE"
     if marker.is_file():
         shutil.copytree(cache_dir / "root4c", root4c)

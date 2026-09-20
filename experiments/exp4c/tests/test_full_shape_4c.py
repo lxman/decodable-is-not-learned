@@ -231,3 +231,30 @@ def test_verdict_json_is_strict(replicates_world, tmp_path):
     assert "Type modifier" in txt and "Licence:" in txt and "Pins active" in txt
     # the two B-element placebo arrays are summarized, never carried
     assert "U_b" not in json.dumps(v["placebo"])
+
+
+# ------------------------------------------- FREEZE F-4: the cache key
+
+def test_world_input_modules_match_the_mutation_harnesss_world_writing_set():
+    """FREEZE F-4: the cache key and the mutation harness's own
+    cache-bypass list are the same four modules, or one of them is
+    wrong."""
+    from experiments.exp4c.tests import mutation_check as mc
+    assert {str(p) for p in fs4c.WORLD_INPUT_MODULES_4C} == set(mc.WORLD_WRITING_PATHS_4C)
+
+
+def test_the_cache_key_moves_when_a_world_writing_module_moves(tmp_path, monkeypatch):
+    """FREEZE F-4: an edit to any world-writing module is a cache MISS,
+    not a stale hit."""
+    before = fs4c.world_inputs_digest_4c()
+    assert before == fs4c.world_inputs_digest_4c()
+    fake = tmp_path / "battery_4c.py"
+    fake.write_text("# a different battery_4c\n")
+    monkeypatch.setattr(fs4c, "WORLD_INPUT_MODULES_4C",
+                        (fake,) + fs4c.WORLD_INPUT_MODULES_4C[1:])
+    assert fs4c.world_inputs_digest_4c() != before
+
+
+def test_the_cache_key_is_not_only_mode_and_seed():
+    d = fs4c.world_inputs_digest_4c()
+    assert len(d) == 12 and d.isalnum()
