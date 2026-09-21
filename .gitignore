@@ -114,6 +114,7 @@ experiments/exp4c/*.pid
 experiments/exp4c/watcher_4c.log
 experiments/exp4c/sweep_pythia_6.9b.log
 experiments/exp4c/sweep_olmo2_13b.log
+experiments/exp4c/sweep_olmo2_13b.*.log
 experiments/exp4c/sweep_chain.log
 experiments/exp4c/analyzer.log
 experiments/exp4c/watcher_sweep.log
