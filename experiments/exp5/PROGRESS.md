@@ -215,3 +215,55 @@ Full test file: `PYTHONDONTWRITEBYTECODE=1
 experiments/exp5/tests/test_slice_5.py -p no:cacheprovider -q` → `8
 passed`. Full exp5 suite (battery_5 + slice_5 together): `23 passed`, no
 warnings under `-W error::DeprecationWarning`.
+
+## Task 3: `search_5.py` + `stats_5.py`
+
+Built the total deterministic matching search (`search_5.plan_5` /
+`bisect_step_5` / `replay_5` / `requested_steps_5`) and the statistics
+(`stats_5.reads_5` / `cell_5` / `cells_5` / `analysed_5` /
+`sign_flip_p_5` / `primary_5` / `modifier_5` / `signed_offset_ci_5` /
+`ledger_5` / `tree_5` / `s4_size_ratio_5` / `s5_by_type_5` /
+`s7_by_pair_5`), transcribed byte-for-byte from the task-3 brief
+(including each file's leading `# experiments/exp5/…py` comment line,
+per the brief's resolution note). TDD: wrote the two test files first
+(RED — `ModuleNotFoundError`/`ImportError` on `search_5`/`stats_5`),
+then the two implementation files, then GREEN.
+
+**Two disclosed test-fixture fixes** (brief's own code vs. brief's own
+tests genuinely disagreed on a byte-exact transcription; both traced to
+arithmetic/construction mistakes in the test fixtures, not to the
+implementation, and both fixed in the test file only):
+
+1. `test_search_5.py::test_replay_lists_the_whole_request_sequence` —
+   asserted `count("window") == 4`. Traced the actual bisection path for
+   `target=_curve(50500)` (also used by the passing
+   `test_plan_bisects_to_an_adjacent_bracket_and_names_the_window`):
+   bisection visits 48000, 56000, 52000, 50000, 51000, and 48000/52000
+   coincide with the window's `b_minus[0]`/`b_plus[0]`. `plan_5` never
+   re-requests a step whose loss is already known (the module docstring:
+   "a unit is written once"), so only 2 of the 4 window steps are fresh
+   `"window"` requests. Fixed the assertion to `== 2` with a comment.
+2. `test_stats_5.py::test_modifier` — the alternating (MIXED-seeking)
+   sub-case held `b_minus`/`b_plus` constant at `(139,141)`/`(140,143)`
+   while `lo`/`hi` alternated between the small-ahead and large-ahead
+   regimes, unlike the two prior sub-cases in the same test which match
+   `b_minus`/`b_plus` to each regime's own `lo`/`hi`. The mismatch makes
+   `P` large for the small-ahead half, so `R_gt_P` excludes them and only
+   5 (all-positive) cells survive → THIN, not MIXED. Alternated
+   `b_minus`/`b_plus` together with `lo`/`hi` (matching the established
+   pattern); reproduces MIXED (10 cells, 5/5, p=1.0) and THIN for the
+   first 7, exactly the test's own assertions.
+
+Verified both fixes empirically (ran `plan_5`/`replay_5` and `cell_5`/
+`modifier_5` directly against the fixed fixtures before editing) rather
+than adjusting numbers to make failures disappear.
+
+Command: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
+pytest experiments/exp5/tests/test_search_5.py
+experiments/exp5/tests/test_stats_5.py -p no:cacheprovider -q` → `19
+passed, 1 warning` (a `scipy.stats.ConstantInputWarning` in
+`test_signed_offset_ci_and_secondaries_run`'s `s4_size_ratio_5` call —
+the fixture gives every cell an identical read so `c`/`y` is literally
+constant; the code's own `not math.isnan(rho)` guard already turns this
+into `spearman: None`, expected and transcribed verbatim from the
+brief). Full `experiments/exp5/` suite: `42 passed`.
