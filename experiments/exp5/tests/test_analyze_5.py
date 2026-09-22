@@ -136,6 +136,38 @@ def test_replay_pairs_5_uses_the_committed_loss_not_the_logged_target(monkeypatc
     assert pairs_data[0]["plan"]["bracket"] == [10, 20]
 
 
+def test_b6_12b_5_compares_on_the_intersection_and_scales_the_sum_bound(monkeypatch):
+    """B-6 ruling 2026-09-22: the unit's `counts` are the full 34 RUNGS
+    (every real collected 12b unit reads all 34), the referent is 11
+    PREDICTOR_RUNGS only (`mac_interior_counts_5`'s corrected shape) —
+    `_b6_12b_5` must compare on the INTERSECTION (11), print
+    `n_rungs_compared`, and scale `GATE1_TOL_SUM_5` to 11/34 rather
+    than reporting 23 spurious 'missing on one side' failures for the
+    rungs the referent never carries."""
+    eleven = b5.GATE1_DESCRIPTIVE_12B_RUNGS_5
+    monkeypatch.setattr(b5, "GATE1_DESCRIPTIVE_12B_5", (1000,))
+    monkeypatch.setattr(b5, "mac_interior_counts_5",
+                        lambda size, step: {r: 100 for r in eleven})
+    counts_34 = {r: 100 for r in bt.RUNGS}
+    units = {"12b": {"steps": [1000], "counts": {1000: counts_34}}}
+    rows = an._b6_12b_5(units)
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["n_rungs_compared"] == 11
+    assert row["failures"] == []
+    assert row["sum_abs_diff"] == 0 and row["max_abs_diff"] == 0
+    assert math.isclose(row["gate1_tol_sum_scaled"], b5.GATE1_TOL_SUM_5 * 11 / 34)
+
+    # a per-rung Δ beyond GATE1_TOL_PER_RUNG_5, still over only 11 rungs
+    counts_off = dict(counts_34)
+    counts_off[eleven[0]] = 100 + b5.GATE1_TOL_PER_RUNG_5 + 1
+    units_off = {"12b": {"steps": [1000], "counts": {1000: counts_off}}}
+    row_off = an._b6_12b_5(units_off)[0]
+    assert row_off["n_rungs_compared"] == 11
+    assert any(eleven[0] in f for f in row_off["failures"])
+    assert not any("count missing" in f for f in row_off["failures"])
+
+
 def test_s8_grid_points_interpolates_and_flags_measured_points(tmp_path, monkeypatch):
     """Review finding 2 (S8): a grid point coinciding with a step this
     experiment actually loaded is MEASURED ('interpolated': False); a

@@ -150,6 +150,17 @@ def test_mac_referents_exist_for_five_sizes_and_none_for_two():
     assert b5.mac_interior_counts_5("2.8b", 64000) is None
 
 
+def test_mac_interior_counts_5_12b_is_eleven_rungs_others_stay_34():
+    """B-6 ruling 2026-09-22: 2g's committed 12b replication sweep
+    carries records for the 11 `PREDICTOR_RUNGS` only. 2.8b/6.9b are
+    unaffected — still all 34."""
+    twelve_b = b5.mac_interior_counts_5("12b", 1000)
+    assert set(twelve_b) == set(b5.GATE1_DESCRIPTIVE_12B_RUNGS_5)
+    assert len(twelve_b) == 11
+    assert set(b5.mac_interior_counts_5("6.9b", 64000)) == set(bt.RUNGS)
+    assert len(b5.mac_interior_counts_5("6.9b", 64000)) == 34
+
+
 def test_require_prereg_5_refuses_missing_tag_and_drift(tmp_path):
     with pytest.raises(RuntimeError, match="does not exist"):
         b5.require_prereg_5(tag_exists=lambda t: False, blob_sha=lambda t, r: None)

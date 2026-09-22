@@ -127,6 +127,19 @@ GATE1_BENCH_5 = {"max_abs_diff": 8, "sum_abs_diff": 57,
 GATE1_INTERIOR_5 = {"2.8b": (1000, 2000, 4000, 8000, 16000, 32000, 100000),
                     "6.9b": (1000, 2000, 4000, 8000, 16000, 32000, 64000, 100000)}
 GATE1_DESCRIPTIVE_12B_5 = (1000, 4000, 16000, 32000, 64000, 100000)    # B-6, non-gating
+
+# B-6 ruling 2026-09-22: 2g's committed 12b replication sweep carries
+# records for `battery_2g.PREDICTOR_RUNGS` (11) only, never all 34 —
+# `mac_interior_counts_5("12b", ...)` reads exactly this set. Pinned as
+# a literal (the `MAIN_SHA_5` pattern) and checked against the live
+# module at import so a change to 2g's PREDICTOR_RUNGS is caught here,
+# not silently absorbed.
+GATE1_DESCRIPTIVE_12B_RUNGS_5 = ("antonym", "antonym6", "add_base8", "sub_base8",
+                                 "add3_mid", "sub3_mid", "sub4_mid", "median5",
+                                 "arith_next", "count_div13", "odd6")
+if set(GATE1_DESCRIPTIVE_12B_RUNGS_5) != set(bg.PREDICTOR_RUNGS):
+    raise RuntimeError("GATE1_DESCRIPTIVE_12B_RUNGS_5 != battery_2g.PREDICTOR_RUNGS")
+
 GATE1_REFERENT_SOURCE_5 = {"410m": "2d", "1b": "2d", "2.8b": "2c", "6.9b": "2c", "12b": "2c"}
 
 # S6 (B-11): the pythia repo's configs, read 2026-09-22
@@ -406,11 +419,26 @@ def interior_record_path_5(size: str, step: int, rung: str) -> Path:
 
 
 def mac_interior_counts_5(size: str, step: int):
+    """2.8b/6.9b: all 34 `RUNGS`, as always. 12b: exactly
+    `GATE1_DESCRIPTIVE_12B_RUNGS_5` (11) — 2g's committed 12b
+    replication sweep never wrote the other 23 rungs' record files, so
+    the rungs whose files actually EXIST under `interior_record_path_5`
+    are asserted to equal the pin before anything is read; any other
+    set on disk is a refusal (a genuine data-shape defect, not a
+    missing-checkpoint gap)."""
     steps = gate1_interior_steps_5(size) + (GATE1_DESCRIPTIVE_12B_5 if size == "12b" else ())
     if int(step) not in steps:
         return None
+    if size == "12b":
+        present = {r for r in RUNGS if interior_record_path_5(size, step, r).is_file()}
+        if present != set(GATE1_DESCRIPTIVE_12B_RUNGS_5):
+            raise ValueError(f"12b/step{step}: the record files present {sorted(present)} != "
+                             f"GATE1_DESCRIPTIVE_12B_RUNGS_5 {sorted(GATE1_DESCRIPTIVE_12B_RUNGS_5)}")
+        rungs = GATE1_DESCRIPTIVE_12B_RUNGS_5
+    else:
+        rungs = RUNGS
     out = {}
-    for r in RUNGS:
+    for r in rungs:
         rec = json.loads(interior_record_path_5(size, step, r).read_text())
         if rec.get("rung") != r or int(rec.get("step")) != int(step) or rec.get("n") != N_ITEMS:
             raise ValueError(f"committed record {size}/step{step}/{r}: not the expected shape")
@@ -418,9 +446,18 @@ def mac_interior_counts_5(size: str, step: int):
     return out
 
 
-def tolerance_failures_5(counts: dict, referent: dict, *, label: str) -> list:
+def tolerance_failures_5(counts: dict, referent: dict, *, label: str, rungs=None) -> list:
+    """Per-rung |Δ| against `GATE1_TOL_PER_RUNG_5` and the summed |Δ|
+    against `GATE1_TOL_SUM_5`, over `rungs` (default `None` → all of
+    `RUNGS`, 34 — every pre-existing call is unchanged). When `rungs`
+    names a PROPER SUBSET (B-6's 12b comparison, 11 of 34 —
+    `analyze_5._b6_12b_5`), the sum bound is scaled to
+    `GATE1_TOL_SUM_5 * len(rungs) / len(RUNGS)` and the failure
+    message says so explicitly: `GATE1_TOL_SUM_5` (120) was set for a
+    34-rung comparison and is not a meaningful bound unscaled over 11."""
+    use_rungs = tuple(rungs) if rungs is not None else RUNGS
     bad, total = [], 0
-    for r in RUNGS:
+    for r in use_rungs:
         if r not in counts or r not in referent:
             bad.append(f"{label}/{r}: count missing on one side")
             continue
@@ -429,8 +466,14 @@ def tolerance_failures_5(counts: dict, referent: dict, *, label: str) -> list:
         if d > GATE1_TOL_PER_RUNG_5:
             bad.append(f"{label}/{r}: |Δ| {d} > {GATE1_TOL_PER_RUNG_5} "
                        f"({counts[r]} vs the Mac's {referent[r]})")
-    if total > GATE1_TOL_SUM_5:
-        bad.append(f"{label}: sum |Δ| {total} > {GATE1_TOL_SUM_5}")
+    if rungs is not None and len(use_rungs) != len(RUNGS):
+        bound = GATE1_TOL_SUM_5 * len(use_rungs) / len(RUNGS)
+        if total > bound:
+            bad.append(f"{label}: sum |Δ| {total} > {bound:.2f} (GATE1_TOL_SUM_5 scaled to "
+                       f"{len(use_rungs)}/{len(RUNGS)} rungs)")
+    else:
+        if total > GATE1_TOL_SUM_5:
+            bad.append(f"{label}: sum |Δ| {total} > {GATE1_TOL_SUM_5}")
     return bad
 
 
@@ -838,7 +881,7 @@ IMPORTED_SHA256_5 = {
     REPO / "experiments/exp5/run/s9_mac_5.py":
         "fca6804d97193860358411a9350d145953b7ce8abce252c811695bd284246dc6",
     REPO / "experiments/exp5/verify_referents_5.py":
-        "366e0e92c9306cb2a270cc8ca06c1680ce85a7e8d873298b8d330352314a801a",
+        "80696db1e843b7bfa37f362a7789e430452d000a4a5e436fb370c75512bd3ae9",
 }
 
 

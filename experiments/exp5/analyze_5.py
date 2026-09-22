@@ -728,8 +728,13 @@ def _re_crossings_5(units_by_size: dict, manifest, size: str) -> dict:
 def _b6_12b_5(units_by_size: dict) -> list:
     """B-6: for every `GATE1_DESCRIPTIVE_12B_5` step present as a 12b
     unit, `tolerance_failures_5` against `mac_interior_counts_5` (2g's
-    replication grid), printed with max/sum |Δ| — non-gating, into S10
-    only, never `run()`'s own `failures`."""
+    replication grid — B-6 ruling 2026-09-22: 11 `PREDICTOR_RUNGS`
+    only, never all 34), compared over the INTERSECTION of the unit's
+    rungs (34, every real collected unit) and the referent's rungs
+    (11) — `n_rungs_compared` printed alongside max/sum |Δ| and the
+    scaled `GATE1_TOL_SUM_5` bound the 11-rung comparison reads
+    against. Non-gating throughout: into S10 only, never `run()`'s own
+    `failures`."""
     u = units_by_size.get("12b")
     if u is None:
         return []
@@ -741,10 +746,14 @@ def _b6_12b_5(units_by_size: dict) -> list:
         if ref is None:
             continue
         counts = u["counts"].get(step) or {}
-        bad = b5.tolerance_failures_5(counts, ref, label=f"S10 B-6 12b/step{step}")
-        diffs = [abs(int(counts.get(r, 0)) - int(ref.get(r, 0))) for r in b5.RUNGS]
-        rows.append({"step": step, "failures": bad, "sum_abs_diff": sum(diffs),
-                    "max_abs_diff": max(diffs) if diffs else 0})
+        rungs = tuple(sorted(set(counts) & set(ref)))
+        bad = b5.tolerance_failures_5(counts, ref, label=f"S10 B-6 12b/step{step}", rungs=rungs)
+        diffs = [abs(int(counts[r]) - int(ref[r])) for r in rungs]
+        scaled_sum_bound = (b5.GATE1_TOL_SUM_5 * len(rungs) / len(b5.RUNGS)) if rungs else 0.0
+        rows.append({"step": step, "failures": bad, "n_rungs_compared": len(rungs),
+                    "sum_abs_diff": sum(diffs), "max_abs_diff": max(diffs) if diffs else 0,
+                    "gate1_tol_per_rung": b5.GATE1_TOL_PER_RUNG_5,
+                    "gate1_tol_sum_scaled": scaled_sum_bound})
     return rows
 
 

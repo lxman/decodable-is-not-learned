@@ -31,8 +31,11 @@ model contact.
     all 34 rungs) and the fifteen interior checkpoints
     (`mac_interior_counts_5`, 2.8b's 7 + 6.9b's 8, all 34 rungs each —
     12b's descriptive steps are NOT part of `gate1_interior_steps_5`
-    and are deliberately excluded here; see PROGRESS.md's Task 6
-    finding on 12b's committed sweep records)
+    and so are not counted among these fifteen), PLUS 12b's own six
+    `GATE1_DESCRIPTIVE_12B_5` steps at exactly
+    `GATE1_DESCRIPTIVE_12B_RUNGS_5` (11 rungs, not 34 — B-6 ruling
+    2026-09-22: see PROGRESS.md's Task 6 finding on 12b's committed
+    sweep records)
  9  `tolerance_failures_5` on the A100 benchmark's own committed 6.9b
     argmax counts against `FINAL_COUNT_PIN_69` is EMPTY, with max|Δ| 8
     and Σ|Δ| 57 exactly — the known-answer gate for the pinned
@@ -199,7 +202,7 @@ def _c7(ctx):
 
 
 @check(8, "the Mac referents load for the five sizes and the fifteen interior checkpoints, "
-         "all 34 rungs")
+         "all 34 rungs, plus 12b's six B-6 descriptive steps at 11 rungs")
 def _c8(ctx):
     n_sizes = 0
     for size in b5.SIZES_5:
@@ -221,8 +224,17 @@ def _c8(ctx):
             n_interior += 1
     if n_interior != 15:
         raise AssertionError(f"{n_interior} interior checkpoints loaded, expected 15 (7 + 8)")
-    print(f"       5 final referents + {n_interior} interior referents, 34 rungs each",
-         flush=True)
+    n_12b = 0
+    for step in b5.GATE1_DESCRIPTIVE_12B_5:
+        ref = b5.mac_interior_counts_5("12b", step)
+        if ref is None or set(ref) != set(b5.GATE1_DESCRIPTIVE_12B_RUNGS_5):
+            raise AssertionError(f"12b/step{step}: mac_interior_counts_5 missing or does not "
+                                 f"cover exactly GATE1_DESCRIPTIVE_12B_RUNGS_5 (11 rungs)")
+        n_12b += 1
+    if n_12b != 6:
+        raise AssertionError(f"{n_12b} 12b descriptive steps loaded, expected 6")
+    print(f"       5 final referents + {n_interior} interior referents (34 rungs each) + "
+         f"{n_12b} 12b descriptive steps (11 rungs each)", flush=True)
 
 
 @check(9, "tolerance_failures_5 on the A100 benchmark's committed 6.9b counts is empty, "

@@ -1003,3 +1003,171 @@ resolved, 0 open survivors**. Zero model contact, zero network beyond
 the two cached-file reads item 7's slice re-derivation needed (both
 served from the local HF cache, no download), zero edits outside
 `experiments/exp5/`.
+
+## Task 6 fix: B-6's 12b comparison (controller ruling, 2026-09-22)
+
+**Ruling accepted verbatim.** Concern 1 from the Task 6 report — 2g's
+committed 12b replication sweep carries records for `battery_2g.
+PREDICTOR_RUNGS` (11) only, never all 34, so B-6's comparison was
+silently comparing an 11-file-per-step referent as if it were a
+34-rung one — is a real defect in the design's B-6 comparison. Fixed
+before the review is dispatched, exactly the four points ruled, nothing
+else touched.
+
+**(a) `battery_5.mac_interior_counts_5(size, step)`.** New pin:
+`GATE1_DESCRIPTIVE_12B_RUNGS_5` — a literal 11-rung tuple, checked at
+IMPORT against `battery_2g.PREDICTOR_RUNGS` (`if set(...) != set(bg.
+PREDICTOR_RUNGS): raise RuntimeError(...)`), the same pattern
+`MAIN_SHA_5` already uses for the Hub SHAs (a hard-coded copy that
+refuses to import if the live source has drifted — not a tautological
+self-reference). For `size == "12b"`, the function now ALSO discovers
+which rung record files actually exist under `interior_record_path_5`
+and asserts that SET equals `GATE1_DESCRIPTIVE_12B_RUNGS_5`, raising
+`ValueError` (a genuine data-shape defect, not a missing-checkpoint
+gap — same philosophy as the function's pre-existing "not the expected
+shape" raise) on any other set; only those 11 rungs are then read.
+2.8b/6.9b are untouched — still all 34 `RUNGS`, unconditionally.
+Docstring updated to say so. Verified live against the real committed
+tree: all six `GATE1_DESCRIPTIVE_12B_5` steps (1000/4000/16000/32000/
+64000/100000) return exactly the 11 pinned rungs; 2.8b/6.9b interior
+steps still return 34.
+
+**(b) `analyze_5._b6_12b_5`.** Now computes `rungs = tuple(sorted(set(
+counts) & set(ref)))` — the intersection of the REAL unit's rungs
+(always 34; `load_units_5` reads all `b5.RUNGS` for every size,
+12b included) and the referent's rungs (11, after (a)) — rather than
+iterating the full 34 and reading 23 "count missing on one side"
+failures out of `tolerance_failures_5`. Calls `battery_5.
+tolerance_failures_5(counts, ref, label=..., rungs=rungs)` (new
+optional parameter, (b) below) and prints `n_rungs_compared` (11),
+`sum_abs_diff`/`max_abs_diff` over exactly those 11, `gate1_tol_
+per_rung` (120→ no, `GATE1_TOL_PER_RUNG_5`, 15, unchanged — the
+per-rung bound does not scale), and `gate1_tol_sum_scaled` =
+`GATE1_TOL_SUM_5 * 11/34 ≈ 38.82` — the descriptive, EXPLICITLY
+SCALED sum bound (`GATE1_TOL_SUM_5`, 120, was set for a 34-rung
+comparison; unscaled it would almost never fire over 11 rungs, which
+is not a meaningful "the 12b replication tracks the referent" read).
+Stays entirely NON-GATING — `_b6_12b_5`'s return value only reaches
+`_s10_texture_5`'s `"b6_12b"` key, never `run()`'s own `failures`
+(unchanged from before this fix; re-confirmed by reading the call
+chain: `_s10_texture_5` → `secondaries_5`/S10, never `failures_5`).
+
+`battery_5.tolerance_failures_5` gained the optional `rungs=` keyword
+(chosen over a hand-written local subset comparison in `_b6_12b_5`, per
+the ruling's own "or give tolerance_failures_5 an optional rungs=
+argument" branch — keeps the per-rung/sum logic in one place). Default
+`None` → all of `RUNGS` (34), sum bound `GATE1_TOL_SUM_5` unscaled —
+byte-identical to the pre-fix function for every existing call site
+(`gate1b_failures_5`, `gate1c_failures_5`, S9's `_s9_replication_5`),
+none of which pass `rungs=`. When `rungs` names a proper subset, the
+sum bound scales and the failure message names the scaling explicitly
+(`"... (GATE1_TOL_SUM_5 scaled to {n}/{34} rungs)"`).
+
+Existing mutant `(BAT5, "tolerance_failures_5: the per-rung tolerance
+widened from > to >=", ...)` targets the line `"if d >
+GATE1_TOL_PER_RUNG_5:"`, which is untouched verbatim by this edit
+(confirmed by `grep` against the live file before re-running anything)
+— no mutation-harness update needed; no other mutant in `tests/
+mutation_check.py` targets `mac_interior_counts_5`/`tolerance_
+failures_5`/`_b6_12b_5` (confirmed by grep, zero hits beyond the one
+already-intact mutant).
+
+**(c) Referent manifest / pin tables.** `make_referents_5.py`/
+`referents_5.json`/`N_FILES_5` were already reconciled to the 11-rung
+12b reality in Task 6 (Finding 1) — re-verified live: `referent_
+files_5()` returns 1786, matching both `N_FILES_5` and the committed
+`referents_5.json`'s own `n_files`, unchanged; `REFERENTS_5_SHA256`
+does not need re-pinning. `battery_5.py`/`analyze_5.py` are both
+`INSTRUMENT_BLOBS_5` (tag-bound, not tracked by `FROZEN_SHA256_5`/
+`IMPORTED_SHA256_5`) — confirmed unchanged by re-running `import_
+scan_5.py` and diffing its `FROZEN_SHA256_5` block against the
+committed one programmatically: byte-identical (51 entries). `verify_
+referents_5.py` DID change (item 8's docstring + `_c8` body, part (d)
+below) and IS one of the six `IMPORTED_SHA256_5` entries — its hash
+re-derived and re-pasted (`80696db1e843b7bfa37f362a7789e430452d000a4a
+5e436fb370c75512bd3ae9`, was `366e0e92c9306cb2a270cc8ca06c1680ce85a7e8
+d873298b8d330352314a801a`). Both `check_frozen_5()` and `check_
+imports_5()` re-run cold after the fix: clean (`None`, no raise).
+
+New pre-tag executions (real-tree `analyze_5.run()` calls), added to
+the tally — **13 total now** (was 10 at the end of Task 6):
+11. `import_scan_5.py`, run to inspect the fresh scan output before
+    deciding what changed — `"5 host record"`.
+12. `import_scan_5.py`, re-run to capture the full output to a
+    scratchpad file for a programmatic diff against the committed
+    tables — byte-identical to run 11 (confirms the scan is
+    deterministic across invocations, as expected — no campaign state
+    exists to vary it).
+13. `read_sweep_5.py`, re-run after the `IMPORTED_SHA256_5` update —
+    `"5 host record"`, 1853 distinct paths (unchanged from Task 6's
+    count), 0 UNPINNED.
+
+**(d) Tests.** Two new fast tests, both TDD'd against the real
+committed 12b tree / a synthetic unit, both verified passing in
+isolation before the full-suite run:
+- `test_battery_5.py::test_mac_interior_counts_5_12b_is_eleven_rungs_
+  others_stay_34` — `mac_interior_counts_5("12b", 1000)` returns
+  exactly `GATE1_DESCRIPTIVE_12B_RUNGS_5` (11); `mac_interior_
+  counts_5("6.9b", 64000)` still returns all 34.
+- `test_analyze_5.py::test_b6_12b_5_compares_on_the_intersection_and_
+  scales_the_sum_bound` — a synthetic 34-rung unit (`bt.RUNGS`) against
+  a monkeypatched 11-rung referent: `n_rungs_compared == 11`, zero
+  failures and zero diffs on a matched synthetic pair, `gate1_tol_
+  sum_scaled` == `GATE1_TOL_SUM_5 * 11/34` exactly; a second case
+  pushes one rung's count past `GATE1_TOL_PER_RUNG_5` and confirms the
+  failure names that rung with NO spurious "count missing on one side"
+  entries for the other 23.
+
+`verify_referents_5.py` item 8: docstring and `_c8` both extended.
+Item 8 now ALSO loads 12b's six `GATE1_DESCRIPTIVE_12B_5` steps and
+asserts each equals exactly `GATE1_DESCRIPTIVE_12B_RUNGS_5` (11
+rungs) — printed as "5 final referents + 15 interior referents (34
+rungs each) + 6 12b descriptive steps (11 rungs each)". Re-run cold:
+item 8 still `ok`; the battery is 11/13 + 2 legitimate SKIP, unchanged
+in shape from Task 6.
+
+**Commands + output (verification, this fix).**
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp5/tests/ -m "not slow" -q
+  → 103 passed, 13 deselected in 20.53s
+
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp5/tests/ -m slow -q          # run detached, alone
+  → 13 passed, 103 deselected in 149.65s (0:02:29)
+
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m \
+  experiments.exp5.verify_referents_5
+  → referent battery: 11/13 (items 11, 13 SKIP; item 8 confirms the
+    six 12b descriptive steps at 11 rungs each)
+```
+Fast suite: 103 passed (was 101; +2, exactly the two new tests above).
+Slow suite: 13 passed (was reported as 11 in Task 6's own report — see
+process note below), 0 failed either way.
+
+**Process note (disclosed, not fixed — out of this fix's scope):**
+running the WHOLE `experiments/exp5/tests/` directory in one pytest
+invocation with no `-m` filter (a shortcut I tried before reverting to
+the ruling's own "fast once / slow once, detached" instruction)
+produces four spurious `test_power_5.py` failures (`KeyError:
+'410m'`). Root cause: `test_determinism_5.py::_world` is a
+module-scoped fixture that calls `pytest.MonkeyPatch()` directly (not
+the function-scoped built-in) and never calls `.undo()` — its own
+comment says so ("Never undone — this module never needs it reverted,
+and the process exits with the test run"), an assumption that holds
+only when the slow suite is its own process, as the established
+convention (and this ruling's own instructions) always run it. In one
+combined session, `full_shape_5.apply_shrink`'s `b5.SIZES_5` patch
+(applied via that never-undone `MonkeyPatch()`) leaks past `test_
+determinism_5.py` into every test file pytest collects afterward
+alphabetically (`test_power_5.py`, `test_search_5.py`, ...), which is
+what `test_power_5.py`'s hard-coded `"410m"`/`"antonym6"` fixture data
+collided with. Not fixed here — the ruling's own instructions already
+run fast and slow SEPARATELY (which sidesteps this entirely, confirmed
+clean above), and "nothing else changes" governs this fix. Flagging
+for whoever reviews `test_determinism_5.py` next: either give `_world`
+a `request.addfinalizer(mp.undo)`, or add an explicit `pytestmark =
+pytest.mark.slow` isolation note warning against combined invocation —
+Michael's/the reviewer's call, methods-paper-lesson-candidate-adjacent
+(test isolation assumptions are themselves a kind of unpinned
+surface).
