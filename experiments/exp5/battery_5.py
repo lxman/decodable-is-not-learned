@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import subprocess
 import sys
 from pathlib import Path
 
@@ -33,6 +34,8 @@ HUB_INVENTORY_PATH_5 = EXP5 / "hub_inventory_5.json"
 CHECKPOINTS_PATH_5 = EXP5 / "checkpoints_5.json"
 SLICE_PATH_5 = EXP5 / "slice_5.npz"
 PROJECTION_PATH_5 = EXP5 / "projection.md"
+
+CHECKPOINTS_SHA256_5 = "82658028d203a65108effe84eb7446bc046067c4f7373f6c584b159125d4b306"
 
 PREREG_TAG_5 = "exp5-preregistered"
 TARGETS_SEAL_TAG_5 = "exp5-targets-sealed"
@@ -716,6 +719,71 @@ def check_frozen_5() -> None:
            if not Path(p).is_file() or bg.sha256_file(p) != want]
     if bad:
         raise RuntimeError("5: a frozen module drifted from its pin: " + "; ".join(bad))
+
+
+# --------------------------------------------------- import-surface pin
+
+IMPORTED_SHA256_5 = None    # Task 6: exp5's own residual import surface, by sha256
+
+
+def check_imports_5() -> None:
+    """4c's `check_imports_4c` body, adapted (2j F-1 / lesson 11: the
+    import surface is a verdict input). Every module under
+    `experiments/` this process has imported (tests excluded) must be
+    covered by `FROZEN_SHA256_5`, by `INSTRUMENT_BLOBS_5`, or pinned
+    byte-identically by `IMPORTED_SHA256_5`. Called at ENTRY and EXIT
+    by both runners and the analyzer."""
+    if IMPORTED_SHA256_5 is None:
+        raise RuntimeError("IMPORTED_SHA256_5 is None — the import surface is not pinned "
+                           "(build incomplete)")
+    covered = {str(Path(p).resolve()) for p in (FROZEN_SHA256_5 or {})}
+    covered |= {str((REPO / rel).resolve()) for rel in INSTRUMENT_BLOBS_5}
+    pinned = {str(Path(p).resolve()): v for p, v in IMPORTED_SHA256_5.items()}
+    drifted, unpinned = [], []
+    for p, want in sorted(pinned.items()):
+        pp = Path(p)
+        if not pp.is_file() or bg.sha256_file(pp) != want:
+            drifted.append(f"(pin) -> {p}")
+    exp_root = str((REPO / "experiments").resolve())
+    for name, mod in sorted(sys.modules.items()):
+        f = getattr(mod, "__file__", None)
+        if not f:
+            continue
+        rp = Path(f).resolve()
+        s = str(rp)
+        if not s.startswith(exp_root + "/") or "tests" in rp.parts:
+            continue
+        if s in covered or s in pinned:
+            continue
+        unpinned.append(f"{name} -> {s}")
+    if unpinned:
+        raise RuntimeError("unpinned module on the import surface: " + "; ".join(sorted(unpinned)))
+    if drifted:
+        raise RuntimeError("imported module drifted from its pin: " + "; ".join(sorted(drifted)))
+
+
+# ------------------------------------------------------------------ git
+
+def git_sha_5() -> str:
+    return subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO,
+                          capture_output=True, text=True).stdout.strip()
+
+
+def projection_commit_5():
+    """The adding commit for `experiments/exp5/projection.md` — the
+    LAST line of `git log --diff-filter=A`, i.e. the earliest commit
+    that added the file (a rewrite of history could add it again, so
+    the design's own words are literal: 'the last line')."""
+    out = subprocess.run(["git", "log", "--diff-filter=A", "--format=%H", "--",
+                          "experiments/exp5/projection.md"], cwd=REPO,
+                         capture_output=True, text=True)
+    lines = [ln for ln in out.stdout.strip().splitlines() if ln]
+    return lines[-1] if lines else None
+
+
+def is_ancestor_5(a: str, b: str) -> bool:
+    return subprocess.run(["git", "merge-base", "--is-ancestor", a, b],
+                          cwd=REPO).returncode == 0
 
 
 if __name__ == "__main__":
