@@ -549,6 +549,97 @@ tree are disclosed in the design document, none of which drew a
 placebo battery. The retained-path list above now includes
 `experiments/exp4b` and `experiment-4b-design.md`.
 
+On 2026-09-22 the Experiment 4c record was added (the sealed
+replication of the lens test on the two trajectories Experiment 4
+never read — Pythia 6.9b, Experiment 2h's 22 trained checkpoints, and
+OLMo-2 13B, Experiment 2l's 16 — with a new rank instrument: a rising
+task's pre-clear alignment growth since the first trained checkpoint,
+ranked among the growth of every never-performing task of the same run
+at the same checkpoint, so the flat pool's trend cancels within a
+checkpoint and the null's mean is exactly one half with no data; U =
+mean q over 26 cells on 18 rungs in 9 families, an exact family-block
+sign flip of 512 permutations; the references reused from Experiment
+4's committed set tables with no new reference-side contact; the power
+record written once before the tag and bound by it — DECLARED
+UNDERPOWERED IN ADVANCE against the discovery set's own shape, P(p₊ <
+.01) .066, min-detectable uniform lead .743; a preregistered reading
+on a known outcome, not a forecast. Verdict NOT-REPLICATED · NEITHER:
+U .4500, p₊ .7324, CI95 [.330, .609]; the two sealed runs split in
+sign — Pythia 6.9b U .729 (p₊ .031, 8 cells), OLMo-2 13B U .326 (p₊
+.955, 18 cells); the modifier's two strata both sit under one half
+(arithmetic-matched .420, p₊ .78; non-arithmetic .444, no family p
+printable from three families); the placebo null's mean is .518 with
+SD .067 and the rule's own α at the .05 bar is .076; gates 0, 1 and 7
+clean; the discovery-set gate reproduces U .6224 and p .039 on the
+four known runs; the projection's named disconfirmer, U ≤ .50, fired.
+What is licensed: on two training runs nobody had read, a sealed rank
+test did not detect the lead, at a resolution that would have missed
+an effect of the size seen on the first four runs three times in four
+— "still a citation" stands, and this is not evidence of absence).
+Same GRAFT route: the 2,927 private commits touching
+`experiments/exp4c`, `experiment-4c-design.md` and `.gitignore` were
+applied as a path-limited series fast-forward onto the previous public
+master (c49dece1) at index level, identities normalized to the single
+noreply identity, author and committer dates and commit and tag
+messages preserved byte for byte, redaction scans clean (0
+secret-class, 0 LAN literals, 0 personal-identity strings across the
+261 text blobs the series introduces — 136 text files at the close —
+and the 2,927 commit and 2 tag messages added; four files carry the
+Mac working-tree path `/Users/michaeljordan/emergence-paper` as a
+hard-coded literal — two design-session scripts' `sys.path` lines, the
+Mac-side puller and the status logger for the rented box — the same
+tolerated class as the files already on this line, disclosed here and
+not scrubbed; those two box scripts also name the Vast.ai ssh proxy
+host and port of the instance (`ssh5.vast.ai:36148`, destroyed at the
+close) and the path of the program's dedicated key file, no key
+material, and the ledger names the instance's id — none a credential
+or a LAN address); fifty-six commit messages carry a `Claude-Session`
+attribution trailer (an authentication-gated session link), preserved
+verbatim under the messages-preserved rule and disclosed here. The
+tree at both new anchors and at HEAD is entry-identical to the private
+tree on the added paths (47 entries at the preregistration tag, 2,923
+at the closing tag, 2,924 at the close), every other path is
+untouched, and all 78 prior tags and every prior commit are untouched.
+Two tags carried: `exp4c-preregistered` (private 0a6c5ea8 → public
+edb2774a, tag object 7a04f3bc, the seven instrument blobs bound) and
+`exp4c-closed` (cc751b44 → fc887f29, tag object cb028ddc); the
+retrospective grading the sealed projection follows the closing tag
+(private 2df38f8c → public 34def0a4). One disclosure this round
+carries: `exp4c-preregistered` is a RE-TAG — the preflight, run after
+the original tag, found the OLMo-2 13B forward non-finite in fp16 at
+step 1000 on both rehearsal rungs (Experiment 2l's committed record
+shows "!" on every item at steps 1000–8000: range, not memory); the
+one pre-committed change, spent, moved the 13B forward to bfloat16
+after the fp16 identity digest, measured from the model, with the
+pooled activations kept in fp32 and the Pythia path untouched; Michael
+ruled it, and the preregistration tag was re-cut at the amendment
+commit with the original message carried forward and the amendment
+appended, three of the seven bound blobs changed (`analyze_4c.py`,
+`battery_4c.py`, `collect_4c.py`); the original tag object stood at
+private 60a7492b (annotated object c0a8cba0), whose content commit
+maps to d0ab6e6c here, and the amendment, the ruling and the delta are
+ledgered in `experiments/exp4c/PROGRESS.md`, in the design document's
+status block and in the tag message itself. The projection was sealed
+at the original tag, before the preflight, and stood unchanged through
+the amendment. The 6.9b trajectory was read on the Mac; the 13B
+trajectory moved to a rented A100 80GB after two Mac attempts could
+not hold the frozen unit (the first thrashed, the second hit the MPS
+allocator's cap; both left the tree clean, nothing scored) — a host
+change ruled before any 13B byte existed, the instrument untouched,
+the runner's device parameter the only difference; the repository
+reached the box as a git bundle carrying no credential, the records
+returned by rsync and were committed by the watcher as they landed,
+and the instance was destroyed after every unit had been verified on
+the Mac — rulings 3 to 7 in the ledger. Gate 1 reproduced the endpoint
+byte-identically on both runs (the 6.9b against Experiment 4's
+committed ladder record on the Mac; the 13B through two loader paths
+on the CUDA host, equal to Experiment 2l's committed digest), which
+the record documents. The freeze of this experiment found its class
+defect in the sweep runner's own import surface (F-1: the analyzer
+pinned the modules it imports and the runner did not), closed
+additively before the tag. The retained-path list above now includes
+`experiments/exp4c` and `experiment-4c-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
