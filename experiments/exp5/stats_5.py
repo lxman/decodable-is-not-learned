@@ -229,7 +229,7 @@ def s4_size_ratio_5(cells: list, n_params: dict) -> dict:
     per_pair = {}
     for c in live:
         per_pair.setdefault(f"{c['small']}→{c['large']}", []).append(c["c"])
-    rho = spearmanr(x, y).statistic if len(set(x)) > 1 and len(live) > 2 else None
+    rho = spearmanr(x, y).statistic if len(set(x)) > 1 and len(set(y)) > 1 and len(live) > 2 else None
     return {"spearman": (float(rho) if rho is not None and not math.isnan(rho) else None),
             "n_cells": len(live),
             "per_pair": {k: {"mean_c": float(np.mean(v)), "n": len(v),
