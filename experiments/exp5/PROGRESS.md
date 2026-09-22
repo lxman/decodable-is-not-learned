@@ -267,3 +267,113 @@ the fixture gives every cell an identical read so `c`/`y` is literally
 constant; the code's own `not math.isnan(rho)` guard already turns this
 into `spearman: None`, expected and transcribed verbatim from the
 brief). Full `experiments/exp5/` suite: `42 passed`.
+
+## Task 4: `collect_5.py`, `run/finals_5.py`, `run/sweep_5.py`, `run/preflight_5.py`, `run/s9_mac_5.py`, box scripts
+
+Built the per-unit pipeline and the two stage runners: `battery_5.py`
+additions (`CHECKPOINTS_SHA256_5`, `IMPORTED_SHA256_5` + `check_imports_5`
+— 4c's `check_imports_4c` body adapted, the import surface as a verdict
+input; `git_sha_5`, `projection_commit_5`, `is_ancestor_5`), `collect_5.py`
+(the seven-size candidate-file loader, host attestation, `run_unit_5`
+with `_unit.json` written last and the checkpoint freed in `finally`, a
+one-slot `Prefetcher`, `rebuild_loss_table_5`), `run/finals_5.py` (stage
+1: host record, gate 1(a) through two loader paths, seven finals, gate
+1(b)), `run/sweep_5.py` (stage 2: spine, gate 1(c), `search_5.plan_5`'s
+request loop per partner, S11, window prefetch), `run/preflight_5.py`
+and `run/s9_mac_5.py` (prose-specified, model contact gated by
+injectable `loaders=`), and the five box shell scripts + `.gitignore`
+additions. TDD: `tests/fakes_5.py`, `tests/test_collect_5.py`,
+`tests/test_stages_5.py` written first; `collect_5.py`/`run/finals_5.py`
+transcribed byte-for-byte matched the brief's own tests with one
+disclosed fixture fix (below); `run/sweep_5.py` transcribed byte-for-byte
+except the window-prefetch extension (prose-specified, designed here).
+
+**Window prefetch** (`run/sweep_5.py`): `_window_band` is a read-only
+re-derivation of `search_5.plan_5`'s own bracket from the losses already
+on hand (mirrors its spine-interval + `bisect_step_5` loop exactly; it
+never issues a request — `plan_5` stays the sole authority on what gets
+fetched). `_next_known` — the one function `request()` consults —
+checks a small `_window_band_ctx` closure that holds the current pair's
+band while WINDOW needs are being serviced and is cleared to `None` on
+every SPINE/BISECT need, so a bisection step is never prefetched.
+`request()` itself and both its call sites are byte-identical to the
+brief.
+
+**Disclosed deviations from the brief's given code** (test files only;
+no production/frozen code touched beyond the brief's own Modify list):
+
+1. **`tests/fakes_5.py`'s `digest_fn`.** The brief's default,
+   `lambda size, step: f"d-{size}-{step}"`, produces a 9-character
+   string; `battery_5.checkpoint_record_failures_5` (Task 1-3, frozen,
+   never exercised by any Task 1-3 test) requires `len(digest) == 64`
+   (a real sha256 hex). `test_run_unit_writes_36_files_then_unit_json
+   _last_and_frees` calls both the literal digest assertion AND
+   `checkpoint_record_failures_5` on the same record — the two brief-
+   given pieces genuinely disagree. Verified empirically (ran the
+   assertion in isolation, saw the single "tensor digest missing"
+   failure) before editing. Fixed the fake to
+   `hashlib.sha256(f"d-{size}-{step}".encode()).hexdigest()` and the
+   one literal assertion that checked the old format; no other test
+   referenced the digest's literal shape.
+2. **`test_stages_5.py`'s `env` fixture.** `require_prereg_5`'s
+   `blobs=INSTRUMENT_BLOBS_5` keyword default is bound at module-
+   definition time, so monkeypatching the `INSTRUMENT_BLOBS_5` module
+   attribute (my first attempt) does not reach `finals_5.run`/
+   `sweep_5.run`'s un-parameterized calls; `analyze_5.py`/`power_5.py`
+   (Task 5/6 deliverables) are not on disk yet, so every test calling
+   `fin.run`/`sw.run` failed with "not on disk" before reaching any
+   real logic. Fixed by wrapping `b5.require_prereg_5` itself in the
+   fixture to bind a narrower `blobs` default (the files present by
+   Task 4's end) — the same reason the fixture already no-ops
+   `check_imports_5` next to it (Task 6 not built).
+3. **`test_sweep_reuses_units_across_partners_and_records_it`.**
+   Verified empirically (a standalone run with debug prints of
+   `log["requests"]`/`log["pairs"]`) that for `size="6.9b"` under this
+   fixture's `_loss`/`_count`/`SIZES`/`AVAIL`/`SPINE`, no request ever
+   returns `action="reused"` inside `log["pairs"]`: `plan_5` is always
+   handed the FULL, freshly-rescanned loss table before it is asked
+   anything (once before the spine loop, once per partner), so it never
+   emits a "need" for a step already on disk — the sharing (spine
+   points common to all partners, the final pre-loaded by `finals_5`)
+   happens silently inside `plan_5`'s own bookkeeping, never by
+   `request()` landing on an already-complete unit. This holds
+   structurally, not just for this data: `request()` is only ever
+   called when `plan_5` returns `"need"`, and `plan_5` never returns
+   `"need"` for a step in the `losses` dict it was handed. An explicit
+   `"reused"` action is therefore unreachable in `log["pairs"]` under
+   `sweep_5.py`'s given `request()`/`plan_5` wiring, for any loss data —
+   changing this would need a production-code change to `sweep_5.py`'s
+   given spine loop/`request()` (e.g. always calling `request()` and
+   letting `run_unit_5`'s own completeness check discover reuse), which
+   I did not make without a ruling. `collect_5.run_unit_5`'s reuse path
+   itself IS exercised directly, by `test_run_unit_skips_a_complete_unit`
+   in `test_collect_5.py`. Adjusted this one assertion to what the
+   search actually guarantees (both partners searched, no unit loaded
+   twice — the property "reused" was meant to protect); flagged in the
+   Task 4 report for the controller's read.
+
+Two bugs in my own added tests (not brief-given), also fixed: the
+preflight smoke test's `cache_root=root` let its own scratch files
+count against its "nothing under root changed" snapshot (fixed with a
+separate `cache_root`), and a redundant assertion that `results/
+host_5.json` was absent ignored that `fin.run()` (called earlier in the
+same test) already wrote it (removed; the snapshot equality already
+covers it).
+
+`experiments/exp5/tests/test_stages_5.py` also carries the four tests I
+designed per the task's resolution notes: window prefetch (spine steps
+after the first, window steps after the first per pair, no bisected
+step — matched to the box's flat/nested trace, not the naive full-band
+reading, since spine/bisect-fetched band members are never themselves
+prefetch TARGETS), a preflight smoke test on the fakes (asserts nothing
+under `root/` changes at all), an S9 smoke test (write-once Mac host
+record, one unit landed flat under `results/s9/<size>/step<k>/`, a
+tolerance comparison against itself), and `bash -n`/executable-bit
+checks for the five box scripts (folded into this file rather than a
+separate `test_scripts_5.py`, to stay inside the brief's Files list).
+
+Command: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m
+pytest experiments/exp5/tests/test_collect_5.py
+experiments/exp5/tests/test_stages_5.py -p no:cacheprovider -q` → `21
+passed`. Full `experiments/exp5/` suite: `73 passed` (`-W
+error::DeprecationWarning`, no warnings).
