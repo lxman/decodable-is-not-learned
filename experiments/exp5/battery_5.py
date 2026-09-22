@@ -110,8 +110,10 @@ SLICE_FILE_5 = "val.jsonl.zst"
 SLICE_FILE_SHA256_5 = "db5e5d1532bf8dc33a6589b50ecba1a8c96f7b4b9cb343d168e603c393007c26"
 SLICE_FILE_SIZE_5 = 338_045_152
 TOKENIZER_SIZE_5 = "2.8b"
-TOKENIZER_JSON_SHA256_5 = None     # Task 2 pins the measured value (identical at all seven sizes)
-SLICE_SHA256_5 = None              # Task 2 pins slice_5.npz's sha256
+TOKENIZER_JSON_SHA256_5 = "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624"
+SLICE_SHA256_5 = "dc48ebd4913309514a30c1acb6e3bbb399ef1b289c51c88758f4db994222c50b"
+SLICE_META_PIN_5 = {"n_docs": 2965, "n_read": 3063, "n_skipped": 98, "n_scored": 2097152,
+                    "last_doc_truncated": {"doc_index": 2964, "from": 960, "to": 482}}
 
 # gate 1 tolerances (design §3.7 1(b)/(c)), pinned from the one measurement
 GATE1_TOL_PER_RUNG_5 = 15

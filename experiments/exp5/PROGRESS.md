@@ -137,3 +137,81 @@ Disclosure (plan session, 2026-09-22): a second Hub metadata read —
 (revision 3be90335…, val.jsonl.zst LFS sha db5e5d15…) and `model_info`
 for the seven sizes (the main commits pinned as MAIN_SHA_5). No weights,
 no files.
+
+## Task 2 (2026-09-22): `slice_5.py` — the loss slice + the batched slice loss
+
+Built: the zstd-streamed document reader (`iter_documents_5`), the
+tokenizer pin check (`tokenizer_pins_5` — no specials added on a plain
+render, eos id == PAD_ID_5) and the cross-size `tokenizer.json` sha
+reader (`tokenizer_json_shas_5`), the exact-fill slice builder
+(`build_slice_5` — accumulate documents in file order, skip < 64
+tokens, truncate at 2048, truncate the crossing document to land
+EXACTLY at `n_scored`, refuse if the file runs out first), the
+byte-deterministic npz writer/loader with sha pinning
+(`write_slice_5`/`load_slice_5`/`slice_equal_5`), the right-padded
+batcher (`slice_batches_5`), the pure loss aggregation
+(`loss_from_per_doc_5`, unit-tested without torch) and the MODEL-CONTACT
+batched fp16-logits→fp32-log-softmax slice loss (`slice_loss_5`).
+Tests: `experiments/exp5/tests/test_slice_5.py` (8 cases incl. one
+`slow` case against the real committed `slice_5.npz`). TDD: RED
+(`ModuleNotFoundError`-equivalent `ImportError: cannot import name
+'slice_5'`) before `slice_5.py` existed; 7 fast tests GREEN immediately
+after; 8/8 GREEN after the build + pins. No deviation from the brief's
+Step 3 code — written verbatim (the brief's own unused `import hashlib`
+kept as given; noted in self-review, harmless, no lint gate in this
+repo).
+
+**zstandard**: `~/emergence-lab/.venv/bin/python -m pip install
+zstandard` → `Successfully installed zstandard-0.25.0`.
+
+**Step 5 build — NETWORK, three parts, disclosed (resolution 2), run
+2026-09-22 14:23:56–14:24:19 ET (~23 s, fast connection):**
+
+1. The Pile-validation file: `hf_hub_download('monology/pile-uncopyrighted',
+   'val.jsonl.zst', repo_type='dataset', revision=3be90335…)` into
+   `~/emergence-lab/pile_val_5/datasets--monology--pile-uncopyrighted/`.
+   Landed blob `338,045,152` bytes, sha256
+   `db5e5d1532bf8dc33a6589b50ecba1a8c96f7b4b9cb343d168e603c393007c26` —
+   both exactly the pins (`SLICE_FILE_SIZE_5`/`SLICE_FILE_SHA256_5`).
+2. The 2.8b tokenizer via `models.load_tokenizer("2.8b")`: re-downloaded
+   into the default HF cache (`~/.cache/huggingface/hub/models--EleutherAI--pythia-2.8b/`,
+   entry absent since the 2026-09-18 cache clear) —
+   `tokenizer_config.json` (99 B), `special_tokens_map.json` (396 B),
+   `config.json` (571 B), `tokenizer.json` (2,113,710 B); confirmed no
+   `.safetensors`/`.bin` blob present anywhere under that cache entry
+   (only the four small config/tokenizer files) — no weight file was
+   downloaded.
+3. Seven `tokenizer.json` files (one per size, at each size's pinned
+   `MAIN_SHA_5` commit) into `~/emergence-lab/pile_val_5/tokenizers/`:
+   each `2,113,710` bytes, **all seven sha256 to the same value**
+   `c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624`
+   — no BLOCKED condition (the design's one-tokenizer assumption holds).
+
+**The three printed build lines, verbatim:**
+
+```
+tokenizer.json sha256 (all seven sizes): c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624
+slice meta: {"last_doc_truncated": {"doc_index": 2964, "from": 960, "to": 482}, "max_tokens": 2048, "min_tokens": 64, "n_docs": 2965, "n_read": 3063, "n_scored": 2097152, "n_skipped": 98, "source": {"dataset": "monology/pile-uncopyrighted", "file": "val.jsonl.zst", "revision": "3be90335b66f24456a5d6659d9c8d208c0357119", "sha256": "db5e5d1532bf8dc33a6589b50ecba1a8c96f7b4b9cb343d168e603c393007c26"}, "tokenizer": {"adds_specials": false, "eos_id": 0, "pad_id": 0, "revision": "2a259cdd96a4beb1cdf467512e3904197345f6a9", "size": "2.8b"}}
+slice_5.npz sha256: dc48ebd4913309514a30c1acb6e3bbb399ef1b289c51c88758f4db994222c50b (3.1 MB)
+```
+
+Pinned in `battery_5.py`: `TOKENIZER_JSON_SHA256_5 =
+"c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624"`,
+`SLICE_SHA256_5 =
+"dc48ebd4913309514a30c1acb6e3bbb399ef1b289c51c88758f4db994222c50b"`,
+`SLICE_META_PIN_5 = {"n_docs": 2965, "n_read": 3063, "n_skipped": 98,
+"n_scored": 2097152, "last_doc_truncated": {"doc_index": 2964, "from":
+960, "to": 482}}`.
+
+**Byte-identity re-run**: re-ran `slice_file_path_5` →
+`load_slice_tokenizer_5` → `tokenizer_pins_5` → `build_slice_5` →
+`write_slice_5` a second time into a scratch path
+(`.../scratchpad/slice_again.npz`); `cmp` against the committed
+`experiments/exp5/slice_5.npz` reported no differences — byte-identical
+(both 3,107,254 bytes). `slice_5.npz` is committed at 3.1 MB.
+
+Full test file: `PYTHONDONTWRITEBYTECODE=1
+~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp5/tests/test_slice_5.py -p no:cacheprovider -q` → `8
+passed`. Full exp5 suite (battery_5 + slice_5 together): `23 passed`, no
+warnings under `-W error::DeprecationWarning`.
