@@ -1,6 +1,6 @@
 # Experiment 5 — loss-matched capability profiles on Pythia's public checkpoints: Prediction 3 at lab scale
 
-**Status: DESIGN (session 1 of three), written 2026-09-22 on Michael's word ("Design Exp 5"). §10's dials await his ruling. No model has been contacted; the Hub was read once for metadata (§2). The design session ran four analysis-only computations on committed bytes, all listed in §2; two of them changed what the primary statistic is, and §2 says how.**
+**Status: DESIGN (session 1 of three), written 2026-09-22 on Michael's word ("Design Exp 5"). §10's dials a–m RULED 2026-09-22 ("I accept your recommendations"): every dial as recommended — A100 host, 160m–12b, 2^21-token slice, six-checkpoint window, bar .01 with the rung-block flip, live rule over the seven reads, the sign-test modifier, the nine-point spine, 12b first, S11 read, both power shapes, three tags, one pre-committed change. Next: build by SDD. No model has been contacted; the Hub was read once for metadata (§2). The design session ran four analysis-only computations on committed bytes, all listed in §2; two of them changed what the primary statistic is, and §2 says how.**
 
 ## 1. The question
 
@@ -168,7 +168,7 @@ with the null's mean T at −.005 to −.008 and its SD .001–.002 (the test is
 
 One family (Pythia), one battery (34 synthetic tasks, 11 of which any size ever clears at its final), sizes to 12b, loss matched on ≈ 2M held-out Pile tokens with per-checkpoint spacing of 1000 steps. A MATCHED reading is bounded by §4's resolution; it says nothing about capabilities this battery does not contain, about frontier sizes, or about the composition of the loss (S3 is descriptive). A NOT-MATCHED reading does not identify a mechanism: the design separates "at equal loss the profiles differ beyond the within-size wobble" from "they do not," and the modifier gives a direction; S3 and S6 give the named alternatives their first look and no more. The comparison is at the greedy channel only — no probe, no sampled rate; that ladder is a different experiment. Nothing here uses a model above 12b, and the small side is read only at its final.
 
-## 10. Dials — for Michael's ruling (recommendation first in each)
+## 10. Dials — RULED 2026-09-22 ("I accept your recommendations"): every dial as recommended (recommendation first in each)
 
 - **(a) Host:** rented A100 80 GB on-demand (≈ $50–60 with 12b), with gate 1's tolerance construction and S9. Alternative: the Mac, byte-identity gates, 4–9 days, 12b dropped.
 - **(b) Sizes:** 160m–12b, 21 pairs. Alternatives: drop 12b (15 pairs, ≈ $30, widest ratio 42×); add 70m (27 pairs, ≈ +$8, mostly vacuous cells).
