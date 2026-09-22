@@ -37,6 +37,17 @@ def test_every_terminal_is_reachable(tmp_path, monkeypatch, mode, world, modifie
         assert v["secondaries"]["S1"]["classes"]["CONCORDANT"] > 0
     if mode == "LARGE-AHEAD":
         assert v["secondaries"]["S1"]["classes"]["L-AHEAD"] > 0
+    # review finding 2: S8 carries 2g's/2h's FULL committed grids with interpolated flags;
+    # S10 carries re_crossings and the B-6 12b comparison
+    s8 = v["secondaries"]["S8"]
+    assert set(s8) == {"2.8b", "6.9b"}
+    for size, n_grid in (("2.8b", 21), ("6.9b", 22)):
+        assert s8[size]["n_grid"] == n_grid and s8[size]["points"]
+        assert any(p["interpolated"] for p in s8[size]["points"])
+        assert any(not p["interpolated"] for p in s8[size]["points"])
+    s10 = v["secondaries"]["S10"]
+    assert "re_crossings" in s10 and "b6_12b" in s10 and s10["b6_12b"] == []
+    assert set(s10["re_crossings"]) == set(b5.LARGE_SIDES_5)
 
 
 def test_refusal_routes_deliver_insufficient_data(tmp_path, monkeypatch):
@@ -64,6 +75,28 @@ def test_refusal_routes_deliver_insufficient_data(tmp_path, monkeypatch):
     v = _run(tmp_path, w)
     assert v["verdict"] == "INSUFFICIENT_DATA" and any("step999" in f for f in v["failures"])
     import shutil; shutil.rmtree(extra)
+    # an orphan unit dir under the SMALLEST world size (gate 4 review finding 1: the
+    # units_unnamed check must run for every size, not only LARGE_SIDES_5 — the smallest size
+    # is never swept as large, so it was never checked at all before this fix)
+    extra_small = b5.unit_dir_5(tmp_path, "1b", 998); extra_small.mkdir()
+    (extra_small / "_unit.json").write_text("{}")
+    v = _run(tmp_path, w)
+    assert v["verdict"] == "INSUFFICIENT_DATA" and any("step998" in f for f in v["failures"])
+    shutil.rmtree(extra_small)
+    # a stray pairs key injected into a search log, naming an existing (complete) unit — gate 4
+    # review finding 1: "expected" must never be built from the log's own requested_all, and any
+    # pairs key that is not a legitimate (smaller) partner of the size must be refused outright
+    lp3 = b5.search_log_path_5(tmp_path, "6.9b"); log3 = json.loads(lp3.read_text())
+    raw3 = lp3.read_bytes()
+    log3["pairs"]["bogus"] = {"target": 2.0, "status": "done", "requests": [],
+                              "plan": {"status": "done", "bracket": [1000, 2000], "b_minus": [],
+                                       "b_plus": [], "bisected": []},
+                              "requested_all": [{"step": 1000, "why": "spine", "action": "reused"}]}
+    lp3.write_text(json.dumps(log3))
+    v = _run(tmp_path, w)
+    assert v["verdict"] == "INSUFFICIENT_DATA" and \
+        any("gate 4" in f and "bogus" in f for f in v["failures"])
+    lp3.write_bytes(raw3)
     # the projection not an ancestor (gate 5)
     v = _run(tmp_path, w, is_ancestor=lambda a, b: False)
     assert v["verdict"] == "INSUFFICIENT_DATA" and any("projection" in f for f in v["failures"])

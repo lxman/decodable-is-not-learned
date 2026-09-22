@@ -14,11 +14,12 @@ committed interior referents, exp3c's total verify wrapper by way of
 2d's `load_verify`, 2i's `collect_total`/`require_seal_2i`. Every
 loader refusal is COLLECTED and delivered as INSUFFICIENT_DATA with
 the reason verbatim (lesson 8): `collect_total_5` widens 2i's already-
-widened exception surface (`zipfile.BadZipFile`, `KeyError`, `OSError`,
-`ImportError`, `EOFError`) all the way to `Exception` — a bug inside a
-gate or a secondary must degrade to a refusal, never crash `run()` —
-while a wrong-shaped call site (a label not prefixed `"5 "`) is a
-programming error and is RAISED, never laundered.
+widened exception surface by exactly `zipfile.BadZipFile`, `KeyError`,
+`OSError`, `ImportError`, `EOFError` — a DATA problem is a refusal,
+never a traceback; any OTHER exception is a logic defect and CRASHES
+`run()` (the totality contract protects data, not bugs), while a
+wrong-shaped call site (a label not prefixed `"5 "`) is a programming
+error and is RAISED, never laundered.
 
 Tree (design §3.8): INSUFFICIENT_DATA (any gate) -> UNDETERMINED (fewer
 than 20 live cells with a defined P, or fewer than 5 rungs carrying
@@ -48,6 +49,7 @@ from scipy.stats import spearmanr  # noqa: E402
 from experiments.exp2d import analyze_2d as a2d  # noqa: E402
 from experiments.exp2d import battery_2d as bt  # noqa: E402
 from experiments.exp2g import battery_2g as bg  # noqa: E402
+from experiments.exp2h import battery_2h as bh  # noqa: E402
 from experiments.exp2i import analyze_2i as an2i  # noqa: E402
 from experiments.exp5 import battery_5 as b5  # noqa: E402
 from experiments.exp5 import power_5 as pw  # noqa: E402
@@ -258,6 +260,40 @@ def _steps_on_disk_5(root, size) -> set:
             if p.is_dir() and p.name.startswith("step") and p.name[4:].isdigit()}
 
 
+def expected_steps_5(units_by_size: dict, manifest: dict, size: str) -> set:
+    """Gate 4's "nothing else loaded" set for `size`, RE-DERIVED — never
+    read from any search log's own attested field, so a stray or
+    tampered `pairs` entry cannot manufacture legitimacy for an orphan
+    unit. `{final}` always; `{S11_STEP_5}` when `size` is a small side
+    (whether or not an S11 unit was actually ever written for it — the
+    smallest size never gets swept as a large size, so it is always a
+    strict subset regardless); for a LARGE size, additionally its own
+    spine plus, for every LEGITIMATE (strictly smaller) partner with a
+    known final loss, `search_5.replay_5`'s own `requested_steps_5`
+    over `size`'s committed losses (the spine is already implied by
+    every partner's replay, since `plan_5` always asks for the whole
+    spine before any bisection — included explicitly here too, for a
+    large size with no computable partner)."""
+    expected = {b5.FINAL_STEP_5}
+    if size in b5.SMALL_SIDES_5:
+        expected.add(b5.S11_STEP_5)
+    if size in b5.LARGE_SIDES_5:
+        spine = b5.spine_5(manifest, size)
+        expected |= set(spine)
+        available = list(b5.available_5(manifest, size))
+        large_losses = (units_by_size.get(size) or {}).get("losses") or {}
+        for small in [s for s in b5.SIZES_5 if b5.SIZES_5.index(s) < b5.SIZES_5.index(size)]:
+            small_units = units_by_size.get(small)
+            if small_units is None:
+                continue
+            target = (small_units.get("losses") or {}).get(b5.FINAL_STEP_5)
+            if target is None:
+                continue
+            rep = se5.replay_5(large_losses, available, spine, target)
+            expected |= set(se5.requested_steps_5(rep))
+    return expected
+
+
 def _rebuilt_loss_table_5(units_by_size: dict) -> dict:
     table = {}
     for size, u in units_by_size.items():
@@ -282,8 +318,12 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
     status and target agreement only (nothing else was loaded for it).
     Returns `(pairs_data, failures)`; `pairs_data` holds only the KEPT
     (done) pairs, each `{"small","large","plan","f","counts"}` ready
-    for `stats_5.cells_5`. Total over a malformed log entry (each
-    problem is appended to `failures`, never raised)."""
+    for `stats_5.cells_5`. Any `search_log["pairs"]` key that is not a
+    legitimate (smaller) partner of `size` is refused outright — a
+    stray pair entry naming an already-complete unit could otherwise
+    hide an orphan from gate 4's `units_unnamed` check if that check
+    trusted the log's own key set. Total over a malformed log entry
+    (each problem is appended to `failures`, never raised)."""
     failures = []
     size = search_log.get("size")
     large_units = units_by_size.get(size)
@@ -298,6 +338,10 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
     pairs_data = []
     small_sides = [s for s in b5.SIZES_5 if b5.SIZES_5.index(s) < b5.SIZES_5.index(size)]
     log_pairs = search_log.get("pairs") or {}
+    stray = sorted(set(log_pairs) - set(small_sides))
+    if stray:
+        failures += [f"gate 4 {size}: the search log names {s!r} as a pair, which is not a "
+                    f"legitimate partner of {size}" for s in stray]
     for small in small_sides:
         plog = log_pairs.get(small)
         if plog is None:
@@ -377,16 +421,42 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
 
 # -------------------------------------------------------------- power/projection
 
-def power_failures_5(root, rec: dict, finals_counts: dict, floors: dict) -> list:
+def power_failures_5(root, rec: dict, finals_counts: dict, floors: dict, *,
+                     power_gate="full") -> list:
+    """The WHOLE of gate 5 (design §3.7.5) — every check `run()`'s "5
+    power record" site needs, so the named gate function IS the gate:
+    the record's provenance pins (prereg tag; `n_sim`/`seed` equal to
+    `power_5.N_SIM_5`/`SEED_5` — a record written at a DIFFERENT
+    n_sim/seed reproduces itself under `pw.compute`, so provenance
+    must be MEASURED against the module's own committed constants,
+    never merely self-consistent), `finals_sha256` against the
+    committed finals, the declaration literal, and — unless
+    `power_gate == "skip"` (test-only) — `power_5.compute` re-run at
+    `finals_counts`/`floors` (this function's own arguments) with the
+    record's `n_sim`/`seed` and compared byte-for-byte
+    (`json.dumps(..., sort_keys=True)`) against the committed record."""
     bad = []
     if rec.get("prereg_tag") != b5.PREREG_TAG_5:
         bad.append(f"power record: prereg_tag {rec.get('prereg_tag')!r} != {b5.PREREG_TAG_5!r}")
+    if rec.get("n_sim") != pw.N_SIM_5:
+        bad.append(f"power record: n_sim {rec.get('n_sim')!r} != power_5.N_SIM_5 "
+                   f"{pw.N_SIM_5!r} — provenance is measured, not attested")
+    if rec.get("seed") != pw.SEED_5:
+        bad.append(f"power record: seed {rec.get('seed')!r} != power_5.SEED_5 {pw.SEED_5!r} — "
+                   f"provenance is measured, not attested")
     want_sha = pw.finals_sha256_5(root)
     if rec.get("finals_sha256") != want_sha:
         bad.append(f"power record: finals_sha256 {rec.get('finals_sha256')!r} != {want_sha!r}")
     if rec.get("declaration") not in ("POWERED", "DECLARED UNDERPOWERED IN ADVANCE"):
         bad.append(f"power record: declaration {rec.get('declaration')!r} is not one of the two "
                    f"literals")
+    if power_gate != "skip" and finals_counts is not None and floors is not None and \
+            "n_sim" in rec and "seed" in rec:
+        recomputed = pw.compute(finals_counts, floors, n_sim=rec["n_sim"], seed=rec["seed"])
+        recomputed["finals_sha256"] = want_sha
+        if json.dumps(recomputed, sort_keys=True) != json.dumps(rec, sort_keys=True):
+            bad.append("power record: the recomputed record differs byte-for-byte from the "
+                      "committed one")
     return bad
 
 
@@ -519,46 +589,159 @@ def _interp_loss_5(step, steps, losses):
     return l0 + (l1 - l0) * (x - x0) / (x1 - x0)
 
 
+def _s8_grid_points_5(size, grid_steps, steps_avail, losses_avail):
+    avail_set = set(steps_avail)
+    pts = []
+    for step in grid_steps:
+        counts = {}
+        for r in b5.RUNGS:
+            p = b5.interior_record_path_5(size, step, r)
+            if not p.is_file():
+                counts = None
+                break
+            rec = json.loads(p.read_text())
+            counts[r] = int(rec.get("correct", 0))
+        if counts is None:
+            continue
+        pts.append({"step": step, "loss": _interp_loss_5(step, steps_avail, losses_avail),
+                   "counts": counts, "interpolated": step not in avail_set})
+    return pts
+
+
 def _s8_known_trajectories_5(units_by_size: dict) -> dict:
-    """2g's/2h's committed interior referents (the same subset gate
-    1(c) reads — battery_5.gate1_interior_steps_5), placed on this
-    experiment's own loss axis by log-step interpolation."""
+    """2g's FULL committed 2.8b grid (`battery_2g.trained_steps("2.8b")`,
+    21 points — `GRID["2.8b"]` already excludes 0 and the stale-copy
+    step64000, so nothing further is excluded here) and 2h's full 6.9b
+    grid (`battery_2h.trained_steps_69()`, 22 points), each record read
+    directly via `battery_5.interior_record_path_5` (the same accessor
+    gate 1(c) uses, unrestricted to its interior-steps subset), placed
+    on THIS experiment's own loss axis: measured at every step that
+    coincides with a unit this run actually loaded, log-step
+    interpolated between them elsewhere (flat extrapolation past the
+    ends — `interp_loss_5`), each point's `"interpolated"` flag saying
+    which. Design choice, disclosed: read directly from 2g's/2h's own
+    committed sweep trees rather than through `battery_4.load_outcome_4`
+    (exp4's frozen accessor) — pulling from `experiments/exp4` would add
+    an import outside 2g/2h/exp5's existing surface for no benefit,
+    since `interior_record_path_5` already exists and is exp5's own
+    established, sha-independent path to the same committed bytes."""
     out = {}
-    for size in ("2.8b", "6.9b"):
+    grids = {"2.8b": bg.trained_steps("2.8b"), "6.9b": bh.trained_steps_69()}
+    for size, grid_steps in grids.items():
         u = units_by_size.get(size)
         if u is None:
             continue
         steps_avail = sorted(u["steps"])
         losses_avail = [u["losses"][s] for s in steps_avail]
-        pts = []
-        for step in b5.gate1_interior_steps_5(size):
-            counts = b5.mac_interior_counts_5(size, step)
-            if counts is None:
-                continue
-            pts.append({"step": step, "loss": _interp_loss_5(step, steps_avail, losses_avail),
-                       "counts": counts})
-        out[size] = pts
+        pts = _s8_grid_points_5(size, grid_steps, steps_avail, losses_avail)
+        out[size] = {"points": pts, "n_grid": len(grid_steps), "n_read": len(pts),
+                    "disclosure": (f"{size}: {len(pts)} of {len(grid_steps)} committed grid "
+                                   f"points read; loss is MEASURED at points coinciding with a "
+                                   f"unit this experiment loaded ('interpolated': false) and "
+                                   f"LOG-STEP INTERPOLATED between this experiment's own loaded "
+                                   f"points elsewhere ('interpolated': true), flat past the ends")}
     return out
 
 
 def _s9_cross_host_5(root) -> dict:
+    """The Mac re-run's counts and loss for each `results/s9/<size>/
+    step<k>/` unit against the box's own committed unit for the SAME
+    (size, step) under `results/units/...` — `battery_5.tolerance_
+    failures_5` (gate 1's own tolerance) plus the loss difference,
+    per unit; `"not run"` when `results/s9/` doesn't exist. Non-gating:
+    nothing here reaches `run()`'s own `failures`."""
     s9_root = Path(root) / "results" / "s9"
     if not s9_root.exists():
         return {"status": "not run"}
-    counts = {}
+    units = []
     for size_dir in sorted(p for p in s9_root.iterdir() if p.is_dir()):
-        for step_dir in sorted(p for p in size_dir.iterdir() if p.is_dir() and p.name.startswith("step")):
+        size = size_dir.name
+        step_dirs = sorted((p for p in size_dir.iterdir() if p.is_dir() and p.name.startswith("step")),
+                           key=lambda p: int(p.name[4:]))
+        for step_dir in step_dirs:
             step = int(step_dir.name[4:])
-            rung_counts = {}
+            mac_counts = {}
             for r in b5.RUNGS:
                 p = step_dir / f"{r}.json"
                 if p.is_file():
-                    rung_counts[r] = json.loads(p.read_text()).get("correct")
-            counts.setdefault(size_dir.name, {})[step] = rung_counts
-    return {"status": "present", "counts": counts}
+                    mac_counts[r] = int(json.loads(p.read_text()).get("correct"))
+            mac_loss_p = step_dir / "_loss.json"
+            mac_loss = json.loads(mac_loss_p.read_text()).get("loss") if mac_loss_p.is_file() else None
+            box_counts = {}
+            for r in b5.RUNGS:
+                p = b5.rung_record_path_5(root, size, step, r)
+                if p.is_file():
+                    box_counts[r] = int(json.loads(p.read_text()).get("correct"))
+            box_loss_p = b5.loss_record_path_5(root, size, step)
+            box_loss = json.loads(box_loss_p.read_text()).get("loss") if box_loss_p.is_file() else None
+            tol = (b5.tolerance_failures_5(mac_counts, box_counts, label=f"S9 {size}/step{step}")
+                  if mac_counts and box_counts else None)
+            loss_diff = (abs(mac_loss - box_loss) if mac_loss is not None and box_loss is not None
+                        else None)
+            units.append({"size": size, "step": step, "mac_counts": mac_counts,
+                         "box_counts": box_counts, "mac_loss": mac_loss, "box_loss": box_loss,
+                         "loss_diff": loss_diff, "tolerance_failures": tol})
+    return {"status": "present", "units": units}
 
 
-def _s10_texture_5(units_by_size: dict, pairs_data: list, root) -> dict:
+def _re_crossings_5(units_by_size: dict, manifest, size: str) -> dict:
+    """Every spine interval `(t_i, t_{i+1})` with `loss(t_i) >= target >
+    loss(t_{i+1})`, per legitimate (smaller) partner of `size` — the
+    FIRST such interval is the one `plan_5` actually bisects; any
+    interval beyond it is a RE-crossing (loss is not assumed
+    monotone; §3.2's "a later re-crossing is texture, printed, never
+    used"). Total: a missing spine/loss value is skipped, never
+    raised."""
+    u = units_by_size.get(size)
+    if u is None or manifest is None:
+        return {}
+    spine = list(b5.spine_5(manifest, size))
+    losses = u.get("losses") or {}
+    spine_losses = [losses.get(s) for s in spine]
+    out = {}
+    for small in [s for s in b5.SIZES_5 if b5.SIZES_5.index(s) < b5.SIZES_5.index(size)]:
+        small_units = units_by_size.get(small)
+        if small_units is None:
+            continue
+        target = (small_units.get("losses") or {}).get(b5.FINAL_STEP_5)
+        if target is None:
+            continue
+        intervals = []
+        for i in range(len(spine) - 1):
+            a, b_ = spine_losses[i], spine_losses[i + 1]
+            if a is None or b_ is None:
+                continue
+            if a >= target > b_:
+                intervals.append([spine[i], spine[i + 1]])
+        out[small] = {"n_crossings": len(intervals), "intervals": intervals,
+                     "re_crossings": intervals[1:]}
+    return out
+
+
+def _b6_12b_5(units_by_size: dict) -> list:
+    """B-6: for every `GATE1_DESCRIPTIVE_12B_5` step present as a 12b
+    unit, `tolerance_failures_5` against `mac_interior_counts_5` (2g's
+    replication grid), printed with max/sum |Δ| — non-gating, into S10
+    only, never `run()`'s own `failures`."""
+    u = units_by_size.get("12b")
+    if u is None:
+        return []
+    rows = []
+    for step in b5.GATE1_DESCRIPTIVE_12B_5:
+        if step not in u["steps"]:
+            continue
+        ref = b5.mac_interior_counts_5("12b", step)
+        if ref is None:
+            continue
+        counts = u["counts"].get(step) or {}
+        bad = b5.tolerance_failures_5(counts, ref, label=f"S10 B-6 12b/step{step}")
+        diffs = [abs(int(counts.get(r, 0)) - int(ref.get(r, 0))) for r in b5.RUNGS]
+        rows.append({"step": step, "failures": bad, "sum_abs_diff": sum(diffs),
+                    "max_abs_diff": max(diffs) if diffs else 0})
+    return rows
+
+
+def _s10_texture_5(units_by_size: dict, pairs_data: list, root, manifest=None) -> dict:
     mono = {}
     for size, u in units_by_size.items():
         steps = sorted(u["steps"])
@@ -574,8 +757,11 @@ def _s10_texture_5(units_by_size: dict, pairs_data: list, root) -> dict:
     if "12b" in units_by_size:
         steps12 = set(units_by_size["12b"]["steps"])
         twelve_b = {"coincide": sorted(steps12 & set(b5.GATE1_DESCRIPTIVE_12B_5))}
+    re_crossings = {size: _re_crossings_5(units_by_size, manifest, size)
+                    for size in units_by_size if size in b5.LARGE_SIDES_5}
     return {"loss_monotonicity": mono, "bracket_widths": widths, "preflight": preflight,
-            "12b_descriptive_coincidence": twelve_b}
+            "12b_descriptive_coincidence": twelve_b, "re_crossings": re_crossings,
+            "b6_12b": _b6_12b_5(units_by_size)}
 
 
 def _s11_stability_5(units_by_size: dict, cells: list) -> dict:
@@ -597,7 +783,7 @@ def _s11_stability_5(units_by_size: dict, cells: list) -> dict:
     return {"per_small_side": out, "P_distribution": p_dist}
 
 
-def secondaries_5(cells, units_by_size, pairs_data, root) -> tuple:
+def secondaries_5(cells, units_by_size, pairs_data, root, manifest=None) -> tuple:
     """S1-S11, each its own `collect_total_5` site: a refusal inside one
     secondary degrades that secondary alone (`secondaries[key] = None`)
     and is recorded in the returned `secondary_failures` dict, never in
@@ -622,7 +808,7 @@ def secondaries_5(cells, units_by_size, pairs_data, root) -> tuple:
     _do("S7", lambda: ss.s7_by_pair_5(cells))
     _do("S8", lambda: _s8_known_trajectories_5(units_by_size))
     _do("S9", lambda: _s9_cross_host_5(root))
-    _do("S10", lambda: _s10_texture_5(units_by_size, pairs_data, root))
+    _do("S10", lambda: _s10_texture_5(units_by_size, pairs_data, root, manifest))
     _do("S11", lambda: _s11_stability_5(units_by_size, cells))
     return secondaries, secondary_failures
 
@@ -888,7 +1074,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     _, f = collect_total_5(_check_loss_table, "5 loss table")
     failures += f
 
-    # 10. power record
+    # 10. power record — power_failures_5 is the WHOLE of gate 5 (review finding 4)
     def _check_power():
         if floors is None:
             raise ValueError("floors missing")
@@ -897,13 +1083,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
         if not p.is_file():
             raise ValueError("power_5.json missing")
         rec = json.loads(p.read_text())
-        bad = power_failures_5(root, rec, finals_counts, floors)
-        if power_gate != "skip":
-            recomputed = pw.compute(finals_counts, floors, n_sim=rec["n_sim"], seed=rec["seed"])
-            recomputed["finals_sha256"] = pw.finals_sha256_5(root)
-            if json.dumps(recomputed, sort_keys=True) != json.dumps(rec, sort_keys=True):
-                bad.append("power record: the recomputed record differs byte-for-byte from the "
-                          "committed one")
+        bad = power_failures_5(root, rec, finals_counts, floors, power_gate=power_gate)
         if bad:
             raise ValueError(f"power record: {bad}")
         return rec, finals_counts
@@ -927,81 +1107,86 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     _, f = collect_total_5(_check_projection, "5 projection")
     failures += f
 
-    # 12/13. per large size: spine, gate 1(c), search log, gate 4
+    # 12/13. spine/gate 1(c)/search log for every LARGE size; gate 4's
+    # "nothing else loaded" check for EVERY size (the smallest size is
+    # never swept as large, so it never gets a search log, but a unit
+    # can still be orphaned under it — Task 5 review finding 1).
     gate4_total = {"pairs_kept": 0, "pairs_dropped": 0, "units_unnamed": [], "dropped_detail": []}
     gate1c_recs = {}
     all_pairs_data = []
     for size in b5.SIZES_5:
-        if size not in b5.LARGE_SIDES_5:
-            continue
+        is_large = size in b5.LARGE_SIDES_5
+        log = None
 
-        def _check_spine(size=size):
+        if is_large:
+            def _check_spine(size=size):
+                if units is None or manifest is None:
+                    raise ValueError("units or manifest missing")
+                spine = b5.spine_5(manifest, size)
+                u = units.get(size)
+                if u is None:
+                    raise ValueError(f"{size}: no unit data")
+                missing = [s for s in spine if s not in u["steps"]]
+                if missing:
+                    raise ValueError(f"{size}: spine step(s) missing from the committed units: "
+                                     f"{missing}")
+                return spine
+            _, f = collect_total_5(_check_spine, f"5 spine {size}")
+            failures += f
+
+            if b5.gate1_interior_steps_5(size):
+                def _check_gate1c(size=size):
+                    p = b5.gate1c_path_5(root, size)
+                    if not p.is_file():
+                        raise ValueError(f"{size}: gate1c.json missing")
+                    rec = json.loads(p.read_text())
+                    bad = gate1c_failures_5(root, size, rec)
+                    if bad:
+                        raise ValueError(f"gate 1(c) {size}: {bad}")
+                    return rec
+                g1c_rec, f = collect_total_5(_check_gate1c, f"5 gate 1(c) {size}")
+                failures += f
+                if g1c_rec is not None:
+                    gate1c_recs[size] = g1c_rec
+
+            def _load_search_log(size=size):
+                p = b5.search_log_path_5(root, size)
+                if not p.is_file():
+                    raise ValueError(f"{size}: search_log.json missing")
+                log = json.loads(p.read_text())
+                if manifest is not None:
+                    expected_spine = list(b5.spine_5(manifest, size))
+                    if list(log.get("spine") or []) != expected_spine:
+                        raise ValueError(f"{size}: search log spine {log.get('spine')} != "
+                                         f"{expected_spine}")
+                if units is not None and size in units:
+                    usteps = set(units[size]["steps"])
+                    for r in log.get("requests", []):
+                        if r["step"] not in usteps:
+                            raise ValueError(f"{size}: logged request step{r['step']} is not a "
+                                             f"complete unit")
+                    for small, plog in (log.get("pairs") or {}).items():
+                        for r in plog.get("requests", []):
+                            if r["step"] not in usteps:
+                                raise ValueError(f"{size}/{small}: logged request "
+                                                 f"step{r['step']} is not a complete unit")
+                if not log.get("git_sha"):
+                    raise ValueError(f"{size}: search log has no git_sha")
+                return log
+            log, f = collect_total_5(_load_search_log, f"5 search log {size}")
+            failures += f
+
+        def _gate4(size=size, log=log, is_large=is_large):
             if units is None or manifest is None:
                 raise ValueError("units or manifest missing")
-            spine = b5.spine_5(manifest, size)
-            u = units.get(size)
-            if u is None:
-                raise ValueError(f"{size}: no unit data")
-            missing = [s for s in spine if s not in u["steps"]]
-            if missing:
-                raise ValueError(f"{size}: spine step(s) missing from the committed units: "
-                                 f"{missing}")
-            return spine
-        _, f = collect_total_5(_check_spine, f"5 spine {size}")
-        failures += f
-
-        if b5.gate1_interior_steps_5(size):
-            def _check_gate1c(size=size):
-                p = b5.gate1c_path_5(root, size)
-                if not p.is_file():
-                    raise ValueError(f"{size}: gate1c.json missing")
-                rec = json.loads(p.read_text())
-                bad = gate1c_failures_5(root, size, rec)
-                if bad:
-                    raise ValueError(f"gate 1(c) {size}: {bad}")
-                return rec
-            g1c_rec, f = collect_total_5(_check_gate1c, f"5 gate 1(c) {size}")
-            failures += f
-            if g1c_rec is not None:
-                gate1c_recs[size] = g1c_rec
-
-        def _load_search_log(size=size):
-            p = b5.search_log_path_5(root, size)
-            if not p.is_file():
-                raise ValueError(f"{size}: search_log.json missing")
-            log = json.loads(p.read_text())
-            if manifest is not None:
-                expected_spine = list(b5.spine_5(manifest, size))
-                if list(log.get("spine") or []) != expected_spine:
-                    raise ValueError(f"{size}: search log spine {log.get('spine')} != "
-                                     f"{expected_spine}")
-            if units is not None and size in units:
-                usteps = set(units[size]["steps"])
-                for r in log.get("requests", []):
-                    if r["step"] not in usteps:
-                        raise ValueError(f"{size}: logged request step{r['step']} is not a "
-                                         f"complete unit")
-                for small, plog in (log.get("pairs") or {}).items():
-                    for r in plog.get("requests", []):
-                        if r["step"] not in usteps:
-                            raise ValueError(f"{size}/{small}: logged request step{r['step']} is "
-                                             f"not a complete unit")
-            if not log.get("git_sha"):
-                raise ValueError(f"{size}: search log has no git_sha")
-            return log
-        log, f = collect_total_5(_load_search_log, f"5 search log {size}")
-        failures += f
-
-        def _gate4(size=size, log=log):
-            if units is None or manifest is None or log is None:
-                raise ValueError("units, manifest or search log missing")
-            pairs_data, pf = replay_pairs_5(units, manifest, log)
+            if is_large:
+                if log is None:
+                    raise ValueError("search log missing")
+                pairs_data, pf = replay_pairs_5(units, manifest, log)
+            else:
+                pairs_data, pf = [], []
+            expected = expected_steps_5(units, manifest, size)
             on_disk = _steps_on_disk_5(root, size)
-            expected = set(b5.spine_5(manifest, size)) | {b5.FINAL_STEP_5}
-            for plog in (log.get("pairs") or {}).values():
-                expected |= {r["step"] for r in (plog.get("requested_all") or [])}
-            if size in b5.SMALL_SIDES_5:
-                expected.add(b5.S11_STEP_5)
             unnamed = sorted(on_disk - expected)
             if unnamed:
                 pf = pf + [f"gate 4 {size}: step{s} on disk but never requested (nothing else "
@@ -1009,7 +1194,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
             dropped_detail = [{"small": small, "large": size, "target": plog["plan"].get("target"),
                               "reason": plog["plan"].get("reason"),
                               "spine_losses": plog["plan"].get("spine_losses")}
-                             for small, plog in (log.get("pairs") or {}).items()
+                             for small, plog in ((log or {}).get("pairs") or {}).items()
                              if plog.get("status") == "dropped"]
             return pairs_data, pf, unnamed, dropped_detail
         result, f = collect_total_5(_gate4, f"5 gate 4 {size}")
@@ -1060,7 +1245,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     tree = ss.tree_5(failures=failures, primary=primary or {}, modifier=modifier or {})
 
     # 16. secondaries (never touch `failures`)
-    secondaries, secondary_failures = secondaries_5(cells, units, all_pairs_data, root)
+    secondaries, secondary_failures = secondaries_5(cells, units, all_pairs_data, root, manifest)
 
     licence = licence_block_5(tree["verdict"], tree.get("modifier"), power_rec)
 

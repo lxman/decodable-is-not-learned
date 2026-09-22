@@ -567,3 +567,118 @@ clean). Zero model contact, zero network, zero edits outside
 `experiments/exp5/`. No pre-tag execution against the real
 `experiments/exp5/` tree — every `run()` call in every test targets a
 `tmp_path`.
+
+### Task 5 fix round 1: controller ruling on `collect_total_5`'s exception surface
+
+**Deviation 1 above (this entry's own text) is SUPERSEDED, not
+retracted — kept verbatim for the record.** The controller ruled:
+`collect_total_5` must NOT catch bare `Exception`. The totality
+contract protects DATA problems only, not logic defects — 2i's own
+`collect_total` docstring already says a reachable exception outside
+its named set "would be a logic defect in the instrument, which must
+surface as a crash rather than be laundered into a refusal."
+`collect_total_5`'s `except` clause is now restored to the named list
+exactly: `analyze_2i.collect_total` (2h's/2g's chain) wrapped by
+`except (zipfile.BadZipFile, KeyError, OSError, ImportError,
+EOFError)` — every OTHER exception now propagates out of `run()`; the
+`"5 "`-prefix `ValueError` check is unchanged. `test_collect_total_5_
+prefix_and_never_raises` was replaced with the controller's own
+`test_collect_total_5_prefix_named_types_and_crash_on_logic_defect`
+(transcribed verbatim): a named type (`OSError`) is caught and
+formatted exactly; a clean call passes through; `1 / 0`
+(`ZeroDivisionError`, no longer caught) now propagates via
+`pytest.raises(ZeroDivisionError)`; the prefix check still raises.
+Checked every `collect_total_5` call site in `run()` against the
+narrowed list (every JSON parse error is a `ValueError` subclass, every
+missing-file error is an `OSError` subclass, every explicit raise in
+this module is `ValueError`/`RuntimeError`, every malformed-record
+dict access is `KeyError`) — no site needed the bare-`Exception` catch,
+confirmed by re-running the slow worlds (all six refusal-route tamper
+scenarios still land `INSUFFICIENT_DATA`, no traceback). Full detail
+in the fix report (`.superpowers/sdd/2026-09-22-exp5-build/task-5-
+report.md`, gitignored). Commit `780e94afc`.
+
+### Task 5 review, fix round 1: four review findings
+
+**1. Gate 4's "nothing else loaded" check was incomplete.** It ran only
+inside the `LARGE_SIDES_5` loop (the smallest size, never swept as
+large, was never checked at all), and its `expected` set was built
+from the LOG's own `requested_all` field — an attested, not measured,
+quantity, so a stray `pairs` key naming an already-complete unit could
+hide a real orphan. Fixed: a new `expected_steps_5(units_by_size,
+manifest, size)` RE-DERIVES the expected set for every size in
+`b5.SIZES_5` (spine + every legitimate partner's fresh `search_5.
+replay_5` result + `{final}` + `{S11 step}` when applicable — never
+read from any log), the gate-4 orphan check now runs for every size
+(spine/gate1c/search-log stay conditional on `LARGE_SIDES_5`, since
+the smallest size never gets a search log to check), and
+`replay_pairs_5` now refuses any `search_log["pairs"]` key that is not
+a legitimate (strictly smaller) partner of the size. Two new tamper
+scenarios added to `test_refusal_routes_deliver_insufficient_data`: an
+orphan unit under the world's smallest size (`"1b"`), and a stray
+`pairs` key naming an existing unit — both land `INSUFFICIENT_DATA`
+with a gate-4 failure.
+
+**2. S8/S9/S10 were narrower than design §5.** S8 now reads 2g's FULL
+committed 2.8b grid (`battery_2g.trained_steps("2.8b")`, 21 points —
+`GRID["2.8b"]` already excludes 0 and the stale-copy step64000) and
+2h's full 6.9b grid (`battery_2h.trained_steps_69()`, 22 points), each
+record read via `battery_5.interior_record_path_5` directly (chosen
+over `battery_4.load_outcome_4`: exp4's accessor would add an import
+outside 2g/2h/exp5's existing surface for the same committed bytes
+`interior_record_path_5` already reaches) — every point's loss is
+MEASURED when it coincides with a step this experiment's own run
+loaded, else LOG-STEP INTERPOLATED between the two bracketing loaded
+points (flat past the ends), each point carrying `"interpolated":
+true/false` and each size carrying a one-line `"disclosure"` string.
+S9 now prints, per re-run unit under `results/s9/`, `battery_5.
+tolerance_failures_5(mac_counts, box_counts, label=...)` against the
+box's own committed unit for the same (size, step) plus the loss
+difference; `"not run"` unchanged when `results/s9/` is absent. S10
+gained `"re_crossings"` (a new `_re_crossings_5` helper: every spine
+interval where `loss(t_i) >= target > loss(t_{i+1})` per legitimate
+partner, with the first crossing distinguished from any re-crossings
+beyond it) and `"b6_12b"` (a new `_b6_12b_5` helper: for every
+`GATE1_DESCRIPTIVE_12B_5` step present as a 12b unit, `tolerance_
+failures_5` against `mac_interior_counts_5("12b", step)` with max/sum
+|Δ|) — both non-gating, into the S10 dict only, never `run()`'s own
+`failures`. `secondaries_5` and `_s10_texture_5` each gained a
+`manifest` parameter to thread the spine lookup through. Two new fast
+tests (`test_re_crossings_5_counts_intervals_beyond_the_first`,
+`test_s8_grid_points_interpolates_and_flags_measured_points`, both in
+`test_analyze_5.py`) exercise the new helpers on synthetic tables;
+`test_every_terminal_is_reachable` gained assertions that `S8` carries
+both grids (21/22 points, a mix of interpolated and measured) and
+`S10` carries `re_crossings` (keyed by every `LARGE_SIDES_5` member)
+and `b6_12b` (empty in the worlds — no 12b size).
+
+**3. Stale exception-surface prose.** `analyze_5.py`'s MODULE docstring
+still said `collect_total_5` widens "all the way to `Exception`" after
+fix round 1's ruling had already changed the function itself — the
+function's own docstring was correct, the module's was not. Rewritten
+to state the five-type widened list and that any other exception is a
+logic defect that crashes `run()`.
+
+**4. Promoted minor: the power gate must MEASURE its provenance, and
+the named gate function must be the whole of the gate.** `power_
+failures_5` now takes `power_gate="full"` and: (a) pins `rec["n_sim"]
+== power_5.N_SIM_5` and `rec["seed"] == power_5.SEED_5` (a record
+written at a different n_sim/seed reproduces itself under `pw.compute`
+— self-consistency is not provenance); (b) — choosing to USE its
+`finals_counts`/`floors` arguments rather than drop them — the
+`finals_sha256` check plus the `power_5.compute` byte-reproduction
+check (guarded by `power_gate != "skip"`) both moved INTO `power_
+failures_5` from `run()`'s own `_check_power` closure, which is now a
+thin wrapper: load the record, call `power_failures_5(root, rec,
+finals_counts, floors, power_gate=power_gate)`, raise on any failure.
+One new fast test, `test_power_failures_5_pins_n_sim_and_seed`: a
+clean record passes at `power_gate="skip"`; `n_sim` changed refuses
+with `"n_sim"` in the message; `seed` changed refuses with `"seed"` in
+the message.
+
+**Tests after this round:** fast `test_analyze_5.py` + `test_power_5.py`
+→ `12 passed`; slow `test_full_shape_5.py` (`-m slow`) → `7 passed in
+81.42s`; full `experiments/exp5/` suite → `92 passed in 100.25s`, no
+warnings (`-W error::RuntimeWarning` clean). Full detail (per-finding
+diffs, commands, output) in the fix report
+(`.superpowers/sdd/2026-09-22-exp5-build/task-5-report.md`, gitignored).
