@@ -680,6 +680,16 @@ def loss_record_failures_5(rec: dict, *, size, step, host, slice_sha,
         bad.append(f"{label}: dtype facts are not fp16 logits / fp32 log-softmax")
     if rec.get("finite") is not True:
         bad.append(f"{label}: loss not finite ({rec.get('n_nonfinite')} non-finite tokens)")
+    # Freeze F-4: `finite` is the runner's attestation; measure it. A NaN
+    # loss slips the token-weighted-mean check below (|s/n − NaN| > 1e-9 is
+    # False), and plan_5's comparisons treat NaN as "never crosses".
+    lv = rec.get("loss")
+    if not (isinstance(lv, float) and math.isfinite(lv)):
+        bad.append(f"{label}: loss {lv!r} is not a finite float (measured; `finite` is attested)")
+    for name, v in (rec.get("per_set") or {}).items():
+        pl = v.get("loss")
+        if int(v.get("n_tokens", 0)) > 0 and not (isinstance(pl, float) and math.isfinite(pl)):
+            bad.append(f"{label}: per-set {name} loss {pl!r} is not finite")
     per_set = rec.get("per_set") or {}
     n = sum(int(v.get("n_tokens", 0)) for v in per_set.values())
     s = sum(float(v.get("loss", 0.0)) * int(v.get("n_tokens", 0)) for v in per_set.values())

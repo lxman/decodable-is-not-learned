@@ -1257,6 +1257,15 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
             if unnamed:
                 pf = pf + [f"gate 4 {size}: step{s} on disk but never requested (nothing else "
                           f"loaded)" for s in unnamed]
+            # Freeze F-4: load_units_5 skips a step directory that is not a
+            # complete unit; a torn/tampered unit nothing downstream needs
+            # (the smallest size's S11 — its search log is never read) then
+            # vanished silently. The puller copies complete units only, so
+            # on the committed tree every step directory must be one.
+            torn = sorted(s for s in on_disk if not b5.unit_complete_5(root, size, s))
+            if torn:
+                pf = pf + [f"gate 3 {size}: step{s} is on disk but is not a complete unit (torn, "
+                          f"or a file's sha differs from its _unit.json)" for s in torn]
             dropped_detail = [{"small": small, "large": size, "target": plog["plan"].get("target"),
                               "reason": plog["plan"].get("reason"),
                               "spine_losses": plog["plan"].get("spine_losses")}

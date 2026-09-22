@@ -215,3 +215,22 @@ def test_stack_pin_is_gate_0s_named_versions():
     assert b5.stack_pin_failures_5({**h, "stack": {**h["stack"], "transformers": "5.12.0"}})
     assert b5.stack_pin_failures_5({**h, "python": "3.12.1"})
     assert b5.host_record_failures_5({**h, "stack": {**h["stack"], "numpy": "2.4.5"}})
+
+
+def test_loss_record_refuses_a_nan_loss_the_finite_flag_attests_away():
+    """Freeze F-4: `finite` is attested; a NaN loss slipped the
+    token-weighted-mean check (|s/n - NaN| > 1e-9 is False)."""
+    from experiments.exp5.tests import fakes_5 as fk
+    from experiments.exp2d import battery_2d as bt
+    sl = fk.small_slice()
+    loaders, _ = fk.make_loaders(bt.load_battery(), loss_fn=lambda s, t: 2.5, count_fn=lambda s, t, r: 0)
+    host = {**fk.fake_host(), "sha256": "h"}
+    rec = {**loaders["loss"]({"size": "1b", "step": 1000}, sl, batch_size=b5.LOSS_BATCH_5, device="cuda"),
+           "stack": host["stack"], "device": host["device"], "host_sha256": "h"}
+    kw = dict(size="1b", step=1000, host=host, slice_sha=sl["sha256"], n_scored=sl["meta"]["n_scored"])
+    assert b5.loss_record_failures_5(rec, **kw) == []
+    nan = {**rec, "loss": float("nan"), "per_set": {k: {**v, "loss": float("nan")} for k, v in rec["per_set"].items()}}
+    assert nan["finite"] is True
+    assert any("not a finite float" in f for f in b5.loss_record_failures_5(nan, **kw))
+    inf_set = {**rec, "per_set": {**rec["per_set"], "A": {**rec["per_set"]["A"], "loss": float("inf")}}}
+    assert any("per-set A" in f for f in b5.loss_record_failures_5(inf_set, **kw))

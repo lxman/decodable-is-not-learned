@@ -113,6 +113,31 @@ def test_refusal_routes_deliver_insufficient_data(tmp_path, monkeypatch):
     u["files"]["_loss.json"] = bg.sha256_file(lp2); up.write_text(json.dumps(u))
     v = _run(tmp_path, w)
     assert any("stack" in f for f in v["failures"]); lp2.write_bytes(raw); up.write_bytes(uraw)
+    # freeze F-4: the SMALLEST size's S11 unit torn — its search log is never read, so
+    # before the closure the unit vanished from S11 with the verdict MATCHED
+    s11 = b5.unit_dir_5(tmp_path, fs.SIZES_W[0], b5.S11_STEP_5)
+    raw = (s11 / "odd6.json").read_bytes(); (s11 / "odd6.json").unlink()
+    from experiments.exp5 import collect_5 as c5
+    tbl = b5.loss_table_path_5(tmp_path); traw = tbl.read_bytes(); c5.rebuild_loss_table_5(tmp_path)
+    v = _run(tmp_path, w)
+    assert v["verdict"] == "INSUFFICIENT_DATA" and \
+        any(f.startswith(f"gate 3 {fs.SIZES_W[0]}: step{b5.S11_STEP_5}") for f in v["failures"])
+    (s11 / "odd6.json").write_bytes(raw); tbl.write_bytes(traw)
+    # freeze F-4: a NaN loss on a window unit with `finite` left True (table rebuilt over it)
+    log = json.loads(b5.search_log_path_5(tmp_path, "6.9b").read_text())
+    plan = next(v["plan"] for v in log["pairs"].values() if v["status"] == "done")
+    wstep = (plan["b_plus"] or plan["b_minus"])[0]
+    lp4 = b5.loss_record_path_5(tmp_path, "6.9b", wstep); raw = lp4.read_bytes(); rec = json.loads(raw)
+    rec["loss"] = float("nan")
+    for x in rec["per_set"].values():
+        x["loss"] = float("nan")
+    lp4.write_text(json.dumps(rec))
+    up = b5.unit_record_path_5(tmp_path, "6.9b", wstep); uraw = up.read_bytes(); u = json.loads(uraw)
+    u["files"]["_loss.json"] = bg.sha256_file(lp4); up.write_text(json.dumps(u))
+    c5.rebuild_loss_table_5(tmp_path)
+    v = _run(tmp_path, w)
+    assert v["verdict"] == "INSUFFICIENT_DATA" and any("not a finite float" in f for f in v["failures"])
+    lp4.write_bytes(raw); up.write_bytes(uraw); tbl.write_bytes(traw)
     # clean again
     assert _run(tmp_path, w)["verdict"] == "MATCHED"
 
