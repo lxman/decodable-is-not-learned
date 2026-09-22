@@ -668,4 +668,6 @@ adding the Experiment 2m record) and release v1.17
 (10.5281/zenodo.22667987, adding the Experiment 2n record) and release
 v1.18 (10.5281/zenodo.22793373, adding the Experiment 4 record) and
 release v1.19 (10.5281/zenodo.22819695, adding the Experiment 4b
-record).
+record). On 2026-09-22 the GitHub release
+v1.20 (10.5281/zenodo.22901051, adding the Experiment 4c record)
+was archived the same way, the paper carried at v1.20 parity.

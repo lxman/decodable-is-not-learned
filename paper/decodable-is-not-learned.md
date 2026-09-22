@@ -46,7 +46,8 @@ archived as v1.15; the Experiment 2m close-out on 2026-09-05,
 archived as v1.16; the Experiment 2n close-out on 2026-09-08,
 archived as v1.17; the Experiment 4 close-out on 2026-09-16, archived
 as v1.18; the Experiment 4b close-out on 2026-09-17, archived as
-v1.19. Section 6's tenth lesson (the
+v1.19; the Experiment 4c close-out on 2026-09-22, archived as
+v1.20. Section 6's tenth lesson (the
 production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
 inputs before the tag) and checklist items 24 and 25 were added
@@ -88,9 +89,13 @@ fifty-three; the 2026-09-16 Experiment 4 graft added three more
 (`exp4-preregistered` — a disclosed re-tag after a campaign stop, the
 original object recorded in PROVENANCE — `exp4-reference-sealed`,
 `exp4-closed`), fifty-six; the 2026-09-17 Experiment 4b graft added
-two more (`exp4b-preregistered`, `exp4b-closed`), fifty-eight. Archived
+two more (`exp4b-preregistered`, `exp4b-closed`), fifty-eight; the
+2026-09-22 Experiment 4c graft added two more (`exp4c-preregistered`
+— a disclosed re-tag after the preflight amendment, the original
+object recorded in PROVENANCE — `exp4c-closed`), sixty. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.19 (10.5281/zenodo.22819695, the Experiment 4b record; v1.18,
+v1.20 (10.5281/zenodo.22901051, the Experiment 4c record; v1.19,
+10.5281/zenodo.22819695, the Experiment 4b record; v1.18,
 10.5281/zenodo.22793373, the Experiment 4 record; v1.13,
 10.5281/zenodo.22151979, this paper with its eleventh lesson). TMLR's AI-disclosure requirement is met on
 both surfaces it asks for: the first-page footnote and the Disclosure
@@ -1745,6 +1750,7 @@ they exist.*
 | 2l, 2m, 2n | `exp2l-*`, `exp2m-*`, `exp2n-*` (each + `-endpoint-sealed`) | named, not drawn on |
 | 4 | `exp4-*` (+ `-reference-sealed`; the preregistration tag re-cut after a campaign stop, disclosed in PROVENANCE) | named, not drawn on |
 | 4b | `exp4b-*` | named, not drawn on |
+| 4c | `exp4c-*` (the preregistration tag re-cut after a preflight amendment, disclosed in PROVENANCE) | named, not drawn on |
 | 1, 1b, 1c | `exp1-analysis-frozen`, `exp1b-*`, `exp1c-*` (+ `exp1c-stage-a`) | companion essay; not drawn on |
 
 Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
@@ -1755,4 +1761,4 @@ Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
 v1.11 22145025 (2i); v1.12 22151832 (2j); v1.13 22151979 (this
 paper's eleventh lesson); v1.14 22177233 (2k); v1.15 22286867 (2l);
 v1.16 22413760 (2m); v1.17 22667987 (2n); v1.18 22793373 (4); v1.19
-22819695 (4b).
+22819695 (4b); v1.20 22901051 (4c).
