@@ -14,6 +14,7 @@ from experiments.exp5.run import finals_5 as fin
 from experiments.exp5.run import preflight_5 as pf5
 from experiments.exp5.run import s9_mac_5 as s9
 from experiments.exp5.run import sweep_5 as sw
+from experiments.exp5 import search_5 as se
 from experiments.exp5.tests import fakes_5 as fk
 
 SIZES = ("1b", "2.8b", "6.9b")
@@ -171,23 +172,31 @@ def test_sweep_spine_then_brackets_then_windows_then_s11(env):
 def test_sweep_reuses_units_across_partners_and_records_it(env):
     fin.run(**env["common"])
     sw.run(size="6.9b", **_sweep_kwargs(env))
-    log = json.loads(b5.search_log_path_5(env["root"], "6.9b").read_text())
-    actions = [r["action"] for pair in log["pairs"].values() for r in pair["requests"]]
-    # DISCLOSED (see Task 4 report): for this fixture, `plan_5` is always fed the FULL,
-    # freshly-rescanned `losses` table before it is asked anything (once for the spine, once per
-    # partner), so it never emits a "need" for a step another partner (or the spine) already
-    # fetched — the sharing happens, but silently, inside plan_5's own bookkeeping, never as a
-    # `request()` call landing on an already-complete unit. An explicit "reused" action is
-    # therefore unreachable in `log["pairs"]` for ANY loss data under sweep_5.py's given
-    # request()/plan_5 wiring; `collect_5.run_unit_5`'s reuse path itself is covered directly by
-    # `test_run_unit_skips_a_complete_unit` in test_collect_5.py. What this test asserts instead:
-    # both partners' searches actually ran ("loaded" present, both pair keys present) and the
-    # cross-partner sharing still holds at the loader level — no step is EVER loaded twice, which
-    # is the property "reused" was meant to protect.
-    assert "loaded" in actions
+    root = env["root"]
+    manifest = env["common"]["manifest"]
+    log = json.loads(b5.search_log_path_5(root, "6.9b").read_text())
+    # RULING A: `requested_all` is the complete replay (spine + bisect + window, in order),
+    # each step marked "loaded" (this pair's own request() calls, in `requests`) or "reused"
+    # (plan_5 found it already known — the spine, or the pre-loaded final). The plain
+    # `requests` list stays loaded-only, so it alone never shows "reused" (confirmed structural
+    # in the Task 4 report); `requested_all` is where both actions are visible.
+    actions = [r["action"] for pair in log["pairs"].values() for r in pair["requested_all"]]
+    assert "reused" in actions and "loaded" in actions
     assert set(log["pairs"]) == {"1b", "2.8b"}
     loaded = env["state"]["loaded"]
-    assert len(loaded) == len(set(loaded))            # no unit loaded twice: cross-partner sharing holds
+    assert len(loaded) == len(set(loaded))            # no unit loaded twice
+
+    # gate 4's identity: requested_all reproduces exactly what a fresh reader of the COMMITTED
+    # loss table (not the in-memory losses the run used) would replay, for every done pair.
+    avail = b5.available_5(manifest, "6.9b")
+    spine = b5.spine_5(manifest, "6.9b")
+    table = json.loads(b5.loss_table_path_5(root).read_text())["6.9b"]
+    losses_committed = {int(k): v["loss"] for k, v in table.items()}
+    for small, pair in log["pairs"].items():
+        if pair["status"] != "done":
+            continue
+        rep = se.replay_5(losses_committed, avail, spine, pair["target"])
+        assert [r["step"] for r in pair["requested_all"]] == se.requested_steps_5(rep)
 
 
 def test_sweep_drops_a_pair_the_large_model_never_reaches(env, monkeypatch):

@@ -11,13 +11,14 @@ the projection in HEAD's history (B-7) → the host record equal to this
 process's stack/device → HALTED → the finals present.
 
 Window prefetch: once a pair's bracket is fixed (bisection resolved),
-the remaining window steps (`b_minus + b_plus`) are a KNOWN list, so
-while one window step's unit is loading, the next missing window step
-in that list is prefetched — a read-only re-derivation of `plan_5`'s
-own bracket from the losses already on hand (`_window_band`, below;
-`search_5.plan_5` stays the sole authority on what to REQUEST). A
-bisection step is never prefetched (which step comes next depends on
-the loss just measured).
+`plan_5`'s own `need` dict for a WINDOW step carries the full band
+(`"window": b_minus + b_plus`) — the partner loop stashes it in `band`
+before calling `request()`, so while one window step's unit is loading,
+the next missing window step in that same band is prefetched. `band`
+is cleared to None on every SPINE/BISECT need, so a bisection step is
+never prefetched (which step comes next depends on the loss just
+measured), and `search_5.plan_5` stays the sole authority on both what
+to request and what the band is.
 
 Usage: python -m experiments.exp5.run.sweep_5 --size 12b --device cuda [--dry-run]"""
 from __future__ import annotations
@@ -156,54 +157,23 @@ def run(*, size, root=EXP5, cache_root=None, device="cuda", dry_run=False, loade
         c5.rebuild_loss_table_5(root)
         return r["loss"]
 
-    # Window-prefetch context: `_window_band_ctx["band"]` holds the
-    # current pair's fixed bracket band (`b_minus + b_plus`) while the
-    # partner loop is issuing WINDOW requests, and is cleared (None) on
-    # every SPINE/BISECT request so a bisection step is never treated
-    # as a window member. `_next_known` is the one function `request`
+    # Window-prefetch band: the current pair's `b_minus + b_plus` list,
+    # straight from `plan_5`'s own "window"-need dict (RULING B), while
+    # the partner loop is issuing WINDOW requests; cleared to None on
+    # every SPINE/BISECT need so a bisection step is never treated as a
+    # window member. `_next_known` is the one function `request`
     # consults; extending it (not `request` itself) keeps the spine
     # loop's call sites unchanged.
-    _window_band_ctx = {"band": None}
+    band = None
 
     def _next_known(step):
         if step in spine:
             i = spine.index(step)
             return spine[i + 1] if i + 1 < len(spine) else None
-        band = _window_band_ctx["band"]
         if band and step in band:
             i = band.index(step)
             return band[i + 1] if i + 1 < len(band) else None
         return None
-
-    def _window_band(losses, target):
-        """Read-only re-derivation of the bracket `plan_5` has already
-        resolved from the KNOWN losses (mirrors its spine-interval +
-        `search_5.bisect_step_5` loop exactly; no request is made
-        here) — used ONLY to pick a prefetch target. Returns the
-        `b_minus + b_plus` list, or None if the bracket is not (yet)
-        resolvable from `losses` alone."""
-        avail_sorted = tuple(sorted(int(s) for s in avail))
-        ls = {int(k): float(v) for k, v in losses.items()}
-        interval = None
-        for a, b in zip(spine, spine[1:]):
-            if a in ls and b in ls and ls[a] >= target > ls[b]:
-                interval = (a, b)
-                break
-        if interval is None:
-            return None
-        lo, hi = interval
-        while True:
-            step = se.bisect_step_5(avail_sorted, lo, hi)
-            if step is None:
-                break
-            if step not in ls:
-                return None
-            lo, hi = (step, hi) if ls[step] >= target else (lo, step)
-        i_lo, i_hi = avail_sorted.index(lo), avail_sorted.index(hi)
-        if i_hi != i_lo + 1:
-            return None
-        n = b5.N_WINDOW_SIDE_5
-        return list(avail_sorted[max(0, i_lo - n):i_lo]) + list(avail_sorted[i_hi + 1:i_hi + 1 + n])
 
     # (1) the spine
     for s in spine:
@@ -223,10 +193,19 @@ def run(*, size, root=EXP5, cache_root=None, device="cuda", dry_run=False, loade
         while True:
             p = se.plan_5(losses, avail, spine, target)
             if p["status"] == "need":
-                _window_band_ctx["band"] = _window_band(losses, target) if p["why"] == "window" else None
+                band = p["window"] if p["why"] == "window" else None
                 losses[p["step"]] = request(p["step"], p["why"], pair=small)
                 continue
             log["pairs"][small].update({"status": p["status"], "plan": p})
+            # RULING A: the complete request sequence a fresh reader of the committed loss
+            # table would replay (gate 4's identity), each step marked "loaded" if THIS run's
+            # own request() call fetched it for this pair, "reused" if plan_5 silently found it
+            # already known (the spine, an earlier partner's fetch, or the final).
+            loaded_here = {r["step"] for r in log["pairs"][small]["requests"]}
+            rep = se.replay_5(losses, avail, spine, target)
+            log["pairs"][small]["requested_all"] = [
+                {"step": s, "why": why, "action": ("loaded" if s in loaded_here else "reused")}
+                for s, why in rep["requested"]]
             _write(log_path, log)
             print(f"[5 sweep] {size} × {small}: {p['status']}"
                   + (f" bracket {p['bracket']} window {p['b_minus']}+{p['b_plus']}"

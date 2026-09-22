@@ -74,7 +74,8 @@ def plan_5(losses: dict, available, spine, target: float, *, n_side=b5.N_WINDOW_
     b_plus = list(avail[i_hi + 1:i_hi + 1 + n_side])
     for s in b_minus + b_plus:
         if s not in losses:
-            return {"status": "need", "step": s, "why": "window"}
+            return {"status": "need", "step": s, "why": "window",
+                    "bracket": [lo, hi], "window": b_minus + b_plus}
     return {"status": "done", "bracket": [lo, hi], "b_minus": b_minus, "b_plus": b_plus,
             "interval": list(interval), "bisected": bisected,
             "edge": {"b_minus": len(b_minus), "b_plus": len(b_plus)},

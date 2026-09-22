@@ -377,3 +377,49 @@ pytest experiments/exp5/tests/test_collect_5.py
 experiments/exp5/tests/test_stages_5.py -p no:cacheprovider -q` → `21
 passed`. Full `experiments/exp5/` suite: `73 passed` (`-W
 error::DeprecationWarning`, no warnings).
+
+### Task 4 fix round 1: rulings A and B on the "reused" concern
+
+The controller ruled on Task 4's disclosed concern #3 (the `"reused"`
+action being structurally unreachable in `log["pairs"]`) with two
+production-code rulings, implemented together:
+
+**RULING A** (`run/sweep_5.py`): when a pair reaches `done` or
+`dropped`, the runner now also computes `rep = se.replay_5(losses,
+avail, spine, target)` over the pair's own final loss table (the SAME
+`losses` dict the partner loop ended with) and stores `log["pairs"]
+[small]["requested_all"]` — the complete spine+bisect+window request
+sequence, each step marked `"loaded"` if this run's own `request()`
+call fetched it for this pair (i.e. it's in that pair's `requests`
+list) or `"reused"` if `plan_5` found it silently already known (a
+spine point, or a step an earlier partner/the finals stage already
+fetched). The existing `requests` list is untouched (loaded-only, as
+before) — `requested_all` is additive.
+
+**RULING B** (`search_5.py` + `run/sweep_5.py`): `plan_5`'s `"need"`
+dict for the WINDOW case gains two additive keys, `"bracket": [lo, hi]`
+and `"window": b_minus + b_plus` (spine/bisect `need` dicts and the
+`done`/`dropped` dicts are unchanged). `run/sweep_5.py`'s window
+prefetch no longer re-derives the bracket itself: the now-deleted
+`_window_band`/`_window_band_ctx` are replaced by a plain `band`
+variable that the partner loop sets from `p["window"]` on a window
+need (and clears to `None` on every spine/bisect need); `_next_known`
+reads `band` directly. `request()` and its two call sites (the spine
+loop, the partner loop) are unchanged.
+
+`test_sweep_reuses_units_across_partners_and_records_it` (test_stages
+_5.py) now asserts against `requested_all`: both `"reused"` and
+`"loaded"` appear across `log["pairs"].values()`, `set(log["pairs"]) ==
+{"1b", "2.8b"}`, no unit loaded twice, AND — for every `done` pair —
+`[r["step"] for r in pair["requested_all"]]` equals `se.requested_steps
+_5(se.replay_5(<the size's COMMITTED loss table>, avail, spine,
+pair["target"]))`, the identity gate 4 will rely on. `test_search_5.py`
+gained one assertion inside `test_plan_bisects_to_an_adjacent_bracket
+_and_names_the_window`'s loop: on a `"window"` need, `p["bracket"] ==
+[50000, 51000]` and `p["window"] == [48000, 49000, 52000, 53000]`.
+
+Commands: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
+-m pytest experiments/exp5/tests/test_search_5.py -p no:cacheprovider
+-q -W error::DeprecationWarning` → `9 passed`;
+`experiments/exp5/tests/test_stages_5.py` alone → `25 passed`; full
+`experiments/exp5/` suite → `73 passed`, no warnings.

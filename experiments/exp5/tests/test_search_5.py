@@ -38,6 +38,9 @@ def test_plan_bisects_to_an_adjacent_bracket_and_names_the_window():
         p = se.plan_5(losses, AVAIL, SPINE, target)
         if p["status"] != "need":
             break
+        if p["why"] == "window":
+            assert p["bracket"] == [50000, 51000]
+            assert p["window"] == [48000, 49000, 52000, 53000]
         requested.append((p["step"], p["why"]))
         losses[p["step"]] = _curve(p["step"])
     assert p["status"] == "done"
