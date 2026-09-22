@@ -463,6 +463,24 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
     return pairs_data, failures
 
 
+def drop_kind_5(plan: dict) -> str:
+    """Freeze F-6: `plan_5` drops a pair whenever no spine interval crosses
+    the target, which is TWO different facts — the larger model never
+    reaches the smaller's final loss (design §3.2's only named cause), or
+    it is already below it at the spine's FIRST point (the crossing lies in
+    the log head the spine never searches). Printed, never gating."""
+    sl = {int(k): v for k, v in (plan.get("spine_losses") or {}).items()}
+    t = plan.get("target")
+    if not sl or t is None:
+        return "unknown"
+    first, last = sl[min(sl)], sl[max(sl)]
+    if last >= t:
+        return "never_reaches"
+    if first < t:
+        return "crosses_before_spine"
+    return "no_first_crossing_interval"
+
+
 # -------------------------------------------------------------- power/projection
 
 def power_failures_5(root, rec: dict, finals_counts: dict, floors: dict, *,
@@ -949,7 +967,8 @@ def write_verdict_txt_5(v: dict) -> str:
                 f"units_unnamed={g4.get('units_unnamed')}")
     for d in (g4.get("dropped_detail") or []):
         lines.append(f"  dropped: {d.get('small')}→{d.get('large')} target={d.get('target')} "
-                    f"reason={d.get('reason')} spine_losses={d.get('spine_losses')}")
+                    f"kind={d.get('kind')} reason={d.get('reason')} "
+                    f"spine_losses={d.get('spine_losses')}")
     lines.append("")
     g1 = v.get("gate1") or {}
     g1a = g1.get("a") or {}
@@ -1278,6 +1297,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
                           f"or a file's sha differs from its _unit.json)" for s in torn]
             dropped_detail = [{"small": small, "large": size, "target": plog["plan"].get("target"),
                               "reason": plog["plan"].get("reason"),
+                              "kind": drop_kind_5(plog["plan"]),
                               "spine_losses": plog["plan"].get("spine_losses")}
                              for small, plog in ((log or {}).get("pairs") or {}).items()
                              if plog.get("status") == "dropped"]

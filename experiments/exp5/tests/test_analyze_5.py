@@ -217,3 +217,13 @@ def test_s8_grid_points_interpolates_and_flags_measured_points(tmp_path, monkeyp
     expected = 5.0 + (1.0 - 5.0) * (x - x0) / (x1 - x0)
     assert abs(by_step[200]["loss"] - expected) < 1e-9
     assert by_step[200]["counts"] == {"antonym": 200, "antonym6": 200}
+
+
+def test_drop_kind_names_which_fact_dropped_the_pair():
+    """Freeze F-6: 'no spine interval crosses' is two facts — never reaches the
+    target (design §3.2's named cause) or already below it at the first spine
+    point (the crossing lies in the unsearched log head)."""
+    sl = {"1000": 3.0, "2000": 2.9, "143000": 2.5}
+    assert an.drop_kind_5({"spine_losses": sl, "target": 2.4}) == "never_reaches"
+    assert an.drop_kind_5({"spine_losses": sl, "target": 3.1}) == "crosses_before_spine"
+    assert an.drop_kind_5({"spine_losses": {}, "target": 3.1}) == "unknown"
