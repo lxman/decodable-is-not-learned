@@ -423,3 +423,147 @@ Commands: `PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python
 -q -W error::DeprecationWarning` → `9 passed`;
 `experiments/exp5/tests/test_stages_5.py` alone → `25 passed`; full
 `experiments/exp5/` suite → `73 passed`, no warnings.
+
+## Task 5: `analyze_5.py` + `power_5.py` + the full-shape worlds
+
+`power_5.py` transcribed byte-for-byte from the brief (the B-5
+parameters, `live_structure_5`/`simulate_battery_5`/`_arm`/`compute`
+reading through `stats_5.cell_5`/`primary_5`/`tree_5`, `main` writing
+`results/power_5.json` ONCE). `analyze_5.py` built new: `collect_total_5`
+(`analyze_2i.collect_total` widened by `zipfile.BadZipFile`, `KeyError`,
+`OSError`, `ImportError`, `EOFError` — **and, past the brief's literal
+list, by every other `Exception`**, disclosed below); `load_units_5`
+(gate 3 over every COMPLETE unit of a size, all-or-nothing per size —
+an incomplete/torn step directory is silently absent from its `steps`
+list, never raised on, so a legitimate in-progress unit doesn't crash
+the loader; only the size's FINAL is required present); `gate1a_
+failures_5`/`gate1b_failures_5`/`gate1c_failures_5` (the last two
+RE-DERIVE from the referent files under `root`, never trusting the
+runner's own attested `counts`); `replay_pairs_5` (gate 4: per DONE
+pair, `search_5.replay_5` re-run over the size's own committed losses
+and checked against the logged `requested_all`/`plan`/`status`; per
+DROPPED pair, status/target only); `power_failures_5`/`projection_
+failures_5`; `licence_block_5` (the eight §6 cells: MATCHED-POWERED/
+-UNDERPOWERED, NOT-MATCHED×{LARGE-AHEAD,SMALL-AHEAD,MIXED,THIN},
+UNDETERMINED, INSUFFICIENT_DATA); eleven S1-S11 secondary functions,
+each its own `collect_total_5` site inside `secondaries_5` (a
+degrading secondary never touches `run()`'s own `failures`); `verdict_
+5`/`write_verdict_txt_5`/`run()` (17-step refusal order exactly as the
+brief's bullet list orders it, ending in the tree/licence/pins_active
+assembly and an optional `write=True` that renders `results/
+verdict.json` + `results/VERDICT.txt`).
+
+**Disclosed deviations from the brief's literal text:**
+
+1. **`collect_total_5` catches `Exception`, not only the five named
+   types.** `test_collect_total_5_prefix_and_never_raises` calls
+   `collect_total_5(lambda: 1 / 0, "5 x")` and asserts a `(None,
+   [...])` return — `ZeroDivisionError` is not in the five-type list
+   inherited through `analyze_2i.collect_total`'s chain (`ValueError`,
+   `FileNotFoundError`, `KeyError`, `RuntimeError`, `TypeError`,
+   `AttributeError`, `OSError`, `EOFError`, `zlib.error`, plus this
+   task's five). Since the brief's own contract for `run()` is "nothing
+   raises out of `run()` except [the prefix check]" (Interfaces line;
+   resolution note 2), and the given test requires it, the
+   implementation catches `Exception` broadly at the outermost `except`
+   — a superset of the five named types, so every named type is still
+   caught, and the totality contract (a bug inside a gate or a
+   secondary degrades to a refusal, never a crash) is honoured for
+   bugs of any kind, not only the five anticipated ones. Verified: the
+   given test passes as written; no other test's expectations changed.
+2. **`secondaries_5` returns `(secondaries, secondary_failures)`, a
+   2-tuple, not a bare `dict`** as the Interfaces line's `-> dict`
+   literally states. `run()` needs the per-secondary failure list kept
+   OUT of `failures` (§ "Secondaries... NOT in failures") and IN a
+   separate `secondary_failures` dict the verdict carries — the
+   2-tuple is the natural shape for that, mirroring `replay_pairs_5`'s
+   own `-> tuple` (which correctly matches the brief). No test calls
+   `secondaries_5` directly (only `run()`'s output is asserted), so
+   this is a design choice, not something a test forced or a test
+   revealed as wrong; noted for the reviewer's judgment.
+3. **The per-secondary `collect_total_5` sites live inside `secondaries
+   _5`, not spelled out individually in `run()`.** "Code Organization"
+   asked for the sites to be "in `run()`"; keeping `run()`'s own body to
+   its 17 gate steps (already ~350 lines) and delegating the eleven
+   S1-S11 sites to a dedicated aggregator (itself using the exact same
+   `collect_total_5(fn, "5 S<k>")` pattern) was judged the better
+   trade-off given the file's overall size (~1070 lines, in 4c's
+   range). Functionally identical either way; flagged per the "report
+   DONE_WITH_CONCERNS rather than splitting on your own" instruction,
+   in the other direction (consolidating, not splitting).
+4. **`load_units_5` and `secondaries_5` take one keyword the brief's
+   Interfaces line doesn't list** (`load_units_5(..., n_scored=None)`;
+   `secondaries_5(cells, units_by_size, pairs_data, root)` — the
+   arguments are as named but the return shape is the tuple in (2)).
+   `n_scored` is needed to thread the injected slice's true scored-
+   token count (197 in the fakes, 2**21 for real) into `loss_record_
+   failures_5`'s contract check inside `load_units_5`, per resolution
+   note 1's "`loss_record_failures_5(..., n_scored=sl["meta"]
+   ["n_scored"]...)` is the contract call" — the note doesn't say
+   where that call lives, and `load_units_5` (the only place gate 3's
+   loss contract is checked) is where it has to be for the test slice
+   to validate at all.
+5. **`write_verdict_txt_5` additionally prints a `gate 1` block (gates
+   1(a)/(b)/(c) one line each with max/sum |Δ|) and a `dropped:` line
+   per dropped pair with its spine losses** — both explicitly required
+   by the brief's `write_verdict_txt_5` bullet ("gates 1(a)/(b)/(c) one
+   line each... the pairs dropped with their spine losses") but not
+   present in a first draft; caught in self-review before commit and
+   required threading `gate1a_rec`/`gate1b_rec`/`gate1c_recs` and a new
+   `gate4_total["dropped_detail"]` list through `run()` into `verdict_
+   5` (which gained one new optional keyword, `gate1=None`, beyond the
+   brief's literal `verdict_5(...)` signature — again undocumented in
+   the Interfaces line, needed to carry the data).
+6. **A real bug caught by the worlds, not by design:** the first
+   `_gate4` draft computed `units_unnamed` for reporting but never
+   turned a non-empty result into a failure, so the "a unit nobody
+   asked for" refusal route (`test_refusal_routes_deliver_insufficient
+   _data`) silently passed through to `MATCHED`. Fixed by appending one
+   `"gate 4 {size}: step{s} on disk but never requested..."` message
+   per unnamed step into the returned failures list.
+
+**World-constant tuning (Step 5, sanctioned).** The brief's `full_shape
+_5.py` block, transcribed verbatim, needed two numeric changes to reach
+all five terminals cleanly:
+
+- `SPINE_W`'s second point widened from `4000` to `6000` (the gap after
+  `1000`). At `(1000, 4000)` the 6.9b×1.4b crossing — the pair that
+  ends up first in `log["pairs"]` once 6.9b×1b drops (6.9b's loss is
+  already below 1b's target at the very first spine point, on every
+  `BASE_W`/mode tried) — resolves in exactly ONE bisection probe, so
+  `test_refusal_routes_deliver_insufficient_data`'s "reverse the
+  logged `bisected` order" tamper is a no-op on a length-1 list and the
+  gate 4 refusal route was unreachable by that specific test. `(1000,
+  6000)` reliably needs >= 2 probes on every mode (verified: MATCHED,
+  LARGE-AHEAD, SMALL-AHEAD, MIXED, UNDETERMINED all still land
+  correctly with the wider gap; `BASE_W` tuning was tried first and
+  rejected — it fixed the bisection depth but flipped MIXED's world to
+  LARGE-AHEAD-dominant, since `BASE_W` shifts every mode's live-cell
+  set simultaneously in ways that are hard to reason about jointly,
+  whereas widening one spine gap only changes bisection depth).
+- SMALL-AHEAD's per-size offset magnitude lowered from `40` (LARGE-
+  AHEAD's and MIXED's magnitude, unchanged) to `32`. The offset there
+  is SUBTRACTIVE and applies to every read of a ranked size INCLUDING
+  the small side's own final (scaled by its own rank), so at `40` it
+  crushes too many cells toward zero to clear `MIN_LIVE_CELLS_5 = 20`
+  (empirically 18 cells / 6 rungs, landing UNDETERMINED, and the rung-
+  block p at that cell count was 0.0156 > 0.01 regardless). A magnitude
+  sweep (15/20/22/24/25/26/28/30/32/35, `experiments/exp5/tests/
+  full_shape_5.py` git history none of it kept — the sweep script was
+  scratch, not committed) found 21 cells / 7 rungs stable across
+  22-32, all-negative signs from 24 up; 32 was kept for the largest T/p
+  margin (T .0354, p .0078) without drifting into LARGE-AHEAD's own
+  magnitude (keeping the two modes visibly distinct).
+
+**Tests.** Fast (`test_power_5.py` + `test_analyze_5.py`): 9 passed —
+`PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp5/tests/test_power_5.py experiments/exp5/tests/test_
+analyze_5.py -p no:cacheprovider -q` → `9 passed in 7.70s`. Slow
+(`test_full_shape_5.py`, `-m slow`): 7 passed (five terminals incl.
+`UNDETERMINED`, the six-tamper refusal-route test, the write test) —
+`... -m slow -q` → `7 passed in 76.22s`. Full `experiments/exp5/`
+suite: `89 passed in 94-95s`, no warnings (`-W error::RuntimeWarning`
+clean). Zero model contact, zero network, zero edits outside
+`experiments/exp5/`. No pre-tag execution against the real
+`experiments/exp5/` tree — every `run()` call in every test targets a
+`tmp_path`.
