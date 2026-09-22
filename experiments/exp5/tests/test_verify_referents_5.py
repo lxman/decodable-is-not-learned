@@ -84,7 +84,9 @@ def test_c13_passes_and_prints_when_records_are_clean(tmp_path, monkeypatch, cap
     results.mkdir()
     good_a = {"digests_equal": True, "continuation_diffs": {r: 0 for r in b5.RUNGS},
              "continuations_compared": {r: 500 for r in b5.RUNGS}, "loss_equal": True,
-             "prereg_tag": b5.PREREG_TAG_5, "pass": True}
+             "prereg_tag": b5.PREREG_TAG_5, "pass": True,
+             "digest_2c_path": "d" * 64, "digest_candidate_path": "d" * 64,
+             "loss_2c_path": 2.5, "loss_candidate_path": 2.5, "per_doc_diffs": 0}
     (results / "gate1a.json").write_text(json.dumps(good_a))
     assert vr._c13({}) is None
     assert "1(a) ok" in capsys.readouterr().out

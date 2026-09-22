@@ -149,6 +149,45 @@ def gate1a_failures_5(rec: dict) -> list:
         bad.append(f"gate 1(a): prereg_tag {rec.get('prereg_tag')!r} != {b5.PREREG_TAG_5!r}")
     if rec.get("pass") is not True:
         bad.append(f"gate 1(a): pass {rec.get('pass')!r} is not True")
+    # Freeze F-2: the three flags above are the runner's ATTESTATIONS; the
+    # record also carries what they were computed from, so re-derive them
+    # (measured, not attested — 2i F-1 / Exp 4 F-1's form).
+    da, db = rec.get("digest_2c_path"), rec.get("digest_candidate_path")
+    if not (isinstance(da, str) and len(da) == 64 and da == db):
+        bad.append(f"gate 1(a): digest_2c_path {da!r} != digest_candidate_path {db!r} "
+                   f"(re-derived; digests_equal is attested)")
+    la, lb = rec.get("loss_2c_path"), rec.get("loss_candidate_path")
+    if not (isinstance(la, float) and isinstance(lb, float) and repr(la) == repr(lb)):
+        bad.append(f"gate 1(a): loss_2c_path {la!r} != loss_candidate_path {lb!r} to the bit "
+                   f"(re-derived; loss_equal is attested)")
+    if rec.get("per_doc_diffs") != 0:
+        bad.append(f"gate 1(a): per_doc_diffs {rec.get('per_doc_diffs')!r} != 0 "
+                   f"(re-derived; loss_equal is attested)")
+    return bad
+
+
+def gate1a_unit_failures_5(rec: dict, final_2p8b: dict) -> list:
+    """Freeze F-2: gate 1(a)'s candidate-path side IS the 2.8b final unit
+    (`finals_5.gate1a` runs it through `run_unit_5`), so the record's
+    candidate-path loss must equal that unit's committed `_loss.json` loss
+    to the bit, and — continuations being identical on every rung — the
+    2c-path counts must equal the unit's committed counts. `final_2p8b` is
+    `{"loss": float, "counts": {rung: int}, "digest": str}` from
+    `load_units_5`."""
+    bad = []
+    if rec.get("digest_candidate_path") != final_2p8b.get("digest"):
+        bad.append(f"gate 1(a): digest_candidate_path {rec.get('digest_candidate_path')!r} != the "
+                   f"2.8b final unit's digest {final_2p8b.get('digest')!r}")
+    if repr(rec.get("loss_candidate_path")) != repr(final_2p8b.get("loss")):
+        bad.append(f"gate 1(a): loss_candidate_path {rec.get('loss_candidate_path')!r} != the 2.8b "
+                   f"final unit's committed loss {final_2p8b.get('loss')!r}")
+    counts_a = rec.get("counts_2c_path") or {}
+    unit_counts = final_2p8b.get("counts") or {}
+    diff = sorted(r for r in b5.RUNGS if counts_a.get(r) != unit_counts.get(r))
+    if diff:
+        bad.append(f"gate 1(a): counts_2c_path differs from the 2.8b final unit's committed counts "
+                   f"on {diff[:6]}{'…' if len(diff) > 6 else ''} ({len(diff)} rung(s)) although the "
+                   f"continuations are attested identical")
     return bad
 
 
@@ -1053,11 +1092,11 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
             rec = json.loads(b5.gate1a_path_5(root).read_text())
             bad = gate1a_failures_5(rec)
             if units is not None and "2.8b" in units:
-                want = units["2.8b"]["digests"].get(b5.FINAL_STEP_5)
-                if rec.get("digest_candidate_path") != want:
-                    bad.append(f"gate 1(a): digest_candidate_path "
-                              f"{rec.get('digest_candidate_path')!r} != the 2.8b final unit's "
-                              f"digest {want!r}")
+                u28 = units["2.8b"]
+                bad += gate1a_unit_failures_5(rec, {
+                    "digest": u28["digests"].get(b5.FINAL_STEP_5),
+                    "loss": u28["losses"].get(b5.FINAL_STEP_5),
+                    "counts": u28["counts"].get(b5.FINAL_STEP_5)})
             if bad:
                 raise ValueError(f"gate 1(a): {bad}")
             return rec

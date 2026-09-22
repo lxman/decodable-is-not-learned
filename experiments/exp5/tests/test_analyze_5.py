@@ -23,11 +23,36 @@ def test_collect_total_5_prefix_named_types_and_crash_on_logic_defect():
 def test_gate1a_failures():
     good = {"digests_equal": True, "continuation_diffs": {r: 0 for r in b5.RUNGS},
             "continuations_compared": {r: 500 for r in b5.RUNGS}, "loss_equal": True,
-            "prereg_tag": b5.PREREG_TAG_5, "pass": True}
+            "prereg_tag": b5.PREREG_TAG_5, "pass": True,
+            # freeze F-2: the measured fields the flags are re-derived from
+            "digest_2c_path": "d" * 64, "digest_candidate_path": "d" * 64,
+            "loss_2c_path": 2.5, "loss_candidate_path": 2.5, "per_doc_diffs": 0}
     assert an.gate1a_failures_5(good) == []
     assert an.gate1a_failures_5({**good, "digests_equal": False})
     assert an.gate1a_failures_5({**good, "continuations_compared": {**good["continuations_compared"], "mod13": 499}})
     assert an.gate1a_failures_5({**good, "loss_equal": False})
+
+
+def test_gate1a_flags_are_re_derived_not_attested():
+    """Freeze F-2: digests_equal / loss_equal are the runner's attestations;
+    the record carries what they were computed from and the analyzer
+    re-derives them, and ties the candidate path to the 2.8b final unit."""
+    good = {"digests_equal": True, "continuation_diffs": {r: 0 for r in b5.RUNGS},
+            "continuations_compared": {r: 500 for r in b5.RUNGS}, "loss_equal": True,
+            "prereg_tag": b5.PREREG_TAG_5, "pass": True,
+            "digest_2c_path": "d" * 64, "digest_candidate_path": "d" * 64,
+            "loss_2c_path": 2.5, "loss_candidate_path": 2.5, "per_doc_diffs": 0,
+            "counts_2c_path": {r: 7 for r in b5.RUNGS}}
+    assert an.gate1a_failures_5(good) == []
+    assert an.gate1a_failures_5({**good, "digest_2c_path": "e" * 64})
+    assert an.gate1a_failures_5({**good, "loss_2c_path": 2.5 + 1e-12})
+    assert an.gate1a_failures_5({**good, "per_doc_diffs": 1})
+    assert an.gate1a_failures_5({**good, "per_doc_diffs": None})
+    unit = {"digest": "d" * 64, "loss": 2.5, "counts": {r: 7 for r in b5.RUNGS}}
+    assert an.gate1a_unit_failures_5(good, unit) == []
+    assert an.gate1a_unit_failures_5(good, {**unit, "loss": 2.5 + 1e-12})
+    assert an.gate1a_unit_failures_5(good, {**unit, "digest": "f" * 64})
+    assert an.gate1a_unit_failures_5(good, {**unit, "counts": {**unit["counts"], "antonym": 8}})
 
 
 def test_licence_block_cells():
