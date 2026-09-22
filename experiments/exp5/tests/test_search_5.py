@@ -53,6 +53,19 @@ def test_plan_bisects_to_an_adjacent_bracket_and_names_the_window():
     assert p["residual_lo"] >= 0 and p["residual_hi"] > 0 and p["width_steps"] == 1000
 
 
+def test_plan_crossing_is_closed_at_the_low_end_exactly():
+    """Task 6 mutation kill: the crossing rule is `losses[a] >= target >
+    losses[b]` — closed at the LOW end, open at the high end. A target
+    equal to the FIRST spine point's own loss must still be found (the
+    max loss in a decreasing table can only ever equal, never exceed,
+    its own first point) — a mutant swapping the operators finds no
+    interval anywhere and drops instead."""
+    losses = {s: _curve(s) for s in SPINE}
+    target = losses[SPINE[0]]
+    p = se.plan_5(losses, AVAIL, SPINE, target)
+    assert p["status"] != "dropped"
+
+
 def test_bisection_tie_breaks_toward_the_lower_step():
     assert se.bisect_step_5((1000, 2000, 3000, 4000), 1000, 4000) == 2000      # mid 2500: tie 2000/3000
 

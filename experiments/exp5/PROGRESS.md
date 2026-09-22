@@ -682,3 +682,324 @@ the message.
 warnings (`-W error::RuntimeWarning` clean). Full detail (per-finding
 diffs, commands, output) in the fix report
 (`.superpowers/sdd/2026-09-22-exp5-build/task-5-report.md`, gitignored).
+
+## Task 6: `make_referents_5.py`, `verify_referents_5.py`, totality, determinism, the mutation harness, the read sweep, the import scan, the pins
+
+Built: `make_referents_5.py` (`referent_files_5()` — 34 item files, 2d's
+`results/verdict.json`, 2c's m4 finals at 2.8b/6.9b/12b, 2d's argmax
+finals at 410m/1b, 2g's FULL committed 2.8b trained grid, 2g's 12b
+sweep at the six B-6 descriptive steps, 2h's FULL committed 6.9b
+trained grid, `checkpoints_5.json`/`hub_inventory_5.json`/`slice_5.npz`/
+`power_5.py`; `build`/`check_referents_5` 4c's shape verbatim);
+`referents_5.json` (**N_FILES_5 = 1786**, sha `e7a1ea3b…`, pinned as
+`analyze_5.REFERENTS_5_SHA256`); `verify_referents_5.py` (the 13-item
+cold battery, 4c's `@check` shape); `tests/test_totality_5.py` (the 9
+named tree shapes in one test function + the site-template census, two
+tests); `tests/test_determinism_5.py` (two-process byte-identity);
+`tests/mutation_check.py` (56 mutants: 27 hand-written across
+`battery_5.py`/`slice_5.py`/`search_5.py`/`stats_5.py`/`collect_5.py`/
+`run/finals_5.py`/`run/sweep_5.py`/`analyze_5.py`/`power_5.py` + 29
+AST-generated `collect_total_5`-site mutants restricted to `run()`'s
+own body); `tests/read_sweep_5.py`; `tests/import_scan_5.py`;
+`tests/test_verify_referents_5.py` (fast unit coverage on individual
+`@check` functions). Modified: `battery_5.py` (`FROZEN_SHA256_5` — 51
+files, `IMPORTED_SHA256_5` — 6 files, exactly the brief's predicted
+residual: `__init__.py`, `run/__init__.py`, `make_referents_5.py`,
+`verify_referents_5.py`, `run/preflight_5.py`, `run/s9_mac_5.py`);
+`analyze_5.py` (`REFERENTS_5_SHA256` pinned; `power_failures_5`'s
+None-refusal fix below; `verdict_5`'s `meta` refactor below).
+
+**Finding 1 (referent-manifest reconciliation): 12b's committed sweep
+records cover only the 11 `PREDICTOR_RUNGS`, never all 34.** The
+brief's Step 1 literal ("2g's 12b sweep records at the six B-6
+descriptive steps") assumed 34-rung coverage matching 2.8b's; the real
+tree (`experiments/exp2g/results/sweep/12b/step*/`) holds exactly 12
+files per step (11 rungs + `_checkpoint.json`) at every one of the
+eight committed 12b grid points, verified directly. `battery_2g.
+sweep_rungs("12b")` already names this set (`REPLICATING` →
+`PREDICTOR_RUNGS`), so `make_referents_5.py` reads `bg.sweep_rungs
+(size)` for both 2.8b (`ADJUDICATING` → all 34) and 12b, rather than
+the module-level `RUNGS` constant — N_FILES_5 lands at 1786, not the
+brief's implied ≈2,244 for a 34-rung 12b grid. **Left open, disclosed,
+not fixed (out of Task 6's scope):** `battery_5.mac_interior_counts_5`
+and `analyze_5._b6_12b_5` still iterate all 34 `RUNGS` unconditionally
+for every size, including 12b — the first time a real 12b unit lands
+at one of the six `GATE1_DESCRIPTIVE_12B_5` steps, `_b6_12b_5`'s call
+to `mac_interior_counts_5("12b", step)` will raise `FileNotFoundError`
+on a rung outside `PREDICTOR_RUNGS`. This is caught by `collect_total_5`
+(a `KeyError`/`OSError`-class exception via the missing-file read) and
+degrades S10's `"b6_12b"` block to a recorded secondary failure — never
+reaches `run()`'s own gating `failures` list, so the VERDICT is
+unaffected, but the B-6 12b comparison silently loses its data every
+time. `test_full_shape_5.py`'s worlds never include a 12b size, so this
+path has never been exercised (Task 5's own PROGRESS entry: "`b6_12b`
+(empty in the worlds — no 12b size)"). A future task should scope both
+functions to `battery_2g.sweep_rungs("12b")`.
+
+**Finding 2 (the brief's "27-site harness" is 28 in the committed
+source).** The AST walk restricted to `run()`'s own FunctionDef body
+(the exact scope `test_totality_5.py::_site_templates_5` and `tests/
+mutation_check.py::_totality_mutants_5` both use) finds 28 distinct
+`collect_total_5(thunk, label)` call sites, not 27 — the extra one is
+`"5 verdict write"`, the `if write: ...` block near the end of `run()`,
+gated behind `write=True`. It is a real, textually-present call inside
+`run()`'s body, so it is covered as a superset of the brief's count
+(`test_site_template_count_matches_the_brief` asserts 28 and documents
+the discrepancy) rather than excluded to force the number to match; the
+27-/28-site census test reaches it with one extra `_run(..., write=
+True)` call.
+
+**Finding 3 (`verify_referents_5.py` build bug, fixed before commit):**
+item 5's first draft assumed `checkpoints_2h.json` was keyed by size at
+the top level like `checkpoints_2g.json` (`{"2.8b": {...}, "12b":
+{...}}`); it is flat (one size, no top-level key) — `KeyError: '6.9b'`
+on first cold run. Fixed: the plan tuple reads `old_2h` directly for
+6.9b, `old_2g["2.8b"]`/`old_2g["12b"]` for the other two, disclosed in
+the function's own comment.
+
+**`verdict_5`'s `"meta"` refactor (the brief's own words: "put those
+under one `meta` key... if they are not already").** The verdict's only
+volatile top-level field was `git_sha` (captured fresh by `b5.git_sha_
+5()` on every `run()` call) — no other timestamp exists anywhere in the
+verdict tree (checked: no `written_utc`/similar leaks into the top
+level; S9's cross-host block does carry committed units' own
+`written_utc` fields, but those are FIXED once written, not
+re-captured per analysis, and S9 is `"not run"` in every synthetic
+world/real pre-campaign tree used here). `verdict_5`'s return now nests
+it as `{"meta": {"git_sha": git_sha}}` instead of a bare `"git_sha"`
+key; `run()`'s `__main__` printout and the new `test_determinism_5.py`
+both updated to read `result["meta"]["git_sha"]`. This is the ONLY
+verdict-shape change in Task 6.
+
+**The flagged Task 5 minor, closed:** `power_failures_5` now REFUSES
+(one line, `"power record: cannot reproduce — finals_counts or floors
+missing (power_gate='full')"`) when `power_gate == "full"` and either
+`finals_counts`/`floors` is `None`, instead of silently no-op'ing the
+byte-reproduction check the caller explicitly asked for; `power_gate ==
+"skip"` is unaffected (still the normal test-only shape). New fast
+test: `test_power_failures_5_refuses_on_missing_inputs_when_gate_is_
+full`.
+
+**A process incident, disclosed in full.** While manually verifying
+individual mutant kills against the LIVE (shared) source files, this
+session twice used `git checkout -- <file>` to restore after a
+one-off hand-mutation — safe for a file with NO uncommitted changes,
+but `battery_5.py` and `analyze_5.py` both carried uncommitted Task 6
+edits (the FROZEN_SHA256_5/IMPORTED_SHA256_5 tables; the REFERENTS_
+5_SHA256 pin, the power-gate fix, the meta refactor) at the time. The
+first incident (`analyze_5.py`) coincided with the BACKGROUND mutation
+harness's own concurrent backup/restore cycle for a DIFFERENT mutant
+under test at the same moment — the two processes' file writes raced,
+and a stray totality-mutant fragment (`"5 host record"`'s stripped
+`collect_total_5` call) was briefly left applied; it self-healed when
+the harness's own `finally` block restored from ITS OWN backup shortly
+after. The second incident (`battery_5.py`) had no such luck: `git
+checkout --` reverted `FROZEN_SHA256_5`/`IMPORTED_SHA256_5` all the way
+back to `None` (Task 5's committed state), caught immediately via `git
+diff --stat` reading empty for a file that should have carried ~120
+new lines, fixed by re-running `import_scan_5.py` and re-pasting both
+tables (the fresh scan reproduced the prior output byte-for-byte except
+for `verify_referents_5.py`'s own hash, confirming no other drift).
+**Lesson applied for the remainder of the task and left here for any
+future session:** manual mutation-kill verification against a file
+that carries uncommitted legitimate edits must use a `cp`-based
+snapshot/restore (`cp file file.safe; …mutate/test…; cp file.safe
+file; rm file.safe`), never `git checkout --`, and must never run
+concurrently with the background mutation harness (which the brief
+already says explicitly: "run alone, detached" — this incident is the
+concrete reason why). Every fast-mutant kill claimed in `mutation_
+build.log` was independently re-confirmed this way AFTER both
+incidents were resolved (#1/#2 bar/alpha boundaries; #9 the crossing
+test's closed/open ends; #11 `clears_5`'s significance-vs-rate
+distinction; #15 `unit_complete_5`'s content check; #18 the
+prefetcher's failure print; #19 gate 1(a)'s per-doc-loss comparison;
+#20 `replay_pairs_5`'s logged-vs-derived target; #22 the projection
+ancestry's final-step exclusion; #27 `slice_equal_5`'s set_index
+comparison — nine confirmations, each shown killing its own mutant and
+nothing else).
+
+**Six new fast tests closing hand-mutant survivors** (all in the
+existing fast files, none new): `test_stats_5.py::test_tree_precedence`
+gained two boundary assertions (`T == T_BAR_5` → NOT-MATCHED, closed;
+`p == ALPHA_5` → MATCHED, open) killing the bar/alpha widening mutants;
+`test_search_5.py::test_plan_crossing_is_closed_at_the_low_end_exactly`
+(a target equal to the first spine point's own loss — the max loss a
+decreasing table can hit — must still cross, not drop) kills the `>=`/`>`
+swap; `test_battery_5.py::test_clears_5_is_a_significance_test_not_a_
+bare_rate_comparison` (count exactly at the floor reads False under the
+real binomial-significance rule, True under a bare-rate mutant) kills
+the `clears_5` weakening; `test_collect_5.py` gained `test_unit_
+complete_5_checks_content_not_only_presence` (a file present but
+content-changed after `run_unit_5` must read incomplete) and `test_
+prefetcher_wait_prints_on_a_failed_download` (capsys-checked); `test_
+stages_5.py::test_finals_gate1a_catches_a_per_doc_loss_mismatch_with_
+equal_aggregate` (a custom `loaders["loss"]` that returns the SAME
+aggregate scalar on both loader paths but a DIFFERENT `per_doc_loss`
+list); `test_analyze_5.py` gained `test_replay_pairs_5_uses_the_
+committed_loss_not_the_logged_target` (a hand-built 4-point spine where
+the re-derived target crosses at one bracket and a tampered logged
+target would cross at another) and one more assertion in `test_
+projection_failures` (an `is_ancestor` that fails specifically on the
+FINAL step's own sha must still read clean — the final's exclusion is
+by design, its unit is built in stage 1 before the projection exists);
+`test_slice_5.py::test_slice_equal_5_catches_a_set_index_mismatch`
+(matching ids/offsets/set_names, differing set_index, must not read
+equal). Plus one new hand mutant not in the brief's literal list but
+matching its intent ("the mutants... applied in place... `run/sweep_
+5.py`"): the halted-size refusal in `sweep_5.run()` dropped — killed by
+the EXISTING `test_stages_5.py::test_sweep_resumes_and_refuses_when_
+halted`.
+
+**The remaining 30 hand+totality survivors after the fast pass all
+route to the SLOW suite, confirmed via `--worlds-only` (29/29 killed,
+0 open, 0 errors) — `mutation_worlds.log` committed.** One genuinely
+needed the full-shape world (`gate4_an_orphan_unit_units_unnamed_is_
+never_turned_into_a_failure` → `test_full_shape_5.py::test_refusal_
+routes_deliver_insufficient_data`, the ONLY mutant that needed
+`--fullshape` after totality alone failed to catch it). **Process note
+(disclosed, not hidden): 23 of the 28 AST-generated totality mutants
+are killed by `test_site_template_count_matches_the_brief` — a
+STRUCTURAL check** (removing any `collect_total_5` call drops the
+AST-detected site count from 28), not a behavioural one. This is a
+legitimate kill under the ordinary mutation-testing convention (some
+test in the covering suite fails), and it is not accidental — every
+totality mutant IS also exercised behaviourally by the 9-shape test
+and by the census test's own recording pass, which both run FIRST in
+file order and pass cleanly under every one of these 23 mutants (the
+underlying `collect_total_5` call, even stripped of its try/except
+wrapper, only differs observably from the real one when its thunk
+RAISES, and none of the 9 named corruption shapes happens to drive
+exactly these 23 sites into a raising state — they cover loaders that
+succeed regardless of the wrapper on a clean/partially-corrupted world,
+the primary/modifier/cells pipeline, gate 1(a)/(b)/(c)'s already-tested
+contract functions, and the import-surface/referents checks). The
+other 5 (`_check_halts`, `_check_projection`, `_check_loss_table`,
+`_check_power`, `_gate4`, `_load_search_log`, `_load_all_units` — one
+per shape) are killed by `test_every_runner_leavable_tree_shape_gives_
+insufficient_data` directly, matching the 9-shape list's own coverage
+one-for-one where a shape exists for that exact site. **This is the
+methods-paper-lesson-candidate this task surfaces, Michael's call:** a
+structural site-count test is a cheap, real backstop for "the wrapper
+exists at all," but it does not by itself demonstrate that stripping
+the wrapper changes BEHAVIOUR at that site — the 9-shape test's own
+coverage is what does that, for the 6 sites it reaches; the other 23
+sites' wrappers are exercised for PRESENCE, not for a demonstrated
+behavioural difference, on this instrument.
+
+**Pin tables (import scan, run cold against the real tree — identical
+across three separate runs):** `FROZEN_SHA256_5` 51 files (every
+`experiments/` module `battery_2d`/`battery_2g`/`checkpoints_2g`/
+`predictor_2g`/`battery_2h`/`analyze_2i`/`battery_2i` pull in
+transitively — the full exp2b/exp2c/exp2d/exp2f/exp2g/exp2h/exp2i/exp3/
+exp3c/exp1-signatures surface, `models`/`harness` included via their
+resolved FILE PATH under `experiments/exp2b/`/`experiments/exp2c/`
+even though imported as bare top-level names); `IMPORTED_SHA256_5` 6
+files (`__init__.py`, `run/__init__.py`, `make_referents_5.py`,
+`verify_referents_5.py`, `run/preflight_5.py`, `run/s9_mac_5.py` —
+exactly the brief's predicted residual).
+
+**Read sweep (run cold against the real tree, identical across two
+runs after the referents_sha/imports_pinned/frozen_check overrides
+were dropped in favour of the PRODUCTION defaults — `an.run(root=
+b5.EXP5, tag_exists=lambda t: True, blob_sha=…, blobs_bound=lambda
+t, p, **k: [], n_sample=10, n_boot=10)`):** refuses at `"5 host
+record"` (no `results/host_5.json` on the pre-campaign tree, exactly
+as the brief predicted) — **1853 distinct paths, 1952 total open/read
+calls, 0 UNPINNED.** Buckets: `referents_5.json` 1783 (the manifest's
+1786 listed files minus the 3 that ALSO carry their own independent
+sha-pin, reclassified into the next bucket), `sha_pin_at_load` 4
+(`checkpoints_5.json`, `slice_5.npz`, 2d's `results/verdict.json` via
+`battery_2g.load_floors`'s own pin, and `referents_5.json` ITSELF via
+`check_referents_5`'s own pin — a fourth item beyond the brief's
+literal three, disclosed in the tool's own docstring), `pinned_module`
+57 (the 51+6 pin-table files, read via `bg.sha256_file` inside `check_
+frozen_5`/`check_imports_5`, now exercised for real since those two
+checks run at PRODUCTION defaults), `instrument_blob` 9, `python_
+stdlib_venv` 0 (the sweep covers the DATA surface only, matching
+4c's own precedent — python source loading doesn't route through the
+wrapped `open`/`read_text`/`read_bytes`/`np.load`).
+
+**Totality (`test_totality_5.py`, 3 tests, all pass):** the 9 named
+shapes in one test function, each corruption applied then restored
+before the next, `try`-wrapped so ANY exception fails the test (none
+raised) — 1. finals halted at gate 1(a) (marker + a partial 2.8b unit,
+one rung file gone); 2. a torn unit (no `_unit.json`, a non-final
+spine step); 3. `_unit.json` present, one rung file gone (a different
+step from #2); 4. the search log's pair left `"open"` (stale against
+the committed units); 5. a pair `dropped` — NOT a refusal, asserted
+directly on the clean world (6.9b×1b drops naturally on the synthetic
+curve, per Task 5's own PROGRESS note); 6. a size with no search log
+at all; 7. a corrupt json (torn mid-token); 8. a missing power record;
+9. a projection not in history (`is_ancestor` returns False). The
+27-/28-site census (two tests): `test_site_template_count_matches_the_
+brief` (28, Finding 2 above) and `test_every_collect_total_5_site_in_
+run_is_reached_across_the_shapes` (every one of the 28 templates hit
+at least once, via the clean run + one probe with `GATE1_INTERIOR_5`
+patched non-empty for gate 1(c) + replays of 4 of the 9 shapes + one
+`write=True` call for the 28th site).
+
+**Determinism (`test_determinism_5.py`, 1 test, passes):** the same
+MATCHED world analysed in two SEPARATE `subprocess.run([sys.executable,
+…])` interpreters (each re-applying `full_shape_5.apply_shrink` via a
+standalone `pytest.MonkeyPatch()`, never undone — a one-shot process),
+`verdict.json` byte-identical after dropping `"meta"` wholesale (the
+one volatile key, per the refactor above) — confirmed the strip is
+real work, not a no-op, by asserting `"meta"` and `"git_sha"` are
+present in the raw output before stripping.
+
+**Mutation harness final tally (`mutation_build.log`, 56 mutants):
+27 killed by the fast suite directly; 29 killed by the slow suite
+(each individually re-confirmed via `--worlds-only`, not inferred);
+0 documented equivalent; 0 unresolved survivors; 0 skips; 0 timeouts.**
+
+**Pre-tag analyzer executions on the real tree (`root=battery_5.EXP5`),
+counted per the brief's disclosure rule — 10 total, none altering the
+committed campaign tree (write=False throughout):**
+1. `import_scan_5.py`, first attempt — `an.run()` succeeded (`"5
+   targets seal"` refusal) before the subsequent `ModuleNotFoundError`
+   on `verify_referents_5` (not yet written).
+2. `import_scan_5.py`, second attempt (after writing `verify_
+   referents_5.py`) — `"5 targets seal"`.
+3. `scan()` via a one-off `python -c` invocation, to verify `check_
+   imports_5()`/`check_frozen_5()` pass in a fresh process after the
+   first table paste — `"5 targets seal"`.
+4. `read_sweep_5.py`, first attempt (`referents_sha=False, imports_
+   pinned=False`, matching exp4c's original template literally) —
+   `"5 targets seal"`.
+5. `read_sweep_5.py`, second attempt (overrides dropped in favour of
+   production defaults) — refused at `"5 import surface (entry)"` on a
+   stale `verify_referents_5.py` pin (Finding 3's fix landed between
+   scans 2 and this one).
+6. `import_scan_5.py`, re-run after Finding 3's fix and adding the
+   `blobs_bound` stub to both cold tools — `"5 host record"`, the
+   brief's predicted refusal point, reached for the first time.
+7. `read_sweep_5.py`, clean run with the fix and the `blobs_bound`
+   stub — `"5 host record"`, 0 UNPINNED.
+8. `scan()` via `python -c`, to re-verify `check_imports_5()`/`check_
+   frozen_5()` after the `battery_5.py` accidental-revert incident
+   (disclosed above) was fixed — `"5 host record"`.
+9. `import_scan_5.py`, final verification (after all fast-test/
+   mutation-harness edits landed) — byte-identical output to run 6/8
+   except run 6's own stale-pin line, confirming no further drift.
+10. `read_sweep_5.py`, final verification — identical to run 7 (1853
+    paths, 0 UNPINNED).
+`verify_referents_5.py`'s own cold-battery runs (five, including the
+one that caught Finding 3) are NOT counted — the tool reads committed
+files directly and never calls `analyze_5.run()`, per the brief's own
+carve-out.
+
+**Final state.** Fast suite (`experiments/exp5/tests/ -m "not slow"`):
+**101 passed** (was 92 at the end of Task 5; +9: 6 new mutation-kill
+tests, 2 power-gate/None-refusal tests, 1 replay_pairs_5 test — the
+`test_verify_referents_5.py` file itself contributes 10 of the 101).
+Slow suite (`test_totality_5.py` + `test_determinism_5.py` + `test_
+full_shape_5.py`, `-m slow`): **11 passed in 150.77s** (was 7 at the
+end of Task 5; +4: the 9-shape totality test, the two census tests,
+the determinism test). Cold battery: **11/13 + 2 legitimate SKIPs**
+(item 11 power record, pre-targets; item 13 gate records,
+pre-campaign). Import scan: **0 unpinned** (51 frozen, 6 residual).
+Read sweep: **0 unpinned** (1853 distinct paths). Mutation: **56/56
+resolved, 0 open survivors**. Zero model contact, zero network beyond
+the two cached-file reads item 7's slice re-derivation needed (both
+served from the local HF cache, no download), zero edits outside
+`experiments/exp5/`.

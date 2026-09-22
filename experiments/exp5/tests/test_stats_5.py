@@ -147,6 +147,11 @@ def test_tree_precedence():
     assert t["verdict"] == "NOT-MATCHED" and t["modifier"] == "LARGE-AHEAD"
     assert ss.tree_5(failures=[], primary={**ok, "T": 0.009}, modifier={"modifier": "LARGE-AHEAD"})["verdict"] == "MATCHED"
     assert ss.tree_5(failures=[], primary={**ok, "rung_block": {"p": 0.011}}, modifier={"modifier": "LARGE-AHEAD"})["verdict"] == "MATCHED"
+    # Task 6 mutation kills: T's bar is CLOSED (>=) and alpha's is OPEN
+    # (<), so each boundary value itself distinguishes the real rule
+    # from a mutant that widens/narrows it.
+    assert ss.tree_5(failures=[], primary={**ok, "T": b5.T_BAR_5}, modifier={"modifier": "LARGE-AHEAD"})["verdict"] == "NOT-MATCHED"
+    assert ss.tree_5(failures=[], primary={**ok, "rung_block": {"p": b5.ALPHA_5}}, modifier={"modifier": "LARGE-AHEAD"})["verdict"] == "MATCHED"
 
 
 def test_signed_offset_ci_and_secondaries_run():

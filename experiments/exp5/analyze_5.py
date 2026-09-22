@@ -62,7 +62,7 @@ REFERENTS_PATH_5 = EXP5 / "referents_5.json"
 
 # Task 6 pins these; a plain None means "not pinned yet — build incomplete"
 # and is read by `run()`'s `_LITERAL` default resolution (4c's convention).
-REFERENTS_5_SHA256 = None
+REFERENTS_5_SHA256 = "e7a1ea3b65d915bc0f6ba7711a938b07ff4e267dc9f2a190798f3135991070e0"
 
 _LITERAL = object()
 
@@ -450,7 +450,14 @@ def power_failures_5(root, rec: dict, finals_counts: dict, floors: dict, *,
     if rec.get("declaration") not in ("POWERED", "DECLARED UNDERPOWERED IN ADVANCE"):
         bad.append(f"power record: declaration {rec.get('declaration')!r} is not one of the two "
                    f"literals")
-    if power_gate != "skip" and finals_counts is not None and floors is not None and \
+    if power_gate == "full" and (finals_counts is None or floors is None):
+        # Task 6 fix (flagged Task 5 minor): power_gate == "full" is the
+        # caller's request that this gate be the WHOLE of gate 5 — a
+        # missing finals_counts/floors must REFUSE, not silently skip
+        # the reproduction the caller asked for.
+        bad.append("power record: cannot reproduce — finals_counts or floors missing "
+                   "(power_gate='full')")
+    elif power_gate != "skip" and finals_counts is not None and floors is not None and \
             "n_sim" in rec and "seed" in rec:
         recomputed = pw.compute(finals_counts, floors, n_sim=rec["n_sim"], seed=rec["seed"])
         recomputed["finals_sha256"] = want_sha
@@ -817,10 +824,16 @@ def secondaries_5(cells, units_by_size, pairs_data, root, manifest=None) -> tupl
 
 def verdict_5(*, failures, tree, primary, modifier, gate4, secondaries, secondary_failures,
              licence, power, signed_offset, pins_active, git_sha, gate1=None) -> dict:
+    """`git_sha` (and any future timestamp) lives under `"meta"` —
+    Task 6's determinism fixture drops that one key wholesale rather
+    than enumerating volatile fields one at a time (the brief's own
+    words: "put those under one `meta` key... if they are not
+    already")."""
     return {"verdict": tree["verdict"], "tree": tree, "primary": primary, "modifier": modifier,
             "gate4": gate4, "gate1": gate1, "secondaries": secondaries, "failures": list(failures),
             "secondary_failures": secondary_failures, "pins_active": pins_active,
-            "licence": licence, "power": power, "signed_offset": signed_offset, "git_sha": git_sha}
+            "licence": licence, "power": power, "signed_offset": signed_offset,
+            "meta": {"git_sha": git_sha}}
 
 
 def _json_safe_5(o):
@@ -1286,4 +1299,4 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
 
 if __name__ == "__main__":
     result = run(write="--write" in sys.argv)
-    print(json.dumps({k: result[k] for k in ("verdict", "git_sha")}, indent=1))
+    print(json.dumps({"verdict": result["verdict"], "git_sha": result["meta"]["git_sha"]}, indent=1))

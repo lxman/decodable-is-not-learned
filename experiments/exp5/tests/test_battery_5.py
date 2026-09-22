@@ -126,6 +126,18 @@ def test_tolerance_failures():
     assert any("antonym" in f for f in b5.tolerance_failures_5(missing, ref, label="x"))
 
 
+def test_clears_5_is_a_significance_test_not_a_bare_rate_comparison():
+    """Task 6 mutation kill: `clears_5` is the one-sided exact binomial
+    bar (p < .01 AND rate > floor, both STRICT) — not a plain rate >=
+    floor reading. A count exactly AT the floor must read False (rate >
+    floor fails on equality) regardless of any p-value; a mutant that
+    reads the rate alone reads it True."""
+    assert b5.clears_5(count=50, floor=0.1, n=500) is False
+    # a rate comfortably above the floor with n=500 is both statistically
+    # significant and numerically over the floor — clears under both readings
+    assert b5.clears_5(count=90, floor=0.1, n=500) is True
+
+
 def test_mac_referents_exist_for_five_sizes_and_none_for_two():
     for size in ("410m", "1b", "2.8b", "6.9b", "12b"):
         c = b5.mac_final_counts_5(size)

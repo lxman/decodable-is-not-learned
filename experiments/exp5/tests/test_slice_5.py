@@ -69,6 +69,20 @@ def test_write_load_roundtrip_and_sha_pin(tmp_path):
     assert (tmp_path / "again.npz").read_bytes() == out.read_bytes()   # byte-deterministic
 
 
+def test_slice_equal_5_catches_a_set_index_mismatch():
+    """Task 6 mutation kill: `slice_equal_5` compares `set_index`, not
+    only `ids`/`offsets` — two slices whose ids/offsets/set_names all
+    agree but whose per-document set assignment differs must NOT read
+    as equal."""
+    a = {"ids": np.array([1, 2, 3], np.int32), "offsets": np.array([0, 2, 3], np.int64),
+        "set_index": np.array([0, 1], np.int16), "set_names": ["A", "B"],
+        "meta": {"n_docs": 2, "n_read": 2, "n_skipped": 0, "n_scored": 1,
+                "last_doc_truncated": None}}
+    b = {**a, "set_index": np.array([1, 0], np.int16)}
+    assert sl5.slice_equal_5(a, dict(a)) == []
+    assert "set_index" in sl5.slice_equal_5(a, b)
+
+
 def test_slice_batches_right_pad_and_mask():
     sl = {"ids": np.array([1, 2, 3, 4, 5, 6, 7], np.int32), "offsets": np.array([0, 3, 7]),
           "set_index": np.array([0, 0], np.int16), "set_names": ["A"], "meta": {}}

@@ -1,0 +1,60 @@
+baseline OK (fast pass, all mutants)
+
+[tree_5_the_bar_t_t_bar_5_widened_to_t_t_bar_5] (#1) killed  tree_5: the bar T >= T_BAR_5 widened to T > T_BAR_5
+[tree_5_the_alpha_comparison_p_alpha_5_widened_to_p_alpha_5] (#2) killed  tree_5: the alpha comparison p < ALPHA_5 widened to p <= ALPHA_5
+[sign_flip_p_5_the_enumerated_null_s_identity_row_all_1_signs_dropped] (#3) killed  sign_flip_p_5: the enumerated null's identity row (all +1 signs) dropped
+[cell_5_p_mean_sides_becomes_p_sum_sides] (#4) killed  cell_5: P = mean(sides) becomes P = sum(sides)
+[cell_5_r_abs_a_f_drops_the_abs] (#5) killed  cell_5: R = abs(a - f) drops the abs
+[cell_5_live_any_widened_to_all] (#6) killed  cell_5: live = any(...) widened to all(...)
+[modifier_5_the_two_sided_binomial_test_narrowed_to_one_sided] (#7) killed  modifier_5: the two-sided binomial test narrowed to one-sided
+[bisect_step_5_the_tie_break_flipped_toward_the_higher_step] (#8) killed  bisect_step_5: the tie-break flipped toward the HIGHER step
+[plan_5_the_crossing_test_losses_a_target_losses_b_operators_swapped] (#9) killed  plan_5: the crossing test losses[a] >= target > losses[b] operators swapped
+[spine_5_the_substitution_picks_the_step_below_the_excluded_point_not_abo] (#10) killed  spine_5: the substitution picks the step BELOW the excluded point, not above
+[clears_5_the_binomial_significance_bar_replaced_by_a_plain_rate_floor_re] (#11) killed  clears_5: the binomial significance bar replaced by a plain rate >= floor reading
+[modifier_min_cells_5_thin_threshold_8_7] (#12) killed  MODIFIER_MIN_CELLS_5 (THIN threshold): 8 -> 7
+[min_live_cells_5_20_19] (#13) killed  MIN_LIVE_CELLS_5: 20 -> 19
+[n_window_side_5_2_1] (#14) killed  N_WINDOW_SIDE_5: 2 -> 1
+[unit_complete_5_the_per_file_sha_comparison_dropped_existence_only] (#15) killed  unit_complete_5: the per-file sha comparison dropped (existence-only)
+[tolerance_failures_5_the_per_rung_tolerance_widened_from_to] (#16) killed  tolerance_failures_5: the per-rung tolerance widened from > to >=
+[run_unit_5_unit_json_written_before_the_34_rung_records_not_after] (#17) killed  run_unit_5: _unit.json written BEFORE the 34 rung records, not after
+[prefetcher_wait_a_background_prefetch_failure_is_never_even_printed] (#18) killed  Prefetcher.wait: a background prefetch failure is never even printed
+[gate1a_loss_equal_ignores_per_doc_loss_aggregate_only] (#19) killed  gate1a: loss_equal ignores per_doc_loss (aggregate-only)
+[run_the_halted_size_refusal_dropped_a_halted_size_resumes_anyway] (#20) killed  run(): the halted-size refusal dropped (a halted size resumes anyway)
+[replay_pairs_5_the_replay_target_reads_the_logged_target_not_the_small_f] (#21) killed  replay_pairs_5: the replay target reads the LOGGED target, not the small final's loss
+[gate4_an_orphan_unit_units_unnamed_is_never_turned_into_a_failure] (#22) survived-fast, killed by the slow suite — test_full_shape_5.py::test_refusal_routes_deliver_insufficient_data (individually re-confirmed, see PROGRESS.md)  _gate4: an orphan unit (units_unnamed) is never turned into a failure
+[projection_failures_5_the_final_step_is_no_longer_excluded_from_the_ance] (#23) killed  projection_failures_5: the final step is no longer excluded from the ancestry check
+[power_failures_5_n_sim_provenance_never_compared] (#24) killed  power_failures_5: n_sim provenance never compared
+[main_the_write_once_refusal_dropped_a_second_write_silently_overwrites] (#25) killed  main: the write-once refusal dropped (a second write silently overwrites)
+[power_bar_5_0_75_0_5] (#26) killed  POWER_BAR_5: 0.75 -> 0.5
+[slice_equal_5_the_set_index_array_comparison_dropped] (#27) killed  slice_equal_5: the set_index array comparison dropped
+[loss_from_per_doc_5_a_per_set_n_tokens_count_zeroed_instead_of_measured] (#28) killed  loss_from_per_doc_5: a per-set n_tokens count zeroed instead of measured
+[totality_95697235f9] (#29) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 958 (_check_halts...)
+[totality_1bc33db24b] (#30) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 962 (frozen_check or b5.check_frozen_5...)
+[totality_49618d9fb5] (#31) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 971 (lambda: b5.require_prereg_5(tag_exists=tag_exists, blob_sha=...)
+[totality_ad39e59a5f] (#32) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 976 (lambda: b5.require_targets_seal_5(root, tag_exists=tag_exist...)
+[totality_dbe9455868] (#33) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 984 (lambda: manifest if manifest_injected else b5.load_manifest_...)
+[totality_138a23d00f] (#34) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 997 (_load_slice...)
+[totality_3ec118fa91] (#35) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1010 (bt.load_battery...)
+[totality_223e38694e] (#36) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1012 (b5.load_floors_5...)
+[totality_4f95d553d7] (#37) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1014 (a2d.load_verify...)
+[totality_ed13262569] (#38) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1027 (_load_host...)
+[totality_1007afd168] (#39) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1039 (_load_all_units...)
+[totality_33f9851f81] (#40) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1087 (_check_loss_table...)
+[totality_3339204c5a] (#41) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1103 (_check_power...)
+[totality_ca59f913cb] (#42) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1120 (_check_projection...)
+[totality_bed8157518] (#43) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1229 (_make_cells...)
+[totality_456c3066bc] (#44) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1236 (_make_primary...)
+[totality_2c46608367] (#45) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1243 (_make_modifier...)
+[totality_b47686f67d] (#46) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1250 (_make_signed_offset...)
+[totality_7a4d35f5a0] (#47) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 967 (b5.check_imports_5...)
+[totality_b2fb2be78d] (#48) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1055 (_check_gate1a...)
+[totality_7e528df1ad] (#49) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1068 (_check_gate1b...)
+[totality_7226035f79] (#50) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1213 (_gate4...)
+[totality_71c7feae97] (#51) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1255 (b5.check_imports_5...)
+[totality_5b3140592f] (#52) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1294 (_write_verdict...)
+[totality_71da69b926] (#53) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1007 (_check_referents...)
+[totality_f7541f99c2] (#54) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1147 (_check_spine...)
+[totality_40ef758834] (#55) survived-fast, killed by the slow suite — test_totality_5.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1189 (_load_search_log...)
+[totality_fdf4511a43] (#56) survived-fast, killed by the slow suite — test_totality_5.py::test_site_template_count_matches_the_brief (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5 stripped at line 1160 (_check_gate1c...)
+
+27 killed by the fast suite directly; 29 killed by the slow suite (each individually re-confirmed via --worlds-only, not inferred — see mutation_worlds.log); 0 documented equivalent; considered=56; 0 UNRESOLVED survivor(s): []; 0 SKIP (target text not found / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []

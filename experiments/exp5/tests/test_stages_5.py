@@ -109,6 +109,39 @@ def test_finals_halts_on_a_gate1a_digest_mismatch(env):
         not json.loads(b5.gate1a_path_5(env["root"]).read_text())["pass"]
 
 
+def test_finals_gate1a_catches_a_per_doc_loss_mismatch_with_equal_aggregate(env):
+    """Task 6 mutation kill: gate 1(a)'s `loss_equal` requires the
+    per-document loss lists to match too, not only the aggregate scalar
+    — a mutant that drops the per_doc_loss comparison would read two
+    paths with an identical mean but a genuinely different per-token
+    computation as equal."""
+    c = dict(env["common"])
+    base_loaders = dict(c["loaders"])
+
+    def custom_loss(model, sl, *, batch_size, device):
+        n_docs = len(sl["offsets"]) - 1
+        per_set = {name: {"loss": 2.5, "n_tokens": 0} for name in sl["set_names"]}
+        for d in range(n_docs):
+            per_set[sl["set_names"][int(sl["set_index"][d])]]["n_tokens"] += \
+                int(sl["offsets"][d + 1] - sl["offsets"][d] - 1)
+        per_doc = [2.5] * n_docs
+        if model.get("path") != "a":                # the candidate path only
+            per_doc[0] = 2.5001
+        return {"loss": 2.5, "n_scored": sl["meta"]["n_scored"], "n_docs": n_docs,
+                "per_set": per_set, "per_doc_loss": per_doc, "finite": True, "n_nonfinite": 0,
+                "batch_size": batch_size, "pad_id": b5.PAD_ID_5, "logits_dtype": "float16",
+                "log_softmax_dtype": "float32", "accumulation": "fake",
+                "slice_sha256": sl["sha256"], "seconds": 0.0}
+    c["loaders"] = {**base_loaders, "loss": custom_loss}
+    with pytest.raises(SystemExit):
+        fin.run(**c)
+    assert b5.halt_marker_path_5(env["root"], "2.8b").exists()
+    g1a = json.loads(b5.gate1a_path_5(env["root"]).read_text())
+    assert g1a["loss_2c_path"] == g1a["loss_candidate_path"] == 2.5      # aggregate agrees
+    assert g1a["loss_equal"] is False                                   # per_doc_loss disagrees
+    assert g1a["per_doc_diffs"] == 1
+
+
 def test_finals_halts_on_a_gate1b_tolerance_failure(env, monkeypatch):
     monkeypatch.setattr(b5, "GATE1_REFERENT_SOURCE_5", {"1b": "fake"})
     monkeypatch.setattr(b5, "mac_final_counts_5",

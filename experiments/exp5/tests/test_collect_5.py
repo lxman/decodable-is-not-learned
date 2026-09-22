@@ -62,6 +62,21 @@ def test_run_unit_writes_36_files_then_unit_json_last_and_frees(world):
     assert w["state"]["freed"] == [("1b", 2000)] and w["state"]["released"] == 1
 
 
+def test_unit_complete_5_checks_content_not_only_presence(world):
+    """Task 6 mutation kill: `unit_complete_5` re-hashes every file
+    `_unit.json` names against the sha it recorded — a file present but
+    CHANGED (its own sha stale in `_unit.json`) must read incomplete. A
+    mutant that checks existence only would still read it complete."""
+    w = world
+    c5.run_unit_5("1b", 2000, root=w["root"], manifest=w["manifest"], cache_root=w["root"],
+                  device="cuda", battery=w["battery"], verify_fn=w["verify_fn"], sl=w["sl"],
+                  host=w["host"], loaders=w["loaders"], git_sha="g", why="spine")
+    assert b5.unit_complete_5(w["root"], "1b", 2000)
+    p = b5.loss_record_path_5(w["root"], "1b", 2000)
+    p.write_text(p.read_text() + " ")            # content changed; _unit.json's sha now stale
+    assert not b5.unit_complete_5(w["root"], "1b", 2000)
+
+
 def test_run_unit_skips_a_complete_unit(world):
     w = world
     kw = dict(root=w["root"], manifest=w["manifest"], cache_root=w["root"], device="cuda",
@@ -104,3 +119,18 @@ def test_prefetcher_runs_the_download_and_waits(world):
     pf.wait()
     assert w["state"]["prefetched"] == [("1b", "step4000")]
     pf.wait()                                        # idempotent
+
+
+def test_prefetcher_wait_prints_on_a_failed_download(world, capsys):
+    """Task 6 mutation kill: a failed background prefetch is silent to
+    the caller (the real load retries) but not to the log — `wait()`
+    prints it. A mutant dropping that print leaves no observable trace
+    at all."""
+    w = world
+
+    def raising_prefetch(size, entry, cache_root):
+        raise RuntimeError("simulated prefetch failure")
+    pf = c5.Prefetcher({**w["loaders"], "prefetch": raising_prefetch}, cache_root=w["root"])
+    pf.start("1b", b5.entry_5(w["manifest"], "1b", 4000))
+    pf.wait()
+    assert "simulated prefetch failure" in capsys.readouterr().out

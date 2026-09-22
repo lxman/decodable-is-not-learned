@@ -709,7 +709,110 @@ def require_targets_seal_5(root, *, tag_exists=None, blobs_bound=None) -> dict:
 
 # ---------------------------------------------------------- frozen pins
 
-FROZEN_SHA256_5 = None      # Task 6: every experiments/ module imported outside exp5, by sha256
+FROZEN_SHA256_5 = {
+    REPO / "experiments/exp1/signatures/stats.py":
+        "ceab3eb7f6daf9346b9231f0e4af7e458b43ba4e7361556aef926e1abde2611f",
+    REPO / "experiments/exp2b/models.py":
+        "a4c5eed26cc92044aeb9ed7b68b177035de3ac2615dbba09a6d21eeb191a55a4",
+    REPO / "experiments/exp2b/probe_starved.py":
+        "e6c81df28e4a7e07db3a123e4b06d3c8a98a7d330cd726596d41b1136c4cd27b",
+    REPO / "experiments/exp2b/splits.py":
+        "49df4c62c3c3bd611b9cf49be46001c12220045a3611a39be5e2bc5b89ded6e0",
+    REPO / "experiments/exp2c/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2c/battery/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2c/battery/base.py":
+        "6d77c3c91c5ca0eb84e1a011ef64af0e04ade6fe8d1ad42d526be3a37fbacbb2",
+    REPO / "experiments/exp2c/battery/family_map.py":
+        "46477b37683c8ea0e1f2f219dce96858a0dcf91710b15cae45a8cf4c4c7ab375",
+    REPO / "experiments/exp2c/battery/generators_controls.py":
+        "baab6da475f90f8c07acb6d1eb317484bf36afeb40705684f43ecd5ec9fdade6",
+    REPO / "experiments/exp2c/battery/generators_rescues.py":
+        "d70215c89ffd58d3f18f9dcd99940c7e92655ba8185919f50b2090b7e900c257",
+    REPO / "experiments/exp2c/battery/generators_rungs.py":
+        "778bf30da104f71773c26aa909ef2fddcd81291676a2db5d30130581b8d162d0",
+    REPO / "experiments/exp2c/battery/wordlists_2c.py":
+        "f46c6092d6429a59b95531d1a58b1bbfc0576d692d1162b8dfd2b6daf051790f",
+    REPO / "experiments/exp2c/harness.py":
+        "3e72fb3c18772096e8c520ade93e154dd8bc6765c3c473390a9b32a6b24ae111",
+    REPO / "experiments/exp2c/instrument.py":
+        "c486213bfa4753a83593b5383e2c0c90a6379b156f59a236ceeac7d68961e052",
+    REPO / "experiments/exp2c/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2c/run/power_table.py":
+        "89816cf0e7e2418e748104dbc32fd50e12ded78988f2c2c04b05ff1a89c58da1",
+    REPO / "experiments/exp2c/run/screen.py":
+        "fef1814142955912066837fbd2119f5c2ae27fe31393ede890584313e2b06873",
+    REPO / "experiments/exp2c/stats_bounds.py":
+        "39057433f1d67cbbf803141dc25ee36cda9e96270b0634006c0fcab245ee49f8",
+    REPO / "experiments/exp2d/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2d/analyze_2d.py":
+        "01ee334db5fe273a8509cf4bf79757b52a40a123311acd42554ac1a82e40334a",
+    REPO / "experiments/exp2d/battery_2d.py":
+        "503a2c09ec320989223561291ff93c71d62d27ed20c5681f9b2d535b7708e81a",
+    REPO / "experiments/exp2d/stats_2d.py":
+        "86243932709013ea15b250e9bf15243ce6209e03e6bcf81af0f7ac3f92644b46",
+    REPO / "experiments/exp2f/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2f/analyze_2f.py":
+        "79018ff34b6f41bd2a5e8fa0f922a2de567861750057a5eca1a3dad6cf3f61d3",
+    REPO / "experiments/exp2f/collect_eval_2f.py":
+        "189e3738471185b7205f106fdac9bc5da1d564caafc60e39f4d6e3546915d071",
+    REPO / "experiments/exp2f/labels_2f.py":
+        "8dc31850e5c47b7a1cc171b0388521ebe01005ddc123954c0073734cf9aaac25",
+    REPO / "experiments/exp2f/make_referents_2f.py":
+        "c08eec5cea9f49a05c6754c84b81e1cb8560537881b002faee02bcf085af1c10",
+    REPO / "experiments/exp2f/probe_2f.py":
+        "63c714d6e899dd9d6d5610a3d54c9254ec0749d03f44a703790d4a4354854f62",
+    REPO / "experiments/exp2g/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2g/analyze_2g.py":
+        "eab7c5b91d57351ee2a7adb0e85d71cb92cb4d6ed15d0bb90150c95c2076050e",
+    REPO / "experiments/exp2g/battery_2g.py":
+        "aca79dd71ee7dead3c0ce065945bb38eaf1b0b72b5d5f40698dabb0f5a9cf3c1",
+    REPO / "experiments/exp2g/checkpoints_2g.py":
+        "155fee3ec3933db33930d7ddadb99c02604d893205a8f8c037016cc18609fb10",
+    REPO / "experiments/exp2g/collect_eval_2g.py":
+        "392ab84e2bac360bf041858a4b991824a3bda9ca414e34d0f84e44b22610efaf",
+    REPO / "experiments/exp2g/labels_2g.py":
+        "d86e7cdb4dcc10257986e8a85824365972a75ba993be5a8fde8a825d68e3077d",
+    REPO / "experiments/exp2g/predictor_2g.py":
+        "3381b43a34fd1fb1f7ef57eb9d02a6a9e9ec41b3ffcadea425c37b86c1e92a4e",
+    REPO / "experiments/exp2g/probe_2g.py":
+        "63abc9e6518ac1ab53e4a70e0c716bccd357a11ea3fc2733de52e2ec4e23d451",
+    REPO / "experiments/exp2g/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2g/run/sweep_2g.py":
+        "850db5831adeffc46a888ca185ef3f1ad819a8db104c9eafd1df69c470c91a87",
+    REPO / "experiments/exp2g/stats_2g.py":
+        "cf3c4c89c86fa43c5ba49d5c4be12eabad28ac65d9d12a43b1e31ef6e4bc195f",
+    REPO / "experiments/exp2g/strata_2g.py":
+        "ea0acbbdfde13655a6b89d3afcc981f348ee6312b4448b70d437f1e4d3f7f594",
+    REPO / "experiments/exp2h/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2h/analyze_2h.py":
+        "52733e8d4280fb41b76cda2dcac024299ce7dd61090f856ba3147c8098b871bf",
+    REPO / "experiments/exp2h/battery_2h.py":
+        "2d721cf85bbd85937f45a1135e8b5e102685ab424d8ab0dfada527bd8ab4e80a",
+    REPO / "experiments/exp2i/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp2i/analyze_2i.py":
+        "85e482fea17e0706476243a0a98a7d2c32efebd6536c5255ae48e729b494c252",
+    REPO / "experiments/exp2i/battery_2i.py":
+        "e0a8d10cb4dde8a3af1a3e9b32447c407b43201513dc758d6cd9a8c38b5cdfcf",
+    REPO / "experiments/exp3/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp3/analyze_3.py":
+        "aa0cb2374fbdffde2f9eaae26cee1ce51f9f42c0b32fd89f4f8754c983a92274",
+    REPO / "experiments/exp3/sampler.py":
+        "e33c50d3985b1d6205d886e53726860f364cce1c6cd943ec460524e9110a03ea",
+    REPO / "experiments/exp3c/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp3c/analyze_3c.py":
+        "66b78ffbedb808625ed33019f29d2ef8ec9d0f31a1115eb7cb08ad3e67d42d84",
+}
 
 
 def check_frozen_5() -> None:
@@ -723,7 +826,20 @@ def check_frozen_5() -> None:
 
 # --------------------------------------------------- import-surface pin
 
-IMPORTED_SHA256_5 = None    # Task 6: exp5's own residual import surface, by sha256
+IMPORTED_SHA256_5 = {
+    REPO / "experiments/exp5/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp5/make_referents_5.py":
+        "759948baff86f1947eaa0a6e3ccc4adf5a85c5b836ccbdb34480bc011b0d6576",
+    REPO / "experiments/exp5/run/__init__.py":
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    REPO / "experiments/exp5/run/preflight_5.py":
+        "975b3d50f62c2056e1de316c440a6d14ee4df481490f2722b64c6b2287bd4a9a",
+    REPO / "experiments/exp5/run/s9_mac_5.py":
+        "fca6804d97193860358411a9350d145953b7ce8abce252c811695bd284246dc6",
+    REPO / "experiments/exp5/verify_referents_5.py":
+        "366e0e92c9306cb2a270cc8ca06c1680ce85a7e8d873298b8d330352314a801a",
+}
 
 
 def check_imports_5() -> None:
