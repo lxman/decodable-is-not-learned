@@ -973,6 +973,32 @@ def projection_commit_5():
     return lines[-1] if lines else None
 
 
+def projection_edits_5(adding_commit: str, *, repo=None) -> list:
+    """Freeze F-5: gate 5 reads the projection's ADDING commit only, so an
+    edit after the sweep (a revised projection graded as the sealed one)
+    left every ancestry check passing. Returns one line per commit after
+    `adding_commit` (to HEAD) that touches `experiments/exp5/projection.md`,
+    plus one if the working-tree file is not the blob the adding commit
+    added; [] when the projection is exactly what was sealed."""
+    repo = REPO if repo is None else Path(repo)
+    rel = "experiments/exp5/projection.md"
+    out = []
+    later = subprocess.run(["git", "log", "--format=%H", f"{adding_commit}..HEAD", "--", rel],
+                           cwd=repo, capture_output=True, text=True)
+    if later.returncode != 0:
+        return [f"projection: git log {adding_commit}..HEAD failed: {later.stderr.strip()[:120]}"]
+    out += [f"projection: commit {c} modifies {rel} after its adding commit {adding_commit}"
+            for c in later.stdout.split() if c]
+    want = subprocess.run(["git", "rev-parse", f"{adding_commit}:{rel}"], cwd=repo,
+                          capture_output=True, text=True).stdout.strip()
+    got = subprocess.run(["git", "hash-object", str(repo / rel)], cwd=repo,
+                         capture_output=True, text=True)
+    if got.returncode != 0 or not want or got.stdout.strip() != want:
+        out.append(f"projection: the working-tree {rel} ({got.stdout.strip()[:12] or 'missing'}) "
+                   f"is not the blob its adding commit added ({want[:12] or 'none'})")
+    return out
+
+
 def is_ancestor_5(a: str, b: str) -> bool:
     return subprocess.run(["git", "merge-base", "--is-ancestor", a, b],
                           cwd=REPO).returncode == 0

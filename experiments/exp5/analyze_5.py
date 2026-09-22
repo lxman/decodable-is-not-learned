@@ -512,8 +512,8 @@ def power_failures_5(root, rec: dict, finals_counts: dict, floors: dict, *,
 
 
 def projection_failures_5(units_by_size: dict, *, projection_commit, is_ancestor,
-                          seal_tag_commit) -> list:
-    bad = []
+                          seal_tag_commit, edits=()) -> list:
+    bad = list(edits)          # freeze F-5: `battery_5.projection_edits_5`'s lines
     if not projection_commit:
         bad.append("projection: no projection commit found "
                    "(experiments/exp5/projection.md was never added)")
@@ -985,7 +985,7 @@ def write_verdict_txt_5(v: dict) -> str:
 def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl=None,
        tag_exists=None, blob_sha=None, blobs_bound=None, projection_commit=None, is_ancestor=None,
        seal_tag_commit=None, referents_sha=_LITERAL, imports_pinned=_LITERAL, frozen_check=None,
-       power_gate="full") -> dict:
+       power_gate="full", projection_edits=None) -> dict:
     root = Path(root) if root is not None else EXP5
     n_sample = b5.N_PERM_SAMPLED_5 if n_sample is None else n_sample
     n_boot = b5.N_BOOT_5 if n_boot is None else n_boot
@@ -1165,8 +1165,18 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     def _check_projection():
         if units is None:
             raise ValueError("units not loaded")
+        # Freeze F-5: the projection must be exactly the blob its adding commit
+        # added. Measured against the real repository whenever the projection
+        # commit is resolved from it; an injected commit (the worlds) injects
+        # its edits too (default: none).
+        if projection_edits is not None:
+            edits = list(projection_edits)
+        elif projection_commit is None and resolved_pc:
+            edits = b5.projection_edits_5(resolved_pc)
+        else:
+            edits = []
         bad = projection_failures_5(units, projection_commit=resolved_pc, is_ancestor=anc,
-                                    seal_tag_commit=resolved_seal_commit)
+                                    seal_tag_commit=resolved_seal_commit, edits=edits)
         if bad:
             raise ValueError(f"projection: {bad}")
         return True
@@ -1333,6 +1343,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
         "power_gate": power_gate,
         "slice_injected": sl_injected,
         "manifest_injected": manifest_injected,
+        "projection_edits_measured": projection_edits is None and projection_commit is None,
     }
 
     git_sha = b5.git_sha_5()

@@ -234,3 +234,30 @@ def test_loss_record_refuses_a_nan_loss_the_finite_flag_attests_away():
     assert any("not a finite float" in f for f in b5.loss_record_failures_5(nan, **kw))
     inf_set = {**rec, "per_set": {**rec["per_set"], "A": {**rec["per_set"]["A"], "loss": float("inf")}}}
     assert any("per-set A" in f for f in b5.loss_record_failures_5(inf_set, **kw))
+
+
+def test_projection_edits_are_refused_after_the_adding_commit(tmp_path):
+    """Freeze F-5: gate 5 read only the projection's ADDING commit; a later
+    commit revising projection.md (or an uncommitted edit) passed every
+    ancestry check."""
+    import subprocess
+
+    def git(*a):
+        return subprocess.run(["git", "-C", str(tmp_path), *a], capture_output=True, text=True,
+                              check=True).stdout.strip()
+    git("init", "-q"); git("config", "user.email", "x@y"); git("config", "user.name", "x")
+    pj = tmp_path / "experiments/exp5/projection.md"
+    pj.parent.mkdir(parents=True)
+    pj.write_text("# sealed\n"); git("add", "-A"); git("commit", "-qm", "projection")
+    pc = git("rev-parse", "HEAD")
+    (tmp_path / "other").write_text("x"); git("add", "-A"); git("commit", "-qm", "sweep")
+    assert b5.projection_edits_5(pc, repo=tmp_path) == []
+    pj.write_text("# revised\n")
+    assert any("working-tree" in e for e in b5.projection_edits_5(pc, repo=tmp_path))
+    git("add", "-A"); git("commit", "-qm", "revise projection")
+    edits = b5.projection_edits_5(pc, repo=tmp_path)
+    assert any("modifies experiments/exp5/projection.md" in e for e in edits)
+    from experiments.exp5 import analyze_5 as an
+    bad = an.projection_failures_5({}, projection_commit=pc, is_ancestor=lambda a, b: True,
+                                   seal_tag_commit="s", edits=edits)
+    assert bad and bad[0] == edits[0]
