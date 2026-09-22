@@ -111,7 +111,11 @@ def write_world_5(root: Path, mode: str, *, monkeypatch) -> dict:
     fin.run(**common)
     pw.main(root)                                    # ONCE, from the synthetic finals
     (root / "projection.md").write_text("# projection (synthetic)\n")
-    for size in SIZES_W[1:]:
+    # Every size the production campaign sweeps (run/campaign_5.sh runs sweep_5
+    # for EVERY size, the smallest last — S11 only). Freeze F-1: the worlds
+    # swept SIZES_W[1:] alone, so the smallest size's sweep was never
+    # exercised and its eight stray spine units never reached gate 4.
+    for size in SIZES_W[1:] + SIZES_W[:1]:
         sw.run(size=size, seal_check=lambda r, **k: {"failures": []}, projection_commit="p1",
                is_ancestor=lambda a, b: True, power_present=True, **common)
     return {"manifest": man, "sl": sl, "battery": battery, "state": state, "host_meta": fk.fake_host()}

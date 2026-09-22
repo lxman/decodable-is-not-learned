@@ -175,12 +175,18 @@ def run(*, size, root=EXP5, cache_root=None, device="cuda", dry_run=False, loade
             return band[i + 1] if i + 1 < len(band) else None
         return None
 
-    # (1) the spine
-    for s in spine:
+    # (1) the spine — a LARGE side's only (freeze F-1). A size that is never a
+    # pair's large side (160m, the campaign's last line) has no partner to
+    # search for; its sweep is S11 alone. Loading its spine would leave eight
+    # units that no search, final or S11 names, which gate 4's "nothing else
+    # loaded" re-derivation (analyze_5.expected_steps_5) refuses — the whole
+    # verdict INSUFFICIENT_DATA from the production campaign.
+    is_large = size in b5.LARGE_SIDES_5
+    for s in (spine if is_large else ()):
         if not b5.unit_complete_5(root, size, s):
             request(s, "spine")
     # gate 1(c)
-    if b5.gate1_interior_steps_5(size) and not b5.gate1c_path_5(root, size).is_file():
+    if is_large and b5.gate1_interior_steps_5(size) and not b5.gate1c_path_5(root, size).is_file():
         gate1c(root=root, size=size, host=host, git_sha=git_sha)
     # (2) per partner: the search
     avail = b5.available_5(manifest, size)

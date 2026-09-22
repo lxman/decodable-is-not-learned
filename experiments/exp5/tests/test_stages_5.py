@@ -202,6 +202,27 @@ def test_sweep_spine_then_brackets_then_windows_then_s11(env):
     assert on_disk == named
 
 
+def test_sweep_of_a_size_that_is_never_a_large_side_loads_only_s11(env):
+    """Freeze F-1: run/campaign_5.sh runs sweep_5 for the smallest size too
+    (S11 only). Before the closure the runner loaded that size's whole
+    spine, eight units gate 4 names nowhere (expected_steps_5 gives a
+    size that is never a large side {final, S11} only) — every campaign
+    verdict INSUFFICIENT_DATA."""
+    from experiments.exp5 import analyze_5 as an
+    fin.run(**env["common"])
+    n = len(env["state"]["loaded"])
+    smallest = b5.SIZES_5[0]
+    assert smallest not in b5.LARGE_SIDES_5
+    sw.run(size=smallest, **_sweep_kwargs(env))
+    assert env["state"]["loaded"][n:] == [(smallest, b5.S11_STEP_5)]
+    root = env["root"]
+    on_disk = {int(p.name[4:]) for p in (b5.units_root_5(root) / smallest).iterdir()
+               if p.name.startswith("step")}
+    assert on_disk == {b5.FINAL_STEP_5, b5.S11_STEP_5}
+    units = {smallest: {"losses": {}}}
+    assert on_disk <= an.expected_steps_5(units, env["common"]["manifest"], smallest)
+
+
 def test_sweep_reuses_units_across_partners_and_records_it(env):
     fin.run(**env["common"])
     sw.run(size="6.9b", **_sweep_kwargs(env))
