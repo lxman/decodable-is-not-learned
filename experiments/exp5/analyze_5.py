@@ -107,18 +107,21 @@ _LICENCE_BODY_5 = {
 # ------------------------------------------------------------- totality
 
 def collect_total_5(thunk, label):
-    """`analyze_2i.collect_total` (itself 2h's/2g's chain, widened by
+    """`analyze_2i.collect_total` (itself 2h's/2g's chain — `ValueError`,
+    `FileNotFoundError`, `KeyError`, `RuntimeError`, `TypeError`,
+    `AttributeError`, `OSError`, `EOFError`, `zlib.error`) widened by
     `zipfile.BadZipFile`, `KeyError`, `OSError`, `ImportError`,
-    `EOFError`) widened once more to every other `Exception` — `run()`
-    must never crash on a bug inside one gate or one secondary; that
-    bug is a refusal, collected and named, not a traceback. `label`
-    MUST start with `"5 "` (a call-site programming error, raised, not
-    laundered — the totality contract only protects DATA problems)."""
+    `EOFError`; any OTHER exception is a logic defect and CRASHES —
+    the totality contract protects DATA problems only (2i's own
+    docstring: a reachable exception outside the named set "would be a
+    logic defect in the instrument, which must surface as a crash
+    rather than be laundered into a refusal"). `label` MUST start with
+    `"5 "` (a call-site programming error, raised, not laundered)."""
     if not isinstance(label, str) or not label.startswith("5 "):
         raise ValueError(f"collect_total_5: label {label!r} must start with the '5 ' prefix")
     try:
         return an2i.collect_total(thunk, label)
-    except Exception as e:  # noqa: BLE001 — the totality contract
+    except (zipfile.BadZipFile, KeyError, OSError, ImportError, EOFError) as e:
         return None, [f"{label}: {type(e).__name__}: {e}"]
 
 

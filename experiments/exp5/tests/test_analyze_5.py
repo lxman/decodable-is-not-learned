@@ -5,12 +5,14 @@ from experiments.exp5 import analyze_5 as an
 from experiments.exp5 import battery_5 as b5
 
 
-def test_collect_total_5_prefix_and_never_raises():
-    v, f = an.collect_total_5(lambda: 1 / 0, "5 x")
-    assert v is None and f and f[0].startswith("5 x")
+def test_collect_total_5_prefix_named_types_and_crash_on_logic_defect():
+    v, f = an.collect_total_5(lambda: (_ for _ in ()).throw(OSError("x")), "5 x")
+    assert v is None and f == ["5 x: OSError: x"]
     v, f = an.collect_total_5(lambda: 3, "5 y")
     assert v == 3 and f == []
-    with pytest.raises(ValueError, match='prefix'):
+    with pytest.raises(ZeroDivisionError):          # a logic defect is never laundered
+        an.collect_total_5(lambda: 1 / 0, "5 z")
+    with pytest.raises(ValueError, match="prefix"):
         an.collect_total_5(lambda: 3, "no prefix")
 
 
