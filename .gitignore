@@ -127,3 +127,16 @@ experiments/exp4c/freeze_*.log
 # record, unlike exp4's own (never committed). Only activations/ stays
 # gitignored.
 experiments/exp4c/results/**/activations/
+# exp5 campaign/stage logs and pids — machine-local, never part of the closed record
+experiments/exp5/preflight.log
+experiments/exp5/finals.log
+experiments/exp5/sweep_*.log
+experiments/exp5/campaign.log
+experiments/exp5/power.log
+experiments/exp5/analyzer.log
+experiments/exp5/watcher_5.log
+experiments/exp5/pull_5.log
+experiments/exp5/status_5.log
+experiments/exp5/box-*.log
+experiments/exp5/*.pid
+experiments/exp5/run/*.bundle
