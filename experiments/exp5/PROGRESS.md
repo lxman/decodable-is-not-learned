@@ -1171,3 +1171,126 @@ pytest.mark.slow` isolation note warning against combined invocation —
 Michael's/the reviewer's call, methods-paper-lesson-candidate-adjacent
 (test isolation assumptions are themselves a kind of unpinned
 surface).
+
+## Task 6 review fix round 1 (2026-09-22): item 7's network path + the determinism leak
+
+Two Important findings from the whole-branch review; both fixed exactly as
+ruled, nothing else touched (the three deferred minors — the 27/29 wording,
+`make_referents_5.py`'s stale "6 × 35" docstring line, the totality test's
+restore without try/finally — untouched, on the reviewer's own instruction).
+
+**Finding 1: cold-battery item 7 could perform a real network download.**
+`verify_referents_5._c7` already avoided a download for the val file
+(`hf_hub_download(..., local_files_only=True)`), but its second half called
+`slice_5.load_slice_tokenizer_5()`, which delegates to the FROZEN `models.
+load_tokenizer` → `AutoTokenizer.from_pretrained(repo, revision=…)` with no
+`local_files_only` at all — item 7 read "ok" only because the tokenizer
+happened to already be cached on this Mac. Fixed without editing anything
+frozen:
+- `slice_5.load_slice_tokenizer_5` gained `local_files_only: bool = False`.
+  `True` builds the tokenizer itself (`AutoTokenizer.from_pretrained(b5.
+  REPO_OF_5[b5.TOKENIZER_SIZE_5], revision=b5.MAIN_SHA_5[b5.TOKENIZER_
+  SIZE_5], local_files_only=True)`) and applies the SAME two settings 2b's
+  loader applies (`padding_side = "left"`; `pad_token = eos_token` if unset)
+  — verified these are exactly `models.load_tokenizer`'s own two lines
+  (`experiments/exp2b/models.py:34-36`). `False` (the default) delegates to
+  `models.load_tokenizer` exactly as before — the build path is byte-for-
+  byte unchanged. Docstring states both paths must produce the same
+  tokenizer (same repo, same revision, same two settings).
+- `verify_referents_5._c7` now calls `sl5.load_slice_tokenizer_5(local_
+  files_only=True)` and catches `OSError` only (checked live:
+  `AutoTokenizer.from_pretrained(..., local_files_only=True)` on an uncached
+  revision raises plain `OSError` — "We couldn't connect to
+  'https://huggingface.co'..."; `huggingface_hub`'s own `LocalEntryNot
+  FoundError` also subclasses `FileNotFoundError` → `OSError`, confirmed via
+  `LocalEntryNotFoundError.__mro__`) — never a bare `except Exception`. The
+  item's own module-header docstring and its `@check` one-liner both
+  updated to say neither call reaches the network here.
+- Two new fast tests: `test_slice_5.py::test_load_slice_tokenizer_5_
+  local_files_only_never_reaches_the_network` (monkeypatches `transformers.
+  AutoTokenizer.from_pretrained` with a recorder; asserts `local_files_
+  only is True`, the exact repo/revision, and that `padding_side`/`pad_
+  token` land correctly on a fake tokenizer object) and `test_load_slice_
+  tokenizer_5_local_files_only_propagates_a_not_cached_oserror` (a raising
+  fake confirms the OSError isn't swallowed inside `slice_5.py` itself).
+  `test_verify_referents_5.py::test_c7_skips_rather_than_downloads_when_
+  the_tokenizer_is_not_cached` drives `_c7` itself (val file faked as
+  already-cached; the tokenizer call raises `OSError`) and asserts the
+  result STARTS WITH "SKIP" and names the tokenizer, never raises.
+  Re-ran the full cold battery live afterward: item 7 still `ok` (the real
+  Mac cache has the tokenizer, so the `local_files_only=True` path finds it
+  exactly as before — same re-derived 2,097,152 scored tokens).
+
+**Finding 2: `test_determinism_5.py`'s module-scoped `MonkeyPatch` was never
+undone.** Searched the whole `experiments/exp5/tests/` tree
+(`grep -rn "pytest.MonkeyPatch()"` and `grep -rn "scope=\"module\"\|scope=
+\"session\""`) — the ONLY other hit is the subprocess-side `pytest.
+MonkeyPatch()` inside `_SCRIPT` (test_determinism_5.py line 39), which is a
+genuinely separate one-shot interpreter that exits after printing its
+verdict — that one's "never undone" comment is correct as written and was
+left untouched. The `_world` fixture (module scope, parent process) is the
+only leak. Fixed: `_world` now takes `request` and calls `request.
+addfinalizer(mp.undo)` right after constructing `mp`, before `write_
+world_5` uses it — `b5.SIZES_5`/etc. are reverted at module teardown
+regardless of how the suite is invoked. Docstring updated to name the
+review finding and the mechanism (`full_shape_5.apply_shrink`'s `SIZES_5`
+patch leaking into every alphabetically-later file when the whole
+directory runs in one process — the exact `test_power_5.py` `KeyError:
+'410m'` collision disclosed in the Task 6 fix-round B-6 entry above).
+
+**Verification.**
+```
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp5/tests/test_determinism_5.py -m slow -v
+  → test_two_processes_agree PASSED (1 passed in 16.02s)
+
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp5/ -p no:cacheprovider -q          # WHOLE directory,
+                                                      # UNFILTERED, one process
+  → 119 passed in 165.87s (0:02:45)                  # was 4 failed before
+                                                      # this fix (test_power_5.py
+                                                      # KeyError: '410m' x4)
+
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m pytest \
+  experiments/exp5/tests/ -m "not slow" -q
+  → 106 passed, 13 deselected in 20.45s              # was 103; +3 new tests
+
+PYTHONDONTWRITEBYTECODE=1 ~/emergence-lab/.venv/bin/python -m \
+  experiments.exp5.verify_referents_5
+  → referent battery: 11/13 (items 11/13 legitimate SKIP; item 7 ok,
+    real cached tokenizer found through local_files_only=True)
+```
+119 = 106 fast + 13 slow, self-consistent with the fast/slow split; no test
+skipped, none failed, in EITHER the split or the combined invocation — the
+combined run is now exactly as safe as the split one.
+
+**Pin re-derivation.** `slice_5.py` is one of the thirteen `INSTRUMENT_
+BLOBS_5` files (tag-bound, not tracked by `FROZEN_SHA256_5`/`IMPORTED_
+SHA256_5`) — its change needs no re-pin. `verify_referents_5.py` (item 7's
+`_c7` body + docstring changed) IS one of the six `IMPORTED_SHA256_5`
+entries — re-derived and re-pasted (`c4a54a20274fb1993a815c94ffe7423fe349
+f042d7c21ab78dbfcf81c036645b`, was `80696db1e843b7bfa37f362a7789e430452d0
+00a4a5e436fb370c75512bd3ae9`). `test_determinism_5.py`/`test_slice_5.py`/
+`test_verify_referents_5.py` are all under `tests/`, excluded from both
+pin tables by construction (the scan walks `sys.modules` and drops
+anything under a `tests/` directory). Re-ran `import_scan_5.py` once
+(a counted pre-tag execution — **14 total now**, was 13 at the end of the
+B-6 fix) and confirmed `FROZEN_SHA256_5` byte-identical (51 entries,
+programmatic diff) while only `verify_referents_5.py`'s hash in `IMPORTED_
+SHA256_5` changed. `check_frozen_5()`/`check_imports_5()` both re-run cold
+after the re-pin: clean (`None`, no raise).
+
+**Mutation harness:** confirmed unaffected by grep — no mutant in `tests/
+mutation_check.py` targets `load_slice_tokenizer_5`, `_c7`, or the
+`_world` fixture; no re-run needed.
+
+**Final state after fix round 1.** Fast suite: **106 passed**, 13
+deselected. Slow suite (run separately): **13 passed**. WHOLE directory,
+unfiltered, one process: **119 passed, 0 failed** (the review's own
+required check). Cold battery: **11/13 + 2 legitimate SKIP**, item 7 `ok`
+via the real cached tokenizer through `local_files_only=True`. Import
+scan: **0 unpinned** (51 frozen, 6 imported). Zero model contact, zero
+network (item 7's two loads both served from the local cache, neither a
+download; confirmed by the new tests that the code path CANNOT download
+when `local_files_only=True` regardless of cache state), zero edits
+outside `experiments/exp5/`.

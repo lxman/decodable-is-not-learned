@@ -96,6 +96,28 @@ def test_c12_catches_a_file_count_mismatch(monkeypatch):
         vr._c12({})
 
 
+def test_c7_skips_rather_than_downloads_when_the_tokenizer_is_not_cached(monkeypatch, tmp_path):
+    """Review finding 1 (Task 6 fix round 1): `_c7` must SKIP — never
+    raise, never silently download — when the tokenizer isn't cached.
+    The val file is faked as already-cached (item 7's first half is
+    not this finding's concern); `load_slice_tokenizer_5` is made to
+    raise OSError exactly as it would with `local_files_only=True` and
+    nothing cached."""
+    fake_path = tmp_path / "val.jsonl.zst"
+    fake_path.write_bytes(b"")
+    monkeypatch.setattr("huggingface_hub.hf_hub_download", lambda *a, **k: str(fake_path))
+    monkeypatch.setattr(vr.sl5, "verify_slice_file_5", lambda p: None)
+
+    def _raise(*, local_files_only):
+        assert local_files_only is True
+        raise OSError("not cached and offline")
+
+    monkeypatch.setattr(vr.sl5, "load_slice_tokenizer_5", _raise)
+    result = vr._c7({})
+    assert result.startswith("SKIP")
+    assert "tokenizer" in result
+
+
 def test_c5_catches_a_hub_rewrite(tmp_path, monkeypatch):
     """A closed-grid LFS sha differing between the fresh manifest and
     2g's/2h's own committed (closed) manifest must raise, naming the

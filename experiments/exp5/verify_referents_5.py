@@ -24,9 +24,11 @@ model contact.
     scored tokens and `SLICE_META_PIN_5`
  7  the slice RE-DERIVES from the pinned file (`slice_file_path_5`'s
     own dataset/revision/file, found through `hf_hub_download(...,
-    local_files_only=True)` — SKIP with the reason printed when it is
-    not in the local cache; never a download here), `slice_equal_5`
-    empty; the tokenizer pins hold (`tokenizer_pins_5`)
+    local_files_only=True)`; the tokenizer through `load_slice_
+    tokenizer_5(local_files_only=True)` — review finding 1, Task 6 fix
+    round 1: NEITHER reaches the network here — SKIP with the reason
+    printed on `OSError` when either is not in the local cache),
+    `slice_equal_5` empty; the tokenizer pins hold (`tokenizer_pins_5`)
  8  the Mac referents load for the five sizes (`mac_final_counts_5`,
     all 34 rungs) and the fifteen interior checkpoints
     (`mac_interior_counts_5`, 2.8b's 7 + 6.9b's 8, all 34 rungs each —
@@ -188,8 +190,14 @@ def _c7(ctx):
         return f"SKIP (the pile-val file is not in the local cache: {type(e).__name__}: {e})"
     sl5.verify_slice_file_5(path)
     try:
-        tok = sl5.load_slice_tokenizer_5()
-    except Exception as e:  # noqa: BLE001
+        # Review finding 1 (Task 6 fix round 1): local_files_only=True —
+        # the cold battery never reaches the network for the tokenizer
+        # either. transformers/huggingface_hub's own "not cached" class
+        # is OSError (EnvironmentError is the same class in Python 3;
+        # FileNotFoundError/LocalEntryNotFoundError both subclass it) —
+        # never a bare `except Exception`.
+        tok = sl5.load_slice_tokenizer_5(local_files_only=True)
+    except OSError as e:
         return f"SKIP (the tokenizer is not cached: {type(e).__name__}: {e})"
     pins = sl5.tokenizer_pins_5(tok)
     tok._pins_5 = pins

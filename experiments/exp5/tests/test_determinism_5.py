@@ -48,14 +48,20 @@ print(json.dumps(v, sort_keys=True, allow_nan=False))
 
 
 @pytest.fixture(scope="module")
-def _world(tmp_path_factory):
+def _world(tmp_path_factory, request):
     """`write_world_5` needs a `monkeypatch` object but the built-in
     fixture is function-scoped; `pytest.MonkeyPatch()` used directly
-    (not as a fixture) gives the same API at module scope. Never
-    undone — this module never needs it reverted, and the process
-    exits with the test run."""
+    (not as a fixture) gives the same API at module scope. Review
+    finding 2 (Task 6 fix round 1): this WAS left never undone on the
+    (false) assumption that the slow suite always runs in its own
+    process — `full_shape_5.apply_shrink`'s `b5.SIZES_5` patch leaked
+    into every test file pytest collects afterward when the whole
+    `experiments/exp5/` directory runs unfiltered in one process (four
+    spurious `test_power_5.py` failures). `request.addfinalizer` undoes
+    it at module teardown regardless of how the suite is invoked."""
     root = tmp_path_factory.mktemp("world_determinism_5")
     mp = pytest.MonkeyPatch()
+    request.addfinalizer(mp.undo)
     w = fs.write_world_5(root, "MATCHED", monkeypatch=mp)
     return root, w
 

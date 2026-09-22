@@ -118,6 +118,48 @@ def test_loss_record_passes_battery_contract_on_the_pure_aggregation():
     assert bad and bad[0] == f"1b/step1/_loss: n_scored 8 != {b5.SLICE_N_SCORED_5}"
 
 
+def test_load_slice_tokenizer_5_local_files_only_never_reaches_the_network(monkeypatch):
+    """Review finding 1 (Task 6 fix round 1): `local_files_only=True`
+    must reach `AutoTokenizer.from_pretrained` with that flag SET —
+    never the network — and must apply the same two settings 2b's
+    frozen `models.load_tokenizer` applies (left padding; pad token =
+    eos token when unset), so the cold-battery tokenizer is the SAME
+    tokenizer the build path would have used."""
+    calls = []
+
+    class _FakeTok:
+        eos_token = "<|endoftext|>"
+        pad_token = None
+        padding_side = "right"
+
+    def _fake_from_pretrained(repo, *, revision=None, local_files_only=None):
+        calls.append({"repo": repo, "revision": revision, "local_files_only": local_files_only})
+        return _FakeTok()
+
+    import transformers
+    monkeypatch.setattr(transformers.AutoTokenizer, "from_pretrained", _fake_from_pretrained)
+    tok = sl5.load_slice_tokenizer_5(local_files_only=True)
+    assert len(calls) == 1
+    assert calls[0]["local_files_only"] is True
+    assert calls[0]["repo"] == b5.REPO_OF_5[b5.TOKENIZER_SIZE_5]
+    assert calls[0]["revision"] == b5.MAIN_SHA_5[b5.TOKENIZER_SIZE_5]
+    assert tok.padding_side == "left"
+    assert tok.pad_token == tok.eos_token == "<|endoftext|>"
+
+
+def test_load_slice_tokenizer_5_local_files_only_propagates_a_not_cached_oserror(monkeypatch):
+    """The cold battery's own SKIP path depends on this raising OSError
+    (transformers' own class for "not cached, not reachable") rather
+    than being swallowed or turned into something else here."""
+    def _raise(repo, *, revision=None, local_files_only=None):
+        raise OSError("not cached and offline")
+
+    import transformers
+    monkeypatch.setattr(transformers.AutoTokenizer, "from_pretrained", _raise)
+    with pytest.raises(OSError):
+        sl5.load_slice_tokenizer_5(local_files_only=True)
+
+
 @pytest.mark.slow
 def test_committed_slice_loads_at_its_pin_and_meta_matches():
     sl = sl5.load_slice_5(sha_pin=b5.SLICE_SHA256_5)

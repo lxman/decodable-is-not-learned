@@ -75,9 +75,31 @@ def iter_documents_5(path):
 
 # --------------------------------------------------------- the tokenizer
 
-def load_slice_tokenizer_5():
+def load_slice_tokenizer_5(*, local_files_only: bool = False):
     """2c's pinned Pythia tokenizer (`models.load_tokenizer`, at
-    PYTHIA_SHAS["2.8b"]) — NETWORK for the tokenizer files if not cached."""
+    PYTHIA_SHAS["2.8b"]) — NETWORK for the tokenizer files if not
+    cached, UNLESS `local_files_only=True` (the cold battery's own
+    path — item 7 — where `AutoTokenizer.from_pretrained` raises
+    `OSError` instead of ever reaching the network). Review finding 1
+    (Task 6 fix round 1): `models.load_tokenizer` is FROZEN and takes
+    no such keyword, so `local_files_only=True` builds the tokenizer
+    itself rather than editing anything frozen — both paths MUST
+    produce the same tokenizer: the same repo (`REPO_OF_5[TOKENIZER_
+    SIZE_5]`), the same revision (`MAIN_SHA_5[TOKENIZER_SIZE_5]`, ==
+    PYTHIA_SHAS["2.8b"], asserted equal at `battery_5` import), and
+    the same two settings 2b's loader applies (`padding_side =
+    "left"`; `pad_token = eos_token` when unset) — the default path
+    (`local_files_only=False`) still delegates to `models.load_
+    tokenizer` exactly as before this fix."""
+    if local_files_only:
+        from transformers import AutoTokenizer
+        tok = AutoTokenizer.from_pretrained(b5.REPO_OF_5[b5.TOKENIZER_SIZE_5],
+                                            revision=b5.MAIN_SHA_5[b5.TOKENIZER_SIZE_5],
+                                            local_files_only=True)
+        tok.padding_side = "left"
+        if tok.pad_token is None:
+            tok.pad_token = tok.eos_token
+        return tok
     from models import load_tokenizer
     return load_tokenizer(b5.TOKENIZER_SIZE_5)
 

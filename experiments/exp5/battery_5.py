@@ -881,7 +881,7 @@ IMPORTED_SHA256_5 = {
     REPO / "experiments/exp5/run/s9_mac_5.py":
         "fca6804d97193860358411a9350d145953b7ce8abce252c811695bd284246dc6",
     REPO / "experiments/exp5/verify_referents_5.py":
-        "80696db1e843b7bfa37f362a7789e430452d000a4a5e436fb370c75512bd3ae9",
+        "c4a54a20274fb1993a815c94ffe7423fe349f042d7c21ab78dbfcf81c036645b",
 }
 
 
