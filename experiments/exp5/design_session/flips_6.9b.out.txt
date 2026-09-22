@@ -1,0 +1,2 @@
+pythia_6.9b steps 22 flips 30 live adjacent pairs 94 rate among live 0.319
+ ever-clear rungs: {'add3_mid': (9, 1), 'sub3_mid': (4, 4), 'antonym6': (13, 3), 'antonym': (15, 3), 'arith_next': (16, 3), 'count_div13': (1, 1), 'odd6': (11, 7), 'odd_one_out': (1, 2), 'sub_base8': (4, 5), 'add_base8': (9, 1)}

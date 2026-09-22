@@ -1,0 +1,32 @@
+2.8b: live adjacent pairs 76 |dcount| mean 23.0 median 18 p90 40; late (>=60k) n 59 mean 21.6 median 17 p90 39
+6.9b: live adjacent pairs 94 |dcount| mean 16.7 median 12 p90 41; late (>=60k) n 72 mean 13.3 median 10 p90 24
+pooled late |dcount| at 10k spacing: mean 17.0 sd of signed-equivalent ~ 21.3
+
+count-grain envelope: per-read count noise sd (items), placebo drift sd (items), true offset 25 items (.05) on a fraction q of live cells; bar T>=.02, p<.01 rung-block
+profile A 11x6 sd= 6 q=0.00: mean T -0.0048 sd 0.0008  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile A 11x6 sd= 6 q=0.25: mean T +0.0059 sd 0.0025  P(NOT-MATCHED) 0.00  P(p<.01) 0.36
+profile A 11x6 sd= 6 q=0.50: mean T +0.0169 sd 0.0027  P(NOT-MATCHED) 0.11  P(p<.01) 1.00
+profile A 11x6 sd=10 q=0.00: mean T -0.0059 sd 0.0011  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile A 11x6 sd=10 q=0.25: mean T +0.0036 sd 0.0025  P(NOT-MATCHED) 0.00  P(p<.01) 0.11
+profile A 11x6 sd=10 q=0.50: mean T +0.0131 sd 0.0030  P(NOT-MATCHED) 0.01  P(p<.01) 0.93
+profile A 11x6 sd=15 q=0.00: mean T -0.0080 sd 0.0015  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile A 11x6 sd=15 q=0.25: mean T +0.0006 sd 0.0027  P(NOT-MATCHED) 0.00  P(p<.01) 0.01
+profile A 11x6 sd=15 q=0.50: mean T +0.0088 sd 0.0033  P(NOT-MATCHED) 0.00  P(p<.01) 0.52
+profile B 7x4 sd= 6 q=0.00: mean T -0.0048 sd 0.0012  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B 7x4 sd= 6 q=0.25: mean T +0.0060 sd 0.0040  P(NOT-MATCHED) 0.01  P(p<.01) 0.07
+profile B 7x4 sd= 6 q=0.50: mean T +0.0170 sd 0.0044  P(NOT-MATCHED) 0.21  P(p<.01) 0.62
+profile B 7x4 sd=10 q=0.00: mean T -0.0059 sd 0.0019  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B 7x4 sd=10 q=0.25: mean T +0.0038 sd 0.0038  P(NOT-MATCHED) 0.00  P(p<.01) 0.03
+profile B 7x4 sd=10 q=0.50: mean T +0.0135 sd 0.0044  P(NOT-MATCHED) 0.04  P(p<.01) 0.35
+profile B 7x4 sd=15 q=0.00: mean T -0.0076 sd 0.0024  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B 7x4 sd=15 q=0.25: mean T +0.0002 sd 0.0040  P(NOT-MATCHED) 0.00  P(p<.01) 0.01
+profile B 7x4 sd=15 q=0.50: mean T +0.0083 sd 0.0047  P(NOT-MATCHED) 0.01  P(p<.01) 0.10
+profile C 9x5 sd= 6 q=0.00: mean T -0.0047 sd 0.0010  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile C 9x5 sd= 6 q=0.25: mean T +0.0061 sd 0.0029  P(NOT-MATCHED) 0.00  P(p<.01) 0.19
+profile C 9x5 sd= 6 q=0.50: mean T +0.0169 sd 0.0035  P(NOT-MATCHED) 0.18  P(p<.01) 0.93
+profile C 9x5 sd=10 q=0.00: mean T -0.0059 sd 0.0014  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile C 9x5 sd=10 q=0.50: mean T +0.0135 sd 0.0036  P(NOT-MATCHED) 0.04  P(p<.01) 0.76
+profile C 9x5 sd=10 q=0.25: mean T +0.0040 sd 0.0030  P(NOT-MATCHED) 0.00  P(p<.01) 0.07
+profile C 9x5 sd=15 q=0.00: mean T -0.0080 sd 0.0019  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile C 9x5 sd=15 q=0.25: mean T +0.0005 sd 0.0033  P(NOT-MATCHED) 0.00  P(p<.01) 0.01
+profile C 9x5 sd=15 q=0.50: mean T +0.0088 sd 0.0041  P(NOT-MATCHED) 0.00  P(p<.01) 0.32

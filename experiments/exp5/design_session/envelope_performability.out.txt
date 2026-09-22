@@ -1,0 +1,25 @@
+cells/rung profile A: 11 rungs x ~6 cells (66 live); profile B: 7 rungs x 4 (28 live)
+profile A e=0.05 q=0.00: mean T -0.053 sd 0.023  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile A e=0.05 q=0.15: mean T +0.097 sd 0.052  P(NOT-MATCHED) 0.15  P(p<.01) 0.15
+profile A e=0.05 q=0.25: mean T +0.196 sd 0.062  P(NOT-MATCHED) 0.63  P(p<.01) 0.63
+profile A e=0.05 q=0.35: mean T +0.294 sd 0.069  P(NOT-MATCHED) 0.92  P(p<.01) 0.92
+profile A e=0.10 q=0.00: mean T -0.059 sd 0.026  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile A e=0.10 q=0.15: mean T +0.091 sd 0.058  P(NOT-MATCHED) 0.09  P(p<.01) 0.09
+profile A e=0.10 q=0.25: mean T +0.188 sd 0.065  P(NOT-MATCHED) 0.46  P(p<.01) 0.46
+profile A e=0.10 q=0.35: mean T +0.282 sd 0.071  P(NOT-MATCHED) 0.79  P(p<.01) 0.79
+profile A e=0.15 q=0.00: mean T -0.072 sd 0.033  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile A e=0.15 q=0.15: mean T +0.071 sd 0.061  P(NOT-MATCHED) 0.04  P(p<.01) 0.04
+profile A e=0.15 q=0.25: mean T +0.161 sd 0.075  P(NOT-MATCHED) 0.23  P(p<.01) 0.23
+profile A e=0.15 q=0.35: mean T +0.262 sd 0.080  P(NOT-MATCHED) 0.61  P(p<.01) 0.61
+profile B e=0.05 q=0.00: mean T -0.053 sd 0.033  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B e=0.05 q=0.15: mean T +0.099 sd 0.078  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B e=0.05 q=0.25: mean T +0.194 sd 0.091  P(NOT-MATCHED) 0.02  P(p<.01) 0.02
+profile B e=0.05 q=0.35: mean T +0.296 sd 0.103  P(NOT-MATCHED) 0.12  P(p<.01) 0.12
+profile B e=0.10 q=0.00: mean T -0.062 sd 0.042  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B e=0.10 q=0.15: mean T +0.079 sd 0.084  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B e=0.10 q=0.25: mean T +0.187 sd 0.091  P(NOT-MATCHED) 0.03  P(p<.01) 0.03
+profile B e=0.10 q=0.35: mean T +0.278 sd 0.108  P(NOT-MATCHED) 0.08  P(p<.01) 0.08
+profile B e=0.15 q=0.00: mean T -0.067 sd 0.046  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B e=0.15 q=0.15: mean T +0.070 sd 0.088  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B e=0.15 q=0.25: mean T +0.165 sd 0.111  P(NOT-MATCHED) 0.00  P(p<.01) 0.00
+profile B e=0.15 q=0.35: mean T +0.254 sd 0.116  P(NOT-MATCHED) 0.06  P(p<.01) 0.06
