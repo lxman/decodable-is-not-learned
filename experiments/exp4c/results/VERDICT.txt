@@ -1,0 +1,87 @@
+EXPERIMENT 4c VERDICT: NOT-REPLICATED
+
+p+ 0.7324 >= 0.05
+
+Caveat: Bounded in every world to: 2c's battery; two runs, one from each of two families; the prompt-end position; Exp 4's site family and references; a sealed representation read against a KNOWN outcome; a statistic, a null and an alternative fixed on four runs the designer had seen.
+
+Licence cell: world=NOT-REPLICATED modifier=NEITHER bounded=False reversed=False
+Licence: on two training runs nobody had read, a sealed rank test did not detect the lead (U, its interval, p), at a resolution that would have missed an effect of the size seen on the first four runs three times in four (.73 on the tag-bound record). "Still a citation" stands, and this is not evidence of absence. The modifier's reading, for the record, is neither noun: U_arith does not clear its bar and the non-arithmetic stratum does not sit above one-half, so the sentence must say that the pooled reading is carried by neither stratum. Power, quoted from the record written before the tag: DECLARED UNDERPOWERED IN ADVANCE. Blind region: any type-bound effect, and any uniform lead under the min-detectable value. Battery limit (design §3.2): the flat pool contains no option task and only three string tasks, so no type-matched comparator pool exists for the nine non-arithmetic cells on either run. Disclosure (design §6): Bounded in every world to: 2c's battery; two runs, one from each of two families; the prompt-end position; Exp 4's site family and references; a sealed representation read against a KNOWN outcome; a statistic, a null and an alternative fixed on four runs the designer had seen. whatever fires is a preregistered reading on a known outcome, not a forecast.
+
+Primary (design §3.4): U=0.4500 p+=0.7324 p-=0.2715 CI95=[0.3296, 0.6094] n_cells=26 n_rungs=18 n_families=9 flips=512 resolution=0.00195312
+  rung-level flip: p+=0.8122177124023438 over 18 rungs
+
+Per-cell q:
+  olmo2_13b/add3_mid (arithmetic, mid_digit): q=0.3333 c=6 t-=32000 n_flat=15 ties=0 q_arith=0.3333
+  olmo2_13b/add4_mid (arithmetic, mid_digit): q=0.2000 c=6 t-=32000 n_flat=15 ties=0 q_arith=0.1667
+  olmo2_13b/add_base8 (arithmetic, base_arith): q=0.2667 c=4 t-=8000 n_flat=15 ties=0 q_arith=0.2500
+  olmo2_13b/antonym (option, antonym): q=0.2000 c=4 t-=8000 n_flat=15 ties=0
+  olmo2_13b/antonym6 (option, antonym): q=0.2667 c=4 t-=8000 n_flat=15 ties=0
+  olmo2_13b/arith_next (arithmetic, seq_extrap): q=0.9333 c=4 t-=8000 n_flat=15 ties=0 q_arith=0.9167
+  olmo2_13b/count_div13 (arithmetic, counting): q=0.2667 c=15 t-=576000 n_flat=15 ties=0 q_arith=0.2500
+  olmo2_13b/median5 (arithmetic, order_stat): q=0.1333 c=6 t-=32000 n_flat=15 ties=0 q_arith=0.0833
+  olmo2_13b/median7 (arithmetic, order_stat): q=0.1333 c=6 t-=32000 n_flat=15 ties=0 q_arith=0.0833
+  olmo2_13b/oct2dec (arithmetic, base_repr): q=0.4000 c=6 t-=32000 n_flat=15 ties=0 q_arith=0.4167
+  olmo2_13b/odd6 (option, odd_one_out): q=0.1333 c=5 t-=16000 n_flat=15 ties=0
+  olmo2_13b/odd_one_out (option, odd_one_out): q=0.1333 c=6 t-=32000 n_flat=15 ties=0
+  olmo2_13b/quad_next (arithmetic, seq_extrap): q=0.9333 c=7 t-=64000 n_flat=15 ties=0 q_arith=0.9167
+  olmo2_13b/rev_string7 (string, reversal): q=0.5333 c=11 t-=320000 n_flat=15 ties=0
+  olmo2_13b/reverse_string (string, reversal): q=0.2667 c=4 t-=8000 n_flat=15 ties=0
+  olmo2_13b/sub3_mid (arithmetic, mid_digit): q=0.2667 c=5 t-=16000 n_flat=15 ties=0 q_arith=0.2500
+  olmo2_13b/sub4_mid (arithmetic, mid_digit): q=0.2000 c=6 t-=32000 n_flat=15 ties=0 q_arith=0.1667
+  olmo2_13b/sub_base8 (arithmetic, base_arith): q=0.2667 c=4 t-=8000 n_flat=15 ties=0 q_arith=0.2500
+  pythia_6.9b/add3_mid (arithmetic, mid_digit): q=0.4167 c=13 t-=64000 n_flat=24 ties=0 q_arith=0.3158
+  pythia_6.9b/add_base8 (arithmetic, base_arith): q=0.4167 c=13 t-=64000 n_flat=24 ties=0 q_arith=0.3158
+  pythia_6.9b/antonym (option, antonym): q=0.7500 c=6 t-=16000 n_flat=24 ties=0
+  pythia_6.9b/antonym6 (option, antonym): q=0.7500 c=6 t-=16000 n_flat=24 ties=0
+  pythia_6.9b/arith_next (arithmetic, seq_extrap): q=1.0000 c=5 t-=10000 n_flat=24 ties=0 q_arith=1.0000
+  pythia_6.9b/count_div13 (arithmetic, counting): q=0.7917 c=21 t-=140000 n_flat=24 ties=0 q_arith=0.7368
+  pythia_6.9b/odd6 (option, odd_one_out): q=0.9583 c=6 t-=16000 n_flat=24 ties=0
+  pythia_6.9b/sub_base8 (arithmetic, base_arith): q=0.7500 c=11 t-=50000 n_flat=24 ties=0 q_arith=0.6842
+
+Per-run U (S1):
+  olmo2_13b: U=0.3259 p+=0.9551 n_cells=18 n_families=9 CI95=[0.2105, 0.5042]
+  pythia_6.9b: U=0.7292 p+=0.03125 n_cells=8 n_families=6 CI95=[0.5938, 0.8819]
+
+Per-type U (S2):
+  arithmetic: U=0.4534 n_cells=17
+  option: U=0.4560 n_cells=7
+  string: U=0.4000 n_cells=2
+
+Type modifier (design §3.5): NEITHER
+  arithmetic (matched pool): U=0.4198 p+=0.7812 n_cells=17 n_families=6
+  non-arithmetic (whole pool): U=0.4435 n_cells=9 p_family=None (3 families give 8 flips — the null cannot resolve the 0.05 bar (finest attainable p = 1/8 = 0.125; 4b process note 3); no p printed); p_rung_descriptive=0.828125, p_placebo_nonarith=0.7181
+  Battery limit (design §3.2): the flat pool contains no option task and only three string tasks, so no type-matched comparator pool exists for the nine non-arithmetic cells on either run.
+
+Placebo null (design §3.4): mean=0.5176 sd=0.0671 p_placebo=0.8451 B=10000 pool=15
+Calibration (design §3.6): deciding bar 0.05, alpha_placebo at the bar 0.0763, bounded=False (alpha_01=0.0178, alpha_05=0.0763)
+
+Gate 7 (ties): 0 exact ties over 0 cells, counted at one half
+Gate 0 olmo2_13b: pass=True fraction_below=0.9678 on 1428 cells (102 excluded at site 0)
+Gate 0 pythia_6.9b: pass=True fraction_below=0.9840 on 1122 cells (102 excluded at site 0)
+Gate 1 olmo2_13b: 34 rungs vs exp4c/endpoint_olmo2_13b, digest_equal=True
+Gate 1 pythia_6.9b: 34 rungs vs exp4/ladder_pythia_6.9b, digest_equal=True
+
+Power (§4, written before the tag): DECLARED UNDERPOWERED IN ADVANCE; P(p+<.01 | discovery shape)=0.06625; min detectable uniform lead=0.7429906542056075
+
+Discovery gate (design §3.7(1), KNOWN runs): U=0.6223702443940539 over 42 cells, family p=0.0390625
+
+Secondaries present: ['S1', 'S10', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'stack_consistency']
+
+Pins active:
+  discovery_gate=True
+  frozen_modules=True
+  import_surface=True
+  numpy_version=2.4.6
+  power_gate=full
+  power_n_sim_expected=4000
+  power_n_sim_injected=False
+  power_reproduced=True
+  prereg_binding=True
+  referent_manifest=True
+  seal_binding=True
+  threads_pinned=True
+  threads_pinned_before_numpy=True
+
+Failures (0):
+
+git_sha=64a71e30e29673a3782c3d8f33ed7494d341f2da
