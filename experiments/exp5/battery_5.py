@@ -586,6 +586,28 @@ def unit_complete_5(root, size, step) -> bool:
 # ------------------------------------------------------ record contracts
 
 STACK_KEYS_5 = ("torch", "transformers", "numpy", "safetensors", "tokenizers", "huggingface_hub")
+# Freeze F-3: design §3.7 gate 0 names the stack PINS ("torch 2.12.1,
+# transformers 5.13.0, numpy 2.4.6, safetensors, tokenizers,
+# huggingface_hub — the Mac's, on the host's Python 3.11"); the build
+# checked only that each key was present. The Mac's venv values, read
+# 2026-09-22 (= run/box_setup_5.sh's pip pins). A local-version suffix
+# (torch's "+cu130") is not part of the pin.
+STACK_PIN_5 = {"torch": "2.12.1", "transformers": "5.13.0", "numpy": "2.4.6",
+               "safetensors": "0.8.0", "tokenizers": "0.22.2", "huggingface_hub": "1.22.0"}
+PYTHON_PIN_5 = "3.11"
+
+
+def stack_pin_failures_5(rec: dict) -> list:
+    bad = []
+    stack = rec.get("stack") or {}
+    for k, want in STACK_PIN_5.items():
+        got = str(stack.get(k) or "").split("+")[0]
+        if got != want:
+            bad.append(f"host record: {k} {stack.get(k)!r} is not the pinned {want!r} (gate 0)")
+    py = str(rec.get("python") or "")
+    if py.split(".")[:2] != PYTHON_PIN_5.split("."):
+        bad.append(f"host record: python {py!r} is not {PYTHON_PIN_5}.x (gate 0)")
+    return bad
 
 
 def host_record_failures_5(rec: dict) -> list:
@@ -594,6 +616,7 @@ def host_record_failures_5(rec: dict) -> list:
     for k in STACK_KEYS_5:
         if not stack.get(k):
             bad.append(f"host record: stack lacks {k}")
+    bad += stack_pin_failures_5(rec)
     for k in ("device", "gpu", "python"):
         if not rec.get(k):
             bad.append(f"host record: {k} missing")

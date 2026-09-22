@@ -202,3 +202,16 @@ def test_committed_manifest_loads_and_spines_are_nine_distinct():
         assert b5.available_5(m, size)[-1] == 143000
         assert 0 not in b5.available_5(m, size)
     assert "64000" in m["2.8b"]["excluded"]
+
+
+def test_stack_pin_is_gate_0s_named_versions():
+    """Freeze F-3: the host record's stack must be design §3.7 gate 0's pins
+    (a local-version suffix allowed), on Python 3.11."""
+    from experiments.exp5.tests import fakes_5 as fk
+    h = fk.fake_host()
+    assert b5.stack_pin_failures_5(h) == []
+    assert b5.host_record_failures_5(h) == []
+    assert b5.stack_pin_failures_5({**h, "stack": {**h["stack"], "torch": "2.13.0+cu130"}})
+    assert b5.stack_pin_failures_5({**h, "stack": {**h["stack"], "transformers": "5.12.0"}})
+    assert b5.stack_pin_failures_5({**h, "python": "3.12.1"})
+    assert b5.host_record_failures_5({**h, "stack": {**h["stack"], "numpy": "2.4.5"}})

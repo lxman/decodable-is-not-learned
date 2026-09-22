@@ -262,6 +262,11 @@ def load_units_5(root, size, *, manifest, battery, verify_fn, host, slice_sha, n
             ck_rec = json.loads(b5.checkpoint_record_path_5(root, size, step).read_text())
             entry = b5.entry_5(manifest, size, step)
             bad += b5.checkpoint_record_failures_5(ck_rec, size=size, step=step, entry=entry)
+            # Freeze F-3: the checkpoint record and the unit record carry the
+            # host attestation too; gate 0 compared only _loss and the rungs.
+            bad += b5._same_host(ck_rec, host, f"{size}/step{step}/_checkpoint")
+            if unit_rec.get("host_sha256") != host.get("sha256"):
+                bad.append(f"{size}/step{step}/_unit.json: host_sha256 is not the host record's")
             ls_rec = json.loads(b5.loss_record_path_5(root, size, step).read_text())
             bad += b5.loss_record_failures_5(ls_rec, size=size, step=step, host=host,
                                              slice_sha=slice_sha, n_scored=n_scored)

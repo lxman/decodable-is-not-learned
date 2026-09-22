@@ -223,6 +223,36 @@ def test_sweep_of_a_size_that_is_never_a_large_side_loads_only_s11(env):
     assert on_disk <= an.expected_steps_5(units, env["common"]["manifest"], smallest)
 
 
+def test_units_refuse_a_checkpoint_or_unit_record_from_another_host(env):
+    """Freeze F-3: gate 0's per-unit host comparison covered _loss and the
+    rung records only; a _checkpoint.json (or _unit.json) naming another
+    stack/host passed."""
+    from experiments.exp5 import analyze_5 as an
+    fin.run(**env["common"])
+    root = env["root"]
+    host = json.loads(b5.host_record_path_5(root).read_text())
+    kw = dict(manifest=env["common"]["manifest"], battery=env["battery"], verify_fn=a2d.load_verify(),
+              host=host, slice_sha=env["common"]["sl"]["sha256"],
+              n_scored=env["common"]["sl"]["meta"]["n_scored"])
+    an.load_units_5(root, "1b", **kw)                             # clean
+    d = b5.unit_dir_5(root, "1b", b5.FINAL_STEP_5)
+
+    def restamp():
+        u = json.loads((d / "_unit.json").read_text())
+        u["files"] = {n: bg.sha256_file(d / n) for n in u["files"]}
+        (d / "_unit.json").write_text(json.dumps(u))
+    ck = json.loads((d / "_checkpoint.json").read_text())
+    (d / "_checkpoint.json").write_text(json.dumps({**ck, "stack": {**ck["stack"], "torch": "2.13.0"}}))
+    restamp()
+    with pytest.raises(ValueError, match="_checkpoint: stack"):
+        an.load_units_5(root, "1b", **kw)
+    (d / "_checkpoint.json").write_text(json.dumps(ck)); restamp()
+    u = json.loads((d / "_unit.json").read_text())
+    (d / "_unit.json").write_text(json.dumps({**u, "host_sha256": "x"}))
+    with pytest.raises(ValueError, match="_unit.json: host_sha256"):
+        an.load_units_5(root, "1b", **kw)
+
+
 def test_sweep_reuses_units_across_partners_and_records_it(env):
     fin.run(**env["common"])
     sw.run(size="6.9b", **_sweep_kwargs(env))
