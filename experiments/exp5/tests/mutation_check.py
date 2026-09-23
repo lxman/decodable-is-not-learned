@@ -254,6 +254,33 @@ M = [
     (SL5, "loss_from_per_doc_5: a per-set n_tokens count zeroed instead of measured",
      '        per_set[name] = {"loss": float(sums[m].sum() / n_k) if n_k else None, "n_tokens": n_k}',
      '        per_set[name] = {"loss": float(sums[m].sum() / n_k) if n_k else None, "n_tokens": 0}'),
+
+    # ----------------------------------------------- the freeze's closures (F-1..F-6)
+    (SW5, "freeze F-1: the spine loaded for a size that is never a large side",
+     "    for s in (spine if is_large else ()):", "    for s in spine:"),
+    (AN5, "freeze F-2: gate1a per_doc_diffs never re-derived",
+     '    if rec.get("per_doc_diffs") != 0:', '    if False:'),
+    (AN5, "freeze F-2: gate1a loss_2c_path vs loss_candidate_path never re-derived",
+     "    if not (isinstance(la, float) and isinstance(lb, float) and repr(la) == repr(lb)):",
+     "    if not (isinstance(la, float) and isinstance(lb, float)):"),
+    (AN5, "freeze F-2: the candidate path's loss never tied to the 2.8b final unit",
+     '    if repr(rec.get("loss_candidate_path")) != repr(final_2p8b.get("loss")):',
+     '    if False:'),
+    (BAT5, "freeze F-3: the stack pins never checked in the host record",
+     "    bad += stack_pin_failures_5(rec)\n", "    bad += []\n"),
+    (AN5, "freeze F-3: the checkpoint record's host attestation never compared",
+     '            bad += b5._same_host(ck_rec, host, f"{size}/step{step}/_checkpoint")',
+     '            bad += []'),
+    (BAT5, "freeze F-4: a NaN loss passes the measured finiteness check",
+     "    if not (isinstance(lv, float) and math.isfinite(lv)):",
+     "    if not isinstance(lv, float):"),
+    (AN5, "freeze F-4: a torn step directory is never turned into a failure",
+     '            if torn:\n                pf = pf + [f"gate 3 {size}',
+     '            if False:\n                pf = pf + [f"gate 3 {size}'),
+    (BAT5, "freeze F-5: later commits touching projection.md never listed",
+     "            for c in later.stdout.split() if c]", "            for c in [] if c]"),
+    (AN5, "freeze F-6: drop_kind never_reaches mislabelled",
+     '        return "never_reaches"', '        return "crosses_before_spine"'),
 ]
 
 # Every hand mutant above is a 4-tuple (path, name, old, new); every
@@ -285,6 +312,8 @@ WORLDS_TESTS = TOTALITY_TESTS + FULLSHAPE_TESTS
 # suites via `--worlds-only`; see PROGRESS.md's Task 6 entry for the
 # transcript. Each value names the exact killing test.
 NON_FAST_KILLS_5 = {
+    "freeze_f_4_a_torn_step_directory_is_never_turned_into_a_failure":
+        "test_full_shape_5.py::test_refusal_routes_deliver_insufficient_data",
     "gate4_an_orphan_unit_units_unnamed_is_never_turned_into_a_failure":
         "test_full_shape_5.py::test_refusal_routes_deliver_insufficient_data",
     "totality_1007afd168": "test_totality_5.py::test_every_runner_leavable_tree_shape_gives_"

@@ -75,6 +75,25 @@ def test_refusal_routes_deliver_insufficient_data(tmp_path, monkeypatch):
     v = _run(tmp_path, w)
     assert v["verdict"] == "INSUFFICIENT_DATA" and any("step999" in f for f in v["failures"])
     import shutil; shutil.rmtree(extra)
+    # a COMPLETE, contract-clean unit nobody asked for (freeze F-4 made the empty-_unit.json
+    # orphan above a torn-unit refusal too, so this is the case only the units_unnamed check
+    # can refuse): written by the production run_unit_5 at an available step no replay names
+    from experiments.exp2d import analyze_2d as a2d
+    from experiments.exp5 import collect_5 as c5
+    from experiments.exp5.tests import fakes_5 as fk
+    ld, _ = fk.make_loaders(w["battery"], loss_fn=fs.loss_w, count_fn=fs.count_fn_for("MATCHED"))
+    orphan_step = 29000
+    assert not b5.unit_dir_5(tmp_path, "6.9b", orphan_step).exists()
+    c5.run_unit_5("6.9b", orphan_step, root=tmp_path, manifest=w["manifest"], cache_root=tmp_path,
+                  device="cuda", battery=w["battery"], verify_fn=a2d.load_verify(), sl=w["sl"],
+                  host=json.loads(b5.host_record_path_5(tmp_path).read_text()), loaders=ld,
+                  git_sha="g1", why="orphan")
+    tbl = b5.loss_table_path_5(tmp_path); traw0 = tbl.read_bytes(); c5.rebuild_loss_table_5(tmp_path)
+    assert b5.unit_complete_5(tmp_path, "6.9b", orphan_step)
+    v = _run(tmp_path, w)
+    assert v["verdict"] == "INSUFFICIENT_DATA" and \
+        any(f.startswith(f"gate 4 6.9b: step{orphan_step} on disk but never requested") for f in v["failures"])
+    shutil.rmtree(b5.unit_dir_5(tmp_path, "6.9b", orphan_step)); tbl.write_bytes(traw0)
     # an orphan unit dir under the SMALLEST world size (gate 4 review finding 1: the
     # units_unnamed check must run for every size, not only LARGE_SIDES_5 — the smallest size
     # is never swept as large, so it was never checked at all before this fix)
