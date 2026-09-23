@@ -24,7 +24,7 @@ scripts are `a_*.py` in the session scratchpad
 lines are quoted below verbatim. Real git was used only in throwaway
 repositories under the scratchpad (attacks iv, v, F-5's test). Every
 execution of `analyze_5.run()` against the REAL tree is a disclosure
-event; this session made three of them (§E).
+event; this session made four of them (§E).
 
 Python `~/emergence-lab/.venv/bin/python`, `PYTHONDONTWRITEBYTECODE=1`,
 repo root, `-p no:cacheprovider`. The slow suite and the mutation
@@ -54,8 +54,8 @@ or S11 names; the analyzer's gate 4 re-derives "nothing else loaded"
 leave was INSUFFICIENT_DATA, and nothing said so until the analyzer
 ran, after ≈ 30 h of rented compute. The worlds never swept the
 smallest size, so no test reached it (the deferred Task 4 minor "no
-test for a zero-partner size (160m)" was this defect). Six findings
-in all, every one closed additively. Nothing preregistered moved:
+test for a zero-partner size (160m)" was this defect). Eight findings
+in all (F-7/F-8 on the controller's rulings), every one closed additively. Nothing preregistered moved:
 `T_BAR_5`, `ALPHA_5`, `MODIFIER_ALPHA_5`, `MODIFIER_MIN_CELLS_5`,
 `MIN_LIVE_CELLS_5`, `MIN_LIVE_RUNGS_5`, `MAX_ENUMERATE_BLOCKS_5`,
 `N_PERM_SAMPLED_5`, `PERM_SEED_5`, `N_BOOT_5`, `BOOT_SEED_5`,
@@ -231,6 +231,53 @@ a larger model at step 1000 already below a smaller model's final loss
 `test_analyze_5.py::test_drop_kind_names_which_fact_dropped_the_pair`;
 one mutant. The design sentence goes to the slips (§F item 1).
 
+### F-7 — a non-finite unit loss did not halt the runner (controller ruling B-3(b)). CLOSED.
+
+Gate 3 as written requires a finite loss on EVERY unit, but `run_unit_5`
+wrote the unit and the sweep went on; the refusal surfaced only at the
+analyzer, after the campaign (§D). **Closure (`39d512925`).** Right
+after the loss record is written and before any rung, `loss["finite"]`
+not True → the size's `HALTED` marker (naming the unit, its `why` and
+`n_nonfinite`), the unit left incomplete (no `_unit.json`), the
+checkpoint freed in `finally`, `SystemExit(2)`. The docstring notes the
+one-line narrowing if the ratification narrows gate 3 (slip 9).
+Test `test_stages_5.py::test_a_non_finite_unit_loss_halts_the_size`:
+NaN at one 2.8b spine step → exit 2, marker present and naming
+`step2000` and `n_nonfinite 7`, `_loss.json` written, no `_unit.json`,
+no rung record, `(2.8b, 2000)` in the freed list, the runner refuses to
+resume, the analyzer lands INSUFFICIENT_DATA at `5 halt marker`; FAILS
+with the check disabled (confirmed). Mutant `freeze_f_7_…` killed fast.
+
+### F-8 — the window/spine prefetch never overlapped scoring (controller ruling). CLOSED.
+
+`request()` started the NEXT step's download, then `run_unit_5` called
+`prefetcher.wait()` before loading the CURRENT step, so every prefetch
+was joined before scoring began (§B's former "DISCLOSED" row; slip 8).
+**Closure (`86050f39f`).** `Prefetcher.target` (the `(size, step)` in
+flight, None when idle) and `Prefetcher.wait_for(size, step)` (joins
+only if `target == (size, step)`); `run_unit_5` calls `wait_for`;
+`sweep_5.run` keeps its final `pf.wait()`. Different steps download
+into different cache directories (`_rev_dir(size, step)`); the same
+step cannot race because `wait_for` joins first. Test
+`test_stages_5.py::test_the_next_steps_prefetch_overlaps_the_current_units_scoring`
+(a fake prefetch recording start/finish against loads, first-generate
+and joins): for every spine step, the next step's prefetch starts
+before the current unit is scored and is joined only after it, before
+the next unit loads; plus `wait_for`'s idle / different-step /
+same-step cases. FAILS with `wait()` restored (confirmed). Mutant
+`freeze_f_8_…` (`if True:`, the old behaviour) killed fast.
+
+### The preflight's early warning moves to `step256` (controller ruling B-3(c)). APPLIED (`4487b5e22`).
+
+`PREFLIGHT_STEPS_5` `(1000, 1)` → `(1000, 256)`: the spine starts at
+`step1000`, so t_lo ≥ 1000 and B⁻ = {256, 512} at worst on every size;
+`step1` is loadable by no window (and is excluded at 1b). Docstring
+updated; test
+`test_stages_5.py::test_preflight_early_warning_is_the_earliest_step_a_window_can_reach`
+derives the earliest window member from the committed manifest.
+`run/preflight_5.py` is pinned in `IMPORTED_SHA256_5`: re-pinned
+`975b3d50…` → `f32e8c36…`; import scan re-run once (counted, §E).
+
 ---
 
 ## B. The attack list (the brief's ten surfaces, then the rest)
@@ -295,7 +342,10 @@ projection commit …`. CLEARED. The projection revised after the
 sweep → **CLOSED as F-5**. DISCLOSED: a unit's `git_sha` is the
 runner's HEAD, recorded, not re-measurable on the Mac; the finals
 (exempt from the projection check, they precede it) are not checked
-against the prereg tag's commit — a ruling item (§ report).
+against the prereg tag's commit — RULED not added (the tag binds
+blobs; `require_prereg_5` runs at every runner start and in the
+analyzer; a commit check would break on every post-tag ledger commit
+and on a re-tag).
 
 **(vi) The host record.** One rung record's torch changed (restamped)
 → `gate 3 contract failure(s): ["6.9b/step3000/antonym: stack …`;
@@ -353,20 +403,22 @@ bound byte. CLEARED.
 | B-3, the window-only non-finite loss | §D | stated for the ruling; the NaN hole closed as F-4(a) |
 | the drop rule | the MATCHED world's 6.9b × 1b drop | CLOSED as F-6 (record field) + slip 1 |
 | the earliest reachable window step | the manifest: every size's spine starts at 1000, so t_lo ≥ 1000 and B⁻ ⊆ {256, 512} at worst; `step1` is loadable by no window (and is excluded at 1b) | DISCLOSED; slip 2 and a ruling item (the preflight's early warning checks step1, not step256) |
-| the window prefetch | `request()` starts the next download, then `run_unit_5` calls `prefetcher.wait()` BEFORE loading the current step, so the download is joined before scoring starts — no overlap with scoring at all | DISCLOSED (not a verdict input; a budget item — B-4 assumes the overlap); the final review's |
+| the window prefetch | `request()` starts the next download, then `run_unit_5` called `prefetcher.wait()` BEFORE loading the current step, so the download was joined before scoring started — no overlap with scoring at all | **CLOSED as F-8** (controller ruling) |
+| the finals' `git_sha` against the prereg tag's commit | the finals are exempt from the projection-ancestry check and no check ties them to the tag's commit | DISCLOSED (controller ruling: NOT added — the tag binds BLOBS, and `require_prereg_5` runs at every runner start and in the analyzer; a commit check would break on every post-tag ledger commit and on a re-tag) |
 | a stray size directory | a directory under `results/units/` for a size outside `SIZES_5` is never read | DISCLOSED (nothing reads it; it cannot enter a cell) |
 
 ## C. Batteries after the closures
 
 | battery | before | after |
 | --- | --- | --- |
-| fast suite (`-m "not slow"`) | 106 passed | **113 passed** (+7: F-1 stage test, F-2 analyzer test, F-3 ×2, F-4 contract test, F-5 temp-repo test, F-6 drop-kind test), 22.4 s |
-| slow suite (`-m slow`) | 13 passed | **13 passed**, 161 s (the refusal-routes world now carries F-4's two attacks and a contract-clean orphan unit; every world sweeps the smallest size too) |
+| fast suite (`-m "not slow"`) | 106 passed | **113 passed** after F-1..F-6 (+7); **116** after the rulings (+3: F-7 halt, F-8 overlap, the preflight step), 24.6 s |
+| slow suite (`-m slow`) | 13 passed | **13 passed**, 161 s after F-1..F-6; **13 passed**, 160 s after F-7/F-8 (the refusal-routes world carries F-4's two attacks and a contract-clean orphan unit; every world sweeps the smallest size too) |
 | cold battery (`verify_referents_5.py`) | 11/13 + 2 SKIP | **11/13 + 2 SKIP** (items 11, 13: pre-targets / pre-campaign) — no referent file or pin changed |
-| `check_frozen_5` / `check_imports_5` | clean (51 / 6) | **clean (51 / 6)**, checked in a fresh process with every stage module imported (analyzer, power, both runners, preflight, S9, both cold tools): no unpinned module. No pinned file changed (the closures touched `analyze_5`, `battery_5`, `run/sweep_5` — tag-bound blobs — and tests only), so no re-pin |
-| mutation harness | 56: 27 fast / 29 slow / 0 equivalent / 0 unresolved | **66: 36 fast / 30 slow / 0 equivalent / 0 unresolved** — RE-RUN, because the closures changed modules mutants target (`run/sweep_5`, `battery_5`, `analyze_5`); +10 freeze mutants; one pre-existing mutant (`gate4 … units_unnamed …`) survived the first worlds pass after F-4 (its only killing case, an empty-`_unit.json` orphan, had become a torn-unit refusal too) — the world now writes a contract-clean orphan unit, and the second pass killed 30/30. Both logs regenerated from the current source (`b2bbd647b`) |
+| `check_frozen_5` / `check_imports_5` | clean (51 / 6) | **clean (51 / 6)**, checked in a fresh process with every stage module imported (analyzer, power, both runners, preflight, S9, both cold tools): no unpinned module. F-1..F-6 and F-7/F-8 touched tag-bound blobs and tests only; the preflight ruling changed `run/preflight_5.py`, re-pinned in `IMPORTED_SHA256_5` (`f32e8c36…`) |
+| mutation harness | 56: 27 fast / 29 slow / 0 equivalent / 0 unresolved | after F-7/F-8 (+2 mutants: the halt condition, `wait_for`'s equality): **68: 43 fast / 25 slow / 0 equivalent / 0 unresolved**, worlds-only 30/30 killed (`f8e590b18`; five former slow-only kills now die in the fast suite, F-7's stage test running the analyzer on a halted tree). Before that, after F-1..F-6: **66: 36 fast / 30 slow / 0 equivalent / 0 unresolved** — RE-RUN, because the closures changed modules mutants target (`run/sweep_5`, `battery_5`, `analyze_5`); +10 freeze mutants; one pre-existing mutant (`gate4 … units_unnamed …`) survived the first worlds pass after F-4 (its only killing case, an empty-`_unit.json` orphan, had become a torn-unit refusal too) — the world now writes a contract-clean orphan unit, and the second pass killed 30/30. Both logs regenerated from the current source (`b2bbd647b`) |
 | read sweep (`tests/read_sweep_5.py`) | 1853 paths, 0 UNPINNED (Task 6) | **1853 distinct paths (1952 open/read calls), (e) unpinned verdict input 0 — clean**; run because F-5 adds a read of `projection.md` (through `git hash-object`, a subprocess the sweep's `open()` hook does not see — content-checked by blob identity, and absent pre-campaign). No committed file joined the analyzer's reads, so `referents_5.json` / `REFERENTS_5_SHA256` are unchanged |
-| import scan (`tests/import_scan_5.py`) | 51 frozen + 6 residual, pinned | printed pin table's tail identical to `IMPORTED_SHA256_5`; the full coverage re-verified by the fresh-process check above |
+| import scan (`tests/import_scan_5.py`) | 51 frozen + 6 residual, pinned | printed pin table's tail identical to `IMPORTED_SHA256_5`; re-run after the preflight re-pin: `# 51 frozen (non-exp5) modules, 6 exp5-own residual module(s)`, table equal to the committed one incl. `run/preflight_5.py` `f32e8c36…` |
+| cold battery after F-7/F-8 | — | **11/13 + 2 SKIP** |
 
 ## D. B-3, stated for the ruling
 
@@ -390,21 +442,19 @@ built and as written (§3.7 gate 3: "finite loss" on every unit):
   early warning loads 12b `step1000` and `step1`, and `step1` is
   loadable by no window.
 
-For the ruling (none of these is applied — each touches a clause or a
-file outside the freeze's additive remit):
-(a) spend the pre-committed change narrowing gate 3's finiteness to
-the units whose loss is a search input (spine + bisection) — B-3 as
-ledgered; (b) independently, an additive runner refusal: `sweep_5`
-writes the `HALTED` marker on the first unit whose loss is not finite,
-so the ruling happens at that unit rather than after ≈ 30 h;
-(c) the preflight's early-warning checkpoint moved from `step1` to
-`step256` (the earliest window member) — `run/preflight_5.py` is pinned
-in `IMPORTED_SHA256_5`, so this needs a re-pin and an import scan.
+**Ruled by the controller (2026-09-22):**
+(a) the narrowing of gate 3's finiteness to spine + bisection units is
+a RATIFICATION SLIP for Michael (slip 9; the tag is not cut, so the
+design can be amended at ratification without spending the
+pre-committed change) — the build keeps gate 3 AS WRITTEN;
+(b) the runners halt on the first non-finite loss on ANY unit — CLOSED
+as F-7; (c) the preflight's early warning moves to `step256` —
+APPLIED (§A).
 
 ## E. Disclosure tally
 
-Executions of `analyze_5.run()` on the REAL tree this session — **3**,
-the running total **14 → 17** (appended to `PROGRESS.md`'s tally):
+Executions of `analyze_5.run()` on the REAL tree this session — **4**,
+the running total **14 → 18** (appended to `PROGRESS.md`'s tally):
 
 15. `tests/read_sweep_5.py` (after the closures) — `pre-campaign run
     (NOT the experiment's verdict): INSUFFICIENT_DATA — 5 host record:
@@ -415,6 +465,10 @@ the running total **14 → 17** (appended to `PROGRESS.md`'s tally):
     printed; only its tail was captured, which matches
     `IMPORTED_SHA256_5`; on the pre-campaign tree `run()` refuses at
     "5 host record" by construction (runs 15/16 in the same state).
+18. `tests/import_scan_5.py` after the preflight re-pin (ruling
+    B-3(c)) — `pre-campaign run: INSUFFICIENT_DATA — 5 host record:
+    ValueError: host record missing`; 51 frozen + 6 residual, the
+    printed table equal to the committed pins.
 
 No statistic was computed on the real tree. Every attack ran on tmp
 trees (worlds do not count). `check_imports_5` / `check_frozen_5` and
@@ -430,7 +484,8 @@ the runners' `--dry-run`-equivalent calls in attack (viii) do not call
    wording: "… dropped and printed with its kind — `never_reaches`, or
    `crosses_before_spine` when the larger model is already below ℓ_s at
    the spine's first point (the log head is not searched)" (F-6).
-2. **§3.2 step 4 and §3.1/§7 stage 0**, "t_lo within two of `step1`" and
+2. **§3.2 step 4 and §3.1/§7 stage 0** (the preflight now loads
+   `step256` — controller ruling B-3(c)), "t_lo within two of `step1`" and
    "12b `step1000` and `step1`, the earliest checkpoints any window can
    reach": the spine starts at `step1000`, so t_lo ≥ 1000 and B⁻ is
    never short; the earliest window member is `step256` (B⁻ = {256, 512}
@@ -459,10 +514,22 @@ the runners' `--dry-run`-equivalent calls in attack (viii) do not call
    without versions — suggested: "safetensors 0.8.0, tokenizers 0.22.2,
    huggingface_hub 1.22.0".
 8. **§7 Budget**, "download time that the runner overlaps by prefetching
-   the next candidate": the built runner joins the prefetch before it
-   loads the current unit, so no download overlaps scoring (§B); the
-   budget's overlap assumption (and B-4's figure) does not hold as built.
-9. **§3.7 gate 3 finiteness / B-3**: §D.
+   the next candidate": as first built the runner joined the prefetch
+   before loading the current unit (no overlap); F-8 restores the
+   overlap the budget assumes. No wording change needed; the ledger
+   records the closure.
+9. **§3.7 gate 3 finiteness (B-3(a), controller ruling: a ratification
+   slip).** Demonstration (§D): `finite: false` on a window-only unit
+   (6.9b/step3000, a B⁺ member whose loss enters no bracket) refuses
+   the whole verdict — `5 finals: … gate 3 contract failure(s):
+   ['6.9b/step3000/_loss: loss not finite (3 non-finite tokens)']`,
+   `n_cells=0`. **Recommendation: narrow.** Suggested wording: "finite
+   loss on every spine and bisection unit (the losses the search reads);
+   a window-only or S11 unit carries `finite` as a disclosed field, and
+   its counts are read as usual." If ratified, the analyzer's
+   `loss_record_failures_5` clause and F-7's halt condition narrow with
+   it (one line each: the unit's `why` in spine/bisect/final); until
+   then the build keeps gate 3 as written.
 10. The plan's B-1 … B-11 deltas are not yet in the design doc (the
     ratification package's business); F-1 adds one more sentence §7
     needs: "a size that is never a pair's large side (160m) runs S11

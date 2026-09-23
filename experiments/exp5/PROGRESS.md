@@ -1338,3 +1338,32 @@ non-finite unit loss; the preflight's early warning at step256, not
 step1 — no window can load step1); the finals' `git_sha` not checked
 against the prereg tag; the prefetch joins before scoring (no overlap,
 the budget's assumption); ten design-doc slips.
+
+## Task 7 step 1, the controller's rulings applied (2026-09-22)
+
+- **B-3(a)**: the narrowing of gate 3's finiteness to spine + bisection
+  units is a RATIFICATION SLIP for Michael (FREEZE_CHECKLIST §F slip 9,
+  with the demonstration and the recommendation: narrow; window-only
+  units carry `finite` as a disclosed field). The build keeps gate 3 as
+  written.
+- **F-7 `39d512925` (B-3(b))**: `run_unit_5` halts the size on the first
+  non-finite unit loss — HALTED marker naming the unit and
+  `n_nonfinite`, unit incomplete, checkpoint freed, exit 2.
+- **B-3(c) `4487b5e22`**: the preflight's early warning loads 12b
+  `step1000` and `step256` (the earliest window member), not `step1`;
+  `run/preflight_5.py` re-pinned in `IMPORTED_SHA256_5` (`f32e8c36…`).
+- **F-8 `86050f39f`**: `Prefetcher.target` / `.wait_for(size, step)`;
+  `run_unit_5` joins only its own download, so the next step's download
+  overlaps the current unit's scoring.
+- **Finals' `git_sha` vs the tag's commit**: NOT added (ruling) —
+  recorded as DISCLOSED in the checklist.
+- Mutants for F-7/F-8; harness re-run `f8e590b18`: 68 considered, 43
+  fast / 25 slow / 0 equivalent / 0 unresolved, worlds-only 30/30.
+
+Batteries: fast 116, slow 13, cold battery 11/13 + 2 SKIP, pins clean
+(51 / 6).
+
+**Pre-tag analyzer executions: 18 now (was 17):**
+18. `tests/import_scan_5.py` after the preflight re-pin — `pre-campaign
+    run: INSUFFICIENT_DATA — 5 host record: ValueError: host record
+    missing`; 51 frozen + 6 residual, table equal to the committed pins.
