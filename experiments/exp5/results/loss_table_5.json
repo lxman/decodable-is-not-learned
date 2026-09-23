@@ -1,0 +1,177 @@
+{
+ "1.4b": {
+  "143000": {
+   "loss": 1.918829917271368,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 2.141280623102994,
+    "Github": 0.7691519746645384,
+    "StackExchange": 1.6788544311116147,
+    "Enron Emails": 2.0757489749473605,
+    "FreeLaw": 1.5402068597095022,
+    "USPTO Backgrounds": 2.0622214999455406,
+    "Pile-CC": 2.5582889849394244,
+    "Wikipedia (en)": 2.097925699805081,
+    "PubMed Central": 1.8026122291207696,
+    "HackerNews": 2.5938425576995985,
+    "Gutenberg (PG-19)": 2.2806540374140667,
+    "DM Mathematics": 1.2425497463524493,
+    "NIH ExPorter": 2.270133330943631,
+    "ArXiv": 1.8196852958789245,
+    "Ubuntu IRC": 1.8542929469533775,
+    "EuroParl": 1.660048073244306,
+    "PhilPapers": 2.0051128532221605
+   }
+  }
+ },
+ "12b": {
+  "143000": {
+   "loss": 1.7039638479238743,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 1.9479936133289333,
+    "Github": 0.5642421972534346,
+    "StackExchange": 1.5038095780505354,
+    "Enron Emails": 1.659147540756152,
+    "FreeLaw": 1.3270728162227086,
+    "USPTO Backgrounds": 1.8436034373348482,
+    "Pile-CC": 2.2968950894691993,
+    "Wikipedia (en)": 1.8473403818329153,
+    "PubMed Central": 1.640605789644588,
+    "HackerNews": 2.354645056726911,
+    "Gutenberg (PG-19)": 1.9461165189416587,
+    "DM Mathematics": 1.1997977899987762,
+    "NIH ExPorter": 2.0787017101303724,
+    "ArXiv": 1.625754533074254,
+    "Ubuntu IRC": 1.6540721982216031,
+    "EuroParl": 1.378873690769283,
+    "PhilPapers": 1.7588978120213028
+   }
+  }
+ },
+ "160m": {
+  "143000": {
+   "loss": 2.4896193944462635,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 2.731502089934645,
+    "Github": 1.2786448638151615,
+    "StackExchange": 2.203987859154908,
+    "Enron Emails": 2.8436208893093537,
+    "FreeLaw": 2.1268733689488335,
+    "USPTO Backgrounds": 2.6049300642420676,
+    "Pile-CC": 3.2001162669104386,
+    "Wikipedia (en)": 2.7851212809734465,
+    "PubMed Central": 2.3109261953734834,
+    "HackerNews": 3.2049344523202765,
+    "Gutenberg (PG-19)": 3.0666526683226407,
+    "DM Mathematics": 1.3921211421965585,
+    "NIH ExPorter": 2.815727855232878,
+    "ArXiv": 2.363376007299543,
+    "Ubuntu IRC": 2.3822987724770956,
+    "EuroParl": 2.550483792276213,
+    "PhilPapers": 2.735820709636078
+   }
+  }
+ },
+ "1b": {
+  "143000": {
+   "loss": 1.9951283195856837,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 2.2158063461243325,
+    "Github": 0.8381542920438763,
+    "StackExchange": 1.7473987553810288,
+    "Enron Emails": 2.1771856404718153,
+    "FreeLaw": 1.619706154616573,
+    "USPTO Backgrounds": 2.1255650581601016,
+    "Pile-CC": 2.6497877085799426,
+    "Wikipedia (en)": 2.189594493122781,
+    "PubMed Central": 1.8612877247039556,
+    "HackerNews": 2.6874844922183585,
+    "Gutenberg (PG-19)": 2.3908261925307515,
+    "DM Mathematics": 1.2636701537339439,
+    "NIH ExPorter": 2.3509946115884555,
+    "ArXiv": 1.885636679531859,
+    "Ubuntu IRC": 1.933045396473961,
+    "EuroParl": 1.7806328736199002,
+    "PhilPapers": 2.126777337825567
+   }
+  }
+ },
+ "2.8b": {
+  "143000": {
+   "loss": 1.8202253595431497,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 2.0506242333492564,
+    "Github": 0.6793506335618734,
+    "StackExchange": 1.5961971024307129,
+    "Enron Emails": 1.8777220418901093,
+    "FreeLaw": 1.4416243987483743,
+    "USPTO Backgrounds": 1.9703872822656265,
+    "Pile-CC": 2.4384133393235863,
+    "Wikipedia (en)": 1.9852789601009513,
+    "PubMed Central": 1.7250820976603998,
+    "HackerNews": 2.4861853663883346,
+    "Gutenberg (PG-19)": 2.122983241304046,
+    "DM Mathematics": 1.2190443383730898,
+    "NIH ExPorter": 2.184028980730497,
+    "ArXiv": 1.7205861894792513,
+    "Ubuntu IRC": 1.770818753984021,
+    "EuroParl": 1.5301950759344514,
+    "PhilPapers": 1.8941782682176542
+   }
+  }
+ },
+ "410m": {
+  "143000": {
+   "loss": 2.129128933785041,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 2.3528925894013737,
+    "Github": 0.9677262870639719,
+    "StackExchange": 1.8616192318093332,
+    "Enron Emails": 2.374932768565873,
+    "FreeLaw": 1.7466838417582402,
+    "USPTO Backgrounds": 2.2525093153391413,
+    "Pile-CC": 2.799948964414162,
+    "Wikipedia (en)": 2.361643124647613,
+    "PubMed Central": 1.9819567821245627,
+    "HackerNews": 2.8288636870742043,
+    "Gutenberg (PG-19)": 2.5991721647813,
+    "DM Mathematics": 1.2908397371527425,
+    "NIH ExPorter": 2.464334355682427,
+    "ArXiv": 2.0142080491088774,
+    "Ubuntu IRC": 2.0348802918885536,
+    "EuroParl": 1.9692296228816744,
+    "PhilPapers": 2.302304658180298
+   }
+  }
+ },
+ "6.9b": {
+  "143000": {
+   "loss": 1.7521511990040595,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 1.9931503631959746,
+    "Github": 0.6097611011478508,
+    "StackExchange": 1.5427736538800212,
+    "Enron Emails": 1.754772261909715,
+    "FreeLaw": 1.3719507299356588,
+    "USPTO Backgrounds": 1.8939530942283895,
+    "Pile-CC": 2.3570573103255112,
+    "Wikipedia (en)": 1.9028623136017178,
+    "PubMed Central": 1.6752545226358753,
+    "HackerNews": 2.4089621798258958,
+    "Gutenberg (PG-19)": 2.0194093900404417,
+    "DM Mathematics": 1.2075123804635366,
+    "NIH ExPorter": 2.122124126457958,
+    "ArXiv": 1.665599264379433,
+    "Ubuntu IRC": 1.6968247909440295,
+    "EuroParl": 1.4452013337245107,
+    "PhilPapers": 1.7988009816070525
+   }
+  }
+ }
+}
