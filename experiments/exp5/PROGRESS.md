@@ -1367,3 +1367,28 @@ Batteries: fast 116, slow 13, cold battery 11/13 + 2 SKIP, pins clean
 18. `tests/import_scan_5.py` after the preflight re-pin — `pre-campaign
     run: INSUFFICIENT_DATA — 5 host record: ValueError: host record
     missing`; 51 frozen + 6 residual, table equal to the committed pins.
+
+## Task 7 step 2: the final review's fix wave (2026-09-22)
+
+The final whole-branch review (opus) read "Ready for the tag WITH FIXES", no
+Critical; one fix wave, every item as the controller ruled (itemized with commits
+in FREEZE_CHECKLIST §H): I-1 `7de480da5`; I-2/I-3/I-4/M-13 `d7a09dc01`; I-5
+(additive) `3f524237a`; M-1/M-2/M-3/M-4/M-7/M-9 `bfc8a56e8`; M-5/M-6/M-10/M-11/M-12
+`d843b319f`; the referent manifest rebuilt for M-5's power_5.py edit
+(REFERENTS_5_SHA256 e7a1ea3b -> 314fc708) + four wave mutants `5c9e4d6d2`; I-5's
+threshold, I-6 and M-8 are ratification slips 10, 9 (rewritten) and 11. A
+mutation run started over the stale referent manifest was stopped with SIGINT
+(finally restored the mutated file; no backup, tree clean) and re-run from the
+corrected source.
+
+Batteries: fast 137, slow 13, whole directory unfiltered 150, cold battery 11/13
++ 2 SKIP (item 7 ok), mutation 72 (47 fast / 25 slow / 0 equivalent / 0
+unresolved; worlds-only 30/30), read sweep 1853 paths / 0 UNPINNED, import scan
+51 + 6 equal to the pins (verify_referents_5 c7468181, make_referents_5 76d5d959,
+preflight_5 f32e8c36).
+
+**Pre-tag analyzer executions: 20 now (was 18):**
+19. `tests/read_sweep_5.py` after the wave (M-1 removed a read) — `INSUFFICIENT_DATA
+    — 5 host record: ValueError: host record missing`; 1853 paths, 0 UNPINNED.
+20. `tests/import_scan_5.py` after the wave (three pinned files changed) — the same
+    refusal; 51 frozen + 6 residual, table equal to the committed pins.

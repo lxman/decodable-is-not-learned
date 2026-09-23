@@ -519,18 +519,41 @@ the runners' `--dry-run`-equivalent calls in attack (viii) do not call
    overlap the budget assumes. No wording change needed; the ledger
    records the closure.
 9. **§3.7 gate 3 finiteness (B-3(a), controller ruling: a ratification
-   slip).** Demonstration (§D): `finite: false` on a window-only unit
-   (6.9b/step3000, a B⁺ member whose loss enters no bracket) refuses
-   the whole verdict — `5 finals: … gate 3 contract failure(s):
-   ['6.9b/step3000/_loss: loss not finite (3 non-finite tokens)']`,
-   `n_cells=0`. **Recommendation: narrow.** Suggested wording: "finite
-   loss on every spine and bisection unit (the losses the search reads);
-   a window-only or S11 unit carries `finite` as a disclosed field, and
-   its counts are read as usual." If ratified, the analyzer's
-   `loss_record_failures_5` clause and F-7's halt condition narrow with
-   it (one line each: the unit's `why` in spine/bisect/final); until
-   then the build keeps gate 3 as written.
-10. The plan's B-1 … B-11 deltas are not yet in the design doc (the
+   slip; recommendation rewritten per final review I-6).** Demonstration
+   (§D): `finite: false` on a window-only unit (6.9b/step3000, a B⁺
+   member whose loss enters no bracket) refuses the whole verdict —
+   `5 finals: … gate 3 contract failure(s): ['6.9b/step3000/_loss: loss
+   not finite (3 non-finite tokens)']`, `n_cells=0`. **Recommendation:
+   narrow, and treat such a member as ABSENT.** A non-finite fp16 slice
+   loss means the fp16 forward overflowed, and the argmax reads come from
+   the same weights and forward, so its counts must never be read.
+   Suggested wording: "finite loss on every spine and bisection unit (the
+   losses the search reads); a window member whose loss is not finite is
+   treated as ABSENT — its side is shorter, printed, exactly the edge
+   rule (§3.2 step 4) — and its counts are never read." If ratified, the
+   analyzer's gate-3 clause narrows to spine/bisection/final units, the
+   window reads skip a non-finite member, and F-7's halt becomes: write
+   the unit and a marker (printed), continue — one line each; until then
+   the build keeps gate 3 as written and F-7 halts.
+10. **§3.8 the UNDETERMINED threshold vs the rung-block p floor (final
+    review I-5; controller ruling: printed now, the threshold is
+    Michael's).** The flip includes the identity, so p ≥ 2^-k over k
+    NONZERO rung blocks; at k = 5 (.031) or 6 (.016) the floor is above
+    α .01 and NOT-MATCHED cannot fire, while `MIN_LIVE_RUNGS_5 = 5`
+    counts rungs CARRYING cells (zero-sum blocks included) — so the tree
+    can return MATCHED (and MATCHED-POWERED's sentence) from a test that
+    could not have rejected. Built now (additive, `3f524237a`):
+    `primary.n_nonzero_blocks`, `primary.p_min_attainable`, the licence's
+    `resolution_note`, both in VERDICT.txt. **Recommendation:**
+    "UNDETERMINED iff fewer than 20 live cells with P defined or fewer
+    than 7 rungs with a NONZERO block sum (2^-7 = .0078 < .01)".
+11. **§6 MATCHED licence wording (final review M-8).** The built
+    `MATCHED-POWERED` body reads "across the size pairs read to date";
+    §6 reads "across 21 size pairs to 75×". Pairs can drop (F-6), so the
+    fixed "21" can be false. **Recommendation:** the sentence quotes the
+    realized pair count and the largest realized size ratio (both from
+    gate 4's kept pairs), e.g. "across <n> size pairs to <r>×".
+12. The plan's B-1 … B-11 deltas are not yet in the design doc (the
     ratification package's business); F-1 adds one more sentence §7
     needs: "a size that is never a pair's large side (160m) runs S11
     alone — no spine".
@@ -559,3 +582,48 @@ From `.superpowers/sdd/2026-09-22-exp5-build/progress.md`, every
 - Task 6: PROGRESS/report wording "27 hand + 29 AST" vs 28 + 28; the
   stale `make_referents_5` docstring ("6 × 35"); `test_totality_5`'s
   corrupt/restore steps without try/finally — untouched.
+
+## H. Final review wave (2026-09-22)
+
+The final whole-branch review (opus; `.superpowers/sdd/2026-09-22-exp5-build/final-review-report.md`)
+read "Ready for the tag WITH FIXES", no Critical. One fix wave, every item as
+ruled; nothing preregistered moved (no bar, statistic or licence sentence).
+
+| item | what | commit |
+| --- | --- | --- |
+| I-1 | gate 1(b)/(c) re-derivation tested with faked referents (clean; a count +16; a 136 > 120 sum; a wrong gate1c `steps` set; an interior count +16); `gate1b_rederived_5`/`gate1c_rederived_5` and VERDICT.txt printing the analyzer's own max/sum \|Δ\|, never the runner's; three mutants | `7de480da5` (+ mutants `5c9e4d6d2`) |
+| I-2 | `box_setup_5.sh`: `uv venv --seed` (the pip-less venv killed the script) + test | `d7a09dc01` |
+| I-3 | `run/rebundle_box_5.sh` (box: fetch master + tags, reset to FETCH_HEAD, refuse without the seal tag or the projection as an ancestor) and `run/make_bundle_5.sh` (Mac: bundle + sha256); end-to-end tests in throwaway repos (lands; refuses ×2); the plan's runbook line and the scripts' comments point at them | `d7a09dc01` |
+| I-4 | the puller skips a unit only with all 37 files, rsync `--temp-dir` outside the repo; the watcher stages `*.json`/`HALTED` by pathspec plus `git add -u`, never `-A`; tests | `d7a09dc01` |
+| I-5 | (ruling, additive) `n_nonzero_blocks`, `p_min_attainable` (every flip), the licence's `resolution_note`, VERDICT.txt; the threshold → slip 10 | `3f524237a` |
+| I-6 | slip 9's recommendation rewritten: a non-finite window member is ABSENT, never read | this commit |
+| M-1 | S10's 12b finiteness read from the 12b units (step1000 + the lowest loaded step), no longer from a file nothing writes | `bfc8a56e8` |
+| M-2 | docstrings: `check_imports_5`, `load_units_5`, `finals_5`'s refusal order | `bfc8a56e8` |
+| M-3 | unused imports dropped (`slice_5` hashlib, `sweep_5` time) | `bfc8a56e8` |
+| M-4 | `_checkpoint.json` `dtype_measured` (from the loaded weights), required == float16; one mutant | `bfc8a56e8` |
+| M-5 | `power_5.main` asserts the prereg binding, frozen modules and import surface first; test | `d843b319f` |
+| M-6 | cold item 11 pins n_sim/seed; item 7's SKIP is loud ("THE DESIGN'S GATE 2 RE-DERIVATION DID NOT RUN"); tests | `d843b319f` |
+| M-7 | `dropped_detail` from the analyzer's replay, never the log | `bfc8a56e8` |
+| M-8 | → slip 11 | this commit |
+| M-9 | host record carries `torch.version.cuda` (recorded, not required); hf_xet stays recorded | `bfc8a56e8` |
+| M-10 | runner-side torn-unit test (30 of 36 files, no `_unit.json` → wiped, rewritten, loaded once) | `d843b319f` |
+| M-11 | S9 "present" path tested through the analyzer; its message now "<box> vs the Mac's <mac>" | `d843b319f` |
+| M-12 | ledger prose (28 hand + 28 AST; `_s9_cross_host_5`; make_referents' "6 × 12") | `d843b319f` |
+| M-13 | `campaign_5.sh` unsets `HF_HUB_DISABLE_XET` | `d7a09dc01` |
+
+LEFT untouched per the review's LEAVE list: `_write`/`_halt` duplication, the
+literal 5 in S5, `search_5`'s assert, the unprefixed pf/mf messages, the 1e-9
+target tolerance, the unknown-modifier fallback, git calls outside thunks, the
+unchecked replay plan fields, the totality test's try/finally.
+
+Re-pins: `IMPORTED_SHA256_5` — `verify_referents_5.py` c4a54a20 → c7468181,
+`make_referents_5.py` 759948ba → 76d5d959 (and, earlier, `run/preflight_5.py`
+→ f32e8c36). No referent file changed; `referents_5.json` untouched.
+
+Batteries after the wave: fast **137 passed**; slow **13 passed**; the unfiltered
+whole directory **150 passed (one process, unfiltered)**; cold battery **11/13 + 2 SKIP (item 7 ok, a PASS; items 11/13 pre-targets / pre-campaign)**; mutation
+**72 considered: 47 fast / 25 slow / 0 equivalent / 0 unresolved; worlds-only 30/30 (5c9e4d6d2 + the regenerated logs)**; read sweep **1853 distinct paths, 0 UNPINNED**; import scan **51 frozen + 6 residual, table equal to the committed pins**.
+
+Disclosure tally: **18 -> 20 (19: read sweep; 20: import scan)** — the read sweep (M-1 removed a read) and the
+import scan (three pinned files changed), each refusing at "5 host record" on
+the pre-campaign tree.
