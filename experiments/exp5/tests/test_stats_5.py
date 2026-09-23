@@ -170,3 +170,28 @@ def test_signed_offset_ci_and_secondaries_run():
     assert set(s7) == {"1b→12b", "2.8b→12b"}
     led = ss.ledger_5(cells)
     assert led["n_live"] == 12 and led["classes"]["CONCORDANT"] == 12
+
+
+def test_primary_prints_the_rung_block_resolution():
+    """Final review I-5 (ruling, additive): n_nonzero_blocks and the smallest
+    attainable p (2^-k enumerated; 1/(M+1) sampled)."""
+    from experiments.exp5 import analyze_5 as an
+    rungs = list(b5.RUNGS[:6])
+    cells = [{"live": True, "defined_P": True, "c": (0.02 if r != rungs[5] else 0.0), "rung": r,
+              "family": b5.FAMILY_OF[r]} for r in rungs]
+    prim = ss.primary_5(cells)
+    assert prim["n_rungs"] == 6 and prim["n_nonzero_blocks"] == 5
+    assert prim["p_min_attainable"] == 1 / 32
+    note = an.resolution_note_5(prim)
+    assert note and "0.03125" in note and "NOT-MATCHED could not have fired" in note
+    lic = an.licence_block_5("MATCHED", None, {"declaration": "POWERED"}, primary=prim)
+    assert lic["resolution_note"] == note
+    txt = an.write_verdict_txt_5({"tree": {"verdict": "MATCHED"}, "licence": lic, "primary": prim,
+                                  "secondaries": {}})
+    assert "p_min_attainable=0.03125" in txt and "RESOLUTION:" in txt
+    big = [{"live": True, "defined_P": True, "c": 0.01 * (i + 1), "rung": r, "family": b5.FAMILY_OF[r]}
+           for i, r in enumerate(b5.RUNGS[:8])]
+    p8 = ss.primary_5(big)
+    assert p8["p_min_attainable"] == 1 / 256 and an.resolution_note_5(p8) is None
+    s = ss.sign_flip_p_5([0.1] * 25, 25, n_sample=99)
+    assert s["method"] == "sampled" and s["p_min_attainable"] == 1 / 100

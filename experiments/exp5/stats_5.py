@@ -106,13 +106,14 @@ def sign_flip_p_5(block_sums, n_cells: int, *, max_enumerate=b5.MAX_ENUMERATE_BL
     base = {"T": float(T), "n_blocks": k, "n_blocks_total": len(all_sums), "n_cells": int(n_cells)}
     if k == 0:
         return {**base, "p": 1.0, "method": "degenerate", "n_perms": 0, "resolution": None,
-                "null_mean": 0.0, "null_sd": 0.0, "count_ge": 0}
+                "null_mean": 0.0, "null_sd": 0.0, "count_ge": 0, "p_min_attainable": 1.0}
     if k <= max_enumerate:
         signs = (((np.arange(2 ** k, dtype=np.int64)[:, None] >> np.arange(k)) & 1) * 2 - 1)
         null = (signs.astype(np.float64) @ sums) / n_cells
         count = int(np.sum(null >= T - 1e-12))
         return {**base, "p": count / len(null), "method": "enumerated", "n_perms": int(len(null)),
                 "resolution": 1.0 / len(null), "count_ge": count,
+                "p_min_attainable": 1.0 / len(null),   # 2^-k: the identity is always counted
                 "null_mean": float(null.mean()), "null_sd": float(null.std())}
     rng = np.random.default_rng(seed)
     signs = rng.choice(np.array([-1.0, 1.0]), size=(int(n_sample), k))
@@ -120,6 +121,7 @@ def sign_flip_p_5(block_sums, n_cells: int, *, max_enumerate=b5.MAX_ENUMERATE_BL
     count = int(np.sum(null >= T - 1e-12))
     return {**base, "p": (1 + count) / (n_sample + 1), "method": "sampled",
             "n_perms": int(n_sample), "resolution": 1.0 / (n_sample + 1), "count_ge": count,
+            "p_min_attainable": 1.0 / (n_sample + 1),
             "null_mean": float(null.mean()), "null_sd": float(null.std()), "seed": int(seed)}
 
 
@@ -143,6 +145,9 @@ def primary_5(cells: list, *, n_sample=b5.N_PERM_SAMPLED_5, seed=b5.PERM_SEED_5)
            "rung_block": sign_flip_p_5(list(rung_sums.values()), n, n_sample=n_sample, seed=seed),
            "family_block": sign_flip_p_5(list(fam_sums.values()), n, n_sample=n_sample, seed=seed),
            "cell_level": sign_flip_p_5([c["c"] for c in live], n, n_sample=n_sample, seed=seed)}
+    # final review I-5 (ruling: additive, printed only): the rung-block flip's resolution
+    out["n_nonzero_blocks"] = out["rung_block"]["n_blocks"]
+    out["p_min_attainable"] = out["rung_block"]["p_min_attainable"]
     return out
 
 

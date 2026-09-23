@@ -598,7 +598,20 @@ def _seal_tag_commit_5():
 
 # -------------------------------------------------------------- licence
 
-def licence_block_5(world: str, modifier, power: dict) -> dict:
+def resolution_note_5(primary) -> object:
+    """Final review I-5 (ruling: additive, printed): when the rung-block
+    test's smallest attainable p is at or above α, NOT-MATCHED could not
+    have fired whatever the data; the tree is unchanged (the threshold is
+    ratification slip 10)."""
+    pm = (primary or {}).get("p_min_attainable")
+    if pm is None or pm < b5.ALPHA_5:
+        return None
+    return (f"the rung-block test's smallest attainable p is {pm:.4g}, at or above α "
+            f"{b5.ALPHA_5}: NOT-MATCHED could not have fired at this k "
+            f"({(primary or {}).get('n_nonzero_blocks')} nonzero rung blocks)")
+
+
+def licence_block_5(world: str, modifier, power: dict, primary=None) -> dict:
     power = power or {}
     if world == "MATCHED":
         key = "MATCHED-POWERED" if power.get("declaration") == "POWERED" else "MATCHED-UNDERPOWERED"
@@ -610,7 +623,8 @@ def licence_block_5(world: str, modifier, power: dict) -> dict:
     sentence = _LICENCE_BODY_5.get(key, _LICENCE_BODY_5["INSUFFICIENT_DATA"])
     return {"world": world, "modifier": modifier, "key": key, "sentence": sentence,
             "caveat": CAVEAT_5, "declaration": power.get("declaration"),
-            "min_detectable_T": power.get("min_detectable_T")}
+            "min_detectable_T": power.get("min_detectable_T"),
+            "resolution_note": resolution_note_5(primary)}
 
 
 # ----------------------------------------------------------- secondaries
@@ -967,7 +981,10 @@ def write_verdict_txt_5(v: dict) -> str:
     rb = p.get("rung_block") or {}
     lines.append(f"primary: T={p.get('T')} n_cells={p.get('n_cells')} n_rungs={p.get('n_rungs')} "
                 f"rung-block p={rb.get('p')} method={rb.get('method')} "
-                f"n_blocks={rb.get('n_blocks')} resolution={rb.get('resolution')}")
+                f"n_blocks={rb.get('n_blocks')} resolution={rb.get('resolution')} "
+                f"p_min_attainable={p.get('p_min_attainable')}")
+    if (v.get("licence") or {}).get("resolution_note"):
+        lines.append(f"  RESOLUTION: {v['licence']['resolution_note']}")
     fb = p.get("family_block") or {}
     cl = p.get("cell_level") or {}
     lines.append(f"  family-block p={fb.get('p')}  cell-level p={cl.get('p')}")
@@ -1384,7 +1401,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     # 16. secondaries (never touch `failures`)
     secondaries, secondary_failures = secondaries_5(cells, units, all_pairs_data, root, manifest)
 
-    licence = licence_block_5(tree["verdict"], tree.get("modifier"), power_rec)
+    licence = licence_block_5(tree["verdict"], tree.get("modifier"), power_rec, primary=primary)
 
     pins_active = {
         "frozen_modules": frozen_check is None,
