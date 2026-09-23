@@ -627,3 +627,6 @@ whole directory **150 passed (one process, unfiltered)**; cold battery **11/13 +
 Disclosure tally: **18 -> 20 (19: read sweep; 20: import scan)** — the read sweep (M-1 removed a read) and the
 import scan (three pinned files changed), each refusing at "5 host record" on
 the pre-campaign tree.
+
+---
+*Controller's note after the final review wave (2026-09-22): §H supersedes §G's "untouched" dispositions for the unused imports (M-3), the `finals_5` docstring (M-2), the `make_referents_5` docstring (M-12) and S9's present path (M-11); §G is left as the freeze wrote it. The re-review of the wave found every item addressed and no new Critical/Important breakage; three optional Minors are parked in the build ledger with rulings (the re-bundle script's ancestry line is a sanity print — the enforcement is `sweep_5.run`'s; two script tests are text checks, the watcher's pathspec verified in a scratch repo; a broad catch guards a recorded-only value). Ratification package: `.superpowers/sdd/2026-09-22-exp5-build/ratification-package.md`.*
