@@ -1,0 +1,452 @@
+{
+ "P_deciding": 0.173,
+ "arms": {
+  "concentrated": {
+   "0.5": {
+    "P_fire": 0.0,
+    "mean_T": 0.011293539473684208,
+    "mean_p": 0.2048984375,
+    "n_sim": 1000,
+    "sd_T": 0.0016203366668548526
+   },
+   "1.0": {
+    "P_fire": 0.0,
+    "mean_T": 0.005587052631578947,
+    "mean_p": 0.29566015625,
+    "n_sim": 1000,
+    "sd_T": 0.0030639025293147416
+   }
+  },
+  "null": {
+   "0.5": {
+    "P_fire": 0.0,
+    "mean_T": -0.005129381578947371,
+    "mean_p": 0.992703125,
+    "n_sim": 1000,
+    "sd_T": 0.0011998488702587588
+   },
+   "1.0": {
+    "P_fire": 0.0,
+    "mean_T": -0.007806197368421055,
+    "mean_p": 0.986302734375,
+    "n_sim": 1000,
+    "sd_T": 0.002046882957217411
+   }
+  },
+  "spread": {
+   "0.5": {
+    "P_fire": 0.657,
+    "mean_T": 0.015229302631578946,
+    "mean_p": 0.013076171875,
+    "n_sim": 1000,
+    "sd_T": 0.003707300451772971
+   },
+   "1.0": {
+    "P_fire": 0.173,
+    "mean_T": 0.008834631578947368,
+    "mean_p": 0.092087890625,
+    "n_sim": 1000,
+    "sd_T": 0.004323761158619507
+   }
+  }
+ },
+ "assumptions": [
+  "the simulated live set is the cells whose small final clears the bar; cells live only through the large side are not simulated",
+  "per-read noise is Gaussian on the count, sd 17.0\u00b7sqrt(pi/2)/sqrt(2) items at factor 1 (the committed pooled late |\u0394| at 10k spacing read as a difference of two reads), halved at factor 1/2",
+  "each placebo side carries one drift term N(0, 4 items) shared by its two reads",
+  "f is fixed; every window is full (no edge cells)",
+  "the offset is one-directional (+25 items) on the selected cells"
+ ],
+ "d_grid": [
+  {
+   "D": 0.01,
+   "P_fire": 0.0,
+   "mean_T": -0.006877500000000001,
+   "offset_items": 5
+  },
+  {
+   "D": 0.02,
+   "P_fire": 0.0,
+   "mean_T": -0.004289263157894737,
+   "offset_items": 10
+  },
+  {
+   "D": 0.03,
+   "P_fire": 0.001,
+   "mean_T": -0.0005408157894736843,
+   "offset_items": 15
+  },
+  {
+   "D": 0.04,
+   "P_fire": 0.027,
+   "mean_T": 0.004184697368421053,
+   "offset_items": 20
+  },
+  {
+   "D": 0.05,
+   "P_fire": 0.159,
+   "mean_T": 0.008800157894736841,
+   "offset_items": 25
+  },
+  {
+   "D": 0.06,
+   "P_fire": 0.364,
+   "mean_T": 0.013686394736842106,
+   "offset_items": 30
+  }
+ ],
+ "deciding_arm": {
+  "D": 0.05,
+  "arm": "spread",
+  "noise_factor": 1.0,
+  "q": 0.5
+ },
+ "declaration": "DECLARED UNDERPOWERED IN ADVANCE",
+ "drift_sd_items": 4.0,
+ "finals_sha256": "dc7fbace3e7c0aa88394bf073748e484b4756fa31af5cebbcb3958dcfe0ed94d",
+ "live_rungs_simulated": [
+  "add3_mid",
+  "add_base8",
+  "antonym",
+  "antonym6",
+  "arith_next",
+  "count_div13",
+  "odd6",
+  "sub3_mid",
+  "sub_base8"
+ ],
+ "min_detectable_T": null,
+ "n_live_simulated": 38,
+ "n_sim": 1000,
+ "noise_factors": [
+  1.0,
+  0.5
+ ],
+ "null_T": {
+  "0.5": {
+   "mean": -0.005129381578947371,
+   "sd": 0.0011998488702587588
+  },
+  "1.0": {
+   "mean": -0.007806197368421055,
+   "sd": 0.002046882957217411
+  }
+ },
+ "offset_items": 25,
+ "power_bar": 0.75,
+ "prereg_tag": "exp5-preregistered",
+ "q": 0.5,
+ "realized_alpha": {
+  "0.5": 0.0,
+  "1.0": 0.0
+ },
+ "seed": 0,
+ "sigma_read_items": 15.065857732696882,
+ "structure": [
+  {
+   "f": 111,
+   "family": "antonym",
+   "large": "1b",
+   "rung": "antonym6",
+   "small": "410m",
+   "type": "option"
+  },
+  {
+   "f": 111,
+   "family": "antonym",
+   "large": "1.4b",
+   "rung": "antonym6",
+   "small": "410m",
+   "type": "option"
+  },
+  {
+   "f": 111,
+   "family": "antonym",
+   "large": "2.8b",
+   "rung": "antonym6",
+   "small": "410m",
+   "type": "option"
+  },
+  {
+   "f": 111,
+   "family": "antonym",
+   "large": "6.9b",
+   "rung": "antonym6",
+   "small": "410m",
+   "type": "option"
+  },
+  {
+   "f": 111,
+   "family": "antonym",
+   "large": "12b",
+   "rung": "antonym6",
+   "small": "410m",
+   "type": "option"
+  },
+  {
+   "f": 19,
+   "family": "seq_extrap",
+   "large": "1.4b",
+   "rung": "arith_next",
+   "small": "1b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 19,
+   "family": "seq_extrap",
+   "large": "2.8b",
+   "rung": "arith_next",
+   "small": "1b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 19,
+   "family": "seq_extrap",
+   "large": "6.9b",
+   "rung": "arith_next",
+   "small": "1b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 19,
+   "family": "seq_extrap",
+   "large": "12b",
+   "rung": "arith_next",
+   "small": "1b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 158,
+   "family": "antonym",
+   "large": "2.8b",
+   "rung": "antonym",
+   "small": "1.4b",
+   "type": "option"
+  },
+  {
+   "f": 38,
+   "family": "seq_extrap",
+   "large": "2.8b",
+   "rung": "arith_next",
+   "small": "1.4b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 158,
+   "family": "antonym",
+   "large": "6.9b",
+   "rung": "antonym",
+   "small": "1.4b",
+   "type": "option"
+  },
+  {
+   "f": 38,
+   "family": "seq_extrap",
+   "large": "6.9b",
+   "rung": "arith_next",
+   "small": "1.4b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 158,
+   "family": "antonym",
+   "large": "12b",
+   "rung": "antonym",
+   "small": "1.4b",
+   "type": "option"
+  },
+  {
+   "f": 38,
+   "family": "seq_extrap",
+   "large": "12b",
+   "rung": "arith_next",
+   "small": "1.4b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 44,
+   "family": "mid_digit",
+   "large": "6.9b",
+   "rung": "add3_mid",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 264,
+   "family": "mid_digit",
+   "large": "6.9b",
+   "rung": "sub3_mid",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 148,
+   "family": "antonym",
+   "large": "6.9b",
+   "rung": "antonym6",
+   "small": "2.8b",
+   "type": "option"
+  },
+  {
+   "f": 275,
+   "family": "antonym",
+   "large": "6.9b",
+   "rung": "antonym",
+   "small": "2.8b",
+   "type": "option"
+  },
+  {
+   "f": 135,
+   "family": "seq_extrap",
+   "large": "6.9b",
+   "rung": "arith_next",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 92,
+   "family": "base_arith",
+   "large": "6.9b",
+   "rung": "sub_base8",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 45,
+   "family": "base_arith",
+   "large": "6.9b",
+   "rung": "add_base8",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 44,
+   "family": "mid_digit",
+   "large": "12b",
+   "rung": "add3_mid",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 264,
+   "family": "mid_digit",
+   "large": "12b",
+   "rung": "sub3_mid",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 148,
+   "family": "antonym",
+   "large": "12b",
+   "rung": "antonym6",
+   "small": "2.8b",
+   "type": "option"
+  },
+  {
+   "f": 275,
+   "family": "antonym",
+   "large": "12b",
+   "rung": "antonym",
+   "small": "2.8b",
+   "type": "option"
+  },
+  {
+   "f": 135,
+   "family": "seq_extrap",
+   "large": "12b",
+   "rung": "arith_next",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 92,
+   "family": "base_arith",
+   "large": "12b",
+   "rung": "sub_base8",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 45,
+   "family": "base_arith",
+   "large": "12b",
+   "rung": "add_base8",
+   "small": "2.8b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 19,
+   "family": "mid_digit",
+   "large": "12b",
+   "rung": "add3_mid",
+   "small": "6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 16,
+   "family": "mid_digit",
+   "large": "12b",
+   "rung": "sub3_mid",
+   "small": "6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 141,
+   "family": "antonym",
+   "large": "12b",
+   "rung": "antonym6",
+   "small": "6.9b",
+   "type": "option"
+  },
+  {
+   "f": 280,
+   "family": "antonym",
+   "large": "12b",
+   "rung": "antonym",
+   "small": "6.9b",
+   "type": "option"
+  },
+  {
+   "f": 55,
+   "family": "seq_extrap",
+   "large": "12b",
+   "rung": "arith_next",
+   "small": "6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 103,
+   "family": "counting",
+   "large": "12b",
+   "rung": "count_div13",
+   "small": "6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 108,
+   "family": "odd_one_out",
+   "large": "12b",
+   "rung": "odd6",
+   "small": "6.9b",
+   "type": "option"
+  },
+  {
+   "f": 48,
+   "family": "base_arith",
+   "large": "12b",
+   "rung": "sub_base8",
+   "small": "6.9b",
+   "type": "arithmetic"
+  },
+  {
+   "f": 28,
+   "family": "base_arith",
+   "large": "12b",
+   "rung": "add_base8",
+   "small": "6.9b",
+   "type": "arithmetic"
+  }
+ ],
+ "structure_sha256": "0075c96e6f5ba1aa2f6de7b9c83a6521d2d24bf7f0f89e92e6f21eb6372d17f0"
+}
