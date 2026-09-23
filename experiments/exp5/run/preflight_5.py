@@ -6,8 +6,10 @@ the tag is checked by the stage runners, not the preflight). Prints
 only; asserts afterwards that nothing under `root/results` changed
 (4c's `_results_snapshot`).
 
-12b `step1000` and `step1` — the earliest checkpoints any window can
-reach (design §3.1) — loaded through `load_checkpoint_5`: digest,
+12b `step1000` (the spine's first point) and `step256` — the earliest
+checkpoint any window can reach: the spine starts at `step1000`, so
+t_lo >= 1000 and B- = {256, 512} at worst (freeze ruling B-3(c); the
+design's `step1` is loadable by no window) — loaded through `load_checkpoint_5`: digest,
 n_params, `slice_loss_5` finiteness (`finite`, `n_nonfinite`, `loss`)
 and the per-unit peak (`torch.cuda.max_memory_allocated()`, guarded —
 4c note 1) printed AFTER the loss so the batch is resident, then one
@@ -40,7 +42,7 @@ from experiments.exp5 import collect_5 as c5  # noqa: E402
 from experiments.exp5 import slice_5 as sl5  # noqa: E402
 
 PREFLIGHT_SIZE_5 = "12b"
-PREFLIGHT_STEPS_5 = (1000, 1)
+PREFLIGHT_STEPS_5 = (1000, 256)   # ruling B-3(c): step256, not step1
 PREFLIGHT_RUNG_5 = "antonym"
 FINAL_SIZE_5 = "1b"
 

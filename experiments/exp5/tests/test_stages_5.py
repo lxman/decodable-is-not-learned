@@ -405,6 +405,20 @@ def test_preflight_runs_on_the_fakes_and_writes_nothing_under_results(env, tmp_p
     # in particular results/host_5.json (already written by the fin.run() call above) is untouched
 
 
+def test_preflight_early_warning_is_the_earliest_step_a_window_can_reach():
+    """Ruling B-3(c): the preflight's early warning loads 12b step1000 and the
+    earliest window member, step256 (t_lo >= spine[0] = 1000 -> B- = {256, 512});
+    step1 is loadable by no window."""
+    man = b5.load_manifest_5(sha_pin=b5.CHECKPOINTS_SHA256_5)
+    size = pf5.PREFLIGHT_SIZE_5
+    avail = b5.available_5(man, size)
+    spine = b5.spine_5(man, size)
+    i = avail.index(spine[0])
+    earliest_window = min(avail[max(0, i - b5.N_WINDOW_SIDE_5):i])
+    assert pf5.PREFLIGHT_STEPS_5 == (spine[0], earliest_window) == (1000, 256)
+    assert 1 not in pf5.PREFLIGHT_STEPS_5
+
+
 def test_s9_mac_writes_one_unit_with_host_record_and_tolerance(env):
     fin.run(**env["common"])
     sw.run(size="2.8b", **_sweep_kwargs(env))
