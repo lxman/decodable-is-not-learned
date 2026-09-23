@@ -94,7 +94,12 @@ ALPHA_5 = 0.01
 MODIFIER_ALPHA_5 = 0.05
 MODIFIER_MIN_CELLS_5 = 8
 MIN_LIVE_CELLS_5 = 20
-MIN_LIVE_RUNGS_5 = 5
+# Ratification slip 10 (2026-09-23): UNDETERMINED counts rungs with a NONZERO
+# block sum — the exact flip's smallest attainable p is 2^-k over those k, so
+# 7 is the least k at which NOT-MATCHED can fire at alpha .01 (2^-7 = .0078);
+# at 5 or 6 (the build's "rungs carrying cells" rule read 5) the tree could
+# return MATCHED from a test that could not have rejected.
+MIN_NONZERO_BLOCKS_5 = 7
 MAX_ENUMERATE_BLOCKS_5 = 20
 N_PERM_SAMPLED_5 = 10_000
 PERM_SEED_5 = 0
@@ -664,13 +669,45 @@ def checkpoint_record_failures_5(rec: dict, *, size, step, entry) -> list:
     return bad
 
 
+def loss_is_finite_5(rec: dict) -> bool:
+    """MEASURED finiteness of a loss record (never the attested `finite`
+    flag — freeze F-4): the aggregate a finite float and every per-set
+    component with tokens finite."""
+    lv = rec.get("loss")
+    if not (isinstance(lv, float) and math.isfinite(lv)):
+        return False
+    for v in (rec.get("per_set") or {}).values():
+        pl = v.get("loss")
+        if int(v.get("n_tokens", 0)) > 0 and not (isinstance(pl, float) and math.isfinite(pl)):
+            return False
+    return True
+
+
+def loss_table_entry_5(rec: dict) -> dict:
+    """ONE construction of a loss-table row for the runner's table and
+    the analyzer's rebuilt one (gate 4 compares them for equality): a
+    non-finite loss is written as null with `finite` false (slip 9) —
+    NaN is not an equality-safe JSON value."""
+    fin = loss_is_finite_5(rec)
+
+    def _f(x):
+        return x if (fin and isinstance(x, float) and math.isfinite(x)) else None
+    return {"loss": _f(rec.get("loss")), "finite": fin,
+            "per_set": {k: _f(v.get("loss")) for k, v in (rec.get("per_set") or {}).items()}}
+
+
 def loss_record_failures_5(rec: dict, *, size, step, host, slice_sha,
-                           n_scored=SLICE_N_SCORED_5) -> list:
+                           n_scored=SLICE_N_SCORED_5, require_finite=True) -> list:
     """`n_scored` is the committed slice's own count (2^21 on the real
     slice — the analyzer asserts that at the `"5 slice"` site; the test
-    slices are smaller)."""
+    slices are smaller). `require_finite=False` (slip 9: the analyzer's
+    per-unit contract — finiteness is then a property of WHICH unit,
+    checked where the search reads it) lets a CONSISTENT non-finite
+    record through; an attestation that disagrees with the measured
+    finiteness is refused either way (F-4)."""
     bad = []
     label = f"{size}/step{step}/_loss"
+    measured = loss_is_finite_5(rec)
     if rec.get("n_scored") != n_scored:
         bad.append(f"{label}: n_scored {rec.get('n_scored')} != {n_scored}")
     if rec.get("slice_sha256") != slice_sha:
@@ -680,23 +717,29 @@ def loss_record_failures_5(rec: dict, *, size, step, host, slice_sha,
                    f"!= {LOSS_BATCH_5}/{PAD_ID_5}")
     if rec.get("logits_dtype") != "float16" or rec.get("log_softmax_dtype") != "float32":
         bad.append(f"{label}: dtype facts are not fp16 logits / fp32 log-softmax")
-    if rec.get("finite") is not True:
-        bad.append(f"{label}: loss not finite ({rec.get('n_nonfinite')} non-finite tokens)")
     # Freeze F-4: `finite` is the runner's attestation; measure it. A NaN
     # loss slips the token-weighted-mean check below (|s/n − NaN| > 1e-9 is
     # False), and plan_5's comparisons treat NaN as "never crosses".
-    lv = rec.get("loss")
-    if not (isinstance(lv, float) and math.isfinite(lv)):
-        bad.append(f"{label}: loss {lv!r} is not a finite float (measured; `finite` is attested)")
-    for name, v in (rec.get("per_set") or {}).items():
-        pl = v.get("loss")
-        if int(v.get("n_tokens", 0)) > 0 and not (isinstance(pl, float) and math.isfinite(pl)):
-            bad.append(f"{label}: per-set {name} loss {pl!r} is not finite")
+    if rec.get("finite") is not measured:
+        bad.append(f"{label}: `finite` attested {rec.get('finite')!r} but measured "
+                   f"{measured} ({rec.get('n_nonfinite')} non-finite tokens)")
+    if require_finite:
+        if rec.get("finite") is not True:
+            bad.append(f"{label}: loss not finite ({rec.get('n_nonfinite')} non-finite tokens)")
+        lv = rec.get("loss")
+        if not (isinstance(lv, float) and math.isfinite(lv)):
+            bad.append(f"{label}: loss {lv!r} is not a finite float (measured; `finite` is attested)")
+        for name, v in (rec.get("per_set") or {}).items():
+            pl = v.get("loss")
+            if int(v.get("n_tokens", 0)) > 0 and not (isinstance(pl, float) and math.isfinite(pl)):
+                bad.append(f"{label}: per-set {name} loss {pl!r} is not finite")
     per_set = rec.get("per_set") or {}
     n = sum(int(v.get("n_tokens", 0)) for v in per_set.values())
     s = sum(float(v.get("loss", 0.0)) * int(v.get("n_tokens", 0)) for v in per_set.values())
     if n != n_scored:
         bad.append(f"{label}: per-set token counts sum to {n}, not {n_scored}")
+    elif not measured:
+        pass                                   # the weighted-mean identity is undefined on NaN/inf
     elif not isinstance(rec.get("loss"), float) or abs(s / n - rec["loss"]) > 1e-9:
         bad.append(f"{label}: loss {rec.get('loss')} is not the token-weighted mean of the "
                    f"per-set losses ({s / n if n else None})")

@@ -5,7 +5,12 @@
 small partner (ascending) the deterministic search — `search_5.plan_5`
 over this size's complete units, load what it asks for, log every
 request as `loaded` or `reused` — and the S11 unit when the size is a
-small side. Refusal order: prereg tag → frozen → imports → the targets
+small side. A unit whose slice loss is not finite (slip 9): a spine,
+bisection or final unit halts the size at load (`collect_5.run_unit_5`);
+a window member or S11 is written whole, marked in this log's
+`nonfinite` list and passed to `plan_5` as ABSENT; a search that would
+READ such a unit's loss halts here (`plan_5`'s `nonfinite` status).
+Refusal order: prereg tag → frozen → imports → the targets
 seal (finals + gates + host + power bound) → the power record on disk →
 the projection in HEAD's history (B-7) → the host record equal to this
 process's stack/device → HALTED → the finals present.
@@ -54,16 +59,24 @@ def _write(path: Path, obj) -> None:
     path.write_text(json.dumps(obj, indent=1))
 
 
-def _losses_of(root, size) -> dict:
+def _losses_of(root, size) -> tuple:
+    """(losses, absent) over the size's COMPLETE units: `losses` the
+    finite slice losses by step, `absent` the steps whose loss is not
+    finite (MEASURED — slip 9), which `search_5.plan_5` treats as absent
+    window members or refuses to read."""
     d = b5.units_root_5(root) / size
-    out = {}
+    out, absent = {}, set()
     if d.exists():
         for p in d.iterdir():
             if p.name.startswith("step") and p.name[4:].isdigit():
                 step = int(p.name[4:])
                 if b5.unit_complete_5(root, size, step):
-                    out[step] = json.loads(b5.loss_record_path_5(root, size, step).read_text())["loss"]
-    return out
+                    rec = json.loads(b5.loss_record_path_5(root, size, step).read_text())
+                    if b5.loss_is_finite_5(rec):
+                        out[step] = rec["loss"]
+                    else:
+                        absent.add(step)
+    return out, absent
 
 
 def gate1c(*, root, size, host, git_sha):
@@ -126,9 +139,9 @@ def run(*, size, root=EXP5, cache_root=None, device="cuda", dry_run=False, loade
     spine = b5.spine_5(manifest, size)
     partners = [s for s in b5.SIZES_5 if b5.SIZES_5.index(s) < b5.SIZES_5.index(size)]
     if dry_run:
-        done = _losses_of(root, size)
+        done, absent = _losses_of(root, size)
         print(f"[5 sweep] {size}: prereg {prereg['tag']!r}; spine {spine}; partners {partners}; "
-              f"units complete {sorted(done)}; gate 1(c) "
+              f"units complete {sorted(set(done) | absent)}; non-finite {sorted(absent)}; gate 1(c) "
               f"{'n/a' if not b5.gate1_interior_steps_5(size) else ('done' if b5.gate1c_path_5(root, size).is_file() else 'pending')}",
               flush=True)
         return
@@ -143,18 +156,30 @@ def run(*, size, root=EXP5, cache_root=None, device="cuda", dry_run=False, loade
     log_path = b5.search_log_path_5(root, size)
     log = json.loads(log_path.read_text()) if log_path.is_file() else \
         {"size": size, "spine": list(spine), "spine_substitutions": b5.spine_substitutions_5(manifest, size),
-         "requests": [], "pairs": {}, "s11": None, "prereg_tag": b5.PREREG_TAG_5, "git_sha": git_sha}
+         "requests": [], "pairs": {}, "s11": None, "nonfinite": [], "prereg_tag": b5.PREREG_TAG_5,
+         "git_sha": git_sha}
+    log.setdefault("nonfinite", [])
 
     def request(step, why, pair=None):
+        """Loads (or reuses) the unit and returns `run_unit_5`'s dict
+        (`loss`, `finite`, `action`). A non-finite unit that did not halt
+        (a window member, S11 — slip 9) is MARKED here: the request event
+        carries `finite` false and the log's `nonfinite` list names it."""
         nxt = _next_known(step)
         if nxt is not None and not b5.unit_complete_5(root, size, nxt):
             pf.start(size, b5.entry_5(manifest, size, nxt))
         r = c5.run_unit_5(size, step, why=why, **kw)
-        ev = {"step": int(step), "why": why, "action": r["action"], "loss": r["loss"]}
+        ev = {"step": int(step), "why": why, "action": r["action"], "loss": r["loss"],
+              "finite": bool(r["finite"])}
         (log["pairs"][pair]["requests"] if pair else log["requests"]).append(ev)
+        if not r["finite"] and not any(m["step"] == int(step) for m in log["nonfinite"]):
+            n_nf = json.loads(b5.loss_record_path_5(root, size, step).read_text()).get("n_nonfinite")
+            log["nonfinite"].append({"step": int(step), "why": why, "pair": pair, "n_nonfinite": n_nf})
+            print(f"[5 sweep] {size}/step{int(step)} ({why}{f' for {pair}' if pair else ''}): NON-FINITE "
+                  f"loss — marked in the search log; ABSENT from every window (slip 9)", flush=True)
         _write(log_path, log)
         c5.rebuild_loss_table_5(root)
-        return r["loss"]
+        return r
 
     # Window-prefetch band: the current pair's `b_minus + b_plus` list,
     # straight from `plan_5`'s own "window"-need dict (RULING B), while
@@ -194,32 +219,46 @@ def run(*, size, root=EXP5, cache_root=None, device="cuda", dry_run=False, loade
         log["pairs"].setdefault(small, {"target": target, "requests": [], "status": "open", "plan": None})
         if log["pairs"][small]["status"] in ("done", "dropped"):
             continue
-        losses = _losses_of(root, size)
+        losses, absent = _losses_of(root, size)
         while True:
-            p = se.plan_5(losses, avail, spine, target)
+            p = se.plan_5(losses, avail, spine, target, absent=absent)
             if p["status"] == "need":
                 band = p["window"] if p["why"] == "window" else None
-                losses[p["step"]] = request(p["step"], p["why"], pair=small)
+                r = request(p["step"], p["why"], pair=small)
+                if r["finite"]:
+                    losses[p["step"]] = r["loss"]
+                else:
+                    absent.add(p["step"])
                 continue
+            if p["status"] == "nonfinite":
+                # slip 9: the search would READ (as a spine or bisection value) a
+                # unit that was written whole with a non-finite loss (a window
+                # member of an earlier pair, or S11) — the loss is not there to
+                # bisect on; gate 3 as ratified refuses it, so halt here.
+                _halt(root, size, f"non-finite slice loss at {size}/step{p['step']} read as a "
+                                  f"{p['why']} unit for the pair × {small} — gate 3 (finite loss on "
+                                  f"every spine, bisection and final unit)")
+                raise SystemExit(2)
             log["pairs"][small].update({"status": p["status"], "plan": p})
             # RULING A: the complete request sequence a fresh reader of the committed loss
             # table would replay (gate 4's identity), each step marked "loaded" if THIS run's
             # own request() call fetched it for this pair, "reused" if plan_5 silently found it
             # already known (the spine, an earlier partner's fetch, or the final).
             loaded_here = {r["step"] for r in log["pairs"][small]["requests"]}
-            rep = se.replay_5(losses, avail, spine, target)
+            rep = se.replay_5(losses, avail, spine, target, absent=absent)
             log["pairs"][small]["requested_all"] = [
                 {"step": s, "why": why, "action": ("loaded" if s in loaded_here else "reused")}
                 for s, why in rep["requested"]]
             _write(log_path, log)
             print(f"[5 sweep] {size} × {small}: {p['status']}"
                   + (f" bracket {p['bracket']} window {p['b_minus']}+{p['b_plus']}"
+                     + (f" absent {p['absent']}" if p.get("absent") else "")
                      if p["status"] == "done" else ""), flush=True)
             break
     # (3) S11
     if size in b5.SMALL_SIDES_5 and (log["s11"] is None or not b5.unit_complete_5(root, size, b5.S11_STEP_5)):
-        loss = request(b5.S11_STEP_5, "s11")
-        log["s11"] = {"step": b5.S11_STEP_5, "loss": loss}
+        r = request(b5.S11_STEP_5, "s11")
+        log["s11"] = {"step": b5.S11_STEP_5, "loss": r["loss"], "finite": bool(r["finite"])}
         _write(log_path, log)
     pf.wait()
     c5.rebuild_loss_table_5(root)

@@ -95,15 +95,20 @@ def apply_shrink(monkeypatch):
     monkeypatch.setattr(pw, "N_SIM_5", 30)
 
 
-def write_world_5(root: Path, mode: str, *, monkeypatch) -> dict:
+def write_world_5(root: Path, mode: str, *, monkeypatch, nonfinite_at=()) -> dict:
     """Runs the two stages with fakes into `root`; returns the handles the
-    analyzer needs injected (manifest, slice, host meta)."""
+    analyzer needs injected (manifest, slice, host meta). `nonfinite_at`:
+    (size, step) units whose fake forward overflows (ratification slip
+    9) — the PRODUCTION runner marks them, so the search log, the loss
+    table and the unit records carry exactly what a real campaign
+    would."""
     assert mode in MODES
     apply_shrink(monkeypatch)
     battery = bt.load_battery()
     man = fk.synthetic_manifest(SIZES_W, AVAIL_W)
     loaders, state = fk.make_loaders(battery, loss_fn=loss_w, count_fn=count_fn_for(mode),
-                                     pythia_2c_count_fn=count_fn_for(mode), loss_2c_fn=loss_w)
+                                     pythia_2c_count_fn=count_fn_for(mode), loss_2c_fn=loss_w,
+                                     nonfinite_at=nonfinite_at)
     sl = fk.small_slice()
     prereg = dict(tag_exists=lambda t: True, blob_sha=lambda t, r: bg.sha256_file(b5.REPO / r))
     common = dict(root=root, cache_root=root, device="cuda", loaders=loaders, manifest=man, sl=sl,

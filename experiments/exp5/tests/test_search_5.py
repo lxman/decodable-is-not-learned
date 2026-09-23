@@ -118,3 +118,77 @@ def test_replay_lists_the_whole_request_sequence():
     # only 2 of the 4 window steps (49000, 53000) are fresh "window" asks.
     assert [w for _, w in r["requested"]].count("window") == 2
     assert set(se.requested_steps_5(r)) >= set(SPINE)
+
+
+# ------------------------------------------------ ratification slip 9 (2026-09-23)
+
+def test_absent_window_member_shortens_its_side_and_is_named():
+    """Ratification slip 9: a window member whose loss is not finite is
+    ABSENT — its side shorter, printed, exactly the edge rule (design
+    §3.2 step 4); the bracket, the bisection and the other members are
+    untouched. An absent step is never in `losses` (the caller's
+    contract, refused if broken)."""
+    full = _full()
+    target = _curve(50500)                 # bracket (50000, 51000); window 48000/49000 + 52000/53000
+    p = se.plan_5(full, AVAIL, SPINE, target)
+    assert p["b_minus"] == [48000, 49000] and p["b_plus"] == [52000, 53000] and p["absent"] == []
+    absent = {49000, 53000}
+    q = se.plan_5({s: v for s, v in full.items() if s not in absent}, AVAIL, SPINE, target,
+                  absent=absent)
+    assert q["status"] == "done" and q["bracket"] == [50000, 51000] and q["bisected"] == p["bisected"]
+    assert q["b_minus"] == [48000] and q["b_plus"] == [52000]
+    assert q["absent"] == [49000, 53000] and q["edge"] == {"b_minus": 1, "b_plus": 1}
+    # a whole side absent reads like a list edge — the realistic shape (design §3.2 step 4 as
+    # ratified): a bracket at the spine's first point, whose B⁻ is the log head {256, 512}, both
+    # overflowed; 52000/53000 above are NOT usable here because 52000 is a bisected step (read)
+    head_avail = (256, 512, 1000, 2000, 3000, 4000, 143000)
+    head_spine = (1000, 2000, 143000)
+    head = {1000: 3.0, 2000: 2.5, 3000: 2.3, 4000: 2.2, 143000: 2.0}
+    r = se.plan_5(head, head_avail, head_spine, 2.7, absent={256, 512})
+    assert r["status"] == "done" and r["bracket"] == [1000, 2000] and r["bisected"] == []
+    assert r["b_minus"] == [] and r["b_plus"] == [3000, 4000]
+    assert r["edge"] == {"b_minus": 0, "b_plus": 2} and r["absent"] == [256, 512]
+    r1 = se.plan_5({**head, 512: 2.9}, head_avail, head_spine, 2.7, absent={256})
+    assert r1["b_minus"] == [512] and r1["absent"] == [256] and r1["edge"]["b_minus"] == 1
+    # an absent step outside the band is not named; the window `need` band skips absent members
+    known = {s: v for s, v in full.items() if s not in (49000, 53000)}   # 48000/52000 are bisected
+    need = se.plan_5(known, AVAIL, SPINE, target, absent={49000})
+    assert need["status"] == "need" and need["why"] == "window" and need["step"] == 53000
+    assert need["window"] == [48000, 52000, 53000]
+    with pytest.raises(ValueError, match="absent"):
+        se.plan_5(full, AVAIL, SPINE, target, absent={49000})       # in both `losses` and `absent`
+
+
+def test_absent_step_the_search_reads_returns_nonfinite():
+    """Ratification slip 9: the losses the search READS (spine and
+    bisection) must be finite — an absent one is a terminal
+    `nonfinite` status, never a bracket."""
+    losses = {s: _curve(s) for s in SPINE if s != 4000}
+    p = se.plan_5(losses, AVAIL, SPINE, _curve(50500), absent={4000})
+    assert p == {"status": "nonfinite", "step": 4000, "why": "spine"}
+    full = _full()
+    target = _curve(50500)
+    bis = se.plan_5(full, AVAIL, SPINE, target)["bisected"][0]             # 48000
+    q = se.plan_5({s: v for s, v in full.items() if s != bis}, AVAIL, SPINE, target, absent={bis})
+    assert q == {"status": "nonfinite", "step": bis, "why": "bisect"}
+
+
+def test_replay_records_an_absent_window_member_and_stops_on_a_read_one():
+    """The replay reveals absent steps like any other request, in the
+    same order the runner made them: an absent WINDOW member is listed
+    (`(step, "window")`) and then skipped; an absent step the search
+    would READ ends the replay with `nonfinite`. A step requested twice
+    is a logic defect and raises."""
+    full = _full()
+    target = _curve(50500)
+    base = se.replay_5(full, AVAIL, SPINE, target)
+    r = se.replay_5({s: v for s, v in full.items() if s != 53000}, AVAIL, SPINE, target,
+                    absent={53000})
+    assert r["status"] == "done" and r["plan"]["absent"] == [53000] and r["plan"]["b_plus"] == [52000]
+    assert r["requested"] == base["requested"] and (53000, "window") in r["requested"]
+    assert se.requested_steps_5(r) == se.requested_steps_5(base)
+    r2 = se.replay_5({s: v for s, v in full.items() if s != 48000}, AVAIL, SPINE, target,
+                     absent={48000})
+    assert r2["status"] == "nonfinite" and r2["plan"] == {"status": "nonfinite", "step": 48000,
+                                                          "why": "bisect"}
+    assert r2["requested"][-1] == (48000, "bisect")

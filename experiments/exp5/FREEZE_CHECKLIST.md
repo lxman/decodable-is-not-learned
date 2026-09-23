@@ -630,3 +630,24 @@ the pre-campaign tree.
 
 ---
 *Controller's note after the final review wave (2026-09-22): §H supersedes §G's "untouched" dispositions for the unused imports (M-3), the `finals_5` docstring (M-2), the `make_referents_5` docstring (M-12) and S9's present path (M-11); §G is left as the freeze wrote it. The re-review of the wave found every item addressed and no new Critical/Important breakage; three optional Minors are parked in the build ledger with rulings (the re-bundle script's ancestry line is a sanity print — the enforcement is `sweep_5.run`'s; two script tests are text checks, the watcher's pathspec verified in a scratch repo; a broad catch guards a recorded-only value). Ratification package: `.superpowers/sdd/2026-09-22-exp5-build/ratification-package.md`.*
+
+## I. Ratification (2026-09-23) — the slips applied, the tag cut
+
+Michael: "ratified — apply the slips and tag". Every item of §F applied; §D's B-3 resolved by slip 9 as recommended (narrow; a non-finite window member ABSENT, never read); §H's I-5/I-6/M-8 closed by slips 10/9/11. The full record is `PROGRESS.md`'s 2026-09-23 entry; this section is the checklist's own close.
+
+| slip | where | how it landed |
+| --- | --- | --- |
+| 1 | design §3.2 step 2 | the two drop kinds named (`never_reaches` / `crosses_before_spine`), re-derived by the analyzer |
+| 2 | §3.1, §3.2 step 4, §7 stage 0 | only B⁺ can be at a list edge; the log head {256, 512} is B⁻ at t_lo = 1000; the preflight loads `step256` |
+| 3 | §3.7 gate 3 | "scored twice" replaced by the write-once rule (B-9); the preflight's double run and S9 carry the measurement |
+| 4 | §3.7 gate 7 | the targets seal's exact file set, cut after the power record (B-1); the loss table compared, not bound |
+| 5 | §3.7 gate 1(a) | scalar by `repr`, per-document means at 1e-6; flags re-derived (F-2) |
+| 6 | §3.7 gate 5 | before the first SWEEP unit, git ancestry (B-7), unedited since its adding commit (F-5) |
+| 7 | §3.7 gate 0 | safetensors 0.8.0 / tokenizers 0.22.2 / huggingface_hub 1.22.0, enforced (F-3) |
+| 8 | §7 budget | B-4's counts and F-8's overlap written in (a wording change after all) |
+| **9** | §3.2 step 4, §3.7 gate 3; `search_5`, `battery_5`, `collect_5`, `run/sweep_5`, `analyze_5` | finite on every spine, bisection and final unit; a non-finite window member (or S11) ABSENT — side shorter, printed, counts never read; the runner halts at load on a read unit, writes and marks any other, and halts if a later search would read a marked one (`plan_5`'s `nonfinite` status); measured, never attested |
+| **10** | §3.8; `battery_5.MIN_NONZERO_BLOCKS_5 = 7`, `stats_5.tree_5` | UNDETERMINED iff < 20 live cells with P or < 7 rungs with a NONZERO block sum (2^-7 = .0078 < α); `MIN_LIVE_RUNGS_5` removed |
+| **11** | §6; `analyze_5.licence_block_5(pairs=)` | "across ⟨n⟩ size pairs to ⟨r⟩×" from gate 4's kept pairs, n_params ratio; `pairs_realized` / `largest_ratio_realized` in the block |
+| 12 | §7 stage 2 | 160m runs S11 alone (F-1); B-1 … B-11 written into §3.1/§3.7/§4/§5/§7 |
+
+Also: the verdict dict gains `cells` (the per-cell table) and gate 4's total `window_members_absent`; S10 gains `nonfinite_units`; the loss table's row shape is `{loss, finite, per_set}` with null on a non-finite unit, built by ONE function on both sides. Tests +12 (test-first), three stale mutants re-targeted, +19 slip mutants; tallies in `PROGRESS.md`. Nothing preregistered moved beyond what the slips say; the pre-committed change UNSPENT.

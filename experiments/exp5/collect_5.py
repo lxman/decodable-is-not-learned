@@ -271,13 +271,19 @@ def rung_record_5(*, size, step, rung, cap, ev, ckpt, host, git_sha, t_s) -> dic
             "written_utc": datetime.now(timezone.utc).isoformat(), "seconds": round(t_s, 2)}
 
 
+# Ratification slip 9: the unit kinds whose slice loss the search READS (design
+# §3.7 gate 3 as ratified) — a non-finite loss on one of these halts the size.
+HALT_ON_NONFINITE_WHY_5 = ("spine", "bisect", "final")
+
+
 def run_unit_5(size, step, *, root, manifest, cache_root, device, battery, verify_fn, sl, host,
                loaders, git_sha, why, prefetcher=None) -> dict:
     """One unit end to end; `_unit.json` LAST; the checkpoint freed in
     `finally`. Returns {"action": "loaded"|"reused", "loss": ℓ}."""
     if b5.unit_complete_5(root, size, step):
         rec = json.loads(b5.loss_record_path_5(root, size, step).read_text())
-        return {"action": "reused", "loss": rec["loss"], "size": size, "step": int(step)}
+        return {"action": "reused", "loss": rec["loss"], "finite": b5.loss_is_finite_5(rec),
+                "size": size, "step": int(step)}
     entry = b5.entry_5(manifest, size, step)
     d = b5.unit_dir_5(root, size, step)
     if d.exists():
@@ -303,20 +309,30 @@ def run_unit_5(size, step, *, root, manifest, cache_root, device, battery, verif
         _write(b5.loss_record_path_5(root, size, step),
                {**loss, "size": size, "step": int(step), "stack": host["stack"],
                 "device": host["device"], "host_sha256": host["sha256"], "git_sha": git_sha})
-        # Freeze F-7 (ruling B-3(b)): gate 3 as written requires a finite loss on
-        # EVERY unit, so a non-finite one halts the size HERE — the unit left
-        # incomplete (no _unit.json), the checkpoint freed in `finally`, exit 2 —
-        # rather than surfacing at the analyzer after the campaign. If the
-        # ratification narrows gate 3 to spine + bisection units, this condition
-        # narrows with it (one line: `and why in ("spine", "bisect", "final")`).
-        if loss.get("finite") is not True:
+        # Freeze F-7 (ruling B-3(b)) as NARROWED by ratification slip 9 (2026-09-23):
+        # gate 3 requires a finite loss on every spine, bisection and final unit —
+        # the losses the search reads — so a non-finite one on such a unit halts
+        # the size HERE (the unit left incomplete, no _unit.json; the checkpoint
+        # freed in `finally`; exit 2). Any OTHER unit (a window member, S11, the
+        # preflight's or S9's) is written whole and MARKED: `_unit.json` carries
+        # `finite` false, the runner's search log lists it, and the analyzer
+        # treats a window member as ABSENT (its side shorter, the edge rule) and
+        # never reads its counts — the argmax reads come from the same
+        # overflowed forward. The MEASURED value decides, never the attestation.
+        finite = b5.loss_is_finite_5(loss)
+        if not finite and why in HALT_ON_NONFINITE_WHY_5:
             hp = b5.halt_marker_path_5(root, size)
             hp.parent.mkdir(parents=True, exist_ok=True)
             msg = (f"non-finite slice loss at {size}/step{int(step)} ({why}): "
-                   f"n_nonfinite {loss.get('n_nonfinite')} — gate 3 (finite loss on every unit)")
+                   f"n_nonfinite {loss.get('n_nonfinite')} — gate 3 (finite loss on every spine, "
+                   f"bisection and final unit)")
             hp.write_text(msg + "\n")
             print(f"[5] HALTED: {msg}", flush=True)
             raise SystemExit(2)
+        if not finite:
+            print(f"[5] NONFINITE ({why}): {size}/step{int(step)} slice loss not finite "
+                  f"(n_nonfinite {loss.get('n_nonfinite')}) — unit written and marked; treated as "
+                  f"ABSENT, its counts never read (slip 9)", flush=True)
         runner = loaders["runner"](loaders["tokenizer"](size), model)
         ckpt = {**info, "revision": entry["revision"], "commit": entry["commit"],
                 "kind": entry["kind"], "files": list(entry["files"]), "sha256": info["sha256"]}
@@ -329,12 +345,14 @@ def run_unit_5(size, step, *, root, manifest, cache_root, device, battery, verif
         files = {name: bg.sha256_file(d / name) for name in b5.unit_files_5()}
         _write(b5.unit_record_path_5(root, size, step),
                {"size": size, "step": int(step), "why": why, "files": files, "digest": digest,
-                "loss": loss["loss"], "git_sha": git_sha, "host_sha256": host["sha256"],
+                "loss": loss["loss"], "finite": finite, "n_nonfinite": loss.get("n_nonfinite"),
+                "git_sha": git_sha, "host_sha256": host["sha256"],
                 "prereg_tag": b5.PREREG_TAG_5, "seconds": round(time.time() - t0, 1),
                 "written_utc": datetime.now(timezone.utc).isoformat()})
         print(f"[5] {size}/step{step} ({why}): loss {loss['loss']:.5f}, "
               f"{time.time() - t0:.0f} s", flush=True)
-        return {"action": "loaded", "loss": loss["loss"], "size": size, "step": int(step)}
+        return {"action": "loaded", "loss": loss["loss"], "finite": finite, "size": size,
+                "step": int(step)}
     finally:
         loaders["release"](model)
         model = None
@@ -392,8 +410,7 @@ def rebuild_loss_table_5(root) -> dict:
                 if not b5.unit_complete_5(root, size_dir.name, step):
                     continue
                 rec = json.loads(b5.loss_record_path_5(root, size_dir.name, step).read_text())
-                table.setdefault(size_dir.name, {})[str(step)] = {
-                    "loss": rec["loss"], "per_set": {k: v["loss"] for k, v in rec["per_set"].items()}}
+                table.setdefault(size_dir.name, {})[str(step)] = b5.loss_table_entry_5(rec)
     table = {s: dict(sorted(v.items(), key=lambda kv: int(kv[0]))) for s, v in table.items()}
     _write(b5.loss_table_path_5(root), table)
     return table

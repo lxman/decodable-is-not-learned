@@ -316,3 +316,39 @@ def test_dropped_detail_comes_from_the_analyzers_replay(monkeypatch):
     d = an._dropped_detail_5(units, man, "2.8b")
     assert len(d) == 1 and d[0]["small"] == "1b" and d[0]["kind"] == "never_reaches"
     assert d[0]["target"] == 1.0 and d[0]["spine_losses"]["143000"] == 2.1
+
+
+def test_licence_sentence_quotes_the_realized_pairs_and_ratio():
+    """Ratification slip 11: the MATCHED-POWERED sentence names the
+    realized pair count and the largest realized size ratio from gate
+    4's kept pairs (pairs can drop — F-6 — so the design's fixed "21"
+    and "75x" are not written into the licence)."""
+    pairs = [{"small": "1b", "large": "12b", "ratio": 11.8}, {"small": "160m", "large": "12b", "ratio": 73.4},
+             {"small": "410m", "large": "1b", "ratio": 2.5}]
+    lic = an.licence_block_5("MATCHED", None, {"declaration": "POWERED"}, pairs=pairs)
+    assert "across 3 size pairs to 73×" in lic["sentence"]
+    assert lic["pairs_realized"] == 3 and lic["largest_ratio_realized"] == 73.4
+    assert "read to date" not in lic["sentence"]
+    none = an.licence_block_5("MATCHED", None, {"declaration": "POWERED"}, pairs=[])
+    assert "across 0 size pairs" in none["sentence"] and none["largest_ratio_realized"] is None
+    missing = an.licence_block_5("MATCHED", None, {"declaration": "POWERED"},
+                                 pairs=[{"small": "1b", "large": "12b", "ratio": None}])
+    assert "across 1 size pair" in missing["sentence"] and missing["largest_ratio_realized"] is None
+    # the other cells are untouched
+    under = an.licence_block_5("MATCHED", None, {"declaration": "DECLARED UNDERPOWERED IN ADVANCE"}, pairs=pairs)
+    assert "not distinguishable" in under["sentence"] and under["pairs_realized"] == 3
+
+
+def test_s11_skips_a_non_finite_small_side_unit(monkeypatch):
+    """Ratification slip 9: an S11 unit whose loss is not finite is
+    ABSENT — its counts are never read (the same overflowed forward);
+    S11 prints it as absent instead of a row."""
+    monkeypatch.setattr(b5, "SMALL_SIDES_5", ("a", "b"))
+    monkeypatch.setattr(b5, "S11_STEP_5", 5)
+    monkeypatch.setattr(b5, "FINAL_STEP_5", 9)
+    units = {"a": {"counts": {5: {r: 3 for r in bt.RUNGS}, 9: {r: 4 for r in bt.RUNGS}}, "nonfinite": {}},
+             "b": {"counts": {5: {r: 3 for r in bt.RUNGS}, 9: {r: 4 for r in bt.RUNGS}},
+                   "nonfinite": {5: {"why": "s11", "n_nonfinite": 2}}}}
+    s11 = an._s11_stability_5(units, [])
+    assert s11["per_small_side"]["a"]["antonym"] == {"s11": 3, "final": 4, "diff": -1}
+    assert s11["per_small_side"]["b"] == {"absent": "step5: non-finite loss (2 non-finite tokens); counts never read"}

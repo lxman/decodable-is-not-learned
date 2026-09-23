@@ -174,13 +174,15 @@ M = [
      '        files = {name: bg.sha256_file(d / name) for name in b5.unit_files_5()}\n'
      '        _write(b5.unit_record_path_5(root, size, step),\n'
      '               {"size": size, "step": int(step), "why": why, "files": files, "digest": digest,\n'
-     '                "loss": loss["loss"], "git_sha": git_sha, "host_sha256": host["sha256"],\n'
+     '                "loss": loss["loss"], "finite": finite, "n_nonfinite": loss.get("n_nonfinite"),\n'
+     '                "git_sha": git_sha, "host_sha256": host["sha256"],\n'
      '                "prereg_tag": b5.PREREG_TAG_5, "seconds": round(time.time() - t0, 1),\n'
      '                "written_utc": datetime.now(timezone.utc).isoformat()})',
      '        files = {name: bg.sha256_file(d / name) for name in b5.unit_files_5()}\n'
      '        _write(b5.unit_record_path_5(root, size, step),\n'
      '               {"size": size, "step": int(step), "why": why, "files": files, "digest": digest,\n'
-     '                "loss": loss["loss"], "git_sha": git_sha, "host_sha256": host["sha256"],\n'
+     '                "loss": loss["loss"], "finite": finite, "n_nonfinite": loss.get("n_nonfinite"),\n'
+     '                "git_sha": git_sha, "host_sha256": host["sha256"],\n'
      '                "prereg_tag": b5.PREREG_TAG_5, "seconds": round(time.time() - t0, 1),\n'
      '                "written_utc": datetime.now(timezone.utc).isoformat()})\n'
      '        for rung in b5.RUNGS:\n'
@@ -214,8 +216,8 @@ M = [
 
     # ------------------------------------------------------------- analyze_5.py
     (AN5, "replay_pairs_5: the replay target reads the LOGGED target, not the small final's loss",
-     "        rep = se5.replay_5(losses, available, spine_expected, target)",
-     "        rep = se5.replay_5(losses, available, spine_expected, logged_target)"),
+     "        rep = se5.replay_5(losses, available, spine_expected, target, absent=absent)",
+     "        rep = se5.replay_5(losses, available, spine_expected, logged_target, absent=absent)"),
     (AN5, "_gate4: an orphan unit (units_unnamed) is never turned into a failure",
      '            if unnamed:\n'
      '                pf = pf + [f"gate 4 {size}: step{s} on disk but never requested (nothing else "\n'
@@ -271,9 +273,9 @@ M = [
     (AN5, "freeze F-3: the checkpoint record's host attestation never compared",
      '            bad += b5._same_host(ck_rec, host, f"{size}/step{step}/_checkpoint")',
      '            bad += []'),
-    (BAT5, "freeze F-4: a NaN loss passes the measured finiteness check",
-     "    if not (isinstance(lv, float) and math.isfinite(lv)):",
-     "    if not isinstance(lv, float):"),
+    (BAT5, "freeze F-4: a NaN loss passes the measured finiteness check (loss_is_finite_5)",
+     '    lv = rec.get("loss")\n    if not (isinstance(lv, float) and math.isfinite(lv)):\n        return False',
+     '    lv = rec.get("loss")\n    if not isinstance(lv, float):\n        return False'),
     (AN5, "freeze F-4: a torn step directory is never turned into a failure",
      '            if torn:\n                pf = pf + [f"gate 3 {size}',
      '            if False:\n                pf = pf + [f"gate 3 {size}'),
@@ -281,8 +283,8 @@ M = [
      "            for c in later.stdout.split() if c]", "            for c in [] if c]"),
     (AN5, "freeze F-6: drop_kind never_reaches mislabelled",
      '        return "never_reaches"', '        return "crosses_before_spine"'),
-    (CL5, "freeze F-7: a non-finite unit loss does not halt the size",
-     '        if loss.get("finite") is not True:', '        if False:'),
+    (CL5, "freeze F-7: a non-finite spine/bisection/final loss does not halt the size",
+     "        if not finite and why in HALT_ON_NONFINITE_WHY_5:", "        if False:"),
     (CL5, "freeze F-8: wait_for joins whatever is in flight, not only this unit's download",
      "        if self.target == (size, int(step)):", "        if True:"),
 
@@ -297,6 +299,64 @@ M = [
      "    if rec_steps != want_steps:", "    if False:"),
     (BAT5, "final review M-4: the measured dtype never checked",
      '    if rec.get("dtype_measured") != DTYPE_5:', '    if False:'),
+
+    # ------------------------------------------- ratification slips 9/10/11 (2026-09-23)
+    (BAT5, "slip 10: MIN_NONZERO_BLOCKS_5: 7 -> 6 (the flip's p floor at 6 is above alpha)",
+     "MIN_NONZERO_BLOCKS_5 = 7", "MIN_NONZERO_BLOCKS_5 = 6"),
+    (ST5, "slip 10: tree_5 counts rungs CARRYING cells again, not rungs with a nonzero block sum",
+     '    n, k = primary["n_cells"], primary["n_nonzero_blocks"]',
+     '    n, k = primary["n_cells"], primary["n_rungs"]'),
+    (SE5, "slip 9: plan_5 never returns nonfinite for an absent SPINE step (asks for it instead)",
+     '            if s in absent:\n                return {"status": "nonfinite", "step": s, "why": "spine"}',
+     '            if False:\n                return {"status": "nonfinite", "step": s, "why": "spine"}'),
+    (SE5, "slip 9: plan_5 never returns nonfinite for an absent BISECT step",
+     '            if step in absent:\n                return {"status": "nonfinite", "step": step, "why": "bisect"}',
+     '            if False:\n                return {"status": "nonfinite", "step": step, "why": "bisect"}'),
+    (SE5, "slip 9: an absent B- member stays in the window (its side is not shortened)",
+     "    b_minus = [s for s in b_minus_all if s not in absent]",
+     "    b_minus = list(b_minus_all)"),
+    (SE5, "slip 9: an absent B+ member stays in the window",
+     "    b_plus = [s for s in b_plus_all if s not in absent]",
+     "    b_plus = list(b_plus_all)"),
+    (SE5, "slip 9: plan_5 accepts a step in both losses and absent",
+     "    if both:\n        raise ValueError", "    if False:\n        raise ValueError"),
+    (CL5, "slip 9: the halt on a non-finite loss is not narrowed (a window member halts the size)",
+     "        if not finite and why in HALT_ON_NONFINITE_WHY_5:", "        if not finite:"),
+    (SW5, "slip 9: _losses_of puts a non-finite loss into the table the search reads",
+     "                    if b5.loss_is_finite_5(rec):\n                        out[step] = rec[\"loss\"]",
+     "                    if True:\n                        out[step] = rec[\"loss\"]"),
+    (SW5, "slip 9: the search that would READ a non-finite loss does not halt",
+     '            if p["status"] == "nonfinite":', "            if False:"),
+    (AN5, "slip 9: load_units_5 puts a non-finite loss into `losses` (nothing is ever absent)",
+     '            if finite:\n                losses[step] = float(ls_rec["loss"])',
+     '            if True:\n                losses[step] = float(ls_rec["loss"])'),
+    (AN5, "slip 9: a non-finite FINAL is not refused at load",
+     "            if not finite and int(step) == b5.FINAL_STEP_5:", "            if False:"),
+    (AN5, "slip 9: replay_pairs_5 never turns the replay's nonfinite status into a gate-3 failure",
+     '        if rep["status"] == "nonfinite":\n            failures.append(f"gate 3 {size}/{small}: the search reads',
+     '        if False:\n            failures.append(f"gate 3 {size}/{small}: the search reads'),
+    (AN5, "slip 9: expected_steps_5 replays without the absent set (an absent member is unnamed)",
+     "            rep = se5.replay_5(large_losses, available, spine, target,\n"
+     "                               absent=set((units_by_size.get(size) or {}).get(\"nonfinite\") or {}))",
+     "            rep = se5.replay_5(large_losses, available, spine, target,\n"
+     "                               absent=set())"),
+    (AN5, "slip 9: S11 reads the counts of a non-finite small-side unit",
+     "        if nf is not None:                     # slip 9: the same overflowed forward — never read",
+     "        if False:                              # slip 9: the same overflowed forward — never read"),
+    (AN5, "slip 11: the licence quotes the design's nominal pairs, not gate 4's kept pairs",
+     "    licence = licence_block_5(tree[\"verdict\"], tree.get(\"modifier\"), power_rec, primary=primary,\n"
+     "                              pairs=pairs_realized)",
+     "    licence = licence_block_5(tree[\"verdict\"], tree.get(\"modifier\"), power_rec, primary=primary,\n"
+     "                              pairs=[{\"small\": s, \"large\": L, \"ratio\": None} for s, L in b5.PAIRS_5])"),
+    (BAT5, "slip 9: loss_is_finite_5 ignores the per-set components",
+     "        if int(v.get(\"n_tokens\", 0)) > 0 and not (isinstance(pl, float) and math.isfinite(pl)):\n"
+     "            return False",
+     "        if False:\n            return False"),
+    (BAT5, "slip 9: loss_table_entry_5 writes the raw (NaN) loss into the table",
+     '    return {"loss": _f(rec.get("loss")), "finite": fin,',
+     '    return {"loss": rec.get("loss"), "finite": fin,'),
+    (BAT5, "slip 9 / F-4: an attestation that disagrees with the measured finiteness is not refused",
+     '    if rec.get("finite") is not measured:', "    if False:"),
 ]
 
 # Every hand mutant above is a 4-tuple (path, name, old, new); every
@@ -328,6 +388,12 @@ WORLDS_TESTS = TOTALITY_TESTS + FULLSHAPE_TESTS
 # suites via `--worlds-only`; see PROGRESS.md's Task 6 entry for the
 # transcript. Each value names the exact killing test.
 NON_FAST_KILLS_5 = {
+    # ratification slips (2026-09-23): the analyzer-side gate-3 refusal and the licence's
+    # realized pair count are observable only through the worlds (no fast test drives run())
+    "slip_9_replay_pairs_5_never_turns_the_replay_s_nonfinite_status_into_a_g":
+        "test_full_shape_5.py::test_refusal_routes_deliver_insufficient_data",
+    "slip_11_the_licence_quotes_the_design_s_nominal_pairs_not_gate_4_s_kept_":
+        "test_full_shape_5.py::test_a_non_finite_window_member_is_absent_and_the_verdict_stands",
     "freeze_f_4_a_torn_step_directory_is_never_turned_into_a_failure":
         "test_full_shape_5.py::test_refusal_routes_deliver_insufficient_data",
     "gate4_an_orphan_unit_units_unnamed_is_never_turned_into_a_failure":

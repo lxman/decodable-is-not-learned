@@ -210,11 +210,16 @@ def tree_5(*, failures, primary, modifier) -> dict:
     if failures:
         return {"verdict": "INSUFFICIENT_DATA", "modifier": None,
                 "reason": f"{len(failures)} refusal(s); first: {failures[0]}"}
-    n, k = primary["n_cells"], primary["n_rungs"]
-    if n < b5.MIN_LIVE_CELLS_5 or k < b5.MIN_LIVE_RUNGS_5:
+    n, k = primary["n_cells"], primary["n_nonzero_blocks"]
+    # Ratification slip 10: k counts rungs with a NONZERO block sum (the flip's
+    # support), not rungs merely carrying cells — see battery_5.MIN_NONZERO_BLOCKS_5.
+    if n < b5.MIN_LIVE_CELLS_5 or k < b5.MIN_NONZERO_BLOCKS_5:
         return {"verdict": "UNDETERMINED", "modifier": None,
-                "reason": f"{n} live cells with P defined over {k} rungs — fewer than "
-                          f"{b5.MIN_LIVE_CELLS_5} cells or {b5.MIN_LIVE_RUNGS_5} rungs"}
+                "reason": f"{n} live cells with P defined; {k} rungs with a nonzero block sum "
+                          f"(of {primary.get('n_rungs')} carrying cells) — fewer than "
+                          f"{b5.MIN_LIVE_CELLS_5} cells or {b5.MIN_NONZERO_BLOCKS_5} nonzero blocks"
+                          + (f" (the exact flip's p floor 2^-{k} is at or above alpha)"
+                             if k < b5.MIN_NONZERO_BLOCKS_5 else "")}
     T, p = primary["T"], primary["rung_block"]["p"]
     if p < b5.ALPHA_5 and T >= b5.T_BAR_5:
         return {"verdict": "NOT-MATCHED", "modifier": modifier["modifier"],

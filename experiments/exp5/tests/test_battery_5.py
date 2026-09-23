@@ -15,7 +15,8 @@ def test_sizes_pairs_and_spine_literals():
     assert b5.SPINE_5 == (1000, 2000, 4000, 8000, 16000, 32000, 64000, 100000, 143000)
     assert b5.FINAL_STEP_5 == 143000 and b5.S11_STEP_5 == 142000
     assert b5.T_BAR_5 == 0.01 and b5.ALPHA_5 == 0.01 and b5.MODIFIER_ALPHA_5 == 0.05
-    assert b5.MIN_LIVE_CELLS_5 == 20 and b5.MIN_LIVE_RUNGS_5 == 5 and b5.MODIFIER_MIN_CELLS_5 == 8
+    assert b5.MIN_LIVE_CELLS_5 == 20 and b5.MIN_NONZERO_BLOCKS_5 == 7 and b5.MODIFIER_MIN_CELLS_5 == 8
+    assert not hasattr(b5, "MIN_LIVE_RUNGS_5")          # ratification slip 10 replaced it
     assert b5.GATE1_TOL_PER_RUNG_5 == 15 and b5.GATE1_TOL_SUM_5 == 120
     assert b5.GATE1_BENCH_5["max_abs_diff"] == 8 and b5.GATE1_BENCH_5["sum_abs_diff"] == 57
 
@@ -261,3 +262,44 @@ def test_projection_edits_are_refused_after_the_adding_commit(tmp_path):
     bad = an.projection_failures_5({}, projection_commit=pc, is_ancestor=lambda a, b: True,
                                    seal_tag_commit="s", edits=edits)
     assert bad and bad[0] == edits[0]
+
+
+def test_loss_finiteness_is_measured_and_the_table_entry_maps_it():
+    """Ratification slip 9: `loss_is_finite_5` is MEASURED from the record
+    (never the attested flag); `loss_record_failures_5(require_finite=
+    False)` lets a consistent non-finite record through every other
+    check but refuses an attestation that disagrees with the
+    measurement (freeze F-4's lesson kept); `loss_table_entry_5` maps a
+    non-finite loss to null with `finite` false, identically for the
+    runner's table and the analyzer's rebuilt one."""
+    from experiments.exp5.tests import fakes_5 as fk
+    from experiments.exp2d import battery_2d as bt
+    sl = fk.small_slice()
+    loaders, _ = fk.make_loaders(bt.load_battery(), loss_fn=lambda s, t: 2.5, count_fn=lambda s, t, r: 0)
+    host = {**fk.fake_host(), "sha256": "h"}
+    rec = {**loaders["loss"]({"size": "1b", "step": 1000}, sl, batch_size=b5.LOSS_BATCH_5, device="cuda"),
+           "stack": host["stack"], "device": host["device"], "host_sha256": "h"}
+    kw = dict(size="1b", step=1000, host=host, slice_sha=sl["sha256"], n_scored=sl["meta"]["n_scored"])
+    assert b5.loss_is_finite_5(rec) is True
+    assert b5.loss_table_entry_5(rec) == {"loss": 2.5, "finite": True,
+                                          "per_set": {k: 2.5 for k in rec["per_set"]}}
+    nan_consistent = {**rec, "loss": float("nan"), "finite": False, "n_nonfinite": 3,
+                      "per_set": {k: {**v, "loss": float("nan")} for k, v in rec["per_set"].items()}}
+    assert b5.loss_is_finite_5(nan_consistent) is False
+    assert any("not finite" in f for f in b5.loss_record_failures_5(nan_consistent, **kw))
+    assert b5.loss_record_failures_5(nan_consistent, require_finite=False, **kw) == []
+    entry = b5.loss_table_entry_5(nan_consistent)
+    assert entry["loss"] is None and entry["finite"] is False and \
+        all(v is None for v in entry["per_set"].values())
+    assert entry == b5.loss_table_entry_5(dict(nan_consistent))          # equality-safe (no NaN)
+    # the attestation disagrees with the measurement: refused even when finiteness is not required
+    lying = {**nan_consistent, "finite": True}
+    assert b5.loss_is_finite_5(lying) is False
+    assert any("attested" in f and "measured" in f
+               for f in b5.loss_record_failures_5(lying, require_finite=False, **kw))
+    # a finite aggregate over one non-finite per-set component is non-finite, measured
+    inf_set = {**rec, "per_set": {**rec["per_set"], "A": {**rec["per_set"]["A"], "loss": float("inf")}}}
+    assert b5.loss_is_finite_5(inf_set) is False
+    inf_marked = {**inf_set, "finite": False, "n_nonfinite": 1}
+    assert b5.loss_record_failures_5(inf_marked, require_finite=False, **kw) == []
+    assert b5.loss_table_entry_5(inf_marked)["per_set"]["A"] is None

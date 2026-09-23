@@ -155,10 +155,77 @@ def test_refusal_routes_deliver_insufficient_data(tmp_path, monkeypatch):
     u["files"]["_loss.json"] = bg.sha256_file(lp4); up.write_text(json.dumps(u))
     c5.rebuild_loss_table_5(tmp_path)
     v = _run(tmp_path, w)
-    assert v["verdict"] == "INSUFFICIENT_DATA" and any("not a finite float" in f for f in v["failures"])
+    assert v["verdict"] == "INSUFFICIENT_DATA" and \
+        any("attested" in f and "measured" in f for f in v["failures"])
     lp4.write_bytes(raw); up.write_bytes(uraw); tbl.write_bytes(traw)
+    # ratification slip 9: a CONSISTENT non-finite loss on a unit the search READS (a bisected
+    # step, then a spine step) refuses — gate 3 as ratified: finite on every spine and bisection
+    # unit; a window-only member is the ABSENT case, covered by
+    # test_a_non_finite_window_member_is_absent_and_the_verdict_stands
+    for bstep, kind in ((plan["bisected"][0], "bisect"), (fs.SPINE_W[1], "spine")):
+        lp5 = b5.loss_record_path_5(tmp_path, "6.9b", bstep); raw5 = lp5.read_bytes(); rec = json.loads(raw5)
+        rec["loss"] = float("nan"); rec["finite"] = False; rec["n_nonfinite"] = 3
+        for x in rec["per_set"].values():
+            x["loss"] = float("nan")
+        lp5.write_text(json.dumps(rec))
+        up5 = b5.unit_record_path_5(tmp_path, "6.9b", bstep); uraw5 = up5.read_bytes(); u = json.loads(uraw5)
+        u["files"]["_loss.json"] = bg.sha256_file(lp5); up5.write_text(json.dumps(u))
+        c5.rebuild_loss_table_5(tmp_path)
+        v = _run(tmp_path, w)
+        assert v["verdict"] == "INSUFFICIENT_DATA" and \
+            any(f.startswith("gate 3 6.9b") and f"step{bstep}" in f and kind in f for f in v["failures"]), \
+            (bstep, kind, v["failures"][:4])
+        lp5.write_bytes(raw5); up5.write_bytes(uraw5); tbl.write_bytes(traw)
     # clean again
     assert _run(tmp_path, w)["verdict"] == "MATCHED"
+
+
+def test_a_non_finite_window_member_is_absent_and_the_verdict_stands(tmp_path, monkeypatch):
+    """Ratification slip 9 end to end through the PRODUCTION runner: a
+    window-only member whose forward overflows is written, marked and
+    treated as ABSENT — its side shorter (the edge rule), its counts never
+    read, the member printed in S10 and under gate 4 — and the verdict is
+    the clean world's. The MATCHED-POWERED licence sentence (slip 11)
+    quotes the realized pair count and the largest realized ratio."""
+    clean_root = tmp_path / "clean"
+    w0 = fs.write_world_5(clean_root, "MATCHED", monkeypatch=monkeypatch)
+    log = json.loads(b5.search_log_path_5(clean_root, "6.9b").read_text())
+    last = [s for s in fs.SIZES_W[:-1] if log["pairs"].get(s, {}).get("status") == "done"][-1]
+    plan = log["pairs"][last]["plan"]
+    read = set(plan["bisected"]) | set(fs.SPINE_W)
+    wstep = next(s for s in plan["b_plus"] + plan["b_minus"] if s not in read)
+    side = "b_plus" if wstep in plan["b_plus"] else "b_minus"
+    v0 = _run(clean_root, w0)
+    assert v0["verdict"] == "MATCHED" and v0["failures"] == []
+    root = tmp_path / "nonfinite"
+    w = fs.write_world_5(root, "MATCHED", monkeypatch=monkeypatch, nonfinite_at=[("6.9b", wstep)])
+    assert not b5.halt_marker_path_5(root, "6.9b").exists()
+    log1 = json.loads(b5.search_log_path_5(root, "6.9b").read_text())
+    p1 = log1["pairs"][last]["plan"]
+    assert p1["absent"] == [wstep] and p1[side] == [s for s in plan[side] if s != wstep]
+    assert p1["bracket"] == plan["bracket"] and p1["bisected"] == plan["bisected"]
+    assert log1["nonfinite"] == [{"step": wstep, "why": "window", "pair": last, "n_nonfinite": 3}]
+    assert json.loads(b5.unit_record_path_5(root, "6.9b", wstep).read_text())["finite"] is False
+    v = _run(root, w)
+    assert v["failures"] == [], v["failures"][:3]
+    assert v["verdict"] == "MATCHED" and v["primary"]["n_rungs"] == v0["primary"]["n_rungs"]
+    assert v["secondaries"]["S10"]["nonfinite_units"] == {"6.9b": {str(wstep): {"why": "window", "n_nonfinite": 3}}}
+    assert v["gate4"]["window_members_absent"] == [f"{last}→6.9b: step{wstep}"]
+    assert v["gate4"]["units_unnamed"] == [] and v["gate4"]["pairs_kept"] == v0["gate4"]["pairs_kept"]
+    cells = [c for c in v["cells"] if c["small"] == last and c["large"] == "6.9b"]
+    assert cells and all(c[f"{side}_steps"] == p1[side] for c in cells)
+    assert wstep not in {s for c in cells for s in c["b_minus_steps"] + c["b_plus_steps"]}
+    # slip 11: the licence block carries the realized pair count and the largest realized ratio
+    # (the fake n_params is 1000 at every size, so every ratio is 1.0); the synthetic power record
+    # declares UNDERPOWERED (N_SIM 30), so the POWERED sentence is checked on the same realized
+    # pairs through licence_block_5 itself
+    lic = v["licence"]
+    assert lic["key"] == "MATCHED-UNDERPOWERED" and "not distinguishable" in lic["sentence"]
+    assert lic["pairs_realized"] == v["gate4"]["pairs_kept"] and lic["largest_ratio_realized"] == 1.0
+    powered = an.licence_block_5("MATCHED", None, {"declaration": "POWERED"},
+                                 pairs=[{"small": "x", "large": "y", "ratio": 1.0}] * lic["pairs_realized"])
+    assert f"across {v['gate4']['pairs_kept']} size pairs to 1×" in powered["sentence"]
+    assert "read to date" not in powered["sentence"]
 
 
 def test_write_produces_verdict_files(tmp_path, monkeypatch):

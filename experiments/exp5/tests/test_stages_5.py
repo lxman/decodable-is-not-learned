@@ -628,3 +628,130 @@ def test_rebundle_refuses_without_the_seal_tag_or_the_projection(tmp_path, missi
     r = subprocess.run(["bash", str(RUN_5 / "rebundle_box_5.sh"), str(b2)], capture_output=True, text=True,
                        env={**os.environ, "REPO_DIR": str(box)})
     assert r.returncode == 2 and "REFUSING" in r.stdout, r.stdout + r.stderr
+
+
+# ------------------------------------------------ ratification slip 9 (2026-09-23)
+
+def _nan_loss_at(env, size, step):
+    loaders = dict(env["common"]["loaders"])
+    orig = loaders["loss"]
+
+    def nan_loss(model, sl, *, batch_size, device):
+        out = orig(model, sl, batch_size=batch_size, device=device)
+        if model["size"] == size and model["step"] == step and model.get("path") != "a":
+            out = {**out, "loss": float("nan"), "finite": False, "n_nonfinite": 7,
+                   "per_set": {k: {**v, "loss": float("nan")} for k, v in out["per_set"].items()}}
+        return out
+    loaders["loss"] = nan_loss
+    return loaders
+
+
+def test_a_non_finite_window_member_is_written_marked_and_absent(env):
+    """Ratification slip 9: a WINDOW member whose loss is not finite does
+    not halt — the unit is written whole (its counts never read), marked
+    (`_unit.json` finite false, the search log's request event and its
+    `nonfinite` list, a print), the loss table carries null with finite
+    false, and the pair's plan lists the member as ABSENT with its side
+    shorter — exactly the edge rule. The analyzer reads the same tree
+    with zero refusals and prints the member in S10."""
+    from experiments.exp5 import analyze_5 as an
+    fin.run(**env["common"])
+    root = env["root"]
+    # 2.8b x 1b on this fixture: bracket (6000, 7000), b_plus [8000, 9000]; 9000 is window-only
+    kw = _sweep_kwargs(env, loaders=_nan_loss_at(env, "2.8b", 9000))
+    sw.run(size="2.8b", **kw)                       # no SystemExit
+    assert not b5.halt_marker_path_5(root, "2.8b").exists()
+    assert b5.unit_complete_5(root, "2.8b", 9000)
+    u = json.loads(b5.unit_record_path_5(root, "2.8b", 9000).read_text())
+    assert u["finite"] is False and u["why"] == "window"
+    log = json.loads(b5.search_log_path_5(root, "2.8b").read_text())
+    pair = log["pairs"]["1b"]
+    assert pair["status"] == "done" and pair["plan"]["bracket"] == [6000, 7000]
+    assert pair["plan"]["b_plus"] == [8000] and pair["plan"]["absent"] == [9000]
+    assert pair["plan"]["edge"] == {"b_minus": 2, "b_plus": 1}
+    ev = next(r for r in pair["requests"] if r["step"] == 9000)
+    assert ev["why"] == "window" and ev["finite"] is False
+    assert log["nonfinite"] == [{"step": 9000, "why": "window", "pair": "1b", "n_nonfinite": 7}]
+    assert [r["step"] for r in pair["requested_all"]] == [1000, 4000, 16000, 143000, 10000, 7000,
+                                                          5000, 6000, 8000, 9000]
+    table = json.loads(b5.loss_table_path_5(root).read_text())["2.8b"]
+    assert table["9000"] == {"loss": None, "finite": False,
+                             "per_set": {k: None for k in table["8000"]["per_set"]}}
+    assert table["8000"]["finite"] is True and isinstance(table["8000"]["loss"], float)
+    # idempotent resume: nothing reloaded, the absent member stays absent
+    n = len(env["state"]["loaded"])
+    sw.run(size="2.8b", **kw)
+    assert len(env["state"]["loaded"]) == n
+    v = an.run(root=root, manifest=env["common"]["manifest"], sl=env["common"]["sl"], n_sample=50, n_boot=20,
+               tag_exists=lambda t: True, blob_sha=lambda t, r: bg.sha256_file(b5.REPO / r),
+               blobs_bound=lambda t, p, **k: [], projection_commit="p1", is_ancestor=lambda a, b: True,
+               seal_tag_commit="s1", referents_sha=False, imports_pinned=False,
+               frozen_check=lambda: None, power_gate="skip")
+    # this fixture has no power record, projection or 6.9b sweep, so run() refuses on those —
+    # nothing it says names the absent member (the zero-refusal path is the world test's,
+    # test_full_shape_5.py::test_a_non_finite_window_member_is_absent_and_the_verdict_stands)
+    assert not any("9000" in f or "non-finite" in f or "gate 3 2.8b" in f for f in v["failures"]), v["failures"]
+    assert v["gate4"]["pairs_kept"] == 1
+    assert v["secondaries"]["S10"]["nonfinite_units"] == {"2.8b": {"9000": {"why": "window", "n_nonfinite": 7}}}
+    assert v["gate4"]["window_members_absent"] == ["1b→2.8b: step9000"]
+    cells = [c for c in v["cells"] if c["small"] == "1b" and c["large"] == "2.8b"]
+    assert cells and all(c["b_plus_steps"] == [8000] and c["b_minus_steps"] == [4000, 5000] for c in cells)
+
+
+def test_a_non_finite_unit_the_search_reads_halts_even_when_it_was_written_as_a_window_member(env):
+    """Ratification slip 9's other half: a unit written whole with a
+    non-finite loss (as a window member) that a LATER search would read
+    as a bisection step halts that search — the loss is not there to
+    bisect on. Planted directly through the production writer."""
+    fin.run(**env["common"])
+    root = env["root"]
+    host = json.loads(b5.host_record_path_5(root).read_text())
+    loaders = _nan_loss_at(env, "2.8b", 7000)           # 7000: a bisect step of 2.8b x 1b
+    r = c5.run_unit_5("2.8b", 7000, root=root, manifest=env["common"]["manifest"], cache_root=root,
+                      device="cuda", battery=env["battery"], verify_fn=a2d.load_verify(),
+                      sl=env["common"]["sl"], host=host, loaders=loaders, git_sha="g1", why="window")
+    assert r["action"] == "loaded" and r["finite"] is False
+    assert b5.unit_complete_5(root, "2.8b", 7000)
+    c5.rebuild_loss_table_5(root)
+    with pytest.raises(SystemExit) as ex:
+        sw.run(size="2.8b", **_sweep_kwargs(env))
+    assert ex.value.code == 2
+    marker = b5.halt_marker_path_5(root, "2.8b").read_text()
+    assert "step7000" in marker and "bisect" in marker and "non-finite" in marker
+
+
+def test_a_non_finite_spine_or_final_loss_still_halts(env):
+    """The narrowed halt (slip 9): spine, bisection and final units halt
+    at load; the earlier F-7 test covers a spine step, this one the final
+    (through finals_5) so the narrowing is tested at both ends."""
+    c = dict(env["common"]); c["loaders"] = _nan_loss_at(env, "1b", b5.FINAL_STEP_5)
+    with pytest.raises(SystemExit) as ex:
+        fin.run(**c)
+    assert ex.value.code == 2
+    marker = b5.halt_marker_path_5(env["root"], "1b").read_text()
+    assert "final" in marker and "non-finite" in marker
+    assert not b5.unit_complete_5(env["root"], "1b", b5.FINAL_STEP_5)
+
+
+def test_units_refuse_a_non_finite_final_at_load(env):
+    """Slip 9: a FINAL whose loss is not finite is refused by load_units_5
+    itself (a final is a target and a spine point) — the runner halts on
+    one, so only a tampered tree can carry it."""
+    from experiments.exp5 import analyze_5 as an
+    fin.run(**env["common"])
+    root = env["root"]
+    host = json.loads(b5.host_record_path_5(root).read_text())
+    kw = dict(manifest=env["common"]["manifest"], battery=env["battery"], verify_fn=a2d.load_verify(),
+              host=host, slice_sha=env["common"]["sl"]["sha256"],
+              n_scored=env["common"]["sl"]["meta"]["n_scored"])
+    d = b5.unit_dir_5(root, "1b", b5.FINAL_STEP_5)
+    rec = json.loads((d / "_loss.json").read_text())
+    rec["loss"] = float("nan"); rec["finite"] = False; rec["n_nonfinite"] = 2
+    for x in rec["per_set"].values():
+        x["loss"] = float("nan")
+    (d / "_loss.json").write_text(json.dumps(rec))
+    u = json.loads((d / "_unit.json").read_text())
+    u["files"]["_loss.json"] = bg.sha256_file(d / "_loss.json")
+    (d / "_unit.json").write_text(json.dumps(u))
+    with pytest.raises(ValueError, match="the final's loss is not finite"):
+        an.load_units_5(root, "1b", **kw)

@@ -33,7 +33,13 @@ class FakeRunner:
 
 
 def make_loaders(battery, *, loss_fn, count_fn, digest_fn=None, pythia_2c_digest=None,
-                 pythia_2c_count_fn=None, loss_2c_fn=None, raise_on=None, n_params=1000):
+                 pythia_2c_count_fn=None, loss_2c_fn=None, raise_on=None, n_params=1000,
+                 nonfinite_at=()):
+    """`nonfinite_at`: (size, step) pairs whose fake fp16 forward "overflowed"
+    — the loss record is a CONSISTENT non-finite one (NaN aggregate and
+    per-set losses, `finite` False, `n_nonfinite` 3), as the real
+    `slice_5.loss_5` writes it (ratification slip 9)."""
+    nonfinite_at = {(s, int(t)) for s, t in nonfinite_at}
     digest_fn = digest_fn or (lambda size, step: hashlib.sha256(f"d-{size}-{step}".encode()).hexdigest())
     state = {"loaded": [], "freed": [], "released": 0, "prefetched": []}
 
@@ -66,8 +72,13 @@ def make_loaders(battery, *, loss_fn, count_fn, digest_fn=None, pythia_2c_digest
         for d in range(n_docs):
             per_set[sl["set_names"][int(sl["set_index"][d])]]["n_tokens"] += \
                 int(sl["offsets"][d + 1] - sl["offsets"][d] - 1)
+        finite, n_nonfinite = True, 0
+        if (model["size"], int(model["step"])) in nonfinite_at and model.get("path") != "a":
+            v, finite, n_nonfinite = float("nan"), False, 3
+            for ps in per_set.values():
+                ps["loss"] = v
         return {"loss": v, "n_scored": sl["meta"]["n_scored"], "n_docs": n_docs, "per_set": per_set,
-                "per_doc_loss": [v] * n_docs, "finite": True, "n_nonfinite": 0,
+                "per_doc_loss": [v] * n_docs, "finite": finite, "n_nonfinite": n_nonfinite,
                 "batch_size": batch_size, "pad_id": b5.PAD_ID_5, "logits_dtype": "float16",
                 "log_softmax_dtype": "float32", "accumulation": "fake", "slice_sha256": sl["sha256"],
                 "seconds": 0.0}

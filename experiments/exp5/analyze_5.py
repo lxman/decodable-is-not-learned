@@ -21,11 +21,18 @@ never a traceback; any OTHER exception is a logic defect and CRASHES
 wrong-shaped call site (a label not prefixed `"5 "`) is a programming
 error and is RAISED, never laundered.
 
-Tree (design §3.8): INSUFFICIENT_DATA (any gate) -> UNDETERMINED (fewer
-than 20 live cells with a defined P, or fewer than 5 rungs carrying
-them) -> NOT-MATCHED (rung-block p < .01 and T >= .01), with the
-modifier LARGE-AHEAD / SMALL-AHEAD / MIXED / THIN -> MATCHED
-(otherwise), read under the power declaration."""
+Tree (design §3.8, ratification slip 10): INSUFFICIENT_DATA (any gate)
+-> UNDETERMINED (fewer than 20 live cells with a defined P, or fewer
+than 7 rungs with a NONZERO block sum — the exact flip's p floor 2^-k
+would be at or above alpha) -> NOT-MATCHED (rung-block p < .01 and
+T >= .01), with the modifier LARGE-AHEAD / SMALL-AHEAD / MIXED / THIN
+-> MATCHED (otherwise), read under the power declaration.
+
+Ratification slip 9 (gate 3 as ratified): a finite loss is required on
+every spine, bisection and final unit — the losses the search reads; a
+WINDOW member (or S11 unit) whose loss is not finite is ABSENT: its
+side shorter (the edge rule), printed under gate 4 and in S10, its
+counts never read. Finiteness is MEASURED from the record (F-4)."""
 from __future__ import annotations
 
 import bisect as _bisect
@@ -72,7 +79,7 @@ CAVEAT_5 = ("one family, one battery of 34 synthetic tasks, sizes to 12b, loss m
 # design §6, one body per licence CELL (world, or world x modifier for NOT-MATCHED).
 _LICENCE_BODY_5 = {
     "MATCHED-POWERED": (
-        "on Pythia, across the size pairs read to date, a larger model read at the checkpoint "
+        "on Pythia, across {n_pairs} size pair{s} to {ratio}, a larger model read at the checkpoint "
         "where its held-out loss equals a smaller model's final loss has the smaller model's "
         "profile on this battery to within the larger model's own wobble between neighbouring "
         "checkpoints; the scoreboard states the resolution this reading was bought at: an "
@@ -284,7 +291,7 @@ def load_units_5(root, size, *, manifest, battery, verify_fn, host, slice_sha, n
     n_scored = b5.SLICE_N_SCORED_5 if n_scored is None else n_scored
     d = b5.units_root_5(root) / size
     steps, counts, losses, loss_records = [], {}, {}, {}
-    digests, git_shas, whys = {}, {}, {}
+    digests, git_shas, whys, nonfinite = {}, {}, {}, {}
     n_params = None
     if d.exists():
         cand_steps = sorted(int(p.name[4:]) for p in d.iterdir()
@@ -303,8 +310,17 @@ def load_units_5(root, size, *, manifest, battery, verify_fn, host, slice_sha, n
             if unit_rec.get("host_sha256") != host.get("sha256"):
                 bad.append(f"{size}/step{step}/_unit.json: host_sha256 is not the host record's")
             ls_rec = json.loads(b5.loss_record_path_5(root, size, step).read_text())
+            # Ratification slip 9: finiteness is a property of WHICH unit — required
+            # where the search reads the loss (spine/bisection, checked by the
+            # replay; the final, checked below), an ABSENT member elsewhere.
             bad += b5.loss_record_failures_5(ls_rec, size=size, step=step, host=host,
-                                             slice_sha=slice_sha, n_scored=n_scored)
+                                             slice_sha=slice_sha, n_scored=n_scored,
+                                             require_finite=False)
+            finite = b5.loss_is_finite_5(ls_rec)
+            if not finite and int(step) == b5.FINAL_STEP_5:
+                bad.append(f"{size}/step{step}/_loss: gate 3: the final's loss is not finite "
+                           f"({ls_rec.get('n_nonfinite')} non-finite tokens) — a final is a "
+                           f"target and a spine point")
             rung_counts = {}
             for rung in b5.RUNGS:
                 rg_rec = json.loads(b5.rung_record_path_5(root, size, step, rung).read_text())
@@ -318,7 +334,10 @@ def load_units_5(root, size, *, manifest, battery, verify_fn, host, slice_sha, n
                 raise ValueError(f"{size}/step{step}: gate 3 contract failure(s): {bad[:8]}")
             steps.append(step)
             counts[step] = rung_counts
-            losses[step] = float(ls_rec["loss"])
+            if finite:
+                losses[step] = float(ls_rec["loss"])
+            else:
+                nonfinite[step] = {"why": unit_rec.get("why"), "n_nonfinite": ls_rec.get("n_nonfinite")}
             loss_records[step] = ls_rec
             digests[step] = ck_rec.get("digest")
             git_shas[step] = unit_rec.get("git_sha")
@@ -328,7 +347,8 @@ def load_units_5(root, size, *, manifest, battery, verify_fn, host, slice_sha, n
     if b5.FINAL_STEP_5 not in steps:
         raise ValueError(f"{size}: the final (step{b5.FINAL_STEP_5}) is not among the complete units")
     return {"steps": sorted(steps), "counts": counts, "losses": losses, "loss_records": loss_records,
-            "digests": digests, "n_params": n_params, "git_shas": git_shas, "whys": whys}
+            "digests": digests, "n_params": n_params, "git_shas": git_shas, "whys": whys,
+            "nonfinite": nonfinite}
 
 
 def _steps_on_disk_5(root, size) -> set:
@@ -368,7 +388,8 @@ def expected_steps_5(units_by_size: dict, manifest: dict, size: str) -> set:
             target = (small_units.get("losses") or {}).get(b5.FINAL_STEP_5)
             if target is None:
                 continue
-            rep = se5.replay_5(large_losses, available, spine, target)
+            rep = se5.replay_5(large_losses, available, spine, target,
+                               absent=set((units_by_size.get(size) or {}).get("nonfinite") or {}))
             expected |= set(se5.requested_steps_5(rep))
     return expected
 
@@ -378,9 +399,7 @@ def _rebuilt_loss_table_5(units_by_size: dict) -> dict:
     for size, u in units_by_size.items():
         entries = {}
         for step in sorted(u["steps"]):
-            rec = u["loss_records"][step]
-            entries[str(step)] = {"loss": rec["loss"],
-                                  "per_set": {k: v["loss"] for k, v in rec.get("per_set", {}).items()}}
+            entries[str(step)] = b5.loss_table_entry_5(u["loss_records"][step])
         table[size] = entries
     return table
 
@@ -414,6 +433,7 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
         failures.append(f"gate 4 {size}: search log spine {spine_logged} != {spine_expected}")
     available = list(b5.available_5(manifest, size))
     losses = large_units["losses"]
+    absent = set(large_units.get("nonfinite") or {})          # slip 9: loaded, loss not finite
     pairs_data = []
     small_sides = [s for s in b5.SIZES_5 if b5.SIZES_5.index(s) < b5.SIZES_5.index(size)]
     log_pairs = search_log.get("pairs") or {}
@@ -438,8 +458,13 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
         if logged_target is None or abs(float(logged_target) - float(target)) > 1e-9:
             failures.append(f"gate 4 {size}/{small}: logged target {logged_target!r} != "
                             f"the committed small final {target!r}")
-        rep = se5.replay_5(losses, available, spine_expected, target)
+        rep = se5.replay_5(losses, available, spine_expected, target, absent=absent)
         rep_steps = se5.requested_steps_5(rep)
+        if rep["status"] == "nonfinite":
+            failures.append(f"gate 3 {size}/{small}: the search reads a non-finite loss at "
+                            f"step{rep['plan']['step']} ({rep['plan']['why']} unit) — gate 3 as "
+                            f"ratified: finite loss on every spine, bisection and final unit")
+            continue
         if rep["status"] == "incomplete":
             failures.append(f"gate 4 {size}/{small}: the replay over the committed table is "
                             f"INCOMPLETE (missing step{rep.get('missing')}) — the size's units do "
@@ -473,6 +498,9 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
             failures.append(f"gate 4 {size}/{small}: window "
                             f"{logged_plan.get('b_minus')}/{logged_plan.get('b_plus')} != the "
                             f"replay's {plan['b_minus']}/{plan['b_plus']}")
+        if list(logged_plan.get("absent") or []) != list(plan.get("absent") or []):
+            failures.append(f"gate 4 {size}/{small}: absent window members "
+                            f"{logged_plan.get('absent')} != the replay's {plan.get('absent')}")
         lo, hi = plan["bracket"]
         try:
             i_lo, i_hi = available.index(lo), available.index(hi)
@@ -483,7 +511,7 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
         if i_hi != i_lo + 1:
             failures.append(f"gate 4 {size}/{small}: bracket {plan['bracket']} not adjacent on "
                             f"the available list")
-        window_steps = plan["b_minus"] + [lo, hi] + plan["b_plus"]
+        window_steps = plan["b_minus"] + [lo, hi] + plan["b_plus"] + list(plan.get("absent") or [])
         missing = [s for s in window_steps if s not in large_units["counts"]]
         if missing:
             failures.append(f"gate 4 {size}/{small}: window step(s) {missing} are not complete "
@@ -509,7 +537,8 @@ def _dropped_detail_5(units_by_size: dict, manifest: dict, size: str) -> list:
         target = ((units_by_size.get(small) or {}).get("losses") or {}).get(b5.FINAL_STEP_5)
         if target is None:
             continue
-        rep = se5.replay_5(large, avail, spine, target)
+        rep = se5.replay_5(large, avail, spine, target,
+                           absent=set((units_by_size.get(size) or {}).get("nonfinite") or {}))
         if rep["status"] == "dropped":
             plan = rep["plan"]
             out.append({"small": small, "large": size, "target": plan.get("target"),
@@ -633,8 +662,21 @@ def resolution_note_5(primary) -> object:
             f"({(primary or {}).get('n_nonzero_blocks')} nonzero rung blocks)")
 
 
-def licence_block_5(world: str, modifier, power: dict, primary=None) -> dict:
+def licence_block_5(world: str, modifier, power: dict, primary=None, pairs=None) -> dict:
+    """`pairs`: gate 4's KEPT pairs as [{"small", "large", "ratio"}, ...]
+    (ratio = n_params(large) / n_params(small), None when a size's
+    parameter count is not recorded). Ratification slip 11: the
+    MATCHED-POWERED sentence quotes the REALIZED pair count and the
+    largest realized ratio — pairs can drop (F-6), so the design's
+    fixed "21" / "75×" are never written into the licence."""
     power = power or {}
+    pairs = list(pairs or [])
+    ratios = [p.get("ratio") for p in pairs]
+    ratio_max = max(r for r in ratios if r is not None) if any(r is not None for r in ratios) else None
+    if ratio_max is None:
+        ratio_txt = "an unrecorded largest size ratio (n_params missing)" if pairs else "no size ratio"
+    else:
+        ratio_txt = f"{ratio_max:.0f}×"
     if world == "MATCHED":
         key = "MATCHED-POWERED" if power.get("declaration") == "POWERED" else "MATCHED-UNDERPOWERED"
     elif world == "NOT-MATCHED":
@@ -643,10 +685,13 @@ def licence_block_5(world: str, modifier, power: dict, primary=None) -> dict:
     else:
         key = world
     sentence = _LICENCE_BODY_5.get(key, _LICENCE_BODY_5["INSUFFICIENT_DATA"])
+    if key == "MATCHED-POWERED":
+        sentence = sentence.format(n_pairs=len(pairs), s="" if len(pairs) == 1 else "s", ratio=ratio_txt)
     return {"world": world, "modifier": modifier, "key": key, "sentence": sentence,
             "caveat": CAVEAT_5, "declaration": power.get("declaration"),
             "min_detectable_T": power.get("min_detectable_T"),
-            "resolution_note": resolution_note_5(primary)}
+            "resolution_note": resolution_note_5(primary),
+            "pairs_realized": len(pairs), "largest_ratio_realized": ratio_max}
 
 
 # ----------------------------------------------------------- secondaries
@@ -915,9 +960,12 @@ def _s10_texture_5(units_by_size: dict, pairs_data: list, root, manifest=None) -
         twelve_b = {"coincide": sorted(steps12 & set(b5.GATE1_DESCRIPTIVE_12B_5))}
     re_crossings = {size: _re_crossings_5(units_by_size, manifest, size)
                     for size in units_by_size if size in b5.LARGE_SIDES_5}
+    # ratification slip 9: every loaded unit whose loss is not finite, printed
+    nonfinite_units = {size: {str(s): dict(info) for s, info in sorted((u.get("nonfinite") or {}).items())}
+                       for size, u in units_by_size.items() if u.get("nonfinite")}
     return {"loss_monotonicity": mono, "bracket_widths": widths, "12b_finiteness": twelve_b_finite,
             "12b_descriptive_coincidence": twelve_b, "re_crossings": re_crossings,
-            "b6_12b": _b6_12b_5(units_by_size)}
+            "b6_12b": _b6_12b_5(units_by_size), "nonfinite_units": nonfinite_units}
 
 
 def _s11_stability_5(units_by_size: dict, cells: list) -> dict:
@@ -925,6 +973,11 @@ def _s11_stability_5(units_by_size: dict, cells: list) -> dict:
     for size in b5.SMALL_SIDES_5:
         u = units_by_size.get(size)
         if u is None or b5.S11_STEP_5 not in u.get("counts", {}):
+            continue
+        nf = (u.get("nonfinite") or {}).get(b5.S11_STEP_5)
+        if nf is not None:                     # slip 9: the same overflowed forward — never read
+            out[size] = {"absent": f"step{b5.S11_STEP_5}: non-finite loss ({nf.get('n_nonfinite')} "
+                                   f"non-finite tokens); counts never read"}
             continue
         s11c = u["counts"][b5.S11_STEP_5]
         fin = u["counts"].get(b5.FINAL_STEP_5, {})
@@ -972,7 +1025,7 @@ def secondaries_5(cells, units_by_size, pairs_data, root, manifest=None) -> tupl
 # -------------------------------------------------------------- verdict
 
 def verdict_5(*, failures, tree, primary, modifier, gate4, secondaries, secondary_failures,
-             licence, power, signed_offset, pins_active, git_sha, gate1=None) -> dict:
+             licence, power, signed_offset, pins_active, git_sha, gate1=None, cells=None) -> dict:
     """`git_sha` (and any future timestamp) lives under `"meta"` —
     Task 6's determinism fixture drops that one key wholesale rather
     than enumerating volatile fields one at a time (the brief's own
@@ -982,7 +1035,7 @@ def verdict_5(*, failures, tree, primary, modifier, gate4, secondaries, secondar
             "gate4": gate4, "gate1": gate1, "secondaries": secondaries, "failures": list(failures),
             "secondary_failures": secondary_failures, "pins_active": pins_active,
             "licence": licence, "power": power, "signed_offset": signed_offset,
-            "meta": {"git_sha": git_sha}}
+            "cells": list(cells or []), "meta": {"git_sha": git_sha}}
 
 
 def _json_safe_5(o):
@@ -1045,7 +1098,11 @@ def write_verdict_txt_5(v: dict) -> str:
     lines.append("")
     g4 = v.get("gate4") or {}
     lines.append(f"gate 4: pairs_kept={g4.get('pairs_kept')} pairs_dropped={g4.get('pairs_dropped')} "
-                f"units_unnamed={g4.get('units_unnamed')}")
+                f"units_unnamed={g4.get('units_unnamed')} "
+                f"window_members_absent={g4.get('window_members_absent')}")
+    lic = v.get("licence") or {}
+    lines.append(f"  licence pairs_realized={lic.get('pairs_realized')} "
+                f"largest_ratio_realized={lic.get('largest_ratio_realized')}")
     for d in (g4.get("dropped_detail") or []):
         lines.append(f"  dropped: {d.get('small')}→{d.get('large')} target={d.get('target')} "
                     f"kind={d.get('kind')} reason={d.get('reason')} "
@@ -1286,7 +1343,8 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     # "nothing else loaded" check for EVERY size (the smallest size is
     # never swept as large, so it never gets a search log, but a unit
     # can still be orphaned under it — Task 5 review finding 1).
-    gate4_total = {"pairs_kept": 0, "pairs_dropped": 0, "units_unnamed": [], "dropped_detail": []}
+    gate4_total = {"pairs_kept": 0, "pairs_dropped": 0, "units_unnamed": [], "dropped_detail": [],
+                   "window_members_absent": []}
     gate1c_recs = {}
     all_pairs_data = []
     for size in b5.SIZES_5:
@@ -1383,6 +1441,9 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
             pairs_data, pf, unnamed, dropped_detail = result
             failures += pf
             all_pairs_data += pairs_data
+            gate4_total["window_members_absent"] += [
+                f"{pd['small']}→{pd['large']}: step{s}" for pd in pairs_data
+                for s in (pd["plan"].get("absent") or [])]
             gate4_total["pairs_kept"] += len(pairs_data)
             gate4_total["pairs_dropped"] += len(dropped_detail)
             gate4_total["units_unnamed"] += [f"{size}: step{s}" for s in unnamed]
@@ -1427,7 +1488,15 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     # 16. secondaries (never touch `failures`)
     secondaries, secondary_failures = secondaries_5(cells, units, all_pairs_data, root, manifest)
 
-    licence = licence_block_5(tree["verdict"], tree.get("modifier"), power_rec, primary=primary)
+    # slip 11: the realized pairs and their size ratios (n_params from the checkpoint records)
+    def _ratio(pd):
+        big = ((units or {}).get(pd["large"]) or {}).get("n_params")
+        small = ((units or {}).get(pd["small"]) or {}).get("n_params")
+        return (float(big) / float(small)) if (big and small) else None
+    pairs_realized = [{"small": pd["small"], "large": pd["large"], "ratio": _ratio(pd)}
+                      for pd in all_pairs_data]
+    licence = licence_block_5(tree["verdict"], tree.get("modifier"), power_rec, primary=primary,
+                              pairs=pairs_realized)
 
     pins_active = {
         "frozen_modules": frozen_check is None,
@@ -1447,7 +1516,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
     v = verdict_5(failures=failures, tree=tree, primary=primary, modifier=modifier,
                  gate4=gate4_total, secondaries=secondaries, secondary_failures=secondary_failures,
                  licence=licence, power=power_rec, signed_offset=signed_offset,
-                 pins_active=pins_active, git_sha=git_sha, gate1=gate1)
+                 pins_active=pins_active, git_sha=git_sha, gate1=gate1, cells=cells)
     v = _json_safe_5(v)
 
     if write:

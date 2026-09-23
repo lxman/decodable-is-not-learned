@@ -139,10 +139,15 @@ def test_modifier():
 
 
 def test_tree_precedence():
-    ok = {"n_cells": 30, "n_rungs": 6, "T": 0.02, "rung_block": {"p": 0.001}}
+    ok = {"n_cells": 30, "n_rungs": 8, "n_nonzero_blocks": 7, "T": 0.02, "rung_block": {"p": 0.001}}
     assert ss.tree_5(failures=["x"], primary=ok, modifier={"modifier": "MIXED"})["verdict"] == "INSUFFICIENT_DATA"
     assert ss.tree_5(failures=[], primary={**ok, "n_cells": 19}, modifier={"modifier": "MIXED"})["verdict"] == "UNDETERMINED"
-    assert ss.tree_5(failures=[], primary={**ok, "n_rungs": 4}, modifier={"modifier": "MIXED"})["verdict"] == "UNDETERMINED"
+    # ratification slip 10: the rung threshold counts rungs with a NONZERO block sum (2^-7 = .0078
+    # < alpha .01; at 6 the flip's floor .0156 is above alpha and NOT-MATCHED could not fire)
+    u = ss.tree_5(failures=[], primary={**ok, "n_nonzero_blocks": 6}, modifier={"modifier": "MIXED"})
+    assert u["verdict"] == "UNDETERMINED" and "6 rungs with a nonzero block sum" in u["reason"]
+    assert ss.tree_5(failures=[], primary={**ok, "n_rungs": 7, "n_nonzero_blocks": 7},
+                     modifier={"modifier": "MIXED"})["verdict"] == "NOT-MATCHED"
     t = ss.tree_5(failures=[], primary=ok, modifier={"modifier": "LARGE-AHEAD"})
     assert t["verdict"] == "NOT-MATCHED" and t["modifier"] == "LARGE-AHEAD"
     assert ss.tree_5(failures=[], primary={**ok, "T": 0.009}, modifier={"modifier": "LARGE-AHEAD"})["verdict"] == "MATCHED"
@@ -195,3 +200,32 @@ def test_primary_prints_the_rung_block_resolution():
     assert p8["p_min_attainable"] == 1 / 256 and an.resolution_note_5(p8) is None
     s = ss.sign_flip_p_5([0.1] * 25, 25, n_sample=99)
     assert s["method"] == "sampled" and s["p_min_attainable"] == 1 / 100
+
+
+def test_tree_undetermined_counts_nonzero_blocks_not_carrying_rungs():
+    """Ratification slip 10 on real cells: eight rungs carry cells but two
+    of them sum to exactly zero (R = P on every cell), so the exact flip
+    has 6 nonzero blocks and a p floor of 1/64 > alpha — UNDETERMINED,
+    with both counts in the reason; with seven nonzero blocks the tree
+    proceeds."""
+    rungs = list(bt.RUNGS[:8])
+    zero = set(rungs[:2])
+    spec = []
+    for r in rungs:
+        for k in range(3):
+            if r in zero:      # f=100, a=110 -> R=10; b-=100, b+=120 -> P=10; c = 0 exactly
+                spec.append(("1b", "12b", r, 100, 110, 110, (100, 100), (120, 120)))
+            else:
+                spec.append(("1b", "12b", r, 100, 140 + k, 142 + k, (139, 141), (140, 143)))
+    cells = _cells(spec)
+    prim = ss.primary_5(cells)
+    assert prim["n_cells"] == 24 and prim["n_rungs"] == 8 and prim["n_nonzero_blocks"] == 6
+    t = ss.tree_5(failures=[], primary=prim, modifier=ss.modifier_5(cells))
+    assert t["verdict"] == "UNDETERMINED"
+    assert "24 live cells" in t["reason"] and "6 rungs with a nonzero block sum" in t["reason"] \
+        and "of 8 carrying cells" in t["reason"]
+    spec2 = [s for s in spec if s[2] != rungs[0]] + \
+        [("1b", "12b", rungs[0], 100, 140 + k, 142 + k, (139, 141), (140, 143)) for k in range(3)]
+    prim2 = ss.primary_5(_cells(spec2))
+    assert prim2["n_nonzero_blocks"] == 7
+    assert ss.tree_5(failures=[], primary=prim2, modifier=ss.modifier_5(_cells(spec2)))["verdict"] != "UNDETERMINED"
