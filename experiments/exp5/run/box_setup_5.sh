@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 # Rented-box setup for Exp 5 (4c ruling 3's recipe): uv-managed Python 3.11, the Mac's pins,
 # the repo from a git bundle (no credential on the host), the ckpt cache root. Run from /workspace
-# after `emergence-paper.bundle` has been scp'd there.
+# after `emergence-paper.bundle` has been scp'd there (made on the Mac by run/make_bundle_5.sh).
+# Stage 2 (after the targets seal + the projection commit): re-bundle on the Mac with
+# run/make_bundle_5.sh, scp, then on the box run/rebundle_box_5.sh <bundle> — NOT a
+# `git fetch <bundle> 'refs/heads/*:refs/heads/*'` (git refuses to fetch into the checked-out
+# master and the following reset silently stays on the OLD commit; final review I-3).
 set -euo pipefail
 cd /workspace
 curl -LsSf https://astral.sh/uv/install.sh | sh; export PATH="$HOME/.local/bin:$PATH"
 uv python install 3.11
-uv venv --python 3.11 /workspace/venv
+# final review I-2: `uv venv` creates a venv WITHOUT pip; --seed installs it (the pip lines below need it)
+uv venv --seed --python 3.11 /workspace/venv
 /workspace/venv/bin/python -m pip install --quiet --upgrade pip
 /workspace/venv/bin/python -m pip install --quiet "torch==2.12.1" --index-url https://download.pytorch.org/whl/cu130
 /workspace/venv/bin/python -m pip install --quiet "transformers==5.13.0" "numpy==2.4.6" "safetensors==0.8.0" \

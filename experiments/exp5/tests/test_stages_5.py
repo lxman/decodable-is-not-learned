@@ -1,5 +1,6 @@
 # experiments/exp5/tests/test_stages_5.py
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -513,7 +514,7 @@ def test_s9_mac_writes_one_unit_with_host_record_and_tolerance(env):
 # ------------------------------------------------------- box shell scripts
 
 SCRIPTS_5 = ("campaign_5.sh", "box_setup_5.sh", "pull_units_5.sh", "status_box_5.sh",
-            "commit_watcher_5.sh")
+            "commit_watcher_5.sh", "rebundle_box_5.sh", "make_bundle_5.sh")
 
 
 @pytest.mark.parametrize("name", SCRIPTS_5)
@@ -528,3 +529,73 @@ def test_box_script_is_syntactically_valid_bash(name):
 def test_box_script_is_executable(name):
     p = Path(__file__).resolve().parents[1] / "run" / name
     assert p.stat().st_mode & 0o111, f"{name} is not executable"
+
+
+RUN_5 = Path(__file__).resolve().parents[1] / "run"
+
+
+def test_box_setup_seeds_pip_into_the_uv_venv():
+    """Final review I-2: `uv venv` makes a venv without pip; every `python -m pip`
+    line after it died under `set -e`."""
+    txt = (RUN_5 / "box_setup_5.sh").read_text()
+    venv = [ln for ln in txt.splitlines() if ln.strip().startswith("uv venv")]
+    assert venv and all("--seed" in ln for ln in venv)
+    assert "-m pip" in txt                     # the install lines rely on the seeded pip
+
+
+def test_puller_and_watcher_never_stage_or_keep_a_partial_file():
+    """Final review I-4: skip a unit only with all 37 files present; rsync
+    partials outside the repo; the watcher stages by pathspec, never -A."""
+    pull = (RUN_5 / "pull_units_5.sh").read_text()
+    assert '-eq 37 ] && continue' in pull and '[ -f "$LOCAL/$u/_unit.json" ] && continue' not in pull
+    assert pull.count('--temp-dir="$TMPD"') == 2 and "TMPD=/tmp/exp5_rsync_tmp" in pull
+    watch = (RUN_5 / "commit_watcher_5.sh").read_text()
+    code = [ln for ln in watch.splitlines() if not ln.lstrip().startswith("#")]
+    assert not any("git add -A" in ln for ln in code)
+    assert ':(glob)$WATCH_DIR/**/*.json' in watch and ':(glob)$WATCH_DIR/**/HALTED' in watch
+
+
+def _git(cwd, *a):
+    return subprocess.run(["git", "-C", str(cwd), *a], capture_output=True, text=True, check=True).stdout.strip()
+
+
+def _mac_and_box(tmp_path, *, tag=True, projection=True):
+    mac = tmp_path / "mac"; mac.mkdir()
+    _git(mac, "init", "-q", "-b", "master"); _git(mac, "config", "user.email", "a@b"); _git(mac, "config", "user.name", "a")
+    fin = mac / "experiments/exp5/results/units/1b/step143000/_unit.json"
+    fin.parent.mkdir(parents=True); fin.write_text("{}\n")
+    (mac / "README").write_text("v1\n"); _git(mac, "add", "README"); _git(mac, "commit", "-qm", "prereg")
+    b1 = tmp_path / "b1.bundle"; _git(mac, "bundle", "create", str(b1), "--all")
+    box = tmp_path / "box"; subprocess.run(["git", "clone", "-q", str(b1), str(box)], check=True)
+    bfin = box / "experiments/exp5/results/units/1b/step143000/_unit.json"
+    bfin.parent.mkdir(parents=True); bfin.write_text("{}\n")          # the box's own untracked final
+    _git(mac, "add", "-A"); _git(mac, "commit", "-qm", "finals")
+    if tag:
+        _git(mac, "tag", "exp5-targets-sealed")
+    if projection:
+        pj = mac / "experiments/exp5/projection.md"; pj.write_text("# p\n")
+        _git(mac, "add", "-A"); _git(mac, "commit", "-qm", "projection")
+    b2 = tmp_path / "b2.bundle"
+    r = subprocess.run(["bash", str(RUN_5 / "make_bundle_5.sh"), str(b2)], capture_output=True, text=True,
+                       env={**os.environ, "REPO_DIR": str(mac)})
+    assert r.returncode == 0 and str(b2) in r.stdout, r.stderr
+    return mac, box, b2
+
+
+def test_rebundle_moves_the_box_to_the_bundles_master_with_the_seal_and_projection(tmp_path):
+    """Final review I-3: the box lands on the Mac's HEAD (the old recipe stayed on
+    the old commit), the seal tag present, the projection an ancestor of HEAD."""
+    mac, box, b2 = _mac_and_box(tmp_path)
+    r = subprocess.run(["bash", str(RUN_5 / "rebundle_box_5.sh"), str(b2)], capture_output=True, text=True,
+                       env={**os.environ, "REPO_DIR": str(box)})
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert _git(box, "rev-parse", "HEAD") == _git(mac, "rev-parse", "HEAD")
+    assert "targets seal tag: exp5-targets-sealed" in r.stdout and "is an ancestor of HEAD" in r.stdout
+
+
+@pytest.mark.parametrize("missing", ["tag", "projection"])
+def test_rebundle_refuses_without_the_seal_tag_or_the_projection(tmp_path, missing):
+    mac, box, b2 = _mac_and_box(tmp_path, tag=(missing != "tag"), projection=(missing != "projection"))
+    r = subprocess.run(["bash", str(RUN_5 / "rebundle_box_5.sh"), str(b2)], capture_output=True, text=True,
+                       env={**os.environ, "REPO_DIR": str(box)})
+    assert r.returncode == 2 and "REFUSING" in r.stdout, r.stdout + r.stderr
