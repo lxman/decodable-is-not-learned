@@ -62,7 +62,7 @@ REFERENTS_PATH_5 = EXP5 / "referents_5.json"
 
 # Task 6 pins these; a plain None means "not pinned yet — build incomplete"
 # and is read by `run()`'s `_LITERAL` default resolution (4c's convention).
-REFERENTS_5_SHA256 = "e7a1ea3b65d915bc0f6ba7711a938b07ff4e267dc9f2a190798f3135991070e0"
+REFERENTS_5_SHA256 = "314fc708ee300b21579fc425220d4588e4fcfb4bb512a0f99db1ad0cb0ba1143"
 
 _LITERAL = object()
 

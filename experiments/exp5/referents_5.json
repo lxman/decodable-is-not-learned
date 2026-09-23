@@ -1785,7 +1785,7 @@
   "experiments/exp2h/results/sweep/6.9b/step90000/sub_base8.json": "392641ef487e0782ccda738a6df253fcb5c0829f32db69e86ae6d5b5ae4c9834",
   "experiments/exp5/checkpoints_5.json": "82658028d203a65108effe84eb7446bc046067c4f7373f6c584b159125d4b306",
   "experiments/exp5/hub_inventory_5.json": "a9fe6b085f5b5081915d69df298615ffabd27d4d7e01cbbba80d94b55b602434",
-  "experiments/exp5/power_5.py": "f7f2f17468d472dbf39f65e0c7ea02bd70d0c9fa71345734713a9e9ff41bccfb",
+  "experiments/exp5/power_5.py": "f083429ec771c09f0660a0270149e2159e5d4a70f8718bf1648d1370ae7b2912",
   "experiments/exp5/slice_5.npz": "dc48ebd4913309514a30c1acb6e3bbb399ef1b289c51c88758f4db994222c50b"
  },
  "n_files": 1786,

@@ -285,6 +285,18 @@ M = [
      '        if loss.get("finite") is not True:', '        if False:'),
     (CL5, "freeze F-8: wait_for joins whatever is in flight, not only this unit's download",
      "        if self.target == (size, int(step)):", "        if True:"),
+
+    # ------------------------------------------------ the final review's wave (I-1, M-4)
+    (AN5, "final review I-1: gate1b_failures_5 never compares the counts (tolerance line dropped)",
+     '        bad += b5.tolerance_failures_5(counts, ref, label=f"gate 1(b) {size}")',
+     '        bad += []'),
+    (AN5, "final review I-1: gate1c_failures_5 never compares the counts (tolerance line dropped)",
+     '        bad += b5.tolerance_failures_5(counts, ref, label=f"gate 1(c) {size}/step{step}")',
+     '        bad += []'),
+    (AN5, "final review I-1: gate1c_failures_5 never compares the record's steps set",
+     "    if rec_steps != want_steps:", "    if False:"),
+    (BAT5, "final review M-4: the measured dtype never checked",
+     '    if rec.get("dtype_measured") != DTYPE_5:', '    if False:'),
 ]
 
 # Every hand mutant above is a 4-tuple (path, name, old, new); every
