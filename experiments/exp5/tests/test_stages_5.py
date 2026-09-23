@@ -507,8 +507,37 @@ def test_s9_mac_writes_one_unit_with_host_record_and_tolerance(env):
     d = b5.s9_dir_5(root, "2.8b", 4000)
     assert set(p.name for p in d.iterdir()) == set(b5.unit_files_5()) | {"_unit.json"}
     assert out["failures"] == []                        # identical counts against itself
+    # final review M-11: the analyzer's S9 "present" path on this tree
+    from experiments.exp5 import analyze_5 as an
+    s9r = an._s9_cross_host_5(root)
+    assert s9r["status"] == "present" and len(s9r["units"]) == 1
+    u = s9r["units"][0]
+    assert (u["size"], u["step"]) == ("2.8b", 4000) and u["tolerance_failures"] == [] and u["loss_diff"] == 0
+    rp = d / "antonym.json"; rec = json.loads(rp.read_text())
+    rp.write_text(json.dumps({**rec, "correct": rec["correct"] + 16}))
+    tol = an._s9_cross_host_5(root)["units"][0]["tolerance_failures"]
+    assert any("antonym: |Δ| 16" in f and f"({box_counts['antonym']} vs the Mac's "
+               f"{rec['correct'] + 16})" in f for f in tol), tol
     assert not b5.unit_complete_5(root, "2.8b", 4000) or \
         b5.rung_record_path_5(root, "2.8b", 4000, "antonym").is_file()   # the campaign unit untouched
+
+
+def test_a_torn_unit_is_wiped_and_rewritten_by_the_runner(env):
+    """Final review M-10: a unit directory holding 30 of its 36 files and no
+    _unit.json (a crash mid-unit) is discarded whole and rewritten."""
+    fin.run(**env["common"])
+    root, step = env["root"], SPINE[1]
+    d = b5.unit_dir_5(root, "2.8b", step)
+    d.mkdir(parents=True)
+    names = list(b5.unit_files_5())[:30]
+    for n in names:
+        (d / n).write_text('{"TORN_MARKER_5": true}')
+    assert not b5.unit_complete_5(root, "2.8b", step)
+    sw.run(size="2.8b", **_sweep_kwargs(env))
+    assert b5.unit_complete_5(root, "2.8b", step)
+    assert sorted(p.name for p in d.iterdir()) == sorted(list(b5.unit_files_5()) + ["_unit.json"])
+    assert not any("TORN_MARKER_5" in (d / n).read_text() for n in b5.unit_files_5())
+    assert env["state"]["loaded"].count(("2.8b", step)) == 1
 
 
 # ------------------------------------------------------- box shell scripts

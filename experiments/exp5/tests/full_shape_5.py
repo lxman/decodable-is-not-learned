@@ -109,7 +109,7 @@ def write_world_5(root: Path, mode: str, *, monkeypatch) -> dict:
     common = dict(root=root, cache_root=root, device="cuda", loaders=loaders, manifest=man, sl=sl,
                   host_meta=fk.fake_host(), git_sha="g1", **prereg)
     fin.run(**common)
-    pw.main(root)                                    # ONCE, from the synthetic finals
+    pw.main(root, **prereg)                          # ONCE, from the synthetic finals
     (root / "projection.md").write_text("# projection (synthetic)\n")
     # Every size the production campaign sweeps (run/campaign_5.sh runs sweep_5
     # for EVERY size, the smallest last — S11 only). Freeze F-1: the worlds

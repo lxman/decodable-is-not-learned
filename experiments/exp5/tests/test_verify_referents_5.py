@@ -38,6 +38,7 @@ def test_c11_catches_a_power_record_that_does_not_reproduce(tmp_path, monkeypatc
     monkeypatch.setattr(vr.pw, "compute",
                         lambda finals, floors, *, n_sim, seed: {"n_sim": n_sim, "seed": seed,
                                                                   "declaration": "POWERED"})
+    monkeypatch.setattr(vr.pw, "N_SIM_5", 50)
     results = tmp_path / "results"
     results.mkdir()
     rec = {"n_sim": 50, "seed": 0, "declaration": "DECLARED UNDERPOWERED IN ADVANCE",
@@ -55,6 +56,7 @@ def test_c11_passes_when_the_power_record_reproduces(tmp_path, monkeypatch, caps
     monkeypatch.setattr(vr.pw, "compute",
                         lambda finals, floors, *, n_sim, seed: {"n_sim": n_sim, "seed": seed,
                                                                   "declaration": "POWERED"})
+    monkeypatch.setattr(vr.pw, "N_SIM_5", 50)
     results = tmp_path / "results"
     results.mkdir()
     rec = {"n_sim": 50, "seed": 0, "declaration": "POWERED", "finals_sha256": "x" * 64}
@@ -132,3 +134,24 @@ def test_c5_catches_a_hub_rewrite(tmp_path, monkeypatch):
     monkeypatch.setattr(vr.b5, "load_manifest_5", lambda **k: tampered)
     with pytest.raises(AssertionError):
         vr._c5({})
+
+
+def test_c11_refuses_a_record_at_another_n_sim_or_seed(tmp_path, monkeypatch):
+    """Final review M-6: item 11 pins n_sim/seed to power_5's constants (a record
+    at another n_sim/seed reproduces itself)."""
+    monkeypatch.setattr(vr.b5, "EXP5", tmp_path)
+    (tmp_path / "results").mkdir()
+    (tmp_path / "results" / "power_5.json").write_text(json.dumps(
+        {"n_sim": vr.pw.N_SIM_5 + 1, "seed": vr.pw.SEED_5, "declaration": "POWERED"}))
+    with pytest.raises(AssertionError, match="n_sim/seed"):
+        vr._c11({})
+
+
+def test_c7_skip_is_loud(monkeypatch):
+    """Final review M-6: item 7's SKIP names gate 2's missing re-derivation."""
+    def boom(*a, **k):
+        raise OSError("not cached")
+    import huggingface_hub
+    monkeypatch.setattr(huggingface_hub, "hf_hub_download", boom)
+    out = vr._c7({})
+    assert out.startswith("SKIP — THE DESIGN'S GATE 2 RE-DERIVATION DID NOT RUN")

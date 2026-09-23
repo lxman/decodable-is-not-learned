@@ -71,9 +71,19 @@ def test_compute_is_deterministic_and_declares():
 def test_main_writes_once(tmp_path, monkeypatch):
     from experiments.exp2g import battery_2g as bg
     monkeypatch.setattr(pw, "N_SIM_5", 20)
+    monkeypatch.setattr(b5, "check_imports_5", lambda: None)   # the whole-suite process imports
     monkeypatch.setattr(pw, "load_finals_counts_5", lambda root: _finals())
     monkeypatch.setattr(pw, "finals_sha256_5", lambda root: "f" * 64)
-    rec = pw.main(tmp_path)
+    inj = dict(tag_exists=lambda t: True, blob_sha=lambda t, r: bg.sha256_file(b5.REPO / r))
+    rec = pw.main(tmp_path, **inj)
     assert b5.power_path_5(tmp_path).is_file() and rec["finals_sha256"] == "f" * 64
     with pytest.raises(RuntimeError, match="ONCE"):
-        pw.main(tmp_path)
+        pw.main(tmp_path, **inj)
+
+
+def test_main_refuses_without_the_prereg_tag(tmp_path, monkeypatch):
+    """Final review M-5: power ONCE runs post-tag and asserts the binding first."""
+    monkeypatch.setattr(pw, "load_finals_counts_5", lambda root: _finals())
+    with pytest.raises(RuntimeError, match="preregistration tag"):
+        pw.main(tmp_path, tag_exists=lambda t: False)
+    assert not b5.power_path_5(tmp_path).exists()

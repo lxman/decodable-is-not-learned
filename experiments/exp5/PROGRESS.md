@@ -696,9 +696,9 @@ trained grid, `checkpoints_5.json`/`hub_inventory_5.json`/`slice_5.npz`/
 cold battery, 4c's `@check` shape); `tests/test_totality_5.py` (the 9
 named tree shapes in one test function + the site-template census, two
 tests); `tests/test_determinism_5.py` (two-process byte-identity);
-`tests/mutation_check.py` (56 mutants: 27 hand-written across
+`tests/mutation_check.py` (56 mutants: 28 hand-written across
 `battery_5.py`/`slice_5.py`/`search_5.py`/`stats_5.py`/`collect_5.py`/
-`run/finals_5.py`/`run/sweep_5.py`/`analyze_5.py`/`power_5.py` + 29
+`run/finals_5.py`/`run/sweep_5.py`/`analyze_5.py`/`power_5.py` + 28
 AST-generated `collect_total_5`-site mutants restricted to `run()`'s
 own body); `tests/read_sweep_5.py`; `tests/import_scan_5.py`;
 `tests/test_verify_referents_5.py` (fast unit coverage on individual
@@ -1058,7 +1058,7 @@ the ruling's own "or give tolerance_failures_5 an optional rungs=
 argument" branch — keeps the per-rung/sum logic in one place). Default
 `None` → all of `RUNGS` (34), sum bound `GATE1_TOL_SUM_5` unscaled —
 byte-identical to the pre-fix function for every existing call site
-(`gate1b_failures_5`, `gate1c_failures_5`, S9's `_s9_replication_5`),
+(`gate1b_failures_5`, `gate1c_failures_5`, S9's `_s9_cross_host_5`),
 none of which pass `rungs=`. When `rungs` names a proper subset, the
 sum bound scales and the failure message names the scaling explicitly
 (`"... (GATE1_TOL_SUM_5 scaled to {n}/{34} rungs)"`).

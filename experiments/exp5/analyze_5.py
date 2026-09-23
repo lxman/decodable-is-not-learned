@@ -812,7 +812,9 @@ def _s9_cross_host_5(root) -> dict:
                     box_counts[r] = int(json.loads(p.read_text()).get("correct"))
             box_loss_p = b5.loss_record_path_5(root, size, step)
             box_loss = json.loads(box_loss_p.read_text()).get("loss") if box_loss_p.is_file() else None
-            tol = (b5.tolerance_failures_5(mac_counts, box_counts, label=f"S9 {size}/step{step}")
+            # final review M-11: counts = the box's, referent = the Mac's (the message reads
+            # "<box> vs the Mac's <mac>")
+            tol = (b5.tolerance_failures_5(box_counts, mac_counts, label=f"S9 {size}/step{step}")
                   if mac_counts and box_counts else None)
             loss_diff = (abs(mac_loss - box_loss) if mac_loss is not None and box_loss is not None
                         else None)

@@ -187,7 +187,9 @@ def _c7(ctx):
                                revision=b5.SLICE_REVISION_5, cache_dir=str(sl5.SLICE_CACHE_5),
                                local_files_only=True)
     except Exception as e:  # noqa: BLE001 — huggingface_hub's own not-cached exception
-        return f"SKIP (the pile-val file is not in the local cache: {type(e).__name__}: {e})"
+        return (f"SKIP — THE DESIGN'S GATE 2 RE-DERIVATION DID NOT RUN (the pile-val file is not in "
+                f"the local cache: {type(e).__name__}: {e}); the ratification and post-campaign "
+                f"checklists require item 7 PASS, not SKIP")
     sl5.verify_slice_file_5(path)
     try:
         # Review finding 1 (Task 6 fix round 1): local_files_only=True —
@@ -198,7 +200,9 @@ def _c7(ctx):
         # never a bare `except Exception`.
         tok = sl5.load_slice_tokenizer_5(local_files_only=True)
     except OSError as e:
-        return f"SKIP (the tokenizer is not cached: {type(e).__name__}: {e})"
+        return (f"SKIP — THE DESIGN'S GATE 2 RE-DERIVATION DID NOT RUN (the tokenizer is not "
+                f"cached: {type(e).__name__}: {e}); the ratification and post-campaign checklists "
+                f"require item 7 PASS, not SKIP")
     pins = sl5.tokenizer_pins_5(tok)
     tok._pins_5 = pins
     committed = ctx.get("slice") or sl5.load_slice_5(sha_pin=b5.SLICE_SHA256_5)
@@ -312,6 +316,11 @@ def _c11(ctx):
     if not p.is_file():
         return "SKIP (results/power_5.json does not exist yet — before the targets stage)"
     rec = json.loads(p.read_text())
+    # final review M-6: the analyzer's provenance pin — a record at another n_sim/seed
+    # reproduces itself; measure it against the module's constants
+    if rec.get("n_sim") != pw.N_SIM_5 or rec.get("seed") != pw.SEED_5:
+        raise AssertionError(f"power_5.json n_sim/seed {rec.get('n_sim')}/{rec.get('seed')} != "
+                             f"power_5's {pw.N_SIM_5}/{pw.SEED_5}")
     finals_counts = pw.load_finals_counts_5(b5.EXP5)
     floors = b5.load_floors_5()
     recomputed = pw.compute(finals_counts, floors, n_sim=rec["n_sim"], seed=rec["seed"])

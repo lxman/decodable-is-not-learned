@@ -908,7 +908,7 @@ IMPORTED_SHA256_5 = {
     REPO / "experiments/exp5/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     REPO / "experiments/exp5/make_referents_5.py":
-        "759948baff86f1947eaa0a6e3ccc4adf5a85c5b836ccbdb34480bc011b0d6576",
+        "76d5d959197cfb8dabd97b6dbf0aaffdeba3c4324e957fd4a946c81c25a97a2c",
     REPO / "experiments/exp5/run/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     REPO / "experiments/exp5/run/preflight_5.py":
@@ -916,7 +916,7 @@ IMPORTED_SHA256_5 = {
     REPO / "experiments/exp5/run/s9_mac_5.py":
         "fca6804d97193860358411a9350d145953b7ce8abce252c811695bd284246dc6",
     REPO / "experiments/exp5/verify_referents_5.py":
-        "c4a54a20274fb1993a815c94ffe7423fe349f042d7c21ab78dbfcf81c036645b",
+        "c7468181d347abbd9171536fe202f1267c56687e748496f822f908930c9c1550",
 }
 
 

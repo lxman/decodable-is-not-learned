@@ -16,7 +16,7 @@ list, applied verbatim over battery_5's own accessors, exp4c's
      reads the whole grid now, which already covers gate 1(c)'s
      7-step interior subset)
   6. 2g's 12b sweep records at the six B-6 descriptive steps
-     (`battery_5.GATE1_DESCRIPTIVE_12B_5`, 6 x 35)
+     (`battery_5.GATE1_DESCRIPTIVE_12B_5`, 6 x 12)
   7. 2h's FULL committed 6.9b trained grid (`battery_2h.trained_
      steps_69()`, 22 x 35 — covers gate 1(c)'s 8-step interior subset)
   8. `checkpoints_5.json`, `hub_inventory_5.json`, `slice_5.npz`,

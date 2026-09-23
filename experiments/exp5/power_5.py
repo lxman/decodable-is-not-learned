@@ -163,7 +163,13 @@ def finals_sha256_5(root) -> str:
     return h.hexdigest()
 
 
-def main(root=EXP5, *, n_sim=None, seed=SEED_5) -> dict:
+def main(root=EXP5, *, n_sim=None, seed=SEED_5, tag_exists=None, blob_sha=None) -> dict:
+    """Runs post-tag, ONCE: the prereg binding, the frozen modules and the
+    import surface are asserted first (final review M-5; tests inject the
+    tag callables)."""
+    b5.require_prereg_5(tag_exists=tag_exists, blob_sha=blob_sha)
+    b5.check_frozen_5()
+    b5.check_imports_5()
     root = Path(root)
     out = b5.power_path_5(root)
     if out.is_file():
