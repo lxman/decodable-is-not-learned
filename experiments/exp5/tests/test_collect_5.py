@@ -134,3 +134,35 @@ def test_prefetcher_wait_prints_on_a_failed_download(world, capsys):
     pf.start("1b", b5.entry_5(w["manifest"], "1b", 4000))
     pf.wait()
     assert "simulated prefetch failure" in capsys.readouterr().out
+
+
+def test_checkpoint_record_requires_the_measured_dtype():
+    """Final review M-4: `dtype` was the constant; `dtype_measured` is read from
+    the loaded weights and must be float16."""
+    from experiments.exp5 import collect_5 as c5
+    entry = {"revision": "step1000", "commit": "c", "kind": "k", "lfs_sha256": {}}
+    rec = {"size": "1b", "step": 1000, "revision": "step1000", "commit": "c", "kind": "k", "sha256": {},
+           "loading_info": {"missing_keys": 0, "unexpected_keys": 0, "mismatched_keys": 0},
+           "digest": "d" * 64, "n_params": 5, "dtype": "float16", "dtype_measured": "float16"}
+    kw = dict(size="1b", step=1000, entry=entry)
+    assert b5.checkpoint_record_failures_5(rec, **kw) == []
+    assert any("dtype_measured" in f for f in b5.checkpoint_record_failures_5({**rec, "dtype_measured": "float32"}, **kw))
+    assert any("dtype_measured" in f for f in b5.checkpoint_record_failures_5({k: v for k, v in rec.items() if k != "dtype_measured"}, **kw))
+
+    class _P:
+        dtype = "torch.float16"
+
+    class _M:
+        def parameters(self):
+            return iter([_P()])
+    assert c5.dtype_5(_M()) == "float16"
+
+
+def test_host_record_records_the_cuda_version():
+    """Final review M-9: recorded (None off CUDA), never required."""
+    from experiments.exp5 import collect_5 as c5
+    from experiments.exp5.tests import fakes_5 as fk
+    h = fk.fake_host()
+    rec = c5.host_record_5("cuda", h["transports"], stack=h["stack"], gpu="g", python="3.11.16")
+    assert "cuda" in rec
+    assert b5.host_record_failures_5(rec) == []

@@ -26,7 +26,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-import time
 from pathlib import Path
 
 EXP5 = Path(__file__).resolve().parents[1]

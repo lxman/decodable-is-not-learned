@@ -81,7 +81,8 @@ def make_loaders(battery, *, loss_fn, count_fn, digest_fn=None, pythia_2c_digest
     return {"checkpoint": checkpoint, "pythia_2c": pythia_2c, "tokenizer": lambda size: object(),
             "runner": runner, "digest": lambda m: m["digest"], "free": free, "loss": loss,
             "release": lambda m: state.__setitem__("released", state["released"] + 1),
-            "n_params": lambda m: n_params, "prefetch": prefetch}, state
+            "n_params": lambda m: n_params, "prefetch": prefetch,
+            "dtype": lambda m: m.get("dtype", "float16")}, state
 
 
 def small_slice():

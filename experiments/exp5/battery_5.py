@@ -659,6 +659,8 @@ def checkpoint_record_failures_5(rec: dict, *, size, step, entry) -> list:
         bad.append(f"{label}: n_params missing")
     if rec.get("dtype") != DTYPE_5:
         bad.append(f"{label}: dtype {rec.get('dtype')!r} != {DTYPE_5!r}")
+    if rec.get("dtype_measured") != DTYPE_5:      # final review M-4: the loaded weights, measured
+        bad.append(f"{label}: dtype_measured {rec.get('dtype_measured')!r} != {DTYPE_5!r}")
     return bad
 
 
@@ -923,8 +925,9 @@ def check_imports_5() -> None:
     import surface is a verdict input). Every module under
     `experiments/` this process has imported (tests excluded) must be
     covered by `FROZEN_SHA256_5`, by `INSTRUMENT_BLOBS_5`, or pinned
-    byte-identically by `IMPORTED_SHA256_5`. Called at ENTRY and EXIT
-    by both runners and the analyzer."""
+    byte-identically by `IMPORTED_SHA256_5`. Called at entry by both
+    runners (the Task 4 ruling: entry-only for the runners) and at entry
+    and exit by the analyzer."""
     if IMPORTED_SHA256_5 is None:
         raise RuntimeError("IMPORTED_SHA256_5 is None — the import surface is not pinned "
                            "(build incomplete)")

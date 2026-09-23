@@ -138,6 +138,11 @@ def release_5(model) -> None:
         pass
 
 
+def dtype_5(model) -> str:
+    """The loaded weights' dtype, measured (final review M-4): "float16"."""
+    return str(next(model.parameters()).dtype).replace("torch.", "")
+
+
 def n_params_5(model) -> int:
     return int(sum(p.numel() for p in model.parameters()))
 
@@ -159,7 +164,7 @@ def real_loaders_5() -> dict:
     return {"checkpoint": checkpoint, "pythia_2c": pythia_2c, "tokenizer": load_tokenizer_5,
             "runner": lambda tok, model: h.HFRunner(tok, model, batch_size=b5.BATCH_ARGMAX_5),
             "digest": ck.tensor_digest, "free": free_5, "loss": sl5.slice_loss_5,
-            "release": release_5, "n_params": n_params_5, "prefetch": prefetch}
+            "release": release_5, "n_params": n_params_5, "prefetch": prefetch, "dtype": dtype_5}
 
 
 # ---------------------------------------------------------- attestation
@@ -191,8 +196,17 @@ def _gpu_name(device: str) -> str:
     return "unknown"
 
 
+def _cuda_version() -> object:
+    try:
+        import torch
+        return torch.version.cuda
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def host_record_5(device: str, transports: dict, *, stack=None, gpu=None, python=None) -> dict:
     rec = {"stack": stack if stack is not None else stack_5(), "device": device,
+           "cuda": _cuda_version(),        # final review M-9: recorded, not required (the Mac: None)
            "gpu": gpu if gpu is not None else _gpu_name(device),
            "python": python if python is not None else platform.python_version(),
            "platform": platform.platform(), "transports": dict(transports),
@@ -282,6 +296,7 @@ def run_unit_5(size, step, *, root, manifest, cache_root, device, battery, verif
         n_params = loaders["n_params"](model)
         _write(b5.checkpoint_record_path_5(root, size, step),
                {**info, "digest": digest, "n_params": n_params, "dtype": b5.DTYPE_5,
+                "dtype_measured": loaders["dtype"](model),      # final review M-4: measured
                 "stack": host["stack"], "device": host["device"], "host_sha256": host["sha256"],
                 "git_sha": git_sha, "why": why})
         loss = loaders["loss"](model, sl, batch_size=b5.LOSS_BATCH_5, device=device)

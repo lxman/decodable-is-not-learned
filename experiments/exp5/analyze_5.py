@@ -271,9 +271,11 @@ def gate1c_failures_5(root, size, rec: dict) -> list:
 
 def load_units_5(root, size, *, manifest, battery, verify_fn, host, slice_sha, n_scored=None) -> dict:
     """Every COMPLETE unit of `size` on disk (`battery_5.unit_complete_5`
-    — an incomplete/torn unit directory is silently absent from every
-    key here; gate 4's `units_unnamed` check is the one that catches an
-    orphan directory, from the raw listing), gate 3 applied to each:
+    — an incomplete/torn unit directory is absent from every key here;
+    `run()`'s per-size gate-4 pass refuses it from the raw listing
+    (freeze F-4: a step directory that is not a complete unit), and
+    `units_unnamed` refuses a complete one nobody requested), gate 3
+    applied to each:
     the `_unit.json`, `_checkpoint.json`, `_loss.json` and 34 rung-
     record contracts, all-or-nothing (one bad unit raises for the
     whole size — 4c's/2i's per-size totality convention). Raises if
@@ -494,6 +496,26 @@ def replay_pairs_5(units_by_size: dict, manifest: dict, search_log: dict) -> tup
         pairs_data.append({"small": small, "large": size, "plan": plan, "f": f_counts,
                            "counts": large_units["counts"]})
     return pairs_data, failures
+
+
+def _dropped_detail_5(units_by_size: dict, manifest: dict, size: str) -> list:
+    """Final review M-7: every dropped pair of `size` as the analyzer's OWN
+    replay over the committed losses finds it (target = the committed small
+    final), never the log's `plan` — a tampered log cannot misprint it."""
+    out = []
+    large = (units_by_size.get(size) or {}).get("losses") or {}
+    avail, spine = list(b5.available_5(manifest, size)), list(b5.spine_5(manifest, size))
+    for small in [s for s in b5.SIZES_5 if b5.SIZES_5.index(s) < b5.SIZES_5.index(size)]:
+        target = ((units_by_size.get(small) or {}).get("losses") or {}).get(b5.FINAL_STEP_5)
+        if target is None:
+            continue
+        rep = se5.replay_5(large, avail, spine, target)
+        if rep["status"] == "dropped":
+            plan = rep["plan"]
+            out.append({"small": small, "large": size, "target": plan.get("target"),
+                        "reason": plan.get("reason"), "kind": drop_kind_5(plan),
+                        "spine_losses": plan.get("spine_losses")})
+    return out
 
 
 def drop_kind_5(plan: dict) -> str:
@@ -876,15 +898,22 @@ def _s10_texture_5(units_by_size: dict, pairs_data: list, root, manifest=None) -
     widths = [{"small": pd["small"], "large": pd["large"],
               "width_steps": pd["plan"]["bracket"][1] - pd["plan"]["bracket"][0]}
              for pd in pairs_data]
-    pf = Path(root) / "results" / "preflight_5.json"
-    preflight = json.loads(pf.read_text()) if pf.is_file() else None
+    # final review M-1: §5 S10's "12b step1000 finiteness result", read from the 12b
+    # units themselves (the preflight writes nothing under results/): step1000 and
+    # the lowest loaded 12b step (a window's B- reaches 256/512)
+    twelve_b_finite = None
+    if "12b" in units_by_size:
+        recs = units_by_size["12b"].get("loss_records") or {}
+        pick = sorted({s for s in (1000, min(recs) if recs else None) if s is not None and s in recs})
+        twelve_b_finite = {str(s): {"finite": recs[s].get("finite"),
+                                    "n_nonfinite": recs[s].get("n_nonfinite")} for s in pick}
     twelve_b = None
     if "12b" in units_by_size:
         steps12 = set(units_by_size["12b"]["steps"])
         twelve_b = {"coincide": sorted(steps12 & set(b5.GATE1_DESCRIPTIVE_12B_5))}
     re_crossings = {size: _re_crossings_5(units_by_size, manifest, size)
                     for size in units_by_size if size in b5.LARGE_SIDES_5}
-    return {"loss_monotonicity": mono, "bracket_widths": widths, "preflight": preflight,
+    return {"loss_monotonicity": mono, "bracket_widths": widths, "12b_finiteness": twelve_b_finite,
             "12b_descriptive_coincidence": twelve_b, "re_crossings": re_crossings,
             "b6_12b": _b6_12b_5(units_by_size)}
 
@@ -1344,12 +1373,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
             if torn:
                 pf = pf + [f"gate 3 {size}: step{s} is on disk but is not a complete unit (torn, "
                           f"or a file's sha differs from its _unit.json)" for s in torn]
-            dropped_detail = [{"small": small, "large": size, "target": plog["plan"].get("target"),
-                              "reason": plog["plan"].get("reason"),
-                              "kind": drop_kind_5(plog["plan"]),
-                              "spine_losses": plog["plan"].get("spine_losses")}
-                             for small, plog in ((log or {}).get("pairs") or {}).items()
-                             if plog.get("status") == "dropped"]
+            dropped_detail = _dropped_detail_5(units, manifest, size) if is_large else []
             return pairs_data, pf, unnamed, dropped_detail
         result, f = collect_total_5(_gate4, f"5 gate 4 {size}")
         failures += f

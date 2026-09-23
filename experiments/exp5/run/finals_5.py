@@ -3,8 +3,9 @@
 record (written once), gate 1(a) at 2.8b through two loader paths, the
 seven finals as units (largest first), gate 1(b) against the Mac's
 committed counts under the pinned tolerance, the loss table's first rows.
-Refusal order: prereg tag → frozen → imports → manifest → slice → host
-record → HALTED. Any gate failure writes the gate record, a HALTED
+Refusal order: prereg tag → frozen → imports → manifest → slice →
+HALTED → (dry run stops here) → the host record (written once; a later
+run must present the same stack/device, and it must meet gate 0's pins). Any gate failure writes the gate record, a HALTED
 marker, and exits 2 (the tree it leaves is INSUFFICIENT_DATA).
 
 Usage: python -m experiments.exp5.run.finals_5 --device cuda [--dry-run]"""

@@ -16,7 +16,6 @@ unscored; per-document sums in float64 on the CPU, in slice order, so
 the value is a deterministic function of the weights on a host."""
 from __future__ import annotations
 
-import hashlib
 import io
 import json
 import sys

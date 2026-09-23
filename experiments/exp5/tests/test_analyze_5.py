@@ -291,3 +291,28 @@ def test_verdict_txt_prints_the_analyzers_gate1_figures_not_the_runners():
     txt = an.write_verdict_txt_5(v)
     assert "2.8b: max|Δ|=3 sum|Δ|=11" in txt and "gate 1(c) 2.8b/step1000: max|Δ|=2 sum|Δ|=7" in txt
     assert "999" not in txt
+
+
+def test_s10_reads_12b_finiteness_from_the_units():
+    """Final review M-1: S10's 12b finiteness came from a file nothing writes."""
+    u = {"steps": [256, 1000, 143000], "losses": {256: 3.0, 1000: 2.9, 143000: 2.0}, "counts": {},
+         "loss_records": {256: {"finite": True, "n_nonfinite": 0}, 1000: {"finite": True, "n_nonfinite": 0},
+                          143000: {"finite": True, "n_nonfinite": 0}}}
+    s10 = an._s10_texture_5({"12b": u}, [], "/nonexistent", None)
+    assert s10["12b_finiteness"] == {"256": {"finite": True, "n_nonfinite": 0},
+                                     "1000": {"finite": True, "n_nonfinite": 0}}
+    assert "preflight" not in s10
+
+
+def test_dropped_detail_comes_from_the_analyzers_replay(monkeypatch):
+    """Final review M-7: never from the log's plan."""
+    from experiments.exp5.tests import fakes_5 as fk
+    sizes = ("1b", "2.8b")
+    monkeypatch.setattr(b5, "SIZES_5", sizes)
+    avail = (1000, 2000, 4000, 143000)
+    monkeypatch.setattr(b5, "SPINE_5", avail)
+    man = fk.synthetic_manifest(sizes, avail)
+    units = {"1b": {"losses": {143000: 1.0}}, "2.8b": {"losses": {1000: 3.0, 2000: 2.5, 4000: 2.2, 143000: 2.1}}}
+    d = an._dropped_detail_5(units, man, "2.8b")
+    assert len(d) == 1 and d[0]["small"] == "1b" and d[0]["kind"] == "never_reaches"
+    assert d[0]["target"] == 1.0 and d[0]["spine_losses"]["143000"] == 2.1
