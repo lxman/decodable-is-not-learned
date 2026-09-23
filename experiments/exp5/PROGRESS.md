@@ -1294,3 +1294,47 @@ network (item 7's two loads both served from the local cache, neither a
 download; confirmed by the new tests that the code path CANNOT download
 when `local_files_only=True` regardless of cache state), zero edits
 outside `experiments/exp5/`.
+
+## Task 7 step 1: the adversarial freeze (2026-09-22)
+
+Fresh-eyes freezer on build HEAD `b31b8c585`; record in
+`experiments/exp5/FREEZE_CHECKLIST.md`, report in
+`.superpowers/sdd/2026-09-22-exp5-build/task-7-freeze-report.md`.
+**The class defect was found (F-1):** `run/campaign_5.sh` runs
+`sweep_5` for 160m last (S11 only), and `sweep_5.run` loaded the spine
+for any size — eight 160m units no search, final or S11 names, which
+gate 4 refuses: every verdict the production campaign could leave was
+INSUFFICIENT_DATA. Six findings, all closed additively: F-1 `dc56e7011`
+(spine and gate 1(c) for a large side only), F-2 `d5edbda67` (gate
+1(a)'s flags re-derived from the record and tied to the 2.8b final
+unit), F-3 `4b9db1148` (gate 0's stack pins enforced; `_checkpoint`/
+`_unit` host fields compared), F-4 `c87fed60e` (loss finiteness
+measured; a step directory that is not a complete unit refused), F-5
+`464919eee` (a projection edited after its adding commit refused), F-6
+`281d05e8d` (a dropped pair's record names why it dropped); mutants +
+logs `b2bbd647b`. Nothing preregistered moved; `stats_5.py`,
+`search_5.py`, `power_5.py` untouched.
+
+Batteries after: fast 113, slow 13, cold battery 11/13 + 2 SKIP,
+mutation 66 (36 fast / 30 slow / 0 equivalent / 0 unresolved), read
+sweep 1853 paths / 0 UNPINNED, frozen/imported pins clean (51 / 6, no
+re-pin — no pinned file changed).
+
+**Pre-tag analyzer executions this session: 3 — the running total is
+17 now (was 14):**
+15. `tests/read_sweep_5.py` after the closures — `INSUFFICIENT_DATA — 5
+    host record: ValueError: host record missing`; 1853 paths, 0
+    UNPINNED.
+16. `tests/read_sweep_5.py` again (the first invocation's filter had
+    dropped the summary lines) — identical.
+17. `tests/import_scan_5.py` after the closures — pin table tail equal to
+    `IMPORTED_SHA256_5` (only the tail captured); pre-campaign `run()`
+    refuses at "5 host record" by construction.
+Every attack ran on tmp trees; no statistic was computed on the real
+tree.
+
+For the ruling (checklist §D, §F): B-3 (a runner halt on the first
+non-finite unit loss; the preflight's early warning at step256, not
+step1 — no window can load step1); the finals' `git_sha` not checked
+against the prereg tag; the prefetch joins before scoring (no overlap,
+the budget's assumption); ten design-doc slips.
