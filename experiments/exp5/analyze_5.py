@@ -191,6 +191,39 @@ def gate1a_unit_failures_5(rec: dict, final_2p8b: dict) -> list:
     return bad
 
 
+def _diff_row_5(counts: dict, ref: dict) -> dict:
+    rungs = [r for r in b5.RUNGS if r in counts and r in ref]
+    d = [abs(int(counts[r]) - int(ref[r])) for r in rungs]
+    return {"max_abs_diff": max(d) if d else None, "sum_abs_diff": sum(d), "n_rungs": len(d)}
+
+
+def gate1b_rederived_5(root) -> dict:
+    """Final review I-1: the analyzer's OWN max/sum |Δ| per size (the
+    runner's `per_size` figures are attested), read fresh from the final
+    rung records against `battery_5.mac_final_counts_5`."""
+    out = {}
+    for size in b5.SIZES_5:
+        ref = b5.mac_final_counts_5(size)
+        if ref is None:
+            continue
+        counts = {r: int(json.loads(b5.rung_record_path_5(root, size, b5.FINAL_STEP_5, r)
+                                    .read_text())["correct"]) for r in b5.RUNGS}
+        out[size] = _diff_row_5(counts, ref)
+    return out
+
+
+def gate1c_rederived_5(root, size) -> dict:
+    out = {}
+    for step in b5.gate1_interior_steps_5(size):
+        ref = b5.mac_interior_counts_5(size, step)
+        if ref is None:
+            continue
+        counts = {r: int(json.loads(b5.rung_record_path_5(root, size, step, r)
+                                    .read_text())["correct"]) for r in b5.RUNGS}
+        out[str(step)] = _diff_row_5(counts, ref)
+    return out
+
+
 def gate1b_failures_5(root, rec: dict) -> list:
     """Re-derived from the referent files (never trusts the record's
     own `per_size`/`counts`): every size's FINAL rung records, read
@@ -976,17 +1009,16 @@ def write_verdict_txt_5(v: dict) -> str:
                 f"loss_equal={g1a.get('loss_equal')} "
                 f"continuation_diffs_sum={sum((g1a.get('continuation_diffs') or {}).values()) if g1a.get('continuation_diffs') else None}")
     g1b = g1.get("b") or {}
-    per_size_b = g1b.get("per_size") or {}
-    lines.append(f"gate 1(b): pass={g1b.get('pass')} no_referent={g1b.get('no_referent')}")
-    for size, row in per_size_b.items():
-        if row.get("referent") is not None:
-            lines.append(f"  {size}: max|Δ|={row.get('max_abs_diff')} sum|Δ|={row.get('sum_abs_diff')}")
+    # final review I-1: the ANALYZER's re-derived figures, never the runner's `per_size`
+    lines.append(f"gate 1(b): pass={g1b.get('pass')} no_referent={g1b.get('no_referent')} "
+                f"(max/sum |Δ| re-derived by the analyzer)")
+    for size, row in (g1b.get("rederived_by_analyzer") or {}).items():
+        lines.append(f"  {size}: max|Δ|={row.get('max_abs_diff')} sum|Δ|={row.get('sum_abs_diff')}")
     g1c_all = g1.get("c") or {}
     for size, g1c in g1c_all.items():
-        for step, row in (g1c.get("steps") or {}).items():
-            if row.get("referent") is not None:
-                lines.append(f"gate 1(c) {size}/step{step}: max|Δ|={row.get('max_abs_diff')} "
-                            f"sum|Δ|={row.get('sum_abs_diff')}")
+        for step, row in (g1c.get("rederived_by_analyzer") or {}).items():
+            lines.append(f"gate 1(c) {size}/step{step}: max|Δ|={row.get('max_abs_diff')} "
+                        f"sum|Δ|={row.get('sum_abs_diff')}")
     lines.append("")
     lines.append("S6 (exposure): " + json.dumps(sec.get("S6")))
     lines.append("")
@@ -1136,7 +1168,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
             bad = gate1b_failures_5(root, rec)
             if bad:
                 raise ValueError(f"gate 1(b): {bad}")
-            return rec
+            return {**rec, "rederived_by_analyzer": gate1b_rederived_5(root)}
         gate1b_rec, f = collect_total_5(_check_gate1b, "5 gate 1(b)")
         failures += f
     else:
@@ -1238,7 +1270,7 @@ def run(root=None, *, write=False, n_sample=None, n_boot=None, manifest=None, sl
                     bad = gate1c_failures_5(root, size, rec)
                     if bad:
                         raise ValueError(f"gate 1(c) {size}: {bad}")
-                    return rec
+                    return {**rec, "rederived_by_analyzer": gate1c_rederived_5(root, size)}
                 g1c_rec, f = collect_total_5(_check_gate1c, f"5 gate 1(c) {size}")
                 failures += f
                 if g1c_rec is not None:

@@ -227,3 +227,67 @@ def test_drop_kind_names_which_fact_dropped_the_pair():
     assert an.drop_kind_5({"spine_losses": sl, "target": 2.4}) == "never_reaches"
     assert an.drop_kind_5({"spine_losses": sl, "target": 3.1}) == "crosses_before_spine"
     assert an.drop_kind_5({"spine_losses": {}, "target": 3.1}) == "unknown"
+
+
+def _g1_tree(tmp_path, counts_by_size_step):
+    for (size, step), counts in counts_by_size_step.items():
+        for r in b5.RUNGS:
+            p = b5.rung_record_path_5(tmp_path, size, step, r)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(json.dumps({"correct": counts[r]}))
+
+
+def test_gate1b_re_derivation_refuses_a_count_beyond_tolerance(tmp_path, monkeypatch):
+    """Final review I-1: gate 1(b)'s analyzer-side re-derivation had no test
+    and no mutant (the worlds carry no referent)."""
+    ref = {s: {r: 100 + i for i, r in enumerate(b5.RUNGS)} for s in ("1b", "2.8b")}
+    monkeypatch.setattr(b5, "GATE1_REFERENT_SOURCE_5", {"1b": "fake", "2.8b": "fake"})
+    monkeypatch.setattr(b5, "mac_final_counts_5", lambda size: ref.get(size))
+    _g1_tree(tmp_path, {(s, b5.FINAL_STEP_5): {r: ref.get(s, {}).get(r, 0) for r in b5.RUNGS}
+                        for s in b5.SIZES_5})
+    no_ref = sorted(s for s in b5.SIZES_5 if s not in ref)
+    rec = {"pass": True, "no_referent": no_ref}
+    assert an.gate1b_failures_5(tmp_path, rec) == []
+    assert an.gate1b_rederived_5(tmp_path) == {s: {"max_abs_diff": 0, "sum_abs_diff": 0,
+                                                    "n_rungs": 34} for s in ref}
+    moved = dict(ref["2.8b"]); moved["antonym"] += 16
+    _g1_tree(tmp_path, {("2.8b", b5.FINAL_STEP_5): moved})
+    bad = an.gate1b_failures_5(tmp_path, rec)
+    assert any("gate 1(b) 2.8b/antonym: |Δ| 16 > 15" in f for f in bad)
+    assert an.gate1b_rederived_5(tmp_path)["2.8b"]["max_abs_diff"] == 16
+    moved = {r: v + 4 for r, v in ref["2.8b"].items()}          # 4 x 34 = 136 > 120 summed
+    _g1_tree(tmp_path, {("2.8b", b5.FINAL_STEP_5): moved})
+    assert any("sum |Δ| 136 > 120" in f for f in an.gate1b_failures_5(tmp_path, rec))
+
+
+def test_gate1c_re_derivation_refuses_a_count_and_a_wrong_steps_set(tmp_path, monkeypatch):
+    steps = (1000, 6000)
+    ref = {st: {r: 50 + i for i, r in enumerate(b5.RUNGS)} for st in steps}
+    monkeypatch.setattr(b5, "GATE1_INTERIOR_5", {"2.8b": steps})
+    monkeypatch.setattr(b5, "mac_interior_counts_5", lambda size, step: ref.get(int(step)))
+    _g1_tree(tmp_path, {("2.8b", st): ref[st] for st in steps})
+    rec = {"pass": True, "steps": {str(st): {} for st in steps}}
+    assert an.gate1c_failures_5(tmp_path, "2.8b", rec) == []
+    assert set(an.gate1c_rederived_5(tmp_path, "2.8b")) == {"1000", "6000"}
+    assert any("steps" in f for f in an.gate1c_failures_5(tmp_path, "2.8b",
+                                                            {"pass": True, "steps": {"1000": {}}}))
+    moved = dict(ref[6000]); moved["odd6"] += 16
+    _g1_tree(tmp_path, {("2.8b", 6000): moved})
+    assert any("gate 1(c) 2.8b/step6000/odd6: |Δ| 16 > 15" in f
+               for f in an.gate1c_failures_5(tmp_path, "2.8b", rec))
+
+
+def test_verdict_txt_prints_the_analyzers_gate1_figures_not_the_runners():
+    v = {"tree": {"verdict": "MATCHED"}, "licence": {}, "primary": {}, "secondaries": {},
+         "gate1": {"a": {}, "b": {"pass": True, "no_referent": [],
+                                  "per_size": {"2.8b": {"referent": {}, "max_abs_diff": 999,
+                                                        "sum_abs_diff": 999}},
+                                  "rederived_by_analyzer": {"2.8b": {"max_abs_diff": 3,
+                                                                     "sum_abs_diff": 11}}},
+                   "c": {"2.8b": {"steps": {"1000": {"referent": {}, "max_abs_diff": 999,
+                                                     "sum_abs_diff": 999}},
+                                  "rederived_by_analyzer": {"1000": {"max_abs_diff": 2,
+                                                                     "sum_abs_diff": 7}}}}}}
+    txt = an.write_verdict_txt_5(v)
+    assert "2.8b: max|Δ|=3 sum|Δ|=11" in txt and "gate 1(c) 2.8b/step1000: max|Δ|=2 sum|Δ|=7" in txt
+    assert "999" not in txt
