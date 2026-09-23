@@ -284,6 +284,20 @@ def run_unit_5(size, step, *, root, manifest, cache_root, device, battery, verif
         _write(b5.loss_record_path_5(root, size, step),
                {**loss, "size": size, "step": int(step), "stack": host["stack"],
                 "device": host["device"], "host_sha256": host["sha256"], "git_sha": git_sha})
+        # Freeze F-7 (ruling B-3(b)): gate 3 as written requires a finite loss on
+        # EVERY unit, so a non-finite one halts the size HERE — the unit left
+        # incomplete (no _unit.json), the checkpoint freed in `finally`, exit 2 —
+        # rather than surfacing at the analyzer after the campaign. If the
+        # ratification narrows gate 3 to spine + bisection units, this condition
+        # narrows with it (one line: `and why in ("spine", "bisect", "final")`).
+        if loss.get("finite") is not True:
+            hp = b5.halt_marker_path_5(root, size)
+            hp.parent.mkdir(parents=True, exist_ok=True)
+            msg = (f"non-finite slice loss at {size}/step{int(step)} ({why}): "
+                   f"n_nonfinite {loss.get('n_nonfinite')} — gate 3 (finite loss on every unit)")
+            hp.write_text(msg + "\n")
+            print(f"[5] HALTED: {msg}", flush=True)
+            raise SystemExit(2)
         runner = loaders["runner"](loaders["tokenizer"](size), model)
         ckpt = {**info, "revision": entry["revision"], "commit": entry["commit"],
                 "kind": entry["kind"], "files": list(entry["files"]), "sha256": info["sha256"]}

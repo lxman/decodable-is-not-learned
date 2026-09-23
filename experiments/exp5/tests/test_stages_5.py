@@ -253,6 +253,46 @@ def test_units_refuse_a_checkpoint_or_unit_record_from_another_host(env):
         an.load_units_5(root, "1b", **kw)
 
 
+def test_a_non_finite_unit_loss_halts_the_size(env, monkeypatch):
+    """Freeze F-7 (ruling B-3(b)): the first non-finite loss on any unit halts
+    the size at that unit — HALTED marker naming it, unit incomplete, the
+    checkpoint freed, exit 2 — and the analyzer's halt-marker route refuses."""
+    fin.run(**env["common"])
+    bad_step = SPINE[1]
+    loaders = dict(env["common"]["loaders"])
+    orig = loaders["loss"]
+
+    def nan_loss(model, sl, *, batch_size, device):
+        out = orig(model, sl, batch_size=batch_size, device=device)
+        if model["size"] == "2.8b" and model["step"] == bad_step:
+            out = {**out, "loss": float("nan"), "finite": False, "n_nonfinite": 7}
+        return out
+    loaders["loss"] = nan_loss
+    kw = _sweep_kwargs(env)
+    kw["loaders"] = loaders
+    with pytest.raises(SystemExit) as ex:
+        sw.run(size="2.8b", **kw)
+    assert ex.value.code == 2
+    root = env["root"]
+    marker = b5.halt_marker_path_5(root, "2.8b")
+    assert marker.is_file() and f"step{bad_step}" in marker.read_text() and "n_nonfinite 7" in marker.read_text()
+    assert b5.loss_record_path_5(root, "2.8b", bad_step).is_file()
+    assert not b5.unit_record_path_5(root, "2.8b", bad_step).exists()
+    assert not b5.unit_complete_5(root, "2.8b", bad_step)
+    assert ("2.8b", bad_step) in env["state"]["freed"]
+    assert not any(b5.rung_record_path_5(root, "2.8b", bad_step, r).exists() for r in b5.RUNGS)
+    with pytest.raises(RuntimeError, match="halted"):
+        sw.run(size="2.8b", **_sweep_kwargs(env))
+    from experiments.exp5 import analyze_5 as an
+    v = an.run(root=root, manifest=env["common"]["manifest"], sl=env["common"]["sl"], n_sample=50, n_boot=20,
+               tag_exists=lambda t: True, blob_sha=lambda t, r: bg.sha256_file(b5.REPO / r),
+               blobs_bound=lambda t, p, **k: [], projection_commit="p1", is_ancestor=lambda a, b: True,
+               seal_tag_commit="s1", referents_sha=False, imports_pinned=False,
+               frozen_check=lambda: None, power_gate="skip")
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith("5 halt marker") and f"step{bad_step}" in f for f in v["failures"])
+
+
 def test_sweep_reuses_units_across_partners_and_records_it(env):
     fin.run(**env["common"])
     sw.run(size="6.9b", **_sweep_kwargs(env))
