@@ -281,6 +281,10 @@ M = [
      "            for c in later.stdout.split() if c]", "            for c in [] if c]"),
     (AN5, "freeze F-6: drop_kind never_reaches mislabelled",
      '        return "never_reaches"', '        return "crosses_before_spine"'),
+    (CL5, "freeze F-7: a non-finite unit loss does not halt the size",
+     '        if loss.get("finite") is not True:', '        if False:'),
+    (CL5, "freeze F-8: wait_for joins whatever is in flight, not only this unit's download",
+     "        if self.target == (size, int(step)):", "        if True:"),
 ]
 
 # Every hand mutant above is a 4-tuple (path, name, old, new); every
