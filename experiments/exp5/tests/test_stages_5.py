@@ -389,6 +389,73 @@ def test_sweep_prefetches_spine_and_window_steps_but_never_bisected(env):
                 assert ("2.8b", b5.revision_of_5(r["step"])) not in prefetched
 
 
+def test_the_next_steps_prefetch_overlaps_the_current_units_scoring(env, monkeypatch):
+    """Freeze F-8 (ruling): run_unit_5 joins the prefetcher only when the
+    in-flight download is the unit it is about to load. The next spine
+    step's prefetch starts BEFORE the current unit's rungs are scored and is
+    joined only after them (before the next unit loads); before the closure
+    run_unit_5 called wait() and joined it before loading the current unit."""
+    import threading
+    import time as _time
+    fin.run(**env["common"])
+    events, lock = [], threading.Lock()
+
+    def ev(*e):
+        with lock:
+            events.append(e)
+    base = dict(env["common"]["loaders"])
+
+    def checkpoint(size, step, entry, **k):
+        ev("load", size, int(step))
+        return base["checkpoint"](size, step, entry, **k)
+
+    def runner(tok, model):
+        r = base["runner"](tok, model)
+        gen = r.generate
+        seen = {"n": 0}
+
+        def generate(prompts, max_new_tokens):
+            if seen["n"] == 0:
+                ev("score", model["size"], model["step"])
+            seen["n"] += 1
+            return gen(prompts, max_new_tokens)
+        r.generate = generate
+        return r
+
+    def prefetch(size, entry, cache_root):
+        step = b5.FINAL_STEP_5 if entry["revision"] == "main" else int(entry["revision"][4:])
+        ev("prefetch_start", size, step)
+        _time.sleep(0.05)
+        ev("prefetch_done", size, step)
+    orig_wait = c5.Prefetcher.wait
+
+    def wait(self):
+        if self._t is not None and self.target is not None:
+            ev("join", *self.target)
+        return orig_wait(self)
+    monkeypatch.setattr(c5.Prefetcher, "wait", wait)
+    kw = _sweep_kwargs(env)
+    kw["loaders"] = {**base, "checkpoint": checkpoint, "runner": runner, "prefetch": prefetch}
+    sw.run(size="2.8b", **kw)
+    idx = lambda e: events.index(e)
+    checked = 0
+    for cur, nxt in zip(SPINE[:-2], SPINE[1:-1]):          # the final is already complete
+        assert idx(("prefetch_start", "2.8b", nxt)) < idx(("score", "2.8b", cur))
+        j = idx(("join", "2.8b", nxt))
+        assert idx(("load", "2.8b", cur)) < idx(("score", "2.8b", cur)) < j < idx(("load", "2.8b", nxt))
+        checked += 1
+    assert checked == len(SPINE) - 2
+    pf = c5.Prefetcher(kw["loaders"], cache_root=env["root"])
+    assert pf.target is None
+    pf.wait_for("2.8b", 1000)                              # idle: no-op
+    pf.start("2.8b", {"revision": "step2000"})
+    assert pf.target == ("2.8b", 2000)
+    pf.wait_for("2.8b", 1000)                              # a different step: not joined
+    assert pf.target == ("2.8b", 2000)
+    pf.wait_for("2.8b", 2000)                              # the same step: joined
+    assert pf.target is None and pf._t is None
+
+
 def test_preflight_runs_on_the_fakes_and_writes_nothing_under_results(env, tmp_path_factory):
     fin.run(**env["common"])
     root = env["root"]

@@ -269,7 +269,11 @@ def run_unit_5(size, step, *, root, manifest, cache_root, device, battery, verif
     if d.exists():
         shutil.rmtree(d)                                   # a torn unit is never resumed
     if prefetcher is not None:
-        prefetcher.wait()
+        # Freeze F-8 (ruling): join the in-flight download ONLY if it is this
+        # very unit's; a download of a DIFFERENT step (the next one) keeps
+        # running while this unit loads and scores — different cache dirs, no
+        # race; the same step cannot race because wait_for joins first.
+        prefetcher.wait_for(size, step)
     t0 = time.time()
     model = None
     try:
@@ -328,10 +332,13 @@ class Prefetcher:
 
     def __init__(self, loaders, *, cache_root):
         self.loaders, self.cache_root, self._t, self._err = loaders, cache_root, None, None
+        self.target = None          # (size, step) in flight, None when idle (freeze F-8)
 
     def start(self, size, entry) -> None:
         self.wait()
         self._err = None
+        rev = entry["revision"]
+        self.target = (size, b5.FINAL_STEP_5 if rev == "main" else int(rev[4:]))
 
         def go():
             try:
@@ -341,10 +348,16 @@ class Prefetcher:
         self._t = threading.Thread(target=go, daemon=True)
         self._t.start()
 
+    def wait_for(self, size, step) -> None:
+        """Join only if the in-flight download is (size, step) (freeze F-8)."""
+        if self.target == (size, int(step)):
+            self.wait()
+
     def wait(self) -> None:
         if self._t is not None:
             self._t.join()
             self._t = None
+            self.target = None
             if self._err is not None:
                 print(f"[5 prefetch] failed ({self._err}); the unit's own download will retry",
                       flush=True)
