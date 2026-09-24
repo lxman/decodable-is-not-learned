@@ -728,10 +728,134 @@
      "action": "loaded",
      "loss": 1.8231781297861689,
      "finite": true
+    },
+    {
+     "step": 81000,
+     "why": "window",
+     "action": "loaded",
+     "loss": 1.8210560804370317,
+     "finite": true
     }
    ],
-   "status": "open",
-   "plan": null
+   "status": "done",
+   "plan": {
+    "status": "done",
+    "bracket": [
+     79000,
+     80000
+    ],
+    "b_minus": [
+     77000,
+     78000
+    ],
+    "b_plus": [
+     81000,
+     82000
+    ],
+    "absent": [],
+    "interval": [
+     64000,
+     100000
+    ],
+    "bisected": [
+     82000,
+     73000,
+     77000,
+     79000,
+     80000
+    ],
+    "edge": {
+     "b_minus": 2,
+     "b_plus": 2
+    },
+    "residual_lo": 0.00029824947054146733,
+    "residual_hi": 0.0017776338925254986,
+    "width_steps": 1000,
+    "width_tokens": 2097152000,
+    "target": 1.8202253595431497
+   },
+   "requested_all": [
+    {
+     "step": 1000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 2000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 4000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 8000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 16000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 32000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 64000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 100000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 143000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 82000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 73000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 77000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 79000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 80000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 78000,
+     "why": "window",
+     "action": "loaded"
+    },
+    {
+     "step": 81000,
+     "why": "window",
+     "action": "loaded"
+    }
+   ]
   }
  },
  "s11": null,
