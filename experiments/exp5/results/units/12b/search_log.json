@@ -1,0 +1,93 @@
+{
+ "size": "12b",
+ "spine": [
+  1000,
+  2000,
+  4000,
+  8000,
+  16000,
+  32000,
+  64000,
+  100000,
+  143000
+ ],
+ "spine_substitutions": {},
+ "requests": [
+  {
+   "step": 1000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 3.708800469189596,
+   "finite": true
+  },
+  {
+   "step": 2000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 2.7861741187870415,
+   "finite": true
+  },
+  {
+   "step": 4000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 2.39018462403988,
+   "finite": true
+  },
+  {
+   "step": 8000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 2.1712878894909267,
+   "finite": true
+  },
+  {
+   "step": 16000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 2.018926181280853,
+   "finite": true
+  },
+  {
+   "step": 32000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 1.9073394689048844,
+   "finite": true
+  },
+  {
+   "step": 64000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 1.804852059101834,
+   "finite": true
+  },
+  {
+   "step": 100000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 1.7344848358269676,
+   "finite": true
+  }
+ ],
+ "pairs": {
+  "160m": {
+   "target": 2.4896193944462635,
+   "requests": [
+    {
+     "step": 3000,
+     "why": "bisect",
+     "action": "loaded",
+     "loss": 2.5243857828591554,
+     "finite": true
+    }
+   ],
+   "status": "open",
+   "plan": null
+  }
+ },
+ "s11": null,
+ "nonfinite": [],
+ "prereg_tag": "exp5-preregistered",
+ "git_sha": "ee4268008eae3032729bc437fc12b97b55810113"
+}
