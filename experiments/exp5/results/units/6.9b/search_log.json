@@ -87,10 +87,110 @@
      "action": "loaded",
      "loss": 2.332393950373134,
      "finite": true
+    },
+    {
+     "step": 6000,
+     "why": "window",
+     "action": "loaded",
+     "loss": 2.275589257660948,
+     "finite": true
     }
    ],
-   "status": "open",
-   "plan": null
+   "status": "done",
+   "plan": {
+    "status": "done",
+    "bracket": [
+     3000,
+     4000
+    ],
+    "b_minus": [
+     1000,
+     2000
+    ],
+    "b_plus": [
+     5000,
+     6000
+    ],
+    "absent": [],
+    "interval": [
+     2000,
+     4000
+    ],
+    "bisected": [
+     3000
+    ],
+    "edge": {
+     "b_minus": 2,
+     "b_plus": 2
+    },
+    "residual_lo": 0.0572615196052233,
+    "residual_hi": 0.07716924036895634,
+    "width_steps": 1000,
+    "width_tokens": 2097152000,
+    "target": 2.4896193944462635
+   },
+   "requested_all": [
+    {
+     "step": 1000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 2000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 4000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 8000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 16000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 32000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 64000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 100000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 143000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 3000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 5000,
+     "why": "window",
+     "action": "loaded"
+    },
+    {
+     "step": 6000,
+     "why": "window",
+     "action": "loaded"
+    }
+   ]
   }
  },
  "s11": null,
