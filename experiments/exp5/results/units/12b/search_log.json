@@ -836,6 +836,20 @@
      "action": "loaded"
     }
    ]
+  },
+  "6.9b": {
+   "target": 1.7521511990040595,
+   "requests": [
+    {
+     "step": 82000,
+     "why": "bisect",
+     "action": "loaded",
+     "loss": 1.7683070055868213,
+     "finite": true
+    }
+   ],
+   "status": "open",
+   "plan": null
   }
  },
  "s11": null,
