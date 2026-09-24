@@ -27,7 +27,7 @@ while true; do
     [ "$n" -eq 37 ] && continue
     rsync -a --temp-dir="$TMPD" -e "$SSH" "root@$HOST:$REMOTE/$u/" "$LOCAL/$u/" 2>/dev/null && echo "[pull $(date +%H:%M:%S)] unit $u ($n -> $(ls -1 "$LOCAL/$u" | wc -l | tr -d ' ') files)"
   done
-  always=$($SSH root@$HOST "cd $REMOTE 2>/dev/null && find . -maxdepth 1 -name '*.json'; find . -mindepth 2 -maxdepth 2 -path './units/*' \( -name search_log.json -o -name gate1c.json -o -name HALTED \)" 2>/dev/null | sed 's|^\./||' | grep -v "Have fun" || true)
+  always=$($SSH root@$HOST "cd $REMOTE 2>/dev/null && find . -maxdepth 1 -name '*.json'; find . -mindepth 3 -maxdepth 3 -path './units/*' \( -name search_log.json -o -name gate1c.json -o -name HALTED \)" 2>/dev/null | sed 's|^\./||' | grep -v "Have fun" || true)
   for f in $always; do
     mkdir -p "$LOCAL/$(dirname "$f")"
     rsync -a --temp-dir="$TMPD" -e "$SSH" "root@$HOST:$REMOTE/$f" "$LOCAL/$f" 2>/dev/null && echo "[pull $(date +%H:%M:%S)] $f"
