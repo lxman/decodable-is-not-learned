@@ -222,10 +222,122 @@
      "action": "loaded",
      "loss": 2.1735970300991885,
      "finite": true
+    },
+    {
+     "step": 13000,
+     "why": "window",
+     "action": "loaded",
+     "loss": 2.0939705252773777,
+     "finite": true
     }
    ],
-   "status": "open",
-   "plan": null
+   "status": "done",
+   "plan": {
+    "status": "done",
+    "bracket": [
+     10000,
+     11000
+    ],
+    "b_minus": [
+     8000,
+     9000
+    ],
+    "b_plus": [
+     12000,
+     13000
+    ],
+    "absent": [],
+    "interval": [
+     8000,
+     16000
+    ],
+    "bisected": [
+     12000,
+     10000,
+     11000
+    ],
+    "edge": {
+     "b_minus": 2,
+     "b_plus": 2
+    },
+    "residual_lo": 0.02151877380868994,
+    "residual_hi": 0.0017450617349346054,
+    "width_steps": 1000,
+    "width_tokens": 2097152000,
+    "target": 2.129128933785041
+   },
+   "requested_all": [
+    {
+     "step": 1000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 2000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 4000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 8000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 16000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 32000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 64000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 100000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 143000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 12000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 10000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 11000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 9000,
+     "why": "window",
+     "action": "loaded"
+    },
+    {
+     "step": 13000,
+     "why": "window",
+     "action": "loaded"
+    }
+   ]
   }
  },
  "s11": null,
