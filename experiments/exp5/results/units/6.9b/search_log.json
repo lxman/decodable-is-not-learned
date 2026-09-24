@@ -70,7 +70,22 @@
    "finite": true
   }
  ],
- "pairs": {},
+ "pairs": {
+  "160m": {
+   "target": 2.4896193944462635,
+   "requests": [
+    {
+     "step": 3000,
+     "why": "bisect",
+     "action": "loaded",
+     "loss": 2.5468809140514868,
+     "finite": true
+    }
+   ],
+   "status": "open",
+   "plan": null
+  }
+ },
  "s11": null,
  "nonfinite": [],
  "prereg_tag": "exp5-preregistered",
