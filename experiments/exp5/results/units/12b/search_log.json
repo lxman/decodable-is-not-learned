@@ -383,10 +383,133 @@
      "action": "loaded",
      "loss": 1.970540199564003,
      "finite": true
+    },
+    {
+     "step": 22000,
+     "why": "window",
+     "action": "loaded",
+     "loss": 1.9665391357049997,
+     "finite": true
     }
    ],
-   "status": "open",
-   "plan": null
+   "status": "done",
+   "plan": {
+    "status": "done",
+    "bracket": [
+     19000,
+     20000
+    ],
+    "b_minus": [
+     17000,
+     18000
+    ],
+    "b_plus": [
+     21000,
+     22000
+    ],
+    "absent": [],
+    "interval": [
+     16000,
+     32000
+    ],
+    "bisected": [
+     24000,
+     20000,
+     18000,
+     19000
+    ],
+    "edge": {
+     "b_minus": 2,
+     "b_plus": 2
+    },
+    "residual_lo": 0.0014913443711657148,
+    "residual_hi": 0.011949034119793422,
+    "width_steps": 1000,
+    "width_tokens": 2097152000,
+    "target": 1.9951283195856837
+   },
+   "requested_all": [
+    {
+     "step": 1000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 2000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 4000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 8000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 16000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 32000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 64000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 100000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 143000,
+     "why": "spine",
+     "action": "reused"
+    },
+    {
+     "step": 24000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 20000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 18000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 19000,
+     "why": "bisect",
+     "action": "loaded"
+    },
+    {
+     "step": 17000,
+     "why": "window",
+     "action": "loaded"
+    },
+    {
+     "step": 21000,
+     "why": "window",
+     "action": "loaded"
+    },
+    {
+     "step": 22000,
+     "why": "window",
+     "action": "loaded"
+    }
+   ]
   }
  },
  "s11": null,
