@@ -1,0 +1,33 @@
+{
+ "size": "160m",
+ "spine": [
+  1000,
+  2000,
+  4000,
+  8000,
+  16000,
+  32000,
+  64000,
+  100000,
+  143000
+ ],
+ "spine_substitutions": {},
+ "requests": [
+  {
+   "step": 142000,
+   "why": "s11",
+   "action": "loaded",
+   "loss": 2.4704973125394156,
+   "finite": true
+  }
+ ],
+ "pairs": {},
+ "s11": {
+  "step": 142000,
+  "loss": 2.4704973125394156,
+  "finite": true
+ },
+ "nonfinite": [],
+ "prereg_tag": "exp5-preregistered",
+ "git_sha": "ee4268008eae3032729bc437fc12b97b55810113"
+}
