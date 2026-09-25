@@ -1,0 +1,29 @@
+{
+ "size": "1.4b",
+ "spine": [
+  1000,
+  2000,
+  4000,
+  8000,
+  16000,
+  32000,
+  64000,
+  100000,
+  143000
+ ],
+ "spine_substitutions": {},
+ "requests": [
+  {
+   "step": 1000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 3.4803872083310354,
+   "finite": true
+  }
+ ],
+ "pairs": {},
+ "s11": null,
+ "nonfinite": [],
+ "prereg_tag": "exp5-preregistered",
+ "git_sha": "ee4268008eae3032729bc437fc12b97b55810113"
+}
