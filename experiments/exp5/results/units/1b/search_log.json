@@ -61,6 +61,13 @@
    "action": "loaded",
    "loss": 2.07638208055206,
    "finite": true
+  },
+  {
+   "step": 100000,
+   "why": "spine",
+   "action": "loaded",
+   "loss": 2.020618402542016,
+   "finite": true
   }
  ],
  "pairs": {},
