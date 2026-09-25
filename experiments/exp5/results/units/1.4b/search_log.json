@@ -68,6 +68,13 @@
    "action": "loaded",
    "loss": 1.944061370192672,
    "finite": true
+  },
+  {
+   "step": 142000,
+   "why": "s11",
+   "action": "loaded",
+   "loss": 1.9193035415524862,
+   "finite": true
   }
  ],
  "pairs": {
@@ -538,7 +545,11 @@
    ]
   }
  },
- "s11": null,
+ "s11": {
+  "step": 142000,
+  "loss": 1.9193035415524862,
+  "finite": true
+ },
  "nonfinite": [],
  "prereg_tag": "exp5-preregistered",
  "git_sha": "ee4268008eae3032729bc437fc12b97b55810113"
