@@ -140,3 +140,5 @@ experiments/exp5/status_5.log
 experiments/exp5/box-*.log
 experiments/exp5/*.pid
 experiments/exp5/run/*.bundle
+experiments/exp5/cold_post_seal.log
+experiments/exp5/read_sweep_post_seal.log

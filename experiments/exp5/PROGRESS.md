@@ -1525,3 +1525,24 @@ Mac side at 16:12 UTC: 62 units landed = the box's 62, tree clean, the three loo
 **2.8b (`complete` ≈ 02:50 UTC 09-25; 31 units; spine substitution 64000 → 65000 as the manifest pins; zero non-finite). Gate 1(c) PASS on all seven interior checkpoints** against 2g's Mac reads — Σ|Δ| / max|Δ|: 1000 1/1, 2000 1/1, 4000 3/1, 8000 3/1, 16000 7/2, 32000 3/1, 100000 16/5 against 120/15. **Every gate-1 known-answer comparison of the campaign is now in: 1(a) 0 diffs; 1(b) five finals Σ ≤ 57; 1(c) fifteen interior checkpoints Σ ≤ 23** — the projection's likeliest INSUFFICIENT_DATA route (.06) is closed. Brackets: 160m [3000, 4000]; 410m [11000, 12000] (9000, 10000 + 13000, 14000); 1b [30000, 31000] (28000, 29000 + 32000, 33000); **1.4b [55000, 60000] — a 5,000-step bracket** (B⁻ 51000, 52000; B⁺ 65000, 66000): 2.8b's list excludes 53000–54000 and 56000–59000 as stale copies (2g finding B), so 55000 and 60000 are adjacent on the available list, exactly §3.2's rule; the 1.4b target's loss displacement inside that bracket is the widest of the campaign (S10 prints it). S11 `step142000`: loss 1.82057 against 1.82023.
 
 **1.4b underway (started ≈ 02:50 UTC; 20 units at 03:35): 160m [3000, 4000] and 410m [20000, 21000] done, the 1b pair in bisection; units ≈ 280 s.** Then 1b (two pairs), 410m (one), 160m (S11 alone). 136 units landed on the Mac = the box's 136, tree clean, loops alive, every per-size search log and both gate 1(c) records committed. Completion ≈ 05:30–06:00 UTC.
+
+## 2026-09-25 — SWEEP COMPLETE (178 units, 21 pairs bracketed, zero halts); landing byte-identical; the box destroyed; S9 launched on the Mac
+
+**`[campaign] complete` at ≈ 05:54 UTC 09-25 — 32 h 27 min after the 21:27:36 UTC 09-23 launch; zero halts, zero experiment-side stops, zero environment-side kills, zero non-finite units, no HALTED marker on any size.** Units by size (incl. each size's final): **12b 44, 6.9b 39, 2.8b 31, 1.4b 27, 1b 21, 410m 14, 160m 2 (its final and its S11 unit alone — F-1's rule: no spine for a size that is never a large side) = 178**, under the ≈ 250–300 budget line because the shared intervals reused units. The small sizes' brackets (every window full, edge 2/2; no spine substitution except 2.8b's 64000 → 65000):
+
+| large | small | bracket A | B⁻ | B⁺ | loads |
+|---|---|---|---|---|---|
+| 1.4b | 160m | [3000, 4000] | 1000, 2000 | 5000, 6000 | 3 |
+| 1.4b | 410m | [20000, 21000] | 18000, 19000 | 22000, 23000 | 7 |
+| 1.4b | 1b | [66000, 67000] | 64000, 65000 | 68000, 69000 | 7 |
+| 1b | 160m | [4000, 5000] | 2000, 3000 | 6000, 7000 | 4 |
+| 1b | 410m | [37000, 38000] | 35000, 36000 | 39000, 40000 | 7 |
+| 410m | 160m | [6000, 7000] | 4000, 5000 | 8000, 9000 | 4 |
+
+**All 21 pairs kept, every bracket adjacent on its list; the largest realized ratio is the nominal 73× (12b / 160m).** S11 `step142000` losses beside the finals: 1.4b 1.91930 / 1.91883, 1b 1.99551 / 1.99513, 410m 2.12774 / 2.12913 (the one size whose 142000 loss is BELOW its final's), 160m 2.47050 / 2.48962, 6.9b 1.75308 / 1.75215, 2.8b 1.82057 / 1.82023; 12b has no S11 unit (never a small side).
+
+**Landing: 178 units + every per-size search log, both gate 1(c) records and the four top-level records on the Mac; `git status` clean under `results/` at 05:56 UTC; every one of the box's 6,600 result files SHA-256-IDENTICAL to the Mac's copy — 0 differ, 0 missing, 0 extra** (the box's manifest hashed in place, compared file by file on the Mac). The box's campaign log copied to `experiments/exp5/box-campaign-52285720.log` (machine-local; 399 unit lines). The puller and the status logger stopped; the watcher left up for S9's files.
+
+**Instance 52285720 DESTROYED at 05:57 UTC** (4c note 5: the moment the last unit is verified on the Mac). Vast credit $176.32 → **$131.81: $44.51 for the day's four boxes** — the campaign box ≈ $40 over 34 h 30 min (≈ $37 of time + ≈ $3–4 of bandwidth for ≈ 1.4 TB streamed), the throttled German box ≈ $1.60, the 40 GB preflight box ≈ $0.90, the Texas false start ≈ $0.20. Against the design's ≈ $45–65 with 12b: at the low end, on a slower-per-unit but cheaper-per-hour host.
+
+**S9 launched on the Mac at 05:58 UTC** (`run/s9_mac_5.py`, `--device mps`, the classic transport, `Popen(start_new_session=True)`; logs `sweep_s9_1b.log` / `sweep_s9_6.9b.log`, chain log `sweep_s9_chain.log`): the (410m, 1b) pair's t_lo `1b/step37000`, then the (2.8b, 6.9b) pair's t_lo `6.9b/step79000`, each re-run whole in the Mac's stack and compared to the box's committed counts under gate 1's tolerance — the cross-host drift at interior checkpoints, non-gating (§5 S9). The two units land flat under `results/s9/`; the Mac's host record write-once at `results/s9/host_mac_5.json`. Next after S9: the cold battery (item 7 PASS), the watcher stopped, and **the analyzer ONCE on Michael's word.**
