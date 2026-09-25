@@ -1,0 +1,39 @@
+{
+ "size": "2.8b",
+ "step": 55000,
+ "revision": "step55000",
+ "commit": "4f4bbe29b98a336a835db205346da5f8fd15835b",
+ "kind": "bin",
+ "files": [
+  "pytorch_model.bin"
+ ],
+ "sha256": {
+  "pytorch_model.bin": "640d8fcdd878273ba4b6b50f9e98f8197d8932022920fe8b11dee05c1cc08fcf"
+ },
+ "config_source": "EleutherAI/pythia-2.8b@2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "tokenizer_source": "EleutherAI/pythia-2.8b@2a259cdd96a4beb1cdf467512e3904197345f6a9",
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "download_seconds": 57.8,
+ "transport": "xet",
+ "digest": "123614173e4b68646f0e33e77a5298f75edc5b13d8e319749598c05ab6abd6f5",
+ "n_params": 2775208960,
+ "dtype": "float16",
+ "dtype_measured": "float16",
+ "stack": {
+  "torch": "2.12.1+cu130",
+  "transformers": "5.13.0",
+  "numpy": "2.4.6",
+  "safetensors": "0.8.0",
+  "tokenizers": "0.22.2",
+  "huggingface_hub": "1.22.0",
+  "hf_xet": true
+ },
+ "device": "cuda",
+ "host_sha256": "c921a25cf7a270a65641fc4a2fc6c4167c73b24563049eacf578317601529921",
+ "git_sha": "ee4268008eae3032729bc437fc12b97b55810113",
+ "why": "bisect"
+}
