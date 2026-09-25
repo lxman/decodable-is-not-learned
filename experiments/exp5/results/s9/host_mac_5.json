@@ -1,0 +1,34 @@
+{
+ "stack": {
+  "torch": "2.12.1",
+  "transformers": "5.13.0",
+  "numpy": "2.4.6",
+  "safetensors": "0.8.0",
+  "tokenizers": "0.22.2",
+  "huggingface_hub": "1.22.0",
+  "hf_xet": true
+ },
+ "device": "mps",
+ "cuda": null,
+ "gpu": "Apple MPS",
+ "python": "3.11.15",
+ "platform": "macOS-26.6.2-arm64-arm-64bit",
+ "transports": {
+  "classic_mbps": null,
+  "xet_mbps": null,
+  "used": "classic"
+ },
+ "hf_hub_disable_xet": "1",
+ "thread_pin": {
+  "env": {
+   "VECLIB_MAXIMUM_THREADS": "1",
+   "OMP_NUM_THREADS": "1",
+   "OPENBLAS_NUM_THREADS": "1",
+   "MKL_NUM_THREADS": "1"
+  },
+  "pinned_before_numpy": true
+ },
+ "nvidia_smi": null,
+ "sha256": "e96da8c0f86889dca3c6845d887ff530b919b6358c88a97c4a7843b39f77cb3d",
+ "written_utc": "2026-09-25T05:56:45.731495+00:00"
+}
