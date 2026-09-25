@@ -1,6 +1,6 @@
 # Experiment 5b — the small side's own wobble: does Experiment 5's excess survive a symmetric window?
 
-**Status: DRAFT — session 1 (design), written 2026-09-25 on Michael's word ("Let's step into exp 5b design"). §10's dials a–n await his ruling; nothing is built, no model has been contacted, and no computation has been run on Experiment 5's cell table (§2). The protocol is Experiment 5's: design → dials → build by SDD → adversarial freeze → ratify → tag `exp5b-preregistered` → projection → the box → the analyzer once → `exp5b-closed`.**
+**Status: DIALS RULED 2026-09-25 — every dial of §10 as recommended (Michael: "rule accepted"); the build by SDD follows.** Session 1 (design) was written 2026-09-25 on his word ("Let's step into exp 5b design"). Nothing is built, no model has been contacted, and no computation has been run on Experiment 5's cell table (§2). The protocol is Experiment 5's: design → dials → build by SDD → adversarial freeze → ratify → tag `exp5b-preregistered` → projection → the box → the analyzer once → `exp5b-closed`.
 
 ## 1. The question
 
@@ -152,7 +152,7 @@ Bounded to: Experiment 5's battery, pairs, brackets and cells; the small side's 
 
 No bracket is re-matched and nothing on the large side is re-read; the comparison remains Experiment 5's. The small side's wobble is measured at three neighbours at 1,000-step spacing at the anneal's flat end — a within-size wobble at near-equal loss, which is the quantity R needs subtracted, but not the anneal's whole trajectory. A SURVIVES reading retires one of Experiment 5's three disclosures and neither of the others; it adds no mechanism and no direction beyond Experiment 5's MIXED. A NOT-SURVIVED reading does not establish Prediction 3 — it bounds the excess by the two sides' wobble at §4's resolution. One family, one battery, sizes to 12b, one loss slice; the greedy channel only.
 
-## 10. Dials — for Michael's ruling (recommendation first in each)
+## 10. Dials — RULED 2026-09-25 ("rule accepted"): every dial as recommended (recommendation first in each)
 
 - **(a) Host:** a rented A100 80 GB PCIe on-demand, Experiment 5's class (≈ $4–6). Alternatives: an A100 40 GB (≈ $0.43/h, ≈ $2; the 6.9b loss-forward peak unmeasured there — Experiment 5's 40 GB preflight OOM'd only at 12b); the Mac (free, ≈ 6 h, needs the S9 float64 fix and a device-tolerant gate 0; the cross-host drift enters Q).
 - **(b) The window:** k = 3, W_s = {142000, 141000, 140000}, mean displacement matching the large side's 2,000 steps. Alternatives: k = 2 ({142000, 141000}); k = 4 (+139000, +6 units); analysis-only on the committed 142000 (T₁ as the primary — everything known before the tag).
