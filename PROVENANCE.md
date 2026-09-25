@@ -640,6 +640,114 @@ pinned the modules it imports and the runner did not), closed
 additively before the tag. The retained-path list above now includes
 `experiments/exp4c` and `experiment-4c-design.md`.
 
+On 2026-09-25 the Experiment 5 record was added (Prediction 3 at lab
+scale, with no training: loss-matched capability profiles on Pythia's
+public checkpoints — for each of the 21 size pairs of 160m, 410m, 1b,
+1.4b, 2.8b, 6.9b and 12b, the larger model read at the six-checkpoint
+window around the checkpoint where its loss on a pinned 2M-token
+Pile-validation slice equals the smaller model's final loss, every
+loaded checkpoint scored on both instruments, the slice loss and
+Experiment 2c's 34-rung argmax harness verbatim with Experiment 2d's
+floors and bar; the count-grain primary T = mean over live cells of
+(|a − f| − ½(|a − b⁻| + |a − b⁺|))/500 under the exact rung-block sign
+flip, bar T ≥ .01 at α .01, the modifier LARGE-AHEAD / SMALL-AHEAD /
+MIXED / THIN, the performability ledger as S1, worlds
+INSUFFICIENT_DATA / UNDETERMINED / NOT-MATCHED·modifier / MATCHED with
+licences written in advance; the power record written once at the
+targets stage and bound by the seal — DECLARED UNDERPOWERED IN
+ADVANCE, P .173 at the deciding arm over 38 simulated live cells on 9
+rungs. Verdict NOT-MATCHED · MIXED: T .0535, rung-block p .00061 (13
+blocks, enumerated; family-block .0156; cell-level 1e-4), 63 live
+cells on 13 rungs, modifier 24 positive against 24 negative, signed
+mean offset −.021 with CI95 [−.074, +.004], 21 pairs kept with the
+largest realized ratio 72.98×, gates 1(a), 1(b), 1(c) and 4 clean,
+zero failures; the projection, sealed before any sweep unit, called
+the cell. What is licensed: the discrepancy is real and has no
+direction the design can read — the essay reports the excess and the
+performability ledger, no mechanism sentence — under the caveat that
+stands in every world: one family, one battery of 34 synthetic tasks,
+sizes to 12b, loss matched on a 2M-token validation slice. Three
+disclosures ride on the record. S9, the non-gating cross-host drift
+check, was not run, by Michael's ruling: its Mac-side attempt raised
+inside the frozen loss forward, whose float64 conversion on the device
+(`slice_5.py:269`) MPS refuses — a path no test and no stage had
+executed before it — so the instrument stays as frozen and the verdict
+prints S9 as not run. Pythia-12b `step59000` is a loss spike (2.5618
+between 1.8214 at 57000 and 1.8157 at 60000, the counts collapsed with
+it) whose edge satisfies the search's straddle rule, so the (2.8b,
+12b) bracket sits on it; a post-verdict sensitivity from the committed
+cell table, descriptive and labelled so in the retrospective, drops
+that pair's nine cells and leaves the verdict unchanged (T .0417, p
+.00037). And the small side's final is one un-averaged read — the
+anneal's last 1,000 steps move rising rungs by up to 75 items (S11), a
+noise the primary subtracts on the large side only). Same GRAFT route:
+the 269 private commits touching `experiments/exp5`,
+`experiment-5-design.md` and `.gitignore` were applied as a
+path-limited series fast-forward onto the previous public master
+(48b672ae) at index level, none skipped, identities normalized to the
+single noreply identity, author and committer dates and commit and tag
+messages preserved byte for byte, redaction scans clean (0
+secret-class, 0 personal-identity strings across the 7,146 text blobs
+the series introduces — 6,665 text files and one binary, the pinned
+validation slice `slice_5.npz`, at the close — and the 269 commit and
+3 tag messages added; the LAN pattern's three hits are not addresses:
+`$HOME/.local/bin` in the box setup script and a sampled continuation,
+`" 10.5.5.5."`, inside one 6.9b unit's oct2dec record; three files
+carry the Mac working-tree path `/Users/michaeljordan/emergence-paper`
+as a hard-coded literal — the bundle maker's default, the Mac-side
+puller and the status logger for the rented box — the same tolerated
+class as the files already on this line, disclosed here and not
+scrubbed; the puller and the status logger also carry, as defaults
+inherited from Experiment 4c's scripts, the Vast.ai ssh proxy host and
+port of that earlier instance (`ssh5.vast.ai`, 36148, long destroyed)
+and the path of the program's dedicated key file, no key material; the
+ledger names the day's four instance ids, each box's proxy host and
+port and, once, the preflight box's direct address, which rejected the
+key, the design document's status block names three of the ids and six
+commit messages name one — every box destroyed at the close, none of
+it a credential or a LAN address); sixty commit messages carry a
+`Claude-Session` attribution trailer (an authentication-gated session
+link), preserved verbatim under the messages-preserved rule and
+disclosed here. The tree at all three new anchors and at HEAD is
+entry-identical to the private tree on the added paths (61 entries at
+the preregistration tag, 326 at the targets seal, 6,665 at the closing
+tag, 6,666 at the close), every other path is untouched, and all 81
+prior tags and every prior commit are untouched. Three tags carried:
+`exp5-preregistered` (private b3745a72 → public 1931ef36, tag object
+ea5024bc, the thirteen instrument blobs bound), `exp5-targets-sealed`
+(91d0c311 → 06475862, tag object 092e0eeb; the seal cut after the
+power record it binds, over the seven finals, gates 1(a) and 1(b), the
+host record and the power record — 263 paths) and `exp5-closed`
+(e0f63e90 → 509b230d, tag object d37811e9); the retrospective grading
+the sealed projection follows the closing tag (private f174b776 →
+public 661e1870). The campaign ran on a rented A100 80GB PCIe, a
+Vast.ai on-demand instance (the host class the design's dial ruled;
+three other boxes that day were given up before any record existed — a
+40 GB box that took the preflight's first reads but could not hold
+12b, an 80 GB host found thermally throttled to 210 MHz, and one
+destroyed unstarted over its bandwidth pricing — all ledgered): the
+seven finals with gates 1(a) and 1(b) in 65 minutes, then the sweep,
+178 units (12b 44, 6.9b 39, 2.8b 31, 1.4b 27, 1b 21, 410m 14, 160m 2)
+bracketing all 21 pairs in 32 h 27 min with zero halts and zero
+non-finite units, every unit committed by the watcher as it landed,
+the box's 6,600 result files verified SHA-256-identical to the Mac's
+copy before the instance was destroyed (≈ $40 for the campaign box,
+$44.51 for the day). Gate 1(a) reproduced the 2.8b final through two
+loader paths with 0 continuation diffs on 34 rungs × 500 items and the
+slice loss equal by `repr`; gate 1(b) held on every size with a Mac
+referent inside the cross-host tolerance (Σ|Δ| 19 / 12 / 27 / 57 / 31
+for 410m / 1b / 2.8b / 6.9b / 12b); gate 1(c) held on 15 of 15
+interior 2.8b and 6.9b checkpoints. The freeze of this experiment
+found its class defect in the sweep runner (F-1: it loaded the spine
+for every size while the campaign script sweeps 160m too, so eight
+units that no search, final or S11 names would have made every real
+campaign INSUFFICIENT_DATA at gate 4), closed additively with F-2 to
+F-8 before the tag; the twenty-two pre-tag executions of the analyzer
+against the real tree, every one refused at the host record, are
+disclosed in the design document. The one pre-committed change stayed
+unspent. The retained-path list above now includes `experiments/exp5`
+and `experiment-5-design.md`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
@@ -670,4 +778,6 @@ v1.18 (10.5281/zenodo.22793373, adding the Experiment 4 record) and
 release v1.19 (10.5281/zenodo.22819695, adding the Experiment 4b
 record). On 2026-09-22 the GitHub release
 v1.20 (10.5281/zenodo.22901051, adding the Experiment 4c record)
-was archived the same way, the paper carried at v1.20 parity.
+was archived the same way, the paper carried at v1.20 parity. The
+GitHub release v1.21 (adding the Experiment 5 record) will archive
+this round the same way — DOI to be recorded once minted.
