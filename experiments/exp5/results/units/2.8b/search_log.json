@@ -210,6 +210,13 @@
      "action": "loaded",
      "loss": 2.158288651431695,
      "finite": true
+    },
+    {
+     "step": 11000,
+     "why": "bisect",
+     "action": "loaded",
+     "loss": 2.140748284448101,
+     "finite": true
     }
    ],
    "status": "open",
