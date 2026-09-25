@@ -184,6 +184,29 @@
     "PhilPapers": 2.30287458523459
    }
   },
+  "20000": {
+   "loss": 2.1301409486132212,
+   "finite": true,
+   "per_set": {
+    "PubMed Abstracts": 2.359186332345149,
+    "Github": 0.98088534115677,
+    "StackExchange": 1.863771835601913,
+    "Enron Emails": 2.358495049200073,
+    "FreeLaw": 1.7519734753518712,
+    "USPTO Backgrounds": 2.2573134593159496,
+    "Pile-CC": 2.790880960026226,
+    "Wikipedia (en)": 2.3540016324892403,
+    "PubMed Central": 1.98064794503496,
+    "HackerNews": 2.823570538263348,
+    "Gutenberg (PG-19)": 2.586592372699833,
+    "DM Mathematics": 1.3239409293923963,
+    "NIH ExPorter": 2.4673573918870253,
+    "ArXiv": 2.023488586443076,
+    "Ubuntu IRC": 2.0610793759258486,
+    "EuroParl": 2.076371256498224,
+    "PhilPapers": 2.261637476889464
+   }
+  },
   "24000": {
    "loss": 2.107361298304922,
    "finite": true,
