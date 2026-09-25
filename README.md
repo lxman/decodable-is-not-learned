@@ -95,7 +95,7 @@ once after a preflight amendment; see PROVENANCE.md),
 seal binds the seven finals, gates 1(a)/(b), the host record and the power
 record, cut after the power record; see PROVENANCE.md).
 Other interim stage tags exist only in the private repository. `v1.0`,
-`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16`, `v1.17`, `v1.18`, `v1.19` and `v1.20` anchor the Zenodo-archived snapshots
+`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16`, `v1.17`, `v1.18`, `v1.19`, `v1.20` and `v1.21` anchor the Zenodo-archived snapshots
 (concept DOI 10.5281/zenodo.21830421) and deliberately point outside
 the current line, so each deposit remains exactly what was deposited.
 

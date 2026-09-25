@@ -778,6 +778,8 @@ v1.18 (10.5281/zenodo.22793373, adding the Experiment 4 record) and
 release v1.19 (10.5281/zenodo.22819695, adding the Experiment 4b
 record). On 2026-09-22 the GitHub release
 v1.20 (10.5281/zenodo.22901051, adding the Experiment 4c record)
-was archived the same way, the paper carried at v1.20 parity. The
-GitHub release v1.21 (adding the Experiment 5 record) will archive
-this round the same way — DOI to be recorded once minted.
+was archived the same way, the paper carried at v1.20 parity. v1.21
+(10.5281/zenodo.22962602, adding the Experiment 5 record) was archived
+the same way, the paper carried at v1.21 parity; this round is also the
+first to append its private → public commit map (269 rows) to
+`provenance/commit-map.txt`.
