@@ -242,6 +242,13 @@
      "action": "loaded",
      "loss": 2.130336080413628,
      "finite": true
+    },
+    {
+     "step": 35000,
+     "why": "window",
+     "action": "loaded",
+     "loss": 2.1368133999653565,
+     "finite": true
     }
    ],
    "status": "open",
