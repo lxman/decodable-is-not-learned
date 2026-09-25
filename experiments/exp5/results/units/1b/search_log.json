@@ -204,6 +204,20 @@
      "action": "loaded"
     }
    ]
+  },
+  "410m": {
+   "target": 2.129128933785041,
+   "requests": [
+    {
+     "step": 48000,
+     "why": "bisect",
+     "action": "loaded",
+     "loss": 2.1063545673588395,
+     "finite": true
+    }
+   ],
+   "status": "open",
+   "plan": null
   }
  },
  "s11": null,
