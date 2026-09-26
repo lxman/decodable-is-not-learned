@@ -276,3 +276,211 @@ brief's code relies on") were honored as-is and not touched: `why` values
 `"final"`/`"member"` pass through `run_unit_5` unchanged, and Experiment 5's
 `_unit.json`/rung records carry `prereg_tag: "exp5-preregistered"` (Experiment
 5's own tag, not 5b's) by design, per plan delta B-2.
+
+## Task 5 (2026-09-25): `analyze_5b.py` — gates 0–7 with Experiment 5's
+analyzer as gate 2, the cells, the matched-placebo primary, sigma-hat and
+the calibration read, the nine-cell tree, S1–S12, the licence block; the
+synthetic worlds and their failing-case findings
+
+Built `experiments/exp5b/analyze_5b.py` transcribed verbatim from the brief's
+Step 5 code block (byte-diffed against it: zero differences): `collect_total_5b`
+delegating to `exp2i.analyze_2i.collect_total` with the `"5b "` label prefix
+enforced; the sides loader (`load_side_5b`/`_steps_on_disk`) running Experiment
+5's own `load_units_5` first, then a torn-unit check, an extra-unit-on-disk
+check (gate 4, "nothing else loaded"), and 5b's own per-unit attestation
+(`_unit_5b.json`) validated on every unit present; gate 1's re-derivation
+(`gate1_rederive_5b`) comparing the runner's attested re-read comparison
+against a fresh `collect_5b.reread_compare_5b` call, byte for byte; the power
+record's byte-for-byte re-derivation (`power_failures_5b`, `power_gate="full"`
+recomputing `compute_5b` fresh and comparing JSON-serialized dicts, `"skip"`
+bypassing that one expensive check for the calibration sub-cell tests); the
+projection's double ancestry check (`projection_failures_5b` — the tag an
+ancestor of the projection, the projection an ancestor of every unit's git
+sha); the licence block (`licence_block_5b`, eight literal bodies keyed by
+`f"{verdict}-{cell}"` or bare `verdict`, formatted with the primary's T/p, S1's
+`outside_2p8b` T, and sigma_hat); the twelve secondaries (`secondaries_5b`,
+each wrapped so a crash degrades only that key, never `run()`'s own
+`failures`); `verdict_5b`/`write_verdict_txt_5b`; `run()` threading every
+gate through `collect_total_5b`, short-circuiting the primary/cells/S1–S12
+block entirely when any failure has been collected (`if not failures and
+cells5_live is not None: ...`), exactly as the brief specifies. `REFERENTS_5B_SHA256
+= None` stands, Task 6's to fill.
+
+Also built, transcribed verbatim from the brief: `experiments/exp5b/tests/full_shape_5b.py`
+(the world builder — an Experiment 5 world via `full_shape_5.write_world_5`
+with its count function wrapped so the S11 read mirrors the final and two
+custom Experiment-5-side modes (SIGN-ONLY, CONCENTRATED) are injected by
+monkeypatching `count_fn_for`/`MODES`; the 5b power record via `power_5b.main`;
+a projection stub; the 5b runner via four `run/units_5b.run` calls with fake
+loaders whose count function mirrors the final at the window's first step and
+adds a wobble at the other two — `MODES_5B`, `count_fn_5b_world`,
+`member_count_fn_5b`, `apply_shrink_5b`, `write_world_5b`, `run_5b`),
+`experiments/exp5b/tests/test_full_shape_5b.py` and
+`experiments/exp5b/tests/test_analyze_5b.py`.
+
+**TDD.** RED: `~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp5b/tests/test_analyze_5b.py -q` before `analyze_5b.py` existed →
+`ImportError: cannot import name 'analyze_5b' from 'experiments.exp5b'`, as
+expected. GREEN (after one finding below, `test_analyze_5b.py` only): same
+command → `3 passed`; repeated under `-W error` → identical, no warnings. Full
+fast set unaffected: `python -m pytest experiments/exp5b/tests -m "not slow" -q`
+→ `47 passed, 14 deselected`.
+
+**Finding A (test-only, both `test_analyze_5b.py` and `test_full_shape_5b.py`):
+"not claimed" vs "NOT claimed".** The brief's licence body for `SURVIVES-OFF-GRID`
+reads *"the licence is **NOT** claimed: ..."* — design §6's own verbatim sentence
+(`experiment-5b-design.md` line 116: "the licence is NOT claimed"), capitalized
+for emphasis exactly like its "DEMOTED" sibling (`NOT-SURVIVED-INSIDE`'s body).
+Both of the brief's own test assertions checked the lowercase spelling
+(`"not claimed" in ...`), which is never a substring of the capitalized source
+phrase — `assert` is case-sensitive. Corrected both assertions to `"NOT claimed"`
+with a comment naming the finding; `_LICENCE_BODY_5B` in `analyze_5b.py` is
+untouched (it already matched the design doc verbatim). Unruled (no interactive
+channel to Michael was available mid-task) — flagged here and in the task report
+for review; the correction is the design doc's own literal, not a guess.
+
+**Finding B (test-only, `test_nonfinite_member_is_absent_never_read`): the
+blanket `n_terms == 4` assumed both outer windows are always present.** Reviewed
+`v["cells"]` for the pair `small="2.8b"` (also present among the `small=="1b"`
+cells' large-side partners is `2.8b`... no — re-read: the *loop* is over cells
+with `c["small"] == "1b"`, whose `large` partners are `1.4b` and `2.8b`) against
+the world's own build log: `"[5 sweep] 2.8b × 1b: done bracket [1000, 2000]
+window []+[3000, 4000]"` — the `2.8b`-vs-`1b` bracket sits at the spine's edge,
+so `b_minus` is legitimately empty and `cell5["b_minus"]` is `None`
+(`stats_5.reads_5`'s `_mean([])` → `None`); `placebo_terms_5b` then drops that
+side's three terms entirely (documented in Task 2's own PROGRESS.md entry: "a
+missing outer window ... drops its three terms"). With the nonfinite exclusion
+leaving 2 members instead of 3, a `1b`-small cell whose pair is `2.8b` legitimately
+carries `n_terms == 1 * 2 == 2`, not `4`. Corrected the assertion to
+`n_terms == n_sides * n_members` where `n_sides` counts the non-`None` outer
+windows on that specific cell — the invariant the brief's comment ("Review Focus
+2") actually motivates, robust to which pair happens to sit at a spine edge.
+`analyze_5b.py`/`stats_5b.py` untouched (this is exactly their documented,
+intentional behavior).
+
+**Finding C (test-only, `test_refusal_routes_deliver_insufficient_data`): a
+`shutil.copytree`-built "extra unit" is not internally self-consistent, so it
+trips Experiment 5's OWN gate 3 before this module's "extra ... never requested"
+check ever runs.** The brief's construction copies the complete `step30000`
+directory to a new `step12000` directory and expects the analyzer's `extra`
+branch (`load_side_5b`'s `on_disk - set(unit_steps_5b())` check) to fire with
+"never requested". In practice `an5.load_units_5` is called FIRST (as the brief
+specifies) and every copied file still internally declares `"step": 30000`,
+`"revision": "step30000"`, `"commit": "c30000"`, and a fake sha embedding
+`"sha-1b-30000"` — `battery_5.checkpoint_record_failures_5`/`rung_record_failures_5`
+compare these against the *directory's* step (12000) and raise a genuine "gate 3
+contract failure(s)" from inside `an5.load_units_5`, surfaced as `"5b units 1b:
+ValueError: ..."`, never reaching the `extra` branch at all. This synthetic
+world's every step-bearing field embeds the step number as a literal text
+substring, so a plain `str.replace("30000", "12000")` over every copied file
+(`_checkpoint.json`, the 34 rung records, `_loss.json`, `_unit_5b.json`) makes
+the copy internally consistent as a genuine, well-formed, simply-unrequested
+`step12000` unit — with one second-order consequence caught on the first
+attempt at this fix: the substitution changes file BYTES, so `_unit.json`'s own
+recorded per-file sha256 values (computed pre-substitution) go stale, and
+`battery_5.unit_complete_5` then reads the "extra" directory as *torn* rather
+than complete (`"1b: step12000 is on disk but is not a complete unit (torn)"`)
+— closed by refreshing `_unit.json`'s `"files"` sha map from the POST-substitution
+bytes (`_unit.json` itself is excluded from the blind substitution and instead
+JSON-parsed, its "step"-bearing text still substituted via the loaded string,
+then its `"files"` dict rebuilt via `bg.sha256_file` per name) before writing it
+back. Verified in isolation: `pytest
+experiments/exp5b/tests/test_full_shape_5b.py::test_refusal_routes_deliver_insufficient_data
+-q` → `1 passed in 455.67s`. `analyze_5b.py`/`collect_5b.py`/`battery_5b.py`
+untouched — this is exactly gate 3's and gate 4's documented, intentional
+behavior; the fix is entirely in how the test constructs its fixture.
+
+**BLOCKED (per the brief's own tuning-rule escape clause, B-11): the SIGN-ONLY
+and SIZE-ONLY terminal cells of `test_every_terminal_is_reachable` are not
+reachable within the stated tuning ranges.** Full detached run of
+`test_full_shape_5b.py` (no `-x`, 1,784.96 s / 29:45 wall, 8 workers not used —
+single process): **10 of 12 passed** after Findings A–C; the remaining two are
+`test_every_terminal_is_reachable[SIGN-ONLY-...]` and `[SIZE-ONLY-...]`, both
+landing at `(NOT-SURVIVED, INSIDE)` instead of their named cell.
+
+- **SIGN-ONLY** needs `p < .01` (significant) AND `T_sym < .01` (small, either
+  sign). Diagnostic sweep (`diag_sign_only2.py`/`diag3.py`, scratchpad, not
+  committed) over the FULL allowed box — multiplier ∈ {1, 3} × amp ∈ {1, 4} ×
+  wobble ∈ {1, 4}, all four corners plus two centre points — held `T_sym` in a
+  tight band **[−0.0320, −0.0315]** and `p` pinned at **1.0** throughout (never
+  moving out of `INSIDE`'s region). Root cause, confirmed by inspecting `R`/`M`/`P`
+  directly: `M ≈ P/√2` (Task 3's own documented identity) is Experiment 5's OWN
+  outer-window residual, computed entirely within ONE model's own bracket-vs-window
+  reads — the per-model `off = mult × order[size]` used by the two custom modes
+  is IDENTICAL for `a`, `b_minus` and `b_plus` (same model), so it cancels exactly
+  in `a − b_minus`/`a − b_plus` and never touches `M`. Only `R = |a − f|`'s
+  CROSS-model term (`off_large − off_small`) is `mult`-sensitive, capped at
+  `3 × 3 = 9` items even at the top of the allowed multiplier range and the
+  widest pair gap (`1b→6.9b`) — far short of the ~15–30-item natural baseline
+  `M` (from the shrunk toy world's window-step-vs-final loss gap) that every
+  mode shares regardless of `mult`/amp/wobble. No combination of the three
+  permitted knobs, at any point in their stated ranges, can close a ~20-item gap
+  with a ≤9-item lever; the world is structurally short by roughly 2–3×.
+- **SIZE-ONLY** needs `T_sym ≥ .01` (big) with `p ≥ .01` (not significant).
+  At the brief's default (`antonym_off = 40`): `T = −0.0216`, `n_cells = 41`.
+  At the top of the allowed range (`antonym_off = 60`, `diag_size_only.py`):
+  `T = −0.0157` (amp 6, n_cells 41) / `T = −0.0186` (amp 3, n_cells 36) — closer,
+  same sign, still short. Per-rung sums at `antonym_off = 60`: the concentrated
+  `antonym` rung alone reaches **+0.334 to +0.338** (real, large, exactly as
+  CONCENTRATED intends), but the OTHER 8–11 live rungs each sit at **−0.07 to
+  −0.15** (the same off-invariant `M ≈ P/√2` baseline SIGN-ONLY hits, this time
+  undiluted since CONCENTRATED offsets `antonym` only) — summed and divided by
+  ~36–41 total cells, one rung's positive excess cannot outweigh eight-to-eleven
+  rungs' shared negative baseline. Linear extrapolation from the 40→60 step
+  (Δ mult 20 → Δ T ≈ +0.006) puts the crossing to `T ≥ +0.01` at roughly
+  `antonym_off ≈ 140–150` — well outside the stated `[30, 60]`.
+
+Both findings point to the SAME root cause (the shrunk world's `WINDOW_STEPS_5B`
+= `(31000, 30000, 29000)` sitting far from `FINAL_STEP_5` = `143000` on the toy
+loss curve, so Experiment 5's own outer-window residual `P` is large and
+`mult`/amp/wobble-invariant), not to independent defects in each mode. No
+knob outside the brief's named three (SIGN-ONLY's multiplier/amplitudes,
+CONCENTRATED's antonym offset, the other modes' default wobble, and
+`power_5b.N_SIM_5B` — which governs only the calibration grid, not the primary,
+and so cannot help either cell) was touched; `analyze_5b.py`, `stats_5b.py`,
+`power_5b.py`, `battery_5b.py` are all byte-identical to the brief/Tasks 1–3 and
+were never edited to chase this. Per the brief's own instruction ("If a world
+cannot be reached within the allowed ranges, report BLOCKED with the numbers"),
+this is reported as-is: `test_every_terminal_is_reachable[SIGN-ONLY-...]` and
+`[SIZE-ONLY-...]` are committed FAILING, with this entry and the task report as
+the record of what was tried and why it falls short. A real fix (Michael's or a
+future task's call) most likely needs either a `WINDOW_STEPS_5B` closer to
+`FINAL_STEP_5` in this specific synthetic world, or an offset mechanism that also
+reaches Experiment 5's own outer-window reads (not just the cross-model `R` term)
+— both would touch the frozen world-construction contract or the analyzer, which
+this task's constraints forbid.
+
+**Full detached run after Findings A–C, final tally:** `10 passed, 2 failed in
+1784.96 s (0:29:44)` — `test_full_shape_5b.py -q` (no `-x`). The 10 passes
+include every terminal this task COULD reach (`SURVIVES-CALIBRATED`,
+`NOT-SURVIVED-INSIDE`, `UNDETERMINED`), both calibration sub-cells reachable from
+`SURVIVES`'s own world (`INFLATED`, `OFF-GRID`, exercised via the doctored-power-record
+test), and all seven of the refusal/gate/write tests.
+
+**Self-review.** Every name in the brief's Produces list exists with the
+brief's exact signature (checked against the brief text directly, function by
+function). `run()` short-circuits the cells/primary/S1–S12 block on any
+collected failure (`if not failures and cells5_live is not None: ...`), verified
+by `test_primary_is_uncomputable_before_the_campaign` (no units → `primary is
+None`, `cells == []`, `not secondaries`) and every `refuses()` call in
+`test_refusal_routes_deliver_insufficient_data` (`primary is None`, `"S8" not
+in secondaries`). The licence block names all eight cells
+(`test_licence_block_names_every_cell`, all pass). The worlds reach every
+(verdict, cell) EXCEPT the two named BLOCKED above — disclosed, not papered
+over. Output pristine (no stray prints beyond the production runners' own
+`[5]`/`[5 sweep]`/`[5b]`/`[5b units]` lines, identical to Tasks 1–4's convention).
+`analyze_5b.py` is byte-identical to the brief's Step 5 code block (diffed
+programmatically, zero differences); the only files touched beyond the brief's
+Create list are the three test-file fixes above (Findings A–C), all inside the
+Create list's own test files, none inside `analyze_5b.py` or any frozen module.
+
+**Concerns:** SIGN-ONLY and SIZE-ONLY ship as documented, understood, BLOCKED
+failures (his call on a `WINDOW_STEPS_5B` change or a same-model-and-cross-model
+offset redesign, neither of which this task's constraints permit); the two
+diagnostic scripts used to characterize them live under the session scratchpad,
+not committed (their numbers are transcribed above and in the task report in
+full). `power_gate="skip"`'s bypass (used only by
+`test_calibration_sub_cells_from_a_doctored_power_record`, per the brief's own
+code) means that test's two doctored-record checks are NOT exercising the
+byte-for-byte power re-derivation — expected, per the brief; the third call in
+the same test (no `power_gate` override) does exercise it and passes.
