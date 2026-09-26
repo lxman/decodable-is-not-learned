@@ -142,6 +142,9 @@ def unit5b_record_failures_5b(rec: dict, *, size, step, host) -> list:
             bad.append(f"{label}: {k} = {rec.get(k)!r}, expected {v!r}")
     if rec.get("why") not in WHYS_5B:
         bad.append(f"{label}: why {rec.get('why')!r} not in {WHYS_5B}")
+    elif rec.get("why") != ("final" if int(step) == b5.FINAL_STEP_5 else "member"):
+        # Freeze C-4 (Task 1's deferred minor): `why` is "final" iff the step is the final
+        bad.append(f"{label}: why {rec.get('why')!r} does not match step {int(step)}")
     want_reread = int(step) in reread_steps_5b()
     if rec.get("reread") is not want_reread:
         bad.append(f"{label}: reread {rec.get('reread')!r}, expected {want_reread}")
@@ -404,7 +407,7 @@ IMPORTED_SHA256_5B = {
     REPO / "experiments/exp5b/run/preflight_5b.py":
         "67b4c42083085d2282d8b1818b0709253bacd5643b7a1459762a3f8a24f79377",
     REPO / "experiments/exp5b/verify_referents_5b.py":
-        "ec2244a02072a5222614cb42089e13b184c5dbc27251d3f9051f98d3411dd7a2",
+        "b1a8da4c0d56ccfd1da5c12bb76214b9f8eab53942026a1b86e1f6001b12f168",
 }
 
 

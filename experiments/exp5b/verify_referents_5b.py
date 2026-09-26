@@ -34,8 +34,9 @@ in-process re-derivation of Experiment 5's OWN cold battery (item 5) and
     `compute_5b` from `load_cells5_live_5b(EXP5)`; `structure_sha256`
     equal; SKIP before it is written
 10  gate 1 re-derived, WHEN 5b units are present (any side directory
-    under results/units): zero failures over the re-read units present;
-    SKIP otherwise
+    under results/units): every side loads (a side that does not is a
+    FAIL, never an exclusion — freeze C-4) and zero failures over the
+    re-read units; SKIP otherwise
 11  the referent manifest's file count: live `referent_files_5b()` ==
     `N_FILES_5B` == the committed `referents_5b.json`'s own `n_files`
 12  every 5b unit present carries a valid `_unit_5b.json` (contract) and
@@ -240,14 +241,20 @@ def _c10(ctx):
     host_p = b5b.host_record_path_5b(b5b.EXP5B)
     host = json.loads(host_p.read_text()) if host_p.is_file() else None
     sl = sl5.load_slice_5(sha_pin=b5.SLICE_SHA256_5)
-    sides = {}
+    sides, load_bad = {}, []
     for size in b5b.small_sides_5b():
         try:
             sides[size] = an.load_side_5b(b5b.EXP5B, size, manifest=manifest, battery=battery,
                                           verify_fn=verify_fn, host=host, slice_sha=sl["sha256"],
                                           n_scored=sl["meta"]["n_scored"])
-        except Exception:  # noqa: BLE001 — an absent/torn side is simply excluded here
+        except Exception as e:  # noqa: BLE001 — freeze C-4: a side that fails to load is a FAILURE, never excluded
             sides[size] = None
+            load_bad.append(f"{size}: {type(e).__name__}: {e}")
+    if load_bad:
+        raise AssertionError(f"side(s) failed to load: {load_bad[:3]}")
+    wbad = an.window_completeness_failures_5b(b5b.EXP5B)          # freeze F-1: absent sides/units too
+    if wbad:
+        raise AssertionError(f"window incomplete: {wbad[:3]}")
     rec, bad = an.gate1_rederive_5b(b5b.EXP5B, b5b.EXP5, sides)
     if bad:
         raise AssertionError(bad[:6])

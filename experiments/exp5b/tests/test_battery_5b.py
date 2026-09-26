@@ -83,6 +83,14 @@ def test_unit5b_record_contract(tmp_path):
     nm = {**good, "step": 141000, "reread": False, "reread_record": None}
     assert b5b.unit5b_record_failures_5b(nm, size="1b", step=141000, host=host) == []
     assert b5b.unit5b_record_failures_5b({**nm, "reread": True}, size="1b", step=141000, host=host)
+    # freeze C-4: `why` must match the step ("final" iff the final)
+    bad = b5b.unit5b_record_failures_5b({**good, "why": "final"}, size="1b", step=142000, host=host)
+    assert any("does not match step 142000" in b for b in bad)
+    fin = {**good, "step": 143000, "why": "member"}
+    assert any("does not match step 143000" in b
+               for b in b5b.unit5b_record_failures_5b(fin, size="1b", step=143000, host=host))
+    assert not any("does not match" in b for b in b5b.unit5b_record_failures_5b(
+        {**fin, "why": "final"}, size="1b", step=143000, host=host))
 
 
 def test_unit_complete_5b_requires_both_records(tmp_path):

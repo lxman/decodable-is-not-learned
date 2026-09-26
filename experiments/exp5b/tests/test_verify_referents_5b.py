@@ -87,15 +87,28 @@ def test_c12_skips_when_no_5b_unit_exists(tmp_path, monkeypatch):
     assert vr._c12({}).startswith("SKIP")
 
 
-def test_main_reports_ok_skip_and_tallies():
-    """A smoke test of `main()`'s own printing shape (not a substitute
-    for running the real cold battery, which needs the real repo tree
-    and the real pins — exercised separately by Task 6's Step 5)."""
+def test_main_reports_ok_skip_and_tallies(monkeypatch):
+    """`main()`'s own control flow on a stand-in check table (freeze C-4: the
+    earlier form ran the whole real battery in every fast pass and asserted
+    `rc in (0, 1)`, which nothing could fail): an ok and a SKIP tally 1/2 at
+    rc 0; a raising check prints FAIL and returns 1 without running on."""
     import io
     from contextlib import redirect_stdout
+    ran = []
+    monkeypatch.setattr(vr, "CHECKS", [(1, "stand-in ok", lambda ctx: ran.append(1)),
+                                       (2, "stand-in skip", lambda ctx: "SKIP not yet")])
     buf = io.StringIO()
     with redirect_stdout(buf):
         rc = vr.main()
     out = buf.getvalue()
-    assert rc in (0, 1)
-    assert "referent battery:" in out or rc == 1
+    assert rc == 0 and ran == [1]
+    assert "[ 1] ok    stand-in ok" in out and "[ 2] skip  stand-in skip not yet" in out
+    assert "referent battery: 1/2" in out
+
+    def _boom(ctx):
+        raise AssertionError("forced")
+    monkeypatch.setattr(vr, "CHECKS", [(1, "stand-in fail", _boom), (2, "never reached", lambda ctx: ran.append(2))])
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        rc = vr.main()
+    assert rc == 1 and ran == [1] and "FAIL  stand-in fail: AssertionError: forced" in buf.getvalue()

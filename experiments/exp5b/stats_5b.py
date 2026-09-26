@@ -61,14 +61,15 @@ def cell_5b(cell5: dict, small: dict, floor: float, n: int = b5.N_ITEMS) -> dict
     R, P = float(cell5["R"]), cell5["P"]
     f_B, members = int(small["f_B"]), dict(small["members"])
     Q = _mean([abs(f_B - v) for v in members.values()])
-    M = _mean(placebo_terms_5b(cell5, small))
+    terms = placebo_terms_5b(cell5, small)
+    M = _mean(terms)
     M_minus = _mean(placebo_terms_5b(cell5, small, sign=-b5b.PLACEBO_SIGN_5B))
     reads4 = [f_B] + [members[s] for s in sorted(members, reverse=True)]     # final, 142000, 141000, 140000
     clears = {v: b5.clears_5(v, floor, n) for v in set(reads4)}
     out = {k: cell5.get(k) for k in IDENT_KEYS_5B}
     out.update({
         "f_B": f_B, "members": {str(s): members[s] for s in sorted(members, reverse=True)},
-        "n_members": len(members), "n_terms": len(placebo_terms_5b(cell5, small)),
+        "n_members": len(members), "n_terms": len(terms),
         "Q": Q, "M": M, "M_minus": M_minus, "defined_M": M is not None,
         "c_sym": ((R - M) / n) if M is not None else None,
         "c_naive": ((R - 0.5 * (float(P) + Q)) / n) if (Q is not None and P is not None) else None,
