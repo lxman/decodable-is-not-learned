@@ -1,22 +1,23 @@
-[exp5_the_gate_2_verdict_equality_check_dropped_pin_check_alone] (1/9) KILLED by totality: experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data
-[run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped] (2/9) KILLED by totality: experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data
-[totality_01f5677eb0] (3/9) survived fast-behavioural
-[totality_01f5677eb0] (3/9) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_verdict_write_site_raises_without_the_wrapper
-[totality_4455ad799d] (4/9) survived fast-behavioural
-[totality_4455ad799d] (4/9) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
-[totality_ab35a54246] (5/9) survived fast-behavioural
-[totality_ab35a54246] (5/9) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
-[totality_eb285f87a4] (6/9) survived fast-behavioural
-[totality_eb285f87a4] (6/9) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data
-[totality_eed0ac97ed] (7/9) survived fast-behavioural
-[totality_eed0ac97ed] (7/9) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
-[totality_f7b4069e79] (8/9) survived fast-behavioural
-[totality_f7b4069e79] (8/9) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
-[totality_fadbfe1930] (9/9) survived fast-behavioural
-[totality_fadbfe1930] (9/9) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
+[exp5_the_gate_2_verdict_equality_check_dropped_pin_check_alone] (1/10) KILLED by totality: experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data
+[freeze_c_1_the_attestation_s_key_set_comparison_dropped] (2/10) KILLED by totality: experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data
+[run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped] (3/10) KILLED by totality: experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data
+[totality_01f5677eb0] (4/10) survived fast-behavioural
+[totality_01f5677eb0] (4/10) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_verdict_write_site_raises_without_the_wrapper
+[totality_4455ad799d] (5/10) survived fast-behavioural
+[totality_4455ad799d] (5/10) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
+[totality_ab35a54246] (6/10) survived fast-behavioural
+[totality_ab35a54246] (6/10) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
+[totality_eb285f87a4] (7/10) survived fast-behavioural
+[totality_eb285f87a4] (7/10) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data
+[totality_eed0ac97ed] (8/10) survived fast-behavioural
+[totality_eed0ac97ed] (8/10) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
+[totality_f7b4069e79] (9/10) survived fast-behavioural
+[totality_f7b4069e79] (9/10) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
+[totality_fadbfe1930] (10/10) survived fast-behavioural
+[totality_fadbfe1930] (10/10) KILLED by totality-behavioural: experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper
 
-=== run_worlds_only tally === considered=9 killed=9 structural_only=0 open_survivors=0 errors=0
-killed_by = {'exp5_the_gate_2_verdict_equality_check_dropped_pin_check_alone': 'totality:experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data', 'run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped': 'totality:experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data', 'totality_01f5677eb0': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_verdict_write_site_raises_without_the_wrapper', 'totality_4455ad799d': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_ab35a54246': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_eb285f87a4': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data', 'totality_eed0ac97ed': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_f7b4069e79': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_fadbfe1930': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper'}
+=== run_worlds_only tally === considered=10 killed=10 structural_only=0 open_survivors=0 errors=0
+killed_by = {'exp5_the_gate_2_verdict_equality_check_dropped_pin_check_alone': 'totality:experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data', 'freeze_c_1_the_attestation_s_key_set_comparison_dropped': 'totality:experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data', 'run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped': 'totality:experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data', 'totality_01f5677eb0': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_verdict_write_site_raises_without_the_wrapper', 'totality_4455ad799d': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_ab35a54246': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_eb285f87a4': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data', 'totality_eed0ac97ed': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_f7b4069e79': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper', 'totality_fadbfe1930': 'totality-behavioural:experiments/exp5b/tests/test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper'}
 structural_only = {}
 open_survivors = []
 errors = []

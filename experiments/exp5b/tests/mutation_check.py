@@ -396,6 +396,10 @@ NON_FAST_KILLS_5B = {
     # SLOW behavioural test): each individually re-confirmed by applying it alone and running
     # test_totality_5b.py -k "not test_site_template_count_is_25" -m slow (script transcript,
     # PROGRESS.md Task 6 fix round 1).
+    # freeze C-1 (Task 7): the attestation key-set comparison — only a passing tree with a
+    # short attestation reaches it; totality shape 8b (and test_freeze_5b's C-1 test)
+    "freeze_c_1_the_attestation_s_key_set_comparison_dropped":
+        "test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data",
     "totality_eb285f87a4":     # line 410, the halt marker — shape 1
         "test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data",
     "totality_eed0ac97ed":     # line 529, st.cells_5b

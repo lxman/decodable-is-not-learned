@@ -7,7 +7,11 @@ on Experiment 5's cell table.
 
 ## Pre-tag executions of `analyze_5b.run()` on the real tree
 
-Tally: **3** (Task 6). Task 5 built `analyze_5b.py` but exercised it only against
+Tally: **6** (Task 7, the adversarial freeze: #4 `real_run.py` for surface (i), #5 the import
+scan after the re-pin, #6 the read sweep — each INSUFFICIENT_DATA, no 5b statistic; beside them,
+not on the real 5b tree, 10 runs with `exp5_root` = a byte copy of Experiment 5's tree and an
+empty 5b root (gate 2's tamper demos) and 1 with both roots empty — see FREEZE_CHECKLIST §E).
+Earlier: **3** (Task 6). Task 5 built `analyze_5b.py` but exercised it only against
 `full_shape_5b.py`'s synthetic `tmp_path` worlds — never `root=battery_5b.EXP5B`
 — so the tally stayed 0 through that task. Task 6's three: `tests/import_scan_
 5b.py` run twice (the first to build the pin tables from `sys.modules`, a
@@ -974,3 +978,30 @@ without failing), those eight sites would silently lose their fast-path
 coverage and fall back to their original slow-shape kill alone — worth a
 comment at `_isolated_kwargs` itself if a later task touches it (not done
 here, to keep this round's diff to exactly what the ruling asked for).
+
+
+## Task 7 step 1 (2026-09-26): the adversarial freeze
+
+Record: `experiments/exp5b/FREEZE_CHECKLIST.md`; report
+`.superpowers/sdd/2026-09-25-exp5b-build/task-7-freeze-report.md`.
+
+**THE CLASS DEFECT WAS FOUND — F-1: an unfinished campaign delivered a
+verdict.** A unit never written was read as an ABSENT member, a side never
+reached as EXCLUDED; the runner writes every unit (non-finite members
+written and marked, a non-finite final halted), so only a killed campaign
+reached those rules. A synthetic campaign stopped after 2.8b (attestation
+regenerated as the runner does) delivered SURVIVES · CALIBRATED over 32 of
+135 cells with zero failures. Closed by the `"5b window completeness"` site
+(`window_completeness_failures_5b`): all four units per small side on disk
+as 5b-complete units, nothing else under `results/units/`. Plan B-4's
+absent-directory clause superseded — for the ruling.
+
+Other findings: F-2 (C-1) gate-1 coverage measured — CLOSED; F-3 a
+non-increasing σ̂ axis refuses — CLOSED; F-4 (C-2, surface (x)) the
+design's exclusion rule is unreachable (a non-finite 142000 refuses at
+gate 1, a non-finite final halts) — DISCLOSED, slips S-2/S-3; F-5 (C-4)
+the cheap minors — CLOSED; F-6 (C-3) the harness's fast stage marker —
+CLOSED. Surfaces (i)–(x) each CLEARED or CLOSED with a command
+(checklist §B). Experiment 5's tree byte-identical before/after (6,686
+files). Commits df08c4b72, 8142fdbb2, 5944fa515 (+ the logs/record
+commit).

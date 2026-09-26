@@ -50,30 +50,39 @@ baseline OK (fast pass, all mutants)
 [gate1_rederive_5b_the_runner_s_attestation_comparison_dropped] (#48) killed  gate1_rederive_5b: the runner's attestation comparison dropped
 [power_failures_5b_the_byte_for_byte_comparison_dropped] (#49) killed  power_failures_5b: the byte-for-byte comparison dropped
 [projection_failures_5b_the_per_unit_ancestry_loop_dropped] (#50) killed  projection_failures_5b: the per-unit ancestry loop dropped
-[run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped] (#51) survived-fast, killed by the slow suite — test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): S1-S12 computed regardless of failures (the units gate dropped)
-[totality_eb285f87a4] (#52) survived-fast, killed by the slow suite — test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 410 (_halts...)
-[totality_ba977b0972] (#53) killed  run(): totality — collect_total_5b stripped at line 411 (frozen_check or b5b.check_frozen_5b...)
-[totality_f0a6870714] (#54) killed  run(): totality — collect_total_5b stripped at line 414 (lambda: b5b.require_prereg_5b(tag_exists=tag_exists, blob_sh...)
-[totality_87d16f0e63] (#55) killed  run(): totality — collect_total_5b stripped at line 416 (lambda: b5b.require_exp5_closed_5b(tag_exists=tag_exists, bl...)
-[totality_cb7f897d12] (#56) killed  run(): totality — collect_total_5b stripped at line 420 (lambda: manifest if manifest_injected else b5.load_manifest_...)
-[totality_ede4a6963c] (#57) killed  run(): totality — collect_total_5b stripped at line 423 (lambda: sl if sl_injected else sl5.load_slice_5(sha_pin=b5.S...)
-[totality_7e45e98c25] (#58) killed  run(): totality — collect_total_5b stripped at line 433 (bt.load_battery...)
-[totality_e1d8e53d7b] (#59) killed  run(): totality — collect_total_5b stripped at line 434 (b5.load_floors_5...)
-[totality_cb18719ee0] (#60) killed  run(): totality — collect_total_5b stripped at line 435 (a2d.load_verify...)
-[totality_ccb671a117] (#61) killed  run(): totality — collect_total_5b stripped at line 448 (_exp5...)
-[totality_dc26819f87] (#62) killed  run(): totality — collect_total_5b stripped at line 463 (_host...)
-[totality_7cc5e77609] (#63) killed  run(): totality — collect_total_5b stripped at line 488 (_gate1...)
-[totality_25f4ac9ac2] (#64) killed  run(): totality — collect_total_5b stripped at line 501 (_power...)
-[totality_2fa44e6140] (#65) killed  run(): totality — collect_total_5b stripped at line 519 (_projection...)
-[totality_dd7bfd0a1a] (#66) killed  run(): totality — collect_total_5b stripped at line 413 (b5b.check_imports_5b...)
-[totality_24bb94d4f5] (#67) killed  run(): totality — collect_total_5b stripped at line 473 (_side...)
-[totality_eed0ac97ed] (#68) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 529 (lambda: st.cells_5b(kept5, counts_by_side, floors)...)
-[totality_fadbfe1930] (#69) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 531 (lambda: st.primary_5b(cells, n_sample=n_sample, seed=b5.PERM...)
-[totality_f7b4069e79] (#70) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 533 (lambda: st.sigma_hat_5b(cells)...)
-[totality_ab35a54246] (#71) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 534 (lambda: st.calibration_read_5b(power_rec, (sigma_hat or {})....)
-[totality_4455ad799d] (#72) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 537 (lambda: st.modifier_5b(cells)...)
-[totality_edb704686d] (#73) killed  run(): totality — collect_total_5b stripped at line 539 (b5b.check_imports_5b...)
-[totality_01f5677eb0] (#74) survived-fast, killed by the slow suite — test_totality_5b.py::test_verdict_write_site_raises_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 568 (_w...)
-[totality_710028e6a0] (#75) killed  run(): totality — collect_total_5b stripped at line 432 (_refs...)
+[freeze_f_1_window_completeness_failures_5b_s_missing_unit_list_emptied] (#51) killed  freeze F-1: window_completeness_failures_5b's missing-unit list emptied
+[freeze_f_1_window_completeness_reads_experiment_5_s_completeness_the_5b_] (#52) killed  freeze F-1: window completeness reads Experiment 5's completeness (the 5b attestation ignored)
+[freeze_f_1_the_non_side_directory_check_dropped] (#53) killed  freeze F-1: the non-side-directory check dropped
+[freeze_f_1_run_s_window_thunk_never_raises] (#54) killed  freeze F-1: run()'s _window thunk never raises
+[freeze_c_1_a_missing_re_read_unit_skipped_silently_again] (#55) killed  freeze C-1: a missing re-read unit skipped silently again
+[freeze_c_1_the_attestation_s_key_set_comparison_dropped] (#56) survived-fast, killed by the slow suite — test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  freeze C-1: the attestation's key-set comparison dropped
+[freeze_f_3_the_strictly_increasing_sigma_hat_axis_check_dropped] (#57) killed  freeze F-3: the strictly-increasing sigma_hat_axis check dropped
+[freeze_c_4_the_why_vs_step_cross_check_dropped] (#58) killed  freeze C-4: the why-vs-step cross-check dropped
+[run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped] (#59) survived-fast, killed by the slow suite — test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): S1-S12 computed regardless of failures (the units gate dropped)
+[totality_eb285f87a4] (#60) survived-fast, killed by the slow suite — test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 446 (_halts...)
+[totality_ba977b0972] (#61) killed  run(): totality — collect_total_5b stripped at line 447 (frozen_check or b5b.check_frozen_5b...)
+[totality_f0a6870714] (#62) killed  run(): totality — collect_total_5b stripped at line 450 (lambda: b5b.require_prereg_5b(tag_exists=tag_exists, blob_sh...)
+[totality_87d16f0e63] (#63) killed  run(): totality — collect_total_5b stripped at line 452 (lambda: b5b.require_exp5_closed_5b(tag_exists=tag_exists, bl...)
+[totality_cb7f897d12] (#64) killed  run(): totality — collect_total_5b stripped at line 456 (lambda: manifest if manifest_injected else b5.load_manifest_...)
+[totality_ede4a6963c] (#65) killed  run(): totality — collect_total_5b stripped at line 459 (lambda: sl if sl_injected else sl5.load_slice_5(sha_pin=b5.S...)
+[totality_7e45e98c25] (#66) killed  run(): totality — collect_total_5b stripped at line 469 (bt.load_battery...)
+[totality_e1d8e53d7b] (#67) killed  run(): totality — collect_total_5b stripped at line 470 (b5.load_floors_5...)
+[totality_cb18719ee0] (#68) killed  run(): totality — collect_total_5b stripped at line 471 (a2d.load_verify...)
+[totality_ccb671a117] (#69) killed  run(): totality — collect_total_5b stripped at line 484 (_exp5...)
+[totality_dc26819f87] (#70) killed  run(): totality — collect_total_5b stripped at line 499 (_host...)
+[totality_74453b2171] (#71) killed  run(): totality — collect_total_5b stripped at line 516 (_window...)
+[totality_7cc5e77609] (#72) killed  run(): totality — collect_total_5b stripped at line 538 (_gate1...)
+[totality_25f4ac9ac2] (#73) killed  run(): totality — collect_total_5b stripped at line 551 (_power...)
+[totality_2fa44e6140] (#74) killed  run(): totality — collect_total_5b stripped at line 569 (_projection...)
+[totality_dd7bfd0a1a] (#75) killed  run(): totality — collect_total_5b stripped at line 449 (b5b.check_imports_5b...)
+[totality_24bb94d4f5] (#76) killed  run(): totality — collect_total_5b stripped at line 509 (_side...)
+[totality_eed0ac97ed] (#77) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 579 (lambda: st.cells_5b(kept5, counts_by_side, floors)...)
+[totality_fadbfe1930] (#78) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 581 (lambda: st.primary_5b(cells, n_sample=n_sample, seed=b5.PERM...)
+[totality_f7b4069e79] (#79) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 583 (lambda: st.sigma_hat_5b(cells)...)
+[totality_ab35a54246] (#80) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 584 (lambda: st.calibration_read_5b(power_rec, (sigma_hat or {})....)
+[totality_4455ad799d] (#81) survived-fast, killed by the slow suite — test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 587 (lambda: st.modifier_5b(cells)...)
+[totality_edb704686d] (#82) killed  run(): totality — collect_total_5b stripped at line 589 (b5b.check_imports_5b...)
+[totality_01f5677eb0] (#83) survived-fast, killed by the slow suite — test_totality_5b.py::test_verdict_write_site_raises_without_the_wrapper (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 618 (_w...)
+[totality_710028e6a0] (#84) killed  run(): totality — collect_total_5b stripped at line 468 (_refs...)
 
-66 killed by the fast suite directly; 9 killed by the slow suite (each individually re-confirmed via --worlds-only, not inferred — see mutation_worlds.log); 0 documented equivalent; considered=75; 0 UNRESOLVED survivor(s): []; 0 SKIP (target text not found / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []
+74 killed by the fast suite directly; 10 killed by the slow suite (each individually re-confirmed via --worlds-only, not inferred — see mutation_worlds.log); 0 documented equivalent; considered=84; 0 UNRESOLVED survivor(s): []; 0 SKIP (target text not found / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []
