@@ -57,6 +57,91 @@ def test_power_failures_5b_catches_a_non_reproducing_record(monkeypatch):
     assert any("byte-for-byte" in b for b in bad)
 
 
+def _isolated_kwargs(tmp_path, **over):
+    """Fix round 1 (Important 1): a minimal, isolated `an.run()` call that
+    reaches every UNCONDITIONAL gate in `run()`'s own body without ever
+    touching the real campaign tree — `root`/`exp5_root` are empty tmp
+    directories, `tag_exists` refuses the prereg/exp5-closed gates
+    harmlessly, `frozen_check` is a no-op unless the caller overrides it,
+    `manifest`/`sl` are injected fakes unless the caller passes `None` to
+    exercise the real loader at that ONE site, `referents_sha=False`/
+    `imports_pinned=False` skip those two sites unless overridden. Every
+    other unconditional site (battery/floors/verify/exp5/host/units/gate
+    1/power/projection) is left to fail on its own in this isolated tree
+    — harmless, since none of these tests care about the FINAL verdict,
+    only that ONE named site's failure is present and nothing raises."""
+    kw = dict(root=tmp_path, exp5_root=tmp_path / "exp5", write=False,
+              tag_exists=lambda t: False, frozen_check=lambda: None,
+              manifest={"fake": True}, sl={"sha256": "x" * 64, "meta": {"n_scored": 1}},
+              referents_sha=False, imports_pinned=False, power_gate="skip",
+              exp5_kwargs=dict(tag_exists=lambda t: False, frozen_check=lambda: None,
+                               referents_sha=False, imports_pinned=False))
+    kw.update(over)
+    return kw
+
+
+def _assert_insufficient_with_label(v, label_prefix):
+    assert v["verdict"] == "INSUFFICIENT_DATA", v
+    assert any(f.startswith(label_prefix) for f in v["failures"]), v["failures"]
+
+
+def test_frozen_modules_site_raises_without_the_wrapper(tmp_path):
+    """Fix round 1 (Important 1): a behavioural kill for the '5b frozen
+    modules' totality mutant — under the stripped wrapper this OSError
+    propagates out of `run()` instead of becoming a failure."""
+    v = an.run(**_isolated_kwargs(tmp_path, frozen_check=lambda: (_ for _ in ()).throw(OSError("x"))))
+    _assert_insufficient_with_label(v, "5b frozen modules")
+
+
+def test_import_surface_sites_raise_without_the_wrapper(tmp_path, monkeypatch):
+    """Fix round 1: both '5b import surface (entry)' and '(exit)' call the
+    SAME `b5b.check_imports_5b` — this one patch, run once, distinguishes
+    EITHER site's own mutant (whichever one is stripped raises at that
+    exact point; the other, still wrapped, is caught normally)."""
+    monkeypatch.setattr(an.b5b, "check_imports_5b", lambda: (_ for _ in ()).throw(RuntimeError("boom")))
+    v = an.run(**_isolated_kwargs(tmp_path, imports_pinned=True))
+    assert v["verdict"] == "INSUFFICIENT_DATA", v
+    assert any(f.startswith("5b import surface (entry)") for f in v["failures"]), v["failures"]
+    assert any(f.startswith("5b import surface (exit)") for f in v["failures"]), v["failures"]
+
+
+def test_manifest_site_raises_without_the_wrapper(tmp_path, monkeypatch):
+    monkeypatch.setattr(an.b5, "load_manifest_5", lambda **kw: (_ for _ in ()).throw(ValueError("boom")))
+    v = an.run(**_isolated_kwargs(tmp_path, manifest=None))
+    _assert_insufficient_with_label(v, "5b manifest")
+
+
+def test_slice_site_raises_without_the_wrapper(tmp_path, monkeypatch):
+    monkeypatch.setattr(an.sl5, "load_slice_5", lambda **kw: (_ for _ in ()).throw(ValueError("boom")))
+    v = an.run(**_isolated_kwargs(tmp_path, sl=None))
+    _assert_insufficient_with_label(v, "5b slice")
+
+
+def test_referents_site_raises_without_the_wrapper(tmp_path):
+    """A wrong sha (never a monkeypatch) trips `check_referents_5b`'s own
+    ValueError — the site's real failure mode."""
+    v = an.run(**_isolated_kwargs(tmp_path, referents_sha="0" * 64))
+    _assert_insufficient_with_label(v, "5b referents")
+
+
+def test_battery_site_raises_without_the_wrapper(tmp_path, monkeypatch):
+    monkeypatch.setattr(an.bt, "load_battery", lambda: (_ for _ in ()).throw(ValueError("boom")))
+    v = an.run(**_isolated_kwargs(tmp_path))
+    _assert_insufficient_with_label(v, "5b battery")
+
+
+def test_floors_site_raises_without_the_wrapper(tmp_path, monkeypatch):
+    monkeypatch.setattr(an.b5, "load_floors_5", lambda: (_ for _ in ()).throw(ValueError("boom")))
+    v = an.run(**_isolated_kwargs(tmp_path))
+    _assert_insufficient_with_label(v, "5b floors")
+
+
+def test_verify_site_raises_without_the_wrapper(tmp_path, monkeypatch):
+    monkeypatch.setattr(an.a2d, "load_verify", lambda: (_ for _ in ()).throw(ValueError("boom")))
+    v = an.run(**_isolated_kwargs(tmp_path))
+    _assert_insufficient_with_label(v, "5b verify")
+
+
 def test_projection_failures_5b_checks_both_ancestries():
     sides = {"1b": {"git_shas": {143000: "u1", 30000: "u2"}, "whys": {143000: "final", 30000: "member"}}}
     ok = an.projection_failures_5b(sides, projection_commit="p", prereg_commit="t",

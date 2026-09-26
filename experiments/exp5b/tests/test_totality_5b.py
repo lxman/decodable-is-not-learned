@@ -273,6 +273,65 @@ def test_every_runner_leavable_tree_shape_gives_insufficient_data(tmp_path, monk
     assert v_final["verdict"] == "SURVIVES", v_final["failures"][:3]
 
 
+# ---------------------- the five gated sites + verdict write (fix round 1)
+
+def test_the_five_post_units_sites_raise_without_the_wrapper(tmp_path, monkeypatch):
+    """Fix round 1 (Important 1): `cells`/`primary`/`sigma hat`/
+    `calibration`/`modifier` sit behind `if not failures and cells5_live
+    is not None:` — no corruption shape reaches them (every shape IS a
+    failure), so they need a PASSING tree. One SURVIVES world, one
+    `st.<fn>` patched to raise ValueError at a time, restored between —
+    under the stripped wrapper the raise propagates out of `run()`
+    instead of becoming a labelled failure."""
+    w = fs5b.write_world_5b(tmp_path, "SURVIVES", monkeypatch=monkeypatch)
+    # power_gate="skip" throughout this test: power_5b.arm_5b calls st.primary_5b AND
+    # st.sigma_hat_5b internally (the SAME module-level names this test monkeypatches),
+    # so power_gate="full"'s real compute_5b recomputation at the EARLIER "5b power
+    # record" gate would collaterally raise there first, short-circuiting `failures`
+    # before the cells/primary/sigma-hat/calibration/modifier block is even reached —
+    # found by running this test once and seeing "5b power record" catch it instead of
+    # the intended site (Task 6 fix round 1 finding).
+    v0 = _run(w, power_gate="skip")
+    assert v0["verdict"] == "SURVIVES", v0["failures"][:3]        # sanity: this block is reached clean
+
+    sites = (("cells_5b", "5b cells"), ("primary_5b", "5b primary"), ("sigma_hat_5b", "5b sigma hat"),
+            ("calibration_read_5b", "5b calibration"), ("modifier_5b", "5b modifier"))
+    for fn_name, label in sites:
+        orig = getattr(an.st, fn_name)
+        monkeypatch.setattr(an.st, fn_name, lambda *a, **k: (_ for _ in ()).throw(ValueError("boom")))
+        try:
+            v = _run(w, power_gate="skip")
+        except Exception as e:  # noqa: BLE001 — the thing under test
+            pytest.fail(f"analyze_5b.run() raised for {fn_name}: {type(e).__name__}: {e}")
+        finally:
+            monkeypatch.setattr(an.st, fn_name, orig)
+        assert v["verdict"] == "INSUFFICIENT_DATA", (fn_name, v)
+        assert any(f.startswith(label) for f in v["failures"]), (fn_name, v["failures"])
+
+    # the clean world still computes normally once every patch is undone
+    v_final = _run(w, power_gate="skip")
+    assert v_final["verdict"] == "SURVIVES", v_final["failures"][:3]
+
+
+def test_verdict_write_site_raises_without_the_wrapper(tmp_path, monkeypatch):
+    """Fix round 1: '5b verdict write' is the one site whose failure does
+    NOT enter `v["failures"]` — it is recorded as `v["write_failure"]`
+    with the rest of the verdict otherwise intact (design: a write
+    failure must never retroactively change a computed verdict). Under
+    the stripped wrapper the OSError propagates out of `run()` entirely."""
+    w = fs5b.write_world_5b(tmp_path, "SURVIVES", monkeypatch=monkeypatch)
+    vpath = w["root5b"] / "results" / "verdict.json"
+    vpath.mkdir(parents=True, exist_ok=True)          # a DIRECTORY where the write expects a file
+    try:
+        v = _run(w, write=True)
+    except Exception as e:  # noqa: BLE001 — the thing under test
+        pytest.fail(f"analyze_5b.run() raised on a write failure: {type(e).__name__}: {e}")
+    finally:
+        vpath.rmdir()
+    assert v["verdict"] == "SURVIVES", v["failures"][:3]          # the verdict is otherwise intact
+    assert isinstance(v.get("write_failure"), str) and v["write_failure"].startswith("5b verdict write")
+
+
 # --------------------------------------------------------- the site harness
 
 def _run_function_node():

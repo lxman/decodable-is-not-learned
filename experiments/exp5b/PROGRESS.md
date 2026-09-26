@@ -803,3 +803,174 @@ doesn't already prove, since the kill is structural (an AST call-site count),
 not behavioral, for every one of those 24 mutants — verified by running the
 targeted test directly against each of the 24 mutated files before the
 harness code was changed to rely on it.
+
+## Task 6 fix round 1 (2026-09-26): behavioural kills for every `collect_
+total_5b` site — the AST count is supplementary, never the kill
+
+**The review's finding (Important 1), verbatim conclusion:** `test_site_
+template_count_is_24` fires whenever ANY `collect_total_5b` call is stripped
+from `run()`'s AST, whether or not the site's underlying thunk is ever driven
+to raise — a structural check, not a behavioural one. It would fire just the
+same on a harmless refactor that merges two sites, and cannot distinguish a
+site an 18-shape actually drives from one no test ever makes raise. Reading
+the 18 shapes against `run()`: **10 sites had a real behavioural kill already**
+(halt marker, prereg tag, exp5-closed, exp5, host record, units, gate 1, power
+record, projection); **~14 had none** (frozen modules, both import-surface
+sites, manifest, slice, referents, battery, floors, verify, cells, primary,
+sigma hat, calibration, modifier, verdict write) — the totality mutants for
+those sites were "killed" only by the count check, never by the property the
+mutant exists to test.
+
+**The fix, exactly per the controller's ruling.**
+
+1. **Fifteen new behavioural tests, one property each: does `analyze_5b.run()`
+   still return `INSUFFICIENT_DATA` (or, for verdict write, `write_failure`
+   with the verdict otherwise intact) when that ONE site's thunk raises a
+   caught-type error, and does the SAME error propagate uncaught once the
+   site's `collect_total_5b` wrapper is stripped?**
+   - **Nine FAST** (`tests/test_analyze_5b.py`, a new `_isolated_kwargs(tmp_
+     path, **over)` helper: `root`/`exp5_root` are empty tmp directories,
+     `tag_exists=lambda t: False`, `frozen_check=lambda: None` unless
+     overridden, `manifest`/`sl` injected fakes unless set to `None` to reach
+     the real loader, `referents_sha=False`/`imports_pinned=False` unless
+     overridden): `test_frozen_modules_site_raises_without_the_wrapper`
+     (`frozen_check=lambda: (_ for _ in ()).throw(OSError("x"))`, the review's
+     own construction); `test_import_surface_sites_raise_without_the_wrapper`
+     (`b5b.check_imports_5b` patched to raise `RuntimeError` — ONE patch
+     serves BOTH the entry and exit sites, since whichever one is mutated
+     raises at that exact point while the other, still wrapped, is caught
+     normally); `test_manifest_site_raises_without_the_wrapper` (`b5.load_
+     manifest_5` patched, called with `manifest=None`); `test_slice_site_
+     raises_without_the_wrapper` (`sl5.load_slice_5` patched, `sl=None`);
+     `test_referents_site_raises_without_the_wrapper` (`referents_sha="0"*64`
+     — the real `check_referents_5b` sha mismatch, no monkeypatch needed);
+     `test_battery_site_raises_without_the_wrapper` (`bt.load_battery`
+     patched); `test_floors_site_raises_without_the_wrapper` (`b5.load_
+     floors_5` patched); `test_verify_site_raises_without_the_wrapper`
+     (`a2d.load_verify` patched).
+   - **Six SLOW** (`tests/test_totality_5b.py`, on the SURVIVES world, per the
+     ruling): `test_the_five_post_units_sites_raise_without_the_wrapper`
+     (`st.cells_5b`/`primary_5b`/`sigma_hat_5b`/`calibration_read_5b`/
+     `modifier_5b` each patched to raise `ValueError` in turn, restored
+     between); `test_verdict_write_site_raises_without_the_wrapper`
+     (`results/verdict.json` made a DIRECTORY before `write=True`, so the
+     write itself raises `OSError`; asserts `v["write_failure"]` is set AND
+     `v["verdict"]` is unchanged — the design's own "otherwise intact"
+     contract, not folded into `v["failures"]`).
+   - **Finding, closed the same session:** the first run of the five-sites
+     test FAILED — `power_gate="full"` (this file's `_run`'s own default)
+     triggers a REAL `compute_5b` recomputation inside the EARLIER "5b power
+     record" gate, and `power_5b.arm_5b` calls `st.primary_5b`/`st.sigma_hat_
+     5b` internally (the SAME module-level names being patched) — so
+     mutating `primary_5b`, say, made the power-record gate raise FIRST,
+     accumulating a failure that short-circuited the `if not failures and
+     cells5_live is not None:` block before the intended site was ever
+     reached (`v["failures"] == ["5b power record: ValueError: boom"]`, not
+     `"5b primary: ..."`). Fixed by passing `power_gate="skip"` throughout
+     that test (the byte-for-byte power comparison is not what's under test).
+2. **Every one of the 24 totality mutants individually re-confirmed against
+   its OWN behavioural test**, before any harness code relied on the result —
+   two scripted passes (not `--worlds-only` yet, since discovery came first):
+   `verify_fast_kills.py` (the 9 fast-covered labels, ~2 min each) and
+   `verify_slow_kills.py`/a follow-up script for the six slow-covered labels
+   plus the halt marker (each run against `test_totality_5b.py -k "not test_
+   site_template_count_is_24"`, ≈ 20-27 min apiece since the full 18-shape
+   test runs to completion before most of these fail later in file order).
+   **24/24 confirmed killed by their intended test, 0 surprises.**
+3. **`run_worlds_only` rewritten**: for a `totality_*` label the sequence is
+   now `[("fast-behavioural", FAST_TESTS, []), ("totality-behavioural",
+   TOTALITY_TESTS, ["-m", "slow", "-k", "not test_site_template_count_is_24"])]`
+   — the count test is explicitly EXCLUDED from the kill-search by name, never
+   credited. Only if BOTH stages survive does the harness fall back to running
+   `test_site_template_count_is_24` alone, and even then records the label as
+   `STRUCTURAL-ONLY (no behavioural test drives this site)` in a NEW `
+   STRUCTURAL_ONLY_5B` table (`NON_FAST_KILLS_5B`'s neighbour, same
+   hand-populated-from-observation discipline) — never as `killed`. The
+   non-`totality_` labels (the two hand mutants) keep the original
+   totality-then-fullshape sequence.
+4. **`NON_FAST_KILLS_5B` rebuilt from a fresh discovery run, not hand-carried
+   forward.** Cleared the previous (structural-only) 24-label block and
+   re-ran the WHOLE fast pass from scratch with the 15 new behavioural tests
+   in place: **66 of 75 mutants were now killed by the fast suite directly**
+   — the nine sites the new fast tests target, PLUS eight more (prereg tag,
+   exp5-closed, exp5, host record, units, gate 1, power record, projection)
+   caught COLLATERALLY, because `_isolated_kwargs` points `exp5_root` at an
+   empty tmp directory and sets `tag_exists=lambda t: False`, so ALL eight of
+   those gates genuinely fail for real inside EVERY one of the nine new fast
+   tests — stripping any one of their wrappers crashes whichever fast test
+   happens to be running with an uncaught exception, the identical mechanism
+   the tests were built for, just incidental to their stated purpose. (These
+   eight also keep their original slow-shape kill; the collateral fast kill
+   is additional, not a replacement, and is what the rebuilt fast-pass run
+   actually shows — not assumed.) The remaining **9 fast-pass survivors** (the
+   two hand mutants + the 7 totality mutants with ONLY a slow test: halt
+   marker, cells, primary, sigma hat, calibration, modifier, verdict write)
+   are exactly `NON_FAST_KILLS_5B`'s new content, each value the REAL test
+   name from the discovery scripts, not a guess.
+5. **`STRUCTURAL_ONLY_5B = {}`** added as the disclosure mechanism the ruling
+   requires — stayed empty; every site has real behavioural coverage.
+
+**Final fast pass (`mutation_build.log`, regenerated):** 66 killed by the fast
+suite directly, 9 killed by the slow suite (all individually re-confirmed via
+the scripted discovery, matching the log's own claim), 0 documented
+equivalent, considered = 75, **0 UNRESOLVED, 0 SKIP, 0 TIMEOUT.**
+
+**Official `--worlds-only` (`mutation_worlds.log`, regenerated, the real CLI
+entry point, not simulated):** 9 labels considered, **9 killed, 0
+structural_only, 0 open_survivors, 0 errors** — every kill line names the
+exact behavioural test (`test_every_runner_leavable_tree_shape_gives_
+insufficient_data` for the halt marker and both hand mutants; `test_the_five_
+post_units_sites_raise_without_the_wrapper` for cells/primary/sigma-hat/
+calibration/modifier; `test_verdict_write_site_raises_without_the_wrapper` for
+the write site) — `test_site_template_count_is_24` appears nowhere in the
+kill list. Wall time ≈ 2.5 h (nine labels, most needing the full ~20-27 min
+totality file before failing later in file order at the intended test).
+
+**Re-verification after the fix (instruction 5).** Fast suite: `python -m
+pytest experiments/exp5b/tests -m "not slow" -q` → **78 passed, 20 deselected**
+(was 70/18 before this round: +8 new fast tests, +2 new slow-marked tests);
+repeated under `-W error` → identical. Full totality file (`test_totality_
+5b.py`, all five test functions incl. the two new ones): **5 passed in
+1618.61 s (≈ 27 min).**
+
+**Pre-tag execution tally: unchanged at 3.** None of the fifteen new
+behavioural tests touch the real tree — the nine fast tests use `root=
+tmp_path`/`exp5_root=tmp_path/"exp5"` (empty, isolated), never `battery_5b.
+EXP5B`; the six slow tests build a fresh synthetic SURVIVES world via `full_
+shape_5b.write_world_5b` into `tmp_path`, same as every other totality/
+determinism test. Nothing in this fix round calls `analyze_5b.run(root=
+battery_5b.EXP5B, ...)`.
+
+**Files changed this round:** `experiments/exp5b/tests/mutation_check.py`
+(`NON_FAST_KILLS_5B` rebuilt from observation, `STRUCTURAL_ONLY_5B` added,
+`run_worlds_only`'s `sequence` construction and fallback rewritten),
+`experiments/exp5b/tests/test_analyze_5b.py` (+8 fast behavioural tests + the
+`_isolated_kwargs`/`_assert_insufficient_with_label` helpers),
+`experiments/exp5b/tests/test_totality_5b.py` (+2 slow behavioural tests),
+`experiments/exp5b/mutation_build.log`, `experiments/exp5b/mutation_worlds.
+log` (both regenerated, real CLI output, never hand-edited). No instrument
+module touched (`analyze_5b.py`/`stats_5b.py`/`power_5b.py`/`collect_5b.py`/
+`battery_5b.py`/`run/units_5b.py` all byte-identical to before this round);
+`git diff --stat -- experiments/exp5` empty throughout.
+
+**Self-review.** All 24 totality mutants now have a genuine behavioural kill,
+individually verified before the harness was changed to rely on any of them
+(two rounds of scripted discovery, ~24 mutation-and-restore cycles beyond the
+75 the harness itself performs). `run_worlds_only` never credits the
+structural count as a kill (verified: 0 entries in `structural_only` on the
+real run). Both logs are the unedited output of the real `main()`/`--worlds-
+only` entry points against the current source. `git diff --stat` touches
+exactly the five files listed above; no instrument module, nothing under
+`experiments/exp5/`.
+
+**Concerns:** none outstanding. One design finding worth flagging for the
+freeze: the COLLATERAL fast-kill of eight sites (prereg/exp5-closed/exp5/
+host/units/gate1/power/projection) via the isolated tests' broken tree is a
+genuine, real behavioural kill — not a loophole — but it is *incidental* to
+those tests' stated purpose (they were built to test frozen/import/manifest/
+etc.). If a future refactor changes `_isolated_kwargs` to use a less "broken"
+tree (e.g. a valid empty `exp5_root` that Experiment 5's analyzer handles
+without failing), those eight sites would silently lose their fast-path
+coverage and fall back to their original slow-shape kill alone — worth a
+comment at `_isolated_kwargs` itself if a later task touches it (not done
+here, to keep this round's diff to exactly what the ruling asked for).

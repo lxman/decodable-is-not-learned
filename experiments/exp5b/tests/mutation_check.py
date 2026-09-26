@@ -366,21 +366,68 @@ NON_FAST_KILLS_5B = {
         "test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data",
     "run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped":
         "test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data",
+    # The seven totality mutants the rebuilt fast suite does not catch (the sites with only a
+    # SLOW behavioural test): each individually re-confirmed by applying it alone and running
+    # test_totality_5b.py -k "not test_site_template_count_is_24" -m slow (script transcript,
+    # PROGRESS.md Task 6 fix round 1).
+    "totality_eb285f87a4":     # line 410, the halt marker — shape 1
+        "test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data",
+    "totality_eed0ac97ed":     # line 529, st.cells_5b
+        "test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper",
+    "totality_fadbfe1930":     # line 531, st.primary_5b
+        "test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper",
+    "totality_f7b4069e79":     # line 533, st.sigma_hat_5b
+        "test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper",
+    "totality_ab35a54246":     # line 534, st.calibration_read_5b
+        "test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper",
+    "totality_4455ad799d":     # line 537, st.modifier_5b
+        "test_totality_5b.py::test_the_five_post_units_sites_raise_without_the_wrapper",
+    "totality_01f5677eb0":     # line 568, the verdict write
+        "test_totality_5b.py::test_verdict_write_site_raises_without_the_wrapper",
 }
-# The 24 AST-generated totality mutants: each strips exactly one collect_total_5b call from
-# run()'s own body, which test_totality_5b.py::test_site_template_count_is_24 (a STRUCTURAL
-# check — Experiment 5's own disclosed convention, carried forward: most totality mutants are
-# killed by this count, not by behaviour) catches mechanically. Individually re-confirmed for
-# all 24 (script transcript, PROGRESS.md Task 6) before being added here.
-NON_FAST_KILLS_5B.update({
-    lbl: "test_totality_5b.py::test_site_template_count_is_24" for lbl in (
-        "totality_eb285f87a4", "totality_ba977b0972", "totality_f0a6870714", "totality_87d16f0e63",
-        "totality_cb7f897d12", "totality_ede4a6963c", "totality_7e45e98c25", "totality_e1d8e53d7b",
-        "totality_cb18719ee0", "totality_ccb671a117", "totality_dc26819f87", "totality_7cc5e77609",
-        "totality_25f4ac9ac2", "totality_2fa44e6140", "totality_dd7bfd0a1a", "totality_24bb94d4f5",
-        "totality_eed0ac97ed", "totality_fadbfe1930", "totality_f7b4069e79", "totality_ab35a54246",
-        "totality_4455ad799d", "totality_edb704686d", "totality_01f5677eb0", "totality_710028e6a0")
-})
+# The remaining 17 totality mutants are killed by the FAST suite directly and so carry NO
+# entry here — this table lists only what the fast suite does not catch, never a static list
+# of "all totality labels". Nine are the sites the new fast tests target directly (frozen
+# modules, both import-surface sites, manifest, slice, referents, battery, floors, verify).
+# The other eight (prereg tag, exp5-closed, exp5, host record, units, gate 1, power record,
+# projection) are caught COLLATERALLY by every one of those same nine new fast tests: `_
+# isolated_kwargs` points `exp5_root` at an empty tmp directory and sets `tag_exists=lambda t:
+# False`, so require_prereg_5b/require_exp5_closed_5b/Experiment 5's own analyzer/the host
+# record/every unit load/gate 1/the power record/the projection check ALL genuinely fail for
+# real in every one of those tests (not simulated) — stripping any ONE of their wrappers
+# crashes the test with an uncaught exception, same mechanism as the sites those tests were
+# built for. These eight ALSO have their original behavioural kill from the eighteen
+# corruption shapes (slow); the fast collateral kill is confirmed in the rebuilt fast-pass
+# run (PROGRESS.md Task 6 fix round 1), not assumed.
+#
+# Fix round 1 (Important 1): the 24 AST-generated totality mutants were previously routed
+# through `test_site_template_count_is_24` alone — a STRUCTURAL check (it fires whenever ANY
+# collect_total_5b call is stripped from run()'s AST, whether or not the site's underlying
+# thunk is ever driven to raise) rather than a BEHAVIOURAL one. Every one of the 24 sites now
+# has a dedicated behavioural test (nine fast, in test_analyze_5b.py: frozen modules, both
+# import-surface sites, manifest, slice, referents, battery, floors, verify; six slow, in
+# test_totality_5b.py's new test_the_five_post_units_sites_raise_without_the_wrapper — cells,
+# primary, sigma hat, calibration, modifier — and test_verdict_write_site_raises_without_the_
+# wrapper; the remaining nine were already covered by the eighteen corruption shapes: halt
+# marker, prereg tag, exp5-closed, exp5, host record, units (all size-loop entries), gate 1,
+# power record, projection). Each of the 24 individually re-confirmed against its OWN
+# behavioural test (script transcripts, PROGRESS.md Task 6 fix round 1) BEFORE `run_worlds_
+# only` was changed to rely on them; the count test remains as a supplementary, non-authoritative
+# check inside test_totality_5b.py — `run_worlds_only` never credits it as a kill (see its
+# `sequence` construction below). Nothing is pre-populated here for the totality labels: the
+# fast pass (`main()`) now resolves most of them directly (a fast behavioural test failing IS
+# "killed by the fast suite"), and whatever still survives fast is discovered fresh by `run_
+# worlds_only`'s own totality-labelled sequence, never guessed in advance.
+
+# Fix round 1 (Important 1): NON_FAST_KILLS_5B's neighbour table — a totality label lands
+# here, never in NON_FAST_KILLS_5B, when NEITHER the fast suite nor the totality file's own
+# behavioural tests (excluding the count test) catch it, so `run_worlds_only` falls back to
+# `test_site_template_count_is_24` ONLY to disclose that the kill is structural (an AST
+# call-site count), never behavioural. Populated only from an observed `--worlds-only` run,
+# same discipline as NON_FAST_KILLS_5B. Expected to stay empty now that every one of the 24
+# totality sites has a dedicated behavioural test; kept as the disclosure mechanism the ruling
+# requires in case a future refactor reopens a gap.
+STRUCTURAL_ONLY_5B = {}
 
 # Mutants that survive BOTH the fast and slow suites, with a DOCUMENTED
 # reason the mutation is behaviourally equivalent on every input this
@@ -492,19 +539,22 @@ def run_worlds_only(argv) -> int:
     _refuse_if_any_backup_exists()
     clear_pycache()
 
-    killed_by, open_survivors, errors = {}, [], []
+    killed_by, structural_only, open_survivors, errors = {}, {}, [], []
     for n, label in enumerate(labels, 1):
         path, name, old, new, mlabel = by_label[label]
         if label.startswith("totality_"):
-            # Every totality mutant strips exactly one collect_total_5b call from run()'s own
-            # AST — test_site_template_count_is_24 is the sufficient AND necessary structural
-            # check for that (Experiment 5's own disclosed convention: most totality mutants
-            # are killed by this count, never by behaviour). Targeting it directly makes the
-            # confirmation minutes, not a multi-hour full-file run per mutant, for a kill that
-            # is otherwise entirely mechanical; individually verified against all 24 before
-            # this branch was added (PROGRESS.md, Task 6).
-            sequence = [("totality-count", TOTALITY_TESTS,
-                        ["-m", "slow", "-k", "test_site_template_count_is_24"])]
+            # Fix round 1 (Important 1): BEHAVIOURAL tests run first — the fast suite (nine of
+            # the 24 sites now have a dedicated fast test: frozen modules, both import-surface
+            # sites, manifest, slice, referents, battery, floors, verify), then the totality
+            # file's own behavioural tests EXCLUDING the count test by name (the eighteen
+            # corruption shapes cover nine more sites; the new `test_the_five_post_units_
+            # sites_raise_without_the_wrapper` and `test_verdict_write_site_raises_without_the_
+            # wrapper` cover the remaining six). `test_site_template_count_is_24` is never in
+            # this sequence — it fires on ANY stripped site regardless of behaviour, so crediting
+            # it here would launder a structural-only kill as behavioural.
+            sequence = [("fast-behavioural", FAST_TESTS, []),
+                       ("totality-behavioural", TOTALITY_TESTS,
+                        ["-m", "slow", "-k", "not test_site_template_count_is_24"])]
         else:
             sequence = [("totality", TOTALITY_TESTS, ["-m", "slow"]),
                        ("fullshape", FULLSHAPE_TESTS, ["-m", "slow"])]
@@ -540,17 +590,43 @@ def run_worlds_only(argv) -> int:
                 found = True
                 break
             print(f"[{label}] ({n}/{len(labels)}) survived {mode_name}", flush=True)
-        if not found:
+        if found:
+            continue
+        if not label.startswith("totality_"):
             print(f"[{label}] ({n}/{len(labels)}) OPEN SURVIVOR — every route tried failed to "
                  f"kill it: {name}", flush=True)
             open_survivors.append(label)
+            continue
+        # supplementary-only, for disclosure: confirm the AST count still catches it, but
+        # this is NEVER credited as a kill — a real behavioural gap would need a new test,
+        # not a note here.
+        backup = _acquire_backup(path)
+        try:
+            path.write_text(src.replace(old, new))
+            clear_pycache()
+            ok, out, timed_out, no_tests = _run_suite_full(
+                TOTALITY_TESTS, ["-m", "slow", "-k", "test_site_template_count_is_24"], timeout=120)
+        finally:
+            shutil.copy2(backup, path)
+            backup.unlink()
+            clear_pycache()
+        if not timed_out and not no_tests and not ok:
+            print(f"[{label}] ({n}/{len(labels)}) STRUCTURAL-ONLY (no behavioural test drives "
+                 f"this site) — the AST count test alone catches it: {name}", flush=True)
+            structural_only[label] = "test_site_template_count_is_24 (structural-only, not a behavioural kill)"
+        else:
+            print(f"[{label}] ({n}/{len(labels)}) OPEN SURVIVOR — every route, including the "
+                 f"structural count, failed to kill it: {name}", flush=True)
+            open_survivors.append(label)
 
-    print(f"\n=== run_worlds_only tally === considered={len(labels)} "
-         f"killed={len(killed_by)} open_survivors={len(open_survivors)} errors={len(errors)}")
+    print(f"\n=== run_worlds_only tally === considered={len(labels)} killed={len(killed_by)} "
+         f"structural_only={len(structural_only)} open_survivors={len(open_survivors)} "
+         f"errors={len(errors)}")
     print(f"killed_by = {killed_by}")
+    print(f"structural_only = {structural_only}")
     print(f"open_survivors = {open_survivors}")
     print(f"errors = {errors}")
-    return 1 if (open_survivors or errors) else 0
+    return 1 if (open_survivors or errors or structural_only) else 0
 
 
 def _parse_only(argv) -> set:
