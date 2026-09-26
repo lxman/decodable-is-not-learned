@@ -188,3 +188,91 @@ fresh rng at the same seed; a different seed differs). `main`'s ONCE/
 exp5-closed refusal behavior passes. Output pristine under `-W error`. The one
 finding above was reported rather than papered over, and resolved only after
 an explicit ruling.
+
+## Task 4 (2026-09-25): `collect_5b.py`, `run/units_5b.py`,
+`run/preflight_5b.py` — the per-unit pipeline over Experiment 5's writer,
+the twelve-unit re-read comparison, the digest halt, the stage runner
+
+Built: `experiments/exp5b/collect_5b.py` (`reread_compare_5b` — gate 1's
+twelve-unit comparison of this box's `_checkpoint.json`/`_loss.json`/per-rung
+files against Experiment 5's committed unit of the same `(size, step)`,
+returning digest/loss/count/continuation diffs plus `byte_identical` and
+`tolerance_failures` via `battery_5.tolerance_failures_5`; `write_unit5b_record_5b`
+writing `_unit_5b.json`; `run_unit_5b` — Experiment 5's `run_unit_5` called
+verbatim into 5b's tree, `_unit_5b.json` written LAST, the re-read run only on
+`battery_5b.reread_steps_5b()` (the final and the first window step), a digest
+mismatch halting via `SystemExit(2)` after the unit and its attestation are
+already on disk (`halt_on_digest=True` by default, `False` for the analyzer's
+refusal-tree tests); a unit complete under Experiment 5's own rule but missing
+`_unit_5b.json` is removed WHOLE and redone, never adopted (Review Focus 1);
+`gate1_record_5b` — the runner's attestation over every re-read unit present,
+rewritten after each side, digest/loss/tolerance failures collected, the
+analyzer left to re-derive the comparison itself per F-2's lesson).
+`experiments/exp5b/run/units_5b.py` (`run` — refusal order 5b prereg tag →
+`exp5-closed` binding → frozen → imports → `power_5b.json` present → the
+projection an ancestor of HEAD → a size's HALTED marker → not-a-small-side →
+[dry run stops here] → the host record written once (reused, checked against
+a live record on every later call, refusing on mismatch) → the four units in
+order (final, then the window descending) with a one-slot prefetcher
+overlapping the next unit's download → `gate1_record_5b`; `main` = the CLI).
+`experiments/exp5b/run/preflight_5b.py` (`run` — `check_frozen_5b` only, not
+the tag (4c's rule); `twice_size`'s final loaded and scored TWICE into
+sibling scratch roots under `cache_root`, compared byte-for-byte via
+Experiment 5's `_compare_units`; `timed_size`'s final run whole and timed,
+peak CUDA memory read via `_peak_cuda_memory`; a `root/results`
+before/after snapshot via `_results_snapshot` that must be unchanged, or the
+run raises). The seven shell scripts (`campaign_5b.sh`, `box_setup_5b.sh`,
+`make_bundle_5b.sh`, `rebundle_box_5b.sh`, `pull_units_5b.sh`,
+`commit_watcher_5b.sh`, `status_box_5b.sh`) each a copy of Experiment 5's
+namesake with exactly the brief's differences applied (5b's own paths, tags,
+log/grep patterns, the 38-file completeness count vs Experiment 5's 37, the
+`exp5b-preregistered` refusal gate on the box side, no search-log/gate1c
+pulling — 5b has neither). The thermal screen is NOT copied — Experiment 5's
+`run/thermal_screen_5.py` is called directly on the box before install, as
+the brief specifies. `.gitignore` gained the `# exp5b` block (fourteen
+machine-local log/pid/bundle patterns, mirroring Experiment 5's).
+
+**TDD.** RED: `~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp5b/tests/test_collect_5b.py experiments/exp5b/tests/test_stages_5b.py -q`
+before `collect_5b.py` existed → `ImportError: cannot import name 'collect_5b'
+from 'experiments.exp5b'` (test_collect_5b.py) and `ImportError: cannot
+import name 'preflight_5b' from 'experiments.exp5b.run'` (test_stages_5b.py),
+both at collection, as expected. GREEN: same command after Steps 3–6 → `13
+passed in 7.45s`; repeated under `-W error` → identical, `13 passed`, no
+warnings; the full `experiments/exp5b/tests` directory (Tasks 1–4 combined,
+`-m "not slow"`) → `44 passed, 1 deselected in 29.05s` — nothing regressed.
+
+**Byte-identity check.** `collect_5b.py`, `run/units_5b.py` and
+`run/preflight_5b.py` are programmatically diffed against the brief's Step
+3/4/5 code blocks: zero differences, all three IDENTICAL. The two test files
+are identical to the brief's Step 1 blocks except for the leading `#
+experiments/exp5b/tests/test_*.py` path-comment line, which — following
+Tasks 1–3's own test files (`test_battery_5b.py`, `test_power_5b.py`, neither
+carries that comment) — is a fence label, not file content, so it is omitted
+on disk; confirmed this is the only difference by line-level diff.
+
+`bash -n` on all seven `.sh` files: all seven print `OK` (`box_setup_5b.sh`,
+`campaign_5b.sh`, `commit_watcher_5b.sh`, `make_bundle_5b.sh`,
+`pull_units_5b.sh`, `rebundle_box_5b.sh`, `status_box_5b.sh`).
+
+**Self-review.** Every name in the brief's Produces list exists with the
+brief's signature (`reread_compare_5b`, `write_unit5b_record_5b`,
+`run_unit_5b`, `gate1_record_5b`, `units_5b.run`, `preflight_5b.run` —
+checked via `inspect.signature` against the brief text). `_unit_5b.json` is
+written strictly after `_unit.json` (`test_run_unit_5b_writes_the_5b_record_last_and_compares_a_reread`'s
+mtime assertion passes). The digest halt fires only after
+`write_unit5b_record_5b` has already run — `_unit_5b.json` carries
+`reread_record.digest_equal: false` when the `SystemExit` is caught in
+`test_reread_digest_mismatch_halts_after_writing_the_unit`. Nothing under
+`exp5_root` changes across four `run_unit_5b` calls
+(`test_nothing_is_written_under_the_exp5_root`, snapshot equality via
+Experiment 5's own `_results_snapshot`). Zero model contact, zero network in
+any test (all fakes). No file outside the brief's Create/Modify list was
+touched. Output pristine (no stray prints beyond the module's own `[5b]`/`[5b
+units]`/`[5b preflight]` lines, which match the brief verbatim).
+
+**Concerns:** none. The two open items noted in the brief ("two facts the
+brief's code relies on") were honored as-is and not touched: `why` values
+`"final"`/`"member"` pass through `run_unit_5` unchanged, and Experiment 5's
+`_unit.json`/rung records carry `prereg_tag: "exp5-preregistered"` (Experiment
+5's own tag, not 5b's) by design, per plan delta B-2.

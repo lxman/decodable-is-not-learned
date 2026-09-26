@@ -142,3 +142,17 @@ experiments/exp5/*.pid
 experiments/exp5/run/*.bundle
 experiments/exp5/cold_post_seal.log
 experiments/exp5/read_sweep_post_seal.log
+# exp5b
+experiments/exp5b/preflight.log
+experiments/exp5b/units_*.log
+experiments/exp5b/campaign.log
+experiments/exp5b/power.log
+experiments/exp5b/analyzer.log
+experiments/exp5b/watcher_5b.log
+experiments/exp5b/pull_5b.log
+experiments/exp5b/status_5b.log
+experiments/exp5b/box-*.log
+experiments/exp5b/*.pid
+experiments/exp5b/run/*.bundle
+experiments/exp5b/cold_post_tag.log
+experiments/exp5b/read_sweep_post_tag.log
