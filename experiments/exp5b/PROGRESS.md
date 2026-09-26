@@ -116,3 +116,75 @@ signature (checked by `inspect.signature` against the list verbatim). The `cell_
 output's key set was diffed programmatically against the brief's exact 37-name list
 (19 identifiers + 18 computed fields) on a live example — zero missing, zero extra.
 No brief assertion needed weakening; nothing papered over.
+
+## Task 3 (2026-09-25): `power_5b.py` — the noise-grid power and calibration
+record, transcribed verbatim from the brief. `structure_5b`/`structure_sha256_5b`
+carry Experiment 5's 63 committed live cells (13 `STRUCTURE_KEYS_5B` fields plus
+the committed a−f offset) through to a content hash. `simulate_5b` draws f ONCE
+per cell at σ_s around its truth and feeds that single draw into both
+Experiment 5's rule (via `stats_5.cell_5`, becoming `cell5["f"]`) and 5b's rule
+(via `stats_5b.cell_5b`'s `f_B`) — by design the two are the same value, never
+independently noised; the large side's reads and placebo drifts mirror
+Experiment 5's own `simulate_battery_5` exactly; the three window members share
+one small-side drift N(0, DRIFT_5B). `arm_5b` runs `n_sim` batteries through
+three rules at once (5b's `c_sym` via `stats_5b.tree_5b`, Experiment 5's own
+rule replayed on the noised f via `stats_5.tree_5`, and the naive `c_naive`
+form) plus the simulated σ̂ mean. `compute_5b` sweeps the σ_s grid (six points ×
+four arms), then the D grid, then the fraction grid, one rng consumed in that
+fixed order; the declaration reads the plugin arm at σ_s = 15 against the 0.75
+bar. `main()` requires `exp5-closed`, the frozen/import pins, and refuses a
+second write.
+
+**A ruled correction to the brief's own test.** First GREEN attempt: 8 of 9 new
+tests passed; `test_simulate_reads_f_once_and_members_with_a_shared_drift`
+FAILED deterministically (not a seed fluke — confirmed by direct inspection)
+on `assert any(c["f_B"] != c["f"] for c in cells)`. Root cause: `c["f_B"]` and
+`c["f"]` on a `simulate_5b` output cell are provably the SAME value on every
+cell, by construction — both are sourced from the one `f_read` draw threaded
+into `ss.cell_5(f=reads["f_read"], ...)` (becoming `cell5["f"]`, then copied
+into `c["f"]` by `stats_5b`'s `IDENT_KEYS_5B`) and into `st.cell_5b(...,
+{"f_B": f_read, ...}, ...)` — exactly what the module's own docstring says is
+intentional ("f is ONE draw at σ_s around its truth, entering both R and M").
+No true, un-noised small-side value is exposed on the returned cell dict at
+all; the assertion as written was unsatisfiable for any σ_s > 0 at any seed.
+Reported as a finding per the task's binding constraints (not fixed by
+weakening the assertion or altering `power_5b.py`); ruling received and
+ledgered: the brief's test was wrong, the design/code were right — the truth
+being compared against is the *structure's* `f` (`structure_5b`'s output,
+which `simulate_5b` returns in the same order), not the simulated cell's `f`.
+Applied exactly as ruled: the sigma_s = 0 block now zips `cells` against the
+structure (`st_ = pw5b.structure_5b(_cells5())`, `for c, s in zip(cells,
+st_)`) and asserts `c["f_B"] == s["f"]`; the sigma_s = 15 block asserts
+`any(c["f_B"] != s["f"] for c, s in zip(cells, st_))`; both carry the comment
+`# ruling (Task 3): c["f"] IS the draw; the truth is the structure's f`. No
+other line of the test file or of `power_5b.py` touched — both remain
+otherwise byte-identical to the brief.
+
+**TDD.** RED: `~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp5b/tests/test_power_5b.py -q` before `power_5b.py` existed →
+`ImportError: cannot import name 'power_5b'`, as expected. GREEN (post-ruling):
+same command → `9 passed in 23.19s`; repeated under `-W error` → identical, `9
+passed`, no warnings. Full `experiments/exp5b/tests` directory (Tasks 1+2's
+suites plus this one): `32 passed in 23.57s` — nothing regressed.
+
+**Timings.** Whole test file: 23.02 s pre-ruling (8 passed/1 failed) / 23.19 s
+post-ruling (9 passed) / 23.57 s for the full `tests/` directory. One `arm_5b`
+call at `n_sim=100` on the real 63-cell live structure
+(`pw5b.structure_5b(pw5b.load_cells5_live_5b(b5b.EXP5))`, σ_s 15, offset_scale
+1.0): **2.02 s** (`n_live` 63; `P_fire_5b` .99, `P_fire_exp5` 1.0,
+`sigma_hat_sim_mean` 14.95). Linear extrapolation only (not measured): the real
+record at `n_sim=1000` over 6×4 + 6 + 4 = 34 arm-equivalents is ≈ 34 × 10 ×
+2.02 s ≈ **11–12 min**, longer than the brief's "expected ≈ 3–6 min" — flagged
+for Task 6, not resolved here.
+
+**Self-review.** Every name in the brief's Produces list exists with the
+brief's signature; `power_5b.py` verified byte-identical to the brief's Step-3
+code block by programmatic diff (zero differences). `compute_5b`'s record
+carries every key in the brief's "record's keys" list (exercised by
+`test_compute_record_shape_axes_and_determinism`). The rng is consumed in the
+documented fixed order (`test_rng_order_is_fixed_grid_then_d_then_fractions`:
+the record's `grid[0]["arms"]["null"]` equals a direct `arm_5b` call on a
+fresh rng at the same seed; a different seed differs). `main`'s ONCE/
+exp5-closed refusal behavior passes. Output pristine under `-W error`. The one
+finding above was reported rather than papered over, and resolved only after
+an explicit ruling.
