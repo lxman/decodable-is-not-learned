@@ -68,19 +68,26 @@ def test_nonfinite_member_is_absent_never_read(tmp_path, monkeypatch):
     assert v["verdict"] == "SURVIVES"
 
 
-def test_side_absent_or_memberless_is_excluded_not_refused(tmp_path, monkeypatch):
-    """Review Focus 5."""
+def test_side_absent_or_memberless_refuses(tmp_path, monkeypatch):
+    """Review Focus 5, as closed by freeze F-1: the runner writes every unit
+    (a non-finite member written and marked, a non-finite final halted), so
+    a side directory absent or a side whose members were never written is
+    an unfinished campaign — INSUFFICIENT_DATA at '5b window completeness',
+    never an exclusion (plan B-4's absent-directory clause superseded; the
+    measured exclusion is reachable only through non-finite members, and
+    see test_freeze_5b's C-2 test for why it is not reachable at all)."""
     import shutil
     w = fs5b.write_world_5b(tmp_path, "SURVIVES", monkeypatch=monkeypatch)
     shutil.rmtree(b5b.units_root_5b(w["root5b"]) / "1b")
     v = fs5b.run_5b(w)
-    assert v["failures"] == [] and v["sides"]["excluded"] == ["1b"] and v["sides"]["cells_dropped"] > 0
-    assert v["verdict"] in ("SURVIVES", "UNDETERMINED", "NOT-SURVIVED")
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith("5b window completeness") and "1b" in f for f in v["failures"]), v["failures"][:3]
     w = fs5b.write_world_5b(tmp_path / "b", "SURVIVES", monkeypatch=monkeypatch)
     for step in fs5b.WINDOW_W:
         shutil.rmtree(b5b.unit_dir_5b(w["root5b"], "1.4b", step))
     v = fs5b.run_5b(w)
-    assert v["failures"] == [] and v["sides"]["excluded"] == ["1.4b"]
+    assert v["verdict"] == "INSUFFICIENT_DATA"
+    assert any(f.startswith("5b window completeness") and "1.4b" in f for f in v["failures"]), v["failures"][:3]
     # a side whose FINAL is torn but whose members exist is a refusal
     w = fs5b.write_world_5b(tmp_path / "c", "SURVIVES", monkeypatch=monkeypatch)
     shutil.rmtree(b5b.unit_dir_5b(w["root5b"], "2.8b", b5.FINAL_STEP_5))

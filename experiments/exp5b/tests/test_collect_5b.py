@@ -209,6 +209,8 @@ def test_gate1_rederive_5b_catches_a_runner_attestation_mismatch(env):
     side = an.load_side_5b(env["root5b"], "1b", **common)
     _, failures = an.gate1_rederive_5b(env["root5b"], env["root5"], {"1b": side})
     assert any("attested digest_equal" in f for f in failures)
+    # freeze C-1: the side's re-read member was never written — a refusal, never a skip
+    assert any(f"1b/step{WINDOW[0]}" in f and "not on disk" in f for f in failures), failures
 
 
 def test_nothing_is_written_under_the_exp5_root(env):

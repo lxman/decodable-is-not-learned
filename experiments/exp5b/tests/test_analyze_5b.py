@@ -50,11 +50,31 @@ def test_power_failures_5b_catches_a_non_reproducing_record(monkeypatch):
     monkeypatch.setattr(an.pw5b, "SEED_5B", 0)
     struct_sha = pw5b.structure_sha256_5b(pw5b.structure_5b([]))
     rec = {"prereg_tag": b5b.PREREG_TAG_5B, "exp5_closed_tag": b5b.EXP5_CLOSED_TAG_5B, "n_sim": 5, "seed": 0,
-          "declaration": "DECLARED UNDERPOWERED IN ADVANCE", "sigma_hat_axis": [1] * 6, "alpha_5b_axis": [1] * 6,
+          "declaration": "DECLARED UNDERPOWERED IN ADVANCE", "sigma_hat_axis": [1, 2, 3, 4, 5, 6],
+          "alpha_5b_axis": [1] * 6,
           "null_mean_5b_axis": [1] * 6, "alpha_exp5_axis": [1] * 6, "alpha_naive_axis": [1] * 6,
           "null_mean_exp5_axis": [1] * 6, "null_mean_naive_axis": [1] * 6, "structure_sha256": struct_sha}
     bad = an.power_failures_5b(rec, cells5_live=[], floors={}, closed=None, power_gate="full")
     assert any("byte-for-byte" in b for b in bad)
+
+
+def test_power_failures_5b_refuses_a_non_increasing_sigma_hat_axis():
+    """Freeze F-3: `numpy.interp` reads a number off ANY axis; the calibration
+    read is defined only on a strictly increasing simulated sigma-hat axis —
+    a flat or out-of-order axis refuses (checked before the recompute, so
+    also under power_gate='skip')."""
+    struct_sha = pw5b.structure_sha256_5b(pw5b.structure_5b([]))
+    base = {"prereg_tag": b5b.PREREG_TAG_5B, "exp5_closed_tag": b5b.EXP5_CLOSED_TAG_5B, "n_sim": pw5b.N_SIM_5B,
+            "seed": pw5b.SEED_5B, "declaration": "POWERED", "alpha_5b_axis": [0] * 6, "null_mean_5b_axis": [0] * 6,
+            "alpha_exp5_axis": [0] * 6, "alpha_naive_axis": [0] * 6, "null_mean_exp5_axis": [0] * 6,
+            "null_mean_naive_axis": [0] * 6, "structure_sha256": struct_sha}
+    ok = an.power_failures_5b(dict(base, sigma_hat_axis=[5, 10, 15, 20, 30, 45]), cells5_live=[], floors={},
+                              closed=None, power_gate="skip")
+    assert ok == []
+    for ax in ([5, 10, 10, 20, 30, 45], [5, 15, 10, 20, 30, 45], [45, 30, 20, 15, 10, 5]):
+        bad = an.power_failures_5b(dict(base, sigma_hat_axis=ax), cells5_live=[], floors={}, closed=None,
+                                   power_gate="skip")
+        assert any("not strictly increasing" in b for b in bad), (ax, bad)
 
 
 def _isolated_kwargs(tmp_path, **over):
@@ -155,3 +175,38 @@ def test_projection_failures_5b_checks_both_ancestries():
                                      is_ancestor=lambda a, b: not (a == "p" and b == "u2"), edits=[])
     assert an.projection_failures_5b(sides, projection_commit="p", prereg_commit="t",
                                      is_ancestor=lambda a, b: True, edits=["edited"])
+
+
+def test_window_completeness_site_raises_without_the_wrapper(tmp_path):
+    """Freeze F-1: the '5b window completeness' site — on an empty tree every
+    side's four units are missing, so the site fails for real; under the
+    stripped wrapper its ValueError propagates out of `run()`."""
+    v = an.run(**_isolated_kwargs(tmp_path))
+    _assert_insufficient_with_label(v, "5b window completeness")
+
+
+def test_window_completeness_failures_5b_measures_the_tree(tmp_path):
+    """Freeze F-1: every small side owes all four units; a missing side, a
+    missing unit and a non-side directory under results/units/ each fail;
+    a unit present but not 5b-complete (no `_unit_5b.json`) counts as missing."""
+    from experiments.exp5 import battery_5 as b5
+    bad = an.window_completeness_failures_5b(tmp_path)
+    assert len(bad) == len(b5b.small_sides_5b())
+    assert all("not on disk as complete 5b units" in b for b in bad)
+    (b5b.units_root_5b(tmp_path) / "12b").mkdir(parents=True)
+    bad = an.window_completeness_failures_5b(tmp_path)
+    assert any("['12b']" in b and "not a small side" in b for b in bad)
+    # a unit that Experiment 5's completeness accepts but lacks 5b's attestation is still owed
+    import json as _j
+    d = b5b.unit_dir_5b(tmp_path, "1b", b5.FINAL_STEP_5)
+    d.mkdir(parents=True)
+    import hashlib as _h
+    files = {}
+    for name in b5.unit_files_5():
+        (d / name).write_text(name)
+        files[name] = _h.sha256(name.encode()).hexdigest()
+    (d / "_unit.json").write_text(_j.dumps({"files": files}))
+    assert b5.unit_complete_5(tmp_path, "1b", b5.FINAL_STEP_5) and \
+        not b5b.unit_complete_5b(tmp_path, "1b", b5.FINAL_STEP_5)
+    bad = an.window_completeness_failures_5b(tmp_path)
+    assert any(b.startswith("gate 4 1b:") and str(b5.FINAL_STEP_5) in b for b in bad)

@@ -13,7 +13,6 @@ exist only after the campaign (design §2)."""
 from __future__ import annotations
 
 import json
-import subprocess
 import sys
 import zipfile
 from pathlib import Path
@@ -141,6 +140,34 @@ def load_side_5b(root, size, *, manifest, battery, verify_fn, host, slice_sha, n
             "final_loss": u["losses"].get(b5.FINAL_STEP_5)}
 
 
+def window_completeness_failures_5b(root) -> list:
+    """Freeze F-1 (the class defect; 2d F-1's lineage): gate 4's window
+    completeness MEASURED from the tree, not inferred from what loaded.
+    The runner writes every one of the 24 units — a non-finite member is
+    written whole and marked (Experiment 5's slip 9), a non-finite final
+    halts the size with a marker — so a unit NOT on disk is a campaign that
+    did not finish, never an ABSENT member (design §3.2's ABSENT is the
+    measured non-finite rule), and a side directory NOT on disk is a size
+    the campaign never reached, never an exclusion. Before this check both
+    were read as §3.2's shorter window / exclusion and a verdict was
+    delivered over whatever the kill left. Also: nothing but the six small
+    sides under results/units/ (nothing else loaded)."""
+    root = Path(root)
+    bad = []
+    ur = b5b.units_root_5b(root)
+    if ur.is_dir():
+        stray = sorted(p.name for p in ur.iterdir() if p.is_dir() and p.name not in b5b.small_sides_5b())
+        if stray:
+            bad.append(f"gate 4: {stray} under results/units/ is not a small side (nothing else loaded)")
+    for size in b5b.small_sides_5b():
+        missing = [int(s) for s in b5b.unit_steps_5b() if not b5b.unit_complete_5b(root, size, s)]
+        if missing:
+            bad.append(f"gate 4 {size}: step(s) {missing} not on disk as complete 5b units — the campaign "
+                       f"did not finish this side (an ABSENT member is a written unit whose loss is "
+                       f"not finite, never an unwritten one)")
+    return bad
+
+
 # --------------------------------------------------------------- gate 1
 
 def gate1_rederive_5b(root, exp5_root, sides: dict) -> tuple:
@@ -150,6 +177,9 @@ def gate1_rederive_5b(root, exp5_root, sides: dict) -> tuple:
             continue
         for step in b5b.reread_steps_5b():
             if step not in side["steps"]:
+                # Freeze C-1 (3d's gate 1 / 2h F-2): a re-read unit missing is a refusal, never a skip
+                failures.append(f"gate 1 {size}/step{int(step)}: the re-read unit is not on disk — gate 1 "
+                                f"compares all {len(b5b.reread_steps_5b())} re-reads of every side")
                 continue
             rr = c5b.reread_compare_5b(root, size, step, exp5_root=exp5_root)
             key = f"{size}/step{int(step)}"
@@ -190,6 +220,12 @@ def power_failures_5b(rec: dict, *, cells5_live, floors, closed, power_gate="ful
               "null_mean_exp5_axis", "null_mean_naive_axis"):
         if len(rec.get(k) or []) != len(b5b.SIGMA_GRID_5B):
             bad.append(f"power record: {k} does not cover the grid")
+    # Freeze F-3: numpy.interp returns a number for ANY axis; the calibration read is defined
+    # only on a strictly increasing one
+    ax = rec.get("sigma_hat_axis") or []
+    if len(ax) == len(b5b.SIGMA_GRID_5B) and not all(float(b) > float(a) for a, b in zip(ax, ax[1:])):
+        bad.append("power record: sigma_hat_axis is not strictly increasing — the calibration read "
+                   "(numpy.interp on the simulated axis) is undefined on it")
     if power_gate == "full" and not bad:
         recomputed = pw5b.compute_5b(cells5_live, floors, n_sim=rec["n_sim"], seed=rec["seed"])
         recomputed["exp5_verdict_sha256"] = rec.get("exp5_verdict_sha256")
@@ -472,6 +508,12 @@ def run(root=None, *, exp5_root=None, write=False, n_sample=None, n_boot=None, m
                                 slice_sha=sl["sha256"], n_scored=sl["meta"]["n_scored"])
         side, f = collect_total_5b(_side, f"5b units {size}"); failures += f
         sides[size] = side if not f else None
+    def _window():
+        bad = window_completeness_failures_5b(root)
+        if bad:
+            raise ValueError("; ".join(bad[:6]))
+        return True
+    _, f = collect_total_5b(_window, "5b window completeness"); failures += f
     excluded = sorted(s for s, side in sides.items() if side is None or not side["members_present"])
     members_absent = {s: side["members_absent"] for s, side in sides.items() if side is not None and side["members_absent"]}
 
@@ -480,8 +522,16 @@ def run(root=None, *, exp5_root=None, write=False, n_sample=None, n_boot=None, m
         att_p = b5b.gate1_path_5b(root)
         if not att_p.is_file():
             bad.append("gate 1: results/gate1_5b.json (the runner's attestation) missing")
-        elif json.loads(att_p.read_text()).get("pass") != rec["pass"]:
-            bad.append("gate 1: the runner's attested pass flag != the re-derived one")
+        else:
+            att = json.loads(att_p.read_text())
+            if att.get("pass") != rec["pass"]:
+                bad.append("gate 1: the runner's attested pass flag != the re-derived one")
+            # Freeze C-1: coverage measured — the attestation's units == the re-derived units
+            att_keys, got_keys = set(att.get("per_unit") or {}), set(rec["per_unit"])
+            if att_keys != got_keys:
+                bad.append(f"gate 1: the runner's attestation covers {len(att_keys)} unit(s), the "
+                           f"re-derivation {len(got_keys)}: attested-only {sorted(att_keys - got_keys)[:4]}, "
+                           f"re-derived-only {sorted(got_keys - att_keys)[:4]}")
         if bad:
             raise ValueError("; ".join(bad[:6]))
         return rec

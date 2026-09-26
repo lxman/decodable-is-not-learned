@@ -4,9 +4,10 @@ leave gives `analyze_5b.run()` INSUFFICIENT_DATA, never a raise — on the
 SURVIVES world `full_shape_5b.write_world_5b` builds, one corruption at
 a time, each applied then RESTORED before the next (Experiment 5's own
 `test_totality_5.py` pattern, one world built once for the whole test
-function). Shapes 7 and 8 are the two NON-refusal cases in the brief's
-list (a side directory removed / a side with only the final present) —
-asserted as EXCLUDED, never INSUFFICIENT_DATA.
+function). Shapes 7 and 8 (a side directory removed / a side with only
+the final present) were the brief's two NON-refusal cases; freeze F-1
+made both refusals (an unfinished campaign never delivers a verdict), and
+shape 8b is freeze C-1 (the gate-1 attestation's coverage).
 
 Unlike `test_full_shape_5b.py`'s own `run_5b` (which forces `referents_
 sha=False, imports_pinned=False, frozen_check=lambda: None` to work
@@ -138,27 +139,38 @@ def test_every_runner_leavable_tree_shape_gives_insufficient_data(tmp_path, monk
     assert any("never requested" in f for f in v["failures"])
     shutil.rmtree(extra)
 
-    # 7. a side directory removed entirely — NOT a refusal, EXCLUDED.
+    # 7. a side directory removed entirely — freeze F-1: the campaign never reached it, a refusal
+    # (was EXCLUDED under plan B-4's absent-directory clause, superseded).
     side7 = b5b.units_root_5b(r5b) / "1.4b"
     moved7 = tmp_path / "moved_1.4b"
     shutil.move(str(side7), str(moved7))
-    v = _run(w)
-    assert v["verdict"] != "INSUFFICIENT_DATA", v["failures"][:3]
-    assert v["sides"]["excluded"] == ["1.4b"], v["sides"]
+    v = _assert_insufficient(w)
+    assert any(f.startswith("5b window completeness") for f in v["failures"]), v["failures"][:3]
     shutil.move(str(moved7), str(side7))
 
-    # 8. a side with only the final present — NOT a refusal, EXCLUDED.
+    # 8. a side with only the final present — freeze F-1: three units never written, a refusal.
     moved_members = {}
     for step in fs5b.WINDOW_W:
         d = b5b.unit_dir_5b(r5b, "2.8b", step)
         dest = tmp_path / f"moved_2.8b_{step}"
         shutil.move(str(d), str(dest))
         moved_members[step] = dest
-    v = _run(w)
-    assert v["verdict"] != "INSUFFICIENT_DATA", v["failures"][:3]
-    assert "2.8b" in v["sides"]["excluded"], v["sides"]
+    v = _assert_insufficient(w)
+    assert any(f.startswith("5b window completeness") for f in v["failures"]), v["failures"][:3]
     for step, dest in moved_members.items():
         shutil.move(str(dest), str(b5b.unit_dir_5b(r5b, "2.8b", step)))
+
+    # 8b. freeze C-1: the runner's gate-1 attestation written before the last side (a side's
+    # two re-read keys missing, pass still true) — coverage is measured, a refusal.
+    g1p8 = b5b.gate1_path_5b(r5b)
+    raw8 = g1p8.read_bytes()
+    rec8 = json.loads(raw8)
+    for key in [k for k in rec8["per_unit"] if k.startswith("1b/")]:
+        del rec8["per_unit"][key]
+    g1p8.write_text(json.dumps(rec8))
+    v = _assert_insufficient(w)
+    assert any("gate 1" in f and "attestation covers" in f for f in v["failures"]), v["failures"][:3]
+    g1p8.write_bytes(raw8)
 
     # 9. a side with a torn final — a refusal.
     final_dir = b5b.unit_dir_5b(r5b, "1b", FINAL)
@@ -374,7 +386,7 @@ def _site_templates_5b() -> list:
     return out
 
 
-def test_site_template_count_is_24():
+def test_site_template_count_is_25():
     """Task 6 finding, disclosed (Experiment 5's own `mutation_check.py`
     convention, carried forward): a totality mutant strips exactly one
     `collect_total_5b` call from `run()`'s own body, textually — this
@@ -383,7 +395,7 @@ def test_site_template_count_is_24():
     shapes below happen to drive that specific site to a raise. The
     brief does not name an exact count for 5b; 24 is the number this
     same AST walk finds in the committed `analyze_5b.py::run()` today."""
-    assert len(_site_templates_5b()) == 24, _site_templates_5b()
+    assert len(_site_templates_5b()) == 25, _site_templates_5b()      # 24 + freeze F-1's window completeness
 
 
 def test_every_collect_total_5b_site_in_run_is_reached_across_the_shapes(tmp_path, monkeypatch):
