@@ -55,3 +55,64 @@ blobs), plus `experiments/exp5b/tests/conftest.py` (registers the `slow`
 mark) and `experiments/exp5b/tests/helpers_5b.py` (the tag-injection and
 prereg-wrap helpers later tasks share). `python -m pytest
 experiments/exp5b/tests/test_battery_5b.py -q` → 11 passed.
+
+## Task 2 (2026-09-25): `stats_5b.py` — the small-side reads, the matched
+placebo, the cell join, the primary (generic key), σ̂_s, the calibration
+read, the tree, the modifier, and the pure parts of S1/S2/S6/S7/S8/S9/S10/S12
+
+Pure functions, no I/O, transcribed verbatim from the task brief. `small_reads_5b`
+reads a size's `{step: {rung: count}}` table down to the final (`b5.FINAL_STEP_5`)
+plus whichever of the three window steps (`b5b.WINDOW_STEPS_5B`) are present.
+`placebo_terms_5b` builds the six (outer-window × member) matched-placebo terms
+`|(a − b_s) + sign·(f_B − n_j)| / √2` (`b5b.PLACEBO_SIGN_5B`, `b5b.SQRT2_5B`); a
+missing outer window (`b_minus` or `b_plus` is `None`) drops its three terms,
+leaving three. `cell_5b` joins one of Experiment 5's cells to one small-side read:
+carries the nineteen identifiers verbatim, computes `Q` (mean absolute deviation of
+the members from `f_B`), `M`/`M_minus` (mean of the placebo terms at `+sign`/`−sign`),
+the four sensitivity forms `c_sym` (`(R−M)/n`), `c_naive` (`(R − (P+Q)/2)/n`), `c_max`
+(`(R − max(P,Q))/n`), `c_minus` (`(R−M_minus)/n`) — each `None` when its input is
+undefined (no members → `Q`/`M`/`M_minus` all `None`) — plus the four small-side reads
+(final first, then descending step), their clear status against `battery_5.clears_5`,
+whether that status is constant across the four, and the ddof-1 sample SD of the four
+reads (`None` below two reads). `primary_5b` takes a generic `key` (default `c_sym`)
+and is otherwise Experiment 5's `primary_5` verbatim — rung/family block sums, all
+three of `stats_5.sign_flip_p_5`'s block levels (rung, family, cell), `n_nonzero_blocks`
+and `p_min_attainable` lifted from the rung-block result. `sigma_hat_5b` pools the
+per-cell `small_sd`² over cells with both `small_sd` and `defined_M`, RMS at the top
+level and per small side. `calibration_read_5b` linearly interpolates the built power
+record's simulated σ̂ axis (`np.interp`, clamped at the bottom, `OFF-GRID` strictly
+above the top) for `alpha_realized` and `null_mean_T`, reports `T_star = T_sym −
+null_mean_T`, and cells `CALIBRATED` (`alpha_realized < b5b.ALPHA_CAL_5B = .05`) or
+`INFLATED` (`≥ .05`, so `alpha == .05` exactly reads `INFLATED`) when in grid.
+`tree_5b` is INSUFFICIENT_DATA on any failure, UNDETERMINED below
+`MIN_LIVE_CELLS_5B`/`MIN_NONZERO_BLOCKS_5B`, else SURVIVES (cell = the calibration
+cell) when `p < ALPHA_5B` and `T ≥ T_BAR_5B` together, else NOT-SURVIVED with cell
+INSIDE (neither), SIGN-ONLY (p only) or SIZE-ONLY (T only) — ties go the strict way
+on both bars (`p == α` is not `< α`; the SIZE-ONLY/SIGN-ONLY boundary cases in the
+brief's fixture both landed as specified). `modifier_5b` is `stats_5.modifier_5`
+verbatim with the selector swapped from `R_gt_P` to `R_gt_M`. The eight secondary
+functions (S1 by-row + the "outside 2.8b" subset restricted to `outside_2p8b`'s
+27-cell slice of the 28-cell fixture; S2 swap/designation tables over `f_B` and the
+three window steps; S6 the L-AHEAD/S-AHEAD ledger with the small-side stability
+fraction; S7 by-type with the same "fewer than 5 rungs → no p" rule as Experiment 5;
+S8 the one-member zero-contact reading using Experiment 5's committed S11 step; S9
+the named spike pair excluded, referents attached from `battery_5b.EXP5_REFERENTS_5B`;
+S10 the three alternate sensitivity forms run through the same primary; S12 newly-live
+cells found by re-checking a dead Experiment-5 cell's small-side reads against the
+2d floor) are all pure joins over `cell_5b` output plus `primary_5b`/`modifier_5b`, no
+new statistics.
+
+**TDD.** RED: `~/emergence-lab/.venv/bin/python -m pytest
+experiments/exp5b/tests/test_stats_5b.py -q` → `ImportError: cannot import name
+'stats_5b' from 'experiments.exp5b'` (`stats_5b.py` did not exist yet), as expected.
+GREEN, first attempt, no fixture or assertion changes needed: same command → `12
+passed`. Full fast set: `python -m pytest experiments/exp5b/tests -m "not slow" -q`
+→ `22 passed, 1 deselected`; repeated under `-W error` → identical, no warnings.
+Whole `tests/` directory including the one `slow` case: `python -m pytest
+experiments/exp5b/tests -q` → `23 passed`.
+
+**Self-review.** Every name in the brief's Produces list exists with the brief's
+signature (checked by `inspect.signature` against the list verbatim). The `cell_5b`
+output's key set was diffed programmatically against the brief's exact 37-name list
+(19 identifiers + 18 computed fields) on a live example — zero missing, zero extra.
+No brief assertion needed weakening; nothing papered over.
