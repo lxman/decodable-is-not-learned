@@ -7,6 +7,7 @@ from experiments.exp2d import battery_2d as bt
 from experiments.exp2g import battery_2g as bg
 from experiments.exp5 import battery_5 as b5
 from experiments.exp5 import collect_5 as c5
+from experiments.exp5b import analyze_5b as an
 from experiments.exp5b import battery_5b as b5b
 from experiments.exp5b import collect_5b as c5b
 from experiments.exp5.tests import fakes_5 as fk
@@ -118,6 +119,96 @@ def test_reread_loss_delta_beyond_tolerance_is_recorded(env):
     r = c5b.run_unit_5b("1b", WINDOW[0], root=env["root5b"], exp5_root=env["root5"], why="member",
                         loaders=loaders, **env["kw"])
     assert r["reread"]["loss_within_tol"] is False and r["reread"]["loss_delta"] == pytest.approx(1e-3)
+
+
+def test_byte_identical_requires_matching_per_doc_loss(env):
+    """Task 6 finding: `byte_identical` must fold in `per_doc_diffs`,
+    never just the aggregate loss/count/continuation checks — a single
+    differing per-document loss with an unchanged aggregate loss field
+    is exactly the case an aggregate-only check would miss."""
+    loaders, _ = fk.make_loaders(env["battery"], loss_fn=_loss, count_fn=_count)
+    c5b.run_unit_5b("1b", b5.FINAL_STEP_5, root=env["root5b"], exp5_root=env["root5"], why="final",
+                    loaders=loaders, **env["kw"])
+    p = b5.loss_record_path_5(env["root5b"], "1b", b5.FINAL_STEP_5)
+    rec = json.loads(p.read_text())
+    rec["per_doc_loss"] = list(rec["per_doc_loss"])
+    rec["per_doc_loss"][0] = rec["per_doc_loss"][0] + 1.0     # a single differing element
+    p.write_text(json.dumps(rec))
+    rr = c5b.reread_compare_5b(env["root5b"], "1b", b5.FINAL_STEP_5, exp5_root=env["root5"])
+    assert rr["per_doc_diffs"] == 1 and rr["loss_delta"] == 0.0
+    assert rr["byte_identical"] is False
+
+
+def test_loss_within_tol_boundary_is_inclusive(env):
+    """The tolerance is `<=`, not `<` — at exactly LOSS_TOL_5B the unit
+    must still read within tolerance."""
+    loaders, _ = fk.make_loaders(env["battery"], loss_fn=_loss, count_fn=_count)
+    c5b.run_unit_5b("1b", b5.FINAL_STEP_5, root=env["root5b"], exp5_root=env["root5"], why="final",
+                    loaders=loaders, **env["kw"])
+    there_p = b5.loss_record_path_5(env["root5"], "1b", b5.FINAL_STEP_5)
+    there = json.loads(there_p.read_text())
+    there["loss"] = 0.0
+    there_p.write_text(json.dumps(there))
+    here_p = b5.loss_record_path_5(env["root5b"], "1b", b5.FINAL_STEP_5)
+    here = json.loads(here_p.read_text())
+    here["loss"] = b5b.LOSS_TOL_5B
+    here_p.write_text(json.dumps(here))
+    rr = c5b.reread_compare_5b(env["root5b"], "1b", b5.FINAL_STEP_5, exp5_root=env["root5"])
+    assert rr["loss_delta"] == b5b.LOSS_TOL_5B
+    assert rr["loss_within_tol"] is True                       # exactly at the boundary: <=, not <
+
+
+def _load_side_common(env):
+    kw = env["kw"]
+    return dict(manifest=kw["manifest"], battery=kw["battery"], verify_fn=kw["verify_fn"], host=kw["host"],
+               slice_sha=kw["sl"]["sha256"], n_scored=kw["sl"]["meta"]["n_scored"])
+
+
+def test_load_side_5b_gate4_checks(env):
+    """The three `load_side_5b` checks Task 6 targets: the `_unit_5b.
+    json` requirement, the torn-unit check and the extra-unit-on-disk
+    check — each independently, restored between."""
+    loaders, _ = fk.make_loaders(env["battery"], loss_fn=_loss, count_fn=_count)
+    for step in (b5.FINAL_STEP_5,) + WINDOW:
+        c5b.run_unit_5b("1b", step, root=env["root5b"], exp5_root=env["root5"],
+                        why="final" if step == b5.FINAL_STEP_5 else "member", loaders=loaders, **env["kw"])
+    common = _load_side_common(env)
+    side = an.load_side_5b(env["root5b"], "1b", **common)
+    assert side is not None and set(side["members_present"]) == set(WINDOW)
+
+    p = b5b.unit5b_record_path_5b(env["root5b"], "1b", WINDOW[0])
+    raw = p.read_bytes()
+    p.unlink()
+    with pytest.raises(ValueError, match="_unit_5b"):
+        an.load_side_5b(env["root5b"], "1b", **common)
+    p.write_bytes(raw)
+
+    rung_p = b5.rung_record_path_5(env["root5b"], "1b", WINDOW[1], "antonym")
+    raw_r = rung_p.read_bytes()
+    rung_p.unlink()
+    with pytest.raises(ValueError, match="torn"):
+        an.load_side_5b(env["root5b"], "1b", **common)
+    rung_p.write_bytes(raw_r)
+
+    loaders2, _ = fk.make_loaders(env["battery"], loss_fn=_loss, count_fn=_count)
+    c5b.run_unit_5b("1b", 12000, root=env["root5b"], exp5_root=env["root5"], why="member",
+                    loaders=loaders2, **env["kw"])
+    with pytest.raises(ValueError, match="never requested"):
+        an.load_side_5b(env["root5b"], "1b", **common)
+
+
+def test_gate1_rederive_5b_catches_a_runner_attestation_mismatch(env):
+    loaders, _ = fk.make_loaders(env["battery"], loss_fn=_loss, count_fn=_count)
+    c5b.run_unit_5b("1b", b5.FINAL_STEP_5, root=env["root5b"], exp5_root=env["root5"], why="final",
+                    loaders=loaders, **env["kw"])
+    p = b5b.unit5b_record_path_5b(env["root5b"], "1b", b5.FINAL_STEP_5)
+    rec = json.loads(p.read_text())
+    rec["reread_record"]["digest_equal"] = False       # attested False; the re-derivation will find True
+    p.write_text(json.dumps(rec))
+    common = _load_side_common(env)
+    side = an.load_side_5b(env["root5b"], "1b", **common)
+    _, failures = an.gate1_rederive_5b(env["root5b"], env["root5"], {"1b": side})
+    assert any("attested digest_equal" in f for f in failures)
 
 
 def test_nothing_is_written_under_the_exp5_root(env):

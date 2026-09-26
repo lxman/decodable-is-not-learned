@@ -2,6 +2,7 @@ import pytest
 
 from experiments.exp5b import analyze_5b as an
 from experiments.exp5b import battery_5b as b5b
+from experiments.exp5b import power_5b as pw5b
 
 
 def test_collect_total_5b_prefix_named_types_and_crash_on_logic_defect():
@@ -36,6 +37,24 @@ def test_licence_block_names_every_cell():
             assert "NOT claimed" in lb["sentence"]
         if verdict == "SURVIVES":
             assert "15 items" in lb["sentence"] and "2 items" in lb["sentence"]     # .03×500, .004×500
+
+
+def test_power_failures_5b_catches_a_non_reproducing_record(monkeypatch):
+    def fake_compute(cells, floors, *, n_sim, seed):
+        return {"n_sim": n_sim, "seed": seed, "declaration": "POWERED", "prereg_tag": b5b.PREREG_TAG_5B,
+               "exp5_closed_tag": b5b.EXP5_CLOSED_TAG_5B, "sigma_hat_axis": [1] * 6, "alpha_5b_axis": [1] * 6,
+               "null_mean_5b_axis": [1] * 6, "alpha_exp5_axis": [1] * 6, "alpha_naive_axis": [1] * 6,
+               "null_mean_exp5_axis": [1] * 6, "null_mean_naive_axis": [1] * 6}
+    monkeypatch.setattr(an.pw5b, "compute_5b", fake_compute)
+    monkeypatch.setattr(an.pw5b, "N_SIM_5B", 5)
+    monkeypatch.setattr(an.pw5b, "SEED_5B", 0)
+    struct_sha = pw5b.structure_sha256_5b(pw5b.structure_5b([]))
+    rec = {"prereg_tag": b5b.PREREG_TAG_5B, "exp5_closed_tag": b5b.EXP5_CLOSED_TAG_5B, "n_sim": 5, "seed": 0,
+          "declaration": "DECLARED UNDERPOWERED IN ADVANCE", "sigma_hat_axis": [1] * 6, "alpha_5b_axis": [1] * 6,
+          "null_mean_5b_axis": [1] * 6, "alpha_exp5_axis": [1] * 6, "alpha_naive_axis": [1] * 6,
+          "null_mean_exp5_axis": [1] * 6, "null_mean_naive_axis": [1] * 6, "structure_sha256": struct_sha}
+    bad = an.power_failures_5b(rec, cells5_live=[], floors={}, closed=None, power_gate="full")
+    assert any("byte-for-byte" in b for b in bad)
 
 
 def test_projection_failures_5b_checks_both_ancestries():

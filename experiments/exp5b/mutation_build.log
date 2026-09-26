@@ -1,0 +1,79 @@
+baseline OK (fast pass, all mutants)
+
+[placebo_terms_5b_the_weight_sqrt2_5b_replaced_by_1_0] (#1) killed  placebo_terms_5b: the weight / SQRT2_5B replaced by / 1.0
+[placebo_terms_5b_the_abs_dropped] (#2) killed  placebo_terms_5b: the abs( dropped
+[placebo_terms_5b_the_b_plus_side_skipped] (#3) killed  placebo_terms_5b: the b_plus side skipped
+[cell_5b_m_mean_becomes_m_sum] (#4) killed  cell_5b: M = _mean(...) becomes M = sum(...)
+[cell_5b_q_dropped_from_c_naive] (#5) killed  cell_5b: Q dropped from c_naive
+[cell_5b_r_read_from_abs_a_f_b_instead_of_cell5_r] (#6) killed  cell_5b: R read from abs(a - f_B) instead of cell5['R']
+[tree_5b_the_bar_t_t_bar_5b_widened_to_t_t_bar_5b] (#7) killed  tree_5b: the bar T >= T_BAR_5B widened to T > T_BAR_5B
+[tree_5b_the_alpha_comparison_p_alpha_5b_widened_to_p_alpha_5b] (#8) killed  tree_5b: the alpha comparison p < ALPHA_5B widened to p <= ALPHA_5B
+[tree_5b_sign_only_size_only_swapped] (#9) killed  tree_5b: SIGN-ONLY/SIZE-ONLY swapped
+[calibration_read_5b_alpha_alpha_cal_5b_widened_to] (#10) killed  calibration_read_5b: alpha < ALPHA_CAL_5B widened to <=
+[calibration_read_5b_the_off_grid_condition_sigma_hat_top_widened_to] (#11) killed  calibration_read_5b: the OFF-GRID condition sigma_hat > top widened to >=
+[calibration_read_5b_the_bottom_clamp_dropped] (#12) killed  calibration_read_5b: the bottom clamp dropped
+[cell_5b_np_std_reads4_ddof_1_becomes_ddof_0] (#13) killed  cell_5b: np.std(reads4, ddof=1) becomes ddof=0
+[sigma_hat_5b_the_rms_becomes_a_mean_of_sds] (#14) killed  sigma_hat_5b: the RMS becomes a mean of SDs
+[tree_5b_min_live_cells_5b_20_read_as_a_literal_19] (#15) killed  tree_5b: MIN_LIVE_CELLS_5B (20) read as a literal 19
+[modifier_5b_r_gt_m_selector_replaced_by_an_unconditional_true] (#16) killed  modifier_5b: R_gt_M selector replaced by an unconditional True
+[s9_spike_5b_the_exclusion_inverted_keeps_only_the_spike_pair] (#17) killed  s9_spike_5b: the exclusion inverted (keeps ONLY the spike pair)
+[s8_one_member_5b_f_b_read_from_the_cell_instead_of_the_s11_row_s_final] (#18) killed  s8_one_member_5b: f_B read from the cell instead of the S11 row's final
+[simulate_5b_f_read_pw_read_f_true_sigma_s_rng_replaced_by_f_true_f_not_n] (#19) killed  simulate_5b: f_read = pw._read(f_true, sigma_s, rng) replaced by f_true (f not noised)
+[simulate_5b_the_members_shared_drift_dropped] (#20) killed  simulate_5b: the members' shared drift dropped
+[compute_5b_the_sigma_s_grid_s_order_reversed] (#21) killed  compute_5b: the sigma_s grid's order reversed
+[compute_5b_sigma_hat_axis_read_from_the_nominal_grid_instead_of_the_simu] (#22) killed  compute_5b: sigma_hat_axis read from the nominal grid instead of the simulated mean
+[compute_5b_the_deciding_arm_read_at_grid_index_0_instead_of_the_belief_i] (#23) killed  compute_5b: the deciding arm read at grid index 0 instead of the belief index
+[compute_5b_the_declaration_s_widened_to] (#24) killed  compute_5b: the declaration's >= widened to >
+[main_the_write_once_refusal_dropped_a_second_write_silently_overwrites] (#25) killed  main: the write-once refusal dropped (a second write silently overwrites)
+[main_require_exp5_closed_5b_call_removed] (#26) killed  main: require_exp5_closed_5b call removed
+[run_unit_5b_the_digest_halt_systemexit_removed] (#27) killed  run_unit_5b: the digest halt (SystemExit) removed
+[run_unit_5b_unit_5b_json_written_before_run_unit_5_reread_none_moved_abo] (#28) killed  run_unit_5b: _unit_5b.json written BEFORE run_unit_5 (reread=None, moved above)
+[reread_compare_5b_byte_identical_ignoring_per_doc] (#29) killed  reread_compare_5b: byte_identical ignoring per_doc
+[reread_compare_5b_loss_within_tol_narrowed_to] (#30) killed  reread_compare_5b: loss_within_tol <= narrowed to <
+[run_unit_5b_the_torn_5b_unit_rmtree_removed] (#31) killed  run_unit_5b: the torn-5b-unit rmtree removed
+[gate1_record_5b_pass_forced_true] (#32) killed  gate1_record_5b: pass forced True
+[run_the_power_record_present_refusal_dropped] (#33) killed  run(): the power-record-present refusal dropped
+[run_the_projection_ancestry_refusal_dropped] (#34) killed  run(): the projection-ancestry refusal dropped
+[run_the_halted_marker_refusal_dropped] (#35) killed  run(): the HALTED-marker refusal dropped
+[run_the_host_stack_device_comparison_against_the_record_on_disk_dropped] (#36) killed  run(): the host stack/device comparison against the record on disk dropped
+[run_the_four_units_processed_in_reversed_order] (#37) killed  run(): the four units processed in reversed order
+[require_exp5_closed_5b_the_verdict_sha_check_skipped] (#38) killed  require_exp5_closed_5b: the verdict-sha check skipped
+[unit5b_record_failures_5b_prereg_tag_no_longer_checked] (#39) killed  unit5b_record_failures_5b: prereg_tag no longer checked
+[unit_complete_5b_the_unit_5b_json_clause_dropped] (#40) killed  unit_complete_5b: the _unit_5b.json clause dropped
+[strip_volatile_cells_also_stripped_exp5_verdict_equal_failures_5b_blinde] (#41) killed  _strip_volatile: cells also stripped (exp5_verdict_equal_failures_5b blinded to it)
+[reread_steps_5b_returns_only_the_final] (#42) killed  reread_steps_5b: returns only the final
+[expected_units_5b_the_final_dropped_from_the_expected_set] (#43) killed  expected_units_5b: the final dropped from the expected set
+[exp5_the_gate_2_verdict_equality_check_dropped_pin_check_alone] (#44) survived-fast, killed by the slow suite — test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  _exp5: the gate-2 verdict equality check dropped (pin check alone)
+[load_side_5b_the_extra_unit_on_disk_check_dropped] (#45) killed  load_side_5b: the extra-unit-on-disk check dropped
+[load_side_5b_the_torn_unit_check_dropped] (#46) killed  load_side_5b: the torn-unit check dropped
+[load_side_5b_the_unit_5b_json_requirement_dropped] (#47) killed  load_side_5b: the _unit_5b.json requirement dropped
+[gate1_rederive_5b_the_runner_s_attestation_comparison_dropped] (#48) killed  gate1_rederive_5b: the runner's attestation comparison dropped
+[power_failures_5b_the_byte_for_byte_comparison_dropped] (#49) killed  power_failures_5b: the byte-for-byte comparison dropped
+[projection_failures_5b_the_per_unit_ancestry_loop_dropped] (#50) killed  projection_failures_5b: the per-unit ancestry loop dropped
+[run_s1_s12_computed_regardless_of_failures_the_units_gate_dropped] (#51) survived-fast, killed by the slow suite — test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data (individually re-confirmed, see PROGRESS.md)  run(): S1-S12 computed regardless of failures (the units gate dropped)
+[totality_eb285f87a4] (#52) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 410 (_halts...)
+[totality_ba977b0972] (#53) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 411 (frozen_check or b5b.check_frozen_5b...)
+[totality_f0a6870714] (#54) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 414 (lambda: b5b.require_prereg_5b(tag_exists=tag_exists, blob_sh...)
+[totality_87d16f0e63] (#55) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 416 (lambda: b5b.require_exp5_closed_5b(tag_exists=tag_exists, bl...)
+[totality_cb7f897d12] (#56) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 420 (lambda: manifest if manifest_injected else b5.load_manifest_...)
+[totality_ede4a6963c] (#57) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 423 (lambda: sl if sl_injected else sl5.load_slice_5(sha_pin=b5.S...)
+[totality_7e45e98c25] (#58) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 433 (bt.load_battery...)
+[totality_e1d8e53d7b] (#59) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 434 (b5.load_floors_5...)
+[totality_cb18719ee0] (#60) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 435 (a2d.load_verify...)
+[totality_ccb671a117] (#61) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 448 (_exp5...)
+[totality_dc26819f87] (#62) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 463 (_host...)
+[totality_7cc5e77609] (#63) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 488 (_gate1...)
+[totality_25f4ac9ac2] (#64) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 501 (_power...)
+[totality_2fa44e6140] (#65) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 519 (_projection...)
+[totality_dd7bfd0a1a] (#66) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 413 (b5b.check_imports_5b...)
+[totality_24bb94d4f5] (#67) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 473 (_side...)
+[totality_eed0ac97ed] (#68) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 529 (lambda: st.cells_5b(kept5, counts_by_side, floors)...)
+[totality_fadbfe1930] (#69) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 531 (lambda: st.primary_5b(cells, n_sample=n_sample, seed=b5.PERM...)
+[totality_f7b4069e79] (#70) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 533 (lambda: st.sigma_hat_5b(cells)...)
+[totality_ab35a54246] (#71) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 534 (lambda: st.calibration_read_5b(power_rec, (sigma_hat or {})....)
+[totality_4455ad799d] (#72) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 537 (lambda: st.modifier_5b(cells)...)
+[totality_edb704686d] (#73) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 539 (b5b.check_imports_5b...)
+[totality_01f5677eb0] (#74) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 568 (_w...)
+[totality_710028e6a0] (#75) survived-fast, killed by the slow suite — test_totality_5b.py::test_site_template_count_is_24 (individually re-confirmed, see PROGRESS.md)  run(): totality — collect_total_5b stripped at line 432 (_refs...)
+
+49 killed by the fast suite directly; 26 killed by the slow suite (each individually re-confirmed via --worlds-only, not inferred — see mutation_worlds.log); 0 documented equivalent; considered=75; 0 UNRESOLVED survivor(s): []; 0 SKIP (target text not found / -k selected nothing): []; 0 TIMEOUT (not a kill, not a survivor): []

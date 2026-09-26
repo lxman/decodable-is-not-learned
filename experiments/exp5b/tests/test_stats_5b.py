@@ -79,6 +79,86 @@ def test_cell_5b_sensitivity_forms_and_small_side_fields():
     assert isinstance(cell["R_gt_M"], bool) and len(cell["small_clears"]) == 4
 
 
+def test_cell_5b_reads_R_from_the_committed_cell_not_recomputed_from_f_b():
+    """Task 6 finding: `cell_5b`'s LOCAL `R` (feeding `c_sym`/`R_gt_M`)
+    must be Experiment 5's own committed R (`cell5['R']`), never
+    recomputed from the small side's own f_B — the two differ whenever
+    this box's re-read of the final drifts from Experiment 5's own
+    committed final read. `cell['R']` itself is always a passthrough
+    of `cell5['R']` via `IDENT_KEYS_5B` regardless of this mutation
+    (Task 6 finding, disclosed) — the LOCAL variable's mutation only
+    shows up downstream, in `c_sym`/`R_gt_M`."""
+    c5 = _cell5(f=100, lo=170, hi=180, bm=(150, 160), bp=(190, 200))          # R = |175-100| = 75
+    small = _small(120, (118, 122, 120))                                      # f_B = 120 != f = 100
+    cell = st.cell_5b(c5, small, FLOORS["antonym"])
+    assert cell["R"] == c5["R"] == 75                                        # the passthrough field: unaffected
+    assert cell["c_sym"] == pytest.approx((c5["R"] - cell["M"]) / 500)       # the LOCAL R: this is what moves
+
+
+def test_calibration_read_top_knot_is_in_grid_not_off_grid():
+    """The OFF-GRID branch is `sigma_hat > top`, strictly — at the top
+    knot itself (45.2) the reading must still interpolate, not fall
+    into OFF-GRID."""
+    rec = _power_rec()
+    at_top = st.calibration_read_5b(rec, 45.2, T_sym=0.03)
+    assert at_top["in_grid"] and not at_top["below_grid"]
+    assert at_top["alpha_realized"] == pytest.approx(0.03)
+
+
+def test_calibration_read_below_grid_reason_names_the_clamped_x_not_the_raw_reading():
+    """The bottom clamp (`x = max(float(sigma_hat), bottom)`) must be
+    applied before formatting the reason string — dropping it leaves
+    the numeric alpha/null values unchanged (numpy's own `interp`
+    clamps out-of-range x automatically) but the reported sigma_hat in
+    the reason text would silently read the raw, unclamped value."""
+    rec = _power_rec()
+    below = st.calibration_read_5b(rec, 2.0, T_sym=0.03)
+    assert "5.20" in below["reason"] and "2.00" not in below["reason"]
+
+
+def test_sigma_hat_uses_rms_not_the_mean_of_sds():
+    """Task 6 finding: the previous fixture (`_cells_for_flip`) gives
+    every cell an IDENTICAL small_sd, where RMS and mean coincide —
+    degenerate for this check. Here the two cells' spreads differ."""
+    c1 = st.cell_5b(_cell5(f=100, lo=120, hi=130, bm=(100, 110), bp=(140, 150)),
+                    _small(100, (100, 100, 100)), FLOORS["antonym"])   # sd == 0
+    c2 = st.cell_5b(_cell5(f=100, lo=120, hi=130, bm=(100, 110), bp=(140, 150)),
+                    _small(100, (110, 90, 100)), FLOORS["antonym"])    # sd > 0
+    rms = math.sqrt(np.mean([c1["small_sd"] ** 2, c2["small_sd"] ** 2]))
+    mean = float(np.mean([c1["small_sd"], c2["small_sd"]]))
+    assert rms != pytest.approx(mean)                     # the fixture actually distinguishes the two forms
+    s = st.sigma_hat_5b([c1, c2])
+    assert s["pooled"] == pytest.approx(rms)
+
+
+def test_modifier_5b_excludes_cells_where_r_gt_m_is_false():
+    """Task 6 finding: the previous fixture (`offset=40`) makes every
+    cell R_gt_M True, where the correct selector and an unconditional
+    `True` coincide — degenerate. Here the two groups are mixed."""
+    hi_cell = st.cell_5b(_cell5(f=100, lo=170, hi=180, bm=(150, 160), bp=(190, 200)),   # big offset: R > M
+                         _small(100, (98, 102, 100)), FLOORS["antonym"])
+    lo_cell = st.cell_5b(_cell5(f=100, lo=100, hi=101, bm=(99, 100), bp=(101, 102)),    # tiny offset: R < M
+                         _small(100, (98, 102, 100)), FLOORS["antonym"])
+    assert hi_cell["R_gt_M"] and not lo_cell["R_gt_M"]      # sanity: the fixture actually mixes
+    m = st.modifier_5b([hi_cell] * 8 + [lo_cell] * 8)
+    assert m["n"] == 8                                      # only the R_gt_M cells counted, never the other eight
+
+
+def test_s8_reads_f_b_from_the_s11_row_not_the_cell():
+    """Task 6 finding: the previous fixture only checked the returned
+    keys EXIST, never their values, and coincidentally used a cell
+    whose own f_B matched the S11 row's final anyway."""
+    c = st.cell_5b(_cell5(f=130, lo=200, hi=210, bm=(190, 195), bp=(215, 220)),
+                   _small(130, (128, 132, 130)), FLOORS["antonym"])
+    c["small"] = "1b"
+    s11 = {"1b": {"antonym": {"s11": 100, "final": 100}}}          # the row's final (100) != c["f_B"] (130)
+    s8 = st.s8_one_member_5b([c], s11, n_sample=100, seed=0)
+    small_correct = {"f_B": 100, "members": {b5.S11_STEP_5: 100}}
+    m1 = st._mean(st.placebo_terms_5b(c, small_correct))
+    want_t1 = (c["R"] - m1) / 500
+    assert s8["T1"] == pytest.approx(want_t1)
+
+
 def test_cell_with_no_member_has_no_M_and_is_excluded_from_the_primary():
     c5 = _cell5(f=100, lo=120, hi=130, bm=(100, 110), bp=(140, 150))
     cell = st.cell_5b(c5, {"f_B": 100, "members": {}}, FLOORS["antonym"])

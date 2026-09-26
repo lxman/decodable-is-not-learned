@@ -38,7 +38,7 @@ from experiments.exp5b import power_5b as pw5b  # noqa: E402
 from experiments.exp5b import stats_5b as st  # noqa: E402
 
 REFERENTS_PATH_5B = EXP5B / "referents_5b.json"
-REFERENTS_5B_SHA256 = None          # Task 6 pins
+REFERENTS_5B_SHA256 = "ae5261d3d781e0d5a501aff8ee9a909eccd3bd69ba1727fcfd4369b28e1db32c"  # Task 6
 _LITERAL = object()
 
 CAVEAT_5B = ("one family, one battery of 34 synthetic tasks, sizes to 12b, loss matched on a 2M-token "

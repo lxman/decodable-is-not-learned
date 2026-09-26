@@ -81,6 +81,46 @@ def test_plugin_arm_fires_when_the_committed_offsets_are_large():
     assert r["P_fire_5b"] >= 0.9 and r["mean_T_5b"] > 0.02
 
 
+def test_simulate_members_carry_the_shared_drift():
+    """Task 6 finding: at sigma_s = 0 the previous test only checked
+    that the three members are equal to EACH OTHER, which holds whether
+    they are drawn around `f_true + d_s` (correct) or bare `f_true`
+    (mutant) — degenerate. A fake rng that returns a distinctive value
+    only for DRIFT_5B-scaled draws (never for the sigma_s = 0 ones)
+    distinguishes the two directly."""
+    class _FakeRNG:
+        def normal(self, loc, scale):
+            return 5.0 if scale == pw5b.DRIFT_5B else 0.0
+    st_ = [{"f": 100, "offset": 0.0, "rung": "antonym", "small": "1b", "large": "2.8b",
+           "family": b5.FAMILY_OF["antonym"], "type": b5.RUNG_TYPE_5["antonym"]}]
+    cells = pw5b.simulate_5b(st_, FLOORS, sigma_s=0.0, offset_scale=0.0, rng=_FakeRNG())
+    assert set(cells[0]["members"].values()) == {105}     # f_true (100) + the shared drift (5)
+
+
+def test_sigma_hat_axis_uses_the_simulated_mean_not_the_nominal_grid(monkeypatch):
+    def fake_arm(structure, floors, *, sigma_s, offset_scale, n_sim, rng, spread=False, spread_items=None):
+        return {"P_fire_5b": 0.5, "P_fire_exp5": 0.5, "P_fire_naive": 0.5, "mean_T_5b": 0.0, "sd_T_5b": 0.0,
+               "mean_T_exp5": 0.0, "sd_T_exp5": 0.0, "mean_T_naive": 0.0, "sd_T_naive": 0.0,
+               "sigma_hat_sim_mean": sigma_s + 1000.0, "n_sim": int(n_sim)}
+    monkeypatch.setattr(pw5b, "arm_5b", fake_arm)
+    cells5 = _cells5(offset=25)
+    rec = pw5b.compute_5b(cells5, FLOORS, n_sim=5, seed=0)
+    assert rec["sigma_hat_axis"] == [s + 1000.0 for s in b5b.SIGMA_GRID_5B]
+
+
+def test_declaration_boundary_is_inclusive(monkeypatch):
+    def fake_arm(structure, floors, *, sigma_s, offset_scale, n_sim, rng, spread=False, spread_items=None):
+        p = pw5b.POWER_BAR_5B if (sigma_s == b5b.SIGMA_BELIEF_5B and offset_scale == 1.0) else 0.1
+        return {"P_fire_5b": p, "P_fire_exp5": 0.0, "P_fire_naive": 0.0, "mean_T_5b": 0.0, "sd_T_5b": 0.0,
+               "mean_T_exp5": 0.0, "sd_T_exp5": 0.0, "mean_T_naive": 0.0, "sd_T_naive": 0.0,
+               "sigma_hat_sim_mean": sigma_s, "n_sim": int(n_sim)}
+    monkeypatch.setattr(pw5b, "arm_5b", fake_arm)
+    cells5 = _cells5(offset=25)
+    rec = pw5b.compute_5b(cells5, FLOORS, n_sim=5, seed=0)
+    assert rec["deciding"]["P_fire_5b"] == pytest.approx(pw5b.POWER_BAR_5B)
+    assert rec["declaration"] == "POWERED"          # >= the bar, not > — the boundary is inclusive
+
+
 def test_compute_record_shape_axes_and_determinism():
     cells5 = _cells5(offset=25)
     a = pw5b.compute_5b(cells5, FLOORS, n_sim=12, seed=0)

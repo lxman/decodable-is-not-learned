@@ -7,7 +7,23 @@ on Experiment 5's cell table.
 
 ## Pre-tag executions of `analyze_5b.run()` on the real tree
 
-Tally: **0**. (`analyze_5b.py` does not exist yet — Task 5.)
+Tally: **3** (Task 6). Task 5 built `analyze_5b.py` but exercised it only against
+`full_shape_5b.py`'s synthetic `tmp_path` worlds — never `root=battery_5b.EXP5B`
+— so the tally stayed 0 through that task. Task 6's three: `tests/import_scan_
+5b.py` run twice (the first to build the pin tables from `sys.modules`, a
+second to confirm the scan reproduces byte-for-byte once the tables were
+pasted in) and `tests/read_sweep_5b.py` run once — each refuses at `"5b prereg
+tag"` (the real `exp5b-preregistered` tag does not exist yet; `require_
+prereg_5b`'s default `blobs` names `results/power_5b.json`, absent on the real
+tree) after halts/frozen/imports/exp5-closed/manifest/slice/referents/battery/
+floors/verify all pass for real and Experiment 5's WHOLE analyzer has already
+run in-process as gate 2 on the real, closed `experiments/exp5/` tree. No
+5b-side statistic is ever computed pre-tag (the tree never reaches `cells5_
+live is not None` with zero failures). `verify_referents_5b.py`'s own cold
+battery (run repeatedly through the task) never calls `analyze_5b.run()` at
+all — its checks call `load_side_5b`/`gate1_rederive_5b`/`power_failures_5b`
+etc. directly, or Experiment 5's OWN `verify_referents_5.main()` — so those
+runs are not counted here.
 
 ## Task 1 (2026-09-25): `battery_5b.py` — constants/pins, the small-side
 window, the `_unit_5b.json` contract, Experiment 5's verdict pins, the two
@@ -548,3 +564,242 @@ is the evidence, not an assumption). The three Task-5 fixture findings
 green. Fast suite unaffected: `pytest experiments/exp5b/tests -m "not slow"
 -q` still `47 passed, 14 deselected` (this fix touches only `full_shape_5b.py`,
 which the fast suite does not import).
+
+## Task 6 (2026-09-25/26): `make_referents_5b.py`, `verify_referents_5b.py`,
+totality, determinism, the mutation harness, the read sweep, the import scan,
+the pins
+
+Built, transcribed verbatim from the brief where given: `experiments/exp5b/
+make_referents_5b.py` (Step 1's code block exactly) and `experiments/exp5b/
+referents_5b.json` (**8,399 files**, sha256 `ae5261d3d781e0d5a501aff8ee9a909e
+ccd3bd69ba1727fcfd4369b28e1db32c`, pinned as `N_FILES_5B` and as `analyze_5b.
+REFERENTS_5B_SHA256`). `experiments/exp5b/verify_referents_5b.py` — the 12-item
+cold battery (`CHECKS`/`@check(n, name)`/`main()`, Experiment 5's own shape):
+1 frozen+import pins (pulls in every 5b module and stage tool first); 2 the
+five tags exist; 3 the exp5-closed binding (thirteen blobs + the verdict sha);
+4 `referents_5b.json` at its pin; 5 Experiment 5's own cold battery re-run
+in-process, asserting items 11 and 13 land `ok` (not `SKIP`) — the closed
+record still reproduces; 6 the literal verdict pin; 7 the window steps present
+and unexcluded on every small side, the four kinds printed (`bin`, `bin-
+shards`, `safetensors-shards`, `safetensors-single` — all four occur across
+the five small sides at 140000-143000, none excluded); 8 34 seeded synthetic
+identities (M = P/√2 noiseless; the between-size-offset invariance), never the
+committed table; 9/10/12 SKIP pre-campaign (no power record, no unit, exactly
+as designed). `experiments/exp5b/tests/import_scan_5b.py` and `tests/read_
+sweep_5b.py` (Experiment 5's own shapes, names swapped to 5b's, `exp5_kwargs`
+threading the same tag stubs into gate 2's nested Experiment-5 call).
+
+**Referent count and the two pin tables — built, then verified stable.**
+`make_referents_5b.referent_files_5b()` printed **8,399 files** (the brief's
+"≈ 8,400" estimate); pinned `N_FILES_5B = 8399`, re-ran, identical sha256.
+`tests/import_scan_5b.py` run on the real pre-campaign tree (frozen/referents/
+imports stubbed, tag callables stubbed) found **64 frozen (non-exp5b) modules**
+(Experiment 5's own thirteen instrument-adjacent modules included, since gate
+2 runs Experiment 5's whole analyzer in-process) and **5 exp5b-own residual
+modules** — exactly the brief's named expectation (`__init__.py`, `run/
+__init__.py`, `make_referents_5b.py`, `verify_referents_5b.py`, `run/
+preflight_5b.py`). Pasted verbatim into `battery_5b.py`'s `FROZEN_SHA256_5B`/
+`IMPORTED_SHA256_5B`; the scan re-run afterward reproduced byte-identically.
+`check_frozen_5b()`/`check_imports_5b()` pass for real.
+
+**The read sweep: 0 UNPINNED.** `tests/read_sweep_5b.py` (`n_sample=10,
+n_boot=10`, PRODUCTION `frozen_check`/`referents_sha`/`imports_pinned`, only
+the 5b prereg tag and the exp5-closed binding's tag/blob callables stubbed):
+**8,467 distinct paths** opened for reading (53,039 total open/read calls),
+**0 writes** (write=False held); buckets `referents_5b.json` 8,395 / `pinned_
+module` 61 / `instrument_blob` 6 / `python_stdlib_venv` 0 / `sha_pin_at_load`
+5 / **UNPINNED 0**. The fifth `sha_pin_at_load` item beyond Experiment 5's own
+four (`checkpoints_5.json`, `slice_5.npz`, 2d's verdict.json, `referents_5b.
+json` itself) is Experiment 5's own committed `results/verdict.json`, read a
+SECOND time through the `exp5-closed` binding's own sha check (`require_exp5_
+closed_5b`) — disclosed in the script's own docstring rather than folded
+silently into bucket (a) or (c). Wall time ≈ 82 s (dominated by gate 2's
+in-process Experiment 5 analysis on the real, full-scale tree).
+
+**The cold battery: 9 ok / 3 skip, 13/13 on Experiment 5's own re-run.** `python
+-m experiments.exp5b.verify_referents_5b` → items 1-8/11 `ok`, 9/10/12 `SKIP`
+with the designed reasons, `referent battery: 9/12`; Experiment 5's own
+embedded battery (item 5) reports `referent battery: 13/13`.
+
+**Totality (`tests/test_totality_5b.py`, slow).** One SURVIVES world built
+once (`full_shape_5b.write_world_5b`), all 18 of the brief's corruption shapes
+applied then RESTORED in one test function, `_run`/`_assert_insufficient`
+leaving `referents_sha`/`imports_pinned`/`frozen_check` at PRODUCTION defaults
+(Experiment 5's own totality-file convention: the synthetic world's `apply_
+shrink_5b` neutralizes `FROZEN_SHA256_5B`/`IMPORTED_SHA256_5B`/`check_imports_
+5b` to no-ops regardless, so the referents check — against the REAL, un-
+shrunk `referents_5b.json` — is the one gate exercised for real inside a
+synthetic-world test). Shapes 7/8 (a side directory removed; a side with only
+the final) assert EXCLUDED, never a refusal, per the brief; every other shape
+asserts `INSUFFICIENT_DATA` with `primary is None` and `secondaries == {}`,
+wrapped in `try` so a raise fails the test outright (none did). A 24-site
+harness (`_site_templates_5b`, the same AST restriction as Experiment 5's own
+`_site_templates_5`, applied to `analyze_5b.py::run()`) is reached in full by
+the clean run + a `write=True` call + one halted-marker replay — every site
+above the `if not failures and cells5_live is not None:` gate is unconditional
+in `run()`'s own control flow, so nothing beyond those three calls was needed.
+**Finding, closed the same session:** the brief's totality file, as I first
+wrote it, had NO structural site-count assertion (Experiment 5's own `test_
+site_template_count_matches_the_brief`, which is what actually kills most of
+that experiment's totality mutants) — added `test_site_template_count_is_24`
+(the live AST count today; the brief names no exact number for 5b) once the
+mutation harness's fast pass showed all 24 totality mutants surviving with no
+mechanism to catch them short of a full-file behavioral run. Full detached
+run, three times over the session (once bare, once after the determinism fix,
+once as the final combined record): **3 passed in 1573-1580 s (≈ 26 min)**
+each time, byte-stable.
+
+**Determinism (`tests/test_determinism_5b.py`, slow).** One SURVIVES world
+built once (module-scoped fixture), analysed twice in two separate
+subprocesses via a reconstructed `_SCRIPT` (Experiment 5's own shape:
+`fs5b.apply_shrink_5b(pytest.MonkeyPatch())`, the `count_fn_for`/`MODES` patch
+mirrored, `fakes_5.small_slice()` rebuilt fresh, the manifest passed as a
+Python literal, `exp5_kwargs` reconstructed with fresh lambdas). **Finding,
+closed the same session:** the first run FAILED — the subprocess (a fresh
+interpreter, none of `write_world_5b`'s in-process `require_prereg_5b` wrap)
+hit `require_prereg_5b`'s default `blobs=INSTRUMENT_BLOBS_5B`, which names
+`results/power_5b.json` — absent on the REAL repo disk (no campaign has run)
+— giving `INSUFFICIENT_DATA` instead of `SURVIVES`. Closed by adding the exact
+same `blobs=<present-on-disk>` wrap `write_world_5b` uses, INSIDE the
+subprocess script, over the same `mp` MonkeyPatch instance. Re-run: `1 passed
+in 177.19 s`; the combined final run (with totality): `3 passed`, as above.
+
+**The mutation harness (`tests/mutation_check.py`).** 51 hand mutants across
+`stats_5b.py` (18), `power_5b.py` (8), `collect_5b.py` (6), `run/units_5b.py`
+(5), `battery_5b.py` (6), `analyze_5b.py` (8) — every one from the brief's own
+list, transcribed as an exact source-text substitution — plus 24 AST-generated
+totality mutants (`_totality_mutants_5b(AN5B)`, one per `collect_total_5b`
+call site textually inside `run()`, Experiment 5's own generator adapted).
+All 75 mutants verified pre-flight: every `old` string count-unique in its
+file, every mutation syntactically valid and non-no-op (`ast.parse` on the
+mutated source, checked directly, not just trusted).
+
+FAST_TESTS = the seven fast files (`test_battery_5b`/`test_stats_5b`/`test_
+power_5b`/`test_collect_5b`/`test_stages_5b`/`test_analyze_5b`/`test_verify_
+referents_5b` — the brief's own prose names six; `test_verify_referents_5b.py`
+added for the same reason Experiment 5's own `FAST_TESTS` carries its verify
+file, disclosed rather than silently deviating).
+
+**First fast pass: 33 killed, 42 unresolved.** Investigated each of the 18
+surviving hand mutants; 11 were pure-function mutants the EXISTING Tasks 2-3
+fixtures happened not to distinguish because the fixture was degenerate for
+that specific check, never because the check itself was untestable — closed
+with new fast tests, each with the degeneracy named in a comment:
+- `cell_5b`'s `R`/`P` locals (feeding `c_sym`/`R_gt_M`) vs the OUTPUT `R` field
+  (an `IDENT_KEYS_5B` passthrough of `cell5['R']`, unaffected by the local
+  variable) — a first draft of this test asserted on the wrong field
+  (`cell["R"]`, which the mutation cannot touch) and PASSED under the mutant;
+  caught by manually re-applying the mutation and re-running (see below) and
+  fixed to assert on `c_sym` instead.
+- `calibration_read_5b`'s OFF-GRID boundary (`> top` vs `>= top`, at the top
+  knot itself) and the bottom clamp's effect on the REASON STRING specifically
+  (the clamp is otherwise redundant with `np.interp`'s own out-of-range
+  clamping, so only the printed sigma_hat text distinguishes it).
+- `sigma_hat_5b`'s RMS vs mean of SDs (the Task 2 fixture gives every cell an
+  IDENTICAL small_sd, where the two forms coincide) and `modifier_5b`'s
+  `R_gt_M` selector (the Task 2 `offset=40` fixture makes every cell `R_gt_M`
+  True, where the selector and an unconditional `True` coincide).
+- `s8_one_member_5b`'s f_B source (the Task 2 fixture only checked the
+  returned KEYS existed, never a value, and happened to use a cell whose own
+  f_B equalled the S11 row's final anyway).
+- `simulate_5b`'s shared drift (at σ_s = 0 the previous test checked only
+  that the three members equal EACH OTHER, true whether they're built around
+  `f_true + d_s` or bare `f_true`; closed with a fake rng returning a
+  distinctive value only for DRIFT_5B-scaled draws).
+- `compute_5b`'s `sigma_hat_axis` source and its declaration boundary
+  (`>= POWER_BAR_5B` vs `>`, exactly at the bar) — both via a monkeypatched
+  `arm_5b` stub, since the real simulated statistics don't hit either boundary
+  reliably.
+- `reread_compare_5b`'s `byte_identical` folding in `per_doc_diffs` and its
+  `loss_within_tol` boundary (`<=` vs `<`, exactly at `LOSS_TOL_5B`) — both via
+  direct file edits on `env`'s committed units (a single differing per-doc
+  entry with the aggregate loss held constant; a loss delta forced to EXACTLY
+  `1e-4` by editing both sides' loss fields to `0.0`/`LOSS_TOL_5B`).
+- `load_side_5b`'s three gate-4 checks (`_unit_5b.json` requirement, torn-unit,
+  extra-unit) and `gate1_rederive_5b`'s attestation comparison — all four
+  called directly against `test_collect_5b.py`'s existing lightweight `env`
+  fixture (no full world needed), closing four mutants in two new tests.
+- `power_failures_5b`'s byte-for-byte comparison — closed via a monkeypatched
+  `compute_5b` stub in `test_analyze_5b.py` (first attempt failed on a typo:
+  `"byte for byte"` vs the real message's `"byte-for-byte"`, caught
+  immediately by running the new test against UNMUTATED code and seeing it
+  fail for the wrong reason).
+
+**Second fast pass: 48 killed, 27 unresolved** (the 24 totality mutants + `_
+exp5`'s gate-2 equality check + `run()`'s S1-S12-regardless-of-failures — all
+27 genuinely need the slow suite to observe). `NON_FAST_KILLS_5B` populated
+only AFTER each was individually confirmed (never inferred): a dedicated
+script applied each of the 26 non-totality-count survivors and ran the real
+totality file (`-x -m slow`) — both `_exp5` and `run()`'s S1-S12 mutant were
+KILLED by `test_every_runner_leavable_tree_shape_gives_insufficient_data`
+(the former via shape 15b's own message-substring check — the pin-only
+message text differs from the dropped equality check's, so the shape's own
+assertion fails even though the verdict is still `INSUFFICIENT_DATA`; the
+latter via every `_assert_insufficient` call's `secondaries == {}` check). A
+second script confirmed all 24 totality mutants are killed by `test_site_
+template_count_is_24` alone (each strips exactly one `collect_total_5b` call,
+mechanically dropping the AST count from 24 to 23) — run individually, ~2 s
+each, all 24 killed. `run_worlds_only`'s own `sequence` was then edited to
+route `totality_*` labels to that one targeted test (`-k test_site_template_
+count_is_24`) instead of the full file — a full-file run for a purely
+mechanical, AST-level kill would cost an estimated ~20-25 min PER mutant
+(≈ 8-10 h for 24), never exercising anything the count check doesn't already
+prove; the two non-totality labels still run the full sequence. The OFFICIAL
+`python -m experiments.exp5b.tests.mutation_check --worlds-only` was then run
+for real (not simulated) against all 26: **26/26 killed, 0 open survivors, 0
+errors** — `mutation_worlds.log` is that run's own output, uncut.
+
+**Final fast pass (`mutation_build.log`): 49 killed by the fast suite
+directly, 26 killed by the slow suite (individually re-confirmed), 0
+documented equivalent, considered = 75, 0 UNRESOLVED, 0 SKIP, 0 TIMEOUT.**
+`.mutation_backup` swept for stragglers after every run (none found); `git
+diff --stat -- experiments/exp5` empty throughout (mutation targets are all
+under `experiments/exp5b/`, never Experiment 5's own tree).
+
+**The power-record rehearsal.** `pw5b.main(<scratchpad root>, n_sim=20)` on
+the real 63 live cells (never the repo): **14.40 s**, `n_live=63`,
+`declaration=POWERED`; linear extrapolation to the real `n_sim=1000` ≈
+**12.0 min** — confirms Task 3's own flagged estimate (11-12 min, not the
+brief's "≈ 3-6 min"). Nothing written under `experiments/exp5b/results/` in
+the repo; `git status` shows no `results/` tree. The real record (n_sim=1000)
+is Task 7's, immediately before the tag.
+
+**TDD / verification commands.** Fast suite: `python -m pytest experiments/
+exp5b/tests -m "not slow" -q` → **70 passed, 18 deselected**; repeated under
+`-W error` → identical. Cold battery: `python -m experiments.exp5b.verify_
+referents_5b` → **9 ok / 3 skip**, `referent battery: 9/12`. Slow suite
+(totality + determinism): **3 passed** (final combined run, 1573-1580 s
+across three runs). `test_full_shape_5b.py` re-run in full after Task 6's
+edits (self-review, not required by the brief but cheap insurance since new
+fast tests touch `stats_5b.py`/`power_5b.py`/`collect_5b.py`/`analyze_5b.py`
+which the slow worlds also exercise): **13 passed in 2015.55 s** — unchanged
+from Task 5's own tally, nothing regressed.
+
+**Self-review.** Every brief item exists (`make_referents_5b.py`, `verify_
+referents_5b.py`, `referents_5b.json`, `tests/test_totality_5b.py`, `tests/
+test_determinism_5b.py`, `tests/test_verify_referents_5b.py`, `tests/
+mutation_check.py`, `tests/read_sweep_5b.py`, `tests/import_scan_5b.py`,
+`FROZEN_SHA256_5B`/`IMPORTED_SHA256_5B` filled, `REFERENTS_5B_SHA256` filled,
+`mutation_build.log`/`mutation_worlds.log` committed). The cold battery's 12
+items each print `ok`/`skip` with exactly the three pre-campaign SKIPs (9,
+10, 12). Totality covers every runner-leavable tree shape the brief lists
+(18) plus the 24-site harness; determinism is byte-identical modulo `meta`.
+Mutation: 75/75 accounted for, 0 unresolved, both logs regenerated from the
+CURRENT source (re-run after every edit, never hand-edited) and committed.
+Read sweep: 0 UNPINNED. Import scan: the pasted tables verified stable under
+a second run. `git diff --stat -- experiments/exp5b` touches only what the
+brief's Create/Modify lists name plus the four fast test files the brief's
+own "closed with a new fast test (preferred)" instruction licenses;
+`git diff --stat -- experiments/exp5` is empty throughout the whole task.
+
+**Concerns:** none outstanding. Two findings were caught by verification
+rather than assumed correct on the first attempt (the `cell_5b` R-mutant test
+asserting on the wrong field; the `power_failures_5b` test's hyphen/space
+typo) — both are recorded above with how they were caught, not smoothed over.
+The `run_worlds_only` sequence edit (routing `totality_*` labels to a single
+targeted test) is a deliberate, disclosed efficiency choice, not a weakening:
+the alternative (the full file per mutant) tests nothing the targeted test
+doesn't already prove, since the kill is structural (an AST call-site count),
+not behavioral, for every one of those 24 mutants — verified by running the
+targeted test directly against each of the 24 mutated files before the
+harness code was changed to rely on it.
