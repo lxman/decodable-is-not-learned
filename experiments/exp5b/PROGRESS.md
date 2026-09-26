@@ -484,3 +484,67 @@ full). `power_gate="skip"`'s bypass (used only by
 code) means that test's two doctored-record checks are NOT exercising the
 byte-for-byte power re-derivation — expected, per the brief; the third call in
 the same test (no `power_gate` override) does exercise it and passes.
+
+## Task 5 fix round 1 (2026-09-25): the two custom Experiment-5-side world
+modes use a STEP-FLAT baseline (ruling, plan B-11 amended) — SIGN-ONLY and
+SIZE-ONLY reached
+
+**Ruling received:** the BLOCKED diagnosis above was confirmed correct (the
+synthetic loss curve is steep enough at the bracket that the outer windows
+sit ≈23 items away from it on the count scale, so the matched placebo's
+`M ≈ P/√2` swamps any per-model offset reachable within the stated tuning
+ranges), and the fix is NOT a wider tuning range but a different construction:
+the two custom Experiment-5-side modes (SIGN-ONLY, CONCENTRATED) now read a
+STEP-FLAT baseline — no `_g(fs.loss_w(...))` term at all — so the large
+side's bracket reads and its outer-window reads are drawn from the SAME flat
+distribution (differing only by `fs._noise`), and `M` carries noise alone
+instead of the loss curve's slope. Implemented exactly as ruled, in
+`experiments/exp5b/tests/full_shape_5b.py::count_fn_5b_world`'s two custom
+branches only: `SIGN-ONLY`'s `base` returns
+`int(min(500, max(0, 250 + 2 * order[size] + fs._noise(size, step, rung, amp))))`
+for `rung in fs.LIVE_RUNGS_W`, else `0`; `CONCENTRATED`'s `base` returns
+`int(min(500, max(0, 250 + (40 * order[size] if rung == "antonym" else 0) +
+fs._noise(size, step, rung, amp))))` for `rung in fs.LIVE_RUNGS_W`, else `0`.
+The standard modes (`LARGE-AHEAD`, `MATCHED`, `UNDETERMINED`, through
+`orig_count_fn_for`), the S11-mirror wrapper `f(...)`, and
+`member_count_fn_5b` are all untouched, exactly as ruled. The module
+docstring gained one sentence naming the step-flat construction and why.
+`_g`/`_THR` (the loss-dependent helper the two custom branches used to call)
+are now unused inside this file but were left in place — the ruling named
+the custom branches as the only surface to touch, and removing them was not
+part of it. `analyze_5b.py`, `stats_5b.py`, `power_5b.py`, `battery_5b.py`,
+and every world test's expected `(world, cell)` target are untouched.
+
+**Realized numbers (captured directly via `fs5b.write_world_5b`/`run_5b`,
+same interpreter, not committed as a script):**
+
+| mode | verdict | cell | T_sym | rung-block p | n_cells | n_rungs | σ̂ (pooled) | calibration |
+|---|---|---|---|---|---|---|---|---|
+| SIGN-ONLY | NOT-SURVIVED | **SIGN-ONLY** | **+0.004107** (2.1 items/500) | **0.001953** | 45 | 9 | 0.866 | CALIBRATED |
+| SIZE-ONLY | NOT-SURVIVED | **SIZE-ONLY** | **+0.012581** (6.3 items/500) | **0.035156** | 45 | 9 | 2.567 | CALIBRATED |
+
+Both land exactly on their named terminal: SIGN-ONLY's `T_sym` is real (small,
+positive) and significant (`p = .00195 < .01`, the exact `2/1024` enumerated
+minimum over 9 nonzero rung blocks — every rung's block sum shares the same
+sign); SIZE-ONLY's `T_sym` clears the `.01` bar (`big = True`) while its `p`
+does not clear significance (`.0352 ≥ .01`, `sig = False`) — the concentrated
+`antonym` rung's large excess does not manufacture an across-task rejection,
+exactly the property CONCENTRATED is meant to exhibit. `n_cells` rose from
+35/41 (the loss-dependent construction) to 45 for both (the flat baseline
+clears every live rung's floor at every bracket/window step, so no cell drops
+out for want of a live count) — consistent with the design intent that 250
+"clears every live rung's floor and leaves headroom for the +120 antonym
+offset without clipping."
+
+**Test evidence.** Targeted first: `pytest
+"experiments/exp5b/tests/test_full_shape_5b.py::test_every_terminal_is_reachable"
+-k "SIGN-ONLY or SIZE-ONLY" -q` → `2 passed, 3 deselected in 95.22s`. Then the
+whole file, detached: `pytest experiments/exp5b/tests/test_full_shape_5b.py -q`
+→ **`13 passed in 2015.92s (0:33:35)`** — every terminal
+and sub-cell this task names is now reachable; no other test's outcome
+changed (the standard-mode worlds are unaffected by construction, and the run
+is the evidence, not an assumption). The three Task-5 fixture findings
+(A/B/C) and this fix round together leave `test_full_shape_5b.py` fully
+green. Fast suite unaffected: `pytest experiments/exp5b/tests -m "not slow"
+-q` still `47 passed, 14 deselected` (this fix touches only `full_shape_5b.py`,
+which the fast suite does not import).

@@ -6,7 +6,12 @@ loaders into a SEPARATE root. The Experiment 5 world's count function
 is wrapped so its S11 read mirrors the final (the anneal's flat end),
 which makes the 5b re-read of that step byte-identical; two custom
 Experiment-5-side modes (SIGN-ONLY, CONCENTRATED) are injected by
-monkeypatching `full_shape_5.count_fn_for`/`MODES`."""
+monkeypatching `full_shape_5.count_fn_for`/`MODES`. The two custom modes
+read a STEP-FLAT baseline, not the loss curve (ruling 2026-09-25, plan B-11
+amended): the synthetic loss curve is steep enough at the bracket that the
+matched placebo's outer-window residual swamped any per-model offset within
+the tuning ranges, so a flat baseline keeps the large side's bracket and
+outer-window reads equal and the placebo to noise alone."""
 from __future__ import annotations
 
 import hashlib
@@ -48,12 +53,15 @@ def count_fn_5b_world(mode, amp, orig_count_fn_for):
     order = {s: i for i, s in enumerate(fs.SIZES_W)}
     if mode == "SIGN-ONLY":
         def base(size, step, rung):
-            off = 2 * order[size] if rung in fs.LIVE_RUNGS_W else 0
-            return int(min(500, max(0, _g(fs.loss_w(size, step), rung) + off + fs._noise(size, step, rung, amp))))
+            if rung not in fs.LIVE_RUNGS_W:
+                return 0
+            return int(min(500, max(0, 250 + 2 * order[size] + fs._noise(size, step, rung, amp))))
     elif mode == "CONCENTRATED":
         def base(size, step, rung):
+            if rung not in fs.LIVE_RUNGS_W:
+                return 0
             off = 40 * order[size] if rung == "antonym" else 0
-            return int(min(500, max(0, _g(fs.loss_w(size, step), rung) + off + fs._noise(size, step, rung, amp))))
+            return int(min(500, max(0, 250 + off + fs._noise(size, step, rung, amp))))
     else:
         base = orig_count_fn_for(mode, amp)
 
