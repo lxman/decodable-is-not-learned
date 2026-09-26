@@ -118,7 +118,8 @@ M = [
     (ST5B, "placebo_terms_5b: the b_plus side skipped",
      '    for side in ("b_minus", "b_plus"):', '    for side in ("b_minus",):'),
     (ST5B, "cell_5b: M = _mean(...) becomes M = sum(...)",
-     "    M = _mean(placebo_terms_5b(cell5, small))", "    M = sum(placebo_terms_5b(cell5, small))"),
+     "    terms = placebo_terms_5b(cell5, small)\n    M = _mean(terms)\n",
+     "    terms = placebo_terms_5b(cell5, small)\n    M = sum(terms)\n"),
     (ST5B, "cell_5b: Q dropped from c_naive",
      '        "c_naive": ((R - 0.5 * (float(P) + Q)) / n) if (Q is not None and P is not None) else None,',
      '        "c_naive": ((R - float(P)) / n) if (Q is not None and P is not None) else None,'),
@@ -314,6 +315,31 @@ M = [
      '                           f"projection commit ({projection_commit})")\n'
      "    return bad",
      "    return bad"),
+    # ------------------------------------------------ freeze closures (Task 7)
+    (AN5B, "freeze F-1: window_completeness_failures_5b's missing-unit list emptied",
+     "        missing = [int(s) for s in b5b.unit_steps_5b() if not b5b.unit_complete_5b(root, size, s)]",
+     "        missing = []"),
+    (AN5B, "freeze F-1: window completeness reads Experiment 5's completeness (the 5b attestation ignored)",
+     "        missing = [int(s) for s in b5b.unit_steps_5b() if not b5b.unit_complete_5b(root, size, s)]",
+     "        missing = [int(s) for s in b5b.unit_steps_5b() if not b5.unit_complete_5(root, size, s)]"),
+    (AN5B, "freeze F-1: the non-side-directory check dropped",
+     "        stray = sorted(p.name for p in ur.iterdir() if p.is_dir() and p.name not in b5b.small_sides_5b())",
+     "        stray = []"),
+    (AN5B, "freeze F-1: run()'s _window thunk never raises",
+     "        bad = window_completeness_failures_5b(root)\n        if bad:",
+     "        bad = window_completeness_failures_5b(root)\n        if False:"),
+    (AN5B, "freeze C-1: a missing re-read unit skipped silently again",
+     '                failures.append(f"gate 1 {size}/step{int(step)}: the re-read unit is not on disk — gate 1 "\n'
+     '                                f"compares all {len(b5b.reread_steps_5b())} re-reads of every side")',
+     "                pass"),
+    (AN5B, "freeze C-1: the attestation's key-set comparison dropped",
+     "            if att_keys != got_keys:", "            if False:"),
+    (AN5B, "freeze F-3: the strictly-increasing sigma_hat_axis check dropped",
+     "    if len(ax) == len(b5b.SIGMA_GRID_5B) and not all(float(b) > float(a) for a, b in zip(ax, ax[1:])):",
+     "    if False:"),
+    (BAT5B, "freeze C-4: the why-vs-step cross-check dropped",
+     '    elif rec.get("why") != ("final" if int(step) == b5.FINAL_STEP_5 else "member"):',
+     "    elif False:"),
     (AN5B, "run(): S1-S12 computed regardless of failures (the units gate dropped)",
      "    secondaries, secondary_failures = ({}, {})\n"
      "    if not failures:\n"
@@ -368,7 +394,7 @@ NON_FAST_KILLS_5B = {
         "test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data",
     # The seven totality mutants the rebuilt fast suite does not catch (the sites with only a
     # SLOW behavioural test): each individually re-confirmed by applying it alone and running
-    # test_totality_5b.py -k "not test_site_template_count_is_24" -m slow (script transcript,
+    # test_totality_5b.py -k "not test_site_template_count_is_25" -m slow (script transcript,
     # PROGRESS.md Task 6 fix round 1).
     "totality_eb285f87a4":     # line 410, the halt marker — shape 1
         "test_totality_5b.py::test_every_runner_leavable_tree_shape_gives_insufficient_data",
@@ -401,7 +427,7 @@ NON_FAST_KILLS_5B = {
 # run (PROGRESS.md Task 6 fix round 1), not assumed.
 #
 # Fix round 1 (Important 1): the 24 AST-generated totality mutants were previously routed
-# through `test_site_template_count_is_24` alone — a STRUCTURAL check (it fires whenever ANY
+# through `test_site_template_count_is_25` alone — a STRUCTURAL check (it fires whenever ANY
 # collect_total_5b call is stripped from run()'s AST, whether or not the site's underlying
 # thunk is ever driven to raise) rather than a BEHAVIOURAL one. Every one of the 24 sites now
 # has a dedicated behavioural test (nine fast, in test_analyze_5b.py: frozen modules, both
@@ -422,7 +448,7 @@ NON_FAST_KILLS_5B = {
 # Fix round 1 (Important 1): NON_FAST_KILLS_5B's neighbour table — a totality label lands
 # here, never in NON_FAST_KILLS_5B, when NEITHER the fast suite nor the totality file's own
 # behavioural tests (excluding the count test) catch it, so `run_worlds_only` falls back to
-# `test_site_template_count_is_24` ONLY to disclose that the kill is structural (an AST
+# `test_site_template_count_is_25` ONLY to disclose that the kill is structural (an AST
 # call-site count), never behavioural. Populated only from an observed `--worlds-only` run,
 # same discipline as NON_FAST_KILLS_5B. Expected to stay empty now that every one of the 24
 # totality sites has a dedicated behavioural test; kept as the disclosure mechanism the ruling
@@ -549,12 +575,12 @@ def run_worlds_only(argv) -> int:
             # file's own behavioural tests EXCLUDING the count test by name (the eighteen
             # corruption shapes cover nine more sites; the new `test_the_five_post_units_
             # sites_raise_without_the_wrapper` and `test_verdict_write_site_raises_without_the_
-            # wrapper` cover the remaining six). `test_site_template_count_is_24` is never in
+            # wrapper` cover the remaining six). `test_site_template_count_is_25` is never in
             # this sequence — it fires on ANY stripped site regardless of behaviour, so crediting
             # it here would launder a structural-only kill as behavioural.
-            sequence = [("fast-behavioural", FAST_TESTS, []),
+            sequence = [("fast-behavioural", FAST_TESTS, FAST_EXTRA_ARGS),
                        ("totality-behavioural", TOTALITY_TESTS,
-                        ["-m", "slow", "-k", "not test_site_template_count_is_24"])]
+                        ["-m", "slow", "-k", "not test_site_template_count_is_25"])]
         else:
             sequence = [("totality", TOTALITY_TESTS, ["-m", "slow"]),
                        ("fullshape", FULLSHAPE_TESTS, ["-m", "slow"])]
@@ -605,7 +631,7 @@ def run_worlds_only(argv) -> int:
             path.write_text(src.replace(old, new))
             clear_pycache()
             ok, out, timed_out, no_tests = _run_suite_full(
-                TOTALITY_TESTS, ["-m", "slow", "-k", "test_site_template_count_is_24"], timeout=120)
+                TOTALITY_TESTS, ["-m", "slow", "-k", "test_site_template_count_is_25"], timeout=120)
         finally:
             shutil.copy2(backup, path)
             backup.unlink()
@@ -613,7 +639,7 @@ def run_worlds_only(argv) -> int:
         if not timed_out and not no_tests and not ok:
             print(f"[{label}] ({n}/{len(labels)}) STRUCTURAL-ONLY (no behavioural test drives "
                  f"this site) — the AST count test alone catches it: {name}", flush=True)
-            structural_only[label] = "test_site_template_count_is_24 (structural-only, not a behavioural kill)"
+            structural_only[label] = "test_site_template_count_is_25 (structural-only, not a behavioural kill)"
         else:
             print(f"[{label}] ({n}/{len(labels)}) OPEN SURVIVOR — every route, including the "
                  f"structural count, failed to kill it: {name}", flush=True)
@@ -742,7 +768,8 @@ def main(argv=None) -> int:
           f"{len(real)} UNRESOLVED survivor(s): {real}; "
           f"{len(skipped)} SKIP (target text not found / -k selected nothing): {skipped}; "
           f"{len(timeouts)} TIMEOUT (not a kill, not a survivor): {timeouts}")
-    return 1 if (real or timeouts) else 0
+    # Freeze C-4: a SKIP (target text not found / nothing collected) is not a kill — it fails the run
+    return 1 if (real or timeouts or skipped) else 0
 
 
 if __name__ == "__main__":
