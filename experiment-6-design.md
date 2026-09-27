@@ -10,7 +10,8 @@ ONE preregistration (Option 1). The battery section (§3.1) was
 presented in the conversation and approved ("do it"); two counts in that
 presentation were wrong and are corrected here (the battery has ELEVEN
 tasks and EIGHTEEN candidate rungs; the presentation said ten and
-seventeen). §10 DIALS a–u AWAIT MICHAEL. No model
+seventeen). §10 DIALS a–u RULED by Michael 2026-09-27 ("approved"):
+every dial as recommended. No model
 contact of any kind has occurred. The design session's only outside
 reads were Wei et al. (2022) and twenty-five BIG-bench task READMEs
 (§2).**
@@ -512,7 +513,7 @@ B. Not a mechanism result. Not a statement that emergence is a
 function of model size: every outcome here is a training trajectory at
 fixed size.
 
-## 10. Dials — AWAITING MICHAEL
+## 10. Dials — RULED by Michael 2026-09-27 ("approved"): every dial as recommended
 
 - **a. Name:** Experiment 6, `experiments/exp6`, tags `exp6-*`,
   **recommended** — a new battery is a new instrument, not a variant
