@@ -352,6 +352,10 @@ M = [
      '        cells, cells5_all=(v5 or {}).get("cells", []), v5=v5 or {}, sides=sides, power_rec=power_rec,\n'
      "        sigma_hat=sigma_hat, calibration=calibration, gate1_rec=gate1_rec, floors=floors, exp5_root=exp5_root,\n"
      "        n_sample=n_sample, seed=b5.PERM_SEED_5)"),
+    # ------------------------------------------------ final-review fix wave (Important 1)
+    (AN5B, "pins_active: ancestry_injected always False (an injected is_ancestor/prereg_commit hidden)",
+     '                   "ancestry_injected": is_ancestor is not None or prereg_commit is not None,',
+     '                   "ancestry_injected": False,'),
 ]
 
 # Every hand mutant above is a 4-tuple (path, name, old, new); every

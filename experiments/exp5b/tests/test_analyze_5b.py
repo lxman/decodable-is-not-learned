@@ -36,7 +36,7 @@ def test_licence_block_names_every_cell():
             # (flagged in PROGRESS.md / the task report; not weakened otherwise)
             assert "NOT claimed" in lb["sentence"]
         if verdict == "SURVIVES":
-            assert "15 items" in lb["sentence"] and "2 items" in lb["sentence"]     # .03×500, .004×500
+            assert "15.0 items" in lb["sentence"] and "2.0 items" in lb["sentence"]     # .03×500, .004×500
 
 
 def test_power_failures_5b_catches_a_non_reproducing_record(monkeypatch):
@@ -210,3 +210,44 @@ def test_window_completeness_failures_5b_measures_the_tree(tmp_path):
         not b5b.unit_complete_5b(tmp_path, "1b", b5.FINAL_STEP_5)
     bad = an.window_completeness_failures_5b(tmp_path)
     assert any(b.startswith("gate 4 1b:") and str(b5.FINAL_STEP_5) in b for b in bad)
+
+
+def test_pins_active_records_every_live_injection(tmp_path, monkeypatch):
+    """Final review Important 1: `pins_active` must show every live
+    injection, not only some — an injected `is_ancestor`/`prereg_commit`
+    bypasses the projection's real ancestry check while
+    `projection_edits_measured` alone still read True; an injected
+    `n_sample` moves every block/cell p-value with nothing flagging it;
+    `root`/`exp5_root` left un-recorded meant a non-default tree could
+    not be told apart from the real campaign's; and `exp5_verdict_sha`
+    printed True for an injected sha string, not only for the default.
+    Run on an empty tmp root via the isolated-kwargs pattern — it refuses
+    early (no cell statistic) but `pins_active` is built unconditionally,
+    so each flag can be read off the refused verdict."""
+    def base(**over):
+        return an.run(**_isolated_kwargs(tmp_path, **over))
+
+    # ancestry_injected: neither is_ancestor nor prereg_commit passed -> False;
+    # either one alone -> True
+    assert base()["pins_active"]["ancestry_injected"] is False
+    assert base(is_ancestor=lambda a, b: True)["pins_active"]["ancestry_injected"] is True
+    assert base(prereg_commit="deadbeef")["pins_active"]["ancestry_injected"] is True
+
+    # n_sample: the default resolution vs an injected value
+    assert base()["pins_active"]["n_sample"] == an.b5.N_PERM_SAMPLED_5
+    assert base(n_sample=10)["pins_active"]["n_sample"] == 10
+
+    # roots_default: the isolated tmp root/exp5_root differ from the module
+    # defaults -> False; patch the defaults to equal the isolated paths
+    # exactly (no real tree touched — root/exp5_root are still tmp paths,
+    # only the comparison target moves) -> True
+    assert base()["pins_active"]["roots_default"] is False
+    monkeypatch.setattr(an, "EXP5B", tmp_path)
+    monkeypatch.setattr(an.b5b, "EXP5", tmp_path / "exp5")
+    assert base()["pins_active"]["roots_default"] is True
+    monkeypatch.undo()
+
+    # exp5_verdict_sha: True only when verdict_sha is left at its default None
+    assert base(verdict_sha=None)["pins_active"]["exp5_verdict_sha"] is True
+    assert base(verdict_sha=False)["pins_active"]["exp5_verdict_sha"] is False
+    assert base(verdict_sha="0" * 64)["pins_active"]["exp5_verdict_sha"] is False

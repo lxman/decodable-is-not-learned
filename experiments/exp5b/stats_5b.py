@@ -87,8 +87,11 @@ def cell_5b(cell5: dict, small: dict, floor: float, n: int = b5.N_ITEMS) -> dict
 def cells_5b(cells5_live: list, counts_by_side: dict, floors: dict) -> list:
     """`cells5_live`: Experiment 5's cells with `live and defined_P`;
     `counts_by_side`: {size: {step: {rung: count}}} over the 5b units of
-    the sides PRESENT (an excluded side is simply absent: its cells are
-    dropped by the caller and counted)."""
+    the sides PRESENT. Since freeze F-1 an incomplete side's campaign
+    refuses at the window-completeness site before this is ever called,
+    so every side reaching a verdict is present and complete — the
+    caller's `excluded`/`cells_dropped` are therefore empty on any tree
+    that reaches a verdict, not a live exclusion mechanism."""
     out = []
     for c5 in cells5_live:
         side = counts_by_side.get(c5["small"])

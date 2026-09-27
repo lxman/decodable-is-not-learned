@@ -1005,3 +1005,67 @@ CLOSED. Surfaces (i)–(x) each CLEARED or CLOSED with a command
 (checklist §B). Experiment 5's tree byte-identical before/after (6,686
 files). Commits df08c4b72, 8142fdbb2, 5944fa515 (+ the logs/record
 commit).
+
+
+## Task 7 step 2 (2026-09-26): the final whole-branch review fix wave
+
+Report: `.superpowers/sdd/2026-09-25-exp5b-build/final-fix-report.md`.
+
+Fixes exactly Important 1 and Minors 1, 5, 6 from the final whole-branch
+review (ruling #9 above), additively, nothing else. **Important 1:**
+`pins_active` now also records `ancestry_injected` (`is_ancestor` or
+`prereg_commit` supplied), `n_sample` (its resolved value), `roots_default`
+(`root`/`exp5_root` left at the module's own `EXP5B`/`b5b.EXP5`), and
+`exp5_verdict_sha` corrected to `verdict_sha is None` (previously `is not
+False`, which read True for an injected sha string, not only for the
+default) — a new fast test (`test_pins_active_records_every_live_injection`)
+flips each flag on an empty tmp root via `_isolated_kwargs`, patching
+`an.EXP5B`/`an.b5b.EXP5` to the isolated paths to exercise `roots_default`'s
+True branch without ever touching the real tree. **Minor 1:** `t_items`/
+`outside_items` in `licence_block_5b` go from `.0f` to `.1f` (a T in
+[.009, .010) no longer prints "5 items" inside a SIGN-ONLY sentence);
+`test_licence_block_names_every_cell` updated to "15.0 items"/"2.0 items".
+**Minor 5:** `load_side_5b`'s and `cells_5b`'s docstrings reworded — an
+absent side directory is refused by "5b window completeness" (freeze F-1),
+never read as EXCLUDED; a comment added at `run()`'s `sides_block`
+construction saying `excluded`/`cells_dropped` are always empty on a tree
+that reaches a verdict since F-1. **Minor 6:** the unused `n_boot`
+resolution line removed from `run()`; the kwarg stays in the signature
+(a comment notes it is accepted for parity with Experiment 5's analyzer
+only).
+
+**Mutation harness.** One hand mutant added (`pins_active: ancestry_
+injected always False`), killed by the new test. Verified BEFORE
+regenerating anything: `_totality_mutants_5b(AN5B)`'s label set is
+IDENTICAL before and after this round's edit (25 labels, same hashes) —
+none of the four fixes touch a `collect_total_5b(...)` call site's text, so
+per ruling #9 the worlds-only log stands untouched; only `mutation_build.
+log` was regenerated (detached fast pass, `python -m experiments.exp5b.
+tests.mutation_check`, ≈ 20 min, zero `.mutation_backup` stray before or
+after): **85 considered (was 84); 75 killed by the fast suite directly
+(was 74, +1 for the new mutant); 10 killed by the slow suite, unchanged
+set, individually re-confirmed in the earlier rounds (see `mutation_worlds.
+log`, untouched); 0 documented equivalent; 0 UNRESOLVED; 0 SKIP; 0 TIMEOUT.**
+
+**Re-verification.** Fast suite (`-m "not slow"`): 82 passed, 31 deselected
+(was 70 pre-Task-7; the freeze's own additions are in this count); repeated
+under `-W error`, identical. Import scan (`import_scan_5b`): `FROZEN_
+SHA256_5B` (64 entries) and `IMPORTED_SHA256_5B` (5 entries) both byte-
+identical to the pinned tables in `battery_5b.py` — `analyze_5b.py` is one
+of `INSTRUMENT_BLOBS_5B`, so its own edited sha never enters either table,
+confirmed by scanning it out of both. Not run this round (per the
+dispatch): the read sweep, the world file, totality, `--worlds-only`;
+`analyze_5b.run()` was never executed against the real trees (`experiments/
+exp5b`, `experiments/exp5`) — the new test's isolated calls all use
+`tmp_path`.
+
+**Files changed this round:** `experiments/exp5b/analyze_5b.py`,
+`experiments/exp5b/stats_5b.py` (docstring only — no behavioural line
+touched), `experiments/exp5b/tests/test_analyze_5b.py` (+1 fast test, +1
+assertion string updated), `experiments/exp5b/tests/mutation_check.py`
+(+1 hand mutant), `experiments/exp5b/mutation_build.log` (regenerated).
+`mutation_worlds.log` NOT touched (label set verified equal). No
+`power_5b.py`/`collect_5b.py`/`battery_5b.py`/`run/` edit; `git diff --stat
+-- experiments/exp5` empty throughout. Pre-tag tally unchanged at 3 —
+nothing this round executes `analyze_5b.run()` against `battery_5b.EXP5B`
+or a real `exp5_root`.

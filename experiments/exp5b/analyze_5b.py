@@ -98,10 +98,13 @@ def _steps_on_disk(root, size) -> set:
 
 
 def load_side_5b(root, size, *, manifest, battery, verify_fn, host, slice_sha, n_scored) -> dict:
-    """None when the side's directory is absent (EXCLUDED and counted, B-4);
-    otherwise gate 3 through Experiment 5's loader (the final required),
-    the 5b attestation on every unit, nothing else loaded, no torn
-    directory; members = the finite window steps present."""
+    """`None` only when the side's directory is absent — since freeze F-1
+    that absence is refused outright by the caller's window-completeness
+    site (a campaign that did not finish, never an exclusion), and `None`
+    is returned solely so that site has something to report; otherwise
+    gate 3 through Experiment 5's loader (the final required), the 5b
+    attestation on every unit, nothing else loaded, no torn directory;
+    members = the finite window steps present."""
     root = Path(root)
     d = b5b.units_root_5b(root) / size
     if not d.exists():
@@ -267,9 +270,9 @@ def licence_block_5b(tree, *, primary, calibration, s1, sigma_hat) -> dict:
     T = (primary or {}).get("T")
     p = ((primary or {}).get("rung_block") or {}).get("p")
     out_T = ((s1 or {}).get("outside_2p8b") or {}).get("T")
-    fields = {"t_items": (f"{T * b5.N_ITEMS:.0f}" if T is not None else "?"),
+    fields = {"t_items": (f"{T * b5.N_ITEMS:.1f}" if T is not None else "?"),
               "p": (f"{p:.4g}" if p is not None else "?"),
-              "outside_items": (f"{out_T * b5.N_ITEMS:.0f}" if out_T is not None else "?"),
+              "outside_items": (f"{out_T * b5.N_ITEMS:.1f}" if out_T is not None else "?"),
               "sigma_hat": (f"{(sigma_hat or {}).get('pooled'):.1f}" if (sigma_hat or {}).get("pooled") is not None else "?"),
               "alpha": (f"{(calibration or {}).get('alpha_realized'):.3f}"
                         if (calibration or {}).get("alpha_realized") is not None else "?")}
@@ -429,7 +432,8 @@ def run(root=None, *, exp5_root=None, write=False, n_sample=None, n_boot=None, m
     root = Path(root) if root is not None else EXP5B
     exp5_root = Path(exp5_root) if exp5_root is not None else b5b.EXP5
     n_sample = b5.N_PERM_SAMPLED_5 if n_sample is None else n_sample
-    n_boot = b5.N_BOOT_5 if n_boot is None else n_boot
+    # `n_boot` is accepted for signature parity with Experiment 5's analyzer only — 5b's
+    # primary/calibration path takes no bootstrap; the kwarg is unused (Minor 6).
     exp5_kwargs = dict(exp5_kwargs or {})
     if referents_sha is _LITERAL:
         referents_sha = REFERENTS_5B_SHA256
@@ -569,6 +573,9 @@ def run(root=None, *, exp5_root=None, write=False, n_sample=None, n_boot=None, m
     _, f = collect_total_5b(_projection, "5b projection"); failures += f
 
     cells, primary, sigma_hat, calibration, modifier = [], None, None, None, None
+    # Since freeze F-1 an incomplete side refuses at "5b window completeness" above before a
+    # verdict is reached, so `excluded`/`cells_dropped` are always empty on any tree that gets
+    # this far — they are attested for the record, not a live exclusion mechanism.
     sides_block = {"present": sorted(s for s in sides if sides[s] is not None and sides[s]["members_present"]),
                    "excluded": excluded, "members_absent": members_absent, "cells_dropped": 0}
     if not failures and cells5_live is not None:
@@ -599,10 +606,19 @@ def run(root=None, *, exp5_root=None, write=False, n_sample=None, n_boot=None, m
                                sigma_hat=sigma_hat)
     pins_active = {"frozen_modules": frozen_check is None, "import_surface": bool(imports_pinned),
                    "referents_sha": referents_sha, "prereg_binding": tag_exists is None and blob_sha is None,
-                   "exp5_verdict_sha": verdict_sha is not False, "power_gate": power_gate,
+                   "exp5_verdict_sha": verdict_sha is None, "power_gate": power_gate,
                    "slice_injected": sl_injected, "manifest_injected": manifest_injected,
                    "exp5_kwargs_injected": bool(exp5_kwargs),
-                   "projection_edits_measured": projection_edits is None and projection_commit is None}
+                   "projection_edits_measured": projection_edits is None and projection_commit is None,
+                   # Final review Important 1: every live injection recorded, not only some —
+                   # an injected `is_ancestor`/`prereg_commit` bypasses the projection's real
+                   # ancestry check while `projection_edits_measured` alone still read True; an
+                   # injected `n_sample` moves every block/cell p-value with no flag showing it;
+                   # `root`/`exp5_root` left un-recorded meant a non-default tree could not be
+                   # told apart from the real campaign's in this dict alone.
+                   "ancestry_injected": is_ancestor is not None or prereg_commit is not None,
+                   "n_sample": n_sample,
+                   "roots_default": root == EXP5B and exp5_root == b5b.EXP5}
     v = verdict_5b(failures=failures, tree=tree, primary=primary, calibration=calibration, sigma_hat=sigma_hat,
                    modifier=modifier, gate1=gate1_rec, gate2=gate2, sides_block=sides_block, secondaries=secondaries,
                    secondary_failures=secondary_failures, licence=licence, power=power_rec, pins_active=pins_active,
