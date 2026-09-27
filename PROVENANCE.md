@@ -876,6 +876,4 @@ was archived the same way, the paper carried at v1.20 parity. v1.21
 (10.5281/zenodo.22962602, adding the Experiment 5 record) was archived
 the same way, the paper carried at v1.21 parity; this round is also the
 first to append its private → public commit map (269 rows) to
-`provenance/commit-map.txt`. v1.22 (Zenodo v1.22: DOI to be
-added at mint; adding the Experiment 5b record) is to be archived the
-same way.
+`provenance/commit-map.txt`. v1.22 (10.5281/zenodo.22998653, adding the Experiment 5b record) was archived the same way on 2026-09-27, the paper carried at v1.22 parity as a direct commit.

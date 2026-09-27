@@ -47,7 +47,7 @@ archived as v1.16; the Experiment 2n close-out on 2026-09-08,
 archived as v1.17; the Experiment 4 close-out on 2026-09-16, archived
 as v1.18; the Experiment 4b close-out on 2026-09-17, archived as
 v1.19; the Experiment 4c close-out on 2026-09-22, archived as
-v1.20; the Experiment 5 close-out on 2026-09-25, archived as v1.21.
+v1.20; the Experiment 5 close-out on 2026-09-25, archived as v1.21; the Experiment 5b close-out on 2026-09-27, archived as v1.22.
 Section 6's tenth lesson (the
 production path was exactly the untested path: every execution path a
 frozen instrument takes on campaign day must run once against real
@@ -95,9 +95,10 @@ two more (`exp4b-preregistered`, `exp4b-closed`), fifty-eight; the
 — a disclosed re-tag after the preflight amendment, the original
 object recorded in PROVENANCE — `exp4c-closed`), sixty; the
 2026-09-25 Experiment 5 graft added three more (`exp5-preregistered`,
-`exp5-targets-sealed`, `exp5-closed`), sixty-three. Archived
+`exp5-targets-sealed`, `exp5-closed`), sixty-three; the 2026-09-27 Experiment 5b graft added two more (`exp5b-preregistered`, `exp5b-closed`), sixty-five. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.21 (10.5281/zenodo.22962602, the Experiment 5 record; v1.20,
+v1.22 (10.5281/zenodo.22998653, the Experiment 5b record; v1.21,
+10.5281/zenodo.22962602, the Experiment 5 record; v1.20,
 10.5281/zenodo.22901051, the Experiment 4c record; v1.19,
 10.5281/zenodo.22819695, the Experiment 4b record; v1.18,
 10.5281/zenodo.22793373, the Experiment 4 record; v1.13,
@@ -1756,6 +1757,7 @@ they exist.*
 | 4b | `exp4b-*` | named, not drawn on |
 | 4c | `exp4c-*` (the preregistration tag re-cut after a preflight amendment, disclosed in PROVENANCE) | named, not drawn on |
 | 5 | `exp5-*` (+ `-targets-sealed`) | named, not drawn on |
+| 5b | `exp5b-*` | named, not drawn on |
 | 1, 1b, 1c | `exp1-analysis-frozen`, `exp1b-*`, `exp1c-*` (+ `exp1c-stage-a`) | companion essay; not drawn on |
 
 Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
@@ -1766,4 +1768,5 @@ Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
 v1.11 22145025 (2i); v1.12 22151832 (2j); v1.13 22151979 (this
 paper's eleventh lesson); v1.14 22177233 (2k); v1.15 22286867 (2l);
 v1.16 22413760 (2m); v1.17 22667987 (2n); v1.18 22793373 (4); v1.19
-22819695 (4b); v1.20 22901051 (4c); v1.21 22962602 (5).
+22819695 (4b); v1.20 22901051 (4c); v1.21 22962602 (5); v1.22
+22998653 (5b).
