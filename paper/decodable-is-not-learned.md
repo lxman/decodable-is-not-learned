@@ -104,7 +104,8 @@ object recorded in PROVENANCE — `exp4c-closed`), sixty; the
 2026-09-25 Experiment 5 graft added three more (`exp5-preregistered`,
 `exp5-targets-sealed`, `exp5-closed`), sixty-three; the 2026-09-27 Experiment 5b graft added two more (`exp5b-preregistered`, `exp5b-closed`), sixty-five. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.22 (10.5281/zenodo.22998653, the Experiment 5b record; v1.21,
+v1.23 (10.5281/zenodo.22999341, this paper with its twelfth lesson;
+v1.22, 10.5281/zenodo.22998653, the Experiment 5b record; v1.21,
 10.5281/zenodo.22962602, the Experiment 5 record; v1.20,
 10.5281/zenodo.22901051, the Experiment 4c record; v1.19,
 10.5281/zenodo.22819695, the Experiment 4b record; v1.18,
@@ -1807,4 +1808,4 @@ v1.11 22145025 (2i); v1.12 22151832 (2j); v1.13 22151979 (this
 paper's eleventh lesson); v1.14 22177233 (2k); v1.15 22286867 (2l);
 v1.16 22413760 (2m); v1.17 22667987 (2n); v1.18 22793373 (4); v1.19
 22819695 (4b); v1.20 22901051 (4c); v1.21 22962602 (5); v1.22
-22998653 (5b).
+22998653 (5b); v1.23 22999341 (this paper's twelfth lesson).
