@@ -59,7 +59,14 @@ interpreter executes on its behalf, and two lines in an empty package
 file moved a primary with every gate passing) and checklist items 26
 and 27 were added 2026-08-28 from the Experiment 2j freeze record on
 Michael's instruction; the paper was carried to the public repository
-the same day as a direct commit and archived as v1.13.
+the same day as a direct commit and archived as v1.13. Section 6's twelfth lesson (a projection built from one committed
+read of a multi-read quantity is a projection of that read: the
+experiment that measured the small side's wobble found the one
+committed read a dip rather than a trend, and every miss on that side
+was the same miss) and checklist item 28 were added 2026-09-27 from
+the Experiment 5b retrospective on Michael's instruction; the paper
+was carried to the public repository the same day as a direct commit
+and archived as v1.23.
 The supporting repository has been public since 2026-08-06 and was
 re-extracted 2026-08-22 (three times) to carry the exp2d, exp2e and
 exp2f records: twenty-four tags, a preregistered and a closed anchor
@@ -220,7 +227,7 @@ controls under preregistration discipline (Section 4). The successor
 battery's screening arc, in which the controls ran at inclusion time,
 confirmed three taxonomy mechanisms by construction and produced the
 program's first clean untrained gate (Section 7), and the outcome-side
-error that battery then committed (Section 8). And eleven calibration
+error that battery then committed (Section 8). And twelve calibration
 rules for frozen criteria, learned from defects in my own frozen code
 and promoted to standing practice, one of them measured by re-fitting
 what the campaign's own records had discarded: a probe's best site is
@@ -1062,6 +1069,33 @@ loaded, not the set the analyzer names; a pin on named modules
 certifies what the author remembered to import. (Record under the
 `exp2j-*` tags.)
 
+**The twelfth lesson: a projection built from one committed read of a
+multi-read quantity is a projection of that read, and must carry both
+of its readings — typical and extreme — into the tolerance.** The
+small-side wobble experiment read each of six smaller models at its
+final and at three preceding checkpoints, and its sealed projection
+had, for every side, exactly one of those three members already on the
+record: the `step142000` read that the parent campaign had committed
+beside the final. The projection took each side's printed 142000
+difference as the scale of all three members and forecast the small
+side's wobble, the placebo it feeds, and the primary from it. On the
+rungs that carried the parent's excess the committed read was a dip,
+not the front of a trend: the 2.8B middle-digit subtraction rung reads
+264, 189, 252, 255 across the four checkpoints, and the 6.9B and 1B
+sides' largest 142000 moves likewise sat between members near the
+final. So the wobble came in below its range on two sides, its spread
+at half the projected value, the row that carries the verdict above
+its range, and the primary above its point — at the edge the
+tolerance's own prose had named as "the members sit near the finals"
+and then placed in the middle. The verdict cell hit; the prior's
+mechanism claim, that subtracting the wobble would cost a fifth of the
+excess, missed in sign. Every miss on the small side was the same miss.
+When a projection rests on one read of a windowed quantity, state the
+window under both hypotheses — the known read is typical of its
+neighbours, and the known read is their extreme — and let the
+tolerance span both; a point placed between them forecasts neither.
+(Record under the `exp5b-*` tags.)
+
 ## 7. The screen at inclusion time
 
 Both campaigns above ran the untrained control after their batteries
@@ -1472,6 +1506,10 @@ ends with the section that supplies its evidence.
 27. Any pre-tag execution of the analyzer on the real tree is a
     disclosure event; log what it printed as knowledge held before the
     tag, in the design document, before the tag is cut. (§6)
+28. When a projection rests on one committed read of a multi-read
+    quantity, project the quantity under both hypotheses — the known
+    read is typical of its neighbours, and it is their extreme — and let
+    the tolerance span both. (§6)
 
 The full record behind this paper, the design documents, the frozen
 analysis code, the 480 and 770 probe fits of the two campaigns, the
@@ -1757,7 +1795,7 @@ they exist.*
 | 4b | `exp4b-*` | named, not drawn on |
 | 4c | `exp4c-*` (the preregistration tag re-cut after a preflight amendment, disclosed in PROVENANCE) | named, not drawn on |
 | 5 | `exp5-*` (+ `-targets-sealed`) | named, not drawn on |
-| 5b | `exp5b-*` | named, not drawn on |
+| 5b | `exp5b-*` | §6 lesson 12 |
 | 1, 1b, 1c | `exp1-analysis-frozen`, `exp1b-*`, `exp1c-*` (+ `exp1c-stage-a`) | companion essay; not drawn on |
 
 Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
