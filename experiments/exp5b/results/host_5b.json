@@ -1,0 +1,35 @@
+{
+ "stack": {
+  "torch": "2.12.1+cu130",
+  "transformers": "5.13.0",
+  "numpy": "2.4.6",
+  "safetensors": "0.8.0",
+  "tokenizers": "0.22.2",
+  "huggingface_hub": "1.22.0",
+  "hf_xet": true
+ },
+ "device": "cuda",
+ "cuda": "13.0",
+ "gpu": "NVIDIA A100 80GB PCIe",
+ "python": "3.11.16",
+ "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+ "transports": {
+  "classic_mbps": 58.0,
+  "xet_mbps": 83.1,
+  "used": "xet",
+  "file": "EleutherAI/pythia-160m/model.safetensors@50f5173d932e8e61f858120bcb800b97af589f46"
+ },
+ "hf_hub_disable_xet": null,
+ "thread_pin": {
+  "env": {
+   "VECLIB_MAXIMUM_THREADS": "1",
+   "OMP_NUM_THREADS": "1",
+   "OPENBLAS_NUM_THREADS": "1",
+   "MKL_NUM_THREADS": "1"
+  },
+  "pinned_before_numpy": true
+ },
+ "nvidia_smi": "NVIDIA A100 80GB PCIe, 565.57.01, 81920 MiB",
+ "sha256": "e1740ce3e73a75d86bfad33483169b3aa0e2f37780c0b8ce3b144bea384c1a77",
+ "written_utc": "2026-09-27T09:11:33.875228+00:00"
+}
