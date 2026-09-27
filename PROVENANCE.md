@@ -748,6 +748,100 @@ disclosed in the design document. The one pre-committed change stayed
 unspent. The retained-path list above now includes `experiments/exp5`
 and `experiment-5-design.md`.
 
+On 2026-09-27 the Experiment 5b record was added (Experiment 5's
+successor on its third disclosure, the small side's own wobble: each
+of the six smaller models read on a rented A100 at its final and at
+the three preceding checkpoints, 142000, 141000 and 140000 — 24 units,
+nothing on the larger side re-read and no bracket re-matched, the
+finals and the 142000s doubling as a twelve-unit cross-box gate 1
+against Experiment 5's committed records; the primary on Experiment
+5's 63 live cells verbatim, c_sym = (R − M)/500 with R Experiment 5's
+committed value and M the matched placebo — the mean over the six
+(outer window, member) combinations of each side's own move to a
+neighbour at weight 1/√2, which carries R's noise law under the null
+at every small- and large-side noise level; the same bar, T_sym ≥ .01
+at α .01 under the exact rung-block sign flip; worlds INSUFFICIENT_DATA
+/ UNDETERMINED / SURVIVES (· CALIBRATED / · INFLATED / · OFF-GRID, read
+against the sealed σ_s grid's realized α at the measured σ̂_s) /
+NOT-SURVIVED (· INSIDE / · SIGN-ONLY / · SIZE-ONLY), each with its
+essay licence written in advance; the power record written once at the
+build and bound by the preregistration tag — POWERED, .989 at the
+plug-in arm, σ_s 15 items. Verdict SURVIVES · CALIBRATED: T_sym .0552
+(27.6 items per 500), rung-block p .00085 (13 blocks, enumerated;
+family-block .0156; cell-level 1e-4), 63 cells on 13 rungs, σ̂_s 10.3
+items with the rule's realized α .000 there, modifier MIXED 26 against
+24, 15.1 items per 500 outside the 2.8b row (p .028); gate 1 byte-
+identical on all twelve re-reads (digest equal, Σ|Δcount| 0, |Δℓ| 0),
+gate 2 reproducing Experiment 5's verdict exactly, zero failures; the
+smaller side's wobble (Q 9.2 items) is the smaller of the two (the
+larger side's P 12.4), so Experiment 5's un-averaged read cost it
+nothing (its rule's α at σ̂_s .0012). What is licensed: Experiment 5's
+third disclosure is retired and the excess is stated net of both
+wobbles; Experiment 5's verdict is not revised; the caveat stands in
+every world — one family, one battery of 34 synthetic tasks, sizes to
+12b, loss matched on a 2M-token validation slice). Same GRAFT route:
+the 47 private commits touching `experiments/exp5b`,
+`experiment-5b-design.md` and `.gitignore` since the v1.21 parity
+carry (private d801cecb) were applied as a path-limited series
+fast-forward onto the previous public master (91504c11) at index
+level, none skipped, identities normalized to the single noreply
+identity, author and committer dates and commit and tag messages
+preserved byte for byte, redaction scans clean (0 secret-class, 0
+personal-identity strings, 0 LAN literals across the 1,012 text blobs
+the series introduces — 961 text files on the added paths at the
+close, no binary — and the 47 commit and 2 tag messages added; three
+files carry the Mac working-tree path
+`/Users/michaeljordan/emergence-paper` as a hard-coded literal — the
+bundle maker's default (`run/make_bundle_5b.sh:6`), the status logger
+for the rented box (`run/status_box_5b.sh:6`) and the Mac-side puller
+(`run/pull_units_5b.sh:9`) — the same tolerated class as the files
+already on this line, disclosed here and not scrubbed; the puller and
+the status logger also carry, as defaults inherited from Experiment
+4c's scripts, the Vast.ai ssh proxy host and port of that earlier
+instance (`ssh5.vast.ai`, 36148, long destroyed) and the path of the
+program's dedicated key file, no key material; the ledger
+(`experiments/exp5b/PROGRESS.md:1103`) names the campaign box's
+instance id (52875584, also named in one commit message), its proxy
+route (`ssh7.vast.ai:35584`) and, once, its direct public address and
+port (174.78.228.101:40800), and the design document's status block
+names Experiment 5's campaign box id (52285720) — every box destroyed
+at the close, none of it a credential or a LAN address); twenty-three
+commit messages carry a `Claude-Session` attribution trailer (an
+authentication-gated session link), preserved verbatim under the
+messages-preserved rule and disclosed here. The tree at both new
+anchors and at HEAD is entry-identical to the private tree on the
+added paths (43 entries at the preregistration tag, 960 at the closing
+tag, 961 at the close; `.gitignore` identical as well), every other
+path is untouched, and all 85 prior tags and every prior commit are
+untouched. Two tags carried: `exp5b-preregistered` (private 46dadbdd
+→ public 23611b18, tag object 9c879204 → 3e521134, the seven
+instrument blobs bound) and `exp5b-closed` (6b7dd013 → b7493de1, tag
+object aaadd9dd → efd5e6b1); the retrospective grading the sealed
+projection follows the closing tag (private 8852ecc4 → public
+55f592c1). The campaign ran on a rented A100 80GB PCIe, a Vast.ai
+on-demand instance of the host class Experiment 5 used, screened under
+load before the install (224 TFLOP/s fp16 sustained): 24 of 24 units
+in 2 h 15 min with zero halts, zero stops and zero attrition, every
+unit committed by the watcher as it landed and the box's files
+verified SHA-identical to the Mac's copy before the instance was
+destroyed ($9.89 by the credit delta, the excess over the design's
+estimate idle hours awaiting a word). One environment finding is
+ledgered: the pinned `torch==2.12.1+cu130` wheel did not initialise
+CUDA on that host's older driver (565.57.01), and the campaign ran
+through the CUDA 13.0 forward-compatibility libraries with the
+instrument untouched; gate 1's twelve byte-identical re-reads are the
+check that the arrangement changed nothing. The freeze of this
+experiment found its class defect in the verdict path (F-1: an
+unfinished campaign — a missing window member or a size never started
+— delivered a verdict over the units present), closed additively
+before the tag with a window-completeness refusal the cold battery
+also applies post-campaign; the six pre-tag analyzer executions
+against the real tree are disclosed in the design document. The one
+pre-committed change stayed unspent. The retained-path list above now
+includes `experiments/exp5b` and `experiment-5b-design.md`; this
+round's 47-row private → public commit map is appended to
+`provenance/commit-map.txt`.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
@@ -782,4 +876,6 @@ was archived the same way, the paper carried at v1.20 parity. v1.21
 (10.5281/zenodo.22962602, adding the Experiment 5 record) was archived
 the same way, the paper carried at v1.21 parity; this round is also the
 first to append its private → public commit map (269 rows) to
-`provenance/commit-map.txt`.
+`provenance/commit-map.txt`. v1.22 (Zenodo v1.22: DOI to be
+added at mint; adding the Experiment 5b record) is to be archived the
+same way.
