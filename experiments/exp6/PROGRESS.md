@@ -6,7 +6,10 @@ Entries are append-only. Every network contact is logged here when made.
 
 ## Model contact
 
-None.
+One, by accident, on 2026-09-28: the weights of SmolLM3-3B's stage-1 endpoint were fetched and
+loaded into memory by a test run. No tokenizer was loaded, no forward pass ran, no item was
+read by a model and nothing was scored. The entry "Model contact, 2026-09-28" at the end of
+this ledger has the account. (This section read "None." until that entry was written.)
 
 ## Network contacts (build)
 
@@ -569,3 +572,53 @@ Corrections to this ledger, made here and not in place:
   refusals: see the second bullet above.
 
 No file but one test and this ledger changed; no pin moved. 137 tests in the suite.
+
+### Model contact, 2026-09-28 — a weight load by a test run; no item read (coordinator ruling R-75)
+
+Found by the coordinator on 2026-09-28 while reading the runners to write tests, then confirmed
+from the Mac's model cache, the mutation logs and the session's own record of what it ran.
+
+- WHAT HAPPENED. The instrument is being prototyped in the coordinator's scratch directory; none
+  of it is committed. Its mutation harness holds a mutant of the endpoint runner that removes the
+  refusal of a host off the stack pin. The test that kills that mutant hands the runner a table
+  of loaders that must not be reached. The table was an empty `dict` subclass, and an empty dict
+  is falsy; the runner read `loaders = loaders or real_loaders()`. Under the mutant the runner
+  therefore fell through to the REAL loaders and called 2m's frozen thin loader on the first
+  family in sweep order.
+- WHAT WAS LOADED. `HuggingFaceTB/SmolLM3-3B-checkpoints` at commit
+  `d07a5a83dd011f3f084e9d2f1b47f51e524ca8d4`, the stage-1 endpoint (step 3,440,000):
+  `config.json`, `model.safetensors.index.json`, `generation_config.json` and the two weight
+  shards, 4,966,315,264 and 1,183,919,744 bytes, sha256 `76f0129a…` and `5004145c…` (equal to
+  2m's committed manifest). `from_pretrained` completed, so the model was built in memory on the
+  CPU. The loader's next statement, `model.to("cuda")`, raised `AssertionError: Torch not
+  compiled with CUDA enabled` on this Mac. That exception is what failed the test.
+- WHAT DID NOT HAPPEN. No tokenizer was loaded: the loader reads it after the move to the
+  device, and the cache holds no tokenizer file of that repository. No prompt reached a model,
+  no forward pass ran, no tensor digest was taken, nothing was scored. The test ran in a pytest
+  temporary directory; nothing was written under any `results/`. Nobody in this program knows
+  any output of any model on any item of this battery.
+- WHEN, AND HOW OFTEN. Twice. 04:27:39 to 04:29:01 EDT, a run of nine named mutants: the fetch
+  (the cache directory and both shards are dated 04:28, `generation_config.json` 04:29). And
+  inside the full fast pass of 06:10:37 to 06:17:55 EDT, the same mutant and test, the weights
+  read from the cache. The two full passes before 04:27 held the mutant and no test that
+  reached it (it survived both); the cache directory did not exist before 04:28. No other
+  mutant reaches a loader: the other tests that hand in the table fail at an earlier assertion
+  under their mutants. The code as written refuses before its loaders in every test.
+- THE DEFECT, in one line: a test double that was falsy, and a fallback written with `or`.
+- CLOSED, in the prototype, to land with the instrument: (1) every runner takes what it is
+  handed and falls back only on `None` (the endpoint stage, the sweep, the predictor stage's
+  loader and sampler, the three of the preflight), each with a test that fails if a stage falls
+  through to a real loader and a mutant that restores the `or`; (2) the tests' `conftest.py`
+  puts the process offline and points its model cache at an empty directory before anything
+  imports `huggingface_hub`, and the mutation harness sets the same in the environment of every
+  run, so a test that falls through fails at once with nothing fetched and nothing read.
+- LEFT AS FOUND: the cache entry (5.7 GB under
+  `~/.cache/huggingface/hub/models--HuggingFaceTB--SmolLM3-3B-checkpoints`). Whether to delete
+  it is Michael's call.
+
+Corrections to this ledger, made here and not in place:
+- The entries of fix waves 3 and 4 say the section "Model contact: None" stands. It stood when
+  they were written. It does not stand as of 04:28 on 2026-09-28; the section now says so.
+- The battery plan's standing constraint "zero model contact and zero weight download" was
+  broken by the instrument's prototype, not by any step of the battery plan. The design doc's
+  status sentence ("no model contact of any kind has occurred") was true when ruled.
