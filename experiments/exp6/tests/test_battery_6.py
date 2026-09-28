@@ -385,7 +385,7 @@ def test_heuristic_floors(battery):
         v for k, v in g.items() if k != f6.SAME_UNIT) == 166
     # the rank by size is not designed: it follows from what is asked
     assert h["unit_interp1"]["heuristics"][f6.SIZE_RANK] == 126
-    assert h["unit_interp2"]["heuristics"][f6.SIZE_RANK] == 131
+    assert h["unit_interp2"]["heuristics"][f6.SIZE_RANK] == 132
 
 
 def test_the_number_guessers_pick_what_they_say():

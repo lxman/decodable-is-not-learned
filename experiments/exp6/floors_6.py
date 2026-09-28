@@ -158,11 +158,11 @@ HEURISTIC_PIN_6 = {
         "of the options that combine every number of the text once, the nearest to its largest number":
             170,
         "of the options that divide or are a multiple of the text's largest number, the nearest to it":
-            90,
+            92,
         "of the options the text does not print, the one sharing most with its numbers":
-            138,
+            139,
         "the first option a number of the text divides":
-            117,
+            118,
         "the first option that is the product of two numbers of the text":
             92,
         "the largest option the text does not print":
@@ -176,7 +176,7 @@ HEURISTIC_PIN_6 = {
         "the smallest option the text does not print":
             69,
         "the smallest option the text does not print that divides none of its numbers":
-            95,
+            92,
         "the text's last number where the blank carries its unit word, else the first option that is the product of two numbers of the text":
             92,
     },
@@ -184,7 +184,7 @@ HEURISTIC_PIN_6 = {
         "of the options that combine every number of the text once, the nearest to its largest number":
             157,
         "of the options that divide or are a multiple of the text's largest number, the nearest to it":
-            140,
+            139,
         "of the options the text does not print, the one sharing most with its numbers":
             148,
         "the first option a number of the text divides":
@@ -192,15 +192,15 @@ HEURISTIC_PIN_6 = {
         "the first option that is the product of two numbers of the text":
             166,
         "the largest option the text does not print":
-            119,
+            117,
         "the only option absent from the text":
             0,
         "the option at one list position":
             100,
         "the option of one rank by size":
-            131,
+            132,
         "the smallest option the text does not print":
-            146,
+            148,
         "the smallest option the text does not print that divides none of its numbers":
             84,
         "the text's last number where the blank carries its unit word, else the first option that is the product of two numbers of the text":

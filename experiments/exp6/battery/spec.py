@@ -153,9 +153,10 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
     its question or its answer-bearing key repeats, its BIG-bench key is
     in the collision index, or one of its EXTRA keys (`bb_extra`: a part
     of the item that is a question in its own right) is in the index's
-    extra table. A SHOT is redrawn also if its content key (`content_key`:
-    what an item asks, its surface aside) is one an eval item carries: a
-    prompt does not show the answer of an item it is scored on."""
+    extra table. A SHOT is redrawn also if its content key is one an
+    eval item, or the shot before it, carries. The key (`content_key`) is
+    the rung's own statement of what a prompt would give away: on the
+    unit rungs, the numbers a sentence prints together with its answer."""
     rng = np.random.default_rng(spec.seed)
     seen_q, seen_key, seen_ans, seen_content = set(), set(), set(), set()
     n_redrawn = {"rejected": 0, "duplicate": 0, "collision": 0,

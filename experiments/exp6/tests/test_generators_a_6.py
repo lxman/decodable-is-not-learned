@@ -337,6 +337,7 @@ def _smooth(x: int) -> bool:
 
 
 SEEDS_TWINS = 2500
+CHI2_ORDERS = 60.0
 
 
 def _options_of(it):
@@ -467,14 +468,20 @@ def test_what_the_slot_fixes(built, name):
     roles = ("ask_time",) if name == "unit_interp1" else ("give_a", "ask_a")
     assert all(pa[k] != pb[k] for k in roles)
     assert bool(pa["k"]) and not pb["k"]
-    # and no item asks what a shot asks under another subject
+    # and no item asks what a shot asks under another subject, nor prints
+    # a shot's numbers with a shot's answer under another scaling
     asked = [_printed(name, it["question"].split("\nOptions: ")[0]) for it in items]
     assert pa not in asked and pb not in asked
 
+    def shows(q, answer):
+        return tuple(re.findall(r"\d+", q.split("\nOptions: ")[0])), str(answer)
+    assert not {shows(qa, a), shows(qb, b)} & {
+        shows(it["question"], it["answer"]) for it in items}
+
 
 @pytest.mark.parametrize("name,kinds,share", [
-    ("unit_interp1", {"misreading": 1180, "combination": 584, "pool": 236}, (598, 834)),
-    ("unit_interp2", {"misreading": 1424, "combination": 326, "pool": 250}, (584, 834))])
+    ("unit_interp1", {"misreading": 1182, "combination": 582, "pool": 236}, (598, 834)),
+    ("unit_interp2", {"misreading": 1415, "combination": 335, "pool": 250}, (584, 834))])
 def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name, kinds, share):
     """The README's steps 3 and 5: numbers without a large prime factor;
     the shown quantity a multiple of each number of the item; the wrong
@@ -509,8 +516,8 @@ def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name, kinds,
         assert (s["shown"] in cands) == (name == "unit_interp2" and bool(s["k"]))
         combos = gen_units.combinations(s["shown"], numbers, depth=2) | printed
         assert every <= combos and max(combos) <= gen_units.CAP
-        # every candidate is offered
-        assert cands < set(m["options"]), it["question"]
+        # every candidate is offered, and 1 never is
+        assert cands < set(m["options"]) and 1 not in m["options"], it["question"]
         for x, kind in zip(m["options"], m["option_kinds"]):
             want = ("answer" if x == answer else "misreading" if x in every else
                     "combination" if x in combos else "pool")
@@ -574,14 +581,58 @@ def test_the_numbers_and_the_options_do_not_say_what_is_asked(name):
                     [x for x in b["meta"]["options"] if x not in gone]
     assert n_drawn > 1500 and n_refused > 300
     # and that order says nothing: by size, the four options that are not
-    # the answer stand in each of the 24 orders about as often as in any
-    # other, in every cell (sorted options would give the answer away as
-    # the one out of order)
+    # the answer stand in each of the 24 orders as often as in any other,
+    # in every cell (sorted options would give the answer away as the one
+    # out of order). Chi-square on 23 degrees of freedom: an innocent
+    # stream exceeds 60 in a cell about three times in 100,000.
     assert len(orders) == (6 if lv1 else 10)
     for cell, tally in orders.items():
         n = sum(tally.values())
         assert n > 400 and len(tally) == 24, cell
-        assert max(tally.values()) / n < 0.08 and min(tally.values()) / n > 0.015, cell
+        chi2 = sum((v - n / 24) ** 2 / (n / 24) for v in tally.values())
+        assert chi2 < CHI2_ORDERS, (cell, chi2)
+
+
+def test_what_a_unit_item_would_give_away():
+    """The content key the driver gates the shots on: the numbers a
+    sentence prints and its answer. Another subject: the same key.
+    Another role: another answer, another key. On level 2, another
+    scaling where the asked quantity does not change with it: the same
+    answer, the same key."""
+    import numpy as np
+
+    def key(name, seed, **d):
+        draw = gen_units._draw_lv1 if name == "unit_interp1" else gen_units._draw_lv2
+        return draw(np.random.default_rng(seed), None, 0, {"pos": 1, **d})
+    n = {"subject": 0, "role": 0, "scaling": 0}
+    for seed in range(600):                      # about one scaled draw in four is kept
+        a = key("unit_interp1", seed, row=0, scaling="up", ask_time=True)
+        if a is not None:
+            b = key("unit_interp1", seed, row=3, scaling="up", ask_time=True)
+            c = key("unit_interp1", seed, row=0, scaling="up", ask_time=False)
+            d = key("unit_interp1", seed, row=0, scaling="down", ask_time=True)
+            m = a["meta"]
+            assert a["content_key"] == f"lv1|{m['n']}|{m['p']}|{m['shown']}|={a['answer']}"
+            assert a["content_key"] == b["content_key"] and a["question"] != b["question"]
+            assert len({x["content_key"] for x in (a, c, d)}) == 3
+            n["subject"] += 1
+        a = key("unit_interp2", seed, row=0, scaling="up", give_a=False, ask_a=True)
+        if a is not None:
+            b = key("unit_interp2", seed, row=4, scaling="up", give_a=False, ask_a=True)
+            c = key("unit_interp2", seed, row=0, scaling="up", give_a=False, ask_a=False)
+            d = key("unit_interp2", seed, row=0, scaling="down", give_a=False, ask_a=True)
+            m = a["meta"]
+            assert a["content_key"] == f"lv2|{m['r']}|{m['given']}|={a['answer']}"
+            assert a["content_key"] == b["content_key"] and a["question"] != b["question"]
+            assert a["content_key"] != c["content_key"]
+            n["role"] += 1
+            # the invariant asked, the rate scaled the other way (a draw the
+            # other scaling's candidates may refuse): the same answer
+            if d is not None:
+                assert d["answer"] == a["answer"] and d["question"] != a["question"]
+                assert d["content_key"] == a["content_key"]
+                n["scaling"] += 1
+    assert min(n.values()) > 100
 
 
 @pytest.mark.parametrize("name,only", [("unit_interp1", 0), ("unit_interp2", 0)])

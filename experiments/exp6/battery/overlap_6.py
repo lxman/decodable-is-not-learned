@@ -34,7 +34,7 @@ from .make_bigbench_index_6 import COMMUTES, local_name
 
 HERE = Path(__file__).resolve().parent
 RECORD = HERE / "data" / "overlap_6.json"
-OVERLAP_6_SHA256 = "b6c06766c2da9ae2906997edb058235725bca145bf3954b7c29892babb65ebb4"
+OVERLAP_6_SHA256 = "3fb3d346857f6747e331579c7586a9299ce148ec341fd6f31a29c0b63918c8ba"
 MODARITH_FILE = {
     "modarith_add1": "modified_arithmetic/three_digit_addition_plus_one",
     "modarith_sub1": "modified_arithmetic/three_digit_subtraction_plus_one",

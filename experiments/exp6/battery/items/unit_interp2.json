@@ -992,12 +992,12 @@
      18,
      3,
      324,
-     1
+     6
     ],
     "r": 6,
     "subject": "A runner is running"
    },
-   "question": "A runner is running at 6 meters per second, and is 54 meters from the finish line. If they run three times as fast, they will be () meters from the finish line.\nOptions: 54, 18, 3, 324, 1"
+   "question": "A runner is running at 6 meters per second, and is 54 meters from the finish line. If they run three times as fast, they will be () meters from the finish line.\nOptions: 54, 18, 3, 324, 6"
   },
   {
    "answer": "8",
@@ -1137,21 +1137,21 @@
     "option_kinds": [
      "misreading",
      "misreading",
-     "misreading",
+     "combination",
      "misreading",
      "answer"
     ],
     "options": [
      144,
      48,
-     16,
+     27,
      4,
      12
     ],
     "r": 3,
     "subject": "A runner is running"
    },
-   "question": "A runner is running at 3 meters per second, and is 48 seconds from the finish line. If they run four times as fast, they will be () seconds from the finish line.\nOptions: 144, 48, 16, 4, 12"
+   "question": "A runner is running at 3 meters per second, and is 48 seconds from the finish line. If they run four times as fast, they will be () seconds from the finish line.\nOptions: 144, 48, 27, 4, 12"
   },
   {
    "answer": "4",
@@ -2231,7 +2231,7 @@
    "meta": {
     "a": 1000,
     "answer_pos": 4,
-    "answer_rank": 5,
+    "answer_rank": 4,
     "answer_stated": false,
     "ask_a": true,
     "b": 100,
@@ -2253,7 +2253,7 @@
      "misreading"
     ],
     "options": [
-     500,
+     2000,
      20,
      200,
      1000,
@@ -2262,7 +2262,7 @@
     "r": 10,
     "subject": "The beef"
    },
-   "question": "The beef costs 10 dollars per pound, and a shopper can buy 100 pounds of beef. If the beef costs half as much, the shopper can buy () dollars of beef.\nOptions: 500, 20, 200, 1000, 100"
+   "question": "The beef costs 10 dollars per pound, and a shopper can buy 100 pounds of beef. If the beef costs half as much, the shopper can buy () dollars of beef.\nOptions: 2000, 20, 200, 1000, 100"
   },
   {
    "answer": "132",
@@ -2370,14 +2370,14 @@
     "options": [
      3,
      18,
-     72,
+     81,
      36,
      6
     ],
     "r": 2,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 2 feet per day, and it grows 18 feet to reach the height of maturity. If it grows three times as fast, it will grow () feet to reach the height of maturity.\nOptions: 3, 18, 72, 36, 6"
+   "question": "A bamboo grows at 2 feet per day, and it grows 18 feet to reach the height of maturity. If it grows three times as fast, it will grow () feet to reach the height of maturity.\nOptions: 3, 18, 81, 36, 6"
   },
   {
    "answer": "7",
@@ -3521,13 +3521,13 @@
      576,
      144,
      192,
-     16,
+     27,
      432
     ],
     "r": 3,
     "subject": "A plane is flying"
    },
-   "question": "A plane is flying at 3 kilometers per hour, and is 144 kilometers from destination. If it flies one fourth as fast, it will be () kilometers from destination.\nOptions: 576, 144, 192, 16, 432"
+   "question": "A plane is flying at 3 kilometers per hour, and is 144 kilometers from destination. If it flies one fourth as fast, it will be () kilometers from destination.\nOptions: 576, 144, 192, 27, 432"
   },
   {
    "answer": "20",
@@ -3669,19 +3669,19 @@
      "misreading",
      "misreading",
      "misreading",
-     "misreading"
+     "combination"
     ],
     "options": [
      108,
      432,
      36,
      9,
-     144
+     324
     ],
     "r": 12,
     "subject": "A plane is flying"
    },
-   "question": "A plane is flying at 12 kilometers per hour, and is 36 hours from destination. If it flies one third as fast, it will be () hours from destination.\nOptions: 108, 432, 36, 9, 144"
+   "question": "A plane is flying at 12 kilometers per hour, and is 36 hours from destination. If it flies one third as fast, it will be () hours from destination.\nOptions: 108, 432, 36, 9, 324"
   },
   {
    "answer": "7",
@@ -3857,14 +3857,14 @@
     "k": 2,
     "option_kinds": [
      "answer",
-     "combination",
+     "misreading",
      "misreading",
      "misreading",
      "misreading"
     ],
     "options": [
      1024,
-     16,
+     128,
      32,
      64,
      2
@@ -3872,7 +3872,7 @@
     "r": 16,
     "subject": "A runner is running"
    },
-   "question": "A runner is running at 16 meters per second, and is 64 seconds from the finish line. If they run twice as fast, they will be () meters from the finish line.\nOptions: 1024, 16, 32, 64, 2"
+   "question": "A runner is running at 16 meters per second, and is 64 seconds from the finish line. If they run twice as fast, they will be () meters from the finish line.\nOptions: 1024, 128, 32, 64, 2"
   },
   {
    "answer": "64",
@@ -3905,13 +3905,13 @@
      128,
      64,
      4,
-     8,
+     16,
      2048
     ],
     "r": 16,
     "subject": "A runner is running"
    },
-   "question": "A runner is running at 16 meters per second, and is 128 seconds from the finish line. If they run twice as fast, they will be () seconds from the finish line.\nOptions: 128, 64, 4, 8, 2048"
+   "question": "A runner is running at 16 meters per second, and is 128 seconds from the finish line. If they run twice as fast, they will be () seconds from the finish line.\nOptions: 128, 64, 4, 16, 2048"
   },
   {
    "answer": "8",
@@ -4902,12 +4902,12 @@
      675,
      45,
      135,
-     1
+     3
     ],
     "r": 15,
     "subject": "The beef"
    },
-   "question": "The beef costs 15 dollars per pound, and a shopper can buy 45 dollars of beef. If the beef costs one third as much, the shopper can buy () dollars of beef.\nOptions: 9, 675, 45, 135, 1"
+   "question": "The beef costs 15 dollars per pound, and a shopper can buy 45 dollars of beef. If the beef costs one third as much, the shopper can buy () dollars of beef.\nOptions: 9, 675, 45, 135, 3"
   },
   {
    "answer": "108",
@@ -4930,14 +4930,14 @@
     "given": 144,
     "k": 3,
     "option_kinds": [
-     "misreading",
+     "combination",
      "misreading",
      "misreading",
      "answer",
      "misreading"
     ],
     "options": [
-     12,
+     16,
      432,
      144,
      108,
@@ -4946,7 +4946,7 @@
     "r": 4,
     "subject": "The beef"
    },
-   "question": "The beef costs 4 dollars per pound, and a shopper can buy 144 dollars of beef. If the beef costs one third as much, the shopper can buy () pounds of beef.\nOptions: 12, 432, 144, 108, 576"
+   "question": "The beef costs 4 dollars per pound, and a shopper can buy 144 dollars of beef. If the beef costs one third as much, the shopper can buy () pounds of beef.\nOptions: 16, 432, 144, 108, 576"
   },
   {
    "answer": "2187",
@@ -5014,7 +5014,7 @@
     ],
     "options": [
      1296,
-     2,
+     4,
      144,
      72,
      8
@@ -5022,7 +5022,7 @@
     "r": 18,
     "subject": "The beef"
    },
-   "question": "The beef costs 18 dollars per pound, and a shopper can buy 72 pounds of beef. If the beef costs half as much, the shopper can buy () dollars of beef.\nOptions: 1296, 2, 144, 72, 8"
+   "question": "The beef costs 18 dollars per pound, and a shopper can buy 72 pounds of beef. If the beef costs half as much, the shopper can buy () dollars of beef.\nOptions: 1296, 4, 144, 72, 8"
   },
   {
    "answer": "80",
@@ -5132,12 +5132,12 @@
      12,
      2,
      36,
-     72
+     108
     ],
     "r": 6,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 6 feet per day, and it grows 36 feet to reach the height of maturity. If it grows three times as fast, it will grow () feet to reach the height of maturity.\nOptions: 216, 12, 2, 36, 72"
+   "question": "A bamboo grows at 6 feet per day, and it grows 36 feet to reach the height of maturity. If it grows three times as fast, it will grow () feet to reach the height of maturity.\nOptions: 216, 12, 2, 36, 108"
   },
   {
    "answer": "2",
@@ -5466,14 +5466,14 @@
     "given": 20,
     "k": 2,
     "option_kinds": [
-     "combination",
+     "misreading",
      "misreading",
      "answer",
      "misreading",
      "misreading"
     ],
     "options": [
-     8,
+     10,
      20,
      200,
      40,
@@ -5482,7 +5482,7 @@
     "r": 10,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 10 feet per day, and it grows 20 days to reach the height of maturity. If it grows half as fast, it will grow () feet to reach the height of maturity.\nOptions: 8, 20, 200, 40, 4"
+   "question": "A bamboo grows at 10 feet per day, and it grows 20 days to reach the height of maturity. If it grows half as fast, it will grow () feet to reach the height of maturity.\nOptions: 10, 20, 200, 40, 4"
   },
   {
    "answer": "216",
@@ -7586,12 +7586,12 @@
      100,
      50,
      500,
-     1
+     2
     ],
     "r": 5,
     "subject": "The beef"
    },
-   "question": "The beef costs 5 dollars per pound, and a shopper can buy 100 pounds of beef. If the beef costs twice as much, the shopper can buy () pounds of beef.\nOptions: 10, 100, 50, 500, 1"
+   "question": "The beef costs 5 dollars per pound, and a shopper can buy 100 pounds of beef. If the beef costs twice as much, the shopper can buy () pounds of beef.\nOptions: 10, 100, 50, 500, 2"
   },
   {
    "answer": "2",
@@ -8121,13 +8121,13 @@
      90,
      30,
      9,
-     2700,
+     3000,
      300
     ],
     "r": 10,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 10 feet per day, and it grows 30 feet to reach the height of maturity. If it grows one third as fast, it will grow () feet to reach the height of maturity.\nOptions: 90, 30, 9, 2700, 300"
+   "question": "A bamboo grows at 10 feet per day, and it grows 30 feet to reach the height of maturity. If it grows one third as fast, it will grow () feet to reach the height of maturity.\nOptions: 90, 30, 9, 3000, 300"
   },
   {
    "answer": "72",
@@ -8579,7 +8579,7 @@
     ],
     "options": [
      32,
-     8,
+     16,
      256,
      64,
      512
@@ -8587,7 +8587,7 @@
     "r": 8,
     "subject": "A car is driving"
    },
-   "question": "A car is driving at 8 miles per hour, and is 64 miles from destination. If it drives one fourth as fast, it will be () miles from destination.\nOptions: 32, 8, 256, 64, 512"
+   "question": "A car is driving at 8 miles per hour, and is 64 miles from destination. If it drives one fourth as fast, it will be () miles from destination.\nOptions: 32, 16, 256, 64, 512"
   },
   {
    "answer": "63",
@@ -9079,14 +9079,14 @@
     "options": [
      144,
      16,
-     1,
+     4,
      36,
      324
     ],
     "r": 9,
     "subject": "A plane is flying"
    },
-   "question": "A plane is flying at 9 kilometers per hour, and is 36 kilometers from destination. If it flies one fourth as fast, it will be () hours from destination.\nOptions: 144, 16, 1, 36, 324"
+   "question": "A plane is flying at 9 kilometers per hour, and is 36 kilometers from destination. If it flies one fourth as fast, it will be () hours from destination.\nOptions: 144, 16, 4, 36, 324"
   },
   {
    "answer": "5000",
@@ -10997,12 +10997,12 @@
      1458,
      36,
      324,
-     1
+     2
     ],
     "r": 9,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 9 feet per day, and it grows 162 days to reach the height of maturity. If it grows half as fast, it will grow () feet to reach the height of maturity.\nOptions: 162, 1458, 36, 324, 1"
+   "question": "A bamboo grows at 9 feet per day, and it grows 162 days to reach the height of maturity. If it grows half as fast, it will grow () feet to reach the height of maturity.\nOptions: 162, 1458, 36, 324, 2"
   },
   {
    "answer": "45",
@@ -11033,7 +11033,7 @@
     ],
     "options": [
      75,
-     5,
+     25,
      45,
      15,
      9
@@ -11041,7 +11041,7 @@
     "r": 5,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 5 feet per day, and it grows 15 days to reach the height of maturity. If it grows one third as fast, it will grow () days to reach the height of maturity.\nOptions: 75, 5, 45, 15, 9"
+   "question": "A bamboo grows at 5 feet per day, and it grows 15 days to reach the height of maturity. If it grows one third as fast, it will grow () days to reach the height of maturity.\nOptions: 75, 25, 45, 15, 9"
   },
   {
    "answer": "11",
@@ -11201,7 +11201,7 @@
    "meta": {
     "a": 2048,
     "answer_pos": 3,
-    "answer_rank": 5,
+    "answer_rank": 4,
     "answer_stated": false,
     "ask_a": true,
     "b": 128,
@@ -11223,7 +11223,7 @@
      "misreading"
     ],
     "options": [
-     1024,
+     4096,
      4,
      2048,
      128,
@@ -11232,7 +11232,7 @@
     "r": 16,
     "subject": "A car is driving"
    },
-   "question": "A car is driving at 16 miles per hour, and is 128 hours from destination. If it drives twice as fast, it will be () miles from destination.\nOptions: 1024, 4, 2048, 128, 64"
+   "question": "A car is driving at 16 miles per hour, and is 128 hours from destination. If it drives twice as fast, it will be () miles from destination.\nOptions: 4096, 4, 2048, 128, 64"
   },
   {
    "answer": "12",
@@ -12275,7 +12275,7 @@
    "meta": {
     "a": 100,
     "answer_pos": 1,
-    "answer_rank": 2,
+    "answer_rank": 1,
     "answer_stated": false,
     "ask_a": false,
     "b": 4,
@@ -12292,21 +12292,21 @@
     "option_kinds": [
      "answer",
      "misreading",
-     "misreading",
+     "combination",
      "misreading",
      "misreading"
     ],
     "options": [
      8,
      2500,
-     4,
+     16,
      100,
      200
     ],
     "r": 25,
     "subject": "A runner is running"
    },
-   "question": "A runner is running at 25 meters per second, and is 100 meters from the finish line. If they run half as fast, they will be () seconds from the finish line.\nOptions: 8, 2500, 4, 100, 200"
+   "question": "A runner is running at 25 meters per second, and is 100 meters from the finish line. If they run half as fast, they will be () seconds from the finish line.\nOptions: 8, 2500, 16, 100, 200"
   },
   {
    "answer": "300",
@@ -12754,19 +12754,19 @@
      "misreading",
      "answer",
      "misreading",
-     "misreading"
+     "combination"
     ],
     "options": [
      12,
      36,
      8,
      24,
-     2
+     3
     ],
     "r": 3,
     "subject": "A car is consuming fuel"
    },
-   "question": "A car is consuming fuel at 3 gallons per mile, and has 12 gallons left to run. If it consumes fuel half as fast, it will have () miles left to run.\nOptions: 12, 36, 8, 24, 2"
+   "question": "A car is consuming fuel at 3 gallons per mile, and has 12 gallons left to run. If it consumes fuel half as fast, it will have () miles left to run.\nOptions: 12, 36, 8, 24, 3"
   },
   {
    "answer": "1600",
@@ -12944,20 +12944,20 @@
      "misreading",
      "misreading",
      "answer",
-     "misreading",
+     "combination",
      "misreading"
     ],
     "options": [
      2,
      20,
      40,
-     8,
+     10,
      400
     ],
     "r": 10,
     "subject": "The beef"
    },
-   "question": "The beef costs 10 dollars per pound, and a shopper can buy 40 dollars of beef. If the beef costs twice as much, the shopper can buy () dollars of beef.\nOptions: 2, 20, 40, 8, 400"
+   "question": "The beef costs 10 dollars per pound, and a shopper can buy 40 dollars of beef. If the beef costs twice as much, the shopper can buy () dollars of beef.\nOptions: 2, 20, 40, 10, 400"
   },
   {
    "answer": "9",
@@ -13067,12 +13067,12 @@
      144,
      12,
      72,
-     8
+     16
     ],
     "r": 6,
     "subject": "The beef"
    },
-   "question": "The beef costs 6 dollars per pound, and a shopper can buy 144 pounds of beef. If the beef costs twice as much, the shopper can buy () dollars of beef.\nOptions: 864, 144, 12, 72, 8"
+   "question": "The beef costs 6 dollars per pound, and a shopper can buy 144 pounds of beef. If the beef costs twice as much, the shopper can buy () dollars of beef.\nOptions: 864, 144, 12, 72, 16"
   },
   {
    "answer": "30",
@@ -13173,21 +13173,21 @@
     "option_kinds": [
      "misreading",
      "misreading",
-     "misreading",
+     "combination",
      "answer",
      "misreading"
     ],
     "options": [
      9,
      144,
-     16,
+     27,
      48,
      768
     ],
     "r": 16,
     "subject": "The beef"
    },
-   "question": "The beef costs 16 dollars per pound, and a shopper can buy 48 dollars of beef. If the beef costs one third as much, the shopper can buy () dollars of beef.\nOptions: 9, 144, 16, 48, 768"
+   "question": "The beef costs 16 dollars per pound, and a shopper can buy 48 dollars of beef. If the beef costs one third as much, the shopper can buy () dollars of beef.\nOptions: 9, 144, 27, 48, 768"
   },
   {
    "answer": "16",
@@ -13519,20 +13519,20 @@
      "misreading",
      "misreading",
      "answer",
-     "misreading",
+     "combination",
      "misreading"
     ],
     "options": [
      36,
      6,
      108,
-     72,
+     81,
      18
     ],
     "r": 3,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 3 feet per day, and it grows 36 days to reach the height of maturity. If it grows twice as fast, it will grow () feet to reach the height of maturity.\nOptions: 36, 6, 108, 72, 18"
+   "question": "A bamboo grows at 3 feet per day, and it grows 36 days to reach the height of maturity. If it grows twice as fast, it will grow () feet to reach the height of maturity.\nOptions: 36, 6, 108, 81, 18"
   },
   {
    "answer": "24",
@@ -13635,19 +13635,19 @@
      "misreading",
      "misreading",
      "misreading",
-     "misreading"
+     "combination"
     ],
     "options": [
      64,
      128,
      8,
      1024,
-     4
+     16
     ],
     "r": 16,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 16 feet per day, and it grows 64 feet to reach the height of maturity. If it grows half as fast, it will grow () feet to reach the height of maturity.\nOptions: 64, 128, 8, 1024, 4"
+   "question": "A bamboo grows at 16 feet per day, and it grows 64 feet to reach the height of maturity. If it grows half as fast, it will grow () feet to reach the height of maturity.\nOptions: 64, 128, 8, 1024, 16"
   },
   {
    "answer": "45",
@@ -13863,21 +13863,21 @@
     "option_kinds": [
      "misreading",
      "answer",
-     "misreading",
+     "combination",
      "misreading",
      "misreading"
     ],
     "options": [
      2048,
      128,
-     256,
+     512,
      4,
      64
     ],
     "r": 16,
     "subject": "A car is driving"
    },
-   "question": "A car is driving at 16 miles per hour, and is 128 miles from destination. If it drives twice as fast, it will be () miles from destination.\nOptions: 2048, 128, 256, 4, 64"
+   "question": "A car is driving at 16 miles per hour, and is 128 miles from destination. If it drives twice as fast, it will be () miles from destination.\nOptions: 2048, 128, 512, 4, 64"
   },
   {
    "answer": "3",
@@ -14025,13 +14025,13 @@
      50,
      100,
      5,
-     1,
+     2,
      1000
     ],
     "r": 10,
     "subject": "A car is driving"
    },
-   "question": "A car is driving at 10 miles per hour, and is 100 hours from destination. If it drives twice as fast, it will be () hours from destination.\nOptions: 50, 100, 5, 1, 1000"
+   "question": "A car is driving at 10 miles per hour, and is 100 hours from destination. If it drives twice as fast, it will be () hours from destination.\nOptions: 50, 100, 5, 2, 1000"
   },
   {
    "answer": "4",
@@ -15014,20 +15014,20 @@
      "misreading",
      "answer",
      "misreading",
-     "combination",
+     "misreading",
      "misreading"
     ],
     "options": [
      432,
      72,
      24,
-     8,
+     12,
      144
     ],
     "r": 6,
     "subject": "A runner is running"
    },
-   "question": "A runner is running at 6 meters per second, and is 72 meters from the finish line. If they run half as fast, they will be () meters from the finish line.\nOptions: 432, 72, 24, 8, 144"
+   "question": "A runner is running at 6 meters per second, and is 72 meters from the finish line. If they run half as fast, they will be () meters from the finish line.\nOptions: 432, 72, 24, 12, 144"
   },
   {
    "answer": "28",
@@ -15480,14 +15480,14 @@
     "options": [
      4,
      32,
-     64,
+     256,
      16,
      128
     ],
     "r": 8,
     "subject": "A car is consuming fuel"
    },
-   "question": "A car is consuming fuel at 8 gallons per mile, and has 16 gallons left to run. If it consumes fuel half as fast, it will have () gallons left to run.\nOptions: 4, 32, 64, 16, 128"
+   "question": "A car is consuming fuel at 8 gallons per mile, and has 16 gallons left to run. If it consumes fuel half as fast, it will have () gallons left to run.\nOptions: 4, 32, 256, 16, 128"
   },
   {
    "answer": "40",
@@ -15610,7 +15610,7 @@
    "meta": {
     "a": 512,
     "answer_pos": 3,
-    "answer_rank": 4,
+    "answer_rank": 3,
     "answer_stated": false,
     "ask_a": false,
     "b": 64,
@@ -15626,14 +15626,14 @@
     "k": 4,
     "option_kinds": [
      "misreading",
-     "misreading",
+     "combination",
      "answer",
      "misreading",
      "misreading"
     ],
     "options": [
      512,
-     128,
+     1024,
      256,
      32,
      64
@@ -15641,7 +15641,7 @@
     "r": 8,
     "subject": "A car is consuming fuel"
    },
-   "question": "A car is consuming fuel at 8 gallons per mile, and has 64 miles left to run. If it consumes fuel one fourth as fast, it will have () miles left to run.\nOptions: 512, 128, 256, 32, 64"
+   "question": "A car is consuming fuel at 8 gallons per mile, and has 64 miles left to run. If it consumes fuel one fourth as fast, it will have () miles left to run.\nOptions: 512, 1024, 256, 32, 64"
   },
   {
    "answer": "3",
@@ -16515,14 +16515,14 @@
     "options": [
      192,
      48,
-     12,
+     16,
      36,
      144
     ],
     "r": 4,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 4 feet per day, and it grows 48 days to reach the height of maturity. If it grows one third as fast, it will grow () feet to reach the height of maturity.\nOptions: 192, 48, 12, 36, 144"
+   "question": "A bamboo grows at 4 feet per day, and it grows 48 days to reach the height of maturity. If it grows one third as fast, it will grow () feet to reach the height of maturity.\nOptions: 192, 48, 16, 36, 144"
   },
   {
    "answer": "24",
@@ -16549,19 +16549,19 @@
      "answer",
      "misreading",
      "misreading",
-     "misreading"
+     "combination"
     ],
     "options": [
      4,
      24,
      72,
      12,
-     6
+     8
     ],
     "r": 6,
     "subject": "A bamboo grows"
    },
-   "question": "A bamboo grows at 6 feet per day, and it grows 12 days to reach the height of maturity. If it grows half as fast, it will grow () days to reach the height of maturity.\nOptions: 4, 24, 72, 12, 6"
+   "question": "A bamboo grows at 6 feet per day, and it grows 12 days to reach the height of maturity. If it grows half as fast, it will grow () days to reach the height of maturity.\nOptions: 4, 24, 72, 12, 8"
   },
   {
    "answer": "11",
@@ -17005,14 +17005,14 @@
     "given": 54,
     "k": 3,
     "option_kinds": [
-     "misreading",
+     "combination",
      "misreading",
      "misreading",
      "answer",
      "misreading"
     ],
     "options": [
-     18,
+     27,
      972,
      54,
      162,
@@ -17021,7 +17021,7 @@
     "r": 18,
     "subject": "A car is driving"
    },
-   "question": "A car is driving at 18 miles per hour, and is 54 hours from destination. If it drives one third as fast, it will be () hours from destination.\nOptions: 18, 972, 54, 162, 9"
+   "question": "A car is driving at 18 miles per hour, and is 54 hours from destination. If it drives one third as fast, it will be () hours from destination.\nOptions: 27, 972, 54, 162, 9"
   },
   {
    "answer": "5",
@@ -18348,21 +18348,21 @@
     "option_kinds": [
      "misreading",
      "misreading",
-     "combination",
+     "misreading",
      "answer",
      "misreading"
     ],
     "options": [
      4,
      64,
-     8,
+     16,
      512,
      32
     ],
     "r": 16,
     "subject": "A car is consuming fuel"
    },
-   "question": "A car is consuming fuel at 16 gallons per mile, and has 32 miles left to run. If it consumes fuel half as fast, it will have () gallons left to run.\nOptions: 4, 64, 8, 512, 32"
+   "question": "A car is consuming fuel at 16 gallons per mile, and has 32 miles left to run. If it consumes fuel half as fast, it will have () gallons left to run.\nOptions: 4, 64, 16, 512, 32"
   },
   {
    "answer": "72",
@@ -18583,7 +18583,7 @@
      "answer"
     ],
     "options": [
-     27,
+     48,
      3,
      36,
      12,
@@ -18592,7 +18592,7 @@
     "r": 4,
     "subject": "The beef"
    },
-   "question": "The beef costs 4 dollars per pound, and a shopper can buy 36 pounds of beef. If the beef costs three times as much, the shopper can buy () dollars of beef.\nOptions: 27, 3, 36, 12, 144"
+   "question": "The beef costs 4 dollars per pound, and a shopper can buy 36 pounds of beef. If the beef costs three times as much, the shopper can buy () dollars of beef.\nOptions: 48, 3, 36, 12, 144"
   },
   {
    "answer": "48",
@@ -19181,7 +19181,7 @@
  },
  "name": "unit_interp2",
  "provenance": {
-  "bbkey_audit_sha256": "7842bb5bcfae16fa91d8d9840fa77aa23e307bf16c00d33cd690c8aaa15153af",
+  "bbkey_audit_sha256": "dbeaa16cfce60acbd1e0eef0932d84bf7c9fa1385db503a60da0eeb17a3f5729",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",

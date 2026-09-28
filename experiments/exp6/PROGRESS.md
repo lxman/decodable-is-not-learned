@@ -342,3 +342,57 @@ regenerated; the index and the known answers (77) are unchanged. The audit, the 
 and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
 sha256 checked against the index); the token record was measured offline from the coordinator's
 scratch cache (R-16). No network contact in this wave. 129 tests in the suite.
+
+### Fix wave 7 (Tasks 2, 4–6) — the re-review of fix wave 6 (coordinator rulings R-54 … R-59)
+
+The re-review (on 375778a06) recomputed every answer of the two unit rungs from the question
+text alone with a parser of its own and found none wrong. It re-ran the twin check on 20,000
+seeds a level, fitted models that know the candidates in every visible group, and broke the
+generator eighteen ways in a scratch copy: no property of an item told the answer, and no break
+of the order or of the refusals passed the suite. Verdict: ready with fixes. One Important
+finding and three Minor ones; each was recomputed by the coordinator before it was ruled.
+- THE SHOT GATE WAS UNTESTED WHERE IT MATTERED AND GATED LESS THAN IT SAID (the review's I-1, plan
+  delta B-35). A content key that also named the subject — which reopens the case the gate was
+  built for — passed every test. And on level 2, where the numerator quantity does not change
+  with the scaling, two sentences with the same numbers and roles and different scalings share
+  an answer and had different keys: over forty seeds, 20 items in 13 batteries printed a shot's
+  numbers and had its answer (on the committed rungs, none). The key is now the numbers a
+  sentence prints together with its answer, whatever the subject, the scaling or the roles. A
+  test draws one state of the generator under another subject (the same key), another role
+  (another key) and, on level 2, the other scaling with the invariant asked (the same key); four
+  breaks of the key fail that test alone. Over forty seeds the gate redraws 2 shots on level 1
+  and 44 on level 2; on the committed rungs, none.
+- NO OPTION IS 1 (M-3, B-25). The build of fix wave 6 offered 1 as a wrong option on 10 and 6
+  items ("() seconds", "1"); BIG-bench offers it on none. An operator's precedence had left it
+  among level 1's combinations. 1 is out of the fills on both levels and the test says so.
+- THREE UNIT WORDS AND NO SCALING SOLVE TWO THIRDS OF LEVEL 2 (M-1, B-29). Copy the stated
+  number, multiply by the rate or divide by it, as the unit words say, and never read the
+  scaling: 334 of 500 at every seed, 19 of BIG-bench's 25. The rule reads the roles and does the
+  rate's arithmetic; it is disclosed and is not in the heuristic floor, whose .50 it clears.
+- The test of the options' order is a chi-square on 23 degrees of freedom, below 60 in every
+  cell (M-4); the sixteen cells read 8 to 32.
+- The numbers, on the committed items: best of the heuristic list 170 of 500 on `unit_interp1`
+  and 250 on `unit_interp2` (166 by the best rule that reads no unit word); the rank guesser 126
+  and 132; answers at ranks 1 to 5 by size, 55 / 96 / 119 / 104 / 126 and 132 / 84 / 76 / 91 /
+  117; of 2,000 wrong options a level, 1,182 and 1,415 wrong readings of the sentence, 582 and
+  335 other combinations of its numbers, 236 and 250 pool numbers. Over forty other seeds the
+  best rule that reads no unit word scores 146 to 181 on level 1 and 166 to 172 on level 2.
+- FITTED guessers (`tools/guessers_lab_6.py`), held out: on the twenty surface features .286 /
+  .274 on `unit_interp1` and .314 / .306 on `unit_interp2`; with the candidates known .322 /
+  .314 and .318 / .292.
+
+Corrections to this ledger, made here and not in place:
+- The entry of fix wave 6 says a shot "does not ask what an eval item asks". What that build
+  gated was narrower than what a prompt can give away: see the first bullet above.
+- The same entry says no answer is 1. True; 1 was still offered as a wrong option on sixteen
+  items.
+- The plan of fix wave 6 (B-32) said the fitted guessers score "no more than a third". One of
+  its own figures was .336, and on another seed both fits read .358: about a third, with a
+  standard error of .02.
+
+The audit record, all seventeen item files (an item file names the audit record, which names
+`spec.py` and the generator files), the token record, the overlap record and every pin were
+regenerated; the index and the known answers (77) are unchanged. The audit, the overlap count
+and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
+sha256 checked against the index); the token record was measured offline from the coordinator's
+scratch cache (R-16). No network contact in this wave. 130 tests in the suite.

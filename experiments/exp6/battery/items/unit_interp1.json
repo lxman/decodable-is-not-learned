@@ -65,7 +65,7 @@
     "options": [
      288,
      72,
-     4,
+     6,
      8,
      2592
     ],
@@ -73,7 +73,7 @@
     "shown": 144,
     "subject": "A patient"
    },
-   "question": "A patient takes 4 pills every 24 days. If they take pills three times as often, they will take 144 pills in () days.\nOptions: 288, 72, 4, 8, 2592"
+   "question": "A patient takes 4 pills every 24 days. If they take pills three times as often, they will take 144 pills in () days.\nOptions: 288, 72, 6, 8, 2592"
   },
   {
    "answer": "324",
@@ -101,7 +101,7 @@
     ],
     "options": [
      324,
-     1536,
+     1728,
      2916,
      576,
      64
@@ -110,7 +110,7 @@
     "shown": 432,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 18 newspapers every 8 weeks. If it sells newspapers with intervals three times as long, it will sell () newspapers in 432 weeks.\nOptions: 324, 1536, 2916, 576, 64"
+   "question": "A newsstand sells 18 newspapers every 8 weeks. If it sells newspapers with intervals three times as long, it will sell () newspapers in 432 weeks.\nOptions: 324, 1728, 2916, 576, 64"
   },
   {
    "answer": "96",
@@ -205,21 +205,21 @@
      "misreading",
      "answer",
      "misreading",
-     "misreading",
+     "combination",
      "misreading"
     ],
     "options": [
      8,
      72,
      32,
-     36,
+     48,
      18
     ],
     "p": 3,
     "shown": 24,
     "subject": "A bell"
    },
-   "question": "A bell rings 2 times every 3 hours. If it rings with intervals twice as long, it will ring 24 times in () hours.\nOptions: 8, 72, 32, 36, 18"
+   "question": "A bell rings 2 times every 3 hours. If it rings with intervals twice as long, it will ring 24 times in () hours.\nOptions: 8, 72, 32, 48, 18"
   },
   {
    "answer": "20",
@@ -315,20 +315,20 @@
      "answer",
      "misreading",
      "misreading",
-     "misreading"
+     "combination"
     ],
     "options": [
      864,
      54,
      384,
      24,
-     96
+     144
     ],
     "p": 6,
     "shown": 144,
     "subject": "A heart"
    },
-   "question": "A heart beats 9 times every 6 seconds. If it beats with intervals four times as long, it will beat () times in 144 seconds.\nOptions: 864, 54, 384, 24, 96"
+   "question": "A heart beats 9 times every 6 seconds. If it beats with intervals four times as long, it will beat () times in 144 seconds.\nOptions: 864, 54, 384, 24, 144"
   },
   {
    "answer": "630",
@@ -609,7 +609,7 @@
     ],
     "options": [
      288,
-     3,
+     4,
      32,
      1152,
      128
@@ -618,7 +618,7 @@
     "shown": 192,
     "subject": "A patient"
    },
-   "question": "A patient takes 8 pills every 4 days. If they take pills three times as often, they will take () pills in 192 days.\nOptions: 288, 3, 32, 1152, 128"
+   "question": "A patient takes 8 pills every 4 days. If they take pills three times as often, they will take () pills in 192 days.\nOptions: 288, 4, 32, 1152, 128"
   },
   {
    "answer": "2304",
@@ -649,13 +649,13 @@
      1296,
      256,
      2304,
-     1
+     3
     ],
     "p": 16,
     "shown": 576,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 12 newspapers every 16 weeks. If it sells newspapers with intervals three times as long, it will sell 576 newspapers in () weeks.\nOptions: 144, 1296, 256, 2304, 1"
+   "question": "A newsstand sells 12 newspapers every 16 weeks. If it sells newspapers with intervals three times as long, it will sell 576 newspapers in () weeks.\nOptions: 144, 1296, 256, 2304, 3"
   },
   {
    "answer": "448",
@@ -974,7 +974,7 @@
     "options": [
      32,
      1152,
-     12,
+     16,
      128,
      288
     ],
@@ -982,14 +982,14 @@
     "shown": 192,
     "subject": "A patient"
    },
-   "question": "A patient takes 4 pills every 8 days. If they take pills with intervals three times as long, they will take () pills in 192 days.\nOptions: 32, 1152, 12, 128, 288"
+   "question": "A patient takes 4 pills every 8 days. If they take pills with intervals three times as long, they will take () pills in 192 days.\nOptions: 32, 1152, 16, 128, 288"
   },
   {
    "answer": "900",
    "bb_sha256": "a22669b127312a510819410d2018c14dfd115c227c026436a7fd3f6b6da11389",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 4,
+    "answer_rank": 3,
     "ask_time": true,
     "candidates": [
      900,
@@ -1008,16 +1008,16 @@
     ],
     "options": [
      900,
-     540,
+     1500,
+     30,
      18,
-     1,
      2500
     ],
     "p": 30,
     "shown": 1500,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 50 newspapers every 30 weeks. It will sell 1500 newspapers in () weeks.\nOptions: 900, 540, 18, 1, 2500"
+   "question": "A newsstand sells 50 newspapers every 30 weeks. It will sell 1500 newspapers in () weeks.\nOptions: 900, 1500, 30, 18, 2500"
   },
   {
    "answer": "2592",
@@ -1046,7 +1046,7 @@
     "options": [
      2592,
      648,
-     10,
+     18,
      3200,
      800
     ],
@@ -1054,7 +1054,7 @@
     "shown": 1440,
     "subject": "A heart"
    },
-   "question": "A heart beats 36 times every 40 seconds. If it beats twice as often, it will beat () times in 1440 seconds.\nOptions: 2592, 648, 10, 3200, 800"
+   "question": "A heart beats 36 times every 40 seconds. If it beats twice as often, it will beat () times in 1440 seconds.\nOptions: 2592, 648, 18, 3200, 800"
   },
   {
    "answer": "108",
@@ -1155,7 +1155,7 @@
     "options": [
      4000,
      1000,
-     1250,
+     1280,
      160,
      640
     ],
@@ -1163,7 +1163,7 @@
     "shown": 800,
     "subject": "A patient"
    },
-   "question": "A patient takes 16 pills every 40 days. If they take pills twice as often, they will take 800 pills in () days.\nOptions: 4000, 1000, 1250, 160, 640"
+   "question": "A patient takes 16 pills every 40 days. If they take pills twice as often, they will take 800 pills in () days.\nOptions: 4000, 1000, 1280, 160, 640"
   },
   {
    "answer": "54",
@@ -1255,14 +1255,14 @@
     "n": 10,
     "often": true,
     "option_kinds": [
-     "combination",
+     "misreading",
      "answer",
      "misreading",
      "misreading",
      "misreading"
     ],
     "options": [
-     40,
+     64,
      1600,
      100,
      256,
@@ -1272,7 +1272,7 @@
     "shown": 160,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 10 words every 4 minutes. If they speak four times as often, they will speak () words in 160 minutes.\nOptions: 40, 1600, 100, 256, 16"
+   "question": "A reporter speaks 10 words every 4 minutes. If they speak four times as often, they will speak () words in 160 minutes.\nOptions: 64, 1600, 100, 256, 16"
   },
   {
    "answer": "864",
@@ -1484,13 +1484,13 @@
      1024,
      100,
      400,
-     5
+     8
     ],
     "p": 8,
     "shown": 320,
     "subject": "A bell"
    },
-   "question": "A bell rings 5 times every 8 hours. If it rings twice as often, it will ring () times in 320 hours.\nOptions: 256, 1024, 100, 400, 5"
+   "question": "A bell rings 5 times every 8 hours. If it rings twice as often, it will ring () times in 320 hours.\nOptions: 256, 1024, 100, 400, 8"
   },
   {
    "answer": "384",
@@ -2025,7 +2025,7 @@
      "misreading"
     ],
     "options": [
-     24,
+     25,
      1250,
      288,
      72,
@@ -2035,7 +2035,7 @@
     "shown": 600,
     "subject": "A bell"
    },
-   "question": "A bell rings 12 times every 50 hours. If it rings twice as often, it will ring 600 times in () hours.\nOptions: 24, 1250, 288, 72, 5000"
+   "question": "A bell rings 12 times every 50 hours. If it rings twice as often, it will ring 600 times in () hours.\nOptions: 25, 1250, 288, 72, 5000"
   },
   {
    "answer": "10",
@@ -2097,7 +2097,7 @@
      "misreading"
     ],
     "options": [
-     18,
+     36,
      4,
      90,
      240,
@@ -2107,7 +2107,7 @@
     "shown": 18,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 9 newspapers every 2 weeks. It will sell 18 newspapers in () weeks.\nOptions: 18, 4, 90, 240, 81"
+   "question": "A newsstand sells 9 newspapers every 2 weeks. It will sell 18 newspapers in () weeks.\nOptions: 36, 4, 90, 240, 81"
   },
   {
    "answer": "648",
@@ -2137,14 +2137,14 @@
      4608,
      648,
      1152,
-     12,
+     18,
      162
     ],
     "p": 48,
     "shown": 864,
     "subject": "A heart"
    },
-   "question": "A heart beats 18 times every 48 seconds. If it beats twice as often, it will beat () times in 864 seconds.\nOptions: 4608, 648, 1152, 12, 162"
+   "question": "A heart beats 18 times every 48 seconds. If it beats twice as often, it will beat () times in 864 seconds.\nOptions: 4608, 648, 1152, 18, 162"
   },
   {
    "answer": "2592",
@@ -2246,14 +2246,14 @@
      180,
      20,
      45,
-     6,
+     8,
      80
     ],
     "p": 15,
     "shown": 60,
     "subject": "A patient"
    },
-   "question": "A patient takes 10 pills every 15 days. If they take pills twice as often, they will take 60 pills in () days.\nOptions: 180, 20, 45, 6, 80"
+   "question": "A patient takes 10 pills every 15 days. If they take pills twice as often, they will take 60 pills in () days.\nOptions: 180, 20, 45, 8, 80"
   },
   {
    "answer": "135",
@@ -2535,7 +2535,7 @@
     "options": [
      256,
      4096,
-     25,
+     400,
      625,
      48
     ],
@@ -2543,7 +2543,7 @@
     "shown": 400,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 16 words every 25 minutes. They will speak 400 words in () minutes.\nOptions: 256, 4096, 25, 625, 48"
+   "question": "A reporter speaks 16 words every 25 minutes. They will speak 400 words in () minutes.\nOptions: 256, 4096, 400, 625, 48"
   },
   {
    "answer": "2700",
@@ -3220,21 +3220,21 @@
      "misreading",
      "misreading",
      "answer",
-     "combination",
+     "misreading",
      "misreading"
     ],
     "options": [
      432,
      27,
      243,
-     108,
+     144,
      48
     ],
     "p": 4,
     "shown": 108,
     "subject": "A heart"
    },
-   "question": "A heart beats 3 times every 4 seconds. If it beats three times as often, it will beat () times in 108 seconds.\nOptions: 432, 27, 243, 108, 48"
+   "question": "A heart beats 3 times every 4 seconds. If it beats three times as often, it will beat () times in 108 seconds.\nOptions: 432, 27, 243, 144, 48"
   },
   {
    "answer": "3888",
@@ -3480,7 +3480,7 @@
     ],
     "options": [
      512,
-     18,
+     24,
      2048,
      1152,
      4608
@@ -3489,7 +3489,7 @@
     "shown": 1536,
     "subject": "A bell"
    },
-   "question": "A bell rings 32 times every 48 hours. If it rings with intervals twice as long, it will ring 1536 times in () hours.\nOptions: 512, 18, 2048, 1152, 4608"
+   "question": "A bell rings 32 times every 48 hours. If it rings with intervals twice as long, it will ring 1536 times in () hours.\nOptions: 512, 24, 2048, 1152, 4608"
   },
   {
    "answer": "1782",
@@ -3773,13 +3773,13 @@
      24,
      1944,
      486,
-     36
+     48
     ],
     "p": 3,
     "shown": 108,
     "subject": "A heart"
    },
-   "question": "A heart beats 27 times every 3 seconds. If it beats twice as often, it will beat 108 times in () seconds.\nOptions: 6, 24, 1944, 486, 36"
+   "question": "A heart beats 27 times every 3 seconds. If it beats twice as often, it will beat 108 times in () seconds.\nOptions: 6, 24, 1944, 486, 48"
   },
   {
    "answer": "400",
@@ -4259,7 +4259,7 @@
    "bb_sha256": "17df28fad7846d0eb9dee078044f3f489bda0b18aa0ff5110d1183377c38bf31",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 2,
+    "answer_rank": 1,
     "ask_time": true,
     "candidates": [
      9,
@@ -4279,15 +4279,15 @@
     "options": [
      1215,
      2025,
-     3,
+     15,
      9,
-     15
+     27
     ],
     "p": 3,
     "shown": 135,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 45 newspapers every 3 weeks. It will sell 135 newspapers in () weeks.\nOptions: 1215, 2025, 3, 9, 15"
+   "question": "A newsstand sells 45 newspapers every 3 weeks. It will sell 135 newspapers in () weeks.\nOptions: 1215, 2025, 15, 9, 27"
   },
   {
    "answer": "64",
@@ -4497,7 +4497,7 @@
     "options": [
      50,
      648,
-     36,
+     81,
      2916,
      162
     ],
@@ -4505,7 +4505,7 @@
     "shown": 324,
     "subject": "A heart"
    },
-   "question": "A heart beats 36 times every 18 seconds. It will beat 324 times in () seconds.\nOptions: 50, 648, 36, 2916, 162"
+   "question": "A heart beats 36 times every 18 seconds. It will beat 324 times in () seconds.\nOptions: 50, 648, 81, 2916, 162"
   },
   {
    "answer": "360",
@@ -5008,14 +5008,14 @@
      54,
      216,
      2400,
-     27,
+     30,
      600
     ],
     "p": 10,
     "shown": 360,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 3 newspapers every 10 weeks. If it sells newspapers with intervals twice as long, it will sell 360 newspapers in () weeks.\nOptions: 54, 216, 2400, 27, 600"
+   "question": "A newsstand sells 3 newspapers every 10 weeks. If it sells newspapers with intervals twice as long, it will sell 360 newspapers in () weeks.\nOptions: 54, 216, 2400, 30, 600"
   },
   {
    "answer": "2430",
@@ -5768,7 +5768,7 @@
      "misreading"
     ],
     "options": [
-     3,
+     4,
      15,
      540,
      2160,
@@ -5778,7 +5778,7 @@
     "shown": 180,
     "subject": "A heart"
    },
-   "question": "A heart beats 5 times every 30 seconds. If it beats with intervals twice as long, it will beat () times in 180 seconds.\nOptions: 3, 15, 540, 2160, 60"
+   "question": "A heart beats 5 times every 30 seconds. If it beats with intervals twice as long, it will beat () times in 180 seconds.\nOptions: 4, 15, 540, 2160, 60"
   },
   {
    "answer": "216",
@@ -5803,17 +5803,17 @@
      "combination"
     ],
     "options": [
-     8,
+     12,
      216,
      24,
-     18,
+     36,
      648
     ],
     "p": 6,
     "shown": 72,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 2 words every 6 minutes. They will speak 72 words in () minutes.\nOptions: 8, 216, 24, 18, 648"
+   "question": "A reporter speaks 2 words every 6 minutes. They will speak 72 words in () minutes.\nOptions: 12, 216, 24, 36, 648"
   },
   {
    "answer": "128",
@@ -6023,7 +6023,7 @@
     "options": [
      729,
      81,
-     9,
+     24,
      36,
      2916
     ],
@@ -6031,7 +6031,7 @@
     "shown": 54,
     "subject": "A bell"
    },
-   "question": "A bell rings 9 times every 6 hours. It will ring 54 times in () hours.\nOptions: 729, 81, 9, 36, 2916"
+   "question": "A bell rings 9 times every 6 hours. It will ring 54 times in () hours.\nOptions: 729, 81, 24, 36, 2916"
   },
   {
    "answer": "2304",
@@ -6348,17 +6348,17 @@
      "answer"
     ],
     "options": [
-     9,
-     1,
-     729,
+     25,
      5,
+     729,
+     9,
      225
     ],
     "p": 9,
     "shown": 405,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 5 words every 9 minutes. They will speak () words in 405 minutes.\nOptions: 9, 1, 729, 5, 225"
+   "question": "A reporter speaks 5 words every 9 minutes. They will speak () words in 405 minutes.\nOptions: 25, 5, 729, 9, 225"
   },
   {
    "answer": "729",
@@ -6387,7 +6387,7 @@
     "options": [
      729,
      3600,
-     9,
+     10,
      900,
      2916
     ],
@@ -6395,7 +6395,7 @@
     "shown": 1620,
     "subject": "A bell"
    },
-   "question": "A bell rings 10 times every 9 hours. If it rings twice as often, it will ring 1620 times in () hours.\nOptions: 729, 3600, 9, 900, 2916"
+   "question": "A bell rings 10 times every 9 hours. If it rings twice as often, it will ring 1620 times in () hours.\nOptions: 729, 3600, 10, 900, 2916"
   },
   {
    "answer": "48",
@@ -6640,7 +6640,7 @@
      "misreading"
     ],
     "options": [
-     324,
+     576,
      648,
      2048,
      2592,
@@ -6650,7 +6650,7 @@
     "shown": 1152,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 36 newspapers every 32 weeks. If it sells newspapers with intervals twice as long, it will sell () newspapers in 1152 weeks.\nOptions: 324, 648, 2048, 2592, 512"
+   "question": "A newsstand sells 36 newspapers every 32 weeks. If it sells newspapers with intervals twice as long, it will sell () newspapers in 1152 weeks.\nOptions: 576, 648, 2048, 2592, 512"
   },
   {
    "answer": "384",
@@ -6753,13 +6753,13 @@
      75,
      27,
      675,
-     15
+     25
     ],
     "p": 1,
     "shown": 45,
     "subject": "A bell"
    },
-   "question": "A bell rings 5 times every hour. If it rings with intervals three times as long, it will ring 45 times in () hours.\nOptions: 3, 75, 27, 675, 15"
+   "question": "A bell rings 5 times every hour. If it rings with intervals three times as long, it will ring 45 times in () hours.\nOptions: 3, 75, 27, 675, 25"
   },
   {
    "answer": "448",
@@ -6822,7 +6822,7 @@
     ],
     "options": [
      1000,
-     1,
+     2,
      640,
      2560,
      4000
@@ -6831,7 +6831,7 @@
     "shown": 1600,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 50 newspapers every 40 weeks. If it sells newspapers twice as often, it will sell 1600 newspapers in () weeks.\nOptions: 1000, 1, 640, 2560, 4000"
+   "question": "A newsstand sells 50 newspapers every 40 weeks. If it sells newspapers twice as often, it will sell 1600 newspapers in () weeks.\nOptions: 1000, 2, 640, 2560, 4000"
   },
   {
    "answer": "24",
@@ -7477,7 +7477,7 @@
     "options": [
      384,
      216,
-     1,
+     2,
      96,
      864
     ],
@@ -7485,7 +7485,7 @@
     "shown": 288,
     "subject": "A bell"
    },
-   "question": "A bell rings 16 times every 24 hours. If it rings twice as often, it will ring 288 times in () hours.\nOptions: 384, 216, 1, 96, 864"
+   "question": "A bell rings 16 times every 24 hours. If it rings twice as often, it will ring 288 times in () hours.\nOptions: 384, 216, 2, 96, 864"
   },
   {
    "answer": "48",
@@ -7625,13 +7625,13 @@
      1152,
      200,
      288,
-     80
+     96
     ],
     "p": 12,
     "shown": 480,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 10 words every 12 minutes. If they speak with intervals twice as long, they will speak 480 words in () minutes.\nOptions: 800, 1152, 200, 288, 80"
+   "question": "A reporter speaks 10 words every 12 minutes. If they speak with intervals twice as long, they will speak 480 words in () minutes.\nOptions: 800, 1152, 200, 288, 96"
   },
   {
    "answer": "54",
@@ -7876,15 +7876,15 @@
     "options": [
      64,
      576,
-     1,
+     8,
      729,
-     8
+     9
     ],
     "p": 8,
     "shown": 648,
     "subject": "A patient"
    },
-   "question": "A patient takes 9 pills every 8 days. They will take () pills in 648 days.\nOptions: 64, 576, 1, 729, 8"
+   "question": "A patient takes 9 pills every 8 days. They will take () pills in 648 days.\nOptions: 64, 576, 8, 729, 9"
   },
   {
    "answer": "72",
@@ -7911,7 +7911,7 @@
      "misreading"
     ],
     "options": [
-     4,
+     5,
      50,
      288,
      72,
@@ -7921,7 +7921,7 @@
     "shown": 120,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 10 newspapers every 12 weeks. If it sells newspapers twice as often, it will sell 120 newspapers in () weeks.\nOptions: 4, 50, 288, 72, 200"
+   "question": "A newsstand sells 10 newspapers every 12 weeks. If it sells newspapers twice as often, it will sell 120 newspapers in () weeks.\nOptions: 5, 50, 288, 72, 200"
   },
   {
    "answer": "160",
@@ -8023,14 +8023,14 @@
      250,
      2560,
      640,
-     80,
+     125,
      1000
     ],
     "p": 40,
     "shown": 800,
     "subject": "A bell"
    },
-   "question": "A bell rings 25 times every 40 hours. If it rings twice as often, it will ring () times in 800 hours.\nOptions: 250, 2560, 640, 80, 1000"
+   "question": "A bell rings 25 times every 40 hours. If it rings twice as often, it will ring () times in 800 hours.\nOptions: 250, 2560, 640, 125, 1000"
   },
   {
    "answer": "216",
@@ -8132,14 +8132,14 @@
      1728,
      192,
      972,
-     1,
+     3,
      108
     ],
     "p": 36,
     "shown": 432,
     "subject": "A heart"
    },
-   "question": "A heart beats 48 times every 36 seconds. If it beats three times as often, it will beat 432 times in () seconds.\nOptions: 1728, 192, 972, 1, 108"
+   "question": "A heart beats 48 times every 36 seconds. If it beats three times as often, it will beat 432 times in () seconds.\nOptions: 1728, 192, 972, 3, 108"
   },
   {
    "answer": "48",
@@ -8167,7 +8167,7 @@
     ],
     "options": [
      1728,
-     8,
+     12,
      432,
      192,
      48
@@ -8176,7 +8176,7 @@
     "shown": 288,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 6 words every 12 minutes. If they speak with intervals three times as long, they will speak () words in 288 minutes.\nOptions: 1728, 8, 432, 192, 48"
+   "question": "A reporter speaks 6 words every 12 minutes. If they speak with intervals three times as long, they will speak () words in 288 minutes.\nOptions: 1728, 12, 432, 192, 48"
   },
   {
    "answer": "720",
@@ -8605,14 +8605,14 @@
      144,
      1296,
      64,
-     4,
+     6,
      576
     ],
     "p": 6,
     "shown": 288,
     "subject": "A patient"
    },
-   "question": "A patient takes 4 pills every 6 days. If they take pills with intervals three times as long, they will take () pills in 288 days.\nOptions: 144, 1296, 64, 4, 576"
+   "question": "A patient takes 4 pills every 6 days. If they take pills with intervals three times as long, they will take () pills in 288 days.\nOptions: 144, 1296, 64, 6, 576"
   },
   {
    "answer": "3072",
@@ -8715,13 +8715,13 @@
      32,
      1152,
      128,
-     6
+     8
     ],
     "p": 48,
     "shown": 192,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 16 words every 48 minutes. If they speak with intervals twice as long, they will speak 192 words in () minutes.\nOptions: 288, 32, 1152, 128, 6"
+   "question": "A reporter speaks 16 words every 48 minutes. If they speak with intervals twice as long, they will speak 192 words in () minutes.\nOptions: 288, 32, 1152, 128, 8"
   },
   {
    "answer": "33",
@@ -9001,7 +9001,7 @@
      "answer"
     ],
     "options": [
-     1024,
+     1152,
      384,
      864,
      1536,
@@ -9011,7 +9011,7 @@
     "shown": 576,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 48 newspapers every 36 weeks. If it sells newspapers twice as often, it will sell 576 newspapers in () weeks.\nOptions: 1024, 384, 864, 1536, 216"
+   "question": "A newsstand sells 48 newspapers every 36 weeks. If it sells newspapers twice as often, it will sell 576 newspapers in () weeks.\nOptions: 1152, 384, 864, 1536, 216"
   },
   {
    "answer": "384",
@@ -9164,7 +9164,7 @@
    "bb_sha256": "da37b27c0302951a00f467c4e8e46ee55f3d289d42e8f3a2bc4eb6c42c9c09b3",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 3,
+    "answer_rank": 2,
     "ask_time": false,
     "candidates": [
      72,
@@ -9183,16 +9183,16 @@
     ],
     "options": [
      72,
-     36,
+     144,
      864,
      288,
-     3
+     6
     ],
     "p": 24,
     "shown": 144,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 12 newspapers every 24 weeks. It will sell () newspapers in 144 weeks.\nOptions: 72, 36, 864, 288, 3"
+   "question": "A newsstand sells 12 newspapers every 24 weeks. It will sell () newspapers in 144 weeks.\nOptions: 72, 144, 864, 288, 6"
   },
   {
    "answer": "800",
@@ -9222,14 +9222,14 @@
      800,
      2592,
      3200,
-     10,
+     18,
      648
     ],
     "p": 40,
     "shown": 1440,
     "subject": "A heart"
    },
-   "question": "A heart beats 36 times every 40 seconds. If it beats twice as often, it will beat 1440 times in () seconds.\nOptions: 800, 2592, 3200, 10, 648"
+   "question": "A heart beats 36 times every 40 seconds. If it beats twice as often, it will beat 1440 times in () seconds.\nOptions: 800, 2592, 3200, 18, 648"
   },
   {
    "answer": "12",
@@ -9400,17 +9400,17 @@
      "misreading"
     ],
     "options": [
-     800,
+     4096,
      2500,
      250,
-     4096,
+     800,
      256
     ],
     "p": 16,
     "shown": 800,
     "subject": "A heart"
    },
-   "question": "A heart beats 50 times every 16 seconds. It will beat () times in 800 seconds.\nOptions: 800, 2500, 250, 4096, 256"
+   "question": "A heart beats 50 times every 16 seconds. It will beat () times in 800 seconds.\nOptions: 4096, 2500, 250, 800, 256"
   },
   {
    "answer": "18",
@@ -9655,7 +9655,7 @@
      "misreading"
     ],
     "options": [
-     12,
+     18,
      3888,
      1728,
      972,
@@ -9665,7 +9665,7 @@
     "shown": 1296,
     "subject": "A bell"
    },
-   "question": "A bell rings 24 times every 36 hours. If it rings twice as often, it will ring 1296 times in () hours.\nOptions: 12, 3888, 1728, 972, 432"
+   "question": "A bell rings 24 times every 36 hours. If it rings twice as often, it will ring 1296 times in () hours.\nOptions: 18, 3888, 1728, 972, 432"
   },
   {
    "answer": "810",
@@ -10020,7 +10020,7 @@
     ],
     "options": [
      1280,
-     2,
+     4,
      500,
      320,
      2000
@@ -10029,7 +10029,7 @@
     "shown": 800,
     "subject": "A bell"
    },
-   "question": "A bell rings 10 times every 8 hours. If it rings with intervals twice as long, it will ring 800 times in () hours.\nOptions: 1280, 2, 500, 320, 2000"
+   "question": "A bell rings 10 times every 8 hours. If it rings with intervals twice as long, it will ring 800 times in () hours.\nOptions: 1280, 4, 500, 320, 2000"
   },
   {
    "answer": "2304",
@@ -10094,14 +10094,14 @@
      900,
      16,
      3600,
-     15,
+     30,
      64
     ],
     "p": 30,
     "shown": 240,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 4 newspapers every 30 weeks. If it sells newspapers twice as often, it will sell 240 newspapers in () weeks.\nOptions: 900, 16, 3600, 15, 64"
+   "question": "A newsstand sells 4 newspapers every 30 weeks. If it sells newspapers twice as often, it will sell 240 newspapers in () weeks.\nOptions: 900, 16, 3600, 30, 64"
   },
   {
    "answer": "150",
@@ -10309,7 +10309,7 @@
      "misreading"
     ],
     "options": [
-     432,
+     486,
      8,
      18,
      72,
@@ -10319,7 +10319,7 @@
     "shown": 36,
     "subject": "A heart"
    },
-   "question": "A heart beats 6 times every 4 seconds. If it beats three times as often, it will beat 36 times in () seconds.\nOptions: 432, 8, 18, 72, 162"
+   "question": "A heart beats 6 times every 4 seconds. If it beats three times as often, it will beat 36 times in () seconds.\nOptions: 486, 8, 18, 72, 162"
   },
   {
    "answer": "160",
@@ -10929,21 +10929,21 @@
      2400,
      400,
      216,
-     6,
-     720
+     20,
+     1296
     ],
     "p": 6,
     "shown": 720,
     "subject": "A bell"
    },
-   "question": "A bell rings 20 times every 6 hours. It will ring () times in 720 hours.\nOptions: 2400, 400, 216, 6, 720"
+   "question": "A bell rings 20 times every 6 hours. It will ring () times in 720 hours.\nOptions: 2400, 400, 216, 20, 1296"
   },
   {
    "answer": "108",
    "bb_sha256": "8e3681a8aef01072130d9bc96d2309dd8656cde8a758c14ae82f567d59c44c57",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 4,
+    "answer_rank": 3,
     "ask_time": true,
     "candidates": [
      12,
@@ -10966,14 +10966,14 @@
      108,
      432,
      48,
-     96,
+     144,
      12
     ],
     "p": 18,
     "shown": 72,
     "subject": "A patient"
    },
-   "question": "A patient takes 6 pills every 18 days. If they take pills twice as often, they will take 72 pills in () days.\nOptions: 108, 432, 48, 96, 12"
+   "question": "A patient takes 6 pills every 18 days. If they take pills twice as often, they will take 72 pills in () days.\nOptions: 108, 432, 48, 144, 12"
   },
   {
    "answer": "675",
@@ -11183,7 +11183,7 @@
     "options": [
      64,
      576,
-     3,
+     4,
      2304,
      256
     ],
@@ -11191,7 +11191,7 @@
     "shown": 384,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 8 newspapers every 24 weeks. If it sells newspapers twice as often, it will sell 384 newspapers in () weeks.\nOptions: 64, 576, 3, 2304, 256"
+   "question": "A newsstand sells 8 newspapers every 24 weeks. If it sells newspapers twice as often, it will sell 384 newspapers in () weeks.\nOptions: 64, 576, 4, 2304, 256"
   },
   {
    "answer": "225",
@@ -11222,13 +11222,13 @@
      225,
      64,
      576,
-     5
+     8
     ],
     "p": 8,
     "shown": 360,
     "subject": "A heart"
    },
-   "question": "A heart beats 15 times every 8 seconds. If it beats with intervals three times as long, it will beat () times in 360 seconds.\nOptions: 2025, 225, 64, 576, 5"
+   "question": "A heart beats 15 times every 8 seconds. If it beats with intervals three times as long, it will beat () times in 360 seconds.\nOptions: 2025, 225, 64, 576, 8"
   },
   {
    "answer": "625",
@@ -11253,7 +11253,7 @@
      "misreading"
     ],
     "options": [
-     25,
+     32,
      625,
      5,
      125,
@@ -11263,7 +11263,7 @@
     "shown": 800,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 32 words every 25 minutes. They will speak 800 words in () minutes.\nOptions: 25, 625, 5, 125, 1024"
+   "question": "A reporter speaks 32 words every 25 minutes. They will speak 800 words in () minutes.\nOptions: 32, 625, 5, 125, 1024"
   },
   {
    "answer": "3240",
@@ -11321,14 +11321,14 @@
     "often": false,
     "option_kinds": [
      "misreading",
-     "combination",
+     "misreading",
      "answer",
      "misreading",
      "misreading"
     ],
     "options": [
      4096,
-     800,
+     1250,
      2500,
      625,
      1024
@@ -11337,7 +11337,7 @@
     "shown": 1600,
     "subject": "A patient"
    },
-   "question": "A patient takes 32 pills every 25 days. If they take pills with intervals twice as long, they will take 1600 pills in () days.\nOptions: 4096, 800, 2500, 625, 1024"
+   "question": "A patient takes 32 pills every 25 days. If they take pills with intervals twice as long, they will take 1600 pills in () days.\nOptions: 4096, 1250, 2500, 625, 1024"
   },
   {
    "answer": "1800",
@@ -11538,14 +11538,14 @@
     "n": 12,
     "often": false,
     "option_kinds": [
-     "combination",
+     "misreading",
      "misreading",
      "misreading",
      "answer",
      "misreading"
     ],
     "options": [
-     24,
+     32,
      16,
      144,
      64,
@@ -11555,7 +11555,7 @@
     "shown": 96,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 12 newspapers every 4 weeks. If it sells newspapers with intervals twice as long, it will sell 96 newspapers in () weeks.\nOptions: 24, 16, 144, 64, 576"
+   "question": "A newsstand sells 12 newspapers every 4 weeks. If it sells newspapers with intervals twice as long, it will sell 96 newspapers in () weeks.\nOptions: 32, 16, 144, 64, 576"
   },
   {
    "answer": "63",
@@ -12271,7 +12271,7 @@
      "misreading"
     ],
     "options": [
-     8,
+     9,
      288,
      72,
      648,
@@ -12281,7 +12281,7 @@
     "shown": 144,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 8 newspapers every 12 weeks. If it sells newspapers three times as often, it will sell 144 newspapers in () weeks.\nOptions: 8, 288, 72, 648, 32"
+   "question": "A newsstand sells 8 newspapers every 12 weeks. If it sells newspapers three times as often, it will sell 144 newspapers in () weeks.\nOptions: 9, 288, 72, 648, 32"
   },
   {
    "answer": "54",
@@ -12308,7 +12308,7 @@
      "misreading"
     ],
     "options": [
-     12,
+     16,
      216,
      54,
      600,
@@ -12318,7 +12318,7 @@
     "shown": 360,
     "subject": "A heart"
    },
-   "question": "A heart beats 3 times every 10 seconds. If it beats with intervals twice as long, it will beat () times in 360 seconds.\nOptions: 12, 216, 54, 600, 2400"
+   "question": "A heart beats 3 times every 10 seconds. If it beats with intervals twice as long, it will beat () times in 360 seconds.\nOptions: 16, 216, 54, 600, 2400"
   },
   {
    "answer": "864",
@@ -12384,13 +12384,13 @@
      243,
      27,
      3888,
-     108
+     144
     ],
     "p": 9,
     "shown": 324,
     "subject": "A bell"
    },
-   "question": "A bell rings 36 times every 9 hours. If it rings three times as often, it will ring () times in 324 hours.\nOptions: 432, 243, 27, 3888, 108"
+   "question": "A bell rings 36 times every 9 hours. If it rings three times as often, it will ring () times in 324 hours.\nOptions: 432, 243, 27, 3888, 144"
   },
   {
    "answer": "2304",
@@ -12419,7 +12419,7 @@
     "options": [
      3600,
      256,
-     25,
+     27,
      2304,
      400
     ],
@@ -12427,7 +12427,7 @@
     "shown": 960,
     "subject": "A patient"
    },
-   "question": "A patient takes 20 pills every 16 days. If they take pills with intervals three times as long, they will take 960 pills in () days.\nOptions: 3600, 256, 25, 2304, 400"
+   "question": "A patient takes 20 pills every 16 days. If they take pills with intervals three times as long, they will take 960 pills in () days.\nOptions: 3600, 256, 27, 2304, 400"
   },
   {
    "answer": "3750",
@@ -13180,7 +13180,7 @@
      "misreading"
     ],
     "options": [
-     512,
+     576,
      81,
      4,
      1296,
@@ -13190,7 +13190,7 @@
     "shown": 72,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 2 newspapers every 9 weeks. If it sells newspapers with intervals four times as long, it will sell () newspapers in 72 weeks.\nOptions: 512, 81, 4, 1296, 64"
+   "question": "A newsstand sells 2 newspapers every 9 weeks. If it sells newspapers with intervals four times as long, it will sell () newspapers in 72 weeks.\nOptions: 576, 81, 4, 1296, 64"
   },
   {
    "answer": "300",
@@ -13574,14 +13574,14 @@
     "option_kinds": [
      "misreading",
      "misreading",
-     "misreading",
+     "combination",
      "misreading",
      "answer"
     ],
     "options": [
      384,
      54,
-     108,
+     128,
      216,
      96
     ],
@@ -13589,7 +13589,7 @@
     "shown": 144,
     "subject": "A heart"
    },
-   "question": "A heart beats 18 times every 24 seconds. If it beats twice as often, it will beat 144 times in () seconds.\nOptions: 384, 54, 108, 216, 96"
+   "question": "A heart beats 18 times every 24 seconds. If it beats twice as often, it will beat 144 times in () seconds.\nOptions: 384, 54, 128, 216, 96"
   },
   {
    "answer": "800",
@@ -13690,7 +13690,7 @@
     "options": [
      640,
      160,
-     8,
+     10,
      1000,
      4000
     ],
@@ -13698,7 +13698,7 @@
     "shown": 800,
     "subject": "A patient"
    },
-   "question": "A patient takes 20 pills every 50 days. If they take pills twice as often, they will take () pills in 800 days.\nOptions: 640, 160, 8, 1000, 4000"
+   "question": "A patient takes 20 pills every 50 days. If they take pills twice as often, they will take () pills in 800 days.\nOptions: 640, 160, 10, 1000, 4000"
   },
   {
    "answer": "3240",
@@ -14161,7 +14161,7 @@
      "misreading"
     ],
     "options": [
-     10,
+     15,
      100,
      2025,
      900,
@@ -14171,7 +14171,7 @@
     "shown": 450,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 10 words every 15 minutes. If they speak with intervals three times as long, they will speak 450 words in () minutes.\nOptions: 10, 100, 2025, 900, 225"
+   "question": "A reporter speaks 10 words every 15 minutes. If they speak with intervals three times as long, they will speak 450 words in () minutes.\nOptions: 15, 100, 2025, 900, 225"
   },
   {
    "answer": "1350",
@@ -14664,14 +14664,14 @@
     "option_kinds": [
      "answer",
      "misreading",
-     "combination",
+     "misreading",
      "misreading",
      "misreading"
     ],
     "options": [
      96,
      864,
-     64,
+     72,
      216,
      24
     ],
@@ -14679,7 +14679,7 @@
     "shown": 144,
     "subject": "A heart"
    },
-   "question": "A heart beats 4 times every 8 seconds. If it beats three times as often, it will beat 144 times in () seconds.\nOptions: 96, 864, 64, 216, 24"
+   "question": "A heart beats 4 times every 8 seconds. If it beats three times as often, it will beat 144 times in () seconds.\nOptions: 96, 864, 72, 216, 24"
   },
   {
    "answer": "150",
@@ -15069,16 +15069,16 @@
     ],
     "options": [
      900,
-     32,
+     960,
      1024,
-     1,
+     30,
      240
     ],
     "p": 30,
     "shown": 960,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 32 words every 30 minutes. They will speak () words in 960 minutes.\nOptions: 900, 32, 1024, 1, 240"
+   "question": "A reporter speaks 32 words every 30 minutes. They will speak () words in 960 minutes.\nOptions: 900, 960, 1024, 30, 240"
   },
   {
    "answer": "8",
@@ -15653,14 +15653,14 @@
      288,
      1152,
      128,
-     6,
+     8,
      2592
     ],
     "p": 24,
     "shown": 576,
     "subject": "A bell"
    },
-   "question": "A bell rings 16 times every 24 hours. If it rings three times as often, it will ring () times in 576 hours.\nOptions: 288, 1152, 128, 6, 2592"
+   "question": "A bell rings 16 times every 24 hours. If it rings three times as often, it will ring () times in 576 hours.\nOptions: 288, 1152, 128, 8, 2592"
   },
   {
    "answer": "2400",
@@ -15835,13 +15835,13 @@
      4000,
      1024,
      216,
-     1
+     5
     ],
     "p": 32,
     "shown": 160,
     "subject": "A bell"
    },
-   "question": "A bell rings 5 times every 32 hours. It will ring 160 times in () hours.\nOptions: 25, 4000, 1024, 216, 1"
+   "question": "A bell rings 5 times every 32 hours. It will ring 160 times in () hours.\nOptions: 25, 4000, 1024, 216, 5"
   },
   {
    "answer": "3600",
@@ -16009,14 +16009,14 @@
     "option_kinds": [
      "misreading",
      "misreading",
-     "combination",
+     "misreading",
      "answer",
      "misreading"
     ],
     "options": [
      27,
      2187,
-     1,
+     9,
      243,
      3
     ],
@@ -16024,7 +16024,7 @@
     "shown": 81,
     "subject": "A bell"
    },
-   "question": "A bell rings 9 times every hour. If it rings with intervals three times as long, it will ring () times in 81 hours.\nOptions: 27, 2187, 1, 243, 3"
+   "question": "A bell rings 9 times every hour. If it rings with intervals three times as long, it will ring () times in 81 hours.\nOptions: 27, 2187, 9, 243, 3"
   },
   {
    "answer": "2000",
@@ -16049,17 +16049,17 @@
      "combination"
     ],
     "options": [
-     50,
+     1024,
      2500,
      1280,
      2000,
-     32
+     40
     ],
     "p": 50,
     "shown": 1600,
     "subject": "A patient"
    },
-   "question": "A patient takes 40 pills every 50 days. They will take 1600 pills in () days.\nOptions: 50, 2500, 1280, 2000, 32"
+   "question": "A patient takes 40 pills every 50 days. They will take 1600 pills in () days.\nOptions: 1024, 2500, 1280, 2000, 40"
   },
   {
    "answer": "96",
@@ -16777,7 +16777,7 @@
      "misreading"
     ],
     "options": [
-     27,
+     36,
      324,
      2916,
      729,
@@ -16787,7 +16787,7 @@
     "shown": 972,
     "subject": "A patient"
    },
-   "question": "A patient takes 18 pills every 27 days. If they take pills with intervals twice as long, they will take 972 pills in () days.\nOptions: 27, 324, 2916, 729, 1296"
+   "question": "A patient takes 18 pills every 27 days. If they take pills with intervals twice as long, they will take 972 pills in () days.\nOptions: 36, 324, 2916, 729, 1296"
   },
   {
    "answer": "80",
@@ -17359,15 +17359,15 @@
     "options": [
      128,
      32,
-     1024,
-     8,
+     2048,
+     16,
      5
     ],
     "p": 8,
     "shown": 64,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 4 newspapers every 8 weeks. It will sell 64 newspapers in () weeks.\nOptions: 128, 32, 1024, 8, 5"
+   "question": "A newsstand sells 4 newspapers every 8 weeks. It will sell 64 newspapers in () weeks.\nOptions: 128, 32, 2048, 16, 5"
   },
   {
    "answer": "1728",
@@ -17642,14 +17642,14 @@
     "n": 8,
     "often": false,
     "option_kinds": [
-     "misreading",
+     "combination",
      "misreading",
      "answer",
      "misreading",
      "misreading"
     ],
     "options": [
-     384,
+     432,
      288,
      2592,
      1152,
@@ -17659,7 +17659,7 @@
     "shown": 576,
     "subject": "A bell"
    },
-   "question": "A bell rings 8 times every 12 hours. If it rings with intervals three times as long, it will ring 576 times in () hours.\nOptions: 384, 288, 2592, 1152, 128"
+   "question": "A bell rings 8 times every 12 hours. If it rings with intervals three times as long, it will ring 576 times in () hours.\nOptions: 432, 288, 2592, 1152, 128"
   },
   {
    "answer": "12",
@@ -17978,7 +17978,7 @@
     "options": [
      1024,
      64,
-     36,
+     48,
      144,
      2304
     ],
@@ -17986,7 +17986,7 @@
     "shown": 384,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 12 words every 8 minutes. If they speak with intervals four times as long, they will speak () words in 384 minutes.\nOptions: 1024, 64, 36, 144, 2304"
+   "question": "A reporter speaks 12 words every 8 minutes. If they speak with intervals four times as long, they will speak () words in 384 minutes.\nOptions: 1024, 64, 48, 144, 2304"
   },
   {
    "answer": "1296",
@@ -18013,7 +18013,7 @@
     "options": [
      36,
      81,
-     144,
+     324,
      250,
      1296
     ],
@@ -18021,7 +18021,7 @@
     "shown": 324,
     "subject": "A bell"
    },
-   "question": "A bell rings 9 times every 36 hours. It will ring 324 times in () hours.\nOptions: 36, 81, 144, 250, 1296"
+   "question": "A bell rings 9 times every 36 hours. It will ring 324 times in () hours.\nOptions: 36, 81, 324, 250, 1296"
   },
   {
    "answer": "2160",
@@ -18048,7 +18048,7 @@
      "answer"
     ],
     "options": [
-     72,
+     75,
      540,
      15,
      60,
@@ -18058,7 +18058,7 @@
     "shown": 180,
     "subject": "A patient"
    },
-   "question": "A patient takes 30 pills every 5 days. If they take pills twice as often, they will take () pills in 180 days.\nOptions: 72, 540, 15, 60, 2160"
+   "question": "A patient takes 30 pills every 5 days. If they take pills twice as often, they will take () pills in 180 days.\nOptions: 75, 540, 15, 60, 2160"
   },
   {
    "answer": "3200",
@@ -18181,7 +18181,7 @@
  },
  "name": "unit_interp1",
  "provenance": {
-  "bbkey_audit_sha256": "7842bb5bcfae16fa91d8d9840fa77aa23e307bf16c00d33cd690c8aaa15153af",
+  "bbkey_audit_sha256": "dbeaa16cfce60acbd1e0eef0932d84bf7c9fa1385db503a60da0eeb17a3f5729",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",
@@ -18215,7 +18215,7 @@
     ],
     "options": [
      108,
-     3,
+     4,
      243,
      972,
      432
@@ -18247,10 +18247,10 @@
      "misreading"
     ],
     "options": [
-     432,
      864,
+     432,
      6,
-     36,
+     72,
      216
     ],
     "p": 2,
@@ -18261,11 +18261,11 @@
  ],
  "shots": [
   [
-   "A bell rings 18 times every 27 hours. If it rings with intervals twice as long, it will ring () times in 324 hours.\nOptions: 108, 3, 243, 972, 432",
+   "A bell rings 18 times every 27 hours. If it rings with intervals twice as long, it will ring () times in 324 hours.\nOptions: 108, 4, 243, 972, 432",
    "108"
   ],
   [
-   "A newsstand sells 12 newspapers every 2 weeks. It will sell 36 newspapers in () weeks.\nOptions: 432, 864, 6, 36, 216",
+   "A newsstand sells 12 newspapers every 2 weeks. It will sell 36 newspapers in () weeks.\nOptions: 864, 432, 6, 72, 216",
    "6"
   ]
  ],
