@@ -622,3 +622,5 @@ Corrections to this ledger, made here and not in place:
 - The battery plan's standing constraint "zero model contact and zero weight download" was
   broken by the instrument's prototype, not by any step of the battery plan. The design doc's
   status sentence ("no model contact of any kind has occurred") was true when ruled.
+
+### Instrument task 1 — the tests' conftest (every test process offline, its model cache an empty directory: N-12); families_6 (four families dispatched to the loaders, grids and renders their own experiments froze; 87 grid points), records_6 (the layout, the writers, every record's checks), referents_6 (gate 1-P's coverage, gate 1(b) as a pure function, the cross-host tolerance 15), the referent manifest (219 files, sha 09286d10…); 106 tests.
