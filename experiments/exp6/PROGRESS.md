@@ -24,4 +24,12 @@ B-1 … B-12, as listed in the battery plan.
 
 ### Task 2 — battery/spec.py: RungSpec, the registry (duplicate names and seeds refused, two-way choices refused), check_item, the driver (500 eval + 2 shots on one stream; redraw on reject / duplicate / collision / repeated answer); 9 tests.
 
-### Task 3 — the vendored data: words_6.tsv (21,540 rows; 9,128 in the top 10,000; 7,649 with exactly one CMUdict pronunciation) sha 1e19db04…; bigbench_index_6.json (18,749 hashes over ten tasks at BIG-bench 092b196c, no BIG-bench text) sha 0970e986…; 7 tests. Network contacts logged above.
+### Task 3 — the vendored data: words_6.tsv (21,540 rows; 9,128 in the top 10,000; 7,649 with exactly one CMUdict pronunciation) sha 1e19db04…; bigbench_index_6.json (17,749 hashes over ten tasks at BIG-bench 092b196c, no BIG-bench text) sha 0970e986…; 7 tests. Network contacts logged above.
+
+### Fix round 1 (Tasks 1–3, 2026-09-27)
+
+- Task 1, from its review: the totality test never reached the `except IndexError` branch it guards (seed 0 draws no trigger). Added `test_the_2c_word_path_raises_and_verify_6_absorbs_it` over five strings on which 2c's word path raises, and added them to the fuzz list (20,021 strings per type); the answer side now turns that IndexError into its documented ValueError; two invisible whitespace literals in the test (U+2009, U+00A0) are explicit escapes. 9 tests.
+- Task 2, from its review: `check_item` type-checked the question and nothing else — an answer of None would have been written as the string "None". `question`, `answer` and `bb_key` must be non-empty strings and `meta` a JSON-serialisable dict; a spec with an empty name is refused. 11 tests.
+- Task 3: the ledger said 18,749 hashes; the index holds 17,749 (the sum of its ten `n_keys`). The plan had also said fifteen task files; fourteen were fetched, as logged above.
+- Event, disclosed: Task 3's nine files were committed inside 8ab89e660, a plan-text commit made by the controller while they were staged. The content is as the task specifies (shas equal the pins); the history is not rewritten.
+- Suite: 27 passed.
