@@ -200,6 +200,11 @@ def test_no_deduction_shot_gives_an_item_away(built, name, n):
                    [("after", "convertible", "hatchback"),
                     ("before", "convertible", "tractor")], 1)):
         assert gen_logic.puzzle_key(*other) != a
+    # nor is the position a clue states
+    at = [gen_logic.puzzle_key("cars", ["tractor", "hatchback", "convertible"],
+                               [("at", "tractor", p), ("before", "hatchback", "convertible")],
+                               1) for p in (1, 3)]
+    assert at[0] != at[1]
     # no two items are one puzzle, the shots included; read from the records
     def puzzle(m):
         clues = frozenset((k, x, y) if k != "after" else ("before", y, x)

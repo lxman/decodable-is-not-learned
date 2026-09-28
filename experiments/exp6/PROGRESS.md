@@ -531,3 +531,41 @@ regenerated; the index and the known answers (77) are unchanged. The audit, the 
 and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
 sha256 checked against the index); the token record was measured offline from the coordinator's
 scratch cache (R-16). No network contact in this wave. 137 tests in the suite.
+
+### Fix wave 10 (Task 5, a test and the record) — the re-review of fix wave 9 (coordinator rulings R-71 … R-74)
+
+The re-review (on 3c82bf0ad) found no Critical and no Important defect. By definitions wider than
+the battery's own keys, read from the question text: no two eval items of any of the seventeen
+rungs ask one question; no committed shot shows an eval item's answer, or a wrong answer beside
+an eval item's numbers; every answer of the rungs that moved is right (502 of 502 on each, and
+20,080 of 20,080 at forty other seeds); all seventeen files regenerate byte for byte. Its
+judgment: the battery is fit to build the instrument on and to freeze; what remains is at other
+seeds, which the frozen battery never uses, or in counters and wording. No module and no item
+file changes in this wave. Each finding was recomputed by the coordinator.
+- WHAT THE SHOT GATE LEAVES OPEN, none of it on the committed items (plan delta B-35). Over forty
+  other seeds: on `unit_interp2` a shot that prints an eval item's numbers under ANOTHER scaling
+  and shows one of that item's wrong candidates, 21 items in 11 batteries (the guard names the
+  scaling, and the product is a candidate under every scaling); on `deduction3` a shot that
+  prints an eval item's paragraph and asks another position, 1 item in 1 battery. Disclosed, not
+  gated: a gate would move the committed `unit_interp2` shots for a class the committed items do
+  not hold.
+- THE COUNTER `shot_content` counts the refusals on the rungs that carry a key. Elsewhere a shot's
+  candidate that repeats an eval item's text or answer is refused as a duplicate or a repeated
+  answer.
+- NOT DUPLICATES, counted on the committed items (B-36): `deduction3` items that are one
+  paragraph asked at two positions, 12 in six pairs; `temporal` items with the hours of another
+  and another interval free, 10.
+- A TEST: a puzzle's key tells a clue that states one position from a clue that states another
+  (a mutant of the key that dropped the position was killed by the sha pins alone).
+
+Corrections to this ledger, made here and not in place:
+- The entry of fix wave 9 says the unit shots "are guarded by the printed numbers with the
+  scaling, in any roles". True as written, and narrower than the plan's headline then said: see
+  the first bullet above.
+- The same entry corrects an earlier count to "by the printed numbers alone 52 and 424". Those
+  are two definitions. In any roles: 91 and 424. In the same printed places: 52 and 424. With
+  the scaling: 18 and 253.
+- The same entry's "none elsewhere" of the shot gate's refusals holds of the counter, not of the
+  refusals: see the second bullet above.
+
+No file but one test and this ledger changed; no pin moved. 137 tests in the suite.
