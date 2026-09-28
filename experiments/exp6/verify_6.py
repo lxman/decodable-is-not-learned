@@ -65,7 +65,10 @@ def normalize_6(text: str, answer_type: str) -> str:
 
 
 def normalize_answer_side(answer: str, answer_type: str) -> str:
-    want = normalize_6(answer, answer_type)
+    try:
+        want = normalize_6(answer, answer_type)
+    except IndexError:          # 2c's `word` path; an answer that trips it is empty
+        want = ""
     if not want:
         raise ValueError(f"answer {answer!r} normalizes to the empty string "
                          f"under {answer_type!r}")

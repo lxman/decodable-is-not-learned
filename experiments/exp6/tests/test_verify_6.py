@@ -48,11 +48,27 @@ def test_answer_side_is_a_hard_error():
             v6.verify_6("anything", " .!? ", at)
 
 
+# strings on which 2c's `word` path raises: after the punctuation strip
+# a lone non-space whitespace character is left, truthy and unsplittable
+INDEX_ERROR_DRAWS = ['"\r!', "?\x0c.", "'\x0b'", "!\u00a0?", '"\t"']
+
+
+def test_the_2c_word_path_raises_and_verify_6_absorbs_it():
+    h = v6.harness_2c()
+    for d in INDEX_ERROR_DRAWS:
+        with pytest.raises(IndexError):
+            h.normalize_answer(d, "word")
+        assert v6.verify_6(d, "owl", "word") is False
+        assert v6.verify_6(d, "42", "number") is False
+        with pytest.raises(ValueError, match="empty string"):
+            v6.normalize_answer_side(d, "word")
+
+
 def test_draw_side_is_total():
     rng = random.Random(0)
-    alphabet = string.printable + "ˈˌəɪʊ    "
+    alphabet = string.printable + "ˈˌəɪʊ  \u2009\u00a0"
     fixed = ["", " ", "\n", "\n\n", ".", '" "', "' '", ". .", "!?", "\t",
-             "\n .\n", "-", "- 5", ",", "1,", "   "]
+             "\n .\n", "-", "- 5", ",", "1,", " \u00a0 "] + INDEX_ERROR_DRAWS
     draws = fixed + ["".join(rng.choice(alphabet) for _ in range(rng.randint(0, 12)))
                      for _ in range(20_000)]
     for at, ans in (("number", "42"), ("word", "owl"), ("span", "6pm to 9pm"),
