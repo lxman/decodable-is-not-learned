@@ -140,3 +140,16 @@ def test_comma_is_scored_through_the_bos_runner(monkeypatch):
     assert fm.runner("olmo7b", "T", "M") == "inner"
     assert fm.runner("comma_7b", "T", "M") == ("bos", "inner")
     assert made == [16, 16] and fm.BATCH_SIZE_6 == 16 and fm.DTYPE_6 == "float16"
+
+
+def test_a_release_that_fails_says_so(monkeypatch, capsys):
+    import gc
+
+    def broken():
+        raise RuntimeError("the allocator would not let go")
+    monkeypatch.setattr(gc, "collect", broken)
+    fm.release(object())                                   # does not raise
+    assert "families_6.release: RuntimeError: the allocator would not let go" in \
+        capsys.readouterr().err
+    fm.release(None)
+    assert capsys.readouterr().err == ""

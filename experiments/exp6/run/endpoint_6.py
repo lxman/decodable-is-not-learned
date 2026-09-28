@@ -13,6 +13,7 @@ not here.
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 import time
 from pathlib import Path
@@ -134,7 +135,8 @@ def run(*, root=EXP6, device="cuda", families=None, loaders=None, dry_run=False,
                       loaders=loaders, stack=stack, git_sha=sha)
     except cm.GateFired as e:
         r6.endpoint_halt_path(root).parent.mkdir(parents=True, exist_ok=True)
-        r6.endpoint_halt_path(root).write_text("\n".join(e.failures) + "\n")
+        r6.endpoint_halt_path(root).write_text(
+            "\n".join(e.failures + [json.dumps(e.load, sort_keys=True)]) + "\n")
         raise
     done = [f for f in fm.FAMILIES_6
             if all(which_complete(root, f, w) for w in r6.ENDPOINT_WHICH_6)]

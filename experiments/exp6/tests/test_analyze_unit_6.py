@@ -252,6 +252,11 @@ def test_withdrawn_is_printed_only_where_the_power_record_covers_the_reading():
     # a test that is not evaluable is not asked whether it is covered
     t[("B", F[1])] = res(False, n_rungs=2)
     assert an.uncovered(t, wide) == []
+    # nor is a reading WIDER than the set simulated covered by the declaration
+    t = _tests((0, 0, 0, 0), (0, 0, 0, 0))
+    assert an.uncovered(t, _power(sim=7)) == [pw6.test_name(a, f) for a, f in pw6.TESTS_6]
+    assert an.verdict_6([], t, _rsets(), _power(sim=7))["modifiers"][0].startswith(
+        "Every evaluable test was declared POWERED, and at least one read a rung set")
 
 
 def test_a_predictor_that_holds_on_three_says_on_which():
@@ -259,8 +264,20 @@ def test_a_predictor_that_holds_on_three_says_on_which():
     v = an.verdict_6([], t, _rsets(), _power())
     assert v["verdict"] == "GENERAL"
     line = an.DISCLOSURE_HOLDS_ON_6.format(t="A", n=3, e=4, fired=", ".join(F[:3]),
-                                           rest=F[3])
+                                           quiet=F[3], unread="none")
+    assert line.endswith(f"Evaluable and did not fire: {F[3]}. Not evaluable, counted "
+                         f"toward nothing: none.")
     assert v["disclosures"] == [line] and an.licensed_6(v).endswith(line)
+    # a family whose test FIRED on two rungs was not read: it is not said not to have fired
+    t = _tests((1, 1, 1, 1), (1, 1, 1, 1))
+    t[("A", F[1])] = res(True, n_rungs=2)
+    v = an.verdict_6([], t, _rsets(), _power())
+    assert v["verdict"] == "GENERAL" and v["statuses"]["A"]["E"] == 3
+    said = [d for d in v["disclosures"] if d.startswith("Predictor A holds")]
+    assert said == [an.DISCLOSURE_HOLDS_ON_6.format(
+        t="A", n=3, e=3, fired=", ".join(f for f in F if f != F[1]), quiet="none",
+        unread=F[1])]
+    assert "did not fire: none" in said[0] and f"toward nothing: {F[1]}." in said[0]
     full = an.verdict_6([], _tests((1, 1, 1, 1), (1, 1, 1, 1)), _rsets(), _power())
     assert full["disclosures"] == []
     assert an.holds_on({"A": {"status": "S", "fired": F[:2], "E": 4},

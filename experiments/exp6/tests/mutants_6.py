@@ -647,7 +647,9 @@ MUTANTS_6 = [
        "        cm.require_the_macs_weights(info, family, which, entry,\n"
        "                                    label=f\"6 gate 1(d) {family}/{which}\")\n", ""),
     _m("run/endpoint_6.py", "gate 1(d) fires at the endpoint stage and leaves no marker",
-       "        r6.endpoint_halt_path(root).write_text(\"\\n\".join(e.failures) + \"\\n\")\n        raise",
+       "        r6.endpoint_halt_path(root).write_text(\n"
+       "            \"\\n\".join(e.failures + [json.dumps(e.load, sort_keys=True)]) + \"\\n\")\n"
+       "        raise",
        "        raise"),
     _m("run/endpoint_6.py", "the endpoint stage runs after its seal",
        "    if r6.rung_sets_path(root).exists():\n        raise RuntimeError(\"the endpoint stage is sealed; nothing is read after it\")\n",
@@ -658,7 +660,9 @@ MUTANTS_6 = [
        "        cm.require_the_macs_weights(\n            info, family, key, entry,",
        "        (lambda *a, **k: None)(\n            info, family, key, entry,"),
     _m("run/sweep_6.py", "gate 1(d) fires at the sweep's gate and leaves no marker",
-       "        except cm.GateFired as e:\n            halt(root, family, e.failures)\n            raise",
+       "        except cm.GateFired as e:\n"
+       "            halt(root, family, e.failures + [json.dumps(e.load, sort_keys=True)])\n"
+       "            raise",
        "        except cm.GateFired as e:\n            raise"),
     _m("run/sweep_6.py", "gate 1(d): a failed load's evidence is not kept",
        "        r6.write_json(r6.halted_step_dir(root, family, step) / \"_checkpoint.json\",\n"
@@ -671,9 +675,10 @@ MUTANTS_6 = [
        "    bad += rf.digest_failures(load, family, which,\n"
        "                              label=f\"6 gate 1(d) {family}/{which}\")\n", ""),
     _m("run/seal_endpoint_6.py", "gate 1(b): the record's host need not have a record",
-       "    if hosts is not None and rec.get(\"host_sha256\") not in hosts:", "    if False:"),
+       "    if rec.get(\"host_sha256\") not in hosts:", "    if False:"),
     _m("records_6.py", "a record is written in place",
-       "    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(json.dumps(obj, indent=1))\n"
+       "    tmp = path.with_name(f\"{path.name}.{os.getpid()}.tmp\")\n"
+       "    tmp.write_text(json.dumps(obj, indent=1))\n"
        "    os.replace(tmp, path)",
        "    path.write_text(json.dumps(obj, indent=1))"),
     _m("records_6.py", "a torn record is a record",
@@ -731,6 +736,36 @@ MUTANTS_6 = [
     _m("analyze_6.py", "gate 1: the sealed read handed to the gate is the host's own",
        "        thin_load=thin[\"load\"], cand_load=cand[\"load\"], sealed_load=sealed_load,",
        "        thin_load=thin[\"load\"], cand_load=cand[\"load\"], sealed_load=cand[\"load\"],"),
+    # ------------------------------------------------------- fix round 2
+    _m("analyze_6.py", "a family that was not evaluable is said not to have fired",
+       "            quiet = [f for f in s[\"evaluable\"] if f not in s[\"fired\"]]",
+       "            quiet = [f for f in fm.FAMILIES_6 if f not in s[\"fired\"]]"),
+    _m("analyze_6.py", "a predictor that fired on all four still says on which",
+       "        if s[\"status\"] == \"H\" and len(s[\"fired\"]) < len(fm.FAMILIES_6):",
+       "        if s[\"status\"] == \"H\":"),
+    _m("analyze_6.py", "a reading wider than the set simulated is covered",
+       "        if evaluable(res) and set(res.get(\"eligible\") or []) != set(sim or []):",
+       "        if evaluable(res) and set(res.get(\"eligible\") or []) < set(sim or []):"),
+    _m("analyze_6.py", "a loss the result does not explain is not said",
+       "            if not thin and not res.get(\"dropped_degenerate\"):", "            if False:"),
+    _m("records_6.py", "a record that is missing is whole",
+       "    if not path.exists():\n        return False\n    try:\n        ok = isinstance(",
+       "    if not path.exists():\n        return True\n    try:\n        ok = isinstance("),
+    _m("records_6.py", "two writers share one temp file",
+       "    tmp = path.with_name(f\"{path.name}.{os.getpid()}.tmp\")",
+       "    tmp = path.with_name(path.name + \".tmp\")"),
+    _m("run/seal_predictor_6.py", "a temp file is a file of the stage",
+       "            if p.is_file() and p.resolve() not in skip and p.suffix != \".tmp\"}",
+       "            if p.is_file() and p.resolve() not in skip}"),
+    _m("run/endpoint_6.py", "the endpoint stage's marker keeps twelve characters of the digest",
+       "            \"\\n\".join(e.failures + [json.dumps(e.load, sort_keys=True)]) + \"\\n\")",
+       "            \"\\n\".join(e.failures) + \"\\n\")"),
+    _m("run/sweep_6.py", "the sweep's marker keeps twelve characters of the digest",
+       "            halt(root, family, e.failures + [json.dumps(e.load, sort_keys=True)])",
+       "            halt(root, family, e.failures)"),
+    _m("families_6.py", "a release that fails says nothing",
+       "        print(f\"families_6.release: {type(e).__name__}: {e}\", file=sys.stderr)",
+       "        pass"),
     _m("analyze_6.py", "evaluable needs four rungs",
        "    return len(res.get(\"eligible\") or []) >= MIN_RUNGS",
        "    return len(res.get(\"eligible\") or []) > MIN_RUNGS"),

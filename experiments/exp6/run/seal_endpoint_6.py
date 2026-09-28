@@ -113,14 +113,14 @@ def gate1b_rederived(ep: dict) -> dict:
 GATE1B_FIELDS = ("families", "tolerance_per_rung", "pass", "failures")
 
 
-def gate1b_failures(root, ep, hosts=None) -> list:
+def gate1b_failures(root, ep, hosts) -> list:
     """The runner's gate record against the re-derivation."""
     p = r6.gate1b_path(root)
     if not p.is_file():
         return ["6 gate 1(b): record missing"]
     rec, redo = r6.read_json(p), gate1b_rederived(ep)
     bad = list(redo["failures"])
-    if hosts is not None and rec.get("host_sha256") not in hosts:
+    if rec.get("host_sha256") not in hosts:
         bad.append(f"6 gate 1(b): host {str(rec.get('host_sha256'))[:12]} has no "
                    f"host record")
     for k in GATE1B_FIELDS:

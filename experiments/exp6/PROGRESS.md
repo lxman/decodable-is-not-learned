@@ -684,3 +684,31 @@ Corrections to this ledger, made here and not in place:
 - The entry of instrument task 4 gives the fast pass as 282 mutants, 230 killed, 52 survived.
   That was the table of that commit. This wave's table and tally are in its own log.
 Measured in the repository: fast suite 368 passed; worlds 70, totality 161; fast mutation pass 325 mutants in 599 s: killed 265, survived-fast 60; read sweep 2,604 reads, 0 unpinned; cold battery 10/14 PASS, 4 SKIP.
+
+### Instrument fix wave 2 — the re-review of fix wave 1 (coordinator ruling I-17)
+
+The re-review (on 26f3996d7) found every finding of the four task reviews addressed, with a
+file and a line for each, and gate 1(d) sound end to end: the digest each frozen loader hashes
+is the one the Mac's committed records carry, on every family, both loader paths and every
+key; the comparison precedes the runner and the finiteness probe; a fire halts and is not
+resumed over. It found one Important defect and six Minor in the fix itself. Each was read in
+the code by the coordinator.
+- A FAMILY THAT WAS NOT EVALUABLE WAS SAID NOT TO HAVE FIRED (I-A). The disclosure of a
+  predictor that holds on fewer than four families listed every family outside the ones it
+  fired on as one it "did not fire on". A family whose test read fewer than three rungs was
+  not read, whether or not its test fired. The disclosure now names apart the families that
+  were evaluable and did not fire and the families that were not evaluable.
+- A TEMP FILE A KILL LEFT (M-1, M-2). A kill inside the predictor seal's own write left a temp
+  file that the next seal's table named and the next write consumed; the seal then never
+  re-derived. The seal's table is of records, not of temp files, and a temp file carries its
+  writer's process id.
+- THE HOST CHECK OF GATE 1(b) HAD A DEFAULT THAT SKIPPED IT (M-3), and the cold battery took
+  the default. The argument is required.
+- A FIRE OF GATE 1(d) KEPT TWELVE CHARACTERS OF THE DIGEST (M-4) at the endpoint stage and at a
+  sweep host's gate. The halt marker carries the whole of what the loader measured.
+- WHAT THE PREFLIGHT REHEARSES (M-5): the endpoint and the first grid step of each family. The
+  plan's delta N-14 says so; OLMo-2 13B's step 0 meets the gate at the endpoint stage.
+- `release`'s print is tested (M-6). Mutants for the checks that had none: the two branches of
+  the disclosure, a reading wider than the set the power record simulated, a loss the result
+  does not explain, a missing record, the temp file's name, the seal's table, both markers.
+Measured in the repository: fast suite 370 passed; worlds 70, totality 161; fast mutation pass 335 mutants in 613 s: killed 276, survived-fast 59; read sweep 2,604 reads, 0 unpinned; cold battery 10/14 PASS, 4 SKIP.

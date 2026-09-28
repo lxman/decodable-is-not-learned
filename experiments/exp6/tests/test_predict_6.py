@@ -142,3 +142,25 @@ class _FalsySampler:
 
     def __call__(self, *a, **k):
         raise AssertionError("sampled")
+
+
+def test_a_temp_file_a_kill_left_is_not_a_file_of_the_stage(tmp_path, monkeypatch):
+    """A kill inside the seal's own write leaves a temp file beside it.
+    The table the next seal names is of records: it re-derives once the
+    seal is written."""
+    r6.write_json(r6.gate1p_path(tmp_path), {"units": {}})
+    real = r6.os.replace
+
+    def killed(src, dst):
+        raise KeyboardInterrupt("killed between the write and the rename")
+    monkeypatch.setattr(r6.os, "replace", killed)
+    with pytest.raises(KeyboardInterrupt):
+        r6.write_json(r6.seal_path(tmp_path), {"half": 1})
+    monkeypatch.setattr(r6.os, "replace", real)
+    left = [p.name for p in r6.seal_path(tmp_path).parent.iterdir()
+            if p.name.endswith(".tmp")]
+    assert len(left) == 1
+    files = sp.file_table(tmp_path)
+    assert list(files) == ["results/predictor/gate1p.json"]
+    r6.write_json(r6.seal_path(tmp_path), {"files": files})
+    assert sp.file_table(tmp_path) == files

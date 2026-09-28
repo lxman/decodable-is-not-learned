@@ -74,7 +74,7 @@ def file_table(root) -> dict:
     skip = {r6.seal_path(root).resolve()}
     return {str(p.relative_to(root)): r6.sha256_file(p)
             for p in sorted(base.rglob("*"))
-            if p.is_file() and p.resolve() not in skip}
+            if p.is_file() and p.resolve() not in skip and p.suffix != ".tmp"}
 
 
 def seal(root=EXP6, *, tag_exists=None, blob_sha=None, frozen_check=None) -> dict:

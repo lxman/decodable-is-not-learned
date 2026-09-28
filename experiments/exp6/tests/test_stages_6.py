@@ -250,10 +250,17 @@ def test_gate_1b_is_rederived_over_every_family_or_fails(tmp_path):
     del short["comma_7b"]
     assert len(se.gate1b_rederived(short)["failures"]) == 2
     # the runner's record against the re-derivation
-    assert se.gate1b_failures(tmp_path, stage()) == ["6 gate 1(b): record missing"]
-    r6.write_json(r6.gate1b_path(tmp_path), dict(whole, prereg_tag=r6.PREREG_TAG_6))
-    assert se.gate1b_failures(tmp_path, stage()) == []
-    assert se.gate1b_failures(tmp_path, stage(1)) == [
+    h = W.host("box-1")
+    hosts = {h["sha256"]: h}
+    assert se.gate1b_failures(tmp_path, stage(), hosts) == ["6 gate 1(b): record missing"]
+    r6.write_json(r6.gate1b_path(tmp_path), dict(whole, prereg_tag=r6.PREREG_TAG_6,
+                                                 host_sha256=h["sha256"]))
+    assert se.gate1b_failures(tmp_path, stage(), hosts) == []
+    assert se.gate1b_failures(tmp_path, stage(), {}) == [
+        f"6 gate 1(b): host {h['sha256'][:12]} has no host record"]
+    with pytest.raises(TypeError):                # the host check has no default that skips it
+        se.gate1b_failures(tmp_path, stage())
+    assert se.gate1b_failures(tmp_path, stage(1), hosts) == [
         "6 gate 1(b): the record's families does not re-derive from the endpoint records"]
 
 
@@ -435,6 +442,11 @@ def test_a_checkpoint_that_is_not_the_macs_is_not_scored(tmp_path):
         f"Mac's committed {rf.mac_digest(f, fm.endpoint_step(f))[:12]}" in str(e.value)
     marker = r6.endpoint_halt_path(tmp_path)
     assert marker.is_file() and "6 gate 1(d)" in marker.read_text()
+    # the marker carries the whole of what the loader measured, not twelve characters
+    import json
+    seen = json.loads(marker.read_text().splitlines()[-1])
+    assert seen["digest"] == "0" * 64 and seen["family"] == f and seen["key"] == "stage1_final"
+    assert seen["commit"] == fm.entry(f, fm.manifest(f), fm.endpoint_step(f))["commit"]
     assert not list((r6.results(tmp_path) / "endpoint").rglob("*.json"))
     with pytest.raises(RuntimeError, match="halt marker"):     # and nothing resumes
         ep.run(root=tmp_path, loaders=wrong, host=W.host(), **W.INJECT_SEAL)
@@ -443,7 +455,8 @@ def test_a_checkpoint_that_is_not_the_macs_is_not_scored(tmp_path):
     _seal_endpoint(tmp_path)
     with pytest.raises(RuntimeError, match=r"GATE 1\(d\) FIRED"):
         sw.run(f, root=tmp_path, loaders=wrong, host=W.host(), **W.INJECT_SEAL)
-    assert "6 gate 1(d)" in r6.sweep_halt_path(tmp_path, f).read_text()
+    text = r6.sweep_halt_path(tmp_path, f).read_text()
+    assert "6 gate 1(d)" in text and json.loads(text.splitlines()[-1])["digest"] == "0" * 64
     assert not list(r6.sweep_dir(tmp_path, f).rglob("*.json"))
     step = fm.grid(f)[0]
     kept = r6.halted_step_dir(tmp_path, f, step) / "_checkpoint.json"
@@ -497,6 +510,10 @@ def test_a_record_is_written_whole_or_not_at_all(tmp_path, monkeypatch):
     with pytest.raises(KeyboardInterrupt):
         r6.write_json(p, {"v": 2})
     assert r6.read_json(p) == {"v": 1}                  # the file that was there
+    # what the kill left is named by its writer: two writers do not share it
+    import os
+    assert sorted(x.name for x in p.parent.iterdir()) == [
+        "rec.json", f"rec.json.{os.getpid()}.tmp"]
 
 
 def test_a_torn_record_is_not_resumed_over(tmp_path):

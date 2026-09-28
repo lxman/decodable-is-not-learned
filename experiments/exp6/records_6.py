@@ -229,7 +229,7 @@ def write_json(path, obj) -> None:
     so a kill leaves the file that was there, or none, never a torn one."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_name(path.name + ".tmp")
+    tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")
     tmp.write_text(json.dumps(obj, indent=1))
     os.replace(tmp, path)
 

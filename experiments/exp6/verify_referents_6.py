@@ -159,7 +159,7 @@ def _endpoint(root):
     bat = b6.load_battery_6()
     seal = r6.read_json(r6.seal_path(root))
     bad, ep, hosts = se.collect(root, battery=bat, seal_sha256=seal["sha256"])
-    bad += se.gate1b_failures(root, ep)
+    bad += se.gate1b_failures(root, ep, hosts)
     if not r6.rung_sets_path(root).is_file():
         bad.append("the rung sets are not written")
     elif not bad:

@@ -169,8 +169,9 @@ DISCLOSURE_UNDERPOWERED_6 = ("Test {name} did not fire and was DECLARED "
                              "UNDERPOWERED IN ADVANCE: not detected at this "
                              "resolution.")
 DISCLOSURE_HOLDS_ON_6 = ("Predictor {t} holds by the naming rule on {n} of its "
-                         "{e} evaluable families ({fired}); it did not fire on "
-                         "{rest}.")
+                         "{e} evaluable families ({fired}). Evaluable and did not "
+                         "fire: {quiet}. Not evaluable, counted toward nothing: "
+                         "{unread}.")
 NO_ALPHA_NOTE_6 = ("{name} is descriptive and non-gating (design §5): its "
                    "`fires` fields are the primary's rule applied to another "
                    "input, printed for comparison; no alpha claim rides on it.")
@@ -286,14 +287,19 @@ def disclosures_of(tests: dict, rung_sets: dict, power: dict) -> list:
 
 def holds_on(statuses: dict) -> list:
     """A predictor holds on three of four: the licence's sentence says
-    "on four outcome families", and the record says on which it held."""
+    "on four outcome families", and the record says on which it held. A
+    family on which the test was not EVALUABLE is named apart: it was
+    not read, whether or not its test fired, and "did not fire" is said
+    only of a family that was."""
     out = []
     for t in ("A", "B"):
         s = statuses[t]
         if s["status"] == "H" and len(s["fired"]) < len(fm.FAMILIES_6):
+            quiet = [f for f in s["evaluable"] if f not in s["fired"]]
+            unread = [f for f in fm.FAMILIES_6 if f not in s["evaluable"]]
             out.append(DISCLOSURE_HOLDS_ON_6.format(
                 t=t, n=len(s["fired"]), e=s["E"], fired=", ".join(s["fired"]),
-                rest=", ".join(f for f in fm.FAMILIES_6 if f not in s["fired"])))
+                quiet=", ".join(quiet) or "none", unread=", ".join(unread) or "none"))
     return out
 
 

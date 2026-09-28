@@ -23,6 +23,7 @@ gate directory and continues at the first incomplete step.
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 import time
 from pathlib import Path
@@ -271,7 +272,7 @@ def run(family, *, root=EXP6, device="cuda", loaders=None, dry_run=False,
         try:
             gate = run_gate1(family, **kw)
         except cm.GateFired as e:
-            halt(root, family, e.failures)
+            halt(root, family, e.failures + [json.dumps(e.load, sort_keys=True)])
             raise
         if not gate["pass"]:
             halt(root, family, gate["failures"])
