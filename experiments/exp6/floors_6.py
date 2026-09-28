@@ -37,8 +37,8 @@ FLOOR_PIN_6 = {
     "shapes": [50, 10],
     "temporal": [15, 4],
     "lcs": [50, None],
-    "unit_interp1": [14, 5],
-    "unit_interp2": [20, 5],
+    "unit_interp1": [12, 5],
+    "unit_interp2": [19, 5],
 }
 
 
@@ -156,51 +156,55 @@ HEURISTIC_PIN_6 = {
     },
     "unit_interp1": {
         "of the options that combine every number of the text once, the nearest to its largest number":
-            158,
+            170,
         "of the options that divide or are a multiple of the text's largest number, the nearest to it":
-            99,
+            90,
         "of the options the text does not print, the one sharing most with its numbers":
-            142,
+            138,
         "the first option a number of the text divides":
-            114,
+            117,
         "the first option that is the product of two numbers of the text":
-            95,
+            92,
         "the largest option the text does not print":
-            103,
+            126,
         "the only option absent from the text":
             0,
         "the option at one list position":
             100,
         "the option of one rank by size":
-            129,
+            126,
         "the smallest option the text does not print":
-            86,
+            69,
         "the smallest option the text does not print that divides none of its numbers":
-            117,
+            95,
+        "the text's last number where the blank carries its unit word, else the first option that is the product of two numbers of the text":
+            92,
     },
     "unit_interp2": {
         "of the options that combine every number of the text once, the nearest to its largest number":
-            160,
+            157,
         "of the options that divide or are a multiple of the text's largest number, the nearest to it":
-            144,
+            140,
         "of the options the text does not print, the one sharing most with its numbers":
-            124,
+            148,
         "the first option a number of the text divides":
-            93,
+            97,
         "the first option that is the product of two numbers of the text":
             166,
         "the largest option the text does not print":
-            94,
+            119,
         "the only option absent from the text":
             0,
         "the option at one list position":
             100,
         "the option of one rank by size":
-            127,
+            131,
         "the smallest option the text does not print":
-            140,
+            146,
         "the smallest option the text does not print that divides none of its numbers":
-            77,
+            84,
+        "the text's last number where the blank carries its unit word, else the first option that is the product of two numbers of the text":
+            250,
     },
 }
 LIST_POSITION = "the option at one list position"
@@ -217,6 +221,8 @@ EACH_ONCE = ("of the options that combine every number of the text once, the nea
              "to its largest number")
 RELATED = ("of the options that divide or are a multiple of the text's largest "
            "number, the nearest to it")
+SAME_UNIT = ("the text's last number where the blank carries its unit word, else the "
+             "first option that is the product of two numbers of the text")
 LENGTH_MIN = "the commonest answer at the shorter string's length"
 LENGTH_MAX = "the commonest answer at the longer string's length"
 LENGTH_SUM = "the commonest answer at the two strings' total length"
@@ -224,8 +230,8 @@ LETTERS_SHARED = "the commonest answer at the count of letters the two strings s
 LETTERS_DISTINCT = ("the commonest answer at the count of distinct letters the two "
                     "strings share")
 GUESSERS_6 = (LIST_POSITION, SIZE_RANK, ABSENT, DIVISIBLE, SHARES, NONDIVISOR, PRODUCT,
-              UNPRINTED_MIN, UNPRINTED_MAX, EACH_ONCE, RELATED, LENGTH_MIN, LENGTH_MAX,
-              LENGTH_SUM, LETTERS_SHARED, LETTERS_DISTINCT)
+              UNPRINTED_MIN, UNPRINTED_MAX, EACH_ONCE, RELATED, SAME_UNIT, LENGTH_MIN,
+              LENGTH_MAX, LENGTH_SUM, LETTERS_SHARED, LETTERS_DISTINCT)
 # the words a unit sentence scales its rate by (the generator's tables and
 # the task files' one misspelling), as a reader of the text meets them
 FACTOR_WORDS_6 = (("twice", 2), ("three times", 3), ("four times", 4), ("half", 2),
@@ -314,6 +320,25 @@ def _number_guessers(o: list, text: list, factor: int = 1) -> dict:
             RELATED: nearest(kin or free or o)}
 
 
+def _same_unit(o: list, body: str) -> int:
+    """A rule that reads two unit words and no more: the word after the
+    blank against the word after the last number the text prints. The
+    same word: that number, where it is an option (the quantity asked is
+    the quantity stated). Otherwise the first option that is the product
+    of two printed numbers. It never works out which unit a rate is per
+    and never reads a scaling."""
+    import re
+    blank = re.search(r"\(\) (\w+)", body)
+    nums = re.findall(r"(\d+) (\w+)", body)
+
+    def stem(w):
+        return w[:-1] if w.endswith("s") else w
+    if blank and nums and stem(blank.group(1)) == stem(nums[-1][1]) and \
+            int(nums[-1][0]) in o:
+        return int(nums[-1][0])
+    return _number_guessers(o, _numbers(body))[PRODUCT]
+
+
 def heuristic_floor_6(cap: dict) -> dict:
     """What a guesser that reads an item's SURFACE and solves nothing
     can score on the rung: the best of a fixed list. A guesser that
@@ -343,6 +368,8 @@ def heuristic_floor_6(cap: dict) -> dict:
             found.update({name: hits[name] for name in (
                 DIVISIBLE, SHARES, NONDIVISOR, PRODUCT, UNPRINTED_MIN, UNPRINTED_MAX,
                 EACH_ONCE, RELATED)})
+            found[SAME_UNIT] = sum(_same_unit(o, b) == int(w)
+                                   for o, w, b in zip(ints, want, body))
     if rung == "lcs":
         sa = [it["meta"]["a"] for it in items]
         sb = [it["meta"]["b"] for it in items]

@@ -111,6 +111,10 @@ def check_item(spec: RungSpec, item: dict) -> None:
         json.dumps(item["meta"])
     except (TypeError, ValueError) as e:
         raise ValueError(f"{spec.name}: meta is not JSON-serialisable ({e})")
+    content = item.get("content_key")
+    if content is not None and (not isinstance(content, str) or not content.strip()):
+        raise ValueError(f"{spec.name}: content_key is {content!r}, not a "
+                         f"non-empty string")
     extra = item.get("bb_extra", [])
     if not isinstance(extra, list) or not all(
             isinstance(k, str) and k.strip() for k in extra):
@@ -149,13 +153,15 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
     its question or its answer-bearing key repeats, its BIG-bench key is
     in the collision index, or one of its EXTRA keys (`bb_extra`: a part
     of the item that is a question in its own right) is in the index's
-    extra table."""
+    extra table. A SHOT is redrawn also if its content key (`content_key`:
+    what an item asks, its surface aside) is one an eval item carries: a
+    prompt does not show the answer of an item it is scored on."""
     rng = np.random.default_rng(spec.seed)
-    seen_q, seen_key, seen_ans = set(), set(), set()
+    seen_q, seen_key, seen_ans, seen_content = set(), set(), set(), set()
     n_redrawn = {"rejected": 0, "duplicate": 0, "collision": 0,
-                 "shot_answer": 0, "repeated_answer": 0}
+                 "shot_answer": 0, "shot_content": 0, "repeated_answer": 0}
 
-    def one(slot, forbid_answers=()):
+    def one(slot, forbid_answers=(), shot=False):
         for _ in range(MAX_ATTEMPTS_PER_SLOT):
             item = spec.draw(rng, ctx, slot)
             if item is None:
@@ -176,6 +182,12 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
             if spec.unique_answers and item["answer"] in seen_ans:
                 n_redrawn["repeated_answer"] += 1
                 continue
+            content = item.get("content_key")
+            if shot and content is not None and content in seen_content:
+                n_redrawn["shot_content"] += 1
+                continue
+            if content is not None:
+                seen_content.add(content)
             seen_q.add(item["question"])
             seen_key.add(key)
             seen_ans.add(item["answer"])
@@ -190,7 +202,8 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
     items = [one(slot) for slot in range(N_EVAL)]
     shots, shot_records = [], []
     for j in range(N_SHOTS):
-        s = one(N_EVAL + SHOT_STRIDE * j, forbid_answers=tuple(a for _, a in shots))
+        s = one(N_EVAL + SHOT_STRIDE * j, forbid_answers=tuple(a for _, a in shots),
+                shot=True)
         shots.append([s["question"], s["answer"]])
         # a shot is gated like an item; its key and record are kept so the
         # audit can read them (the harness reads `shots` alone)

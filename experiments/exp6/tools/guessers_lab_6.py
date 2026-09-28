@@ -16,6 +16,14 @@ both ways; then fitted on the whole rung and applied to BIG-bench's
 items, and the reverse. Needs scikit-learn and BIG-bench's task files
 (the index builder's scratch directory).
 
+The twenty features do not know what a READING of the sentence is, and
+a fit that cannot find the candidates among the options says little
+about them. A second pass adds twenty-one: which combination of the
+text's largest number with its other numbers and its scaling factor an
+option is, if any. That fit finds the candidates and can learn how
+often each kind is the answer; what it cannot learn, if the numbers and
+options say nothing of what is asked, is which one to pick.
+
     python -m experiments.exp6.tools.guessers_lab_6 <scratch dir>
 """
 from __future__ import annotations
@@ -61,6 +69,40 @@ def features(text: str, options: list, x: int) -> list:
         sum(1 for y in options if y != x and y in numbers(text))]
 
 
+def templates(text: str, x: int) -> list:
+    """Which combination of the text's numbers the option is: the
+    largest number L alone, times or over another number, times or over
+    the factor, and their products — twenty-one, in a fixed order."""
+    from fractions import Fraction
+    t = [v for v in numbers(text) if v > 1]
+    if not t:
+        return [False] * 21
+    top = max(t)
+    rest = [v for v in t if v != top][:2]
+    a, b = (rest + [None, None])[:2]
+    k = next((k for w, k in FACTOR_WORDS if w in text), None)
+
+    def val(*steps):
+        v = Fraction(top)
+        for f, e in steps:
+            if f is None:
+                return None
+            v *= Fraction(f) ** e
+        return v
+    each = [(o, e) for o in (a, b) for e in (1, -1)]
+    exprs = [val()] + [val(s) for s in each] + [val((k, 1)), val((k, -1))]
+    exprs += [val(s, (k, e)) for s in each for e in (1, -1)]
+    exprs += [val((a, 1), (b, -1)), val((b, 1), (a, -1))]
+    exprs += [val((a, 1), (b, -1), (k, e)) for e in (1, -1)]
+    exprs += [val((b, 1), (a, -1), (k, e)) for e in (1, -1)]
+    assert len(exprs) == 21
+    return [v is not None and v == x for v in exprs]
+
+
+def aware(text: str, options: list, x: int) -> list:
+    return features(text, options, x) + templates(text, x)
+
+
 def ours(rung: str) -> list:
     out = []
     for it in b6.load_item_file_6(rung)["eval_items"]:
@@ -78,20 +120,20 @@ def bigbench(src, path: str) -> list:
     return out
 
 
-def table(data):
+def table(data, feats=features):
     import numpy as np
     X, y, item = [], [], []
     for i, (text, opts, answer) in enumerate(data):
         for x in opts:
-            X.append(features(text, opts, x))
+            X.append(feats(text, opts, x))
             y.append(x == answer)
             item.append(i)
     return np.array(X, float), np.array(y), np.array(item)
 
 
-def score(model, data) -> float:
+def score(model, data, feats=features) -> float:
     import numpy as np
-    X, y, item = table(data)
+    X, y, item = table(data, feats)
     p = model.predict_proba(X)[:, 1]
     return float(sum(y[item == i][np.argmax(p[item == i])] for i in np.unique(item))
                  / len(data))
@@ -105,20 +147,20 @@ def models() -> dict:
                                                           random_state=0)}
 
 
-def held_out(data, make) -> float:
+def held_out(data, make, feats=features) -> float:
     halves = [[d for i, d in enumerate(data) if (i // 10) % 2 == h] for h in (0, 1)]
     hits = 0.0
     for h in (0, 1):
-        X, y, _ = table(halves[1 - h])
-        hits += score(make().fit(X, y), halves[h]) * len(halves[h])
+        X, y, _ = table(halves[1 - h], feats)
+        hits += score(make().fit(X, y), halves[h], feats) * len(halves[h])
     return hits / len(data)
 
 
-def leave_one_out(data, make) -> float:
+def leave_one_out(data, make, feats=features) -> float:
     hits = 0.0
     for i in range(len(data)):
-        X, y, _ = table(data[:i] + data[i + 1:])
-        hits += score(make().fit(X, y), [data[i]])
+        X, y, _ = table(data[:i] + data[i + 1:], feats)
+        hits += score(make().fit(X, y), [data[i]], feats)
     return hits / len(data)
 
 
@@ -126,18 +168,23 @@ def run(src) -> dict:
     out = {}
     for rung, path in LEVELS:
         mine, theirs = ours(rung), bigbench(src, path)
-        row = {}
-        for name, make in models().items():
-            X, y, _ = table(mine)
-            Xb, yb, _ = table(theirs)
-            row[name] = {
-                "held out, on the battery": round(held_out(mine, make), 3),
-                "leave one out, on BIG-bench": round(leave_one_out(theirs, make), 3),
-                "fitted on the battery, applied to BIG-bench": round(
-                    score(make().fit(X, y), theirs), 3),
-                "fitted on BIG-bench, applied to the battery": round(
-                    score(make().fit(Xb, yb), mine), 3)}
-        out[rung] = {"n": len(mine), "n_bigbench": len(theirs), "models": row}
+        rows = {}
+        for title, feats in (("models", features),
+                             ("models, the candidates known", aware)):
+            row = {}
+            for name, make in models().items():
+                X, y, _ = table(mine, feats)
+                Xb, yb, _ = table(theirs, feats)
+                row[name] = {
+                    "held out, on the battery": round(held_out(mine, make, feats), 3),
+                    "leave one out, on BIG-bench": round(
+                        leave_one_out(theirs, make, feats), 3),
+                    "fitted on the battery, applied to BIG-bench": round(
+                        score(make().fit(X, y), theirs, feats), 3),
+                    "fitted on BIG-bench, applied to the battery": round(
+                        score(make().fit(Xb, yb), mine, feats), 3)}
+            rows[title] = row
+        out[rung] = {"n": len(mine), "n_bigbench": len(theirs), **rows}
     return out
 
 

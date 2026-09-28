@@ -365,21 +365,27 @@ def test_heuristic_floors(battery):
                       f6.LETTERS_DISTINCT}
     assert h["lcs"]["heuristic"] == f6.LETTERS_SHARED and g[f6.LETTERS_SHARED] == 237
     assert max(g[f6.LENGTH_MIN], g[f6.LENGTH_MAX], g[f6.LENGTH_SUM]) == 115
-    # the unit rungs: the best of the list is a rule that does the
-    # sentence's arithmetic and reads no unit. On BIG-bench's own 25 items
-    # a level the same two rules score .48 and .52; here a third, which
-    # is what a reader is left with who cannot tell the roles apart.
-    for r, best, count in (("unit_interp1", f6.EACH_ONCE, 158),
-                           ("unit_interp2", f6.PRODUCT, 166)):
+    # the unit rungs. A rule that reads NO unit is left with a third: on
+    # level 1 the best is the one that does the sentence's arithmetic (on
+    # BIG-bench's own 25 items it scores .48); on level 2 the product of
+    # the two stated numbers, 166 by design (BIG-bench .52). A rule that
+    # reads two unit WORDS — the blank's against the stated number's — and
+    # copies or multiplies scores a half on level 2, by design (the stated
+    # cells and the product cells: 84 + 166; BIG-bench .56).
+    for r, best, count in (("unit_interp1", f6.EACH_ONCE, 170),
+                           ("unit_interp2", f6.SAME_UNIT, 250)):
         g = h[r]["heuristics"]
         assert set(g) == {f6.LIST_POSITION, f6.SIZE_RANK, f6.ABSENT, f6.DIVISIBLE,
                           f6.SHARES, f6.NONDIVISOR, f6.PRODUCT, f6.UNPRINTED_MIN,
-                          f6.UNPRINTED_MAX, f6.EACH_ONCE, f6.RELATED}
+                          f6.UNPRINTED_MAX, f6.EACH_ONCE, f6.RELATED, f6.SAME_UNIT}
         assert (h[r]["heuristic"], h[r]["heuristic_count"]) == (best, count)
         assert g[f6.LIST_POSITION] == 100                    # designed
+    g = h["unit_interp2"]["heuristics"]
+    assert g[f6.PRODUCT] == 166 and max(
+        v for k, v in g.items() if k != f6.SAME_UNIT) == 166
     # the rank by size is not designed: it follows from what is asked
-    assert h["unit_interp1"]["heuristics"][f6.SIZE_RANK] == 129
-    assert h["unit_interp2"]["heuristics"][f6.SIZE_RANK] == 127
+    assert h["unit_interp1"]["heuristics"][f6.SIZE_RANK] == 126
+    assert h["unit_interp2"]["heuristics"][f6.SIZE_RANK] == 131
 
 
 def test_the_number_guessers_pick_what_they_say():
@@ -407,6 +413,25 @@ def test_the_number_guessers_pick_what_they_say():
     # nothing combines every number once: the smallest the text does not print
     assert f6._number_guessers([7, 50, 11], [2, 48])[f6.EACH_ONCE] == 7
     assert f6._number_guessers([7, 50, 11], [2, 48])[f6.RELATED] == 50
+
+
+def test_the_unit_word_rule_picks_what_it_says():
+    car = ("A car is driving at 20 miles per hour, and is 100 miles from destination. "
+           "If it drives twice as fast, it will be () {u} from destination.")
+    # the blank carries the stated number's unit word: that number
+    assert f6._same_unit([5, 100, 2000, 50, 10], car.format(u="miles")) == 100
+    # another word: the product of two printed numbers, where one is offered
+    assert f6._same_unit([5, 100, 2000, 50, 10], car.format(u="hours")) == 2000
+    assert f6._same_unit([5, 100, 40, 50, 10], car.format(u="hours")) == 5     # none: the first
+    # the stated number is not offered: the product
+    assert f6._same_unit([5, 7, 2000, 50, 10], car.format(u="miles")) == 2000
+    # singular and plural are one word; level 1 prints its shown number last
+    bell = "A bell rings 12 times every 3 hours. It will ring () times in 36 hours."
+    assert f6._same_unit([144, 9, 36, 432, 108], bell) == 36     # 12 x 3, the first product
+    hour = "A car is driving at 20 miles per hour, and is 1 hour from destination. " \
+           "It is () hours from destination."
+    assert f6._same_unit([1, 20, 40, 5, 10], hour) == 1
+    assert len(f6.GUESSERS_6) == 17 and len(set(f6.GUESSERS_6)) == 17
 
 
 def test_the_scaling_words_are_the_generators():

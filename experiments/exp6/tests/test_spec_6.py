@@ -82,6 +82,28 @@ def test_unique_answers_is_enforced():
     assert uniq["n_redrawn"]["repeated_answer"] > 0
 
 
+def test_a_shot_repeats_no_items_content():
+    """What an item asks, its surface aside: a shot that asks what an
+    eval item asks is redrawn; two eval items may share a content."""
+    def draw(rng, ctx, slot):
+        n = int(rng.integers(100_000))
+        return {"question": f"q{n}", "answer": f"w{n}", "bb_key": f"k{n}",
+                "content_key": f"c{n % 300}", "meta": {"content": n % 300}}
+    got = sp.generate(_spec(draw), {}, collisions=frozenset())
+    items = {it["meta"]["content"] for it in got["eval_items"]}
+    assert len(items) < sp.N_EVAL                      # items do share contents
+    assert got["n_redrawn"]["shot_content"] >= 1       # ~ 4 in 5 draws repeat one
+    assert not {r["meta"]["content"] for r in got["shot_records"]} & items
+    assert all("content_key" not in it for it in got["eval_items"])
+    free = sp.generate(_spec(_counter_draw), {}, collisions=frozenset())
+    assert free["n_redrawn"]["shot_content"] == 0      # a rung without the key
+    good = {"question": "q", "answer": "gulf", "bb_key": "k", "meta": {}}
+    sp.check_item(_spec(_counter_draw), {**good, "content_key": "x"})
+    for bad in ("", " ", 3, ["x"]):
+        with pytest.raises(ValueError, match="content_key"):
+            sp.check_item(_spec(_counter_draw), {**good, "content_key": bad})
+
+
 def test_a_rung_that_cannot_fill_a_slot_raises(monkeypatch):
     monkeypatch.setattr(sp, "MAX_ATTEMPTS_PER_SLOT", 50)
     with pytest.raises(RuntimeError, match="not filled"):

@@ -28,9 +28,17 @@ An item's options are drawn without regard to the roles: they are
     quantity times or over them, a number used twice or left out; the
     sentence's other misreadings are among these) three times in four,
     a pool number once in four.
-Only the answer's place in the list depends on which candidate it is,
-and that place is set by the slot. A reader who does not read the units
-can do no better than the share of the commonest role.
+The five options stand in an order drawn without the answer in view; the
+answer is then moved to the place the slot sets. Which candidate the
+answer is decides that place and nothing else. A reader who does not
+read the roles can do no better than a half on an unscaled item and a
+quarter on a scaled one (on level 1 a half, if the direction of the
+scaling is read).
+
+No candidate is a number its sentence prints — level 2's stated
+quantity aside, which a scaled sentence may ask for (BIG-bench's class,
+flagged) — and none is 1: an answer is not copied from its sentence,
+and no sentence reads "1 hours".
 
 What an item asks, the kind of its scaling and the answer's list
 position are set by the slot; its numbers and its fills are drawn. The
@@ -224,9 +232,11 @@ def _offer(rng, answer: int, candidates, read, combos, pool, pos: int):
     """Five distinct positive integers, the answer at 1-based list
     position `pos`: every candidate, then fills — a combination with
     probability P_COMBINATION, else a pool number; a kind with no number
-    left gives way to the other. Which candidate the answer is decides
-    its place in the list and nothing else. Returns (options, kinds), or
-    None when the fills run out."""
+    left gives way to the other. The five are put in an order drawn
+    without the answer in view, and the answer is moved to `pos`: two
+    sentences that differ in their answer list every other option in
+    the same order. Returns (options, kinds), or None when the fills
+    run out."""
     if answer not in candidates or len(candidates) >= N_OPTIONS:
         raise AssertionError("the answer is not one of the candidates")
     got = sorted(candidates)
@@ -242,8 +252,8 @@ def _offer(rng, answer: int, candidates, read, combos, pool, pos: int):
         if not use:
             return None
         got.append(use[int(rng.integers(len(use)))])
-    others = [x for x in got if x != answer]
-    others = [others[int(i)] for i in rng.permutation(len(others))]
+    order = [got[int(i)] for i in rng.permutation(len(got))]
+    others = [x for x in order if x != answer]
     opts = others[:pos - 1] + [answer] + others[pos - 1:]
 
     def kind(x):
@@ -325,6 +335,8 @@ def _draw_lv1(rng, ctx, slot, d=None):
     cands = candidates_lv1(shown, n, p, k)
     if read["dropped"] or shown in cands or len(cands) != (4 if k else 2):
         raise AssertionError("the readings of the sentence are not what the draw says")
+    if cands & {1, n, p}:
+        return None                  # a candidate the sentence prints, or a count of one
     combos = combinations(shown, (n, p, k), depth=2) | {n, p} - {1}
     pool = (set(WRONG_POOL) | {shown + n, shown + p, abs(shown - n), abs(shown - p),
                                n + p, n * p}) - {0, n, p, shown}
@@ -337,6 +349,8 @@ def _draw_lv1(rng, ctx, slot, d=None):
     return {"question": with_options(lv1_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv1_sentence(*args, surface="bigbench"),
+            # what the item asks, its subject aside
+            "content_key": "lv1|" + "|".join(str(int(x)) for x in args[1:]),
             "meta": {"subject": subj, "n": n, "p": p, "m": m, "k": k,
                      "often": often, "ask_time": ask_time, "shown": shown,
                      "options": opts, "option_kinds": kinds,
@@ -369,6 +383,8 @@ def _draw_lv2(rng, ctx, slot, d=None):
     cands = candidates_lv2(given, r, k, faster)
     if read["dropped"] or not cands <= read["all"] or len(cands) != (4 if k else 2):
         raise AssertionError("the readings of the sentence are not what the draw says")
+    if cands & {1, r}:
+        return None                  # a candidate is the rate the sentence prints, or one
     combos = combinations(given, (r, k), depth=2) | {r}
     pool = (set(WRONG_POOL) | {given + r, abs(given - r), r * r}) - {0, r, given}
     got = _offer(rng, answer, cands, read, combos, {x for x in pool if x <= CAP},
@@ -380,6 +396,7 @@ def _draw_lv2(rng, ctx, slot, d=None):
     return {"question": with_options(lv2_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv2_sentence(*args, surface="bigbench"),
+            "content_key": "lv2|" + "|".join(str(int(x)) for x in args[1:]),
             "meta": {"subject": clause.split(" at ")[0].split(" costs")[0],
                      "r": r, "a": a, "b": b, "k": k, "faster": faster,
                      "give_a": give_a, "ask_a": ask_a, "given": given,
@@ -402,15 +419,19 @@ register(RungSpec(
                 "listed: the answer of every sentence that prints the same "
                 "numbers, then other combinations of them three times in "
                 "four and pool numbers once in four; numbers and options "
-                "drawn without regard to what is asked; what is asked, the "
-                "kind of scaling and the answer's list position set by the "
-                "slot",
+                "drawn without regard to what is asked, no candidate a number "
+                "the sentence prints; what is asked, the kind of scaling and "
+                "the answer's list position set by the slot",
     draw=_draw_lv1))
 register(RungSpec(
     name="unit_interp2", task="unit_interpretation", wei_class="E.3",
     rung_type="choice", answer_type="number", seed=20260911, n_options=N_OPTIONS,
     description="level 2 (two implicit units): a rate and one of its two "
                 "quantities, either asked, optionally under a scaled "
-                "rate with the numerator quantity invariant; numbers and "
-                "options as on level 1",
+                "rate with the numerator quantity invariant; five integer "
+                "options listed: the answer of every sentence that prints the "
+                "same numbers and the same scaling, then fills as on level 1; "
+                "numbers and options drawn without regard to what is asked; "
+                "no candidate the rate the sentence prints (the stated "
+                "quantity is one where the sentence scales its rate)",
     draw=_draw_lv2))

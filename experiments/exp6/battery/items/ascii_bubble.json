@@ -5510,11 +5510,12 @@
   "duplicate": 40,
   "rejected": 0,
   "repeated_answer": 0,
-  "shot_answer": 0
+  "shot_answer": 0,
+  "shot_content": 0
  },
  "name": "ascii_bubble",
  "provenance": {
-  "bbkey_audit_sha256": "a144c8f9bf0dc57e9c9fb0f5d4dd8d8cc1b7c39d5f5e5ebb426eccc0d2b1f49f",
+  "bbkey_audit_sha256": "7842bb5bcfae16fa91d8d9840fa77aa23e307bf16c00d33cd690c8aaa15153af",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",

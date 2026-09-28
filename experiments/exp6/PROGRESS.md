@@ -280,3 +280,65 @@ and the known answers (77) are unchanged. The audit, the overlap count and the g
 on the coordinator's scratch copy of the task files (each file's sha256 checked against the
 index); the token record was measured offline from the coordinator's scratch cache (R-16). No
 network contact in this wave. 127 tests in the suite.
+
+### Fix wave 6 (Tasks 2, 4–6) — the re-review of fix wave 5 (coordinator rulings R-48 … R-53)
+
+The re-review (on 76600eb18) recomputed every answer of the two unit rungs from the question
+text alone, shots included, and found none wrong. It attacked fix wave 5's claim — an item's
+numbers and options say nothing of what it asks — with fixed rules and fitted models of its
+own, overall and per cell, and found no property that tells the answer; it worked out the bound
+for a reader who does not read the roles (a third) and found it right. Verdict: ready with
+fixes. Each finding below was recomputed by the coordinator before it was ruled.
+- A RULE THAT READS TWO UNIT WORDS SCORES A HALF ON LEVEL 2 (the review's I-1, plan delta B-22).
+  Where the blank carries the unit word of the stated number, the stated number; otherwise the
+  product of the two printed numbers. 250 of 500 at every seed, by the design's cells (the
+  stated quantity is the answer on 84 items, the product on 166); .60 on BIG-bench's own 25
+  items. It is the task's texture and not the generator's, and it was outside the heuristic
+  floor's list. It is now the list's SEVENTEENTH guesser: `unit_interp2`'s heuristic floor is
+  250 of 500, and 166 by the best rule that reads no unit word. `unit_interp1`: 170, by
+  combining every number once (BIG-bench .48); the unit-word rule scores 92 there.
+- THE TEST OF THE CLAIM DID NOT SEE THE ORDER OF THE OPTIONS (I-2, B-34). The reviewer broke the
+  generator fourteen ways in a scratch copy; two breaks — the options that are not the answer
+  listed by size, always or only under one role — passed every test but the byte pins. The five
+  options are now put in an order drawn without the answer in view and the answer is moved to
+  its place; the test draws 2,500 groups a level and asserts that any two sentences of a group
+  list every option that is neither's answer in the same order, and that in every cell the four
+  options that are not the answer stand in each of the 24 orders by size about as often as in
+  any other. Both breaks, and five more of the coordinator's, fail that test alone.
+- NO ANSWER IS COPIED FROM ITS SENTENCE OUTSIDE THE FLAGGED CLASS, AND NONE IS 1 (M-c, B-25). The
+  build of fix wave 5 had 12 and 21 answers that were a number the sentence prints and 16
+  answers of 1 ("1 hours"); BIG-bench has none. A draw is now refused when a candidate is 1 or a
+  number the sentence prints, level 2's stated quantity aside — on the item's numbers alone,
+  never on what it asks.
+- A SHOT DOES NOT ASK WHAT AN EVAL ITEM ASKS (M-d, B-35). `unit_interp2`'s item at slot 141
+  repeated the second shot's numbers and roles under another subject. The driver takes an
+  optional content key from a draw and redraws a shot whose key an eval item carries.
+- The numbers, on the committed items: answers at ranks 1 to 5 by size, 54 / 96 / 118 / 106 /
+  126 and 131 / 85 / 75 / 90 / 119; the rank guesser 126 and 131. Of 2,000 wrong options a
+  level, 1,180 and 1,424 wrong readings of the sentence, 584 and 326 other combinations of its
+  numbers, 236 and 250 pool numbers. `unit_interp2` flags 84 stated answers. Over forty other
+  seeds (the rung's seed times 100, plus 0 to 39) the best rule that reads no unit word scores
+  148 to 188 of 500 on level 1 and 166 to 172 on level 2.
+- FITTED guessers (`tools/guessers_lab_6.py`, scikit-learn 1.9.0; nothing written, nothing
+  gated), held out: on the tool's twenty surface features .288 / .284 on `unit_interp1` and
+  .316 / .314 on `unit_interp2`; told which combination of the text's numbers an option is
+  (twenty-one more features), .324 / .336 and .312 / .294. The bound is a third.
+
+Corrections to this ledger, made here and not in place:
+- The entry of fix wave 5 gives "twelve other seeds .30 to .37" without naming the seeds, and
+  the review could not reproduce the range. The seeds were the rung's seed times 100, plus 0 to
+  11. The range over forty is given above.
+- The same entry says 287 of level 1's items have a combination of their numbers that is not an
+  integer, "none of level 2's". That holds with each number used at most once. With a number
+  used twice, as the fills may use it, it is nearly every item of both levels.
+- The same entry says the fitted guessers scored "no more than the fixed rules". True, and
+  weak: the tool's twenty features could not find the candidates. See the last bullet above.
+- The same entry's fitted scores for the uncommitted first repair (.47; .69 to .75) are the
+  coordinator's scratch measurements; no committed build reproduces them.
+
+The audit record, all seventeen item files (an item file names the audit record, which names
+`spec.py` and the generator files), the token record, the overlap record and every pin were
+regenerated; the index and the known answers (77) are unchanged. The audit, the overlap count
+and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
+sha256 checked against the index); the token record was measured offline from the coordinator's
+scratch cache (R-16). No network contact in this wave. 129 tests in the suite.

@@ -3,7 +3,8 @@
 recomputation of its answer: the tests never call the generator's own
 oracle."""
 import re
-from collections import Counter
+import itertools
+from collections import Counter, defaultdict
 from fractions import Fraction
 
 import pytest
@@ -335,6 +336,9 @@ def _smooth(x: int) -> bool:
     return x == 1
 
 
+SEEDS_TWINS = 2500
+
+
 def _options_of(it):
     return [int(o) for o in it["question"].split("\nOptions: ")[1].split(", ")]
 
@@ -452,8 +456,7 @@ def test_what_the_slot_fixes(built, name):
         scaled = {k: v for k, v in cell.items() if k[0] != "plain"}
         assert len(plain) == 2 and set(plain.values()) <= {82, 83, 84}
         assert len(scaled) == 8 and set(scaled.values()) <= {41, 42}
-        assert len(joint) == 50
-        assert {k[1]: set() for k in joint} and all(
+        assert len(joint) == 50 and all(
             v in ((16, 17, 18) if k[1] == "plain" else (8, 9)) for k, v in joint.items())
     # the two shots: one scaled sentence and one unscaled, at different
     # list positions, neither asking what the other asks
@@ -464,11 +467,14 @@ def test_what_the_slot_fixes(built, name):
     roles = ("ask_time",) if name == "unit_interp1" else ("give_a", "ask_a")
     assert all(pa[k] != pb[k] for k in roles)
     assert bool(pa["k"]) and not pb["k"]
+    # and no item asks what a shot asks under another subject
+    asked = [_printed(name, it["question"].split("\nOptions: ")[0]) for it in items]
+    assert pa not in asked and pb not in asked
 
 
 @pytest.mark.parametrize("name,kinds,share", [
-    ("unit_interp1", {"misreading": 1182, "combination": 606, "pool": 212}, (622, 834)),
-    ("unit_interp2", {"misreading": 1401, "combination": 351, "pool": 248}, (586, 834))])
+    ("unit_interp1", {"misreading": 1180, "combination": 584, "pool": 236}, (598, 834)),
+    ("unit_interp2", {"misreading": 1424, "combination": 326, "pool": 250}, (584, 834))])
 def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name, kinds, share):
     """The README's steps 3 and 5: numbers without a large prime factor;
     the shown quantity a multiple of each number of the item; the wrong
@@ -496,8 +502,11 @@ def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name, kinds,
         # whatever it asks: the numbers do not depend on the answer
         assert len(cands) == (4 if s["k"] else 2) and answer in cands
         assert cands <= every and sorted(cands) == m["candidates"]
-        if name == "unit_interp1":
-            assert s["shown"] not in cands
+        # no candidate is a number the sentence prints, level 2's stated
+        # quantity aside (a scaled sentence may ask for it), and none is 1
+        assert not cands & ({1} | ({s["n"], s["p"], s["shown"]} if name == "unit_interp1"
+                                   else {s["r"]}))
+        assert (s["shown"] in cands) == (name == "unit_interp2" and bool(s["k"]))
         combos = gen_units.combinations(s["shown"], numbers, depth=2) | printed
         assert every <= combos and max(combos) <= gen_units.CAP
         # every candidate is offered
@@ -526,7 +535,8 @@ def test_the_numbers_and_the_options_do_not_say_what_is_asked(name):
     lv1 = name == "unit_interp1"
     draw = gen_units._draw_lv1 if lv1 else gen_units._draw_lv2
     n_drawn = n_refused = 0
-    for seed in range(600):
+    orders = defaultdict(Counter)
+    for seed in range(SEEDS_TWINS):
         for kind in (("plain", "scaled") if lv1 else gen_units.SCALINGS):
             if lv1:
                 cells = [{"scaling": sc, "ask_time": t}
@@ -550,12 +560,31 @@ def test_the_numbers_and_the_options_do_not_say_what_is_asked(name):
             answers = sorted(int(o["answer"]) for o in out)
             assert answers == out[0]["meta"]["candidates"]
             assert len(set(answers)) == len(cells) == (2 if kind == "plain" else 4)
-            for o in out:                                # the place, and nothing else
-                assert o["meta"]["options"].index(int(o["answer"])) == seed % 5
-    assert n_drawn > 600 and n_refused > 100
+            for c, o in zip(cells, out):                 # the place, and nothing else
+                mine = o["meta"]["options"]
+                assert mine.index(int(o["answer"])) == seed % 5
+                rest = [x for x in mine if x != int(o["answer"])]
+                orders[(kind,) + tuple(sorted(c.items()))][
+                    tuple(sorted(range(4), key=lambda i: rest[i]))] += 1
+            # every other option in one order: what two sentences list,
+            # their two answers taken out, is the same list
+            for a, b in itertools.combinations(out, 2):
+                gone = {int(a["answer"]), int(b["answer"])}
+                assert [x for x in a["meta"]["options"] if x not in gone] == \
+                    [x for x in b["meta"]["options"] if x not in gone]
+    assert n_drawn > 1500 and n_refused > 300
+    # and that order says nothing: by size, the four options that are not
+    # the answer stand in each of the 24 orders about as often as in any
+    # other, in every cell (sorted options would give the answer away as
+    # the one out of order)
+    assert len(orders) == (6 if lv1 else 10)
+    for cell, tally in orders.items():
+        n = sum(tally.values())
+        assert n > 400 and len(tally) == 24, cell
+        assert max(tally.values()) / n < 0.08 and min(tally.values()) / n > 0.015, cell
 
 
-@pytest.mark.parametrize("name,only", [("unit_interp1", 0), ("unit_interp2", 2)])
+@pytest.mark.parametrize("name,only", [("unit_interp1", 0), ("unit_interp2", 0)])
 def test_the_answer_is_not_the_one_option_a_stated_number_divides(built, name, only):
     n = 0
     for it in _items(built, name):
