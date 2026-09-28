@@ -5514,14 +5514,34 @@
  },
  "name": "unscramble_long",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "string",
  "seed": 20260902,
+ "shot_records": [
+  {
+   "bb_sha256": "7ce75a32cba6369b3a2b9ef3f404dab11a9c14f048f6f7fdac5bbcf7a913d700",
+   "meta": {
+    "length": 8,
+    "rank": 2921,
+    "scrambled": "roirtnie",
+    "word": "interior"
+   }
+  },
+  {
+   "bb_sha256": "6c916de04ca65ea1fe1ddea073ab2376d3abb48c402b5498961bb45ecb311d76",
+   "meta": {
+    "length": 6,
+    "rank": 5066,
+    "scrambled": "argahm",
+    "word": "graham"
+   }
+  }
+ ],
  "shots": [
   [
    "The word roirtnie is a scrambled version of the English word",

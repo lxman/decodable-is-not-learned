@@ -8,7 +8,7 @@ from functools import lru_cache
 from pathlib import Path
 
 INDEX_PATH = Path(__file__).resolve().parent / "data" / "bigbench_index_6.json"
-INDEX_6_SHA256 = "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c"
+INDEX_6_SHA256 = "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef"
 BIGBENCH_COMMIT = "092b196c1f8f14a54bbc62f24759d43bde46dd3b"
 
 
@@ -24,6 +24,9 @@ def load_index() -> dict:
     for task, t in rec["tasks"].items():
         if t["n_keys"] != len(t["keys"]) or len(set(t["keys"])) != len(t["keys"]):
             raise ValueError(f"index entry {task} is inconsistent")
+        x = t.get("extra", [])
+        if t.get("n_extra", 0) != len(x) or len(set(x)) != len(x):
+            raise ValueError(f"index entry {task}: its extra table is inconsistent")
     return rec
 
 
@@ -35,3 +38,13 @@ def for_spec(spec) -> frozenset:
         raise ValueError(f"{spec.name}: collision kind {spec.collision_kind!r} "
                          f"against the index's {t['kind']!r}")
     return frozenset(t["keys"])
+
+
+def extra_for_spec(spec) -> frozenset:
+    """The task's extra table (the hashes of the parts of each BIG-bench
+    input that are questions in their own right); empty for a task that
+    has none."""
+    t = load_index()["tasks"].get(spec.task)
+    if t is None:
+        raise ValueError(f"{spec.name}: task {spec.task!r} has no index entry")
+    return frozenset(t.get("extra", []))

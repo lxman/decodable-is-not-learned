@@ -27529,14 +27529,127 @@
  },
  "name": "deduction5",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "choice",
  "seed": 20260916,
+ "shot_records": [
+  {
+   "bb_sha256": "e84e929bc6b4e38dd163d87a02a6faaaa0d9fe7d3284b6f0dc91175fe929a5d7",
+   "meta": {
+    "answer_pos": 1,
+    "asked": 1,
+    "clues": [
+     [
+      "at",
+      "yellow",
+      4
+     ],
+     [
+      "at",
+      "brown",
+      2
+     ],
+     [
+      "before",
+      "blue",
+      "yellow"
+     ],
+     [
+      "after",
+      "yellow",
+      "red"
+     ],
+     [
+      "before",
+      "brown",
+      "red"
+     ]
+    ],
+    "context": "books",
+    "listed": [
+     "blue",
+     "red",
+     "green",
+     "brown",
+     "yellow"
+    ],
+    "n_clues": 5,
+    "options": [
+     "blue",
+     "yellow",
+     "red",
+     "brown",
+     "green"
+    ],
+    "order": [
+     "blue",
+     "brown",
+     "red",
+     "yellow",
+     "green"
+    ],
+    "stated": false
+   }
+  },
+  {
+   "bb_sha256": "14ef39390e2a8da8079351dd0c1b5ed4f07a685418d9cf61599b3072c3ba04f6",
+   "meta": {
+    "answer_pos": 3,
+    "asked": 2,
+    "clues": [
+     [
+      "after",
+      "Rob",
+      "Mya"
+     ],
+     [
+      "at",
+      "Eve",
+      3
+     ],
+     [
+      "before",
+      "Eve",
+      "Mya"
+     ],
+     [
+      "after",
+      "Ada",
+      "Eli"
+     ]
+    ],
+    "context": "golfers",
+    "listed": [
+     "Eli",
+     "Mya",
+     "Ada",
+     "Eve",
+     "Rob"
+    ],
+    "n_clues": 4,
+    "options": [
+     "Eli",
+     "Mya",
+     "Ada",
+     "Eve",
+     "Rob"
+    ],
+    "order": [
+     "Eli",
+     "Ada",
+     "Eve",
+     "Mya",
+     "Rob"
+    ],
+    "stated": false
+   }
+  }
+ ],
  "shots": [
   [
    "On a shelf, there are five books: a blue book, a red book, a green book, a brown book, and a yellow book. The yellow book is the second from the right. The brown book is the second from the left. The blue book is to the left of the yellow book. The yellow book is to the right of the red book. The brown book is to the left of the red book. Which book is the leftmost?\nOptions: blue, yellow, red, brown, green",

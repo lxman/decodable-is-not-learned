@@ -5,10 +5,11 @@ detected (2d's detector reads "options after the last colon", which the
 sort rungs' own question text would trip). The bar is 2d's
 `binomial_bar` verbatim.
 
-Beside the rule's floor, a HEURISTIC floor per rung (plan delta B-20):
+Beside the rule's floor, a HEURISTIC floor per rung (plan delta B-22):
 the best of a fixed list of guessers that read an item's surface and
-solve nothing. It decides nothing. It is printed beside every count so
-that a clear only a guesser could produce is visible as one."""
+solve nothing. It decides nothing in the primary. It is printed beside
+every count, and a named sensitivity reads the tests over the rungs a
+family cleared beyond it."""
 from __future__ import annotations
 
 from collections import Counter
@@ -23,7 +24,7 @@ from experiments.exp6.battery.spec import OPTIONS_PREFIX
 FLOOR_PIN_6 = {
     "modarith_add1": [3, None],
     "modarith_sub1": [4, None],
-    "modarith_mul1": [8, None],
+    "modarith_mul1": [10, None],
     "unscramble_short": [1, None],
     "unscramble_long": [1, None],
     "ipa_word": [2, None],
@@ -36,7 +37,7 @@ FLOOR_PIN_6 = {
     "shapes": [50, 10],
     "temporal": [15, 4],
     "lcs": [50, None],
-    "unit_interp1": [15, 5],
+    "unit_interp1": [14, 5],
     "unit_interp2": [14, 5],
 }
 
@@ -119,44 +120,90 @@ HEURISTIC_PIN_6 = {
     "deduction5": ["the option at one list position", 100],
     "ascii_bubble": [None, None],
     "ascii_basic": [None, None],
-    "shapes": ["the option at one list position", 56],
+    "shapes": ["the option at one list position", 46],
     "temporal": ["the only option absent from the text", 500],
-    "lcs": ["the commonest answer at the shorter string's length", 210],
-    "unit_interp1": ["the option at one list position", 100],
-    "unit_interp2": ["the option of one rank by size", 120],
+    "lcs": ["the commonest answer at the shorter string's length", 115],
+    "unit_interp1": ["of the options the text does not print, the one sharing most with its numbers", 124],
+    "unit_interp2": ["of the options the text does not print, the one sharing most with its numbers", 156],
 }
 LIST_POSITION = "the option at one list position"
 SIZE_RANK = "the option of one rank by size"
 ABSENT = "the only option absent from the text"
-LENGTH_RULE = "the commonest answer at the shorter string's length"
+DIVISIBLE = "the first option a number of the text divides"
+SHARES = "of the options the text does not print, the one sharing most with its numbers"
+LENGTH_MIN = "the commonest answer at the shorter string's length"
+LENGTH_MAX = "the commonest answer at the longer string's length"
+LENGTH_SUM = "the commonest answer at the two strings' total length"
+GUESSERS_6 = (LIST_POSITION, SIZE_RANK, ABSENT, DIVISIBLE, SHARES, LENGTH_MIN,
+              LENGTH_MAX, LENGTH_SUM)
+HALF_BLOCK = 10          # cross-fit halves: slots 0-9, 20-29, ... against the rest
+
+
+def _cross_fit(keys, answers) -> int:
+    """A guesser that LEARNS a table (key -> commonest answer) is fitted
+    on one half of the rung and scored on the other, both ways: what it
+    scores on items it has not seen. The halves alternate in blocks of
+    ten slots, so every designed cycle is in both."""
+    hits = 0
+    for half in (0, 1):
+        fit, seen = {}, Counter()
+        for i, (k, a) in enumerate(zip(keys, answers)):
+            if (i // HALF_BLOCK) % 2 != half:
+                fit.setdefault(k, Counter())[a] += 1
+                seen[a] += 1
+        fallback = sorted(seen.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+        for i, (k, a) in enumerate(zip(keys, answers)):
+            if (i // HALF_BLOCK) % 2 == half:
+                c = fit.get(k)
+                guess = (sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+                         if c else fallback)
+                hits += guess == a
+    return int(hits)
+
+
+def _numbers(text: str) -> list:
+    import re
+    return [int(x) for x in re.findall(r"\d+", text)]
 
 
 def heuristic_floor_6(cap: dict) -> dict:
-    """Guessers, each scored on the 500 items IN-SAMPLE (so each is an
-    upper bound on what that guesser could score on unseen items)."""
+    """What a guesser that reads an item's SURFACE and solves nothing
+    can score on the rung: the best of a fixed list. A guesser that
+    learns a table is cross-fitted; one that applies a fixed rule is
+    scored as it stands."""
+    import math
     rung, at, items = cap["name"], cap["answer_type"], cap["eval_items"]
     n = len(items)
     found = {}
     if b6.N_OPTIONS_OF.get(rung):
         opts = [options_of(it, at) for it in items]
         want = [v6.normalize_answer_side(str(it["answer"]), at) for it in items]
-        found[LIST_POSITION] = max(Counter(
-            o.index(w) for o, w in zip(opts, want)).values())
+        body = [it["question"].rsplit(OPTIONS_PREFIX, 1)[0] for it in items]
+        found[LIST_POSITION] = _cross_fit([0] * n, [o.index(w)
+                                                    for o, w in zip(opts, want)])
+        found[ABSENT] = sum([x for x in o if x not in b.lower()] == [w]
+                            for o, w, b in zip(opts, want, body))
         if at == "number":
-            found[SIZE_RANK] = max(Counter(
-                sorted(int(x) for x in o).index(int(w))
-                for o, w in zip(opts, want)).values())
-        hits = 0
-        for it, o, w in zip(items, opts, want):
-            body = it["question"].rsplit(OPTIONS_PREFIX, 1)[0].lower()
-            hits += [x for x in o if x not in body] == [w]
-        found[ABSENT] = hits
+            ints = [[int(x) for x in o] for o in opts]
+            found[SIZE_RANK] = _cross_fit(
+                [0] * n, [sorted(o).index(int(w)) for o, w in zip(ints, want)])
+            div = shr = 0
+            for o, w, b in zip(ints, want, body):
+                text = _numbers(b)
+                ok = [x for x in o if any(x % t == 0 for t in text if t > 1)]
+                div += (ok[0] if ok else o[0]) == int(w)
+                cand = [x for x in o if x not in text] or o
+                best = max(cand, key=lambda x: (sum(math.gcd(x, t) for t in text),
+                                                -o.index(x)))
+                shr += best == int(w)
+            found[DIVISIBLE], found[SHARES] = div, shr
     if rung == "lcs":
-        by = {}
-        for it in items:
-            k = min(len(it["meta"]["a"]), len(it["meta"]["b"]))
-            by.setdefault(k, Counter())[it["answer"]] += 1
-        found[LENGTH_RULE] = sum(c.most_common(1)[0][1] for c in by.values())
+        la = [len(it["meta"]["a"]) for it in items]
+        lb = [len(it["meta"]["b"]) for it in items]
+        ans = [it["answer"] for it in items]
+        found[LENGTH_MIN] = _cross_fit([min(x, y) for x, y in zip(la, lb)], ans)
+        found[LENGTH_MAX] = _cross_fit([max(x, y) for x, y in zip(la, lb)], ans)
+        found[LENGTH_SUM] = _cross_fit([x + y for x, y in zip(la, lb)], ans)
     if not found:
         return {"heuristics": {}, "heuristic": None, "heuristic_count": None,
                 "heuristic_floor": None, "n_items": n}

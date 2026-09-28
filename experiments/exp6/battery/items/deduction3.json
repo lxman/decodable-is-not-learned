@@ -19514,14 +19514,90 @@
  },
  "name": "deduction3",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "choice",
  "seed": 20260915,
+ "shot_records": [
+  {
+   "bb_sha256": "131f8dbc659453c581135f68557e775ab688bdcc3dc5b6ab9c3e9d23b74acb91",
+   "meta": {
+    "answer_pos": 2,
+    "asked": 3,
+    "clues": [
+     [
+      "at",
+      "purple",
+      1
+     ],
+     [
+      "after",
+      "white",
+      "yellow"
+     ]
+    ],
+    "context": "books",
+    "listed": [
+     "white",
+     "purple",
+     "yellow"
+    ],
+    "n_clues": 2,
+    "options": [
+     "yellow",
+     "white",
+     "purple"
+    ],
+    "order": [
+     "purple",
+     "yellow",
+     "white"
+    ],
+    "stated": false
+   }
+  },
+  {
+   "bb_sha256": "ec50df39516ce983a84a625fb6fc9823fc282eec75db310c8991e3f9f808572c",
+   "meta": {
+    "answer_pos": 3,
+    "asked": 2,
+    "clues": [
+     [
+      "at",
+      "Joe",
+      2
+     ],
+     [
+      "after",
+      "Mel",
+      "Rob"
+     ]
+    ],
+    "context": "golfers",
+    "listed": [
+     "Joe",
+     "Rob",
+     "Mel"
+    ],
+    "n_clues": 2,
+    "options": [
+     "Mel",
+     "Rob",
+     "Joe"
+    ],
+    "order": [
+     "Rob",
+     "Joe",
+     "Mel"
+    ],
+    "stated": true
+   }
+  }
+ ],
  "shots": [
   [
    "On a shelf, there are three books: a white book, a purple book, and a yellow book. The purple book is the leftmost. The white book is to the right of the yellow book. Which book is the rightmost?\nOptions: yellow, white, purple",

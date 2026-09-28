@@ -5514,14 +5514,34 @@
  },
  "name": "ascii_bubble",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "string",
  "seed": 20260912,
+ "shot_records": [
+  {
+   "bb_sha256": "1ffc0406b9891fcd265a225e83a668fa045f1282588f80c8d11c029bad156d85",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 531,
+    "word": "tax"
+   }
+  },
+  {
+   "bb_sha256": "b89a199ea81b6a925de700d15ccecdd9a0d7b9df2643a65f1b6f59af57a2c99d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7512,
+    "word": "cave"
+   }
+  }
+ ],
  "shots": [
   [
    "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.a.|.x.)\n.\\_/.\\_/.\\_/.",

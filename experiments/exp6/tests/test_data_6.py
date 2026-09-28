@@ -10,6 +10,10 @@ from experiments.exp6.battery import make_data_6 as md
 from experiments.exp6.battery import words_6 as w6
 from experiments.exp6.battery.spec import RungSpec
 
+# the distinct pairs BIG-bench's modified_arithmetic prints: 5,983 under
+# each of + and -, 4,500 under *
+N_PAIRS = 5983 + 5983 + 4500
+
 
 def test_word_table_is_pinned_and_well_formed():
     rows = w6.load_words()
@@ -64,6 +68,13 @@ def test_index_is_pinned_and_covers_every_task():
             "cs_algorithms": 320, "unit_interpretation": 50}
     assert {t: v["n_keys"] for t, v in idx["tasks"].items()} == want
     assert all(v["kind"] == mk.SOURCES[t][0] for t, v in idx["tasks"].items())
+    # the extra table: every pair modified_arithmetic prints, and no other
+    assert [t for t, v in idx["tasks"].items() if "extra" in v] == \
+        ["modified_arithmetic"] == list(mk.EXTRA)
+    m = idx["tasks"]["modified_arithmetic"]
+    assert m["extra_kind"] == "pair, as a query line"
+    assert m["n_extra"] == len(m["extra"]) == N_PAIRS
+    assert not set(m["extra"]) & set(m["keys"])
 
 
 def test_index_builder_hashes_inputs_or_targets(tmp_path):
@@ -78,6 +89,18 @@ def test_index_builder_hashes_inputs_or_targets(tmp_path):
     assert set(rec["tasks"]["ascii_word_recognition"]["keys"]) == \
         {mk._sha("t1"), mk._sha("t2")}
     assert rec["tasks"]["logical_deduction"]["n_keys"] == 2
+    assert "extra" not in rec["tasks"]["word_sorting"]
+    # the extra parts of a modified_arithmetic input: the pair of EVERY line
+    # under the header, worked or asked, written as a query
+    p = tmp_path / mk.local_name("modified_arithmetic/three_digit_addition_plus_one")
+    p.write_text(json.dumps({"examples": [{"input": "h\n1 + 2 -> 4\n3 + 4 ->"},
+                                          {"input": "h\n5 + 6 -> 12\n3 + 4 ->"}]}))
+    mk.build(tmp_path, out)
+    rec = json.loads(out.read_text())["tasks"]["modified_arithmetic"]
+    assert rec["n_keys"] == 4
+    assert rec["extra"] == sorted(mk._sha(q) for q in
+                                  ("1 + 2 ->", "3 + 4 ->", "5 + 6 ->"))
+    assert rec["n_extra"] == 3 and rec["extra_kind"] == "pair, as a query line"
 
 
 def test_for_spec_checks_the_kind():
@@ -95,3 +118,10 @@ def test_for_spec_checks_the_kind():
                     seed=1, draw=lambda *a: None)
     with pytest.raises(ValueError, match="no index entry"):
         c6.for_spec(none)
+    with pytest.raises(ValueError, match="no index entry"):
+        c6.extra_for_spec(none)
+    assert c6.extra_for_spec(ok) == frozenset()
+    arith = RungSpec(name="x", task="modified_arithmetic", wei_class="E.2",
+                     rung_type="arithmetic", answer_type="number", description="d",
+                     seed=1, draw=lambda *a: None)
+    assert len(c6.extra_for_spec(arith)) == N_PAIRS

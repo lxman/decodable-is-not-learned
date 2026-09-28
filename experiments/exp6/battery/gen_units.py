@@ -103,17 +103,32 @@ def lv2_sentence(row: int, r: int, given: int, give_a: bool, k: int, faster: boo
     return f"{clause.format(r=r)}, and {stated}. {tail}"
 
 
-def _options(rng, answer: int, wrong, pos: int, rank: int):
+def _fill(rng, lo: int, hi: int, stated, taken):
+    """One wrong option in [lo, hi) that is not taken. It is drawn from
+    the MULTIPLES of the sentence's own numbers when that range holds
+    one, and from the whole range only when it holds none: the answer
+    and the unit confusions are products of the sentence's numbers, and
+    a fill that shares no factor with them marks itself as the fill."""
+    like = sorted({t * j for t in stated if t > 1
+                   for j in range(max(1, -(-lo // t)), (hi - 1) // t + 1)}
+                  - set(taken))
+    if like:
+        return like[int(rng.integers(len(like)))]
+    free = [w for w in range(lo, hi) if w not in taken]
+    return free[int(rng.integers(len(free)))] if free else None
+
+
+def _options(rng, answer: int, wrong, pos: int, rank: int, stated):
     """Five distinct positive integers with the answer at 1-based list
     position `pos` AND at 1-based rank `rank` by magnitude: `rank` - 1
     of the others below it, the rest above. `wrong` lists the
-    unit-confusion candidates, taken first on each side; random fill
-    after; the wrong ones are shuffled. None when the answer is too
-    small to have `rank` - 1 positive integers below it.
+    unit-confusion candidates, taken first on each side; `_fill` after;
+    the wrong ones are shuffled. None when a side cannot be filled.
 
     The rank is designed because the confusions are not symmetric: left
     free, they bracket the answer, and a guesser that picks the middle
-    option by size scored .45 against a floor of .20."""
+    option by size scored .45 against a floor of .20. `stated` is the
+    numbers the sentence prints."""
     need_lo, need_hi = rank - 1, N_OPTIONS - rank
     if answer - 1 < need_lo:
         return None
@@ -126,13 +141,15 @@ def _options(rng, answer: int, wrong, pos: int, rank: int):
         elif w > answer and len(hi) < need_hi:
             hi.append(w)
     while len(lo) < need_lo:
-        w = int(rng.integers(1, answer))
-        if w not in lo:
-            lo.append(w)
+        w = _fill(rng, 1, answer, stated, lo)
+        if w is None:
+            return None
+        lo.append(w)
     while len(hi) < need_hi:
-        w = int(rng.integers(answer + 1, 4 * answer + 11))
-        if w not in hi:
-            hi.append(w)
+        w = _fill(rng, answer + 1, 4 * answer + 11, stated, hi)
+        if w is None:
+            return None
+        hi.append(w)
     picks = lo + hi
     picks = [picks[int(i)] for i in rng.permutation(len(picks))]
     return picks[:pos - 1] + [answer] + picks[pos - 1:]
@@ -176,7 +193,7 @@ def _draw_lv1(rng, ctx, slot):
         wrong = [T, m, T * n, n * m, T // p if T % p == 0 else 0, N * p]
     args = (row, n, p, k, often, ask_time, shown)
     pos, rank = _pos(slot, len(LV1)), _rank(slot, len(LV1))
-    opts = _options(rng, answer, wrong, pos, rank)
+    opts = _options(rng, answer, wrong, pos, rank, (n, p, shown))
     if opts is None:
         return None
     return {"question": with_options(lv1_sentence(*args), opts),
@@ -206,7 +223,7 @@ def _draw_lv2(rng, ctx, slot):
         wrong = [b, a, b_new, a * k, a // k if a % k == 0 else 0, r, b * k]
     args = (row, r, a if give_a else b, give_a, k, faster, ask_a)
     pos, rank = _pos(slot, len(LV2)), _rank(slot, len(LV2))
-    opts = _options(rng, answer, wrong, pos, rank)
+    opts = _options(rng, answer, wrong, pos, rank, (r, a if give_a else b))
     if opts is None:
         return None
     return {"question": with_options(lv2_sentence(*args), opts),

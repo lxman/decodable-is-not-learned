@@ -67,23 +67,23 @@ N_OPTIONS_OF = {"deduction3": 3, "deduction5": 5, "shapes": 10, "temporal": 4,
                 "unit_interp1": 5, "unit_interp2": 5}
 
 ITEMS_SHA_PIN_6 = {
-    "modarith_add1": "47a88e381a1318e828f1da08de2be70f9efb72e5e6d1c8976b76b4b0898cff9c",
-    "modarith_sub1": "e2d5bdbf3060a9720e23dcb439cad2310ea341442322e8bf17b4ee33494c3d77",
-    "modarith_mul1": "bf68b1a42a26959913613083c803c149c074b4489b585add5bb0f606922200c5",
-    "unscramble_short": "6a3ed835ffb48a9da0cf9d050a5ffe1254939fc9666a08303e9613f9d2c11474",
-    "unscramble_long": "ccb1ae923d2f8779c0b59acb7dfa4296eb8b7c8003ab9e897c8101314decb993",
-    "ipa_word": "e407ecb8cdc134020c5046f0dde992fa72f8e93698521f0357f47dba95565163",
-    "sort3": "ad9c04a7d5542f7040fc2c824f17a066413ef41b744c6ca14d1f3411d3d863e0",
-    "sort5": "7b43811d7aec06199bc64a592323df3ade6cd56e6ac479cb4f5265122ff767d8",
-    "deduction3": "7b9a7a018c233de482a75212b9a22fd1288308c9d013366f8093c466e680a663",
-    "deduction5": "06154a64260665fad60b9033114d6ea72e84472fccb33e048cdbd38c8c9b2270",
-    "ascii_bubble": "533bea77a563083e71015e0710d54a228ff14f4742a4e998ae311aa25351fa9e",
-    "ascii_basic": "317502cf754f8dbb5b88783567a31bff319151cb67e5429101db8cd419f2ed16",
-    "shapes": "6676ad74cda27c751f91ad1865f8933bda5dae0c964b3f23326a31dafbf9042b",
-    "temporal": "509111620720f6ea56e5af28291e5c6c1eac03eec7a8c9eb256d680ab17295b3",
-    "lcs": "66b702e5c942083b2af3d311d4cf4be995545fde61812e808f2972d8b7e7635b",
-    "unit_interp1": "87d4b6c4a6d50c4f0f2581bec37ec180688f566c469345d2aa9e9e70ba2bd8c3",
-    "unit_interp2": "397009ced7c91677badc691d15c4274d9623c40a41e77020dfeada7597823c78",
+    "modarith_add1": "640b3bf47183492d1731b624c2163bbfb558a2f81d952e323849de50e2cc653d",
+    "modarith_sub1": "ddb0f68811b9256fa79e7091bb416a9595e5ee1e92dc72c88d734a638eb2efdd",
+    "modarith_mul1": "15f7ad8a269407cbf3d27e82eae8c90819ad11073e75f0a4cb92bd8438cb20d4",
+    "unscramble_short": "657eeaa3f622296f4b85b3df1c615121c28d9705ff89e5734881368f07c84c47",
+    "unscramble_long": "8b6883a4a0acb08b2a713fcf78afbac6fb70f04af9c3e3d78de217c5152f112a",
+    "ipa_word": "4a688a20399005d9e59e2b6fae77111fdd967c47fd38709c97e9c561637149d6",
+    "sort3": "bbda582a895ed120462de12f590cef7c346bfabcdaaaa708d5331841358fa9e0",
+    "sort5": "dfed87d3527b7fd452a386ff73b60f8b08f2dbc46f7794fbfa5d89cbf9cf643d",
+    "deduction3": "6c8700408438db2d0504662e933b3cc403bc4a046c53a1f6caeace1caf35cb61",
+    "deduction5": "436d8db33b2149ee8185687a8dabcb20e9976631f34016f58b186b97ede7b977",
+    "ascii_bubble": "6f339ca66a687dead2c0fbb1b3ac8e1582f06f21e103b9f8193803b887503c96",
+    "ascii_basic": "a3b8d7d0d1d98c186ed4696e7a643cf12a432995e6383e8ba66878b3b06bf107",
+    "shapes": "7b033b4f7245173df763733ccfba5e7e8c08a51f2c15c222ae0a0236be20c57c",
+    "temporal": "145546eff53c34cc116558c25545ecae5253069b624a7d60c915744507c560e6",
+    "lcs": "7fb694003134af14118a0364b00b86f3eeae03cf8df83ed5c6530bf72332d152",
+    "unit_interp1": "c6b8f6b60a02379e3e622b175eef01e71e0841a7d0e2c3a3d93444e238ab5af3",
+    "unit_interp2": "33642854e4d70025b3cd5c9a1c1c20154b7b4b233d24581b9565ace667116e36",
 }
 
 
@@ -145,6 +145,8 @@ def load_item_file_6(rung: str) -> dict:
     if len(cap["eval_items"]) != N_ITEMS or len(cap["shots"]) != N_SHOTS:
         raise ValueError(f"{p}: {len(cap['eval_items'])} items, "
                          f"{len(cap['shots'])} shots")
+    if len(cap.get("shot_records", ())) != N_SHOTS:
+        raise ValueError(f"{p}: {len(cap.get('shot_records', ()))} shot records")
     cap["items_sha256"] = got
     cap["battery"] = "6"
     return cap

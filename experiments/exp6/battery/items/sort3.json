@@ -7014,14 +7014,40 @@
  },
  "name": "sort3",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "string",
  "seed": 20260903,
+ "shot_records": [
+  {
+   "bb_sha256": "cde2475ac6c357a92ede60107e2c74591d5db48e895b398130db1325f695aacf",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "atom",
+     "burton",
+     "attributes"
+    ]
+   }
+  },
+  {
+   "bb_sha256": "895199cb1952c6919ab571fb764ba15ba645c47066bd08bb01364df8b124553a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "chicken",
+     "shepherd",
+     "hearings"
+    ]
+   }
+  }
+ ],
  "shots": [
   [
    "Sort the following words alphabetically: atom burton attributes",

@@ -5514,14 +5514,34 @@
  },
  "name": "ascii_basic",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "string",
  "seed": 20260913,
+ "shot_records": [
+  {
+   "bb_sha256": "e6d3efc6abfd85ceacedc20ecbb866e564fe16742930c48f8618bff70c5028e6",
+   "meta": {
+    "font": "basic",
+    "length": 3,
+    "rank": 1111,
+    "word": "mon"
+   }
+  },
+  {
+   "bb_sha256": "ec4e598bd0f312a7c49bf83984b70176f311af142a47ca354f35424fb79f2bfd",
+   "meta": {
+    "font": "basic",
+    "length": 4,
+    "rank": 9931,
+    "word": "yarn"
+   }
+  }
+ ],
  "shots": [
   [
    "What word is displayed in the ASCII art below?\n.88b..d88....d88b...d8b...db.\n88'YbdP`88..8P..Y8..888o..88.\n88..88..88.88....88.88V8o.88.\n88..88..88.88....88.88.V8o88.\n88..88..88.`8b..d8'.88..V888.\nYP..YP..YP..`Y88P'..VP...V8P.",

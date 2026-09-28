@@ -4,7 +4,7 @@ pure function of the committed item, fixed before any model contact.
 The table has 2g's shape, so 2g's statistics read it unchanged. The
 anchors' strata are 2g's own (`strata_2g.strata_for`).
 
-Beside the stratum, a STRUCTURE level per item (plan delta B-19): the
+Beside the stratum, a STRUCTURE level per item (plan delta B-21): the
 property of the item's surface that would make it easy for any model
 and that the stratum does not condition on — a letter left in place, a
 list one swap from sorted, a position a clue states outright. It is
@@ -37,9 +37,9 @@ ORDINAL = ("carries", "product_digits", "answer", "prefix_class")
 
 # stratum -> item count per rung, pinned from the committed item files
 STRATA_COUNT_PIN_6 = {
-    "modarith_add1": {"0": 80, "1": 189, "2": 159, "3": 72},
-    "modarith_sub1": {"neg0": 65, "neg1": 104, "neg2": 62, "pos0": 92, "pos1": 130, "pos2": 47},
-    "modarith_mul1": {"1": 10, "2": 21, "3": 136, "4": 333},
+    "modarith_add1": {"0": 80, "1": 188, "2": 159, "3": 73},
+    "modarith_sub1": {"neg0": 65, "neg1": 104, "neg2": 61, "pos0": 93, "pos1": 130, "pos2": 47},
+    "modarith_mul1": {"1": 10, "2": 19, "3": 129, "4": 342},
     "unscramble_short": {"4|0": 84, "4|1": 83, "4|2": 83, "5|0": 84, "5|1": 83, "5|2": 83},
     "unscramble_long": {"6|0": 56, "6|1": 56, "6|2": 55, "7|0": 56, "7|1": 56, "7|2": 55, "8|0": 56, "8|1": 55, "8|2": 55},
     "ipa_word": {"0|0": 56, "0|1": 56, "0|2": 55, "1|0": 56, "1|1": 56, "1|2": 55, "2|0": 56, "2|1": 55, "2|2": 55},
@@ -62,7 +62,7 @@ STRUCTURE_OF_6 = {
     "modarith_add1": "plus_one_ripples", "modarith_sub1": "plus_one_ripples",
     "modarith_mul1": "plus_one_ripples",
     "unscramble_short": "letters_in_place", "unscramble_long": "letters_in_place",
-    "ipa_word": None,
+    "ipa_word": "stress_marked",
     "sort3": "inversions", "sort5": "inversions",
     "deduction3": "stated_x_extreme", "deduction5": "stated_x_extreme",
     "ascii_bubble": None, "ascii_basic": None,
@@ -73,12 +73,12 @@ STRUCTURE_OF_6 = {
 SORT5_BINS = ((0, 3), (4, 6), (7, 10))      # inversions of five words: 0..10
 # level -> item count per rung, pinned from the committed item files
 STRUCTURE_COUNT_PIN_6 = {
-    "modarith_add1": {"0": 439, "1": 61},
+    "modarith_add1": {"0": 441, "1": 59},
     "modarith_sub1": {"0": 445, "1": 55},
-    "modarith_mul1": {"0": 478, "1": 22},
+    "modarith_mul1": {"0": 481, "1": 19},
     "unscramble_short": {"0": 145, "1": 198, "2": 157},
     "unscramble_long": {"0": 122, "1": 167, "2": 211},
-    "ipa_word": {},
+    "ipa_word": {"marked": 312, "plain": 188},
     "sort3": {"1": 200, "2": 207, "3": 93},
     "sort5": {"0-3": 114, "4-6": 257, "7-10": 129},
     "deduction3": {"derived|end": 287, "derived|inner": 107, "stated|end": 63, "stated|inner": 43},
@@ -87,9 +87,9 @@ STRUCTURE_COUNT_PIN_6 = {
     "ascii_basic": {},
     "shapes": {"0": 245, "1": 255},
     "temporal": {"first": 101, "last": 99, "middle": 300},
-    "lcs": {"long": 275, "short": 225},
-    "unit_interp1": {"intervals": 158, "often": 131, "plain": 211},
-    "unit_interp2": {"computed": 226, "plain": 202, "stated": 72},
+    "lcs": {"long": 258, "short": 242},
+    "unit_interp1": {"intervals": 172, "often": 130, "plain": 198},
+    "unit_interp2": {"computed": 228, "plain": 196, "stated": 76},
 }
 
 
@@ -130,6 +130,10 @@ def structure_levels(cap: dict) -> list:
         elif kind == "letters_in_place":
             n = sum(1 for a, b in zip(m["word"], m["scrambled"]) if a == b)
             out.append(str(min(n, 2)))
+        elif kind == "stress_marked":
+            # the transcription carries a stress mark: a model that omits
+            # them, as much IPA does, fails these and no others
+            out.append("marked" if any(c in it["answer"] for c in "ˈˌ") else "plain")
         elif kind == "inversions":
             n = inversions(m["words"])
             if len(m["words"]) == 3:

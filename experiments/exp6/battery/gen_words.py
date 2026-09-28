@@ -29,9 +29,11 @@ def sort_key(order) -> str:
 
 
 def ipa_key(text: str) -> str:
-    """BIG-bench's English-to-IPA inputs are SENTENCES under this prefix.
-    No BIG-bench input is one word, so this rung's gate cannot fire: its
-    items are fresh by construction, not by the gate (disclosed)."""
+    """BIG-bench's English-side inputs BEGIN with this prefix and are
+    sentences. None is one word, so no BIG-bench string is in this
+    rung's support: the key's format is not established by anything and
+    the gate cannot fire. The rung's items are fresh by construction,
+    not by the gate (disclosed)."""
     return f"English: {text}"
 
 

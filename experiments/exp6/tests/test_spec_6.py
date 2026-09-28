@@ -52,6 +52,9 @@ def test_generate_is_deterministic_and_complete():
     b = sp.generate(_spec(_counter_draw), {}, collisions=frozenset())
     assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
     assert len(a["eval_items"]) == sp.N_EVAL and len(a["shots"]) == sp.N_SHOTS
+    assert [set(r) for r in a["shot_records"]] == [{"bb_sha256", "meta"}] * sp.N_SHOTS
+    assert not {r["bb_sha256"] for r in a["shot_records"]} & \
+        {it["bb_sha256"] for it in a["eval_items"]}
     qs = [it["question"] for it in a["eval_items"]] + [s[0] for s in a["shots"]]
     assert len(set(qs)) == len(qs)
     assert a["shots"][0][1] != a["shots"][1][1]
@@ -159,3 +162,27 @@ def test_the_two_shots_are_drawn_a_stride_apart():
         assert sp.N_EVAL % period != (sp.N_EVAL + sp.SHOT_STRIDE) % period
     for block in (5, 6, 25, 30):                 # the slower cycles: slot // block
         assert sp.N_EVAL // block != (sp.N_EVAL + sp.SHOT_STRIDE) // block
+
+
+def test_an_extra_key_is_gated_and_recorded():
+    """A part of an item that is a question in its own right."""
+    def draw(rng, ctx, slot):
+        n = int(rng.integers(100_000))
+        return {"question": f"q{n}", "answer": f"a{n}", "bb_key": f"k{n}",
+                "bb_extra": [f"part{n % 600}"], "meta": {}}
+    free = sp.generate(_spec(draw), {}, collisions=frozenset())
+    assert all(len(it["bb_extra_sha256"]) == 1 for it in free["eval_items"])
+    hit = free["eval_items"][0]["bb_extra_sha256"][0]
+    got = sp.generate(_spec(draw), {}, collisions=frozenset(),
+                      collisions_extra=frozenset({hit}))
+    assert got["n_redrawn"]["collision"] >= 1
+    assert all(hit not in it["bb_extra_sha256"] for it in got["eval_items"])
+    # an item without one carries no such field
+    plain = sp.generate(_spec(_counter_draw), {}, collisions=frozenset())
+    assert all("bb_extra_sha256" not in it for it in plain["eval_items"])
+    good = {"question": "q", "answer": "gulf", "bb_key": "k", "meta": {}}
+    s = _spec(_counter_draw)
+    sp.check_item(s, {**good, "bb_extra": ["x"]})
+    for bad in ("x", [""], [1], [" "], None):
+        with pytest.raises(ValueError, match="bb_extra"):
+            sp.check_item(s, {**good, "bb_extra": bad})

@@ -68,6 +68,12 @@
   },
   "modified_arithmetic/three_digit_addition_plus_one": {
    "establishes": "the whole prompt, rebuilt from its six number pairs",
+   "extra": {
+    "kind": "pair, as a query line",
+    "n_failed": 0,
+    "n_identical": 5983,
+    "n_strings": 5983
+   },
    "failed_sha256": [],
    "kind": "input",
    "n_failed": 0,
@@ -78,6 +84,12 @@
   },
   "modified_arithmetic/three_digit_subtraction_plus_one": {
    "establishes": "the whole prompt, rebuilt from its six number pairs",
+   "extra": {
+    "kind": "pair, as a query line",
+    "n_failed": 0,
+    "n_identical": 5983,
+    "n_strings": 5983
+   },
    "failed_sha256": [],
    "kind": "input",
    "n_failed": 0,
@@ -88,6 +100,12 @@
   },
   "modified_arithmetic/two_digit_multiplication_plus_one": {
    "establishes": "the whole prompt, rebuilt from its six number pairs",
+   "extra": {
+    "kind": "pair, as a query line",
+    "n_failed": 0,
+    "n_identical": 4500,
+    "n_strings": 4500
+   },
    "failed_sha256": [],
    "kind": "input",
    "n_failed": 0,
@@ -152,15 +170,15 @@
   }
  },
  "generators_sha256": {
-  "collisions_6.py": "2921a5044517b7eedcb6e685482d7e8b4e8f963df083cee706ddfda63885b5a1",
-  "gen_arith.py": "cd47d3517741baa8c282756915dcc71cf47df5c3ecb3bb82d592d13ec650df8a",
+  "collisions_6.py": "b4517daf33bb9cc44038411acb3b0e8d527e7b8a3c78458a1eced334eeccf84a",
+  "gen_arith.py": "599ef7295b4f2d909aa39dd4ce05ea1fb910feddffd1ba70f9a668c78e080d5a",
   "gen_ascii.py": "32c7949c3f64b35b8be178e13dc1cfb86d05cd3734f8cae4dd8d139b75364de2",
   "gen_logic.py": "7bc2cce31b0f4f9e49e7b214b1f4d55da99f8e03b1ddd51061fcba1cd4350b5c",
   "gen_shapes.py": "b0d6a97be9822e46ebfa4d45b32a35814bc89566ea124653191a9128142beb13",
-  "gen_units.py": "4768661b865c7112953bdedd34ed4224908723bab031e8d6f99d3145135b6145",
-  "gen_words.py": "ea1ddf5b4f05584fa3a11561440416779104be20449a64d2547d0fb99de7f2c7",
-  "spec.py": "e08ea8dc8d9e1d908342ab57b6444313344229d897a451882c71f1b531268567"
+  "gen_units.py": "71f7e0a19fef67437fc926a5e595485f346db78edffcb251283914d4ab8a332f",
+  "gen_words.py": "351ac1566bbb40aae357650b0727e4b1187f2905211d7f319983ef51080bf5bb",
+  "spec.py": "494f8111d9a3c6c8323949e3a3c4e364b753f58cc8a1317326e2723cee5aec9c"
  },
- "index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+ "index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
  "n_failed": 0
 }

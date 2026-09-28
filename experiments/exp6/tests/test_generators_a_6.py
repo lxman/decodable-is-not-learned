@@ -234,6 +234,37 @@ def test_the_two_surfaces_of_a_unit_sentence():
         gen_units.lv2_sentence(*f, surface="")
 
 
+def test_the_lcs_lengths_are_drawn_without_regard_to_the_answer(built):
+    """BIG-bench balances the answers and lets the lengths fall where
+    they fall. The first build drew them from a window set by the
+    answer: no string of an answer-0 item was longer than 8, none of an
+    answer-9 item shorter than 18."""
+    items = _items(built, "lcs")
+    by = {}
+    for it in items:
+        by.setdefault(it["answer"], []).extend(
+            [len(it["meta"]["a"]), len(it["meta"]["b"])])
+    assert max(by["0"]) > 12 and min(by["9"]) < 18 and max(by["3"]) >= 28
+    assert all(4 <= x <= 31 for v in by.values() for x in v)
+    assert built["lcs"]["n_redrawn"]["rejected"] > 5000      # balanced by rejection
+
+
+def test_the_query_of_a_modified_arithmetic_item_is_a_key_of_its_own(built):
+    from experiments.exp6.battery import collisions_6 as c6
+    from experiments.exp6.battery import spec as sp
+    for name in ("modarith_add1", "modarith_sub1", "modarith_mul1"):
+        extra = c6.extra_for_spec(sp.SPECS_6[name])
+        for it in _items(built, name):
+            q = gen_arith.modarith_query(name, it["meta"]["a"], it["meta"]["b"])
+            assert q == it["question"].split("\n")[-1]
+            assert it["bb_extra_sha256"] == [_sha(q)]
+            assert it["bb_extra_sha256"][0] not in extra
+    # two-digit pairs are 10,000 and BIG-bench prints 4,500 of them, each
+    # beside its result on a worked line or asked: the gate fires often
+    assert 300 < built["modarith_mul1"]["n_redrawn"]["collision"] < 600
+    assert built["modarith_add1"]["n_redrawn"]["collision"] < 20
+
+
 def _key_from_meta(name, it):
     """The key rebuilt from the item's own record."""
     m = it["meta"]
@@ -311,6 +342,15 @@ def test_the_answer_is_balanced_by_position_and_by_size(built, name, n_subjects)
         pos[opts.index(int(it["answer"])) + 1] += 1
     assert set(rank) == set(pos) == {1, 2, 3, 4, 5}
     assert max(rank.values()) <= 120 and max(pos.values()) <= 102
+    # the wrong options are of the sentence's own numbers: the answer is
+    # not picked out as the one option a stated number divides
+    only = 0
+    for it in items:
+        body, opts = it["question"].split("\nOptions: ")
+        stated = [int(x) for x in re.findall(r"\d+", body) if int(x) > 1]
+        ok = [o for o in opts.split(", ") if any(int(o) % t == 0 for t in stated)]
+        only += ok == [it["answer"]]
+    assert only <= 10
     a, b = [int(a) for _, a in built[name]["shots"]]
     sa, sb = [[int(o) for o in q.split("\nOptions: ")[1].split(", ")]
               for q, _ in built[name]["shots"]]
@@ -323,7 +363,7 @@ def test_unit_interp2_flags_a_stated_answer(built):
     unchanged and that quantity is asked. Flagged, not excluded."""
     items = _items(built, "unit_interp2")
     flagged = [it for it in items if it["meta"]["answer_stated"]]
-    assert len(flagged) == 72
+    assert len(flagged) == 76
     for it in items:
         m = it["meta"]
         assert m["answer_stated"] == bool(m["k"] and m["give_a"] and m["ask_a"])

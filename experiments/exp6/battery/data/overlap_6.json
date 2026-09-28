@@ -1,0 +1,101 @@
+{
+ "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+ "index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
+ "items_sha256": {
+  "ipa_word": "4a688a20399005d9e59e2b6fae77111fdd967c47fd38709c97e9c561637149d6",
+  "lcs": "7fb694003134af14118a0364b00b86f3eeae03cf8df83ed5c6530bf72332d152",
+  "modarith_add1": "640b3bf47183492d1731b624c2163bbfb558a2f81d952e323849de50e2cc653d",
+  "modarith_mul1": "15f7ad8a269407cbf3d27e82eae8c90819ad11073e75f0a4cb92bd8438cb20d4",
+  "modarith_sub1": "ddb0f68811b9256fa79e7091bb416a9595e5ee1e92dc72c88d734a638eb2efdd",
+  "sort3": "bbda582a895ed120462de12f590cef7c346bfabcdaaaa708d5331841358fa9e0",
+  "sort5": "dfed87d3527b7fd452a386ff73b60f8b08f2dbc46f7794fbfa5d89cbf9cf643d",
+  "unscramble_long": "8b6883a4a0acb08b2a713fcf78afbac6fb70f04af9c3e3d78de217c5152f112a",
+  "unscramble_short": "657eeaa3f622296f4b85b3df1c615121c28d9705ff89e5734881368f07c84c47"
+ },
+ "n_items": 500,
+ "rungs": {
+  "ipa_word": {
+   "bigbench": {
+    "words of its English sentences": 1785
+   },
+   "items": {
+    "the word occurs in a BIG-bench sentence": 95
+   }
+  },
+  "lcs": {
+   "bigbench": {
+    "strings": 640
+   },
+   "items": {
+    "one of the two strings is a BIG-bench string": 0
+   }
+  },
+  "modarith_add1": {
+   "bigbench": {
+    "pairs asked": 1000,
+    "pairs printed": 5983
+   },
+   "items": {
+    "asks a pair BIG-bench asks": 0,
+    "asks a pair BIG-bench prints on any line": 0,
+    "shows a worked pair BIG-bench prints on any line": 15
+   }
+  },
+  "modarith_mul1": {
+   "bigbench": {
+    "pairs asked": 951,
+    "pairs printed": 4500
+   },
+   "items": {
+    "asks a pair BIG-bench asks": 0,
+    "asks a pair BIG-bench prints on any line": 0,
+    "shows a worked pair BIG-bench prints on any line": 473
+   }
+  },
+  "modarith_sub1": {
+   "bigbench": {
+    "pairs asked": 1000,
+    "pairs printed": 5983
+   },
+   "items": {
+    "asks a pair BIG-bench asks": 0,
+    "asks a pair BIG-bench prints on any line": 0,
+    "shows a worked pair BIG-bench prints on any line": 13
+   }
+  },
+  "sort3": {
+   "bigbench": {
+    "words of its lists": 14265
+   },
+   "items": {
+    "a word of the list is in a BIG-bench list": 369,
+    "every word of the list is in a BIG-bench list": 22
+   }
+  },
+  "sort5": {
+   "bigbench": {
+    "words of its lists": 14265
+   },
+   "items": {
+    "a word of the list is in a BIG-bench list": 434,
+    "every word of the list is in a BIG-bench list": 2
+   }
+  },
+  "unscramble_long": {
+   "bigbench": {
+    "target words": 9719
+   },
+   "items": {
+    "the answer is a BIG-bench target word": 497
+   }
+  },
+  "unscramble_short": {
+   "bigbench": {
+    "target words": 9719
+   },
+   "items": {
+    "the answer is a BIG-bench target word": 491
+   }
+  }
+ }
+}

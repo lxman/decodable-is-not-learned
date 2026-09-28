@@ -108,3 +108,60 @@ files before it was ruled on.
 All seventeen item files, the audit record, the token record and every pin were regenerated. The audit
 read the coordinator's scratch copy of the fourteen task files; the token record was measured offline
 from the coordinator's scratch cache (R-16). No network contact. 102 tests in the suite.
+
+### Fix wave 3 (Tasks 1–6) — the final review's findings (coordinator rulings R-28 … R-35)
+
+The final whole-branch review (on 33d817962) recomputed the answers of twelve rungs and found none
+wrong. Its findings, each checked against BIG-bench's own task files before it was ruled on:
+- `lcs`: the per-answer length windows were this battery's and made BIG-bench's length cue stronger
+  than BIG-bench's. Both lengths are now uniform on 4–31 whatever the target; a draw is kept if its
+  longest common subsequence has the target length (11,909 rejected draws; fifty items per answer).
+  The answer's correlation with the shorter length is .900 (BIG-bench: .889). This revises the
+  "not changed" of fix wave 2 (plan delta B-24).
+- The unit rungs' random fills shared no factor with the sentence's numbers while the answer did, so
+  "pick an option a number of the text divides" scored .33 on level 1. Fix wave 2's rank design had
+  introduced it. A fill is now a multiple of a number the sentence states; the rule scores .22 and
+  .16 against a floor of .20 (B-25).
+- The heuristic floor has eight guessers, not four, and a guesser that learns a table is scored on
+  items it has not seen (two halves of blocks of ten slots). `temporal` stays at 500 of 500.
+  `lcs`: 115 of 500 (it was 210 in sample). Unit rungs: 124 and 156 (B-22).
+- On the `modarith` rungs the pair asked is a second collision key, gated against every pair
+  BIG-bench prints on any line: 16,466 hashes in the index's extra table. Before it, 51 of
+  `modarith_mul1`'s items asked a pair BIG-bench asks and 231 a pair it prints. After: none.
+  The audit parses and renders back all 16,466 (B-26).
+- The content an item can share with BIG-bench inside a new string is counted by `overlap_6.py`, the
+  record pinned and bound to the index and the item files. The answer is a BIG-bench unscrambling
+  target on 491 and 497 of 500 items; a word of the list is in a BIG-bench sorting list on 369 and
+  434; the `ipa_word` word occurs in a BIG-bench sentence on 95; no `lcs` string is BIG-bench's.
+  Nothing is excluded on these counts (B-28).
+- `ipa_word` is scored by exact match against one transcription convention. Disclosed; whether the
+  transcription carries a stress mark is a structure level (312 of 500) (B-27, B-21).
+- An item file keeps its two shots' keys (`shot_records`), and the audit's parsers read them: 8,534
+  keys and 1,506 pair keys parse and render back (B-30).
+- Refusals that had no test have one: the structure and heuristic pin checks, five header guards of
+  the item loader, a floor outside the unit interval. The wall-clock test of `verify_6` is replaced
+  by a count of path resolutions.
+
+Corrections to this ledger, made here and not in place:
+- NETWORK CONTACTS OF THE PROTOTYPE STAGE, not logged when made. Before Task 3 the coordinator
+  fetched, into a session scratch directory, none of it committed: fifteen BIG-bench `task.json`
+  files at commit 092b196c (the fourteen of `SOURCES` and `logic_grid_puzzle`, read to decide B-1),
+  twice; six task READMEs at the same commit (cs_algorithms, geometric_shapes, logic_grid_puzzle,
+  logical_deduction, temporal_sequences, unit_interpretation); `pyfiglet==1.0.4` and
+  `eng_to_ipa==0.0.2` by `pip install --target` into the scratch directory; `count_1w.txt`; and the
+  tokenizer and config files (`tokenizer.json`, `tokenizer_config.json`, `special_tokens_map.json`,
+  `config.json`; 62 MB in all; no weight file) of thirteen revisions of eight Hugging Face
+  repositories — EleutherAI/pythia-1b, EleutherAI/pythia-410m, allenai/OLMo-2-0425-1B,
+  allenai/OLMo-2-1124-7B, allenai/OLMo-2-1124-13B, common-pile/comma-v0.1-1t,
+  HuggingFaceTB/SmolLM3-3B-checkpoints, HuggingFaceTB/SmolLM3-3B-Base — of which the token record
+  names seven. The section "Model contact: None" stands: no weight was fetched and no model ran.
+- The ledger's header says entries are append-only; at fix round 1 the hash count of Task 3's entry
+  was corrected in a later entry, and that is the practice. Counts in earlier entries describe the
+  files of their commit: "71" and "72" stated answers on `unit_interp2` were both right when
+  written; the committed items now hold 76.
+
+The index, the audit record, the known answers, all seventeen item files, the token record, the
+overlap record and every pin were regenerated. The index was rebuilt, and the audit and the overlap
+count run, on the coordinator's scratch copy of the task files (each file's sha256 checked against
+the index); the token record was measured offline from the coordinator's scratch cache (R-16).
+No network contact in this wave. 118 tests in the suite.

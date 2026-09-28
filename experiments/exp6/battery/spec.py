@@ -111,6 +111,11 @@ def check_item(spec: RungSpec, item: dict) -> None:
         json.dumps(item["meta"])
     except (TypeError, ValueError) as e:
         raise ValueError(f"{spec.name}: meta is not JSON-serialisable ({e})")
+    extra = item.get("bb_extra", [])
+    if not isinstance(extra, list) or not all(
+            isinstance(k, str) and k.strip() for k in extra):
+        raise ValueError(f"{spec.name}: bb_extra is {extra!r}, not a list of "
+                         f"non-empty strings")
     if item["question"] != item["question"].strip():
         raise ValueError(f"{spec.name}: question has outer whitespace")
     want = v6.normalize_answer_side(item["answer"], spec.answer_type)
@@ -137,11 +142,14 @@ def check_item(spec: RungSpec, item: dict) -> None:
                          f"n_options None")
 
 
-def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset) -> dict:
+def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
+             collisions_extra: frozenset = frozenset()) -> dict:
     """500 eval items (slots 0..499) then 2 shots (slots 500 and 537),
     one RNG stream. A candidate is REDRAWN (same slot) if the draw rejects,
-    its question or its answer-bearing key repeats, or its BIG-bench key
-    is in the collision index."""
+    its question or its answer-bearing key repeats, its BIG-bench key is
+    in the collision index, or one of its EXTRA keys (`bb_extra`: a part
+    of the item that is a question in its own right) is in the index's
+    extra table."""
     rng = np.random.default_rng(spec.seed)
     seen_q, seen_key, seen_ans = set(), set(), set()
     n_redrawn = {"rejected": 0, "duplicate": 0, "collision": 0,
@@ -158,7 +166,8 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset) -> dict:
             if item["question"] in seen_q or key in seen_key:
                 n_redrawn["duplicate"] += 1
                 continue
-            if key in collisions:
+            extra = [sha256_text(k) for k in item.get("bb_extra", [])]
+            if key in collisions or any(k in collisions_extra for k in extra):
                 n_redrawn["collision"] += 1
                 continue
             if item["answer"] in forbid_answers:
@@ -170,19 +179,27 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset) -> dict:
             seen_q.add(item["question"])
             seen_key.add(key)
             seen_ans.add(item["answer"])
-            return {"question": item["question"], "answer": str(item["answer"]),
-                    "bb_sha256": key, "meta": item["meta"]}
+            out = {"question": item["question"], "answer": str(item["answer"]),
+                   "bb_sha256": key, "meta": item["meta"]}
+            if extra:
+                out["bb_extra_sha256"] = extra
+            return out
         raise RuntimeError(f"{spec.name}: slot {slot} not filled in "
                            f"{MAX_ATTEMPTS_PER_SLOT} attempts")
 
     items = [one(slot) for slot in range(N_EVAL)]
-    shots = []
+    shots, shot_records = [], []
     for j in range(N_SHOTS):
         s = one(N_EVAL + SHOT_STRIDE * j, forbid_answers=tuple(a for _, a in shots))
         shots.append([s["question"], s["answer"]])
+        # a shot is gated like an item; its key and record are kept so the
+        # audit can read them (the harness reads `shots` alone)
+        shot_records.append({k: v for k, v in s.items()
+                             if k not in ("question", "answer")})
     return {"name": spec.name, "task": spec.task, "wei_class": spec.wei_class,
             "rung_type": spec.rung_type, "answer_type": spec.answer_type,
             "description": spec.description, "seed": spec.seed,
             "n_options": spec.n_options, "collision_kind": spec.collision_kind,
             "unique_answers": spec.unique_answers,
-            "shots": shots, "eval_items": items, "n_redrawn": n_redrawn}
+            "shots": shots, "shot_records": shot_records,
+            "eval_items": items, "n_redrawn": n_redrawn}

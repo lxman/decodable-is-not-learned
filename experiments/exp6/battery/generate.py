@@ -43,7 +43,8 @@ def payload(name: str, ctx: dict | None = None) -> dict:
     au.load_record()
     spec = SPECS_6[name]
     d = generate(spec, ctx if ctx is not None else context(),
-                 collisions=c6.for_spec(spec))
+                 collisions=c6.for_spec(spec),
+                 collisions_extra=c6.extra_for_spec(spec))
     d["provenance"] = {"words_6_sha256": w6.WORDS_6_SHA256,
                        "bigbench_index_sha256": c6.INDEX_6_SHA256,
                        "bigbench_commit": c6.BIGBENCH_COMMIT,

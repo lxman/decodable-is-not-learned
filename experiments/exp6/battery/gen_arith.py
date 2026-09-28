@@ -16,7 +16,7 @@ MODARITH = {                        # name -> (symbol, operand bound, op)
 }
 LCS_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 LCS_LEN = (4, 31)                   # BIG-bench's observed string lengths
-LCS_CLASSES = tuple(range(10))      # answers 0..9, balanced
+LCS_CLASSES = tuple(range(10))      # answers 0..9, balanced, as BIG-bench's are
 LCS_HEADER = ("Given two strings, determine the length of the longest common "
               "subsequence.")
 
@@ -30,6 +30,13 @@ def modarith_text(name: str, pairs) -> str:
     a, b = pairs[-1]
     lines.append(f"{a} {sym} {b} ->")
     return "\n".join(lines)
+
+
+def modarith_query(name: str, a: int, b: int) -> str:
+    """The query line alone. A second collision key: a prompt that asks
+    a pair BIG-bench asks, or prints beside its result on a worked line,
+    is a new string under other worked lines and the same question."""
+    return f"{a} {MODARITH[name][0]} {b} ->"
 
 
 def lcs_key(a: str, b: str) -> str:
@@ -49,6 +56,7 @@ def _draw_modarith(name):
         a, b = pairs[-1]
         text = modarith_text(name, pairs)
         return {"question": text, "answer": str(op(a, b)), "bb_key": text,
+                "bb_extra": [modarith_query(name, a, b)],
                 "meta": {"a": a, "b": b, "examples": [list(p) for p in pairs[:-1]]}}
     return draw
 
@@ -63,17 +71,16 @@ def lcs_length(a: str, b: str) -> int:
     return prev[-1]
 
 
-def _lcs_lengths(target: int) -> tuple:
-    """Length window per target answer: short strings for small answers,
-    long for large, inside BIG-bench's 4..31."""
-    lo = max(LCS_LEN[0], 2 * target)
-    hi = min(LCS_LEN[1], 8 + 3 * target)
-    return lo, hi
-
-
 def _draw_lcs(rng, ctx, slot):
+    """The two lengths are drawn WITHOUT regard to the answer, uniform
+    on BIG-bench's range, and the draw is kept only if its answer is the
+    slot's. The answer still follows the lengths — a longer pair has a
+    longer common subsequence — but no more than it does in BIG-bench's
+    own 320 items (the first build drew the lengths from a window set by
+    the answer, and a length-only guesser scored .47 against BIG-bench's
+    .22 to .28)."""
     target = LCS_CLASSES[slot % len(LCS_CLASSES)]
-    lo, hi = _lcs_lengths(target)
+    lo, hi = LCS_LEN
     la, lb = int(rng.integers(lo, hi + 1)), int(rng.integers(lo, hi + 1))
     a = "".join(LCS_ALPHABET[int(i)] for i in rng.integers(26, size=la))
     b = "".join(LCS_ALPHABET[int(i)] for i in rng.integers(26, size=lb))
@@ -100,6 +107,6 @@ register(RungSpec(
     name="lcs", task="cs_algorithms", wei_class="E.3",
     rung_type="arithmetic", answer_type="number", seed=20260909,
     description="length of the longest common subsequence of two random "
-                "uppercase strings (4-31 letters), answers 0-9 balanced "
-                "fifty each",
+                "uppercase strings, each 4-31 letters long whatever the "
+                "answer; answers 0-9 balanced fifty each by rejection",
     draw=_draw_lcs))

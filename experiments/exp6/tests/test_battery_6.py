@@ -11,6 +11,7 @@ from experiments.exp6 import verify_6 as v6
 from experiments.exp6.battery import audit_bbkeys_6 as au
 from experiments.exp6.battery import generate as gen
 from experiments.exp6.battery import measure_tokens_6 as mt
+from experiments.exp6.battery import overlap_6 as ov
 from experiments.exp6.battery import spec as sp
 
 
@@ -44,7 +45,10 @@ def test_committed_files_load_under_their_pins(battery):
     for r in b6.RUNGS_6:
         cap = battery[r]
         assert cap["items_sha256"] == b6.ITEMS_SHA_PIN_6[r] and cap["battery"] == "6"
-        assert set(cap["eval_items"][0]) == {"question", "answer", "bb_sha256", "meta"}
+        keys = {"question", "answer", "bb_sha256", "meta"}
+        if cap["task"] == "modified_arithmetic":
+            keys |= {"bb_extra_sha256"}               # the query line's own key
+        assert all(set(it) == keys for it in cap["eval_items"])
         assert cap["provenance"]["bigbench_commit"] == \
             "092b196c1f8f14a54bbc62f24759d43bde46dd3b"
         # the file was written behind the audited gate, and says which audit
@@ -170,7 +174,7 @@ def test_strata(battery):
         assert len(t["strata"]) == 500 and sum(t["counts"].values()) == 500
         assert min(t["counts"].values()) >= s6.MIN_STRATUM
         assert all(isinstance(s, str) for s in t["strata"])
-    assert table["modarith_mul1"]["counts"] == {"1": 10, "2": 21, "3": 136, "4": 333}
+    assert table["modarith_mul1"]["counts"] == {"1": 10, "2": 19, "3": 129, "4": 342}
     assert set(table["shapes"]["counts"].values()) == {50}
     json.dumps(table)                                           # serialisable
 
@@ -276,6 +280,10 @@ def test_structure_levels_are_what_they_say(battery):
                       st["modarith_add1"]["structure"]):
         a, b = it["meta"]["a"], it["meta"]["b"]
         assert lv == str(int((a + b) // 10 != (a + b + 1) // 10))
+    for it, lv in zip(battery["ipa_word"]["eval_items"], st["ipa_word"]["structure"]):
+        assert lv == ("marked" if ("ˈ" in it["answer"] or "ˌ" in it["answer"])
+                      else "plain")
+    assert 250 < st["ipa_word"]["structure_counts"]["marked"] < 400
     for it, lv in zip(battery["temporal"]["eval_items"], st["temporal"]["structure"]):
         lines = it["question"].split("\nOptions: ")[0].split("\n")
         wake = lines[2].rsplit(" ", 1)[1].rstrip(".")
@@ -310,17 +318,185 @@ def test_heuristic_floors(battery):
     assert f6.check_heuristic_pins_6(h) == {r: "PASS" for r in b6.RUNGS_6}
     assert h["temporal"]["heuristic"] == f6.ABSENT
     assert h["temporal"]["heuristic_count"] == 500
-    assert h["lcs"]["heuristic"] == f6.LENGTH_RULE
-    assert 190 <= h["lcs"]["heuristic_count"] <= 230        # BIG-bench's own: .40
+    # lcs: the answer follows the lengths as it does in BIG-bench's own 320
+    # items, where the same three rules, cross-fitted the same way, score
+    # .27 (shorter), .17 (longer) and .21 (total); here .23, .18 and .23
+    assert set(h["lcs"]["heuristics"]) == {f6.LENGTH_MIN, f6.LENGTH_MAX, f6.LENGTH_SUM}
+    assert max(h["lcs"]["heuristics"].values()) <= 165       # it was 235 (.47)
     for r in ("unit_interp1", "unit_interp2"):
-        assert h[r]["heuristics"][f6.SIZE_RANK] <= 120      # it was 224 and 186
-        assert h[r]["heuristics"][f6.LIST_POSITION] <= 102
+        g = h[r]["heuristics"]
+        assert set(g) == {f6.LIST_POSITION, f6.SIZE_RANK, f6.ABSENT, f6.DIVISIBLE,
+                          f6.SHARES}
+        assert g[f6.SIZE_RANK] <= 120                        # it was 224 and 186
+        assert g[f6.LIST_POSITION] <= 105
+        # on BIG-bench's 25 items a level: .28 and .20 (lv1), .08 and .28 (lv2)
+        assert g[f6.DIVISIBLE] <= 125 and g[f6.SHARES] <= 160
     for r in ("deduction3", "deduction5", "shapes"):
         assert h[r]["heuristics"][f6.ABSENT] == 0
     for r in b6.RUNGS_6:
         if b6.N_OPTIONS_OF.get(r) is None and r != "lcs":
             assert h[r]["heuristic"] is None and h[r]["heuristic_floor"] is None
+        else:
+            assert set(h[r]["heuristics"]) <= set(f6.GUESSERS_6)
     # independently, from the text: the option the schedule never mentions
     for it in battery["temporal"]["eval_items"]:
         body, opts = it["question"].split("\nOptions: ")
         assert [o for o in opts.split(", ") if f" {o}." not in body] == [it["answer"]]
+
+
+def test_a_table_guesser_is_scored_on_items_it_has_not_seen():
+    # the key determines the answer: learned on one half, right on the other
+    keys = [i % 7 for i in range(500)]
+    assert f6._cross_fit(keys, [str(k) for k in keys]) == 500
+    # the key is the item itself: nothing carries over, and the fallback
+    # (the commonest answer of the other half) is all that scores
+    assert f6._cross_fit(list(range(500)), ["a"] * 300 + ["b"] * 200) == 300
+    # no key at all: the commonest answer of the OTHER half
+    ans = ["x"] * 260 + ["y"] * 240
+    assert f6._cross_fit([0] * 500, ans) in (240, 260)
+    # the two halves are blocks of ten slots, so a cycle of ten is in both
+    halves = [(i // f6.HALF_BLOCK) % 2 for i in range(500)]
+    assert sum(halves) == 250
+    assert {i % 10 for i, h in enumerate(halves) if h} == set(range(10))
+
+
+def test_the_two_new_pin_checks_refuse(battery):
+    h = f6.heuristic_table_6(battery)
+    h["lcs"] = dict(h["lcs"], heuristic_count=h["lcs"]["heuristic_count"] + 1)
+    with pytest.raises(ValueError, match="lcs: heuristic floor"):
+        f6.check_heuristic_pins_6(h)
+    table = s6.build_table_6(battery)
+    st = s6.structure_table_6(battery, table)
+    st["sort3"] = dict(st["sort3"], structure_counts={"1": 1})
+    with pytest.raises(ValueError, match="sort3: structure counts"):
+        s6.check_structure_pins_6(st)
+    st = s6.structure_table_6(battery, table)
+    st["sort3"] = dict(st["sort3"], strata=st["sort3"]["strata"][:-1])
+    with pytest.raises(ValueError, match="sort3: 499 labels"):
+        s6.check_structure_pins_6(st)
+
+
+@pytest.mark.parametrize("change,match", [
+    (lambda c: c.__setitem__("name", "sort5"), "names"),
+    (lambda c: c.__setitem__("n_options", 3), "n_options"),
+    (lambda c: c["eval_items"].pop(), "499 items"),
+    (lambda c: c["shots"].pop(), "1 shots"),
+    (lambda c: c["shot_records"].pop(), "1 shot records"),
+    (lambda c: c.pop("shot_records"), "0 shot records"),
+    (lambda c: c.__setitem__("rung_type", "choice"), "rung_type"),
+])
+def test_the_loader_refuses_every_header_it_checks(tmp_path, monkeypatch, change, match):
+    """Past the sha: a file that hashes to its pin and says the wrong
+    thing about itself."""
+    cap = json.loads((b6.ITEMS_DIR / "sort3.json").read_text())
+    change(cap)
+    raw = gen.dumps(cap)
+    (tmp_path / "sort3.json").write_text(raw, encoding="utf-8")
+    monkeypatch.setattr(b6, "ITEMS_DIR", tmp_path)
+    monkeypatch.setitem(b6.ITEMS_SHA_PIN_6, "sort3",
+                        hashlib.sha256(raw.encode("utf-8")).hexdigest())
+    with pytest.raises(ValueError, match=match):
+        b6.load_item_file_6("sort3")
+
+
+def test_a_floor_outside_the_unit_interval_is_refused(battery):
+    floors = f6.floor_table_6(battery)
+    floors["shapes"] = dict(floors["shapes"], floor=1.0)
+    with pytest.raises(ValueError, match="shapes: floor"):
+        f6.check_floor_pins_6(floors)
+
+
+# ------------------------------------------------------- content overlap
+def test_the_content_overlap_record(monkeypatch):
+    """What the collision gate does not establish, as counted: the record
+    is the pinned one, of the index and the items now pinned."""
+    rec = ov.load_record()
+    assert tuple(rec["rungs"]) == tuple(sorted(ov.RUNGS)) and rec["n_items"] == 500
+    n = {r: row["items"] for r, row in rec["rungs"].items()}
+    for r in ov.MODARITH_FILE:
+        # the gate's two keys: the prompt, and the pair asked
+        assert n[r]["asks a pair BIG-bench asks"] == 0
+        assert n[r]["asks a pair BIG-bench prints on any line"] == 0
+    shows = "shows a worked pair BIG-bench prints on any line"
+    assert [n[r][shows] for r in ov.MODARITH_FILE] == [15, 13, 473]
+    assert n["unscramble_short"] == {"the answer is a BIG-bench target word": 491}
+    assert n["unscramble_long"] == {"the answer is a BIG-bench target word": 497}
+    assert n["ipa_word"] == {"the word occurs in a BIG-bench sentence": 95}
+    assert n["sort3"] == {"a word of the list is in a BIG-bench list": 369,
+                          "every word of the list is in a BIG-bench list": 22}
+    assert n["sort5"] == {"a word of the list is in a BIG-bench list": 434,
+                          "every word of the list is in a BIG-bench list": 2}
+    assert n["lcs"] == {"one of the two strings is a BIG-bench string": 0}
+    monkeypatch.setitem(b6.ITEMS_SHA_PIN_6, "lcs", "0" * 64)
+    with pytest.raises(ValueError, match=r"of other items: \['lcs'\]"):
+        ov.load_record()
+    monkeypatch.undo()
+    monkeypatch.setattr(ov.c6, "INDEX_6_SHA256", "0" * 64)
+    with pytest.raises(ValueError, match="of another index"):
+        ov.load_record()
+    monkeypatch.undo()
+    monkeypatch.setattr(ov, "OVERLAP_6_SHA256", "0" * 64)
+    with pytest.raises(ValueError, match="pinned"):
+        ov.load_record()
+
+
+def test_the_overlap_is_counted_from_the_text(monkeypatch, tmp_path):
+    files = {
+        "modified_arithmetic/three_digit_addition_plus_one":
+            [{"input": "h\n1 + 2 -> 4\n3 + 4 ->"}],
+        "modified_arithmetic/three_digit_subtraction_plus_one":
+            [{"input": "h\n1 - 2 -> 0\n3 - 4 ->"}],
+        "modified_arithmetic/two_digit_multiplication_plus_one":
+            [{"input": "h\n1 * 2 -> 3\n3 * 4 ->"}],
+        "word_unscrambling": [{"input": "x", "target": ["pear", "reap"]}],
+        ov.IPA_FILE: [{"input": "English: A pear, a fig."},
+                      {"input": "IPA: ə pɛr", "target": "A pear"}],
+        "word_sorting": [{"input": "pear fig"}],
+        "cs_algorithms/lcs": [{"input": "ABC DEF"}],
+    }
+    monkeypatch.setattr(ov, "_examples", lambda src, task, path: files[path])
+
+    def arith(sym, worked, asked):
+        return {"question": f"h\n{worked[0]} {sym} {worked[1]} -> 0\n"
+                            f"{asked[0]} {sym} {asked[1]} ->"}
+    battery = {
+        "modarith_add1": [arith("+", (9, 9), (3, 4)), arith("+", (3, 4), (1, 2)),
+                          arith("+", (1, 2), (8, 8))],
+        "modarith_sub1": [arith("-", (9, 9), (8, 8))],
+        "modarith_mul1": [arith("*", (1, 2), (3, 4))],
+        "unscramble_short": [{"answer": "pear"}, {"answer": "plum"}],
+        "unscramble_long": [{"answer": "reap"}],
+        "ipa_word": [{"meta": {"word": "fig"}}, {"meta": {"word": "a"}},
+                     {"meta": {"word": "plum"}}],
+        "sort3": [{"meta": {"words": ["pear", "fig"]}}, {"meta": {"words": ["pear", "kiwi"]}},
+                  {"meta": {"words": ["plum", "kiwi"]}}],
+        "sort5": [{"meta": {"words": ["plum"]}}],
+        "lcs": [{"meta": {"a": "ABC", "b": "XYZ"}}, {"meta": {"a": "XYZ", "b": "DEF"}},
+                {"meta": {"a": "AB", "b": "DE"}}],
+    }
+    battery = {r: {"eval_items": v, "items_sha256": r} for r, v in battery.items()}
+    got = {r: row["items"] for r, row in ov.overlap(tmp_path, battery)["rungs"].items()}
+    assert got["modarith_add1"] == {
+        "asks a pair BIG-bench asks": 1,
+        "asks a pair BIG-bench prints on any line": 2,
+        "shows a worked pair BIG-bench prints on any line": 2}
+    assert set(got["modarith_sub1"].values()) == {0}
+    assert got["modarith_mul1"] == {
+        "asks a pair BIG-bench asks": 1,
+        "asks a pair BIG-bench prints on any line": 1,
+        "shows a worked pair BIG-bench prints on any line": 1}
+    assert got["unscramble_short"] == {"the answer is a BIG-bench target word": 1}
+    assert got["unscramble_long"] == {"the answer is a BIG-bench target word": 1}
+    assert got["ipa_word"] == {"the word occurs in a BIG-bench sentence": 2}
+    assert got["sort3"] == {"a word of the list is in a BIG-bench list": 2,
+                            "every word of the list is in a BIG-bench list": 1}
+    assert got["sort5"] == {"a word of the list is in a BIG-bench list": 0,
+                            "every word of the list is in a BIG-bench list": 0}
+    assert got["lcs"] == {"one of the two strings is a BIG-bench string": 2}
+
+
+def test_the_overlap_tool_reads_only_the_files_of_the_index(tmp_path):
+    p = tmp_path / ov.local_name("word_sorting")
+    p.write_text(json.dumps({"examples": [{"input": "pear fig"}]}))
+    with pytest.raises(ValueError, match="not the file the index was built from"):
+        ov._examples(tmp_path, "word_sorting", "word_sorting")

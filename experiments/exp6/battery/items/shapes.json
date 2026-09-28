@@ -11014,14 +11014,56 @@
  },
  "name": "shapes",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "string",
  "seed": 20260914,
+ "shot_records": [
+  {
+   "bb_sha256": "dda77fbeaa9342063effc7d2a52156de172f457dce58983834ffa32d32dd8349",
+   "meta": {
+    "answer_pos": 5,
+    "cls": "circle",
+    "options": [
+     "triangle",
+     "sector",
+     "hexagon",
+     "line",
+     "circle",
+     "octagon",
+     "kite",
+     "heptagon",
+     "rectangle",
+     "pentagon"
+    ],
+    "path": "M 61.46,81.75 A 23.34,23.34 166.18 1,0 24.70,52.98 A 23.34,23.34 166.18 1,0 61.46,81.75"
+   }
+  },
+  {
+   "bb_sha256": "2ec965f2e5fa91b60595b8eb699592bd16fd678acd4a099fc035e5b1c0a1ce55",
+   "meta": {
+    "answer_pos": 10,
+    "cls": "rectangle",
+    "options": [
+     "kite",
+     "pentagon",
+     "octagon",
+     "hexagon",
+     "sector",
+     "line",
+     "triangle",
+     "heptagon",
+     "circle",
+     "rectangle"
+    ],
+    "path": "M 63.25,40.55 L 71.77,80.04 L 61.37,82.28 L 52.86,42.80 L 63.25,40.55"
+   }
+  }
+ ],
  "shots": [
   [
    "This SVG path element <path d=\"M 61.46,81.75 A 23.34,23.34 166.18 1,0 24.70,52.98 A 23.34,23.34 166.18 1,0 61.46,81.75\"/> draws a\nOptions: triangle, sector, hexagon, line, circle, octagon, kite, heptagon, rectangle, pentagon",

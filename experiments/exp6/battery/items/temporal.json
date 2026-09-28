@@ -12513,14 +12513,62 @@
  },
  "name": "temporal",
  "provenance": {
-  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
+  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },
  "rung_type": "choice",
  "seed": 20260917,
+ "shot_records": [
+  {
+   "bb_sha256": "f03211cc80a05f256a6847d1abd79fb2a41d49b362317782b53f44a9cd796783",
+   "meta": {
+    "answer_pos": 3,
+    "free": 2,
+    "free_position": "middle",
+    "hours": [
+     6,
+     8,
+     10,
+     11,
+     13,
+     17,
+     19
+    ],
+    "n_events": 5,
+    "options": [
+     "1pm to 5pm",
+     "5pm to 7pm",
+     "10am to 11am",
+     "11am to 1pm"
+    ]
+   }
+  },
+  {
+   "bb_sha256": "72bdf34477cf7cc9cd0343c0fddec1296d1a0af478b49eadb279a303448af8fb",
+   "meta": {
+    "answer_pos": 4,
+    "free": 3,
+    "free_position": "last",
+    "hours": [
+     6,
+     9,
+     12,
+     19,
+     22
+    ],
+    "n_events": 3,
+    "options": [
+     "6am to 9am",
+     "12pm to 7pm",
+     "9am to 12pm",
+     "7pm to 10pm"
+    ]
+   }
+  }
+ ],
  "shots": [
   [
    "Today, Samantha went to the swimming pool. Between what times could they have gone?\nWe know that: \nSamantha woke up at 6am.\nMary saw Samantha taking photos near the Leaning Tower of Pisa from 6am to 8am.\nLisa saw Samantha working at the office from 8am to 10am.\nAndrew saw Samantha fixing their computer at the electronic store from 11am to 1pm.\nJennifer saw Samantha stretching at a yoga studio from 1pm to 5pm.\nSusan saw Samantha reading at the library from 5pm to 7pm.\nThe swimming pool was closed after 7pm.\nBetween what times could Samantha have gone to the swimming pool?\nOptions: 1pm to 5pm, 5pm to 7pm, 10am to 11am, 11am to 1pm",

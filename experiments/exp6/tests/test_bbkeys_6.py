@@ -24,6 +24,10 @@ from experiments.exp6.tests import _build
 from experiments.exp6.tests import test_generators_a_6 as ta
 from experiments.exp6.tests import test_generators_b_6 as tb
 
+# the distinct pairs BIG-bench's modified_arithmetic prints: 5,983 under
+# each of + and -, 4,500 under *
+N_PAIRS = 5983 + 5983 + 4500
+
 
 def _sha(s: str) -> str:
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
@@ -50,8 +54,10 @@ AUDIT_TABLE = {
 def test_the_known_answers_are_pinned_and_carry_the_canary(tmp_path, monkeypatch):
     known = au.load_known()
     assert Counter(k["renderer"] for k in known) == {
-        "lv2": 25, "lv1": 21, "deduction": 13, "modarith": 3, "shapes": 2,
-        "unscramble": 1, "sort": 1, "ascii": 1, "temporal": 1, "lcs": 1}
+        "lv2": 25, "lv1": 21, "deduction": 13, "modarith": 3, "modarith_query": 6,
+        "shapes": 2, "unscramble": 1, "sort": 1, "ascii": 1, "temporal": 1, "lcs": 1}
+    assert Counter(k["why"] for k in known if k.get("extra")) == {
+        "the first string's query line": 3, "the first string's first worked pair": 3}
     raw = au.KNOWN.read_text(encoding="utf-8")
     assert au.CANARY in raw and au.CANARY in au.__doc__.replace("\n", " ")
     bad = tmp_path / "known.json"
@@ -71,7 +77,10 @@ def test_every_known_call_renders_a_string_the_index_holds():
     for k in known:
         s = au.render((k["renderer"], k["args"]))
         assert _sha(s) == k["sha256"], k
-        assert k["sha256"] in index[k["task"]]["keys"], k
+        table = "extra" if k.get("extra") else "keys"
+        assert k["sha256"] in index[k["task"]][table], k
+        assert k["sha256"] not in index[k["task"]].get(
+            "keys" if k.get("extra") else "extra", []), k
         assert k["file"] in SOURCES[k["task"]][1]
     # every renderer is exercised but `ipa`: none of BIG-bench's IPA
     # strings is in the generator's support
@@ -83,7 +92,7 @@ def test_every_parser_reads_back_what_its_renderer_wrote():
     rendered string, get the call."""
     for k in au.load_known():
         s = au.render((k["renderer"], k["args"]))
-        call = au.PARSERS[k["file"]](s)
+        call = (au.PARSERS_EXTRA if k.get("extra") else au.PARSERS)[k["file"]](s)
         assert call is not None and call[0] == k["renderer"], k
         assert json.loads(json.dumps(call[1])) == k["args"], k
         assert au.render(call) == s
@@ -188,20 +197,32 @@ def built():
 
 def test_every_generated_key_is_a_sentence_of_the_audits_language(built):
     """The loop closed: the parsers that read BIG-bench's strings read
-    this battery's keys too, all 8,500 of them, and the renderers give
-    each key back byte for byte."""
+    this battery's keys too — the 8,500 items' and the 34 shots' — and
+    the renderers give each key back byte for byte."""
     n = 0
     for rung in gen.RUNG_ORDER_6:
         rebuild = ta._key_from_meta if rung in ta.NAMES_A else tb._key_from_meta
         parse = au.PARSERS[au.FILE_OF_RUNG[rung]]
-        for it in built[rung]["eval_items"]:
+        more = au.PARSERS_EXTRA.get(au.FILE_OF_RUNG[rung])
+        assert len(built[rung]["shot_records"]) == len(built[rung]["shots"]) == 2
+        shots = [dict(r, question=q) for r, (q, _) in
+                 zip(built[rung]["shot_records"], built[rung]["shots"])]
+        for it in built[rung]["eval_items"] + shots:
             key = rebuild(rung, it)
             assert _sha(key) == it["bb_sha256"]
             call = parse(key)
             assert call is not None and call[0] in au.RENDERERS, (rung, call)
             assert au.render(call) == key, rung
             n += 1
-    assert n == 17 * 500
+            assert ("bb_extra_sha256" in it) == (more is not None)
+            if more is not None:
+                part = key.split("\n")[-1]
+                call = more(part)
+                assert call is not None and au.render(call) == part
+                assert it["bb_extra_sha256"] == [_sha(part)]
+    assert n == 17 * 502
+    assert sorted(au.PARSERS_EXTRA) == sorted(
+        p for t, (_, ps) in SOURCES.items() if t in au.EXTRA for p in ps)
 
 
 def test_registry_is_the_seventeen():
@@ -258,6 +279,12 @@ def test_the_audit_record():
     assert ipa["n_outside"] == {"a sentence (the rung keys one word)": 502,
                                 "the IPA-to-English direction": 501}
     assert rec["files"]["word_sorting"]["n_outside"] == {"a token outside a-z": 87}
+    extra = {p: r["extra"] for p, r in rec["files"].items() if "extra" in r}
+    assert sorted(extra) == sorted(au.PARSERS_EXTRA)
+    for x in extra.values():
+        assert x["kind"] == "pair, as a query line" and x["n_failed"] == 0
+        assert x["n_identical"] == x["n_strings"] >= 4500     # distinct pairs
+    assert sum(x["n_strings"] for x in extra.values()) == N_PAIRS
     got = {p: (r["n_strings"], r["n_identical"], sum(r["n_outside"].values()))
            for p, r in rec["files"].items()}
     assert got == AUDIT_TABLE

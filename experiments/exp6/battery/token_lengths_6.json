@@ -34,7 +34,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "317502cf754f8dbb5b88783567a31bff319151cb67e5429101db8cd419f2ed16",
+   "items_sha256": "a3b8d7d0d1d98c186ed4696e7a643cf12a432995e6383e8ba66878b3b06bf107",
    "prompt_tokens_max": {
     "comma_7b": 474,
     "olmo2_13b": 470,
@@ -56,7 +56,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "533bea77a563083e71015e0710d54a228ff14f4742a4e998ae311aa25351fa9e",
+   "items_sha256": "6f339ca66a687dead2c0fbb1b3ac8e1582f06f21e103b9f8193803b887503c96",
    "prompt_tokens_max": {
     "comma_7b": 185,
     "olmo2_13b": 172,
@@ -100,7 +100,7 @@
     "smollm3_3b": 4
    },
    "budget": 12,
-   "items_sha256": "7b9a7a018c233de482a75212b9a22fd1288308c9d013366f8093c466e680a663",
+   "items_sha256": "6c8700408438db2d0504662e933b3cc403bc4a046c53a1f6caeace1caf35cb61",
    "prompt_tokens_max": {
     "comma_7b": 200,
     "olmo2_13b": 182,
@@ -122,7 +122,7 @@
     "smollm3_3b": 4
    },
    "budget": 12,
-   "items_sha256": "06154a64260665fad60b9033114d6ea72e84472fccb33e048cdbd38c8c9b2270",
+   "items_sha256": "436d8db33b2149ee8185687a8dabcb20e9976631f34016f58b186b97ede7b977",
    "prompt_tokens_max": {
     "comma_7b": 324,
     "olmo2_13b": 289,
@@ -144,7 +144,7 @@
     "smollm3_3b": 18
    },
    "budget": 24,
-   "items_sha256": "e407ecb8cdc134020c5046f0dde992fa72f8e93698521f0357f47dba95565163",
+   "items_sha256": "4a688a20399005d9e59e2b6fae77111fdd967c47fd38709c97e9c561637149d6",
    "prompt_tokens_max": {
     "comma_7b": 90,
     "olmo2_13b": 81,
@@ -166,15 +166,15 @@
     "smollm3_3b": 2
    },
    "budget": 8,
-   "items_sha256": "66b702e5c942083b2af3d311d4cf4be995545fde61812e808f2972d8b7e7635b",
+   "items_sha256": "7fb694003134af14118a0364b00b86f3eeae03cf8df83ed5c6530bf72332d152",
    "prompt_tokens_max": {
-    "comma_7b": 144,
-    "olmo2_13b": 142,
-    "olmo2_1b": 142,
-    "olmo2_7b": 142,
-    "pythia_1b": 147,
-    "pythia_410m": 147,
-    "smollm3_3b": 142
+    "comma_7b": 149,
+    "olmo2_13b": 148,
+    "olmo2_1b": 148,
+    "olmo2_7b": 148,
+    "pythia_1b": 150,
+    "pythia_410m": 150,
+    "smollm3_3b": 147
    }
   },
   "modarith_add1": {
@@ -188,15 +188,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "47a88e381a1318e828f1da08de2be70f9efb72e5e6d1c8976b76b4b0898cff9c",
+   "items_sha256": "640b3bf47183492d1731b624c2163bbfb558a2f81d952e323849de50e2cc653d",
    "prompt_tokens_max": {
-    "comma_7b": 205,
-    "olmo2_13b": 205,
-    "olmo2_1b": 205,
-    "olmo2_7b": 205,
-    "pythia_1b": 195,
-    "pythia_410m": 195,
-    "smollm3_3b": 205
+    "comma_7b": 209,
+    "olmo2_13b": 209,
+    "olmo2_1b": 209,
+    "olmo2_7b": 209,
+    "pythia_1b": 194,
+    "pythia_410m": 194,
+    "smollm3_3b": 209
    }
   },
   "modarith_mul1": {
@@ -210,15 +210,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "bf68b1a42a26959913613083c803c149c074b4489b585add5bb0f606922200c5",
+   "items_sha256": "15f7ad8a269407cbf3d27e82eae8c90819ad11073e75f0a4cb92bd8438cb20d4",
    "prompt_tokens_max": {
-    "comma_7b": 207,
-    "olmo2_13b": 207,
-    "olmo2_1b": 207,
-    "olmo2_7b": 207,
+    "comma_7b": 208,
+    "olmo2_13b": 208,
+    "olmo2_1b": 208,
+    "olmo2_7b": 208,
     "pythia_1b": 181,
     "pythia_410m": 181,
-    "smollm3_3b": 207
+    "smollm3_3b": 208
    }
   },
   "modarith_sub1": {
@@ -232,14 +232,14 @@
     "smollm3_3b": 2
    },
    "budget": 8,
-   "items_sha256": "e2d5bdbf3060a9720e23dcb439cad2310ea341442322e8bf17b4ee33494c3d77",
+   "items_sha256": "ddb0f68811b9256fa79e7091bb416a9595e5ee1e92dc72c88d734a638eb2efdd",
    "prompt_tokens_max": {
     "comma_7b": 195,
     "olmo2_13b": 195,
     "olmo2_1b": 195,
     "olmo2_7b": 195,
-    "pythia_1b": 195,
-    "pythia_410m": 195,
+    "pythia_1b": 193,
+    "pythia_410m": 193,
     "smollm3_3b": 195
    }
   },
@@ -254,7 +254,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "6676ad74cda27c751f91ad1865f8933bda5dae0c964b3f23326a31dafbf9042b",
+   "items_sha256": "7b033b4f7245173df763733ccfba5e7e8c08a51f2c15c222ae0a0236be20c57c",
    "prompt_tokens_max": {
     "comma_7b": 375,
     "olmo2_13b": 363,
@@ -276,7 +276,7 @@
     "smollm3_3b": 6
    },
    "budget": 16,
-   "items_sha256": "ad9c04a7d5542f7040fc2c824f17a066413ef41b744c6ca14d1f3411d3d863e0",
+   "items_sha256": "bbda582a895ed120462de12f590cef7c346bfabcdaaaa708d5331841358fa9e0",
    "prompt_tokens_max": {
     "comma_7b": 63,
     "olmo2_13b": 58,
@@ -298,7 +298,7 @@
     "smollm3_3b": 9
    },
    "budget": 16,
-   "items_sha256": "7b43811d7aec06199bc64a592323df3ade6cd56e6ac479cb4f5265122ff767d8",
+   "items_sha256": "dfed87d3527b7fd452a386ff73b60f8b08f2dbc46f7794fbfa5d89cbf9cf643d",
    "prompt_tokens_max": {
     "comma_7b": 71,
     "olmo2_13b": 71,
@@ -342,7 +342,7 @@
     "smollm3_3b": 7
    },
    "budget": 12,
-   "items_sha256": "509111620720f6ea56e5af28291e5c6c1eac03eec7a8c9eb256d680ab17295b3",
+   "items_sha256": "145546eff53c34cc116558c25545ecae5253069b624a7d60c915744507c560e6",
    "prompt_tokens_max": {
     "comma_7b": 641,
     "olmo2_13b": 526,
@@ -364,15 +364,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "87d4b6c4a6d50c4f0f2581bec37ec180688f566c469345d2aa9e9e70ba2bd8c3",
+   "items_sha256": "c6b8f6b60a02379e3e622b175eef01e71e0841a7d0e2c3a3d93444e238ab5af3",
    "prompt_tokens_max": {
-    "comma_7b": 154,
-    "olmo2_13b": 147,
-    "olmo2_1b": 147,
-    "olmo2_7b": 147,
-    "pythia_1b": 128,
-    "pythia_410m": 128,
-    "smollm3_3b": 147
+    "comma_7b": 172,
+    "olmo2_13b": 166,
+    "olmo2_1b": 166,
+    "olmo2_7b": 166,
+    "pythia_1b": 146,
+    "pythia_410m": 146,
+    "smollm3_3b": 166
    }
   },
   "unit_interp2": {
@@ -386,15 +386,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "397009ced7c91677badc691d15c4274d9623c40a41e77020dfeada7597823c78",
+   "items_sha256": "33642854e4d70025b3cd5c9a1c1c20154b7b4b233d24581b9565ace667116e36",
    "prompt_tokens_max": {
-    "comma_7b": 206,
-    "olmo2_13b": 188,
-    "olmo2_1b": 188,
-    "olmo2_7b": 188,
-    "pythia_1b": 171,
-    "pythia_410m": 171,
-    "smollm3_3b": 188
+    "comma_7b": 202,
+    "olmo2_13b": 184,
+    "olmo2_1b": 184,
+    "olmo2_7b": 184,
+    "pythia_1b": 169,
+    "pythia_410m": 169,
+    "smollm3_3b": 184
    }
   },
   "unscramble_long": {
@@ -408,7 +408,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "ccb1ae923d2f8779c0b59acb7dfa4296eb8b7c8003ab9e897c8101314decb993",
+   "items_sha256": "8b6883a4a0acb08b2a713fcf78afbac6fb70f04af9c3e3d78de217c5152f112a",
    "prompt_tokens_max": {
     "comma_7b": 69,
     "olmo2_13b": 62,
@@ -430,7 +430,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "6a3ed835ffb48a9da0cf9d050a5ffe1254939fc9666a08303e9613f9d2c11474",
+   "items_sha256": "657eeaa3f622296f4b85b3df1c615121c28d9705ff89e5734881368f07c84c47",
    "prompt_tokens_max": {
     "comma_7b": 62,
     "olmo2_13b": 57,

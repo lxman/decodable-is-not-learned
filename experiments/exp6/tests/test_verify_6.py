@@ -106,10 +106,16 @@ def test_the_harness_is_2cs_and_is_resolved_once(monkeypatch):
     assert v6.harness_2c() is h
 
 
-def test_the_criterion_costs_a_comparison_not_a_path_lookup():
-    import time
-    t0 = time.perf_counter()
-    for _ in range(20000):
-        v6.verify_6(" 42", "42", "number")
-        v6.verify_6(" cat", "cat", "word")
-    assert (time.perf_counter() - t0) / 40000 < 20e-6     # it was 118e-6
+def test_the_criterion_costs_a_comparison_not_a_path_lookup(monkeypatch):
+    """Counted, not timed: after the first call the harness is returned
+    from the cache and no path is resolved again."""
+    from pathlib import Path
+    v6.harness_2c()
+    calls = []
+    real = Path.resolve
+    monkeypatch.setattr(Path, "resolve",
+                        lambda self, *a, **k: calls.append(self) or real(self, *a, **k))
+    for _ in range(200):
+        assert v6.verify_6(" 42", "42", "number")
+        assert v6.verify_6(" cat", "cat", "word")
+    assert calls == []
