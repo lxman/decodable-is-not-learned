@@ -213,3 +213,114 @@ def test_a_thin_stratum_is_refused(battery):
                 it["answer"] = "line"
     with pytest.raises(ValueError, match="strata below"):
         s6.strata_for_6(cap)
+
+
+# ------------------------------------------------- refusals (each one run)
+def test_the_pin_checks_refuse_a_table_that_moved(battery):
+    floors = f6.floor_table_6(battery)
+    floors["lcs"] = dict(floors["lcs"], majority_count=49, floor=0.098)
+    with pytest.raises(ValueError, match="lcs: floor"):
+        f6.check_floor_pins_6(floors)
+    table = s6.build_table_6(battery)
+    table["sort3"] = dict(table["sort3"], counts={"0": 166, "1": 167, "2": 167})
+    with pytest.raises(ValueError, match="sort3: strata counts"):
+        s6.check_strata_pins_6(table)
+    table = s6.build_table_6(battery)
+    table["sort3"] = dict(table["sort3"], strata=table["sort3"]["strata"][:-1])
+    with pytest.raises(ValueError, match="sort3: 499 labels"):
+        s6.check_strata_pins_6(table)
+
+
+def test_floor_refuses_options_that_omit_the_answer(battery):
+    cap = json.loads(json.dumps(battery["temporal"]))
+    it = cap["eval_items"][3]
+    body, opts = it["question"].split(sp.OPTIONS_PREFIX)
+    opts = ["1am to 2am" if o == it["answer"] else o for o in opts.split(", ")]
+    it["question"] = body + sp.OPTIONS_PREFIX + ", ".join(opts)
+    with pytest.raises(ValueError, match="temporal item 3"):
+        f6.rung_floor_6(cap)
+
+
+def test_a_tampered_control_is_refused(tmp_path, monkeypatch):
+    raw = b6.CONTROL_PATH.read_bytes()
+    bad = tmp_path / "ctrl_copy.json"
+    bad.write_bytes(raw.replace(b"ctrl_copy", b"ctrl_copz", 1))
+    monkeypatch.setattr(b6, "CONTROL_PATH", bad)
+    with pytest.raises(ValueError, match="against the pin"):
+        b6.load_item_file_6("ctrl_copy")
+
+
+# ---------------------------------------------------- structure levels
+def test_structure_levels_are_what_they_say(battery):
+    table = s6.build_table_6(battery)
+    st = s6.structure_table_6(battery, table)
+    assert s6.check_structure_pins_6(st) == {r: "PASS" for r in b6.RUNGS_6}
+    assert set(s6.STRUCTURE_OF_6) == set(b6.RUNGS_6)
+    for r in b6.RUNGS_6:
+        items, lv = battery[r]["eval_items"], st[r]["structure"]
+        if s6.STRUCTURE_OF_6[r] is None:
+            assert lv == [] and st[r]["strata"] == table[r]["strata"]
+            continue
+        assert len(lv) == 500 and sum(st[r]["structure_counts"].values()) == 500
+        assert st[r]["strata"] == [f"{a}|{b}" for a, b in zip(table[r]["strata"], lv)]
+    # each level recomputed from the item's TEXT, not from the module
+    for it, lv in zip(battery["unscramble_long"]["eval_items"],
+                      st["unscramble_long"]["structure"]):
+        s = it["question"].split(" ")[2]
+        assert lv == str(min(sum(a == b for a, b in zip(it["answer"], s)), 2))
+    for it, lv in zip(battery["sort3"]["eval_items"], st["sort3"]["structure"]):
+        w = it["question"].split(": ")[1].split(" ")
+        assert lv == str(sum(w[i] > w[j] for i in range(3) for j in range(i + 1, 3)))
+        assert lv != "0"                                    # never already sorted
+    for it, lv in zip(battery["modarith_add1"]["eval_items"],
+                      st["modarith_add1"]["structure"]):
+        a, b = it["meta"]["a"], it["meta"]["b"]
+        assert lv == str(int((a + b) // 10 != (a + b + 1) // 10))
+    for it, lv in zip(battery["temporal"]["eval_items"], st["temporal"]["structure"]):
+        lines = it["question"].split("\nOptions: ")[0].split("\n")
+        wake = lines[2].rsplit(" ", 1)[1].rstrip(".")
+        shut = lines[-2].rsplit(" ", 1)[1].rstrip(".")
+        a, b = it["answer"].split(" to ")
+        assert lv == ("first" if a == wake else "last" if b == shut else "middle")
+    for it, lv in zip(battery["unit_interp2"]["eval_items"],
+                      st["unit_interp2"]["structure"]):
+        body = it["question"].split("\nOptions: ")[0]
+        if " If " not in body:
+            assert lv == "plain"
+        else:
+            assert lv == ("stated" if it["meta"]["answer_stated"] else "computed")
+    lcs = battery["lcs"]["eval_items"]
+    for a in "0123456789":
+        tot = sorted(len(it["question"].split("Strings: ")[1]) - 1
+                     for it in lcs if it["answer"] == a)
+        med = tot[len(tot) // 2]
+        for it, lv in zip(lcs, st["lcs"]["structure"]):
+            if it["answer"] == a:
+                t = len(it["question"].split("Strings: ")[1]) - 1
+                assert lv == ("long" if t >= med else "short")
+    assert s6.inversions(["b", "a", "c"]) == 1 and s6.inversions(list("edcba")) == 10
+
+
+# ---------------------------------------------------- heuristic floors
+def test_heuristic_floors(battery):
+    """What a guesser that solves nothing can score, beside the rule's
+    floor. `temporal`: the right interval is the only option the text
+    does not mention, on every item — BIG-bench's own construction."""
+    h = f6.heuristic_table_6(battery)
+    assert f6.check_heuristic_pins_6(h) == {r: "PASS" for r in b6.RUNGS_6}
+    assert h["temporal"]["heuristic"] == f6.ABSENT
+    assert h["temporal"]["heuristic_count"] == 500
+    assert h["lcs"]["heuristic"] == f6.LENGTH_RULE
+    assert 190 <= h["lcs"]["heuristic_count"] <= 230        # BIG-bench's own: .40
+    for r in ("unit_interp1", "unit_interp2"):
+        assert h[r]["heuristics"][f6.SIZE_RANK] <= 120      # it was 224 and 186
+        assert h[r]["heuristics"][f6.LIST_POSITION] <= 102
+    for r in ("deduction3", "deduction5", "shapes"):
+        assert h[r]["heuristics"][f6.ABSENT] == 0
+    for r in b6.RUNGS_6:
+        if b6.N_OPTIONS_OF.get(r) is None and r != "lcs":
+            assert h[r]["heuristic"] is None and h[r]["heuristic_floor"] is None
+    # independently, from the text: the option the schedule never mentions
+    for it in battery["temporal"]["eval_items"]:
+        body, opts = it["question"].split("\nOptions: ")
+        assert [o for o in opts.split(", ") if f" {o}." not in body] == [it["answer"]]

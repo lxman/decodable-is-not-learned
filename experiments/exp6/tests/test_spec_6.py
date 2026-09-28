@@ -137,3 +137,25 @@ def test_a_draw_with_a_bad_answer_stops_the_build():
         return {"question": f"q{n}", "answer": None, "bb_key": f"k{n}", "meta": {}}
     with pytest.raises(ValueError, match="answer"):
         sp.generate(_spec(draw), {}, collisions=frozenset())
+
+
+def test_the_two_shots_are_drawn_a_stride_apart():
+    """Slots 500 and 537: every period a generator cycles a design
+    variable with is coprime with the stride, so the two shots never
+    share a designed value."""
+    seen = []
+
+    def draw(rng, ctx, slot):
+        seen.append(slot)
+        return {"question": f"q{len(seen)}", "answer": f"a{len(seen)}",
+                "bb_key": f"k{len(seen)}", "meta": {}}
+    d = sp.generate(_spec(draw), {}, collisions=frozenset())
+    assert seen[:sp.N_EVAL] == list(range(sp.N_EVAL))
+    assert seen[sp.N_EVAL:] == [sp.N_EVAL, sp.N_EVAL + sp.SHOT_STRIDE] == [500, 537]
+    assert len(d["shots"]) == 2
+    import math
+    for period in (2, 3, 4, 5, 6, 10, 25, 30):
+        assert math.gcd(sp.SHOT_STRIDE, period) == 1
+        assert sp.N_EVAL % period != (sp.N_EVAL + sp.SHOT_STRIDE) % period
+    for block in (5, 6, 25, 30):                 # the slower cycles: slot // block
+        assert sp.N_EVAL // block != (sp.N_EVAL + sp.SHOT_STRIDE) // block

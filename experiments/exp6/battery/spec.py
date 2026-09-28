@@ -18,6 +18,12 @@ import numpy as np
 
 N_EVAL = 500
 N_SHOTS = 2
+# the shots' slots are N_EVAL and N_EVAL + SHOT_STRIDE. The generators
+# cycle their design variables with the slot (periods 2 to 30); at
+# consecutive slots the two shots shared the answer's position on four
+# rungs and showed only the smallest answers on another. 37 is coprime
+# with every period, so the two shots differ in every designed variable.
+SHOT_STRIDE = 37
 MAX_ATTEMPTS_PER_SLOT = 20_000
 WEI_CLASSES = ("E.2", "E.3")
 RUNG_TYPES = ("arithmetic", "string", "choice")
@@ -132,8 +138,8 @@ def check_item(spec: RungSpec, item: dict) -> None:
 
 
 def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset) -> dict:
-    """500 eval items (slots 0..499) then 2 shots (slots 500, 501), one
-    RNG stream. A candidate is REDRAWN (same slot) if the draw rejects,
+    """500 eval items (slots 0..499) then 2 shots (slots 500 and 537),
+    one RNG stream. A candidate is REDRAWN (same slot) if the draw rejects,
     its question or its answer-bearing key repeats, or its BIG-bench key
     is in the collision index."""
     rng = np.random.default_rng(spec.seed)
@@ -172,7 +178,7 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset) -> dict:
     items = [one(slot) for slot in range(N_EVAL)]
     shots = []
     for j in range(N_SHOTS):
-        s = one(N_EVAL + j, forbid_answers=tuple(a for _, a in shots))
+        s = one(N_EVAL + SHOT_STRIDE * j, forbid_answers=tuple(a for _, a in shots))
         shots.append([s["question"], s["answer"]])
     return {"name": spec.name, "task": spec.task, "wei_class": spec.wei_class,
             "rung_type": spec.rung_type, "answer_type": spec.answer_type,

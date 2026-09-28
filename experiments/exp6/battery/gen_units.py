@@ -103,19 +103,37 @@ def lv2_sentence(row: int, r: int, given: int, give_a: bool, k: int, faster: boo
     return f"{clause.format(r=r)}, and {stated}. {tail}"
 
 
-def _options(rng, answer: int, wrong, pos: int) -> list:
-    """The answer at 1-based position `pos` among four distinct wrong
-    positive integers. `wrong` lists the unit-confusion candidates
-    first; random fill after; the wrong ones are shuffled."""
-    picks = []
+def _options(rng, answer: int, wrong, pos: int, rank: int):
+    """Five distinct positive integers with the answer at 1-based list
+    position `pos` AND at 1-based rank `rank` by magnitude: `rank` - 1
+    of the others below it, the rest above. `wrong` lists the
+    unit-confusion candidates, taken first on each side; random fill
+    after; the wrong ones are shuffled. None when the answer is too
+    small to have `rank` - 1 positive integers below it.
+
+    The rank is designed because the confusions are not symmetric: left
+    free, they bracket the answer, and a guesser that picks the middle
+    option by size scored .45 against a floor of .20."""
+    need_lo, need_hi = rank - 1, N_OPTIONS - rank
+    if answer - 1 < need_lo:
+        return None
+    lo, hi = [], []
     for w in wrong:
-        if isinstance(w, int) and w > 0 and w != answer and w not in picks:
-            picks.append(w)
-    picks = picks[:N_OPTIONS - 1]
-    while len(picks) < N_OPTIONS - 1:
-        w = int(rng.integers(2, 4 * answer + 10))
-        if w != answer and w not in picks:
-            picks.append(w)
+        if not isinstance(w, int) or w <= 0 or w == answer or w in lo or w in hi:
+            continue
+        if w < answer and len(lo) < need_lo:
+            lo.append(w)
+        elif w > answer and len(hi) < need_hi:
+            hi.append(w)
+    while len(lo) < need_lo:
+        w = int(rng.integers(1, answer))
+        if w not in lo:
+            lo.append(w)
+    while len(hi) < need_hi:
+        w = int(rng.integers(answer + 1, 4 * answer + 11))
+        if w not in hi:
+            hi.append(w)
+    picks = lo + hi
     picks = [picks[int(i)] for i in rng.permutation(len(picks))]
     return picks[:pos - 1] + [answer] + picks[pos - 1:]
 
@@ -124,6 +142,12 @@ def _pos(slot: int, n_subjects: int) -> int:
     """The answer's position cycles with the slot, crossed with the
     subject cycle, so the position strata are balanced by design."""
     return (slot // n_subjects) % N_OPTIONS + 1
+
+
+def _rank(slot: int, n_subjects: int) -> int:
+    """The answer's rank by magnitude among the options, cycling one
+    level slower than its position: subject x position x rank."""
+    return (slot // (n_subjects * N_OPTIONS)) % N_OPTIONS + 1
 
 
 def _draw_lv1(rng, ctx, slot):
@@ -151,14 +175,16 @@ def _draw_lv1(rng, ctx, slot):
         shown, answer = T, N
         wrong = [T, m, T * n, n * m, T // p if T % p == 0 else 0, N * p]
     args = (row, n, p, k, often, ask_time, shown)
-    pos = _pos(slot, len(LV1))
-    opts = _options(rng, answer, wrong, pos)
+    pos, rank = _pos(slot, len(LV1)), _rank(slot, len(LV1))
+    opts = _options(rng, answer, wrong, pos, rank)
+    if opts is None:
+        return None
     return {"question": with_options(lv1_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv1_sentence(*args, surface="bigbench"),
             "meta": {"subject": subj, "n": n, "p": p, "m": m, "k": k,
                      "often": often, "ask_time": ask_time, "options": opts,
-                     "answer_pos": pos}}
+                     "answer_pos": pos, "answer_rank": rank}}
 
 
 def _draw_lv2(rng, ctx, slot):
@@ -179,15 +205,17 @@ def _draw_lv2(rng, ctx, slot):
         answer = a if ask_a else b_new
         wrong = [b, a, b_new, a * k, a // k if a % k == 0 else 0, r, b * k]
     args = (row, r, a if give_a else b, give_a, k, faster, ask_a)
-    pos = _pos(slot, len(LV2))
-    opts = _options(rng, answer, wrong, pos)
+    pos, rank = _pos(slot, len(LV2)), _rank(slot, len(LV2))
+    opts = _options(rng, answer, wrong, pos, rank)
+    if opts is None:
+        return None
     return {"question": with_options(lv2_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv2_sentence(*args, surface="bigbench"),
             "meta": {"subject": clause.split(" at ")[0].split(" costs")[0],
                      "r": r, "a": a, "b": b, "k": k, "faster": faster,
                      "give_a": give_a, "ask_a": ask_a, "options": opts,
-                     "answer_pos": pos,
+                     "answer_pos": pos, "answer_rank": rank,
                      # the scaled rate leaves the stated quantity unchanged
                      # and that quantity is the one asked: the answer is
                      # printed in the sentence (BIG-bench has the class)
@@ -199,7 +227,8 @@ register(RungSpec(
     rung_type="choice", answer_type="number", seed=20260910, n_options=N_OPTIONS,
     description="level 1 (one implicit unit): a rate stated as a count per "
                 "period, the count or the time asked, optionally under a "
-                "stated scaling; five integer options listed",
+                "stated scaling; five integer options listed, the answer's "
+                "position and its rank by size both balanced",
     draw=_draw_lv1))
 register(RungSpec(
     name="unit_interp2", task="unit_interpretation", wei_class="E.3",
@@ -207,5 +236,6 @@ register(RungSpec(
     description="level 2 (two implicit units): a rate and one of its two "
                 "quantities, the other asked, optionally under a scaled "
                 "rate with the numerator quantity invariant; five integer "
-                "options listed",
+                "options listed, the answer's position and its rank by size "
+                "both balanced",
     draw=_draw_lv2))

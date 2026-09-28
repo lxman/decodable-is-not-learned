@@ -39,7 +39,7 @@ AUDIT_TABLE = {
     "logical_deduction/three_objects": (100, 100, 0),
     "logical_deduction/five_objects": (100, 100, 0),
     "ascii_word_recognition": (1000, 1000, 0),
-    "geometric_shapes": (359, 359, 0),
+    "geometric_shapes": (359, 358, 1),
     "temporal_sequences": (1000, 1000, 0),
     "cs_algorithms/lcs": (320, 320, 0),
     "unit_interpretation/lv1": (25, 21, 4),
@@ -138,6 +138,12 @@ def test_a_parser_refuses_or_excludes_what_the_generators_cannot_write():
                   'draws a ') == ("shapes", ["M 1.00,1.00 L 2.00,2.00"])
     assert shapes('This SVG path element <path d="M 1.0,1.0 L 2.0,2.0"/> '
                   'draws a ')[0] == au.OUTSIDE             # one decimal
+    assert shapes('This SVG path element <path d="M 1.00,1.00 L -3.00,46.00"/> '
+                  'draws a ') == (au.OUTSIDE, "a path outside the generator's grammar")
+    assert shapes('This SVG path element <path d="M 1.00,1.00 L 100.01,46.00"/> '
+                  'draws a ') == (au.OUTSIDE, "a point outside the generator's box")
+    assert shapes('This SVG path element <path d="M 50.00,20.00 A 300.00,300.00 '
+                  '350.00 1,0 60.00,80.00"/> draws a ')[0] == "shapes"   # radii are not points
 
 
 def test_a_parser_admits_an_argument_only_in_the_generators_support():
@@ -240,8 +246,11 @@ def test_the_audit_record():
     assert rec["bigbench_commit"] == c6.BIGBENCH_COMMIT
     assert rec["index_sha256"] == c6.INDEX_6_SHA256
     assert rec["generators_sha256"] == au.generators_sha256()
-    assert set(rec["generators_sha256"]) == set(au.GENERATORS) and \
-        "spec.py" in au.GENERATORS                     # the file that hashes a key
+    assert set(rec["generators_sha256"]) == set(au.GENERATORS)
+    # the file that hashes a key, and the one that hands a rung its index entry
+    assert {"spec.py", "collisions_6.py"} <= set(au.GENERATORS)
+    assert rec["files"]["geometric_shapes"]["n_outside"] == \
+        {"a path outside the generator's grammar": 1}      # a negative coordinate
     for path, r in rec["files"].items():
         assert r["establishes"] == au.ESTABLISHES[path]
     ipa = rec["files"]["international_phonetic_alphabet_transliterate"]

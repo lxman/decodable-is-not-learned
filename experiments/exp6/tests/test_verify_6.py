@@ -85,3 +85,31 @@ def test_exact_under_criterion():
     assert not v6.exact_under_criterion("blue jay", "word")     # 2d F-3's class
     assert v6.exact_under_criterion("blue jay", "sequence")
     assert v6.exact_under_criterion("ˈfoʊˌtoʊz", "ipa")
+
+
+def test_the_harness_is_2cs_and_is_resolved_once(monkeypatch):
+    import sys
+    import types
+    from pathlib import Path
+    h = v6.harness_2c()
+    assert v6.harness_2c() is h
+    assert (v6.EXPERIMENTS / "exp2c").resolve() in Path(h.__file__).resolve().parents
+    # a first resolution that lands on another `harness` is refused
+    fake = types.ModuleType("harness")
+    fake.__file__ = str(Path(__file__).resolve())
+    monkeypatch.setattr(v6, "_HARNESS", [])
+    monkeypatch.setitem(sys.modules, "harness", fake)
+    with pytest.raises(ImportError, match="not exp2c's"):
+        v6.harness_2c()
+    assert v6._HARNESS == []                 # nothing cached on a refusal
+    monkeypatch.setitem(sys.modules, "harness", h)
+    assert v6.harness_2c() is h
+
+
+def test_the_criterion_costs_a_comparison_not_a_path_lookup():
+    import time
+    t0 = time.perf_counter()
+    for _ in range(20000):
+        v6.verify_6(" 42", "42", "number")
+        v6.verify_6(" cat", "cat", "word")
+    assert (time.perf_counter() - t0) / 40000 < 20e-6     # it was 118e-6

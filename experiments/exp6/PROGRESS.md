@@ -78,3 +78,33 @@ their pins change. Each deduction sentence is now checked against the clue it re
 written in the test from English. The audit read the coordinator's scratch copy of the fourteen
 task files; the token record was re-measured offline from the coordinator's scratch cache (R-16).
 No network contact. 16 + 15 + 17 tests in the three files; 92 in the suite.
+
+### Fix wave 2 (Tasks 1, 2, 4, 5, 6) — what a firing test would mean (coordinator rulings R-21 … R-27)
+
+Task 6's review recomputed every item of ten rungs from its question text and found no wrong answer.
+Its findings were about easy classes and floors, and each was checked against BIG-bench's own task
+files before it was ruled on.
+- The unit rungs' options were skewed, and the skew was this battery's: the answer was the smallest or
+  the largest of the five in 20 of 500 items on level 1 and never the largest on level 2, so a guesser
+  picking one rank by size scored .45 and .37 against a floor of .20. BIG-bench spreads the answer over
+  all five ranks. The answer's rank of size is now designed and cycles with the slot, one level slower
+  than its list position; the best single rank scores 100 and 120 of 500 (plan delta B-19).
+- Two shortcuts are BIG-bench's own construction and are left in, measured: on `temporal` the right
+  interval is the only option the text does not mention, on 500 of 500 items here and 1,000 of 1,000 in
+  BIG-bench; on `lcs` the answer follows the strings' length (a length-only rule scores 210 of 500
+  here, .40 on BIG-bench's 320). Both are pinned as HEURISTIC FLOORS and will be printed beside every
+  count (B-22).
+- The easy classes the strata do not condition on are counted and pinned as STRUCTURE LEVELS, for a
+  named secondary that crosses them into the strata (B-21); the primary's strata are the design's.
+- The two shots are drawn 37 slots apart, so they share no designed value; at consecutive slots they
+  shared the answer's position on four rungs and showed only the answers 0 and 1 on `lcs` (B-20).
+- The audit's path grammar admits no negative number and holds a path's points to the generator's box;
+  `collisions_6.py` joins the files the record binds. The audit reads 16,654 identical, 1,095 outside
+  the generators' support for five stated reasons, 0 failed.
+- `verify_6` resolves 2c's harness once. A `number` or `word` verification cost 118 microseconds, of
+  which 117 were two path lookups; it costs under one now. Behaviour unchanged.
+- Three refusals that had no test have one: the pin checks, an option set that omits the answer, a
+  tampered control file.
+All seventeen item files, the audit record, the token record and every pin were regenerated. The audit
+read the coordinator's scratch copy of the fourteen task files; the token record was measured offline
+from the coordinator's scratch cache (R-16). No network contact. 102 tests in the suite.

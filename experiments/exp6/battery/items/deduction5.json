@@ -27529,7 +27529,7 @@
  },
  "name": "deduction5",
  "provenance": {
-  "bbkey_audit_sha256": "e7053003a4a618fc2455d512905ae85d37e3da8bafc71b1f5e4dca3aab425b19",
+  "bbkey_audit_sha256": "92cd891e95d0d410cbe88fda2fe9ec9fcb96242a25857cfe834ab733a9437eb6",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
   "pyfiglet": "1.0.4",
@@ -27543,8 +27543,8 @@
    "blue"
   ],
   [
-   "On a branch, there are five birds: a falcon, a hummingbird, an owl, a raven, and a sparrow. The sparrow is to the right of the hummingbird. The raven is the third from the left. The raven is to the left of the hummingbird. The owl is to the right of the falcon. Which bird is the second from the left?\nOptions: owl, falcon, hummingbird, raven, sparrow",
-   "owl"
+   "In a golf tournament, there were five golfers: Eli, Mya, Ada, Eve, and Rob. Rob finished below Mya. Eve finished third. Eve finished above Mya. Ada finished below Eli. Which golfer finished second?\nOptions: Eli, Mya, Ada, Eve, Rob",
+   "Ada"
   ]
  ],
  "task": "logical_deduction",

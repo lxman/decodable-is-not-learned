@@ -2,7 +2,14 @@
 """Exp 6 difficulty strata (design §3.1, §4): one covariate per rung, a
 pure function of the committed item, fixed before any model contact.
 The table has 2g's shape, so 2g's statistics read it unchanged. The
-anchors' strata are 2g's own (`strata_2g.strata_for`)."""
+anchors' strata are 2g's own (`strata_2g.strata_for`).
+
+Beside the stratum, a STRUCTURE level per item (plan delta B-19): the
+property of the item's surface that would make it easy for any model
+and that the stratum does not condition on — a letter left in place, a
+list one swap from sorted, a position a clue states outright. It is
+counted, pinned, and crossed into the stratum by a named secondary; the
+primary's strata are the design's."""
 from __future__ import annotations
 
 from collections import Counter
@@ -50,9 +57,103 @@ STRATA_COUNT_PIN_6 = {
 }
 
 
+# rung -> what its structure level reads (None: nothing beyond the stratum)
+STRUCTURE_OF_6 = {
+    "modarith_add1": "plus_one_ripples", "modarith_sub1": "plus_one_ripples",
+    "modarith_mul1": "plus_one_ripples",
+    "unscramble_short": "letters_in_place", "unscramble_long": "letters_in_place",
+    "ipa_word": None,
+    "sort3": "inversions", "sort5": "inversions",
+    "deduction3": "stated_x_extreme", "deduction5": "stated_x_extreme",
+    "ascii_bubble": None, "ascii_basic": None,
+    "shapes": "pen_restated", "temporal": "free_position",
+    "lcs": "length_for_its_answer",
+    "unit_interp1": "scaling", "unit_interp2": "scaling",
+}
+SORT5_BINS = ((0, 3), (4, 6), (7, 10))      # inversions of five words: 0..10
+# level -> item count per rung, pinned from the committed item files
+STRUCTURE_COUNT_PIN_6 = {
+    "modarith_add1": {"0": 439, "1": 61},
+    "modarith_sub1": {"0": 445, "1": 55},
+    "modarith_mul1": {"0": 478, "1": 22},
+    "unscramble_short": {"0": 145, "1": 198, "2": 157},
+    "unscramble_long": {"0": 122, "1": 167, "2": 211},
+    "ipa_word": {},
+    "sort3": {"1": 200, "2": 207, "3": 93},
+    "sort5": {"0-3": 114, "4-6": 257, "7-10": 129},
+    "deduction3": {"derived|end": 287, "derived|inner": 107, "stated|end": 63, "stated|inner": 43},
+    "deduction5": {"derived|end": 143, "derived|inner": 189, "stated|end": 50, "stated|inner": 118},
+    "ascii_bubble": {},
+    "ascii_basic": {},
+    "shapes": {"0": 245, "1": 255},
+    "temporal": {"first": 101, "last": 99, "middle": 300},
+    "lcs": {"long": 275, "short": 225},
+    "unit_interp1": {"intervals": 158, "often": 131, "plain": 211},
+    "unit_interp2": {"computed": 226, "plain": 202, "stated": 72},
+}
+
+
 def _sg():
     from experiments.exp2g import strata_2g as sg
     return sg
+
+
+def inversions(words) -> int:
+    return sum(1 for i in range(len(words)) for j in range(i + 1, len(words))
+               if words[i] > words[j])
+
+
+def structure_levels(cap: dict) -> list:
+    """One level per item, a string; [] for a rung that has none."""
+    rung = cap["name"]
+    kind = STRUCTURE_OF_6[rung]
+    items = cap["eval_items"]
+    if kind is None:
+        return []
+    out = []
+    if kind == "length_for_its_answer":
+        # the two strings' total length against the median of the
+        # items that share the answer: short or long FOR ITS ANSWER
+        total = [len(it["meta"]["a"]) + len(it["meta"]["b"]) for it in items]
+        by = {}
+        for it, t in zip(items, total):
+            by.setdefault(it["answer"], []).append(t)
+        med = {a: sorted(v)[len(v) // 2] for a, v in by.items()}
+        return ["long" if t >= med[it["answer"]] else "short"
+                for it, t in zip(items, total)]
+    for it in items:
+        m = it["meta"]
+        if kind == "plus_one_ripples":
+            # the +1 changes more than the result's last digit
+            base = int(it["answer"]) - 1
+            out.append(str(int(str(base)[:-1] != str(base + 1)[:-1])))
+        elif kind == "letters_in_place":
+            n = sum(1 for a, b in zip(m["word"], m["scrambled"]) if a == b)
+            out.append(str(min(n, 2)))
+        elif kind == "inversions":
+            n = inversions(m["words"])
+            if len(m["words"]) == 3:
+                out.append(str(n))
+            else:
+                out.append(next(f"{lo}-{hi}" for lo, hi in SORT5_BINS if lo <= n <= hi))
+        elif kind == "stated_x_extreme":
+            extreme = m["asked"] in (1, len(m["listed"]))
+            out.append(("stated" if m["stated"] else "derived") + "|" +
+                       ("end" if extreme else "inner"))
+        elif kind == "pen_restated":
+            out.append(str(int(m["path"].count("M ") > 1)))
+        elif kind == "free_position":
+            out.append(str(m["free_position"]))
+        elif kind == "scaling":
+            if not m["k"]:
+                out.append("plain")
+            elif "answer_stated" in m:
+                out.append("stated" if m["answer_stated"] else "computed")
+            else:
+                out.append("often" if m["often"] else "intervals")
+        else:
+            raise ValueError(kind)
+    return out
 
 
 def raw_level(rung: str, item: dict):
@@ -138,6 +239,40 @@ def build_table_6(battery: dict) -> dict:
                            "level_map": {str(k): v for k, v in t["level_map"].items()},
                            "strata": list(t["strata"]), "counts": dict(t["counts"])}
     return table
+
+
+def structure_table_6(battery: dict, table: dict) -> dict:
+    """The strata with the structure level crossed in: 2g's shape again,
+    so the same statistic reads it. A rung without a structure level
+    keeps its strata. Composite strata are NOT merged and may be small;
+    the secondary that reads them is descriptive."""
+    out = {}
+    for rung in b6.RUNGS_6:
+        if rung not in battery:
+            continue
+        lv = structure_levels(battery[rung])
+        base = list(table[rung]["strata"])
+        strata = [f"{s}|{x}" for s, x in zip(base, lv)] if lv else base
+        out[rung] = {"kind": f"{table[rung]['kind']} x {STRUCTURE_OF_6[rung]}",
+                     "structure": lv,
+                     "structure_counts": {k: int(v) for k, v in
+                                          sorted(Counter(lv).items())},
+                     "strata": strata,
+                     "counts": {k: int(v) for k, v in sorted(Counter(strata).items())}}
+    return out
+
+
+def check_structure_pins_6(stable: dict) -> dict:
+    out = {}
+    for rung in b6.RUNGS_6:
+        if stable[rung]["structure_counts"] != STRUCTURE_COUNT_PIN_6[rung]:
+            raise ValueError(f"{rung}: structure counts "
+                             f"{stable[rung]['structure_counts']} against the pin "
+                             f"{STRUCTURE_COUNT_PIN_6[rung]}")
+        if len(stable[rung]["strata"]) != b6.N_ITEMS:
+            raise ValueError(f"{rung}: {len(stable[rung]['strata'])} labels")
+        out[rung] = "PASS"
+    return out
 
 
 def check_strata_pins_6(table: dict) -> dict:

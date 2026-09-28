@@ -3,7 +3,12 @@
 option count DECLARED per rung and checked against every item, never
 detected (2d's detector reads "options after the last colon", which the
 sort rungs' own question text would trip). The bar is 2d's
-`binomial_bar` verbatim."""
+`binomial_bar` verbatim.
+
+Beside the rule's floor, a HEURISTIC floor per rung (plan delta B-20):
+the best of a fixed list of guessers that read an item's surface and
+solve nothing. It decides nothing. It is printed beside every count so
+that a clear only a guesser could produce is visible as one."""
 from __future__ import annotations
 
 from collections import Counter
@@ -31,8 +36,8 @@ FLOOR_PIN_6 = {
     "shapes": [50, 10],
     "temporal": [15, 4],
     "lcs": [50, None],
-    "unit_interp1": [13, 5],
-    "unit_interp2": [17, 5],
+    "unit_interp1": [15, 5],
+    "unit_interp2": [14, 5],
 }
 
 
@@ -95,6 +100,84 @@ def floor_table_6(battery: dict) -> dict:
             out[rung] = {**majority_floor_6(cap), "n_options": None,
                          "floor": majority_floor_6(cap)["majority_floor"],
                          "floor_rule": "majority (control, not scored)"}
+    return out
+
+
+# ------------------------------------------------------ heuristic floors
+# rung -> [the best guesser's name, its count of 500], pinned from the
+# committed item files; None where no guesser applies
+HEURISTIC_PIN_6 = {
+    "modarith_add1": [None, None],
+    "modarith_sub1": [None, None],
+    "modarith_mul1": [None, None],
+    "unscramble_short": [None, None],
+    "unscramble_long": [None, None],
+    "ipa_word": [None, None],
+    "sort3": [None, None],
+    "sort5": [None, None],
+    "deduction3": ["the option at one list position", 170],
+    "deduction5": ["the option at one list position", 100],
+    "ascii_bubble": [None, None],
+    "ascii_basic": [None, None],
+    "shapes": ["the option at one list position", 56],
+    "temporal": ["the only option absent from the text", 500],
+    "lcs": ["the commonest answer at the shorter string's length", 210],
+    "unit_interp1": ["the option at one list position", 100],
+    "unit_interp2": ["the option of one rank by size", 120],
+}
+LIST_POSITION = "the option at one list position"
+SIZE_RANK = "the option of one rank by size"
+ABSENT = "the only option absent from the text"
+LENGTH_RULE = "the commonest answer at the shorter string's length"
+
+
+def heuristic_floor_6(cap: dict) -> dict:
+    """Guessers, each scored on the 500 items IN-SAMPLE (so each is an
+    upper bound on what that guesser could score on unseen items)."""
+    rung, at, items = cap["name"], cap["answer_type"], cap["eval_items"]
+    n = len(items)
+    found = {}
+    if b6.N_OPTIONS_OF.get(rung):
+        opts = [options_of(it, at) for it in items]
+        want = [v6.normalize_answer_side(str(it["answer"]), at) for it in items]
+        found[LIST_POSITION] = max(Counter(
+            o.index(w) for o, w in zip(opts, want)).values())
+        if at == "number":
+            found[SIZE_RANK] = max(Counter(
+                sorted(int(x) for x in o).index(int(w))
+                for o, w in zip(opts, want)).values())
+        hits = 0
+        for it, o, w in zip(items, opts, want):
+            body = it["question"].rsplit(OPTIONS_PREFIX, 1)[0].lower()
+            hits += [x for x in o if x not in body] == [w]
+        found[ABSENT] = hits
+    if rung == "lcs":
+        by = {}
+        for it in items:
+            k = min(len(it["meta"]["a"]), len(it["meta"]["b"]))
+            by.setdefault(k, Counter())[it["answer"]] += 1
+        found[LENGTH_RULE] = sum(c.most_common(1)[0][1] for c in by.values())
+    if not found:
+        return {"heuristics": {}, "heuristic": None, "heuristic_count": None,
+                "heuristic_floor": None, "n_items": n}
+    name, count = sorted(found.items(), key=lambda kv: (-kv[1], kv[0]))[0]
+    return {"heuristics": {k: int(v) for k, v in sorted(found.items())},
+            "heuristic": name, "heuristic_count": int(count),
+            "heuristic_floor": count / n, "n_items": n}
+
+
+def heuristic_table_6(battery: dict) -> dict:
+    return {r: heuristic_floor_6(battery[r]) for r in b6.RUNGS_6 if r in battery}
+
+
+def check_heuristic_pins_6(table: dict) -> dict:
+    out = {}
+    for rung in b6.RUNGS_6:
+        got = [table[rung]["heuristic"], table[rung]["heuristic_count"]]
+        if got != HEURISTIC_PIN_6[rung]:
+            raise ValueError(f"{rung}: heuristic floor {got} against the pin "
+                             f"{HEURISTIC_PIN_6[rung]}")
+        out[rung] = "PASS"
     return out
 
 

@@ -26,8 +26,16 @@ MAX_NEW_TOKENS_6 = {"number": 8, "word": 12, "span": 12, "ipa": 24,
 _STRIP = ".!?\"' "
 
 
+_HARNESS = []
+
+
 def harness_2c():
-    """2c's harness, provenance-asserted (exp3c's pattern)."""
+    """2c's harness, provenance-asserted (exp3c's pattern) — ONCE. The
+    module is resolved and checked on the first call and the same object
+    is returned after it: the criterion runs on millions of draws, and
+    resolving two paths per draw cost two hundred times the comparison."""
+    if _HARNESS:
+        return _HARNESS[0]
     for p in (EXPERIMENTS / "exp2b", EXPERIMENTS / "exp2c"):
         if str(p) not in sys.path:
             sys.path.insert(0, str(p))
@@ -35,6 +43,7 @@ def harness_2c():
     got = Path(harness.__file__).resolve()
     if (EXPERIMENTS / "exp2c").resolve() not in got.parents:
         raise ImportError(f"`harness` resolved to {got}, not exp2c's")
+    _HARNESS.append(harness)
     return harness
 
 

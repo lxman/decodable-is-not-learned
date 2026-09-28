@@ -22,12 +22,14 @@
    "task": "cs_algorithms"
   },
   "geometric_shapes": {
-   "establishes": "the sentence frame and its trailing space; the path in the generator's grammar",
+   "establishes": "the sentence frame and its trailing space; the path in the generator's grammar, its points in the generator's box",
    "failed_sha256": [],
    "kind": "input",
    "n_failed": 0,
-   "n_identical": 359,
-   "n_outside": {},
+   "n_identical": 358,
+   "n_outside": {
+    "a path outside the generator's grammar": 1
+   },
    "n_strings": 359,
    "task": "geometric_shapes"
   },
@@ -150,13 +152,14 @@
   }
  },
  "generators_sha256": {
+  "collisions_6.py": "2921a5044517b7eedcb6e685482d7e8b4e8f963df083cee706ddfda63885b5a1",
   "gen_arith.py": "cd47d3517741baa8c282756915dcc71cf47df5c3ecb3bb82d592d13ec650df8a",
   "gen_ascii.py": "32c7949c3f64b35b8be178e13dc1cfb86d05cd3734f8cae4dd8d139b75364de2",
   "gen_logic.py": "7bc2cce31b0f4f9e49e7b214b1f4d55da99f8e03b1ddd51061fcba1cd4350b5c",
   "gen_shapes.py": "b0d6a97be9822e46ebfa4d45b32a35814bc89566ea124653191a9128142beb13",
-  "gen_units.py": "de84118be83f2b02e48fe8412e08759fda19678373935b2402f3e1cd8260ca65",
+  "gen_units.py": "4768661b865c7112953bdedd34ed4224908723bab031e8d6f99d3145135b6145",
   "gen_words.py": "ea1ddf5b4f05584fa3a11561440416779104be20449a64d2547d0fb99de7f2c7",
-  "spec.py": "375b41a02479a9e9a5bf77e46743f70c8eef036261a5f4e631b4035b467da300"
+  "spec.py": "e08ea8dc8d9e1d908342ab57b6444313344229d897a451882c71f1b531268567"
  },
  "index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
  "n_failed": 0

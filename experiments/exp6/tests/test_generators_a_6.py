@@ -292,12 +292,38 @@ def test_what_a_model_reads_against_the_key(built):
                 assert q == fixed
 
 
+@pytest.mark.parametrize("name,n_subjects", [("unit_interp1", 5), ("unit_interp2", 6)])
+def test_the_answer_is_balanced_by_position_and_by_size(built, name, n_subjects):
+    """The confusions are not symmetric about the answer. Left free, the
+    answer was the smallest or the largest of the five in 20 of 500
+    items on level 1 and never the largest on level 2, and a guesser
+    picking one rank by size scored .45 and .37 against a floor of .20."""
+    items = _items(built, name)
+    rank, pos = Counter(), Counter()
+    for slot, it in enumerate(items):
+        opts = [int(o) for o in it["question"].split("\nOptions: ")[1].split(", ")]
+        assert len(set(opts)) == 5 and all(o > 0 for o in opts)
+        r = sorted(opts).index(int(it["answer"])) + 1
+        assert r == it["meta"]["answer_rank"] == (slot // (n_subjects * 5)) % 5 + 1
+        assert opts.index(int(it["answer"])) + 1 == it["meta"]["answer_pos"] \
+            == (slot // n_subjects) % 5 + 1
+        rank[r] += 1
+        pos[opts.index(int(it["answer"])) + 1] += 1
+    assert set(rank) == set(pos) == {1, 2, 3, 4, 5}
+    assert max(rank.values()) <= 120 and max(pos.values()) <= 102
+    a, b = [int(a) for _, a in built[name]["shots"]]
+    sa, sb = [[int(o) for o in q.split("\nOptions: ")[1].split(", ")]
+              for q, _ in built[name]["shots"]]
+    assert sa.index(a) != sb.index(b)                        # the shots' positions
+    assert sorted(sa).index(a) != sorted(sb).index(b)        # and their ranks
+
+
 def test_unit_interp2_flags_a_stated_answer(built):
     """BIG-bench's class: the scaled rate leaves the stated quantity
     unchanged and that quantity is asked. Flagged, not excluded."""
     items = _items(built, "unit_interp2")
     flagged = [it for it in items if it["meta"]["answer_stated"]]
-    assert len(flagged) == 71
+    assert len(flagged) == 72
     for it in items:
         m = it["meta"]
         assert m["answer_stated"] == bool(m["k"] and m["give_a"] and m["ask_a"])
