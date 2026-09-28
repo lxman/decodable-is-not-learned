@@ -27,6 +27,7 @@ def test_validate_refuses_bad_specs():
     assert sp.validate_spec(_spec(_counter_draw, rung_type="logic"))
     assert sp.validate_spec(_spec(_counter_draw, collision_kind="both"))
     assert sp.validate_spec(_spec(_counter_draw, description=""))
+    assert sp.validate_spec(_spec(_counter_draw, name=""))
 
 
 def test_register_refuses_duplicates(monkeypatch):
@@ -111,3 +112,28 @@ def test_check_item_on_free_form_rungs():
                 {"question": "q", "answer": "a", "meta": {}}):  # no bb_key
         with pytest.raises(ValueError):
             sp.check_item(s, bad)
+
+
+def test_check_item_refuses_wrongly_typed_fields():
+    """A generator bug must refuse, never reach the item file: an
+    answer of None would otherwise be written as the string 'None'."""
+    s = _spec(_counter_draw)
+    good = {"question": "q", "answer": "gulf", "bb_key": "k", "meta": {"a": 1}}
+    sp.check_item(s, good)
+    for field, value in (("answer", None), ("answer", 7), ("answer", ""),
+                         ("answer", "  "), ("bb_key", 7), ("bb_key", ""),
+                         ("bb_key", None), ("question", None),
+                         ("meta", "a string"), ("meta", None), ("meta", [1]),
+                         ("meta", {"a": {1, 2}}), ("meta", {"a": object()})):
+        with pytest.raises(ValueError, match=field):
+            sp.check_item(s, {**good, field: value})
+    with pytest.raises(ValueError, match="not a dict"):
+        sp.check_item(s, ["q", "gulf"])
+
+
+def test_a_draw_with_a_bad_answer_stops_the_build():
+    def draw(rng, ctx, slot):
+        n = int(rng.integers(10_000))
+        return {"question": f"q{n}", "answer": None, "bb_key": f"k{n}", "meta": {}}
+    with pytest.raises(ValueError, match="answer"):
+        sp.generate(_spec(draw), {}, collisions=frozenset())

@@ -10,6 +10,7 @@ against BIG-bench's own strings, the shots and the item count.
 from __future__ import annotations
 
 import hashlib
+import json
 from dataclasses import dataclass
 from typing import Callable, Optional
 
@@ -35,7 +36,7 @@ class RungSpec:
     draw: Callable            # draw(rng, ctx, slot) -> dict | None
     n_options: Optional[int] = None   # option-listing rungs only
     collision_kind: str = "input"     # "input" | "target"
-    unique_answers: bool = False      # every eval item a different answer
+    unique_answers: bool = False      # no answer repeats among the 502 (items and shots)
 
 
 SPECS_6: dict = {}
@@ -54,8 +55,9 @@ def validate_spec(spec: RungSpec) -> list:
         bad.append(f"{spec.name}: collision_kind {spec.collision_kind!r}")
     if spec.n_options is not None and spec.n_options < 3:
         bad.append(f"{spec.name}: a two-way choice is excluded (design §2 iv)")
-    if not spec.description or not spec.task or not callable(spec.draw):
-        bad.append(f"{spec.name}: task, description and draw are mandatory")
+    if not spec.name or not spec.description or not spec.task or \
+            not callable(spec.draw):
+        bad.append(f"{spec.name!r}: name, task, description and draw are mandatory")
     return bad
 
 
@@ -86,11 +88,23 @@ def with_options(question: str, options) -> str:
 
 def check_item(spec: RungSpec, item: dict) -> None:
     from experiments.exp6 import verify_6 as v6
+    if not isinstance(item, dict):
+        raise ValueError(f"{spec.name}: a draw returned {type(item).__name__}, "
+                         f"not a dict")
     for k in ("question", "answer", "bb_key", "meta"):
         if k not in item:
             raise ValueError(f"{spec.name}: item lacks {k!r}")
-    if not isinstance(item["question"], str) or not item["question"].strip():
-        raise ValueError(f"{spec.name}: empty question")
+    for k in ("question", "answer", "bb_key"):
+        if not isinstance(item[k], str) or not item[k].strip():
+            raise ValueError(f"{spec.name}: {k} is {item[k]!r}, not a non-empty "
+                             f"string")
+    if not isinstance(item["meta"], dict):
+        raise ValueError(f"{spec.name}: meta is {type(item['meta']).__name__}, "
+                         f"not a dict")
+    try:
+        json.dumps(item["meta"])
+    except (TypeError, ValueError) as e:
+        raise ValueError(f"{spec.name}: meta is not JSON-serialisable ({e})")
     if item["question"] != item["question"].strip():
         raise ValueError(f"{spec.name}: question has outer whitespace")
     want = v6.normalize_answer_side(item["answer"], spec.answer_type)
