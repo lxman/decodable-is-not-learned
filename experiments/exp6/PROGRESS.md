@@ -10,7 +10,9 @@ None.
 
 ## Network contacts (build)
 
-(none yet)
+- 2026-09-27: `pip install --no-deps pyfiglet==1.0.4 eng_to_ipa==0.0.2` — installed clean, no other packages pulled in; stack confirmed unmoved (`torch 2.12.1, transformers 5.13.0, numpy 2.4.6`).
+- 2026-09-27: `https://www.norvig.com/ngrams/count_1w.txt` → scratch directory, sha256 `51df159fd3de12b20e403c108f526e96dbd723d9cabdd5f17955cdc16059e690` (matches the pin in `make_data_6.py`). Not committed.
+- 2026-09-27: fourteen `task.json` files from `google/BIG-bench` at commit `092b196c1f8f14a54bbc62f24759d43bde46dd3b` → scratch directory (`modified_arithmetic/{three_digit_addition_plus_one,three_digit_subtraction_plus_one,two_digit_multiplication_plus_one}`, `word_unscrambling`, `word_sorting`, `international_phonetic_alphabet_transliterate`, `logical_deduction/{three_objects,five_objects}`, `ascii_word_recognition`, `geometric_shapes`, `temporal_sequences`, `cs_algorithms/lcs`, `unit_interpretation/{lv1,lv2}`). Not committed — only their hashes, in `bigbench_index_6.json`. `SOURCES` enumerates fourteen paths, not the fifteen the brief's prose names; the generated index's sha and every `n_keys` value match the pins exactly.
 
 ## Plan deltas awaiting ratification
 
@@ -21,3 +23,5 @@ B-1 … B-12, as listed in the battery plan.
 ### Task 1 — verify_6.py: five answer types (number and word are 2c's normalizer, imported), budgets 8/12/12/16/24, draw side total over 20,016 fuzzed strings per type, answer side a hard error; 8 tests.
 
 ### Task 2 — battery/spec.py: RungSpec, the registry (duplicate names and seeds refused, two-way choices refused), check_item, the driver (500 eval + 2 shots on one stream; redraw on reject / duplicate / collision / repeated answer); 9 tests.
+
+### Task 3 — the vendored data: words_6.tsv (21,540 rows; 9,128 in the top 10,000; 7,649 with exactly one CMUdict pronunciation) sha 1e19db04…; bigbench_index_6.json (18,749 hashes over ten tasks at BIG-bench 092b196c, no BIG-bench text) sha 0970e986…; 7 tests. Network contacts logged above.
