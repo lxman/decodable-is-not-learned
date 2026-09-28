@@ -111,10 +111,15 @@ def check_item(spec: RungSpec, item: dict) -> None:
         json.dumps(item["meta"])
     except (TypeError, ValueError) as e:
         raise ValueError(f"{spec.name}: meta is not JSON-serialisable ({e})")
-    content = item.get("content_key")
-    if content is not None and (not isinstance(content, str) or not content.strip()):
-        raise ValueError(f"{spec.name}: content_key is {content!r}, not a "
-                         f"non-empty string")
+    for k in ("question_key", "content_key"):
+        v = item.get(k)
+        if v is not None and (not isinstance(v, str) or not v.strip()):
+            raise ValueError(f"{spec.name}: {k} is {v!r}, not a non-empty string")
+    shows = item.get("shows", [])
+    if not isinstance(shows, list) or not all(
+            isinstance(k, str) and k.strip() for k in shows):
+        raise ValueError(f"{spec.name}: shows is {shows!r}, not a list of "
+                         f"non-empty strings")
     extra = item.get("bb_extra", [])
     if not isinstance(extra, list) or not all(
             isinstance(k, str) and k.strip() for k in extra):
@@ -153,12 +158,24 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
     its question or its answer-bearing key repeats, its BIG-bench key is
     in the collision index, or one of its EXTRA keys (`bb_extra`: a part
     of the item that is a question in its own right) is in the index's
-    extra table. A SHOT is redrawn also if its content key is one an
-    eval item, or the shot before it, carries. The key (`content_key`) is
-    the rung's own statement of what a prompt would give away: on the
-    unit rungs, the numbers a sentence prints together with its answer."""
+    extra table.
+
+    Three optional keys of a draw say what the item is, its surface
+    aside; the driver reads them and keeps none.
+      `question_key`  what the item ASKS (the pair a modarith item asks,
+                      either way round; a unit sentence under any
+                      subject). No two items of a rung, shots included,
+                      carry one question key: the second is a duplicate.
+      `content_key`   what would GIVE THE ITEM AWAY if a prompt showed
+                      it with its answer.
+      `shows`         what else the item shows beside a result (a
+                      modarith item's worked lines), as content keys.
+    A SHOT is redrawn if its content key, or a key of what it shows, is
+    the content key of an eval item: a prompt does not show the answer
+    of an item it is scored on. An eval item is never redrawn for that."""
     rng = np.random.default_rng(spec.seed)
-    seen_q, seen_key, seen_ans, seen_content = set(), set(), set(), set()
+    seen_q, seen_key, seen_ans = set(), set(), set()
+    seen_question, eval_content = set(), set()
     n_redrawn = {"rejected": 0, "duplicate": 0, "collision": 0,
                  "shot_answer": 0, "shot_content": 0, "repeated_answer": 0}
 
@@ -170,7 +187,8 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
                 continue
             check_item(spec, item)
             key = sha256_text(item["bb_key"])
-            if item["question"] in seen_q or key in seen_key:
+            asks = item.get("question_key")
+            if item["question"] in seen_q or key in seen_key or asks in seen_question:
                 n_redrawn["duplicate"] += 1
                 continue
             extra = [sha256_text(k) for k in item.get("bb_extra", [])]
@@ -184,11 +202,14 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
                 n_redrawn["repeated_answer"] += 1
                 continue
             content = item.get("content_key")
-            if shot and content is not None and content in seen_content:
+            gives = ([] if content is None else [content]) + item.get("shows", [])
+            if shot and any(k in eval_content for k in gives):
                 n_redrawn["shot_content"] += 1
                 continue
-            if content is not None:
-                seen_content.add(content)
+            if content is not None and not shot:
+                eval_content.add(content)
+            if asks is not None:
+                seen_question.add(asks)
             seen_q.add(item["question"])
             seen_key.add(key)
             seen_ans.add(item["answer"])

@@ -1364,40 +1364,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n41 * 3 -> 124\n63 * 8 -> 505\n7 * 49 -> 344\n67 * 1 -> 68\n22 * 70 -> 1541\n98 * 72 ->"
   },
   {
-   "answer": "1492",
-   "bb_extra_sha256": [
-    "5bee96b39a699fc36af4e9ee942c76e9f103c313ea884a8505029f4511cc2da5"
-   ],
-   "bb_sha256": "a2a87f375436f10cffe008afaa2fb804f2d3eaeb6f0f313ccfc65ddc159704ed",
-   "meta": {
-    "a": 21,
-    "b": 71,
-    "examples": [
-     [
-      21,
-      59
-     ],
-     [
-      0,
-      11
-     ],
-     [
-      4,
-      63
-     ],
-     [
-      49,
-      5
-     ],
-     [
-      44,
-      47
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n21 * 59 -> 1240\n0 * 11 -> 1\n4 * 63 -> 253\n49 * 5 -> 246\n44 * 47 -> 2069\n21 * 71 ->"
-  },
-  {
    "answer": "2801",
    "bb_extra_sha256": [
     "f248a31e6bb86112066ee91ed1fe9d29193376c30bd03bf065dcc009092eb578"
@@ -4152,40 +4118,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n35 * 67 -> 2346\n19 * 4 -> 77\n76 * 51 -> 3877\n71 * 77 -> 5468\n80 * 91 -> 7281\n76 * 48 ->"
   },
   {
-   "answer": "961",
-   "bb_extra_sha256": [
-    "5f7137a719d830b354b1988ef2da656b6b423acb0564aaa1da40d17133d3c57b"
-   ],
-   "bb_sha256": "68d06200d292761337608b2ddb4f827ea8799b629a4ac85d86cf767342ecef4f",
-   "meta": {
-    "a": 24,
-    "b": 40,
-    "examples": [
-     [
-      17,
-      74
-     ],
-     [
-      8,
-      90
-     ],
-     [
-      87,
-      75
-     ],
-     [
-      3,
-      22
-     ],
-     [
-      89,
-      91
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n17 * 74 -> 1259\n8 * 90 -> 721\n87 * 75 -> 6526\n3 * 22 -> 67\n89 * 91 -> 8100\n24 * 40 ->"
-  },
-  {
    "answer": "1939",
    "bb_extra_sha256": [
     "0e32dbc8875968892973bb8ed1c71e91a4c0eddc399f5e09ba1b63993cc10010"
@@ -4866,40 +4798,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n19 * 24 -> 457\n80 * 77 -> 6161\n86 * 88 -> 7569\n34 * 42 -> 1429\n30 * 26 -> 781\n64 * 1 ->"
   },
   {
-   "answer": "7057",
-   "bb_extra_sha256": [
-    "1fa2982ea0adef5ac995b792d1fa81f8315372ac3dbcd2a91e9e30b000e245dc"
-   ],
-   "bb_sha256": "129e142a12437a8af1da8c52d453ff3025bf10dbe901ff15aaffd179a4ad8f60",
-   "meta": {
-    "a": 98,
-    "b": 72,
-    "examples": [
-     [
-      83,
-      92
-     ],
-     [
-      95,
-      32
-     ],
-     [
-      94,
-      83
-     ],
-     [
-      6,
-      49
-     ],
-     [
-      97,
-      68
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n83 * 92 -> 7637\n95 * 32 -> 3041\n94 * 83 -> 7803\n6 * 49 -> 295\n97 * 68 -> 6597\n98 * 72 ->"
-  },
-  {
    "answer": "1457",
    "bb_extra_sha256": [
     "95152fa5715b88cdaf8aee86ccd11ebab8f04c68f78f5a55e0616d3c22d01390"
@@ -5342,40 +5240,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n42 * 39 -> 1639\n47 * 73 -> 3432\n4 * 46 -> 185\n53 * 21 -> 1114\n19 * 7 -> 134\n33 * 63 ->"
   },
   {
-   "answer": "7813",
-   "bb_extra_sha256": [
-    "9fd398e760cfa7c8b91e148e32b92c2041cc3b78ef53488fd6ec9d95dc709d59"
-   ],
-   "bb_sha256": "307850d96e9228199dd362e2d1a4341cada33c9b83bf212142c725b20dedc38a",
-   "meta": {
-    "a": 84,
-    "b": 93,
-    "examples": [
-     [
-      44,
-      14
-     ],
-     [
-      89,
-      19
-     ],
-     [
-      43,
-      38
-     ],
-     [
-      83,
-      30
-     ],
-     [
-      26,
-      60
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n44 * 14 -> 617\n89 * 19 -> 1692\n43 * 38 -> 1635\n83 * 30 -> 2491\n26 * 60 -> 1561\n84 * 93 ->"
-  },
-  {
    "answer": "568",
    "bb_extra_sha256": [
     "4cb1e2c56728eb1a3291ac1ff9b5ecc0baa07ef1397a3c72077f53b062526cd1"
@@ -5748,74 +5612,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n23 * 22 -> 507\n50 * 32 -> 1601\n42 * 90 -> 3781\n74 * 54 -> 3997\n1 * 11 -> 12\n28 * 21 ->"
-  },
-  {
-   "answer": "5761",
-   "bb_extra_sha256": [
-    "806df2b86604bc2b403d475cdc030268baccb50dea6b2741d35169cf210b151a"
-   ],
-   "bb_sha256": "932fa320f65a735cc435ee616bb47f949fdfa60586e48ea4469c3bbe30b9004e",
-   "meta": {
-    "a": 60,
-    "b": 96,
-    "examples": [
-     [
-      51,
-      62
-     ],
-     [
-      22,
-      2
-     ],
-     [
-      32,
-      36
-     ],
-     [
-      72,
-      30
-     ],
-     [
-      71,
-      13
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n51 * 62 -> 3163\n22 * 2 -> 45\n32 * 36 -> 1153\n72 * 30 -> 2161\n71 * 13 -> 924\n60 * 96 ->"
-  },
-  {
-   "answer": "1081",
-   "bb_extra_sha256": [
-    "4a3ff350062b7ddab8efc297b0d1f41502e35312f5d5a6731e9d56b1c2dbab79"
-   ],
-   "bb_sha256": "2541ca518a854670b0fd4c6aa4437db2d9a71ec3808aee84d56e5026a21078ab",
-   "meta": {
-    "a": 36,
-    "b": 30,
-    "examples": [
-     [
-      29,
-      70
-     ],
-     [
-      73,
-      56
-     ],
-     [
-      46,
-      49
-     ],
-     [
-      2,
-      52
-     ],
-     [
-      30,
-      69
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n29 * 70 -> 2031\n73 * 56 -> 4089\n46 * 49 -> 2255\n2 * 52 -> 105\n30 * 69 -> 2071\n36 * 30 ->"
   },
   {
    "answer": "1",
@@ -6940,40 +6736,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n46 * 39 -> 1795\n48 * 66 -> 3169\n55 * 87 -> 4786\n84 * 22 -> 1849\n44 * 48 -> 2113\n37 * 20 ->"
   },
   {
-   "answer": "1441",
-   "bb_extra_sha256": [
-    "9ef09b265993a043254acf1a90647e5a081651140efef4b6f57fdb410959daf3"
-   ],
-   "bb_sha256": "bcfc4e38445db7f1651efb952494f33a0f813495b4a47efd6482aa01b6e8a3cc",
-   "meta": {
-    "a": 32,
-    "b": 45,
-    "examples": [
-     [
-      78,
-      54
-     ],
-     [
-      61,
-      2
-     ],
-     [
-      1,
-      15
-     ],
-     [
-      81,
-      98
-     ],
-     [
-      53,
-      76
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n78 * 54 -> 4213\n61 * 2 -> 123\n1 * 15 -> 16\n81 * 98 -> 7939\n53 * 76 -> 4029\n32 * 45 ->"
-  },
-  {
    "answer": "3368",
    "bb_extra_sha256": [
     "13b309f5b6addfd7406a4189223414c0b9602ecd64e04c952fff1d3ff389387b"
@@ -7176,40 +6938,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n72 * 15 -> 1081\n71 * 51 -> 3622\n9 * 49 -> 442\n87 * 42 -> 3655\n11 * 92 -> 1013\n55 * 90 ->"
-  },
-  {
-   "answer": "1576",
-   "bb_extra_sha256": [
-    "e58138f56ca55c7dec3930125b817701fa95dcf66cf55dfe6dd845bc9c2d4048"
-   ],
-   "bb_sha256": "708a625e34532d80f5be7b04d8025188357015fa61a6bbefcb79c7ee048a9c8a",
-   "meta": {
-    "a": 25,
-    "b": 63,
-    "examples": [
-     [
-      67,
-      18
-     ],
-     [
-      67,
-      87
-     ],
-     [
-      33,
-      92
-     ],
-     [
-      6,
-      52
-     ],
-     [
-      93,
-      69
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n67 * 18 -> 1207\n67 * 87 -> 5830\n33 * 92 -> 3037\n6 * 52 -> 313\n93 * 69 -> 6418\n25 * 63 ->"
   },
   {
    "answer": "1303",
@@ -7486,40 +7214,6 @@
   {
    "answer": "885",
    "bb_extra_sha256": [
-    "d905ed0d9689b7d7b492bf4369e1d0273dbf0754cb500f4cf8fc6f3145cc8a8f"
-   ],
-   "bb_sha256": "ce26a2e96b0cbb067f376a48735495012107dc1d839c80a36baf7eba313e3498",
-   "meta": {
-    "a": 68,
-    "b": 13,
-    "examples": [
-     [
-      20,
-      75
-     ],
-     [
-      86,
-      70
-     ],
-     [
-      22,
-      72
-     ],
-     [
-      83,
-      24
-     ],
-     [
-      58,
-      93
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n20 * 75 -> 1501\n86 * 70 -> 6021\n22 * 72 -> 1585\n83 * 24 -> 1993\n58 * 93 -> 5395\n68 * 13 ->"
-  },
-  {
-   "answer": "885",
-   "bb_extra_sha256": [
     "219f7b877cb4e515f0c356d4c7fa541e2586ecd1b6c1152a8996d9f98cc9bc0d"
    ],
    "bb_sha256": "3faac8a4d0a5a8f7ef3363a001dadae9a375620a2d759ad0f00fabd3e830cba0",
@@ -7788,40 +7482,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n81 * 17 -> 1378\n71 * 15 -> 1066\n35 * 30 -> 1051\n54 * 18 -> 973\n71 * 58 -> 4119\n41 * 23 ->"
-  },
-  {
-   "answer": "2629",
-   "bb_extra_sha256": [
-    "ae1badabf3a34745c7b15b455fa2701d08f0c8d191a3121dc6a57afb54276a7e"
-   ],
-   "bb_sha256": "b386cf1e25db96b040ca61f9cec660434b4f671a598abf164817e73526147ac9",
-   "meta": {
-    "a": 36,
-    "b": 73,
-    "examples": [
-     [
-      89,
-      50
-     ],
-     [
-      10,
-      16
-     ],
-     [
-      14,
-      3
-     ],
-     [
-      88,
-      39
-     ],
-     [
-      4,
-      71
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n89 * 50 -> 4451\n10 * 16 -> 161\n14 * 3 -> 43\n88 * 39 -> 3433\n4 * 71 -> 285\n36 * 73 ->"
   },
   {
    "answer": "5545",
@@ -8130,40 +7790,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n85 * 28 -> 2381\n5 * 88 -> 441\n79 * 79 -> 6242\n87 * 98 -> 8527\n18 * 70 -> 1261\n49 * 74 ->"
   },
   {
-   "answer": "65",
-   "bb_extra_sha256": [
-    "539da9c88d04745fde131facda9a5152f90b5bf86806561bb96d05621b4e8037"
-   ],
-   "bb_sha256": "22382217d7f6d8c5676317553eb5af7288d9bd37b40e80f446df68644aafba4d",
-   "meta": {
-    "a": 64,
-    "b": 1,
-    "examples": [
-     [
-      68,
-      46
-     ],
-     [
-      44,
-      20
-     ],
-     [
-      25,
-      45
-     ],
-     [
-      45,
-      7
-     ],
-     [
-      90,
-      98
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n68 * 46 -> 3129\n44 * 20 -> 881\n25 * 45 -> 1126\n45 * 7 -> 316\n90 * 98 -> 8821\n64 * 1 ->"
-  },
-  {
    "answer": "3951",
    "bb_extra_sha256": [
     "2e798ab01672fe4fa8e5177cc8cbddd3217c73ffac92229a25931aa9ebd2683e"
@@ -8436,40 +8062,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n8 * 94 -> 753\n73 * 84 -> 6133\n16 * 76 -> 1217\n20 * 32 -> 641\n94 * 77 -> 7239\n40 * 51 ->"
   },
   {
-   "answer": "1576",
-   "bb_extra_sha256": [
-    "1fc6272490e8fa7274810b2a311fb57df41056dac3c5a70ca11e3921719e1699"
-   ],
-   "bb_sha256": "b1fcc017a3cc29d69c41858c18f613882807090d53b82f6bf977dc7f2930ba87",
-   "meta": {
-    "a": 63,
-    "b": 25,
-    "examples": [
-     [
-      6,
-      46
-     ],
-     [
-      13,
-      83
-     ],
-     [
-      28,
-      32
-     ],
-     [
-      9,
-      0
-     ],
-     [
-      86,
-      94
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n6 * 46 -> 277\n13 * 83 -> 1080\n28 * 32 -> 897\n9 * 0 -> 1\n86 * 94 -> 8085\n63 * 25 ->"
-  },
-  {
    "answer": "2696",
    "bb_extra_sha256": [
     "33eef45d1597c533b42e6f4adf9f093428b8f4421f8e25b98ffb0db4c7fba7d2"
@@ -8640,40 +8232,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n76 * 54 -> 4105\n39 * 43 -> 1678\n47 * 4 -> 189\n1 * 48 -> 49\n36 * 74 -> 2665\n80 * 53 ->"
   },
   {
-   "answer": "1471",
-   "bb_extra_sha256": [
-    "e9e282a19ff6caf65d15d37fb63182658b95cfde5283f03c50cd0d8df84fead0"
-   ],
-   "bb_sha256": "6c4ac4544dd5ef8a1f7c7181d68e17ce76139d101c5e092cb061e856d6991c15",
-   "meta": {
-    "a": 30,
-    "b": 49,
-    "examples": [
-     [
-      46,
-      49
-     ],
-     [
-      61,
-      83
-     ],
-     [
-      67,
-      48
-     ],
-     [
-      83,
-      65
-     ],
-     [
-      48,
-      30
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n46 * 49 -> 2255\n61 * 83 -> 5064\n67 * 48 -> 3217\n83 * 65 -> 5396\n48 * 30 -> 1441\n30 * 49 ->"
-  },
-  {
    "answer": "190",
    "bb_extra_sha256": [
     "caabe71acb39ebcd33f73c1dc87fd5737b16ee8272c2f331030e2c5ccc3110bb"
@@ -8842,40 +8400,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n46 * 86 -> 3957\n72 * 18 -> 1297\n40 * 6 -> 241\n53 * 57 -> 3022\n89 * 27 -> 2404\n22 * 34 ->"
-  },
-  {
-   "answer": "2171",
-   "bb_extra_sha256": [
-    "a42d5ad119484e530aa8b838265c69db4f8cc37d0666f1aed8ad8e1e214b15ea"
-   ],
-   "bb_sha256": "b5d8095169b1ee47848cd92942bfaea781d0b368e6d3a0835813187d6d04d26d",
-   "meta": {
-    "a": 35,
-    "b": 62,
-    "examples": [
-     [
-      34,
-      89
-     ],
-     [
-      10,
-      29
-     ],
-     [
-      9,
-      44
-     ],
-     [
-      83,
-      31
-     ],
-     [
-      85,
-      14
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n34 * 89 -> 3027\n10 * 29 -> 291\n9 * 44 -> 397\n83 * 31 -> 2574\n85 * 14 -> 1191\n35 * 62 ->"
   },
   {
    "answer": "7827",
@@ -9182,40 +8706,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n36 * 23 -> 829\n66 * 50 -> 3301\n63 * 2 -> 127\n54 * 79 -> 4267\n93 * 41 -> 3814\n10 * 71 ->"
-  },
-  {
-   "answer": "331",
-   "bb_extra_sha256": [
-    "3f8e4178b2a1f298a0a46b058c8589e45a82993a3e1505fb0bbe3cb852dc0c86"
-   ],
-   "bb_sha256": "39a3295dfc649a7de2cb3e309ed5b9c9082a0f1c367e79d7c505b8f1e560ea56",
-   "meta": {
-    "a": 30,
-    "b": 11,
-    "examples": [
-     [
-      90,
-      67
-     ],
-     [
-      60,
-      14
-     ],
-     [
-      18,
-      26
-     ],
-     [
-      30,
-      39
-     ],
-     [
-      46,
-      39
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n90 * 67 -> 6031\n60 * 14 -> 841\n18 * 26 -> 469\n30 * 39 -> 1171\n46 * 39 -> 1795\n30 * 11 ->"
   },
   {
    "answer": "732",
@@ -9830,40 +9320,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n7 * 25 -> 176\n36 * 31 -> 1117\n45 * 8 -> 361\n33 * 10 -> 331\n3 * 92 -> 277\n58 * 66 ->"
   },
   {
-   "answer": "944",
-   "bb_extra_sha256": [
-    "0fc9c93f8f0ef08351eaa2328d727dcc4a1fa923f255387d0e751fa1282472b9"
-   ],
-   "bb_sha256": "e2cad8de781dc3379b04dcf69c6936d3affb9b61f812b798b01c3a3d0f661250",
-   "meta": {
-    "a": 23,
-    "b": 41,
-    "examples": [
-     [
-      4,
-      25
-     ],
-     [
-      60,
-      92
-     ],
-     [
-      54,
-      19
-     ],
-     [
-      30,
-      67
-     ],
-     [
-      32,
-      28
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n4 * 25 -> 101\n60 * 92 -> 5521\n54 * 19 -> 1027\n30 * 67 -> 2011\n32 * 28 -> 897\n23 * 41 ->"
-  },
-  {
    "answer": "967",
    "bb_extra_sha256": [
     "64339fd66634169074160d50ee101a96f9e461962dbe0ef6db0287c349e959b2"
@@ -9896,40 +9352,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n84 * 29 -> 2437\n35 * 46 -> 1611\n60 * 92 -> 5521\n9 * 80 -> 721\n63 * 43 -> 2710\n21 * 46 ->"
-  },
-  {
-   "answer": "755",
-   "bb_extra_sha256": [
-    "fc4f9812f15226835e67aaf45e4b484923f894ceda65c55cc8aec7ed203c6453"
-   ],
-   "bb_sha256": "66025a6f43787d21f7ea928d116496083b7af0f2f52ddfe1d1b6356510810ee4",
-   "meta": {
-    "a": 26,
-    "b": 29,
-    "examples": [
-     [
-      68,
-      57
-     ],
-     [
-      19,
-      70
-     ],
-     [
-      51,
-      70
-     ],
-     [
-      37,
-      23
-     ],
-     [
-      17,
-      91
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n68 * 57 -> 3877\n19 * 70 -> 1331\n51 * 70 -> 3571\n37 * 23 -> 852\n17 * 91 -> 1548\n26 * 29 ->"
   },
   {
    "answer": "559",
@@ -10136,74 +9558,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n83 * 9 -> 748\n1 * 17 -> 18\n47 * 51 -> 2398\n97 * 32 -> 3105\n34 * 6 -> 205\n28 * 45 ->"
   },
   {
-   "answer": "2899",
-   "bb_extra_sha256": [
-    "0db9ec612acb81d269c0c75132ed89d2f369ad3950373c7be4c34b5a65f46c07"
-   ],
-   "bb_sha256": "9e2d23ff0e843c0df26bc794965d1b58df66931c180e8424458edff0392a7b87",
-   "meta": {
-    "a": 42,
-    "b": 69,
-    "examples": [
-     [
-      59,
-      25
-     ],
-     [
-      21,
-      69
-     ],
-     [
-      78,
-      71
-     ],
-     [
-      77,
-      59
-     ],
-     [
-      88,
-      81
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n59 * 25 -> 1476\n21 * 69 -> 1450\n78 * 71 -> 5539\n77 * 59 -> 4544\n88 * 81 -> 7129\n42 * 69 ->"
-  },
-  {
-   "answer": "6601",
-   "bb_extra_sha256": [
-    "c0971790fb4c5f1ff336c8bf9268c58552131376c152ecf55035bb672dc82b70"
-   ],
-   "bb_sha256": "a98a2e0b5e3bcf738929cdc1c7dfb6f204cf04f99c562d68493cbf0f9b5b2e22",
-   "meta": {
-    "a": 75,
-    "b": 88,
-    "examples": [
-     [
-      3,
-      76
-     ],
-     [
-      62,
-      37
-     ],
-     [
-      65,
-      76
-     ],
-     [
-      41,
-      98
-     ],
-     [
-      15,
-      97
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n3 * 76 -> 229\n62 * 37 -> 2295\n65 * 76 -> 4941\n41 * 98 -> 4019\n15 * 97 -> 1456\n75 * 88 ->"
-  },
-  {
    "answer": "8343",
    "bb_extra_sha256": [
     "b6db324f0afe920d1b655ee32fcb84cc3fabc79ce55eaa8f3c510a9cf800a2dc"
@@ -10306,40 +9660,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n92 * 91 -> 8373\n66 * 20 -> 1321\n74 * 73 -> 5403\n42 * 92 -> 3865\n40 * 19 -> 761\n46 * 41 ->"
   },
   {
-   "answer": "2319",
-   "bb_extra_sha256": [
-    "82bd1688bffe0d9f6e4b38300561bcc0952830e6093f2072d727b468174514c4"
-   ],
-   "bb_sha256": "bc117eff9070581d938033dead7c53614000db8123b10d905712116e1a27cd6f",
-   "meta": {
-    "a": 61,
-    "b": 38,
-    "examples": [
-     [
-      76,
-      77
-     ],
-     [
-      6,
-      5
-     ],
-     [
-      31,
-      94
-     ],
-     [
-      57,
-      35
-     ],
-     [
-      76,
-      2
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n76 * 77 -> 5853\n6 * 5 -> 31\n31 * 94 -> 2915\n57 * 35 -> 1996\n76 * 2 -> 153\n61 * 38 ->"
-  },
-  {
    "answer": "4957",
    "bb_extra_sha256": [
     "1e3f9482d3c3272ad9b7279c10388517dee0874496cef7ec1dee53be1455a0ca"
@@ -10372,40 +9692,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n51 * 96 -> 4897\n46 * 48 -> 2209\n27 * 93 -> 2512\n60 * 88 -> 5281\n85 * 6 -> 511\n59 * 84 ->"
-  },
-  {
-   "answer": "4616",
-   "bb_extra_sha256": [
-    "c158112109f718f8d869e44775b6aba27f9d02bc06286e88c1773d5f3f14136f"
-   ],
-   "bb_sha256": "295c9ac182403d518c98786a7208ce96afeb2ea335d1f25694b351ceaa773e42",
-   "meta": {
-    "a": 71,
-    "b": 65,
-    "examples": [
-     [
-      38,
-      30
-     ],
-     [
-      48,
-      23
-     ],
-     [
-      84,
-      23
-     ],
-     [
-      46,
-      51
-     ],
-     [
-      91,
-      41
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n38 * 30 -> 1141\n48 * 23 -> 1105\n84 * 23 -> 1933\n46 * 51 -> 2347\n91 * 41 -> 3732\n71 * 65 ->"
   },
   {
    "answer": "289",
@@ -10578,40 +9864,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n84 * 74 -> 6217\n89 * 50 -> 4451\n12 * 77 -> 925\n26 * 81 -> 2107\n64 * 18 -> 1153\n7 * 30 ->"
   },
   {
-   "answer": "961",
-   "bb_extra_sha256": [
-    "5f7137a719d830b354b1988ef2da656b6b423acb0564aaa1da40d17133d3c57b"
-   ],
-   "bb_sha256": "a78ab10f5ca09da797d4bb0b2ad494a04515d2497679f9a77e8e0141f6a4f005",
-   "meta": {
-    "a": 24,
-    "b": 40,
-    "examples": [
-     [
-      36,
-      22
-     ],
-     [
-      19,
-      92
-     ],
-     [
-      40,
-      77
-     ],
-     [
-      79,
-      90
-     ],
-     [
-      63,
-      36
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n36 * 22 -> 793\n19 * 92 -> 1749\n40 * 77 -> 3081\n79 * 90 -> 7111\n63 * 36 -> 2269\n24 * 40 ->"
-  },
-  {
    "answer": "3037",
    "bb_extra_sha256": [
     "40fc5d765f4d1ca2c8dc4a9c28f6fa859a58b8bab912741ddac7cba18b2b463a"
@@ -10678,40 +9930,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n78 * 52 -> 4057\n55 * 23 -> 1266\n81 * 86 -> 6967\n16 * 89 -> 1425\n61 * 88 -> 5369\n43 * 94 ->"
-  },
-  {
-   "answer": "442",
-   "bb_extra_sha256": [
-    "3a87e5e130ad6ef7bfe3c098287104442e9a5d169204cd89bf0b6eb4b9e309d1"
-   ],
-   "bb_sha256": "a4647e4724718d18cdf73bc8766d27874654d6c7dff79337fcda915ac2a9e952",
-   "meta": {
-    "a": 21,
-    "b": 21,
-    "examples": [
-     [
-      31,
-      27
-     ],
-     [
-      90,
-      15
-     ],
-     [
-      62,
-      16
-     ],
-     [
-      23,
-      9
-     ],
-     [
-      51,
-      79
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n31 * 27 -> 838\n90 * 15 -> 1351\n62 * 16 -> 993\n23 * 9 -> 208\n51 * 79 -> 4030\n21 * 21 ->"
   },
   {
    "answer": "2092",
@@ -10952,40 +10170,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n54 * 77 -> 4159\n4 * 60 -> 241\n73 * 26 -> 1899\n81 * 86 -> 6967\n16 * 14 -> 225\n85 * 51 ->"
   },
   {
-   "answer": "254",
-   "bb_extra_sha256": [
-    "180e0f4f8041a7f5fdfd2b0b6bc63a4c2d8ed9d74c3e7b02bb8f89a2d0135e43"
-   ],
-   "bb_sha256": "80d8f5397ef8546da015af7387c1a57bcfe33d3f6c905bdf76e87f805b67ffd8",
-   "meta": {
-    "a": 11,
-    "b": 23,
-    "examples": [
-     [
-      69,
-      18
-     ],
-     [
-      34,
-      25
-     ],
-     [
-      66,
-      15
-     ],
-     [
-      57,
-      88
-     ],
-     [
-      61,
-      46
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n69 * 18 -> 1243\n34 * 25 -> 851\n66 * 15 -> 991\n57 * 88 -> 5017\n61 * 46 -> 2807\n11 * 23 ->"
-  },
-  {
    "answer": "9017",
    "bb_extra_sha256": [
     "b70f7c49d3495af28c77aa271bb21ea4b667de553d314cb53681476e83c8aaa5"
@@ -11052,40 +10236,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n7 * 32 -> 225\n31 * 94 -> 2915\n24 * 95 -> 2281\n81 * 23 -> 1864\n52 * 32 -> 1665\n20 * 6 ->"
-  },
-  {
-   "answer": "181",
-   "bb_extra_sha256": [
-    "6e113941f953227453d6c9c620c9364511f604020a885a744bd200e4ed5564b6"
-   ],
-   "bb_sha256": "986fe9e9f99a93cf284b8589825980bd2473b30a3ef1515643d9c1ebcf452978",
-   "meta": {
-    "a": 60,
-    "b": 3,
-    "examples": [
-     [
-      94,
-      67
-     ],
-     [
-      24,
-      60
-     ],
-     [
-      0,
-      85
-     ],
-     [
-      52,
-      53
-     ],
-     [
-      18,
-      26
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n94 * 67 -> 6299\n24 * 60 -> 1441\n0 * 85 -> 1\n52 * 53 -> 2757\n18 * 26 -> 469\n60 * 3 ->"
   },
   {
    "answer": "1405",
@@ -11394,40 +10544,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n19 * 28 -> 533\n82 * 6 -> 493\n11 * 84 -> 925\n54 * 6 -> 325\n61 * 28 -> 1709\n28 * 31 ->"
   },
   {
-   "answer": "2801",
-   "bb_extra_sha256": [
-    "789bde39dcf6abfb7f791e49952940f72aaec582d3840e3396478d0a890dc981"
-   ],
-   "bb_sha256": "b824c2cd374874360f13b89336feaba818c5bd5099c580c7a9eb79b34ebee541",
-   "meta": {
-    "a": 40,
-    "b": 70,
-    "examples": [
-     [
-      44,
-      97
-     ],
-     [
-      77,
-      20
-     ],
-     [
-      21,
-      18
-     ],
-     [
-      23,
-      55
-     ],
-     [
-      60,
-      30
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n44 * 97 -> 4269\n77 * 20 -> 1541\n21 * 18 -> 379\n23 * 55 -> 1266\n60 * 30 -> 1801\n40 * 70 ->"
-  },
-  {
    "answer": "47",
    "bb_extra_sha256": [
     "b97a255f4b720ca47b95ac34340dfaca48a7071d61d26b0e4b76b5ffee7700d7"
@@ -11528,108 +10644,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n85 * 62 -> 5271\n52 * 23 -> 1197\n73 * 95 -> 6936\n3 * 7 -> 22\n88 * 24 -> 2113\n84 * 18 ->"
-  },
-  {
-   "answer": "781",
-   "bb_extra_sha256": [
-    "e381abf09b81988659978be3bb8e4947e84c0dbfdcb4fa733ff8db43e7a9fbf5"
-   ],
-   "bb_sha256": "1aa4f28d9eb1e008dc63c046c681430e0f34e9452b80ee9aa7b3d342679628ea",
-   "meta": {
-    "a": 10,
-    "b": 78,
-    "examples": [
-     [
-      81,
-      22
-     ],
-     [
-      61,
-      87
-     ],
-     [
-      28,
-      75
-     ],
-     [
-      2,
-      74
-     ],
-     [
-      52,
-      12
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n81 * 22 -> 1783\n61 * 87 -> 5308\n28 * 75 -> 2101\n2 * 74 -> 149\n52 * 12 -> 625\n10 * 78 ->"
-  },
-  {
-   "answer": "961",
-   "bb_extra_sha256": [
-    "5f7137a719d830b354b1988ef2da656b6b423acb0564aaa1da40d17133d3c57b"
-   ],
-   "bb_sha256": "3c811a3de62f78800f0ccb428fc3d3d93f0a1356fb85366987c100ee0c419266",
-   "meta": {
-    "a": 24,
-    "b": 40,
-    "examples": [
-     [
-      23,
-      16
-     ],
-     [
-      97,
-      94
-     ],
-     [
-      81,
-      51
-     ],
-     [
-      33,
-      56
-     ],
-     [
-      11,
-      89
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n23 * 16 -> 369\n97 * 94 -> 9119\n81 * 51 -> 4132\n33 * 56 -> 1849\n11 * 89 -> 980\n24 * 40 ->"
-  },
-  {
-   "answer": "2439",
-   "bb_extra_sha256": [
-    "0424717d70735179a11238201f176e31939b83e1d974f123532c222f50ca6398"
-   ],
-   "bb_sha256": "df65f8c261a211ed145c5d23a9676de2f1aecb2a8d8abf05c13613c4eef7888e",
-   "meta": {
-    "a": 46,
-    "b": 53,
-    "examples": [
-     [
-      65,
-      8
-     ],
-     [
-      20,
-      25
-     ],
-     [
-      53,
-      78
-     ],
-     [
-      2,
-      0
-     ],
-     [
-      72,
-      34
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n65 * 8 -> 521\n20 * 25 -> 501\n53 * 78 -> 4135\n2 * 0 -> 1\n72 * 34 -> 2449\n46 * 53 ->"
   },
   {
    "answer": "5941",
@@ -12142,40 +11156,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n9 * 24 -> 217\n91 * 7 -> 638\n85 * 45 -> 3826\n42 * 72 -> 3025\n27 * 77 -> 2080\n37 * 43 ->"
   },
   {
-   "answer": "385",
-   "bb_extra_sha256": [
-    "df60ce1dd525a51ed37dd82b7871e04f3a0723cf14d5ee0a92119ebfb7c617e4"
-   ],
-   "bb_sha256": "12444ce8e702dd6075ecaebf61f3cec6697969b9f8f99a76de5b36ac7e6f2f0a",
-   "meta": {
-    "a": 24,
-    "b": 16,
-    "examples": [
-     [
-      26,
-      39
-     ],
-     [
-      78,
-      30
-     ],
-     [
-      49,
-      86
-     ],
-     [
-      83,
-      17
-     ],
-     [
-      31,
-      42
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n26 * 39 -> 1015\n78 * 30 -> 2341\n49 * 86 -> 4215\n83 * 17 -> 1412\n31 * 42 -> 1303\n24 * 16 ->"
-  },
-  {
    "answer": "5701",
    "bb_extra_sha256": [
     "0f350bb92c961ad81ffd0dcab1aa22c88f96c679663fc03992cc67d3d15878c7"
@@ -12278,40 +11258,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n45 * 7 -> 316\n1 * 57 -> 58\n73 * 94 -> 6863\n36 * 61 -> 2197\n79 * 61 -> 4820\n56 * 67 ->"
   },
   {
-   "answer": "2551",
-   "bb_extra_sha256": [
-    "a9923d36fd1c7868d8e4c9bca48877ca0a453407dac6709767e77b105b1aa567"
-   ],
-   "bb_sha256": "85389aa2d9c92db755f1a5e98a576073beba29c7fb4692f3828d4d6b2d8c215f",
-   "meta": {
-    "a": 34,
-    "b": 75,
-    "examples": [
-     [
-      23,
-      18
-     ],
-     [
-      96,
-      84
-     ],
-     [
-      8,
-      8
-     ],
-     [
-      34,
-      63
-     ],
-     [
-      90,
-      32
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n23 * 18 -> 415\n96 * 84 -> 8065\n8 * 8 -> 65\n34 * 63 -> 2143\n90 * 32 -> 2881\n34 * 75 ->"
-  },
-  {
    "answer": "721",
    "bb_extra_sha256": [
     "4edf0eb20442c05c17c0e2c1d19d88d395a6a1509e381819e661c26dce73c48a"
@@ -12380,40 +11326,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n70 * 66 -> 4621\n34 * 46 -> 1565\n68 * 42 -> 2857\n87 * 97 -> 8440\n70 * 42 -> 2941\n0 * 27 ->"
   },
   {
-   "answer": "3301",
-   "bb_extra_sha256": [
-    "60cd86d0690e4daddef6b24b13af9a7fe48adf5360dc865543980aec2e08ace9"
-   ],
-   "bb_sha256": "627ff6f09b40a41a4e5be9ed9a813cbd9b8eb1c695b1ebb5cd5b5dd1097a5660",
-   "meta": {
-    "a": 60,
-    "b": 55,
-    "examples": [
-     [
-      22,
-      12
-     ],
-     [
-      28,
-      34
-     ],
-     [
-      56,
-      72
-     ],
-     [
-      31,
-      75
-     ],
-     [
-      46,
-      90
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n22 * 12 -> 265\n28 * 34 -> 953\n56 * 72 -> 4033\n31 * 75 -> 2326\n46 * 90 -> 4141\n60 * 55 ->"
-  },
-  {
    "answer": "106",
    "bb_extra_sha256": [
     "cf8d64e6bc0da14bf87438100bfa08bb85b84a3c03c06e13df710ea4355eb1bf"
@@ -12480,74 +11392,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n66 * 40 -> 2641\n64 * 35 -> 2241\n42 * 55 -> 2311\n35 * 31 -> 1086\n34 * 36 -> 1225\n53 * 44 ->"
-  },
-  {
-   "answer": "3361",
-   "bb_extra_sha256": [
-    "10fcafd545d0d0e8b409cf7d439380327d5c23f3c47b5d6f867cf3deaaa6d734"
-   ],
-   "bb_sha256": "a4aae5c084e675d9b46557b0acd0a6eb86d3440d0fe671012d8a8d288e39ab88",
-   "meta": {
-    "a": 84,
-    "b": 40,
-    "examples": [
-     [
-      75,
-      51
-     ],
-     [
-      35,
-      59
-     ],
-     [
-      92,
-      57
-     ],
-     [
-      9,
-      51
-     ],
-     [
-      9,
-      6
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n75 * 51 -> 3826\n35 * 59 -> 2066\n92 * 57 -> 5245\n9 * 51 -> 460\n9 * 6 -> 55\n84 * 40 ->"
-  },
-  {
-   "answer": "2305",
-   "bb_extra_sha256": [
-    "623d9ab69ced5ec0ebc845ded7808b84110c7b591c9eebba60485ff0fb052767"
-   ],
-   "bb_sha256": "621d4ad61b52cf16d673ca7bd490bcb94f423fbae8ef63d2bd154c1b70347cf2",
-   "meta": {
-    "a": 36,
-    "b": 64,
-    "examples": [
-     [
-      28,
-      70
-     ],
-     [
-      97,
-      54
-     ],
-     [
-      85,
-      41
-     ],
-     [
-      81,
-      89
-     ],
-     [
-      37,
-      96
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n28 * 70 -> 1961\n97 * 54 -> 5239\n85 * 41 -> 3486\n81 * 89 -> 7210\n37 * 96 -> 3553\n36 * 64 ->"
   },
   {
    "answer": "1072",
@@ -12652,40 +11496,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n42 * 34 -> 1429\n37 * 53 -> 1962\n12 * 79 -> 949\n4 * 34 -> 137\n61 * 57 -> 3478\n31 * 1 ->"
   },
   {
-   "answer": "2689",
-   "bb_extra_sha256": [
-    "64169e1fc0e3e5f5a17037274378cbbc40e9cb7a4160d737483149195de104e7"
-   ],
-   "bb_sha256": "a7b21c0771e72ca2866f863b3de4a43a9ea845e6c37fa76c63d6d8ecb47d28f5",
-   "meta": {
-    "a": 64,
-    "b": 42,
-    "examples": [
-     [
-      89,
-      90
-     ],
-     [
-      39,
-      66
-     ],
-     [
-      8,
-      31
-     ],
-     [
-      21,
-      38
-     ],
-     [
-      44,
-      59
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n89 * 90 -> 8011\n39 * 66 -> 2575\n8 * 31 -> 249\n21 * 38 -> 799\n44 * 59 -> 2597\n64 * 42 ->"
-  },
-  {
    "answer": "1132",
    "bb_extra_sha256": [
     "3520acb51c53bff884921b9a4b6e5b9869117ea76406ea611570c6f2c4b045e5"
@@ -12718,74 +11528,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n20 * 59 -> 1181\n34 * 88 -> 2993\n24 * 45 -> 1081\n19 * 40 -> 761\n74 * 42 -> 3109\n39 * 29 ->"
-  },
-  {
-   "answer": "3345",
-   "bb_extra_sha256": [
-    "c561b86b6fbfd0e046b73604b2df6c73667bff96bb17cfb3563e77bda9da3099"
-   ],
-   "bb_sha256": "81260f579d5753729ad41da4113beac109c20d574df075d927f88008d066561d",
-   "meta": {
-    "a": 88,
-    "b": 38,
-    "examples": [
-     [
-      38,
-      97
-     ],
-     [
-      35,
-      2
-     ],
-     [
-      84,
-      22
-     ],
-     [
-      67,
-      47
-     ],
-     [
-      21,
-      43
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n38 * 97 -> 3687\n35 * 2 -> 71\n84 * 22 -> 1849\n67 * 47 -> 3150\n21 * 43 -> 904\n88 * 38 ->"
-  },
-  {
-   "answer": "7696",
-   "bb_extra_sha256": [
-    "6d3866971254a4e9790ba4f8a1f8bc8aa68b61fae862f28505ffa47116fc70e3"
-   ],
-   "bb_sha256": "ad67ea87324a93d07a7c1c4eb4811207242f2db88bf8a4e285069dc74217c020",
-   "meta": {
-    "a": 95,
-    "b": 81,
-    "examples": [
-     [
-      45,
-      42
-     ],
-     [
-      24,
-      85
-     ],
-     [
-      13,
-      77
-     ],
-     [
-      74,
-      44
-     ],
-     [
-      46,
-      42
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n45 * 42 -> 1891\n24 * 85 -> 2041\n13 * 77 -> 1002\n74 * 44 -> 3257\n46 * 42 -> 1933\n95 * 81 ->"
   },
   {
    "answer": "1081",
@@ -13162,40 +11904,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n65 * 16 -> 1041\n27 * 43 -> 1162\n67 * 6 -> 403\n50 * 5 -> 251\n83 * 8 -> 665\n36 * 36 ->"
   },
   {
-   "answer": "2319",
-   "bb_extra_sha256": [
-    "82bd1688bffe0d9f6e4b38300561bcc0952830e6093f2072d727b468174514c4"
-   ],
-   "bb_sha256": "f2f44a4b520d4c10764a604158bd15cbcee0cad9abfe18b8a3caa13b1c79d3a2",
-   "meta": {
-    "a": 61,
-    "b": 38,
-    "examples": [
-     [
-      24,
-      73
-     ],
-     [
-      95,
-      16
-     ],
-     [
-      46,
-      55
-     ],
-     [
-      53,
-      37
-     ],
-     [
-      58,
-      5
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n24 * 73 -> 1753\n95 * 16 -> 1521\n46 * 55 -> 2531\n53 * 37 -> 1962\n58 * 5 -> 291\n61 * 38 ->"
-  },
-  {
    "answer": "469",
    "bb_extra_sha256": [
     "5911247c7033179390479b73bedef69148497e565ae4a12a0997f69392bfc176"
@@ -13228,40 +11936,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n70 * 42 -> 2941\n4 * 68 -> 273\n4 * 35 -> 141\n10 * 25 -> 251\n3 * 47 -> 142\n18 * 26 ->"
-  },
-  {
-   "answer": "4241",
-   "bb_extra_sha256": [
-    "85f91c63010a63b95cd92a204bfc62e83722eac56c8b479847bbb93753b2822b"
-   ],
-   "bb_sha256": "581145ca32168daf4b55f9815f81f467add9dbd47f06ee32700f5b6886150a9e",
-   "meta": {
-    "a": 53,
-    "b": 80,
-    "examples": [
-     [
-      27,
-      41
-     ],
-     [
-      22,
-      25
-     ],
-     [
-      19,
-      49
-     ],
-     [
-      37,
-      18
-     ],
-     [
-      17,
-      9
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n27 * 41 -> 1108\n22 * 25 -> 551\n19 * 49 -> 932\n37 * 18 -> 667\n17 * 9 -> 154\n53 * 80 ->"
   },
   {
    "answer": "411",
@@ -13330,40 +12004,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n27 * 71 -> 1918\n80 * 37 -> 2961\n13 * 47 -> 612\n44 * 37 -> 1629\n76 * 56 -> 4257\n15 * 64 ->"
-  },
-  {
-   "answer": "3649",
-   "bb_extra_sha256": [
-    "b2d5df6e25621c3b45716ac47e9127487f834bba7d72a011113401b49f8b96da"
-   ],
-   "bb_sha256": "b3830f9a04d8cb39f6134cc7bd98fa4808a29d96c489ae1e20262f9aeb79a10b",
-   "meta": {
-    "a": 48,
-    "b": 76,
-    "examples": [
-     [
-      76,
-      74
-     ],
-     [
-      94,
-      73
-     ],
-     [
-      32,
-      81
-     ],
-     [
-      74,
-      12
-     ],
-     [
-      52,
-      16
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n76 * 74 -> 5625\n94 * 73 -> 6863\n32 * 81 -> 2593\n74 * 12 -> 889\n52 * 16 -> 833\n48 * 76 ->"
   },
   {
    "answer": "1255",
@@ -13466,40 +12106,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n54 * 94 -> 5077\n58 * 65 -> 3771\n88 * 72 -> 6337\n35 * 60 -> 2101\n96 * 47 -> 4513\n78 * 1 ->"
-  },
-  {
-   "answer": "551",
-   "bb_extra_sha256": [
-    "c31c267a1e0dba57351ebfd19292c9cf19df8fe0d836331c88fed5f2e715f2b6"
-   ],
-   "bb_sha256": "1457e5b9937cb9fc41724c8f2ee2fb54fca551e9aad13b3ea5704d0b31f9d895",
-   "meta": {
-    "a": 50,
-    "b": 11,
-    "examples": [
-     [
-      74,
-      43
-     ],
-     [
-      7,
-      25
-     ],
-     [
-      9,
-      93
-     ],
-     [
-      11,
-      13
-     ],
-     [
-      92,
-      18
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n74 * 43 -> 3183\n7 * 25 -> 176\n9 * 93 -> 838\n11 * 13 -> 144\n92 * 18 -> 1657\n50 * 11 ->"
   },
   {
    "answer": "3365",
@@ -13740,40 +12346,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n24 * 59 -> 1417\n56 * 48 -> 2689\n90 * 93 -> 8371\n73 * 59 -> 4308\n90 * 45 -> 4051\n91 * 63 ->"
   },
   {
-   "answer": "3486",
-   "bb_extra_sha256": [
-    "be1579b61aa0a7658165628903701b1af2fd95c48495b4e416284e9638be680c"
-   ],
-   "bb_sha256": "4156f20bc803d01b87bf7caae01e521ca3d738f843b56f83bff78b2058c3c600",
-   "meta": {
-    "a": 85,
-    "b": 41,
-    "examples": [
-     [
-      55,
-      0
-     ],
-     [
-      80,
-      95
-     ],
-     [
-      77,
-      50
-     ],
-     [
-      84,
-      22
-     ],
-     [
-      87,
-      70
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n55 * 0 -> 1\n80 * 95 -> 7601\n77 * 50 -> 3851\n84 * 22 -> 1849\n87 * 70 -> 6091\n85 * 41 ->"
-  },
-  {
    "answer": "2547",
    "bb_extra_sha256": [
     "07562baf1bdfffffa14fbb9c6a483f9f0d1d95f9216718bcda33545b6e40cc26"
@@ -13840,108 +12412,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n11 * 44 -> 485\n70 * 27 -> 1891\n20 * 93 -> 1861\n17 * 17 -> 290\n57 * 49 -> 2794\n55 * 28 ->"
-  },
-  {
-   "answer": "47",
-   "bb_extra_sha256": [
-    "b38a74509e0bdefbf64642d66d1b52157082676132b2136a390b34e066d68759"
-   ],
-   "bb_sha256": "d9cab98f662284b0eb14cf0c854d368ebdc15878d2a34958c0de8597d8448b9e",
-   "meta": {
-    "a": 2,
-    "b": 23,
-    "examples": [
-     [
-      72,
-      24
-     ],
-     [
-      71,
-      23
-     ],
-     [
-      14,
-      7
-     ],
-     [
-      82,
-      72
-     ],
-     [
-      16,
-      95
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n72 * 24 -> 1729\n71 * 23 -> 1634\n14 * 7 -> 99\n82 * 72 -> 5905\n16 * 95 -> 1521\n2 * 23 ->"
-  },
-  {
-   "answer": "551",
-   "bb_extra_sha256": [
-    "a141f022dc7cf671dca3016be0d5f21ff8e047383a416cf85fcfcd26b210d547"
-   ],
-   "bb_sha256": "11f1ba2602d87be508785c1a6853d84ff3fc7d41dace7bdbdfda3ec20248a5e4",
-   "meta": {
-    "a": 22,
-    "b": 25,
-    "examples": [
-     [
-      16,
-      39
-     ],
-     [
-      57,
-      72
-     ],
-     [
-      84,
-      69
-     ],
-     [
-      13,
-      97
-     ],
-     [
-      90,
-      6
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n16 * 39 -> 625\n57 * 72 -> 4105\n84 * 69 -> 5797\n13 * 97 -> 1262\n90 * 6 -> 541\n22 * 25 ->"
-  },
-  {
-   "answer": "2419",
-   "bb_extra_sha256": [
-    "ff6cfea45cf287a5ec778df94a003144897a6204bfbe4d9252a245f271b6bfe4"
-   ],
-   "bb_sha256": "bf01c13dd2dc9284300c59085c683f0c2762d6c48e0b57dbab5e9a6f29558313",
-   "meta": {
-    "a": 26,
-    "b": 93,
-    "examples": [
-     [
-      73,
-      14
-     ],
-     [
-      5,
-      84
-     ],
-     [
-      94,
-      34
-     ],
-     [
-      57,
-      98
-     ],
-     [
-      95,
-      22
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n73 * 14 -> 1023\n5 * 84 -> 421\n94 * 34 -> 3197\n57 * 98 -> 5587\n95 * 22 -> 2091\n26 * 93 ->"
   },
   {
    "answer": "2845",
@@ -14044,40 +12514,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n23 * 6 -> 139\n51 * 29 -> 1480\n79 * 31 -> 2450\n52 * 26 -> 1353\n54 * 71 -> 3835\n60 * 5 ->"
-  },
-  {
-   "answer": "8281",
-   "bb_extra_sha256": [
-    "0bf4147c090a798df2a09d8a7c4370bc70bed9a97942446228b0de2f73f87685"
-   ],
-   "bb_sha256": "4a69fd0f0b80c1a24f91a2e40fc6d5baf84012cb39a82397fea24fafd3a62f95",
-   "meta": {
-    "a": 92,
-    "b": 90,
-    "examples": [
-     [
-      8,
-      50
-     ],
-     [
-      14,
-      50
-     ],
-     [
-      41,
-      23
-     ],
-     [
-      0,
-      98
-     ],
-     [
-      3,
-      12
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n8 * 50 -> 401\n14 * 50 -> 701\n41 * 23 -> 944\n0 * 98 -> 1\n3 * 12 -> 37\n92 * 90 ->"
   },
   {
    "answer": "3441",
@@ -14386,40 +12822,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n75 * 58 -> 4351\n72 * 11 -> 793\n30 * 83 -> 2491\n63 * 77 -> 4852\n6 * 96 -> 577\n42 * 32 ->"
   },
   {
-   "answer": "568",
-   "bb_extra_sha256": [
-    "35504c8d29fe215425bd8a032aee64ee3be1e83747bb4dab749407c425ecd688"
-   ],
-   "bb_sha256": "0b1e3ae6678a8fe03bd6c364d6ca35fcbbf3a2e2eabda0eb00c057ea8104e0ab",
-   "meta": {
-    "a": 81,
-    "b": 7,
-    "examples": [
-     [
-      85,
-      6
-     ],
-     [
-      65,
-      84
-     ],
-     [
-      88,
-      18
-     ],
-     [
-      11,
-      92
-     ],
-     [
-      49,
-      57
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n85 * 6 -> 511\n65 * 84 -> 5461\n88 * 18 -> 1585\n11 * 92 -> 1013\n49 * 57 -> 2794\n81 * 7 ->"
-  },
-  {
    "answer": "1366",
    "bb_extra_sha256": [
     "6e5272432a9012be87d7d171bc7ac4ac067d5181f1fdf11cb1c69308aece14e1"
@@ -14590,108 +12992,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n72 * 79 -> 5689\n85 * 86 -> 7311\n41 * 78 -> 3199\n12 * 49 -> 589\n77 * 9 -> 694\n53 * 95 ->"
   },
   {
-   "answer": "741",
-   "bb_extra_sha256": [
-    "1ce135688282711eb7b5fd57107ac6d8ce1896140313345123eb072edbe1ff1a"
-   ],
-   "bb_sha256": "f16c9c638541b155c9060e432b87e31c64b2e021ee28264304a6696c45871042",
-   "meta": {
-    "a": 37,
-    "b": 20,
-    "examples": [
-     [
-      41,
-      90
-     ],
-     [
-      57,
-      21
-     ],
-     [
-      43,
-      23
-     ],
-     [
-      5,
-      58
-     ],
-     [
-      66,
-      43
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n41 * 90 -> 3691\n57 * 21 -> 1198\n43 * 23 -> 990\n5 * 58 -> 291\n66 * 43 -> 2839\n37 * 20 ->"
-  },
-  {
-   "answer": "2305",
-   "bb_extra_sha256": [
-    "dc5ea78f8f84fefc3a06beac93ce55fc850736b9e2252d0006aca77c32c66d74"
-   ],
-   "bb_sha256": "abd84d3a1fa156e92991e4df8c794bd7a3da16456af3b5ce5ec4bd6313d09e7a",
-   "meta": {
-    "a": 64,
-    "b": 36,
-    "examples": [
-     [
-      10,
-      31
-     ],
-     [
-      39,
-      68
-     ],
-     [
-      22,
-      61
-     ],
-     [
-      50,
-      72
-     ],
-     [
-      68,
-      11
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n10 * 31 -> 311\n39 * 68 -> 2653\n22 * 61 -> 1343\n50 * 72 -> 3601\n68 * 11 -> 749\n64 * 36 ->"
-  },
-  {
-   "answer": "292",
-   "bb_extra_sha256": [
-    "8d1848a8c73e6cf188274ebf7d109dfc18b4979020aac159046afa8c9d692de9"
-   ],
-   "bb_sha256": "8f12c3ea575ba0ccef8a4df00d1638857f4159e2ab2d65564a67d06e054eb9df",
-   "meta": {
-    "a": 97,
-    "b": 3,
-    "examples": [
-     [
-      3,
-      21
-     ],
-     [
-      37,
-      49
-     ],
-     [
-      30,
-      88
-     ],
-     [
-      27,
-      0
-     ],
-     [
-      27,
-      24
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n3 * 21 -> 64\n37 * 49 -> 1814\n30 * 88 -> 2641\n27 * 0 -> 1\n27 * 24 -> 649\n97 * 3 ->"
-  },
-  {
    "answer": "1282",
    "bb_extra_sha256": [
     "0c929049a5b43608ebaa271bc6e2e01d7305d99c99f5a1034264628d3317c917"
@@ -14828,74 +13128,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n39 * 89 -> 3472\n56 * 28 -> 1569\n67 * 63 -> 4222\n78 * 9 -> 703\n78 * 86 -> 6709\n27 * 21 ->"
   },
   {
-   "answer": "559",
-   "bb_extra_sha256": [
-    "850f016c746afb46e082ac2473c7966cc1df0abd773725a142c058f40b4f7b01"
-   ],
-   "bb_sha256": "940e8ed47bb7ec9d4cebe72048272a8133da48f8421ac4227ab82d892461316c",
-   "meta": {
-    "a": 9,
-    "b": 62,
-    "examples": [
-     [
-      60,
-      2
-     ],
-     [
-      96,
-      5
-     ],
-     [
-      32,
-      66
-     ],
-     [
-      70,
-      66
-     ],
-     [
-      46,
-      58
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n60 * 2 -> 121\n96 * 5 -> 481\n32 * 66 -> 2113\n70 * 66 -> 4621\n46 * 58 -> 2669\n9 * 62 ->"
-  },
-  {
-   "answer": "2323",
-   "bb_extra_sha256": [
-    "d4bd7abe43a70af55b7eb417ce73f7d0c8f5a41e45ab89ebda6e5a784f354808"
-   ],
-   "bb_sha256": "e5f09197bad67680525a90262f6337b7aaf4aaeb5bd2f72517c3f45d6d9d4cd1",
-   "meta": {
-    "a": 86,
-    "b": 27,
-    "examples": [
-     [
-      40,
-      45
-     ],
-     [
-      12,
-      7
-     ],
-     [
-      34,
-      51
-     ],
-     [
-      28,
-      66
-     ],
-     [
-      22,
-      0
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n40 * 45 -> 1801\n12 * 7 -> 85\n34 * 51 -> 1735\n28 * 66 -> 1849\n22 * 0 -> 1\n86 * 27 ->"
-  },
-  {
    "answer": "6675",
    "bb_extra_sha256": [
     "0e83bc4431da2b897dac854fae16efaa3c3d399b3bd559b8bdf34100403c2fa7"
@@ -14928,40 +13160,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n70 * 89 -> 6231\n31 * 22 -> 683\n16 * 3 -> 49\n91 * 16 -> 1457\n44 * 41 -> 1805\n71 * 94 ->"
-  },
-  {
-   "answer": "1471",
-   "bb_extra_sha256": [
-    "e9e282a19ff6caf65d15d37fb63182658b95cfde5283f03c50cd0d8df84fead0"
-   ],
-   "bb_sha256": "1ee9426fe6a1554c8b66d7c5ce08ae231dbde2626af32c642bab5c4640be76e0",
-   "meta": {
-    "a": 30,
-    "b": 49,
-    "examples": [
-     [
-      35,
-      42
-     ],
-     [
-      3,
-      23
-     ],
-     [
-      37,
-      67
-     ],
-     [
-      82,
-      31
-     ],
-     [
-      91,
-      62
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n35 * 42 -> 1471\n3 * 23 -> 70\n37 * 67 -> 2480\n82 * 31 -> 2543\n91 * 62 -> 5643\n30 * 49 ->"
   },
   {
    "answer": "1099",
@@ -15202,40 +13400,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n69 * 35 -> 2416\n72 * 3 -> 217\n80 * 97 -> 7761\n10 * 29 -> 291\n70 * 55 -> 3851\n46 * 96 ->"
   },
   {
-   "answer": "6601",
-   "bb_extra_sha256": [
-    "97b94a87798924c8005f39ead5558468c62dfb9ade352417dabb384e22122c3d"
-   ],
-   "bb_sha256": "7475e0512edec85a14234ce3848a4f7e2fa71e0cd83601227a94222fcbc0b06b",
-   "meta": {
-    "a": 88,
-    "b": 75,
-    "examples": [
-     [
-      52,
-      48
-     ],
-     [
-      3,
-      41
-     ],
-     [
-      8,
-      0
-     ],
-     [
-      13,
-      96
-     ],
-     [
-      21,
-      63
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n52 * 48 -> 2497\n3 * 41 -> 124\n8 * 0 -> 1\n13 * 96 -> 1249\n21 * 63 -> 1324\n88 * 75 ->"
-  },
-  {
    "answer": "1769",
    "bb_extra_sha256": [
     "948f338a376491f7b25b7547cbb7eb6ef42630634932a573bbba61a66d9217c7"
@@ -15372,40 +13536,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n37 * 30 -> 1111\n1 * 84 -> 85\n67 * 21 -> 1408\n93 * 35 -> 3256\n31 * 46 -> 1427\n70 * 5 ->"
   },
   {
-   "answer": "65",
-   "bb_extra_sha256": [
-    "c20799ca581005ea19f87630dfe10cdec6255ecd30b288a1bed55b089b37abba"
-   ],
-   "bb_sha256": "4768168ede49e2e60fb33c66a75a26edfd2c140470567f8168e451e016f8a071",
-   "meta": {
-    "a": 1,
-    "b": 64,
-    "examples": [
-     [
-      79,
-      50
-     ],
-     [
-      22,
-      69
-     ],
-     [
-      67,
-      86
-     ],
-     [
-      65,
-      13
-     ],
-     [
-      59,
-      74
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n79 * 50 -> 3951\n22 * 69 -> 1519\n67 * 86 -> 5763\n65 * 13 -> 846\n59 * 74 -> 4367\n1 * 64 ->"
-  },
-  {
    "answer": "351",
    "bb_extra_sha256": [
     "ed2680b050de0f6c8281212d6e7a3e48f274983464abe6d0c593f5e90629d0d1"
@@ -15438,40 +13568,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n41 * 12 -> 493\n18 * 69 -> 1243\n12 * 42 -> 505\n16 * 89 -> 1425\n81 * 83 -> 6724\n25 * 14 ->"
-  },
-  {
-   "answer": "4786",
-   "bb_extra_sha256": [
-    "a7ab60af6bc1f7f16d94b2495c197215984e6ecd1f73c2e1d850f97997123e8e"
-   ],
-   "bb_sha256": "8f7f371fad51fec7138d5d94415e487a54f205e77c8e9e33ccb97e12fbd44a9a",
-   "meta": {
-    "a": 87,
-    "b": 55,
-    "examples": [
-     [
-      43,
-      23
-     ],
-     [
-      56,
-      65
-     ],
-     [
-      88,
-      69
-     ],
-     [
-      57,
-      52
-     ],
-     [
-      95,
-      21
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n43 * 23 -> 990\n56 * 65 -> 3641\n88 * 69 -> 6073\n57 * 52 -> 2965\n95 * 21 -> 1996\n87 * 55 ->"
   },
   {
    "answer": "7567",
@@ -15542,74 +13638,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n47 * 4 -> 189\n78 * 59 -> 4603\n75 * 49 -> 3676\n51 * 64 -> 3265\n29 * 3 -> 88\n64 * 16 ->"
   },
   {
-   "answer": "961",
-   "bb_extra_sha256": [
-    "0dca10ed0311588e2af1c5d33080918a05adc96957a540e90d86d9f83f60fe47"
-   ],
-   "bb_sha256": "20bf94c8014eb511ad6d5263d7fb6e0056cd0eca4cfdc1269b235c7bd186ffe7",
-   "meta": {
-    "a": 15,
-    "b": 64,
-    "examples": [
-     [
-      28,
-      11
-     ],
-     [
-      32,
-      88
-     ],
-     [
-      13,
-      90
-     ],
-     [
-      88,
-      26
-     ],
-     [
-      52,
-      53
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n28 * 11 -> 309\n32 * 88 -> 2817\n13 * 90 -> 1171\n88 * 26 -> 2289\n52 * 53 -> 2757\n15 * 64 ->"
-  },
-  {
-   "answer": "1409",
-   "bb_extra_sha256": [
-    "0379372d6151a5341acb9619f3da6f73317c14e63b43e5051097750f87a9fcc7"
-   ],
-   "bb_sha256": "98aa9b87a3173206d9a8a5246be4c617282de4114713a35e4a94b598a7cff551",
-   "meta": {
-    "a": 64,
-    "b": 22,
-    "examples": [
-     [
-      28,
-      1
-     ],
-     [
-      14,
-      84
-     ],
-     [
-      49,
-      33
-     ],
-     [
-      92,
-      26
-     ],
-     [
-      51,
-      19
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n28 * 1 -> 29\n14 * 84 -> 1177\n49 * 33 -> 1618\n92 * 26 -> 2393\n51 * 19 -> 970\n64 * 22 ->"
-  },
-  {
    "answer": "2962",
    "bb_extra_sha256": [
     "f945f97ea60ed6bf41bac858f1d01b2fcb14884bdef6719cd027617471003a22"
@@ -15676,40 +13704,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n3 * 45 -> 136\n43 * 67 -> 2882\n40 * 53 -> 2121\n12 * 20 -> 241\n87 * 86 -> 7483\n72 * 48 ->"
-  },
-  {
-   "answer": "112",
-   "bb_extra_sha256": [
-    "bca449a62b59afa482ba6215a9c75fe28504752da7787ce00d0cdabf8f6b0407"
-   ],
-   "bb_sha256": "d19c0f1c0dd41e6889e3ad204340532067e4b12eba56b2fd0dba0fba33fe1fbb",
-   "meta": {
-    "a": 3,
-    "b": 37,
-    "examples": [
-     [
-      54,
-      77
-     ],
-     [
-      2,
-      55
-     ],
-     [
-      78,
-      66
-     ],
-     [
-      60,
-      28
-     ],
-     [
-      33,
-      7
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n54 * 77 -> 4159\n2 * 55 -> 111\n78 * 66 -> 5149\n60 * 28 -> 1681\n33 * 7 -> 232\n3 * 37 ->"
   },
   {
    "answer": "205",
@@ -15780,40 +13774,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n28 * 19 -> 533\n38 * 56 -> 2129\n72 * 91 -> 6553\n28 * 85 -> 2381\n69 * 87 -> 6004\n0 * 61 ->"
   },
   {
-   "answer": "2089",
-   "bb_extra_sha256": [
-    "3ed035e84dee2ab4965331e0e8f946d582fc39b0fae6120779fcd674fcfc5468"
-   ],
-   "bb_sha256": "004d1363acb4c086b679d9f7cdd4fad718f689d5e7cf3efc67e37e7f468c923c",
-   "meta": {
-    "a": 29,
-    "b": 72,
-    "examples": [
-     [
-      97,
-      63
-     ],
-     [
-      81,
-      23
-     ],
-     [
-      9,
-      85
-     ],
-     [
-      92,
-      90
-     ],
-     [
-      58,
-      20
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n97 * 63 -> 6112\n81 * 23 -> 1864\n9 * 85 -> 766\n92 * 90 -> 8281\n58 * 20 -> 1161\n29 * 72 ->"
-  },
-  {
    "answer": "833",
    "bb_extra_sha256": [
     "58cd1606590f9e0682fb86ba9903ca9917c9e0e300d62105731bfe1d92ab85bd"
@@ -15882,40 +13842,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n81 * 25 -> 2026\n85 * 57 -> 4846\n81 * 32 -> 2593\n62 * 32 -> 1985\n68 * 74 -> 5033\n54 * 95 ->"
   },
   {
-   "answer": "833",
-   "bb_extra_sha256": [
-    "2352e71d1c973cda733d80ae57fa0ba4ae9deaaf14eb025763983f3444d71ccd"
-   ],
-   "bb_sha256": "46c42b671b3ca65fe425922cb57e69bd74df47e380c062b9c826ddb23de5dd44",
-   "meta": {
-    "a": 26,
-    "b": 32,
-    "examples": [
-     [
-      50,
-      33
-     ],
-     [
-      90,
-      81
-     ],
-     [
-      23,
-      85
-     ],
-     [
-      56,
-      49
-     ],
-     [
-      62,
-      98
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n50 * 33 -> 1651\n90 * 81 -> 7291\n23 * 85 -> 1956\n56 * 49 -> 2745\n62 * 98 -> 6077\n26 * 32 ->"
-  },
-  {
    "answer": "2380",
    "bb_extra_sha256": [
     "65a2e6b4078b4d501e6ddc84908a1fdda8e6a16bef4094385714845e10b34b71"
@@ -15948,40 +13874,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n21 * 94 -> 1975\n95 * 48 -> 4561\n24 * 3 -> 73\n73 * 31 -> 2264\n81 * 77 -> 6238\n39 * 61 ->"
-  },
-  {
-   "answer": "1",
-   "bb_extra_sha256": [
-    "dd855573ba5eca42405594411aadde04524cbf4522a57d7081d6f52d663b00ac"
-   ],
-   "bb_sha256": "9586fbe593abf820a5c9228a2ef4cea9f32e0d69131e84fb12995d37557dc79a",
-   "meta": {
-    "a": 0,
-    "b": 95,
-    "examples": [
-     [
-      5,
-      24
-     ],
-     [
-      23,
-      22
-     ],
-     [
-      49,
-      23
-     ],
-     [
-      88,
-      58
-     ],
-     [
-      81,
-      25
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n5 * 24 -> 121\n23 * 22 -> 507\n49 * 23 -> 1128\n88 * 58 -> 5105\n81 * 25 -> 2026\n0 * 95 ->"
   },
   {
    "answer": "6461",
@@ -16050,40 +13942,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n93 * 96 -> 8929\n37 * 48 -> 1777\n22 * 12 -> 265\n64 * 70 -> 4481\n27 * 20 -> 541\n80 * 84 ->"
-  },
-  {
-   "answer": "190",
-   "bb_extra_sha256": [
-    "cf9e39f5b7ef0466ae6440319800e212b869a03948ab56e418f44150bf81643f"
-   ],
-   "bb_sha256": "a6c53d2d1c29559737cada3684d080b140d7f7e842b0a4d37b356a8e50e929d5",
-   "meta": {
-    "a": 21,
-    "b": 9,
-    "examples": [
-     [
-      0,
-      4
-     ],
-     [
-      55,
-      14
-     ],
-     [
-      42,
-      66
-     ],
-     [
-      73,
-      66
-     ],
-     [
-      75,
-      61
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n0 * 4 -> 1\n55 * 14 -> 771\n42 * 66 -> 2773\n73 * 66 -> 4819\n75 * 61 -> 4576\n21 * 9 ->"
   },
   {
    "answer": "4713",
@@ -16222,40 +14080,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n16 * 82 -> 1313\n93 * 45 -> 4186\n43 * 59 -> 2538\n48 * 79 -> 3793\n14 * 68 -> 953\n86 * 55 ->"
   },
   {
-   "answer": "6721",
-   "bb_extra_sha256": [
-    "a02f390746d4a431c5da0b3339af43bd8f151fc090a31b0ad80118b960107f5e"
-   ],
-   "bb_sha256": "ddee147ba41777813587d0c2a2525afc9184e88f2ce933f4fade92d64acb474b",
-   "meta": {
-    "a": 80,
-    "b": 84,
-    "examples": [
-     [
-      88,
-      9
-     ],
-     [
-      80,
-      29
-     ],
-     [
-      11,
-      40
-     ],
-     [
-      51,
-      68
-     ],
-     [
-      88,
-      13
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n88 * 9 -> 793\n80 * 29 -> 2321\n11 * 40 -> 441\n51 * 68 -> 3469\n88 * 13 -> 1145\n80 * 84 ->"
-  },
-  {
    "answer": "205",
    "bb_extra_sha256": [
     "f6ca850b415398edd7f7d0944aaf256810f15756d9e0264e1a4b77a81761ec1b"
@@ -16322,74 +14146,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n50 * 33 -> 1651\n87 * 92 -> 8005\n29 * 93 -> 2698\n33 * 97 -> 3202\n37 * 64 -> 2369\n69 * 25 ->"
-  },
-  {
-   "answer": "5149",
-   "bb_extra_sha256": [
-    "6f2359e4546664e98001afb4ac2c9ac4eaa09b9e2fef41d329d97bc72c8b198d"
-   ],
-   "bb_sha256": "8a4fe8a5a36828f2abffe94f6651da4cca0a8844aa2df0397fc4b738b19ea82c",
-   "meta": {
-    "a": 78,
-    "b": 66,
-    "examples": [
-     [
-      68,
-      35
-     ],
-     [
-      8,
-      87
-     ],
-     [
-      70,
-      55
-     ],
-     [
-      47,
-      30
-     ],
-     [
-      13,
-      90
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n68 * 35 -> 2381\n8 * 87 -> 697\n70 * 55 -> 3851\n47 * 30 -> 1411\n13 * 90 -> 1171\n78 * 66 ->"
-  },
-  {
-   "answer": "711",
-   "bb_extra_sha256": [
-    "bcebec69c47aaf5f56a09a5467fd201aa234b1d3f8cdf1865abb626c1eac7b06"
-   ],
-   "bb_sha256": "ee9bcc8547949562ae6ef72c7c5dd3733843a95422cd84c232057fc1d51ad0dd",
-   "meta": {
-    "a": 71,
-    "b": 10,
-    "examples": [
-     [
-      12,
-      46
-     ],
-     [
-      57,
-      38
-     ],
-     [
-      92,
-      25
-     ],
-     [
-      91,
-      97
-     ],
-     [
-      26,
-      74
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n12 * 46 -> 553\n57 * 38 -> 2167\n92 * 25 -> 2301\n91 * 97 -> 8828\n26 * 74 -> 1925\n71 * 10 ->"
   },
   {
    "answer": "247",
@@ -16492,74 +14248,6 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n80 * 37 -> 2961\n70 * 0 -> 1\n59 * 12 -> 709\n15 * 16 -> 241\n61 * 9 -> 550\n60 * 69 ->"
-  },
-  {
-   "answer": "4786",
-   "bb_extra_sha256": [
-    "a1db6c24d35df7dbd6243c1cc36ee9316e2156d490d4dcdef7e48f9d5ced5efa"
-   ],
-   "bb_sha256": "fdc77fdc28fb8e270d9a550c6c26d57f86f8e416bd20282644e2e25c2a4b79d3",
-   "meta": {
-    "a": 55,
-    "b": 87,
-    "examples": [
-     [
-      62,
-      16
-     ],
-     [
-      48,
-      33
-     ],
-     [
-      3,
-      44
-     ],
-     [
-      28,
-      87
-     ],
-     [
-      1,
-      52
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n62 * 16 -> 993\n48 * 33 -> 1585\n3 * 44 -> 133\n28 * 87 -> 2437\n1 * 52 -> 53\n55 * 87 ->"
-  },
-  {
-   "answer": "1236",
-   "bb_extra_sha256": [
-    "fbe956f9eed1991497cf8b10dbf2b1f7cb196a74b9cf9f9cd0219806f9742eca"
-   ],
-   "bb_sha256": "c13c70d153711a8e8fb3139d80446944fa65f7da05c676e5d12e5aff8e408155",
-   "meta": {
-    "a": 19,
-    "b": 65,
-    "examples": [
-     [
-      57,
-      25
-     ],
-     [
-      8,
-      97
-     ],
-     [
-      72,
-      89
-     ],
-     [
-      69,
-      5
-     ],
-     [
-      47,
-      13
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n57 * 25 -> 1426\n8 * 97 -> 777\n72 * 89 -> 6409\n69 * 5 -> 346\n47 * 13 -> 612\n19 * 65 ->"
   },
   {
    "answer": "911",
@@ -16698,74 +14386,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n11 * 66 -> 727\n82 * 67 -> 5495\n23 * 88 -> 2025\n96 * 12 -> 1153\n83 * 83 -> 6890\n30 * 78 ->"
   },
   {
-   "answer": "2497",
-   "bb_extra_sha256": [
-    "b43e5299f767e5ee0c51f2e5af91cafed5aa36ebed5b6f3c5702cc0c7e600cd7"
-   ],
-   "bb_sha256": "6d5f0a85daa9d76146fa312fb7226b23816a53efd79a773193a8c3989eabed4b",
-   "meta": {
-    "a": 96,
-    "b": 26,
-    "examples": [
-     [
-      65,
-      43
-     ],
-     [
-      30,
-      56
-     ],
-     [
-      51,
-      37
-     ],
-     [
-      61,
-      32
-     ],
-     [
-      1,
-      73
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n65 * 43 -> 2796\n30 * 56 -> 1681\n51 * 37 -> 1888\n61 * 32 -> 1953\n1 * 73 -> 74\n96 * 26 ->"
-  },
-  {
-   "answer": "4993",
-   "bb_extra_sha256": [
-    "d8c453e2aab40447633b32de107faa99ad813a6a3f0843240c066159812e13eb"
-   ],
-   "bb_sha256": "26811bd7e70ba3eb7e3567011667613cb8b63a847a399002422bf69b4d8e6c22",
-   "meta": {
-    "a": 52,
-    "b": 96,
-    "examples": [
-     [
-      96,
-      27
-     ],
-     [
-      84,
-      97
-     ],
-     [
-      58,
-      63
-     ],
-     [
-      76,
-      6
-     ],
-     [
-      43,
-      40
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n96 * 27 -> 2593\n84 * 97 -> 8149\n58 * 63 -> 3655\n76 * 6 -> 457\n43 * 40 -> 1721\n52 * 96 ->"
-  },
-  {
    "answer": "4603",
    "bb_extra_sha256": [
     "6632363db1056b27cb7fd72b61af5f8193220423e932d8e987ed5cb62efbfd5f"
@@ -16834,40 +14454,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n90 * 31 -> 2791\n97 * 51 -> 4948\n86 * 92 -> 7913\n35 * 0 -> 1\n22 * 76 -> 1673\n58 * 8 ->"
   },
   {
-   "answer": "3865",
-   "bb_extra_sha256": [
-    "f496f03f39e39bd607e4e0e00993bc2a0bc60d045f2d79f69d7f20084eb9a9bc"
-   ],
-   "bb_sha256": "c1a030c174d417dc028128cf4b806914f4015e3c2201a1bffc06f9951ac3518a",
-   "meta": {
-    "a": 46,
-    "b": 84,
-    "examples": [
-     [
-      20,
-      52
-     ],
-     [
-      58,
-      64
-     ],
-     [
-      21,
-      85
-     ],
-     [
-      70,
-      3
-     ],
-     [
-      54,
-      25
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n20 * 52 -> 1041\n58 * 64 -> 3713\n21 * 85 -> 1786\n70 * 3 -> 211\n54 * 25 -> 1351\n46 * 84 ->"
-  },
-  {
    "answer": "1567",
    "bb_extra_sha256": [
     "16210837181e0e26e2bf9773e5fda9491edb69b18ec90db5ab1f0e76cf039285"
@@ -16902,74 +14488,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n79 * 41 -> 3240\n58 * 25 -> 1451\n79 * 88 -> 6953\n46 * 34 -> 1565\n77 * 91 -> 7008\n29 * 54 ->"
   },
   {
-   "answer": "869",
-   "bb_extra_sha256": [
-    "77bd28bd90a385fc8cc36c9436e1c106e984f7c6e20d80ae2269ebb925fc1fed"
-   ],
-   "bb_sha256": "68c8053b330b54ed2413ac46e260dc6d5dded751209494f541ecac318ce6f0d0",
-   "meta": {
-    "a": 31,
-    "b": 28,
-    "examples": [
-     [
-      42,
-      55
-     ],
-     [
-      62,
-      5
-     ],
-     [
-      58,
-      83
-     ],
-     [
-      0,
-      10
-     ],
-     [
-      75,
-      36
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n42 * 55 -> 2311\n62 * 5 -> 311\n58 * 83 -> 4815\n0 * 10 -> 1\n75 * 36 -> 2701\n31 * 28 ->"
-  },
-  {
-   "answer": "271",
-   "bb_extra_sha256": [
-    "1f8c3df2905a116813df2ded6a64e05069ab624d0ef49b87dc32ea1a76b98ffd"
-   ],
-   "bb_sha256": "1ac12356ca310daefd9219149704afef0d038514b1b13983b080e810ccfc0388",
-   "meta": {
-    "a": 18,
-    "b": 15,
-    "examples": [
-     [
-      53,
-      86
-     ],
-     [
-      26,
-      22
-     ],
-     [
-      95,
-      60
-     ],
-     [
-      62,
-      12
-     ],
-     [
-      74,
-      66
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n53 * 86 -> 4559\n26 * 22 -> 573\n95 * 60 -> 5701\n62 * 12 -> 745\n74 * 66 -> 4885\n18 * 15 ->"
-  },
-  {
    "answer": "1600",
    "bb_extra_sha256": [
     "ad7ab797aa0741fa569013d43875a0916f5e98f7262e85f2761cbf794d5a0ca6"
@@ -17002,29 +14520,9 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n16 * 4 -> 65\n57 * 68 -> 3877\n75 * 29 -> 2176\n59 * 5 -> 296\n23 * 29 -> 668\n41 * 39 ->"
-  }
- ],
- "n_options": null,
- "n_redrawn": {
-  "collision": 1026,
-  "duplicate": 0,
-  "rejected": 0,
-  "repeated_answer": 0,
-  "shot_answer": 0,
-  "shot_content": 0
- },
- "name": "modarith_mul1",
- "provenance": {
-  "bbkey_audit_sha256": "dbeaa16cfce60acbd1e0eef0932d84bf7c9fa1385db503a60da0eeb17a3f5729",
-  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
-  "pyfiglet": "1.0.4",
-  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
- },
- "rung_type": "arithmetic",
- "seed": 20260908,
- "shot_records": [
+  },
   {
+   "answer": "534",
    "bb_extra_sha256": [
     "aba5b7bf814c3c7d4ee3ae79f03c84f0f7bcf506a96922f6b6e19ac028072ddb"
    ],
@@ -17054,36 +14552,2538 @@
       1
      ]
     ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n26 * 6 -> 157\n77 * 72 -> 5545\n9 * 25 -> 226\n31 * 15 -> 466\n61 * 1 -> 62\n41 * 13 ->"
+  },
+  {
+   "answer": "745",
+   "bb_extra_sha256": [
+    "ba62c07c74fff393c82d661b589b34de500070b2367a0d04e5be66cf6d23be94"
+   ],
+   "bb_sha256": "b65e4bbc14914941131e213e7bd513dc9e243bd09627aba8454e5e65d7b667df",
+   "meta": {
+    "a": 31,
+    "b": 24,
+    "examples": [
+     [
+      38,
+      74
+     ],
+     [
+      34,
+      4
+     ],
+     [
+      17,
+      23
+     ],
+     [
+      76,
+      53
+     ],
+     [
+      43,
+      86
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n38 * 74 -> 2813\n34 * 4 -> 137\n17 * 23 -> 392\n76 * 53 -> 4029\n43 * 86 -> 3699\n31 * 24 ->"
+  },
+  {
+   "answer": "958",
+   "bb_extra_sha256": [
+    "eb26341b595db524c987f41c4c294a3cf5a2810d5ec61440452d0d67320237bf"
+   ],
+   "bb_sha256": "5beead3cd2150addd4cb12c87325e0f906b2c6b764a3ba195d644fa64a03edc6",
+   "meta": {
+    "a": 87,
+    "b": 11,
+    "examples": [
+     [
+      10,
+      43
+     ],
+     [
+      68,
+      5
+     ],
+     [
+      72,
+      26
+     ],
+     [
+      83,
+      93
+     ],
+     [
+      39,
+      24
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n10 * 43 -> 431\n68 * 5 -> 341\n72 * 26 -> 1873\n83 * 93 -> 7720\n39 * 24 -> 937\n87 * 11 ->"
+  },
+  {
+   "answer": "7351",
+   "bb_extra_sha256": [
+    "9f524b93c5f90319e340f20aaf9b8d36e8761d596cb6badd825ce19b780531f6"
+   ],
+   "bb_sha256": "3ecc8c85551f64b0ecaa674518124b44c0b5a6129706fe17113a9cbf65ad9189",
+   "meta": {
+    "a": 75,
+    "b": 98,
+    "examples": [
+     [
+      47,
+      92
+     ],
+     [
+      32,
+      31
+     ],
+     [
+      52,
+      4
+     ],
+     [
+      16,
+      60
+     ],
+     [
+      71,
+      10
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n47 * 92 -> 4325\n32 * 31 -> 993\n52 * 4 -> 209\n16 * 60 -> 961\n71 * 10 -> 711\n75 * 98 ->"
+  },
+  {
+   "answer": "2871",
+   "bb_extra_sha256": [
+    "140c8b964ca9c27a8540fdb0c1b4cab1637f7a0465000bd7e0ffb1e4e5725711"
+   ],
+   "bb_sha256": "085a41b4dc44d2d3997c5139a8df5990e3cfe08905f85aaa8c978e9e87bb8f9d",
+   "meta": {
+    "a": 82,
+    "b": 35,
+    "examples": [
+     [
+      23,
+      68
+     ],
+     [
+      14,
+      7
+     ],
+     [
+      60,
+      12
+     ],
+     [
+      87,
+      66
+     ],
+     [
+      55,
+      53
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n23 * 68 -> 1565\n14 * 7 -> 99\n60 * 12 -> 721\n87 * 66 -> 5743\n55 * 53 -> 2916\n82 * 35 ->"
+  },
+  {
+   "answer": "3163",
+   "bb_extra_sha256": [
+    "edea35f6ddb5f5fe3b0a426f3a02293c1ede0c45a6eb587b22898c32e8247163"
+   ],
+   "bb_sha256": "ba71aae1ba2ed8bdb7baa1d2d5c4bc8e160c552982e609e48a474802271b1cbb",
+   "meta": {
+    "a": 93,
+    "b": 34,
+    "examples": [
+     [
+      96,
+      68
+     ],
+     [
+      42,
+      29
+     ],
+     [
+      18,
+      1
+     ],
+     [
+      0,
+      28
+     ],
+     [
+      3,
+      63
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n96 * 68 -> 6529\n42 * 29 -> 1219\n18 * 1 -> 19\n0 * 28 -> 1\n3 * 63 -> 190\n93 * 34 ->"
+  },
+  {
+   "answer": "4417",
+   "bb_extra_sha256": [
+    "b44df0ea1492cb76ab30f43fd8a3f1fbafdc283b49992573b05bc7dd7a8e2907"
+   ],
+   "bb_sha256": "2d0f100d581a5e91199ef7c3d507f87a95e98c3e6d5bd43dbb7931fb93a51c81",
+   "meta": {
+    "a": 92,
+    "b": 48,
+    "examples": [
+     [
+      59,
+      33
+     ],
+     [
+      72,
+      57
+     ],
+     [
+      9,
+      46
+     ],
+     [
+      57,
+      80
+     ],
+     [
+      75,
+      66
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n59 * 33 -> 1948\n72 * 57 -> 4105\n9 * 46 -> 415\n57 * 80 -> 4561\n75 * 66 -> 4951\n92 * 48 ->"
+  },
+  {
+   "answer": "3497",
+   "bb_extra_sha256": [
+    "669600e415ed8e0a1e986dacd8dda3bf803046e63bd96c2c2aec845ba364afd1"
+   ],
+   "bb_sha256": "a1d1881f0f8c67cb4867b7f2e858722474eb99c233d95a2e999df364f426fa86",
+   "meta": {
+    "a": 76,
+    "b": 46,
+    "examples": [
+     [
+      32,
+      56
+     ],
+     [
+      52,
+      54
+     ],
+     [
+      45,
+      85
+     ],
+     [
+      87,
+      24
+     ],
+     [
+      13,
+      45
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n32 * 56 -> 1793\n52 * 54 -> 2809\n45 * 85 -> 3826\n87 * 24 -> 2089\n13 * 45 -> 586\n76 * 46 ->"
+  },
+  {
+   "answer": "2301",
+   "bb_extra_sha256": [
+    "00fe996ed503507949fe53ff2d554f61233aff134f47da0dcf76b6018c19d31c"
+   ],
+   "bb_sha256": "aef5c5266d7a10b3b0df715ac58461fe9b4fb177223d72d699c3f084a0f8c2f6",
+   "meta": {
+    "a": 25,
+    "b": 92,
+    "examples": [
+     [
+      52,
+      98
+     ],
+     [
+      0,
+      13
+     ],
+     [
+      29,
+      34
+     ],
+     [
+      34,
+      50
+     ],
+     [
+      30,
+      23
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n52 * 98 -> 5097\n0 * 13 -> 1\n29 * 34 -> 987\n34 * 50 -> 1701\n30 * 23 -> 691\n25 * 92 ->"
+  },
+  {
+   "answer": "1989",
+   "bb_extra_sha256": [
+    "1663ae38f1d4fa0940b10cc1525a43316a71e9f78ea9db1b071b9b8f1bca4f2f"
+   ],
+   "bb_sha256": "ca57ee5905587f98a0649e29e52192a2b441b506ef40290075aa650118ba1e1f",
+   "meta": {
+    "a": 71,
+    "b": 28,
+    "examples": [
+     [
+      49,
+      20
+     ],
+     [
+      48,
+      21
+     ],
+     [
+      22,
+      16
+     ],
+     [
+      84,
+      87
+     ],
+     [
+      81,
+      56
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n49 * 20 -> 981\n48 * 21 -> 1009\n22 * 16 -> 353\n84 * 87 -> 7309\n81 * 56 -> 4537\n71 * 28 ->"
+  },
+  {
+   "answer": "185",
+   "bb_extra_sha256": [
+    "90506a019521a26552489c9843aa0bf31689171ec4b903e51fb5475602e5bd35"
+   ],
+   "bb_sha256": "371a21ee19ef0ce2bf3c61e15c9ee753f2cafd3bcec5732af70c2554bb85606c",
+   "meta": {
+    "a": 23,
+    "b": 8,
+    "examples": [
+     [
+      52,
+      44
+     ],
+     [
+      95,
+      45
+     ],
+     [
+      78,
+      43
+     ],
+     [
+      0,
+      47
+     ],
+     [
+      90,
+      41
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n52 * 44 -> 2289\n95 * 45 -> 4276\n78 * 43 -> 3355\n0 * 47 -> 1\n90 * 41 -> 3691\n23 * 8 ->"
+  },
+  {
+   "answer": "4159",
+   "bb_extra_sha256": [
+    "426177933407e1a8767a592fb17cba616b8822920b81b9efeab78db152577058"
+   ],
+   "bb_sha256": "5a464c999656be42e89c964cf0477300b30c17bb97f242e5e8309c22c9ca36e2",
+   "meta": {
+    "a": 54,
+    "b": 77,
+    "examples": [
+     [
+      32,
+      6
+     ],
+     [
+      13,
+      24
+     ],
+     [
+      96,
+      85
+     ],
+     [
+      93,
+      69
+     ],
+     [
+      63,
+      41
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n32 * 6 -> 193\n13 * 24 -> 313\n96 * 85 -> 8161\n93 * 69 -> 6418\n63 * 41 -> 2584\n54 * 77 ->"
+  },
+  {
+   "answer": "2561",
+   "bb_extra_sha256": [
+    "5dcbb22f7eb1df8ea47d56e4162e7d6cdb040712fe111a663c0403f12b05b8f6"
+   ],
+   "bb_sha256": "ee88dbe7fe39ef0c3e0e73be86234a904df068dcc458cad4f79ab3d670803c72",
+   "meta": {
+    "a": 64,
+    "b": 40,
+    "examples": [
+     [
+      74,
+      75
+     ],
+     [
+      65,
+      53
+     ],
+     [
+      50,
+      25
+     ],
+     [
+      79,
+      38
+     ],
+     [
+      56,
+      33
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n74 * 75 -> 5551\n65 * 53 -> 3446\n50 * 25 -> 1251\n79 * 38 -> 3003\n56 * 33 -> 1849\n64 * 40 ->"
+  },
+  {
+   "answer": "1",
+   "bb_extra_sha256": [
+    "ca6b2602aaf8fdd07ed979b5b12f9d18d5ecc4ecca2504bab07fa6ee3982c00e"
+   ],
+   "bb_sha256": "a88baa593ea4415af851b3bb0bd680cd173022f79b4a8b63d43589924794d6b8",
+   "meta": {
+    "a": 63,
+    "b": 0,
+    "examples": [
+     [
+      45,
+      74
+     ],
+     [
+      78,
+      60
+     ],
+     [
+      68,
+      59
+     ],
+     [
+      85,
+      97
+     ],
+     [
+      93,
+      1
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n45 * 74 -> 3331\n78 * 60 -> 4681\n68 * 59 -> 4013\n85 * 97 -> 8246\n93 * 1 -> 94\n63 * 0 ->"
+  },
+  {
+   "answer": "443",
+   "bb_extra_sha256": [
+    "dae23255ea343e433ed2782f6f757d9e10c922e91bedc5f428df9e5022f5e03c"
+   ],
+   "bb_sha256": "9e6285804afc22e1cfcda1a480098d958bc10d080304c35a406208881964db55",
+   "meta": {
+    "a": 17,
+    "b": 26,
+    "examples": [
+     [
+      31,
+      65
+     ],
+     [
+      0,
+      61
+     ],
+     [
+      25,
+      81
+     ],
+     [
+      39,
+      37
+     ],
+     [
+      8,
+      50
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n31 * 65 -> 2016\n0 * 61 -> 1\n25 * 81 -> 2026\n39 * 37 -> 1444\n8 * 50 -> 401\n17 * 26 ->"
+  },
+  {
+   "answer": "250",
+   "bb_extra_sha256": [
+    "38cb39a3f1b45d04d4038b1ffc4a2cde16bff0734d9c1bc5d180c1de1f4947e8"
+   ],
+   "bb_sha256": "74730b67064ad6aae03517114b1e41aa3b8998f9439fdcddfdb82fa40c9dce92",
+   "meta": {
+    "a": 3,
+    "b": 83,
+    "examples": [
+     [
+      40,
+      65
+     ],
+     [
+      8,
+      25
+     ],
+     [
+      34,
+      97
+     ],
+     [
+      88,
+      14
+     ],
+     [
+      12,
+      36
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n40 * 65 -> 2601\n8 * 25 -> 201\n34 * 97 -> 3299\n88 * 14 -> 1233\n12 * 36 -> 433\n3 * 83 ->"
+  },
+  {
+   "answer": "406",
+   "bb_extra_sha256": [
+    "a15114d45c1c1f75ac11f113e03f5728bce3d73cfbb7920cc399ccffcb7d8ac8"
+   ],
+   "bb_sha256": "0a1b27a0da501be8378b99f695b197c21feeb6129b12e4264d05ae686ee0afb5",
+   "meta": {
+    "a": 45,
+    "b": 9,
+    "examples": [
+     [
+      20,
+      57
+     ],
+     [
+      37,
+      18
+     ],
+     [
+      38,
+      47
+     ],
+     [
+      87,
+      19
+     ],
+     [
+      71,
+      13
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n20 * 57 -> 1141\n37 * 18 -> 667\n38 * 47 -> 1787\n87 * 19 -> 1654\n71 * 13 -> 924\n45 * 9 ->"
+  },
+  {
+   "answer": "331",
+   "bb_extra_sha256": [
+    "40d2319cf353f8d720886901db68cf5c394a831a06c9274b6f48d2c3f3076c1d"
+   ],
+   "bb_sha256": "f6718ea4c60eef4fcd2fbf86a7022699828a696a11c7d040d98542920d3453a7",
+   "meta": {
+    "a": 55,
+    "b": 6,
+    "examples": [
+     [
+      42,
+      40
+     ],
+     [
+      15,
+      43
+     ],
+     [
+      17,
+      42
+     ],
+     [
+      69,
+      27
+     ],
+     [
+      49,
+      72
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n42 * 40 -> 1681\n15 * 43 -> 646\n17 * 42 -> 715\n69 * 27 -> 1864\n49 * 72 -> 3529\n55 * 6 ->"
+  },
+  {
+   "answer": "309",
+   "bb_extra_sha256": [
+    "034fc4aae4cc5ef9825dd56841f2e8855d73c739f3708d2676e89907bd0e882d"
+   ],
+   "bb_sha256": "1a6093b9382f0f7ca2de1b9a270a90039a8b91850e1069acf43643141c727fc8",
+   "meta": {
+    "a": 11,
+    "b": 28,
+    "examples": [
+     [
+      70,
+      80
+     ],
+     [
+      48,
+      50
+     ],
+     [
+      41,
+      74
+     ],
+     [
+      36,
+      97
+     ],
+     [
+      48,
+      6
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n70 * 80 -> 5601\n48 * 50 -> 2401\n41 * 74 -> 3035\n36 * 97 -> 3493\n48 * 6 -> 289\n11 * 28 ->"
+  },
+  {
+   "answer": "4663",
+   "bb_extra_sha256": [
+    "0fc7043431d1338a439a159fa7470f98d17bd4dd1271c7fd6e2888f6cc026809"
+   ],
+   "bb_sha256": "6709bcebc107277ee9c57ae363ab76ffd0aafad70ac97c49e279e2ceeec1e876",
+   "meta": {
+    "a": 63,
+    "b": 74,
+    "examples": [
+     [
+      81,
+      11
+     ],
+     [
+      7,
+      42
+     ],
+     [
+      92,
+      89
+     ],
+     [
+      30,
+      59
+     ],
+     [
+      20,
+      3
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n81 * 11 -> 892\n7 * 42 -> 295\n92 * 89 -> 8189\n30 * 59 -> 1771\n20 * 3 -> 61\n63 * 74 ->"
+  },
+  {
+   "answer": "2881",
+   "bb_extra_sha256": [
+    "71297367c5abdb3cd18d00b215c2b35cc35f2f0fa08e0bae0176817651af34f6"
+   ],
+   "bb_sha256": "b308b2ff35150da5d3ef0f6a1fbcced4f49dafe456538754f56f28b83858d375",
+   "meta": {
+    "a": 96,
+    "b": 30,
+    "examples": [
+     [
+      61,
+      77
+     ],
+     [
+      14,
+      40
+     ],
+     [
+      6,
+      42
+     ],
+     [
+      90,
+      57
+     ],
+     [
+      40,
+      2
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n61 * 77 -> 4698\n14 * 40 -> 561\n6 * 42 -> 253\n90 * 57 -> 5131\n40 * 2 -> 81\n96 * 30 ->"
+  },
+  {
+   "answer": "4609",
+   "bb_extra_sha256": [
+    "3054cbea0f0add8248a8ae36c79e6e00aa6472a7f8667de8a4a9c17d61a0287b"
+   ],
+   "bb_sha256": "89abd6c7864e874371bb5238efba5303edb7aae198d94612c614f7b1372d1ff0",
+   "meta": {
+    "a": 72,
+    "b": 64,
+    "examples": [
+     [
+      32,
+      20
+     ],
+     [
+      94,
+      18
+     ],
+     [
+      34,
+      33
+     ],
+     [
+      12,
+      66
+     ],
+     [
+      33,
+      90
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n32 * 20 -> 641\n94 * 18 -> 1693\n34 * 33 -> 1123\n12 * 66 -> 793\n33 * 90 -> 2971\n72 * 64 ->"
+  },
+  {
+   "answer": "45",
+   "bb_extra_sha256": [
+    "e065727847930960f103b09f532f4265c149a5a26ead0e4773b674162199923e"
+   ],
+   "bb_sha256": "922793b37efd1931005d4787082c643fb09356115cadb1d50741d63b282fc3ab",
+   "meta": {
+    "a": 2,
+    "b": 22,
+    "examples": [
+     [
+      57,
+      66
+     ],
+     [
+      64,
+      7
+     ],
+     [
+      86,
+      83
+     ],
+     [
+      47,
+      81
+     ],
+     [
+      71,
+      57
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n57 * 66 -> 3763\n64 * 7 -> 449\n86 * 83 -> 7139\n47 * 81 -> 3808\n71 * 57 -> 4048\n2 * 22 ->"
+  },
+  {
+   "answer": "4851",
+   "bb_extra_sha256": [
+    "e2c889b86273ed662d55eeae204bf11a153fa78699cb70d4134786c06ac0e069"
+   ],
+   "bb_sha256": "ba746c2ee9f458316a14cd768330c3a66a1ac69656a6baf26bf807c75812d118",
+   "meta": {
+    "a": 50,
+    "b": 97,
+    "examples": [
+     [
+      41,
+      6
+     ],
+     [
+      83,
+      72
+     ],
+     [
+      57,
+      39
+     ],
+     [
+      32,
+      41
+     ],
+     [
+      0,
+      52
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n41 * 6 -> 247\n83 * 72 -> 5977\n57 * 39 -> 2224\n32 * 41 -> 1313\n0 * 52 -> 1\n50 * 97 ->"
+  },
+  {
+   "answer": "5061",
+   "bb_extra_sha256": [
+    "e7f8f62e7d4124bd8cfadb93a0c8a7a6b7a8305272b21d7e994a887f6b800d6c"
+   ],
+   "bb_sha256": "7cff8373a37fe4396e9ffb8ecd7a42916d1ed3c61dd3faea71cae668c5be5af5",
+   "meta": {
+    "a": 55,
+    "b": 92,
+    "examples": [
+     [
+      67,
+      48
+     ],
+     [
+      25,
+      19
+     ],
+     [
+      28,
+      77
+     ],
+     [
+      52,
+      97
+     ],
+     [
+      70,
+      94
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n67 * 48 -> 3217\n25 * 19 -> 476\n28 * 77 -> 2157\n52 * 97 -> 5045\n70 * 94 -> 6581\n55 * 92 ->"
+  },
+  {
+   "answer": "1",
+   "bb_extra_sha256": [
+    "e4cdae0c1013ffc5852305fc9438fdbb798dd573c2d98d612f6224910d32bb25"
+   ],
+   "bb_sha256": "be36d93708fddc2534e67481c1c1edd20bce39535178f1fef249ff1dd7d14a54",
+   "meta": {
+    "a": 19,
+    "b": 0,
+    "examples": [
+     [
+      85,
+      26
+     ],
+     [
+      14,
+      91
+     ],
+     [
+      44,
+      57
+     ],
+     [
+      72,
+      61
+     ],
+     [
+      80,
+      67
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n85 * 26 -> 2211\n14 * 91 -> 1275\n44 * 57 -> 2509\n72 * 61 -> 4393\n80 * 67 -> 5361\n19 * 0 ->"
+  },
+  {
+   "answer": "3742",
+   "bb_extra_sha256": [
+    "89eabdc467c64609b7dc20f30e389349741948d0d7d467dd4a5e0527222dbd4c"
+   ],
+   "bb_sha256": "ffaf0373e0eea6dc4f9276ebab4be78906d5936ec51253ca945d854c8414e1d9",
+   "meta": {
+    "a": 43,
+    "b": 87,
+    "examples": [
+     [
+      83,
+      85
+     ],
+     [
+      28,
+      34
+     ],
+     [
+      57,
+      65
+     ],
+     [
+      82,
+      66
+     ],
+     [
+      42,
+      45
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n83 * 85 -> 7056\n28 * 34 -> 953\n57 * 65 -> 3706\n82 * 66 -> 5413\n42 * 45 -> 1891\n43 * 87 ->"
+  },
+  {
+   "answer": "497",
+   "bb_extra_sha256": [
+    "fcdc9df94ee1f8bcd0720123e4c2445a2dd8c6239f4381d6ba6d39e76a3ad859"
+   ],
+   "bb_sha256": "1102f8f426fb09280f3049831be5bf72eb5467d993dc283ccc38f9e398c5377a",
+   "meta": {
+    "a": 8,
+    "b": 62,
+    "examples": [
+     [
+      31,
+      7
+     ],
+     [
+      89,
+      57
+     ],
+     [
+      87,
+      55
+     ],
+     [
+      98,
+      53
+     ],
+     [
+      73,
+      47
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n31 * 7 -> 218\n89 * 57 -> 5074\n87 * 55 -> 4786\n98 * 53 -> 5195\n73 * 47 -> 3432\n8 * 62 ->"
+  },
+  {
+   "answer": "1",
+   "bb_extra_sha256": [
+    "385920ae4fbb0bc2870245e9128fd3514e1db5afc696b394afdffff3c353c7b5"
+   ],
+   "bb_sha256": "40d354dfad2ccfd19005dba5d1007340f452f07f85c75d0bc012a718bc1a847a",
+   "meta": {
+    "a": 0,
+    "b": 66,
+    "examples": [
+     [
+      36,
+      84
+     ],
+     [
+      1,
+      73
+     ],
+     [
+      74,
+      29
+     ],
+     [
+      64,
+      2
+     ],
+     [
+      45,
+      70
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n36 * 84 -> 3025\n1 * 73 -> 74\n74 * 29 -> 2147\n64 * 2 -> 129\n45 * 70 -> 3151\n0 * 66 ->"
+  },
+  {
+   "answer": "781",
+   "bb_extra_sha256": [
+    "20bd14e31545998225e0002f6dee350ea40d1c1c7c6eff2afa7a56db524ece8d"
+   ],
+   "bb_sha256": "338627ce828dc9610e0aabcbb2346a942b5b5495e61793a481d7a1c34ef4bac1",
+   "meta": {
+    "a": 39,
+    "b": 20,
+    "examples": [
+     [
+      54,
+      34
+     ],
+     [
+      52,
+      70
+     ],
+     [
+      86,
+      24
+     ],
+     [
+      36,
+      86
+     ],
+     [
+      25,
+      77
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n54 * 34 -> 1837\n52 * 70 -> 3641\n86 * 24 -> 2065\n36 * 86 -> 3097\n25 * 77 -> 1926\n39 * 20 ->"
+  },
+  {
+   "answer": "561",
+   "bb_extra_sha256": [
+    "a5b9c17729cbfd4689f487b1859aec31583e5bb3ac08ccc20d5fad6e0dd3ff58"
+   ],
+   "bb_sha256": "c00f84072597e3d61ed674b163cc05bce3c79974d12da67d3f19f79d67bd44f2",
+   "meta": {
+    "a": 7,
+    "b": 80,
+    "examples": [
+     [
+      90,
+      83
+     ],
+     [
+      79,
+      52
+     ],
+     [
+      89,
+      69
+     ],
+     [
+      81,
+      5
+     ],
+     [
+      58,
+      66
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n90 * 83 -> 7471\n79 * 52 -> 4109\n89 * 69 -> 6142\n81 * 5 -> 406\n58 * 66 -> 3829\n7 * 80 ->"
+  },
+  {
+   "answer": "6321",
+   "bb_extra_sha256": [
+    "b0dce897ff64769168d92fab529705a7e5eb3c98180decca9cf554ac1bd67f5d"
+   ],
+   "bb_sha256": "b9449c65c306315c95bcd5d2ef70b81b6a1149f8edab4fc9db9e07fc3d83414c",
+   "meta": {
+    "a": 79,
+    "b": 80,
+    "examples": [
+     [
+      11,
+      86
+     ],
+     [
+      2,
+      13
+     ],
+     [
+      77,
+      69
+     ],
+     [
+      36,
+      5
+     ],
+     [
+      36,
+      49
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n11 * 86 -> 947\n2 * 13 -> 27\n77 * 69 -> 5314\n36 * 5 -> 181\n36 * 49 -> 1765\n79 * 80 ->"
+  },
+  {
+   "answer": "441",
+   "bb_extra_sha256": [
+    "bb30f8db44d2dcfa2a740ceeb00c367b4cca6afe253c3d6b01903545d701545b"
+   ],
+   "bb_sha256": "932b1cb25792a80999923b4c4457f1dc56760ab689ab311c2fbb9759adf68add",
+   "meta": {
+    "a": 44,
+    "b": 10,
+    "examples": [
+     [
+      88,
+      74
+     ],
+     [
+      42,
+      84
+     ],
+     [
+      84,
+      97
+     ],
+     [
+      84,
+      46
+     ],
+     [
+      73,
+      51
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n88 * 74 -> 6513\n42 * 84 -> 3529\n84 * 97 -> 8149\n84 * 46 -> 3865\n73 * 51 -> 3724\n44 * 10 ->"
+  },
+  {
+   "answer": "1567",
+   "bb_extra_sha256": [
+    "a5707df1921fc1efcc164aed3fdc701d58fdd5dff8a74321e272e337a7573949"
+   ],
+   "bb_sha256": "e4f0dade29bb0c945b5b66354eb439d692a5ace629200dd89ec44a2bfed40e4a",
+   "meta": {
+    "a": 58,
+    "b": 27,
+    "examples": [
+     [
+      2,
+      98
+     ],
+     [
+      56,
+      36
+     ],
+     [
+      90,
+      40
+     ],
+     [
+      95,
+      70
+     ],
+     [
+      63,
+      75
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n2 * 98 -> 197\n56 * 36 -> 2017\n90 * 40 -> 3601\n95 * 70 -> 6651\n63 * 75 -> 4726\n58 * 27 ->"
+  },
+  {
+   "answer": "2757",
+   "bb_extra_sha256": [
+    "83f23723ade192ec358012dc3ed9ef7b4ff45cc8219563c032c68f38e08ea4d4"
+   ],
+   "bb_sha256": "7b2a4bf55776d7e1bd442cc3b050cf46566019286edd0f3f480124290b3daa7c",
+   "meta": {
+    "a": 52,
+    "b": 53,
+    "examples": [
+     [
+      94,
+      8
+     ],
+     [
+      61,
+      73
+     ],
+     [
+      13,
+      88
+     ],
+     [
+      15,
+      8
+     ],
+     [
+      80,
+      10
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n94 * 8 -> 753\n61 * 73 -> 4454\n13 * 88 -> 1145\n15 * 8 -> 121\n80 * 10 -> 801\n52 * 53 ->"
+  },
+  {
+   "answer": "2017",
+   "bb_extra_sha256": [
+    "0e7112aa8876970450a560fea68d0f2ca26d65ef02265fc83a0dfce9518f3274"
+   ],
+   "bb_sha256": "4b7fd59e29515c7a2126a2a37ffdd64bae263710c106dc1fdcdcd2318662fa47",
+   "meta": {
+    "a": 63,
+    "b": 32,
+    "examples": [
+     [
+      73,
+      39
+     ],
+     [
+      80,
+      59
+     ],
+     [
+      41,
+      96
+     ],
+     [
+      25,
+      38
+     ],
+     [
+      77,
+      97
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n73 * 39 -> 2848\n80 * 59 -> 4721\n41 * 96 -> 3937\n25 * 38 -> 951\n77 * 97 -> 7470\n63 * 32 ->"
+  },
+  {
+   "answer": "1313",
+   "bb_extra_sha256": [
+    "6aaa002136f2ac220a03380ffbebbe286a030f021232a31d9ef13213f28ccd37"
+   ],
+   "bb_sha256": "ad370cd3554d7de5da820dfd036ba2de25bbbef3df4cafa8fb3714c281e294a6",
+   "meta": {
+    "a": 41,
+    "b": 32,
+    "examples": [
+     [
+      84,
+      33
+     ],
+     [
+      70,
+      84
+     ],
+     [
+      20,
+      14
+     ],
+     [
+      79,
+      36
+     ],
+     [
+      8,
+      18
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n84 * 33 -> 2773\n70 * 84 -> 5881\n20 * 14 -> 281\n79 * 36 -> 2845\n8 * 18 -> 145\n41 * 32 ->"
+  },
+  {
+   "answer": "856",
+   "bb_extra_sha256": [
+    "5574450ddb7e74ea30e6e6905b990e6f1f748936a577fdc05ae0c0df73c6b28a"
+   ],
+   "bb_sha256": "1563d2f51612268c3094357865df545ea300238605486ee9174c3716b929e2c3",
+   "meta": {
+    "a": 15,
+    "b": 57,
+    "examples": [
+     [
+      40,
+      38
+     ],
+     [
+      34,
+      34
+     ],
+     [
+      92,
+      65
+     ],
+     [
+      35,
+      58
+     ],
+     [
+      71,
+      86
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n40 * 38 -> 1521\n34 * 34 -> 1157\n92 * 65 -> 5981\n35 * 58 -> 2031\n71 * 86 -> 6107\n15 * 57 ->"
+  },
+  {
+   "answer": "2814",
+   "bb_extra_sha256": [
+    "9fadc6bb2a62e00434c4ef6e0f4c0f1e1a01b8fd3db4064b7c5110092af85da3"
+   ],
+   "bb_sha256": "06f513a42216b2e284e896da0f4fc497d4e4b19c70ee399038619e3fc22127d0",
+   "meta": {
+    "a": 29,
+    "b": 97,
+    "examples": [
+     [
+      84,
+      3
+     ],
+     [
+      28,
+      70
+     ],
+     [
+      73,
+      20
+     ],
+     [
+      46,
+      17
+     ],
+     [
+      40,
+      52
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n84 * 3 -> 253\n28 * 70 -> 1961\n73 * 20 -> 1461\n46 * 17 -> 783\n40 * 52 -> 2081\n29 * 97 ->"
+  },
+  {
+   "answer": "5695",
+   "bb_extra_sha256": [
+    "63589223c6e5db164413d60c0ec10200777b52dec5fd6416e087b4cf7d46057f"
+   ],
+   "bb_sha256": "10775bea0bd256dc186eb9ba5260c8f3fe33b525bc2fd0409d3ff6518fc42580",
+   "meta": {
+    "a": 78,
+    "b": 73,
+    "examples": [
+     [
+      2,
+      1
+     ],
+     [
+      49,
+      41
+     ],
+     [
+      38,
+      50
+     ],
+     [
+      75,
+      82
+     ],
+     [
+      43,
+      68
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n2 * 1 -> 3\n49 * 41 -> 2010\n38 * 50 -> 1901\n75 * 82 -> 6151\n43 * 68 -> 2925\n78 * 73 ->"
+  },
+  {
+   "answer": "1247",
+   "bb_extra_sha256": [
+    "3948240e594f7e766232806e1f703c6cc7991f157f6c667225ab9eea919b2475"
+   ],
+   "bb_sha256": "d769d419e6f8f7f33517c522fe4c601f9013bcdf4a4cbe210c057b6bda643681",
+   "meta": {
+    "a": 14,
+    "b": 89,
+    "examples": [
+     [
+      45,
+      76
+     ],
+     [
+      76,
+      79
+     ],
+     [
+      47,
+      79
+     ],
+     [
+      50,
+      14
+     ],
+     [
+      2,
+      11
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n45 * 76 -> 3421\n76 * 79 -> 6005\n47 * 79 -> 3714\n50 * 14 -> 701\n2 * 11 -> 23\n14 * 89 ->"
+  },
+  {
+   "answer": "366",
+   "bb_extra_sha256": [
+    "3f6b285e30fd2e53b69520546ef29ea9768a2d9f50b4030e04f21674517295c2"
+   ],
+   "bb_sha256": "15a89c1586b6dddd5adf68cefced145f068ed0212ba5c1cc07055c4e3d5ddcde",
+   "meta": {
+    "a": 5,
+    "b": 73,
+    "examples": [
+     [
+      31,
+      55
+     ],
+     [
+      96,
+      77
+     ],
+     [
+      41,
+      28
+     ],
+     [
+      37,
+      62
+     ],
+     [
+      52,
+      55
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n31 * 55 -> 1706\n96 * 77 -> 7393\n41 * 28 -> 1149\n37 * 62 -> 2295\n52 * 55 -> 2861\n5 * 73 ->"
+  },
+  {
+   "answer": "3676",
+   "bb_extra_sha256": [
+    "a9b18ff5f14272c57ee95e463d00eeb072f67ed4e57354df3935f8bc9569945a"
+   ],
+   "bb_sha256": "3ce65ade577487313a51910ce7fdb688c2b85c875f410fedc9c3e9c266a0c0c2",
+   "meta": {
+    "a": 49,
+    "b": 75,
+    "examples": [
+     [
+      4,
+      57
+     ],
+     [
+      67,
+      5
+     ],
+     [
+      67,
+      33
+     ],
+     [
+      28,
+      13
+     ],
+     [
+      68,
+      56
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n4 * 57 -> 229\n67 * 5 -> 336\n67 * 33 -> 2212\n28 * 13 -> 365\n68 * 56 -> 3809\n49 * 75 ->"
+  },
+  {
+   "answer": "3896",
+   "bb_extra_sha256": [
+    "00b6aa6d52bcd9366ccbb1bae934f4727d935d72b09087c1d0b9af688d4f0ead"
+   ],
+   "bb_sha256": "f970c7e0012134e463e27ab336058d05fbbf1103b167e7c63d42d499e5c89d8a",
+   "meta": {
+    "a": 95,
+    "b": 41,
+    "examples": [
+     [
+      39,
+      73
+     ],
+     [
+      30,
+      76
+     ],
+     [
+      36,
+      16
+     ],
+     [
+      29,
+      40
+     ],
+     [
+      95,
+      90
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n39 * 73 -> 2848\n30 * 76 -> 2281\n36 * 16 -> 577\n29 * 40 -> 1161\n95 * 90 -> 8551\n95 * 41 ->"
+  },
+  {
+   "answer": "639",
+   "bb_extra_sha256": [
+    "d2fe36a7384e6e60388258a9638a2fcae5bbe3baa9d5dac618a200d662519349"
+   ],
+   "bb_sha256": "0eeaf1015ba65800bd84803f369ac33814920234db108d4fb7372ef84f018b98",
+   "meta": {
+    "a": 58,
+    "b": 11,
+    "examples": [
+     [
+      60,
+      35
+     ],
+     [
+      10,
+      7
+     ],
+     [
+      91,
+      57
+     ],
+     [
+      69,
+      39
+     ],
+     [
+      64,
+      8
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n60 * 35 -> 2101\n10 * 7 -> 71\n91 * 57 -> 5188\n69 * 39 -> 2692\n64 * 8 -> 513\n58 * 11 ->"
+  },
+  {
+   "answer": "29",
+   "bb_extra_sha256": [
+    "62d1ac35b3ee997fcb0d0dc1948e6c2d6776318f89f119ab0360d20e89e03947"
+   ],
+   "bb_sha256": "20946334e68eee1ed996dac4a77d9922f2c368ef387ee7803ad17a03cb8c960a",
+   "meta": {
+    "a": 1,
+    "b": 28,
+    "examples": [
+     [
+      26,
+      32
+     ],
+     [
+      64,
+      4
+     ],
+     [
+      18,
+      1
+     ],
+     [
+      83,
+      39
+     ],
+     [
+      34,
+      57
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n26 * 32 -> 833\n64 * 4 -> 257\n18 * 1 -> 19\n83 * 39 -> 3238\n34 * 57 -> 1939\n1 * 28 ->"
+  },
+  {
+   "answer": "136",
+   "bb_extra_sha256": [
+    "392e5a51ec360392fd4c40cbaadaac7e7dd7acf8012433090118b2be011c57ce"
+   ],
+   "bb_sha256": "c0cee46bd0315acabcb6a7512ef0b1a4f10cdad322359431ea0d52eff69df3a2",
+   "meta": {
+    "a": 9,
+    "b": 15,
+    "examples": [
+     [
+      9,
+      29
+     ],
+     [
+      28,
+      90
+     ],
+     [
+      98,
+      19
+     ],
+     [
+      70,
+      75
+     ],
+     [
+      96,
+      53
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n9 * 29 -> 262\n28 * 90 -> 2521\n98 * 19 -> 1863\n70 * 75 -> 5251\n96 * 53 -> 5089\n9 * 15 ->"
+  },
+  {
+   "answer": "4525",
+   "bb_extra_sha256": [
+    "4a1b1662d1673838180eccd27335a38a715e8569ba2d7fe234483fa956317531"
+   ],
+   "bb_sha256": "0a531f3f2cbd884921924d11dabd05ed526fd0f66fad921b9cd31363177e171c",
+   "meta": {
+    "a": 87,
+    "b": 52,
+    "examples": [
+     [
+      23,
+      46
+     ],
+     [
+      64,
+      82
+     ],
+     [
+      31,
+      17
+     ],
+     [
+      69,
+      76
+     ],
+     [
+      57,
+      65
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n23 * 46 -> 1059\n64 * 82 -> 5249\n31 * 17 -> 528\n69 * 76 -> 5245\n57 * 65 -> 3706\n87 * 52 ->"
+  },
+  {
+   "answer": "6795",
+   "bb_extra_sha256": [
+    "15dc73ef3d026dc2d06b276e059fd728f4fd6c86d44a0cd68fc144674c535b30"
+   ],
+   "bb_sha256": "fa4e4508a0d87741a148a95e1fd03c2091a7478a242eb0212ff4761255ea25f2",
+   "meta": {
+    "a": 86,
+    "b": 79,
+    "examples": [
+     [
+      26,
+      5
+     ],
+     [
+      94,
+      63
+     ],
+     [
+      80,
+      24
+     ],
+     [
+      33,
+      21
+     ],
+     [
+      79,
+      43
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n26 * 5 -> 131\n94 * 63 -> 5923\n80 * 24 -> 1921\n33 * 21 -> 694\n79 * 43 -> 3398\n86 * 79 ->"
+  },
+  {
+   "answer": "433",
+   "bb_extra_sha256": [
+    "9b1d1be9a5fcd7ec68bf386ace623f96174fb1f3e5dc4135130574f1b8c6f048"
+   ],
+   "bb_sha256": "68ff32983f2a1a623712671c7183513126fef952996b7ea1fbb19f51fc34be40",
+   "meta": {
+    "a": 72,
+    "b": 6,
+    "examples": [
+     [
+      3,
+      46
+     ],
+     [
+      26,
+      31
+     ],
+     [
+      90,
+      51
+     ],
+     [
+      56,
+      1
+     ],
+     [
+      52,
+      39
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n3 * 46 -> 139\n26 * 31 -> 807\n90 * 51 -> 4591\n56 * 1 -> 57\n52 * 39 -> 2029\n72 * 6 ->"
+  },
+  {
+   "answer": "5255",
+   "bb_extra_sha256": [
+    "102571146a92d15156f013a7ba9907b11a5f9c326a817ab3a83dba6fee22ac4e"
+   ],
+   "bb_sha256": "df74618c372ddb37427bb484fb58f5b38a985164846940dfbbc7f928a3d4a4a3",
+   "meta": {
+    "a": 74,
+    "b": 71,
+    "examples": [
+     [
+      51,
+      42
+     ],
+     [
+      31,
+      92
+     ],
+     [
+      96,
+      63
+     ],
+     [
+      89,
+      24
+     ],
+     [
+      31,
+      27
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n51 * 42 -> 2143\n31 * 92 -> 2853\n96 * 63 -> 6049\n89 * 24 -> 2137\n31 * 27 -> 838\n74 * 71 ->"
+  },
+  {
+   "answer": "3073",
+   "bb_extra_sha256": [
+    "ff29e7f482bfe4d5d4ccd93fc350b372fd4dae56cacba82e8671a82c0a8b6df6"
+   ],
+   "bb_sha256": "72d57b13083528b0202cf87394f8ac3455b6a0c68655d30c5357bf39e8594d4a",
+   "meta": {
+    "a": 48,
+    "b": 64,
+    "examples": [
+     [
+      10,
+      18
+     ],
+     [
+      92,
+      98
+     ],
+     [
+      20,
+      87
+     ],
+     [
+      71,
+      70
+     ],
+     [
+      51,
+      24
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n10 * 18 -> 181\n92 * 98 -> 9017\n20 * 87 -> 1741\n71 * 70 -> 4971\n51 * 24 -> 1225\n48 * 64 ->"
+  },
+  {
+   "answer": "11",
+   "bb_extra_sha256": [
+    "a256af1f655b72bd82c7acb69f5fc37a7eff798cd4e661aa8160e1b4d3fb5a6e"
+   ],
+   "bb_sha256": "378eb58eda828a71edea594e7256a2a5e9b777aec32dcbffa6fd5bc03649ab59",
+   "meta": {
+    "a": 5,
+    "b": 2,
+    "examples": [
+     [
+      80,
+      77
+     ],
+     [
+      55,
+      12
+     ],
+     [
+      89,
+      71
+     ],
+     [
+      13,
+      3
+     ],
+     [
+      12,
+      73
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n80 * 77 -> 6161\n55 * 12 -> 661\n89 * 71 -> 6320\n13 * 3 -> 40\n12 * 73 -> 877\n5 * 2 ->"
+  },
+  {
+   "answer": "5545",
+   "bb_extra_sha256": [
+    "e24d46e5c29396feb6258e07839d48dc9d5705fea66406797172d4ff818e9ca6"
+   ],
+   "bb_sha256": "efb648a5c187b6f742eaecb3b0e72a4029faf8153000a1adebc63092cef83d98",
+   "meta": {
+    "a": 72,
+    "b": 77,
+    "examples": [
+     [
+      66,
+      5
+     ],
+     [
+      84,
+      84
+     ],
+     [
+      15,
+      66
+     ],
+     [
+      13,
+      20
+     ],
+     [
+      30,
+      46
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n66 * 5 -> 331\n84 * 84 -> 7057\n15 * 66 -> 991\n13 * 20 -> 261\n30 * 46 -> 1381\n72 * 77 ->"
+  },
+  {
+   "answer": "3389",
+   "bb_extra_sha256": [
+    "8da397ecaf99d950f78493e4c550f0559454453a3652d4e54192a5cfb3964799"
+   ],
+   "bb_sha256": "72abdabf7af22ac45d275ebee40ac788b2916b1e95227b1e54a0144a02d8e148",
+   "meta": {
+    "a": 77,
+    "b": 44,
+    "examples": [
+     [
+      83,
+      93
+     ],
+     [
+      25,
+      34
+     ],
+     [
+      24,
+      87
+     ],
+     [
+      35,
+      31
+     ],
+     [
+      61,
+      22
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n83 * 93 -> 7720\n25 * 34 -> 851\n24 * 87 -> 2089\n35 * 31 -> 1086\n61 * 22 -> 1343\n77 * 44 ->"
+  },
+  {
+   "answer": "4161",
+   "bb_extra_sha256": [
+    "1e3be32b9ae70d37070f720876f5047e49c6005b9ededcf2040011b4c2ea61ca"
+   ],
+   "bb_sha256": "c259c19a4f46436a4a426ae79625e686ff7bd336e93d29dbcf27279aefeab169",
+   "meta": {
+    "a": 64,
+    "b": 65,
+    "examples": [
+     [
+      17,
+      49
+     ],
+     [
+      58,
+      41
+     ],
+     [
+      88,
+      39
+     ],
+     [
+      54,
+      24
+     ],
+     [
+      14,
+      90
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n17 * 49 -> 834\n58 * 41 -> 2379\n88 * 39 -> 3433\n54 * 24 -> 1297\n14 * 90 -> 1261\n64 * 65 ->"
+  },
+  {
+   "answer": "251",
+   "bb_extra_sha256": [
+    "e6f8d2fe706ac17dc350c923b2d0425828d1cf44ff23fec89767d94bd63956ec"
+   ],
+   "bb_sha256": "82b7d09f3681c65b71b85d4aec79b57771ade1016552a9496c3a3d9c8229a679",
+   "meta": {
+    "a": 25,
+    "b": 10,
+    "examples": [
+     [
+      12,
+      0
+     ],
+     [
+      68,
+      34
+     ],
+     [
+      96,
+      27
+     ],
+     [
+      77,
+      23
+     ],
+     [
+      90,
+      46
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n12 * 0 -> 1\n68 * 34 -> 2313\n96 * 27 -> 2593\n77 * 23 -> 1772\n90 * 46 -> 4141\n25 * 10 ->"
+  },
+  {
+   "answer": "3966",
+   "bb_extra_sha256": [
+    "7191e8e193f2e97e42fc7f62fa2448148e043b787b2970eeed63193abe8a1cf8"
+   ],
+   "bb_sha256": "5cbff4aa69e1e3fc6c0adfa2d8a4e6f4906657647a7b85e2dce0a0be3b703b00",
+   "meta": {
+    "a": 65,
+    "b": 61,
+    "examples": [
+     [
+      70,
+      20
+     ],
+     [
+      11,
+      85
+     ],
+     [
+      57,
+      20
+     ],
+     [
+      24,
+      35
+     ],
+     [
+      15,
+      12
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n70 * 20 -> 1401\n11 * 85 -> 936\n57 * 20 -> 1141\n24 * 35 -> 841\n15 * 12 -> 181\n65 * 61 ->"
+  },
+  {
+   "answer": "379",
+   "bb_extra_sha256": [
+    "41c8315bd75313206cf1fcaa99135872d3108930210f04e3f7ffc76f2a0595ab"
+   ],
+   "bb_sha256": "aba5b87c94ec9a809254e597822eda58b205c049eb7036ee09ac3d2fe430f122",
+   "meta": {
+    "a": 7,
+    "b": 54,
+    "examples": [
+     [
+      13,
+      24
+     ],
+     [
+      24,
+      61
+     ],
+     [
+      85,
+      94
+     ],
+     [
+      55,
+      60
+     ],
+     [
+      60,
+      44
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n13 * 24 -> 313\n24 * 61 -> 1465\n85 * 94 -> 7991\n55 * 60 -> 3301\n60 * 44 -> 2641\n7 * 54 ->"
+  },
+  {
+   "answer": "1639",
+   "bb_extra_sha256": [
+    "1ca5d6391534b848e762dfea2309d3439838c37eb89fcef3c8d9b5b2609d43c7"
+   ],
+   "bb_sha256": "7338dfc8b4926b2907738575c0f36e66b110b3646772ff0f668888de00f7094d",
+   "meta": {
+    "a": 63,
+    "b": 26,
+    "examples": [
+     [
+      70,
+      69
+     ],
+     [
+      67,
+      21
+     ],
+     [
+      76,
+      13
+     ],
+     [
+      15,
+      7
+     ],
+     [
+      59,
+      22
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n70 * 69 -> 4831\n67 * 21 -> 1408\n76 * 13 -> 989\n15 * 7 -> 106\n59 * 22 -> 1299\n63 * 26 ->"
+  },
+  {
+   "answer": "2113",
+   "bb_extra_sha256": [
+    "7ed555dc588ab21b31790f8a8b5746a350fa780ac8bb8d17704714b5464d9326"
+   ],
+   "bb_sha256": "63188b100409777ec506113420f9d2f9317de26b87eac1d88c8eafec7f303312",
+   "meta": {
+    "a": 66,
+    "b": 32,
+    "examples": [
+     [
+      26,
+      78
+     ],
+     [
+      20,
+      63
+     ],
+     [
+      75,
+      25
+     ],
+     [
+      54,
+      19
+     ],
+     [
+      55,
+      52
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n26 * 78 -> 2029\n20 * 63 -> 1261\n75 * 25 -> 1876\n54 * 19 -> 1027\n55 * 52 -> 2861\n66 * 32 ->"
+  },
+  {
+   "answer": "478",
+   "bb_extra_sha256": [
+    "379c1d6686688e62fe81eeeb6902acd16d1da1753cce891db3e3f64ec7de5ed7"
+   ],
+   "bb_sha256": "34959a194db45c10cc9e0f6efd115ee4ea350f20d43417aa07a84e9267572c9a",
+   "meta": {
+    "a": 53,
+    "b": 9,
+    "examples": [
+     [
+      13,
+      47
+     ],
+     [
+      70,
+      63
+     ],
+     [
+      61,
+      81
+     ],
+     [
+      93,
+      94
+     ],
+     [
+      54,
+      29
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n13 * 47 -> 612\n70 * 63 -> 4411\n61 * 81 -> 4942\n93 * 94 -> 8743\n54 * 29 -> 1567\n53 * 9 ->"
+  },
+  {
+   "answer": "2071",
+   "bb_extra_sha256": [
+    "b60e7e307fdc90243c41bdaff29b6cc340777ba0a80da70bd0362ed29f9e5fdc"
+   ],
+   "bb_sha256": "4d5f6c97a28dc36cbbfa9612957465cad976f40fe42328bcc24f728b7ef7cb0c",
+   "meta": {
+    "a": 45,
+    "b": 46,
+    "examples": [
+     [
+      16,
+      51
+     ],
+     [
+      18,
+      20
+     ],
+     [
+      1,
+      75
+     ],
+     [
+      62,
+      11
+     ],
+     [
+      32,
+      31
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n16 * 51 -> 817\n18 * 20 -> 361\n1 * 75 -> 76\n62 * 11 -> 683\n32 * 31 -> 993\n45 * 46 ->"
+  },
+  {
+   "answer": "3082",
+   "bb_extra_sha256": [
+    "f9aa75e9d8f49cd19f066b43c3a010d7966cc19292f785f42d05c62343989dc0"
+   ],
+   "bb_sha256": "821a89e1063e7f1f69093dcca3152d725bc8855a60d4c92be3561318e3c72e16",
+   "meta": {
+    "a": 39,
+    "b": 79,
+    "examples": [
+     [
+      51,
+      52
+     ],
+     [
+      98,
+      43
+     ],
+     [
+      92,
+      44
+     ],
+     [
+      32,
+      28
+     ],
+     [
+      10,
+      76
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n51 * 52 -> 2653\n98 * 43 -> 4215\n92 * 44 -> 4049\n32 * 28 -> 897\n10 * 76 -> 761\n39 * 79 ->"
+  },
+  {
+   "answer": "2871",
+   "bb_extra_sha256": [
+    "0712d809d0432df75af4f6c7f655b01d432ca867c8a3febc6c67a2de27e33cd6"
+   ],
+   "bb_sha256": "ae5601dab464b752172bd762627688594d21cfa64d590e2e250a303c95567232",
+   "meta": {
+    "a": 41,
+    "b": 70,
+    "examples": [
+     [
+      77,
+      0
+     ],
+     [
+      73,
+      74
+     ],
+     [
+      62,
+      37
+     ],
+     [
+      10,
+      11
+     ],
+     [
+      70,
+      74
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n77 * 0 -> 1\n73 * 74 -> 5403\n62 * 37 -> 2295\n10 * 11 -> 111\n70 * 74 -> 5181\n41 * 70 ->"
+  },
+  {
+   "answer": "372",
+   "bb_extra_sha256": [
+    "a50c9f7b7b26c01f260cc4e94f91bef5585b5985867520b84a4e95a849fcca0c"
+   ],
+   "bb_sha256": "928e1cdeb765f154890401b454d06552a652a235e4f2e9a2c9323dc07952b438",
+   "meta": {
+    "a": 7,
+    "b": 53,
+    "examples": [
+     [
+      80,
+      52
+     ],
+     [
+      59,
+      56
+     ],
+     [
+      69,
+      43
+     ],
+     [
+      90,
+      45
+     ],
+     [
+      33,
+      69
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n80 * 52 -> 4161\n59 * 56 -> 3305\n69 * 43 -> 2968\n90 * 45 -> 4051\n33 * 69 -> 2278\n7 * 53 ->"
+  },
+  {
+   "answer": "1549",
+   "bb_extra_sha256": [
+    "d80029176a1071374ce2d17cdc0a1bf87d7c7c72319efaeef1b71333bc045539"
+   ],
+   "bb_sha256": "5d28834092cbb4679188c51479c0ae73ce39092b455ea1efd1dfe48e88d07946",
+   "meta": {
+    "a": 43,
+    "b": 36,
+    "examples": [
+     [
+      5,
+      86
+     ],
+     [
+      37,
+      63
+     ],
+     [
+      60,
+      24
+     ],
+     [
+      9,
+      49
+     ],
+     [
+      80,
+      96
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n5 * 86 -> 431\n37 * 63 -> 2332\n60 * 24 -> 1441\n9 * 49 -> 442\n80 * 96 -> 7681\n43 * 36 ->"
+  },
+  {
+   "answer": "3418",
+   "bb_extra_sha256": [
+    "175172c91776bbed53ba3e2deb511e52e56ecd15ef7643207bfb0bd5d7586d91"
+   ],
+   "bb_sha256": "bb806e5f6b3d519825d4a84983aab2c45a4199f36c2d4e0c2a858e9dc75a3e40",
+   "meta": {
+    "a": 51,
+    "b": 67,
+    "examples": [
+     [
+      34,
+      28
+     ],
+     [
+      92,
+      49
+     ],
+     [
+      73,
+      30
+     ],
+     [
+      9,
+      38
+     ],
+     [
+      20,
+      45
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n34 * 28 -> 953\n92 * 49 -> 4509\n73 * 30 -> 2191\n9 * 38 -> 343\n20 * 45 -> 901\n51 * 67 ->"
+  },
+  {
+   "answer": "100",
+   "bb_extra_sha256": [
+    "c189daf1414737c86992c4c809209855f3778a85c4e53a159f5b983e7dcf3ce3"
+   ],
+   "bb_sha256": "27bca4ad6342247e7cfe5edcb4107c6cd33c486cf9b0eee7b1125b956416bd66",
+   "meta": {
+    "a": 11,
+    "b": 9,
+    "examples": [
+     [
+      41,
+      19
+     ],
+     [
+      89,
+      6
+     ],
+     [
+      10,
+      58
+     ],
+     [
+      79,
+      19
+     ],
+     [
+      32,
+      26
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n41 * 19 -> 780\n89 * 6 -> 535\n10 * 58 -> 581\n79 * 19 -> 1502\n32 * 26 -> 833\n11 * 9 ->"
+  },
+  {
+   "answer": "2011",
+   "bb_extra_sha256": [
+    "90eea6d8fe15df95b33a2f8cd128c96f00be027513142ffb1bf5c1fab4b9ebcd"
+   ],
+   "bb_sha256": "7bddb61493985659ed1758df5ec12ec7532c70be8c6d0b749b2aecc327d6ffd7",
+   "meta": {
+    "a": 67,
+    "b": 30,
+    "examples": [
+     [
+      51,
+      51
+     ],
+     [
+      14,
+      64
+     ],
+     [
+      82,
+      14
+     ],
+     [
+      28,
+      75
+     ],
+     [
+      22,
+      32
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n51 * 51 -> 2602\n14 * 64 -> 897\n82 * 14 -> 1149\n28 * 75 -> 2101\n22 * 32 -> 705\n67 * 30 ->"
+  },
+  {
+   "answer": "6561",
+   "bb_extra_sha256": [
+    "011817ae539a8f9025a39f2ab277989e409a33fa862e1c5d8c1980c45853f5ea"
+   ],
+   "bb_sha256": "25b49f2bf7bc81e73a69e724036220d61ec83299c65af3b811a409fc31c40d66",
+   "meta": {
+    "a": 80,
+    "b": 82,
+    "examples": [
+     [
+      21,
+      44
+     ],
+     [
+      6,
+      91
+     ],
+     [
+      9,
+      12
+     ],
+     [
+      27,
+      34
+     ],
+     [
+      12,
+      34
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n21 * 44 -> 925\n6 * 91 -> 547\n9 * 12 -> 109\n27 * 34 -> 919\n12 * 34 -> 409\n80 * 82 ->"
+  },
+  {
+   "answer": "287",
+   "bb_extra_sha256": [
+    "fd386020d973d2194d3e4f9b5c67e3e9f70232a042695c521931e9fae796dbe1"
+   ],
+   "bb_sha256": "cb2542895efafcd7b0c0712f6a6785442baa7c49ade1422840bffd1237ff0070",
+   "meta": {
+    "a": 26,
+    "b": 11,
+    "examples": [
+     [
+      14,
+      84
+     ],
+     [
+      49,
+      20
+     ],
+     [
+      14,
+      83
+     ],
+     [
+      44,
+      59
+     ],
+     [
+      5,
+      89
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n14 * 84 -> 1177\n49 * 20 -> 981\n14 * 83 -> 1163\n44 * 59 -> 2597\n5 * 89 -> 446\n26 * 11 ->"
+  },
+  {
+   "answer": "8092",
+   "bb_extra_sha256": [
+    "17274007b02460252181dc54f65add50cd02354e9148c62b91c6054a4e59ac48"
+   ],
+   "bb_sha256": "de9aaffb7512817837d06b240a2efe095c34fc85f7b488a1b509653b0663b608",
+   "meta": {
+    "a": 93,
+    "b": 87,
+    "examples": [
+     [
+      42,
+      36
+     ],
+     [
+      62,
+      87
+     ],
+     [
+      54,
+      63
+     ],
+     [
+      50,
+      55
+     ],
+     [
+      48,
+      85
+     ]
+    ]
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n42 * 36 -> 1513\n62 * 87 -> 5395\n54 * 63 -> 3403\n50 * 55 -> 2751\n48 * 85 -> 4081\n93 * 87 ->"
+  }
+ ],
+ "n_options": null,
+ "n_redrawn": {
+  "collision": 1268,
+  "duplicate": 106,
+  "rejected": 0,
+  "repeated_answer": 0,
+  "shot_answer": 0,
+  "shot_content": 0
+ },
+ "name": "modarith_mul1",
+ "provenance": {
+  "bbkey_audit_sha256": "ab2bcd036b8d6e9f38a4a4f14fefbddff414ad2aa28b2c23d9753a0d50340c9c",
+  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+  "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
+  "pyfiglet": "1.0.4",
+  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
+ },
+ "rung_type": "arithmetic",
+ "seed": 20260908,
+ "shot_records": [
+  {
+   "bb_extra_sha256": [
+    "68b6a57b448923caa4c4dc57b5e521495b648cd46c7fb226370f074686489b26"
+   ],
+   "bb_sha256": "c331dd379bedabcd5446998e6c3bae8d21086381924ed74f456aeb8e0343e8c1",
+   "meta": {
+    "a": 38,
+    "b": 66,
+    "examples": [
+     [
+      14,
+      9
+     ],
+     [
+      29,
+      66
+     ],
+     [
+      67,
+      21
+     ],
+     [
+      83,
+      60
+     ],
+     [
+      42,
+      58
+     ]
+    ]
    }
   },
   {
    "bb_extra_sha256": [
-    "8fc8ab8673f758264423a72a1b9e70e87281663dbd343446334152339fe9760e"
+    "55beb05b2cbb264ffbe10cbe2ee38e94fe92d54e213e15c170de9c55c905379e"
    ],
-   "bb_sha256": "99700e3484f133c085e284c3c0f99324d622411c2113d52abb47b52549827149",
+   "bb_sha256": "6507c1529dac3cef4ee145ad180ed3c61c35860b6e5b9462a0155e69c9645bdc",
    "meta": {
-    "a": 94,
-    "b": 85,
+    "a": 58,
+    "b": 54,
     "examples": [
      [
-      6,
+      37,
+      41
+     ],
+     [
+      28,
+      20
+     ],
+     [
+      68,
+      77
+     ],
+     [
+      59,
       8
      ],
      [
-      34,
-      43
-     ],
-     [
-      41,
-      17
-     ],
-     [
-      72,
-      53
-     ],
-     [
-      25,
-      53
+      17,
+      70
      ]
     ]
    }
@@ -17091,12 +17091,12 @@
  ],
  "shots": [
   [
-   "In the following lines, the symbol -> represents a simple mathematical operation.\n26 * 6 -> 157\n77 * 72 -> 5545\n9 * 25 -> 226\n31 * 15 -> 466\n61 * 1 -> 62\n41 * 13 ->",
-   "534"
+   "In the following lines, the symbol -> represents a simple mathematical operation.\n14 * 9 -> 127\n29 * 66 -> 1915\n67 * 21 -> 1408\n83 * 60 -> 4981\n42 * 58 -> 2437\n38 * 66 ->",
+   "2509"
   ],
   [
-   "In the following lines, the symbol -> represents a simple mathematical operation.\n6 * 8 -> 49\n34 * 43 -> 1463\n41 * 17 -> 698\n72 * 53 -> 3817\n25 * 53 -> 1326\n94 * 85 ->",
-   "7991"
+   "In the following lines, the symbol -> represents a simple mathematical operation.\n37 * 41 -> 1518\n28 * 20 -> 561\n68 * 77 -> 5237\n59 * 8 -> 473\n17 * 70 -> 1191\n58 * 54 ->",
+   "3133"
   ]
  ],
  "task": "modified_arithmetic",

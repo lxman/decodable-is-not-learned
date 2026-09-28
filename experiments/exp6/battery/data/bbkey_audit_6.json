@@ -171,13 +171,13 @@
  },
  "generators_sha256": {
   "collisions_6.py": "b12a352528a3f2ca487879809344bcd21af8657682ef480fe7acccf37d2f97c7",
-  "gen_arith.py": "d273f16ac5ff0bafac74c630bc891963210bb7ff313e9df5e22eb730bf8f0e9d",
+  "gen_arith.py": "07f53e0c303e0116ec101f11074a69d89b97962b3ba6a9f22ba7e2bc733036eb",
   "gen_ascii.py": "32c7949c3f64b35b8be178e13dc1cfb86d05cd3734f8cae4dd8d139b75364de2",
-  "gen_logic.py": "7bc2cce31b0f4f9e49e7b214b1f4d55da99f8e03b1ddd51061fcba1cd4350b5c",
+  "gen_logic.py": "7131dd04f891e48c1a8a8d1469685bb1a05f1a38e70f1efaa0cdf4907fc5cc43",
   "gen_shapes.py": "b0d6a97be9822e46ebfa4d45b32a35814bc89566ea124653191a9128142beb13",
-  "gen_units.py": "fbe38e795c5854656a6d421f1bb26aeb99a35e6ec43e1c68479a4d51f74bf659",
+  "gen_units.py": "918f68ad281bb77b3dc1d50ed4315aefd10972b411efd0628c0f381ded037374",
   "gen_words.py": "351ac1566bbb40aae357650b0727e4b1187f2905211d7f319983ef51080bf5bb",
-  "spec.py": "6cc05c776a94b23872fecec48a564e633a340abf2d72596b4bd2de1b408b5060"
+  "spec.py": "5714996def699a49b052a31f4e9205c76ffebfca2686d83ea6ed6f364e2e66b2"
  },
  "index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
  "n_failed": 0

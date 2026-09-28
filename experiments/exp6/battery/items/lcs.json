@@ -5015,7 +5015,7 @@
  },
  "name": "lcs",
  "provenance": {
-  "bbkey_audit_sha256": "dbeaa16cfce60acbd1e0eef0932d84bf7c9fa1385db503a60da0eeb17a3f5729",
+  "bbkey_audit_sha256": "ab2bcd036b8d6e9f38a4a4f14fefbddff414ad2aa28b2c23d9753a0d50340c9c",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",

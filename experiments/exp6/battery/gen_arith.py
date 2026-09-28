@@ -43,6 +43,15 @@ def modarith_query(name: str, a: int, b: int) -> str:
     return f"{a} {MODARITH[name][0]} {b} ->"
 
 
+def pair_key(name: str, a: int, b: int) -> str:
+    """A pair as a QUESTION: one key for a x b and b x a where the
+    operation commutes. What an item asks, and what a worked line shows
+    beside its result."""
+    if MODARITH[name][0] in COMMUTES:
+        a, b = min(a, b), max(a, b)
+    return f"{name}|{a}|{b}"
+
+
 def lcs_key(a: str, b: str) -> str:
     """BIG-bench's lcs input is the two strings and nothing else."""
     return f"{a} {b}"
@@ -58,9 +67,16 @@ def _draw_modarith(name):
             if ab not in pairs:
                 pairs.append(ab)
         a, b = pairs[-1]
+        keys = [pair_key(name, *p) for p in pairs]
+        if keys[-1] in keys[:-1]:
+            return None              # a worked line would show the item's own answer
         text = modarith_text(name, pairs)
         return {"question": text, "answer": str(op(a, b)), "bb_key": text,
                 "bb_extra": [modarith_query(name, a, b)],
+                # the pair asked is the question, whatever the worked lines;
+                # a worked line shows a pair beside its result
+                "question_key": keys[-1], "content_key": keys[-1],
+                "shows": keys[:-1],
                 "meta": {"a": a, "b": b, "examples": [list(p) for p in pairs[:-1]]}}
     return draw
 

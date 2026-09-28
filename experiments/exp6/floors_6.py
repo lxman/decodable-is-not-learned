@@ -24,7 +24,7 @@ from experiments.exp6.battery.spec import OPTIONS_PREFIX
 FLOOR_PIN_6 = {
     "modarith_add1": [4, None],
     "modarith_sub1": [4, None],
-    "modarith_mul1": [13, None],
+    "modarith_mul1": [15, None],
     "unscramble_short": [1, None],
     "unscramble_long": [1, None],
     "ipa_word": [2, None],
@@ -37,8 +37,8 @@ FLOOR_PIN_6 = {
     "shapes": [50, 10],
     "temporal": [15, 4],
     "lcs": [50, None],
-    "unit_interp1": [12, 5],
-    "unit_interp2": [19, 5],
+    "unit_interp1": [13, 5],
+    "unit_interp2": [17, 5],
 }
 
 
@@ -156,13 +156,13 @@ HEURISTIC_PIN_6 = {
     },
     "unit_interp1": {
         "of the options that combine every number of the text once, the nearest to its largest number":
-            170,
+            179,
         "of the options that divide or are a multiple of the text's largest number, the nearest to it":
-            92,
+            100,
         "of the options the text does not print, the one sharing most with its numbers":
             139,
         "the first option a number of the text divides":
-            118,
+            116,
         "the first option that is the product of two numbers of the text":
             92,
         "the largest option the text does not print":
@@ -172,37 +172,37 @@ HEURISTIC_PIN_6 = {
         "the option at one list position":
             100,
         "the option of one rank by size":
-            126,
+            121,
         "the smallest option the text does not print":
-            69,
+            67,
         "the smallest option the text does not print that divides none of its numbers":
-            92,
+            85,
         "the text's last number where the blank carries its unit word, else the first option that is the product of two numbers of the text":
             92,
     },
     "unit_interp2": {
         "of the options that combine every number of the text once, the nearest to its largest number":
-            157,
-        "of the options that divide or are a multiple of the text's largest number, the nearest to it":
-            139,
-        "of the options the text does not print, the one sharing most with its numbers":
             148,
+        "of the options that divide or are a multiple of the text's largest number, the nearest to it":
+            140,
+        "of the options the text does not print, the one sharing most with its numbers":
+            146,
         "the first option a number of the text divides":
-            97,
+            105,
         "the first option that is the product of two numbers of the text":
             166,
         "the largest option the text does not print":
-            117,
+            114,
         "the only option absent from the text":
             0,
         "the option at one list position":
             100,
         "the option of one rank by size":
-            132,
+            130,
         "the smallest option the text does not print":
-            148,
+            145,
         "the smallest option the text does not print that divides none of its numbers":
-            84,
+            82,
         "the text's last number where the blank carries its unit word, else the first option that is the product of two numbers of the text":
             250,
     },

@@ -396,3 +396,71 @@ regenerated; the index and the known answers (77) are unchanged. The audit, the 
 and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
 sha256 checked against the index); the token record was measured offline from the coordinator's
 scratch cache (R-16). No network contact in this wave. 130 tests in the suite.
+
+### Fix wave 8 (Tasks 2, 4–6) — the re-review of fix wave 7 (coordinator rulings R-60 … R-64)
+
+The re-review (on 784fe256b) found the unit rungs to hold: every answer right by its own
+parser, no option 1, a twin check clean on 12,000 seeds a level, no committed shot showing a
+committed item's answer. Asked to look at the other fifteen rungs for a prompt that shows the
+answer of an item it is scored on, it found one. The coordinator recomputed it, then counted
+the same family of defect on every rung.
+- A SHOT SHOWED AN EVAL ITEM'S ANSWER ON EVERY PROMPT OF `modarith_mul1` (the review's I-1, plan
+  delta B-35). The second shot asked 94 * 85; eval item 199 asks 85 * 94. Over forty seeds of
+  that build, 52 items in 30 batteries: the expected rate, not a fluke. The unit rungs' gate
+  had two classes open at other seeds (the same numbers the other way round, 4 items in 4 of
+  forty batteries; the inverse question of one relation, 5 in 5), and `deduction3` one (the
+  same objects, order and position asked under other clues, 5 in 4). None was in the committed
+  items but the first.
+- THE SAME QUESTION WAS ASKED TWICE UNDER TWO SURFACES, AMONG THE EVAL ITEMS THEMSELVES (the
+  coordinator's census; B-36). 137 of `modarith_mul1`'s 500 items asked a pair another item
+  asks, either way round; 137 of `unit_interp2`'s asked what another asks under another
+  subject; 6 of `unit_interp1`'s; 2 of `modarith_sub1`'s. The driver's duplicate gate read the
+  question's text, which changes with the surface.
+- THE DRIVER READS THREE OPTIONAL KEYS OF A DRAW and keeps none: `question_key` (what the item
+  asks, its surface aside: no two items of a rung carry one, shots included), `content_key`
+  (what would give the item away), `shows` (what else it shows beside a result). A duplicate
+  question is redrawn; a SHOT is redrawn if its content key, or a key of what it shows, is an
+  eval item's content key; an eval item is never redrawn for what a shot shows. `modarith`: the
+  pair, either way round where the operation commutes, a shot's worked lines among what it
+  shows, and an item whose own worked line shows the pair it asks refused at the draw. Units:
+  the question is the numbers, the scaling and the roles; the content is the numbers a sentence
+  prints and its answer as one sorted list. Deduction: the content is the context, the true
+  order and the position asked; no question key, the names being content there.
+- Redraws on the committed rungs: duplicates 106 (`modarith_mul1`), 125 (`unit_interp2`), 6
+  (`unit_interp1`), 1 (`modarith_sub1`); shots 2 (`unit_interp2`). Over forty other seeds the
+  shot gate redraws 63 on `modarith_mul1`, 25 on `unit_interp2`, 4 on `deduction3`, 1 on
+  `unit_interp1`, none elsewhere.
+- What moved: `modarith_mul1`, `modarith_sub1`, `unit_interp1` and `unit_interp2` are new
+  items from the first redraw on; the other thirteen rungs' items and shots are the ones of fix
+  wave 7. `modarith_mul1`: strata by the product's digits 15 / 19 / 136 / 330, the majority
+  answer 1 on 15 items. The unit rungs: best of the heuristic list 179 of 500 and 250 (166 by
+  the best rule that reads no unit word); the rank guesser 121 and 130; answers at ranks 1 to 5
+  by size, 52 / 94 / 123 / 105 / 126 and 130 / 83 / 75 / 98 / 114; of 2,000 wrong options a
+  level, 1,182 and 1,416 wrong readings, 578 and 326 other combinations, 240 and 258 pool
+  numbers. Over forty other seeds the best rule that reads no unit word scores 148 to 189 on
+  level 1 (the committed 179 is a high draw inside the range) and 166 to 169 on level 2.
+- FITTED guessers (`tools/guessers_lab_6.py`), held out: on the twenty surface features .274 /
+  .276 on `unit_interp1` and .322 / .280 on `unit_interp2`; with the candidates known .348 /
+  .342 and .298 / .272.
+- Not duplicates, counted: unit items that share the numbers of one relation in other roles or
+  under another scaling, 10 and 146; `deduction3` items with the same objects, order and
+  position asked under other clues, 22.
+
+Corrections to this ledger, made here and not in place:
+- The entry of fix wave 7 says a shot "prints no item's numbers with its answer, whatever the
+  subject, the scaling or the roles". At other seeds two classes passed that gate: see the
+  first bullet. The key was an ordered list of the printed numbers; it is now one sorted list of
+  the numbers and the answer.
+- The same entry says an innocent stream exceeds the chi-square's bound "about three times in
+  100,000". It is 3.8 in 100,000 a cell, and about 6 in 10,000 over the sixteen.
+- The same entry attributes the 1s among the options to an operator's precedence. That holds
+  for level 1's ten. Level 2's six were never excluded.
+- The same entry says the gate redraws a shot whose key "the shot before it" carries. The
+  clause could not fire where a shot's answer may not repeat; it is removed.
+
+The audit record, all seventeen item files (an item file names the audit record, which names
+`spec.py` and the generator files), the token record, the overlap record and every pin were
+regenerated; the index and the known answers (77) are unchanged. The audit, the overlap count
+and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
+sha256 checked against the index); the token record was measured offline from the coordinator's
+scratch cache (R-16). No network contact in this wave. 136 tests in the suite.

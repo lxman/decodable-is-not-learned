@@ -40,11 +40,15 @@ quantity aside, which a scaled sentence may ask for (BIG-bench's class,
 flagged) — and no option is 1: an answer is not copied from its
 sentence, and no sentence reads "1 hours" under any option.
 
-A SHOT does not print the numbers of an eval item together with its
-answer, whatever the subject, the scaling or the roles (the driver's
-gate, on `content_key`): on level 2 the numerator quantity does not
-change with the scaling, so two sentences with the same numbers and
-roles and different scalings may share an answer.
+NO TWO ITEMS ASK ONE QUESTION UNDER TWO SUBJECTS (the driver's gate, on
+`question_key`: the numbers, the scaling and the roles), the shots
+included. And a SHOT does not show the numbers of an eval item's
+relation: its `content_key` is the numbers its sentence prints AND its
+answer, as one sorted list, so that a shot which prints an item's
+numbers beside its answer is gated in whatever roles the numbers stand
+— the same sentence under another scaling that leaves the answer
+unchanged, the same numbers the other way round, the inverse question
+of one relation.
 
 What an item asks, the kind of its scaling and the answer's list
 position are set by the slot; its numbers and its fills are drawn. The
@@ -300,6 +304,12 @@ def design_lv2(slot: int) -> dict:
             "scaling": scaling, "give_a": give_a, "ask_a": ask_a}
 
 
+def relation_key(level: int, printed, answer: int) -> str:
+    """The numbers a sentence prints and its answer, as one sorted
+    list: what a prompt that shows the sentence with its answer shows."""
+    return f"lv{level}|" + "|".join(str(x) for x in sorted([*printed, answer]))
+
+
 def _pick(rng, seq):
     return seq[int(rng.integers(len(seq)))]
 
@@ -355,8 +365,8 @@ def _draw_lv1(rng, ctx, slot, d=None):
     return {"question": with_options(lv1_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv1_sentence(*args, surface="bigbench"),
-            # what a prompt would give away: the printed numbers and the answer
-            "content_key": f"lv1|{n}|{p}|{shown}|={answer}",
+            "question_key": "lv1|" + "|".join(str(int(x)) for x in args[1:]),
+            "content_key": relation_key(1, [x for x in (n, p, shown) if x > 1], answer),
             "meta": {"subject": subj, "n": n, "p": p, "m": m, "k": k,
                      "often": often, "ask_time": ask_time, "shown": shown,
                      "options": opts, "option_kinds": kinds,
@@ -402,7 +412,8 @@ def _draw_lv2(rng, ctx, slot, d=None):
     return {"question": with_options(lv2_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv2_sentence(*args, surface="bigbench"),
-            "content_key": f"lv2|{r}|{given}|={answer}",
+            "question_key": "lv2|" + "|".join(str(int(x)) for x in args[1:]),
+            "content_key": relation_key(2, (r, given), answer),
             "meta": {"subject": clause.split(" at ")[0].split(" costs")[0],
                      "r": r, "a": a, "b": b, "k": k, "faster": faster,
                      "give_a": give_a, "ask_a": ask_a, "given": given,

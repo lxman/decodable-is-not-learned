@@ -82,26 +82,62 @@ def test_unique_answers_is_enforced():
     assert uniq["n_redrawn"]["repeated_answer"] > 0
 
 
-def test_a_shot_repeats_no_items_content():
-    """What an item asks, its surface aside: a shot that asks what an
-    eval item asks is redrawn; two eval items may share a content."""
+def test_a_shot_gives_no_eval_item_away():
+    """A shot whose content key, or a key of what it shows beside a
+    result, is an eval item's content key is redrawn. Two eval items may
+    share a content key, and what an EVAL item shows gates nothing."""
     def draw(rng, ctx, slot):
         n = int(rng.integers(100_000))
         return {"question": f"q{n}", "answer": f"w{n}", "bb_key": f"k{n}",
-                "content_key": f"c{n % 300}", "meta": {"content": n % 300}}
+                "content_key": f"c{n % 300}", "shows": [f"c{(n // 300) % 300}"],
+                "meta": {"content": n % 300, "shows": (n // 300) % 300}}
     got = sp.generate(_spec(draw), {}, collisions=frozenset())
     items = {it["meta"]["content"] for it in got["eval_items"]}
     assert len(items) < sp.N_EVAL                      # items do share contents
-    assert got["n_redrawn"]["shot_content"] >= 1       # ~ 4 in 5 draws repeat one
-    assert not {r["meta"]["content"] for r in got["shot_records"]} & items
-    assert all("content_key" not in it for it in got["eval_items"])
+    assert {it["meta"]["shows"] for it in got["eval_items"]} & items
+    assert got["n_redrawn"]["shot_content"] >= 1
+    for r in got["shot_records"]:
+        assert r["meta"]["content"] not in items and r["meta"]["shows"] not in items
+    assert all(not {"content_key", "shows", "question_key"} & set(it)
+               for it in got["eval_items"])
+
+    def quiet(rng, ctx, slot):                         # the same stream, no key of `shows`
+        return {k: v for k, v in draw(rng, ctx, slot).items() if k != "shows"}
+    less = sp.generate(_spec(quiet), {}, collisions=frozenset())
+    assert less["eval_items"] == got["eval_items"]     # an eval item is never refused
+    assert less["n_redrawn"]["shot_content"] < got["n_redrawn"]["shot_content"]
     free = sp.generate(_spec(_counter_draw), {}, collisions=frozenset())
-    assert free["n_redrawn"]["shot_content"] == 0      # a rung without the key
+    assert free["n_redrawn"]["shot_content"] == 0      # a rung without the keys
     good = {"question": "q", "answer": "gulf", "bb_key": "k", "meta": {}}
-    sp.check_item(_spec(_counter_draw), {**good, "content_key": "x"})
-    for bad in ("", " ", 3, ["x"]):
-        with pytest.raises(ValueError, match="content_key"):
-            sp.check_item(_spec(_counter_draw), {**good, "content_key": bad})
+    sp.check_item(_spec(_counter_draw), {**good, "content_key": "x", "shows": ["y"],
+                                         "question_key": "z"})
+    for k in ("content_key", "question_key"):
+        for bad in ("", " ", 3, ["x"]):
+            with pytest.raises(ValueError, match=k):
+                sp.check_item(_spec(_counter_draw), {**good, k: bad})
+    for bad in ("x", [""], [1], None):
+        with pytest.raises(ValueError, match="shows"):
+            sp.check_item(_spec(_counter_draw), {**good, "shows": bad})
+
+
+def test_no_two_items_ask_one_question():
+    """The question key: what an item asks, its surface aside. A second
+    item that carries one — eval item or shot — is a duplicate."""
+    def draw(rng, ctx, slot):
+        n = int(rng.integers(100_000))
+        return {"question": f"q{n}", "answer": f"w{n}", "bb_key": f"k{n}",
+                "question_key": f"ask{n % 3000}", "meta": {"asks": n % 3000}}
+    got = sp.generate(_spec(draw), {}, collisions=frozenset())
+    asked = [it["meta"]["asks"] for it in got["eval_items"]] + \
+        [r["meta"]["asks"] for r in got["shot_records"]]
+    assert len(set(asked)) == sp.N_EVAL + sp.N_SHOTS
+    assert got["n_redrawn"]["duplicate"] > 20          # 502 draws on 3,000 questions
+
+    def free(rng, ctx, slot):
+        return {k: v for k, v in draw(rng, ctx, slot).items() if k != "question_key"}
+    loose = sp.generate(_spec(free), {}, collisions=frozenset())
+    n = [it["meta"]["asks"] for it in loose["eval_items"]]
+    assert len(set(n)) < sp.N_EVAL
 
 
 def test_a_rung_that_cannot_fill_a_slot_raises(monkeypatch):

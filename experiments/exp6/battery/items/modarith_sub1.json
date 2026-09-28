@@ -13604,40 +13604,6 @@
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n221 - 124 -> 98\n138 - 985 -> -846\n995 - 547 -> 449\n957 - 800 -> 158\n876 - 331 -> 546\n493 - 247 ->"
   },
   {
-   "answer": "410",
-   "bb_extra_sha256": [
-    "cfc2ac69bccc5101bd41a69f5d22624b5e3bc0fb892fc51d99acca5a8ce9408e"
-   ],
-   "bb_sha256": "f91ad156c94a0c833390d683c192833c2f1e76e6b3ecfa3ac38e0c284c095cb8",
-   "meta": {
-    "a": 910,
-    "b": 501,
-    "examples": [
-     [
-      568,
-      160
-     ],
-     [
-      158,
-      263
-     ],
-     [
-      231,
-      900
-     ],
-     [
-      736,
-      722
-     ],
-     [
-      871,
-      990
-     ]
-    ]
-   },
-   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n568 - 160 -> 409\n158 - 263 -> -104\n231 - 900 -> -668\n736 - 722 -> 15\n871 - 990 -> -118\n910 - 501 ->"
-  },
-  {
    "answer": "-675",
    "bb_extra_sha256": [
     "966edc0c6314372b442bc92187e630709cdc76d17201c2e593e7b9826898e3ea"
@@ -17002,29 +16968,9 @@
     ]
    },
    "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n551 - 564 -> -12\n776 - 81 -> 696\n793 - 909 -> -115\n153 - 805 -> -651\n154 - 302 -> -147\n169 - 696 ->"
-  }
- ],
- "n_options": null,
- "n_redrawn": {
-  "collision": 3,
-  "duplicate": 0,
-  "rejected": 0,
-  "repeated_answer": 0,
-  "shot_answer": 0,
-  "shot_content": 0
- },
- "name": "modarith_sub1",
- "provenance": {
-  "bbkey_audit_sha256": "dbeaa16cfce60acbd1e0eef0932d84bf7c9fa1385db503a60da0eeb17a3f5729",
-  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
-  "pyfiglet": "1.0.4",
-  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
- },
- "rung_type": "arithmetic",
- "seed": 20260907,
- "shot_records": [
+  },
   {
+   "answer": "-906",
    "bb_extra_sha256": [
     "cfe0db1999ec8b71ea60cd2d31527c1fad8fe4a4f3e82fa58a341d938e183fb4"
    ],
@@ -17054,8 +17000,30 @@
       118
      ]
     ]
-   }
-  },
+   },
+   "question": "In the following lines, the symbol -> represents a simple mathematical operation.\n221 - 193 -> 29\n688 - 226 -> 463\n840 - 32 -> 809\n641 - 142 -> 500\n910 - 118 -> 793\n29 - 936 ->"
+  }
+ ],
+ "n_options": null,
+ "n_redrawn": {
+  "collision": 3,
+  "duplicate": 1,
+  "rejected": 0,
+  "repeated_answer": 0,
+  "shot_answer": 0,
+  "shot_content": 0
+ },
+ "name": "modarith_sub1",
+ "provenance": {
+  "bbkey_audit_sha256": "ab2bcd036b8d6e9f38a4a4f14fefbddff414ad2aa28b2c23d9753a0d50340c9c",
+  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+  "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
+  "pyfiglet": "1.0.4",
+  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
+ },
+ "rung_type": "arithmetic",
+ "seed": 20260907,
+ "shot_records": [
   {
    "bb_extra_sha256": [
     "eaaeddcb524c34deab6590c74eeb5f269c1a9c6c8d41278327af2d49ce73775b"
@@ -17087,16 +17055,48 @@
      ]
     ]
    }
+  },
+  {
+   "bb_extra_sha256": [
+    "f4f260c3ec5a2677fcfea285ac5c1f45dfab778b82fcb6e6cddf42111a766033"
+   ],
+   "bb_sha256": "5404eadd89e7dada4cb74aee550dba0c26fd0d046bf2161cb255fe4a793e09ca",
+   "meta": {
+    "a": 518,
+    "b": 95,
+    "examples": [
+     [
+      614,
+      778
+     ],
+     [
+      616,
+      456
+     ],
+     [
+      263,
+      816
+     ],
+     [
+      913,
+      986
+     ],
+     [
+      902,
+      901
+     ]
+    ]
+   }
   }
  ],
  "shots": [
   [
-   "In the following lines, the symbol -> represents a simple mathematical operation.\n221 - 193 -> 29\n688 - 226 -> 463\n840 - 32 -> 809\n641 - 142 -> 500\n910 - 118 -> 793\n29 - 936 ->",
-   "-906"
-  ],
-  [
    "In the following lines, the symbol -> represents a simple mathematical operation.\n552 - 88 -> 465\n879 - 976 -> -96\n386 - 747 -> -360\n465 - 662 -> -196\n904 - 454 -> 451\n472 - 930 ->",
    "-457"
+  ],
+  [
+   "In the following lines, the symbol -> represents a simple mathematical operation.\n614 - 778 -> -163\n616 - 456 -> 161\n263 - 816 -> -552\n913 - 986 -> -72\n902 - 901 -> 2\n518 - 95 ->",
+   "424"
   ]
  ],
  "task": "modified_arithmetic",

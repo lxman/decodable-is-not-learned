@@ -163,6 +163,25 @@ def _solve(objs, clues):
 
 
 @pytest.mark.parametrize("name,n", [("deduction3", 3), ("deduction5", 5)])
+def test_no_deduction_shot_gives_an_item_away(built, name, n):
+    """The same objects in the same order and the same position asked:
+    the same answer, whatever the clues. No shot is such a twin of an
+    eval item (the driver's gate); eval items may be."""
+    def key(m):
+        return m["context"], tuple(m["order"]), m["asked"]
+    items = {key(it["meta"]) for it in _items(built, name)}
+    assert not {key(r["meta"]) for r in built[name]["shot_records"]} & items
+    import numpy as np
+    draw = gen_logic._draw_deduction(n)
+    for seed in range(40):
+        d = draw(np.random.default_rng(seed), None, seed)
+        if d is not None:
+            m = d["meta"]
+            assert d["content_key"] == f"{m['context']}|{'>'.join(m['order'])}|{m['asked']}"
+            assert "question_key" not in d and "shows" not in d
+
+
+@pytest.mark.parametrize("name,n", [("deduction3", 3), ("deduction5", 5)])
 def test_deduction(built, name, n):
     items = _items(built, name)
     assert Counter(it["meta"]["context"] for it in items) == \

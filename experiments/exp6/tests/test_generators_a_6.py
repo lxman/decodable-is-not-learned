@@ -56,6 +56,31 @@ def test_modified_arithmetic(built, name, sym, bound, op):
         assert all(0 <= v < bound for p in pairs for v in p)
 
 
+@pytest.mark.parametrize("name", ["modarith_add1", "modarith_sub1", "modarith_mul1"])
+def test_no_two_modarith_items_ask_one_pair(built, name):
+    """The pair asked is the question, whatever the worked lines, and
+    either way round where the operation commutes. No two items ask one;
+    no item shows its own on a worked line; no shot asks or shows an
+    eval item's. Read from the TEXT."""
+    def pairs(q):
+        out = [re.fullmatch(r"(\d+) (\S) (\d+) ->(?: -?\d+)?", ln) for ln in q.split("\n")[1:]]
+        out = [(int(m.group(1)), m.group(2), int(m.group(3))) for m in out]
+        return [(s, *sorted((a, b))) if s in "+*" else (s, a, b) for a, s, b in out]
+    asked = [pairs(it["question"]) for it in _items(built, name)]
+    shots = [pairs(q) for q, _ in built[name]["shots"]]
+    assert all(len(p) == 6 and p[-1] not in p[:-1] for p in asked + shots)
+    queries = [p[-1] for p in asked]
+    assert len(set(queries)) == 500
+    assert not {k for p in shots for k in p} & set(queries)
+    assert shots[0][-1] != shots[1][-1]
+    # the generator's keys are these
+    a, b = (7, 3)
+    assert gen_arith.pair_key(name, a, b) == f"{name}|{min(a, b)}|{max(a, b)}" \
+        if name != "modarith_sub1" else gen_arith.pair_key(name, a, b) == f"{name}|7|3"
+    assert (gen_arith.pair_key(name, 3, 7) == gen_arith.pair_key(name, 7, 3)) == \
+        (name != "modarith_sub1")
+
+
 def test_subtraction_has_negative_answers(built):
     n = sum(1 for it in _items(built, "modarith_sub1") if it["answer"].startswith("-"))
     assert 150 < n < 350
@@ -474,14 +499,18 @@ def test_what_the_slot_fixes(built, name):
     assert pa not in asked and pb not in asked
 
     def shows(q, answer):
-        return tuple(re.findall(r"\d+", q.split("\nOptions: ")[0])), str(answer)
+        return tuple(sorted(int(x) for x in re.findall(
+            r"\d+", q.split("\nOptions: ")[0]) + [answer]))
     assert not {shows(qa, a), shows(qb, b)} & {
         shows(it["question"], it["answer"]) for it in items}
+    # and no two items ask one question under two subjects, the shots included
+    every = asked + [pa, pb]
+    assert len({tuple(sorted(p.items())) for p in every}) == 502
 
 
 @pytest.mark.parametrize("name,kinds,share", [
-    ("unit_interp1", {"misreading": 1182, "combination": 582, "pool": 236}, (598, 834)),
-    ("unit_interp2", {"misreading": 1415, "combination": 335, "pool": 250}, (584, 834))])
+    ("unit_interp1", {"misreading": 1182, "combination": 578, "pool": 240}, (594, 834)),
+    ("unit_interp2", {"misreading": 1416, "combination": 326, "pool": 258}, (576, 834))])
 def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name, kinds, share):
     """The README's steps 3 and 5: numbers without a large prime factor;
     the shown quantity a multiple of each number of the item; the wrong
@@ -584,7 +613,7 @@ def test_the_numbers_and_the_options_do_not_say_what_is_asked(name):
     # the answer stand in each of the 24 orders as often as in any other,
     # in every cell (sorted options would give the answer away as the one
     # out of order). Chi-square on 23 degrees of freedom: an innocent
-    # stream exceeds 60 in a cell about three times in 100,000.
+    # stream exceeds 60 in a cell about four times in 100,000.
     assert len(orders) == (6 if lv1 else 10)
     for cell, tally in orders.items():
         n = sum(tally.values())
@@ -594,12 +623,22 @@ def test_the_numbers_and_the_options_do_not_say_what_is_asked(name):
 
 
 def test_what_a_unit_item_would_give_away():
-    """The content key the driver gates the shots on: the numbers a
-    sentence prints and its answer. Another subject: the same key.
-    Another role: another answer, another key. On level 2, another
-    scaling where the asked quantity does not change with it: the same
-    answer, the same key."""
+    """The two keys the driver reads. The question key: the numbers, the
+    scaling and the roles — the same under another subject, another
+    under another role or scaling. The content key: the numbers a
+    sentence prints and its answer, as one sorted list — the same under
+    another subject, another under another role, and the same again
+    wherever a sentence shows the same numbers beside the same answer."""
     import numpy as np
+    # the re-review's two classes: the same numbers the other way round
+    # (48 every 16, 480 shown -> 720; 16 every 48, 480 shown -> 720) ...
+    assert gen_units.relation_key(1, (48, 16, 480), 720) == \
+        gen_units.relation_key(1, (16, 48, 480), 720) == "lv1|16|48|480|720"
+    # ... and the inverse question of one relation (8 a second for 24
+    # seconds is 192 meters; 192 meters at 24 a second is 8 seconds)
+    assert gen_units.relation_key(2, (8, 24), 192) == \
+        gen_units.relation_key(2, (24, 192), 8) == "lv2|8|24|192"
+    assert gen_units.relation_key(2, (8, 24), 192) != gen_units.relation_key(2, (8, 24), 3)
 
     def key(name, seed, **d):
         draw = gen_units._draw_lv1 if name == "unit_interp1" else gen_units._draw_lv2
@@ -612,9 +651,12 @@ def test_what_a_unit_item_would_give_away():
             c = key("unit_interp1", seed, row=0, scaling="up", ask_time=False)
             d = key("unit_interp1", seed, row=0, scaling="down", ask_time=True)
             m = a["meta"]
-            assert a["content_key"] == f"lv1|{m['n']}|{m['p']}|{m['shown']}|={a['answer']}"
+            assert a["content_key"] == "lv1|" + "|".join(str(x) for x in sorted(
+                [x for x in (m["n"], m["p"], m["shown"]) if x > 1] + [int(a["answer"])]))
             assert a["content_key"] == b["content_key"] and a["question"] != b["question"]
+            assert a["question_key"] == b["question_key"]
             assert len({x["content_key"] for x in (a, c, d)}) == 3
+            assert len({x["question_key"] for x in (a, c, d)}) == 3
             n["subject"] += 1
         a = key("unit_interp2", seed, row=0, scaling="up", give_a=False, ask_a=True)
         if a is not None:
@@ -622,8 +664,10 @@ def test_what_a_unit_item_would_give_away():
             c = key("unit_interp2", seed, row=0, scaling="up", give_a=False, ask_a=False)
             d = key("unit_interp2", seed, row=0, scaling="down", give_a=False, ask_a=True)
             m = a["meta"]
-            assert a["content_key"] == f"lv2|{m['r']}|{m['given']}|={a['answer']}"
+            assert a["content_key"] == "lv2|" + "|".join(str(x) for x in sorted(
+                [m["r"], m["given"], int(a["answer"])]))
             assert a["content_key"] == b["content_key"] and a["question"] != b["question"]
+            assert a["question_key"] == b["question_key"] != c["question_key"]
             assert a["content_key"] != c["content_key"]
             n["role"] += 1
             # the invariant asked, the rate scaled the other way (a draw the
@@ -631,6 +675,7 @@ def test_what_a_unit_item_would_give_away():
             if d is not None:
                 assert d["answer"] == a["answer"] and d["question"] != a["question"]
                 assert d["content_key"] == a["content_key"]
+                assert d["question_key"] != a["question_key"]    # another question
                 n["scaling"] += 1
     assert min(n.values()) > 100
 

@@ -5053,49 +5053,12 @@
    "question": "A heart beats 45 times every 20 seconds. It will beat () times in 1080 seconds.\nOptions: 45, 225, 2430, 480, 20"
   },
   {
-   "answer": "45",
-   "bb_sha256": "815713b58d9fae6b2fb6439c5d46120540bda646984b35e26f239631f20592c4",
+   "answer": "16",
+   "bb_sha256": "798adb92bcc6fb6bf6bc5dbe58e58fb63b5a4f2c8dbc459b9c3a9e6603004388",
    "meta": {
     "answer_pos": 3,
-    "answer_rank": 2,
+    "answer_rank": 1,
     "ask_time": true,
-    "candidates": [
-     20,
-     45,
-     80,
-     180
-    ],
-    "k": 2,
-    "m": 3,
-    "n": 10,
-    "often": true,
-    "option_kinds": [
-     "misreading",
-     "misreading",
-     "answer",
-     "misreading",
-     "combination"
-    ],
-    "options": [
-     180,
-     80,
-     45,
-     20,
-     450
-    ],
-    "p": 15,
-    "shown": 60,
-    "subject": "A reporter"
-   },
-   "question": "A reporter speaks 10 words every 15 minutes. If they speak twice as often, they will speak 60 words in () minutes.\nOptions: 180, 80, 45, 20, 450"
-  },
-  {
-   "answer": "144",
-   "bb_sha256": "7ba8af49632e1ae610defc1d94b2f823fab484244a8b654eea2bcebb45188c01",
-   "meta": {
-    "answer_pos": 4,
-    "answer_rank": 4,
-    "ask_time": false,
     "candidates": [
      16,
      64,
@@ -5103,108 +5066,108 @@
      576
     ],
     "k": 2,
-    "m": 6,
+    "m": 2,
     "n": 24,
-    "often": false,
+    "often": true,
     "option_kinds": [
      "combination",
      "misreading",
-     "misreading",
      "answer",
+     "misreading",
      "misreading"
     ],
     "options": [
      18,
-     576,
-     16,
      144,
+     16,
+     576,
      64
     ],
     "p": 8,
     "shown": 96,
-    "subject": "A bell"
+    "subject": "A reporter"
    },
-   "question": "A bell rings 24 times every 8 hours. If it rings with intervals twice as long, it will ring () times in 96 hours.\nOptions: 18, 576, 16, 144, 64"
+   "question": "A reporter speaks 24 words every 8 minutes. If they speak twice as often, they will speak 96 words in () minutes.\nOptions: 18, 144, 16, 576, 64"
   },
   {
-   "answer": "90",
-   "bb_sha256": "4543c359d0ea4becbb4b7fa1c7a9bbb87ec3e1b7a926c913c6d3653d01623e56",
+   "answer": "512",
+   "bb_sha256": "2b5fbc17711712de028e528a05906866100f348a922218119bc9fb09a4dad7c3",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 3,
-    "ask_time": true,
+    "answer_rank": 2,
+    "ask_time": false,
     "candidates": [
-     90,
-     640
+     512,
+     648,
+     2048,
+     2592
     ],
-    "k": 0,
-    "m": 30,
+    "k": 2,
+    "m": 64,
     "n": 8,
     "often": false,
     "option_kinds": [
-     "pool",
      "misreading",
-     "pool",
+     "misreading",
+     "misreading",
      "answer",
      "combination"
     ],
     "options": [
-     20,
-     640,
-     150,
-     90,
-     30
+     2592,
+     648,
+     2048,
+     512,
+     72
     ],
-    "p": 3,
-    "shown": 240,
-    "subject": "A patient"
+    "p": 9,
+    "shown": 1152,
+    "subject": "A bell"
    },
-   "question": "A patient takes 8 pills every 3 days. They will take 240 pills in () days.\nOptions: 20, 640, 150, 90, 30"
+   "question": "A bell rings 8 times every 9 hours. If it rings with intervals twice as long, it will ring () times in 1152 hours.\nOptions: 2592, 648, 2048, 512, 72"
   },
   {
-   "answer": "432",
-   "bb_sha256": "d38d9ffe0d8d44958b8f885266936dcc59e72138de2c2f2a93ef6f6f1e90aa21",
+   "answer": "12",
+   "bb_sha256": "7ed82acfd3ec89e94c991911eb4850c1d3da7018b7ca50663b4523953ac813e1",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 5,
-    "ask_time": false,
+    "answer_rank": 2,
+    "ask_time": true,
     "candidates": [
      12,
-     48,
-     108,
-     432
+     108
     ],
-    "k": 2,
-    "m": 24,
+    "k": 0,
+    "m": 4,
     "n": 9,
-    "often": true,
+    "often": false,
     "option_kinds": [
-     "misreading",
-     "misreading",
+     "combination",
+     "combination",
      "combination",
      "answer",
      "misreading"
     ],
     "options": [
+     324,
+     36,
+     4,
      12,
-     48,
-     144,
-     432,
      108
     ],
     "p": 3,
-    "shown": 72,
-    "subject": "A newsstand"
+    "shown": 36,
+    "subject": "A patient"
    },
-   "question": "A newsstand sells 9 newspapers every 3 weeks. If it sells newspapers twice as often, it will sell () newspapers in 72 weeks.\nOptions: 12, 48, 144, 432, 108"
+   "question": "A patient takes 9 pills every 3 days. They will take 36 pills in () days.\nOptions: 324, 36, 4, 12, 108"
   },
   {
-   "answer": "1620",
-   "bb_sha256": "1bad662b73d3f31a50e53696d0d4047c698eadb5b59ac3c92f5d64dd77f8eadb",
+   "answer": "405",
+   "bb_sha256": "64ab5bd0aa80b0a193a76867413db62fc7b2a60cfd762226a7732d26bcba9674",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 5,
-    "ask_time": true,
+    "answer_rank": 4,
+    "ask_time": false,
     "candidates": [
      45,
      180,
@@ -5212,63 +5175,100 @@
      1620
     ],
     "k": 3,
-    "m": 54,
+    "m": 27,
     "n": 5,
+    "often": true,
+    "option_kinds": [
+     "misreading",
+     "misreading",
+     "misreading",
+     "answer",
+     "pool"
+    ],
+    "options": [
+     45,
+     180,
+     1620,
+     405,
+     80
+    ],
+    "p": 10,
+    "shown": 270,
+    "subject": "A newsstand"
+   },
+   "question": "A newsstand sells 5 newspapers every 10 weeks. If it sells newspapers three times as often, it will sell () newspapers in 270 weeks.\nOptions: 45, 180, 1620, 405, 80"
+  },
+  {
+   "answer": "2880",
+   "bb_sha256": "ee81d7071247320951301b762af4de971229d3af005fc80ffd1fc7aad35db4fb",
+   "meta": {
+    "answer_pos": 4,
+    "answer_rank": 5,
+    "ask_time": true,
+    "candidates": [
+     80,
+     320,
+     720,
+     2880
+    ],
+    "k": 2,
+    "m": 48,
+    "n": 10,
     "often": false,
     "option_kinds": [
      "misreading",
      "misreading",
+     "misreading",
+     "answer",
+     "combination"
+    ],
+    "options": [
+     320,
+     80,
+     720,
+     2880,
+     640
+    ],
+    "p": 30,
+    "shown": 480,
+    "subject": "A heart"
+   },
+   "question": "A heart beats 10 times every 30 seconds. If it beats with intervals twice as long, it will beat 480 times in () seconds.\nOptions: 320, 80, 720, 2880, 640"
+  },
+  {
+   "answer": "30",
+   "bb_sha256": "d89cd49407ac4f3b712fa9e202afb8800a79ca9068ce588719e94854906d2325",
+   "meta": {
+    "answer_pos": 4,
+    "answer_rank": 1,
+    "ask_time": false,
+    "candidates": [
+     30,
+     120
+    ],
+    "k": 0,
+    "m": 3,
+    "n": 10,
+    "often": false,
+    "option_kinds": [
+     "combination",
+     "pool",
      "pool",
      "answer",
      "misreading"
     ],
     "options": [
-     45,
-     180,
+     2400,
+     125,
      80,
-     1620,
-     405
+     30,
+     120
     ],
-    "p": 10,
-    "shown": 270,
-    "subject": "A heart"
-   },
-   "question": "A heart beats 5 times every 10 seconds. If it beats with intervals three times as long, it will beat 270 times in () seconds.\nOptions: 45, 180, 80, 1620, 405"
-  },
-  {
-   "answer": "80",
-   "bb_sha256": "2e4bda505089fd5dd4a54a7bc3c73b1a8d7f26e92c0112ed4bc006ef95649d5c",
-   "meta": {
-    "answer_pos": 4,
-    "answer_rank": 2,
-    "ask_time": false,
-    "candidates": [
-     80,
-     720
-    ],
-    "k": 0,
-    "m": 8,
-    "n": 10,
-    "often": false,
-    "option_kinds": [
-     "misreading",
-     "pool",
-     "combination",
-     "answer",
-     "combination"
-    ],
-    "options": [
-     720,
-     90,
-     800,
-     80,
-     8
-    ],
-    "p": 30,
-    "shown": 240,
+    "p": 20,
+    "shown": 60,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 10 words every 30 minutes. They will speak () words in 240 minutes.\nOptions: 720, 90, 800, 80, 8"
+   "question": "A reporter speaks 10 words every 20 minutes. They will speak () words in 60 minutes.\nOptions: 2400, 125, 80, 30, 120"
   },
   {
    "answer": "108",
@@ -11885,52 +11885,52 @@
    "question": "A patient takes 10 pills every 15 days. If they take pills with intervals three times as long, they will take () pills in 90 days.\nOptions: 20, 12, 180, 45, 405"
   },
   {
-   "answer": "630",
-   "bb_sha256": "a6e0cdcecb08ede007ffcf562d6f3a4f4fbbbc5399bdf8bd60b7e897d99f1a46",
+   "answer": "3520",
+   "bb_sha256": "96f891baa2ca042550ce15618ffe6d9bb4c82d7f9f0e2f768f11aeeca7459fff",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 5,
+    "answer_rank": 3,
     "ask_time": true,
     "candidates": [
-     280,
-     630
+     3520,
+     4455
     ],
     "k": 0,
-    "m": 21,
-    "n": 20,
+    "m": 88,
+    "n": 45,
     "often": false,
     "option_kinds": [
      "answer",
+     "misreading",
      "combination",
-     "combination",
-     "combination",
-     "misreading"
+     "pool",
+     "combination"
     ],
     "options": [
-     630,
-     30,
-     420,
-     20,
-     280
+     3520,
+     4455,
+     3960,
+     96,
+     88
     ],
-    "p": 30,
-    "shown": 420,
+    "p": 40,
+    "shown": 3960,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 20 newspapers every 30 weeks. It will sell 420 newspapers in () weeks.\nOptions: 630, 30, 420, 20, 280"
+   "question": "A newsstand sells 45 newspapers every 40 weeks. It will sell 3960 newspapers in () weeks.\nOptions: 3520, 4455, 3960, 96, 88"
   },
   {
    "answer": "900",
-   "bb_sha256": "f248c3ba3c51a0e0c5fe6b04c7622d3bbeb28c4f7a890a3c9a03a415037b9746",
+   "bb_sha256": "79f73278d36e3d3a5f602e162b8afdddf41193b35c6ff23d273f2a925cc3878d",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 4,
+    "answer_rank": 5,
     "ask_time": false,
     "candidates": [
+     64,
      100,
-     144,
-     900,
-     1296
+     576,
+     900
     ],
     "k": 3,
     "m": 30,
@@ -11938,221 +11938,221 @@
     "often": true,
     "option_kinds": [
      "answer",
+     "pool",
      "misreading",
      "misreading",
-     "combination",
      "misreading"
     ],
     "options": [
      900,
-     1296,
-     144,
-     480,
-     100
+     6,
+     576,
+     100,
+     64
     ],
-    "p": 12,
-    "shown": 360,
+    "p": 8,
+    "shown": 240,
     "subject": "A heart"
    },
-   "question": "A heart beats 10 times every 12 seconds. If it beats three times as often, it will beat () times in 360 seconds.\nOptions: 900, 1296, 144, 480, 100"
+   "question": "A heart beats 10 times every 8 seconds. If it beats three times as often, it will beat () times in 240 seconds.\nOptions: 900, 6, 576, 100, 64"
   },
   {
-   "answer": "180",
-   "bb_sha256": "9fed5b87532042c39677c4d19f324e8ed35a84ef0f15238704ded1a28f53a48c",
+   "answer": "200",
+   "bb_sha256": "6235efe167419c3a48dda73a5d591e4a17ebe63dd632c9302d84f10acc5064a6",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 3,
+    "answer_rank": 2,
     "ask_time": true,
     "candidates": [
-     20,
-     45,
-     180,
-     405
+     50,
+     200,
+     648,
+     2592
     ],
-    "k": 3,
-    "m": 30,
-    "n": 3,
+    "k": 2,
+    "m": 20,
+    "n": 18,
     "often": false,
     "option_kinds": [
      "answer",
      "misreading",
+     "pool",
      "misreading",
-     "misreading",
-     "combination"
+     "misreading"
     ],
     "options": [
-     180,
-     405,
-     45,
-     20,
-     3645
+     200,
+     2592,
+     240,
+     50,
+     648
     ],
-    "p": 2,
-    "shown": 90,
+    "p": 5,
+    "shown": 360,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 3 words every 2 minutes. If they speak with intervals three times as long, they will speak 90 words in () minutes.\nOptions: 180, 405, 45, 20, 3645"
+   "question": "A reporter speaks 18 words every 5 minutes. If they speak with intervals twice as long, they will speak 360 words in () minutes.\nOptions: 200, 2592, 240, 50, 648"
   },
   {
-   "answer": "120",
-   "bb_sha256": "16af74b0b4980a69354b0ee12b310dce43ab2604c3fe5ab780915530613a65d1",
+   "answer": "1008",
+   "bb_sha256": "c4b459a89a99c90e84cf99b219948b32c1dea7cca80dc54b2510d696e247fab0",
    "meta": {
     "answer_pos": 2,
-    "answer_rank": 2,
+    "answer_rank": 4,
     "ask_time": false,
     "candidates": [
-     120,
-     750
+     1008,
+     1575
     ],
     "k": 0,
-    "m": 12,
-    "n": 10,
+    "m": 28,
+    "n": 36,
     "often": false,
     "option_kinds": [
-     "misreading",
-     "answer",
      "combination",
+     "answer",
+     "misreading",
      "pool",
      "pool"
     ],
     "options": [
-     750,
-     120,
-     75,
-     216,
-     243
+     35,
+     1008,
+     1575,
+     12,
+     150
     ],
-    "p": 25,
-    "shown": 300,
+    "p": 45,
+    "shown": 1260,
     "subject": "A bell"
    },
-   "question": "A bell rings 10 times every 25 hours. It will ring () times in 300 hours.\nOptions: 750, 120, 75, 216, 243"
+   "question": "A bell rings 36 times every 45 hours. It will ring () times in 1260 hours.\nOptions: 35, 1008, 1575, 12, 150"
   },
   {
-   "answer": "9",
-   "bb_sha256": "38cf38f8a82c7abafd18a9999f9d3eb719703f4f85991c804b64b6e531980334",
+   "answer": "45",
+   "bb_sha256": "13ef14071a7b234263493011ea1ab72ffa77ac5dd0188c272a7806796741b7d4",
    "meta": {
     "answer_pos": 2,
     "answer_rank": 1,
     "ask_time": true,
     "candidates": [
-     9,
-     36,
-     144,
-     576
+     45,
+     80,
+     720,
+     1280
     ],
     "k": 4,
     "m": 3,
-    "n": 6,
+    "n": 20,
     "often": true,
     "option_kinds": [
-     "misreading",
+     "combination",
      "answer",
-     "pool",
+     "misreading",
      "misreading",
      "misreading"
     ],
     "options": [
-     576,
-     9,
-     75,
-     36,
-     144
+     2880,
+     45,
+     720,
+     1280,
+     80
     ],
-    "p": 3,
-    "shown": 72,
+    "p": 15,
+    "shown": 240,
     "subject": "A patient"
    },
-   "question": "A patient takes 6 pills every 3 days. If they take pills four times as often, they will take 72 pills in () days.\nOptions: 576, 9, 75, 36, 144"
+   "question": "A patient takes 20 pills every 15 days. If they take pills four times as often, they will take 240 pills in () days.\nOptions: 2880, 45, 720, 1280, 80"
   },
   {
-   "answer": "810",
-   "bb_sha256": "c65d25fae936884000d3ebf1de7523c8be57f0b5b82285a4b15905f3fa12c909",
+   "answer": "576",
+   "bb_sha256": "ce476eafa65bb207f62360fd7186d3a86101e6a7fffa543b349a50712472510b",
+   "meta": {
+    "answer_pos": 2,
+    "answer_rank": 3,
+    "ask_time": false,
+    "candidates": [
+     324,
+     576,
+     1296,
+     2304
+    ],
+    "k": 2,
+    "m": 24,
+    "n": 24,
+    "often": false,
+    "option_kinds": [
+     "misreading",
+     "answer",
+     "misreading",
+     "combination",
+     "misreading"
+    ],
+    "options": [
+     1296,
+     576,
+     2304,
+     6,
+     324
+    ],
+    "p": 18,
+    "shown": 864,
+    "subject": "A newsstand"
+   },
+   "question": "A newsstand sells 24 newspapers every 18 weeks. If it sells newspapers with intervals twice as long, it will sell () newspapers in 864 weeks.\nOptions: 1296, 576, 2304, 6, 324"
+  },
+  {
+   "answer": "600",
+   "bb_sha256": "cd1f375bbd254ef345f6d3af1f758ff4130cc28af64e91a4a81b57208879ea64",
    "meta": {
     "answer_pos": 2,
     "answer_rank": 4,
-    "ask_time": false,
+    "ask_time": true,
     "candidates": [
-     90,
-     360,
-     810,
-     3240
+     216,
+     600
     ],
-    "k": 2,
-    "m": 27,
-    "n": 30,
+    "k": 0,
+    "m": 40,
+    "n": 9,
     "often": false,
     "option_kinds": [
-     "misreading",
+     "combination",
      "answer",
-     "misreading",
-     "pool",
+     "combination",
+     "combination",
      "misreading"
     ],
     "options": [
-     360,
-     810,
-     3240,
-     510,
-     90
+     15,
+     600,
+     9,
+     1000,
+     216
     ],
-    "p": 10,
-    "shown": 540,
-    "subject": "A newsstand"
-   },
-   "question": "A newsstand sells 30 newspapers every 10 weeks. If it sells newspapers with intervals twice as long, it will sell () newspapers in 540 weeks.\nOptions: 360, 810, 3240, 510, 90"
-  },
-  {
-   "answer": "1080",
-   "bb_sha256": "d8ff266fd4bba2fe32f780e4dec9184d603880053d5ab35c694aae0daaace45e",
-   "meta": {
-    "answer_pos": 2,
-    "answer_rank": 5,
-    "ask_time": true,
-    "candidates": [
-     120,
-     1080
-    ],
-    "k": 0,
-    "m": 30,
-    "n": 12,
-    "often": false,
-    "option_kinds": [
-     "combination",
-     "answer",
-     "misreading",
-     "combination",
-     "pool"
-    ],
-    "options": [
-     40,
-     1080,
-     120,
-     36,
-     2
-    ],
-    "p": 36,
+    "p": 15,
     "shown": 360,
     "subject": "A heart"
    },
-   "question": "A heart beats 12 times every 36 seconds. It will beat 360 times in () seconds.\nOptions: 40, 1080, 120, 36, 2"
+   "question": "A heart beats 9 times every 15 seconds. It will beat 360 times in () seconds.\nOptions: 15, 600, 9, 1000, 216"
   },
   {
-   "answer": "1200",
-   "bb_sha256": "f4fca2bfcb29c8d6394207a7f26bd2f793c4f7a8afecd60a3586e60347a4a3a1",
+   "answer": "160",
+   "bb_sha256": "eeaa2f57efbd054158d3c801b4b54c6579c07dc27cee478b8727a4e7685f9420",
    "meta": {
     "answer_pos": 2,
-    "answer_rank": 5,
+    "answer_rank": 3,
     "ask_time": false,
     "candidates": [
-     192,
-     300,
-     768,
-     1200
+     40,
+     160,
+     250,
+     1000
     ],
     "k": 2,
-    "m": 30,
-    "n": 20,
+    "m": 8,
+    "n": 10,
     "often": true,
     "option_kinds": [
      "misreading",
@@ -12162,243 +12162,206 @@
      "combination"
     ],
     "options": [
-     768,
-     1200,
-     192,
-     300,
-     60
+     1000,
+     160,
+     40,
+     250,
+     50
     ],
-    "p": 16,
-    "shown": 480,
+    "p": 25,
+    "shown": 200,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 20 words every 16 minutes. If they speak twice as often, they will speak () words in 480 minutes.\nOptions: 768, 1200, 192, 300, 60"
+   "question": "A reporter speaks 10 words every 25 minutes. If they speak twice as often, they will speak () words in 200 minutes.\nOptions: 1000, 160, 40, 250, 50"
   },
   {
-   "answer": "48",
-   "bb_sha256": "97c209c50802218f5c2959b949819ce8aebe57f440c5b3b64349517247a15409",
+   "answer": "60",
+   "bb_sha256": "a26587c6b81c24a93814ed618f2419fc1de8f7aed0fc6298987ce4b6fbbe84c4",
    "meta": {
     "answer_pos": 3,
     "answer_rank": 3,
     "ask_time": true,
     "candidates": [
-     12,
-     48,
-     300,
-     1200
+     15,
+     60,
+     1215,
+     4860
     ],
     "k": 2,
-    "m": 12,
-    "n": 10,
+    "m": 10,
+    "n": 27,
     "often": false,
     "option_kinds": [
      "misreading",
-     "combination",
+     "misreading",
      "answer",
      "misreading",
-     "misreading"
+     "combination"
     ],
     "options": [
-     1200,
-     2,
-     48,
-     300,
-     12
+     15,
+     1215,
+     60,
+     4860,
+     5
     ],
-    "p": 2,
-    "shown": 120,
+    "p": 3,
+    "shown": 270,
     "subject": "A bell"
    },
-   "question": "A bell rings 10 times every 2 hours. If it rings with intervals twice as long, it will ring 120 times in () hours.\nOptions: 1200, 2, 48, 300, 12"
+   "question": "A bell rings 27 times every 3 hours. If it rings with intervals twice as long, it will ring 270 times in () hours.\nOptions: 15, 1215, 60, 4860, 5"
   },
   {
-   "answer": "3200",
-   "bb_sha256": "71f6b4b5f399fd69258a032b86581dc57aefcdc60407ec6bad188986146e19fa",
+   "answer": "1350",
+   "bb_sha256": "b040098cd576f7ec3e3bbebb91f269363406a21894f3611155271f0b817e9c10",
    "meta": {
     "answer_pos": 3,
     "answer_rank": 5,
     "ask_time": false,
     "candidates": [
-     648,
-     3200
+     96,
+     1350
     ],
     "k": 0,
-    "m": 160,
-    "n": 20,
+    "m": 90,
+    "n": 15,
     "often": false,
     "option_kinds": [
      "pool",
-     "combination",
+     "pool",
      "answer",
-     "misreading",
-     "combination"
-    ],
-    "options": [
-     50,
-     9,
-     3200,
-     648,
-     160
-    ],
-    "p": 9,
-    "shown": 1440,
-    "subject": "A patient"
-   },
-   "question": "A patient takes 20 pills every 9 days. They will take () pills in 1440 days.\nOptions: 50, 9, 3200, 648, 160"
-  },
-  {
-   "answer": "72",
-   "bb_sha256": "1ee5bb642c1337087d20ed0e87d0b524159468a577e50dedb511fc2852eda491",
-   "meta": {
-    "answer_pos": 3,
-    "answer_rank": 3,
-    "ask_time": true,
-    "candidates": [
-     32,
-     72,
-     288,
-     648
-    ],
-    "k": 3,
-    "m": 6,
-    "n": 8,
-    "often": true,
-    "option_kinds": [
-     "combination",
-     "misreading",
-     "answer",
-     "misreading",
+     "pool",
      "misreading"
     ],
     "options": [
-     9,
-     288,
-     72,
-     648,
-     32
+     8,
+     144,
+     1350,
+     2,
+     96
     ],
-    "p": 12,
-    "shown": 144,
-    "subject": "A newsstand"
+    "p": 4,
+    "shown": 360,
+    "subject": "A patient"
    },
-   "question": "A newsstand sells 8 newspapers every 12 weeks. If it sells newspapers three times as often, it will sell 144 newspapers in () weeks.\nOptions: 9, 288, 72, 648, 32"
+   "question": "A patient takes 15 pills every 4 days. They will take () pills in 360 days.\nOptions: 8, 144, 1350, 2, 96"
   },
   {
-   "answer": "54",
-   "bb_sha256": "5bfa5c23898640659abc3479ee938ef73a4f148097d144e371735f187ad10b31",
+   "answer": "243",
+   "bb_sha256": "3bc0202902e17f62af7d05c23219382b3135fb21a01ad7882c2d2e00450cebbc",
+   "meta": {
+    "answer_pos": 3,
+    "answer_rank": 2,
+    "ask_time": true,
+    "candidates": [
+     48,
+     243,
+     768,
+     3888
+    ],
+    "k": 4,
+    "m": 9,
+    "n": 12,
+    "often": true,
+    "option_kinds": [
+     "misreading",
+     "misreading",
+     "answer",
+     "combination",
+     "misreading"
+    ],
+    "options": [
+     768,
+     48,
+     243,
+     1728,
+     3888
+    ],
+    "p": 27,
+    "shown": 432,
+    "subject": "A newsstand"
+   },
+   "question": "A newsstand sells 12 newspapers every 27 weeks. If it sells newspapers four times as often, it will sell 432 newspapers in () weeks.\nOptions: 768, 48, 243, 1728, 3888"
+  },
+  {
+   "answer": "108",
+   "bb_sha256": "3d82b2ed97b65e7fe9856b38415ea112edb62d617904c52fcc69c53532b1ab8f",
    "meta": {
     "answer_pos": 3,
     "answer_rank": 2,
     "ask_time": false,
     "candidates": [
-     54,
-     216,
-     600,
-     2400
+     108,
+     300,
+     1728,
+     4800
     ],
-    "k": 2,
+    "k": 4,
     "m": 18,
-    "n": 3,
+    "n": 6,
     "often": false,
     "option_kinds": [
-     "combination",
      "misreading",
+     "pool",
      "answer",
      "misreading",
      "misreading"
     ],
     "options": [
-     16,
-     216,
+     300,
      54,
-     600,
-     2400
+     108,
+     4800,
+     1728
     ],
     "p": 10,
-    "shown": 360,
+    "shown": 720,
     "subject": "A heart"
    },
-   "question": "A heart beats 3 times every 10 seconds. If it beats with intervals twice as long, it will beat () times in 360 seconds.\nOptions: 16, 216, 54, 600, 2400"
+   "question": "A heart beats 6 times every 10 seconds. If it beats with intervals four times as long, it will beat () times in 720 seconds.\nOptions: 300, 54, 108, 4800, 1728"
   },
   {
-   "answer": "864",
-   "bb_sha256": "84758c7b27851421a2da1a036ab91abdc9c2fff42ad69a3631b7c0c4044eb61e",
+   "answer": "2750",
+   "bb_sha256": "6505720070c30f76389526a5095505cd7b91382543a672f9ab005e284aa40983",
    "meta": {
     "answer_pos": 3,
-    "answer_rank": 4,
+    "answer_rank": 5,
     "ask_time": true,
     "candidates": [
-     24,
-     864
+     110,
+     2750
     ],
     "k": 0,
-    "m": 72,
-    "n": 2,
+    "m": 55,
+    "n": 10,
     "often": false,
     "option_kinds": [
-     "misreading",
      "combination",
+     "pool",
      "answer",
-     "combination",
-     "pool"
+     "pool",
+     "misreading"
     ],
     "options": [
-     24,
+     1100,
+     20,
+     2750,
      36,
-     864,
-     1728,
-     8
+     110
     ],
-    "p": 12,
-    "shown": 144,
+    "p": 50,
+    "shown": 550,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 2 words every 12 minutes. They will speak 144 words in () minutes.\nOptions: 24, 36, 864, 1728, 8"
+   "question": "A reporter speaks 10 words every 50 minutes. They will speak 550 words in () minutes.\nOptions: 1100, 20, 2750, 36, 110"
   },
   {
-   "answer": "3888",
-   "bb_sha256": "0498dac705f1851ec096db6f85e6c264b19b3a42ae29204fd9db8911568bbcbe",
+   "answer": "3600",
+   "bb_sha256": "98311e39035709404af21d56bc0cfb05d82dc529701994fe7b64d3b6d9d79e16",
    "meta": {
     "answer_pos": 4,
     "answer_rank": 5,
     "ask_time": false,
-    "candidates": [
-     27,
-     243,
-     432,
-     3888
-    ],
-    "k": 3,
-    "m": 36,
-    "n": 36,
-    "often": true,
-    "option_kinds": [
-     "misreading",
-     "misreading",
-     "misreading",
-     "answer",
-     "combination"
-    ],
-    "options": [
-     432,
-     243,
-     27,
-     3888,
-     144
-    ],
-    "p": 9,
-    "shown": 324,
-    "subject": "A bell"
-   },
-   "question": "A bell rings 36 times every 9 hours. If it rings three times as often, it will ring () times in 324 hours.\nOptions: 432, 243, 27, 3888, 144"
-  },
-  {
-   "answer": "2304",
-   "bb_sha256": "3f29d93b246180f155f4b24712ac42663572a9b7d1d19b0616ce0cdaacb3ae28",
-   "meta": {
-    "answer_pos": 4,
-    "answer_rank": 4,
-    "ask_time": true,
     "candidates": [
      256,
      400,
@@ -12406,9 +12369,9 @@
      3600
     ],
     "k": 3,
-    "m": 48,
+    "m": 60,
     "n": 20,
-    "often": false,
+    "often": true,
     "option_kinds": [
      "misreading",
      "misreading",
@@ -12417,106 +12380,143 @@
      "misreading"
     ],
     "options": [
-     3600,
+     2304,
      256,
      27,
-     2304,
+     3600,
      400
     ],
     "p": 16,
     "shown": 960,
-    "subject": "A patient"
+    "subject": "A bell"
    },
-   "question": "A patient takes 20 pills every 16 days. If they take pills with intervals three times as long, they will take 960 pills in () days.\nOptions: 3600, 256, 27, 2304, 400"
+   "question": "A bell rings 20 times every 16 hours. If it rings three times as often, it will ring () times in 960 hours.\nOptions: 2304, 256, 27, 3600, 400"
   },
   {
-   "answer": "3750",
-   "bb_sha256": "79bae87c28bdde8187e0c3aad923747bd9bcac6aa2a9d2ed555e329ed701f606",
+   "answer": "1296",
+   "bb_sha256": "661873efb5aafbccdb50cb9eb2f8f4116d40d5dfc5a8ff86e6d1ede55b0b2f29",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 5,
-    "ask_time": false,
+    "answer_rank": 4,
+    "ask_time": true,
     "candidates": [
-     3456,
-     3750
+     324,
+     625,
+     1296,
+     2500
     ],
-    "k": 0,
-    "m": 75,
-    "n": 50,
+    "k": 2,
+    "m": 36,
+    "n": 25,
     "often": false,
     "option_kinds": [
      "misreading",
-     "combination",
-     "combination",
-     "answer",
-     "pool"
-    ],
-    "options": [
-     3456,
-     75,
-     3600,
-     3750,
-     3650
-    ],
-    "p": 48,
-    "shown": 3600,
-    "subject": "A newsstand"
-   },
-   "question": "A newsstand sells 50 newspapers every 48 weeks. It will sell () newspapers in 3600 weeks.\nOptions: 3456, 75, 3600, 3750, 3650"
-  },
-  {
-   "answer": "75",
-   "bb_sha256": "ba3a08871a1c605f7e36907f5be5b54aed659f4a813a5ed70c52f5025e0f30c9",
-   "meta": {
-    "answer_pos": 4,
-    "answer_rank": 1,
-    "ask_time": true,
-    "candidates": [
-     75,
-     108,
-     675,
-     972
-    ],
-    "k": 3,
-    "m": 5,
-    "n": 18,
-    "often": true,
-    "option_kinds": [
      "misreading",
      "combination",
-     "misreading",
      "answer",
      "misreading"
     ],
     "options": [
-     675,
-     1620,
-     972,
-     75,
-     108
+     324,
+     2500,
+     162,
+     1296,
+     625
     ],
-    "p": 15,
-    "shown": 270,
-    "subject": "A heart"
+    "p": 18,
+    "shown": 900,
+    "subject": "A patient"
    },
-   "question": "A heart beats 18 times every 15 seconds. If it beats three times as often, it will beat 270 times in () seconds.\nOptions: 675, 1620, 972, 75, 108"
+   "question": "A patient takes 25 pills every 18 days. If they take pills with intervals twice as long, they will take 900 pills in () days.\nOptions: 324, 2500, 162, 1296, 625"
   },
   {
-   "answer": "800",
-   "bb_sha256": "e9ad9bf7d31168441f4461cdfaedb78c721b0d612920c3d6a397175917deefb1",
+   "answer": "720",
+   "bb_sha256": "3adda81d11a998b621bdd4fb05b37c5a9cdb424c5c76a274581cabf5ea1f5efd",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 3,
+    "answer_rank": 5,
     "ask_time": false,
     "candidates": [
-     288,
-     800,
-     1152,
-     3200
+     500,
+     720
+    ],
+    "k": 0,
+    "m": 60,
+    "n": 12,
+    "often": false,
+    "option_kinds": [
+     "pool",
+     "combination",
+     "misreading",
+     "answer",
+     "combination"
+    ],
+    "options": [
+     30,
+     12,
+     500,
+     720,
+     60
+    ],
+    "p": 10,
+    "shown": 600,
+    "subject": "A newsstand"
+   },
+   "question": "A newsstand sells 12 newspapers every 10 weeks. It will sell () newspapers in 600 weeks.\nOptions: 30, 12, 500, 720, 60"
+  },
+  {
+   "answer": "200",
+   "bb_sha256": "044f107ad5ebf010099a41ca6b43fba33fcab80bfc2be30df0a47a1d01fd7d3e",
+   "meta": {
+    "answer_pos": 4,
+    "answer_rank": 2,
+    "ask_time": true,
+    "candidates": [
+     50,
+     200,
+     450,
+     1800
+    ],
+    "k": 3,
+    "m": 10,
+    "n": 10,
+    "often": true,
+    "option_kinds": [
+     "misreading",
+     "misreading",
+     "misreading",
+     "answer",
+     "combination"
+    ],
+    "options": [
+     450,
+     50,
+     1800,
+     200,
+     225
+    ],
+    "p": 20,
+    "shown": 300,
+    "subject": "A heart"
+   },
+   "question": "A heart beats 10 times every 20 seconds. If it beats three times as often, it will beat 300 times in () seconds.\nOptions: 450, 50, 1800, 200, 225"
+  },
+  {
+   "answer": "576",
+   "bb_sha256": "188653b7991c11a28849606597f7753a15d476a520e4ffbcc7a481a1a01c2d8b",
+   "meta": {
+    "answer_pos": 4,
+    "answer_rank": 4,
+    "ask_time": false,
+    "candidates": [
+     36,
+     144,
+     576,
+     2304
     ],
     "k": 2,
-    "m": 40,
-    "n": 20,
+    "m": 36,
+    "n": 16,
     "often": false,
     "option_kinds": [
      "misreading",
@@ -12526,126 +12526,126 @@
      "pool"
     ],
     "options": [
-     1152,
-     288,
-     3200,
-     800,
-     128
+     2304,
+     36,
+     144,
+     576,
+     162
     ],
-    "p": 12,
-    "shown": 960,
+    "p": 4,
+    "shown": 288,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 20 words every 12 minutes. If they speak with intervals twice as long, they will speak () words in 960 minutes.\nOptions: 1152, 288, 3200, 800, 128"
+   "question": "A reporter speaks 16 words every 4 minutes. If they speak with intervals twice as long, they will speak () words in 288 minutes.\nOptions: 2304, 36, 144, 576, 162"
   },
   {
-   "answer": "450",
-   "bb_sha256": "c12b411738a4db1729bbf7cdf7c4b56c5652a26d1e2062f0f17edb906216c6c4",
-   "meta": {
-    "answer_pos": 5,
-    "answer_rank": 5,
-    "ask_time": true,
-    "candidates": [
-     72,
-     450
-    ],
-    "k": 0,
-    "m": 30,
-    "n": 6,
-    "often": false,
-    "option_kinds": [
-     "misreading",
-     "combination",
-     "combination",
-     "combination",
-     "answer"
-    ],
-    "options": [
-     72,
-     30,
-     180,
-     432,
-     450
-    ],
-    "p": 15,
-    "shown": 180,
-    "subject": "A bell"
-   },
-   "question": "A bell rings 6 times every 15 hours. It will ring 180 times in () hours.\nOptions: 72, 30, 180, 432, 450"
-  },
-  {
-   "answer": "432",
-   "bb_sha256": "c58febc6701df60df89c39fa211855877b5a5bc972c07be8ac09967c24acf772",
+   "answer": "128",
+   "bb_sha256": "cec19df0097b787897dfaf63947efbc91622894b66049f623706bcbbb19fc0f8",
    "meta": {
     "answer_pos": 5,
     "answer_rank": 2,
+    "ask_time": true,
+    "candidates": [
+     128,
+     800
+    ],
+    "k": 0,
+    "m": 8,
+    "n": 40,
+    "often": false,
+    "option_kinds": [
+     "pool",
+     "combination",
+     "combination",
+     "misreading",
+     "answer"
+    ],
+    "options": [
+     9,
+     320,
+     2000,
+     800,
+     128
+    ],
+    "p": 16,
+    "shown": 320,
+    "subject": "A bell"
+   },
+   "question": "A bell rings 40 times every 16 hours. It will ring 320 times in () hours.\nOptions: 9, 320, 2000, 800, 128"
+  },
+  {
+   "answer": "1458",
+   "bb_sha256": "5dc1e873bba39c0a6c17d7ee03f9130e61eb1abccac8ebf4d436ff0572655a1a",
+   "meta": {
+    "answer_pos": 5,
+    "answer_rank": 5,
     "ask_time": false,
     "candidates": [
-     108,
-     432,
-     972,
-     3888
+     128,
+     162,
+     1152,
+     1458
     ],
-    "k": 2,
-    "m": 24,
+    "k": 3,
+    "m": 54,
     "n": 9,
     "often": true,
     "option_kinds": [
-     "misreading",
-     "misreading",
-     "misreading",
-     "combination",
-     "answer"
-    ],
-    "options": [
-     3888,
-     108,
-     972,
-     648,
-     432
-    ],
-    "p": 27,
-    "shown": 648,
-    "subject": "A patient"
-   },
-   "question": "A patient takes 9 pills every 27 days. If they take pills twice as often, they will take () pills in 648 days.\nOptions: 3888, 108, 972, 648, 432"
-  },
-  {
-   "answer": "729",
-   "bb_sha256": "b4739aff5e0df89d3383fd9809853a65cd5169e6be6ed3b890e6d996c746ab3a",
-   "meta": {
-    "answer_pos": 5,
-    "answer_rank": 4,
-    "ask_time": true,
-    "candidates": [
-     81,
-     100,
-     729,
-     900
-    ],
-    "k": 3,
-    "m": 27,
-    "n": 10,
-    "often": false,
-    "option_kinds": [
-     "misreading",
      "pool",
      "misreading",
      "misreading",
+     "misreading",
      "answer"
     ],
     "options": [
-     900,
-     2,
-     100,
-     81,
-     729
+     108,
+     162,
+     1152,
+     128,
+     1458
+    ],
+    "p": 8,
+    "shown": 432,
+    "subject": "A patient"
+   },
+   "question": "A patient takes 9 pills every 8 days. If they take pills three times as often, they will take () pills in 432 days.\nOptions: 108, 162, 1152, 128, 1458"
+  },
+  {
+   "answer": "432",
+   "bb_sha256": "05b93e0138006cecb6db7ed571cf3610a04d9aac4f669ba9418b90aa45d53149",
+   "meta": {
+    "answer_pos": 5,
+    "answer_rank": 3,
+    "ask_time": true,
+    "candidates": [
+     108,
+     432,
+     1200,
+     4800
+    ],
+    "k": 2,
+    "m": 24,
+    "n": 30,
+    "often": false,
+    "option_kinds": [
+     "misreading",
+     "combination",
+     "misreading",
+     "misreading",
+     "answer"
+    ],
+    "options": [
+     4800,
+     12,
+     1200,
+     108,
+     432
     ],
     "p": 9,
-    "shown": 270,
+    "shown": 720,
     "subject": "A newsstand"
    },
-   "question": "A newsstand sells 10 newspapers every 9 weeks. If it sells newspapers with intervals three times as long, it will sell 270 newspapers in () weeks.\nOptions: 900, 2, 100, 81, 729"
+   "question": "A newsstand sells 30 newspapers every 9 weeks. If it sells newspapers with intervals twice as long, it will sell 720 newspapers in () weeks.\nOptions: 4800, 12, 1200, 108, 432"
   },
   {
    "answer": "3600",
@@ -14719,84 +14719,47 @@
    "question": "A reporter speaks 5 words every minute. If they speak with intervals four times as long, they will speak () words in 120 minutes.\nOptions: 150, 6, 2400, 96, 750"
   },
   {
-   "answer": "150",
-   "bb_sha256": "cf35ef803abca1693e93b8bc4662465f119eb31edc006f8b7751539e8d1da4bf",
+   "answer": "2048",
+   "bb_sha256": "e31ceea44d75a6117550129c0fe03a45d81921ff719e5d80be1c923e84de90c3",
    "meta": {
     "answer_pos": 2,
-    "answer_rank": 4,
+    "answer_rank": 5,
     "ask_time": true,
     "candidates": [
-     24,
-     150
+     1458,
+     2048
     ],
     "k": 0,
-    "m": 15,
-    "n": 4,
+    "m": 64,
+    "n": 27,
     "often": false,
     "option_kinds": [
      "combination",
      "answer",
-     "combination",
      "misreading",
+     "pool",
      "combination"
     ],
     "options": [
-     60,
-     150,
-     15,
-     24,
-     600
+     1728,
+     2048,
+     1458,
+     20,
+     27
     ],
-    "p": 10,
-    "shown": 60,
+    "p": 32,
+    "shown": 1728,
     "subject": "A bell"
    },
-   "question": "A bell rings 4 times every 10 hours. It will ring 60 times in () hours.\nOptions: 60, 150, 15, 24, 600"
+   "question": "A bell rings 27 times every 32 hours. It will ring 1728 times in () hours.\nOptions: 1728, 2048, 1458, 20, 27"
   },
   {
-   "answer": "1536",
-   "bb_sha256": "049da7d966ac2c6332b4f1b7fecbaa382aa93fb42e4fb3b28fc50daa10fdf9e2",
+   "answer": "3888",
+   "bb_sha256": "56788a844da00f17e4203d677f7d644108293a407e8ca9d725a006bc3e26df3d",
    "meta": {
     "answer_pos": 2,
-    "answer_rank": 5,
+    "answer_rank": 4,
     "ask_time": false,
-    "candidates": [
-     54,
-     216,
-     384,
-     1536
-    ],
-    "k": 2,
-    "m": 32,
-    "n": 24,
-    "often": true,
-    "option_kinds": [
-     "misreading",
-     "answer",
-     "misreading",
-     "misreading",
-     "pool"
-    ],
-    "options": [
-     216,
-     1536,
-     384,
-     54,
-     33
-    ],
-    "p": 9,
-    "shown": 288,
-    "subject": "A patient"
-   },
-   "question": "A patient takes 24 pills every 9 days. If they take pills twice as often, they will take () pills in 288 days.\nOptions: 216, 1536, 384, 54, 33"
-  },
-  {
-   "answer": "4800",
-   "bb_sha256": "26369d58df81aaa919277fd34290278ed8845d7f83360b4eb208293daab6b8ce",
-   "meta": {
-    "answer_pos": 2,
-    "answer_rank": 5,
-    "ask_time": true,
     "candidates": [
      972,
      1200,
@@ -14804,9 +14767,9 @@
      4800
     ],
     "k": 2,
-    "m": 120,
+    "m": 108,
     "n": 18,
-    "often": false,
+    "often": true,
     "option_kinds": [
      "combination",
      "answer",
@@ -14816,59 +14779,205 @@
     ],
     "options": [
      6,
-     4800,
-     972,
      3888,
-     1200
+     972,
+     1200,
+     4800
     ],
     "p": 20,
     "shown": 2160,
-    "subject": "A newsstand"
+    "subject": "A patient"
    },
-   "question": "A newsstand sells 18 newspapers every 20 weeks. If it sells newspapers with intervals twice as long, it will sell 2160 newspapers in () weeks.\nOptions: 6, 4800, 972, 3888, 1200"
+   "question": "A patient takes 18 pills every 20 days. If they take pills twice as often, they will take () pills in 2160 days.\nOptions: 6, 3888, 972, 1200, 4800"
   },
   {
-   "answer": "144",
-   "bb_sha256": "71172447277c81b1df074cb5ce1b9bd4bfdcf35edf03cbc362e663ba5efaee7b",
+   "answer": "3600",
+   "bb_sha256": "4df7fadeff8d1fb14a798d2a3098b95b3abe0132d93d827421dc4c68765be8d3",
    "meta": {
     "answer_pos": 2,
-    "answer_rank": 3,
-    "ask_time": false,
+    "answer_rank": 5,
+    "ask_time": true,
     "candidates": [
      144,
-     225
+     225,
+     2304,
+     3600
     ],
-    "k": 0,
-    "m": 4,
+    "k": 4,
+    "m": 20,
     "n": 36,
     "often": false,
     "option_kinds": [
-     "combination",
+     "misreading",
      "answer",
-     "combination",
+     "misreading",
      "misreading",
      "combination"
     ],
     "options": [
-     4,
      144,
-     180,
+     3600,
+     2304,
      225,
-     45
+     36
     ],
     "p": 45,
-    "shown": 180,
-    "subject": "A heart"
+    "shown": 720,
+    "subject": "A newsstand"
    },
-   "question": "A heart beats 36 times every 45 seconds. It will beat () times in 180 seconds.\nOptions: 4, 144, 180, 225, 45"
+   "question": "A newsstand sells 36 newspapers every 45 weeks. If it sells newspapers with intervals four times as long, it will sell 720 newspapers in () weeks.\nOptions: 144, 3600, 2304, 225, 36"
   },
   {
-   "answer": "512",
-   "bb_sha256": "f3786bdaa4e041d8fecf440e913c703156d97d5aed3ee9fd825868351da81916",
+   "answer": "3072",
+   "bb_sha256": "e63b260fdc9f4890d05637a688d0dc4681b05f38c900907fe08848bebd997858",
    "meta": {
     "answer_pos": 2,
+    "answer_rank": 5,
+    "ask_time": false,
+    "candidates": [
+     2187,
+     3072
+    ],
+    "k": 0,
+    "m": 96,
+    "n": 32,
+    "often": false,
+    "option_kinds": [
+     "misreading",
+     "answer",
+     "combination",
+     "combination",
+     "combination"
+    ],
+    "options": [
+     2187,
+     3072,
+     2592,
+     96,
+     3
+    ],
+    "p": 27,
+    "shown": 2592,
+    "subject": "A heart"
+   },
+   "question": "A heart beats 32 times every 27 seconds. It will beat () times in 2592 seconds.\nOptions: 2187, 3072, 2592, 96, 3"
+  },
+  {
+   "answer": "24",
+   "bb_sha256": "2e4dd6aee06c94ff6514ca0d3d273798632f4e643eec6f88032d9f3211ba0b40",
+   "meta": {
+    "answer_pos": 2,
+    "answer_rank": 1,
+    "ask_time": true,
+    "candidates": [
+     24,
+     96,
+     216,
+     864
+    ],
+    "k": 2,
+    "m": 8,
+    "n": 9,
+    "often": true,
+    "option_kinds": [
+     "misreading",
+     "answer",
+     "misreading",
+     "misreading",
+     "combination"
+    ],
+    "options": [
+     864,
+     24,
+     96,
+     216,
+     36
+    ],
+    "p": 3,
+    "shown": 144,
+    "subject": "A reporter"
+   },
+   "question": "A reporter speaks 9 words every 3 minutes. If they speak twice as often, they will speak 144 words in () minutes.\nOptions: 864, 24, 96, 216, 36"
+  },
+  {
+   "answer": "675",
+   "bb_sha256": "4684e1428fd11a1e5fe697d38927a4eb97752f6ee3bd36a9c984cb3c151733f3",
+   "meta": {
+    "answer_pos": 3,
+    "answer_rank": 3,
+    "ask_time": false,
+    "candidates": [
+     27,
+     108,
+     675,
+     2700
+    ],
+    "k": 2,
+    "m": 45,
+    "n": 15,
+    "often": false,
+    "option_kinds": [
+     "combination",
+     "misreading",
+     "answer",
+     "misreading",
+     "misreading"
+    ],
+    "options": [
+     900,
+     108,
+     675,
+     2700,
+     27
+    ],
+    "p": 3,
+    "shown": 270,
+    "subject": "A bell"
+   },
+   "question": "A bell rings 15 times every 3 hours. If it rings with intervals twice as long, it will ring () times in 270 hours.\nOptions: 900, 108, 675, 2700, 27"
+  },
+  {
+   "answer": "625",
+   "bb_sha256": "8cce5ae0bf7474821f6f4584db1cd844343c3670656c1dd5d0423d0621ba8433",
+   "meta": {
+    "answer_pos": 3,
     "answer_rank": 4,
     "ask_time": true,
+    "candidates": [
+     4,
+     625
+    ],
+    "k": 0,
+    "m": 25,
+    "n": 2,
+    "often": false,
+    "option_kinds": [
+     "combination",
+     "combination",
+     "answer",
+     "misreading",
+     "combination"
+    ],
+    "options": [
+     8,
+     2500,
+     625,
+     4,
+     2
+    ],
+    "p": 25,
+    "shown": 50,
+    "subject": "A patient"
+   },
+   "question": "A patient takes 2 pills every 25 days. They will take 50 pills in () days.\nOptions: 8, 2500, 625, 4, 2"
+  },
+  {
+   "answer": "450",
+   "bb_sha256": "d1f4d00786545f167e2727b4a5e822d84413162193cd5e40a75e3c30a9292918",
+   "meta": {
+    "answer_pos": 3,
+    "answer_rank": 3,
+    "ask_time": false,
     "candidates": [
      50,
      450,
@@ -14876,36 +14985,36 @@
      4608
     ],
     "k": 3,
-    "m": 32,
+    "m": 30,
     "n": 5,
     "often": true,
     "option_kinds": [
      "misreading",
-     "answer",
      "misreading",
+     "answer",
      "pool",
      "misreading"
     ],
     "options": [
-     450,
-     512,
      4608,
+     512,
+     450,
      27,
      50
     ],
     "p": 16,
     "shown": 480,
-    "subject": "A reporter"
+    "subject": "A newsstand"
    },
-   "question": "A reporter speaks 5 words every 16 minutes. If they speak three times as often, they will speak 480 words in () minutes.\nOptions: 450, 512, 4608, 27, 50"
+   "question": "A newsstand sells 5 newspapers every 16 weeks. If it sells newspapers three times as often, it will sell () newspapers in 480 weeks.\nOptions: 4608, 512, 450, 27, 50"
   },
   {
-   "answer": "256",
-   "bb_sha256": "56b5aa39675e65fa87ae81b4521d44406748fd05445c0f6188b92df9d7d778c3",
+   "answer": "1296",
+   "bb_sha256": "f05e644b34ce75dc80e71396b39746b2b40dadcb88380b701ed743afb6d5c33d",
    "meta": {
     "answer_pos": 3,
-    "answer_rank": 2,
-    "ask_time": false,
+    "answer_rank": 5,
+    "ask_time": true,
     "candidates": [
      256,
      324,
@@ -14913,7 +15022,7 @@
      1296
     ],
     "k": 2,
-    "m": 32,
+    "m": 72,
     "n": 8,
     "often": false,
     "option_kinds": [
@@ -14925,30 +15034,30 @@
     ],
     "options": [
      192,
-     1296,
      256,
+     1296,
      1024,
      324
     ],
     "p": 9,
     "shown": 576,
-    "subject": "A bell"
+    "subject": "A heart"
    },
-   "question": "A bell rings 8 times every 9 hours. If it rings with intervals twice as long, it will ring () times in 576 hours.\nOptions: 192, 1296, 256, 1024, 324"
+   "question": "A heart beats 8 times every 9 seconds. If it beats with intervals twice as long, it will beat 576 times in () seconds.\nOptions: 192, 256, 1296, 1024, 324"
   },
   {
-   "answer": "1500",
-   "bb_sha256": "087f977c7add9fcbad885562dc60fbdf6455ae02a3818e7f58e2d0ef8cec6d66",
+   "answer": "240",
+   "bb_sha256": "6c51c4237794c0e4e20ccf581eeb0ac7d46969e109ea39efc87d9fac51f0560c",
    "meta": {
     "answer_pos": 3,
-    "answer_rank": 5,
-    "ask_time": true,
+    "answer_rank": 3,
+    "ask_time": false,
     "candidates": [
      240,
      1500
     ],
     "k": 0,
-    "m": 50,
+    "m": 20,
     "n": 12,
     "often": false,
     "option_kinds": [
@@ -14960,24 +15069,24 @@
     ],
     "options": [
      600,
-     240,
      1500,
+     240,
      50,
      20
     ],
     "p": 30,
     "shown": 600,
-    "subject": "A patient"
+    "subject": "A reporter"
    },
-   "question": "A patient takes 12 pills every 30 days. They will take 600 pills in () days.\nOptions: 600, 240, 1500, 50, 20"
+   "question": "A reporter speaks 12 words every 30 minutes. They will speak () words in 600 minutes.\nOptions: 600, 1500, 240, 50, 20"
   },
   {
-   "answer": "432",
-   "bb_sha256": "b69d96c24f99a55f9e65e4333b91af21c0f557196bfc893ff62f2a3ac6440d75",
+   "answer": "768",
+   "bb_sha256": "2a4f5a1acd606c698c40b163643f492b7d9cb6e324ee52c39158c2345bc6cce9",
    "meta": {
-    "answer_pos": 3,
-    "answer_rank": 3,
-    "ask_time": false,
+    "answer_pos": 4,
+    "answer_rank": 4,
+    "ask_time": true,
     "candidates": [
      108,
      432,
@@ -14985,36 +15094,36 @@
      3072
     ],
     "k": 2,
-    "m": 36,
+    "m": 48,
     "n": 6,
     "often": true,
     "option_kinds": [
      "misreading",
      "misreading",
-     "answer",
      "misreading",
+     "answer",
      "combination"
     ],
     "options": [
      108,
-     768,
      432,
      3072,
+     768,
      384
     ],
     "p": 16,
     "shown": 576,
-    "subject": "A newsstand"
+    "subject": "A bell"
    },
-   "question": "A newsstand sells 6 newspapers every 16 weeks. If it sells newspapers twice as often, it will sell () newspapers in 576 weeks.\nOptions: 108, 768, 432, 3072, 384"
+   "question": "A bell rings 6 times every 16 hours. If it rings twice as often, it will ring 576 times in () hours.\nOptions: 108, 432, 3072, 768, 384"
   },
   {
-   "answer": "1100",
-   "bb_sha256": "5560e9dadf7b83a56986286731fbaaccd46e4310e40362d5adf7ce81b18f85dd",
+   "answer": "99",
+   "bb_sha256": "c827f0673c1aad352ad907ba2c8fc95cb69aba4d860d68e1bf327cd265ff36f1",
    "meta": {
-    "answer_pos": 3,
-    "answer_rank": 5,
-    "ask_time": true,
+    "answer_pos": 4,
+    "answer_rank": 2,
+    "ask_time": false,
     "candidates": [
      99,
      275,
@@ -15022,71 +15131,71 @@
      1100
     ],
     "k": 2,
-    "m": 110,
+    "m": 33,
     "n": 3,
     "often": false,
     "option_kinds": [
      "pool",
      "misreading",
-     "answer",
      "misreading",
+     "answer",
      "misreading"
     ],
     "options": [
      24,
-     99,
      1100,
      275,
+     99,
      396
     ],
     "p": 5,
     "shown": 330,
-    "subject": "A heart"
+    "subject": "A patient"
    },
-   "question": "A heart beats 3 times every 5 seconds. If it beats with intervals twice as long, it will beat 330 times in () seconds.\nOptions: 24, 99, 1100, 275, 396"
+   "question": "A patient takes 3 pills every 5 days. If they take pills with intervals twice as long, they will take () pills in 330 days.\nOptions: 24, 1100, 275, 99, 396"
   },
   {
-   "answer": "1024",
-   "bb_sha256": "8b749d000a7d7dcbef7442921c0e81fcd11a106ed972ed8a8a3abc9a0a5d68a1",
+   "answer": "900",
+   "bb_sha256": "acc82f43f879d032a9251d7906687dfc5fa4a49e6ee7770b907589cc28ab7d41",
    "meta": {
-    "answer_pos": 3,
-    "answer_rank": 5,
-    "ask_time": false,
+    "answer_pos": 4,
+    "answer_rank": 3,
+    "ask_time": true,
     "candidates": [
      900,
      1024
     ],
     "k": 0,
-    "m": 32,
+    "m": 30,
     "n": 32,
     "often": false,
     "option_kinds": [
+     "combination",
+     "combination",
      "misreading",
-     "combination",
      "answer",
-     "combination",
      "pool"
     ],
     "options": [
-     900,
      960,
-     1024,
      30,
+     1024,
+     900,
      240
     ],
     "p": 30,
     "shown": 960,
-    "subject": "A reporter"
+    "subject": "A newsstand"
    },
-   "question": "A reporter speaks 32 words every 30 minutes. They will speak () words in 960 minutes.\nOptions: 900, 960, 1024, 30, 240"
+   "question": "A newsstand sells 32 newspapers every 30 weeks. It will sell 960 newspapers in () weeks.\nOptions: 960, 30, 1024, 900, 240"
   },
   {
-   "answer": "8",
-   "bb_sha256": "15352eed6a46b46139d1c30d699513c76af965813c03ff36aeb1bb646ddf955f",
+   "answer": "4050",
+   "bb_sha256": "538985fab1b37fbb9096f7625bc81609e62bbc9a0623db89a71c037f9972190c",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 1,
-    "ask_time": true,
+    "answer_rank": 5,
+    "ask_time": false,
     "candidates": [
      8,
      72,
@@ -15094,7 +15203,7 @@
      4050
     ],
     "k": 3,
-    "m": 2,
+    "m": 45,
     "n": 30,
     "often": true,
     "option_kinds": [
@@ -15106,24 +15215,24 @@
     ],
     "options": [
      243,
-     4050,
-     72,
      8,
+     72,
+     4050,
      450
     ],
     "p": 4,
     "shown": 180,
-    "subject": "A bell"
+    "subject": "A heart"
    },
-   "question": "A bell rings 30 times every 4 hours. If it rings three times as often, it will ring 180 times in () hours.\nOptions: 243, 4050, 72, 8, 450"
+   "question": "A heart beats 30 times every 4 seconds. If it beats three times as often, it will beat () times in 180 seconds.\nOptions: 243, 8, 72, 4050, 450"
   },
   {
-   "answer": "140",
-   "bb_sha256": "0b94c5feaf07d59c2af88e2f0616ce0babc9ffaa2e07de38bf2b157aa85dba48",
+   "answer": "315",
+   "bb_sha256": "1d586ab1ee2c399a288f7704f5b08c3f951bdf4f6024651018bc19696ce2f464",
    "meta": {
     "answer_pos": 4,
-    "answer_rank": 2,
-    "ask_time": false,
+    "answer_rank": 4,
+    "ask_time": true,
     "candidates": [
      35,
      140,
@@ -15131,71 +15240,71 @@
      1260
     ],
     "k": 3,
-    "m": 14,
+    "m": 21,
     "n": 10,
     "often": false,
     "option_kinds": [
      "misreading",
-     "misreading",
      "combination",
+     "misreading",
      "answer",
      "misreading"
     ],
     "options": [
      35,
-     315,
      210,
-     140,
-     1260
+     1260,
+     315,
+     140
     ],
     "p": 5,
     "shown": 210,
-    "subject": "A patient"
+    "subject": "A reporter"
    },
-   "question": "A patient takes 10 pills every 5 days. If they take pills with intervals three times as long, they will take () pills in 210 days.\nOptions: 35, 315, 210, 140, 1260"
+   "question": "A reporter speaks 10 words every 5 minutes. If they speak with intervals three times as long, they will speak 210 words in () minutes.\nOptions: 35, 210, 1260, 315, 140"
   },
   {
-   "answer": "8",
-   "bb_sha256": "3e348f72458f1a670d5748cb12bac42d72eba0d5dea2aca566eeb2807695a14d",
+   "answer": "450",
+   "bb_sha256": "e3db57dc97adf965fd4b515f1b21760d9d5dfa5e478fce25a9bd2df1cb2ef0a4",
    "meta": {
-    "answer_pos": 4,
-    "answer_rank": 2,
-    "ask_time": true,
+    "answer_pos": 5,
+    "answer_rank": 4,
+    "ask_time": false,
     "candidates": [
      8,
      450
     ],
     "k": 0,
-    "m": 2,
+    "m": 15,
     "n": 30,
     "often": false,
     "option_kinds": [
-     "combination",
      "misreading",
      "combination",
-     "answer",
-     "combination"
+     "combination",
+     "combination",
+     "answer"
     ],
     "options": [
-     2,
-     450,
-     240,
      8,
-     960
+     2,
+     240,
+     960,
+     450
     ],
     "p": 4,
     "shown": 60,
-    "subject": "A newsstand"
+    "subject": "A bell"
    },
-   "question": "A newsstand sells 30 newspapers every 4 weeks. It will sell 60 newspapers in () weeks.\nOptions: 2, 450, 240, 8, 960"
+   "question": "A bell rings 30 times every 4 hours. It will ring () times in 60 hours.\nOptions: 8, 2, 240, 960, 450"
   },
   {
-   "answer": "640",
-   "bb_sha256": "2c96f3a419c812f22894ff71ccdad3dd413eb61d4c375a9a577d10199e725c0d",
+   "answer": "810",
+   "bb_sha256": "4d91b5689995beb0bed16ecb0ac460d11e6c07bf8713192ffc7d890130f9a67b",
    "meta": {
-    "answer_pos": 4,
-    "answer_rank": 3,
-    "ask_time": false,
+    "answer_pos": 5,
+    "answer_rank": 4,
+    "ask_time": true,
     "candidates": [
      160,
      640,
@@ -15203,36 +15312,36 @@
      3240
     ],
     "k": 2,
-    "m": 80,
+    "m": 90,
     "n": 4,
     "often": true,
     "option_kinds": [
      "misreading",
-     "misreading",
      "combination",
-     "answer",
-     "misreading"
+     "misreading",
+     "misreading",
+     "answer"
     ],
     "options": [
-     810,
      160,
      45,
+     3240,
      640,
-     3240
+     810
     ],
     "p": 9,
     "shown": 720,
-    "subject": "A heart"
+    "subject": "A patient"
    },
-   "question": "A heart beats 4 times every 9 seconds. If it beats twice as often, it will beat () times in 720 seconds.\nOptions: 810, 160, 45, 640, 3240"
+   "question": "A patient takes 4 pills every 9 days. If they take pills twice as often, they will take 720 pills in () days.\nOptions: 160, 45, 3240, 640, 810"
   },
   {
-   "answer": "144",
-   "bb_sha256": "567fee971c68566327da3a7106655d8b11ffd86f5fcb7417e9f7122b240e759c",
+   "answer": "25",
+   "bb_sha256": "0f04a9415abd3430b9d2db652b6d20f106f2a8390d87a901c57ca10cb1223a4f",
    "meta": {
-    "answer_pos": 4,
-    "answer_rank": 4,
-    "ask_time": true,
+    "answer_pos": 5,
+    "answer_rank": 2,
+    "ask_time": false,
     "candidates": [
      9,
      25,
@@ -15240,42 +15349,42 @@
      400
     ],
     "k": 4,
-    "m": 12,
+    "m": 5,
     "n": 5,
     "often": false,
     "option_kinds": [
      "misreading",
      "misreading",
      "pool",
-     "answer",
-     "misreading"
+     "misreading",
+     "answer"
     ],
     "options": [
-     9,
-     25,
-     63,
      144,
-     400
+     9,
+     63,
+     400,
+     25
     ],
     "p": 3,
     "shown": 60,
-    "subject": "A reporter"
+    "subject": "A newsstand"
    },
-   "question": "A reporter speaks 5 words every 3 minutes. If they speak with intervals four times as long, they will speak 60 words in () minutes.\nOptions: 9, 25, 63, 144, 400"
+   "question": "A newsstand sells 5 newspapers every 3 weeks. If it sells newspapers with intervals four times as long, it will sell () newspapers in 60 weeks.\nOptions: 144, 9, 63, 400, 25"
   },
   {
-   "answer": "540",
-   "bb_sha256": "c277adef710a49bd7cf4adcdaf4deabac6ef854d0c8d7129a09ee9e41787fe6f",
+   "answer": "1215",
+   "bb_sha256": "96c4c7776a188df6025afdb5dc9bdb4ab240de35db1ee1627cdb9a36c9c2a919",
    "meta": {
     "answer_pos": 5,
-    "answer_rank": 4,
-    "ask_time": false,
+    "answer_rank": 5,
+    "ask_time": true,
     "candidates": [
      540,
      1215
     ],
     "k": 0,
-    "m": 18,
+    "m": 27,
     "n": 30,
     "often": false,
     "option_kinds": [
@@ -15288,23 +15397,23 @@
     "options": [
      360,
      45,
-     1215,
+     540,
      216,
-     540
+     1215
     ],
     "p": 45,
     "shown": 810,
-    "subject": "A bell"
+    "subject": "A heart"
    },
-   "question": "A bell rings 30 times every 45 hours. It will ring () times in 810 hours.\nOptions: 360, 45, 1215, 216, 540"
+   "question": "A heart beats 30 times every 45 seconds. It will beat 810 times in () seconds.\nOptions: 360, 45, 540, 216, 1215"
   },
   {
-   "answer": "512",
-   "bb_sha256": "e9bc4b961d9e549ff463fe861c01fdd4db4de53d81ac9b3e3d9d43f885973d7d",
+   "answer": "2592",
+   "bb_sha256": "295766b76ac90f68a459a8c2a472ae582b9a23dfc899c5d0cb3fccedd77c1d5e",
    "meta": {
     "answer_pos": 5,
-    "answer_rank": 2,
-    "ask_time": true,
+    "answer_rank": 5,
+    "ask_time": false,
     "candidates": [
      512,
      648,
@@ -15312,36 +15421,36 @@
      2592
     ],
     "k": 2,
-    "m": 16,
+    "m": 36,
     "n": 36,
     "often": true,
     "option_kinds": [
-     "pool",
      "misreading",
+     "pool",
      "misreading",
      "misreading",
      "answer"
     ],
     "options": [
+     512,
      216,
      2048,
      648,
-     2592,
-     512
+     2592
     ],
     "p": 32,
     "shown": 1152,
-    "subject": "A patient"
+    "subject": "A reporter"
    },
-   "question": "A patient takes 36 pills every 32 days. If they take pills twice as often, they will take 1152 pills in () days.\nOptions: 216, 2048, 648, 2592, 512"
+   "question": "A reporter speaks 36 words every 32 minutes. If they speak twice as often, they will speak () words in 1152 minutes.\nOptions: 512, 216, 2048, 648, 2592"
   },
   {
-   "answer": "36",
-   "bb_sha256": "6f77ad1749599927e3d9df38d14d790d26c63a1b9d5f0e1ed86b42232b3e399c",
+   "answer": "2304",
+   "bb_sha256": "e40cc4a1ed07988c2b9433c43ca37373bf8c6639d648c9e2277aba635954df0b",
    "meta": {
-    "answer_pos": 5,
-    "answer_rank": 1,
-    "ask_time": false,
+    "answer_pos": 1,
+    "answer_rank": 5,
+    "ask_time": true,
     "candidates": [
      36,
      144,
@@ -15349,71 +15458,71 @@
      2304
     ],
     "k": 2,
-    "m": 6,
+    "m": 48,
     "n": 6,
     "often": false,
     "option_kinds": [
+     "answer",
      "combination",
      "misreading",
      "misreading",
-     "misreading",
-     "answer"
+     "misreading"
     ],
     "options": [
+     2304,
      216,
      576,
-     2304,
-     144,
-     36
+     36,
+     144
     ],
     "p": 24,
     "shown": 288,
-    "subject": "A newsstand"
+    "subject": "A bell"
    },
-   "question": "A newsstand sells 6 newspapers every 24 weeks. If it sells newspapers with intervals twice as long, it will sell () newspapers in 288 weeks.\nOptions: 216, 576, 2304, 144, 36"
+   "question": "A bell rings 6 times every 24 hours. If it rings with intervals twice as long, it will ring 288 times in () hours.\nOptions: 2304, 216, 576, 36, 144"
   },
   {
-   "answer": "18",
-   "bb_sha256": "f7438255c7c32604d0471d963fd3b9b619d67bc38938e4b05814a39f8afc0717",
+   "answer": "1152",
+   "bb_sha256": "79f1705d7374eba4022a7b3716f3c36a16f5756ae7ae1e5db54d6b1992781f89",
    "meta": {
-    "answer_pos": 5,
-    "answer_rank": 2,
-    "ask_time": true,
+    "answer_pos": 1,
+    "answer_rank": 5,
+    "ask_time": false,
     "candidates": [
      18,
      1152
     ],
     "k": 0,
-    "m": 3,
+    "m": 24,
     "n": 48,
     "often": false,
     "option_kinds": [
-     "misreading",
+     "answer",
      "combination",
+     "misreading",
      "pool",
-     "pool",
-     "answer"
+     "pool"
     ],
     "options": [
      1152,
      108,
+     18,
      10,
-     64,
-     18
+     64
     ],
     "p": 6,
     "shown": 144,
-    "subject": "A heart"
+    "subject": "A patient"
    },
-   "question": "A heart beats 48 times every 6 seconds. It will beat 144 times in () seconds.\nOptions: 1152, 108, 10, 64, 18"
+   "question": "A patient takes 48 pills every 6 days. They will take () pills in 144 days.\nOptions: 1152, 108, 18, 10, 64"
   },
   {
-   "answer": "2304",
-   "bb_sha256": "317899e6abff23b8a89de84f070d09cf99de56d9610fb41ba5824895979fc906",
+   "answer": "4",
+   "bb_sha256": "01d796e911244e18e3b6ecc1163a1e88c8cd4be7c86eba8ee3676d5c24edcf52",
    "meta": {
-    "answer_pos": 5,
-    "answer_rank": 5,
-    "ask_time": false,
+    "answer_pos": 1,
+    "answer_rank": 1,
+    "ask_time": true,
     "candidates": [
      4,
      64,
@@ -15421,36 +15530,36 @@
      2304
     ],
     "k": 4,
-    "m": 96,
+    "m": 4,
     "n": 6,
     "often": true,
     "option_kinds": [
+     "answer",
      "misreading",
      "misreading",
      "misreading",
-     "pool",
-     "answer"
+     "pool"
     ],
     "options": [
-     144,
-     64,
      4,
-     10,
-     2304
+     144,
+     2304,
+     64,
+     10
     ],
     "p": 1,
     "shown": 96,
-    "subject": "A reporter"
+    "subject": "A newsstand"
    },
-   "question": "A reporter speaks 6 words every minute. If they speak four times as often, they will speak () words in 96 minutes.\nOptions: 144, 64, 4, 10, 2304"
+   "question": "A newsstand sells 6 newspapers every week. If it sells newspapers four times as often, it will sell 96 newspapers in () weeks.\nOptions: 4, 144, 2304, 64, 10"
   },
   {
-   "answer": "1728",
-   "bb_sha256": "ad82f082dbec01d76bdd5a09cad5e4600a095f92332882189097cd82e229f9bd",
+   "answer": "768",
+   "bb_sha256": "0e49d6fa5d857e76da1431820a57801f2f5846d1eb15241cc7396199c2ca3b21",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 4,
-    "ask_time": true,
+    "answer_rank": 3,
+    "ask_time": false,
     "candidates": [
      432,
      768,
@@ -15458,71 +15567,71 @@
      3072
     ],
     "k": 2,
-    "m": 72,
+    "m": 48,
     "n": 16,
     "often": false,
     "option_kinds": [
      "answer",
      "misreading",
-     "misreading",
      "combination",
+     "misreading",
      "misreading"
     ],
     "options": [
-     1728,
      768,
      3072,
      108,
+     1728,
      432
     ],
     "p": 12,
     "shown": 1152,
-    "subject": "A bell"
+    "subject": "A heart"
    },
-   "question": "A bell rings 16 times every 12 hours. If it rings with intervals twice as long, it will ring 1152 times in () hours.\nOptions: 1728, 768, 3072, 108, 432"
+   "question": "A heart beats 16 times every 12 seconds. If it beats with intervals twice as long, it will beat () times in 1152 seconds.\nOptions: 768, 3072, 108, 1728, 432"
   },
   {
-   "answer": "40",
-   "bb_sha256": "93a94988a2a8b3dc19f1c362b6b552b3e97d2c63d9a5f57c73b9127e367fcfd6",
+   "answer": "1440",
+   "bb_sha256": "b3cf91dffdd4171d9ec2287ffa4dd73f7cc7f67c77f844babdbaf20563d6b795",
    "meta": {
     "answer_pos": 1,
-    "answer_rank": 1,
-    "ask_time": false,
+    "answer_rank": 4,
+    "ask_time": true,
     "candidates": [
      40,
      1440
     ],
     "k": 0,
-    "m": 10,
+    "m": 60,
     "n": 4,
     "often": false,
     "option_kinds": [
      "answer",
      "combination",
-     "misreading",
      "combination",
+     "misreading",
      "pool"
     ],
     "options": [
-     40,
-     3840,
      1440,
+     3840,
      60,
+     40,
      144
     ],
     "p": 24,
     "shown": 240,
-    "subject": "A patient"
+    "subject": "A reporter"
    },
-   "question": "A patient takes 4 pills every 24 days. They will take () pills in 240 days.\nOptions: 40, 3840, 1440, 60, 144"
+   "question": "A reporter speaks 4 words every 24 minutes. They will speak 240 words in () minutes.\nOptions: 1440, 3840, 60, 40, 144"
   },
   {
-   "answer": "450",
-   "bb_sha256": "758e3f86c4f17e6d6c1f35ab73c3bec997c8f4dd7344e2bd6d1a110e1b8f7bde",
+   "answer": "5000",
+   "bb_sha256": "00e13597144eff00549ed0cf98aa7759f0213946120aff560f3c6b0a95ac9d82",
    "meta": {
-    "answer_pos": 1,
-    "answer_rank": 2,
-    "ask_time": true,
+    "answer_pos": 2,
+    "answer_rank": 5,
+    "ask_time": false,
     "candidates": [
      450,
      1250,
@@ -15530,36 +15639,36 @@
      5000
     ],
     "k": 2,
-    "m": 15,
+    "m": 50,
     "n": 50,
     "often": true,
     "option_kinds": [
-     "answer",
      "misreading",
+     "answer",
      "combination",
      "misreading",
      "misreading"
     ],
     "options": [
-     450,
      1800,
-     18,
      5000,
+     18,
+     450,
      1250
     ],
     "p": 30,
     "shown": 1500,
-    "subject": "A newsstand"
+    "subject": "A bell"
    },
-   "question": "A newsstand sells 50 newspapers every 30 weeks. If it sells newspapers twice as often, it will sell 1500 newspapers in () weeks.\nOptions: 450, 1800, 18, 5000, 1250"
+   "question": "A bell rings 50 times every 30 hours. If it rings twice as often, it will ring () times in 1500 hours.\nOptions: 1800, 5000, 18, 450, 1250"
   },
   {
-   "answer": "150",
-   "bb_sha256": "bd24a2af3877ee531938beb315bc665559a34d0144ccdc57792704b86eea839d",
+   "answer": "864",
+   "bb_sha256": "25222bab72a633aa05cf13c003df3131ddd617fdd9886457aacc057a96544305",
    "meta": {
-    "answer_pos": 1,
-    "answer_rank": 1,
-    "ask_time": false,
+    "answer_pos": 2,
+    "answer_rank": 4,
+    "ask_time": true,
     "candidates": [
      150,
      216,
@@ -15567,71 +15676,71 @@
      864
     ],
     "k": 2,
-    "m": 5,
+    "m": 12,
     "n": 30,
     "often": false,
     "option_kinds": [
-     "answer",
      "combination",
+     "answer",
      "misreading",
      "misreading",
      "misreading"
     ],
     "options": [
-     150,
      4500,
-     600,
      864,
+     150,
+     600,
      216
     ],
     "p": 36,
     "shown": 360,
-    "subject": "A heart"
+    "subject": "A patient"
    },
-   "question": "A heart beats 30 times every 36 seconds. If it beats with intervals twice as long, it will beat () times in 360 seconds.\nOptions: 150, 4500, 600, 864, 216"
+   "question": "A patient takes 30 pills every 36 days. If they take pills with intervals twice as long, they will take 360 pills in () days.\nOptions: 4500, 864, 150, 600, 216"
   },
   {
-   "answer": "12",
-   "bb_sha256": "03d864269c3b52d19c408f6d90991d7da1e04bf8189e83c83b27d1fa6ca38b1b",
+   "answer": "3072",
+   "bb_sha256": "0224c2a9e8057a3a3ef5c80d6970c3034483825cc898e1db3c93a194fe0d21c2",
    "meta": {
-    "answer_pos": 1,
-    "answer_rank": 2,
-    "ask_time": true,
+    "answer_pos": 2,
+    "answer_rank": 5,
+    "ask_time": false,
     "candidates": [
      12,
      3072
     ],
     "k": 0,
-    "m": 6,
+    "m": 96,
     "n": 32,
     "often": false,
     "option_kinds": [
-     "answer",
      "pool",
+     "answer",
      "combination",
      "combination",
      "misreading"
     ],
     "options": [
-     12,
      162,
+     3072,
      96,
      3,
-     3072
+     12
     ],
     "p": 2,
     "shown": 192,
-    "subject": "A reporter"
+    "subject": "A newsstand"
    },
-   "question": "A reporter speaks 32 words every 2 minutes. They will speak 192 words in () minutes.\nOptions: 12, 162, 96, 3, 3072"
+   "question": "A newsstand sells 32 newspapers every 2 weeks. It will sell () newspapers in 192 weeks.\nOptions: 162, 3072, 96, 3, 12"
   },
   {
-   "answer": "1152",
-   "bb_sha256": "66353281ba21519edfb9e6be03e568468ca7823c4758fba9999d15d55c054b1b",
+   "answer": "288",
+   "bb_sha256": "82838c5064299134ad4dd9a210f7b7d68a0ee328a5997a4f03c5cc00e6f191ca",
    "meta": {
     "answer_pos": 2,
-    "answer_rank": 4,
-    "ask_time": false,
+    "answer_rank": 3,
+    "ask_time": true,
     "candidates": [
      128,
      288,
@@ -15639,36 +15748,36 @@
      2592
     ],
     "k": 3,
-    "m": 24,
+    "m": 12,
     "n": 16,
     "often": true,
     "option_kinds": [
      "misreading",
      "answer",
-     "misreading",
      "combination",
+     "misreading",
      "misreading"
     ],
     "options": [
-     288,
-     1152,
      128,
+     288,
      8,
+     1152,
      2592
     ],
     "p": 24,
     "shown": 576,
-    "subject": "A bell"
+    "subject": "A heart"
    },
-   "question": "A bell rings 16 times every 24 hours. If it rings three times as often, it will ring () times in 576 hours.\nOptions: 288, 1152, 128, 8, 2592"
+   "question": "A heart beats 16 times every 24 seconds. If it beats three times as often, it will beat 576 times in () seconds.\nOptions: 128, 288, 8, 1152, 2592"
   },
   {
-   "answer": "2400",
-   "bb_sha256": "a25c078d4b6323fc045394a5aa5b9e2d0e352865f756bbed2c556cdad0cf4cda",
+   "answer": "384",
+   "bb_sha256": "a03203681173d2d6ac642f3269b7da6b92f9a03801013513d049357a66424efb",
    "meta": {
     "answer_pos": 2,
-    "answer_rank": 5,
-    "ask_time": true,
+    "answer_rank": 2,
+    "ask_time": false,
     "candidates": [
      384,
      600,
@@ -15676,7 +15785,7 @@
      2400
     ],
     "k": 2,
-    "m": 30,
+    "m": 12,
     "n": 32,
     "often": false,
     "option_kinds": [
@@ -15688,59 +15797,59 @@
     ],
     "options": [
      600,
-     2400,
      384,
+     2400,
      135,
      1536
     ],
     "p": 40,
     "shown": 960,
-    "subject": "A patient"
+    "subject": "A reporter"
    },
-   "question": "A patient takes 32 pills every 40 days. If they take pills with intervals twice as long, they will take 960 pills in () days.\nOptions: 600, 2400, 384, 135, 1536"
+   "question": "A reporter speaks 32 words every 40 minutes. If they speak with intervals twice as long, they will speak () words in 960 minutes.\nOptions: 600, 384, 2400, 135, 1536"
   },
   {
-   "answer": "2187",
-   "bb_sha256": "6a209ce2f370684b46fa4981527e7d14565581b0045c9c4145c27310556312ab",
+   "answer": "300",
+   "bb_sha256": "6ec32be4e1067bd8bf3adab6b63c682f2a72173ab45834fc415fca96cf6b77ac",
    "meta": {
-    "answer_pos": 2,
-    "answer_rank": 5,
-    "ask_time": false,
+    "answer_pos": 3,
+    "answer_rank": 3,
+    "ask_time": true,
     "candidates": [
      300,
      2187
     ],
     "k": 0,
-    "m": 81,
+    "m": 30,
     "n": 27,
     "often": false,
     "option_kinds": [
      "combination",
-     "answer",
      "pool",
+     "answer",
      "combination",
      "misreading"
     ],
     "options": [
      10,
-     2187,
      80,
+     300,
      810,
-     300
+     2187
     ],
     "p": 10,
     "shown": 810,
-    "subject": "A newsstand"
+    "subject": "A bell"
    },
-   "question": "A newsstand sells 27 newspapers every 10 weeks. It will sell () newspapers in 810 weeks.\nOptions: 10, 2187, 80, 810, 300"
+   "question": "A bell rings 27 times every 10 hours. It will ring 810 times in () hours.\nOptions: 10, 80, 300, 810, 2187"
   },
   {
-   "answer": "24",
-   "bb_sha256": "860056ef8763e1d906e439d22732aa7ba395953c5d2b26c5a7eeb4ac7ba4e0c5",
+   "answer": "600",
+   "bb_sha256": "5a6858d8a147a3bdf4e53c67820f85ed24cdea22eac1b394c47477c88655dfda",
    "meta": {
-    "answer_pos": 2,
-    "answer_rank": 2,
-    "ask_time": true,
+    "answer_pos": 3,
+    "answer_rank": 5,
+    "ask_time": false,
     "candidates": [
      24,
      96,
@@ -15748,36 +15857,36 @@
      600
     ],
     "k": 2,
-    "m": 6,
+    "m": 30,
     "n": 10,
     "often": true,
     "option_kinds": [
      "misreading",
+     "combination",
      "answer",
      "misreading",
-     "combination",
      "misreading"
     ],
     "options": [
      150,
-     24,
-     600,
      12,
+     600,
+     24,
      96
     ],
     "p": 4,
     "shown": 120,
-    "subject": "A heart"
+    "subject": "A patient"
    },
-   "question": "A heart beats 10 times every 4 seconds. If it beats twice as often, it will beat 120 times in () seconds.\nOptions: 150, 24, 600, 12, 96"
+   "question": "A patient takes 10 pills every 4 days. If they take pills twice as often, they will take () pills in 120 days.\nOptions: 150, 12, 600, 24, 96"
   },
   {
-   "answer": "16",
-   "bb_sha256": "2a95e2072e62cd69dfb72f562741ce68ebbd432f54690c2dfd9cd7c4248074c4",
+   "answer": "324",
+   "bb_sha256": "0125151551e7caeff711ef71f58e11b3a46e25c6511a18163fcd5b7b2cd3d67a",
    "meta": {
-    "answer_pos": 2,
-    "answer_rank": 1,
-    "ask_time": false,
+    "answer_pos": 3,
+    "answer_rank": 4,
+    "ask_time": true,
     "candidates": [
      16,
      64,
@@ -15785,107 +15894,70 @@
      324
     ],
     "k": 2,
-    "m": 4,
+    "m": 18,
     "n": 4,
     "often": false,
     "option_kinds": [
      "combination",
-     "answer",
      "misreading",
+     "answer",
      "misreading",
      "misreading"
     ],
     "options": [
      2304,
-     16,
      81,
      324,
+     16,
      64
     ],
     "p": 9,
     "shown": 72,
-    "subject": "A reporter"
+    "subject": "A newsstand"
    },
-   "question": "A reporter speaks 4 words every 9 minutes. If they speak with intervals twice as long, they will speak () words in 72 minutes.\nOptions: 2304, 16, 81, 324, 64"
+   "question": "A newsstand sells 4 newspapers every 9 weeks. If it sells newspapers with intervals twice as long, it will sell 72 newspapers in () weeks.\nOptions: 2304, 81, 324, 16, 64"
   },
   {
-   "answer": "1024",
-   "bb_sha256": "fd7be63156c5a97f5407d9364bdb4246549e88bc36ad620f2ec081c038b1fb18",
+   "answer": "25",
+   "bb_sha256": "d3483fb05e21eb24c960c90fe7e7be2d4190c141df5c84343b5c1c82bf38d64b",
    "meta": {
     "answer_pos": 3,
-    "answer_rank": 4,
-    "ask_time": true,
+    "answer_rank": 2,
+    "ask_time": false,
     "candidates": [
      25,
      1024
     ],
     "k": 0,
-    "m": 32,
+    "m": 5,
     "n": 5,
     "often": false,
     "option_kinds": [
-     "misreading",
      "combination",
+     "misreading",
      "answer",
      "pool",
      "combination"
     ],
     "options": [
-     25,
      4000,
      1024,
+     25,
      216,
      5
     ],
     "p": 32,
     "shown": 160,
-    "subject": "A bell"
+    "subject": "A heart"
    },
-   "question": "A bell rings 5 times every 32 hours. It will ring 160 times in () hours.\nOptions: 25, 4000, 1024, 216, 5"
+   "question": "A heart beats 5 times every 32 seconds. It will beat () times in 160 seconds.\nOptions: 4000, 1024, 25, 216, 5"
   },
   {
-   "answer": "3600",
-   "bb_sha256": "f5f4f91e12dea599cea91374eda68b073f5853401d3c8ba3c680a125c5a1800d",
+   "answer": "120",
+   "bb_sha256": "0ed9f0871ffa4251a3e57bdf2b3d5547200cfd351f65d35da02f6e9d7e6246e9",
    "meta": {
     "answer_pos": 3,
-    "answer_rank": 5,
-    "ask_time": false,
-    "candidates": [
-     729,
-     900,
-     2916,
-     3600
-    ],
-    "k": 2,
-    "m": 180,
-    "n": 10,
-    "often": true,
-    "option_kinds": [
-     "misreading",
-     "misreading",
-     "answer",
-     "combination",
-     "misreading"
-    ],
-    "options": [
-     2916,
-     900,
-     3600,
-     2000,
-     729
-    ],
-    "p": 9,
-    "shown": 1620,
-    "subject": "A patient"
-   },
-   "question": "A patient takes 10 pills every 9 days. If they take pills twice as often, they will take () pills in 1620 days.\nOptions: 2916, 900, 3600, 2000, 729"
-  },
-  {
-   "answer": "1920",
-   "bb_sha256": "b6d7a8a3c9c9ef86b1d3c1aa6faf111c891c690ccb4dd3670e135780ab935935",
-   "meta": {
-    "answer_pos": 3,
-    "answer_rank": 5,
+    "answer_rank": 3,
     "ask_time": true,
     "candidates": [
      30,
@@ -15894,9 +15966,9 @@
      1920
     ],
     "k": 4,
-    "m": 80,
+    "m": 20,
     "n": 3,
-    "often": false,
+    "often": true,
     "option_kinds": [
      "combination",
      "misreading",
@@ -15906,88 +15978,16 @@
     ],
     "options": [
      5,
-     480,
      1920,
-     30,
-     120
+     120,
+     480,
+     30
     ],
     "p": 6,
     "shown": 240,
-    "subject": "A newsstand"
-   },
-   "question": "A newsstand sells 3 newspapers every 6 weeks. If it sells newspapers with intervals four times as long, it will sell 240 newspapers in () weeks.\nOptions: 5, 480, 1920, 30, 120"
-  },
-  {
-   "answer": "36",
-   "bb_sha256": "ed490ab8335bab935875698b361bdb682d74cf1811fe1fdae39359e9a90cb040",
-   "meta": {
-    "answer_pos": 3,
-    "answer_rank": 1,
-    "ask_time": false,
-    "candidates": [
-     36,
-     900
-    ],
-    "k": 0,
-    "m": 4,
-    "n": 9,
-    "often": false,
-    "option_kinds": [
-     "combination",
-     "misreading",
-     "answer",
-     "combination",
-     "combination"
-    ],
-    "options": [
-     100,
-     900,
-     36,
-     180,
-     45
-    ],
-    "p": 45,
-    "shown": 180,
-    "subject": "A heart"
-   },
-   "question": "A heart beats 9 times every 45 seconds. It will beat () times in 180 seconds.\nOptions: 100, 900, 36, 180, 45"
-  },
-  {
-   "answer": "72",
-   "bb_sha256": "d7379a1437b0adcf5cad8a6c9e2b1e6105d039512e5cb84fb0d1bd2140f4b342",
-   "meta": {
-    "answer_pos": 3,
-    "answer_rank": 3,
-    "ask_time": true,
-    "candidates": [
-     32,
-     72,
-     512,
-     1152
-    ],
-    "k": 4,
-    "m": 3,
-    "n": 16,
-    "often": true,
-    "option_kinds": [
-     "misreading",
-     "misreading",
-     "answer",
-     "combination",
-     "misreading"
-    ],
-    "options": [
-     512,
-     32,
-     72,
-     24,
-     1152
-    ],
-    "p": 24,
-    "shown": 192,
     "subject": "A reporter"
    },
-   "question": "A reporter speaks 16 words every 24 minutes. If they speak four times as often, they will speak 192 words in () minutes.\nOptions: 512, 32, 72, 24, 1152"
+   "question": "A reporter speaks 3 words every 6 minutes. If they speak four times as often, they will speak 240 words in () minutes.\nOptions: 5, 1920, 120, 480, 30"
   },
   {
    "answer": "243",
@@ -18173,15 +18173,15 @@
  "n_options": 5,
  "n_redrawn": {
   "collision": 0,
-  "duplicate": 2,
-  "rejected": 1126,
+  "duplicate": 6,
+  "rejected": 1114,
   "repeated_answer": 0,
   "shot_answer": 0,
   "shot_content": 0
  },
  "name": "unit_interp1",
  "provenance": {
-  "bbkey_audit_sha256": "dbeaa16cfce60acbd1e0eef0932d84bf7c9fa1385db503a60da0eeb17a3f5729",
+  "bbkey_audit_sha256": "ab2bcd036b8d6e9f38a4a4f14fefbddff414ad2aa28b2c23d9753a0d50340c9c",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",

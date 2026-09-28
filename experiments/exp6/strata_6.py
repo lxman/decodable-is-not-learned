@@ -38,8 +38,8 @@ ORDINAL = ("carries", "product_digits", "answer", "prefix_class")
 # stratum -> item count per rung, pinned from the committed item files
 STRATA_COUNT_PIN_6 = {
     "modarith_add1": {"0": 80, "1": 184, "2": 172, "3": 64},
-    "modarith_sub1": {"neg0": 58, "neg1": 109, "neg2": 63, "pos0": 98, "pos1": 121, "pos2": 51},
-    "modarith_mul1": {"1": 13, "2": 18, "3": 138, "4": 331},
+    "modarith_sub1": {"neg0": 58, "neg1": 110, "neg2": 63, "pos0": 98, "pos1": 120, "pos2": 51},
+    "modarith_mul1": {"1": 15, "2": 19, "3": 136, "4": 330},
     "unscramble_short": {"4|0": 84, "4|1": 83, "4|2": 83, "5|0": 84, "5|1": 83, "5|2": 83},
     "unscramble_long": {"6|0": 56, "6|1": 56, "6|2": 55, "7|0": 56, "7|1": 56, "7|2": 55, "8|0": 56, "8|1": 55, "8|2": 55},
     "ipa_word": {"0|0": 56, "0|1": 56, "0|2": 55, "1|0": 56, "1|1": 56, "1|2": 55, "2|0": 56, "2|1": 55, "2|2": 55},
@@ -74,8 +74,8 @@ SORT5_BINS = ((0, 3), (4, 6), (7, 10))      # inversions of five words: 0..10
 # level -> item count per rung, pinned from the committed item files
 STRUCTURE_COUNT_PIN_6 = {
     "modarith_add1": {"0": 442, "1": 58},
-    "modarith_sub1": {"0": 450, "1": 50},
-    "modarith_mul1": {"0": 482, "1": 18},
+    "modarith_sub1": {"0": 451, "1": 49},
+    "modarith_mul1": {"0": 481, "1": 19},
     "unscramble_short": {"0": 145, "1": 198, "2": 157},
     "unscramble_long": {"0": 122, "1": 167, "2": 211},
     "ipa_word": {"marked": 312, "plain": 188},

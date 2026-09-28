@@ -195,6 +195,9 @@ def _draw_deduction(n):
                 "answer": answer,
                 "bb_key": deduction_paragraph(cx, n, listed, clues,
                                               surface="bigbench"),
+                # the same objects in the same order, the same position
+                # asked: the same answer, whatever the clues
+                "content_key": f"{cx['key']}|{'>'.join(target)}|{q}",
                 "meta": {"context": cx["key"], "listed": listed,
                          "order": target, "clues": [list(c) for c in clues],
                          "n_clues": len(clues), "asked": q, "options": opts,

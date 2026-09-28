@@ -175,7 +175,7 @@ def test_strata(battery):
         assert len(t["strata"]) == 500 and sum(t["counts"].values()) == 500
         assert min(t["counts"].values()) >= s6.MIN_STRATUM
         assert all(isinstance(s, str) for s in t["strata"])
-    assert table["modarith_mul1"]["counts"] == {"1": 13, "2": 18, "3": 138, "4": 331}
+    assert table["modarith_mul1"]["counts"] == {"1": 15, "2": 19, "3": 136, "4": 330}
     assert set(table["shapes"]["counts"].values()) == {50}
     json.dumps(table)                                           # serialisable
 
@@ -372,7 +372,7 @@ def test_heuristic_floors(battery):
     # reads two unit WORDS — the blank's against the stated number's — and
     # copies or multiplies scores a half on level 2, by design (the stated
     # cells and the product cells: 84 + 166; BIG-bench .56).
-    for r, best, count in (("unit_interp1", f6.EACH_ONCE, 170),
+    for r, best, count in (("unit_interp1", f6.EACH_ONCE, 179),
                            ("unit_interp2", f6.SAME_UNIT, 250)):
         g = h[r]["heuristics"]
         assert set(g) == {f6.LIST_POSITION, f6.SIZE_RANK, f6.ABSENT, f6.DIVISIBLE,
@@ -384,8 +384,8 @@ def test_heuristic_floors(battery):
     assert g[f6.PRODUCT] == 166 and max(
         v for k, v in g.items() if k != f6.SAME_UNIT) == 166
     # the rank by size is not designed: it follows from what is asked
-    assert h["unit_interp1"]["heuristics"][f6.SIZE_RANK] == 126
-    assert h["unit_interp2"]["heuristics"][f6.SIZE_RANK] == 132
+    assert h["unit_interp1"]["heuristics"][f6.SIZE_RANK] == 121
+    assert h["unit_interp2"]["heuristics"][f6.SIZE_RANK] == 130
 
 
 def test_the_number_guessers_pick_what_they_say():
