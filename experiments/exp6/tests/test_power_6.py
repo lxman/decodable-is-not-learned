@@ -53,7 +53,7 @@ def _record(inputs, p15=0.9, **over):
     for t, f in p6w.TESTS_6:
         name = p6w.test_name(t, f)
         rec = W.fake_power_test(inputs[(t, f)], p15=over.get(name, p15))
-        rec.update({"test": t, "family": f})
+        rec.update({"test": t, "family": f, "predictor": p6w.r6.TEST_PREDICTOR[t]})
         tests[name] = rec
     return {"tests": tests, "tree": p6w.tree_level(tests)}
 
@@ -111,6 +111,9 @@ def test_the_claims_are_rederived(monkeypatch):
         t + ("declared_status",), "DECLARED UNDERPOWERED IN ADVANCE"))
     assert any("declared_status" in b for b in broken(t + ("declared_status",), "FINE"))
     assert any("n_sim" in b for b in broken(t + ("n_sim",), 3))
+    for field, value in (("test", "A"), ("family", "olmo7b"), ("predictor", "pythia_1b")):
+        assert broken(t + (field,), value) == [
+            "6 power B:comma_7b: test / family / predictor"], field
     assert any("tree-level" in b for b in broken(
         ("tree", "p_general", "0.15"), [0.0, 1.0]))
     r = copy.deepcopy(rec)
@@ -161,6 +164,13 @@ def test_the_power_record_is_written_once_and_after_the_rung_sets(tmp_path):
     assert r6.read_json(r6.power_path(tmp_path)) == {"written": "before"}
     with pytest.raises(RuntimeError, match="does not exist"):
         p6w.main([], root=tmp_path, **dict(W.INJECT_SEAL, tag_exists=lambda t: False))
+    # and never over a halt marker: a stage that halted has no power record
+    r6.power_path(tmp_path).unlink()
+    r6.write_json(r6.rung_sets_path(tmp_path), {"families": {}})
+    r6.endpoint_halt_path(tmp_path).write_text("gate 1(b) fired\n")
+    with pytest.raises(RuntimeError, match="halt marker"):
+        p6w.main([], root=tmp_path, **W.INJECT_SEAL)
+    assert not r6.power_path(tmp_path).exists()
 
 
 def test_an_underpowered_test_is_declared(monkeypatch):

@@ -116,3 +116,51 @@ def test_the_referent_manifest(tmp_path):
     p.write_text(text)
     bad = mkr.check_referents(p, sha_pin=hashlib.sha256(text.encode()).hexdigest())
     assert any("file list" in b for b in bad)
+
+
+def test_the_macs_digest_of_every_checkpoint():
+    """Gate 1(d)'s referent: one tensor digest a checkpoint, the two
+    anchors' committed records agreeing, no two checkpoints alike; the
+    endpoint stage's committed record is the sweep's endpoint unit."""
+    from experiments.exp6 import records_6 as r6
+    for f in fm.FAMILIES_6:
+        steps = (fm.INIT,) + tuple(fm.grid(f))
+        got = [rf.mac_digest(f, s) for s in steps]
+        assert all(len(d) == 64 and int(d, 16) >= 0 for d in got)
+        assert len(set(got)) == len(steps)
+        end = fm.endpoint_step(f)
+        for r in b6.ANCHORS_6:
+            rec = r6.read_json(fm.committed_endpoint_record(f, r))
+            assert rec["weight_sha256"] == rf.mac_digest(f, end)
+        assert rf.digest_step(f, "stage1_final") == end == rf.digest_step(f, r6.SWEEP_CAND)
+        assert rf.digest_step(f, "init") == fm.INIT and rf.digest_step(f, steps[1]) == steps[1]
+
+
+def test_a_referent_that_carries_two_digests_is_refused(monkeypatch):
+    from experiments.exp6 import records_6 as r6
+    real = r6.read_json
+
+    def two(path):
+        rec = dict(real(path))
+        if str(path).endswith(f"{b6.ANCHORS_6[0]}.json"):
+            rec["weight_sha256"] = "0" * 64
+        return rec
+    monkeypatch.setattr(rf.r6, "read_json", two)
+    with pytest.raises(ValueError, match="no one tensor digest"):
+        rf.mac_digest("olmo7b", fm.endpoint_step("olmo7b"))
+    monkeypatch.setattr(rf.r6, "read_json", lambda p: {k: v for k, v in real(p).items()
+                                                       if k != "weight_sha256"})
+    with pytest.raises(ValueError, match="no one tensor digest"):
+        rf.mac_digest("olmo7b", fm.endpoint_step("olmo7b"))
+
+
+def test_the_macs_bits_are_the_committed_records():
+    from experiments.exp6 import records_6 as r6
+    f = fm.FAMILIES_6[1]
+    step = fm.grid(f)[3]
+    for r in b6.ANCHORS_6:
+        bits = rf.mac_bits(f, step, r)
+        assert len(bits) == b6.N_ITEMS and set(bits) <= {0, 1}
+        assert sum(bits) == rf.mac_count(f, step, r)
+        assert bits == [int(b) for b in r6.read_json(
+            fm.committed_sweep_record(f, step, r))["bits"]]

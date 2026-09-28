@@ -173,16 +173,98 @@ def test_the_headline_condition():
 
 
 def test_undetermined_names_its_shortfall():
+    """Design §6: the record names which shortfall it was, because the
+    two sides call for different successors. R_f short, or a rung too
+    thin over the sweep: the outcome side. A rung degenerate for the
+    predictor: the predictor side."""
     t = _tests((1, 1, 1, 1), (1, 1, 1, 1), n_rungs=2)
     v = an.verdict_6([], t, _rsets(2), _power(sim=2))
     assert v["verdict"] == "UNDETERMINED"
-    assert any("outcome side" in m for m in v["modifiers"])
-    t = _tests((1, 1, 1, 1), (1, 1, 1, 1), n_rungs=2)       # R_f is nine; tests read two
+    assert v["modifiers"] == [f"outcome side: R_f holds fewer than 3 rungs on {list(F)}"]
+    R9 = list(b6.RUNGS_6[:9])
+    t = _tests((1, 1, 1, 1), (1, 1, 1, 1))
+    for f in F[:2]:
+        t[("A", f)] = dict(res(False, rungs=R9[:2]), dropped_degenerate=R9[2:], thin=[])
+        t[("B", f)] = dict(res(False, rungs=R9[:2]), dropped_degenerate=[], thin=R9[2:])
     v = an.verdict_6([], t, _rsets(9), _power())
     assert v["verdict"] == "UNDETERMINED"
-    assert any("predictor side" in m for m in v["modifiers"])
-    assert not any("outcome side" in m for m in v["modifiers"])
-    assert sum("fewer than three" in d for d in v["disclosures"]) == 8
+    assert v["modifiers"] == [
+        f"predictor side: Test A on {f} lost {R9[2:]} to degeneracy" for f in F[:2]] + [
+        f"outcome side: Test B on {f} lost {R9[2:]} to thin outcomes over the sweep"
+        for f in F[:2]]
+    assert sum("fewer than three" in d for d in v["disclosures"]) == 4
+    # an undefined test lists every rung as thin; the degenerate ones are not counted twice
+    t[("A", F[0])] = dict(res(False, rungs=[]), dropped_degenerate=R9[:5], thin=R9)
+    mods = an.verdict_6([], t, _rsets(9), _power())["modifiers"]
+    assert f"predictor side: Test A on {F[0]} lost {R9[:5]} to degeneracy" in mods
+    assert f"outcome side: Test A on {F[0]} lost {R9[5:]} to thin outcomes over the sweep" \
+        in mods
+    # one family short of rungs is named, not only two
+    rs = _rsets(9)
+    rs["families"][F[3]]["R"] = R9[:2]
+    assert an.shortfall(t, {p: {"status": "F"} for p in "AB"}, rs) == [
+        f"outcome side: R_f holds fewer than 3 rungs on {[F[3]]}"]
+    # a loss the result does not explain is said, not dropped
+    t = _tests((1, 1, 1, 1), (1, 1, 1, 1), n_rungs=2)
+    mods = an.verdict_6([], t, _rsets(9), _power())["modifiers"]
+    assert len(mods) == 8 and all("names no cause" in m for m in mods)
+
+
+def test_the_licence_of_battery_bound_claims_no_absence():
+    """Status F allows one firing family, so BATTERY-BOUND can hold two
+    tests that fired. Its sentence states the naming rule's count and
+    leaves the reading to the power record (design §6 wrote no other)."""
+    base = an._L["BATTERY-BOUND"]
+    assert base == ("Neither predictor reached the naming rule's bar on the field's "
+                    "tasks: each fired on at most one of its evaluable families. Read "
+                    "under the power record.")
+    for word in ("forecasts", "absence", "withdrawn", "no forecast", "does not"):
+        assert word not in base, word
+    t = _tests((1, 0, 0, 0), (0, 0, 1, 0))
+    under = _power(status="DECLARED UNDERPOWERED IN ADVANCE")
+    v = an.verdict_6([], t, _rsets(), under)
+    assert v["verdict"] == "BATTERY-BOUND"
+    assert (v["statuses"]["A"]["fired"], v["statuses"]["B"]["fired"]) == ([F[0]], [F[2]])
+    said = an.licensed_6(v)
+    assert said.startswith(base) and "withdrawn" not in said
+    assert v["modifiers"] == [an.BATTERY_BOUND_UNDERPOWERED_6]
+
+
+def test_withdrawn_is_printed_only_where_the_power_record_covers_the_reading():
+    """POWERED was declared for the set the record simulated. A test
+    that read another set is not covered by it (2m F-1's lineage)."""
+    t = _tests((0, 0, 0, 0), (0, 0, 0, 0))
+    v = an.verdict_6([], t, _rsets(), _power())
+    assert v["modifiers"] == [an.BATTERY_BOUND_POWERED_6]
+    assert "withdrawn" in an.licensed_6(v) and an.uncovered(t, _power()) == []
+    wide = _power(sim=9)
+    t[("B", F[1])] = res(False, n_rungs=7)                # read seven of the nine simulated
+    assert an.uncovered(t, wide) == ["B:" + F[1]]
+    v = an.verdict_6([], t, _rsets(), wide)
+    assert v["verdict"] == "BATTERY-BOUND"
+    assert v["modifiers"] == [an.BATTERY_BOUND_UNCOVERED_6.format(names="B:" + F[1])]
+    assert "withdrawn" not in an.licensed_6(v)
+    assert "not detected at this resolution" in an.licensed_6(v)
+    # underpowered is said first, whatever the sets
+    mixed = _power(**{"A:" + F[0]: "DECLARED UNDERPOWERED IN ADVANCE"})
+    assert an.verdict_6([], t, _rsets(), mixed)["modifiers"] == [
+        an.BATTERY_BOUND_UNDERPOWERED_6]
+    # a test that is not evaluable is not asked whether it is covered
+    t[("B", F[1])] = res(False, n_rungs=2)
+    assert an.uncovered(t, wide) == []
+
+
+def test_a_predictor_that_holds_on_three_says_on_which():
+    t = _tests((1, 1, 1, 0), (1, 1, 1, 1))
+    v = an.verdict_6([], t, _rsets(), _power())
+    assert v["verdict"] == "GENERAL"
+    line = an.DISCLOSURE_HOLDS_ON_6.format(t="A", n=3, e=4, fired=", ".join(F[:3]),
+                                           rest=F[3])
+    assert v["disclosures"] == [line] and an.licensed_6(v).endswith(line)
+    full = an.verdict_6([], _tests((1, 1, 1, 1), (1, 1, 1, 1)), _rsets(), _power())
+    assert full["disclosures"] == []
+    assert an.holds_on({"A": {"status": "S", "fired": F[:2], "E": 4},
+                        "B": {"status": "F", "fired": [], "E": 4}}) == []
 
 
 def test_a_test_that_reads_less_than_R_f_says_so_against_the_power_record():

@@ -458,10 +458,10 @@ MUTANTS_6 = [
        "    cm.exit_gate(r6.endpoint_halt_path(root), frozen_check=frozen_check)\n    return gate",
        "    return gate"),
     _m("run/endpoint_6.py", "a load is complete without its records",
-       "    return r6.endpoint_load_path(root, family, which).exists() and all(\n"
-       "        r6.endpoint_record_path(root, family, which, r).exists()\n"
-       "        for r in b6.ALL_RUNGS_6)",
-       "    return r6.endpoint_load_path(root, family, which).exists()"),
+       "    return r6.whole(r6.endpoint_load_path(root, family, which)) and all(\n"
+       "        [r6.whole(r6.endpoint_record_path(root, family, which, r))\n"
+       "         for r in b6.ALL_RUNGS_6])",
+       "    return r6.whole(r6.endpoint_load_path(root, family, which))"),
     _m("run/endpoint_6.py", "a host off the stack pin runs the endpoint stage",
        "    bad = cm.host_failures(host)\n    if bad:\n        raise RuntimeError(f\"host record: {bad}\")\n"
        "    loaders = real_loaders() if loaders is None else loaders\n"
@@ -539,10 +539,10 @@ MUTANTS_6 = [
     _m("run/sweep_6.py", "the sweep has no exit gate",
        "    cm.exit_gate(r6.sweep_halt_path(root, family), frozen_check=frozen_check)\n", ""),
     _m("run/sweep_6.py", "a step is complete without its records",
-       "    return r6.checkpoint_path(root, family, step).exists() and all(\n"
-       "        r6.sweep_record_path(root, family, step, r).exists()\n"
-       "        for r in b6.ALL_RUNGS_6)",
-       "    return r6.checkpoint_path(root, family, step).exists()"),
+       "    return r6.whole(r6.checkpoint_path(root, family, step)) and all(\n"
+       "        [r6.whole(r6.sweep_record_path(root, family, step, r))\n"
+       "         for r in b6.ALL_RUNGS_6])",
+       "    return r6.whole(r6.checkpoint_path(root, family, step))"),
     # --------------------------------------------------------------- power_6.py
     _m("power_6.py", "a predictor holds on two families",
        "HOLDS_AT = 3 ", "HOLDS_AT = 2 "),
@@ -603,7 +603,134 @@ MUTANTS_6 = [
     _m("run/preflight_6.py", "the outcome preflight falls through an empty loader table",
        "    loaders = ep.real_loaders() if loaders is None else loaders\n",
        "    loaders = loaders or ep.real_loaders()\n"),
+    # ------------------------------------------------------------ families_6.py
+    _m("families_6.py", "two families' grids are exchanged",
+       "\"olmo7b\": bi.GRID_7B,\n            \"olmo13b\": bl.GRID_13B,",
+       "\"olmo7b\": bl.GRID_13B,\n            \"olmo13b\": bi.GRID_7B,"),
+    _m("families_6.py", "the endpoint is the first grid step",
+       "    return int(g[-1])", "    return int(g[0])"),
+    _m("families_6.py", "OLMo-2 13B's init referent is a twin",
+       "\"olmo13b\": \"step0\",", "\"olmo13b\": \"twin\","),
+    _m("families_6.py", "Comma is rendered without its BOS",
+       "            \"comma_7b\": \"bos\"}", "            \"comma_7b\": \"plain\"}"),
+    _m("families_6.py", "Comma is scored without the BOS runner",
+       "    if RENDER_6[family] == \"bos\":\n        _, _, _, bn = _mods()",
+       "    if False:\n        _, _, _, bn = _mods()"),
+    _m("families_6.py", "a step off the grid has an entry",
+       "    elif int(step) not in grid(family):", "    elif False:"),
+    _m("families_6.py", "a twin is loaded as a checkpoint",
+       "    if e.get(\"kind\") == \"from_config\":\n        raise ValueError(f\"{family}: {step} is a twin; use load_init\")",
+       "    if False:\n        raise ValueError(f\"{family}: {step} is a twin; use load_init\")"),
+    _m("families_6.py", "OLMo-2 7B's thin load reads the 1B repository",
+       "        return bi.load_thin(bi.REPO_7B, e[\"commit\"], device=device, dtype=DTYPE_6)",
+       "        return bi.load_thin(bi.REPO_1B, e[\"commit\"], device=device, dtype=DTYPE_6)"),
+    _m("families_6.py", "the outcomes are scored at float32",
+       "DTYPE_6 = \"float16\"", "DTYPE_6 = \"float32\""),
+    _m("families_6.py", "the Mac's record of a twin is read from step0",
+       "    d = \"twin\" if (step == INIT and INIT_KIND[family] == \"twin\") else (",
+       "    d = \"step0\" if (step == INIT and INIT_KIND[family] == \"twin\") else ("),
+    # ---------------------------------- fix wave 1: gate 1(d), whole records
+    _m("referents_6.py", "gate 1(d): any digest is the Mac's",
+       "    if load.get(\"digest\") != want:\n        return [f\"{label}: tensor digest",
+       "    if False:\n        return [f\"{label}: tensor digest"),
+    _m("referents_6.py", "gate 1(d): a real step 0 is left out like a twin",
+       "    if step == fm.INIT and fm.INIT_KIND[family] == \"twin\":\n        return []",
+       "    if step == fm.INIT:\n        return []"),
+    _m("referents_6.py", "gate 1(d): the endpoint stage's read is held to the first grid step",
+       "        return fm.endpoint_step(family)\n    if key in (\"init\", fm.INIT):",
+       "        return fm.grid(family)[0]\n    if key in (\"init\", fm.INIT):"),
+    _m("referents_6.py", "gate 1(d): two committed digests are one",
+       "    if len(got) != 1 or \"\" in got:", "    if False:"),
+    _m("run/_common_6.py", "gate 1(d): the runner does not halt on another model",
+       "    if bad:\n        raise GateFired(\"1(d)\", bad, seen)", "    if False:\n        raise GateFired(\"1(d)\", bad, seen)"),
+    _m("run/endpoint_6.py", "gate 1(d): the endpoint stage checks after it has scored",
+       "        cm.require_the_macs_weights(info, family, which, entry,\n"
+       "                                    label=f\"6 gate 1(d) {family}/{which}\")\n", ""),
+    _m("run/endpoint_6.py", "gate 1(d) fires at the endpoint stage and leaves no marker",
+       "        r6.endpoint_halt_path(root).write_text(\"\\n\".join(e.failures) + \"\\n\")\n        raise",
+       "        raise"),
+    _m("run/endpoint_6.py", "the endpoint stage runs after its seal",
+       "    if r6.rung_sets_path(root).exists():\n        raise RuntimeError(\"the endpoint stage is sealed; nothing is read after it\")\n",
+       ""),
+    _m("run/endpoint_6.py", "a run that reads nothing rewrites the gate record",
+       "    if todo or not r6.gate1b_path(root).exists():", "    if True:"),
+    _m("run/sweep_6.py", "gate 1(d): the sweep does not check a load",
+       "        cm.require_the_macs_weights(\n            info, family, key, entry,",
+       "        (lambda *a, **k: None)(\n            info, family, key, entry,"),
+    _m("run/sweep_6.py", "gate 1(d) fires at the sweep's gate and leaves no marker",
+       "        except cm.GateFired as e:\n            halt(root, family, e.failures)\n            raise",
+       "        except cm.GateFired as e:\n            raise"),
+    _m("run/sweep_6.py", "gate 1(d): a failed load's evidence is not kept",
+       "        r6.write_json(r6.halted_step_dir(root, family, step) / \"_checkpoint.json\",\n"
+       "                      e.load)\n", ""),
+    _m("run/sweep_6.py", "gate 1(b): the sealed read's digest is not compared",
+       "    if not sealed_load.get(\"digest\") or \\\n"
+       "            sealed_load.get(\"digest\") != cand_load.get(\"digest\"):",
+       "    if False:"),
+    _m("run/seal_endpoint_6.py", "gate 1(d): the endpoint seal does not re-derive it",
+       "    bad += rf.digest_failures(load, family, which,\n"
+       "                              label=f\"6 gate 1(d) {family}/{which}\")\n", ""),
+    _m("run/seal_endpoint_6.py", "gate 1(b): the record's host need not have a record",
+       "    if hosts is not None and rec.get(\"host_sha256\") not in hosts:", "    if False:"),
+    _m("records_6.py", "a record is written in place",
+       "    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(json.dumps(obj, indent=1))\n"
+       "    os.replace(tmp, path)",
+       "    path.write_text(json.dumps(obj, indent=1))"),
+    _m("records_6.py", "a torn record is a record",
+       "    if not ok:\n        raise RuntimeError(f\"{path}: torn record", "    if False:\n        raise RuntimeError(f\"{path}: torn record"),
+    _m("records_6.py", "a list is a record",
+       "        ok = isinstance(json.loads(path.read_text(encoding=\"utf-8\")), dict)",
+       "        ok = json.loads(path.read_text(encoding=\"utf-8\")) is not None"),
+    _m("power_6.py", "the power record is written over a halt marker",
+       "    cm.refuse_if_halted(root)\n    inputs, _ = real_inputs(root)",
+       "    inputs, _ = real_inputs(root)"),
+    _m("power_6.py", "a test's record may name another predictor",
+       "        if (rec.get(\"test\"), rec.get(\"family\"), rec.get(\"predictor\")) != \\\n"
+       "                (t, f, r6.TEST_PREDICTOR[t]):", "        if False:"),
+    _m("run/preflight_6.py", "the preflight passes weights that are not the Mac's",
+       "        and all(r[\"digest_is_the_macs\"] for r in out[\"reads\"].values())\n", ""),
+    _m("run/preflight_6.py", "the preflight falls through a falsy finiteness probe",
+       "                                  nonfinite=n_nonfinite_each if nonfinite is None\n"
+       "                                  else nonfinite)",
+       "                                  nonfinite=nonfinite or n_nonfinite_each)"),
     # ------------------------------------------------------------- analyze_6.py
+    _m("analyze_6.py", "BATTERY-BOUND says neither predictor forecasts",
+       "    \"BATTERY-BOUND\": \"Neither predictor reached the naming rule's bar on the \"\n"
+       "                     \"field's tasks: each fired on at most one of its evaluable \"\n"
+       "                     \"families. Read under the power record.\",",
+       "    \"BATTERY-BOUND\": \"Neither predictor forecasts the order on the field's \"\n"
+       "                     \"tasks.\","),
+    _m("analyze_6.py", "withdrawn is printed over a reading the power record did not simulate",
+       "                    BATTERY_BOUND_UNCOVERED_6.format(names=\", \".join(narrow))\n"
+       "                    if narrow else BATTERY_BOUND_POWERED_6)",
+       "                    BATTERY_BOUND_POWERED_6)"),
+    _m("analyze_6.py", "uncovered asks the tests that are not evaluable",
+       "        if evaluable(res) and set(res.get(\"eligible\") or []) != set(sim or []):",
+       "        if set(res.get(\"eligible\") or []) != set(sim or []):"),
+    _m("analyze_6.py", "a predictor that holds on three does not say on which",
+       "    disc = disclosures_of(tests, rung_sets, power) + holds_on(statuses)",
+       "    disc = disclosures_of(tests, rung_sets, power)"),
+    _m("analyze_6.py", "the shortfall names one small family only with a second",
+       "    if small:\n        out.append(f\"outcome side: R_f holds fewer than",
+       "    if len(small) >= 2:\n        out.append(f\"outcome side: R_f holds fewer than"),
+    _m("analyze_6.py", "the shortfall counts a degenerate rung as thin too",
+       "            thin = [r for r in res.get(\"thin\") or []\n"
+       "                    if r not in (res.get(\"dropped_degenerate\") or [])]",
+       "            thin = [r for r in res.get(\"thin\") or []]"),
+    _m("analyze_6.py", "predictor stage: the seal's tag is not compared",
+       "        if seal.get(\"tag\") != r6.PREDICTOR_SEAL_TAG_6:", "        if False:"),
+    _m("analyze_6.py", "predictor stage: gate 1-P's tag is not compared",
+       "        if rec is not None and rec.get(\"prereg_tag\") != r6.PREREG_TAG_6:",
+       "        if False:"),
+    _m("analyze_6.py", "gate 1(d): a gate read is not held to the Mac's digest",
+       "    bad += rf.digest_failures(load, family, which, label=label.replace(\n"
+       "        \"6 gate 1 \", \"6 gate 1(d) \"))\n", ""),
+    _m("analyze_6.py", "gate 1(d): a grid step is not held to the Mac's digest",
+       "        bad += rf.digest_failures(load, family, step,\n"
+       "                                  label=f\"6 gate 1(d) {family}/step{step}\")\n", ""),
+    _m("analyze_6.py", "gate 1: the sealed read handed to the gate is the host's own",
+       "        thin_load=thin[\"load\"], cand_load=cand[\"load\"], sealed_load=sealed_load,",
+       "        thin_load=thin[\"load\"], cand_load=cand[\"load\"], sealed_load=cand[\"load\"],"),
     _m("analyze_6.py", "evaluable needs four rungs",
        "    return len(res.get(\"eligible\") or []) >= MIN_RUNGS",
        "    return len(res.get(\"eligible\") or []) > MIN_RUNGS"),
@@ -839,4 +966,17 @@ HINTS_6 = {
         "test_totality_6.py::any_shape and power",
     'run(): collect_total stripped at "6 endpoint seal paths"':
         "test_totality_6.py::any_shape and rung",
+    "predictor stage: the seal's tag is not compared": _W + "carry_their_tags",
+    "predictor stage: gate 1-P's tag is not compared": _W + "carry_their_tags",
+    "gate 1(d): a gate read is not held to the Mac's digest": _W + "gate_read_that_is_not",
+    "gate 1(d): a grid step is not held to the Mac's digest": _W + "rewritten_as_another",
+    "gate 1: the sealed read handed to the gate is the host's own":
+        _W + "set_the_rung_sets",
+    "gate 1(d): the endpoint seal does not re-derive it": _W + "set_the_rung_sets",
+    "gate 1(b): the record's host need not have a record":
+        _W + "host_that_has_no_record",
+    "a run that reads nothing rewrites the gate record": _W + "reads_nothing",
+    "the test inputs read the init referent's counts": _W + "what_each_secondary",
+    "gate 1(d) fires at the sweep's gate and leaves no marker":
+        _W + "not_the_macs_halt",
 }

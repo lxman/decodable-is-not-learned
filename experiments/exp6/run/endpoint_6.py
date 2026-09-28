@@ -52,9 +52,9 @@ def require_predictor_seal(root, *, tag_exists=None, blobs_bound=None) -> dict:
 
 
 def which_complete(root, family, which) -> bool:
-    return r6.endpoint_load_path(root, family, which).exists() and all(
-        r6.endpoint_record_path(root, family, which, r).exists()
-        for r in b6.ALL_RUNGS_6)
+    return r6.whole(r6.endpoint_load_path(root, family, which)) and all(
+        [r6.whole(r6.endpoint_record_path(root, family, which, r))
+         for r in b6.ALL_RUNGS_6])
 
 
 def run_which(family, which, *, root, device, man, battery, host, seal_sha,
@@ -67,6 +67,8 @@ def run_which(family, which, *, root, device, man, battery, host, seal_sha,
     load_fn = loaders["thin"] if which == "stage1_final" else loaders["init"]
     model, tok, info = load_fn(family, man, device=device)
     try:
+        cm.require_the_macs_weights(info, family, which, entry,
+                                    label=f"6 gate 1(d) {family}/{which}")
         runner = loaders["runner"](family, tok, model)
         probe = pr.prompts_of(battery[b6.RUNGS_6[0]])
         load = r6.load_record(family=family, key=which, entry=entry, info=info,
@@ -110,6 +112,8 @@ def run(*, root=EXP6, device="cuda", families=None, loaders=None, dry_run=False,
     cm.gates(tag_exists=tag_exists, blob_sha=blob_sha, frozen_check=frozen_check)
     seal = require_predictor_seal(root, tag_exists=tag_exists,
                                   blobs_bound=blobs_bound)
+    if r6.rung_sets_path(root).exists():
+        raise RuntimeError("the endpoint stage is sealed; nothing is read after it")
     cm.refuse_if_halted(root)
     families = tuple(families or fm.FAMILIES_6)
     todo = [(f, w) for f in families for w in r6.ENDPOINT_WHICH_6
@@ -123,16 +127,23 @@ def run(*, root=EXP6, device="cuda", families=None, loaders=None, dry_run=False,
     loaders = real_loaders() if loaders is None else loaders
     battery = b6.load_battery_6()
     stack, sha = cm.short_stack(), p6.git_sha()
-    for f, w in todo:
-        run_which(f, w, root=root, device=device, man=fm.manifest(f),
-                  battery=battery, host=host, seal_sha=seal["sha256"],
-                  loaders=loaders, stack=stack, git_sha=sha)
+    try:
+        for f, w in todo:
+            run_which(f, w, root=root, device=device, man=fm.manifest(f),
+                      battery=battery, host=host, seal_sha=seal["sha256"],
+                      loaders=loaders, stack=stack, git_sha=sha)
+    except cm.GateFired as e:
+        r6.endpoint_halt_path(root).parent.mkdir(parents=True, exist_ok=True)
+        r6.endpoint_halt_path(root).write_text("\n".join(e.failures) + "\n")
+        raise
     done = [f for f in fm.FAMILIES_6
             if all(which_complete(root, f, w) for w in r6.ENDPOINT_WHICH_6)]
     gate = gate1b(root, done)
     gate.update({"host_sha256": host["sha256"], "git_sha": sha,
                  "prereg_tag": r6.PREREG_TAG_6})
-    r6.write_json(r6.gate1b_path(root), gate)
+    if todo or not r6.gate1b_path(root).exists():
+        # a run that read nothing leaves the record of the run that did
+        r6.write_json(r6.gate1b_path(root), gate)
     if not gate["pass"]:
         r6.endpoint_halt_path(root).write_text("\n".join(gate["failures"]) + "\n")
         raise RuntimeError(f"GATE 1(b) FIRED: {gate['failures'][:3]}")

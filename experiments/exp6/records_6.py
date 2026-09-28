@@ -30,6 +30,7 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import os
 from pathlib import Path
 
 from experiments.exp6 import battery_6 as b6
@@ -224,9 +225,30 @@ def sha256_file(path) -> str:
 
 
 def write_json(path, obj) -> None:
+    """Whole or not at all: written beside the path and renamed over it,
+    so a kill leaves the file that was there, or none, never a torn one."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=1))
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(obj, indent=1))
+    os.replace(tmp, path)
+
+
+def whole(path) -> bool:
+    """Is the record there? A file that exists and does not parse as a
+    JSON object is a TORN record: it is refused, and no unit is resumed
+    over it (a completeness check that asked only whether the file
+    exists would have resumed past it)."""
+    path = Path(path)
+    if not path.exists():
+        return False
+    try:
+        ok = isinstance(json.loads(path.read_text(encoding="utf-8")), dict)
+    except (OSError, ValueError):
+        ok = False
+    if not ok:
+        raise RuntimeError(f"{path}: torn record — a unit is not resumed over it")
+    return True
 
 
 def read_json(path) -> dict:

@@ -255,10 +255,17 @@ class FakeRunner:
 
 def fake_loaders(design: Design, *, perturb=None, digest=None, nonfinite=None) -> dict:
     """`perturb(family, key, rung, continuations) -> continuations` and
-    `digest(family, key, loader) -> str` let a world break one thing."""
+    `digest(family, key, loader) -> str` let a world break one thing. A
+    trained checkpoint's digest is the Mac's committed one (gate 1(d)); a
+    seeded twin's is its own."""
+    def the_macs(family, key, how):
+        if key == fm.INIT and fm.INIT_KIND[family] == "twin":
+            return f"digest:twin:{family}"
+        return rf.mac_digest(family, key)
+
     def info_for(family, man, key, loader):
         e = fm.entry(family, man, key)
-        d = (digest or (lambda f, k, how: f"digest:{f}:{k}"))(family, key, loader)
+        d = (digest or the_macs)(family, key, loader)
         info = {"repo": fm.repo(family), "commit": e.get("commit"),
                 "loading_info": {"missing_keys": 0, "unexpected_keys": 0,
                                  "mismatched_keys": 0},

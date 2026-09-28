@@ -56,9 +56,9 @@ def require_endpoint_seal(root, *, tag_exists=None, blobs_bound=None) -> str:
 
 
 def step_complete(root, family, step) -> bool:
-    return r6.checkpoint_path(root, family, step).exists() and all(
-        r6.sweep_record_path(root, family, step, r).exists()
-        for r in b6.ALL_RUNGS_6)
+    return r6.whole(r6.checkpoint_path(root, family, step)) and all(
+        [r6.whole(r6.sweep_record_path(root, family, step, r))
+         for r in b6.ALL_RUNGS_6])
 
 
 def halt(root, family, lines) -> None:
@@ -82,6 +82,10 @@ def read_model(family, key, *, load_fn, entry, battery, host, device, loaders) -
     t0 = time.time()
     model, tok, info = load_fn()
     try:
+        cm.require_the_macs_weights(
+            info, family, key, entry,
+            label=f"6 gate 1(d) {family}/{r6.GATE_READS_6[key]}"
+            if key in r6.GATE_READS_6 else f"6 gate 1(d) {family}/{fm.step_dir(key)}")
         runner = loaders["runner"](family, tok, model)
         load = r6.load_record(family=family, key=key, entry=entry, info=info,
                               device=device, host_sha256=host["sha256"],
@@ -111,7 +115,7 @@ def write_units(read, *, family, battery, ctx, path_of, load_path, step=None,
 
 
 def gate1_record(family, *, thin, cand, sealed, thin_load, cand_load,
-                 anchor_bad) -> dict:
+                 anchor_bad, sealed_load) -> dict:
     """Gate 1 as a pure function of three reads of the endpoint: this
     host's two and the sealed one. The analyzer calls it on the bytes."""
     rows, bad = {}, []
@@ -138,11 +142,17 @@ def gate1_record(family, *, thin, cand, sealed, thin_load, cand_load,
                        f"against the sealed endpoint record")
     if not thin_load.get("digest") or thin_load.get("digest") != cand_load.get("digest"):
         bad.append(f"6 gate 1(a) {family}: the two loaders' tensor digests differ")
+    if not sealed_load.get("digest") or \
+            sealed_load.get("digest") != cand_load.get("digest"):
+        # the read that set R_f and this host's file-verified read are one model
+        bad.append(f"6 gate 1(b) {family}: this host's tensor digest is not the "
+                   f"sealed endpoint read's")
     bad += list(anchor_bad)
     return {"family": family, "rungs": rows,
             "rungs_compared": len(rows), "items_per_rung": b6.N_ITEMS,
             "digest_thin": thin_load.get("digest"),
             "digest_candidate": cand_load.get("digest"),
+            "digest_sealed": sealed_load.get("digest"),
             "commit": cand_load.get("commit"),
             "tolerance_per_rung": rf.TOL_PER_RUNG_6, "failures": bad,
             "pass": not bad}
@@ -180,6 +190,7 @@ def run_gate1(family, *, root, man, battery, ctx, loaders, cache_root) -> dict:
     gate = gate1_record(
         family, thin=thin["evs"], cand=cand["evs"], sealed=sealed,
         thin_load=thin["load"], cand_load=cand["load"],
+        sealed_load=r6.read_json(r6.endpoint_load_path(root, family, "stage1_final")),
         anchor_bad=anchor_failures(counts, family, end,
                                    label=f"6 gate 1(c) {family}/step{end}"))
     gate.update({"host_sha256": h, "prereg_tag": r6.PREREG_TAG_6,
@@ -207,6 +218,10 @@ def run_step(family, step, *, root, man, battery, ctx, loaders, cache_root) -> l
             host=ctx["host"], device=device, loaders=loaders,
             load_fn=lambda: loaders["checkpoint"](family, man, step, device=device,
                                                   cache_root=cache_root))
+    except cm.GateFired as e:   # the load record is the evidence; no unit was scored
+        r6.write_json(r6.halted_step_dir(root, family, step) / "_checkpoint.json",
+                      e.load)
+        return e.failures
     finally:
         loaders["free"](family, man, step, cache_root=cache_root)
     counts = {r: int(read["evs"][r]["correct"]) for r in b6.ANCHORS_6}
@@ -253,7 +268,11 @@ def run(family, *, root=EXP6, device="cuda", loaders=None, dry_run=False,
               cache_root=cache_root)
     gpath = r6.gate1_path(root, family, host["sha256"])
     if not gpath.exists():
-        gate = run_gate1(family, **kw)
+        try:
+            gate = run_gate1(family, **kw)
+        except cm.GateFired as e:
+            halt(root, family, e.failures)
+            raise
         if not gate["pass"]:
             halt(root, family, gate["failures"])
             raise RuntimeError(f"GATE 1 FIRED: {gate['failures'][:3]}")
@@ -266,7 +285,8 @@ def run(family, *, root=EXP6, device="cuda", loaders=None, dry_run=False,
         fails = run_step(family, step, **kw)
         if fails:
             halt(root, family, fails)
-            raise RuntimeError(f"GATE 1(c) FIRED: {fails}")
+            gate = "1(d)" if any(x.startswith("6 gate 1(d)") for x in fails) else "1(c)"
+            raise RuntimeError(f"GATE {gate} FIRED: {fails}")
         done.append(step)
     cm.exit_gate(r6.sweep_halt_path(root, family), frozen_check=frozen_check)
     return {"family": family, "steps_run": done, "host_sha256": host["sha256"]}

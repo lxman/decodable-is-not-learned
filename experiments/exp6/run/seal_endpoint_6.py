@@ -62,6 +62,8 @@ def load_which(root, family, which, *, battery, man, seal_sha256, hosts) -> tupl
     if load.get("host_sha256") not in hosts:
         bad.append(f"{label}: host {str(load.get('host_sha256'))[:12]} has no "
                    f"host record")
+    bad += rf.digest_failures(load, family, which,
+                              label=f"6 gate 1(d) {family}/{which}")
     recs = {}
     for rung in b6.ALL_RUNGS_6:
         rp = r6.endpoint_record_path(root, family, which, rung)
@@ -111,13 +113,16 @@ def gate1b_rederived(ep: dict) -> dict:
 GATE1B_FIELDS = ("families", "tolerance_per_rung", "pass", "failures")
 
 
-def gate1b_failures(root, ep) -> list:
+def gate1b_failures(root, ep, hosts=None) -> list:
     """The runner's gate record against the re-derivation."""
     p = r6.gate1b_path(root)
     if not p.is_file():
         return ["6 gate 1(b): record missing"]
     rec, redo = r6.read_json(p), gate1b_rederived(ep)
     bad = list(redo["failures"])
+    if hosts is not None and rec.get("host_sha256") not in hosts:
+        bad.append(f"6 gate 1(b): host {str(rec.get('host_sha256'))[:12]} has no "
+                   f"host record")
     for k in GATE1B_FIELDS:
         if rec.get(k) != redo[k]:
             bad.append(f"6 gate 1(b): the record's {k} does not re-derive from "
@@ -235,9 +240,9 @@ def seal(root=EXP6, *, tag_exists=None, blob_sha=None, blobs_bound=None,
     fl.check_floor_pins_6(floors)
     heuristics = fl.heuristic_table_6(battery)
     fl.check_heuristic_pins_6(heuristics)
-    bad, ep, _ = collect(root, battery=battery, seal_sha256=pseal["sha256"])
+    bad, ep, hosts = collect(root, battery=battery, seal_sha256=pseal["sha256"])
     if not bad:
-        bad += gate1b_failures(root, ep)
+        bad += gate1b_failures(root, ep, hosts)
     if bad:
         raise RuntimeError(f"cannot seal: {len(bad)} failure(s): {bad[:5]}")
     cm.exit_gate(r6.endpoint_halt_path(root), frozen_check=frozen_check)

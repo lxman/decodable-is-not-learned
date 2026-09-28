@@ -195,7 +195,8 @@ def run_predictor(*, root=EXP6, device="mps", predictors=None, loader=None,
     sampler = pr.real_sampler() if sampler is None else sampler
     res = {p: predictor_preflight(p, device=device, loader=loader, sampler=sampler,
                                   battery=battery, log=log,
-                                  nonfinite=nonfinite or n_nonfinite_each)
+                                  nonfinite=n_nonfinite_each if nonfinite is None
+                                  else nonfinite)
            for p in (predictors or sorted(r6.PREDICTORS_6))}
     _unchanged(root, before)
     log("[6 preflight] predictor stage complete: nothing written under results/")
@@ -234,6 +235,9 @@ def family_preflight(family: str, *, device, loaders, battery, cache_root,
         try:
             row = {"step": int(step), "load_seconds": time.time() - t0,
                    "tensor_digest": info.get("tensor_digest"),
+                   # gate 1(d), rehearsed: on this host, are these the Mac's weights?
+                   "digest_is_the_macs":
+                       info.get("tensor_digest") == rf.mac_digest(family, step),
                    "n_nonfinite_logits": int(loaders["nonfinite"](model, tok, probe)),
                    "rungs": {}}
             if fm.RENDER_6[family] == "bos":
@@ -281,6 +285,7 @@ def family_preflight(family: str, *, device, loaders, battery, cache_root,
     # the count of non-finite units), not the preflight's
     out["pass"] = bool(
         out["reads"]["endpoint, thin loader"]["n_nonfinite_logits"] == 0
+        and all(r["digest_is_the_macs"] for r in out["reads"].values())
         and all(r.get("renders", {}).get("generation_eos_token_id")
                 == r.get("renders", {}).get("stop_id_pinned")
                 for r in out["reads"].values())

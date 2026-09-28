@@ -88,13 +88,6 @@ def entry(family: str, man: dict, step) -> dict:
     return bn.entry_comma(man, step)
 
 
-def steps(family: str) -> tuple:
-    """Every unit of a family's sweep, in run order: the endpoint first
-    (gate 1), then the init referent, then the grid ascending."""
-    g = grid(family)
-    return (g[-1], INIT) + tuple(s for s in g[:-1])
-
-
 def step_dir(step) -> str:
     return INIT if step == INIT else f"step{int(step)}"
 
@@ -203,8 +196,9 @@ def release(model) -> None:
             torch.cuda.empty_cache()
         elif torch.backends.mps.is_available():
             torch.mps.empty_cache()
-    except Exception:      # noqa: BLE001 — fakes in tests
-        pass
+    except Exception as e:      # noqa: BLE001 — a release that fails is said, not hidden
+        import sys
+        print(f"families_6.release: {type(e).__name__}: {e}", file=sys.stderr)
 
 
 # ------------------------------------------- the Mac's committed records

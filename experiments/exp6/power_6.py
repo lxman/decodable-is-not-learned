@@ -163,6 +163,9 @@ def claim_failures(power: dict, inputs: dict) -> list:
             bad.append(f"6 power {name}: rungs_simulated does not re-derive")
         if (rec.get("t_bar"), rec.get("alpha")) != (an2i.T_BAR, an2i.ALPHA):
             bad.append(f"6 power {name}: t_bar / alpha")
+        if (rec.get("test"), rec.get("family"), rec.get("predictor")) != \
+                (t, f, r6.TEST_PREDICTOR[t]):
+            bad.append(f"6 power {name}: test / family / predictor")
         bad += declaration_failures(name, rec)
     if not bad and power.get("tree") != tree_level(tests):
         bad.append("6 power: the tree-level figures do not re-derive from the tests")
@@ -237,6 +240,7 @@ def main(argv=None, *, root=EXP6, tag_exists=None, blob_sha=None, blobs_bound=No
         raise RuntimeError(f"{out} exists — the power record is written ONCE")
     if not r6.rung_sets_path(root).is_file():
         raise RuntimeError("the rung sets are missing — seal the endpoint stage first")
+    cm.refuse_if_halted(root)
     inputs, _ = real_inputs(root)
     rec = compute(inputs, jobs=a.jobs, blocks=block_sd)
     cm.exit_gate(r6.endpoint_halt_path(root), frozen_check=frozen_check)

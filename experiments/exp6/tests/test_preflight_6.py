@@ -158,6 +158,7 @@ def test_the_outcome_preflight(root, design):
         assert row["reads"][names[0]]["step"] == fm.endpoint_step(f)
         assert row["reads"][names[1]]["step"] == fm.grid(f)[0]
         for read in row["reads"].values():
+            assert read["digest_is_the_macs"] is True       # gate 1(d), rehearsed
             assert tuple(read["rungs"]) == pf.PREFLIGHT_RUNGS_6
             assert all(v["shape"]["n"] == v["n_items"] == pf.N_ITEMS_OUTCOME == 40
                        for v in read["rungs"].values())
@@ -181,6 +182,12 @@ def test_two_loaders_that_disagree_fail(root, design):
     row = out["families"][pf.TWICE_FAMILY_6]
     assert not out["pass"] and row["two_loaders"]["digests_equal"] is False
     assert row["two_loaders"]["continuations_identical"] is True
+    assert not any(r["digest_is_the_macs"] for f in out["families"].values()
+                   for r in f["reads"].values())
+    # two loaders that agree with each other and not with the Mac: no pass either
+    out = outcome(root, design, digest=lambda f, k, how: f"{f}:{k}")
+    assert out["families"][pf.TWICE_FAMILY_6]["two_loaders"]["digests_equal"] is True
+    assert not out["pass"] and not any(f["pass"] for f in out["families"].values())
     seen = []
 
     def perturb(family, key, rung, conts):
@@ -271,3 +278,17 @@ def test_the_preflight_uses_the_loaders_it_is_handed(root, monkeypatch):
     with pytest.raises(AssertionError, match="reached its loader '"):
         pf.run_outcome(root=root, device="cuda", loaders=W.Unreached(), host=W.host(),
                        cache_root=root / "ckpt", **QUIET)
+
+
+def test_the_finiteness_probe_that_is_handed_in_is_the_one_used(root, design):
+    seen = []
+
+    class Falsy:
+        def __bool__(self):
+            return False
+
+        def __call__(self, model, tok, prompts):
+            seen.append(len(prompts))
+            return 0
+    out = predictor(root, design, nonfinite=Falsy())
+    assert out["pass"] and len(seen) >= len(r6.PREDICTORS_6)

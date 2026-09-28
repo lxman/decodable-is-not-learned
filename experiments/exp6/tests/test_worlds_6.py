@@ -201,8 +201,7 @@ def test_a_predictor_record_rewritten(world, field, value):
     """2i F-1: provenance attested, never measured. Here it is measured."""
     edit(r6.tier_record_path(world, "pythia_1b", "main", "temporal"),
          lambda r: r.__setitem__(field, value))
-    refused(analyze(world), f"pythia_1b/main/temporal: {field}"
-            if field != "model_sha" else "model_sha")
+    refused(analyze(world), f"pythia_1b/main/temporal: {field}")
 
 
 def test_an_anchor_that_is_not_the_committed_stream(world):
@@ -232,6 +231,12 @@ def test_the_predictor_seal_names_the_pinned_models_and_gate_1p_is_rederived(wor
             "6 gate 1-P: the record does not re-derive from the draws")
 
 
+def test_the_predictor_seal_and_gate_1p_carry_their_tags(world):
+    edit(r6.seal_path(world), lambda r: r.__setitem__("tag", "exp6-another"))
+    edit(r6.gate1p_path(world), lambda r: r.__setitem__("prereg_tag", "exp6-another"))
+    refused(analyze(world), "6 predictor seal: tag", "6 gate 1-P: prereg_tag")
+
+
 @pytest.mark.parametrize("suffix", ["", ".jsonl.gz"])
 def test_either_halt_artifact_of_the_predictor_stage_refuses(world, suffix):
     p = r6.tier_halt_path(world, "pythia_410m", "main", "sub_base8")
@@ -258,6 +263,11 @@ def test_the_gate_1b_record_and_the_rung_sets_are_rederived(world):
     edit(r6.gate1b_path(world), lambda r: r["families"]["olmo7b"]["stage1_final"]["box"]
          .__setitem__("add_base8", 0))
     refused(analyze(world), "6 gate 1(b): the record's families does not re-derive")
+
+
+def test_a_gate_1b_record_of_a_host_that_has_no_record(world):
+    edit(r6.gate1b_path(world), lambda r: r.__setitem__("host_sha256", "0" * 64))
+    refused(analyze(world), "6 gate 1(b): host 000000000000 has no host record")
 
 
 def test_a_rung_added_to_a_rung_set(world):
@@ -314,6 +324,23 @@ def test_a_host_record(world):
     for p in cm.hosts_dir(world).glob("*.json"):
         p.unlink()
     refused(analyze(world), "has no host record")
+
+
+def test_a_run_that_reads_nothing_leaves_the_gate_record(tmp_path, battery):
+    """The gate record is the run's that read the stage. A second run
+    with nothing pending rewrites nothing, and after the seal no run is
+    admitted."""
+    design = W.Design(W.spec(), battery)
+    W.build_predictors(tmp_path, design)
+    W.seal_predictors(tmp_path)
+    W.build_endpoints(tmp_path, design)
+    before = r6.gate1b_path(tmp_path).read_bytes()
+    W.build_endpoints(tmp_path, design, host_rec=W.host("another-box"))
+    assert r6.gate1b_path(tmp_path).read_bytes() == before
+    W.seal_endpoints(tmp_path)
+    with pytest.raises(RuntimeError, match="the endpoint stage is sealed"):
+        W.build_endpoints(tmp_path, design)
+    assert r6.gate1b_path(tmp_path).read_bytes() == before
 
 
 def test_the_endpoint_halt_marker(world):
@@ -414,6 +441,50 @@ def test_a_step_short_of_a_record_and_a_sweep_host_without_one(world):
             f"6 sweep olmo7b/step{fm.grid('olmo7b')[0]}: host {h[:12]} has no host "
             f"record",
             f"6 gate 1 olmo7b: host {h[:12]} has no host record")
+
+
+def test_a_checkpoint_rewritten_as_another_is_refused(world):
+    """Gate 1(d), re-derived. The load record and its twenty unit
+    records agree with each other and name another model: nothing in
+    the tree contradicts them, and the Mac's committed digest does."""
+    step = fm.grid("olmo7b")[5]
+    edit(r6.checkpoint_path(world, "olmo7b", step),
+         lambda r: r.__setitem__("digest", "f" * 64))
+    for rung in b6.ALL_RUNGS_6:
+        edit(r6.sweep_record_path(world, "olmo7b", step, rung),
+             lambda r: r.__setitem__("weight_sha256", "f" * 64))
+    text = refused(analyze(world), f"6 gate 1(d) olmo7b/step{step}: tensor digest "
+                                   f"ffffffffffff is not the Mac's committed "
+                                   f"{an.rf.mac_digest('olmo7b', step)[:12]}")
+    assert "against the load record's" not in text and text.count("6 gate 1(d)") == 1
+
+
+def test_the_read_that_set_the_rung_sets_is_the_model_the_sweep_read(world):
+    """The endpoint stage's thin read is checked by no file sha. Its
+    digest is held to the Mac's, and to the digest of each sweep host's
+    file-verified read of the same checkpoint."""
+    edit(r6.endpoint_load_path(world, "comma_7b", "stage1_final"),
+         lambda r: r.__setitem__("digest", "e" * 64))
+    for rung in b6.ALL_RUNGS_6:
+        edit(r6.endpoint_record_path(world, "comma_7b", "stage1_final", rung),
+             lambda r: r.__setitem__("weight_sha256", "e" * 64))
+    refused(analyze(world),
+            "6 gate 1(d) comma_7b/stage1_final: tensor digest eeeeeeeeeeee is not the "
+            "Mac's committed",
+            "6 gate 1(b) comma_7b: this host's tensor digest is not the sealed endpoint "
+            "read's")
+
+
+def test_a_gate_read_that_is_not_the_macs_weights(world):
+    h = _sweep_host(world, "smollm3_3b")
+    edit(r6.gate_load_path(world, "smollm3_3b", h, r6.SWEEP_THIN),
+         lambda r: r.__setitem__("digest", "d" * 64))
+    for rung in b6.ALL_RUNGS_6:
+        edit(r6.gate_record_path(world, "smollm3_3b", h, r6.SWEEP_THIN, rung),
+             lambda r: r.__setitem__("weight_sha256", "d" * 64))
+    refused(analyze(world),
+            f"6 gate 1(d) smollm3_3b/{h[:12]}/thin: tensor digest dddddddddddd is not",
+            "6 gate 1(a) smollm3_3b: the two loaders' tensor digests differ")
 
 
 def test_a_gate_record_that_did_not_pass_or_is_missing(world):
@@ -572,13 +643,36 @@ def test_a_sweep_gate_that_fires_leaves_a_tree_that_refuses(base, tmp_path, batt
         W.build_sweep(root, design, "comma_7b")
 
 
-def test_two_loaders_that_disagree_halt_the_sweep(base, tmp_path, battery):
+def test_weights_that_are_not_the_macs_halt_the_sweep_before_it_scores(base, tmp_path,
+                                                                       battery):
     root = W.clone(base, tmp_path / "w")
     shutil.rmtree(r6.sweep_dir(root, "olmo7b"))
     design = W.Design(W.spec(rho=W.general(0.6)), battery)
-    with pytest.raises(RuntimeError, match="GATE 1 FIRED"):
+    with pytest.raises(RuntimeError, match=r"GATE 1\(d\) FIRED"):
         W.build_sweep(root, design, "olmo7b",
                       digest=lambda f, k, how: f"digest:{f}:{k}:{how}")
+    assert "6 gate 1(d) olmo7b/thin" in r6.sweep_halt_path(root, "olmo7b").read_text()
+    assert not list(r6.sweep_dir(root, "olmo7b").rglob("*.json"))   # nothing was scored
+    refused(analyze(root), "6 halt marker", "6 sweep olmo7b/step")
+    with pytest.raises(RuntimeError, match="halt marker"):
+        W.build_sweep(root, design, "olmo7b")
+
+
+def test_two_reads_that_disagree_halt_the_sweep_at_its_gate(base, tmp_path, battery):
+    """Gate 1(a): the weights are the Mac's through both loaders and the
+    two reads differ in one continuation."""
+    root = W.clone(base, tmp_path / "w")
+    shutil.rmtree(r6.sweep_dir(root, "olmo7b"))
+    design = W.Design(W.spec(rho=W.general(0.6)), battery)
+    seen = []
+
+    def perturb(family, key, rung, conts):
+        seen.append((key, rung))
+        if rung == "sort3" and seen.count((key, rung)) == 2:    # the candidate read
+            conts[7] = conts[7] + " "
+        return conts
+    with pytest.raises(RuntimeError, match="GATE 1 FIRED"):
+        W.build_sweep(root, design, "olmo7b", perturb=perturb)
     assert not r6.step_dir(root, "olmo7b", fm.endpoint_step("olmo7b")).exists()
     refused(analyze(root), "6 halt marker", "the gate did not pass")
 

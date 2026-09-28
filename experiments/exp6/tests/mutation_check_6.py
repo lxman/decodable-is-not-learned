@@ -187,6 +187,9 @@ def judge(tree: Path, m: dict, *, slow: bool) -> dict:
         for tests, args in routes:
             got = run_pytest(tree, tests, ["-m", "slow or not slow", *args],
                              TIMEOUT_SLOW)
+            if got["state"] == "no-tests":
+                return {"outcome": "ERROR",
+                        "detail": f"no test matches {' '.join(args)!r} in {tests}"}
             if got["state"] == "failed":
                 return {"outcome": "killed", "detail": f"slow: {got['by']}"}
             if got["state"] == "timeout":

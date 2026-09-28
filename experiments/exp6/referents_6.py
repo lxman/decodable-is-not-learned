@@ -126,6 +126,46 @@ def mac_endpoint_count(family: str, rung: str) -> int:
     return int(r6.read_json(fm.committed_endpoint_record(family, rung))["correct"])
 
 
+# ---- gate 1(d): the weights are the ones the Mac ran (plan delta N-14)
+def mac_digest(family: str, step) -> str:
+    """The tensor digest the Mac measured when it ran this checkpoint in
+    the family's own experiment (`weight_sha256` of the anchors'
+    committed records; the two must carry one digest). It hashes the
+    state dict on the CPU in the campaign's dtype: a property of the
+    weights, not of the host."""
+    got = {str(r6.read_json(fm.committed_sweep_record(family, step, r))
+               .get("weight_sha256") or "") for r in b6.ANCHORS_6}
+    if len(got) != 1 or "" in got:
+        raise ValueError(f"{family}/{step}: the committed records carry no one "
+                         f"tensor digest")
+    return got.pop()
+
+
+def digest_step(family: str, key):
+    """The checkpoint a load's key names: the endpoint for the endpoint
+    stage's read and for both gate reads of a sweep host, the init
+    referent, or a grid step."""
+    if key in ("stage1_final", r6.SWEEP_THIN, r6.SWEEP_CAND):
+        return fm.endpoint_step(family)
+    if key in ("init", fm.INIT):
+        return fm.INIT
+    return int(key)
+
+
+def digest_failures(load: dict, family: str, key, *, label: str) -> list:
+    """The load's MEASURED digest against the Mac's committed one. A
+    seeded `from_config` twin is outside the gate: it is built, not
+    loaded, and it is descriptive."""
+    step = digest_step(family, key)
+    if step == fm.INIT and fm.INIT_KIND[family] == "twin":
+        return []
+    want = mac_digest(family, step)
+    if load.get("digest") != want:
+        return [f"{label}: tensor digest {str(load.get('digest'))[:12]} is not the "
+                f"Mac's committed {want[:12]}"]
+    return []
+
+
 def anchor_tolerance(counts: dict, referent: dict, *, label: str) -> list:
     """|Δ| per anchor against the Mac's committed count."""
     bad = []

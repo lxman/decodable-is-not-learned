@@ -7,6 +7,7 @@ from experiments.exp6 import battery_6 as b6
 from experiments.exp6 import families_6 as fm
 from experiments.exp6 import floors_6 as fl
 from experiments.exp6 import records_6 as r6
+from experiments.exp6 import referents_6 as rf
 from experiments.exp6.run import _common_6 as cm
 from experiments.exp6.run import endpoint_6 as ep
 from experiments.exp6.run import seal_endpoint_6 as se
@@ -277,12 +278,14 @@ def _read(correct=300, n=b6.N_ITEMS):
             "correct": correct}
 
 
-def _gate1(thin=None, cand=None, sealed=None, *, digests=("d", "d"), anchors=()):
+def _gate1(thin=None, cand=None, sealed=None, *, digests=("d", "d"), anchors=(),
+           sealed_digest="d"):
     whole = {r: _read() for r in b6.ALL_RUNGS_6}
     return sw.gate1_record(
         "olmo7b", thin=dict(whole, **(thin or {})), cand=dict(whole, **(cand or {})),
         sealed=dict(whole, **(sealed or {})), thin_load={"digest": digests[0]},
-        cand_load={"digest": digests[1], "commit": "c"}, anchor_bad=list(anchors))
+        cand_load={"digest": digests[1], "commit": "c"},
+        sealed_load={"digest": sealed_digest}, anchor_bad=list(anchors))
 
 
 def test_gate_1_is_three_reads_of_the_endpoint_compared():
@@ -313,9 +316,19 @@ def test_gate_1_is_three_reads_of_the_endpoint_compared():
                  sealed={rung: _read()})
     assert got["failures"] == [f"6 gate 1(a) olmo7b/{rung}: 499 items compared, not 500"]
     # (a) the digests
-    for d in (("d", "e"), ("", ""), (None, None)):
-        assert _gate1(digests=d)["failures"] == [
-            "6 gate 1(a) olmo7b: the two loaders' tensor digests differ"]
+    assert _gate1(digests=("d", "e"), sealed_digest="e")["failures"] == [
+        "6 gate 1(a) olmo7b: the two loaders' tensor digests differ"]
+    for d in ("", None):
+        assert _gate1(digests=(d, d), sealed_digest=d)["failures"] == [
+            "6 gate 1(a) olmo7b: the two loaders' tensor digests differ",
+            "6 gate 1(b) olmo7b: this host's tensor digest is not the sealed endpoint "
+            "read's"]
+    # (b) the read that set R_f and this host's file-verified read are one model
+    got = _gate1(sealed_digest="another")
+    assert got["failures"] == ["6 gate 1(b) olmo7b: this host's tensor digest is not "
+                               "the sealed endpoint read's"]
+    assert (got["digest_sealed"], got["digest_candidate"]) == ("another", "d")
+    assert not got["pass"] and good["digest_sealed"] == "d"
     # (b) this host against the sealed record: fifteen items pass, sixteen do not
     assert _gate1(sealed={rung: _read(285)})["pass"]
     got = _gate1(sealed={rung: _read(284)})
@@ -399,3 +412,107 @@ def test_a_host_does_not_resume_behind_its_own_failed_gate(tmp_path, monkeypatch
         sw.run(f, root=tmp_path, loaders=_Never(), host=h, **W.INJECT_SEAL)
     assert gate.read_bytes() == before
     assert not r6.step_dir(tmp_path, f, fm.endpoint_step(f)).exists()
+
+
+def _never_scored(loaders):
+    def touched(*a, **k):
+        raise AssertionError("a model that is not the Mac's was handed a prompt")
+    return dict(loaders, runner=touched, nonfinite=touched)
+
+
+def test_a_checkpoint_that_is_not_the_macs_is_not_scored(tmp_path):
+    """Gate 1(d): the digest the loader MEASURED against the Mac's
+    committed one, before anything is scored. The endpoint stage's thin
+    read sets R_f and is checked by no file sha; this is what ties it to
+    a referent."""
+    design = W.Design(W.spec(), b6.load_battery_6())
+    wrong = _never_scored(W.fake_loaders(design, digest=lambda f, k, how: "0" * 64))
+    _sealed_predictor(tmp_path)
+    f = fm.FAMILIES_6[0]
+    with pytest.raises(RuntimeError, match=r"GATE 1\(d\) FIRED") as e:
+        ep.run(root=tmp_path, loaders=wrong, host=W.host(), **W.INJECT_SEAL)
+    assert f"6 gate 1(d) {f}/stage1_final: tensor digest 000000000000 is not the " \
+        f"Mac's committed {rf.mac_digest(f, fm.endpoint_step(f))[:12]}" in str(e.value)
+    marker = r6.endpoint_halt_path(tmp_path)
+    assert marker.is_file() and "6 gate 1(d)" in marker.read_text()
+    assert not list((r6.results(tmp_path) / "endpoint").rglob("*.json"))
+    with pytest.raises(RuntimeError, match="halt marker"):     # and nothing resumes
+        ep.run(root=tmp_path, loaders=wrong, host=W.host(), **W.INJECT_SEAL)
+    # the sweep: at its gate, and at a grid step (the load record kept as evidence)
+    marker.unlink()
+    _seal_endpoint(tmp_path)
+    with pytest.raises(RuntimeError, match=r"GATE 1\(d\) FIRED"):
+        sw.run(f, root=tmp_path, loaders=wrong, host=W.host(), **W.INJECT_SEAL)
+    assert "6 gate 1(d)" in r6.sweep_halt_path(tmp_path, f).read_text()
+    assert not list(r6.sweep_dir(tmp_path, f).rglob("*.json"))
+    step = fm.grid(f)[0]
+    kept = r6.halted_step_dir(tmp_path, f, step) / "_checkpoint.json"
+    ctx = {"host": W.host(), "device": "cuda", "seal_sha": "s", "endpoint_sha": "e",
+           "stack": {}, "git_sha": ""}
+    fails = sw.run_step(f, step, root=tmp_path, man=fm.manifest(f),
+                        battery=b6.load_battery_6(), ctx=ctx, loaders=wrong,
+                        cache_root=tmp_path / "ckpt")
+    assert len(fails) == 1 and fails[0].startswith(f"6 gate 1(d) {f}/step{step}: ")
+    assert r6.read_json(kept)["digest"] == "0" * 64
+    assert not r6.step_dir(tmp_path, f, step).exists()
+
+
+def test_a_twin_is_outside_the_digest_gate_and_a_real_step_0_is_inside():
+    for f in fm.FAMILIES_6:
+        end = fm.endpoint_step(f)
+        right = {"digest": rf.mac_digest(f, end)}
+        for key in ("stage1_final", r6.SWEEP_THIN, r6.SWEEP_CAND, end):
+            assert rf.digest_failures(right, f, key, label="x") == []
+            assert len(rf.digest_failures({"digest": "0" * 64}, f, key, label="x")) == 1
+            assert len(rf.digest_failures({}, f, key, label="x")) == 1
+        assert rf.digest_failures(right, f, fm.grid(f)[0], label="x") != []
+        twin = fm.INIT_KIND[f] == "twin"
+        assert (rf.digest_failures({"digest": "anything"}, f, "init", label="x") == []) \
+            is twin
+    assert rf.digest_failures({"digest": rf.mac_digest("olmo13b", fm.INIT)}, "olmo13b",
+                              "init", label="x") == []
+
+
+def test_the_endpoint_stage_reads_nothing_once_it_is_sealed(tmp_path):
+    """The gate record is a sealed file. A run after the seal would
+    rewrite it under another host and another HEAD."""
+    _sealed_predictor(tmp_path)
+    r6.write_json(r6.rung_sets_path(tmp_path), {"sealed_files": []})
+    for dry in (False, True):
+        with pytest.raises(RuntimeError, match="the endpoint stage is sealed"):
+            ep.run(root=tmp_path, loaders=_Never(), host=W.host(), dry_run=dry,
+                   **W.INJECT_SEAL)
+    assert not r6.gate1b_path(tmp_path).exists()
+
+
+def test_a_record_is_written_whole_or_not_at_all(tmp_path, monkeypatch):
+    p = tmp_path / "a" / "rec.json"
+    r6.write_json(p, {"v": 1})
+    assert r6.read_json(p) == {"v": 1} and [x.name for x in p.parent.iterdir()] == [
+        "rec.json"]
+
+    def killed(src, dst):
+        raise KeyboardInterrupt("killed between the write and the rename")
+    monkeypatch.setattr(r6.os, "replace", killed)
+    with pytest.raises(KeyboardInterrupt):
+        r6.write_json(p, {"v": 2})
+    assert r6.read_json(p) == {"v": 1}                  # the file that was there
+
+
+def test_a_torn_record_is_not_resumed_over(tmp_path):
+    f, which = fm.FAMILIES_6[0], r6.ENDPOINT_WHICH_6[0]
+    step = fm.grid(f)[0]
+    for load, done in ((r6.endpoint_load_path(tmp_path, f, which),
+                        lambda: ep.which_complete(tmp_path, f, which)),
+                       (r6.checkpoint_path(tmp_path, f, step),
+                        lambda: sw.step_complete(tmp_path, f, step))):
+        assert r6.whole(load) is False and done() is False
+        load.parent.mkdir(parents=True, exist_ok=True)
+        for torn in (b"", b'{"family": "ol', b"[1, 2]", b"\xff\xfe"):
+            load.write_bytes(torn)
+            with pytest.raises(RuntimeError, match="torn record"):
+                done()
+        load.unlink()
+        load.mkdir()                                   # a directory where a file belongs
+        with pytest.raises(RuntimeError, match="torn record"):
+            done()

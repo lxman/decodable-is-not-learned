@@ -630,3 +630,57 @@ Corrections to this ledger, made here and not in place:
 ### Instrument task 3 — the preflight (scratch only; nothing stored, no score printed; forty items of three rungs; the rehearsal of gate 1-P and of gate 1(a)), the cold battery (fourteen items, PASS / FAIL / SKIP, no statistic), the import scan (two interpreters; the analyzer's loads no torch), the read sweep, eight box scripts; 30 tests.
 
 ### Instrument task 4 — closure: the import surface and the referent manifest re-derive to their pins; the mutation harness (private tree copies, nothing mutated in place) with the fast pass's log committed (the slow pass is the coordinator's); the read sweep on a synthetic complete tree, 0 unpinned; the cold battery.
+
+### Instrument fix wave 1 (Tasks 1–4) — the task reviews' findings (coordinator rulings I-12 … I-16)
+
+Four task reviews. Tasks 1, 3 and 4: approved, minors only. Task 2 (the code that decides
+verdicts): one Critical and two Important, all three in code the plan itself carried. Each was
+read in the code or recomputed by the coordinator before it was ruled on.
+- THE LICENCE OF BATTERY-BOUND CLAIMED AN ABSENCE (C-1; plan delta N-15). Its sentence read
+  "Neither predictor forecasts the order on the field's tasks." Design §6 wrote no such
+  sentence, and status F admits one firing family, so the sentence could stand beside two
+  tests that fired. It now states the naming rule's count ("each fired on at most one of its
+  evaluable families") and leaves the reading to the power record. "Withdrawn" is printed only
+  where every evaluable test was declared POWERED for the rung set it READ: a test that read
+  another set than the record simulated is not covered by its declaration, and the reading is
+  then "not detected at this resolution". A predictor that holds on three of four families says
+  on which, as a disclosure; the design's sentences say "on four outcome families" and are
+  Michael's to reword.
+- THE WEIGHTS THAT SET R_f WERE IDENTIFIED BY NOTHING MEASURED (I-1; plan delta N-14). A load
+  record's commit and revision were copied from the manifest and compared with the manifest;
+  the endpoint stage reads through the thin loader, which no file sha verifies; gate 1 compared
+  digests on the sweep host only. GATE 1(d): every load of a trained checkpoint has the digest
+  the loader measured compared with the digest the Mac measured for the same checkpoint in the
+  family's own experiment (`weight_sha256` of the anchors' committed records: one digest a
+  checkpoint, 88 trained checkpoints, no two alike). The runners compare before a runner is built or a
+  prompt is rendered, and halt; the endpoint seal and the analyzer re-derive; gate 1 also holds
+  the sealed endpoint read's digest to the sweep host's. Seeded twins are outside the gate. The
+  preflight rehearses it.
+- THE ENDPOINT RUNNER COULD REWRITE A SEALED FILE (I-2; plan delta N-16). It did not refuse
+  after the endpoint seal, and it rewrote the gate record on every run. It refuses once the
+  rung sets exist, and writes the gate record only when it read a unit.
+- RECORDS ARE WRITTEN WHOLE (N-16). `write_json` writes beside the path and renames. A record
+  that exists and does not parse is a torn record: refused, and no unit is resumed over it (the
+  completeness checks asked only whether the files existed).
+- FIELDS NOTHING COMPARED, now compared: the gate 1(b) record's host, the predictor seal's tag,
+  gate 1-P's tag, a power test's own test, family and predictor. The power writer refuses over
+  a halt marker.
+- UNDETERMINED NAMES EACH CAUSE: R_f short on a family (one family is enough to be named), a
+  rung lost to thin outcomes over the sweep (outcome side), a rung degenerate for the predictor
+  (predictor side). A loss the result does not explain is said.
+- THE FAMILY DISPATCH had no mutant and a test that checked its calls could bind, not what they
+  were handed. Ten mutants; the test now holds each loader's repository, commit or entry, dtype
+  and device. `families_6.steps` was called by nothing and is removed. `release` says what it
+  swallowed.
+- THE HARNESS: a hint that matches no test is an ERROR (it was passed over in silence). The
+  finiteness probe of the preflight falls back on `None` only (N-12's shape).
+- THE PLAN'S OWN DEFECT (ruling I-16): Task 4's count of survivors matched the log's summary
+  line as well as its 52 mutant lines. The implementer stopped on it. Both commands that select
+  survivors now match mutant lines only.
+
+Corrections to this ledger, made here and not in place:
+- The entry of instrument task 2 says "every gate re-derived from the bytes". True of the gates
+  there were. The identity of the endpoint stage's weights was not among them until this wave.
+- The entry of instrument task 4 gives the fast pass as 282 mutants, 230 killed, 52 survived.
+  That was the table of that commit. This wave's table and tally are in its own log.
+Measured in the repository: fast suite 368 passed; worlds 70, totality 161; fast mutation pass 325 mutants in 599 s: killed 265, survived-fast 60; read sweep 2,604 reads, 0 unpinned; cold battery 10/14 PASS, 4 SKIP.

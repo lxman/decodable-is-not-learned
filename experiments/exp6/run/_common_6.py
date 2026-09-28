@@ -144,6 +144,27 @@ def n_nonfinite(model, tok, prompts, *, n: int = 8) -> int:
     return int((~torch.isfinite(logits)).sum().item())
 
 
+class GateFired(RuntimeError):
+    """A gate fired inside a runner, before the model was handed a
+    prompt. `load` is what the loader measured: the evidence."""
+
+    def __init__(self, gate: str, failures: list, load=None):
+        self.gate, self.failures, self.load = gate, list(failures), load
+        super().__init__(f"GATE {gate} FIRED: {self.failures[:3]}")
+
+
+def require_the_macs_weights(info: dict, family, key, entry, *, label) -> None:
+    """Gate 1(d) at the runner: the digest the loader MEASURED against
+    the Mac's committed one, before a runner is built or a prompt is
+    rendered for the model."""
+    from experiments.exp6 import referents_6 as rf
+    seen = {"family": family, "key": key, "digest": info.get("tensor_digest"),
+            "commit": entry.get("commit"), "revision": entry.get("revision")}
+    bad = rf.digest_failures(seen, family, key, label=label)
+    if bad:
+        raise GateFired("1(d)", bad, seen)
+
+
 def gates(*, tag_exists=None, blob_sha=None, frozen_check=None) -> dict:
     """What every runner requires before a model loads: the
     preregistration tag binding the instrument, the frozen modules, the

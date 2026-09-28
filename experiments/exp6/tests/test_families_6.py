@@ -79,10 +79,13 @@ def test_every_call_into_a_frozen_loader_binds(family, monkeypatch, tmp_path):
         real = getattr(mod, name)
 
         def fake(*a, **k):
-            inspect.signature(real).bind(*a, **k)       # raises TypeError if it cannot
+            b = inspect.signature(real).bind(*a, **k)   # raises TypeError if it cannot
+            b.apply_defaults()
             calls.append(name)
+            seen.setdefault(name, []).append(dict(b.arguments))
             return returns
         return fake
+    seen = {}
     thin, ckpt, twin, tok, free = names
     monkeypatch.setattr(mod, thin, recorder(thin, ("M", "T", {"i": 1})))
     monkeypatch.setattr(mod, ckpt, recorder(ckpt, ("M", {"i": 1})))
@@ -100,6 +103,18 @@ def test_every_call_into_a_frozen_loader_binds(family, monkeypatch, tmp_path):
     fm.free(family, man, fm.INIT, cache_root=tmp_path)
     want = {thin, ckpt, tok, free} | ({twin} if twin else set())
     assert set(calls) == want
+    # and WHAT each loader was handed: the family's own repository, the
+    # pinned commit or entry, the campaign's dtype, the caller's device
+    end = fm.entry(family, man, fm.endpoint_step(family))
+    first = fm.entry(family, man, fm.grid(family)[0])
+    for name, args_list in seen.items():
+        for args in args_list:
+            assert args.get("repo", fm.repo(family)) == fm.repo(family), (name, args)
+            if name in (thin, ckpt, twin):
+                assert args["device"] == "cuda" and args["dtype"] == fm.DTYPE_6, name
+    assert end["commit"] in seen[thin][0].values()
+    assert first in seen[ckpt][0].values()
+    assert set(seen[tok][0].values()) & {first["commit"], end["commit"]}
     if fm.INIT_KIND[family] == "twin":
         with pytest.raises(ValueError, match="is a twin"):
             fm.load_checkpoint(family, man, fm.INIT, device="cuda")

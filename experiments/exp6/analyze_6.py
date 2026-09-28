@@ -130,8 +130,9 @@ _L = {
              "tasks. The table is reported and no generality is claimed; the "
              "one-line thesis is bounded to one battery and, on the field's "
              "tasks, to the families named.",
-    "BATTERY-BOUND": "Neither predictor forecasts the order on the field's "
-                     "tasks.",
+    "BATTERY-BOUND": "Neither predictor reached the naming rule's bar on the "
+                     "field's tasks: each fired on at most one of its evaluable "
+                     "families. Read under the power record.",
     "UNDETERMINED": "Too few rungs cleared or too few predictors were live for "
                     "the naming rule to apply. The full table is reported and "
                     "nothing about generality is licensed in either direction.",
@@ -146,6 +147,11 @@ BATTERY_BOUND_UNDERPOWERED_6 = (
     "At least one evaluable test was declared underpowered in advance: the "
     "reading is 'not detected at this resolution', the blind region is the "
     "power record's, and the demotion is to 'not shown beyond one battery'.")
+BATTERY_BOUND_UNCOVERED_6 = (
+    "Every evaluable test was declared POWERED, and at least one read a rung "
+    "set the power record did not simulate ({names}): its declaration does not "
+    "cover its reading. The reading is 'not detected at this resolution' and "
+    "the demotion is to 'not shown beyond one battery'.")
 HEADLINE_UNQUALIFIED_6 = (
     "Headline condition MET: at least two of the three rung types each hold a "
     "rung whose per-rung interval excludes zero on at least three families for "
@@ -162,6 +168,9 @@ DISCLOSURE_PARTIAL_6 = ("Test {name} read {k} of R_f's {n} rungs (not read: "
 DISCLOSURE_UNDERPOWERED_6 = ("Test {name} did not fire and was DECLARED "
                              "UNDERPOWERED IN ADVANCE: not detected at this "
                              "resolution.")
+DISCLOSURE_HOLDS_ON_6 = ("Predictor {t} holds by the naming rule on {n} of its "
+                         "{e} evaluable families ({fired}); it did not fire on "
+                         "{rest}.")
 NO_ALPHA_NOTE_6 = ("{name} is descriptive and non-gating (design §5): its "
                    "`fires` fields are the primary's rule applied to another "
                    "input, printed for comparison; no alpha claim rides on it.")
@@ -220,20 +229,33 @@ def headline_condition(tests: dict, statuses: dict) -> dict:
 
 
 def shortfall(tests: dict, statuses: dict, rung_sets: dict) -> list:
-    """UNDETERMINED names which shortfall it was (design §6)."""
+    """UNDETERMINED names which shortfall it was (design §6): the two
+    sides call for different successors. Outcome side: R_f is short, or
+    a rung of R_f was too thin over the sweep to be read. Predictor
+    side: a rung was degenerate for the predictor."""
     out = []
     small = [f for f in fm.FAMILIES_6 if len(rung_sets["families"][f]["R"]) < MIN_RUNGS]
-    if len(small) >= 2:
+    if small:
         out.append(f"outcome side: R_f holds fewer than {MIN_RUNGS} rungs on "
                    f"{small}")
     for t in ("A", "B"):
         if statuses[t]["status"] != "U":
             continue
-        lost = [f for f in fm.FAMILIES_6 if f not in small
-                and not evaluable(tests[(t, f)])]
-        if lost:
-            out.append(f"predictor side: Test {t} lost its rungs to degeneracy or "
-                       f"thin outcomes on {lost}")
+        for f in fm.FAMILIES_6:
+            res = tests[(t, f)]
+            if f in small or evaluable(res):
+                continue
+            thin = [r for r in res.get("thin") or []
+                    if r not in (res.get("dropped_degenerate") or [])]
+            if res.get("dropped_degenerate"):
+                out.append(f"predictor side: Test {t} on {f} lost "
+                           f"{list(res['dropped_degenerate'])} to degeneracy")
+            if thin:
+                out.append(f"outcome side: Test {t} on {f} lost {thin} to thin "
+                           f"outcomes over the sweep")
+            if not thin and not res.get("dropped_degenerate"):
+                out.append(f"Test {t} on {f} read {len(res.get('eligible') or [])} "
+                           f"rung(s) and its result names no cause")
     return out
 
 
@@ -259,6 +281,31 @@ def disclosures_of(tests: dict, rung_sets: dict, power: dict) -> list:
         if evaluable(res) and not res["fires"] and \
                 status == "DECLARED UNDERPOWERED IN ADVANCE":
             out.append(DISCLOSURE_UNDERPOWERED_6.format(name=name))
+    return out
+
+
+def holds_on(statuses: dict) -> list:
+    """A predictor holds on three of four: the licence's sentence says
+    "on four outcome families", and the record says on which it held."""
+    out = []
+    for t in ("A", "B"):
+        s = statuses[t]
+        if s["status"] == "H" and len(s["fired"]) < len(fm.FAMILIES_6):
+            out.append(DISCLOSURE_HOLDS_ON_6.format(
+                t=t, n=len(s["fired"]), e=s["E"], fired=", ".join(s["fired"]),
+                rest=", ".join(f for f in fm.FAMILIES_6 if f not in s["fired"])))
+    return out
+
+
+def uncovered(tests: dict, power: dict) -> list:
+    """The evaluable tests whose reading the power record's declaration
+    does not cover: the set read is not the set simulated."""
+    out = []
+    for t, f in TESTS_6:
+        res, name = tests[(t, f)], pw6.test_name(t, f)
+        sim = ((power or {}).get("tests") or {}).get(name, {}).get("rungs_simulated")
+        if evaluable(res) and set(res.get("eligible") or []) != set(sim or []):
+            out.append(name)
     return out
 
 
@@ -291,11 +338,13 @@ def verdict_6(failures, tests, rung_sets, power) -> dict:
         ev = [(t, f) for t, f in TESTS_6 if evaluable(tests[(t, f)])]
         powered = all(((power or {}).get("tests") or {}).get(pw6.test_name(t, f), {})
                       .get("declared_status") == "POWERED" for t, f in ev)
-        mods.append(BATTERY_BOUND_POWERED_6 if powered
-                    else BATTERY_BOUND_UNDERPOWERED_6)
+        narrow = uncovered(tests, power)
+        mods.append(BATTERY_BOUND_UNDERPOWERED_6 if not powered else
+                    BATTERY_BOUND_UNCOVERED_6.format(names=", ".join(narrow))
+                    if narrow else BATTERY_BOUND_POWERED_6)
     if world == "UNDETERMINED":
         mods += shortfall(tests, statuses, rung_sets)
-    disc = disclosures_of(tests, rung_sets, power)
+    disc = disclosures_of(tests, rung_sets, power) + holds_on(statuses)
     return {"verdict": world, "reason": "; ".join(parts + mods + disc),
             "statuses": statuses, "disclosures": disc, "modifiers": mods}
 
@@ -332,6 +381,8 @@ def load_predictor_stage(root, battery, *, tag_exists=None, blobs_bound=None) ->
         bad += f
         if rec is not None and rec.get("units") != gp[1]:
             bad.append("6 gate 1-P: the record does not re-derive from the draws")
+        if rec is not None and rec.get("prereg_tag") != r6.PREREG_TAG_6:
+            bad.append("6 gate 1-P: prereg_tag")
         ctx["gate1p"] = gp[1]
     if seal is not None:
         files, f = collect_total(lambda: sp.file_table(root), "6 predictor file table")
@@ -354,6 +405,8 @@ def load_predictor_stage(root, battery, *, tag_exists=None, blobs_bound=None) ->
             bad.append("6 predictor seal: its models are not the pins")
         if seal.get("n_units") != len(r6.predictor_units()):
             bad.append("6 predictor seal: n_units")
+        if seal.get("tag") != r6.PREDICTOR_SEAL_TAG_6:
+            bad.append("6 predictor seal: tag")
     ctx.update({"seal": seal, "units": units})
     return bad, ctx
 
@@ -431,7 +484,7 @@ def load_sealed_stages(root, *, tag_exists=None, blobs_bound=None) -> tuple:
     ctx.update({"endpoint": ep, "hosts": hosts})
     complete = all(set(ep.get(fam, {})) == set(r6.ENDPOINT_WHICH_6)
                    for fam in fm.FAMILIES_6)
-    gb, f = collect_total(lambda: se.gate1b_failures(root, ep), "6 gate 1(b)")
+    gb, f = collect_total(lambda: se.gate1b_failures(root, ep, hosts), "6 gate 1(b)")
     bad += f + (gb or [])
     rs, f = collect_total(lambda: r6.read_json(r6.rung_sets_path(root)),
                           "6 rung sets")
@@ -466,8 +519,8 @@ def test_inputs(ctx: dict) -> dict:
 
 # --------------------------------------------------------------- the sweep
 GATE1_FIELDS_6 = ("family", "rungs", "rungs_compared", "items_per_rung",
-                  "digest_thin", "digest_candidate", "commit", "tolerance_per_rung",
-                  "failures", "pass")
+                  "digest_thin", "digest_candidate", "digest_sealed", "commit",
+                  "tolerance_per_rung", "failures", "pass")
 
 
 def _load_gate_read(root, family, host, which, *, battery, man, seal_sha,
@@ -482,6 +535,8 @@ def _load_gate_read(root, family, host, which, *, battery, man, seal_sha,
         entry["kind"] = "thin-loader"
     bad = r6.load_record_failures(load, family=family, key=which, entry=entry,
                                   host_sha256=host)
+    bad += rf.digest_failures(load, family, which, label=label.replace(
+        "6 gate 1 ", "6 gate 1(d) "))
     recs = {}
     for rung in b6.ALL_RUNGS_6:
         p = r6.gate_record_path(root, family, host, which, rung)
@@ -500,7 +555,7 @@ def _load_gate_read(root, family, host, which, *, battery, man, seal_sha,
 
 
 def gate1_failures(root, family, host, *, battery, man, seal_sha, endpoint_sha,
-                   sealed) -> tuple:
+                   sealed, sealed_load) -> tuple:
     """Gate 1 on one sweep host RE-DERIVED from that host's two reads
     of the endpoint, the sealed endpoint records and the Mac's counts;
     then the runner's record against the re-derivation."""
@@ -522,7 +577,7 @@ def gate1_failures(root, family, host, *, battery, man, seal_sha, endpoint_sha,
     counts = {r: int(cand["records"][r]["correct"]) for r in b6.ANCHORS_6}
     redo = sw.gate1_record(
         family, thin=thin["records"], cand=cand["records"], sealed=sealed,
-        thin_load=thin["load"], cand_load=cand["load"],
+        thin_load=thin["load"], cand_load=cand["load"], sealed_load=sealed_load,
         anchor_bad=sw.anchor_failures(counts, family, end,
                                       label=f"6 gate 1(c) {family}/step{end}"))
     bad += redo["failures"]
@@ -537,7 +592,7 @@ def gate1_failures(root, family, host, *, battery, man, seal_sha, endpoint_sha,
 
 
 def load_sweep_family(root, family, *, battery, seal_sha, endpoint_sha, hosts,
-                      sealed) -> tuple:
+                      sealed, sealed_load) -> tuple:
     """(failures, sweep). WINDOW COMPLETENESS first: every grid step of
     the family present and whole, or no verdict (5b F-1)."""
     man = fm.manifest(family)
@@ -552,6 +607,8 @@ def load_sweep_family(root, family, *, battery, seal_sha, endpoint_sha, hosts,
         load = r6.read_json(cp)
         bad += r6.load_record_failures(load, family=family, key=int(step),
                                        entry=fm.entry(family, man, step))
+        bad += rf.digest_failures(load, family, step,
+                                  label=f"6 gate 1(d) {family}/step{step}")
         h = load.get("host_sha256")
         if h not in hosts:
             bad.append(f"{label}: host {str(h)[:12]} has no host record")
@@ -588,7 +645,7 @@ def load_sweep_family(root, family, *, battery, seal_sha, endpoint_sha, hosts,
             bad.append(f"6 gate 1 {family}: host {h[:12]} has no host record")
         gb, reads = gate1_failures(root, family, h, battery=battery, man=man,
                                    seal_sha=seal_sha, endpoint_sha=endpoint_sha,
-                                   sealed=sealed)
+                                   sealed=sealed, sealed_load=sealed_load)
         bad += gb
         gates[h] = reads
     end = fm.endpoint_step(family)
@@ -1166,7 +1223,8 @@ def run(root=EXP6, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=None
             return load_sweep_family(
                 root, fam, battery=ctx["battery"], seal_sha=ctx["seal"]["sha256"],
                 endpoint_sha=endpoint_sha, hosts=ctx["hosts"],
-                sealed=ctx["endpoint"][fam]["stage1_final"]["records"])
+                sealed=ctx["endpoint"][fam]["stage1_final"]["records"],
+                sealed_load=ctx["endpoint"][fam]["stage1_final"]["load"])
         got, f = collect_total(_load, f"6 sweep {fam}")
         failures += f
         if got is not None:
