@@ -1,0 +1,7037 @@
+{
+ "answer_type": "sequence",
+ "collision_kind": "input",
+ "description": "sort three English words alphabetically; the list is never already sorted",
+ "eval_items": [
+  {
+   "answer": "arrivals monitor plate",
+   "bb_sha256": "9b0bde63d650f367ebaf2ab3fefca2a8bc77fce5acf9be3faa2ad884460b6dde",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "monitor",
+     "plate",
+     "arrivals"
+    ]
+   },
+   "question": "Sort the following words alphabetically: monitor plate arrivals"
+  },
+  {
+   "answer": "molecular racial regulated",
+   "bb_sha256": "230b7d8611b6a31c8f7bfb22c44cff90e5a482a921213f07e58e65845ef6575e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "racial",
+     "regulated",
+     "molecular"
+    ]
+   },
+   "question": "Sort the following words alphabetically: racial regulated molecular"
+  },
+  {
+   "answer": "handy tile timing",
+   "bb_sha256": "cb2109b0c630a59165002b971e1eb5f44879899e48b4f0dd577f6b2d7e27d5ab",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "tile",
+     "timing",
+     "handy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tile timing handy"
+  },
+  {
+   "answer": "endangered hook volumes",
+   "bb_sha256": "9791fc3c56afa5320010b9d963aa2856c69c9948f055856ad1ee2012b52e6ca6",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "volumes",
+     "hook",
+     "endangered"
+    ]
+   },
+   "question": "Sort the following words alphabetically: volumes hook endangered"
+  },
+  {
+   "answer": "bangladesh bra middle",
+   "bb_sha256": "bdf171879702359e523150ee50db1fcc92ea8149a99f1cc0f5c548799be7c9f8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "bra",
+     "bangladesh",
+     "middle"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bra bangladesh middle"
+  },
+  {
+   "answer": "insert into planners",
+   "bb_sha256": "9f5f48b93d424b6b706fc1650aeef81e65d9d86066d28b26917af9d3b2c8374b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "planners",
+     "insert",
+     "into"
+    ]
+   },
+   "question": "Sort the following words alphabetically: planners insert into"
+  },
+  {
+   "answer": "incidence memories paying",
+   "bb_sha256": "0a97111e1e59a027033ec83eb717974df87dc5936ea5ae5ab944bf9e8c05fb5a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "paying",
+     "memories",
+     "incidence"
+    ]
+   },
+   "question": "Sort the following words alphabetically: paying memories incidence"
+  },
+  {
+   "answer": "minnesota mutual quilt",
+   "bb_sha256": "870fe1346d939f2d49a804589e2aa268885f1e608d3fbafcdbeef2c9e748b86e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "mutual",
+     "quilt",
+     "minnesota"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mutual quilt minnesota"
+  },
+  {
+   "answer": "calm capable mexican",
+   "bb_sha256": "e2d088aa80526bc6fd94393c18fc1e9f46abc3d5d2a93922ff0add3c92240dcf",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "mexican",
+     "capable",
+     "calm"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mexican capable calm"
+  },
+  {
+   "answer": "brand growth offered",
+   "bb_sha256": "f6405246bc769ec32dac24688622bc5366bd7aa5961158b1efabffc553a07235",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "offered",
+     "growth",
+     "brand"
+    ]
+   },
+   "question": "Sort the following words alphabetically: offered growth brand"
+  },
+  {
+   "answer": "occurring ranking reader",
+   "bb_sha256": "f37ecbf4effdf7154febf100a29199bc6ba8963ad55b5f8479e91d1c0d63737e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "reader",
+     "occurring",
+     "ranking"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reader occurring ranking"
+  },
+  {
+   "answer": "exterior partly password",
+   "bb_sha256": "1fd55d01fd30171f2c166426a23475165147307be4b3be5d1e9fa627eb2d5026",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "password",
+     "exterior",
+     "partly"
+    ]
+   },
+   "question": "Sort the following words alphabetically: password exterior partly"
+  },
+  {
+   "answer": "childhood sas variance",
+   "bb_sha256": "73d14740a606bb4ac22a1b505665bfafe29f5ae1471cc983602e00e1ec86d610",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "childhood",
+     "variance",
+     "sas"
+    ]
+   },
+   "question": "Sort the following words alphabetically: childhood variance sas"
+  },
+  {
+   "answer": "hope warrior western",
+   "bb_sha256": "bb5ee990d3aff4d057f21856bd9e8fa697e8e365912947a618c0aab509e89004",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "warrior",
+     "hope",
+     "western"
+    ]
+   },
+   "question": "Sort the following words alphabetically: warrior hope western"
+  },
+  {
+   "answer": "necessary operating optimal",
+   "bb_sha256": "d2ab7322041ec48091d909ddb31484dbab1a8ab2672cca4142554853404f136c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "operating",
+     "necessary",
+     "optimal"
+    ]
+   },
+   "question": "Sort the following words alphabetically: operating necessary optimal"
+  },
+  {
+   "answer": "capture phases writers",
+   "bb_sha256": "1794c2d6fc59197fc3587a12b01cdc9456e09dc83769373d4f294f6d96b584c4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "writers",
+     "capture",
+     "phases"
+    ]
+   },
+   "question": "Sort the following words alphabetically: writers capture phases"
+  },
+  {
+   "answer": "quantum salem searched",
+   "bb_sha256": "cb2b84e8a5fa34863bcb9bbd288835789f0d6113b37a070c0f65c6e04ca2c6e0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "salem",
+     "quantum",
+     "searched"
+    ]
+   },
+   "question": "Sort the following words alphabetically: salem quantum searched"
+  },
+  {
+   "answer": "drainage drunk proven",
+   "bb_sha256": "88412d731702f826a30045773dd0b8447d5423cc9e45f9f32b03662f6aee3b4b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "drainage",
+     "proven",
+     "drunk"
+    ]
+   },
+   "question": "Sort the following words alphabetically: drainage proven drunk"
+  },
+  {
+   "answer": "farmer lift swift",
+   "bb_sha256": "310734fbe5f7f56d4707a453327d29a5fc88a63195c4a0835ab610e4f989671b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "farmer",
+     "swift",
+     "lift"
+    ]
+   },
+   "question": "Sort the following words alphabetically: farmer swift lift"
+  },
+  {
+   "answer": "cannon confidence photos",
+   "bb_sha256": "eba714afa6a04f65b73cb021e8ce6f876c6404201f7fe57d0a35fbf57d1d5e8a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "confidence",
+     "cannon",
+     "photos"
+    ]
+   },
+   "question": "Sort the following words alphabetically: confidence cannon photos"
+  },
+  {
+   "answer": "cables called courage",
+   "bb_sha256": "afa1f638f5e792f2e821a29a7c734d0e11c1bb95c02b18f508969821ff3dd299",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "courage",
+     "cables",
+     "called"
+    ]
+   },
+   "question": "Sort the following words alphabetically: courage cables called"
+  },
+  {
+   "answer": "creek deck letters",
+   "bb_sha256": "9e8e4db28f1c60888559dac588f69c98047223d4aad0ef8c66a5b2a9c2cc5462",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "deck",
+     "letters",
+     "creek"
+    ]
+   },
+   "question": "Sort the following words alphabetically: deck letters creek"
+  },
+  {
+   "answer": "attached bid blocking",
+   "bb_sha256": "820e2a038a925aac0c284b3547b3c74c8f8d8cdae055bbbb0075aa914b29bb94",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "bid",
+     "attached",
+     "blocking"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bid attached blocking"
+  },
+  {
+   "answer": "claire publisher puerto",
+   "bb_sha256": "db4441ce2c8dd7f0bbf1ba8b826719be159e4a8245a9f4271f0c64176bc3334e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "puerto",
+     "claire",
+     "publisher"
+    ]
+   },
+   "question": "Sort the following words alphabetically: puerto claire publisher"
+  },
+  {
+   "answer": "chart endless sides",
+   "bb_sha256": "5ec1c24a0f27c5d133ed68f44b9a775d1cb77360c4c380b61787d9e1058a2387",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sides",
+     "chart",
+     "endless"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sides chart endless"
+  },
+  {
+   "answer": "james justice uganda",
+   "bb_sha256": "527cb682ab420fa074e2bb1a8941af602017e85f8decc20f744707af4417851e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "james",
+     "uganda",
+     "justice"
+    ]
+   },
+   "question": "Sort the following words alphabetically: james uganda justice"
+  },
+  {
+   "answer": "rides river steven",
+   "bb_sha256": "64363c8e02e8c8f538e86fc1247dc5992bf1a962a1ce99961573c84d592f713c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "steven",
+     "river",
+     "rides"
+    ]
+   },
+   "question": "Sort the following words alphabetically: steven river rides"
+  },
+  {
+   "answer": "claire eleven vehicles",
+   "bb_sha256": "d3aa478a421c14510129ab112577a9066eb0f3803c70c8c1821327b10c2de1ed",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "vehicles",
+     "claire",
+     "eleven"
+    ]
+   },
+   "question": "Sort the following words alphabetically: vehicles claire eleven"
+  },
+  {
+   "answer": "honor idea innovation",
+   "bb_sha256": "71a0a9cc7b0adb3efe74841f48452cd5e88c9cb62b8a7bd9d70193d7f70accb4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "idea",
+     "honor",
+     "innovation"
+    ]
+   },
+   "question": "Sort the following words alphabetically: idea honor innovation"
+  },
+  {
+   "answer": "stations wrapped wrapping",
+   "bb_sha256": "46830c424327e156009ad01be0fb888f4a1d9f8f240a687e1ce776691ea38ced",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "wrapping",
+     "wrapped",
+     "stations"
+    ]
+   },
+   "question": "Sort the following words alphabetically: wrapping wrapped stations"
+  },
+  {
+   "answer": "customs responses squirt",
+   "bb_sha256": "64258ea4426d9c740bc8e0e8dc7e46043f9679fbc10756dfbff74f0c4c5d206c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "squirt",
+     "customs",
+     "responses"
+    ]
+   },
+   "question": "Sort the following words alphabetically: squirt customs responses"
+  },
+  {
+   "answer": "capable chairman unified",
+   "bb_sha256": "0d45ad16d3b91e8f88a9a047134f2714d0004b193dd44ce01887a653c06eda6c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "chairman",
+     "unified",
+     "capable"
+    ]
+   },
+   "question": "Sort the following words alphabetically: chairman unified capable"
+  },
+  {
+   "answer": "rachel ranger stewart",
+   "bb_sha256": "9a888079a82c5878503959a4fd71d1da91b1bc548724b18987c6c39e5ccdfc09",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "stewart",
+     "rachel",
+     "ranger"
+    ]
+   },
+   "question": "Sort the following words alphabetically: stewart rachel ranger"
+  },
+  {
+   "answer": "loose matches sampling",
+   "bb_sha256": "f3e9ed5caf63490e214881662c720808ba7c86dc79515fb023381e4729b822e5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sampling",
+     "loose",
+     "matches"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sampling loose matches"
+  },
+  {
+   "answer": "amended hansen him",
+   "bb_sha256": "a7b8e05fb649b2d01c1691e08a4897161e72f135ee2b5fd80032aa231d3e4075",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "him",
+     "hansen",
+     "amended"
+    ]
+   },
+   "question": "Sort the following words alphabetically: him hansen amended"
+  },
+  {
+   "answer": "humans ranking rap",
+   "bb_sha256": "b8e7dcf4abba2abc15271fe3c096033577892ea6ffadfa3bdf0b3cd0dcc55992",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "rap",
+     "humans",
+     "ranking"
+    ]
+   },
+   "question": "Sort the following words alphabetically: rap humans ranking"
+  },
+  {
+   "answer": "ivory massage streams",
+   "bb_sha256": "154ff9e7b345c3f991ee3a4c45ddfd3897aa8bf2686be845f4e48cc0932259ee",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "ivory",
+     "streams",
+     "massage"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ivory streams massage"
+  },
+  {
+   "answer": "hazard neural null",
+   "bb_sha256": "4d94b76bc876a83ca72daaced8b8b85e88ee274b28cf0a77fede3ebec39bd3c6",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "neural",
+     "null",
+     "hazard"
+    ]
+   },
+   "question": "Sort the following words alphabetically: neural null hazard"
+  },
+  {
+   "answer": "budget snapshot snowboard",
+   "bb_sha256": "5e7005c7a74623981da476d545e1c8380d9d5b17a6eff466b5de3cb069a7a649",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "budget",
+     "snowboard",
+     "snapshot"
+    ]
+   },
+   "question": "Sort the following words alphabetically: budget snowboard snapshot"
+  },
+  {
+   "answer": "climate dare server",
+   "bb_sha256": "e10f6d8a639ca14390f40c852ebfa453380ddcf8e9c4772b520c3aced410a9bc",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "climate",
+     "server",
+     "dare"
+    ]
+   },
+   "question": "Sort the following words alphabetically: climate server dare"
+  },
+  {
+   "answer": "encounter january jefferson",
+   "bb_sha256": "2e86e38b2d3e75a86cfcf7ba4c1fe2a89fbbf29a316c994ecc7c61739148c910",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "january",
+     "jefferson",
+     "encounter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: january jefferson encounter"
+  },
+  {
+   "answer": "leon lets strip",
+   "bb_sha256": "b179590feea3976e737a7710ea4942062446b26122e98d3505f2ef2cf773f31e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "lets",
+     "leon",
+     "strip"
+    ]
+   },
+   "question": "Sort the following words alphabetically: lets leon strip"
+  },
+  {
+   "answer": "class determines seasonal",
+   "bb_sha256": "1fb503162bf47d2b426bb694b02e51ce55d6da4f818375213352a0182ba7474e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "determines",
+     "class",
+     "seasonal"
+    ]
+   },
+   "question": "Sort the following words alphabetically: determines class seasonal"
+  },
+  {
+   "answer": "poetry proposal roy",
+   "bb_sha256": "2cfd53d8eab30fcf9092a41f0fb9dcf37e16119258ea97f17f904088be8b0d74",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "roy",
+     "proposal",
+     "poetry"
+    ]
+   },
+   "question": "Sort the following words alphabetically: roy proposal poetry"
+  },
+  {
+   "answer": "income selling setup",
+   "bb_sha256": "09b18489d4c6a03ba871adcdc53b7d2e7aa6235293b96f5fd050f9f08dc6d2c3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "setup",
+     "income",
+     "selling"
+    ]
+   },
+   "question": "Sort the following words alphabetically: setup income selling"
+  },
+  {
+   "answer": "driving principal servers",
+   "bb_sha256": "0a4ffd85d9d2748b99fb9ebf8104904e5f4dc00b524bf7e9007b2f21357ca740",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "driving",
+     "servers",
+     "principal"
+    ]
+   },
+   "question": "Sort the following words alphabetically: driving servers principal"
+  },
+  {
+   "answer": "decor dice minimal",
+   "bb_sha256": "bbbe6a415d197ae3ab329171edd93a5945c78d72e0582eb32130dbe2975a0ddf",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "dice",
+     "minimal",
+     "decor"
+    ]
+   },
+   "question": "Sort the following words alphabetically: dice minimal decor"
+  },
+  {
+   "answer": "cole dosage doubt",
+   "bb_sha256": "2d5d589f923763e5675f61701227153c2c66fd7e5639704245e33363a79a5a64",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "cole",
+     "doubt",
+     "dosage"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cole doubt dosage"
+  },
+  {
+   "answer": "america canberra major",
+   "bb_sha256": "a1979135898534a66900cba048c23d4fc4d4840083492a266744fe1d60df7577",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "america",
+     "major",
+     "canberra"
+    ]
+   },
+   "question": "Sort the following words alphabetically: america major canberra"
+  },
+  {
+   "answer": "cartridges cherry model",
+   "bb_sha256": "dd36c1df009c93634bed9b9347bcc8252e7c168e253becac231002e241e6e41c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "cartridges",
+     "model",
+     "cherry"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cartridges model cherry"
+  },
+  {
+   "answer": "dairy davis winter",
+   "bb_sha256": "b9d9a8547a236b2913de5d6386131da96cc01af189e439a356e6a58b7fd48153",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "davis",
+     "dairy",
+     "winter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: davis dairy winter"
+  },
+  {
+   "answer": "bless educators separated",
+   "bb_sha256": "89fda775f0afafcaa1a7b26ccd025eceeb94f125c704f1a98df721e268b0616e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "bless",
+     "separated",
+     "educators"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bless separated educators"
+  },
+  {
+   "answer": "programs pubs vendors",
+   "bb_sha256": "204987a1488ee0af0361ccf236a88ab6ea92c8ca654a8e3c278e2933d4de7bee",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "pubs",
+     "programs",
+     "vendors"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pubs programs vendors"
+  },
+  {
+   "answer": "talented tribal trusts",
+   "bb_sha256": "67daaa447d1f467717df7c4f852b9cfe035eda2752e2400e62ca43267ba0c858",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "trusts",
+     "talented",
+     "tribal"
+    ]
+   },
+   "question": "Sort the following words alphabetically: trusts talented tribal"
+  },
+  {
+   "answer": "compound diego remains",
+   "bb_sha256": "ddeb7ffa7e11a96f84c84d5e87659b9452a09f12295a3ffefa72d7c01b2119a5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "diego",
+     "compound",
+     "remains"
+    ]
+   },
+   "question": "Sort the following words alphabetically: diego compound remains"
+  },
+  {
+   "answer": "maple save stroke",
+   "bb_sha256": "f98aa266f92498fcebe509426e7bd18419222af0d5421c9f4f2b49014bbf8c23",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "stroke",
+     "maple",
+     "save"
+    ]
+   },
+   "question": "Sort the following words alphabetically: stroke maple save"
+  },
+  {
+   "answer": "ascii asset avoiding",
+   "bb_sha256": "dfebc3bff329fad6d71dedf273fc66275c5304eba78d10d041eb9a82d1e30e2f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "avoiding",
+     "ascii",
+     "asset"
+    ]
+   },
+   "question": "Sort the following words alphabetically: avoiding ascii asset"
+  },
+  {
+   "answer": "fare prior yields",
+   "bb_sha256": "c975382302e96f441b200d4c6e5d2a335dea2fd212fbc01bd76637a5d04c1d93",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "prior",
+     "yields",
+     "fare"
+    ]
+   },
+   "question": "Sort the following words alphabetically: prior yields fare"
+  },
+  {
+   "answer": "athletes mars mcdonald",
+   "bb_sha256": "aebd5ad06ae2571043beef03a048f98f54032b6c725575b9c65be8effd7a1db8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "mcdonald",
+     "mars",
+     "athletes"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mcdonald mars athletes"
+  },
+  {
+   "answer": "mac stores structured",
+   "bb_sha256": "03caeefff5553ed1ec429a1474ee046d46fd98125a97983c489cfa9c435094f5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "stores",
+     "mac",
+     "structured"
+    ]
+   },
+   "question": "Sort the following words alphabetically: stores mac structured"
+  },
+  {
+   "answer": "divine etc warcraft",
+   "bb_sha256": "9d6757fd1cdc908fcecafad97e13b753d9059e17adc3c93344cf803fc6f52c3d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "divine",
+     "warcraft",
+     "etc"
+    ]
+   },
+   "question": "Sort the following words alphabetically: divine warcraft etc"
+  },
+  {
+   "answer": "beginner bowl logged",
+   "bb_sha256": "97af3159cb6b03d54aee3de2754d6fb7ef1bc31a4e913ad2fc2dedee1cf4d9a8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "logged",
+     "bowl",
+     "beginner"
+    ]
+   },
+   "question": "Sort the following words alphabetically: logged bowl beginner"
+  },
+  {
+   "answer": "stephanie treasury tribes",
+   "bb_sha256": "be26a6cbaad99b9b7dd8eeef99d36b30052784ecaaf5875daef169251d058c31",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "tribes",
+     "stephanie",
+     "treasury"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tribes stephanie treasury"
+  },
+  {
+   "answer": "marble server win",
+   "bb_sha256": "cd7aa6834969ef44f74dd2a46f255bf11ad7cddf3300f3f0ca874976b1550b2f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "win",
+     "marble",
+     "server"
+    ]
+   },
+   "question": "Sort the following words alphabetically: win marble server"
+  },
+  {
+   "answer": "opposed other spine",
+   "bb_sha256": "fcb48bef378507a62c6b5b2235dbb15fabc5f5f4cfaea93e639b2104a5a5fc5f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "spine",
+     "opposed",
+     "other"
+    ]
+   },
+   "question": "Sort the following words alphabetically: spine opposed other"
+  },
+  {
+   "answer": "builders bulgaria marie",
+   "bb_sha256": "2e1bba757b23af3dde976a3b84f4ed89afe08131c53671c4f6037b8826969db1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "bulgaria",
+     "marie",
+     "builders"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bulgaria marie builders"
+  },
+  {
+   "answer": "leaves potential sublime",
+   "bb_sha256": "aa50de0cb687e2cc4701dec090e22c383fe7940c6f1e2a3d86d8d14e45c246bd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "potential",
+     "sublime",
+     "leaves"
+    ]
+   },
+   "question": "Sort the following words alphabetically: potential sublime leaves"
+  },
+  {
+   "answer": "filter fuzzy meeting",
+   "bb_sha256": "015eddc1388da8423d7e32b602e2209bcdaaeadc96d71a8fda271c8f4d0c0dc7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "meeting",
+     "fuzzy",
+     "filter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: meeting fuzzy filter"
+  },
+  {
+   "answer": "plates signatures sip",
+   "bb_sha256": "82060085d5000cfcef57c1986e7ceca77851470e0ae917e769774adcdd73e958",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "signatures",
+     "plates",
+     "sip"
+    ]
+   },
+   "question": "Sort the following words alphabetically: signatures plates sip"
+  },
+  {
+   "answer": "alleged frog navy",
+   "bb_sha256": "fe553d4364146e1203c789d975fa66ae0909044f93e34624b0f1fcdc0289791c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "frog",
+     "alleged",
+     "navy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: frog alleged navy"
+  },
+  {
+   "answer": "heavily neck notice",
+   "bb_sha256": "0d2cf32e124c5b4bb48bf1f35952175c6c2f8446f680d3e960f13a97b680d808",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "notice",
+     "heavily",
+     "neck"
+    ]
+   },
+   "question": "Sort the following words alphabetically: notice heavily neck"
+  },
+  {
+   "answer": "queue tel tender",
+   "bb_sha256": "5ef19955c9b30e262c1bd07cffcbce123db8a48581e6ab49da1a8c75ad93887f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "tender",
+     "tel",
+     "queue"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tender tel queue"
+  },
+  {
+   "answer": "advice saw warned",
+   "bb_sha256": "107be4056e8a2ca396e173ff02e5a27f20bdc773867a6a1d7797ce87755bbd20",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "saw",
+     "advice",
+     "warned"
+    ]
+   },
+   "question": "Sort the following words alphabetically: saw advice warned"
+  },
+  {
+   "answer": "sitting southern troops",
+   "bb_sha256": "d3ccbf873e052e301154f942a63fdd78e9b75a1a41a9c72f090176401a44e56b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "southern",
+     "troops",
+     "sitting"
+    ]
+   },
+   "question": "Sort the following words alphabetically: southern troops sitting"
+  },
+  {
+   "answer": "diesel discretion dispute",
+   "bb_sha256": "27b5946b0541a47a44517cb9a253e5db7db44cf5a6d8370cbdf9b513ca31a4d9",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "diesel",
+     "dispute",
+     "discretion"
+    ]
+   },
+   "question": "Sort the following words alphabetically: diesel dispute discretion"
+  },
+  {
+   "answer": "campaign dead moderator",
+   "bb_sha256": "6e91a885c4561b16bc9af9a304823c86005d42e215bb020e2db787a4a957dcf0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "campaign",
+     "moderator",
+     "dead"
+    ]
+   },
+   "question": "Sort the following words alphabetically: campaign moderator dead"
+  },
+  {
+   "answer": "pendant science smith",
+   "bb_sha256": "acd4fc5703704b4f0787b491c5dc9854e008e19f9085a5d42addade6e5683df2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "smith",
+     "science",
+     "pendant"
+    ]
+   },
+   "question": "Sort the following words alphabetically: smith science pendant"
+  },
+  {
+   "answer": "essex mercy metres",
+   "bb_sha256": "9c17e1670c4d4103b1bb59ecafbc5ad0320eef5bdc4029b1989063399df5d681",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "mercy",
+     "essex",
+     "metres"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mercy essex metres"
+  },
+  {
+   "answer": "burden knows parameters",
+   "bb_sha256": "29639f6b8ae11e98d2b840e095636ed1e6df1a5edd19b9bc198db7f9230c4f8e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "knows",
+     "parameters",
+     "burden"
+    ]
+   },
+   "question": "Sort the following words alphabetically: knows parameters burden"
+  },
+  {
+   "answer": "payments promote teachers",
+   "bb_sha256": "07580ea837a1207e0276ddcf86868e2375f5530cf8b9f1e2c550a45603296ef7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "promote",
+     "payments",
+     "teachers"
+    ]
+   },
+   "question": "Sort the following words alphabetically: promote payments teachers"
+  },
+  {
+   "answer": "edinburgh edwards vic",
+   "bb_sha256": "de1dd7d372d0dec2e9ea76e927d3b4d4b4d9a9d58364b5bb89399a0c8b103761",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "edwards",
+     "edinburgh",
+     "vic"
+    ]
+   },
+   "question": "Sort the following words alphabetically: edwards edinburgh vic"
+  },
+  {
+   "answer": "affecting guitars monster",
+   "bb_sha256": "36289b29166b4fda8d59e6f73565dc9e9db99b85f6beef77a2dac6b6160516be",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "monster",
+     "affecting",
+     "guitars"
+    ]
+   },
+   "question": "Sort the following words alphabetically: monster affecting guitars"
+  },
+  {
+   "answer": "flows vanilla vision",
+   "bb_sha256": "5b6573142a28d45101b63a3c5bd4b0dd3a2dfb290fd479a700f1e2311e465596",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "flows",
+     "vision",
+     "vanilla"
+    ]
+   },
+   "question": "Sort the following words alphabetically: flows vision vanilla"
+  },
+  {
+   "answer": "licking liked vitamin",
+   "bb_sha256": "7c057d3d707ec7e12530aaedca1a8f3c66e8594a8f29ae3eec84d30252787599",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "liked",
+     "vitamin",
+     "licking"
+    ]
+   },
+   "question": "Sort the following words alphabetically: liked vitamin licking"
+  },
+  {
+   "answer": "belfast cultures manager",
+   "bb_sha256": "137f1f41e8e91419eea68138ef3278a9a471fa4442e4e70b6ff2c2583d914a29",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "manager",
+     "belfast",
+     "cultures"
+    ]
+   },
+   "question": "Sort the following words alphabetically: manager belfast cultures"
+  },
+  {
+   "answer": "cached changes pierre",
+   "bb_sha256": "88f1350821d85b9214f4b047627ecbdc1e2c476fd4dcb817f95817a4ec1e4ae2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "changes",
+     "pierre",
+     "cached"
+    ]
+   },
+   "question": "Sort the following words alphabetically: changes pierre cached"
+  },
+  {
+   "answer": "argue arrange owns",
+   "bb_sha256": "e798bdc028f08d08517bdc53447a8f6ea7d37d0a4ebacedd8570572509e75533",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "owns",
+     "argue",
+     "arrange"
+    ]
+   },
+   "question": "Sort the following words alphabetically: owns argue arrange"
+  },
+  {
+   "answer": "economic open reform",
+   "bb_sha256": "fb766f6996910607169bed65d10e09eae9ac9f163d48edba582c814280fc675a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "reform",
+     "open",
+     "economic"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reform open economic"
+  },
+  {
+   "answer": "relates various viewed",
+   "bb_sha256": "43cb88650566d21757d7ce9d73e2d2dcc6a49114bd91a5c8cf9d4bd33a567e45",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "various",
+     "relates",
+     "viewed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: various relates viewed"
+  },
+  {
+   "answer": "integrate many matching",
+   "bb_sha256": "67c94dd2b6bde8614e56c307f8a6f034152ce76a1f685cd7df7bcb0eca1f7691",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "many",
+     "integrate",
+     "matching"
+    ]
+   },
+   "question": "Sort the following words alphabetically: many integrate matching"
+  },
+  {
+   "answer": "beatles publish zones",
+   "bb_sha256": "d32e41d31b2cb1fe43edb210c92deb2b311a87d34abadcd441c8f1bf66639030",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "beatles",
+     "zones",
+     "publish"
+    ]
+   },
+   "question": "Sort the following words alphabetically: beatles zones publish"
+  },
+  {
+   "answer": "blonde fabric features",
+   "bb_sha256": "003f33e99eba5ac206c4c6a403e2d8b67d002a940518c39a125c5457b66120ca",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "features",
+     "fabric",
+     "blonde"
+    ]
+   },
+   "question": "Sort the following words alphabetically: features fabric blonde"
+  },
+  {
+   "answer": "boobs mod moral",
+   "bb_sha256": "468dfcf3b35ce826c022fdb251b6afc75cb315e0cc7fb5494417a31356843f09",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "mod",
+     "boobs",
+     "moral"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mod boobs moral"
+  },
+  {
+   "answer": "bible consent invention",
+   "bb_sha256": "8adad32c2d0cfecd167c460323d90210fe2570a46e72a59507716ae61c6b173b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "invention",
+     "consent",
+     "bible"
+    ]
+   },
+   "question": "Sort the following words alphabetically: invention consent bible"
+  },
+  {
+   "answer": "conditions cultural homeless",
+   "bb_sha256": "c55a91d69cf5b1378374063b5a0672efdd3d191db982feb130147cb50d4dd93e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "conditions",
+     "homeless",
+     "cultural"
+    ]
+   },
+   "question": "Sort the following words alphabetically: conditions homeless cultural"
+  },
+  {
+   "answer": "platinum recordings regardless",
+   "bb_sha256": "b7db1e41204dd6620a46c1b9a0d7b6907ed6499730928bb810f119c4c8c9bf4b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "regardless",
+     "platinum",
+     "recordings"
+    ]
+   },
+   "question": "Sort the following words alphabetically: regardless platinum recordings"
+  },
+  {
+   "answer": "barrier integrity sale",
+   "bb_sha256": "512ee7fe863c03ea4fa658b4f6cada51cf6b1e26e5d3638e87e293c997e9274b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "integrity",
+     "barrier",
+     "sale"
+    ]
+   },
+   "question": "Sort the following words alphabetically: integrity barrier sale"
+  },
+  {
+   "answer": "episodes reactions rod",
+   "bb_sha256": "7e8e0fe268e2d2458be2bc9dfc9a28487ee0a83cd936c232baed0914216dca5f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "episodes",
+     "rod",
+     "reactions"
+    ]
+   },
+   "question": "Sort the following words alphabetically: episodes rod reactions"
+  },
+  {
+   "answer": "cellular celtic mixer",
+   "bb_sha256": "0e139891ad854d3bd64b7d2d4ba09459285dc4df9ae822cd8224faa496965366",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "mixer",
+     "cellular",
+     "celtic"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mixer cellular celtic"
+  },
+  {
+   "answer": "boutique latino nathan",
+   "bb_sha256": "5c4e2e71acfb8e56d9a20b0429763ea2f80e0f858e03644aea79725c5c6ffebb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "latino",
+     "nathan",
+     "boutique"
+    ]
+   },
+   "question": "Sort the following words alphabetically: latino nathan boutique"
+  },
+  {
+   "answer": "advice scanners sentence",
+   "bb_sha256": "57d522c112dbde457b222a4f305488829f7c5093c8797ab533ab7a3848e6d62e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "advice",
+     "sentence",
+     "scanners"
+    ]
+   },
+   "question": "Sort the following words alphabetically: advice sentence scanners"
+  },
+  {
+   "answer": "famous genealogy gets",
+   "bb_sha256": "f06f1b03abda10ec53fdf174a9ab563957024e7d4e486b9f6235cd0cd18380e7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "gets",
+     "famous",
+     "genealogy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: gets famous genealogy"
+  },
+  {
+   "answer": "prompt scope tools",
+   "bb_sha256": "701b640bf6d7e630d642c357d2aab607c326b6a9743ae7baa978a8783baadbd4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "tools",
+     "scope",
+     "prompt"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tools scope prompt"
+  },
+  {
+   "answer": "fully marc meanwhile",
+   "bb_sha256": "93e9a44d23b812c9dd815a43b62ebc7ea21a875537f6145355cc3f3a0a100d5a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "meanwhile",
+     "fully",
+     "marc"
+    ]
+   },
+   "question": "Sort the following words alphabetically: meanwhile fully marc"
+  },
+  {
+   "answer": "factors fast streaming",
+   "bb_sha256": "b929ca8c65b1a024e222a9ef0978f431223f010d03c1ff257cf43a895d562b4c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "streaming",
+     "factors",
+     "fast"
+    ]
+   },
+   "question": "Sort the following words alphabetically: streaming factors fast"
+  },
+  {
+   "answer": "brings shopping tests",
+   "bb_sha256": "41be20d9bda473e9f115e617c8fe4c76dcf9714aa971cf468d8bae93a6610627",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "brings",
+     "tests",
+     "shopping"
+    ]
+   },
+   "question": "Sort the following words alphabetically: brings tests shopping"
+  },
+  {
+   "answer": "bend brian ideal",
+   "bb_sha256": "873c1bf51692db0c7b1dbc015c7b5ab67973e1166da16929a7bed1628a730ec9",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ideal",
+     "bend",
+     "brian"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ideal bend brian"
+  },
+  {
+   "answer": "discretion spank spoke",
+   "bb_sha256": "299d01ed74c59868e4fab3888b6dc3f8932bbed344e08da23a160487a12fa8ce",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "spoke",
+     "discretion",
+     "spank"
+    ]
+   },
+   "question": "Sort the following words alphabetically: spoke discretion spank"
+  },
+  {
+   "answer": "breeding lambda mpg",
+   "bb_sha256": "0bb358bbeca275ea65b441730680b3024ca4a3968df0f124088ea773298215f1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "lambda",
+     "mpg",
+     "breeding"
+    ]
+   },
+   "question": "Sort the following words alphabetically: lambda mpg breeding"
+  },
+  {
+   "answer": "chubby cisco trials",
+   "bb_sha256": "825ecf5cd67e4839102f629b26c9dd91cda6007d5dcbfdb4cfd2f4c4d5a5581d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "trials",
+     "cisco",
+     "chubby"
+    ]
+   },
+   "question": "Sort the following words alphabetically: trials cisco chubby"
+  },
+  {
+   "answer": "chief kansas kay",
+   "bb_sha256": "da21172c5b8b4f6e4bc0064bfc4c2ad15fcd5d3121047daa48923e7dd148686e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "kansas",
+     "kay",
+     "chief"
+    ]
+   },
+   "question": "Sort the following words alphabetically: kansas kay chief"
+  },
+  {
+   "answer": "given served win",
+   "bb_sha256": "23b60dec6864dbcad3b27a07bc31255611eae10087ab863c977d92859af6b1ee",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "served",
+     "given",
+     "win"
+    ]
+   },
+   "question": "Sort the following words alphabetically: served given win"
+  },
+  {
+   "answer": "murder seminar sorts",
+   "bb_sha256": "c73cac7636d1d2dbe6fafdb976e76f86243a005545077c7c1648655543fe22be",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "murder",
+     "sorts",
+     "seminar"
+    ]
+   },
+   "question": "Sort the following words alphabetically: murder sorts seminar"
+  },
+  {
+   "answer": "efficient volleyball voluntary",
+   "bb_sha256": "70bbaf08eccc8834d7eaed0370085f5a2099da9dd7fd6e8c1b54d5f11dab73c2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "voluntary",
+     "efficient",
+     "volleyball"
+    ]
+   },
+   "question": "Sort the following words alphabetically: voluntary efficient volleyball"
+  },
+  {
+   "answer": "coastal expedia wrapped",
+   "bb_sha256": "e0a767802ccb336258f9dce8fac99aec5305e0be529cc871dc7d13fb2c044541",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "wrapped",
+     "coastal",
+     "expedia"
+    ]
+   },
+   "question": "Sort the following words alphabetically: wrapped coastal expedia"
+  },
+  {
+   "answer": "agenda amazon sole",
+   "bb_sha256": "f6c15c96edfe9f0e518a4fe90e837e5fc197bdf8f4a324fea918a2d31dc882f7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "sole",
+     "agenda",
+     "amazon"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sole agenda amazon"
+  },
+  {
+   "answer": "morocco mounting tablets",
+   "bb_sha256": "fc8b05c02211f73729fb4c0760eea2936314e983b8f94abfa33e489349381e69",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "mounting",
+     "tablets",
+     "morocco"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mounting tablets morocco"
+  },
+  {
+   "answer": "breathing circles directory",
+   "bb_sha256": "ee84b33a1c3edff67e85d97b18fd8d56c1941a556b93e4d759bcb854a4dd749d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "breathing",
+     "directory",
+     "circles"
+    ]
+   },
+   "question": "Sort the following words alphabetically: breathing directory circles"
+  },
+  {
+   "answer": "care consultant grocery",
+   "bb_sha256": "c47daee2bc4c0c989cd0ab598321b9823c8b7ea1ca68731d74b84edebc65769a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "grocery",
+     "care",
+     "consultant"
+    ]
+   },
+   "question": "Sort the following words alphabetically: grocery care consultant"
+  },
+  {
+   "answer": "enrollment honey hong",
+   "bb_sha256": "a126a25e34abc2dbe58e6f2fc90ccc8556a1fae48bdbf162ab40af5038ec49fc",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "honey",
+     "hong",
+     "enrollment"
+    ]
+   },
+   "question": "Sort the following words alphabetically: honey hong enrollment"
+  },
+  {
+   "answer": "nurse precise reprints",
+   "bb_sha256": "07e74551e36df10727dd5d75b1244bed388451dc306cab888f393a5f254309e4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "reprints",
+     "precise",
+     "nurse"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reprints precise nurse"
+  },
+  {
+   "answer": "jane jesse ways",
+   "bb_sha256": "9f51db90fbfa2197f674f29571594ffb54b7bb67953ae4ff8de7f68d4af6d400",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ways",
+     "jesse",
+     "jane"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ways jesse jane"
+  },
+  {
+   "answer": "exposed extremely redeem",
+   "bb_sha256": "6c3ca16fe9e11eb1cb86308047c9a17202b1a0d65527a546c3fcec572fb23f9a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "exposed",
+     "redeem",
+     "extremely"
+    ]
+   },
+   "question": "Sort the following words alphabetically: exposed redeem extremely"
+  },
+  {
+   "answer": "defendant radiation summer",
+   "bb_sha256": "a222fce1f257a0cc6baa38c44cffa5861ad23dfcd9a5112341dc396c85ac92b7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "summer",
+     "radiation",
+     "defendant"
+    ]
+   },
+   "question": "Sort the following words alphabetically: summer radiation defendant"
+  },
+  {
+   "answer": "floral functional labour",
+   "bb_sha256": "f1aafc5982ae81103cb0ab85231b069cf85300c00b36e8d5bb56f977230127eb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "functional",
+     "labour",
+     "floral"
+    ]
+   },
+   "question": "Sort the following words alphabetically: functional labour floral"
+  },
+  {
+   "answer": "clicking clip ears",
+   "bb_sha256": "20b19c071f0aa25725f9bb57202650148cca1cf1799fca644c414f2d581ff863",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "clip",
+     "clicking",
+     "ears"
+    ]
+   },
+   "question": "Sort the following words alphabetically: clip clicking ears"
+  },
+  {
+   "answer": "coupon tutorials worried",
+   "bb_sha256": "3c8e5c045d2bc356319e98892dfdc22f92047aa397252ffe58ec74ce41992e03",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "tutorials",
+     "worried",
+     "coupon"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tutorials worried coupon"
+  },
+  {
+   "answer": "gore paris put",
+   "bb_sha256": "41c14ffdcc5e2126be922c2809e41e580f686eca687f9f35ae93032d1622fdfe",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "paris",
+     "gore",
+     "put"
+    ]
+   },
+   "question": "Sort the following words alphabetically: paris gore put"
+  },
+  {
+   "answer": "cast dropped drum",
+   "bb_sha256": "04e3d67ed93b68783659d3777fa8bb4bf351666b6385603858d62d96de6b0ec5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "cast",
+     "drum",
+     "dropped"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cast drum dropped"
+  },
+  {
+   "answer": "god nervous sponsored",
+   "bb_sha256": "16c5b0a13aedd786313e7044b42cd9f4d3d5cb70bbaf4c53b82569586aef331b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "nervous",
+     "sponsored",
+     "god"
+    ]
+   },
+   "question": "Sort the following words alphabetically: nervous sponsored god"
+  },
+  {
+   "answer": "believes bingo chapter",
+   "bb_sha256": "84b4b96349784f7ff0c807cc60733a1f3189dad76f537a0ca4272e84ae5364ab",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "bingo",
+     "believes",
+     "chapter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bingo believes chapter"
+  },
+  {
+   "answer": "explained silent singles",
+   "bb_sha256": "c4ff7b5ce3c829d928327f8b69d58e5383c3f089decd8e24db32f2765a186f03",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "silent",
+     "explained",
+     "singles"
+    ]
+   },
+   "question": "Sort the following words alphabetically: silent explained singles"
+  },
+  {
+   "answer": "healthcare sudan useful",
+   "bb_sha256": "f8b462a47b5e8e9d8a3c934a71c7cb79f4df947c828790695ccff6a11ad7a85b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sudan",
+     "useful",
+     "healthcare"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sudan useful healthcare"
+  },
+  {
+   "answer": "flights footage locate",
+   "bb_sha256": "523cc549e5a7a09b59b3e0e6426924aebb5039df41d364a1bb9c7f2d0234b09e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "footage",
+     "flights",
+     "locate"
+    ]
+   },
+   "question": "Sort the following words alphabetically: footage flights locate"
+  },
+  {
+   "answer": "bald conspiracy containing",
+   "bb_sha256": "4a51a7990f201b02ea3b9d01b5d3601d9b1beac89985ea463ceef693afe73b22",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "conspiracy",
+     "bald",
+     "containing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: conspiracy bald containing"
+  },
+  {
+   "answer": "disturbed land miles",
+   "bb_sha256": "0dbe1330b39ac828b5511da3e008fa929be760cacdb782644f29b2ca09ac2a4f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "land",
+     "miles",
+     "disturbed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: land miles disturbed"
+  },
+  {
+   "answer": "lost packed principle",
+   "bb_sha256": "90504a7c09235d4f7c9f7fd8967547837347195c191bfa8586186e707c0e24c2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "lost",
+     "principle",
+     "packed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: lost principle packed"
+  },
+  {
+   "answer": "hold treating tribute",
+   "bb_sha256": "4894115285952c3b83ae43797715460c68e20ec750048776a8db5c20ace289cc",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "treating",
+     "hold",
+     "tribute"
+    ]
+   },
+   "question": "Sort the following words alphabetically: treating hold tribute"
+  },
+  {
+   "answer": "erik grey precious",
+   "bb_sha256": "1c9c70b02559b6b20e6aa4fc7f2d001514c53c4e6c0341f1a166236b23f2f03e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "erik",
+     "precious",
+     "grey"
+    ]
+   },
+   "question": "Sort the following words alphabetically: erik precious grey"
+  },
+  {
+   "answer": "chef raised roses",
+   "bb_sha256": "dacf32669ceeee6a85e5c9dcc3766517aa08e7d5a2ecb59134c577ca9969ea0c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "chef",
+     "roses",
+     "raised"
+    ]
+   },
+   "question": "Sort the following words alphabetically: chef roses raised"
+  },
+  {
+   "answer": "album align staff",
+   "bb_sha256": "29739a6ced461d8fe5cc080df99c4b40dd509c77cd4991216bd53c5d674bf237",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "align",
+     "staff",
+     "album"
+    ]
+   },
+   "question": "Sort the following words alphabetically: align staff album"
+  },
+  {
+   "answer": "cordless drinks morning",
+   "bb_sha256": "b6d72308d8bda22068435b6073f33b3efed76a1dddb0e475710da746398e3ce7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "drinks",
+     "morning",
+     "cordless"
+    ]
+   },
+   "question": "Sort the following words alphabetically: drinks morning cordless"
+  },
+  {
+   "answer": "addressed ages check",
+   "bb_sha256": "6899f839d6fda82e96a67fddcc125c82d809f8357084d4c55d252b9ee98fe754",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ages",
+     "addressed",
+     "check"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ages addressed check"
+  },
+  {
+   "answer": "borders coins construct",
+   "bb_sha256": "83be1177d82a30954d95ca9d7ecc73ddf2f9b23230dc1244b77f56529c5205b0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "borders",
+     "construct",
+     "coins"
+    ]
+   },
+   "question": "Sort the following words alphabetically: borders construct coins"
+  },
+  {
+   "answer": "helping plymouth walks",
+   "bb_sha256": "b3e22389c0f7d91d34cc8c1302bccb3b92cc30b0b786e58e69dc0c539fb4f428",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "walks",
+     "helping",
+     "plymouth"
+    ]
+   },
+   "question": "Sort the following words alphabetically: walks helping plymouth"
+  },
+  {
+   "answer": "consists let love",
+   "bb_sha256": "c0680c05810a951682c5043033be53acff54d5d44d9e32057338dac03d6039ae",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "let",
+     "consists",
+     "love"
+    ]
+   },
+   "question": "Sort the following words alphabetically: let consists love"
+  },
+  {
+   "answer": "fibre filling transition",
+   "bb_sha256": "a3ecffbc6f1baf4532fb8d102ca6758fdbff55959dd2c244ecbdb2d94926eee7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "filling",
+     "transition",
+     "fibre"
+    ]
+   },
+   "question": "Sort the following words alphabetically: filling transition fibre"
+  },
+  {
+   "answer": "profit rubber tea",
+   "bb_sha256": "626ee4f25285f10eb4d43fb76f5ec5ab7a721783d0e6a6cb05dc3ecf58f3bab8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "tea",
+     "rubber",
+     "profit"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tea rubber profit"
+  },
+  {
+   "answer": "cam cream sight",
+   "bb_sha256": "b473d9ebc853de71d316f6ba9b1feba696db08277086696ea0ebc13dfb190629",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "sight",
+     "cam",
+     "cream"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sight cam cream"
+  },
+  {
+   "answer": "liberal occasional occurs",
+   "bb_sha256": "57b9f52342b9764f6cedf120fa23d73c2ac324559faeefd922889c8a4f41d450",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "occasional",
+     "liberal",
+     "occurs"
+    ]
+   },
+   "question": "Sort the following words alphabetically: occasional liberal occurs"
+  },
+  {
+   "answer": "missouri option text",
+   "bb_sha256": "00bb2e549d5c744381009caafd043d027da6c3a733736c2d8da0078aac4f543b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "missouri",
+     "text",
+     "option"
+    ]
+   },
+   "question": "Sort the following words alphabetically: missouri text option"
+  },
+  {
+   "answer": "data packages petersburg",
+   "bb_sha256": "7155097e120c122ea3da19ebe98e73494f3f41ccf913055b89f06332d3073524",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "petersburg",
+     "packages",
+     "data"
+    ]
+   },
+   "question": "Sort the following words alphabetically: petersburg packages data"
+  },
+  {
+   "answer": "ciao city drug",
+   "bb_sha256": "b6de01ebf4909ac8b4100843cf17cf909c86a3eaa992c73c5da85646d7492643",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "drug",
+     "city",
+     "ciao"
+    ]
+   },
+   "question": "Sort the following words alphabetically: drug city ciao"
+  },
+  {
+   "answer": "hint settings wagner",
+   "bb_sha256": "c66554ca110e990d48764ce4f8a008a6b34b9a4598bc493e3d54ca6d5146a14f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "hint",
+     "wagner",
+     "settings"
+    ]
+   },
+   "question": "Sort the following words alphabetically: hint wagner settings"
+  },
+  {
+   "answer": "insert pensions psychology",
+   "bb_sha256": "eb4b7b346ec8f5ad0d694fd616d847dafa4e9f18b9462fd4dc7a7ce3eda7feaa",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "pensions",
+     "insert",
+     "psychology"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pensions insert psychology"
+  },
+  {
+   "answer": "bent problems production",
+   "bb_sha256": "95adc83236e2beeac81e5d31fab84b72112dd17334db0d6697b979795ae9edd7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "bent",
+     "production",
+     "problems"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bent production problems"
+  },
+  {
+   "answer": "allowed focused membrane",
+   "bb_sha256": "f8e5dde1cabb20474e504e01170f13db25d669d4b4bb80088c634a14d0c46bd2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "focused",
+     "membrane",
+     "allowed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: focused membrane allowed"
+  },
+  {
+   "answer": "compliance individual issues",
+   "bb_sha256": "b06d8d3c921102c50703a5bac87bc27cb8aa6ce1ee750d499c7f862986ec2e99",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "individual",
+     "compliance",
+     "issues"
+    ]
+   },
+   "question": "Sort the following words alphabetically: individual compliance issues"
+  },
+  {
+   "answer": "attach attacked noon",
+   "bb_sha256": "6bc8ab7fa6e352032ff22ded092264762075863767372f26597dbe8b86c2a157",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "noon",
+     "attach",
+     "attacked"
+    ]
+   },
+   "question": "Sort the following words alphabetically: noon attach attacked"
+  },
+  {
+   "answer": "bonds picnic timing",
+   "bb_sha256": "23d357e41a827e45ba7c6d468c924f4d3ac254b403476d8addaaf04f0839d18d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "timing",
+     "picnic",
+     "bonds"
+    ]
+   },
+   "question": "Sort the following words alphabetically: timing picnic bonds"
+  },
+  {
+   "answer": "figured freedom god",
+   "bb_sha256": "6bc844e1d30425449b5d68685cc08b8ac6c2aebc42e1cf9efa409a5191cf830c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "god",
+     "figured",
+     "freedom"
+    ]
+   },
+   "question": "Sort the following words alphabetically: god figured freedom"
+  },
+  {
+   "answer": "losses loving stewart",
+   "bb_sha256": "7a5582b00a93f1236086c529040230f2101213269a47a71817ab4b2d3b00f0ac",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "stewart",
+     "loving",
+     "losses"
+    ]
+   },
+   "question": "Sort the following words alphabetically: stewart loving losses"
+  },
+  {
+   "answer": "associate bookstore identifier",
+   "bb_sha256": "a5c87a758c02df45556ecca262c6dddbb6f28cdf38bf73f3c0aed4dd7acb2529",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "associate",
+     "identifier",
+     "bookstore"
+    ]
+   },
+   "question": "Sort the following words alphabetically: associate identifier bookstore"
+  },
+  {
+   "answer": "explained pam peter",
+   "bb_sha256": "01537ee5709ec3f1efe28062c53ab8201d5a4f827d8d2498cb851ec4b2e98395",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "pam",
+     "explained",
+     "peter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pam explained peter"
+  },
+  {
+   "answer": "pipes stamp sticker",
+   "bb_sha256": "b57850286bed8b492f6f02d8a626f1c6f208318f043a191130261c6b9820a0c8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "stamp",
+     "pipes",
+     "sticker"
+    ]
+   },
+   "question": "Sort the following words alphabetically: stamp pipes sticker"
+  },
+  {
+   "answer": "angeles enters live",
+   "bb_sha256": "ab75346f63580fe60b6fcbf9e5d8bb7effea5eaa45a7a164030177ee3d4a5913",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "angeles",
+     "live",
+     "enters"
+    ]
+   },
+   "question": "Sort the following words alphabetically: angeles live enters"
+  },
+  {
+   "answer": "cheats customized quiz",
+   "bb_sha256": "5b0b9271d14edd7009228d9ee041643697f62260f3109da3c2755a83473849be",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "cheats",
+     "quiz",
+     "customized"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cheats quiz customized"
+  },
+  {
+   "answer": "fare samuel savannah",
+   "bb_sha256": "4d1e54e306e3a4f388273fbe98c1001fd41fff711d0d983aa9e24ed1bfacdcbd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "samuel",
+     "fare",
+     "savannah"
+    ]
+   },
+   "question": "Sort the following words alphabetically: samuel fare savannah"
+  },
+  {
+   "answer": "nightlife pope sorts",
+   "bb_sha256": "74ee377dce6bb3381573689052f96f5a268bf67604dfd1b1922baf78a975504b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "nightlife",
+     "sorts",
+     "pope"
+    ]
+   },
+   "question": "Sort the following words alphabetically: nightlife sorts pope"
+  },
+  {
+   "answer": "centres contained sin",
+   "bb_sha256": "12be290efdd20df26fb564b65d0635526a8eb1d3ae6035da8e94f855333dd267",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "centres",
+     "sin",
+     "contained"
+    ]
+   },
+   "question": "Sort the following words alphabetically: centres sin contained"
+  },
+  {
+   "answer": "dollar prime privileges",
+   "bb_sha256": "ac670952c7beb8f26423dad89d8e6b33b8c91f628eabf4b99bf4279d6da3a387",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "dollar",
+     "privileges",
+     "prime"
+    ]
+   },
+   "question": "Sort the following words alphabetically: dollar privileges prime"
+  },
+  {
+   "answer": "bank leasing pressure",
+   "bb_sha256": "836ee7e90f68ea8d9b1f0d0c09be94581a74b11b2a88e73b5859aa25ccd28720",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "leasing",
+     "pressure",
+     "bank"
+    ]
+   },
+   "question": "Sort the following words alphabetically: leasing pressure bank"
+  },
+  {
+   "answer": "grand guatemala hosted",
+   "bb_sha256": "34ba9f732facb51d559ec839a88422d1659a6e2d9cc88a721f9f89ee3f3c1a58",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "hosted",
+     "grand",
+     "guatemala"
+    ]
+   },
+   "question": "Sort the following words alphabetically: hosted grand guatemala"
+  },
+  {
+   "answer": "carefully caused scored",
+   "bb_sha256": "27f072d2c7244fff767d07449ff01bd30aa39b5b52bf112a1416ecad602472d6",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "carefully",
+     "scored",
+     "caused"
+    ]
+   },
+   "question": "Sort the following words alphabetically: carefully scored caused"
+  },
+  {
+   "answer": "omissions tax walter",
+   "bb_sha256": "17c926fee2700ff18deca6f3e72aac58fab5cd22cb45a7d140a13cfb22e989fa",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "tax",
+     "omissions",
+     "walter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tax omissions walter"
+  },
+  {
+   "answer": "fear shopping spec",
+   "bb_sha256": "91c7fa699dc33c077f8207b446ee018c7c66872eee00f6ea99625eac241b5739",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "spec",
+     "fear",
+     "shopping"
+    ]
+   },
+   "question": "Sort the following words alphabetically: spec fear shopping"
+  },
+  {
+   "answer": "bird parallel parameter",
+   "bb_sha256": "58526cf2420237f90ff12ff07d98f784a009118f443db88a2dbdd50f69772fbd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "parallel",
+     "bird",
+     "parameter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: parallel bird parameter"
+  },
+  {
+   "answer": "creation explain households",
+   "bb_sha256": "6c8f38c932ebce5f30ecbbb287ae22d8134d259d830878d8eb460a11e2161d9f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "households",
+     "creation",
+     "explain"
+    ]
+   },
+   "question": "Sort the following words alphabetically: households creation explain"
+  },
+  {
+   "answer": "arm women wrap",
+   "bb_sha256": "f29c009046a2fb13032b492ee4b60086ca8f24c3af7919ea404561a7017991f5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "arm",
+     "wrap",
+     "women"
+    ]
+   },
+   "question": "Sort the following words alphabetically: arm wrap women"
+  },
+  {
+   "answer": "engaging enrolled taxi",
+   "bb_sha256": "d4fd1220451074e5519de26c9dc5e4adacb0631511f9693aece7b8d59938a16c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "taxi",
+     "enrolled",
+     "engaging"
+    ]
+   },
+   "question": "Sort the following words alphabetically: taxi enrolled engaging"
+  },
+  {
+   "answer": "emails jobs musicians",
+   "bb_sha256": "3a8a9f609f3024e8713846af125ed6dc1aa3cf00da144e9a3150bb8834139229",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "musicians",
+     "emails",
+     "jobs"
+    ]
+   },
+   "question": "Sort the following words alphabetically: musicians emails jobs"
+  },
+  {
+   "answer": "company point preceding",
+   "bb_sha256": "3e6d8edda3b9995d69f6db3a5d73e5b9abb90babefca68ebc6c029bf5795c19b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "point",
+     "company",
+     "preceding"
+    ]
+   },
+   "question": "Sort the following words alphabetically: point company preceding"
+  },
+  {
+   "answer": "forestry replace reputation",
+   "bb_sha256": "82162fb133c638cdfa09ecbd27b3b366a98735cd4b4121c02c775386fdb4a94c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "reputation",
+     "forestry",
+     "replace"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reputation forestry replace"
+  },
+  {
+   "answer": "adopted injection minnesota",
+   "bb_sha256": "0be39d99e6322c06b0c1753ff1b715067a112411a7b860d12785f8213ce2d88f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "injection",
+     "adopted",
+     "minnesota"
+    ]
+   },
+   "question": "Sort the following words alphabetically: injection adopted minnesota"
+  },
+  {
+   "answer": "have hoped scales",
+   "bb_sha256": "d4feef435bb2606c57d5eafec5d93c55339043984ba6f18c61ffc0007a33f616",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "scales",
+     "have",
+     "hoped"
+    ]
+   },
+   "question": "Sort the following words alphabetically: scales have hoped"
+  },
+  {
+   "answer": "bacteria bars else",
+   "bb_sha256": "1247e4e58a694539e573d874843a4ef7116b7d4aa7e26fbc59f1bb2bd746cab4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "bars",
+     "else",
+     "bacteria"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bars else bacteria"
+  },
+  {
+   "answer": "tile understood writing",
+   "bb_sha256": "9bb6fd0fa1b9b1ae4fb1a054f91f2a80f1d1127d53d3725362182d6f0a272996",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "writing",
+     "tile",
+     "understood"
+    ]
+   },
+   "question": "Sort the following words alphabetically: writing tile understood"
+  },
+  {
+   "answer": "posting putting reporting",
+   "bb_sha256": "7b6841231d4accae0e90f6268010d996fbb51632138cfb6ba44c26c883c37161",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "putting",
+     "posting",
+     "reporting"
+    ]
+   },
+   "question": "Sort the following words alphabetically: putting posting reporting"
+  },
+  {
+   "answer": "climb clouds induction",
+   "bb_sha256": "7f9fdae984319646dc8accdefabd3f8ca8ac0f28dc0054db480d0a6a0fde93dd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "clouds",
+     "climb",
+     "induction"
+    ]
+   },
+   "question": "Sort the following words alphabetically: clouds climb induction"
+  },
+  {
+   "answer": "exist nurses rico",
+   "bb_sha256": "cc2a8d707f191d92ed7e5aa798309a1560ac53c65ed0eac2a1f832748dc03ff0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "rico",
+     "nurses",
+     "exist"
+    ]
+   },
+   "question": "Sort the following words alphabetically: rico nurses exist"
+  },
+  {
+   "answer": "beans blocking spy",
+   "bb_sha256": "5d90a335440a0e3ffbbde2fe36e4d22e33a51658bacadc1d60b0898c407da439",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "blocking",
+     "beans",
+     "spy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: blocking beans spy"
+  },
+  {
+   "answer": "august helmet herald",
+   "bb_sha256": "2eee76d7038c366206233e398f4fe4189bb1b1676afec5935c12c76f47113d3f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "august",
+     "herald",
+     "helmet"
+    ]
+   },
+   "question": "Sort the following words alphabetically: august herald helmet"
+  },
+  {
+   "answer": "arkansas landscapes speaker",
+   "bb_sha256": "2e9510072cd66da0230069388fe705cacde25dd9af71d3063ee1b9748fa8bfc2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "speaker",
+     "landscapes",
+     "arkansas"
+    ]
+   },
+   "question": "Sort the following words alphabetically: speaker landscapes arkansas"
+  },
+  {
+   "answer": "adrian among announced",
+   "bb_sha256": "2a613e2d26bab6b16030dbb2bbf094c6a37102b579c310e65690ad33d0b5d1ab",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "among",
+     "announced",
+     "adrian"
+    ]
+   },
+   "question": "Sort the following words alphabetically: among announced adrian"
+  },
+  {
+   "answer": "directive prizes projected",
+   "bb_sha256": "3e89739a78d3253cbbe2c0b644928abbfae9b3dd91e2b94f4b84e69fd19342b1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "projected",
+     "prizes",
+     "directive"
+    ]
+   },
+   "question": "Sort the following words alphabetically: projected prizes directive"
+  },
+  {
+   "answer": "insects safer vietnamese",
+   "bb_sha256": "612deac2fd32c5b15d3a4e78e021a1f007196287c23a0fc6a8895c57ecdf2298",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "vietnamese",
+     "insects",
+     "safer"
+    ]
+   },
+   "question": "Sort the following words alphabetically: vietnamese insects safer"
+  },
+  {
+   "answer": "lucas reduces rides",
+   "bb_sha256": "88e0837f83b0f2bfa63c992d0e019d0e00e1f9d24bf3ef6aa60d776ea3950d65",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "reduces",
+     "rides",
+     "lucas"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reduces rides lucas"
+  },
+  {
+   "answer": "phone physician taking",
+   "bb_sha256": "c41f835836cfcc5e4e9340cc4fafce4d414af3f1a77d12d23614c43761a7fb36",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "phone",
+     "taking",
+     "physician"
+    ]
+   },
+   "question": "Sort the following words alphabetically: phone taking physician"
+  },
+  {
+   "answer": "favors persistent scuba",
+   "bb_sha256": "57f3cfc89230318faecb2049308a10972217738db2e662e66569de8ee675f81f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "scuba",
+     "persistent",
+     "favors"
+    ]
+   },
+   "question": "Sort the following words alphabetically: scuba persistent favors"
+  },
+  {
+   "answer": "member understand usual",
+   "bb_sha256": "6e03623a010120ee4bbb006c6f435970578b6fe84530c84625e613e922379c06",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "member",
+     "usual",
+     "understand"
+    ]
+   },
+   "question": "Sort the following words alphabetically: member usual understand"
+  },
+  {
+   "answer": "postcards pot talking",
+   "bb_sha256": "708d3baf4fe7e763d2ed182c37ba37c25e59ffefbf19f8276793a451d8dfe2fd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "pot",
+     "postcards",
+     "talking"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pot postcards talking"
+  },
+  {
+   "answer": "ecological repeat sympathy",
+   "bb_sha256": "5d7a27c69e0756972fa5a4d76f4927beb7bfc8f97bfad8538cbd3541db366c51",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "repeat",
+     "ecological",
+     "sympathy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: repeat ecological sympathy"
+  },
+  {
+   "answer": "activists arrow impressive",
+   "bb_sha256": "37a203caf5de7e8837e39100f79b0a178997dce3a4da37913f8558c90a61de49",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "impressive",
+     "activists",
+     "arrow"
+    ]
+   },
+   "question": "Sort the following words alphabetically: impressive activists arrow"
+  },
+  {
+   "answer": "engine islands istanbul",
+   "bb_sha256": "2cbcef0ae1ae8a256d305f7a2a84a0665f5d979560b290a94f3689bb9631de6d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "islands",
+     "istanbul",
+     "engine"
+    ]
+   },
+   "question": "Sort the following words alphabetically: islands istanbul engine"
+  },
+  {
+   "answer": "biggest fraud talked",
+   "bb_sha256": "67b6db46d54a97bf9a90c167463321f25647c5382b14c4b2dc267befb18c616f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "talked",
+     "fraud",
+     "biggest"
+    ]
+   },
+   "question": "Sort the following words alphabetically: talked fraud biggest"
+  },
+  {
+   "answer": "fabrics floral offered",
+   "bb_sha256": "2b36bc98d7be9483e37e2ab908148cdedcd8036418164837eb6a512d40e3b2e1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "offered",
+     "floral",
+     "fabrics"
+    ]
+   },
+   "question": "Sort the following words alphabetically: offered floral fabrics"
+  },
+  {
+   "answer": "executives guard guidelines",
+   "bb_sha256": "ab7f3d7084374117993560e53fc97ea361c4badc4eaea2de38967f3e23c6a721",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "guidelines",
+     "guard",
+     "executives"
+    ]
+   },
+   "question": "Sort the following words alphabetically: guidelines guard executives"
+  },
+  {
+   "answer": "baths jean wireless",
+   "bb_sha256": "3c1512171f7d457d4c1ba388edc3c3fa4b075caf58311575e82a3379ae6b901f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "baths",
+     "wireless",
+     "jean"
+    ]
+   },
+   "question": "Sort the following words alphabetically: baths wireless jean"
+  },
+  {
+   "answer": "indians tsunami turkey",
+   "bb_sha256": "70d706f167a14e7793fea0dd749af8d6b4d72a5aedd7b1d970ccff8b873689c2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "turkey",
+     "tsunami",
+     "indians"
+    ]
+   },
+   "question": "Sort the following words alphabetically: turkey tsunami indians"
+  },
+  {
+   "answer": "brian wearing west",
+   "bb_sha256": "e07cddd788676c81c3ca0f8aaf6a1340e4d40c94095f31abe7aadc6cd73c02b0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "wearing",
+     "brian",
+     "west"
+    ]
+   },
+   "question": "Sort the following words alphabetically: wearing brian west"
+  },
+  {
+   "answer": "account nightmare whenever",
+   "bb_sha256": "2b5a4e045203cf390b919947136979e5ff446052e977de2f96716b3dcf1bf18a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "whenever",
+     "nightmare",
+     "account"
+    ]
+   },
+   "question": "Sort the following words alphabetically: whenever nightmare account"
+  },
+  {
+   "answer": "japanese semi stat",
+   "bb_sha256": "98f23bbbab2526aa1c13817c421c679e79c649a0de64954df190017c795a61d2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "semi",
+     "japanese",
+     "stat"
+    ]
+   },
+   "question": "Sort the following words alphabetically: semi japanese stat"
+  },
+  {
+   "answer": "searching selling technology",
+   "bb_sha256": "3c80098d2078c318cfda8748c6b13649fe9258695c3559f123b4ad83cdccc600",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "selling",
+     "technology",
+     "searching"
+    ]
+   },
+   "question": "Sort the following words alphabetically: selling technology searching"
+  },
+  {
+   "answer": "cultural deadline pure",
+   "bb_sha256": "416240565e6f8479c4017cfc46a5cb39ed442da8b617474a8eb95ff0df6c273e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "pure",
+     "cultural",
+     "deadline"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pure cultural deadline"
+  },
+  {
+   "answer": "founded freelance stayed",
+   "bb_sha256": "070ef06103c5b1dbf0dd842165a3245ad9a8b9d763d859a3bc21eddc9bb03517",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "freelance",
+     "founded",
+     "stayed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: freelance founded stayed"
+  },
+  {
+   "answer": "colin commodity reaching",
+   "bb_sha256": "f823f04a58ae798880842c5a562f83528c3c3058e77452767d06833890c03c47",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "colin",
+     "reaching",
+     "commodity"
+    ]
+   },
+   "question": "Sort the following words alphabetically: colin reaching commodity"
+  },
+  {
+   "answer": "metric solid transit",
+   "bb_sha256": "70ac78b6c338eb688ff41af7bdc9446a51e9c1c0669ddc56a0614220b3360632",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "transit",
+     "solid",
+     "metric"
+    ]
+   },
+   "question": "Sort the following words alphabetically: transit solid metric"
+  },
+  {
+   "answer": "reproduced vendors voice",
+   "bb_sha256": "ecbcc5bfd53a38e4d041b486e94d21575a0a96f62ff0bb8e809b8843953f7117",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "vendors",
+     "reproduced",
+     "voice"
+    ]
+   },
+   "question": "Sort the following words alphabetically: vendors reproduced voice"
+  },
+  {
+   "answer": "staying workplace worm",
+   "bb_sha256": "fde3b1997254bcdb0111e41ce9295394fcab32a6f46ff19ccb04dde8342afaa5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "workplace",
+     "worm",
+     "staying"
+    ]
+   },
+   "question": "Sort the following words alphabetically: workplace worm staying"
+  },
+  {
+   "answer": "bodies polls queue",
+   "bb_sha256": "03cefe5bbe9bda1ad0aae4ca21cff80b155c57c3323e7b78000016e2cbf35b6c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "queue",
+     "bodies",
+     "polls"
+    ]
+   },
+   "question": "Sort the following words alphabetically: queue bodies polls"
+  },
+  {
+   "answer": "elections genuine graham",
+   "bb_sha256": "aa9ad5b54132190ec434741741444cac2564f6b5b3a09526b9fb48e4146722a2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "genuine",
+     "graham",
+     "elections"
+    ]
+   },
+   "question": "Sort the following words alphabetically: genuine graham elections"
+  },
+  {
+   "answer": "deal measured messaging",
+   "bb_sha256": "9ca40e7aeffd48418766ca024439e17e85682b6fafc092a70944249a14e1ba10",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "messaging",
+     "deal",
+     "measured"
+    ]
+   },
+   "question": "Sort the following words alphabetically: messaging deal measured"
+  },
+  {
+   "answer": "dietary faced saved",
+   "bb_sha256": "9128a092ddd596895e63ef209ed33a61c4d5b6a4e4a9acb4d92cb1cdfe81df6a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "saved",
+     "faced",
+     "dietary"
+    ]
+   },
+   "question": "Sort the following words alphabetically: saved faced dietary"
+  },
+  {
+   "answer": "pan persian tire",
+   "bb_sha256": "3767f9624b7065ab382878355fb63669f1ad1d06c182ecec72bb78a4836d5d14",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "persian",
+     "tire",
+     "pan"
+    ]
+   },
+   "question": "Sort the following words alphabetically: persian tire pan"
+  },
+  {
+   "answer": "florists wearing wellington",
+   "bb_sha256": "21bc111f8d9fb0026105dc725b413aebe8c6cfac653de9e4c454aa14507dbeb1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "florists",
+     "wellington",
+     "wearing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: florists wellington wearing"
+  },
+  {
+   "answer": "processed toshiba wax",
+   "bb_sha256": "d788109501312e436a32929ad0f0f8d4d4436290dc7f62434c33cfd90fdb20f0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "wax",
+     "toshiba",
+     "processed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: wax toshiba processed"
+  },
+  {
+   "answer": "campus pensions pipeline",
+   "bb_sha256": "86f4f9acc4861b0e4ac8400a74d2124d861be316a15faf07ad62eeb17f2c971c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "pipeline",
+     "pensions",
+     "campus"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pipeline pensions campus"
+  },
+  {
+   "answer": "auditor austria victoria",
+   "bb_sha256": "ad0d90e3cde113a5ec11c5047297f02f30ccd2d40d4f8bb0205fbaaa64f6594e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "victoria",
+     "austria",
+     "auditor"
+    ]
+   },
+   "question": "Sort the following words alphabetically: victoria austria auditor"
+  },
+  {
+   "answer": "dogs fairy thursday",
+   "bb_sha256": "4d4b53a717994e43651f1c965312415fdfda4d4dc434ae7642578d6301c7876e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "dogs",
+     "thursday",
+     "fairy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: dogs thursday fairy"
+  },
+  {
+   "answer": "blades built drain",
+   "bb_sha256": "12fd51268caada67171bdb046016daf8b3fdd28153840636dc1527928c10ce7d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "drain",
+     "blades",
+     "built"
+    ]
+   },
+   "question": "Sort the following words alphabetically: drain blades built"
+  },
+  {
+   "answer": "advantage adverse ids",
+   "bb_sha256": "b02b4ed516875a84b24be946c377b85b32625e91458355b4b3eaf01186b99226",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "ids",
+     "advantage",
+     "adverse"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ids advantage adverse"
+  },
+  {
+   "answer": "magazine responded trans",
+   "bb_sha256": "7b8bc4a9419440e5e0d742763c1ce3f2c672ddaed50ce7e2e687d92746d099dc",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "trans",
+     "magazine",
+     "responded"
+    ]
+   },
+   "question": "Sort the following words alphabetically: trans magazine responded"
+  },
+  {
+   "answer": "farm pacific promised",
+   "bb_sha256": "b4332c7c27a69fc009493f86aea5bd9708f2e59ca10e955e5943a31b46175986",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "farm",
+     "promised",
+     "pacific"
+    ]
+   },
+   "question": "Sort the following words alphabetically: farm promised pacific"
+  },
+  {
+   "answer": "mitsubishi mixed regular",
+   "bb_sha256": "226a3495bc1e91ed12c04dbeaefe1771528deaa6aa27fdc2e53f949dd56530b3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "regular",
+     "mitsubishi",
+     "mixed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: regular mitsubishi mixed"
+  },
+  {
+   "answer": "books trainer wife",
+   "bb_sha256": "809b452a00970b9d456bb35025a3595d279bd8c77073bff321cacb8773dbf46b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "trainer",
+     "wife",
+     "books"
+    ]
+   },
+   "question": "Sort the following words alphabetically: trainer wife books"
+  },
+  {
+   "answer": "occasions only spaces",
+   "bb_sha256": "ac4175c08a746d64e133b616bca64ffb90f9b4971c8f99d9a269a7a8fa5580ae",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "spaces",
+     "occasions",
+     "only"
+    ]
+   },
+   "question": "Sort the following words alphabetically: spaces occasions only"
+  },
+  {
+   "answer": "kate solutions solved",
+   "bb_sha256": "bcfd6a6a43042391b5634c7d15a2d0f9c6809ae62f360971467ecfed59ff606d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "solutions",
+     "solved",
+     "kate"
+    ]
+   },
+   "question": "Sort the following words alphabetically: solutions solved kate"
+  },
+  {
+   "answer": "balance suite von",
+   "bb_sha256": "28e6c42d95ce714da3ee5b30851ea73037ca1139571ad48f5bbc5950fdaa86cc",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "suite",
+     "balance",
+     "von"
+    ]
+   },
+   "question": "Sort the following words alphabetically: suite balance von"
+  },
+  {
+   "answer": "bankruptcy revenues rooms",
+   "bb_sha256": "b2a434eac62188927d3fe4fcd329f4a138116839bb780463d041635af29d0456",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "bankruptcy",
+     "rooms",
+     "revenues"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bankruptcy rooms revenues"
+  },
+  {
+   "answer": "additions auckland author",
+   "bb_sha256": "eff1d72923b2b31a8c4e42c5358643c14e4e259900a1e763b82b5fc5c65430c0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "auckland",
+     "author",
+     "additions"
+    ]
+   },
+   "question": "Sort the following words alphabetically: auckland author additions"
+  },
+  {
+   "answer": "aqua later symbols",
+   "bb_sha256": "0eec63e238988144ca9f718e0af867e23de2f11f5957d6be099afe528902bb70",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "aqua",
+     "symbols",
+     "later"
+    ]
+   },
+   "question": "Sort the following words alphabetically: aqua symbols later"
+  },
+  {
+   "answer": "excellence iceland integral",
+   "bb_sha256": "74bc15277d25ae2709a00dea6fc2822522988a6c2fa607635a7744823bb941ab",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "excellence",
+     "integral",
+     "iceland"
+    ]
+   },
+   "question": "Sort the following words alphabetically: excellence integral iceland"
+  },
+  {
+   "answer": "oven poison positions",
+   "bb_sha256": "c5bea9baf99ea8e83d74baa390b5d4d478261ecdf24ee6b26ce3b14d58e950b0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "oven",
+     "positions",
+     "poison"
+    ]
+   },
+   "question": "Sort the following words alphabetically: oven positions poison"
+  },
+  {
+   "answer": "discovery equality rescue",
+   "bb_sha256": "d490756e480879747121003f863cb985176759fbbb1b2b85edf016e4c4bafa23",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "equality",
+     "discovery",
+     "rescue"
+    ]
+   },
+   "question": "Sort the following words alphabetically: equality discovery rescue"
+  },
+  {
+   "answer": "classes perfect properly",
+   "bb_sha256": "b5a94833b487deae2a4d45aa337ca457ca2c5d3b52c47693e7b0385d25673b37",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "perfect",
+     "classes",
+     "properly"
+    ]
+   },
+   "question": "Sort the following words alphabetically: perfect classes properly"
+  },
+  {
+   "answer": "peer people thompson",
+   "bb_sha256": "01c62db7c501ff703a9d4e6c88539c195cedb349dde0b28f664915d6e05507d1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "people",
+     "peer",
+     "thompson"
+    ]
+   },
+   "question": "Sort the following words alphabetically: people peer thompson"
+  },
+  {
+   "answer": "antique packed stream",
+   "bb_sha256": "db6116aadd7b9994e997e36282e1ce693d68e11554cfc8e27921b7350a7d0e19",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "packed",
+     "antique",
+     "stream"
+    ]
+   },
+   "question": "Sort the following words alphabetically: packed antique stream"
+  },
+  {
+   "answer": "earrings scale secret",
+   "bb_sha256": "432bf3aafa0fff57e1b96eeacdccfdea1e50e8902eaa48c19f15d91abc8b2e80",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "scale",
+     "secret",
+     "earrings"
+    ]
+   },
+   "question": "Sort the following words alphabetically: scale secret earrings"
+  },
+  {
+   "answer": "bra pierre piss",
+   "bb_sha256": "82810a10b24ef33da7ed6df5e81e6ddd4d3fa5f0628cf3c56acc4c47b8208e0c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "piss",
+     "pierre",
+     "bra"
+    ]
+   },
+   "question": "Sort the following words alphabetically: piss pierre bra"
+  },
+  {
+   "answer": "floral gross key",
+   "bb_sha256": "49c0eae52e48687470cdfa9c8c093f60459593123527f3656f886c92cd46292d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "key",
+     "gross",
+     "floral"
+    ]
+   },
+   "question": "Sort the following words alphabetically: key gross floral"
+  },
+  {
+   "answer": "blade seek stayed",
+   "bb_sha256": "8e816399f40546608dd764fbcd599789697d3b8be0eb58a08321fd27d2c489d8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "stayed",
+     "seek",
+     "blade"
+    ]
+   },
+   "question": "Sort the following words alphabetically: stayed seek blade"
+  },
+  {
+   "answer": "dairy gentle geometry",
+   "bb_sha256": "83d012788a72e36357d290ba33a08eddb7bcab226db55a3d28fc013b02095813",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "geometry",
+     "gentle",
+     "dairy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: geometry gentle dairy"
+  },
+  {
+   "answer": "liz mortality stress",
+   "bb_sha256": "e4195f50cecebfc8313881777bada230a1dfd74145744bedbb1df845ceae1a00",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "mortality",
+     "liz",
+     "stress"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mortality liz stress"
+  },
+  {
+   "answer": "genres yale york",
+   "bb_sha256": "d038e0b4ca8baf260d327f117e563ef40eddc0fea873a6b51eaee0fe5527de32",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "york",
+     "yale",
+     "genres"
+    ]
+   },
+   "question": "Sort the following words alphabetically: york yale genres"
+  },
+  {
+   "answer": "high recall reflected",
+   "bb_sha256": "8f693011574e47d564fb2f65a9ce9a32635db3dff8d3872cd8b31151a1d89530",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "recall",
+     "high",
+     "reflected"
+    ]
+   },
+   "question": "Sort the following words alphabetically: recall high reflected"
+  },
+  {
+   "answer": "barely pros valium",
+   "bb_sha256": "507b5845bc22871ca143375b0eeb07393ebe8fc79160a686479d3b01a8741bcc",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "pros",
+     "valium",
+     "barely"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pros valium barely"
+  },
+  {
+   "answer": "capacity closest source",
+   "bb_sha256": "561950b0a274f9ce4c6d2deed9660fcbc68d9b8fc244e6637e6e1315caf88b6b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "source",
+     "capacity",
+     "closest"
+    ]
+   },
+   "question": "Sort the following words alphabetically: source capacity closest"
+  },
+  {
+   "answer": "providers punch purse",
+   "bb_sha256": "bae7a55c1bc05d0b51774029fb23eb13300174f0ebd5fbd79a7a471b91853e87",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "punch",
+     "providers",
+     "purse"
+    ]
+   },
+   "question": "Sort the following words alphabetically: punch providers purse"
+  },
+  {
+   "answer": "computer frequency sen",
+   "bb_sha256": "1fdfd17e38edf8314ad2065a2177f2372fb76c3605eb6ddb3d838595f51f4d90",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sen",
+     "frequency",
+     "computer"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sen frequency computer"
+  },
+  {
+   "answer": "offense seafood steam",
+   "bb_sha256": "81330a964571aa2f80c674e84b899dbfd9851f806b31600fd3edb175e6fe1391",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "offense",
+     "steam",
+     "seafood"
+    ]
+   },
+   "question": "Sort the following words alphabetically: offense steam seafood"
+  },
+  {
+   "answer": "holes honda kodak",
+   "bb_sha256": "2b95580b892e57f781a89df62dffc557303503fb2449d5c713ec07432c87d792",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "kodak",
+     "holes",
+     "honda"
+    ]
+   },
+   "question": "Sort the following words alphabetically: kodak holes honda"
+  },
+  {
+   "answer": "china engine perfume",
+   "bb_sha256": "b098a564464aade1f858fea2aff43fb463890b594f5f4ebf0d595dfde86550ea",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "engine",
+     "china",
+     "perfume"
+    ]
+   },
+   "question": "Sort the following words alphabetically: engine china perfume"
+  },
+  {
+   "answer": "animals assess benefit",
+   "bb_sha256": "6537ce15277c66e0ea8cc247025d98118c49c00124c7f56abaa522532aaadd85",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "assess",
+     "benefit",
+     "animals"
+    ]
+   },
+   "question": "Sort the following words alphabetically: assess benefit animals"
+  },
+  {
+   "answer": "guided library lime",
+   "bb_sha256": "48d6a7300d09a02f26c704d5f795f055fc6b6561febc0563d298b4928c5f8f75",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "guided",
+     "lime",
+     "library"
+    ]
+   },
+   "question": "Sort the following words alphabetically: guided lime library"
+  },
+  {
+   "answer": "including posing support",
+   "bb_sha256": "461ae7fda5b440838514951e13db55f605d5384e1cec3e8ad9fa65b6b38a6fb5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "including",
+     "support",
+     "posing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: including support posing"
+  },
+  {
+   "answer": "powers property purchases",
+   "bb_sha256": "15678981ec93c7b2a109aa5cc35c02fda36f6e8d65248fcd68d9ed16a58eb6b6",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "property",
+     "powers",
+     "purchases"
+    ]
+   },
+   "question": "Sort the following words alphabetically: property powers purchases"
+  },
+  {
+   "answer": "library linux omaha",
+   "bb_sha256": "2818f886e095bd07dc7d6a0f7a1ccadd159eb6657e50c451665c3cd4cdfa034c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "omaha",
+     "linux",
+     "library"
+    ]
+   },
+   "question": "Sort the following words alphabetically: omaha linux library"
+  },
+  {
+   "answer": "billing decrease hampton",
+   "bb_sha256": "0aa7030819b51f8c5be97718c1324de231f5a1d78d0b130ab4a11ff4cbeb92c1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "hampton",
+     "decrease",
+     "billing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: hampton decrease billing"
+  },
+  {
+   "answer": "richardson theaters tommy",
+   "bb_sha256": "6f266028b92b68398c14ff7837c7ee8382437188701bd2187aa8d5560601a234",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "theaters",
+     "richardson",
+     "tommy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: theaters richardson tommy"
+  },
+  {
+   "answer": "ago agreement enrollment",
+   "bb_sha256": "bbde233bd20c10c8b57bdc1ad1056bf6c7b56afcbcfde28145eb2bf73db970c8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "enrollment",
+     "ago",
+     "agreement"
+    ]
+   },
+   "question": "Sort the following words alphabetically: enrollment ago agreement"
+  },
+  {
+   "answer": "keeping momentum pound",
+   "bb_sha256": "ef93d8a31219be847a50ed8b0e833fbf7ee39193ca2dec814acd73cb84fe5650",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "momentum",
+     "keeping",
+     "pound"
+    ]
+   },
+   "question": "Sort the following words alphabetically: momentum keeping pound"
+  },
+  {
+   "answer": "attractive jacob jump",
+   "bb_sha256": "bf9e4986c7b14a39508764d9f99595a496cf15f3cd6a29e8a9b77fff7cad4f06",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "jacob",
+     "attractive",
+     "jump"
+    ]
+   },
+   "question": "Sort the following words alphabetically: jacob attractive jump"
+  },
+  {
+   "answer": "affiliate afternoon completely",
+   "bb_sha256": "243ec96a05919c1c2917055f0425c0cd9adf87bd401e891ca479d98946033259",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "afternoon",
+     "affiliate",
+     "completely"
+    ]
+   },
+   "question": "Sort the following words alphabetically: afternoon affiliate completely"
+  },
+  {
+   "answer": "features jewel visual",
+   "bb_sha256": "d179183ab73fceec68a39a713fa9d64b21ad6495aa47735f6ecf22e7730ea34f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "visual",
+     "jewel",
+     "features"
+    ]
+   },
+   "question": "Sort the following words alphabetically: visual jewel features"
+  },
+  {
+   "answer": "blocks bytes fellow",
+   "bb_sha256": "6c7a18a33b5256729db817ff8a548b760a3284a69c4cb9f1c26079c2761a6ef7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "bytes",
+     "fellow",
+     "blocks"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bytes fellow blocks"
+  },
+  {
+   "answer": "audi free freight",
+   "bb_sha256": "e1edd1094b5cfb37cf3fb7ee3911e5b8020208f7536752eaa6a58ad85d1a26d3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "freight",
+     "free",
+     "audi"
+    ]
+   },
+   "question": "Sort the following words alphabetically: freight free audi"
+  },
+  {
+   "answer": "replacing scoring today",
+   "bb_sha256": "846c6d0994e5d3ad9c05519f7556a61f44382330ad3e2099d8157462b2766828",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "today",
+     "scoring",
+     "replacing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: today scoring replacing"
+  },
+  {
+   "answer": "army cited cry",
+   "bb_sha256": "ebe06522b39cf3214d22839c6e1e79c719b5014487c1e9159242d31830b46850",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "cited",
+     "cry",
+     "army"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cited cry army"
+  },
+  {
+   "answer": "cunt curtis exceptions",
+   "bb_sha256": "644b75cb259e869e0b4db8e0c6f77484b853de00f3f07d7ee4ad0cc921341a15",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "exceptions",
+     "cunt",
+     "curtis"
+    ]
+   },
+   "question": "Sort the following words alphabetically: exceptions cunt curtis"
+  },
+  {
+   "answer": "digital rome sullivan",
+   "bb_sha256": "ea59c04bd119535c02edfb002ff2b8ab4e3981c2d52bb831705c49f1bdb86b78",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sullivan",
+     "rome",
+     "digital"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sullivan rome digital"
+  },
+  {
+   "answer": "dis dollar ground",
+   "bb_sha256": "1198edc62239b73dc13eb13388dc8d63f565a788ba837ce0abcc2ce5d45dbcd0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "dollar",
+     "dis",
+     "ground"
+    ]
+   },
+   "question": "Sort the following words alphabetically: dollar dis ground"
+  },
+  {
+   "answer": "cube customize websites",
+   "bb_sha256": "30efa11651c36bfaa441b18efd0fe21d9534f4f4fa3d07ea1da418a945e1f141",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "websites",
+     "customize",
+     "cube"
+    ]
+   },
+   "question": "Sort the following words alphabetically: websites customize cube"
+  },
+  {
+   "answer": "chassis genetic venice",
+   "bb_sha256": "c3bc0dea90c2129c7bc266112056fe918dece5ac94a6de9995eb00e8bcd21d0a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "chassis",
+     "venice",
+     "genetic"
+    ]
+   },
+   "question": "Sort the following words alphabetically: chassis venice genetic"
+  },
+  {
+   "answer": "load opens orgasm",
+   "bb_sha256": "30d58602092224be61b152f5c832868a5f80e387e2fdf0eaebe0bf40b75930a9",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "orgasm",
+     "opens",
+     "load"
+    ]
+   },
+   "question": "Sort the following words alphabetically: orgasm opens load"
+  },
+  {
+   "answer": "fact plan playback",
+   "bb_sha256": "e5a8628e25730e9a15b46d762ece59c50cfc80eed746e13990797d8c9f050fec",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "playback",
+     "fact",
+     "plan"
+    ]
+   },
+   "question": "Sort the following words alphabetically: playback fact plan"
+  },
+  {
+   "answer": "dec eclipse privilege",
+   "bb_sha256": "7efa91663a97b3460b936676e98d0a490e1c0f1fd9b88551a9b190187ec13971",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "eclipse",
+     "dec",
+     "privilege"
+    ]
+   },
+   "question": "Sort the following words alphabetically: eclipse dec privilege"
+  },
+  {
+   "answer": "defendant dildo moved",
+   "bb_sha256": "bd3bdfc3433ba5660485a3327044bc280f756321ed3586d2c5a963a2b9b8bb81",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "defendant",
+     "moved",
+     "dildo"
+    ]
+   },
+   "question": "Sort the following words alphabetically: defendant moved dildo"
+  },
+  {
+   "answer": "fellowship side sim",
+   "bb_sha256": "7a6fab7283b7783c88f4688744bafbfb03619da482f609336dd8701c2fbd25b2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "sim",
+     "fellowship",
+     "side"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sim fellowship side"
+  },
+  {
+   "answer": "aging carmen sterling",
+   "bb_sha256": "5c1f6477eed0ad1f88185de2466f48dbcde2dacb87739813a0fad7af26ae1bb4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "carmen",
+     "sterling",
+     "aging"
+    ]
+   },
+   "question": "Sort the following words alphabetically: carmen sterling aging"
+  },
+  {
+   "answer": "cisco setting sorts",
+   "bb_sha256": "c0865856e0a4c56d781517eed43fbcf43acd00a942465c529f7a50aef05e2aae",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "sorts",
+     "cisco",
+     "setting"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sorts cisco setting"
+  },
+  {
+   "answer": "beef bend wall",
+   "bb_sha256": "3f46049e18deb0b4d1456b57695a7fe9ca43294eef2a5f8a6a2b9b55bff8d6d2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "bend",
+     "wall",
+     "beef"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bend wall beef"
+  },
+  {
+   "answer": "arthritis planning unto",
+   "bb_sha256": "1c1508e9b60bbc9e4935100843718ac3db9dda2f1ba066138bcad964ab8b630e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "unto",
+     "arthritis",
+     "planning"
+    ]
+   },
+   "question": "Sort the following words alphabetically: unto arthritis planning"
+  },
+  {
+   "answer": "attention estonia expense",
+   "bb_sha256": "a7f4f68120beb0b55a9b751475a7eb7d086ecbac401dca6f115e5ed5ec829b62",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "expense",
+     "attention",
+     "estonia"
+    ]
+   },
+   "question": "Sort the following words alphabetically: expense attention estonia"
+  },
+  {
+   "answer": "belarus subsequent substitute",
+   "bb_sha256": "ef008e50405685cec9801e3ba1cecfb4eddf92a99b3c97939072154b0ad3d1df",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "belarus",
+     "substitute",
+     "subsequent"
+    ]
+   },
+   "question": "Sort the following words alphabetically: belarus substitute subsequent"
+  },
+  {
+   "answer": "chapter duration jumping",
+   "bb_sha256": "b26bfaab48702ae9f71403ea8c9758ebad10437ad27a47d235b94edb15cfdbe0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "jumping",
+     "chapter",
+     "duration"
+    ]
+   },
+   "question": "Sort the following words alphabetically: jumping chapter duration"
+  },
+  {
+   "answer": "emily skins sound",
+   "bb_sha256": "96631a4b9e9550edbc26ff7a31e5f6476d8714681978671ff293e103fe74a102",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "skins",
+     "sound",
+     "emily"
+    ]
+   },
+   "question": "Sort the following words alphabetically: skins sound emily"
+  },
+  {
+   "answer": "dvds priced protecting",
+   "bb_sha256": "c3cd9575e5b7b79f4fb1fcefb5862deb765fdcb4bcdbf33cc68b3ae8f480b841",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "priced",
+     "protecting",
+     "dvds"
+    ]
+   },
+   "question": "Sort the following words alphabetically: priced protecting dvds"
+  },
+  {
+   "answer": "appreciate cod super",
+   "bb_sha256": "771caaad2f8bbabf76b5f364a5c328fdd71d331c9574b5d9248e4f637aa13ec4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "super",
+     "cod",
+     "appreciate"
+    ]
+   },
+   "question": "Sort the following words alphabetically: super cod appreciate"
+  },
+  {
+   "answer": "california could signals",
+   "bb_sha256": "f95eaa1c2312ffa3037940b999fbb102b71d5f0ce29057d21359752fcd5e2cbb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "could",
+     "signals",
+     "california"
+    ]
+   },
+   "question": "Sort the following words alphabetically: could signals california"
+  },
+  {
+   "answer": "cargo carried larger",
+   "bb_sha256": "6c705064b01c5c4b6b477c257ea3a8444f660ce4573eb255feeeecf134a4fee0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "larger",
+     "carried",
+     "cargo"
+    ]
+   },
+   "question": "Sort the following words alphabetically: larger carried cargo"
+  },
+  {
+   "answer": "disabled gender respective",
+   "bb_sha256": "b223261741d8b686238678ed499e474aa3cfb45ccb27b59fc35600b7b30fa61e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "respective",
+     "gender",
+     "disabled"
+    ]
+   },
+   "question": "Sort the following words alphabetically: respective gender disabled"
+  },
+  {
+   "answer": "affects assist further",
+   "bb_sha256": "778fd32db33eb905144d1cba177696bff0a3d94f24bb559d153c5db1d3ae484d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "assist",
+     "affects",
+     "further"
+    ]
+   },
+   "question": "Sort the following words alphabetically: assist affects further"
+  },
+  {
+   "answer": "ascii assess uri",
+   "bb_sha256": "163e9407419d0524f62ee6982e755d94dc97515e3ce24e7c08369fc9c4007eba",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "uri",
+     "assess",
+     "ascii"
+    ]
+   },
+   "question": "Sort the following words alphabetically: uri assess ascii"
+  },
+  {
+   "answer": "describe staff tries",
+   "bb_sha256": "215646992b75c62b11d2bbb3959851cfa57f52feb1a6e3e4cdd1ab030c2fdb73",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "tries",
+     "describe",
+     "staff"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tries describe staff"
+  },
+  {
+   "answer": "deluxe differ ent",
+   "bb_sha256": "a2b4e74d8ed15831213a92bbd22f04a82caaa62155a43b839935968765f57766",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ent",
+     "deluxe",
+     "differ"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ent deluxe differ"
+  },
+  {
+   "answer": "fucking full raised",
+   "bb_sha256": "b44dbcc145385a137ff757709c936a3f33c3922b55b7dca5fde591aa72b308f1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "full",
+     "raised",
+     "fucking"
+    ]
+   },
+   "question": "Sort the following words alphabetically: full raised fucking"
+  },
+  {
+   "answer": "belgium certified position",
+   "bb_sha256": "2c1d552bc199cb024f310467e94f77f331f547a5f224a4ac9ba4a0e3be2287de",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "belgium",
+     "position",
+     "certified"
+    ]
+   },
+   "question": "Sort the following words alphabetically: belgium position certified"
+  },
+  {
+   "answer": "bankruptcy ecuador eyed",
+   "bb_sha256": "b8a7b6deb4008889e2fe8b9367a690175f050315e73d2768a2d92751c6de7495",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ecuador",
+     "bankruptcy",
+     "eyed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ecuador bankruptcy eyed"
+  },
+  {
+   "answer": "speaking willing wizard",
+   "bb_sha256": "aab1ce780b26066ad7e9865a9e8bd876008a507c3182d25d2f57b4c671528068",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "willing",
+     "speaking",
+     "wizard"
+    ]
+   },
+   "question": "Sort the following words alphabetically: willing speaking wizard"
+  },
+  {
+   "answer": "download linux mailing",
+   "bb_sha256": "1f600db98bb339a701f17e946aeb25267a308eb4c2b3f81f35eddd4408da13f9",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "linux",
+     "download",
+     "mailing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: linux download mailing"
+  },
+  {
+   "answer": "clubs copyrights customs",
+   "bb_sha256": "8b7d3fbc0a18ef51df3d8f69f335bcb1ff0b850d80e7a27f738ac08d093f012c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "customs",
+     "clubs",
+     "copyrights"
+    ]
+   },
+   "question": "Sort the following words alphabetically: customs clubs copyrights"
+  },
+  {
+   "answer": "lauderdale songs sorts",
+   "bb_sha256": "cbf0ad6c4e02eedc297d340211bb4d9929419c6dbcb0145314086fdc7a5c08c7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "songs",
+     "lauderdale",
+     "sorts"
+    ]
+   },
+   "question": "Sort the following words alphabetically: songs lauderdale sorts"
+  },
+  {
+   "answer": "cutting forming tiffany",
+   "bb_sha256": "fb967209096337219796cb06210fb9ae4352cec4a4f17c832e966750bb5f7f8c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "forming",
+     "tiffany",
+     "cutting"
+    ]
+   },
+   "question": "Sort the following words alphabetically: forming tiffany cutting"
+  },
+  {
+   "answer": "badge tent tile",
+   "bb_sha256": "4714a27c3f9f45aff2dd9a13c13ea4a4c672a3191c467630738768aec750380a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "tile",
+     "tent",
+     "badge"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tile tent badge"
+  },
+  {
+   "answer": "awarded aware outputs",
+   "bb_sha256": "925fbab0a59db85449331ef004c0a3e105777db5cf74aee770e31fd77fbbe28e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "outputs",
+     "aware",
+     "awarded"
+    ]
+   },
+   "question": "Sort the following words alphabetically: outputs aware awarded"
+  },
+  {
+   "answer": "during heavily over",
+   "bb_sha256": "693ef6ed4201b0eeed8e4883cebb175561a95ce55da5cbb7fe4b9d0ecde40bdf",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "during",
+     "over",
+     "heavily"
+    ]
+   },
+   "question": "Sort the following words alphabetically: during over heavily"
+  },
+  {
+   "answer": "amendments asks chairs",
+   "bb_sha256": "fa02db71088ac213e2a924ad490dc9ba5c668c16c5c803bef98d5282d6dac66c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "chairs",
+     "asks",
+     "amendments"
+    ]
+   },
+   "question": "Sort the following words alphabetically: chairs asks amendments"
+  },
+  {
+   "answer": "databases grant graphical",
+   "bb_sha256": "e9a59eb9c3adafea55f646eb8872b6b26980e510baa1dfc67a776ffc2a8c0013",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "graphical",
+     "grant",
+     "databases"
+    ]
+   },
+   "question": "Sort the following words alphabetically: graphical grant databases"
+  },
+  {
+   "answer": "latest miller sandwich",
+   "bb_sha256": "9d84e5d35befb9e34c4de91e05064e10bb17891261e07de273a5fb3beb25c90a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sandwich",
+     "latest",
+     "miller"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sandwich latest miller"
+  },
+  {
+   "answer": "credits ton traveler",
+   "bb_sha256": "cd6564591563f8887768d4973fee265bfadba1e70ccd75d01660fd861bcbbe0e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "credits",
+     "traveler",
+     "ton"
+    ]
+   },
+   "question": "Sort the following words alphabetically: credits traveler ton"
+  },
+  {
+   "answer": "describe transform tribal",
+   "bb_sha256": "2598a6c78914e041566bc7b918a91946e9c4589ca527996a96e936ea8835c3be",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "tribal",
+     "describe",
+     "transform"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tribal describe transform"
+  },
+  {
+   "answer": "attempting bennett hull",
+   "bb_sha256": "9b2daa63c7509a8afde6df0cd64deb0ea88d9bfdaa9961fc36834c9a074aadeb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "bennett",
+     "attempting",
+     "hull"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bennett attempting hull"
+  },
+  {
+   "answer": "lecture watch whole",
+   "bb_sha256": "d56906d8254dd54c0a0c738fd1b98ba4d9911bc6d6956187e736060740220e59",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "watch",
+     "lecture",
+     "whole"
+    ]
+   },
+   "question": "Sort the following words alphabetically: watch lecture whole"
+  },
+  {
+   "answer": "advise annotated announce",
+   "bb_sha256": "3a1eec6fd01fa9c5dea4a56bfb369db36fc514593142005d3b708832a3ed98fe",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "advise",
+     "announce",
+     "annotated"
+    ]
+   },
+   "question": "Sort the following words alphabetically: advise announce annotated"
+  },
+  {
+   "answer": "likewise mel peaceful",
+   "bb_sha256": "a2ead01f73e5fa981cede679e3b33d0a6cd582043d4bcf3dc84291c896795885",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "peaceful",
+     "likewise",
+     "mel"
+    ]
+   },
+   "question": "Sort the following words alphabetically: peaceful likewise mel"
+  },
+  {
+   "answer": "backed benjamin moisture",
+   "bb_sha256": "54ccea870a7761dea652026b6c72bd6865f627b18acc28e224432167e33eac6f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "moisture",
+     "backed",
+     "benjamin"
+    ]
+   },
+   "question": "Sort the following words alphabetically: moisture backed benjamin"
+  },
+  {
+   "answer": "disputes moreover moves",
+   "bb_sha256": "2140e2f2e88bca7844a3cee40e5d68451f11f3dc2156b0bb757cc45d00d60589",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "moreover",
+     "moves",
+     "disputes"
+    ]
+   },
+   "question": "Sort the following words alphabetically: moreover moves disputes"
+  },
+  {
+   "answer": "advocate oven reserve",
+   "bb_sha256": "75be9f5c5726fd97888a347296ef7ddcc67278fc57b45d7ccf84b1b5da6281b2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "reserve",
+     "oven",
+     "advocate"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reserve oven advocate"
+  },
+  {
+   "answer": "appointed arrested donate",
+   "bb_sha256": "0f431857e6518dd330c957537007b2722185435ebb288ed4a61726458ade5ccd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "arrested",
+     "donate",
+     "appointed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: arrested donate appointed"
+  },
+  {
+   "answer": "dentists television ten",
+   "bb_sha256": "85fc532341f09b4373b19ee53406d40e81fd0cdfdd117fd7d60ad55f53fc2929",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "television",
+     "dentists",
+     "ten"
+    ]
+   },
+   "question": "Sort the following words alphabetically: television dentists ten"
+  },
+  {
+   "answer": "alan sprint upon",
+   "bb_sha256": "a5775c00f7f0155fa9cbf5a781ee7c642e0f9226f776cbb11c5cc8e92b8b13c0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "upon",
+     "alan",
+     "sprint"
+    ]
+   },
+   "question": "Sort the following words alphabetically: upon alan sprint"
+  },
+  {
+   "answer": "fairfield unable updating",
+   "bb_sha256": "52cfb4cfb1b5737a0928a930148c73e92190ef9636c06286bc176c5557f80b97",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "fairfield",
+     "updating",
+     "unable"
+    ]
+   },
+   "question": "Sort the following words alphabetically: fairfield updating unable"
+  },
+  {
+   "answer": "elected qualify quotations",
+   "bb_sha256": "9e7d20f02008f90384e1d3170d6ae259c513a03295c96a34d8245e8be1c87a41",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "qualify",
+     "elected",
+     "quotations"
+    ]
+   },
+   "question": "Sort the following words alphabetically: qualify elected quotations"
+  },
+  {
+   "answer": "affecting duck mailing",
+   "bb_sha256": "6e8edec028de7e9b97c28ecdde8c0c82e8d173149c20d9ddcc24a72c10adee5d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "duck",
+     "mailing",
+     "affecting"
+    ]
+   },
+   "question": "Sort the following words alphabetically: duck mailing affecting"
+  },
+  {
+   "answer": "deaf trinidad turns",
+   "bb_sha256": "063ddb2624f1a2e8966e52a6a33edd6fd14a6ec60a30287cb3b574b943a77f29",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "trinidad",
+     "deaf",
+     "turns"
+    ]
+   },
+   "question": "Sort the following words alphabetically: trinidad deaf turns"
+  },
+  {
+   "answer": "aspect associated reid",
+   "bb_sha256": "461ce06a1ab0ddefecc75b48053939c4b9fbb3b1e43a105128525d7a99b725bb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "associated",
+     "reid",
+     "aspect"
+    ]
+   },
+   "question": "Sort the following words alphabetically: associated reid aspect"
+  },
+  {
+   "answer": "baseline etc target",
+   "bb_sha256": "70f22166d381db86cd8c4a29775d7a27fca9e485f62f7cd14afbbff92b1716bd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "etc",
+     "baseline",
+     "target"
+    ]
+   },
+   "question": "Sort the following words alphabetically: etc baseline target"
+  },
+  {
+   "answer": "capable chan relative",
+   "bb_sha256": "47b0df6b6a1c872b8f999aedbb8343c5a00e61fdb142ba9524b05567faa18855",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "chan",
+     "capable",
+     "relative"
+    ]
+   },
+   "question": "Sort the following words alphabetically: chan capable relative"
+  },
+  {
+   "answer": "death deeply spec",
+   "bb_sha256": "11b1a7ab6c92ee934b557a53e7e25920da6356e9e95089742d9bcbb255a56a21",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "spec",
+     "death",
+     "deeply"
+    ]
+   },
+   "question": "Sort the following words alphabetically: spec death deeply"
+  },
+  {
+   "answer": "glossary nova plumbing",
+   "bb_sha256": "ded82d747ef11682689c8501b3e1f5661a557b5004a2cc6427026eba0467aab7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "plumbing",
+     "glossary",
+     "nova"
+    ]
+   },
+   "question": "Sort the following words alphabetically: plumbing glossary nova"
+  },
+  {
+   "answer": "bronze donor drunk",
+   "bb_sha256": "52dfffa81aa43953fecd6e9dd4c495a86c215ad76b28b3616bacece7c8055f0c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "drunk",
+     "donor",
+     "bronze"
+    ]
+   },
+   "question": "Sort the following words alphabetically: drunk donor bronze"
+  },
+  {
+   "answer": "mom mozambique newly",
+   "bb_sha256": "1da807ebbffbe42ba41e997423a6a6de962ac414137d573233e5c177f37cd9c2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "newly",
+     "mom",
+     "mozambique"
+    ]
+   },
+   "question": "Sort the following words alphabetically: newly mom mozambique"
+  },
+  {
+   "answer": "detection engaged groups",
+   "bb_sha256": "ea33dab79f89a04e343b20285cd397527c164fb0d7b3589f7c7494f26b8c1360",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "groups",
+     "detection",
+     "engaged"
+    ]
+   },
+   "question": "Sort the following words alphabetically: groups detection engaged"
+  },
+  {
+   "answer": "american assignment picnic",
+   "bb_sha256": "516f520223c8395edcf96bb037e5e466945dc27e0d96cc14adb0d825b18ef739",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "american",
+     "picnic",
+     "assignment"
+    ]
+   },
+   "question": "Sort the following words alphabetically: american picnic assignment"
+  },
+  {
+   "answer": "laptops lawsuit lyrics",
+   "bb_sha256": "b10e406d9573c2a88359ec9c63eff3644e30560c4d6ee8f917894cc9e5a40f92",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "lawsuit",
+     "lyrics",
+     "laptops"
+    ]
+   },
+   "question": "Sort the following words alphabetically: lawsuit lyrics laptops"
+  },
+  {
+   "answer": "egypt mandatory true",
+   "bb_sha256": "d22f4e339e011bede5be3b95856e74b669b626a3ef19cbacf923f5a5840ffbde",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "mandatory",
+     "true",
+     "egypt"
+    ]
+   },
+   "question": "Sort the following words alphabetically: mandatory true egypt"
+  },
+  {
+   "answer": "beta techniques toddler",
+   "bb_sha256": "fd679674201b219fdcf5707a9b3fee405bcd084bffd0161b8729343e38e231eb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "toddler",
+     "beta",
+     "techniques"
+    ]
+   },
+   "question": "Sort the following words alphabetically: toddler beta techniques"
+  },
+  {
+   "answer": "burke busty wrapping",
+   "bb_sha256": "6603c79a661961e6a611197f8f333ea5ccb5256aa7ed34410a9ab05f587b7d2b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "wrapping",
+     "busty",
+     "burke"
+    ]
+   },
+   "question": "Sort the following words alphabetically: wrapping busty burke"
+  },
+  {
+   "answer": "coating disaster smallest",
+   "bb_sha256": "0be6e77c5a1b8e95f6e388fe42760b99559d19361a6e6ba1c60a0144df6f6ab4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "disaster",
+     "coating",
+     "smallest"
+    ]
+   },
+   "question": "Sort the following words alphabetically: disaster coating smallest"
+  },
+  {
+   "answer": "blades pirates puzzle",
+   "bb_sha256": "5d8fe7ae3eaac6c176682177c808f7c4f19c59331ced19c74f922e0eba49732f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "pirates",
+     "blades",
+     "puzzle"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pirates blades puzzle"
+  },
+  {
+   "answer": "million mills technical",
+   "bb_sha256": "3403eea10204cba632a9584f89da70adf5886a8a9292ba9cc5e7c7c55a177cda",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "technical",
+     "million",
+     "mills"
+    ]
+   },
+   "question": "Sort the following words alphabetically: technical million mills"
+  },
+  {
+   "answer": "fact sheep tuning",
+   "bb_sha256": "cc2bcc6f23c84f5482d02a43fe643d3a87232b0c8c5009d7584aec457d888c97",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sheep",
+     "fact",
+     "tuning"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sheep fact tuning"
+  },
+  {
+   "answer": "balloon beads don",
+   "bb_sha256": "d603550f88b2a0b2919c252ccedb42586917ab5721ba8bdbd68788ba1b11aae4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "balloon",
+     "don",
+     "beads"
+    ]
+   },
+   "question": "Sort the following words alphabetically: balloon don beads"
+  },
+  {
+   "answer": "health vienna vital",
+   "bb_sha256": "e3ea2fbb71ede4a29ef3c2724c56cf5a02d899c91d15e2fee80af8e56b1db206",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "vienna",
+     "health",
+     "vital"
+    ]
+   },
+   "question": "Sort the following words alphabetically: vienna health vital"
+  },
+  {
+   "answer": "aside virtue you",
+   "bb_sha256": "3278e29c4c77b65cbcacac667d4a1f540fa074f629063c40c2ceba4d65431f6b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "you",
+     "aside",
+     "virtue"
+    ]
+   },
+   "question": "Sort the following words alphabetically: you aside virtue"
+  },
+  {
+   "answer": "spending tone tradition",
+   "bb_sha256": "ddf8b151cfdedcb2e37371288d2a9765f68d7b35fd39efc2f4e1df298f311792",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "tradition",
+     "tone",
+     "spending"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tradition tone spending"
+  },
+  {
+   "answer": "ground objective obviously",
+   "bb_sha256": "92b77284b4f777dbc9d10a45434a232fb7c76d70218738d5345b86d769912fbf",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "obviously",
+     "ground",
+     "objective"
+    ]
+   },
+   "question": "Sort the following words alphabetically: obviously ground objective"
+  },
+  {
+   "answer": "brunswick lithuania queen",
+   "bb_sha256": "9fd298cfd9d1da4f0f2500088a616f5bb470310835533aa9e472effd56387fec",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "brunswick",
+     "queen",
+     "lithuania"
+    ]
+   },
+   "question": "Sort the following words alphabetically: brunswick queen lithuania"
+  },
+  {
+   "answer": "chest cult picking",
+   "bb_sha256": "974fec50cb5991e26fc1e07e97fca438877b7366b0ad80bbee0f0ca1e5a6d4e0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "picking",
+     "cult",
+     "chest"
+    ]
+   },
+   "question": "Sort the following words alphabetically: picking cult chest"
+  },
+  {
+   "answer": "according features feelings",
+   "bb_sha256": "a9103ec52fac110045e2301573200898d203a077f5ae142d374ce4091628a5ab",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "features",
+     "according",
+     "feelings"
+    ]
+   },
+   "question": "Sort the following words alphabetically: features according feelings"
+  },
+  {
+   "answer": "canal hash leather",
+   "bb_sha256": "4d03b20b5409903cbfb6d19c0e20e876248ba7b1797b299b0c04b6e89fdfbeac",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "canal",
+     "leather",
+     "hash"
+    ]
+   },
+   "question": "Sort the following words alphabetically: canal leather hash"
+  },
+  {
+   "answer": "back bulk flush",
+   "bb_sha256": "5642fb3df8d7de898038c96476391ee897cab024bf23cb406b474b22a5675ffe",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "flush",
+     "bulk",
+     "back"
+    ]
+   },
+   "question": "Sort the following words alphabetically: flush bulk back"
+  },
+  {
+   "answer": "hay work would",
+   "bb_sha256": "3d8ff50a9315d9b4f3a174eb276551257aa3503754251666226fe51670eab2da",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "work",
+     "would",
+     "hay"
+    ]
+   },
+   "question": "Sort the following words alphabetically: work would hay"
+  },
+  {
+   "answer": "barn exemption patio",
+   "bb_sha256": "b040578ced1880003e5c227ebbfb280cba98efe8cdc6ad746d656a5ffe14e196",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "patio",
+     "exemption",
+     "barn"
+    ]
+   },
+   "question": "Sort the following words alphabetically: patio exemption barn"
+  },
+  {
+   "answer": "finals saves summary",
+   "bb_sha256": "9b04cf68760afd25c3c5ff299186eee73830d64c90a59f17d273bc168079bf04",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "summary",
+     "finals",
+     "saves"
+    ]
+   },
+   "question": "Sort the following words alphabetically: summary finals saves"
+  },
+  {
+   "answer": "dosage only ons",
+   "bb_sha256": "b57b0db1bb768b0d513fab202493867f72567fe127d4ccc3284ef7844443da01",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "only",
+     "ons",
+     "dosage"
+    ]
+   },
+   "question": "Sort the following words alphabetically: only ons dosage"
+  },
+  {
+   "answer": "excitement meditation plymouth",
+   "bb_sha256": "4bcd85245f8d6edde6dc77ec463f78f269ade1c800908369bcc23a9d0364ace0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "meditation",
+     "plymouth",
+     "excitement"
+    ]
+   },
+   "question": "Sort the following words alphabetically: meditation plymouth excitement"
+  },
+  {
+   "answer": "ordinary package poems",
+   "bb_sha256": "d815cfa089b411948d9018a50a780eca172c89fcbf868d6f5558b144011e881d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "package",
+     "poems",
+     "ordinary"
+    ]
+   },
+   "question": "Sort the following words alphabetically: package poems ordinary"
+  },
+  {
+   "answer": "beaver bench typically",
+   "bb_sha256": "e59f52435a19d68e329d81ce7367b03e6903d1a4d7f25db3090d6c0b2ee55f91",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "bench",
+     "typically",
+     "beaver"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bench typically beaver"
+  },
+  {
+   "answer": "critical tear vice",
+   "bb_sha256": "456e1948d87ab25608fbb72d844992f887aa0d00522cce0f2bc68e8203b2bf26",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "vice",
+     "tear",
+     "critical"
+    ]
+   },
+   "question": "Sort the following words alphabetically: vice tear critical"
+  },
+  {
+   "answer": "frequent funeral saturn",
+   "bb_sha256": "feb92f1602f54406937d257adad1528bdc5b21019f2d7edff040375cc94f7770",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "saturn",
+     "frequent",
+     "funeral"
+    ]
+   },
+   "question": "Sort the following words alphabetically: saturn frequent funeral"
+  },
+  {
+   "answer": "enabling engineers paris",
+   "bb_sha256": "9ccd384e44174bf9e45cae1254d76ac0017dbcfd59ce1d98792a290da6c5bf06",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "paris",
+     "enabling",
+     "engineers"
+    ]
+   },
+   "question": "Sort the following words alphabetically: paris enabling engineers"
+  },
+  {
+   "answer": "carey outcome survey",
+   "bb_sha256": "da2500f5b2c41fbacb9b5cbcf28a8e694328baa23a03dcac6553cdd96d60e925",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "outcome",
+     "survey",
+     "carey"
+    ]
+   },
+   "question": "Sort the following words alphabetically: outcome survey carey"
+  },
+  {
+   "answer": "directive ratio reliable",
+   "bb_sha256": "e3be52f931912587da1efb10bc69ff09a831b297ed0bb8652302321f0d62962e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "reliable",
+     "directive",
+     "ratio"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reliable directive ratio"
+  },
+  {
+   "answer": "cached carey italia",
+   "bb_sha256": "b46feb7c9eb8e14f389c0061ef77872504476ee315a82101569d6d6463cb1909",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "italia",
+     "carey",
+     "cached"
+    ]
+   },
+   "question": "Sort the following words alphabetically: italia carey cached"
+  },
+  {
+   "answer": "export hart qualify",
+   "bb_sha256": "c9bf04004217f5eaf35aed24bb738cae7d16c2b5696f184c9386037c7bb22f9b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "qualify",
+     "export",
+     "hart"
+    ]
+   },
+   "question": "Sort the following words alphabetically: qualify export hart"
+  },
+  {
+   "answer": "father firm shirt",
+   "bb_sha256": "77677e054798d4a9f6aa63b5e76e3ccdc10fc983e453aab6628bc5eb2e0e005f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "shirt",
+     "father",
+     "firm"
+    ]
+   },
+   "question": "Sort the following words alphabetically: shirt father firm"
+  },
+  {
+   "answer": "alfred kill kirk",
+   "bb_sha256": "af1a4cba0b305017b05468c8575a4980f394ba5984605e7b4ceb21ca4ba8fd36",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "kill",
+     "alfred",
+     "kirk"
+    ]
+   },
+   "question": "Sort the following words alphabetically: kill alfred kirk"
+  },
+  {
+   "answer": "facts olympic queries",
+   "bb_sha256": "4cac9660521fc07fe810e6026e0e955bc70d87f711633b3b5bf492d37b7f665c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "olympic",
+     "facts",
+     "queries"
+    ]
+   },
+   "question": "Sort the following words alphabetically: olympic facts queries"
+  },
+  {
+   "answer": "lyric paintings pillow",
+   "bb_sha256": "2219c923168036cd690edd7bbb3ed4ab59865ccf6a5cb8bd5c1cc23bceaac81c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "paintings",
+     "pillow",
+     "lyric"
+    ]
+   },
+   "question": "Sort the following words alphabetically: paintings pillow lyric"
+  },
+  {
+   "answer": "holmes hospital tribute",
+   "bb_sha256": "cff5b70cd9cb0111f73192c8cdd2904b0346d5e703eb31e6934d7093e665c6b8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "tribute",
+     "holmes",
+     "hospital"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tribute holmes hospital"
+  },
+  {
+   "answer": "compounds kentucky warning",
+   "bb_sha256": "3cf00c000f3cae5551c1d4c215ac8ec2b8e6e46b1e96f5e4a582b937fddb7038",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "kentucky",
+     "compounds",
+     "warning"
+    ]
+   },
+   "question": "Sort the following words alphabetically: kentucky compounds warning"
+  },
+  {
+   "answer": "second testing tulsa",
+   "bb_sha256": "462dfe35bb2c9b1fb220e2c5329b6511d27812b49bd5490bd71b99791037cda0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "testing",
+     "tulsa",
+     "second"
+    ]
+   },
+   "question": "Sort the following words alphabetically: testing tulsa second"
+  },
+  {
+   "answer": "august autumn opinions",
+   "bb_sha256": "046febe30cfccaf89cf7a27cf363346a1aa60913a6120eeefc9b8738edfcf99e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "autumn",
+     "august",
+     "opinions"
+    ]
+   },
+   "question": "Sort the following words alphabetically: autumn august opinions"
+  },
+  {
+   "answer": "auction projectors theories",
+   "bb_sha256": "45d701b4e6195660472c471c87ff6b81081dab1cb19a4c4a36559f2959fd0dcb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "projectors",
+     "auction",
+     "theories"
+    ]
+   },
+   "question": "Sort the following words alphabetically: projectors auction theories"
+  },
+  {
+   "answer": "keeps nato node",
+   "bb_sha256": "a9d30ca99b32d5e8a12bef82f47d6c99fa7ca24da423c85b267fff2047995bef",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "node",
+     "keeps",
+     "nato"
+    ]
+   },
+   "question": "Sort the following words alphabetically: node keeps nato"
+  },
+  {
+   "answer": "ahead efficiency efficient",
+   "bb_sha256": "d0ce830b2ccc70381b2302f28d23f91bac7f5335270004a5b76a7e6ff7ca3d24",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "efficiency",
+     "efficient",
+     "ahead"
+    ]
+   },
+   "question": "Sort the following words alphabetically: efficiency efficient ahead"
+  },
+  {
+   "answer": "adds delivering toward",
+   "bb_sha256": "20253f7eaa75837a38fd18259de806e6f7f884a3e061bb4eb430811b45394420",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "toward",
+     "adds",
+     "delivering"
+    ]
+   },
+   "question": "Sort the following words alphabetically: toward adds delivering"
+  },
+  {
+   "answer": "leeds logic redeem",
+   "bb_sha256": "1411b4662925c9623aab8ef094ea30c7ac73a4a32897e523b8d4d009c124627b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "logic",
+     "leeds",
+     "redeem"
+    ]
+   },
+   "question": "Sort the following words alphabetically: logic leeds redeem"
+  },
+  {
+   "answer": "adding advertiser dawn",
+   "bb_sha256": "9f77ef56fe022a7d2e27d33f2ee7fd79c80eb716f1cdcaecace119f2889b6664",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "adding",
+     "dawn",
+     "advertiser"
+    ]
+   },
+   "question": "Sort the following words alphabetically: adding dawn advertiser"
+  },
+  {
+   "answer": "column streams trials",
+   "bb_sha256": "e2496930f750055d2ae8cf8d9606708cfe0ddfcfb7fe6988485e6b5b6d6b1d81",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "trials",
+     "column",
+     "streams"
+    ]
+   },
+   "question": "Sort the following words alphabetically: trials column streams"
+  },
+  {
+   "answer": "feb fully hydraulic",
+   "bb_sha256": "ff4e145be11852b65536507f7102fa66e60819440c0d2558faddc720fa614fe5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "feb",
+     "hydraulic",
+     "fully"
+    ]
+   },
+   "question": "Sort the following words alphabetically: feb hydraulic fully"
+  },
+  {
+   "answer": "appeals sucks survivor",
+   "bb_sha256": "480069fe31246314efc546313019044e1cc8ccad0d749a81982b1893518e6298",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "sucks",
+     "appeals",
+     "survivor"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sucks appeals survivor"
+  },
+  {
+   "answer": "cope enlarge republic",
+   "bb_sha256": "7cdcf7b0d304fec85eac6dd4b2f31d88bfb54252a32b90f6fc1b0e12f29eca5c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "enlarge",
+     "cope",
+     "republic"
+    ]
+   },
+   "question": "Sort the following words alphabetically: enlarge cope republic"
+  },
+  {
+   "answer": "clinics farmers francisco",
+   "bb_sha256": "b414ce0ea19d4d1f310128a19d9e3534a274898288cbc8bfa813f00271d9ec7e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "francisco",
+     "clinics",
+     "farmers"
+    ]
+   },
+   "question": "Sort the following words alphabetically: francisco clinics farmers"
+  },
+  {
+   "answer": "adams advantages leu",
+   "bb_sha256": "d63054b4083057fdea347ffc997a23e78ef22717c2d08642fffce2edc3d753d2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "leu",
+     "advantages",
+     "adams"
+    ]
+   },
+   "question": "Sort the following words alphabetically: leu advantages adams"
+  },
+  {
+   "answer": "alternate calendars scene",
+   "bb_sha256": "905313ff14937992c3324d93da98f6c28e28ea39aa5e30369d26fbf37ce264fa",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "scene",
+     "alternate",
+     "calendars"
+    ]
+   },
+   "question": "Sort the following words alphabetically: scene alternate calendars"
+  },
+  {
+   "answer": "casino choice lectures",
+   "bb_sha256": "e6fa977452188cd0bd6fa7bf7821876a8ce37420404fba46b18996310466e679",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "choice",
+     "casino",
+     "lectures"
+    ]
+   },
+   "question": "Sort the following words alphabetically: choice casino lectures"
+  },
+  {
+   "answer": "ham harvard sur",
+   "bb_sha256": "465cc03e7aecc5efb72e502327ce1ae863a557879d6ce89eed123afc8a68eec9",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "sur",
+     "harvard",
+     "ham"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sur harvard ham"
+  },
+  {
+   "answer": "bikini norfolk season",
+   "bb_sha256": "b92e352840d5aeab49cd2e78ee69c26373d0d0f2a45e41cf2d872bd43523584d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "season",
+     "bikini",
+     "norfolk"
+    ]
+   },
+   "question": "Sort the following words alphabetically: season bikini norfolk"
+  },
+  {
+   "answer": "antonio authorized have",
+   "bb_sha256": "f330566db92e5463f4e8b8fa429155197c4a177e556e9df3766a76facf4e6d74",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "antonio",
+     "have",
+     "authorized"
+    ]
+   },
+   "question": "Sort the following words alphabetically: antonio have authorized"
+  },
+  {
+   "answer": "blame blvd mobile",
+   "bb_sha256": "b837362e32fb1218a7ec1ad78233b78b99ae25d3704ee138e054de3dc2a19aea",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "blvd",
+     "mobile",
+     "blame"
+    ]
+   },
+   "question": "Sort the following words alphabetically: blvd mobile blame"
+  },
+  {
+   "answer": "buying license quiz",
+   "bb_sha256": "67f5bbda1c0eba7927a9122869f822b1c0ea9fb8c0d04efba704d42471ce4aed",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "quiz",
+     "license",
+     "buying"
+    ]
+   },
+   "question": "Sort the following words alphabetically: quiz license buying"
+  },
+  {
+   "answer": "levels ted troy",
+   "bb_sha256": "95c7f52d8bd8f0c10e799283a92034ae52c072a8c8860995a7905419fb60cdac",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ted",
+     "troy",
+     "levels"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ted troy levels"
+  },
+  {
+   "answer": "expected experience july",
+   "bb_sha256": "8727f44b6177f80130b8f2691601e1cdbe707e1ab03d5f988f93dc5f619e6e77",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "july",
+     "experience",
+     "expected"
+    ]
+   },
+   "question": "Sort the following words alphabetically: july experience expected"
+  },
+  {
+   "answer": "partners servers whose",
+   "bb_sha256": "346f5c34d74f463501d905e9447f2022bd9b5fa0993c56e61dea4250482ccaf1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "servers",
+     "partners",
+     "whose"
+    ]
+   },
+   "question": "Sort the following words alphabetically: servers partners whose"
+  },
+  {
+   "answer": "likelihood reaching role",
+   "bb_sha256": "fc62185ad8a7f293f1e6f030c3dd993a0725b2e7f1a7d9dc33914cebc7cf6ad4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "role",
+     "likelihood",
+     "reaching"
+    ]
+   },
+   "question": "Sort the following words alphabetically: role likelihood reaching"
+  },
+  {
+   "answer": "church museum musician",
+   "bb_sha256": "171a957e1cba45204544d80a8268c34b4fc959eeb4712d218f8827095bedbdd9",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "church",
+     "musician",
+     "museum"
+    ]
+   },
+   "question": "Sort the following words alphabetically: church musician museum"
+  },
+  {
+   "answer": "chelsea dad lean",
+   "bb_sha256": "202b5f939a610c0cccb6a10d3fabdaec9db5ff91c187f8d2b6f43ab3289f223c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "dad",
+     "lean",
+     "chelsea"
+    ]
+   },
+   "question": "Sort the following words alphabetically: dad lean chelsea"
+  },
+  {
+   "answer": "break chef companies",
+   "bb_sha256": "d9577fbf48b9a1aa7444abef83963fbd55ad3c387fb236f88c46908ab09e7ff6",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "chef",
+     "break",
+     "companies"
+    ]
+   },
+   "question": "Sort the following words alphabetically: chef break companies"
+  },
+  {
+   "answer": "colony constitute sweden",
+   "bb_sha256": "d2bb1dafede8a87c3e3bcdb3da5c52c20169ca2f0dd308cd6bf874a5a971763a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "colony",
+     "sweden",
+     "constitute"
+    ]
+   },
+   "question": "Sort the following words alphabetically: colony sweden constitute"
+  },
+  {
+   "answer": "failing uniform wool",
+   "bb_sha256": "9ebaaff207e18e76f4f7eb940d982adf2f7fcbc6a10368d91af054cfc5cb6d91",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "uniform",
+     "failing",
+     "wool"
+    ]
+   },
+   "question": "Sort the following words alphabetically: uniform failing wool"
+  },
+  {
+   "answer": "capture rapids respondent",
+   "bb_sha256": "df62f4e82d767f685f1300ec4b865b3c9142cde5aa5b1985d24b2e6a273c8639",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "rapids",
+     "capture",
+     "respondent"
+    ]
+   },
+   "question": "Sort the following words alphabetically: rapids capture respondent"
+  },
+  {
+   "answer": "laid lauren tremendous",
+   "bb_sha256": "0233d3b29edb5867697b5f5d02e8d5c4f1951fa3e46835bd42dc51e7f0e9d9ed",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "laid",
+     "tremendous",
+     "lauren"
+    ]
+   },
+   "question": "Sort the following words alphabetically: laid tremendous lauren"
+  },
+  {
+   "answer": "das montana tracy",
+   "bb_sha256": "dbc7c31b1e58078a4a2ea4c15676947b9074ea41703dd39e32ce7c8185b42fd7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "montana",
+     "tracy",
+     "das"
+    ]
+   },
+   "question": "Sort the following words alphabetically: montana tracy das"
+  },
+  {
+   "answer": "democracy wired writing",
+   "bb_sha256": "d71c5af9489f3c4f065248476ebde599fb585a31851daee1eb2735a4808c0597",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "wired",
+     "writing",
+     "democracy"
+    ]
+   },
+   "question": "Sort the following words alphabetically: wired writing democracy"
+  },
+  {
+   "answer": "profits province syndrome",
+   "bb_sha256": "92da39117b010a3d43eee18cefa16ebb5136e5e1db5268a46ebcc68d06b1fb9d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "province",
+     "syndrome",
+     "profits"
+    ]
+   },
+   "question": "Sort the following words alphabetically: province syndrome profits"
+  },
+  {
+   "answer": "accessing files origin",
+   "bb_sha256": "bf22fb0057e6a73d090f7bc7c49fd4c7559216aa35d57286f9642767cbf88925",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "origin",
+     "files",
+     "accessing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: origin files accessing"
+  },
+  {
+   "answer": "joyce jury texts",
+   "bb_sha256": "7e6240104ee8cd9b99b63a255f917d24da6b090d149693783633f80897ac7b1c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "texts",
+     "joyce",
+     "jury"
+    ]
+   },
+   "question": "Sort the following words alphabetically: texts joyce jury"
+  },
+  {
+   "answer": "scenarios script slut",
+   "bb_sha256": "e94ddc277f7f44b620315fae70b08f6578ff7d53826ab51627f592c2a3afbcbe",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "slut",
+     "script",
+     "scenarios"
+    ]
+   },
+   "question": "Sort the following words alphabetically: slut script scenarios"
+  },
+  {
+   "answer": "birmingham examined twice",
+   "bb_sha256": "5d8ccde05693994f8c653eb3be5f61f0f4870e0578b0ff34807fcb03d11b9b35",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "twice",
+     "birmingham",
+     "examined"
+    ]
+   },
+   "question": "Sort the following words alphabetically: twice birmingham examined"
+  },
+  {
+   "answer": "flow friendship promised",
+   "bb_sha256": "d6444fc8299bb5fb4721f934ffc3a82fca06540902214f05378141922b5302dd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "flow",
+     "promised",
+     "friendship"
+    ]
+   },
+   "question": "Sort the following words alphabetically: flow promised friendship"
+  },
+  {
+   "answer": "cock spaces speech",
+   "bb_sha256": "bdb3dca96534cc05d9c149968711e87319f0e42192c995ce5c9e7916a2adb62e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "spaces",
+     "cock",
+     "speech"
+    ]
+   },
+   "question": "Sort the following words alphabetically: spaces cock speech"
+  },
+  {
+   "answer": "beijing november website",
+   "bb_sha256": "673f90a48656faf1a02ff6527e0029c64ded03cd77eab3605e92adc81768ebfb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "beijing",
+     "website",
+     "november"
+    ]
+   },
+   "question": "Sort the following words alphabetically: beijing website november"
+  },
+  {
+   "answer": "attribute audit quarterly",
+   "bb_sha256": "82a1f23129a7a16a78bea1c0946a0301e7681c920fb9f65647393f18beef993e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "quarterly",
+     "audit",
+     "attribute"
+    ]
+   },
+   "question": "Sort the following words alphabetically: quarterly audit attribute"
+  },
+  {
+   "answer": "aviation parameter partner",
+   "bb_sha256": "1632d8858dd3c9a671b178780503f62a67113a89a6b3a00edf61830b264091fb",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "partner",
+     "aviation",
+     "parameter"
+    ]
+   },
+   "question": "Sort the following words alphabetically: partner aviation parameter"
+  },
+  {
+   "answer": "jet resistant tests",
+   "bb_sha256": "08bcd87d092bf6178f9fab912603d7b8ae2d7abf80aa0070e84c78f4a106f1db",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "tests",
+     "resistant",
+     "jet"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tests resistant jet"
+  },
+  {
+   "answer": "financing resistance rise",
+   "bb_sha256": "0a461e3252de245246498ac42d829df01a444533dffec295813e6c1df5318e09",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "resistance",
+     "financing",
+     "rise"
+    ]
+   },
+   "question": "Sort the following words alphabetically: resistance financing rise"
+  },
+  {
+   "answer": "demands developers reviewing",
+   "bb_sha256": "ff91b441d70490269b6e228ceb42dc90658e7f1915463de9c6db383933ea5640",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "developers",
+     "reviewing",
+     "demands"
+    ]
+   },
+   "question": "Sort the following words alphabetically: developers reviewing demands"
+  },
+  {
+   "answer": "brian introduces observed",
+   "bb_sha256": "959898bbe36cd86178c425f94e8c00479a01acc3e31b4d878fc12648a28f53b4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "introduces",
+     "brian",
+     "observed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: introduces brian observed"
+  },
+  {
+   "answer": "poll prep shakira",
+   "bb_sha256": "b764f898a088171a2ad44318851def9d8e741f03d8e2fa20489b1ae295c04e6c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "poll",
+     "shakira",
+     "prep"
+    ]
+   },
+   "question": "Sort the following words alphabetically: poll shakira prep"
+  },
+  {
+   "answer": "establish estimate floors",
+   "bb_sha256": "791bb3f9f30881f3930ee2f3671c41e625ebc8a63724906cb76253e88727062b",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "floors",
+     "estimate",
+     "establish"
+    ]
+   },
+   "question": "Sort the following words alphabetically: floors estimate establish"
+  },
+  {
+   "answer": "impact joseph school",
+   "bb_sha256": "a29845ce2c6de158a8b597c447306e3db86eb34f6ba8bd82fe6003a8a3e0f125",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "school",
+     "impact",
+     "joseph"
+    ]
+   },
+   "question": "Sort the following words alphabetically: school impact joseph"
+  },
+  {
+   "answer": "females frederick tenant",
+   "bb_sha256": "584037c2fb4f8fc5c3d348a0385a853acc41a87dcb9bada77c6ea75d1873c8f0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "frederick",
+     "tenant",
+     "females"
+    ]
+   },
+   "question": "Sort the following words alphabetically: frederick tenant females"
+  },
+  {
+   "answer": "crest joe joke",
+   "bb_sha256": "07805e2cd383ab1e7bbc26f6a5ad14ef84612d4d13466e0fe9904c609494cd34",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "joke",
+     "crest",
+     "joe"
+    ]
+   },
+   "question": "Sort the following words alphabetically: joke crest joe"
+  },
+  {
+   "answer": "became eagle susan",
+   "bb_sha256": "c0af480bec36da6f7dc087361ea315c66f383e243e3bc212fd4a7382c18c34d3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "eagle",
+     "susan",
+     "became"
+    ]
+   },
+   "question": "Sort the following words alphabetically: eagle susan became"
+  },
+  {
+   "answer": "carolina contest double",
+   "bb_sha256": "4a4a00800e33d4fec37b724057a7f8c52e8d9980ac6c6e90c59b38ab02a1fcf3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "double",
+     "contest",
+     "carolina"
+    ]
+   },
+   "question": "Sort the following words alphabetically: double contest carolina"
+  },
+  {
+   "answer": "covering enormous ensure",
+   "bb_sha256": "128f94740d66111f731ef4c59a6eb81e898542a3bb7b94f89bad0a64afa16688",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "ensure",
+     "enormous",
+     "covering"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ensure enormous covering"
+  },
+  {
+   "answer": "diving norman turtle",
+   "bb_sha256": "c1f7378083c06d3866653332967757d105b63d05a549797fb189ce25b916362c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "turtle",
+     "norman",
+     "diving"
+    ]
+   },
+   "question": "Sort the following words alphabetically: turtle norman diving"
+  },
+  {
+   "answer": "catherine cohen invited",
+   "bb_sha256": "81621f565e0fac5ed42d93daf13c3c091235dd7c1f26e9b214304f5ab076cbe1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "catherine",
+     "invited",
+     "cohen"
+    ]
+   },
+   "question": "Sort the following words alphabetically: catherine invited cohen"
+  },
+  {
+   "answer": "floyd undertake undo",
+   "bb_sha256": "3642bbd866ed2c39f69953d0f9437398aecffd4b847e0daf6f125782454ce94e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "undertake",
+     "floyd",
+     "undo"
+    ]
+   },
+   "question": "Sort the following words alphabetically: undertake floyd undo"
+  },
+  {
+   "answer": "agenda declared sas",
+   "bb_sha256": "fe8707dfa86e83d1828dc83b6a85db59fdc77afcd523de31b440755c2d469754",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "sas",
+     "declared",
+     "agenda"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sas declared agenda"
+  },
+  {
+   "answer": "decades downloads respected",
+   "bb_sha256": "e1fa7f5575696a336276efdd4643712b2cf919dec542114d132140d49951bdf1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "respected",
+     "decades",
+     "downloads"
+    ]
+   },
+   "question": "Sort the following words alphabetically: respected decades downloads"
+  },
+  {
+   "answer": "creations debug desirable",
+   "bb_sha256": "bd3f2cea70b078f4a6d6d1e261288213614b1292b108eacb1bdf13f931a1a517",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "desirable",
+     "creations",
+     "debug"
+    ]
+   },
+   "question": "Sort the following words alphabetically: desirable creations debug"
+  },
+  {
+   "answer": "commentary string trademarks",
+   "bb_sha256": "1cb714dc3f5ca779ae4cc0564cdff968dccbaffe7c489f7271f561e875f44e85",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "commentary",
+     "trademarks",
+     "string"
+    ]
+   },
+   "question": "Sort the following words alphabetically: commentary trademarks string"
+  },
+  {
+   "answer": "deliver discretion doom",
+   "bb_sha256": "d33905fdb663c0d218658a422ba626702240db5dad425482b0da5099293d2574",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "doom",
+     "deliver",
+     "discretion"
+    ]
+   },
+   "question": "Sort the following words alphabetically: doom deliver discretion"
+  },
+  {
+   "answer": "excessive samba sandra",
+   "bb_sha256": "6a8961b81576f6364a32f168e17aee90f790932ae9f9d23c79e7b0f47948aa11",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "sandra",
+     "samba",
+     "excessive"
+    ]
+   },
+   "question": "Sort the following words alphabetically: sandra samba excessive"
+  },
+  {
+   "answer": "admission charitable mar",
+   "bb_sha256": "273a64b983052a423d343a4b2568d80377251cbc6198ff1c1219fc7097ed816d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "charitable",
+     "admission",
+     "mar"
+    ]
+   },
+   "question": "Sort the following words alphabetically: charitable admission mar"
+  },
+  {
+   "answer": "beginners boring notices",
+   "bb_sha256": "2fc7cb1453d4cdea135c9d49eba7b112a49b97394e562d26a338bfb398d0269d",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "boring",
+     "notices",
+     "beginners"
+    ]
+   },
+   "question": "Sort the following words alphabetically: boring notices beginners"
+  },
+  {
+   "answer": "quilt views visitors",
+   "bb_sha256": "157842d9f218cea2e32eb642b79fc351ed5eb91160e9c35a3072e27840e9bdb7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "views",
+     "quilt",
+     "visitors"
+    ]
+   },
+   "question": "Sort the following words alphabetically: views quilt visitors"
+  },
+  {
+   "answer": "bankruptcy flex pounds",
+   "bb_sha256": "d0bf737cf3e9c76b8f630d46a143829a415e9f12d4528d178390c2cc6778c3c4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "pounds",
+     "bankruptcy",
+     "flex"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pounds bankruptcy flex"
+  },
+  {
+   "answer": "multi year your",
+   "bb_sha256": "6a7386d4f280edfbaad14868a5f2a5ca2ae53856411fd6b6d37532e00a6a99ab",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "your",
+     "year",
+     "multi"
+    ]
+   },
+   "question": "Sort the following words alphabetically: your year multi"
+  },
+  {
+   "answer": "athens attractive august",
+   "bb_sha256": "b4797feb1ec3fd8fe325d8c7f543a58c85aef95d37a1d097f0ed662556c631a3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "attractive",
+     "athens",
+     "august"
+    ]
+   },
+   "question": "Sort the following words alphabetically: attractive athens august"
+  },
+  {
+   "answer": "ralph strip took",
+   "bb_sha256": "55e2e304e07d1721a438141c20bfbf54f072d18787e72b819c18213858321c73",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "strip",
+     "took",
+     "ralph"
+    ]
+   },
+   "question": "Sort the following words alphabetically: strip took ralph"
+  },
+  {
+   "answer": "affairs arkansas library",
+   "bb_sha256": "11147a8eed9239f71dc7ea57394ac1e3a97d4b48e160c042758859b0d1f0eca4",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "library",
+     "arkansas",
+     "affairs"
+    ]
+   },
+   "question": "Sort the following words alphabetically: library arkansas affairs"
+  },
+  {
+   "answer": "ideas penguin percent",
+   "bb_sha256": "729fb69780f416883eeeb65a159db3d845dc0dfbc64a0dbfdfbd071c2ade7ba6",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "penguin",
+     "ideas",
+     "percent"
+    ]
+   },
+   "question": "Sort the following words alphabetically: penguin ideas percent"
+  },
+  {
+   "answer": "membrane printing suited",
+   "bb_sha256": "9ea091cfe0031c0b26ab6e8a8cbaeb6c1d3d86f376a2b30801219bb3276cecb0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "suited",
+     "membrane",
+     "printing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: suited membrane printing"
+  },
+  {
+   "answer": "catalogs councils currencies",
+   "bb_sha256": "2f4b11fcaa951f799dad16c5f3a5fd7152bc4dc4e3d590a9a033eb75f1d96d68",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "councils",
+     "currencies",
+     "catalogs"
+    ]
+   },
+   "question": "Sort the following words alphabetically: councils currencies catalogs"
+  },
+  {
+   "answer": "carolina cassette complete",
+   "bb_sha256": "7f3e77d56c391feff9fa74ec1f10be539eb5c34af3f6acdfdb6d5018af529ac5",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "cassette",
+     "carolina",
+     "complete"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cassette carolina complete"
+  },
+  {
+   "answer": "alt optimize pending",
+   "bb_sha256": "5cef1be0b986445d4c2f3ad068cb262ab4bcc3986c2bf38743120da31a61825c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "pending",
+     "optimize",
+     "alt"
+    ]
+   },
+   "question": "Sort the following words alphabetically: pending optimize alt"
+  },
+  {
+   "answer": "recognize rhythm treatment",
+   "bb_sha256": "47e85bf3bbb1e303e7570137b009fefea37fa6ed89a8cb4d52e837a62769367e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "rhythm",
+     "treatment",
+     "recognize"
+    ]
+   },
+   "question": "Sort the following words alphabetically: rhythm treatment recognize"
+  },
+  {
+   "answer": "console correctly knit",
+   "bb_sha256": "449bfa89686eac0a6c59c8bb98a3abe6968cd5669d68876c215fbbc5c972a440",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "console",
+     "knit",
+     "correctly"
+    ]
+   },
+   "question": "Sort the following words alphabetically: console knit correctly"
+  },
+  {
+   "answer": "italiano massage ware",
+   "bb_sha256": "9fe50020383b10127fb4cbd550285991067be434e04753b45d91dbea48b0b51e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "massage",
+     "ware",
+     "italiano"
+    ]
+   },
+   "question": "Sort the following words alphabetically: massage ware italiano"
+  },
+  {
+   "answer": "doctrine parks per",
+   "bb_sha256": "b89f9d54d56c8e84349d3c3d325dc9de08b75e250f173b5f4c21b79a0399c817",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "per",
+     "doctrine",
+     "parks"
+    ]
+   },
+   "question": "Sort the following words alphabetically: per doctrine parks"
+  },
+  {
+   "answer": "edge edwards unity",
+   "bb_sha256": "6eb5b9a4c375d64c42a971bbd87952e3e918305c4e570e33cfd722f262e37eba",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "unity",
+     "edwards",
+     "edge"
+    ]
+   },
+   "question": "Sort the following words alphabetically: unity edwards edge"
+  },
+  {
+   "answer": "hub serbia workout",
+   "bb_sha256": "7ef9a6942f5eef48df402927159fe0c8ac8e99147dd541fed8d29841875eec8a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "workout",
+     "serbia",
+     "hub"
+    ]
+   },
+   "question": "Sort the following words alphabetically: workout serbia hub"
+  },
+  {
+   "answer": "automatic good growth",
+   "bb_sha256": "dedaef651319c9068ae32751067fdeeed3a07f089b08ae30a9a1f5883007d3b6",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "good",
+     "automatic",
+     "growth"
+    ]
+   },
+   "question": "Sort the following words alphabetically: good automatic growth"
+  },
+  {
+   "answer": "assumed eden editorial",
+   "bb_sha256": "5d846247e6dcd33e5cdcf57c620c0bd28fcdab9d647596ac7cdd268dcdcbfcc9",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "eden",
+     "editorial",
+     "assumed"
+    ]
+   },
+   "question": "Sort the following words alphabetically: eden editorial assumed"
+  },
+  {
+   "answer": "conclude flesh tend",
+   "bb_sha256": "3fa5003deae75601b40e828408126453ea5a6e114f62dd4605c3538375ce03f7",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "tend",
+     "conclude",
+     "flesh"
+    ]
+   },
+   "question": "Sort the following words alphabetically: tend conclude flesh"
+  },
+  {
+   "answer": "plaza zip zoo",
+   "bb_sha256": "d71f50250105dde9c31a1d56346fc2bc49ad293529ee24064b05db859925d80f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "plaza",
+     "zoo",
+     "zip"
+    ]
+   },
+   "question": "Sort the following words alphabetically: plaza zoo zip"
+  },
+  {
+   "answer": "cartoon immunology imperial",
+   "bb_sha256": "79f7d381afa30e9804a1846cad56508b373d6d1b2013d3e6fbd930a31fe51d24",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "immunology",
+     "imperial",
+     "cartoon"
+    ]
+   },
+   "question": "Sort the following words alphabetically: immunology imperial cartoon"
+  },
+  {
+   "answer": "elderly ing snowboard",
+   "bb_sha256": "1c845d18653cd2794fdbb92e6d82671adf4686280a9649255bbab751806b569f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "ing",
+     "snowboard",
+     "elderly"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ing snowboard elderly"
+  },
+  {
+   "answer": "halifax powered pure",
+   "bb_sha256": "0fb8a7537e40e327332060412f9806c8b3fd4094f75421d57d24f69b37dfe44f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "powered",
+     "pure",
+     "halifax"
+    ]
+   },
+   "question": "Sort the following words alphabetically: powered pure halifax"
+  },
+  {
+   "answer": "chan cherry narrow",
+   "bb_sha256": "3c81206d71e14825662b39cdc3536eb56431529d6734589dc1cc469297676b17",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "cherry",
+     "narrow",
+     "chan"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cherry narrow chan"
+  },
+  {
+   "answer": "brunei edition reference",
+   "bb_sha256": "99948e3c7e3b369b7dba87849d704f6f24b41964e566ef8b543946b5db73db67",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "reference",
+     "brunei",
+     "edition"
+    ]
+   },
+   "question": "Sort the following words alphabetically: reference brunei edition"
+  },
+  {
+   "answer": "hotel rico rock",
+   "bb_sha256": "09aa60edc9188ede8421a16697f64eee41eb4447e362048e0e1304a0268fb32f",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "rico",
+     "hotel",
+     "rock"
+    ]
+   },
+   "question": "Sort the following words alphabetically: rico hotel rock"
+  },
+  {
+   "answer": "anatomy shadows shortcuts",
+   "bb_sha256": "eeaa51d7cbfd7ebd18e66310300d652cb1f694b3f69ead151ca7e1ec9e3ed86e",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "shadows",
+     "anatomy",
+     "shortcuts"
+    ]
+   },
+   "question": "Sort the following words alphabetically: shadows anatomy shortcuts"
+  },
+  {
+   "answer": "arkansas items september",
+   "bb_sha256": "bfc25b99011aee6f15e5260e5cece167f6a461648e1e7de1126d9aa91d3ec7c8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "arkansas",
+     "september",
+     "items"
+    ]
+   },
+   "question": "Sort the following words alphabetically: arkansas september items"
+  },
+  {
+   "answer": "das defects rubber",
+   "bb_sha256": "c296c0120e4d8a63d3f7f5ecbffde90e0f80b927cd3385bd2e70711a96a83cc2",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "das",
+     "rubber",
+     "defects"
+    ]
+   },
+   "question": "Sort the following words alphabetically: das rubber defects"
+  },
+  {
+   "answer": "hack harmful protecting",
+   "bb_sha256": "d4da51ee645c8e9e23d45de46f6d02ffa8bd2a5ed512f7e285cfbd2a773e992c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "hack",
+     "protecting",
+     "harmful"
+    ]
+   },
+   "question": "Sort the following words alphabetically: hack protecting harmful"
+  },
+  {
+   "answer": "carrying entered safer",
+   "bb_sha256": "89694ab8ecc6595a89876f3edf6ec5e2f9aff0c43c2cd271537626998ae0326a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "entered",
+     "safer",
+     "carrying"
+    ]
+   },
+   "question": "Sort the following words alphabetically: entered safer carrying"
+  },
+  {
+   "answer": "abstract ahead holds",
+   "bb_sha256": "ed17789b0f132de7c5db67013697f9ef4df6cdbcc9678a20f7734d4cda7d38a3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ahead",
+     "holds",
+     "abstract"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ahead holds abstract"
+  },
+  {
+   "answer": "chosen sparc split",
+   "bb_sha256": "72fd88cbfc079b84e6f1edd9fffaf17bbb62eeb5c286ee4a241cfec312e32cea",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "split",
+     "sparc",
+     "chosen"
+    ]
+   },
+   "question": "Sort the following words alphabetically: split sparc chosen"
+  },
+  {
+   "answer": "describing happened reggae",
+   "bb_sha256": "aa9568153c7393b953ecc6a86878301fad18d1cb6a6ad973b3d71e72c8064cd8",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "happened",
+     "reggae",
+     "describing"
+    ]
+   },
+   "question": "Sort the following words alphabetically: happened reggae describing"
+  },
+  {
+   "answer": "belize burns katie",
+   "bb_sha256": "b76872d7641fbd215c3355bd876a374453ebd9f1db542dfa7bf10b0b6fd5edbd",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "burns",
+     "belize",
+     "katie"
+    ]
+   },
+   "question": "Sort the following words alphabetically: burns belize katie"
+  },
+  {
+   "answer": "defence eddie eden",
+   "bb_sha256": "ce5346310455983f42b7b8c06e22c62fc4fe49159bf9bbb8de1bd869bc5470e0",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "defence",
+     "eden",
+     "eddie"
+    ]
+   },
+   "question": "Sort the following words alphabetically: defence eden eddie"
+  },
+  {
+   "answer": "devil irrigation nor",
+   "bb_sha256": "a280e3ade5fe1d6f7fef96d35eba0ce5c3f468edef3a0a80c16c1cff0239daaf",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "irrigation",
+     "nor",
+     "devil"
+    ]
+   },
+   "question": "Sort the following words alphabetically: irrigation nor devil"
+  },
+  {
+   "answer": "inquiries pain printers",
+   "bb_sha256": "c1854b3eb400a22a5eaeb5e4d47ecc7a17fa3f2b525434438db0654f333ad129",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "inquiries",
+     "printers",
+     "pain"
+    ]
+   },
+   "question": "Sort the following words alphabetically: inquiries printers pain"
+  },
+  {
+   "answer": "alerts alexander movie",
+   "bb_sha256": "2b79366dfc1156a65086fbff585aa9acb942c6dcc3d72d9e7330de60a1d53501",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "movie",
+     "alerts",
+     "alexander"
+    ]
+   },
+   "question": "Sort the following words alphabetically: movie alerts alexander"
+  },
+  {
+   "answer": "accurate means unexpected",
+   "bb_sha256": "96ea7fc1e5a035ce7c567ce1ab484e48ee274f7f875a8c2165c392d0dd159d1a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "means",
+     "accurate",
+     "unexpected"
+    ]
+   },
+   "question": "Sort the following words alphabetically: means accurate unexpected"
+  },
+  {
+   "answer": "airlines asbestos dispute",
+   "bb_sha256": "9b3e35ece5ab8586deddffeb658b31c7ce34683bfc9c45c271088ffb4327d55c",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "asbestos",
+     "dispute",
+     "airlines"
+    ]
+   },
+   "question": "Sort the following words alphabetically: asbestos dispute airlines"
+  },
+  {
+   "answer": "buy thereof threesome",
+   "bb_sha256": "8e8db1fa279cef2b5406f33ace1926b854f2c87959b4a0ae566ea3d749662857",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "threesome",
+     "buy",
+     "thereof"
+    ]
+   },
+   "question": "Sort the following words alphabetically: threesome buy thereof"
+  },
+  {
+   "answer": "apache discrete saints",
+   "bb_sha256": "5329a6afe27f981fb22d93c99f9bd6e506b8314db2d39f3c4624d318ac4db240",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "saints",
+     "apache",
+     "discrete"
+    ]
+   },
+   "question": "Sort the following words alphabetically: saints apache discrete"
+  },
+  {
+   "answer": "especially midlands muslim",
+   "bb_sha256": "81a17a319323a26991e4cd74718cdde1bf549b4209d6b6356b6947ea5f8cd175",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "muslim",
+     "especially",
+     "midlands"
+    ]
+   },
+   "question": "Sort the following words alphabetically: muslim especially midlands"
+  },
+  {
+   "answer": "jackets jade terrain",
+   "bb_sha256": "2c92183af1eb6c6bb2e27b235e9ba41738fe3a4b8b4521f1cf001b82c860a4a1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "terrain",
+     "jade",
+     "jackets"
+    ]
+   },
+   "question": "Sort the following words alphabetically: terrain jade jackets"
+  },
+  {
+   "answer": "logos refund villa",
+   "bb_sha256": "5836002a7b3e173b412b0669e1befcea925655eac13769fff12641af038af54a",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "villa",
+     "logos",
+     "refund"
+    ]
+   },
+   "question": "Sort the following words alphabetically: villa logos refund"
+  },
+  {
+   "answer": "becoming bondage junction",
+   "bb_sha256": "9c14334b362aa6b1ddcf0ba230e337defd3ae3819f4b08c86304c9d7f8ce6591",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "bondage",
+     "becoming",
+     "junction"
+    ]
+   },
+   "question": "Sort the following words alphabetically: bondage becoming junction"
+  },
+  {
+   "answer": "solid village virtually",
+   "bb_sha256": "cacd7e080d670ee6dae8a72dfcd1b8cb77b9436be13e1e64f40ac3922c7a7362",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 2,
+    "words": [
+     "village",
+     "solid",
+     "virtually"
+    ]
+   },
+   "question": "Sort the following words alphabetically: village solid virtually"
+  },
+  {
+   "answer": "beef cartridges flags",
+   "bb_sha256": "de93b29972a4ac2bafb18c10a2b7c06aaef23f347295ed8344ef089427b64cd3",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 0,
+    "words": [
+     "cartridges",
+     "beef",
+     "flags"
+    ]
+   },
+   "question": "Sort the following words alphabetically: cartridges beef flags"
+  },
+  {
+   "answer": "mastercard over ownership",
+   "bb_sha256": "7ed7c256f29d1f14134030133d65b3b3e420fa27876e02f8e7003f68e11d94e1",
+   "meta": {
+    "n_words": 3,
+    "prefix_class": 1,
+    "words": [
+     "ownership",
+     "mastercard",
+     "over"
+    ]
+   },
+   "question": "Sort the following words alphabetically: ownership mastercard over"
+  }
+ ],
+ "n_options": null,
+ "n_redrawn": {
+  "collision": 0,
+  "duplicate": 0,
+  "rejected": 217,
+  "repeated_answer": 0,
+  "shot_answer": 0
+ },
+ "name": "sort3",
+ "provenance": {
+  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "pyfiglet": "1.0.4",
+  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
+ },
+ "rung_type": "string",
+ "seed": 20260903,
+ "shots": [
+  [
+   "Sort the following words alphabetically: atom burton attributes",
+   "atom attributes burton"
+  ],
+  [
+   "Sort the following words alphabetically: chicken shepherd hearings",
+   "chicken hearings shepherd"
+  ]
+ ],
+ "task": "word_sorting",
+ "unique_answers": false,
+ "wei_class": "E.2"
+}

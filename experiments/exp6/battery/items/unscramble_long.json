@@ -1,0 +1,5537 @@
+{
+ "answer_type": "word",
+ "collision_kind": "input",
+ "description": "as unscramble_short, 6-8 letter words",
+ "eval_items": [
+  {
+   "answer": "unique",
+   "bb_sha256": "d49f9aeac38c299de2cdb20a33d2e6c38a117504733f7b51d076fb8183c7e358",
+   "meta": {
+    "length": 6,
+    "rank": 1287,
+    "scrambled": "iuenqu",
+    "word": "unique"
+   },
+   "question": "The word iuenqu is a scrambled version of the English word"
+  },
+  {
+   "answer": "gadgets",
+   "bb_sha256": "4d3e4bba2389505d9c85754c8ddace1121ea4e0edb07a86e07c1ee9f9305d56a",
+   "meta": {
+    "length": 7,
+    "rank": 5213,
+    "scrambled": "sgtadge",
+    "word": "gadgets"
+   },
+   "question": "The word sgtadge is a scrambled version of the English word"
+  },
+  {
+   "answer": "compared",
+   "bb_sha256": "3c4d827fa1d146774bbd8be977846bb9281275e0b23b6e07a2ab6bc376ad3dd1",
+   "meta": {
+    "length": 8,
+    "rank": 2327,
+    "scrambled": "damrcpeo",
+    "word": "compared"
+   },
+   "question": "The word damrcpeo is a scrambled version of the English word"
+  },
+  {
+   "answer": "pillow",
+   "bb_sha256": "b9f37ec313b82af9a3dbcbafa346056dbff276a51b2635aca6f8d4580e8374ed",
+   "meta": {
+    "length": 6,
+    "rank": 8672,
+    "scrambled": "oiwlpl",
+    "word": "pillow"
+   },
+   "question": "The word oiwlpl is a scrambled version of the English word"
+  },
+  {
+   "answer": "iceland",
+   "bb_sha256": "73b43c72d9d26bf8d6f6c4dc92fcb2746cdea512097bc77248ed642302c96660",
+   "meta": {
+    "length": 7,
+    "rank": 6499,
+    "scrambled": "deniacl",
+    "word": "iceland"
+   },
+   "question": "The word deniacl is a scrambled version of the English word"
+  },
+  {
+   "answer": "equipped",
+   "bb_sha256": "7648d4eabeea8e6c064b4614ee664bce229a3857e5327aca2132f46ee769cfb9",
+   "meta": {
+    "length": 8,
+    "rank": 5195,
+    "scrambled": "uepeidpq",
+    "word": "equipped"
+   },
+   "question": "The word uepeidpq is a scrambled version of the English word"
+  },
+  {
+   "answer": "county",
+   "bb_sha256": "b7d80d69d1d6dc0dfcfb34ba02175b8466f4677cf9c240586863000dfd4f0c15",
+   "meta": {
+    "length": 6,
+    "rank": 302,
+    "scrambled": "cynout",
+    "word": "county"
+   },
+   "question": "The word cynout is a scrambled version of the English word"
+  },
+  {
+   "answer": "boulder",
+   "bb_sha256": "5262aff3a66a6f221f56a09bff06c07015ec9c498e32f7e5dd17180067b240c7",
+   "meta": {
+    "length": 7,
+    "rank": 8381,
+    "scrambled": "ldeubor",
+    "word": "boulder"
+   },
+   "question": "The word ldeubor is a scrambled version of the English word"
+  },
+  {
+   "answer": "revenues",
+   "bb_sha256": "69c556a0b614653129e052ce2eaaa6b7537e57c5bf984c5f7820811f89336f22",
+   "meta": {
+    "length": 8,
+    "rank": 4938,
+    "scrambled": "euvenres",
+    "word": "revenues"
+   },
+   "question": "The word euvenres is a scrambled version of the English word"
+  },
+  {
+   "answer": "rwanda",
+   "bb_sha256": "493c89b62f369b1863bf5a7bfffdab61051ed824c4e2a0379490c9c5a9e0c4d4",
+   "meta": {
+    "length": 6,
+    "rank": 8906,
+    "scrambled": "rwadan",
+    "word": "rwanda"
+   },
+   "question": "The word rwadan is a scrambled version of the English word"
+  },
+  {
+   "answer": "italian",
+   "bb_sha256": "f119be452f841a04548474ee37145f7918c7d76a0b08e3355259ed7c522f743c",
+   "meta": {
+    "length": 7,
+    "rank": 2068,
+    "scrambled": "latinia",
+    "word": "italian"
+   },
+   "question": "The word latinia is a scrambled version of the English word"
+  },
+  {
+   "answer": "instance",
+   "bb_sha256": "c9075b012e85a9183c9cccfed82b1fd4c64c2e014dfb6cce3ecc336886e4cad4",
+   "meta": {
+    "length": 8,
+    "rank": 2965,
+    "scrambled": "eainncts",
+    "word": "instance"
+   },
+   "question": "The word eainncts is a scrambled version of the English word"
+  },
+  {
+   "answer": "groove",
+   "bb_sha256": "8377ee3de3e16cd0172600dcd34d231616f33560de8540477480e454c32ec94f",
+   "meta": {
+    "length": 6,
+    "rank": 9571,
+    "scrambled": "ogrvoe",
+    "word": "groove"
+   },
+   "question": "The word ogrvoe is a scrambled version of the English word"
+  },
+  {
+   "answer": "queries",
+   "bb_sha256": "9a51787bc723e861bcf32e9adba48c2cbf1ed07edcbd269c9f6a87a342c425e1",
+   "meta": {
+    "length": 7,
+    "rank": 4638,
+    "scrambled": "qirseue",
+    "word": "queries"
+   },
+   "question": "The word qirseue is a scrambled version of the English word"
+  },
+  {
+   "answer": "marriage",
+   "bb_sha256": "c8e7e5814e9d4c8b6d6ba9260d1f67f599b6d146265cc08ca67993a08edaf74a",
+   "meta": {
+    "length": 8,
+    "rank": 2594,
+    "scrambled": "reaimrga",
+    "word": "marriage"
+   },
+   "question": "The word reaimrga is a scrambled version of the English word"
+  },
+  {
+   "answer": "sharon",
+   "bb_sha256": "03ca9e79e75ccfc509877632de75f653d1c8913c4d72902b3bf0fbe90a2b967d",
+   "meta": {
+    "length": 6,
+    "rank": 5597,
+    "scrambled": "harnso",
+    "word": "sharon"
+   },
+   "question": "The word harnso is a scrambled version of the English word"
+  },
+  {
+   "answer": "finding",
+   "bb_sha256": "406c5d7e8ef135a57fcfa5d262ae1ace6e5375191b0c724152c8ab52c5c5f382",
+   "meta": {
+    "length": 7,
+    "rank": 2176,
+    "scrambled": "igndifn",
+    "word": "finding"
+   },
+   "question": "The word igndifn is a scrambled version of the English word"
+  },
+  {
+   "answer": "computed",
+   "bb_sha256": "863fb0bdeaf021bcc384f821e1056ec156c43d825e92ceda19606806afde534a",
+   "meta": {
+    "length": 8,
+    "rank": 9232,
+    "scrambled": "omupcedt",
+    "word": "computed"
+   },
+   "question": "The word omupcedt is a scrambled version of the English word"
+  },
+  {
+   "answer": "nascar",
+   "bb_sha256": "178699cad1db7b5bc65acd248a3f15b8983c9311452f8c729e696000ad3d96cd",
+   "meta": {
+    "length": 6,
+    "rank": 6498,
+    "scrambled": "scaran",
+    "word": "nascar"
+   },
+   "question": "The word scaran is a scrambled version of the English word"
+  },
+  {
+   "answer": "webster",
+   "bb_sha256": "277cef5f361e7c1a7d5330edd312520c0ea33706d59632d7c3daef6e0aa6305a",
+   "meta": {
+    "length": 7,
+    "rank": 6998,
+    "scrambled": "srbteew",
+    "word": "webster"
+   },
+   "question": "The word srbteew is a scrambled version of the English word"
+  },
+  {
+   "answer": "hometown",
+   "bb_sha256": "e78915c406a134a7ea52d8ce11dce1af02186c002cc7fe9c926c88640f0d4218",
+   "meta": {
+    "length": 8,
+    "rank": 9699,
+    "scrambled": "enmhootw",
+    "word": "hometown"
+   },
+   "question": "The word enmhootw is a scrambled version of the English word"
+  },
+  {
+   "answer": "number",
+   "bb_sha256": "ef5f0b72c720eaeedc30950c76c65d468ef883778b07b46d41f3343163b681dd",
+   "meta": {
+    "length": 6,
+    "rank": 143,
+    "scrambled": "mruneb",
+    "word": "number"
+   },
+   "question": "The word mruneb is a scrambled version of the English word"
+  },
+  {
+   "answer": "prevent",
+   "bb_sha256": "5bf332fe9d98deb3159149f7115e73b601c22a89199875e7e2ed03a100e8bb3c",
+   "meta": {
+    "length": 7,
+    "rank": 2167,
+    "scrambled": "enrpvte",
+    "word": "prevent"
+   },
+   "question": "The word enrpvte is a scrambled version of the English word"
+  },
+  {
+   "answer": "handmade",
+   "bb_sha256": "5c87b63669bcf72dbe3cb78d5eb115a461453ad0b1c4cfd129624966a658d531",
+   "meta": {
+    "length": 8,
+    "rank": 9709,
+    "scrambled": "daahnedm",
+    "word": "handmade"
+   },
+   "question": "The word daahnedm is a scrambled version of the English word"
+  },
+  {
+   "answer": "fought",
+   "bb_sha256": "0d51806f91f43e2e8360849be6c1e86646501fc9049ab7d39c7424edabc75d66",
+   "meta": {
+    "length": 6,
+    "rank": 9434,
+    "scrambled": "fugtho",
+    "word": "fought"
+   },
+   "question": "The word fugtho is a scrambled version of the English word"
+  },
+  {
+   "answer": "trained",
+   "bb_sha256": "da99928345a7366a437a4036631be54bff866efe038b2583a8c935aecb4bbca0",
+   "meta": {
+    "length": 7,
+    "rank": 4914,
+    "scrambled": "anditre",
+    "word": "trained"
+   },
+   "question": "The word anditre is a scrambled version of the English word"
+  },
+  {
+   "answer": "cassette",
+   "bb_sha256": "f691d19cce7ff2949ff0b8a77f6f37768a1f6eb7b9c607e41a75dde9c41d07ea",
+   "meta": {
+    "length": 8,
+    "rank": 5798,
+    "scrambled": "cttseaes",
+    "word": "cassette"
+   },
+   "question": "The word cttseaes is a scrambled version of the English word"
+  },
+  {
+   "answer": "waters",
+   "bb_sha256": "56f29296f4ddb1ac2fa199c3b8a1af0d4c3d4cc936d71c1b114d2b088ef5b07a",
+   "meta": {
+    "length": 6,
+    "rank": 4347,
+    "scrambled": "raewts",
+    "word": "waters"
+   },
+   "question": "The word raewts is a scrambled version of the English word"
+  },
+  {
+   "answer": "andrews",
+   "bb_sha256": "ca880eab863b19dffb15fe1e83966e815e8d1ef776bfb6fa5f067574e0069325",
+   "meta": {
+    "length": 7,
+    "rank": 8221,
+    "scrambled": "arnewsd",
+    "word": "andrews"
+   },
+   "question": "The word arnewsd is a scrambled version of the English word"
+  },
+  {
+   "answer": "motorola",
+   "bb_sha256": "148c5f00ef95af30931ecf84e27dc6c283c2ddcb7363d8dc1cd27d9a61112135",
+   "meta": {
+    "length": 8,
+    "rank": 2186,
+    "scrambled": "olramtoo",
+    "word": "motorola"
+   },
+   "question": "The word olramtoo is a scrambled version of the English word"
+  },
+  {
+   "answer": "yamaha",
+   "bb_sha256": "63eabce5ed90c0627f8b5055091dc399ab826499086c4123bcf2c5708ca9b821",
+   "meta": {
+    "length": 6,
+    "rank": 6622,
+    "scrambled": "ahamya",
+    "word": "yamaha"
+   },
+   "question": "The word ahamya is a scrambled version of the English word"
+  },
+  {
+   "answer": "diamond",
+   "bb_sha256": "2c6d13a396bf6ecef012e01b211eaaf6bc3a5fc2e311dbe5403a55e45c285a89",
+   "meta": {
+    "length": 7,
+    "rank": 2048,
+    "scrambled": "iomddan",
+    "word": "diamond"
+   },
+   "question": "The word iomddan is a scrambled version of the English word"
+  },
+  {
+   "answer": "criminal",
+   "bb_sha256": "9f612de2f812b7aa11e0a794d116c1426ab940e628a31d2acc3c20dd91a2c77f",
+   "meta": {
+    "length": 8,
+    "rank": 2384,
+    "scrambled": "iilcamrn",
+    "word": "criminal"
+   },
+   "question": "The word iilcamrn is a scrambled version of the English word"
+  },
+  {
+   "answer": "excess",
+   "bb_sha256": "8592482707f03d6fe783b6f9a0b7557ab9c7cb11968db48ffef12069f2e02c42",
+   "meta": {
+    "length": 6,
+    "rank": 4133,
+    "scrambled": "sesxec",
+    "word": "excess"
+   },
+   "question": "The word sesxec is a scrambled version of the English word"
+  },
+  {
+   "answer": "hyundai",
+   "bb_sha256": "08469c0414bf819bc537732c0ec8878d059af6c0d59e730f81b0daedb7d6e5a2",
+   "meta": {
+    "length": 7,
+    "rank": 8885,
+    "scrambled": "anuhyid",
+    "word": "hyundai"
+   },
+   "question": "The word anuhyid is a scrambled version of the English word"
+  },
+  {
+   "answer": "benjamin",
+   "bb_sha256": "d0512c30d3af4a357e4d56da5303696b02367fe7a37c27d8b5a3197bae65ade6",
+   "meta": {
+    "length": 8,
+    "rank": 6277,
+    "scrambled": "nbaeminj",
+    "word": "benjamin"
+   },
+   "question": "The word nbaeminj is a scrambled version of the English word"
+  },
+  {
+   "answer": "prefix",
+   "bb_sha256": "8b66b00d72c1eeedb7575aab85c27ca7a02bec7ad1e19a88ef3f9a4f26e25451",
+   "meta": {
+    "length": 6,
+    "rank": 8372,
+    "scrambled": "pierxf",
+    "word": "prefix"
+   },
+   "question": "The word pierxf is a scrambled version of the English word"
+  },
+  {
+   "answer": "hungary",
+   "bb_sha256": "0e8ac44552e26f23676911ec383b9752706741e3656589b3de993640e7c1ecee",
+   "meta": {
+    "length": 7,
+    "rank": 4777,
+    "scrambled": "agurynh",
+    "word": "hungary"
+   },
+   "question": "The word agurynh is a scrambled version of the English word"
+  },
+  {
+   "answer": "interest",
+   "bb_sha256": "7225e4b4bfdf2d2545a3d01b7bfb9eca5a2f4d7c505a40fe1a21f4d7dccc9086",
+   "meta": {
+    "length": 8,
+    "rank": 653,
+    "scrambled": "setnreti",
+    "word": "interest"
+   },
+   "question": "The word setnreti is a scrambled version of the English word"
+  },
+  {
+   "answer": "rhythm",
+   "bb_sha256": "498f1c25e5d8caf98048d506451fcb3af086f15c5bad02fefb93a274dddb6860",
+   "meta": {
+    "length": 6,
+    "rank": 8028,
+    "scrambled": "rmthhy",
+    "word": "rhythm"
+   },
+   "question": "The word rmthhy is a scrambled version of the English word"
+  },
+  {
+   "answer": "funding",
+   "bb_sha256": "653f635c79eff2f44f230b24365ef6fe33245d79ffd22016c13c5e6fd19415f4",
+   "meta": {
+    "length": 7,
+    "rank": 1729,
+    "scrambled": "fduinng",
+    "word": "funding"
+   },
+   "question": "The word fduinng is a scrambled version of the English word"
+  },
+  {
+   "answer": "plastics",
+   "bb_sha256": "80aa5f942ecc7c9b3ccfb84b7ff93ef25f6757f0757f3231a85101a6d8b9369d",
+   "meta": {
+    "length": 8,
+    "rank": 8787,
+    "scrambled": "lpstcias",
+    "word": "plastics"
+   },
+   "question": "The word lpstcias is a scrambled version of the English word"
+  },
+  {
+   "answer": "beside",
+   "bb_sha256": "d4ae9f630afe4097a1f1215cd772691d243b03fbe5f911d1fcd7fed56ecef5fd",
+   "meta": {
+    "length": 6,
+    "rank": 9426,
+    "scrambled": "sieedb",
+    "word": "beside"
+   },
+   "question": "The word sieedb is a scrambled version of the English word"
+  },
+  {
+   "answer": "vessels",
+   "bb_sha256": "fb579ca0bb7dd5e6d62188f0f81c0a42624d8409e9f3298a8d3648507aa85a5a",
+   "meta": {
+    "length": 7,
+    "rank": 7465,
+    "scrambled": "vsslsee",
+    "word": "vessels"
+   },
+   "question": "The word vsslsee is a scrambled version of the English word"
+  },
+  {
+   "answer": "policies",
+   "bb_sha256": "34b5f4c4d9d41ec147af59c3b85f9a8336013b0fbd571603b5bcd7630a3306ac",
+   "meta": {
+    "length": 8,
+    "rank": 915,
+    "scrambled": "oeclpiis",
+    "word": "policies"
+   },
+   "question": "The word oeclpiis is a scrambled version of the English word"
+  },
+  {
+   "answer": "places",
+   "bb_sha256": "07ffb6079f89c5b6baf914fc8f488dbe0d1f84640362daefe1acd11c77aed702",
+   "meta": {
+    "length": 6,
+    "rank": 1595,
+    "scrambled": "lpcaes",
+    "word": "places"
+   },
+   "question": "The word lpcaes is a scrambled version of the English word"
+  },
+  {
+   "answer": "panties",
+   "bb_sha256": "0b52df626e0b808c5fc2376acd384c40d2f4106de601c6142ff3a83139605b98",
+   "meta": {
+    "length": 7,
+    "rank": 6118,
+    "scrambled": "apintes",
+    "word": "panties"
+   },
+   "question": "The word apintes is a scrambled version of the English word"
+  },
+  {
+   "answer": "accurate",
+   "bb_sha256": "2bdd46a27f09db6c3ff511fb3ff06e64e98f5db9c7ec514dd02b986567dd0707",
+   "meta": {
+    "length": 8,
+    "rank": 3066,
+    "scrambled": "utecaarc",
+    "word": "accurate"
+   },
+   "question": "The word utecaarc is a scrambled version of the English word"
+  },
+  {
+   "answer": "accept",
+   "bb_sha256": "65e3991a71a98fcc7924c7399118be3f55e74e188f037b0c2e1d9d88b1ee8d6c",
+   "meta": {
+    "length": 6,
+    "rank": 1893,
+    "scrambled": "ctpcea",
+    "word": "accept"
+   },
+   "question": "The word ctpcea is a scrambled version of the English word"
+  },
+  {
+   "answer": "bradley",
+   "bb_sha256": "60a97569ccf2852afc3a6f1fb48f18b06c0045a2f20776ba314947b20e462ae2",
+   "meta": {
+    "length": 7,
+    "rank": 7850,
+    "scrambled": "dabylre",
+    "word": "bradley"
+   },
+   "question": "The word dabylre is a scrambled version of the English word"
+  },
+  {
+   "answer": "hydrogen",
+   "bb_sha256": "8800eca1aaf58f28cb376a2b220c5aadb24f65dea28656287d03ba2a2666c3cb",
+   "meta": {
+    "length": 8,
+    "rank": 7446,
+    "scrambled": "ohngryde",
+    "word": "hydrogen"
+   },
+   "question": "The word ohngryde is a scrambled version of the English word"
+  },
+  {
+   "answer": "gentle",
+   "bb_sha256": "80f5636aa1df2cd1fdf09a9c8829ff7bf6afc5c33950bd476692ad2d55b65f28",
+   "meta": {
+    "length": 6,
+    "rank": 8075,
+    "scrambled": "gentel",
+    "word": "gentle"
+   },
+   "question": "The word gentel is a scrambled version of the English word"
+  },
+  {
+   "answer": "algebra",
+   "bb_sha256": "18f9b4603bb4e1525d8a44722fcf5b836af5c4e29c6e5b9550a035adc7fa8fa2",
+   "meta": {
+    "length": 7,
+    "rank": 8151,
+    "scrambled": "lgerbaa",
+    "word": "algebra"
+   },
+   "question": "The word lgerbaa is a scrambled version of the English word"
+  },
+  {
+   "answer": "wherever",
+   "bb_sha256": "9cddd4d4e25503d794be6f807e232fae29e9f35cf21cfd56d1109e20de618f14",
+   "meta": {
+    "length": 8,
+    "rank": 8209,
+    "scrambled": "eeevwrhr",
+    "word": "wherever"
+   },
+   "question": "The word eeevwrhr is a scrambled version of the English word"
+  },
+  {
+   "answer": "family",
+   "bb_sha256": "4fc67d4b78380d5f1fee8be4c6ee31a76cac47df1153fdd671b1bb2d370d00ca",
+   "meta": {
+    "length": 6,
+    "rank": 262,
+    "scrambled": "fyliam",
+    "word": "family"
+   },
+   "question": "The word fyliam is a scrambled version of the English word"
+  },
+  {
+   "answer": "reading",
+   "bb_sha256": "70c13bd9f0c8b8a62d44cfc036057bbf0f0b2f88869d593938fc79d55c3e8bd2",
+   "meta": {
+    "length": 7,
+    "rank": 839,
+    "scrambled": "dgerain",
+    "word": "reading"
+   },
+   "question": "The word dgerain is a scrambled version of the English word"
+  },
+  {
+   "answer": "merchant",
+   "bb_sha256": "b5a55a0f335557ad2311bf2f350a0aa82bc0e3d9f662810a3863298e27c540d3",
+   "meta": {
+    "length": 8,
+    "rank": 2153,
+    "scrambled": "hncaretm",
+    "word": "merchant"
+   },
+   "question": "The word hncaretm is a scrambled version of the English word"
+  },
+  {
+   "answer": "safely",
+   "bb_sha256": "6ba4219b1beb6253b7980d568153fed50d8ed0c3dcd2560744725eef8c120382",
+   "meta": {
+    "length": 6,
+    "rank": 7629,
+    "scrambled": "elafsy",
+    "word": "safely"
+   },
+   "question": "The word elafsy is a scrambled version of the English word"
+  },
+  {
+   "answer": "despite",
+   "bb_sha256": "aec96df6e98c622533f95875737d4becd403d58a0ca05168bfdda9d045a7d552",
+   "meta": {
+    "length": 7,
+    "rank": 2813,
+    "scrambled": "tdiepse",
+    "word": "despite"
+   },
+   "question": "The word tdiepse is a scrambled version of the English word"
+  },
+  {
+   "answer": "classics",
+   "bb_sha256": "3436cf9fce2fa95413d09234792e5bbfae04e93f6515b68a8e9021daa8fa49c0",
+   "meta": {
+    "length": 8,
+    "rank": 4322,
+    "scrambled": "isslscca",
+    "word": "classics"
+   },
+   "question": "The word isslscca is a scrambled version of the English word"
+  },
+  {
+   "answer": "people",
+   "bb_sha256": "ec628523e989359107b63029ea8025915c5974f382b995cb0b9db1b24dd4d6c4",
+   "meta": {
+    "length": 6,
+    "rank": 105,
+    "scrambled": "eeplop",
+    "word": "people"
+   },
+   "question": "The word eeplop is a scrambled version of the English word"
+  },
+  {
+   "answer": "attacks",
+   "bb_sha256": "b6dd9991fc2cec3838c60ac36628905ef291afdcf3a34107409aea15904bdd63",
+   "meta": {
+    "length": 7,
+    "rank": 3651,
+    "scrambled": "skcaatt",
+    "word": "attacks"
+   },
+   "question": "The word skcaatt is a scrambled version of the English word"
+  },
+  {
+   "answer": "biblical",
+   "bb_sha256": "ba94a3ce720e9dd5907439b3b8a98d7cc5b27ad8aa6cac31aa6058fed696bf1d",
+   "meta": {
+    "length": 8,
+    "rank": 8870,
+    "scrambled": "llbciaib",
+    "word": "biblical"
+   },
+   "question": "The word llbciaib is a scrambled version of the English word"
+  },
+  {
+   "answer": "arabic",
+   "bb_sha256": "da7d222e795474d054036fa9f084bf12b3e45ee4c0e8d1dce45f521135eb78ee",
+   "meta": {
+    "length": 6,
+    "rank": 6200,
+    "scrambled": "bicraa",
+    "word": "arabic"
+   },
+   "question": "The word bicraa is a scrambled version of the English word"
+  },
+  {
+   "answer": "prepaid",
+   "bb_sha256": "3e2981b88cd71cd1e42a40bce4e6bc70dc0273846fd48aa18ca3db0dd4dc4f19",
+   "meta": {
+    "length": 7,
+    "rank": 8762,
+    "scrambled": "ppeiadr",
+    "word": "prepaid"
+   },
+   "question": "The word ppeiadr is a scrambled version of the English word"
+  },
+  {
+   "answer": "duration",
+   "bb_sha256": "879794ec296b0ffa000819a34d9d0b15760c2e7349ebd7b2c4c6907d87b892a9",
+   "meta": {
+    "length": 8,
+    "rank": 3976,
+    "scrambled": "dotrnuia",
+    "word": "duration"
+   },
+   "question": "The word dotrnuia is a scrambled version of the English word"
+  },
+  {
+   "answer": "barnes",
+   "bb_sha256": "e22da8c1f6fc0e45f5b57c61b1768ba39336185a3dc6eae4a06f97ce6ba44d36",
+   "meta": {
+    "length": 6,
+    "rank": 6568,
+    "scrambled": "nsaber",
+    "word": "barnes"
+   },
+   "question": "The word nsaber is a scrambled version of the English word"
+  },
+  {
+   "answer": "amended",
+   "bb_sha256": "bc33b1339623986f3b8ef9281d639ff0c8ccfbd0e986dc295331d1fdacc3edb8",
+   "meta": {
+    "length": 7,
+    "rank": 3942,
+    "scrambled": "aeenddm",
+    "word": "amended"
+   },
+   "question": "The word aeenddm is a scrambled version of the English word"
+  },
+  {
+   "answer": "discover",
+   "bb_sha256": "57d87376621f5bd4b92d1f7e7dbaa5f22c6720f556cef40e0560d78d6d841473",
+   "meta": {
+    "length": 8,
+    "rank": 2995,
+    "scrambled": "resdivco",
+    "word": "discover"
+   },
+   "question": "The word resdivco is a scrambled version of the English word"
+  },
+  {
+   "answer": "saddam",
+   "bb_sha256": "8dc80e3d9450cef793c6c56ac489a7697a6c371d3a63005e302041c5317b921c",
+   "meta": {
+    "length": 6,
+    "rank": 7141,
+    "scrambled": "dmdaas",
+    "word": "saddam"
+   },
+   "question": "The word dmdaas is a scrambled version of the English word"
+  },
+  {
+   "answer": "failing",
+   "bb_sha256": "2ead8a44eb7791807d9e3e4d6bcb9d6426ca9cf701d94ff1f0c9d7def3a723b7",
+   "meta": {
+    "length": 7,
+    "rank": 8215,
+    "scrambled": "iainflg",
+    "word": "failing"
+   },
+   "question": "The word iainflg is a scrambled version of the English word"
+  },
+  {
+   "answer": "enrolled",
+   "bb_sha256": "f9fbab0356abf4f77a1bfd8b6e169c9f21e3a6d39e443e71238372cb184ed2a9",
+   "meta": {
+    "length": 8,
+    "rank": 7193,
+    "scrambled": "delnoler",
+    "word": "enrolled"
+   },
+   "question": "The word delnoler is a scrambled version of the English word"
+  },
+  {
+   "answer": "bridge",
+   "bb_sha256": "6e142a7d14f87ae36542b57b9fe3a5c854d9863fa3a095fcf21e25dcbe14efff",
+   "meta": {
+    "length": 6,
+    "rank": 2289,
+    "scrambled": "ridgeb",
+    "word": "bridge"
+   },
+   "question": "The word ridgeb is a scrambled version of the English word"
+  },
+  {
+   "answer": "earning",
+   "bb_sha256": "f2673c4f024aae296a64456cfa08464a01a2356e60f41702054c93e526bccfcf",
+   "meta": {
+    "length": 7,
+    "rank": 9721,
+    "scrambled": "eigrnna",
+    "word": "earning"
+   },
+   "question": "The word eigrnna is a scrambled version of the English word"
+  },
+  {
+   "answer": "monsters",
+   "bb_sha256": "94b43e7b856ea707a26fff1d73513257dc235448242d2194a236143618cc3cf8",
+   "meta": {
+    "length": 8,
+    "rank": 9988,
+    "scrambled": "srnmtose",
+    "word": "monsters"
+   },
+   "question": "The word srnmtose is a scrambled version of the English word"
+  },
+  {
+   "answer": "rapids",
+   "bb_sha256": "a8f0ada46ec9eec4dafe2231ed81cc86962cf3a17f6dc7493f0047fbe69c5f7c",
+   "meta": {
+    "length": 6,
+    "rank": 7964,
+    "scrambled": "spriad",
+    "word": "rapids"
+   },
+   "question": "The word spriad is a scrambled version of the English word"
+  },
+  {
+   "answer": "permits",
+   "bb_sha256": "bd2236467d262e2aff9a62204c5b9f79af31bf395e8e7f98ecd4fd9c8894e98c",
+   "meta": {
+    "length": 7,
+    "rank": 5575,
+    "scrambled": "ipemrst",
+    "word": "permits"
+   },
+   "question": "The word ipemrst is a scrambled version of the English word"
+  },
+  {
+   "answer": "lingerie",
+   "bb_sha256": "e700aa26f5a30e2ae0e2d6cf78a1f4e33fd2b9fd63e00092385b1e60d1bb0e84",
+   "meta": {
+    "length": 8,
+    "rank": 2647,
+    "scrambled": "gierenli",
+    "word": "lingerie"
+   },
+   "question": "The word gierenli is a scrambled version of the English word"
+  },
+  {
+   "answer": "andrea",
+   "bb_sha256": "7390ae17a3ef5ae907456196b7cdaaf2c4ae17c9560c16a1d74ab941873f16dd",
+   "meta": {
+    "length": 6,
+    "rank": 7962,
+    "scrambled": "aaernd",
+    "word": "andrea"
+   },
+   "question": "The word aaernd is a scrambled version of the English word"
+  },
+  {
+   "answer": "creates",
+   "bb_sha256": "b60defaa5864ca1f295a759d663a547a7325cb33843742a0f8b071f4c4074d45",
+   "meta": {
+    "length": 7,
+    "rank": 4547,
+    "scrambled": "acterse",
+    "word": "creates"
+   },
+   "question": "The word acterse is a scrambled version of the English word"
+  },
+  {
+   "answer": "flashing",
+   "bb_sha256": "1b91ccadee93e2857e738e2267c98eaefbbdb18d667a5fceb97315b52e46883f",
+   "meta": {
+    "length": 8,
+    "rank": 3887,
+    "scrambled": "lfnaihsg",
+    "word": "flashing"
+   },
+   "question": "The word lfnaihsg is a scrambled version of the English word"
+  },
+  {
+   "answer": "prayer",
+   "bb_sha256": "ea6c567fc17d716c5de56a01dafc13fa559c1d95f07beea79171b622873396ca",
+   "meta": {
+    "length": 6,
+    "rank": 4201,
+    "scrambled": "rpyrea",
+    "word": "prayer"
+   },
+   "question": "The word rpyrea is a scrambled version of the English word"
+  },
+  {
+   "answer": "obvious",
+   "bb_sha256": "140d10a4802a4f370720362fbecba2dcd48ecebc1c97a34f30c5366e24ddfa22",
+   "meta": {
+    "length": 7,
+    "rank": 4450,
+    "scrambled": "ioobvus",
+    "word": "obvious"
+   },
+   "question": "The word ioobvus is a scrambled version of the English word"
+  },
+  {
+   "answer": "prostate",
+   "bb_sha256": "e4424ca16c373ce20be7d60f82855d6e8da6021472a287f025985defa9ae69b8",
+   "meta": {
+    "length": 8,
+    "rank": 8881,
+    "scrambled": "proatest",
+    "word": "prostate"
+   },
+   "question": "The word proatest is a scrambled version of the English word"
+  },
+  {
+   "answer": "hebrew",
+   "bb_sha256": "c3f16345fe9b2d710ae3d5c809539d8c464dc2320098dac845f7e008d47b8993",
+   "meta": {
+    "length": 6,
+    "rank": 6625,
+    "scrambled": "eerhwb",
+    "word": "hebrew"
+   },
+   "question": "The word eerhwb is a scrambled version of the English word"
+  },
+  {
+   "answer": "shortly",
+   "bb_sha256": "811972d68140035d1b514e639119caa0a81fab2d380449fea27b2eacecd9ad07",
+   "meta": {
+    "length": 7,
+    "rank": 7260,
+    "scrambled": "slyhtor",
+    "word": "shortly"
+   },
+   "question": "The word slyhtor is a scrambled version of the English word"
+  },
+  {
+   "answer": "specific",
+   "bb_sha256": "ffaba0008bb88445b120c5137a18b1426335507091c40531b71ed81de832665b",
+   "meta": {
+    "length": 8,
+    "rank": 738,
+    "scrambled": "cepscfii",
+    "word": "specific"
+   },
+   "question": "The word cepscfii is a scrambled version of the English word"
+  },
+  {
+   "answer": "answer",
+   "bb_sha256": "890cc2022e12d116a6198b128f45852555a19efadac32caae20a3c50418b405f",
+   "meta": {
+    "length": 6,
+    "rank": 1251,
+    "scrambled": "nwsaer",
+    "word": "answer"
+   },
+   "question": "The word nwsaer is a scrambled version of the English word"
+  },
+  {
+   "answer": "studied",
+   "bb_sha256": "eee8a776f49ea0eb4bef07d9a4d9fc38a3cf1614285a557c3b071564baa5dcfa",
+   "meta": {
+    "length": 7,
+    "rank": 5111,
+    "scrambled": "sddutie",
+    "word": "studied"
+   },
+   "question": "The word sddutie is a scrambled version of the English word"
+  },
+  {
+   "answer": "blogging",
+   "bb_sha256": "35e1fbb189588567e190625e4f5ce66a1389dcd04c87b2a4b3ee645c125673f9",
+   "meta": {
+    "length": 8,
+    "rank": 5518,
+    "scrambled": "ogilbgng",
+    "word": "blogging"
+   },
+   "question": "The word ogilbgng is a scrambled version of the English word"
+  },
+  {
+   "answer": "freely",
+   "bb_sha256": "a976730b965b4e2cfe925e4c8ea4f74759921dcc0f0c355a636eb08db4c2c025",
+   "meta": {
+    "length": 6,
+    "rank": 8160,
+    "scrambled": "efeylr",
+    "word": "freely"
+   },
+   "question": "The word efeylr is a scrambled version of the English word"
+  },
+  {
+   "answer": "tribute",
+   "bb_sha256": "eb00c0047876b1c941cf000b34a6cbbbcba1c0bb8d15a13aea4236d227384537",
+   "meta": {
+    "length": 7,
+    "rank": 7063,
+    "scrambled": "rbettiu",
+    "word": "tribute"
+   },
+   "question": "The word rbettiu is a scrambled version of the English word"
+  },
+  {
+   "answer": "istanbul",
+   "bb_sha256": "4e2002b2a7282fd04e4ec4ca4feaf0ff0836fa08aab5ed8ba750285caba9843a",
+   "meta": {
+    "length": 8,
+    "rank": 9780,
+    "scrambled": "nitbusal",
+    "word": "istanbul"
+   },
+   "question": "The word nitbusal is a scrambled version of the English word"
+  },
+  {
+   "answer": "howard",
+   "bb_sha256": "8d0a1d06df23e91e8eb2e2f7e0ca3cf8be9f47bc0bc257f773098b244b3f2ad1",
+   "meta": {
+    "length": 6,
+    "rank": 3362,
+    "scrambled": "dorhwa",
+    "word": "howard"
+   },
+   "question": "The word dorhwa is a scrambled version of the English word"
+  },
+  {
+   "answer": "costume",
+   "bb_sha256": "e88bb8a6f9c027686d46e7caa5dd5be95fae150341c1a8ee64cca819ca6e8e09",
+   "meta": {
+    "length": 7,
+    "rank": 5849,
+    "scrambled": "mtsueco",
+    "word": "costume"
+   },
+   "question": "The word mtsueco is a scrambled version of the English word"
+  },
+  {
+   "answer": "alliance",
+   "bb_sha256": "1e1642246119df57b822e51611eee131a0bc867e20c3f003b3012e10361420b5",
+   "meta": {
+    "length": 8,
+    "rank": 3356,
+    "scrambled": "aaelcnil",
+    "word": "alliance"
+   },
+   "question": "The word aaelcnil is a scrambled version of the English word"
+  },
+  {
+   "answer": "person",
+   "bb_sha256": "273d85b12d076c6af6c1fab3128b914e430e3719fb1c8cc6563b9af3c0a1f47b",
+   "meta": {
+    "length": 6,
+    "rank": 532,
+    "scrambled": "eosrnp",
+    "word": "person"
+   },
+   "question": "The word eosrnp is a scrambled version of the English word"
+  },
+  {
+   "answer": "freedom",
+   "bb_sha256": "2f4119b52856867fea0e41f1f0baf8a0b0f6241e9b22f51fdd16f6fd4fcd30f5",
+   "meta": {
+    "length": 7,
+    "rank": 2076,
+    "scrambled": "ofdeemr",
+    "word": "freedom"
+   },
+   "question": "The word ofdeemr is a scrambled version of the English word"
+  },
+  {
+   "answer": "scanning",
+   "bb_sha256": "ad9afefb5d2117a3fffe1a43582fb62cca23b15d3705c52d9cc06fef982d8861",
+   "meta": {
+    "length": 8,
+    "rank": 7273,
+    "scrambled": "gnsncian",
+    "word": "scanning"
+   },
+   "question": "The word gnsncian is a scrambled version of the English word"
+  },
+  {
+   "answer": "afraid",
+   "bb_sha256": "c586d058f1d5bcdcbdd0d7d2cf31566867a616b33a5db5ce7e30d8fa1e47e26a",
+   "meta": {
+    "length": 6,
+    "rank": 5795,
+    "scrambled": "fidraa",
+    "word": "afraid"
+   },
+   "question": "The word fidraa is a scrambled version of the English word"
+  },
+  {
+   "answer": "welding",
+   "bb_sha256": "7abb601ff9808611ef859d2ad7713933c15a04e0623f0ec5771283fa74981897",
+   "meta": {
+    "length": 7,
+    "rank": 9505,
+    "scrambled": "lgdewni",
+    "word": "welding"
+   },
+   "question": "The word lgdewni is a scrambled version of the English word"
+  },
+  {
+   "answer": "military",
+   "bb_sha256": "f41324bb6d68d2f36bf238598464f17f59680acc05003e94277aa2a3cad0d4a1",
+   "meta": {
+    "length": 8,
+    "rank": 1126,
+    "scrambled": "imiaytrl",
+    "word": "military"
+   },
+   "question": "The word imiaytrl is a scrambled version of the English word"
+  },
+  {
+   "answer": "pounds",
+   "bb_sha256": "a6fa3d6c0970a1aeaa3352ab94ad80e211b4dce98fb39d598855f5576a03f8ed",
+   "meta": {
+    "length": 6,
+    "rank": 4007,
+    "scrambled": "pdouns",
+    "word": "pounds"
+   },
+   "question": "The word pdouns is a scrambled version of the English word"
+  },
+  {
+   "answer": "glucose",
+   "bb_sha256": "4eec1e33e8d5e520d60910d4e404099079de526a4c0decbe1ecf33814810379d",
+   "meta": {
+    "length": 7,
+    "rank": 9682,
+    "scrambled": "seuclog",
+    "word": "glucose"
+   },
+   "question": "The word seuclog is a scrambled version of the English word"
+  },
+  {
+   "answer": "weighted",
+   "bb_sha256": "dccf818d4cd28983af8174d48dface39fe28dd731080d4658f0ae07532349d6a",
+   "meta": {
+    "length": 8,
+    "rank": 8783,
+    "scrambled": "ehdgtiew",
+    "word": "weighted"
+   },
+   "question": "The word ehdgtiew is a scrambled version of the English word"
+  },
+  {
+   "answer": "puerto",
+   "bb_sha256": "41e0585ce149ece25250327d9ed837de562aca3cdf8d2bba60af38081effa708",
+   "meta": {
+    "length": 6,
+    "rank": 3770,
+    "scrambled": "rupteo",
+    "word": "puerto"
+   },
+   "question": "The word rupteo is a scrambled version of the English word"
+  },
+  {
+   "answer": "anybody",
+   "bb_sha256": "b38362a7a676c588d11e91c8f1d856959f0e153d2d9a845202dfffe52661ca48",
+   "meta": {
+    "length": 7,
+    "rank": 6009,
+    "scrambled": "anbodyy",
+    "word": "anybody"
+   },
+   "question": "The word anbodyy is a scrambled version of the English word"
+  },
+  {
+   "answer": "basement",
+   "bb_sha256": "eafe2ee812477e9e7d1910dd0090a51fd59aca4e1bb6836a763dc831fe9e7b02",
+   "meta": {
+    "length": 8,
+    "rank": 8559,
+    "scrambled": "eenmabts",
+    "word": "basement"
+   },
+   "question": "The word eenmabts is a scrambled version of the English word"
+  },
+  {
+   "answer": "figure",
+   "bb_sha256": "a6cc67ea896a866e861ad26ecff143364ad52f0eff70893c1e813249a0fc3a7c",
+   "meta": {
+    "length": 6,
+    "rank": 958,
+    "scrambled": "fgueri",
+    "word": "figure"
+   },
+   "question": "The word fgueri is a scrambled version of the English word"
+  },
+  {
+   "answer": "minutes",
+   "bb_sha256": "d20438a98f6ba6d1e7b53dc27d4af1a5eaaa9dccb4da7c4bf60c671545cc59ea",
+   "meta": {
+    "length": 7,
+    "rank": 832,
+    "scrambled": "usitmne",
+    "word": "minutes"
+   },
+   "question": "The word usitmne is a scrambled version of the English word"
+  },
+  {
+   "answer": "passport",
+   "bb_sha256": "8b7ce556d35f0394cd68925fa747912e915032b29f64f5b0c903d864ac16c6f3",
+   "meta": {
+    "length": 8,
+    "rank": 6597,
+    "scrambled": "oprsaspt",
+    "word": "passport"
+   },
+   "question": "The word oprsaspt is a scrambled version of the English word"
+  },
+  {
+   "answer": "latest",
+   "bb_sha256": "875ca40e0aa4cbfb0d7e8b8e131e345fe4815c937ede7655567867f5bb3f0a35",
+   "meta": {
+    "length": 6,
+    "rank": 588,
+    "scrambled": "letsta",
+    "word": "latest"
+   },
+   "question": "The word letsta is a scrambled version of the English word"
+  },
+  {
+   "answer": "forward",
+   "bb_sha256": "cb26395ca0cd6dcf4922af335f1163f65d45922257d6be10d444ecd7a2add41d",
+   "meta": {
+    "length": 7,
+    "rank": 1403,
+    "scrambled": "rowrfda",
+    "word": "forward"
+   },
+   "question": "The word rowrfda is a scrambled version of the English word"
+  },
+  {
+   "answer": "brussels",
+   "bb_sha256": "68bb99a3edd9ec828215efcacedde289f2e092c2871e438249a604c0bf3b3b9c",
+   "meta": {
+    "length": 8,
+    "rank": 7373,
+    "scrambled": "sureslsb",
+    "word": "brussels"
+   },
+   "question": "The word sureslsb is a scrambled version of the English word"
+  },
+  {
+   "answer": "albums",
+   "bb_sha256": "6e1f07b1d3ea6a90702269e8322d1c8c2e3dd3f009eb464fa8aa488e6a30eeef",
+   "meta": {
+    "length": 6,
+    "rank": 3173,
+    "scrambled": "masubl",
+    "word": "albums"
+   },
+   "question": "The word masubl is a scrambled version of the English word"
+  },
+  {
+   "answer": "forests",
+   "bb_sha256": "cc7e191860541cb840d7fda217f5b0925f7d9e91b7df32c62e9556cbb379650c",
+   "meta": {
+    "length": 7,
+    "rank": 6849,
+    "scrambled": "osrtsef",
+    "word": "forests"
+   },
+   "question": "The word osrtsef is a scrambled version of the English word"
+  },
+  {
+   "answer": "breeding",
+   "bb_sha256": "2358f7592ac23c137df8cfec016803caf58fa64c45f30a05dce0760e457b6ce2",
+   "meta": {
+    "length": 8,
+    "rank": 7941,
+    "scrambled": "bdeierng",
+    "word": "breeding"
+   },
+   "question": "The word bdeierng is a scrambled version of the English word"
+  },
+  {
+   "answer": "gender",
+   "bb_sha256": "cd714752d81c214d9bbae16a45bfef69db0ff66e9655ae5c060870acc7129816",
+   "meta": {
+    "length": 6,
+    "rank": 2727,
+    "scrambled": "edergn",
+    "word": "gender"
+   },
+   "question": "The word edergn is a scrambled version of the English word"
+  },
+  {
+   "answer": "outcome",
+   "bb_sha256": "3e309105930d3d5e5665183ab42f6f2d2f01194d8b97322dce8af75a0037d5c7",
+   "meta": {
+    "length": 7,
+    "rank": 4829,
+    "scrambled": "ucmotoe",
+    "word": "outcome"
+   },
+   "question": "The word ucmotoe is a scrambled version of the English word"
+  },
+  {
+   "answer": "happened",
+   "bb_sha256": "df02922403ea84b4614e0231a622fbe7f4eefd15b88d9887b72b857a5c339be8",
+   "meta": {
+    "length": 8,
+    "rank": 3087,
+    "scrambled": "dhenppea",
+    "word": "happened"
+   },
+   "question": "The word dhenppea is a scrambled version of the English word"
+  },
+  {
+   "answer": "filing",
+   "bb_sha256": "4fe50ae404e1cac71aab251868640400d11ccd59cb16e1b65e6fdc7b405cf334",
+   "meta": {
+    "length": 6,
+    "rank": 4459,
+    "scrambled": "iflgni",
+    "word": "filing"
+   },
+   "question": "The word iflgni is a scrambled version of the English word"
+  },
+  {
+   "answer": "vehicle",
+   "bb_sha256": "2764a32022f6559838eeeac5fe9ef671d955a1605ea66547b568643824c59d71",
+   "meta": {
+    "length": 7,
+    "rank": 1526,
+    "scrambled": "veciehl",
+    "word": "vehicle"
+   },
+   "question": "The word veciehl is a scrambled version of the English word"
+  },
+  {
+   "answer": "realized",
+   "bb_sha256": "55a9a3b72077ccd549d60cf1bdca28f6a3856bedaa3026eefd4e7afc9369d5bc",
+   "meta": {
+    "length": 8,
+    "rank": 5670,
+    "scrambled": "dazrleie",
+    "word": "realized"
+   },
+   "question": "The word dazrleie is a scrambled version of the English word"
+  },
+  {
+   "answer": "throws",
+   "bb_sha256": "b85260f86739d9ecce104bed4a4883291f76c0db6105000d3aa5eeb24d087961",
+   "meta": {
+    "length": 6,
+    "rank": 7638,
+    "scrambled": "oshwrt",
+    "word": "throws"
+   },
+   "question": "The word oshwrt is a scrambled version of the English word"
+  },
+  {
+   "answer": "trinity",
+   "bb_sha256": "11b656d18809ff4187e1be94329c31c0921e0d76f5cbd27c4afc0ebe1070203b",
+   "meta": {
+    "length": 7,
+    "rank": 7382,
+    "scrambled": "iytrtin",
+    "word": "trinity"
+   },
+   "question": "The word iytrtin is a scrambled version of the English word"
+  },
+  {
+   "answer": "contents",
+   "bb_sha256": "8dac557fcf47b3937f28dc52f8f004ae22b44027ed2093daa6044b27b98e679f",
+   "meta": {
+    "length": 8,
+    "rank": 1031,
+    "scrambled": "etonncst",
+    "word": "contents"
+   },
+   "question": "The word etonncst is a scrambled version of the English word"
+  },
+  {
+   "answer": "victim",
+   "bb_sha256": "865e59d92ab7d09be2bcb3bd481b14bace93c5c8bd249f835ec9fe15323bd308",
+   "meta": {
+    "length": 6,
+    "rank": 5466,
+    "scrambled": "vmciti",
+    "word": "victim"
+   },
+   "question": "The word vmciti is a scrambled version of the English word"
+  },
+  {
+   "answer": "mailing",
+   "bb_sha256": "c47b48d690351905ef3534639ff5cb2a0df3dfc359ad7da6df5a52c9f0ce40af",
+   "meta": {
+    "length": 7,
+    "rank": 1525,
+    "scrambled": "lamiign",
+    "word": "mailing"
+   },
+   "question": "The word lamiign is a scrambled version of the English word"
+  },
+  {
+   "answer": "resulted",
+   "bb_sha256": "462f654f1b0a02cc4ceb6f6be7ec6cf0f2cff4d3c8f8b33ae426e0008f275e34",
+   "meta": {
+    "length": 8,
+    "rank": 5894,
+    "scrambled": "tuleerds",
+    "word": "resulted"
+   },
+   "question": "The word tuleerds is a scrambled version of the English word"
+  },
+  {
+   "answer": "wizard",
+   "bb_sha256": "cb9edbcbd7a912a6f6e3a6241bc60e96a6420a39d8021d9925333d17da712be4",
+   "meta": {
+    "length": 6,
+    "rank": 5359,
+    "scrambled": "arwizd",
+    "word": "wizard"
+   },
+   "question": "The word arwizd is a scrambled version of the English word"
+  },
+  {
+   "answer": "program",
+   "bb_sha256": "5f4f3ff65e4a9ebd26c353d660c27c670bd006d4376316869443ca13ccbff78b",
+   "meta": {
+    "length": 7,
+    "rank": 199,
+    "scrambled": "gmropra",
+    "word": "program"
+   },
+   "question": "The word gmropra is a scrambled version of the English word"
+  },
+  {
+   "answer": "mortgage",
+   "bb_sha256": "7203acae1da8baac7477fbbea2dd1e7734817bc1ade59374c8b45a3af61a4359",
+   "meta": {
+    "length": 8,
+    "rank": 1085,
+    "scrambled": "gromgate",
+    "word": "mortgage"
+   },
+   "question": "The word gromgate is a scrambled version of the English word"
+  },
+  {
+   "answer": "august",
+   "bb_sha256": "e6548e04a720932b8d04cb1f8f62df2bef3e05180a7f7bf71b42b499199c6a94",
+   "meta": {
+    "length": 6,
+    "rank": 560,
+    "scrambled": "tgsuua",
+    "word": "august"
+   },
+   "question": "The word tgsuua is a scrambled version of the English word"
+  },
+  {
+   "answer": "penguin",
+   "bb_sha256": "7680716bbb9e7dadfe15ecfd2eaaf17caa06a58e88467b41dde2489e04a2e03a",
+   "meta": {
+    "length": 7,
+    "rank": 9101,
+    "scrambled": "pneguni",
+    "word": "penguin"
+   },
+   "question": "The word pneguni is a scrambled version of the English word"
+  },
+  {
+   "answer": "wellness",
+   "bb_sha256": "77d60d581c92e9d359b8a8133817e6c57a166afa4c86e865e31cd4162dc0d30e",
+   "meta": {
+    "length": 8,
+    "rank": 6478,
+    "scrambled": "sesllwen",
+    "word": "wellness"
+   },
+   "question": "The word sesllwen is a scrambled version of the English word"
+  },
+  {
+   "answer": "oldest",
+   "bb_sha256": "8443a0ca2b980b365efca4b8256120ce23a86cffbdd81cb766b12c18c76a81a0",
+   "meta": {
+    "length": 6,
+    "rank": 4412,
+    "scrambled": "odlset",
+    "word": "oldest"
+   },
+   "question": "The word odlset is a scrambled version of the English word"
+  },
+  {
+   "answer": "nervous",
+   "bb_sha256": "592b3a15baadbdea41f8189c64e55d7000d8b15ec6c7e5376ac7c468e67d53af",
+   "meta": {
+    "length": 7,
+    "rank": 7366,
+    "scrambled": "erunvos",
+    "word": "nervous"
+   },
+   "question": "The word erunvos is a scrambled version of the English word"
+  },
+  {
+   "answer": "vacation",
+   "bb_sha256": "83ce65cc90ccae147ece49b3d5c47d97512a7703b5d12a587702327ba5e550b9",
+   "meta": {
+    "length": 8,
+    "rank": 1504,
+    "scrambled": "ivcatona",
+    "word": "vacation"
+   },
+   "question": "The word ivcatona is a scrambled version of the English word"
+  },
+  {
+   "answer": "murphy",
+   "bb_sha256": "5a663d01afe441da94b9d5d4c736dd56e5ad91bea29d0d61ac5063e10463a8ed",
+   "meta": {
+    "length": 6,
+    "rank": 6148,
+    "scrambled": "hpyrmu",
+    "word": "murphy"
+   },
+   "question": "The word hpyrmu is a scrambled version of the English word"
+  },
+  {
+   "answer": "fitness",
+   "bb_sha256": "3076bf55c00db78e4d4d0da26c0dc032967ace01bc9d0e5faf4d0657cdee8728",
+   "meta": {
+    "length": 7,
+    "rank": 1469,
+    "scrambled": "sfinste",
+    "word": "fitness"
+   },
+   "question": "The word sfinste is a scrambled version of the English word"
+  },
+  {
+   "answer": "informed",
+   "bb_sha256": "8f26ab90917e484d94429924520fda0f3da839f4e2ae52a71ad0866b49bcfda0",
+   "meta": {
+    "length": 8,
+    "rank": 2119,
+    "scrambled": "fodneirm",
+    "word": "informed"
+   },
+   "question": "The word fodneirm is a scrambled version of the English word"
+  },
+  {
+   "answer": "hilton",
+   "bb_sha256": "d728576e89016c76e54a873bac56f2d263f0379a3499b949ffabf62091f458a3",
+   "meta": {
+    "length": 6,
+    "rank": 4257,
+    "scrambled": "nltoih",
+    "word": "hilton"
+   },
+   "question": "The word nltoih is a scrambled version of the English word"
+  },
+  {
+   "answer": "perfect",
+   "bb_sha256": "5b70c0074d4b3cc835cf05f054c669b7cef26c479594745bc1511b1395c87586",
+   "meta": {
+    "length": 7,
+    "rank": 1356,
+    "scrambled": "pteferc",
+    "word": "perfect"
+   },
+   "question": "The word pteferc is a scrambled version of the English word"
+  },
+  {
+   "answer": "italiano",
+   "bb_sha256": "3dfc92f0a200de40c68dbdc3957dae2979514965067ac8d1cc478b7e2d9e34e3",
+   "meta": {
+    "length": 8,
+    "rank": 8317,
+    "scrambled": "ioantlai",
+    "word": "italiano"
+   },
+   "question": "The word ioantlai is a scrambled version of the English word"
+  },
+  {
+   "answer": "spouse",
+   "bb_sha256": "331a7c3cf221809b1632e1f5656d1e11e043e30d91b2297ea3839c9218fcc8d3",
+   "meta": {
+    "length": 6,
+    "rank": 6250,
+    "scrambled": "epusos",
+    "word": "spouse"
+   },
+   "question": "The word epusos is a scrambled version of the English word"
+  },
+  {
+   "answer": "wedding",
+   "bb_sha256": "d8e9df260768425a9386a97714f9c343d04702d98c16187b572c15a03e39d898",
+   "meta": {
+    "length": 7,
+    "rank": 1343,
+    "scrambled": "dgdwnei",
+    "word": "wedding"
+   },
+   "question": "The word dgdwnei is a scrambled version of the English word"
+  },
+  {
+   "answer": "function",
+   "bb_sha256": "33f578175acf99d224f24c167bd3c02331ee8ef51b151a751e9fb2dc9a804c3c",
+   "meta": {
+    "length": 8,
+    "rank": 853,
+    "scrambled": "ntuoincf",
+    "word": "function"
+   },
+   "question": "The word ntuoincf is a scrambled version of the English word"
+  },
+  {
+   "answer": "larger",
+   "bb_sha256": "321459eeb7067b588951c8e383109f1fee44dd87cece521669d9952ae840e1f2",
+   "meta": {
+    "length": 6,
+    "rank": 1330,
+    "scrambled": "rlarge",
+    "word": "larger"
+   },
+   "question": "The word rlarge is a scrambled version of the English word"
+  },
+  {
+   "answer": "support",
+   "bb_sha256": "87073288b15d04473e05ab8b7beea8377693578e227fcb2293c20fcf7df331d3",
+   "meta": {
+    "length": 7,
+    "rank": 148,
+    "scrambled": "putoprs",
+    "word": "support"
+   },
+   "question": "The word putoprs is a scrambled version of the English word"
+  },
+  {
+   "answer": "rotation",
+   "bb_sha256": "8a14d638e52ff6ec87efe602cacb7d9d4529cfddd46a1c919ef428d163e6adcb",
+   "meta": {
+    "length": 8,
+    "rank": 7985,
+    "scrambled": "airttnoo",
+    "word": "rotation"
+   },
+   "question": "The word airttnoo is a scrambled version of the English word"
+  },
+  {
+   "answer": "gained",
+   "bb_sha256": "e0295396c6f121db9b9492f3f2ae3f87c9f3649e9d31db59a2781742c92de35f",
+   "meta": {
+    "length": 6,
+    "rank": 6626,
+    "scrambled": "igaedn",
+    "word": "gained"
+   },
+   "question": "The word igaedn is a scrambled version of the English word"
+  },
+  {
+   "answer": "bernard",
+   "bb_sha256": "f82c4f7f9fcbd62de2614d4be8a5bb161c36d5a5a45d949c9d84041d68652dfd",
+   "meta": {
+    "length": 7,
+    "rank": 7699,
+    "scrambled": "erdanrb",
+    "word": "bernard"
+   },
+   "question": "The word erdanrb is a scrambled version of the English word"
+  },
+  {
+   "answer": "mounting",
+   "bb_sha256": "12b1c3f91e481a1f2d28e0f71346fbc2f29e76b124d1b96df4955b90a9ac5a6e",
+   "meta": {
+    "length": 8,
+    "rank": 6355,
+    "scrambled": "nonmiutg",
+    "word": "mounting"
+   },
+   "question": "The word nonmiutg is a scrambled version of the English word"
+  },
+  {
+   "answer": "redeem",
+   "bb_sha256": "069f62d7e20a3cc845fc4a415ef5a89d5338c6a521de709185c7718b862cb9e9",
+   "meta": {
+    "length": 6,
+    "rank": 6061,
+    "scrambled": "demeer",
+    "word": "redeem"
+   },
+   "question": "The word demeer is a scrambled version of the English word"
+  },
+  {
+   "answer": "western",
+   "bb_sha256": "b0307b48cf4b0435bdc35cbfc143f5d848d3c757a5e85aff55461599e0caf989",
+   "meta": {
+    "length": 7,
+    "rank": 1020,
+    "scrambled": "nrsetwe",
+    "word": "western"
+   },
+   "question": "The word nrsetwe is a scrambled version of the English word"
+  },
+  {
+   "answer": "paraguay",
+   "bb_sha256": "2160bd48b3ba3a794c02ac6180010b0d370f164af3d817a60324475f89e43641",
+   "meta": {
+    "length": 8,
+    "rank": 8682,
+    "scrambled": "gapuraya",
+    "word": "paraguay"
+   },
+   "question": "The word gapuraya is a scrambled version of the English word"
+  },
+  {
+   "answer": "values",
+   "bb_sha256": "ac40fb8dfb5eb389e8b86a3b08f548b7df590d16be6dffd636652ef83bd8c036",
+   "meta": {
+    "length": 6,
+    "rank": 1146,
+    "scrambled": "svleua",
+    "word": "values"
+   },
+   "question": "The word svleua is a scrambled version of the English word"
+  },
+  {
+   "answer": "bottles",
+   "bb_sha256": "35e55763c3515ffb24020f73c6b5959f0619024b67382e26c03f13a75ac8ced7",
+   "meta": {
+    "length": 7,
+    "rank": 7098,
+    "scrambled": "totlbse",
+    "word": "bottles"
+   },
+   "question": "The word totlbse is a scrambled version of the English word"
+  },
+  {
+   "answer": "expected",
+   "bb_sha256": "ecd2fc8bc1d0ee5e474863f8658e445fbabfa288d7e269d785c7d1224406ca66",
+   "meta": {
+    "length": 8,
+    "rank": 1516,
+    "scrambled": "ctdeepxe",
+    "word": "expected"
+   },
+   "question": "The word ctdeepxe is a scrambled version of the English word"
+  },
+  {
+   "answer": "michel",
+   "bb_sha256": "25e229d6ea5d7883be766c92794d5d4d5ea8ebbb9dcdffedbff0979bf98dc92c",
+   "meta": {
+    "length": 6,
+    "rank": 9838,
+    "scrambled": "hcmeli",
+    "word": "michel"
+   },
+   "question": "The word hcmeli is a scrambled version of the English word"
+  },
+  {
+   "answer": "episode",
+   "bb_sha256": "0f286c801f0d723ee66aee00f69e90cb2c79252407c7e6aca5f627007f49fd81",
+   "meta": {
+    "length": 7,
+    "rank": 3466,
+    "scrambled": "doeiesp",
+    "word": "episode"
+   },
+   "question": "The word doeiesp is a scrambled version of the English word"
+  },
+  {
+   "answer": "maryland",
+   "bb_sha256": "de0efca837fab659c95367df8ea7f949162ae572d7ccdd33353dae13e74e586c",
+   "meta": {
+    "length": 8,
+    "rank": 2509,
+    "scrambled": "ayrnalmd",
+    "word": "maryland"
+   },
+   "question": "The word ayrnalmd is a scrambled version of the English word"
+  },
+  {
+   "answer": "public",
+   "bb_sha256": "d1c7c69078b775dcb4702625674a511ad1b60a141bf2db512702a498602ee600",
+   "meta": {
+    "length": 6,
+    "rank": 162,
+    "scrambled": "biclup",
+    "word": "public"
+   },
+   "question": "The word biclup is a scrambled version of the English word"
+  },
+  {
+   "answer": "turkish",
+   "bb_sha256": "6f12a1d17bc0ce2cbd2440a0a642693f28ea79968933305813e1eaa85986d851",
+   "meta": {
+    "length": 7,
+    "rank": 5527,
+    "scrambled": "hritksu",
+    "word": "turkish"
+   },
+   "question": "The word hritksu is a scrambled version of the English word"
+  },
+  {
+   "answer": "database",
+   "bb_sha256": "e2d8f0f603114a99927963c316e08ca874c01f1ea078379fa37cf50ebe2ee40e",
+   "meta": {
+    "length": 8,
+    "rank": 768,
+    "scrambled": "tdasaeab",
+    "word": "database"
+   },
+   "question": "The word tdasaeab is a scrambled version of the English word"
+  },
+  {
+   "answer": "palmer",
+   "bb_sha256": "40103e06fd6c18d31e37cfedf333ac2f1121aefe24ba00397be8b39a98f722c4",
+   "meta": {
+    "length": 6,
+    "rank": 8628,
+    "scrambled": "meralp",
+    "word": "palmer"
+   },
+   "question": "The word meralp is a scrambled version of the English word"
+  },
+  {
+   "answer": "loading",
+   "bb_sha256": "00c062411229259ee20c99402a6db17aa414c2f6c12027ba3c525ffdbba3903c",
+   "meta": {
+    "length": 7,
+    "rank": 4153,
+    "scrambled": "ogdainl",
+    "word": "loading"
+   },
+   "question": "The word ogdainl is a scrambled version of the English word"
+  },
+  {
+   "answer": "includes",
+   "bb_sha256": "14c3d4c5f78b5727e48d6dfd7a9f9515535b88d72b499ee3ab18314167f20d88",
+   "meta": {
+    "length": 8,
+    "rank": 700,
+    "scrambled": "uidncsel",
+    "word": "includes"
+   },
+   "question": "The word uidncsel is a scrambled version of the English word"
+  },
+  {
+   "answer": "liable",
+   "bb_sha256": "ccdbc190bdfbdf636939c067d6997c56e5c3b3cbc616358d301869018b08c5bc",
+   "meta": {
+    "length": 6,
+    "rank": 5364,
+    "scrambled": "beaill",
+    "word": "liable"
+   },
+   "question": "The word beaill is a scrambled version of the English word"
+  },
+  {
+   "answer": "coupled",
+   "bb_sha256": "011d16f4a90ff729c1696e9a1ed6a2d194211063b9bde954c872176807195f79",
+   "meta": {
+    "length": 7,
+    "rank": 8384,
+    "scrambled": "ecpudol",
+    "word": "coupled"
+   },
+   "question": "The word ecpudol is a scrambled version of the English word"
+  },
+  {
+   "answer": "phillips",
+   "bb_sha256": "424169fdb2762d12426b249e45d2bbe2d01c30a78c95d5648de7ddc4f6b2e41f",
+   "meta": {
+    "length": 8,
+    "rank": 6154,
+    "scrambled": "islpiplh",
+    "word": "phillips"
+   },
+   "question": "The word islpiplh is a scrambled version of the English word"
+  },
+  {
+   "answer": "martha",
+   "bb_sha256": "acd8cf17af78086a9e288073f045b4a8dee8df6e3f9fa9f8357d09db9c094dc2",
+   "meta": {
+    "length": 6,
+    "rank": 7077,
+    "scrambled": "ramhta",
+    "word": "martha"
+   },
+   "question": "The word ramhta is a scrambled version of the English word"
+  },
+  {
+   "answer": "muscles",
+   "bb_sha256": "24a7c1bd51bde4b7c3852c40f2f82b720cc3b87c049c8d11c1704893206d9b2a",
+   "meta": {
+    "length": 7,
+    "rank": 9074,
+    "scrambled": "eluscms",
+    "word": "muscles"
+   },
+   "question": "The word eluscms is a scrambled version of the English word"
+  },
+  {
+   "answer": "proposal",
+   "bb_sha256": "2dab67e66ac513b259868b21064f60a18bd441132b3054e1dd40f44915f21c36",
+   "meta": {
+    "length": 8,
+    "rank": 2629,
+    "scrambled": "slporopa",
+    "word": "proposal"
+   },
+   "question": "The word slporopa is a scrambled version of the English word"
+  },
+  {
+   "answer": "summit",
+   "bb_sha256": "d6443a525e6718857acc23e1ebd4f3c5a848854ce5d253a97984a4478324b4bc",
+   "meta": {
+    "length": 6,
+    "rank": 4424,
+    "scrambled": "immust",
+    "word": "summit"
+   },
+   "question": "The word immust is a scrambled version of the English word"
+  },
+  {
+   "answer": "hottest",
+   "bb_sha256": "815d3ee35a206fb6fb8d2eb3e5a9ae4240248f07f28e079beb18de1ccfa8bbca",
+   "meta": {
+    "length": 7,
+    "rank": 6987,
+    "scrambled": "tohttse",
+    "word": "hottest"
+   },
+   "question": "The word tohttse is a scrambled version of the English word"
+  },
+  {
+   "answer": "announce",
+   "bb_sha256": "5695bd137625334beecb439f7fb4e1ce4bccf3ee93578c78bb8a515094651024",
+   "meta": {
+    "length": 8,
+    "rank": 5539,
+    "scrambled": "nnauceon",
+    "word": "announce"
+   },
+   "question": "The word nnauceon is a scrambled version of the English word"
+  },
+  {
+   "answer": "sweden",
+   "bb_sha256": "e4d2eb69598e27c06c95ffa35b9742fec3c63b774d00f671db7087bd6250d470",
+   "meta": {
+    "length": 6,
+    "rank": 3105,
+    "scrambled": "edensw",
+    "word": "sweden"
+   },
+   "question": "The word edensw is a scrambled version of the English word"
+  },
+  {
+   "answer": "copying",
+   "bb_sha256": "0db7a30e67d930a655d99037ff0029a10dfd91c83067d8c281c69fc557bf2eeb",
+   "meta": {
+    "length": 7,
+    "rank": 7278,
+    "scrambled": "cyoinpg",
+    "word": "copying"
+   },
+   "question": "The word cyoinpg is a scrambled version of the English word"
+  },
+  {
+   "answer": "proceeds",
+   "bb_sha256": "91b23d87f6866af09a348241950392d7756c7752b144d44ab3e3f48fdd58ddb0",
+   "meta": {
+    "length": 8,
+    "rank": 7517,
+    "scrambled": "dorcpees",
+    "word": "proceeds"
+   },
+   "question": "The word dorcpees is a scrambled version of the English word"
+  },
+  {
+   "answer": "belief",
+   "bb_sha256": "2d3944fb2830546098bf2f55a9f5d516a72fe8efa805bc4c771be069aa5c6536",
+   "meta": {
+    "length": 6,
+    "rank": 5376,
+    "scrambled": "lebief",
+    "word": "belief"
+   },
+   "question": "The word lebief is a scrambled version of the English word"
+  },
+  {
+   "answer": "volumes",
+   "bb_sha256": "ee6531522fb727be1fb2d8cb644d33102527500bee58dd4482d59e45f8a62710",
+   "meta": {
+    "length": 7,
+    "rank": 6656,
+    "scrambled": "mvsoeul",
+    "word": "volumes"
+   },
+   "question": "The word mvsoeul is a scrambled version of the English word"
+  },
+  {
+   "answer": "senators",
+   "bb_sha256": "3ea00ed20f540afc09d7fa8799ec1e72d3503976c04e41073e6d72f7f0e6e588",
+   "meta": {
+    "length": 8,
+    "rank": 9470,
+    "scrambled": "nseorats",
+    "word": "senators"
+   },
+   "question": "The word nseorats is a scrambled version of the English word"
+  },
+  {
+   "answer": "athens",
+   "bb_sha256": "078fed357c71dba287550b65f688984cf3e974caa06603f520ec8176bfdc45ae",
+   "meta": {
+    "length": 6,
+    "rank": 5772,
+    "scrambled": "eatshn",
+    "word": "athens"
+   },
+   "question": "The word eatshn is a scrambled version of the English word"
+  },
+  {
+   "answer": "tuesday",
+   "bb_sha256": "895a1ce590ec8519a25bb6880977255352dbabff7b71a53eb78e705062a61f8f",
+   "meta": {
+    "length": 7,
+    "rank": 1149,
+    "scrambled": "esautdy",
+    "word": "tuesday"
+   },
+   "question": "The word esautdy is a scrambled version of the English word"
+  },
+  {
+   "answer": "produces",
+   "bb_sha256": "7ba10dfb6613060fca251cc3635627bca5ebedc45ab21865f377af4473701f77",
+   "meta": {
+    "length": 8,
+    "rank": 6213,
+    "scrambled": "poducsre",
+    "word": "produces"
+   },
+   "question": "The word poducsre is a scrambled version of the English word"
+  },
+  {
+   "answer": "indoor",
+   "bb_sha256": "f8b579e7267f89146172a56c5f26e03ce8c7dc572a5bd7a065b39dac858f25d0",
+   "meta": {
+    "length": 6,
+    "rank": 4846,
+    "scrambled": "irndoo",
+    "word": "indoor"
+   },
+   "question": "The word irndoo is a scrambled version of the English word"
+  },
+  {
+   "answer": "modular",
+   "bb_sha256": "bce244fff7103c4cdc2ba230811a9845250f9bd805c12bb98223e53c1f0ce8e0",
+   "meta": {
+    "length": 7,
+    "rank": 8237,
+    "scrambled": "muadlro",
+    "word": "modular"
+   },
+   "question": "The word muadlro is a scrambled version of the English word"
+  },
+  {
+   "answer": "external",
+   "bb_sha256": "f58f71e489631f27a0e76a5267a295e47107850a6419f5c75b5aaaeced5aa5a6",
+   "meta": {
+    "length": 8,
+    "rank": 1642,
+    "scrambled": "rnlteexa",
+    "word": "external"
+   },
+   "question": "The word rnlteexa is a scrambled version of the English word"
+  },
+  {
+   "answer": "solely",
+   "bb_sha256": "24733c74e473c9b4444f10728ead254361a9970bcd68378a3518013fd91ce78a",
+   "meta": {
+    "length": 6,
+    "rank": 6133,
+    "scrambled": "loyels",
+    "word": "solely"
+   },
+   "question": "The word loyels is a scrambled version of the English word"
+  },
+  {
+   "answer": "cuisine",
+   "bb_sha256": "b74628c041b37f8108520ad5637f9fffcbfc6a0d257fb7613b9fc6f98e38bd9c",
+   "meta": {
+    "length": 7,
+    "rank": 6937,
+    "scrambled": "ceiunsi",
+    "word": "cuisine"
+   },
+   "question": "The word ceiunsi is a scrambled version of the English word"
+  },
+  {
+   "answer": "believed",
+   "bb_sha256": "f886832df4e43513965ab8b3420b8c8cdb243ace97365989f501b01cf506d330",
+   "meta": {
+    "length": 8,
+    "rank": 4852,
+    "scrambled": "veibdele",
+    "word": "believed"
+   },
+   "question": "The word veibdele is a scrambled version of the English word"
+  },
+  {
+   "answer": "grants",
+   "bb_sha256": "94f25ce216e9675a91db0eda72f47ba9a9454869636e4c342712e1c368ad6197",
+   "meta": {
+    "length": 6,
+    "rank": 3203,
+    "scrambled": "trsgan",
+    "word": "grants"
+   },
+   "question": "The word trsgan is a scrambled version of the English word"
+  },
+  {
+   "answer": "barrier",
+   "bb_sha256": "7994facde16676090bbca9017ea7aa40fe347415162a57f09e9ccde99f7cd6bf",
+   "meta": {
+    "length": 7,
+    "rank": 7079,
+    "scrambled": "rirareb",
+    "word": "barrier"
+   },
+   "question": "The word rirareb is a scrambled version of the English word"
+  },
+  {
+   "answer": "particle",
+   "bb_sha256": "3720330f53507ccbf7292d11645f3bf3e8d4a198076a6e675765177647e7b315",
+   "meta": {
+    "length": 8,
+    "rank": 7093,
+    "scrambled": "elrticpa",
+    "word": "particle"
+   },
+   "question": "The word elrticpa is a scrambled version of the English word"
+  },
+  {
+   "answer": "planet",
+   "bb_sha256": "cf0b37d36f5610e924a6093af0faaf32f27e6eb0f48cf6ee5abee0ec40814a77",
+   "meta": {
+    "length": 6,
+    "rank": 2950,
+    "scrambled": "alnept",
+    "word": "planet"
+   },
+   "question": "The word alnept is a scrambled version of the English word"
+  },
+  {
+   "answer": "forming",
+   "bb_sha256": "cb0fe0558b9376f28c105818b3341aaeac05309e62f45e5bcbd589bcc852cc86",
+   "meta": {
+    "length": 7,
+    "rank": 7510,
+    "scrambled": "igmorfn",
+    "word": "forming"
+   },
+   "question": "The word igmorfn is a scrambled version of the English word"
+  },
+  {
+   "answer": "japanese",
+   "bb_sha256": "c94a568e2f57ad037045e509a33a9b18c48195f586a0768e842330734eb4e0be",
+   "meta": {
+    "length": 8,
+    "rank": 1580,
+    "scrambled": "ejpaeans",
+    "word": "japanese"
+   },
+   "question": "The word ejpaeans is a scrambled version of the English word"
+  },
+  {
+   "answer": "philip",
+   "bb_sha256": "69ab8992246a18e3172135b986c07d4ead50e8e54bf1e32021a5bacfb5340c1d",
+   "meta": {
+    "length": 6,
+    "rank": 5181,
+    "scrambled": "piihlp",
+    "word": "philip"
+   },
+   "question": "The word piihlp is a scrambled version of the English word"
+  },
+  {
+   "answer": "stewart",
+   "bb_sha256": "f3088032087743bf94d3cbb7c4b4f452a1941f4e948a9e34f83f2fc5bc7bf356",
+   "meta": {
+    "length": 7,
+    "rank": 4826,
+    "scrambled": "wttasre",
+    "word": "stewart"
+   },
+   "question": "The word wttasre is a scrambled version of the English word"
+  },
+  {
+   "answer": "colonial",
+   "bb_sha256": "ecfbf4dd6314dbbc3c0d831efa829438ac579c91a1444616371aa03b7928a6db",
+   "meta": {
+    "length": 8,
+    "rank": 7506,
+    "scrambled": "lcoalnoi",
+    "word": "colonial"
+   },
+   "question": "The word lcoalnoi is a scrambled version of the English word"
+  },
+  {
+   "answer": "laptop",
+   "bb_sha256": "a03c32b480f652cf8439ce4ab024be5877584841a7f0c41f2b6832635d1618ab",
+   "meta": {
+    "length": 6,
+    "rank": 2503,
+    "scrambled": "oapltp",
+    "word": "laptop"
+   },
+   "question": "The word oapltp is a scrambled version of the English word"
+  },
+  {
+   "answer": "licking",
+   "bb_sha256": "7540e4d89ff192d136969b7e67f7d37b00acd9fc651d46a3db2d6f6fcec77e85",
+   "meta": {
+    "length": 7,
+    "rank": 8448,
+    "scrambled": "gicilkn",
+    "word": "licking"
+   },
+   "question": "The word gicilkn is a scrambled version of the English word"
+  },
+  {
+   "answer": "distance",
+   "bb_sha256": "7b0d22d82e8a04ef024e18bd09cf65e50c40da029649c01e14c6d1c35adf1ed9",
+   "meta": {
+    "length": 8,
+    "rank": 1368,
+    "scrambled": "taesndci",
+    "word": "distance"
+   },
+   "question": "The word taesndci is a scrambled version of the English word"
+  },
+  {
+   "answer": "granny",
+   "bb_sha256": "2a2744e3f76e561ebc5a0310f551d34f0ca3463a0790d103f8b752dc3cc59a9f",
+   "meta": {
+    "length": 6,
+    "rank": 8946,
+    "scrambled": "agnnyr",
+    "word": "granny"
+   },
+   "question": "The word agnnyr is a scrambled version of the English word"
+  },
+  {
+   "answer": "written",
+   "bb_sha256": "3a54a630af920d7bdfae5db1a6330b68f5f6914eabada48bbe0e5153b86c503a",
+   "meta": {
+    "length": 7,
+    "rank": 815,
+    "scrambled": "rtwinte",
+    "word": "written"
+   },
+   "question": "The word rtwinte is a scrambled version of the English word"
+  },
+  {
+   "answer": "inspired",
+   "bb_sha256": "6e54c1181145bed93c765275ac49541281a6af86b8cee69a9da382b4e3e41052",
+   "meta": {
+    "length": 8,
+    "rank": 5553,
+    "scrambled": "insdrepi",
+    "word": "inspired"
+   },
+   "question": "The word insdrepi is a scrambled version of the English word"
+  },
+  {
+   "answer": "graphs",
+   "bb_sha256": "5cb73cafea88c61c731cae59b0272b8c8a3d32667636315415103cc7d9190cf3",
+   "meta": {
+    "length": 6,
+    "rank": 8296,
+    "scrambled": "rgsaph",
+    "word": "graphs"
+   },
+   "question": "The word rgsaph is a scrambled version of the English word"
+  },
+  {
+   "answer": "baghdad",
+   "bb_sha256": "2077e5a393cbd5083c59a6bdd20f03f30be342edcc8f331cfc2e32516f0a4fd3",
+   "meta": {
+    "length": 7,
+    "rank": 9435,
+    "scrambled": "hgbdada",
+    "word": "baghdad"
+   },
+   "question": "The word hgbdada is a scrambled version of the English word"
+  },
+  {
+   "answer": "situated",
+   "bb_sha256": "aa86e7d57400b20de2d15b2966d099a3e053b53579e94ecc125b87632176eccc",
+   "meta": {
+    "length": 8,
+    "rank": 6095,
+    "scrambled": "tsudetia",
+    "word": "situated"
+   },
+   "question": "The word tsudetia is a scrambled version of the English word"
+  },
+  {
+   "answer": "pocket",
+   "bb_sha256": "de9530b28f291429976c97a00c52284d788f70267f87365439c935f1687beb68",
+   "meta": {
+    "length": 6,
+    "rank": 2073,
+    "scrambled": "oeptck",
+    "word": "pocket"
+   },
+   "question": "The word oeptck is a scrambled version of the English word"
+  },
+  {
+   "answer": "economy",
+   "bb_sha256": "6d28f13010e1a409bff29340653fcfe0f8358e6ff3ddec966edd4ebd72cf7828",
+   "meta": {
+    "length": 7,
+    "rank": 1779,
+    "scrambled": "ycooenm",
+    "word": "economy"
+   },
+   "question": "The word ycooenm is a scrambled version of the English word"
+  },
+  {
+   "answer": "deadline",
+   "bb_sha256": "1fff4c1c0d4961aa387dadb3dc25db23d4efea3ae327b8d3751e3d05ac6d7795",
+   "meta": {
+    "length": 8,
+    "rank": 5189,
+    "scrambled": "ideleadn",
+    "word": "deadline"
+   },
+   "question": "The word ideleadn is a scrambled version of the English word"
+  },
+  {
+   "answer": "office",
+   "bb_sha256": "d443ee3c0b23e607c7d60a93a83d574aa427cb6c148bc416b52ad3635c6475a6",
+   "meta": {
+    "length": 6,
+    "rank": 241,
+    "scrambled": "fcoeif",
+    "word": "office"
+   },
+   "question": "The word fcoeif is a scrambled version of the English word"
+  },
+  {
+   "answer": "pressed",
+   "bb_sha256": "b79370e1a2e2e6f943d581da97b1cfc5f48d274a2eac90c0dbf10dafa8c5f6de",
+   "meta": {
+    "length": 7,
+    "rank": 9620,
+    "scrambled": "ersdspe",
+    "word": "pressed"
+   },
+   "question": "The word ersdspe is a scrambled version of the English word"
+  },
+  {
+   "answer": "develops",
+   "bb_sha256": "9eb313126bd36c6bf134843fa2aa5f5255e7cec3a2ba5e84c6c766160b7e9b25",
+   "meta": {
+    "length": 8,
+    "rank": 8961,
+    "scrambled": "edpvleso",
+    "word": "develops"
+   },
+   "question": "The word edpvleso is a scrambled version of the English word"
+  },
+  {
+   "answer": "backup",
+   "bb_sha256": "efb9f4463350ce2384ff2e6f400c159ac359c6ce3548aed6c9d91ed07c5f7979",
+   "meta": {
+    "length": 6,
+    "rank": 3116,
+    "scrambled": "kubapc",
+    "word": "backup"
+   },
+   "question": "The word kubapc is a scrambled version of the English word"
+  },
+  {
+   "answer": "surname",
+   "bb_sha256": "dcd64bf5ae070f491f786395949bdd07ab836040301f15827bacad3900dff2a0",
+   "meta": {
+    "length": 7,
+    "rank": 8484,
+    "scrambled": "nasreum",
+    "word": "surname"
+   },
+   "question": "The word nasreum is a scrambled version of the English word"
+  },
+  {
+   "answer": "olympics",
+   "bb_sha256": "23714a28c7ec7e948006d93733d636f024145d4dad7f7de249f4dda137afc751",
+   "meta": {
+    "length": 8,
+    "rank": 7329,
+    "scrambled": "spmolyci",
+    "word": "olympics"
+   },
+   "question": "The word spmolyci is a scrambled version of the English word"
+  },
+  {
+   "answer": "denver",
+   "bb_sha256": "3405b5b15c63b0f919717a92bd12c0ced111294e0db4d0d37ecdb211c640400c",
+   "meta": {
+    "length": 6,
+    "rank": 3258,
+    "scrambled": "vdener",
+    "word": "denver"
+   },
+   "question": "The word vdener is a scrambled version of the English word"
+  },
+  {
+   "answer": "holiday",
+   "bb_sha256": "0d46c43ff20fc1b8964bf004789b304953a143e242957c68d180fb1cb7e57cba",
+   "meta": {
+    "length": 7,
+    "rank": 961,
+    "scrambled": "adiolhy",
+    "word": "holiday"
+   },
+   "question": "The word adiolhy is a scrambled version of the English word"
+  },
+  {
+   "answer": "ethiopia",
+   "bb_sha256": "89e78b79d7eab077d14e80475787e67ce3863a2e82adcf2bedf49c4e186453f2",
+   "meta": {
+    "length": 8,
+    "rank": 7808,
+    "scrambled": "pohateii",
+    "word": "ethiopia"
+   },
+   "question": "The word pohateii is a scrambled version of the English word"
+  },
+  {
+   "answer": "choose",
+   "bb_sha256": "70480e59181d63b49949744c7cafa5ffb3ecd5a7c02211886a002d8002dc073d",
+   "meta": {
+    "length": 6,
+    "rank": 892,
+    "scrambled": "hoosce",
+    "word": "choose"
+   },
+   "question": "The word hoosce is a scrambled version of the English word"
+  },
+  {
+   "answer": "railway",
+   "bb_sha256": "5c3adc062fc26fc973f6574c83ab121436f9b1c883891760d776f4b2d9aec31b",
+   "meta": {
+    "length": 7,
+    "rank": 5797,
+    "scrambled": "alriayw",
+    "word": "railway"
+   },
+   "question": "The word alriayw is a scrambled version of the English word"
+  },
+  {
+   "answer": "champion",
+   "bb_sha256": "d9e7ad895a7032cf5affcb77994cc67edf4c21900bd0c7b4f6ef108028998677",
+   "meta": {
+    "length": 8,
+    "rank": 4708,
+    "scrambled": "anhmicop",
+    "word": "champion"
+   },
+   "question": "The word anhmicop is a scrambled version of the English word"
+  },
+  {
+   "answer": "binary",
+   "bb_sha256": "bec9bf0486b8f077f0380dc0edbb51ee0f584b6c2cd60c5b23d23d437c090c17",
+   "meta": {
+    "length": 6,
+    "rank": 5308,
+    "scrambled": "ibrayn",
+    "word": "binary"
+   },
+   "question": "The word ibrayn is a scrambled version of the English word"
+  },
+  {
+   "answer": "lesbian",
+   "bb_sha256": "75654d579a90860cbd82627a830b78b5df3f7e2f8d5895a7a47e145d6ecea43f",
+   "meta": {
+    "length": 7,
+    "rank": 1151,
+    "scrambled": "naeibsl",
+    "word": "lesbian"
+   },
+   "question": "The word naeibsl is a scrambled version of the English word"
+  },
+  {
+   "answer": "encoding",
+   "bb_sha256": "cd5d5906e93f60a7e42a79a98e71f3b2566c8e1b4db4fecdc00687d4c5cf3920",
+   "meta": {
+    "length": 8,
+    "rank": 5881,
+    "scrambled": "ocnneidg",
+    "word": "encoding"
+   },
+   "question": "The word ocnneidg is a scrambled version of the English word"
+  },
+  {
+   "answer": "marble",
+   "bb_sha256": "433c5a94f73181cd0353b7f7353b3f0ae5fc6b951f0f8326ba104092813aeabe",
+   "meta": {
+    "length": 6,
+    "rank": 8222,
+    "scrambled": "merlba",
+    "word": "marble"
+   },
+   "question": "The word merlba is a scrambled version of the English word"
+  },
+  {
+   "answer": "manuals",
+   "bb_sha256": "0631542deaa49cdc3a59cd8047eb4b23b8a6f178e5775d106c08d2466df4034f",
+   "meta": {
+    "length": 7,
+    "rank": 6051,
+    "scrambled": "alausnm",
+    "word": "manuals"
+   },
+   "question": "The word alausnm is a scrambled version of the English word"
+  },
+  {
+   "answer": "chemical",
+   "bb_sha256": "a0f82c570a247db8c488cfa43896555bb8abe2695f191186dfc22555b532ce25",
+   "meta": {
+    "length": 8,
+    "rank": 2033,
+    "scrambled": "lmecaich",
+    "word": "chemical"
+   },
+   "question": "The word lmecaich is a scrambled version of the English word"
+  },
+  {
+   "answer": "waiver",
+   "bb_sha256": "b60109a049d5edc31a077e8653f8364374aa641031039448b4ee98cc57cb17b0",
+   "meta": {
+    "length": 6,
+    "rank": 9331,
+    "scrambled": "evwari",
+    "word": "waiver"
+   },
+   "question": "The word evwari is a scrambled version of the English word"
+  },
+  {
+   "answer": "podcast",
+   "bb_sha256": "58eb29137612989b0371fed1a1dea3c2e6f1270c20717a038a09b946cc2eddde",
+   "meta": {
+    "length": 7,
+    "rank": 5392,
+    "scrambled": "pastcdo",
+    "word": "podcast"
+   },
+   "question": "The word pastcdo is a scrambled version of the English word"
+  },
+  {
+   "answer": "remedies",
+   "bb_sha256": "d6a4ba5a4895040f280c4d058dca6120b8ff8c63466c29689f8992701e4971ad",
+   "meta": {
+    "length": 8,
+    "rank": 8778,
+    "scrambled": "eedseirm",
+    "word": "remedies"
+   },
+   "question": "The word eedseirm is a scrambled version of the English word"
+  },
+  {
+   "answer": "queens",
+   "bb_sha256": "b3e037b01940e590e290ad6f0173b8558e379455bca8d6d4511d637410fd12e7",
+   "meta": {
+    "length": 6,
+    "rank": 8125,
+    "scrambled": "qeuesn",
+    "word": "queens"
+   },
+   "question": "The word qeuesn is a scrambled version of the English word"
+  },
+  {
+   "answer": "beaches",
+   "bb_sha256": "49bccc98205cf3edc421496509af82b04ea3da550afb09e139f9b700b6325d51",
+   "meta": {
+    "length": 7,
+    "rank": 6914,
+    "scrambled": "saheceb",
+    "word": "beaches"
+   },
+   "question": "The word saheceb is a scrambled version of the English word"
+  },
+  {
+   "answer": "honduras",
+   "bb_sha256": "d18de5273f1b2e64d8a01d6895ac3f7fdcf8f0c6c3cad5afbba3750c331bb63c",
+   "meta": {
+    "length": 8,
+    "rank": 8138,
+    "scrambled": "srodnuah",
+    "word": "honduras"
+   },
+   "question": "The word srodnuah is a scrambled version of the English word"
+  },
+  {
+   "answer": "muscle",
+   "bb_sha256": "e2fc6fe754d2337498d59cdc9160d0c82b48177fdcd3beccc7d3deed3e2354cf",
+   "meta": {
+    "length": 6,
+    "rank": 3591,
+    "scrambled": "mclsue",
+    "word": "muscle"
+   },
+   "question": "The word mclsue is a scrambled version of the English word"
+  },
+  {
+   "answer": "seventh",
+   "bb_sha256": "21373d996ded072da48d6b3383dd39a38df86ad79c5f1ef233aaec11a778aed9",
+   "meta": {
+    "length": 7,
+    "rank": 7745,
+    "scrambled": "esnveth",
+    "word": "seventh"
+   },
+   "question": "The word esnveth is a scrambled version of the English word"
+  },
+  {
+   "answer": "question",
+   "bb_sha256": "e7b8130cf4e9440b684d8a40472c0ab165c619c2d2b1684cb0b79204256980ea",
+   "meta": {
+    "length": 8,
+    "rank": 592,
+    "scrambled": "tseouqni",
+    "word": "question"
+   },
+   "question": "The word tseouqni is a scrambled version of the English word"
+  },
+  {
+   "answer": "reggae",
+   "bb_sha256": "224a69f20fa78cbacaefbf7b8f6655b3e3dc17dae3f04fc15c63d4cbd8674e4e",
+   "meta": {
+    "length": 6,
+    "rank": 8480,
+    "scrambled": "geearg",
+    "word": "reggae"
+   },
+   "question": "The word geearg is a scrambled version of the English word"
+  },
+  {
+   "answer": "reaches",
+   "bb_sha256": "f9aca662bb98bbb8f587726cfafb65d0ac75619124166283bad5927f181c627e",
+   "meta": {
+    "length": 7,
+    "rank": 8362,
+    "scrambled": "ereshac",
+    "word": "reaches"
+   },
+   "question": "The word ereshac is a scrambled version of the English word"
+  },
+  {
+   "answer": "strength",
+   "bb_sha256": "6002b536ae43188d3a22463e9d8c3a2b668fa9d53ff2f349b299627bb82e3ed3",
+   "meta": {
+    "length": 8,
+    "rank": 2814,
+    "scrambled": "tgsnhret",
+    "word": "strength"
+   },
+   "question": "The word tgsnhret is a scrambled version of the English word"
+  },
+  {
+   "answer": "though",
+   "bb_sha256": "63fae82cf801da4ff976853efc78f3a3546edd20c2ff507160ac3174e7738a7c",
+   "meta": {
+    "length": 6,
+    "rank": 874,
+    "scrambled": "ohhugt",
+    "word": "though"
+   },
+   "question": "The word ohhugt is a scrambled version of the English word"
+  },
+  {
+   "answer": "barbara",
+   "bb_sha256": "ca9f384e952003b5dd1b9b57ec1ffd04e1b3d6001e41c1a8e5b436c614faed00",
+   "meta": {
+    "length": 7,
+    "rank": 3791,
+    "scrambled": "baarrab",
+    "word": "barbara"
+   },
+   "question": "The word baarrab is a scrambled version of the English word"
+  },
+  {
+   "answer": "mercedes",
+   "bb_sha256": "a45c8e1d59219304e9535a8d53b665c22bd47bc6a597ecec172a046c9b410e01",
+   "meta": {
+    "length": 8,
+    "rank": 5432,
+    "scrambled": "ceemdesr",
+    "word": "mercedes"
+   },
+   "question": "The word ceemdesr is a scrambled version of the English word"
+  },
+  {
+   "answer": "effort",
+   "bb_sha256": "156c8a608429c9e6bfb1cb0d0e4d4432c1f18c7a5e5752203e61f622215571d3",
+   "meta": {
+    "length": 6,
+    "rank": 1992,
+    "scrambled": "efftro",
+    "word": "effort"
+   },
+   "question": "The word efftro is a scrambled version of the English word"
+  },
+  {
+   "answer": "subject",
+   "bb_sha256": "c8db3c97e9aad23ebb8dd97837c0b777a4e8b0707df3bde93c2db9a78a94c5e4",
+   "meta": {
+    "length": 7,
+    "rank": 259,
+    "scrambled": "esjutbc",
+    "word": "subject"
+   },
+   "question": "The word esjutbc is a scrambled version of the English word"
+  },
+  {
+   "answer": "gasoline",
+   "bb_sha256": "2064df1acc5ad79946a05ee2e97fd0b9ccba919b3e0143c03fc3df4a28602ea7",
+   "meta": {
+    "length": 8,
+    "rank": 8741,
+    "scrambled": "oeaglnis",
+    "word": "gasoline"
+   },
+   "question": "The word oeaglnis is a scrambled version of the English word"
+  },
+  {
+   "answer": "guinea",
+   "bb_sha256": "23c19cbc192bfb5e4d8b29b64e96223223ac7752548d903232fd4f1fb540d5d4",
+   "meta": {
+    "length": 6,
+    "rank": 3589,
+    "scrambled": "nuaegi",
+    "word": "guinea"
+   },
+   "question": "The word nuaegi is a scrambled version of the English word"
+  },
+  {
+   "answer": "toolbar",
+   "bb_sha256": "353a9c9e121310cd2e1d1804cda4b7462456d89c54040ff556d0fc9e13f3de50",
+   "meta": {
+    "length": 7,
+    "rank": 5270,
+    "scrambled": "rotlboa",
+    "word": "toolbar"
+   },
+   "question": "The word rotlboa is a scrambled version of the English word"
+  },
+  {
+   "answer": "illinois",
+   "bb_sha256": "388f07052251d3365c779f7703084af7f322892fb5b862d86f939bf2cde0fb24",
+   "meta": {
+    "length": 8,
+    "rank": 1857,
+    "scrambled": "oisinlli",
+    "word": "illinois"
+   },
+   "question": "The word oisinlli is a scrambled version of the English word"
+  },
+  {
+   "answer": "divide",
+   "bb_sha256": "41d1d7d33ca3cd6864eb0e194c983531715d0c78cb06409a4d721ab81805fb85",
+   "meta": {
+    "length": 6,
+    "rank": 8328,
+    "scrambled": "eividd",
+    "word": "divide"
+   },
+   "question": "The word eividd is a scrambled version of the English word"
+  },
+  {
+   "answer": "persian",
+   "bb_sha256": "88266e092f5c5cde464221841df87c13494bfe0632b81879be860b8506e191de",
+   "meta": {
+    "length": 7,
+    "rank": 9705,
+    "scrambled": "iearnps",
+    "word": "persian"
+   },
+   "question": "The word iearnps is a scrambled version of the English word"
+  },
+  {
+   "answer": "fighters",
+   "bb_sha256": "d73c8e59a94f4141df20bd4547a7748b0a7a346496b125e61925cf2b45eee6b6",
+   "meta": {
+    "length": 8,
+    "rank": 8054,
+    "scrambled": "ihfegtsr",
+    "word": "fighters"
+   },
+   "question": "The word ihfegtsr is a scrambled version of the English word"
+  },
+  {
+   "answer": "tobago",
+   "bb_sha256": "d45a2f6a9b042754d21a81ec1270c54bbe9a226c23e3367017f564f5a5b809c0",
+   "meta": {
+    "length": 6,
+    "rank": 8430,
+    "scrambled": "tooagb",
+    "word": "tobago"
+   },
+   "question": "The word tooagb is a scrambled version of the English word"
+  },
+  {
+   "answer": "abraham",
+   "bb_sha256": "84325e029ce15b18b29c0c072f15abd6e60915dc65165193aadc9cbf3bf1a4ce",
+   "meta": {
+    "length": 7,
+    "rank": 9043,
+    "scrambled": "ambarah",
+    "word": "abraham"
+   },
+   "question": "The word ambarah is a scrambled version of the English word"
+  },
+  {
+   "answer": "dispatch",
+   "bb_sha256": "bb6bec7ee041b1a82681bfac32a25718b8296a31e4a23658164090c524f10c8e",
+   "meta": {
+    "length": 8,
+    "rank": 8911,
+    "scrambled": "disphtac",
+    "word": "dispatch"
+   },
+   "question": "The word disphtac is a scrambled version of the English word"
+  },
+  {
+   "answer": "issued",
+   "bb_sha256": "d32fe14e6f0025e16855382356a8b460e7a3bb8a41a6397fb603044657872288",
+   "meta": {
+    "length": 6,
+    "rank": 2385,
+    "scrambled": "ussdei",
+    "word": "issued"
+   },
+   "question": "The word ussdei is a scrambled version of the English word"
+  },
+  {
+   "answer": "pursuit",
+   "bb_sha256": "52dcd4b166fd60d4201d98894c65850af057964350a5ee5e1cdcccf29e9f4b4e",
+   "meta": {
+    "length": 7,
+    "rank": 9574,
+    "scrambled": "uirtpsu",
+    "word": "pursuit"
+   },
+   "question": "The word uirtpsu is a scrambled version of the English word"
+  },
+  {
+   "answer": "freeware",
+   "bb_sha256": "417af729d8707b684c295dd0ce5de562cd55d393dee65a611ca042094ea633f8",
+   "meta": {
+    "length": 8,
+    "rank": 5644,
+    "scrambled": "wrfreeea",
+    "word": "freeware"
+   },
+   "question": "The word wrfreeea is a scrambled version of the English word"
+  },
+  {
+   "answer": "fridge",
+   "bb_sha256": "ce2768f66c6f55f22a021a0bcecdc1b9324cb954a9714a7a0d21479d8b43615c",
+   "meta": {
+    "length": 6,
+    "rank": 9522,
+    "scrambled": "fiegdr",
+    "word": "fridge"
+   },
+   "question": "The word fiegdr is a scrambled version of the English word"
+  },
+  {
+   "answer": "returns",
+   "bb_sha256": "3a7300e913075b83e49625c297b5fc3a416dbfd0c6796ee7d5daa02af7da6972",
+   "meta": {
+    "length": 7,
+    "rank": 1162,
+    "scrambled": "esnutrr",
+    "word": "returns"
+   },
+   "question": "The word esnutrr is a scrambled version of the English word"
+  },
+  {
+   "answer": "promised",
+   "bb_sha256": "2138247c71c653c6a12cf0746ba67753cbca788b6f7f164b9550a96419938d8d",
+   "meta": {
+    "length": 8,
+    "rank": 7890,
+    "scrambled": "mrisepdo",
+    "word": "promised"
+   },
+   "question": "The word mrisepdo is a scrambled version of the English word"
+  },
+  {
+   "answer": "stylus",
+   "bb_sha256": "87f1c8f0075c94d18f99806d97568d3bb24b2e99c3ff2b10e419c27eb2aa836b",
+   "meta": {
+    "length": 6,
+    "rank": 6948,
+    "scrambled": "yusstl",
+    "word": "stylus"
+   },
+   "question": "The word yusstl is a scrambled version of the English word"
+  },
+  {
+   "answer": "picking",
+   "bb_sha256": "dcfeb231dc0646aa9fb8095891ba87291d8f602b6af0511891526e4e389010d8",
+   "meta": {
+    "length": 7,
+    "rank": 8927,
+    "scrambled": "igckpni",
+    "word": "picking"
+   },
+   "question": "The word igckpni is a scrambled version of the English word"
+  },
+  {
+   "answer": "climbing",
+   "bb_sha256": "527d1c317ca20f344708c44bcb67d7a229a874656009c80479b495af0c5cf8fa",
+   "meta": {
+    "length": 8,
+    "rank": 5692,
+    "scrambled": "clgnimib",
+    "word": "climbing"
+   },
+   "question": "The word clgnimib is a scrambled version of the English word"
+  },
+  {
+   "answer": "online",
+   "bb_sha256": "87841dfe012884160d09b4592e0a3f257beb796e34f2a3a665cd162830e209bb",
+   "meta": {
+    "length": 6,
+    "rank": 80,
+    "scrambled": "innloe",
+    "word": "online"
+   },
+   "question": "The word innloe is a scrambled version of the English word"
+  },
+  {
+   "answer": "earlier",
+   "bb_sha256": "9842028141aabe8e6f0ebc9cecd43b09bcbfb58c7f2636466ca957b0654a4992",
+   "meta": {
+    "length": 7,
+    "rank": 2364,
+    "scrambled": "aerreil",
+    "word": "earlier"
+   },
+   "question": "The word aerreil is a scrambled version of the English word"
+  },
+  {
+   "answer": "creature",
+   "bb_sha256": "b8eb95ae8dbde7a6838308ee7d7b44703b0f4ee011b5da847da72a255e04e8ae",
+   "meta": {
+    "length": 8,
+    "rank": 9827,
+    "scrambled": "rtrceuae",
+    "word": "creature"
+   },
+   "question": "The word rtrceuae is a scrambled version of the English word"
+  },
+  {
+   "answer": "carlos",
+   "bb_sha256": "73dd627b274a76cbe5d41e4e43fcf2b7462d80875a787782ee7dc7ed6e1d6ba5",
+   "meta": {
+    "length": 6,
+    "rank": 7264,
+    "scrambled": "roacls",
+    "word": "carlos"
+   },
+   "question": "The word roacls is a scrambled version of the English word"
+  },
+  {
+   "answer": "morning",
+   "bb_sha256": "aedd4622d26f27e1edae19efb279b09229a508eb26ed244a4f6d47c81d0e6f45",
+   "meta": {
+    "length": 7,
+    "rank": 1544,
+    "scrambled": "nrgionm",
+    "word": "morning"
+   },
+   "question": "The word nrgionm is a scrambled version of the English word"
+  },
+  {
+   "answer": "findings",
+   "bb_sha256": "2b0d5bc3b624c45da04aaa59db215232fb56e3b40803682872afb1f4673a1133",
+   "meta": {
+    "length": 8,
+    "rank": 3590,
+    "scrambled": "dgfiinns",
+    "word": "findings"
+   },
+   "question": "The word dgfiinns is a scrambled version of the English word"
+  },
+  {
+   "answer": "lately",
+   "bb_sha256": "0957976dd8ac92b51363847231a7e25ff9109c8e5d635178b55dca74071de8aa",
+   "meta": {
+    "length": 6,
+    "rank": 9390,
+    "scrambled": "leyatl",
+    "word": "lately"
+   },
+   "question": "The word leyatl is a scrambled version of the English word"
+  },
+  {
+   "answer": "thereby",
+   "bb_sha256": "0e4293b276d33fd089748afe4319dc1a97a487b9965b6f9d2fec015f8bacacc5",
+   "meta": {
+    "length": 7,
+    "rank": 7090,
+    "scrambled": "eybehrt",
+    "word": "thereby"
+   },
+   "question": "The word eybehrt is a scrambled version of the English word"
+  },
+  {
+   "answer": "brighton",
+   "bb_sha256": "c6e792e5a959ef48b26fa089702cb293880a3b4d39ee92903d5ad928513676a2",
+   "meta": {
+    "length": 8,
+    "rank": 7555,
+    "scrambled": "hbtgrion",
+    "word": "brighton"
+   },
+   "question": "The word hbtgrion is a scrambled version of the English word"
+  },
+  {
+   "answer": "gordon",
+   "bb_sha256": "d67e61f8f3e2c4d90128e998373db53e431f619714b03c0450072f63bdc31f93",
+   "meta": {
+    "length": 6,
+    "rank": 4634,
+    "scrambled": "oondgr",
+    "word": "gordon"
+   },
+   "question": "The word oondgr is a scrambled version of the English word"
+  },
+  {
+   "answer": "tickets",
+   "bb_sha256": "730d8b33394ec805e57d153f488508a32529d18d8e65e0abbb496d7c97317b40",
+   "meta": {
+    "length": 7,
+    "rank": 822,
+    "scrambled": "eitkcst",
+    "word": "tickets"
+   },
+   "question": "The word eitkcst is a scrambled version of the English word"
+  },
+  {
+   "answer": "textbook",
+   "bb_sha256": "79335c2135cd84206347945702db3df4f9a25dfbbf109e34e492d241bbaac73f",
+   "meta": {
+    "length": 8,
+    "rank": 8617,
+    "scrambled": "btxkoteo",
+    "word": "textbook"
+   },
+   "question": "The word btxkoteo is a scrambled version of the English word"
+  },
+  {
+   "answer": "nelson",
+   "bb_sha256": "fabae6fa9e658aa12135cbdc8e1e6d8fada13e94621e4bbb18205797c88b8670",
+   "meta": {
+    "length": 6,
+    "rank": 4544,
+    "scrambled": "ennsol",
+    "word": "nelson"
+   },
+   "question": "The word ennsol is a scrambled version of the English word"
+  },
+  {
+   "answer": "reality",
+   "bb_sha256": "89abd2fae65404c1152a82dbc42582a29fde79734cd3ea4dca2802ce0f4a5fb2",
+   "meta": {
+    "length": 7,
+    "rank": 2515,
+    "scrambled": "liearty",
+    "word": "reality"
+   },
+   "question": "The word liearty is a scrambled version of the English word"
+  },
+  {
+   "answer": "incident",
+   "bb_sha256": "c6f3e799cfc4ddfc3e25e2c713be10d0e9ecff2051cfba8cb93c419c919eb371",
+   "meta": {
+    "length": 8,
+    "rank": 4926,
+    "scrambled": "tendicin",
+    "word": "incident"
+   },
+   "question": "The word tendicin is a scrambled version of the English word"
+  },
+  {
+   "answer": "alaska",
+   "bb_sha256": "303aed97ab9bd8e78a25e9d17970547a4bc21121abe3a0fa77cc1f3e939be2ab",
+   "meta": {
+    "length": 6,
+    "rank": 2538,
+    "scrambled": "aaslka",
+    "word": "alaska"
+   },
+   "question": "The word aaslka is a scrambled version of the English word"
+  },
+  {
+   "answer": "screens",
+   "bb_sha256": "3229db8604ee74a0c3826590672c3b822bc8d4a0a39ca1531d6aec4ba9beefec",
+   "meta": {
+    "length": 7,
+    "rank": 5822,
+    "scrambled": "esscenr",
+    "word": "screens"
+   },
+   "question": "The word esscenr is a scrambled version of the English word"
+  },
+  {
+   "answer": "contrary",
+   "bb_sha256": "d456e8a80b886256ab21b3a3e3da5abe58bb6950a77d947a786633e0e7f29264",
+   "meta": {
+    "length": 8,
+    "rank": 6811,
+    "scrambled": "ocnyrtar",
+    "word": "contrary"
+   },
+   "question": "The word ocnyrtar is a scrambled version of the English word"
+  },
+  {
+   "answer": "expert",
+   "bb_sha256": "3663f99468a2054bf580f4be84dbe13827ac5ffa9afec127655753ba54418a80",
+   "meta": {
+    "length": 6,
+    "rank": 2155,
+    "scrambled": "pxteer",
+    "word": "expert"
+   },
+   "question": "The word pxteer is a scrambled version of the English word"
+  },
+  {
+   "answer": "glasgow",
+   "bb_sha256": "aacea7e4ebcfcfc88bf5ba3aa238ceda22531fa58f4737bc9c7dea041eef5856",
+   "meta": {
+    "length": 7,
+    "rank": 5215,
+    "scrambled": "lgsgowa",
+    "word": "glasgow"
+   },
+   "question": "The word lgsgowa is a scrambled version of the English word"
+  },
+  {
+   "answer": "manually",
+   "bb_sha256": "970067f1970995e66a7c842b753688e4e012c07394f946aff71bf7782563a50d",
+   "meta": {
+    "length": 8,
+    "rank": 9107,
+    "scrambled": "aymlualn",
+    "word": "manually"
+   },
+   "question": "The word aymlualn is a scrambled version of the English word"
+  },
+  {
+   "answer": "rounds",
+   "bb_sha256": "3b3d8200874e72c64b2bf5d5fdf0e5c6be08c68ca238b0733e29ebf2cde8c1fd",
+   "meta": {
+    "length": 6,
+    "rank": 9206,
+    "scrambled": "rnodus",
+    "word": "rounds"
+   },
+   "question": "The word rnodus is a scrambled version of the English word"
+  },
+  {
+   "answer": "grocery",
+   "bb_sha256": "aa543e163254cafb33d8d38897a44f2dd83372a763658bb304a77e3d62308ba5",
+   "meta": {
+    "length": 7,
+    "rank": 6313,
+    "scrambled": "eygorrc",
+    "word": "grocery"
+   },
+   "question": "The word eygorrc is a scrambled version of the English word"
+  },
+  {
+   "answer": "painting",
+   "bb_sha256": "af5357418127a56430806dc89330a95c654f8605692d9cf9bee4d57baffc6abf",
+   "meta": {
+    "length": 8,
+    "rank": 3480,
+    "scrambled": "anigpnti",
+    "word": "painting"
+   },
+   "question": "The word anigpnti is a scrambled version of the English word"
+  },
+  {
+   "answer": "bigger",
+   "bb_sha256": "d29f95246330e0b1fc286a2677cccb18d587e94db2df4d155dda6c6c216b5d48",
+   "meta": {
+    "length": 6,
+    "rank": 5034,
+    "scrambled": "egibrg",
+    "word": "bigger"
+   },
+   "question": "The word egibrg is a scrambled version of the English word"
+  },
+  {
+   "answer": "renewal",
+   "bb_sha256": "cfec51e0654a234fa7398cd0d0315f3f253587f1fb00c67c59a0c8a677acf670",
+   "meta": {
+    "length": 7,
+    "rank": 6111,
+    "scrambled": "arenwle",
+    "word": "renewal"
+   },
+   "question": "The word arenwle is a scrambled version of the English word"
+  },
+  {
+   "answer": "cartoons",
+   "bb_sha256": "333ac18685cfd6385701fbf94f052a54db6eeb83a2d2d231f8fb50399f98911a",
+   "meta": {
+    "length": 8,
+    "rank": 4560,
+    "scrambled": "csaoortn",
+    "word": "cartoons"
+   },
+   "question": "The word csaoortn is a scrambled version of the English word"
+  },
+  {
+   "answer": "copper",
+   "bb_sha256": "c1e66b7b900ad2980cf701f3faf8dfa03304473ddb242c576e7ccdd54632442f",
+   "meta": {
+    "length": 6,
+    "rank": 4678,
+    "scrambled": "eprcop",
+    "word": "copper"
+   },
+   "question": "The word eprcop is a scrambled version of the English word"
+  },
+  {
+   "answer": "houston",
+   "bb_sha256": "aaa4f58f98fc0afd81b0424a8b3f87cec47b5efc0ce633cf6f37e1b13c1886f7",
+   "meta": {
+    "length": 7,
+    "rank": 2253,
+    "scrambled": "hsntoou",
+    "word": "houston"
+   },
+   "question": "The word hsntoou is a scrambled version of the English word"
+  },
+  {
+   "answer": "egyptian",
+   "bb_sha256": "b068f3d21447c9f9b5b609aa13d044998554b92c5c04ba35f058fa68e6e170e0",
+   "meta": {
+    "length": 8,
+    "rank": 8107,
+    "scrambled": "tyngpiea",
+    "word": "egyptian"
+   },
+   "question": "The word tyngpiea is a scrambled version of the English word"
+  },
+  {
+   "answer": "global",
+   "bb_sha256": "e4f3610466eff8216e366e3db8030b349a4e3aab476a17c0a521bc2720ac2fcc",
+   "meta": {
+    "length": 6,
+    "rank": 857,
+    "scrambled": "loglba",
+    "word": "global"
+   },
+   "question": "The word loglba is a scrambled version of the English word"
+  },
+  {
+   "answer": "massage",
+   "bb_sha256": "4690a8e6c3a41db7c86622944d5d6854b58d5530079bdc6b0d8a92fa928cc1b8",
+   "meta": {
+    "length": 7,
+    "rank": 4035,
+    "scrambled": "geasams",
+    "word": "massage"
+   },
+   "question": "The word geasams is a scrambled version of the English word"
+  },
+  {
+   "answer": "interval",
+   "bb_sha256": "045cac3db5daebc5c57399b2a6830fd658ed120633b7e38a450dfe548f7b464c",
+   "meta": {
+    "length": 8,
+    "rank": 6160,
+    "scrambled": "nrtlveia",
+    "word": "interval"
+   },
+   "question": "The word nrtlveia is a scrambled version of the English word"
+  },
+  {
+   "answer": "writes",
+   "bb_sha256": "98b545e087d43f852172f22ba11f55b5914b383b2077c6851b739ca5b6840234",
+   "meta": {
+    "length": 6,
+    "rank": 4732,
+    "scrambled": "wrstie",
+    "word": "writes"
+   },
+   "question": "The word wrstie is a scrambled version of the English word"
+  },
+  {
+   "answer": "accepts",
+   "bb_sha256": "aaf6d13aae667d96b52fb3f9e7e5e1dff9802b99715097fc6e2300adcd34be10",
+   "meta": {
+    "length": 7,
+    "rank": 8309,
+    "scrambled": "epcasct",
+    "word": "accepts"
+   },
+   "question": "The word epcasct is a scrambled version of the English word"
+  },
+  {
+   "answer": "reviewer",
+   "bb_sha256": "0be4f970d152c7babe00c25f8e9ffd7fa0c66fc8a0ff0e408d80ac2f090895a2",
+   "meta": {
+    "length": 8,
+    "rank": 5112,
+    "scrambled": "rreviewe",
+    "word": "reviewer"
+   },
+   "question": "The word rreviewe is a scrambled version of the English word"
+  },
+  {
+   "answer": "select",
+   "bb_sha256": "c08d95c1da52bad824b6a8819b3214d46d0d59e9f080c1b0f85db5b75afd39fd",
+   "meta": {
+    "length": 6,
+    "rank": 453,
+    "scrambled": "letces",
+    "word": "select"
+   },
+   "question": "The word letces is a scrambled version of the English word"
+  },
+  {
+   "answer": "banners",
+   "bb_sha256": "e15554fa8fd77d9e86c9d470a15c29895e0910e81602bf7372424d05531ccf77",
+   "meta": {
+    "length": 7,
+    "rank": 8573,
+    "scrambled": "rbnnsea",
+    "word": "banners"
+   },
+   "question": "The word rbnnsea is a scrambled version of the English word"
+  },
+  {
+   "answer": "consider",
+   "bb_sha256": "9e8f2653152e92f8dd38d1bcc4bb8e94f1b56c2d3becf0bf041a8f245b1d6709",
+   "meta": {
+    "length": 8,
+    "rank": 1528,
+    "scrambled": "ncdersoi",
+    "word": "consider"
+   },
+   "question": "The word ncdersoi is a scrambled version of the English word"
+  },
+  {
+   "answer": "temple",
+   "bb_sha256": "aa7be059bdcbe37bd3547266ad54b6830e3c369db7561ec10ca4f0c47d980b73",
+   "meta": {
+    "length": 6,
+    "rank": 4338,
+    "scrambled": "etepml",
+    "word": "temple"
+   },
+   "question": "The word etepml is a scrambled version of the English word"
+  },
+  {
+   "answer": "consent",
+   "bb_sha256": "9a87e08f87bff272d15648e8c848547473ba4de84123b7bd2b3e526100302aa0",
+   "meta": {
+    "length": 7,
+    "rank": 3569,
+    "scrambled": "noescnt",
+    "word": "consent"
+   },
+   "question": "The word noescnt is a scrambled version of the English word"
+  },
+  {
+   "answer": "deferred",
+   "bb_sha256": "d9b1a51f1a382de5c801a40dcccb8029f01d5915fddcf075e823af572de6be12",
+   "meta": {
+    "length": 8,
+    "rank": 9507,
+    "scrambled": "drerdeef",
+    "word": "deferred"
+   },
+   "question": "The word drerdeef is a scrambled version of the English word"
+  },
+  {
+   "answer": "hammer",
+   "bb_sha256": "cf6b48fadc1a2c0b82409c25dbf400537de2b1686195c539d8a8aedb7a83f3d9",
+   "meta": {
+    "length": 6,
+    "rank": 7721,
+    "scrambled": "ammhre",
+    "word": "hammer"
+   },
+   "question": "The word ammhre is a scrambled version of the English word"
+  },
+  {
+   "answer": "pentium",
+   "bb_sha256": "c3969d11e1f2233cbc91cf8452e668202779811d8e4052f6c16c4d713e2d3d48",
+   "meta": {
+    "length": 7,
+    "rank": 5531,
+    "scrambled": "umietpn",
+    "word": "pentium"
+   },
+   "question": "The word umietpn is a scrambled version of the English word"
+  },
+  {
+   "answer": "salaries",
+   "bb_sha256": "0d263a6ed139ec176905d0c4dec5abc47e4a2b34001907fb97d60aa59ab778f5",
+   "meta": {
+    "length": 8,
+    "rank": 8792,
+    "scrambled": "ssarliea",
+    "word": "salaries"
+   },
+   "question": "The word ssarliea is a scrambled version of the English word"
+  },
+  {
+   "answer": "enzyme",
+   "bb_sha256": "8d3512653b5baeeb7d0d713ee8531814e0d851176b7a9817269b03bd382ae257",
+   "meta": {
+    "length": 6,
+    "rank": 8501,
+    "scrambled": "zyneme",
+    "word": "enzyme"
+   },
+   "question": "The word zyneme is a scrambled version of the English word"
+  },
+  {
+   "answer": "buffalo",
+   "bb_sha256": "024a8e4e6d07f09b716a359dada05a6eaef90088cc5b610b14ef352ec20ae6e1",
+   "meta": {
+    "length": 7,
+    "rank": 4008,
+    "scrambled": "uflaobf",
+    "word": "buffalo"
+   },
+   "question": "The word uflaobf is a scrambled version of the English word"
+  },
+  {
+   "answer": "outreach",
+   "bb_sha256": "85ed333ca83b062349b05313902f0628bb580d0b2d8bc03ea596dbb3a49201d2",
+   "meta": {
+    "length": 8,
+    "rank": 6353,
+    "scrambled": "teoucahr",
+    "word": "outreach"
+   },
+   "question": "The word teoucahr is a scrambled version of the English word"
+  },
+  {
+   "answer": "blades",
+   "bb_sha256": "df2610379302106c9d271437a0b8f23e62a91c720f33573b3f755c60a989cab8",
+   "meta": {
+    "length": 6,
+    "rank": 9533,
+    "scrambled": "labeds",
+    "word": "blades"
+   },
+   "question": "The word labeds is a scrambled version of the English word"
+  },
+  {
+   "answer": "approve",
+   "bb_sha256": "b668e1f1c8592c24064a9970e01dda8bade5d635ad148d1d5054185ff5c7bd35",
+   "meta": {
+    "length": 7,
+    "rank": 6468,
+    "scrambled": "prepaov",
+    "word": "approve"
+   },
+   "question": "The word prepaov is a scrambled version of the English word"
+  },
+  {
+   "answer": "animated",
+   "bb_sha256": "c9eeb083799f4054bcd66b197c22bfebb0abe09392ad5d225b0c3533490ddd01",
+   "meta": {
+    "length": 8,
+    "rank": 5288,
+    "scrambled": "antidame",
+    "word": "animated"
+   },
+   "question": "The word antidame is a scrambled version of the English word"
+  },
+  {
+   "answer": "tuning",
+   "bb_sha256": "abbbeda6f7d00d7211683498fceed409d1df2743322579dd5cb2ff4d0cfe9e49",
+   "meta": {
+    "length": 6,
+    "rank": 7653,
+    "scrambled": "ntingu",
+    "word": "tuning"
+   },
+   "question": "The word ntingu is a scrambled version of the English word"
+  },
+  {
+   "answer": "enemies",
+   "bb_sha256": "99b218801aab504efb25a644011dab07011786c97e19068a9cb6ff6ba7f56b99",
+   "meta": {
+    "length": 7,
+    "rank": 8301,
+    "scrambled": "seemnie",
+    "word": "enemies"
+   },
+   "question": "The word seemnie is a scrambled version of the English word"
+  },
+  {
+   "answer": "humidity",
+   "bb_sha256": "d1ade1bc8b17c9eb8e719e4fbc5673edfdd4eff11f43fb66f44a0f438a0e780e",
+   "meta": {
+    "length": 8,
+    "rank": 7097,
+    "scrambled": "hiyumdit",
+    "word": "humidity"
+   },
+   "question": "The word hiyumdit is a scrambled version of the English word"
+  },
+  {
+   "answer": "motors",
+   "bb_sha256": "9ba762f063215e7280f3ce83b5d91280cb9f57fa441a2e49c187afbacf0cad88",
+   "meta": {
+    "length": 6,
+    "rank": 4923,
+    "scrambled": "otmsro",
+    "word": "motors"
+   },
+   "question": "The word otmsro is a scrambled version of the English word"
+  },
+  {
+   "answer": "another",
+   "bb_sha256": "6ffeea2cf05aca413abaee131fc9488611b4a7e1735103dd840c88cafd5d68cd",
+   "meta": {
+    "length": 7,
+    "rank": 384,
+    "scrambled": "naetohr",
+    "word": "another"
+   },
+   "question": "The word naetohr is a scrambled version of the English word"
+  },
+  {
+   "answer": "somerset",
+   "bb_sha256": "60ccb634bdcdeb61d102643617e52f162787ff04c9fad703a277db55fab5f343",
+   "meta": {
+    "length": 8,
+    "rank": 8395,
+    "scrambled": "esrsoetm",
+    "word": "somerset"
+   },
+   "question": "The word esrsoetm is a scrambled version of the English word"
+  },
+  {
+   "answer": "refers",
+   "bb_sha256": "0b239a5e3fc51b64fa3c00cd7e45e938f97232444e218fa72559341b6c7ed172",
+   "meta": {
+    "length": 6,
+    "rank": 5453,
+    "scrambled": "feesrr",
+    "word": "refers"
+   },
+   "question": "The word feesrr is a scrambled version of the English word"
+  },
+  {
+   "answer": "scratch",
+   "bb_sha256": "ed9225480231e6e3d23406fa187cba0f4cc59629dcdce9841a720df1b8ffa17e",
+   "meta": {
+    "length": 7,
+    "rank": 7665,
+    "scrambled": "racthcs",
+    "word": "scratch"
+   },
+   "question": "The word racthcs is a scrambled version of the English word"
+  },
+  {
+   "answer": "segments",
+   "bb_sha256": "e8550a56f1a75978b7d32b40b30d2a2a1a4a0164fe7d2e60f9cbb26e4a9a77ab",
+   "meta": {
+    "length": 8,
+    "rank": 7831,
+    "scrambled": "eesgntsm",
+    "word": "segments"
+   },
+   "question": "The word eesgntsm is a scrambled version of the English word"
+  },
+  {
+   "answer": "vagina",
+   "bb_sha256": "279d826cb759bc5283c2220d89849c7c78c40187c3c016ded55977c4f97dfbae",
+   "meta": {
+    "length": 6,
+    "rank": 9083,
+    "scrambled": "iangav",
+    "word": "vagina"
+   },
+   "question": "The word iangav is a scrambled version of the English word"
+  },
+  {
+   "answer": "captain",
+   "bb_sha256": "fa3a3c66ae2e39cac882bafeaddeaef207adf7b3b29380eff41f3bf8019cbf31",
+   "meta": {
+    "length": 7,
+    "rank": 4088,
+    "scrambled": "ctnapia",
+    "word": "captain"
+   },
+   "question": "The word ctnapia is a scrambled version of the English word"
+  },
+  {
+   "answer": "reliance",
+   "bb_sha256": "550029160010cdc16fea64118b8b39774b7a9fdde2f0f59118a691ac92332e3f",
+   "meta": {
+    "length": 8,
+    "rank": 8851,
+    "scrambled": "raecneli",
+    "word": "reliance"
+   },
+   "question": "The word raecneli is a scrambled version of the English word"
+  },
+  {
+   "answer": "wisdom",
+   "bb_sha256": "9dbf78da02ab4f207372420573c876cb22b371fb7d79d6d6369b88be8f8fa1cc",
+   "meta": {
+    "length": 6,
+    "rank": 5174,
+    "scrambled": "wdosmi",
+    "word": "wisdom"
+   },
+   "question": "The word wdosmi is a scrambled version of the English word"
+  },
+  {
+   "answer": "burning",
+   "bb_sha256": "cb343028bac00f566efc3495b330a8384d4738020d5f5e49524f634c111bf1e7",
+   "meta": {
+    "length": 7,
+    "rank": 4429,
+    "scrambled": "bignrun",
+    "word": "burning"
+   },
+   "question": "The word bignrun is a scrambled version of the English word"
+  },
+  {
+   "answer": "analyzed",
+   "bb_sha256": "b945a2c1ba6ae9283667aa5062a254db75f5fdecd03c0f84898fde6e25780176",
+   "meta": {
+    "length": 8,
+    "rank": 8771,
+    "scrambled": "adlnyeza",
+    "word": "analyzed"
+   },
+   "question": "The word adlnyeza is a scrambled version of the English word"
+  },
+  {
+   "answer": "funded",
+   "bb_sha256": "cb6aca149b42e2b1823fa4801b4a1c2d29e3ea2f0c97c602b9d63f5341211a84",
+   "meta": {
+    "length": 6,
+    "rank": 4529,
+    "scrambled": "ndufed",
+    "word": "funded"
+   },
+   "question": "The word ndufed is a scrambled version of the English word"
+  },
+  {
+   "answer": "apparel",
+   "bb_sha256": "4e481e5f0b98f007d5e78feab51aea932bd5137afd370669af1075a5f4ccb259",
+   "meta": {
+    "length": 7,
+    "rank": 2005,
+    "scrambled": "laappre",
+    "word": "apparel"
+   },
+   "question": "The word laappre is a scrambled version of the English word"
+  },
+  {
+   "answer": "mitchell",
+   "bb_sha256": "603f5e9d845d4e46bd2f5e2b6d01d78df58532aeaf6b485733f3a26bd52af3d1",
+   "meta": {
+    "length": 8,
+    "rank": 5342,
+    "scrambled": "llihtmec",
+    "word": "mitchell"
+   },
+   "question": "The word llihtmec is a scrambled version of the English word"
+  },
+  {
+   "answer": "styles",
+   "bb_sha256": "33aa3969e956005900066d6cd23fd7fa6592ecaf995fc810897282630f887734",
+   "meta": {
+    "length": 6,
+    "rank": 3257,
+    "scrambled": "yetlss",
+    "word": "styles"
+   },
+   "question": "The word yetlss is a scrambled version of the English word"
+  },
+  {
+   "answer": "matched",
+   "bb_sha256": "efd34f7ca8bd77e07111ec4be3018ce32a0c11fe0ce20403009847e984aee07d",
+   "meta": {
+    "length": 7,
+    "rank": 8048,
+    "scrambled": "amchetd",
+    "word": "matched"
+   },
+   "question": "The word amchetd is a scrambled version of the English word"
+  },
+  {
+   "answer": "advocacy",
+   "bb_sha256": "1c2de2683580a17acf33a522d4a600e768a1e6b0cac45a847d2040a54d0d4d8e",
+   "meta": {
+    "length": 8,
+    "rank": 6420,
+    "scrambled": "dvaoyacc",
+    "word": "advocacy"
+   },
+   "question": "The word dvaoyacc is a scrambled version of the English word"
+  },
+  {
+   "answer": "boxing",
+   "bb_sha256": "bd97f9ebb1b3b97895a064542ca88c63a88d16a3a907e3bb4cb8ade109c7a86f",
+   "meta": {
+    "length": 6,
+    "rank": 7099,
+    "scrambled": "gbonxi",
+    "word": "boxing"
+   },
+   "question": "The word gbonxi is a scrambled version of the English word"
+  },
+  {
+   "answer": "achieve",
+   "bb_sha256": "0168cbe55ae80d892c86245dee4a1bb0d7c6122addf98eb8ccf18248bbebb201",
+   "meta": {
+    "length": 7,
+    "rank": 2866,
+    "scrambled": "vicehae",
+    "word": "achieve"
+   },
+   "question": "The word vicehae is a scrambled version of the English word"
+  },
+  {
+   "answer": "patterns",
+   "bb_sha256": "bc60968fe3c9ecacfed05c720370c999edfc0bce811ebad7e435cefb1912cf6c",
+   "meta": {
+    "length": 8,
+    "rank": 2998,
+    "scrambled": "serntpat",
+    "word": "patterns"
+   },
+   "question": "The word serntpat is a scrambled version of the English word"
+  },
+  {
+   "answer": "travis",
+   "bb_sha256": "50569a030326c49077272b13ef297aac59a0643ac59655b5fb6996c921452166",
+   "meta": {
+    "length": 6,
+    "rank": 9587,
+    "scrambled": "rstiva",
+    "word": "travis"
+   },
+   "question": "The word rstiva is a scrambled version of the English word"
+  },
+  {
+   "answer": "jamaica",
+   "bb_sha256": "494f37b8a8008c02790a7fdfcb356db0ecf3b11ca08d3486db681cafc98a7cc8",
+   "meta": {
+    "length": 7,
+    "rank": 5632,
+    "scrambled": "acajima",
+    "word": "jamaica"
+   },
+   "question": "The word acajima is a scrambled version of the English word"
+  },
+  {
+   "answer": "returned",
+   "bb_sha256": "1099960eb08b658e8705e898014d934ac11d14c69f7b687a60410da5acf5c379",
+   "meta": {
+    "length": 8,
+    "rank": 2356,
+    "scrambled": "retnrdue",
+    "word": "returned"
+   },
+   "question": "The word retnrdue is a scrambled version of the English word"
+  },
+  {
+   "answer": "photos",
+   "bb_sha256": "b90c42a6b63056e0b69bc0a3b003fc52274996d7aa2b0d2b126d3d6a30c10386",
+   "meta": {
+    "length": 6,
+    "rank": 455,
+    "scrambled": "tohpos",
+    "word": "photos"
+   },
+   "question": "The word tohpos is a scrambled version of the English word"
+  },
+  {
+   "answer": "chelsea",
+   "bb_sha256": "303bd2a1e8718051909692ea3cda9ffac90e6ebd8a4c978e8e49db2236e98bdd",
+   "meta": {
+    "length": 7,
+    "rank": 8355,
+    "scrambled": "clsaeeh",
+    "word": "chelsea"
+   },
+   "question": "The word clsaeeh is a scrambled version of the English word"
+  },
+  {
+   "answer": "families",
+   "bb_sha256": "71773adc83a971bd4fbf63b9b6560c2a194c1d6afc3266cdd87b0f781716fbca",
+   "meta": {
+    "length": 8,
+    "rank": 1742,
+    "scrambled": "safmliei",
+    "word": "families"
+   },
+   "question": "The word safmliei is a scrambled version of the English word"
+  },
+  {
+   "answer": "clouds",
+   "bb_sha256": "1fe83fe093e0c0214640edf07dd2b88d3746671cc730c3263c70a548799cb130",
+   "meta": {
+    "length": 6,
+    "rank": 6745,
+    "scrambled": "oudlsc",
+    "word": "clouds"
+   },
+   "question": "The word oudlsc is a scrambled version of the English word"
+  },
+  {
+   "answer": "anatomy",
+   "bb_sha256": "3c4422aaa2bbd024455a9d564f4d64f19c23c060c3efc47fd692bf6c83e11bfa",
+   "meta": {
+    "length": 7,
+    "rank": 7852,
+    "scrambled": "anayomt",
+    "word": "anatomy"
+   },
+   "question": "The word anayomt is a scrambled version of the English word"
+  },
+  {
+   "answer": "aberdeen",
+   "bb_sha256": "82ecae2d85fb07dd519f855c875bc6b19c86983d1af262e6a6b2d9f350333728",
+   "meta": {
+    "length": 8,
+    "rank": 9294,
+    "scrambled": "adnbreee",
+    "word": "aberdeen"
+   },
+   "question": "The word adnbreee is a scrambled version of the English word"
+  },
+  {
+   "answer": "vernon",
+   "bb_sha256": "9b0396d41e5e12d8f44ebf52b6b86fe821efc5e9dc73aebe43afc0dce76ba562",
+   "meta": {
+    "length": 6,
+    "rank": 8516,
+    "scrambled": "novenr",
+    "word": "vernon"
+   },
+   "question": "The word novenr is a scrambled version of the English word"
+  },
+  {
+   "answer": "bouquet",
+   "bb_sha256": "7ef3743b6b74120b6cd637787899020737ba934d5ef71432b117fd0ae7cd5dd8",
+   "meta": {
+    "length": 7,
+    "rank": 9879,
+    "scrambled": "eubutqo",
+    "word": "bouquet"
+   },
+   "question": "The word eubutqo is a scrambled version of the English word"
+  },
+  {
+   "answer": "northern",
+   "bb_sha256": "4edb859a623251b18a40b812d02aeb2a1c45e377f1a94e1aa4d1c6312285e2d1",
+   "meta": {
+    "length": 8,
+    "rank": 1530,
+    "scrambled": "enrohtnr",
+    "word": "northern"
+   },
+   "question": "The word enrohtnr is a scrambled version of the English word"
+  },
+  {
+   "answer": "ranges",
+   "bb_sha256": "b607831e4ce04459d8186f46ae23b38604b7665010d30a8af0773b29ae4ee4b4",
+   "meta": {
+    "length": 6,
+    "rank": 6456,
+    "scrambled": "naesgr",
+    "word": "ranges"
+   },
+   "question": "The word naesgr is a scrambled version of the English word"
+  },
+  {
+   "answer": "pulling",
+   "bb_sha256": "3a472ba12afdb9887777aa4bfb0d0b50289048bc7763f9a342d475c130eb19a1",
+   "meta": {
+    "length": 7,
+    "rank": 9312,
+    "scrambled": "nuligpl",
+    "word": "pulling"
+   },
+   "question": "The word nuligpl is a scrambled version of the English word"
+  },
+  {
+   "answer": "intended",
+   "bb_sha256": "47f4924f09de3b786fb13119516b24eb4be0d28483741ee95b6f0a13c3310317",
+   "meta": {
+    "length": 8,
+    "rank": 2193,
+    "scrambled": "tneeddni",
+    "word": "intended"
+   },
+   "question": "The word tneeddni is a scrambled version of the English word"
+  },
+  {
+   "answer": "collar",
+   "bb_sha256": "8ec45f8e4691308e3df74c8768d68560a7b588c290e7bf4c1b3d44bec6424933",
+   "meta": {
+    "length": 6,
+    "rank": 7597,
+    "scrambled": "llraoc",
+    "word": "collar"
+   },
+   "question": "The word llraoc is a scrambled version of the English word"
+  },
+  {
+   "answer": "edwards",
+   "bb_sha256": "57da87b6dc7219228bd15eceb2cfad1996e81e90fa2c8f777530e4504f5b6a18",
+   "meta": {
+    "length": 7,
+    "rank": 5842,
+    "scrambled": "edradsw",
+    "word": "edwards"
+   },
+   "question": "The word edradsw is a scrambled version of the English word"
+  },
+  {
+   "answer": "moisture",
+   "bb_sha256": "c910c3fc49cb6cbdcf9aef1e44cc00bf11c82c2014e567b1aa0f51844ee87980",
+   "meta": {
+    "length": 8,
+    "rank": 7639,
+    "scrambled": "ituomers",
+    "word": "moisture"
+   },
+   "question": "The word ituomers is a scrambled version of the English word"
+  },
+  {
+   "answer": "grades",
+   "bb_sha256": "e336a67cc910c8559821264e4eef19778821b43730423f1b7d7936b3bf534a95",
+   "meta": {
+    "length": 6,
+    "rank": 4559,
+    "scrambled": "rgdsea",
+    "word": "grades"
+   },
+   "question": "The word rgdsea is a scrambled version of the English word"
+  },
+  {
+   "answer": "threats",
+   "bb_sha256": "4786787496cdea00c280c12e28f9e27fafe35fc33463b1ea8be6cbe8ac77f79d",
+   "meta": {
+    "length": 7,
+    "rank": 6254,
+    "scrambled": "sethrat",
+    "word": "threats"
+   },
+   "question": "The word sethrat is a scrambled version of the English word"
+  },
+  {
+   "answer": "mistress",
+   "bb_sha256": "2880438b3ac833fbb3d54981a1f6aa6e7f99cc378f9b4bf53f4ca4ac07c9d684",
+   "meta": {
+    "length": 8,
+    "rank": 7692,
+    "scrambled": "tssiresm",
+    "word": "mistress"
+   },
+   "question": "The word tssiresm is a scrambled version of the English word"
+  },
+  {
+   "answer": "comedy",
+   "bb_sha256": "fdba23fc0faa2d404757977d349ab8e64dbebe2d98fa972b51561f00773a6187",
+   "meta": {
+    "length": 6,
+    "rank": 3313,
+    "scrambled": "doceym",
+    "word": "comedy"
+   },
+   "question": "The word doceym is a scrambled version of the English word"
+  },
+  {
+   "answer": "exclude",
+   "bb_sha256": "5fd3bf59d9e4d234fe4de2056d4b07b62afa4f87224f5e32e6446b218ea32922",
+   "meta": {
+    "length": 7,
+    "rank": 6377,
+    "scrambled": "luecedx",
+    "word": "exclude"
+   },
+   "question": "The word luecedx is a scrambled version of the English word"
+  },
+  {
+   "answer": "constant",
+   "bb_sha256": "478781f5bb5c05ea235aa722ff003f51b1f48574e14c20f0e9d67d0abd591c1b",
+   "meta": {
+    "length": 8,
+    "rank": 3325,
+    "scrambled": "consttna",
+    "word": "constant"
+   },
+   "question": "The word consttna is a scrambled version of the English word"
+  },
+  {
+   "answer": "guides",
+   "bb_sha256": "d07360d67c8803bfdfaf4cad379ae96c45b6458dc65a78b19fb8b763ea519656",
+   "meta": {
+    "length": 6,
+    "rank": 1385,
+    "scrambled": "gdsiue",
+    "word": "guides"
+   },
+   "question": "The word gdsiue is a scrambled version of the English word"
+  },
+  {
+   "answer": "watched",
+   "bb_sha256": "4ca78a15955002838712b43e058436eea80a576f9c1a81a53423b8d69aa88574",
+   "meta": {
+    "length": 7,
+    "rank": 6055,
+    "scrambled": "tacdwhe",
+    "word": "watched"
+   },
+   "question": "The word tacdwhe is a scrambled version of the English word"
+  },
+  {
+   "answer": "conclude",
+   "bb_sha256": "17696200b587cb96a7efc9ff20800e2995e2b87449bcce162d25c6ccf11eb727",
+   "meta": {
+    "length": 8,
+    "rank": 8648,
+    "scrambled": "donuccel",
+    "word": "conclude"
+   },
+   "question": "The word donuccel is a scrambled version of the English word"
+  },
+  {
+   "answer": "bother",
+   "bb_sha256": "495d4c0917ad6d4f03bf53c14d4ea8d3e77f72e08b429b2400b8ddb3ecd2ee15",
+   "meta": {
+    "length": 6,
+    "rank": 9936,
+    "scrambled": "tobehr",
+    "word": "bother"
+   },
+   "question": "The word tobehr is a scrambled version of the English word"
+  },
+  {
+   "answer": "marking",
+   "bb_sha256": "d4fe19c360c835c383a30f77486163c139697ed9ae2823d2befee4c557bf7129",
+   "meta": {
+    "length": 7,
+    "rank": 9180,
+    "scrambled": "mrinagk",
+    "word": "marking"
+   },
+   "question": "The word mrinagk is a scrambled version of the English word"
+  },
+  {
+   "answer": "provides",
+   "bb_sha256": "ab73ea10f96b864db7c4c321077abdea8e0e3e64f210f017122d7422a7e24bcf",
+   "meta": {
+    "length": 8,
+    "rank": 729,
+    "scrambled": "pedsvior",
+    "word": "provides"
+   },
+   "question": "The word pedsvior is a scrambled version of the English word"
+  },
+  {
+   "answer": "errors",
+   "bb_sha256": "11b693ca87e5fc83d70bf018bc2135c7bd553f1a7ebd8aff71b8adfb3a58aa4c",
+   "meta": {
+    "length": 6,
+    "rank": 2114,
+    "scrambled": "rerors",
+    "word": "errors"
+   },
+   "question": "The word rerors is a scrambled version of the English word"
+  },
+  {
+   "answer": "fiction",
+   "bb_sha256": "bb6cdb4fb50f06f9d1997a01efffaa53d9a46ea4d7a0b4f7102b248e0d10ec86",
+   "meta": {
+    "length": 7,
+    "rank": 1735,
+    "scrambled": "otcinfi",
+    "word": "fiction"
+   },
+   "question": "The word otcinfi is a scrambled version of the English word"
+  },
+  {
+   "answer": "citation",
+   "bb_sha256": "bec8b60d634f79f5a83bbabdd22e6e223c6231b66587272d9207b85c100d2d0d",
+   "meta": {
+    "length": 8,
+    "rank": 6267,
+    "scrambled": "toaitcni",
+    "word": "citation"
+   },
+   "question": "The word toaitcni is a scrambled version of the English word"
+  },
+  {
+   "answer": "adrian",
+   "bb_sha256": "e9894cb100be22b4c61680c25b3dbbbf592590a679c19b13cd8a27ec2c0a1173",
+   "meta": {
+    "length": 6,
+    "rank": 9267,
+    "scrambled": "adanir",
+    "word": "adrian"
+   },
+   "question": "The word adanir is a scrambled version of the English word"
+  },
+  {
+   "answer": "trailer",
+   "bb_sha256": "f6d44b0923cd6b5b993049b57646db74745106166f8df2955a7f243fed81c5f9",
+   "meta": {
+    "length": 7,
+    "rank": 3903,
+    "scrambled": "iarltre",
+    "word": "trailer"
+   },
+   "question": "The word iarltre is a scrambled version of the English word"
+  },
+  {
+   "answer": "heritage",
+   "bb_sha256": "f023283089ec68a0cdf5f2eb9f84cd066bbac1f3bee7dcc93569fd1f898889fb",
+   "meta": {
+    "length": 8,
+    "rank": 3120,
+    "scrambled": "irtahgee",
+    "word": "heritage"
+   },
+   "question": "The word irtahgee is a scrambled version of the English word"
+  },
+  {
+   "answer": "owners",
+   "bb_sha256": "2b79fc6fbadad3d618f56178fe62672e2ef842e33dd4a0c51f2709bfb0e428d5",
+   "meta": {
+    "length": 6,
+    "rank": 1350,
+    "scrambled": "sworne",
+    "word": "owners"
+   },
+   "question": "The word sworne is a scrambled version of the English word"
+  },
+  {
+   "answer": "serious",
+   "bb_sha256": "fea93a82ed2be337daa85b5f8820b4e7f4b9ce79d3899d3981f38768fefb17a3",
+   "meta": {
+    "length": 7,
+    "rank": 2107,
+    "scrambled": "usseiro",
+    "word": "serious"
+   },
+   "question": "The word usseiro is a scrambled version of the English word"
+  },
+  {
+   "answer": "studying",
+   "bb_sha256": "b23875bfcc0f704003dcc857413a313ed2c88a57cd44af16a026573cf016ef15",
+   "meta": {
+    "length": 8,
+    "rank": 6281,
+    "scrambled": "sdgyunit",
+    "word": "studying"
+   },
+   "question": "The word sdgyunit is a scrambled version of the English word"
+  },
+  {
+   "answer": "looked",
+   "bb_sha256": "ed439b24396b0143cb29f175b76b758353bb66967a55316d3bbbdd3ddd33746f",
+   "meta": {
+    "length": 6,
+    "rank": 2488,
+    "scrambled": "keoodl",
+    "word": "looked"
+   },
+   "question": "The word keoodl is a scrambled version of the English word"
+  },
+  {
+   "answer": "inquire",
+   "bb_sha256": "b8adeecac7d3a1cb818f37593198559bd85db6eb82a0c5f9024723368c21fb4d",
+   "meta": {
+    "length": 7,
+    "rank": 8951,
+    "scrambled": "qunieri",
+    "word": "inquire"
+   },
+   "question": "The word qunieri is a scrambled version of the English word"
+  },
+  {
+   "answer": "traveler",
+   "bb_sha256": "dd00e84db25ed93be8b6b1428859c7f8f2d1f9b13e81771399499fe069453619",
+   "meta": {
+    "length": 8,
+    "rank": 4778,
+    "scrambled": "evtearrl",
+    "word": "traveler"
+   },
+   "question": "The word evtearrl is a scrambled version of the English word"
+  },
+  {
+   "answer": "basket",
+   "bb_sha256": "2c5dd70a985ed876b880b20f80a873473961f35f0c989c2824a956b883400f51",
+   "meta": {
+    "length": 6,
+    "rank": 1823,
+    "scrambled": "ksateb",
+    "word": "basket"
+   },
+   "question": "The word ksateb is a scrambled version of the English word"
+  },
+  {
+   "answer": "brother",
+   "bb_sha256": "6a76830e8761a81f1bdd2fd0b2d7669b3c53c3b4a697f6cc61b0010e066ae730",
+   "meta": {
+    "length": 7,
+    "rank": 2348,
+    "scrambled": "errobth",
+    "word": "brother"
+   },
+   "question": "The word errobth is a scrambled version of the English word"
+  },
+  {
+   "answer": "reseller",
+   "bb_sha256": "524e322ba674722736a0db2330dbc65986fcfbb9535c076ff139b478d5dab3f1",
+   "meta": {
+    "length": 8,
+    "rank": 7205,
+    "scrambled": "lrlseere",
+    "word": "reseller"
+   },
+   "question": "The word lrlseere is a scrambled version of the English word"
+  },
+  {
+   "answer": "saturn",
+   "bb_sha256": "cc985fea262c818e700085eefad3fb6d4918835aada7138d591279cd2ed0c7f4",
+   "meta": {
+    "length": 6,
+    "rank": 8492,
+    "scrambled": "uanrst",
+    "word": "saturn"
+   },
+   "question": "The word uanrst is a scrambled version of the English word"
+  },
+  {
+   "answer": "michael",
+   "bb_sha256": "5598a77e38d9dd4664c6b4d7f77bd884972104c64a15a22a390362f93791c580",
+   "meta": {
+    "length": 7,
+    "rank": 926,
+    "scrambled": "hmeialc",
+    "word": "michael"
+   },
+   "question": "The word hmeialc is a scrambled version of the English word"
+  },
+  {
+   "answer": "injuries",
+   "bb_sha256": "f459c8ee40cc7c16c8ee87c55c83f140475789663c71d33b285609c8a99442a2",
+   "meta": {
+    "length": 8,
+    "rank": 4142,
+    "scrambled": "sjiinuer",
+    "word": "injuries"
+   },
+   "question": "The word sjiinuer is a scrambled version of the English word"
+  },
+  {
+   "answer": "adding",
+   "bb_sha256": "5e6d4e77fc1b1d28e4218901dfa0b8203ec3ff53996b604aab84a06157848d4f",
+   "meta": {
+    "length": 6,
+    "rank": 2911,
+    "scrambled": "ddngai",
+    "word": "adding"
+   },
+   "question": "The word ddngai is a scrambled version of the English word"
+  },
+  {
+   "answer": "village",
+   "bb_sha256": "743575047179a16f16dff3a0a3cd6a8cf72ad014a0db8eeca97a21b29e37a913",
+   "meta": {
+    "length": 7,
+    "rank": 1933,
+    "scrambled": "liaelvg",
+    "word": "village"
+   },
+   "question": "The word liaelvg is a scrambled version of the English word"
+  },
+  {
+   "answer": "standard",
+   "bb_sha256": "7b6613e39c3ed6e7bb850492f37ead65f441583f46b32830b2f22997aabbfc38",
+   "meta": {
+    "length": 8,
+    "rank": 530,
+    "scrambled": "dsartdan",
+    "word": "standard"
+   },
+   "question": "The word dsartdan is a scrambled version of the English word"
+  },
+  {
+   "answer": "wishes",
+   "bb_sha256": "f0ea9a8d7d80ebeb5247bc72c6613b77c248be78305c8415b0377961f44cd9a9",
+   "meta": {
+    "length": 6,
+    "rank": 6068,
+    "scrambled": "hswesi",
+    "word": "wishes"
+   },
+   "question": "The word hswesi is a scrambled version of the English word"
+  },
+  {
+   "answer": "durable",
+   "bb_sha256": "dd903dc0878fccf81c1c240fc5ab49b7b33bf6908d29ae57afc45825881da84a",
+   "meta": {
+    "length": 7,
+    "rank": 7635,
+    "scrambled": "dalebur",
+    "word": "durable"
+   },
+   "question": "The word dalebur is a scrambled version of the English word"
+  },
+  {
+   "answer": "recorder",
+   "bb_sha256": "e081be860ea9b37894490cc852fb37d6fc9210a54f626b97f16288c85eae889b",
+   "meta": {
+    "length": 8,
+    "rank": 4966,
+    "scrambled": "rrdoreec",
+    "word": "recorder"
+   },
+   "question": "The word rrdoreec is a scrambled version of the English word"
+  },
+  {
+   "answer": "russia",
+   "bb_sha256": "9854cff6d32be37bba24518fbcdc18f174bcfb846c488eaa4909d59398a1b70a",
+   "meta": {
+    "length": 6,
+    "rank": 2331,
+    "scrambled": "risuas",
+    "word": "russia"
+   },
+   "question": "The word risuas is a scrambled version of the English word"
+  },
+  {
+   "answer": "promise",
+   "bb_sha256": "9cbf09af14cf4daafea464bf41db0b85a388d637b9126e37de37aa2bdbfef300",
+   "meta": {
+    "length": 7,
+    "rank": 4348,
+    "scrambled": "proemis",
+    "word": "promise"
+   },
+   "question": "The word proemis is a scrambled version of the English word"
+  },
+  {
+   "answer": "bedrooms",
+   "bb_sha256": "6f60fef79fdc26473e023920ea661af8cea5458a8e8d3853982affaf49ae51d2",
+   "meta": {
+    "length": 8,
+    "rank": 4457,
+    "scrambled": "sbeomrdo",
+    "word": "bedrooms"
+   },
+   "question": "The word sbeomrdo is a scrambled version of the English word"
+  },
+  {
+   "answer": "cursor",
+   "bb_sha256": "080a6b0f7dc415dc833dfee5c46388e95d965fe0ad871f41034efe190175da6c",
+   "meta": {
+    "length": 6,
+    "rank": 9912,
+    "scrambled": "orrscu",
+    "word": "cursor"
+   },
+   "question": "The word orrscu is a scrambled version of the English word"
+  },
+  {
+   "answer": "surgeon",
+   "bb_sha256": "a65211f636dbd7f6a47c74cb4a6324141cb9f4a899d5b6676b1172f421722bd0",
+   "meta": {
+    "length": 7,
+    "rank": 9631,
+    "scrambled": "eogsunr",
+    "word": "surgeon"
+   },
+   "question": "The word eogsunr is a scrambled version of the English word"
+  },
+  {
+   "answer": "revision",
+   "bb_sha256": "794e0a49166cbb1219abda4c51b8b1cec0255cd7a5c6c329e89ee60970e09545",
+   "meta": {
+    "length": 8,
+    "rank": 2941,
+    "scrambled": "snievori",
+    "word": "revision"
+   },
+   "question": "The word snievori is a scrambled version of the English word"
+  },
+  {
+   "answer": "speech",
+   "bb_sha256": "509e1dcebfe499ea5df070693877367f6624bfb79a8055b02840896e5fad8bc7",
+   "meta": {
+    "length": 6,
+    "rank": 2557,
+    "scrambled": "ecehps",
+    "word": "speech"
+   },
+   "question": "The word ecehps is a scrambled version of the English word"
+  },
+  {
+   "answer": "twisted",
+   "bb_sha256": "94d225e6c9e3f06e05d27cb149ec163bcbb3df349617cecd862fac0155c30c7d",
+   "meta": {
+    "length": 7,
+    "rank": 8497,
+    "scrambled": "etiwstd",
+    "word": "twisted"
+   },
+   "question": "The word etiwstd is a scrambled version of the English word"
+  },
+  {
+   "answer": "pakistan",
+   "bb_sha256": "5e465fef388c621ddd8b62df713209734ff2b92204c6b2421679ba5011ef011a",
+   "meta": {
+    "length": 8,
+    "rank": 3637,
+    "scrambled": "ptkniaas",
+    "word": "pakistan"
+   },
+   "question": "The word ptkniaas is a scrambled version of the English word"
+  },
+  {
+   "answer": "myself",
+   "bb_sha256": "203f012316fdabca6d93464fc0664a47cf90f6aa9cb04649f3c0f48a1afc30d4",
+   "meta": {
+    "length": 6,
+    "rank": 2132,
+    "scrambled": "syefml",
+    "word": "myself"
+   },
+   "question": "The word syefml is a scrambled version of the English word"
+  },
+  {
+   "answer": "brandon",
+   "bb_sha256": "a476e054f6afdb4b52c38e8b66c710eadf181a6f61ec321b83bd70046e5828d7",
+   "meta": {
+    "length": 7,
+    "rank": 8241,
+    "scrambled": "dboarnn",
+    "word": "brandon"
+   },
+   "question": "The word dboarnn is a scrambled version of the English word"
+  },
+  {
+   "answer": "released",
+   "bb_sha256": "9e3421c88d87cd7df8fba4e674265ee77009428c3764e89cd78d94650beff901",
+   "meta": {
+    "length": 8,
+    "rank": 1571,
+    "scrambled": "eelserad",
+    "word": "released"
+   },
+   "question": "The word eelserad is a scrambled version of the English word"
+  },
+  {
+   "answer": "emails",
+   "bb_sha256": "6f4a1f4271e0f6d90b5c3cce4183da7ae7c889f76c79f9b8f25b26e1691a28a1",
+   "meta": {
+    "length": 6,
+    "rank": 4992,
+    "scrambled": "imelsa",
+    "word": "emails"
+   },
+   "question": "The word imelsa is a scrambled version of the English word"
+  },
+  {
+   "answer": "linking",
+   "bb_sha256": "944b5316f3ba23ec385ff93319d841278212fb7f06661b36d92d9e781bb45088",
+   "meta": {
+    "length": 7,
+    "rank": 5230,
+    "scrambled": "klginni",
+    "word": "linking"
+   },
+   "question": "The word klginni is a scrambled version of the English word"
+  },
+  {
+   "answer": "portugal",
+   "bb_sha256": "43fc764935213c0082a28031de08facb57ac3b3b27276e2c404e863a6beb1535",
+   "meta": {
+    "length": 8,
+    "rank": 4076,
+    "scrambled": "patolgur",
+    "word": "portugal"
+   },
+   "question": "The word patolgur is a scrambled version of the English word"
+  },
+  {
+   "answer": "around",
+   "bb_sha256": "21fde511d2b9082010b15d24458d1086287cf60b5d1af4e0c77e22efaca54b4e",
+   "meta": {
+    "length": 6,
+    "rank": 426,
+    "scrambled": "aundro",
+    "word": "around"
+   },
+   "question": "The word aundro is a scrambled version of the English word"
+  },
+  {
+   "answer": "between",
+   "bb_sha256": "a0044afe986dd8bc7df395c31fbe89d9deeaf0561770b4ac1a93729b8004e11f",
+   "meta": {
+    "length": 7,
+    "rank": 260,
+    "scrambled": "wneebte",
+    "word": "between"
+   },
+   "question": "The word wneebte is a scrambled version of the English word"
+  },
+  {
+   "answer": "necklace",
+   "bb_sha256": "2cc85d216e82b341cf3b390eff9c675b9c9a92b40538abf44cdc20e851060b10",
+   "meta": {
+    "length": 8,
+    "rank": 6411,
+    "scrambled": "ecaklcen",
+    "word": "necklace"
+   },
+   "question": "The word ecaklcen is a scrambled version of the English word"
+  },
+  {
+   "answer": "celebs",
+   "bb_sha256": "9e80e7e01ed3a7e74582921b954650fc69795614569fda95ff517be4fe738f23",
+   "meta": {
+    "length": 6,
+    "rank": 8652,
+    "scrambled": "ecebsl",
+    "word": "celebs"
+   },
+   "question": "The word ecebsl is a scrambled version of the English word"
+  },
+  {
+   "answer": "improve",
+   "bb_sha256": "e0d401b2be18d02f78bfe91f717c46d867497928e6d06150ac259a45c53d34d2",
+   "meta": {
+    "length": 7,
+    "rank": 1326,
+    "scrambled": "merovip",
+    "word": "improve"
+   },
+   "question": "The word merovip is a scrambled version of the English word"
+  },
+  {
+   "answer": "channels",
+   "bb_sha256": "6cabc826a59a3ea123a443ea1127723bd6c319679e141c9fa0303ec2376c6820",
+   "meta": {
+    "length": 8,
+    "rank": 3262,
+    "scrambled": "lnchnaes",
+    "word": "channels"
+   },
+   "question": "The word lnchnaes is a scrambled version of the English word"
+  },
+  {
+   "answer": "newman",
+   "bb_sha256": "f86cd362469e23d3702408af992e5b959cf4d22b05e1b7de4481a2a822ff87d3",
+   "meta": {
+    "length": 6,
+    "rank": 9978,
+    "scrambled": "meanwn",
+    "word": "newman"
+   },
+   "question": "The word meanwn is a scrambled version of the English word"
+  },
+  {
+   "answer": "folding",
+   "bb_sha256": "e0bb5c6af80f351ecc46ee7e25988c4f5ac89fa30ecbff5de6474ac38da068e3",
+   "meta": {
+    "length": 7,
+    "rank": 7878,
+    "scrambled": "flgodin",
+    "word": "folding"
+   },
+   "question": "The word flgodin is a scrambled version of the English word"
+  },
+  {
+   "answer": "advanced",
+   "bb_sha256": "b1b7d0ea3629ad4b1e90b4e286daebe62b58cf3164c0d953e99826358547b54c",
+   "meta": {
+    "length": 8,
+    "rank": 443,
+    "scrambled": "vdadncea",
+    "word": "advanced"
+   },
+   "question": "The word vdadncea is a scrambled version of the English word"
+  },
+  {
+   "answer": "become",
+   "bb_sha256": "dd6828169c56f80d7fe02aa90013f1fe45ce85f12c5edfff64fc7f42ba89a945",
+   "meta": {
+    "length": 6,
+    "rank": 652,
+    "scrambled": "oeecbm",
+    "word": "become"
+   },
+   "question": "The word oeecbm is a scrambled version of the English word"
+  },
+  {
+   "answer": "ecuador",
+   "bb_sha256": "9e5d200d92684de8553296b9a798b3a4fa7a71ae412583fbc8f31adcf937c2c2",
+   "meta": {
+    "length": 7,
+    "rank": 6796,
+    "scrambled": "cuaredo",
+    "word": "ecuador"
+   },
+   "question": "The word cuaredo is a scrambled version of the English word"
+  },
+  {
+   "answer": "referral",
+   "bb_sha256": "ebee25634ea3e22eefbf6e06da12c1ea2c17ae81401c882a61a74e7e3ccf46ad",
+   "meta": {
+    "length": 8,
+    "rank": 6023,
+    "scrambled": "areerfrl",
+    "word": "referral"
+   },
+   "question": "The word areerfrl is a scrambled version of the English word"
+  },
+  {
+   "answer": "policy",
+   "bb_sha256": "e8caf60a8ecb71a830e039d2786435ece9cc03a8422372871b5400dcc3bf6d0d",
+   "meta": {
+    "length": 6,
+    "rank": 142,
+    "scrambled": "ylicpo",
+    "word": "policy"
+   },
+   "question": "The word ylicpo is a scrambled version of the English word"
+  },
+  {
+   "answer": "patents",
+   "bb_sha256": "5bf36c22c4ed4e2bdf68e0042fd553375fa35eeee460f838b28ea0e2ff9be432",
+   "meta": {
+    "length": 7,
+    "rank": 6863,
+    "scrambled": "tnaespt",
+    "word": "patents"
+   },
+   "question": "The word tnaespt is a scrambled version of the English word"
+  },
+  {
+   "answer": "decision",
+   "bb_sha256": "a19540bfb4586b7594a71ee7b6a5c6e8ab6daaa32d6071b9a06d10b605da0d68",
+   "meta": {
+    "length": 8,
+    "rank": 1128,
+    "scrambled": "ndeiocis",
+    "word": "decision"
+   },
+   "question": "The word ndeiocis is a scrambled version of the English word"
+  },
+  {
+   "answer": "hearts",
+   "bb_sha256": "def2537e2db96e817c0a2e2e7b8dddca93e01950373ffd3bce12ed6252e345f6",
+   "meta": {
+    "length": 6,
+    "rank": 5001,
+    "scrambled": "sehatr",
+    "word": "hearts"
+   },
+   "question": "The word sehatr is a scrambled version of the English word"
+  },
+  {
+   "answer": "winners",
+   "bb_sha256": "e51d7e4a48cc4b7bc3a0564ae416dd1de11251230bb86e4bf365a19e94fb89dc",
+   "meta": {
+    "length": 7,
+    "rank": 4531,
+    "scrambled": "iswrnen",
+    "word": "winners"
+   },
+   "question": "The word iswrnen is a scrambled version of the English word"
+  },
+  {
+   "answer": "montreal",
+   "bb_sha256": "ff4b6e918d271e3ff21302064eeb56fe5cd228c45fa22d38f559d89ad88a706a",
+   "meta": {
+    "length": 8,
+    "rank": 5303,
+    "scrambled": "rolmeant",
+    "word": "montreal"
+   },
+   "question": "The word rolmeant is a scrambled version of the English word"
+  },
+  {
+   "answer": "simple",
+   "bb_sha256": "3f4fb0a15557f80db43ace79bb2b264c6e7ccc00c81acc5447bb2819b60afc61",
+   "meta": {
+    "length": 6,
+    "rank": 933,
+    "scrambled": "smlepi",
+    "word": "simple"
+   },
+   "question": "The word smlepi is a scrambled version of the English word"
+  },
+  {
+   "answer": "cruises",
+   "bb_sha256": "709c81c13bea51eeb78e8e866717f4f06e822ff1be16196f1835279213299da0",
+   "meta": {
+    "length": 7,
+    "rank": 4068,
+    "scrambled": "euiscsr",
+    "word": "cruises"
+   },
+   "question": "The word euiscsr is a scrambled version of the English word"
+  },
+  {
+   "answer": "workflow",
+   "bb_sha256": "c46b8f9b221f4cbe9491d19c5d6eaa00c470518a080697bf91ea0729431fb36d",
+   "meta": {
+    "length": 8,
+    "rank": 9734,
+    "scrambled": "orflwkwo",
+    "word": "workflow"
+   },
+   "question": "The word orflwkwo is a scrambled version of the English word"
+  },
+  {
+   "answer": "layout",
+   "bb_sha256": "7944a0d9d78e860d3b58f1e9f26a0204fd11ff7597b73b13beea050c4b5a8db0",
+   "meta": {
+    "length": 6,
+    "rank": 4318,
+    "scrambled": "utaoyl",
+    "word": "layout"
+   },
+   "question": "The word utaoyl is a scrambled version of the English word"
+  },
+  {
+   "answer": "greater",
+   "bb_sha256": "ff6ab9fe8f81149a43bf28a586db0096dd857fa93c3eba31b58040f7987e9736",
+   "meta": {
+    "length": 7,
+    "rank": 1480,
+    "scrambled": "rrtagee",
+    "word": "greater"
+   },
+   "question": "The word rrtagee is a scrambled version of the English word"
+  },
+  {
+   "answer": "products",
+   "bb_sha256": "f2a5d6b74e161a6c1e40dc4ace901db6b2b5a078cf53abc1813907ae3972a754",
+   "meta": {
+    "length": 8,
+    "rank": 128,
+    "scrambled": "optucrds",
+    "word": "products"
+   },
+   "question": "The word optucrds is a scrambled version of the English word"
+  },
+  {
+   "answer": "tested",
+   "bb_sha256": "2ea4b017b1ed5290aeaab8e9385b446934bd89274492652576c6f2da563687d3",
+   "meta": {
+    "length": 6,
+    "rank": 3397,
+    "scrambled": "estdet",
+    "word": "tested"
+   },
+   "question": "The word estdet is a scrambled version of the English word"
+  },
+  {
+   "answer": "worship",
+   "bb_sha256": "515ec555a96d2034180e8eb37abb7407eac38f87acfb0c85221d7c0f3e9080a8",
+   "meta": {
+    "length": 7,
+    "rank": 4940,
+    "scrambled": "orhpswi",
+    "word": "worship"
+   },
+   "question": "The word orhpswi is a scrambled version of the English word"
+  },
+  {
+   "answer": "starring",
+   "bb_sha256": "0418fcb824d28cc24f8f71a343f2ac9fd6ce7487b17f6f3f8fa80967fd286374",
+   "meta": {
+    "length": 8,
+    "rank": 6022,
+    "scrambled": "iantgsrr",
+    "word": "starring"
+   },
+   "question": "The word iantgsrr is a scrambled version of the English word"
+  },
+  {
+   "answer": "clause",
+   "bb_sha256": "ec4f1a66398645e24c2ee83424286d351253e45aa83044869cfca3b2859138e6",
+   "meta": {
+    "length": 6,
+    "rank": 4841,
+    "scrambled": "clsuea",
+    "word": "clause"
+   },
+   "question": "The word clsuea is a scrambled version of the English word"
+  },
+  {
+   "answer": "inquiry",
+   "bb_sha256": "a7fbc4dd4a702d4ae99f6db15fb996ddd5cfb7469bd893368394abdd088bd14e",
+   "meta": {
+    "length": 7,
+    "rank": 4400,
+    "scrambled": "qnuyiir",
+    "word": "inquiry"
+   },
+   "question": "The word qnuyiir is a scrambled version of the English word"
+  },
+  {
+   "answer": "registry",
+   "bb_sha256": "d1dbce26bd6153d770facf628e0ab09f5c075c077e9c44176b38264b64207b59",
+   "meta": {
+    "length": 8,
+    "rank": 3751,
+    "scrambled": "ysergtir",
+    "word": "registry"
+   },
+   "question": "The word ysergtir is a scrambled version of the English word"
+  },
+  {
+   "answer": "wheels",
+   "bb_sha256": "629985883918239c78311dba243b29dd4e544199a7f3407dda763bc7596910d6",
+   "meta": {
+    "length": 6,
+    "rank": 3821,
+    "scrambled": "selwhe",
+    "word": "wheels"
+   },
+   "question": "The word selwhe is a scrambled version of the English word"
+  },
+  {
+   "answer": "systems",
+   "bb_sha256": "e6a96a8068813782003280de428ba71bf7a3c1d49a18ea7217083026ca764b59",
+   "meta": {
+    "length": 7,
+    "rank": 313,
+    "scrambled": "tssemsy",
+    "word": "systems"
+   },
+   "question": "The word tssemsy is a scrambled version of the English word"
+  },
+  {
+   "answer": "auctions",
+   "bb_sha256": "d579f095f6f2605ec2271c2281f699d34b237bb262d29bdd687a2bea8fcc0835",
+   "meta": {
+    "length": 8,
+    "rank": 2099,
+    "scrambled": "sucoinat",
+    "word": "auctions"
+   },
+   "question": "The word sucoinat is a scrambled version of the English word"
+  },
+  {
+   "answer": "future",
+   "bb_sha256": "5b6940a29bef3cd310651738cb504f7b10e9413083253a2d7f70ad12e099b213",
+   "meta": {
+    "length": 6,
+    "rank": 641,
+    "scrambled": "turefu",
+    "word": "future"
+   },
+   "question": "The word turefu is a scrambled version of the English word"
+  },
+  {
+   "answer": "handles",
+   "bb_sha256": "0cb9ad3d59e26b7b9b59b368157e573b268b0326801ca9ae52bb6687221b97f6",
+   "meta": {
+    "length": 7,
+    "rank": 7420,
+    "scrambled": "sanelhd",
+    "word": "handles"
+   },
+   "question": "The word sanelhd is a scrambled version of the English word"
+  },
+  {
+   "answer": "earliest",
+   "bb_sha256": "cb09101769ed1570b6e0337898aefde3321a21b9def155ce0962be4c46a3e900",
+   "meta": {
+    "length": 8,
+    "rank": 9914,
+    "scrambled": "ltsiaree",
+    "word": "earliest"
+   },
+   "question": "The word ltsiaree is a scrambled version of the English word"
+  },
+  {
+   "answer": "dental",
+   "bb_sha256": "93dc8c382bcc082b79eb5a5eb822f86e6bbb9e80d6733b20913c5f5184210233",
+   "meta": {
+    "length": 6,
+    "rank": 3280,
+    "scrambled": "atdlen",
+    "word": "dental"
+   },
+   "question": "The word atdlen is a scrambled version of the English word"
+  },
+  {
+   "answer": "stopped",
+   "bb_sha256": "499180ba484a0be7161b8133a5abef383f0b732f30053eaa13c69ba99015d44d",
+   "meta": {
+    "length": 7,
+    "rank": 4577,
+    "scrambled": "podsept",
+    "word": "stopped"
+   },
+   "question": "The word podsept is a scrambled version of the English word"
+  },
+  {
+   "answer": "vibrator",
+   "bb_sha256": "a6164d9596765bd9a43f1e109f38106f229d3b57f7e6d72f27ed4259584ac057",
+   "meta": {
+    "length": 8,
+    "rank": 6753,
+    "scrambled": "rtbroiva",
+    "word": "vibrator"
+   },
+   "question": "The word rtbroiva is a scrambled version of the English word"
+  },
+  {
+   "answer": "trader",
+   "bb_sha256": "bdba9415a6c73d292c582c43526dadc59a6e3e77efc4812addecd9abb8343238",
+   "meta": {
+    "length": 6,
+    "rank": 8754,
+    "scrambled": "aretrd",
+    "word": "trader"
+   },
+   "question": "The word aretrd is a scrambled version of the English word"
+  },
+  {
+   "answer": "belarus",
+   "bb_sha256": "4cb207140c338bcc6f071fd6578ce8f766e73d1b6842bdcd784509a76b65987f",
+   "meta": {
+    "length": 7,
+    "rank": 7794,
+    "scrambled": "eaurlsb",
+    "word": "belarus"
+   },
+   "question": "The word eaurlsb is a scrambled version of the English word"
+  },
+  {
+   "answer": "sequence",
+   "bb_sha256": "48ed540ecca8a68fa4c00d2eeec321edb84668974fa1ead41d96d506b70c70f6",
+   "meta": {
+    "length": 8,
+    "rank": 2260,
+    "scrambled": "eqecusen",
+    "word": "sequence"
+   },
+   "question": "The word eqecusen is a scrambled version of the English word"
+  },
+  {
+   "answer": "monaco",
+   "bb_sha256": "e4188f5ca3e1c9f526bea69745adf3542db73c96f80eb0fde09dee907a24d1da",
+   "meta": {
+    "length": 6,
+    "rank": 7876,
+    "scrambled": "ocmona",
+    "word": "monaco"
+   },
+   "question": "The word ocmona is a scrambled version of the English word"
+  },
+  {
+   "answer": "typical",
+   "bb_sha256": "7fe7918eaaecb1bffa4d22efb80cc95f3990238d32b69dd2a18f5dbdf53ef127",
+   "meta": {
+    "length": 7,
+    "rank": 3598,
+    "scrambled": "cpyatil",
+    "word": "typical"
+   },
+   "question": "The word cpyatil is a scrambled version of the English word"
+  },
+  {
+   "answer": "deutsche",
+   "bb_sha256": "6658abf853546a5702f01ad3a83fa9a8aca9816467c8d547df09f19f9821681b",
+   "meta": {
+    "length": 8,
+    "rank": 8532,
+    "scrambled": "hetucesd",
+    "word": "deutsche"
+   },
+   "question": "The word hetucesd is a scrambled version of the English word"
+  },
+  {
+   "answer": "magnet",
+   "bb_sha256": "d7792de5beadf28c4766cf6e9af8ab81d8c7c109e5f3963300c413c14b14f62d",
+   "meta": {
+    "length": 6,
+    "rank": 8263,
+    "scrambled": "eamntg",
+    "word": "magnet"
+   },
+   "question": "The word eamntg is a scrambled version of the English word"
+  },
+  {
+   "answer": "usually",
+   "bb_sha256": "477bde340cd8770893ced0800b691950faeb9492c71a47fe0ecb960476a53170",
+   "meta": {
+    "length": 7,
+    "rank": 847,
+    "scrambled": "sullyau",
+    "word": "usually"
+   },
+   "question": "The word sullyau is a scrambled version of the English word"
+  },
+  {
+   "answer": "atlantic",
+   "bb_sha256": "3c56ee1050d6cc4cceedf5f585a9b0310125cae80d9d16464f759bc8fa7d9724",
+   "meta": {
+    "length": 8,
+    "rank": 3207,
+    "scrambled": "alnticat",
+    "word": "atlantic"
+   },
+   "question": "The word alnticat is a scrambled version of the English word"
+  },
+  {
+   "answer": "knives",
+   "bb_sha256": "a653f55a127d0870ea329b944838e87689f8cd8cc5b57b0af6f6aea9304303b9",
+   "meta": {
+    "length": 6,
+    "rank": 7472,
+    "scrambled": "kenivs",
+    "word": "knives"
+   },
+   "question": "The word kenivs is a scrambled version of the English word"
+  },
+  {
+   "answer": "forever",
+   "bb_sha256": "b01df07dfff96cb3582bd8e8852a201f78b083b06d9c402f2da30d0e5a86c6d7",
+   "meta": {
+    "length": 7,
+    "rank": 4085,
+    "scrambled": "evrefor",
+    "word": "forever"
+   },
+   "question": "The word evrefor is a scrambled version of the English word"
+  },
+  {
+   "answer": "memories",
+   "bb_sha256": "1a8221020f86bbb91fe0e5c7508970b1de742c9dbe227eb6a3d48523112d4274",
+   "meta": {
+    "length": 8,
+    "rank": 4543,
+    "scrambled": "eirsomme",
+    "word": "memories"
+   },
+   "question": "The word eirsomme is a scrambled version of the English word"
+  },
+  {
+   "answer": "wonder",
+   "bb_sha256": "1c6e46e36ee95f312ada8fe7c3c5e49e668d7e355ccee09afd0266484d8d76c7",
+   "meta": {
+    "length": 6,
+    "rank": 3339,
+    "scrambled": "wdoern",
+    "word": "wonder"
+   },
+   "question": "The word wdoern is a scrambled version of the English word"
+  },
+  {
+   "answer": "russell",
+   "bb_sha256": "254d86964fdadd0ae0db8858f11eaed361835414c0a11263b4b02dad13c30070",
+   "meta": {
+    "length": 7,
+    "rank": 4448,
+    "scrambled": "elrsusl",
+    "word": "russell"
+   },
+   "question": "The word elrsusl is a scrambled version of the English word"
+  },
+  {
+   "answer": "ethernet",
+   "bb_sha256": "32251cfbd1c23497670f87a4485c33af8069c116d5b94949b9909a39b0d81382",
+   "meta": {
+    "length": 8,
+    "rank": 4401,
+    "scrambled": "rehenett",
+    "word": "ethernet"
+   },
+   "question": "The word rehenett is a scrambled version of the English word"
+  },
+  {
+   "answer": "speaks",
+   "bb_sha256": "30bbfbee046574aac17d31d1d915029b3ea3047c0632ea1a05b110d10a48574e",
+   "meta": {
+    "length": 6,
+    "rank": 7396,
+    "scrambled": "kasesp",
+    "word": "speaks"
+   },
+   "question": "The word kasesp is a scrambled version of the English word"
+  },
+  {
+   "answer": "pioneer",
+   "bb_sha256": "e4c4d17c3f09f22d1c01e5b65bc6245bfa8cfa8c6ec4bda5158c2ddc0bc9e323",
+   "meta": {
+    "length": 7,
+    "rank": 4749,
+    "scrambled": "pnoiree",
+    "word": "pioneer"
+   },
+   "question": "The word pnoiree is a scrambled version of the English word"
+  },
+  {
+   "answer": "cemetery",
+   "bb_sha256": "0907be85a5f8b580bd4ab09b77cd7f88903695e8bd0e5df0580c8d207f655137",
+   "meta": {
+    "length": 8,
+    "rank": 5823,
+    "scrambled": "teeyrmce",
+    "word": "cemetery"
+   },
+   "question": "The word teeyrmce is a scrambled version of the English word"
+  },
+  {
+   "answer": "banned",
+   "bb_sha256": "7df5f6d731c5f600922ffbc65dd180c5cae16b83f6802748307c2a60e5cd478f",
+   "meta": {
+    "length": 6,
+    "rank": 9055,
+    "scrambled": "ebnand",
+    "word": "banned"
+   },
+   "question": "The word ebnand is a scrambled version of the English word"
+  },
+  {
+   "answer": "austria",
+   "bb_sha256": "cc22cd572521c0d83b694df85d98cb6da235f59b9094fa6662e67060abecec58",
+   "meta": {
+    "length": 7,
+    "rank": 2799,
+    "scrambled": "aurasit",
+    "word": "austria"
+   },
+   "question": "The word aurasit is a scrambled version of the English word"
+  },
+  {
+   "answer": "ordinary",
+   "bb_sha256": "1bb426d9b799d5cca11c3ef9f2487f5578b983e2b7cdfb3d7d17f8040f444cdf",
+   "meta": {
+    "length": 8,
+    "rank": 4690,
+    "scrambled": "rirynaod",
+    "word": "ordinary"
+   },
+   "question": "The word rirynaod is a scrambled version of the English word"
+  },
+  {
+   "answer": "spring",
+   "bb_sha256": "6360004f41b814706fa00eaf7e50ccb90f9b836af6e4e8b5c8037dfc92e7b9b7",
+   "meta": {
+    "length": 6,
+    "rank": 1249,
+    "scrambled": "gpinsr",
+    "word": "spring"
+   },
+   "question": "The word gpinsr is a scrambled version of the English word"
+  },
+  {
+   "answer": "helping",
+   "bb_sha256": "60edea1c602d15df279323d85e53202d6df768a4adc8b475cb06cf771f394baa",
+   "meta": {
+    "length": 7,
+    "rank": 3151,
+    "scrambled": "pnielhg",
+    "word": "helping"
+   },
+   "question": "The word pnielhg is a scrambled version of the English word"
+  },
+  {
+   "answer": "synopsis",
+   "bb_sha256": "8ff58b40e546aa7f36a6af557e6504f1775f7f65e640316f4391573c7f0ec754",
+   "meta": {
+    "length": 8,
+    "rank": 6786,
+    "scrambled": "oyinpsss",
+    "word": "synopsis"
+   },
+   "question": "The word oyinpsss is a scrambled version of the English word"
+  },
+  {
+   "answer": "towers",
+   "bb_sha256": "51a650f1e29d2fe2230c0e50f7f5162f70b8f3b813af58e133ecbfc45a609c96",
+   "meta": {
+    "length": 6,
+    "rank": 7680,
+    "scrambled": "wotsre",
+    "word": "towers"
+   },
+   "question": "The word wotsre is a scrambled version of the English word"
+  },
+  {
+   "answer": "tension",
+   "bb_sha256": "ad84d8aab0ca969345b34740fc4f592af89c99faa4382acf7c38c20a85cb04c6",
+   "meta": {
+    "length": 7,
+    "rank": 7946,
+    "scrambled": "esninot",
+    "word": "tension"
+   },
+   "question": "The word esninot is a scrambled version of the English word"
+  },
+  {
+   "answer": "describe",
+   "bb_sha256": "62da7812761053e4f32c43e25bb7ba9068f23f41d607f9563d5393dc68245459",
+   "meta": {
+    "length": 8,
+    "rank": 3114,
+    "scrambled": "scbdriee",
+    "word": "describe"
+   },
+   "question": "The word scbdriee is a scrambled version of the English word"
+  },
+  {
+   "answer": "update",
+   "bb_sha256": "872f678a1c9b6050ba4a1cfa873db3e4119e9bac94966a3ca99090a6c4692f9d",
+   "meta": {
+    "length": 6,
+    "rank": 796,
+    "scrambled": "putead",
+    "word": "update"
+   },
+   "question": "The word putead is a scrambled version of the English word"
+  },
+  {
+   "answer": "exports",
+   "bb_sha256": "b44d96bccdbc075a4840009d748f6741e030d7452dbf169cf17631e075a42a28",
+   "meta": {
+    "length": 7,
+    "rank": 6585,
+    "scrambled": "tosrxpe",
+    "word": "exports"
+   },
+   "question": "The word tosrxpe is a scrambled version of the English word"
+  },
+  {
+   "answer": "roommate",
+   "bb_sha256": "b990aeeab572bc667628d38dee3f8f429554d2345558d9ebc2f71dfb129091a0",
+   "meta": {
+    "length": 8,
+    "rank": 8463,
+    "scrambled": "romtoaem",
+    "word": "roommate"
+   },
+   "question": "The word romtoaem is a scrambled version of the English word"
+  },
+  {
+   "answer": "excuse",
+   "bb_sha256": "3c6b62187ddc80989298493855faa69f54c9090856935042cf93343e30a052dd",
+   "meta": {
+    "length": 6,
+    "rank": 8557,
+    "scrambled": "eusecx",
+    "word": "excuse"
+   },
+   "question": "The word eusecx is a scrambled version of the English word"
+  },
+  {
+   "answer": "failure",
+   "bb_sha256": "7e5cf955a52c00e82ce2b568a6dd6600e45772c3089ef44087472f65d215b15f",
+   "meta": {
+    "length": 7,
+    "rank": 2278,
+    "scrambled": "efluair",
+    "word": "failure"
+   },
+   "question": "The word efluair is a scrambled version of the English word"
+  },
+  {
+   "answer": "employed",
+   "bb_sha256": "650adca228a0f030e1f818cc0a692c8939d500837f0d0767f44f9a78f83e40db",
+   "meta": {
+    "length": 8,
+    "rank": 3756,
+    "scrambled": "mpyoeled",
+    "word": "employed"
+   },
+   "question": "The word mpyoeled is a scrambled version of the English word"
+  },
+  {
+   "answer": "parade",
+   "bb_sha256": "df9b0d632c908fbc05c18b9ad7430742a562cf196330b3f88130fde19ca28d33",
+   "meta": {
+    "length": 6,
+    "rank": 6903,
+    "scrambled": "edaarp",
+    "word": "parade"
+   },
+   "question": "The word edaarp is a scrambled version of the English word"
+  },
+  {
+   "answer": "develop",
+   "bb_sha256": "c967e1a59ea38db9e388803ee0a8aaf52974d5fea73e550137c9bc0ede6acde3",
+   "meta": {
+    "length": 7,
+    "rank": 1482,
+    "scrambled": "deoepvl",
+    "word": "develop"
+   },
+   "question": "The word deoepvl is a scrambled version of the English word"
+  },
+  {
+   "answer": "scenario",
+   "bb_sha256": "08becac5e119e4a8a430e34c456b220a31e9ee5ad95e40833cc1faa1e9893b85",
+   "meta": {
+    "length": 8,
+    "rank": 6193,
+    "scrambled": "eonarisc",
+    "word": "scenario"
+   },
+   "question": "The word eonarisc is a scrambled version of the English word"
+  },
+  {
+   "answer": "oxford",
+   "bb_sha256": "d37292bca7ecb1720728462dfbf8eddd2f77adc9289bc112cf2ab63e304ef733",
+   "meta": {
+    "length": 6,
+    "rank": 3476,
+    "scrambled": "odorxf",
+    "word": "oxford"
+   },
+   "question": "The word odorxf is a scrambled version of the English word"
+  },
+  {
+   "answer": "entered",
+   "bb_sha256": "284a7d1ad6e37a2f964c12e7a3e59ff65ff7190eec3d7c9d5337bf3f5e807a42",
+   "meta": {
+    "length": 7,
+    "rank": 3228,
+    "scrambled": "tnedree",
+    "word": "entered"
+   },
+   "question": "The word tnedree is a scrambled version of the English word"
+  },
+  {
+   "answer": "nicholas",
+   "bb_sha256": "c794f2ee87d75523fa2fffc805d4cfe6a5dd53ae1dd27d45f39a04345e4acf6a",
+   "meta": {
+    "length": 8,
+    "rank": 7717,
+    "scrambled": "nialchos",
+    "word": "nicholas"
+   },
+   "question": "The word nialchos is a scrambled version of the English word"
+  },
+  {
+   "answer": "pursue",
+   "bb_sha256": "cc2fe631b1dc2618613d549e552f1d5e6fa3eaaf808470d77a483a568f7e25fd",
+   "meta": {
+    "length": 6,
+    "rank": 7546,
+    "scrambled": "speuru",
+    "word": "pursue"
+   },
+   "question": "The word speuru is a scrambled version of the English word"
+  },
+  {
+   "answer": "headers",
+   "bb_sha256": "cd80d3d17c9e9dcfc47676cd55e338ecaab278c3d94222d20d56e4d70d759903",
+   "meta": {
+    "length": 7,
+    "rank": 7219,
+    "scrambled": "resdaeh",
+    "word": "headers"
+   },
+   "question": "The word resdaeh is a scrambled version of the English word"
+  },
+  {
+   "answer": "brothers",
+   "bb_sha256": "6a671379067abad055b6b70e1622b59e643cc222812d7164e0525229ce076677",
+   "meta": {
+    "length": 8,
+    "rank": 3425,
+    "scrambled": "erobhsrt",
+    "word": "brothers"
+   },
+   "question": "The word erobhsrt is a scrambled version of the English word"
+  },
+  {
+   "answer": "brands",
+   "bb_sha256": "25e49861f65156f58a521d8886a0f9a0afcbab08eb836f1fce326b8afab23e01",
+   "meta": {
+    "length": 6,
+    "rank": 1594,
+    "scrambled": "rdsnab",
+    "word": "brands"
+   },
+   "question": "The word rdsnab is a scrambled version of the English word"
+  },
+  {
+   "answer": "product",
+   "bb_sha256": "0efad0270798687ae8866cedeb014ca1f7e4613893a0fabbcd6a5c651944ae44",
+   "meta": {
+    "length": 7,
+    "rank": 135,
+    "scrambled": "rpudcot",
+    "word": "product"
+   },
+   "question": "The word rpudcot is a scrambled version of the English word"
+  },
+  {
+   "answer": "packages",
+   "bb_sha256": "1ef12417a1e0289cd3ade366ec357abf6b7f7935f6e8de5fc292c81d3f7f391f",
+   "meta": {
+    "length": 8,
+    "rank": 1798,
+    "scrambled": "kpsgeaac",
+    "word": "packages"
+   },
+   "question": "The word kpsgeaac is a scrambled version of the English word"
+  },
+  {
+   "answer": "floral",
+   "bb_sha256": "3b3da5260f13fdd1d0f43c59e4440fa303b379476e963cdff6071c9e658e4d3e",
+   "meta": {
+    "length": 6,
+    "rank": 5902,
+    "scrambled": "allofr",
+    "word": "floral"
+   },
+   "question": "The word allofr is a scrambled version of the English word"
+  },
+  {
+   "answer": "resolve",
+   "bb_sha256": "4c402a780a6b7bb02ee436c9e8549e7b96f780f0a858ba8c7091fde8578c26ee",
+   "meta": {
+    "length": 7,
+    "rank": 5981,
+    "scrambled": "lsvreeo",
+    "word": "resolve"
+   },
+   "question": "The word lsvreeo is a scrambled version of the English word"
+  },
+  {
+   "answer": "exposure",
+   "bb_sha256": "9e296305b29b180fd84b9a3b368651cdb8afd2d1fa5206c2bf3c11e81047ef3f",
+   "meta": {
+    "length": 8,
+    "rank": 2878,
+    "scrambled": "euxeopsr",
+    "word": "exposure"
+   },
+   "question": "The word euxeopsr is a scrambled version of the English word"
+  },
+  {
+   "answer": "adults",
+   "bb_sha256": "28785b960d565513e7b14e67277fe0e6a151d6d9fdac0f6accdecdfd70ba5537",
+   "meta": {
+    "length": 6,
+    "rank": 2426,
+    "scrambled": "lsduta",
+    "word": "adults"
+   },
+   "question": "The word lsduta is a scrambled version of the English word"
+  },
+  {
+   "answer": "compete",
+   "bb_sha256": "bc902ea8bd7f5cb81015a5358ccb06ba4b80465ef36393883f73a7a965698239",
+   "meta": {
+    "length": 7,
+    "rank": 6554,
+    "scrambled": "ocptmee",
+    "word": "compete"
+   },
+   "question": "The word ocptmee is a scrambled version of the English word"
+  }
+ ],
+ "n_options": null,
+ "n_redrawn": {
+  "collision": 0,
+  "duplicate": 0,
+  "rejected": 3,
+  "repeated_answer": 39,
+  "shot_answer": 0
+ },
+ "name": "unscramble_long",
+ "provenance": {
+  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "pyfiglet": "1.0.4",
+  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
+ },
+ "rung_type": "string",
+ "seed": 20260902,
+ "shots": [
+  [
+   "The word roirtnie is a scrambled version of the English word",
+   "interior"
+  ],
+  [
+   "The word argahm is a scrambled version of the English word",
+   "graham"
+  ]
+ ],
+ "task": "word_unscrambling",
+ "unique_answers": true,
+ "wei_class": "E.2"
+}

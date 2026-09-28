@@ -1,0 +1,5537 @@
+{
+ "answer_type": "word",
+ "collision_kind": "target",
+ "description": "read a 3-6 letter word drawn in figlet's `bubble` font (the letters appear in the art)",
+ "eval_items": [
+  {
+   "answer": "cho",
+   "bb_sha256": "560c48d6c73e72bde5e58cf4acdf867e2ab1600dbc7f805ec5e901c3d367feb4",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9867,
+    "word": "cho"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.h.|.o.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "wire",
+   "bb_sha256": "9b2abfc29cc47494c87171177c2af369fff9f067fd768f6f58c5d83e5c658507",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2558,
+    "word": "wire"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.w.|.i.|.r.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "elect",
+   "bb_sha256": "a0b92f54e6e7d356f826137bb05b77d1eb29363d4c4ee2b0dec4770e4d6ec532",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9193,
+    "word": "elect"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.e.|.l.|.e.|.c.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "nevada",
+   "bb_sha256": "00e51906df651a7ee922446590f487cff433ec9816aedc44dc49952a05cd16df",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3187,
+    "word": "nevada"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.n.|.e.|.v.|.a.|.d.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cal",
+   "bb_sha256": "f28c5d59eb1307e88ffc2943867931a33eaa9dbd2e246e40e60c1c12139bd960",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5080,
+    "word": "cal"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.a.|.l.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "coin",
+   "bb_sha256": "b3a1984ba0b1d8ad7f9dc881dfd9c9dc78c76c647a7692fbbfd6fcdcb9d9a121",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6131,
+    "word": "coin"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.o.|.i.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "whore",
+   "bb_sha256": "9ae315a94e428a7ee3b5e48adae6541965d93b86acf10ffa1c45b93b6fe577b4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9802,
+    "word": "whore"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.w.|.h.|.o.|.r.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "jackie",
+   "bb_sha256": "ae50ad81a2d4006e372c0bd3220f24c377345455d0e980c3f0d94f0e5faf2561",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9257,
+    "word": "jackie"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.j.|.a.|.c.|.k.|.i.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "web",
+   "bb_sha256": "4b5e57f6eb2f42b9039b3d1e13929295f231749c510cbe341cd68036d9af97e2",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 73,
+    "word": "web"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.w.|.e.|.b.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "wake",
+   "bb_sha256": "51391bf0ab33e8272bcfca0d61b5ab242391822f331fe51ac5930b58da8e5b25",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4774,
+    "word": "wake"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.w.|.a.|.k.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cisco",
+   "bb_sha256": "e73b79a0b10f8cdb6ac7dbe4c0a5e25776e1148784b86cf98f7d6719d472af69",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2838,
+    "word": "cisco"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.i.|.s.|.c.|.o.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "thread",
+   "bb_sha256": "39200d1e8a8dbbb6d7bcea51e02b99f062d32a5f83151e8c5a9fab79576245dd",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 457,
+    "word": "thread"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.t.|.h.|.r.|.e.|.a.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dad",
+   "bb_sha256": "6fe8ecbc1deafa51c2ecf088cf364eba1ceba9032ffbe2621e771b90ea93153d",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4524,
+    "word": "dad"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.a.|.d.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "clay",
+   "bb_sha256": "06363555054de198a87c4c743572dd5113a5fa5d298b9478a30c29ebb9d38b97",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4978,
+    "word": "clay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.l.|.a.|.y.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fifth",
+   "bb_sha256": "1774b8eebdec58c5f11998669e983f81e3d2c1d1a63649113096ddef143a7c2b",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4292,
+    "word": "fifth"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.i.|.f.|.t.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bother",
+   "bb_sha256": "56568d25931009bd526de599fa8be63eb2f3b9df624ac7f3c48ccf1d57f9e0b2",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9936,
+    "word": "bother"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.o.|.t.|.h.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sas",
+   "bb_sha256": "96166e27af5a3c431ffa7247ad4e1b2d488008311887cedc655121565721cbce",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8860,
+    "word": "sas"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.a.|.s.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "maui",
+   "bb_sha256": "e757e800f23aa7a2f0c22854992f233f8955549edf3a250f4026fb7559ac4b32",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8781,
+    "word": "maui"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.m.|.a.|.u.|.i.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "glenn",
+   "bb_sha256": "00f1169d141c596f3c4d918cda031fc0fe8077abaae478ef1e1baefe4441a597",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7326,
+    "word": "glenn"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.g.|.l.|.e.|.n.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ballet",
+   "bb_sha256": "24db8654347d2e3e5023f65a396d291cda6e1f3b65de9ff128470d5a0ad888b3",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9040,
+    "word": "ballet"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.a.|.l.|.l.|.e.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sim",
+   "bb_sha256": "507a9a8be3d145a86daa9644b28bf42a8dc0720d8baeabdf0406c393692bf082",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7361,
+    "word": "sim"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.i.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "casa",
+   "bb_sha256": "b3813027ed2150ec3449f0716cf53c5d4a632486136365bd23e19c372884553f",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9064,
+    "word": "casa"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.a.|.s.|.a.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "doors",
+   "bb_sha256": "2870b96cfef35429140e130a8f3457fc3d7b09e172b82e07b6651f714ac04616",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3657,
+    "word": "doors"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.o.|.o.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "repair",
+   "bb_sha256": "a1a14ff4aab4f1d3efbe2f3fe8e32ec686289ba95e5b2fc3e1f38052d64da522",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1666,
+    "word": "repair"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.p.|.a.|.i.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tit",
+   "bb_sha256": "cbbd0f71af28b3bf363e4382bb5cf80fdd92ef595e3fc6a745d07b897c066f56",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5393,
+    "word": "tit"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.i.|.t.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kind",
+   "bb_sha256": "0b27c158feb36ab18a10ff687909ec730ece6280581dd407e2672359be7725dd",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1139,
+    "word": "kind"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.k.|.i.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "patch",
+   "bb_sha256": "a4895eb44afc336fecbba6e520cd67e178dace0276655d102fceffa8e5f70570",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2026,
+    "word": "patch"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.a.|.t.|.c.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "anyway",
+   "bb_sha256": "97519f7c288b3602aae0de2f493075e752b858d984eba1febbd5bd3845311bf3",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3192,
+    "word": "anyway"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.n.|.y.|.w.|.a.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "jim",
+   "bb_sha256": "484ae24edd22ea09a58edc2b6c58ee2b5f3879e3b267838a8726366f255fd4b9",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2080,
+    "word": "jim"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.j.|.i.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "quit",
+   "bb_sha256": "8577da2ea54085708b3b851bc50315a36bb740ba5135e747cfb12457b5d3060f",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6027,
+    "word": "quit"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.q.|.u.|.i.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "wiley",
+   "bb_sha256": "932eca8e36309a4d516518fe1f5e2b8270ac226ec5f6e246a33dccee9de1abe9",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9883,
+    "word": "wiley"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.w.|.i.|.l.|.e.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "stable",
+   "bb_sha256": "f379ccb92b9116442dc65bdc35648a85d3786b34779db7f704a901fa07b00cb6",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3947,
+    "word": "stable"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.t.|.a.|.b.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dig",
+   "bb_sha256": "ebbde58a4bbe357e599b29131e48c6f883a9cb7003571bf54243391a4f80aacf",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7788,
+    "word": "dig"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.i.|.g.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sept",
+   "bb_sha256": "5ba6561e1125c27a7d875e6dcae87d6875bebe8fa4907fea9573bc2a259e7cec",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6384,
+    "word": "sept"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.e.|.p.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pills",
+   "bb_sha256": "ba3c3a118a8c240d2b993fe3509e4204a2cf6ef9278b3c7fd1c035274dd7d915",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4871,
+    "word": "pills"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.i.|.l.|.l.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "polish",
+   "bb_sha256": "8a741eb9c8922e9e08fc1b0538535461c44d22bd48e1ed6bd7424f3fe7d78745",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4835,
+    "word": "polish"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.o.|.l.|.i.|.s.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bag",
+   "bb_sha256": "c018019b6a8b01ab5868cf4be8db327a7549ae03202548b9ffcd2671c4c2b624",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1995,
+    "word": "bag"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.a.|.g.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "link",
+   "bb_sha256": "b1b1bdb480c61d075300d9bff7d9cb69cf31695ea048e478facadf426e8d0fb0",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 282,
+    "word": "link"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.l.|.i.|.n.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "puppy",
+   "bb_sha256": "6588ef4db6a357d6d9ca7d0c9feb69bd8e2f236ab88459da5c193b7fa9503187",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8293,
+    "word": "puppy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.u.|.p.|.p.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "gibson",
+   "bb_sha256": "2c8c4f00dee0bb25cb5cda2ef243456e7fa9a11dbb37a24b159d3c35177a0393",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7403,
+    "word": "gibson"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.g.|.i.|.b.|.s.|.o.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "eng",
+   "bb_sha256": "82fe032bd9337b5dfb99b28717cf8651daac73f2d319e6d6213544660b961ee7",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5683,
+    "word": "eng"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.e.|.n.|.g.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tits",
+   "bb_sha256": "13a465fc6616da8d2afacaf00a8276aa841662820f9337de127f815ee71cc55d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2214,
+    "word": "tits"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.i.|.t.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sells",
+   "bb_sha256": "401045dc4f861002c2494449ee92a7063f34aa49e4708ea6e3231b14d5d7b579",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6795,
+    "word": "sells"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.e.|.l.|.l.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tracks",
+   "bb_sha256": "387668e22f8946c1a1dfa26267805821b7ff8d66efee9347c9a2a872f2863748",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3194,
+    "word": "tracks"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.t.|.r.|.a.|.c.|.k.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "geo",
+   "bb_sha256": "e81935fb86434cdaaeee21ebe051cca827243ab4cccfdafeee8202004630924e",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7332,
+    "word": "geo"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.g.|.e.|.o.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "yarn",
+   "bb_sha256": "ec4e598bd0f312a7c49bf83984b70176f311af142a47ca354f35424fb79f2bfd",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9931,
+    "word": "yarn"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.y.|.a.|.r.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "frost",
+   "bb_sha256": "d7bf0c9ea6ea590ff1a44ef444aa38d0db5491e29fab83efbbbe882ac9314e84",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8985,
+    "word": "frost"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.r.|.o.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "actors",
+   "bb_sha256": "605b727d3f533e8c48de41d5129dbd95c97e6bf2ff40ec82a3f7c9a13438a68a",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5361,
+    "word": "actors"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.c.|.t.|.o.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ons",
+   "bb_sha256": "5744de7a518cd1adedecf44f4a67cbe7bf94bd5635222b26e3db739e8dfb0f38",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7222,
+    "word": "ons"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.o.|.n.|.s.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dell",
+   "bb_sha256": "d0e2ece166bdef23adedfaa3f1c47c9f969270f0fc519185514d58b4c7f6d199",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2731,
+    "word": "dell"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.e.|.l.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "czech",
+   "bb_sha256": "4f435046a870111ca5c326d335ac847602f7f06cfab7c051b073daf171306bd6",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3452,
+    "word": "czech"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.z.|.e.|.c.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "safari",
+   "bb_sha256": "d8e60ebbbb2b1a9d5f0dd2cfc7e810688583ad8afb626fcc6c357f756e799530",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3380,
+    "word": "safari"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.a.|.f.|.a.|.r.|.i.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ram",
+   "bb_sha256": "a631f4488a457da27b4a64dc8f2d85085b50ff568be99125cf6f8f45c759878e",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3213,
+    "word": "ram"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.r.|.a.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kiss",
+   "bb_sha256": "89d19d63941a517f4921ec8496fbf07c4b444537352cc585461a1b4de469fde5",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4618,
+    "word": "kiss"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.k.|.i.|.s.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tests",
+   "bb_sha256": "59830ebc3a4184110566bf1a290d08473dfdcbd492ce498b14cd1a5e2fa2e441",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 1932,
+    "word": "tests"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.e.|.s.|.t.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "invest",
+   "bb_sha256": "5c417c6c8127d2a31c8d9573fe8903a17a4b0b395132a94a2ff9da0759a8f3a5",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6187,
+    "word": "invest"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.i.|.n.|.v.|.e.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "eos",
+   "bb_sha256": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8750,
+    "word": "eos"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.e.|.o.|.s.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rica",
+   "bb_sha256": "f3d2405aefb3c55cd6955b6232391b18d3d28c734ad5b0efded251b67225c29e",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5344,
+    "word": "rica"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.i.|.c.|.a.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "davis",
+   "bb_sha256": "4458e908dd9a5440ad70b4d0ee13ebe96f0d25bb263b80169b3de5a9a0b90e3d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2687,
+    "word": "davis"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.a.|.v.|.i.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "phones",
+   "bb_sha256": "e89a10d4ca9fadf6fb97bd114feafb3a55ef1da7b1dfac118f3ca0c41f07547c",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1196,
+    "word": "phones"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.h.|.o.|.n.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bat",
+   "bb_sha256": "ca5bcec12f716f44d9745d349cc80422f0d14cbab09329caf533bef7c2d952eb",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7477,
+    "word": "bat"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.a.|.t.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cuba",
+   "bb_sha256": "950662956e7592a1d712f908016cf6f95314f226d1dd725c65d3baa654659b48",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5046,
+    "word": "cuba"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.u.|.b.|.a.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "noble",
+   "bb_sha256": "d3a61c684446b22fbc324502c1ad80e4387f0ed707feec1f1ab81a8b3fc65539",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5214,
+    "word": "noble"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.n.|.o.|.b.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "speech",
+   "bb_sha256": "05fb617ad543807c0c3fe7ae9d1f33aa8928236e85adb7c0e3b186f5084e2e19",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2557,
+    "word": "speech"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.p.|.e.|.e.|.c.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pcs",
+   "bb_sha256": "d7d4f59db48fb4b8d9fe1fe1b7ec5bff489fc305e0ce38500bbb4acc2166e4ca",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3937,
+    "word": "pcs"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.p.|.c.|.s.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dana",
+   "bb_sha256": "2c9e0a2585dc7406589a3724f0027811506e0f133726303a15d6779d532a2573",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8727,
+    "word": "dana"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.a.|.n.|.a.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "henry",
+   "bb_sha256": "927a3aed189d610b2e151c4208913b3ed0cb38f6be613756819b1513c8924d7f",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2770,
+    "word": "henry"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.h.|.e.|.n.|.r.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "filing",
+   "bb_sha256": "a5bfbc7f7c81dc34d961c41578c70c07f12a71c2259102d51d9335eb0e00bbd1",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4459,
+    "word": "filing"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.f.|.i.|.l.|.i.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "lil",
+   "bb_sha256": "e129938055a58e19e59b9de475bd18f0782db1dee80f0d8e7dc8f80bc511176b",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6582,
+    "word": "lil"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.l.|.i.|.l.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "apps",
+   "bb_sha256": "d56f6359d240f69e4164425b599d08869574fc013b9e5727951048914db12c5b",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7005,
+    "word": "apps"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.a.|.p.|.p.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mardi",
+   "bb_sha256": "41559c72e9fb9d4065ec982c504c69f26d5899aa021abe2f2efcf00ee66283f5",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8144,
+    "word": "mardi"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.m.|.a.|.r.|.d.|.i.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "income",
+   "bb_sha256": "00cf141f881d4b5572d4d5ce73db9657f5e6087f9f31a6527a9f3e212dfa4e70",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1021,
+    "word": "income"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.i.|.n.|.c.|.o.|.m.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "van",
+   "bb_sha256": "970b1897af0abab6127d77e3306c1a712c5d931a2719ecd338f57411e534ec3c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1496,
+    "word": "van"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.v.|.a.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bold",
+   "bb_sha256": "e0007a5bca8d915862749b39bc77cb33e0f6fe5ff504191587e1ba59d8251315",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3945,
+    "word": "bold"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.o.|.l.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "keeps",
+   "bb_sha256": "308f40701833c566e33eb1abbb01a528943fc50d125feb506fd29ded5cafde61",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4909,
+    "word": "keeps"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.k.|.e.|.e.|.p.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "donate",
+   "bb_sha256": "9b3e2278234d0e5fe5a4a6ef13b60d355c9be88e724e7ccc196528c3a40d2239",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4331,
+    "word": "donate"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.d.|.o.|.n.|.a.|.t.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "biz",
+   "bb_sha256": "9bdd85331e7570288d1d5a21c2f981b0a85dbee0127d78a6b6ea38b27192e46f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4147,
+    "word": "biz"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.i.|.z.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "soul",
+   "bb_sha256": "ae0facccf0a3723adefbdfe700c097b6c843dbfd06e5cd325602ec13b2361f8b",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2403,
+    "word": "soul"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.o.|.u.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "print",
+   "bb_sha256": "ce953a0eb08246617b7f849486c4b26a7af37e9d2e8f0e13b3ae1bf0da8a70a2",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 427,
+    "word": "print"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.r.|.i.|.n.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "parish",
+   "bb_sha256": "8a544819373b0d91b0ed4f4514345b1e229bea305e19e6d4f4c32e2d2197f71c",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5820,
+    "word": "parish"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.a.|.r.|.i.|.s.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sox",
+   "bb_sha256": "8638f57f5a8478b712ac64a7612634419b08ffa4fe2e9ec269c01ae1ee83493e",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6673,
+    "word": "sox"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.o.|.x.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "piss",
+   "bb_sha256": "7bc671151cbfaee7f32cd56e86a87b0be30fde8dc72c7f236d3ab2ce42cddbd5",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6262,
+    "word": "piss"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.i.|.s.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tiger",
+   "bb_sha256": "f15c16b99f82d8201767d3a841ff40849c8a1b812ffbfd2e393d2b6aa6682a6e",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4872,
+    "word": "tiger"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.i.|.g.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "finals",
+   "bb_sha256": "75dae6d1ed4dee6bac8a175818d447d7b1bbfe43af90a8a09ea1b2c6a47fd586",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8681,
+    "word": "finals"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.f.|.i.|.n.|.a.|.l.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "jay",
+   "bb_sha256": "bfef4adc39f01b033fe749bb5f28f10b581fef319d34445d21a7bc63fe732fa3",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4112,
+    "word": "jay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.j.|.a.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "oils",
+   "bb_sha256": "7fa3db5f878a77aa70853ce089bd11337e9eac04c3b65dafdf86de97dcead994",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6383,
+    "word": "oils"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.o.|.i.|.l.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "draft",
+   "bb_sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2298,
+    "word": "draft"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.r.|.a.|.f.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "slides",
+   "bb_sha256": "fd2c8f1dc03ce50ff48749f0a7a1bbf62f03c4960e07db60a4f55fedb3b752b5",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8020,
+    "word": "slides"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.l.|.i.|.d.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mae",
+   "bb_sha256": "222e292d98107dd39a2561332f781b6c7655f9503c6e9bc656fc159cb7fdbff7",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9603,
+    "word": "mae"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.m.|.a.|.e.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sink",
+   "bb_sha256": "1978baf2c153fd3bf3633f3a4b12fa6782507dc6056bbaf16909a6597f4a2548",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7229,
+    "word": "sink"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.i.|.n.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "logan",
+   "bb_sha256": "5ba4c5ad7f67ea1a40f3108d9af56d063ec36d3400d810573769eb5c07809af8",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9430,
+    "word": "logan"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.l.|.o.|.g.|.a.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "access",
+   "bb_sha256": "a0561fd649cdb6baa784055f051bad796ea0afef17fca38219549deeba4e8c1a",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 324,
+    "word": "access"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.c.|.c.|.e.|.s.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bow",
+   "bb_sha256": "c177affdff64002e306226176d2b8da5b15b14ef87bb52c6ab58d7ad2bd80848",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6335,
+    "word": "bow"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.o.|.w.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bang",
+   "bb_sha256": "1ae3d35454b6ddf204329a7ba8bcbbaf1b1efd8ab1b3df346fc83b0146caaf17",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4051,
+    "word": "bang"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.a.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "julia",
+   "bb_sha256": "d277670919a94ba361be1887d39852c3f31d7eed817343cbb70fcd8910841f86",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7592,
+    "word": "julia"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.j.|.u.|.l.|.i.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "wicked",
+   "bb_sha256": "148bd3fdbb83f84886f4ea7898d4540eb5c446981ef51a4120982fcd673a7373",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8459,
+    "word": "wicked"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.w.|.i.|.c.|.k.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "duo",
+   "bb_sha256": "fdd823e31be438f6ab80b00191ae7725a78568c954254f32ed1d7b0a8b509e7f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8093,
+    "word": "duo"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.u.|.o.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "roof",
+   "bb_sha256": "d1a0d6f4707493e53bc9b5bdfc37fa7c4b141b42e5892459c12c50275ee65a53",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4613,
+    "word": "roof"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.o.|.o.|.f.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "essay",
+   "bb_sha256": "4231a97ecfd74fdbdde4d4306d6624330dadf659b3cd1e9b5ae35b0be2f46206",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5490,
+    "word": "essay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.e.|.s.|.s.|.a.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "movers",
+   "bb_sha256": "0d7129b097701ccaf3f22c036ccc3181dda24c0429b1be5e61e551c699982c36",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9728,
+    "word": "movers"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.o.|.v.|.e.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fin",
+   "bb_sha256": "a383bcb77c832a8ff52caace0f4efa8f1639b56b3ad5e32df3c35e8e2ca88f92",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9020,
+    "word": "fin"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.i.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dumb",
+   "bb_sha256": "ac996ae492f9a987c84f109f2118d3f6632e2259455d30c455a9ecd66c3c4959",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9564,
+    "word": "dumb"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.u.|.m.|.b.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "entry",
+   "bb_sha256": "923fe53966c6cd9343e11af776cd4b05be315ea4b200b02e4d5dfb0f929b73bf",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 1000,
+    "word": "entry"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.e.|.n.|.t.|.r.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tunnel",
+   "bb_sha256": "94a35fdc30df7d129a447217f9ffade7e4917bdcc90460d7db2f0460c08c0e06",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6860,
+    "word": "tunnel"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.t.|.u.|.n.|.n.|.e.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sir",
+   "bb_sha256": "30390115b066968fc0628684c0e97b2805049e3e5d7c9ffed69c551632a492e7",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3642,
+    "word": "sir"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.i.|.r.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "term",
+   "bb_sha256": "599f7703547e9c8e980f44d7d192d978b9e70386af1812b2042beeaf4ba03dfb",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 676,
+    "word": "term"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.e.|.r.|.m.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "roles",
+   "bb_sha256": "66cf5513b37462be52e7fe7b1791b7a6b704f97577680acc2f270e365a1b01e3",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5025,
+    "word": "roles"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.r.|.o.|.l.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "wright",
+   "bb_sha256": "72b672427a922abe0e4297dd5cd1ab4921033417dd577a1e6d4e954e072a7139",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5102,
+    "word": "wright"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.w.|.r.|.i.|.g.|.h.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cap",
+   "bb_sha256": "45e84635bc4803c5cc5d456c798a13d37a7fd184f76b012b01c01676d5ce46c0",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3032,
+    "word": "cap"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.a.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "chem",
+   "bb_sha256": "0382437154a008b43c1d33553a6d619d1c2a614b3ad0918b9a876a6483bb3a52",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7038,
+    "word": "chem"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.h.|.e.|.m.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "enter",
+   "bb_sha256": "e08d706b3e4ce964b632746cf568913cb93f1ed36476fbb0494b80ed17c5975c",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 657,
+    "word": "enter"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.e.|.n.|.t.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "manual",
+   "bb_sha256": "36bde66f289a35683683b041c6d8f418a5f36607b547da25d00ad55891e80b88",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1661,
+    "word": "manual"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.a.|.n.|.u.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "toe",
+   "bb_sha256": "6d0ef3950c22cb1913d5775e951263c355eacdde7a34848c9c5fb4eb7f7d77a7",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4741,
+    "word": "toe"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.o.|.e.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hits",
+   "bb_sha256": "62f51d296d3429d8f502e2a1cf5fd430a118615b9c4b97d7fbac538e9966fe26",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1756,
+    "word": "hits"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.h.|.i.|.t.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ranks",
+   "bb_sha256": "7cad15d4112d1de631e5e4c008415394507496d5592b557f71cc00455a5f0dd8",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7845,
+    "word": "ranks"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.r.|.a.|.n.|.k.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "luxury",
+   "bb_sha256": "dd8b20c25fa48b062f1d6ff4ac1e0b349cf3c77ffbee9c3f53cee94078454657",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2890,
+    "word": "luxury"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.l.|.u.|.x.|.u.|.r.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kai",
+   "bb_sha256": "f844ad6231ada5aa202a39fe48b28f113d32dfb0ab109e3d75110335b462e1a0",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8353,
+    "word": "kai"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.k.|.a.|.i.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bush",
+   "bb_sha256": "749a1a16c343bf7b315a2142e36adcda6abecf8d04019f512d6b200286d660f4",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1122,
+    "word": "bush"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.u.|.s.|.h.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "loans",
+   "bb_sha256": "be9aa7494d82bfe5fbee0aaf1131f1df313be491e1fecb7aba9dbbf41a0d1bd4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 998,
+    "word": "loans"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.l.|.o.|.a.|.n.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ladies",
+   "bb_sha256": "3a031b8cd4b8ceba2a889deb50036f17978fca25985cfc03790705f27d615c84",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2769,
+    "word": "ladies"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.l.|.a.|.d.|.i.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ltd",
+   "bb_sha256": "eb108a6bbdaf145d08d811956465ad4382629cf361e1f696e021be3abadb6d47",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1227,
+    "word": "ltd"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.l.|.t.|.d.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tray",
+   "bb_sha256": "ad9a0cab12eef90639233b67f4e8fec1a6b87333519f84eb42d912d3fe13e2fb",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7455,
+    "word": "tray"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.r.|.a.|.y.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "signs",
+   "bb_sha256": "e259202cf023eab7796e37ae870c07f3034381e23084c6ee8907675b62c22fdd",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2497,
+    "word": "signs"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.i.|.g.|.n.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "spread",
+   "bb_sha256": "909802b269dee093387e26c6c7ace636f180eac29f58c7d8009b637c4babf1ce",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3125,
+    "word": "spread"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.p.|.r.|.e.|.a.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "nam",
+   "bb_sha256": "592372bb39bc1c652ceb4091a694d77fa9ef5f144e3747c0539babe1a407428c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7986,
+    "word": "nam"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.n.|.a.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "save",
+   "bb_sha256": "157dca92e4250458339d4b835250d44c238f3355e1b7986195188ee434e9baff",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 400,
+    "word": "save"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.a.|.v.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "marsh",
+   "bb_sha256": "428e626f22d0273bb2741c8747418eaff1828bcd397fe7d00f3ec30d4519d95d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9979,
+    "word": "marsh"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.m.|.a.|.r.|.s.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "voting",
+   "bb_sha256": "82e31d5020a88903aa9c5a6bff5c078ec3d0eb8946c04e0ba17b816f311eb633",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3848,
+    "word": "voting"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.v.|.o.|.t.|.i.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "qui",
+   "bb_sha256": "760176194068f3029466de5c06f1faa6471a566c66eda866e984f0ca6674d96f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9900,
+    "word": "qui"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.q.|.u.|.i.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "grab",
+   "bb_sha256": "234afbd5f044f3636494f368fb8dc1139c181caad86b15cdbc3cf16550acdcd0",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7552,
+    "word": "grab"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.g.|.r.|.a.|.b.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "crowd",
+   "bb_sha256": "5b4535bdd79ff9cd7894fcc2779dc3ee7c819a557555a7289dc286263be589e0",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5598,
+    "word": "crowd"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.r.|.o.|.w.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "nested",
+   "bb_sha256": "233562de1a0288b139c4fa40b7d189f806e906eeb048517aeb67f34ac0e2faf1",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9724,
+    "word": "nested"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.n.|.e.|.s.|.t.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "aol",
+   "bb_sha256": "f23f00ed4278118381d1df2502aba0fcddaccdba823864315f8032e16a646c0d",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3098,
+    "word": "aol"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.a.|.o.|.l.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "halo",
+   "bb_sha256": "a4e63bcacf6c172ad84f9f4523c8f1acaf33676fa76d3258c67b7e7bbf16d777",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8728,
+    "word": "halo"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.h.|.a.|.l.|.o.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tires",
+   "bb_sha256": "04ade51f12e0b5473c9e839fef07a1119c7bbb32c30139c4de381eef35ac6476",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7300,
+    "word": "tires"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.i.|.r.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "buyers",
+   "bb_sha256": "27461ccfdb5503afc6d75cb55d4ab2f338a3a540ab62f1d89e93fde75d7e0af9",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3508,
+    "word": "buyers"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.u.|.y.|.e.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "gay",
+   "bb_sha256": "586acb3c6bac489308c0938f762da702573a714dfdf3a729dcb40758b4c363ae",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 456,
+    "word": "gay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.g.|.a.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ohio",
+   "bb_sha256": "8f40d29c6591983ace8fd1bf3b517cbe7290e2fc26d2cab47739510b40b75ea7",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1683,
+    "word": "ohio"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.o.|.h.|.i.|.o.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "debug",
+   "bb_sha256": "0b8e9e995d8d77f1e4770f0f79665aee6f3f70247b3735422daba73df4c3096f",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6365,
+    "word": "debug"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.e.|.b.|.u.|.g.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "extent",
+   "bb_sha256": "2b4a5bdd6f71c4a7fad0dbd3959eedc85b2f5a357228acd184f5daef20bcddec",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3090,
+    "word": "extent"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.e.|.x.|.t.|.e.|.n.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fog",
+   "bb_sha256": "b04216546057e8659fecdec71043ffe7e3220178fa3df37650d6fdbb631dcda8",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8103,
+    "word": "fog"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.o.|.g.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "seat",
+   "bb_sha256": "5d2c13d6f9fa421125a9f55e56fd0e4df9319ef30087f8f4675cd6f05135f397",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2740,
+    "word": "seat"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.e.|.a.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "angel",
+   "bb_sha256": "519ba91a5a5b4afb9dc66f8805ce8c442b6576316c19c6896af2fa9bda6aff71",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3052,
+    "word": "angel"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.a.|.n.|.g.|.e.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "lauren",
+   "bb_sha256": "b918c3f9116ce3a61efd71a1bada0d46c8f575283ce5d5798454a4abfb56ae79",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6834,
+    "word": "lauren"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.l.|.a.|.u.|.r.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ata",
+   "bb_sha256": "977817f6f61f4dd501df3036a3e16b31452b36f4aa3edcf9a3f3242a79d7170d",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9361,
+    "word": "ata"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.a.|.t.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bone",
+   "bb_sha256": "c8dacf657fe92b6064dbcde0f7888936b2c35871e6c61f7b4581accba92c278d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4053,
+    "word": "bone"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.o.|.n.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "viral",
+   "bb_sha256": "a172ddf41dd327dcac2c4211c298221f360f2d7488f9f1225070ece19b262991",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8950,
+    "word": "viral"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.v.|.i.|.r.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "myrtle",
+   "bb_sha256": "24c8750f242a709d5e0a3dd6d217a03f961ec1cf258fb1ecd5383a4e3cdeef89",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9928,
+    "word": "myrtle"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.y.|.r.|.t.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pit",
+   "bb_sha256": "d2d165dff04ba22532c70d8a1ec9fd87e2160e875875de9e830a64e899760d5d",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6977,
+    "word": "pit"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.p.|.i.|.t.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "reid",
+   "bb_sha256": "1720b5bf165cebe26e75c6c392a61a1aed38f32e44e806c502cc90894fef93fd",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9109,
+    "word": "reid"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.e.|.i.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "craft",
+   "bb_sha256": "355543f790a3b210ecf36c82a2738896d9574c17e963a63633febac1f2386737",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4241,
+    "word": "craft"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.r.|.a.|.f.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "signal",
+   "bb_sha256": "d041924c15885af6d06530a425c6dbffc80520150c4dd264f40b4364b12421a8",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2383,
+    "word": "signal"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.i.|.g.|.n.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "gen",
+   "bb_sha256": "3b6a765ede676559e0f261b5b9e339c9f36819c74a67568eb417ff4b379dbfbd",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6008,
+    "word": "gen"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.g.|.e.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "avon",
+   "bb_sha256": "3f703a8dd95c6210d1c051658c43bae7c31d54ec7fff7cc8a7ce2e1d64ed713c",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8697,
+    "word": "avon"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.a.|.v.|.o.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "lanka",
+   "bb_sha256": "5cb4124927636f108644f82b9fd665bf1698a59e9d89e146dd6dbc73287e522d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5840,
+    "word": "lanka"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.l.|.a.|.n.|.k.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "belief",
+   "bb_sha256": "f31852d7e68e8ab270326b1dbb472a2e65ff1a80ed2f4672ff7b280cbfbd9c82",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5376,
+    "word": "belief"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.e.|.l.|.i.|.e.|.f.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "try",
+   "bb_sha256": "1e262cd7d110812f5726055a6e672b92cde43648b76adff51a12441fbdf7e667",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 684,
+    "word": "try"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.r.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "levy",
+   "bb_sha256": "5a1a84de8c2ec09ba6b54a4c0aefc809441f018ac30620aa4d7e95023ce84de0",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9288,
+    "word": "levy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.l.|.e.|.v.|.y.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "micro",
+   "bb_sha256": "186641861d6d9f2fc590cc66b89e9d8c8b99c3e63df2c7ebe81c96a322a51782",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3414,
+    "word": "micro"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.m.|.i.|.c.|.r.|.o.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "surrey",
+   "bb_sha256": "9b42a36662f2db67267b7502312f6660cb95e5cb3669d5a05120e9d06bbbef64",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8228,
+    "word": "surrey"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.u.|.r.|.r.|.e.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "gas",
+   "bb_sha256": "2fe840e13244a9d748883574c1f1b7b1d7020eb39d0735b8f91ef5cf6f35173e",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1119,
+    "word": "gas"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.g.|.a.|.s.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "moon",
+   "bb_sha256": "9e78b43ea00edcac8299e0cc8df7f6f913078171335f733a21d5d911b6999132",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2801,
+    "word": "moon"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.m.|.o.|.o.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "input",
+   "bb_sha256": "c96c6d5be8d08a12e7b5cdc1b207fa6b2430974c86803d8891675e76fd992c20",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 1438,
+    "word": "input"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.i.|.n.|.p.|.u.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "digest",
+   "bb_sha256": "0bf474896363505e5ea5e5d6ace8ebfb13a760a409b1fb467d428fc716f9f284",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4562,
+    "word": "digest"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.d.|.i.|.g.|.e.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rid",
+   "bb_sha256": "81466ee3cd6cf44d7a1c43892d58f09e6c12089a074211a2c3af94964eefb794",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7381,
+    "word": "rid"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.r.|.i.|.d.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rank",
+   "bb_sha256": "5a8460f6b1bf96a87116e44e3dc74ef825d068d893516128e0fcbe4e646bc06d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2219,
+    "word": "rank"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.a.|.n.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "wired",
+   "bb_sha256": "5358fb4a86257708cf2641162bb59adfb0dfe5d7e0538e76cafd862daf5f8a90",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7064,
+    "word": "wired"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.w.|.i.|.r.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kuwait",
+   "bb_sha256": "9ac506560edb9211e1b56e86360dc25bc2af1d3aeaaf9e2e123a8a399e1755f9",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6990,
+    "word": "kuwait"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.k.|.u.|.w.|.a.|.i.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pad",
+   "bb_sha256": "f563fcd3fb8578799b80b370673b693ec2a72ea5fdff9aa08e633d4e90f448eb",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5030,
+    "word": "pad"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.p.|.a.|.d.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fish",
+   "bb_sha256": "b474a99a2705e23cf905a484ec6d14ef58b56bbe62e9292783466ec363b5072d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1563,
+    "word": "fish"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.f.|.i.|.s.|.h.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bikes",
+   "bb_sha256": "93253ae00ba9bef8a771a944c02877da35201ab6b148bbebb4a679fdaaa4dac2",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5854,
+    "word": "bikes"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.i.|.k.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sleeve",
+   "bb_sha256": "18159f6fa757e618ab6e52d3d2ed2df7766083a41f1d737b515a636c0f813d37",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5580,
+    "word": "sleeve"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.l.|.e.|.e.|.v.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kit",
+   "bb_sha256": "cbc8a597a67c465497550c4a4a7eebdb138442c06be06a78cc1ee8715658ff44",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1359,
+    "word": "kit"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.k.|.i.|.t.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "punk",
+   "bb_sha256": "3d9da0471c648d3cc834e068ae09d5043a70ea06795b50f478f0a8fa84e75a31",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5312,
+    "word": "punk"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.u.|.n.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "woods",
+   "bb_sha256": "d97b2a20a6daca8842a9e744663aeda131aad3e78ae7a9774560b2c5d76b1578",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4650,
+    "word": "woods"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.w.|.o.|.o.|.d.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "thesis",
+   "bb_sha256": "2863229379aa76de93620451ec65b270760a0b41971bad0d1c74f340f1cb4786",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5989,
+    "word": "thesis"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.t.|.h.|.e.|.s.|.i.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "joy",
+   "bb_sha256": "b113405b6f9114b2abac7676f6868df33b0dde53f2e0ddd0f5340392563ab5f3",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4281,
+    "word": "joy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.j.|.o.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "lies",
+   "bb_sha256": "f439f7f80e4c460da59083d41c9aefbf8efcab48e64c33b983d3716e4c4a97e1",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4311,
+    "word": "lies"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.l.|.i.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "faces",
+   "bb_sha256": "e203120a667bd3ea059a5b6632b98580e28eba47bcea7ee27cc0fa63068f3acb",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4548,
+    "word": "faces"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.a.|.c.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "timber",
+   "bb_sha256": "5dd46878bb0b580b3086cfd1091b7bf6204c7bd521f6ac371226367241c3ab53",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7172,
+    "word": "timber"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.t.|.i.|.m.|.b.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sky",
+   "bb_sha256": "05f514fae7ca5710f9e9289a20a5c9b372af781bfc94dd23d9cb8a044122460f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2872,
+    "word": "sky"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.k.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "look",
+   "bb_sha256": "3c01eba119e00d79c82b6f65d70bc5f1044d568618bf41377e6d1432023fc2b8",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 446,
+    "word": "look"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.l.|.o.|.o.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "truly",
+   "bb_sha256": "4ad71f67cf8e55813fd56fec0c75c5b244931d769cef9820c836ecef544368a7",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3478,
+    "word": "truly"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.r.|.u.|.l.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "heaven",
+   "bb_sha256": "818efe46a6c2ddb95df1bdecd7869fbd6ac790f24182f681cc6b7edf43ec7b69",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3687,
+    "word": "heaven"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.h.|.e.|.a.|.v.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ups",
+   "bb_sha256": "a513bdd290dbcac49ce6ad5ed1dea791719f1b1c11632dbdf480e4cc112c6f09",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2530,
+    "word": "ups"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.u.|.p.|.s.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tips",
+   "bb_sha256": "035211a30290bc0531b1d1795e68c5a0cd8d6f35d99f7be230001535a944a579",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 843,
+    "word": "tips"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.i.|.p.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "usual",
+   "bb_sha256": "905301bf736f9b791431037c6c25dc9980a03873a1c1b2fba3f38be9c8e9dd69",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4152,
+    "word": "usual"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.u.|.s.|.u.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "asking",
+   "bb_sha256": "8636c9478370900bee1ac6a093769b8d042c307e9ab94fcb7b2a41fdd19cd00b",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3702,
+    "word": "asking"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.s.|.k.|.i.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "jar",
+   "bb_sha256": "0163f1eea7894350060624d315234d40c508ab251ba121714e234503045faadd",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8393,
+    "word": "jar"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.j.|.a.|.r.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dirt",
+   "bb_sha256": "c3838a8256696f47188d6641d945bfa308260c137b04e0e4de327e39d54cb615",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7182,
+    "word": "dirt"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.i.|.r.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "squad",
+   "bb_sha256": "1bd3279565437b8fe82a3abc3312e982b1e2c73dfbaaea4c01ece3e5b7d8a2bc",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6839,
+    "word": "squad"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.q.|.u.|.a.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hereby",
+   "bb_sha256": "44ce1985334ee838d7e1f8d073b161bd3cabdfd891d6a992b4e285d3c9b5e9a0",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7590,
+    "word": "hereby"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.h.|.e.|.r.|.e.|.b.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "lap",
+   "bb_sha256": "066addf6741e4a75b4842226d1a63cc48f62adbaabae64171f4ee3033d2171fd",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8608,
+    "word": "lap"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.l.|.a.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cent",
+   "bb_sha256": "c388fa9a52705a2ce0ee414de2bdd55377569ef14dc4a51e024f2d9d1e0038d0",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2572,
+    "word": "cent"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.e.|.n.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bride",
+   "bb_sha256": "3908536141146c393575ab5189d67c6278aa5431eca473da1ac06bc90819c9d4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6890,
+    "word": "bride"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.r.|.i.|.d.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "deluxe",
+   "bb_sha256": "2d5cc34c33f17e87912f165c19e7820b3ed4867f33583bbdbf77d60d11651514",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3970,
+    "word": "deluxe"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.d.|.e.|.l.|.u.|.x.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "doe",
+   "bb_sha256": "799ef92a11af918e3fb741df42934f3b568ed2d93ac1df74f1b8d41a27932a6f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7336,
+    "word": "doe"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.o.|.e.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mint",
+   "bb_sha256": "dc6f17bbec824fff8f86587966b2047db6ab736785840151f13d1dab124e2a54",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5177,
+    "word": "mint"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.m.|.i.|.n.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "salon",
+   "bb_sha256": "1a26b7dee6fc52c891e769ddab4fc79f4b6cce1b07a90fe95e53dcec05567f09",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6135,
+    "word": "salon"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.a.|.l.|.o.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "berlin",
+   "bb_sha256": "fb38a93fd89e1a5fc7852a5d7109e321d23a721a1899292273ac5a21dc4db378",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3995,
+    "word": "berlin"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.e.|.r.|.l.|.i.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "toy",
+   "bb_sha256": "0f53133ce57ca8e8937bb4b1c15a33ef9594704e1c11abd58e598bb8362f7385",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2897,
+    "word": "toy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.o.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "poly",
+   "bb_sha256": "2e68a8e49fe8b9e6e94c2fbdec0f227acaecc5cdc3c5e2e411e2bbe49b440ae2",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7762,
+    "word": "poly"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.o.|.l.|.y.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "thick",
+   "bb_sha256": "7b1291e7ed8a6f3e8aa82ce5a4176a5b1877b17e7cb62f638ac6fdddd8ecfe11",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4800,
+    "word": "thick"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.h.|.i.|.c.|.k.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "reveal",
+   "bb_sha256": "419a636ccc2aa55c7347c79971a738c3103b34254bd79c1a3d767df62a788b85",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7124,
+    "word": "reveal"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.v.|.e.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hop",
+   "bb_sha256": "87a0acaec00fa34a3166f0b62b7352868c16752bf796a6af3baf0362c62361ed",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3322,
+    "word": "hop"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.h.|.o.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "read",
+   "bb_sha256": "3316348dbadfb7b11c7c2ea235949419e23f9fa898ad2c198f999617912a9925",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 180,
+    "word": "read"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.e.|.a.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "share",
+   "bb_sha256": "c3bc45ac352fe43ff8f0a1cc26d6cc29f71f536dc417906f8513ea44ed4bb161",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 660,
+    "word": "share"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.h.|.a.|.r.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "canvas",
+   "bb_sha256": "a457e8f04aa796dc50770f109d184aaa9b389b8429eda73d49bd7dfdb199aa9c",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5818,
+    "word": "canvas"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.c.|.a.|.n.|.v.|.a.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dna",
+   "bb_sha256": "d0331ca087d6901424950a896dcc66d77de4758143396fa594bbdf343e09a843",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2958,
+    "word": "dna"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.n.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "glad",
+   "bb_sha256": "c6aa1595f76142b8020e7f7ec2ddaa8ef62a4254a5819095f4f8ed4816d96123",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4672,
+    "word": "glad"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.g.|.l.|.a.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "beach",
+   "bb_sha256": "ab36e84344729d2bc762ee67e55bb3ceb69fdcfd7585a792b220c2a7cd1e6c0d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 757,
+    "word": "beach"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.e.|.a.|.c.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "posted",
+   "bb_sha256": "1637cc683d5c44284751994ea032108f8d54ef4e4b989a7a593d14e312c6a5e9",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 247,
+    "word": "posted"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.o.|.s.|.t.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mia",
+   "bb_sha256": "a6ae07ad556c5f9348cc09c16ed17a437e65acc71e689c1b19f872f1dab3c9c1",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9698,
+    "word": "mia"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.m.|.i.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "gets",
+   "bb_sha256": "d3fb7168cbef420e2983318149aa69abe932a4295d44c7196a6eeabd241ed574",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1684,
+    "word": "gets"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.g.|.e.|.t.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "child",
+   "bb_sha256": "ddc9e669194254cef019a29d3619a2c16592e5d52e1a81e98b01bd52319149a3",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 655,
+    "word": "child"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.h.|.i.|.l.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "unlike",
+   "bb_sha256": "daf76895e66d92e2b4923c0d8b024e7271c4158a74576e645e70e48cad928195",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5096,
+    "word": "unlike"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.u.|.n.|.l.|.i.|.k.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ton",
+   "bb_sha256": "d537bc9c04d322df18388944bb0f7da74969857d482b4bb6955b95cc10478489",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7047,
+    "word": "ton"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.o.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "oman",
+   "bb_sha256": "e883a76a30b245c29f326c0bc407399ce5a138dfdc0a3df6a031b9df8288b16d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8651,
+    "word": "oman"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.o.|.m.|.a.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fifty",
+   "bb_sha256": "f8d807ee15e983f8d185132ffb0e55d3075b220891aff58845e55a158c842798",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7218,
+    "word": "fifty"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.i.|.f.|.t.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "images",
+   "bb_sha256": "21b2eed1e328a2c62fe4c17d51188bdea73450f29956dc5c8c95429313ddd72c",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 687,
+    "word": "images"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.i.|.m.|.a.|.g.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "zip",
+   "bb_sha256": "4a70fe9aa6436e02c2dea340fbd1e352e4ef2d8ce6ca52ad25d4b95471fc8bf2",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1137,
+    "word": "zip"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.z.|.i.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "comm",
+   "bb_sha256": "44438343c52ee70594e78b0fcd6e06e713ace32d79883330291f5a7027d35f69",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7673,
+    "word": "comm"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.o.|.m.|.m.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "badly",
+   "bb_sha256": "b17dfa9c87ed4decdd5027d74a97d613aeb07e87876235f1795cf4d802d6296b",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9700,
+    "word": "badly"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.a.|.d.|.l.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "marble",
+   "bb_sha256": "a9dd98f82c7de3323b17d5f79acfdf51b30c779a45e97619a3fc98b7d83bab89",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8222,
+    "word": "marble"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.a.|.r.|.b.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sum",
+   "bb_sha256": "09f5ffef28309853265c4a98d0e56e1be522b6b402d8193594fd05103064fc6a",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3601,
+    "word": "sum"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.u.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pink",
+   "bb_sha256": "a67a41c8bc79d5da917b5051f1f0d3f5aeb4b63ba246b3546a961ef7a3c7d931",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1961,
+    "word": "pink"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.i.|.n.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "shops",
+   "bb_sha256": "26c7f9e9079f3733dffee5f787795b7f3521db24cd23e9975b47622ed9256642",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2115,
+    "word": "shops"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.h.|.o.|.p.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "guitar",
+   "bb_sha256": "d081f5e402980b267f1f87cb6b74fc3eb249de26e670a9db55dec67da7864de4",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2175,
+    "word": "guitar"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.g.|.u.|.i.|.t.|.a.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "row",
+   "bb_sha256": "634768dae1474506e4bf7d341890542b09987d7e6aea5d446c02e37581a56954",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2691,
+    "word": "row"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.r.|.o.|.w.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dump",
+   "bb_sha256": "b6ca0868bca6a2926b70aa1a71592038d9030fe26d4214edcfbd6cf41f2f4654",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8056,
+    "word": "dump"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.u.|.m.|.p.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "audio",
+   "bb_sha256": "6ed8919ce20490a5e3ad8630a4fab69475297abd07db73918dd5f36fcfaeb11b",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 612,
+    "word": "audio"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.a.|.u.|.d.|.i.|.o.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "outlet",
+   "bb_sha256": "7647af7af268c583c941abb95ede668849a4e008f8ff94c879e946a800ae659f",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3448,
+    "word": "outlet"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.o.|.u.|.t.|.l.|.e.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tub",
+   "bb_sha256": "14cf0fbca484cf6cae8e3c3e3f0eb8ab9fbaa3cf1f043fc41f9822046b073a25",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6701,
+    "word": "tub"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.u.|.b.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "grow",
+   "bb_sha256": "adca5146416ee41992ac79a52887351cafeced9ea917ca94532bea22e70c38ef",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2923,
+    "word": "grow"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.g.|.r.|.o.|.w.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "loves",
+   "bb_sha256": "4ef3e3cbab91de8726beaea3b1f0a61b0d4e6e3c4228ca3e8c51b1467def8dce",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5222,
+    "word": "loves"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.l.|.o.|.v.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rolled",
+   "bb_sha256": "ffccf707bfaed5fb2232189dccabc4e6d7ff3e7bd0fd2d25484fe2a4431ad978",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8695,
+    "word": "rolled"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.o.|.l.|.l.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ana",
+   "bb_sha256": "24d4b96f58da6d4a8512313bbd02a28ebf0ca95dec6e4c86ef78ce7f01e788ac",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8533,
+    "word": "ana"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.a.|.n.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mini",
+   "bb_sha256": "43385991f0be5fed6db7fb640c5f510d41bcaac6ecca6c842a0c2a2d2d2bf510",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1555,
+    "word": "mini"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.m.|.i.|.n.|.i.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "globe",
+   "bb_sha256": "d2a1fc043243f36ba9b7547fb7a28c60640977946c981d624107400405ee5e14",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4676,
+    "word": "globe"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.g.|.l.|.o.|.b.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "robbie",
+   "bb_sha256": "fce3559e5a7e33d289bab3244a5480eeb9008296849084008d329f2ab59749bb",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9991,
+    "word": "robbie"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.o.|.b.|.b.|.i.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sen",
+   "bb_sha256": "64fd299554bf714b4bddcc35e7e2827625d540bca8eec82dcd7202436d3c3c5d",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9762,
+    "word": "sen"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.e.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "gear",
+   "bb_sha256": "70ad3de50a55e77d300b82cea7af0d27f45400465e128994b4a3bb16bbcda3b1",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1842,
+    "word": "gear"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.g.|.e.|.a.|.r.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "trash",
+   "bb_sha256": "e06da30434b904a063a13413df8e2f14d71645168515d4e0bf3b46807df3bb7d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7949,
+    "word": "trash"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.r.|.a.|.s.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "demand",
+   "bb_sha256": "dffc177fd0bbfd674906766374356b2deab558d4e4e70839f41e1c8867e2881c",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1829,
+    "word": "demand"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.d.|.e.|.m.|.a.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "die",
+   "bb_sha256": "a8d79f40ddb79de569d778f1c0b832f9cc266b32274b702cff4ba2b8a0dd1549",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1763,
+    "word": "die"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.i.|.e.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dust",
+   "bb_sha256": "abb32701117d50a93f8ffb60e801097d8a18d0a75ba7f7a327d50103cb50278e",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4566,
+    "word": "dust"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.u.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "samoa",
+   "bb_sha256": "0c474a68bcff4e665d34be013b8ba3c47fb25e6914c1b71408edafb609012824",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6825,
+    "word": "samoa"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.a.|.m.|.o.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "errors",
+   "bb_sha256": "be4bd56772770471b639574d919a92de16c0e522ea5601e2892461691bdf9545",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2114,
+    "word": "errors"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.e.|.r.|.r.|.o.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "oct",
+   "bb_sha256": "65e10716f363b5a652c29abf06e4ec50b64951850bf239ce56e5ae4b278b2fbf",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 598,
+    "word": "oct"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.o.|.c.|.t.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "doug",
+   "bb_sha256": "c898ab690b82d903b50458f17f5d2da9316ee335619a208c823b723317c443bf",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6052,
+    "word": "doug"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.o.|.u.|.g.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dylan",
+   "bb_sha256": "c0e7aec81a1a194e9f54f6b297f6544041188c741ae8f55c2133b5c510a7dc1d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9298,
+    "word": "dylan"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.y.|.l.|.a.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "author",
+   "bb_sha256": "636485868971eac5aca33c4a0e1800a8a11d980bcf0e3776b31002e2c5db91b2",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 420,
+    "word": "author"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.u.|.t.|.h.|.o.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "car",
+   "bb_sha256": "2b2961a431b23c9007efe270c1d7eb79c19d4192d7cd2d924176eb0b19e7d2a1",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 244,
+    "word": "car"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.a.|.r.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mime",
+   "bb_sha256": "caadff608748403a24ec0378c47f430e1eb681f57080482aede426bb5462e765",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9190,
+    "word": "mime"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.m.|.i.|.m.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "chest",
+   "bb_sha256": "7ca0d7019158ccd92de4eb351a1e9eded193a1eb3e760b09b154595f0436f0b4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4935,
+    "word": "chest"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.h.|.e.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cherry",
+   "bb_sha256": "2daf0e6c79009f9234ed9baa5bb930898e2847810617e118518d88e4d3140a2e",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5123,
+    "word": "cherry"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.c.|.h.|.e.|.r.|.r.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fig",
+   "bb_sha256": "8c39c63488260c318aea4cb09df75d79e27f13c6997489d4aee818cbb88a7d23",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3790,
+    "word": "fig"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.i.|.g.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "foul",
+   "bb_sha256": "772b56fcd499960d9709e4577a43af0c3f105292de9ccc2df07acf7cf3908e00",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9718,
+    "word": "foul"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.f.|.o.|.u.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "shame",
+   "bb_sha256": "bf197ff3615054b0560fca45085b16fb8df75e0cc21352071fa2eadbbe5bcfb5",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8184,
+    "word": "shame"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.h.|.a.|.m.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "harder",
+   "bb_sha256": "c33a70fa15e84f4abd822a354855ddfacd6da0ca4bc016a7743646f1a7af1209",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6725,
+    "word": "harder"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.h.|.a.|.r.|.d.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bmw",
+   "bb_sha256": "27df9ed9a477af0fcfe369c8ef3474a75cebf357d8b421ca40f1de6cfd4cbb06",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4639,
+    "word": "bmw"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.m.|.w.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "snap",
+   "bb_sha256": "1c27324f013705cbf0c49f3d3bb103c7069ed5988889d426c10cfc25684f0a31",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7321,
+    "word": "snap"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.n.|.a.|.p.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "audit",
+   "bb_sha256": "b81f37a043a6f767e7c94d105f4bd31282f3ecc20680bb9d09bd93461cf4c863",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3586,
+    "word": "audit"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.a.|.u.|.d.|.i.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "recipe",
+   "bb_sha256": "e1d8e552330911f9f779f85b6f2c00a15e790dcc3fbb3b28f5da1d660a30c5b8",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2953,
+    "word": "recipe"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.c.|.i.|.p.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rev",
+   "bb_sha256": "d1e75aca758154ee2147853c02ec6716f4a7ea0418c685978f5d4b8c7b0be25a",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5218,
+    "word": "rev"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.r.|.e.|.v.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "reed",
+   "bb_sha256": "d8252e5d78f9b929a157d4cd7e19ccf4a8adff7c4a7aa442fb84a3ecf8138ac9",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5418,
+    "word": "reed"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.e.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "meals",
+   "bb_sha256": "f146172c0036ebcaa60e01b3ae1efef31bb80153339d99dd113b718d6bcd7de4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5560,
+    "word": "meals"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.m.|.e.|.a.|.l.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "racing",
+   "bb_sha256": "0323eeb8b2e7c8900df1fadcf87b06f40d9c6d1f57aeb95d30f7d6e3abc7f2ec",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2234,
+    "word": "racing"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.a.|.c.|.i.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "vip",
+   "bb_sha256": "f9505a739a8fb8e851942c3f973d4bbb2d4c4743a6b633090abf2f2be035d572",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8134,
+    "word": "vip"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.v.|.i.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rand",
+   "bb_sha256": "1c1c65e8f2de96f1f1dd8a3b574871477a13cc8fbd46b591e988206170735238",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8277,
+    "word": "rand"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.a.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "drive",
+   "bb_sha256": "7062520c5a0ea9deac825278c9f4f0cbad48864b2c7d0c7f1ebccdb752afb058",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 737,
+    "word": "drive"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.r.|.i.|.v.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "redeem",
+   "bb_sha256": "2e5106cc0168994b4fe52ac9f67394250ee7504db2db5de3ce0ac0a6e01dfa01",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6061,
+    "word": "redeem"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.d.|.e.|.e.|.m.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mug",
+   "bb_sha256": "a19ee2577879b76a5b98cb022b10b3e5c5d07122267089a0505cd9ca792d304f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9934,
+    "word": "mug"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.m.|.u.|.g.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fees",
+   "bb_sha256": "9ca93831c6f31695b1d781de37e7c35f8c6fbdd43ff8fea408728ceb05db7137",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1502,
+    "word": "fees"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.f.|.e.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rhode",
+   "bb_sha256": "e7967d473fdd361825bedb503fd8507c08408481af86f84ced85dfc3d4db90b1",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4413,
+    "word": "rhode"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.r.|.h.|.o.|.d.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "remote",
+   "bb_sha256": "b71199ebd070b36beab7317920c2c2f1d777df8d05e5527d8458fda57cb17a7a",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1639,
+    "word": "remote"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.m.|.o.|.t.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rap",
+   "bb_sha256": "f7c465019a477431771ac66f011f386c3ea0b6528e76fa17f5f3ceab70511985",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5857,
+    "word": "rap"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.r.|.a.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "phil",
+   "bb_sha256": "4b25923a4f31b83195ceb0d160e0a1a6d1556b5a2cd4c582ff40aa0498ae1578",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4656,
+    "word": "phil"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.h.|.i.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "anger",
+   "bb_sha256": "d4cc56aa47e0b5c789d492c0b1363ec44b73cd41adfdaa02860ed36d523ebf4c",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7314,
+    "word": "anger"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.a.|.n.|.g.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "parade",
+   "bb_sha256": "cae1afc1235b4cfbb42d130848909f19db151d4acb53c39f539c82f8e4d81d1c",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6903,
+    "word": "parade"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.a.|.r.|.a.|.d.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cia",
+   "bb_sha256": "779d1ba1900f81e1ece4536c64382ed725a296f56fd77f3383bdf6b511637a55",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7755,
+    "word": "cia"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.i.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "suit",
+   "bb_sha256": "21839e0eb260dda7a564eef13fa1ae94970a32834064cfc8437e636cfe7533fb",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3709,
+    "word": "suit"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.u.|.i.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "brook",
+   "bb_sha256": "b79624284645b7cba19d76a417e493fe9e767745d4313fdfc35107c92a5db909",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8863,
+    "word": "brook"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.r.|.o.|.o.|.k.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "denied",
+   "bb_sha256": "62d6c2330036f64bcf71b95791743d6c77c38e0d7c8cbedcbc525c77c57cf0ee",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5640,
+    "word": "denied"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.d.|.e.|.n.|.i.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dry",
+   "bb_sha256": "b755cb248c3c4a7d94f835b4421809336e7015850342064be4dfa23349dcdcaa",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2507,
+    "word": "dry"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.r.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "wrap",
+   "bb_sha256": "f0a289923ed634acec748941a7fab6a057e5d4a5cb29e5e2b6136d639897c74a",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5452,
+    "word": "wrap"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.w.|.r.|.a.|.p.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "token",
+   "bb_sha256": "3c469e9d6c5875d37a43f353d4f88e61fcf812c66eee3457465a40b0da4153e0",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9277,
+    "word": "token"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.o.|.k.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fridge",
+   "bb_sha256": "997bc249599b74191aa0ee6851d0945e291fd2c543898427d59c279438edd40c",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9522,
+    "word": "fridge"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.f.|.r.|.i.|.d.|.g.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fox",
+   "bb_sha256": "776cb326ab0cd5f0a974c1b9606044d8485201f2db19cf8e3749bdee5f36e200",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3222,
+    "word": "fox"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.o.|.x.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rise",
+   "bb_sha256": "dbfbe1cd2ee1f49a02efb08eea36506d5d46e8a66d7175f118589f212ebcf897",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2703,
+    "word": "rise"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.i.|.s.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "stand",
+   "bb_sha256": "d37a24b801c6e2e338243b7361c5985e1d8e26bcf5555dd08cd8c969e01e1670",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 1778,
+    "word": "stand"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.t.|.a.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "metric",
+   "bb_sha256": "b8b4e9cea77ef29a5e958f13addd4855c35d2f04a060c3a869f8c955fd4c9a34",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7994,
+    "word": "metric"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.e.|.t.|.r.|.i.|.c.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pan",
+   "bb_sha256": "00e37ffae0562ab6818d8f4f97457ac5f9679723c1b57f4b371b93f379f1c17a",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3457,
+    "word": "pan"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.p.|.a.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "seek",
+   "bb_sha256": "cbd345d6a2815fa88d1022650386d07488f45c6c5c3d72da1ca380f0808bb15f",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3171,
+    "word": "seek"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.e.|.e.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cyber",
+   "bb_sha256": "b4bf5d7e5fcf89ef8adb64ec9c624db850d10f2afef020ed9ef23892df0833af",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6531,
+    "word": "cyber"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.y.|.b.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "scotia",
+   "bb_sha256": "3c7313f23d0d7650da8474d7bd310087b67e2b9bdaa05b5d433ae7e2deef42a8",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7401,
+    "word": "scotia"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.c.|.o.|.t.|.i.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mba",
+   "bb_sha256": "90783486b4b0693c1256f2a1d03a668c0eab9e0a8bba7b71a01d0028ec6f47f7",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6962,
+    "word": "mba"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.m.|.b.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fool",
+   "bb_sha256": "18679f10e50678804a44f8cddbc0ed937b3ed234e95fe28357f2703a259c47d4",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7585,
+    "word": "fool"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.f.|.o.|.o.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "omega",
+   "bb_sha256": "304b4a90a76a1cbe4c112e074b30e75181f54df43d60f883597457844293b341",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6045,
+    "word": "omega"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.o.|.m.|.e.|.g.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "module",
+   "bb_sha256": "120970d812836f19888625587a4606a5ad23cef31c8684e601771552548fc6b9",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1863,
+    "word": "module"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.o.|.d.|.u.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "amp",
+   "bb_sha256": "46855b390631765483ce241740fb2b7edcd26237a4a83dbabdc570ec1bcf5006",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4959,
+    "word": "amp"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.a.|.m.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "jeep",
+   "bb_sha256": "d254fa846ea7252ec95bf229075e9ac6bda6f8944f5e445e589a4d54184c931d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6957,
+    "word": "jeep"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.j.|.e.|.e.|.p.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "brick",
+   "bb_sha256": "c762830741c126f19e44d65d9d98666fc2255c36796775224a84f859b0840099",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7244,
+    "word": "brick"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.r.|.i.|.c.|.k.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "newbie",
+   "bb_sha256": "56247e707f880a5f6a51734f358155167b628c74c3241cd00c5de57bb87524c9",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7842,
+    "word": "newbie"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.n.|.e.|.w.|.b.|.i.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bay",
+   "bb_sha256": "a21dfce2c27396ca29a322bf3d9fe9ffd46339f8197973002d239fb7fe13566c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1026,
+    "word": "bay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.a.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bill",
+   "bb_sha256": "623210167553939c87ed8c5f2bfe0b3e0684e12c3a3dd2513613c4e67263b5a1",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 813,
+    "word": "bill"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.i.|.l.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "blogs",
+   "bb_sha256": "48eb8b20cda6f8ae0a8b6f91ede11dd646c00e121f779fc2de894fe1322aad48",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 1749,
+    "word": "blogs"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.l.|.o.|.g.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "blades",
+   "bb_sha256": "59a0838c05543ca73c58fbb65ff73c972ee47dd4a93e088ad22e8cdda9179f1d",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9533,
+    "word": "blades"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.l.|.a.|.d.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bra",
+   "bb_sha256": "8f684d401d2bd253c862fda31cf5cb5a70dcccd3dd551dafce69ac28f5f6aabe",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7106,
+    "word": "bra"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.r.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "noon",
+   "bb_sha256": "b198f3cd8e7048e4a523671b589864cf91401cc04a889a0e42215b3750edb6ff",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6222,
+    "word": "noon"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.n.|.o.|.o.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "drugs",
+   "bb_sha256": "c0bb7ca763be828be2f9aec03be0ecbf86fbbf8ce794246cae5a14a219da5d75",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2081,
+    "word": "drugs"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.r.|.u.|.g.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "barbie",
+   "bb_sha256": "15065d771f7c8746bd30c125f9bb68a5ec7a84fccd7f0a82b38e760f39521c05",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9806,
+    "word": "barbie"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.a.|.r.|.b.|.i.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "why",
+   "bb_sha256": "2be23c585f15e5fd3279d0663036dd9f6e634f4225ef326fc83fb874dbb81a0f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 385,
+    "word": "why"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.w.|.h.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "reel",
+   "bb_sha256": "74a61185e36e3edd483e8b96e93cb0406b0238fcdadda0283a5fa4318c1dcf6d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8268,
+    "word": "reel"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.e.|.e.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "funny",
+   "bb_sha256": "b22d1d8fe5752533954028172c9bf3ac01b57f40c82946a3e7b1eaff389e2b87",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2347,
+    "word": "funny"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.u.|.n.|.n.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "horror",
+   "bb_sha256": "9e96274abcf3df0dfcd14617d6a14931c97fca364083918e38f8cfd20d136f0d",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4260,
+    "word": "horror"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.h.|.o.|.r.|.r.|.o.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dam",
+   "bb_sha256": "2fcb6465ee5cbfa3567355b4f7abe6f03ea08e9283de9c834d1297b1df2c6288",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6578,
+    "word": "dam"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.a.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "boys",
+   "bb_sha256": "6e0b5b262cf4b523f12e075abdea8f27b6fb8539ccf4b38f5de2b03857354ec0",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1541,
+    "word": "boys"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.o.|.y.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "thing",
+   "bb_sha256": "5de94d691ae3039a3f5d362fea9a35964fe0cc4ae44a6a84266d3614755c69b2",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 823,
+    "word": "thing"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.h.|.i.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "offers",
+   "bb_sha256": "92ab364e8f439e2dbc957709b3a70c711a63878c41c08c2c9e03ba940dd4b840",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 545,
+    "word": "offers"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.o.|.f.|.f.|.e.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sub",
+   "bb_sha256": "ddc6e2b224d0fd821669202258386936fc9ce2899e215eec6322b95f8dd96d6a",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1733,
+    "word": "sub"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.u.|.b.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "weed",
+   "bb_sha256": "d132e4bc948e1cc12383afe9439fdee37eaf63dba3041639c64739d93a601bfd",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8871,
+    "word": "weed"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.w.|.e.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ultra",
+   "bb_sha256": "425ed264c86619b9975b134ea3aeddc0f9618662aa247d1bc519b7d6925aa3dc",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3461,
+    "word": "ultra"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.u.|.l.|.t.|.r.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "length",
+   "bb_sha256": "0f82aca66af91493b1ff401de5f1f7e3e24e14560df3f6f7e465dbc915b9947d",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1155,
+    "word": "length"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.l.|.e.|.n.|.g.|.t.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "box",
+   "bb_sha256": "26f8567f2569182294c3fa5b9f9cb2270b554eef628b4c149cf82a42888ff4ae",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 451,
+    "word": "box"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.o.|.x.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kill",
+   "bb_sha256": "2bda9b4dfbabfdb17cd74d827768da5198ae2b8155002a494524bbeaf6f5cdba",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3096,
+    "word": "kill"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.k.|.i.|.l.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "flesh",
+   "bb_sha256": "cb8db7f3aeeb5b2730b5ef71d18c03914b5241c6ce08309e1c0418549ff622fe",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8205,
+    "word": "flesh"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.l.|.e.|.s.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "stamps",
+   "bb_sha256": "48306fd04f903c3a3edf8b2d63c937032fe62002eee8034319e516084d0d3092",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4154,
+    "word": "stamps"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.t.|.a.|.m.|.p.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cum",
+   "bb_sha256": "594810adcbee20bd1d6f8e4cee51efdf1a235691e9d08fe96ce944d7fde34fd6",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1945,
+    "word": "cum"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.u.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fair",
+   "bb_sha256": "1869c9d2a11e8ecde889aa06a811403308c819ea0a4289c50b90eb1d812c1338",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1667,
+    "word": "fair"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.f.|.a.|.i.|.r.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "crack",
+   "bb_sha256": "94f94c9c97bfa92bd267f70e2abd266b069428c282f30ad521d486a069918925",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4224,
+    "word": "crack"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.r.|.a.|.c.|.k.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "yearly",
+   "bb_sha256": "bd3038078d1bb17253452be792756a86621cf46cd44c9a197a85efc3c375ca26",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9115,
+    "word": "yearly"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.y.|.e.|.a.|.r.|.l.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pat",
+   "bb_sha256": "68d753f055b1a15b39499fdbbe86d614f986d0e50e62817b38e86b20a0935f82",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4535,
+    "word": "pat"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.p.|.a.|.t.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cons",
+   "bb_sha256": "a6e9c460a6f6d9bda9b3b2e6d909437a32b7629dede0e897bc382a24d86b499e",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7782,
+    "word": "cons"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.o.|.n.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "peace",
+   "bb_sha256": "c2e10c20bf46daf0ba03f725218b012544a3d0d3b37334eeb1d4d81e5406e478",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 1720,
+    "word": "peace"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.e.|.a.|.c.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "golden",
+   "bb_sha256": "dd56de4137951d9c92681b03416ec15f886b4482a27e3a517d32f085244cbe5d",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2338,
+    "word": "golden"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.g.|.o.|.l.|.d.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "con",
+   "bb_sha256": "1143da2bc54c495c4be31d3868785d39ffdfd56df5668f0645d8f14d47647952",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2529,
+    "word": "con"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.o.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "nuts",
+   "bb_sha256": "9093f2bb8d45a4d70a44fdf56e0b62f7d6c9d7cb0748093b0cf3ff9d35b3ebbe",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6666,
+    "word": "nuts"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.n.|.u.|.t.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "yemen",
+   "bb_sha256": "cc3d6b2176eba4a5795af666439b2a0e10d8947c642f76da4dabe581d7458500",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8795,
+    "word": "yemen"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.y.|.e.|.m.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "enable",
+   "bb_sha256": "e97166b54500da3a32eae48afe8df0970b19abfde3e4f3a50206cd8509feb161",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 2041,
+    "word": "enable"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.e.|.n.|.a.|.b.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sms",
+   "bb_sha256": "9582d03046bd2d14526cfc1129b03215052713cfdc859fd7aa5dbaa9a96f2f4a",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4792,
+    "word": "sms"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.m.|.s.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tone",
+   "bb_sha256": "00cf4ce3935c8a60a1acd094b602276fed4618903839231e5d206dce24c0fe0f",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4082,
+    "word": "tone"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.o.|.n.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "olive",
+   "bb_sha256": "fa6598317163f260c9f3bb0959f80974868eb5ff3f6bf80a092f54e042071aa2",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6528,
+    "word": "olive"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.o.|.l.|.i.|.v.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "frozen",
+   "bb_sha256": "ffb304816a1090313e833215c08dae3d209cfad1ffd1f674f0909a2ae99e1394",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6604,
+    "word": "frozen"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.f.|.r.|.o.|.z.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "zoo",
+   "bb_sha256": "24fe93c9e17cb80452e5d86f1c186fc2fda2482cd5f81d7d305c2295bdab0aec",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5536,
+    "word": "zoo"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.z.|.o.|.o.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sons",
+   "bb_sha256": "29ba0e435141928659588ac4f7a0c3f4aafb749cb34a9cb7fc341179000bb0f8",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5028,
+    "word": "sons"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.o.|.n.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "penis",
+   "bb_sha256": "f6952d6eef555ddd87aca66e56b91530222d6e318414816f3ba7cf5bf694bf0f",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3899,
+    "word": "penis"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.e.|.n.|.i.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cookie",
+   "bb_sha256": "d7e83e28a04b537e64424546b14caf9b67bad2f28dabce68116e0d372319fa00",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5559,
+    "word": "cookie"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.c.|.o.|.o.|.k.|.i.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fix",
+   "bb_sha256": "1c6e6c4c02e55178e85890fc9bbed4ce046415ec8122bf38f711b779184ae2a0",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2464,
+    "word": "fix"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.i.|.x.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bras",
+   "bb_sha256": "20f20875d6ed77c926d9122c94126529aebfba3d5043b2b851b4a46010fa4a6a",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9299,
+    "word": "bras"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.r.|.a.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "films",
+   "bb_sha256": "db944067d6c7762bee2cd7cc3c55e9f35ccea4e885fa17930856aefe784a1b52",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2288,
+    "word": "films"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.i.|.l.|.m.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "arthur",
+   "bb_sha256": "befa156f0283eb0062beb9b86e16a413e1cf8c5135e5518d5c4fa321ce0c7b6b",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4610,
+    "word": "arthur"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.r.|.t.|.h.|.u.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fbi",
+   "bb_sha256": "78adbc6bd41fe265d569b364d9e7a59d438c843917d88d47443edf52c30a7d2c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8261,
+    "word": "fbi"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.b.|.i.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "real",
+   "bb_sha256": "aa33996d60e89311b4d1a920dae03c6d7fa3ae1956c52662e273aad4683e577f",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 212,
+    "word": "real"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.e.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "stays",
+   "bb_sha256": "ab90b11836e7dd5814b9004fa89a58c1e27634273c0b58300be9736e05014c80",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9418,
+    "word": "stays"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.t.|.a.|.y.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "assign",
+   "bb_sha256": "9300b4d2567aad13f65ce033708622fa66e8626e36c75d6b0c477367d1c3af36",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8011,
+    "word": "assign"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.s.|.s.|.i.|.g.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ice",
+   "bb_sha256": "4cb0b250c6250d528f3e61d07d970892168db68bbff1ea5be4a851eda411adfb",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1960,
+    "word": "ice"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.i.|.c.|.e.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "stop",
+   "bb_sha256": "6c45cb72a36e63d522aa54ed8adbd7a29a989474f2f77e0458af8800564ef3cb",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1038,
+    "word": "stop"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.t.|.o.|.p.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tries",
+   "bb_sha256": "ba34f52f79160dbd1e05f9144c48dc3c092469620cbf0694cc7c6f53d6791f40",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 7153,
+    "word": "tries"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.r.|.i.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cotton",
+   "bb_sha256": "69e399851c8419993d46757025fd51e415e0277e8def8cb283dfbe7867212e8a",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3274,
+    "word": "cotton"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.c.|.o.|.t.|.t.|.o.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "guy",
+   "bb_sha256": "3379feb6ae9fed3b989470c591c5aa7ec00269580b84f1737c9e63202645e4b2",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1814,
+    "word": "guy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.g.|.u.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "burn",
+   "bb_sha256": "859facc5a4c9b80ac2eef78916c1953bcccaab6014bb11b9de8337430ea34f0c",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4915,
+    "word": "burn"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.u.|.r.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "proud",
+   "bb_sha256": "d069c85283b98c2c0ca831cb4fd19356e98813b5d0ee31e7b7a4a894e8aca23c",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4132,
+    "word": "proud"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.r.|.o.|.u.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "absent",
+   "bb_sha256": "5ad38304b535c2987dbd24657c1a11b884984ff600d9f389deb0d4e634fee792",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6793,
+    "word": "absent"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.b.|.s.|.e.|.n.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mil",
+   "bb_sha256": "55928210084d5f210396892fe8561f83e02d37201adf0b0c195bdf70096cd95c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8582,
+    "word": "mil"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.m.|.i.|.l.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "teen",
+   "bb_sha256": "345e24682c0e3ce8770a6c394c5476aa143bf3349ca5981785a144ada1b34095",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 432,
+    "word": "teen"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.e.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dying",
+   "bb_sha256": "a32876c61f8f837ba3c3aa8418a4d90344ceb881fffb64965b2f5067b4533ff7",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6628,
+    "word": "dying"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.y.|.i.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pupils",
+   "bb_sha256": "eb68570d3a1134b59a10c7336247b1dc681f48287c7469e82a05b15373d36648",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4825,
+    "word": "pupils"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.u.|.p.|.i.|.l.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dat",
+   "bb_sha256": "947d5a35ff2fe522fda5b431af955e3b27955ebc18c9e3684b07b51ae112461f",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9807,
+    "word": "dat"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.d.|.a.|.t.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kong",
+   "bb_sha256": "28877ae869af57c757d1eb26e7cd1784f6aa6bd8dad8d996ee3665b87edcba22",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2238,
+    "word": "kong"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.k.|.o.|.n.|.g.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "lyric",
+   "bb_sha256": "acf660ae9a4f6f490cb26e8fd53a0f7bbde37725e6e77cb977f1d7f4d73a4f5e",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8043,
+    "word": "lyric"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.l.|.y.|.r.|.i.|.c.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "shaved",
+   "bb_sha256": "f601c4054d7945352a07232bce0a4735923d7f04a8fa137e16319cc4da9281f7",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4371,
+    "word": "shaved"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.h.|.a.|.v.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "len",
+   "bb_sha256": "71fa9faaa6f884aa11f4cea21477b2204a48a4fa7f05cecad00a1250eeeffb4c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8351,
+    "word": "len"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.l.|.e.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "note",
+   "bb_sha256": "edb465624291e4053c6c5ea4b7eb320dec773e10a57d26b95dcf0564f8e310f8",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 460,
+    "word": "note"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.n.|.o.|.t.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "yacht",
+   "bb_sha256": "ed6a077c0b11da0d4eb6073fd4bb17857e8b29cdadb286db72a724947b4bfa68",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8992,
+    "word": "yacht"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.y.|.a.|.c.|.h.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "decade",
+   "bb_sha256": "59cd793c05f0e9e7ff8cd1700d0d641bce31d149feafa74954ee376739c034cb",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5673,
+    "word": "decade"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.d.|.e.|.c.|.a.|.d.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kid",
+   "bb_sha256": "5c77d7fd8f51ed0c2a913e46326ff6d2ea2e95c8ecf1667c72eb72ccc3fc2b46",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3435,
+    "word": "kid"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.k.|.i.|.d.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sony",
+   "bb_sha256": "587d392b6c7680ec7656baf143511491e62c4ec6f459c21cce6953e6f1707bd7",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 946,
+    "word": "sony"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.o.|.n.|.y.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hairy",
+   "bb_sha256": "f876e8081636a84327a806dcec6be5fba9fe32dfc9fd5f60e86f5639f338af41",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3811,
+    "word": "hairy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.h.|.a.|.i.|.r.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "poland",
+   "bb_sha256": "9cbbdd6cbd5335f528ec9f858ee4ddd727186dca99e33f8fc3273d39681d54a8",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3837,
+    "word": "poland"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.o.|.l.|.a.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "neo",
+   "bb_sha256": "73ef176d9f12809e64363b2b5f4553abecca7aae157327f190323cfa0e42c815",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7768,
+    "word": "neo"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.n.|.e.|.o.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dick",
+   "bb_sha256": "ad505b0be8a49b89273e307106fa42133cbd804456724c5e7635bd953215d92a",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3045,
+    "word": "dick"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.i.|.c.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "theme",
+   "bb_sha256": "3cb8201e7ff1e7777446032ef1bf4338535aadbabe464c15411cdce8c2317590",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2168,
+    "word": "theme"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.h.|.e.|.m.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "merger",
+   "bb_sha256": "3e167607d1438b89513505ae27e2a07be91d796a38179d94701a8cb5cafd47f4",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8893,
+    "word": "merger"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.e.|.r.|.g.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mac",
+   "bb_sha256": "348a629f5ceed032c3e8706ec47d9bfafb00fb4250b018dd965435ca50cb836e",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1420,
+    "word": "mac"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.m.|.a.|.c.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "goat",
+   "bb_sha256": "5480f08f35968440ebe8135a8bf9e58c8c944bf4e3ba0f45acb141e474bd0c9c",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9758,
+    "word": "goat"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.g.|.o.|.a.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "excel",
+   "bb_sha256": "faba1e00af8e6c89837f711eeb6f67c0d1bdb573c63abcdcdb2fbf7ab5ad2295",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4770,
+    "word": "excel"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.e.|.x.|.c.|.e.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "stored",
+   "bb_sha256": "87b04e58961f9a99d853d4046a0b5b793e7c3e4bbd21f5aca8fb17c20cdb1d8b",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3918,
+    "word": "stored"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.t.|.o.|.r.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pay",
+   "bb_sha256": "9350872d712a127c494d7dc35e46b0bc9e62e288239708e581dfc3a1400154a4",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 599,
+    "word": "pay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.p.|.a.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "math",
+   "bb_sha256": "58a6d6801ae771e632351013ffe8e53628287bf5310e469c8c48573669011ef0",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2779,
+    "word": "math"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.m.|.a.|.t.|.h.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dress",
+   "bb_sha256": "5b612edb571c479d1a33c2355b8933ef943bd5715b25116aaf91dbf3a842c2bd",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2868,
+    "word": "dress"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.r.|.e.|.s.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cayman",
+   "bb_sha256": "b0397da4f608acbfa6963687d0e2eace84f0bd095fae34e97af02f78dd20011e",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8266,
+    "word": "cayman"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.c.|.a.|.y.|.m.|.a.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "uni",
+   "bb_sha256": "8d9315fc224d877fa15d9322ef9d26e9f6bf233d9d2290fdab0c232494bc945c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9026,
+    "word": "uni"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.u.|.n.|.i.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "nest",
+   "bb_sha256": "75ef2e329bdb50d26a4ce73c2aaa567364e4ac5b5f79f7cf6d64b4cd547a863c",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9369,
+    "word": "nest"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.n.|.e.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fancy",
+   "bb_sha256": "ed541aab68a44e6e71b912abc8f2fd7844a599346a9303886c5abe96f15375f4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6823,
+    "word": "fancy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.f.|.a.|.n.|.c.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sacred",
+   "bb_sha256": "1894c24cf135e26d37ab85c4cd8747794975816c4021d7fd733a5811f04de0f5",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6510,
+    "word": "sacred"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.s.|.a.|.c.|.r.|.e.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ian",
+   "bb_sha256": "b54a95127a4b573f41e335fdbd339dcc2208fbfb1ae0b6fab7599d6e2d6ec754",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4611,
+    "word": "ian"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.i.|.a.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ride",
+   "bb_sha256": "e049bd056f936d1b39b704abcf824eaef39bd8877fcbb82b2a213ceec82bdf26",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2968,
+    "word": "ride"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.i.|.d.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dover",
+   "bb_sha256": "4bcfb67d53702a50e327f5a031ca7bee308ccce53b7eebe7d4483dec9a4f2efe",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 9266,
+    "word": "dover"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.d.|.o.|.v.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "reform",
+   "bb_sha256": "d164ad30cd61bbb2b32a459b7334558a21aebcb2bc0d7a267ce0497bb1c7214f",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3345,
+    "word": "reform"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.f.|.o.|.r.|.m.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tri",
+   "bb_sha256": "cddd67830982a78cc83998c15c13e49e1cb6bea286c4507cb5510d9c6aba4ec3",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6179,
+    "word": "tri"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.r.|.i.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hats",
+   "bb_sha256": "9ddff15a11f2865a254fdfcf581f2980d4807ab2efacfa4e913fc852025c8a30",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5591,
+    "word": "hats"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.h.|.a.|.t.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hello",
+   "bb_sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2420,
+    "word": "hello"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.h.|.e.|.l.|.l.|.o.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "genius",
+   "bb_sha256": "9ed142d60c4571b67f1468ef4f75950a60a1d8dc1c38075cd0d13c80fea7aba5",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8200,
+    "word": "genius"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.g.|.e.|.n.|.i.|.u.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hay",
+   "bb_sha256": "4e30ea25cda1c18cfc423e4d9dfa57b7051a9ef311e09ed43f8e33523f3d9533",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9260,
+    "word": "hay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.h.|.a.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bull",
+   "bb_sha256": "c67c1263651459822c344e42d19ec6cef16c7d1e98ad491f96a0959a51ac15c8",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6069,
+    "word": "bull"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.u.|.l.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "empty",
+   "bb_sha256": "2e1cfa82b035c26cbbbdae632cea070514eb8b773f616aaeaf668e2f0be8f10d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2964,
+    "word": "empty"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.e.|.m.|.p.|.t.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "arrest",
+   "bb_sha256": "7f1c0fd436e9f13c99b0b8c204137fd15ec24423a536449dacef2f10899f2573",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7523,
+    "word": "arrest"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.r.|.r.|.e.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "arc",
+   "bb_sha256": "404fcfb394d23199f6d95f1f36bd2beb6df8564f993f44517f6015fcd16101a9",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5327,
+    "word": "arc"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.a.|.r.|.c.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "porn",
+   "bb_sha256": "8c5c04391361cbf4afd74c5ed8101ea4af881c4ee3b3df1d5b3716a19b1a834d",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 659,
+    "word": "porn"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.o.|.r.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "xerox",
+   "bb_sha256": "ba9d19e7d8f02a7d8a197a94d42e2a98d6af5c79e2a8c338c73348d7f2e561bb",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 8891,
+    "word": "xerox"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.x.|.e.|.r.|.o.|.x.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "jersey",
+   "bb_sha256": "5184a1cdb19a3bc3d64573002c3672095bc434254c2e53ccfba0a4801bb3a882",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1688,
+    "word": "jersey"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.j.|.e.|.r.|.s.|.e.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ada",
+   "bb_sha256": "fdee430d40bd57deeac186cd9790033d0f06f909a8806e7ce6e717ab7c7d5029",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8040,
+    "word": "ada"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.a.|.d.|.a.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ward",
+   "bb_sha256": "96b8f576c788b75e59186bb3948b3755ec8a75670b7a168820ffb4ab8e95347a",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4608,
+    "word": "ward"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.w.|.a.|.r.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "roses",
+   "bb_sha256": "0515aa086a21d9b65d30b41aeb325de3783a40bd9f93ecb3110ef4845aa4848f",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4917,
+    "word": "roses"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.r.|.o.|.s.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "orders",
+   "bb_sha256": "1c168adb00d208e42f93314529f1fa9c0427eb63233ceda95a5db52b7012a719",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1003,
+    "word": "orders"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.o.|.r.|.d.|.e.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tie",
+   "bb_sha256": "6f595eba3f46ceaa9fd0b0a93cb363cad6c66fedd2699850115c8d85d9e5b852",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4607,
+    "word": "tie"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.i.|.e.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "poll",
+   "bb_sha256": "707165e9984b51dcdf1ca7cc9b6fe7a5ec98ab6f71457e9ba25cf6d2924b8a8e",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3252,
+    "word": "poll"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.o.|.l.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "opera",
+   "bb_sha256": "f79926c01dc6dfc2c3b562072c8b86353e1ef6b41f9f314ea82639fb5a05e659",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3948,
+    "word": "opera"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.o.|.p.|.e.|.r.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "breeds",
+   "bb_sha256": "b52ebad2a769679622e0fc2495d5d2e5b9eb1bb2608af2028b6e0b2e93f59a8d",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7963,
+    "word": "breeds"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.r.|.e.|.e.|.d.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mon",
+   "bb_sha256": "e6d3efc6abfd85ceacedc20ecbb866e564fe16742930c48f8618bff70c5028e6",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1111,
+    "word": "mon"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.m.|.o.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "eden",
+   "bb_sha256": "e24ef8f938288781086e27a9433a4d0472a1dbaac31cfe54be2c3525fa30cb2e",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9084,
+    "word": "eden"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.e.|.d.|.e.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "relay",
+   "bb_sha256": "682fbae20f3428bcec4c117c57bea18d438c4758d972909b41dbe22884e0d6b8",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6540,
+    "word": "relay"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.l.|.a.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cheers",
+   "bb_sha256": "0f3b19453dde7c91cf64090c9cf7f3b3789bccfebe07b968c4260345e77e4ff1",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7787,
+    "word": "cheers"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.c.|.h.|.e.|.e.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "roy",
+   "bb_sha256": "a59b1da0739609cfd823420304bebb268693eade4ff3e1269fce24548c301240",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5386,
+    "word": "roy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.r.|.o.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rows",
+   "bb_sha256": "bc51e9e65d79e1c90ba544ab2eae1044ccdf8c1af7a559ba375cba4276f7d99e",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7725,
+    "word": "rows"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.r.|.o.|.w.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "skirt",
+   "bb_sha256": "3abafce5bc548613ff47ae39983fff685a2db66ba1a4fa6f93a1d57286e034ef",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6185,
+    "word": "skirt"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.k.|.i.|.r.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "attend",
+   "bb_sha256": "192f9a06d1dd2d2462393c24255c0a83db16b087e8a476ef6fc6322012f37c10",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3607,
+    "word": "attend"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.a.|.t.|.t.|.e.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "foo",
+   "bb_sha256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8070,
+    "word": "foo"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.o.|.o.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tail",
+   "bb_sha256": "0c62f876ef1dea830de9f32c2f4b46dd6d74d50d15896e09ef5a2fcd4ac7e1d7",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5936,
+    "word": "tail"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.a.|.i.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "maine",
+   "bb_sha256": "62f2df82eae9f9b96d42bcda9ed2db7c58a27a6a37ff7d78446f33043c5a0775",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2974,
+    "word": "maine"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.m.|.a.|.i.|.n.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hilton",
+   "bb_sha256": "8e3f5e915594cdb4ef687b3c65e4706ffa0abefadc91934f0add9ce4570e4700",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4257,
+    "word": "hilton"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.h.|.i.|.l.|.t.|.o.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "thy",
+   "bb_sha256": "8bee59f511546136b01dd89870a8bcede6f9931fa71c3cdfcb1f43f5792998a6",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6167,
+    "word": "thy"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.h.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "stem",
+   "bb_sha256": "919a11f948095f31d9220d1d6f1e4fda01b2826094c6d3c711cc8c6c696c34e0",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5836,
+    "word": "stem"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.t.|.e.|.m.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hopes",
+   "bb_sha256": "7d12047fdd3d865af543607dcc72aebd258e0d55a7868f1df4c2dd53f2791e8f",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6431,
+    "word": "hopes"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.h.|.o.|.p.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "remark",
+   "bb_sha256": "1ffcd59e73280037cb72a49668a35bc8d18e694fb59616dc63bf7171ad35e32a",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8919,
+    "word": "remark"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.m.|.a.|.r.|.k.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "nbc",
+   "bb_sha256": "c880901c00eae55922076e756a5ad8c17beafa11f83edc9ed0988963e6e08643",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 9095,
+    "word": "nbc"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.n.|.b.|.c.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "seal",
+   "bb_sha256": "f0f668bf610e5cf9f11d2aa50f924ada10797100e8f05de085842ddb6370a867",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4290,
+    "word": "seal"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.s.|.e.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "trend",
+   "bb_sha256": "2ab022d82080f5d941e001194e7e9d7c49a84eaafd644b02344f4fdc985ca1e4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4405,
+    "word": "trend"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.t.|.r.|.e.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "brakes",
+   "bb_sha256": "67c565f1912de6ef87a3a109d5645fbb602bf64ab5f0cb2c261f8687a278a946",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 9238,
+    "word": "brakes"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.r.|.a.|.k.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bid",
+   "bb_sha256": "c0e0efc4fc56af4904d52e381eaf5c7090e91e217bc390997a119140dc672ff2",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1138,
+    "word": "bid"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.i.|.d.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pond",
+   "bb_sha256": "4e7914b0df8068b79cdc10d387f294c12a245d3982ab6fb8ae57c19e62713e41",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6565,
+    "word": "pond"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.p.|.o.|.n.|.d.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sunny",
+   "bb_sha256": "c2333a7e3a607935c67c1e6f6810395decc9f66f592b812aaada7db94ba215d6",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6406,
+    "word": "sunny"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.u.|.n.|.n.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "terror",
+   "bb_sha256": "bd778891dbe86ede8cdb26c8d9c48419d7e5a8797cf1599cf58ee3087f514c7a",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5421,
+    "word": "terror"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.t.|.e.|.r.|.r.|.o.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "fax",
+   "bb_sha256": "4af4e217c06a9b00b977575ac8f4018b162f570703da2e818e84ac77297c0433",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 628,
+    "word": "fax"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.f.|.a.|.x.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bear",
+   "bb_sha256": "bc98bb50e8094b2ac3ceb90ba2512587c0513cd294a07efcfdcf467198da6266",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2490,
+    "word": "bear"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.e.|.a.|.r.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "heart",
+   "bb_sha256": "3cb968a982080be1d7a5df98dc49673a8c052d2642ef7730b7753cee5b87c3dd",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 889,
+    "word": "heart"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.h.|.e.|.a.|.r.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "beaver",
+   "bb_sha256": "71da248c6049134707691aa231922056ffaf061cdd2513420d945d478f5033db",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6872,
+    "word": "beaver"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.e.|.a.|.v.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cam",
+   "bb_sha256": "707a3c64c7c00e52ae880442b769029d2d1328a29941df71c53332d153f87820",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3196,
+    "word": "cam"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.a.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "kick",
+   "bb_sha256": "0db10f2c2f332cd27cf1407fa16c686337b2b23f46125d6e17740dbfc6df427e",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5089,
+    "word": "kick"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.k.|.i.|.c.|.k.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "catch",
+   "bb_sha256": "9f925cdc4feedda4d9ae06f2e1b476680f4781ac2e0fb95fcc819be70328453d",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3635,
+    "word": "catch"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.a.|.t.|.c.|.h.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bottle",
+   "bb_sha256": "7def9c79e5be6d7a70022168b8b099ce1e707a2fd809a60fab73de6de578884b",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 4030,
+    "word": "bottle"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.o.|.t.|.t.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ver",
+   "bb_sha256": "cf542ada135ee3edcbbe7b31003192c75295c7eff0efe7593a0a0b0f792d5256",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7903,
+    "word": "ver"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.v.|.e.|.r.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "beam",
+   "bb_sha256": "ae4b867cf2eeb128ceab8c7df148df2eacfe2be35dbd40856a77bfc74f882236",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5471,
+    "word": "beam"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.e.|.a.|.m.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "worse",
+   "bb_sha256": "e760bdbe0be65db96a57ff47b62e8ab179c0d6b2f3316b80f71ecac63abd2da8",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4423,
+    "word": "worse"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.w.|.o.|.r.|.s.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "reggae",
+   "bb_sha256": "d36a564e704857ab9e1c3efb225465e0d76eae8ec03fabff71752b6b972e7c4d",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8480,
+    "word": "reggae"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.r.|.e.|.g.|.g.|.a.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "hey",
+   "bb_sha256": "fa690b82061edfd2852629aeba8a8977b57e40fcb77d1a7a28b26cba62591204",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2847,
+    "word": "hey"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.h.|.e.|.y.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cape",
+   "bb_sha256": "0ed2fa2539de546945afee750df626e1e54543bf7fd05aad842e28f0969b06f8",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 2761,
+    "word": "cape"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.a.|.p.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sigma",
+   "bb_sha256": "38de90475bb334fb3dea5d54f250500aba60fe2c6158115d342b06bcb46e39bf",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5459,
+    "word": "sigma"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.i.|.g.|.m.|.a.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "chains",
+   "bb_sha256": "264ad4c6a1169d92eee663ad42b9ec0e8cc00977b5dc451d66989f628356b3b5",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6217,
+    "word": "chains"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.c.|.h.|.a.|.i.|.n.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bee",
+   "bb_sha256": "62cb81b5904a262ffaeed02abef36bfc540b09f964b8b0b636662f77ffce6714",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6885,
+    "word": "bee"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.e.|.e.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "taxi",
+   "bb_sha256": "12796d3d5f4e132385f8af8e281efa211cdb2a05b8450039f037a6573e0bcb3f",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 7789,
+    "word": "taxi"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.a.|.x.|.i.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "camel",
+   "bb_sha256": "4812585e944994cb91cae8b4d8d87a155e6b1a165d8bdf5ab75752c4f04b9724",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5736,
+    "word": "camel"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.c.|.a.|.m.|.e.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "virgin",
+   "bb_sha256": "4098e1a88ff7d1811c0b9043066c8a5df457cfac8b810cbf1d7c5105d9ed0a0b",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 3141,
+    "word": "virgin"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.v.|.i.|.r.|.g.|.i.|.n.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tap",
+   "bb_sha256": "729cd87c6329408e2bbfea0e2055404969539832af12773b558aca625ccc9041",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 6828,
+    "word": "tap"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.a.|.p.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "flat",
+   "bb_sha256": "5dc27af287fa554aa10fec9de8d724a7964572f1ffd24c2b00e1a3a860ce7679",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1766,
+    "word": "flat"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.f.|.l.|.a.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "brief",
+   "bb_sha256": "29a8825bd242f14386ee528d76e0e8f1e38f3c8c4047d7b2d6df7493368a17d0",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 2436,
+    "word": "brief"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.r.|.i.|.e.|.f.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "impact",
+   "bb_sha256": "6f61f46c23a66607af759dcd348ac132846385d8f39534e69b6cd934bdabad8b",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1336,
+    "word": "impact"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.i.|.m.|.p.|.a.|.c.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "chi",
+   "bb_sha256": "dffe602cd1e0bfa9b4d85498cabb044e40b9340e06a2e4df9b9374a0eade257e",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 5746,
+    "word": "chi"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.c.|.h.|.i.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "laws",
+   "bb_sha256": "8954b4ce200e1b10594592fbed1a8ba405c3e70d3a3ae2909815f7b5cdaf992c",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 1801,
+    "word": "laws"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.l.|.a.|.w.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "vital",
+   "bb_sha256": "39ca0c269f8be5cbe8ac091ed1a0e96d662a7d7d328690d0e3b621a75bce84b1",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 4760,
+    "word": "vital"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.v.|.i.|.t.|.a.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "owners",
+   "bb_sha256": "6f0e3a8c0eb46e8834b43b03374ece43a030621d92a7437beb48f871e90f8d90",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1350,
+    "word": "owners"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.o.|.w.|.n.|.e.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "tim",
+   "bb_sha256": "c0d19e4483571ff07cb01a4d3f5484102d7f333c4cafa64a2821f55031ea6041",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2972,
+    "word": "tim"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.i.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "lift",
+   "bb_sha256": "5364b92e50b1944f33d10f662b1c90a18a004ed8da1434376c41cde8f920aede",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 4499,
+    "word": "lift"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.l.|.i.|.f.|.t.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "pairs",
+   "bb_sha256": "fb095624103259f86a43b8cedab71373a62f18c2539424a53863e3e9fbb984c7",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6457,
+    "word": "pairs"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.p.|.a.|.i.|.r.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "barnes",
+   "bb_sha256": "e85940bbb038c2c50b283e54e6a74160cdb7d596b82bc1dfe2d00e81d2461319",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6568,
+    "word": "barnes"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.a.|.r.|.n.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "aim",
+   "bb_sha256": "a27f98238d2c1c02f2a131d894d29410f0915d9f930bff80389e5fe0b55e243c",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 2751,
+    "word": "aim"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.a.|.i.|.m.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "dame",
+   "bb_sha256": "50ce12611f6391ad3ead149248be9dc30950227e41febb83ea838b4929e524cd",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 8989,
+    "word": "dame"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.d.|.a.|.m.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "super",
+   "bb_sha256": "73d1b1b1bc1dabfb97f216d897b7968e44b06457920f00f2dc6c1ed3be25ad4c",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 1209,
+    "word": "super"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.s.|.u.|.p.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "detail",
+   "bb_sha256": "9c0211c51d04574fdaee6d51f53f41952570b0bf68a7219aaae01ce00fa6b8dd",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 1799,
+    "word": "detail"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.d.|.e.|.t.|.a.|.i.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "uri",
+   "bb_sha256": "70e5d7b6a29b392f85076fe15ca2f2053c56c2338728c4e33c9e8ddb1ee827cc",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 8759,
+    "word": "uri"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.u.|.r.|.i.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ties",
+   "bb_sha256": "abeda62fefc1b342f793615a0217913d3b61eb67a0015c08d9f0dbcc5fa8b3fd",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 5904,
+    "word": "ties"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.t.|.i.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bobby",
+   "bb_sha256": "69ff8042237aeef5ddf1ced10e851bc6104e1ebb15a304061dba43ea10106fa9",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6715,
+    "word": "bobby"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.o.|.b.|.b.|.y.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "marker",
+   "bb_sha256": "ed5b8120601641c516d02ed9dc643a59648524248d5e2af877da39ea253c723e",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 7866,
+    "word": "marker"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.a.|.r.|.k.|.e.|.r.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "rec",
+   "bb_sha256": "cb41b38387d6fca01272be03380f63568fccbd724c299ae58e8d548d91b67a58",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 7022,
+    "word": "rec"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.r.|.e.|.c.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "iran",
+   "bb_sha256": "d4328f17fc46dfde5a0a2cbc09fd28abab29b0e63dba80133a212e2403361cf4",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3229,
+    "word": "iran"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.i.|.r.|.a.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "blast",
+   "bb_sha256": "982d3cec0c8e060d5b7175d368c2eb3171c291a20c97f83e29b386275174f4dc",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 6477,
+    "word": "blast"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.l.|.a.|.s.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "brooks",
+   "bb_sha256": "27a0f645e20497a65f997aef769b2c72324d983a92faac73e9cd467173466641",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6380,
+    "word": "brooks"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.b.|.r.|.o.|.o.|.k.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "sec",
+   "bb_sha256": "add93534eeb463800fe0ed0946048d33636dd2a014fab92e8a37f77ce98c740b",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 1975,
+    "word": "sec"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.s.|.e.|.c.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "cove",
+   "bb_sha256": "6a259d3299684d8a1f5693be49dde21e5e22195158487a86c3d73d07c36a5cfc",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 9060,
+    "word": "cove"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.o.|.v.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "robot",
+   "bb_sha256": "18d63be10ad544a04a22c944dee01d6d864ec69b797a58edae92e6a44ad8fdbf",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 5191,
+    "word": "robot"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.r.|.o.|.b.|.o.|.t.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "nickel",
+   "bb_sha256": "47c4d6406db7b34454aa1994657c43340e3b2ab22f9aa3bc83ad51a80d017a2d",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 8799,
+    "word": "nickel"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.n.|.i.|.c.|.k.|.e.|.l.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "par",
+   "bb_sha256": "c9d9d2c4be976b707a1acdcaba8495e7e0a7089579da6625a71083d5b0c6bddf",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 4220,
+    "word": "par"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.p.|.a.|.r.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "mile",
+   "bb_sha256": "9fede2030631728fc75fbfdad738ac45acc4af0f2a3e86ef6da556b8b8185d86",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 3417,
+    "word": "mile"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.m.|.i.|.l.|.e.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "guide",
+   "bb_sha256": "83ca68be6227af2feb15f227485ed18aff8ecae99416a4bd6df3be1b5e8059b4",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 342,
+    "word": "guide"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.g.|.u.|.i.|.d.|.e.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "madrid",
+   "bb_sha256": "1579a6e3112caba1b6031ef7c507f3014d7b0a408fefd1b4d4a2c8c32d2274ff",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 6128,
+    "word": "madrid"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.m.|.a.|.d.|.r.|.i.|.d.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "ben",
+   "bb_sha256": "6700869c8ff7480e34a70a708b028700dbaa3a033b5652b903afe89f49a31456",
+   "meta": {
+    "font": "bubble",
+    "length": 3,
+    "rank": 3093,
+    "word": "ben"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.b.|.e.|.n.)\n.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "bean",
+   "bb_sha256": "b3fa55f98fcfcaf6a15a7c4eb7cdd1b593693d3fef2fb7aec3b6768fd7c6a4ce",
+   "meta": {
+    "font": "bubble",
+    "length": 4,
+    "rank": 6791,
+    "word": "bean"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.b.|.e.|.a.|.n.)\n.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "boots",
+   "bb_sha256": "40cafc18e93464f86d5d304e726df74311237955bcf7d99909bcef3f0bcb90bb",
+   "meta": {
+    "font": "bubble",
+    "length": 5,
+    "rank": 3831,
+    "word": "boots"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\.\n(.b.|.o.|.o.|.t.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/."
+  },
+  {
+   "answer": "passes",
+   "bb_sha256": "2c28ec094b830e09611d575d50fa0fd006db8f5a51a1b4cc6bb259f0378d5bbc",
+   "meta": {
+    "font": "bubble",
+    "length": 6,
+    "rank": 5568,
+    "word": "passes"
+   },
+   "question": "What word is displayed in the ASCII art below?\n.._..._..._..._..._..._..\n./.\\./.\\./.\\./.\\./.\\./.\\.\n(.p.|.a.|.s.|.s.|.e.|.s.)\n.\\_/.\\_/.\\_/.\\_/.\\_/.\\_/."
+  }
+ ],
+ "n_options": null,
+ "n_redrawn": {
+  "collision": 84,
+  "duplicate": 40,
+  "rejected": 0,
+  "repeated_answer": 0,
+  "shot_answer": 0
+ },
+ "name": "ascii_bubble",
+ "provenance": {
+  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "pyfiglet": "1.0.4",
+  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
+ },
+ "rung_type": "string",
+ "seed": 20260912,
+ "shots": [
+  [
+   "What word is displayed in the ASCII art below?\n.._..._..._..\n./.\\./.\\./.\\.\n(.t.|.a.|.x.)\n.\\_/.\\_/.\\_/.",
+   "tax"
+  ],
+  [
+   "What word is displayed in the ASCII art below?\n.._..._..._..._..\n./.\\./.\\./.\\./.\\.\n(.c.|.a.|.v.|.e.)\n.\\_/.\\_/.\\_/.\\_/.",
+   "cave"
+  ]
+ ],
+ "task": "ascii_word_recognition",
+ "unique_answers": true,
+ "wei_class": "E.3"
+}

@@ -1,0 +1,5037 @@
+{
+ "answer_type": "number",
+ "collision_kind": "input",
+ "description": "length of the longest common subsequence of two random uppercase strings (4-31 letters), answers 0-9 balanced fifty each",
+ "eval_items": [
+  {
+   "answer": "0",
+   "bb_sha256": "1431e4498bda50fc77911f3139288582f25817e3b96f278252a22dc9ab754b99",
+   "meta": {
+    "a": "OJRDMHVE",
+    "b": "LZBIWC",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OJRDMHVE LZBIWC"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "0ef875c9272543c7a19a546bcb2da6fa07994bfb30eb1063ff3388b6f88ea210",
+   "meta": {
+    "a": "VSKMY",
+    "b": "UDJYQLAM",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VSKMY UDJYQLAM"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "fd787376f5d0c1ec11473e4cd11061eb9c2f94ef205791d9733821b433e02c18",
+   "meta": {
+    "a": "IDEXTVWDG",
+    "b": "NFFQIJIGKFM",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IDEXTVWDG NFFQIJIGKFM"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "75777b6311029cc55e44243438af4686b4af78928cde2eb62bd1138e880ae472",
+   "meta": {
+    "a": "GWERIMCLBJH",
+    "b": "LNTBALH",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GWERIMCLBJH LNTBALH"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "95b625faddbbe21f0e0ffe8844e51308f52b82578084edbb7dc96c9ea73ca672",
+   "meta": {
+    "a": "KOTUXQEXGEWYK",
+    "b": "ANXKJEETFKUSTSLUU",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KOTUXQEXGEWYK ANXKJEETFKUSTSLUU"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "623557708f7454d3c0d4071022c7663fe3259968bace76e53c1866f9cc789f23",
+   "meta": {
+    "a": "RORBWWYOCHERJCPYDBXTF",
+    "b": "HVBKKCEIVQJURAWOBBIV",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RORBWWYOCHERJCPYDBXTF HVBKKCEIVQJURAWOBBIV"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "026a714b2ad8527b9b92a1a5df1d7c80c6e9731b3383e1814272eca755b279b7",
+   "meta": {
+    "a": "XMBXMZHOUNLSE",
+    "b": "MBGFZWVUOAGOCLAPLMEOVODO",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XMBXMZHOUNLSE MBGFZWVUOAGOCLAPLMEOVODO"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "d4f2faba49745767a5e0247a3ecc1ccd26da23ebe3d94ee1b2b7736b0ef3f73f",
+   "meta": {
+    "a": "FOGTJYGKASWSNNBLMYTSBLNVBX",
+    "b": "CVGNHONXOLALBJBHOSXKGQIAPBPLP",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FOGTJYGKASWSNNBLMYTSBLNVBX CVGNHONXOLALBJBHOSXKGQIAPBPLP"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "a1a0b5c6f57d4dbaa0c4d0016c416122ee2a7d929764c698684769a515ef3670",
+   "meta": {
+    "a": "PZBDWWQENNBFJITVIAJQKBVN",
+    "b": "ODTBGMVUDPXTTELBUMDTJVDWHBJHBGB",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PZBDWWQENNBFJITVIAJQKBVN ODTBGMVUDPXTTELBUMDTJVDWHBJHBGB"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "ffc0d4f0485d9d9d328a812a4a61cd5c944f9db6d01f05f36147fec380bc5d38",
+   "meta": {
+    "a": "YNHREEVHTMJWDRWSVDAXECXWNYPGMI",
+    "b": "CRRQAOBCRWHLRYPLAZQHSMUIVBDVUH",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YNHREEVHTMJWDRWSVDAXECXWNYPGMI CRRQAOBCRWHLRYPLAZQHSMUIVBDVUH"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "30d1788c9c4a178345185571872475de0aa04e17770448b8ad75fdaabf3b101a",
+   "meta": {
+    "a": "EEMKUF",
+    "b": "ZXZCBYW",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EEMKUF ZXZCBYW"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "35a54d1484a79f6f81a4ee57a26a8f94639d99a8782d19a6c47ab5380108e476",
+   "meta": {
+    "a": "NUKK",
+    "b": "SRUVLOJD",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NUKK SRUVLOJD"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "a4b01e6cc898d72d03f3da817d140aee5bb56b128cb28b9eb06c4adc019efb86",
+   "meta": {
+    "a": "WORACSGDBCQK",
+    "b": "XGHZAUS",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WORACSGDBCQK XGHZAUS"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "86461bfa5b9eb4a7c45cf46d97ce7098063bad4061581968b3f7f0dc2e593083",
+   "meta": {
+    "a": "UEQDVIMSJBGDRU",
+    "b": "UZCOHFJRS",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UEQDVIMSJBGDRU UZCOHFJRS"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "7fad3339f9a1b4412546791c919c535e10100bab4f185e305b14ed30dbc0c819",
+   "meta": {
+    "a": "KDRLZYHLVDCWLTEFZ",
+    "b": "MYRRFYTTFURG",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KDRLZYHLVDCWLTEFZ MYRRFYTTFURG"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "9ff05d8a146d05b0509b516abe4c56ac906406c3718dc13878e7f9e96c3539cc",
+   "meta": {
+    "a": "PLUXMVZPZRHKKKLBQFL",
+    "b": "SMPAPDTDYHKF",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PLUXMVZPZRHKKKLBQFL SMPAPDTDYHKF"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "becd288ef7f70b2eb304456c7a5d60e3dd06b0bee4c14cc2806e905d4cd4e6c5",
+   "meta": {
+    "a": "YEUQTBAZUBBHXVASSJ",
+    "b": "NKQBQBPHUOPBKSJYMG",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YEUQTBAZUBBHXVASSJ NKQBQBPHUOPBKSJYMG"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "eceb78258ce80e19926ba5e67db605b90cddfd34c8ca374a461ae03f6ad19a3a",
+   "meta": {
+    "a": "EZUOJBIEBQOYXQSFIJCEJFESPPGJV",
+    "b": "RTNOSCDKWBONFZWSJFMKYFSNYHFZ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EZUOJBIEBQOYXQSFIJCEJFESPPGJV RTNOSCDKWBONFZWSJFMKYFSNYHFZ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "c3c2c8222cd7e0cf467c4605369b606736cbe8b964880f9ca759e36e7ca1023b",
+   "meta": {
+    "a": "BAUETMLTSZSDMOHRN",
+    "b": "TJDCMTWKWIMWIQUEMQTESAOZSOOE",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BAUETMLTSZSDMOHRN TJDCMTWKWIMWIQUEMQTESAOZSOOE"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "a7ff9f85a2c29aa90eb9f5d32c12f969aa1d9bc0efbec3932b68721ed75ea1a0",
+   "meta": {
+    "a": "LUFCPLTFTTJMWIOAUFWOXMMTI",
+    "b": "LJPRWOEXEBPDTLVFTWOOYIP",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LUFCPLTFTTJMWIOAUFWOXMMTI LJPRWOEXEBPDTLVFTWOOYIP"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "e41afbda6fd435a5b57ef8e65df782e9de4e9f49ce95e6267c3b764faf8d4dcb",
+   "meta": {
+    "a": "ZNKK",
+    "b": "MITSIXT",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZNKK MITSIXT"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "0cc2b513ace3d9d424e10cd0190c656b2d947dd51bbd57496692061bfc8c50d8",
+   "meta": {
+    "a": "IVBWDUQXXHU",
+    "b": "CAVY",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IVBWDUQXXHU CAVY"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "9695fca42a813ef5fd98cf1df24d8a0db4e6847b6c027b3c49ccb0e293fcb276",
+   "meta": {
+    "a": "KTJZIREUGJF",
+    "b": "TDBNZV",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KTJZIREUGJF TDBNZV"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "539971808d202c5cf112d01d26244e2175038681363a6f48b0e884e88faf9d7e",
+   "meta": {
+    "a": "KYOIMQUQQORPDR",
+    "b": "PLYLNUYYMD",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KYOIMQUQQORPDR PLYLNUYYMD"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "d08d7bd10ae6177c6c330de47177d1d1e80179f0151156eb9b04df8460628696",
+   "meta": {
+    "a": "QDTDLEUMWAJB",
+    "b": "NNGIBUDFKTHJYOTJBU",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QDTDLEUMWAJB NNGIBUDFKTHJYOTJBU"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "a287847670c94426a9d2995cb86ca195af0ce03ade1e128a51a83e19d6e60f70",
+   "meta": {
+    "a": "PDNDWNTPZJRAFUQJUK",
+    "b": "DVNEIDVROMTOOKH",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PDNDWNTPZJRAFUQJUK DVNEIDVROMTOOKH"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "2e8dd8c58934579d11a35fc400d053089e028a804926328d3b28caa533ee055b",
+   "meta": {
+    "a": "AGPXBJMUFFISMYDZFKDWRFU",
+    "b": "TBTENMVDZWGVZBHFEG",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AGPXBJMUFFISMYDZFKDWRFU TBTENMVDZWGVZBHFEG"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "bb7ca6eaa7ac7ddd785d6c07134ff686517c0dd1402142c60e137b0cfc9dcacb",
+   "meta": {
+    "a": "LJLWFSXEDVXQTASPDFUASGSXEBE",
+    "b": "XDDPTXDQYSFELKLSIQOMHHY",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LJLWFSXEDVXQTASPDFUASGSXEBE XDDPTXDQYSFELKLSIQOMHHY"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "719510776d8c5498d0c1920687c1c4e998686609dd8e66ee7c7efd40be75451a",
+   "meta": {
+    "a": "RKNUNXSVWLSRCAHMYVMIENCGJDMH",
+    "b": "KOTWPICYIPSVATERMWLAAALYH",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RKNUNXSVWLSRCAHMYVMIENCGJDMH KOTWPICYIPSVATERMWLAAALYH"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "7d31066d2095e4c0093953eb4417adf06bdd781c40677ad78735cfd494761ce7",
+   "meta": {
+    "a": "MLCXKTESDPXKUMTOVXCJCQWFNFVXJFP",
+    "b": "WLWIXRWZJHRKTKHZIUHFJXKGXPHWVQY",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MLCXKTESDPXKUMTOVXCJCQWFNFVXJFP WLWIXRWZJHRKTKHZIUHFJXKGXPHWVQY"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "b0dd1cefa39a0dbf34bb62511cefb2cfbd1367179294f3475a6ca320bb97c84a",
+   "meta": {
+    "a": "UKYRAR",
+    "b": "LPQS",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UKYRAR LPQS"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "5bb903902fcad5540f5cf79ab0204cd37c889a035337aadbd8cb71a7eef36261",
+   "meta": {
+    "a": "EDZQWHMP",
+    "b": "RQBUIOQESEY",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EDZQWHMP RQBUIOQESEY"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "c314347a2e9bd72e7732f3670caeb938b1467a943c29bffea2eae1c73103de4a",
+   "meta": {
+    "a": "WWJGPAUUNTPH",
+    "b": "ALXHNB",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WWJGPAUUNTPH ALXHNB"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "55a6f5f00c8dd1eb71751a2a28405f7716289d3c6fc5a47435a53dc0400a0925",
+   "meta": {
+    "a": "AIPYIDZLMXRXFQLKN",
+    "b": "RQKEOSMFDMKZM",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AIPYIDZLMXRXFQLKN RQKEOSMFDMKZM"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "3b4aa31a88c9c728dfc6b1c71f6a5f8991e1b0ed037e49564935fb29b9f2eb03",
+   "meta": {
+    "a": "IXJOKTMAPTOPIT",
+    "b": "XHSJZPLHDSYEPFUAPBH",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IXJOKTMAPTOPIT XHSJZPLHDSYEPFUAPBH"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "650ef18e47b3e851b65e64b38a47432aae2ee84a00ca64dee5b266ce755032bb",
+   "meta": {
+    "a": "WWZSXQJEWGYVJYEYV",
+    "b": "XCYESLHTIGSCMVHQUTNJ",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WWZSXQJEWGYVJYEYV XCYESLHTIGSCMVHQUTNJ"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "bef6dd1b1a3330f6cad7c20f08ea56384be56842908501e95d46c5fca44db5d2",
+   "meta": {
+    "a": "AHROKBVKCCEPTETJG",
+    "b": "LBGPESCHLOPQAHKPULLSIJFGH",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AHROKBVKCCEPTETJG LBGPESCHLOPQAHKPULLSIJFGH"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "c594005d9952f807db30c00a9db65e624011ff9a512b2f59708656aaf73d1eee",
+   "meta": {
+    "a": "CKIRWZFAKJHJVXDBYBOEWITRMDJN",
+    "b": "ZNXCKDGBEXZMCXNGZW",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CKIRWZFAKJHJVXDBYBOEWITRMDJN ZNXCKDGBEXZMCXNGZW"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "a7b7cd1a8e84084f0a8d41a4c81dc092888d9530f8930026f1ddeaaa10592a8d",
+   "meta": {
+    "a": "WRQQRJYEOESUKJFLWNFSLMVNTGCKJ",
+    "b": "IWJNWLPKSFDPVLFHLPV",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WRQQRJYEOESUKJFLWNFSLMVNTGCKJ IWJNWLPKSFDPVLFHLPV"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "7d24ba7f6baac986736e55764fe7ea56f5019ca294e71ea20d2328f261d94b0b",
+   "meta": {
+    "a": "VPRMDDTFOGMRZLPQRGNEKQRZQXV",
+    "b": "CTXWAODXMLGNSPTTGRTQVKENFFZYIX",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VPRMDDTFOGMRZLPQRGNEKQRZQXV CTXWAODXMLGNSPTTGRTQVKENFFZYIX"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "687f64c2689bcf218709ccabd2a349226b994491fbdb97bb181d96a7dafe6275",
+   "meta": {
+    "a": "OIIWSF",
+    "b": "XUAT",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OIIWSF XUAT"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "8235f658e8bffd4e2402c786d5400e97a7fc676924a99a86f4ebac750c9bfe86",
+   "meta": {
+    "a": "HSGXCZFBGEF",
+    "b": "MAXTRXRO",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HSGXCZFBGEF MAXTRXRO"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "fe53267ba51d9cb16b6ce6f03047af1cdf544bb37396e2419a2a5ddd2aea16c5",
+   "meta": {
+    "a": "WHMNAY",
+    "b": "OWTPUPASITW",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WHMNAY OWTPUPASITW"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "4134165981eb97e43517ba7a30282c7f05c29eaf41619a28d0c800a31f02758f",
+   "meta": {
+    "a": "KIRUKM",
+    "b": "YYPRTLQDXIKJINYRO",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KIRUKM YYPRTLQDXIKJINYRO"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "efd19c128901bd37805e8da78e4d9cda6f5305d21e5a7d056f08197d1351a7aa",
+   "meta": {
+    "a": "IVCPGORJLDLGDX",
+    "b": "FPTOZLQTLUEQBOQ",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IVCPGORJLDLGDX FPTOZLQTLUEQBOQ"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "c85609f361ab23fa84d839df9ea0f21a9ff0ca83f6cd5fae0c99a3d26ebc63e7",
+   "meta": {
+    "a": "YHVSDHSKLCTNCAOUECARQWI",
+    "b": "CITXRVSXOEGVXBZRA",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YHVSDHSKLCTNCAOUECARQWI CITXRVSXOEGVXBZRA"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "502e8abd5eb28880289a590bfffa09e32dd891f46efc742a196e5fc658c2e619",
+   "meta": {
+    "a": "NPTJOOXDEACGOPJCKHGMB",
+    "b": "SYOCKSBIWVHOCKVRGYEVZ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NPTJOOXDEACGOPJCKHGMB SYOCKSBIWVHOCKVRGYEVZ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "918d6f8b5114db53d22458220ea42cca897703eb58b5d7617128fa840af3e1fd",
+   "meta": {
+    "a": "UEHIXMUQATGTRBMQCDYJKDXFJFRSW",
+    "b": "HLXZYOYNXIVIKULENVWHTKTEFEJ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UEHIXMUQATGTRBMQCDYJKDXFJFRSW HLXZYOYNXIVIKULENVWHTKTEFEJ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "976784e4b966bd3769eab3ad9ff1aab034a1a195db4523e5e756c879e0424456",
+   "meta": {
+    "a": "SOCCVBWUTYRNVGHISUCWUADOCEAAT",
+    "b": "WVATHSXNPGPYIYNGOVFFWVAQCMHQSG",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SOCCVBWUTYRNVGHISUCWUADOCEAAT WVATHSXNPGPYIYNGOVFFWVAQCMHQSG"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "f8bd9769446a39f2addec7a4f7ced9c7d5cd560cc7deec9dee49bac24c959cc2",
+   "meta": {
+    "a": "CGWHTGJRFRWBTUOJCAKHZMCPWPD",
+    "b": "TJFVODCCPITLGOSANFWFHSQLP",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CGWHTGJRFRWBTUOJCAKHZMCPWPD TJFVODCCPITLGOSANFWFHSQLP"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "61e9a6aad32346d14fda6f0ece69f5a2faa336faeecc55810f8578680f0f4528",
+   "meta": {
+    "a": "FLFK",
+    "b": "JHZRM",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FLFK JHZRM"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "1477dc568fbad5c74473545ec08ec7b5074ec6e1f1a4d523f9d88872fe123ee7",
+   "meta": {
+    "a": "ENAUHSYFZQE",
+    "b": "KPCFPBGUC",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ENAUHSYFZQE KPCFPBGUC"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "e25636abcc02122331811514549f3544771be3dc53bd61318bfce1e32614c918",
+   "meta": {
+    "a": "PFHYHDT",
+    "b": "VOGTNPHGM",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PFHYHDT VOGTNPHGM"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "d62a50fa24c91208a4c4e2f953028c6798810133c97c5f9f958ee52cb9c8989a",
+   "meta": {
+    "a": "TBAJYHSXEJXAQIYP",
+    "b": "JJXFDT",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TBAJYHSXEJXAQIYP JJXFDT"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "043deb22d79939af0b84736781f41af52171af1f80f349070dd5ba7ccf41d639",
+   "meta": {
+    "a": "WJOMDXXZZ",
+    "b": "ZWLOBNMTWASKFRYZ",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WJOMDXXZZ ZWLOBNMTWASKFRYZ"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "e5dd30b096db61ebbe2d93ce17a02ff79bd948b08cc3b42b4970ea254fb9d5f0",
+   "meta": {
+    "a": "WCVMKRPIQHLCUJTVHJXOKRC",
+    "b": "VBMZNCLDTIWCHTW",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WCVMKRPIQHLCUJTVHJXOKRC VBMZNCLDTIWCHTW"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "43ffc5c1a66efee9ebc76cf8372093d2199438700ac1eb56a4bd5ec07f9dc266",
+   "meta": {
+    "a": "EZQATERVWLBYBLYHZRAQOWVEPZ",
+    "b": "TVPFADSVZQNLPZ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EZQATERVWLBYBLYHZRAQOWVEPZ TVPFADSVZQNLPZ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "f3606c2af159ce8e5de5cff532c85c8c72118bf7b9622f8aa497936935f06e3a",
+   "meta": {
+    "a": "KUHFYQTCTVOYJMIZMDUTYUSCTYJAW",
+    "b": "FCOFSBLGUXUYBEHQADXFALC",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KUHFYQTCTVOYJMIZMDUTYUSCTYJAW FCOFSBLGUXUYBEHQADXFALC"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "2efc4fd02f045428d957874d817711ed0e265536d43a9e80780d48c5496bb74e",
+   "meta": {
+    "a": "TMEPHYOYTUJAYAYXULGHZUF",
+    "b": "KAOMOZIEJQYCYJKLUXZAYCWIRSZMN",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TMEPHYOYTUJAYAYXULGHZUF KAOMOZIEJQYCYJKLUXZAYCWIRSZMN"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "196c45dc5cf194bdbcf3e39298984de8d767795a5b59587b8e206b6d377d9ff0",
+   "meta": {
+    "a": "KNEACWUADNJCLAOHSQRTNBPKNLEQYAR",
+    "b": "NJMESBTGUHAPNBHBWHXWXYKCVJON",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KNEACWUADNJCLAOHSQRTNBPKNLEQYAR NJMESBTGUHAPNBHBWHXWXYKCVJON"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "bb76c99bfa64feb1202d0c6bcc0281ac2184558ee3d66b61dc8c86d5c423809d",
+   "meta": {
+    "a": "NDBDFOF",
+    "b": "SSIU",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NDBDFOF SSIU"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "7175974266d6b32281192af02170a388f3591fa9fc45db754a935f3f5c77d06a",
+   "meta": {
+    "a": "EJVUGHPZLD",
+    "b": "DMZBZPKGORA",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EJVUGHPZLD DMZBZPKGORA"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "8bf7ce0a8d4b3d2a314367f22e44466fdc8d236a4fc7b74584aba5db34c3912a",
+   "meta": {
+    "a": "SPFASON",
+    "b": "PJFW",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SPFASON PJFW"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "f6f06bfdabef0bee4689cc5cece542f0057e19ca5f60cf830a5179b61ba596b1",
+   "meta": {
+    "a": "AIHWPPCEZUMWLHRA",
+    "b": "IDISJEHJOGT",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AIHWPPCEZUMWLHRA IDISJEHJOGT"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "dd86f0ead5824288f5dd5a9a31a368360d9ef76fa5e3d39747b8eac85a394d77",
+   "meta": {
+    "a": "AKDMHYOSOWUKCRABQVT",
+    "b": "ZIXZGPMPNADPZHAJXW",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AKDMHYOSOWUKCRABQVT ZIXZGPMPNADPZHAJXW"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "079750ef403d8da4d07ecdb4db08832096ab7be8c2ea3a4ceec900277a1adf94",
+   "meta": {
+    "a": "HWIENYYTAFODYXXLKWJECE",
+    "b": "WLQSYUGAGXTQXZHNQ",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HWIENYYTAFODYXXLKWJECE WLQSYUGAGXTQXZHNQ"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "c60f2c6dde3b4b8bb1ff665ce21092abedb093bd67e1ab20723f38a585efb817",
+   "meta": {
+    "a": "IICQFJALENKLYMCLDNAICAQD",
+    "b": "PMZMTIHMFXDNCRAOLB",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IICQFJALENKLYMCLDNAICAQD PMZMTIHMFXDNCRAOLB"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "acefdc80279e93cd623b64b7e34799cf3c22a1f34d900836e2fc9241bc20cefb",
+   "meta": {
+    "a": "NODZQPYMAFHQBMBALOJBRGSECSP",
+    "b": "CTZJXIONZYSQFVWKRZFCRPJFDQC",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NODZQPYMAFHQBMBALOJBRGSECSP CTZJXIONZYSQFVWKRZFCRPJFDQC"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "f9d465d1175a9180d4cac5c2b4f0d15974c764dca0a458cfabb1ca001e29f66d",
+   "meta": {
+    "a": "KBYISFPMWUAVWGLNFSFJUPHQMS",
+    "b": "UKRAWTLAFVFERJVQH",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KBYISFPMWUAVWGLNFSFJUPHQMS UKRAWTLAFVFERJVQH"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "ad91feb1da65fdfbbd801d36fd6bfdec8a1f20b5a68a99d25993599b297365fa",
+   "meta": {
+    "a": "XFXZFXUZIGJXNMUDCDQHHLZPT",
+    "b": "DMFAZLLIIGMTHZAPSTYVTMHAJDEYPKQ",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XFXZFXUZIGJXNMUDCDQHHLZPT DMFAZLLIIGMTHZAPSTYVTMHAJDEYPKQ"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "3b60e93f004fc66ffba191c501208282c49dbbbbc15499d4166ac5b9ca7d3a97",
+   "meta": {
+    "a": "HBBT",
+    "b": "FUYAS",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HBBT FUYAS"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "05c44f35fc2309b33457e433381169c78b5f012a8a513e7e058db2417fded5c5",
+   "meta": {
+    "a": "ZIXINLHVJF",
+    "b": "SRCJ",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZIXINLHVJF SRCJ"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "a2c3852598cca10c72bf1719d32eba99f330d3e75a9da20b602174b6cf550a1b",
+   "meta": {
+    "a": "FCYQGJLYDXV",
+    "b": "AYWV",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FCYQGJLYDXV AYWV"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "c6957c94be5a72efd7721788dd828eebcc75ce5ce8f81a56292108d9a0d8aa95",
+   "meta": {
+    "a": "QTINOTVJOGWMXJD",
+    "b": "ZOGTFYDTLTCPZEUDI",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QTINOTVJOGWMXJD ZOGTFYDTLTCPZEUDI"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "340c68ad6630766fae4c4e77fd95eff07990fe34998b4b30125dd7b81c1cfeaa",
+   "meta": {
+    "a": "LXJSCQCSYZQEVHAGOXDS",
+    "b": "ZCYJPWKDCPSXPNE",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LXJSCQCSYZQEVHAGOXDS ZCYJPWKDCPSXPNE"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "8b735889374ed4d5bf08038bd26eefe6f2a0acc5287d58ddacf0a5227b810d51",
+   "meta": {
+    "a": "CSTHQXVJFLEEWFUEZLQQNRS",
+    "b": "SCRZXDZDWFFWCFJFI",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CSTHQXVJFLEEWFUEZLQQNRS SCRZXDZDWFFWCFJFI"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "ca27634d3482a58b698f58de26ceebec22a72cbddb319f88b817a7a5a8d7b72f",
+   "meta": {
+    "a": "BMCLATYWYZGYANSHLNDERWRUBX",
+    "b": "VILWPAQZFYPLPPGCBANC",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BMCLATYWYZGYANSHLNDERWRUBX VILWPAQZFYPLPPGCBANC"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "bd8e2edd7c742ada172ba9f68da3e3d324118b646e019dbd140c06e245685b97",
+   "meta": {
+    "a": "PRZRJXTNLKMOXGDRVKEUM",
+    "b": "EXTUMKVMVIVSHYWBEMMIEVZCWB",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PRZRJXTNLKMOXGDRVKEUM EXTUMKVMVIVSHYWBEMMIEVZCWB"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "1c1607c53324fd0c2d5eac9e7157fc4ff4e7d49931a17b76b64ed70a3847b8e4",
+   "meta": {
+    "a": "BAZAWZHOAUETNFNQCHROBFDWMZD",
+    "b": "NPJIZSFIMZPYZFNDHGASTUQWHOS",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BAZAWZHOAUETNFNQCHROBFDWMZD NPJIZSFIMZPYZFNDHGASTUQWHOS"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "6669fae2f94c9d250c5f5ee0fed7d2695652bb482dcf54eacf0fae431a6aa5bf",
+   "meta": {
+    "a": "LXBPILOIYYRTUIDAJFEIPHRHPOU",
+    "b": "QERNVLXFZVHUEGDLSPBFFEQTYPRHC",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LXBPILOIYYRTUIDAJFEIPHRHPOU QERNVLXFZVHUEGDLSPBFFEQTYPRHC"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "95353bae2b98d10de51fabe4de7bad0c26214953d24fd38a5e640d85ff705eae",
+   "meta": {
+    "a": "BPBB",
+    "b": "XARTKZ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BPBB XARTKZ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "5d8f3d1aa051a821818e555fe4f8ba7b997e83345560f923b8f3919fa8cfd9ef",
+   "meta": {
+    "a": "KTCCTAOU",
+    "b": "JPCHQZXH",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KTCCTAOU JPCHQZXH"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "c64aa5e86078a5806149183c6903ece5f41607e5870fa6f7df51b89b8f534c19",
+   "meta": {
+    "a": "RBIMUBXVXQRF",
+    "b": "CDRMSI",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RBIMUBXVXQRF CDRMSI"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "e16807f5e6ff2c8e370ec1050b8cdd7f7bf716787da05dc2846f313cd9bbb827",
+   "meta": {
+    "a": "TWINAJEHYW",
+    "b": "JNEYVLOQMYNNC",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TWINAJEHYW JNEYVLOQMYNNC"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "ddf1d09c7583b0c3b768b5dfbc1ab796e709f618a2651167a780b70394984c36",
+   "meta": {
+    "a": "PMKWNKSSRMOL",
+    "b": "QBGYONPEXSBMXDDFL",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PMKWNKSSRMOL QBGYONPEXSBMXDDFL"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "92264a96e6059a34dde0bc7e2cfd0b548c034c7b0b257cc42abe111d411f6a62",
+   "meta": {
+    "a": "KMGPAMBOGMFCAJRFROIWEZO",
+    "b": "PSPPWWGMLGRF",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KMGPAMBOGMFCAJRFROIWEZO PSPPWWGMLGRF"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "5b2a84236b640d84c76ed6c80e74ac91bd0a034e1ab314ca6541f40a97f28dfe",
+   "meta": {
+    "a": "KTETEBXGIVLVGGPXVDJML",
+    "b": "KSYRRWJVTZQOSOHKSPXQLPQLX",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KTETEBXGIVLVGGPXVDJML KSYRRWJVTZQOSOHKSPXQLPQLX"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "b3867ca1ad5e72de3dfd389c537a04fac0aa43e34a5085c2663d0fe411fc6ad1",
+   "meta": {
+    "a": "KWTSLXYDCFTRMCKASBBVXWB",
+    "b": "CAAJXUZQMIQJLYLWPJUMDKCZSBMYV",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KWTSLXYDCFTRMCKASBBVXWB CAAJXUZQMIQJLYLWPJUMDKCZSBMYV"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "55c252ce18cd1652e5947335d5a7e4ad47edb694fb75e3178ec4277c1a3746e9",
+   "meta": {
+    "a": "IMGBWKWLPXOGSCIUZEMCCXJTBYB",
+    "b": "BHGIGWRTXQSPNSMEJEXYTD",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IMGBWKWLPXOGSCIUZEMCCXJTBYB BHGIGWRTXQSPNSMEJEXYTD"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "1245b434821d1ff27cd9bf65c35bb8d533e0511ca9af7cecc7cd7ba69fa70a28",
+   "meta": {
+    "a": "XICUBIXWYUXBVNMNMVEVHEOPDKBUMLQ",
+    "b": "FHOKVXZYUEXLGKATTYZVJPNHBAELEBH",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XICUBIXWYUXBVNMNMVEVHEOPDKBUMLQ FHOKVXZYUEXLGKATTYZVJPNHBAELEBH"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "e4d8d1656b0ff7c20c759ecbd5248d9b8785a3530143ee1077621babbea79343",
+   "meta": {
+    "a": "IHHLPAC",
+    "b": "QYMW",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IHHLPAC QYMW"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "d184692525e89ada7f0f8c029dc2dceb10757ac5e524267b7a9f9e9397331820",
+   "meta": {
+    "a": "ZHIKLKUXISX",
+    "b": "VLRFBWROFYB",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZHIKLKUXISX VLRFBWROFYB"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "3e4f76e912f6037fb54d5814b60ed76c21dd126ac32de26211e11aa32687033b",
+   "meta": {
+    "a": "PCBZHEUKIDHYVF",
+    "b": "WWEK",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PCBZHEUKIDHYVF WWEK"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "2652f4d8c87b9e85c58bc72048a649dd250e47b47a18cefbef79dc92856ddac2",
+   "meta": {
+    "a": "RFTUMSOSRDVOKTQ",
+    "b": "RJVPXKDBK",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RFTUMSOSRDVOKTQ RJVPXKDBK"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "7c4e8ea0e6e006ff531243b6bf59ca30a4d51a0d217f48d28a228c1f2bcba8ae",
+   "meta": {
+    "a": "FWDCXDOFBAGYTIUBB",
+    "b": "OZLWFBMT",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FWDCXDOFBAGYTIUBB OZLWFBMT"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "24c99e5e3535f085acd18320b981d55cb41e484f40683198fb5971a173340e88",
+   "meta": {
+    "a": "TFCTVCELMAQFEYY",
+    "b": "MXFQJTMTYRUQZWWSDSQYBQ",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TFCTVCELMAQFEYY MXFQJTMTYRUQZWWSDSQYBQ"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "7b54a1ae0abbaaa850743766d7f5ef36b5a22ffef7d1210bae4bc52cbb3fa0c8",
+   "meta": {
+    "a": "UVEFBINCSUTHQJUBMCJQ",
+    "b": "ELLSRANCZJWCJZUS",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UVEFBINCSUTHQJUBMCJQ ELLSRANCZJWCJZUS"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "a5a8af6b7c69daf9eb18f54bf2eadc6de51672a95103805bdf7e019132637bff",
+   "meta": {
+    "a": "GQYXZGTCRNECYYXLTDIB",
+    "b": "RCUUDTKMKYOFJGYDTJQRUPWCJEYHB",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GQYXZGTCRNECYYXLTDIB RCUUDTKMKYOFJGYDTJQRUPWCJEYHB"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "b4dbd95d85aeb930474157f178d9d04b8fe920fff4b9801577b580bb628f240d",
+   "meta": {
+    "a": "NJIYZXBQSDCANOCDFJHLDVAMJKNLUQE",
+    "b": "RINFROGVVLTWUZBFOJMSHWMKTKJMPD",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NJIYZXBQSDCANOCDFJHLDVAMJKNLUQE RINFROGVVLTWUZBFOJMSHWMKTKJMPD"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "fe2b213114a924a2fd40083bed1448d380584f3e6ecea7a6a87e9614089b85ea",
+   "meta": {
+    "a": "OAIQODBLEJHVTHAIZHAHVVYHOK",
+    "b": "QNPDFDDJLJSYSYXOYQFUHTVHIOXST",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OAIQODBLEJHVTHAIZHAHVVYHOK QNPDFDDJLJSYSYXOYQFUHTVHIOXST"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "172f1e0972d15ed640af84012d41f87cbbdeea42833aa64186665ef7e3c599df",
+   "meta": {
+    "a": "JSMXAC",
+    "b": "KDRQNLZ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JSMXAC KDRQNLZ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "988fa7e89ffbd339a987b965ecdf346f3530958baf2e35c4fd7e31c70b8ca8c6",
+   "meta": {
+    "a": "PSLY",
+    "b": "UPJKNRXDOB",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PSLY UPJKNRXDOB"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "c8638784be9ac64b94dc8b96c3692acbef6a8c33dd5a68837a1167061f4ec8e1",
+   "meta": {
+    "a": "JFPWZK",
+    "b": "KASJHGXPMVR",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JFPWZK KASJHGXPMVR"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "ffa88a6820b3c7f22764d5837dd85b5afc3ffc8285e147748cd50c8816b6952e",
+   "meta": {
+    "a": "LWKAGNORJEOZKW",
+    "b": "CGTCNECA",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LWKAGNORJEOZKW CGTCNECA"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "1fcf069aff4eb71e2d00de9eac6adc4f59bce3d0181fcf505e036d592522e5f2",
+   "meta": {
+    "a": "SUMWFZRLKXMMWBND",
+    "b": "UCZCDEEWLPHIOFIOVTOD",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SUMWFZRLKXMMWBND UCZCDEEWLPHIOFIOVTOD"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "af89590eaa174bfd8b0b481d4d2f6611abf33a55e3860f5ed093f522a3c0ab91",
+   "meta": {
+    "a": "HRGWFZCYQFBXIYXUYVFYD",
+    "b": "EJOROFMZWIVCNNMUCJ",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HRGWFZCYQFBXIYXUYVFYD EJOROFMZWIVCNNMUCJ"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "c63d77309d7a714cbae70de6b4c9bfc6a482b409cff6ca2c6013fa714b2d548f",
+   "meta": {
+    "a": "JJYFURCTELZJPNNJHVFURXTZV",
+    "b": "QYOHEKNYSWHIFKNKVCFHEF",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JJYFURCTELZJPNNJHVFURXTZV QYOHEKNYSWHIFKNKVCFHEF"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "e678233f5906dc70a5378991f9147e3469d0a4f534bb9f95abfee3b77ad60882",
+   "meta": {
+    "a": "RCYJPUVZLGWTGQXDGLBPBBEYXR",
+    "b": "EUTBQMAUUTYZLBZKSAGCUVBYUI",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RCYJPUVZLGWTGQXDGLBPBBEYXR EUTBQMAUUTYZLBZKSAGCUVBYUI"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "df690b394031f1a2dcadad48f65c0c7d42214a53e2428896a9dac8dcd893340d",
+   "meta": {
+    "a": "ZIZEGPIVCXPEHAGWSEERHDURNYPYB",
+    "b": "SJQGCASVBXFJGGERJFXMHNID",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZIZEGPIVCXPEHAGWSEERHDURNYPYB SJQGCASVBXFJGGERJFXMHNID"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "c6f3ba455e03e9aec1d0a3e4320a90171889a1590694e076ee8ff11f3844d287",
+   "meta": {
+    "a": "USEHOFMLVLFUVNUSSWGKBJUIITIPV",
+    "b": "EULYQZVHMMQRLJDTAIGYBHKAIDTYVT",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: USEHOFMLVLFUVNUSSWGKBJUIITIPV EULYQZVHMMQRLJDTAIGYBHKAIDTYVT"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "66f3cdfd342d98d1b6e9cd72a1214cfb0ee62b274f560cc19581c8e581decad6",
+   "meta": {
+    "a": "URCSN",
+    "b": "JIXF",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: URCSN JIXF"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "26eb817c5fb8adc73f27507d1eda0233a89ac76596716bd5d682e74d1a69355c",
+   "meta": {
+    "a": "ZTJANMMS",
+    "b": "ATVXYPOHR",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZTJANMMS ATVXYPOHR"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "8ad6f5993c1dc9c2fa0cd488f31a38b5dcb33323be1b1a2e47bfa769facdb2f4",
+   "meta": {
+    "a": "VETUQHPCPQSD",
+    "b": "JSNJRYHDKA",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VETUQHPCPQSD JSNJRYHDKA"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "f4d70b4a187a0584215c99bf824ccee780daea3f2ac4d7dd2416f5e04eee608a",
+   "meta": {
+    "a": "ZCTBFXQABEP",
+    "b": "OYIQGKUSGQRHMAE",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZCTBFXQABEP OYIQGKUSGQRHMAE"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "3f6221fdf5621e18e56214333c74eca0507e8174461fb774574c904765420d14",
+   "meta": {
+    "a": "LHESDWWESAEBWQI",
+    "b": "VXZNUWPLRDYICKGSBANF",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LHESDWWESAEBWQI VXZNUWPLRDYICKGSBANF"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "36da3d40357814141922735afd69cd07badd7394a3813b9c17e38d6068f6b7f4",
+   "meta": {
+    "a": "QGDPKEIZPUQ",
+    "b": "QYPZKSHIYQOYEHOLXL",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QGDPKEIZPUQ QYPZKSHIYQOYEHOLXL"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "e789eb704c681f520eb210cf885b302a73f9716d4c1ee1f9b7e0f80a14ea1093",
+   "meta": {
+    "a": "SEXTKKLELVKHCLIIFYLKTUEWC",
+    "b": "RJFWMLWVMRDYPFSOHLRHKT",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SEXTKKLELVKHCLIIFYLKTUEWC RJFWMLWVMRDYPFSOHLRHKT"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "f5722b33103406c6fc09ece6293ceeebbadc7d22b35db86ccd01f43d93728309",
+   "meta": {
+    "a": "HQKGHBCHFKHDFIQEIHUYNQFP",
+    "b": "AZMFHUTATKDCNITAUNJKSIXNQNJIL",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HQKGHBCHFKHDFIQEIHUYNQFP AZMFHUTATKDCNITAUNJKSIXNQNJIL"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "eb7ca29bd1cba7d342ef5b827fcedaeb84fa9202c319ed17bf246f36eef3b2ed",
+   "meta": {
+    "a": "UPFNSVULGPLAEVPCFBUMGAQMGRK",
+    "b": "JEUEHIHCGPHFBDUVGLWSM",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UPFNSVULGPLAEVPCFBUMGAQMGRK JEUEHIHCGPHFBDUVGLWSM"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "4b7dfc86444e4eeb725b5218b7c15fa73e13290e53d3162060c903072ad30692",
+   "meta": {
+    "a": "VXBJZIHFHYSYIAHFIPBOXYTD",
+    "b": "JIGJTBQPPFGLYSHNZCDWXQYEGRXTNEV",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VXBJZIHFHYSYIAHFIPBOXYTD JIGJTBQPPFGLYSHNZCDWXQYEGRXTNEV"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "c233da1159e8f56726ca00c82919a7dd785b50c4f2b52dce1fde97598067e903",
+   "meta": {
+    "a": "OBVUXB",
+    "b": "PNTML",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OBVUXB PNTML"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "c5af4cf547e6f50fdfff3a69b9366e2182ec60c95556dc17909ceaa269754bb3",
+   "meta": {
+    "a": "UNTZ",
+    "b": "RLCZGNQ",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UNTZ RLCZGNQ"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "67579b17b3f9c34047cef97bf26316d843043df5c584c9f3f1af73b1bbf4e83a",
+   "meta": {
+    "a": "XFEUIBOATDZF",
+    "b": "JREAKAL",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XFEUIBOATDZF JREAKAL"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "95704fcd86ec95570852132370df276a7068000ea30aac54810c103b9b7cb0e0",
+   "meta": {
+    "a": "LYHJGHKDTHXVKMFCG",
+    "b": "JCWMXSYDLCUAIZ",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LYHJGHKDTHXVKMFCG JCWMXSYDLCUAIZ"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "76e064f2331ec7f424ddd0c81f1c897defb89f42b061fa3387e0a38eda1f065d",
+   "meta": {
+    "a": "HWAEVDKNFCUWUVQXW",
+    "b": "UDOORPUFIZCJQDCPB",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HWAEVDKNFCUWUVQXW UDOORPUFIZCJQDCPB"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "bec8bc2dd4822a596e85bce43f13c10187965cddb918cdc040deef6fe14fd504",
+   "meta": {
+    "a": "JLBSAPGJUJDNCUPJS",
+    "b": "DNWIMZDTGPBJRISPO",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JLBSAPGJUJDNCUPJS DNWIMZDTGPBJRISPO"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "95d76ca212175027b4d4d954a57cbed9ff51ae2c46a0e998e2a903733ac014b6",
+   "meta": {
+    "a": "IKKQKAIYLDAUIOLNSLSX",
+    "b": "DIQCQEXYUMKBUOZS",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IKKQKAIYLDAUIOLNSLSX DIQCQEXYUMKBUOZS"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "5a3e326a32936d05d70e7e18f9a14711d5ab8165126f390b9dc756f6110589f8",
+   "meta": {
+    "a": "AGYDAZORIMMQTNFAFVFVBFGPGACCC",
+    "b": "CIAMIELKDAIMJYDRTZWUBRMHQ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AGYDAZORIMMQTNFAFVFVBFGPGACCC CIAMIELKDAIMJYDRTZWUBRMHQ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "81fd443ad38100da8b696255e902c7639ddec309d0ed5c9c15e5d5fab444231e",
+   "meta": {
+    "a": "YNQZOBDVGHTPAGRDN",
+    "b": "QPBAWNHXTTJGUHVMSLTMGEBREMZQDI",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YNQZOBDVGHTPAGRDN QPBAWNHXTTJGUHVMSLTMGEBREMZQDI"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "51f56b10b847c330ca33914f7fa3d685cd688bfb3f57d481336e81037b5c6696",
+   "meta": {
+    "a": "TVRPLJENXJRLWEOVPEOPWVGZNFGT",
+    "b": "OLGELAVPTXLMVHMAWWOOADKZPQDQN",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TVRPLJENXJRLWEOVPEOPWVGZNFGT OLGELAVPTXLMVHMAWWOOADKZPQDQN"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "3c482bec05ce0cb0e10abe79571ef486e5530318c8ae2a2f7a8de8cf17eaa8ee",
+   "meta": {
+    "a": "HSEZD",
+    "b": "GOXOUQ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HSEZD GOXOUQ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "260a142e4ac77fd45d7d9a9192bb0d6a3c63f0b27119244c25f9e70c3bc90eed",
+   "meta": {
+    "a": "VTYC",
+    "b": "SPZYOOHKKQV",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VTYC SPZYOOHKKQV"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "42c4bfb75b3b73109221a0dc20a1afde4de7f8255a6b11cc2016e97df28a4ea0",
+   "meta": {
+    "a": "HOXSJEOAOMIN",
+    "b": "PWHAVQYZF",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HOXSJEOAOMIN PWHAVQYZF"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "74075eae710fa121d0831b4eddef80183d75b54418217e468f6303cabeb5d2e8",
+   "meta": {
+    "a": "CTTPLWCAFPUPXUXYE",
+    "b": "ZIVGPNFTWWABQWRNW",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CTTPLWCAFPUPXUXYE ZIVGPNFTWWABQWRNW"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "85338db365b57099d7b0671d6751174b3c09bf73f7d0b9ee53896e5cc895f948",
+   "meta": {
+    "a": "AQKXMOHJFNI",
+    "b": "CAJBISNZLZUQILN",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AQKXMOHJFNI CAJBISNZLZUQILN"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "49096b835e20262d51c1f295de83967d07a44f174f6338f451436ca0db7dfc38",
+   "meta": {
+    "a": "TBTLTKAQMUWS",
+    "b": "XWETTCKEPQUF",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TBTLTKAQMUWS XWETTCKEPQUF"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "e7089591e1d02343b20aaa53f3c27f736b3b8f9aa36601ce4168df26e2ab789f",
+   "meta": {
+    "a": "NXUUVZXFEBRYKULCFYAEV",
+    "b": "YUKHGLBYELQURALQMA",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NXUUVZXFEBRYKULCFYAEV YUKHGLBYELQURALQMA"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "ecb0b17f9591bf934f9b787edf44fe5603f9af192454f4dafcd65d60d4d106f4",
+   "meta": {
+    "a": "FPHLRIQZWPFAICXIVGIDZ",
+    "b": "CVQZVFOCMXHGODHDHMSQTSC",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FPHLRIQZWPFAICXIVGIDZ CVQZVFOCMXHGODHDHMSQTSC"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "543034417bb14ccff647d96a07ffd7ebef4d986afc7778716fa5e1894a61e8e9",
+   "meta": {
+    "a": "WPZARKFEPFDWRPWPRBTFCLMIGVRSLMU",
+    "b": "ACLBTQHWDGDABVGPMAAMHXIBCRSUC",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WPZARKFEPFDWRPWPRBTFCLMIGVRSLMU ACLBTQHWDGDABVGPMAAMHXIBCRSUC"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "9be3b3ae496eb3965867b5e972fba95940127564193856defefec6cd38b175b6",
+   "meta": {
+    "a": "RFIVNPEZNOYDYQFPUNJDJWGZMIEMW",
+    "b": "EOQEVOUKDLPWOXEFPKUMLRVOCNDZC",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RFIVNPEZNOYDYQFPUNJDJWGZMIEMW EOQEVOUKDLPWOXEFPKUMLRVOCNDZC"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "4184a9d6d8e92f0695029ef2322ad66bb714b6768d2a8c5fabdfe3aca8ef4a1d",
+   "meta": {
+    "a": "KHTAYU",
+    "b": "CLLZNO",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KHTAYU CLLZNO"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "b297372a27f3ac49fdfa7d3fa7ceb5bcca1311c129c8ed2004077aa47f7924e4",
+   "meta": {
+    "a": "BCFXG",
+    "b": "EPYQXY",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BCFXG EPYQXY"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "9c0f12d7b25bbe71d814978af321d7d76d2699b221b7a32cc9a9ac238e9c58a7",
+   "meta": {
+    "a": "IFIAKYSWO",
+    "b": "APVJFCCWSAN",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IFIAKYSWO APVJFCCWSAN"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "b543c84e2868266e829d8db863e75edfdac2802916a368a3aed77a489bdbdf38",
+   "meta": {
+    "a": "KDBKKAOLJWPUSANH",
+    "b": "TLUTZNTCF",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KDBKKAOLJWPUSANH TLUTZNTCF"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "4ffcaf1919c63e855aaa7f53b5f64d944b6a45ec14dbbdec5ee2166bdde0d374",
+   "meta": {
+    "a": "JHWUBJIZGKOCFBBBZNH",
+    "b": "PKWCWTLXLYEBVCMNZJ",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JHWUBJIZGKOCFBBBZNH PKWCWTLXLYEBVCMNZJ"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "982b31adfe7567d36d23bc37aa2da48d790b96b665f7eec752a1c18d2314607b",
+   "meta": {
+    "a": "AOMEMLTMXBHGEVNEZZOEQ",
+    "b": "EOMAESQOUBPIKTXK",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AOMEMLTMXBHGEVNEZZOEQ EOMAESQOUBPIKTXK"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "0c6f2eab1455040998672ec97a6db3c37721f4d9f3fc7ffea74a8f33f2488dba",
+   "meta": {
+    "a": "FJMOOVXJWFXAPUZCUGKAS",
+    "b": "FPLSJOCHJDCTVWVX",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FJMOOVXJWFXAPUZCUGKAS FPLSJOCHJDCTVWVX"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "83dd7e52632475dc151a1cbf6f263dfd5e25f94dfd9e9d5aa3a9517d2381765c",
+   "meta": {
+    "a": "WGNFYYMDUYHPSFXVPINNFGAJOVCM",
+    "b": "BCBYMQQVOPGJVF",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WGNFYYMDUYHPSFXVPINNFGAJOVCM BCBYMQQVOPGJVF"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "ba5e31fd1bd72df26a58fbfb0fe2f52c84cce671ce8903dd2a6985b0c753f51f",
+   "meta": {
+    "a": "ZMQXYEIEQMETJEKMRODBXOJ",
+    "b": "VOQOXMCCZOBLDUBGHNJGHBXJFKSKQE",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZMQXYEIEQMETJEKMRODBXOJ VOQOXMCCZOBLDUBGHNJGHBXJFKSKQE"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "64107db1a87b1925807ee5d09536859a93495145bf44c2fd63206f43b0a0d5f5",
+   "meta": {
+    "a": "CJQAKCNMOMZBWZOSLLWRSWGAVUNVIRJ",
+    "b": "AMDTMKLWDYAZUIOICIGMQWLQRTTGE",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CJQAKCNMOMZBWZOSLLWRSWGAVUNVIRJ AMDTMKLWDYAZUIOICIGMQWLQRTTGE"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "430d8f10cf9395418b0124b362ee9cc4c61120cbe9042130e813ac35a6c1db5a",
+   "meta": {
+    "a": "VNGWL",
+    "b": "BFFQ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VNGWL BFFQ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "75ed54d4aff1e367c2f3f3dd10accbb0e561a765f38fd01af9aa77c8beb6aecd",
+   "meta": {
+    "a": "MGTIH",
+    "b": "EJHHOGUVEO",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MGTIH EJHHOGUVEO"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "a32c8949976e52b33211a8861e58047168eb08d8e7d90a24f482f102548c9cf3",
+   "meta": {
+    "a": "FQKGBJPTAJU",
+    "b": "QSQAS",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FQKGBJPTAJU QSQAS"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "d4d9d2876c5557e229bfa9445e7fc7a114c647cbdcd7ad455f0edad678168345",
+   "meta": {
+    "a": "KLPOWB",
+    "b": "BMNALBWWKELABYQ",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KLPOWB BMNALBWWKELABYQ"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "d25f8c36030ed78d123b75c97e6246cd27dc592fce5005142957b01fc51beb26",
+   "meta": {
+    "a": "VRZGBEQKHIMEDVKDYYK",
+    "b": "FDLAKMLNDWGMVZ",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VRZGBEQKHIMEDVKDYYK FDLAKMLNDWGMVZ"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "35d00243d4aba93f068f9374fcf3d971ed940ae72883b015f34c394282d5b908",
+   "meta": {
+    "a": "SKCIKNZVPDQJUIQEVYMET",
+    "b": "PHDTWLDNVWNMEG",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SKCIKNZVPDQJUIQEVYMET PHDTWLDNVWNMEG"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "9b6c15fb1beaa92aa60e20cdea3a2e24388b2ab5cc1e7e5fc8e94fbce5a26ce0",
+   "meta": {
+    "a": "OGOLRSJZIBHATDL",
+    "b": "EIOSCIGTHLYAVFJVL",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OGOLRSJZIBHATDL EIOSCIGTHLYAVFJVL"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "57d6a83f7c965ed2af99f6141f037e192359c023773cfe3d8dc2a2fee69630fd",
+   "meta": {
+    "a": "ARLWMMDBCVCPOJPWMZTEQMEDMGXZX",
+    "b": "AYYDXHAGJUHOBXDAGCESBBGGNZLE",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ARLWMMDBCVCPOJPWMZTEQMEDMGXZX AYYDXHAGJUHOBXDAGCESBBGGNZLE"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "0e3105207195174a40fcedc1fa3a3b81bbc53211b663adda603bfa1d62185db5",
+   "meta": {
+    "a": "CSPHJSMBCXOULGLTUPLEBRFRMAHFVB",
+    "b": "QHWKJWYAKLPWSDZZKSVBOSYCCWFSHVT",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CSPHJSMBCXOULGLTUPLEBRFRMAHFVB QHWKJWYAKLPWSDZZKSVBOSYCCWFSHVT"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "4968275caf7efdfd8d9a126ab4ee61f2332038d3ecd353a3821ab5224f7d8f63",
+   "meta": {
+    "a": "OOFYEMGHOXOJENGHIDN",
+    "b": "OYYHXTOFJHGFDZFTANAXPDQAJRUN",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OOFYEMGHOXOJENGHIDN OYYHXTOFJHGFDZFTANAXPDQAJRUN"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "a3afd53cf2f8d8b7cffc652f380e229bf447f7ad596b83a38648b9cd0af2d47f",
+   "meta": {
+    "a": "RTABJ",
+    "b": "HVZFMSDX",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RTABJ HVZFMSDX"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "2b75d11b6604530751b6f01bfa42e94697cfdb981b026f35eb3ab2f6111ceb1f",
+   "meta": {
+    "a": "ESMFQLJDT",
+    "b": "HAZISNOY",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ESMFQLJDT HAZISNOY"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "6cd6884a471c03ffdb75eb4458a2872a27910352b9adb40c182f752cc772b15c",
+   "meta": {
+    "a": "CMNYHP",
+    "b": "RCEYYTC",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CMNYHP RCEYYTC"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "fd901079af17728de58f2b720b29179e348900d5ea4aeba0ba7ecc43f40ab60e",
+   "meta": {
+    "a": "FDROTJPFHPY",
+    "b": "RHPBMVMENOJEOQB",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FDROTJPFHPY RHPBMVMENOJEOQB"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "9f1b36524abf3edbf52ce6ad31ece911461083917a0345825f7fa1b0d0ed21f8",
+   "meta": {
+    "a": "UOUHIDFQB",
+    "b": "UCXFGUFNBYALLPGA",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UOUHIDFQB UCXFGUFNBYALLPGA"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "bf764809faab5e00034c6d44bc99a1b628a57b3912ba07b43b097ec91d57b4cd",
+   "meta": {
+    "a": "EFXEAGGSAQEK",
+    "b": "LDLCZLUFKXRHEMOWBGGZZON",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EFXEAGGSAQEK LDLCZLUFKXRHEMOWBGGZZON"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "9c908139172b3154dae018cb3786b8eeb80a48e6f70652e5de304804ab55e438",
+   "meta": {
+    "a": "ANKTKEUPQOSOACESBRYWSJIL",
+    "b": "BKLPLJNMWCXTSKWYJEZC",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ANKTKEUPQOSOACESBRYWSJIL BKLPLJNMWCXTSKWYJEZC"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "4c44e9297d6fb96a6002b0bd5fa6846a3cf7b37dfb09c82a308001d8d2b8a98e",
+   "meta": {
+    "a": "AHSRTMEMHBXBEQD",
+    "b": "FNSKRWLORUEAQUTYCXMGMUBZCEC",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AHSRTMEMHBXBEQD FNSKRWLORUEAQUTYCXMGMUBZCEC"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "7d6b2dcf0dab3bd4158be38e8bacf0d4a15c1edd4b200083876b58339cb74234",
+   "meta": {
+    "a": "JVJQUPQIBSEXRSTLMEAQWBE",
+    "b": "MRGJEWQUYPIJGVLNNRRQEWKHNUC",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JVJQUPQIBSEXRSTLMEAQWBE MRGJEWQUYPIJGVLNNRRQEWKHNUC"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "d40d85055025b87e2d3526fb42a90b18f3c3aa182fd88a1dccad8fe9c0df849a",
+   "meta": {
+    "a": "IAHPSTVQHDHCUYIYWKQZXOISEHCULG",
+    "b": "MAYCLDFDNUXOQZCMFYWQCTUXKGGZY",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IAHPSTVQHDHCUYIYWKQZXOISEHCULG MAYCLDFDNUXOQZCMFYWQCTUXKGGZY"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "c570a05344e1ccfa26ef53e1e2f9ffba7300a9ae435c165d4e9f6037b0961bd0",
+   "meta": {
+    "a": "ROYCIHNY",
+    "b": "XWPQWLZ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ROYCIHNY XWPQWLZ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "a767b77b8c8259db3cedf17a39f59b40e47b58802feedf862d8b61d812dd0e86",
+   "meta": {
+    "a": "AKUYVS",
+    "b": "MDVVQQTZCZL",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AKUYVS MDVVQQTZCZL"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "0150c865f2e1ec7f0a5c4e73058892a5b1ef02c630f49d7fd5223ef33de5286f",
+   "meta": {
+    "a": "FPJIN",
+    "b": "NUJADNVVVIJY",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FPJIN NUJADNVVVIJY"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "94b619e2dae2dc980f945c8fb7dfc3687eafa39781896b37c2886c2ff23b184c",
+   "meta": {
+    "a": "GVONXDGHUCQTAV",
+    "b": "JEQNAZZVOIKWQCI",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GVONXDGHUCQTAV JEQNAZZVOIKWQCI"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "d99200ab4eeeb9b589f0e0ba5cafd4809f8b6e6b914818fa547836e151fa5f58",
+   "meta": {
+    "a": "WRJZBORK",
+    "b": "PJIPOARSKCCCX",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WRJZBORK PJIPOARSKCCCX"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "15f9d810176807995d8f72fe6e0333ed7db668c8dbe667676831bfc01663263e",
+   "meta": {
+    "a": "RSIVKYTYJZXICHVVDSYILMF",
+    "b": "XEQPZTIWLHFSXRNIEK",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RSIVKYTYJZXICHVVDSYILMF XEQPZTIWLHFSXRNIEK"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "22df2ce46d300e1b253ad27e0a6ad5d8e9549b3dd922a9a43d2980b75f884965",
+   "meta": {
+    "a": "YITZAKXUPHZWCMIFQVHLXZYXRD",
+    "b": "XHQHZVQRAREAEIVCAW",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YITZAKXUPHZWCMIFQVHLXZYXRD XHQHZVQRAREAEIVCAW"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "e83201fbe55e76365e15b20fad915ae8fa8a7e4348ab7f90dd65d1aabd68ec55",
+   "meta": {
+    "a": "YQHWYHJGPYLNVPGMAAJMLYDCNLQB",
+    "b": "XQYPSVWLXDMKIKSOPHCG",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YQHWYHJGPYLNVPGMAAJMLYDCNLQB XQYPSVWLXDMKIKSOPHCG"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "15762e020763dc1aae9962f78035291faf1fd1d1c9c64f5bd6f0c6b13b6726fe",
+   "meta": {
+    "a": "EUXHCQKQUGOSNMFHAKGXHKOPJINGU",
+    "b": "AODECOHZUUGSGIGGHY",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EUXHCQKQUGOSNMFHAKGXHKOPJINGU AODECOHZUUGSGIGGHY"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "0e6283f441c2c6599d95dbf226b97c5ce236c7bc7fac4b46360867abbfa2e0a8",
+   "meta": {
+    "a": "AKVYYEYYFEHJRHJUZDCFESFLNSGOAD",
+    "b": "HPWVLZYKILRRUGHZUZCKEOYON",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AKVYYEYYFEHJRHJUZDCFESFLNSGOAD HPWVLZYKILRRUGHZUZCKEOYON"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "5555a397d363c0ddd9bf2f7013ff7958f892669bf5deb1fe8838ec602a3a87b8",
+   "meta": {
+    "a": "XFSWU",
+    "b": "JHDPMM",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XFSWU JHDPMM"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "11dd75f6fbec806e134088ec4dc30b5251e1b65d12965bbc1d223837d87fd8e8",
+   "meta": {
+    "a": "FQUODEPK",
+    "b": "VTYAFZW",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FQUODEPK VTYAFZW"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "ca0fbec649980b47eb6c452360c1950b3b3eb0b32b2f2d2d34872c5028eecb11",
+   "meta": {
+    "a": "AYVQKQBPEHD",
+    "b": "ZNLUKUMECPGU",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AYVQKQBPEHD ZNLUKUMECPGU"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "90d9ffff8c4520134784a69c3dd3691fa773cfc9743a89ca363c89afd70680a8",
+   "meta": {
+    "a": "EBLJOMLMZZ",
+    "b": "MBMFMNGKCHVFBUDS",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EBLJOMLMZZ MBMFMNGKCHVFBUDS"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "a6f3d9a20204f905ab7a9388edefd55bfff0b203ce9091ada0b98b9edc3adce5",
+   "meta": {
+    "a": "MIDHEZKMYMSQUWDOL",
+    "b": "HHQRGDKMKOPQ",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MIDHEZKMYMSQUWDOL HHQRGDKMKOPQ"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "c4441520fa0c7ace13577b2fe064199a09fb9f9794a0ae0e8d9373532da61c35",
+   "meta": {
+    "a": "OPNHJQAFYDOGRYOFHVKRFH",
+    "b": "FIEPZRSSJMVVIMOGTXIYBWU",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OPNHJQAFYDOGRYOFHVKRFH FIEPZRSSJMVVIMOGTXIYBWU"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "626fc9b2501c46b6dba94d4e8d749604487d024f34d873164ca165b20793d992",
+   "meta": {
+    "a": "TCOYSHRPEPJHWNDLHPIMUOG",
+    "b": "IVUHNBXPFXJHSVACKKJCJWD",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TCOYSHRPEPJHWNDLHPIMUOG IVUHNBXPFXJHSVACKKJCJWD"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "ae432997bf06604e7dd9aed9130ccec0b3566a72407926918c14a66cbda69b30",
+   "meta": {
+    "a": "YHZQQIPIEPDRFNEKPFELSPWNKS",
+    "b": "INONEQOKYDKGEAUSAHGW",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YHZQQIPIEPDRFNEKPFELSPWNKS INONEQOKYDKGEAUSAHGW"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "194dede6d8a87d8bfdbc1f70a19aecd12dde27b325f5175db316561d277066aa",
+   "meta": {
+    "a": "MJBDBNBBSDGDMPRMQTMLDIRULLDGP",
+    "b": "LJOENDETSMHADXDMPZNS",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MJBDBNBBSDGDMPRMQTMLDIRULLDGP LJOENDETSMHADXDMPZNS"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "165c58d9bb02584453f6553dd230199a47da132accf25786527b880f67a22916",
+   "meta": {
+    "a": "QGNIPGLVTPLZHMYZECZIVAWBZWUBV",
+    "b": "IMPRFHYGLHJFYKBKNJXQWYDGYBLKRIE",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QGNIPGLVTPLZHMYZECZIVAWBZWUBV IMPRFHYGLHJFYKBKNJXQWYDGYBLKRIE"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "c52beba272b7fa36b42eac82e7e56fabc501f226128225985abcdf1dfc9d73db",
+   "meta": {
+    "a": "BAXROH",
+    "b": "VCQKL",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BAXROH VCQKL"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "87a09c2f98e563f202bbc08268938e8edcc38fb0762558848a17a2463dfb4c2b",
+   "meta": {
+    "a": "IRQX",
+    "b": "JQLSMHKBEZI",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IRQX JQLSMHKBEZI"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "e902b933dfc9dd8fcaec515fa8e280bc73aad484e5e375467dd11c4a1c2fb00a",
+   "meta": {
+    "a": "UIFIANUZ",
+    "b": "HQOEIRIFDKR",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UIFIANUZ HQOEIRIFDKR"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "54c6ba919371e2640cfcb9c0a1c9f1ce719e2cf00f33287872411a0bea54bc34",
+   "meta": {
+    "a": "TOAUPRHEFZHGT",
+    "b": "HDVNZQHY",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TOAUPRHEFZHGT HDVNZQHY"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "e822397884b37bdc75268017f7a0dc5cbc518add94aa548c4d95a8abbf9a745b",
+   "meta": {
+    "a": "PWAHONZGCCSG",
+    "b": "VOAJJIWCOQLRLZIXS",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PWAHONZGCCSG VOAJJIWCOQLRLZIXS"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "49430628b6dce70e086c1004e8488a4f629f67d09c4c8d7d036a796cdad32e29",
+   "meta": {
+    "a": "SZUOGYJIGSGSUAXVMF",
+    "b": "OWWDURACWBPDRXCMJH",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SZUOGYJIGSGSUAXVMF OWWDURACWBPDRXCMJH"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "783616164c001dbf3d1648a5326640ea6e1caa314c203dd24115a25263c25329",
+   "meta": {
+    "a": "MRVZPBYSYTBBHKF",
+    "b": "QXVBBIJYTYBGKZPLBIROTY",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MRVZPBYSYTBBHKF QXVBBIJYTYBGKZPLBIROTY"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "27b4ed09727c1a7949219c5dbcd8c57dbb6eb2b8fc382a8bd8153b859bf8fc2f",
+   "meta": {
+    "a": "BMMTCGOLCZADOHAUYDQMGLDVTJVK",
+    "b": "DQVTSWYDAGOWVGOYKQZXIDUEX",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BMMTCGOLCZADOHAUYDQMGLDVTJVK DQVTSWYDAGOWVGOYKQZXIDUEX"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "d54ce6b6be7f3052148efe5a7ed17fe433485c8547a7bc2abc31077540b2c852",
+   "meta": {
+    "a": "HTBZAIANJXUSFTKYQQZVYHUHAEHHDK",
+    "b": "FFZRBAWGPWOKTIVPLCAKIUUTZAP",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HTBZAIANJXUSFTKYQQZVYHUHAEHHDK FFZRBAWGPWOKTIVPLCAKIUUTZAP"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "651120024bb2f7355418610ce14195934ba8a18af95d61bd3363b48cbe9ea993",
+   "meta": {
+    "a": "HCFFIPBWXJQNPBIZWSPCYOSDSKRPLU",
+    "b": "CWNYXDNTRPWIDZDFPGKH",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HCFFIPBWXJQNPBIZWSPCYOSDSKRPLU CWNYXDNTRPWIDZDFPGKH"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "16b102f6f83202e285f93c711c892f8f058358b1c5da7bb7e1df5694f5c61e30",
+   "meta": {
+    "a": "LGQVGCI",
+    "b": "ZPXZYM",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LGQVGCI ZPXZYM"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "accd11b276d4674b1b6b37d6341d5c2cacca01077a4e5f69a6e841d7ceab7a03",
+   "meta": {
+    "a": "CVNC",
+    "b": "GYDNGTEIYU",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CVNC GYDNGTEIYU"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "c9bc3bd14af6c39a0b9f8bc37128f820b60270423d62c3fa27ebe17beb80b4ed",
+   "meta": {
+    "a": "DQGU",
+    "b": "LUPQKGVPOJV",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DQGU LUPQKGVPOJV"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "204040f9e03f741cfc877ff952bb13d1f3b07b262abc4cd031bcbcaae7aae2e3",
+   "meta": {
+    "a": "QYARERQAOE",
+    "b": "YDEMVNYKYXR",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QYARERQAOE YDEMVNYKYXR"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "d13d3810f3bab438a74ff71e69c6c7b637871043f2d0093eacb2c26a998897ff",
+   "meta": {
+    "a": "FMSHXSTCYICHSFWEPYOJ",
+    "b": "YCXQJROSNRXINDEADBV",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FMSHXSTCYICHSFWEPYOJ YCXQJROSNRXINDEADBV"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "874d61a361361f7cf7c78ff8002dacd7679e9de8a049ec7a373d659a7fd95627",
+   "meta": {
+    "a": "BNESBRRGADOLSMHXXLUCKU",
+    "b": "TZGODTLVCJYKKVCC",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BNESBRRGADOLSMHXXLUCKU TZGODTLVCJYKKVCC"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "71c1d286e3fc1027a43ada168a8eb9abb9df38038a9a10b3141bc23b87ccf54e",
+   "meta": {
+    "a": "XCYPQYMBGMHJQULVFBTHWAW",
+    "b": "OJFUAEZJJWWGIUGCCYAMVHQHE",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XCYPQYMBGMHJQULVFBTHWAW OJFUAEZJJWWGIUGCCYAMVHQHE"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "d119ff44ce6860a7565be0f67966e48e7e7016fce4ad8da831a6c49360cbdc35",
+   "meta": {
+    "a": "NTDSOQTGCYBOHOHYSZD",
+    "b": "VDDGSYOGSPYIFUHFDUSA",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NTDSOQTGCYBOHOHYSZD VDDGSYOGSPYIFUHFDUSA"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "63c4086b61c18b71b3bd60d506846a68fb394f16b241ed1ca8d859bcfb0ac395",
+   "meta": {
+    "a": "OOKUJKEBWKKSJEONHUUKFQECSVRSRO",
+    "b": "XRUANNSZKHUCBSSJQTYLOUNQYLQ",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OOKUJKEBWKKSJEONHUUKFQECSVRSRO XRUANNSZKHUCBSSJQTYLOUNQYLQ"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "9d60749279d88fe8d222e7ba3c6054a0398fec6b51614aa61c48cdb5954c9a3f",
+   "meta": {
+    "a": "AWGQZLNLNFXMTSIKOSEAQZJF",
+    "b": "DAVNDMTZDAGZDQNFXOVVAZTNGRRV",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AWGQZLNLNFXMTSIKOSEAQZJF DAVNDMTZDAGZDQNFXOVVAZTNGRRV"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "9544b2c5a02d863e3a573cc34d3de48398d4523eb1ee89eb1853c2dbbb49d872",
+   "meta": {
+    "a": "FYOSDUU",
+    "b": "WVWI",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FYOSDUU WVWI"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "d4f39c4d84379ba03c1699569d046a5262a674e9625a05f56277ed080c5bc97f",
+   "meta": {
+    "a": "SKQNDC",
+    "b": "LQAOHJZGAAK",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SKQNDC LQAOHJZGAAK"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "53b636cca0c36c63f1bc04ddf701f892ff0ebb9a0c855335666eb97e63946612",
+   "meta": {
+    "a": "YETJPVKQGAE",
+    "b": "QFDEV",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YETJPVKQGAE QFDEV"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "f406be4506898b0b9bf44ee1512f93e4a1db4ca57ea853212f4405a4894e4706",
+   "meta": {
+    "a": "BSSGHFYJQRP",
+    "b": "NKNBQFPVQ",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BSSGHFYJQRP NKNBQFPVQ"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "07a659652a44a6c4c9d8abd15cf6f2570c62231aa1b70afb51b27529e4b9e427",
+   "meta": {
+    "a": "LDPNUSRSPXDNFUBAYOQ",
+    "b": "JFWUCCNRUQ",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LDPNUSRSPXDNFUBAYOQ JFWUCCNRUQ"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "22c87e41e5fa92910f484d738e3e2e2c2362686bd7219d35b0daf0ad2c16e648",
+   "meta": {
+    "a": "SIDLDRDIXHZKSVRGFWR",
+    "b": "VGTYZGQASWCYFIHYXVWD",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SIDLDRDIXHZKSVRGFWR VGTYZGQASWCYFIHYXVWD"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "b000fad955a53588038efca4249870434dd7da39b70769891323ad917c85e80d",
+   "meta": {
+    "a": "YEJJASEILHBIPBQJNZGHHZE",
+    "b": "AIQLTQAHEWLHYCOXD",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YEJJASEILHBIPBQJNZGHHZE AIQLTQAHEWLHYCOXD"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "f90f57f421cba08026768239463ad740edce4172ec1906af981fd14c9d6c0441",
+   "meta": {
+    "a": "QWLPDCOZSBJIGOLTTNAIHCCKYE",
+    "b": "UUJOFWKEKREGOYLTKPYWR",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QWLPDCOZSBJIGOLTTNAIHCCKYE UUJOFWKEKREGOYLTKPYWR"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "7425d49a25de94c744951a2e3bc5b75059dd2d7239ac7a23100df9a7f1383026",
+   "meta": {
+    "a": "AARQMXVWNUREFUZSOONPAYBQTXEUP",
+    "b": "UBBRUQIYBHBRXHUSWJYADFQEY",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AARQMXVWNUREFUZSOONPAYBQTXEUP UBBRUQIYBHBRXHUSWJYADFQEY"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "454c181d8c4166619f4a5989fe25fa5f90d104dc69e82ba3141cea9784545477",
+   "meta": {
+    "a": "NLLYPDLPFIYKUJEADSPXNDZIZIFVV",
+    "b": "OLVBWMFZJDERMECQIRWSJBEFXDQIITN",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NLLYPDLPFIYKUJEADSPXNDZIZIFVV OLVBWMFZJDERMECQIRWSJBEFXDQIITN"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "44d57533be16fcda564ed016f299aa2ea00be116774b67ad87a42f1ff4d9ac5b",
+   "meta": {
+    "a": "MLHE",
+    "b": "GXZG",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MLHE GXZG"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "92292bcef14da107ec4b0a5a3f3bfbc2231305eb740bf808792f303910918ba4",
+   "meta": {
+    "a": "IPFMLK",
+    "b": "WOEKBJ",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IPFMLK WOEKBJ"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "9806c218784038d3f02de20f76cc11608a8da9228d2807642e18ad49d206f765",
+   "meta": {
+    "a": "VAUEIPAU",
+    "b": "XVRHBGTKTKKFA",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VAUEIPAU XVRHBGTKTKKFA"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "2f0d75850217a96d9481b7fc20b324357be34a48b29fd2997e6fea7cc6de96a8",
+   "meta": {
+    "a": "BITOGHDNSVVDL",
+    "b": "ASRQXDLLPCY",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BITOGHDNSVVDL ASRQXDLLPCY"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "4ceab0f9c33cf3c148d114248573bc7225847b74f55d9b1acfb3b917f1d28312",
+   "meta": {
+    "a": "LGOZMHABO",
+    "b": "SDHZQGOPRMEUZRYHUQNU",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LGOZMHABO SDHZQGOPRMEUZRYHUQNU"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "e49c34ddede5d01eb1da47919473b54efee30a073bff2a880a8cd89995baa918",
+   "meta": {
+    "a": "SIBJLDXHOPGWNKSCJUSR",
+    "b": "JLXMDOGMGED",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SIBJLDXHOPGWNKSCJUSR JLXMDOGMGED"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "4296c0d9c32b01231e345cbe2a930a7f293bbc3383bdb493cb6bc6ebb70bf04d",
+   "meta": {
+    "a": "OVVNEEJGNAZCXBDRYVPEXSJLM",
+    "b": "HAVUMUMKWAXJLVMG",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OVVNEEJGNAZCXBDRYVPEXSJLM HAVUMUMKWAXJLVMG"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "8e9b8528bfdfd1a713f73e640fe04d5ebea48e58cf308c75952547c0182c044f",
+   "meta": {
+    "a": "OHJNGZTDJZHPHOWHTZFSQA",
+    "b": "MZTZUIHYKIBSQUTANAZJKCU",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OHJNGZTDJZHPHOWHTZFSQA MZTZUIHYKIBSQUTANAZJKCU"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "432e2b9d711622960c76030768ea39cd68895455a584ed42e65f09816640cdd1",
+   "meta": {
+    "a": "DEYDGGROCMURBNGSRPXDLYNXYALBKD",
+    "b": "FIAFNQELIKYFEPMGCUQMRFYLTLCHHYJ",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DEYDGGROCMURBNGSRPXDLYNXYALBKD FIAFNQELIKYFEPMGCUQMRFYLTLCHHYJ"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "0d4f29e14f0f62c206250def8fe7ba9803ed2100199e708f213f43df71cd8e4a",
+   "meta": {
+    "a": "UNAZGYMJPITXTIDFKXFLILKQFUC",
+    "b": "FAEZWODYMWAFYJRIHDIZBFJDWHY",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UNAZGYMJPITXTIDFKXFLILKQFUC FAEZWODYMWAFYJRIHDIZBFJDWHY"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "24e43022c2b748055b327ff3e9ea2818a6a4316f20375638c0ff556dc9e6aa3a",
+   "meta": {
+    "a": "CISPW",
+    "b": "EADGLL",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CISPW EADGLL"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "42f857e83641c59e0360993833a547f5ef4723fde3b74d3896e8101a28f8b4de",
+   "meta": {
+    "a": "JVMWTFNBDR",
+    "b": "UMSJHZX",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JVMWTFNBDR UMSJHZX"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "2c700bb829244b10b4cf17b82a5501321f1752fcba2aa8f0d09865c60825467f",
+   "meta": {
+    "a": "IFSO",
+    "b": "VELBILF",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IFSO VELBILF"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "62243923598f39ca07c4657da15c81b15bb8e09f28040473af8d1358dc0d4c85",
+   "meta": {
+    "a": "LFUZFQOQI",
+    "b": "UFMIYVNXDGAUKNIK",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LFUZFQOQI UFMIYVNXDGAUKNIK"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "453def97887f03dc4f25f624ce248e8dc905ff2e0f557156efad2a0e05e5d83f",
+   "meta": {
+    "a": "RLYLGDAWVEHZFCFYVLKF",
+    "b": "GBNQMKAWYRJHR",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RLYLGDAWVEHZFCFYVLKF GBNQMKAWYRJHR"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "83a7f9f15783bee748df8bd4f64abfa8a6798f4a8fe304d549412a496966b5ec",
+   "meta": {
+    "a": "KCKZYWAPQEJOVOJBZSBYP",
+    "b": "HNBHZRCFSYNHXJOMODGHLC",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KCKZYWAPQEJOVOJBZSBYP HNBHZRCFSYNHXJOMODGHLC"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "1952f653e78cf94e15f5a840ea12e8852c273eb568c7e5f591997e764d979d33",
+   "meta": {
+    "a": "JIGIJRWGKFVEHKUYQCR",
+    "b": "CCOSIGLKBUGVGXNEZPXRTGOQAW",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JIGIJRWGKFVEHKUYQCR CCOSIGLKBUGVGXNEZPXRTGOQAW"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "b1cdffca395705062d873d9a29497f8f9cd826d0d56563d0e5e5cb156b769ba8",
+   "meta": {
+    "a": "CDDKACVUGXYZMYDIPWHIADHIRIVW",
+    "b": "AMVRIFJJCGJTEVXLGXOTOWKA",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CDDKACVUGXYZMYDIPWHIADHIRIVW AMVRIFJJCGJTEVXLGXOTOWKA"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "f57bd67ca455142c76c33426f98af21f1a8ffa13e002f3e81cd2741d21839c60",
+   "meta": {
+    "a": "EAYZOLEOGJQTNZONKECK",
+    "b": "YOVERAXUNOKCLFAVBZKMQGBWK",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EAYZOLEOGJQTNZONKECK YOVERAXUNOKCLFAVBZKMQGBWK"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "e0772c27fd17df2e8fb98868702257b5b2cdec869e1836f2287b44a81fe784ec",
+   "meta": {
+    "a": "LXVBEFTUTGYAPVTQGHQRCNCDDBH",
+    "b": "LLXJXPUAKEPECDIQFYKMCLRDDW",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LXVBEFTUTGYAPVTQGHQRCNCDDBH LLXJXPUAKEPECDIQFYKMCLRDDW"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "1fbb04cb068b47d0e44a98995fdf1c8c4e82e002b651a4f218c353e54aaef6df",
+   "meta": {
+    "a": "CDUVNUS",
+    "b": "GHQWYEO",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CDUVNUS GHQWYEO"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "1a04693ab575ec3a07d76863a375ec555fdd3d3b01f998fe78e96b543c00953a",
+   "meta": {
+    "a": "LVAFB",
+    "b": "XXXKLDPOXZY",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LVAFB XXXKLDPOXZY"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "e6dc97f0bcb0f177de6a0f35bd19939b68eb8cb06f77d958e0952e463ce36a89",
+   "meta": {
+    "a": "RPJCGAREE",
+    "b": "QVXNULJABQ",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RPJCGAREE QVXNULJABQ"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "37a64acfa790f2c3aec30cf118b84026b40d488fb60f6ecdbb2162cd9d76ec34",
+   "meta": {
+    "a": "JGUIUAAR",
+    "b": "SWHPTJOUKWAKV",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JGUIUAAR SWHPTJOUKWAKV"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "667ef378a698eef35124dff24e99ae9293bba849dbc25179af6cd44dbe429566",
+   "meta": {
+    "a": "VJCAJNQGZYLSUQNNEVI",
+    "b": "YOYNAOFZMMUIIDFLAD",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VJCAJNQGZYLSUQNNEVI YOYNAOFZMMUIIDFLAD"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "fce754d89b47d1a4f1ecf9e9c807224b88e52a4058aa4b9c6a3ee10e5ff4fbde",
+   "meta": {
+    "a": "LXKPTGCWHPVS",
+    "b": "XJPUTBKPNKQGKVTXOQDI",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LXKPTGCWHPVS XJPUTBKPNKQGKVTXOQDI"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "5b190945f7e86b7755975e88547e00c4f825261db2a076b8fe44fb8ea81d9a04",
+   "meta": {
+    "a": "WDMZXEVWJVLGUFZOZJWZG",
+    "b": "HDJBFEEXVCOTMTSBOVILOQ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WDMZXEVWJVLGUFZOZJWZG HDJBFEEXVCOTMTSBOVILOQ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "6d73a59788c9fd76764df955ad88e9859a7fd8b35054655ec65e77164a9c8bce",
+   "meta": {
+    "a": "AQYYARMKJUMFEENYKFJCTZMXMJYM",
+    "b": "JYDPJVMAQIZSDXDZEBVQZYIWJPMB",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AQYYARMKJUMFEENYKFJCTZMXMJYM JYDPJVMAQIZSDXDZEBVQZYIWJPMB"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "697258294a9461d5ea0d189872eb8e881afcfedebfff9619b42eb9438d655a5e",
+   "meta": {
+    "a": "ULABQHIJWDLLDEHSDOMDPK",
+    "b": "FWCESTQSIFUFAIIKEXDXMCZYHDYUP",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ULABQHIJWDLLDEHSDOMDPK FWCESTQSIFUFAIIKEXDXMCZYHDYUP"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "750863dc9f082daf2b8a6ac87578584a526e74893debf5a5f024608b230e9e1b",
+   "meta": {
+    "a": "NQKJCZOPAIJGVYRMSFJERGK",
+    "b": "QQYLJFYCGVFXTYEOPRGRYYGNE",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NQKJCZOPAIJGVYRMSFJERGK QQYLJFYCGVFXTYEOPRGRYYGNE"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "301b3774c36374c3086b27dde9739128ba60f069aef75cf54518dac7fb4697ef",
+   "meta": {
+    "a": "KZOUVVGK",
+    "b": "FAYSXP",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KZOUVVGK FAYSXP"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "17a0e398dde08d79912c33709699ee202c99295dcad3b948efd2f26f5a2f0bef",
+   "meta": {
+    "a": "XPVQGVIN",
+    "b": "ZZEVJ",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XPVQGVIN ZZEVJ"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "f8719cc11aa0fe4d5b24b76817ca78f47cdc77118a228cea519a4272f40f6d2d",
+   "meta": {
+    "a": "WYQWVMDSGGT",
+    "b": "HUEMBLTIOQDORA",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WYQWVMDSGGT HUEMBLTIOQDORA"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "09ed96d0fce6021aab19534839f2c12edf440648b8d8a21ac2da4ba774d10eba",
+   "meta": {
+    "a": "ZWRUYFBJO",
+    "b": "YJVOHCIGTKUU",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZWRUYFBJO YJVOHCIGTKUU"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "4e05909565ae088e01c695648368653e15bc6238f52d0228797289c0c25824d8",
+   "meta": {
+    "a": "UQICUTMVOJAHJPZLQB",
+    "b": "QCCYZRRDMPXXEHKRH",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UQICUTMVOJAHJPZLQB QCCYZRRDMPXXEHKRH"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "cf5c70d884071c2cc6668a8add12d3bf771cba2f0d309930af1469582a1e29d7",
+   "meta": {
+    "a": "MADJGJTURAFWQUFIPKNLI",
+    "b": "NZWPYFJGOHSURKABRE",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MADJGJTURAFWQUFIPKNLI NZWPYFJGOHSURKABRE"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "514ab2367294626beab73cf09de38b113655f4e0684e2bd77193a9fb40bf02cd",
+   "meta": {
+    "a": "GFVNLSBTJNTFVXTITGACKZTQIL",
+    "b": "OSUDVNSUSKZSMEEQBMEEZ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GFVNLSBTJNTFVXTITGACKZTQIL OSUDVNSUSKZSMEEQBMEEZ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "6880a496bc559ee32e111f93228736f184b96a99aa321f9caa8e6d611bcbb7e8",
+   "meta": {
+    "a": "AEWOJUDZQVFWEXXHCYDXWGDHSJ",
+    "b": "ZJOQLGNNDJGYSWHWAPIJJBGYD",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AEWOJUDZQVFWEXXHCYDXWGDHSJ ZJOQLGNNDJGYSWHWAPIJJBGYD"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "948c5d396026c21726141ea05b421441e508874e75d38447a082eeed6c69c4a5",
+   "meta": {
+    "a": "THHKNNDGNZAEAKCJULCCIM",
+    "b": "SPNTTDRPRIZRFTEJKGCFLFRBYDEMOGB",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: THHKNNDGNZAEAKCJULCCIM SPNTTDRPRIZRFTEJKGCFLFRBYDEMOGB"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "90e5cd8708c82bcd8e6799577d0d6604f252cc5b520bc6c3b0de80cc5db21eef",
+   "meta": {
+    "a": "RMWKMWGEFWGUKSFILAFMBIKBXOHIJT",
+    "b": "SKDWQEHNAOBFUKFJOVJJDIYOCVY",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RMWKMWGEFWGUKSFILAFMBIKBXOHIJT SKDWQEHNAOBFUKFJOVJJDIYOCVY"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "6e0efd7ef1f5545b217c7e8180e73b8dc47462d6dbb12a681e89c654c2916819",
+   "meta": {
+    "a": "EQVK",
+    "b": "SHAY",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EQVK SHAY"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "1952c524dc99c41c3378d1bdd56634e589107bb28d5c2b943451d59d68ffc78d",
+   "meta": {
+    "a": "IULLOMRMRDL",
+    "b": "USSG",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IULLOMRMRDL USSG"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "d1d20f09230f325453d1b7827e81964aa2272af268df3be691694b4daabd31fc",
+   "meta": {
+    "a": "JTRPXOXYXKF",
+    "b": "QUJACBGYQS",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JTRPXOXYXKF QUJACBGYQS"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "ddd58c786c01b1b8f7391bec5fdfb04e39ae59f25077a46dd3fa454436d5041a",
+   "meta": {
+    "a": "FVLYPJZBLEE",
+    "b": "VPOTWDNBJ",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FVLYPJZBLEE VPOTWDNBJ"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "b6f7b11c0a34f621fbd5dab82c9abac68d14d54b4c1e4b389d943af5607a0990",
+   "meta": {
+    "a": "UQIZVJQUBIRGJ",
+    "b": "UVWCXVADQOZBS",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UQIZVJQUBIRGJ UVWCXVADQOZBS"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "6388d77bf1153a5759b5fc25a474e0c15ebd2cb59097c4fc3600d424dbf29561",
+   "meta": {
+    "a": "GHTIUJGBXTZQVOJT",
+    "b": "QIZOUIZFRJVYQEGPNYOD",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GHTIUJGBXTZQVOJT QIZOUIZFRJVYQEGPNYOD"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "660a49e678a3bc48bc4d4c0cb384442ca5db9dd4ea158a89689bb8c4f1b54497",
+   "meta": {
+    "a": "HWWBFYOPJFZMXHXVHKCZRVXFG",
+    "b": "FEMGYRUTKCYYRQFVOE",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HWWBFYOPJFZMXHXVHKCZRVXFG FEMGYRUTKCYYRQFVOE"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "db9478411eebe80e7623a3abdbeebb42b7ef45e9976f04bcb20bcb0eee6f81cb",
+   "meta": {
+    "a": "QIJADDYGVSSOJWKRQCYLMZ",
+    "b": "XSZUXSZZQQJAZJDMMSNGIREY",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QIJADDYGVSSOJWKRQCYLMZ XSZUXSZZQQJAZJDMMSNGIREY"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "18e9015125c9d05a42ee799d7f0514ccf52f74fd282e29d8c45eb5879a29c587",
+   "meta": {
+    "a": "UGTUICLKGVXAZVCZDMZLTEBFNUBMJD",
+    "b": "DVCOOEMBBMZVBJQWWHVXEBVEQBAQDZ",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UGTUICLKGVXAZVCZDMZLTEBFNUBMJD DVCOOEMBBMZVBJQWWHVXEBVEQBAQDZ"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "d334b2c8e197742c3f411ba4dd1a6c0fac9c78c0876598208ec71bb51982a6d0",
+   "meta": {
+    "a": "XLOQGCRSHIBUOFMTLINVAACIELNJW",
+    "b": "LMKQTWOQKHCYRIMNFHLPLD",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XLOQGCRSHIBUOFMTLINVAACIELNJW LMKQTWOQKHCYRIMNFHLPLD"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "852d67dffac6a4334a7e53758af844ba1244c44e5b9cf478896947aa081f05a3",
+   "meta": {
+    "a": "OVSD",
+    "b": "LFBREP",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OVSD LFBREP"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "e1b4146fd459deae5cc7981201bcb32684847ab02607e59d0b99dd35c072eb2d",
+   "meta": {
+    "a": "LPQEHDL",
+    "b": "GYAFGP",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LPQEHDL GYAFGP"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "a9ebbae88ce5cbf2b10ab2b231e17ad89b519ae85bbf739c3d9fc397d6b51849",
+   "meta": {
+    "a": "VGPGQENURELQ",
+    "b": "TLCGCUXBBDK",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VGPGQENURELQ TLCGCUXBBDK"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "15837a2201abff4fbd229d46e2105c723c92fe80da08b7cd429fde5f2c11231f",
+   "meta": {
+    "a": "QEPOGKVJKTOFRU",
+    "b": "KVINAO",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QEPOGKVJKTOFRU KVINAO"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "deb3b7fd1a89a7b16c3d3c3e893ead196a08620b87fed67e554cbc293e7e4a72",
+   "meta": {
+    "a": "FAOZYKZDWDBFLEYGS",
+    "b": "VKXQPWYJZKKJBVOOBL",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FAOZYKZDWDBFLEYGS VKXQPWYJZKKJBVOOBL"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "af10b98c87daf93f88301a628a18864bd44afb465ee300cc26ae869907fa7b45",
+   "meta": {
+    "a": "QTLVKHNWZEYYMTSV",
+    "b": "TBGNFEWKNJHCVXMV",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QTLVKHNWZEYYMTSV TBGNFEWKNJHCVXMV"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "5fa17c5a9d8ed9020f1e4b6e0b188653f0ca5085f1b512045aaf4528a88c436b",
+   "meta": {
+    "a": "NDUJCFBKWJLYQACKWJODGFUR",
+    "b": "QJZVQPGWOVSDQEPUSVMXX",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NDUJCFBKWJLYQACKWJODGFUR QJZVQPGWOVSDQEPUSVMXX"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "1db9db0d7f35c8067744d79807bb46cdc6faee1ff06df4cd3dd431e61d32244d",
+   "meta": {
+    "a": "TABQGAIHJHMRBNONPMQFQZVYUK",
+    "b": "PGJNLEAOLUXFNHRNJGZTYWJXXTE",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TABQGAIHJHMRBNONPMQFQZVYUK PGJNLEAOLUXFNHRNJGZTYWJXXTE"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "df209484b666ecfb4253a4df14ca2a88889dc6d6fb69c40f210923107953041d",
+   "meta": {
+    "a": "BRAQWTJISIGVGHUPAJIRYWD",
+    "b": "CWBZPIFHAGKVTDIIXHFJULAZO",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BRAQWTJISIGVGHUPAJIRYWD CWBZPIFHAGKVTDIIXHFJULAZO"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "1b52926e4810214e8bd805482e2a503b2e22623eba7ea49531f1065940c56440",
+   "meta": {
+    "a": "FJBPOQOXKPECHRDNPOGZDKCFP",
+    "b": "FHSKHMUIOSPXEWAPWKLTCICFFPTPDJ",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FJBPOQOXKPECHRDNPOGZDKCFP FHSKHMUIOSPXEWAPWKLTCICFFPTPDJ"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "e6a6c4e748eb0a47e8904935bba36bb60ee0c021b1a043a9b1dedd258dac783a",
+   "meta": {
+    "a": "CJEGW",
+    "b": "BPRFAD",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CJEGW BPRFAD"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "190438fa3c974d3fec653f458a4a2cbf1d26db25b2b8389b8c6c7bc39ca3fd65",
+   "meta": {
+    "a": "SLHHNN",
+    "b": "APNWUADKCP",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SLHHNN APNWUADKCP"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "2b8ae752954bcb762854c5ac0c9678aee779d82fda5519b15c83014a1a0d6cec",
+   "meta": {
+    "a": "EPJGCLV",
+    "b": "TVXTOFMCRCPVC",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EPJGCLV TVXTOFMCRCPVC"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "994ba73a9633bfe498b03221dd0d0f177138db6b62c88576dd66fedf886c3673",
+   "meta": {
+    "a": "YAOPVMXSVZPVBQI",
+    "b": "MSLSRCCPXRT",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YAOPVMXSVZPVBQI MSLSRCCPXRT"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "a0d87a2ccd8096371270b6c826eb8cad8ad05afdfade62baabc8f2192f05adc8",
+   "meta": {
+    "a": "XSLJNIBJAYPJOCQ",
+    "b": "SAGRLSONULDLRFP",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XSLJNIBJAYPJOCQ SAGRLSONULDLRFP"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "4d35b344e4e4709d74c4537adebb2e1b460a8a7d17160e328e10328902a86bd8",
+   "meta": {
+    "a": "PVQPBDYFYMMMLXKACETNZV",
+    "b": "TMMIUNTDNQZEZ",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PVQPBDYFYMMMLXKACETNZV TMMIUNTDNQZEZ"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "e2f0c197f398e26d221dc223f154ac760913169dbf4ec6c7262d774be728cfe6",
+   "meta": {
+    "a": "AHHXYXESYMYAWEVQA",
+    "b": "WUGBHQTBXHMVYMBAUQZRX",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AHHXYXESYMYAWEVQA WUGBHQTBXHMVYMBAUQZRX"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "a413bfd81faca3c76cb5f3e5f9d874c257d8b7360c30bee807aa34d800f1fefa",
+   "meta": {
+    "a": "AITLOFELSAZHJMTZBFNORIUQI",
+    "b": "DGJBMQBGVPLLBLFKCROYIDHIV",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AITLOFELSAZHJMTZBFNORIUQI DGJBMQBGVPLLBLFKCROYIDHIV"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "e84cb9735b00e05dda51d225c9881948ef1cdbe3ee903bd6d0f4b1cdaf2152b7",
+   "meta": {
+    "a": "KTSAQOGJCBVAJBNKLPCQIU",
+    "b": "EKPEPISNIGOCFVIBKQLBNLSJL",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KTSAQOGJCBVAJBNKLPCQIU EKPEPISNIGOCFVIBKQLBNLSJL"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "91de68c5018396934438c954ccbb609ca9f44338375fdc3bdc7c4ab8f00f99d2",
+   "meta": {
+    "a": "CLQMWBCPOUATSUHSTRWNUATOIBOIKS",
+    "b": "PWRRPBCAFFWGAGTVKDFBTGLXLK",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CLQMWBCPOUATSUHSTRWNUATOIBOIKS PWRRPBCAFFWGAGTVKDFBTGLXLK"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "638c0ccea1ef2eecccfedbcec92d1a85024a09169b97d81f00dc08dfa3e03201",
+   "meta": {
+    "a": "QGKQ",
+    "b": "YVDA",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QGKQ YVDA"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "60e9d2bc5fbcfe843097a92318a6faf588f2df8eb742d7cd37ce7e4094e443a5",
+   "meta": {
+    "a": "BSAM",
+    "b": "WUCMDW",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BSAM WUCMDW"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "7febb8b1c65dcdc6797324cbd47e894e1826665240476576df665ddbf5aa3ade",
+   "meta": {
+    "a": "KRQWKKLZBV",
+    "b": "IYQZ",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KRQWKKLZBV IYQZ"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "43e91a3417ff6ffb86aa8bd9710732037812d3914d8b50b2287661fb69bcaf07",
+   "meta": {
+    "a": "XNBOWWVRDWWQ",
+    "b": "RCKXETBKFPARNGSI",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XNBOWWVRDWWQ RCKXETBKFPARNGSI"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "54b5019e35c6a0b07e937c3737a876bb045875391a1766bcbc530d6bde059e0b",
+   "meta": {
+    "a": "XGXOBUKPLABANHMNHIAS",
+    "b": "PGJYGFQAMDDVBDM",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XGXOBUKPLABANHMNHIAS PGJYGFQAMDDVBDM"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "8a3f15eb12a5efaca667b423d6b277d865d5f9e2784cbbba03b4d6b93efcc9c9",
+   "meta": {
+    "a": "XORNKPWHNQZVUOKJQ",
+    "b": "GNDKXRWBHN",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XORNKPWHNQZVUOKJQ GNDKXRWBHN"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "5863a3241e1f2feb26b50ea5ea1e37475e8e7054884cc0b589ab6ac1cd8ed018",
+   "meta": {
+    "a": "RYSNRAKKXGSNYMWLDCAUOCTOQU",
+    "b": "NQARIKRUDQYUIII",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RYSNRAKKXGSNYMWLDCAUOCTOQU NQARIKRUDQYUIII"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "3a8b71ff2613256b1be8c31ab7694540aa34d986075fe94f3b7cfcfa3233e757",
+   "meta": {
+    "a": "DKJIFRTZGYJBSQLCXV",
+    "b": "ARMLSCTXVJPPPSOLCVZHTZNCABB",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DKJIFRTZGYJBSQLCXV ARMLSCTXVJPPPSOLCVZHTZNCABB"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "7710975eb65474454328fc55226153e37cc9aefe0a6bd8645d07599e6a80ae59",
+   "meta": {
+    "a": "MHNYKFRZBSHKPSFNQRKDXAURSDWJCF",
+    "b": "EKCRSKAHDBDWNHMWLMLMXUS",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MHNYKFRZBSHKPSFNQRKDXAURSDWJCF EKCRSKAHDBDWNHMWLMLMXUS"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "6c8f9131d2c678603f1bab5768804c1a2f491509a1a7bd82342ad7ae09f9a945",
+   "meta": {
+    "a": "MBASCNFGVTUIPEHYWSLCTUNQSVQSU",
+    "b": "CYJSGBKNWKFZGGVLQHLTBQKWKA",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MBASCNFGVTUIPEHYWSLCTUNQSVQSU CYJSGBKNWKFZGGVLQHLTBQKWKA"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "8dcee29940494a318a77271ae2127606b3113b0f14466bd9642e4015e3f5f85e",
+   "meta": {
+    "a": "EBHSI",
+    "b": "OVAQ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EBHSI OVAQ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "eff89941f4490954efc02cdb8fc09a1e0a5f20230422421c4a317b3e88992420",
+   "meta": {
+    "a": "GSCAXX",
+    "b": "AVREPBHG",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GSCAXX AVREPBHG"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "603bc90ef016f8a096bb834359837aee498c064f8837458c890f3b3707495755",
+   "meta": {
+    "a": "LGIYCCSDZHPT",
+    "b": "XODTNMFRI",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LGIYCCSDZHPT XODTNMFRI"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "5d6709329bb17027f275fb6991324e5c33aea29d866fd49cb7b68ab89d31e703",
+   "meta": {
+    "a": "AELWHXRIO",
+    "b": "NVYEXRTHMWRESA",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AELWHXRIO NVYEXRTHMWRESA"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "27dbea69369c0ac60cc207c7646094c698192c78808dbd41c899662eb5f62d32",
+   "meta": {
+    "a": "ZFSXOFDOIUFPUVEIYHL",
+    "b": "OOPWQKLBKLZ",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZFSXOFDOIUFPUVEIYHL OOPWQKLBKLZ"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "146ec8b8b439dbbf5774a66f6e0f2be9ad5cd079c1a3e7634fdead2a0468c9f3",
+   "meta": {
+    "a": "PZUVOPAKGQHVRKVWDUCVC",
+    "b": "KPSHZTFSMRQRECRFPQYUEWM",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PZUVOPAKGQHVRKVWDUCVC KPSHZTFSMRQRECRFPQYUEWM"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "d1459c5d2ca81b59a2ec8d6d854767db52782d941096c4f13210fd903373caaf",
+   "meta": {
+    "a": "HNODNWDSAWGYBNWOZPMZWZLV",
+    "b": "IGYWZAOITNCYQEYYIPCGGOCYZ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HNODNWDSAWGYBNWOZPMZWZLV IGYWZAOITNCYQEYYIPCGGOCYZ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "f7a34d11b0d940943c90cce182a97be9e0adc93a9ceb00b722eeb2334b93e333",
+   "meta": {
+    "a": "SLYCRSVDWJRTHKYOEZHR",
+    "b": "KYATCSFVQQYGPDJDVJQNYP",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SLYCRSVDWJRTHKYOEZHR KYATCSFVQQYGPDJDVJQNYP"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "ff393ee4cfd7a466c8e23c46e1d9b844c5d75b4772340a13bc33764a6259a8c9",
+   "meta": {
+    "a": "LUACHDYBRYRQOODVQYAG",
+    "b": "YBRXTUKIDGICIYOKCQCKQKWYAVR",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LUACHDYBRYRQOODVQYAG YBRXTUKIDGICIYOKCQCKQKWYAVR"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "176a5e2af0e6cd733a29b8ec85410bfdaef0473b569ed7ae271fc22c42f89004",
+   "meta": {
+    "a": "JUXQROMKDSAQBYIGGZUPDJAUKEE",
+    "b": "GOUFEXREXEHJHFTKEGGZAAUYZ",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JUXQROMKDSAQBYIGGZUPDJAUKEE GOUFEXREXEHJHFTKEGGZAAUYZ"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "d386ba021be4a408dbfa310924701218b8ab5519a600d4c8b459d1352ac7aff0",
+   "meta": {
+    "a": "HJINKIX",
+    "b": "MGDSZ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HJINKIX MGDSZ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "5971ce175043aecf8bf810b73c2727ef99df2c30b78f87a02a1abf36825bc198",
+   "meta": {
+    "a": "IHRWOHG",
+    "b": "OUCYZN",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IHRWOHG OUCYZN"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "69efed532087e08cd853372e9a93a96cf1e8099c139f9d92475222c31878cccd",
+   "meta": {
+    "a": "QZOQYAYYMI",
+    "b": "TOHAF",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QZOQYAYYMI TOHAF"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "fccdca47a796c80710e9e6fbb1cd062c36c82d8f265acf4d1cc3602326a00245",
+   "meta": {
+    "a": "FMCBPXEFSLFDJ",
+    "b": "RMMAUBBDQQBDZHODS",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FMCBPXEFSLFDJ RMMAUBBDQQBDZHODS"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "f3f42346e25a8a0be5db5c9a707c2b791adccdcc3d5f90a160664a8a2f0bee9e",
+   "meta": {
+    "a": "SECUEHVCWNOT",
+    "b": "NXVYNWNNERBUAWNUUPW",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SECUEHVCWNOT NXVYNWNNERBUAWNUUPW"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "85ba70093b4fd56f8e780d959552fe2fe390650f9c167fb9a3f59fe3885bb891",
+   "meta": {
+    "a": "UJBTXCEOQCEBHPPFSLY",
+    "b": "LCRBERSXFBIRBTIFXLRNH",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UJBTXCEOQCEBHPPFSLY LCRBERSXFBIRBTIFXLRNH"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "83fd79169c9b78d6b0a7c36d527d4a122b33d946d0f194132b7674fccac2324a",
+   "meta": {
+    "a": "FOSTSGIEXHROYZLHEMHZR",
+    "b": "AWDSFXMTFYXGNBTYYXLHCD",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FOSTSGIEXHROYZLHEMHZR AWDSFXMTFYXGNBTYYXLHCD"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "cbd4da28ce9dbaa68b22248bd39f6900f0310ce490576c19337ff50cd66df4cd",
+   "meta": {
+    "a": "MAWFTZYPCYEXSPKVHEKIWZZMZDZ",
+    "b": "TRQNNNKKAMJUIAMWRRPROTHHZIJTZ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MAWFTZYPCYEXSPKVHEKIWZZMZDZ TRQNNNKKAMJUIAMWRRPROTHHZIJTZ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "27967fa651d9ad67ba4ad90cda3eccf908cd9387795344fbbaabb357300fbca7",
+   "meta": {
+    "a": "NRQTDDMENEBXQTFGOGFNHWBAOGQP",
+    "b": "ZGDIJOPBNJLYMQBNSIDHGBTOPPCPKG",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NRQTDDMENEBXQTFGOGFNHWBAOGQP ZGDIJOPBNJLYMQBNSIDHGBTOPPCPKG"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "c7ee79bb03267ebf3b0611846b57774a43de8ae53c7400a9fbdd05faa6b06138",
+   "meta": {
+    "a": "EPZRJOYWOSNMDWVBPRMCLADMSUGSRMX",
+    "b": "ROAKVKKDPTURSINGBFMJDXDFNSXY",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EPZRJOYWOSNMDWVBPRMCLADMSUGSRMX ROAKVKKDPTURSINGBFMJDXDFNSXY"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "9cc5b1fa0f91e8f3fb1809577e6029b0eae24fb5106f5291ad45a5dc5359b2f2",
+   "meta": {
+    "a": "YNKO",
+    "b": "HSSVX",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YNKO HSSVX"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "0520e4453d35073e87038b5a739d2da46cc00a0890e64f3c8b7c3193faf41cad",
+   "meta": {
+    "a": "FSLIFHR",
+    "b": "FVZYJ",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FSLIFHR FVZYJ"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "38ba43baed43f3bdacdc48087ea3e43514c3539fdfd0d6ebab2ef9e926f2936a",
+   "meta": {
+    "a": "FOXEACQ",
+    "b": "OPBRCVDNPJUELU",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FOXEACQ OPBRCVDNPJUELU"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "2162c1fa38759fccc1ffe3a9d1e3261d80943d50c9d0ebe17ac700c6f5c9dbd6",
+   "meta": {
+    "a": "HXTPYCZJFPVZ",
+    "b": "LNNTZGPIM",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HXTPYCZJFPVZ LNNTZGPIM"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "601f4c859cc0033543cf0a585e33b7558e7c353b3de52229ee292b663bb581b3",
+   "meta": {
+    "a": "TDMFVYHYKCGOFAJPZ",
+    "b": "HUQCCSACOPGXDSGJTGR",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TDMFVYHYKCGOFAJPZ HUQCCSACOPGXDSGJTGR"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "d0aecfbff48a2ff5c6b913a145167e77a30e3b43da48374db473d2e358fa8ce2",
+   "meta": {
+    "a": "JOCHFZHFZLXNOBNEICQYO",
+    "b": "BNBSQQOCIYCXKFRUQTQRPR",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JOCHFZHFZLXNOBNEICQYO BNBSQQOCIYCXKFRUQTQRPR"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "a6c1f40b724f8558cd42b24a3a6c4812583e9da60164688ceb6d9138b122eba3",
+   "meta": {
+    "a": "LPHQCCVKFUMNQLDPABSYM",
+    "b": "NKPZAHBMSSTUSKUWYXALUEGZ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LPHQCCVKFUMNQLDPABSYM NKPZAHBMSSTUSKUWYXALUEGZ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "57ca1df52ebe9e660b3387ee4665e29e6799e81a911a91607a435c7bf7c2c578",
+   "meta": {
+    "a": "VXZZQGAJXNEFJRTLNPZQOXLKUIWOW",
+    "b": "AQEILBOXKGSYMRQIQM",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VXZZQGAJXNEFJRTLNPZQOXLKUIWOW AQEILBOXKGSYMRQIQM"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "9dc79f53b2bc462a0044f65a77dd0141335189982cc81ee762c3fc0e3d4819eb",
+   "meta": {
+    "a": "YYMVMCAOPETUVQVXJBYEOAAZRUHIAOW",
+    "b": "QJSGVJHVOYJVXDZGBKCSMBSGTEUMYIY",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YYMVMCAOPETUVQVXJBYEOAAZRUHIAOW QJSGVJHVOYJVXDZGBKCSMBSGTEUMYIY"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "f5e28f66913c64aaa751cb0bd075709984d57b52b978e081e0a8495cb2b50922",
+   "meta": {
+    "a": "XERZRGNEPYGLELGHZRZDGLCSY",
+    "b": "RAAGTVIUPAQGEQJIDHUIALNEDFGAMSG",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XERZRGNEPYGLELGHZRZDGLCSY RAAGTVIUPAQGEQJIDHUIALNEDFGAMSG"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "491da9b3b3d2daba0a2c7db33ff85d37572a082fa2ce0838ab4efa12a4a92f5f",
+   "meta": {
+    "a": "COJRHX",
+    "b": "AAWEBK",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: COJRHX AAWEBK"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "eba91dc66e7aeb780489e1361fb41bbe5232c8a88f8f4fab025c8704c14ba94a",
+   "meta": {
+    "a": "WAVOKG",
+    "b": "CLALQL",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WAVOKG CLALQL"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "a5ae22afcba9fc5f0237aa081ec6eec7c573a00c9ed8b888835d1e4b4ac6eebb",
+   "meta": {
+    "a": "YJADHRGKJELWQA",
+    "b": "XUMLQENZUE",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YJADHRGKJELWQA XUMLQENZUE"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "25130a6a443e11542fb7704bf4d5266c6900bd23b4dc1285dfaf096968437967",
+   "meta": {
+    "a": "LGFXVUWFVVCG",
+    "b": "OSFFWJXDEWASRJEB",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LGFXVUWFVVCG OSFFWJXDEWASRJEB"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "ab1ee0b292e535b1badf00d338979b314acb0042f5fc51d267cd94b7c71b1012",
+   "meta": {
+    "a": "PHVXMUDMQYB",
+    "b": "PVJSAYQTGTJBOBQMGTPN",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PHVXMUDMQYB PVJSAYQTGTJBOBQMGTPN"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "787956049a919657de47247df6323204128e42cdcb629301483695d541e014b7",
+   "meta": {
+    "a": "TPALYRZGYZYUHUOSMB",
+    "b": "ZEIAZRHMFNJB",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TPALYRZGYZYUHUOSMB ZEIAZRHMFNJB"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "85285ccece7e355e794b2ee7add4f0ce01aa19cb897a6382c50543c7a8e37282",
+   "meta": {
+    "a": "UEDYPJJHTJQHDSPTGD",
+    "b": "GFYPJMHGRDWEZEWGWXLBMEK",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UEDYPJJHTJQHDSPTGD GFYPJMHGRDWEZEWGWXLBMEK"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "b63de56b4ae6447e68d11b579aa1521b6a4abd5f6327ecdbef4eeab1e971033a",
+   "meta": {
+    "a": "HUYOULUUJOZQULIJPAZKCAIHMDOHA",
+    "b": "KNICVKFGZUYGHDOOVJYUIGHC",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HUYOULUUJOZQULIJPAZKCAIHMDOHA KNICVKFGZUYGHDOOVJYUIGHC"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "0d6d76012f68586c4e892a9dff17a82d5d3742b8423defa00cc5213b8d6a92e7",
+   "meta": {
+    "a": "VSMQWRSEBDJCYSFGUZTYZGKIZJXBMD",
+    "b": "PPJQSTMZUKMVZBERCILXCFGPWIJOC",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VSMQWRSEBDJCYSFGUZTYZGKIZJXBMD PPJQSTMZUKMVZBERCILXCFGPWIJOC"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "4ab0beba159296c2c8a7215032f8c7b7f9625d06fda7c0a86136894683c5f369",
+   "meta": {
+    "a": "ARLABEHVFMGVKJAQDNFGORGCY",
+    "b": "VLHWRGNHGNHIFBCZZSNCGOSTKYYRSOY",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ARLABEHVFMGVKJAQDNFGORGCY VLHWRGNHGNHIFBCZZSNCGOSTKYYRSOY"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "9d3e74d29332d1c6dd4c2b2f69055e3d83e5b469c446c8a4ed05eeaaa87b6842",
+   "meta": {
+    "a": "MZPQREVB",
+    "b": "IOYDADSI",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MZPQREVB IOYDADSI"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "2477b6c47c73c59dc8b3e52b7eefef40a06056c88e38fcea0424b6e306b824bb",
+   "meta": {
+    "a": "FOLI",
+    "b": "ZNPLETB",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FOLI ZNPLETB"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "05aeff8e48bf01674e4752922fa6f8abe318d3b69bda238d4557dd8f309a5e26",
+   "meta": {
+    "a": "UZHS",
+    "b": "FDFQUXFYZW",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UZHS FDFQUXFYZW"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "d515286307d8c860efd7bcf65e8f3779b12ec8d9351ec570a98dcabc3172c235",
+   "meta": {
+    "a": "DHJXGFCJJXE",
+    "b": "ZDHGSHZDDIZDIBL",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DHJXGFCJJXE ZDHGSHZDDIZDIBL"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "8e5cecbf5ea72a6f76af68d39b1aa80b7117275abc8ff55e6d50b3c417fc3ff1",
+   "meta": {
+    "a": "TPAQNRBBDXTLUZJYNPS",
+    "b": "XMJPNLWLPYWAMYW",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TPAQNRBBDXTLUZJYNPS XMJPNLWLPYWAMYW"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "b7fa0f2b4d7a38920ba3de81703818a0f5195885f76b0aa535ed1a8659b7bd15",
+   "meta": {
+    "a": "URZKTLBNBXAVBOHCBVKTP",
+    "b": "OJCCDGOATEVSSYUZAXDCB",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: URZKTLBNBXAVBOHCBVKTP OJCCDGOATEVSSYUZAXDCB"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "9c91005e880d3527bf76807717cafdb665e56685fc70ba9c3f5161babcc6d233",
+   "meta": {
+    "a": "TRKNHPVGEDWYFPJXN",
+    "b": "GKNWMOLFLDHTSDVKRMWXKFG",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TRKNHPVGEDWYFPJXN GKNWMOLFLDHTSDVKRMWXKFG"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "b56c1fdae388de5ca485aa0d300ccbcade3e6dac5595bf8fff0ef112e8287ff4",
+   "meta": {
+    "a": "DJDDWICINJFDLIPPRYPLJQRLM",
+    "b": "CUJEETBLQWVVXAGBGDLIGMWOPXNQO",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DJDDWICINJFDLIPPRYPLJQRLM CUJEETBLQWVVXAGBGDLIGMWOPXNQO"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "2bb6e507136246a0b7167a6118840e1bb78df5d2eaeb360f7e776ab92a3c11c3",
+   "meta": {
+    "a": "FTBSAUFSMZLYTVRLLMMTIFEOHIWVUN",
+    "b": "JZWZUYHEUAHLXVYACUIOIHXHCKISNGN",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FTBSAUFSMZLYTVRLLMMTIFEOHIWVUN JZWZUYHEUAHLXVYACUIOIHXHCKISNGN"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "9b23a430f2f4c304286f855605f5f676c7e7f21e1160f91c10eb0893d97855c4",
+   "meta": {
+    "a": "FGBVJGJLQMZILTKQNLHOMASXWJPYMQF",
+    "b": "YBCDFIKCWLZPABTDIVYDIUYXYSLQFRN",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FGBVJGJLQMZILTKQNLHOMASXWJPYMQF YBCDFIKCWLZPABTDIVYDIUYXYSLQFRN"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "37a2873d6cfc9176d2ec691307395b43c67b7b2ef80f6f6f7492e450cad3c6a7",
+   "meta": {
+    "a": "DUZTV",
+    "b": "GCYOXP",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DUZTV GCYOXP"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "83523895561e1cb97eb469b25cc37041760622ef42187e518c5d5dbd98e07959",
+   "meta": {
+    "a": "MTRH",
+    "b": "HAEUOGZTBB",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MTRH HAEUOGZTBB"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "ca37b8139ea2cf088859ba08dda37c5916eff5c69c8be89c321861bb4b319afd",
+   "meta": {
+    "a": "VLLZBAZLXFI",
+    "b": "AZJTWZEUD",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VLLZBAZLXFI AZJTWZEUD"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "5acbd7e5a2a8fa7665d2501b10767819605fae1c4887103f0725140c74487818",
+   "meta": {
+    "a": "XRRKIBIAPCM",
+    "b": "TAVVPADKCBOS",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XRRKIBIAPCM TAVVPADKCBOS"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "cc9ad632a2832cf7a6cc3ceed23f3651c52d74473b6ba0d929b562c17da37adb",
+   "meta": {
+    "a": "EPRGESBSPVGFPL",
+    "b": "BRKOUBYNHXPNFHCD",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EPRGESBSPVGFPL BRKOUBYNHXPNFHCD"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "4462a4e75d7c266b15b039b25b75cd1a75316ca35aeab2ec460e493e3562f187",
+   "meta": {
+    "a": "DFIPMZZPGLWHXKTIEJ",
+    "b": "XCIZAUESSVWXXNKCVNDWYOF",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DFIPMZZPGLWHXKTIEJ XCIZAUESSVWXXNKCVNDWYOF"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "a718b34c385e5945b976d3a9452da1111827c4782b1a97b78c76cc0ec5dea9d7",
+   "meta": {
+    "a": "CHAADPQGYWKQQBDJOISUN",
+    "b": "CSLZIEOWSJEFFTNINSMDU",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CHAADPQGYWKQQBDJOISUN CSLZIEOWSJEFFTNINSMDU"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "27a14375ae7271071f8f48200fc4156d679bff7788920d88eb00d723536504fc",
+   "meta": {
+    "a": "GUFEKLWOLSAXZBGQZFIJSZSEUS",
+    "b": "SNZFJHZPAVSDAADKNIPZPQQERV",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GUFEKLWOLSAXZBGQZFIJSZSEUS SNZFJHZPAVSDAADKNIPZPQQERV"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "e89548aafa0cfc8a3378dcedb840bb62e145f39e99d412ee991c9c8af143b0be",
+   "meta": {
+    "a": "GLHFABJJGNELBWUBLKMIRWLSXSQK",
+    "b": "OWLTTGNSQQJHBJLKWNVKKGWGJWRRBHY",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GLHFABJJGNELBWUBLKMIRWLSXSQK OWLTTGNSQQJHBJLKWNVKKGWGJWRRBHY"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "06351d3eb60a6a2de5356639e2dde1c0a7ccd2c56055c99595f43ae6067db0c9",
+   "meta": {
+    "a": "NNBYXAEJKKZLQYLQHPVPJKO",
+    "b": "YLJLQLWELTASPHPKJQWNDRPGIRKPILN",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NNBYXAEJKKZLQYLQHPVPJKO YLJLQLWELTASPHPKJQWNDRPGIRKPILN"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "5cd7deff44599caf04e3fb2dbaef1f2c9d75b5b5f15851706a920e69a509ece0",
+   "meta": {
+    "a": "EKMJBMSH",
+    "b": "PAWQXAV",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EKMJBMSH PAWQXAV"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "b499e963ebed599b62074948bc86a74f50258a9bf6415a6e7196016a893369d6",
+   "meta": {
+    "a": "GHBHT",
+    "b": "OCETGW",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GHBHT OCETGW"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "5ccd7aab9762d27d7de141e208e18f76c96ca36afde902ddc7533c9b6f7c420f",
+   "meta": {
+    "a": "ISQQKIDPNSC",
+    "b": "QOPMKL",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ISQQKIDPNSC QOPMKL"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "64c000c0b3538ad4bb1b65d827de493f4ba411dccb39f2207b7557ba0b659afb",
+   "meta": {
+    "a": "FQXUMBJ",
+    "b": "JQBQQIDPJUYUGXX",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FQXUMBJ JQBQQIDPJUYUGXX"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "a0a82908bd560cafd0ea63fc2821a3ce4cca222a0381e5afa029fb76ee11a3fe",
+   "meta": {
+    "a": "HWZTQIDIRAKMHQFGZYI",
+    "b": "OZXRGMVHR",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HWZTQIDIRAKMHQFGZYI OZXRGMVHR"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "409e80f3b18b46403266209ea9a37e58b4d58ffa0ad35e0fc6570c6c2893f91f",
+   "meta": {
+    "a": "WTBLOLQATDHLEQVAIHO",
+    "b": "KGJDHSLTFNWNVNUI",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WTBLOLQATDHLEQVAIHO KGJDHSLTFNWNVNUI"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "e681b5c45ee91127c9ab05af1382db8ef3b055f7c323056a364bcfae43752d2a",
+   "meta": {
+    "a": "UAJOOYUZKUGNDDUCGODOMDI",
+    "b": "IODXSQZYQDDASLABNEAZGVIV",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UAJOOYUZKUGNDDUCGODOMDI IODXSQZYQDDASLABNEAZGVIV"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "a2bda62aa3cc03366de336b8ad5b81b971d24a078353829156c790d76e2ad098",
+   "meta": {
+    "a": "XCHNCGCMZHKHICVTWK",
+    "b": "DXOGSBGESZUKACKDPVWUZ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XCHNCGCMZHKHICVTWK DXOGSBGESZUKACKDPVWUZ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "34a501064f63a78927a542d88d52dcb56a0f6d6ee0866f926c5b4f3d125589b2",
+   "meta": {
+    "a": "SZDOYKPFWZNVGAQCWXFNGO",
+    "b": "DWHHMZHRFYBVAXNJMQGM",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SZDOYKPFWZNVGAQCWXFNGO DWHHMZHRFYBVAXNJMQGM"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "ef332365cce584e0de2e2aefcb8d60dbfc327b5d8c64064e53e11e62ba893666",
+   "meta": {
+    "a": "WJPZXAJXMHMRCBWTCLQNVVPOKCYUIH",
+    "b": "AMMJDEIOTANVIPRBCXORAIAARA",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WJPZXAJXMHMRCBWTCLQNVVPOKCYUIH AMMJDEIOTANVIPRBCXORAIAARA"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "4e215ffc7cbb29c28c28ff11b9d5ecf4357a8bc28e8ff2a83dc2456defd77372",
+   "meta": {
+    "a": "XVBBCSIS",
+    "b": "DYRZKJE",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XVBBCSIS DYRZKJE"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "abf9583e442a27bc69fe03d12398d45e1654b759758883470113fb1b7fb375fb",
+   "meta": {
+    "a": "RQODFDDQLE",
+    "b": "DIJNXSK",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RQODFDDQLE DIJNXSK"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "d07eb36778ee0bdf5cd16ba652b91566a8e68fc4585731f160eec5e117104404",
+   "meta": {
+    "a": "UPBMJFNTKQ",
+    "b": "PRBPX",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UPBMJFNTKQ PRBPX"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "2442326acfef7ed80ccaa8e138030b05af9a506fa8d8faf908e7bddc660f8de6",
+   "meta": {
+    "a": "YMZQNAAWEDLPAIXYX",
+    "b": "LZBFBANECCG",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YMZQNAAWEDLPAIXYX LZBFBANECCG"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "b05c2e53bd6abe8f989e36deed2d638804af2fe6d6613e729e745715a8c8bfcb",
+   "meta": {
+    "a": "QVKXEKOBHUGVVRMKDON",
+    "b": "NTXNPKZQFERJDWK",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QVKXEKOBHUGVVRMKDON NTXNPKZQFERJDWK"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "41eafb2fad057d04c89b24054c1d92cb8be40e3ac42cca121693899a7e678c59",
+   "meta": {
+    "a": "IZIMFSCGOYPNBUSHE",
+    "b": "ECLOXJQUIGMNZBCEZ",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IZIMFSCGOYPNBUSHE ECLOXJQUIGMNZBCEZ"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "77e2758b617cd82614aa01c359331dcecac9e14eb796f2437a9a584cec8a2b45",
+   "meta": {
+    "a": "WDSSZKMVZTOQOG",
+    "b": "OMOVAMTZDTZGPFPCQPPGS",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WDSSZKMVZTOQOG OMOVAMTZDTZGPFPCQPPGS"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "f1985e06bffced2677abd082490f9768227ca939b8ef81ef84dc58e44bb7ac1e",
+   "meta": {
+    "a": "NWQPVLPKFXDUIRUNMJPNQDKVHO",
+    "b": "URKTJDWVVPVOSVASNECQRVQZWF",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NWQPVLPKFXDUIRUNMJPNQDKVHO URKTJDWVVPVOSVASNECQRVQZWF"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "08eabe4070a9e3e0bed8acb2fd51e412115903b3d2b21c17319303643ae1fae9",
+   "meta": {
+    "a": "FSUYCLSLOVGOPNPKYJAILRNCPYGZ",
+    "b": "HMLPVGRCRZESKOAAOTGYGMASZQOGVFC",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FSUYCLSLOVGOPNPKYJAILRNCPYGZ HMLPVGRCRZESKOAAOTGYGMASZQOGVFC"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "2fbb24198c4573b11a645bbacfe0c940c1596b1a96e089de306c530aba153226",
+   "meta": {
+    "a": "NRAPFSCFDVVHLAIOMEDJICHBTGAVW",
+    "b": "DFXTABPNSBFZWJDMTTZJTW",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NRAPFSCFDVVHLAIOMEDJICHBTGAVW DFXTABPNSBFZWJDMTTZJTW"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "123993a7c3d6baf5ad03ef42d22f01f7a8ecef7dae8637a456a5563a1683d329",
+   "meta": {
+    "a": "XQOXDFTK",
+    "b": "PBPRJ",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XQOXDFTK PBPRJ"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "9c3c2e83b4dbe9c2924aa1d5243322047449c5cf7b12322f2c667e32e966b09e",
+   "meta": {
+    "a": "RSGQF",
+    "b": "YEWQ",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RSGQF YEWQ"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "ce6d02faad8f72914127d56e322bfe2861eb64eb039d42443291b97859a0ffa1",
+   "meta": {
+    "a": "OESVMAIYYG",
+    "b": "GRTZALUNEGYC",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OESVMAIYYG GRTZALUNEGYC"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "bd18a2789ad435ede241b0387e9c963730125681711df339076b74dbe2d25910",
+   "meta": {
+    "a": "VVFLAODJ",
+    "b": "QPIHMPBHWEVOFOPCH",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VVFLAODJ QPIHMPBHWEVOFOPCH"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "12657e1ad49c4ea2a723e616506c0698d594ec5f91300096a7627d40798bc31f",
+   "meta": {
+    "a": "PWKYAIXXHSXMFRL",
+    "b": "MKUOVDDEWUKTIX",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PWKYAIXXHSXMFRL MKUOVDDEWUKTIX"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "c220aed237529deff06bc68c9307dee6f85c5c4092b3c48cf4712249f382a5b8",
+   "meta": {
+    "a": "INLAVGUYJKNVDSRROBVZK",
+    "b": "NDBLZSELIRFRGXFWCC",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: INLAVGUYJKNVDSRROBVZK NDBLZSELIRFRGXFWCC"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "7d3d40941c14e8fc1e5fab791408c72f0a2fdf9843d6744887949bb524aa1e12",
+   "meta": {
+    "a": "PVVFOGTCNDZYMIELLEXTA",
+    "b": "LFJMGMHNKGMAHCEDGJUMVQPXN",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PVVFOGTCNDZYMIELLEXTA LFJMGMHNKGMAHCEDGJUMVQPXN"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "363b905cc61308fb444de3804b86e4daeb75e2e5d2c12259f1acc00b7445ca89",
+   "meta": {
+    "a": "RTDVEERHKCTUXZBJENCRZHOCY",
+    "b": "VBXGGMHBSIECLCDLXWLMOZWOXF",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RTDVEERHKCTUXZBJENCRZHOCY VBXGGMHBSIECLCDLXWLMOZWOXF"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "1556885db01905ecf45d4da4f15c4e29d968a038711799e913bae346a96e911f",
+   "meta": {
+    "a": "EHBSYVTGPZUYSLIXXMIAGIHBVNTPT",
+    "b": "KUHEYJUUYPLSQTUOLEKQCNIUSDCMFQ",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EHBSYVTGPZUYSLIXXMIAGIHBVNTPT KUHEYJUUYPLSQTUOLEKQCNIUSDCMFQ"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "d6a35f970daa0e0f65d1746a239ea78d1a108dde03f44eaee424ae814edff987",
+   "meta": {
+    "a": "MYWMSWVTUUKSJPKTFREEPPPN",
+    "b": "GVPMQUZVJTHHUFUHDZUCYKSOMVHRN",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MYWMSWVTUUKSJPKTFREEPPPN GVPMQUZVJTHHUFUHDZUCYKSOMVHRN"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "7357a538abb6cd5e956d60c35da6ce77f19f5ae0b2b6b3092da25e146f6f31c8",
+   "meta": {
+    "a": "MQFK",
+    "b": "NBJLH",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MQFK NBJLH"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "3f0b87c36fe9b4c0e7b37ef85f8dfc9071146c3cfb6eb82f82e34733df32fdca",
+   "meta": {
+    "a": "FYMQJDF",
+    "b": "FKGU",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FYMQJDF FKGU"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "dbf4895fc499749ecc1e1453ea08417a08b77e42a1882985e352a532d95549dc",
+   "meta": {
+    "a": "VPMBCOIL",
+    "b": "FOYMEIJF",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VPMBCOIL FOYMEIJF"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "01d519acb067cb91b696600f28a2066e9245b43e3f0e597022173f51079808a1",
+   "meta": {
+    "a": "BPHPAPOGDESXOXYP",
+    "b": "CLPWRRDFOJSQ",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BPHPAPOGDESXOXYP CLPWRRDFOJSQ"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "beb73f15c5ff999a2046514412f3b29a95175e7f6dac834b273b7959430bdc12",
+   "meta": {
+    "a": "TWPHFSUOEHXLRS",
+    "b": "XRPJARCPQUOSW",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TWPHFSUOEHXLRS XRPJARCPQUOSW"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "f9e4d20520ff93b1b35f58ab187c4d9dcff01390b73d1826be02b8b0699e078d",
+   "meta": {
+    "a": "VIADCVYVEWXIXAPT",
+    "b": "SEYFNTJQQXAGQVUYSZXOI",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VIADCVYVEWXIXAPT SEYFNTJQQXAGQVUYSZXOI"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "0d5b2fa15d78f85513f50f909f7468d152bc0a4d152b4de08d32a6a8fcb0ba97",
+   "meta": {
+    "a": "GBXICJDUAQWZFPNIAOLJCGEPV",
+    "b": "MLLTDARLOVOFTQRPCUAWGDHXYJ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GBXICJDUAQWZFPNIAOLJCGEPV MLLTDARLOVOFTQRPCUAWGDHXYJ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "351baf194446b4c1210bee0af2e147bee061ca7d5238f5ab44316d24defa1061",
+   "meta": {
+    "a": "FAZOEXCQLUWCVHWPHQUUMGDUUJ",
+    "b": "CSZWKSXLDOVRKLPPEXZSUIWG",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FAZOEXCQLUWCVHWPHQUUMGDUUJ CSZWKSXLDOVRKLPPEXZSUIWG"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "8f6f8cd82315c446db99c9cd1ae8cf54a800d2a54a215ddc61d6a90cfd4685e0",
+   "meta": {
+    "a": "HUORFWEDHOAFJOQQZSACHCFRICVULXG",
+    "b": "CPUUCFEXIWQQCUFMHKBI",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HUORFWEDHOAFJOQQZSACHCFRICVULXG CPUUCFEXIWQQCUFMHKBI"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "3362f7eda8a82a412231c4e6c750d467603d4147d0699a13ff27bd441349ac29",
+   "meta": {
+    "a": "AHPWMXPOPJKTXCZZHFGPJJXJIUTWNY",
+    "b": "XSKRKALUJTWJMPJHTNVXJPYD",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AHPWMXPOPJKTXCZZHFGPJJXJIUTWNY XSKRKALUJTWJMPJHTNVXJPYD"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "1eb3d0cd6501c0d16eb3962e125225c45f2575cff3320c7f4faaa3f0dfb65121",
+   "meta": {
+    "a": "CLPFT",
+    "b": "UNJDU",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CLPFT UNJDU"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "ba580cf170a67a9f66b74094843a7298c1a86a282f70cc14daa728c9f7220ef8",
+   "meta": {
+    "a": "HUEIEOXIIQT",
+    "b": "KQMGGOWFVP",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HUEIEOXIIQT KQMGGOWFVP"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "202919e1c7992b1d53c468e47c88000076c0b47d6c96b889e283cd484f49b2e6",
+   "meta": {
+    "a": "BJIYTSEFT",
+    "b": "IVBHYUW",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BJIYTSEFT IVBHYUW"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "81751c26eb0d2617293d8baec1bb6e9432fe7abf862c1f8bba4f3bcae65b82bc",
+   "meta": {
+    "a": "MKGHZAAGXUB",
+    "b": "LXUNMBQWCNWRWVFQ",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MKGHZAAGXUB LXUNMBQWCNWRWVFQ"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "3b9c7848d116b8ebc82d3fef467af0898a7835c009a8c07d00a7bed5c9477410",
+   "meta": {
+    "a": "DUEYNUGDDCARLMOY",
+    "b": "OXGOJSKDUHMGY",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DUEYNUGDDCARLMOY OXGOJSKDUHMGY"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "cbea6028a1bd451123bca986d1744f6940ca44c6515a9ad4967e7c50463bf3e4",
+   "meta": {
+    "a": "PGSRODAXPBRBDQEXVJY",
+    "b": "MDXMHDCBVYKDLDYUMTN",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PGSRODAXPBRBDQEXVJY MDXMHDCBVYKDLDYUMTN"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "96ebcc858e262afca777f0002e3a22e56b96c080a37eeae1411fbd006df2ac69",
+   "meta": {
+    "a": "BXDQQZWIKEHIEQDJUTCKPEV",
+    "b": "FOEPMGHLYHUZQVJSPQVPFWKO",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BXDQQZWIKEHIEQDJUTCKPEV FOEPMGHLYHUZQVJSPQVPFWKO"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "d627dfb9aca6d9c3c9d568e01838c2acb019fa3dad92b6f70d4bbc9537f576d7",
+   "meta": {
+    "a": "SJRFSDEJBXLVTJFGUNM",
+    "b": "GDBOOTOXYLNHIEVAFHKQFCBRNDJ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SJRFSDEJBXLVTJFGUNM GDBOOTOXYLNHIEVAFHKQFCBRNDJ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "95ae92f4eb7884d92113d74ad4f9002d158407d75fde5bf8ba77b8338f67d9a3",
+   "meta": {
+    "a": "HAGGRKMLZLDPLVUAHHCXBIKDJ",
+    "b": "HYFNJTJRMOTZYJMMNDLKAKNMIO",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HAGGRKMLZLDPLVUAHHCXBIKDJ HYFNJTJRMOTZYJMMNDLKAKNMIO"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "b4041319ec731b252373819facdb11a9b017fe29806fcb3197096c60fcd8303f",
+   "meta": {
+    "a": "XFTQZKUKLOLZIEVSXDBIMFHJUCOGZ",
+    "b": "XQHMXPUHTQTGREIWGRJFJUWKUUTG",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XFTQZKUKLOLZIEVSXDBIMFHJUCOGZ XQHMXPUHTQTGREIWGRJFJUWKUUTG"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "6f42baa91d886d98d64604780851c203d496da342f23863af37f3046bb987232",
+   "meta": {
+    "a": "LIJBEIKA",
+    "b": "SDUT",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LIJBEIKA SDUT"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "c5fcfeec0ed2649fe2c10c52ea58fa8ea4e4974a86d29524d98ee7edc3a92ea9",
+   "meta": {
+    "a": "MOAUYDM",
+    "b": "UHKKPSNH",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MOAUYDM UHKKPSNH"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "a05cc0b8027ad878f1933a86abed631945e29a72c6011515def691296699049e",
+   "meta": {
+    "a": "WNZLAWABDUD",
+    "b": "FMNUPTMAQS",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WNZLAWABDUD FMNUPTMAQS"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "a30cdc29fb0251155cb8572dc28359771a7d7b3cd18d205492c04b06d1733b7f",
+   "meta": {
+    "a": "RZQKKSNOQWWQMUQLB",
+    "b": "HWDWKIZOQ",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: RZQKKSNOQWWQMUQLB HWDWKIZOQ"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "2722a40808372c3ff188a4c8998c7b84b541ffb5bf2dd9f9b729bff92f9b8998",
+   "meta": {
+    "a": "CDXUMRXPIYQWHTUIPSBK",
+    "b": "HMIGPORSGX",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CDXUMRXPIYQWHTUIPSBK HMIGPORSGX"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "2869ce4ef4d0a3886d993ad7f3da1349b2ec826ed7ca51bc1c2c3bcde0fb2b49",
+   "meta": {
+    "a": "DVCIIRTUCPNYEMAEGRIP",
+    "b": "LQSVDKZUPRYEZ",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DVCIIRTUCPNYEMAEGRIP LQSVDKZUPRYEZ"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "d4e98baae3e92e4b548a7f48b91dc9c12b08de391584a47833caed85f5413c0b",
+   "meta": {
+    "a": "YIYHYRNTJVUHIFYLZVQDGHF",
+    "b": "SGROLNTDSMRGXCSKUTBEKEVHS",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YIYHYRNTJVUHIFYLZVQDGHF SGROLNTDSMRGXCSKUTBEKEVHS"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "ab9db37da06ee957bea3de8b34c0267551edd8850c3db2c964763d4b12f5b3cc",
+   "meta": {
+    "a": "CFHXSOAVDMKOKFWVQQLESNNPKYYO",
+    "b": "AZGVKAFSHOKOSSQXTVR",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CFHXSOAVDMKOKFWVQQLESNNPKYYO AZGVKAFSHOKOSSQXTVR"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "1b624e8430a8c63629a1456b79af2c98528f4ab5c2fd1ad6aa53de59a145a6f8",
+   "meta": {
+    "a": "LJLZAUQJKTITBXRYXZJWYWUVKIJU",
+    "b": "JRUOWKLSWPEQRKGDBFFKUYMJLKHQOW",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LJLZAUQJKTITBXRYXZJWYWUVKIJU JRUOWKLSWPEQRKGDBFFKUYMJLKHQOW"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "02274307f2d7ce6adcbd5f6b535c5f791b90cccce71ec3f89f79ab2c73c44207",
+   "meta": {
+    "a": "EAULOWQCXDEGPDFULZWQYSKKTBDOQ",
+    "b": "ACFUGJHSMQONKSLUQKXMGTKIQS",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EAULOWQCXDEGPDFULZWQYSKKTBDOQ ACFUGJHSMQONKSLUQKXMGTKIQS"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "33c5f6f010a5c54cf21874ea85ce576777fa2bcaaab49bff5a1ca05d87a66ff3",
+   "meta": {
+    "a": "YELO",
+    "b": "ZHGMV",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: YELO ZHGMV"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "1cbd175388b610e0407a34db5ba2d412c8e929161a26411f2eb90e5f9028d637",
+   "meta": {
+    "a": "BJMHLJTQT",
+    "b": "WWOTMC",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BJMHLJTQT WWOTMC"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "9636e9420972a6c34e9ce7e3910c5bed0fa97cb620dd199923e7dab8a0eed2fa",
+   "meta": {
+    "a": "OTPWHM",
+    "b": "IWXH",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OTPWHM IWXH"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "42d25a34cdaa4bba21b461fd49a4454676523dfd76d28f0025c045e345f30e2b",
+   "meta": {
+    "a": "EDTGNLNAIDRYGQ",
+    "b": "SBHEBCAXFLY",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EDTGNLNAIDRYGQ SBHEBCAXFLY"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "2b378a5a43a33b99fdc7dd7db717af4ba8b6fd73bc1994249313c6cb9859eaed",
+   "meta": {
+    "a": "MAIOSTZIRFAYMEKP",
+    "b": "RCDGWFIKBJATSYF",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MAIOSTZIRFAYMEKP RCDGWFIKBJATSYF"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "ef9a00d8094efab72fa9cd8c5d0f97ddcd27b5c9c9b058a4afd3f0933a10e755",
+   "meta": {
+    "a": "QSDEGIPQLBPAYGVSLQZ",
+    "b": "PLDHLCQZAYOPHHNY",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QSDEGIPQLBPAYGVSLQZ PLDHLCQZAYOPHHNY"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "b974bcca9818a50519eae499067361489ac74868a59eba372996da2d6bcbc6e6",
+   "meta": {
+    "a": "CWZOVAYQUKCRRDURTHG",
+    "b": "BSCZSIQIUSSHAYFSOGVABSK",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CWZOVAYQUKCRRDURTHG BSCZSIQIUSSHAYFSOGVABSK"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "288eb3b5d600685be5c42943ba2c6f1cd0d1681b1d7aa992cdec96d2d8bd4acc",
+   "meta": {
+    "a": "IUVTDRVWKFTHQGARFEHOYICLPMRJ",
+    "b": "UCEBIRJKAPFNXCRIQGMTLAB",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IUVTDRVWKFTHQGARFEHOYICLPMRJ UCEBIRJKAPFNXCRIQGMTLAB"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "a7595739e5ba01ab33971e4d096c8e8e026b2d1c8cc4e5f8295a5d1524e7a24c",
+   "meta": {
+    "a": "AFWCIGRPMKYIHPMEESXXMXZHDYL",
+    "b": "MMOBHRWYBDPWXXMDJNHRZFFALRZRZL",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AFWCIGRPMKYIHPMEESXXMXZHDYL MMOBHRWYBDPWXXMDJNHRZFFALRZRZL"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "6959bc37ed58ecfdb3f7864b41cadf83637a6bbb0277b8c7214f98cf49a8e333",
+   "meta": {
+    "a": "EMWQAZYXJGYCIUCVNHJPJLIBM",
+    "b": "VBVZWNSICECOBQEGEYIGNOHUQJCHFP",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EMWQAZYXJGYCIUCVNHJPJLIBM VBVZWNSICECOBQEGEYIGNOHUQJCHFP"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "ef27807fd031127e8200f3da8770d00ef6710ee836396d563eb63e9bc9942b93",
+   "meta": {
+    "a": "SHEE",
+    "b": "DGCTTWU",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SHEE DGCTTWU"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "35049a37b38fd21897272c8ac46059b968d3a6675578441f8afb2527f3c61559",
+   "meta": {
+    "a": "PAJKUE",
+    "b": "TBHSJZOXOSM",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PAJKUE TBHSJZOXOSM"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "6b6f7de07f4c351b074e28152336ea472ba6c0a97bc977d42c2f34362f107cbe",
+   "meta": {
+    "a": "ZKRNGOABYC",
+    "b": "TXQOVCHUZBPQ",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZKRNGOABYC TXQOVCHUZBPQ"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "f9f5b03dbe00bb0c37f149b0ab69d33c28a6996252ded913721ddef0052d3262",
+   "meta": {
+    "a": "CMOSDJDUTIGTFBB",
+    "b": "RBQMOKMXYEFK",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CMOSDJDUTIGTFBB RBQMOKMXYEFK"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "4bdffd9d93e74981a54bd64006db00d83fb7d1fd0ded976aa1ff5c0e92f2b267",
+   "meta": {
+    "a": "CVKPMZMKJZJUKD",
+    "b": "FJXLAPCHMJORXKHTHU",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CVKPMZMKJZJUKD FJXLAPCHMJORXKHTHU"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "7aa67403776571395562b3c99cf43ab4822e015cd393647317a8c7c4f7e000b2",
+   "meta": {
+    "a": "MXRDWXRSMOWPLNKVZGD",
+    "b": "CGQKEYYXIDVNGGCJMHEYKVF",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MXRDWXRSMOWPLNKVZGD CGQKEYYXIDVNGGCJMHEYKVF"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "4e9aa70cb46c23d2f1583beb3f818befe71c04ba9ab66f3f11f00e32bddba699",
+   "meta": {
+    "a": "LMDHUBIVEQECNCRAQHRKKMGR",
+    "b": "NCFBGIOODQOPGJRBCTTVRVDBXA",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LMDHUBIVEQECNCRAQHRKKMGR NCFBGIOODQOPGJRBCTTVRVDBXA"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "e19e607a1dcd5348b01c25a8b8b065aa8708d81a573f659f345c71371b17a510",
+   "meta": {
+    "a": "ESWSOYKJPUNNLX",
+    "b": "EUUYPCHDLYNESWDZNFPSNMYUKBL",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ESWSOYKJPUNNLX EUUYPCHDLYNESWDZNFPSNMYUKBL"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "17013715010bfbb5ce5c1288568d9abb7a561246924fa412dcca4904d250444d",
+   "meta": {
+    "a": "IQFFOIZYZRYBBVMRETCSIOHYEBUM",
+    "b": "KZKIIABTIZEAETXJAXFCCDITCOQJQNR",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IQFFOIZYZRYBBVMRETCSIOHYEBUM KZKIIABTIZEAETXJAXFCCDITCOQJQNR"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "34eeb9919af48b6de0a29375eb13e145b69e877c97c35aaefba614ad764cae42",
+   "meta": {
+    "a": "JEQFENHRHNEVWKQLFZTQJLJAUI",
+    "b": "WEBFZPHTZYMAHEIIWNTKLRDGJWKD",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JEQFENHRHNEVWKQLFZTQJLJAUI WEBFZPHTZYMAHEIIWNTKLRDGJWKD"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "293dd25b97c19bdfa7cce3eae03c353c7c2b0cc2a02db23ecec9e0e7bdee4a1f",
+   "meta": {
+    "a": "KHHDFFWW",
+    "b": "OUUP",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KHHDFFWW OUUP"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "f9825ad802c85134c7b66768b5d89bdc718922f6610914eaa477064f5b244ecd",
+   "meta": {
+    "a": "KFPAJ",
+    "b": "QZQGTKBVG",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KFPAJ QZQGTKBVG"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "d272f34d1f49e131cb0b7283b4416a9d068cfd5b3af0dec66ece7ea09329cd64",
+   "meta": {
+    "a": "KCUBXIIBNOHJW",
+    "b": "PUNS",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KCUBXIIBNOHJW PUNS"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "d9dcb9dc5ad87349f74e02ea1d2d7acf73f1b7514f1dafc1e917593573fe30b2",
+   "meta": {
+    "a": "CWSRKSRHHYUD",
+    "b": "CYFFEBBVDEE",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CWSRKSRHHYUD CYFFEBBVDEE"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "b76352461cb11a1044e67ecddda3c138b1381dcda69cea432607fdaf76f006c2",
+   "meta": {
+    "a": "UTAMHKACVSIY",
+    "b": "EXCAUAMDTOGVRX",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UTAMHKACVSIY EXCAUAMDTOGVRX"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "69314355fc33fc64c46f777b4cbd345d7db41d3dcda874b3efc361b56f8f7c49",
+   "meta": {
+    "a": "IKYQMUZYQOAEBNDXSQNVH",
+    "b": "OBKQHWTMCUIXIK",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IKYQMUZYQOAEBNDXSQNVH OBKQHWTMCUIXIK"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "f8d46e5bf3dd790e7044fa9532b2b4407bab0fdd24da7a725f151917a0ae0d78",
+   "meta": {
+    "a": "CSARCAVHORIQTZMH",
+    "b": "ACZAPVAGIDMCW",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: CSARCAVHORIQTZMH ACZAPVAGIDMCW"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "921a3049507d0927417912546045c604b122e2f8b2b130226f36b4afb382078a",
+   "meta": {
+    "a": "SHFKACRNQWUXJJOLQNAYZPKZIOAE",
+    "b": "IAFAJBZMLWDULSHSBFQFIJNMH",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: SHFKACRNQWUXJJOLQNAYZPKZIOAE IAFAJBZMLWDULSHSBFQFIJNMH"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "630988cb8e6bdfdb74108c1a7d8cb66bddf6a796b01c8fc0fc3bccbf034b4201",
+   "meta": {
+    "a": "VMMOBCLKWIOZJZVGDXJNVYHEYLKPA",
+    "b": "YHMULSCOOYRPULGGSOUZUYXMNNZDA",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VMMOBCLKWIOZJZVGDXJNVYHEYLKPA YHMULSCOOYRPULGGSOUZUYXMNNZDA"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "3780ca152427aea5def0105e0d0cf1218eaba608f7757b90cb5d32592762013a",
+   "meta": {
+    "a": "POVORFUKHMBZYSGNZXSASIDJU",
+    "b": "LVEPSAOEVJLTVJLOZUKSMYI",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: POVORFUKHMBZYSGNZXSASIDJU LVEPSAOEVJLTVJLOZUKSMYI"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "2572c6890a135a967e0ea5f7dde31cf2f6caedafe7f8057d8603e18de9474d0e",
+   "meta": {
+    "a": "VXUPVVV",
+    "b": "HYKB",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VXUPVVV HYKB"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "4be7762dc29debd0fbf7cb2055969971f7e1df7e535a5db53acc2ec92b55a80c",
+   "meta": {
+    "a": "XKHRW",
+    "b": "SUOWL",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XKHRW SUOWL"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "88a6a74dc5043a2df56c762f4a7de2cdb85d115edf3a4dd022b49b441b789215",
+   "meta": {
+    "a": "QIGUIVP",
+    "b": "QQULCK",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QIGUIVP QQULCK"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "8c0f4f33a758fd9b66ae1543bdb777ec76d90029eda4986dd62d1a5664ed5de6",
+   "meta": {
+    "a": "GATTLAQFMWSYHLQ",
+    "b": "IYDVDQAUHJZXQJAX",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GATTLAQFMWSYHLQ IYDVDQAUHJZXQJAX"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "0454f0c8b6198a3deec6ea1162f41e919e5d4bbf34d61e3315ea40a181ee6bd4",
+   "meta": {
+    "a": "TZRYUGDVXKXEPPNM",
+    "b": "SKKOZDRGJV",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TZRYUGDVXKXEPPNM SKKOZDRGJV"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "3de5ad4b6b8cec43ba1dc19e0de88dcfbe4d61046580e79d6cb7778cb7ef4dde",
+   "meta": {
+    "a": "ZWZSUSVIROYEOYSPRGA",
+    "b": "JHPWCUGNWMOTHZPAWNVDLLF",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZWZSUSVIROYEOYSPRGA JHPWCUGNWMOTHZPAWNVDLLF"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "2447a762c084b9559f17eed5ce86461c4efc1d4112c865cc14bdcc216ee40ac2",
+   "meta": {
+    "a": "NZACYGIVUOIRXZXVMVJ",
+    "b": "JLAGLTVTVACXYQGDCXX",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NZACYGIVUOIRXZXVMVJ JLAGLTVTVACXYQGDCXX"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "7b64fea157ee7bcb9014439f322e3d48562bba047c6d77dc41c601a8bfaa18e3",
+   "meta": {
+    "a": "ACXMXAGHUFNDYMZAHEJQQAPUHYCT",
+    "b": "ZFZSXLGXRZRXYTDDYKOKRHCXXTMMQ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ACXMXAGHUFNDYMZAHEJQQAPUHYCT ZFZSXLGXRZRXYTDDYKOKRHCXXTMMQ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "3ef81f3bd1c67c1cce133e74a81f67a28ba2611b3264134285a1f91e8df16ef0",
+   "meta": {
+    "a": "PAZRKMXSZWXRREFBMTVKKSNBYN",
+    "b": "CJBYUZVTQTUZWKSXFWKZQUXTTDNGYQI",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PAZRKMXSZWXRREFBMTVKKSNBYN CJBYUZVTQTUZWKSXFWKZQUXTTDNGYQI"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "aaf8038717aecc7499ea82f090cd0fbd048118cecd7c120dd5d7c6351e539dbb",
+   "meta": {
+    "a": "LXLNUNKQNUBHYFYABDCTWHTRDNMUNC",
+    "b": "PWOXLQLRPXBNHIQJGTYPXNTKNPCYO",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: LXLNUNKQNUBHYFYABDCTWHTRDNMUNC PWOXLQLRPXBNHIQJGTYPXNTKNPCYO"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "31ef06fcc8d9375cc3c702523038f991c9c4039bda1dce560efb28029cb320b8",
+   "meta": {
+    "a": "EWMDUY",
+    "b": "PJCRZK",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: EWMDUY PJCRZK"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "42a23992448b68f3e4d77c592c650a742b511bcc9dae8e9174f73dd7fe689d28",
+   "meta": {
+    "a": "NJSVYFGQC",
+    "b": "LLBY",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NJSVYFGQC LLBY"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "5eb765568d353941af8a1791e1bc53bfdd8f21a208e664d55354959c442f9ddc",
+   "meta": {
+    "a": "ZNOLPRNCHCKN",
+    "b": "WMBFVRIUAZMLAG",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ZNOLPRNCHCKN WMBFVRIUAZMLAG"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "6b18f40fc344523f244429d9edb94b62b11c7a522bbe5aeee0230422d5a541d6",
+   "meta": {
+    "a": "URHQWZODV",
+    "b": "NAYGPOSHGZVQA",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: URHQWZODV NAYGPOSHGZVQA"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "f497283e230dcf2a593259ba966a36de331ef1296323d0ca51fcbb08d585db93",
+   "meta": {
+    "a": "HIJHGNCCBN",
+    "b": "BLIJVNWABGBSXG",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HIJHGNCCBN BLIJVNWABGBSXG"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "60c3c97df1dd985a294b2947cd17eb124d6512913733ed3b61fb4e4310226d31",
+   "meta": {
+    "a": "FNIUHMIIVCSCYXSOMBDHPM",
+    "b": "BIPKUSJCUTVRHHLT",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: FNIUHMIIVCSCYXSOMBDHPM BIPKUSJCUTVRHHLT"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "36cdf068aa365e5ef144fe013743735c694aee3b8aa11b8afc08dc80fd68c1f8",
+   "meta": {
+    "a": "MVYNOPISOSPXKTUIHHL",
+    "b": "IPSMUIOEOJAPRWLNMLBIL",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MVYNOPISOSPXKTUIHHL IPSMUIOEOJAPRWLNMLBIL"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "5ab0e2c6162003c06d5e1aa762329d15822f00c3b4a35fc3b463de363a91f3b6",
+   "meta": {
+    "a": "WLRGHKTLQXLJAKAH",
+    "b": "VFNEVVDJEPVRIDHXPGKPDTGQXLBPV",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WLRGHKTLQXLJAKAH VFNEVVDJEPVRIDHXPGKPDTGQXLBPV"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "f1246d861366330c94ba1663c8b6dca717366290d64a2a1892b939a513315008",
+   "meta": {
+    "a": "AJKLNLFUEVFUQVFYEVPLGWRJEKHC",
+    "b": "JOEJEGNQDTJYZSKVDHBAEZLOGEYNEXD",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: AJKLNLFUEVFUQVFYEVPLGWRJEKHC JOEJEGNQDTJYZSKVDHBAEZLOGEYNEXD"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "229d23cccf8a76caeb395922319f3fb9c07058f49801705f53a63c42b89a97b4",
+   "meta": {
+    "a": "QYFMNYDQMPXBYASIDUMQKHYHTCRMCFV",
+    "b": "BANPJHBUISEDXIUZMEPYQM",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: QYFMNYDQMPXBYASIDUMQKHYHTCRMCFV BANPJHBUISEDXIUZMEPYQM"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "336c9226d9e2de5a40ce8aaa4a55f0b47d764e03fa8ef41c67e58fcfeb9c299d",
+   "meta": {
+    "a": "HLLUP",
+    "b": "ZZIAON",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HLLUP ZZIAON"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "f745399f473a457afd9dfb78f346ecedee12923e3170b82d455c96e447191372",
+   "meta": {
+    "a": "HGTLNY",
+    "b": "AYSPC",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HGTLNY AYSPC"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "18080e8a26194c7634ff21c8beb08c9842a06075fe303ecdb317761ef0b59de0",
+   "meta": {
+    "a": "KSYECFMP",
+    "b": "OKVXXWCLE",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KSYECFMP OKVXXWCLE"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "c1223fbccd9b4255c127ef37d4c0f23c00e034ae60d8a26b57956480d9b9c572",
+   "meta": {
+    "a": "GFLYDNJUMKCUJYAF",
+    "b": "ACAJBUNXBJJIL",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: GFLYDNJUMKCUJYAF ACAJBUNXBJJIL"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "27406a1b3d7e8e6a336c82ed759d2c9cf4027d6b2fdc90fcaf1a44ff98c5f112",
+   "meta": {
+    "a": "HQGSSJNVDAOOXCNZL",
+    "b": "TNATRZQWSGJJVHEW",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: HQGSSJNVDAOOXCNZL TNATRZQWSGJJVHEW"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "3abb77f8e1b3ef784b04101b74a6f00cacbe13791d771d34e2d247c3f3bac9a5",
+   "meta": {
+    "a": "WYXSLGQUOHARURIDMLHW",
+    "b": "AEXTQILAYPSRZWEFXAY",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WYXSLGQUOHARURIDMLHW AEXTQILAYPSRZWEFXAY"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "6dadc248164fd472427a798f809faa9505396aa96a719056863177081fefa498",
+   "meta": {
+    "a": "VAAKYOJZKIJROQWXZVQPEBUVOQ",
+    "b": "MFKYETKOWJUA",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VAAKYOJZKIJROQWXZVQPEBUVOQ MFKYETKOWJUA"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "d41a6357506f5900822e5262ca68e7106729ffca7f040830bf648930315bd977",
+   "meta": {
+    "a": "BBGCKSGEHRAJAFMB",
+    "b": "QGOSEIOLPBUOSJNRCJIFPOWCML",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BBGCKSGEHRAJAFMB QGOSEIOLPBUOSJNRCJIFPOWCML"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "5682aa1874370454d8706f383084c15e6cd9499cb47d0c37c1b63aa3f7d747be",
+   "meta": {
+    "a": "NISZYBVKUAUUCFXMVPOFVV",
+    "b": "XKOXSKIPTYHCMVBBPPXXJOOSOEJAFOU",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NISZYBVKUAUUCFXMVPOFVV XKOXSKIPTYHCMVBBPPXXJOOSOEJAFOU"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "62197c249fa561aec1d3e60034b779acb89c7b19ef9b0add8eb8fd26a6285bc5",
+   "meta": {
+    "a": "JVQIGLMWYPUESRSGLZZUXDLDOFEMGZ",
+    "b": "MYHIMAHFAYROXBUPULLZHQJIDVSLUY",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: JVQIGLMWYPUESRSGLZZUXDLDOFEMGZ MYHIMAHFAYROXBUPULLZHQJIDVSLUY"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "a8a519a4522688a0213437b86d1186368dbf7eaa6f434f2ac6b28e0f472aeb75",
+   "meta": {
+    "a": "TOCOWWCD",
+    "b": "VIJH",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: TOCOWWCD VIJH"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "818143b2226088efd00e8b974cfd09a9d8b75071362c01d0ea3ad6f5384301aa",
+   "meta": {
+    "a": "WQQVPXAPRNF",
+    "b": "IFJBJAK",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: WQQVPXAPRNF IFJBJAK"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "de08c88af5d4c54372d76e773833b0335403de30fa3c0b964853e4060ae2dd58",
+   "meta": {
+    "a": "BSUVTKLLEUB",
+    "b": "VNWXOL",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BSUVTKLLEUB VNWXOL"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "3328ce9623f76839584fd53ac4a6700b5f5ecf78cf1c4712a2cce9846f58b186",
+   "meta": {
+    "a": "OTUTXVZBCFG",
+    "b": "XQGTNISYZCX",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OTUTXVZBCFG XQGTNISYZCX"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "62616119a45f121b44158b2ad07bfcdb3296cd71d5a75b0c41ecd3881e04b87a",
+   "meta": {
+    "a": "UNREBSDHKCEFDT",
+    "b": "VEFRNNTWGLLUFJBEBLJC",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UNREBSDHKCEFDT VEFRNNTWGLLUFJBEBLJC"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "9e8ddf29198d2996311f3a0580b4c9aeece4788041c3a72b448c895c32e04df1",
+   "meta": {
+    "a": "PNSXKJZQJUKJBQMLVDI",
+    "b": "OPKBTLSMIEIZANYSSP",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PNSXKJZQJUKJBQMLVDI OPKBTLSMIEIZANYSSP"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "b82a7b369bccf1f4666b95af83342bf6ae5969ae7fb94f443cd8e1a98e66f1a9",
+   "meta": {
+    "a": "KJIDXQCSMRJMRGRKQWFJSE",
+    "b": "YAQRPQFPRFITMIWSVNTRUYECL",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: KJIDXQCSMRJMRGRKQWFJSE YAQRPQFPRFITMIWSVNTRUYECL"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "60caabc599cbbc4a9aeef5d5285179bd849624c017144bc7071f5b5a93e0dc47",
+   "meta": {
+    "a": "PTLRAMAILSJOHHVVNHSNTJ",
+    "b": "KZMVJZDSPCCDRMIAMVOLTMHJ",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: PTLRAMAILSJOHHVVNHSNTJ KZMVJZDSPCCDRMIAMVOLTMHJ"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "eed464daf08ff8fd5b98773ea53a55d1f4c49610b4988e064bf06b0cb0c2d540",
+   "meta": {
+    "a": "ETQJFKVMNKYRVRWBBVQRZABIRA",
+    "b": "VTTNFMAKEZAUZWAYTLDDCERMWIWE",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ETQJFKVMNKYRVRWBBVQRZABIRA VTTNFMAKEZAUZWAYTLDDCERMWIWE"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "5170de31f8f50691b0e6e76cb16701788764e8012f4e9f546d5540acd0f1d3e7",
+   "meta": {
+    "a": "ADDYJMWHXRQTSRNEDUFEVFJNIHIMV",
+    "b": "QZLVUWBGTXHIQBJQPXWTRFJIDYIA",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: ADDYJMWHXRQTSRNEDUFEVFJNIHIMV QZLVUWBGTXHIQBJQPXWTRFJIDYIA"
+  },
+  {
+   "answer": "0",
+   "bb_sha256": "01807a45b8d7442e05eed71caf933710457f4ebcb55e19dec23448f4cc26bbd1",
+   "meta": {
+    "a": "OBXIVAFZ",
+    "b": "JHSS",
+    "lcs": 0
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: OBXIVAFZ JHSS"
+  },
+  {
+   "answer": "1",
+   "bb_sha256": "d02a73e1b2bc99c3d0e8390353a5a67230671188f57b08c7abea2ab9f942f78b",
+   "meta": {
+    "a": "DJVEGTHNW",
+    "b": "ILKSRSNXFMJ",
+    "lcs": 1
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: DJVEGTHNW ILKSRSNXFMJ"
+  },
+  {
+   "answer": "2",
+   "bb_sha256": "a9d54197f0e2257059f38729a265a256517876769460a8df3cdec01c2c8d6188",
+   "meta": {
+    "a": "UHOQSYCDHUFIDA",
+    "b": "CAWVGNXR",
+    "lcs": 2
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: UHOQSYCDHUFIDA CAWVGNXR"
+  },
+  {
+   "answer": "3",
+   "bb_sha256": "8342f5a1cc1699c582bb0d19a1df3db0beffe23f43367c4e27f6687146906607",
+   "meta": {
+    "a": "BMNTMBADMVNMNV",
+    "b": "JMGSAEBDKK",
+    "lcs": 3
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: BMNTMBADMVNMNV JMGSAEBDKK"
+  },
+  {
+   "answer": "4",
+   "bb_sha256": "5d068cccf155f14d85e66d5b8ea875b82fd436ed33b40dddf1bb689dbee300b7",
+   "meta": {
+    "a": "MOHXJCCNVGJPJS",
+    "b": "SHCGNXUFHKG",
+    "lcs": 4
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: MOHXJCCNVGJPJS SHCGNXUFHKG"
+  },
+  {
+   "answer": "5",
+   "bb_sha256": "50fa82f312ad8445043bf3c798e97d10fa995a343b283e96622f8b0c8214c707",
+   "meta": {
+    "a": "NNJTQFXJNZDILTZQNJDQV",
+    "b": "XVWLIMYNXXGOQVKPIAZXXL",
+    "lcs": 5
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: NNJTQFXJNZDILTZQNJDQV XVWLIMYNXXGOQVKPIAZXXL"
+  },
+  {
+   "answer": "6",
+   "bb_sha256": "e3dd569fd9973b03ae8acface436d3a7d7d0f8513d853184d933bab3ba165a5a",
+   "meta": {
+    "a": "IFUZTRPRVDUXEESIPJGHCUA",
+    "b": "ZWDPXHTBYVXSHOZ",
+    "lcs": 6
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IFUZTRPRVDUXEESIPJGHCUA ZWDPXHTBYVXSHOZ"
+  },
+  {
+   "answer": "7",
+   "bb_sha256": "71ee9f56d26a6f63ac9a341218ae617c8bbac312dc8ce87b95a316859cd3d282",
+   "meta": {
+    "a": "XUPGHZPHDBSEMQHGEF",
+    "b": "YZTABCXZYYJZGQHZPLQOSPHY",
+    "lcs": 7
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: XUPGHZPHDBSEMQHGEF YZTABCXZYYJZGQHZPLQOSPHY"
+  },
+  {
+   "answer": "8",
+   "bb_sha256": "73fc6a0ab46ff5bff479f4dcef40405d043aa584def4c62fd0e07e1d0233ff24",
+   "meta": {
+    "a": "VXFUZIXOHBNOBMSHIBWTYUJQRP",
+    "b": "EVUNCHSPJGKBXKTJBFPU",
+    "lcs": 8
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: VXFUZIXOHBNOBMSHIBWTYUJQRP EVUNCHSPJGKBXKTJBFPU"
+  },
+  {
+   "answer": "9",
+   "bb_sha256": "e1c7a06bfc2fe64f20c43a9d0aed83ed635354145207ad4fed5975707b6f97f5",
+   "meta": {
+    "a": "IOFMMMMUYNWVLJXWGCKKZPEPWBFRJGK",
+    "b": "ZCOJGADQLANACNEKSEBZCBFVXPG",
+    "lcs": 9
+   },
+   "question": "Given two strings, determine the length of the longest common subsequence.\nStrings: IOFMMMMUYNWVLJXWGCKKZPEPWBFRJGK ZCOJGADQLANACNEKSEBZCBFVXPG"
+  }
+ ],
+ "n_options": null,
+ "n_redrawn": {
+  "collision": 0,
+  "duplicate": 0,
+  "rejected": 3263,
+  "repeated_answer": 0,
+  "shot_answer": 0
+ },
+ "name": "lcs",
+ "provenance": {
+  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+  "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+  "pyfiglet": "1.0.4",
+  "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
+ },
+ "rung_type": "arithmetic",
+ "seed": 20260909,
+ "shots": [
+  [
+   "Given two strings, determine the length of the longest common subsequence.\nStrings: KQNG TOACPLC",
+   "0"
+  ],
+  [
+   "Given two strings, determine the length of the longest common subsequence.\nStrings: YQTRSLAX CURB",
+   "1"
+  ]
+ ],
+ "task": "cs_algorithms",
+ "unique_answers": false,
+ "wei_class": "E.3"
+}

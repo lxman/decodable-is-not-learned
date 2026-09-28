@@ -53,3 +53,7 @@ through the renderers. 17 tests, 44 in the suite.
 
 ### Task 5 — generators B: six rungs (ascii ×2, shapes, deduction ×2, temporal) and generate.py; every deduction puzzle unique and minimal by brute force; shapes and temporal disclosed as reconstructions (B-2); the collision keys AUDITED against BIG-bench's 17,749 key strings through the generators' own renderers — 17,244 identical, 505 outside for two stated reasons, 0 failed; record sha d012b7b3…, 69 known answers sha 8ab3e7c7… (arguments, not text; the canary carried); 26 tests.
 - The audit read the fourteen task files from the coordinator's scratch directory (the files Task 3 downloaded; each file's sha256 checked against the index before it was read). No network contact in this task.
+
+### Task 6 — the seventeen item files (4.4 MB, shas = ITEMS_SHA_PIN_6, generated twice byte-identical), battery_6 / floors_6 / strata_6, the token record (sha cca2df32…); floors: choice rungs at 1/n, lcs and shapes at .10, free-form rungs at .002–.016; strata: every stratum ≥ 10 items, anchors equal to 2g's committed rows; 17 tests, 87 in the suite.
+- The token record was measured OFFLINE from the coordinator's scratch cache (coordinator ruling R-16). The seven tokenizer revisions — read them from `token_lengths_6.json` — were downloaded once, by the coordinator, at the prototype stage on 2026-09-27: tokenizer files only, about 62 MB, no weight. No network contact in this task.
+- The seventeen item files were generated twice; the seventeen sha256 lines were identical both times and equal `ITEMS_SHA_PIN_6`.
