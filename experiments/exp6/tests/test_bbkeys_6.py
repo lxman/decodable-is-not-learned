@@ -284,7 +284,8 @@ def test_the_audit_record():
     extra = {p: r["extra"] for p, r in rec["files"].items() if "extra" in r}
     assert sorted(extra) == sorted(au.PARSERS_EXTRA)
     for x in extra.values():
-        assert x["kind"].startswith("pair, as a query line") and x["n_failed"] == 0
+        assert x["kind"] == ("pair, as a query line, in either order where the "
+                             "operation commutes") and x["n_failed"] == 0
         assert x["n_identical"] == x["n_strings"] >= 4500     # distinct pairs
     assert sum(x["n_strings"] for x in extra.values()) == N_PAIRS
     got = {p: (r["n_strings"], r["n_identical"], sum(r["n_outside"].values()))

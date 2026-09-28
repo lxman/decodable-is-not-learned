@@ -2,15 +2,15 @@
  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
  "index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
  "items_sha256": {
-  "ipa_word": "79b57158fa43bbc7f834de90eebecb4d5a82be93f925bf9f29e8f7561c342e8d",
-  "lcs": "30346b90e1860df842ac89dad1986dd4b5660a2c0e05596b0aae0042a793c948",
-  "modarith_add1": "a425702b0a8b9391123072c88bc4d52693de2ac698f22b40c2e810001633518b",
-  "modarith_mul1": "900c1aa30432c17a5de9cadb3c866da5a27bbca0158246ba7455e82bbce0bb02",
-  "modarith_sub1": "cf0349e0fa4b5e939f299db8bccd76cf45501374c56b46203f452eb2a2dca872",
-  "sort3": "5f85efcf268195e8842c4ee83e7beb1ed7cc11c6fe31e80c845f12f3cf8db6aa",
-  "sort5": "39b1f9667a55b1b33bc63593a87ef8b144b1ce299ebd80b5aaafd9946103814d",
-  "unscramble_long": "f90e25c1ff08e4c97b59811b97cc568359ed9e79b2f515031aa20c9e5034d2f2",
-  "unscramble_short": "86bcc3d8606219df2d9b8e6f5fdb67e0fad92ab5d9bb89da6d59213157a7b69d"
+  "ipa_word": "695a7f13967daa4ddf6e30e62ad0b29da94a0c51017ae250bf31742f43efd0a4",
+  "lcs": "3fe081b312056ea4fbe14fad2461d140be0a580d76176f85f7cffba19e872b67",
+  "modarith_add1": "8a0e2ae152441d8189603ff8a5f49ce7de62b490c896855548d1912673f32668",
+  "modarith_mul1": "d1501e8be3e2d219917262b80815e26f069cb6a5a7e2eb8045b2351142f7d4c7",
+  "modarith_sub1": "1df630360c2992a0172d2e2394a5e9f080fc6274d9280510f40fc96815c975d9",
+  "sort3": "a6537391757f6e3283366f058cc107d0b94bd9774d945cf703c217aaa887674b",
+  "sort5": "adbab5d0416a47196e9664e5d39fca82701d7d3fc23129e1045586fcaf975fc6",
+  "unscramble_long": "636f0ab0ec8b1654aadb8bf1975990c0a97aecc8babd28e048340d24d8d5eb7c",
+  "unscramble_short": "50a375620de88dabefb3ba372d334ba11c20dc8d2bb80ef8165a97aa6455f2f4"
  },
  "n_items": 500,
  "rungs": {
@@ -41,7 +41,8 @@
     "asks a pair BIG-bench asks": 0,
     "asks a pair BIG-bench prints on any line": 0,
     "asks a pair BIG-bench prints, in either order": 0,
-    "shows a worked pair BIG-bench prints on any line": 16
+    "shows a worked pair BIG-bench prints on any line": 16,
+    "shows a worked pair BIG-bench prints, in either order": 28
    }
   },
   "modarith_mul1": {
@@ -53,7 +54,8 @@
     "asks a pair BIG-bench asks": 0,
     "asks a pair BIG-bench prints on any line": 0,
     "asks a pair BIG-bench prints, in either order": 0,
-    "shows a worked pair BIG-bench prints on any line": 468
+    "shows a worked pair BIG-bench prints on any line": 468,
+    "shows a worked pair BIG-bench prints, in either order": 499
    }
   },
   "modarith_sub1": {
@@ -65,7 +67,8 @@
     "asks a pair BIG-bench asks": 0,
     "asks a pair BIG-bench prints on any line": 0,
     "asks a pair BIG-bench prints, in either order": 0,
-    "shows a worked pair BIG-bench prints on any line": 13
+    "shows a worked pair BIG-bench prints on any line": 13,
+    "shows a worked pair BIG-bench prints, in either order": 13
    }
   },
   "sort3": {

@@ -37,8 +37,8 @@ FLOOR_PIN_6 = {
     "shapes": [50, 10],
     "temporal": [15, 4],
     "lcs": [50, None],
-    "unit_interp1": [16, 5],
-    "unit_interp2": [16, 5],
+    "unit_interp1": [14, 5],
+    "unit_interp2": [20, 5],
 }
 
 
@@ -155,44 +155,52 @@ HEURISTIC_PIN_6 = {
             114,
     },
     "unit_interp1": {
+        "of the options that combine every number of the text once, the nearest to its largest number":
+            158,
+        "of the options that divide or are a multiple of the text's largest number, the nearest to it":
+            99,
         "of the options the text does not print, the one sharing most with its numbers":
-            136,
+            142,
         "the first option a number of the text divides":
-            136,
+            114,
         "the first option that is the product of two numbers of the text":
-            78,
+            95,
         "the largest option the text does not print":
-            115,
-        "the only option absent from the text":
-            2,
-        "the option at one list position":
-            100,
-        "the option of one rank by size":
-            100,
-        "the smallest option the text does not print":
-            123,
-        "the smallest option the text does not print that divides none of its numbers":
-            191,
-    },
-    "unit_interp2": {
-        "of the options the text does not print, the one sharing most with its numbers":
-            222,
-        "the first option a number of the text divides":
-            152,
-        "the first option that is the product of two numbers of the text":
-            160,
-        "the largest option the text does not print":
-            112,
+            103,
         "the only option absent from the text":
             0,
         "the option at one list position":
-            96,
-        "the option of one rank by size":
             100,
+        "the option of one rank by size":
+            129,
         "the smallest option the text does not print":
-            132,
+            86,
         "the smallest option the text does not print that divides none of its numbers":
-            71,
+            117,
+    },
+    "unit_interp2": {
+        "of the options that combine every number of the text once, the nearest to its largest number":
+            160,
+        "of the options that divide or are a multiple of the text's largest number, the nearest to it":
+            144,
+        "of the options the text does not print, the one sharing most with its numbers":
+            124,
+        "the first option a number of the text divides":
+            93,
+        "the first option that is the product of two numbers of the text":
+            166,
+        "the largest option the text does not print":
+            94,
+        "the only option absent from the text":
+            0,
+        "the option at one list position":
+            100,
+        "the option of one rank by size":
+            127,
+        "the smallest option the text does not print":
+            140,
+        "the smallest option the text does not print that divides none of its numbers":
+            77,
     },
 }
 LIST_POSITION = "the option at one list position"
@@ -205,6 +213,10 @@ NONDIVISOR = ("the smallest option the text does not print that divides none of 
 PRODUCT = "the first option that is the product of two numbers of the text"
 UNPRINTED_MIN = "the smallest option the text does not print"
 UNPRINTED_MAX = "the largest option the text does not print"
+EACH_ONCE = ("of the options that combine every number of the text once, the nearest "
+             "to its largest number")
+RELATED = ("of the options that divide or are a multiple of the text's largest "
+           "number, the nearest to it")
 LENGTH_MIN = "the commonest answer at the shorter string's length"
 LENGTH_MAX = "the commonest answer at the longer string's length"
 LENGTH_SUM = "the commonest answer at the two strings' total length"
@@ -212,8 +224,12 @@ LETTERS_SHARED = "the commonest answer at the count of letters the two strings s
 LETTERS_DISTINCT = ("the commonest answer at the count of distinct letters the two "
                     "strings share")
 GUESSERS_6 = (LIST_POSITION, SIZE_RANK, ABSENT, DIVISIBLE, SHARES, NONDIVISOR, PRODUCT,
-              UNPRINTED_MIN, UNPRINTED_MAX, LENGTH_MIN, LENGTH_MAX, LENGTH_SUM,
-              LETTERS_SHARED, LETTERS_DISTINCT)
+              UNPRINTED_MIN, UNPRINTED_MAX, EACH_ONCE, RELATED, LENGTH_MIN, LENGTH_MAX,
+              LENGTH_SUM, LETTERS_SHARED, LETTERS_DISTINCT)
+# the words a unit sentence scales its rate by (the generator's tables and
+# the task files' one misspelling), as a reader of the text meets them
+FACTOR_WORDS_6 = (("twice", 2), ("three times", 3), ("four times", 4), ("half", 2),
+                  ("one third", 3), ("one fourth", 4), ("one forth", 4))
 HALF_BLOCK = 10          # cross-fit halves: slots 0-9, 20-29, ... against the rest
 
 
@@ -244,11 +260,26 @@ def _numbers(text: str) -> list:
     return [int(x) for x in re.findall(r"\d+", text)]
 
 
-def _number_guessers(o: list, text: list) -> dict:
+def _smooth(x: int) -> bool:
+    for q in (2, 3, 5):
+        while x % q == 0:
+            x //= q
+    return x == 1
+
+
+def _number_guessers(o: list, text: list, factor: int = 1) -> dict:
     """What each fixed rule picks among the integer options `o` of one
-    item whose text prints the numbers `text`. A rule with nothing to
-    pick takes the first option."""
+    item whose text prints the numbers `text` and scales by `factor` (1:
+    no scaling word). A rule with nothing to pick takes the first
+    option, except where it says what it takes instead.
+
+    EACH_ONCE does the sentence's arithmetic and never reads its units:
+    the largest printed number times or over every other printed number
+    and the factor, each used once. It is in the list because it is what
+    a model that composes numbers, and interprets nothing, would do."""
+    import itertools
     import math
+    from fractions import Fraction
     big = [t for t in text if t > 1]
     free = [x for x in o if x not in text]
     none = [x for x in free if not any(t % x == 0 for t in big)]
@@ -257,11 +288,30 @@ def _number_guessers(o: list, text: list) -> dict:
                                 for b in text[i + 1:])]
     share = max(free or o, key=lambda x: (sum(math.gcd(x, t) for t in text),
                                           -o.index(x)))
+    top = max(text) if text else 1
+
+    def nearest(seq):
+        return min(seq, key=lambda x: (abs(math.log(x / top)), o.index(x)))
+    rest = list(text)
+    if text:
+        rest.remove(top)
+    fs = [x for x in rest if x > 1] + ([factor] if factor > 1 else [])
+    once = set()
+    for es in itertools.product((-1, 1), repeat=len(fs)):
+        v = Fraction(top)
+        for f, e in zip(fs, es):
+            v *= Fraction(f) ** e
+        if v.denominator == 1:
+            once.add(int(v))
+    uses = [x for x in free if x in once]
+    kin = [x for x in free if _smooth(x) and (x % top == 0 or top % x == 0)]
     return {DIVISIBLE: mult[0] if mult else o[0], SHARES: share,
             NONDIVISOR: min(none) if none else o[0],
             PRODUCT: prod[0] if prod else o[0],
             UNPRINTED_MIN: min(free) if free else o[0],
-            UNPRINTED_MAX: max(free) if free else o[0]}
+            UNPRINTED_MAX: max(free) if free else o[0],
+            EACH_ONCE: nearest(uses) if uses else (min(free) if free else o[0]),
+            RELATED: nearest(kin or free or o)}
 
 
 def heuristic_floor_6(cap: dict) -> dict:
@@ -287,10 +337,12 @@ def heuristic_floor_6(cap: dict) -> dict:
                 [0] * n, [sorted(o).index(int(w)) for o, w in zip(ints, want)])
             hits = Counter()
             for o, w, b in zip(ints, want, body):
-                for name, x in _number_guessers(o, _numbers(b)).items():
+                k = next((k for word, k in FACTOR_WORDS_6 if word in b), 1)
+                for name, x in _number_guessers(o, _numbers(b), k).items():
                     hits[name] += x == int(w)
             found.update({name: hits[name] for name in (
-                DIVISIBLE, SHARES, NONDIVISOR, PRODUCT, UNPRINTED_MIN, UNPRINTED_MAX)})
+                DIVISIBLE, SHARES, NONDIVISOR, PRODUCT, UNPRINTED_MIN, UNPRINTED_MAX,
+                EACH_ONCE, RELATED)})
     if rung == "lcs":
         sa = [it["meta"]["a"] for it in items]
         sb = [it["meta"]["b"] for it in items]

@@ -5514,7 +5514,7 @@
  },
  "name": "unscramble_short",
  "provenance": {
-  "bbkey_audit_sha256": "65f1805936180d7c421a23c092a9d1b00f1daea48725bfcc3fca24db83dca013",
+  "bbkey_audit_sha256": "a144c8f9bf0dc57e9c9fb0f5d4dd8d8cc1b7c39d5f5e5ebb426eccc0d2b1f49f",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",

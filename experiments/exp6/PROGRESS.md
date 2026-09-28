@@ -216,3 +216,67 @@ the overlap record and every pin were regenerated. The index was rebuilt, and th
 overlap count and the guessers' fit run, on the coordinator's scratch copy of the task files (each
 file's sha256 checked against the index); the token record was measured offline from the
 coordinator's scratch cache (R-16). No network contact in this wave. 122 tests in the suite.
+
+### Fix wave 5 (Tasks 4–6) — the re-review of fix wave 4 (coordinator rulings R-42 … R-47)
+
+The re-review (on 398ac11ed) recomputed every answer of the unit and `modarith` rungs from the
+question text alone, shots included, and found none wrong. It found three things on the unit
+rungs that change what a result would mean. Each was recomputed by the coordinator and each is
+right; the coordinator's own check of the first repair found a fourth.
+- THE WRONG READINGS WERE MISSING FROM THE OPTIONS (the review's I-1). Fix wave 4 drew a wrong
+  "combination" uniformly from every pattern of the item's numbers, so the readings the task
+  exists to test were offered only when the draw landed on them: the reversed rate on 151 of
+  level 1's 500 items, where BIG-bench offers it on 23 of 25. A rule that combines every stated
+  number once and reads no unit scored .72 on level 1 and .47 on level 2 (BIG-bench .48, .28).
+- THE FIRST REPAIR OPENED ANOTHER DOOR, found by the coordinator's fitted guessers before any
+  commit. With the wrong readings placed on the sides a DESIGNED rank by size left room for, the
+  options above and below a reading said whether it was the answer; and level 2's stated
+  quantity was a multiple of the rate's square when it was in the rate's first unit, so its size
+  told its unit. A fitted guesser scored .47 on level 1 and .69 to .75 on level 2.
+- THE UNIT RUNGS' NUMBERS AND OPTIONS ARE NOW DRAWN WITHOUT REGARD TO WHAT IS ASKED (plan delta
+  B-34). The numbers are drawn the same way whatever the roles of the units, and a draw is
+  refused when ANY reading of its sentence exceeds 5,000. The options hold the CANDIDATES — the
+  answer of every sentence that prints the same numbers and differs in the roles alone (level 1:
+  in the direction of the scaling too): two on an unscaled item, four on a scaled one — and
+  fills by the README's rule (B-25). Which candidate is the answer decides its place in the
+  list, set by the slot, and nothing else. A test draws the sentences of a group from one state
+  of the generator: same numbers, same five options, refused together, their answers the
+  candidates, one each. What is asked and the kind of scaling are cells set by the slot: six of
+  83 or 84 items on level 1; on level 2 two unscaled cells of 83 and 84 and eight scaled cells
+  of 41 or 42. The answer's rank by size is no longer designed (B-19): 78 / 86 / 104 / 129 / 103
+  and 127 / 86 / 88 / 105 / 94 items at ranks 1 to 5. `unit_interp2` flags 84 stated answers.
+  On level 1 a rate of one, a rate equal to the scaling factor and a sentence that would restate
+  its own rate are refused; on level 2 a rate equal to the factor or to its square root.
+- THE HEURISTIC FLOOR HAS SIXTEEN GUESSERS (B-22): the review's two rules joined the list. Best
+  of the list: `unit_interp1` 158 of 500 by combining every number once (BIG-bench .48; twelve
+  other seeds .30 to .37); `unit_interp2` 166 by the product of two stated numbers (BIG-bench
+  .52; 166 at every seed: the product is always offered and is the answer on four slots in
+  twelve). The rank guesser 129 and 127. `temporal` 500 and `lcs` 237, unchanged.
+- FITTED guessers (`tools/guessers_lab_6.py`, scikit-learn 1.9.0; nothing written, nothing
+  gated) score .258 / .268 held out on `unit_interp1` and .288 / .304 on `unit_interp2`; fitted
+  on a rung and applied to BIG-bench's 25 items .16 to .40; fitted on BIG-bench's items and
+  applied to the rung .20 to .34; on BIG-bench's items by leave-one-out .16 to .40 (B-32).
+- The unit rungs' structure level is the kind of scaling crossed with what is asked (B-21): six
+  levels and ten. Of 2,000 wrong options a level, 1,182 and 1,401 are wrong readings of the
+  sentence, 606 and 351 other combinations of its numbers, 212 and 248 pool numbers.
+- The content overlap record gains a row: a `modarith` item shows a worked pair BIG-bench prints
+  on 16 / 13 / 468 items, and either way round on 28 / 13 / 499 (B-26).
+
+Corrections to this ledger, made here and not in place:
+- The entry of fix wave 4 says least common multiples make "every combination of an item's
+  numbers" an integer. False on level 1: 287 of its 500 items have a combination that is not
+  (none of level 2's). What holds, and is tested: every READING of a sentence is an integer, and
+  no other number is offered unless it is one.
+- The same entry says "the generator now does that" of the README's rule for wrong options. It
+  did not: see the first bullet above.
+- The plan of fix wave 4 (B-32) said no fixed rule scored above .44 on the unit rungs. False
+  when written: the review's rules scored .47 and .72 on those items.
+- The same plan (B-26) gave the share of `modarith_mul1`'s pairs that BIG-bench prints as 68 %.
+  It is 6,809 of 9,801, 69.5 %.
+
+The audit record, all seventeen item files (an item file names the audit record, which names the
+generator files), the token record, the overlap record and every pin were regenerated; the index
+and the known answers (77) are unchanged. The audit, the overlap count and the guessers' fit ran
+on the coordinator's scratch copy of the task files (each file's sha256 checked against the
+index); the token record was measured offline from the coordinator's scratch cache (R-16). No
+network contact in this wave. 127 tests in the suite.

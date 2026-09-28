@@ -294,26 +294,33 @@ def test_structure_levels_are_what_they_say(battery):
     for r in ("unit_interp1", "unit_interp2"):
         levels = set()
         for it, lv in zip(battery[r]["eval_items"], st[r]["structure"]):
-            body, opts = it["question"].split("\nOptions: ")
-            rank = sorted(int(o) for o in opts.split(", ")).index(int(it["answer"])) + 1
-            scale, got = lv.split("|")
-            assert got == str(rank)
-            if " If " not in body:
-                assert scale == "plain"
-            elif r == "unit_interp1":
-                assert scale == ("intervals" if "with intervals" in body else "often")
+            body = it["question"].split("\nOptions: ")[0]
+            scale, asked = lv.split("|")
+            if r == "unit_interp1":
+                assert scale == ("plain" if " If " not in body else
+                                 "intervals" if "with intervals" in body else "often")
+                # what stands after the blank: the thing counted, or the unit of time
+                unit = re.search(r"every (?:\d+ )?(\w+?)s?\. ", body).group(1)
+                after = re.search(r"\(\) (\w+)", body).group(1)
+                assert asked == ("time" if after == unit + "s" else "count")
             else:
-                # stated: the quantity asked is the one given, in the unit
-                # the scaled rate leaves unchanged (the rate's first unit)
+                word = re.search(r" as (?:fast|much), ", body)
+                slow = re.search(r"(half|one third|one fourth) as ", body)
+                assert scale == ("plain" if not word else "slower" if slow else "faster")
+                # unit A is the rate's first; the quotient and the product
+                # ask the unit that is not stated
                 first = re.search(r"\d+ (\w+) per ", body).group(1)
                 given = re.search(r", and .*? \d+ (\w+)", body).group(1)
-                asked = re.search(r"\(\) (\w+)", body).group(1)
-                assert scale == ("stated" if given == asked == first else "computed")
-                assert (scale == "stated") == it["meta"]["answer_stated"]
-                if scale == "stated":
+                after = re.search(r"\(\) (\w+)", body).group(1)
+                assert asked == {(True, True): "stated", (True, False): "quotient",
+                                 (False, True): "product", (False, False): "rescaled"}[
+                                     (given == first, after == first)]
+                assert (asked == "stated") == it["meta"]["answer_stated"]
+                if asked == "stated":
                     assert f" {it['answer']} " in body
             levels.add(lv)
-        assert len(levels) == 15                  # three kinds of scaling by five ranks
+        # the cells of the generator's design
+        assert len(levels) == (6 if r == "unit_interp1" else 10)
     lcs = battery["lcs"]["eval_items"]
     for a in "0123456789":
         tot = sorted(len(it["question"].split("Strings: ")[1]) - 1
@@ -358,16 +365,21 @@ def test_heuristic_floors(battery):
                       f6.LETTERS_DISTINCT}
     assert h["lcs"]["heuristic"] == f6.LETTERS_SHARED and g[f6.LETTERS_SHARED] == 237
     assert max(g[f6.LENGTH_MIN], g[f6.LENGTH_MAX], g[f6.LENGTH_SUM]) == 115
-    # the unit rungs: no fixed rule of the list does better than the best
-    # of them does on BIG-bench's own 25 items a level (.36 and .52)
-    for r, best, count in (("unit_interp1", f6.NONDIVISOR, 191),
-                           ("unit_interp2", f6.SHARES, 222)):
+    # the unit rungs: the best of the list is a rule that does the
+    # sentence's arithmetic and reads no unit. On BIG-bench's own 25 items
+    # a level the same two rules score .48 and .52; here a third, which
+    # is what a reader is left with who cannot tell the roles apart.
+    for r, best, count in (("unit_interp1", f6.EACH_ONCE, 158),
+                           ("unit_interp2", f6.PRODUCT, 166)):
         g = h[r]["heuristics"]
         assert set(g) == {f6.LIST_POSITION, f6.SIZE_RANK, f6.ABSENT, f6.DIVISIBLE,
                           f6.SHARES, f6.NONDIVISOR, f6.PRODUCT, f6.UNPRINTED_MIN,
-                          f6.UNPRINTED_MAX}
+                          f6.UNPRINTED_MAX, f6.EACH_ONCE, f6.RELATED}
         assert (h[r]["heuristic"], h[r]["heuristic_count"]) == (best, count)
-        assert g[f6.SIZE_RANK] <= 102 and g[f6.LIST_POSITION] <= 102   # both designed
+        assert g[f6.LIST_POSITION] == 100                    # designed
+    # the rank by size is not designed: it follows from what is asked
+    assert h["unit_interp1"]["heuristics"][f6.SIZE_RANK] == 129
+    assert h["unit_interp2"]["heuristics"][f6.SIZE_RANK] == 127
 
 
 def test_the_number_guessers_pick_what_they_say():
@@ -384,6 +396,26 @@ def test_the_number_guessers_pick_what_they_say():
                              f6.PRODUCT)} == {7}             # nothing to pick: the first
     got = f6._number_guessers([24, 48, 96, 2, 50], [2, 48])
     assert got[f6.NONDIVISOR] == 50 and got[f6.PRODUCT] == 96 and got[f6.DIVISIBLE] == 24
+    # every number once: 48 / 2 and 48 x 2, equally near 48; the first listed
+    assert got[f6.EACH_ONCE] == 24 and got[f6.RELATED] == 24
+    assert f6._number_guessers([96, 24, 48, 2, 50], [2, 48])[f6.EACH_ONCE] == 96
+    # BIG-bench's scaled item: 12 every 3, twice as often, 36 hours
+    got = f6._number_guessers([9, 18, 72, 144, 288], [12, 3, 36], 2)
+    assert got[f6.EACH_ONCE] == 18         # 36 x 3 / 12 x 2; 72 and 288 are as far or farther
+    assert f6._number_guessers([9, 18, 72, 144, 288], [12, 3, 36])[f6.EACH_ONCE] == 9
+    assert got[f6.RELATED] == 18           # 72 is as near and is listed after
+    # nothing combines every number once: the smallest the text does not print
+    assert f6._number_guessers([7, 50, 11], [2, 48])[f6.EACH_ONCE] == 7
+    assert f6._number_guessers([7, 50, 11], [2, 48])[f6.RELATED] == 50
+
+
+def test_the_scaling_words_are_the_generators():
+    from experiments.exp6.battery import gen_units
+    words = dict(f6.FACTOR_WORDS_6)
+    for table in (gen_units.FACTOR_WORD, gen_units.SLOW_WORD, gen_units.BB_SLOW_WORD):
+        for k, word in table.items():
+            assert words[word] == k
+    assert len(words) == 7
 
 
 def test_a_table_guesser_is_scored_on_items_it_has_not_seen():
@@ -464,6 +496,8 @@ def test_the_content_overlap_record(monkeypatch):
         assert n[r]["asks a pair BIG-bench prints, in either order"] == 0
     shows = "shows a worked pair BIG-bench prints on any line"
     assert [n[r][shows] for r in ov.MODARITH_FILE] == [16, 13, 468]
+    assert [n[r][shows.replace(" on any line", ", in either order")]
+            for r in ov.MODARITH_FILE] == [28, 13, 499]
     assert n["unscramble_short"] == {"the answer is a BIG-bench target word": 491}
     assert n["unscramble_long"] == {"the answer is a BIG-bench target word": 497}
     assert rec["rungs"]["unscramble_long"]["bigbench"] == {"distinct target words": 9719}
@@ -534,13 +568,15 @@ def test_the_overlap_is_counted_from_the_text(monkeypatch, tmp_path):
         "asks a pair BIG-bench asks": 1,
         "asks a pair BIG-bench prints on any line": 2,
         "asks a pair BIG-bench prints, in either order": 3,       # 2 + 1 is 1 + 2
-        "shows a worked pair BIG-bench prints on any line": 2}
+        "shows a worked pair BIG-bench prints on any line": 2,
+        "shows a worked pair BIG-bench prints, in either order": 2}
     assert set(got["modarith_sub1"].values()) == {0}
     assert got["modarith_mul1"] == {
         "asks a pair BIG-bench asks": 1,
         "asks a pair BIG-bench prints on any line": 1,
         "asks a pair BIG-bench prints, in either order": 1,
-        "shows a worked pair BIG-bench prints on any line": 1}
+        "shows a worked pair BIG-bench prints on any line": 1,
+        "shows a worked pair BIG-bench prints, in either order": 1}
     assert got["unscramble_short"] == {"the answer is a BIG-bench target word": 1}
     assert got["unscramble_long"] == {"the answer is a BIG-bench target word": 1}
     # fig (an input), kiwi (a bare target), plum (a marked target); the

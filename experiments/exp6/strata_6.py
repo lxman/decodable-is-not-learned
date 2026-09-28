@@ -53,7 +53,7 @@ STRATA_COUNT_PIN_6 = {
     "temporal": {"1": 126, "2": 126, "3": 125, "4": 123},
     "lcs": {"0": 50, "1": 50, "2": 50, "3": 50, "4": 50, "5": 50, "6": 50, "7": 50, "8": 50, "9": 50},
     "unit_interp1": {"1": 100, "2": 100, "3": 100, "4": 100, "5": 100},
-    "unit_interp2": {"1": 102, "2": 102, "3": 102, "4": 98, "5": 96},
+    "unit_interp2": {"1": 100, "2": 100, "3": 100, "4": 100, "5": 100},
 }
 
 
@@ -68,7 +68,7 @@ STRUCTURE_OF_6 = {
     "ascii_bubble": None, "ascii_basic": None,
     "shapes": "pen_restated", "temporal": "free_position",
     "lcs": "length_for_its_answer",
-    "unit_interp1": "scaling_x_rank", "unit_interp2": "scaling_x_rank",
+    "unit_interp1": "scaling_x_asked", "unit_interp2": "scaling_x_asked",
 }
 SORT5_BINS = ((0, 3), (4, 6), (7, 10))      # inversions of five words: 0..10
 # level -> item count per rung, pinned from the committed item files
@@ -88,8 +88,8 @@ STRUCTURE_COUNT_PIN_6 = {
     "shapes": {"0": 245, "1": 255},
     "temporal": {"first": 101, "last": 99, "middle": 300},
     "lcs": {"long": 258, "short": 242},
-    "unit_interp1": {"intervals|1": 33, "intervals|2": 34, "intervals|3": 30, "intervals|4": 25, "intervals|5": 29, "often|1": 24, "often|2": 19, "often|3": 29, "often|4": 31, "often|5": 34, "plain|1": 43, "plain|2": 47, "plain|3": 41, "plain|4": 44, "plain|5": 37},
-    "unit_interp2": {"computed|1": 45, "computed|2": 40, "computed|3": 57, "computed|4": 51, "computed|5": 42, "plain|1": 43, "plain|2": 51, "plain|3": 32, "plain|4": 37, "plain|5": 45, "stated|1": 8, "stated|2": 11, "stated|3": 13, "stated|4": 14, "stated|5": 11},
+    "unit_interp1": {"intervals|count": 83, "intervals|time": 83, "often|count": 83, "often|time": 84, "plain|count": 84, "plain|time": 83},
+    "unit_interp2": {"faster|product": 42, "faster|quotient": 42, "faster|rescaled": 42, "faster|stated": 42, "plain|product": 83, "plain|quotient": 84, "slower|product": 41, "slower|quotient": 41, "slower|rescaled": 41, "slower|stated": 42},
 }
 
 
@@ -148,18 +148,18 @@ def structure_levels(cap: dict) -> list:
             out.append(str(int(m["path"].count("M ") > 1)))
         elif kind == "free_position":
             out.append(str(m["free_position"]))
-        elif kind == "scaling_x_rank":
-            # the kind of scaling, and the answer's rank by size among
-            # its options: a guesser that excludes the small options a
-            # reader can exclude is right more often at a low rank
-            if not m["k"]:
-                scale = "plain"
-            elif "answer_stated" in m:
-                scale = "stated" if m["answer_stated"] else "computed"
+        elif kind == "scaling_x_asked":
+            # the kind of scaling, and what is asked: the cell of the
+            # generator's design. Unscaled sentences take one step, and
+            # a sentence that prints its own answer takes none.
+            if "ask_time" in m:
+                scale = "plain" if not m["k"] else "often" if m["often"] else "intervals"
+                asked = "time" if m["ask_time"] else "count"
             else:
-                scale = "often" if m["often"] else "intervals"
-            rank = sorted(int(x) for x in m["options"]).index(int(it["answer"])) + 1
-            out.append(f"{scale}|{rank}")
+                scale = "plain" if not m["k"] else "faster" if m["faster"] else "slower"
+                asked = (("stated" if m["ask_a"] else "quotient") if m["give_a"]
+                         else ("product" if m["ask_a"] else "rescaled"))
+            out.append(f"{scale}|{asked}")
         else:
             raise ValueError(kind)
     return out

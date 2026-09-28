@@ -266,7 +266,7 @@ def test_the_query_of_a_modified_arithmetic_item_is_a_key_of_its_own(built):
     # beside its result on a worked line or asked; either way round they
     # are two thirds of the space, and the gate fires on two draws in three
     assert 800 < built["modarith_mul1"]["n_redrawn"]["collision"] < 1400
-    assert built["modarith_add1"]["n_redrawn"]["collision"] < 30
+    assert built["modarith_add1"]["n_redrawn"]["collision"] < 20
     assert built["modarith_sub1"]["n_redrawn"]["collision"] < 20
 
 
@@ -335,86 +335,282 @@ def _smooth(x: int) -> bool:
     return x == 1
 
 
-@pytest.mark.parametrize("name,n_subjects", [("unit_interp1", 5), ("unit_interp2", 6)])
-def test_the_answer_is_balanced_by_position_and_by_size(built, name, n_subjects):
-    """The answer's list position and its rank by size are both designed
-    and are crossed: over twenty-five blocks of slots every pair occurs
-    once. Left free, a guesser picking one rank by size scored .45."""
-    items = _items(built, name)
-    rank, pos, joint = Counter(), Counter(), Counter()
-    for slot, it in enumerate(items):
-        opts = [int(o) for o in it["question"].split("\nOptions: ")[1].split(", ")]
-        assert len(set(opts)) == 5 and all(0 < o <= gen_units.CAP for o in opts)
-        assert opts == it["meta"]["options"]
-        k = slot // n_subjects
-        r = sorted(opts).index(int(it["answer"])) + 1
-        assert r == it["meta"]["answer_rank"] == (k // 5 + k) % 5 + 1
-        assert opts.index(int(it["answer"])) + 1 == it["meta"]["answer_pos"] == k % 5 + 1
-        rank[r] += 1
-        pos[it["meta"]["answer_pos"]] += 1
-        joint[(it["meta"]["answer_pos"], r)] += 1
-    assert set(rank) == set(pos) == {1, 2, 3, 4, 5} and len(joint) == 25
-    assert max(rank.values()) <= 102 and max(pos.values()) <= 102
-    assert min(rank.values()) >= 96 and min(pos.values()) >= 96
-    assert min(joint.values()) >= 18 and max(joint.values()) <= 24
-    a, b = [int(a) for _, a in built[name]["shots"]]
-    sa, sb = [[int(o) for o in q.split("\nOptions: ")[1].split(", ")]
-              for q, _ in built[name]["shots"]]
-    assert sa.index(a) != sb.index(b)                        # the shots' positions
-    assert sorted(sa).index(a) != sorted(sb).index(b)        # and their ranks
+def _options_of(it):
+    return [int(o) for o in it["question"].split("\nOptions: ")[1].split(", ")]
+
+
+_UP = ("twice", "three times", "four times")
+# level 2's cycle of twelve slots, written out: (scaling, unit A stated, unit A asked)
+_CELLS_LV2 = [("plain", True, False), ("up", True, True), ("up", True, False),
+              ("plain", False, True), ("up", False, True), ("up", False, False),
+              ("plain", True, False), ("down", True, True), ("down", True, False),
+              ("plain", False, True), ("down", False, True), ("down", False, False)]
+
+
+def _printed(name, body):
+    """What a sentence prints, read from its TEXT and from nothing of the
+    item's record: its numbers, the factor and direction of its scaling
+    (up: the rate scaled up), and the roles of its units."""
+    if name == "unit_interp1":
+        m = re.fullmatch(
+            r"A \w+ \w+ (\d+) \w+ every (?:(\d+) )?\w+\. "
+            r"(?:If \w+ \w+(?: \w+)? (with intervals )?(twice|three times|four times) "
+            r"as (?:often|long), \w+|It|They) will \w+ "
+            r"(\d+|\(\)) \w+ in (\d+|\(\)) \w+\.", body)
+        k = _WORD_K[m.group(4)] if m.group(4) else 0
+        ask_time = m.group(6) == "()"
+        return {"n": int(m.group(1)), "p": int(m.group(2) or 1), "k": k,
+                "up": bool(k) and not m.group(3), "ask_time": ask_time,
+                "shown": int(m.group(5) if ask_time else m.group(6))}
+    word = re.search(r"If .+? (twice|three times|four times|half|one third|"
+                     r"one fourth) as (?:fast|much)", body)
+    k = _WORD_K[word.group(1)] if word else 0
+    asked_unit = re.search(r"\(\) (\w+)", body).group(1)
+    given_unit = re.search(r", and .*? \d+ (\w+)", body).group(1)
+    unit_a = re.search(r"\d+ (\w+) per \w+", body).group(1)
+    return {"r": int(re.search(r"(\d+) \w+ per \w+", body).group(1)), "k": k,
+            "up": bool(k) and word.group(1) in _UP,
+            "shown": int(re.search(r", and .*? (\d+) ", body).group(1)),
+            "give_a": given_unit == unit_a, "ask_a": asked_unit == unit_a}
+
+
+def _candidates(name, s):
+    """The answers of the sentences that print what this one prints and
+    differ from it in the roles of their units (level 1: in the
+    direction of the scaling too)."""
+    g, k = Fraction(s["shown"]), s["k"]
+    if name == "unit_interp1":
+        rate = Fraction(s["n"], s["p"])
+        out = {g * x * y for x in (rate, 1 / rate)
+               for y in ((Fraction(k), Fraction(1, k)) if k else (1,))}
+    elif not k:
+        out = {g * s["r"], g / s["r"]}
+    else:
+        c = Fraction(1, k) if s["up"] else Fraction(k)
+        out = {g, g * s["r"], g * c, g * c / s["r"]}
+    assert all(v.denominator == 1 and 0 < v <= gen_units.CAP for v in out)
+    return {int(v) for v in out}
+
+
+def _readings(name, s):
+    """Every reading of the sentence, right and wrong: the rate the right
+    way round or the wrong (level 2: or left out), the scaling the right
+    way round, the wrong, or left out."""
+    ks = (Fraction(1, s["k"]), Fraction(1), Fraction(s["k"])) if s["k"] else (Fraction(1),)
+    if name == "unit_interp1":
+        rate = Fraction(s["n"], s["p"])
+        steps = (rate, 1 / rate)
+    else:
+        steps = (Fraction(1, s["r"]), Fraction(1), Fraction(s["r"]))
+    out = {s["shown"] * x * y for x in steps for y in ks}
+    assert all(v.denominator == 1 and 0 < v <= gen_units.CAP for v in out)
+    return {int(v) for v in out}
 
 
 @pytest.mark.parametrize("name", ["unit_interp1", "unit_interp2"])
-def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name):
-    """The README's steps 3 and 5: numbers without a large prime factor;
-    the shown quantity a multiple of every number of the item, so every
-    combination is an integer; a wrong option a combination of the
-    item's numbers, or a pool number."""
-    kinds, below = Counter(), Counter()
-    for it in _items(built, name):
-        m = it["meta"]
-        body = it["question"].split("\nOptions: ")[0]
+def test_what_the_slot_fixes(built, name):
+    """What is asked, the kind of scaling and the answer's list position
+    are set by the slot: a rejected draw redraws the numbers and nothing
+    else, so no rejection can skew them."""
+    items = _items(built, name)
+    pos, cell, joint = Counter(), Counter(), Counter()
+    for slot, it in enumerate(items):
+        m, opts, answer = it["meta"], _options_of(it), int(it["answer"])
+        s = _printed(name, it["question"].split("\nOptions: ")[0])
+        scaling = "plain" if not s["k"] else "up" if s["up"] else "down"
         if name == "unit_interp1":
-            n_eff = m["n"] * m["k"] if m["k"] and m["often"] else m["n"]
-            p_eff = m["p"] * m["k"] if m["k"] and not m["often"] else m["p"]
-            shown = (n_eff if m["ask_time"] else p_eff) * m["m"]
-            numbers = (m["n"], m["p"], m["k"])
-            printed = {m["n"], m["p"]} - {1}
-            assert _smooth(m["n"]) and _smooth(m["p"]) and 2 <= m["n"] <= 50 >= m["p"]
+            want = {"row": slot % 5, "pos": slot // 5 % 5 + 1,
+                    "scaling": ("plain", "up", "down")[slot % 3],
+                    "ask_time": bool(slot % 2)}
+            assert gen_units.design_lv1(slot) == want
+            assert m["subject"] == gen_units.LV1[want["row"]][0]
+            role = (s["ask_time"],)
+            assert role == (want["ask_time"],) == (m["ask_time"],)
         else:
-            shown = m["a"] if m["give_a"] else m["b"]
-            numbers = (m["r"], m["k"])
-            printed = {m["r"]}
-            assert _smooth(m["r"]) and 2 <= m["r"] <= 30
-        assert f" {shown} " in body and all(shown % f == 0 for f in numbers if f > 1)
-        combos = gen_units.combinations(shown, numbers) | printed
-        assert shown in combos and int(it["answer"]) in combos
-        assert max(combos) <= gen_units.CAP
+            c = _CELLS_LV2[slot % 12]
+            want = {"row": slot // 12 % 6, "pos": slot % 5 + 1, "scaling": c[0],
+                    "give_a": c[1], "ask_a": c[2]}
+            assert gen_units.design_lv2(slot) == want
+            assert gen_units.LV2[want["row"]][0].startswith(m["subject"])
+            role = (s["give_a"], s["ask_a"])
+            assert role == c[1:] == (m["give_a"], m["ask_a"])
+        assert scaling == want["scaling"]
+        assert len(set(opts)) == 5 and all(0 < o <= gen_units.CAP for o in opts)
+        assert opts == m["options"]
+        assert opts.index(answer) + 1 == m["answer_pos"] == want["pos"]
+        assert sorted(opts).index(answer) + 1 == m["answer_rank"]
+        pos[want["pos"]] += 1
+        cell[(scaling,) + role] += 1
+        joint[(want["pos"], scaling) + role] += 1
+    assert dict(pos) == {1: 100, 2: 100, 3: 100, 4: 100, 5: 100}
+    if name == "unit_interp1":
+        assert len(cell) == 6 and set(cell.values()) <= {83, 84}
+        assert len(joint) == 30 and set(joint.values()) <= {16, 17}
+    else:
+        # the unscaled cells twice as often as a scaled one
+        plain = {k: v for k, v in cell.items() if k[0] == "plain"}
+        scaled = {k: v for k, v in cell.items() if k[0] != "plain"}
+        assert len(plain) == 2 and set(plain.values()) <= {82, 83, 84}
+        assert len(scaled) == 8 and set(scaled.values()) <= {41, 42}
+        assert len(joint) == 50
+        assert {k[1]: set() for k in joint} and all(
+            v in ((16, 17, 18) if k[1] == "plain" else (8, 9)) for k, v in joint.items())
+    # the two shots: one scaled sentence and one unscaled, at different
+    # list positions, neither asking what the other asks
+    (qa, a), (qb, b) = built[name]["shots"]
+    sa, sb = [[int(o) for o in q.split("\nOptions: ")[1].split(", ")] for q in (qa, qb)]
+    assert sa.index(int(a)) != sb.index(int(b))
+    pa, pb = (_printed(name, q.split("\nOptions: ")[0]) for q in (qa, qb))
+    roles = ("ask_time",) if name == "unit_interp1" else ("give_a", "ask_a")
+    assert all(pa[k] != pb[k] for k in roles)
+    assert bool(pa["k"]) and not pb["k"]
+
+
+@pytest.mark.parametrize("name,kinds,share", [
+    ("unit_interp1", {"misreading": 1182, "combination": 606, "pool": 212}, (622, 834)),
+    ("unit_interp2", {"misreading": 1401, "combination": 351, "pool": 248}, (586, 834))])
+def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name, kinds, share):
+    """The README's steps 3 and 5: numbers without a large prime factor;
+    the shown quantity a multiple of each number of the item; the wrong
+    options the wrong readings of the sentence, other combinations of
+    its numbers, and pool numbers. Everything is recomputed from the
+    sentence's text."""
+    got, fills = Counter(), Counter()
+    for it in _items(built, name):
+        m, answer = it["meta"], int(it["answer"])
+        s = _printed(name, it["question"].split("\nOptions: ")[0])
+        if name == "unit_interp1":
+            numbers, printed = (s["n"], s["p"], s["k"]), {s["n"], s["p"]} - {1}
+            assert _smooth(s["n"]) and _smooth(s["p"]) and 2 <= s["n"] <= 50 >= s["p"]
+            # a rate of one, or the factor's, prints a reading of the sentence
+            rate = Fraction(s["n"], s["p"])
+            assert rate != 1 and (not s["k"] or s["k"] not in (rate, 1 / rate))
+            assert s["shown"] not in (s["n"], s["p"])      # nor restates its rate
+        else:
+            numbers, printed = (s["r"], s["k"]), {s["r"]}
+            assert _smooth(s["r"]) and 2 <= s["r"] <= 30
+        assert s["shown"] == m["shown" if name == "unit_interp1" else "given"]
+        assert all(s["shown"] % f == 0 for f in numbers if f > 1)
+        cands, every = _candidates(name, s), _readings(name, s)
+        # every reading of the sentence is an integer within the cap,
+        # whatever it asks: the numbers do not depend on the answer
+        assert len(cands) == (4 if s["k"] else 2) and answer in cands
+        assert cands <= every and sorted(cands) == m["candidates"]
+        if name == "unit_interp1":
+            assert s["shown"] not in cands
+        combos = gen_units.combinations(s["shown"], numbers, depth=2) | printed
+        assert every <= combos and max(combos) <= gen_units.CAP
+        # every candidate is offered
+        assert cands < set(m["options"]), it["question"]
         for x, kind in zip(m["options"], m["option_kinds"]):
-            if x == int(it["answer"]):
-                assert kind == "answer"
+            want = ("answer" if x == answer else "misreading" if x in every else
+                    "combination" if x in combos else "pool")
+            assert kind == want, (it["question"], x, kind)
+            if x != answer:
+                got[kind] += 1
+            if x not in cands:
+                fills["pool" if kind == "pool" else "combination"] += 1
+    assert dict(got) == kinds and sum(got.values()) == 2000
+    # of the fills, three in four are combinations of the item's numbers,
+    # fewer where an item has too few (level 2: two numbers, not three)
+    assert (fills["combination"], sum(fills.values())) == share
+
+
+@pytest.mark.parametrize("name", ["unit_interp1", "unit_interp2"])
+def test_the_numbers_and_the_options_do_not_say_what_is_asked(name):
+    """Sentences that differ in the roles of their units alone (level 1:
+    in the direction of the scaling too), drawn from one state of the
+    generator: they print the same numbers, offer the same options, are
+    refused together — and their answers are the candidates, one each."""
+    import numpy as np
+    lv1 = name == "unit_interp1"
+    draw = gen_units._draw_lv1 if lv1 else gen_units._draw_lv2
+    n_drawn = n_refused = 0
+    for seed in range(600):
+        for kind in (("plain", "scaled") if lv1 else gen_units.SCALINGS):
+            if lv1:
+                cells = [{"scaling": sc, "ask_time": t}
+                         for sc in (("plain",) if kind == "plain" else ("up", "down"))
+                         for t in (False, True)]
+            else:
+                cells = [{"scaling": kind, "give_a": g, "ask_a": a}
+                         for g in (True, False) for a in (True, False)
+                         if kind != "plain" or g != a]
+            out = [draw(np.random.default_rng(seed), None, 0,
+                        {"row": seed % 5, "pos": seed % 5 + 1, **c}) for c in cells]
+            if any(o is None for o in out):
+                assert all(o is None for o in out)
+                n_refused += 1
                 continue
-            assert kind == ("combination" if x in combos else "pool"), (it, x)
-            kinds[kind] += 1
-            below[(kind, x < int(it["answer"]))] += 1
-    n = sum(kinds.values())
-    assert n == 2000
-    # "most incorrect answers are the wrong combination of the generated
-    # numbers": three in four where the item has them to give
-    assert 0.55 <= kinds["combination"] / n <= 0.75
-    # and either kind falls on either side of the answer
-    for kind in ("combination", "pool"):
-        share = below[(kind, True)] / kinds[kind]
-        assert 0.35 <= share <= 0.65, (kind, share)
+            n_drawn += 1
+            numbers = [tuple(re.findall(r"\d+", o["question"].split("\nOptions: ")[0]))
+                       for o in out]
+            assert len(set(numbers)) == 1
+            assert len({tuple(sorted(o["meta"]["options"])) for o in out}) == 1
+            answers = sorted(int(o["answer"]) for o in out)
+            assert answers == out[0]["meta"]["candidates"]
+            assert len(set(answers)) == len(cells) == (2 if kind == "plain" else 4)
+            for o in out:                                # the place, and nothing else
+                assert o["meta"]["options"].index(int(o["answer"])) == seed % 5
+    assert n_drawn > 600 and n_refused > 100
 
 
-def test_the_combinations_of_an_item():
+@pytest.mark.parametrize("name,only", [("unit_interp1", 0), ("unit_interp2", 2)])
+def test_the_answer_is_not_the_one_option_a_stated_number_divides(built, name, only):
+    n = 0
+    for it in _items(built, name):
+        body = it["question"].split("\nOptions: ")[0]
+        stated = [int(x) for x in re.findall(r"\d+", body) if int(x) > 1]
+        ok = [o for o in _options_of(it) if any(o % t == 0 for t in stated)]
+        n += ok == [int(it["answer"])]
+    assert n == only
+
+
+def test_the_combinations_and_the_readings_of_an_item():
     assert gen_units.combinations(20, (5, 4, 0)) == {1, 4, 5, 16, 20, 25, 80, 100, 400}
-    assert gen_units.combinations(36, (12, 3, 2)) >= {9, 18, 72, 144, 288, 36}
     assert gen_units.combinations(48, (2, 1, 0)) == {24, 48, 96}      # a period of one
-    assert max(gen_units.combinations(4000, (50, 48, 4))) <= gen_units.CAP
+    assert gen_units.combinations(48, (2, 1, 0), depth=2) == {12, 24, 48, 96, 192}
+    assert max(gen_units.combinations(4000, (50, 48, 4), depth=2)) <= gen_units.CAP
     assert gen_units.smooth(2, 12) == (2, 3, 4, 5, 6, 8, 9, 10, 12)
     assert all(_smooth(x) for x in gen_units.WRONG_POOL) and len(gen_units.WRONG_POOL) > 40
+    # BIG-bench's own item: "12 times every 3 hours. If it rings twice as
+    # often, it will ring () times in 36 hours", options 9, 18, 72, 144, 288
+    r = gen_units.readings(36, Fraction(12, 3), 2)
+    assert r["all"] == {9, 18, 72, 144, 288} and r["each"] == {18, 72, 288}
+    assert r["dropped"] == 1                   # 36 / 4 / 2 is no integer
+    # "5 times every 4 hours ... () times in 20 hours": 16 and 25
+    assert gen_units.readings(20, Fraction(5, 4), 0) == {
+        "all": {16, 25}, "each": {16, 25}, "dropped": 0}
+    # level 2: the stated quantity is a reading of its own sentence
+    r = gen_units.readings(120, Fraction(30), 2, steps=(-1, 0, 1))
+    assert r["all"] == {2, 4, 8, 60, 120, 240, 1800, 3600} and 120 not in r["each"]
+    assert r["each"] == {2, 8, 1800} and r["dropped"] == 1     # 7200 is above the cap
+    # the candidates: what the same numbers answer under other roles
+    assert gen_units.candidates_lv1(48, 12, 3, 2) == {6, 24, 96, 384}
+    assert gen_units.candidates_lv1(48, 12, 3, 0) == {12, 192}
+    assert gen_units.candidates_lv2(120, 30, 0, False) == {4, 3600}
+    assert gen_units.candidates_lv2(120, 30, 2, True) == {2, 60, 120, 3600}
+    assert gen_units.candidates_lv2(120, 30, 2, False) == {8, 120, 240, 3600}
+    with pytest.raises(AssertionError):
+        gen_units.candidates_lv2(7, 2, 0, False)       # 7 / 2
+    with pytest.raises(AssertionError):
+        gen_units.candidates_lv2(3000, 30, 0, False)   # 90000
+    # the options: every candidate, then fills; the answer's place
+    import numpy as np
+    read = {"all": {16, 25}}
+    args = ({16, 25}, read, {20, 80, 100, 400}, {30, 36})
+    opts, kinds = gen_units._offer(np.random.default_rng(0), 25, *args, 2)
+    assert opts[1] == 25 and len(set(opts)) == 5 and 16 in opts
+    assert kinds[1] == "answer" and kinds[opts.index(16)] == "misreading"
+    assert set(opts) - {16, 25} < {20, 80, 100, 400, 30, 36}
+    assert all(k == ("combination" if x in (20, 80, 100, 400) else "pool")
+               for x, k in zip(opts, kinds) if x not in (16, 25))
+    other, _ = gen_units._offer(np.random.default_rng(0), 16, *args, 5)
+    assert sorted(other) == sorted(opts) and other[4] == 16    # the same five
+    assert gen_units._offer(np.random.default_rng(0), 25, {16, 25}, read,
+                            set(), {30, 36}, 3) is None        # nothing to fill with
+    with pytest.raises(AssertionError):
+        gen_units._offer(np.random.default_rng(0), 17, *args, 2)
 
 
 def test_unit_interp2_flags_a_stated_answer(built):
@@ -422,7 +618,7 @@ def test_unit_interp2_flags_a_stated_answer(built):
     unchanged and that quantity is asked. Flagged, not excluded."""
     items = _items(built, "unit_interp2")
     flagged = [it for it in items if it["meta"]["answer_stated"]]
-    assert len(flagged) == 57
+    assert len(flagged) == 84
     for it in items:
         m = it["meta"]
         assert m["answer_stated"] == bool(m["k"] and m["give_a"] and m["ask_a"])

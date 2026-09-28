@@ -34,7 +34,7 @@ from .make_bigbench_index_6 import COMMUTES, local_name
 
 HERE = Path(__file__).resolve().parent
 RECORD = HERE / "data" / "overlap_6.json"
-OVERLAP_6_SHA256 = "de9dbc667e9e4663919aec9f0e478a9148f129428a278073bd3939496e876fca"
+OVERLAP_6_SHA256 = "f8861fd0fbfcee85b1add8f04e04e7c9e323326e76e9c9e60e04772e2f299078"
 MODARITH_FILE = {
     "modarith_add1": "modified_arithmetic/three_digit_addition_plus_one",
     "modarith_sub1": "modified_arithmetic/three_digit_subtraction_plus_one",
@@ -104,7 +104,8 @@ def overlap(src: Path, battery: dict | None = None) -> dict:
         n = {"asks a pair BIG-bench asks": 0,
              "asks a pair BIG-bench prints on any line": 0,
              "asks a pair BIG-bench prints, in either order": 0,
-             "shows a worked pair BIG-bench prints on any line": 0}
+             "shows a worked pair BIG-bench prints on any line": 0,
+             "shows a worked pair BIG-bench prints, in either order": 0}
         for it in battery[rung]["eval_items"]:
             lines = it["question"].split("\n")[1:]
             n["asks a pair BIG-bench asks"] += _pair(lines[-1]) in asked
@@ -113,6 +114,8 @@ def overlap(src: Path, battery: dict | None = None) -> dict:
                 _either(_pair(lines[-1])) & printed)
             n["shows a worked pair BIG-bench prints on any line"] += any(
                 _pair(line) in printed for line in lines[:-1])
+            n["shows a worked pair BIG-bench prints, in either order"] += any(
+                _either(_pair(line)) & printed for line in lines[:-1])
         rows[rung] = {"bigbench": {"pairs asked": len(asked),
                                    "pairs printed": len(printed)}, "items": n}
     words = {t for ex in _examples(src, "word_unscrambling", "word_unscrambling")
