@@ -13,6 +13,7 @@ import json
 import sys
 from pathlib import Path
 
+from . import audit_bbkeys_6 as au
 from . import collisions_6 as c6
 from . import gen_arith, gen_ascii, gen_logic, gen_shapes, gen_units, gen_words  # noqa: F401
 from . import words_6 as w6
@@ -34,12 +35,19 @@ def context() -> dict:
 
 
 def payload(name: str, ctx: dict | None = None) -> dict:
+    """One rung's items. REFUSES unless the collision keys of the
+    generators on disk are the ones the committed audit measured: an item
+    file is evidence of freshness only behind a gate that was checked."""
+    if name not in SPECS_6:
+        raise ValueError(f"{name!r} is not a rung: {sorted(SPECS_6)}")
+    au.load_record()
     spec = SPECS_6[name]
     d = generate(spec, ctx if ctx is not None else context(),
                  collisions=c6.for_spec(spec))
     d["provenance"] = {"words_6_sha256": w6.WORDS_6_SHA256,
                        "bigbench_index_sha256": c6.INDEX_6_SHA256,
                        "bigbench_commit": c6.BIGBENCH_COMMIT,
+                       "bbkey_audit_sha256": au.AUDIT_6_SHA256,
                        "pyfiglet": gen_ascii.PYFIGLET_VERSION}
     return d
 

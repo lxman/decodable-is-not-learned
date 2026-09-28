@@ -8,6 +8,7 @@ from experiments.exp6 import battery_6 as b6
 from experiments.exp6 import floors_6 as f6
 from experiments.exp6 import strata_6 as s6
 from experiments.exp6 import verify_6 as v6
+from experiments.exp6.battery import audit_bbkeys_6 as au
 from experiments.exp6.battery import generate as gen
 from experiments.exp6.battery import measure_tokens_6 as mt
 from experiments.exp6.battery import spec as sp
@@ -46,6 +47,8 @@ def test_committed_files_load_under_their_pins(battery):
         assert set(cap["eval_items"][0]) == {"question", "answer", "bb_sha256", "meta"}
         assert cap["provenance"]["bigbench_commit"] == \
             "092b196c1f8f14a54bbc62f24759d43bde46dd3b"
+        # the file was written behind the audited gate, and says which audit
+        assert cap["provenance"]["bbkey_audit_sha256"] == au.AUDIT_6_SHA256
     for r in b6.ANCHORS_6 + (b6.CONTROL_6,):
         assert battery[r]["battery"] == "2c" and len(battery[r]["eval_items"]) == 500
     assert battery["ctrl_copy"]["items_sha256"] == b6.CONTROL_SHA256

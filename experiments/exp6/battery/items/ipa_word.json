@@ -5514,6 +5514,7 @@
  },
  "name": "ipa_word",
  "provenance": {
+  "bbkey_audit_sha256": "e7053003a4a618fc2455d512905ae85d37e3da8bafc71b1f5e4dca3aab425b19",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
   "pyfiglet": "1.0.4",

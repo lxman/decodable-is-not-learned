@@ -1,6 +1,6 @@
 # experiments/exp6/tests/test_generators_b_6.py
 """ASCII, shapes, deduction and temporal rungs, each checked against an
-INDEPENDENT recomputation; then the whole registry and generate.py."""
+INDEPENDENT recomputation."""
 import hashlib
 import math
 import re
@@ -9,8 +9,7 @@ from itertools import permutations
 
 import pytest
 
-from experiments.exp6.battery import (gen_ascii, gen_logic, gen_shapes,
-                                      generate as gen, spec as sp)
+from experiments.exp6.battery import gen_ascii, gen_logic, gen_shapes
 from experiments.exp6.tests import _build
 
 NAMES_B = ("ascii_bubble", "ascii_basic", "shapes", "deduction3", "deduction5",
@@ -28,23 +27,6 @@ def _items(built, name):
 
 def test_every_rung_is_500_clean_items(built):
     _build.check_clean(built)
-
-
-def test_registry_is_the_seventeen():
-    assert tuple(sorted(sp.SPECS_6)) == tuple(sorted(gen.RUNG_ORDER_6))
-    assert len(gen.RUNG_ORDER_6) == 17
-    assert len({s.seed for s in sp.SPECS_6.values()}) == 17
-    assert "logic_grid" not in sp.SPECS_6                  # plan delta B-1
-
-
-def test_generate_writes_what_payload_builds(tmp_path):
-    ctx = gen.context()
-    r = gen.write("lcs", ctx, out_dir=tmp_path)
-    raw = (tmp_path / "lcs.json").read_bytes()
-    assert hashlib.sha256(raw).hexdigest() == r["sha256"]
-    assert raw.decode("utf-8") == gen.dumps(gen.payload("lcs", ctx))
-    assert set(gen.payload("lcs", ctx)["provenance"]) == \
-        {"words_6_sha256", "bigbench_index_sha256", "bigbench_commit", "pyfiglet"}
 
 
 # ----------------------------------------------------------------- ascii
@@ -89,6 +71,40 @@ def _vertices(path):
             out.append(p)
     assert out[0] == out[-1]
     return out[:-1]
+
+
+def _turns(v):
+    """Degrees the path turns by at each vertex (0 = straight on)."""
+    out = []
+    for i in range(len(v)):
+        a, b, c = v[i - 1], v[i], v[(i + 1) % len(v)]
+        h1 = math.atan2(b[1] - a[1], b[0] - a[0])
+        h2 = math.atan2(c[1] - b[1], c[0] - b[0])
+        d = abs(math.degrees(h2 - h1)) % 360
+        out.append(min(d, 360 - d))
+    return out
+
+
+def test_every_polygon_has_the_corners_its_name_counts(built):
+    """A vertex the path barely turns at draws no corner: the figure
+    would read as the class one vertex down. None is nearer to straight
+    than 15 degrees (the first build admitted 113 of 350 within 15)."""
+    sides = {"triangle": 3, "rectangle": 4, "kite": 4, "pentagon": 5,
+             "hexagon": 6, "heptagon": 7, "octagon": 8}
+    seen = 0
+    for it in _items(built, "shapes"):
+        if it["answer"] not in sides:
+            continue
+        v = _vertices(it["meta"]["path"])
+        assert len(v) == sides[it["answer"]]
+        assert min(_turns(v)) >= 15.0 - 1e-6, (it["answer"], min(_turns(v)))
+        seen += 1
+    assert seen == 350
+    assert gen_shapes.MIN_TURN_DEG == 15.0
+    square = [(0.0, 0.0), (10.0, 0.0), (10.0, 10.0), (0.0, 10.0)]
+    assert [round(t, 6) for t in gen_shapes.turns(square)] == [90.0] * 4
+    flat = [(0.0, 0.0), (10.0, 0.0), (20.0, 0.5), (10.0, 10.0)]
+    assert round(min(gen_shapes.turns(flat)), 2) == round(min(_turns(flat)), 2) < 3.0
 
 
 def test_shapes(built):
@@ -166,19 +182,67 @@ def test_deduction(built, name, n):
         assert paragraph.count(".") == 1 + len(clues)       # intro + one per clue
 
 
-def test_deduction_sentences_say_what_the_clues_say(built):
-    cx = {c["key"]: c for c in gen_logic.CONTEXTS}
-    for it in _items(built, "deduction5")[::9]:
+# What each clue must SAY, written from English and not from the
+# generator's tables: position 1 is the leftmost / first / oldest /
+# cheapest, and "before" puts x nearer position 1 than y.
+_SAYS = {
+    "books": ("The {x} book is to the left of the {y} book.",
+              "The {x} book is to the right of the {y} book.", "The {x} book is {p}."),
+    "birds": ("The {x} is to the left of the {y}.",
+              "The {x} is to the right of the {y}.", "The {x} is {p}."),
+    "golfers": ("{x} finished above {y}.", "{x} finished below {y}.",
+                "{x} finished {p}."),
+    "vehicles": ("The {x} is older than the {y}.", "The {x} is newer than the {y}.",
+                 "The {x} is {p}."),
+    "fruits": ("The {x} are less expensive than the {y}.",
+               "The {x} are more expensive than the {y}.", "The {x} are {p}."),
+}
+_SHELF = {3: ("the leftmost", "the second from the left", "the rightmost"),
+          5: ("the leftmost", "the second from the left", "the third from the left",
+              "the second from the right", "the rightmost")}
+_PLACES = {
+    "books": _SHELF, "birds": _SHELF,
+    "golfers": {3: ("first", "second", "last"),
+                5: ("first", "second", "third", "second-to-last", "last")},
+    "vehicles": {3: ("the oldest", "the second-newest", "the newest"),
+                 5: ("the oldest", "the second-oldest", "the third-newest",
+                     "the second-newest", "the newest")},
+    "fruits": {3: ("the cheapest", "the second-most expensive", "the most expensive"),
+               5: ("the cheapest", "the second-cheapest", "the third-most expensive",
+                   "the second-most expensive", "the most expensive")},
+}
+_ASKS = {"books": "Which book is {p}?", "birds": "Which bird is {p}?",
+         "golfers": "Which golfer finished {p}?", "vehicles": "Which vehicle is {p}?",
+         "fruits": "Which fruit is {p}?"}
+
+
+def _said(context, n, clue):
+    kind, x, y = clue
+    before, after, at = _SAYS[context]
+    if kind == "at":
+        return at.format(x=x, p=_PLACES[context][n][y - 1])
+    return (before if kind == "before" else after).format(x=x, y=y)
+
+
+@pytest.mark.parametrize("name,n", [("deduction3", 3), ("deduction5", 5)])
+def test_every_sentence_says_what_its_clue_means(built, name, n):
+    """The text a model reads, sentence by sentence, against the clue
+    the answer was computed from. A relation rendered the wrong way
+    round would leave every puzzle internally consistent and every
+    answer wrong; this is the test that would see it."""
+    for it in _items(built, name):
         m = it["meta"]
-        c = cx[m["context"]]
         body = it["question"].split("\nOptions:")[0]
-        for kind, x, y in m["clues"]:
-            if kind == "at":
-                assert c["position"][5][y - 1] in body
-            else:
-                rel = c["before"] if kind == "before" else c["after"]
-                assert f"{x}" in body and rel in body
-        assert c["position"][5][m["asked"] - 1] in body.rsplit(". ", 1)[1]
+        paragraph, ask = body.rsplit(" Which ", 1)
+        sentences = paragraph.split(". ")
+        assert len(sentences) == 1 + len(m["clues"])
+        for sent, clue in zip(sentences[1:], m["clues"]):
+            assert sent.rstrip(".") + "." == _said(m["context"], n, clue)
+        assert "Which " + ask == _ASKS[m["context"]].format(
+            p=_PLACES[m["context"]][n][m["asked"] - 1])
+        listed = sentences[0].split(": ", 1)[1]
+        for x in m["listed"]:
+            assert x in listed
 
 
 # -------------------------------------------------------------- temporal

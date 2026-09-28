@@ -57,3 +57,24 @@ through the renderers. 17 tests, 44 in the suite.
 ### Task 6 — the seventeen item files (4.4 MB, shas = ITEMS_SHA_PIN_6, generated twice byte-identical), battery_6 / floors_6 / strata_6, the token record (sha cca2df32…); floors: choice rungs at 1/n, lcs and shapes at .10, free-form rungs at .002–.016; strata: every stratum ≥ 10 items, anchors equal to 2g's committed rows; 17 tests, 87 in the suite.
 - The token record was measured OFFLINE from the coordinator's scratch cache (coordinator ruling R-16). The seven tokenizer revisions — read them from `token_lengths_6.json` — were downloaded once, by the coordinator, at the prototype stage on 2026-09-27: tokenizer files only, about 62 MB, no weight. No network contact in this task.
 - The seventeen item files were generated twice; the seventeen sha256 lines were identical both times and equal `ITEMS_SHA_PIN_6`.
+
+### Tasks 5 and 6, fix round 1 — polygons keep their corners; the audit admits arguments only in the generators' support; items are written only behind the audited gate (coordinator rulings R-17 … R-20)
+
+Task 5's review checked the generators against BIG-bench's own answers — 800 of 800 deduction
+examples and 1,000 of 1,000 temporal examples reproduce under the generator's tables — and found two
+defects. (1) The shape generator admitted polygons with a nearly straight vertex: 113 of the 350
+polygon items had a vertex within 15 degrees of straight, the straightest at 0.54 degrees on an
+"octagon" that draws a heptagon; BIG-bench's hand-made set has 12 of 252. A draw with a vertex
+turning the path by less than 15 degrees is now rejected (plan delta B-17); none of the 350 is
+within 15 degrees. (2) Several of the audit's parsers passed their arguments through and could not
+fail. Every parser now admits an argument only in the generator's support; the same parsers read
+the key of every generated item (8,500 keys; all parse and render back); each row of the record
+says what it establishes. The audit now reads 16,655 identical, 1,094 outside the generators'
+support for four stated reasons (87 sort tokens outside a-z, 502 IPA sentences, 501 IPA-direction
+strings, 4 spelled-out counts), 0 failed. The item writer refuses unless the committed audit record
+is the pinned one, holds no failure, and is of the generator files and spec.py as they are on disk;
+every item file's provenance names the record (plan delta B-18), so all seventeen item files and
+their pins change. Each deduction sentence is now checked against the clue it renders, from tables
+written in the test from English. The audit read the coordinator's scratch copy of the fourteen
+task files; the token record was re-measured offline from the coordinator's scratch cache (R-16).
+No network contact. 16 + 15 + 17 tests in the three files; 92 in the suite.

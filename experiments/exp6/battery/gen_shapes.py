@@ -5,7 +5,12 @@ the shape an SVG path draws, among BIG-bench's ten classes. BIG-bench's
 a RECONSTRUCTION from the README (ten classes, a 100 x 100 box, varied
 size and orientation, convex and concave polygons) and from the path
 syntax of the task file (M/L/A commands, two decimals, the pen
-re-stated with M at some vertices)."""
+re-stated with M at some vertices).
+
+A polygon's name is its number of CORNERS. A vertex the path turns at
+by less than MIN_TURN_DEG draws no corner a reader of the figure would
+count, and the name would then be one vertex too many: such a draw is
+rejected."""
 from __future__ import annotations
 
 import math
@@ -19,6 +24,7 @@ N_SIDES = {"triangle": 3, "pentagon": 5, "hexagon": 6, "heptagon": 7,
 BOX = (0.0, 100.0)
 P_RESTATE = 0.3            # chance the pen is re-stated (M x,y) at a vertex
 MIN_SIDE = 3.0             # no two consecutive vertices closer than this
+MIN_TURN_DEG = 15.0        # no vertex nearer to straight than this
 
 
 def _pt(p) -> str:
@@ -33,6 +39,24 @@ def _spread(points, closed=True) -> bool:
     n = len(points)
     pairs = [(points[i], points[(i + 1) % n]) for i in range(n if closed else n - 1)]
     return all(math.dist(a, b) >= MIN_SIDE for a, b in pairs)
+
+
+def turns(points) -> list:
+    """The angle the path turns by at each vertex of a closed polygon,
+    in degrees: 0 is straight on, 180 a reversal."""
+    out = []
+    n = len(points)
+    for i in range(n):
+        a, b, c = points[i - 1], points[i], points[(i + 1) % n]
+        u, w = (b[0] - a[0], b[1] - a[1]), (c[0] - b[0], c[1] - b[1])
+        nu, nw = math.hypot(*u), math.hypot(*w)
+        cos = (u[0] * w[0] + u[1] * w[1]) / (nu * nw)
+        out.append(math.degrees(math.acos(max(-1.0, min(1.0, cos)))))
+    return out
+
+
+def _cornered(points) -> bool:
+    return min(turns(points)) >= MIN_TURN_DEG
 
 
 def _rot(p, ang, c):
@@ -109,7 +133,7 @@ def shape_path(rng, cls: str):
                 f"{_pt(p2)} L {_pt(c)}")
     else:
         raise ValueError(cls)
-    if not _inside(v) or not _spread(v):
+    if not _inside(v) or not _spread(v) or not _cornered(v):
         return None
     return _polyline(rng, v)
 
@@ -140,6 +164,7 @@ register(RungSpec(
     rung_type="string", answer_type="word", seed=20260914,
     n_options=len(SHAPES),
     description="name the shape an SVG path draws, among ten classes "
-                "listed in shuffled order; fifty paths per class; a "
+                "listed in shuffled order; fifty paths per class; every "
+                "polygon vertex turns the path by at least 15 degrees; a "
                 "reconstruction of BIG-bench's hand-made set",
     draw=_draw_shapes))
