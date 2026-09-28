@@ -33,3 +33,5 @@ B-1 … B-12, as listed in the battery plan.
 - Task 3: the ledger said 18,749 hashes; the index holds 17,749 (the sum of its ten `n_keys`). The plan had also said fifteen task files; fourteen were fetched, as logged above.
 - Event, disclosed: Task 3's nine files were committed inside 8ab89e660, a plan-text commit made by the controller while they were staged. The content is as the task specifies (shas equal the pins); the history is not rewritten.
 - Suite: 27 passed.
+
+### Task 4 — generators A: eleven rungs (modarith ×3, lcs, unscramble ×2, sort ×2, ipa_word, unit_interp ×2), each test recomputing the answer independently; design strata balanced by slot; 13 tests.
