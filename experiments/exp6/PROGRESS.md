@@ -50,3 +50,6 @@ meta.answer_stated (71 of 500: the sentence states the quantity asked; BIG-bench
 flagged, not excluded). unscramble_short's description names the table its uniqueness check runs
 over (21,540 rows, not 25,000 words). The tests rebuild every item's key from the item's own record
 through the renderers. 17 tests, 44 in the suite.
+
+### Task 5 — generators B: six rungs (ascii ×2, shapes, deduction ×2, temporal) and generate.py; every deduction puzzle unique and minimal by brute force; shapes and temporal disclosed as reconstructions (B-2); the collision keys AUDITED against BIG-bench's 17,749 key strings through the generators' own renderers — 17,244 identical, 505 outside for two stated reasons, 0 failed; record sha d012b7b3…, 69 known answers sha 8ab3e7c7… (arguments, not text; the canary carried); 26 tests.
+- The audit read the fourteen task files from the coordinator's scratch directory (the files Task 3 downloaded; each file's sha256 checked against the index before it was read). No network contact in this task.

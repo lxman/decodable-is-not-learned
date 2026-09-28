@@ -1,0 +1,145 @@
+{
+ "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
+ "files": {
+  "ascii_word_recognition": {
+   "failed_sha256": [],
+   "kind": "target",
+   "n_failed": 0,
+   "n_identical": 1000,
+   "n_outside": {},
+   "n_strings": 1000,
+   "task": "ascii_word_recognition"
+  },
+  "cs_algorithms/lcs": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 320,
+   "n_outside": {},
+   "n_strings": 320,
+   "task": "cs_algorithms"
+  },
+  "geometric_shapes": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 359,
+   "n_outside": {},
+   "n_strings": 359,
+   "task": "geometric_shapes"
+  },
+  "international_phonetic_alphabet_transliterate": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 502,
+   "n_outside": {
+    "the IPA-to-English direction": 501
+   },
+   "n_strings": 1003,
+   "task": "international_phonetic_alphabet_transliterate"
+  },
+  "logical_deduction/five_objects": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 100,
+   "n_outside": {},
+   "n_strings": 100,
+   "task": "logical_deduction"
+  },
+  "logical_deduction/three_objects": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 100,
+   "n_outside": {},
+   "n_strings": 100,
+   "task": "logical_deduction"
+  },
+  "modified_arithmetic/three_digit_addition_plus_one": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 1000,
+   "n_outside": {},
+   "n_strings": 1000,
+   "task": "modified_arithmetic"
+  },
+  "modified_arithmetic/three_digit_subtraction_plus_one": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 1000,
+   "n_outside": {},
+   "n_strings": 1000,
+   "task": "modified_arithmetic"
+  },
+  "modified_arithmetic/two_digit_multiplication_plus_one": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 1000,
+   "n_outside": {},
+   "n_strings": 1000,
+   "task": "modified_arithmetic"
+  },
+  "temporal_sequences": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 1000,
+   "n_outside": {},
+   "n_strings": 1000,
+   "task": "temporal_sequences"
+  },
+  "unit_interpretation/lv1": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 21,
+   "n_outside": {
+    "a count of one, spelled out": 4
+   },
+   "n_strings": 25,
+   "task": "unit_interpretation"
+  },
+  "unit_interpretation/lv2": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 25,
+   "n_outside": {},
+   "n_strings": 25,
+   "task": "unit_interpretation"
+  },
+  "word_sorting": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 1900,
+   "n_outside": {},
+   "n_strings": 1900,
+   "task": "word_sorting"
+  },
+  "word_unscrambling": {
+   "failed_sha256": [],
+   "kind": "input",
+   "n_failed": 0,
+   "n_identical": 8917,
+   "n_outside": {},
+   "n_strings": 8917,
+   "task": "word_unscrambling"
+  }
+ },
+ "generators_sha256": {
+  "gen_arith.py": "cd47d3517741baa8c282756915dcc71cf47df5c3ecb3bb82d592d13ec650df8a",
+  "gen_ascii.py": "32c7949c3f64b35b8be178e13dc1cfb86d05cd3734f8cae4dd8d139b75364de2",
+  "gen_logic.py": "7bc2cce31b0f4f9e49e7b214b1f4d55da99f8e03b1ddd51061fcba1cd4350b5c",
+  "gen_shapes.py": "2ca820c3566b40f131ad1e9fc53dbb90ff8c35b7dee07c7283c790d84c975e01",
+  "gen_units.py": "de84118be83f2b02e48fe8412e08759fda19678373935b2402f3e1cd8260ca65",
+  "gen_words.py": "ea1ddf5b4f05584fa3a11561440416779104be20449a64d2547d0fb99de7f2c7"
+ },
+ "index_sha256": "0970e986315d09946951683b056228629e821bbeeebec8fb565b60ef9297d94c",
+ "n_failed": 0
+}
