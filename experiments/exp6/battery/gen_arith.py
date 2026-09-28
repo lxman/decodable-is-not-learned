@@ -21,8 +21,24 @@ LCS_HEADER = ("Given two strings, determine the length of the longest common "
               "subsequence.")
 
 
+def modarith_text(name: str, pairs) -> str:
+    """BIG-bench's prompt: the header, the worked lines, the query line
+    (the last pair, its result withheld). The collision key is this text."""
+    sym, _, op = MODARITH[name]
+    lines = [MODARITH_HEADER]
+    lines += [f"{a} {sym} {b} -> {op(a, b)}" for a, b in pairs[:-1]]
+    a, b = pairs[-1]
+    lines.append(f"{a} {sym} {b} ->")
+    return "\n".join(lines)
+
+
+def lcs_key(a: str, b: str) -> str:
+    """BIG-bench's lcs input is the two strings and nothing else."""
+    return f"{a} {b}"
+
+
 def _draw_modarith(name):
-    sym, bound, op = MODARITH[name]
+    _, bound, op = MODARITH[name]
 
     def draw(rng, ctx, slot):
         pairs = []
@@ -30,11 +46,8 @@ def _draw_modarith(name):
             ab = (int(rng.integers(bound)), int(rng.integers(bound)))
             if ab not in pairs:
                 pairs.append(ab)
-        lines = [MODARITH_HEADER]
-        lines += [f"{a} {sym} {b} -> {op(a, b)}" for a, b in pairs[:-1]]
         a, b = pairs[-1]
-        lines.append(f"{a} {sym} {b} ->")
-        text = "\n".join(lines)
+        text = modarith_text(name, pairs)
         return {"question": text, "answer": str(op(a, b)), "bb_key": text,
                 "meta": {"a": a, "b": b, "examples": [list(p) for p in pairs[:-1]]}}
     return draw
@@ -66,8 +79,8 @@ def _draw_lcs(rng, ctx, slot):
     b = "".join(LCS_ALPHABET[int(i)] for i in rng.integers(26, size=lb))
     if lcs_length(a, b) != target:
         return None
-    return {"question": f"{LCS_HEADER}\nStrings: {a} {b}",
-            "answer": str(target), "bb_key": f"{a} {b}",
+    return {"question": f"{LCS_HEADER}\nStrings: {lcs_key(a, b)}",
+            "answer": str(target), "bb_key": lcs_key(a, b),
             "meta": {"a": a, "b": b, "lcs": target}}
 
 

@@ -12,6 +12,27 @@ SORT_WORD_LEN = (3, 10)
 SORT_CLASSES = (0, 1, 2)          # longest shared prefix between neighbours
 IPA_BINS = ((1, 4), (5, 6), (7, 99))   # ipa_len bins, slot-cycled
 IPA_WORD_LEN = (3, 10)
+UNSCRAMBLE_STEM = "The word {s} is a scrambled version of the English word"
+SORT_HEADER = "Sort the following words alphabetically: "
+IPA_HEADER = ("Transliterate the following word into the International "
+              "Phonetic Alphabet (IPA): ")
+
+
+def unscramble_key(scrambled: str) -> str:
+    """BIG-bench's input ends in a space; the question drops it."""
+    return UNSCRAMBLE_STEM.format(s=scrambled) + " "
+
+
+def sort_key(order) -> str:
+    """BIG-bench's word_sorting input is the word list and nothing else."""
+    return " ".join(order)
+
+
+def ipa_key(text: str) -> str:
+    """BIG-bench's English-to-IPA inputs are SENTENCES under this prefix.
+    No BIG-bench input is one word, so this rung's gate cannot fire: its
+    items are fresh by construction, not by the gate (disclosed)."""
+    return f"English: {text}"
 
 
 def _pick(rng, seq):
@@ -30,11 +51,9 @@ def _draw_unscramble(name):
         scrambled = "".join(word[int(i)] for i in perm)
         if scrambled == word:
             return None
-        return {"question": (f"The word {scrambled} is a scrambled version of "
-                             f"the English word"),
+        return {"question": UNSCRAMBLE_STEM.format(s=scrambled),
                 "answer": word,
-                "bb_key": (f"The word {scrambled} is a scrambled version of "
-                           f"the English word "),
+                "bb_key": unscramble_key(scrambled),
                 "meta": {"word": word, "scrambled": scrambled, "length": n,
                          "rank": ctx["rank"][word]}}
     return draw
@@ -81,10 +100,9 @@ def _draw_sort(n_words):
         order = [words[int(i)] for i in rng.permutation(n_words)]
         if order == sorted(order):
             return None                     # already sorted: copying solves it
-        listed = " ".join(order)
-        return {"question": f"Sort the following words alphabetically: {listed}",
+        return {"question": SORT_HEADER + sort_key(order),
                 "answer": " ".join(sorted(order)),
-                "bb_key": listed,
+                "bb_key": sort_key(order),
                 "meta": {"words": order, "n_words": n_words,
                          "prefix_class": target}}
     return draw
@@ -95,10 +113,9 @@ def _draw_ipa(rng, ctx, slot):
     b = slot % len(IPA_BINS)
     word = _pick(rng, ctx["ipa_by_bin"][b])
     ipa = ctx["ipa"][word]
-    return {"question": ("Transliterate the following word into the "
-                         f"International Phonetic Alphabet (IPA): {word}"),
+    return {"question": IPA_HEADER + word,
             "answer": ipa,
-            "bb_key": f"English: {word}",
+            "bb_key": ipa_key(word),
             "meta": {"word": word, "ipa_len": w6.ipa_len(ipa), "ipa_bin": b,
                      "rank": ctx["rank"][word]}}
 
@@ -129,8 +146,9 @@ register(RungSpec(
     rung_type="string", answer_type="word", seed=20260901,
     description="recover a 4-5 letter English word from a random "
                 "permutation of its letters; the word is among the 10,000 "
-                "most frequent unigrams and no other word of the 25,000 "
-                "most frequent has the same letters",
+                "most frequent unigrams and no other word of the vendored "
+                "table (the a-z words of three letters or more, in CMUdict, "
+                "among the 25,000 most frequent) has the same letters",
     unique_answers=True, draw=_draw_unscramble("unscramble_short")))
 register(RungSpec(
     name="unscramble_long", task="word_unscrambling", wei_class="E.2",

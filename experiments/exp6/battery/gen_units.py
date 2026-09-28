@@ -1,9 +1,15 @@
 # experiments/exp6/battery/gen_units.py
 """Unit interpretation, levels 1 and 2 (BIG-bench unit_interpretation
 lv1 / lv2; Wei class E.3). The subjects, units and sentence frames are
-the README's and the task files'; the grammar slips in BIG-bench's own
-25 examples per level ("If they takes", "one forth") are NOT reproduced.
-Every number in an item and its answer is a positive integer."""
+the README's and the task files'. Every number in an item and its answer
+is a positive integer.
+
+Each sentence has two SURFACES. "battery" is what a model reads: the
+task files' wording with their grammar slips corrected ("If they
+takes", a capital "They" after a comma, "one forth"). "bigbench" is the
+task files' wording byte for byte, slips included, and is what the
+collision key is built from — a corrected key would never match the
+string it is meant to exclude."""
 from __future__ import annotations
 
 from .spec import RungSpec, register, with_options
@@ -11,15 +17,18 @@ from .spec import RungSpec, register, with_options
 N_OPTIONS = 5
 FACTOR_WORD = {2: "twice", 3: "three times", 4: "four times"}
 SLOW_WORD = {2: "half", 3: "one third", 4: "one fourth"}
+BB_SLOW_WORD = {2: "half", 3: "one third", 4: "one forth"}     # the task file's spelling
+SURFACES = ("battery", "bigbench")
 SMALL, MIDDLE = (2, 7), (8, 50)     # README's number pools (large unused here)
 
-# level 1: (subject, verb 3sg, verb base, thing, unit, pronoun)
+# level 1: (subject, verb 3sg, verb base, thing, unit, pronoun, the scaled
+# clause's object, the task file's pronoun after the comma)
 LV1 = (
-    ("A bell", "rings", "ring", "times", "hour", "it"),
-    ("A patient", "takes", "take", "pills", "day", "they"),
-    ("A newsstand", "sells", "sell", "newspapers", "week", "it"),
-    ("A heart", "beats", "beat", "times", "second", "it"),
-    ("A reporter", "speaks", "speak", "words", "minute", "they"),
+    ("A bell", "rings", "ring", "times", "hour", "it", "", "it"),
+    ("A patient", "takes", "take", "pills", "day", "they", " pills", "They"),
+    ("A newsstand", "sells", "sell", "newspapers", "week", "it", " newspapers", "it"),
+    ("A heart", "beats", "beat", "times", "second", "it", "", "it"),
+    ("A reporter", "speaks", "speak", "words", "minute", "they", "", "they"),
 )
 # level 2: (clause, rate unit A, per unit B, tail for A, tail for B, scale verb, fast word)
 LV2 = (
@@ -49,6 +58,51 @@ def _cap(s: str) -> str:
     return s[0].upper() + s[1:]
 
 
+def _surface(surface: str) -> bool:
+    if surface not in SURFACES:
+        raise ValueError(f"surface {surface!r} is not one of {SURFACES}")
+    return surface == "bigbench"
+
+
+def lv1_sentence(row: int, n: int, p: int, k: int, often: bool, ask_time: bool,
+                 shown: int, *, surface: str = "battery") -> str:
+    """One level-1 sentence. `shown` is the number printed in the tail:
+    the count when the time is asked, the time when the count is."""
+    bb = _surface(surface)
+    subj, v3, vb, thing, unit, pron, obj, bb_pron = LV1[row]
+    every = f"every {unit}" if p == 1 else f"every {p} {unit}s"
+    if k == 0:
+        cond = f"{_cap(pron)} will {vb}"
+    else:
+        does = v3 if (bb or pron == "it") else vb
+        how = (f"{FACTOR_WORD[k]} as often" if often
+               else f"with intervals {FACTOR_WORD[k]} as long")
+        cond = f"If {pron} {does}{obj} {how}, {bb_pron if bb else pron} will {vb}"
+    tail = (f"{cond} {shown} {thing} in () {unit}s." if ask_time
+            else f"{cond} () {thing} in {shown} {unit}s.")
+    return f"{subj} {v3} {n} {thing} {every}. {tail}"
+
+
+def lv2_sentence(row: int, r: int, given: int, give_a: bool, k: int, faster: bool,
+                 ask_a: bool, *, surface: str = "battery") -> str:
+    """One level-2 sentence: the rate `r`, the stated quantity `given`
+    (in unit A if `give_a`), the quantity asked (unit A if `ask_a`)."""
+    bb = _surface(surface)
+    clause, ua, ub, tail_a, tail_b, sverb, ask, word = LV2[row]
+    stated = tail_a.format(x=given) if give_a else tail_b.format(x=given)
+    if k == 0:
+        q = (ask.replace("it will be", "It is").replace("they will be", "They are")
+                .replace("it will have", "It has").replace("it will grow", "It grows")
+                .replace("the shopper can buy", "The shopper can buy"))
+        tail = q.format(u=ua if ask_a else ub) + "."
+    else:
+        slow = BB_SLOW_WORD if bb else SLOW_WORD
+        how = (f"{FACTOR_WORD[k]} as {word}" if faster
+               else f"{slow[k]} as {word}")
+        tail = f"If {sverb} {how}, " + ask.format(u=ua if ask_a else ub) + "."
+    return f"{clause.format(r=r)}, and {stated}. {tail}"
+
+
 def _options(rng, answer: int, wrong, pos: int) -> list:
     """The answer at 1-based position `pos` among four distinct wrong
     positive integers. `wrong` lists the unit-confusion candidates
@@ -73,48 +127,43 @@ def _pos(slot: int, n_subjects: int) -> int:
 
 
 def _draw_lv1(rng, ctx, slot):
-    subj, v3, vb, thing, unit, pron = LV1[slot % len(LV1)]
+    row = slot % len(LV1)
+    subj = LV1[row][0]
     n = int(rng.integers(SMALL[0], MIDDLE[1] + 1))       # count per period
     p = int(rng.integers(1, 13))                          # period length
     m = int(rng.integers(2, 13))                          # periods observed
     k = (0, 0, 2, 3, 4)[int(rng.integers(5))]             # 0 = no scaling
     often = bool(rng.integers(2))                         # faster vs slower
     ask_time = bool(rng.integers(2))
-    every = f"every {unit}" if p == 1 else f"every {p} {unit}s"
-    head = f"{subj} {v3} {n} {thing} {every}."
     # effective count per period-block after scaling
-    obj = "" if thing == "times" else f" {thing}"
-    does = v3 if pron == "it" else vb
     if k == 0:
-        n_eff, p_eff, cond = n, p, f"{_cap(pron)} will {vb}"
+        n_eff, p_eff = n, p
     elif often:
         n_eff, p_eff = n * k, p
-        cond = (f"If {pron} {does}{obj} {FACTOR_WORD[k]} as often, "
-                f"{pron} will {vb}")
     else:
         n_eff, p_eff = n, p * k
-        cond = (f"If {pron} {does}{obj} with intervals {FACTOR_WORD[k]} as "
-                f"long, {pron} will {vb}")
     T = p_eff * m                                         # elapsed time
     N = n_eff * m                                         # total count
     if ask_time:
-        tail = f"{cond} {N} {thing} in () {unit}s."
-        answer, wrong = T, [N, m, N * p, N // n if N % n == 0 else 0, p * m, T * n]
+        shown, answer = N, T
+        wrong = [N, m, N * p, N // n if N % n == 0 else 0, p * m, T * n]
     else:
-        tail = f"{cond} () {thing} in {T} {unit}s."
-        answer, wrong = N, [T, m, T * n, n * m, T // p if T % p == 0 else 0, N * p]
-    sentence = f"{head} {tail}"
+        shown, answer = T, N
+        wrong = [T, m, T * n, n * m, T // p if T % p == 0 else 0, N * p]
+    args = (row, n, p, k, often, ask_time, shown)
     pos = _pos(slot, len(LV1))
     opts = _options(rng, answer, wrong, pos)
-    return {"question": with_options(sentence, opts), "answer": str(answer),
-            "bb_key": sentence,
+    return {"question": with_options(lv1_sentence(*args), opts),
+            "answer": str(answer),
+            "bb_key": lv1_sentence(*args, surface="bigbench"),
             "meta": {"subject": subj, "n": n, "p": p, "m": m, "k": k,
                      "often": often, "ask_time": ask_time, "options": opts,
                      "answer_pos": pos}}
 
 
 def _draw_lv2(rng, ctx, slot):
-    clause, ua, ub, tail_a, tail_b, sverb, ask, word = LV2[slot % len(LV2)]
+    row = slot % len(LV2)
+    clause = LV2[row][0]
     r = int(rng.integers(2, 31))                          # rate, A per B
     k = (0, 0, 2, 3, 4)[int(rng.integers(5))]
     faster = bool(rng.integers(2))
@@ -122,30 +171,27 @@ def _draw_lv2(rng, ctx, slot):
     ask_a = bool(rng.integers(2)) if k else (not give_a)  # unscaled: ask the other
     b = int(rng.integers(2, 25)) * (k if k and faster else 1)
     a = r * b                                             # the invariant, in unit A
-    given = (tail_a.format(x=a) if give_a else tail_b.format(x=b))
     if k == 0:
-        q = (ask.replace("it will be", "It is").replace("they will be", "They are")
-                .replace("it will have", "It has").replace("it will grow", "It grows")
-                .replace("the shopper can buy", "The shopper can buy"))
-        tail = q.format(u=ua if ask_a else ub) + "."
         answer = a if ask_a else b
         wrong = [b if ask_a else a, r, a * r, r * r, b * b]
     else:
-        how = (f"{FACTOR_WORD[k]} as {word}" if faster
-               else f"{SLOW_WORD[k]} as {word}")
-        tail = f"If {sverb} {how}, " + ask.format(u=ua if ask_a else ub) + "."
         b_new = b // k if faster else b * k
         answer = a if ask_a else b_new
         wrong = [b, a, b_new, a * k, a // k if a % k == 0 else 0, r, b * k]
-    sentence = f"{clause.format(r=r)}, and {given}. {tail}"
+    args = (row, r, a if give_a else b, give_a, k, faster, ask_a)
     pos = _pos(slot, len(LV2))
     opts = _options(rng, answer, wrong, pos)
-    return {"question": with_options(sentence, opts), "answer": str(answer),
-            "bb_key": sentence,
+    return {"question": with_options(lv2_sentence(*args), opts),
+            "answer": str(answer),
+            "bb_key": lv2_sentence(*args, surface="bigbench"),
             "meta": {"subject": clause.split(" at ")[0].split(" costs")[0],
                      "r": r, "a": a, "b": b, "k": k, "faster": faster,
                      "give_a": give_a, "ask_a": ask_a, "options": opts,
-                     "answer_pos": pos}}
+                     "answer_pos": pos,
+                     # the scaled rate leaves the stated quantity unchanged
+                     # and that quantity is the one asked: the answer is
+                     # printed in the sentence (BIG-bench has the class)
+                     "answer_stated": bool(k) and give_a and ask_a}}
 
 
 register(RungSpec(

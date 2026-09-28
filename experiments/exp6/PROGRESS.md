@@ -35,3 +35,18 @@ B-1 … B-12, as listed in the battery plan.
 - Suite: 27 passed.
 
 ### Task 4 — generators A: eleven rungs (modarith ×3, lcs, unscramble ×2, sort ×2, ipa_word, unit_interp ×2), each test recomputing the answer independently; design strata balanced by slot; 13 tests.
+
+### Task 4, fix round 1 — the collision keys are BIG-bench's own wording (coordinator rulings R-11, R-12, R-14)
+
+The Task 3 reviewer asked whether the generators' keys have BIG-bench's format. The coordinator ran the
+check as an audit of every BIG-bench string (the tool lands in Task 5) and it failed on unit
+interpretation: 4 of BIG-bench's 50 strings carry a grammar slip ("If they takes", a capital "They"
+after a comma, "one forth") that the keys had corrected, so the gate could not have seen a
+reproduction of them. Closed: gen_units renders each sentence on two surfaces — "battery" (what a
+model reads, corrected) and "bigbench" (the key, the task files' wording byte for byte); the
+reporter's scaled clause drops its object, as the task file's does. gen_arith and gen_words build
+their keys through named renderers; no item of theirs changes. unit_interp2 records
+meta.answer_stated (71 of 500: the sentence states the quantity asked; BIG-bench's own class;
+flagged, not excluded). unscramble_short's description names the table its uniqueness check runs
+over (21,540 rows, not 25,000 words). The tests rebuild every item's key from the item's own record
+through the renderers. 17 tests, 44 in the suite.

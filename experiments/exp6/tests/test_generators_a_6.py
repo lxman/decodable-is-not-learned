@@ -8,6 +8,8 @@ from fractions import Fraction
 
 import pytest
 
+import hashlib
+
 from experiments.exp6.battery import gen_arith, gen_units, gen_words  # noqa: F401
 from experiments.exp6.tests import _build
 
@@ -194,3 +196,111 @@ def test_unit_interp2(built):
         asked_unit = re.search(r"\(\) (\w+)", body).group(1)
         given_unit = re.search(r", and .*? \d+ (\w+)", body).group(1)
         assert (asked_unit == given_unit) == (m["ask_a"] == m["give_a"])
+
+
+# ---------------------------------------------------- the collision keys
+def _sha(s: str) -> str:
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
+
+def test_the_two_surfaces_of_a_unit_sentence():
+    """The task files' slips are in the key and never in what a model
+    reads (the strings themselves: tests/test_bbkeys_6.py, Task 5)."""
+    a = (1, 5, 12, 4, True, True, 240)                     # a patient, scaled
+    assert gen_units.lv1_sentence(*a) == (
+        "A patient takes 5 pills every 12 days. If they take pills four times as "
+        "often, they will take 240 pills in () days.")
+    assert gen_units.lv1_sentence(*a, surface="bigbench") == (
+        "A patient takes 5 pills every 12 days. If they takes pills four times as "
+        "often, They will take 240 pills in () days.")
+    r = (4, 3, 5, 2, False, False, 120)                    # a reporter, scaled
+    assert gen_units.lv1_sentence(*r) == (
+        "A reporter speaks 3 words every 5 minutes. If they speak with intervals "
+        "twice as long, they will speak () words in 120 minutes.")
+    assert gen_units.lv1_sentence(*r, surface="bigbench") == (
+        "A reporter speaks 3 words every 5 minutes. If they speaks with intervals "
+        "twice as long, they will speak () words in 120 minutes.")
+    b = (0, 2, 1, 0, False, True, 48)                      # a bell, unscaled
+    assert gen_units.lv1_sentence(*b) == gen_units.lv1_sentence(*b, surface="bigbench") \
+        == "A bell rings 2 times every hour. It will ring 48 times in () hours."
+    f = (3, 2, 48, True, 4, False, False)                  # fuel, one fourth as fast
+    assert "one fourth as fast" in gen_units.lv2_sentence(*f)
+    assert "one forth as fast" in gen_units.lv2_sentence(*f, surface="bigbench")
+    assert gen_units.lv2_sentence(*f).replace("fourth", "forth") == \
+        gen_units.lv2_sentence(*f, surface="bigbench")
+    with pytest.raises(ValueError):
+        gen_units.lv1_sentence(*b, surface="bb")
+    with pytest.raises(ValueError):
+        gen_units.lv2_sentence(*f, surface="")
+
+
+def _key_from_meta(name, it):
+    """The key rebuilt from the item's own record."""
+    m = it["meta"]
+    if name.startswith("modarith"):
+        return gen_arith.modarith_text(
+            name, [tuple(p) for p in m["examples"]] + [(m["a"], m["b"])])
+    if name == "lcs":
+        return gen_arith.lcs_key(m["a"], m["b"])
+    if name.startswith("unscramble"):
+        return gen_words.unscramble_key(m["scrambled"])
+    if name.startswith("sort"):
+        return gen_words.sort_key(m["words"])
+    if name == "ipa_word":
+        return gen_words.ipa_key(m["word"])
+    if name == "unit_interp1":
+        row = [r[0] for r in gen_units.LV1].index(m["subject"])
+        n_eff = m["n"] * m["k"] if m["k"] and m["often"] else m["n"]
+        p_eff = m["p"] * m["k"] if m["k"] and not m["often"] else m["p"]
+        shown = (n_eff if m["ask_time"] else p_eff) * m["m"]
+        return gen_units.lv1_sentence(row, m["n"], m["p"], m["k"], m["often"],
+                                      m["ask_time"], shown, surface="bigbench")
+    (row,) = [i for i, r in enumerate(gen_units.LV2)
+              if r[0].split(" at ")[0].split(" costs")[0] == m["subject"]]
+    return gen_units.lv2_sentence(row, m["r"], m["a"] if m["give_a"] else m["b"],
+                                  m["give_a"], m["k"], m["faster"], m["ask_a"],
+                                  surface="bigbench")
+
+
+def test_every_item_key_is_the_renderers(built):
+    for name in NAMES_A:
+        for it in _items(built, name):
+            assert _sha(_key_from_meta(name, it)) == it["bb_sha256"], name
+
+
+def test_what_a_model_reads_against_the_key(built):
+    """Question and key differ only where stated: a header, a trailing
+    space, the options, the corrected wording."""
+    for name in NAMES_A:
+        for it in _items(built, name)[::11]:
+            q, key = it["question"].split("\nOptions: ")[0], _key_from_meta(name, it)
+            if name.startswith("modarith"):
+                assert q == key
+            elif name == "lcs":
+                assert q == f"{gen_arith.LCS_HEADER}\nStrings: {key}"
+            elif name.startswith("unscramble"):
+                assert q + " " == key
+            elif name.startswith("sort"):
+                assert q == gen_words.SORT_HEADER + key
+            elif name == "ipa_word":
+                assert q == gen_words.IPA_HEADER + it["meta"]["word"]
+            else:
+                fixed = (key.replace("they takes", "they take")
+                            .replace("they speaks", "they speak")
+                            .replace(", They will", ", they will")
+                            .replace("one forth", "one fourth"))
+                assert q == fixed
+
+
+def test_unit_interp2_flags_a_stated_answer(built):
+    """BIG-bench's class: the scaled rate leaves the stated quantity
+    unchanged and that quantity is asked. Flagged, not excluded."""
+    items = _items(built, "unit_interp2")
+    flagged = [it for it in items if it["meta"]["answer_stated"]]
+    assert len(flagged) == 71
+    for it in items:
+        m = it["meta"]
+        assert m["answer_stated"] == bool(m["k"] and m["give_a"] and m["ask_a"])
+        if m["answer_stated"]:
+            assert it["answer"] == str(m["a"])
+            assert f" {m['a']} " in it["question"].split("\nOptions: ")[0]
