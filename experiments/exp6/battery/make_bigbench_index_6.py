@@ -7,9 +7,10 @@ read `data/bigbench_index_6.json` (sha-pinned in collisions_6.py).
 A task may carry an EXTRA table: the hashes of the PARTS of each input
 that are questions in their own right. modified_arithmetic has one —
 every pair BIG-bench prints, on its query line or on a worked line (where
-the result stands beside it), written as a query, `a * b ->` — because a
-prompt that asks a pair BIG-bench asks or answers, under other worked
-lines, is a new string and the same question."""
+the result stands beside it), written as a query, `a * b ->`, and the
+other way round where the operation commutes — because a prompt that
+asks a pair BIG-bench asks or answers, under other worked lines, is a
+new string and the same question."""
 from __future__ import annotations
 
 import hashlib
@@ -60,13 +61,25 @@ def fetch(dest: Path, commit: str = BIGBENCH_COMMIT) -> None:
                 out.write_bytes(r.read())
 
 
+COMMUTES = ("+", "*")
+
+
 def _pairs(s: str) -> list:
-    """Every line under the header, cut at its arrow and written as a query."""
-    return [line.split(" ->")[0] + " ->" for line in s.split("\n")[1:]]
+    """Every line under the header, cut at its arrow and written as a
+    query; a pair under + or * also the other way round."""
+    out = []
+    for line in s.split("\n")[1:]:
+        q = line.split(" ->")[0]
+        out.append(q + " ->")
+        part = q.split(" ")
+        if len(part) == 3 and part[1] in COMMUTES:
+            out.append(f"{part[2]} {part[1]} {part[0]} ->")
+    return out
 
 
 # task id -> (name of the part, the parts of one input)
-EXTRA = {"modified_arithmetic": ("pair, as a query line", _pairs)}
+EXTRA = {"modified_arithmetic": ("pair, as a query line, in either order where "
+                                 "the operation commutes", _pairs)}
 
 
 def _sha(s: str) -> str:

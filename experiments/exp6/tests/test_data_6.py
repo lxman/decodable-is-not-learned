@@ -12,7 +12,8 @@ from experiments.exp6.battery.spec import RungSpec
 
 # the distinct pairs BIG-bench's modified_arithmetic prints: 5,983 under
 # each of + and -, 4,500 under *
-N_PAIRS = 5983 + 5983 + 4500
+# (a commuting pair is held both ways round: 11,920 under +, 6,809 under *)
+N_PAIRS = 11920 + 5983 + 6809
 
 
 def test_word_table_is_pinned_and_well_formed():
@@ -72,7 +73,8 @@ def test_index_is_pinned_and_covers_every_task():
     assert [t for t, v in idx["tasks"].items() if "extra" in v] == \
         ["modified_arithmetic"] == list(mk.EXTRA)
     m = idx["tasks"]["modified_arithmetic"]
-    assert m["extra_kind"] == "pair, as a query line"
+    assert m["extra_kind"] == ("pair, as a query line, in either order where the "
+                               "operation commutes")
     assert m["n_extra"] == len(m["extra"]) == N_PAIRS
     assert not set(m["extra"]) & set(m["keys"])
 
@@ -98,9 +100,16 @@ def test_index_builder_hashes_inputs_or_targets(tmp_path):
     mk.build(tmp_path, out)
     rec = json.loads(out.read_text())["tasks"]["modified_arithmetic"]
     assert rec["n_keys"] == 4
-    assert rec["extra"] == sorted(mk._sha(q) for q in
-                                  ("1 + 2 ->", "3 + 4 ->", "5 + 6 ->"))
-    assert rec["n_extra"] == 3 and rec["extra_kind"] == "pair, as a query line"
+    assert rec["extra"] == sorted(mk._sha(q) for q in (
+        "1 + 2 ->", "2 + 1 ->", "3 + 4 ->", "4 + 3 ->", "5 + 6 ->", "6 + 5 ->"))
+    assert rec["n_extra"] == 6 and rec["extra_kind"].startswith("pair, as a query line")
+    # subtraction does not commute: a pair is held one way round
+    p = tmp_path / mk.local_name("modified_arithmetic/three_digit_subtraction_plus_one")
+    p.write_text(json.dumps({"examples": [{"input": "h\n9 - 2 -> 8\n3 - 4 ->"}]}))
+    mk.build(tmp_path, out)
+    rec = json.loads(out.read_text())["tasks"]["modified_arithmetic"]
+    assert mk._sha("9 - 2 ->") in rec["extra"] and mk._sha("2 - 9 ->") not in rec["extra"]
+    assert rec["n_extra"] == 8
 
 
 def test_for_spec_checks_the_kind():

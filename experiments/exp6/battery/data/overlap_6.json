@@ -1,25 +1,27 @@
 {
  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
- "index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
+ "index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
  "items_sha256": {
-  "ipa_word": "4a688a20399005d9e59e2b6fae77111fdd967c47fd38709c97e9c561637149d6",
-  "lcs": "7fb694003134af14118a0364b00b86f3eeae03cf8df83ed5c6530bf72332d152",
-  "modarith_add1": "640b3bf47183492d1731b624c2163bbfb558a2f81d952e323849de50e2cc653d",
-  "modarith_mul1": "15f7ad8a269407cbf3d27e82eae8c90819ad11073e75f0a4cb92bd8438cb20d4",
-  "modarith_sub1": "ddb0f68811b9256fa79e7091bb416a9595e5ee1e92dc72c88d734a638eb2efdd",
-  "sort3": "bbda582a895ed120462de12f590cef7c346bfabcdaaaa708d5331841358fa9e0",
-  "sort5": "dfed87d3527b7fd452a386ff73b60f8b08f2dbc46f7794fbfa5d89cbf9cf643d",
-  "unscramble_long": "8b6883a4a0acb08b2a713fcf78afbac6fb70f04af9c3e3d78de217c5152f112a",
-  "unscramble_short": "657eeaa3f622296f4b85b3df1c615121c28d9705ff89e5734881368f07c84c47"
+  "ipa_word": "79b57158fa43bbc7f834de90eebecb4d5a82be93f925bf9f29e8f7561c342e8d",
+  "lcs": "30346b90e1860df842ac89dad1986dd4b5660a2c0e05596b0aae0042a793c948",
+  "modarith_add1": "a425702b0a8b9391123072c88bc4d52693de2ac698f22b40c2e810001633518b",
+  "modarith_mul1": "900c1aa30432c17a5de9cadb3c866da5a27bbca0158246ba7455e82bbce0bb02",
+  "modarith_sub1": "cf0349e0fa4b5e939f299db8bccd76cf45501374c56b46203f452eb2a2dca872",
+  "sort3": "5f85efcf268195e8842c4ee83e7beb1ed7cc11c6fe31e80c845f12f3cf8db6aa",
+  "sort5": "39b1f9667a55b1b33bc63593a87ef8b144b1ce299ebd80b5aaafd9946103814d",
+  "unscramble_long": "f90e25c1ff08e4c97b59811b97cc568359ed9e79b2f515031aa20c9e5034d2f2",
+  "unscramble_short": "86bcc3d8606219df2d9b8e6f5fdb67e0fad92ab5d9bb89da6d59213157a7b69d"
  },
  "n_items": 500,
  "rungs": {
   "ipa_word": {
    "bigbench": {
-    "words of its English sentences": 1785
+    "tokens of its IPA text": 2907,
+    "words of its English sentences": 2858
    },
    "items": {
-    "the word occurs in a BIG-bench sentence": 95
+    "the answer is a token of BIG-bench's IPA text": 158,
+    "the word occurs in a BIG-bench sentence": 148
    }
   },
   "lcs": {
@@ -38,7 +40,8 @@
    "items": {
     "asks a pair BIG-bench asks": 0,
     "asks a pair BIG-bench prints on any line": 0,
-    "shows a worked pair BIG-bench prints on any line": 15
+    "asks a pair BIG-bench prints, in either order": 0,
+    "shows a worked pair BIG-bench prints on any line": 16
    }
   },
   "modarith_mul1": {
@@ -49,7 +52,8 @@
    "items": {
     "asks a pair BIG-bench asks": 0,
     "asks a pair BIG-bench prints on any line": 0,
-    "shows a worked pair BIG-bench prints on any line": 473
+    "asks a pair BIG-bench prints, in either order": 0,
+    "shows a worked pair BIG-bench prints on any line": 468
    }
   },
   "modarith_sub1": {
@@ -60,6 +64,7 @@
    "items": {
     "asks a pair BIG-bench asks": 0,
     "asks a pair BIG-bench prints on any line": 0,
+    "asks a pair BIG-bench prints, in either order": 0,
     "shows a worked pair BIG-bench prints on any line": 13
    }
   },
@@ -83,7 +88,7 @@
   },
   "unscramble_long": {
    "bigbench": {
-    "target words": 9719
+    "distinct target words": 9719
    },
    "items": {
     "the answer is a BIG-bench target word": 497
@@ -91,7 +96,7 @@
   },
   "unscramble_short": {
    "bigbench": {
-    "target words": 9719
+    "distinct target words": 9719
    },
    "items": {
     "the answer is a BIG-bench target word": 491

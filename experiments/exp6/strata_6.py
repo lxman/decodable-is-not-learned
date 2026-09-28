@@ -7,7 +7,7 @@ anchors' strata are 2g's own (`strata_2g.strata_for`).
 Beside the stratum, a STRUCTURE level per item (plan delta B-21): the
 property of the item's surface that would make it easy for any model
 and that the stratum does not condition on — a letter left in place, a
-list one swap from sorted, a position a clue states outright. It is
+list with one inversion, a position a clue states outright. It is
 counted, pinned, and crossed into the stratum by a named secondary; the
 primary's strata are the design's."""
 from __future__ import annotations
@@ -37,9 +37,9 @@ ORDINAL = ("carries", "product_digits", "answer", "prefix_class")
 
 # stratum -> item count per rung, pinned from the committed item files
 STRATA_COUNT_PIN_6 = {
-    "modarith_add1": {"0": 80, "1": 188, "2": 159, "3": 73},
-    "modarith_sub1": {"neg0": 65, "neg1": 104, "neg2": 61, "pos0": 93, "pos1": 130, "pos2": 47},
-    "modarith_mul1": {"1": 10, "2": 19, "3": 129, "4": 342},
+    "modarith_add1": {"0": 80, "1": 184, "2": 172, "3": 64},
+    "modarith_sub1": {"neg0": 58, "neg1": 109, "neg2": 63, "pos0": 98, "pos1": 121, "pos2": 51},
+    "modarith_mul1": {"1": 13, "2": 18, "3": 138, "4": 331},
     "unscramble_short": {"4|0": 84, "4|1": 83, "4|2": 83, "5|0": 84, "5|1": 83, "5|2": 83},
     "unscramble_long": {"6|0": 56, "6|1": 56, "6|2": 55, "7|0": 56, "7|1": 56, "7|2": 55, "8|0": 56, "8|1": 55, "8|2": 55},
     "ipa_word": {"0|0": 56, "0|1": 56, "0|2": 55, "1|0": 56, "1|1": 56, "1|2": 55, "2|0": 56, "2|1": 55, "2|2": 55},
@@ -68,14 +68,14 @@ STRUCTURE_OF_6 = {
     "ascii_bubble": None, "ascii_basic": None,
     "shapes": "pen_restated", "temporal": "free_position",
     "lcs": "length_for_its_answer",
-    "unit_interp1": "scaling", "unit_interp2": "scaling",
+    "unit_interp1": "scaling_x_rank", "unit_interp2": "scaling_x_rank",
 }
 SORT5_BINS = ((0, 3), (4, 6), (7, 10))      # inversions of five words: 0..10
 # level -> item count per rung, pinned from the committed item files
 STRUCTURE_COUNT_PIN_6 = {
-    "modarith_add1": {"0": 441, "1": 59},
-    "modarith_sub1": {"0": 445, "1": 55},
-    "modarith_mul1": {"0": 481, "1": 19},
+    "modarith_add1": {"0": 442, "1": 58},
+    "modarith_sub1": {"0": 450, "1": 50},
+    "modarith_mul1": {"0": 482, "1": 18},
     "unscramble_short": {"0": 145, "1": 198, "2": 157},
     "unscramble_long": {"0": 122, "1": 167, "2": 211},
     "ipa_word": {"marked": 312, "plain": 188},
@@ -88,8 +88,8 @@ STRUCTURE_COUNT_PIN_6 = {
     "shapes": {"0": 245, "1": 255},
     "temporal": {"first": 101, "last": 99, "middle": 300},
     "lcs": {"long": 258, "short": 242},
-    "unit_interp1": {"intervals": 172, "often": 130, "plain": 198},
-    "unit_interp2": {"computed": 228, "plain": 196, "stated": 76},
+    "unit_interp1": {"intervals|1": 33, "intervals|2": 34, "intervals|3": 30, "intervals|4": 25, "intervals|5": 29, "often|1": 24, "often|2": 19, "often|3": 29, "often|4": 31, "often|5": 34, "plain|1": 43, "plain|2": 47, "plain|3": 41, "plain|4": 44, "plain|5": 37},
+    "unit_interp2": {"computed|1": 45, "computed|2": 40, "computed|3": 57, "computed|4": 51, "computed|5": 42, "plain|1": 43, "plain|2": 51, "plain|3": 32, "plain|4": 37, "plain|5": 45, "stated|1": 8, "stated|2": 11, "stated|3": 13, "stated|4": 14, "stated|5": 11},
 }
 
 
@@ -148,13 +148,18 @@ def structure_levels(cap: dict) -> list:
             out.append(str(int(m["path"].count("M ") > 1)))
         elif kind == "free_position":
             out.append(str(m["free_position"]))
-        elif kind == "scaling":
+        elif kind == "scaling_x_rank":
+            # the kind of scaling, and the answer's rank by size among
+            # its options: a guesser that excludes the small options a
+            # reader can exclude is right more often at a low rank
             if not m["k"]:
-                out.append("plain")
+                scale = "plain"
             elif "answer_stated" in m:
-                out.append("stated" if m["answer_stated"] else "computed")
+                scale = "stated" if m["answer_stated"] else "computed"
             else:
-                out.append("often" if m["often"] else "intervals")
+                scale = "often" if m["often"] else "intervals"
+            rank = sorted(int(x) for x in m["options"]).index(int(it["answer"])) + 1
+            out.append(f"{scale}|{rank}")
         else:
             raise ValueError(kind)
     return out

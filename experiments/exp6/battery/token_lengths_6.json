@@ -34,7 +34,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "a3b8d7d0d1d98c186ed4696e7a643cf12a432995e6383e8ba66878b3b06bf107",
+   "items_sha256": "5a4dd2421368ff7b801d0c0056b51092bf4a968d4bef06bb243ef06c070eb9b6",
    "prompt_tokens_max": {
     "comma_7b": 474,
     "olmo2_13b": 470,
@@ -56,7 +56,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "6f339ca66a687dead2c0fbb1b3ac8e1582f06f21e103b9f8193803b887503c96",
+   "items_sha256": "65ecb9ada46f247f2c2f53c37e3ee945ba90b716f11fc1b080bdf5c38d04880c",
    "prompt_tokens_max": {
     "comma_7b": 185,
     "olmo2_13b": 172,
@@ -100,7 +100,7 @@
     "smollm3_3b": 4
    },
    "budget": 12,
-   "items_sha256": "6c8700408438db2d0504662e933b3cc403bc4a046c53a1f6caeace1caf35cb61",
+   "items_sha256": "1b06735a830e81596898a0241301b1357502c0d8e6f24c0c08f67104d3d55124",
    "prompt_tokens_max": {
     "comma_7b": 200,
     "olmo2_13b": 182,
@@ -122,7 +122,7 @@
     "smollm3_3b": 4
    },
    "budget": 12,
-   "items_sha256": "436d8db33b2149ee8185687a8dabcb20e9976631f34016f58b186b97ede7b977",
+   "items_sha256": "90020e1c984ab4668341e2eb81965aa1514ccb38b7483a6e18b4e8bb8f5415f7",
    "prompt_tokens_max": {
     "comma_7b": 324,
     "olmo2_13b": 289,
@@ -144,7 +144,7 @@
     "smollm3_3b": 18
    },
    "budget": 24,
-   "items_sha256": "4a688a20399005d9e59e2b6fae77111fdd967c47fd38709c97e9c561637149d6",
+   "items_sha256": "79b57158fa43bbc7f834de90eebecb4d5a82be93f925bf9f29e8f7561c342e8d",
    "prompt_tokens_max": {
     "comma_7b": 90,
     "olmo2_13b": 81,
@@ -166,7 +166,7 @@
     "smollm3_3b": 2
    },
    "budget": 8,
-   "items_sha256": "7fb694003134af14118a0364b00b86f3eeae03cf8df83ed5c6530bf72332d152",
+   "items_sha256": "30346b90e1860df842ac89dad1986dd4b5660a2c0e05596b0aae0042a793c948",
    "prompt_tokens_max": {
     "comma_7b": 149,
     "olmo2_13b": 148,
@@ -188,15 +188,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "640b3bf47183492d1731b624c2163bbfb558a2f81d952e323849de50e2cc653d",
+   "items_sha256": "a425702b0a8b9391123072c88bc4d52693de2ac698f22b40c2e810001633518b",
    "prompt_tokens_max": {
-    "comma_7b": 209,
-    "olmo2_13b": 209,
-    "olmo2_1b": 209,
-    "olmo2_7b": 209,
+    "comma_7b": 207,
+    "olmo2_13b": 207,
+    "olmo2_1b": 207,
+    "olmo2_7b": 207,
     "pythia_1b": 194,
     "pythia_410m": 194,
-    "smollm3_3b": 209
+    "smollm3_3b": 207
    }
   },
   "modarith_mul1": {
@@ -210,15 +210,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "15f7ad8a269407cbf3d27e82eae8c90819ad11073e75f0a4cb92bd8438cb20d4",
+   "items_sha256": "900c1aa30432c17a5de9cadb3c866da5a27bbca0158246ba7455e82bbce0bb02",
    "prompt_tokens_max": {
-    "comma_7b": 208,
-    "olmo2_13b": 208,
-    "olmo2_1b": 208,
-    "olmo2_7b": 208,
-    "pythia_1b": 181,
-    "pythia_410m": 181,
-    "smollm3_3b": 208
+    "comma_7b": 205,
+    "olmo2_13b": 205,
+    "olmo2_1b": 205,
+    "olmo2_7b": 205,
+    "pythia_1b": 179,
+    "pythia_410m": 179,
+    "smollm3_3b": 205
    }
   },
   "modarith_sub1": {
@@ -232,7 +232,7 @@
     "smollm3_3b": 2
    },
    "budget": 8,
-   "items_sha256": "ddb0f68811b9256fa79e7091bb416a9595e5ee1e92dc72c88d734a638eb2efdd",
+   "items_sha256": "cf0349e0fa4b5e939f299db8bccd76cf45501374c56b46203f452eb2a2dca872",
    "prompt_tokens_max": {
     "comma_7b": 195,
     "olmo2_13b": 195,
@@ -254,7 +254,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "7b033b4f7245173df763733ccfba5e7e8c08a51f2c15c222ae0a0236be20c57c",
+   "items_sha256": "d29b1ed5135256a9559b8e8ec92099b2ab6a57dc762ec7adef8910f4f3ee6a7e",
    "prompt_tokens_max": {
     "comma_7b": 375,
     "olmo2_13b": 363,
@@ -276,7 +276,7 @@
     "smollm3_3b": 6
    },
    "budget": 16,
-   "items_sha256": "bbda582a895ed120462de12f590cef7c346bfabcdaaaa708d5331841358fa9e0",
+   "items_sha256": "5f85efcf268195e8842c4ee83e7beb1ed7cc11c6fe31e80c845f12f3cf8db6aa",
    "prompt_tokens_max": {
     "comma_7b": 63,
     "olmo2_13b": 58,
@@ -298,7 +298,7 @@
     "smollm3_3b": 9
    },
    "budget": 16,
-   "items_sha256": "dfed87d3527b7fd452a386ff73b60f8b08f2dbc46f7794fbfa5d89cbf9cf643d",
+   "items_sha256": "39b1f9667a55b1b33bc63593a87ef8b144b1ce299ebd80b5aaafd9946103814d",
    "prompt_tokens_max": {
     "comma_7b": 71,
     "olmo2_13b": 71,
@@ -342,7 +342,7 @@
     "smollm3_3b": 7
    },
    "budget": 12,
-   "items_sha256": "145546eff53c34cc116558c25545ecae5253069b624a7d60c915744507c560e6",
+   "items_sha256": "9c251cdf06fb6e03920f9b8c8966d1d6c7cf33250bed718dbad00041c728c1bd",
    "prompt_tokens_max": {
     "comma_7b": 641,
     "olmo2_13b": 526,
@@ -364,15 +364,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "c6b8f6b60a02379e3e622b175eef01e71e0841a7d0e2c3a3d93444e238ab5af3",
+   "items_sha256": "6fd4dfecf95f35a26b8ecb9737dd80c0c4d1e784ddad77eb654d6e46f3957b04",
    "prompt_tokens_max": {
-    "comma_7b": 172,
-    "olmo2_13b": 166,
-    "olmo2_1b": 166,
-    "olmo2_7b": 166,
-    "pythia_1b": 146,
-    "pythia_410m": 146,
-    "smollm3_3b": 166
+    "comma_7b": 177,
+    "olmo2_13b": 171,
+    "olmo2_1b": 171,
+    "olmo2_7b": 171,
+    "pythia_1b": 150,
+    "pythia_410m": 150,
+    "smollm3_3b": 171
    }
   },
   "unit_interp2": {
@@ -386,15 +386,15 @@
     "smollm3_3b": 3
    },
    "budget": 8,
-   "items_sha256": "33642854e4d70025b3cd5c9a1c1c20154b7b4b233d24581b9565ace667116e36",
+   "items_sha256": "b6cb00175b0a9114f157ae98ca3fc27d8660e1063e022bda7cbe9c5eb5cae173",
    "prompt_tokens_max": {
-    "comma_7b": 202,
-    "olmo2_13b": 184,
-    "olmo2_1b": 184,
-    "olmo2_7b": 184,
-    "pythia_1b": 169,
-    "pythia_410m": 169,
-    "smollm3_3b": 184
+    "comma_7b": 198,
+    "olmo2_13b": 180,
+    "olmo2_1b": 180,
+    "olmo2_7b": 180,
+    "pythia_1b": 162,
+    "pythia_410m": 162,
+    "smollm3_3b": 180
    }
   },
   "unscramble_long": {
@@ -408,7 +408,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "8b6883a4a0acb08b2a713fcf78afbac6fb70f04af9c3e3d78de217c5152f112a",
+   "items_sha256": "f90e25c1ff08e4c97b59811b97cc568359ed9e79b2f515031aa20c9e5034d2f2",
    "prompt_tokens_max": {
     "comma_7b": 69,
     "olmo2_13b": 62,
@@ -430,7 +430,7 @@
     "smollm3_3b": 3
    },
    "budget": 12,
-   "items_sha256": "657eeaa3f622296f4b85b3df1c615121c28d9705ff89e5734881368f07c84c47",
+   "items_sha256": "86bcc3d8606219df2d9b8e6f5fdb67e0fad92ab5d9bb89da6d59213157a7b69d",
    "prompt_tokens_max": {
     "comma_7b": 62,
     "olmo2_13b": 57,

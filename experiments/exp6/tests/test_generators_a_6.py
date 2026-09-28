@@ -33,9 +33,9 @@ def test_every_rung_is_500_clean_items(built):
 
 # ------------------------------------------------------------ arithmetic
 @pytest.mark.parametrize("name,sym,bound,op", [
-    ("modarith_add1", "+", 1000, lambda a, b: a + b + 1),
-    ("modarith_sub1", "-", 1000, lambda a, b: a - b + 1),
-    ("modarith_mul1", "*", 100, lambda a, b: a * b + 1)])
+    ("modarith_add1", "+", 999, lambda a, b: a + b + 1),
+    ("modarith_sub1", "-", 999, lambda a, b: a - b + 1),
+    ("modarith_mul1", "*", 99, lambda a, b: a * b + 1)])
 def test_modified_arithmetic(built, name, sym, bound, op):
     for it in _items(built, name):
         lines = it["question"].split("\n")
@@ -259,10 +259,15 @@ def test_the_query_of_a_modified_arithmetic_item_is_a_key_of_its_own(built):
             assert q == it["question"].split("\n")[-1]
             assert it["bb_extra_sha256"] == [_sha(q)]
             assert it["bb_extra_sha256"][0] not in extra
-    # two-digit pairs are 10,000 and BIG-bench prints 4,500 of them, each
-    # beside its result on a worked line or asked: the gate fires often
-    assert 300 < built["modarith_mul1"]["n_redrawn"]["collision"] < 600
-    assert built["modarith_add1"]["n_redrawn"]["collision"] < 20
+            a, sym, b = q.removesuffix(" ->").split(" ")
+            if sym in gen_arith.COMMUTES:              # nor the other way round
+                assert _sha(f"{b} {sym} {a} ->") not in extra
+    # two-digit pairs are 9,801 and BIG-bench prints 4,500 of them, each
+    # beside its result on a worked line or asked; either way round they
+    # are two thirds of the space, and the gate fires on two draws in three
+    assert 800 < built["modarith_mul1"]["n_redrawn"]["collision"] < 1400
+    assert built["modarith_add1"]["n_redrawn"]["collision"] < 30
+    assert built["modarith_sub1"]["n_redrawn"]["collision"] < 20
 
 
 def _key_from_meta(name, it):
@@ -323,34 +328,35 @@ def test_what_a_model_reads_against_the_key(built):
                 assert q == fixed
 
 
+def _smooth(x: int) -> bool:
+    for q in (2, 3, 5):
+        while x % q == 0:
+            x //= q
+    return x == 1
+
+
 @pytest.mark.parametrize("name,n_subjects", [("unit_interp1", 5), ("unit_interp2", 6)])
 def test_the_answer_is_balanced_by_position_and_by_size(built, name, n_subjects):
-    """The confusions are not symmetric about the answer. Left free, the
-    answer was the smallest or the largest of the five in 20 of 500
-    items on level 1 and never the largest on level 2, and a guesser
-    picking one rank by size scored .45 and .37 against a floor of .20."""
+    """The answer's list position and its rank by size are both designed
+    and are crossed: over twenty-five blocks of slots every pair occurs
+    once. Left free, a guesser picking one rank by size scored .45."""
     items = _items(built, name)
-    rank, pos = Counter(), Counter()
+    rank, pos, joint = Counter(), Counter(), Counter()
     for slot, it in enumerate(items):
         opts = [int(o) for o in it["question"].split("\nOptions: ")[1].split(", ")]
-        assert len(set(opts)) == 5 and all(o > 0 for o in opts)
+        assert len(set(opts)) == 5 and all(0 < o <= gen_units.CAP for o in opts)
+        assert opts == it["meta"]["options"]
+        k = slot // n_subjects
         r = sorted(opts).index(int(it["answer"])) + 1
-        assert r == it["meta"]["answer_rank"] == (slot // (n_subjects * 5)) % 5 + 1
-        assert opts.index(int(it["answer"])) + 1 == it["meta"]["answer_pos"] \
-            == (slot // n_subjects) % 5 + 1
+        assert r == it["meta"]["answer_rank"] == (k // 5 + k) % 5 + 1
+        assert opts.index(int(it["answer"])) + 1 == it["meta"]["answer_pos"] == k % 5 + 1
         rank[r] += 1
-        pos[opts.index(int(it["answer"])) + 1] += 1
-    assert set(rank) == set(pos) == {1, 2, 3, 4, 5}
-    assert max(rank.values()) <= 120 and max(pos.values()) <= 102
-    # the wrong options are of the sentence's own numbers: the answer is
-    # not picked out as the one option a stated number divides
-    only = 0
-    for it in items:
-        body, opts = it["question"].split("\nOptions: ")
-        stated = [int(x) for x in re.findall(r"\d+", body) if int(x) > 1]
-        ok = [o for o in opts.split(", ") if any(int(o) % t == 0 for t in stated)]
-        only += ok == [it["answer"]]
-    assert only <= 10
+        pos[it["meta"]["answer_pos"]] += 1
+        joint[(it["meta"]["answer_pos"], r)] += 1
+    assert set(rank) == set(pos) == {1, 2, 3, 4, 5} and len(joint) == 25
+    assert max(rank.values()) <= 102 and max(pos.values()) <= 102
+    assert min(rank.values()) >= 96 and min(pos.values()) >= 96
+    assert min(joint.values()) >= 18 and max(joint.values()) <= 24
     a, b = [int(a) for _, a in built[name]["shots"]]
     sa, sb = [[int(o) for o in q.split("\nOptions: ")[1].split(", ")]
               for q, _ in built[name]["shots"]]
@@ -358,12 +364,65 @@ def test_the_answer_is_balanced_by_position_and_by_size(built, name, n_subjects)
     assert sorted(sa).index(a) != sorted(sb).index(b)        # and their ranks
 
 
+@pytest.mark.parametrize("name", ["unit_interp1", "unit_interp2"])
+def test_the_numbers_and_the_wrong_options_follow_the_readme(built, name):
+    """The README's steps 3 and 5: numbers without a large prime factor;
+    the shown quantity a multiple of every number of the item, so every
+    combination is an integer; a wrong option a combination of the
+    item's numbers, or a pool number."""
+    kinds, below = Counter(), Counter()
+    for it in _items(built, name):
+        m = it["meta"]
+        body = it["question"].split("\nOptions: ")[0]
+        if name == "unit_interp1":
+            n_eff = m["n"] * m["k"] if m["k"] and m["often"] else m["n"]
+            p_eff = m["p"] * m["k"] if m["k"] and not m["often"] else m["p"]
+            shown = (n_eff if m["ask_time"] else p_eff) * m["m"]
+            numbers = (m["n"], m["p"], m["k"])
+            printed = {m["n"], m["p"]} - {1}
+            assert _smooth(m["n"]) and _smooth(m["p"]) and 2 <= m["n"] <= 50 >= m["p"]
+        else:
+            shown = m["a"] if m["give_a"] else m["b"]
+            numbers = (m["r"], m["k"])
+            printed = {m["r"]}
+            assert _smooth(m["r"]) and 2 <= m["r"] <= 30
+        assert f" {shown} " in body and all(shown % f == 0 for f in numbers if f > 1)
+        combos = gen_units.combinations(shown, numbers) | printed
+        assert shown in combos and int(it["answer"]) in combos
+        assert max(combos) <= gen_units.CAP
+        for x, kind in zip(m["options"], m["option_kinds"]):
+            if x == int(it["answer"]):
+                assert kind == "answer"
+                continue
+            assert kind == ("combination" if x in combos else "pool"), (it, x)
+            kinds[kind] += 1
+            below[(kind, x < int(it["answer"]))] += 1
+    n = sum(kinds.values())
+    assert n == 2000
+    # "most incorrect answers are the wrong combination of the generated
+    # numbers": three in four where the item has them to give
+    assert 0.55 <= kinds["combination"] / n <= 0.75
+    # and either kind falls on either side of the answer
+    for kind in ("combination", "pool"):
+        share = below[(kind, True)] / kinds[kind]
+        assert 0.35 <= share <= 0.65, (kind, share)
+
+
+def test_the_combinations_of_an_item():
+    assert gen_units.combinations(20, (5, 4, 0)) == {1, 4, 5, 16, 20, 25, 80, 100, 400}
+    assert gen_units.combinations(36, (12, 3, 2)) >= {9, 18, 72, 144, 288, 36}
+    assert gen_units.combinations(48, (2, 1, 0)) == {24, 48, 96}      # a period of one
+    assert max(gen_units.combinations(4000, (50, 48, 4))) <= gen_units.CAP
+    assert gen_units.smooth(2, 12) == (2, 3, 4, 5, 6, 8, 9, 10, 12)
+    assert all(_smooth(x) for x in gen_units.WRONG_POOL) and len(gen_units.WRONG_POOL) > 40
+
+
 def test_unit_interp2_flags_a_stated_answer(built):
     """BIG-bench's class: the scaled rate leaves the stated quantity
     unchanged and that quantity is asked. Flagged, not excluded."""
     items = _items(built, "unit_interp2")
     flagged = [it for it in items if it["meta"]["answer_stated"]]
-    assert len(flagged) == 76
+    assert len(flagged) == 57
     for it in items:
         m = it["meta"]
         assert m["answer_stated"] == bool(m["k"] and m["give_a"] and m["ask_a"])

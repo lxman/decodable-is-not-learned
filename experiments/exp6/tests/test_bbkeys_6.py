@@ -26,7 +26,8 @@ from experiments.exp6.tests import test_generators_b_6 as tb
 
 # the distinct pairs BIG-bench's modified_arithmetic prints: 5,983 under
 # each of + and -, 4,500 under *
-N_PAIRS = 5983 + 5983 + 4500
+# (a commuting pair is held both ways round: 11,920 under +, 6,809 under *)
+N_PAIRS = 11920 + 5983 + 6809
 
 
 def _sha(s: str) -> str:
@@ -54,10 +55,11 @@ AUDIT_TABLE = {
 def test_the_known_answers_are_pinned_and_carry_the_canary(tmp_path, monkeypatch):
     known = au.load_known()
     assert Counter(k["renderer"] for k in known) == {
-        "lv2": 25, "lv1": 21, "deduction": 13, "modarith": 3, "modarith_query": 6,
+        "lv2": 25, "lv1": 21, "deduction": 13, "modarith": 3, "modarith_query": 8,
         "shapes": 2, "unscramble": 1, "sort": 1, "ascii": 1, "temporal": 1, "lcs": 1}
     assert Counter(k["why"] for k in known if k.get("extra")) == {
-        "the first string's query line": 3, "the first string's first worked pair": 3}
+        "the first string's query line": 3, "the first string's first worked pair": 3,
+        "the first string's query pair, the other way round": 2}
     raw = au.KNOWN.read_text(encoding="utf-8")
     assert au.CANARY in raw and au.CANARY in au.__doc__.replace("\n", " ")
     bad = tmp_path / "known.json"
@@ -282,7 +284,7 @@ def test_the_audit_record():
     extra = {p: r["extra"] for p, r in rec["files"].items() if "extra" in r}
     assert sorted(extra) == sorted(au.PARSERS_EXTRA)
     for x in extra.values():
-        assert x["kind"] == "pair, as a query line" and x["n_failed"] == 0
+        assert x["kind"].startswith("pair, as a query line") and x["n_failed"] == 0
         assert x["n_identical"] == x["n_strings"] >= 4500     # distinct pairs
     assert sum(x["n_strings"] for x in extra.values()) == N_PAIRS
     got = {p: (r["n_strings"], r["n_identical"], sum(r["n_outside"].values()))

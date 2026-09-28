@@ -22,9 +22,9 @@ from experiments.exp6.battery.spec import OPTIONS_PREFIX
 # rung -> [majority count of 500, declared option count], pinned from the
 # committed item files; floor = max(majority count / 500, 1 / n_options)
 FLOOR_PIN_6 = {
-    "modarith_add1": [3, None],
+    "modarith_add1": [4, None],
     "modarith_sub1": [4, None],
-    "modarith_mul1": [10, None],
+    "modarith_mul1": [13, None],
     "unscramble_short": [1, None],
     "unscramble_long": [1, None],
     "ipa_word": [2, None],
@@ -37,8 +37,8 @@ FLOOR_PIN_6 = {
     "shapes": [50, 10],
     "temporal": [15, 4],
     "lcs": [50, None],
-    "unit_interp1": [14, 5],
-    "unit_interp2": [14, 5],
+    "unit_interp1": [16, 5],
+    "unit_interp2": [16, 5],
 }
 
 
@@ -105,37 +105,115 @@ def floor_table_6(battery: dict) -> dict:
 
 
 # ------------------------------------------------------ heuristic floors
-# rung -> [the best guesser's name, its count of 500], pinned from the
-# committed item files; None where no guesser applies
+# rung -> {guesser: its count of 500}, pinned from the committed item
+# files; {} where no guesser applies. The heuristic floor is the largest.
 HEURISTIC_PIN_6 = {
-    "modarith_add1": [None, None],
-    "modarith_sub1": [None, None],
-    "modarith_mul1": [None, None],
-    "unscramble_short": [None, None],
-    "unscramble_long": [None, None],
-    "ipa_word": [None, None],
-    "sort3": [None, None],
-    "sort5": [None, None],
-    "deduction3": ["the option at one list position", 170],
-    "deduction5": ["the option at one list position", 100],
-    "ascii_bubble": [None, None],
-    "ascii_basic": [None, None],
-    "shapes": ["the option at one list position", 46],
-    "temporal": ["the only option absent from the text", 500],
-    "lcs": ["the commonest answer at the shorter string's length", 115],
-    "unit_interp1": ["of the options the text does not print, the one sharing most with its numbers", 124],
-    "unit_interp2": ["of the options the text does not print, the one sharing most with its numbers", 156],
+    "modarith_add1": {},
+    "modarith_sub1": {},
+    "modarith_mul1": {},
+    "unscramble_short": {},
+    "unscramble_long": {},
+    "ipa_word": {},
+    "sort3": {},
+    "sort5": {},
+    "deduction3": {
+        "the only option absent from the text":
+            0,
+        "the option at one list position":
+            170,
+    },
+    "deduction5": {
+        "the only option absent from the text":
+            0,
+        "the option at one list position":
+            100,
+    },
+    "ascii_bubble": {},
+    "ascii_basic": {},
+    "shapes": {
+        "the only option absent from the text":
+            0,
+        "the option at one list position":
+            46,
+    },
+    "temporal": {
+        "the only option absent from the text":
+            500,
+        "the option at one list position":
+            118,
+    },
+    "lcs": {
+        "the commonest answer at the count of distinct letters the two strings share":
+            221,
+        "the commonest answer at the count of letters the two strings share":
+            237,
+        "the commonest answer at the longer string's length":
+            92,
+        "the commonest answer at the shorter string's length":
+            115,
+        "the commonest answer at the two strings' total length":
+            114,
+    },
+    "unit_interp1": {
+        "of the options the text does not print, the one sharing most with its numbers":
+            136,
+        "the first option a number of the text divides":
+            136,
+        "the first option that is the product of two numbers of the text":
+            78,
+        "the largest option the text does not print":
+            115,
+        "the only option absent from the text":
+            2,
+        "the option at one list position":
+            100,
+        "the option of one rank by size":
+            100,
+        "the smallest option the text does not print":
+            123,
+        "the smallest option the text does not print that divides none of its numbers":
+            191,
+    },
+    "unit_interp2": {
+        "of the options the text does not print, the one sharing most with its numbers":
+            222,
+        "the first option a number of the text divides":
+            152,
+        "the first option that is the product of two numbers of the text":
+            160,
+        "the largest option the text does not print":
+            112,
+        "the only option absent from the text":
+            0,
+        "the option at one list position":
+            96,
+        "the option of one rank by size":
+            100,
+        "the smallest option the text does not print":
+            132,
+        "the smallest option the text does not print that divides none of its numbers":
+            71,
+    },
 }
 LIST_POSITION = "the option at one list position"
 SIZE_RANK = "the option of one rank by size"
 ABSENT = "the only option absent from the text"
 DIVISIBLE = "the first option a number of the text divides"
 SHARES = "of the options the text does not print, the one sharing most with its numbers"
+NONDIVISOR = ("the smallest option the text does not print that divides none of "
+              "its numbers")
+PRODUCT = "the first option that is the product of two numbers of the text"
+UNPRINTED_MIN = "the smallest option the text does not print"
+UNPRINTED_MAX = "the largest option the text does not print"
 LENGTH_MIN = "the commonest answer at the shorter string's length"
 LENGTH_MAX = "the commonest answer at the longer string's length"
 LENGTH_SUM = "the commonest answer at the two strings' total length"
-GUESSERS_6 = (LIST_POSITION, SIZE_RANK, ABSENT, DIVISIBLE, SHARES, LENGTH_MIN,
-              LENGTH_MAX, LENGTH_SUM)
+LETTERS_SHARED = "the commonest answer at the count of letters the two strings share"
+LETTERS_DISTINCT = ("the commonest answer at the count of distinct letters the two "
+                    "strings share")
+GUESSERS_6 = (LIST_POSITION, SIZE_RANK, ABSENT, DIVISIBLE, SHARES, NONDIVISOR, PRODUCT,
+              UNPRINTED_MIN, UNPRINTED_MAX, LENGTH_MIN, LENGTH_MAX, LENGTH_SUM,
+              LETTERS_SHARED, LETTERS_DISTINCT)
 HALF_BLOCK = 10          # cross-fit halves: slots 0-9, 20-29, ... against the rest
 
 
@@ -166,12 +244,32 @@ def _numbers(text: str) -> list:
     return [int(x) for x in re.findall(r"\d+", text)]
 
 
+def _number_guessers(o: list, text: list) -> dict:
+    """What each fixed rule picks among the integer options `o` of one
+    item whose text prints the numbers `text`. A rule with nothing to
+    pick takes the first option."""
+    import math
+    big = [t for t in text if t > 1]
+    free = [x for x in o if x not in text]
+    none = [x for x in free if not any(t % x == 0 for t in big)]
+    mult = [x for x in o if any(x % t == 0 for t in big)]
+    prod = [x for x in o if any(x == a * b for i, a in enumerate(text)
+                                for b in text[i + 1:])]
+    share = max(free or o, key=lambda x: (sum(math.gcd(x, t) for t in text),
+                                          -o.index(x)))
+    return {DIVISIBLE: mult[0] if mult else o[0], SHARES: share,
+            NONDIVISOR: min(none) if none else o[0],
+            PRODUCT: prod[0] if prod else o[0],
+            UNPRINTED_MIN: min(free) if free else o[0],
+            UNPRINTED_MAX: max(free) if free else o[0]}
+
+
 def heuristic_floor_6(cap: dict) -> dict:
     """What a guesser that reads an item's SURFACE and solves nothing
     can score on the rung: the best of a fixed list. A guesser that
     learns a table is cross-fitted; one that applies a fixed rule is
-    scored as it stands."""
-    import math
+    scored as it stands. The list is fixed here, before any model read
+    an item; a rule outside it may score more."""
     rung, at, items = cap["name"], cap["answer_type"], cap["eval_items"]
     n = len(items)
     found = {}
@@ -187,23 +285,23 @@ def heuristic_floor_6(cap: dict) -> dict:
             ints = [[int(x) for x in o] for o in opts]
             found[SIZE_RANK] = _cross_fit(
                 [0] * n, [sorted(o).index(int(w)) for o, w in zip(ints, want)])
-            div = shr = 0
+            hits = Counter()
             for o, w, b in zip(ints, want, body):
-                text = _numbers(b)
-                ok = [x for x in o if any(x % t == 0 for t in text if t > 1)]
-                div += (ok[0] if ok else o[0]) == int(w)
-                cand = [x for x in o if x not in text] or o
-                best = max(cand, key=lambda x: (sum(math.gcd(x, t) for t in text),
-                                                -o.index(x)))
-                shr += best == int(w)
-            found[DIVISIBLE], found[SHARES] = div, shr
+                for name, x in _number_guessers(o, _numbers(b)).items():
+                    hits[name] += x == int(w)
+            found.update({name: hits[name] for name in (
+                DIVISIBLE, SHARES, NONDIVISOR, PRODUCT, UNPRINTED_MIN, UNPRINTED_MAX)})
     if rung == "lcs":
-        la = [len(it["meta"]["a"]) for it in items]
-        lb = [len(it["meta"]["b"]) for it in items]
+        sa = [it["meta"]["a"] for it in items]
+        sb = [it["meta"]["b"] for it in items]
         ans = [it["answer"] for it in items]
-        found[LENGTH_MIN] = _cross_fit([min(x, y) for x, y in zip(la, lb)], ans)
-        found[LENGTH_MAX] = _cross_fit([max(x, y) for x, y in zip(la, lb)], ans)
-        found[LENGTH_SUM] = _cross_fit([x + y for x, y in zip(la, lb)], ans)
+        found[LENGTH_MIN] = _cross_fit([min(len(x), len(y)) for x, y in zip(sa, sb)], ans)
+        found[LENGTH_MAX] = _cross_fit([max(len(x), len(y)) for x, y in zip(sa, sb)], ans)
+        found[LENGTH_SUM] = _cross_fit([len(x) + len(y) for x, y in zip(sa, sb)], ans)
+        found[LETTERS_SHARED] = _cross_fit(
+            [sum((Counter(x) & Counter(y)).values()) for x, y in zip(sa, sb)], ans)
+        found[LETTERS_DISTINCT] = _cross_fit(
+            [len(set(x) & set(y)) for x, y in zip(sa, sb)], ans)
     if not found:
         return {"heuristics": {}, "heuristic": None, "heuristic_count": None,
                 "heuristic_floor": None, "n_items": n}
@@ -220,7 +318,7 @@ def heuristic_table_6(battery: dict) -> dict:
 def check_heuristic_pins_6(table: dict) -> dict:
     out = {}
     for rung in b6.RUNGS_6:
-        got = [table[rung]["heuristic"], table[rung]["heuristic_count"]]
+        got = table[rung]["heuristics"]
         if got != HEURISTIC_PIN_6[rung]:
             raise ValueError(f"{rung}: heuristic floor {got} against the pin "
                              f"{HEURISTIC_PIN_6[rung]}")

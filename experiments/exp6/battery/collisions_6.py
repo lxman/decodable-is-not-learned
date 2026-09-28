@@ -8,7 +8,7 @@ from functools import lru_cache
 from pathlib import Path
 
 INDEX_PATH = Path(__file__).resolve().parent / "data" / "bigbench_index_6.json"
-INDEX_6_SHA256 = "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef"
+INDEX_6_SHA256 = "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525"
 BIGBENCH_COMMIT = "092b196c1f8f14a54bbc62f24759d43bde46dd3b"
 
 

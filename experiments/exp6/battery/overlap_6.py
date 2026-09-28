@@ -30,17 +30,18 @@ from pathlib import Path
 from experiments.exp6 import battery_6 as b6
 
 from . import collisions_6 as c6
-from .make_bigbench_index_6 import local_name
+from .make_bigbench_index_6 import COMMUTES, local_name
 
 HERE = Path(__file__).resolve().parent
 RECORD = HERE / "data" / "overlap_6.json"
-OVERLAP_6_SHA256 = "4860017a6fcfb7a1fd3cce3df639e62d044eed8d48c981cddd10613f0aaa2227"
+OVERLAP_6_SHA256 = "de9dbc667e9e4663919aec9f0e478a9148f129428a278073bd3939496e876fca"
 MODARITH_FILE = {
     "modarith_add1": "modified_arithmetic/three_digit_addition_plus_one",
     "modarith_sub1": "modified_arithmetic/three_digit_subtraction_plus_one",
     "modarith_mul1": "modified_arithmetic/two_digit_multiplication_plus_one",
 }
 IPA_FILE = "international_phonetic_alphabet_transliterate"
+PUNCTUATION = ".,;:!?\"'()[]"
 RUNGS = ("modarith_add1", "modarith_sub1", "modarith_mul1", "unscramble_short",
          "unscramble_long", "ipa_word", "sort3", "sort5", "lcs")
 
@@ -61,6 +62,36 @@ def _pair(line: str) -> str:
     return line.split(" ->")[0]
 
 
+def _either(pair: str) -> set:
+    """The pair, and the pair the other way round where it commutes."""
+    a, sym, b = pair.split(" ")
+    return {pair, f"{b} {sym} {a}"} if sym in COMMUTES else {pair}
+
+
+MARKS = ("English:", "IPA:")
+
+
+def ipa_sides(example: dict) -> dict:
+    """The English text and the IPA text of one BIG-bench example. The
+    file has two shapes: the input holds one side and ends in the other
+    side's marker, the target following bare; or input and target each
+    open with their own marker. Input and target are read as one string
+    and cut at the markers. An example that does not show both markers
+    is refused."""
+    target = example["target"]
+    target = " ".join(target) if isinstance(target, list) else str(target)
+    text = str(example["input"]) + " " + target
+    cuts = sorted((m.start(), m.group(0)) for m in re.finditer("|".join(MARKS), text))
+    if sorted(m for _, m in cuts) != sorted(MARKS) or cuts[0][0] != 0:
+        raise ValueError(f"an example that is not one English and one IPA side: "
+                         f"{text[:60]!r}")
+    out = {}
+    for i, (at, m) in enumerate(cuts):
+        end = cuts[i + 1][0] if i + 1 < len(cuts) else len(text)
+        out[m] = text[at + len(m):end].strip()
+    return {"english": out["English:"], "ipa": out["IPA:"]}
+
+
 def overlap(src: Path, battery: dict | None = None) -> dict:
     battery = battery or b6.load_battery_6(RUNGS)
     rows = {}
@@ -72,11 +103,14 @@ def overlap(src: Path, battery: dict | None = None) -> dict:
             printed.update(_pair(line) for line in lines)
         n = {"asks a pair BIG-bench asks": 0,
              "asks a pair BIG-bench prints on any line": 0,
+             "asks a pair BIG-bench prints, in either order": 0,
              "shows a worked pair BIG-bench prints on any line": 0}
         for it in battery[rung]["eval_items"]:
             lines = it["question"].split("\n")[1:]
             n["asks a pair BIG-bench asks"] += _pair(lines[-1]) in asked
             n["asks a pair BIG-bench prints on any line"] += _pair(lines[-1]) in printed
+            n["asks a pair BIG-bench prints, in either order"] += bool(
+                _either(_pair(lines[-1])) & printed)
             n["shows a worked pair BIG-bench prints on any line"] += any(
                 _pair(line) in printed for line in lines[:-1])
         rows[rung] = {"bigbench": {"pairs asked": len(asked),
@@ -84,17 +118,23 @@ def overlap(src: Path, battery: dict | None = None) -> dict:
     words = {t for ex in _examples(src, "word_unscrambling", "word_unscrambling")
              for t in _targets(ex)}
     for rung in ("unscramble_short", "unscramble_long"):
-        rows[rung] = {"bigbench": {"target words": len(words)}, "items": {
+        rows[rung] = {"bigbench": {"distinct target words": len(words)}, "items": {
             "the answer is a BIG-bench target word": sum(
                 it["answer"] in words for it in battery[rung]["eval_items"])}}
-    english = set()
+    english, tokens = set(), set()
     for ex in _examples(src, IPA_FILE, IPA_FILE):
-        if ex["input"].startswith("English: "):
-            english.update(re.findall(r"[a-z]+", ex["input"][len("English: "):].lower()))
-    rows["ipa_word"] = {"bigbench": {"words of its English sentences": len(english)},
-                        "items": {"the word occurs in a BIG-bench sentence": sum(
-                            it["meta"]["word"] in english
-                            for it in battery["ipa_word"]["eval_items"])}}
+        side = ipa_sides(ex)
+        english.update(re.findall(r"[a-z]+", side["english"].lower()))
+        tokens.update(t.strip(PUNCTUATION) for t in side["ipa"].split())
+    tokens.discard("")
+    items = battery["ipa_word"]["eval_items"]
+    rows["ipa_word"] = {
+        "bigbench": {"words of its English sentences": len(english),
+                     "tokens of its IPA text": len(tokens)},
+        "items": {"the word occurs in a BIG-bench sentence": sum(
+                      it["meta"]["word"] in english for it in items),
+                  "the answer is a token of BIG-bench's IPA text": sum(
+                      it["answer"] in tokens for it in items)}}
     listed = {w for ex in _examples(src, "word_sorting", "word_sorting")
               for w in ex["input"].split()}
     for rung in ("sort3", "sort5"):

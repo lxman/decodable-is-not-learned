@@ -5514,9 +5514,9 @@
  },
  "name": "ascii_bubble",
  "provenance": {
-  "bbkey_audit_sha256": "32658ee2eafe111870265701f5d0acf8558989f1dbca84970ae29055c54005ed",
+  "bbkey_audit_sha256": "65f1805936180d7c421a23c092a9d1b00f1daea48725bfcc3fca24db83dca013",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
-  "bigbench_index_sha256": "eab0a8348740e0f2de57e402740d633ed99c97c1977f38b7ff858947d473beef",
+  "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",
   "words_6_sha256": "1e19db04ee3a413f00aa59676a4a9a2b1a359c39f7b2347ce067059d8247d2a0"
  },

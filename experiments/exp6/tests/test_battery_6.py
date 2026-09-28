@@ -1,6 +1,7 @@
 # experiments/exp6/tests/test_battery_6.py
 import hashlib
 import json
+import re
 
 import pytest
 
@@ -174,7 +175,7 @@ def test_strata(battery):
         assert len(t["strata"]) == 500 and sum(t["counts"].values()) == 500
         assert min(t["counts"].values()) >= s6.MIN_STRATUM
         assert all(isinstance(s, str) for s in t["strata"])
-    assert table["modarith_mul1"]["counts"] == {"1": 10, "2": 19, "3": 129, "4": 342}
+    assert table["modarith_mul1"]["counts"] == {"1": 13, "2": 18, "3": 138, "4": 331}
     assert set(table["shapes"]["counts"].values()) == {50}
     json.dumps(table)                                           # serialisable
 
@@ -290,13 +291,29 @@ def test_structure_levels_are_what_they_say(battery):
         shut = lines[-2].rsplit(" ", 1)[1].rstrip(".")
         a, b = it["answer"].split(" to ")
         assert lv == ("first" if a == wake else "last" if b == shut else "middle")
-    for it, lv in zip(battery["unit_interp2"]["eval_items"],
-                      st["unit_interp2"]["structure"]):
-        body = it["question"].split("\nOptions: ")[0]
-        if " If " not in body:
-            assert lv == "plain"
-        else:
-            assert lv == ("stated" if it["meta"]["answer_stated"] else "computed")
+    for r in ("unit_interp1", "unit_interp2"):
+        levels = set()
+        for it, lv in zip(battery[r]["eval_items"], st[r]["structure"]):
+            body, opts = it["question"].split("\nOptions: ")
+            rank = sorted(int(o) for o in opts.split(", ")).index(int(it["answer"])) + 1
+            scale, got = lv.split("|")
+            assert got == str(rank)
+            if " If " not in body:
+                assert scale == "plain"
+            elif r == "unit_interp1":
+                assert scale == ("intervals" if "with intervals" in body else "often")
+            else:
+                # stated: the quantity asked is the one given, in the unit
+                # the scaled rate leaves unchanged (the rate's first unit)
+                first = re.search(r"\d+ (\w+) per ", body).group(1)
+                given = re.search(r", and .*? \d+ (\w+)", body).group(1)
+                asked = re.search(r"\(\) (\w+)", body).group(1)
+                assert scale == ("stated" if given == asked == first else "computed")
+                assert (scale == "stated") == it["meta"]["answer_stated"]
+                if scale == "stated":
+                    assert f" {it['answer']} " in body
+            levels.add(lv)
+        assert len(levels) == 15                  # three kinds of scaling by five ranks
     lcs = battery["lcs"]["eval_items"]
     for a in "0123456789":
         tot = sorted(len(it["question"].split("Strings: ")[1]) - 1
@@ -312,36 +329,61 @@ def test_structure_levels_are_what_they_say(battery):
 # ---------------------------------------------------- heuristic floors
 def test_heuristic_floors(battery):
     """What a guesser that solves nothing can score, beside the rule's
-    floor. `temporal`: the right interval is the only option the text
-    does not mention, on every item — BIG-bench's own construction."""
+    floor. Every count is pinned; the comparisons are with the same
+    guessers on BIG-bench's own items, scored the same way."""
     h = f6.heuristic_table_6(battery)
     assert f6.check_heuristic_pins_6(h) == {r: "PASS" for r in b6.RUNGS_6}
+    for r in b6.RUNGS_6:
+        assert set(h[r]["heuristics"]) <= set(f6.GUESSERS_6)
+        if h[r]["heuristics"]:
+            assert h[r]["heuristic_count"] == max(h[r]["heuristics"].values())
+            assert h[r]["heuristics"][h[r]["heuristic"]] == h[r]["heuristic_count"]
+            assert h[r]["heuristic_floor"] == h[r]["heuristic_count"] / 500
+        else:
+            assert h[r]["heuristic"] is None and h[r]["heuristic_floor"] is None
+            assert b6.N_OPTIONS_OF.get(r) is None and r != "lcs"
+    # temporal: the right interval is the only option the text does not
+    # mention, on every item — BIG-bench's own construction (1,000 of 1,000)
     assert h["temporal"]["heuristic"] == f6.ABSENT
     assert h["temporal"]["heuristic_count"] == 500
-    # lcs: the answer follows the lengths as it does in BIG-bench's own 320
-    # items, where the same three rules, cross-fitted the same way, score
-    # .27 (shorter), .17 (longer) and .21 (total); here .23, .18 and .23
-    assert set(h["lcs"]["heuristics"]) == {f6.LENGTH_MIN, f6.LENGTH_MAX, f6.LENGTH_SUM}
-    assert max(h["lcs"]["heuristics"].values()) <= 165       # it was 235 (.47)
-    for r in ("unit_interp1", "unit_interp2"):
-        g = h[r]["heuristics"]
-        assert set(g) == {f6.LIST_POSITION, f6.SIZE_RANK, f6.ABSENT, f6.DIVISIBLE,
-                          f6.SHARES}
-        assert g[f6.SIZE_RANK] <= 120                        # it was 224 and 186
-        assert g[f6.LIST_POSITION] <= 105
-        # on BIG-bench's 25 items a level: .28 and .20 (lv1), .08 and .28 (lv2)
-        assert g[f6.DIVISIBLE] <= 125 and g[f6.SHARES] <= 160
-    for r in ("deduction3", "deduction5", "shapes"):
-        assert h[r]["heuristics"][f6.ABSENT] == 0
-    for r in b6.RUNGS_6:
-        if b6.N_OPTIONS_OF.get(r) is None and r != "lcs":
-            assert h[r]["heuristic"] is None and h[r]["heuristic_floor"] is None
-        else:
-            assert set(h[r]["heuristics"]) <= set(f6.GUESSERS_6)
-    # independently, from the text: the option the schedule never mentions
     for it in battery["temporal"]["eval_items"]:
         body, opts = it["question"].split("\nOptions: ")
         assert [o for o in opts.split(", ") if f" {o}." not in body] == [it["answer"]]
+    for r in ("deduction3", "deduction5", "shapes"):
+        assert h[r]["heuristics"][f6.ABSENT] == 0
+    # lcs: the letters the two strings share say more than their lengths,
+    # here as in BIG-bench's 320 items (.46 and .46 there; lengths .27, .17, .21)
+    g = h["lcs"]["heuristics"]
+    assert set(g) == {f6.LENGTH_MIN, f6.LENGTH_MAX, f6.LENGTH_SUM, f6.LETTERS_SHARED,
+                      f6.LETTERS_DISTINCT}
+    assert h["lcs"]["heuristic"] == f6.LETTERS_SHARED and g[f6.LETTERS_SHARED] == 237
+    assert max(g[f6.LENGTH_MIN], g[f6.LENGTH_MAX], g[f6.LENGTH_SUM]) == 115
+    # the unit rungs: no fixed rule of the list does better than the best
+    # of them does on BIG-bench's own 25 items a level (.36 and .52)
+    for r, best, count in (("unit_interp1", f6.NONDIVISOR, 191),
+                           ("unit_interp2", f6.SHARES, 222)):
+        g = h[r]["heuristics"]
+        assert set(g) == {f6.LIST_POSITION, f6.SIZE_RANK, f6.ABSENT, f6.DIVISIBLE,
+                          f6.SHARES, f6.NONDIVISOR, f6.PRODUCT, f6.UNPRINTED_MIN,
+                          f6.UNPRINTED_MAX}
+        assert (h[r]["heuristic"], h[r]["heuristic_count"]) == (best, count)
+        assert g[f6.SIZE_RANK] <= 102 and g[f6.LIST_POSITION] <= 102   # both designed
+
+
+def test_the_number_guessers_pick_what_they_say():
+    text = [5, 4, 20]                      # "5 times every 4 hours ... in 20 hours"
+    got = f6._number_guessers([16, 20, 25, 80, 100], text)
+    assert got[f6.DIVISIBLE] == 16         # 4 divides it, and it is listed first
+    assert got[f6.NONDIVISOR] == 16        # unprinted, divides none of 5, 4, 20
+    assert got[f6.PRODUCT] == 20           # 5 x 4
+    assert got[f6.UNPRINTED_MIN] == 16 and got[f6.UNPRINTED_MAX] == 100
+    assert got[f6.SHARES] == 80            # gcd 5 + 4 + 20, and listed before 100
+    got = f6._number_guessers([7, 11, 13], [7, 11, 13])      # every option printed
+    assert got[f6.SHARES] == 13            # it falls back to all the options
+    assert {got[k] for k in (f6.NONDIVISOR, f6.UNPRINTED_MIN, f6.UNPRINTED_MAX,
+                             f6.PRODUCT)} == {7}             # nothing to pick: the first
+    got = f6._number_guessers([24, 48, 96, 2, 50], [2, 48])
+    assert got[f6.NONDIVISOR] == 50 and got[f6.PRODUCT] == 96 and got[f6.DIVISIBLE] == 24
 
 
 def test_a_table_guesser_is_scored_on_items_it_has_not_seen():
@@ -362,7 +404,9 @@ def test_a_table_guesser_is_scored_on_items_it_has_not_seen():
 
 def test_the_two_new_pin_checks_refuse(battery):
     h = f6.heuristic_table_6(battery)
-    h["lcs"] = dict(h["lcs"], heuristic_count=h["lcs"]["heuristic_count"] + 1)
+    g = dict(h["lcs"]["heuristics"])
+    g[f6.LENGTH_MAX] += 1                       # not the best guesser: every count is pinned
+    h["lcs"] = dict(h["lcs"], heuristics=g)
     with pytest.raises(ValueError, match="lcs: heuristic floor"):
         f6.check_heuristic_pins_6(h)
     table = s6.build_table_6(battery)
@@ -414,14 +458,19 @@ def test_the_content_overlap_record(monkeypatch):
     assert tuple(rec["rungs"]) == tuple(sorted(ov.RUNGS)) and rec["n_items"] == 500
     n = {r: row["items"] for r, row in rec["rungs"].items()}
     for r in ov.MODARITH_FILE:
-        # the gate's two keys: the prompt, and the pair asked
+        # the gate's two keys: the prompt, and the pair asked, either way round
         assert n[r]["asks a pair BIG-bench asks"] == 0
         assert n[r]["asks a pair BIG-bench prints on any line"] == 0
+        assert n[r]["asks a pair BIG-bench prints, in either order"] == 0
     shows = "shows a worked pair BIG-bench prints on any line"
-    assert [n[r][shows] for r in ov.MODARITH_FILE] == [15, 13, 473]
+    assert [n[r][shows] for r in ov.MODARITH_FILE] == [16, 13, 468]
     assert n["unscramble_short"] == {"the answer is a BIG-bench target word": 491}
     assert n["unscramble_long"] == {"the answer is a BIG-bench target word": 497}
-    assert n["ipa_word"] == {"the word occurs in a BIG-bench sentence": 95}
+    assert rec["rungs"]["unscramble_long"]["bigbench"] == {"distinct target words": 9719}
+    assert n["ipa_word"] == {"the word occurs in a BIG-bench sentence": 148,
+                             "the answer is a token of BIG-bench's IPA text": 158}
+    assert rec["rungs"]["ipa_word"]["bigbench"] == {
+        "words of its English sentences": 2858, "tokens of its IPA text": 2907}
     assert n["sort3"] == {"a word of the list is in a BIG-bench list": 369,
                           "every word of the list is in a BIG-bench list": 22}
     assert n["sort5"] == {"a word of the list is in a BIG-bench list": 434,
@@ -449,8 +498,11 @@ def test_the_overlap_is_counted_from_the_text(monkeypatch, tmp_path):
         "modified_arithmetic/two_digit_multiplication_plus_one":
             [{"input": "h\n1 * 2 -> 3\n3 * 4 ->"}],
         "word_unscrambling": [{"input": "x", "target": ["pear", "reap"]}],
-        ov.IPA_FILE: [{"input": "English: A pear, a fig."},
-                      {"input": "IPA: ə pɛr", "target": "A pear"}],
+        # both shapes of the file, both directions: the English side is
+        # read wherever it stands, and so is the IPA side
+        ov.IPA_FILE: [{"input": "English: A pear, a fig.\nIPA:", "target": " ə pɛr, ə fɪg."},
+                      {"input": "IPA: ə ˈkiwi.\nEnglish:", "target": " A kiwi."},
+                      {"input": "IPA: plʌm", "target": "English: Plum"}],
         "word_sorting": [{"input": "pear fig"}],
         "cs_algorithms/lcs": [{"input": "ABC DEF"}],
     }
@@ -461,13 +513,15 @@ def test_the_overlap_is_counted_from_the_text(monkeypatch, tmp_path):
                             f"{asked[0]} {sym} {asked[1]} ->"}
     battery = {
         "modarith_add1": [arith("+", (9, 9), (3, 4)), arith("+", (3, 4), (1, 2)),
-                          arith("+", (1, 2), (8, 8))],
+                          arith("+", (1, 2), (8, 8)), arith("+", (7, 7), (2, 1))],
         "modarith_sub1": [arith("-", (9, 9), (8, 8))],
         "modarith_mul1": [arith("*", (1, 2), (3, 4))],
         "unscramble_short": [{"answer": "pear"}, {"answer": "plum"}],
         "unscramble_long": [{"answer": "reap"}],
-        "ipa_word": [{"meta": {"word": "fig"}}, {"meta": {"word": "a"}},
-                     {"meta": {"word": "plum"}}],
+        "ipa_word": [{"meta": {"word": "fig"}, "answer": "fɪg"},
+                     {"meta": {"word": "kiwi"}, "answer": "ˈkiwi"},
+                     {"meta": {"word": "plum"}, "answer": "pləm"},
+                     {"meta": {"word": "apple"}, "answer": "pɛr"}],
         "sort3": [{"meta": {"words": ["pear", "fig"]}}, {"meta": {"words": ["pear", "kiwi"]}},
                   {"meta": {"words": ["plum", "kiwi"]}}],
         "sort5": [{"meta": {"words": ["plum"]}}],
@@ -479,15 +533,24 @@ def test_the_overlap_is_counted_from_the_text(monkeypatch, tmp_path):
     assert got["modarith_add1"] == {
         "asks a pair BIG-bench asks": 1,
         "asks a pair BIG-bench prints on any line": 2,
+        "asks a pair BIG-bench prints, in either order": 3,       # 2 + 1 is 1 + 2
         "shows a worked pair BIG-bench prints on any line": 2}
     assert set(got["modarith_sub1"].values()) == {0}
     assert got["modarith_mul1"] == {
         "asks a pair BIG-bench asks": 1,
         "asks a pair BIG-bench prints on any line": 1,
+        "asks a pair BIG-bench prints, in either order": 1,
         "shows a worked pair BIG-bench prints on any line": 1}
     assert got["unscramble_short"] == {"the answer is a BIG-bench target word": 1}
     assert got["unscramble_long"] == {"the answer is a BIG-bench target word": 1}
-    assert got["ipa_word"] == {"the word occurs in a BIG-bench sentence": 2}
+    # fig (an input), kiwi (a bare target), plum (a marked target); the
+    # transcriptions: fɪg and ˈkiwi are tokens there, pləm is not (plʌm is),
+    # and pɛr is a token whatever word it is given for
+    assert got["ipa_word"] == {"the word occurs in a BIG-bench sentence": 3,
+                               "the answer is a token of BIG-bench's IPA text": 3}
+    with pytest.raises(ValueError, match="not one English and one IPA side"):
+        ov.ipa_sides({"input": "English: A pear.", "target": "A pear."})
+    assert ov._either("3 - 4") == {"3 - 4"} and ov._either("3 * 4") == {"3 * 4", "4 * 3"}
     assert got["sort3"] == {"a word of the list is in a BIG-bench list": 2,
                             "every word of the list is in a BIG-bench list": 1}
     assert got["sort5"] == {"a word of the list is in a BIG-bench list": 0,

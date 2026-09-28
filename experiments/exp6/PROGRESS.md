@@ -165,3 +165,54 @@ overlap record and every pin were regenerated. The index was rebuilt, and the au
 count run, on the coordinator's scratch copy of the task files (each file's sha256 checked against
 the index); the token record was measured offline from the coordinator's scratch cache (R-16).
 No network contact in this wave. 118 tests in the suite.
+
+### Fix wave 4 (Tasks 3–6) — the re-review of fix wave 3 (coordinator rulings R-36 … R-41)
+
+The re-review (on 0160f669b) recomputed every answer of the six rungs fix wave 3 had changed, from
+the question text alone, and found none wrong. It found four things that change what a result
+would mean. Each was recomputed by the coordinator and each is right.
+- THE UNIT RUNGS ARE REBUILT ON THE README'S RULE (plan delta B-25). A fixed rule — among the
+  options the text does not print, the smallest that divides none of its numbers — scored .556 on
+  `unit_interp1` against .20 on BIG-bench's own items. Two fix waves had patched the options; the
+  cause was upstream of both. BIG-bench's README defines the generation: numbers without large
+  prime factors, least common multiples so that every combination of an item's numbers is an
+  integer, wrong options mostly the wrong combinations of those numbers and otherwise pool
+  numbers. The generator now does that: numbers with no prime factor above 5, one pool for both
+  of the rate's numbers, the shown quantity the least common multiple times 1–12, no number above
+  5,000, a wrong option a combination three times in four and a pool number once in four on
+  either side of the answer. The answer's position and its rank by size are crossed over blocks
+  of slots (B-19): level 1 holds every pair twenty times; level 2 every position and rank on 96
+  to 102 items. `unit_interp2` flags 57 stated answers.
+- THE HEURISTIC FLOOR HAS FOURTEEN GUESSERS AND EVERY COUNT IS PINNED (B-22). Best of the list:
+  `temporal` 500 of 500; `lcs` 237 (the letters the two strings share; BIG-bench .46);
+  `unit_interp1` 191; `unit_interp2` 222 (BIG-bench's 25 items a level: .28–.36 and .52).
+  The share of combinations among the wrong options was scanned from .5 to .9 on three seeds a
+  rung before three in four was taken (best fixed rule .41–.48 and .41–.47 across the scan).
+- A FITTED guesser — a logistic regression and a gradient-boosted classifier on twenty surface
+  features, half the rung against the other — scores .552 / .656 on `unit_interp1` and .626 /
+  .746 on `unit_interp2`; fitted on a rung and applied to BIG-bench's 25 items, .28 to .40; on
+  BIG-bench's items by leave-one-out, .16 to .40 (`tools/guessers_lab_6.py`, scikit-learn 1.9.0;
+  nothing written, nothing gated). Disclosed as B-32, with the option of dropping the two rungs
+  put to Michael.
+- ON THE `modarith` RUNGS A PAIR IS GATED EITHER WAY ROUND (B-26). 185 of `modarith_mul1`'s
+  queries asked a×b where BIG-bench prints b×a. The index's extra table holds a commuting pair
+  both ways round (24,712 hashes: 11,920 / 5,983 / 6,809); the operands are drawn on BIG-bench's
+  ranges, 0–998 and 0–98; 7 / 3 / 1,026 draws were redrawn.
+- THE CONTENT OVERLAP OF `ipa_word` WAS UNDERCOUNTED (B-28). The first tool read one direction of
+  BIG-bench's IPA file. Read in both shapes and both directions: 148 of the 500 words occur in
+  BIG-bench's sentences (not 95) and 158 of the answers are tokens of BIG-bench's IPA text.
+- The unit rungs' structure level is the kind of scaling crossed with the answer's rank by size
+  (B-21). `deduction3`'s second shot is a read-off item, left as drawn (B-33).
+
+Corrections to this ledger, made here and not in place:
+- The entry of fix wave 3 says the prototype stage fetched tokenizer files of THIRTEEN revisions;
+  the scratch cache holds twelve (eight repositories, 48 files, 62 MB, no weight).
+- The same entry gives `lcs`'s heuristic floor as 115 of 500 and the unit rungs' as 124 and 156:
+  those were the best of the guessers then listed. With the letter guessers `lcs` reads 237.
+- BIG-bench's unscrambling file holds 8,917 examples and 9,719 distinct target words.
+
+The index, the audit record, the known answers (77), all seventeen item files, the token record,
+the overlap record and every pin were regenerated. The index was rebuilt, and the audit, the
+overlap count and the guessers' fit run, on the coordinator's scratch copy of the task files (each
+file's sha256 checked against the index); the token record was measured offline from the
+coordinator's scratch cache (R-16). No network contact in this wave. 122 tests in the suite.

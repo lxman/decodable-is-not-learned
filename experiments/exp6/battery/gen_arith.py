@@ -9,11 +9,14 @@ from .spec import RungSpec, register
 MODARITH_HEADER = ("In the following lines, the symbol -> represents a simple "
                    "mathematical operation.")
 N_EXAMPLES = 5                      # BIG-bench: five examples, then the query
-MODARITH = {                        # name -> (symbol, operand bound, op)
-    "modarith_add1": ("+", 1000, lambda a, b: a + b + 1),
-    "modarith_sub1": ("-", 1000, lambda a, b: a - b + 1),
-    "modarith_mul1": ("*", 100, lambda a, b: a * b + 1),
+# name -> (symbol, operand bound, op). The bounds are the task files':
+# their operands run from 0 to 998 and from 0 to 98.
+MODARITH = {
+    "modarith_add1": ("+", 999, lambda a, b: a + b + 1),
+    "modarith_sub1": ("-", 999, lambda a, b: a - b + 1),
+    "modarith_mul1": ("*", 99, lambda a, b: a * b + 1),
 }
+COMMUTES = ("+", "*")               # a pair asked either way round is one question
 LCS_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 LCS_LEN = (4, 31)                   # BIG-bench's observed string lengths
 LCS_CLASSES = tuple(range(10))      # answers 0..9, balanced, as BIG-bench's are
@@ -35,7 +38,8 @@ def modarith_text(name: str, pairs) -> str:
 def modarith_query(name: str, a: int, b: int) -> str:
     """The query line alone. A second collision key: a prompt that asks
     a pair BIG-bench asks, or prints beside its result on a worked line,
-    is a new string under other worked lines and the same question."""
+    is a new string under other worked lines and the same question. The
+    index holds a commuting pair in both orders, so one key covers both."""
     return f"{a} {MODARITH[name][0]} {b} ->"
 
 
@@ -91,10 +95,10 @@ def _draw_lcs(rng, ctx, slot):
             "meta": {"a": a, "b": b, "lcs": target}}
 
 
-for _name, _what in (("modarith_add1", "a + b + 1, operands uniform on [0, 1000)"),
-                     ("modarith_sub1", "a - b + 1, operands uniform on [0, 1000); "
+for _name, _what in (("modarith_add1", "a + b + 1, operands uniform on 0-998"),
+                     ("modarith_sub1", "a - b + 1, operands uniform on 0-998; "
                                        "negative answers occur"),
-                     ("modarith_mul1", "a * b + 1, operands uniform on [0, 100)")):
+                     ("modarith_mul1", "a * b + 1, operands uniform on 0-98")):
     register(RungSpec(
         name=_name, task="modified_arithmetic", wei_class="E.2",
         rung_type="arithmetic", answer_type="number",

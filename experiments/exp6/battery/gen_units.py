@@ -4,6 +4,20 @@ lv1 / lv2; Wei class E.3). The subjects, units and sentence frames are
 the README's and the task files'. Every number in an item and its answer
 is a positive integer.
 
+The numbers and the wrong options follow the README's generation rule
+(its steps 3 and 5). Numbers are drawn from pools of integers without a
+prime factor above 5 ("excluding numbers with large prime factors"); the
+quantity a sentence shows is a multiple of the least common multiple of
+its rate's two numbers and of its scaling factor, so that every
+combination of the item's numbers is an integer ("applying the least
+common multiples"). A wrong option is a COMBINATION of the item's own
+numbers — the shown quantity times or over the rate's numbers and the
+factor, the answers of the wrong readings — three times in four, and a
+POOL number once in four ("most incorrect answers are the wrong
+combination of the generated numbers ... and others are random numbers
+generated from the pool of numbers"), on whichever side of the answer
+it falls.
+
 Each sentence has two SURFACES. "battery" is what a model reads: the
 task files' wording with their grammar slips corrected ("If they
 takes", a capital "They" after a comma, "one forth"). "bigbench" is the
@@ -12,6 +26,10 @@ collision key is built from — a corrected key would never match the
 string it is meant to exclude."""
 from __future__ import annotations
 
+import itertools
+import math
+from fractions import Fraction
+
 from .spec import RungSpec, register, with_options
 
 N_OPTIONS = 5
@@ -19,7 +37,28 @@ FACTOR_WORD = {2: "twice", 3: "three times", 4: "four times"}
 SLOW_WORD = {2: "half", 3: "one third", 4: "one fourth"}
 BB_SLOW_WORD = {2: "half", 3: "one third", 4: "one forth"}     # the task file's spelling
 SURFACES = ("battery", "bigbench")
-SMALL, MIDDLE = (2, 7), (8, 50)     # README's number pools (large unused here)
+CAP = 5000                          # no number of an item exceeds it
+P_COMBINATION = 0.75                # a wrong option is a combination, else a pool number
+
+
+def smooth(lo: int, hi: int) -> tuple:
+    """The integers of lo..hi with no prime factor above 5."""
+    out = []
+    for x in range(lo, hi + 1):
+        y = x
+        for q in (2, 3, 5):
+            while y % q == 0:
+                y //= q
+        if y == 1:
+            out.append(x)
+    return tuple(out)
+
+
+RATE_POOL = smooth(2, 50)           # the README's small and middle pools, 2..50
+PERIOD_POOL = (1,) + RATE_POOL      # "every hour" is a period of one
+SPEED_POOL = smooth(2, 30)          # level 2's rates (the task file's run to 30)
+MULTIPLE_POOL = tuple(range(1, 13))
+WRONG_POOL = smooth(2, 250)         # the README's three pools together
 
 # level 1: (subject, verb 3sg, verb base, thing, unit, pronoun, the scaled
 # clause's object, the task file's pronoun after the comma)
@@ -103,76 +142,68 @@ def lv2_sentence(row: int, r: int, given: int, give_a: bool, k: int, faster: boo
     return f"{clause.format(r=r)}, and {stated}. {tail}"
 
 
-def _fill(rng, lo: int, hi: int, stated, taken):
-    """One wrong option in [lo, hi) that is not taken. It is drawn from
-    the MULTIPLES of the sentence's own numbers when that range holds
-    one, and from the whole range only when it holds none: the answer
-    and the unit confusions are products of the sentence's numbers, and
-    a fill that shares no factor with them marks itself as the fill."""
-    like = sorted({t * j for t in stated if t > 1
-                   for j in range(max(1, -(-lo // t)), (hi - 1) // t + 1)}
-                  - set(taken))
-    if like:
-        return like[int(rng.integers(len(like)))]
-    free = [w for w in range(lo, hi) if w not in taken]
-    return free[int(rng.integers(len(free)))] if free else None
+def combinations(shown: int, numbers) -> set:
+    """Every positive integer `shown` times or over the item's numbers,
+    each to the power -1, 0 or 1: the answers of every reading of the
+    sentence, right and wrong, and the shown quantity itself."""
+    out = set()
+    fs = [f for f in numbers if f > 1]
+    for es in itertools.product((-1, 0, 1), repeat=len(fs)):
+        v = Fraction(shown)
+        for f, e in zip(fs, es):
+            v *= Fraction(f) ** e
+        if v.denominator == 1 and 0 < v <= CAP:
+            out.add(int(v))
+    return out
 
 
-def _options(rng, answer: int, wrong, pos: int, rank: int, stated):
+def _options(rng, answer: int, combos, pool, pos: int, rank: int):
     """Five distinct positive integers with the answer at 1-based list
-    position `pos` AND at 1-based rank `rank` by magnitude: `rank` - 1
-    of the others below it, the rest above. `wrong` lists the
-    unit-confusion candidates, taken first on each side; `_fill` after;
-    the wrong ones are shuffled. None when a side cannot be filled.
-
-    The rank is designed because the confusions are not symmetric: left
-    free, they bracket the answer, and a guesser that picks the middle
-    option by size scored .45 against a floor of .20. `stated` is the
-    numbers the sentence prints."""
-    need_lo, need_hi = rank - 1, N_OPTIONS - rank
-    if answer - 1 < need_lo:
-        return None
-    lo, hi = [], []
-    for w in wrong:
-        if not isinstance(w, int) or w <= 0 or w == answer or w in lo or w in hi:
-            continue
-        if w < answer and len(lo) < need_lo:
-            lo.append(w)
-        elif w > answer and len(hi) < need_hi:
-            hi.append(w)
-    while len(lo) < need_lo:
-        w = _fill(rng, 1, answer, stated, lo)
-        if w is None:
-            return None
-        lo.append(w)
-    while len(hi) < need_hi:
-        w = _fill(rng, answer + 1, 4 * answer + 11, stated, hi)
-        if w is None:
-            return None
-        hi.append(w)
-    picks = lo + hi
-    picks = [picks[int(i)] for i in rng.permutation(len(picks))]
-    return picks[:pos - 1] + [answer] + picks[pos - 1:]
+    position `pos` AND at 1-based rank `rank` by magnitude. Each wrong
+    option is a combination with probability P_COMBINATION and a pool
+    number otherwise, on whichever side of the answer it must fall; a
+    kind with no number left on that side gives way to the other. None
+    when neither has one. Returns (options, kinds)."""
+    a = sorted(x for x in combos if x != answer)
+    b = sorted(x for x in pool if x != answer and x not in combos)
+    got, kind = [], {}
+    for below, need in ((True, rank - 1), (False, N_OPTIONS - rank)):
+        for _ in range(need):
+            ca = [x for x in a if (x < answer) == below and x not in got]
+            cb = [x for x in b if (x < answer) == below and x not in got]
+            first = bool(rng.random() < P_COMBINATION)
+            use, name = (ca, "combination") if first else (cb, "pool")
+            if not use:
+                use, name = (cb, "pool") if first else (ca, "combination")
+            if not use:
+                return None
+            x = use[int(rng.integers(len(use)))]
+            got.append(x)
+            kind[x] = name
+    got = [got[int(i)] for i in rng.permutation(len(got))]
+    opts = got[:pos - 1] + [answer] + got[pos - 1:]
+    return opts, ["answer" if x == answer else kind[x] for x in opts]
 
 
-def _pos(slot: int, n_subjects: int) -> int:
-    """The answer's position cycles with the slot, crossed with the
-    subject cycle, so the position strata are balanced by design."""
-    return (slot // n_subjects) % N_OPTIONS + 1
+def _pos_rank(slot: int, n_subjects: int) -> tuple:
+    """The answer's list position and its rank by magnitude, both
+    1-based. Blocks of `n_subjects` slots share a pair; over twenty-five
+    blocks every pair occurs once, so position and rank are balanced and
+    crossed whatever the number of subjects."""
+    k = slot // n_subjects
+    return k % N_OPTIONS + 1, (k // N_OPTIONS + k) % N_OPTIONS + 1
 
 
-def _rank(slot: int, n_subjects: int) -> int:
-    """The answer's rank by magnitude among the options, cycling one
-    level slower than its position: subject x position x rank."""
-    return (slot // (n_subjects * N_OPTIONS)) % N_OPTIONS + 1
+def _pick(rng, seq):
+    return seq[int(rng.integers(len(seq)))]
 
 
 def _draw_lv1(rng, ctx, slot):
     row = slot % len(LV1)
     subj = LV1[row][0]
-    n = int(rng.integers(SMALL[0], MIDDLE[1] + 1))       # count per period
-    p = int(rng.integers(1, 13))                          # period length
-    m = int(rng.integers(2, 13))                          # periods observed
+    n = _pick(rng, RATE_POOL)                             # count per period
+    p = _pick(rng, PERIOD_POOL)                           # period length
+    j = _pick(rng, MULTIPLE_POOL)
     k = (0, 0, 2, 3, 4)[int(rng.integers(5))]             # 0 = no scaling
     often = bool(rng.integers(2))                         # faster vs slower
     ask_time = bool(rng.integers(2))
@@ -183,56 +214,63 @@ def _draw_lv1(rng, ctx, slot):
         n_eff, p_eff = n * k, p
     else:
         n_eff, p_eff = n, p * k
-    T = p_eff * m                                         # elapsed time
-    N = n_eff * m                                         # total count
-    if ask_time:
-        shown, answer = N, T
-        wrong = [N, m, N * p, N // n if N % n == 0 else 0, p * m, T * n]
-    else:
-        shown, answer = T, N
-        wrong = [T, m, T * n, n * m, T // p if T % p == 0 else 0, N * p]
-    args = (row, n, p, k, often, ask_time, shown)
-    pos, rank = _pos(slot, len(LV1)), _rank(slot, len(LV1))
-    opts = _options(rng, answer, wrong, pos, rank, (n, p, shown))
-    if opts is None:
+    shown = math.lcm(n, p) * (k or 1) * j
+    m = shown // (n_eff if ask_time else p_eff)           # periods observed
+    T, N = p_eff * m, n_eff * m                           # elapsed time, total count
+    answer = T if ask_time else N
+    if shown != (N if ask_time else T) or max(shown, answer) > CAP:
         return None
+    combos = combinations(shown, (n, p, k)) | {n, p} - {1}
+    pool = (set(WRONG_POOL) | {shown + n, shown + p, abs(shown - n), abs(shown - p),
+                               n + p, n * p}) - {0, n, p, shown}
+    args = (row, n, p, k, often, ask_time, shown)
+    pos, rank = _pos_rank(slot, len(LV1))
+    got = _options(rng, answer, combos, {x for x in pool if x <= CAP}, pos, rank)
+    if got is None:
+        return None
+    opts, kinds = got
     return {"question": with_options(lv1_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv1_sentence(*args, surface="bigbench"),
             "meta": {"subject": subj, "n": n, "p": p, "m": m, "k": k,
                      "often": often, "ask_time": ask_time, "options": opts,
-                     "answer_pos": pos, "answer_rank": rank}}
+                     "option_kinds": kinds, "answer_pos": pos, "answer_rank": rank}}
 
 
 def _draw_lv2(rng, ctx, slot):
     row = slot % len(LV2)
     clause = LV2[row][0]
-    r = int(rng.integers(2, 31))                          # rate, A per B
+    r = _pick(rng, SPEED_POOL)                            # rate, A per B
+    j = _pick(rng, MULTIPLE_POOL)
     k = (0, 0, 2, 3, 4)[int(rng.integers(5))]
     faster = bool(rng.integers(2))
     give_a = bool(rng.integers(2))                        # which quantity is stated
     ask_a = bool(rng.integers(2)) if k else (not give_a)  # unscaled: ask the other
-    b = int(rng.integers(2, 25)) * (k if k and faster else 1)
+    b = r * j * (k or 1)
     a = r * b                                             # the invariant, in unit A
     if k == 0:
         answer = a if ask_a else b
-        wrong = [b if ask_a else a, r, a * r, r * r, b * b]
     else:
         b_new = b // k if faster else b * k
         answer = a if ask_a else b_new
-        wrong = [b, a, b_new, a * k, a // k if a % k == 0 else 0, r, b * k]
-    args = (row, r, a if give_a else b, give_a, k, faster, ask_a)
-    pos, rank = _pos(slot, len(LV2)), _rank(slot, len(LV2))
-    opts = _options(rng, answer, wrong, pos, rank, (r, a if give_a else b))
-    if opts is None:
+    given = a if give_a else b
+    if max(given, answer) > CAP:
         return None
+    combos = combinations(given, (r, k)) | {r}
+    pool = (set(WRONG_POOL) | {given + r, abs(given - r), r * r}) - {0, r, given}
+    args = (row, r, given, give_a, k, faster, ask_a)
+    pos, rank = _pos_rank(slot, len(LV2))
+    got = _options(rng, answer, combos, {x for x in pool if x <= CAP}, pos, rank)
+    if got is None:
+        return None
+    opts, kinds = got
     return {"question": with_options(lv2_sentence(*args), opts),
             "answer": str(answer),
             "bb_key": lv2_sentence(*args, surface="bigbench"),
             "meta": {"subject": clause.split(" at ")[0].split(" costs")[0],
                      "r": r, "a": a, "b": b, "k": k, "faster": faster,
                      "give_a": give_a, "ask_a": ask_a, "options": opts,
-                     "answer_pos": pos, "answer_rank": rank,
+                     "option_kinds": kinds, "answer_pos": pos, "answer_rank": rank,
                      # the scaled rate leaves the stated quantity unchanged
                      # and that quantity is the one asked: the answer is
                      # printed in the sentence (BIG-bench has the class)
@@ -244,15 +282,17 @@ register(RungSpec(
     rung_type="choice", answer_type="number", seed=20260910, n_options=N_OPTIONS,
     description="level 1 (one implicit unit): a rate stated as a count per "
                 "period, the count or the time asked, optionally under a "
-                "stated scaling; five integer options listed, the answer's "
-                "position and its rank by size both balanced",
+                "stated scaling; numbers without a prime factor above 5, "
+                "every combination of them an integer; five integer options "
+                "listed, three wrong ones in four a combination of the item's "
+                "numbers and one in four a pool number; the answer's position "
+                "and its rank by size both balanced",
     draw=_draw_lv1))
 register(RungSpec(
     name="unit_interp2", task="unit_interpretation", wei_class="E.3",
     rung_type="choice", answer_type="number", seed=20260911, n_options=N_OPTIONS,
     description="level 2 (two implicit units): a rate and one of its two "
                 "quantities, the other asked, optionally under a scaled "
-                "rate with the numerator quantity invariant; five integer "
-                "options listed, the answer's position and its rank by size "
-                "both balanced",
+                "rate with the numerator quantity invariant; numbers and "
+                "options as on level 1",
     draw=_draw_lv2))
