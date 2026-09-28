@@ -1,7 +1,7 @@
 {
  "answer_type": "ipa",
  "collision_kind": "input",
- "description": "transliterate one English word into IPA (CMUdict via eng_to_ipa, words with exactly one pronunciation); scored per word by exact match where BIG-bench scores sentences by BLEU",
+ "description": "transliterate one English word into IPA (CMUdict via eng_to_ipa, words with exactly one pronunciation); scored per word by exact match where BIG-bench scores sentences by BLEU; no transcription is the answer of two words",
  "eval_items": [
   {
    "answer": "daɪv",
@@ -2347,565 +2347,433 @@
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): coastal"
   },
   {
-   "answer": "dæm",
-   "bb_sha256": "913efb03c50be63074d8c8dd46d104da89a4b956afc6d8cdfc400d6c7d9075dc",
+   "answer": "tɑr",
+   "bb_sha256": "afdcf5a1cf644cec5725156a3bb4c9671d36f15f78f38a0fc91a83a97555593f",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 3,
-    "rank": 5728,
-    "word": "damn"
+    "rank": 8169,
+    "word": "tar"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): damn"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): tar"
   },
   {
-   "answer": "ˈhɪnˌdu",
-   "bb_sha256": "5e940e406287a10abf5e36c7b374581424f98252260a7c9c933714cbfab423c8",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 8444,
-    "word": "hindu"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): hindu"
-  },
-  {
-   "answer": "ˈmægəˌzinz",
-   "bb_sha256": "44e751239d663e213f8027eeaef00ca9064ef841546dc766f7af2f9a007422ff",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 1797,
-    "word": "magazines"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): magazines"
-  },
-  {
-   "answer": "treɪ",
-   "bb_sha256": "e40a96454bc45aec1927d3446d36c1c4ccf7ee57bb5b3a59eb0f01b2b29ccf78",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 7455,
-    "word": "tray"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): tray"
-  },
-  {
-   "answer": "strɪp",
-   "bb_sha256": "914ef936678b29f2b30c5c2004ca362518f84bab515effb8ba986a7de7b680a2",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 3862,
-    "word": "strip"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): strip"
-  },
-  {
-   "answer": "ˈstænfərd",
-   "bb_sha256": "edc9154b70fef7bb8b0836ceef967253881c9e11ad4e02685ae232a838d44fb5",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 6672,
-    "word": "stanford"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): stanford"
-  },
-  {
-   "answer": "bɪn",
-   "bb_sha256": "458658c556142c4ea4aebb6d20376f7234d411cfa0af5924e9727338bf56156c",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 1443,
-    "word": "bin"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bin"
-  },
-  {
-   "answer": "ˈkɑmɛnt",
-   "bb_sha256": "40c89142ec7661af0a7e6acc2825ac99fd71a4a62bfeae53b9b37c50ee1280ae",
+   "answer": "əˈproʊʧ",
+   "bb_sha256": "2f0ef9caa82e0dee8424daed344cb57a4e1a258eabf4fe54471f7c329951bca5",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 525,
-    "word": "comment"
+    "rank": 1266,
+    "word": "approach"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): comment"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): approach"
   },
   {
-   "answer": "ˈdɪvɪˌdɛnd",
-   "bb_sha256": "0952d7a43bde1c085ef7289b2f60d7e5763696472b6e989cc4dd568ce27fc9d3",
+   "answer": "ˈrɛlətɪvz",
+   "bb_sha256": "dcd99004274e829ff0c365113d8e92fe3134a60c4cfc309457cc5af6b3f3806a",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 8,
-    "rank": 9678,
-    "word": "dividend"
+    "rank": 8180,
+    "word": "relatives"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dividend"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): relatives"
   },
   {
-   "answer": "klin",
-   "bb_sha256": "e54591986d5b0be2ecffbd5c7aefbe4170b4aa6f8dc95e8f3dd4632f70cd2ddd",
+   "answer": "ti",
+   "bb_sha256": "0e85a0d590610b202d921c0eaa1b05424bdd7083558fc1b22ea0c587b26bc62c",
    "meta": {
     "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 1809,
-    "word": "clean"
+    "ipa_len": 2,
+    "rank": 2862,
+    "word": "tea"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): clean"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): tea"
   },
   {
-   "answer": "ˈhɛdərz",
-   "bb_sha256": "ec7d3586c6bf199836ac5057c8cfbfcb8155153fd0baf12de920fa65068f0f8f",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 7219,
-    "word": "headers"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): headers"
-  },
-  {
-   "answer": "əˈmɛnətiz",
-   "bb_sha256": "36a055128cdad5e6b200e3de5fd34a75ae7c076744ac38a0546c67c720b78e7e",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 6081,
-    "word": "amenities"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): amenities"
-  },
-  {
-   "answer": "bəs",
-   "bb_sha256": "e0044f2d1dc070b355aedcc7efa9af099147b3322c225e315084d464bbbdf92a",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 1982,
-    "word": "bus"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bus"
-  },
-  {
-   "answer": "ˈrəʃən",
-   "bb_sha256": "74f5f1395c8554be4cd18c84bd080120c3d13f6887c6abca3697dc2e1a68897b",
+   "answer": "ˈkɛnɪθ",
+   "bb_sha256": "cd77c78577052a65ba215a4a5113b665e6f5da3b33cf5c4fec747fce70db12f5",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 1811,
-    "word": "russian"
+    "rank": 6318,
+    "word": "kenneth"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): russian"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): kenneth"
   },
   {
-   "answer": "ɪkˈspoʊʒər",
-   "bb_sha256": "4f9ff0230fcb88e2b3eb999b8de07692a599a87d5d72aa601176dabec308d8c3",
+   "answer": "ˈaʊtˈdɔrz",
+   "bb_sha256": "d5a17b14602f51f13275527d39c6a87cb749bcebc70d6824c01afbbf1fae7598",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 2887,
+    "word": "outdoors"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): outdoors"
+  },
+  {
+   "answer": "laɪf",
+   "bb_sha256": "702dcc9ad5eadbcc1e9eb8c758176cf31cee38e0ac287204578f9090473b064c",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 200,
+    "word": "life"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): life"
+  },
+  {
+   "answer": "ˈbeɪkən",
+   "bb_sha256": "bef94758c0e9f6ca95ffd486ee70875fbdb343ab8f41bbdaa101f008527db74e",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 9594,
+    "word": "bacon"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bacon"
+  },
+  {
+   "answer": "ˈəpˌkəmɪŋ",
+   "bb_sha256": "2c7f4e11b7774265463ffbb2a750f1fb37a6361463827ff45c55e266f521de95",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 3305,
+    "word": "upcoming"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): upcoming"
+  },
+  {
+   "answer": "ʃild",
+   "bb_sha256": "f2c621fbd9d71db8d95794ebeaa1dfe4b4e10321cd392874d210f120eeb4ae67",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 6486,
+    "word": "shield"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): shield"
+  },
+  {
+   "answer": "skaɪp",
+   "bb_sha256": "ab7a56976e10a6ed3047e9aef754f9dad87aa62478ea459ab82669268d8c90d2",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 5669,
+    "word": "skype"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): skype"
+  },
+  {
+   "answer": "ˈmɑdəˌfaɪ",
+   "bb_sha256": "c897128fb9abc72159277cc0430ffd1d6fcae87dff61f0bd5d7d52d88ce34734",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 3475,
+    "word": "modify"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): modify"
+  },
+  {
+   "answer": "drəg",
+   "bb_sha256": "5528a2310d4f593d4dbcd319c8cafc2ba2b1df1dac74e854bbdf0d7ea64cde31",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 1018,
+    "word": "drug"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): drug"
+  },
+  {
+   "answer": "ˈkɔrnər",
+   "bb_sha256": "0961e67e8166b957b595d57277d8360f2fe420a28183820a3bf0ff4e3d89aaed",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 2218,
+    "word": "corner"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): corner"
+  },
+  {
+   "answer": "ˈrɛzɪdənt",
+   "bb_sha256": "64e02385a7c0ad7596963b6f2d15d939bebb29d7f304b96236b1ed64b7aab536",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 3869,
+    "word": "resident"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): resident"
+  },
+  {
+   "answer": "daʊn",
+   "bb_sha256": "4b6333a106440e7673861350ed2ff31648a007a81cef9367857c8e941bcb028b",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 311,
+    "word": "down"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): down"
+  },
+  {
+   "answer": "ˈbrɪtɪʃ",
+   "bb_sha256": "67e03ed900a11cfc694066bb53327ed22feb3510892c54f10d7a700dd278e2ec",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 1130,
+    "word": "british"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): british"
+  },
+  {
+   "answer": "ænˈtigwə",
+   "bb_sha256": "4d7d1ccb2139246dd191f7b1f2642f9ee064873f1c0434ec1bf45325667edb98",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 8399,
+    "word": "antigua"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): antigua"
+  },
+  {
+   "answer": "ˈɛrən",
+   "bb_sha256": "d172896c3513757af6ab0e0c7541e1ee045c07f7d631748f7c4c206b89d4b2d2",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 5501,
+    "word": "aaron"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): aaron"
+  },
+  {
+   "answer": "teɪks",
+   "bb_sha256": "0ef55f2bd2df25fe12ab6f2aacb04783a1f2c551c0cbe7c5df85341e24b72da6",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 1422,
+    "word": "takes"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): takes"
+  },
+  {
+   "answer": "ˈbreɪkˌdaʊn",
+   "bb_sha256": "89766fbdff3e4b099d690fec6f9c18ded68def6eb1842d22ac4e1c54a7402bde",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 9,
-    "rank": 2878,
-    "word": "exposure"
+    "rank": 7864,
+    "word": "breakdown"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): exposure"
-  },
-  {
-   "answer": "eɪdz",
-   "bb_sha256": "7d5cc416b540a9bdb69f439f8c7a90e27835b6fa09f2852c853bcd59eda6b34b",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 2404,
-    "word": "aids"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): aids"
-  },
-  {
-   "answer": "ˈseɪfti",
-   "bb_sha256": "cc8781ffcc17fd5c02844a7462794901f4fbbc7587e103f414254aeb6a096d72",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 714,
-    "word": "safety"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): safety"
-  },
-  {
-   "answer": "səbˈmɪtəd",
-   "bb_sha256": "641c54dcaef865ca20427f3b12cc12a815acf4ca4755d42395a22e6b988f78da",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 1609,
-    "word": "submitted"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): submitted"
-  },
-  {
-   "answer": "dɪg",
-   "bb_sha256": "7926ed0bcdd23c014e4785a8e9159f562fea7835f0bb28af6344139b9f76f8e1",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 7788,
-    "word": "dig"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dig"
-  },
-  {
-   "answer": "waɪlst",
-   "bb_sha256": "94dd9dc7ab9003f1405c7b3b21bf8d266b5b45c28a26e168cc82fd2aba507717",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 6388,
-    "word": "whilst"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): whilst"
-  },
-  {
-   "answer": "tɛkˈniks",
-   "bb_sha256": "628809616224bd6edc76b85b0ba4f94305f2fdaa22784b3211e230ba67353b74",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 2013,
-    "word": "techniques"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): techniques"
-  },
-  {
-   "answer": "rɛk",
-   "bb_sha256": "09c8fa672dd23243944db23ea087928139cce7972e1b6cecf7b541b5034414c6",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 7022,
-    "word": "rec"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): rec"
-  },
-  {
-   "answer": "əˈtɛnd",
-   "bb_sha256": "dec70baf6ab8122a9303f27b8d0a7474b3015357fc621f43e386c0b5dfc873d0",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 3607,
-    "word": "attend"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): attend"
-  },
-  {
-   "answer": "ˈsoʊlʤərz",
-   "bb_sha256": "b34505e63272c0505b0cd71ad8e9b90d596e59529e8ab74867237147506ff72e",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 4313,
-    "word": "soldiers"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): soldiers"
-  },
-  {
-   "answer": "hɔr",
-   "bb_sha256": "aaea3906360da3c42794081777eccc1d950d340bdd7a91f619a8e65a78310079",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 9802,
-    "word": "whore"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): whore"
-  },
-  {
-   "answer": "ˈmitɪŋ",
-   "bb_sha256": "a684c082efc19cd39fadaac88bdb4a4453e3250c405d19da81604d464a21d77d",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 650,
-    "word": "meeting"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): meeting"
-  },
-  {
-   "answer": "ˈdɑmənənt",
-   "bb_sha256": "8c69e09fb2bfffd7728dfeed2c1803647aa08cdc13c79485ebd6e1fa3c6f7c50",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 7834,
-    "word": "dominant"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dominant"
-  },
-  {
-   "answer": "ʤɛn",
-   "bb_sha256": "972e35d2420d865102b8fb55018d74cbbc0d9e3eab60ce48d1a7084310c043d6",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 6008,
-    "word": "gen"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): gen"
-  },
-  {
-   "answer": "ˈmoʊʃən",
-   "bb_sha256": "f60453ca54cfd49803f68335992879b3972bcd695e4795d3f49a9284a4447108",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 1871,
-    "word": "motion"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): motion"
-  },
-  {
-   "answer": "ˈlaɪfˌtaɪm",
-   "bb_sha256": "5b03a71b5da27be1e6bf5ba78f7e89b06dfc3f0bf71e5f53a1af1732ffdb3e7c",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 4747,
-    "word": "lifetime"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lifetime"
-  },
-  {
-   "answer": "fɑks",
-   "bb_sha256": "cc4ae33f862319c7ee1518e5371d8e9073a2b774d360f86c55edab3d93ba604a",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 3222,
-    "word": "fox"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fox"
-  },
-  {
-   "answer": "ˈoʊməˌhɑ",
-   "bb_sha256": "b05f5024fe47682357359239d1bfff05b64c1ca516f7e6bea58e25517c803735",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 6586,
-    "word": "omaha"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): omaha"
-  },
-  {
-   "answer": "ˈɑptɪməl",
-   "bb_sha256": "861f5da029eaa97831d3d9a281222aeadd4ce59467c499316c9f017e3055322d",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 6026,
-    "word": "optimal"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): optimal"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): breakdown"
   },
   {
    "answer": "lidz",
-   "bb_sha256": "cafe7ec85c7a2c396e349946d1d7442597a04a405c00459c8002b0a3f1eec50d",
+   "bb_sha256": "788c345523b9eb7a3ac62a118e6df5fb015ffb1dd93c3b93030d1a40bcca4820",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 6413,
-    "word": "leeds"
+    "rank": 2604,
+    "word": "leads"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): leeds"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): leads"
   },
   {
-   "answer": "ˈdrɑmə",
-   "bb_sha256": "adc999919ba6a9acf8463ea1a50c2108927b3c3dc2c1d64c84c6d38bc8f1be53",
+   "answer": "ˈwɪlɪŋ",
+   "bb_sha256": "8e641a2476ee446630ff605ca835e13799d0100450fee25ec0cc1ecd1b60febf",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 3570,
-    "word": "drama"
+    "rank": 3912,
+    "word": "willing"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): drama"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): willing"
   },
   {
-   "answer": "kənfˈjuʒən",
-   "bb_sha256": "65803b26ca0b56875c121f31103e1b12851836ad67054ed95bdc349986e10f0e",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 9,
-    "rank": 7453,
-    "word": "confusion"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): confusion"
-  },
-  {
-   "answer": "fɔrθ",
-   "bb_sha256": "7a513a8c7de7bf960f6b471824a68addb0a433248edd87461c77e7dafac67baa",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 3664,
-    "word": "forth"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): forth"
-  },
-  {
-   "answer": "stɛps",
-   "bb_sha256": "500f12ffe6982c02596f69c3cf30fed871922416f659d02650fcfddc4ea2b55e",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 2113,
-    "word": "steps"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): steps"
-  },
-  {
-   "answer": "tuˈtɔriəl",
-   "bb_sha256": "6eb9ff827e16a93c988b26d9610e4c3acdd0f19c1cca8b1bb93fa6be89da8906",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 4064,
-    "word": "tutorial"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): tutorial"
-  },
-  {
-   "answer": "rɪst",
-   "bb_sha256": "7bc859bdc2128721fb34952dc4072fdd5533cfd146fd15118ab6746a7a621b55",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 8769,
-    "word": "wrist"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): wrist"
-  },
-  {
-   "answer": "klɪrd",
-   "bb_sha256": "d78cab71396b5acd5682378f438625e97c324430d4b9f8007d4c037eddc66f7d",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 8812,
-    "word": "cleared"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cleared"
-  },
-  {
-   "answer": "ˈprifɪks",
-   "bb_sha256": "0e6950fd72597dddd4acbd3bfd62ffb7c42babdd748e8584741b4b19145f5c5a",
+   "answer": "ˈpoʊltri",
+   "bb_sha256": "4a216ab3c56b199167b404214d52566e36db03197c48461bd34a07ed43914f0e",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 8372,
-    "word": "prefix"
+    "rank": 9874,
+    "word": "poultry"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): prefix"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): poultry"
   },
   {
-   "answer": "loʊn",
-   "bb_sha256": "f9bd74b613d697f623bb730e7e3ef1516afa0fc09791098bb4d167a706b5a073",
+   "answer": "biɪŋ",
+   "bb_sha256": "4ae26aa3491aca12abc146cf4b33346e4cf0eace3c706bad3dea9e14847ce13e",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 9832,
-    "word": "lone"
+    "rank": 277,
+    "word": "being"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lone"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): being"
   },
   {
-   "answer": "ˈhəŋgri",
-   "bb_sha256": "f0349bbbed35e0b3d5a21839fa9d828bd745cadc1d66d74c648998c5ed3633f0",
+   "answer": "ərˈɛst",
+   "bb_sha256": "707180db8d437ad9bd1d93b8ec82808ba0da1bb31fe58b7951481212e5ba43dd",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 7523,
+    "word": "arrest"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): arrest"
+  },
+  {
+   "answer": "kənˈfɪgjərd",
+   "bb_sha256": "354a0246b6a169bac17cb5e2daf976146b951bae2dc74005e62308aff8b4360b",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 10,
+    "rank": 7116,
+    "word": "configured"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): configured"
+  },
+  {
+   "answer": "krɔs",
+   "bb_sha256": "59be4115117dbc944c0fa78c6a59ffc57c21e6f453303e30d77025fba2dd0790",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 1083,
+    "word": "cross"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cross"
+  },
+  {
+   "answer": "ˈmoʊdəm",
+   "bb_sha256": "abaa5b8d1dee5e5ddc7417dea6090813e03795f0b5742475a323ae7c3c831751",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 8710,
-    "word": "hungry"
+    "rank": 4354,
+    "word": "modem"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): hungry"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): modem"
   },
   {
-   "answer": "ˈvɪzəbəl",
-   "bb_sha256": "36dba3c1c257e3aece7331ce230d2b471c8cc3a5f434abb1b2797b3175f99e3a",
+   "answer": "ˈsɪmpsən",
+   "bb_sha256": "833d3f3d35a1e7e06369b07e5e9476285a9750de680869aaffbfab2bb9b57c01",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 4407,
-    "word": "visible"
+    "rank": 4665,
+    "word": "simpson"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): visible"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): simpson"
   },
   {
-   "answer": "mɪr",
-   "bb_sha256": "3045614bef6de0b16e372d3c6301c967d06021e9c2736fe17aa476ba6f114cbe",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 7775,
-    "word": "mere"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): mere"
-  },
-  {
-   "answer": "baɪɪŋ",
-   "bb_sha256": "64f5881829ba396bb54054fc788529c84e4b035c3446310520947811e4c46690",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 1535,
-    "word": "buying"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): buying"
-  },
-  {
-   "answer": "oʊˈlɪmpɪks",
-   "bb_sha256": "0476ba6d8cce48213cf3bfc8a5ae9002d1f54b00d44c35e1db2837d83027a508",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 9,
-    "rank": 7329,
-    "word": "olympics"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): olympics"
-  },
-  {
-   "answer": "bust",
-   "bb_sha256": "dc49a1784765bb53c26c63980bf7d0e57e7560692ab3581fd8642f992c85ba6d",
+   "answer": "stæk",
+   "bb_sha256": "d7707550fb0157f33392941f536ab764c8d9d604b99d40c75612cd9f418eff7f",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 4894,
-    "word": "boost"
+    "rank": 5702,
+    "word": "stack"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): boost"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): stack"
   },
   {
-   "answer": "flɔɪd",
-   "bb_sha256": "5f971851e26672d2ef8161703461c65d0a018973a323452fef2fc2fb41fb601f",
+   "answer": "ruˈlɛt",
+   "bb_sha256": "5cb59ca86bc0bd50605b474226bab6cf790adf355dae6ae3538839adc3f7b17a",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 7709,
-    "word": "floyd"
+    "rank": 5614,
+    "word": "roulette"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): floyd"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): roulette"
   },
   {
-   "answer": "əˈreɪbiə",
-   "bb_sha256": "6e28e11b4bdfb8b1e74da5cc741888fd04b40a37b89a609c2af706bc552f5c40",
+   "answer": "dɪˈtɛktər",
+   "bb_sha256": "41c2afd3719050003305d667dff6ec46967eb5c7e6bcc86876ef7091c10d5708",
    "meta": {
     "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 5748,
-    "word": "arabia"
+    "ipa_len": 8,
+    "rank": 7485,
+    "word": "detector"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): arabia"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): detector"
+  },
+  {
+   "answer": "faɪt",
+   "bb_sha256": "648a8be0b979bf866044c77a11ce2214ce57aae07d778ceffd3eac90c0f7dd02",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 2575,
+    "word": "fight"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fight"
+  },
+  {
+   "answer": "θˈrisəm",
+   "bb_sha256": "bc454c28ba90bb6e6549527dbc619a290ceb5d986b4e731393ca09208b4c3026",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 7145,
+    "word": "threesome"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): threesome"
+  },
+  {
+   "answer": "kənˈvinjənt",
+   "bb_sha256": "e41b7a6fd45238249d2a646d81d6a707b329900f4782f6fef7e21892a7678a52",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 10,
+    "rank": 5143,
+    "word": "convenient"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): convenient"
+  },
+  {
+   "answer": "ˈvæli",
+   "bb_sha256": "2aad16d51b2248a6dd67fab37c4ec58bcabadc2de630265dfd414437f5960ef1",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 1315,
+    "word": "valley"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): valley"
+  },
+  {
+   "answer": "ˈdɪlˌdoʊ",
+   "bb_sha256": "4c7d30b22d94627f9d1929c550664dc9de35b5ee9269cd76392585716fe1864f",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 3585,
+    "word": "dildo"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dildo"
+  },
+  {
+   "answer": "ˈmænjuəli",
+   "bb_sha256": "07fc9a641ead078ed8ee437da24ab0ba7f3f0c312c3c8a478f4691a0b97d5193",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 9107,
+    "word": "manually"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): manually"
   },
   {
    "answer": "keɪʤ",
@@ -2919,92 +2787,224 @@
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cage"
   },
   {
-   "answer": "ˈfɛtɪʃ",
-   "bb_sha256": "31ac8fc90a88f9199a9a64aa83722f017469cba4b7dff0b23e2bd2012f907984",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 4232,
-    "word": "fetish"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fetish"
-  },
-  {
-   "answer": "ˈspɛʃəlɪst",
-   "bb_sha256": "46cab91bd0210b6f7ff7c0870dcdebf7603949b959d9a26913ba5a30c92a9c22",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 9,
-    "rank": 3138,
-    "word": "specialist"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): specialist"
-  },
-  {
-   "answer": "iʧ",
-   "bb_sha256": "7ca1e354d53d2a971c62e096206f3942f3ae6269b21af2c6cdef2e962f1bc723",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 2,
-    "rank": 168,
-    "word": "each"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): each"
-  },
-  {
-   "answer": "ˌɪnˈtɛl",
-   "bb_sha256": "667538fcb477f8c046fe7860ca0183e898b7841c6ac54a52dd325f5afa8bc547",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 2745,
-    "word": "intel"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): intel"
-  },
-  {
-   "answer": "dɪˈmɛnʃən",
-   "bb_sha256": "bfbc52ac2b3b2843dff357d5192c3a07c61769caef4e7d478907dd81b0f29914",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 5101,
-    "word": "dimension"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dimension"
-  },
-  {
-   "answer": "skɔr",
-   "bb_sha256": "3b94e6a1e54e98be7161bb7a91301e41dd09f663fab2ae536cb346aea977a81b",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 1158,
-    "word": "score"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): score"
-  },
-  {
-   "answer": "ˈgæðərd",
-   "bb_sha256": "0efe8f16b2880ad8ceba9725dc1f2457bdb98ad541394f2f674ae9ce2fc9db42",
+   "answer": "ˈkaʊˌbɔɪ",
+   "bb_sha256": "adf677e1e184cae20d70be368abfa9917b14029ddb1d5630299b18c8cf695d81",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 6909,
-    "word": "gathered"
+    "rank": 8118,
+    "word": "cowboy"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): gathered"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cowboy"
   },
   {
-   "answer": "soʊˈsaɪɪti",
-   "bb_sha256": "281529bd32c015a27b4d2acb2f5988012f1fdc494d1e721b431cae4e991b95a5",
+   "answer": "ˈæktɪvɪsts",
+   "bb_sha256": "ee5eabf75b810dccc52422eabf1de8ae88c2036a590e0cce2904bb11c7bdfe0c",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 9,
-    "rank": 711,
-    "word": "society"
+    "rank": 9905,
+    "word": "activists"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): society"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): activists"
+  },
+  {
+   "answer": "seɪk",
+   "bb_sha256": "d60e9f0bbaac78acb6022859cbb5858995a1dd63d969a1d2c9089387d2c8a536",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 8496,
+    "word": "sake"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sake"
+  },
+  {
+   "answer": "ˈkæpʧər",
+   "bb_sha256": "2ad761771b5689085e991dbd7d51b4d0fdf820873eeae0b59e158704ac3ed6fc",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 4006,
+    "word": "capture"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): capture"
+  },
+  {
+   "answer": "ˈhændˌbægz",
+   "bb_sha256": "568ab78840a39c4e07c4cc321a6b7fe02fb28cdd2fa8b61055ba39686459cadd",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 8392,
+    "word": "handbags"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): handbags"
+  },
+  {
+   "answer": "pləs",
+   "bb_sha256": "22ea2437efb1beefaa2e82cd86d3a966dacaac550ab2ed064a0b690577dfdc8f",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 844,
+    "word": "plus"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): plus"
+  },
+  {
+   "answer": "dɪˈtɛkt",
+   "bb_sha256": "bbd651a0e857cc539bb4b75bc98cf4184c1d9066af0bf864de6d45c705d30bbc",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 7029,
+    "word": "detect"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): detect"
+  },
+  {
+   "answer": "prəˈtɛktɪŋ",
+   "bb_sha256": "fff5d84ac483f66527ff6b4085164f6c7eb581826c2f0b722c85c1dacbf6811d",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 9,
+    "rank": 6204,
+    "word": "protecting"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): protecting"
+  },
+  {
+   "answer": "grɪp",
+   "bb_sha256": "2fa045720b5e05bf14bd5c5265ea7600941b086e8a508bf169fdd184010a3e8d",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 7245,
+    "word": "grip"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): grip"
+  },
+  {
+   "answer": "drɑpt",
+   "bb_sha256": "3379e51dd7263aadb78ee9f7c9ee0713cbb1783001773d416dca677205843114",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 5316,
+    "word": "dropped"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dropped"
+  },
+  {
+   "answer": "ˈtrævələr",
+   "bb_sha256": "58e976048a32f5962bfc7993fa1645b77d03647969accb74d8c464ef61335aab",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 9003,
+    "word": "traveller"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): traveller"
+  },
+  {
+   "answer": "ræm",
+   "bb_sha256": "728f51cd23b992192866b64fbaa14c21976e55b78649462c6be15dde50000c16",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 3213,
+    "word": "ram"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ram"
+  },
+  {
+   "answer": "ˈbɪljən",
+   "bb_sha256": "79cf11e90071673b357d027c533b704a0512b52d4864a45e91bd26e29161f7e2",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 2522,
+    "word": "billion"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): billion"
+  },
+  {
+   "answer": "ɔˈstreɪljə",
+   "bb_sha256": "0695659fdd2108df80a78d6934f34adc8efb9e92705a2900eed962d19620c942",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 9,
+    "rank": 702,
+    "word": "australia"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): australia"
+  },
+  {
+   "answer": "pis",
+   "bb_sha256": "2b2fb10b287beee49b944ccc7150773d6ae3b3c60ee7dd4ae5f75e8836e16be8",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 1852,
+    "word": "piece"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): piece"
+  },
+  {
+   "answer": "ˈpæləs",
+   "bb_sha256": "b56bd2bbbb566e4f69db847f40e4f82a39b2329ccfe1bc00f36c1eeea4ad34f4",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 4669,
+    "word": "palace"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): palace"
+  },
+  {
+   "answer": "prəˈpoʊzəl",
+   "bb_sha256": "1f2bd822a53f075aa92c3fc5ec2ea2523e68f8301f2c954e20efb09cbaa03388",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 9,
+    "rank": 2629,
+    "word": "proposal"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): proposal"
+  },
+  {
+   "answer": "kɔɪn",
+   "bb_sha256": "6df1c2007cc6a790cf264837f9f9a1f47eead5594f09509c724359d26d066fe8",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 6131,
+    "word": "coin"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): coin"
+  },
+  {
+   "answer": "ˈmɑdəl",
+   "bb_sha256": "4529447e0fb338e865593dfef265d053cd8ab7c9ce5dabd7c42b939bec91e93f",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 476,
+    "word": "model"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): model"
+  },
+  {
+   "answer": "trænzˈmɪt",
+   "bb_sha256": "0a5d7ab0cd795eef338303ec0ae9ded9097a1c26290e529ffcc8c7a845046111",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 9616,
+    "word": "transmit"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): transmit"
   },
   {
    "answer": "trɪk",
@@ -3139,631 +3139,598 @@
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): historical"
   },
   {
-   "answer": "laɪf",
-   "bb_sha256": "702dcc9ad5eadbcc1e9eb8c758176cf31cee38e0ac287204578f9090473b064c",
+   "answer": "tɪts",
+   "bb_sha256": "28794712a7ebf86f65ca8c25760c97accf9915aaa4377b7da12011a1b5579abb",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 200,
-    "word": "life"
+    "rank": 2214,
+    "word": "tits"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): life"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): tits"
   },
   {
-   "answer": "ˈvərʤɪn",
-   "bb_sha256": "8d647e8bc70f8c0c99ad1646b6cf415fa47239b7ecba9a3698b58e6219e194be",
+   "answer": "ˈbeɪkɪŋ",
+   "bb_sha256": "dee398ff0c6305efdec0ccd84edeaacfad7f745b7da26ec43d3d4a69cb6accb5",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 3141,
-    "word": "virgin"
+    "rank": 9229,
+    "word": "baking"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): virgin"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): baking"
   },
   {
-   "answer": "ˌhɛpəˈtaɪtəs",
-   "bb_sha256": "426a1c34038cf555dc7b03d72e4f2402211af9699e6e36355e2bc9ad7ddb5fb7",
+   "answer": "ˈfoʊldər",
+   "bb_sha256": "f7b2b868b17d76daf0f5d2dfce809962009f41652a2c8cfe13ced89d429859d6",
    "meta": {
     "ipa_bin": 2,
-    "ipa_len": 10,
-    "rank": 9322,
-    "word": "hepatitis"
+    "ipa_len": 7,
+    "rank": 3838,
+    "word": "folder"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): hepatitis"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): folder"
   },
   {
-   "answer": "ˈɪʃud",
-   "bb_sha256": "b50807b5d2e04f9da9e5c5c69cd25c2245ab024a19c07b988966aba944471c33",
+   "answer": "kɪdz",
+   "bb_sha256": "0970272f734ed1f8e48cdbf7ec7fc1c6d519fc830fe5752359a9386e135bb1b9",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 2385,
-    "word": "issued"
+    "rank": 829,
+    "word": "kids"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): issued"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): kids"
   },
   {
-   "answer": "trəst",
-   "bb_sha256": "fa3d8e3e259da2b6e2017eafa61025d3508334a8504edff6c1062a8fda273f9b",
+   "answer": "ʃoʊɪŋ",
+   "bb_sha256": "61950489f9aeba154d6a3f563d063d6fa813324fd2100fd9040fe4b69f86c3e1",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 1495,
-    "word": "trust"
+    "rank": 1724,
+    "word": "showing"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): trust"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): showing"
   },
   {
-   "answer": "ˈbæskətˌbɔl",
-   "bb_sha256": "158b3c966aa3fcb9e03b5c51eb08d2cda88bf7815df64d06b37098a538276600",
+   "answer": "ˈklivlənd",
+   "bb_sha256": "6c628ab227744c54fd53cec0c63993cea5c2680bcb02cf57a8745933d8f3f3c5",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 3813,
+    "word": "cleveland"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cleveland"
+  },
+  {
+   "answer": "flis",
+   "bb_sha256": "2fd3a4e767bb6821a404c7e9721483b868565618ab11f98e41df40febb9e7ce0",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 8969,
+    "word": "fleece"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fleece"
+  },
+  {
+   "answer": "ˈfɪkʃən",
+   "bb_sha256": "8e4ddee3fa785bd58d3e8347a5b23b90edf195cb21705bde5de05e585cb00dc5",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 1735,
+    "word": "fiction"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fiction"
+  },
+  {
+   "answer": "braɪənt",
+   "bb_sha256": "0ad9d23bf1ac0b399ad032aa3bcad675a607e46a081196b493fd637b1e5fcfe0",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 9737,
+    "word": "bryant"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bryant"
+  },
+  {
+   "answer": "fɪlm",
+   "bb_sha256": "81c38083196d5a7b46a0f1d45d6d580e9c685a5e6e047fbb3cd0baec9ea77c3c",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 677,
+    "word": "film"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): film"
+  },
+  {
+   "answer": "geɪts",
+   "bb_sha256": "550eff201f9ef4f8ba11dc29eb5e227c35760dacfbef3233314023a12cf2ec62",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 5855,
+    "word": "gates"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): gates"
+  },
+  {
+   "answer": "ˈɪndəˌkeɪtərz",
+   "bb_sha256": "49f15e5c58cd686e7b15019bd4b6a3ef583f12cf011082fa3700862643f861d2",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 11,
+    "rank": 4881,
+    "word": "indicators"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): indicators"
+  },
+  {
+   "answer": "smɛl",
+   "bb_sha256": "96785a5db766e52e0a41845b7e5b71b95e5646683820a49d218e93a4522a1160",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 8314,
+    "word": "smell"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): smell"
+  },
+  {
+   "answer": "ənˈræp",
+   "bb_sha256": "2c0aefc921608bfbcf8a48f4db956a3febc8384a49648eee09e2670b36905c5b",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 9954,
+    "word": "unwrap"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): unwrap"
+  },
+  {
+   "answer": "kraɪˈtɪriə",
+   "bb_sha256": "57ae07e31b2b3ae27033c292a492118d867e062fc502926fe7611b0738948375",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 9,
-    "rank": 2374,
-    "word": "basketball"
+    "rank": 2468,
+    "word": "criteria"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): basketball"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): criteria"
   },
   {
-   "answer": "boʊt",
-   "bb_sha256": "780159f0d39efc065c20dc88f4e886dd28f9af669fdfcec3b7858ac021398258",
+   "answer": "dər",
+   "bb_sha256": "ef380c30a9a13b67a02bb9996a2cae25a29cf45da31210bf92e025fef81716cf",
    "meta": {
     "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 2360,
-    "word": "boat"
+    "ipa_len": 3,
+    "rank": 3168,
+    "word": "der"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): boat"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): der"
   },
   {
-   "answer": "ˈjɪrli",
-   "bb_sha256": "38f0df126c766862bbd232b4938018d97a251fd5b8037a1fdac5d9baf0bbb378",
+   "answer": "sˈwidɪʃ",
+   "bb_sha256": "66c7b6c4bf36191a6a6039b28bbde817d7545bf034ce3b5170498360b0dbe8e6",
    "meta": {
     "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 9115,
-    "word": "yearly"
+    "ipa_len": 6,
+    "rank": 5187,
+    "word": "swedish"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): yearly"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): swedish"
   },
   {
-   "answer": "ˈsɛkʃuəl",
-   "bb_sha256": "93c51493e8a6ca502cf1de162304642934a0675da220e32801bc488655584c03",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 2387,
-    "word": "sexual"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sexual"
-  },
-  {
-   "answer": "vɔlt",
-   "bb_sha256": "167b18a7569784f46b2e7c95a0b818c0d2208e42cf4f75eb09c3b46c30ae9c78",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 9567,
-    "word": "vault"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): vault"
-  },
-  {
-   "answer": "ˈkɪʧən",
-   "bb_sha256": "37d124ea3c16e1b6c89b0ceb607870c8e7ea47d4ee569e2ac85ae12e28155878",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 1339,
-    "word": "kitchen"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): kitchen"
-  },
-  {
-   "answer": "ˈtɛstɪˌmoʊni",
-   "bb_sha256": "f00e54fe699e332643174d18990c0fab655fe37fdae3646004c6832ff0a396e3",
+   "answer": "ˈneɪʃənˈwaɪd",
+   "bb_sha256": "473cd79e16a32f4556d347c75dc3eef879866559d85f5ef93e47a79a7976f16f",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 10,
-    "rank": 6235,
-    "word": "testimony"
+    "rank": 4368,
+    "word": "nationwide"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): testimony"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): nationwide"
   },
   {
-   "answer": "dɑlz",
-   "bb_sha256": "ceb13ce518ef25deb8656856ad210d107eb7ab113c964daf52ece828ed77823c",
+   "answer": "ˈʧɛri",
+   "bb_sha256": "b781f2502a473f9daf55880f6b9873092eb3ceff9e3cdc75f71e0dd5a8b70e4d",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 3431,
-    "word": "dolls"
+    "rank": 5123,
+    "word": "cherry"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dolls"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cherry"
   },
   {
-   "answer": "ˈlɔˌsut",
-   "bb_sha256": "6876d46c009c740d2c7f1a4558fcb4a20e566863d0301a9f119047d891468195",
+   "answer": "prɛˈmɪr",
+   "bb_sha256": "11fe6db08d0e819a670e2590febdd239cb39d4c4971d3021c0c105a31d347dd9",
    "meta": {
     "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 8565,
-    "word": "lawsuit"
+    "ipa_len": 6,
+    "rank": 8022,
+    "word": "premiere"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lawsuit"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): premiere"
   },
   {
-   "answer": "ˈreɪnʤər",
-   "bb_sha256": "c552e010768aeb95d1700c4fed39d3439414a58ac607d4edcbfe4c36d200549c",
+   "answer": "ˈʤərnəlz",
+   "bb_sha256": "12bbbc4efbb755c5bbd70a41ef2f8429998d116bd60569650535b899801c3b0e",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 9975,
-    "word": "ranger"
+    "rank": 3509,
+    "word": "journals"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ranger"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): journals"
   },
   {
-   "answer": "dɔg",
-   "bb_sha256": "1e769a7edbb4b7eb8d94b402573c2141ccb8d7ba53855ed39f93a89baf68cfdd",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 1047,
-    "word": "dog"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dog"
-  },
-  {
-   "answer": "ˈɪmɪʤɪŋ",
-   "bb_sha256": "d9bfd5f81866820df9f66a9426dc6e29c26a3c22c289e433a0fdd1570e65260d",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 4166,
-    "word": "imaging"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): imaging"
-  },
-  {
-   "answer": "ˈmɛdəˌkɛr",
-   "bb_sha256": "28ec9bab740530f51ff6b7ba21f0d457a5ad8bfccf8874f7a27c23bd0601c985",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 5618,
-    "word": "medicare"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): medicare"
-  },
-  {
-   "answer": "ˈɛrɪk",
-   "bb_sha256": "db49ed938b50be435933f3ff66e883df29ebd6171823f9f18200517fee319cdf",
+   "answer": "mɪlz",
+   "bb_sha256": "89e658db6253862445895281b380b154a4a84ea0bd6ad87a74b290971fffb1c0",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 2914,
-    "word": "eric"
+    "rank": 5439,
+    "word": "mills"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): eric"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): mills"
   },
   {
-   "answer": "ˈkələrd",
-   "bb_sha256": "46f4c28651f6f26e491bf47e2b85da91117dd544c7b9bc6e4994f4d135a4166f",
+   "answer": "ˈjunɪks",
+   "bb_sha256": "ad505a301d04130d0656a99ebd9d524f47a9a2ab3e8ff82761739cb5ff396b3d",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 6087,
-    "word": "colored"
+    "rank": 3259,
+    "word": "unix"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): colored"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): unix"
   },
   {
-   "answer": "ˌgɛrənˈtiz",
-   "bb_sha256": "adadb06f2931d1b1bc4a41342605e999800286a47da8a51c866c9446155aec1e",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 8280,
-    "word": "guarantees"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): guarantees"
-  },
-  {
-   "answer": "pæʧ",
-   "bb_sha256": "34d071e2e32a6a396e96b09403f654c14a30f1f05beebd8a2769722b7f109c96",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 2026,
-    "word": "patch"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): patch"
-  },
-  {
-   "answer": "proʊb",
-   "bb_sha256": "fe196c5b72112972d6ecd371a25a7a79b1087aa334b1a4fd66b2e16fd6d22ada",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 6343,
-    "word": "probe"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): probe"
-  },
-  {
-   "answer": "ˈsɪstərz",
-   "bb_sha256": "39ed2782695d775183319c8bd416c3e4f05438895dd626d4dbf5dba6ade7bd76",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 6121,
-    "word": "sisters"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sisters"
-  },
-  {
-   "answer": "fɔrt",
-   "bb_sha256": "ad3f2d0da2b38f58ddded4310cabdba8af92ef70e7aa8904ab1f056155c88a78",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 2341,
-    "word": "fort"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fort"
-  },
-  {
-   "answer": "ˈnɪrˈbaɪ",
-   "bb_sha256": "571d09141b8acd3eb25b2898a2307b32cd63f28f775bd1d8282f71c825ba5f52",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 2874,
-    "word": "nearby"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): nearby"
-  },
-  {
-   "answer": "ˈfɪŋgərɪŋ",
-   "bb_sha256": "5b294ab88294c9de23d0c36e5c885d4d28e9b1e0de4d7355cf3e752125be22bb",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 6429,
-    "word": "fingering"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fingering"
-  },
-  {
-   "answer": "swɑp",
-   "bb_sha256": "0bbcf41226380846e8f22d4b002075862a811fff15a32c236fc7126051b32310",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 7346,
-    "word": "swap"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): swap"
-  },
-  {
-   "answer": "ɪgˈzɪst",
-   "bb_sha256": "32d0f09f43c30716c741172bf5daa971b731f6498ff2eb8ebb0e858e6f6ca1b0",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 3042,
-    "word": "exist"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): exist"
-  },
-  {
-   "answer": "ˌlɪmɪˈteɪʃən",
-   "bb_sha256": "2cb961d7c78dcb686ed7b3427f1c29ed5b05089c49788388372c632de237834c",
+   "answer": "kənˈtɪnjuəs",
+   "bb_sha256": "d1fd187d81e322fb1fc98f2719798f4b6a9e4669f87abad2c869b137291c01c3",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 10,
-    "rank": 6994,
-    "word": "limitation"
+    "rank": 3450,
+    "word": "continuous"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): limitation"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): continuous"
   },
   {
-   "answer": "ˈnioʊ",
-   "bb_sha256": "4d77eb4e7be53b1ddef089e4d3b6449428b0da3d4a7a9a71dd142bb454bd8660",
+   "answer": "pɑt",
+   "bb_sha256": "69f90b89b41b749ca0c4929dd186e9d8cf0abd489ad4bec5cce0e8d8dfdf76b3",
    "meta": {
     "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 7768,
-    "word": "neo"
+    "ipa_len": 3,
+    "rank": 5100,
+    "word": "pot"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): neo"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pot"
   },
   {
-   "answer": "ˈtriˌoʊ",
-   "bb_sha256": "a0b89ad21c1e73ede1ab82a1ca22a8ca8972d65f3ee856a28ef64ed6d252871c",
+   "answer": "greɪn",
+   "bb_sha256": "25a750047d80512a748e45da6a30c2ef485dac5556aacc5444c3de3efb9469c3",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 7858,
-    "word": "trio"
+    "rank": 6063,
+    "word": "grain"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): trio"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): grain"
   },
   {
-   "answer": "ˈpaʊərˌpɔɪnt",
-   "bb_sha256": "82d9a6880628ef4707d1d1cfedef712b7b2f9fb2c3bd1d830190017e1af82fca",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 10,
-    "rank": 7781,
-    "word": "powerpoint"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): powerpoint"
-  },
-  {
-   "answer": "mɛnz",
-   "bb_sha256": "d3ef4d55da444040f24a2e5f900e8dd1fe3f6ee808930674b78392fe5a18e6da",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 3421,
-    "word": "mens"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): mens"
-  },
-  {
-   "answer": "ˈhaʊzɪŋ",
-   "bb_sha256": "b0fd14dbe288410ce40d14b9a155fe770fd366431049927c19c72b0410f43b1f",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 1421,
-    "word": "housing"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): housing"
-  },
-  {
-   "answer": "ˈmɑnətər",
-   "bb_sha256": "999435369d9720c54698ea65ec9cc974b1b2dcb373c44f0a9054beb4feec5df0",
+   "answer": "ɪkˈsɛsɪv",
+   "bb_sha256": "a0806083ff80a138947304852de77851ac2e45d9bed6c88f38b9e71272d8b21c",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 1877,
-    "word": "monitor"
+    "rank": 8094,
+    "word": "excessive"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): monitor"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): excessive"
   },
   {
-   "answer": "spɛr",
-   "bb_sha256": "99d03b7b197ddd4c88e477ac7b9935045ab24d345c27803a269a23a23d748c66",
+   "answer": "ˈəpər",
+   "bb_sha256": "5d0d596a4b2b77268f58d92e7eb977e58b67af411727e4a2314daa9bba617723",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 6173,
-    "word": "spare"
+    "rank": 2105,
+    "word": "upper"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): spare"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): upper"
   },
   {
-   "answer": "ˌɪnˈdust",
-   "bb_sha256": "a2e57a435580f6107ff76c4094d945508914435f57a11a7821ce04bc9e1ae542",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 5223,
-    "word": "induced"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): induced"
-  },
-  {
-   "answer": "rɪˈspɑndənt",
-   "bb_sha256": "7e10462334bf03a48f8c47d2e0bbed4ff88fbe9aa91d5f2b2571265c6337e5e7",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 10,
-    "rank": 6676,
-    "word": "respondent"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): respondent"
-  },
-  {
-   "answer": "lərn",
-   "bb_sha256": "893b08ee0c2ccf5410fc3466036c041639228aad532bf1a5fd415fb5e15f6c2b",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 424,
-    "word": "learn"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): learn"
-  },
-  {
-   "answer": "θˈrɪlər",
-   "bb_sha256": "96ddeb2c388773bc37f0a0f7e92098930d674078bad30f8a29d9ffccd55c4a1c",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 9615,
-    "word": "thriller"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): thriller"
-  },
-  {
-   "answer": "pərˈfɔrmz",
-   "bb_sha256": "7058bb3899b8209f65e89d670de99cf1c53418ee0a42fd1da253bde00063956e",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 8786,
-    "word": "performs"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): performs"
-  },
-  {
-   "answer": "ˈɑtə",
-   "bb_sha256": "c3528e116d9dd991efe064efb3cab9214c827110b298cc7fafe9d4c73c5064cb",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 9361,
-    "word": "ata"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ata"
-  },
-  {
-   "answer": "ˈprɑməs",
-   "bb_sha256": "2872566e1343850c08a6504f8bccf9361d95f88a15b6558286f8e6de98b95d17",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 4348,
-    "word": "promise"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): promise"
-  },
-  {
-   "answer": "sɪˈnɑpsɪs",
-   "bb_sha256": "e05269f636e958c065abde8e468e8ce7d752794853d299502e79839195517c09",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 6786,
-    "word": "synopsis"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): synopsis"
-  },
-  {
-   "answer": "sɪg",
-   "bb_sha256": "053d8e99f838ab62c90b69e241c936bbebade6f230142fc55a47029b1c6536d9",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 8091,
-    "word": "sig"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sig"
-  },
-  {
-   "answer": "smoʊk",
-   "bb_sha256": "176a64636c53b1b7b7b48fc5ced340d685e4f6bd3e3d49b392ac1f6fa6c8e2f3",
+   "answer": "ˈlɔgɪŋ",
+   "bb_sha256": "727e40459d50ce4b117583a9bb3db7e6a13cbdb9a8bdde137a54adf0693620bc",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 4236,
-    "word": "smoke"
+    "rank": 6707,
+    "word": "logging"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): smoke"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): logging"
   },
   {
-   "answer": "ˈkɑtɪʤɪz",
-   "bb_sha256": "32b5c58ed85f1dca6bfd64ac2149fb5390d43d7ee1ee53d425655a80eb7592f8",
+   "answer": "ˈsərkəts",
+   "bb_sha256": "ac5855662bc9804bba2860041a20432489a16b9e1e08cfd614b973f82ff009a7",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 8956,
-    "word": "cottages"
+    "rank": 8389,
+    "word": "circuits"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cottages"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): circuits"
   },
   {
-   "answer": "tɔt",
-   "bb_sha256": "63b9774f90bac9cb80ccd26351a70bba5ef5c066a81f917a36ce17e37ca1432e",
+   "answer": "rɪp",
+   "bb_sha256": "ef0db1952dd19c0bf2f1bc5ede79cf2a3d3fd6dbb02d63516f0c02182c6e8b8b",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 3,
-    "rank": 4332,
-    "word": "taught"
+    "rank": 7432,
+    "word": "rip"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): taught"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): rip"
   },
   {
-   "answer": "ˈgɑrbɪʤ",
-   "bb_sha256": "347b5b2f9169f6308630d314bf5a7aeddb4662ab1de777f390d65c1e562bca6e",
+   "answer": "boʊnz",
+   "bb_sha256": "6d7b13f0f518de833fc498bebabc7e2949214297d9eae8066d3034f193eb15fe",
    "meta": {
     "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 8345,
-    "word": "garbage"
+    "ipa_len": 5,
+    "rank": 7483,
+    "word": "bones"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): garbage"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bones"
   },
   {
-   "answer": "riˈvɪʒən",
-   "bb_sha256": "5db67d4740268f46997197f695313e81110fdcd94e05da3f58ad47747fed4f5f",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 2941,
-    "word": "revision"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): revision"
-  },
-  {
-   "answer": "baɪk",
-   "bb_sha256": "8977c7a73d6a52f0e3cdc0051809ce1a8c28c8cbfcdfbd39cee7da84deba66ab",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 3155,
-    "word": "bike"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bike"
-  },
-  {
-   "answer": "ˈpætərn",
-   "bb_sha256": "b0e8b80fb0ff28654e972e544c87e92e48fdbaea33495905a6fbccba73802499",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 2357,
-    "word": "pattern"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pattern"
-  },
-  {
-   "answer": "ˈhɑrmfəl",
-   "bb_sha256": "c61ad64f9c36f0911603b4f0fe9ba51dce8f4370f3767d81ff8796572b43e4ef",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 9672,
-    "word": "harmful"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): harmful"
-  },
-  {
-   "answer": "hɑrt",
-   "bb_sha256": "9ae095b3b8c41330eaae4b35e36f00a2a5545f93a4aa453f3a6b48c4f3aa972c",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 7698,
-    "word": "hart"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): hart"
-  },
-  {
-   "answer": "ˈʧɛrmən",
-   "bb_sha256": "8e022aa43f8167d8c174dd315438ea5eec50ecf3a8ca3cfa8d36e466ac40a1f4",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 2719,
-    "word": "chairman"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): chairman"
-  },
-  {
-   "answer": "ɪgˈzæmənd",
-   "bb_sha256": "c3aa5ccee49e85893d455949a1c6c5b2a8280d52328a409d610b98b86ec78a60",
+   "answer": "trəˈdɪʃən",
+   "bb_sha256": "01b3d560f4d0bb47571e39e7d42923c94caba9120377a6965e849470478fa16e",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 8,
-    "rank": 5879,
-    "word": "examined"
+    "rank": 4869,
+    "word": "tradition"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): examined"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): tradition"
+  },
+  {
+   "answer": "æsk",
+   "bb_sha256": "00918ff7603c4300d14c6fa6458634e2d0c2cb76c9a583f2a8dbe8012c3f65d0",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 749,
+    "word": "ask"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ask"
+  },
+  {
+   "answer": "ˌɪmˈpruv",
+   "bb_sha256": "bd6b45a9388a6be682bda63e347d57b07b0f197ecf62896241b17804c098a7d9",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 1326,
+    "word": "improve"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): improve"
+  },
+  {
+   "answer": "ˈʧɪldrənz",
+   "bb_sha256": "1f35236b6d32a74c4cc5a425a52ba8279a6449af88f343c1a19b24cc929916b6",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 7243,
+    "word": "childrens"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): childrens"
+  },
+  {
+   "answer": "laɪz",
+   "bb_sha256": "b09d3878018d97f985e14f4998a9cc3eb2a86dc8769638696d76404bc09c6437",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 4311,
+    "word": "lies"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lies"
+  },
+  {
+   "answer": "ˈsiˌbiˌɛs",
+   "bb_sha256": "82b6e6bcee119d3a676fa160d80062694f8597d9f67bf8d1dcfc28a3519109f6",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 6327,
+    "word": "cbs"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cbs"
+  },
+  {
+   "answer": "ɪkˈsprɛs",
+   "bb_sha256": "be3ac926d25f22dc726b00a3541b8b83465336f2040f82eef112d0ef2ce9f2dd",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 1365,
+    "word": "express"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): express"
+  },
+  {
+   "answer": "lups",
+   "bb_sha256": "288ea798840e58e0933a6ea833ade44a1b87921b971c7c8295d538fff43262a1",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 9535,
+    "word": "loops"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): loops"
+  },
+  {
+   "answer": "hɪˈtɑʧi",
+   "bb_sha256": "14b7a2a26336403fa0843d03c162236b6e082d7bb0b24e5cd17996f0377c5f44",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 8600,
+    "word": "hitachi"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): hitachi"
+  },
+  {
+   "answer": "ˈmɑnətərd",
+   "bb_sha256": "fd612b558e32a1df12e66c98e1f3d36f4aa6e0fd6111e2651873bfa3e54c5e13",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 9553,
+    "word": "monitored"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): monitored"
+  },
+  {
+   "answer": "pjʊr",
+   "bb_sha256": "1056debf8727030e6c81d5a19decb41fbfc1a4d1d3678422ab1721c8fdbdb25e",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 3337,
+    "word": "pure"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pure"
+  },
+  {
+   "answer": "treɪlz",
+   "bb_sha256": "2abe21bd8cdf313314228ac1a3a2784b554812bd4e9216319b594cdc2554907e",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 6459,
+    "word": "trails"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): trails"
+  },
+  {
+   "answer": "ˈʧɛˌklɪst",
+   "bb_sha256": "99ecc8845190af51b0836a495dd084848b783e36927ef251ebacdb793e47b7f6",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 8592,
+    "word": "checklist"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): checklist"
+  },
+  {
+   "answer": "mæt",
+   "bb_sha256": "4c66d060c1127371ac4d167e20431f072d309e3c259cc5310a75762bd37dfbd2",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 3217,
+    "word": "matt"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): matt"
+  },
+  {
+   "answer": "skwərt",
+   "bb_sha256": "998721f4ddef3d94c2608d6551b3a8c0b4d8805da193cd13b424ceb7650dd747",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 8785,
+    "word": "squirt"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): squirt"
+  },
+  {
+   "answer": "ˈklaɪmɪŋ",
+   "bb_sha256": "d283bc47743f8bdc0bee6bd571408c9f907df88317b262b764bd309829370d6f",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 5692,
+    "word": "climbing"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): climbing"
+  },
+  {
+   "answer": "hoʊz",
+   "bb_sha256": "30fa776d703fd66894d11435a5f4d2de1eaaba77ad772bf88229c0261cd83e40",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 8080,
+    "word": "hose"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): hose"
+  },
+  {
+   "answer": "ˈpɑrkɪŋ",
+   "bb_sha256": "57e7ff6ee2f5c3f769673b5c9351ee73667c488258402359eca884f8be68b108",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 2324,
+    "word": "parking"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): parking"
+  },
+  {
+   "answer": "ˈdɪfəkəlt",
+   "bb_sha256": "d71e66bbeaf7e937e83f9f8aa28d074bcac74b7facd95e1520493bfc10dbe6e3",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 1928,
+    "word": "difficult"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): difficult"
+  },
+  {
+   "answer": "bɔɪz",
+   "bb_sha256": "4ecb06c5087cc444611dc1fef835c5c09a6026a8e1b8c3846fe408d3881ef587",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 1541,
+    "word": "boys"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): boys"
+  },
+  {
+   "answer": "ˈtrævɪs",
+   "bb_sha256": "90990b78a2dde9561dd633dd53460d845fe7504ed220b4f36b4ac971f35463d1",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 9587,
+    "word": "travis"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): travis"
+  },
+  {
+   "answer": "pəˈnɪnsələ",
+   "bb_sha256": "2ba80421b040c42be3208bbb54fd9500379706252ef098bd1a837d46ea6bea0b",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 9,
+    "rank": 8354,
+    "word": "peninsula"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): peninsula"
   },
   {
    "answer": "paɪp",
@@ -4063,367 +4030,334 @@
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): decline"
   },
   {
-   "answer": "kaɪ",
-   "bb_sha256": "a5a9b470f2c3bf6731ecd77d29aff7d979efd43bfa956ce61cf2d4086b86e636",
+   "answer": "roʊl",
+   "bb_sha256": "955a10c535896d90ea3ca8b76ec4e785dfc75912609716ca0724fafc7946ce1a",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 2595,
+    "word": "roll"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): roll"
+  },
+  {
+   "answer": "ˈʤeɪsən",
+   "bb_sha256": "41038ec4b0df2b6a3dc9f350ad77f64d6a2cdf56bf060a25ac9d6353d5187390",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 3611,
+    "word": "jason"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): jason"
+  },
+  {
+   "answer": "ɛnˈroʊld",
+   "bb_sha256": "bc8f082fcf92b833e20c1f4c17a581dfe6d1a8879e7450dab6f62a63f310b157",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 7193,
+    "word": "enrolled"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): enrolled"
+  },
+  {
+   "answer": "mɔs",
+   "bb_sha256": "eca40765327df96bd0230a13d8a71090ef3e37d46690496d1eb5199229c1fe29",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 3,
-    "rank": 8353,
-    "word": "kai"
+    "rank": 9451,
+    "word": "moss"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): kai"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): moss"
   },
   {
-   "answer": "ˈklɪkɪŋ",
-   "bb_sha256": "f73fdf075a8a58889e50cfdd17fbb4eb04c6734bce04f5a103f451b8c618a986",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 3595,
-    "word": "clicking"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): clicking"
-  },
-  {
-   "answer": "ˈnɛtˌwərk",
-   "bb_sha256": "16175f6d92f6eb7071bdc6ce3409300269a5387f67565c32dd84d7fc51e4ef71",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 310,
-    "word": "network"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): network"
-  },
-  {
-   "answer": "feɪl",
-   "bb_sha256": "a60d596308d290dcd8a4270f78ad2342ea537367560380b0e5eadd2dc8ecea2d",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 2636,
-    "word": "fail"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fail"
-  },
-  {
-   "answer": "ˈigəlz",
-   "bb_sha256": "a29a9e8ec9bce00bbdf2db06769880c3078a47c5af53fd477e6d82b4d0c9829a",
+   "answer": "ˈɔgəst",
+   "bb_sha256": "8465af27e8c0e9a62c767274c95979f9a486fe2049017cca27ffdec3c952510d",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 6881,
-    "word": "eagles"
+    "rank": 798,
+    "word": "aug"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): eagles"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): aug"
   },
   {
-   "answer": "pərˈsɪstənt",
-   "bb_sha256": "f7c5c6092bf30425f61561a3a90c1c5259b11bd28a031c1c4cb8af263249e604",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 10,
-    "rank": 9645,
-    "word": "persistent"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): persistent"
-  },
-  {
-   "answer": "meɪn",
-   "bb_sha256": "14fc2b39b07b4692ee5fc3d14f3a5406a54c5e64ace8ae7c7fd00fc04ddaac56",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 373,
-    "word": "main"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): main"
-  },
-  {
-   "answer": "ˈʧɑrtər",
-   "bb_sha256": "1d7d4cda9f861c04f9fa098df7c05b441935bcc7612711f4638729e3035a37e6",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 3789,
-    "word": "charter"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): charter"
-  },
-  {
-   "answer": "əˈbʤɛktɪvz",
-   "bb_sha256": "a8ae4d1800732a9b332e1ade983b86f0a6d62fbcf757d316beea54bda511961a",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 9,
-    "rank": 3016,
-    "word": "objectives"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): objectives"
-  },
-  {
-   "answer": "kləb",
-   "bb_sha256": "4db7959c85f656e1217d0f2f18b980a0464da10d51c52c5ab170ec4ceb550c0b",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 582,
-    "word": "club"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): club"
-  },
-  {
-   "answer": "ˈmeɪlɪŋ",
-   "bb_sha256": "6567a5457a9aa309471d65afc8bc4d1d00328a0f99fc6bbcb119e3e3d45ff879",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 1525,
-    "word": "mailing"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): mailing"
-  },
-  {
-   "answer": "ˈəltəmətli",
-   "bb_sha256": "19898d46d631fc4ee4340780c9439d2608b91eaaaea04b177aacc0776a33ad77",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 9,
-    "rank": 5915,
-    "word": "ultimately"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ultimately"
-  },
-  {
-   "answer": "ˈluʃə",
-   "bb_sha256": "e85c51f30b9197f0c6eeee52f37cf2c2a50d9389e17a849f7db50ec759a5b11e",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 8373,
-    "word": "lucia"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lucia"
-  },
-  {
-   "answer": "ˈpɑrkər",
-   "bb_sha256": "6c5f08e93111e311d46df42c9c49a43f4ba25014213f41a121c789d1cf7ce152",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 5243,
-    "word": "parker"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): parker"
-  },
-  {
-   "answer": "ˈɛnʤəˈnɪr",
-   "bb_sha256": "0ef5b20ea2e44c31b24e5075d9423226eac231ae5ad1a860c102ad3d12a11fdf",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 3365,
-    "word": "engineer"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): engineer"
-  },
-  {
-   "answer": "daʊn",
-   "bb_sha256": "4b6333a106440e7673861350ed2ff31648a007a81cef9367857c8e941bcb028b",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 311,
-    "word": "down"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): down"
-  },
-  {
-   "answer": "ˈpɔɪzən",
-   "bb_sha256": "b24dd926276b2008206261acdb11fc2fdcf286049e7c84663159cf9ecb58cd48",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 10000,
-    "word": "poison"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): poison"
-  },
-  {
-   "answer": "ˌæftərˈnun",
-   "bb_sha256": "674f49efb2dde37aa54c074b9791573c02629c08ffece67a78ee27f8ed0041ab",
+   "answer": "ˈproʊˌtinz",
+   "bb_sha256": "87305a7806e0db7c17ec077279bb5cc2d58b2b18dd5dcbe86314f7ef90df5775",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 8,
-    "rank": 3890,
-    "word": "afternoon"
+    "rank": 4259,
+    "word": "proteins"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): afternoon"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): proteins"
   },
   {
-   "answer": "ˈɑli",
-   "bb_sha256": "ed9cad9a0dcf59fcc53fc3d3c64eea7f5539907bf82ed5716e58f48fb056d86f",
+   "answer": "pul",
+   "bb_sha256": "4c9a517d4fe4db76181d33a0c31b0b432736773bce65c1ba53ab46471f70ad64",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 3,
-    "rank": 6736,
-    "word": "ali"
+    "rank": 1554,
+    "word": "pool"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ali"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pool"
   },
   {
-   "answer": "ˈdəzən",
-   "bb_sha256": "53f1d289ae691c9eba0d040e69e929984cd9a02f994ef3e666eff16844573a45",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 6276,
-    "word": "dozen"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dozen"
-  },
-  {
-   "answer": "ˌænəˈteɪʃən",
-   "bb_sha256": "977cb62742a31fd8da9753f7f47d7c4515bee6aeb6f7ead5f288a6ccecc17aef",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 9,
-    "rank": 3077,
-    "word": "annotation"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): annotation"
-  },
-  {
-   "answer": "wɪnz",
-   "bb_sha256": "b42af7d032d179d6743d07a454b6fbb22ffd9bf5a971c2c891e927c390027ea7",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 4673,
-    "word": "wins"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): wins"
-  },
-  {
-   "answer": "aɪˈdiəz",
-   "bb_sha256": "2659c8850a887dacfd0b2687e7dc8722b4a82603e7fa49d09352b916b1d18785",
+   "answer": "ˈɛrˌpɔrt",
+   "bb_sha256": "1c15747a49e6be55b0ac0ab7cedabd1a07c17f7e0b560bc755ca6452a1239a31",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 1197,
-    "word": "ideas"
+    "rank": 1187,
+    "word": "airport"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ideas"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): airport"
   },
   {
-   "answer": "əˈpɑrtmənts",
-   "bb_sha256": "319dd7697225d067b11d0674cafb9f56d10f8f5963f537c212b7f22ed136f5da",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 10,
-    "rank": 2095,
-    "word": "apartments"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): apartments"
-  },
-  {
-   "answer": "lɪn",
-   "bb_sha256": "c829f924c73671c1d4d1e1fefa22b80dfe611e75657922443147a5cf2e8cc4a7",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 3,
-    "rank": 6091,
-    "word": "lynn"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lynn"
-  },
-  {
-   "answer": "speɪn",
-   "bb_sha256": "9f0c73f080bd5c27940d927a0a0e01c23b3420e28213dec2d14efc97693e3225",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 1600,
-    "word": "spain"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): spain"
-  },
-  {
-   "answer": "straɪks",
-   "bb_sha256": "243930d6a465d53f1e500fd5e42fb83db1ca27b69310e43da399366f206d33c1",
+   "answer": "ˈmərʧənt",
+   "bb_sha256": "9b38164c50738e27652bf18a3fe0f61c7e64b5fa820cdcfb0839a622d75b2804",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 8733,
-    "word": "strikes"
+    "rank": 2153,
+    "word": "merchant"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): strikes"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): merchant"
   },
   {
-   "answer": "pɪkt",
-   "bb_sha256": "b10caec7d854b018d7aefa2b726d7101fa3a1f16c472f1195168c11ca82da301",
+   "answer": "ædz",
+   "bb_sha256": "4d4c177e0df22c237dab368e6fdb8251689412822acca0c4ff09e79eb538fa7b",
    "meta": {
     "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 5372,
-    "word": "picked"
+    "ipa_len": 3,
+    "rank": 4591,
+    "word": "adds"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): picked"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): adds"
   },
   {
-   "answer": "ˈplænɪŋ",
-   "bb_sha256": "4079bcf8be5207a834f66099547d964cde65f94423f4aeee6909051cfb288511",
+   "answer": "ˈstɑpɪŋ",
+   "bb_sha256": "71dff16201d587c69ec0b7e1e6e889d1ecb7922887a0861cc511905a177f2c31",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 767,
-    "word": "planning"
+    "rank": 8624,
+    "word": "stopping"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): planning"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): stopping"
   },
   {
-   "answer": "ˈpræktɪsɪz",
-   "bb_sha256": "14cdd55290d8762f0285f03e80e9df120447d99a299dab093bfe6f2540acf385",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 9,
-    "rank": 2128,
-    "word": "practices"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): practices"
-  },
-  {
-   "answer": "trɪp",
-   "bb_sha256": "84048464ca0ae523000b2d22b69c016ee69ab7c8a66c66d8fad8dda8c72d9a71",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 1706,
-    "word": "trip"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): trip"
-  },
-  {
-   "answer": "ˈdoʊnər",
-   "bb_sha256": "d53048748c4291b3a74715fa0c178407b4761acced7412ddcc3008fef02cabb0",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 7944,
-    "word": "donor"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): donor"
-  },
-  {
-   "answer": "ˈrisɔrsɪz",
-   "bb_sha256": "eb29fdaf8eb5544f0f2312b4ad78c41cbd5e14bc19371c21e840b8a0021845cf",
+   "answer": "ˈriəˌlaɪzd",
+   "bb_sha256": "f2ecf902cafc552990367eb2f8eac0967656eb0f0e45daf591ae0822ea68e93b",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 8,
-    "rank": 327,
-    "word": "resources"
+    "rank": 5670,
+    "word": "realized"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): resources"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): realized"
+  },
+  {
+   "answer": "lɑts",
+   "bb_sha256": "6c11738926463d64654851569c3721e2f869ee29442a207c1517c91fa5efe68a",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 1851,
+    "word": "lots"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lots"
+  },
+  {
+   "answer": "ˈseɪfti",
+   "bb_sha256": "cc8781ffcc17fd5c02844a7462794901f4fbbc7587e103f414254aeb6a096d72",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 714,
+    "word": "safety"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): safety"
+  },
+  {
+   "answer": "vərˈaɪətiz",
+   "bb_sha256": "5d1419232b0316b0000b3354bc677d6cb8b1967ccd62e326e9100f96e5e57f19",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 9,
+    "rank": 9996,
+    "word": "varieties"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): varieties"
+  },
+  {
+   "answer": "ˈætəm",
+   "bb_sha256": "a1126c50071b6cd64a5b3b3573e57093df74b89ff7b75826a3944e1ef2aa605d",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 2431,
+    "word": "atom"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): atom"
+  },
+  {
+   "answer": "ˈgɪbsən",
+   "bb_sha256": "d1c9ca966f17b0a653613e9b3b9a119abe3c3946074d83e63fa37ea6a8bf7319",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 7403,
+    "word": "gibson"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): gibson"
+  },
+  {
+   "answer": "prəˈvɪnʃəl",
+   "bb_sha256": "d17015586b0aa4fb9c74955afac16485d61447170575b3c962ddefc0ea39f9d7",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 9,
+    "rank": 6618,
+    "word": "provincial"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): provincial"
+  },
+  {
+   "answer": "kɔr",
+   "bb_sha256": "7236a5d48eddd4af03b5931c0533d5d284c1d5b5d6373d78bdce0d55837a1eb1",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 1617,
+    "word": "core"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): core"
+  },
+  {
+   "answer": "ˈmɪrli",
+   "bb_sha256": "5ff823d344b0b58e88e4541d378be28c7593613850a818c6e0603908a624d092",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 5564,
+    "word": "merely"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): merely"
+  },
+  {
+   "answer": "ˈdraɪvər",
+   "bb_sha256": "1da569221fd92ea88a32fdc0344c07a439746c02888a8140b872ed072352da81",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 1698,
+    "word": "driver"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): driver"
+  },
+  {
+   "answer": "nud",
+   "bb_sha256": "9e1c2bf115c2183fbaa4026babf73e1815f11aa3f687cc6a314fe6ec256e2590",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 828,
+    "word": "nude"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): nude"
+  },
+  {
+   "answer": "bruˈnɛt",
+   "bb_sha256": "b8b1f55446e157c195248792d3e6990fc1b8db7f1b40b424d89546c3962de52f",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 6898,
+    "word": "brunette"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): brunette"
+  },
+  {
+   "answer": "ˈsikwəns",
+   "bb_sha256": "45113e67ff158ac86d87d8293087ea6c2f0e0532facb920797258296e219293f",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 2260,
+    "word": "sequence"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sequence"
+  },
+  {
+   "answer": "bək",
+   "bb_sha256": "fcd9168c753f7cbe6bd7d2363397414d31c0b0c64aed56f35a2e608d7edc26c4",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 8285,
+    "word": "buck"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): buck"
+  },
+  {
+   "answer": "ˈseɪləm",
+   "bb_sha256": "70834919edbf75c78792621ae436ac2717c0efd6e5cc03d394ec990458448459",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 6293,
+    "word": "salem"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): salem"
+  },
+  {
+   "answer": "vərˈʤɪnjə",
+   "bb_sha256": "390e0f58501126459719b973457a731db58b9fa7e244efb881f0462ae428c606",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 1213,
+    "word": "virginia"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): virginia"
+  },
+  {
+   "answer": "ɛls",
+   "bb_sha256": "58637f8af5dc5ad134cc0d334194ec152835e2559eae4763415558abc9be5c01",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 833,
+    "word": "else"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): else"
+  },
+  {
+   "answer": "ˈrʊrəl",
+   "bb_sha256": "c2a2eafc68e9b1ca362ddbba4cad159446259fcba84a79a8d2ef16ab33e7ce8e",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 2561,
+    "word": "rural"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): rural"
+  },
+  {
+   "answer": "ˈblækˌbɛri",
+   "bb_sha256": "053e3fddcf4b647695fd5b49e8a434207ba770b4ab00fc08a3b457f0d78f591f",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 8234,
+    "word": "blackberry"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): blackberry"
   },
   {
    "answer": "ɪl",
@@ -4558,191 +4492,191 @@
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): anderson"
   },
   {
-   "answer": "krɔs",
-   "bb_sha256": "59be4115117dbc944c0fa78c6a59ffc57c21e6f453303e30d77025fba2dd0790",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 1083,
-    "word": "cross"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cross"
-  },
-  {
-   "answer": "ˈbətən",
-   "bb_sha256": "23b5fcac2071c467de135ea50d666b78468ba4b11ba9b49b3b14d4f5b89daf79",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 1205,
-    "word": "button"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): button"
-  },
-  {
-   "answer": "ˈvoʊlksˌwægən",
-   "bb_sha256": "5337efd7cfb8834ad75cc67e4ab4985ccc7216be1c5d3877a45d99c2e631505d",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 11,
-    "rank": 7862,
-    "word": "volkswagen"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): volkswagen"
-  },
-  {
-   "answer": "drɔz",
-   "bb_sha256": "a3329fd925ec94766703583bcff48fc608e8c4af3cb4b43b6987769e8a8c2752",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 9521,
-    "word": "draws"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): draws"
-  },
-  {
-   "answer": "ˈkərnəl",
-   "bb_sha256": "03db950bde3679a21043227a6ec7ebeb87b71f831d4c0806202793065e96b514",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 3505,
-    "word": "kernel"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): kernel"
-  },
-  {
-   "answer": "ˈjɔrkʃər",
-   "bb_sha256": "c79f4e79c4d8feb665064bfdfaff0fb9eb9a2907eb0c3c8197d6885262962452",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 5792,
-    "word": "yorkshire"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): yorkshire"
-  },
-  {
-   "answer": "pʊʃt",
-   "bb_sha256": "5e9419cb34af8ab83d7b1fa96ecf48f9cc64ffe628b5f9ea3b9ebdcbdc605274",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 8465,
-    "word": "pushed"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pushed"
-  },
-  {
-   "answer": "pɔɪnt",
-   "bb_sha256": "e8b8e2970574207dc39959b16d23fae00c3c5761bfb34ac7341e7f7d746b9cc6",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 438,
-    "word": "point"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): point"
-  },
-  {
-   "answer": "ˈrɑbərts",
-   "bb_sha256": "3709c3dc4e99e25fd858dcade8cc8481fbdd836e2ecb52870c4215ccb743efe2",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 4925,
-    "word": "roberts"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): roberts"
-  },
-  {
-   "answer": "jæŋ",
-   "bb_sha256": "f68af2752fb0e21ed81648c28bf13bc2042c4bd5deeedd6eca56cac11fd076f2",
+   "answer": "peɪ",
+   "bb_sha256": "ba9e156c93cdc4eeb07792816e0ebf9e103cf5c3d3b9a704a8741e5a2fad6a63",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 3,
-    "rank": 9514,
-    "word": "yang"
+    "rank": 599,
+    "word": "pay"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): yang"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pay"
   },
   {
-   "answer": "ənˈlɛs",
-   "bb_sha256": "0788eb8725f96e12b2e3025adc103222c9406e256a343360a3a5ae8dca31348d",
+   "answer": "pərˈsu",
+   "bb_sha256": "25170b739803ed218f9a18d2feb4fd0236d82eaf96fe0e394d6099cd3bf86b28",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 1577,
-    "word": "unless"
+    "rank": 7546,
+    "word": "pursue"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): unless"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pursue"
   },
   {
-   "answer": "ɪgˈzɪbəts",
-   "bb_sha256": "689509c33083beabf51709f5473af8e483fbdddac9654d408075eb2881b81869",
+   "answer": "ˈtrɛʒərz",
+   "bb_sha256": "6af5abbab506833a742574a082e2f1ae00294096b839d10b2960da7ddb5bb162",
    "meta": {
     "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 7610,
-    "word": "exhibits"
+    "ipa_len": 7,
+    "rank": 9692,
+    "word": "treasures"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): exhibits"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): treasures"
   },
   {
-   "answer": "neɪl",
-   "bb_sha256": "a4a7bc122ecc110d97cd2a1009cb20a3dcc55c8483faf8f303d20da02b1fc4b6",
+   "answer": "lɔgd",
+   "bb_sha256": "dd1f9a874ff4d25faec99ec2358f086a9f90fb3aaadab4e014e22a8f75dc51a9",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 6667,
-    "word": "nail"
+    "rank": 2502,
+    "word": "logged"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): nail"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): logged"
   },
   {
-   "answer": "ˈsændi",
-   "bb_sha256": "edc09a98e8d2e08e0b7db45a7e490a75874f55cf990779812a491233dc43901a",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 6233,
-    "word": "sandy"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sandy"
-  },
-  {
-   "answer": "ˈsɪnθəsəs",
-   "bb_sha256": "35c6a44a2fd01e773c0f48da3e376f5bf41cfadc76d02950760ce7e72978ec79",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 6527,
-    "word": "synthesis"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): synthesis"
-  },
-  {
-   "answer": "ʧɪps",
-   "bb_sha256": "3091ae21105b8a54128fbce1114d37c1cd13c5d8801ad3b19ee0989f3230009a",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 4815,
-    "word": "chips"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): chips"
-  },
-  {
-   "answer": "ˈʃɛpərd",
-   "bb_sha256": "10e649930d728fcb96a994ad4891065b5d4cac0b45d4289034f894a6593a1986",
+   "answer": "ænˈtɛnə",
+   "bb_sha256": "c40118dbada68bbcc315732877356e9a1ce6f45e546a12c058cd4208fc11dd6b",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 9849,
-    "word": "shepherd"
+    "rank": 5371,
+    "word": "antenna"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): shepherd"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): antenna"
+  },
+  {
+   "answer": "ˈjutəˌlaɪz",
+   "bb_sha256": "7efdd6feb89c47b781fca7bc879fbe970ebe65e689619a7db7b0ec200e271186",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 8878,
+    "word": "utilize"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): utilize"
+  },
+  {
+   "answer": "bʊks",
+   "bb_sha256": "c9f799a4659fca968923197c7292a8e6ddb988c5fc5cc171faffb203bbef8f3f",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 163,
+    "word": "books"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): books"
+  },
+  {
+   "answer": "spreɪ",
+   "bb_sha256": "88df988e8815f534c5789b97f0e6186cfefd96086566df9570acaf4ea66039fe",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 4521,
+    "word": "spray"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): spray"
+  },
+  {
+   "answer": "ˈpleɪˌbæk",
+   "bb_sha256": "a1361cdccf4409f7823a3f70069b4e97c542db3a352c81c09bad3ff4cb9a7cef",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 9685,
+    "word": "playback"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): playback"
+  },
+  {
+   "answer": "bæŋk",
+   "bb_sha256": "69b1fd38a1365246100f1a1fdb98b34ed3bdd1946f846e10f404b5f58c8d8e27",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 875,
+    "word": "bank"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bank"
+  },
+  {
+   "answer": "ˈkɪsɪŋ",
+   "bb_sha256": "581ce45345b2649176046e93b8276e4a3575a2937c0d15ebe2b82970badcb2fc",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 7343,
+    "word": "kissing"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): kissing"
+  },
+  {
+   "answer": "ˈfrɛndʃɪp",
+   "bb_sha256": "be98a3192d3021aebcf83173a68a37fcdb07acf803c3cb32f9a31da5422f3d31",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 6595,
+    "word": "friendship"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): friendship"
+  },
+  {
+   "answer": "sər",
+   "bb_sha256": "160f4fa522126eb488470304abc3da4cc33b1b3084752e5bdd89467f467dfab3",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 5198,
+    "word": "sur"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sur"
+  },
+  {
+   "answer": "ˈwɔlət",
+   "bb_sha256": "cf3d1d73193ed497ac65cce094e1a09a1f1cfa7a94f33c313e8377b58ee05e7e",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 8811,
+    "word": "wallet"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): wallet"
+  },
+  {
+   "answer": "ˈfɔrmərli",
+   "bb_sha256": "7cac7f07ec02019ce33f038cb4b4117ff967722e4c883dc3e6b9f8aaac9fb7b3",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 6092,
+    "word": "formerly"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): formerly"
+  },
+  {
+   "answer": "dæt",
+   "bb_sha256": "449c8bb36aac6e5ca2234b63290ac81372d910fb953a7a012772b0333a10a1c7",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 9807,
+    "word": "dat"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): dat"
+  },
+  {
+   "answer": "ˈmɛriən",
+   "bb_sha256": "a9ade2a948a460d9df5cc9a3c7b86c16353edce92b3d7c2b1f397f5b75f51691",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 8105,
+    "word": "marion"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): marion"
   },
   {
    "answer": "ˈrizənɪŋ",
@@ -4756,169 +4690,169 @@
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): reasoning"
   },
   {
-   "answer": "biɪŋ",
-   "bb_sha256": "4ae26aa3491aca12abc146cf4b33346e4cf0eace3c706bad3dea9e14847ce13e",
+   "answer": "gaɪz",
+   "bb_sha256": "58ecd3b38ea268947758c018349d017c3a723587c80ff7402a20bfb64e57ed39",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 277,
-    "word": "being"
+    "rank": 2149,
+    "word": "guys"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): being"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): guys"
   },
   {
-   "answer": "ˈhæpənd",
-   "bb_sha256": "140e1dd320fb2678549a3a8f3b9c860af84ac785d2ce1331968fbf455bb9490f",
+   "answer": "bruˈnaɪ",
+   "bb_sha256": "c8a280d1587b0db20e55dd50a2564b49e62e44559965dcd14101ad56f7ae75ea",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 3087,
-    "word": "happened"
+    "rank": 9395,
+    "word": "brunei"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): happened"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): brunei"
   },
   {
-   "answer": "ˌjugoʊsˈlɑviə",
-   "bb_sha256": "4fe4fe5941391749da1ec00d32115b9cf4b54983c06741a3dc0abe35c9a58d5a",
+   "answer": "kəmˈpætəbəl",
+   "bb_sha256": "f93278e71935328c3ae915918d09414d69783571b9ad006fe326751cea56bd9e",
    "meta": {
     "ipa_bin": 2,
-    "ipa_len": 11,
-    "rank": 9473,
-    "word": "yugoslavia"
+    "ipa_len": 10,
+    "rank": 2574,
+    "word": "compatible"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): yugoslavia"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): compatible"
   },
   {
-   "answer": "bʊʃ",
-   "bb_sha256": "8288cd0b8497aec4f90449840c1a5af9c3aa526b8b509061b6bf6044589984c7",
+   "answer": "pruf",
+   "bb_sha256": "293a57ee3389f2ea2505ed3a10f03e18609f66c759786aa53f5308aee359acaf",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 2957,
+    "word": "proof"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): proof"
+  },
+  {
+   "answer": "rɪˈdim",
+   "bb_sha256": "51291e93b16f4a9abf4ca1ebdb713f0ac7ef3c3da7d1855a4b51fb58312c808e",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 6061,
+    "word": "redeem"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): redeem"
+  },
+  {
+   "answer": "ˈproʊˌgræmz",
+   "bb_sha256": "7d17bc8ee29de525441b6e3a1c78faf924ba97c0587b6fa82cf1528d7651be96",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 9,
+    "rank": 544,
+    "word": "programs"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): programs"
+  },
+  {
+   "answer": "ʤɪm",
+   "bb_sha256": "b27ca07c4a955a5ef55a77ea2c36ede9e86e171d5eb955ee3ee30fbca44a34dc",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 3,
-    "rank": 1122,
-    "word": "bush"
+    "rank": 2080,
+    "word": "jim"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bush"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): jim"
   },
   {
-   "answer": "ˈfæbrɪk",
-   "bb_sha256": "19aea059104088e189385156150c45d89a9c0342b47a1f6ffcb4da33c3a3d8fd",
+   "answer": "ˈeɪliəs",
+   "bb_sha256": "7de64c78ef55620c509c3e141fc51f023bf995579436673e773c14672e6734ec",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 3982,
-    "word": "fabric"
+    "rank": 7917,
+    "word": "alias"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fabric"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): alias"
   },
   {
-   "answer": "kˈwɑləˌfaɪ",
-   "bb_sha256": "cc89b0377eaf3394e72f69b7e060cbb60c85788cdaecc396e0c0d21d41172d10",
+   "answer": "ˌiθiˈoʊpiə",
+   "bb_sha256": "f8c27e87bde4a960d0f06ea229b06c1db7c605015ddc259bdddf8eb79204fa2e",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 8,
-    "rank": 6428,
-    "word": "qualify"
+    "rank": 7808,
+    "word": "ethiopia"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): qualify"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ethiopia"
   },
   {
-   "answer": "juzd",
-   "bb_sha256": "dd7e4ec3fc15903caba0ed599f1e6914af33f73d6718c53fc746440203182505",
+   "answer": "bænd",
+   "bb_sha256": "a919f95bfd77730bdc37befc933630eebf0374f53866808648846edae881758c",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 122,
-    "word": "used"
+    "rank": 9055,
+    "word": "banned"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): used"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): banned"
   },
   {
-   "answer": "fərmz",
-   "bb_sha256": "41c6e7503625cfe2bf2ba81ef098b3c877501a7530f8ac052f64a1c305bd413f",
+   "answer": "ɪgˈzækt",
+   "bb_sha256": "f65419d7b21fc18e8d2661d1609fd4d4073447bf8315f1dd6549656e04f175fa",
    "meta": {
     "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 3024,
-    "word": "firms"
+    "ipa_len": 6,
+    "rank": 3402,
+    "word": "exact"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): firms"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): exact"
   },
   {
-   "answer": "ɛˈsteɪts",
-   "bb_sha256": "a263510402b6b826d52b77e121890217175591cebf27a6f1681f194307c44784",
+   "answer": "səraʊnd",
+   "bb_sha256": "4b6b2d97302f0db6d98a92d17bfc13e11994de87969f6eee439e603628cfd410",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 8210,
-    "word": "estates"
+    "rank": 8297,
+    "word": "surround"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): estates"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): surround"
   },
   {
-   "answer": "poʊp",
-   "bb_sha256": "379ab662259470cd4025b92c51949363d6e9c3b2e37e00479ee7a6c32dbb7474",
+   "answer": "saɪz",
+   "bb_sha256": "fd61bd8d5d66898fd62013ea64491faf65032ffbee90e3d7bfcf9ac5d3e013ca",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 6950,
-    "word": "pope"
+    "rank": 337,
+    "word": "size"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): pope"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): size"
   },
   {
-   "answer": "ˈnidəl",
-   "bb_sha256": "514555f83db97584f85709e4ee9b711ee14ec5bb2eb4707670fa4b2e79ad0aea",
+   "answer": "dɪˈnaɪd",
+   "bb_sha256": "29017f156ee950bb3c1e9c03571a368460a9983bcc38aa9e2e113ba194444c84",
    "meta": {
     "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 9233,
-    "word": "needle"
+    "ipa_len": 6,
+    "rank": 5640,
+    "word": "denied"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): needle"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): denied"
   },
   {
-   "answer": "viˌɛtˈnɑm",
-   "bb_sha256": "006c29f1b24ad68654990f05feca377033802c30665d0e662ffadbf0362968a1",
+   "answer": "ˈkɑnfədənt",
+   "bb_sha256": "e4f81eecb9a51b7bd14ff4765d3ffb4aec71b69edb2f28c95032405b5b8fc40b",
    "meta": {
     "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 3902,
-    "word": "vietnam"
+    "ipa_len": 9,
+    "rank": 7608,
+    "word": "confident"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): vietnam"
-  },
-  {
-   "answer": "ɔt",
-   "bb_sha256": "54c3c77300bcc53e73faf3d84fe27c5156e59b57d707fea46642131c8b04ba8c",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 2,
-    "rank": 7624,
-    "word": "ought"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): ought"
-  },
-  {
-   "answer": "draɪv",
-   "bb_sha256": "3178669f3c85aea507662149e6efb87e91f64f67d6f5b88f617a0010c696e279",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 5,
-    "rank": 737,
-    "word": "drive"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): drive"
-  },
-  {
-   "answer": "ˈmænjuəlz",
-   "bb_sha256": "db28e02b16559cc1a5f56b4eb6aa09ef8010718734c2a8a7a6aca9b6a7ae51dc",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 6051,
-    "word": "manuals"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): manuals"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): confident"
   },
   {
    "answer": "buts",
@@ -5064,147 +4998,180 @@
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): guru"
   },
   {
-   "answer": "toʊld",
-   "bb_sha256": "6a2e6e0b3ce9a8c6eb8356018ba1c027857bb2af35f0887dec6c43a4c02bd417",
+   "answer": "ˈlɔˌsut",
+   "bb_sha256": "6876d46c009c740d2c7f1a4558fcb4a20e566863d0301a9f119047d891468195",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 1433,
-    "word": "told"
+    "rank": 8565,
+    "word": "lawsuit"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): told"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): lawsuit"
   },
   {
-   "answer": "ælˈbərtə",
-   "bb_sha256": "d63439d32074776a24fc1aaddb0b9695852b7dc5eb5ba24e4babec27cf416c88",
+   "answer": "pərˈmɪʃən",
+   "bb_sha256": "2ba13d8afa4bf2e1b05b526a5616bca55540951e692c21cb6391e8da241f94e7",
    "meta": {
     "ipa_bin": 2,
-    "ipa_len": 7,
-    "rank": 4473,
-    "word": "alberta"
+    "ipa_len": 8,
+    "rank": 2024,
+    "word": "permission"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): alberta"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): permission"
   },
   {
-   "answer": "flɔr",
-   "bb_sha256": "1d4801eea1240813860ac5bb21a1680bde2cd3bd2c321a1d02698917472b8c30",
+   "answer": "ʃeɪp",
+   "bb_sha256": "47b5e7073daa7c031bf2c08b5b54770f5b49fba0b315a6d25daa096992cbbf2b",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 1533,
-    "word": "floor"
+    "rank": 3012,
+    "word": "shape"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): floor"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): shape"
   },
   {
-   "answer": "ˈɑkˌsaɪd",
-   "bb_sha256": "538e47156e150df28dad7b0b927b5d91151f67f7906d844180da22f70add064a",
+   "answer": "ˈbrəðər",
+   "bb_sha256": "3f6a5a32d6c9860611df0d832f8129c5b1fb413445ce575b9a4a7fbf4a009a3f",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 9662,
-    "word": "oxide"
+    "rank": 2348,
+    "word": "brother"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): oxide"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): brother"
   },
   {
-   "answer": "bəˈhɑməz",
-   "bb_sha256": "de0dff7464e79792c0267713abfd95f19d62063d10e44f724ceda2858409bee3",
+   "answer": "ðɛˈræftər",
+   "bb_sha256": "d51110e2ce6e828c454423246b86450c588fcbf135b59ade4b72a57a8b40e9ac",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 8,
+    "rank": 9763,
+    "word": "thereafter"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): thereafter"
+  },
+  {
+   "answer": "ɑd",
+   "bb_sha256": "f202259e1cd3efb05ea7846e5d15a5bfbb7ada8d01d79950a25bb98d11e6aeb3",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 2,
+    "rank": 5451,
+    "word": "odd"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): odd"
+  },
+  {
+   "answer": "ˈsɪvɪk",
+   "bb_sha256": "22d0ded3a3802b60c9c5d12acfcabef8d78a9b449a757961caea014cf84e43f7",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 5,
+    "rank": 6048,
+    "word": "civic"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): civic"
+  },
+  {
+   "answer": "ˈspaɪˌwɛr",
+   "bb_sha256": "3024a231f42e0248789d1392fb0a03a5262b7ceedcc93367048c1e0b941ef813",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 6695,
-    "word": "bahamas"
+    "rank": 3629,
+    "word": "spyware"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): bahamas"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): spyware"
   },
   {
-   "answer": "kɪk",
-   "bb_sha256": "c9e8c4082f00421cc59ff636219aa3edc78b3461524d79d630a12ded12acae11",
+   "answer": "ərn",
+   "bb_sha256": "9dd0abd324548f02087a0e7ed011cca50e837292d73ff658fa043b6e8b0ccaca",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 3,
-    "rank": 5089,
-    "word": "kick"
+    "rank": 3644,
+    "word": "earn"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): kick"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): earn"
   },
   {
-   "answer": "sˈmɔlər",
-   "bb_sha256": "290f516ea54c2782cc04704e68d9481587ea9959b0da22ea04c58da6e4addb83",
+   "answer": "ˈbænərz",
+   "bb_sha256": "9aeb1741965d5cf4b0f2c6a76d480f0030ef46350e7f7d3f7348f8ad32e983cf",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 6,
-    "rank": 3083,
-    "word": "smaller"
+    "rank": 8573,
+    "word": "banners"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): smaller"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): banners"
   },
   {
-   "answer": "ɪˈlɛktroʊ",
-   "bb_sha256": "1c682073bf41dfce202930f5dde709d868868a77ed0cd0953b5034c6a608db99",
+   "answer": "ˈgæðərɪŋ",
+   "bb_sha256": "04b7e50135e372707428665d32db1a101c668eabca0f2e21e90a274c51d971cc",
    "meta": {
     "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 8766,
-    "word": "electro"
+    "ipa_len": 7,
+    "rank": 5749,
+    "word": "gathering"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): electro"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): gathering"
   },
   {
-   "answer": "ʧɛrz",
-   "bb_sha256": "9a1e18bdecfd79ca7d8e54da90d6a2ebe2ec5686f71f74b6c13f4d84484eacbb",
+   "answer": "ʃɑts",
+   "bb_sha256": "f5f3ef3ef9ce5115ce6101bee092d25b8b0c158bd68d6d4166f41524d56a29b5",
    "meta": {
     "ipa_bin": 0,
     "ipa_len": 4,
-    "rank": 4392,
-    "word": "chairs"
+    "rank": 3739,
+    "word": "shots"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): chairs"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): shots"
   },
   {
-   "answer": "ˈʧɛrɪti",
-   "bb_sha256": "3b1e76110108c290a862b3188a040411c98bb3b4cf90654bae6433c0e109f863",
-   "meta": {
-    "ipa_bin": 1,
-    "ipa_len": 6,
-    "rank": 4766,
-    "word": "charity"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): charity"
-  },
-  {
-   "answer": "əˈsɛmbəld",
-   "bb_sha256": "04b07ed6f5525ba4ea5618760d3cf6b1b0ab239dd0091b4c080f11cde08e04d3",
-   "meta": {
-    "ipa_bin": 2,
-    "ipa_len": 8,
-    "rank": 9913,
-    "word": "assembled"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): assembled"
-  },
-  {
-   "answer": "saɪt",
-   "bb_sha256": "2c93b8092004edaed24bdfc38476abd691f41a782d81ef0711fcbecb084ba040",
-   "meta": {
-    "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 7982,
-    "word": "cite"
-   },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): cite"
-  },
-  {
-   "answer": "seɪlz",
-   "bb_sha256": "f5082a64e7fe000600aa94ab347e429514ae8ff882c6f44aea840a0a13f4659b",
+   "answer": "ʃeɪdz",
+   "bb_sha256": "8cf4ccfe639c3a70a666339a848f7c756705c33866f5e496e3f00740cb9b7b07",
    "meta": {
     "ipa_bin": 1,
     "ipa_len": 5,
-    "rank": 445,
-    "word": "sales"
+    "rank": 9895,
+    "word": "shades"
    },
-   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): sales"
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): shades"
+  },
+  {
+   "answer": "ˈæmpləˌfaɪər",
+   "bb_sha256": "f513457a80b40a4635bae31ff53f925065f05dad68697a0bf0f6defa40ecd9c1",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 10,
+    "rank": 8510,
+    "word": "amplifier"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): amplifier"
+  },
+  {
+   "answer": "haɪ",
+   "bb_sha256": "751dc30ecd751e0a08f71a1c992447aac0984b8358c149186056d97d9b1bce20",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 3,
+    "rank": 164,
+    "word": "high"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): high"
+  },
+  {
+   "answer": "ˈstədiz",
+   "bb_sha256": "a9a5c2b135c723636f1e0292c2523c3bf69cce82cf6b025bb3dabefc9ec2ede0",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 734,
+    "word": "studies"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): studies"
   },
   {
    "answer": "ɪkˈsaɪtɪŋ",
@@ -5502,20 +5469,53 @@
     "word": "karen"
    },
    "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): karen"
+  },
+  {
+   "answer": "ˈdɛˌdlaɪn",
+   "bb_sha256": "6e2a52719f6f03351fe60831225c285e2cc695f001adc08e7fdea7f5d5a7bf72",
+   "meta": {
+    "ipa_bin": 2,
+    "ipa_len": 7,
+    "rank": 5189,
+    "word": "deadline"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): deadline"
+  },
+  {
+   "answer": "glæs",
+   "bb_sha256": "82a5b26deffb5b30fde4b2cc08057969e11cef8c1a26e8eb2f8197f1b800785b",
+   "meta": {
+    "ipa_bin": 0,
+    "ipa_len": 4,
+    "rank": 1279,
+    "word": "glass"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): glass"
+  },
+  {
+   "answer": "ˈfæbrɪk",
+   "bb_sha256": "19aea059104088e189385156150c45d89a9c0342b47a1f6ffcb4da33c3a3d8fd",
+   "meta": {
+    "ipa_bin": 1,
+    "ipa_len": 6,
+    "rank": 3982,
+    "word": "fabric"
+   },
+   "question": "Transliterate the following word into the International Phonetic Alphabet (IPA): fabric"
   }
  ],
  "n_options": null,
  "n_redrawn": {
   "collision": 0,
-  "duplicate": 15,
+  "duplicate": 16,
   "rejected": 0,
-  "repeated_answer": 0,
+  "repeated_answer": 2,
   "shot_answer": 0,
   "shot_content": 0
  },
  "name": "ipa_word",
  "provenance": {
-  "bbkey_audit_sha256": "ab2bcd036b8d6e9f38a4a4f14fefbddff414ad2aa28b2c23d9753a0d50340c9c",
+  "bbkey_audit_sha256": "9bec53f3c728c012431177188515422a86ae1443017cecd09310bc0a50a07470",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",
@@ -5525,35 +5525,35 @@
  "seed": 20260905,
  "shot_records": [
   {
-   "bb_sha256": "6e2a52719f6f03351fe60831225c285e2cc695f001adc08e7fdea7f5d5a7bf72",
+   "bb_sha256": "960c25147be707f187a149c0245ee5e9cd21364ac0d92bd367b34f65ce044d49",
    "meta": {
     "ipa_bin": 2,
     "ipa_len": 7,
-    "rank": 5189,
-    "word": "deadline"
+    "rank": 1263,
+    "word": "everyone"
    }
   },
   {
-   "bb_sha256": "82a5b26deffb5b30fde4b2cc08057969e11cef8c1a26e8eb2f8197f1b800785b",
+   "bb_sha256": "fbbd04f10752c0a8bc611ca305b719f617ded5de9d3c3b16f3b0200b959c79a5",
    "meta": {
     "ipa_bin": 0,
-    "ipa_len": 4,
-    "rank": 1279,
-    "word": "glass"
+    "ipa_len": 3,
+    "rank": 88,
+    "word": "were"
    }
   }
  ],
  "shots": [
   [
-   "Transliterate the following word into the International Phonetic Alphabet (IPA): deadline",
-   "ˈdɛˌdlaɪn"
+   "Transliterate the following word into the International Phonetic Alphabet (IPA): everyone",
+   "ˈɛvriˌwən"
   ],
   [
-   "Transliterate the following word into the International Phonetic Alphabet (IPA): glass",
-   "glæs"
+   "Transliterate the following word into the International Phonetic Alphabet (IPA): were",
+   "wər"
   ]
  ],
  "task": "international_phonetic_alphabet_transliterate",
- "unique_answers": false,
+ "unique_answers": true,
  "wei_class": "E.2"
 }

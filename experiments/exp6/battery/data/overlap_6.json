@@ -2,15 +2,15 @@
  "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
  "index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
  "items_sha256": {
-  "ipa_word": "eba6d6eea261715acec118edcbeddcbf629d55055c83f624fc640657e6e97157",
-  "lcs": "b6dfeba59ff7beb25492dc1d2719f90cd45bcbbbbb9be198336e1115f2c8775e",
-  "modarith_add1": "54bdb29cc0bfda6de7f97a20b153f8e3b5c4359ac741445a4cc328503b526a06",
-  "modarith_mul1": "4adefa20d1ba12e690f0d3887b579cfb33d739c3b46a1b0b6ce19f62d305c7a7",
-  "modarith_sub1": "ac4cf884cad3d2cffc3a9fa23fe7ebfb04a6b652f7eb47817bbfeaa237afc11f",
-  "sort3": "1668b08a1e052a62fe9275f30db0271706f30a0f1b1d3c33c286aac18e637966",
-  "sort5": "41d63836ee9c4f9d04108c857fe23a92d3bfe69ccd7b9acf7a210151a74731d5",
-  "unscramble_long": "ec6df3b0cb6225f5b288c7cf6727ac6adc777e4d2c7e17c26b41414f261aaa4e",
-  "unscramble_short": "1fcc4ea90eea13b41efa251dfccc1ba305f9acbcfd9d3a7d9b92e7272c1c7a36"
+  "ipa_word": "bd1066d53997088a97ff851efd61f9999dce73baf73a97a3db3725fabd61563b",
+  "lcs": "97374f9d51c398c0bfa7e44aa72b89a33e9fb5197c926c453d1db37a61ab290d",
+  "modarith_add1": "bf8b0ff0ed27b57476012245a85c8006874334a80a0da0fb4272b7a25bef79c3",
+  "modarith_mul1": "63f019aba6be37150d40bfe2b82fbc60c366e24508a3a48e4037cf4c254df6d9",
+  "modarith_sub1": "f85ddb990186015252f572730ccee6d57b9eb3a6b400af37c1da3df98877a4b0",
+  "sort3": "1e8d85b01717a32253037d0a9710149f9a142d7bfba472be1e0b68f384c27f47",
+  "sort5": "14f11ff1c109a82a969c0895115af74ddcfc57a6cfe2e693b2d0b7eae3548c4e",
+  "unscramble_long": "72550dee0ac98ea4deb8b0a141ccab6d6f7d17d876c8bd499443407244969f3c",
+  "unscramble_short": "435bcaa5d562bdb3040812a7694ba71d5f5c94a16e46c47e13a9d4ac43d342eb"
  },
  "n_items": 500,
  "rungs": {
@@ -20,8 +20,8 @@
     "words of its English sentences": 2858
    },
    "items": {
-    "the answer is a token of BIG-bench's IPA text": 158,
-    "the word occurs in a BIG-bench sentence": 148
+    "the answer is a token of BIG-bench's IPA text": 146,
+    "the word occurs in a BIG-bench sentence": 137
    }
   },
   "lcs": {

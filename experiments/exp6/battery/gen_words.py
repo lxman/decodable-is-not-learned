@@ -175,5 +175,5 @@ register(RungSpec(
     description="transliterate one English word into IPA (CMUdict via "
                 "eng_to_ipa, words with exactly one pronunciation); scored "
                 "per word by exact match where BIG-bench scores sentences "
-                "by BLEU",
-    draw=_draw_ipa))
+                "by BLEU; no transcription is the answer of two words",
+    unique_answers=True, draw=_draw_ipa))

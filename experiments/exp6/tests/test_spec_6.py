@@ -98,8 +98,18 @@ def test_a_shot_gives_no_eval_item_away():
     assert got["n_redrawn"]["shot_content"] >= 1
     for r in got["shot_records"]:
         assert r["meta"]["content"] not in items and r["meta"]["shows"] not in items
-    assert all(not {"content_key", "shows", "question_key"} & set(it)
+    assert all(not {"content_key", "shows", "question_key", "guards"} & set(it)
                for it in got["eval_items"])
+
+    def guarded(rng, ctx, slot):                       # a guard on either side gates
+        n = int(rng.integers(100_000))
+        return {"question": f"q{n}", "answer": f"w{n}", "bb_key": f"k{n}",
+                "content_key": f"c{n}", "guards": [f"g{n % 150}"],
+                "meta": {"guard": n % 150}}
+    g = sp.generate(_spec(guarded), {}, collisions=frozenset())
+    held = {it["meta"]["guard"] for it in g["eval_items"]}
+    assert g["n_redrawn"]["shot_content"] >= 1         # 150 guards, most of them held
+    assert not {r["meta"]["guard"] for r in g["shot_records"]} & held
 
     def quiet(rng, ctx, slot):                         # the same stream, no key of `shows`
         return {k: v for k, v in draw(rng, ctx, slot).items() if k != "shows"}
@@ -115,9 +125,13 @@ def test_a_shot_gives_no_eval_item_away():
         for bad in ("", " ", 3, ["x"]):
             with pytest.raises(ValueError, match=k):
                 sp.check_item(_spec(_counter_draw), {**good, k: bad})
-    for bad in ("x", [""], [1], None):
-        with pytest.raises(ValueError, match="shows"):
-            sp.check_item(_spec(_counter_draw), {**good, "shows": bad})
+    for k in ("shows", "guards"):
+        for bad in ("x", [""], [1], None):
+            with pytest.raises(ValueError, match=k):
+                sp.check_item(_spec(_counter_draw), {**good, "content_key": "c", k: bad})
+    sp.check_item(_spec(_counter_draw), {**good, "content_key": "c", "guards": ["g"]})
+    with pytest.raises(ValueError, match="guards without a content_key"):
+        sp.check_item(_spec(_counter_draw), {**good, "guards": ["g"]})
 
 
 def test_no_two_items_ask_one_question():
@@ -126,12 +140,14 @@ def test_no_two_items_ask_one_question():
     def draw(rng, ctx, slot):
         n = int(rng.integers(100_000))
         return {"question": f"q{n}", "answer": f"w{n}", "bb_key": f"k{n}",
-                "question_key": f"ask{n % 3000}", "meta": {"asks": n % 3000}}
+                "question_key": f"ask{n % 600}", "meta": {"asks": n % 600}}
     got = sp.generate(_spec(draw), {}, collisions=frozenset())
     asked = [it["meta"]["asks"] for it in got["eval_items"]] + \
         [r["meta"]["asks"] for r in got["shot_records"]]
     assert len(set(asked)) == sp.N_EVAL + sp.N_SHOTS
-    assert got["n_redrawn"]["duplicate"] > 20          # 502 draws on 3,000 questions
+    assert got["n_redrawn"]["duplicate"] > 500         # 500 items on 600 questions
+    # a shot that asks what an eval item asks gives it away: counted as such
+    assert got["n_redrawn"]["shot_content"] >= 1       # five draws in six do
 
     def free(rng, ctx, slot):
         return {k: v for k, v in draw(rng, ctx, slot).items() if k != "question_key"}

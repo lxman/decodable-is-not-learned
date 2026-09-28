@@ -178,7 +178,55 @@ def test_no_deduction_shot_gives_an_item_away(built, name, n):
         if d is not None:
             m = d["meta"]
             assert d["content_key"] == f"{m['context']}|{'>'.join(m['order'])}|{m['asked']}"
-            assert "question_key" not in d and "shows" not in d
+            assert d["question_key"] == gen_logic.puzzle_key(
+                m["context"], m["listed"], m["clues"], m["asked"])
+            assert "guards" not in d and "shows" not in d
+    # a puzzle is its context, its objects, its clues as a set and the
+    # position asked: not the order of the intro or of the clues, nor
+    # the direction a clue is worded in
+    a = gen_logic.puzzle_key("cars", ["tractor", "hatchback", "convertible"],
+                             [("after", "convertible", "hatchback"),
+                              ("before", "convertible", "tractor")], 1)
+    b = gen_logic.puzzle_key("cars", ["hatchback", "convertible", "tractor"],
+                             [("after", "tractor", "convertible"),
+                              ["after", "convertible", "hatchback"]], 1)
+    assert a == b
+    for other in (("cars", ["tractor", "hatchback", "convertible"],
+                   [("after", "convertible", "hatchback"),
+                    ("before", "convertible", "tractor")], 2),
+                  ("cars", ["tractor", "hatchback", "convertible"],
+                   [("after", "convertible", "hatchback"), ("at", "tractor", 3)], 1),
+                  ("birds", ["tractor", "hatchback", "convertible"],
+                   [("after", "convertible", "hatchback"),
+                    ("before", "convertible", "tractor")], 1)):
+        assert gen_logic.puzzle_key(*other) != a
+    # no two items are one puzzle, the shots included; read from the records
+    def puzzle(m):
+        clues = frozenset((k, x, y) if k != "after" else ("before", y, x)
+                          for k, x, y in (tuple(c) for c in m["clues"]))
+        return m["context"], frozenset(m["listed"]), clues, m["asked"]
+    every = [puzzle(it["meta"]) for it in _items(built, name)] + \
+        [puzzle(r["meta"]) for r in built[name]["shot_records"]]
+    assert len(set(every)) == 502
+
+
+def test_no_two_temporal_items_are_one_schedule(built):
+    """The hours and the free interval are the question; the names, the
+    place and the activities are surface. Read from the TEXT."""
+    def schedule(q):
+        body = q.split("\nOptions: ")[0]
+        spans = re.findall(r"from (\d+[ap]m) to (\d+[ap]m)\.", body)
+        woke = re.search(r"woke up at (\d+[ap]m)\.", body).group(1)
+        closed = re.search(r"was closed after (\d+[ap]m)\.", body).group(1)
+        return woke, tuple(spans), closed
+    every = [schedule(it["question"]) for it in _items(built, "temporal")] + \
+        [schedule(q) for q, _ in built["temporal"]["shots"]]
+    assert len(set(every)) == 502
+    import numpy as np
+    d = gen_logic._draw_temporal(np.random.default_rng(3), None, 3)
+    m = d["meta"]
+    assert d["question_key"] == d["content_key"] == \
+        "-".join(str(h) for h in m["hours"]) + f"|{m['free']}"
 
 
 @pytest.mark.parametrize("name,n", [("deduction3", 3), ("deduction5", 5)])

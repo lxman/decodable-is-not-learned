@@ -42,13 +42,19 @@ sentence, and no sentence reads "1 hours" under any option.
 
 NO TWO ITEMS ASK ONE QUESTION UNDER TWO SUBJECTS (the driver's gate, on
 `question_key`: the numbers, the scaling and the roles), the shots
-included. And a SHOT does not show the numbers of an eval item's
-relation: its `content_key` is the numbers its sentence prints AND its
-answer, as one sorted list, so that a shot which prints an item's
-numbers beside its answer is gated in whatever roles the numbers stand
-— the same sentence under another scaling that leaves the answer
-unchanged, the same numbers the other way round, the inverse question
-of one relation.
+included. And a SHOT does not show the numbers of an eval item. Its
+`content_key` is the numbers its sentence prints AND its answer, as one
+sorted list, so that a shot which prints an item's numbers beside its
+answer is gated in whatever roles the numbers stand — the same sentence
+under another scaling that leaves the answer unchanged, the same
+numbers the other way round, the inverse question of one relation. Its
+guards are the printed numbers with the scaling, in any roles (a shot
+with an item's numbers in other roles would show, beside them, one of
+the item's WRONG candidates), and on level 1 the rate in lowest terms
+with the scaling, the roles and the shown quantity (12 every 20 and 6
+every 10 are one rate: the same question under other printed numbers,
+which two EVAL items may be — numbers are content — and a shot may
+not).
 
 What an item asks, the kind of its scaling and the answer's list
 position are set by the slot; its numbers and its fills are drawn. The
@@ -310,6 +316,12 @@ def relation_key(level: int, printed, answer: int) -> str:
     return f"lv{level}|" + "|".join(str(x) for x in sorted([*printed, answer]))
 
 
+def numbers_key(level: int, printed, k: int, up: bool) -> str:
+    """The numbers a sentence prints and its scaling, in any roles."""
+    return (f"lv{level}n|" + "|".join(str(x) for x in sorted(printed)) +
+            f"|{k}|{int(bool(k) and up)}")
+
+
 def _pick(rng, seq):
     return seq[int(rng.integers(len(seq)))]
 
@@ -367,6 +379,8 @@ def _draw_lv1(rng, ctx, slot, d=None):
             "bb_key": lv1_sentence(*args, surface="bigbench"),
             "question_key": "lv1|" + "|".join(str(int(x)) for x in args[1:]),
             "content_key": relation_key(1, [x for x in (n, p, shown) if x > 1], answer),
+            "guards": [numbers_key(1, [x for x in (n, p, shown) if x > 1], k, often),
+                       f"lv1r|{Fraction(n, p)}|{k}|{int(often)}|{int(ask_time)}|{shown}"],
             "meta": {"subject": subj, "n": n, "p": p, "m": m, "k": k,
                      "often": often, "ask_time": ask_time, "shown": shown,
                      "options": opts, "option_kinds": kinds,
@@ -414,6 +428,7 @@ def _draw_lv2(rng, ctx, slot, d=None):
             "bb_key": lv2_sentence(*args, surface="bigbench"),
             "question_key": "lv2|" + "|".join(str(int(x)) for x in args[1:]),
             "content_key": relation_key(2, (r, given), answer),
+            "guards": [numbers_key(2, (r, given), k, faster)],
             "meta": {"subject": clause.split(" at ")[0].split(" costs")[0],
                      "r": r, "a": a, "b": b, "k": k, "faster": faster,
                      "give_a": give_a, "ask_a": ask_a, "given": given,

@@ -73,6 +73,32 @@ def test_no_two_modarith_items_ask_one_pair(built, name):
     assert len(set(queries)) == 500
     assert not {k for p in shots for k in p} & set(queries)
     assert shots[0][-1] != shots[1][-1]
+    # the driver's counters, and the two mechanisms on other seeds: the
+    # committed seed need not have met either
+    import dataclasses
+    from experiments.exp6.battery import collisions_6 as c6
+    from experiments.exp6.battery import spec as sp
+    spec, fired = sp.SPECS_6[name], 0
+    for i in range(6 if name == "modarith_mul1" else 1):
+        d = sp.generate(dataclasses.replace(spec, seed=spec.seed * 100 + i), None,
+                        collisions=c6.for_spec(spec),
+                        collisions_extra=c6.extra_for_spec(spec))
+        q = {pairs(it["question"])[-1] for it in d["eval_items"]}
+        assert len(q) == 500
+        assert not {k for s, _ in d["shots"] for k in pairs(s)} & q
+        fired += d["n_redrawn"]["shot_content"]
+    assert (fired > 0) == (name == "modarith_mul1")
+
+    class Stream:                       # a draw whose query is a worked pair, turned round
+        def __init__(self, values):
+            self.values = list(values)
+
+        def integers(self, bound):
+            return self.values.pop(0)
+    draw = sp.SPECS_6[name].draw
+    got = draw(Stream([3, 7, 1, 2, 4, 5, 6, 8, 9, 10, 7, 3]), None, 0)
+    assert (got is None) == (name != "modarith_sub1")
+    assert draw(Stream([3, 7, 1, 2, 4, 5, 6, 8, 9, 10, 7, 4]), None, 0) is not None
     # the generator's keys are these
     a, b = (7, 3)
     assert gen_arith.pair_key(name, a, b) == f"{name}|{min(a, b)}|{max(a, b)}" \
@@ -156,6 +182,9 @@ def test_ipa(built):
     ctx = gen_words.context()
     items = _items(built, "ipa_word")
     assert Counter(it["meta"]["ipa_bin"] for it in items) == {0: 167, 1: 167, 2: 166}
+    # no transcription answers two words (chi and kai, dam and damn), the shots included
+    said = [it["answer"] for it in items] + [a for _, a in built["ipa_word"]["shots"]]
+    assert len(set(said)) == 502 and built["ipa_word"]["n_redrawn"]["repeated_answer"] > 0
     for it in items:
         word = it["question"].rsplit(": ", 1)[1]
         assert it["answer"] == ctx["ipa"][word]
@@ -503,6 +532,11 @@ def test_what_the_slot_fixes(built, name):
             r"\d+", q.split("\nOptions: ")[0]) + [answer]))
     assert not {shows(qa, a), shows(qb, b)} & {
         shows(it["question"], it["answer"]) for it in items}
+
+    def prints(p):                      # the numbers and the scaling, in any roles
+        return (tuple(sorted(v for k, v in p.items()
+                             if k in ("n", "p", "r", "shown") and v > 1)), p["k"], p["up"])
+    assert not {prints(pa), prints(pb)} & {prints(p) for p in asked}
     # and no two items ask one question under two subjects, the shots included
     every = asked + [pa, pb]
     assert len({tuple(sorted(p.items())) for p in every}) == 502
@@ -639,6 +673,8 @@ def test_what_a_unit_item_would_give_away():
     assert gen_units.relation_key(2, (8, 24), 192) == \
         gen_units.relation_key(2, (24, 192), 8) == "lv2|8|24|192"
     assert gen_units.relation_key(2, (8, 24), 192) != gen_units.relation_key(2, (8, 24), 3)
+    assert gen_units.numbers_key(2, (24, 8), 2, True) == "lv2n|8|24|2|1"
+    assert gen_units.numbers_key(2, (8, 24), 0, True) == "lv2n|8|24|0|0"   # no scaling, no direction
 
     def key(name, seed, **d):
         draw = gen_units._draw_lv1 if name == "unit_interp1" else gen_units._draw_lv2
@@ -657,6 +693,15 @@ def test_what_a_unit_item_would_give_away():
             assert a["question_key"] == b["question_key"]
             assert len({x["content_key"] for x in (a, c, d)}) == 3
             assert len({x["question_key"] for x in (a, c, d)}) == 3
+            # the guards: the printed numbers with the scaling, in any roles;
+            # the rate in lowest terms with the scaling, the roles, the shown
+            printed = sorted(x for x in (m["n"], m["p"], m["shown"]) if x > 1)
+            assert a["guards"] == [
+                "lv1n|" + "|".join(str(x) for x in printed) + f"|{m['k']}|1",
+                f"lv1r|{Fraction(m['n'], m['p'])}|{m['k']}|1|1|{m['shown']}"]
+            assert a["guards"] == b["guards"]                       # another subject
+            assert a["guards"][0] == c["guards"][0] != d["guards"][0]   # roles; scaling
+            assert len({x["guards"][1] for x in (a, c, d)}) == 3
             n["subject"] += 1
         a = key("unit_interp2", seed, row=0, scaling="up", give_a=False, ask_a=True)
         if a is not None:
@@ -669,6 +714,9 @@ def test_what_a_unit_item_would_give_away():
             assert a["content_key"] == b["content_key"] and a["question"] != b["question"]
             assert a["question_key"] == b["question_key"] != c["question_key"]
             assert a["content_key"] != c["content_key"]
+            assert a["guards"] == b["guards"] == c["guards"] == [
+                "lv2n|" + "|".join(str(x) for x in sorted([m["r"], m["given"]])) +
+                f"|{m['k']}|1"]
             n["role"] += 1
             # the invariant asked, the rate scaled the other way (a draw the
             # other scaling's candidates may refuse): the same answer
@@ -676,6 +724,7 @@ def test_what_a_unit_item_would_give_away():
                 assert d["answer"] == a["answer"] and d["question"] != a["question"]
                 assert d["content_key"] == a["content_key"]
                 assert d["question_key"] != a["question_key"]    # another question
+                assert d["guards"] != a["guards"]                # another scaling
                 n["scaling"] += 1
     assert min(n.values()) > 100
 

@@ -526,8 +526,8 @@ def test_the_content_overlap_record(monkeypatch):
     assert n["unscramble_short"] == {"the answer is a BIG-bench target word": 491}
     assert n["unscramble_long"] == {"the answer is a BIG-bench target word": 497}
     assert rec["rungs"]["unscramble_long"]["bigbench"] == {"distinct target words": 9719}
-    assert n["ipa_word"] == {"the word occurs in a BIG-bench sentence": 148,
-                             "the answer is a token of BIG-bench's IPA text": 158}
+    assert n["ipa_word"] == {"the word occurs in a BIG-bench sentence": 137,
+                             "the answer is a token of BIG-bench's IPA text": 146}
     assert rec["rungs"]["ipa_word"]["bigbench"] == {
         "words of its English sentences": 2858, "tokens of its IPA text": 2907}
     assert n["sort3"] == {"a word of the list is in a BIG-bench list": 369,

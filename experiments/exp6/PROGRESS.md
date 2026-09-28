@@ -464,3 +464,70 @@ regenerated; the index and the known answers (77) are unchanged. The audit, the 
 and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
 sha256 checked against the index); the token record was measured offline from the coordinator's
 scratch cache (R-16). No network contact in this wave. 136 tests in the suite.
+
+### Fix wave 9 (Tasks 2, 4–6) — the re-review of fix wave 8 (coordinator rulings R-65 … R-70)
+
+The re-review (on f51ad3764) found that what fix wave 8 set out to do holds: the `modarith`
+gate, the unit rungs' question gate, every answer of the four rungs that moved (2,008 of 2,008
+by its own parsers), and the unit rungs' central claim under the new gate (a fitted attack on
+the roles at chance; the numbers distributed alike across the cells). Asked to look for the two
+defects on all seventeen rungs by definitions of its own, it found them on rungs fix wave 8 had
+left without a key. Each finding was recomputed by the coordinator before it was ruled.
+- TWO RUNGS HELD ONE QUESTION TWICE (the review's I-1, plan delta B-36). `deduction3`'s items at
+  slots 98 and 338 were one puzzle: the same context, objects and position asked, and the same
+  clues once "newer than" is read as "older than" the other way round. `temporal`'s items at
+  slots 1 and 160 were one schedule under other names. Over forty seeds of that build: 257
+  `deduction3` items in 39 batteries, 30 `temporal` items in 12. Both rungs now carry a
+  question key: a puzzle's context, objects, clues as a set whichever way a clue is worded, and
+  position asked; a schedule's hours and free interval.
+- A SHOT COULD STILL GIVE AN ITEM AWAY ON THREE RUNGS, AND SHOW A WRONG ANSWER TO ONE ON THE UNIT
+  RUNGS (I-1, M-1, M-2, M-7; B-35). At other seeds a `temporal` shot carried an eval item's
+  schedule (2 of forty batteries) and an `ipa_word` shot's transcription was an eval item's
+  answer (1 of forty). On the committed items a `unit_interp2` shot printed the numbers of the
+  item at slot 270 in other roles, and so showed, beside those numbers, one of that item's two
+  wrong candidates (over forty seeds 36 items in 28 batteries; on level 1, 6 in 5). `temporal`
+  carries a content key; `ipa_word` repeats no answer (chi and kai, dam and damn were both in
+  the build); the unit rungs' shots are guarded by the printed numbers with the scaling, in any
+  roles, and on level 1 by the rate in lowest terms.
+- A SHOT REFUSED FOR ASKING AN EVAL ITEM'S QUESTION IS COUNTED AS SUCH (M-3). The driver checks
+  the shot gate before the duplicate gate. Refused candidates on the committed rungs: 10 for
+  `unit_interp2`'s shots, 1 for `modarith_mul1`'s. Over forty other seeds: 301 on
+  `modarith_mul1`, 263 on `unit_interp2`, 12 on `unit_interp1`, 2 on `deduction3`, 2 on
+  `temporal`, none elsewhere.
+- THE `modarith` KEYS ARE TESTED WHERE THEY FIRE (M-4): on six other seeds of `modarith_mul1` no
+  shot shows an eval item's pair and the gate has fired; a stream built to ask a worked pair the
+  other way round is refused on the two rungs whose operation commutes.
+- What moved: `deduction3` from slot 338 on, `temporal` from slot 160 on, `ipa_word` from slot
+  213 on, and `unit_interp2`'s second shot. The other thirteen rungs' items and shots are the
+  ones of fix wave 8. Redraws for a repeated question on the committed rungs: 106
+  (`modarith_mul1`), 120 (`unit_interp2`), 6 (`unit_interp1`), 3 (`deduction3`), 1
+  (`modarith_sub1`), 1 (`temporal`); for a repeated answer, 2 (`ipa_word`). `ipa_word`: 314 of
+  its answers carry a stress mark; 137 of its words occur in BIG-bench's sentences and 146 of
+  its answers are tokens of BIG-bench's IPA text; its longest answer is 17 tokens.
+  `deduction3`: 108 items ask a position a clue states outright. `temporal`: the longest prompt
+  is 618 tokens.
+- Not duplicates, counted on the committed items: unit items that share the numbers a sentence
+  prints and its answer with another (10 and 146); level-1 items that ask an equivalent question
+  under other printed numbers (12); `deduction3` items with the same objects, order and
+  position asked under other clues (12).
+
+Corrections to this ledger, made here and not in place:
+- The entry of fix wave 8 is headed by "no two items of a rung ask one question under two
+  surfaces". It was true of the four rungs that entry keyed and false of `deduction3` and
+  `temporal`, one pair each.
+- The same entry counts 22 `deduction3` items as sharing objects, order and position asked
+  "under other clues". Two of the 22 were under the same clues.
+- The same entry's "10 and 146" are items that share the numbers a sentence prints AND its
+  answer; by the printed numbers alone the counts are 52 and 424.
+- The same entry gives the shot gate's redraws as 2 on the committed `unit_interp2` and 63 / 25 /
+  4 / 1 over forty seeds. Those left out the candidates refused for asking an eval item's
+  question, which were counted as duplicates: 7 on the committed rung.
+- The same entry gives `modarith_mul1`'s fifteen pairs with a zero without saying that fifteen
+  is the most in forty seeds (4 to 15, mean 9.65).
+
+The audit record, all seventeen item files (an item file names the audit record, which names
+`spec.py` and the generator files), the token record, the overlap record and every pin were
+regenerated; the index and the known answers (77) are unchanged. The audit, the overlap count
+and the guessers' fit ran on the coordinator's scratch copy of the task files (each file's
+sha256 checked against the index); the token record was measured offline from the coordinator's
+scratch cache (R-16). No network contact in this wave. 137 tests in the suite.

@@ -115,11 +115,14 @@ def check_item(spec: RungSpec, item: dict) -> None:
         v = item.get(k)
         if v is not None and (not isinstance(v, str) or not v.strip()):
             raise ValueError(f"{spec.name}: {k} is {v!r}, not a non-empty string")
-    shows = item.get("shows", [])
-    if not isinstance(shows, list) or not all(
-            isinstance(k, str) and k.strip() for k in shows):
-        raise ValueError(f"{spec.name}: shows is {shows!r}, not a list of "
-                         f"non-empty strings")
+    for k in ("guards", "shows"):
+        v = item.get(k, [])
+        if not isinstance(v, list) or not all(
+                isinstance(x, str) and x.strip() for x in v):
+            raise ValueError(f"{spec.name}: {k} is {v!r}, not a list of "
+                             f"non-empty strings")
+    if item.get("guards") and item.get("content_key") is None:
+        raise ValueError(f"{spec.name}: guards without a content_key")
     extra = item.get("bb_extra", [])
     if not isinstance(extra, list) or not all(
             isinstance(k, str) and k.strip() for k in extra):
@@ -160,22 +163,27 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
     of the item that is a question in its own right) is in the index's
     extra table.
 
-    Three optional keys of a draw say what the item is, its surface
+    Four optional keys of a draw say what the item is, its surface
     aside; the driver reads them and keeps none.
       `question_key`  what the item ASKS (the pair a modarith item asks,
                       either way round; a unit sentence under any
-                      subject). No two items of a rung, shots included,
-                      carry one question key: the second is a duplicate.
+                      subject; a deduction puzzle however its clues are
+                      worded; a schedule). No two items of a rung, shots
+                      included, carry one question key.
       `content_key`   what would GIVE THE ITEM AWAY if a prompt showed
                       it with its answer.
+      `guards`        further keys of the same kind (a unit sentence's
+                      numbers in any roles).
       `shows`         what else the item shows beside a result (a
                       modarith item's worked lines), as content keys.
-    A SHOT is redrawn if its content key, or a key of what it shows, is
-    the content key of an eval item: a prompt does not show the answer
-    of an item it is scored on. An eval item is never redrawn for that."""
+    A SHOT is redrawn, and counted under `shot_content`, if it asks what
+    an eval item asks, or if its content key, a guard of its own or a
+    key of what it shows is the content key or a guard of an eval item:
+    a prompt does not show the answer of an item it is scored on, nor a
+    wrong answer to it. An eval item is never redrawn for that."""
     rng = np.random.default_rng(spec.seed)
     seen_q, seen_key, seen_ans = set(), set(), set()
-    seen_question, eval_content = set(), set()
+    seen_question, eval_question, eval_content = set(), set(), set()
     n_redrawn = {"rejected": 0, "duplicate": 0, "collision": 0,
                  "shot_answer": 0, "shot_content": 0, "repeated_answer": 0}
 
@@ -188,6 +196,12 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
             check_item(spec, item)
             key = sha256_text(item["bb_key"])
             asks = item.get("question_key")
+            content = item.get("content_key")
+            mine = ([] if content is None else [content]) + item.get("guards", [])
+            if shot and (asks in eval_question or any(
+                    k in eval_content for k in mine + item.get("shows", []))):
+                n_redrawn["shot_content"] += 1
+                continue
             if item["question"] in seen_q or key in seen_key or asks in seen_question:
                 n_redrawn["duplicate"] += 1
                 continue
@@ -201,13 +215,10 @@ def generate(spec: RungSpec, ctx: dict, *, collisions: frozenset,
             if spec.unique_answers and item["answer"] in seen_ans:
                 n_redrawn["repeated_answer"] += 1
                 continue
-            content = item.get("content_key")
-            gives = ([] if content is None else [content]) + item.get("shows", [])
-            if shot and any(k in eval_content for k in gives):
-                n_redrawn["shot_content"] += 1
-                continue
-            if content is not None and not shot:
-                eval_content.add(content)
+            if not shot:
+                eval_content.update(mine)
+                if asks is not None:
+                    eval_question.add(asks)
             if asks is not None:
                 seen_question.add(asks)
             seen_q.add(item["question"])

@@ -144,6 +144,17 @@ def minimal_clues(rng, target) -> list:
     return kept
 
 
+def puzzle_key(context: str, objects, clues, asked: int) -> str:
+    """A puzzle as a QUESTION: the context, the objects, the clues as a
+    set — "x after y" read as "y before x" — and the position asked.
+    The order the intro lists the objects in, the order of the clues and
+    the direction a clue is worded in are surface."""
+    norm = sorted({("before", y, x) if k == "after" else (k, x, y)
+                   for k, x, y in (tuple(c) for c in clues)}, key=str)
+    return "|".join([context, ",".join(sorted(objects)),
+                     ";".join(f"{k}:{x}:{y}" for k, x, y in norm), str(asked)])
+
+
 def _namer(surface: str):
     if surface not in SURFACES:
         raise ValueError(f"surface {surface!r} is not one of {SURFACES}")
@@ -195,6 +206,7 @@ def _draw_deduction(n):
                 "answer": answer,
                 "bb_key": deduction_paragraph(cx, n, listed, clues,
                                               surface="bigbench"),
+                "question_key": puzzle_key(cx["key"], listed, clues, q),
                 # the same objects in the same order, the same position
                 # asked: the same answer, whatever the clues
                 "content_key": f"{cx['key']}|{'>'.join(target)}|{q}",
@@ -283,8 +295,12 @@ def _draw_temporal(rng, ctx, slot):
                                                       replace=False)]
     opts = wrong[:answer_pos - 1] + [answer] + wrong[answer_pos - 1:]
     where = "first" if free == 0 else ("last" if free == n else "middle")
+    schedule = "-".join(str(h) for h in hours) + f"|{free}"
     return {"question": with_options(text, opts), "answer": answer,
             "bb_key": text,
+            # the hours and the free interval are the question; the
+            # names, the place and the activities are surface
+            "question_key": schedule, "content_key": schedule,
             "meta": {"n_events": n, "hours": hours, "free": free,
                      "free_position": where, "options": opts,
                      "answer_pos": answer_pos}}

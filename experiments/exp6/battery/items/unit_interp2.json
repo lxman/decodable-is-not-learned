@@ -19173,15 +19173,15 @@
  "n_options": 5,
  "n_redrawn": {
   "collision": 3,
-  "duplicate": 125,
-  "rejected": 780,
+  "duplicate": 120,
+  "rejected": 783,
   "repeated_answer": 0,
   "shot_answer": 0,
-  "shot_content": 2
+  "shot_content": 10
  },
  "name": "unit_interp2",
  "provenance": {
-  "bbkey_audit_sha256": "ab2bcd036b8d6e9f38a4a4f14fefbddff414ad2aa28b2c23d9753a0d50340c9c",
+  "bbkey_audit_sha256": "9bec53f3c728c012431177188515422a86ae1443017cecd09310bc0a50a07470",
   "bigbench_commit": "092b196c1f8f14a54bbc62f24759d43bde46dd3b",
   "bigbench_index_sha256": "d47c4a4c4057b7dfe7d0ef0feb789625ef1fda81307a30788bcc067e45ef2525",
   "pyfiglet": "1.0.4",
@@ -19228,37 +19228,37 @@
    }
   },
   {
-   "bb_sha256": "18297793bf6a80c675b61b0c5f671a460c99ca9f0bf5e181b01550cb35524ad2",
+   "bb_sha256": "380704bda10a9d6ca87bc4cd3cc682123c4c0d5e1d2a4e5a83955a4f5af82170",
    "meta": {
-    "a": 1875,
+    "a": 243,
     "answer_pos": 3,
-    "answer_rank": 5,
+    "answer_rank": 4,
     "answer_stated": false,
     "ask_a": true,
-    "b": 75,
+    "b": 27,
     "candidates": [
      3,
-     1875
+     243
     ],
     "faster": false,
     "give_a": false,
-    "given": 75,
+    "given": 27,
     "k": 0,
     "option_kinds": [
-     "pool",
-     "misreading",
-     "answer",
      "combination",
+     "combination",
+     "answer",
+     "misreading",
      "misreading"
     ],
     "options": [
-     32,
-     3,
-     1875,
-     25,
-     75
+     9,
+     2187,
+     243,
+     27,
+     3
     ],
-    "r": 25,
+    "r": 9,
     "subject": "A runner is running"
    }
   }
@@ -19269,8 +19269,8 @@
    "20"
   ],
   [
-   "A runner is running at 25 meters per second, and is 75 seconds from the finish line. They are () meters from the finish line.\nOptions: 32, 3, 1875, 25, 75",
-   "1875"
+   "A runner is running at 9 meters per second, and is 27 seconds from the finish line. They are () meters from the finish line.\nOptions: 9, 2187, 243, 27, 3",
+   "243"
   ]
  ],
  "task": "unit_interpretation",
