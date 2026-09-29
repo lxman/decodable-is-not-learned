@@ -864,3 +864,60 @@ once on the final tree before the tag.
   §11's order): slips for ratification. The design doc is not edited.
 
 State: built, frozen, reviewed. No tag. No model has read an item of this battery.
+
+### Management takeover — 2026-09-29 (OpenCode, GPT-6 Astra)
+
+Michael: “Review the ongoing experiment(s) in this folder and begin managing
+them please.” Read the project map, handoff, live and preceding ledgers,
+designs, both Exp 6 plans, freeze, final-review record and ratification
+packages. Exp 6 is the only active experiment; Exp 5b is closed and
+propagated. The handoff's “no named successor” and the map's “build next”
+were historical snapshots, not the live state.
+
+**Verified at instrument head `2e54bd4cf`:**
+
+- Clean `master` at entry; remote master independently read at the same
+  commit. No `exp6-*` tag and no `experiments/exp6/results/` directory.
+- Fast suite, offline and with the empty-cache test guard:
+  `python -m pytest experiments/exp6/tests -m 'not slow' -q -p no:cacheprovider`
+  under the lab venv → **395 passed, 234 deselected, 40.18 s**.
+- Cold battery, once, offline: **10/14 PASS, 0 FAIL, 4 SKIP** (prereg tag,
+  predictor stage, endpoint stage, sweeps absent). Twenty item files,
+  219 referents, all eight committed tallies exact; import scan 73 frozen
+  and 5 own modules as pinned; **314 reads, 0 unpinned**.
+- Parsed the two committed mutation logs by per-mutant lines: 369 unique
+  fast entries, 309 killed and 60 survived-fast; 60 unique slow entries,
+  all killed. Fast survivor names equal slow kill names exactly; no open
+  name, duplicate or unexpected slow entry. This checks the stored logs;
+  the final mutation rerun follows the ratified changes.
+- Python 3.11.15 and every package version in HANDOFF §4 match. A first
+  metadata query used the system Python (3.14, no torch) and was corrected
+  to the lab venv; every experiment test/check used the lab venv.
+- No local experiment, pytest, mutation, puller, watcher or status process
+  found. Vast's authenticated GET `/api/v1/instances/` returned zero
+  instances. No rental operation was made. Mac free disk about 505 GiB.
+
+**Recovered audit gap:** the cold battery executes the analyzer's read
+sweep, even though it prints no statistic. Reconstructed the nine prior
+real-tree calls from the preceding session's tool commands and results;
+this session adds one, making **ten**. All are before campaign data,
+refusing at the absent predictor seal. `PRETAG_AUDIT.md` carries the UTC
+event list and its scope. Prototype/rehearsal copies and synthetic worlds
+aren't counted as the real tree. No analyzer was executed to reconstruct
+the tally. The prior ratification draft's claim that a total was already
+ledgered was premature.
+
+**Ruling M-1: consolidate the pending approval package in tracked
+`RATIFICATION.md` and refresh the management pointers.** The previous
+package was only in the git-ignored SDD workspace. Reason: the next agent
+must be able to find the active gate from the repository. Cost if wrong:
+an editorial correction before ratification. The new package preserves
+D-1–D-16 and O-1–O-5, references the committed B/N deltas, recommends
+keeping the cache entry, and explicitly says the contact involved two
+loads. It is a proposal, not Michael's ratification. The original SDD
+workspaces and their full ruling lists remain in place.
+
+The carried instrument changes still await his word under I-32. Next:
+ratification → one correction pass → final batteries → verified annotated
+preregistration tag → predictor preflight on his word. No campaign or
+monitor is running; no item has been read by a model in this takeover.
