@@ -722,3 +722,22 @@ survived-fast) every mutant of the table is killed by a named test: 276 by the f
 by the worlds and the totality files. Both logs are committed (`mutation_fast.log`,
 `mutation_slow.log`); the tally is reproducible from them. The harness works on private copies;
 the tree was clean before and after. Model cache untouched.
+
+### Instrument — the adversarial freeze and the slow mutation pass after it (coordinator, 2026-09-28)
+
+The freeze's record is `FREEZE_CHECKLIST.md` (commits be0f914dc, cf5fbf074). The class defect
+was found and closed: F-2, a frozen module supplied by a second `experiments` directory
+earlier on `sys.path` ran with every pin active and moved a null world from BATTERY-BOUND to
+GENERAL. Also closed: F-1 (six files the verdict path loads lazily were named by no pin: every
+real runner would have halted at its exit gate, and no test had run with the real pins on),
+F-3 (an endpoint load resumed across hosts), F-4 (bytecode that is not the hashed source).
+Eight items are stated for Michael's ruling in its §D. The coordinator checked the freeze's
+commits before building on them: no module that decides a verdict changed (`analyze_6`,
+`power_6`, `records_6`, `referents_6`, `families_6` and the battery are byte-identical to
+adb3a70ca); fast suite 381 passed, 234 deselected; import scan 73 frozen, 5 own, 16 bound by
+the tag, as pinned; cold battery 10/14 PASS, 4 SKIP; model cache untouched.
+
+The slow mutation pass, run by the coordinator on the repository at cf5fbf074 over the 59
+survivors of the freeze's fast pass: `59 mutants in 2249 s: killed 59`. With the fast pass
+(349 mutants, 290 killed, 59 survived-fast): 349 mutants, every one killed by a named test,
+none equivalent. Both logs committed.
