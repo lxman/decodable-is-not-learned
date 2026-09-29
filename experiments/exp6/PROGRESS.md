@@ -712,3 +712,13 @@ the code by the coordinator.
   the disclosure, a reading wider than the set the power record simulated, a loss the result
   does not explain, a missing record, the temp file's name, the seal's table, both markers.
 Measured in the repository: fast suite 370 passed; worlds 70, totality 161; fast mutation pass 335 mutants in 613 s: killed 276, survived-fast 59; read sweep 2,604 reads, 0 unpinned; cold battery 10/14 PASS, 4 SKIP.
+
+### Instrument — the slow mutation pass, on the repository (coordinator, 2026-09-28; ruling I-5)
+
+Run by the coordinator, detached, at adb3a70ca with no implementer live, over the survivors of
+the committed fast pass: `59 mutants in 2093 s: killed 59`, no OPEN, no ERROR, none declared
+equivalent (`EQUIVALENT_6` is empty). With the fast pass (335 mutants, 276 killed, 59
+survived-fast) every mutant of the table is killed by a named test: 276 by the fast files, 59
+by the worlds and the totality files. Both logs are committed (`mutation_fast.log`,
+`mutation_slow.log`); the tally is reproducible from them. The harness works on private copies;
+the tree was clean before and after. Model cache untouched.
