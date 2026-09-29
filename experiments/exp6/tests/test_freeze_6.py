@@ -286,14 +286,23 @@ def _tree_with_pyc(tmp_path, mode):
     shutil.copystat(src, alt)
     cache = src.parent / "__pycache__"
     cache.mkdir(exist_ok=True)
-    inv = (py_compile.PycInvalidationMode.UNCHECKED_HASH if mode == "unchecked"
+    inv = (py_compile.PycInvalidationMode.UNCHECKED_HASH
+           if mode in ("unchecked", "carries_the_sources_hash")
            else py_compile.PycInvalidationMode.TIMESTAMP)
-    py_compile.compile(str(alt), cfile=str(cache / "records_6.cpython-311.pyc"),
-                       dfile=str(src), invalidation_mode=inv, doraise=True)
+    pyc = cache / "records_6.cpython-311.pyc"
+    py_compile.compile(str(alt), cfile=str(pyc), dfile=str(src), invalidation_mode=inv,
+                       doraise=True)
+    if mode == "carries_the_sources_hash":
+        # final review I-3: the header names the TRUE source's hash, the
+        # code is the other source's; Python never reads an unchecked header
+        import importlib.util
+        data = pyc.read_bytes()
+        pyc.write_bytes(data[:8] + importlib.util.source_hash(src.read_bytes())
+                        + data[16:])
     return tree
 
 
-@pytest.mark.parametrize("mode", ["unchecked", "timestamp"])
+@pytest.mark.parametrize("mode", ["unchecked", "timestamp", "carries_the_sources_hash"])
 def test_f4_bytecode_that_is_not_the_hashed_source(tmp_path, mode):
     """The pins hash SOURCE files; the interpreter runs a .pyc when it
     finds one valid. At f3a9bf046 a .pyc compiled from another source ran
@@ -314,3 +323,87 @@ def test_f4_bytecode_that_is_not_the_hashed_source(tmp_path, mode):
     assert got.returncode == 0, got.stderr[-1500:]
     assert "RAN True" in got.stdout                   # the other source is what ran
     assert "REFUSED" in got.stdout and "bytecode" in got.stdout, got.stdout
+
+
+def test_f4_bytecode_of_the_true_source_is_accepted(tmp_path):
+    """The closure refuses what is not the source's code and nothing else:
+    the repository's own timestamp caches (a first run writes them under a
+    private prefix, a second loads them), and hash-based caches of every
+    exp6 module compiled from its own source, pass."""
+    import py_compile
+    prefix = tmp_path / "prefix"
+    code = """
+        from experiments.exp6 import analyze_6, battery_6 as b6, pins_6 as p6
+        b6.load_battery_6()
+        print("STALE", p6.bytecode_failures())
+        p6.check_imports_6()
+        print("PINNED")
+    """
+    for _ in range(2):
+        env = _env([REPO], tmp_path / "hf")
+        env.pop("PYTHONDONTWRITEBYTECODE")
+        env["PYTHONPYCACHEPREFIX"] = str(prefix)
+        got = subprocess.run([sys.executable, "-c", textwrap.dedent(code)], cwd=str(REPO),
+                             env=env, capture_output=True, text=True, timeout=600)
+        assert got.returncode == 0 and "PINNED" in got.stdout, got.stderr[-1500:]
+        assert "STALE []" in got.stdout, got.stdout
+    assert list(prefix.rglob("*.pyc"))                    # the second run read caches
+    from experiments.exp6.tests import mutation_check_6 as mc
+    tree = mc.make_tree(tmp_path / "t")
+    n = 0
+    for src in (tree / "experiments" / "exp6").rglob("*.py"):
+        if "tests" in src.relative_to(tree).parts:
+            continue
+        cfile = src.parent / "__pycache__" / f"{src.stem}.cpython-311.pyc"
+        py_compile.compile(str(src), cfile=str(cfile), dfile=str(src), doraise=True,
+                           invalidation_mode=py_compile.PycInvalidationMode.UNCHECKED_HASH)
+        n += 1
+    assert n > 10
+    env = _env([tree], tmp_path / "hf")
+    got = subprocess.run([sys.executable, "-c", textwrap.dedent(code)], cwd=str(tree),
+                         env=env, capture_output=True, text=True, timeout=600)
+    assert got.returncode == 0 and "PINNED" in got.stdout, got.stderr[-1500:]
+    assert "STALE []" in got.stdout, got.stdout
+
+
+@pytest.mark.parametrize("body", ["other_code", "unreadable"])
+def test_f4_a_hash_based_pyc_is_held_to_its_code(tmp_path, monkeypatch, body):
+    """Final review I-3 at the function: a hash-based .pyc whose header
+    carries the true source's hash is held to the code its source
+    compiles to; one whose code cannot be read is refused (an unchecked
+    one would run without Python looking). The module is a stand-in in
+    `sys.modules` over the repository's own source; nothing is written
+    in the repository."""
+    import importlib.util
+    import marshal
+    import types
+    src_path = REPO / "experiments" / "exp6" / "records_6.py"
+    src = src_path.read_bytes()
+    if body == "other_code":
+        code = marshal.dumps(compile(src.replace(b"span/sequence", b"spam/sequence"),
+                                     str(src_path), "exec", dont_inherit=True))
+    else:
+        code = b"\x00not marshal data"
+    pyc = tmp_path / "records_6.cpython-311.pyc"
+    flags = (0b01).to_bytes(4, "little")                    # hash-based, unchecked
+    pyc.write_bytes(importlib.util.MAGIC_NUMBER + flags
+                    + importlib.util.source_hash(src) + code)
+    m = types.ModuleType("_exp6_f4_stand_in")
+    m.__file__, m.__cached__ = str(src_path), str(pyc)
+    monkeypatch.setitem(sys.modules, "_exp6_f4_stand_in", m)
+    got = [x for x in p6.bytecode_failures() if x.startswith("_exp6_f4_stand_in:")]
+    want = ("is not the code its source compiles to" if body == "other_code"
+            else "is hash-based and unreadable")
+    assert len(got) == 1 and want in got[0], got
+    # the same header over the source's own code passes
+    pyc.write_bytes(importlib.util.MAGIC_NUMBER + flags + importlib.util.source_hash(src)
+                    + marshal.dumps(compile(src, str(src_path), "exec",
+                                            dont_inherit=True)))
+    assert not [x for x in p6.bytecode_failures() if x.startswith("_exp6_f4_stand_in:")]
+    # and a header that is not this source's hash is refused even over the
+    # source's own code (the header check stands beside the code check)
+    pyc.write_bytes(importlib.util.MAGIC_NUMBER + flags + b"\x00" * 8
+                    + marshal.dumps(compile(src, str(src_path), "exec",
+                                            dont_inherit=True)))
+    got = [x for x in p6.bytecode_failures() if x.startswith("_exp6_f4_stand_in:")]
+    assert len(got) == 1 and "is hash-based and not this source's" in got[0], got

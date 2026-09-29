@@ -3,8 +3,11 @@
 `root/results` may change; nothing a model writes is stored, and nothing
 it writes on a rung of the new battery is printed or counted — the
 preflight reports finiteness, identity, shape, seconds and memory, and no
-score. The frozen modules and the import surface are checked; the tags
-are not (4c's rule: the preflight runs before the predictor exists).
+score. The frozen modules and the import surface are checked. The
+predictor stage checks no tag (4c's rule: it runs before the predictor
+exists); the outcome stage runs after the predictor seal and refuses,
+before it loads anything or builds a host record, unless the predictor
+is sealed (final review C-1, ruling I-19).
 
     python -m experiments.exp6.run.preflight_6 --stage predictor --device mps
     python -m experiments.exp6.run.preflight_6 --stage outcome --device cuda
@@ -25,7 +28,12 @@ are not (4c's rule: the preflight runs before the predictor exists).
     renders' ids and the stop ids the loader measured;
   - on the smallest family the endpoint through BOTH loaders: identical
     continuations on the preflight rungs and equal tensor digests (the
-    rehearsal of gate 1(a)).
+    rehearsal of gate 1(a));
+  - on every read the two anchors (2c's base-8 pair) on all their items,
+    each count held to the Mac's committed count of that checkpoint
+    within the cross-host tolerance (the rehearsal of gate 1(c); final
+    review M-4). The anchors' outcomes are committed: printing their
+    counts discloses nothing.
 """
 from __future__ import annotations
 
@@ -214,6 +222,24 @@ def _score(runner, cap) -> dict:
             "digest": _digest(ev["continuations"])}
 
 
+def _anchors(runner, battery, family, step, name, log) -> dict:
+    """Gate 1(c), rehearsed: each anchor on all its items through the
+    runner, against the Mac's committed count of this checkpoint."""
+    counts = {r: int(r6.evaluate_items_6(runner, battery[r])["correct"])
+              for r in b6.ANCHORS_6}
+    mac = {r: rf.mac_count(family, step, r) for r in b6.ANCHORS_6}
+    label = f"6 preflight gate 1(c) {family}/{name}"
+    bad = rf.anchor_tolerance(counts, mac, label=label)
+    out = {r: {"count": counts[r], "mac": mac[r],
+               "within": not any(m.startswith(f"{label}/{r}:") for m in bad)}
+           for r in b6.ANCHORS_6}
+    log(f"[6 preflight] {family}, {name} (step {step}): anchors "
+        + ", ".join(f"{r} {v['count']} against the Mac's {v['mac']}"
+                    f"{'' if v['within'] else ' OUTSIDE'}" for r, v in out.items())
+        + f" (tolerance {rf.TOL_PER_RUNG_6})")
+    return out
+
+
 def family_preflight(family: str, *, device, loaders, battery, cache_root,
                      rungs=PREFLIGHT_RUNGS_6, twice=False, log=print) -> dict:
     man = fm.manifest(family)
@@ -254,6 +280,7 @@ def family_preflight(family: str, *, device, loaders, battery, cache_root,
             runner = loaders["runner"](family, tok, model)
             for rung in rungs:
                 row["rungs"][rung] = _score(runner, battery[rung])
+            row["anchors"] = _anchors(runner, battery, family, step, name, log)
             row["peak_memory_bytes"] = peak_memory(device)
         finally:
             loaders["release"](model)
@@ -289,13 +316,21 @@ def family_preflight(family: str, *, device, loaders, battery, cache_root,
         and all(r.get("renders", {}).get("generation_eos_token_id")
                 == r.get("renders", {}).get("stop_id_pinned")
                 for r in out["reads"].values())
+        and all(a["within"] for r in out["reads"].values()
+                for a in r["anchors"].values())
         and (not twice or all(out["two_loaders"].values())))
     return out
 
 
 def run_outcome(*, root=EXP6, device="cuda", families=None, loaders=None,
-                cache_root=None, frozen_check=None, host=None, log=print) -> dict:
+                cache_root=None, frozen_check=None, host=None, tag_exists=None,
+                blobs_bound=None, log=print) -> dict:
     before = _guard(root, frozen_check)
+    try:        # after the predictor seal: before any load and any host record
+        ep.require_predictor_seal(root, tag_exists=tag_exists, blobs_bound=blobs_bound)
+    except Exception as e:  # noqa: BLE001 — every way of not being sealed refuses
+        raise RuntimeError(f"the outcome preflight runs after the predictor seal: "
+                           f"{type(e).__name__}: {e}") from e
     host = host or cm.host_record(device)
     bad = cm.host_failures(host)
     if bad:

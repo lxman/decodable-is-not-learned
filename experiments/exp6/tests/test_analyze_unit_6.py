@@ -210,6 +210,92 @@ def test_undetermined_names_its_shortfall():
     assert len(mods) == 8 and all("names no cause" in m for m in mods)
 
 
+# --------------------------------------- fix wave 3 (final review C-1, I-4, M-1)
+SEAL_ORDER_6 = (
+    "The predictors were sealed before any outcome model was handed an item of "
+    "this battery; the endpoints, rung sets and power record before any "
+    "intermediate checkpoint was scored into a record; the projection before the "
+    "sweeps. Outcome weights were loaded before the predictor seal once, by a "
+    "test on 2026-09-28 (no tokenizer, no forward pass, no item read; the ledger "
+    "has the account). The outcome preflight runs after the predictor seal and "
+    "loads each family's endpoint and first grid step. It stores nothing. Of what "
+    "a model writes on an item of this battery it reports shape, timing and "
+    "identity, and no score; it holds 2c's two anchors to their committed counts.")
+
+
+def test_the_known_inputs_caveat_states_the_seal_order_as_run():
+    """Final review C-1 (ruling I-19): the sentence that travels into
+    every licence said the predictors were sealed before any outcome
+    weight loaded; a test loaded one on 2026-09-28 and the run plan's
+    outcome preflight loads each family's endpoint and first grid step.
+    The sentence now states what the seal order is."""
+    assert SEAL_ORDER_6 in an.KNOWN_INPUTS_CAVEAT_6
+    assert "before any outcome weight loaded" not in an.KNOWN_INPUTS_CAVEAT_6
+    for world, text in an.LICENSED_6.items():
+        assert SEAL_ORDER_6 in text, world
+        assert "before any outcome weight loaded" not in text, world
+        assert "scores nothing" not in text, world          # ruling I-24
+
+
+def test_the_headline_counts_evaluable_families_only():
+    """Freeze §D 1 / final review I-4 (ruling I-20): a family on which
+    the test read fewer than three rungs is counted toward nothing by the
+    naming rule, and toward nothing by the headline condition either."""
+    rungs = ("modarith_add1", "lcs", "sort3", "ascii_basic", "deduction3", "temporal")
+    t = {(p, f): res(p == "A", rungs=rungs) for p, f in pw6.TESTS_6}
+    t[("A", F[3])] = res(True, rungs=(rungs[0], rungs[2]))   # two rungs: not EVALUABLE
+    for r in t[("A", F[2])]["per_rung"]:
+        t[("A", F[2])]["per_rung"][r]["ci"]["lo"] = -0.01
+    st = {p: an.status_of({f: t[(p, f)] for f in F}) for p in "AB"}
+    assert st["A"]["status"] == "H" and st["A"]["evaluable"] == list(F[:3])
+    assert st["B"]["status"] != "H"
+    # modarith_add1 (arithmetic) and sort3 (string) exclude zero on F0, F1
+    # (evaluable) and F3 (not): two types on "three families" as built
+    h = an.headline_condition(t, st)
+    assert not h["met"] and h["types"] == [] and h["by_predictor"] == {"A": {}}
+    v = an.verdict_6([], t, _rsets(), _power())
+    assert v["verdict"] == "PYTHIA-ONLY" and "NOT met" in v["modifiers"][0]
+    # the same intervals on an evaluable third family: met
+    t[("A", F[3])] = res(True, rungs=rungs)
+    st = {p: an.status_of({f: t[(p, f)] for f in F}) for p in "AB"}
+    assert an.headline_condition(t, st)["met"]
+
+
+def test_the_shortfall_names_the_side_that_lost_the_rung():
+    """Final review M-1 (ruling I-22): `_run_test` also drops a rung whose
+    OUTCOME is constant inside every stratum (2g's `perm_test`: no
+    informative pair). `dropped_predictor` is what was degenerate on the
+    predictor's side before any retry; the rest of `dropped_degenerate`
+    is named on the outcome side."""
+    R9 = list(b6.RUNGS_6[:9])
+
+    def one(**over):
+        t = _tests((1, 1, 1, 1), (1, 1, 1, 1))
+        t[("A", F[0])] = dict(res(False, rungs=R9[:2]), **over)
+        st2 = {"A": {"status": "U"}, "B": {"status": "H"}}
+        return an.shortfall(t, st2, _rsets(9))
+    # the predictor side: degenerate before any retry
+    assert one(dropped_degenerate=R9[2:5], dropped_predictor=R9[2:5], thin=[]) == [
+        f"predictor side: Test A on {F[0]} lost {R9[2:5]} to degeneracy"]
+    # the outcome side: dropped on the retry, not degenerate for the predictor
+    assert one(dropped_degenerate=R9[2:5], dropped_predictor=[], thin=[]) == [
+        f"outcome side: Test A on {F[0]} lost {R9[2:5]} to an outcome that is "
+        f"constant inside every stratum"]
+    # both, and the thin ones beside them
+    assert one(dropped_degenerate=R9[2:5], dropped_predictor=R9[2:3],
+               thin=R9[2:]) == [
+        f"predictor side: Test A on {F[0]} lost {R9[2:3]} to degeneracy",
+        f"outcome side: Test A on {F[0]} lost {R9[3:5]} to an outcome that is "
+        f"constant inside every stratum",
+        f"outcome side: Test A on {F[0]} lost {R9[5:]} to thin outcomes over the sweep"]
+    # thin alone
+    assert one(dropped_degenerate=[], dropped_predictor=[], thin=R9[2:]) == [
+        f"outcome side: Test A on {F[0]} lost {R9[2:]} to thin outcomes over the sweep"]
+    # a result with no `dropped_predictor` (a stub) is read as before
+    assert one(dropped_degenerate=R9[2:5], thin=[]) == [
+        f"predictor side: Test A on {F[0]} lost {R9[2:5]} to degeneracy"]
+
+
 def test_the_licence_of_battery_bound_claims_no_absence():
     """Status F allows one firing family, so BATTERY-BOUND can hold two
     tests that fired. Its sentence states the naming rule's count and

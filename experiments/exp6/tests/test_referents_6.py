@@ -164,3 +164,32 @@ def test_the_macs_bits_are_the_committed_records():
         assert sum(bits) == rf.mac_count(f, step, r)
         assert bits == [int(b) for b in r6.read_json(
             fm.committed_sweep_record(f, step, r))["bits"]]
+
+
+def test_the_cold_battery_does_not_run_the_analysis_on_a_swept_tree(tmp_path,
+                                                                     monkeypatch):
+    """Final review M-6 (ruling I-22): the read-sweep item executes
+    `analyze_6.run` (and computes T). Once any sweep record exists, that
+    is an execution of the analysis before the analyzer's one run: the
+    item SKIPs and says why."""
+    from experiments.exp6 import verify_referents_6 as vr
+    from experiments.exp6.tools import read_sweep_6 as rs
+    calls = []
+
+    def sweep(root):
+        calls.append(root)
+        return {"UNPINNED": [], "outside_unexplained": [], "n_reads": 7}
+    monkeypatch.setattr(rs, "sweep", sweep)
+    assert vr._read_sweep(tmp_path) == "7 reads, 0 unpinned" and len(calls) == 1
+    r6.write_json(r6.step_dir(tmp_path, fm.FAMILIES_6[0], fm.grid(fm.FAMILIES_6[0])[0])
+                  / "lcs.json", {})
+    got = vr._read_sweep(tmp_path)
+    assert got[0] == vr.SKIP and "sweep record" in got[1] and "analysis" in got[1]
+    assert len(calls) == 1                                 # not run
+    for name in ("_items", "_tables", "_audit", "_overlap", "_tokens", "_manifest",
+                 "_tallies", "_committed_tests", "_frozen", "_prereg"):
+        monkeypatch.setattr(vr, name, lambda: "ok")
+    for name in ("_predictor", "_endpoint", "_sweeps"):
+        monkeypatch.setattr(vr, name, lambda root: "ok")
+    row = dict((n, (s, note)) for n, s, note in vr.battery(tmp_path))["read sweep"]
+    assert row == (vr.SKIP, got[1]) and len(calls) == 1

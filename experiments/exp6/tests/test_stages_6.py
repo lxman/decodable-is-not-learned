@@ -533,3 +533,66 @@ def test_a_torn_record_is_not_resumed_over(tmp_path):
         load.mkdir()                                   # a directory where a file belongs
         with pytest.raises(RuntimeError, match="torn record"):
             done()
+
+
+# ------------------------------------------------ fix wave 3 (final review)
+def test_the_predictor_seals_table_is_of_the_stages_files(tmp_path):
+    """Final review I-2 (ruling I-21): `rglob("*")` matches dotfiles, and
+    a Finder `.DS_Store` the watcher never commits entered the table; the
+    box then refused a correct seal. A file whose name begins with a dot
+    is not a file of the stage, before or after the seal is written."""
+    f = _sealed_predictor(tmp_path)
+    (f.parent / ".DS_Store").write_bytes(b"\x00\x00\x00\x01Bud1")
+    files = sp.file_table(tmp_path)
+    assert list(files) == ["results/predictor/unit.json"]
+    r6.write_json(r6.seal_path(tmp_path), {"files": files,
+                                           "sha256": r6.composite_sha(files)})
+    assert sp.file_table(tmp_path) == files               # re-derives after the seal
+    (r6.results(tmp_path) / "predictor" / ".hidden").write_text("x")
+    seal = ep.require_predictor_seal(tmp_path, tag_exists=W.tag_exists,
+                                     blobs_bound=W.blobs_bound)
+    assert list(seal["files"]) == ["results/predictor/unit.json"]
+
+
+def _script(name):
+    return (ep.EXP6 / "run" / name).read_text()
+
+
+def test_the_box_scripts(tmp_path):
+    """Final review M-2, M-3, M-5 (ruling I-22). Checked by reading and by
+    `bash -n`; no script is executed here."""
+    import re
+    import shutil
+    import subprocess
+    for name in ("campaign_endpoint_6.sh", "campaign_sweep_6.sh", "box_setup_6.sh",
+                 "status_box_6.sh"):
+        if shutil.which("bash"):
+            got = subprocess.run(["bash", "-n", str(ep.EXP6 / "run" / name)],
+                                 capture_output=True, text=True)
+            assert got.returncode == 0, (name, got.stderr)
+    # M-5: each campaign writes its own pid where the status script reads it
+    for name in ("campaign_endpoint_6.sh", "campaign_sweep_6.sh"):
+        body = [ln for ln in _script(name).splitlines() if not ln.startswith("#")]
+        pid = next(i for i, ln in enumerate(body)
+                   if ln.split("#")[0].strip() == "echo $$ > /workspace/campaign_6.pid")
+        first_run = next(i for i, ln in enumerate(body) if "venv/bin/python" in ln)
+        assert pid < first_run, name
+    assert "cat /workspace/campaign_6.pid" in _script("status_box_6.sh")
+    head = "\n".join(ln for ln in _script("status_box_6.sh").splitlines()
+                     if ln.startswith("#"))
+    assert "(gitignored" not in head and "not gitignored" in head.lower()
+    # M-2: the sweep refuses at its start without the projection in its checkout
+    body = [ln for ln in _script("campaign_sweep_6.sh").splitlines()
+            if not ln.startswith("#")]
+    guard = next(i for i, ln in enumerate(body)
+                 if "experiments/exp6/projection.md" in ln and "[ -f" in ln)
+    assert "exit 2" in body[guard]
+    assert guard < next(i for i, ln in enumerate(body) if "venv/bin/python" in ln)
+    # M-3: the box states its disk, prints what it has, refuses below it
+    setup = _script("box_setup_6.sh")
+    assert "170 GB" in setup and "EXP6_DISK_OK" in setup
+    body = [ln for ln in setup.splitlines() if not ln.startswith("#")]
+    check = next(i for i, ln in enumerate(body) if "EXP6_DISK_OK" in ln)
+    assert check < next(i for i, ln in enumerate(body) if "uv python install" in ln)
+    assert re.search(r"-lt 170\b", "\n".join(body))
+    assert "df " in "\n".join(body[:check])

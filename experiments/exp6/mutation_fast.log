@@ -1,9 +1,9 @@
 baseline OK (battery, fast)
 baseline OK (instrument, fast)
-[answer_side_an_empty_normalization_is_accepted] killed         verify_6.py: answer side: an empty normalization is accepted  — fast: experiments/exp6/tests/test_verify_6.py::test_answer_side_is_a_hard_error
 [ipa_the_last_token_read_not_the_first] killed         verify_6.py: ipa: the LAST token read, not the first  — fast: experiments/exp6/tests/test_verify_6.py::test_ipa_keeps_case_and_reads_one_token
-[draw_side_a_line_2c_s_word_path_raises_on_verifies] killed         verify_6.py: draw side: a line 2c's word path raises on verifies  — fast: experiments/exp6/tests/test_verify_6.py::test_the_2c_word_path_raises_and_verify_6_absorbs_it
 [span_sequence_case_not_folded] killed         verify_6.py: span/sequence: case not folded  — fast: experiments/exp6/tests/test_verify_6.py::test_whole_line_types_compare_the_whole_first_line
+[draw_side_a_line_2c_s_word_path_raises_on_verifies] killed         verify_6.py: draw side: a line 2c's word path raises on verifies  — fast: experiments/exp6/tests/test_verify_6.py::test_the_2c_word_path_raises_and_verify_6_absorbs_it
+[answer_side_an_empty_normalization_is_accepted] killed         verify_6.py: answer side: an empty normalization is accepted  — fast: experiments/exp6/tests/test_verify_6.py::test_answer_side_is_a_hard_error
 [the_harness_s_provenance_is_not_checked] killed         verify_6.py: the harness's provenance is not checked  — fast: experiments/exp6/tests/test_verify_6.py::test_the_harness_is_2cs_and_is_resolved_once
 [the_gate_a_key_in_the_index_is_kept] killed         battery/spec.py: the gate: a key in the index is kept  — fast: experiments/exp6/tests/test_spec_6.py::test_collision_is_redrawn_not_kept
 [the_gate_an_extra_key_in_the_extra_table_is_kept] killed         battery/spec.py: the gate: an extra key in the extra table is kept  — fast: experiments/exp6/tests/test_spec_6.py::test_an_extra_key_is_gated_and_recorded
@@ -18,8 +18,8 @@ baseline OK (instrument, fast)
 [the_candidates_are_not_offered] killed         battery/gen_units.py: the candidates are not offered  — fast: experiments/exp6/tests/test_generators_a_6.py::test_the_numbers_and_the_wrong_options_follow_the_readme[unit_interp1-kinds0-share0]
 [the_fills_are_drawn_around_the_answer] killed         battery/gen_units.py: the fills are drawn around the answer  — fast: experiments/exp6/tests/test_generators_a_6.py::test_the_numbers_and_the_wrong_options_follow_the_readme[unit_interp1-kinds0-share0]
 [exact_under_criterion_case_folded_for_ipa_and_for_nothing_else] killed         verify_6.py: exact_under_criterion: case folded for ipa and for nothing else  — fast: experiments/exp6/tests/test_generators_b_6.py::test_every_rung_is_500_clean_items
-[the_other_options_are_listed_by_size] killed         battery/gen_units.py: the other options are listed by size  — fast: experiments/exp6/tests/test_generators_a_6.py::test_the_numbers_and_the_options_do_not_say_what_is_asked[unit_interp1]
 [the_other_options_are_listed_by_size_where_the_answer_is_the_smallest_ca] killed         battery/gen_units.py: the other options are listed by size where the answer is the smallest candidate  — fast: experiments/exp6/tests/test_generators_a_6.py::test_the_numbers_and_the_options_do_not_say_what_is_asked[unit_interp1]
+[the_other_options_are_listed_by_size] killed         battery/gen_units.py: the other options are listed by size  — fast: experiments/exp6/tests/test_generators_a_6.py::test_the_numbers_and_the_options_do_not_say_what_is_asked[unit_interp1]
 [the_order_is_drawn_after_the_answer_is_taken_out] killed         battery/gen_units.py: the order is drawn after the answer is taken out  — fast: experiments/exp6/tests/test_generators_a_6.py::test_the_numbers_and_the_wrong_options_follow_the_readme[unit_interp1-kinds0-share0]
 [a_shot_may_ask_what_an_item_asks] killed         battery/spec.py: a shot may ask what an item asks  — fast: experiments/exp6/tests/test_spec_6.py::test_a_shot_gives_no_eval_item_away
 [level_1_a_candidate_the_sentence_prints_is_kept] killed         battery/gen_units.py: level 1: a candidate the sentence prints is kept  — fast: experiments/exp6/tests/test_generators_a_6.py::test_the_numbers_and_the_wrong_options_follow_the_readme[unit_interp1-kinds0-share0]
@@ -69,8 +69,8 @@ baseline OK (instrument, fast)
 [bits_of_the_seeds_read_in_reverse_order] killed         records_6.py: bits_of: the seeds read in reverse order  — fast: experiments/exp6/tests/test_records_6.py::test_bits_counts_blocks_and_tallies
 [counts_of_the_ladder_reads_the_last_k_draws] killed         records_6.py: counts_of: the ladder reads the LAST k draws  — fast: experiments/exp6/tests/test_records_6.py::test_bits_counts_blocks_and_tallies
 [block_counts_a_block_reads_from_the_first_draw] killed         records_6.py: block_counts: a block reads from the first draw  — fast: experiments/exp6/tests/test_records_6.py::test_bits_counts_blocks_and_tallies
-[the_floor_pins_are_not_checked] killed         floors_6.py: the floor pins are not checked  — fast: experiments/exp6/tests/test_battery_6.py::test_the_pin_checks_refuse_a_table_that_moved
 [the_heuristic_pins_are_not_checked] killed         floors_6.py: the heuristic pins are not checked  — fast: experiments/exp6/tests/test_battery_6.py::test_the_two_new_pin_checks_refuse
+[the_floor_pins_are_not_checked] killed         floors_6.py: the floor pins are not checked  — fast: experiments/exp6/tests/test_battery_6.py::test_the_pin_checks_refuse_a_table_that_moved
 [tier_record_no_pinned_field_is_compared] killed         records_6.py: tier record: no pinned field is compared  — fast: experiments/exp6/tests/test_records_6.py::test_every_pinned_field_of_a_tier_record_is_measured[rung-sort5]
 [a_stratum_of_fewer_than_ten_items_is_accepted] killed         strata_6.py: a stratum of fewer than ten items is accepted  — fast: experiments/exp6/tests/test_battery_6.py::test_a_thin_stratum_is_refused
 [tier_record_the_tallies_are_not_re_derived] killed         records_6.py: tier record: the tallies are not re-derived  — fast: experiments/exp6/tests/test_records_6.py::test_a_tier_record_whose_provenance_was_rewritten_is_caught
@@ -96,8 +96,8 @@ baseline OK (instrument, fast)
 [halt_scan_halted_draws_without_their_marker_are_not_seen] killed         records_6.py: halt scan: halted draws without their marker are not seen  — fast: experiments/exp6/tests/test_records_6.py::test_halt_markers_see_both_artifacts
 [halt_scan_a_sweep_s_marker_is_not_seen] killed         records_6.py: halt scan: a sweep's marker is not seen  — fast: experiments/exp6/tests/test_records_6.py::test_halt_markers_see_both_artifacts
 [load_record_the_weight_files_shas_are_not_the_manifest_s] killed         records_6.py: load record: the weight files' shas are not the manifest's  — fast: experiments/exp6/tests/test_records_6.py::test_every_field_of_a_load_record_is_measured[sha256-value10-manifest]
-[halt_scan_the_endpoint_stage_s_marker_is_not_seen] killed         records_6.py: halt scan: the endpoint stage's marker is not seen  — fast: experiments/exp6/tests/test_records_6.py::test_halt_markers_see_both_artifacts
 [load_record_comma_s_stop_id_need_not_be_overridden] killed         records_6.py: load record: Comma's stop id need not be overridden  — fast: experiments/exp6/tests/test_records_6.py::test_a_twin_carries_its_seed_and_comma_its_stop_id
+[halt_scan_the_endpoint_stage_s_marker_is_not_seen] killed         records_6.py: halt scan: the endpoint stage's marker is not seen  — fast: experiments/exp6/tests/test_records_6.py::test_halt_markers_see_both_artifacts
 [load_record_the_twin_s_seed_is_not_compared] killed         records_6.py: load record: the twin's seed is not compared  — fast: experiments/exp6/tests/test_records_6.py::test_a_twin_carries_its_seed_and_comma_its_stop_id
 [the_pilot_samples_the_main_tier_s_seeds] killed         records_6.py: the pilot samples the main tier's seeds  — fast: experiments/exp6/tests/test_records_6.py::test_the_tiers_and_units
 [evaluate_a_short_list_of_continuations_is_scored] killed         records_6.py: evaluate: a short list of continuations is scored  — fast: experiments/exp6/tests/test_records_6.py::test_a_runner_that_returns_too_few_continuations_is_refused
@@ -112,8 +112,8 @@ baseline OK (instrument, fast)
 [a_tag_binds_a_name_not_the_bytes] killed         pins_6.py: a tag binds a name, not the bytes  — fast: experiments/exp6/tests/test_pins_6.py::test_require_tag
 [a_missing_preregistration_tag_is_accepted] killed         pins_6.py: a missing preregistration tag is accepted  — fast: experiments/exp6/tests/test_pins_6.py::test_require_tag
 [a_seal_whose_files_drifted_is_accepted] killed         pins_6.py: a seal whose files drifted is accepted  — fast: experiments/exp6/tests/test_pins_6.py::test_seal_failures_never_raise
-[a_missing_seal_tag_is_accepted] killed         pins_6.py: a missing seal tag is accepted  — fast: experiments/exp6/tests/test_pins_6.py::test_seal_failures_never_raise
 [a_raising_binding_escapes_the_seal_check] killed         pins_6.py: a raising binding escapes the seal check  — fast: experiments/exp6/tests/test_pins_6.py::test_seal_failures_never_raise
+[a_missing_seal_tag_is_accepted] killed         pins_6.py: a missing seal tag is accepted  — fast: experiments/exp6/tests/test_pins_6.py::test_seal_failures_never_raise
 [halt_scan_the_predictor_stage_s_marker_is_not_seen] killed         records_6.py: halt scan: the predictor stage's marker is not seen  — fast: experiments/exp6/tests/test_predict_6.py::test_the_predictor_seal_refuses_over_a_halt_marker
 [a_file_bound_by_the_tag_must_also_be_pinned] killed         pins_6.py: a file bound by the tag must also be pinned  — fast: experiments/exp6/tests/test_pins_6.py::test_the_pinned_surface_passes
 [a_drifted_imported_module_is_accepted] killed         pins_6.py: a drifted imported module is accepted  — fast: experiments/exp6/tests/test_pins_6.py::test_a_frozen_module_that_drifted_is_refused
@@ -123,22 +123,22 @@ baseline OK (instrument, fast)
 [any_file_may_be_exempted_from_the_import_pin] killed         pins_6.py: any file may be exempted from the import pin  — fast: experiments/exp6/tests/test_pins_6.py::test_only_the_preflight_may_be_exempted
 [f_2_a_module_loaded_from_outside_the_repository_is_accepted] killed         pins_6.py: F-2: a module loaded from outside the repository is accepted  — fast: experiments/exp6/tests/test_freeze_6.py::test_f2_a_frozen_module_from_a_second_experiments_directory
 [f_2_a_namespace_portion_outside_the_repository_is_accepted] killed         pins_6.py: F-2: a namespace portion outside the repository is accepted  — fast: experiments/exp6/tests/test_freeze_6.py::test_f2_a_namespace_portion_outside_the_repository
-[f_2_an_experiments_module_s_file_is_not_held_to_the_repository] killed         pins_6.py: F-2: an experiments.* module's file is not held to the repository  — fast: experiments/exp6/tests/test_freeze_6.py::test_f2_a_bare_named_module_from_outside
 [f_2_a_bare_named_module_is_not_held_to_the_repository] killed         pins_6.py: F-2: a bare-named module is not held to the repository  — fast: experiments/exp6/tests/test_freeze_6.py::test_f2_a_bare_named_module_from_outside
-[f_4_a_hash_based_pyc_of_another_source_is_accepted] killed         pins_6.py: F-4: a hash-based .pyc of another source is accepted  — fast: experiments/exp6/tests/test_freeze_6.py::test_f4_bytecode_that_is_not_the_hashed_source[unchecked]
+[f_2_an_experiments_module_s_file_is_not_held_to_the_repository] killed         pins_6.py: F-2: an experiments.* module's file is not held to the repository  — fast: experiments/exp6/tests/test_freeze_6.py::test_f2_a_bare_named_module_from_outside
 [f_4_bytecode_that_is_not_the_pinned_source_is_accepted] killed         pins_6.py: F-4: bytecode that is not the pinned source is accepted  — fast: experiments/exp6/tests/test_freeze_6.py::test_f4_bytecode_that_is_not_the_hashed_source[unchecked]
 [f_1_2c_s_battery_registry_loaded_lazily_is_not_pinned] killed         pins_6.py: F-1: 2c's battery registry, loaded lazily, is not pinned  — fast: experiments/exp6/tests/test_freeze_6.py::test_f1_the_analyzers_lazy_path_is_pinned
 [the_referent_manifest_a_changed_file_is_accepted] killed         make_referents_6.py: the referent manifest: a changed file is accepted  — fast: experiments/exp6/tests/test_referents_6.py::test_the_referent_manifest
 [f_4_a_timestamp_pyc_of_other_code_is_accepted] killed         pins_6.py: F-4: a timestamp .pyc of other code is accepted  — fast: experiments/exp6/tests/test_freeze_6.py::test_f4_bytecode_that_is_not_the_hashed_source[timestamp]
 [the_referent_manifest_its_own_sha_is_not_compared] killed         make_referents_6.py: the referent manifest: its own sha is not compared  — fast: experiments/exp6/tests/test_referents_6.py::test_the_referent_manifest
+[f_4_a_hash_based_pyc_of_another_source_is_accepted] killed         pins_6.py: F-4: a hash-based .pyc of another source is accepted  — fast: experiments/exp6/tests/test_freeze_6.py::test_f4_a_hash_based_pyc_is_held_to_its_code[other_code]
 [f_1_exp2b_s_models_loaded_by_the_pythia_loader_is_not_pinned] killed         pins_6.py: F-1: exp2b's models, loaded by the Pythia loader, is not pinned  — fast: experiments/exp6/tests/test_freeze_6.py::test_f1_the_pythia_loaders_import_path_is_pinned
-[a_host_off_the_stack_pin_is_accepted] killed         run/_common_6.py: a host off the stack pin is accepted  — fast: experiments/exp6/tests/test_common_6.py::test_the_stack_pin_is_exp5s
 [holds_on_a_family_that_was_not_evaluable_is_not_named] killed         analyze_6.py: holds_on: a family that was not evaluable is not named  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_predictor_that_holds_on_three_says_on_which
+[a_host_off_the_stack_pin_is_accepted] killed         run/_common_6.py: a host off the stack pin is accepted  — fast: experiments/exp6/tests/test_common_6.py::test_the_stack_pin_is_exp5s
 [a_host_on_another_python_is_accepted] killed         run/_common_6.py: a host on another Python is accepted  — fast: experiments/exp6/tests/test_common_6.py::test_the_stack_pin_is_exp5s
 [a_host_record_need_not_hash_to_its_own_key] killed         run/_common_6.py: a host record need not hash to its own key  — fast: experiments/exp6/tests/test_common_6.py::test_a_host_record_is_named_by_what_identifies_the_host
 [the_runners_do_not_check_the_frozen_modules] killed         run/_common_6.py: the runners do not check the frozen modules  — fast: experiments/exp6/tests/test_common_6.py::test_the_gates_every_runner_passes
-[a_runner_starts_over_a_halt_marker] killed         run/_common_6.py: a runner starts over a halt marker  — fast: experiments/exp6/tests/test_common_6.py::test_a_runner_refuses_over_a_halt_marker
 [f_1_the_import_scan_does_not_load_the_battery] killed         tools/import_scan_6.py: F-1: the import scan does not load the battery  — fast: experiments/exp6/tests/test_freeze_6.py::test_f1_the_import_scan_forces_both_lazy_paths
+[a_runner_starts_over_a_halt_marker] killed         run/_common_6.py: a runner starts over a halt marker  — fast: experiments/exp6/tests/test_common_6.py::test_a_runner_refuses_over_a_halt_marker
 [an_exit_gate_that_fails_writes_no_marker] killed         run/_common_6.py: an exit gate that fails writes no marker  — fast: experiments/exp6/tests/test_common_6.py::test_the_exit_gate
 [an_exit_gate_that_fails_does_not_raise] killed         run/_common_6.py: an exit gate that fails does not raise  — fast: experiments/exp6/tests/test_common_6.py::test_the_exit_gate
 [the_exit_gate_checks_nothing] killed         run/_common_6.py: the exit gate checks nothing  — fast: experiments/exp6/tests/test_common_6.py::test_the_exit_gate
@@ -146,30 +146,30 @@ baseline OK (instrument, fast)
 [sampling_continues_after_the_seal] killed         run/predict_6.py: sampling continues after the seal  — fast: experiments/exp6/tests/test_predict_6.py::test_the_predictor_is_sealed_once_and_nothing_is_sampled_after
 [a_loader_off_its_pin_samples] killed         run/predict_6.py: a loader off its pin samples  — fast: experiments/exp6/tests/test_predict_6.py::test_a_loader_off_its_pin_samples_nothing[commit]
 [the_gated_units_run_last] killed         run/predict_6.py: the gated units run last  — fast: experiments/exp6/tests/test_predict_6.py::test_the_gated_units_run_first[olmo2_1b]
-[gate_1_p_does_not_halt_on_a_differing_stream] survived-fast  run/predict_6.py: gate 1-P does not halt on a differing stream
 [a_torn_record_draws_pair_resumes] killed         run/predict_6.py: a torn record+draws pair resumes  — fast: experiments/exp6/tests/test_predict_6.py::test_a_torn_unit_is_not_resumed
 [the_predictor_seals_over_failures] killed         run/seal_predictor_6.py: the predictor seals over failures  — fast: experiments/exp6/tests/test_predict_6.py::test_the_predictor_seal_refuses_a_tree_with_failures
 [gate_1_p_coverage_is_not_counted] killed         run/seal_predictor_6.py: gate 1-P: coverage is not counted  — fast: experiments/exp6/tests/test_predict_6.py::test_gate_1p_counts_its_coverage
 [gate_1_p_a_missing_gated_unit_passes] killed         run/seal_predictor_6.py: gate 1-P: a missing gated unit passes  — fast: experiments/exp6/tests/test_predict_6.py::test_gate_1p_counts_its_coverage
-[the_predictor_stage_has_no_exit_gate] survived-fast  run/predict_6.py: the predictor stage has no exit gate
-[the_predictor_stage_runs_without_the_gates] survived-fast  run/predict_6.py: the predictor stage runs without the gates
+[gate_1_p_does_not_halt_on_a_differing_stream] survived-fast  run/predict_6.py: gate 1-P does not halt on a differing stream
 [the_predictor_is_sealed_twice] killed         run/seal_predictor_6.py: the predictor is sealed twice  — fast: experiments/exp6/tests/test_predict_6.py::test_the_predictor_is_sealed_once_and_nothing_is_sampled_after
 [the_predictor_seals_over_a_halt_marker] killed         run/seal_predictor_6.py: the predictor seals over a halt marker  — fast: experiments/exp6/tests/test_predict_6.py::test_the_predictor_seal_refuses_over_a_halt_marker
-[gate_1_p_differing_draws_pass] survived-fast  run/seal_predictor_6.py: gate 1-P: differing draws pass
+[the_predictor_stage_has_no_exit_gate] survived-fast  run/predict_6.py: the predictor stage has no exit gate
+[the_predictor_stage_runs_without_the_gates] survived-fast  run/predict_6.py: the predictor stage runs without the gates
 [the_endpoint_stage_runs_on_an_unsealed_predictor_s_table] killed         run/endpoint_6.py: the endpoint stage runs on an unsealed predictor's table  — fast: experiments/exp6/tests/test_stages_6.py::test_the_predictor_seal_is_the_files_on_disk_under_the_tag
+[gate_1_p_differing_draws_pass] survived-fast  run/seal_predictor_6.py: gate 1-P: differing draws pass
 [the_endpoint_stage_does_not_require_the_seal_tag] killed         run/endpoint_6.py: the endpoint stage does not require the seal tag  — fast: experiments/exp6/tests/test_stages_6.py::test_the_predictor_seal_is_the_files_on_disk_under_the_tag
-[the_predictor_seals_without_the_exit_gate] survived-fast  run/seal_predictor_6.py: the predictor seals without the exit gate
 [a_load_is_complete_without_its_records] killed         run/endpoint_6.py: a load is complete without its records  — fast: experiments/exp6/tests/test_stages_6.py::test_a_unit_is_complete_with_its_records_and_not_before
-[a_missing_unit_is_not_a_failure] survived-fast  run/seal_predictor_6.py: a missing unit is not a failure
+[the_predictor_seals_without_the_exit_gate] survived-fast  run/seal_predictor_6.py: the predictor seals without the exit gate
 [a_host_off_the_stack_pin_runs_the_endpoint_stage] killed         run/endpoint_6.py: a host off the stack pin runs the endpoint stage  — fast: experiments/exp6/tests/test_stages_6.py::test_a_host_off_the_stack_pin_loads_nothing
-[gate_1_b_fires_and_nothing_halts] survived-fast  run/endpoint_6.py: gate 1(b) fires and nothing halts
-[the_endpoint_stage_has_no_exit_gate] survived-fast  run/endpoint_6.py: the endpoint stage has no exit gate
-[f_3_a_load_is_resumed_across_hosts] killed         run/endpoint_6.py: F-3: a load is resumed across hosts  — fast: experiments/exp6/tests/test_freeze_6.py::test_f3_an_endpoint_load_is_not_resumed_across_hosts
+[a_missing_unit_is_not_a_failure] survived-fast  run/seal_predictor_6.py: a missing unit is not a failure
 [every_rung_is_in_r_f] killed         run/seal_endpoint_6.py: every rung is in R_f  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_rung_sets_hold_both_sets
+[f_3_a_load_is_resumed_across_hosts] killed         run/endpoint_6.py: F-3: a load is resumed across hosts  — fast: experiments/exp6/tests/test_freeze_6.py::test_f3_an_endpoint_load_is_not_resumed_across_hosts
+[gate_1_b_fires_and_nothing_halts] survived-fast  run/endpoint_6.py: gate 1(b) fires and nothing halts
 [a_rung_a_guesser_solves_whole_is_beyond_its_floor] killed         run/seal_endpoint_6.py: a rung a guesser solves whole is beyond its floor  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_rung_level_prints_both_floors
+[the_endpoint_stage_has_no_exit_gate] survived-fast  run/endpoint_6.py: the endpoint stage has no exit gate
+[the_rung_sets_are_not_re_derived] killed         run/seal_endpoint_6.py: the rung sets are not re-derived  — fast: experiments/exp6/tests/test_stages_6.py::test_the_rung_sets_record_is_measured_against_the_stage
 [r_heuristic_drops_the_rungs_that_have_no_guesser] killed         run/seal_endpoint_6.py: R_heuristic drops the rungs that have no guesser  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_rung_sets_hold_both_sets
 [r_heuristic_is_r_f] killed         run/seal_endpoint_6.py: R_heuristic is R_f  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_rung_sets_hold_both_sets
-[the_rung_sets_are_not_re_derived] killed         run/seal_endpoint_6.py: the rung sets are not re-derived  — fast: experiments/exp6/tests/test_stages_6.py::test_the_rung_sets_record_is_measured_against_the_stage
 [a_sealed_file_that_changed_is_accepted] killed         run/seal_endpoint_6.py: a sealed file that changed is accepted  — fast: experiments/exp6/tests/test_stages_6.py::test_the_rung_sets_record_is_measured_against_the_stage
 [the_seal_s_file_table_is_not_the_stage_s] killed         run/seal_endpoint_6.py: the seal's file table is not the stage's  — fast: experiments/exp6/tests/test_stages_6.py::test_the_rung_sets_record_is_measured_against_the_stage
 [the_endpoint_stage_is_sealed_twice] killed         run/seal_endpoint_6.py: the endpoint stage is sealed twice  — fast: experiments/exp6/tests/test_stages_6.py::test_the_endpoint_seal_refuses_a_tree_with_failures_and_a_second_seal
@@ -180,45 +180,45 @@ baseline OK (instrument, fast)
 [gate_1_b_an_incomplete_family_is_skipped_silently] killed         run/seal_endpoint_6.py: gate 1(b): an incomplete family is skipped silently  — fast: experiments/exp6/tests/test_stages_6.py::test_gate_1b_is_rederived_over_every_family_or_fails
 [gate_1_a_differing_continuations_pass] killed         run/sweep_6.py: gate 1(a): differing continuations pass  — fast: experiments/exp6/tests/test_stages_6.py::test_gate_1_is_three_reads_of_the_endpoint_compared
 [gate_1_a_differing_digests_pass] killed         run/sweep_6.py: gate 1(a): differing digests pass  — fast: experiments/exp6/tests/test_stages_6.py::test_gate_1_is_three_reads_of_the_endpoint_compared
-[the_endpoint_stage_seals_without_the_exit_gate] survived-fast  run/seal_endpoint_6.py: the endpoint stage seals without the exit gate
 [gate_1_b_this_host_against_the_sealed_endpoint_is_not_gated] killed         run/sweep_6.py: gate 1(b): this host against the sealed endpoint is not gated  — fast: experiments/exp6/tests/test_stages_6.py::test_gate_1_is_three_reads_of_the_endpoint_compared
 [gate_1_c_the_anchors_failures_are_dropped_from_the_gate] killed         run/sweep_6.py: gate 1(c): the anchors' failures are dropped from the gate  — fast: experiments/exp6/tests/test_stages_6.py::test_gate_1_is_three_reads_of_the_endpoint_compared
 [a_host_resumes_behind_a_gate_that_failed] killed         run/sweep_6.py: a host resumes behind a gate that failed  — fast: experiments/exp6/tests/test_stages_6.py::test_a_host_does_not_resume_behind_its_own_failed_gate
+[the_endpoint_stage_seals_without_the_exit_gate] survived-fast  run/seal_endpoint_6.py: the endpoint stage seals without the exit gate
 [the_sweep_runs_without_the_endpoint_seal] killed         run/sweep_6.py: the sweep runs without the endpoint seal  — fast: experiments/exp6/tests/test_stages_6.py::test_the_sweep_requires_the_sealed_endpoint_stage
 [the_load_record_is_written_before_the_unit_records] killed         run/sweep_6.py: the load record is written before the unit records  — fast: experiments/exp6/tests/test_stages_6.py::test_the_load_record_is_written_last
-[a_step_whose_anchors_are_off_is_written_as_complete] survived-fast  run/sweep_6.py: a step whose anchors are off is written as complete
 [a_step_is_complete_without_its_records] killed         run/sweep_6.py: a step is complete without its records  — fast: experiments/exp6/tests/test_stages_6.py::test_a_unit_is_complete_with_its_records_and_not_before
-[a_failed_gate_does_not_halt_the_sweep] survived-fast  run/sweep_6.py: a failed gate does not halt the sweep
+[a_step_whose_anchors_are_off_is_written_as_complete] survived-fast  run/sweep_6.py: a step whose anchors are off is written as complete
 [a_predictor_holds_on_two_families] killed         power_6.py: a predictor holds on two families  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_naming_rule_at_three_of_four[fires3-S]
+[a_test_is_evaluable_on_two_rungs] killed         power_6.py: a test is evaluable on two rungs  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_test_that_reads_two_rungs_counts_toward_nothing
+[a_failed_gate_does_not_halt_the_sweep] survived-fast  run/sweep_6.py: a failed gate does not halt the sweep
 [a_failed_gate_still_writes_the_grid_s_endpoint_unit] survived-fast  run/sweep_6.py: a failed gate still writes the grid's endpoint unit
 [the_sweep_has_no_exit_gate] survived-fast  run/sweep_6.py: the sweep has no exit gate
-[a_test_is_evaluable_on_two_rungs] killed         power_6.py: a test is evaluable on two rungs  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_test_that_reads_two_rungs_counts_toward_nothing
 [at_least_k_reads_at_least_k_plus_one] killed         power_6.py: at-least-k reads at-least-k-plus-one  — fast: experiments/exp6/tests/test_power_6.py::test_poisson_binomial_against_enumeration
 [the_fr_chet_lower_bound_is_the_product] killed         power_6.py: the Fréchet lower bound is the product  — fast: experiments/exp6/tests/test_power_6.py::test_frechet_bounds
 [p_fails_counts_one_firing_family_as_a_failure_only] killed         power_6.py: P(fails) counts one firing family as a failure only  — fast: experiments/exp6/tests/test_power_6.py::test_tree_level_when_every_test_is_powered
 [the_tree_reads_thin_families_as_evaluable] killed         power_6.py: the tree reads thin families as evaluable  — fast: experiments/exp6/tests/test_power_6.py::test_a_predictor_with_two_evaluable_families_cannot_hold
-[a_declaration_is_not_re_derived] killed         power_6.py: a declaration is not re-derived  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
 [the_declaration_s_bar_is_strict] killed         power_6.py: the declaration's bar is strict  — fast: experiments/exp6/tests/test_power_6.py::test_the_declaration_at_the_bar
+[a_declaration_is_not_re_derived] killed         power_6.py: a declaration is not re-derived  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
 [the_record_s_rungs_need_not_be_r_f] killed         power_6.py: the record's rungs need not be R_f  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
 [the_record_s_lower_bound_need_not_be_the_endpoint_s] killed         power_6.py: the record's lower bound need not be the endpoint's  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
 [the_simulated_rungs_are_not_re_derived] killed         power_6.py: the simulated rungs are not re-derived  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
 [the_power_record_is_written_twice] killed         power_6.py: the power record is written twice  — fast: experiments/exp6/tests/test_stages_6.py::test_the_power_record_is_not_written_behind_an_exit_gate_that_fires
-[the_tree_level_figures_are_not_re_derived] killed         power_6.py: the tree-level figures are not re-derived  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
 [the_power_record_is_written_without_the_exit_gate] killed         power_6.py: the power record is written without the exit gate  — fast: experiments/exp6/tests/test_stages_6.py::test_the_power_record_is_not_written_behind_an_exit_gate_that_fires
+[the_tree_level_figures_are_not_re_derived] killed         power_6.py: the tree-level figures are not re-derived  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
 [the_endpoint_stage_falls_through_an_empty_loader_table] killed         run/endpoint_6.py: the endpoint stage falls through an empty loader table  — fast: experiments/exp6/tests/test_stages_6.py::test_a_loader_table_that_is_handed_in_is_the_one_used
 [two_families_grids_are_exchanged] killed         families_6.py: two families' grids are exchanged  — fast: experiments/exp6/tests/test_records_6.py::test_a_good_unit_record_has_no_failure
-[the_sweep_falls_through_an_empty_loader_table] killed         run/sweep_6.py: the sweep falls through an empty loader table  — fast: experiments/exp6/tests/test_stages_6.py::test_a_loader_table_that_is_handed_in_is_the_one_used
 [the_endpoint_is_the_first_grid_step] killed         families_6.py: the endpoint is the first grid step  — fast: experiments/exp6/tests/test_families_6.py::test_the_grids_are_the_committed_ones
-[the_predictor_stage_falls_through_a_falsy_loader] killed         run/predict_6.py: the predictor stage falls through a falsy loader  — fast: experiments/exp6/tests/test_predict_6.py::test_a_loader_that_is_handed_in_is_the_one_used
+[the_sweep_falls_through_an_empty_loader_table] killed         run/sweep_6.py: the sweep falls through an empty loader table  — fast: experiments/exp6/tests/test_stages_6.py::test_a_loader_table_that_is_handed_in_is_the_one_used
 [the_power_record_is_written_without_the_rung_sets] killed         power_6.py: the power record is written without the rung sets  — fast: experiments/exp6/tests/test_power_6.py::test_the_power_record_is_written_once_and_after_the_rung_sets
 [olmo_2_13b_s_init_referent_is_a_twin] killed         families_6.py: OLMo-2 13B's init referent is a twin  — fast: experiments/exp6/tests/test_families_6.py::test_the_grids_are_the_committed_ones
 [comma_is_rendered_without_its_bos] killed         families_6.py: Comma is rendered without its BOS  — fast: experiments/exp6/tests/test_records_6.py::test_a_twin_carries_its_seed_and_comma_its_stop_id
 [comma_is_scored_without_the_bos_runner] killed         families_6.py: Comma is scored without the BOS runner  — fast: experiments/exp6/tests/test_families_6.py::test_comma_is_scored_through_the_bos_runner
-[a_step_off_the_grid_has_an_entry] killed         families_6.py: a step off the grid has an entry  — fast: experiments/exp6/tests/test_families_6.py::test_every_grid_step_has_a_pinned_entry[smollm3_3b]
 [a_twin_is_loaded_as_a_checkpoint] killed         families_6.py: a twin is loaded as a checkpoint  — fast: experiments/exp6/tests/test_families_6.py::test_every_call_into_a_frozen_loader_binds[smollm3_3b]
+[a_step_off_the_grid_has_an_entry] killed         families_6.py: a step off the grid has an entry  — fast: experiments/exp6/tests/test_families_6.py::test_every_grid_step_has_a_pinned_entry[smollm3_3b]
+[the_predictor_stage_falls_through_a_falsy_loader] killed         run/predict_6.py: the predictor stage falls through a falsy loader  — fast: experiments/exp6/tests/test_predict_6.py::test_a_loader_that_is_handed_in_is_the_one_used
+[the_predictor_stage_falls_through_a_falsy_sampler] killed         run/predict_6.py: the predictor stage falls through a falsy sampler  — fast: experiments/exp6/tests/test_predict_6.py::test_a_loader_that_is_handed_in_is_the_one_used
 [olmo_2_7b_s_thin_load_reads_the_1b_repository] killed         families_6.py: OLMo-2 7B's thin load reads the 1B repository  — fast: experiments/exp6/tests/test_families_6.py::test_every_call_into_a_frozen_loader_binds[olmo7b]
 [the_outcomes_are_scored_at_float32] killed         families_6.py: the outcomes are scored at float32  — fast: experiments/exp6/tests/test_records_6.py::test_every_pinned_field_of_a_unit_record_is_measured[dtype-float32]
-[the_predictor_stage_falls_through_a_falsy_sampler] killed         run/predict_6.py: the predictor stage falls through a falsy sampler  — fast: experiments/exp6/tests/test_predict_6.py::test_a_loader_that_is_handed_in_is_the_one_used
 [the_mac_s_record_of_a_twin_is_read_from_step0] killed         families_6.py: the Mac's record of a twin is read from step0  — fast: experiments/exp6/tests/test_families_6.py::test_the_macs_committed_anchor_records_exist[smollm3_3b]
 [gate_1_d_the_endpoint_stage_s_read_is_held_to_the_first_grid_step] killed         referents_6.py: gate 1(d): the endpoint stage's read is held to the first grid step  — fast: experiments/exp6/tests/test_referents_6.py::test_the_macs_digest_of_every_checkpoint
 [gate_1_d_two_committed_digests_are_one] killed         referents_6.py: gate 1(d): two committed digests are one  — fast: experiments/exp6/tests/test_referents_6.py::test_a_referent_that_carries_two_digests_is_refused
@@ -235,50 +235,50 @@ baseline OK (instrument, fast)
 [gate_1_d_fires_at_the_sweep_s_gate_and_leaves_no_marker] killed         run/sweep_6.py: gate 1(d) fires at the sweep's gate and leaves no marker  — fast: experiments/exp6/tests/test_stages_6.py::test_a_checkpoint_that_is_not_the_macs_is_not_scored
 [gate_1_d_a_failed_load_s_evidence_is_not_kept] killed         run/sweep_6.py: gate 1(d): a failed load's evidence is not kept  — fast: experiments/exp6/tests/test_stages_6.py::test_a_checkpoint_that_is_not_the_macs_is_not_scored
 [gate_1_b_the_sealed_read_s_digest_is_not_compared] killed         run/sweep_6.py: gate 1(b): the sealed read's digest is not compared  — fast: experiments/exp6/tests/test_stages_6.py::test_gate_1_is_three_reads_of_the_endpoint_compared
-[a_run_that_reads_nothing_rewrites_the_gate_record] survived-fast  run/endpoint_6.py: a run that reads nothing rewrites the gate record
 [gate_1_b_the_record_s_host_need_not_have_a_record] killed         run/seal_endpoint_6.py: gate 1(b): the record's host need not have a record  — fast: experiments/exp6/tests/test_stages_6.py::test_gate_1b_is_rederived_over_every_family_or_fails
 [a_record_is_written_in_place] killed         records_6.py: a record is written in place  — fast: experiments/exp6/tests/test_predict_6.py::test_a_temp_file_a_kill_left_is_not_a_file_of_the_stage
 [a_torn_record_is_a_record] killed         records_6.py: a torn record is a record  — fast: experiments/exp6/tests/test_stages_6.py::test_a_torn_record_is_not_resumed_over
+[a_run_that_reads_nothing_rewrites_the_gate_record] survived-fast  run/endpoint_6.py: a run that reads nothing rewrites the gate record
 [a_list_is_a_record] killed         records_6.py: a list is a record  — fast: experiments/exp6/tests/test_stages_6.py::test_a_torn_record_is_not_resumed_over
-[gate_1_d_the_endpoint_seal_does_not_re_derive_it] survived-fast  run/seal_endpoint_6.py: gate 1(d): the endpoint seal does not re-derive it
 [the_power_record_is_written_over_a_halt_marker] killed         power_6.py: the power record is written over a halt marker  — fast: experiments/exp6/tests/test_power_6.py::test_the_power_record_is_written_once_and_after_the_rung_sets
 [a_test_s_record_may_name_another_predictor] killed         power_6.py: a test's record may name another predictor  — fast: experiments/exp6/tests/test_power_6.py::test_the_claims_are_rederived
+[gate_1_d_the_endpoint_seal_does_not_re_derive_it] survived-fast  run/seal_endpoint_6.py: gate 1(d): the endpoint seal does not re-derive it
 [the_preflight_passes_weights_that_are_not_the_mac_s] killed         run/preflight_6.py: the preflight passes weights that are not the Mac's  — fast: experiments/exp6/tests/test_preflight_6.py::test_two_loaders_that_disagree_fail
-[battery_bound_says_neither_predictor_forecasts] killed         analyze_6.py: BATTERY-BOUND says neither predictor forecasts  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_licence_of_battery_bound_claims_no_absence
 [the_preflight_falls_through_a_falsy_finiteness_probe] killed         run/preflight_6.py: the preflight falls through a falsy finiteness probe  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_finiteness_probe_that_is_handed_in_is_the_one_used
+[battery_bound_says_neither_predictor_forecasts] killed         analyze_6.py: BATTERY-BOUND says neither predictor forecasts  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_licence_of_battery_bound_claims_no_absence
 [withdrawn_is_printed_over_a_reading_the_power_record_did_not_simulate] killed         analyze_6.py: withdrawn is printed over a reading the power record did not simulate  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_withdrawn_is_printed_only_where_the_power_record_covers_the_reading
 [uncovered_asks_the_tests_that_are_not_evaluable] killed         analyze_6.py: uncovered asks the tests that are not evaluable  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_battery_bound_is_read_under_the_power_record
 [a_predictor_that_holds_on_three_does_not_say_on_which] killed         analyze_6.py: a predictor that holds on three does not say on which  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_predictor_that_holds_on_three_says_on_which
 [the_shortfall_names_one_small_family_only_with_a_second] killed         analyze_6.py: the shortfall names one small family only with a second  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_undetermined_names_its_shortfall
 [the_shortfall_counts_a_degenerate_rung_as_thin_too] killed         analyze_6.py: the shortfall counts a degenerate rung as thin too  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_undetermined_names_its_shortfall
-[predictor_stage_the_seal_s_tag_is_not_compared] survived-fast  analyze_6.py: predictor stage: the seal's tag is not compared
-[predictor_stage_gate_1_p_s_tag_is_not_compared] survived-fast  analyze_6.py: predictor stage: gate 1-P's tag is not compared
 [a_family_that_was_not_evaluable_is_said_not_to_have_fired] killed         analyze_6.py: a family that was not evaluable is said not to have fired  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_predictor_that_holds_on_three_says_on_which
-[gate_1_d_a_gate_read_is_not_held_to_the_mac_s_digest] survived-fast  analyze_6.py: gate 1(d): a gate read is not held to the Mac's digest
-[gate_1_d_a_grid_step_is_not_held_to_the_mac_s_digest] survived-fast  analyze_6.py: gate 1(d): a grid step is not held to the Mac's digest
 [a_predictor_that_fired_on_all_four_still_says_on_which] killed         analyze_6.py: a predictor that fired on all four still says on which  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_predictor_that_holds_on_three_says_on_which
 [a_reading_wider_than_the_set_simulated_is_covered] killed         analyze_6.py: a reading wider than the set simulated is covered  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_withdrawn_is_printed_only_where_the_power_record_covers_the_reading
-[gate_1_the_sealed_read_handed_to_the_gate_is_the_host_s_own] survived-fast  analyze_6.py: gate 1: the sealed read handed to the gate is the host's own
+[predictor_stage_the_seal_s_tag_is_not_compared] survived-fast  analyze_6.py: predictor stage: the seal's tag is not compared
+[predictor_stage_gate_1_p_s_tag_is_not_compared] survived-fast  analyze_6.py: predictor stage: gate 1-P's tag is not compared
+[gate_1_d_a_gate_read_is_not_held_to_the_mac_s_digest] survived-fast  analyze_6.py: gate 1(d): a gate read is not held to the Mac's digest
+[gate_1_d_a_grid_step_is_not_held_to_the_mac_s_digest] survived-fast  analyze_6.py: gate 1(d): a grid step is not held to the Mac's digest
 [a_release_that_fails_says_nothing] killed         families_6.py: a release that fails says nothing  — fast: experiments/exp6/tests/test_families_6.py::test_a_release_that_fails_says_so
+[gate_1_the_sealed_read_handed_to_the_gate_is_the_host_s_own] survived-fast  analyze_6.py: gate 1: the sealed read handed to the gate is the host's own
 [a_record_that_is_missing_is_whole] killed         records_6.py: a record that is missing is whole  — fast: experiments/exp6/tests/test_stages_6.py::test_a_unit_is_complete_with_its_records_and_not_before
-[two_writers_share_one_temp_file] killed         records_6.py: two writers share one temp file  — fast: experiments/exp6/tests/test_stages_6.py::test_a_record_is_written_whole_or_not_at_all
 [a_loss_the_result_does_not_explain_is_not_said] killed         analyze_6.py: a loss the result does not explain is not said  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_undetermined_names_its_shortfall
 [a_temp_file_is_a_file_of_the_stage] killed         run/seal_predictor_6.py: a temp file is a file of the stage  — fast: experiments/exp6/tests/test_predict_6.py::test_a_temp_file_a_kill_left_is_not_a_file_of_the_stage
+[two_writers_share_one_temp_file] killed         records_6.py: two writers share one temp file  — fast: experiments/exp6/tests/test_stages_6.py::test_a_record_is_written_whole_or_not_at_all
 [the_endpoint_stage_s_marker_keeps_twelve_characters_of_the_digest] killed         run/endpoint_6.py: the endpoint stage's marker keeps twelve characters of the digest  — fast: experiments/exp6/tests/test_stages_6.py::test_a_checkpoint_that_is_not_the_macs_is_not_scored
 [the_sweep_s_marker_keeps_twelve_characters_of_the_digest] killed         run/sweep_6.py: the sweep's marker keeps twelve characters of the digest  — fast: experiments/exp6/tests/test_stages_6.py::test_a_checkpoint_that_is_not_the_macs_is_not_scored
 [evaluable_needs_four_rungs] killed         analyze_6.py: evaluable needs four rungs  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_test_that_reads_two_rungs_counts_toward_nothing
 [a_status_is_named_on_two_evaluable_families] killed         analyze_6.py: a status is named on two evaluable families  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_test_that_reads_two_rungs_counts_toward_nothing
 [holding_needs_more_than_the_bar] killed         analyze_6.py: holding needs more than the bar  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_naming_rule_at_three_of_four[fires1-H]
-[a_test_that_is_not_evaluable_counts_when_it_fires] killed         analyze_6.py: a test that is not evaluable counts when it fires  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_test_that_reads_two_rungs_counts_toward_nothing
 [one_firing_family_is_a_split] killed         analyze_6.py: one firing family is a split  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_naming_rule_at_three_of_four[fires5-F]
+[a_test_that_is_not_evaluable_counts_when_it_fires] killed         analyze_6.py: a test that is not evaluable counts when it fires  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_test_that_reads_two_rungs_counts_toward_nothing
 [f_f_is_named_split] killed         analyze_6.py: (F, F) is named SPLIT  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_all_sixteen_pairs_name_a_world
 [h_u_is_named_general] killed         analyze_6.py: (H, U) is named GENERAL  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_all_sixteen_pairs_name_a_world
 [the_headline_counts_an_interval_that_touches_zero] killed         analyze_6.py: the headline counts an interval that touches zero  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_headline_condition
 [the_headline_needs_two_families] killed         analyze_6.py: the headline needs two families  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_headline_condition
 [the_headline_needs_one_rung_type] killed         analyze_6.py: the headline needs one rung type  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_headline_condition
 [the_headline_reads_a_predictor_that_does_not_hold] killed         analyze_6.py: the headline reads a predictor that does not hold  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_headline_condition
-[battery_bound_reads_the_tests_that_were_not_evaluable] killed         analyze_6.py: BATTERY-BOUND reads the tests that were not evaluable  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_battery_bound_is_read_under_the_power_record
 [battery_bound_is_powered_if_any_test_was] killed         analyze_6.py: BATTERY-BOUND is POWERED if any test was  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_battery_bound_is_read_under_the_power_record
+[battery_bound_reads_the_tests_that_were_not_evaluable] killed         analyze_6.py: BATTERY-BOUND reads the tests that were not evaluable  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_battery_bound_is_read_under_the_power_record
 [an_underpowered_test_that_did_not_fire_is_not_disclosed] killed         analyze_6.py: an underpowered test that did not fire is not disclosed  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_battery_bound_is_read_under_the_power_record
 [a_test_that_read_fewer_rungs_than_r_f_is_not_disclosed] killed         analyze_6.py: a test that read fewer rungs than R_f is not disclosed  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_test_that_reads_less_than_R_f_says_so_against_the_power_record
 [predictor_stage_gate_1_p_s_record_is_not_compared] survived-fast  analyze_6.py: predictor stage: gate 1-P's record is not compared
@@ -286,8 +286,8 @@ baseline OK (instrument, fast)
 [predictor_stage_the_seal_s_counts_are_not_re_derived] survived-fast  analyze_6.py: predictor stage: the seal's counts are not re-derived
 [predictor_stage_the_seal_s_models_are_not_the_pins] survived-fast  analyze_6.py: predictor stage: the seal's models are not the pins
 [predictor_stage_the_seal_s_binding_failures_are_dropped] survived-fast  analyze_6.py: predictor stage: the seal's binding failures are dropped
-[sealed_stages_the_rung_sets_are_not_tied_to_the_predictor_seal] survived-fast  analyze_6.py: sealed stages: the rung sets are not tied to the predictor seal
 [sealed_stages_the_rung_sets_failures_are_dropped] survived-fast  analyze_6.py: sealed stages: the rung sets' failures are dropped
+[sealed_stages_the_rung_sets_are_not_tied_to_the_predictor_seal] survived-fast  analyze_6.py: sealed stages: the rung sets are not tied to the predictor seal
 [sealed_stages_gate_1_b_s_failures_are_dropped] survived-fast  analyze_6.py: sealed stages: gate 1(b)'s failures are dropped
 [gate_1_the_runner_s_record_is_not_compared] survived-fast  analyze_6.py: gate 1: the runner's record is not compared
 [gate_1_the_re_derived_failures_are_dropped] survived-fast  analyze_6.py: gate 1: the re-derived failures are dropped
@@ -298,31 +298,31 @@ baseline OK (instrument, fast)
 [sweep_a_gate_record_that_did_not_pass_is_accepted] survived-fast  analyze_6.py: sweep: a gate record that did not pass is accepted
 [sweep_a_sweep_host_with_no_host_record_is_accepted] survived-fast  analyze_6.py: sweep: a sweep host with no host record is accepted
 [outcome_an_item_counts_once_however_often_it_verifies] killed         analyze_6.py: outcome: an item counts once however often it verifies  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_outcome_is_the_count_of_grid_points
-[sweep_the_endpoint_unit_need_not_be_the_candidate_read] survived-fast  analyze_6.py: sweep: the endpoint unit need not be the candidate read
-[sweep_a_host_s_gate_reads_are_not_loaded] survived-fast  analyze_6.py: sweep: a host's gate reads are not loaded
 [outcome_the_init_referent_may_enter_an_outcome] killed         analyze_6.py: outcome: the init referent may enter an outcome  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_outcome_is_the_count_of_grid_points
 [first_correct_later_is_larger] killed         analyze_6.py: first-correct: later is larger  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_outcome_is_the_count_of_grid_points
+[sweep_the_endpoint_unit_need_not_be_the_candidate_read] survived-fast  analyze_6.py: sweep: the endpoint unit need not be the candidate read
+[sweep_a_host_s_gate_reads_are_not_loaded] survived-fast  analyze_6.py: sweep: a host's gate reads are not loaded
 [run_a_halt_marker_is_not_a_failure] killed         analyze_6.py: run: a halt marker is not a failure  — fast: experiments/exp6/tests/test_run_6.py::test_a_halt_marker_is_a_refusal
 [the_primary_reads_r_heuristic] survived-fast  analyze_6.py: the primary reads R_heuristic
 [the_primary_reads_predictor_a_for_both_tests] survived-fast  analyze_6.py: the primary reads predictor A for both tests
 [the_test_inputs_read_the_init_referent_s_counts] survived-fast  analyze_6.py: the test inputs read the init referent's counts
-[run_the_power_record_s_claims_are_not_checked] survived-fast  analyze_6.py: run: the power record's claims are not checked
 [run_the_endpoint_seal_s_binding_failures_are_dropped] killed         analyze_6.py: run: the endpoint seal's binding failures are dropped  — fast: experiments/exp6/tests/test_run_6.py::test_an_empty_tree_is_refused_for_what_it_lacks
+[run_the_power_record_s_claims_are_not_checked] survived-fast  analyze_6.py: run: the power record's claims are not checked
 [run_the_power_record_need_not_be_of_this_predictor_seal] survived-fast  analyze_6.py: run: the power record need not be of this predictor seal
 [run_the_power_record_need_not_be_of_these_rung_sets] survived-fast  analyze_6.py: run: the power record need not be of these rung sets
-[run_a_verdict_is_delivered_over_failures] survived-fast  analyze_6.py: run: a verdict is delivered over failures
 [run_an_unpinned_import_surface_is_not_a_failure] killed         analyze_6.py: run: an unpinned import surface is not a failure  — fast: experiments/exp6/tests/test_run_6.py::test_a_build_whose_pins_are_not_filled_is_refused
+[run_a_verdict_is_delivered_over_failures] survived-fast  analyze_6.py: run: a verdict is delivered over failures
 [run_an_unpinned_referent_manifest_is_not_a_failure] killed         analyze_6.py: run: an unpinned referent manifest is not a failure  — fast: experiments/exp6/tests/test_run_6.py::test_a_build_whose_pins_are_not_filled_is_refused
+[s12_the_stress_mark_is_not_relaxed] killed         analyze_6.py: S12: the stress mark is not relaxed  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_relaxed_transcription
 [run_a_sweep_s_failures_are_dropped] survived-fast  analyze_6.py: run: a sweep's failures are dropped
 [run_an_incomplete_endpoint_stage_is_swept] survived-fast  analyze_6.py: run: an incomplete endpoint stage is swept
-[s12_the_stress_mark_is_not_relaxed] killed         analyze_6.py: S12: the stress mark is not relaxed  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_relaxed_transcription
+[rung_level_the_transient_clears_are_the_final_ones] killed         analyze_6.py: rung level: the transient clears are the final ones  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_rung_that_cleared_and_fell_back_is_a_transient_clear
 [s12_the_relaxed_rung_enters_whatever_its_count] survived-fast  analyze_6.py: S12: the relaxed rung enters whatever its count
 [s12_the_outcome_is_relaxed_and_the_predictor_is_not] survived-fast  analyze_6.py: S12: the outcome is relaxed and the predictor is not
-[s12_the_relaxed_floor_is_the_strict_answers] survived-fast  analyze_6.py: S12: the relaxed floor is the strict answers'
-[rung_level_the_transient_clears_are_the_final_ones] killed         analyze_6.py: rung level: the transient clears are the final ones  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_a_rung_that_cleared_and_fell_back_is_a_transient_clear
 [collapses_the_threshold_is_one_item] killed         analyze_6.py: collapses: the threshold is one item  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_collapses_and_ceiling
-[s13_the_tests_are_read_over_r_f] survived-fast  analyze_6.py: S13: the tests are read over R_f
 [ceiling_an_item_verifying_at_all_but_one_point_is_at_the_ceiling] killed         analyze_6.py: ceiling: an item verifying at all but one point is at the ceiling  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_collapses_and_ceiling
+[s12_the_relaxed_floor_is_the_strict_answers] survived-fast  analyze_6.py: S12: the relaxed floor is the strict answers'
+[s13_the_tests_are_read_over_r_f] survived-fast  analyze_6.py: S13: the tests are read over R_f
 [s11_the_tests_are_read_in_the_primary_s_strata] survived-fast  analyze_6.py: S11: the tests are read in the primary's strata
 [answer_prior_an_item_s_own_draws_count_toward_its_prior] killed         analyze_6.py: answer prior: an item's own draws count toward its prior  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_answer_prior
 [the_preflight_does_not_notice_what_it_wrote] killed         run/preflight_6.py: the preflight does not notice what it wrote  — fast: experiments/exp6/tests/test_preflight_6.py::test_a_preflight_that_writes_under_results_is_refused
@@ -330,13 +330,33 @@ baseline OK (instrument, fast)
 [an_unseeded_sampler_passes] killed         run/preflight_6.py: an unseeded sampler passes  — fast: experiments/exp6/tests/test_preflight_6.py::test_a_sampler_that_is_not_seeded_fails
 [a_non_finite_predictor_passes] killed         run/preflight_6.py: a non-finite predictor passes  — fast: experiments/exp6/tests/test_preflight_6.py::test_a_predictor_with_non_finite_logits_fails
 [a_non_finite_endpoint_passes] killed         run/preflight_6.py: a non-finite endpoint passes  — fast: experiments/exp6/tests/test_preflight_6.py::test_a_non_finite_endpoint_fails_and_a_non_finite_first_step_is_reported
-[a_stop_id_that_was_not_overridden_passes] killed         run/preflight_6.py: a stop id that was not overridden passes  — fast: experiments/exp6/tests/test_preflight_6.py::test_a_stop_id_that_was_not_overridden_fails
 [the_preflight_scores_the_whole_rung] killed         run/preflight_6.py: the preflight scores the whole rung  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_outcome_preflight
+[a_stop_id_that_was_not_overridden_passes] killed         run/preflight_6.py: a stop id that was not overridden passes  — fast: experiments/exp6/tests/test_preflight_6.py::test_a_stop_id_that_was_not_overridden_fails
 [two_loaders_that_disagree_pass] killed         run/preflight_6.py: two loaders that disagree pass  — fast: experiments/exp6/tests/test_preflight_6.py::test_two_loaders_that_disagree_fail
+[i_1_a_host_off_the_pin_writes_its_record_before_it_is_refused] killed         run/_common_6.py: I-1: a host off the pin writes its record before it is refused  — fast: experiments/exp6/tests/test_common_6.py::test_a_host_record_is_checked_before_it_is_written
+[c_1_the_caveat_says_the_predictors_were_sealed_before_any_outcome_weight] killed         analyze_6.py: C-1: the caveat says the predictors were sealed before any outcome weight loaded  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_known_inputs_caveat_states_the_seal_order_as_run
+[the_preflight_skips_the_frozen_check] killed         run/preflight_6.py: the preflight skips the frozen check  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_frozen_modules_are_checked_first
+[i_2_a_dotfile_is_a_file_of_the_stage] killed         run/seal_predictor_6.py: I-2: a dotfile is a file of the stage  — fast: experiments/exp6/tests/test_stages_6.py::test_the_predictor_seals_table_is_of_the_stages_files
+[c_1_the_outcome_preflight_s_seal_injections_are_not_the_ones_used] killed         run/preflight_6.py: C-1: the outcome preflight's seal injections are not the ones used  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_outcome_preflight
+[c_1_the_outcome_preflight_runs_before_the_predictor_seal] killed         run/preflight_6.py: C-1: the outcome preflight runs before the predictor seal  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_outcome_preflight_runs_after_the_predictor_seal
+[i_3_a_hash_based_pyc_is_held_to_its_header_only] killed         pins_6.py: I-3: a hash-based .pyc is held to its header only  — fast: experiments/exp6/tests/test_freeze_6.py::test_f4_bytecode_that_is_not_the_hashed_source[carries_the_sources_hash]
+[i_4_the_headline_counts_a_family_whose_test_was_not_evaluable] killed         analyze_6.py: I-4: the headline counts a family whose test was not evaluable  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_headline_counts_evaluable_families_only
+[m_1_every_dropped_rung_is_named_on_the_predictor_side] killed         analyze_6.py: M-1: every dropped rung is named on the predictor side  — fast: experiments/exp6/tests/test_analyze_unit_6.py::test_the_shortfall_names_the_side_that_lost_the_rung
+[m_4_an_anchor_outside_the_tolerance_passes_the_family] killed         run/preflight_6.py: M-4: an anchor outside the tolerance passes the family  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_outcome_preflight_rehearses_gate_1c
+[m_4_an_anchor_is_held_to_the_mac_s_endpoint_on_every_read] killed         run/preflight_6.py: M-4: an anchor is held to the Mac's endpoint on every read  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_outcome_preflight
+[m_4_within_is_not_the_tolerance_s] killed         run/preflight_6.py: M-4: within is not the tolerance's  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_outcome_preflight_rehearses_gate_1c
+[i_3_an_unreadable_hash_based_pyc_is_passed_over] killed         pins_6.py: I-3: an unreadable hash-based .pyc is passed over  — fast: experiments/exp6/tests/test_freeze_6.py::test_f4_a_hash_based_pyc_is_held_to_its_code[unreadable]
+[m_6_the_cold_battery_runs_the_analysis_on_a_swept_tree] killed         verify_referents_6.py: M-6: the cold battery runs the analysis on a swept tree  — fast: experiments/exp6/tests/test_referents_6.py::test_the_cold_battery_does_not_run_the_analysis_on_a_swept_tree
+[m_5_the_endpoint_campaign_writes_no_pid] killed         run/campaign_endpoint_6.sh: M-5: the endpoint campaign writes no pid  — fast: experiments/exp6/tests/test_stages_6.py::test_the_box_scripts
+[m_5_the_sweep_campaign_writes_no_pid] killed         run/campaign_sweep_6.sh: M-5: the sweep campaign writes no pid  — fast: experiments/exp6/tests/test_stages_6.py::test_the_box_scripts
+[m_2_the_sweep_runs_without_the_projection_in_its_checkout] killed         run/campaign_sweep_6.sh: M-2: the sweep runs without the projection in its checkout  — fast: experiments/exp6/tests/test_stages_6.py::test_the_box_scripts
+[m_1_the_result_does_not_carry_what_was_degenerate_for_the_predictor] survived-fast  analyze_6.py: M-1: the result does not carry what was degenerate for the predictor
+[m_3_the_box_refuses_at_no_disk_size] killed         run/box_setup_6.sh: M-3: the box refuses at no disk size  — fast: experiments/exp6/tests/test_stages_6.py::test_the_box_scripts
+[d_5_the_counts_are_said_to_be_frozen_whatever_they_are] killed         analyze_6.py: §D 5: the counts are said to be frozen whatever they are  — fast: experiments/exp6/tests/test_run_6.py::test_which_pins_ran_is_on_the_record
 [totality_c6700db859] killed         analyze_6.py: run(): collect_total stripped at "6 halt scan"  — fast: experiments/exp6/tests/test_run_6.py::test_a_check_that_raises_at_the_door_is_a_refusal[6
+[d_5_n_boot_is_not_held_to_the_frozen_count] killed         analyze_6.py: §D 5: n_boot is not held to the frozen count  — fast: experiments/exp6/tests/test_run_6.py::test_the_counts_are_on_the_record
 [totality_e21b160618] killed         analyze_6.py: run(): collect_total stripped at "6 frozen modules"  — fast: experiments/exp6/tests/test_run_6.py::test_a_check_that_raises_at_the_door_is_a_refusal[6
 [totality_426d4d0ba5] killed         analyze_6.py: run(): collect_total stripped at "6 prereg tag"  — fast: experiments/exp6/tests/test_run_6.py::test_a_check_that_raises_at_the_door_is_a_refusal[6
-[the_preflight_skips_the_frozen_check] killed         run/preflight_6.py: the preflight skips the frozen check  — fast: experiments/exp6/tests/test_preflight_6.py::test_the_frozen_modules_are_checked_first
 [totality_972948256b] killed         analyze_6.py: run(): collect_total stripped at "6 sealed stages"  — fast: experiments/exp6/tests/test_run_6.py::test_a_check_that_raises_at_the_door_is_a_refusal[6
 [totality_3a4f29e964] killed         analyze_6.py: run(): collect_total stripped at "6 power record"  — fast: experiments/exp6/tests/test_run_6.py::test_an_empty_tree_is_refused_for_what_it_lacks
 [totality_1c6b911a12] killed         analyze_6.py: run(): collect_total stripped at "6 import surface (entry)"  — fast: experiments/exp6/tests/test_run_6.py::test_a_check_that_raises_at_the_door_is_a_refusal[6
@@ -350,4 +370,4 @@ baseline OK (instrument, fast)
 [totality_99dc6744e6] survived-fast  analyze_6.py: run(): collect_total stripped at "6 endpoint composite sha"
 [totality_1d4256d983] survived-fast  analyze_6.py: run(): collect_total stripped at "6 import surface (post-secondaries)"
 
-=== 349 mutants in 852 s: killed 290, survived-fast 59
+=== 369 mutants in 964 s: killed 309, survived-fast 60

@@ -253,8 +253,12 @@ def main(argv=None, *, root=EXP6, tag_exists=None, blob_sha=None, blobs_bound=No
     r6.write_json(out, an2i._json_safe(rec))
     for name, t in rec["tests"].items():
         print(f"{name:14s} {t['declared_status']:34s} {t.get('declaration', '')}")
-    print("P(GENERAL | D = .15) in", rec["tree"]["p_general"].get("0.15"))
-    print("P(BATTERY-BOUND | null) in", rec["tree"]["p_battery_bound"].get("null"))
+    # the tree's bounds under the keys the record has (`tree_level`: one
+    # per simulated D, as a string, and "null")
+    for world, key in (("GENERAL", "p_general"), ("BATTERY-BOUND", "p_battery_bound")):
+        for d, bounds in rec["tree"][key].items():
+            at = "under the null" if d == "null" else f"at D = {d}"
+            print(f"P({world} {at}) in {bounds}")
     return rec
 
 

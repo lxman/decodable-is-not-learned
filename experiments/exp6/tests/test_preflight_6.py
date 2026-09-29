@@ -8,7 +8,10 @@ import pytest
 from experiments.exp6 import battery_6 as b6
 from experiments.exp6 import families_6 as fm
 from experiments.exp6 import records_6 as r6
+from experiments.exp6 import referents_6 as rf
+from experiments.exp6 import verify_6 as v6
 from experiments.exp6.run import preflight_6 as pf
+from experiments.exp6.run import seal_predictor_6 as sp
 from experiments.exp6.tests import _world_6 as W
 
 QUIET = dict(frozen_check=lambda: None, log=lambda *a: None)
@@ -37,10 +40,23 @@ def predictor(root, design, **kw):
                             **QUIET, **kw)
 
 
+SEALED = dict(tag_exists=W.tag_exists, blobs_bound=W.blobs_bound)
+
+
+@pytest.fixture
+def sealed(root):
+    """The outcome preflight runs after the predictor seal (final review
+    C-1, ruling I-19): the smallest tree a predictor seal describes."""
+    files = sp.file_table(root)
+    r6.write_json(r6.seal_path(root), {"files": files,
+                                       "sha256": r6.composite_sha(files)})
+    return root
+
+
 def outcome(root, design, **kw):
     loaders = kw.pop("loaders", None) or W.fake_loaders(design, **kw)
     return pf.run_outcome(root=root, device="cuda", loaders=loaders, host=W.host(),
-                          cache_root=root / "ckpt", **QUIET)
+                          cache_root=root / "ckpt", **SEALED, **QUIET)
 
 
 # ------------------------------------------------------------ the predictor
@@ -142,7 +158,8 @@ def test_the_frozen_modules_are_checked_first(root, design):
 
 
 # -------------------------------------------------------------- the outcome
-def test_the_outcome_preflight(root, design):
+def test_the_outcome_preflight(sealed, design):
+    root = sealed
     before = pf.results_snapshot(root)
     out = outcome(root, design)
     assert out["pass"] and tuple(out["families"]) == fm.FAMILIES_6
@@ -177,7 +194,8 @@ def test_the_outcome_preflight(root, design):
         assert word not in text, word
 
 
-def test_two_loaders_that_disagree_fail(root, design):
+def test_two_loaders_that_disagree_fail(sealed, design):
+    root = sealed
     out = outcome(root, design, digest=lambda f, k, how: f"{f}:{k}:{how}")
     row = out["families"][pf.TWICE_FAMILY_6]
     assert not out["pass"] and row["two_loaders"]["digests_equal"] is False
@@ -203,7 +221,8 @@ def test_two_loaders_that_disagree_fail(root, design):
 
 
 def test_a_non_finite_endpoint_fails_and_a_non_finite_first_step_is_reported(
-        root, design):
+        sealed, design):
+    root = sealed
     end = {f: fm.endpoint_step(f) for f in fm.FAMILIES_6}
     out = outcome(root, design, nonfinite=lambda model, tok, prompts: (
         5 if (model.family == "olmo13b" and model.key == end["olmo13b"]) else 0))
@@ -217,7 +236,8 @@ def test_a_non_finite_endpoint_fails_and_a_non_finite_first_step_is_reported(
             "n_nonfinite_logits"] == 9
 
 
-def test_a_stop_id_that_was_not_overridden_fails(root, design):
+def test_a_stop_id_that_was_not_overridden_fails(sealed, design):
+    root = sealed
     """Comma's config names its BOS as the stop id; the loaders override
     it, and the preflight holds what the loader MEASURED to the pin."""
     loaders = W.fake_loaders(design)
@@ -234,12 +254,100 @@ def test_a_stop_id_that_was_not_overridden_fails(root, design):
     assert out["families"]["olmo7b"]["pass"]
 
 
-def test_a_host_off_the_stack_pin_is_refused(root, design):
+def test_a_host_off_the_stack_pin_is_refused(sealed, design):
+    root = sealed
     h = W.host()
     h["stack"] = dict(h["stack"], torch="2.11.0")
     with pytest.raises(RuntimeError, match="host record"):
         pf.run_outcome(root=root, device="cuda", loaders=W.fake_loaders(design),
-                       host=h, cache_root=root / "ckpt", **QUIET)
+                       host=h, cache_root=root / "ckpt", **SEALED, **QUIET)
+
+
+def test_the_outcome_preflight_runs_after_the_predictor_seal(root, sealed, monkeypatch):
+    """Final review C-1 (ruling I-19): the outcome preflight loads each
+    family's endpoint and first grid step, so it runs after the predictor
+    seal; it refuses before it loads anything and before it builds a host
+    record. The predictor preflight is unchanged."""
+    from experiments.exp6.run import _common_6 as cm
+    W.no_real_loaders(monkeypatch)
+
+    def no_host(*a, **k):
+        raise AssertionError("the preflight built a host record")
+    monkeypatch.setattr(cm, "host_record", no_host)
+    r6.seal_path(root).unlink()                        # not sealed
+    before = pf.results_snapshot(root)
+    with pytest.raises(RuntimeError, match="after the predictor seal"):
+        pf.run_outcome(root=root, device="cuda", loaders=W.Unreached(), host=None,
+                       cache_root=root / "ckpt", **SEALED, **QUIET)
+    assert pf.results_snapshot(root) == before
+    sealed_ = dict(SEALED)
+    files = sp.file_table(root)
+    r6.write_json(r6.seal_path(root), {"files": files, "sha256": r6.composite_sha(files)})
+    # the tag is not there
+    with pytest.raises(RuntimeError, match="after the predictor seal.*does not exist"):
+        pf.run_outcome(root=root, device="cuda", loaders=W.Unreached(), host=None,
+                       cache_root=root / "ckpt",
+                       **dict(sealed_, tag_exists=lambda t: False), **QUIET)
+    # a file the seal does not describe
+    r6.write_json(r6.results(root) / "predictor" / "late.json", {})
+    with pytest.raises(RuntimeError, match="does not describe the files on disk"):
+        pf.run_outcome(root=root, device="cuda", loaders=W.Unreached(), host=None,
+                       cache_root=root / "ckpt", **SEALED, **QUIET)
+    # the injections default to the real tag lookups; main() passes none
+    import inspect
+    sig = inspect.signature(pf.run_outcome).parameters
+    assert sig["tag_exists"].default is None and sig["blobs_bound"].default is None
+
+
+def test_the_outcome_preflight_rehearses_gate_1c(sealed, design):
+    """Final review M-4 (ruling I-22): each read scores the two anchors on
+    all their items and holds each count to the Mac's committed count of
+    that checkpoint within the cross-host tolerance. The anchors are 2c's
+    items, whose outcomes are committed."""
+    out = outcome(sealed, design)
+    assert out["pass"]
+    for f, row in out["families"].items():
+        for name, read in row["reads"].items():
+            assert set(read["anchors"]) == set(b6.ANCHORS_6), (f, name)
+            for r, a in read["anchors"].items():
+                assert a == {"count": rf.mac_count(f, read["step"], r),
+                             "mac": rf.mac_count(f, read["step"], r),
+                             "within": True}, (f, name, r)
+    # one anchor of one read moved past the tolerance: that family fails
+    end = fm.endpoint_step("olmo7b")
+    mac = rf.mac_count("olmo7b", end, "sub_base8")
+    assert mac > rf.TOL_PER_RUNG_6
+
+    def perturb(family, key, rung, conts):
+        if family == "olmo7b" and key == end and rung == "sub_base8":
+            return [W.WRONG] * len(conts)
+        return conts
+    out = outcome(sealed, design, perturb=perturb)
+    assert not out["pass"] and not out["families"]["olmo7b"]["pass"]
+    assert out["families"]["olmo7b"]["reads"]["endpoint, thin loader"]["anchors"][
+        "sub_base8"] == {"count": 0, "mac": mac, "within": False}
+    assert out["families"]["olmo7b"]["reads"]["endpoint, thin loader"]["anchors"][
+        "add_base8"]["within"] is True
+    assert all(out["families"][f]["pass"] for f in fm.FAMILIES_6 if f != "olmo7b")
+    # inside the tolerance is within: fifteen items moved still pass
+    moved = {"n": 0}
+
+    def fifteen(family, key, rung, conts):
+        if family == "olmo7b" and key == end and rung == "sub_base8":
+            conts = list(conts)
+            cap = design.battery[rung]
+            for i, c in enumerate(conts):
+                if moved["n"] < rf.TOL_PER_RUNG_6 and v6.verify_6(
+                        c, cap["eval_items"][i]["answer"], cap["answer_type"]):
+                    conts[i] = W.WRONG
+                    moved["n"] += 1
+        return conts
+    out = outcome(sealed, design, perturb=fifteen)
+    got = out["families"]["olmo7b"]["reads"]["endpoint, thin loader"]["anchors"][
+        "sub_base8"]
+    assert moved["n"] == rf.TOL_PER_RUNG_6
+    assert got == {"count": mac - rf.TOL_PER_RUNG_6, "mac": mac, "within": True}
+    assert out["families"]["olmo7b"]["pass"]
 
 
 # ----------------------------------------------------------------- the parts
@@ -268,16 +376,17 @@ def test_the_preflight_rungs_are_the_extremes(battery):
     assert {longest, budget} <= set(pf.PREFLIGHT_RUNGS_6)
 
 
-def test_the_preflight_uses_the_loaders_it_is_handed(root, monkeypatch):
+def test_the_preflight_uses_the_loaders_it_is_handed(sealed, monkeypatch):
     """What a caller hands in is used, falsy or not (see the same test of
     the endpoint stage and the sweep)."""
+    root = sealed
     W.no_real_loaders(monkeypatch)
     with pytest.raises(AssertionError, match="reached its loader$"):
         pf.run_predictor(root=root, device="cpu", loader=W.Unreached(),
                          sampler=W.Unreached(), nonfinite=lambda m, t, p: 0, **QUIET)
     with pytest.raises(AssertionError, match="reached its loader '"):
         pf.run_outcome(root=root, device="cuda", loaders=W.Unreached(), host=W.host(),
-                       cache_root=root / "ckpt", **QUIET)
+                       cache_root=root / "ckpt", **SEALED, **QUIET)
 
 
 def test_the_finiteness_probe_that_is_handed_in_is_the_one_used(root, design):

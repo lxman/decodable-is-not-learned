@@ -191,8 +191,16 @@ def _sweeps(root):
         f"{f} {steps[f]}/{len(fm.grid(f))}" for f in done)
 
 
+SWEPT_NOTE_6 = ("a sweep record exists under results/sweep/: the read sweep "
+                "executes the analysis, and on a swept tree that is an execution "
+                "before the analyzer's one run (final review M-6)")
+
+
 def _read_sweep(root):
     from experiments.exp6.tools import read_sweep_6 as rs
+    swept = r6.results(root) / "sweep"
+    if swept.is_dir() and any(p.is_file() for p in swept.rglob("*")):
+        return (SKIP, SWEPT_NOTE_6)
     out = rs.sweep(root)
     if out["UNPINNED"] or out["outside_unexplained"]:
         raise ValueError(f"unpinned reads: "
@@ -213,6 +221,9 @@ def battery(root=EXP6) -> list:
     for name, thunk in items:
         try:
             got = thunk()
+            if isinstance(got, tuple) and got and got[0] == SKIP:   # a SKIP that says why
+                out.append((name, SKIP, got[1]))
+                continue
             out.append((name, SKIP if got == SKIP else "PASS",
                         "" if got == SKIP else got))
         except Exception as e:  # noqa: BLE001 — the battery reports, it does not stop

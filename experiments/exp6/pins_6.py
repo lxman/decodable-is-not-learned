@@ -409,7 +409,11 @@ def bytecode_failures() -> list:
     (an UNCHECKED one is never compared with the source at all). For
     every loaded module under experiments/ whose .pyc Python would have
     accepted, the code in the .pyc must be the code the source compiles
-    to; a hash-based .pyc must carry the source's own hash."""
+    to; a hash-based .pyc must carry the source's own hash AND that code
+    (an unchecked one's header is never read by Python, so a header can
+    carry the true source's hash over other code; final review I-3). An
+    unreadable hash-based .pyc is a failure: Python would run an
+    unchecked one without looking."""
     import importlib.util
     import marshal
     import sys
@@ -429,6 +433,14 @@ def bytecode_failures() -> list:
         if flags & 0b1:                                  # hash-based
             if data[8:16] != importlib.util.source_hash(src):
                 bad.append(f"{name}: {pyc.name} is hash-based and not this source's")
+                continue
+            try:
+                ran = marshal.loads(data[16:])
+            except Exception:  # noqa: BLE001 — an unchecked one would run unread
+                bad.append(f"{name}: {pyc.name} is hash-based and unreadable")
+                continue
+            if compile(src, str(f), "exec", dont_inherit=True) != ran:
+                bad.append(f"{name}: {pyc.name} is not the code its source compiles to")
             continue
         st = os.stat(f)
         if int.from_bytes(data[8:12], "little") != (int(st.st_mtime) & 0xFFFFFFFF) or \

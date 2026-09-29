@@ -135,3 +135,24 @@ def test_the_predictor_stage_binds_its_real_loader_and_sampler(monkeypatch):
     inspect.signature(sampler.sample_item).bind(
         "model", "tok", "prompt", rung="lcs", size="olmo1b", mode="trained", item_idx=0,
         seeds=(0,), draws_per_seed=64, max_new_tokens=8, terminal_ids=(0,))
+
+
+def test_a_host_record_is_checked_before_it_is_written(tmp_path):
+    """Final review I-1 (ruling I-21): a refused host left its record
+    under results/hosts/, and every later seal and the verdict refused
+    over it. A host off the stack pin now writes nothing; a tree that
+    holds only good records loads with no failure."""
+    from experiments.exp6.run import seal_endpoint_6 as se
+    kw = dict(gpu="A100", cuda="13.0", node="n", python="3.11.9", platform_="Linux",
+              nvidia_smi="x")
+    with pytest.raises(RuntimeError, match=r"host record: \[.*numpy"):
+        cm.ensure_host(tmp_path, "cuda", stack_=dict(W.STACK, numpy="2.4.7"), **kw)
+    assert not cm.hosts_dir(tmp_path).exists() or \
+        not list(cm.hosts_dir(tmp_path).iterdir())
+    with pytest.raises(RuntimeError, match="host record: .*python"):
+        cm.ensure_host(tmp_path, "cuda", stack_=dict(W.STACK), **dict(kw, python="3.12.1"))
+    assert not cm.hosts_dir(tmp_path).exists() or \
+        not list(cm.hosts_dir(tmp_path).iterdir())
+    good = cm.ensure_host(tmp_path, "cuda", stack_=dict(W.STACK), **kw)
+    bad, hosts = se.load_hosts(tmp_path)
+    assert bad == [] and list(hosts) == [good["sha256"]]

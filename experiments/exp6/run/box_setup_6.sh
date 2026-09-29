@@ -6,6 +6,15 @@
 # instance — a throttled host is destroyed, not installed on (Experiment 5's German box).
 set -euo pipefail
 cd /workspace
+# Disk (final review M-3): one box running all four families needs about 170 GB on /workspace —
+# the four stage-1 endpoints stay in the hub cache (about 6 + 29 + 14 + 55 GB), one candidate copy
+# of the 13 B endpoint during its gate (about 55 GB), and one checkpoint at a time in the
+# checkpoint cache. Below 170 GB this refuses unless EXP6_DISK_OK=1 is set.
+free_gb=$(( $(df -Pk /workspace | awk 'NR==2 {print $4}') / 1048576 ))
+echo "[setup] /workspace free: ${free_gb} GB (all four families need about 170 GB)"
+if [ "$free_gb" -lt 170 ] && [ "${EXP6_DISK_OK:-0}" != "1" ]; then
+  echo "[setup] REFUSING: ${free_gb} GB free on /workspace, below 170 GB (set EXP6_DISK_OK=1 to proceed)"; exit 2
+fi
 curl -LsSf https://astral.sh/uv/install.sh | sh; export PATH="$HOME/.local/bin:$PATH"
 uv python install 3.11
 uv venv --seed --python 3.11 /workspace/venv       # --seed: a uv venv has no pip without it

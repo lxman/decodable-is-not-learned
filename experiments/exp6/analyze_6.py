@@ -95,9 +95,16 @@ KNOWN_INPUTS_CAVEAT_6 = (
     "the general texture of all four outcome trajectories as read on 2c's "
     "items. Not known to anyone in this program before the predictor stage: "
     "any output of any model on any item of this battery. The predictors were "
-    "sealed before any outcome weight loaded; the endpoints, rung sets and "
-    "power record before any intermediate checkpoint; the projection before "
-    "the sweeps. The items are this program's renderings of ten BIG-bench "
+    "sealed before any outcome model was handed an item of this battery; the "
+    "endpoints, rung sets and power record before any intermediate checkpoint "
+    "was scored into a record; the projection before the sweeps. Outcome "
+    "weights were loaded before the predictor seal once, by a test on "
+    "2026-09-28 (no tokenizer, no forward pass, no item read; the ledger has "
+    "the account). The outcome preflight runs after the predictor seal and "
+    "loads each family's endpoint and first grid step. It stores nothing. Of "
+    "what a model writes on an item of this battery it reports shape, timing "
+    "and identity, and no score; it holds 2c's two anchors to their committed "
+    "counts. The items are this program's renderings of ten BIG-bench "
     "tasks that Wei et al. (2022) classify as emergent: two-shot prompts, "
     "option-listing rungs scored by exact match on the emitted option, IPA "
     "scored per word, one answer per unscrambling item, each task split into "
@@ -208,7 +215,11 @@ def world_of(status_a: str, status_b: str) -> str:
 def headline_condition(tests: dict, statuses: dict) -> dict:
     """Design §6: for a HOLDING predictor, the rung types that hold a
     rung whose per-rung interval excludes zero on at least three
-    families."""
+    families. A family counts only where that predictor's test was
+    EVALUABLE (freeze §D 1, final review I-4, ruling I-20 — a licence
+    rule, stated for the owner's ruling): a test read at one or two rungs
+    is counted toward nothing by the naming rule, and toward nothing
+    here."""
     out = {}
     for t in ("A", "B"):
         if statuses[t]["status"] != "H":
@@ -217,6 +228,8 @@ def headline_condition(tests: dict, statuses: dict) -> dict:
         for r in b6.RUNGS_6:
             n = 0
             for f in fm.FAMILIES_6:
+                if not evaluable(tests[(t, f)]):
+                    continue
                 ci = (tests[(t, f)].get("per_rung") or {}).get(r, {}).get("ci") or {}
                 lo = ci.get("lo")
                 if lo is not None and np.isfinite(lo) and lo > 0:
@@ -231,9 +244,14 @@ def headline_condition(tests: dict, statuses: dict) -> dict:
 
 def shortfall(tests: dict, statuses: dict, rung_sets: dict) -> list:
     """UNDETERMINED names which shortfall it was (design §6): the two
-    sides call for different successors. Outcome side: R_f is short, or
-    a rung of R_f was too thin over the sweep to be read. Predictor
-    side: a rung was degenerate for the predictor."""
+    sides call for different successors. Outcome side: R_f is short, a
+    rung of R_f was too thin over the sweep to be read, or its outcome
+    was constant inside every stratum (2g's `perm_test`: no informative
+    pair; `_run_test` drops it on a retry). Predictor side: a rung was
+    degenerate for the predictor — `dropped_predictor`, what was
+    degenerate on the predictor's side before any retry (final review
+    M-1). A result without that key is read as before: every dropped
+    rung on the predictor side."""
     out = []
     small = [f for f in fm.FAMILIES_6 if len(rung_sets["families"][f]["R"]) < MIN_RUNGS]
     if small:
@@ -248,9 +266,18 @@ def shortfall(tests: dict, statuses: dict, rung_sets: dict) -> list:
                 continue
             thin = [r for r in res.get("thin") or []
                     if r not in (res.get("dropped_degenerate") or [])]
-            if res.get("dropped_degenerate"):
+            dropped = list(res.get("dropped_degenerate") or [])
+            if "dropped_predictor" in res:
+                side_x = [r for r in dropped if r in res["dropped_predictor"]]
+                side_y = [r for r in dropped if r not in res["dropped_predictor"]]
+            else:
+                side_x, side_y = dropped, []
+            if side_x:
                 out.append(f"predictor side: Test {t} on {f} lost "
-                           f"{list(res['dropped_degenerate'])} to degeneracy")
+                           f"{side_x} to degeneracy")
+            if side_y:
+                out.append(f"outcome side: Test {t} on {f} lost {side_y} to an "
+                           f"outcome that is constant inside every stratum")
             if thin:
                 out.append(f"outcome side: Test {t} on {f} lost {thin} to thin "
                            f"outcomes over the sweep")
@@ -1249,6 +1276,10 @@ def run(root=EXP6, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=None
                 tests[(t, fam)] = _run_test(ctx["pred"][t]["x"], LABEL_OF[t],
                                             outs[fam], ctx["strata"], R,
                                             n_perm=n_perm, n_boot=n_boot)
+                # what is degenerate on the PREDICTOR's side, before any
+                # retry: the shortfall names the rest on the outcome side
+                tests[(t, fam)]["dropped_predictor"] = list(an2i._degenerate_rungs(
+                    ctx["pred"][t]["x"], ctx["strata"], R))
             return outs, tests
         core, f = collect_total(_core, "6 primary")
         failures += f
@@ -1270,7 +1301,8 @@ def run(root=EXP6, *, write=False, n_perm=N_PERM, n_boot=N_BOOT, tag_exists=None
                         "import_surface": bool(imports_pinned),
                         "referent_manifest": referents_sha not in (False, None),
                         "prereg_tag": tag_exists is None and blob_sha is None,
-                        "seal_tags": tag_exists is None and blobs_bound is None},
+                        "seal_tags": tag_exists is None and blobs_bound is None,
+                        "frozen_counts": n_perm == N_PERM and n_boot == N_BOOT},
         "dtype": fm.DTYPE_6, "batch_size": fm.BATCH_SIZE_6,
         "tolerance_per_rung": rf.TOL_PER_RUNG_6, "power": power}
     common = {"known_inputs_caveat": KNOWN_INPUTS_CAVEAT_6,

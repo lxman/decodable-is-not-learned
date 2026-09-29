@@ -69,5 +69,16 @@ def test_which_pins_ran_is_on_the_record(tmp_path):
     v = an.run(tmp_path, n_perm=20, n_boot=5, **W.ANALYZE)
     assert v["referents"]["pins_active"] == {
         "frozen_modules": False, "import_surface": False, "referent_manifest": False,
-        "prereg_tag": False, "seal_tags": False}
+        "prereg_tag": False, "seal_tags": False, "frozen_counts": False}
     assert v["referents"]["failures"] and v["referents"]["power"] is None
+
+
+def test_the_counts_are_on_the_record(tmp_path):
+    """Freeze §D 5 (ruling I-22): `run()` takes `n_perm`/`n_boot`, and the
+    record says whether they were the frozen ones."""
+    v = an.run(tmp_path, **W.ANALYZE)
+    assert (v["n_perm"], v["n_boot"]) == (an.N_PERM, an.N_BOOT)
+    assert v["referents"]["pins_active"]["frozen_counts"] is True
+    for n_perm, n_boot in ((an.N_PERM - 1, an.N_BOOT), (an.N_PERM, an.N_BOOT + 1)):
+        v = an.run(tmp_path, n_perm=n_perm, n_boot=n_boot, **W.ANALYZE)
+        assert v["referents"]["pins_active"]["frozen_counts"] is False

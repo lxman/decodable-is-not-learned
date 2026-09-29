@@ -95,8 +95,13 @@ def hosts_dir(root) -> Path:
 
 def ensure_host(root, device: str, **inject) -> dict:
     """This host's record, written once under results/hosts/<sha12>.json
-    and re-read on every later call from the same host."""
+    and re-read on every later call from the same host. A host off the
+    pin writes NOTHING: a refused host's record would refuse every later
+    seal and the verdict over a correct campaign (final review I-1)."""
     rec = host_record(device, **inject)
+    failures = host_failures(rec)
+    if failures:
+        raise RuntimeError(f"host record: {failures}")
     p = hosts_dir(root) / f"{rec['sha256'][:12]}.json"
     if p.exists():
         old = r6.read_json(p)

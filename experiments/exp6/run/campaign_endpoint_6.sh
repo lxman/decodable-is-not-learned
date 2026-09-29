@@ -3,6 +3,7 @@
 # smallest family first; gate 1(b) is written at the end of each invocation. Stops at the first
 # non-zero exit. Resumable: a load whose records are complete is skipped.
 set -uo pipefail
+echo $$ > /workspace/campaign_6.pid      # status_box_6.sh reads it (final review M-5)
 cd /workspace/emergence-paper
 unset HF_HUB_DISABLE_XET        # the xet transport ON (4c's lesson: the classic path throttles)
 for family in smollm3_3b olmo7b comma_7b olmo13b; do

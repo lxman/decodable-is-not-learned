@@ -74,6 +74,8 @@ def test_general(base):
     for name, t in v["tests"].items():
         assert t["fires"] and set(t["eligible"]) == set(W.DEFAULT_R), name
         assert t["eligible"] == [r for r in b6.RUNGS_6 if r in W.DEFAULT_R]
+        # final review M-1: what was degenerate on the PREDICTOR's side
+        assert t["dropped_predictor"] == [], name
         assert t["stratified"]["T"] >= 0.10 and t["stratified"]["p"] < 0.01
     assert v["modifiers"] == [an.HEADLINE_UNQUALIFIED_6]
     assert v["licensed_sentence"].startswith(an.LICENSED_6["GENERAL"])
@@ -116,7 +118,7 @@ def test_general(base):
             assert row["rungs"][r]["within"] is True, (name, r, row["rungs"][r])
     assert v["referents"]["pins_active"] == {
         "frozen_modules": False, "import_surface": False, "referent_manifest": False,
-        "prereg_tag": False, "seal_tags": False}
+        "prereg_tag": False, "seal_tags": False, "frozen_counts": False}
     json.dumps(an.an2i._json_safe(v), default=an.an2i._jsonable, allow_nan=False)
 
 

@@ -1003,6 +1003,63 @@ MUTANTS_6 = [
        "    (frozen_check or p6.check_frozen_6)()\n    if frozen_check is None:\n"
        "        p6.check_imports_6(exempt=p6.EXEMPT_6)\n    return results_snapshot(root)",
        "    return results_snapshot(root)"),
+    # ------------------------------------------ fix wave 3 (final whole-branch review)
+    _m("analyze_6.py", "C-1: the caveat says the predictors were sealed before any outcome weight loaded",
+       "    \"sealed before any outcome model was handed an item of this battery; the \"\n",
+       "    \"sealed before any outcome weight loaded; the \"\n"),
+    _m("run/preflight_6.py", "C-1: the outcome preflight runs before the predictor seal",
+       "        ep.require_predictor_seal(root, tag_exists=tag_exists, blobs_bound=blobs_bound)\n",
+       "        pass\n"),
+    _m("run/preflight_6.py", "C-1: the outcome preflight's seal injections are not the ones used",
+       "        ep.require_predictor_seal(root, tag_exists=tag_exists, blobs_bound=blobs_bound)\n",
+       "        ep.require_predictor_seal(root, tag_exists=None, blobs_bound=None)\n"),
+    _m("run/_common_6.py", "I-1: a host off the pin writes its record before it is refused",
+       "    if failures:\n        raise RuntimeError(f\"host record: {failures}\")\n    p = hosts_dir",
+       "    p = hosts_dir"),
+    _m("run/seal_predictor_6.py", "I-2: a dotfile is a file of the stage",
+       "sorted(q for q in base.rglob(\"*\") if not q.name.startswith(\".\"))",
+       "sorted(base.rglob(\"*\"))"),
+    _m("pins_6.py", "I-3: a hash-based .pyc is held to its header only",
+       "            if compile(src, str(f), \"exec\", dont_inherit=True) != ran:",
+       "            if False:"),
+    _m("pins_6.py", "I-3: an unreadable hash-based .pyc is passed over",
+       "                bad.append(f\"{name}: {pyc.name} is hash-based and unreadable\")\n",
+       ""),
+    _m("analyze_6.py", "I-4: the headline counts a family whose test was not evaluable",
+       "                if not evaluable(tests[(t, f)]):\n                    continue\n", ""),
+    _m("analyze_6.py", "M-1: every dropped rung is named on the predictor side",
+       "                side_x = [r for r in dropped if r in res[\"dropped_predictor\"]]\n"
+       "                side_y = [r for r in dropped if r not in res[\"dropped_predictor\"]]",
+       "                side_x = dropped\n                side_y = []"),
+    _m("analyze_6.py", "M-1: the result does not carry what was degenerate for the predictor",
+       "                tests[(t, fam)][\"dropped_predictor\"] = list(an2i._degenerate_rungs(\n"
+       "                    ctx[\"pred\"][t][\"x\"], ctx[\"strata\"], R))\n", ""),
+    _m("run/preflight_6.py", "M-4: an anchor outside the tolerance passes the family",
+       "        and all(a[\"within\"] for r in out[\"reads\"].values()\n"
+       "                for a in r[\"anchors\"].values())\n", ""),
+    _m("run/preflight_6.py", "M-4: an anchor is held to the Mac's endpoint on every read",
+       "    mac = {r: rf.mac_count(family, step, r) for r in b6.ANCHORS_6}",
+       "    mac = {r: rf.mac_count(family, fm.endpoint_step(family), r) for r in b6.ANCHORS_6}"),
+    _m("run/preflight_6.py", "M-4: within is not the tolerance's",
+       "               \"within\": not any(m.startswith(f\"{label}/{r}:\") for m in bad)}",
+       "               \"within\": True}"),
+    _m("run/campaign_endpoint_6.sh", "M-5: the endpoint campaign writes no pid",
+       "echo $$ > /workspace/campaign_6.pid", ": no pid"),
+    _m("run/campaign_sweep_6.sh", "M-5: the sweep campaign writes no pid",
+       "echo $$ > /workspace/campaign_6.pid", ": no pid"),
+    _m("run/campaign_sweep_6.sh", "M-2: the sweep runs without the projection in its checkout",
+       "[ -f experiments/exp6/projection.md ] || { echo", "true || { echo"),
+    _m("run/box_setup_6.sh", "M-3: the box refuses at no disk size",
+       "if [ \"$free_gb\" -lt 170 ]", "if [ \"$free_gb\" -lt 0 ]"),
+    _m("verify_referents_6.py", "M-6: the cold battery runs the analysis on a swept tree",
+       "    if swept.is_dir() and any(p.is_file() for p in swept.rglob(\"*\")):\n"
+       "        return (SKIP, SWEPT_NOTE_6)\n", ""),
+    _m("analyze_6.py", "§D 5: the counts are said to be frozen whatever they are",
+       "\"frozen_counts\": n_perm == N_PERM and n_boot == N_BOOT}",
+       "\"frozen_counts\": True}"),
+    _m("analyze_6.py", "§D 5: n_boot is not held to the frozen count",
+       "\"frozen_counts\": n_perm == N_PERM and n_boot == N_BOOT}",
+       "\"frozen_counts\": n_perm == N_PERM}"),
 ]
 
 # slug -> the proof that no input this instrument can construct tells
@@ -1053,4 +1110,6 @@ HINTS_6 = {
     "the test inputs read the init referent's counts": _W + "what_each_secondary",
     "gate 1(d) fires at the sweep's gate and leaves no marker":
         _W + "not_the_macs_halt",
+    "M-1: the result does not carry what was degenerate for the predictor":
+        _W + "test_general",
 }

@@ -741,3 +741,82 @@ The slow mutation pass, run by the coordinator on the repository at cf5fbf074 ov
 survivors of the freeze's fast pass: `59 mutants in 2249 s: killed 59`. With the fast pass
 (349 mutants, 290 killed, 59 survived-fast): 349 mutants, every one killed by a named test,
 none equivalent. Both logs committed.
+
+### Instrument fix wave 3 — the final whole-branch review (coordinator rulings I-19 … I-23)
+
+The final whole-branch review found one Critical, four Important and seven Minor defects. The
+coordinator ruled on each (I-19 … I-22, and I-24 amending I-19's text). What the review found,
+one line a finding:
+- C-1. The known-inputs caveat, joined into every licence, said the predictors were sealed
+  before any outcome weight loaded. A test loaded SmolLM3-3B's endpoint weights on 2026-09-28,
+  and the run plan's outcome preflight loads each family's endpoint and first grid step.
+- I-1. A runner wrote its host record before checking it: a host off the stack pin left a
+  record that refused every later seal and the verdict over a correct campaign.
+- I-2. The predictor seal's file table took dotfiles (a Finder `.DS_Store`), which the watcher
+  never commits; the box would refuse a correct seal.
+- I-3. F-4's closure held a hash-based `.pyc` to its header only. An unchecked `.pyc` whose
+  header carries the true source's hash and other code passed.
+- I-4 (freeze §D 1). The headline condition counted a family on which the test was not
+  evaluable.
+- M-1. The UNDETERMINED shortfall named every dropped rung on the predictor side, including
+  rungs `_run_test` drops on a retry because the OUTCOME is constant inside every stratum.
+- M-2. The projection check sat only in `rebundle_box_6.sh`, which a fresh sweep box need not run.
+- M-3. The box's disk was unsized.
+- M-4. The preflight never rehearsed gate 1(c): the anchors against the Mac's counts.
+- M-5. The status script read a pid file nothing wrote, and called its log gitignored; it is not.
+- M-6. The cold battery's read-sweep item runs the analysis, on a swept tree too.
+- M-7. `power_6.main`'s last two lines read fixed keys of the tree.
+- §D 5. The permutation and bootstrap counts are arguments of `run()` and nothing recorded
+  whether they were the frozen ones.
+
+Closed, each test-first (the failing output and the passing output are in the implementer's
+report), each new check with a mutant:
+- C-1: `KNOWN_INPUTS_CAVEAT_6`'s seal-order sentence replaced. Its text now reads: "The
+  predictors were sealed before any outcome model was handed an item of this battery; the
+  endpoints, rung sets and power record before any intermediate checkpoint was scored into a
+  record; the projection before the sweeps. Outcome weights were loaded before the predictor
+  seal once, by a test on 2026-09-28 (no tokenizer, no forward pass, no item read; the ledger
+  has the account). The outcome preflight runs after the predictor seal and loads each
+  family's endpoint and first grid step. It stores nothing. Of what a model writes on an item
+  of this battery it reports shape, timing and identity, and no score; it holds 2c's two
+  anchors to their committed counts." (The last three sentences are ruling I-24's: item 7 made
+  "stores and scores nothing" untrue.) A test pins the text and that no licence says "before
+  any outcome weight loaded" or "scores nothing". `run/preflight_6.run_outcome` refuses, before
+  it loads anything or builds a host record, unless the predictor is sealed
+  (`endpoint_6.require_predictor_seal`, with the runners' two injections; `main()` passes none).
+- I-1: `ensure_host` checks `host_failures` first and writes nothing for a host off the pin.
+  `load_hosts` is unchanged.
+- I-2: `file_table` skips any file whose name begins with a dot.
+- I-3: a hash-based `.pyc` whose header is the source's hash is also unmarshalled and compared
+  with the code the source compiles to; an unreadable one is a failure. (The first fast pass
+  then showed F-4's header mutant surviving, the code check covering every case the tests
+  built; one assertion — a wrong header over the source's own code — restores its kill.)
+- I-4: `headline_condition` counts a family only where that predictor's test was evaluable.
+- M-1: each primary test carries `dropped_predictor` (`_degenerate_rungs` on the predictor's
+  counts, before any retry); the shortfall names the rest of `dropped_degenerate` on the outcome
+  side ("lost … to an outcome that is constant inside every stratum").
+- M-2: `campaign_sweep_6.sh` refuses at its start without `experiments/exp6/projection.md` in its
+  checkout. M-3: `box_setup_6.sh` states about 170 GB, prints `/workspace`'s free space, and
+  refuses below 170 GB unless `EXP6_DISK_OK=1`. M-5: both campaign scripts write their pid to
+  `/workspace/campaign_6.pid`; the status script's header says its log is not gitignored.
+- M-4: every read of the outcome preflight scores both anchors on all 500 items and holds each
+  count to the Mac's committed count of that checkpoint within 15; the family passes only if
+  every anchor of every read is within. Printed: the anchors' counts and the Mac's.
+- M-6: the read-sweep item SKIPs, and says why, once any file exists under `results/sweep/`.
+- M-7: the power writer prints every bound the tree record holds, under its own keys.
+- §D 5: `pins_active` gains `frozen_counts`.
+
+Stated for Michael's ruling: two closures are licence text or a licence rule. (1) The caveat
+sentence above (C-1, rulings I-19 and I-24). (2) The headline condition now counts evaluable
+families only (I-4, §D 1, ruling I-20); the licence sentence `HEADLINE_UNQUALIFIED_6` still says
+"on at least three families", and the freeze's §F slip ("on at least three of that predictor's
+evaluable families") is not applied. Design §2's "Sealed in order" paragraph needs the matching
+slip; the design doc is not edited here.
+
+Measured in the repository: fast suite 395 passed, 234 deselected; slow files (worlds,
+totality, `test_freeze_6.py -m slow`) 232 passed, 15 deselected, before and after ruling I-24;
+import scan 73 frozen, 5 own, 16 bound by the tag, as pinned (no table re-derived); cold battery
+10/14 PASS, 0 FAIL, 4 SKIP (its read-sweep item ran `analyze_6.run` once on the real tree, which
+refused at the predictor seal — one pre-tag execution); fast mutation pass 369 mutants in 964 s: killed 309, survived-fast 60, no ERROR (the 59 survivors of the committed log, and M-1's `dropped_predictor` mutant, which only the worlds see: HINTS_6 names `test_general`); model
+cache untouched. `mutation_slow.log` is stale against the new table and is the coordinator's
+to replace.

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # One status line every 5 min from the rented box (Exp 6): UTC, campaign process alive?, model
-# loads complete, GPU memory, last runner log line. Appends to experiments/exp6/status_6.log
-# (gitignored — machine-local). Loops until killed.
+# loads complete, GPU memory, last runner log line. Appends to experiments/exp6/status_6.log,
+# machine-local and NOT gitignored (`git check-ignore` does not match it): leave it out of every
+# commit. The campaign scripts write the pid it reads. Loops until killed.
 set -uo pipefail
 cd /Users/michaeljordan/emergence-paper
 while true; do

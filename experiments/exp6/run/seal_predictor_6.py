@@ -70,10 +70,13 @@ def collect(root) -> tuple:
 
 
 def file_table(root) -> dict:
+    """The stage's files: not the seal, not a temp file a killed write
+    left, not a file whose name begins with a dot (an OS dropping such as
+    `.DS_Store`, which the watcher never commits; final review I-2)."""
     base = r6.results(root) / "predictor"
     skip = {r6.seal_path(root).resolve()}
     return {str(p.relative_to(root)): r6.sha256_file(p)
-            for p in sorted(base.rglob("*"))
+            for p in sorted(q for q in base.rglob("*") if not q.name.startswith("."))
             if p.is_file() and p.resolve() not in skip and p.suffix != ".tmp"}
 
 
