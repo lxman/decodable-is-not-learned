@@ -1,6 +1,7 @@
 # experiments/exp6/tests/test_preflight_6.py
 """The preflight with fake models: what it passes, what it fails, and
-that it stores nothing and scores nothing."""
+that it writes no campaign record, prints no new-battery score, and checks
+the anchors against their committed counts."""
 import json
 
 import pytest

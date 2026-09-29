@@ -97,11 +97,12 @@ KNOWN_INPUTS_CAVEAT_6 = (
     "any output of any model on any item of this battery. The predictors were "
     "sealed before any outcome model was handed an item of this battery; the "
     "endpoints, rung sets and power record before any intermediate checkpoint "
-    "was scored into a record; the projection before the sweeps. Outcome "
-    "weights were loaded before the predictor seal once, by a test on "
-    "2026-09-28 (no tokenizer, no forward pass, no item read; the ledger has "
+    "was scored into a record; the projection before the sweeps. Before the "
+    "predictor seal, a test on 2026-09-28 loaded the same outcome endpoint's "
+    "weights twice, first by download and then from cache (no tokenizer, no "
+    "forward pass, no item read; the ledger has "
     "the account). The outcome preflight runs after the predictor seal and "
-    "loads each family's endpoint and first grid step. It stores nothing. Of "
+    "loads each family's endpoint and first grid step. It writes no record. Of "
     "what a model writes on an item of this battery it reports shape, timing "
     "and identity, and no score; it holds 2c's two anchors to their committed "
     "counts. The items are this program's renderings of ten BIG-bench "
@@ -121,7 +122,8 @@ _L = {
     "GENERAL": "The order in which the field's own emergent tasks come into "
                "focus during training is forecast, at the level of single "
                "items, by the sampled outputs of one-billion-parameter models "
-               "of two other families, on four outcome families.",
+               "of two other families, on at least three of four outcome "
+               "families, named for each predictor.",
     "PYTHIA-ONLY": "The item-order forecast generalises off the battery it was "
                    "found on for Pythia-1b's sampled counts and the sentence is "
                    "bounded to that predictor. It is the cleaner of the two "
@@ -161,8 +163,9 @@ BATTERY_BOUND_UNCOVERED_6 = (
     "the demotion is to 'not shown beyond one battery'.")
 HEADLINE_UNQUALIFIED_6 = (
     "Headline condition MET: at least two of the three rung types each hold a "
-    "rung whose per-rung interval excludes zero on at least three families for "
-    "a holding predictor; 'the field's emergent tasks' stands without a type "
+    "rung whose per-rung interval excludes zero on at least three of that "
+    "predictor's evaluable families, for a holding predictor; 'the field's "
+    "emergent tasks' stands without a type "
     "qualifier.")
 HEADLINE_QUALIFIED_6 = (
     "Headline condition NOT met: the sentence names the rung type that carried "
@@ -216,8 +219,8 @@ def headline_condition(tests: dict, statuses: dict) -> dict:
     """Design §6: for a HOLDING predictor, the rung types that hold a
     rung whose per-rung interval excludes zero on at least three
     families. A family counts only where that predictor's test was
-    EVALUABLE (freeze §D 1, final review I-4, ruling I-20 — a licence
-    rule, stated for the owner's ruling): a test read at one or two rungs
+    EVALUABLE (freeze §D 1, final review I-4, ruling I-20; ratified
+    2026-09-29): a test read at one or two rungs
     is counted toward nothing by the naming rule, and toward nothing
     here."""
     out = {}

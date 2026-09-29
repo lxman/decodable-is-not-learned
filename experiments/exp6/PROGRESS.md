@@ -921,3 +921,57 @@ The carried instrument changes still await his word under I-32. Next:
 ratification → one correction pass → final batteries → verified annotated
 preregistration tag → predictor preflight on his word. No campaign or
 monitor is running; no item has been read by a model in this takeover.
+
+### Ratification applied — 2026-09-29 (OpenCode, GPT-6 Astra)
+
+Michael: **“ratified”**, in response to the tracked package's recommendations.
+All D-1–D-16, O-1–O-5 and B-1–B-36/N-1–N-16 are approved. The primary
+retains its floors and strata; both unit rungs and the drawn deduction
+shots stay; exact IPA stays primary; S11/S12/S13 carry the named comparisons.
+The accidental cache entry stays. This supersedes the pending decisions
+in the earlier ledger entries and packages.
+
+Applied together before final validation:
+
+- The design's status, disclosure, battery, budgets, gates, pins, power,
+  secondaries, licences and stage order now describe the ratified instrument.
+  GENERAL says at least three of four outcome families, named for each
+  predictor. The caveat counts both weight loads and says preflight writes
+  no record. The headline sentence specifies evaluable families. The two
+  stale preflight docstrings are corrected.
+- Disk setup checks 230 **decimal GB** on both home/cache and workspace
+  filesystems; request 250 GB. `df -Pk` counts are converted from 1024-byte
+  blocks, not mislabeled GiB. The existing disk-override mechanism remains.
+- Bundles advertise only master and exp6 tags. Before creation, master must
+  be checked out with no tracked modifications; required stage tags and
+  the sweep projection must exist, and the real prereg/predictor/endpoint
+  binding functions run. The bundle's advertised refs are compared to the
+  requested set. Rebundle checks the bundle's own required refs, rejects
+  unrelated refs, and checks bindings after checkout, so a stale receiver
+  tag can't satisfy a missing bundle tag. No rental bundle was produced.
+- Outcome preflight's required ledger entry (UTC, HEAD, predictor-seal
+  sha256) is in the run plan. Its own file remains tag-exempt as ratified.
+- `BUILD_RULINGS.md` is a byte-identical copy of the preceding coordinator's
+  combined ruling list: R-0–R-75 and I-0–I-32, 109 unique IDs. SHA256
+  `1d889a3f4166de1e73767f7b9ff69b1f33052d46906e7a0aaf5c0665e11b0345`.
+  Historical proposals/corrections stay verbatim; the dated ledger and
+  ratification decide the current state. Original workspaces are retained.
+
+**Verification so far:** fast suite **396 passed, 234 deselected, 39.54 s**;
+all 369 mutation targets still match exactly once. `bash -n` passes for
+every Exp 6 shell script. Synthetic-git smoke checks passed for bundle
+scope, missing required refs, dirty-tree refusal, sweep projection and
+stale receiver tags (binding hook stubbed in these synthetic repos; actual
+binding is checked against real git at the tag and before a rental bundle).
+Disk smoke checks passed on either filesystem below 230 GB and at the
+230-decimal-GB boundary. Nothing was installed or rented by those checks.
+
+**Ruling M-2:** validate every slow-marked test, including regeneration and
+real-git pin tests, then the full fast mutation pass and its exact survivors
+with `--slow`; run detached through `Popen(start_new_session=True)`.
+Reason: this is the final ratified tree; the earlier slow-file selection
+omitted two marked tests. Cost if wrong: extra local runtime. Logs and
+stage/exit-status timestamps are under the approved OpenCode scratch path,
+`exp6-final-checks/`; the mutation logs will replace the committed logs only
+after reconciliation. Cold battery and its pre-tag audit increment follow.
+No new model contact; no campaign `results/` exists. Tag awaits these checks.

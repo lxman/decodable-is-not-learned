@@ -1050,7 +1050,7 @@ MUTANTS_6 = [
     _m("run/campaign_sweep_6.sh", "M-2: the sweep runs without the projection in its checkout",
        "[ -f experiments/exp6/projection.md ] || { echo", "true || { echo"),
     _m("run/box_setup_6.sh", "M-3: the box refuses at no disk size",
-       "if [ \"$free_gb\" -lt 170 ]", "if [ \"$free_gb\" -lt 0 ]"),
+       "if [ \"$free_gb\" -lt 230 ]", "if [ \"$free_gb\" -lt 0 ]"),
     _m("verify_referents_6.py", "M-6: the cold battery runs the analysis on a swept tree",
        "    if swept.is_dir() and any(p.is_file() for p in swept.rglob(\"*\")):\n"
        "        return (SKIP, SWEPT_NOTE_6)\n", ""),

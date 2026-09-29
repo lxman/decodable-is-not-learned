@@ -459,7 +459,8 @@ def check_imports_6(exempt=()) -> None:
     """Every file under experiments/ the interpreter has loaded is bound
     by the preregistration tag or pinned here. `exempt`: the preflight's
     own file and nothing else — scratch tooling that writes no record
-    and scores nothing, so that a fix to it re-cuts no tag; everything
+    and prints no new-battery score (it checks the anchors), so that a fix
+    to it re-cuts no tag; everything
     it imports is held to the pins like any other module. And nothing
     that answers to this repository's module names was loaded from
     anywhere else (freeze F-2)."""

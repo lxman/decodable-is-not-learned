@@ -1,9 +1,12 @@
-# Experiment 6 — pending ratification
+# Experiment 6 — ratification record
 
-**Awaiting Michael's ruling.** Consolidated 2026-09-29 from the preceding
-coordinator's battery and instrument ratification packages. Instrument
-head `2e54bd4cf`; no tag or campaign record. This file records proposals,
-not approval. The design and instrument corrections below remain pending.
+**RATIFIED by Michael 2026-09-29: “ratified”.** All recommendations below
+accepted, including D-1–D-16, O-1–O-5 and the B/N amendment lists. The
+corrections are applied; final validation is in flight before the tag.
+This package was consolidated from the preceding coordinator's battery
+and instrument packages at instrument head `2e54bd4cf`. The evidence
+below describes the pre-ratification state; the dated completion entries
+in `PROGRESS.md` record validation and tag binding.
 
 ## State and evidence
 
@@ -37,11 +40,11 @@ must say “no model has read an item”, rather than “zero model contact”.
 `PRETAG_AUDIT.md` reconstructs ten real-tree analyzer calls through this
 takeover, all cold-battery refusals before any campaign data existed.
 
-## Decisions and recommendations
+## Approved decisions
 
 The D numbers preserve the earlier packages' decision IDs.
 
-| ID | Recommended ruling | Consequence |
+| ID | Ratified ruling | Consequence |
 |---|---|---|
 | D-1 | Ratify 17 rungs/10 tasks; exclude `logic_grid`. | Its clue generator isn't published, so it fails the design's admission rule. |
 | D-2 | Keep the original primary rung-set rule; report S13 over the heuristic-clearing rungs beside it. | Maintains comparison with the first battery. `temporal` is solvable by string matching on every item; heuristic floors are also higher on `lcs` and the unit rungs. |
@@ -96,7 +99,7 @@ the production CLI uses the frozen defaults. Also disclosed: the predictor
 seal skips dotfiles, but a dot-directory containing records would enter
 its table; no producer creates one.
 
-## Changes to apply together after the ruling
+## Ratified correction checklist
 
 1. **O-1, disk:** change `run/box_setup_6.sh` from 170 GB on `/workspace`
    to 230 GB on both the home/cache and workspace filesystems; request
@@ -116,8 +119,8 @@ its table; no producer creates one.
 
 The full B-1–B-36 and N-1–N-16 lists are already committed in
 `../../docs/superpowers/plans/2026-09-27-exp6-battery.md` and
-`../../docs/superpowers/plans/2026-09-27-exp6-instrument.md`. They remain
-pending ratification, including the budget/stratum changes. The final
+`../../docs/superpowers/plans/2026-09-27-exp6-instrument.md`. Both lists are
+ratified, including the budget/stratum changes. The final
 instrument is the repository's, not the plan's older code blocks.
 
 - **Status, §2, §3.1:** 17 rungs/10 tasks; remove `logic_grid`; disclose
@@ -170,3 +173,16 @@ Keep the original git-ignored workspaces until their rulings/evidence are
 preserved at ratification. Sources: their `ratification-battery.md`,
 `ratification-package.md`, `rulings.md`, final review and scoped re-review;
 the committed ledger and freeze checklist take precedence for chronology.
+
+## Application — 2026-09-29
+
+The design now incorporates the approved amendments. Licence text names
+at least three of four families per holding predictor, two accidental
+loads, no preflight campaign record, and evaluable headline families.
+The disk guard uses decimal GB on both filesystems; the bundle advertises
+only master/exp6 tags and verifies required refs and byte bindings before
+use. Both stale preflight docstrings are corrected. All 109 coordinator
+rulings are preserved verbatim in `BUILD_RULINGS.md`; the original
+workspaces are retained. Fast suite: 396 passed, 234 deselected. Final
+slow/mutation/import checks run detached with durable logs; their results
+and the cold-battery audit increment are recorded at completion.

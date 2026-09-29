@@ -590,9 +590,11 @@ def test_the_box_scripts(tmp_path):
     assert guard < next(i for i, ln in enumerate(body) if "venv/bin/python" in ln)
     # M-3: the box states its disk, prints what it has, refuses below it
     setup = _script("box_setup_6.sh")
-    assert "170 GB" in setup and "EXP6_DISK_OK" in setup
+    assert "230 GB" in setup and "250 GB" in setup and "EXP6_DISK_OK" in setup
     body = [ln for ln in setup.splitlines() if not ln.startswith("#")]
     check = next(i for i, ln in enumerate(body) if "EXP6_DISK_OK" in ln)
     assert check < next(i for i, ln in enumerate(body) if "uv python install" in ln)
-    assert re.search(r"-lt 170\b", "\n".join(body))
+    assert re.search(r"-lt 230\b", "\n".join(body))
+    assert 'for disk_path in "$HOME" /workspace' in setup
+    assert 'free_kb * 1024 / 1000000000' in setup
     assert "df " in "\n".join(body[:check])

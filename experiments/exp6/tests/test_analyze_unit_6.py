@@ -215,10 +215,11 @@ SEAL_ORDER_6 = (
     "The predictors were sealed before any outcome model was handed an item of "
     "this battery; the endpoints, rung sets and power record before any "
     "intermediate checkpoint was scored into a record; the projection before the "
-    "sweeps. Outcome weights were loaded before the predictor seal once, by a "
-    "test on 2026-09-28 (no tokenizer, no forward pass, no item read; the ledger "
-    "has the account). The outcome preflight runs after the predictor seal and "
-    "loads each family's endpoint and first grid step. It stores nothing. Of what "
+    "sweeps. Before the predictor seal, a test on 2026-09-28 loaded the same "
+    "outcome endpoint's weights twice, first by download and then from cache "
+    "(no tokenizer, no forward pass, no item read; the ledger has the account). "
+    "The outcome preflight runs after the predictor seal and "
+    "loads each family's endpoint and first grid step. It writes no record. Of what "
     "a model writes on an item of this battery it reports shape, timing and "
     "identity, and no score; it holds 2c's two anchors to their committed counts.")
 
@@ -235,6 +236,17 @@ def test_the_known_inputs_caveat_states_the_seal_order_as_run():
         assert SEAL_ORDER_6 in text, world
         assert "before any outcome weight loaded" not in text, world
         assert "scores nothing" not in text, world          # ruling I-24
+        assert "stores nothing" not in text, world          # ratified O-2
+
+
+def test_general_names_the_families_each_predictor_actually_holds_on():
+    # GENERAL can have different three-family holding sets for A and B.
+    tests = _tests((1, 1, 1, 0), (0, 1, 1, 1))
+    verdict = an.verdict_6([], tests, _rsets(), _power())
+    assert verdict["verdict"] == "GENERAL"
+    assert "on at least three of four outcome families, named for each predictor" in an._L["GENERAL"]
+    assert "on four outcome families" not in an._L["GENERAL"]
+    assert "predictor's evaluable families" in an.HEADLINE_UNQUALIFIED_6
 
 
 def test_the_headline_counts_evaluable_families_only():
