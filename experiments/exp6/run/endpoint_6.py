@@ -62,6 +62,20 @@ def run_which(family, which, *, root, device, man, battery, host, seal_sha,
               loaders, stack, git_sha) -> dict:
     if which_complete(root, family, which):
         return r6.read_json(r6.endpoint_load_path(root, family, which))
+    # freeze F-3: a load is resumed only on the host that began it. The
+    # records a killed load left are kept and skipped below; written by
+    # another host they sit under this host's load record, which the seal
+    # and the analyzer refuse — the stage would complete into a tree that
+    # can never be sealed. Refused before anything is loaded.
+    for rung in b6.ALL_RUNGS_6:
+        path = r6.endpoint_record_path(root, family, which, rung)
+        if path.exists():
+            other = r6.read_json(path).get("host_sha256")
+            if other != host["sha256"]:
+                raise RuntimeError(
+                    f"{path}: written by host {str(other)[:12]}, not this host "
+                    f"{host['sha256'][:12]} — a load is not resumed across hosts; "
+                    f"move {r6.endpoint_dir(root, family, which)} aside first")
     t0 = time.time()
     key = fm.endpoint_step(family) if which == "stage1_final" else fm.INIT
     entry = fm.entry(family, man, key)

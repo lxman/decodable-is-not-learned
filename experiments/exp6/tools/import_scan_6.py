@@ -39,6 +39,10 @@ referents_6.model_pin("pythia_1b")
 strata_6._sg()
 floors_6.clears(1, 500, .1)
 floors_6.floor_table_6({})
+# freeze F-1: loading the battery reaches 2c's registry by its bare name
+# (`harness.answer_type_of`), on every verdict path
+from experiments.exp6 import battery_6
+battery_6.load_battery_6()
 from experiments.exp2d import battery_2d                                # noqa: F401
 from experiments.exp2i import battery_2i, power_2i                      # noqa: F401
 from experiments.exp2n import power_2n                                  # noqa: F401
@@ -46,12 +50,18 @@ from experiments.exp2n import power_2n                                  # noqa: 
 RUNNER = ANALYZER + r'''
 from experiments.exp3 import sampler                                    # noqa: F401
 from experiments.exp3.run import run_cell                               # noqa: F401
+# freeze F-1: the Pythia predictor's loader imports exp2b's `models` by name
+run_cell._assert_module_provenance()
 from experiments.exp6.run import preflight_6                            # noqa: F401
 '''
 TAIL = r'''
 from experiments.exp6 import pins_6
+bare = sorted({k.split(".")[0] for k, m in list(sys.modules.items())
+               if getattr(m, "__file__", None) and not k.startswith("experiments")
+               and pins_6._under_experiments(m.__file__) is not None})
 print(json.dumps({"surface": pins_6.import_surface(), "torch": "torch" in sys.modules,
-                  "transformers": "transformers" in sys.modules}))
+                  "transformers": "transformers" in sys.modules, "bare_tops": bare,
+                  "foreign": pins_6.foreign_modules()}))
 '''
 
 
@@ -59,6 +69,8 @@ def _run(code: str) -> dict:
     out = subprocess.run([sys.executable, "-c", (code + TAIL) % str(REPO)], cwd=REPO,
                          capture_output=True, text=True,
                          env={"PYTHONDONTWRITEBYTECODE": "1", "PATH": "/usr/bin:/bin",
+                              # no Hub, whatever an import might try (freeze, surface 16)
+                              "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1",
                               "HOME": str(Path.home()),
                               "PYTHONPATH": ":".join(p for p in sys.path if p)})
     if out.returncode:
@@ -73,6 +85,8 @@ def scan() -> dict:
         if surface.setdefault(k, v) != v:
             raise RuntimeError(f"{k} hashed differently in the two interpreters")
     return {"surface": surface, "torch": a["torch"], "transformers": a["transformers"],
+            "bare_tops": sorted(set(a["bare_tops"]) | set(r["bare_tops"])),
+            "foreign": a["foreign"] + r["foreign"],
             "analyzer_only": sorted(a["surface"]),
             "runner_only": sorted(set(r["surface"]) - set(a["surface"]))}
 
@@ -108,6 +122,10 @@ def main(argv=None) -> int:
             bad.append("FROZEN_SHA256_6 is not the scan's table")
         if p6.IMPORTED_SHA256_6 != own:
             bad.append("IMPORTED_SHA256_6 is not the scan's table")
+        if set(p6.BARE_TOPS_6) != set(got["bare_tops"]):
+            bad.append(f"BARE_TOPS_6 is not the scan's bare names {got['bare_tops']}")
+        if got["foreign"]:
+            bad.append(f"modules loaded from outside the repository: {got['foreign'][:3]}")
         for b in bad:
             print(b)
         print(f"{len(frozen)} frozen, {len(own)} own, {len(bound)} bound by the tag:",

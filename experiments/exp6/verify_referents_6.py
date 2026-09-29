@@ -121,6 +121,9 @@ def _frozen():
         raise ValueError("the analyzer's imports load torch")
     if p6.FROZEN_SHA256_6 != frozen or p6.IMPORTED_SHA256_6 != own:
         raise ValueError("the import surface is not the pinned one")
+    if set(p6.BARE_TOPS_6) != set(got["bare_tops"]) or got["foreign"]:
+        raise ValueError(f"bare names {got['bare_tops']} against {p6.BARE_TOPS_6}, "
+                         f"or modules from outside the repository {got['foreign'][:3]}")
     return f"{len(frozen)} frozen and {len(own)} own modules as pinned; no torch"
 
 

@@ -52,7 +52,7 @@ FAST_6 = {
                                    "test_common_6.py", "test_predict_6.py",
                                    "test_stages_6.py", "test_run_6.py",
                                    "test_analyze_unit_6.py", "test_preflight_6.py",
-                                   "test_power_6.py")],
+                                   "test_power_6.py", "test_freeze_6.py")],
 }
 WORLDS, TOTALITY = T + "test_worlds_6.py", T + "test_totality_6.py"
 # the tests of the worlds file that run a FULL analysis; every other one refuses

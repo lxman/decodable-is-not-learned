@@ -45,6 +45,8 @@ ITEM_BLOBS_6 = tuple(f"experiments/exp6/battery/items/{r}.json" for r in b6.RUNG
 FROZEN_SHA256_6 = {
     "experiments/exp1/signatures/stats.py":
         "ceab3eb7f6daf9346b9231f0e4af7e458b43ba4e7361556aef926e1abde2611f",
+    "experiments/exp2b/models.py":
+        "a4c5eed26cc92044aeb9ed7b68b177035de3ac2615dbba09a6d21eeb191a55a4",
     "experiments/exp2b/probe_starved.py":
         "e6c81df28e4a7e07db3a123e4b06d3c8a98a7d330cd726596d41b1136c4cd27b",
     "experiments/exp2b/splits.py":
@@ -53,8 +55,18 @@ FROZEN_SHA256_6 = {
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "experiments/exp2c/battery/__init__.py":
         "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "experiments/exp2c/battery/base.py":
+        "6d77c3c91c5ca0eb84e1a011ef64af0e04ade6fe8d1ad42d526be3a37fbacbb2",
     "experiments/exp2c/battery/family_map.py":
         "46477b37683c8ea0e1f2f219dce96858a0dcf91710b15cae45a8cf4c4c7ab375",
+    "experiments/exp2c/battery/generators_controls.py":
+        "baab6da475f90f8c07acb6d1eb317484bf36afeb40705684f43ecd5ec9fdade6",
+    "experiments/exp2c/battery/generators_rescues.py":
+        "d70215c89ffd58d3f18f9dcd99940c7e92655ba8185919f50b2090b7e900c257",
+    "experiments/exp2c/battery/generators_rungs.py":
+        "778bf30da104f71773c26aa909ef2fddcd81291676a2db5d30130581b8d162d0",
+    "experiments/exp2c/battery/wordlists_2c.py":
+        "f46c6092d6429a59b95531d1a58b1bbfc0576d692d1162b8dfd2b6daf051790f",
     "experiments/exp2c/harness.py":
         "3e72fb3c18772096e8c520ade93e154dd8bc6765c3c473390a9b32a6b24ae111",
     "experiments/exp2c/instrument.py":
@@ -283,10 +295,34 @@ def check_frozen_6() -> None:
                                f"{want[:12]})")
 
 
+_LINKED_6 = {}
+
+
+def _linked_6() -> dict:
+    """{resolved target: experiments/<name>} for every directory of
+    experiments/ that is a LINK. None in the repository; every sibling of
+    exp6 in the mutation harness's private trees. A frozen module that
+    resolves its own path before it extends sys.path (2b, 2c, 2d, 2g, 2i
+    do) puts the link's target on sys.path, and a module imported through
+    it must still be read as the experiment it is (freeze F-2)."""
+    key = str(REPO)
+    if key not in _LINKED_6:
+        out = {}
+        try:
+            for c in (REPO / "experiments").iterdir():
+                if c.is_symlink():
+                    out[c.resolve()] = Path("experiments") / c.name
+        except OSError:
+            pass
+        _LINKED_6[key] = out
+    return _LINKED_6[key]
+
+
 def _under_experiments(f):
     """The path of a loaded file relative to the repository if it lies
     under experiments/, else None. Tried as given and then resolved: a
-    module reached through a symlinked directory is still that module."""
+    module reached through a symlinked directory is still that module;
+    and one reached through the link's TARGET is too (freeze F-2)."""
     root = REPO / "experiments"
     for p in (Path(f), Path(f).resolve()):
         for base in (root, root.resolve()):
@@ -294,6 +330,12 @@ def _under_experiments(f):
                 return Path("experiments") / p.relative_to(base)
             except ValueError:
                 continue
+    rp = Path(f).resolve()
+    for target, name in _linked_6().items():
+        try:
+            return name / rp.relative_to(target)
+        except ValueError:
+            continue
     return None
 
 
@@ -314,16 +356,112 @@ def import_surface() -> dict:
     return out
 
 
+# Freeze F-2: the modules the frozen code imports by a BARE name, which
+# sys.path resolves (2c's harness imports `battery`, exp3 `harness` and
+# `models`, 2g `splits` and `probe_starved`, exp1's stats is loaded as
+# `exp1_signatures_stats`). `tools/import_scan_6.py --check` refuses a
+# difference between this table and what the scan measures.
+BARE_TOPS_6 = ("battery", "exp1_signatures_stats", "harness", "models",
+               "probe_starved", "splits")
+
+
+def foreign_modules() -> list:
+    """Freeze F-2: the loaded modules that answer to this repository's
+    names and were NOT loaded from it — a portion of the `experiments`
+    namespace outside `REPO/experiments`, an `experiments.*` module or a
+    bare-named one (`BARE_TOPS_6`) whose file lies outside it. The
+    surface check below keys on where a file lies, so a module supplied
+    from a second `experiments` directory earlier on sys.path was passed
+    over while the frozen pin hashed the repository's untouched copy."""
+    import sys
+    home = (REPO / "experiments").resolve()
+    # the directory the links of experiments/ point into, where there are
+    # links (the harness's trees): every module found through it is
+    # itself held to the repository below, one by one
+    homes = {home} | {t.parent for t in _linked_6()}
+    bad = []
+    for name, m in sorted(list(sys.modules.items()), key=lambda kv: kv[0]):
+        top = name.split(".")[0]
+        if top != "experiments" and top not in BARE_TOPS_6:
+            continue
+        f = getattr(m, "__file__", None)
+        if name == "experiments":
+            for portion in list(getattr(m, "__path__", None) or []):
+                if Path(portion).resolve() not in homes:
+                    bad.append(f"experiments (namespace portion {portion})")
+            if f and _under_experiments(f) is None:
+                bad.append(f"experiments ({f})")
+            continue
+        if f:
+            if _under_experiments(f) is None:
+                bad.append(f"{name} ({f})")
+            continue
+        for portion in list(getattr(m, "__path__", None) or []):
+            if _under_experiments(portion) is None:
+                bad.append(f"{name} (portion {portion})")
+    return bad
+
+
+def bytecode_failures() -> list:
+    """Freeze F-4: the pins hash SOURCE files, and the interpreter runs a
+    module's cached .pyc whenever it finds it valid — a timestamp .pyc
+    whose recorded mtime and size match the source, or a hash-based one
+    (an UNCHECKED one is never compared with the source at all). For
+    every loaded module under experiments/ whose .pyc Python would have
+    accepted, the code in the .pyc must be the code the source compiles
+    to; a hash-based .pyc must carry the source's own hash."""
+    import importlib.util
+    import marshal
+    import sys
+    bad = []
+    for name, m in sorted(list(sys.modules.items()), key=lambda kv: kv[0]):
+        # read from the module's own namespace: a lazy module (transformers')
+        # imports on a missing attribute, and nothing here may import
+        ns = vars(m) if hasattr(m, "__dict__") else {}
+        f, cached = ns.get("__file__"), ns.get("__cached__")
+        if not f or not cached or _under_experiments(f) is None:
+            continue
+        pyc = Path(cached)
+        if not pyc.is_file() or not str(f).endswith(".py"):
+            continue
+        data, src = pyc.read_bytes(), Path(f).read_bytes()
+        flags = int.from_bytes(data[4:8], "little")
+        if flags & 0b1:                                  # hash-based
+            if data[8:16] != importlib.util.source_hash(src):
+                bad.append(f"{name}: {pyc.name} is hash-based and not this source's")
+            continue
+        st = os.stat(f)
+        if int.from_bytes(data[8:12], "little") != (int(st.st_mtime) & 0xFFFFFFFF) or \
+                int.from_bytes(data[12:16], "little") != (st.st_size & 0xFFFFFFFF):
+            continue                                     # stale: Python compiled the source
+        try:
+            ran = marshal.loads(data[16:])
+        except Exception:  # noqa: BLE001 — an unreadable .pyc Python would reject
+            continue
+        if ran != compile(src, str(f), "exec", dont_inherit=True):
+            bad.append(f"{name}: {pyc.name} is not the code its source compiles to")
+    return bad
+
+
 def check_imports_6(exempt=()) -> None:
     """Every file under experiments/ the interpreter has loaded is bound
     by the preregistration tag or pinned here. `exempt`: the preflight's
     own file and nothing else — scratch tooling that writes no record
     and scores nothing, so that a fix to it re-cuts no tag; everything
-    it imports is held to the pins like any other module."""
+    it imports is held to the pins like any other module. And nothing
+    that answers to this repository's module names was loaded from
+    anywhere else (freeze F-2)."""
     if IMPORTED_SHA256_6 is None or not FROZEN_SHA256_6:
         raise RuntimeError("the import surface is not pinned (build incomplete)")
     if set(exempt) - set(EXEMPT_6):
         raise RuntimeError(f"not exemptible: {sorted(set(exempt) - set(EXEMPT_6))}")
+    foreign = foreign_modules()
+    if foreign:
+        raise RuntimeError(f"a module loaded from outside the repository: "
+                           f"{foreign[:3]}")
+    stale = bytecode_failures()
+    if stale:
+        raise RuntimeError(f"bytecode that is not the pinned source ran: {stale[:3]}")
     pinned = dict(FROZEN_SHA256_6)
     pinned.update(IMPORTED_SHA256_6)
     bound = set(INSTRUMENT_BLOBS_6)
