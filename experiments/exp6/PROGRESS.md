@@ -820,3 +820,47 @@ import scan 73 frozen, 5 own, 16 bound by the tag, as pinned (no table re-derive
 refused at the predictor seal — one pre-tag execution); fast mutation pass 369 mutants in 964 s: killed 309, survived-fast 60, no ERROR (the 59 survivors of the committed log, and M-1's `dropped_predictor` mutant, which only the worlds see: HINTS_6 names `test_general`); model
 cache untouched. `mutation_slow.log` is stale against the new table and is the coordinator's
 to replace.
+
+### Fix wave 3 verified, re-reviewed, and the slow mutation pass after it (coordinator, 2026-09-29)
+
+Verified by the coordinator on the commit (38e6a71e4): 22 files, all under `experiments/exp6`,
+no battery file, nothing under `experiments/exp1` … `exp5b`; the only licence text that moved
+is the known-inputs paragraph, the only licence rule the headline condition; no preregistered
+constant moved. Fast suite 395 passed, 234 deselected. Import scan 73 frozen, 5 own, 16 bound by
+the tag: as pinned. Cold battery 10/14 PASS, 0 FAIL, 4 SKIP (its read-sweep item executed the
+analyzer once on the real tree, a refusal at the predictor seal: one more pre-tag execution,
+the coordinator's). Model cache: no new file.
+
+Slow mutation pass on the repository: the 60 survivors of the fast pass, 60 killed (2,322 s).
+The table stands at 369 mutants: 309 killed fast, 60 killed slow, none open, none equivalent.
+
+Scoped re-review of the wave (opus, read-only): every finding of the final review ADDRESSED;
+nothing preregistered moved beyond the two ruled changes; no Critical. It read the
+known-inputs paragraph clause by clause against the code and found each clause true, with one
+note. What it found, and the coordinator's rulings (I-25 … I-32). There is no second fix wave:
+each item is carried to Michael and applied in one pass on his word, and the batteries are run
+once on the final tree before the tag.
+
+- O-1 (Important; the coordinator's own figure was wrong). The box needs about 230 GB, not
+  170: the endpoint stage never frees OLMo-2 13B's step 0 (about 55 GB in the checkpoint
+  cache), so one box that runs the endpoint stage and all four sweeps holds about 104 GB of
+  endpoints, 55 GB of step 0 and 55 GB of one 13B checkpoint, and the software beside them. A
+  candidate copy and a checkpoint are never resident together (the sweep frees each in a
+  `finally`). The check measures `/workspace`; both caches live under the home directory.
+  Closure, script only and not bound by the tag: `box_setup_6.sh` states and checks 230 GB on
+  both filesystems; a box is created with 250 GB. Before any box is rented.
+- O-2. "It stores nothing" is proved for `results/` only; the preflight leaves weights in the
+  hub cache. Proposed wording: "It writes no record." Licence text: Michael's.
+- O-3. The clause "the outcome preflight runs after the predictor seal" is enforced by
+  `run/preflight_6.py`, which the tag does not bind (plan delta N-8). The exemption stays; each
+  outcome preflight is ledgered with the time, the commit and the predictor seal's sha256.
+- O-4. `HEADLINE_UNQUALIFIED_6` says "on at least three families": still true, less exact than
+  the rule. It changes only with Michael's ruling on the rule.
+- O-5. Two docstrings say the preflight scores nothing (`pins_6.check_imports_6`, the module
+  docstring of `tests/test_preflight_6.py`). Corrected with the slips.
+- Left: a dot-directory under `results/predictor` would enter the seal's table. Nothing writes
+  one.
+- Design text that now differs from the instrument (§2 "Sealed in order", §7's preflight row,
+  §11's order): slips for ratification. The design doc is not edited.
+
+State: built, frozen, reviewed. No tag. No model has read an item of this battery.
