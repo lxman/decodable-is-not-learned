@@ -1067,3 +1067,88 @@ HEAD, PID/session and score-free diagnostic summary go to
 services are suspended while timing/sampling and restored in `finally`;
 no other service is stopped. Completion, any refusal and actual contacts
 will be appended here. No campaign record is written by this preflight.
+
+### Predictor preflight passed — 2026-09-29 EDT / 2026-09-30 UTC
+
+The single authorized preflight ran **02:15:59.483346–02:20:18.911627 UTC**,
+259.43 seconds, at HEAD `2bacdbe91c1baa97ceb9017abbe2fa0693f7e45e`.
+Detached PID/session **58954** exited 0. All three real trained predictors
+loaded at their pinned revisions; all three `add_base8` item-0 rehearsals
+equaled the committed streams (256 draws for each Pythia, 64 for OLMo).
+All **nine** new-rung repeatability checks were byte-identical. On each
+predictor, the eight longest-by-character-count `temporal` prompts had
+**zero non-finite last-position logits**. This is the preflight's actual
+probe scope, not every prompt or a full campaign gate.
+
+| predictor | temporal s/item | IPA s/item | modified multiplication s/item | MPS driver allocation, GiB |
+|---|---:|---:|---:|---:|
+| OLMo-2 1B, k=64 | 8.30 | 5.86 | 2.09 | 32.01 |
+| Pythia-1b, k=256 | 11.34 | 15.30 | 5.36 | 27.66 |
+| Pythia-410m, k=256 | 7.98 | 10.34 | 3.45 | 19.93 |
+
+Times are one item's first read, not whole-rung measurements. Multiplying
+by 500 gives 0.29–2.12 hours per rung across these nine cases. The summary
+field is named `peak_memory_bytes`, but on MPS the implementation samples
+`driver_allocated_memory()` after the reads; **it is not a measured peak**.
+All normalized outputs were non-empty; no new-battery score or raw draw
+was retained. The full gate 1-P remains to be established on all items.
+
+**Model/network contact:** the real loader downloaded OLMo-2 1B's pinned
+snapshot (config, generation config, weight index, two weight shards and
+three tokenizer files), now present in the Hub cache. The two Pythia
+snapshots were already cached; their real loaders were online and may
+have made Hub metadata checks. Every predictor read the preflight items;
+the earlier “no model has read an item” status is now historical. No
+outcome model was loaded. All 33 preregistration bindings and the frozen/
+import checks passed afterward; `results/` remained absent. The wrapper
+restored all three MLX services and their loaded status was independently
+checked. Free space afterward: about 495.6 GiB.
+
+Durable evidence under the approved scratch directory,
+`exp6-predictor-preflight-20260930/`:
+
+- `summary.json` SHA256 `bcf4caf9d7f1b52219aef1728267a31f9e057be5c86959ff2b6bad3990274123`
+- `status.json` SHA256 `72f88e00ceb1aefbb6029416d296d48a59ec127299c161228d5be705578fe184`
+- `preflight.log` SHA256 `39193269a3d5ccf54a7d110b58f866619daaef5c7035e29399be1d2add08e4c0`
+
+### Predictor collection prepared — 2026-09-29 EDT / 2026-09-30 UTC
+
+**Ruling M-3: proceed from the passed preflight to the ruled predictor
+stage.** Reason: HANDOFF §2 says everything else in a ruled plan proceeds,
+and design §11 places collection next. Michael's “proceed” opened the
+preflight gate; no additional predictor-collection gate is named. Cost if
+wrong: local compute time; no rental. Rentals, the scored analysis and
+close-out retain their explicit owner gates.
+
+Production dry-run plan: **93 units, 6,116,000 draws**. Pythia-1b first:
+54 units / 3,060,000 draws (19 main, one control, 17 pilot, 17 twin);
+Pythia-410m: 20 units / 2,448,000 draws; OLMo-2 1B: 19 units / 608,000
+draws. Within each invocation the frozen runner completes its full anchor
+and control gates before new rungs, then the pilot before the main tier,
+then the twin. Models run sequentially, with the committed sampler and
+unchanged tiers/budgets. Three separate production CLI subprocesses.
+
+**Ruling M-4: use an operator-only complete-pair watcher for the Mac
+collection.** Reason: `write_draws` writes its final filename directly and
+can be visible before completion; the JSON record is written last. The
+existing shell watcher admits a lone gzip after its settle window. This
+supervisor admits a result only when both files exist, the JSON parses,
+the pair is stable across three seconds, and `seal_predictor_6.load_unit`
+re-derives coverage, provenance, digest and tallies successfully. It prints
+unit counts only. Halt evidence is retained and committed too. Cost if
+wrong: an operator wrapper to inspect; the frozen instrument is unchanged.
+An isolated real-git smoke check exercised orphan/temp exclusion, torn
+JSON refusal, pair commit/push, unrelated-index refusal and final flush.
+
+Wrapper: `exp6-predictor-campaign.py` in the approved OpenCode scratch
+directory. Logs/status: `exp6-predictor-campaign-20260930/` there. Detached
+session, one model subprocess at a time, complete-pair watcher every minute,
+atomic status with unit counts and UTC/HEAD/PIDs, `caffeinate` for the run.
+The three MLX services are suspended again and restored on exit. The
+supervisor stops at the first runner failure, flushes the watcher, and
+leaves collection for verification and the predictor seal. **While it is
+live, do not hand-commit over its watcher.** The launch checks a clean tree,
+the real pins/host, passed preflight and exactly 93 pending units. Its
+PID/session and exact launch time will be in `status.json`.
+Launch wrapper SHA256:
+`a3d69a9ac1f386b61f3e67c3c19f67d6b07fea2e40134520dfed1a1095315117`.
