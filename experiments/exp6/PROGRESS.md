@@ -1037,3 +1037,33 @@ All ratification work and checks are complete; next is **predictor
 preflight on Michael's word**, followed by the ruled predictor stage.
 Outcome preflight follows its seal. The explicit rental, scored-analysis
 and close-out gates remain in force.
+
+### Predictor preflight authorized — 2026-09-29 EDT / 2026-09-30 UTC
+
+Michael: **“proceed”**, answering “Proceed with predictor preflight?”
+The Mac preflight is the next authorized model contact. The production
+`run/preflight_6.run_predictor(device='mps')` will run once with its real
+loaders/sampler and no injected checks, sequentially on OLMo-2 1B,
+Pythia-1b and Pythia-410m. It rehearses item 0 of `add_base8` against each
+committed main-tier stream, then samples item 0 twice on `temporal`,
+`ipa_word` and `modarith_mul1`. It measures finiteness and diagnostic shape,
+timing/memory only; draws and new-battery scores are not retained or printed.
+
+Preparation verified 33 preregistration bindings, pinned Python/packages,
+MPS availability and an absent campaign tree. The current OS is
+**macOS 26.6.2**, newer than `environment.md`'s historical 26.5.2 note;
+the preflight's stream-reproduction and repeatability checks must pass on
+this actual stack before any campaign. Pythia's two pinned snapshots are
+cached. OLMo-2 1B's pinned snapshot (`9d3e43659f00c17e6da23cf32333afd1fc39fa1a`)
+is absent and the real loader may fetch it from the Hub. This is planned
+predictor contact under the authorization, not outcome contact. The Mac
+uses `HF_HUB_DISABLE_XET=1`; the package pins are not changed.
+
+Operator wrapper is outside the instrument, in the approved OpenCode
+scratch directory as `exp6-predictor-preflight.py`; durable stdout, UTC,
+HEAD, PID/session and score-free diagnostic summary go to
+`exp6-predictor-preflight-20260930/` there. It launches with
+`Popen(start_new_session=True)`. Under HANDOFF §4, the three loaded MLX
+services are suspended while timing/sampling and restored in `finally`;
+no other service is stopped. Completion, any refusal and actual contacts
+will be appended here. No campaign record is written by this preflight.
