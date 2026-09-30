@@ -2,7 +2,7 @@
 
 **RATIFIED by Michael 2026-09-29: “ratified”.** All recommendations below
 accepted, including D-1–D-16, O-1–O-5 and the B/N amendment lists. The
-corrections are applied; final validation is in flight before the tag.
+corrections are applied; final validation passed before the tag.
 This package was consolidated from the preceding coordinator's battery
 and instrument packages at instrument head `2e54bd4cf`. The evidence
 below describes the pre-ratification state; the dated completion entries
@@ -183,6 +183,8 @@ The disk guard uses decimal GB on both filesystems; the bundle advertises
 only master/exp6 tags and verifies required refs and byte bindings before
 use. Both stale preflight docstrings are corrected. All 109 coordinator
 rulings are preserved verbatim in `BUILD_RULINGS.md`; the original
-workspaces are retained. Fast suite: 396 passed, 234 deselected. Final
-slow/mutation/import checks run detached with durable logs; their results
-and the cold-battery audit increment are recorded at completion.
+workspaces are retained. Final validation: 396 fast tests and 234 slow
+tests passed; 369 mutants killed (309 fast, 60 slow); import scan as pinned;
+cold battery 10 PASS, 0 FAIL, 4 expected SKIP, 314 reads/zero unpinned.
+`PRETAG_AUDIT.md` now records eleven real-tree calls. `PROGRESS.md` records
+timings and the tag-binding verification.

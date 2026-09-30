@@ -2,7 +2,9 @@
 
 **Status: built, adversarially frozen, final-reviewed; ratified by Michael
 2026-09-29 ("ratified"), all recommendations of
-`experiments/exp6/RATIFICATION.md`. Final validation precedes the tag.
+`experiments/exp6/RATIFICATION.md`. Final validation passed: 396 fast and
+234 slow tests, 369/369 mutants killed, import pins and cold battery clean.
+Preregistration anchor: `exp6-preregistered`.
 Session 1 was written 2026-09-27 on his word ("Yeah, let's do it"):
 BENCHMARK-DERIVED tasks, FRESH generated items, ALL FOUR outcome families
 in ONE preregistration. Dials a–u were approved that day. The original
@@ -243,9 +245,9 @@ tag is cut, with what it printed. Every one must land
 INSUFFICIENT_DATA and print no T.
 
 The reconstructed tally and every later increment are in
-`experiments/exp6/PRETAG_AUDIT.md`: ten real-tree cold-battery executions
-through takeover, all before any campaign record, with no T computed.
-The final ratification battery is added there before the tag.
+`experiments/exp6/PRETAG_AUDIT.md`: eleven real-tree cold-battery executions
+through final ratification validation, all before any campaign record,
+with no T computed. The final call was 2026-09-30 02:04:17 UTC.
 
 ## 3. Instrument
 

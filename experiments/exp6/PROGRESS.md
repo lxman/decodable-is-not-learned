@@ -975,3 +975,46 @@ stage/exit-status timestamps are under the approved OpenCode scratch path,
 `exp6-final-checks/`; the mutation logs will replace the committed logs only
 after reconciliation. Cold battery and its pre-tag audit increment follow.
 No new model contact; no campaign `results/` exists. Tag awaits these checks.
+
+### Final ratification validation — 2026-09-29 EDT / 2026-09-30 UTC
+
+The detached controller completed successfully at **2026-09-29 23:07:40
+UTC** (PID/session 11178). Its completion had not yet been propagated to
+the ledger/tag when Michael asked “Are they done?”; checked the completed
+status and raw logs, then finished the cold battery and release steps.
+
+Validated code is the ratified tree committed as `b7e00e30c`. After the
+test launch only documentation changed before that commit; the instrument
+and tests were stable throughout. No model contact or campaign record.
+
+| check | result | measured runtime |
+|---|---|---|
+| fast suite, `-m 'not slow'` | 396 passed, 234 deselected | 39.54 s |
+| full slow suite, `-m slow` | 234 passed, 396 deselected | 2,927.09 s |
+| full fast mutation pass, six jobs | 369 mutants: 309 killed, 60 survived-fast | 1,270 s |
+| exact survivors with `--slow`, six jobs | 60 killed, zero open/error/equivalent | 2,862 s |
+| import scan, `--check` | 73 frozen, five own, sixteen tag-bound: as pinned | exit 0 |
+| final cold battery | 10 PASS, zero FAIL, four expected SKIP | exit 0 |
+
+The slow suite ran 21:09:56–21:58:43 UTC, fast mutations
+21:58:43–22:19:54, slow mutations 22:19:54–23:07:36. The full marked slow
+suite includes the two tests omitted by the preceding 232-test selection.
+Parsed both new mutation logs by their per-mutant lines: every current
+table slug occurs exactly once in the fast log; its 60 survivor names
+equal the slow log's 60 kill names exactly. Both committed logs replaced
+by these successful runs. Total **369/369 killed**, no equivalent.
+
+Cold battery ran ONCE at **2026-09-30 02:04:17.363609 UTC** on clean
+`b7e00e30c`, with the campaign tree confirmed absent beforehand. It
+verified twenty item files, floor/stratum/structure/heuristic pins, the
+collision audit and 77 known answers, content overlap, token budgets,
+219 referents and eight committed tallies/readings. Import pins matched;
+the read sweep saw **314 reads, zero unpinned**. Preregistration,
+predictor, endpoint and sweep stages were the four expected skips.
+`PRETAG_AUDIT.md` increments to **eleven** real-tree analyzer executions;
+this one again refused before any Experiment 6 statistic. No verdict
+file was written. The scored analysis remains owner-gated.
+
+Final validation is complete. Commit/push these logs and the audit, then
+create the annotated `exp6-preregistered`, verify its 33 blob bindings
+against real git, and push the tag under the ratification authorization.
