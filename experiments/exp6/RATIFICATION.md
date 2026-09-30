@@ -2,7 +2,8 @@
 
 **RATIFIED by Michael 2026-09-29: “ratified”.** All recommendations below
 accepted, including D-1–D-16, O-1–O-5 and the B/N amendment lists. The
-corrections are applied; final validation passed before the tag.
+corrections are applied; final validation passed. `exp6-preregistered`
+at `6ac42458e` is annotated, byte-verified and pushed.
 This package was consolidated from the preceding coordinator's battery
 and instrument packages at instrument head `2e54bd4cf`. The evidence
 below describes the pre-ratification state; the dated completion entries

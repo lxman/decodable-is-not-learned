@@ -1018,3 +1018,22 @@ file was written. The scored analysis remains owner-gated.
 Final validation is complete. Commit/push these logs and the audit, then
 create the annotated `exp6-preregistered`, verify its 33 blob bindings
 against real git, and push the tag under the ratification authorization.
+
+### Preregistration tagged and verified — 2026-09-29 EDT / 2026-09-30 UTC
+
+Final evidence committed and pushed at
+`6ac42458eda6f901f266421bb5fdc7c44f83a167`. Created annotated tag
+**`exp6-preregistered`**, object
+`77b8c175834061a2bb4c76aab9959bf5e9fd2895`, at that commit.
+`pins_6.require_prereg_6()` against real git returned **33 bound blobs**:
+sixteen instrument files and seventeen item files. `check_frozen_6()` and
+`check_imports_6()` passed. Pushed the tag, then independently read
+`origin` with `git ls-remote`: annotated object and peeled commit match
+exactly. No analyzer call was needed to verify the tag.
+
+The model cache has **zero files modified since the validation launch**;
+the campaign `results/` directory remains absent. No rental was created.
+All ratification work and checks are complete; next is **predictor
+preflight on Michael's word**, followed by the ruled predictor stage.
+Outcome preflight follows its seal. The explicit rental, scored-analysis
+and close-out gates remain in force.
