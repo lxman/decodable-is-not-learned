@@ -1,0 +1,33 @@
+{
+ "families": {
+  "smollm3_3b": {
+   "stage1_final": {
+    "box": {
+     "add_base8": 118,
+     "sub_base8": 309
+    },
+    "mac": {
+     "add_base8": 118,
+     "sub_base8": 309
+    }
+   },
+   "init": {
+    "box": {
+     "add_base8": 0,
+     "sub_base8": 0
+    },
+    "mac": {
+     "add_base8": 0,
+     "sub_base8": 0
+    }
+   },
+   "failures": []
+  }
+ },
+ "tolerance_per_rung": 15,
+ "pass": true,
+ "failures": [],
+ "host_sha256": "71ec73fffd1d3d558340f2aa3c8213f67bf592d9f48ac11bd9aabef3a3af2faa",
+ "git_sha": "e2ae59c98f7ce02330c5d90d6992a6701a8cda01",
+ "prereg_tag": "exp6-preregistered"
+}
