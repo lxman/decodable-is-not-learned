@@ -1,0 +1,62 @@
+{
+ "units": {
+  "pythia_1b/main/add_base8": {
+   "items_compared": 500,
+   "draws_compared": 128000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "db71617fb3e377525806b2dfafebdf37e7decd91996dbd1b08d11ff2e5fc6306"
+  },
+  "pythia_1b/main/sub_base8": {
+   "items_compared": 500,
+   "draws_compared": 128000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "1109a9f976d92dac06b3b3ee72441fd1842937c4b8fd308e5534edc2715cd55b"
+  },
+  "pythia_1b/control/ctrl_copy": {
+   "items_compared": 500,
+   "draws_compared": 16000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "ff51ed0a5c0c460d9d9b11f62b2801b484337c107db6f8292a5e72955b24fe13"
+  },
+  "pythia_410m/main/add_base8": {
+   "items_compared": 500,
+   "draws_compared": 128000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "f31e4e141c5672ebba6744708d7cfee6c55cdaeb5a99a4bf3924bd03ef91b68d"
+  },
+  "pythia_410m/main/sub_base8": {
+   "items_compared": 500,
+   "draws_compared": 128000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "14681c6ccb45b01f6643e48da74235f7cd2a9a3347c96a196c88fd568a032245"
+  },
+  "pythia_410m/control/ctrl_copy": {
+   "items_compared": 500,
+   "draws_compared": 16000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "8554bfe6116e0fd27d26136619589365632e38d08ba8a43625ba7206784e9834"
+  },
+  "olmo2_1b/main/add_base8": {
+   "items_compared": 500,
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "e59b959161c198975fa66c8f0bfd12913074f2e95fd07a563dfb432f3c5e71e6"
+  },
+  "olmo2_1b/main/sub_base8": {
+   "items_compared": 500,
+   "draws_compared": 32000,
+   "n_diffs": 0,
+   "first": null,
+   "committed_draws_sha256": "5977cbbf63a83a67be12ad949f934e1d8ca41e90cc34c7aaadb3a7f804eeb5e7"
+  }
+ },
+ "prereg_tag": "exp6-preregistered",
+ "git_sha": "e95d31d9247bd91ba594b4f79b3311df60611684"
+}

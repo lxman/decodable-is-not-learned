@@ -1152,3 +1152,68 @@ the real pins/host, passed preflight and exactly 93 pending units. Its
 PID/session and exact launch time will be in `status.json`.
 Launch wrapper SHA256:
 `a3d69a9ac1f386b61f3e67c3c19f67d6b07fea2e40134520dfed1a1095315117`.
+
+### Predictor collection complete; seal written — 2026-10-02 UTC
+
+The detached supervisor (PID/session **61056**) ran at launch HEAD
+`a35870f9eefe411a4a30944950a867fe3f37a5a7`, from **2026-09-30
+02:30:38.875199 UTC** through **2026-10-02 03:22:15.591216 UTC**:
+**48 h 51 m 36.72 s** including the final watcher flush. All three
+production CLI invocations exited 0; their entry and exit pin checks passed.
+
+| predictor | units | draws | wall time | finished UTC |
+|---|---:|---:|---|---|
+| Pythia-1b (including pilot and twin) | 54 | 3,060,000 | 27 h 51 m 14.46 s | Oct 1 06:21:53 |
+| Pythia-410m | 20 | 2,448,000 | 13 h 44 m 40.93 s | Oct 1 20:06:34 |
+| OLMo-2 1B | 19 | 608,000 | 7 h 15 m 36.49 s | Oct 2 03:22:10 |
+| **total** | **93** | **6,116,000** | | |
+
+Every pair was validated, watcher-committed and pushed. At the next
+interactive check (Michael: “Has the series finished?”), the tree was
+clean, local and remote master both
+`e95d31d9247bd91ba594b4f79b3311df60611684`. Counted the actual files against
+`predictor_units()`: exactly **186** files / 93 record-draw pairs, all
+planned items and tier sizes represented, no orphan or unexpected file,
+no halt marker. The supervisor/watcher/model processes were gone, its
+watcher error was null, and all three restored MLX services were independently
+confirmed loaded. No traceback/error/gate-fire appeared in the run logs.
+
+**Model contact:** the planned trained Pythia-1b, its seed-0 untrained twin,
+trained Pythia-410m and trained OLMo-2 1B read their ruled units, including
+full anchor/control reproduction before new-rung collection. The real
+loaders used the pinned snapshots already present after preflight; they
+were online, so Hub metadata checks were possible. No outcome model ran;
+`results/endpoint/` and `results/sweep/` remain absent.
+
+The production **`seal_predictor_6.seal()` ran once**, offline with the
+real pins, at **12:56:43.603788–12:56:50.793342 UTC** (7.19 s), on
+`e95d31d92`. It re-derived all 93 units' provenance, coverage, digest and
+tallies from the raw draws and re-derived **gate 1-P across all eight
+gated units: 4,000 item comparisons, 608,000 draws, ZERO differences**.
+All 33 preregistration bindings and frozen/import checks passed. It wrote
+`results/predictor/gate1p.json` and `results/predictor/predictor_6.json`.
+
+- Seal table: **187 files**, the 186 unit files plus gate 1-P.
+- Composite seal SHA256:
+  `5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189`.
+- Seal JSON file SHA256:
+  `ba36b67aa9518159d9370936b8f2295ca6017b6c8ddc9471860e82637870dd7a`.
+- Exact status and gate totals: scratch directory's `seal-summary.json`.
+
+No Experiment 6 analyzer or cold-battery read sweep was invoked. The
+predictor seal is a stage-integrity check, not an outcome verdict.
+Commit/push these two files and this entry, then cut/verify/push the
+annotated `exp6-predictor-sealed` under the ruled run plan.
+
+**Next owner gate: the first Vast rental for outcome preflight/endpoints.**
+Read-only account/search calls at **12:58:51 UTC** found **zero instances**.
+No free-ingress A100 80 GB offer met the verified/on-demand, reliability
+>.95, download ≥500 Mbps, 250 GB disk filters. The current recommended
+paid-ingress offer is **46878740**, machine **146514**, A100 SXM4 80 GB in
+Czechia: **$1.0763/h including 250 GB storage**, ingress **$0.002/GB**,
+egress **$0.003/GB**, advertised 2,078.9 Mbps download, reliability .9973134.
+This is an offer for Michael's approval, including its departure from the
+design's free-ingress assumption; no instance was created. The live offer
+must be rechecked at authorization. Search results are saved outside the
+repo as `exp6-vast-offers-20261002.json` in the approved scratch directory;
+no credential was printed or written there.
