@@ -1296,3 +1296,89 @@ on the image's torch before any installation. Its measured result must be
 reviewed before setup. Predictor seal composite remains
 `5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189`;
 each outcome preflight will log UTC, the box HEAD and that seal before load.
+
+### Box verified; outcome preflight launched — 2026-10-02 UTC
+
+Instance **53866292**, SSH **`ssh4.vast.ai:16426`**, is the Oklahoma PCIe
+host above. Thermal screen ran on the image's **torch 2.5.1+cu121** before
+installation, **13:44:18–13:46:30 UTC**: fp16 matmul sustained **231.8
+TFLOP/s**, **36–37°C** under load, **1,110–1,125 MHz**, about **300 W**;
+software power cap active, both thermal-slowdown flags **Not Active**
+throughout. This matches the healthy PCIe baseline of the earlier campaign;
+the low idle 210 MHz was not a loaded clock. Screen reviewed PASS.
+
+Bundle `exp6.bundle`: **634,555,729 bytes**, SHA256
+`123d734071ceb141754fe484a4f86be3cbcf9dd3db80601cbaccce8bdc9fbccb`,
+transferred and checked remotely in **22.74 s**. Advertises exactly
+master at **`e2ae59c98f7ce02330c5d90d6992a6701a8cda01`**, preregistration
+and predictor-seal tags. Real byte bindings were checked before bundling
+and on the box. The bundle's missing HEAD symref caused a clone warning;
+the setup script's explicit `git checkout master` selected the right head.
+
+Detached setup PID/session **1558**, **13:49:04–13:50:48 UTC**, exit 0:
+
+- Home and workspace each **267 decimal GB free** before installation,
+  above the 230 GB guard; about 242 GiB free afterward.
+- **Python 3.11.17**, **torch 2.12.1+cu130**, CUDA 13.0 available;
+  **NVIDIA A100 80GB PCIe**, driver **580.126.09**, 81,920 MiB.
+- transformers 5.13.0, numpy 2.4.6, safetensors 0.8.0, tokenizers 0.22.2,
+  huggingface_hub 1.22.0 + hf_xet, scipy 1.17.1. Host checks pass.
+- Host fingerprint:
+  `71ec73fffd1d3d558340f2aa3c8213f67bf592d9f48ac11bd9aabef3a3af2faa`.
+- All 33 preregistration bindings, the predictor seal and production
+  endpoint dry run passed; exactly eight final/init loads pending.
+- Both transports measured through frozen `collect_5.measure_transports_5`
+  in a separate subprocess: **classic 59.7 MB/s; xet 84.7 MB/s**. Xet ON
+  for the campaign. The probe downloaded Pythia-160m's pinned single weight
+  file twice into scratch caches, then deleted them; no model was built,
+  no tokenizer loaded and no item read. This transfer-only contact is
+  separate from the outcome preflight and outside the experiment results.
+
+**Outcome preflight invocation 1:** **2026-10-02
+13:55:11.207189 UTC**, box HEAD **`e2ae59c98f7ce02330c5d90d6992a6701a8cda01`**,
+child PID/session **2376**, under detached supervisor PID/session **2375**.
+The production `preflight_6.run_outcome(device='cuda')` uses all defaults
+and no injections. Before loading it checked the real predictor seal:
+
+- Composite SHA256
+  `5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189`.
+- Seal JSON file SHA256
+  `ba36b67aa9518159d9370936b8f2295ca6017b6c8ddc9471860e82637870dd7a`.
+
+Exact invocation metadata is `/workspace/exp6_operator/preflight-meta.json`,
+copied to the Mac's operator logs before this entry. The preflight is
+planned outcome contact on endpoints and first grid steps, not a sweep
+record. It retains diagnostic shapes/timing/memory/identity and the known
+anchor counts. Its summary must pass, followed by frozen/import checks,
+before the supervisor calls the committed `campaign_endpoint_6.sh`.
+That campaign collects all four final/init pairs, with every runner's
+gates intact, stopping at the first nonzero exit. Both stages are covered
+by Michael's approved rental/preflight/endpoint scope.
+
+**Ruling M-5: the Mac monitor publishes validated complete model loads.**
+Reason: landing must be checked before watcher publication. It inventories
+only loads whose last-written `_stage1_final.json`/`_init.json` exists,
+pulls their records plus hosts/gate/halt artifacts into scratch, compares
+remote byte hashes, re-derives each load through `seal_endpoint_6.load_which`,
+then publishes and commits/pushes the completed files. Changing gate
+snapshots are deferred; immutable-record drift or provenance failures
+refuse. Cost if wrong: operator-wrapper debugging, without changing any
+frozen instrument. A scratch smoke check compiled both operators and the
+embedded inventory program, verified matching-byte acceptance and changed-
+byte deferral, and refused pull paths outside endpoint/host result trees.
+Transport was stubbed in that smoke check; live validation uses real bytes.
+
+Operators remain outside the instrument in the approved scratch directory:
+
+- `exp6-box-outcome.py` SHA256
+  `68eea8c1e0d73784533c06fadb909ab0ccf33e1093bdd21d3e99376ff4bdabca`.
+- `exp6-endpoint-monitor.py` SHA256
+  `100b1322ed9a285f75517ca093349a823242930b90e42d0174a3741c344109d2`.
+
+The box writes `/workspace/exp6_operator/outcome-status.json`; the Mac
+records progress every three minutes in `exp6-outcome-20261002/`, pulls
+logs at completion/failure, and re-derives the full endpoint gate before
+reporting completion. **No hand commit while this monitor is live.** It
+does not seal endpoints, write power, run the analyzer, or destroy the
+instance. Destruction will be requested as soon as the last load is safely
+verified on the Mac, before the Mac's power calculation.
