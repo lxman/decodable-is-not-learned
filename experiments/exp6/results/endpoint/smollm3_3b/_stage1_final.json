@@ -1,0 +1,21 @@
+{
+ "family": "smollm3_3b",
+ "key": "stage1_final",
+ "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+ "revision": "stage1-step-3440000",
+ "commit": "d07a5a83dd011f3f084e9d2f1b47f51e524ca8d4",
+ "config_commit": null,
+ "kind": "thin-loader",
+ "sha256": {},
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "381178b285d5738a219fc0af77eab4d07985e3e1c594c12116ae1deb1a6c6ec9",
+ "device": "cuda",
+ "dtype": "float16",
+ "host_sha256": "71ec73fffd1d3d558340f2aa3c8213f67bf592d9f48ac11bd9aabef3a3af2faa",
+ "n_nonfinite_logits": 0,
+ "download_seconds": 15.9
+}
