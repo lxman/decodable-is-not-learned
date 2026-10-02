@@ -1266,3 +1266,33 @@ about $0.58 under these assumptions but would need the older driver's
 compatibility investigated (Exp 5b's precedent). The current response is
 a price comparison, not rental authorization. Latest sanitized snapshot:
 `exp6-outcome-20261002/latest-offers.json` in the approved scratch directory.
+
+### Rental authorized and created — 2026-10-02 UTC
+
+Michael: **“Montana - go”**. That offer also disappeared before creation.
+Oklahoma returned at $1.075/h. Asked for one bounded rental authorization
+to avoid the changing-offer confirmation loop: any qualifying A100 80 GB,
+at most $1.26/h including 250 GB disk, ingress ≤$0.002605/GB and egress
+≤$0.003907/GB, with the existing reliability/bandwidth/CUDA requirements.
+Michael selected **“Book within limits (Recommended)”**.
+
+Rechecked all constraints and zero existing instances, then made **one
+create call at 13:41:52 UTC**: **instance 53866292**, offer **47195598**,
+machine **16297**, **Oklahoma**, **A100 PCIe 80 GB**, on-demand,
+image `vastai/pytorch`, label `exp6-endpoints`, **250 GB requested**.
+Price **$1.075/h including storage**, ingress **$0.00260417/GB**, egress
+**$0.00390625/GB**; advertised down/up 697.8/222.7 Mbps, reliability
+.9981267, CUDA 13.0. Account credit immediately before creation:
+**$121.7954008714**. The configured public SSH key was attached successfully;
+no credential is put on the box. This supersedes the hold above.
+
+The approved work is thermal screen → pinned setup → transport/dry-run
+checks → outcome preflight → endpoint collection. Destruction remains
+owner-gated. Exact API responses, timestamps and operator logs are under
+`exp6-outcome-20261002/` in the approved OpenCode scratch directory. The
+detached readiness/screen helper (`exp6-wait-screen.py`) records its own
+PID/session, waits for SSH and runs the frozen 120-second thermal script
+on the image's torch before any installation. Its measured result must be
+reviewed before setup. Predictor seal composite remains
+`5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189`;
+each outcome preflight will log UTC, the box HEAD and that seal before load.
