@@ -45,6 +45,29 @@
     }
    },
    "failures": []
+  },
+  "comma_7b": {
+   "stage1_final": {
+    "box": {
+     "add_base8": 118,
+     "sub_base8": 305
+    },
+    "mac": {
+     "add_base8": 118,
+     "sub_base8": 306
+    }
+   },
+   "init": {
+    "box": {
+     "add_base8": 0,
+     "sub_base8": 0
+    },
+    "mac": {
+     "add_base8": 0,
+     "sub_base8": 0
+    }
+   },
+   "failures": []
   }
  },
  "tolerance_per_rung": 15,

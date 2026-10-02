@@ -1,0 +1,20 @@
+{
+ "family": "comma_7b",
+ "key": "init",
+ "repo": "common-pile/comma-v0.1-1t",
+ "revision": "twin",
+ "commit": null,
+ "config_commit": "e295235994f32d763c359d324265a176e591f632",
+ "kind": "from_config",
+ "sha256": {},
+ "loading_info": null,
+ "digest": "5eb2ba9c69e38797a8c5b43f2b24cbc6c103b13ad9433a18766ef8dc6ed1e664",
+ "device": "cuda",
+ "dtype": "float16",
+ "host_sha256": "71ec73fffd1d3d558340f2aa3c8213f67bf592d9f48ac11bd9aabef3a3af2faa",
+ "n_nonfinite_logits": 0,
+ "download_seconds": 114.4,
+ "config_eos_token_id": 2,
+ "generation_eos_token_id": 3,
+ "seed": 0
+}
