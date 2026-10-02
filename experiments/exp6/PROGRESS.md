@@ -1382,3 +1382,46 @@ reporting completion. **No hand commit while this monitor is live.** It
 does not seal endpoints, write power, run the analyzer, or destroy the
 instance. Destruction will be requested as soon as the last load is safely
 verified on the Mac, before the Mac's power calculation.
+
+### Automatic release authorized — 2026-10-02 UTC
+
+Michael: **“Okay, I will be gone for a while. Once you finish with the
+machine you DO NOT need my approval to disconnect and release the
+machine.”** This explicitly pre-authorizes destruction of the current
+instance **53866292** when its work ends. It supersedes the earlier
+request-another-approval language for this instance. Future rentals remain
+separately gated.
+
+Added a detached, one-instance release guard, `exp6-release-guard.py` in
+the approved scratch directory, SHA256
+`ff779551ab9418f1e42139dec80ae7a4e8000e2292518616c0b13358c3778282`.
+It waits for the endpoint monitor to terminate and for the remote
+supervisor and child to exit in a terminal state. It then captures **all**
+endpoint/host files, including partial files on failure, the operator logs
+and scripts, campaign log and thermal log; compares every copied byte hash
+with the box; verifies the resulting compressed archive; checks the final
+endpoint stage where complete; and commits/pushes the evidence before
+issuing DELETE for **53866292 only**, with machine ID **16297** and label
+`exp6-endpoints` checked. It confirms the instance disappears from the
+provider list and records the account-credit delta at that time.
+
+Evidence and the release receipt will live under
+`experiments/exp6/operations/instance-53866292/`; partial/failed records in
+the archive do not enter the canonical result tree. A scientific refusal
+is retained for local investigation and does not keep an idle GPU rented.
+A failed transfer/archive or failed evidence push prevents deletion and
+raises a notification. Ambiguous DELETE results are reconciled against
+the instance list, never retried blindly.
+
+Verification used isolated scratch fixtures and stubbed external effects:
+real tar archive round-trip; corrupt-transfer refusal; archive/push before
+DELETE ordering; wrong-machine refusal; no delete while still running;
+and final absence/receipt handling. No API write occurred in those checks.
+The existing endpoint monitor is briefly paused around this documentation
+commit and resumed afterward; the remote computation continues.
+
+The guard's `release-status.json` and `release.log` are under
+`exp6-outcome-20261002/` in the approved scratch directory. **The guard owns
+release; do not race it with a manual DELETE.** The monitor's legacy
+`complete-awaiting-destroy-approval` state means complete landing; this
+authorization removes that wait. Neither helper runs the analyzer.
