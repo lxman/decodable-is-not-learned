@@ -1,0 +1,18 @@
+{
+ "family": "olmo7b",
+ "key": "init",
+ "repo": "allenai/OLMo-2-1124-7B",
+ "revision": "twin",
+ "commit": null,
+ "config_commit": "c0371f4281bf2376207646c6b62ddc6c442c7577",
+ "kind": "from_config",
+ "sha256": {},
+ "loading_info": null,
+ "digest": "f9a087acc6a42f1f351f141e7faadd7afe923a54024d4095e7d2d0ccfc9ffa17",
+ "device": "cuda",
+ "dtype": "float16",
+ "host_sha256": "71ec73fffd1d3d558340f2aa3c8213f67bf592d9f48ac11bd9aabef3a3af2faa",
+ "n_nonfinite_logits": 0,
+ "download_seconds": 119.2,
+ "seed": 0
+}
