@@ -1425,3 +1425,7 @@ The guard's `release-status.json` and `release.log` are under
 release; do not race it with a manual DELETE.** The monitor's legacy
 `complete-awaiting-destroy-approval` state means complete landing; this
 authorization removes that wait. Neither helper runs the analyzer.
+
+### Instance 53866292 automatically released — 2026-10-02T15:42:26.764599+00:00
+
+Michael authorized release without another approval on 2026-10-02. The remote run ended in `complete`; all endpoint/host files (including partial evidence on failure), operator logs and thermal log were copied and hash-verified, packed and checked again from the archive, then pushed at `a2f17777ca56e2f4f9a32a5e41a669371044ef46` before DELETE. Archive and verification: `operations/instance-53866292/`. Stage verification: `{'stage_passed': True, 'failures': [], 'complete_loads': 8, 'monitor_stage': 'complete-awaiting-destroy-approval', 'predictor_seal_sha256': '5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189'}`. The provider list now contains no instance 53866292. Credit delta at the check: $2.747469 (settlement can lag). No further rental was created.

@@ -1,0 +1,10 @@
+{
+  "instance": 53866292,
+  "destroy_verified_utc": "2026-10-02T15:42:26.764599+00:00",
+  "evidence_commit": "a2f17777ca56e2f4f9a32a5e41a669371044ef46",
+  "credit_before": 121.79540087140019,
+  "credit_after_at_check": 119.04793186440021,
+  "credit_delta_at_check": 2.747469006999978,
+  "instances_remaining": 0,
+  "note": "Credit delta at this check; provider settlement may lag."
+}
