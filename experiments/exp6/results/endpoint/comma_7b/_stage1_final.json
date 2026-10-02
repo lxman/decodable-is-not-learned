@@ -1,0 +1,23 @@
+{
+ "family": "comma_7b",
+ "key": "stage1_final",
+ "repo": "common-pile/comma-v0.1-1t",
+ "revision": "stage1-step460000-tokens965B",
+ "commit": "e295235994f32d763c359d324265a176e591f632",
+ "config_commit": null,
+ "kind": "thin-loader",
+ "sha256": {},
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "596b7a45966dabae7813be3e6cbb24cd403973b25b3c3d6026b0fad4ab81ae6a",
+ "device": "cuda",
+ "dtype": "float16",
+ "host_sha256": "71ec73fffd1d3d558340f2aa3c8213f67bf592d9f48ac11bd9aabef3a3af2faa",
+ "n_nonfinite_logits": 0,
+ "download_seconds": 27.4,
+ "config_eos_token_id": 2,
+ "generation_eos_token_id": 3
+}
