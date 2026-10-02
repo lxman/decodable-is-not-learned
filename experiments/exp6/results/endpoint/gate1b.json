@@ -46,6 +46,29 @@
    },
    "failures": []
   },
+  "olmo13b": {
+   "stage1_final": {
+    "box": {
+     "add_base8": 97,
+     "sub_base8": 280
+    },
+    "mac": {
+     "add_base8": 97,
+     "sub_base8": 279
+    }
+   },
+   "init": {
+    "box": {
+     "add_base8": 0,
+     "sub_base8": 0
+    },
+    "mac": {
+     "add_base8": 0,
+     "sub_base8": 0
+    }
+   },
+   "failures": []
+  },
   "comma_7b": {
    "stage1_final": {
     "box": {
