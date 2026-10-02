@@ -1217,3 +1217,20 @@ design's free-ingress assumption; no instance was created. The live offer
 must be rechecked at authorization. Search results are saved outside the
 repo as `exp6-vast-offers-20261002.json` in the approved scratch directory;
 no credential was printed or written there.
+
+### Predictor tag verified and pushed — 2026-10-02 UTC
+
+Seal/evidence commit **`b4089a72ea225d4e4e100b3612cbb423a2f489c8`** pushed.
+Annotated **`exp6-predictor-sealed`**, object
+`7a7ff55eb9a0619dc7ea4e6af6049a8bf7060a2f`, points to that commit.
+`endpoint_6.require_predictor_seal` passed against real git: **188 bound
+files** (187 in the table plus the seal JSON). The preregistration's 33
+bindings and frozen/import checks also passed. The production endpoint
+dry run lists exactly eight pending loads: final/init for all four families.
+No model loaded during these checks. Pushed the tag and independently
+verified both its object and peeled commit with `git ls-remote`.
+
+Predictor stage complete and sealed. Next is Michael's authorization of
+the Vast rental quoted above, followed by thermal screening, box setup,
+outcome preflight and endpoint collection. No rental is active; no
+predictor process or watcher remains; the Mac services are restored.
