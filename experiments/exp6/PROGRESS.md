@@ -1234,3 +1234,35 @@ Predictor stage complete and sealed. Next is Michael's authorization of
 the Vast rental quoted above, followed by thermal screening, box setup,
 outcome preflight and endpoint collection. No rental is active; no
 predictor process or watcher remains; the Mac services are restored.
+
+### Rental held after the quoted offer disappeared — 2026-10-02 UTC
+
+Michael said **“go”** to the $1.08/h A100 rental for outcome preflight and
+endpoint collection. The availability recheck refused before any create:
+offer 46878740 had disappeared. At 13:11 UTC, account credit was
+**$121.7954008714**, zero instances. A replacement was offered for explicit
+approval: Virginia A100 PCIe 80 GB, offer 50723373, $1.275/h with 250 GB,
+free ingress and $0.0133/GB egress. Michael chose **“Wait for cheaper
+offer”**. Therefore the rental remains **ON HOLD**, with no create or
+destroy call made and no spending authorized on a replacement.
+
+Michael then asked what is available now and what it will cost. A fresh
+read-only check at **13:34:58 UTC** found zero instances and four matching
+on-demand, verified A100 80 GB offers (250 GB storage included in rates).
+The Virginia offer had disappeared too. Planning comparison assumes **five
+billed hours, 300 GB ingress and 1 GB egress** for preflight/endpoints;
+these are budgeting assumptions, not measured runtime or a price guarantee.
+
+| offer / location | hourly | ingress/GB | egress/GB | stage estimate | advertised CUDA |
+|---|---:|---:|---:|---:|---:|
+| 46608730 / Czechia | $1.1361 | $0.02604 | $0.03906 | $13.53 | 13.0 |
+| 21050987 / Sweden | $1.1413 | $0.002604 | $0.003906 | $6.49 | 12.2 |
+| 36695152 / Montana | $1.2569 | $0.002604 | $0.003906 | $7.07 | 13.0 |
+| 47239982 / Texas | $1.3099 | $0.03906 | $0.03906 | $18.31 | 13.0 |
+
+Montana is the current recommended practical choice: lower transfer costs
+and advertised CUDA 13.0 for the pinned cu130 wheel. Sweden is cheaper by
+about $0.58 under these assumptions but would need the older driver's
+compatibility investigated (Exp 5b's precedent). The current response is
+a price comparison, not rental authorization. Latest sanitized snapshot:
+`exp6-outcome-20261002/latest-offers.json` in the approved scratch directory.
