@@ -1,0 +1,7 @@
+{
+  "stage_passed": true,
+  "failures": [],
+  "complete_loads": 8,
+  "monitor_stage": "complete-awaiting-destroy-approval",
+  "predictor_seal_sha256": "5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189"
+}
