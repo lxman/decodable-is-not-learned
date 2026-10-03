@@ -1,0 +1,20 @@
+{
+ "stack": {
+  "torch": "2.12.1+cu130",
+  "transformers": "5.13.0",
+  "numpy": "2.4.6",
+  "safetensors": "0.8.0",
+  "tokenizers": "0.22.2",
+  "huggingface_hub": "1.22.0"
+ },
+ "device": "cuda",
+ "cuda": "13.0",
+ "gpu": "NVIDIA A100-SXM4-80GB",
+ "python": "3.11.17",
+ "platform": "Linux-5.15.0-177-generic-x86_64-with-glibc2.35",
+ "nvidia_smi": "NVIDIA A100-SXM4-80GB, 580.159.03, 81920 MiB",
+ "node": "dd36fc8f9a45",
+ "hf_hub_disable_xet": null,
+ "sha256": "3875584a5ab7aea315a26b6f3b38e992aad9a6dfee2bc86ba3a6dd4a7d193bb9",
+ "written_utc": "2026-10-03T04:07:32.751901+00:00"
+}
