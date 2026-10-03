@@ -1632,3 +1632,32 @@ tests are now received and acknowledged. The LaunchAgent remains installed
 and has no unacknowledged test work. Register the next real long job before
 leaving it unattended. Sweep-rental approval is still pending; no new
 instance or scientific computation was triggered by these fixtures.
+
+### Sweep rental authorized and created — 2026-10-03 03:49 UTC
+
+Michael confirmed **“go, if it's still there”** in response to the explicit
+request for another A100 at the quoted rates, approximately $30 for the
+sweep, with automatic release. At 03:48:44 UTC the original offer 36695152
+was absent; no create was attempted in that check. The SAME Montana machine
+**45380** remained available under refreshed offer **36695163**, with the
+same A100 SXM4 80 GB, 250 GB disk allocation, **$1.2569444444/h**, ingress
+**$0.0026041667/GB**, egress **$0.00390625/GB**, reliability .9992171 and
+867.1 Mbps quoted down. Rechecked zero existing instances and the prices
+before a single create; response returned **instance 53961674** at about
+**03:49:35 UTC**. Credit before: **$118.9778723444002**. Public SSH key
+attached; credentials stay on the Mac.
+
+**Ruling M-8:** the same physical host/hardware/terms under a rotated offer
+ID fulfills the conditional approval. Why: the quoted machine was still
+available and all price ceilings were met; no substitute host was booked.
+Cost if wrong: this one rental's billed time/transfer, bounded by immediate
+release when finished. Exact authorization, recheck and create receipts
+are in `exp6-sweep-20261003/` under approved scratch.
+
+Bare-image thermal screen launched detached at **03:53:50 UTC**, PID/session
+**78900**, with registered external watchdog `exp6-sweep-screen-53961674`.
+Pinned setup and transport checks follow a healthy screen, then gate 1-O
+on this host for each family's sweep. The prior outcome preflight remains
+the single completed preflight; no second diagnostic preflight is needed
+before the on-host production gates. Projection `98d207404` precedes every
+recorded sweep. Verdict analysis and close-out still require Michael's word.
