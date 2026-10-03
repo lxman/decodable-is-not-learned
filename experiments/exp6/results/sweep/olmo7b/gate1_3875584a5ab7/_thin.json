@@ -1,0 +1,21 @@
+{
+ "family": "olmo7b",
+ "key": "sweep_thin",
+ "repo": "allenai/OLMo-2-1124-7B",
+ "revision": "stage1-step928646-tokens3896B",
+ "commit": "c0371f4281bf2376207646c6b62ddc6c442c7577",
+ "config_commit": null,
+ "kind": "thin-loader",
+ "sha256": {},
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "10d0a1f87c7027904d2fb4666e34c2875025b00e68277aa60e7428fba84832f6",
+ "device": "cuda",
+ "dtype": "float16",
+ "host_sha256": "3875584a5ab7aea315a26b6f3b38e992aad9a6dfee2bc86ba3a6dd4a7d193bb9",
+ "n_nonfinite_logits": 0,
+ "download_seconds": 292.1
+}
