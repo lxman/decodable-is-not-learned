@@ -1618,3 +1618,17 @@ This verifies queued delivery and agent follow-up. The separate
 `watchdog-idle-test-20261003` waits for an inactive session before posting,
 so its idle wake-up result is still pending. No rental was created; the
 new sweep-rental approval request remains open.
+
+### Watchdog inactive-session wake-up PASSED — 2026-10-03 03:44 UTC
+
+The independent launchd watcher confirmed this session inactive and newly
+idle at **03:44:42.027306 UTC**, then submitted
+`msg_ca47e4b5dcab177807aa15acce83e020`. The actual notification resumed
+management without a user status question or tool-shell completion event.
+Inspected the registry and explicitly acknowledged at **03:44:51.457490 UTC**,
+about **9.43 seconds** after the idle observation. One delivery, no reminder;
+receipt `operations/monitoring-20261003/idle-delivery.json`. Both end-to-end
+tests are now received and acknowledged. The LaunchAgent remains installed
+and has no unacknowledged test work. Register the next real long job before
+leaving it unattended. Sweep-rental approval is still pending; no new
+instance or scientific computation was triggered by these fixtures.

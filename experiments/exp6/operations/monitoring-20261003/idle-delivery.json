@@ -1,0 +1,27 @@
+{
+  "id": "watchdog-idle-test-20261003",
+  "session_id": "ses_f11a0fbf9ffekAQskOrYbaRNO3",
+  "status_file": "/private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp6-monitoring-20261003/self-test-status.json",
+  "follow_up": "Idle-session wake-up self-test only. Acknowledge this job after receiving this actual notification, preserve its receipt, and report whether autonomous wake-up worked. No experiment runs or rental creates are authorized by this fixture.",
+  "pid_command": "",
+  "stale_seconds": 900,
+  "after_idle": false,
+  "registry": "/Users/michaeljordan/Library/Application Support/emergence-paper/monitor",
+  "registered_at": 1790998918.623451,
+  "idle_verified_at": 1790999082.027306,
+  "event": {
+    "kind": "terminal",
+    "stage": "watchdog-self-test",
+    "exit_code": 0,
+    "ended_utc": null
+  },
+  "deliveries": [
+    {
+      "id": "msg_ca47e4b5dcab177807aa15acce83e020",
+      "created_at": 1790999082.027306,
+      "attempted_at": 1790999082.027306,
+      "accepted_at": 1790999082.027306
+    }
+  ],
+  "acknowledged_at": 1790999091.45749
+}
