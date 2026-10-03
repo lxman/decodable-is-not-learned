@@ -1605,3 +1605,16 @@ config. Created `~/.config/opencode/opencode.json` with that value and the
 schema field. The V2 runtime confirmed normalization to
 `permissions: [{action:"*", resource:"*", effect:"allow"}]`. This is a
 tool-permission setting; it does not revise the experiment's standing plan.
+
+### Watchdog queued-delivery test received — 2026-10-03 03:43 UTC
+
+After the management turn ended, the actual synthetic notification
+`msg_4209cd882ee6d0c1409e701b85d3e787` resumed this session. Inspected the
+fixture and durable registry, then explicitly acknowledged
+`watchdog-delivery-test-20261003` at **03:43:21.346438 UTC**. One delivery,
+accepted at 03:34:41 while management was still active; no reminder was
+needed. Receipt: `operations/monitoring-20261003/queued-delivery.json`.
+This verifies queued delivery and agent follow-up. The separate
+`watchdog-idle-test-20261003` waits for an inactive session before posting,
+so its idle wake-up result is still pending. No rental was created; the
+new sweep-rental approval request remains open.

@@ -1,0 +1,26 @@
+{
+  "id": "watchdog-delivery-test-20261003",
+  "session_id": "ses_f11a0fbf9ffekAQskOrYbaRNO3",
+  "status_file": "/private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp6-monitoring-20261003/self-test-status.json",
+  "follow_up": "Delivery self-test only. Acknowledge this job, record that this message was received, and continue existing work. Do not run any experiment because of the fixture.",
+  "pid_command": "",
+  "stale_seconds": 900,
+  "after_idle": false,
+  "registry": "/Users/michaeljordan/Library/Application Support/emergence-paper/monitor",
+  "registered_at": 1790998480.983295,
+  "event": {
+    "kind": "terminal",
+    "stage": "watchdog-self-test",
+    "exit_code": 0,
+    "ended_utc": null
+  },
+  "deliveries": [
+    {
+      "id": "msg_4209cd882ee6d0c1409e701b85d3e787",
+      "created_at": 1790998481.0744781,
+      "attempted_at": 1790998481.0744781,
+      "accepted_at": 1790998481.0744781
+    }
+  ],
+  "acknowledged_at": 1790999001.346438
+}
