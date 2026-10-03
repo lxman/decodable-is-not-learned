@@ -1718,3 +1718,21 @@ to `exp6-sweep-20261003/operator-status.json`. Completion or operator failure
 resumes management through the tested external launchd path. Its first
 landing cycle must be checked before leaving the job unattended. Rental
 and sweep launch receipts: `operations/instance-53961674/launch/`.
+
+### Credential disclosure correction — 2026-10-03 UTC
+
+Michael identified `instance_api_key` in the tracked rental create response
+and reported a GitGuardian alert. Management incorrectly copied the raw
+response into launch evidence at `c793c7f41`; this is a real per-instance
+credential, not a harmless identifier. Vast documents container keys as
+capable of controlling their instance, including stop/destroy. The account
+API credential used by the Mac operator is a separate value.
+
+Redacted the instance key from the tracked response. The original value
+remains in prior private Git history; a redaction commit does not revoke
+it. History cleanup must preserve the experiment's frozen tag bindings
+and is not being represented as complete. Checking a supported instance-key
+revocation route separately. The Mac publisher was paused at an idle point
+for this correction and resumed afterward; the remote sweep continues.
+Future evidence copies must select permitted response fields rather than
+copying raw API responses. No secret value belongs in the release record.
