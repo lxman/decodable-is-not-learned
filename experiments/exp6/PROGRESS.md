@@ -1800,3 +1800,57 @@ commit; the remote sweep continues.
 ### Sweep instance 53961674 released — 2026-10-03T19:03:04.498111+00:00
 
 Authorized automatic release after `complete`. Complete remote evidence byte-verified and pushed at `6694ccdfe880154ed148bcd26e72c5ef2d7c8848` before DELETE. Verification: `{'stage_passed': True, 'failures': [], 'counts': {'smollm3_3b': 26, 'olmo7b': 21, 'olmo13b': 16, 'comma_7b': 24}, 'predictor_sha256': '5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189', 'endpoint_sha256': 'cd662c0249161278efd61967c4ad4adb824c73e2853cc16e3ede68f76d6e0e22', 'remote_exit_code': 0}`. Evidence/receipt: `operations/instance-53961674/`. Provider confirms absence; credit delta at check $24.522088, settlement may lag. No verdict analyzer or new rental was run.
+
+### Sweep completion independently verified; analyzer approval pending — 2026-10-03 UTC
+
+The external watchdog submitted the real completion notification at
+**19:04:01.174912 UTC**, about 55.5 seconds after the Mac operator's
+terminal write. Management resumed without a user status request, inspected
+the durable status, verified the operator process absent, and acknowledged
+at **19:04:40.899306 UTC**. **One delivery, no reminder.** Receipt:
+`operations/post-sweep-20261003/watchdog-receipt.json`.
+
+The production sweep ran **04:07:19.079486–19:02:02.098484 UTC**, exit 0,
+**14 h 54 m 43.02 s**. All **87 grid checkpoints** landed: SmolLM3 26,
+OLMo-7B 21, OLMo-13B 16, Comma 24. Four on-host gate-1 records passed;
+each endpoint's candidate read also supplies that grid's endpoint unit.
+The four extra thin-loader gate reads bring the campaign to **91 scored
+model reads**, 20 rungs × 500 items each; 87 grid units contain **870,000
+item evaluations**. This is collection volume, not a forecast statistic.
+
+At **19:06:01 UTC**, independently verified the compressed archive SHA256
+`2a6d28b5f2c340e6c5db93c4f780899522c0fb41b1152e31471ee9eee4563e5e`,
+every **2,013** member hashes against the manifest, and exact byte equality
+of all **2,001** canonical sweep/host files. The canonical file sets match
+the archive exactly. Full production sweep loaders re-derived completeness,
+provenance, tensor identity, host gates, anchors and endpoint reuse for all
+four families with **zero failures**; prerequisite endpoints/seals and
+frozen/import pins passed. GitHub master matched local HEAD
+`5c5aaf5cf2604b25671a0444c710b1d667f69f85`. Both verdict outputs are absent.
+
+The cold battery on the complete real tree passed **13/14, zero failures,
+one expected SKIP**: the analysis-executing read sweep was skipped by its
+frozen swept-tree guard. It rechecked the 93 predictor units/gate 1-P,
+sealed endpoints, floors/strata/referents, 33 preregistration blobs and the
+73 frozen/5 own import pins. No real-tree verdict invocation or forecast T
+was computed by these checks. Logs and verification summaries:
+`operations/post-sweep-20261003/`.
+
+**Finiteness disclosure:** OLMo-13B's **1k, 2k, 4k and 8k** loads each
+recorded **802,816 non-finite probed logits**; the other 83 grid probes
+were finite. These units remain as emitted under design §3.4's explicit
+rule. No checkpoint was retried, excluded or precision-adjusted to remove
+this observation. All anchor/provenance checks passed; no HALTED marker.
+
+Read-only provider recheck **19:05:54.874151 UTC** confirmed **zero instances**.
+Credit **$94.40523170460013**, sweep delta **$24.57264063980007** from its
+$118.9778723444002 baseline (release-time observation $24.5220883598;
+settlement can lag). After release, the previously exposed instance key
+returned **HTTP 401 / auth_error** on the documented instance-detail
+endpoint. The account key was not changed. Historical GitHub cache removal
+remains a separate Support action; no secret or object-ID fingerprint is
+included in this post-release receipt.
+
+**Next:** obtain Michael's explicit word for the one-time production verdict
+analyzer, then follow the reached licence. Close-out propagation retains
+its separate approval. No new instance was created.

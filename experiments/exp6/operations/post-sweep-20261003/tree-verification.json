@@ -1,0 +1,24 @@
+{
+  "verified_utc": "2026-10-03T19:06:01.012145+00:00",
+  "head": "5c5aaf5cf2604b25671a0444c710b1d667f69f85",
+  "remote_head_verified": true,
+  "archive_sha256": "2a6d28b5f2c340e6c5db93c4f780899522c0fb41b1152e31471ee9eee4563e5e",
+  "archive_files": 2013,
+  "canonical_sweep_and_host_files": 2001,
+  "remote_started_utc": "2026-10-03T04:07:19.079486+00:00",
+  "remote_ended_utc": "2026-10-03T19:02:02.098484+00:00",
+  "campaign_elapsed_seconds": 53683.018998,
+  "verification": {
+    "stage_passed": true,
+    "failures": [],
+    "counts": {
+      "smollm3_3b": 26,
+      "olmo7b": 21,
+      "olmo13b": 16,
+      "comma_7b": 24
+    },
+    "predictor_sha256": "5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189",
+    "endpoint_sha256": "cd662c0249161278efd61967c4ad4adb824c73e2853cc16e3ede68f76d6e0e22"
+  },
+  "verdict_files_absent": true
+}

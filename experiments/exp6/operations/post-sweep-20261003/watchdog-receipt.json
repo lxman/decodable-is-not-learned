@@ -1,0 +1,26 @@
+{
+  "id": "exp6-sweep-53961674",
+  "session_id": "ses_f11a0fbf9ffekAQskOrYbaRNO3",
+  "status_file": "/private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp6-sweep-20261003/operator-status.json",
+  "follow_up": "Inspect the sweep operator, validated checkpoints, archive and instance-53961674 release receipt. It owns automatic evidence-first release. Reconcile any error without a second rental. On completion verify the full tree and ask Michael before the separate verdict-analyzer run.",
+  "pid_command": "tools/exp6_sweep_operator.py",
+  "stale_seconds": 1200,
+  "after_idle": false,
+  "registry": "/Users/michaeljordan/Library/Application Support/emergence-paper/monitor",
+  "registered_at": 1791000526.149568,
+  "event": {
+    "kind": "terminal",
+    "stage": "released",
+    "exit_code": 0,
+    "ended_utc": "2026-10-03T19:03:05.672733+00:00"
+  },
+  "deliveries": [
+    {
+      "id": "msg_7697332b4547ce28b229496f8596ac59",
+      "created_at": 1791054241.174912,
+      "attempted_at": 1791054241.174912,
+      "accepted_at": 1791054241.174912
+    }
+  ],
+  "acknowledged_at": 1791054280.899306
+}

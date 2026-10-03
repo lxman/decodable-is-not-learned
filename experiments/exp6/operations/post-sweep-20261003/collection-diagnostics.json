@@ -1,0 +1,30 @@
+{
+  "loads": 87,
+  "gate_count": 4,
+  "all_gate_records_pass": true,
+  "nonfinite_probes": [
+    {
+      "family": "olmo13b",
+      "step": 8000,
+      "n_nonfinite_logits": 802816
+    },
+    {
+      "family": "olmo13b",
+      "step": 2000,
+      "n_nonfinite_logits": 802816
+    },
+    {
+      "family": "olmo13b",
+      "step": 1000,
+      "n_nonfinite_logits": 802816
+    },
+    {
+      "family": "olmo13b",
+      "step": 4000,
+      "n_nonfinite_logits": 802816
+    }
+  ],
+  "watchdog_accepted_utc": "2026-10-03T19:04:01.174912+00:00",
+  "watchdog_acknowledged_utc": "2026-10-03T19:04:40.899306+00:00",
+  "watchdog_deliveries": 1
+}
