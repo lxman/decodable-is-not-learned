@@ -1796,3 +1796,7 @@ outside the repository. This metadata alert is a false positive; it does
 not change the original real-key incident's outstanding revocation/cache
 status. The publisher was briefly synchronized for this metadata-only
 commit; the remote sweep continues.
+
+### Sweep instance 53961674 released — 2026-10-03T19:03:04.498111+00:00
+
+Authorized automatic release after `complete`. Complete remote evidence byte-verified and pushed at `6694ccdfe880154ed148bcd26e72c5ef2d7c8848` before DELETE. Verification: `{'stage_passed': True, 'failures': [], 'counts': {'smollm3_3b': 26, 'olmo7b': 21, 'olmo13b': 16, 'comma_7b': 24}, 'predictor_sha256': '5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189', 'endpoint_sha256': 'cd662c0249161278efd61967c4ad4adb824c73e2853cc16e3ede68f76d6e0e22', 'remote_exit_code': 0}`. Evidence/receipt: `operations/instance-53961674/`. Provider confirms absence; credit delta at check $24.522088, settlement may lag. No verdict analyzer or new rental was run.

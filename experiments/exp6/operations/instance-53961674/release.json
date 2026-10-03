@@ -1,0 +1,10 @@
+{
+  "instance": 53961674,
+  "destroy_verified_utc": "2026-10-03T19:03:04.498111+00:00",
+  "evidence_commit": "6694ccdfe880154ed148bcd26e72c5ef2d7c8848",
+  "credit_before": 118.9778723444002,
+  "credit_after_at_check": 94.45578398460013,
+  "credit_delta_at_check": 24.522088359800065,
+  "instances_remaining": 0,
+  "note": "Provider settlement may lag."
+}
