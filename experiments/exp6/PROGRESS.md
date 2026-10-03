@@ -1558,3 +1558,50 @@ Montana offer **36695152**, machine **45380**, A100 SXM4 80 GB,
 or fixed-price promise. Quote volatile; a new create requires approval.
 Exact quote/search is `exp6-sweep-preparation-20261003/quotes.json` under
 approved scratch. No create or model call was made in this check.
+
+### Ruling M-7 — durable completion delivery instead of a shell waiter
+
+Michael: **“You're not catching it when these jobs finish. You need to
+rethink your monitoring. Please continue.”** The earlier assurances that
+the background-shell completion would wake this session were wrong in
+practice. The logs show **OpenCode 2.0.19 evicted this project's location
+services at 2026-10-03 02:48:32.054 UTC**; the power waiter shell returned
+404 immediately afterward, before power finished at 03:01. The detached
+operator survived, validated and pushed successfully. The analogous endpoint
+monitor/release-guard shell handles were also missing by Oct 2 15:29, before
+their jobs ended. Provider release and data preservation worked; agent
+follow-up did not. No running job was killed to investigate this.
+
+**Ruling:** keep detached operators for compute, validation, publication and
+authorized cleanup; use a **separate macOS LaunchAgent** to deliver completion
+to OpenCode's durable session inbox. Why: it survives project-location
+eviction and does not depend on a tool shell waiting for hours. Cost if wrong:
+delivery delay/duplicates bounded by explicit ACK and stable message IDs;
+scientific execution remains outside the watcher.
+
+Implemented `tools/experiment_monitor.py` and `tools/experiment-monitor.md`.
+Installed `com.emergence-paper.experiment-monitor`, interval **60 seconds**,
+with user-local registry **`~/Library/Application Support/emergence-paper/monitor/`**.
+It detects terminal exit, missing/reused operator PID, missing/broken status
+after a grace period, and stale heartbeat. It persists an event ID before
+POST, uses `opencode api` for discovery/authentication and V2's
+`/api/session/{sessionID}/synthetic` with `resume:true`, reconciles uncertain
+POSTs against messages/inbox, retries failed delivery, and requires the
+resumed agent's explicit ACK. Accepted but unacknowledged events get at most
+two ten-minute reminders. No experiment, rental or verdict operation exists
+in the watcher. Run it only on the Mac; register each future long job.
+
+The user-local plist passed `plutil -lint`; launchd loaded it and its initial
+invocations exited 0. Unit coverage exercises ACK, uncertain acceptance,
+stable-ID retry across a fresh process, bounded reminders, PID failure,
+missing/stale state, and the idle-session gate. Live delivery test
+`watchdog-delivery-test-20261003` was **accepted into the actual session
+inbox** as `msg_4209cd882ee6d0c1409e701b85d3e787`; that alone is not a
+passed wake-up test. Its acknowledgment and the separate idle-session
+probe are recorded in the durable registry when actually received.
+
+Michael also explicitly requested **`"permission": "allow"`** in OpenCode's
+config. Created `~/.config/opencode/opencode.json` with that value and the
+schema field. The V2 runtime confirmed normalization to
+`permissions: [{action:"*", resource:"*", effect:"allow"}]`. This is a
+tool-permission setting; it does not revise the experiment's standing plan.
