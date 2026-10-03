@@ -1429,3 +1429,68 @@ authorization removes that wait. Neither helper runs the analyzer.
 ### Instance 53866292 automatically released — 2026-10-02T15:42:26.764599+00:00
 
 Michael authorized release without another approval on 2026-10-02. The remote run ended in `complete`; all endpoint/host files (including partial evidence on failure), operator logs and thermal log were copied and hash-verified, packed and checked again from the archive, then pushed at `a2f17777ca56e2f4f9a32a5e41a669371044ef46` before DELETE. Archive and verification: `operations/instance-53866292/`. Stage verification: `{'stage_passed': True, 'failures': [], 'complete_loads': 8, 'monitor_stage': 'complete-awaiting-destroy-approval', 'predictor_seal_sha256': '5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189'}`. The provider list now contains no instance 53866292. Credit delta at the check: $2.747469 (settlement can lag). No further rental was created.
+
+### Completed outcome stage reviewed; rung sets written — 2026-10-03 UTC
+
+At Michael's status check (“How is the run coming along?”), independently
+read the helpers' successful terminal records and confirmed both processes
+had exited. Preflight invocation 1 **PASSED**, **2026-10-02
+13:55:11.207189–14:37:24.232749 UTC**, **42 m 13.03 s**. SmolLM3's two
+paths gave identical continuations and tensor digests; every measured
+weight digest matched the Mac's committed one, and all anchor comparisons
+passed. The OLMo-13B first grid step reproduced its previously known fp16
+collapse: **802,816 non-finite probed logits**, empty continuations on the
+three diagnostic slices, anchor counts 0/0 matching the committed record.
+The design explicitly retains and discloses this unit (§3.4). Every other
+preflight read's finite probe had zero non-finite logits. Peak allocated
+memory reached **59.43 decimal GB**; these are process high-water readings,
+not independently reset per-model peaks (the same maximum appears on Comma).
+
+The endpoint campaign ran **14:37:25.030022–15:39:18.747611 UTC**,
+**61 m 53.72 s**: all **eight final/init loads**, 20 rungs × 500 items each,
+**160 rung records / 80,000 greedy item evaluations**. All five campaign
+CLI invocations (four families and the closing gate) exited 0. All eight
+load-level finiteness probes were finite. Gate 1(b) passed all sixteen
+anchor comparisons: two differences of one item (OLMo-13B sub_base8 +1,
+Comma sub_base8 −1), the other fourteen exact, tolerance 15 per comparison.
+The complete-load monitor independently validated and pushed the files.
+
+Release evidence at `a2f17777c`, receipt at `6d48f9325`. Reverified the
+committed **183-file archive** against its manifest, and all **170 canonical
+endpoint/host files** against the archived bytes. Archive SHA256
+`26bed2578efdd4bd9ddcecf6223ff331634ad8f51de56fc485a62d78d5ff0d30`.
+Read-only provider check **2026-10-03 01:40:56 UTC**: **zero instances**,
+credit **$118.9778723444002**, total delta **$2.817528527** from the
+$121.7954008714 baseline. This updates the release-time $2.747469 check;
+the release receipt remains the original timestamped observation.
+
+Ran production **`seal_endpoint_6.seal()` ONCE**, without injections,
+**2026-10-03 01:41:33.738393–01:41:36.563181 UTC**, HEAD
+`6d48f93256a8ead8be572c124cc3a5c43c7f527b`. It re-derived provenance,
+floors/heuristics, gate 1(b), pin checks and the rule-based rung sets, then
+wrote `results/endpoint/rung_sets_6.json`, SHA256
+`98750c96dc2affb0e50220610c7964deab672411a2581ed0ea4d72ac6f8fc260`,
+naming the 170 files. R_f sizes: **SmolLM3 12, OLMo-7B 10, OLMo-13B 12,
+Comma 10**; **R_heuristic nine each**. Exact members and flat rungs are in
+that record. The endpoint tag follows the power record, not this write.
+
+**Ruling M-6: proceed to the planned one-time Mac power calculation.**
+Why: design §4/§7 fixes this stage after the endpoints; standing management
+authorization covers it. Run the production CLI with default **eight
+workers**, BLAS/OMP thread counts limited to one per worker to avoid
+oversubscription. Seeds and simulation/permutation counts are unchanged.
+Cost if wrong: operator/compute time; a refusal is inspected without an
+automatic second simulation. It uses the sealed-stage loaders (including
+the analyzer module's loaders), not the verdict runner; no sweep or T from
+real intermediate checkpoints exists.
+
+The detached operator `exp6-endpoint-power.py` is in the approved scratch
+directory, SHA256
+`bce80646052e93777c2eade50d73bb80bfb4c3dbc81e46067336e66c12d14ee8`.
+Syntax checked. Run state, exact launch HEAD/UTC/PIDs, heartbeat and logs
+are in `exp6-endpoint-power-20261003/`. After the production child exits 0,
+the operator re-derives power declarations, input sets and tree from the
+real data, checks pins, then commits/pushes power and run evidence under
+`operations/endpoint-power-20261003/`. **No hand commit while it is live.**
+Completion/error wakes this session for review, endpoint tag and projection.
+Future rental, verdict and close-out approval gates remain in force.
