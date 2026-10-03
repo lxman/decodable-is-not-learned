@@ -1,0 +1,182 @@
+{
+ "family": "smollm3_3b",
+ "rungs": {
+  "modarith_add1": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 6,
+   "host_count": 6,
+   "abs_diff_vs_sealed": 0
+  },
+  "modarith_sub1": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 0,
+   "host_count": 0,
+   "abs_diff_vs_sealed": 0
+  },
+  "modarith_mul1": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 1,
+   "host_count": 1,
+   "abs_diff_vs_sealed": 0
+  },
+  "unscramble_short": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 92,
+   "host_count": 92,
+   "abs_diff_vs_sealed": 0
+  },
+  "unscramble_long": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 18,
+   "host_count": 18,
+   "abs_diff_vs_sealed": 0
+  },
+  "ipa_word": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 50,
+   "host_count": 50,
+   "abs_diff_vs_sealed": 0
+  },
+  "sort3": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 134,
+   "host_count": 134,
+   "abs_diff_vs_sealed": 0
+  },
+  "sort5": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 23,
+   "host_count": 23,
+   "abs_diff_vs_sealed": 0
+  },
+  "deduction3": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 223,
+   "host_count": 223,
+   "abs_diff_vs_sealed": 0
+  },
+  "deduction5": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 145,
+   "host_count": 145,
+   "abs_diff_vs_sealed": 0
+  },
+  "ascii_bubble": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 130,
+   "host_count": 130,
+   "abs_diff_vs_sealed": 0
+  },
+  "ascii_basic": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 0,
+   "host_count": 0,
+   "abs_diff_vs_sealed": 0
+  },
+  "shapes": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 83,
+   "host_count": 83,
+   "abs_diff_vs_sealed": 0
+  },
+  "temporal": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 61,
+   "host_count": 61,
+   "abs_diff_vs_sealed": 0
+  },
+  "lcs": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 71,
+   "host_count": 71,
+   "abs_diff_vs_sealed": 0
+  },
+  "unit_interp1": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 131,
+   "host_count": 131,
+   "abs_diff_vs_sealed": 0
+  },
+  "unit_interp2": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 140,
+   "host_count": 140,
+   "abs_diff_vs_sealed": 0
+  },
+  "add_base8": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 118,
+   "host_count": 118,
+   "abs_diff_vs_sealed": 0
+  },
+  "sub_base8": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 309,
+   "host_count": 309,
+   "abs_diff_vs_sealed": 0
+  },
+  "ctrl_copy": {
+   "compared": 500,
+   "bit_diffs": 0,
+   "continuation_diffs": 0,
+   "sealed_count": 491,
+   "host_count": 491,
+   "abs_diff_vs_sealed": 0
+  }
+ },
+ "rungs_compared": 20,
+ "items_per_rung": 500,
+ "digest_thin": "381178b285d5738a219fc0af77eab4d07985e3e1c594c12116ae1deb1a6c6ec9",
+ "digest_candidate": "381178b285d5738a219fc0af77eab4d07985e3e1c594c12116ae1deb1a6c6ec9",
+ "digest_sealed": "381178b285d5738a219fc0af77eab4d07985e3e1c594c12116ae1deb1a6c6ec9",
+ "commit": "d07a5a83dd011f3f084e9d2f1b47f51e524ca8d4",
+ "tolerance_per_rung": 15,
+ "failures": [],
+ "pass": true,
+ "host_sha256": "3875584a5ab7aea315a26b6f3b38e992aad9a6dfee2bc86ba3a6dd4a7d193bb9",
+ "prereg_tag": "exp6-preregistered",
+ "endpoint_sha256": "cd662c0249161278efd61967c4ad4adb824c73e2853cc16e3ede68f76d6e0e22",
+ "stack": {
+  "torch": "2.12.1+cu130",
+  "transformers": "5.13.0"
+ },
+ "git_sha": "dda3ea2c1646d8c2857a1010107fdaf0b8983523"
+}
