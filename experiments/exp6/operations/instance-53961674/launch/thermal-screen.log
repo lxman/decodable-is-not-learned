@@ -1,0 +1,13 @@
+image torch 2.5.1+cu121
+idle: 30, 210 MHz, 1410 MHz, 65.18 W, 0 %, Not Active, Not Active, Not Active
+t= 14.0s   278.2 TFLOP/s  | 58, 1335 MHz, 1410 MHz, 342.65 W, 100 %, Not Active, Not Active, Active
+t= 28.2s   277.4 TFLOP/s  | 55, 1395 MHz, 1410 MHz, 103.22 W, 100 %, Not Active, Not Active, Active
+t= 42.3s   276.6 TFLOP/s  | 64, 1350 MHz, 1410 MHz, 498.65 W, 100 %, Not Active, Not Active, Active
+t= 56.5s   276.2 TFLOP/s  | 59, 1395 MHz, 1410 MHz, 120.63 W, 100 %, Not Active, Not Active, Active
+t= 70.6s   275.7 TFLOP/s  | 68, 1320 MHz, 1410 MHz, 498.33 W, 100 %, Not Active, Not Active, Active
+t= 84.8s   275.4 TFLOP/s  | 69, 1365 MHz, 1410 MHz, 504.03 W, 100 %, Not Active, Not Active, Active
+t= 99.0s   275.1 TFLOP/s  | 69, 1320 MHz, 1410 MHz, 491.12 W, 100 %, Not Active, Not Active, Active
+t=113.1s   275.0 TFLOP/s  | 66, 1365 MHz, 1410 MHz, 504.29 W, 100 %, Not Active, Not Active, Active
+done: 61, 1380 MHz, 1410 MHz, 493.35 W, 100 %, Not Active, Not Active, Active
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!

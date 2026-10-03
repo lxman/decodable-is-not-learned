@@ -1,0 +1,23 @@
+{
+  "authorized": "go, if it's still there; quoted Montana sweep rental and automatic release",
+  "utc": "2026-10-03T03:49:35.651663+00:00",
+  "credit_before": 118.9778723444002,
+  "offer": {
+    "id": 36695163,
+    "machine_id": 45380,
+    "gpu_name": "A100 SXM4",
+    "gpu_ram": 81920,
+    "num_gpus": 1,
+    "dph_total": 1.2569444444444444,
+    "inet_down_cost": 0.0026041666666666665,
+    "inet_up_cost": 0.00390625,
+    "inet_down": 867.1,
+    "inet_up": 925.5,
+    "reliability2": 0.9992171,
+    "disk_space": 948.5,
+    "cuda_max_good": 13.0,
+    "geolocation": "Montana, US"
+  },
+  "disk_gb": 250,
+  "offer_note": "Original offer ID rotated; identical quoted machine 45380, hardware class and prices rechecked."
+}

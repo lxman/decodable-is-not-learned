@@ -1,0 +1,6 @@
+{
+  "classic_mbps": 23.2,
+  "xet_mbps": 64.0,
+  "used": "xet",
+  "file": "EleutherAI/pythia-160m/model.safetensors@50f5173d932e8e61f858120bcb800b97af589f46"
+}

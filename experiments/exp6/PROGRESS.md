@@ -1700,3 +1700,21 @@ tests cover corruption, path confinement, live-group refusal, archive/push
 before DELETE, failed-push retention, failed-science evidence and wrong-host
 refusal. **No hand commit while the Mac operator is live**; it owns result
 publication and the terminal release ledger entry. No verdict run is included.
+
+### Production checkpoint sweep launched — 2026-10-03 04:07 UTC
+
+Remote supervisor started **04:07:19.079486 UTC**, PID/session **6006**,
+campaign PID/process group **6912**, on authorized instance **53961674**.
+Box HEAD **`dda3ea2c1646d8c2857a1010107fdaf0b8983523`**; projection
+ancestor, clean initial checkout, 33 frozen bindings and both seal hashes
+checked before the frozen campaign started. Wrapper SHA256
+`21462e14059ab902326e5d67842163d8593b3a2214e553d41d3d079898d3c646`.
+Read-back confirmed both supervisor and process group alive in `sweeping`,
+zero checkpoints yet and no gate records yet (initial download/setup).
+
+The Mac operator launches after this ledger commit, with durable status/PID
+and detached session; watchdog registration **`exp6-sweep-53961674`** points
+to `exp6-sweep-20261003/operator-status.json`. Completion or operator failure
+resumes management through the tested external launchd path. Its first
+landing cycle must be checked before leaving the job unattended. Rental
+and sweep launch receipts: `operations/instance-53961674/launch/`.

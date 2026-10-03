@@ -1,0 +1,44 @@
+[setup] /root free: 267 GB (need 230 GB; request 250 GB)
+[setup] /workspace free: 267 GB (need 230 GB; request 250 GB)
+downloading uv 0.12.22 x86_64-unknown-linux-gnu
+installing to /root/.local/bin
+  uv
+  uvx
+everything's installed!
+
+To add $HOME/.local/bin to your PATH, either restart your shell or run:
+
+    source $HOME/.local/bin/env (sh, bash, zsh)
+    source $HOME/.local/bin/env.fish (fish)
+Downloading cpython-3.11.17-linux-x86_64-gnu (download) (29.4MiB)
+ Downloaded cpython-3.11.17-linux-x86_64-gnu (download)
+Installed Python 3.11.17 in 1.22s
+ + cpython-3.11.17-linux-x86_64-gnu (python3.11)
+Using CPython 3.11.17
+Creating virtual environment with seed packages at: venv
+ + packaging==26.3
+ + pip==26.2.1
+ + setuptools==84.0.0
+ + wheel==0.48.0
+Activate with: source venv/bin/activate
+Cloning into '/workspace/emergence-paper'...
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+Already on 'master'
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+exp6-endpoint-sealed
+exp6-predictor-sealed
+exp6-preregistered
+torch 2.12.1+cu130 cuda 13.0 True NVIDIA A100-SXM4-80GB
+transformers 5.13.0 numpy 2.4.6 safetensors 0.8.0 tokenizers 0.22.2 hub 1.22.0 scipy 1.17.1
+hf_xet present
+NVIDIA A100-SXM4-80GB, 580.159.03, 81920 MiB
+overlay         250G  8.2G  242G   4% /
+host {"cuda": "13.0", "device": "cuda", "gpu": "NVIDIA A100-SXM4-80GB", "hf_hub_disable_xet": null, "node": "dd36fc8f9a45", "nvidia_smi": "NVIDIA A100-SXM4-80GB, 580.159.03, 81920 MiB", "platform": "Linux-5.15.0-177-generic-x86_64-with-glibc2.35", "python": "3.11.17", "sha256": "3875584a5ab7aea315a26b6f3b38e992aad9a6dfee2bc86ba3a6dd4a7d193bb9", "stack": {"huggingface_hub": "1.22.0", "numpy": "2.4.6", "safetensors": "0.8.0", "tokenizers": "0.22.2", "torch": "2.12.1+cu130", "transformers": "5.13.0"}, "written_utc": "2026-10-03T04:00:07.073635+00:00"}
+prereg bindings 33
+endpoint seal cd662c0249161278efd61967c4ad4adb824c73e2853cc16e3ede68f76d6e0e22
+dry-run smollm3_3b {'pending': [3440000, 40000, 80000, 120000, 160000, 200000, 240000, 280000, 320000, 360000, 400000, 600000, 800000, 1000000, 1200000, 1400000, 1600000, 1800000, 2000000, 2200000, 2400000, 2600000, 2800000, 3000000, 3200000, 3400000]}
+dry-run olmo7b {'pending': [928646, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 192000, 256000, 320000, 384000, 448000, 512000, 576000, 640000, 704000, 768000, 832000, 896000]}
+dry-run olmo13b {'pending': [596057, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 192000, 256000, 320000, 384000, 448000, 512000, 576000]}
+dry-run comma_7b {'pending': [460000, 10000, 20000, 40000, 60000, 80000, 100000, 120000, 140000, 160000, 180000, 200000, 220000, 240000, 260000, 280000, 300000, 320000, 340000, 360000, 380000, 400000, 420000, 440000]}
+transports {"classic_mbps": 23.2, "file": "EleutherAI/pythia-160m/model.safetensors@50f5173d932e8e61f858120bcb800b97af589f46", "used": "xet", "xet_mbps": 64.0}

@@ -1,0 +1,11 @@
+{
+  "client_id": "me",
+  "image": "vastai/pytorch",
+  "disk": 250,
+  "ssh": true,
+  "jupyter": false,
+  "direct": false,
+  "runtype": "ssh",
+  "label": "exp6-sweeps",
+  "extra_env": {}
+}

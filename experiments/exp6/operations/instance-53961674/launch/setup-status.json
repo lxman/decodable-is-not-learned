@@ -1,0 +1,18 @@
+{
+  "pid": 80277,
+  "sid": 80277,
+  "instance": 53961674,
+  "stage": "ready-for-sweep-review",
+  "started_utc": "2026-10-03T03:57:50.616086+00:00",
+  "last_check_utc": "2026-10-03T04:01:26.713907+00:00",
+  "remote": {
+    "pid": 2045,
+    "sid": 2045,
+    "stage": "ready-for-sweep",
+    "started_utc": "2026-10-03T03:58:20.259656+00:00",
+    "exit_code": 0,
+    "ended_utc": "2026-10-03T04:00:56.356609+00:00"
+  },
+  "exit_code": 0,
+  "ended_utc": "2026-10-03T04:01:28.182889+00:00"
+}

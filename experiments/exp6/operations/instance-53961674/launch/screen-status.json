@@ -1,0 +1,10 @@
+{
+  "pid": 78900,
+  "sid": 78900,
+  "instance": 53961674,
+  "stage": "screen-complete-awaiting-review",
+  "started_utc": "2026-10-03T03:53:50.237896+00:00",
+  "ready_utc": "2026-10-03T03:53:51.383254+00:00",
+  "exit_code": 0,
+  "ended_utc": "2026-10-03T03:56:06.238469+00:00"
+}
