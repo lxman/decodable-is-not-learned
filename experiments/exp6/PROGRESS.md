@@ -1736,3 +1736,49 @@ revocation route separately. The Mac publisher was paused at an idle point
 for this correction and resumed afterward; the remote sweep continues.
 Future evidence copies must select permitted response fields rather than
 copying raw API responses. No secret value belongs in the release record.
+
+### Credential removed from branch history — 2026-10-03 04:21 UTC
+
+Michael asked **“Can we remove it from git history?”** Management carried
+out a targeted rewrite of the linear suffix after **`1f7c70cf3`**, replacing
+only the response's credential-bearing blob with its sanitized version.
+The initial full scan read **138,985 reachable Git objects / 1,270,211,296
+bytes** and found exactly one matching blob at the disclosed response path.
+The publisher landed two more commits during preparation, so **five**
+commits required new IDs by the time it was paused at an idle point.
+
+Rewrite and explicit-old-head **force-with-lease** push completed at
+**04:21:56.877897 UTC**, old head `32e5a8d71` → **`3dad4b64c`**; the remote
+head was independently read back. Original author/committer metadata,
+timestamps and messages were preserved. The final tree is byte-identical
+to the pre-rewrite already-redacted tree. **Every tag object is unchanged**;
+all 33 preregistration bindings and both predictor/endpoint seals reverified.
+The sweep box is still at `dda3ea2c1`, before the disclosure and rewrite
+boundary, so its provenance and projection ancestry remain intact.
+
+The post-rewrite scan read **139,010 reachable objects / 1,270,742,345
+bytes**, **zero matches**. Removed only the 18 affected local reflog entries
+and **15 obsolete objects** unique to the retired suffix, including the
+credential blob; all unrelated objects and refs were verified preserved.
+An initial purge guard refused an over-inclusive revision-range object
+listing before any object deletion; the corrected exact reachable-set
+difference produced the 15-object manifest. `git fsck --connectivity-only
+--no-dangling` passed, and lookup of the removed local blob now fails.
+
+Receipts, scans and full old→new commit map are in
+`operations/history-cleanup-20261003/`. First changed commit:
+`c793c7f419632eec3b74a152c881b8ae719e599a` →
+`1f7cd091218258b4f67af28d664dec8926dd53e8`.
+The Mac publisher was resumed after each synchronized operation and is
+healthy, **2/87** checkpoints landed at 04:24 UTC, no validation errors.
+The remote GPU campaign was never paused.
+
+**Remaining exposure:** the repository is private, with zero forks and no
+advertised pull-request refs, but an authenticated GitHub API check still
+retrieves the old blob by object ID. GitHub's documented server-side
+garbage-collection/cache purge requires **GitHub Support**. This session's
+desktop browser is disconnected, so no Support ticket was submitted.
+The instance key has not been revoked; rewriting history does not do that.
+It did not appear among the two account keys, and no independent supported
+instance-key revocation route has been established. Do not mark the
+GitGuardian incident fully remediated on the basis of this rewrite alone.

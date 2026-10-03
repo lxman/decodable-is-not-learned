@@ -1,0 +1,14 @@
+{
+  "revision_arguments": [
+    "--all"
+  ],
+  "objects": 138985,
+  "bytes": 1270211296,
+  "matches": [
+    {
+      "oid": "6abf70c6ca377758c307e853aab731da3990a0c5",
+      "type": "blob",
+      "path": "experiments/exp6/operations/instance-53961674/launch/create-response.json"
+    }
+  ]
+}
