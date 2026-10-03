@@ -1,0 +1,25 @@
+{
+ "family": "smollm3_3b",
+ "key": 3000000,
+ "repo": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+ "revision": "stage1-step-3000000",
+ "commit": "40eb8bf5d7f01d262edf2c2f5cf0ec047a6c5db5",
+ "config_commit": null,
+ "kind": "safetensors-shards",
+ "sha256": {
+  "model-00001-of-00002.safetensors": "dd41f47d94f5b1c46f6e453ad4e43f913d5eeeb1d209f94dccd746660fbc75bf",
+  "model-00002-of-00002.safetensors": "316aaad8df1e37330aee048b3de27e69b1705a85350dab5313060ff890160fca",
+  "model.safetensors.index.json": "e3a7254c086c4a78f95ad5864f435d165ffed1ed8998326ce5107b4423c15b76"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "0581eabec98f29fc6cc56a2ee208ad6b60ab5905f418ed27cbe015af14d3ecd2",
+ "device": "cuda",
+ "dtype": "float16",
+ "host_sha256": "3875584a5ab7aea315a26b6f3b38e992aad9a6dfee2bc86ba3a6dd4a7d193bb9",
+ "n_nonfinite_logits": 0,
+ "download_seconds": 87.1
+}
