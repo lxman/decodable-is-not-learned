@@ -1494,3 +1494,67 @@ real data, checks pins, then commits/pushes power and run evidence under
 `operations/endpoint-power-20261003/`. **No hand commit while it is live.**
 Completion/error wakes this session for review, endpoint tag and projection.
 Future rental, verdict and close-out approval gates remain in force.
+
+### Power completed; endpoint tag and projection — 2026-10-03 UTC
+
+Production power launched at **01:47:42.525468 UTC**, HEAD
+`0cb6a6c765f6a68fd506dda86195a481ac7d5b1f`, detached operator PID/session
+**57620**, child PID/session **58053**. The single production CLI finished
+**03:01:06.548221 UTC**, exit 0; input/declaration/tree verification finished
+**03:01:15.685256 UTC**, zero failures. Output and operator evidence were
+committed/pushed automatically at **`5a6a3a8c2a797cb19c52d2374a12a847649cc9f8`**.
+Operator evidence is in `operations/endpoint-power-20261003/`; the full power
+record is `results/power_6.json`, SHA256
+`a405f34e59c1323eea3645e8d466565f1f9d75491c3820e075bf7aef689621df`.
+
+At **03:26:58 UTC**, management independently checked the actual file hash,
+real sealed inputs, all eight declarations, the tree, and frozen/import pins.
+No simulation was repeated. Every test retained all of its endpoint R_f:
+**12 / 10 / 12 / 10 rungs**, none THIN or predictor-degenerate. Counts:
+**1,000 simulations, 500 permutations** per power cell; 200 block-SD
+simulations per outcome family.
+
+| test | outcome | P(fires at .15) | P(fires at .10) | null SD(T) | declaration |
+|---|---|---:|---:|---:|---|
+| A | SmolLM3 | .998 | .598 | .014845 | POWERED |
+| A | OLMo-7B | .993 | .386 | .014309 | POWERED |
+| A | OLMo-13B | 1.000 | .428 | .011914 | POWERED |
+| A | Comma | .983 | .614 | .019317 | POWERED |
+| B | SmolLM3 | .999 | .597 | .015654 | POWERED |
+| B | OLMo-7B | .997 | .607 | .014653 | POWERED |
+| B | OLMo-13B | 1.000 | .535 | .012161 | POWERED |
+| B | Comma | .977 | .490 | .021153 | POWERED |
+
+Under the declared independent-family simulation, the estimated Fréchet
+bounds for GENERAL at .15 are **[.999738614, .999833476]**. These are
+simulation-derived resolution figures, not a forecast probability or a
+claim that real families are independent. Each null test had **0/1,000**
+false fires; its one-sided 95% binomial upper bound is about **.003**, not
+a claim of a true zero rate. The full record preserves the simulated tree
+figures and the independence/shape qualifications.
+
+Created annotated **`exp6-endpoint-sealed`** at the power commit; tag object
+**`d917de3b9502906c0bc8f28ae405de26f4c7009f`**. Production
+`sweep_6.require_endpoint_seal` verified **172 file bindings**; pushed and
+remote tag/peeled commit matched. Composite endpoint SHA256:
+`cd662c0249161278efd61967c4ad4adb824c73e2853cc16e3ede68f76d6e0e22`.
+The initial operator dry-run call omitted the required `family` argument
+and raised TypeError before runner entry or model contact; corrected to
+one production dry-run per family, all passed, **26 / 21 / 16 / 24 pending**.
+
+The projection is `projection.md`, written after power and before recorded
+sweeps, with the earlier diagnostic first-step contact explicitly disclosed.
+It calls **GENERAL**, main alternative **OLMO-ONLY**; gives eight numeric
+forecasts and fire calls, type/rung ranges, both-direction disconfirmers,
+secondary claims and every licence landing. This is the agent's forecast,
+not Michael's prose and not a result. No analyzer verdict run occurred.
+
+Read-only rental/account check **03:37:39 UTC**: zero instances,
+credit **$118.9778723444002**. Lowest compatible total-cost quote:
+Montana offer **36695152**, machine **45380**, A100 SXM4 80 GB,
+**$1.256944/h including 250 GB**, ingress **$0.00260417/GB**, egress
+**$0.00390625/GB**, CUDA 13.0, reliability .9992171. For **20 billed hours,
+1,800 GB in and 2 GB out**, estimated **$29.8342**, not a measured runtime
+or fixed-price promise. Quote volatile; a new create requires approval.
+Exact quote/search is `exp6-sweep-preparation-20261003/quotes.json` under
+approved scratch. No create or model call was made in this check.
