@@ -1782,3 +1782,17 @@ The instance key has not been revoked; rewriting history does not do that.
 It did not appear among the two account keys, and no independent supported
 instance-key revocation route has been established. Do not mark the
 GitGuardian incident fully remediated on the basis of this rewrite alone.
+
+### Cleanup metadata false positive — 2026-10-03 UTC
+
+Michael reported a second GitGuardian alert, on `credential_blob` in the
+tracked history-cleanup receipt. Recomputed Git's SHA-1 over the original
+response bytes with its blob header: the flagged value is exactly that
+**Git object ID**, not an API credential. The misleading field name made
+this a poor metadata choice. Removed that field and the same object ID
+from the other tracked cleanup receipts, retaining the scan counts, file
+path, commit map and purge totals. Full local operator receipts remain
+outside the repository. This metadata alert is a false positive; it does
+not change the original real-key incident's outstanding revocation/cache
+status. The publisher was briefly synchronized for this metadata-only
+commit; the remote sweep continues.

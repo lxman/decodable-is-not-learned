@@ -5,23 +5,7 @@
     "refs/remotes/origin/master": 6
   },
   "reflog_note": "Removed in the initial invocation, which then stopped at the object-count guard before deleting objects. The corrected exact-set-difference invocation performed the verified 15-object purge.",
-  "obsolete_objects_removed": [
-    "0517213977c1c67eb93154864a3e712169f5d4f7",
-    "0764399ca7efd6132f6d2e27189c03c2b2a40d1b",
-    "220e71dbbb5c1397c6361e123cf3822b6b1100d6",
-    "32e5a8d713f6d203c31569083135ef2f5a3f8cd6",
-    "41174437781b1fdc8afb592825b45b60af017f9d",
-    "423c0d99ccddbee44c3e7452daa9d74c1ab90f94",
-    "466a72ac0b749ad8be1a6c1ea0f3fda5964f64d9",
-    "6abf70c6ca377758c307e853aab731da3990a0c5",
-    "6e28eac75d79bd3cb6003043a0825782e2b1f23e",
-    "aee1e5f2e4ab373a5db2083ad09c765f5c01bdee",
-    "b499a2782f8220236cbd3fda8be34d1741787da4",
-    "c793c7f419632eec3b74a152c881b8ae719e599a",
-    "e52651dafbaccee5f0486631035018f74cd84876",
-    "ee46e6cd72cb593ba3b8911f897cd122e12d8345",
-    "f98604b187dcbbc1836af7353973c82844e87023"
-  ],
+  "object_ids_omitted_from_tracked_copy": true,
   "removed_object_count": 15,
   "unrelated_objects_preserved": true,
   "refs_unchanged": true
