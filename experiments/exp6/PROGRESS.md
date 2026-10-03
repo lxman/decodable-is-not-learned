@@ -1661,3 +1661,42 @@ on this host for each family's sweep. The prior outcome preflight remains
 the single completed preflight; no second diagnostic preflight is needed
 before the on-host production gates. Projection `98d207404` precedes every
 recorded sweep. Verdict analysis and close-out still require Michael's word.
+
+### Sweep setup passed; evidence-first operator prepared — 2026-10-03 UTC
+
+Bare-image thermal screen **03:53:51–03:56:06 UTC**: about **275–278
+TFLOP/s**, 55–69°C under sustained load, 1320–1395 MHz against a 1410 MHz
+maximum; no software/hardware thermal slowdown. Power cap active under
+load, without throughput collapse. Screen inspected and watchdog acknowledged.
+
+Pinned setup **03:58:20–04:00:56 UTC**, exit 0: 267 decimal GB free on both
+checked paths initially, torch **2.12.1+cu130**, driver **580.159.03**, all
+package pins matched. All **33 preregistration blobs** and both seal bindings
+passed. Four production dry runs reported **87 pending** checkpoints.
+Transport probe: classic **23.2 MB/s**, xet **64.0 MB/s**; keep xet enabled.
+Transferred bundle SHA256
+`260298edaa31dbfd7fcbe367a6bf6e355807a6378794553773d223b3d87879af`,
+box HEAD **`dda3ea2c1646d8c2857a1010107fdaf0b8983523`**. Setup operator
+logs/receipts are in scratch `exp6-sweep-20261003/box-logs/`; no model was
+constructed in setup or the transport probe.
+
+`tools/exp6_sweep_box.py` wraps the frozen campaign (SmolLM3 → OLMo-7B →
+Comma → OLMo-13B) in a detached supervisor with status/heartbeat, fixed box
+HEAD and seal checks. `tools/exp6_sweep_operator.py` handles complete-load
+pulls every three minutes, remote/local byte identity, on-host gate
+re-derivation, provenance, tensors, anchors and endpoint reuse before each
+publication. It uses analyzer **loaders only**, never the verdict runner or
+forecast-statistic functions. The installed external watchdog watches its
+status/PID independently of OpenCode's tool shell.
+
+The same Mac operator owns automatic release of **53961674 only**: after
+the remote supervisor and campaign process group finish, archive all sweep,
+host and operator evidence (including partial/failure records), verify the
+compressed bytes, push and verify the remote git head, check machine/label,
+then destroy and confirm absence. Scientific refusal preserves evidence
+and allows release; failed transfer or push stops before DELETE. Ambiguous
+DELETE is reconciled against the provider list. Seven isolated release
+tests cover corruption, path confinement, live-group refusal, archive/push
+before DELETE, failed-push retention, failed-science evidence and wrong-host
+refusal. **No hand commit while the Mac operator is live**; it owns result
+publication and the terminal release ledger entry. No verdict run is included.
