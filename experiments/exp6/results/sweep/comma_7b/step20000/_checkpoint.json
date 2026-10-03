@@ -1,0 +1,28 @@
+{
+ "family": "comma_7b",
+ "key": 20000,
+ "repo": "common-pile/comma-v0.1-1t",
+ "revision": "stage1-step020000-tokens42B",
+ "commit": "d131fd948ad673114817863ebf7ba51bada5c2ed",
+ "config_commit": null,
+ "kind": "safetensors-shards",
+ "sha256": {
+  "model-00001-of-00003.safetensors": "74c18e7688811f1ea45192da1bbea3d55b988bfd2e069c19555ecdc5389bd5f4",
+  "model-00002-of-00003.safetensors": "d11759b2e873305bb347d2428538537ce0fdcdc40f190821a8d1584c51d4e0fd",
+  "model-00003-of-00003.safetensors": "32a95cc2c5a9ee9691b507408b534c431e8a1ebe4655d06f94cd70064be80fa4",
+  "model.safetensors.index.json": "0680bed29d47232ebc63b88927a885d398c8656770faa49c2770bf06c252b2bb"
+ },
+ "loading_info": {
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "mismatched_keys": 0
+ },
+ "digest": "b1a9c09f1aa17e4da8ede6543e4b00504c826ff8410dc6f32bee3689793e5553",
+ "device": "cuda",
+ "dtype": "float16",
+ "host_sha256": "3875584a5ab7aea315a26b6f3b38e992aad9a6dfee2bc86ba3a6dd4a7d193bb9",
+ "n_nonfinite_logits": 0,
+ "download_seconds": 171.0,
+ "config_eos_token_id": 2,
+ "generation_eos_token_id": 3
+}
