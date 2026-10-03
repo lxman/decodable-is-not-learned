@@ -1,0 +1,40 @@
+[2i power] D_true 0.1: rho 0.119 P(fires) 0.490
+[2i power] D_true 0.1: rho 0.136 P(fires) 0.614
+[2i power] D_true 0.1: rho 0.145 P(fires) 0.607
+[2i power] D_true 0.1: rho 0.151 P(fires) 0.386
+[2i power] D_true 0.1: rho 0.134 P(fires) 0.597
+[2i power] D_true 0.1: rho 0.155 P(fires) 0.535
+[2i power] D_true 0.1: rho 0.151 P(fires) 0.598
+[2i power] D_true 0.1: rho 0.177 P(fires) 0.428
+[2i power] D_true 0.15: rho 0.173 P(fires) 0.977
+[2i power] D_true 0.15: rho 0.188 P(fires) 0.983
+[2i power] D_true 0.15: rho 0.205 P(fires) 0.997
+[2i power] D_true 0.15: rho 0.218 P(fires) 0.993
+[2i power] D_true 0.15: rho 0.193 P(fires) 0.999
+[2i power] D_true 0.15: rho 0.228 P(fires) 1.000
+[2i power] D_true 0.15: rho 0.212 P(fires) 0.998
+[2i power] D_true 0.15: rho 0.262 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.221 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.239 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.263 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.281 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.247 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.299 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.267 P(fires) 1.000
+[2i power] D_true 0.2: rho 0.345 P(fires) 1.000
+A:smollm3_3b   POWERED                            P(fires | D_true = 0.15) = 0.998 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0148
+A:olmo7b       POWERED                            P(fires | D_true = 0.15) = 0.993 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0143
+A:olmo13b      POWERED                            P(fires | D_true = 0.15) = 1.000 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0119
+A:comma_7b     POWERED                            P(fires | D_true = 0.15) = 0.983 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0193
+B:smollm3_3b   POWERED                            P(fires | D_true = 0.15) = 0.999 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0157
+B:olmo7b       POWERED                            P(fires | D_true = 0.15) = 0.997 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0147
+B:olmo13b      POWERED                            P(fires | D_true = 0.15) = 1.000 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0122
+B:comma_7b     POWERED                            P(fires | D_true = 0.15) = 0.977 against the bar 0.75; null false-fire rate 0.000; null SD of T 0.0212
+P(GENERAL at D = 0.1) in [0.0, 0.31713084867200003]
+P(GENERAL at D = 0.15) in [0.999738614, 0.9998334759999999]
+P(GENERAL at D = 0.2) in [1.0, 1.0]
+P(GENERAL under the null) in [0.0, 0.0]
+P(BATTERY-BOUND at D = 0.1) in [0.0, 0.23051218545000007]
+P(BATTERY-BOUND at D = 0.15) in [0.0, 6.899999993592587e-08]
+P(BATTERY-BOUND at D = 0.2) in [0.0, 0.0]
+P(BATTERY-BOUND under the null) in [1.0, 1.0]

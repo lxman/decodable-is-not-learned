@@ -1,0 +1,174 @@
+{
+  "pid": 57620,
+  "sid": 57620,
+  "started_utc": "2026-10-03T01:47:42.525468+00:00",
+  "operator_sha256": "bce80646052e93777c2eade50d73bb80bfb4c3dbc81e46067336e66c12d14ee8",
+  "stage": "validated",
+  "head": "0cb6a6c765f6a68fd506dda86195a481ac7d5b1f",
+  "command": [
+    "/Users/michaeljordan/emergence-lab/.venv/bin/python",
+    "-u",
+    "-m",
+    "experiments.exp6.power_6",
+    "--jobs",
+    "8"
+  ],
+  "predictor_sha256": "5dbe5f2f700b2d64b28cfb6f29c6334eb7c12978b7bbba6051c7e0f7d9508189",
+  "rung_sets_sha256": "98750c96dc2affb0e50220610c7964deab672411a2581ed0ea4d72ac6f8fc260",
+  "thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "jobs": 8,
+  "child_pid": null,
+  "child_sid": 58053,
+  "last_alive_utc": "2026-10-03T02:59:45.170211+00:00",
+  "elapsed_seconds": 4322.637074167025,
+  "power_exit_code": 0,
+  "compute_ended_utc": "2026-10-03T03:01:06.548221+00:00",
+  "validated_utc": "2026-10-03T03:01:15.685256+00:00",
+  "power_file_sha256": "a405f34e59c1323eea3645e8d466565f1f9d75491c3820e075bf7aef689621df",
+  "verification_failures": [],
+  "tests": {
+    "A:smollm3_3b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "shapes",
+        "lcs",
+        "unit_interp1",
+        "unit_interp2"
+      ]
+    },
+    "A:olmo7b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "shapes",
+        "unit_interp2"
+      ]
+    },
+    "A:olmo13b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "shapes",
+        "lcs",
+        "unit_interp1",
+        "unit_interp2"
+      ]
+    },
+    "A:comma_7b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "modarith_add1",
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "unit_interp2"
+      ]
+    },
+    "B:smollm3_3b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "shapes",
+        "lcs",
+        "unit_interp1",
+        "unit_interp2"
+      ]
+    },
+    "B:olmo7b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "shapes",
+        "unit_interp2"
+      ]
+    },
+    "B:olmo13b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "shapes",
+        "lcs",
+        "unit_interp1",
+        "unit_interp2"
+      ]
+    },
+    "B:comma_7b": {
+      "declared_status": "POWERED",
+      "thin": false,
+      "rungs_simulated": [
+        "modarith_add1",
+        "unscramble_short",
+        "unscramble_long",
+        "ipa_word",
+        "sort3",
+        "sort5",
+        "deduction3",
+        "deduction5",
+        "ascii_bubble",
+        "unit_interp2"
+      ]
+    }
+  },
+  "wall_seconds": 4413.151970833016
+}
