@@ -235,3 +235,13 @@ implementer owns this follow-on, then scoped re-review of F6 only.
 
 Evidence: `planning/feasibility-rereview-20261004/`; management reproduction:
 `planning/management-check-20261004/missing-runner-reproduction.json`.
+
+F6 repair: `78ffc8c99`, evidence publication `eb957a6cc`. The comparator now
+requires all six execution modules, walks their historical relative-import
+closure, and refuses unbound package initializers. Management matched the
+stored `review-f6.diff` to Git, checked all thirteen verifier pins against
+the recorded commit, and reproduced **38 passing tests** with model/tokenizer
+imports and network operations blocked. The exact coherent specification-only
+HEAD attack is included. Receipt/log:
+`planning/management-check-20261004/feasibility-f6-suite.*`. Scoped independent
+F6-only re-review is in progress; no regeneration or archive rewrite occurred.
