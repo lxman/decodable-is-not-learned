@@ -35,3 +35,25 @@ Full generation attempts: **none yet**. Tokenizer/model contact: **none**.
 - The miniature endpoint baseline succeeds on every deduction fixture. This
   was foreseeable from the declared relational graphs and is retained, not
   used to filter or redesign items. No full batch/baseline executed yet.
+
+## Full attempts 001/002 — preserved, superseded for collision coverage
+
+- Prototype committed/pushed **e8e32be4a** after 20 tests passed (2.164 s).
+- Command `python -m experiments.exp7.feasibility.run --run-id full-001`:
+  2026-10-04 17:04:40–17:04:47 UTC, 2,000 pairs / 8,000 prompts, initial
+  certificate PASS. `full-002` was the one exact repeat of that version;
+  `python -m experiments.exp7.feasibility.compare full-001 full-002` found
+  all eight deterministic artifacts byte-identical. Receipts carry exact times.
+- **Self-review defect F3, before contact:** old Exp 6 `shot_records` carry
+  `meta` without a `question` field; their question bytes live separately in
+  `shots`. Source indexing covered those question strings/scrambles, but the
+  structural-metadata branch only ran on dicts containing `question`. Thus
+  old shot deduction orders, unit number tuples and polygon keys were omitted.
+  The initial certificates' structural scope is incomplete and **superseded**.
+  Every initial artifact is retained unchanged under `runs/full-001` and
+  `runs/full-002`; the initial byte comparison is `runs/determinism.json`.
+- Ruling F3: repair this implementation omission, add a regression requiring
+  all `shot_records` metadata keys, recertify in new directories, then repeat
+  the corrected version once. No source/matching/stratum/baseline choice or
+  substantive design constraint changes. Candidate exclusions may change if
+  an omitted shot key was encountered. The endpoint shortcut remains retained.

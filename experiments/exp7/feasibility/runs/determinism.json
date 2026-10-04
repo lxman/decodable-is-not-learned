@@ -1,0 +1,44 @@
+{
+  "artifacts": {
+    "artifacts.json": {
+      "equal": true,
+      "sha256": "3c18450eb28cfd89e49eea12661b0c605e5d890b546df3e7512225a1cfb4c631"
+    },
+    "attempts.jsonl": {
+      "equal": true,
+      "sha256": "64070219e506c77c4221ac248ced87c8be97d272181eff664ba09a3c938cec48"
+    },
+    "baseline-outputs.jsonl": {
+      "equal": true,
+      "sha256": "222147c51939fdd79628951fed98f0d1c533783beaad7a4d8dcaf0b9017fe6df"
+    },
+    "baselines.json": {
+      "equal": true,
+      "sha256": "acc0959ee71fb82ce6766391b44beed78defdd8d20aafe6f2f8b2a5fa61b43bf"
+    },
+    "certificate.json": {
+      "equal": true,
+      "sha256": "7fcec18b500ab024c6a0bc0666742ee2a72cd748695a1c9d554dc1baa5209cfa"
+    },
+    "launch-pins.json": {
+      "equal": true,
+      "sha256": "126830339997595cb4c3a256356a6a885e8d1554d6d0afa2a3e368625a9bde21"
+    },
+    "oracles.jsonl": {
+      "equal": true,
+      "sha256": "f403468b698fc8c7cd1f433896c209dc84f36f30b3111160f88659f683f9ca38"
+    },
+    "pairs.jsonl": {
+      "equal": true,
+      "sha256": "361a89652222df8131185f946ded5b8962eb213b42e18890223c7f2eb349fe1b"
+    }
+  },
+  "excluded_from_byte_comparison": [
+    "receipt-start.json",
+    "receipt-end.json"
+  ],
+  "first": "full-001",
+  "ok": true,
+  "second": "full-002",
+  "source_pins_rechecked": 103
+}
