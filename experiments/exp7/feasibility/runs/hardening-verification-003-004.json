@@ -1,0 +1,109 @@
+{
+  "artifacts": {
+    "artifacts.json": {
+      "equal": true,
+      "sha256": "e65fe94278d553e075dc0538241c950e42ed7f0e477923ecc81817012faa732e"
+    },
+    "attempts.jsonl": {
+      "equal": true,
+      "sha256": "64070219e506c77c4221ac248ced87c8be97d272181eff664ba09a3c938cec48"
+    },
+    "baseline-outputs.jsonl": {
+      "equal": true,
+      "sha256": "222147c51939fdd79628951fed98f0d1c533783beaad7a4d8dcaf0b9017fe6df"
+    },
+    "baselines.json": {
+      "equal": true,
+      "sha256": "acc0959ee71fb82ce6766391b44beed78defdd8d20aafe6f2f8b2a5fa61b43bf"
+    },
+    "certificate.json": {
+      "equal": true,
+      "sha256": "00238fa53b313bbefc2cbe75c4dd2ef19054823234d78f9573244b23a1029c96"
+    },
+    "launch-pins.json": {
+      "equal": true,
+      "sha256": "875a40329cf6b5cd542190b08a7cfbf45c9c13f04f5f773f03dd3c7f5c8faa96"
+    },
+    "oracles.jsonl": {
+      "equal": true,
+      "sha256": "f403468b698fc8c7cd1f433896c209dc84f36f30b3111160f88659f683f9ca38"
+    },
+    "pairs.jsonl": {
+      "equal": true,
+      "sha256": "361a89652222df8131185f946ded5b8962eb213b42e18890223c7f2eb349fe1b"
+    }
+  },
+  "excluded_from_byte_comparison": [
+    "receipt-start.json",
+    "receipt-end.json"
+  ],
+  "first": "full-003",
+  "full_generation_performed": false,
+  "ok": true,
+  "second": "full-004",
+  "source_pins_rechecked": 103,
+  "verification_code_pins": {
+    "PLAN.md": "93c163f26619cc76ea955a9da94cdec22aab1d893023688fe491c066295ae951",
+    "SPEC.md": "755b87a541d84a06338cc2c5a63628a04f1a888915d3305a49b7041185ca6052",
+    "audit.py": "2b12f8512ce7c964a2326838d5d2d966befe9c813d9870c6e8cf0565afdc16a3",
+    "baselines.py": "19cdda67a045c5a19da5f2e60574a7ecf4283a3d9e87f2d9e1cad643fbaa7996",
+    "compare.py": "0b3dd7328162b6fe3d22d90082cf552cd9ffc93f721e3ff877cf21a33c988c24",
+    "generate.py": "d30df65ceca887e0806fe1fb0a292b0617c7c1667f31a7c63230d83ecb436d10",
+    "inventory.py": "f4ee6b81cd20db72536aa04d36c994110985f17e418c3ba9bedd8ec0afca87f3",
+    "oracle.py": "3a650d09a67c43b9b0a653fdf73b9d812053b75db12a42759eb96bbf3a4a7ef7",
+    "run.py": "9c6af209eeff4771f6f38689a5dc0aea32bc869e6a859b6011bcd3bbd3365f4e",
+    "source_inventory.json": "d1f3d5c33556cf5bb9333d420373d3bf89316b561d3e15e7e82995f02cb1f70b",
+    "sources.py": "43a5faec684209333f9ccb6dfea4ae50e35a8e73ca7b2a8318284e3205a3943c",
+    "test_feasibility.py": "9c3bee4d7cff8775a03a8d87fa2b81f84fe5b811d3e519a11433adaa5b4c3908",
+    "test_hardening.py": "9dfea9fd2e2f5bd36eb62c8514ddb874c12043350ab0b97c9cb7badae05a32e6"
+  },
+  "verification_head": "2a9fbef6c01a5e5ad93698dd0ae709867ed0efb8",
+  "verified_archives": {
+    "full-003": {
+      "baseline_cells": 84,
+      "baseline_output_records": 24500,
+      "certificate_fields_exact": true,
+      "exact_seeded_option_assignments": 1500,
+      "exact_seeded_orientation_assignments": 2000,
+      "exact_seeded_render_assignments": 2000,
+      "historical_launch_pins": 12,
+      "launch_head": "5ad3ccb078b559d275c6f505bad0a9d42414aa8e",
+      "oracle_arms": 8000,
+      "pairs": 2000,
+      "source_git_blobs": 103,
+      "source_inventory_fields": [
+        "computations",
+        "excluded",
+        "item_files",
+        "pins",
+        "snapshot",
+        "unit_enumeration_capacity_before_old_collisions",
+        "word_pair_capacity",
+        "word_rows"
+      ]
+    },
+    "full-004": {
+      "baseline_cells": 84,
+      "baseline_output_records": 24500,
+      "certificate_fields_exact": true,
+      "exact_seeded_option_assignments": 1500,
+      "exact_seeded_orientation_assignments": 2000,
+      "exact_seeded_render_assignments": 2000,
+      "historical_launch_pins": 12,
+      "launch_head": "5ad3ccb078b559d275c6f505bad0a9d42414aa8e",
+      "oracle_arms": 8000,
+      "pairs": 2000,
+      "source_git_blobs": 103,
+      "source_inventory_fields": [
+        "computations",
+        "excluded",
+        "item_files",
+        "pins",
+        "snapshot",
+        "unit_enumeration_capacity_before_old_collisions",
+        "word_pair_capacity",
+        "word_rows"
+      ]
+    }
+  }
+}

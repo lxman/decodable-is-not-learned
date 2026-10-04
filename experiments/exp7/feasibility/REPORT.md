@@ -1,6 +1,8 @@
 # Experiment 7 generation feasibility
 
-**Construction PASS, pending fresh independent review.** Corrected evidence:
+**Construction PASS; independent review ready for build planning.** Its two
+nonblocking verifier findings are closed by the saved-evidence hardening below.
+Corrected evidence:
 `runs/full-003/`; exact repeat: `runs/full-004/`. Both contain **500 pairs
 per family, 2,000 pairs and 8,000 distinct questions**. Every rendered
 question has exactly one independent-oracle answer, equal to its stored
@@ -212,7 +214,53 @@ Commands (from repository root; standard interpreter shown explicitly):
 ```
 
 The run and comparison paths now exist and correctly refuse overwrite.
-21 tests passed; import scan found only stdlib and this feasibility package.
-Fresh independent review follows. The later complete-code build plan must
+The initial 21 tests passed; import scan found only stdlib and this feasibility
+package. The later complete-code build plan must
 carry the checked logic and the disclosed shortcut/support limits through
 production review/freeze; these prototypes supply no contact authorization.
+
+## Independent-review hardening on saved evidence
+
+Review confirmed the existing battery, all eight deterministic artifacts,
+2,000 schedules and 1,500 target-option assignments. Two nonblocking defects
+were reproduced before fixing them: jointly incomplete archives could pass
+comparison, and aggregate checks could accept shifted IDs or reassigned
+seeded schedules. Ten new regressions failed on the old verifier. The final
+combined suite now has **35 passing tests**, including positive validation of
+historical pins under later verifier edits.
+
+Fix commit: **2a9fbef6c01a5e5ad93698dd0ae709867ed0efb8**. Review diff:
+`review-hardening.diff`, against parent
+`380453ee5652e7aba9398df927c094059d7419f6`, covering only `audit.py`,
+`compare.py` and `test_hardening.py`.
+
+`runs/hardening-verification-003-004.json` is the distinct write-once receipt:
+
+- Fixed ten-file archive inventory and seven-entry artifact manifest required.
+- Both receipt launch HEADs resolve to actual commit
+  `5ad3ccb078b559d275c6f505bad0a9d42414aa8e`; all **12 historical launch
+  pins** match the complete code/spec inventory at that commit. Receipt
+  command identity, interpreter and UTC interval are checked.
+- All **eight source-inventory fields and bytes** match exactly. Every one
+  of **103 source paths** is verified against actual Git blobs at both the
+  approval snapshot and launch HEAD, as well as the current input bytes.
+- Every certificate field, including code/source pins and attempt counts,
+  matches the hardened audit of saved evidence.
+- Each archive passes **2,000 exact family-slot IDs, 2,000 seeded orientation
+  assignments, 2,000 render assignments, 1,500 target-option assignments**, and
+  the existing oracle/matching/collision/stratum checks on all 8,000 prompts.
+- Saved accepted-attempt records, 2,000 oracle bundles, **84 baseline cells
+  and 24,500 baseline output records** agree with deterministic revalidation.
+- All eight deterministic artifact byte comparisons still match. Historical
+  certificates, code pins and other archive outputs were preserved unchanged.
+
+Commands:
+
+```sh
+/Users/michaeljordan/emergence-lab/.venv/bin/python -m unittest experiments.exp7.feasibility.test_feasibility experiments.exp7.feasibility.test_hardening
+/Users/michaeljordan/emergence-lab/.venv/bin/python -m experiments.exp7.feasibility.compare full-003 full-004 --output hardening-verification-003-004.json
+```
+
+**No fifth generation.** This is saved-pair/oracle/baseline revalidation; the
+generation tally stays four and the approved dials remain unchanged. Rulings
+F4/F5 and test history are in `RUNS.md`.

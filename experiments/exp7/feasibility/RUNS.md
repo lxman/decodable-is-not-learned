@@ -169,3 +169,39 @@ strict integer orientation: **35 passed in 30.119 s**, using
 `/Users/michaeljordan/emergence-lab/.venv/bin/python -m unittest
 experiments.exp7.feasibility.test_feasibility
 experiments.exp7.feasibility.test_hardening`.
+
+### Hardened saved-archive verification — complete
+
+Code/tests/review diff committed and pushed at
+**2a9fbef6c01a5e5ad93698dd0ae709867ed0efb8**. Diff base is management HEAD
+`380453ee5652e7aba9398df927c094059d7419f6`; `review-hardening.diff` contains
+only audit/compare/new-test changes, and is 23,376 bytes.
+
+Ran once on the real saved archives:
+
+```sh
+/Users/michaeljordan/emergence-lab/.venv/bin/python -m experiments.exp7.feasibility.compare full-003 full-004 --output hardening-verification-003-004.json
+```
+
+**PASS**, distinct receipt `runs/hardening-verification-003-004.json`, verifier
+HEAD `2a9fbef6c01a5e5ad93698dd0ae709867ed0efb8`. Each archive independently
+passes: fixed complete file/manifest inventory; original receipt HEAD and
+12 historical code/spec pins against actual Git blobs; all eight exact source
+inventory fields/bytes and 103 source paths at approval and launch Git
+snapshots; exact certificate code/source pins and all measured fields; all
+2,000 saved pair/oracle bundles and 8,000 rendered answers; 2,000 seeded
+orientation/render assignments and 1,500 ordered option assignments; all
+accepted attempt records, 84 baseline cells and 24,500 baseline outputs.
+
+All eight deterministic artifacts still byte-match between 003/004. The
+receipt separately records 13 *current verifier* pins; these do not replace
+the original 12 launch pins. Historical artifacts were never edited. The
+approved specification, generator and dials are unchanged; **generation
+tally remains four**, no fifth invocation and no model contact.
+
+Final saved-receipt check: all 13 verifier pins also match actual Git blobs
+at verifier HEAD, and the saved review diff equals the committed three-file
+code/test diff exactly. Receipt SHA256:
+`fc6e3a68f122b9827f39d9dc09b45ee6897ee89ae3ca5f466b5de3cb3fc9aec0`.
+Git diff confirms no changes to any historical full-run directory, SPEC or
+generator. This entry accompanies the separate documentation/receipt revision.
