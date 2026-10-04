@@ -133,7 +133,14 @@ def check_imported(source, own):
         filename = getattr(mod, "__file__", None)
         if not filename:
             continue
-        p = Path(filename).absolute()
+        if not Path(filename).is_absolute():
+            # Dynamic torch.ops namespaces use synthetic labels like _ops.py;
+            # they are not files relative to the analysis working directory.
+            origin = getattr(getattr(mod, "__spec__", None), "origin", None)
+            if not origin or not Path(origin).is_absolute():
+                continue
+            filename = origin
+        p = Path(filename)
         if p.is_relative_to(source.root):
             rel = p.relative_to(source.root).as_posix()
             (own if rel in OWN else source).bind(p)

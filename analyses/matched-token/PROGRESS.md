@@ -90,3 +90,22 @@ All statistics/bootstrap exercised by tests used miniature synthetic arrays
 and explicit four-draw fixtures; no production comparison or production
 bootstrap has been computed. Real validation-only is pending the committed
 launch binding. Independent review and management's one production run remain.
+
+### Validation-only attempt 1 and import-label correction
+
+Code/tests/build ledger committed and pushed at `c9bd0f2fa`. Command
+`/Users/michaeljordan/emergence-lab/.venv/bin/python analyses/matched-token/analyze.py --validate-only`
+refused (exit 2): `binding: _ops.py absent from
+6deb2d55fd170cf76cae325ff41e4c750b2b775f`. No results directory, comparison or
+bootstrap was produced. This is the first actual-source validation invocation,
+not a production analysis invocation (production count remains **zero**).
+
+**Build finding B5 (closed):** PyTorch's dynamic `torch.ops` namespaces carry
+synthetic relative `__file__` labels such as `_ops.py`. The import audit had
+mistakenly anchored that label at the repository working directory. A focused
+synthetic regression failed first, then the audit was changed to use actual
+absolute file/spec origins; synthetic labels with no file origin are not
+repository source. The before-execution import finder still binds every actual
+repository module, and entry/exit checks retain absolute source paths.
+The same full pytest command now reports **26 passed in 2.00 s**. This correction
+changes validation-path handling only; the fixed analysis rules are unchanged.

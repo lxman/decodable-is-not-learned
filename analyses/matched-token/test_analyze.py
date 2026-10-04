@@ -192,6 +192,16 @@ def test_import_refuses_before_execution(tmp_path):
         sys.path.remove(str(tmp_path))
 
 
+def test_import_audit_ignores_synthetic_relative_module_labels(monkeypatch):
+    # PyTorch creates dynamic torch.ops namespaces with this non-file label.
+    calls = []
+    pin = SimpleNamespace(root=a.ROOT, bind=lambda path: calls.append(path))
+    monkeypatch.setitem(sys.modules, "synthetic_torch_ops", SimpleNamespace(__file__="_ops.py", __spec__=None))
+    a.check_imported(pin, pin)
+    assert a.ROOT / "_ops.py" not in calls
+    assert Path(a.__file__) in calls  # real repository source remains covered
+
+
 def test_rung_tamper_reverification():
     # Actual frozen contract, entirely synthetic capability and record.
     from experiments.exp5 import battery_5 as b5
