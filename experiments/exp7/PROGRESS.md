@@ -686,3 +686,37 @@ Management reproduction: `planning/management-statistics-v3-review-20261004/`.
 The integration author received acceptance of statistics-v3, collection-v2 and
 operations-v2. All local correction waves are now closed; complete assembly,
 source/task reconciliation and independent whole-plan review still remain.
+
+## Complete assembly delivered; final-layout tests and whole-plan review active
+
+The integration author delivered the complete literal assembly: **177 installable
+files**, 34 guarded test tasks and a **273-file delivery manifest**, SHA256
+`a1b9fa82f0bcca00a24d8929413bc9e1da44909636f5f759bc17a4b2a583ad54`.
+Management verified each binding, unique source ownership and dependency ordering,
+compiled 161 Python bodies without execution, reconstructed the exact upstream
+delta and confirmed unchanged accepted statistics-v3/operations-v2 and corrected
+C-1. Archive: `docs/superpowers/plans/2026-10-04-exp7-annex/integration-v1/`.
+
+The source includes StatsCampaignAdapter, genuinely serialized fake producer
+worlds, complete contact inventory, independent runtime preparation, fixed O8
+bootstrap/heartbeat/verifier/transport bindings and full future freeze workers.
+The author's 270 unique methods have passing evidence reconciled from a 269-test
+run with one failure/one error plus targeted fixes and one new test. This is not
+yet management's clean combined-suite claim. No full-default numerical worlds,
+full mutation kills or two-real-process numerical determinism are asserted.
+
+Management launched the final **direct installed-layout** guarded registry in
+isolated scratch, detached PID **1168**, with durable status and monitor job
+`exp7-integration-management-20261004`. Expected duration is about 25 minutes from
+the author's earlier bounded run, not a campaign forecast. Automatic completion
+follow-up is registered to this session. Initial checks/operator/launch evidence:
+`planning/management-integration-check-20261004/`. A fresh independent reviewer
+owns the mandatory whole-composition review in separate scratch.
+
+**Pending plan reconciliation:** the delivered ownership registry groups many
+modules into G1–G6/G7–G10/O1–O7/I-O8 blocks despite the standing module-by-module
+build rule. Also, author `EXECUTIONS.md:52–53` attributes supervisor-root and
+late-fault choices to Michael; no such owner approval is recorded in the main
+ledger. Preserve those historical delivery bytes, but do not infer approval
+from them. Correct attribution/task dispatch must be resolved in the reviewed
+plan. Scientific dials and current feasibility/planning authorization are unchanged.
