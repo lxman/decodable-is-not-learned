@@ -568,3 +568,27 @@ Review: `planning/collection-v2-review-20261004/`, manifest SHA256
 `f6c6d9667c380b6c3e167cf2635e9445a85f0c036a64ca5745d50f6345ba49cf`.
 Management reproduction: `planning/management-collection-v2-check-20261004/`.
 B17–B19 and final integration retain their separate owner/review prerequisites.
+
+## Statistics correction wave reproduced; scoped review active
+
+Statistics-v2 is delivered and archived with **103 verified bindings**, manifest
+SHA256 `a1e04f2ffff37e1427f08b3c7681321875887818205a59cdd2d7da9d896234ea`.
+Management independently reconstructed the exact v1→v2 diff and before/after
+inventory, verified the unchanged v1/core archives and reproduced **60 statistics
+tests plus 48 inherited core tests**, zero failures/errors/skips or forbidden
+imports. The inherited tests overlap prior suites. The scientific kernels,
+bootstrap, secondaries, corrected C-1 reference, null-case metadata and guarded
+launcher remain byte-identical to statistics-v1.
+
+The delivered repairs address SR1–SR5; scoped independent re-review is underway,
+so those findings are not yet declared closed. The integration author received
+the changed v3 contract: independently rederive sealed predictor/stratum geometry
+for saved-power checks, preserve version2 saved arithmetic, and require a
+committed exact runtime authority for pre-tag calibration. Runtime discovery in
+the test fixture is synthetic authority only, never production enrollment.
+
+Annex: `docs/superpowers/plans/2026-10-04-exp7-annex/statistics-v2/`.
+Management checker/receipts: `planning/management-statistics-v2-check-20261004/`.
+Full-default saved-record fixtures use fabricated counts with zero RNG; inherited
+stochastic checks remain miniature. No production calibration, envelope, power,
+verdict, model/tokenizer contact or rental occurred.
