@@ -22,11 +22,12 @@ answer, and does the strength of that target-sensitive shift predict which
 question pairs a larger model learns to answer correctly?**
 
 Each unit is a counterfactual pair of valid tasks with two different correct
-answers. Both answer strings are scored under both prompts. A preference
-for saying `a` rather than `b` that is invariant to the prompt cancels
-algebraically. Meaning-preserving variants check sensitivity to rendering.
+answers. Both answer strings are scored under both prompts. Compare their
+**conditional proportions within each prompt**, so fixed odds of saying `a`
+rather than `b` cancel even if the total probability of emitting either
+target changes. Meaning-preserving variants check sensitivity to rendering.
 
-The result can distinguish **prompt-invariant answer preference** from
+The result can distinguish **prompt-invariant conditional target odds** from
 **input-sensitive, correctly directed output structure** that transfers to
 a later model. It cannot distinguish every form of general item difficulty
 from partial competence. Nor can it establish that an internal algorithm
@@ -98,6 +99,10 @@ design ruling before model contact; do not silently relax it.
 
 - Exactly one answer under an independent oracle for each question. q0/q1
   must differ in answer; the shams must preserve their own answer.
+  Unscrambling uniqueness is relative to the committed lexicon. Unit-role
+  swaps must change the oracle result; swapping interchangeable operands of
+  a commutative operation is not a counterfactual. Shape re-indexing must
+  operate on a closed-path representation whose geometry is preserved.
 - Neither pair member or sham may duplicate an old evaluation question or
   another pair's question. Word content can have appeared before; a fresh
   scrambling is not evidence of unseen vocabulary. State that limitation.
@@ -107,8 +112,9 @@ design ruling before model contact; do not silently relax it.
   responders therefore cannot answer both counterfactuals correctly.
 - Fix the model-free baseline list before generated-item inspection: constant
   answer; option position; answer length/frequency; input-copy; option absent
-  from the question; direct endpoint read-off; dimensional-role-blind numeric
-  rules; path segment-count/bounding-box rules. Audit each per family and
+  from the question; query-word-only and clue-degree/endpoint rules;
+  dimensional-role-blind numeric rules; path segment-count/bounding-box rules.
+  Audit each per family and
   commit its paired success/selectivity. Do not discard items merely because
   a baseline succeeds; fix actual generator/definition defects before freeze.
 - Shapes with a direct segment-count solution are a foreseeable weak control.
@@ -119,6 +125,9 @@ design ruling before model contact; do not silently relax it.
   names overlap (a square is also a rectangle), the shared prompt must state
   the fixed most-specific-label convention and the oracle must enforce it.
   Do not count an otherwise valid geometric name as an arbitrary model error.
+- The feasibility certificate must demonstrate usable stratum support as
+  well as 500 valid pairs; hundreds of singleton nominal blocks do not make
+  a usable forecast instrument.
 
 A positive result measures input-sensitive target emission, which can include
 an inexpensive task-specific shortcut. Passing this audit does not certify
@@ -136,35 +145,54 @@ Both predictors are smaller than the outcome in parameter count. Their
 training exposure is not matched to each outcome checkpoint. This is not
 an independent causal manipulation of model size or of training tokens.
 
-For one pair and one render v (canonical or sham), define:
+For one pair and one render v (canonical or sham), form the target-coded
+2×2 count table from its two sets of k independent draws:
 
-`d_iv = [p(a0 | q0v) - p(a1 | q0v) + p(a1 | q1v) - p(a0 | q1v)] / 2`.
+| | Emits a0 | Emits a1 |
+|---|---:|---:|
+| q0v, correct a0 | n00 | n01 |
+| q1v, correct a1 | n10 | n11 |
 
-If `p(a | q0v) = p(a | q1v)` for each of the two answer strings, `d_iv=0`,
-whatever the two strings' prior probabilities. This permits a different
-prior for every pair and render. It does not cancel input-dependent lexical
-compatibility, copying or a prompt-dependent heuristic; those are part of
-the bounded input-sensitive reading.
+Other outputs contribute to neither column. Let m0=n00+n01 and m1=n10+n11.
+The **within-render conditional target shift** is
 
-Across all four prompts, C is the number of outputs matching that prompt's
-correct target and W is the number matching the other member's target.
-An output can match at most one target because normalized a0≠a1.
+`x_iv = n00/m0 - n10/m1` if both m0 and m1 are positive, otherwise **0**.
 
-- **Signed target shift:** `d_i = (C-W)/(4k)`, equal to the mean of the two
-  render-level contrasts. This is an absolute probability contrast.
-- **Target availability:** `u_i = (C+W)/(4k)`, how often either target is
-  emitted, regardless of designation.
-- **Primary predictor:** `x_i = (C-W)/(C+W+1)`. This shrinks the conditional
-  preference toward zero when target emissions are sparse; C+W=0 gives 0.
-  No pseudocount, clipping or tie-breaking choice is tuned after sampling.
-- **Competitors:** raw correct rate C/(4k), availability u, wrong-target rate
-  W/(4k), and frozen structural covariates. The raw-rate identity
-  `C/(4k) = (u_i+d_i)/2` must be checked in every record.
+The **primary predictor** is `x_i = (x_i,canonical + x_i,sham)/2`, bounded
+in [-1,1]. Always average the two render-level contrasts; never pool their
+tables first. A render with an empty target row contributes zero and is
+counted as unsupported, not silently removed from the family mean. Report
+supported-only means as descriptives beside this support-penalized score.
 
-A raw signed contrast retains a multiplicative availability effect; the
-conditional score and availability conditioning reduce that problem. They
-do not promise a variance-free or completely prior-free estimator. Print
-C, W, denominator support and ties, by family and predictor, in every world.
+At population level, x_iv is the difference between the conditional
+probabilities of a0 given that one of the two targets was emitted. It is
+zero if the a0:a1 odds are equal under q0v and q1v, regardless of their total
+target availability. The prior can differ between pairs and between the
+canonical/sham renders. Conditional on the two row totals and the a0 column
+total K=n00+n10, the null gives
+
+`n00 ~ Hypergeometric(population=m0+m1, a0_count=K, draws=m0)`.
+
+Each row's expected a0 proportion is K/(m0+m1), so E[x_iv]=0. Empty rows
+give the defined zero. This supplies the selectivity randomization in §5.
+It assumes independent sampled draws conditional on each fixed prompt and
+independent render streams, not arbitrary dependence with equal marginals.
+
+**Why the first draft changed, before data:** probabilities (.18,.02) under
+q0 and (.09,.01) under q1 preserve odds 9:1, but produce raw contrast .04.
+The earlier pooled conditional score was also nonzero. The revised x is
+.9−.9=0. This becomes a mandatory calibration fixture. Prompt-dependent
+lexical compatibility, copying and heuristics that change the target odds
+remain live explanations, not cancelled nuisance variables.
+
+Retain the following diagnostics. Across all four prompts C counts that
+prompt's correct target and W the other target; normalized a0≠a1 ensures
+disjoint matches. Raw absolute shift `d_i=(C-W)/(4k)`, total availability
+`u_i=(C+W)/(4k)`, raw rate C/(4k), and wrong-target rate W/(4k) are printed.
+Check `C/(4k)=(u_i+d_i)/2` exactly. This raw identity is not a decomposition
+of x. Print all four target-row totals, C/W, unsupported renders, ties and
+both conditional and raw shifts by family and predictor in every world.
+There are no pseudocounts or data-dependent denominator cutoffs.
 
 **Primary volume:** 8,000 prompts × 64 draws × 2 predictors = **1,024,000 draws**.
 An untrained Pythia-1B twin supplies **16 draws on all 8,000 prompts**, another
@@ -213,7 +241,14 @@ bucket within that stratum**; ties at the median go together, and a constant
 u contributes one bucket. This is a coarse control; residual variation within
 buckets is disclosed. Print base-only and finer-availability sensitivities.
 
-Use the existing within-stratum Somers' D and equal-family mean T. A family
+Use the existing within-stratum Somers' D: sum
+`sign(x_i-x_j)*sign(y_i-y_j)` over unordered pair-of-pair comparisons within
+the same stratum, divided by their number with y_i≠y_j. Outcome ties are
+excluded from the denominator; predictor ties contribute zero numerator.
+Pool numerator and denominator across strata within a family, then take
+the equal-family mean T. This is the outcome-untied denominator implemented
+by `experiments/exp2g/stats_2g.py`, not a symmetric Kendall coefficient.
+A family
 is eligible only if at least 20 distinct pairs ever succeed jointly and
 there is an informative outcome pair within a stratum. A constant predictor
 contributes D=0; it is printed, not dropped to improve the mean. Require at
@@ -223,12 +258,17 @@ families by sign or significance.
 
 ### Two gates per predictor
 
-1. **Input selectivity:** mean d_i, equal weight to each eligible family,
-   at least **.01**, with one-sided paired arm-swap randomization p<**.005**.
-   Swap the q0/q1 output bundles jointly across canonical and sham renders
-   within a base pair, which changes d_i's sign. The null assumes exchangeable
-   response bundles under prompt-invariant target emission. Use 10,000 seeded
-   randomizations and `(1+n_ge)/(1+B)`; preserve pairs and shared render noise.
+1. **Input selectivity:** mean x_i, equal weight to each eligible family,
+   at least **.05**, with one-sided conditional randomization p<**.005**.
+   For each (pair, render), independently draw n00 from §4's hypergeometric
+   null, preserving both target-row totals and the a0 column total, and
+   reconstruct its other three cells. Recompute x from both render tables
+   and then the same family means. Hold items, answer designations and
+   outcome records fixed. Use 10,000 seeded randomizations and
+   `(1+n_ge)/(1+B)`. The null permits prompt-dependent availability and
+   pair/render-specific conditional answer odds; it forbids those odds from
+   changing between q0v and q1v. Independence of the sampler streams is
+   required for this product conditional null.
 2. **Forecast:** T≥**.10**, within-family/stratum predictor permutation p<**.005**,
    10,000 permutations and the same finite-permutation correction. The null
    is conditional exchangeability within the declared strata, not the claim
@@ -237,9 +277,16 @@ families by sign or significance.
 Both gates read the **same eligible family set** for that predictor. This
 prevents a target shift confined to an excluded family from licensing a
 forecast on different families. Eligibility depends on y and u, which are
-unchanged by an arm swap; keeping constant x families also makes eligibility
-invariant under that null. Report all-four-family selectivity descriptively
+unchanged by conditional target-label randomization; keeping constant x
+families also makes eligibility invariant under that null. Report
+all-four-family selectivity descriptively
 beside the gate's reading, including in UNDETERMINED.
+
+This is a **battery-level conjunction**, not a requirement that the same
+family supplies both effects. Print each family's contribution to both
+gates. Selectivity can be concentrated in one retained family and forecast
+association in another; the headline cannot claim a shared family witness
+unless its printed per-family results actually supply one.
 
 Both gates must fire for a predictor to earn the input-sensitive forecast
 licence. With valid component tests, this conjunction has size at most .005
@@ -248,14 +295,14 @@ to earn the licence is bounded by .01 via Bonferroni. No independence between
 predictors is assumed. Effect bars do not increase that bound. This is not
 a correction for every secondary or a universal causal identification result.
 
-Bootstrap pair bundles within family (1,000 draws) for descriptive d, D,
+Bootstrap pair bundles within family (1,000 draws) for descriptive x, d, D,
 paired predictor/competitor differences and canonical-versus-sham readings.
 Only four fixed families exist: these intervals do not estimate uncertainty
 over all task families or over independently trained networks.
 
 ## 6. Worlds and licences
 
-Report the following state **separately for each predictor**, with all d,
+Report the following state **separately for each predictor**, with all x, d,
 T, p, intervals, eligible sets and power disclosures. Both models need not
 land in the same state; do not replace their table with one pooled label.
 
@@ -263,15 +310,16 @@ land in the same state; do not replace their table with one pooled label.
 |---|---|---|
 | INSUFFICIENT_DATA | Any input/provenance/collection gate fails | Instrument could not adjudicate. |
 | UNDETERMINED | Fewer than three eligible families | Not enough informative families for the forecast rule. |
-| INPUT-SENSITIVE-FORECAST | Both gates fire | The model's target-sensitive response to the question change forecasts paired success on fresh items in the named cross-family outcome. A prompt-invariant answer prior alone cannot supply the measured target shift. |
+| INPUT-SENSITIVE-FORECAST | Both gates fire | On this battery, the conditional target-response score shifts in the correct direction on average and forecasts paired success in the named cross-family outcome. Fixed within-pair/render target odds with changing availability alone cannot supply its expected conditional shift. This is an aggregate conjunction; per-family witnesses are named separately. |
 | SELECTIVE-ONLY | Selectivity fires, forecast does not | The small model responds in the correct direction, but transfer does not reach the forecast rule at the declared resolution. |
-| ORDER-ONLY | Forecast fires, selectivity does not | A relative item ordering exists without the specified absolute target-shift evidence. No partial-competence mechanism licence. |
+| ORDER-ONLY | Forecast fires, selectivity does not | A relative item ordering exists without the specified mean conditional target-shift evidence. No partial-competence mechanism licence. |
 | NO-JOINT-SUPPORT | Neither gate fires | The proposed joint account is not supported at this resolution. No conclusion that outputs contain no task information. |
 
 If both predictors earn the licence, name both; if one does, name that one.
 An underpowered non-firing gate cannot be described as an absence. Under a
-powered null reading, bound the absence to the simulated alternative and
-the exact realized eligible set. A successful forecast still leaves shared
+powered null reading for that particular gate, bound the absence to its
+simulated alternative and the exact realized eligible set/support. There is
+no unqualified joint POWERED label. A successful forecast still leaves shared
 input-sensitive difficulty and learned heuristics as live explanations.
 
 ## 7. Calibration, power and refusal gates
@@ -281,6 +329,11 @@ input-sensitive difficulty and learned heuristics as live explanations.
 - Answer-only generators with highly unequal string priors, varying target
   availability, sparse/tied counts, and y correlated with availability and
   word length. These must not manufacture the joint licence.
+- The fixed-9:1-odds/varying-availability counterexample of §4, including
+  different canonical/sham priors. Check the conditional gate itself, not
+  only whether a second gate masks an incorrect rejection.
+- Correctly directed responses with conditionally exchangeable, nonpredictable
+  outcomes, to isolate the forecast-null component of the joint claim.
 - Correctly directed context responses, anti-directed responses, q0/q1 label
   swaps, unequal sample counts, missing sham arms and shared-stream mistakes.
 - An adversarial shortcut that genuinely tracks the answer: the instrument
@@ -289,8 +342,12 @@ input-sensitive difficulty and learned heuristics as live explanations.
 - Full worlds, total scoring, record coverage, item/pair identity, import
   pins, write-once stages and all terminal refusal paths.
 
-Measure null rejection frequencies with binomial intervals, and power at
-target-shift contrasts 0/.005/.01/.02/.05, with availability spanning sparse
+Measure each component-null rejection frequency against **.005**, and the
+either-predictor joint-licence frequency against **.01**, with binomial
+intervals. Include asymmetric cases where only one predictor/component has
+a real effect. A conservative companion gate cannot certify the other.
+Measure selectivity power at conditional shifts 0/.025/.05/.10/.20, with
+availability spanning sparse
 through dense. For the forecast use the predecessor's within-stratum power
 construction, including effects D=.10/.15/.20, explicit shape assumptions and
 null tests with difficulty-correlated availability. Do not assert calibrated
@@ -298,8 +355,9 @@ null tests with difficulty-correlated availability. Do not assert calibrated
 
 Before running that calibration, the build plan must freeze its replicate
 count and acceptance rule. Recommended failure rule: reject calibration if
-the whole-rule null fire rate exceeds its .01 bound by a one-sided exact
-binomial test at .01. Check each prespecified null generator separately and
+a component's null fire rate exceeds .005, or the either-predictor joint
+rule exceeds .01, by a one-sided exact binomial test at .01. Check each
+prespecified null generator separately and
 print the intervals; this is a defect-detection rule, not proof of exact
 calibration. Neither the acceptance rule nor the synthetic cases may be
 selected after their rejection frequencies are seen.
@@ -314,11 +372,23 @@ with nonzero counts either spread over 1–26 or concentrated at 1–3. Add the
 rank signal using the existing power construction and print the realized
 mean D; a target D unattainable under the sealed predictor's ties is an
 underpowered/unsupported alternative, never silently replaced by a stronger
-one. POWERED requires ≥.75 at D=.15 in the worst arm of this declared grid
+one. FORECAST-POWERED requires ≥.75 at D=.15 in the worst arm of this declared grid
 for the exact eligible subset. This is conditional power on that finite
 grid, not a prediction that the outcome will supply those positive counts.
-The response-selectivity power envelope remains model-based; the one-time
-verdict computes the actual selectivity gate, not the power writer.
+The separate **selectivity-power envelope** uses valid three-category prompt
+probability tables (a0/a1/other): probabilities nonnegative and summing to
+one, conditional proportions within [0,1], raw |d|≤u. Unsupported rows use
+the actual zero convention. Impossible combinations of availability and
+effect are marked unsupported, not simulated by clipping. Report power of
+the finite-k, support-penalized mean x, not merely its population conditional
+contrast. There is no claim that FORECAST-POWERED powers this gate or their
+conjunction. The one-time verdict computes the actual selectivity gate,
+not the power writer.
+
+At verdict time, print realized ever-correct counts, informative blocks and
+target-row support beside the frozen grids. Matching the family subset is
+not matching this distribution. Flag out-of-envelope support and do not
+borrow a power number or rerun power after the outcome is known.
 
 The design does not yet claim a power number. Gate/threshold failures in
 calibration return to Michael before freeze. At the sealed-predictor stage,
@@ -327,7 +397,8 @@ there is no automatic draw deepening or family replacement.
 
 **Data gates:** independent generation oracles; exact four-arm × k coverage;
 normalizer totality and a0≠a1; reproduction of existing sampled-stream anchors;
-untrained-twin and model-free controls; prediction seal before first outcome
+complete/provenance-valid untrained-twin and model-free controls (their
+numerical performance is non-gating); prediction seal before first outcome
 item contact; per-host endpoint two-loader identity and baseline tolerances;
 weight/config/tokenizer/host provenance; complete 26-point outcome windows;
 all imported sources and all read inputs pinned at entry and exit. Every
@@ -339,7 +410,8 @@ failure is a recorded INSUFFICIENT_DATA terminal. The analyzer runs once.
    target score, with paired differences. Availability winning is a substantive
    result; the raw-rate identity prevents independent-mechanism overcounting.
 2. Canonical versus sham selectivity/forecast, and paired-success agreement.
-3. Each family separately; all-rung versus eligible-set coverage and ties.
+3. Each family separately, with its contribution to both gates; all-rung
+   versus eligible-set coverage, target-row support and ties.
 4. Base-only, median-availability and tercile-availability partitions, with
    realized block support and dropped pairs printed. No choosing the best.
 5. Equal 16/32/64 nested draw budgets, and disjoint 32-draw halves to reveal
@@ -357,7 +429,9 @@ failure is a recorded INSUFFICIENT_DATA terminal. The analyzer runs once.
 1. Rule §10, generation-only feasibility, then a committed build plan.
 2. New package built task by task with fresh implementers/reviewers; synthetic
    calibration, adversarial freeze, final review, ratification and tag.
-3. Predictor preflight and collection on the Mac; frozen two-stream anchors,
+3. Commit the projection, with hypotheses and numerical tolerances, before
+   the first predictor preflight/model contact. Then predictor preflight and
+   collection on the Mac; frozen two-stream anchors,
    new pair streams and the twin control, then predictor seal and the one
    power record. Restore
    local services after heavy collection. No outcome prompts before the seal.
@@ -391,7 +465,8 @@ disk allocation without sizing it. No money is authorized by this document.
 - Exact answer likelihood instead of sampling: cheaper and avoids missed
   targets, but changes the instrument and inherits normalization/tokenization
   choices. Keep it as a separately ruled instrument, not an escape hatch.
-- One predictor: half the local draw budget; loses the question of whether
+- One predictor: halves trained-predictor sampling (640,000 total new-item
+  draws if the 128,000-draw twin is retained); loses the question of whether
   the target-sensitive component transfers for both known forecasters.
 - Comma as a second outcome: valuable corpus contrast, approximately another
   24 checkpoints and 192,000 prompts. Defer until the first instrument is
@@ -410,14 +485,16 @@ disk allocation without sizing it. No money is authorized by this document.
    if a family cannot supply the promised support.
 3. **Predictors:** both existing 1B families, equal k=64; untrained Pythia
    control at k=16. No adaptive deepening.
-4. **Score:** shrunk conditional target preference x, with absolute shift d
-   and availability u reported and checked algebraically.
+4. **Score:** average within-prompt conditional target contrast x; empty
+   target rows contribute zero. Conditional target-label randomization;
+   raw shift d and availability u retained as diagnostics.
 5. **Outcome:** SmolLM3-3B, the full existing 26-checkpoint grid; canonical
    joint-success count primary, sham reading secondary.
 6. **Controls:** pair matching, unchanged option order, fixed heuristic audit,
    availability conditioning, pair-bundle resampling; accept that unmeasured
    input-sensitive difficulty is not identified away.
-7. **Bars:** selectivity ≥.01 and forecast T≥.10, each p<.005 for each predictor;
+7. **Bars:** mean conditional selectivity ≥.05 and forecast T≥.10, each
+   p<.005 for each predictor;
    require both for the licence. At least three eligible families.
 8. **Power:** synthetic calibration first; sealed-predictor power across every
    possible eligible set; pause for a decision if declared underpowered.

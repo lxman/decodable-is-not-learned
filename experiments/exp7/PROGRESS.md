@@ -38,3 +38,39 @@ Outside reads during design: arXiv abstract pages for Pythia (2304.01373),
 Calibrate Before Use (2102.09690), and Surface Form Competition (2104.08315).
 The latter two are cited narrowly for answer-bias/calibration context; no
 full-paper methods review or novelty claim is implied. No Hub/model contact.
+
+## Independent design review and revision — 2026-10-04
+
+The first independent review found the core raw contrast's literal null
+correct but its ordinary-language claim too broad. Fixed conditional answer
+odds with prompt-dependent target availability can produce a positive raw
+contrast: (.18,.02) versus (.09,.01) keeps 9:1 odds yet gives d=.04. The
+draft's pooled conditional score did not close that loophole either.
+
+**Ruling D4 (proposed, supersedes D1's score/null):** use the difference of
+within-prompt conditional a0 proportions, averaged over canonical/sham
+renders, with empty target rows contributing zero. Randomize target labels
+conditionally within each pair/render's 2×2 table, fixing row/column margins,
+under the independent-stream hypergeometric null. This cancels fixed target
+odds even when target availability differs. Cost: sparse rows reduce usable
+signal, and input-sensitive shortcuts/shared difficulty remain alternatives.
+The proposed effect bar changes from raw d≥.01 to mean conditional x≥.05;
+both are still unruled recommendations before any new-item contact.
+
+**Ruling D5 (proposed, supersedes D3's arm-swap wording):** same-set eligibility
+is invariant under the conditional randomization because y/u stay fixed and
+constant x families remain. The two gates are a battery-level conjunction;
+different retained families can drive the two aggregates. Per-family
+contributions are mandatory, not an assumed common-family witness.
+
+Other review fixes applied: component-null calibration at .005 and the
+either-predictor joint rule at .01; feasible probability-table simulations;
+separate forecast-power and selectivity-power-envelope disclosures; realized
+support printed beside the frozen power grid; exact Somers' D denominator
+and tie/stratum pooling; twin numerical performance non-gating; committed
+projection before preflight; stronger generation/shortcut feasibility checks;
+single-predictor draw accounting corrected to 640,000 including the twin.
+
+Scoped independent re-review requested on the revised instrument. These
+changes precede matched-token comparisons and all new model contact. No
+Exp 7 build, synthetic calibration, sampling, power or outcome run occurred.
