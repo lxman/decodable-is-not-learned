@@ -264,3 +264,28 @@ exact source/launch bindings, counterbalance, oracles, collisions and baseline
 audit. Production instrument planning remains active; its core C-1 correction
 and complete literal integration annexes still need final review. No new
 generation attempt, model contact, calibration, power, rental or verdict.
+
+## Operations-plan annex delivered; integration boundaries ruled
+
+The operations author delivered complete parameterized harness/operations
+modules, a task index and interface contract. Management verified all **79
+manifest entries**, checked its copied core against core-v1, and reproduced
+**82 miniature tests** with zero failures/errors/skips and no forbidden imports.
+The original core's tests are included in that count; do not add 48+82 as
+independent coverage. Secured annex:
+`docs/superpowers/plans/2026-10-04-exp7-annex/operations-v1/`; receipts:
+`planning/management-operations-check-20261004/`. Fresh independent review is
+in progress. These are fake operational adapters, not live launches or a
+completed freeze/mutation battery.
+
+The author correctly disclosed the collection/statistics interface mismatch
+and unfinished final production bindings. Management read only their published
+interface contracts and ruled **I1** (explicit raw-preserving verified adapter,
+including true outcome-contact paths and baseline N/A/abstention handling) and
+**I2** (pre-tag calibration uses committed candidate pins, not a nonexistent
+preregistration tag/seal). Full rulings are in the build-plan index. Why: both
+individually valid modules must compose under the actual stage order. Cost:
+dedicated adapter, authorization and end-to-end fake-tree tests; no invented
+raw draws or self-attested pass dictionaries. The respective authors have the
+concrete requirements. Remaining complete source/worker bindings are required
+before readiness, not left as open-ended work for the production implementer.
