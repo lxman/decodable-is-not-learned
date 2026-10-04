@@ -411,3 +411,25 @@ greedy continuations** including one-host gate/anchor overhead. These are
 schedule arithmetic, not measured time/cost, and exclude loads, finite probes,
 tokenizer checks and simulations. The $25 remains a planning cap. Final review
 may require correcting proposals before presenting the actual ruling package.
+
+## Operations correction wave reproduced
+
+The original author delivered operations-v2 with all R1–R6 corrections and
+fifteen new regression methods. Management verified **151 manifested files**,
+the exact v1→v2 source/test/task diff and its before/after hashes, the unchanged
+v1/guard, and the preserved red receipt: seven methods, eleven failed assertions,
+zero errors against original operational sources. Management then reproduced
+**97 passing tests**, zero forbidden imports, no source changes. Fake-clock
+heartbeat gaps stayed ≤60 seconds through 901-second blocking dispatch calls.
+
+Manifest SHA256:
+`e379d82833121c138df26e20648a0d8dae6c5ba96a83bf14c23fa7c9165dd811`.
+Secured source/evidence:
+`docs/superpowers/plans/2026-10-04-exp7-annex/operations-v2/`;
+management evidence: `planning/management-operations-v2-check-20261004/`.
+Scoped independent re-review of R1–R6 is active. The integration author may
+now inspect completed v2 and implement the remaining fixed O8 bindings,
+including the actual separately scheduled heartbeat worker, stage/remote
+bootstrap, independently secured verifier and full task registry. This is
+source/test planning only; no live process, provider or monitoring operation
+was performed. The six findings are not declared closed before re-review.
