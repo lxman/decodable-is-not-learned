@@ -631,3 +631,30 @@ bounded candidate-read-boundary repair and scoped re-review, with no scientific
 change. The original statistics author owns a separate v3 workspace preserving
 v1/v2; integration is informed and must incorporate the delivered repair before
 final acceptance. This local finding is not delegated to O8 deployment.
+
+## Statistics-v3 delivered; SR1-R re-review active
+
+The author delivered the bounded inherited-read correction in a separate v3
+bundle. Management verified all **133 bindings**, independently reconstructed
+the exact v2→v3 diff and before/after inventory, and reproduced **72 statistics
+tests + 48 inherited core tests**, zero failures/errors/skips or forbidden
+imports. All prior scientific/statistical modules outside the candidate I/O
+boundary/CLI, the C-1 reference, case grid and launcher are unchanged.
+
+The cold boundary rejects inherited readable descriptors and OS-backed input
+buffers, even when their path was pinned; permitted path reads instead produce
+snapshots whose bytes and descriptor/path identity are verified before exposure.
+Write-only outputs remain supported. Interface v4 adds this launch requirement
+and the new source/runtime dependencies. The dedicated CLI closes both the stdin
+wrapper and fd0. Platform census/identity logic is complete source tested through
+fake syscall observations only, not a live fd scan or live stdin close. Pinned
+native runtime remains trusted under the explicit serial CPython I/O contract.
+
+Narrow independent SR1-R re-review is active; closure is not yet claimed. The
+integration author received the delivered v4 contract and source. No raw-data,
+geometry, saved-power arithmetic or scientific-dial change is introduced.
+
+Archive: `docs/superpowers/plans/2026-10-04-exp7-annex/statistics-v3/`, manifest
+SHA256 `951dc2e7c69714150f430028df8ec83a1722dcab792f2c229486cfb1e241c29b`.
+Management checker/receipts: `planning/management-statistics-v3-check-20261004/`.
+No production statistics, model/tokenizer/network contact or rental occurred.
