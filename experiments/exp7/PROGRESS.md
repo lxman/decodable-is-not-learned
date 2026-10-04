@@ -33,3 +33,8 @@ elsewhere. Eligibility uses outcome support and availability only. Constant
 predictors stay with D=0, keeping the eligible set invariant under the
 arm-swap null. Also accounted explicitly for the k=16 untrained twin:
 128,000 additional draws, 1,152,000 new-item draws in total.
+
+Outside reads during design: arXiv abstract pages for Pythia (2304.01373),
+Calibrate Before Use (2102.09690), and Surface Form Competition (2104.08315).
+The latter two are cited narrowly for answer-bias/calibration context; no
+full-paper methods review or novelty claim is implied. No Hub/model contact.

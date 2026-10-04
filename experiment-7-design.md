@@ -58,9 +58,17 @@ sampled scores, and the outcome trajectory on those pairs. Choosing task
 families with demonstrated liveness is informed by the old record. This is
 a new-item forecast within known task families, not blind task selection.
 
-No external citation is needed for the proposed contrast: its cancellation
-property is derived in §4. Frozen predecessor files are references, not files
-to edit. New generators, scorers and records belong to `experiments/exp7/`.
+Relevant outside context, verified against the arXiv abstracts on Oct 4:
+[Zhao et al., *Calibrate Before Use*](https://arxiv.org/abs/2102.09690) describe
+answer and prompt-position biases and content-free calibration;
+[Holtzman et al., *Surface Form Competition*](https://arxiv.org/abs/2104.08315)
+describe competition among answer strings and a task-context prior correction.
+They motivate treating answer propensity as a serious alternative; neither
+abstract establishes the proposed cross-model counterfactual forecast.
+The cancellation used here is derived directly in §4.
+
+Frozen predecessor files are references, not files to edit. New generators,
+scorers and records belong to `experiments/exp7/`.
 
 ## 3. Battery: four families, paired answers, sham changes
 
@@ -107,6 +115,10 @@ design ruling before model contact; do not silently relax it.
   The complexity bin must compare distinct labels at equal segment count
   where possible. If the retained classes cannot meet this, remove or replace
   that family by an explicit pre-contact ruling, not a post-result sensitivity.
+- Shape labels must form a mutually exclusive oracle partition. If common
+  names overlap (a square is also a rectangle), the shared prompt must state
+  the fixed most-specific-label convention and the oracle must enforce it.
+  Do not count an otherwise valid geometric name as an arbitrary model error.
 
 A positive result measures input-sensitive target emission, which can include
 an inexpensive task-specific shortcut. Passing this audit does not certify
@@ -119,6 +131,10 @@ tokenizer/render/load pins and the existing seeded, T=1.0, untruncated fp32
 sampler. **k=64 draws per prompt for both predictors**, an equal measurement
 budget. Use a new committed seed namespace with distinct streams across
 pair members and shams; no accidental shared-seed coupling.
+
+Both predictors are smaller than the outcome in parameter count. Their
+training exposure is not matched to each outcome checkpoint. This is not
+an independent causal manipulation of model size or of training tokens.
 
 For one pair and one render v (canonical or sham), define:
 
@@ -279,6 +295,14 @@ through dense. For the forecast use the predecessor's within-stratum power
 construction, including effects D=.10/.15/.20, explicit shape assumptions and
 null tests with difficulty-correlated availability. Do not assert calibrated
 α merely because the permutation API was reused.
+
+Before running that calibration, the build plan must freeze its replicate
+count and acceptance rule. Recommended failure rule: reject calibration if
+the whole-rule null fire rate exceeds its .01 bound by a one-sided exact
+binomial test at .01. Check each prespecified null generator separately and
+print the intervals; this is a defect-detection rule, not proof of exact
+calibration. Neither the acceptance rule nor the synthetic cases may be
+selected after their rejection frequencies are seen.
 
 **One predictor-conditioned power record** is written after predictor sealing
 and before any outcome collection. It binds the actual strata/tie structure
