@@ -1854,3 +1854,21 @@ included in this post-release receipt.
 **Next:** obtain Michael's explicit word for the one-time production verdict
 analyzer, then follow the reached licence. Close-out propagation retains
 its separate approval. No new instance was created.
+
+### Production verdict analysis authorized — 2026-10-03 UTC
+
+Michael answered **“approved”** to “Approve the one-time verdict analysis?”
+after the complete sweep verification. This authorizes the one frozen
+production invocation, its result verification, closed tag and retrospective;
+close-out propagation retains its separate gate.
+
+Launch via `tools/exp6_verdict_operator.py`, a detached Mac supervisor for
+`python -B -u -m experiments.exp6.analyze_6 --write`, with the CLI's frozen
+**10,000 permutations / 1,000 bootstraps**, all production pins active and
+offline model access. No scientific function is patched or injected. The
+operator refuses existing verdict outputs and claims an exclusive invocation
+marker under `.git/` before the CLI starts; errors are inspected, never
+automatically retried. The operator records its HEAD, source hash, command,
+child PID/session, 30-second heartbeat and terminal status. Register
+`exp6-verdict-20261003` with the independent LaunchAgent for automatic wake-up.
+Logs/status live in `exp6-verdict-20261003/` under approved OpenCode scratch.
