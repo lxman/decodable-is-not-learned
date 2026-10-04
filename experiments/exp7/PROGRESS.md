@@ -799,3 +799,18 @@ grid, null, score, budget or authority change. Upstream C-1/COL/R/SR closures
 remain intact. The added reproduction ran one n24/B3/bootstrap1 synthetic analyzer
 and fabricated metadata/fake-port probes only. No full registry repeat, production
 calibration/power/verdict, native worker, model contact or rental occurred.
+
+## GitGuardian 37866209 — independently verified false positive
+
+Michael reported another GG ping. Read-only inspection found six occurrences in
+the archived synthetic integration composition-probe receipt/status/config/claim/
+mailbox/log, introduced by `31c010cd1`. Every occurrence is the same deterministic
+heartbeat identity: SHA256 of canonical JSON containing fixture directory, dummy
+PID123 and stage `verdict`. Management recomputed it from the exact committed
+configuration, verified the writer claim and matched all six reported patch
+spans. This is not a credential. Evidence and reproducible checker:
+`planning/gitguardian-20261004-2156/`.
+
+Dashboard status remains TRIGGERED at read; only GETs were used. Michael was told
+it is safe to mark False positive. This new alert does not reopen the previously
+closed credential/Support work. Integration-v2 reviews continue independently.
