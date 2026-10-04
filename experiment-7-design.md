@@ -1,10 +1,11 @@
 # Experiment 7 — Does the sampled forecast follow the target when the answer changes?
 
-**Status: proposed design, 2026-10-04.** Michael requested the matched-token
-analysis and a plan for the sampling-mechanism experiment. This document is
-the latter. The dials in §10 await his ruling. No generator has been built,
-no new item has been handed to a model, and no rental is authorized.
-The parallel descriptive analysis is `analyses/matched-token/PLAN.md`.
+**Status: dials APPROVED, 2026-10-04.** Michael answered "approved" to the
+request to approve §10's dials for **generation-only feasibility and build
+planning**. That stage is now in progress. The later contact, rental,
+ratification, verdict and propagation gates remain those of §9–10.
+No new item has been handed to a model. The matched-token descriptive
+analysis is complete under `analyses/matched-token/`.
 
 ## 1. The question and the distinction this experiment can make
 
@@ -483,7 +484,10 @@ disk allocation without sizing it. No money is authorized by this document.
   external validity. Required eventually for a causal construction-versus-
   resolution claim; this experiment does not substitute for that evidence.
 
-## 10. Dials for Michael — recommendations
+## 10. Dials — approved recommendations, 2026-10-04
+
+Michael approved these dials for generation-only feasibility and build
+planning. The $25 cap is a planning constraint, not an instance-create order.
 
 1. **Scope/name:** Experiment 7, a target-sensitive forecast test. Keep its
    claim narrower than resolving the learning-mechanism question.

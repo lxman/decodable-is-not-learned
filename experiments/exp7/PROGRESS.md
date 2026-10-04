@@ -98,3 +98,20 @@ review and revisions. It finds a late aggregate size advantage with
 nonmonotonic greedy correctness; see `analyses/matched-token/INTERPRETATION.md`.
 No Exp 7 score, threshold, family, outcome or other rule was changed in
 response. Design remains ready for the owner dials, not approved for contact.
+
+## Dials approved — 2026-10-04
+
+Michael: **"approved"**, answering "Approve these dials for generation-only
+feasibility and build planning?" All ten §10 recommendations are ruled as
+presented. Execute that scope: certify the paired battery model-free, then
+write the complete-code/test build plan for the instrument. The budget is a
+planning cap; model contact, rentals, ratification/tag, the once-only verdict
+and essay/public propagation retain their explicit gates.
+
+**Ruling F1:** generation-only feasibility is an explicitly separate precursor
+to the instrument build — put prototypes and their independent checks under
+`experiments/exp7/feasibility/`, with a pre-run specification, generation
+certificates and a fresh review. Do not present prototype code as frozen
+production instrumentation. Cost: validated logic still has to be carried
+through the full build-plan/review/freeze chain. Stop for a design ruling
+if a required family cannot supply support under its admitted constraints.
