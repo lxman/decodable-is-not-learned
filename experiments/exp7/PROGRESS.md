@@ -376,3 +376,28 @@ composition work in separate scratch, reading completed statistics source
 and the collection author's published interface only while collection is in
 flight. Mapping must preserve raw strings, all 84 baseline cells and genuinely
 verified stage authority/bindings. The full plan remains assembly-in-progress.
+
+## Collection-plan annex delivered and reproduced
+
+G1–G6 collection/provenance source and tests are delivered with a stable API
+and explicit additive task text. Management verified its **64-file manifest**,
+SHA256 `09062b27345430fc06cdc10e4a82dda23ae4019ac738d4481111f6703fd09b0e`,
+and all **1,081 current repository input pins**. The copied guarded suite
+completed in 106.866 seconds: **70 tests passed**, including 48 inherited
+core tests, zero forbidden imports and zero model contacts. Receipts/log:
+`planning/management-collection-check-20261004/`. Exact delivered bytes:
+`docs/superpowers/plans/2026-10-04-exp7-annex/collection-v1/`.
+
+Fresh independent collection review is active. The integration author now
+has permission to inspect the completed producer source and compose its raw
+outputs with statistics-v1; it previously read only the published interface.
+Its broader contact inventory and fixed operations deployment remain required
+composition work. Full-cardinality fake records are synthetic test evidence,
+not a real predictor seal, power result or instrument freeze.
+
+The collection annex explicitly proposes **B17** (zero-shot Q/A rendering),
+**B18** (a separately authorized Pythia fp32 tensor-digest baseline) and **B19**
+(fixed, separately counted preflight work). These are not silently ratified.
+The B16 tokenizer timing change remains withdrawn. Later genuine model assets,
+digest/host receipts, tag/projection and owner grants are required by the future
+instrument; planning has created none of them.
