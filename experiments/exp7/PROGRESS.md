@@ -401,3 +401,13 @@ The collection annex explicitly proposes **B17** (zero-shot Q/A rendering),
 The B16 tokenizer timing change remains withdrawn. Later genuine model assets,
 digest/host receipts, tag/projection and owner grants are required by the future
 instrument; planning has created none of them.
+
+Draft proposal consolidation is now
+`docs/superpowers/plans/2026-10-04-exp7-decisions.md`. It distinguishes existing
+approved dials from B1–B19 and the statistical implementation proposals, with
+B16 explicitly withdrawn. The proposed schedule totals **1,585,152 sampled
+outputs** including 144,000 old-anchor and 289,152 preflight draws, and **243,000
+greedy continuations** including one-host gate/anchor overhead. These are
+schedule arithmetic, not measured time/cost, and exclude loads, finite probes,
+tokenizer checks and simulations. The $25 remains a planning cap. Final review
+may require correcting proposals before presenting the actual ruling package.
