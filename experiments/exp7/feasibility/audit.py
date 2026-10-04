@@ -1,16 +1,38 @@
 """Full-batch checks from independently parsed rendered questions."""
 import itertools
 import math
+import random
 import re
 from collections import Counter, defaultdict
 from fractions import Fraction
 
 from .oracle import solve
-from .sources import content
+from .sources import content, digest
 from .generate import bb_surfaces
 
 ARMS = ('q0','q1','q0s','q1s')
 FAMILIES = ('words','deduction','units','shapes')
+
+
+def expected_schedule(family):
+    """Independently expand SPEC's schedules; do not call generator.schedule."""
+    def shuffled(values, purpose):
+        rng = random.Random(int(digest(f'2026100407|{family}|{purpose}'.encode()),16))
+        rng.shuffle(values)
+        return values
+    orientation = shuffled([0]*250+[1]*250,'orientation')
+    permutations = list(itertools.permutations(ARMS))
+    renders = shuffled(permutations*20+permutations[:20],'render')
+    if family == 'deduction':
+        assignments = []
+        for graph in (0,1):
+            for index,positions in enumerate(itertools.combinations(range(5),2)):
+                for repeat in range(25):
+                    ordered = positions if (repeat+graph+index)%2==0 else positions[::-1]
+                    assignments.append((graph,ordered))
+    else:
+        assignments = list(itertools.permutations(range(5),2))*25
+    return orientation,shuffled(assignments,'positions'),renders
 
 
 def audit(pairs, source, full=True):
@@ -20,6 +42,7 @@ def audit(pairs, source, full=True):
     seen_q, seen_id, words = set(), set(), set()
     seen_keys = {f:set() for f in FAMILIES}
     word_reused, bb_checked = 0, 0
+    schedules = {family:expected_schedule(family) for family in FAMILIES}
 
     def require(condition, message):
         if not condition:
@@ -31,7 +54,9 @@ def audit(pairs, source, full=True):
             require(family in FAMILIES,'unknown family')
             require(pair['id'] not in seen_id,'duplicate pair id')
             seen_id.add(pair['id'])
-            require(pair['id']==f'{family}-{pair["slot"]:04d}','id/slot mismatch')
+            slot = pair['slot']
+            require(type(slot) is int and 0<=slot<500,'slot outside fixed 0..499 coverage')
+            require(pair['id']==f'{family}-{slot:04d}','id/slot mismatch')
             require(set(pair['arms'])==set(ARMS),'four arm coverage')
             qs = [pair['arms'][a] for a in ARMS]
             require(len(set(qs))==4 and not any(q in seen_q for q in qs),'duplicate question')
@@ -53,7 +78,7 @@ def audit(pairs, source, full=True):
             f0,f1,s0,s1 = fs
             latent = pair['latent']
             orientation = pair['orientation']
-            require(orientation in (0,1),'orientation invalid')
+            require(type(orientation) is int and orientation in (0,1),'orientation invalid')
             if family == 'words':
                 require(a0 not in words and a1 not in words,'word reused across pairs')
                 words.update((a0,a1))
@@ -117,6 +142,16 @@ def audit(pairs, source, full=True):
                     require(sham==[[x+dx,y+dy] for x,y in pts[k:]+pts[:k]],'sham not translation plus cyclic shift')
                 base = 'closed_convex_four_segment:'+':'.join(sorted((a0,a1)))
             require(pair['base_block']==base,'base block mismatch')
+            orientations,assignments,renders = schedules[family]
+            require(orientation==orientations[slot],'seeded orientation assignment mismatch')
+            require(pair['render_order']==list(renders[slot]),'seeded render assignment mismatch')
+            if family != 'words':
+                assignment = assignments[slot]
+                if family == 'deduction':
+                    graph,assignment = assignment
+                    require(latent['graph']==graph,'seeded graph assignment mismatch')
+                require(tuple(pair['options'].index(a) for a in (a0,a1))==assignment,
+                        'seeded option assignment mismatch')
             blocks[family][base] += 1
             require(sorted(pair['render_order'])==sorted(ARMS),'render coverage')
             cb[family]['orientation'][str(orientation)] += 1
@@ -129,6 +164,8 @@ def audit(pairs, source, full=True):
             failures.append({'pair':pair.get('id','unknown') if isinstance(pair,dict) else 'invalid','reason':str(exc)})
     counts = Counter(p.get('family') for p in pairs if isinstance(p,dict))
     if full:
+        if seen_id != {f'{family}-{slot:04d}' for family in FAMILIES for slot in range(500)}:
+            failures.append({'reason':'exact family x slot 0..499 ID coverage'})
         for family in FAMILIES:
             if counts[family]!=500:
                 failures.append({'family':family,'reason':'not 500 pairs'})

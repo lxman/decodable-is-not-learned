@@ -1,0 +1,446 @@
+diff --git a/experiments/exp7/feasibility/audit.py b/experiments/exp7/feasibility/audit.py
+index 66fadc190..fcd4422cf 100644
+--- a/experiments/exp7/feasibility/audit.py
++++ b/experiments/exp7/feasibility/audit.py
+@@ -1,18 +1,40 @@
+ """Full-batch checks from independently parsed rendered questions."""
+ import itertools
+ import math
++import random
+ import re
+ from collections import Counter, defaultdict
+ from fractions import Fraction
+ 
+ from .oracle import solve
+-from .sources import content
++from .sources import content, digest
+ from .generate import bb_surfaces
+ 
+ ARMS = ('q0','q1','q0s','q1s')
+ FAMILIES = ('words','deduction','units','shapes')
+ 
+ 
++def expected_schedule(family):
++    """Independently expand SPEC's schedules; do not call generator.schedule."""
++    def shuffled(values, purpose):
++        rng = random.Random(int(digest(f'2026100407|{family}|{purpose}'.encode()),16))
++        rng.shuffle(values)
++        return values
++    orientation = shuffled([0]*250+[1]*250,'orientation')
++    permutations = list(itertools.permutations(ARMS))
++    renders = shuffled(permutations*20+permutations[:20],'render')
++    if family == 'deduction':
++        assignments = []
++        for graph in (0,1):
++            for index,positions in enumerate(itertools.combinations(range(5),2)):
++                for repeat in range(25):
++                    ordered = positions if (repeat+graph+index)%2==0 else positions[::-1]
++                    assignments.append((graph,ordered))
++    else:
++        assignments = list(itertools.permutations(range(5),2))*25
++    return orientation,shuffled(assignments,'positions'),renders
++
++
+ def audit(pairs, source, full=True):
+     failures, parsed = [], []
+     blocks = {f:Counter() for f in FAMILIES}
+@@ -20,6 +42,7 @@ def audit(pairs, source, full=True):
+     seen_q, seen_id, words = set(), set(), set()
+     seen_keys = {f:set() for f in FAMILIES}
+     word_reused, bb_checked = 0, 0
++    schedules = {family:expected_schedule(family) for family in FAMILIES}
+ 
+     def require(condition, message):
+         if not condition:
+@@ -31,7 +54,9 @@ def audit(pairs, source, full=True):
+             require(family in FAMILIES,'unknown family')
+             require(pair['id'] not in seen_id,'duplicate pair id')
+             seen_id.add(pair['id'])
+-            require(pair['id']==f'{family}-{pair["slot"]:04d}','id/slot mismatch')
++            slot = pair['slot']
++            require(type(slot) is int and 0<=slot<500,'slot outside fixed 0..499 coverage')
++            require(pair['id']==f'{family}-{slot:04d}','id/slot mismatch')
+             require(set(pair['arms'])==set(ARMS),'four arm coverage')
+             qs = [pair['arms'][a] for a in ARMS]
+             require(len(set(qs))==4 and not any(q in seen_q for q in qs),'duplicate question')
+@@ -53,7 +78,7 @@ def audit(pairs, source, full=True):
+             f0,f1,s0,s1 = fs
+             latent = pair['latent']
+             orientation = pair['orientation']
+-            require(orientation in (0,1),'orientation invalid')
++            require(type(orientation) is int and orientation in (0,1),'orientation invalid')
+             if family == 'words':
+                 require(a0 not in words and a1 not in words,'word reused across pairs')
+                 words.update((a0,a1))
+@@ -117,6 +142,16 @@ def audit(pairs, source, full=True):
+                     require(sham==[[x+dx,y+dy] for x,y in pts[k:]+pts[:k]],'sham not translation plus cyclic shift')
+                 base = 'closed_convex_four_segment:'+':'.join(sorted((a0,a1)))
+             require(pair['base_block']==base,'base block mismatch')
++            orientations,assignments,renders = schedules[family]
++            require(orientation==orientations[slot],'seeded orientation assignment mismatch')
++            require(pair['render_order']==list(renders[slot]),'seeded render assignment mismatch')
++            if family != 'words':
++                assignment = assignments[slot]
++                if family == 'deduction':
++                    graph,assignment = assignment
++                    require(latent['graph']==graph,'seeded graph assignment mismatch')
++                require(tuple(pair['options'].index(a) for a in (a0,a1))==assignment,
++                        'seeded option assignment mismatch')
+             blocks[family][base] += 1
+             require(sorted(pair['render_order'])==sorted(ARMS),'render coverage')
+             cb[family]['orientation'][str(orientation)] += 1
+@@ -129,6 +164,8 @@ def audit(pairs, source, full=True):
+             failures.append({'pair':pair.get('id','unknown') if isinstance(pair,dict) else 'invalid','reason':str(exc)})
+     counts = Counter(p.get('family') for p in pairs if isinstance(p,dict))
+     if full:
++        if seen_id != {f'{family}-{slot:04d}' for family in FAMILIES for slot in range(500)}:
++            failures.append({'reason':'exact family x slot 0..499 ID coverage'})
+         for family in FAMILIES:
+             if counts[family]!=500:
+                 failures.append({'family':family,'reason':'not 500 pairs'})
+diff --git a/experiments/exp7/feasibility/compare.py b/experiments/exp7/feasibility/compare.py
+index 6b8b3905c..692416122 100644
+--- a/experiments/exp7/feasibility/compare.py
++++ b/experiments/exp7/feasibility/compare.py
+@@ -1,28 +1,143 @@
+ """Compare two write-once runs, binding all deterministic artifacts."""
+ import argparse
++import datetime
+ import json
++import re
++import subprocess
++from collections import Counter
++from functools import lru_cache
+ 
+-from .run import dump
+-from .sources import HERE, Sources, digest
++from .audit import audit
++from .baselines import report
++from .run import code_pins, dump
++from .sources import BB, HERE, ROOT, WORDS, Sources, digest
++
++PREFIX = 'experiments/exp7/feasibility/'
++ARTIFACTS = frozenset(('attempts.jsonl','baseline-outputs.jsonl','baselines.json',
++                       'certificate.json','launch-pins.json','oracles.jsonl','pairs.jsonl'))
++FILES = ARTIFACTS | {'artifacts.json','receipt-start.json','receipt-end.json'}
++INVENTORY_FIELDS = {'computations','excluded','item_files','pins','snapshot',
++                    'unit_enumeration_capacity_before_old_collisions','word_pair_capacity','word_rows'}
++SNAPSHOT = '2d14da44ad882139bc95264697b03d45fe109354'
++
++
++def require(condition, reason):
++    if not condition:
++        raise ValueError(reason)
++
++
++@lru_cache(maxsize=None)
++def git_bytes(*args):
++    """Read actual immutable Git objects, never import historical Python."""
++    try:
++        return subprocess.check_output(['/opt/homebrew/bin/git',*args],cwd=ROOT,stderr=subprocess.PIPE)
++    except subprocess.CalledProcessError as exc:
++        raise ValueError('unavailable historical Git object') from exc
++
++
++def load(folder, name):
++    return json.loads((folder/name).read_bytes())
++
++
++def lines(folder, name):
++    return [json.loads(line) for line in (folder/name).read_text().splitlines()]
++
++
++def launch_bindings(folder, source):
++    start,end = load(folder,'receipt-start.json'),load(folder,'receipt-end.json')
++    require(set(start)=={'command','executable','head','python','started_utc'},'receipt-start fields')
++    require(set(end)=={'status','finished_utc'} and end['status']=='PASS','cannot compare a refused/incomplete run')
++    head = start['head']
++    require(isinstance(head,str) and re.fullmatch('[0-9a-f]{40}',head),'launch HEAD must be a full commit ID')
++    try:
++        is_commit = git_bytes('cat-file','-t',head).strip()==b'commit'
++    except ValueError as exc:
++        raise ValueError('launch HEAD not an existing Git commit') from exc
++    require(is_commit,'launch HEAD not a Git commit')
++    command = start['command']
++    require(isinstance(command,list) and len(command)==3 and isinstance(command[0],str)
++            and command[0].endswith('/'+PREFIX+'run.py')
++            and command[1:]==['--run-id',folder.name],'receipt-start command/run identity')
++    require(isinstance(start['python'],str) and re.fullmatch(r'3\.11\.\d+',start['python'])
++            and start['executable']=='/Users/michaeljordan/emergence-lab/.venv/bin/python','receipt-start interpreter')
++    began = datetime.datetime.fromisoformat(start['started_utc'])
++    ended = datetime.datetime.fromisoformat(end['finished_utc'])
++    require(began.utcoffset()==ended.utcoffset()==datetime.timedelta(0) and began<=ended,'receipt UTC interval')
++    tree = git_bytes('ls-tree','-r','--name-only',head,'--',PREFIX).decode().splitlines()
++    names = {p[len(PREFIX):] for p in tree if p.startswith(PREFIX) and '/' not in p[len(PREFIX):]
++             and p.endswith('.py')} | {'SPEC.md','PLAN.md','source_inventory.json'}
++    actual_pins = {name:digest(git_bytes('show',f'{head}:{PREFIX}{name}')) for name in sorted(names)}
++    launch = load(folder,'launch-pins.json')
++    require(launch==actual_pins,'launch pins differ from exact historical Git blobs/inventory')
++    raw = git_bytes('show',f'{head}:{PREFIX}source_inventory.json')
++    inventory = json.loads(raw)
++    require(set(inventory)==INVENTORY_FIELDS and inventory==source.inventory
++            and raw==source.inventory_bytes,'exact source inventory fields/bytes mismatch')
++    require(inventory['snapshot']==SNAPSHOT,'source inventory approval snapshot mismatch')
++    snapshot_tree = git_bytes('ls-tree','-r','--name-only',SNAPSHOT).decode().splitlines()
++    items = sorted(p for p in snapshot_tree if p.startswith('experiments/') and '/items/' in p
++                   and p.endswith('.json') and not p.endswith('scored_battery.json'))
++    require(inventory['item_files']==items and set(inventory['pins'])==set(items)|{WORDS,BB},
++            'source inventory item/pin coverage')
++    for path,sha in inventory['pins'].items():
++        require(digest(git_bytes('show',f'{SNAPSHOT}:{path}'))==sha,'source pin differs from approval Git blob: '+path)
++        require(digest(git_bytes('show',f'{head}:{path}'))==sha,'source pin differs from launch Git blob: '+path)
++    return head,launch,inventory
++
++
++def validate_archive(folder, source):
++    require({p.name for p in folder.iterdir()}==FILES and all((folder/name).is_file() for name in FILES),
++            'fixed artifact inventory incomplete or unexpected')
++    manifest = load(folder,'artifacts.json')
++    require(set(manifest)==ARTIFACTS,'fixed artifact manifest inventory mismatch')
++    for name,sha in manifest.items():
++        require(digest((folder/name).read_bytes())==sha,f'artifact drift {folder.name}/{name}')
++    head,pins,inventory = launch_bindings(folder,source)
++    certificate = load(folder,'certificate.json')
++    require(certificate.get('code_and_spec_pins')==pins,'certificate code pins differ from launch pins')
++    require(certificate.get('source_pins')==inventory['pins'],'certificate source pins differ from exact inventory')
++    require(certificate.get('ok') is True and certificate.get('failures')==[],'certificate is not a clean PASS')
++    pairs = lines(folder,'pairs.jsonl')
++    measured,parsed = audit(pairs,source)
++    require(measured['ok'],'saved-pair audit refused: '+repr(measured['failures'][:5]))
++    attempts = lines(folder,'attempts.jsonl')
++    accepted = [a['pair'] for a in attempts if a['reason']=='accepted']
++    require(accepted==pairs,'accepted-attempt evidence differs from saved pairs')
++    measured.update(code_and_spec_pins=pins,source_pins=inventory['pins'],
++                    attempt_counts=dict(Counter(a['family']+':'+a['reason'] for a in attempts)))
++    require(certificate==measured,'certificate fields differ from complete saved-evidence audit')
++    require(lines(folder,'oracles.jsonl')==parsed,'saved oracle coverage/content mismatch')
++    # These are deterministic checks of archived inputs, not generation/model contact.
++    baseline_rows,baseline_outputs = report(pairs,source)
++    require(load(folder,'baselines.json')==baseline_rows,'saved baseline table coverage/content mismatch')
++    require(lines(folder,'baseline-outputs.jsonl')==baseline_outputs,'saved baseline output coverage/content mismatch')
++    return {'launch_head':head,'historical_launch_pins':len(pins),'source_git_blobs':len(inventory['pins']),
++            'source_inventory_fields':sorted(inventory),'certificate_fields_exact':True,
++            'pairs':len(pairs),'oracle_arms':measured['oracle_questions'],
++            'exact_seeded_orientation_assignments':len(pairs),'exact_seeded_render_assignments':len(pairs),
++            'exact_seeded_option_assignments':sum(bool(p['options']) for p in pairs),
++            'baseline_cells':len(baseline_rows),'baseline_output_records':len(baseline_outputs)}
+ 
+ 
+ def compare(first, second, output):
++    require(first!=second,'repeatability needs two distinct run directories')
++    require(all(re.fullmatch('[a-z0-9-]+',n) for n in (first,second))
++            and re.fullmatch(r'[a-z0-9-]+\.json',output),'invalid comparison path')
+     source = Sources()
+     dirs = [HERE/'runs'/name for name in (first,second)]
+-    for d in dirs:
+-        if json.loads((d/'receipt-end.json').read_text())['status'] != 'PASS':
+-            raise ValueError('cannot compare a refused run')
+-        for name,sha in json.loads((d/'artifacts.json').read_text()).items():
+-            if digest((d/name).read_bytes()) != sha:
+-                raise ValueError(f'artifact drift {d.name}/{name}')
+-    names = sorted(p.name for p in dirs[0].iterdir() if not p.name.startswith('receipt-'))
+-    if names != sorted(p.name for p in dirs[1].iterdir() if not p.name.startswith('receipt-')):
+-        raise ValueError('artifact coverage differs')
++    verification_pins = code_pins()
++    verified = {d.name:validate_archive(d,source) for d in dirs}
++    names = sorted(ARTIFACTS | {'artifacts.json'})
+     records = {name:{'equal':(dirs[0]/name).read_bytes()==(dirs[1]/name).read_bytes(),
+                        'sha256':digest((dirs[0]/name).read_bytes())} for name in names}
+     record = {'ok':all(x['equal'] for x in records.values()),'first':first,'second':second,
+               'artifacts':records,'source_pins_rechecked':len(source.inventory['pins']),
++              'verified_archives':verified,'verification_code_pins':verification_pins,
++              'verification_head':subprocess.check_output(['/opt/homebrew/bin/git','rev-parse','HEAD'],cwd=ROOT).decode().strip(),
++              'full_generation_performed':False,
+               'excluded_from_byte_comparison':['receipt-start.json','receipt-end.json']}
++    source.verify()
++    require(code_pins()==verification_pins,'verification code changed during saved-evidence audit')
+     dump(HERE/'runs'/output,record)
+     print(json.dumps(record,sort_keys=True,indent=2))
+     return 0 if record['ok'] else 1
+diff --git a/experiments/exp7/feasibility/test_hardening.py b/experiments/exp7/feasibility/test_hardening.py
+new file mode 100644
+index 000000000..ee5f07e32
+--- /dev/null
++++ b/experiments/exp7/feasibility/test_hardening.py
+@@ -0,0 +1,181 @@
++"""Review regressions on saved evidence; never generates another full batch."""
++import copy
++import contextlib
++import io
++import json
++import shutil
++import tempfile
++import unittest
++from pathlib import Path
++from unittest.mock import patch
++
++from experiments.exp7.feasibility import compare as comparison
++from experiments.exp7.feasibility.audit import audit
++from experiments.exp7.feasibility.sources import HERE, Sources, digest
++
++
++class ScheduleHardeningTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.source = Sources()
++        cls.pairs = [json.loads(line) for line in (HERE/'runs/full-003/pairs.jsonl').read_text().splitlines()]
++
++    def test_shifted_all_slots_and_ids_are_refused(self):
++        pairs = copy.deepcopy(self.pairs)
++        for p in pairs:
++            p['slot'] += 1000
++            p['id'] = f'{p["family"]}-{p["slot"]:04d}'
++        cert,_ = audit(pairs,self.source)
++        self.assertFalse(cert['ok'])
++        self.assertTrue(any('slot' in f['reason'] for f in cert['failures']))
++
++    def test_swapped_render_schedule_is_refused(self):
++        pairs = copy.deepcopy(self.pairs)
++        a = pairs[0]
++        b = next(p for p in pairs[1:] if p['family']==a['family'] and p['render_order']!=a['render_order'])
++        a['render_order'],b['render_order'] = b['render_order'],a['render_order']
++        cert,_ = audit(pairs,self.source)
++        self.assertFalse(cert['ok'])
++        self.assertTrue(any('seeded render' in f['reason'] for f in cert['failures']))
++
++    def test_coherent_target_reorientation_is_refused(self):
++        p = copy.deepcopy(self.pairs[0])
++        p['orientation'] = 1-p['orientation']
++        p['a0'],p['a1'] = p['a1'],p['a0']
++        for a,b in (('q0','q1'),('q0s','q1s')):
++            p['arms'][a],p['arms'][b] = p['arms'][b],p['arms'][a]
++        k = p['content_keys']
++        p['content_keys'] = [k[1],k[0],k[3],k[2]]
++        cert,_ = audit([p],self.source,full=False)
++        self.assertFalse(cert['ok'])
++        self.assertTrue(any('seeded orientation' in f['reason'] for f in cert['failures']))
++
++    def test_coherent_option_repositioning_is_refused(self):
++        p = copy.deepcopy(next(p for p in self.pairs if p['family']=='units'))
++        old = ', '.join(p['options'])
++        p['options'] = p['options'][1:]+p['options'][:1]
++        for arm,q in p['arms'].items():
++            p['arms'][arm] = q.replace('\nOptions: '+old,'\nOptions: '+', '.join(p['options']))
++        cert,_ = audit([p],self.source,full=False)
++        self.assertFalse(cert['ok'])
++        self.assertTrue(any('seeded option' in f['reason'] for f in cert['failures']))
++
++
++class EvidenceHardeningTests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory()
++        self.addCleanup(self.temp.cleanup)
++        self.here = Path(self.temp.name)
++        (self.here/'runs').mkdir()
++
++    def rewrite(self, folder, name, value, rehash=True):
++        (folder/name).write_text(json.dumps(value,sort_keys=True)+'\n')
++        if rehash and name not in ('artifacts.json','receipt-start.json','receipt-end.json'):
++            manifest = json.loads((folder/'artifacts.json').read_text())
++            manifest[name] = digest((folder/name).read_bytes())
++            (folder/'artifacts.json').write_text(json.dumps(manifest))
++
++    def copies(self):
++        out = []
++        for name in ('first','second'):
++            folder = self.here/'runs'/name
++            shutil.copytree(HERE/'runs/full-003',folder)
++            receipt=json.loads((folder/'receipt-start.json').read_text())
++            receipt['command'][-1]=name
++            self.rewrite(folder,'receipt-start.json',receipt,False)
++            out.append(folder)
++        return out
++
++    def must_refuse(self, reason):
++        with patch.object(comparison,'HERE',self.here), contextlib.redirect_stdout(io.StringIO()):
++            with self.assertRaisesRegex(ValueError,reason):
++                comparison.compare('first','second','check.json')
++        self.assertFalse((self.here/'runs/check.json').exists())
++
++    def test_jointly_empty_evidence_refused(self):
++        for name in ('first','second'):
++            folder = self.here/'runs'/name
++            folder.mkdir()
++            self.rewrite(folder,'receipt-end.json',{'status':'PASS'},False)
++            self.rewrite(folder,'artifacts.json',{},False)
++        self.must_refuse('artifact inventory')
++
++    def test_jointly_missing_artifact_refused_even_if_rehashed(self):
++        for folder in self.copies():
++            (folder/'oracles.jsonl').unlink()
++            manifest=json.loads((folder/'artifacts.json').read_text())
++            del manifest['oracles.jsonl']
++            self.rewrite(folder,'artifacts.json',manifest,False)
++        self.must_refuse('artifact inventory')
++
++    def test_forged_launch_head_refused(self):
++        for folder in self.copies():
++            receipt=json.loads((folder/'receipt-start.json').read_text())
++            receipt['head']='0'*40
++            self.rewrite(folder,'receipt-start.json',receipt,False)
++        self.must_refuse('launch HEAD')
++
++    def test_self_consistent_forged_launch_pins_refused(self):
++        for folder in self.copies():
++            pins=json.loads((folder/'launch-pins.json').read_text())
++            pins['audit.py']='0'*64
++            cert=json.loads((folder/'certificate.json').read_text())
++            cert['code_and_spec_pins']=pins
++            self.rewrite(folder,'launch-pins.json',pins)
++            self.rewrite(folder,'certificate.json',cert)
++        self.must_refuse('launch pins')
++
++    def test_certificate_source_pin_or_field_omission_refused(self):
++        for folder in self.copies():
++            cert=json.loads((folder/'certificate.json').read_text())
++            cert['source_pins'].pop(next(iter(cert['source_pins'])))
++            self.rewrite(folder,'certificate.json',cert)
++        self.must_refuse('certificate source pins')
++
++    def test_false_certificate_pass_refused(self):
++        for folder in self.copies():
++            cert=json.loads((folder/'certificate.json').read_text())
++            cert['ok']=False
++            self.rewrite(folder,'certificate.json',cert)
++        self.must_refuse('certificate is not a clean PASS')
++
++    def test_source_inventory_metadata_fields_are_exact(self):
++        self.copies()
++        source=Sources()
++        source.inventory['computations']='substituted narrative with identical source pins'
++        with patch.object(comparison,'Sources',return_value=source):
++            self.must_refuse('exact source inventory fields')
++
++    def test_extra_certificate_field_is_refused(self):
++        for folder in self.copies():
++            cert=json.loads((folder/'certificate.json').read_text())
++            cert['unverified_extra_field']=True
++            self.rewrite(folder,'certificate.json',cert)
++        self.must_refuse('certificate fields differ')
++
++    def test_jointly_empty_baseline_outputs_refused(self):
++        for folder in self.copies():
++            (folder/'baseline-outputs.jsonl').write_text('')
++            manifest=json.loads((folder/'artifacts.json').read_text())
++            manifest['baseline-outputs.jsonl']=digest(b'')
++            self.rewrite(folder,'artifacts.json',manifest,False)
++        self.must_refuse('saved baseline output coverage')
++
++    def test_historical_pins_survive_current_verifier_changes(self):
++        self.copies()
++        historical=json.loads((HERE/'runs/full-003/launch-pins.json').read_text())
++        self.assertNotEqual(historical['audit.py'],digest((HERE/'audit.py').read_bytes()))
++        with patch.object(comparison,'HERE',self.here), contextlib.redirect_stdout(io.StringIO()):
++            self.assertEqual(comparison.compare('first','second','check.json'),0)
++        result=json.loads((self.here/'runs/check.json').read_text())
++        self.assertTrue(result['ok'])
++        self.assertFalse(result['full_generation_performed'])
++        for row in result['verified_archives'].values():
++            self.assertEqual(row['historical_launch_pins'],12)
++            self.assertEqual(row['source_git_blobs'],103)
++            self.assertEqual(row['exact_seeded_option_assignments'],1500)
++            self.assertEqual(row['oracle_arms'],8000)
++
++
++if __name__=='__main__':
++    unittest.main()
