@@ -2,6 +2,8 @@
 
 **Construction PASS; independent review ready for build planning.** Its two
 nonblocking verifier findings are closed by the saved-evidence hardening below.
+The subsequent necessary F6 provenance finding is fixed and saved-verified,
+ready for scoped re-review (details at the end).
 Corrected evidence:
 `runs/full-003/`; exact repeat: `runs/full-004/`. Both contain **500 pairs
 per family, 2,000 pairs and 8,000 distinct questions**. Every rendered
@@ -264,3 +266,42 @@ Commands:
 **No fifth generation.** This is saved-pair/oracle/baseline revalidation; the
 generation tally stays four and the approved dials remain unchanged. Rulings
 F4/F5 and test history are in `RUNS.md`.
+
+### F6: require an executable historical module inventory
+
+Scoped re-review found that a coherent receipt could name the real SPEC-only
+commit `cf50ef8374347ec85b0327ec1b5583f4dfe6c146`, hash its four actual files,
+and pass despite having no generator runner. The exact attack now has a
+failing-before-fix regression. The scientific battery remains valid.
+
+Before deriving historical launch pins, the comparator now requires all six
+execution modules: **run, generate, audit, oracle, sources, baselines**. It
+parses their actual historical Git blobs, verifies the complete static
+repository import closure from run, and refuses unbound dependencies or added
+package initializers. Pin comparisons still use the original launch commit's
+actual blobs, never the current verifier's hashes. This checks the fixed
+prototype's execution inventory, not arbitrary Python program behavior.
+
+The full suite ran **once after the fix: 38 tests passed in 31.207 s**. That
+includes the coherent SPEC-only attack, unbound transitive-helper and package-
+initializer attacks, and successful validation of the genuine historical run.
+
+**Saved verification PASS:** `runs/f6-verification-003-004.json`, verifier
+commit `78ffc8c991dcfb856739a42851e88e8db7dc638a`. Each archive retains its
+12 original launch pins, with the six-module closure now checked explicitly.
+All prior source/certificate, 2,000 pair/schedule, 1,500 option, 8,000 oracle,
+84 baseline-cell and 24,500 baseline-output checks pass. All eight deterministic
+artifacts remain byte-identical. Receipt SHA256:
+`17488fa066d42335725ea68340f777cd1f0fe2d28874098ea03fc2d0bc4723f7`.
+
+Exact code/test review diff: `review-f6.diff` (9,153 bytes),
+**base `7effc1e5568557b9ecc7e768055732eb5ff407f3` →
+head `78ffc8c991dcfb856739a42851e88e8db7dc638a`**, paths `compare.py` and
+`test_hardening.py` only. Ruling F6 records the rationale and cost in `RUNS.md`.
+
+```sh
+/Users/michaeljordan/emergence-lab/.venv/bin/python -m unittest experiments.exp7.feasibility.test_feasibility experiments.exp7.feasibility.test_hardening
+/Users/michaeljordan/emergence-lab/.venv/bin/python -m experiments.exp7.feasibility.compare full-003 full-004 --output f6-verification-003-004.json
+```
+
+No batch regeneration, archive overwrite, changed dial or scientific reruling.

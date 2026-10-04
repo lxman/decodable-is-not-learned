@@ -254,3 +254,36 @@ experiments.exp7.feasibility.test_feasibility
 experiments.exp7.feasibility.test_hardening`.
 Full generation tally remains four. A distinct F6 saved-verification receipt
 will accompany the results revision; no archive or prior receipt is overwritten.
+
+### F6 saved verification and re-review package
+
+Code/tests committed and pushed at
+**78ffc8c991dcfb856739a42851e88e8db7dc638a**. Exact code/test diff saved as
+`review-f6.diff` (9,153 bytes), verified against Git:
+**7effc1e5568557b9ecc7e768055732eb5ff407f3 →
+78ffc8c991dcfb856739a42851e88e8db7dc638a**, paths `compare.py` and
+`test_hardening.py` only. No management file was staged.
+
+Ran once on the real saved archives:
+
+```sh
+/Users/michaeljordan/emergence-lab/.venv/bin/python -m experiments.exp7.feasibility.compare full-003 full-004 --output f6-verification-003-004.json
+```
+
+**PASS**. Distinct write-once receipt `runs/f6-verification-003-004.json` binds
+the F6 verifier commit and 13 verifier pins. Each archive's genuine historical
+HEAD still binds its **12 original pins**, now with **six execution modules
+and their complete static repository import closure checked explicitly**.
+Existing checks all pass: 103 source paths, exact inventory/certificate fields,
+2,000 saved pairs/oracle bundles, 8,000 rendered answers, 2,000 seeded
+orientation/render assignments, 1,500 option assignments, accepted attempts,
+84 baseline cells and 24,500 baseline output records. All eight deterministic
+artifacts remain byte-identical.
+
+Receipt SHA256:
+`17488fa066d42335725ea68340f777cd1f0fe2d28874098ea03fc2d0bc4723f7`.
+Final check binds all 13 verifier pins to actual Git blobs at verifier HEAD
+and proves the saved review diff exactly matches the committed two-file diff.
+No changes to any full-run directory, SPEC, generator or previous hardening
+receipt. **No fifth generation; four remains the total.** No new model contact,
+old analyzer execution or scientific reruling. Ready for scoped re-review.
