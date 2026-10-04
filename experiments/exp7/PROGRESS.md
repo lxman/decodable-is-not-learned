@@ -592,3 +592,9 @@ Management checker/receipts: `planning/management-statistics-v2-check-20261004/`
 Full-default saved-record fixtures use fabricated counts with zero RNG; inherited
 stochastic checks remain miniature. No production calibration, envelope, power,
 verdict, model/tokenizer contact or rental occurred.
+
+The proposal register now points to the revised annexes and explicitly includes
+their previously specified CPU-stage limits (24 hours each for calibration plus
+envelope and for power; 8 GiB), retained-arithmetic storage/verification costs,
+and 448,000 future tokenizer prompt/target comparisons. These are consolidated
+unratified specifications, not measured resource receipts or new scientific dials.
