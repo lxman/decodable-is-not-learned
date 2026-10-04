@@ -58,6 +58,17 @@ its figures, Table 1, and Appendix A.
   exclusion rule's conservative direction is test-relative — the
   seventh lesson).
 
+- **Experiment 6** (added 2026-10-04) — the item-order forecast beyond the
+  original synthetic battery: seventeen fresh benchmark-derived rungs,
+  Pythia-1b and OLMo-2 1B predictors sealed before 87 checkpoints across
+  SmolLM3-3B, OLMo-2 7B, OLMo-2 13B and Comma. **GENERAL: all eight
+  primary tests fire**, with strings and choices meeting the breadth
+  condition for both predictors. Each p is 1/10,001. Comma reads nine of
+  the ten rungs simulated for power; the other six tests read their exact
+  sets. The claim concerns item order under these renderings, not which
+  tasks clear or a learning mechanism. Complete results and disclosures:
+  `experiments/exp6/results/VERDICT.txt` and `retrospective.md`.
+
 Every experiment whose record ships here carries both its
 preregistration and its closeout tag:
 `exp1-analysis-frozen` (Experiment 1 predates the `-preregistered` /
@@ -94,7 +105,9 @@ once after a preflight amendment; see PROVENANCE.md),
 `exp5-preregistered` / `exp5-targets-sealed` / `exp5-closed` (the targets
 seal binds the seven finals, gates 1(a)/(b), the host record and the power
 record, cut after the power record; see PROVENANCE.md),
-`exp5b-preregistered` / `exp5b-closed`.
+`exp5b-preregistered` / `exp5b-closed`,
+`exp6-preregistered` / `exp6-predictor-sealed` / `exp6-endpoint-sealed` /
+`exp6-closed`.
 Other interim stage tags exist only in the private repository. `v1.0`,
 `v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16`, `v1.17`, `v1.18`, `v1.19`, `v1.20`, `v1.21`, `v1.22` and `v1.23` anchor the Zenodo-archived snapshots
 (concept DOI 10.5281/zenodo.21830421) and deliberately point outside

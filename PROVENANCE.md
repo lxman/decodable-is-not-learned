@@ -842,6 +842,79 @@ includes `experiments/exp5b` and `experiment-5b-design.md`; this
 round's 47-row private → public commit map is appended to
 `provenance/commit-map.txt`.
 
+On 2026-10-04 the Experiment 6 record was added. The question is whether
+the item-order forecast generalizes beyond the original synthetic battery.
+Seventeen rungs from ten benchmark-defined tasks were regenerated with
+fresh items under frozen renderings; Pythia-1b (A, 256 draws per item)
+and OLMo-2 1B (B, 64) were sealed before four outcome sweeps totaling
+87 checkpoints. The once-run production analyzer returned **GENERAL**:
+both predictors hold on all four outcomes. In SmolLM3-3B / OLMo-2 7B /
+OLMo-2 13B / Comma order, A's T is .154133/.143134/.112472/.168934,
+B's .194494/.206738/.158083/.183817; every p is 1/10,001, the
+finite-permutation minimum, and every T clears .10. These are shared-item,
+shared-predictor tests, not an eight-test family-wise significance claim.
+Strings and choices meet the frozen headline condition for both predictors.
+A crosses families on all four outcomes; B is within-family on the OLMo
+pair and cross-family on the other two. The licence concerns item order
+on these renderings, not BIG-bench scores, which tasks clear, or mechanism.
+
+Comma's long-unscrambling rung has thirteen ever-correct items (<20), so
+both tests read nine of the ten endpoint rungs simulated for their POWERED
+declarations. The other six readings match their power sets. Four early
+OLMo-13B probes (1k/2k/4k/8k) each recorded 802,816 non-finite logits and
+were retained as emitted under the frozen rule. All S1–S13 completed;
+structure-conditioned, relaxed-IPA, heuristic-clearing and first-correct
+readings retain GENERAL descriptively. Full tables, flat and dropped rungs,
+referents, anchors, projection grades and limits ship with the verdict.
+
+Same GRAFT route: 258 private commits touching `experiments/exp6`,
+`experiment-6-design.md` and `.gitignore` since private 6a2407557 through
+38a8ee87c were applied at index level onto public 2734a3ed, ending at
+c7b4af95. None was skipped. Only blobs on those paths were transferred;
+no private commit objects or refs were imported. Identities were normalized
+to the existing noreply identity; author/committer dates and commit/tag
+messages were preserved byte for byte. Every intermediate path snapshot
+was checked entry-identical, all other paths unchanged, all 89 prior tags
+untouched. The added paths contain 108 entries at preregistration, 296 at
+the predictor seal, 475 at the endpoint seal, 2,519 at close and 2,521 at
+the graft tip. The four tags are:
+
+| Tag | Private commit → public commit | Public tag object |
+|---|---|---|
+| `exp6-preregistered` | `6ac42458e` → `0d76b71a` | `d95c299829417ca8b28496db6a929c0efb55a163` |
+| `exp6-predictor-sealed` | `b4089a72e` → `dbbef2f0` | `09f2daf64a21d5b73906a498d881f2f7d4c1f96f` |
+| `exp6-endpoint-sealed` | `5a6a3a8c2` → `39ba88e0` | `af5174520f9fd10a0b5690c90c6530f0c9d82ed7` |
+| `exp6-closed` | `124414808` → `113e8360` | `0c96de279ec7cdbd24a698a28f236bf5bb5e74c3` |
+
+The 258-row map is appended to `provenance/commit-map.txt`; the machine
+receipt is `provenance/exp6-graft.json`. The scan covered 2,956 unique
+path blobs, all 258 commit messages and four tag messages, recursively
+unpacking 95 gzip objects and 2,196 tar members (544,733,590 bytes scanned,
+including containers and their contents). No exposed instance key or
+assigned-secret match was found. Three secret-prefix regex hits are
+random strings in the untrained Pythia twin's sampled continuations;
+eight LAN-shaped strings are generated text in three trained Pythia
+draw streams. All were checked inside the `draws` fields, not operator
+metadata. Email-shaped strings occur in model output and historical
+attribution messages. These scientific bytes were retained verbatim.
+
+Fourteen blob versions carry the operator's Mac home path in scripts,
+the freeze checklist and execution/watchdog receipts, the established
+disclosed class rather than key material. The operational records also
+name destroyed rental instances and public SSH routes. Thirty-five
+messages carry `Claude-Session` and `Co-Authored-By` trailers; later
+records name GPT-6 Astra/OpenCode in their prose, with no new session-link
+trailer. The source line used here is the cleaned reachable history:
+an accidental instance credential in an earlier private launch commit
+was removed by a narrow authorized history rewrite before this graft.
+An exact-value scan includes the compressed archives. The released
+instance's key subsequently returned HTTP 401; GitHub's retained private
+historical object remains a separately ledgered Support-purge matter.
+The contaminated object itself was never imported into this public line.
+
+The retained-path list above now includes `experiments/exp6` and
+`experiment-6-design.md`. The essay and thesis remain outside this archive.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 

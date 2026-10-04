@@ -1,0 +1,47 @@
+{
+  "source": "38a8ee87c2d88f91ccb995b2f2cc8786e9689255",
+  "public_base": "2734a3edd728c6a019fd8fe8607277f662543bfa",
+  "public_graft": "c7b4af9572c5baf56a783cd52ac27ced5f2a393e",
+  "commits": 258,
+  "prior_tags_preserved": 89,
+  "tags": [
+    {
+      "tag": "exp6-closed",
+      "private_commit": "1244148082e4696c8a676e3cf3341a6fbb33874a",
+      "public_commit": "113e83604d41832b92c75be890bc108655f5d9f3",
+      "private_tag": "19ed7c8de3e4866d1360673001d60091cecff470",
+      "public_tag": "0c96de279ec7cdbd24a698a28f236bf5bb5e74c3",
+      "entries": 2519
+    },
+    {
+      "tag": "exp6-endpoint-sealed",
+      "private_commit": "5a6a3a8c2a797cb19c52d2374a12a847649cc9f8",
+      "public_commit": "39ba88e039f8fe3b8c56e2f6954576145dd0fb5b",
+      "private_tag": "d917de3b9502906c0bc8f28ae405de26f4c7009f",
+      "public_tag": "af5174520f9fd10a0b5690c90c6530f0c9d82ed7",
+      "entries": 475
+    },
+    {
+      "tag": "exp6-predictor-sealed",
+      "private_commit": "b4089a72ea225d4e4e100b3612cbb423a2f489c8",
+      "public_commit": "dbbef2f0f6d47baa7b3dabb8ab3368f4588ede6e",
+      "private_tag": "7a7ff55eb9a0619dc7ea4e6af6049a8bf7060a2f",
+      "public_tag": "09f2daf64a21d5b73906a498d881f2f7d4c1f96f",
+      "entries": 296
+    },
+    {
+      "tag": "exp6-preregistered",
+      "private_commit": "6ac42458eda6f901f266421bb5fdc7c44f83a167",
+      "public_commit": "0d76b71aaebe1025b4f0e23e126dc5781b4b88ca",
+      "private_tag": "77b8c175834061a2bb4c76aab9959bf5e9fd2895",
+      "public_tag": "d95c299829417ca8b28496db6a929c0efb55a163",
+      "entries": 108
+    }
+  ],
+  "head_entries": 2521,
+  "changed_paths": 2521,
+  "all_snapshots_entry_identical": true,
+  "dates_and_messages_preserved": true,
+  "other_paths_unchanged": true,
+  "scan_sha256": "03b7b17842dc7aa0b9f3b225efaf6b880b41bb7c395738daadeea476dc0760b3"
+}

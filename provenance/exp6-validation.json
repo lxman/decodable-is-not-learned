@@ -1,0 +1,11 @@
+{
+  "cold_battery": {
+    "pass": 13,
+    "fail": 0,
+    "expected_skip": 1,
+    "skip": "analysis-executing read sweep"
+  },
+  "analyzer_rerun": false,
+  "verified_at": "2026-10-04",
+  "verdict_sha256": "70c04aef2bdce01d4edf3774c4fbb9bc1ed77148fc1e03707c137127fe23034d"
+}
