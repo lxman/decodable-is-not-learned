@@ -143,3 +143,42 @@ preparing complete source/test annexes in approved scratch with synthetic-only
 checks; it owns no production repository files. Missing annexes are explicit
 and the index is not yet execution-ready. No calibration, power, sampler,
 outcome or model contact has occurred in this approved planning stage.
+
+## Feasibility review cleared; complete-code plan assembly
+
+Fresh independent review of `91294c9aa..fc80876ad` found no necessary
+construction/scientific fix and cleared the battery for build planning. It
+reproduced 21 tests, the saved-pair oracle audit and all baseline summaries;
+independently reconstructed every seeded assignment and checked all source/
+launch bindings. Full disposition: `planning/README.md`.
+
+**Ruling F5:** close both nonblocking verification gaps now: require the
+fixed repeat-artifact inventory with historical launch/certificate bindings,
+and exact slots plus seeded counterbalance assignments. Why: current evidence
+passes independent checks, but reusable checkers should enforce those checks.
+Cost: another scoped synthetic/saved-evidence verification round; no new
+generation attempt or change to admitted items. Original implementer owns the
+repair, followed by scoped re-review.
+
+Management independently verified the 103 source pins at the approval commit,
+12 launch pins per corrected run, exact saved artifact inventories, all
+8,000 stored oracle/target labels per run and eight byte-identical artifacts.
+Receipt: `planning/management-check-20261004/feasibility-binding-receipt.json`.
+
+The first instrument-plan author delivered ten complete pure core modules,
+not a complete campaign plan. Its 29-file manifest is verified and archived
+at `docs/superpowers/plans/2026-10-04-exp7-annex/core-v1/`. Management reproduced
+**48 miniature tests**, with no forbidden imports, and secured the log/receipt
+under `planning/management-check-20261004/`. A fresh independent core review
+is in progress. Three non-overlapping scratch authors are completing data/
+collection, statistics/reporting, and freeze/operations annexes; no production
+package is being built. Assembly must not claim readiness while any load-bearing
+source/test composition remains absent.
+
+**Ruling B16-disposition:** the first plan's proposed post-tag tokenizer-cap
+check deferral is unnecessary and not adopted. The approved design requires
+tokenizer-only cap validation during the later instrument build. This planning
+stage writes the checker and fake tests only; no tokenizer is executed now.
+Preserve the historical proposal in core-v1 and explicitly supersede it in
+the assembled plan. Cost if wrong: a tokenizer-only build check needs its
+proper later authorization, but a too-short cap must be caught before tag.
