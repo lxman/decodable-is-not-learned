@@ -344,3 +344,35 @@ bindings and full fake-Campaign integration remain separate open work, not
 claims supplied by the 82 miniature tests. NumPy's top-level import worked
 under the original guard; no guard weakening is justified by the earlier
 ctypes concern. Actual assembled numerical kernels still need guarded tests.
+
+## Statistics-plan annex delivered and reproduced
+
+The statistics author delivered complete G7–G10 bodies at the raw-data adapter
+boundary, including all S1–S8 drivers, exact limb/histogram kernels, calibration
+and one-time power drivers, saved-arithmetic validation and a separate pre-tag
+calibration context. Manifest: **61 files**, SHA256
+`71e3c791c13aa26e337b4fda2423ca8d9415647fea96eb79cd926d864528b05e`.
+Management verified every entry and reproduced **37 statistics tests + 48 copied
+core tests**, all passing with model/network hard guards and no forbidden
+imports. These overlapping inherited tests are not 85 newly independent tests.
+
+**C-1 correction implemented and reproduced:** the exact final-None fixture
+returns unsupported after four evaluations, with no retry. The corresponding
+aggregate subset fitter covers final/validation undefined values too. The
+original core-v1 is untouched; the explicit patch and corrected copy live in
+`docs/superpowers/plans/2026-10-04-exp7-annex/statistics-v1/`. Independent
+scientific/code review, including closure of C-1, is in progress. Management
+evidence: `planning/management-statistics-check-20261004/`.
+
+The new statistical RNG, exact-kernel implementation, fixed-set bootstrap and
+finite calibration/power conventions are clearly listed as proposals in
+`statistics-v1/DELTAS.md`. No empirical alpha or power number exists. Guarded
+planning tests used miniature raw worlds and bounded fabricated kernels;
+production calibration/envelope/power and actual model-data statistics remain
+unrun. Metadata emission of `SYNTHETIC-CASES.json` sampled nothing.
+
+A fresh integration author owns the explicit StatsCampaignAdapter and final
+composition work in separate scratch, reading completed statistics source
+and the collection author's published interface only while collection is in
+flight. Mapping must preserve raw strings, all 84 baseline cells and genuinely
+verified stage authority/bindings. The full plan remains assembly-in-progress.
