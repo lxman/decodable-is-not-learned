@@ -214,3 +214,24 @@ Full review and executable evidence are secured under
 `planning/management-check-20261004/core-c1-reproduction.json`. B3/B6/B7–9/B13
 remain explicit implementation/scientific proposals for ratification, not
 quietly approved choices. B16's stage change is already rejected above.
+
+### Feasibility scoped re-review — one historical inventory gap
+
+The exact-slot and seeded-schedule repair is cleared. Re-review reproduced
+the 35-test suite, all ten pre-fix failures, the saved audit, and unchanged
+bytes for all 40 archived full-run files. It found a remaining comparator
+path: replacing launch HEAD with the real specification-only `cf50ef837`
+and coherently replacing its pin inventory admits a commit with no runner
+or generator (four historical pins instead of twelve). Management reproduced
+that acceptance against the actual `2a9fbef6c` comparator. The original
+battery's launch commit has the required executable files and remains valid.
+
+**Ruling F6:** require the explicit execution-module inventory at the historical
+HEAD before accepting its exact blob pins. A real but unsuitable commit is
+not evidence for the attested launch command. Add the coherent specification-
+only-HEAD attack as a refusal regression. Cost: another narrow provenance
+check; no item selection, generation or scientific rule changes. The original
+implementer owns this follow-on, then scoped re-review of F6 only.
+
+Evidence: `planning/feasibility-rereview-20261004/`; management reproduction:
+`planning/management-check-20261004/missing-runner-reproduction.json`.
