@@ -913,14 +913,20 @@ historical object remains a separately ledgered Support-purge matter.
 The contaminated object itself was never imported into this public line.
 
 GitHub release **v1.24** was published at `f721e0216` on 2026-10-04
-03:33:41 UTC; the Zenodo `published` webhook was accepted (202). The
-deposit is processing. The methods paper's inventory was then carried as
-a direct commit from private `c9cadf613`: markdown and TeX inventory at
-parity, all three PDFs rebuilt and checked, Experiment 6 named as companion
-essay evidence rather than a premise of the paper. The actual version DOI
-will be carried once minted; the last minted version remains v1.23 in this
-interim paper. This parity commit uses an `Agent: GPT-6 Astra (OpenAI), via
-OpenCode` attribution trailer. The v1.24 snapshot remains immutable.
+03:33:41 UTC; the Zenodo `published` webhook was accepted (202). Zenodo
+minted **10.5281/zenodo.23130840** at 03:34:11 UTC. Its 664,952,930-byte
+ZIP was downloaded and matched the advertised MD5; all **26,730 files**
+match their release-tree Git blob IDs, including all **2,521 Experiment 6
+paths**. The receipt is `provenance/exp6-zenodo.json`.
+
+The methods paper's inventory was carried directly from private `c9cadf613`
+to public `df3460d40`, then its actual DOI was carried from private
+`cfbd5a95d`: markdown and TeX release lists match, all three PDFs rebuilt
+and checked, anonymous exclusions retained. Experiment 6 is named as
+companion-essay evidence rather than a premise of the paper. The changed
+paper files are byte-identical to the private source. These parity commits
+use an `Agent: GPT-6 Astra (OpenAI), via OpenCode` attribution trailer.
+The v1.24 snapshot remains immutable.
 
 The retained-path list above now includes `experiments/exp6` and
 `experiment-6-design.md`. The essay and thesis remain outside this archive.
@@ -960,3 +966,7 @@ was archived the same way, the paper carried at v1.20 parity. v1.21
 the same way, the paper carried at v1.21 parity; this round is also the
 first to append its private → public commit map (269 rows) to
 `provenance/commit-map.txt`. v1.22 (10.5281/zenodo.22998653, adding the Experiment 5b record) was archived the same way on 2026-09-27, the paper carried at v1.22 parity as a direct commit. Later on 2026-09-27 the paper alone was carried again as a direct commit (its Section 6 twelfth lesson and checklist item 28, from the Experiment 5b retrospective, on Michael's instruction; md, TeX and the three PDFs byte-identical to the private commit 889facb93), and v1.23 (10.5281/zenodo.22999341, this paper with its twelfth lesson) was archived the same way on 2026-09-27, the paper carried at v1.23 parity as a direct commit.
+
+On 2026-10-04 v1.24 (10.5281/zenodo.23130840, the Experiment 6 record)
+was archived the same way, followed by the paper's direct v1.24 parity
+carry. Archive checksum and every file were verified against the release.

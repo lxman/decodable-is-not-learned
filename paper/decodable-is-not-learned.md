@@ -69,7 +69,8 @@ was carried to the public repository the same day as a direct commit
 and archived as v1.23. The Experiment 6 supporting record was added on
 2026-10-04 under four tags, with its GENERAL result reported in the
 companion essay; it is inventoried here, not drawn on by the paper's claims.
-GitHub release v1.24 is published; its Zenodo deposit is processing.
+The record is archived as v1.24 (10.5281/zenodo.23130840); the paper's
+inventory and release references were carried at v1.24 parity the same day.
 The supporting repository has been public since 2026-08-06 and was
 re-extracted 2026-08-22 (three times) to carry the exp2d, exp2e and
 exp2f records: twenty-four tags, a preregistered and a closed anchor
@@ -107,7 +108,8 @@ object recorded in PROVENANCE — `exp4c-closed`), sixty; the
 2026-09-25 Experiment 5 graft added three more (`exp5-preregistered`,
 `exp5-targets-sealed`, `exp5-closed`), sixty-three; the 2026-09-27 Experiment 5b graft added two more (`exp5b-preregistered`, `exp5b-closed`), sixty-five; the 2026-10-04 Experiment 6 graft added four more (`exp6-preregistered`, `exp6-predictor-sealed`, `exp6-endpoint-sealed`, `exp6-closed`), sixty-nine. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
-v1.23 (10.5281/zenodo.22999341, this paper with its twelfth lesson;
+v1.24 (10.5281/zenodo.23130840, the Experiment 6 record;
+v1.23, 10.5281/zenodo.22999341, this paper with its twelfth lesson;
 v1.22, 10.5281/zenodo.22998653, the Experiment 5b record; v1.21,
 10.5281/zenodo.22962602, the Experiment 5 record; v1.20,
 10.5281/zenodo.22901051, the Experiment 4c record; v1.19,
@@ -1812,4 +1814,5 @@ v1.11 22145025 (2i); v1.12 22151832 (2j); v1.13 22151979 (this
 paper's eleventh lesson); v1.14 22177233 (2k); v1.15 22286867 (2l);
 v1.16 22413760 (2m); v1.17 22667987 (2n); v1.18 22793373 (4); v1.19
 22819695 (4b); v1.20 22901051 (4c); v1.21 22962602 (5); v1.22
-22998653 (5b); v1.23 22999341 (this paper's twelfth lesson).
+22998653 (5b); v1.23 22999341 (this paper's twelfth lesson); v1.24
+23130840 (6).

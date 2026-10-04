@@ -109,9 +109,9 @@ record, cut after the power record; see PROVENANCE.md),
 `exp6-preregistered` / `exp6-predictor-sealed` / `exp6-endpoint-sealed` /
 `exp6-closed`.
 Other interim stage tags exist only in the private repository. `v1.0`,
-`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16`, `v1.17`, `v1.18`, `v1.19`, `v1.20`, `v1.21`, `v1.22` and `v1.23` anchor the Zenodo-archived snapshots
-(concept DOI 10.5281/zenodo.21830421) and deliberately point outside
-the current line, so each deposit remains exactly what was deposited.
+`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16`, `v1.17`, `v1.18`, `v1.19`, `v1.20`, `v1.21`, `v1.22`, `v1.23` and `v1.24` anchor the Zenodo-archived snapshots
+(concept DOI 10.5281/zenodo.21830421). Every release anchor is immutable,
+so each deposit remains exactly what was deposited.
 
 For Experiments 2 and 2b, probe fits appear only in commits after the
 corresponding freeze tag — the ordering the paper describes is
@@ -126,10 +126,11 @@ Commit SHAs here differ from those quoted in the paper's ledgers
 (extraction rewrites history); see PROVENANCE.md for the mapping and
 the declared redactions.
 
-GitHub release **v1.24** adds the Experiment 6 archive. Its Zenodo deposit
-is processing; the concept DOI above still resolves to the last minted
-version until publication. The current paper already inventories all four
-Experiment 6 tags; its version DOI will follow the completed deposit.
+Release **v1.24**, [10.5281/zenodo.23130840](https://doi.org/10.5281/zenodo.23130840),
+adds the Experiment 6 archive. All 26,730 deposited files were verified
+against the release tree, including 2,521 Experiment 6 paths. The current
+paper inventories all four new tags and carries the version DOI at parity
+in markdown, TeX and its three rebuilt PDFs.
 
 ## License
 
