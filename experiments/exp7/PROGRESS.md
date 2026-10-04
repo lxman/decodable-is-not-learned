@@ -658,3 +658,31 @@ Archive: `docs/superpowers/plans/2026-10-04-exp7-annex/statistics-v3/`, manifest
 SHA256 `951dc2e7c69714150f430028df8ec83a1722dcab792f2c229486cfb1e241c29b`.
 Management checker/receipts: `planning/management-statistics-v3-check-20261004/`.
 No production statistics, model/tokenizer/network contact or rental occurred.
+
+## Statistics SR1-R CLOSED — all local annex findings resolved
+
+Narrow independent re-review accepts statistics-v3 at interface-v4's explicit
+source-reviewed, serial CPython I/O boundary. The original inherited FileIO and
+os.read regressions now refuse before entry; pinned path/import/snapshot reads,
+write-only outputs and the fixed CLI's fake dispatch pass. SR1–SR5 and C-1 are
+closed. This is scoped annex acceptance; final composition remains outstanding.
+
+Management verified all **389 review bindings**, matched all 133 snapshot files
+to the committed annex and independently reproduced the unchanged reviewer
+probes: **29 context checks, seven accepted controls, 22 expected refusals**,
+plus platform identity/error/cleanup checks and CLI close/bind/dispatch order.
+The previously reproduced 72 statistics + 48 inherited core suites were not
+repeated. No added RNG or production driver invocation occurred.
+
+Platform observations remain fake-only. The review explicitly records cold
+serial descriptor stability, GC-visible CPython streams, write-only output
+handles and trusted pinned native runtime as the interface's assumptions; it
+does not claim an OS sandbox or measured host acceptance. Actual launch/runtime
+provisioning and full assembled fake-tree tests remain integration obligations.
+
+Review: `planning/statistics-v3-review-20261004/`, manifest SHA256
+`aa16cb063853f537e483e70b72162241eb53bb5f7af6b2a1f37c2b3e09d8285f`.
+Management reproduction: `planning/management-statistics-v3-review-20261004/`.
+The integration author received acceptance of statistics-v3, collection-v2 and
+operations-v2. All local correction waves are now closed; complete assembly,
+source/task reconciliation and independent whole-plan review still remain.
