@@ -512,3 +512,18 @@ cold-import behavior.
 The original collection author owns separate v2 corrections, followed by scoped
 re-review. B17–B19 remain owner proposals. None of these seven local corrections
 changes the approved score, bars, family admission, scientific budgets or grid.
+
+## Operations R1–R6 CLOSED
+
+Scoped independent operations-v2 review reproduced all 97 tests and the exact
+six original defects' corrected behavior. Targeted checks exercised the actual
+heartbeat worker's monotone mailbox, terminal acknowledgement, duplicate-writer
+refusal and parent-identity loss, plus the missing-bytecode race. No blocking
+finding remains at the parameterized operations boundary. The live O8 deployment
+and independently scheduled OS service bindings are still integration work.
+
+Management had already reproduced the 97-test suite and exact diff; it now
+verified and secured all **140 review evidence bindings** at
+`planning/operations-v2-review-20261004/`. R1–R6 are closed for integration.
+The original core/guard/v1 bytes are unchanged. These are fake-port and
+synthetic-scheduling results, not live provider, monitor or model operations.
