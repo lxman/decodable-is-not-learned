@@ -527,3 +527,17 @@ verified and secured all **140 review evidence bindings** at
 `planning/operations-v2-review-20261004/`. R1–R6 are closed for integration.
 The original core/guard/v1 bytes are unchanged. These are fake-port and
 synthetic-scheduling results, not live provider, monitor or model operations.
+
+## New GitGuardian alert — verified false positive
+
+Michael reported another alert. Read-only investigation identified **37864056**,
+four occurrences in the newly archived operations-v2 review receipt at
+`9134b3df0`. All four are the same synthetic `heartbeat_token`: a deterministic
+SHA256 identity computed from the fixture directory, dummy PID123 and stage
+`watch`. Management recomputed it from the exact committed config, checked the
+writer claim and matched all four reported patch spans. It is not a credential.
+
+Evidence and reproducible checker: `planning/gitguardian-20261004/`. Dashboard
+status at read remains TRIGGERED; no status mutation was made. No provider/model
+contact or experiment statistic was involved. The earlier credential incident
+and cancelled Support follow-up remain closed.
