@@ -598,3 +598,36 @@ their previously specified CPU-stage limits (24 hours each for calibration plus
 envelope and for power; 8 GiB), retained-arithmetic storage/verification costs,
 and 448,000 future tokenizer prompt/target comparisons. These are consolidated
 unratified specifications, not measured resource receipts or new scientific dials.
+
+## Statistics SR2–SR5 CLOSED; bounded SR1 read-closure residual
+
+Scoped independent re-review closes **SR2, SR3, SR4 and SR5**, and verifies the
+original SR1 external-helper repair. It reproduces 60 statistics + 48 inherited
+core tests and clears the geometry-bound saved arithmetic, precise absent-cache
+rule, complete diagnostic rederivation and per-family baseline coverage.
+
+One necessary residual **SR1-R** remains: the calibration context authenticates
+new opens but misses reads through handles opened before entry. The review's
+full-package fixture, with the real 26-file source inventory and pinned caller,
+returns deliberately unpinned external bytes through both `FileIO.read()` and
+`os.read()`, with entry and exit accepting. Opening the same input inside the
+context refuses. No actual calibration or effect on a scientific result occurred.
+
+Management verified all **249 review evidence bindings**, matched the probe's
+103 snapshot files to the committed annex and reproduced both read bypasses.
+It also reproduced the independent **96 arithmetic cases, 56 refusal probes,
+seven fit paths and all 80 envelope addresses**, with zero RNG calls. Previously
+reproduced full suites were not repeated. Evidence:
+`planning/statistics-v2-review-20261004/` and
+`planning/management-statistics-v2-review-20261004/`. Review manifest SHA256:
+`a4907326ce2405736b096aaa7b73f4be7b039e454b0bf653e6ad4af756ca76cb`.
+
+**Ruling SR1-R:** bind actual readable handle/descriptor identity and bytes before
+consumption, or refuse inherited/unattributed reads; include the two exact
+regressions, pinned-input positive controls and replaced/aliased descriptors.
+Preserve ordinary output handles and precise cold-cache behavior. Why: checking
+only filename-based open events does not cover already-open inputs. Cost: one
+bounded candidate-read-boundary repair and scoped re-review, with no scientific
+change. The original statistics author owns a separate v3 workspace preserving
+v1/v2; integration is informed and must incorporate the delivered repair before
+final acceptance. This local finding is not delegated to O8 deployment.
