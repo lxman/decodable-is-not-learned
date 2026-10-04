@@ -912,6 +912,16 @@ instance's key subsequently returned HTTP 401; GitHub's retained private
 historical object remains a separately ledgered Support-purge matter.
 The contaminated object itself was never imported into this public line.
 
+GitHub release **v1.24** was published at `f721e0216` on 2026-10-04
+03:33:41 UTC; the Zenodo `published` webhook was accepted (202). The
+deposit is processing. The methods paper's inventory was then carried as
+a direct commit from private `c9cadf613`: markdown and TeX inventory at
+parity, all three PDFs rebuilt and checked, Experiment 6 named as companion
+essay evidence rather than a premise of the paper. The actual version DOI
+will be carried once minted; the last minted version remains v1.23 in this
+interim paper. This parity commit uses an `Agent: GPT-6 Astra (OpenAI), via
+OpenCode` attribution trailer. The v1.24 snapshot remains immutable.
+
 The retained-path list above now includes `experiments/exp6` and
 `experiment-6-design.md`. The essay and thesis remain outside this archive.
 

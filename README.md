@@ -126,6 +126,11 @@ Commit SHAs here differ from those quoted in the paper's ledgers
 (extraction rewrites history); see PROVENANCE.md for the mapping and
 the declared redactions.
 
+GitHub release **v1.24** adds the Experiment 6 archive. Its Zenodo deposit
+is processing; the concept DOI above still resolves to the last minted
+version until publication. The current paper already inventories all four
+Experiment 6 tags; its version DOI will follow the completed deposit.
+
 ## License
 
 MIT for code, CC BY 4.0 for text and data; see LICENSE.md.

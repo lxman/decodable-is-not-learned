@@ -66,7 +66,10 @@ committed read a dip rather than a trend, and every miss on that side
 was the same miss) and checklist item 28 were added 2026-09-27 from
 the Experiment 5b retrospective on Michael's instruction; the paper
 was carried to the public repository the same day as a direct commit
-and archived as v1.23.
+and archived as v1.23. The Experiment 6 supporting record was added on
+2026-10-04 under four tags, with its GENERAL result reported in the
+companion essay; it is inventoried here, not drawn on by the paper's claims.
+GitHub release v1.24 is published; its Zenodo deposit is processing.
 The supporting repository has been public since 2026-08-06 and was
 re-extracted 2026-08-22 (three times) to carry the exp2d, exp2e and
 exp2f records: twenty-four tags, a preregistered and a closed anchor
@@ -102,7 +105,7 @@ two more (`exp4b-preregistered`, `exp4b-closed`), fifty-eight; the
 — a disclosed re-tag after the preflight amendment, the original
 object recorded in PROVENANCE — `exp4c-closed`), sixty; the
 2026-09-25 Experiment 5 graft added three more (`exp5-preregistered`,
-`exp5-targets-sealed`, `exp5-closed`), sixty-three; the 2026-09-27 Experiment 5b graft added two more (`exp5b-preregistered`, `exp5b-closed`), sixty-five. Archived
+`exp5-targets-sealed`, `exp5-closed`), sixty-three; the 2026-09-27 Experiment 5b graft added two more (`exp5b-preregistered`, `exp5b-closed`), sixty-five; the 2026-10-04 Experiment 6 graft added four more (`exp6-preregistered`, `exp6-predictor-sealed`, `exp6-endpoint-sealed`, `exp6-closed`), sixty-nine. Archived
 at Zenodo under concept DOI 10.5281/zenodo.21830421, latest version
 v1.23 (10.5281/zenodo.22999341, this paper with its twelfth lesson;
 v1.22, 10.5281/zenodo.22998653, the Experiment 5b record; v1.21,
@@ -1797,6 +1800,7 @@ they exist.*
 | 4c | `exp4c-*` (the preregistration tag re-cut after a preflight amendment, disclosed in PROVENANCE) | named, not drawn on |
 | 5 | `exp5-*` (+ `-targets-sealed`) | named, not drawn on |
 | 5b | `exp5b-*` | §6 lesson 12 |
+| 6 | `exp6-*` (+ `-predictor-sealed`, `-endpoint-sealed`) | companion essay; not drawn on |
 | 1, 1b, 1c | `exp1-analysis-frozen`, `exp1b-*`, `exp1c-*` (+ `exp1c-stage-a`) | companion essay; not drawn on |
 
 Archived releases (all `10.5281/zenodo.` prefixed): v1.0 21830422
