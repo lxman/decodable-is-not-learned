@@ -1,0 +1,9 @@
+{
+  "attempts.jsonl": "64070219e506c77c4221ac248ced87c8be97d272181eff664ba09a3c938cec48",
+  "baseline-outputs.jsonl": "222147c51939fdd79628951fed98f0d1c533783beaad7a4d8dcaf0b9017fe6df",
+  "baselines.json": "acc0959ee71fb82ce6766391b44beed78defdd8d20aafe6f2f8b2a5fa61b43bf",
+  "certificate.json": "00238fa53b313bbefc2cbe75c4dd2ef19054823234d78f9573244b23a1029c96",
+  "launch-pins.json": "875a40329cf6b5cd542190b08a7cfbf45c9c13f04f5f773f03dd3c7f5c8faa96",
+  "oracles.jsonl": "f403468b698fc8c7cd1f433896c209dc84f36f30b3111160f88659f683f9ca38",
+  "pairs.jsonl": "361a89652222df8131185f946ded5b8962eb213b42e18890223c7f2eb349fe1b"
+}

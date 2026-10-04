@@ -69,3 +69,52 @@ Full generation attempts: **none yet**. Tokenizer/model contact: **none**.
 - Full prototype suite: **21 tests passed, 2.130 s**. This fixes declared
   source coverage, without a specification change. Initial evidence committed
   and pushed at **27dcf1775** before this repair.
+
+## Corrected full attempts 003/004 — current evidence
+
+- Fix and regression committed/pushed **5ad3ccb07**.
+- `python -m experiments.exp7.feasibility.run --run-id full-003`:
+  **17:08:06.790995–17:08:13.012576 UTC**, PASS, 2,000 pairs / 8,000 questions.
+- Exact repeat once: `--run-id full-004`, **17:08:16.571030–17:08:22.823846
+  UTC**, PASS. Launch HEAD for both: `5ad3ccb078b559d275c6f505bad0a9d42414aa8e`.
+- `python -m experiments.exp7.feasibility.compare full-003 full-004 --output
+  determinism-corrected.json`: PASS, all eight deterministic artifacts equal;
+  103 source pins rechecked. Receipts excluded only for run ID/UTC fields.
+- The repaired coverage includes all old shot metadata: 1,004 deduction
+  records, 502 unit triples, 502 unit two-number records, 351 closed polygons
+  and 151 arc/open records. 241,968 unique old questions / 247,698 records.
+- Adding omitted keys did not affect selection: corrected pairs, attempt
+  logs, oracle results and baseline bytes equal initial runs. Certificates
+  and code bindings correctly changed. No substantive reruling required.
+- All 8,000 independent rendered-question oracles agree; 1,000 unique matched
+  words (328 old answer-word reuses), 500 new orders, 500 new numeric triples,
+  1,000 distinct shape congruence keys. No admitted old/new content or question
+  collision. BIG-bench checked on 26,000 exact/legacy surfaces, with its
+  hash-only structural limitation disclosed.
+- Base blocks: words 15×33–34; deduction 20×25; units 5×100; shapes 2×250.
+  Orientation 250/250 each family, ordered target positions 20×25 each option
+  family, render orders 20/21 each. No nominal pooling.
+- Fixed baseline audit: endpoint deduction **500/500** canonical and sham,
+  x=1; query-direction/list-index deduction **25/500**, x=0. Every other
+  applicable baseline has 0 observed paired successes /500 and x=0; explicit
+  unsupported counts and 35 N/A cells retained. Full results/limitations and
+  first-pair worked examples are in `REPORT.md`.
+- Source inventory discovery rechecked against approval-snapshot Git paths:
+  no additional committed task-item JSON/JSONL/TSV paths outside the declared
+  item directories (other battery data are indexes/overlap/token-length files).
+- AST import scan: stdlib plus this feasibility package only. No predecessor
+  instrument import, no analyzer, tokenizer, model library or model output.
+
+**Full generation tally: four attempts total**, two original-version runs,
+two corrected-version runs (one deterministic repeat per version). All evidence
+preserved, none overwritten. 21 tests pass. Fresh independent review pending.
+
+### Saved-byte self-check before handoff
+
+A separate inline stdlib-only check (no prototype imports or generation)
+rechecked all four archived artifact manifests, 103 current source hashes,
+12 current code/spec launch pins, 2,000 pair IDs and 8,000 saved oracle-answer
+bindings. It independently recomputed paired success, conditional x and
+unsupported counts from all **24,500 saved baseline output records**, agreeing
+with all **84 cells (49 applicable / 35 N/A)**. PASS. This is an implementer
+self-check, not the pending fresh review. No additional full run occurred.

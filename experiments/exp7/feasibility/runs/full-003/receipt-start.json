@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/Users/michaeljordan/emergence-paper/experiments/exp7/feasibility/run.py",
+    "--run-id",
+    "full-003"
+  ],
+  "executable": "/Users/michaeljordan/emergence-lab/.venv/bin/python",
+  "head": "5ad3ccb078b559d275c6f505bad0a9d42414aa8e",
+  "python": "3.11.15",
+  "started_utc": "2026-10-04T17:08:06.790995+00:00"
+}
