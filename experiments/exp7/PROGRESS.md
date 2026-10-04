@@ -115,3 +115,31 @@ certificates and a fresh review. Do not present prototype code as frozen
 production instrumentation. Cost: validated logic still has to be carried
 through the full build-plan/review/freeze chain. Stop for a design ruling
 if a required family cannot supply support under its admitted constraints.
+
+## Prototype feasibility delivered; independent review in progress
+
+Implementer published specification before generation (`cf50ef837`), prototype
+(`e8e32be4a`), preserved first-attempt evidence (`27dcf1775`), an old-shot
+metadata indexing repair (`5ad3ccb07`), and corrected evidence (`fc80876ad`).
+Current runs are `feasibility/runs/full-003` and its exact repeat `full-004`.
+The report records 500 pairs per family / 8,000 prompts; 15/20/5/2 base blocks
+(words/deduction/units/shapes). Management has read the specification, report
+and execution ledger; fresh independent code/certificate review is in progress.
+Treat their construction PASS as pending that review, not a final instrument
+claim. The implementer's claimed 21 passing tests still require management's
+reproduction before acceptance.
+
+**Ruling F4:** retain and foreground the declared endpoint shortcut's
+500/500 deduction-pair successes — the approved design forbids selection by
+baseline performance and already bounds the result to input sensitivity.
+Cost: this family cannot establish multi-step reasoning, and a later aggregate
+result must print each family's contributions. No post-audit replacement.
+The shape support is four target labels in two quadrilateral pair classes,
+explicitly disclosed rather than equated with the predecessor's ten classes.
+
+Build-plan index is being assembled at
+`docs/superpowers/plans/2026-10-04-exp7-build.md`. A separate plan author is
+preparing complete source/test annexes in approved scratch with synthetic-only
+checks; it owns no production repository files. Missing annexes are explicit
+and the index is not yet execution-ready. No calibration, power, sampler,
+outcome or model contact has occurred in this approved planning stage.
