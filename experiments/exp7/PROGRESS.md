@@ -295,3 +295,52 @@ rule omitting five manifested harmless-mutation JSON receipts from the first
 add. Add those exact hash-verified evidence files explicitly and verify every
 manifested path against Git before accepting publication. No source or test
 result changed; this is an archive completeness correction.
+
+## Operations-plan review — six necessary local fixes
+
+Independent review reproduced the 82-test/79-file/unchanged-core claims, then
+demonstrated six bounded operational or harness defects in operations-v1.
+Management read the actual source/reproductions, verified all **130 review
+receipt bindings**, and independently reproduced all six using the archived
+source and fake operational ports. No live process/network/provider operation
+occurred. Evidence: `planning/operations-review-20261004/`; management probes
+and reconciliation: `planning/management-operations-check-20261004/`.
+
+**Ruling R1:** preserve child-owned terminal status if a fast child exits before
+the parent's SID lookup. Post-spawn observation uncertainty is separate parent
+diagnostic evidence, not an invented failed child terminal. Cost: distinguish
+launch/observation state explicitly.
+
+**Ruling R2:** an independently observed failed/stopped campaign must preserve
+its whole inventory even when a DONE unit is invalid. Record that invalidity
+without admitting it as a valid canonical unit. Keep invalid claimed-success
+campaigns paused. Cost: separate failure-evidence preservation from scientific
+unit admission; independent security/release gates still apply.
+
+**Ruling R3:** failed/error provider-list envelopes cannot establish absence.
+Require a validated successful observation before a release receipt; never
+persist raw replies/error bodies. Cost: ambiguous responses require explicit
+reconciliation instead of assumed absence. This finding used a synthetic
+response, not a provider observation or credential incident.
+
+**Ruling R4:** constrain the Git commit itself to the explicit publication
+paths and verify its actual diff before pushing. Cached-index checks alone
+cannot close concurrent staging. Cost: coordinate index activity and reject
+unexpected committed paths rather than absorbing unrelated work.
+
+**Ruling R5:** admit ordinary cold loading of a pinned source while distinguishing
+nonexistent bytecode-cache probes from actual reads. Existing unpinned bytecode
+must still refuse; retain alias/transient execution and exit-drift checks.
+Cost: a precise loader/read rule instead of a broad bytecode exemption.
+
+**Ruling R6:** heartbeat independently of blocking transfer/statistical/model
+work, with a single serialized status writer. A beat before a long call does
+not meet the timing promise. Cost: a real independent heartbeat capability and
+fake-clock/concurrency tests, carried through the eventual production binding.
+
+The original author owns one correction wave in separate scratch operations-v2,
+preserving v1. It will receive scoped re-review. The declared final production
+bindings and full fake-Campaign integration remain separate open work, not
+claims supplied by the 82 miniature tests. NumPy's top-level import worked
+under the original guard; no guard weakening is justified by the earlier
+ctypes concern. Actual assembled numerical kernels still need guarded tests.
