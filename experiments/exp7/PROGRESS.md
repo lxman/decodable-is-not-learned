@@ -289,3 +289,9 @@ dedicated adapter, authorization and end-to-end fake-tree tests; no invented
 raw draws or self-attested pass dictionaries. The respective authors have the
 concrete requirements. Remaining complete source/worker bindings are required
 before readiness, not left as open-ended work for the production implementer.
+
+Operations-annex publication check caught the repository-wide `logs/` ignore
+rule omitting five manifested harmless-mutation JSON receipts from the first
+add. Add those exact hash-verified evidence files explicitly and verify every
+manifested path against Git before accepting publication. No source or test
+result changed; this is an archive completeness correction.
