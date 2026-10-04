@@ -182,3 +182,35 @@ stage writes the checker and fake tests only; no tokenizer is executed now.
 Preserve the historical proposal in core-v1 and explicitly supersede it in
 the assembled plan. Cost if wrong: a tokenizer-only build check needs its
 proper later authorization, but a too-short cap must be caught before tag.
+
+## Scoped checker repair and core-plan review
+
+Feasibility hardening landed at `2a9fbef6c`, evidence at `98a0e899e`. Management
+checked the stored scoped diff against actual Git bytes and reproduced
+**35 tests, zero failures/errors/skips**, with model/tokenizer imports and
+network operations refused. The tests revalidate archived evidence and
+counterbalance assignments; no fifth full generation occurred. The old eight
+deterministic artifacts retain their original hashes. Receipts/log:
+`planning/management-check-20261004/feasibility-hardened-suite.*`. Scoped fresh
+re-review is in progress before F5 closes.
+
+The independent core-plan review cleared the conditional score, fixed-margin
+null, Somers denominator, eligibility, finite thresholds, resampling and the
+specified component-null cases, after 48 tests and additional exhaustive
+checks. It found **C-1**, a necessary local totality fix: the single-family
+power-fitting helper subtracts the target from a final undefined D. Management
+reproduced the TypeError on the review's three-item deterministic fixture.
+
+**Ruling C-1:** return unsupported with an explicit uninformative-outcome reason
+when the final fit is undefined; never retry with different noise or strengthen
+the target. Add the exact regression and apply the same rule to the aggregate
+subset fitter. Why: a sparse/tied simulation must produce its diagnostic,
+not crash. Cost: an undefined alternative remains unsupported. This is a
+prototype helper defect, not a production power result. The statistics-plan
+author owns the correction in the next annex; core-v1 remains historical.
+
+Full review and executable evidence are secured under
+`planning/core-review-20261004/`; management's reproduced failure is
+`planning/management-check-20261004/core-c1-reproduction.json`. B3/B6/B7–9/B13
+remain explicit implementation/scientific proposals for ratification, not
+quietly approved choices. B16's stage change is already rejected above.
