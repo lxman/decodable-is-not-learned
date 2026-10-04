@@ -115,6 +115,53 @@ class EvidenceHardeningTests(unittest.TestCase):
             self.rewrite(folder,'receipt-start.json',receipt,False)
         self.must_refuse('launch HEAD')
 
+    def test_coherent_spec_only_head_without_execution_modules_refused(self):
+        head='cf50ef8374347ec85b0327ec1b5583f4dfe6c146'
+        tree=comparison.git_bytes('ls-tree','-r','--name-only',head,'--',comparison.PREFIX).decode().splitlines()
+        names={p[len(comparison.PREFIX):] for p in tree
+               if '/' not in p[len(comparison.PREFIX):] and p.endswith('.py')}
+        names |= {'PLAN.md','SPEC.md','source_inventory.json'}
+        self.assertEqual(names,{'PLAN.md','SPEC.md','inventory.py','source_inventory.json'})
+        pins={name:digest(comparison.git_bytes('show',f'{head}:{comparison.PREFIX}{name}'))
+              for name in sorted(names)}
+        for folder in self.copies():
+            start=json.loads((folder/'receipt-start.json').read_text())
+            start['head']=head
+            cert=json.loads((folder/'certificate.json').read_text())
+            cert['code_and_spec_pins']=pins
+            self.rewrite(folder,'receipt-start.json',start,False)
+            self.rewrite(folder,'launch-pins.json',pins)
+            self.rewrite(folder,'certificate.json',cert)
+            manifest=json.loads((folder/'artifacts.json').read_text())
+            self.assertTrue(all(digest((folder/name).read_bytes())==sha for name,sha in manifest.items()))
+            self.assertEqual((folder/'pairs.jsonl').read_bytes(),(HERE/'runs/full-003/pairs.jsonl').read_bytes())
+        self.must_refuse('historical execution module inventory')
+
+    def test_unbound_transitive_execution_dependency_refused(self):
+        head='5ad3ccb078b559d275c6f505bad0a9d42414aa8e'
+        tree=comparison.git_bytes('ls-tree','-r','--name-only',head,'--',comparison.PREFIX).decode().splitlines()
+        original=comparison.git_bytes
+        def changed(*args):
+            raw=original(*args)
+            if args==('show',f'{head}:{comparison.PREFIX}oracle.py'):
+                return raw+b'\nfrom .unbound_helper import resolve\n'
+            return raw
+        with patch.object(comparison,'git_bytes',side_effect=changed):
+            with self.assertRaisesRegex(ValueError,'unbound dependency: unbound_helper.py'):
+                comparison.require_execution_inventory(head,tree)
+
+    def test_unbound_package_initializer_refused(self):
+        head='5ad3ccb078b559d275c6f505bad0a9d42414aa8e'
+        tree=comparison.git_bytes('ls-tree','-r','--name-only',head,'--',comparison.PREFIX).decode().splitlines()
+        original=comparison.git_bytes
+        def changed(*args):
+            if args==('ls-tree','-r','--name-only',head,'--',*comparison.PACKAGE_INITIALIZERS):
+                return b'experiments/exp7/__init__.py\n'
+            return original(*args)
+        with patch.object(comparison,'git_bytes',side_effect=changed):
+            with self.assertRaisesRegex(ValueError,'unbound package initializers'):
+                comparison.require_execution_inventory(head,tree)
+
     def test_self_consistent_forged_launch_pins_refused(self):
         for folder in self.copies():
             pins=json.loads((folder/'launch-pins.json').read_text())
@@ -175,6 +222,9 @@ class EvidenceHardeningTests(unittest.TestCase):
             self.assertEqual(row['source_git_blobs'],103)
             self.assertEqual(row['exact_seeded_option_assignments'],1500)
             self.assertEqual(row['oracle_arms'],8000)
+            self.assertEqual(row['execution_module_inventory'],
+                             ['audit.py','baselines.py','generate.py','oracle.py','run.py','sources.py'])
+            self.assertTrue(row['execution_import_closure_checked'])
 
 
 if __name__=='__main__':

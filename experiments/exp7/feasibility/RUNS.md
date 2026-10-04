@@ -205,3 +205,52 @@ code/test diff exactly. Receipt SHA256:
 `fc6e3a68f122b9827f39d9dc09b45ee6897ee89ae3ca5f466b5de3cb3fc9aec0`.
 Git diff confirms no changes to any historical full-run directory, SPEC or
 generator. This entry accompanies the separate documentation/receipt revision.
+
+## Scoped re-review P2 / Ruling F6 — historical execution inventory
+
+Re-review returned **FIX** on one necessary provenance path; the saved battery,
+all 35 prior tests and schedule/archive claims remained independently verified.
+Reviewer evidence was read from
+`/private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp7-feasibility-rereview/verify.py`.
+No reviewer script, old analyzer or model instrumentation was executed.
+
+Finding verbatim:
+
+> compare.py66–71 derivesrequiredhistoricalPythonfiles solelyfromwhateverexists
+> atsuppliedHEAD. BothlaunchHEADscanbe realSPEC-only
+> cf50ef8374347ec85b0327ec1b5583f4dfe6c146, pinsactual4files PLAN.md SPEC.md
+> inventory.py source_inventory.json, certcodepinsupdatedartifacthashescoherent.
+> Originalsavedpairsoutputsretained. Comparator returns0 oktrue
+> historical_launch_pins4 despitecommit hasno run.py generate.py audit.py
+> oracle.py sources.py baselines.py so cannotexecuteattestedcommand.
+
+**Ruling F6:** require the explicit six-module execution inventory
+`run.py`, `generate.py`, `audit.py`, `oracle.py`, `sources.py`, `baselines.py`
+at the claimed launch HEAD **before deriving or comparing its historical pin
+map**. This is the entire repository execution closure of the certified run,
+not a list inferred from whichever files happen to exist. Parse those actual
+historical Git blobs without importing them, traverse static imports from
+`run.py`, require the complete six-module closure and reject unbound relative
+or non-stdlib absolute imports. The certified packages are namespaces; reject
+added package initializers that would execute outside that closure. Then retain
+the existing exact historical Git-blob pin comparisons and source/certificate
+checks. Why: a real commit and mutually consistent hashes can attest a
+nonexistent runner. Cost: a changed execution graph or package initializer
+needs explicit inventory review rather than automatic acceptance. No claim
+of universal proof of arbitrary Python behavior; this binds the known fixed
+prototype's execution inventory. No scientific dial or selected item changes.
+
+TDD exact attack: two disposable copies retained all saved pairs/outputs,
+changed both receipt HEADs to the real SPEC-only commit, replaced launch and
+certificate code pins with its four actual files, and coherently refreshed
+artifact hashes. The refusal regression **failed first**: ValueError not
+raised, **1 test / 9.856 s**. After the fix, the **full suite ran once: 38
+tests passed in 31.207 s**. Added transitive-helper and package-initializer
+refusal attacks; the existing positive archived-launch test now confirms the
+six-module inventory and checked closure while retaining its 12 original pins.
+
+Command: `/Users/michaeljordan/emergence-lab/.venv/bin/python -m unittest
+experiments.exp7.feasibility.test_feasibility
+experiments.exp7.feasibility.test_hardening`.
+Full generation tally remains four. A distinct F6 saved-verification receipt
+will accompany the results revision; no archive or prior receipt is overwritten.

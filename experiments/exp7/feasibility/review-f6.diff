@@ -1,0 +1,150 @@
+diff --git a/experiments/exp7/feasibility/compare.py b/experiments/exp7/feasibility/compare.py
+index 692416122..7b3cbe45b 100644
+--- a/experiments/exp7/feasibility/compare.py
++++ b/experiments/exp7/feasibility/compare.py
+@@ -1,9 +1,11 @@
+ """Compare two write-once runs, binding all deterministic artifacts."""
+ import argparse
++import ast
+ import datetime
+ import json
+ import re
+ import subprocess
++import sys
+ from collections import Counter
+ from functools import lru_cache
+ 
+@@ -19,6 +21,10 @@ FILES = ARTIFACTS | {'artifacts.json','receipt-start.json','receipt-end.json'}
+ INVENTORY_FIELDS = {'computations','excluded','item_files','pins','snapshot',
+                     'unit_enumeration_capacity_before_old_collisions','word_pair_capacity','word_rows'}
+ SNAPSHOT = '2d14da44ad882139bc95264697b03d45fe109354'
++# Fixed execution closure of `python -m experiments.exp7.feasibility.run`.
++# This minimum is independent of whichever files a supplied HEAD happens to have.
++EXECUTION_MODULES = frozenset(('run.py','generate.py','audit.py','oracle.py','sources.py','baselines.py'))
++PACKAGE_INITIALIZERS = ('experiments/__init__.py','experiments/exp7/__init__.py',PREFIX+'__init__.py')
+ 
+ 
+ def require(condition, reason):
+@@ -43,6 +49,38 @@ def lines(folder, name):
+     return [json.loads(line) for line in (folder/name).read_text().splitlines()]
+ 
+ 
++def require_execution_inventory(head, tree):
++    missing = sorted(name for name in EXECUTION_MODULES if PREFIX+name not in tree)
++    require(not missing,'historical execution module inventory missing: '+', '.join(missing))
++    # The certified launch used namespace packages. An added package initializer
++    # would execute outside this launch's six-module closure and is not admitted.
++    initializers = git_bytes('ls-tree','-r','--name-only',head,'--',*PACKAGE_INITIALIZERS).decode().splitlines()
++    require(not initializers,'historical execution module inventory has unbound package initializers')
++    visited, pending = set(), ['run.py']
++    while pending:
++        name = pending.pop()
++        if name in visited:
++            continue
++        visited.add(name)
++        try:
++            syntax = ast.parse(git_bytes('show',f'{head}:{PREFIX}{name}'),filename=name)
++        except SyntaxError as exc:
++            raise ValueError('historical execution module syntax: '+name) from exc
++        for node in ast.walk(syntax):
++            if isinstance(node,ast.ImportFrom) and node.level:
++                require(node.level==1 and node.module is not None and '.' not in node.module,
++                        'historical execution module inventory has unsupported repository import')
++                dependency = node.module+'.py'
++                require(dependency in EXECUTION_MODULES,
++                        'historical execution module inventory has unbound dependency: '+dependency)
++                pending.append(dependency)
++            elif isinstance(node,(ast.Import,ast.ImportFrom)):
++                imports = [alias.name for alias in node.names] if isinstance(node,ast.Import) else [node.module]
++                require(all(name and name.split('.')[0] in sys.stdlib_module_names for name in imports),
++                        'historical execution module inventory has non-stdlib absolute import')
++    require(visited==EXECUTION_MODULES,'historical execution module inventory is not the complete run import closure')
++
++
+ def launch_bindings(folder, source):
+     start,end = load(folder,'receipt-start.json'),load(folder,'receipt-end.json')
+     require(set(start)=={'command','executable','head','python','started_utc'},'receipt-start fields')
+@@ -64,6 +102,7 @@ def launch_bindings(folder, source):
+     ended = datetime.datetime.fromisoformat(end['finished_utc'])
+     require(began.utcoffset()==ended.utcoffset()==datetime.timedelta(0) and began<=ended,'receipt UTC interval')
+     tree = git_bytes('ls-tree','-r','--name-only',head,'--',PREFIX).decode().splitlines()
++    require_execution_inventory(head,tree)
+     names = {p[len(PREFIX):] for p in tree if p.startswith(PREFIX) and '/' not in p[len(PREFIX):]
+              and p.endswith('.py')} | {'SPEC.md','PLAN.md','source_inventory.json'}
+     actual_pins = {name:digest(git_bytes('show',f'{head}:{PREFIX}{name}')) for name in sorted(names)}
+@@ -112,6 +151,7 @@ def validate_archive(folder, source):
+     require(load(folder,'baselines.json')==baseline_rows,'saved baseline table coverage/content mismatch')
+     require(lines(folder,'baseline-outputs.jsonl')==baseline_outputs,'saved baseline output coverage/content mismatch')
+     return {'launch_head':head,'historical_launch_pins':len(pins),'source_git_blobs':len(inventory['pins']),
++            'execution_module_inventory':sorted(EXECUTION_MODULES),'execution_import_closure_checked':True,
+             'source_inventory_fields':sorted(inventory),'certificate_fields_exact':True,
+             'pairs':len(pairs),'oracle_arms':measured['oracle_questions'],
+             'exact_seeded_orientation_assignments':len(pairs),'exact_seeded_render_assignments':len(pairs),
+diff --git a/experiments/exp7/feasibility/test_hardening.py b/experiments/exp7/feasibility/test_hardening.py
+index ee5f07e32..68168f0c1 100644
+--- a/experiments/exp7/feasibility/test_hardening.py
++++ b/experiments/exp7/feasibility/test_hardening.py
+@@ -115,6 +115,53 @@ class EvidenceHardeningTests(unittest.TestCase):
+             self.rewrite(folder,'receipt-start.json',receipt,False)
+         self.must_refuse('launch HEAD')
+ 
++    def test_coherent_spec_only_head_without_execution_modules_refused(self):
++        head='cf50ef8374347ec85b0327ec1b5583f4dfe6c146'
++        tree=comparison.git_bytes('ls-tree','-r','--name-only',head,'--',comparison.PREFIX).decode().splitlines()
++        names={p[len(comparison.PREFIX):] for p in tree
++               if '/' not in p[len(comparison.PREFIX):] and p.endswith('.py')}
++        names |= {'PLAN.md','SPEC.md','source_inventory.json'}
++        self.assertEqual(names,{'PLAN.md','SPEC.md','inventory.py','source_inventory.json'})
++        pins={name:digest(comparison.git_bytes('show',f'{head}:{comparison.PREFIX}{name}'))
++              for name in sorted(names)}
++        for folder in self.copies():
++            start=json.loads((folder/'receipt-start.json').read_text())
++            start['head']=head
++            cert=json.loads((folder/'certificate.json').read_text())
++            cert['code_and_spec_pins']=pins
++            self.rewrite(folder,'receipt-start.json',start,False)
++            self.rewrite(folder,'launch-pins.json',pins)
++            self.rewrite(folder,'certificate.json',cert)
++            manifest=json.loads((folder/'artifacts.json').read_text())
++            self.assertTrue(all(digest((folder/name).read_bytes())==sha for name,sha in manifest.items()))
++            self.assertEqual((folder/'pairs.jsonl').read_bytes(),(HERE/'runs/full-003/pairs.jsonl').read_bytes())
++        self.must_refuse('historical execution module inventory')
++
++    def test_unbound_transitive_execution_dependency_refused(self):
++        head='5ad3ccb078b559d275c6f505bad0a9d42414aa8e'
++        tree=comparison.git_bytes('ls-tree','-r','--name-only',head,'--',comparison.PREFIX).decode().splitlines()
++        original=comparison.git_bytes
++        def changed(*args):
++            raw=original(*args)
++            if args==('show',f'{head}:{comparison.PREFIX}oracle.py'):
++                return raw+b'\nfrom .unbound_helper import resolve\n'
++            return raw
++        with patch.object(comparison,'git_bytes',side_effect=changed):
++            with self.assertRaisesRegex(ValueError,'unbound dependency: unbound_helper.py'):
++                comparison.require_execution_inventory(head,tree)
++
++    def test_unbound_package_initializer_refused(self):
++        head='5ad3ccb078b559d275c6f505bad0a9d42414aa8e'
++        tree=comparison.git_bytes('ls-tree','-r','--name-only',head,'--',comparison.PREFIX).decode().splitlines()
++        original=comparison.git_bytes
++        def changed(*args):
++            if args==('ls-tree','-r','--name-only',head,'--',*comparison.PACKAGE_INITIALIZERS):
++                return b'experiments/exp7/__init__.py\n'
++            return original(*args)
++        with patch.object(comparison,'git_bytes',side_effect=changed):
++            with self.assertRaisesRegex(ValueError,'unbound package initializers'):
++                comparison.require_execution_inventory(head,tree)
++
+     def test_self_consistent_forged_launch_pins_refused(self):
+         for folder in self.copies():
+             pins=json.loads((folder/'launch-pins.json').read_text())
+@@ -175,6 +222,9 @@ class EvidenceHardeningTests(unittest.TestCase):
+             self.assertEqual(row['source_git_blobs'],103)
+             self.assertEqual(row['exact_seeded_option_assignments'],1500)
+             self.assertEqual(row['oracle_arms'],8000)
++            self.assertEqual(row['execution_module_inventory'],
++                             ['audit.py','baselines.py','generate.py','oracle.py','run.py','sources.py'])
++            self.assertTrue(row['execution_import_closure_checked'])
+ 
+ 
+ if __name__=='__main__':

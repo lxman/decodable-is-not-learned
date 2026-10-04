@@ -1,9 +1,11 @@
 """Compare two write-once runs, binding all deterministic artifacts."""
 import argparse
+import ast
 import datetime
 import json
 import re
 import subprocess
+import sys
 from collections import Counter
 from functools import lru_cache
 
@@ -19,6 +21,10 @@ FILES = ARTIFACTS | {'artifacts.json','receipt-start.json','receipt-end.json'}
 INVENTORY_FIELDS = {'computations','excluded','item_files','pins','snapshot',
                     'unit_enumeration_capacity_before_old_collisions','word_pair_capacity','word_rows'}
 SNAPSHOT = '2d14da44ad882139bc95264697b03d45fe109354'
+# Fixed execution closure of `python -m experiments.exp7.feasibility.run`.
+# This minimum is independent of whichever files a supplied HEAD happens to have.
+EXECUTION_MODULES = frozenset(('run.py','generate.py','audit.py','oracle.py','sources.py','baselines.py'))
+PACKAGE_INITIALIZERS = ('experiments/__init__.py','experiments/exp7/__init__.py',PREFIX+'__init__.py')
 
 
 def require(condition, reason):
@@ -43,6 +49,38 @@ def lines(folder, name):
     return [json.loads(line) for line in (folder/name).read_text().splitlines()]
 
 
+def require_execution_inventory(head, tree):
+    missing = sorted(name for name in EXECUTION_MODULES if PREFIX+name not in tree)
+    require(not missing,'historical execution module inventory missing: '+', '.join(missing))
+    # The certified launch used namespace packages. An added package initializer
+    # would execute outside this launch's six-module closure and is not admitted.
+    initializers = git_bytes('ls-tree','-r','--name-only',head,'--',*PACKAGE_INITIALIZERS).decode().splitlines()
+    require(not initializers,'historical execution module inventory has unbound package initializers')
+    visited, pending = set(), ['run.py']
+    while pending:
+        name = pending.pop()
+        if name in visited:
+            continue
+        visited.add(name)
+        try:
+            syntax = ast.parse(git_bytes('show',f'{head}:{PREFIX}{name}'),filename=name)
+        except SyntaxError as exc:
+            raise ValueError('historical execution module syntax: '+name) from exc
+        for node in ast.walk(syntax):
+            if isinstance(node,ast.ImportFrom) and node.level:
+                require(node.level==1 and node.module is not None and '.' not in node.module,
+                        'historical execution module inventory has unsupported repository import')
+                dependency = node.module+'.py'
+                require(dependency in EXECUTION_MODULES,
+                        'historical execution module inventory has unbound dependency: '+dependency)
+                pending.append(dependency)
+            elif isinstance(node,(ast.Import,ast.ImportFrom)):
+                imports = [alias.name for alias in node.names] if isinstance(node,ast.Import) else [node.module]
+                require(all(name and name.split('.')[0] in sys.stdlib_module_names for name in imports),
+                        'historical execution module inventory has non-stdlib absolute import')
+    require(visited==EXECUTION_MODULES,'historical execution module inventory is not the complete run import closure')
+
+
 def launch_bindings(folder, source):
     start,end = load(folder,'receipt-start.json'),load(folder,'receipt-end.json')
     require(set(start)=={'command','executable','head','python','started_utc'},'receipt-start fields')
@@ -64,6 +102,7 @@ def launch_bindings(folder, source):
     ended = datetime.datetime.fromisoformat(end['finished_utc'])
     require(began.utcoffset()==ended.utcoffset()==datetime.timedelta(0) and began<=ended,'receipt UTC interval')
     tree = git_bytes('ls-tree','-r','--name-only',head,'--',PREFIX).decode().splitlines()
+    require_execution_inventory(head,tree)
     names = {p[len(PREFIX):] for p in tree if p.startswith(PREFIX) and '/' not in p[len(PREFIX):]
              and p.endswith('.py')} | {'SPEC.md','PLAN.md','source_inventory.json'}
     actual_pins = {name:digest(git_bytes('show',f'{head}:{PREFIX}{name}')) for name in sorted(names)}
@@ -112,6 +151,7 @@ def validate_archive(folder, source):
     require(load(folder,'baselines.json')==baseline_rows,'saved baseline table coverage/content mismatch')
     require(lines(folder,'baseline-outputs.jsonl')==baseline_outputs,'saved baseline output coverage/content mismatch')
     return {'launch_head':head,'historical_launch_pins':len(pins),'source_git_blobs':len(inventory['pins']),
+            'execution_module_inventory':sorted(EXECUTION_MODULES),'execution_import_closure_checked':True,
             'source_inventory_fields':sorted(inventory),'certificate_fields_exact':True,
             'pairs':len(pairs),'oracle_arms':measured['oracle_questions'],
             'exact_seeded_orientation_assignments':len(pairs),'exact_seeded_render_assignments':len(pairs),
