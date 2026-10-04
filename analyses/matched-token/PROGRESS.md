@@ -109,3 +109,22 @@ repository source. The before-execution import finder still binds every actual
 repository module, and entry/exit checks retain absolute source paths.
 The same full pytest command now reports **26 passed in 2.00 s**. This correction
 changes validation-path handling only; the fixed analysis rules are unchanged.
+
+### Validation-only attempt 2: complete
+
+At launch HEAD `e74b6de984c1f89bbd6324d2f02921736c9ea08f` (committed and pushed),
+the same `analyze.py --validate-only` command exited **0** and printed only:
+
+```json
+{"state": "validated", "units": 60, "rung_records": 2040, "rederived_bits": 1020000, "bound_source_files": 2309, "bound_launch_files": 4}
+```
+
+All selected units passed the frozen contracts and additional cross-links;
+every bit was rescored. Entry/exit source bindings passed for 2,309 files
+(2,257 payload files and 52 imported repository source files); the three new
+Python files and PLAN matched launch HEAD. The analysis directory has no
+`results/` directory. Actual-source validation tally: **two invocations, one
+explicit import-label refusal and one complete validation**. Production
+comparison/bootstrap tally: **zero**. Final code is at `e74b6de98` (initial
+build `c9bd0f2fa`); ready for independent review. Management owns the single
+production invocation and subsequent `verify_outputs.py` saved-output audit.
