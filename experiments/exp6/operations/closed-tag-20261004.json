@@ -1,0 +1,9 @@
+{
+  "verified_utc": "2026-10-04T03:03:39.148270+00:00",
+  "tag": "exp6-closed",
+  "tag_object": "19ed7c8de3e4866d1360673001d60091cecff470",
+  "commit": "1244148082e4696c8a676e3cf3341a6fbb33874a",
+  "artifact_paths_byte_verified": 14,
+  "remote_tag_and_commit_verified": true,
+  "verdict_sha256": "70c04aef2bdce01d4edf3774c4fbb9bc1ed77148fc1e03707c137127fe23034d"
+}

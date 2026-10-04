@@ -1934,3 +1934,28 @@ The independent watchdog submitted completion at **02:58:39.732651 UTC**,
 at **02:58:50.879456 UTC** after management resumed. No user status request
 was needed. Next: commit/push the result and cut `exp6-closed`, then write
 the retrospective. **Close-out propagation remains separately gated.**
+
+### Closed tag and retrospective — 2026-10-04 UTC
+
+Committed and pushed the result/evidence at **`1244148082e4696c8a676e3cf3341a6fbb33874a`**.
+Cut annotated **`exp6-closed`**, tag object
+`19ed7c8de3e4866d1360673001d60091cecff470`; pushed and independently checked
+the remote object and peeled commit at **03:03:39 UTC**. Fourteen result,
+verification and evidence paths match the tag byte for byte; receipt:
+`operations/closed-tag-20261004.json`. No instrument or sealed input changed.
+
+`results/retrospective.md` grades the pre-sweep agent projection at
+`98d207404`: GENERAL HIT; all eight T ranges HIT; 7/8 binary fire calls HIT,
+with A-on-Comma the upward miss; **66/86** eligible per-rung ranges HIT
+(A 34/43, B 32/43), seven low misses all `sort5`, thirteen high misses.
+The numerical table prints every eligible cell in `projection-grade.md`.
+The secondary misses are explicit: A's string>arithmetic claim holds in
+2/3 defined comparisons rather than ≥3; S8's magnitudes were understated;
+S9's mean decrease is **.00792 for A versus .03572 for B**, the reverse of
+the forecast; S11 reduces each predictor on 2/4 families rather than ≥3.
+Breadth under S11/S13 holds in its strongest form, every test firing.
+
+**Experiment 6 is closed; no active compute or rental.** The next owner
+decision is close-out propagation under GENERAL to the essay/program
+record, public experiment archive and paper inventory. No propagation or
+new experiment has been authorized by the verdict itself.
