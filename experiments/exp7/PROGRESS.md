@@ -933,3 +933,82 @@ serialization with a targeted scanner check. This recommendation is not applied
 and does not authorize an instrument build. Broad hash/path exclusions would
 reduce real-secret coverage; workspace exclusions are a separate alternative.
 Evidence, checker and documentation links: `planning/gitguardian-20261004-2304/`.
+
+## Heartbeat checksum naming correction — authorized
+
+Michael answered **“apply it”** to the naming-correction recommendation above.
+This authorizes a bounded, reviewed planning-source revision: use
+`heartbeat_identity_sha256` for the public SHA256 identity throughout heartbeat
+producers, consumers, exact schemas, tests and deployment instructions. The
+digest still derives from canonical root/PID/stage. Existing archived evidence
+retains its original bytes. The instrument-build decision remains unanswered.
+
+The targeted GitGuardian stateless scan attempt returned **HTTP403**. A separate
+GET of `/v1/api_tokens/self` at Oct4 23:22 UTC confirmed the configured API key is
+active and has incident-read access, but **no `scan` scope**. Thus there is no
+successful scanner result to claim. Sanitized access receipt and the bounded
+old/new JSON-and-diff comparison helper are under
+`planning/heartbeat-identity-20261004/`. No incident disposition or detection
+policy was changed. A scan-enabled key is needed to finish live scanner validation.
+
+Michael subsequently supplied `~/gitguardian-token2.txt`. After restricting it
+to0600, the targeted stateless comparison passed at23:32 UTC: **eight old-name
+controls detected, eight renamed counterparts with zero findings**. The value
+is the same public checksum in each paired comparison. The initial16 documents
+are in-memory synthetic records in JSON and added-file-diff form; the API marks
+both forms `is_diff:false`. Exact revised-code output remains a separate check.
+Receipt: `planning/heartbeat-identity-20261004/synthetic-scan.json`. No credential
+value or raw API response was recorded.
+
+## Heartbeat naming correction CLOSED — accepted integration-v3
+
+**Ruling I6 — apply the authorized checksum naming amendment.** Michael's
+“apply it” is implemented in a separately archived, scoped-reviewed integration-v3.
+Exactly nine installable files change: five heartbeat modules, two original test
+files and two generated local slices. The public identity is consistently
+`heartbeat_identity_sha256` in config, claim, mailbox, status, terminal observer
+and remote deployment configuration. Legacy-only and mixed fields refuse; there
+is no fallback. Digest derivation remains SHA256 of canonical root/PID/stage.
+Parent/start identity, PID, source pins, monotone sequence, freshness, single
+writer and terminal acknowledgement remain active. The OS service validates the
+renamed schema before its spawn port. Why: remove the misleading credential-like
+assignment name that caused repeated synthetic false positives. Cost: future
+consumers must use the revised field; immutable historical records retain theirs.
+
+V3 retains all **271 installable files, 73 module tasks / 75 total tasks**, unchanged
+registry/order/ownership/closures and all348 prior method identities; seven new
+schema regressions bring the literal registry to355. All93 local slice AST origins
+were checked. Core/statistics/provider code and scientific decisions are unchanged.
+Its compact source archive has352 manifested files; reconstructed installed/prefix
+duplicates are omitted, with their exact inventories retained. Source:
+`docs/superpowers/plans/2026-10-04-exp7-annex/integration-v3/`, manifest SHA256
+`9f01c46c361f24171b1c1979858807ad297855c91f06664b321475a470e81e7b`;
+source-map SHA256 `045de3d9fd83c9a79941fc95b196c50dac85400dd1a5e2c9f95b5dfaf0ae8281`.
+
+Independent scoped review is **CLEAN**, reproducing30 guarded contract methods
+and five expected RED→GREEN prefixes. Management verified all127 review bindings,
+all129 archive members and the exact installable diff, then independently
+reproduced the same30 methods and five prefixes. All source bytes remained bound;
+all1,206 v2 bindings remain unchanged. Historical author/reviewer bookkeeping
+failures are retained. The old failed full348 run is still failed, with reconciled
+passing evidence; no full355 run or all73-prefix repetition is claimed.
+
+Live GitGuardian verification is complete using the replacement credential at
+`~/gitguardian-token2.txt` (0600; scan and incident-read scopes verified). Michael
+said he will delete the earlier local file; no dashboard revocation was inferred.
+Three stateless successful requests scanned52 documents: **16/16 old-name controls
+detected, 36/36 revised documents clean**. This includes an initial in-memory
+comparison, the revised code's exact emitted config/claim/mailbox/status plus
+old-name counterparts, and all20 hash-bound changed-source/specimen files.
+The API treated supplied diff-shaped text as `is_diff:false`; this is literal
+content-scan evidence, not a commit-scan or a universal future no-alert guarantee.
+No incident disposition, exclusion or detector policy changed. No fresh legacy
+runtime identity record enters either new evidence archive.
+
+Independent review: `planning/heartbeat-v3-review-20261004/`, manifest SHA256
+`0090e68f07a049bd1c9693542503532174cd4aa4227e57ab9cc1cccecf5ee8ad`, archive SHA256
+`ba8bbef242d66a09cc9dc967b0985051838c6ea3de9425fe696b8fe5ee7d4e78`.
+Management/source/scanner evidence: `planning/heartbeat-identity-20261004/`.
+Build index and decision register now select accepted v3. The pending owner
+build/scientific-proposal decision is unaffected. No model/tokenizer contact,
+rental, production numerical driver or completed analysis was executed.
