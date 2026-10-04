@@ -545,3 +545,26 @@ and cancelled Support follow-up remain closed.
 Michael then said **"marked"**. Management verified incident37864056 now reads
 **IGNORED / false_positive**, ignored at19:11 UTC. Selected GET-only closure
 receipt: `planning/gitguardian-20261004/closure.json`. This alert is closed.
+
+## Collection COL-1/COL-2 CLOSED
+
+The original author's bounded collection-v2 correction passed independent scoped
+re-review. Full raw preflight/q0 equality now applies on fresh collection,
+completed resume and the common producer/consumer seal route; coherent middle-
+row mutations refuse even when normalized output and first/last rows agree.
+Readable read/write opens are traced and pinned, while ordinary output writes,
+directory fsync and cold imports continue to pass.
+
+Management matched the exact source/test diff, all **85 delivery bindings**,
+unchanged v1 bytes and **1,081 repository pins**, then reproduced **80 passing
+guarded tests**. The reviewer independently reproduced that suite, the ten
+included regressions and additional adversarial probes. All **101 review
+bindings** are verified and secured. No live contact or production simulation
+occurred. The public API is unchanged; final composition now uses this revision.
+
+Accepted annex: `docs/superpowers/plans/2026-10-04-exp7-annex/collection-v2/`,
+manifest SHA256 `9903401a2aaf6b969aea66b5c6a5112640d8a09010c5deac7a3f7ecb7b0e7bb8`.
+Review: `planning/collection-v2-review-20261004/`, manifest SHA256
+`f6c6d9667c380b6c3e167cf2635e9445a85f0c036a64ca5745d50f6345ba49cf`.
+Management reproduction: `planning/management-collection-v2-check-20261004/`.
+B17–B19 and final integration retain their separate owner/review prerequisites.
