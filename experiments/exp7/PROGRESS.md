@@ -914,3 +914,22 @@ Secured reviews:
   `ac3493379029f39f6940f1be1358abd650712ccd76cf8d1f52a1440b1b0130cc`, archive
   `2d58847a0108e1fd4bac40931086a8dc8ab3934a74d1b406b629ed1fc082fda5`.
 - Management: `planning/management-integration-v2-closure-20261004/`.
+
+## GitGuardian 37866852 — false positive; recurring cause identified
+
+Michael reported another alert and asked how to stop receiving these. Management
+recomputed all four matches at `c61706ba4` from the committed synthetic heartbeat
+configuration (fixture directory, PID123, verdict stage) and verified their exact
+reported patch spans. This is a non-secret identity checksum, not a credential.
+Status remains TRIGGERED at read; GETs only. Incident37866209 is now independently
+confirmed IGNORED / false_positive.
+
+GitGuardian's current detector documentation explains the recurrence: our keys
+`token`/`heartbeat_token` are credential-like assignment names, and every fresh
+scratch root creates a new high-entropy value. Recommended prevention is a
+consistent `heartbeat_identity_sha256` naming correction in a separately reviewed
+source revision, preserving validation and immutable evidence; verify its new
+serialization with a targeted scanner check. This recommendation is not applied
+and does not authorize an instrument build. Broad hash/path exclusions would
+reduce real-secret coverage; workspace exclusions are a separate alternative.
+Evidence, checker and documentation links: `planning/gitguardian-20261004-2304/`.
