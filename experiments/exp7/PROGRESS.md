@@ -90,3 +90,11 @@ sampling assumptions; the forecast is not availability-independent under
 alternatives. This formula was checked algebraically and added to §4.
 D4/D5 explicitly supersede the earlier score and arm-swap wording. Design
 is ready for Michael's §10 ruling; all new model contact remains unstarted.
+
+## Concurrent descriptive analysis complete
+
+The matched-token analysis ran once at 16:36 UTC on Oct 4, after this design's
+review and revisions. It finds a late aggregate size advantage with
+nonmonotonic greedy correctness; see `analyses/matched-token/INTERPRETATION.md`.
+No Exp 7 score, threshold, family, outcome or other rule was changed in
+response. Design remains ready for the owner dials, not approved for contact.

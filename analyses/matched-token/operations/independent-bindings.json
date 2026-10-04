@@ -1,0 +1,16 @@
+{
+  "verified_utc": "2026-10-04T16:37:56.800214+00:00",
+  "source_commit": "6deb2d55fd170cf76cae325ff41e4c750b2b775f",
+  "launch_commit": "b770e8ebd83f94db0be6748046e37224bdde82ec",
+  "live_and_git_bindings": {
+    "source": 2309,
+    "launch": 4
+  },
+  "output_hashes_checked": 8,
+  "summary_sha256": "1f385bb8ad606ebd9139555ba0cc8d523b0bd3b5590514e38a3dd6db4ee0ec17",
+  "provenance_sha256": "6c5937f35fce6f43ad61286db45793ab0a0ca04e9660da277254a0a30e40bd26",
+  "production_invocations": 1,
+  "analyzer_or_bootstrap_rerun": false,
+  "monitor_job": "matched-token-20261004",
+  "monitor_acknowledged": true
+}

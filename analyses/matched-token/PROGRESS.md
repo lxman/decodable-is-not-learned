@@ -151,3 +151,43 @@ The owner's descriptive-run approval remains the execution authority. One
 detached invocation is prepared with a durable monitor, status/log capture,
 and the independent saved-output checker. Before launch the production tally
 is still **zero**. No predecessor analyzer will be invoked.
+
+## Production complete and checked — 2026-10-04
+
+**One production invocation**, launch `b770e8ebd83f94db0be6748046e37224bdde82ec`:
+16:36:35.718–16:36:39.826 UTC (about 4.11 seconds), exit 0. Detached operator
+PID/SID 46545; watchdog `matched-token-20261004` registered before release.
+The independent saved-output checker then exited 0 at 16:36:40. Its default
+full-shape branch verified all 64-bin histograms and production coverage,
+closing R1's operational concern without rerunning analysis or bootstrap.
+Management inspected the outputs and acknowledged the watchdog. Completion
+arrived through the shell callback; no independent launchd-delivery claim is
+made for this short run.
+
+All fixed outputs complete: count 2,040; accuracy 60; contrast 150; transition
+5,100; texture 340; time-average 30 rows. Source/launch bindings rechecked
+independently against both live bytes and Git trees at 16:37:56 UTC:
+2,309 source files, four launch files, eight output hashes. Summary SHA256
+`1f385bb8ad606ebd9139555ba0cc8d523b0bd3b5590514e38a3dd6db4ee0ec17`.
+Evidence copied byte-for-byte from the approved scratch operator directory
+to `operations/`; post-run binding receipt is recorded there too.
+
+**Result:** late aggregate advantage, nonmonotonic size order. Final 12B−410M
+is +4.158824 pp, family-resampling CI [1.561286, 8.233500]; equal-family
++4.337500 [1.562422, 8.318906]. Final means in size order:
+6.4353/6.7706/6.0529/11.3824/9.6471/10.5941%. Widest final pair has
+1,319 gains and 612 losses; 3,695/4,564 ever-correct items have an adjacent
+size-axis loss; only 8/34 count trajectories are nondecreasing. The complete
+fixed tables and bounded interpretation are in `results/REPORT.md` and
+`INTERPRETATION.md`. No PASS/FAIL or parameter-only causal claim.
+
+The analysis is complete. Production tally **one**, subsequent analysis or
+bootstrap reruns **zero**. No new model contact/rental or essay/public-release
+propagation occurred. Experiment 7's separately reviewed design awaits dials.
+
+**Ruling R2 (publication formatting):** the default staged whitespace check
+flags the CSV writer's standard CRLF record endings and the generated report's
+final blank line. Preserve the write-once, hashed result bytes. The final
+publication check uses per-command `core.whitespace=cr-at-eol,-blank-at-eof`
+for these generated files; prose/code retain the normal check. No persistent
+Git setting, analyzer edit, output rewrite or recomputation is involved.
