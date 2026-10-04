@@ -433,3 +433,82 @@ including the actual separately scheduled heartbeat worker, stage/remote
 bootstrap, independently secured verifier and full task registry. This is
 source/test planning only; no live process, provider or monitoring operation
 was performed. The six findings are not declared closed before re-review.
+
+## Statistics and collection review findings reproduced
+
+Independent statistics review clears C-1, exact n500 kernels, conditional null
+law, outcome-untied Somers, finite thresholds, N5/N6/N9 constructions, shared
+bootstrap and all S1–S8 implementations. It reproduced 37 statistics and 48
+inherited tests, but found five necessary validation defects. Management
+verified the **146-file** review manifest and reproduced all five against
+statistics-v1 in isolated scratch with hard guards. Full-default forged power
+records in these probes are explicitly fabricated arithmetic, with zero RNG
+draws or calibration/power/analyzer calls; they are never campaign evidence.
+
+Review: `planning/statistics-review-20261004/`; management scripts, receipts and
+relocation-only provenance: `planning/management-statistics-review-20261004/`.
+Review manifest SHA256:
+`86b837e24c81aab4e9e206d4a99147a0293b389e064a25b4b74bfb70623f4c7e`.
+
+**Ruling SR1:** bind or refuse external local helpers in the pre-tag candidate
+context, including persistent/transient aliases and executed code. Explicitly
+identify trusted installed runtime roots rather than trusting every file outside
+the candidate repository. Why: an unpinned external helper executed and passed
+entry/exit. Cost: a complete executable closure and adversarial import tests.
+
+**Ruling SR2:** make saved power semantics consistent with independently rederived
+sealed predictor/stratum geometry and every retained fit/main trace. All-constant
+n500 predictors were accepted with positive D and all ten subsets POWERED; a
+lost-subset replicate retained a defined D, and impossible ceiling/validation
+Ds also passed. Require exact-set/undefined consistency, bounded Ds and derived
+support status, including predictors constant within blocks but varying globally.
+Cost: retain and validate sufficient saved per-family arithmetic; no simulation
+rerun, stronger substitute alternative or adjustment to the primary rule.
+
+**Ruling SR3:** admit only genuine failed bytecode-cache probes for pinned source
+imports, preserving refusal of existing unpinned bytecode. Why: a legitimate
+late pinned import refused before reaching its source. Cost: precise cold-loader
+tests, not a blanket cache exemption.
+
+**Ruling SR4:** rederive every printed power/envelope diagnostic from retained
+base counts/vectors, including p-only rates/intervals, support, probability rows,
+analytic expectations, D scatter and eligibility frequencies. Impossible values
+such as 999 rejections among 128 and a [1,1] interval for zero fires passed.
+Cost: sufficient saved arithmetic and domain checks; no empirical simulation
+is run to verify a saved record.
+
+**Ruling SR5:** require the declared 21 baseline methods in each family as well
+as aggregate 49 applicable/35 N/A coverage. A coherent 20/21/21/22 catalog passed.
+Cost: one structural refusal; exact method identities still bind to certification.
+
+The original statistics author owns a separate immutable v2 correction wave;
+the integration author is informed that the semantic-validator interface may
+need independently derived geometry. Statistics-v1 is historical, not accepted
+for final dispatch. C-1 itself is **closed** by independent review.
+
+The independent collection review reproduced 70 tests, 64 annex bindings,
+16 unchanged originals and 1,081 repository pins. It found two local defects.
+Management verified its **78-file** review manifest and independently reproduced
+both via the genuine fake-data producer loops. Review:
+`planning/collection-review-20261004/`; management:
+`planning/management-collection-review-20261004/`. Review manifest SHA256:
+`b027c7acc070447cb320a5961085e9073beb2b0b1e65787ecbb9cd67ebea78ea`.
+
+**Ruling COL-1:** compare preserved preflight q0 streams with completed canonical
+q0 raw streams on resume, sealing and consumer verification, through a common
+semantic check. A coherent completed-unit replacement passed resume with zero
+sampler calls and sealed while the synthetic pair score changed 1/2→1/8. Keep
+legitimate pre-collection preflight validation valid; test raw differences both
+with and without a normalized-score change in new invocation contexts. Cost:
+full saved-stream equality checks instead of individually valid contradictory
+realizations of one stream. No real model output was modified or analyzed.
+
+**Ruling COL-2:** readable `r+`/`O_RDWR` opens are inputs and need tracing/pins.
+They must not inherit the write-only output exemption. The ordinary read of an
+unpinned file refused, but `r+b.read()` returned it and passed entry/exit. Cost:
+mode/flag-correct input checks, preserving exclusive writes, directory fsync and
+cold-import behavior.
+
+The original collection author owns separate v2 corrections, followed by scoped
+re-review. B17–B19 remain owner proposals. None of these seven local corrections
+changes the approved score, bars, family admission, scientific budgets or grid.
