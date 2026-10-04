@@ -541,3 +541,7 @@ Evidence and reproducible checker: `planning/gitguardian-20261004/`. Dashboard
 status at read remains TRIGGERED; no status mutation was made. No provider/model
 contact or experiment statistic was involved. The earlier credential incident
 and cancelled Support follow-up remain closed.
+
+Michael then said **"marked"**. Management verified incident37864056 now reads
+**IGNORED / false_positive**, ignored at19:11 UTC. Selected GET-only closure
+receipt: `planning/gitguardian-20261004/closure.json`. This alert is closed.
