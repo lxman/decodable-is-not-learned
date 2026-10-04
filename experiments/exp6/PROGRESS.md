@@ -1959,3 +1959,13 @@ Breadth under S11/S13 holds in its strongest form, every test firing.
 decision is close-out propagation under GENERAL to the essay/program
 record, public experiment archive and paper inventory. No propagation or
 new experiment has been authorized by the verdict itself.
+
+### Close-out propagation authorized — 2026-10-04 UTC
+
+Michael answered **“approved”** to propagation of GENERAL to the essay,
+program record, public experiment archive and paper inventory. Carry the
+bounded §6 licence, the realized-set power disclosure and all four named
+outcomes. The production analyzer remains once-run. The public graft uses
+only the cleaned reachable history, preserves existing public anchors and
+normalizes identities under the standing release recipe. The credential's
+retained GitHub object remains a separate open Support matter.
