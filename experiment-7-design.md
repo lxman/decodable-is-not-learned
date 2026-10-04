@@ -2,7 +2,9 @@
 
 **Status: dials APPROVED, 2026-10-04.** Michael answered "approved" to the
 request to approve §10's dials for **generation-only feasibility and build
-planning**. Generation feasibility is certified; build planning is in progress.
+planning**. Generation feasibility is certified; the complete-code/test build
+plan is independently reviewed and ready for the owner build decision:
+`docs/superpowers/plans/2026-10-04-exp7-build.md` and its decisions register.
 The later contact, rental,
 ratification, verdict and propagation gates remain those of §9–10.
 No new item has been handed to a model. The matched-token descriptive

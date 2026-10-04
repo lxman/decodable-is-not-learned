@@ -848,3 +848,69 @@ SHA256 `8f06f7f2d5085fea5fb601f2d5a7b42dd397b72419f739e5c515e72538571cd6`;
 transport archive SHA256
 `577992b4da52d93bb5b1283b8c8a09afc4259129575180723c34cffad9e650ed`.
 Management: `planning/management-integration-v2-check-20261004/`.
+
+## INTR-1–6 CLOSED — complete reviewed build plan
+
+Both independent integration-v2 reviews are complete. The code re-review closes
+INTR-1–4/6 after independently reproducing the 35-test correction group and
+additional exact-result/import/venv/archive-release controls. The fresh schedule
+review closes INTR-5/I3 after **73 fresh RED→GREEN prefixes**, all 93 sliced local
+test/helper bodies, all 271 single-owner files and every original 270 method
+identity were checked. The original C2 fixture failure is repaired at its actual
+prefix. No necessary source/task correction remains.
+
+Management verified **1,581 code-review bindings / 1,695 archive members including
+directories** and **1,998 schedule-review bindings / 1,999 archive members**,
+matched each review's complete 1,206-file delivery snapshot and 271-file installed
+copy to the accepted source, and checked every independent prefix's cumulative
+inventory, GREEN receipt and primary-specific RED cause. It then reproduced the
+unchanged reviewer probes: **four boundary methods**, **twelve secured-release
+refusal controls plus one complete-evidence fake-release control**, and the
+**12-test** C1/C2 minimal positive prefix. All pass, installed bytes unchanged.
+The boundary group makes one n24/B3/bootstrap1 synthetic analyzer call; the
+release control makes one fake DELETE and zero actual provider calls.
+
+The code reviewer retains its one initial metadata-fixture error and corrected
+import-only retry (40 method executions / 39 distinct methods, two miniature
+analyzer calls). The schedule reviewer retains three harness-bookkeeping errors
+and their corrections. These are preserved historical attempts, not production
+defects or clean-run claims. The author's failed 348-method full registry remains
+failed. Its two fixture fixes have independent same-process 35-test evidence;
+all 348 IDs have reconciled passing evidence. **No clean combined final 348-test
+pass is claimed or newly required for this scoped planning acceptance.** The
+later implementation/freeze must pass its own integrated cold batteries.
+
+**Ruling I5 — accept complete integration-v2:** the two scoped reviews and
+management reproductions close INTR-1–6 and I3/I4. Use its exact `SOURCE-MAP.json`
+and 75-task `BUILD-TASKS.md`, including 73 single-primary module tasks. The
+reviewer's unique RED/GREEN receipt-name clarification is incorporated into the
+build index. Why: complete literal source/tests now compose and every staged
+module task runs with its admitted prefix. Cost: genuine build/freeze/host/runtime
+measurements and the existing owner gates remain later work, not planning proofs.
+
+Management also statically mapped B1–B19 and statistical implementation choices
+to their source symbols/owners, and reconciled schedule arithmetic without
+executing planned code. Totals remain **1,585,152 sampled outputs**, **243,000
+one-host greedy continuations**, **448,000 tokenizer comparisons**. The 80-address
+envelope contains 54 simulated/10 structural-zero/16 impossible cells (6,912
+simulated datasets at N128); forecast upper bounds are 40,960 main plus 445,440
+fit/validation datasets. These are counts, not empirical power or time estimates.
+The 24-hour/8-GiB caps are unratified prelaunch operational criteria, not automatic
+numerical-driver limits. Evidence: `planning/management-plan-reconciliation-20261004/`.
+
+Accepted build index: `docs/superpowers/plans/2026-10-04-exp7-build.md`.
+Reconciled owner decision package: `docs/superpowers/plans/2026-10-04-exp7-decisions.md`.
+The recommendation is to adopt the remaining proposals for the build and authorize
+task-by-task implementation plus pre-tag tokenizer/config-only validation. No
+owner answer is recorded. Current authorization remains feasibility/build planning.
+No production calibration/power/verdict, model/tokenizer contact or rental occurred.
+
+Secured reviews:
+
+- `planning/integration-v2-review-20261004/`, manifest SHA256
+  `4a32ca4ceb3c026a1ae9de26c3d5f276bb4b22ccb8bfdacb532745190c3f7f33`, archive
+  `81c5182e6e2c450dfe0c27dcb596acc9a0abe2837eff216e9af2c55ce604af3f`.
+- `planning/integration-v2-schedule-review-20261004/`, manifest SHA256
+  `ac3493379029f39f6940f1be1358abd650712ccd76cf8d1f52a1440b1b0130cc`, archive
+  `2d58847a0108e1fd4bac40931086a8dc8ab3934a74d1b406b629ed1fc082fda5`.
+- Management: `planning/management-integration-v2-closure-20261004/`.
