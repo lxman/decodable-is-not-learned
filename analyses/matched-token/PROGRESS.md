@@ -128,3 +128,26 @@ explicit import-label refusal and one complete validation**. Production
 comparison/bootstrap tally: **zero**. Final code is at `e74b6de98` (initial
 build `c9bd0f2fa`); ready for independent review. Management owns the single
 production invocation and subsequent `verify_outputs.py` saved-output audit.
+
+## Independent review and launch readiness — 2026-10-04
+
+Fresh reviewer inspected the scoped committed diff and actual source at
+`e74b6de98`, reproduced **26 tests passing in 2.09 s**, and found no blocking
+correctness or plan-compliance defects. Management independently read the
+instrument/checker and reproduced **26 passing in 2.03 s**. Checked family
+weights and shared draws, all-size transition/nesting arithmetic, measured
+parameter slopes, tie handling, exact input coverage, source bindings and
+continuation rescoring, write-once refusal and saved-output audit.
+
+**Ruling R1:** accept the nonblocking test-coverage residual — integration
+fixtures use three sizes, and miniature checker fixtures bypass its default
+production provenance branch. The six-size 64-bin path and default branch
+were inspected; the post-run checker will exercise them on the saved full
+shape without rerunning statistics. Cost: a production-only checker defect
+could require an explicitly recorded audit fix; it cannot authorize another
+analysis/bootstrap run. No unaddressed numerical defect was identified.
+
+The owner's descriptive-run approval remains the execution authority. One
+detached invocation is prepared with a durable monitor, status/log capture,
+and the independent saved-output checker. Before launch the production tally
+is still **zero**. No predecessor analyzer will be invoked.

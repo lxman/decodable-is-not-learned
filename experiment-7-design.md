@@ -194,6 +194,13 @@ of x. Print all four target-row totals, C/W, unsupported renders, ties and
 both conditional and raw shifts by family and predictor in every world.
 There are no pseudocounts or data-dependent denominator cutoffs.
 
+The null cancellation does not make the forecast availability-independent
+under alternatives. If a render's target availabilities are s0 and s1 and
+its true conditional contrast is δ, independent sampling gives
+`E[x_iv] = [1-(1-s0)^k][1-(1-s1)^k] δ`. Thus equal nonzero conditional
+contrasts can receive different expected scores through finite-k support.
+Availability conditioning is coarse; support dependence remains explicit.
+
 **Primary volume:** 8,000 prompts × 64 draws × 2 predictors = **1,024,000 draws**.
 An untrained Pythia-1B twin supplies **16 draws on all 8,000 prompts**, another
 128,000 draws, as a non-gating surface control. Total planned new-item sampling

@@ -74,3 +74,19 @@ single-predictor draw accounting corrected to 640,000 including the twin.
 Scoped independent re-review requested on the revised instrument. These
 changes precede matched-token comparisons and all new model contact. No
 Exp 7 build, synthetic calibration, sampling, power or outcome run occurred.
+
+### Scoped re-review: ready for owner dials
+
+The independent reviewer reread the revised source and found no remaining
+necessary scientific-design fix. Checked: fixed-margin hypergeometric null,
+unsupported-row centering, separate render conditioning, invariant eligibility,
+component/union calibration, bounded power readings, Somers denominator,
+twin gate wording, projection order and generation feasibility requirements.
+
+**Interpretation retained:** under a true conditional contrast δ, finite-k
+support attenuates the expected score by
+`[1-(1-s0)^k][1-(1-s1)^k]`. Fixed-odds null cancellation is exact under the
+sampling assumptions; the forecast is not availability-independent under
+alternatives. This formula was checked algebraically and added to §4.
+D4/D5 explicitly supersede the earlier score and arm-swap wording. Design
+is ready for Michael's §10 ruling; all new model contact remains unstarted.
