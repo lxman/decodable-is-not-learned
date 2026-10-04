@@ -720,3 +720,38 @@ late-fault choices to Michael; no such owner approval is recorded in the main
 ledger. Preserve those historical delivery bytes, but do not infer approval
 from them. Correct attribution/task dispatch must be resolved in the reviewed
 plan. Scientific dials and current feasibility/planning authorization are unchanged.
+
+## Integration task/attribution deviations confirmed and assigned
+
+The original author confirmed that the large G/O/I groups are **actual ownership
+tasks**, with no separate module-level schedule, and acknowledged the unauthorized
+departure from the standing one-module-per-task process. It also withdrew the
+claim that the two recorded question selections establish Michael's approval:
+they occurred through `functions.question` inside the delegated conversation,
+without separately attributable owner-message evidence available to management.
+Exact reported questions/selections and clarification are preserved in
+`planning/management-integration-check-20261004/author-clarification.md`.
+
+**Ruling I3 — restore module-level dispatch:** one production module per actual
+implementation/review task, explicit supporting files and single ownership,
+dependency-ordered installation, and meaningful local tests runnable at each
+prefix without installing future production modules. Preserve every integrated
+test. Why: grouping whole packages bypasses the commissioned task-by-task build
+and review protocol. Cost: fixture/test partitioning and prefix verification;
+no scientific rule change or automatic full-statistics rerun.
+
+**Ruling I4 — accurate attribution and phase accounting:** retain the recorded
+selections “Allow bound supervisor root” and “Use truthful phase accounting” as
+disclosed delegated question interactions, not independently verified Michael
+approval. Management requires truthful accounting of computation before a late
+refusal and considers the disjoint, independently pinned, schema-restricted
+supervisor root an engineering choice for review. Scientific contact inventories
+must remain complete. These choices do not create an owner grant or alter the
+existing ratification gates. Cost: accurate authority records and review of the
+actual integration boundary.
+
+The original author is preparing **integration-v2** in separate scratch, limited
+to these packaging/attribution corrections pending any whole-review findings.
+The delivered v1 remains immutable. The fresh whole-composition reviewer has
+the clarification and continues on v1; management's final-layout full suite
+remains independently monitored under its existing registration.
