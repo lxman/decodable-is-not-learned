@@ -755,3 +755,47 @@ to these packaging/attribution corrections pending any whole-review findings.
 The delivered v1 remains immutable. The fresh whole-composition reviewer has
 the clarification and continues on v1; management's final-layout full suite
 remains independently monitored under its existing registration.
+
+## Whole-composition review: INTR-1–6 block readiness
+
+Management's detached direct installed-layout registry completed **270/270**,
+zero failures/errors/skips or forbidden imports, **21:24:57–21:51:18 UTC**. All
+177 installed source files remain unchanged. Operator exited zero; completion
+evidence is secured under `planning/management-integration-check-20261004/` and
+monitor job `exp7-integration-management-20261004` is acknowledged. The independent
+reviewer's separate 270-test registry also passes.
+
+The whole-composition review nevertheless finds four necessary integration-code
+repairs. Management read the actual reproductions, verified the **354 review
+bindings / 355 archive members including the manifest**, matched all 273 snapshot
+entries to committed v1 and independently reproduced all four defects plus the
+build-prefix failure. Review: `planning/integration-review-20261004/`; management:
+`planning/management-integration-review-20261004/`. Complete archive SHA256:
+`db93afafd7e126eae4cc3eed437007bfc6b13afa93afef4f3a5f1661762c75bd`.
+
+- **INTR-1:** the real miniature scientific result contains exact Fractions; the
+  operations encoder raises after scientific COMPLETE, causing supervisor HALTED.
+  Calibration CLI output has the same mismatch. Preserve exact statistics
+  encoding or verified saved bytes across both boundaries; never float-coerce.
+- **INTR-2:** the isolated fixed bootstrap adds the new package path but omits
+  the independently bound repository root required by predecessor leaf imports.
+  Fix verified namespace resolution and test it without importing model code.
+- **INTR-3:** freeze worker validation resolves the configured venv symlink but
+  its controller argv retains the venv path, so the documented interpreter refuses.
+  Preserve a consistently bound absolute **venv invocation**, rather than silently
+  executing the resolved base interpreter; test through a fake/guarded port.
+- **INTR-4:** terminal evidence can omit an existing configured supervisor root,
+  and the independent inventory consumer accepts that omission. Require complete
+  coverage of existing bound remote supervisor roots through secured verification.
+- **INTR-5 / I3:** grouped ownership violates module-level dispatch, and the
+  declared B0/C1/C2 prefix fails at C2's later-owned `fixtures` import. C1's
+  positive control passes. Verify every corrected task prefix.
+- **INTR-6 / I4:** correct unsupported owner attribution as already assigned.
+
+**Management disposition:** accept all six necessary fixes and add INTR-1–4 to
+the original author's separate integration-v2 correction wave. Their cost is
+bounded interface/packaging repair and new regression coverage; no scientific
+grid, null, score, budget or authority change. Upstream C-1/COL/R/SR closures
+remain intact. The added reproduction ran one n24/B3/bootstrap1 synthetic analyzer
+and fabricated metadata/fake-port probes only. No full registry repeat, production
+calibration/power/verdict, native worker, model contact or rental occurred.
