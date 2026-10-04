@@ -1,15 +1,19 @@
 # Experiment 7 generation feasibility
 
-**Construction PASS; independent review ready for build planning.** Its two
-nonblocking verifier findings are closed by the saved-evidence hardening below.
-The subsequent necessary F6 provenance finding is fixed and saved-verified,
-ready for scoped re-review (details at the end).
+**Construction PASS; independent review and scoped re-reviews COMPLETE.**
+Both verifier findings and the subsequent F6 provenance finding are closed.
 Corrected evidence:
 `runs/full-003/`; exact repeat: `runs/full-004/`. Both contain **500 pairs
 per family, 2,000 pairs and 8,000 distinct questions**. Every rendered
 question has exactly one independent-oracle answer, equal to its stored
 target. No model/tokenizer contact occurred. This is prototype feasibility,
 not frozen production instrumentation or a scientific verdict.
+
+Final checker suite: **38 tests passed**, independently reproduced. The final
+review replayed the original bypass and eighteen further negative cases;
+every one refused. All forty archived run files are unchanged. Review evidence:
+`../planning/feasibility-f6-review-20261004/`; the ledger records the full
+history. Feasibility is ready for the instrument build plan.
 
 **Main limitation:** the declared zero-indegree/zero-outdegree endpoint
 shortcut solves **500/500 deduction pairs**, canonical and sham, with x=1.

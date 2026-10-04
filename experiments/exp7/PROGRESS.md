@@ -245,3 +245,22 @@ imports and network operations blocked. The exact coherent specification-only
 HEAD attack is included. Receipt/log:
 `planning/management-check-20261004/feasibility-f6-suite.*`. Scoped independent
 F6-only re-review is in progress; no regeneration or archive rewrite occurred.
+
+## Generation feasibility CLOSED — ready for build planning
+
+Final F6-only independent review is clean: the exact former specification-only
+HEAD bypass now refuses before pin derivation, eighteen additional scoped
+negative cases refuse, and the genuine six-module historical import closure
+is independently confirmed. The reviewer reproduced **38 tests**, all saved
+archive checks, and unchanged bytes for all forty original full-run files.
+Management checked the final published receipt hash and those forty hashes
+again without regenerating items. **F5/F6 are closed.**
+
+Final scoped evidence: `planning/feasibility-f6-review-20261004/`; receipt
+`feasibility/runs/f6-verification-003-004.json` has SHA256
+`17488fa066d42335725ea68340f777cd1f0fe2d28874098ea03fc2d0bc4723f7`.
+The model-free battery is certified: four families × 500 pairs, all four arms,
+exact source/launch bindings, counterbalance, oracles, collisions and baseline
+audit. Production instrument planning remains active; its core C-1 correction
+and complete literal integration annexes still need final review. No new
+generation attempt, model contact, calibration, power, rental or verdict.

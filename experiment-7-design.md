@@ -2,7 +2,8 @@
 
 **Status: dials APPROVED, 2026-10-04.** Michael answered "approved" to the
 request to approve §10's dials for **generation-only feasibility and build
-planning**. That stage is now in progress. The later contact, rental,
+planning**. Generation feasibility is certified; build planning is in progress.
+The later contact, rental,
 ratification, verdict and propagation gates remain those of §9–10.
 No new item has been handed to a model. The matched-token descriptive
 analysis is complete under `analyses/matched-token/`.
@@ -95,6 +96,14 @@ not claims that the current frozen generators already implement them.
 The build must demonstrate 500 disjoint valid pairs per family before a
 preregistration tag. If any rule cannot supply that support, stop for a
 design ruling before model contact; do not silently relax it.
+
+**Generation-only certification, 2026-10-04:** the four families supplied
+2,000 pairs / 8,000 distinct questions. Independent review and scoped checker
+re-reviews passed; final suite 38 tests, all saved evidence verified. Full
+certificate, exact strata and baseline audit: `experiments/exp7/feasibility/`.
+The endpoint shortcut solves all 500 deduction pairs; shapes use four target
+labels in two quadrilateral pair classes. These limitations remain part of
+the reading. This certifies construction, not model-dependent support or power.
 
 ### Admission and shortcut audit
 
