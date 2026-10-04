@@ -814,3 +814,37 @@ spans. This is not a credential. Evidence and reproducible checker:
 Dashboard status remains TRIGGERED at read; only GETs were used. Michael was told
 it is safe to mark False positive. This new alert does not reopen the previously
 closed credential/Support work. Integration-v2 reviews continue independently.
+
+## Integration-v2 delivered and bounded correction tests reproduced
+
+The original author completed integration-v2 after the existing registry run and
+its correction follow-up; both author observer registrations are acknowledged.
+No additional follow-up of those completed jobs is needed. The delivered bundle
+contains **1,206 manifest entries**, **271 installable files** and a schedule of
+**73 single-primary module tasks**, plus launcher plumbing and final integration
+dispatch. All INTR-1–6 repairs await independent closure.
+
+Management verified every delivery binding and all **1,208 archive members**,
+reconstructed the exact v1→v2 patch and before/after inventory, and verified all
+275 original files remain unchanged in both v1 locations. Accepted core/statistics/
+operations source is unchanged. Source/task ownership and dependency ordering
+match the literal registry; every original 270 test ID is retained.
+
+The full v2 run executed **348 methods** and exited 1: two failing method IDs,
+one assertion failure and nine errors including eight bootstrap subcases. The
+author corrected two final-task fixtures, preserving production/registry/local
+test bytes, then passed a **35-test same-process follow-up**. Management reproduced
+that exact follow-up from the final installed-layout copy: zero failures/errors/
+skips or forbidden imports. The 348 IDs have reconciled passing evidence, **not
+a clean combined full-registry pass**. Management did not repeat the full registry.
+
+Two independent reviews are active: scoped INTR-1–4/6 code/attribution re-review,
+and a fresh INTR-5 module-schedule/prefix review. The latter must substantively
+validate the author's 73 staged RED/GREEN checks; inventory counts alone are not
+schedule acceptance. No production statistics, model/tokenizer contact or rental.
+
+Archive: `docs/superpowers/plans/2026-10-04-exp7-annex/integration-v2/`, manifest
+SHA256 `8f06f7f2d5085fea5fb601f2d5a7b42dd397b72419f739e5c515e72538571cd6`;
+transport archive SHA256
+`577992b4da52d93bb5b1283b8c8a09afc4259129575180723c34cffad9e650ed`.
+Management: `planning/management-integration-v2-check-20261004/`.
