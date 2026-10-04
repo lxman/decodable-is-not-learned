@@ -1,0 +1,26 @@
+{
+  "id": "exp6-verdict-20261003",
+  "session_id": "ses_f11a0fbf9ffekAQskOrYbaRNO3",
+  "status_file": "/private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp6-verdict-20261003/operator-status.json",
+  "follow_up": "Michael approved this one-time frozen verdict analysis. Inspect durable status, analyzer.log and results/verdict.json; do not run the analyzer again. Verify all pins, gates, eight tests, statuses, licence and named secondaries from the saved output. Preserve results/evidence, create VERDICT.txt, tag exp6-closed, grade projection in retrospective, and update management state. Ask before separately gated close-out propagation; no rental authorized. If already acknowledged, do not repeat follow-up.",
+  "pid_command": "tools/exp6_verdict_operator.py",
+  "stale_seconds": 900,
+  "after_idle": false,
+  "registry": "/Users/michaeljordan/Library/Application Support/emergence-paper/monitor",
+  "registered_at": 1791074404.6323369,
+  "event": {
+    "kind": "terminal",
+    "stage": "complete",
+    "exit_code": 0,
+    "ended_utc": "2026-10-04T02:58:15.070666+00:00"
+  },
+  "deliveries": [
+    {
+      "id": "msg_65e32d52473def6857b96ec71c11319d",
+      "created_at": 1791082719.732651,
+      "attempted_at": 1791082719.732651,
+      "accepted_at": 1791082719.732651
+    }
+  ],
+  "acknowledged_at": 1791082730.879456
+}

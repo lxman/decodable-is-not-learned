@@ -1,0 +1,15 @@
+PASS  item files                     20 item files under their pins
+PASS  tables                         floors, strata, structure levels, heuristic floors: as pinned
+PASS  collision audit                the collision-key audit: 16654 identical, 0 failed; 77 known answers
+PASS  content overlap                the content-overlap record: 9 rungs, of the pinned items
+PASS  token record                   20 rungs' longest answers inside their budgets
+PASS  referent manifest              219 referent files as listed
+PASS  committed tallies              the criterion reproduces all eight committed tallies exactly
+PASS  committed tests                the eight committed readings on 2c's battery are readable
+PASS  frozen and imported modules    73 frozen and 5 own modules as pinned; no torch
+PASS  preregistration tag            exp6-preregistered binds 33 files
+PASS  predictor stage                93 predictor units; gate 1-P byte-identical on eight; sealed
+PASS  endpoint stage                 4 families' endpoints; gate 1(b) within 15; sealed
+PASS  sweeps                         steps complete: smollm3_3b 26/26, olmo7b 21/21, olmo13b 16/16, comma_7b 24/24
+SKIP  read sweep                     a sweep record exists under results/sweep/: the read sweep executes the analysis, and on a swept tree that is an execution before the analyzer's one run (final review M-6)
+13/14 PASS, 0 FAIL, 1 SKIP

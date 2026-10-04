@@ -1,0 +1,12 @@
+{
+  "checked_utc": "2026-10-04T00:40:51.866487+00:00",
+  "started_utc": "2026-10-04T00:40:04.632731+00:00",
+  "launch_head": "3140369c9197133e899f291f6637c1ca1cb10276",
+  "operator_pid": 28940,
+  "analyzer_pid": 28953,
+  "watchdog_job": "exp6-verdict-20261003",
+  "watchdog_session": "ses_f11a0fbf9ffekAQskOrYbaRNO3",
+  "launchagent_loaded": true,
+  "processes": "28940     1 Ss     0.0 00:47 /opt/homebrew/Cellar/python@3.11/3.11.15_3/Frameworks/Python.framework/Versions/3.11/Resources/Python.app/Contents/MacOS/Python -B -u tools/exp6_verdict_operator.py --state-dir /private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp6-verdict-20261003\n28953 28940 Rs   100.0 00:46 /opt/homebrew/Cellar/python@3.11/3.11.15_3/Frameworks/Python.framework/Versions/3.11/Resources/Python.app/Contents/MacOS/Python -B -u -m experiments.exp6.analyze_6 --write\n",
+  "note": "Scratch/job identifier uses the local Oct 3 date; actual launch is Oct 4 UTC. Keep HEAD fixed while analysis runs: the output records the final HEAD and the supervisor checks it against launch."
+}

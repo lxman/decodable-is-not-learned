@@ -1,0 +1,36 @@
+{
+  "pid": 28940,
+  "sid": 28940,
+  "started_utc": "2026-10-04T00:40:04.632731+00:00",
+  "operator_sha256": "5d0281c2a79bc972e84ff20dd6a5012890993485f13a283f65448df99576ab28",
+  "stage": "complete",
+  "heartbeat_utc": "2026-10-04T02:58:15.070669+00:00",
+  "elapsed_seconds": 8290.444352124934,
+  "head": "3140369c9197133e899f291f6637c1ca1cb10276",
+  "command": [
+    "/Users/michaeljordan/emergence-lab/.venv/bin/python",
+    "-B",
+    "-u",
+    "-m",
+    "experiments.exp6.analyze_6",
+    "--write"
+  ],
+  "thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "child_pid": null,
+  "child_sid": 28953,
+  "analyzer_exit_code": 0,
+  "analysis_ended_utc": "2026-10-04T02:58:15.058306+00:00",
+  "verdict": "GENERAL",
+  "verdict_sha256": "70c04aef2bdce01d4edf3774c4fbb9bc1ed77148fc1e03707c137127fe23034d",
+  "n_perm": 10000,
+  "n_boot": 1000,
+  "failures": [],
+  "ended_utc": "2026-10-04T02:58:15.070666+00:00",
+  "exit_code": 0
+}

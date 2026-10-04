@@ -1872,3 +1872,65 @@ automatically retried. The operator records its HEAD, source hash, command,
 child PID/session, 30-second heartbeat and terminal status. Register
 `exp6-verdict-20261003` with the independent LaunchAgent for automatic wake-up.
 Logs/status live in `exp6-verdict-20261003/` under approved OpenCode scratch.
+
+### One production verdict: GENERAL — 2026-10-04 UTC
+
+The authorized frozen CLI ran **once**, at HEAD
+`3140369c9197133e899f291f6637c1ca1cb10276`, from **00:40:05 to 02:58:15 UTC**
+(operator wall time **8,290.44 seconds**, 2 h 18 m 10 s). The preceding
+authorization heading and scratch/job identifier use the local Oct 3 date;
+the actual launch and completion were **Oct 4 UTC**. Operator PID/session
+28940, analyzer PID/session 28953; both have exited. The CLI used its frozen
+**10,000 permutations / 1,000 bootstraps**, every pin active, no model contact.
+There was no retry. `results/verdict.json` SHA256:
+`70c04aef2bdce01d4edf3774c4fbb9bc1ed77148fc1e03707c137127fe23034d`.
+
+**GENERAL: A=H and B=H, each E=4 / F=4. Every primary test fires.**
+
+| outcome | A: Pythia-1b, 256 draws | B: OLMo-2 1B, 64 draws | rungs read |
+|---|---:|---:|---:|
+| SmolLM3-3B | .154133 | .194494 | 12 |
+| OLMo-2 7B | .143134 | .206738 | 10 |
+| OLMo-2 13B | .112472 | .158083 | 12 |
+| Comma | .168934 | .183817 | 9 |
+
+Every p is **1/10,001 = .000099990001**, the finite-permutation minimum,
+not zero. The effect bar is .10. Tests share items and predictors; the
+world has no family-wise alpha claim. **The headline condition is met for
+BOTH predictors by strings and choices.** Six string rungs and three choice
+rungs per predictor have positive per-rung intervals on at least three
+evaluable families. The reading generalizes the item-order forecast to this
+benchmark-derived battery under the frozen renderings and named families;
+it does not forecast which tasks clear or identify a learning mechanism.
+
+**Realized-set disclosure:** Comma's `unscramble_long` has **13 ever-correct
+items**, below n_pos=20, and is THIN for both predictors. Both read 9/10 of
+their endpoint set; their POWERED declarations simulated a wider set. The
+other six primary readings match their power sets exactly. No predictor
+degeneracy or retry-based rung loss occurred. The four early OLMo-13B
+non-finite units remain in the outcome exactly as design §3.4 requires.
+
+All **S1–S13 and sensitivities completed, no secondary failure**. S11
+structure-conditioned, S12 relaxed IPA, S13 heuristic-clearing, first-correct
+and two-of-four naming each read **GENERAL** descriptively. In S13 all eight
+tests still fire (A .1582/.1406/.1027/.1696; B .2129/.1996/.1520/.1783),
+over nine rungs except Comma's eight. The sixteen anchor D differences are
+inside ±.03, maximum absolute difference **.002748314**.
+
+Independent post-run verification checked the saved arithmetic of **148 test
+summaries** and **1,290 per-rung bootstrap summaries**, finite output values,
+all eight fire rules/statuses, headline support and the frozen decision/licence
+mapping. This read the saved JSON; it ran **no statistic, permutation,
+bootstrap, outcome loader or production `run()` again**. The cold battery
+passed **13 PASS / 0 FAIL / 1 expected SKIP**. All 33 preregistration blobs,
+188 predictor-seal paths and 172 endpoint-seal paths remain bound. Evidence,
+renderer and checks: `operations/post-analysis-20261004/`; human-readable
+record: `results/VERDICT.txt`; complete numerical forecast grading:
+`results/projection-grade.md` (66/86 per-rung ranges hit, all eight T ranges
+hit, 7/8 binary fire calls hit; A-on-Comma is the binary miss).
+
+The independent watchdog submitted completion at **02:58:39.732651 UTC**,
+**24.66 seconds** after terminal status, one delivery, and was acknowledged
+at **02:58:50.879456 UTC** after management resumed. No user status request
+was needed. Next: commit/push the result and cut `exp6-closed`, then write
+the retrospective. **Close-out propagation remains separately gated.**

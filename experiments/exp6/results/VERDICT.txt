@@ -1,0 +1,455 @@
+EXPERIMENT 6 VERDICT: GENERAL
+
+reason: A is H (E=4, F=4); B is H (E=4, F=4); A:smollm3_3b: T=0.1541, p=9.999e-05, rungs=12, fires=True; A:olmo7b: T=0.1431, p=9.999e-05, rungs=10, fires=True; A:olmo13b: T=0.1125, p=9.999e-05, rungs=12, fires=True; A:comma_7b: T=0.1689, p=9.999e-05, rungs=9, fires=True; B:smollm3_3b: T=0.1945, p=9.999e-05, rungs=12, fires=True; B:olmo7b: T=0.2067, p=9.999e-05, rungs=10, fires=True; B:olmo13b: T=0.1581, p=9.999e-05, rungs=12, fires=True; B:comma_7b: T=0.1838, p=9.999e-05, rungs=9, fires=True; Headline condition MET: at least two of the three rung types each hold a rung whose per-rung interval excludes zero on at least three of that predictor's evaluable families, for a holding predictor; 'the field's emergent tasks' stands without a type qualifier.; Test A:comma_7b read 9 of R_f's 10 rungs (not read: ['unscramble_long']); against the power record's simulated set this is NARROWER than the set simulated (the power record simulated a WIDER one).; Test B:comma_7b read 9 of R_f's 10 rungs (not read: ['unscramble_long']); against the power record's simulated set this is NARROWER than the set simulated (the power record simulated a WIDER one).
+
+licence (frozen text): The order in which the field's own emergent tasks come into focus during training is forecast, at the level of single items, by the sampled outputs of one-billion-parameter models of two other families, on at least three of four outcome families, named for each predictor. Bounded to item grain, to the rungs named as read, to these renderings of the tasks, and to predictors at or below one billion parameters. Nothing here licenses the across-task ranking: which tasks a family clears is R_f, read at the endpoint, not forecast. Disclosure (design §2): Known to the designer before any model contact: the whole record through Experiment 5b, including the eight sealed forecasts on 2c's battery and the general texture of all four outcome trajectories as read on 2c's items. Not known to anyone in this program before the predictor stage: any output of any model on any item of this battery. The predictors were sealed before any outcome model was handed an item of this battery; the endpoints, rung sets and power record before any intermediate checkpoint was scored into a record; the projection before the sweeps. Before the predictor seal, a test on 2026-09-28 loaded the same outcome endpoint's weights twice, first by download and then from cache (no tokenizer, no forward pass, no item read; the ledger has the account). The outcome preflight runs after the predictor seal and loads each family's endpoint and first grid step. It writes no record. Of what a model writes on an item of this battery it reports shape, timing and identity, and no score; it holds 2c's two anchors to their committed counts. The items are this program's renderings of ten BIG-bench tasks that Wei et al. (2022) classify as emergent: two-shot prompts, option-listing rungs scored by exact match on the emitted option, IPA scored per word, one answer per unscrambling item, each task split into rungs by a difficulty parameter fixed here. A landing is a statement about these renderings, not about BIG-bench scores. Headline condition MET: at least two of the three rung types each hold a rung whose per-rung interval excludes zero on at least three of that predictor's evaluable families, for a holding predictor; 'the field's emergent tasks' stands without a type qualifier. Test A:comma_7b read 9 of R_f's 10 rungs (not read: ['unscramble_long']); against the power record's simulated set this is NARROWER than the set simulated (the power record simulated a WIDER one). Test B:comma_7b read 9 of R_f's 10 rungs (not read: ['unscramble_long']); against the power record's simulated set this is NARROWER than the set simulated (the power record simulated a WIDER one).
+
+calibration: Each of the eight tests runs at alpha .01 behind an effect bar of T >= .10. The tests share items and predictors and are not independent; no family-wise figure is claimed and the union of the worlds is not alpha-calibrated. The guard against a shared artifact firing all eight at once is the strata, not the count of tests.
+
+Production run: 2026-10-04 00:40:05–02:58:15 UTC; one invocation.
+10,000 permutations; 1,000 bootstraps; every production pin active.
+Analysis HEAD: 3140369c9197133e899f291f6637c1ca1cb10276
+verdict.json SHA256: 70c04aef2bdce01d4edf3774c4fbb9bc1ed77148fc1e03707c137127fe23034d
+All numbers below are rendered from that saved JSON, without rerunning statistics.
+Full S1–S13 records, sensitivity tests, per-rung intervals and disclosures: verdict.json.
+
+PRIMARY (T = mean within-stratum Somers' D; fires iff T >= .10 and p < .01)
+A:smollm3_3b: T=0.154132852, p=9.99900009999e-05, rungs=12, fires=True
+  unscramble_short: D=0.164807843, CI95=[0.104762250, 0.223586526], n_pos=234
+  unscramble_long: D=0.197493121, CI95=[0.093809464, 0.307612248], n_pos=66
+  ipa_word: D=0.151322482, CI95=[0.094948962, 0.211867801], n_pos=190
+  sort3: D=0.149472233, CI95=[0.088194213, 0.212591753], n_pos=418
+  sort5: D=0.023359346, CI95=[-0.019163261, 0.070692788], n_pos=148
+  deduction3: D=0.068427159, CI95=[0.001246921, 0.129840731], n_pos=487
+  deduction5: D=0.145177357, CI95=[0.079305299, 0.207558627], n_pos=447
+  ascii_bubble: D=0.254475385, CI95=[0.197353380, 0.315462203], n_pos=304
+  shapes: D=0.269196599, CI95=[0.179025265, 0.361166463], n_pos=351
+  lcs: D=0.118336070, CI95=[0.037609281, 0.191637248], n_pos=383
+  unit_interp1: D=0.093429020, CI95=[0.028653110, 0.162028360], n_pos=438
+  unit_interp2: D=0.214097612, CI95=[0.145473718, 0.275746878], n_pos=450
+A:olmo7b: T=0.143134183, p=9.99900009999e-05, rungs=10, fires=True
+  unscramble_short: D=0.147083567, CI95=[0.090521562, 0.205341982], n_pos=246
+  unscramble_long: D=0.144079886, CI95=[0.053090143, 0.241985656], n_pos=70
+  ipa_word: D=0.093917327, CI95=[0.043242508, 0.141516107], n_pos=238
+  sort3: D=0.136331270, CI95=[0.070380022, 0.201059622], n_pos=394
+  sort5: D=0.024022787, CI95=[-0.004195830, 0.056399842], n_pos=269
+  deduction3: D=0.074808019, CI95=[0.009454134, 0.139919436], n_pos=491
+  deduction5: D=0.119466593, CI95=[0.051177017, 0.190561506], n_pos=422
+  ascii_bubble: D=0.215886657, CI95=[0.163719970, 0.278028116], n_pos=360
+  shapes: D=0.309474412, CI95=[0.227539643, 0.392209212], n_pos=312
+  unit_interp2: D=0.166271315, CI95=[0.094342182, 0.233397972], n_pos=470
+A:olmo13b: T=0.112471537, p=9.99900009999e-05, rungs=12, fires=True
+  unscramble_short: D=0.105884457, CI95=[0.060202200, 0.156148216], n_pos=326
+  unscramble_long: D=0.082738944, CI95=[0.018183329, 0.144481178], n_pos=124
+  ipa_word: D=0.060858424, CI95=[0.017801773, 0.101926108], n_pos=312
+  sort3: D=0.129029645, CI95=[0.062373825, 0.196572236], n_pos=471
+  sort5: D=0.000194142, CI95=[-0.023970068, 0.025650825], n_pos=435
+  deduction3: D=0.055673834, CI95=[-0.017661519, 0.120895049], n_pos=482
+  deduction5: D=0.117984070, CI95=[0.056031379, 0.183750022], n_pos=407
+  ascii_bubble: D=0.190920057, CI95=[0.136197786, 0.248051611], n_pos=451
+  shapes: D=0.181463274, CI95=[0.087233199, 0.273265159], n_pos=261
+  lcs: D=0.155076237, CI95=[0.044173698, 0.271031643], n_pos=258
+  unit_interp1: D=0.174498715, CI95=[0.106910254, 0.245644455], n_pos=363
+  unit_interp2: D=0.095336645, CI95=[0.027922371, 0.164205107], n_pos=413
+A:comma_7b: T=0.168933540, p=9.99900009999e-05, rungs=9, fires=True
+  modarith_add1: D=0.008148378, CI95=[-0.070191900, 0.088124482], n_pos=104
+  unscramble_short: D=0.270706598, CI95=[0.185458488, 0.364918259], n_pos=124
+  ipa_word: D=0.311069718, CI95=[0.209341419, 0.419901951], n_pos=83
+  sort3: D=0.250757384, CI95=[0.186019828, 0.321007574], n_pos=295
+  sort5: D=0.087938131, CI95=[-0.004184291, 0.181776647], n_pos=53
+  deduction3: D=0.088455849, CI95=[0.020064496, 0.151829125], n_pos=497
+  deduction5: D=0.041905756, CI95=[-0.020491119, 0.106554094], n_pos=462
+  ascii_bubble: D=0.297945719, CI95=[0.225357280, 0.369516728], n_pos=256
+  unit_interp2: D=0.163474328, CI95=[0.094611475, 0.229108109], n_pos=468
+B:smollm3_3b: T=0.194494334, p=9.99900009999e-05, rungs=12, fires=True
+  unscramble_short: D=0.291752504, CI95=[0.221967143, 0.360038571], n_pos=234
+  unscramble_long: D=0.254356466, CI95=[0.138549911, 0.373727057], n_pos=66
+  ipa_word: D=0.353255341, CI95=[0.279894874, 0.427440120], n_pos=190
+  sort3: D=0.163634435, CI95=[0.094939169, 0.228734718], n_pos=418
+  sort5: D=0.067406903, CI95=[0.014344465, 0.123723249], n_pos=148
+  deduction3: D=0.158873083, CI95=[0.099820575, 0.220235304], n_pos=487
+  deduction5: D=0.070639699, CI95=[0.004841229, 0.141692025], n_pos=447
+  ascii_bubble: D=0.262431626, CI95=[0.204188158, 0.323270214], n_pos=304
+  shapes: D=0.293565173, CI95=[0.208203930, 0.371335567], n_pos=351
+  lcs: D=0.070060208, CI95=[-0.015474502, 0.153820935], n_pos=383
+  unit_interp1: D=0.124422516, CI95=[0.053470760, 0.187252658], n_pos=438
+  unit_interp2: D=0.223534059, CI95=[0.159278744, 0.288430026], n_pos=450
+B:olmo7b: T=0.206737572, p=9.99900009999e-05, rungs=10, fires=True
+  unscramble_short: D=0.254556927, CI95=[0.186307134, 0.322128516], n_pos=246
+  unscramble_long: D=0.186875892, CI95=[0.081767274, 0.295070228], n_pos=70
+  ipa_word: D=0.258620690, CI95=[0.194935580, 0.323682767], n_pos=238
+  sort3: D=0.202333352, CI95=[0.134471956, 0.263693109], n_pos=394
+  sort5: D=0.032018944, CI95=[-0.003325916, 0.070467127], n_pos=269
+  deduction3: D=0.176209864, CI95=[0.115082293, 0.236515806], n_pos=491
+  deduction5: D=0.115892219, CI95=[0.047371993, 0.180708168], n_pos=422
+  ascii_bubble: D=0.201486471, CI95=[0.144197567, 0.256263690], n_pos=360
+  shapes: D=0.368603043, CI95=[0.295082334, 0.439721370], n_pos=312
+  unit_interp2: D=0.270778320, CI95=[0.205023271, 0.330552922], n_pos=470
+B:olmo13b: T=0.158082698, p=9.99900009999e-05, rungs=12, fires=True
+  unscramble_short: D=0.193883026, CI95=[0.136828594, 0.253518929], n_pos=326
+  unscramble_long: D=0.152817404, CI95=[0.077793752, 0.232628360], n_pos=124
+  ipa_word: D=0.206644093, CI95=[0.147913705, 0.262556053], n_pos=312
+  sort3: D=0.131918570, CI95=[0.067899863, 0.197584558], n_pos=471
+  sort5: D=0.006878189, CI95=[-0.016745722, 0.033143933], n_pos=435
+  deduction3: D=0.096205024, CI95=[0.034330290, 0.158864322], n_pos=482
+  deduction5: D=0.107503843, CI95=[0.034581625, 0.179083446], n_pos=407
+  ascii_bubble: D=0.167013927, CI95=[0.115942294, 0.217730132], n_pos=451
+  shapes: D=0.305234239, CI95=[0.218862004, 0.395653170], n_pos=261
+  lcs: D=0.037188546, CI95=[-0.073650650, 0.143518116], n_pos=258
+  unit_interp1: D=0.264884319, CI95=[0.184736190, 0.336635938], n_pos=363
+  unit_interp2: D=0.226821192, CI95=[0.166363458, 0.286703344], n_pos=413
+B:comma_7b: T=0.183817185, p=9.99900009999e-05, rungs=9, fires=True
+  modarith_add1: D=-0.028790936, CI95=[-0.067818102, 0.014231217], n_pos=104
+  unscramble_short: D=0.352948058, CI95=[0.254436081, 0.443965902], n_pos=124
+  ipa_word: D=0.465939329, CI95=[0.357385757, 0.577954707], n_pos=83
+  sort3: D=0.103667003, CI95=[0.027891320, 0.183999189], n_pos=295
+  sort5: D=0.042784084, CI95=[-0.036122646, 0.137204592], n_pos=53
+  deduction3: D=0.086670408, CI95=[0.026047975, 0.151252533], n_pos=497
+  deduction5: D=0.140497305, CI95=[0.076529586, 0.204326562], n_pos=462
+  ascii_bubble: D=0.263007947, CI95=[0.195230610, 0.326072340], n_pos=256
+  unit_interp2: D=0.227631462, CI95=[0.166871595, 0.290215720], n_pos=468
+
+HEADLINE SUPPORT (positive interval on >=3 evaluable families)
+{
+  "A": {
+    "string": {
+      "unscramble_short": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "unscramble_long": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b"
+      ],
+      "ipa_word": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "sort3": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "ascii_bubble": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "shapes": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b"
+      ]
+    },
+    "choice": {
+      "deduction3": [
+        "smollm3_3b",
+        "olmo7b",
+        "comma_7b"
+      ],
+      "deduction5": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b"
+      ],
+      "unit_interp2": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ]
+    }
+  },
+  "B": {
+    "string": {
+      "unscramble_short": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "unscramble_long": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b"
+      ],
+      "ipa_word": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "sort3": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "ascii_bubble": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "shapes": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b"
+      ]
+    },
+    "choice": {
+      "deduction3": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "deduction5": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ],
+      "unit_interp2": [
+        "smollm3_3b",
+        "olmo7b",
+        "olmo13b",
+        "comma_7b"
+      ]
+    }
+  }
+}
+
+POWER SET DISCLOSURE
+All eight tests were declared POWERED before sweeps. Six read exactly the simulated set.
+Both Comma tests read 9/10: unscramble_long has 13 ever-correct items (<20), so is THIN.
+Their power simulations cover a wider set; do not transfer the exact-set probability to these readings.
+
+NAMED SECONDARIES — descriptive/non-gating; no additional alpha claim
+
+SmolLM3-3B
+S1 k64/128/192/256: 0.110989, 0.132236, 0.137379, 0.154133
+S1 individual 64-draw blocks: 0=0.110989, 1=0.112550, 2=0.095812, 3=0.111535
+S2 410m: 0.063205
+S3 B|A=0.170691; A|B=0.130935; paired B-A={"rungs": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes", "lcs", "unit_interp1", "unit_interp2"], "T_A": 0.15413285229462362, "T_B": 0.19449433440939645, "diff_B_minus_A": 0.040361482114772834, "ci95": [0.014972179359066046, 0.06493895301202421], "n_boot": 1000, "n_boot_requested": 1000, "note": "paired item bootstrap within rung on one tie structure; the densities differ (256 vs 64 draws); descriptive, no alpha claim"}
+S4 A by_type: arithmetic=0.118336 (rungs=1), string=0.172875 (rungs=7), choice=0.130283 (rungs=4)
+S4 A by_class: E.2=0.128580 (rungs=7), E.3=0.189907 (rungs=5)
+S4 B by_type: arithmetic=0.070060 (rungs=1), string=0.240915 (rungs=7), choice=0.144367 (rungs=4)
+S4 B by_class: E.2=0.194274 (rungs=7), E.3=0.194803 (rungs=5)
+S5 answer prior: 0.124705
+S6 init counts: {"modarith_add1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_sub1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_mul1": {"count": 0, "floor": 0.03, "clears": false}, "unscramble_short": {"count": 0, "floor": 0.002, "clears": false}, "unscramble_long": {"count": 0, "floor": 0.002, "clears": false}, "ipa_word": {"count": 0, "floor": 0.002, "clears": false}, "sort3": {"count": 0, "floor": 0.002, "clears": false}, "sort5": {"count": 0, "floor": 0.002, "clears": false}, "deduction3": {"count": 0, "floor": 0.3333333333333333, "clears": false}, "deduction5": {"count": 0, "floor": 0.2, "clears": false}, "ascii_bubble": {"count": 0, "floor": 0.002, "clears": false}, "ascii_basic": {"count": 0, "floor": 0.002, "clears": false}, "shapes": {"count": 0, "floor": 0.1, "clears": false}, "temporal": {"count": 0, "floor": 0.25, "clears": false}, "lcs": {"count": 0, "floor": 0.1, "clears": false}, "unit_interp1": {"count": 0, "floor": 0.2, "clears": false}, "unit_interp2": {"count": 0, "floor": 0.2, "clears": false}}
+S7 flat rungs: ["modarith_add1", "modarith_sub1", "modarith_mul1", "ascii_basic", "temporal"]
+S7 transient clears on flat: {"modarith_add1": [1400000, 2400000, 3200000, 3400000]}
+S7 nonfinite units: {}
+S7 collapse records (>=90% identical continuations on a rung): 29
+S7 ever/final/first-clear/ceiling by rung:
+  modarith_add1: ever=87, final=6, s_star=1400000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 87, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_sub1: ever=26, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 26, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_mul1: ever=44, final=1, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 44, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_short: ever=234, final=92, s_star=40000, ceiling={'n_ceiling': 1, 'fraction': 0.002, 'n_pos': 234, 'fraction_of_positives': 0.004273504273504274, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_long: ever=66, final=18, s_star=200000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 66, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ipa_word: ever=190, final=50, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 190, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort3: ever=418, final=134, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 418, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort5: ever=148, final=23, s_star=320000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 148, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction3: ever=487, final=223, s_star=120000, ceiling={'n_ceiling': 1, 'fraction': 0.002, 'n_pos': 487, 'fraction_of_positives': 0.002053388090349076, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction5: ever=447, final=145, s_star=400000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 447, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_bubble: ever=304, final=130, s_star=40000, ceiling={'n_ceiling': 3, 'fraction': 0.006, 'n_pos': 304, 'fraction_of_positives': 0.009868421052631578, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_basic: ever=0, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 0, 'fraction_of_positives': None, 'definition': 'items verifying at EVERY grid point of the family'}
+  shapes: ever=351, final=83, s_star=240000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 351, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  temporal: ever=426, final=61, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 426, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  lcs: ever=383, final=71, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 383, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp1: ever=438, final=131, s_star=1600000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 438, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp2: ever=450, final=140, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 450, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+S9 A earlier/new T: 0.169609/0.154133
+S10 A: {"rungs": {"add_base8": {"d_new": 0.43897957308669955, "d_committed": 0.43890045304273295, "diff": 7.912004396659622e-05, "within": true}, "sub_base8": {"d_new": 0.4533603103750365, "d_committed": 0.4533580921780133, "diff": 2.218197023173829e-06, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2m", "path": "tests/A", "conditioning": "unconditioned, 256 draws"}}
+S11 A: 0.153802
+S12 A: 0.150027
+S13 A: 0.158192
+first-correct A: 0.146268
+S9 B earlier/new T: 0.251375/0.194494
+S10 B: {"rungs": {"add_base8": {"d_new": 0.7507732826999051, "d_committed": 0.7504897759275132, "diff": 0.0002835067723918616, "within": true}, "sub_base8": {"d_new": 0.40997455258437276, "d_committed": 0.40739427069206535, "diff": 0.0025802818923074122, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2m", "path": "tests/B", "conditioning": "unconditioned, 64 draws"}}
+S11 B: 0.198938
+S12 B: 0.190435
+S13 B: 0.212879
+first-correct B: 0.199132
+S12 IPA endpoint strict/relaxed: {"strict": 50, "relaxed": 112}
+S13 sets: {"R": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes", "lcs", "unit_interp1", "unit_interp2"], "R_heuristic": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes"], "not_beyond": ["lcs", "unit_interp1", "unit_interp2"]}
+B conditioned on A, zero/median: 0.176292, 0.170691
+
+OLMo-2 7B
+S1 k64/128/192/256: 0.094562, 0.118818, 0.129794, 0.143134
+S1 individual 64-draw blocks: 0=0.094562, 1=0.106538, 2=0.097312, 3=0.103440
+S2 410m: 0.087563
+S3 B|A=0.182339; A|B=0.114948; paired B-A={"rungs": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes", "unit_interp2"], "T_A": 0.14313418343763157, "T_B": 0.20673757198592785, "diff_B_minus_A": 0.06360338854829628, "ci95": [0.03699588178194256, 0.09252721317431742], "n_boot": 1000, "n_boot_requested": 1000, "note": "paired item bootstrap within rung on one tie structure; the densities differ (256 vs 64 draws); descriptive, no alpha claim"}
+S4 A by_type: arithmetic=undefined (rungs=0), string=0.152971 (rungs=7), choice=0.120182 (rungs=3)
+S4 A by_class: E.2=0.105673 (rungs=7), E.3=0.230544 (rungs=3)
+S4 B by_type: arithmetic=undefined (rungs=0), string=0.214928 (rungs=7), choice=0.187627 (rungs=3)
+S4 B by_class: E.2=0.175215 (rungs=7), E.3=0.280289 (rungs=3)
+S5 answer prior: 0.126315
+S6 init counts: {"modarith_add1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_sub1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_mul1": {"count": 0, "floor": 0.03, "clears": false}, "unscramble_short": {"count": 0, "floor": 0.002, "clears": false}, "unscramble_long": {"count": 0, "floor": 0.002, "clears": false}, "ipa_word": {"count": 0, "floor": 0.002, "clears": false}, "sort3": {"count": 0, "floor": 0.002, "clears": false}, "sort5": {"count": 0, "floor": 0.002, "clears": false}, "deduction3": {"count": 0, "floor": 0.3333333333333333, "clears": false}, "deduction5": {"count": 0, "floor": 0.2, "clears": false}, "ascii_bubble": {"count": 0, "floor": 0.002, "clears": false}, "ascii_basic": {"count": 0, "floor": 0.002, "clears": false}, "shapes": {"count": 0, "floor": 0.1, "clears": false}, "temporal": {"count": 0, "floor": 0.25, "clears": false}, "lcs": {"count": 0, "floor": 0.1, "clears": false}, "unit_interp1": {"count": 0, "floor": 0.2, "clears": false}, "unit_interp2": {"count": 0, "floor": 0.2, "clears": false}}
+S7 flat rungs: ["modarith_add1", "modarith_sub1", "modarith_mul1", "ascii_basic", "temporal", "lcs", "unit_interp1"]
+S7 transient clears on flat: {"lcs": [1000, 8000, 32000, 64000, 256000, 320000, 512000, 576000, 640000, 832000, 896000], "unit_interp1": [832000]}
+S7 nonfinite units: {}
+S7 collapse records (>=90% identical continuations on a rung): 28
+S7 ever/final/first-clear/ceiling by rung:
+  modarith_add1: ever=17, final=3, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 17, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_sub1: ever=11, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 11, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_mul1: ever=39, final=12, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 39, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_short: ever=246, final=145, s_star=32000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 246, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_long: ever=70, final=19, s_star=128000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 70, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ipa_word: ever=238, final=110, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 238, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort3: ever=394, final=145, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 394, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort5: ever=269, final=44, s_star=32000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 269, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction3: ever=491, final=243, s_star=128000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 491, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction5: ever=422, final=141, s_star=128000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 422, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_bubble: ever=360, final=252, s_star=64000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 360, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_basic: ever=0, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 0, 'fraction_of_positives': None, 'definition': 'items verifying at EVERY grid point of the family'}
+  shapes: ever=312, final=77, s_star=448000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 312, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  temporal: ever=375, final=52, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 375, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  lcs: ever=326, final=62, s_star=1000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 326, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp1: ever=415, final=108, s_star=832000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 415, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp2: ever=470, final=128, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 470, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+S9 A earlier/new T: 0.154772/0.143134
+S10 A: {"rungs": {"add_base8": {"d_new": 0.4750770403786892, "d_committed": 0.476406706465134, "diff": -0.0013296660864448029, "within": true}, "sub_base8": {"d_new": 0.44035600119586965, "d_committed": 0.4402585156052347, "diff": 9.748559063493811e-05, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2k", "path": "primary", "conditioning": "unconditioned, 256 draws"}}
+S11 A: 0.148592
+S12 A: 0.141667
+S13 A: 0.140563
+first-correct A: 0.145660
+S9 B earlier/new T: 0.220419/0.206738
+S10 B: {"rungs": {"add_base8": {"d_new": 0.7422244813673475, "d_committed": 0.7408230661755366, "diff": 0.0014014151918109174, "within": true}, "sub_base8": {"d_new": 0.34100683025550216, "d_committed": 0.34090020469652016, "diff": 0.00010662555898199866, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2i", "path": "secondaries/within_alone", "conditioning": "unconditioned (2i's within-alone; its Test B conditioned on x_A's zero cut)"}}
+S11 B: 0.205597
+S12 B: 0.208824
+S13 B: 0.199622
+first-correct B: 0.189437
+S12 IPA endpoint strict/relaxed: {"strict": 110, "relaxed": 222}
+S13 sets: {"R": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes", "unit_interp2"], "R_heuristic": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes"], "not_beyond": ["unit_interp2"]}
+B conditioned on A, zero/median: 0.186342, 0.182339
+
+OLMo-2 13B
+S1 k64/128/192/256: 0.077046, 0.093654, 0.100463, 0.112472
+S1 individual 64-draw blocks: 0=0.077046, 1=0.083041, 2=0.070700, 3=0.079437
+S2 410m: 0.052878
+S3 B|A=0.141720; A|B=0.087263; paired B-A={"rungs": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes", "lcs", "unit_interp1", "unit_interp2"], "T_A": 0.1124715370052361, "T_B": 0.1580826977172615, "diff_B_minus_A": 0.045611160712025395, "ci95": [0.019791465326882102, 0.07147816991720139], "n_boot": 1000, "n_boot_requested": 1000, "note": "paired item bootstrap within rung on one tie structure; the densities differ (256 vs 64 draws); descriptive, no alpha claim"}
+S4 A by_type: arithmetic=0.155076 (rungs=1), string=0.107298 (rungs=7), choice=0.110873 (rungs=4)
+S4 A by_class: E.2=0.078909 (rungs=7), E.3=0.159459 (rungs=5)
+S4 B by_type: arithmetic=0.037189 (rungs=1), string=0.166341 (rungs=7), choice=0.173854 (rungs=4)
+S4 B by_class: E.2=0.127979 (rungs=7), E.3=0.200228 (rungs=5)
+S5 answer prior: 0.124780
+S6 init counts: {"modarith_add1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_sub1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_mul1": {"count": 0, "floor": 0.03, "clears": false}, "unscramble_short": {"count": 0, "floor": 0.002, "clears": false}, "unscramble_long": {"count": 0, "floor": 0.002, "clears": false}, "ipa_word": {"count": 0, "floor": 0.002, "clears": false}, "sort3": {"count": 0, "floor": 0.002, "clears": false}, "sort5": {"count": 0, "floor": 0.002, "clears": false}, "deduction3": {"count": 0, "floor": 0.3333333333333333, "clears": false}, "deduction5": {"count": 0, "floor": 0.2, "clears": false}, "ascii_bubble": {"count": 0, "floor": 0.002, "clears": false}, "ascii_basic": {"count": 0, "floor": 0.002, "clears": false}, "shapes": {"count": 0, "floor": 0.1, "clears": false}, "temporal": {"count": 0, "floor": 0.25, "clears": false}, "lcs": {"count": 0, "floor": 0.1, "clears": false}, "unit_interp1": {"count": 0, "floor": 0.2, "clears": false}, "unit_interp2": {"count": 0, "floor": 0.2, "clears": false}}
+S7 flat rungs: ["modarith_add1", "modarith_sub1", "modarith_mul1", "ascii_basic", "temporal"]
+S7 transient clears on flat: {"modarith_add1": [512000, 576000]}
+S7 nonfinite units: {"1000": 802816, "2000": 802816, "4000": 802816, "8000": 802816}
+S7 collapse records (>=90% identical continuations on a rung): 87
+S7 ever/final/first-clear/ceiling by rung:
+  modarith_add1: ever=41, final=7, s_star=512000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 41, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_sub1: ever=13, final=3, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 13, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_mul1: ever=22, final=4, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 22, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_short: ever=326, final=215, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 326, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_long: ever=124, final=58, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 124, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ipa_word: ever=312, final=224, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 312, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort3: ever=471, final=345, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 471, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort5: ever=435, final=267, s_star=64000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 435, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction3: ever=482, final=284, s_star=64000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 482, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction5: ever=407, final=161, s_star=64000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 407, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_bubble: ever=451, final=387, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 451, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_basic: ever=0, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 0, 'fraction_of_positives': None, 'definition': 'items verifying at EVERY grid point of the family'}
+  shapes: ever=261, final=106, s_star=64000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 261, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  temporal: ever=303, final=42, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 303, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  lcs: ever=258, final=72, s_star=16000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 258, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp1: ever=363, final=126, s_star=256000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 363, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp2: ever=413, final=193, s_star=128000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 413, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+S9 A earlier/new T: 0.126067/0.112472
+S10 A: {"rungs": {"add_base8": {"d_new": 0.4585401093033482, "d_committed": 0.4585401093033482, "diff": 0.0, "within": true}, "sub_base8": {"d_new": 0.29460313907618274, "d_committed": 0.29185482522160894, "diff": 0.002748313854573803, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2l", "path": "tests/A", "conditioning": "unconditioned, 256 draws"}}
+S11 A: 0.116621
+S12 A: 0.110722
+S13 A: 0.102750
+first-correct A: 0.130709
+S9 B earlier/new T: 0.204471/0.158083
+S10 B: {"rungs": {"add_base8": {"d_new": 0.6372259564042968, "d_committed": 0.6372259564042968, "diff": 0.0, "within": true}, "sub_base8": {"d_new": 0.22236521836443499, "d_committed": 0.22225009756369515, "diff": 0.00011512080073983189, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2l", "path": "secondaries/S3 within alone", "conditioning": "unconditioned (2l's within-alone; its Test B conditioned on x_A's median bucket)"}}
+S11 B: 0.158291
+S12 B: 0.158203
+S13 B: 0.152011
+first-correct B: 0.158399
+S12 IPA endpoint strict/relaxed: {"strict": 224, "relaxed": 314}
+S13 sets: {"R": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes", "lcs", "unit_interp1", "unit_interp2"], "R_heuristic": ["unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "shapes"], "not_beyond": ["lcs", "unit_interp1", "unit_interp2"]}
+B conditioned on A, zero/median: 0.145384, 0.141720
+
+Comma
+S1 k64/128/192/256: 0.107239, 0.133525, 0.152493, 0.168934
+S1 individual 64-draw blocks: 0=0.107239, 1=0.112485, 2=0.112362, 3=0.116567
+S2 410m: 0.081069
+S3 B|A=0.149141; A|B=0.136525; paired B-A={"rungs": ["modarith_add1", "unscramble_short", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "unit_interp2"], "T_A": 0.16893354015738465, "T_B": 0.18381718450603393, "diff_B_minus_A": 0.014883644348649278, "ci95": [-0.018922883576299992, 0.04770050750818514], "n_boot": 1000, "n_boot_requested": 1000, "note": "paired item bootstrap within rung on one tie structure; the densities differ (256 vs 64 draws); descriptive, no alpha claim"}
+S4 A by_type: arithmetic=0.008148 (rungs=1), string=0.243684 (rungs=5), choice=0.097945 (rungs=3)
+S4 A by_class: E.2=0.151283 (rungs=7), E.3=0.230710 (rungs=2)
+S4 B by_type: arithmetic=-0.028791 (rungs=1), string=0.245669 (rungs=5), choice=0.151600 (rungs=3)
+S4 B by_class: E.2=0.166245 (rungs=7), E.3=0.245320 (rungs=2)
+S5 answer prior: 0.097719
+S6 init counts: {"modarith_add1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_sub1": {"count": 0, "floor": 0.008, "clears": false}, "modarith_mul1": {"count": 0, "floor": 0.03, "clears": false}, "unscramble_short": {"count": 0, "floor": 0.002, "clears": false}, "unscramble_long": {"count": 0, "floor": 0.002, "clears": false}, "ipa_word": {"count": 0, "floor": 0.002, "clears": false}, "sort3": {"count": 0, "floor": 0.002, "clears": false}, "sort5": {"count": 0, "floor": 0.002, "clears": false}, "deduction3": {"count": 0, "floor": 0.3333333333333333, "clears": false}, "deduction5": {"count": 0, "floor": 0.2, "clears": false}, "ascii_bubble": {"count": 0, "floor": 0.002, "clears": false}, "ascii_basic": {"count": 0, "floor": 0.002, "clears": false}, "shapes": {"count": 0, "floor": 0.1, "clears": false}, "temporal": {"count": 0, "floor": 0.25, "clears": false}, "lcs": {"count": 0, "floor": 0.1, "clears": false}, "unit_interp1": {"count": 0, "floor": 0.2, "clears": false}, "unit_interp2": {"count": 0, "floor": 0.2, "clears": false}}
+S7 flat rungs: ["modarith_sub1", "modarith_mul1", "ascii_basic", "shapes", "temporal", "lcs", "unit_interp1"]
+S7 transient clears on flat: {"shapes": [200000, 240000, 380000], "lcs": [10000, 20000, 100000, 140000, 160000, 200000, 240000, 280000, 320000]}
+S7 nonfinite units: {}
+S7 collapse records (>=90% identical continuations on a rung): 14
+S7 ever/final/first-clear/ceiling by rung:
+  modarith_add1: ever=104, final=43, s_star=340000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 104, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_sub1: ever=37, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 37, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  modarith_mul1: ever=10, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 10, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_short: ever=124, final=41, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 124, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unscramble_long: ever=13, final=6, s_star=300000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 13, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ipa_word: ever=83, final=31, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 83, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort3: ever=295, final=85, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 295, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  sort5: ever=53, final=10, s_star=320000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 53, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction3: ever=497, final=318, s_star=60000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 497, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  deduction5: ever=462, final=211, s_star=80000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 462, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_bubble: ever=256, final=165, s_star=40000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 256, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  ascii_basic: ever=1, final=0, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 1, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  shapes: ever=322, final=64, s_star=200000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 322, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  temporal: ever=444, final=40, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 444, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  lcs: ever=358, final=53, s_star=10000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 358, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp1: ever=442, final=100, s_star=None, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 442, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+  unit_interp2: ever=468, final=131, s_star=440000, ceiling={'n_ceiling': 0, 'fraction': 0.0, 'n_pos': 468, 'fraction_of_positives': 0.0, 'definition': 'items verifying at EVERY grid point of the family'}
+S9 A earlier/new T: 0.159902/0.168934
+S10 A: {"rungs": {"add_base8": {"d_new": 0.4509539084923181, "d_committed": 0.45160093120550626, "diff": -0.0006470227131881723, "within": true}, "sub_base8": {"d_new": 0.56287888034501, "d_committed": 0.5640937004351539, "diff": -0.0012148200901439532, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2n", "path": "tests/A", "conditioning": "unconditioned, 256 draws"}}
+S11 A: 0.164149
+S12 A: 0.165074
+S13 A: 0.169616
+first-correct A: 0.182958
+S9 B earlier/new T: 0.209727/0.183817
+S10 B: {"rungs": {"add_base8": {"d_new": 0.7654229275704879, "d_committed": 0.7636222544620264, "diff": 0.001800673108461548, "within": true}, "sub_base8": {"d_new": 0.39727002725904226, "d_committed": 0.39645776566757496, "diff": 0.0008122615914673004, "within": true}}, "tolerance": 0.03, "committed": {"experiment": "exp2n", "path": "tests/B", "conditioning": "unconditioned, 64 draws"}}
+S11 B: 0.177833
+S12 B: 0.185899
+S13 B: 0.178340
+first-correct B: 0.169996
+S12 IPA endpoint strict/relaxed: {"strict": 31, "relaxed": 52}
+S13 sets: {"R": ["modarith_add1", "unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble", "unit_interp2"], "R_heuristic": ["modarith_add1", "unscramble_short", "unscramble_long", "ipa_word", "sort3", "sort5", "deduction3", "deduction5", "ascii_bubble"], "not_beyond": ["unit_interp2"]}
+B conditioned on A, zero/median: 0.153550, 0.149141
+
+S6 predictor twin: {"modarith_add1": {"verified": 4, "n_draws": 32000, "live_items": 4}, "modarith_sub1": {"verified": 4, "n_draws": 32000, "live_items": 4}, "modarith_mul1": {"verified": 4, "n_draws": 32000, "live_items": 4}, "unscramble_short": {"verified": 1, "n_draws": 32000, "live_items": 1}, "unscramble_long": {"verified": 1, "n_draws": 32000, "live_items": 1}, "ipa_word": {"verified": 0, "n_draws": 32000, "live_items": 0}, "sort3": {"verified": 0, "n_draws": 32000, "live_items": 0}, "sort5": {"verified": 0, "n_draws": 32000, "live_items": 0}, "deduction3": {"verified": 1, "n_draws": 32000, "live_items": 1}, "deduction5": {"verified": 0, "n_draws": 32000, "live_items": 0}, "ascii_bubble": {"verified": 0, "n_draws": 32000, "live_items": 0}, "ascii_basic": {"verified": 0, "n_draws": 32000, "live_items": 0}, "shapes": {"verified": 1, "n_draws": 32000, "live_items": 1}, "temporal": {"verified": 0, "n_draws": 32000, "live_items": 0}, "lcs": {"verified": 6, "n_draws": 32000, "live_items": 6}, "unit_interp1": {"verified": 4, "n_draws": 32000, "live_items": 4}, "unit_interp2": {"verified": 4, "n_draws": 32000, "live_items": 4}}
+S6 pilot: {"modarith_add1": {"verified": 1, "n_draws": 4000, "live_items": 1, "live_items_main": 83}, "modarith_sub1": {"verified": 2, "n_draws": 4000, "live_items": 2, "live_items_main": 62}, "modarith_mul1": {"verified": 1, "n_draws": 4000, "live_items": 1, "live_items_main": 36}, "unscramble_short": {"verified": 10, "n_draws": 4000, "live_items": 9, "live_items_main": 97}, "unscramble_long": {"verified": 0, "n_draws": 4000, "live_items": 0, "live_items_main": 33}, "ipa_word": {"verified": 10, "n_draws": 4000, "live_items": 8, "live_items_main": 60}, "sort3": {"verified": 137, "n_draws": 4000, "live_items": 83, "live_items_main": 305}, "sort5": {"verified": 7, "n_draws": 4000, "live_items": 3, "live_items_main": 22}, "deduction3": {"verified": 1200, "n_draws": 4000, "live_items": 427, "live_items_main": 500}, "deduction5": {"verified": 744, "n_draws": 4000, "live_items": 288, "live_items_main": 498}, "ascii_bubble": {"verified": 12, "n_draws": 4000, "live_items": 11, "live_items_main": 150}, "ascii_basic": {"verified": 0, "n_draws": 4000, "live_items": 0, "live_items_main": 15}, "shapes": {"verified": 335, "n_draws": 4000, "live_items": 201, "live_items_main": 489}, "temporal": {"verified": 513, "n_draws": 4000, "live_items": 289, "live_items_main": 499}, "lcs": {"verified": 283, "n_draws": 4000, "live_items": 210, "live_items_main": 500}, "unit_interp1": {"verified": 656, "n_draws": 4000, "live_items": 274, "live_items_main": 469}, "unit_interp2": {"verified": 706, "n_draws": 4000, "live_items": 291, "live_items_main": 491}}
+
+S8 directed outcome order:
+  olmo7b->smollm3_3b: T=0.438372, rungs=10
+  olmo13b->smollm3_3b: T=0.356820, rungs=12
+  comma_7b->smollm3_3b: T=0.237941, rungs=9
+  smollm3_3b->olmo7b: T=0.410523, rungs=10
+  olmo13b->olmo7b: T=0.473013, rungs=10
+  comma_7b->olmo7b: T=0.235558, rungs=9
+  smollm3_3b->olmo13b: T=0.327033, rungs=12
+  olmo7b->olmo13b: T=0.435319, rungs=10
+  comma_7b->olmo13b: T=0.208104, rungs=9
+  smollm3_3b->comma_7b: T=0.352984, rungs=8
+  olmo7b->comma_7b: T=0.345419, rungs=8
+  olmo13b->comma_7b: T=0.322555, rungs=8
+
+S11/S12/S13/first-correct/two-of-four worlds: GENERAL, GENERAL, GENERAL, GENERAL, GENERAL
+
+gate failures: []
+secondary failures: []
+Four early OLMo-13B fp16 non-finite loads are retained as emitted under design §3.4.
+Close-out propagation awaits Michael's separate approval.

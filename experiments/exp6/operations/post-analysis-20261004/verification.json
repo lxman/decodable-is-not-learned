@@ -1,0 +1,141 @@
+{
+  "verified_utc": "2026-10-04T03:01:42.151855+00:00",
+  "source_sha256": "70c04aef2bdce01d4edf3774c4fbb9bc1ed77148fc1e03707c137127fe23034d",
+  "checks": "saved arithmetic, defaults, pins/gates, full secondary presence, decision and licence replay; no statistics rerun",
+  "saved_test_summaries_checked": 148,
+  "saved_bootstrap_summaries_checked": 1290,
+  "verdict": "GENERAL",
+  "headline_support": {
+    "A": {
+      "string": {
+        "unscramble_short": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "unscramble_long": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b"
+        ],
+        "ipa_word": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "sort3": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "ascii_bubble": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "shapes": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b"
+        ]
+      },
+      "choice": {
+        "deduction3": [
+          "smollm3_3b",
+          "olmo7b",
+          "comma_7b"
+        ],
+        "deduction5": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b"
+        ],
+        "unit_interp2": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ]
+      }
+    },
+    "B": {
+      "string": {
+        "unscramble_short": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "unscramble_long": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b"
+        ],
+        "ipa_word": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "sort3": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "ascii_bubble": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "shapes": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b"
+        ]
+      },
+      "choice": {
+        "deduction3": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "deduction5": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ],
+        "unit_interp2": [
+          "smollm3_3b",
+          "olmo7b",
+          "olmo13b",
+          "comma_7b"
+        ]
+      }
+    }
+  },
+  "per_rung_projection_counts": {
+    "A": {
+      "HIT": 34,
+      "LOW": 3,
+      "HIGH": 6
+    },
+    "B": {
+      "HIT": 32,
+      "LOW": 4,
+      "HIGH": 7
+    }
+  },
+  "max_anchor_abs_diff": 0.002748313854573803,
+  "mean_cross_battery_decline": {
+    "A": 0.00791947484538192,
+    "B": 0.03571503414405147
+  }
+}

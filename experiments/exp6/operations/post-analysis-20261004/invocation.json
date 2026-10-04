@@ -1,0 +1,26 @@
+{
+  "pid": 28940,
+  "sid": 28940,
+  "started_utc": "2026-10-04T00:40:04.632731+00:00",
+  "operator_sha256": "5d0281c2a79bc972e84ff20dd6a5012890993485f13a283f65448df99576ab28",
+  "stage": "starting",
+  "heartbeat_utc": "2026-10-04T00:40:05.158480+00:00",
+  "elapsed_seconds": 0.5255710839992389,
+  "head": "3140369c9197133e899f291f6637c1ca1cb10276",
+  "command": [
+    "/Users/michaeljordan/emergence-lab/.venv/bin/python",
+    "-B",
+    "-u",
+    "-m",
+    "experiments.exp6.analyze_6",
+    "--write"
+  ],
+  "thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "state_dir": "/private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp6-verdict-20261003"
+}

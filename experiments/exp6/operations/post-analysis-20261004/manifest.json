@@ -1,0 +1,17 @@
+{
+  "files": {
+    "experiments/exp6/operations/post-analysis-20261004/analyzer.log": "b82adfffccbbd7b6f7ccedc6c8b535741c26ceda51211ea7aadd1daf103f7877",
+    "experiments/exp6/operations/post-analysis-20261004/cold-battery-status.json": "3f82d30ff2877eef43834b5621b22355fedc1d1ce8de91e2e0fd4af5e0818c72",
+    "experiments/exp6/operations/post-analysis-20261004/cold-battery.log": "ab44e864a8b7d7456b2fde5c7e798d8af65703920c8257d70fcf43a3e257878e",
+    "experiments/exp6/operations/post-analysis-20261004/invocation.json": "f6e589121f7894087762698add7b013a040596679ced000b47f6f485ba91a85e",
+    "experiments/exp6/operations/post-analysis-20261004/launch-verification.json": "2aa97565b50375cd7c0363b84ab67a93346b42b0ebac8e20c4f25bc71fa1f87a",
+    "experiments/exp6/operations/post-analysis-20261004/operator-status.json": "9fb55cf2ceb2624eb56f0dcdb27993382644e3c76c2583e005497b5a52457c90",
+    "experiments/exp6/operations/post-analysis-20261004/operator.log": "9fb55cf2ceb2624eb56f0dcdb27993382644e3c76c2583e005497b5a52457c90",
+    "experiments/exp6/operations/post-analysis-20261004/verification.json": "d0c1fb04475800458233c3581604aab393af5167a909aae0bf249052ec2e03d6",
+    "experiments/exp6/operations/post-analysis-20261004/verify_and_render.py": "174ed9ae346940082151e92b5ae07004f2393fe424c67ad9a7c1e7eace42f3df",
+    "experiments/exp6/operations/post-analysis-20261004/watchdog-receipt.json": "c5cbf4258258ec066c8f305529e9a49020f959bd020ba5181beba1224aec1ed8",
+    "experiments/exp6/results/VERDICT.txt": "05e346625ed8adc0a9131f39facd0e8ee3540dd55f90650fd72b4ae642f6f6ff",
+    "experiments/exp6/results/projection-grade.md": "d7148760ed4120155b45b75adde2fe8863d0cb9b5cbc9dc6a1cd030ffa188f9d",
+    "experiments/exp6/results/verdict.json": "70c04aef2bdce01d4edf3774c4fbb9bc1ed77148fc1e03707c137127fe23034d"
+  }
+}
