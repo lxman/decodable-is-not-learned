@@ -83,9 +83,12 @@ class Sources:
                 if isinstance(obj, dict):
                     if 'question' in obj:
                         question(obj['question'])
-                        meta = obj.get('meta', {})
                         if 'unscramble' in name:
                             self.word_answers.add(obj.get('answer', ''))
+                    # Exp 6 shot_records have meta but no question: their text
+                    # is held separately in the shots list. Both surfaces count.
+                    if 'meta' in obj:
+                        meta = obj['meta']
                         if 'order' in meta and 'clues' in meta:
                             self.old['deduction'].add('>'.join(meta['order']))
                             edges = [(a,b) if k == 'before' else (b,a) for k,a,b in meta['clues'] if k != 'at']

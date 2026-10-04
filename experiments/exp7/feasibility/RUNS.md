@@ -57,3 +57,15 @@ Full generation attempts: **none yet**. Tokenizer/model contact: **none**.
   the corrected version once. No source/matching/stratum/baseline choice or
   substantive design constraint changes. Candidate exclusions may change if
   an omitted shot key was encountered. The endpoint shortcut remains retained.
+
+### F3 regression and repair
+
+- `python -m unittest experiments.exp7.feasibility.test_feasibility.OracleTests.test_old_shot_metadata_is_indexed_without_question_field`
+  failed before the repair: **500 != 502** old deduction metadata records.
+- Moved structural indexing to the presence of `meta`, independently of the
+  question-field branch. Existing shot string indexing is retained. Added
+  explicit per-shot order/number membership and 351 closed / 151 arc-or-open
+  shape-record assertions.
+- Full prototype suite: **21 tests passed, 2.130 s**. This fixes declared
+  source coverage, without a specification change. Initial evidence committed
+  and pushed at **27dcf1775** before this repair.

@@ -2,13 +2,14 @@
 import copy
 import unittest
 import random
+import json
 import tempfile
 from pathlib import Path
 
 from experiments.exp7.feasibility.oracle import solve, geometry, parse_path
 from experiments.exp7.feasibility.audit import audit
 from experiments.exp7.feasibility.generate import generate
-from experiments.exp7.feasibility.sources import Sources, geometry_key
+from experiments.exp7.feasibility.sources import Sources, geometry_key, ROOT
 from experiments.exp7.feasibility.baselines import predict, reading, report
 from experiments.exp7.feasibility.generate import unit_question, deduction_question, shape_question
 from experiments.exp7.feasibility.run import dump
@@ -22,6 +23,23 @@ class OracleTests(unittest.TestCase):
     def test_words_known_and_ambiguous(self):
         self.assertEqual(solve('words', 'Unscramble these letters into one English word: ecnics e.', self.src)['ok'], False)
         self.assertFalse(solve('words', 'Unscramble these letters into one English word: stop.', self.src)['ok'])
+
+    def test_old_shot_metadata_is_indexed_without_question_field(self):
+        for name,field in [('deduction5','deduction_order_keys'),('unit_interp1','unit_triple_keys'),
+                           ('unit_interp2','unit_two_number_keys')]:
+            path=f'experiments/exp6/battery/items/{name}.json'
+            data=json.loads((ROOT/path).read_bytes())
+            self.assertEqual(self.src.coverage[path][field],len(data['eval_items'])+len(data['shot_records']))
+            for shot in data['shot_records']:
+                m=shot['meta']
+                if name=='deduction5':
+                    self.assertIn('>'.join(m['order']),self.src.old['deduction'])
+                else:
+                    nums=(m['n'],m['p'],m['shown']) if name=='unit_interp1' else (m['r'],m['given'])
+                    self.assertIn(','.join(map(str,sorted(nums))),self.src.old['units'])
+        path='experiments/exp6/battery/items/shapes.json'
+        self.assertEqual(self.src.coverage[path]['closed_polygon_keys'],351)
+        self.assertEqual(self.src.coverage[path]['arc_or_open_path_incompatible'],151)
 
     def test_geometry_partition(self):
         self.assertEqual(geometry([(0, 0), (2, 0), (2, 2), (0, 2)]), 'square')
