@@ -1,0 +1,30 @@
+# Statistics continuation deltas and disposition
+
+All changes here precede any Exp7 model or real-data statistics execution.
+No scientific proposal below is inferred approved from the planning commission.
+
+| ID | Disposition / precise change | Reason and cost |
+|---|---|---|
+| C-1 / core task C9 | REQUIRED review repair: final undefined `evaluate(rho)` returns UNSUPPORTED with `mean_D:null`, `rho:null`, uninformative reason; separate patch and exact before/after regression. Apply the same totality to subset final/validation evaluations. | No dial change, no resampling/noise tweak; the sparse alternative remains unsupported. Historical core-v1 untouched. |
+| B16 | REJECTED by management; retain future authorized tokenizer-only cap validation during BUILD, BEFORE tag. | Current planning tests still forbid tokenizer execution. No post-tag deferral is carried into this plan. |
+| I1 | Management-owned verified raw adapter; final contract is `interface.json` v3 after SR1–SR5. | Preserve actual raw strings/independent receipts, true contact paths and49/35 baseline matrix. Power validator now requires independently derived sealed geometry. Prototype adapter is archived, excluded from active source. No collection source was read. |
+| I2 | Independent pure pre-tag CalibrationContext/CLI; committed candidate source/design/case pins, no tag/seal/projection/model-contact grant. | Avoid impossible sequencing. Full candidate closure and entry/exit read checks remain mandatory. |
+| S1 RNG | PROPOSED: NumPy2.4.6, PCG64DXSM, hypergeometric/permuted, namespace `statistics-kernel-v2` under the core deterministic seed function. Bootstrap retains the core whole-bundle RNG, using its new explicit all-readings namespace. | Intended laws unchanged, seeded bytes differ. Ratify version/namespace before calibration; runtime exact-version gate. No empirical calibration evidence now. |
+| S2 kernels | PROPOSED implementation: exact 15-bit limbs for weighted null comparisons; integer histogram/prefix Somers; vectorized variable-y fits; chunks64. | Avoids Fraction loops for every null vector; bounded integer intermediates, exact tie/bar semantics. Independent exact reference and exhaustive fixtures included. |
+| S3 descriptive sets | Implements B6/B14 plus historical S5 dual reading: fixed primary sets/strata for descriptive bootstrap and paired differences; separately labeled budget-specific rebucketing; first-joint larger=earlier. | Undefined replicates counted, never redrawn or reselected. Does not generalize across task families/networks. |
+| S4 power target totality | Implements B8/B13 common subset rho and independent validation. Also mark main mean outside±.005 unsupported. Constants retained, exact-subset loss nonfire. | Stronger conservative disclosure prevents reporting an overshot alternative as target power. No stronger replacement. |
+| S5 baseline normalization | Ruled integration: all84 catalog cells;35 explicit N/A reasons;49 applicable denominator retained even for abstentions. Deterministic None→empty MISS only with abstention metadata; model None refuses. | Prevents false missingness and denominator attrition. Applies no baseline-performance gate. |
+| S6 calibration proof | Implements N5/N6 structural all-four support using >number-of-blocks distinct outcomes; N9 independent uniform block assignment conditional on realized shared partitions. | Generator failure halts and records CASE_FAILURE, not skipped draws. Forecast null is conditional assignment invariance, not a presumed adjustment guarantee. |
+| S7 operational boundary | PROPOSED serial deterministic drivers, exclusive once claims, terminal publication, complete retained records. | No multiprocessing/durable internal resume secretly added. Manager supplies long-run detached supervision; budget exceedance/recovery requires a ruling. |
+| SR1 | REQUIRED: complete candidate/external executable/read closure, independently committed runtime_spec, explicit stdlib/NumPy roots and exact file/frozen/generated-code fingerprints. | No outside-repo trust default; aliases/transient imports and precompiled function calls are checked. Pinned-source compilation or explicit generated-code authority is required. Test authority enumeration is never production provisioning. |
+| SR2 | REQUIRED: mandatory independent sealed x/stratum geometry; retained outcome-count matrices and every prescribed fit evaluation; exact saved D/eligibility/status reconstruction and deterministic permutation extrema. | Global and blockwise constants cannot acquire positive D or rejecting tie counts. No simulation replay/stronger alternative. Outcome matrices, random banks and MC exceedance sequences remain independently authenticated inputs; finite-p arithmetic is derived, not proof of RNG history. |
+| SR3 | REQUIRED: only genuinely absent cache probes for pinned source receive a force-raised ENOENT; existing/dangling/unbound bytecode refuses. | Audit hook prevents a successful raced unbound open while preserving ordinary cold source import. |
+| SR4 | REQUIRED: rederive every printed power/envelope diagnostic, probability/analytic/support row, full/p-only count/rate/CP95 interval, scatter and eligible frequency from retained counts/vectors. | Version2 saved math adds packed counts and p-only CP reporting. Structural zero and impossible rows are equally strict. Larger retained records/report costs require the already proposed future authorized resource check. |
+| SR5 | REQUIRED: exactly21 baseline catalog cells per family, plus existing49 applicable/35 N/A totals. | Coherent20/21/21/22 mutation refuses with baseline_missing coverage metadata. Exact certified method identity remains adapter-owned. |
+
+Historical B3/B6/B7–9/B13, calibrationN2000/envelopeN128/powerN128,
+fit64/24-bisection/validation128/tolerance.005, finite envelope, positive-count
+grid and operational budget caps all remain visible proposals unless management
+records their later ratification. The approved primary bars, B10000,
+bootstrap1000, exact four-family battery/k/grid, and no-absence/no-mechanism
+licences are unchanged.

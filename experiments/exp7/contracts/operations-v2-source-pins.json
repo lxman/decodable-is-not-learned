@@ -1,0 +1,50 @@
+{
+  "changed_since_v1": {
+    "CLAUDE.md": {
+      "observed": "b6ae3f9be96905fe52e8eecc77af1dfefa0cfc7caae09fa252be3c98bd70a28e",
+      "v1": "397bdc4235911546417dc7cfc256bb81c8a5e571c8b8ddb32b39a6d477d38950"
+    },
+    "docs/HANDOFF.md": {
+      "observed": "55ac3f8201d51791fd53a8c7cb71bbc0e9be585cdd7be2d9dc4be1a6962b00bc",
+      "v1": "350e8c7949b13a0e220db06069a07a94543fb230883ed2b1a6d0b63f6d624a3d"
+    },
+    "experiments/exp7/PROGRESS.md": {
+      "observed": "292d30d94b497ebbd71993a45ce5ef71632ef278eced76f619a4f967b7f1768e",
+      "v1": "9e60b79892519e6d2d97fc530e5fc79bb9e4197e9bab61c70a8c9c03f7602f22"
+    }
+  },
+  "core_sha256": {
+    "__init__.py": "ab6351b63b5187accc0dedd9025412ab42711f90d3637dc00726db457947d5af",
+    "bridge.py": "5c5d0ae2e0d2057e509737417352c3605ddba9402578eca069a5ed96948245c3",
+    "contract.py": "c0cd0b6b19ab83ce89ae7948631ac193f8a721aeca73dadcdd38e61818b5bb09",
+    "guardio.py": "3cf4448b7777c45e4386a9ff276ab69aae244da83a22bd8dc9f71f2fa25d0fd3",
+    "inference.py": "1147aa0834e698024d056c90cc8b90810a93796aca29b993ba7556b31e6206b2",
+    "records.py": "d077445d8bdaf5e55e42061dd0ff173fbee5b25b5087c19b5c9fc005c1f047ae",
+    "resampling.py": "a25545985dad615fb46db916080b05add7cfb1f4ac060bef6ff7c80f0929725e",
+    "scoring.py": "bc8ed45d9a2f95c0e610cb4db3d1c4d9703736ebfcdb4dd9417164aa22eddab6",
+    "simulations.py": "fa596bc7d90dc53b9dedf785e55fc5863f433889858f1d50befa2851dc2520f9",
+    "strata.py": "2ca2669a5815db751fc188e12c22b61c1bda4b42e2ee0a6c5985e9db7717292d",
+    "worlds.py": "59d626b98d6057e44e742102b1986d302856bf40935e4686bb7daf5adce5bcea"
+  },
+  "fixed_leaf_binding_sources": [
+    "tools/experiment_monitor.py",
+    "tools/experiment-monitor.md"
+  ],
+  "historical_original_plan_sha256": "b5b18541335520945cf7131a592725b3a0ca313ae5c6a0df116dc835cde4bdc5",
+  "historical_pins": "v1-baseline/source-pins.json",
+  "observed_at_utc": "2026-10-04T18:43:53.582958+00:00",
+  "repository": "/Users/michaeljordan/emergence-paper",
+  "schema": "exp7.source-as-read.v2",
+  "scope": "source-as-read observations, not active freeze or live deployment authority",
+  "sha256": {
+    "CLAUDE.md": "b6ae3f9be96905fe52e8eecc77af1dfefa0cfc7caae09fa252be3c98bd70a28e",
+    "docs/HANDOFF.md": "55ac3f8201d51791fd53a8c7cb71bbc0e9be585cdd7be2d9dc4be1a6962b00bc",
+    "experiment-7-design.md": "efaa5ffa98bffc5b03f90eeeac31c5ca9cf709e304aa7480dd1cccc1ff891abf",
+    "experiments/exp7/PROGRESS.md": "292d30d94b497ebbd71993a45ce5ef71632ef278eced76f619a4f967b7f1768e",
+    "tools/exp6_sweep_operator.py": "613c4da1889b13c074ff4762828022c4bb666bb3581ddbdb0d95f40e2fdafa96",
+    "tools/experiment-monitor.md": "78de232080c4fe8718b68d35f03b52de7e7a50f954371bc7c8ae4ced05a3e610",
+    "tools/experiment_monitor.py": "3a261719142c67f58684714d6276833b7269c521181fe8bfa7441abe431316e4",
+    "tools/test_exp6_sweep_operator.py": "66bf90bbaeac4bbc66f7faddd81614fdb097d4e7677d04dcf00470e962af571a"
+  },
+  "source_only": true
+}

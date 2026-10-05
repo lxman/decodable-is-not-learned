@@ -1,0 +1,460 @@
+{
+  "baseline_manifest_sha256": "a1e04f2ffff37e1427f08b3c7681321875887818205a59cdd2d7da9d896234ea",
+  "changes": {
+    "DELTAS.md": {
+      "after": {
+        "bytes": 7026,
+        "sha256": "1b80feda0ed1b0790707ffae4e717f355b8dcf02fa9ddbf8f2e32f955543cfb3"
+      },
+      "before": {
+        "bytes": 6110,
+        "sha256": "962d727a324ed1b7b30d1bd75888be386c3c53a8b305e0f4122bdd0b92688f2e"
+      },
+      "status": "modified"
+    },
+    "EXECUTIONS.md": {
+      "after": {
+        "bytes": 15002,
+        "sha256": "9f89b6e2d9d53667a06ec361b6af211254d635d53027b5a22769ad9653870453"
+      },
+      "before": {
+        "bytes": 10814,
+        "sha256": "f4d5964970bf25c80650843bc1053b7458ac433c4d77a20979d9fdc8e13d2940"
+      },
+      "status": "modified"
+    },
+    "HANDOFF-v3.md": {
+      "after": {
+        "bytes": 6546,
+        "sha256": "f8cbe41b085a781d1977376883d5c3e193e0c12923b6af767701f3560b9be47b"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-RED-SOURCE.py.disabled": {
+      "after": {
+        "bytes": 2294,
+        "sha256": "2213159d5a6c12c396b754b7ba0fc87c83ff88408f7932f4191ce7d6d0ea8408"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-before.log": {
+      "after": {
+        "bytes": 1925,
+        "sha256": "587e2c3d58ad36b4c0453e2deade5d534affaedee86b74adf971904b7bf6d6ba"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-cold-package-receipt.json": {
+      "after": {
+        "bytes": 748,
+        "sha256": "6d1e38ffc24c31ef07ac45a92166bad02eabf8e77112430f1b537f4658f4cd7a"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-cold-package.log": {
+      "after": {
+        "bytes": 722,
+        "sha256": "b0c25c0a8158c68c78fff05a45e0767167bde9e7d00eb4b7343bf7acd053a6f4"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-full-reference.log": {
+      "after": {
+        "bytes": 6406,
+        "sha256": "e0ec1fe373899a40cdc48b3d7d964fcee1d72612ae51c556bbdd5cdcd56195df"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-full-statistics-final.log": {
+      "after": {
+        "bytes": 12539,
+        "sha256": "9b1bb65751af809b7cc824093776502ed2ef2defaf6de82abbe629dd45b78ec9"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-full-statistics.log": {
+      "after": {
+        "bytes": 12361,
+        "sha256": "74ed616af6c549f529828022a9100e367fd182439b752c77285fe0b7524cffa5"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-source-closure.log": {
+      "after": {
+        "bytes": 1529,
+        "sha256": "eb33dbbbca3f9691893e1fa87fcb921830b94cb39a50972c5b1ae83b64cb99dc"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "SR1-R-targeted-01.log": {
+      "after": {
+        "bytes": 2081,
+        "sha256": "7abe3880e8145ec7b9bbd8e253ca2555d20c83487d714808a32f50db1f4fb733"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "annex/exp7stats/calibration_cli.py": {
+      "after": {
+        "bytes": 3508,
+        "sha256": "c20c7edafc3ac38ff3b31258f08a585578d12bab9fcb3fde7ed26ba3eed4b2f4"
+      },
+      "before": {
+        "bytes": 3209,
+        "sha256": "0d34d03924b4eadba13ba4da5b1829c8a01b58e93cf0a3bfe8b41d113791c557"
+      },
+      "status": "modified"
+    },
+    "annex/exp7stats/calibration_context.py": {
+      "after": {
+        "bytes": 7439,
+        "sha256": "6e1562da7cd3abe41a4ce33004c37e88ec57c84abc3da460c64dd82f4b893d70"
+      },
+      "before": {
+        "bytes": 7261,
+        "sha256": "5f191ac13c58ee13562d4959ca8c11c872208a47fad61b73439b4e3abd5a755d"
+      },
+      "status": "modified"
+    },
+    "annex/exp7stats/candidate_audit.py": {
+      "after": {
+        "bytes": 9942,
+        "sha256": "90db90a911bffb890a46ea45f8466fa28f0592da19f60aa047bf8b060c25b084"
+      },
+      "before": {
+        "bytes": 9498,
+        "sha256": "740ff8c09209562af1e34240081ddf07449374fbfbd6226ba01c19afe1eb116c"
+      },
+      "status": "modified"
+    },
+    "annex/exp7stats/read_boundary.py": {
+      "after": {
+        "bytes": 9563,
+        "sha256": "1144f27baec4ce4ea38fbfd98b9fe5fdded0931d5dec4f7ac5a6013acf65dd9d"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "annex/tests/read_fixture.py": {
+      "after": {
+        "bytes": 834,
+        "sha256": "2af3fbf4d6121e6c34d19d7c0e9d92d0b9d2ce54918cf8290324241588be8e1c"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "annex/tests/test_SR1_R_boundary.py": {
+      "after": {
+        "bytes": 8974,
+        "sha256": "e20dc8b81557c8f8aafa84f404777f54f2ecbad874d26eafdfa6b9ea3c2c1719"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "annex/tests/test_SR1_R_red.py": {
+      "after": {
+        "bytes": 1534,
+        "sha256": "522e303644205f254c2c69cf1a6d4f0c110cf917e785fcd6bc87e7739fdab77c"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "annex/tests/test_integration_boundaries.py": {
+      "after": {
+        "bytes": 10147,
+        "sha256": "5d93625b5a748c9cf41e9b3480571ebc111061d7f8f1d6067c87a02a46a44919"
+      },
+      "before": {
+        "bytes": 10046,
+        "sha256": "1c442f0cc7946e6fdcdb5eeda05412ebe4e09388b9f1a44ebf95627f5d95e727"
+      },
+      "status": "modified"
+    },
+    "interface.json": {
+      "after": {
+        "bytes": 18055,
+        "sha256": "3d79dbd221f823ed0f86b7dea925e91408db198a0af59404a8d994aa15fad9dc"
+      },
+      "before": {
+        "bytes": 15014,
+        "sha256": "68f0edc5cb3ac3269e2fd078d2dd7280469ad9bf9abeb691ad83a7adc298960e"
+      },
+      "status": "modified"
+    },
+    "package_v2.py": {
+      "after": null,
+      "before": {
+        "bytes": 8728,
+        "sha256": "e4f283fef306ccdb8d36639df62c36d100f51c6ce41a6f9f7d4ee9c5e968079d"
+      },
+      "status": "deleted"
+    },
+    "package_v3.py": {
+      "after": {
+        "bytes": 11916,
+        "sha256": "a3638ceab0854826dbf784cc2683e8856f59f1d951cf84351f299b8af2ae9914"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "packaging-v2.log": {
+      "after": null,
+      "before": {
+        "bytes": 1715,
+        "sha256": "95bf379f56cd77ee939732caa3c90419e8c3e5283fe15322ec667bee1265633f"
+      },
+      "status": "deleted"
+    },
+    "plan.md": {
+      "after": {
+        "bytes": 29807,
+        "sha256": "0120ab93fa18659d0c9ada95102bc25c47747f6ef5c9b88a52f723ae5d8405f7"
+      },
+      "before": {
+        "bytes": 28136,
+        "sha256": "4565e6c61d7b16dcff4668711238a17ae62fb88c303b1037e570e99596b7e170"
+      },
+      "status": "modified"
+    },
+    "probe_candidate_closure.py": {
+      "after": {
+        "bytes": 4886,
+        "sha256": "eb240879e991f12fe33c3db58f028941eccdd6873ae208f123562ce5bfdaa35e"
+      },
+      "before": {
+        "bytes": 3535,
+        "sha256": "cb763b4e1181bcea90df3ce73cd66f886063b037cf37db1a125409248cc58989"
+      },
+      "status": "modified"
+    },
+    "receipts/tests-1791143909497291000.json": {
+      "after": {
+        "bytes": 268,
+        "sha256": "b09835b430ed5c73ba39e58b05264cd089e9b4d19921fd99bd591ea62cb310ed"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "receipts/tests-1791144248025639000.json": {
+      "after": {
+        "bytes": 266,
+        "sha256": "30cceb6bbc40bf40e45de491cb7aa58d0993c29a26cba477f47af66491867633"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "receipts/tests-1791144379330880000.json": {
+      "after": {
+        "bytes": 276,
+        "sha256": "6854beca9b25ed692bc288627f50816a51eb9a169307382e7ae9c45f671f0d9e"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "receipts/tests-1791144394758964000.json": {
+      "after": {
+        "bytes": 457,
+        "sha256": "4459836a4bb2407f94d41ae32f65f6f196b4dbf736680377678340a3d03ffe7c"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "receipts/tests-1791144431668897000.json": {
+      "after": {
+        "bytes": 384,
+        "sha256": "199df0eb691828a4411ac79aa2ae2f4acda8faab36a6272ed78aa6cdbd49e8e8"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "receipts/tests-1791144588457564000.json": {
+      "after": {
+        "bytes": 384,
+        "sha256": "a258eff48d3217bf40d1cb7756bcd98ea9c3c030d787199111b749450348a2b4"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "review-inputs/ARCHIVE-MANIFEST.json": {
+      "after": {
+        "bytes": 40231,
+        "sha256": "a4907326ce2405736b096aaa7b73f4be7b039e454b0bf653e6ad4af756ca76cb"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "review-inputs/REVIEW.md": {
+      "after": {
+        "bytes": 14687,
+        "sha256": "513b60cbaa02ca68a9bc13442f0bb2191bfece41edeea0d79fd14f521b97b11c"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "review-inputs/probe_runtime.py.disabled": {
+      "after": {
+        "bytes": 6140,
+        "sha256": "92ab2d8725c20e8dad401cfd14947fdfa101ea6829325797077df079c7463aba"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "review-inputs/runtime-probe.json": {
+      "after": {
+        "bytes": 2987,
+        "sha256": "739d78af940653bffbdfde6526fc35a82d86fb28ba4f901d5a820a616d52cfb8"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "v2-evidence/ANNEX-MANIFEST.json": {
+      "after": {
+        "bytes": 16364,
+        "sha256": "a1e04f2ffff37e1427f08b3c7681321875887818205a59cdd2d7da9d896234ea"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "v2-evidence/package_v2.py.disabled": {
+      "after": {
+        "bytes": 8728,
+        "sha256": "e4f283fef306ccdb8d36639df62c36d100f51c6ce41a6f9f7d4ee9c5e968079d"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "v2-evidence/packaging-receipt.json": {
+      "after": {
+        "bytes": 1869,
+        "sha256": "bfe0d3ee23c52f2711c38b9ef54ae791e1da11deed7ca540e91a3c69841184da"
+      },
+      "before": null,
+      "status": "added"
+    },
+    "v2-evidence/packaging-v2.log": {
+      "after": {
+        "bytes": 1715,
+        "sha256": "95bf379f56cd77ee939732caa3c90419e8c3e5283fe15322ec667bee1265633f"
+      },
+      "before": null,
+      "status": "added"
+    }
+  },
+  "comparison_exclusions": [
+    "ANNEX-MANIFEST.json",
+    "V2-V3-CHANGES.json",
+    "V2-V3.diff",
+    "packaging-receipt.json",
+    "packaging-v3.log"
+  ],
+  "diff": {
+    "bytes": 225617,
+    "sha256": "83bf9c06bbc23f752682caf2eec2cb7f1717abd1c4d3f3a7ed91e83d4a9b55c1"
+  },
+  "note": "Exact UTF8 source/test/task/evidence delta; explicit self-reference exclusions. Copied v2 identities retained under v2-evidence/.",
+  "schema": "exp7.statistics-v2-v3-changes.v1",
+  "unchanged_paths": [
+    "HANDOFF-v2.md",
+    "SR-before-corrected-fixture.log",
+    "SR-before.log",
+    "SR-cold-package-corrected.log",
+    "SR-cold-package-receipt.json",
+    "SR-cold-package.log",
+    "SR-frozen-diagnostic.log",
+    "SR-full-reference.log",
+    "SR-full-statistics-final.log",
+    "SR-full-statistics.log",
+    "SR-integration-targeted.log",
+    "SR-targeted-01.log",
+    "SR-targeted-02.log",
+    "SR-targeted-03.log",
+    "SR-targeted-final.log",
+    "SYNTHETIC-CASES.json",
+    "V1-V2-CHANGES.json",
+    "V1-V2.diff",
+    "annex/exp7stats/__init__.py",
+    "annex/exp7stats/analyzer.py",
+    "annex/exp7stats/bootstrap.py",
+    "annex/exp7stats/calibration.py",
+    "annex/exp7stats/common.py",
+    "annex/exp7stats/data.py",
+    "annex/exp7stats/envelope_math.py",
+    "annex/exp7stats/kernels.py",
+    "annex/exp7stats/power.py",
+    "annex/exp7stats/power_validation.py",
+    "annex/exp7stats/saved_math.py",
+    "annex/exp7stats/secondaries.py",
+    "annex/run_tests.py",
+    "annex/tests/fixtures.py",
+    "annex/tests/runtime_fixture.py",
+    "annex/tests/saved_fixtures.py",
+    "annex/tests/test_SR_regressions.py",
+    "annex/tests/test_SR_saved_math.py",
+    "annex/tests/test_SR_source_closure.py",
+    "annex/tests/test_analyzer_secondaries.py",
+    "annex/tests/test_bootstrap.py",
+    "annex/tests/test_c9_regression.py",
+    "annex/tests/test_kernels.py",
+    "annex/tests/test_simulation_contracts.py",
+    "diagnose_frozen.py",
+    "exploratory/collection_bridge.py.disabled",
+    "exploratory/test_collection_bridge.py.disabled",
+    "metadata-08.log",
+    "patches/core-v1-C9.patch",
+    "receipts/tests-1791135616917079000.json",
+    "receipts/tests-1791135647411877000.json",
+    "receipts/tests-1791136368228967000.json",
+    "receipts/tests-1791136839234858000.json",
+    "receipts/tests-1791137754434799000.json",
+    "receipts/tests-1791137909654987000.json",
+    "receipts/tests-1791137911871580000.json",
+    "receipts/tests-1791138012656630000.json",
+    "receipts/tests-1791140118356932000.json",
+    "receipts/tests-1791140142046365000.json",
+    "receipts/tests-1791140789864597000.json",
+    "receipts/tests-1791141059495760000.json",
+    "receipts/tests-1791141256960781000.json",
+    "receipts/tests-1791141265972005000.json",
+    "receipts/tests-1791141441570771000.json",
+    "receipts/tests-1791141843086771000.json",
+    "receipts/tests-1791141863646552000.json",
+    "receipts/tests-1791141905292063000.json",
+    "reference-annex/exp7core/__init__.py",
+    "reference-annex/exp7core/bridge.py",
+    "reference-annex/exp7core/contract.py",
+    "reference-annex/exp7core/guardio.py",
+    "reference-annex/exp7core/inference.py",
+    "reference-annex/exp7core/records.py",
+    "reference-annex/exp7core/resampling.py",
+    "reference-annex/exp7core/scoring.py",
+    "reference-annex/exp7core/simulations.py",
+    "reference-annex/exp7core/strata.py",
+    "reference-annex/exp7core/worlds.py",
+    "reference-annex/run_tests.py",
+    "reference-annex/tests/test_contract_scoring.py",
+    "reference-annex/tests/test_inference.py",
+    "reference-annex/tests/test_io_bridge_simulations.py",
+    "reference-annex/tests/test_records.py",
+    "tests-01-c9-before.log",
+    "tests-02-c9-after.log",
+    "tests-03-statistics.log",
+    "tests-04-bridge-kernels.log",
+    "tests-05-integration.log",
+    "tests-06-final-statistics.log",
+    "tests-07-reference.log",
+    "tests-09-stable-statistics.log",
+    "v1-evidence/ANNEX-MANIFEST.json",
+    "v1-evidence/package_bundle.py.disabled",
+    "v1-evidence/packaging-receipt.json",
+    "v1-evidence/packaging.log"
+  ]
+}

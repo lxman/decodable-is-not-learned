@@ -1,0 +1,45 @@
+{
+  "status": "contract published before implementation; build-plan annex only",
+  "package": "exp7core",
+  "entry": "exp7core.campaign.Campaign(root, repo, *, trust_path, trust_sha256)",
+  "context": "with Campaign(...) as campaign: ...; pure stdlib, no model imports; entry and exit pins/HALTED checks; exceptions propagate Refusal for analyzer terminal boundary",
+  "methods": {
+    "battery()": "contract.Battery; exactly 4 x 500 contract.Pair; raw feasibility words mapped to unscrambling",
+    "predictor_data()": "dict[predictor][family] = (tuple[Pair,...], tuple[scoring.Score,...]); includes pythia_1b, olmo2_1b, twin; complete raw validated/re-scored first",
+    "predictor_draws()": "dict[predictor][family] = tuple[tuple[tuple[str,...],...],...]; axes pair, ARMS, draws; twin key as above",
+    "outcomes()": "dict[family] = tuple[dict,...]; each dict is exact scoring.outcome_counts output (bits,joint,sham,y,y_sham,first_index,first_order_score,later_losses,joint_agreement); exact GRID x ARMS raw rederived; calls verify_complete",
+    "outcome_draws()": "dict[family] = tuple[tuple[tuple[str,...],...],...]; axes pair, GRID, ARMS",
+    "baselines()": "dict[method][family] = tuple[scoring.Score,...] or None for nonapplicable; deterministic k1",
+    "verify_predictor_seal()": "returns parsed exact rederived seal dict; verifies annotated predictor tag + all bound bytes; no statistical test",
+    "verify_power()": "returns ORIGINAL parsed exp7.statistics.v2 power record (Fraction objects still encoded); actual seal_sha256, battery_sha256 and source_bindings.code_manifest/source_manifest checked, immutable power hash + commit checked. Full finite-table semantic verification belongs stats author. power.path is configured to statistics/power/power.json in production",
+    "verify_complete()": "returns None; requires seal/power, all 26 candidate units, per-host two-loader full endpoint equality and old-anchor tolerances",
+    "bindings()": "dict[str,str]: trust_sha256,battery_sha256,source_manifest_sha256,code_manifest_sha256; administrative independent inputs, no hash of whatever output is present",
+    "seal_bindings()": "first verify_predictor_seal; returns {seal_sha256,battery_sha256,bindings:<real sealed file map>}",
+    "power_bindings()": "first verify_power; returns {power_sha256,record:<original parsed record>,bindings:<real power path/hash>}",
+    "complete_payload()": "producer inventory after verify_complete, schema exp7.complete.v1; secure/commit via complete_campaign before pinning it in next trust revision",
+    "complete_bindings()": "first verify_complete; rederives map and compares to independently pinned committed complete receipt, then returns {complete_sha256,bindings}; missing complete authority refuses",
+    "baseline_draws()": "dict[method][applicable_family] = tuple[dict[arm,str|None],500]; TRUE archived raw outputs, None abstentions preserved; no N/A families invented",
+    "baseline_catalog()": "dict[method][family] = {applicable,reason,abstentions,emissions,prompts}; all84 cells, 49 applicable /35 N/A",
+    "base_assignments()": "dict[family] = tuple[stable canonical JSON base IDs,500], metadata-only merge_levels over certified nominal/ordinal values; 15/20/5/2 blocks",
+    "require_preoutcome()": "pure guard BEFORE power: forbids units/outcome, units/endpoint, units/outcome-anchors, outcomes, contacts/outcome, outcome load receipts and outcome claims; HALTED always refuses",
+    "entryexit(stage)": "UNENTERED Campaign context manager for analysis|power|calibration. Stats must first create its exclusive statistics/{stage}/CLAIM.json. Collection then verifies and consumes the separate evidenced owner grant BEFORE entry pin/raw checks. Yields bindings(), NOT a fabricated stats verification receipt. Management StatsCampaignAdapter adds stats-facing provenance shape. Calibration uses exp7.build-grant.v1 before tag/projection; power/analysis use post-projection exp7.owner-grant.v1. Exit rechecks all pins/HALTED and, for power, actual outcome-contact inventory. Both once claims remain consumed on failure."
+  },
+  "units": {
+    "trained": "units/predictor/{pythia_1b|olmo2_1b}/{family}/{arm}",
+    "twin": "units/predictor/twin/{family}/{arm}",
+    "outcome": "units/outcome/{step}",
+    "endpoint_thin": "units/endpoint/{host_id}/thin",
+    "new_unit_files": ["raw.jsonl", "record.json", "DONE.json"],
+    "records": "unchanged records.Address / records.ExpectedUnit / records.build_record / records.validate_record"
+  },
+  "nonnegotiable": ["independent trust SHA is a caller freeze constant, never read from raw", "500/64/16/26 are not configurable", "HALTED dominates final", "no unverified pass field", "empty injected loaders refuse", "all imports including init and executed aliases traced", "raw anchor equality rederived"],
+  "entrypoints": {
+    "authorized_collection_total_boundary": "exp7core.entrypoints.run_collection(root,repo,trust_path=...,trust_sha256=...,stage=...,subject=...,backend=LIVE,power_validator=...,git=LIVE)",
+    "stage_names": ["predictor-preflight","predictor-collection","predictor-seal","outcome-preflight","outcome-collection"],
+    "subject": "predictor-preflight/collection: pythia_1b|olmo2_1b|twin; outcome-preflight: host ID; outcome-collection: None",
+    "build_tokenizer_gate": "exp7core.preflight.build_tokenizer_checks(...): future authorized BUILD, BEFORE prereg; no weights",
+    "missing_pythia_digest_baseline": "exp7core.baseline.derive_pythia_baseline(c): separately ratified predictor-digest-baseline grant AFTER prereg/projection, BEFORE any new predictor unit; wrap terminal; no new prompts",
+    "secured_completion_inventory": "exp7core.collectors.complete_campaign(c): write complete.json ONCE after full rederivation; commit and pin externally before analysis"
+  },
+  "integration_note": "Management composes StatsCampaignAdapter. Do not convert Score to raw or synthesize verification pass dictionaries. Stats owns full power semantics and final publication; collection consumes independently evidenced grant after stats claims its once-only directory. power_validator(record,c) must decode Fraction serialization then call exp7stats.power.verify_power_semantics(record, sealSHA, batterySHA), returning None. Existing power record schema was aligned by source read to exp7.statistics.v2; declarations entries have status, not bare status strings. No method computes actual selectivity p."
+}

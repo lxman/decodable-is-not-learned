@@ -1,0 +1,101 @@
+{
+  "schema": "exp7.statistics-collection-interface.v4",
+  "status": "STABLE_STATISTICS_ANNEX_CONTRACT_NOT_RATIFIED",
+  "adapter_owner": "Management owns StatsCampaignAdapter; active statistics annex contains no collection adapter. Only the sibling interface was inspected.",
+  "scope": "G7-G10; all collection/provenance verification is injected and independently rederived by collection code",
+  "protocol": {
+    "root": "path to campaign/output root; writes root/statistics/{analysis,power,calibration}. Power forbids actual units/outcome, units/endpoint, units/outcome-anchors and contacts/outcome plus historical paths; directory absence alone is insufficient.",
+    "repo": "path to pinned repository, for receipt provenance only; statistics never imports predecessor analyzers",
+    "entryexit(stage)": "UNENTERED context manager; statistics creates its exclusive CLAIM first. Validates independently committed complete source/import/read pins at ENTRY AND EXIT, re-enumerates inventories, consumes separately evidenced stage authority, checks all global HALTED markers; raises on failure. Yields {provenance_sha256:SHA256,input_sha256:{logical_name:SHA256},...stage-specific fields below}. No pass boolean. Source closure includes all exp7stats/exp7core modules and package initializers, aliases and transitive executed imports, not just a snapshot.",
+    "battery()": "returns battery payload below; immutable by convention, statistics copies to immutable dataclasses and rechecks full coverage",
+    "predictor_data()": "returns {schema:'exp7.analysis-predictors.v1',trained:{pythia_1b:{family:[{id,draws:{q0:[str*64],q1:[str*64],q0s:[str*64],q1s:[str*64]}}]},olmo2_1b:{...}},twin:{family:[{id,draws:{four arms each16 strings}}]}}; lists in battery order",
+    "outcomes()": "returns {schema:'exp7.analysis-outcomes.v1',grid:[exact26integersteps],families:{family:[{id,outputs:{decimal_step_string:{q0:str,q1:str,q0s:str,q1s:str}}}]}}",
+    "verify_predictor_seal()": "rederives complete trained+twin+anchor source/provenance/coverage gates; returns {seal_sha256:SHA256,battery_sha256:SHA256,bindings:{relative_path:SHA256}}; nonempty bindings, no self-pins",
+    "verify_power()": "rederives separately committed pre-outcome power record and bindings; returns {power_sha256:SHA256,record:<decoded root/statistics/power/power.json>}. Its semantic validator MUST independently rescore sealed predictor raw draws and derive geometry; see saved_power_validation. Statistics also independently derives geometry after loading raw predictors. No simulation/RNG replay.",
+    "verify_complete()": "analysis only: rederives complete26 outcome windows, full paired endpoint gates per host, all raw/provenance/anchor/seal/timing constraints; returns {complete_sha256:SHA256,bindings:{relative_path:SHA256}}"
+  },
+  "battery_payload": {
+    "schema": "exp7.analysis-battery.v1",
+    "sha256": "actual independently certified battery SHA256",
+    "certificate_sha256": "actual certificate SHA256",
+    "levels_sha256": "actual tagged base-strata level table SHA256",
+    "baseline_ids": {"each_family": ["all21 certified baseline responder IDs, including N/A cells"]},
+    "baseline_coverage": {"applicable_cells": 49, "not_applicable_cells": 35},
+    "families": {
+      "each_family": [{
+        "id": "family:0000",
+        "index": 0,
+        "targets": ["a0", "a1"],
+        "answer_type": "word|number|span",
+        "base": "stable tagged merged base-stratum ID; metadata-only, no model values",
+        "prompts_sha256": {"q0": "SHA256", "q1": "SHA256", "q0s": "SHA256", "q1s": "SHA256"},
+        "baselines": {"each_certified_baseline_ID": {"status": "APPLICABLE|NOT_APPLICABLE", "na_reason": "null for applicable; nonempty certified reason for N/A", "outputs": "applicable: exact four-arm string dict; N/A:null", "abstained": "applicable: exact four-arm bool dict; N/A:null"}}
+      }]
+    }
+  },
+  "constants": {
+    "families": ["unscrambling", "deduction", "units", "shapes"],
+    "pairs_per_family": 500,
+    "arms": ["q0", "q1", "q0s", "q1s"],
+    "trained_k": 64,
+    "twin_k": 16,
+    "grid": [40000,80000,120000,160000,200000,240000,280000,320000,360000,400000,600000,800000,1000000,1200000,1400000,1600000,1800000,2000000,2200000,2400000,2600000,2800000,3000000,3200000,3400000,3440000]
+  },
+  "serialization": "statistics internal Fraction values serialize as {numerator:int,denominator:positive_int}; serializer recursively restores these on read; all other fields ordinary JSON; no NaN/Infinity",
+  "stage_requirements": {
+    "calibration": "BEFORE prereg tag, projection and predictor seal. Pure CalibrationContext(root,repo,candidate_commit=40hex,manifest_path=repo_relative,manifest_sha256=independently_fixed_SHA). Bind committed candidate code/design/synthetic-case manifest AND exactly one runtime_spec, described below; no Campaign constructor, model backend or model-contact grant. Candidate/external pins and Python execution checks cover aliases/generated/precompiled calls. The interface-v4 cold_read_boundary below governs input consumption: inherited readable OS descriptors/file buffers refuse; pinned read-only path opens return verified snapshots, never input fds. Output root outside candidate repo. No preregistration tag may exist. Yields synthetic_spec matching calibration.frozen_cases() and candidate_commit. Serial operation may not spawn threads/processes. This planning stage does not execute production calibration.",
+    "power": "AFTER verified predictor seal and accepted committed calibration, BEFORE ANY outcome contact/probe/load/grant/phase marker. Context requires independently evidenced power authority, prereg/projection pins, verified seal and complete no-outcome contact inventory at entry AND exit. input_sha256 must include code_manifest,source_manifest,calibration,contact_inventory, plus every read/source binding. calibration is hash of root/statistics/calibration/calibration.json; adapter may copy byte-identical accepted pre-tag calibration into that immutable path before power. Power never reads outcomes() or computes actual selectivity p/effect gate.",
+    "analysis": "Requires prereg/projection, predictor seal, independently committed complete outcome receipt and pre-outcome power record, all data/host/anchor gates and owner's once-only analyzer word/grant. Context verifies at entry AND exit; actual raw draws are returned only inside context. Statistics consumes exclusive claim before any data reads. No automatic rerun on refusal."
+  },
+  "contact_inventory": {
+    "schema": "exp7.contact-inventory.v1",
+    "covered_roots": ["units/outcome", "units/endpoint", "units/outcome-anchors", "contacts", "contact-receipts", "probes", "grants", "phases", "operations", "claims", "loads"],
+    "entries": [{"path": "relative actual receipt/marker path", "phase": "generation|predictor|calibration|power only", "kind": "unit|endpoint|probe|grant|phase|contact|operation", "sha256": "actual independently verified bytes SHA"}],
+    "contract": "The yielded contact_inventory contains ONLY schema,covered_roots,entries. Bind its canonical exp7stats.common.dumps SHA as input_sha256.contact_inventory. Adapter inventories ALL actual collection contact/load/claim/grant/probe/phase roots, not just these minimum prefixes; must refuse unrecognized/unclassifiable markers, every outcome-related marker (including unconsumed outcome grant), and any omitted receipt. Exit re-enumerates and compares to ENTRY inventory, not just rehashing the old dict. A claimed empty inventory is not verification. stats rechecks the binding/path absence before final publish."
+  },
+  "baseline_rules": {
+    "catalog": "Exactly21 distinct certified responder IDs in EACH of the four families, plus aggregate49 applicable/35 N/A. A coherent20/21/21/22 catalog refuses with baseline_missing coverage diagnostics.",
+    "missing": "Any omitted catalog cell/row/arm or unknown applicability refuses; refusal report names baseline coverage/applicability failure. No missing cell may masquerade as N/A.",
+    "not_applicable": "All35 cells retained with certified nonempty reason; output/abstention fields null, no invented raw strings.",
+    "applicable": "All49 cells retained. Adapter may map archived deterministic baseline None to empty-string MISS ONLY with abstained[arm]=true and preserved per-pair metadata; non-None raw strings remain unchanged. N/A status/reason fixed across500 pairs in a cell. Never remove applicable abstentions from 49-cell denominator.",
+    "model_outputs": "Predictor/twin/outcome raw None ALWAYS refuses, never converts to string or MISS.",
+    "report": "S7 includes all84 cells, applicability denominator49, N/A reasons, abstentions by arm and pair, N500 for every applicable cell; S8 rescoring applies to every applicable raw baseline."
+  },
+  "collection_mapping": {
+    "battery": "Use certified Battery, base_assignments(), baseline_catalog(), baseline_draws(); preserve exact certified identity/metadata, words->unscrambling already collection-owned. Do not reverse-engineer raw from Score.",
+    "predictors": "Use predictor_draws() axes pair/ARMS/draw; predictor_data() scores are only cross-checks; stats rederives from raw.",
+    "outcomes": "Use outcome_draws() axes pair/GRID/ARMS; stats rederives all counts. Collection outcomes() alone cannot satisfy raw contract.",
+    "receipts": "Use seal_bindings(), power_bindings(), complete_bindings(). verify_complete() returning None is not itself a receipt. Independent committed receipt identity must be preserved.",
+    "source_bindings": "input_sha256 keys code_manifest and source_manifest must map actual independently pinned collection manifest values (bindings() publishes names with _sha256 suffix). No made-up expected hashes.",
+    "power_validator": "Decode via exp7stats.common.decode, independently load/re-score raw sealed predictors with exp7stats.data.load_predictors, derive geometry=exp7stats.power.predictor_geometry(predictors), then exp7stats.power.verify_power_semantics(record,sealSHA,batterySHA,geometry=geometry). Mandatory independent geometry; omitted geometry or v1 saved trace format refuses. Collection wrapper may discard verified return and return None only at its own API; statistics adapter still returns independent receipt+record. Never derive geometry from record.predictor_support or record-provided outcomes."
+  },
+  "production_api": ["exp7stats.analyzer.run(campaign)", "exp7stats.power.run(campaign)", "exp7stats.calibration.run(calibration_context)", "python -B -m exp7stats.calibration_cli --root OUTPUT --repo REPO --candidate-commit COMMIT --manifest PATH --manifest-sha256 SHA"],
+  "candidate_manifest": "schema exp7.calibration-candidate.v1, files:{repo_relative_path:{kind:source|design|synthetic_spec|runtime_spec,sha256:SHA}}; exactly one synthetic_spec AND one runtime_spec. Include every .py in both pure packages, local helpers/init/CLI modules, design and frozen case JSON. Manifest and files must match independently fixed committed candidate. Clear candidate bytecode before cold launch. Existing cache reads refuse; a genuinely absent cache probe for pinned source is force-failed with ENOENT, preventing a successful raced unbound read. The required runtime_spec extension is interface-v3; old candidate manifests refuse.",
+  "calibration_runtime_manifest": {
+    "schema": "exp7.calibration-runtime.v1",
+    "roots": {"stdlib": "canonical absolute installed stdlib root", "numpy": "canonical absolute installed NumPy root"},
+    "files": {"canonical_absolute_path": {"role": "stdlib|numpy|helper", "sha256": "independently committed expected SHA256"}},
+    "frozen": {"interpreter_frozen_module_name": "exp7stats.candidate_audit.code_hash(_imp.get_frozen_object(name)) independently committed fingerprint"},
+    "generated": {"exact_code_hash": {"producer": "canonical absolute pinned .py path", "producer_sha256": "independently fixed source SHA256"}},
+    "authority": "Roots label explicitly allowed installed runtimes; they are NOT wildcard permissions. Every loaded file, external helper/read and native extension is exactly pinned. Ordinary Python code must match compilation of pinned source; generated exec/calls must match committed code fingerprints and pinned producers. Bind all cold launcher and transitive helpers. Provision/review host-specific manifest before execution; tests/runtime_fixture.allowance is fabricated test authority and MUST NOT become a production discovery-and-trust path."
+  },
+  "cold_read_boundary": {
+    "version": 1,
+    "entry_exit": "SystemReadPort checks the complete Darwin /dev/fd or Linux /proc/self/fd census with F_GETFL, refuses every inherited readable descriptor (even pinned, fd0 or an alias), and separately refuses OS-backed readable IOBase buffers. Only EBADF for an already-closed enumeration entry is ignored; other observation failures refuse. Existing Python workers refuse. No descriptor is auto-enrolled by name or bytes. Write-only output descriptors are retained.",
+    "read_api": "During calibration use builtins.open, io.open, pathlib reads or io/_io.open_code on independently pinned read-only paths. The controlled wrapper runs the existing path/cache check, then obtains all bytes from an actual regular-file fd, verifies fstat/stat identity on both sides, size and independent SHA, closes the fd, and returns a read-only memory snapshot. Buffered/text layers and iteration consume only that snapshot; fileno is unsupported. Existing absent-cache ENOENT/race rules remain exact.",
+    "refused_api": "Inherited file streams/descriptors (including pinned ones), readable os.open, prebound original open aliases, direct FileIO constructors, update/read-write modes, custom openers and file mappings refuse. Close inherited inputs and reopen pinned paths inside the context. Output open/write remains ordinary write-only I/O. Publication/fsync remains outside the read context as before.",
+    "launch": "The dedicated cold CLI closes both its own stdin wrapper and kernel fd0, including interpreter closefd=False. Other callers must enter with no inherited readable fds/buffers and write-only stdout/stderr. No stdin allowance or broad runtime exemption exists.",
+    "platform_and_test_port": "CalibrationContext adds read_port=None; None selects the complete SystemReadPort implementation. Explicit injected ports are synthetic-only test seams, like fake blob/tag readers; never use a discovery-and-trust or claimed-empty observation in production. New read_boundary.py, gc/fcntl/runtime dependencies and caller code must be independently bound. Runtime manifest schema stays exp7.calibration-runtime.v1; no new authority keys.",
+    "guarantee_limit": "This is the controlled CPython file-I/O contract of the reviewed serial calibration source, not an OS sandbox. The cold census + snapshot/no-exposed-input-fd invariant covers descriptor aliases without claiming c_call can reveal os.read arguments. Byte-pinned native runtime is still trusted: arbitrary direct native syscalls, deliberate mutation of guard internals, and provenance of preloaded non-stream Python values are not traced. Alternate native filesystem APIs are outside the permitted candidate call graph, not a new trusted input channel. Direct fromfile and file mmap entrypoints refuse, but that is not claimed as mediation of every possible native alias."
+  },
+  "saved_power_validation": {
+    "version": 2,
+    "geometry": "exp7.predictor-geometry.v1: predictor/family exact x and serialized stratum vectors plus independently rederived support. Obtain only through predictor_geometry(load_predictors(verified raw payload,battery)); record stores geometry_sha256, not authority for its expected geometry.",
+    "retained_inputs": "Each fit evaluation has phase/rho/outcomes/D summary; all prescribed endpoint/interior/final/validation evaluations retained. Each outcome family stores zlib-compressed hex uint8 count matrix, replicate-major and battery-pair order. Main stores main_outcomes and finite-MC n_ge/consumed/B bounds. Exact dimensions/count multiset and domains are checked before use.",
+    "derived": "Per-family numerator/denominator, exact subset/None consistency, all Ds/means/scatter, eligibility and uninformative-block frequencies, rho1 rank-order condition, deterministic fixed-margin extrema, complete bisection path and support status, full/p-only counts/rates/CP95 intervals, total permutations and all10 declarations. Constant and blockwise-constant x remain and cannot acquire positive D or impossible rejection counts.",
+    "authenticated_inputs_not_rng_replay": "Saved outcome count matrices and MC exceedance counts require independent source/receipt authentication. Semantic checks do not reconstruct Gaussian/tie banks, independent-stream history, rank/noise law for interior rho, actual sampled permutation identities or their exceedance sequence. They derive finite-p arithmetic and deterministic impossibility constraints; they are not a proof that arbitrary coherent invented traces came from the committed RNG. No selectivity p is calculated on sealed predictors during power."
+  },
+  "saved_envelope_validation": "saved_math_version2 calibration retains score_counts: one packed uint8 matrix per replicate, family/pair order with canonical n00,n01,n10,n11 then sham four counts; randomization_bounds retain n_ge/consumed/B. Validator rederives valid prompt probability rows, analytic expected_x, every x/d/u/support/histogram/count/rate/CP95 reading including p-only CI, and exact structural-zero/impossible rows. No RNG replay; exceedance counts remain independently authenticated inputs with finite-bound and deterministic-support checks.",
+  "miniature_api": "separate synthetic_* functions require explicit miniature settings; no production execution in this authoring session",
+  "not_trusted": ["pass fields", "record-provided expected pins", "shortened coverage", "caller-selected production B/grid/n", "unsealed predictor input", "power recorded after outcome contact"]
+}

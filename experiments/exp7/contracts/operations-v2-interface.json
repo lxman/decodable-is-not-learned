@@ -1,0 +1,31 @@
+{
+  "schema": "exp7.operations-planning-interface.v2",
+  "status": "one R1-R6 fix wave complete at explicit port boundary; ready for scoped re-review; O8 production integration deferred",
+  "packages": ["exp7ops", "guard"],
+  "copied_core": "annex/exp7core is byte-identical to immutable original; no proposed core edit",
+  "entrypoints": {
+    "guarded_tests": "annex/run_tests.py --task <C1..C10|operations|scans|mutation-mini|world-protocol|dispatch|review-fixes|all> --receipt <new-path>",
+    "cold_suite": "exp7ops.cold.cold_suite(run_task, output, synthetic=bool, integrated_tasks=tuple)",
+    "full_worlds": "exp7ops.worlds.full_worlds(CampaignFixture, root); 17 raw two-predictor worlds + 23 refusal poisons; production analyzer exactly once per fresh fixture",
+    "mutation": "exp7ops.mutation.run_mutants(source, new_approved_scratch, MUTANTS, evaluate)",
+    "operations": "exp7ops.operator.stage_main(argv, composition=FixedComposition(...), contract_path=bound_path, output=bound_output, pid=int, now=callable, heartbeat_service=independent_service)",
+    "heartbeat": "exp7ops.heartbeat.HeartbeatSession is callable progress callback plus check(); heartbeat_worker(config_path, now, wait, parent_alive) is independent single-status-writer body; all worker parameters keyword-only",
+    "watcher": "exp7ops.watcher.Watcher(...).tick(); heartbeat_loop(tick, heartbeat=started_session, clock, wait) keyword-only; work ticks every 300s after work, independent worker pulses every 60s",
+    "release": "exp7ops.operator.release(Approval, provider=Provider, evidence_root=Path, secured_receipt=Path, verify_secured=independent_reverifier, out=Path)",
+    "remote": "exp7ops.wire.remote_main(argv, root, allowed_units, inventory, observe_terminal, stop_path, check_bindings) keyword-only configuration"
+  },
+  "required_final_adapters": {
+    "CampaignFixture": "exp7ops.worlds.CampaignFixture Protocol: install, poison, analyze, summarize, scientific_inputs, claimed",
+    "Deployment": "exp7ops.dispatch.Deployment Protocol: authenticate, dry_plan, predictor_preflight, predictor, seal, outcome_preflight, outcome, watch, campaign, stage_result, verify_unit, verify_final",
+    "SecuredReader": "exp7ops.secured.SecuredReader Protocol: independent remote_master, committed_file (bytes), terminal_observation, required_inventory, check_verifier_source",
+    "Provider": "instances, credit, delete only. instances must call evidence.successful_instance_response(integer_HTTP_2xx, strictly_decoded_reply) after successful transport. Exact envelope instances or success:true+instances; explicit errors/unknown envelope fields refuse. Sanitize exceptions before stderr; never normalize failure to []. No create/payment capability.",
+    "HeartbeatService": "exp7ops.heartbeat.HeartbeatService.start(config_path) must start an independent OS process with fixed pinned bootstrap, bound parent identity, ready first pulse; returns HeartbeatHandle.check()/finish() with liveness and bounded final acknowledgement/join. Fake-clock service is test-only. No main-thread-timer fallback.",
+    "ProcessPort": "index_lock(repo) coordinates cooperating publishers; commit itself uses --only plus explicit paths; actual parent/diff checked before immutable-commit push. Bound child handle retained after spawn.",
+    "Transport": "snapshot, unit, final_evidence, stop_new_work; BoundSSH and fixed remote wire supplied"
+  },
+  "observed_current_binding_gap": "Historical v1 observation: collection returned Battery/Score/outcome_counts and context-managed Campaign; statistics expected raw dictionaries plus entryexit(stage). This wave did not inspect active G1-G10 source. Final reconciliation, Deployment/CampaignFixture, stage/remote/heartbeat bootstraps, independent secured verifier process, guarded task table and deterministic worker remain O8 obligations.",
+  "failure_archive_contract": "Failed/stopped terminal precedes DONE admission; preserve entire remote inventory including invalid units. Retain local terminal-unit-failures.json/final-verification.json and publish them alongside archive via independent security binding. Invalid claimed success pauses before security/release; no failure bytes become a valid canonical unit.",
+  "evidence": {"red": "review-red.json", "red_tests": 7, "red_failures_including_subtests": 11, "full_suite": "suite-v2-01.json", "full_suite_tests": 97, "failures": 0, "errors": 0, "skips": 0, "max_fake_heartbeat_gap_seconds": 60, "diff": "V1-TO-V2.diff", "hashes": "V1-TO-V2.json", "manifest": "ANNEX-MANIFEST.json"},
+  "future_owner_grants_not_current_code_defects": ["ratification/preregistration", "projection commit", "predictor contact", "power recovery if interrupted", "underpowered run-stop ruling", "manual instance-create authorization and provided instance", "outcome contact", "once-only analyzer authorization", "close-out/public propagation"],
+  "forbidden_current_actions": ["model or tokenizer contact", "network", "SSH", "provider API", "OpenCode API", "service management", "real detach", "production calibration/power/analyzer", "repository writes or commits"]
+}
