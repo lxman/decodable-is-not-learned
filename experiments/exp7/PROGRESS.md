@@ -1415,3 +1415,7 @@ Fresh implementer `ses_ef2516f7dfferFMJR5mrcm5UJu` and reviewer `ses_ef249661cff
 ### Build task 71/75 CLOSED — M-exp7integration-calibration_copy
 
 Fresh implementer `ses_ef242dbcefferynsxQpUzzvD4J` and reviewer `ses_ef23f3a4effeUsx8BhXOUg5aST`; review CLEAN. Source `47613f10cf72bc68880944c62b487e2153715d2f`; review `ae54066c4cb05c574b4e8b49f9d3a7f4485a79ea`. Coordinator verified the exact committed diff and 194 installed prefix files, with 77 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-calibration_copy/`. No source deviation. No review finding.
+
+### Build task 72/75 CLOSED — W-numerical_worker
+
+Fresh implementer `ses_ef23aa3d9ffeQ2mZE68OyEpggw` and reviewer `ses_ef22eb007ffe2XOksn07OwRd5r`; review ACCEPT REVIEWED AMENDMENT. Source `41d205622855c5b019efda041cfe240baed03421`; review `8fe1f7fd2279c00c66420e536a23223210a1fe3e`. Coordinator verified the exact committed diff and 204 installed prefix files, with 67 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/W-numerical_worker/`. Reviewed source amendment: PROVENANCE-1-numerical-worker-fixture. No review finding.
