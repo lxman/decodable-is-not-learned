@@ -1040,3 +1040,13 @@ No Experiment 6 analyzer or completed matched-token analysis is to be rerun.
 **Build state at approval:** clean master at `bbfbb34016a0ad3f2f4517df145f31f8a4bfbb9b`;
 no instrument modules installed under `experiments/exp7/`. Next: **B0-LAUNCHER**.
 The planning archives and completed feasibility evidence remain immutable.
+
+## Build execution opened — 2026-10-05
+
+Coordinator verified clean master at approval `350c4c5059efdc453f0cb07aa5eb0be72e65347a`,
+the three accepted v3 hashes and absence of every installable target. Durable
+tracking: `build/STATE.json`, common delegated brief `build/README.md`, per-task
+`build/tasks/`. Exact source/task inventory is data-only checked by
+`build/coordinate.py`; it does not install or execute instrument source.
+No deviation authorized. B0 is next; each task gets distinct fresh implementer
+and reviewer, committed source comparison, coordinator reproduction and closure.
