@@ -1244,3 +1244,7 @@ Fresh implementer `ses_ef4318071ffeKGikyRPT3Li47p` and reviewer `ses_ef42bee19ff
 ### Build task 36/75 CLOSED — M-exp7integration-freeze
 
 Fresh implementer `ses_ef4257a7effeerbDRZC1vccEr4` and reviewer `ses_ef41fcd45ffe1NGwcIKpC1mOCD`; review CLEAN. Source `a168887c1f4acbcf44b6da6d2be648208ee98d03`; review `a8e4fb15fee5f3938788c30683c688b66518394d`. Coordinator verified the exact committed diff and 81 installed prefix files, with 190 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-freeze/`. No source deviation. No review finding.
+
+### Build task 37/75 CLOSED — M-exp7core-records
+
+Fresh implementer `ses_ef41a8ac4ffeAKc1sCzTITuzZ1` and reviewer `ses_ef4146a23ffe2e7CnDfJJyPukP`; review CLEAN. Source `0c989c48bed8741affdb95ee0c3cedbc66ba4260`; review `6ca9518461608089216bd165d526075b773d7917`. Coordinator verified the exact committed diff and 83 installed prefix files, with 188 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-records/`. No source deviation. No review finding.
