@@ -1336,3 +1336,7 @@ Fresh implementer `ses_ef327ea46ffejeeBsMF2j0RXv4` and reviewer `ses_ef321c8f2ff
 ### Build task 53/75 CLOSED — M-exp7core-campaign
 
 Fresh implementer `ses_ef31a996afferXPENvmbbFGn30` and reviewer `ses_ef313b058ffeqtk4GTst6DomTu`; review CLEAN. Source `e1354f3baae784fc0e08b84c460e6b4140f3cebb`; review `311fce63df3a597bd64b16ea4bfb18fe79924339`. Coordinator verified the exact committed diff and 133 installed prefix files, with 138 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-campaign/`. No source deviation. No review finding.
+
+### Build task 54/75 CLOSED — M-exp7core-entrypoints
+
+Fresh implementer `ses_ef30c6134fferzXcFAsFQed2o9` and reviewer `ses_ef3063e4fffeSAfnOPdddZDmVX`; review CLEAN. Source `88c46786b6b094623a1344b8a7cc8f9fefc652bf`; review `2981e28c9d72ed10fa7eefe215f938952f417db4`. Coordinator verified the exact committed diff and 135 installed prefix files, with 136 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-entrypoints/`. No source deviation. No review finding.
