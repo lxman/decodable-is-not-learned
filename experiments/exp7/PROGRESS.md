@@ -1193,3 +1193,7 @@ Fresh implementer `ses_ef4cfdeb7ffeJIclkLs51HuqvN` and reviewer `ses_ef4c9e0abff
 ### Build task 27/75 CLOSED — M-exp7ops-heartbeat
 
 Fresh implementer `ses_ef4c40eafffe9ymAEj3Mkzj0uY` and reviewer `ses_ef4bd78eeffel3jm6yUPc5niOt`; review CLEAN. Source `5da8ad6925428b303cb3c2ccfc66cc695404bc89`; review `2ac04aba85eb34624d5fadb3459af0b4c81fd583`. Coordinator verified the exact committed diff and 61 installed prefix files, with 210 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7ops-heartbeat/`. No source deviation. No review finding.
+
+### Build task 28/75 CLOSED — M-exp7stats-bootstrap
+
+Fresh implementer `ses_ef4b7aec2ffeVBen8hdcW89O0j` and reviewer `ses_ef4b10cb9ffeefKyy8h5XisQcA`; review CLEAN. Source `6abcb23115582fd80b211b65a8a00bed4980c07a`; review `a7fdd606b20d3af3dfd523244e22252a81c0553b`. Coordinator verified the exact committed diff and 63 installed prefix files, with 208 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-bootstrap/`. No source deviation. No review finding.
