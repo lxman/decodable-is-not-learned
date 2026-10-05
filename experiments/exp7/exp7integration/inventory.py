@@ -82,6 +82,7 @@ def verify_classification(root, row):
 
 def power_inventory(root, specification, *, production, repo):
     require_preoutcome(root)
+    require_preoutcome(repo)
     require(type(specification) is dict and set(specification) == {"covered_roots", "repository_roots", "entries"},
             "independent inventory specification")
     roots = specification["covered_roots"]
@@ -158,9 +159,14 @@ class ReadOnlyCampaign:
         self.events = []
 
     def _inside(self, value):
+        # Audit open omits dir_fd; CWD cannot attribute relative mutations.
+        # Descriptor/non-path targets likewise have no independently known root.
         if not isinstance(value, (str, bytes, os.PathLike)):
-            return False
-        path = Path(os.path.abspath(os.fsdecode(value)))
+            return True
+        path = Path(os.fsdecode(value))
+        if not path.is_absolute():
+            return True
+        path = Path(os.path.abspath(path))
         return any(path.is_relative_to(root) or path.resolve().is_relative_to(root) for root in self.roots)
 
     def _audit(self, event, args):
