@@ -1304,3 +1304,7 @@ Fresh implementer `ses_ef3950486ffeLizpbBSshsa0Fy` and reviewer `ses_ef38ef3ccff
 ### Build task 45/75 CLOSED — M-exp7core-collection_schema
 
 Fresh implementer `ses_ef38874aeffesFZhzIxk0839PT` and reviewer `ses_ef381fa95ffedrDnz6dVJz6P7o`; review CLEAN. Source `84216fd4c95c1cc693d0fdcb251687bc7da52c46`; review `256d9c43cd58c8e24cc182e2967ce49aa14ae660`. Coordinator verified the exact committed diff and 115 installed prefix files, with 156 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-collection_schema/`. No source deviation. No review finding.
+
+### Build task 46/75 CLOSED — M-exp7core-live
+
+Fresh implementer `ses_ef37b4f80fferMLTo28VKkPV8G` and reviewer `ses_ef3746663ffeVi4aiGiJsQ0T1s`; review CLEAN. Source `d0690c59bc7d7ec3d873b0ea0af31d25fcc70a86`; review `d738464d918ea2cea63a6c3ffd72a370f1ec712f`. Coordinator verified the exact committed diff and 117 installed prefix files, with 154 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-live/`. No source deviation. No review finding.
