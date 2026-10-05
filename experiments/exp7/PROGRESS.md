@@ -1514,3 +1514,12 @@ VPREP-1/2 covering the excessive sandbox/redirect prerequisites. TOKENIZER-3 in
 implementer for the working preparation/acquisition/offline pipeline. Existing
 approval covers the provisioning; launch sequencing and actual evidence remain
 required. No asset contact or cap measurement has yet run.
+
+Independent saved-run review `86b794082ed2d53d4afa6cffe4b6d9a4cc9c6798` verifies
+the failed first integration run:271 bindings,382 exact method IDs,108 selected
+groups,247 loaded package files, and all seven intervening commits with no
+protected-source change. All24 refused import names reconcile to known negative
+tests and the optional NumPy ctypes path; none loaded. The receipt's hardcoded
+contact counters are not independent evidence—the scope rests on reviewed guards,
+imports and test paths. Both exits remain1, and the failing method's later
+tampered-scope subcase was not reached. Corrected combined acceptance is pending.
