@@ -1693,3 +1693,20 @@ records are in `validation/operations-001/source-001-parent-*`; live stage state
 is `validation/STATE.json`. Next is inspection of its preserved terminal/proposal,
 then a separate launch of the already-reviewed runtime-proposal. No tokenizer
 asset contact, runtime copying or cap measurement has occurred.
+
+### Source-proposal001 FAILED before stage startup — Oct5 23:44 UTC
+
+The actual cold launcher failed at `Bootstrap.find_spec`: `importlib.util` was
+referenced without an explicit import. The stage directory and proposal do not
+exist; both child/operator exits remain1. All26 repository and948 external pins
+verify, including four successful binding snapshots. Management preserved all13
+operator artifacts and independently reproduced the exact cold failure without
+executing a stage. Monitor notification received and acknowledged once. Evidence:
+`validation/operations-001/source-001-failed/`.
+
+TOKENIZER-4 in `operations-001/SOURCE-001-RULING.md` authorizes the original
+implementer's one-import repair, meaningful cold RED/GREEN regression, and fresh
+versioned002 launch bindings. The47 passing fake tests did not cover the absent
+incidental import. No runtime-proposal001 launch or automatic retry is permitted;
+the repaired code and replacement launch inputs return to independent review.
+No asset acquisition, tokenizer contact or cap computation has occurred.
