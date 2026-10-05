@@ -28,109 +28,30 @@ class WorldProtocolTests(unittest.TestCase):
         self.assertEqual(len(GRID), 26)
         self.assertGreaterEqual(len(POISONS), 20)
 
-    def test_exact_rational_report_checksums_and_protocol_receipt(self):
-        from hashlib import sha256
-        import json
+    def test_retired_world_apis_refuse_before_effects(self):
         from pathlib import Path
         import tempfile
-        from exp7ops.worlds import exercise_world_protocol
-
-        class EncodingOnlyAdapter:
-            """Fake report port, not the production adapter; no statistics run.
-
-            False for every poison deliberately isolates WORLDS-1 encoding.
-            WORLDS-2's real late-fault accounting remains separately deferred.
-            """
-
-            def __init__(self, value):
-                self.report = {'report': {'primary': {'pythia_1b': {
-                    'mean_x': value,
-                    'nested': [Fraction(-2, 7), (Fraction(5, 11), None)],
-                }}}, 'statistics_executed': False}
-                self.installs = 0
-                self.calls = 0
-                self.poison_cases = []
-
-            def install(self, root, recipe):
-                self.expected = recipe['expected']
-                self.used = False
-                self.poisoned = False
-                self.installs += 1
-                (root / 'synthetic-input.txt').write_bytes(b'encoding-only fixture\n')
-
-            def poison(self, root, case):
-                self.poisoned = True
-                self.poison_cases.append(case)
-                (root / 'synthetic-input.txt').write_text(case)
-
-            def scientific_inputs(self, root):
-                return {'synthetic-input.txt': (root / 'synthetic-input.txt').read_bytes()}
-
-            def claimed(self, root):
-                return self.used
-
-            def analyze(self, root):
-                # A fake callback with no scientific driver or calculation.
-                self.refused = self.used or self.poisoned
-                self.used = True
-                self.calls += 1
-                return self.report
-
-            def summarize(self, report):
-                return {
-                    'states': dict.fromkeys(self.expected, 'INSUFFICIENT_DATA')
-                    if self.refused else dict(self.expected),
-                    'secondaries': list(range(1, 9)),
-                    'licence': 'does not identify an internal algorithm',
-                    'statistics_executed': False,
-                }
-
-        def recipe(left, right):
-            return {'expected': {'pythia_1b': left, 'olmo2_1b': right}}
-
-        # Independent exact bytes, including a pair that collapses under float().
-        variants = (
-            (Fraction(1, 3), b'{"denominator":3,"numerator":1}'),
-            (Fraction(2, 6), b'{"denominator":3,"numerator":1}'),
-            (Fraction(1, 3), b'{"denominator":3,"numerator":1}'),
-            (Fraction(1, 1), b'{"denominator":1,"numerator":1}'),
-            (Fraction(9007199254740993, 9007199254740992),
-             b'{"denominator":9007199254740992,"numerator":9007199254740993}'),
-        )
-        self.assertNotEqual(variants[3][0], variants[4][0])
-        self.assertEqual(float(variants[3][0]), float(variants[4][0]))
-        cases = [[left, right] for left in STATES[:4] for right in STATES[:4]]
-        cases.append(['UNDETERMINED', 'UNDETERMINED'])
-        saved_receipts, report_hashes = [], []
+        from exp7ops.worlds import full_worlds, exercise_world_protocol
+        from exp7ops.evidence import Refusal
+        calls = []
+        class Adapter:
+            def __getattr__(self, name):
+                calls.append(name)
+                raise AssertionError('retired fixture used: ' + name)
+        def recipe(*args):
+            calls.append('recipe')
+            raise AssertionError('retired recipe constructed')
         with tempfile.TemporaryDirectory() as temporary:
-            for index, (value, exact_value) in enumerate(variants):
-                root = Path(temporary) / f'encoding-{index}'
-                adapter = EncodingOnlyAdapter(value)
-                exact_report = (
-                    b'{"report":{"primary":{"pythia_1b":{"mean_x":' + exact_value
-                    + b',"nested":[{"denominator":7,"numerator":-2},'
-                    b'[{"denominator":11,"numerator":5},null]]}}},"statistics_executed":false}\n'
-                )
-                expected_hash = sha256(exact_report).hexdigest()
-                records = exercise_world_protocol(adapter, root, recipe_factory=recipe)
-                from exp7stats.common import dumps
-                self.assertEqual(dumps(adapter.report), exact_report)
-                expected_records = [
-                    {'case': case, 'report_sha256': expected_hash} for case in cases
-                ] + [{'poison': case, 'state': 'INSUFFICIENT_DATA'} for case in POISONS]
-                self.assertEqual(records, expected_records)
-                payload = (root / 'worlds-receipt.json').read_bytes()
-                expected_payload = (json.dumps(expected_records, sort_keys=True,
-                                               separators=(',', ':')) + '\n').encode()
-                self.assertEqual(payload, expected_payload)
-                self.assertEqual(json.loads(payload), expected_records)
-                self.assertEqual(adapter.installs, len(cases) + len(POISONS))
-                self.assertEqual(adapter.calls, 2 * len(cases) + len(POISONS))
-                self.assertEqual(adapter.poison_cases, list(POISONS))
-                saved_receipts.append(payload)
-                report_hashes.append(expected_hash)
-        self.assertEqual(saved_receipts[0], saved_receipts[1])  # equivalent fractions
-        self.assertEqual(saved_receipts[0], saved_receipts[2])  # repeatability
-        self.assertEqual(report_hashes[0], report_hashes[1])
-        self.assertNotEqual(report_hashes[3], report_hashes[4])  # exact, not float
-        self.assertNotEqual(saved_receipts[3], saved_receipts[4])
+            for name, invoke, replacement in (
+                ('full_worlds', lambda root: full_worlds(Adapter(), root), 'full_worlds'),
+                ('exercise_world_protocol', lambda root: exercise_world_protocol(Adapter(), root, recipe_factory=recipe), 'exercise'),
+            ):
+                with self.subTest(api=name):
+                    root = Path(temporary) / name
+                    with self.assertRaisesRegex(Refusal, '^exp7ops\\.worlds\\.' + name +
+                                                ' is retired; use exp7integration\\.world_harness\\.' + replacement + '$'):
+                        invoke(root)
+                    self.assertEqual(calls, [])
+                    self.assertFalse(root.exists())
+                    self.assertFalse((root / 'worlds-receipt.json').exists())
+            self.assertEqual(list(Path(temporary).iterdir()), [])

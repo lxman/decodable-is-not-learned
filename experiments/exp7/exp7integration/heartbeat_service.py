@@ -24,14 +24,17 @@ class NativeHeartbeatOS:
             except FileNotFoundError:
                 return None
         import subprocess
-        # macOS ps start time + parent/group + command are captured together.
+        # Capture macOS start time, PPID, group and command together, but exclude
+        # PPID from stable identity: a healthy detached operator can reparent.
         # Retained Popen handles additionally bind all child operations.
         result = subprocess.run(["/bin/ps", "-p", str(pid), "-o", "lstart=", "-o", "ppid=", "-o", "pgid=", "-o", "command="],
                                 capture_output=True, text=True, timeout=10, env={"PATH": "/usr/bin:/bin", "LC_ALL": "C"})
         if result.returncode == 1 and not result.stdout.strip():
             return None
         require(result.returncode == 0 and result.stdout.strip(), "parent identity observation unavailable")
-        return {"pid": pid, "ps_start_parent_group_command": result.stdout.strip()}
+        fields = result.stdout.strip().split(maxsplit=7)
+        require(len(fields) == 8, "parent identity observation unavailable")
+        return {"pid": pid, "ps_start_group_command": " ".join(fields[:5] + fields[6:])}
 
     def spawn(self, argv, *, cwd, log):
         import subprocess

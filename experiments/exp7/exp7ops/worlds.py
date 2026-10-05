@@ -1,12 +1,11 @@
-"""Raw-string fixture recipe and adapter-driven production-composition worlds.
+"""Shared raw-string recipes/constants with retired orchestration exports.
 
-Only make_recipe(..., pairs=small) is run during planning. Full execution is a
-future build test using the FINAL reconciled Campaign adapter, never a core-only
-world lookup and never a real campaign tree.
+Use exp7integration.world_harness.exercise for miniature protocol tests and its
+full_worlds for the separately authorized future synthetic freeze. The legacy
+exports below refuse before effects; make_recipe and draws remain active.
 """
 from typing import Protocol
-from itertools import product
-from .evidence import require, canonical, digest, once, snapshot
+from .evidence import require
 
 FAMILIES = ("unscrambling", "deduction", "units", "shapes")
 ARMS = ("q0", "q1", "q0s", "q1s")
@@ -20,13 +19,10 @@ POISONS = ("missing-sham", "missing-twin", "unequal-k", "duplicate-row", "shared
     "HALTED-before-final", "duplicate-once-claim", "missing-secondary", "malformed-power")
 
 class CampaignFixture(Protocol):
-    """Pinned adapter must use production producers, validators and analyzer.
+    """Legacy protocol declaration, not the active world-harness fixture contract.
 
-    install writes complete fake raw units, independent trust/tag/grant records,
-    anchors and both genuinely separate host loader paths using production
-    serializers. No precomputed score/expected verdict is installed as input.
-    analyze consumes its once-claim and returns saved report; summarize projects
-    the report without recomputing tests. poisoning edits bytes after valid setup.
+    The supported exp7integration.world_harness additionally requires success
+    publication and source restoration with truthful phase accounting.
     """
     def install(self, root, recipe): ...
     def poison(self, root, case): ...
@@ -79,41 +75,9 @@ def make_recipe(left, right, *, pairs=500):
             "grid": list(GRID), "expected": {"pythia_1b": left, "olmo2_1b": right}}
 
 def full_worlds(adapter, root):
-    return exercise_world_protocol(adapter, root, recipe_factory=make_recipe)
+    """Retired; use exp7integration.world_harness.full_worlds for future freeze."""
+    require(False, "exp7ops.worlds.full_worlds is retired; use exp7integration.world_harness.full_worlds")
 
 def exercise_world_protocol(adapter, root, *, recipe_factory):
-    """Explicit recipe injection is for MINIATURE protocol tests, not live CLI."""
-    root.mkdir()
-    cases = list(product(STATES[:4], repeat=2)) + [("UNDETERMINED", "UNDETERMINED")]
-    records = []
-    for index, (left, right) in enumerate(cases):
-        target = root / f"world-{index:02d}"
-        target.mkdir()
-        recipe = recipe_factory(left, right)
-        adapter.install(target, recipe)
-        before = adapter.scientific_inputs(target)
-        report = adapter.analyze(target)
-        view = adapter.summarize(report)
-        require(view["states"] == recipe["expected"], "raw-tree world mismatch")
-        require(view["secondaries"] == list(range(1, 9)), "all eight secondary sections required")
-        require("does not identify an internal algorithm" in view["licence"], "licence limitation missing")
-        require(adapter.scientific_inputs(target) == before, "analysis changed raw evidence")
-        require(adapter.claimed(target) is True, "analysis once-claim absent")
-        # Re-entry must deliver refusal, never another statistical invocation.
-        again = adapter.summarize(adapter.analyze(target))
-        require(set(again["states"].values()) == {"INSUFFICIENT_DATA"}, "once gate failed")
-        from exp7stats.common import dumps
-        records.append({"case": [left, right], "report_sha256": digest(dumps(report))})
-    for poison in POISONS:
-        target = root / poison
-        target.mkdir()
-        adapter.install(target, recipe_factory(STATES[0], STATES[0]))
-        adapter.poison(target, poison)
-        before = adapter.scientific_inputs(target)
-        view = adapter.summarize(adapter.analyze(target))
-        require(set(view["states"].values()) == {"INSUFFICIENT_DATA"}, "poison escaped: " + poison)
-        require(view["statistics_executed"] is False, "refusal computed statistics")
-        require(adapter.scientific_inputs(target) == before, "poison evidence erased")
-        records.append({"poison": poison, "state": "INSUFFICIENT_DATA"})
-    once(root / "worlds-receipt.json", records)
-    return records
+    """Retired; use exp7integration.world_harness.exercise for protocol tests."""
+    require(False, "exp7ops.worlds.exercise_world_protocol is retired; use exp7integration.world_harness.exercise")

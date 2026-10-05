@@ -20,7 +20,7 @@ class BoundaryTests(unittest.TestCase):
     def test_scopes_evidence_tag_and_projection(self):
         with self.f.campaign() as c:
             self.assertEqual(c.trust.grant('predictor-preflight')['scope'], 'predictor-preflight')
-            with self.assertRaises(KeyError):
+            with self.assertRaisesRegex(Refusal, 'missing grant binding'):
                 c.trust.grant('rental-create')
         path = self.repo / 'grants/predictor-preflight.json'
         g = strict_json(path.read_bytes())
