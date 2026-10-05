@@ -1050,3 +1050,19 @@ tracking: `build/STATE.json`, common delegated brief `build/README.md`, per-task
 `build/coordinate.py`; it does not install or execute instrument source.
 No deviation authorized. B0 is next; each task gets distinct fresh implementer
 and reviewer, committed source comparison, coordinator reproduction and closure.
+
+### Build blocked before B0: harness delegation depth
+
+The dedicated coordinator's first `functions.subagent` call for a fresh B0
+implementer was rejected: **`Subagent depth limit reached (1). Increase
+"experimental.subagent_depth" to allow nested subagents.`** No implementer session
+was created, no instrument target was installed, and no test/long job launched.
+Evidence: `build/tasks/B0-LAUNCHER/delegation-blocker.json`; task brief and exact
+approval/spec pins are retained. All75 tasks remain uncompleted.
+
+**Management gate:** enable delegation to depth2 for this coordinator, or have a
+top-level coordinator perform the mandated fresh implementer/reviewer sequence.
+Do not substitute self-implementation or automated source copying. Resume B0
+from its retained brief after confirming clean master and source-map absence.
+This is an execution-environment blocker, not a source/spec finding or owner
+scientific decision. No source deviations or open review Minors exist.
