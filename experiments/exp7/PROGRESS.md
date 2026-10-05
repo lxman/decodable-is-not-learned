@@ -1538,3 +1538,9 @@ replaced by retirement checks, preserving active world/Fraction/determinism
 coverage. Final static count is386. Original whole-branch reviewer
 `ses_ef208bf42ffeWReEqhsuCV9CB2` is re-reviewing; proposed amendment chains are
 not yet enrolled and no finding is closed until that review is accepted.
+
+Corrected integrated operator `2cbe17db7fd374f2350262863b39d184fa7412d9` is
+under independent review. Management reproduced its30 fake-port lifecycle/binding
+tests (zero failures/errors/skips; no instrument imports), preserving fresh
+`coordinator-operator-02.{json,log}` evidence in the final-task directory. Final
+manifest creation waits for reviewed amendment enrollment; no second run launched.
