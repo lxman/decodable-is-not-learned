@@ -1573,3 +1573,12 @@ forbidden loads or native-effect attempts; source hashes remained unchanged.
 Fresh evidence: final-task `operator-02-repair-01/coordinator-green.{json,log}`.
 Original reviewer is re-reviewing the repairs and committed386-method snapshot
 `5b4cdc3234b5d64730591f6416fcdd393883c6b0`; launch remains pending acceptance.
+
+Operator repair and static snapshot ACCEPTED by original reviewer at
+`5d7e75ec29351016406f13bd42fed3f59c4f0d2f`:36/36 independent fake tests,
+all OPS02 findings closed;271 files/22 amended paths/386 IDs/108 groups and the
+24-name expected refused-import sequence independently reconciled. The data-only
+generator is accepted. It produced `integrated-02-inputs.json` from exact source
+`e36c0fdbebb795114a019dd26a0bde3389fe2803`, raw SHA256
+`729efb72a9221097494580c7a7491378d14963dd8e85fda738e68a5620c20270`.
+Final external launch binding review is next; no new suite execution yet.
