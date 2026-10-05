@@ -1375,3 +1375,7 @@ Fresh implementer `ses_ef2c7d997ffejLSDOv09kmKewx` and reviewer `ses_ef2bfa856ff
 ### Build task 61/75 CLOSED — M-exp7stats-calibration_context
 
 Fresh implementer `ses_ef2b99f8dffexLgQdvC6YaVPRF` and reviewer `ses_ef2b439bfffe6uVTGI1gboNp3u`; review CLEAN. Source `12d45ad6c3d32dda6942d486987883b0bdc256da`; review `9144c197e39ed3c9769bc68ba3794707465b602e`. Coordinator verified the exact committed diff and 155 installed prefix files, with 116 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-calibration_context/`. No source deviation. No review finding.
+
+### Build task 62/75 CLOSED — M-exp7stats-calibration_cli
+
+Fresh implementer `ses_ef2ae57d4fferdDXjZmKewHTzm` and reviewer `ses_ef2a9d7a7ffeTQX1R8JsAR95o5`; review CLEAN. Source `759ce5fedbb103f9b16f0fbae600c3b253600587`; review `8a67facfd88e71da5d96f21e4c2038389bd04966`. Coordinator verified the exact committed diff and 157 installed prefix files, with 114 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-calibration_cli/`. No source deviation. No review finding.
