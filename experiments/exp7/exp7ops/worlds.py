@@ -102,7 +102,8 @@ def exercise_world_protocol(adapter, root, *, recipe_factory):
         # Re-entry must deliver refusal, never another statistical invocation.
         again = adapter.summarize(adapter.analyze(target))
         require(set(again["states"].values()) == {"INSUFFICIENT_DATA"}, "once gate failed")
-        records.append({"case": [left, right], "report_sha256": digest(canonical(report))})
+        from exp7stats.common import dumps
+        records.append({"case": [left, right], "report_sha256": digest(dumps(report))})
     for poison in POISONS:
         target = root / poison
         target.mkdir()
