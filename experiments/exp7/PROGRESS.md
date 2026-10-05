@@ -1676,3 +1676,20 @@ bindings match their committed bytes. Fresh evidence:
 `validation/operations-001/coordinator-fake-001/` plus execution/stdout records.
 No actual tokenizer stage or operator has started. The accepted integrated build
 has satisfied the earlier sequencing prerequisite.
+
+### Tokenizer source-proposal launched — 2026-10-05
+
+Original-reviewer input/operator acceptance `98120c3a2b2c3996d58b359c7a07ec83ef5db17a`
+has no required finding:26 delivered fake methods and six independent probes pass;
+both manifests bind26 repository files plus948 measured external files. Independent
+native review matches108 images/216 load-command outputs and26 metadata records,
+under the stated trusted-native contract. Management's26-test reproduction already
+passed. Acceptance is for the two proposal stages; their outputs require review.
+
+Management launched source-proposal once using its exact accepted digest and
+external anchor. Detached operator PID26780,900-second bound; durable monitor
+`exp7-tokenizer-source-001` targets the verified current parent session. Launch
+records are in `validation/operations-001/source-001-parent-*`; live stage state
+is `validation/STATE.json`. Next is inspection of its preserved terminal/proposal,
+then a separate launch of the already-reviewed runtime-proposal. No tokenizer
+asset contact, runtime copying or cap measurement has occurred.
