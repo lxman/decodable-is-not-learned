@@ -1601,3 +1601,22 @@ The completed tokenizer pipeline source `3560d231ac1d7f6b02f45029e04083ddcdc95a1
 and delivery `eabba8a75bb056addc31984facdc8584e8e8a584` are under original-reviewer
 re-review while this run is active. Its47 fake-test claim is preparation evidence,
 not actual measurement; no asset acquisition/tokenizer contact/cap run occurred.
+
+### Tokenizer staged pipeline accepted — concrete launch inputs pending
+
+Original-reviewer re-review `b029862d494fac9850d09e55fe27c0e88178c215` accepts
+the complete staged code at `3560d231ac1d7f6b02f45029e04083ddcdc95a1a` and closes
+VPREP-1/2 with no new required fix. It independently passes47 delivered methods
+and seven additional probes. Management verified all41 delivery bindings, exact
+review diffs, inspected the implementation and reproduced47/47 in a fresh guarded
+process: zero failures/errors/skips/forbidden loads, all nine source pins unchanged,
+and the same expected refusal sequence. Evidence: `validation/coordinator-fake-002/`
+plus its execution/stdout records. Native runtime compatibility remains unmeasured.
+
+The original implementer is preparing concrete source/runtime launch inputs and
+a bounded detached stage operator under `validation/operations-001/`. This is
+preparation for independent review; no real stage runs before integrated acceptance.
+The required448,000 tokenizer comparisons, actual acquisition and normalized
+materialization remain unexecuted. Existing Oct5 authorization covers them after
+the recorded engineering gates; no additional owner provisioning permission is
+being requested.
