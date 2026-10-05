@@ -1395,3 +1395,7 @@ Fresh implementer `ses_ef290bd0bffe2wz3LV6kCOH1c6` and reviewer `ses_ef287a3efff
 ### Build task 66/75 CLOSED — M-exp7integration-controlled_backend
 
 Fresh implementer `ses_ef28206e9ffetLKWdp2pyZAAP6` and reviewer `ses_ef27b1f07ffehbttywZZTxf00w`; review ACCEPT REVIEWED AMENDMENT. Source `bfa19434f363d3edd6a4d7c26aff10bc9c504d5c`; review `edddec7aa1a5fb8d51312cb3ba3953f9c4cfbb57`. Coordinator verified the exact committed diff and 170 installed prefix files, with 101 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-controlled_backend/`. Reviewed source amendment: PROVENANCE-1-controlled-backend-fixture. No review finding.
+
+### Build task 67/75 CLOSED — M-exp7integration-metadata_transport
+
+Fresh implementer `ses_ef275a02bffeMs27GL4NcZikEf` and reviewer `ses_ef26edcaeffelr5E3aQG8Y0EEN`; review ACCEPT REVIEWED AMENDMENT. Source `ca8e014d40937cb31fdfdd9cb24bc73403920d54`; review `50240091faa73fdbc55b9de22924333a05d49c50`. Coordinator verified the exact committed diff and 174 installed prefix files, with 97 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-metadata_transport/`. Reviewed source amendment: PROVENANCE-1-metadata-transport-fixture. No review finding.
