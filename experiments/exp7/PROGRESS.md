@@ -1256,3 +1256,7 @@ Fresh implementer `ses_ef40e16f5ffenFoA9hH8PCNiEr` and reviewer `ses_ef4086d23ff
 ### Build task 39/75 CLOSED — M-exp7core-battery_adapter
 
 Fresh implementer `ses_ef40237caffeQxV1BOtw57IQYJ` and reviewer `ses_ef3fa6a41ffezjETEM9M94MQjU`; review CLEAN. Source `b1a8cf63e559e11b84c7944c51e56fae749acb05`; review `ee041666d429c5dbe2a5d08604479c620931ec21`. Coordinator verified the exact committed diff and 103 installed prefix files, with 168 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-battery_adapter/`. No source deviation. No review finding.
+
+### Build task 40/75 CLOSED — M-exp7core-referents
+
+Fresh implementer `ses_ef3f44c50ffeIGvrol7HyKsRaq` and reviewer `ses_ef3eeef4cffeykDBvKBJTCCcmw`; review CLEAN. Source `8a03cd587ebb08797d5609446d5abf065aaf115c`; review `1bcae0a13b305c37d2c01c8e7255c339dd7eff09`. Coordinator verified the exact committed diff and 105 installed prefix files, with 166 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-referents/`. No source deviation. No review finding.
