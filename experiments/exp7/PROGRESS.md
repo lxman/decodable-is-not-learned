@@ -1480,3 +1480,12 @@ exit condition. Intervening evidence/preparation commits require source-hash and
 commit-scope reconciliation, preserving the real operator exit. No integrated
 pass is inferred. Tokenizer preparation is code-only under
 `validation/PLAN.md`; no actual asset acquisition or tokenizer validation yet.
+
+Tokenizer preparation tranche `b43edada8c5d5bf4f3cca2a82473335d9cbd2998` is
+under independent review. Management reproduced its19 stdlib-only fake boundary
+tests with zero failures/errors/skips or forbidden imports; receipt:
+`validation/coordinator-fake-001/`. This is partial preparation code: the real
+launch remains blocked. TOKENIZER-2 in `validation/COORDINATOR-RULINGS.md` retains
+the program's trusted, pinned native-runtime contract rather than imposing a new
+hostile-native OS sandbox; reviewed bounded public-asset redirects are permitted
+within the existing tokenizer/config-only scope. No contact has run.
