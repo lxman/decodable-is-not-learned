@@ -1308,3 +1308,7 @@ Fresh implementer `ses_ef38874aeffesFZhzIxk0839PT` and reviewer `ses_ef381fa95ff
 ### Build task 46/75 CLOSED — M-exp7core-live
 
 Fresh implementer `ses_ef37b4f80fferMLTo28VKkPV8G` and reviewer `ses_ef3746663ffeVi4aiGiJsQ0T1s`; review CLEAN. Source `d0690c59bc7d7ec3d873b0ea0af31d25fcc70a86`; review `d738464d918ea2cea63a6c3ffd72a370f1ec712f`. Coordinator verified the exact committed diff and 117 installed prefix files, with 154 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-live/`. No source deviation. No review finding.
+
+### Build task 47/75 CLOSED — M-exp7core-preflight
+
+Fresh implementer `ses_ef36e64adffeOak0Isy45NCRae` and reviewer `ses_ef3621009ffeoCH14pWaEar8RJ`; review ACCEPT REVIEWED AMENDMENT. Source `3ef1bb23ed68d0cb2f7bd570d61cfd5f44a9fd8a`; review `6935553889e743c7e73c3159d179090723981cd7`. Coordinator verified the exact committed diff and 119 installed prefix files, with 152 future targets absent. Expected missing-primary RED, then 9 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-preflight/`. Reviewed source amendment: PROVENANCE-1-preflight. No review finding.
