@@ -1122,3 +1122,7 @@ Fresh implementer `ses_ef5a75484ffebbK6cAqJTXJowZ` and reviewer `ses_ef5a0ff10ff
 ### Build task 11/75 CLOSED — M-exp7stats-common
 
 Fresh implementer `ses_ef59adee2ffeGfdKOYmwnJDKG5` and reviewer `ses_ef59388f2ffeyxnWZl85nRC323`; review CLEAN. Source `958be690bf0e9a940dba55938f4d8bef793fd835`; review `1131e63f0b7ff0232ff74a267be972de6ad677b0`. Coordinator verified the exact committed diff and 28 installed prefix files, with 243 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-common/`. No source deviation. No review finding.
+
+### Build task 12/75 CLOSED — M-exp7core-scoring
+
+Fresh implementer `ses_ef58dac65ffeancF6LyAPAAGxr` and reviewer `ses_ef588067cffeXzjDTzrsHIviGj`; review CLEAN. Source `7e984486b292527cb48e60d12cda4b927d361847`; review `2ffaf713ad87515504407ebe554f59fb64416d5f`. Coordinator verified the exact committed diff and 30 installed prefix files, with 241 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-scoring/`. No source deviation. No review finding.
