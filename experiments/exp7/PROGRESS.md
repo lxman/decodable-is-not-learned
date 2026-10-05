@@ -1553,3 +1553,15 @@ signal; preflight saves70 then propagates an exception giving1. Scoped repair
 authorized in `build/tasks/F-INTEGRATED-REGRESSIONS/OPERATOR-02-RULING.md`.
 The original implementer must repair and return to the original reviewer before
 any combined launch; all failures remain preserved.
+
+### Final instrument fix wave ACCEPTED and enrolled
+
+Original whole-branch re-review `40ce88c1c6dce720fbf43a6dc4876b0e30e56779`
+accepts HB-1, COLD-M1, WORLDS-2 and the grant assertion, with no new findings.
+Independent19/19 matches management's19/19;386 exact IDs reconcile. The four
+owner-specific amendments are enrolled, preserving two explicit worlds-file
+supersession chains: **271 installed files,22 effective amended files**.
+The reviewer also accepted the data-only chain verifier after22 synthetic cases
+and three genuine-Git historical/current checks. Old helper findings are now
+closed by executable retirement; active scientific and encoding coverage remains.
+Combined acceptance still awaits the corrected operator and386-method run.
