@@ -1296,3 +1296,7 @@ Exact schema/owner assignments, why and cost:
 ### Build task 43/75 CLOSED — M-exp7core-provenance
 
 Fresh implementer `ses_ef3bf619dffeGjZi2JFKS45iDS` and reviewer `ses_ef3b83ff9ffe52YzCc1BbD71uN`; review ACCEPT REVIEWED AMENDMENT. Source `a6b73e7c8318e8fa88bf0d6a55b3c68e5ddec995`; review `ca5dca8cd83237fb7a7552a6bdacaf6de3b26104`. Coordinator verified the exact committed diff and 111 installed prefix files, with 160 future targets absent. Expected missing-primary RED, then 10 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-provenance/`. Reviewed source amendment: PROVENANCE-1-core. No review finding.
+
+### Build task 44/75 CLOSED — M-exp7core-baseline
+
+Fresh implementer `ses_ef3950486ffeLizpbBSshsa0Fy` and reviewer `ses_ef38ef3ccffeKBqHkeWT0DKsgX`; review CLEAN. Source `97c59b3d6de6aa3716f379eb07b551d60f448688`; review `08be4a39a7c0e4d8cc71c6ab9367c135ef2a10e1`. Coordinator verified the exact committed diff and 113 installed prefix files, with 158 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-baseline/`. No source deviation. No review finding.
