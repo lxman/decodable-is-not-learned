@@ -1620,3 +1620,20 @@ The required448,000 tokenizer comparisons, actual acquisition and normalized
 materialization remain unexecuted. Existing Oct5 authorization covers them after
 the recorded engineering gates; no additional owner provisioning permission is
 being requested.
+
+### Corrected integrated run PASSED — 2026-10-05 23:15 UTC
+
+The corrected same-process run executed **386/386 methods successfully** in
+1520.407 seconds: zero failures/errors/skips/forbidden loads; child and operator
+both exited0. Management inspected the complete log and independently reconciled
+all386 exact IDs,108 groups,24 expected refused imports, receipt/log hashes and
+all274 bound files across **53 snapshots** (entry, pre-spawn,50 intervals, exit).
+Current/launch bytes match; intervening commits touched no bound file. Evidence:
+`build/tasks/F-INTEGRATED-REGRESSIONS/implementer-all-02*` and
+`coordinator-second-run-verification.json`. No test was rerun for verification.
+
+Durable completion notification was received and acknowledged once after taking
+responsibility. Final-task saved-output and whole-branch acceptance reviews are
+next; task75 stays open until accepted. The earlier382-method failure remains
+unchanged evidence. Tokenizer provisioning awaits integrated acceptance and its
+concrete launch-input/operator review.
