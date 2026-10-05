@@ -1489,3 +1489,20 @@ launch remains blocked. TOKENIZER-2 in `validation/COORDINATOR-RULINGS.md` retai
 the program's trusted, pinned native-runtime contract rather than imposing a new
 hostile-native OS sandbox; reviewed bounded public-asset redirects are permitted
 within the existing tokenizer/config-only scope. No contact has run.
+
+### First installed integrated run FAILED — 2026-10-05 21:51 UTC
+
+All382 registered methods ran in1530.4s: **381 passed, one error**, no assertion
+failures/skips/forbidden loads. The error is a stale `KeyError` assertion for a
+missing grant; PROVENANCE-1 correctly delivers `Refusal('missing grant binding')`.
+Extend the authorized final fix wave to that one message-specific assertion.
+Full logs, receipt, entry/exit bindings, method reconciliation and management
+verification are preserved in `build/tasks/F-INTEGRATED-REGRESSIONS/` under
+`implementer-all-01*` and `coordinator-first-run-verification.json`.
+
+Management verified all271 entry/exit/current hashes equal and every expected
+method ID present. Intervening commits changed no bound/executed file; the
+unchanged-HEAD operator check separately failed as anticipated in F-IR-OPS1.
+Both real exits remain1; no passing integrated result is claimed. The durable
+notification was received and acknowledged once. The heartbeat/retirement/grant
+assertion fix wave may now proceed after this evidence is secured off-machine.
