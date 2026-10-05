@@ -1316,3 +1316,7 @@ Fresh implementer `ses_ef36e64adffeOak0Isy45NCRae` and reviewer `ses_ef3621009ff
 ### Build task 48/75 CLOSED — M-exp7core-bridge
 
 Fresh implementer `ses_ef35b058cffeQ2LzSjbFeuerAQ` and reviewer `ses_ef355336dffer4gK2daSXFv5II`; review CLEAN. Source `6e7304ddbcbe4f51d8c5a5a63bf32ca1a2124c26`; review `3e539827a428aae70a949117dce1be93abaa99e7`. Coordinator verified the exact committed diff and 122 installed prefix files, with 149 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-bridge/`. No source deviation. No review finding.
+
+### Build task 49/75 CLOSED — M-exp7stats-read_boundary
+
+Fresh implementer `ses_ef34fe228ffeh3WnD18S9a36kU` and reviewer `ses_ef349402cffeQlU7jAlNG3t7Do`; review CLEAN. Source `05415709f76d85d43d642226ba4c49a5ed56a6e5`; review `a20731f8480dae06494b2f7a7d46b6bcbb0e3d9b`. Coordinator verified the exact committed diff and 124 installed prefix files, with 147 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-read_boundary/`. No source deviation. No review finding.
