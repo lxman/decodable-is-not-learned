@@ -1126,3 +1126,7 @@ Fresh implementer `ses_ef59adee2ffeGfdKOYmwnJDKG5` and reviewer `ses_ef59388f2ff
 ### Build task 12/75 CLOSED — M-exp7core-scoring
 
 Fresh implementer `ses_ef58dac65ffeancF6LyAPAAGxr` and reviewer `ses_ef588067cffeXzjDTzrsHIviGj`; review CLEAN. Source `7e984486b292527cb48e60d12cda4b927d361847`; review `2ffaf713ad87515504407ebe554f59fb64416d5f`. Coordinator verified the exact committed diff and 30 installed prefix files, with 241 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-scoring/`. No source deviation. No review finding.
+
+### Build task 13/75 CLOSED — M-exp7core-inference
+
+Fresh implementer `ses_ef58214bcffeGO7MYPjc4XNeuk` and reviewer `ses_ef57bc774ffeIgYj6dao3nLt62`; review CLEAN. Source `908b48f13374de50c703e2f13397183082c015aa`; review `66583fc3b40f9965ea38fd5251993614e58ec7c7`. Coordinator verified the exact committed diff and 32 installed prefix files, with 239 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-inference/`. No source deviation. No review finding.
