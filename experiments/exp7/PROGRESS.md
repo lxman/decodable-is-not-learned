@@ -1411,3 +1411,7 @@ Fresh implementer `ses_ef25c6a51ffekl4mZqT0517yLb` and reviewer `ses_ef256c526ff
 ### Build task 70/75 CLOSED — M-exp7integration-bootstrap
 
 Fresh implementer `ses_ef2516f7dfferFMJR5mrcm5UJu` and reviewer `ses_ef249661cffeO9mf2tfzhrv71W`; review CLEAN. Source `bdfb07ca94e276dcb6348f6b9e066eaa07b92204`; review `2d24d994d5afa7b8436dabc9f3f60f0067b87665`. Coordinator verified the exact committed diff and 191 installed prefix files, with 80 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-bootstrap/`. No source deviation. No review finding.
+
+### Build task 71/75 CLOSED — M-exp7integration-calibration_copy
+
+Fresh implementer `ses_ef242dbcefferynsxQpUzzvD4J` and reviewer `ses_ef23f3a4effeUsx8BhXOUg5aST`; review CLEAN. Source `47613f10cf72bc68880944c62b487e2153715d2f`; review `ae54066c4cb05c574b4e8b49f9d3a7f4485a79ea`. Coordinator verified the exact committed diff and 194 installed prefix files, with 77 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-calibration_copy/`. No source deviation. No review finding.
