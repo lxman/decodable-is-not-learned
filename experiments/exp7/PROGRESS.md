@@ -1197,3 +1197,7 @@ Fresh implementer `ses_ef4c40eafffe9ymAEj3Mkzj0uY` and reviewer `ses_ef4bd78eeff
 ### Build task 28/75 CLOSED — M-exp7stats-bootstrap
 
 Fresh implementer `ses_ef4b7aec2ffeVBen8hdcW89O0j` and reviewer `ses_ef4b10cb9ffeefKyy8h5XisQcA`; review CLEAN. Source `6abcb23115582fd80b211b65a8a00bed4980c07a`; review `a7fdd606b20d3af3dfd523244e22252a81c0553b`. Coordinator verified the exact committed diff and 63 installed prefix files, with 208 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-bootstrap/`. No source deviation. No review finding.
+
+### Build task 29/75 CLOSED — M-exp7stats-secondaries
+
+Fresh implementer `ses_ef4a9c6e9ffeN3PpykdxJpPUte` and reviewer `ses_ef4a19240ffe2lJJYADbnTH75v`; review CLEAN. Source `cd29012d183efa7c65364dd33c865c7438b5717b`; review `eff45d2bf344932cd52a54f814d0f6f506bb95b9`. Coordinator verified the exact committed diff and 65 installed prefix files, with 206 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-secondaries/`. No source deviation. No review finding.
