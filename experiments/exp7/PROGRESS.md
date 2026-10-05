@@ -1360,3 +1360,14 @@ Fresh implementer `ses_ef2df003cffeNgWko6YgUJISYe` and reviewer `ses_ef2d8f533ff
 ### Build task 59/75 CLOSED — M-exp7integration-heartbeat_service
 
 Fresh implementer `ses_ef2d38056ffecWypQvYxDuzTO0` and reviewer `ses_ef2cd448bffecYiQJAsKMSwmK0`; review CLEAN. Source `1f2f3f7ccc82d1e75b0d6d214d7ee4ad3e5a90bf`; review `576338ea92d687662afd8c25c8f74fb92a9cc534`. Coordinator verified the exact committed diff and 147 installed prefix files, with 124 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-heartbeat_service/`. No source deviation. No review finding.
+
+**Ruling SECURITY-E1:** task60 GREEN passed but its evidence helper expected an
+unused `exp7core.strata` import from the conservative static closure. Management
+and review inspected the fixture and verified every observed import is allowed
+and installed. Preserve the failed helper, reconcile the saved pass without a
+rerun, and change no production/test/registry bytes. Why/cost and evidence:
+`build/tasks/M-exp7integration-security/COORDINATOR-RULING.md`.
+
+### Build task 60/75 CLOSED — M-exp7integration-security
+
+Fresh implementer `ses_ef2c7d997ffejLSDOv09kmKewx` and reviewer `ses_ef2bfa856ffeQXRyN0kSeQm9Ay`; review CLEAN. Source `393ae3eb1b9204925227a31e353de733e6bb2cd5`; review `7052a97290f45c4c39ccb15143b075e59fb762ba`. Coordinator verified the exact committed diff and 150 installed prefix files, with 121 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-security/`. No source deviation. No review finding.
