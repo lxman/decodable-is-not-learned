@@ -1220,3 +1220,7 @@ for final reconciliation or retirement of the older helper. Task30 remains open.
 Original implementer/reviewer resumed for WORLDS-1: repaired source `682280e8939ca33b305a8f2675348e397f131f52`, scoped review `af55e86b8c830d190fa2d79bccc3a7ecedb5e0a2`. Coordinator reproduced 2 passing methods, exact diff and 67-file prefix: 65 literal v3 files plus 2 reviewed amendment bindings; 204 future targets absent. Both original missing-primary RED and regression Fraction RED are preserved. `build/AMENDMENTS.json` binds exact replacement bytes and deferred import/test closure; no archive or registry change.
 
 **WORLDS-1 operations site closed; final harness site is mandatory in task31.** **WORLDS-2 deferred** for final reconciliation or retirement of the older helper. Evidence: `build/tasks/M-exp7ops-worlds/`. Not a global CLEAN claim.
+
+### Build task 31/75 CLOSED — M-exp7integration-world_harness
+
+Fresh implementer `ses_ef4719580ffeCnP34vzFCv24IO` and reviewer `ses_ef464f06dffe8k13QQXfpqNx1W`; review ACCEPT REVIEWED AMENDMENT. Source `44196d5d3d57bc02fdb452b41e4b385a4bba9257`; review `bb65cb28b582d894db9641aa1035fa5ba88fd224`. Coordinator verified the exact committed diff and 69 installed prefix files, with 202 future targets absent. Expected missing-primary RED, then 3 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-world_harness/`. Reviewed source amendment: WORLDS-1-integration. No review finding.
