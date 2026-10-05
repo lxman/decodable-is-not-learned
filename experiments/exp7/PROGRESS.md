@@ -1544,3 +1544,12 @@ under independent review. Management reproduced its30 fake-port lifecycle/bindin
 tests (zero failures/errors/skips; no instrument imports), preserving fresh
 `coordinator-operator-02.{json,log}` evidence in the final-task directory. Final
 manifest creation waits for reviewed amendment enrollment; no second run launched.
+
+Operator02 review `ac42d1f7da6029b57f24fa0f842cbd7fa6f0c563` found two Major
+cleanup defects and one Minor exit-accounting mismatch despite30 passing tests.
+Management independently reproduced the three fake-port observations: failed
+STOPPING publication prevents watchdog cleanup; uncoordinated wait can reap before
+signal; preflight saves70 then propagates an exception giving1. Scoped repair
+authorized in `build/tasks/F-INTEGRATED-REGRESSIONS/OPERATOR-02-RULING.md`.
+The original implementer must repair and return to the original reviewer before
+any combined launch; all failures remain preserved.
