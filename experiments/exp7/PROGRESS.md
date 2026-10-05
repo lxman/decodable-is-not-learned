@@ -1506,3 +1506,11 @@ unchanged-HEAD operator check separately failed as anticipated in F-IR-OPS1.
 Both real exits remain1; no passing integrated result is claimed. The durable
 notification was received and acknowledged once. The heartbeat/retirement/grant
 assertion fix wave may now proceed after this evidence is secured off-machine.
+
+Tokenizer preparation review `2357ff15430ebc971fb438c03e19858fb1743e0f` accepts
+only the partial helpers (19 delivered fake tests,9 independent probes), with
+VPREP-1/2 covering the excessive sandbox/redirect prerequisites. TOKENIZER-3 in
+`validation/COORDINATOR-RULINGS.md` returns those findings to the original
+implementer for the working preparation/acquisition/offline pipeline. Existing
+approval covers the provisioning; launch sequencing and actual evidence remain
+required. No asset contact or cap measurement has yet run.
