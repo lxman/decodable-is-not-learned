@@ -1084,3 +1084,7 @@ Fresh implementer `ses_ef63d8fb4ffeicxLX3m9PzrJyq` and reviewer `ses_ef62ada40ff
 ### Build task 2/75 CLOSED — M-exp7core-certified-oracle
 
 Fresh implementer `ses_ef6226fbcffeWeDx2ruSJh3RYH` and reviewer `ses_ef61897fcffeaH5w41Ij7RYFok`; review CLEAN. Source `963730517e1a389ffb2db32b66e09d137336774a`; review `1c3cc1b0cbb2f15e4ad482fcc01d5d7de50b8142`. Coordinator verified the exact committed diff and 8 installed prefix files, with 263 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-certified-oracle/`. No source deviation or review finding.
+
+### Build task 3/75 CLOSED — M-exp7core-certified-baselines
+
+Fresh implementer `ses_ef610428affey2mn3NCjr4Ych5` and reviewer `ses_ef606ef80ffeQkgVskpenJBWBO`; review CLEAN. Source `00ed2f249fa45a5266c6ee2809ae1dbe2314635a`; review `82c256c05abf0f4df87b43672e972c383f071941`. Coordinator verified the exact committed diff and 10 installed prefix files, with 261 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-certified-baselines/`. No source deviation or review finding.
