@@ -1260,3 +1260,15 @@ Fresh implementer `ses_ef40237caffeQxV1BOtw57IQYJ` and reviewer `ses_ef3fa6a41ff
 ### Build task 40/75 CLOSED — M-exp7core-referents
 
 Fresh implementer `ses_ef3f44c50ffeIGvrol7HyKsRaq` and reviewer `ses_ef3eeef4cffeykDBvKBJTCCcmw`; review CLEAN. Source `8a03cd587ebb08797d5609446d5abf065aaf115c`; review `1bcae0a13b305c37d2c01c8e7255c339dd7eff09`. Coordinator verified the exact committed diff and 105 installed prefix files, with 166 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-referents/`. No source deviation. No review finding.
+
+### Task41 review — INVENTORY-1/2 repairs authorized
+
+Review `25199d145c42fd745c2e2e8185ef6fd9a377fa02` found two Major boundary
+gaps: empty repository outcome markers were accepted, and descriptor-relative
+transient mutations were attributed to CWD and escaped the latch. Management
+reproduced both with miniature fake records, including clean/absolute controls.
+Ruling: apply the existing absent-outcome policy to the repository root and
+conservatively latch unattributed relative/descriptor mutations while active.
+Only this primary/test may change, with genuine regression RED then GREEN and
+scoped re-review. Why/cost/controls are in
+`build/tasks/M-exp7integration-inventory/COORDINATOR-RULING.md`. Task41 stays open.
