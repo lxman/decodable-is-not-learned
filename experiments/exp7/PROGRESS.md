@@ -1169,3 +1169,7 @@ Fresh implementer `ses_ef5285e67ffeghLsEUyYUXQtzS` and reviewer `ses_ef52295ceff
 ### Build task 21/75 CLOSED — M-exp7stats-calibration
 
 Fresh implementer `ses_ef51b6df4ffeWlIxRI5ASP75Pi` and reviewer `ses_ef511e107ffeO03FczXk4IpZLv`; review CLEAN. Source `3877e1feb8054cb4d58dd38e95b3b7ac6b4b8ec6`; review `83a8c3eac5278dad11f586d26c31851258c175bc`. Coordinator verified the exact committed diff and 48 installed prefix files, with 223 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-calibration/`. No source deviation. No review finding.
+
+### Build task 22/75 CLOSED — M-exp7core-worlds
+
+Fresh implementer `ses_ef50b2b47ffe2YcmBPr3KxHoST` and reviewer `ses_ef50490dbffe5AHtVtO4X4c0Z9`; review CLEAN. Source `b68e081c743ae26c5cc1944e0442c081adda9e20`; review `537cd563b7c23ca66141d65e6ecfb61cdbd6597b`. Coordinator verified the exact committed diff and 50 installed prefix files, with 221 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-worlds/`. No source deviation. No review finding.
