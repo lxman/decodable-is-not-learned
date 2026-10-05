@@ -1,9 +1,14 @@
 # Experiment 7 — Does the sampled forecast follow the target when the answer changes?
 
-**Status: dials APPROVED, 2026-10-04.** Michael answered "approved" to the
+**Status: instrument build APPROVED, 2026-10-05.** Michael approved the reviewed
+implementation choices and module-by-module build with tests, independent review
+and pre-tag tokenizer/config-only validation. Exact adopted choices and source:
+`docs/superpowers/plans/2026-10-04-exp7-decisions.md` and its sibling build index.
+
+**Earlier dials approval, 2026-10-04:** Michael answered "approved" to the
 request to approve §10's dials for **generation-only feasibility and build
 planning**. Generation feasibility is certified; the complete-code/test build
-plan is independently reviewed and ready for the owner build decision:
+plan is independently reviewed and now approved for implementation:
 `docs/superpowers/plans/2026-10-04-exp7-build.md` and its decisions register.
 The later contact, rental,
 ratification, verdict and propagation gates remain those of §9–10.

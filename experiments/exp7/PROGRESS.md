@@ -1012,3 +1012,31 @@ Management/source/scanner evidence: `planning/heartbeat-identity-20261004/`.
 Build index and decision register now select accepted v3. The pending owner
 build/scientific-proposal decision is unaffected. No model/tokenizer contact,
 rental, production numerical driver or completed analysis was executed.
+
+## Instrument build APPROVED — 2026-10-05
+
+Michael answered **“approved”** to the explicit request: “adopting the reviewed
+implementation choices and authorizing the module-by-module build, with tests,
+independent reviews, and pre-tag tokenizer/config validation.”
+
+This adopts B1–B15 and B17–B19 plus the statistical implementation choices in
+`docs/superpowers/plans/2026-10-04-exp7-decisions.md` as the build specification.
+B16 remains withdrawn. The authorized source is integration-v3, manifest
+`9f01c46c361f24171b1c1979858807ad297855c91f06664b321475a470e81e7b`, source map
+`045de3d9fd83c9a79941fc95b196c50dac85400dd1a5e2c9f95b5dfaf0ae8281`.
+Execute its exact **75 tasks: B0 launcher plumbing, 73 single-primary module
+tasks, final integrated dispatch**, in order, with a fresh implementer and
+reviewer per task, failing local test before primary installation, meaningful
+scoped verification, commit/push per task and recorded findings/rulings.
+
+Pre-tag tokenizer/config-only asset measurement and oracle-answer cap validation
+are included in this approval. The future Pythia fp32 digest procedure is adopted
+for implementation, not executed now. Bounded synthetic throughput/memory-check
+execution still needs its specific scope authorized before full simulation
+stages. Weight loads, predictor/outcome collection, rentals, freeze ratification/
+tag, the once-only verdict and propagation retain their separate recorded gates.
+No Experiment 6 analyzer or completed matched-token analysis is to be rerun.
+
+**Build state at approval:** clean master at `bbfbb34016a0ad3f2f4517df145f31f8a4bfbb9b`;
+no instrument modules installed under `experiments/exp7/`. Next: **B0-LAUNCHER**.
+The planning archives and completed feasibility evidence remain immutable.
