@@ -1646,3 +1646,21 @@ and63 saved output/verification records. Eleven intervening commits touch no
 protected path;92 prior evidence files remain unchanged. Management's separate
 saved-output verification agrees. Final whole-branch acceptance remains pending;
 no suite rerun was performed.
+
+### Build task75 CLOSED — instrument build ACCEPTED
+
+Original whole-branch final review `4443e16330778e327a3d6eaeb14604161a98d1f0`
+is **ACCEPT / CLEAN**, with no residual build finding. Its independent source,
+method, amendment, saved-output and historical-failure checks agree with final-task
+review `05493515f2eff3fb7d362b9b89be590361bfa02b` and management verification.
+All **75/75 build tasks are closed**:271 files (249 literal-v3,22 amended),386
+passing combined methods. HB-1, both retired-helper findings and every live
+PROVENANCE-1 consumer are integrated and accepted. Exact review and source refs
+are in `build/STATE.json`; the historical failed348- and382-method runs remain.
+
+The integrated-acceptance prerequisite for the already-approved tokenizer/config
+validation is satisfied. Concrete provisioning launch inputs and its detached
+operator are being prepared for independent review. Actual asset acquisition,
+runtime materialization and448,000 comparisons remain pending. Full-default
+simulation/freeze, bounded resource-check execution, native campaign qualification,
+weight collection, rental, ratification/tag and verdict retain their recorded gates.
