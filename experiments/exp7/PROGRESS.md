@@ -1664,3 +1664,15 @@ operator are being prepared for independent review. Actual asset acquisition,
 runtime materialization and448,000 comparisons remain pending. Full-default
 simulation/freeze, bounded resource-check execution, native campaign qualification,
 weight collection, rental, ratification/tag and verdict retain their recorded gates.
+
+Concrete tokenizer operation inputs/operator are delivered under
+`validation/operations-001/`: source `1e700fca4ff4f791994a3114e94557531325892f`,
+manifest anchor `fb86d2de045e7239d6645c14f3b1a1da304b68e1`, handoff
+`07040acee5eae4a0f44e1ea34da1f26236d855ac`. Original tokenizer reviewer is checking
+the exact two proposal-stage manifests, selected native/stdlib inputs and detached
+operator. Management inspected the operator and reproduced26/26 guarded fake-port
+tests, with all three source pins unchanged and no forbidden loads; all48 handoff
+bindings match their committed bytes. Fresh evidence:
+`validation/operations-001/coordinator-fake-001/` plus execution/stdout records.
+No actual tokenizer stage or operator has started. The accepted integrated build
+has satisfied the earlier sequencing prerequisite.
