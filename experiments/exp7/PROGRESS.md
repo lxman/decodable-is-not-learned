@@ -1565,3 +1565,11 @@ The reviewer also accepted the data-only chain verifier after22 synthetic cases
 and three genuine-Git historical/current checks. Old helper findings are now
 closed by executable retirement; active scientific and encoding coverage remains.
 Combined acceptance still awaits the corrected operator and386-method run.
+
+Operator02 repair `e36c0fdbebb795114a019dd26a0bde3389fe2803` supplies six added
+regressions and fixes all three ruled lifecycle findings. Management inspected
+the diff and reproduced36/36 fake-port tests with zero errors/failures/skips,
+forbidden loads or native-effect attempts; source hashes remained unchanged.
+Fresh evidence: final-task `operator-02-repair-01/coordinator-green.{json,log}`.
+Original reviewer is re-reviewing the repairs and committed386-method snapshot
+`5b4cdc3234b5d64730591f6416fcdd393883c6b0`; launch remains pending acceptance.
