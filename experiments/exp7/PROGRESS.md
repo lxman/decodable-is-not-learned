@@ -1320,3 +1320,7 @@ Fresh implementer `ses_ef35b058cffeQ2LzSjbFeuerAQ` and reviewer `ses_ef355336dff
 ### Build task 49/75 CLOSED — M-exp7stats-read_boundary
 
 Fresh implementer `ses_ef34fe228ffeh3WnD18S9a36kU` and reviewer `ses_ef349402cffeQlU7jAlNG3t7Do`; review CLEAN. Source `05415709f76d85d43d642226ba4c49a5ed56a6e5`; review `a20731f8480dae06494b2f7a7d46b6bcbb0e3d9b`. Coordinator verified the exact committed diff and 124 installed prefix files, with 147 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-read_boundary/`. No source deviation. No review finding.
+
+### Build task 50/75 CLOSED — M-exp7stats-candidate_audit
+
+Fresh implementer `ses_ef342d7cfffeY1MpbMJTLctqkb` and reviewer `ses_ef33c7edbffe1CMf4oQyOvs6EY`; review CLEAN. Source `ea3a5c75cc238e899219abc2daa72ab50119e01f`; review `b8d4234b2aee214eee30639387a9e6488679a609`. Coordinator verified the exact committed diff and 126 installed prefix files, with 145 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-candidate_audit/`. No source deviation. No review finding.
