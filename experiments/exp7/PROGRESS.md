@@ -1276,3 +1276,7 @@ scoped re-review. Why/cost/controls are in
 ### Build task 41/75 CLOSED — M-exp7integration-inventory
 
 Fresh implementer `ses_ef3ea9e1bffesLhBcFQDOVgNRm` and reviewer `ses_ef3e5108affeJ72r7XXlkTZQBd`; review ACCEPT REVIEWED AMENDMENT. Source `ab5258c7c4493eead0a7da841acadce23fb08acd`; review `ffd094c9a98b9f7fda0c01897029aae9ecdadd83`. Coordinator verified the exact committed diff and 107 installed prefix files, with 164 future targets absent. Expected missing-primary RED, then 8 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-inventory/`. Reviewed source amendment: INVENTORY-1-2. No review finding.
+
+### Build task 42/75 CLOSED — M-exp7stats-power
+
+Fresh implementer `ses_ef3cccf37ffekrAw6mR1duOsD2` and reviewer `ses_ef3c545b7ffe756ThkQBlF9Uqj`; review CLEAN. Source `94522b5db54dae08f3bbffed5a2b95cfbed06013`; review `9b86db6340b7fdda71c92c049e7caa1cbfdb7829`. Coordinator verified the exact committed diff and 109 installed prefix files, with 162 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-power/`. No source deviation. No review finding.
