@@ -1240,3 +1240,7 @@ Fresh implementer `ses_ef43d00f9ffeQi3kGNegLETcFP` and reviewer `ses_ef436d494ff
 ### Build task 35/75 CLOSED — M-exp7integration-mutation_specs
 
 Fresh implementer `ses_ef4318071ffeKGikyRPT3Li47p` and reviewer `ses_ef42bee19ffeDkcGw9vxNxkWp3`; review CLEAN. Source `098b11f9306b3da6b5aac0f2ce594bcab26fab04`; review `0b4a9653d8eb504f01adfe4531212d417abb629b`. Coordinator verified the exact committed diff and 79 installed prefix files, with 192 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-mutation_specs/`. No source deviation. No review finding.
+
+### Build task 36/75 CLOSED — M-exp7integration-freeze
+
+Fresh implementer `ses_ef4257a7effeerbDRZC1vccEr4` and reviewer `ses_ef41fcd45ffe1NGwcIKpC1mOCD`; review CLEAN. Source `a168887c1f4acbcf44b6da6d2be648208ee98d03`; review `a8e4fb15fee5f3938788c30683c688b66518394d`. Coordinator verified the exact committed diff and 81 installed prefix files, with 190 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-freeze/`. No source deviation. No review finding.
