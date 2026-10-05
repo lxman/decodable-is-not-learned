@@ -1114,3 +1114,7 @@ Fresh implementer `ses_ef5c04765ffexy3Qn2fW3m0f3v` and reviewer `ses_ef5bb0120ff
 ### Build task 9/75 CLOSED — M-exp7ops-operator
 
 Fresh implementer `ses_ef5b3a78fffexpqJoquWpFez4x` and reviewer `ses_ef5ac7a27ffeTJ3PJVu7IsLoNk`; review CLEAN. Source `27742e83de24d1731e0394324e832a2e6db62e65`; review `00ce3f62b037263d2e7b13081474af9b1eea0ca7`. Coordinator verified the exact committed diff and 23 installed prefix files, with 248 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7ops-operator/`. No source deviation. No review finding.
+
+### Build task 10/75 CLOSED — M-exp7core-contract
+
+Fresh implementer `ses_ef5a75484ffebbK6cAqJTXJowZ` and reviewer `ses_ef5a0ff10ffeIRCjk027k9N3lF`; review CLEAN. Source `ee6512c791fefff9b305dbfdba13c66f09e29849`; review `ccb9048df8f13487ddf0be90dded94d436c5217d`. Coordinator verified the exact committed diff and 25 installed prefix files, with 246 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-contract/`. No source deviation. No review finding.
