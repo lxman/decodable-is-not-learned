@@ -1201,3 +1201,16 @@ Fresh implementer `ses_ef4b7aec2ffeVBen8hdcW89O0j` and reviewer `ses_ef4b10cb9ff
 ### Build task 29/75 CLOSED — M-exp7stats-secondaries
 
 Fresh implementer `ses_ef4a9c6e9ffeN3PpykdxJpPUte` and reviewer `ses_ef4a19240ffe2lJJYADbnTH75v`; review CLEAN. Source `cd29012d183efa7c65364dd33c865c7438b5717b`; review `eff45d2bf344932cd52a54f814d0f6f506bb95b9`. Coordinator verified the exact committed diff and 65 installed prefix files, with 206 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-secondaries/`. No source deviation. No review finding.
+
+### Task 30 review — WORLDS-1 repair authorized, WORLDS-2 deferred
+
+Independent review `7bf09395590f67b5fa86c5112f09deb178d27a43` found a Major
+exact-rational serialization defect at both world-harness checksum sites, and a
+Minor stale phase-accounting rule in the older operations helper. Management
+reproduced both with fake reports and zero scientific calculations.
+Ruling: use the existing exact statistical serializer at the report digest,
+with a failing-then-passing bounded regression; current owner repairs only its
+primary/test, and the next owner repairs the final harness before closure.
+Why/cost/precise scope: `build/tasks/M-exp7ops-worlds/COORDINATOR-RULING.md`.
+Original v3 bytes/evidence remain immutable. WORLDS-2 stays explicitly deferred
+for final reconciliation or retirement of the older helper. Task30 remains open.
