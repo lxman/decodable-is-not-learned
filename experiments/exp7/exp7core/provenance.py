@@ -213,39 +213,49 @@ class Trust:
         require(digest(self.read_repo(p['path'])) == p['sha256'],'projection worktree drift')
         self.git.ancestor(self.data['prereg']['commit'],p['commit'])
 
+    def _grant_binding(self,scope):
+        """The later-written pinned trust envelope binds an immutable grant body."""
+        grants = self.data.get('grants')
+        require(type(grants) is dict and scope in grants,'missing grant binding')
+        e = grants[scope]
+        require(type(e) is dict and set(e) == {'path','canonical_sha256','commit'},'grant binding schema')
+        require(type(e['path']) is str and e['path'],'grant binding path')
+        pin(e['canonical_sha256'])
+        return e,hex40(e['commit'])
+
     def grant(self,scope, *, consume=False):
         """Formal record is owner evidence, never an authorization invented here.
 
         Management supplies a pinned transcript/export reference and records the
         scope. A boolean pass/approved flag alone is not accepted evidence.
         """
-        e = self.data['grants'][scope]
+        e,commit = self._grant_binding(scope)
         g = strict_json(self.read_repo(e['path']))
         require(digest(canonical(g)) == pin(e['canonical_sha256']),'grant pin')
-        require(set(g) == {'schema','owner','scope','evidence_path','evidence_sha256','quote',
-                           'commit','prereg_tag_object','projection_commit','predictor_seal_sha256','power_sha256'},
+        require(type(g) is dict and set(g) == {'schema','owner','scope','evidence_path','evidence_sha256','quote',
+                           'prereg_tag_object','projection_commit','predictor_seal_sha256','power_sha256'},
                 'grant schema')
-        require(g['schema'] == 'exp7.owner-grant.v1' and g['owner'] == 'Michael Jordan' and g['scope'] == scope,
+        require(g['schema'] == 'exp7.owner-grant.v2' and g['owner'] == 'Michael Jordan' and g['scope'] == scope,
                 'grant identity/scope')
         evidence = self.read_repo(g['evidence_path'])
         require(digest(evidence) == pin(g['evidence_sha256']) and type(g['quote']) is str and g['quote'].strip()
                 and g['quote'].encode() in evidence,'missing formal owner evidence')
-        self.git.blob(g['commit'],e['path'],digest(self.read_repo(e['path'])))
+        self.git.blob(commit,e['path'],digest(self.read_repo(e['path'])))
         require(g['prereg_tag_object'] == self.data['prereg']['object'] and
                 g['projection_commit'] == self.data['projection']['commit'],'grant stage binding')
-        self.git.ancestor(g['projection_commit'],g['commit'])
+        self.git.ancestor(g['projection_commit'],commit)
         if scope.startswith('outcome'):
             require(g['predictor_seal_sha256'] == self.data['predictor_seal']['sha256'] and
                     g['power_sha256'] == self.data['power']['sha256'],'outcome grant preceding seal/power')
-            self.git.ancestor(self.data['power']['commit'],g['commit'])
+            self.git.ancestor(self.data['power']['commit'],commit)
         if scope in ('power','analysis'):
             require(g['predictor_seal_sha256'] == self.data['predictor_seal']['sha256'],'statistics grant seal binding')
-            self.git.ancestor(self.data['predictor_tag']['commit'],g['commit'])
+            self.git.ancestor(self.data['predictor_tag']['commit'],commit)
             if scope == 'power':
                 require(g['power_sha256'] is None,'power grant cannot presuppose future power output')
             else:
                 require(g['power_sha256'] == self.data['power']['sha256'],'analysis grant power binding')
-                self.git.ancestor(self.data['complete']['commit'],g['commit'])
+                self.git.ancestor(self.data['complete']['commit'],commit)
         if consume:
             folder = safe_path(self.root,'claims')
             folder.mkdir(exist_ok=True)
@@ -254,18 +264,20 @@ class Trust:
 
     def build_grant(self,scope, *, consume=False):
         """Pre-tag calibration authority; no fictitious prereg/projection gate."""
-        e = self.data['grants'][scope]
+        e,commit = self._grant_binding(scope)
         raw = self.read_repo(e['path'])
         g = strict_json(raw)
         require(digest(canonical(g)) == pin(e['canonical_sha256']),'build grant pin')
-        require(g['schema'] == 'exp7.build-grant.v1' and g['owner'] == 'Michael Jordan' and g['scope'] == scope,
+        require(type(g) is dict and set(g) == {'schema','owner','scope','evidence_path','evidence_sha256','quote',
+                           'source_manifest_sha256','code_manifest_sha256'},'build grant schema')
+        require(g['schema'] == 'exp7.build-grant.v2' and g['owner'] == 'Michael Jordan' and g['scope'] == scope,
                 'build grant scope')
         evidence = self.read_repo(g['evidence_path'])
         require(g['quote'] and g['quote'].encode() in evidence and digest(evidence) == pin(g['evidence_sha256']),
                 'build owner evidence')
         require(g['source_manifest_sha256'] == self.data['source_manifest_sha256'] and
                 g['code_manifest_sha256'] == self.data['code_manifest_sha256'],'build grant exact frozen inputs')
-        self.git.blob(g['commit'],e['path'],digest(raw))
+        self.git.blob(commit,e['path'],digest(raw))
         if consume:
             folder = safe_path(self.root,'claims')
             folder.mkdir(exist_ok=True)
