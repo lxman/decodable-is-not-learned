@@ -1292,3 +1292,7 @@ owner/stage/once-only gates remain mandatory. Task43 repairs its own primary/tes
 preflight and later fixture owners carry explicit follow-through obligations.
 Exact schema/owner assignments, why and cost:
 `build/tasks/M-exp7core-provenance/COORDINATOR-RULING.md`. Task43 remains open.
+
+### Build task 43/75 CLOSED — M-exp7core-provenance
+
+Fresh implementer `ses_ef3bf619dffeGjZi2JFKS45iDS` and reviewer `ses_ef3b83ff9ffe52YzCc1BbD71uN`; review ACCEPT REVIEWED AMENDMENT. Source `a6b73e7c8318e8fa88bf0d6a55b3c68e5ddec995`; review `ca5dca8cd83237fb7a7552a6bdacaf6de3b26104`. Coordinator verified the exact committed diff and 111 installed prefix files, with 160 future targets absent. Expected missing-primary RED, then 10 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-provenance/`. Reviewed source amendment: PROVENANCE-1-core. No review finding.
