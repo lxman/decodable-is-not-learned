@@ -1523,3 +1523,18 @@ tests and the optional NumPy ctypes path; none loaded. The receipt's hardcoded
 contact counters are not independent evidence—the scope rests on reviewed guards,
 imports and test paths. Both exits remain1, and the failing method's later
 tampered-scope subcase was not reached. Corrected combined acceptance is pending.
+
+### Final fix wave implemented — scoped review pending
+
+Source `0f4d5577b48ed830ef0bcc3bca0a36d40a585d7e`, evidence/proposal
+`864544a646a9bad6476efa188682e8cb67e50da2`: exactly eight authorized files.
+Implementer preserved meaningful RED then passed19 scoped methods, plus original
+prefix checks. Management inspected the source diff and reproduced19/19 with all
+271 source hashes unchanged and no forbidden loads/refused imports. Evidence:
+`build/final-review/fix-wave-01/coordinator-green.{json,log}`.
+
+Four heartbeat methods are added; three old helper-test IDs are explicitly
+replaced by retirement checks, preserving active world/Fraction/determinism
+coverage. Final static count is386. Original whole-branch reviewer
+`ses_ef208bf42ffeWReEqhsuCV9CB2` is re-reviewing; proposed amendment chains are
+not yet enrolled and no finding is closed until that review is accepted.
