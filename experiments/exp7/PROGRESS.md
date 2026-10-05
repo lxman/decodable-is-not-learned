@@ -1371,3 +1371,7 @@ rerun, and change no production/test/registry bytes. Why/cost and evidence:
 ### Build task 60/75 CLOSED — M-exp7integration-security
 
 Fresh implementer `ses_ef2c7d997ffejLSDOv09kmKewx` and reviewer `ses_ef2bfa856ffeQXRyN0kSeQm9Ay`; review CLEAN. Source `393ae3eb1b9204925227a31e353de733e6bb2cd5`; review `7052a97290f45c4c39ccb15143b075e59fb762ba`. Coordinator verified the exact committed diff and 150 installed prefix files, with 121 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-security/`. No source deviation. No review finding.
+
+### Build task 61/75 CLOSED — M-exp7stats-calibration_context
+
+Fresh implementer `ses_ef2b99f8dffexLgQdvC6YaVPRF` and reviewer `ses_ef2b439bfffe6uVTGI1gboNp3u`; review CLEAN. Source `12d45ad6c3d32dda6942d486987883b0bdc256da`; review `9144c197e39ed3c9769bc68ba3794707465b602e`. Coordinator verified the exact committed diff and 155 installed prefix files, with 116 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-calibration_context/`. No source deviation. No review finding.
