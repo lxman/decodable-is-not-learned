@@ -1146,3 +1146,14 @@ Fresh implementer `ses_ef55f97aeffeI8JzbZ84mkcqCo` and reviewer `ses_ef558a365ff
 ### Build task 17/75 CLOSED — M-exp7core-resampling
 
 Fresh implementer `ses_ef552edb6ffenQAd8PLZ1CrEUf` and reviewer `ses_ef54ddee7ffe5pKxk5HDRwhaTj`; review CLEAN. Source `721bc8f5416f348db07620e5bcf0ab176331cb7f`; review `2c180dbc8d913eaa4fb3e1644d08854bb458b81b`. Coordinator verified the exact committed diff and 40 installed prefix files, with 231 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-resampling/`. No source deviation. No review finding.
+
+**Ruling KERNELS-E1:** the kernels task's GREEN passed, but its evidence helper
+incorrectly required no refused imports. NumPy's optional `ctypes` attempt was
+hard-refused; no forbidden module loaded. Correct only the helper's postcondition
+for that documented attempt, preserve the original failed assertion and reconcile
+the saved pass without rerunning it. Source/guard bytes stay exact. Independent
+review verified this disposition; evidence: `build/tasks/M-exp7stats-kernels/COORDINATOR-RULING.md`.
+
+### Build task 18/75 CLOSED — M-exp7stats-kernels
+
+Fresh implementer `ses_ef548eff5ffewg5mP4PkvpLkqD` and reviewer `ses_ef53cf27dffeuhBvVPs0Ei36hm`; review CLEAN. Source `7640e7dfeda8115433252ddd4aa2d1e34c58a802`; review `4f8897072c509357854ee38c83ab74dd46654fcd`. Coordinator verified the exact committed diff and 42 installed prefix files, with 229 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-kernels/`. No source deviation. No review finding.
