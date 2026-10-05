@@ -1399,3 +1399,7 @@ Fresh implementer `ses_ef28206e9ffetLKWdp2pyZAAP6` and reviewer `ses_ef27b1f07ff
 ### Build task 67/75 CLOSED — M-exp7integration-metadata_transport
 
 Fresh implementer `ses_ef275a02bffeMs27GL4NcZikEf` and reviewer `ses_ef26edcaeffelr5E3aQG8Y0EEN`; review ACCEPT REVIEWED AMENDMENT. Source `ca8e014d40937cb31fdfdd9cb24bc73403920d54`; review `50240091faa73fdbc55b9de22924333a05d49c50`. Coordinator verified the exact committed diff and 174 installed prefix files, with 97 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-metadata_transport/`. Reviewed source amendment: PROVENANCE-1-metadata-transport-fixture. No review finding.
+
+### Build task 68/75 CLOSED — M-exp7integration-adapter
+
+Fresh implementer `ses_ef268dac8ffeH3wAChkqzIg3PW` and reviewer `ses_ef260d482ffelKoBObkji9QU07`; review CLEAN. Source `e970bc5401931e8116b49828485d550e3078e1db`; review `019dea26c7a2743990f01c53693ca41b0556071a`. Coordinator verified the exact committed diff and 178 installed prefix files, with 93 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-adapter/`. No source deviation. No review finding.
