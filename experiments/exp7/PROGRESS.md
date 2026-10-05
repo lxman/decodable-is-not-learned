@@ -1066,3 +1066,13 @@ Do not substitute self-implementation or automated source copying. Resume B0
 from its retained brief after confirming clean master and source-map absence.
 This is an execution-environment blocker, not a source/spec finding or owner
 scientific decision. No source deviations or open review Minors exist.
+
+### Delegation blocker resolved — top-level coordination
+
+Management resumes coordination directly in the parent session
+`ses_f11a0fbf9ffekAQskOrYbaRNO3`, which can launch the required fresh implementer
+and reviewer sessions without nesting. No harness configuration or scientific
+choice changes. The failed nested attempt remains preserved. B0 resumes from
+its retained source/ownership brief; implementers record their actual start
+commit for the subsequent committed-diff review. The same one-task-at-a-time
+schedule and approval scope apply.
