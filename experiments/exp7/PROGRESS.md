@@ -1165,3 +1165,7 @@ Fresh implementer `ses_ef534b8dfffeTu6IAvpx3E2dC7` and reviewer `ses_ef52e5c9eff
 ### Build task 20/75 CLOSED — M-exp7stats-envelope_math
 
 Fresh implementer `ses_ef5285e67ffeghLsEUyYUXQtzS` and reviewer `ses_ef52295ceffeL7Rx0u2k9f3yhs`; review CLEAN. Source `af9c191d16920e211a42659abf75d3a7453e6245`; review `b467eb61905d624348e0c5d1ff7d05af26fd3962`. Coordinator verified the exact committed diff and 46 installed prefix files, with 225 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-envelope_math/`. No source deviation. No review finding.
+
+### Build task 21/75 CLOSED — M-exp7stats-calibration
+
+Fresh implementer `ses_ef51b6df4ffeWlIxRI5ASP75Pi` and reviewer `ses_ef511e107ffeO03FczXk4IpZLv`; review CLEAN. Source `3877e1feb8054cb4d58dd38e95b3b7ac6b4b8ec6`; review `83a8c3eac5278dad11f586d26c31851258c175bc`. Coordinator verified the exact committed diff and 48 installed prefix files, with 223 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-calibration/`. No source deviation. No review finding.
