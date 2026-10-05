@@ -1134,3 +1134,7 @@ Fresh implementer `ses_ef58214bcffeGO7MYPjc4XNeuk` and reviewer `ses_ef57bc774ff
 ### Build task 14/75 CLOSED — M-exp7core-simulations
 
 Fresh implementer `ses_ef576607dffe76eexBeyvxwRg3` and reviewer `ses_ef5702fe5ffenUyHYsl9jkBXee`; review CLEAN. Source `6071e24fa00b9b2b1da77eb059340b4314c9c77a`; review `82ff6ca97a4fdefed02dabb9a0fd2263c128081f`. Coordinator verified the exact committed diff and 34 installed prefix files, with 237 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-simulations/`. No source deviation. No review finding.
+
+### Build task 15/75 CLOSED — M-exp7core-strata
+
+Fresh implementer `ses_ef56a4f08ffeHhJHFpBIvmT6qJ` and reviewer `ses_ef5650162ffeFML1Dq5200dz3a`; review CLEAN. Source `e658e564d2e88f38df72441c68794559860ee61f`; review `da89843b09b331c995328b8f3a697c8155e4bae6`. Coordinator verified the exact committed diff and 36 installed prefix files, with 235 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-strata/`. No source deviation. No review finding.
