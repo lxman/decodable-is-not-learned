@@ -1582,3 +1582,22 @@ generator is accepted. It produced `integrated-02-inputs.json` from exact source
 `e36c0fdbebb795114a019dd26a0bde3389fe2803`, raw SHA256
 `729efb72a9221097494580c7a7491378d14963dd8e85fda738e68a5620c20270`.
 Final external launch binding review is next; no new suite execution yet.
+
+### Corrected integrated run launched — 2026-10-05 22:50 UTC
+
+Final data-only launch review `9f1b02d257c2d0eaef98381a48f8317c9eca0bed`
+accepts the exact386-method/108-group inputs,24 expected import refusals and all
+274 source/operator/static/input bindings. External launch anchor is
+`2dacd7e3ddf50c9e6d19f77e12dbbb2bddaac6d4`; input digest remains the one above.
+
+Management launched the reviewed corrected suite once, detached: operator PID/SID
+8253, launching SID8252;90-minute external wall bound and30-second heartbeat.
+Monitor `exp7-build-integrated-implementer-02` is registered to the actual current
+parent session verified from `OPENCODE_SESSION_ID`. Immutable launch/spawn records
+and eventual status/log/receipts are in the final-task directory under
+`implementer-all-02*` and `integrated-02-spawn.json`. No combined pass is yet claimed.
+
+The completed tokenizer pipeline source `3560d231ac1d7f6b02f45029e04083ddcdc95a1a`
+and delivery `eabba8a75bb056addc31984facdc8584e8e8a584` are under original-reviewer
+re-review while this run is active. Its47 fake-test claim is preparation evidence,
+not actual measurement; no asset acquisition/tokenizer contact/cap run occurred.
