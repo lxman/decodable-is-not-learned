@@ -1104,3 +1104,9 @@ Fresh implementer `ses_ef5dd9f4fffe3lEvdnu2U0lSgn` and reviewer `ses_ef5d50d92ff
 ### Build task 7/75 CLOSED — M-exp7ops-evidence
 
 Fresh implementer `ses_ef5cee1edffevhbF04nPgN6SqR` and reviewer `ses_ef5c79d1effep4UIYXxzH5JV5l`; review CLEAN. Source `724200b86987f46fd1dd62921f301978c998d231`; review `3197cc0738135bf168697dd41111c476238fcdd6`. Coordinator verified the exact committed diff and 19 installed prefix files, with 252 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7ops-evidence/`. No source deviation or review finding.
+
+### Build task 8/75 CLOSED — M-exp7ops-cold
+
+Fresh implementer `ses_ef5c04765ffexy3Qn2fW3m0f3v` and reviewer `ses_ef5bb0120ffe9XZ6wa99EdTZ0Z`; review ACCEPT WITH DEFERRED MINOR. Source `23cbd2ac5c884ae77ca68eb3b8cafec97a1f4e8d`; review `dc26fade974db2b0a87b601b13df2014588841ab`. Coordinator verified the exact committed diff and 21 installed prefix files, with 250 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7ops-cold/`. No source deviation. 
+
+**Deferred COLD-M1 (Minor):** The inherited cold_suite callback uses six default and fifteen optional task names absent from the installed registry. A direct launcher-forwarding callback refuses at operations; the actual final freeze controller uses its own registry dispatcher and does not call this helper. Ruling: Retain the exact approved literal during sequential build, and reconcile or explicitly retire this helper at final whole-branch review before using it operationally. This deferral preserves current task/source ownership; cost if left unresolved is refusal of a direct cold_suite-to-launcher integration, not a silent scientific result. Evidence: `experiments/exp7/build/tasks/M-exp7ops-cold/review.md`.
