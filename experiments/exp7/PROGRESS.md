@@ -1459,3 +1459,24 @@ saved coordinator receipts and source/review commits: 74 distinct implementers,
 errors, skips or forbidden loads. B0 records no executed methods; the73 module
 tasks total100 scoped methods after the27 additions. This saved-evidence audit
 does not rerun tests or substitute for the active382-method combined run.
+
+### Preliminary whole-branch findings — HB-1 and retired helpers
+
+Fresh whole-branch review `48e7515b8ad385f82d5bbb9cfb3112bce2d6a976` found
+HB-1 (Major): macOS heartbeat birth identity includes PPID, so ordinary detached
+reparenting can invalidate a healthy operator. Management reproduced it with
+synthetic ps responses and passing unchanged/reused/missing controls. Ruling:
+remove PPID from the stable identity, retain birth/group/command checks and add
+actual handle/worker regression coverage. Adopt explicit side-effect-free
+retirement of the four obsolete COLD-M1/WORLDS-2 exports, preserving recipes and
+migrating meaningful tests. Precise scope/why/cost:
+`build/final-review/COORDINATOR-RULING.md`. Fixes wait until the current run's
+exit evidence is secured; these findings are still open.
+
+The final-task installation review at `e37d6355a461a248a8c31127cc3d07e129242a42`
+verified271 bindings/382 IDs and independently passed the two amended grant slices.
+Its Minor F-IR-OPS1 notes the running test operator's overly strict unchanged-HEAD
+exit condition. Intervening evidence/preparation commits require source-hash and
+commit-scope reconciliation, preserving the real operator exit. No integrated
+pass is inferred. Tokenizer preparation is code-only under
+`validation/PLAN.md`; no actual asset acquisition or tokenizer validation yet.
