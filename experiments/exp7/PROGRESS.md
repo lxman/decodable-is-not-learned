@@ -1280,3 +1280,15 @@ Fresh implementer `ses_ef3ea9e1bffesLhBcFQDOVgNRm` and reviewer `ses_ef3e5108aff
 ### Build task 42/75 CLOSED — M-exp7stats-power
 
 Fresh implementer `ses_ef3cccf37ffekrAw6mR1duOsD2` and reviewer `ses_ef3c545b7ffe756ThkQBlF9Uqj`; review CLEAN. Source `94522b5db54dae08f3bbffed5a2b95cfbed06013`; review `9b86db6340b7fdda71c92c049e7caa1cbfdb7829`. Coordinator verified the exact committed diff and 109 installed prefix files, with 162 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7stats-power/`. No source deviation. No review finding.
+
+### Task43 review — PROVENANCE-1 engineering amendment authorized
+
+Review `ded8b08a16142d4672185e2b1ce19c05ef99de32` identified a circular Git
+grant binding: the immutable grant includes the hash of the commit required to
+contain that very body. Management reproduced four refusals/eight controls on
+captured genuine Git bytes. Ruling: v2 grant bodies omit their containing commit;
+the independently pinned external trust entry supplies it. Blob/ancestry and
+owner/stage/once-only gates remain mandatory. Task43 repairs its own primary/test;
+preflight and later fixture owners carry explicit follow-through obligations.
+Exact schema/owner assignments, why and cost:
+`build/tasks/M-exp7core-provenance/COORDINATOR-RULING.md`. Task43 remains open.
