@@ -1427,3 +1427,35 @@ Fresh implementer `ses_ef2291809ffeUNIvrSQwRys1nR` and reviewer `ses_ef224cab1ff
 ### Build task 74/75 CLOSED — W-producer_export_worker
 
 Fresh implementer `ses_ef22099ccffekoPQM7gPQ1Jzyk` and reviewer `ses_ef21c550cffe9vfd9jfrceNGdX`; review CLEAN. Source `43fc5d5282ae60549f40db979c4cbe1156f6710c`; review `c5cf34786fc8a42e8aa7fd90ca73004fd6a6372b`. Coordinator verified the exact committed diff and 208 installed prefix files, with 63 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/W-producer_export_worker/`. No source deviation. No review finding.
+
+### Task75 integrated execution started — 2026-10-05 21:25 UTC
+
+All 271 installable files are present. Final test source commit
+`b864c2e73b572062abba9d9199b561795981baa0` adds 63 files, including the two
+mandatory PROVENANCE-1 v2 grant test-slice amendments, which await independent
+review/registration. Static registry reconciliation is **382 method identities:
+355 original + 27 registered regression additions**, with none removed.
+
+Management accepts one `--task all` synthetic test run under the inspected
+miniature specifications: full-cardinality fake collection records, explicitly
+small permutation/bootstrap/power specifications, and fake operational ports.
+This is the approved integrated-test stage, not the separately gated full-default
+simulation or synthetic resource-check execution. No production result is sought.
+Why/cost: one same-process suite is needed to establish actual installed combined
+evidence; a 90-minute external wall bound preserves failures if it overruns.
+
+Runner `a05c421035b6a3bbd2b4a4415208c513c08806ac` is committed/pushed. Detached
+operator PID/SID 77933, distinct from launching SID 77923, heartbeat every30s.
+Durable monitor `exp7-build-integrated-implementer-01` targets this session,
+confirmed from `OPENCODE_SESSION_ID`. Evidence/status/logs:
+`build/tasks/F-INTEGRATED-REGRESSIONS/implementer-all-01*`.
+No integrated pass is yet claimed. A fresh independent reviewer checks the
+installation and two amended slices; read-only tokenizer-prerequisite preparation
+proceeds while this run is active. COLD-M1/WORLDS-2 remain final-review items.
+
+Management's data-only closure audit reconciles all74 closed tasks against their
+saved coordinator receipts and source/review commits: 74 distinct implementers,
+74 distinct reviewers, all commits ancestors of current HEAD, zero saved failures,
+errors, skips or forbidden loads. B0 records no executed methods; the73 module
+tasks total100 scoped methods after the27 additions. This saved-evidence audit
+does not rerun tests or substitute for the active382-method combined run.
