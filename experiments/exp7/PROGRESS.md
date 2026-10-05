@@ -1272,3 +1272,7 @@ conservatively latch unattributed relative/descriptor mutations while active.
 Only this primary/test may change, with genuine regression RED then GREEN and
 scoped re-review. Why/cost/controls are in
 `build/tasks/M-exp7integration-inventory/COORDINATOR-RULING.md`. Task41 stays open.
+
+### Build task 41/75 CLOSED — M-exp7integration-inventory
+
+Fresh implementer `ses_ef3ea9e1bffesLhBcFQDOVgNRm` and reviewer `ses_ef3e5108affeJ72r7XXlkTZQBd`; review ACCEPT REVIEWED AMENDMENT. Source `ab5258c7c4493eead0a7da841acadce23fb08acd`; review `ffd094c9a98b9f7fda0c01897029aae9ecdadd83`. Coordinator verified the exact committed diff and 107 installed prefix files, with 164 future targets absent. Expected missing-primary RED, then 8 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-inventory/`. Reviewed source amendment: INVENTORY-1-2. No review finding.
