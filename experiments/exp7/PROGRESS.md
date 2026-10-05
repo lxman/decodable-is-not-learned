@@ -1181,3 +1181,7 @@ Fresh implementer `ses_ef4fcfcaaffe6j8OEWDbPnW1HU` and reviewer `ses_ef4f45745ff
 ### Build task 24/75 CLOSED — M-exp7ops-runtime
 
 Fresh implementer `ses_ef4eccf5cffe9oPpBKDjsqiyM7` and reviewer `ses_ef4e63e7effeDpKwiBYjbMErMY`; review CLEAN. Source `1b8418f557df544518370387ee7421a56b12b6fc`; review `f1611682f57c538fc8e4144b92cf589d77f5616a`. Coordinator verified the exact committed diff and 54 installed prefix files, with 217 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7ops-runtime/`. No source deviation. No review finding.
+
+### Build task 25/75 CLOSED — M-exp7integration-launch
+
+Fresh implementer `ses_ef4dd44e9ffeMCtU07XlgQoysJ` and reviewer `ses_ef4d68674ffeFfAJJ00nJ3gD2g`; review CLEAN. Source `101cb1d0a6b32b28feae6cffaf0248d6381f0b7a`; review `c653c025d6db16ba9d3560791b061aabbc771fe9`. Coordinator verified the exact committed diff and 57 installed prefix files, with 214 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7integration-launch/`. No source deviation. No review finding.
