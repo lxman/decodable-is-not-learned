@@ -1096,3 +1096,7 @@ Fresh implementer `ses_ef5ff1928ffe4uGECJ626Igwq8` and reviewer `ses_ef5f58b0aff
 ### Build task 5/75 CLOSED — M-exp7core-certified-surfaces
 
 Fresh implementer `ses_ef5ed5d14ffeDcCXOz6rQGxDUF` and reviewer `ses_ef5e5dd48ffewZkEFMs6DX15Gm`; review CLEAN. Source `c4dd48f0111ef6ba7458c2bfa125a9339df81f89`; review `3059dfd2c78b420428a582a68772eac6f819db95`. Coordinator verified the exact committed diff and 14 installed prefix files, with 257 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-certified-surfaces/`. No source deviation or review finding.
+
+### Build task 6/75 CLOSED — M-exp7core-certified-audit
+
+Fresh implementer `ses_ef5dd9f4fffe3lEvdnu2U0lSgn` and reviewer `ses_ef5d50d92ffeTvJeqLrf0gIZEN`; review CLEAN. Source `60b5d96d9c4c2828a0febd094de65e523746b2d0`; review `36ab51a4309b7ee09f59ffcf10dd52667b9a6d89`. Coordinator verified the exact committed diff and 16 installed prefix files, with 255 future targets absent. Expected missing-primary RED, then 1 GREEN method(s), independently reproduced. Evidence: `build/tasks/M-exp7core-certified-audit/`. No source deviation or review finding.
