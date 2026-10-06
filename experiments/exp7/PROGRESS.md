@@ -3113,3 +3113,31 @@ This is the approved tokenizer/config-only cap-validation stage; actual measured
 receipts/compatibility require completion verification and independent output
 acceptance. OFFLINE-1/RENEWAL-PAD-1 and the separate instrument-loader amendment
 remain open.
+
+Offline002 **FAILED child/operator1/1** at Oct6 21:42:24.628498 UTC,6.178938 seconds.
+The real ctypes receipt records successful one-shot initialization with one dlopen
+event and no failure. Root Transformers then refused through Hub/tqdm imports:
+`tqdm/utils.py:80` tries optional `envwrap`, catching only ModuleNotFoundError;
+`Boundary.audit:549` raises plain ImportError for the unlisted name. The optional
+fallback therefore does not run. FAILED.json records ImportError and bounded
+frames, not the exception message. Earlier static review missed this interaction
+between the optional catch and boundary exception type.
+
+All17 actual raw artifacts, coordinator verification and monitor ACK are secured
+under `validation/operations-006/offline-002-failed/`. Saved-output verifier passed
+first time; all four76-file outer snapshots,4,940 external entries and4,953 inner
+ENTRY pins still match. Both processes exited, no timeout/retry/cancel/signals;
+outer exit authentication passed and reconciliation correctly records failure.
+The monitor had one accepted delivery and was acknowledged once. No cap directory,
+receipt, DONE/COMPLETE, inner EXIT-PINS or observations was produced. Failure precedes
+denial installation, factory and cap calls:zero returned tokenizers/real comparisons.
+Root Transformers executed partially; source/frame order places the NumPy import
+before the reached logging call, indicating that import returned, without a final
+module inventory or a claim of complete native compatibility.
+
+Ruling: `validation/operations-006/OFFLINE-002-FAILURE-RULING.md`. Original reviewer
+authenticates the failed attempt and actual ctypes receipt, independently diagnoses
+the exception mismatch and examines the finite optional-import routes for the same
+class of error. Saved-data/source-only recommendation precedes any repair or fresh
+execution authority; accepted physical runtime/assets and all historical failures
+are preserved. OFFLINE-1/RENEWAL-PAD-1 and the instrument-loader amendment remain open.
