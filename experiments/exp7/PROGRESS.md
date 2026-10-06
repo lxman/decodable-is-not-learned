@@ -1762,3 +1762,17 @@ The original reviewer is assessing the source002 output; runtime proposal review
 follows in the same independent reviewer session. These inventories remain proposals
 until accepted. Runtime-copy launch inputs will bind the actual proposal/review;
 no curated runtime copy, third-party import, asset acquisition or cap run occurred.
+
+Source002 independently accepted at `c4a66e4da6e74d67f1788de6410fe32ef48c9417`
+for preparation/acquisition. Management verified the report/evidence/review-file
+bindings against that commit; its149-source/380-blob reconstruction agrees with
+management's saved-output check. `review-005/source.review.json` externally binds
+the unchanged proposal. The original reviewer is now assessing runtime proposal002.
+
+The genuine Oct5 approval ledger has been exported byte-for-byte from
+`350c4c5059efdc453f0cb07aa5eb0be72e65347a:experiments/exp7/PROGRESS.md` to
+`validation/authority/owner-approval-20261005.md`,65,576 bytes,
+SHA256 `b2f81ce7d48dea6de959ba03069baae108d92e7888e6f5a9a3cf9fb48ac575d8`.
+The full approval quote and original reference are in `owner-approval-export.json`.
+This prepares later grant provenance; source005 does not yet authorize that export
+or a future grant. Both need additive independently reviewed source/Git bindings.
