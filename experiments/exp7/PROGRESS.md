@@ -1805,3 +1805,19 @@ launched the accepted digest/anchor once: detached operator PID41408,1800-second
 bound, durable monitor `exp7-tokenizer-runtime-copy-001` registered to the actual
 parent session. Launch records: `operations-002/runtime-copy-001-parent-*`.
 Materialized runtime output returns for independent review before preparation/use.
+
+### Runtime-copy001 PASSED — 2026-10-06 00:51 UTC
+
+Child/operator exits0/0, no errors/cancellation/timeout, complete logs empty.
+Management compared all3,693 copied files byte-for-byte with accepted sources,
+verified exact physical inventory and4,641 runtime pins (948 external plus copied
+site), rederived3,283 module names and confirmed the original site is absent from
+runtime search paths. All23 repository/4,641 external input bindings, four saved
+snapshots and3,696 output hashes verify. Runtime proposal SHA256
+`2761f975a3f4bac33ae145b2e4583c728d825e87c4bed4a0160aca883bb970eb`.
+
+Evidence and output manifest: `validation/operations-002/runtime-copy-001-completed/`.
+The60,771,532-byte third-party site remains in the approved scratch directory;
+it is not committed. Monitor acknowledged once. No package import, compatibility
+probe, asset acquisition or cap computation ran. Original-reviewer materialized
+output acceptance and concrete preparation inputs are next.
