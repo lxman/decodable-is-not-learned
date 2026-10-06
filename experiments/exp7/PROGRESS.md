@@ -2530,3 +2530,27 @@ The original implementer is to publish helper/test evidence and genuine DELIVERY
 for independent review. Offline001 remains rejected and unlaunched; runtime008,
 all old inputs/evidence, original staged assets and the grant are preserved. Fresh
 runtime/source/operator/offline002 authorities follow only after repair acceptance.
+
+TOKENIZER-8 implementation delivered: frozen tests/plan
+`cf279ca572be9207c59091a8f2fdca592d625d4f`; genuine RED
+`6552b8161a9060dc36d2fdad17a9f97531310ba3`; helper/test/evidence source
+`fec3399b0375e7434c361fecb41882b1ba22e857`; DELIVERY-v6 publication
+`64cfdeb72ac70c1d37038c0a6ef4f5d3f8428fe3`. Only boundary.py, launch.py,
+provision.py and the directly affected test_pipeline.py changed existing bytes.
+RED:8 cases/12 behavioral assertion failures/0 errors. First GREEN:29 passed and
+five fixture KeyErrors; variable-shadowing correction reran only those five,5/5
+passed. All34 unique methods have passing evidence across two GREEN attempts,
+not a clean original combined run. The original failing sources/logs are preserved.
+
+Management verified all411 DELIVERY-v6 committed bindings, four authority references,
+11 NumPy branch source files, unchanged old helpers and the precise four-file change
+scope. Six selected inert-loader/denial/finite-reuse checks independently passed6/6,
+zero failures/errors or forbidden imports; evidence:
+`repair-033/coordinator-implementation-001/`. The coordinator's initial byte check
+mistook a deliberate test symlink's target bytes for its Git link-text bytes; this
+failed before tests and is preserved at `73c56db87cff5da5b20dab1ad4dc4a4198e6ce4b`.
+The corrected mode-aware check authenticated the link and all remaining bindings.
+
+Original-reviewer implementation review is underway. OFFLINE-1 remains open;
+offline001 remains rejected and unlaunched. No actual runtime/native initialization,
+production stage, real runtime copy or tokenizer cap comparison has occurred.
