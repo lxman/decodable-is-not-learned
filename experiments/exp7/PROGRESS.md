@@ -2832,3 +2832,30 @@ assets/source/grant/battery/levels remain under their original authorities. This
 assignment is static/data-only and stops for independent proof acceptance before
 fresh offline002 inputs. Runtime/native compatibility and448,000 comparisons are
 unmeasured; OFFLINE-1 remains operationally open.
+
+Renewal001 static proofs delivered at `740016f8b0aea099b255d40884ffb2a531989cf3`:
+TOKENIZER-7's local special-map path is re-derived from actual runtime-copy002;
+all28 conditional class rows remain Pythia `GPTNeoXTokenizer` and OLMo2/all26 SmolLM3
+`TokenizersBackend`. No successful construction or local-loader return was observed.
+The implementer found **RENEWAL-PAD-1**: raw Pythia config/special map omit a pad,
+while the actual GPTNeoX constructor defaults to `<|padding|>`, pinned ID1. The
+unchanged loader substitutes EOS only for `None`, then requires accepted pad0.
+Conditional on successful native construction retaining those IDs, it will refuse.
+This is a static finding, not a measured tokenizer failure or a change to pad0.
+
+Original-reviewer review042 is underway, including independent adjudication of
+the padding route and a minimal engineering recommendation. No offline002 inputs
+have been prepared. The implementer's exploratory filename error and supplemental
+AST-locator failure remain preserved; corrected supplemental002 passed.
+
+Management authenticated all34 delivery files/modes,4,463 genuine full-verifier
+bindings plus40 supplemental bindings,580 runtime/three external witnesses,
+95 excerpt ranges,5,513 AST import rows,50 supplemental symbol excerpts and28
+asset/class rows (141 files/460,580,305 bytes). Its first data-only verifier failed
+because a final assertion guessed the local `with open` alias; actual pinned source
+uses `f`. Original source/traceback/ruling were pushed at
+`a1d3eeddc345410f8a1e224bfa22565d84f2a272` before correction. Corrected attempt002
+checks the actual open-call AST and passed. Evidence:
+`validation/operations-005/renewal-001.coordinator-verification.json`.
+No subject calls, tests, Plan/audit, runtime initialization or monitor actions ran.
+RENEWAL-PAD-1 awaits ruling after review; OFFLINE-1 remains operationally open.
