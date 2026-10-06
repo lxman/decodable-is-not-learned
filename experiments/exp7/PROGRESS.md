@@ -2664,3 +2664,19 @@ predicted totals3,698 site files/4,646 pins/3,288 modules are not actual output.
 Original implementer prepares for independent acceptance before explicit launch.
 Actual proposal and later copied runtime need separate acceptance and renewed
 TOKENIZER-7/class-route proofs. OFFLINE-1 remains open; offline001 stays unlaunched.
+
+Runtime-proposal003 inputs delivered: source `f5a267105e99dfe000cbea87e450c192947796ca`,
+anchor `91d5051b72a1b2e5ea04fe58cca5546f432cc7d9`, handoff
+`16d8539cef4007a231dbb7caac866561a5b9b9da`. The preparer's one Plan/audit passed
+66 repository/4,646 external files; no preparation failure. Independent review038
+is underway. Management verified all23 delivery files and the full finite projection,
+13 child repository reads, runtime008 review/evidence and five exact RECORD rows.
+
+The coordinator's additional actual Plan/audit failed in its external wrapper:
+Git's standard DEVNULL setup opens `/dev/null` O_RDWR, which the read-only fence
+incorrectly rejected before the first audit Git process. Traceback formatting
+then attempted an unbound verifier-source read. Its allowance is consumed; exact
+source/traceback/disposition remain in `operations-005/runtime-proposal-003.coordinator-*`.
+Ruling `RUNTIME-PROPOSAL-003-AUDIT-REPAIR.md` permits one corrected read-only audit
+after failure publication, with only the fixed stdlib DEVNULL operation admitted
+and an in-memory source cache for diagnostics. No production launch has occurred.
