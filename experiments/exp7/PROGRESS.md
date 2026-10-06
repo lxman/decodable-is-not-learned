@@ -2891,3 +2891,27 @@ It remains a recorded **separate build-amendment/pin-refresh/review obligation
 before that path is used**; validation-helper repair does not certify it. All271
 instrument files are preserved in this assignment. OFFLINE-1 remains operationally
 open and448,000 comparisons remain pending.
+
+TOKENIZER-9 helper delivered at `5a699f8f7346ec989255225467e94189aa75ed07`; initial
+handoff `aa84ae1b65f522d911aff53af5b1e7b47e063f28`. Exact-Pythia guard/EOS keyword
+and returned EOS/integer-pad checks are installed; only the generic synthetic
+`test_preparation.staged()` fixture also changed as authorized. RED: two expected
+assertion failures/zero errors. Focused GREEN:19 methods/63 subtests pass. The new
+existing regression batch is **FAILED**,47/48 pass and one stale dispatch fixture
+errors before loader entry. New changed-path static verification passed with901
+genuine bindings; it remains an unaccepted implementation delivery.
+
+Management authenticated709 delivery files,752 genuine binding rows, all three
+deliberate symlinks in link-text/mode120000, helper pins and saved execution counts.
+The failed method passes `guard=None` and an attempt lacking `put`; TOKENIZER-8's
+accepted initializer/receipt interface therefore raises before the fake tokenizer
+or cap path. Evidence: `validation/operations-005/tokenizer9.coordinator-delivery.json`.
+
+Ruling: `validation/repair-042/REGRESSION-FIXTURE-1-RULING.md`. Permit only the failed
+dispatch method's inert guard/receipt fixture adaptation, retaining its assertions
+and adding interface order/count checks. The original implementer runs only that
+method in fresh no-runtime fenced evidence, then publishes additive DELIVERY-v8
+and a supplement. Original v7/RED/GREEN/failed regression remain unchanged. The47
+passing methods and completed focused GREEN are not rerun. Independent implementation
+review, genuine source refresh and the separate instrument-loader amendment remain
+pending. OFFLINE-1 is open; no real runtime/cap comparison has run.
