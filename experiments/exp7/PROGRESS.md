@@ -3200,3 +3200,31 @@ No semantic design acceptance is inferred from packaging or nonexecuting compile
 Original-reviewer048 design review is underway; implementation ruling follows its
 acceptance. Offline002 remains failed with its monitor already acknowledged;
 all448,000 comparisons and the separate instrument-loader amendment remain pending.
+
+Review048 `b1dabb18d41213d1a4a757794cbc1614f8911f77` returns **REQUIRED CHANGES**,
+one finding **DESIGN-1**: normal public-importlib initialization renames the frozen
+module namespaces, but candidate002 uses those public names for creation-time class
+attribution and source-keyed class/default tables. Four class comparisons and
+class-table keys, plus eleven selected function-default keys, disagree. Constructor
+failure precedes guard startup. Candidate002 remains NOT ACCEPTED. The first saved
+inspection had not initialized public importlib; its code-correspondence checks
+remain valid but did not establish namespace lifecycle compatibility. The separate
+stdlib metadata supplement identifies the blocker without executing the proposal.
+
+Coordinator authenticated19 review files/modes,128 binding rows/10 commits and6,769
+measured files, and independently reproduced the five-class/thirteen-function alias
+metadata. Its first checker omitted seven explicit `link_text` fields while correctly
+hashing the link bytes; original source/traceback/ruling preserved at
+`d4205bcab37e8e6a7c9acc72de1f9ac586cfcc17`. Corrected equality includes literal text
+and passed. Evidence: `validation/operations-006/tokenizer10-design.coordinator-review048.json`.
+No proposal/helper/finder execution, test, completed checker, Plan/audit or monitor action.
+
+Ruling: `validation/repair-047/COORDINATOR-DESIGN1-RULING.md`. Prepare an additive
+candidate003 that authenticates exact original/public module aliases and namespace
+objects while retaining stable source identities for class/default lookup and
+transitive control/closure authentication. Keep code/default/closure checks and
+all existing envwrap-only caller/absence/receipt semantics. Add the future authentic
+proof-constructor positive after normal importlib initialization and exact alias
+mutation negatives. Preserve candidate001/002 and every completed record; no install
+or test in this phase. Original-reviewer re-review precedes implementation ruling.
+Offline002 remains failed; all448,000 comparisons and instrument-loader amendment remain.
