@@ -2376,3 +2376,19 @@ job `exp7-tokenizer-grant-body-001` is registered to the current coordinator ses
 Launch/registration receipts are under `validation/operations-004/grant-body-001.coordinator-*`.
 The actual eight-field body requires independent saved-output acceptance before
 unchanged stable publication and genuine external containing-commit authority.
+
+Grant-body001 completed **child/operator0/0**, Oct6 09:39:26 UTC, in6.183608 seconds.
+Management verified the actual693-byte eight-field body against the genuine
+approval/export/quote, normalized battery and canonical assets field. Body SHA256:
+`a35bf5fa51be0fa7e0affe4790921a6560475ad0a4d1cef8813be53e311071f6`.
+The body has no containing-commit field. All four503-file outer snapshots,
+4,791 external pins and identical4,808-file inner ENTRY/EXIT maps verify.
+Saved observations record4,808 pinned reads, zero guarded execution entries and
+zero absences; this is not a native-I/O census or a count of pre-boundary execution.
+Logs are empty, both processes exited and the monitor is acknowledged once.
+
+All19 raw artifacts, coordinator verification and ACK are secured under
+`validation/operations-004/grant-body-001-completed/`; verifier:
+`validation/operations-004/verify_grant_body001_saved.py`. Actual output returns
+for independent acceptance before unchanged stable publication and its genuine
+external containing commit. Tokenizer compatibility/cap validation remains unrun.
