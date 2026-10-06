@@ -2740,3 +2740,35 @@ separate authenticated context, exact future commands and one new fenced read-on
 Plan/audit before independent input acceptance.900-second operational ceiling.
 Actual runtime acceptance and renewed TOKENIZER-7/all28 class proofs precede
 offline002 inputs. OFFLINE-1 remains open; no runtime copy or cap run has launched.
+
+Runtime-copy002 inputs delivered: source `51647621a6ec49793e8518c104fbd070a9cea201`,
+anchor `af77280f64422cf273e05411913695a45b460cc1`, handoff
+`4ec1ab45ff1bb9fb434de6b01cc0565d9908e9f0`. Two exploratory display errors and two
+static preparation errors remain preserved. Static001 incorrectly imposed direct
+repository grammar on the retained runtime dot-directory file; static002 incorrectly
+required every inherited module parent to be an explicit module. Their original
+sources/logs/receipts are committed at `e44175ad42762297644aadfc8da3f5cc2c255ff3`
+and `43c753a26d7467650accb4f7a155812747a1c859`. Neither reached Plan/audit or wrote
+new input JSON. Corrected static003 passed, followed by the preparer's single
+successful actual Plan/audit with74 repository/4,646 external bindings.
+
+Ruling: keep runtime008's full module map unchanged except the accepted five-name
+delta; apply explicit parent-chain completeness to those five additions. Why:
+five inherited NumPy leaves have four namespace-directory parents absent from the
+explicit module-name list. That is present in the old accepted data; silently adding
+names would enlarge authority. Review039's sentence that all module parents exist
+was too broad; its original report remains preserved and review040 is asked to
+state the correction. No module/native compatibility claim follows from this map.
+Cost if wrong: a needed inherited namespace route can still refuse during actual
+tokenizer validation; it is not preemptively expanded here.
+
+Management authenticated all35 delivery files and64 genuine origins, independently
+reconstructed every future runtime/stage field and exact map, and passed one new
+fenced read-only Plan/audit:74 repository+4,646 external=4,720 bound reads. All five
+added module parent chains are complete; inherited gaps match runtime008 exactly.
+Predicted stage:3,701 files/62,219,298 bytes,651 directories including its root;
+predicted runtime proposal1,174,409 canonical bytes, SHA256
+`cb1debb1ca8ec6b7fd99456a83a657d137f66158492592de51997d82d363f20c`.
+Evidence: `validation/operations-005/runtime-copy-002.coordinator-audit.json`.
+Independent exact-input review040 is underway. Future copy outputs remain absent;
+no runtime initialization, tests, cap comparison, production stage or monitor ran.
