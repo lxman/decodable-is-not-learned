@@ -2095,3 +2095,16 @@ The operator and child exited. Sixteen raw artifacts, coordinator verification a
 the one monitor ACK are secured under `validation/operations-003/source-003-completed/`.
 The completion notification was received and acknowledged. Saved-output independent
 review is next; no tokenizer import, asset request or acquisition retry occurred.
+
+Source003 saved-output review `aa9d42b9bdaf5a1ce33ac681a953db2c9ff2fad9` **ACCEPTS**
+the149-source/380-blob proposal without findings. The231 historical bindings remain
+identical; only the current transport source hash changes from source002. Management
+verified the three committed review files and the formal v2 subject/evidence hashes.
+The source proposal is now accepted for acquisition input assembly.
+
+Ruling: `validation/operations-003/ACQUIRE-002-RULING.md`. Prepare a fresh acquire002
+manifest using the accepted003 operator/source, accepted runtime-copy001 and all224
+prepare001 request records, with4500-second outer/3600-second transport limits.
+The original implementer prepares finite commit-bound inputs for original-reviewer
+acceptance before explicit coordinator launch. Acquire001 and its partial evidence
+remain preserved; no new asset request has occurred.
