@@ -1945,3 +1945,18 @@ Both intended output paths are absent; fixed request013,60-second child wall lim
 and75-second parent timeout agree. Evidence: `validation/diagnostic-005/coordinator-*`.
 The original reviewer is assessing code and exact inputs. No diagnostic request
 or TLS setup has occurred; the refused destination remains unknown.
+
+Diagnostic005 review `80c01b236b4909697b7f286250d20b607baace83` returns
+**REQUIRED_REPAIR**, T5-R13-1: no durable request-attempt/uncertain-delivery accounting
+on failure. The reviewer reproduced29 supplied tests and nine independent probes;
+one probe demonstrates the defect. The original29 RED errors are scaffold errors,
+not behavioral fault detection. Management verified all eight review files and
+independently reproduced identical saved failure records for a fake send failing
+before versus after peer receipt. Neither justifies a known delivery count.
+
+Ruling: `validation/repair-013/COORDINATOR-RULING.md`. Prepare diagnostic006 with
+durable pre-send intent/phase evidence, separate call/response counts and explicit
+unknown/0–1 delivery bounds where needed, including parent timeout. Preserve005
+unchanged and never run its superseded commands. The replacement needs meaningful
+behavioral RED/GREEN and original-reviewer acceptance before coordinator launch.
+No diagnostic request or acquisition retry occurred; redirect cause remains unknown.
