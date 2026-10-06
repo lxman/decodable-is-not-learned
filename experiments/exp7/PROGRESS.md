@@ -1987,3 +1987,14 @@ terminal-schema repair preserving005/006 and all historical failures; invalid
 success semantics become unknown0–1, while genuine final pre-send failure zero
 and valid response evidence remain. Replacement source/inputs return for review.
 No real request, TLS setup, diagnostic launch or acquisition retry occurred.
+
+Diagnostic007 delivered: source `da3724563f2e59ebc199d8160cc9bc7f5ea546d9`,
+manifest anchor `e1300cdb4da97e3e6480625665f4542504369764`, handoff
+`5324b639cc65d506ee865361da674c2a26bc67a2`. Management inspected the terminal
+validators and confirmed the parent changes only its versioned receipt schema.
+Behavioral RED against actual006 retains two assertion failures/zero errors;
+management reproduced77/77 current fake methods, including the unchanged57.
+The actual read-only audit passes125 repository bindings and4,641 runtime pins;
+the projected boundary has4,766 distinct files. Both fresh007 output paths are
+absent. Evidence: `validation/diagnostic-007/coordinator-*`. Scoped original-reviewer
+re-review is underway; no diagnostic request or TLS setup occurred.
