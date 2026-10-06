@@ -3251,3 +3251,28 @@ remeasured. Evidence: `validation/operations-006/tokenizer10-candidate003.coordi
 Original-reviewer049 semantic re-review is underway. DESIGN-1 closure and complete
 design acceptance remain pending; candidate002 stays NOT ACCEPTED. Proposed code
 is uninstalled/unexecuted, with all448,000 comparisons still unmeasured.
+
+Review049 `8653e8eb6cfceae189bde602da544d701e5854d0` **ACCEPTS corrected complete
+candidate003 design**, closing DESIGN-1 at design level, no required findings.
+Report SHA256 `121c659ba258c9ef4a59af3271f8d6256652615e0650a67c00292d0537666d51`;
+verification `c6b9d17130f9d6ab882c0e9b345bd0a396d7f4bfcf28af0e4ae0e1c103f01a01`.
+It independently verifies the source-identity mapping through five classes/29
+selected/transitive/hook functions, both aliases and repeated drift checks. Full
+remaining contract and inherited/additive fake matrix are accepted as design.
+No constructor/proposed-helper behavior has yet been executed or certified.
+
+Coordinator's saved-data acceptance passed first time:11 review files/modes,
+74 binding keys/15 genuine commits/66 named paths, source/delta and metadata graph
+reconciliation; seven symlink targets remain literal-text authenticated. Evidence:
+`validation/operations-006/tokenizer10-design.coordinator-review049.json`.
+
+Ruling: `validation/repair-047/COORDINATOR-IMPLEMENTATION-RULING.md`. Authorize exact
+candidate003/launch installation after focused new behavioral RED, all accepted
+G1–G10/D1 synthetic checks, and only the affected dispatch fixture's inert arm event/
+order adaptation. Real proof-constructor/import positives cannot stub authentication;
+all115 candidate paths, five alias keys/classes and29 function objects require mapped
+coverage. Preserve every failed invocation and immutable design/history. Original
+implementer owns two helpers, that fixture and new implementation/evidence/v9 delivery;
+implemented-code review precedes any source/input refresh or new actual attempt.
+Real ctypes/tokenizer initialization and all448,000 comparisons remain outside this
+fake-only phase; OFFLINE-1/RENEWAL-PAD-1 and the live.py amendment remain open.
