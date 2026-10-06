@@ -2242,3 +2242,14 @@ Detached PID27080 has a900-second bound; `exp7-tokenizer-source-004` is durably
 registered to the current coordinator session. Launch/registration receipts are
 under `validation/operations-004/source-004.coordinator-*`. Actual source output
 returns for independent review before stage-assets002 input preparation.
+
+Source004 completed **child/operator0/0**, Oct6 07:30:39 UTC, with empty logs,
+all four198-file outer snapshots passing and948 external pins verified. Management
+checked every one of the149 current source pins and380 genuine Git bindings:
+the231 historical bindings remain exact, and provision.py is the sole source-byte
+change from source003. Actual proposal SHA256
+`ceba24a5f1c8d433d650aea6da2fb88958e169dd4288fb93067bc2db679c8e85`.
+Both processes exited. Sixteen raw artifacts, coordinator verification and the one
+monitor ACK are secured under `validation/operations-004/source-004-completed/`.
+Saved-output independent review is next; no tokenizer import, staging, asset request
+or padding measurement occurred in this source-proposal run.
