@@ -2449,3 +2449,19 @@ Sixteen raw artifacts, coordinator verification and ACK are secured under
 `validation/operations-004/verify_source006_saved.py`. Independent actual-source
 review is next before offline input preparation. The earlier coordinator pre-launch
 comparison failure remains preserved; this was one production source006 run.
+
+Source006 saved-output review032 `faf57acdc9915223ae1f1a852701b658620e71bd`
+**ACCEPTS** all18 archive files/16 raw artifacts and the actual151-source/383-Git-row
+proposal without findings. All150 previous path hashes and232 historical rows
+remain unchanged. Management verified all four committed review files and formal
+subject/evidence hashes; the genuine grant's containing-commit authority is intact.
+
+Ruling: `validation/operations-004/OFFLINE-001-RULING.md`. Prepare the actual
+448,000-comparison tokenizer/config-only validation inputs against source006,
+exact runtime008, original staged-assets002 directories, normalized battery/levels
+and the genuine external v2 grant. Select a5,400-second operator ceiling, not a
+measured runtime or separate resource experiment. Derive resolved-class expectations
+statically from pinned Transformers5.13.0 source and local configurations, preserving
+exact cited evidence; actual compatibility is measured only on the guarded launch.
+Exact inputs require independent review before explicit execution. No tokenizer
+import or cap comparison has occurred yet.
