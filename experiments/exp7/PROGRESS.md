@@ -2183,3 +2183,21 @@ isFalse. Durable job `exp7-tokenizer-stage-assets-001` is registered to the curr
 coordinator session. Launch/registration receipts are under
 `validation/operations-003/stage-assets-001.coordinator-*`. Actual staged outputs
 return for independent acceptance before separate grant preparation.
+
+Stage-assets001 **FAILED child/operator1/1**, Oct6 06:40:21 UTC, at
+`provision.padding_id:209` (`external/unlisted tokenizer file`). All four683-file
+outer snapshots pass,5,379 external inputs and the5,396-file inner ENTRY map verify.
+The stage copied27 directories/137 files (458,465,531 bytes), all exact acquired
+bytes, before reaching Pythia. Pythia's acquired tokenizer_config.json
+(`asset-222.body`, SHA256 `70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f`)
+contains an absolute publisher-machine path in `special_tokens_map_file`. That
+value fails the accepted basename-only rule. The separately acquired local
+`special_tokens_map.json` is present. No Pythia directory was created.
+
+All153 raw artifacts plus coordinator verification and the one monitor ACK are
+secured under `validation/operations-003/stage-assets-001-failed/`. Both processes
+exited. Inner EXIT/observations/COMPLETE/assets.proposal are absent; the coordinator's
+current-byte checks are recorded separately, not substituted for those missing
+receipts. The failure has no accepted staged proposal or completed class/padding
+measurement. It caused no new requests or tokenizer imports. Independent failure
+preservation/metadata review is next before a scoped repair or replacement launch.
