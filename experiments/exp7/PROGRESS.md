@@ -2059,3 +2059,27 @@ reproduced the exact-host repair's18 scoped fake methods:18/18, zero failures,
 errors, skips, forbidden loads, real requests/TLS contexts, native children or
 production dispatches. Evidence: `validation/repair-017/coordinator-fake-001/`.
 The ten bound helper/test/runner sources remain unchanged during the run.
+
+Corrected source003 publication completed at context
+`44219fb73890cbda78623f1ca13b26f749b193dd`, external manifest anchor
+`8f971507c52f25467a1fdaf2f15a6fed877d7fa3`, handoff
+`2d531c6af270be6a2409d2e77f096b296439c10f`. The first manifest and both publication
+preflight failures remain preserved. The v2 direct map retains100 original inputs,
+omits the two non-executing ignore rules and adds eight explicit context files;
+the manifest is the109th repository binding. Management's independent read-only
+audit at `68f9625c56856f7a4f64a20b1e3e3ee42c2179b5` passes109 repository/948
+external pins and preservation of737 validation/271 instrument files.
+
+Review `97aa285a7b174f9bec1413104634b25e5e95f87f` **ACCEPTS** the one-host repair
+and corrected source003 inputs, with no findings. The reviewer reproduced18/18
+scoped fake tests, the actual binding audit and default149 source-input closure.
+Management verified the committed report, bindings and test receipt hashes.
+The accepted transport now includes exact `us.aws.cdn.hf.co`; all other helper
+bytes and the operator lifecycle are unchanged.
+
+Management explicitly launched source003 once through the published authenticated
+`--start` command, using the corrected v2 manifest. Detached operator PID94158
+has its own session and a900-second wall bound. Durable monitor
+`exp7-tokenizer-source-003` is registered to the current coordinator session.
+Launch/registration receipts are under `validation/operations-003/source-003.coordinator-*`.
+Fresh source output returns for independent review before acquire002 preparation.
