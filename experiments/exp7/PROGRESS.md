@@ -1892,3 +1892,14 @@ match. Static reconstruction yields4,805 inner pins; this is not a measured stag
 result. Evidence: `operations-002/acquire-001.coordinator-audit.json`. The original
 reviewer is assessing exact inputs. No TLS setup, request or stage was executed
 by preparation or this audit.
+
+Acquire001 exact-input review `174ddf9172b8cf316c96195bb258a6281e1eb5fc` ACCEPTS
+the launch with no findings. Management's independent32-repository/4,790-external
+audit agrees; committed report/evidence hashes verify. The accepted immutable
+224-request attempt launched once with its exact digest/anchor, detached operator
+PID57655,4500-second outer/3600-second transport bounds. Durable monitor
+`exp7-tokenizer-acquire-001` is registered to the verified parent session.
+Launch records: `operations-002/acquire-001-parent-*`. This is the first authorized
+tokenizer/config acquisition attempt; actual requests, transfers, absences and
+failures will be reconciled from its receipts. Acquired bytes need independent
+review before staging/use; no model weights or tokenizer-cap run is launched.
