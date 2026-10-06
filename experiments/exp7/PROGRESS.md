@@ -2508,3 +2508,25 @@ No helper, runtime or old input was changed. The graph remains an over-approxima
 and no first runtime refusal or actual tokenizer behavior has been measured. Both
 offline001 outputs remain absent. Original-reviewer proposal review is underway
 before disposition of the native-initialization conflict and implementation scope.
+
+Review034 `4284bb9b5b341a4cddeb43968e9e7b2b9a17db91` accepts the partial dependency/
+finite-reuse design with two required revisions: **R34-1**, exact ctypes initialization
+policy, and **R34-2**, the omitted inherited private timm-backbone loader denial.
+The latter is an explicit-denial gap, not demonstrated weight execution. Management
+verified all three committed review files,25 excerpts across15 source witnesses and
+both findings with byte/AST checks; evidence in `repair-033/coordinator-review034-verification.json`.
+
+Ruling: **TOKENIZER-8**, `repair-033/COORDINATOR-IMPLEMENTATION-RULING.md`. Authorize
+scoped helper implementation and stdlib-only RED/GREEN tests: exact five dependency
+additions/finite reuse, ordered callable denials including the private base/inherited
+loader, and one active-boundary ctypes initialization allowing only one authenticated
+`ctypes.dlopen(None)` event. Every other ctypes audit event remains denied. The
+unchanged initializer retains native wrappers; this preserves the explicit trusted-
+native contract and does not claim universal native-call revocation. The NumPy
+success-branch trace and cold/failed/repeat/overlap cases are required. Actual native
+initialization remains unmeasured and a later guarded attempt may refuse.
+
+The original implementer is to publish helper/test evidence and genuine DELIVERY-v6
+for independent review. Offline001 remains rejected and unlaunched; runtime008,
+all old inputs/evidence, original staged assets and the grant are preserved. Fresh
+runtime/source/operator/offline002 authorities follow only after repair acceptance.
