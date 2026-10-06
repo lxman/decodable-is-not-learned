@@ -2152,3 +2152,18 @@ request. Archive: `validation/operations-003/acquire-002-completed/`, including
 coordinator verification and ACK; verifier: `verify_acquire002_saved.py` alongside.
 Saved-output independent acceptance is next. No tokenizer import, weight load,
 class/padding measurement, asset staging or cap computation has occurred.
+
+Acquire002 saved-output review `9a6b4411e608f26c580d77194ed8c9f68df938a1` **ACCEPTS**
+all978 archive files/975 raw artifacts without findings. It verifies141 bodies,
+83 optional absences, all84 mandatory files, source/runtime bindings and exact
+original scratch references. Format checks cover140 JSON bodies and one UTF-8
+`merges.txt`; they are not tokenizer compatibility measurements. Management verified
+all four committed review files and the formal acquisition subject/evidence hashes.
+
+Ruling: `validation/operations-003/STAGE-ASSETS-001-RULING.md`. Prepare concrete
+offline stage-assets001 inputs with a900-second operator bound, unchanged accepted
+helpers/operator, source003/runtime-copy001, identities and acquired002/review020.
+Bind all589 referenced request/response/body files at their original scratch paths
+against the accepted archive. Actual staging derives declared classes/numeric
+padding from asset data and writes28 exact directories; it does not instantiate
+tokenizers. Exact inputs return for independent review before explicit launch.
