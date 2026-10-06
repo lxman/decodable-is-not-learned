@@ -2127,3 +2127,28 @@ as `exp7-tokenizer-acquire-002` to the current coordinator session. Launch/regis
 receipts are `validation/operations-003/acquire-002.coordinator-*`. This is the new
 224-request tokenizer/config acquisition attempt under TOKENIZER-6; acquired outputs
 return for independent review before asset staging. Acquire001 remains FAILED1/1.
+
+Acquire002 completed **child/operator0/0**, Oct6 05:56:30 UTC, in about76 seconds.
+All224 initial requests completed:141 present bodies,83 optional404 absences,
+460,580,305 retained body bytes (16 distinct body hashes). All three mandatory
+files are present for every one of28 identities. The365 HTTP responses comprise
+141 HTTP200,83 HTTP404,115 HTTP307 and26 HTTP302;339 responses are from
+`huggingface.co`,26 from the accepted `us.aws.cdn.hf.co`. There are141 followed
+redirects, all within the reviewed bounds. No request/failure record is missing.
+
+Management verified all975 raw artifacts against their original scratch bytes,
+six70-file outer snapshots,4,790 external pins, and identical4,805-file inner
+ENTRY/EXIT maps. Saved observations report4,805 reads and nine executed files,
+all pinned; raw logs are empty. Both processes exited and the received completion
+monitor was acknowledged once. The actual acquired proposal SHA256 is
+`d65e0482ed6ccca4bda7ae43fcdec46e6657f1bb0a923a91925ce96ee0c21dd1`.
+
+The first coordinator saved-output check secured the975 raw files, then stopped
+because its JSON digest helper omitted the producer's trailing newline. The
+unchanged acquired identity digest matches the correct `prepare.canonical`
+encoding. That bookkeeping failure is retained as `coordinator-attempt-001.json`;
+the corrected data-only verifier passed without any acquisition rerun or new
+request. Archive: `validation/operations-003/acquire-002-completed/`, including
+coordinator verification and ACK; verifier: `verify_acquire002_saved.py` alongside.
+Saved-output independent acceptance is next. No tokenizer import, weight load,
+class/padding measurement, asset staging or cap computation has occurred.
