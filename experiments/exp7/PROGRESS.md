@@ -2300,3 +2300,20 @@ Actual assets.proposal.json SHA256:
 All160 raw artifacts, coordinator verification and ACK are secured under
 `validation/operations-004/stage-assets-002-completed/`. Independent staged-output
 review is next before separate grant preparation; staging001's failure is preserved.
+
+Staged-output review026 `c81387607672675933852d3e7921aedb29a0c636` **ACCEPTS**
+all162 archive files/160 raw artifacts,28 directories/141 exact acquired files
+and independently rederived metadata, without findings. Management verified all
+four committed review files and formal asset subject/evidence hashes. Runtime
+class/loader compatibility and cap comparisons remain untested.
+
+Ruling: `validation/operations-004/GRANT-ADMINISTRATION-RULING.md`. Prepare source005
+as the minimal source004 extension for grant administration: add the genuine
+65,576-byte owner-approval export and original Oct5 approval Git binding. Management
+verified the export's actual SHA256
+`b2f81ce7d48dea6de959ba03069baae108d92e7888e6f5a9a3cf9fb48ac575d8`
+against the original `350c4c5059efdc453f0cb07aa5eb0be72e65347a` ledger blob and
+accepted helper snapshot. Projected source closure150 files/382 Git rows; exact
+inputs require independent review before the900-second source005 launch. Grant-body
+preparation follows accepted source005 output; its actual body then needs genuine
+external commit authority before offline input publication. No grant is created now.
