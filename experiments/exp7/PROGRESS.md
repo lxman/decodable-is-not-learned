@@ -2039,3 +2039,17 @@ and concrete source-proposal003 inputs. Fresh source/output acceptance precedes
 separately reviewed acquire002 inputs; prior runtime and normalized battery remain
 reusable under their exact accepted bindings. No new request or acquisition retry
 is authorized to launch before those reviews and explicit coordinator action.
+
+The TOKENIZER-6 worker was cancelled after saving/pushing the helper repair
+`35565e284790533d5bfc46e32e091f35dbb6d1b0`, operations source
+`7bd151c4d666b719b7bde77a0ad239642e77a539` and first manifest
+`ec05f980c3c60486e1e0e70efb642c2b1db7eff9`. Management inspected the one-host
+diff and saved18-method fake GREEN receipt; independent review remains pending.
+Input Plan construction refused two direct `.gitignore` paths before any audit
+or stage. The worker's `publication-attempt-001.json` is preserved.
+
+Ruling: `validation/operations-003/SOURCE-003-INPUT-REPAIR.md`. Resume only
+unfinished publication: preserve the failed manifest, publish corrected v2 direct
+bindings excluding the two non-executing ignore rules (still preserved separately),
+then one read-only Plan/audit and exact handoff. Keep the reviewed path validator
+and executable sources intact. No production stage or new request occurred.
