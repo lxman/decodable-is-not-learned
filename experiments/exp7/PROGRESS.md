@@ -2994,3 +2994,37 @@ Original-reviewer exact-input review044 is underway. No production stage, test,
 completed verifier, runtime/native initialization, cap or monitor action ran.
 Explicit source008 launch follows independent input acceptance; actual output
 acceptance still precedes offline002 preparation. OFFLINE-1/RENEWAL-PAD-1 remain open.
+
+Review044 `3de19574fc77e8ed646a7c9ffd5d5a4a58682c81` **ACCEPTS operator006/source008
+exact inputs**, no required findings. Its one Plan/audit passed54 repository+948
+external bindings:1,002 distinct paths/1,005 opens/15 read-only Git calls, no denials.
+Reviewer transcription failure (mistyped review037 commit) remains preserved at
+`20b607faf10bf47038656fbbbbf96f230daf6775`; corrected static checking passed before
+the only audit. Management authenticated all17 review files/modes,2,755 static plus
+28 packaging binding rows, measured read hashes and exact projection/commands.
+
+The first coordinator prelaunch checker incorrectly routed `ls-remote` through its
+local-only `protocol.allow=never` wrapper. HTTPS refused before any acceptance/launch
+receipt, operator or monitor. Exact source/traceback/ruling were pushed at
+`40d960e7228f1d314415804ea24a8860abe650a2`. Corrected attempt uses the fixed read-only
+publication query and retains the local-only wrapper for object verification.
+No test or Plan/audit repeated.
+
+Management explicitly launched source008 once through accepted operator006,
+PID87184/child87232, both detached with SID equal to PID;900-second bound. Durable
+monitor `exp7-tokenizer-source-008` registered to the verified current coordinator
+session. Source008 completed **child/operator0/0**, Oct6 20:14:01.440671 UTC,5.970438s.
+The actual88,934 canonical proposal bytes equal the accepted prediction, SHA256
+`a0ed4152b1e4b8487ca2b8970e5b647279e9bee3e75e137873fa21f32e19eaa0`:
+151 sources/384 genuine Git bindings,233 historical rows preserved; only `assets.py`
+changed among source007's151 current pins. Original693-byte grant remains exact.
+
+All four54-file outer snapshots plus948 external pins verify. Lifecycle,
+START/COMPLETE/reconciliation agree; both processes exited and raw logs are empty.
+All16 actual artifacts plus coordinator verification and the monitor ACK are secured
+under `validation/operations-006/source-008-completed/`. The monitor recorded one
+accepted delivery and was acknowledged once after responsibility for follow-up was
+taken; no repeated acknowledgment is needed. Saved-output verifier passed first time.
+Actual-source independent output review comes next, then fresh offline002 inputs.
+No runtime/native initialization or real cap comparison ran. OFFLINE-1/RENEWAL-PAD-1
+and the separate instrument-loader amendment remain open.
