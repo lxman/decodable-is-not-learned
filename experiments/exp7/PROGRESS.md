@@ -1998,3 +1998,29 @@ The actual read-only audit passes125 repository bindings and4,641 runtime pins;
 the projected boundary has4,766 distinct files. Both fresh007 output paths are
 absent. Evidence: `validation/diagnostic-007/coordinator-*`. Scoped original-reviewer
 re-review is underway; no diagnostic request or TLS setup occurred.
+
+### Diagnostic007 accepted and completed — 2026-10-06 03:26 UTC
+
+Review `187b6e5dddefb670870e66f929c09cc60fea641a` ACCEPTS exact007 for one bounded
+initial GET; T5-R13-1 and its terminal-semantic residual are closed. Reviewer
+reproduced77 supplied plus five independent methods, all pass, and verified125
+repository/4,641 runtime bindings. Management's independent reproduction/audit
+agrees and the committed review/evidence hashes verify.
+
+Management explicitly launched the authenticated parent once. Parent/child exits
+**0/0**, empty process logs, no timeout. The single initial Hub GET received302;
+classification observes **`https://us.aws.cdn.hf.co`**, default port, no userinfo
+or fragment. The only failed constituent of `location31` is `host_allowed`.
+No redirect was followed and no application body byte was read. All ten durable
+contact phases, final parent accounting, three125-file snapshots and4,641 runtime
+pins verify. Twenty-one raw artifacts plus coordinator verification are secured
+under `validation/diagnostic-007/completed-001/`. This bounded foreground diagnostic
+finished during its tool call; no durable-monitor registration or ACK was required.
+
+Official Hub downloading documentation and its linked `.well-known/meta.json`
+independently list the observed hostname as a CDN endpoint. Selected fetched
+excerpts and URLs are in `completed-001/official-host-evidence.md`; these separate
+public documentation/metadata reads did not fetch an asset. The current measured
+redirect supports a narrow exact-host repair proposal. Original acquire001's
+missing Location remains missing. Saved-output review precedes any source repair
+or separately reviewed replacement acquisition launch;001 remains FAILED1/1.
