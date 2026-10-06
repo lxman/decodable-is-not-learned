@@ -1720,3 +1720,12 @@ Evidence: `validation/repair-004/coordinator-001/`. The original reviewer is
 assessing the repair and fresh source/runtime002 manifests anchored at
 `000d741ec8c58e37374d941627ea74179023d15e`. Historical source001 remains failed1/1;
 no stage retry has occurred.
+
+TOKENIZER-4 and replacement002 inputs accepted by original reviewer at
+`8641d0d9ade6c17c5221950fa377f4f00e50d8aa`: fresh genuine cold GREEN,48/48 fake
+methods, both28-repository/948-external-file manifest audits clean, historical
+failure unchanged. Management's independent reproduction agrees. Source002 launched
+once using exact accepted digest/anchor, detached operator PID31654,900-second
+bound; `exp7-tokenizer-source-002` is registered to the verified parent session.
+Launch records are under `validation/operations-002/source-002-parent-*`.
+Actual source/runtime outputs still require review before use.
