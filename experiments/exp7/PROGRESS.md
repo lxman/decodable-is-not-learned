@@ -2266,3 +2266,18 @@ operator, source004/review024, exact runtime008, identities and acquired002/revi
 All589 original acquisition references and raw bytes remain intact; staging001's
 partial output is preserved. The original implementer prepares finite inputs for
 independent review before explicit launch. No replacement staging has run.
+
+Stage-assets002 inputs delivered at `939038d8ccd6666b0d9442e01a0d8288351ad638`,
+anchor `d35f2ecd24c2799b60e9b430cf953ac9f3538b9b`, handoff
+`74e460039b5d89d2677aac28b446232515e7cbc4`. Management's independent read-only
+audit (`859d3afdecb3e11a5c0d5464d3427c05f94bb482`) passes894 repository/5,379
+external bindings, all589 original acquisition references and5,396 projected inner
+pins. Review025 `644dd3d58c50585f2644ed1908d97f7449dc05de` independently ACCEPTS
+the exact inputs, no findings, including the mandatory exact runtime008 pair.
+Management verified all three committed review files and the published command hash.
+
+Management explicitly launched stage-assets002 once through accepted operator004.
+Detached PID36337 has a900-second bound and stage network authorityFalse. Durable
+job `exp7-tokenizer-stage-assets-002` is registered to the current coordinator session.
+Launch/registration receipts are under `validation/operations-004/stage-assets-002.coordinator-*`.
+Actual staged outputs return for independent acceptance before grant preparation.
