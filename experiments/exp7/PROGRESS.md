@@ -3049,3 +3049,39 @@ one new fenced preparation Plan/audit. Keep5,400-second outer bound,28 identitie
 448,000 comparisons and all numeric pads/caps. Independent input acceptance and
 explicit monitored execution remain next gates. Offline002 is unlaunched;
 OFFLINE-1/RENEWAL-PAD-1 and the separate instrument-loader amendment remain open.
+
+Offline002 exact inputs delivered: source `e7a65108f5c023d5ce4c6b09bb13bd13d24850f6`,
+separate manifest anchor `f76159b67f2ce49a7a32a7f3b56dd221fd44f8cd`, sole preparation
+audit evidence `f857c595e8e61393c6efe961bde7d03c17be71e0`, handoff
+`cc2ae3b5cb0cc84ee2bb8229ae16675ec2cff27e`. Static rebind joins accepted renewal042/
+caller043 to actual source008; all28 class predictions remain conditional. Closure
+is151 sources/384 Git rows,4,646 runtime pins/141 assets,4,953 child files/3,308 modules.
+Outer map:76 repository files+4,940 external entries−eight overlaps=5,008 paths.
+
+Preparation failures retained: exploratory basename error at
+`160fac57ecb1720fd757e0a7eccab3d86b1fe66e`; first preparation's final module assertion
+at `28e4cf357cc984f9f82f27145746492887cc99e9`. Its eager email parser imports stdlib
+socket/_socket; diagnosis is source-derived because that failed attempt did not log
+the final module list. No socket/network operation occurred. Original attempt stays
+FAILED. Corrected saved-data continuation passed without rerunning the completed
+rebind; one new preparation Plan/audit passed5,019 reads/15 Git calls/30 pipe opens,
+with no errors/denials. Helpers/operator/271 instrument files remain unchanged.
+
+Management authenticated44 delivered files/modes,5,316 historical binding rows
+(including5,166 original rebind rows),580 current runtime witnesses/5,513 AST import
+rows,19 caller excerpts and28 conditional asset/class rows. It independently rebuilt
+the child/module/outer maps and checked all named current bytes. Its first static
+checker compared absolute overlap paths to the delivery's relative names; the
+eight paths and hashes were otherwise equal. Original source/traceback/ruling were
+pushed at `913c5b26a77148781560084f1d75d36745db0209` before correction. Corrected
+static verification passed, followed by one new fenced coordinator Plan/audit:
+76 repository+4,940 external entries,5,008 distinct paths,5,018 file reads/15 Git
+calls/30 pipe opens, no errors or denials. The one-read difference is the preparer's
+extra operator-source read inside its audit accounting; coordinator authenticated
+those bytes before entering its measured interval. Evidence:
+`validation/operations-006/offline-002.coordinator-{static,audit}.json`.
+
+Original-reviewer exact-input review046 is underway. Both fresh output directories
+remain absent; offline002 is unlaunched and all448,000 comparisons are unmeasured.
+No tests, completed verifiers, runtime/native initialization or monitor actions
+were repeated. Independent input acceptance precedes explicit guarded execution.
