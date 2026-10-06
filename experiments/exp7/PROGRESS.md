@@ -2973,3 +2973,24 @@ One fenced preparation Plan/audit follows static checks; independent exact-input
 acceptance precedes explicit source launch and actual-output acceptance. Accepted
 runtime-copy002/assets002 are reused. Offline002 inputs and all448,000 comparisons
 remain pending; the separate instrument-loader amendment remains open.
+
+Operator006/source008 exact inputs delivered: operator
+`b66f03121075157ba7734c08f95ba71ce9ae1738`, input source
+`3c559fec60a63f91c6bf5dffd40234f446bc6ef7`, manifest anchor
+`bf40c2e1b315fa001f6d4ed17cc08426be895e26`, audit evidence
+`0e23d896d4a064b3070e63ff2e5c27fd1f5e25b9`, handoff
+`de4a76576c40af87561f335d99504951da25fd08`. Zero preparation failures. The preparer's
+one Plan/one audit passed54 repository+948 external bindings (1,002 distinct paths).
+The exact two-constant operator derivative retains all lifecycle logic. Projection
+is151 sources/384 Git rows with233 unchanged historical rows and only `assets.py`
+changed among current source007 pins. Both fresh output directories remain absent.
+
+Management authenticated33 delivered files/modes,1,692 genuine authority bindings,
+the derivative, current/index/source ancestry and closure, exact helpers/grant/
+approval and all948 external bytes. Its own new fenced Plan/audit passed once with
+54 repository+948 external bindings and1,002 distinct observed paths; no denials or
+forbidden imports. Evidence: `validation/operations-006/source-008.coordinator-audit.json`.
+Original-reviewer exact-input review044 is underway. No production stage, test,
+completed verifier, runtime/native initialization, cap or monitor action ran.
+Explicit source008 launch follows independent input acceptance; actual output
+acceptance still precedes offline002 preparation. OFFLINE-1/RENEWAL-PAD-1 remain open.
