@@ -2807,3 +2807,28 @@ are secured in `validation/operations-005/runtime-copy-002-completed/`. The writ
 verifier `verify_runtime_copy002_saved.py` passed on its first execution.
 Independent actual copied-runtime review is next, followed by renewed TOKENIZER-7
 and all28 class routes before offline002 inputs. OFFLINE-1 remains open.
+
+Review041 `a66da076bd638cf338bea23d5c2302e8e2a48592` **ACCEPTS actual runtime-copy002**,
+no required subject findings. Formal `review-041/runtime.review.json` SHA256
+`fdccaa5e6f4c34091dbd0a9287ff10971bd50bdaba331db220badc05fb268d2a` binds the actual
+runtime digest `cb1debb1ca8ec6b7fd99456a83a657d137f66158492592de51997d82d363f20c`.
+The first reviewer verifier stopped at its own stdin-pipe write fence before Git
+batch startup; original source/failure/disclosure remain preserved. Corrected
+verification passed with one narrow authenticated pipe operation. Zero Plan/audit,
+production initialization or monitor actions occurred in either review attempt.
+
+Management authenticated all seven committed review files/modes,197 genuine
+authority bindings and3,716 archive bindings, formal actual subject/evidence,
+complete runtime/stage maps, lifecycle and saved ACK. Actual site/source/archive
+bytes and the reviewer-measured0644 files/0755 directories agree with copy semantics.
+Evidence: `validation/operations-005/runtime-copy-002.coordinator-review041.json`.
+No completed stage or verifier was rerun.
+
+Ruling: `validation/operations-005/TOKENIZER-RENEWAL-001-RULING.md`. The original
+implementer renews TOKENIZER-7's exact local-map path proof and all28 conditional
+returned-class expectations against this actual accepted runtime, reconnecting
+OFFLINE-1/TOKENIZER-8's import/denial/one-shot initialization source graph. Existing
+assets/source/grant/battery/levels remain under their original authorities. This
+assignment is static/data-only and stops for independent proof acceptance before
+fresh offline002 inputs. Runtime/native compatibility and448,000 comparisons are
+unmeasured; OFFLINE-1 remains operationally open.
