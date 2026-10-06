@@ -2465,3 +2465,31 @@ statically from pinned Transformers5.13.0 source and local configurations, prese
 exact cited evidence; actual compatibility is measured only on the guarded launch.
 Exact inputs require independent review before explicit execution. No tokenizer
 import or cap comparison has occurred yet.
+
+Offline001 inputs delivered at `bfdb8e015ec4b4bd8a4458a561a1ab75361a5d30`,
+anchor `ea2e3cdd70b1848ba12afa4a5665b0396d83ecc0`, handoff
+`9b66354aa3a3e3a67489756ffc46844ddd5c1235`. The coordinator's one actual read-only
+audit at `7bc1dec0efad5b902473a25fd23251e437f6bfa2` authenticates589 repository/
+4,933 external pins and4,954 projected inner files. All47 excerpts from20 pinned
+files reproduce. An earlier compact-versus-pretty JSON digest comparison failed
+before Plan/audit and remains preserved separately. Conditional class predictions
+are Pythia GPTNeoXTokenizer, OLMo2 and all26 outcomes TokenizersBackend; the pinned
+source corrected the coordinator's approximate dispatch description.
+
+Review033 `98745d42f57ca9ad5c3b5bab3327c51d625a0683` **DOES NOT ACCEPT** offline001:
+required **OFFLINE-1** identifies unconditional configuration imports absent from
+runtime008 and forbidden by the boundary. The coordinator verified all three
+committed review files and independently reproduced the AST imports and named
+absences: generation.configuration_utils and modeling_rope_utils. Both actual
+offline output paths remain absent; no tokenizer import or cap computation ran.
+The reviewer used zero Plan/audit calls. Its optional-pad-key bookkeeping failure
+and the coordinator's failed comparison are preserved in their original evidence.
+
+Ruling: `validation/repair-033/RULING.md`. Prepare the complete reachable import-
+dependency repair as static exact-byte evidence and prospective diffs for review
+before implementation. The three initial candidate files match the retained
+distribution RECORD, but are not enrolled runtime authority. Preserve all existing
+runtime, source, acquisition, staging and grant evidence; a replacement runtime
+needs fresh acceptance and renewed TOKENIZER-7/class-route review. The earlier
+coordinator audit established hashes and conditional class names but missed this
+mandatory closure prerequisite; it is not acceptance of the offline launch.
