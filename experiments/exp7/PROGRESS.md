@@ -2493,3 +2493,18 @@ runtime, source, acquisition, staging and grant evidence; a replacement runtime
 needs fresh acceptance and renewed TOKENIZER-7/class-route review. The earlier
 coordinator audit established hashes and conditional class names but missed this
 mandatory closure prerequisite; it is not acceptance of the offline launch.
+
+Static repair proposal delivered at `d186d9f7b6e923ea8702bb9d9ea3e7619c1e0376`:
+13 new files under `validation/repair-033/`. It proposes five exact file additions
+and scoped callable denials, but explicitly identifies an additional hard blocker:
+pinned Hub `_terminal.py:16` unconditionally imports forbidden ctypes; the pinned
+Darwin stdlib initializer constructs PyDLL(None), reaching the denied native-open
+event. The five-file proposal is therefore insufficient for runnable closure.
+
+Management verified all13 committed artifact bindings,34 exact excerpts across17
+pinned source witnesses, five candidate hashes against retained distribution RECORDs,
+and the Hub/stdlib AST route. Evidence: `repair-033/coordinator-proposal-verification.json`.
+No helper, runtime or old input was changed. The graph remains an over-approximation,
+and no first runtime refusal or actual tokenizer behavior has been measured. Both
+offline001 outputs remain absent. Original-reviewer proposal review is underway
+before disposition of the native-initialization conflict and implementation scope.
