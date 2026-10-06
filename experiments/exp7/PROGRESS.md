@@ -1729,3 +1729,20 @@ once using exact accepted digest/anchor, detached operator PID31654,900-second
 bound; `exp7-tokenizer-source-002` is registered to the verified parent session.
 Launch records are under `validation/operations-002/source-002-parent-*`.
 Actual source/runtime outputs still require review before use.
+
+### Source002 PASSED; runtime proposal002 launched — 2026-10-06
+
+Source002 completed00:09:48 UTC, child/operator exits0/0. Management verified all
+149 source files and380 unique historical Git blob bindings, exact output hashes,
+four28-file binding snapshots and948 external pins. Raw16 stage/operator artifacts
+are secured under `validation/operations-002/source-002-completed/`; proposal
+SHA256 `c9045226117e0121acd9069a5456c196da6c9b04a1ea18e59bc3a85f5f0d7d35`.
+The monitor was acknowledged once. A saved-evidence bookkeeping assertion wrongly
+compared the terminal subset with the richer heartbeat status; its failure is
+preserved and corrected by matching every terminal field. No stage was rerun.
+
+Runtime-proposal002 was separately launched with the accepted8641d0d review,
+exact manifest digest and000d741 anchor. Detached operator PID32993,1800-second
+bound, durable monitor `exp7-tokenizer-runtime-proposal-002` registered to the
+verified current parent session. Actual proposal outputs return for independent
+review before runtime copying or use. No tokenizer assets or cap measurements yet.
