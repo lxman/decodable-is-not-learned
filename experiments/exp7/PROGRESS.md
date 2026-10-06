@@ -2596,3 +2596,23 @@ source007 and rejected offline001 outputs remain absent. Evidence:
 TypeError (integer count mistaken for its row list) preceded verification and is
 recorded in that evidence; the actual verification/audit passed on its first call.
 Original-reviewer exact-input acceptance is underway before explicit launch.
+
+Review036 `d20bc548b0052989b69cf7653edbee0f69ee64c0` **ACCEPTS** the exact
+operator005/source007 inputs without required subject corrections. Management
+authenticated all five committed reviewer files/modes and the saved166-repository/
+948-external audit,151-source/384-Git-row projection and exact child/start argv.
+The reviewer's first static management-transition mismatch remains preserved;
+its `static.started_utc` is a historical build receipt, not a reviewer timestamp.
+The valid top-level/audit timestamps and the single Plan/audit result are retained.
+
+The coordinator's first pre-launch verifier expected an absent `command` field in
+its own saved audit. It stopped before receipt creation, launch or monitor action.
+The traceback, original line and reconstructible original SHA256 are preserved in
+`operations-005/source-007.coordinator-prelaunch-failed-001.json`. The corrected
+check reconstructs the fixed child argv and verified original failed-source bytes.
+
+Management explicitly launched source007 once through accepted operator005:
+detached PID13174,900-second bound, durable job `exp7-tokenizer-source-007`
+registered to the current coordinator session. Launch and registration receipts
+are in `operations-005/source-007.coordinator-*`. Actual-output independent
+acceptance precedes finite-reuse runtime preparation; OFFLINE-1 remains open.
