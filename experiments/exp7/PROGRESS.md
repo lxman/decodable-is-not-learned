@@ -1710,3 +1710,13 @@ versioned002 launch bindings. The47 passing fake tests did not cover the absent
 incidental import. No runtime-proposal001 launch or automatic retry is permitted;
 the repaired code and replacement launch inputs return to independent review.
 No asset acquisition, tokenizer contact or cap computation has occurred.
+
+TOKENIZER-4 repair source `9173fe3bfefd9dce7e7b3ea80732f5536da416f5` adds exactly
+the explicit import. Management verified that one-line pipeline delta, the two
+constant-only changes in the versioned002 operator, all DELIVERY-v3 bindings,
+and independently reproduced the genuine cold finder GREEN plus48/48 fake methods.
+No helper or stage executed in the cold smoke; source hashes stayed unchanged.
+Evidence: `validation/repair-004/coordinator-001/`. The original reviewer is
+assessing the repair and fresh source/runtime002 manifests anchored at
+`000d741ec8c58e37374d941627ea74179023d15e`. Historical source001 remains failed1/1;
+no stage retry has occurred.
