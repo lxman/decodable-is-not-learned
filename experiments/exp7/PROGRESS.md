@@ -2201,3 +2201,19 @@ current-byte checks are recorded separately, not substituted for those missing
 receipts. The failure has no accepted staged proposal or completed class/padding
 measurement. It caused no new requests or tokenizer imports. Independent failure
 preservation/metadata review is next before a scoped repair or replacement launch.
+
+Review022 `dffd12875155dc19ddc6a42acb7829e12ad7c50d` accepts the failed staging
+archive as **FAILED_CORRECTLY_PRESERVED**, no preservation findings. Its static
+trace through pinned Transformers5.13.0 shows the historical Pythia config string
+survives as inert kwargs metadata, while the special-token map is read through a
+separately resolved local variable. Management verified all four committed review
+hashes, eleven runtime source hashes and twenty exact excerpts. This establishes
+the field's static path-use behavior, not tokenizer compatibility or a complete
+dynamic read inventory for the failed attempt.
+
+Ruling TOKENIZER-7: `validation/repair-023/COORDINATOR-RULING.md`. Permit that one
+field only for the exact Pythia identity, raw tokenizer config and local special-map
+hashes on the reviewed runtime; preserve all raw bytes and other file restrictions.
+The original implementer will deliver focused fake RED/GREEN evidence, revised
+helper authority, versioned operations004 and fresh source004 inputs for review.
+Runtime/preparation/acquisition are reused; failed staging001 remains preserved.
