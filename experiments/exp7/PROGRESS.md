@@ -2392,3 +2392,23 @@ All19 raw artifacts, coordinator verification and ACK are secured under
 `validation/operations-004/verify_grant_body001_saved.py`. Actual output returns
 for independent acceptance before unchanged stable publication and its genuine
 external containing commit. Tokenizer compatibility/cap validation remains unrun.
+
+Grant-body001 saved-output review030 `3000bc37d1dceb755900b3194fa5edfe2b78691e`
+**ACCEPTS** all21 archive files/19 raw artifacts and the exact693-byte body for
+unchanged stable publication, no findings. Management verified all four committed
+review files and formal subject/evidence hashes.
+
+Stable publication completed at `b02649d107239950b241018b535155f951c2a683`:
+`validation/authority/tokenizer-cap-grant-v2.json`, byte-identical to the accepted
+actual output. SHA256 remains
+`a35bf5fa51be0fa7e0affe4790921a6560475ad0a4d1cef8813be53e311071f6`.
+The containing commit is genuine and externally supplied; the body is unchanged.
+Committed bytes and remote master were verified.
+
+Ruling: `validation/operations-004/SOURCE-006-RULING.md`. Prepare source006 against
+that actual publication snapshot, retaining source005's owner-export/original-
+approval bindings and adding only the stable grant path. Projected closure151
+source files/383 Git bindings; all232 historical rows remain unchanged. The
+grant-containing Git row is a current-source row at the publication commit.
+Original implementer prepares exact inputs for independent review before explicit
+900-second launch; offline input preparation follows accepted actual source006.
