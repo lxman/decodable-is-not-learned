@@ -2253,3 +2253,16 @@ Both processes exited. Sixteen raw artifacts, coordinator verification and the o
 monitor ACK are secured under `validation/operations-004/source-004-completed/`.
 Saved-output independent review is next; no tokenizer import, staging, asset request
 or padding measurement occurred in this source-proposal run.
+
+Source004 saved-output review `14e8b5b427856ed2dd42deaf7056221137cd928d` **ACCEPTS**
+the149-source/380-Git-binding proposal without findings. All231 historical rows
+remain unchanged. Management verified all four committed review files and formal
+subject/evidence hashes. The actual source proposal is accepted for replacement
+staging input preparation.
+
+Ruling: `validation/operations-004/STAGE-ASSETS-002-RULING.md`. Prepare a fresh
+offline stage-assets002 attempt with900-second outer bound, accepted004 helper/
+operator, source004/review024, exact runtime008, identities and acquired002/review020.
+All589 original acquisition references and raw bytes remain intact; staging001's
+partial output is preserved. The original implementer prepares finite inputs for
+independent review before explicit launch. No replacement staging has run.
