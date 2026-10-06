@@ -2915,3 +2915,35 @@ and a supplement. Original v7/RED/GREEN/failed regression remain unchanged. The4
 passing methods and completed focused GREEN are not rerun. Independent implementation
 review, genuine source refresh and the separate instrument-loader amendment remain
 pending. OFFLINE-1 is open; no real runtime/cap comparison has run.
+
+REGRESSION-FIXTURE-1 delivered: fixture/runner `de643f53a0ad9b38ca2bc90b00074204845aefce`,
+evidence `db4386828694564eb76e9af5a880c78b7683d0c1`, DELIVERY-v8
+`8c1479d0443256900dce4f285634fb06fb8871d2`, supplement handoff
+`a878a8459c985d214a522ed8c87d711b418881e8`. Exactly one corrected method ran once
+and passed with no failures/errors. The bad-grant branch makes no initializer or
+receipt call; the successful fake branch records initialize→receipt→put→fake
+Transformers→denials→fake cap. Its90-byte receipt is explicitly fake and in-memory.
+Original10 assertions remain and six new ones check the interface. No other method
+or production helper changed; six helper hashes remain identical.
+
+Regression now has **48 unique passing methods across49 invocations**:47 original
+passes plus the corrected method. The original batch remains FAILED47/48; RED2
+expected failures and GREEN19 methods/63 subtests are unchanged. DELIVERY-v8 SHA256
+`0dc93a267ede21e8c6f4dd83a07c5720a16ca960730d32889d7715f496d60860`.
+
+Management authenticated780 genuine supplement/historical binding rows with
+mode-aware current publication checks and the exact one-method byte/AST diff.
+Its first static checker counted only self-assertions but compared against a total
+including two mock assertions. It stopped before tests/output creation; original
+source/log/ruling are preserved at `154b48d8e1f208523089a57005169445e7378864`.
+Corrected static checking passed, followed by six fresh focused coordinator fake
+checks,6/6 pass with zero errors/forbidden imports. Evidence:
+`validation/repair-042/coordinator-implementation-001/`. Original-reviewer
+implementation review043 is underway, with its own fresh scoped fake evidence.
+No actual runtime initialization or cap comparison ran. New source authority,
+offline002 inputs and the separate instrument-loader amendment remain pending.
+
+Publication's initial all-file whitespace check flagged the deliberately added
+blank line in a coherently rehashed negative config fixture. The stimulus remains
+verbatim; the authored-source check excludes retained fixture bytes. The failed
+check and disposition are recorded in the coordinator evidence's `PUBLICATION-NOTE.md`.
