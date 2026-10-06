@@ -2719,3 +2719,24 @@ artifacts, coordinator verification and ACK are secured in
 `validation/operations-005/verify_runtime_proposal003_saved.py`. Actual-proposal
 independent acceptance is next before separate runtime-copy002 input preparation.
 Earlier audit-wrapper failure/correction remain preserved. OFFLINE-1 remains open.
+
+Review039 `31636523cb52fcb4deabd7533951aa86d82867c1` **ACCEPTS actual runtime-proposal003**,
+no required findings. Its independent reconstruction matches all1,277,449 canonical
+bytes and complete maps; archive, lifecycle, closure and preservation checks pass.
+It ran once with zero reviewer failures. Formal `review-039/runtime-copy.review.json`
+SHA256 `b086d27c88b0c4fc52afbe177d39f48864e5dd903ce3eb8c8087dcdea700befd`.
+Management authenticated all four committed review files/modes,128 genuine authority
+bindings, formal subject/evidence and saved map/archive/lifecycle/ACK agreement.
+Evidence: `validation/operations-005/runtime-proposal-003.coordinator-review039.json`.
+No stage, prior verifier, test, Plan/audit or monitor action was repeated.
+
+Ruling: `validation/operations-005/RUNTIME-COPY-002-RULING.md`. Prepare exact
+runtime-copy002 inputs from the accepted actual copy proposal, retaining accepted
+operator005/helpers and source007 snapshot. The fresh copy002/site remains absent.
+Expected3,698 files/61,044,263 site bytes,948 externals/26 versions,4,646 future pins
+and3,288 modules; full equality and the five-name delta are required. The original
+implementer prepares the11-file child repository closure and4,646 external reads,
+separate authenticated context, exact future commands and one new fenced read-only
+Plan/audit before independent input acceptance.900-second operational ceiling.
+Actual runtime acceptance and renewed TOKENIZER-7/all28 class proofs precede
+offline002 inputs. OFFLINE-1 remains open; no runtime copy or cap run has launched.
