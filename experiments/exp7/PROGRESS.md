@@ -2434,3 +2434,18 @@ Detached PID63936 has a900-second bound; durable job `exp7-tokenizer-source-006`
 is registered to the current coordinator session. Launch/registration receipts
 are under `validation/operations-004/source-006.coordinator-*`. Actual source006
 output requires independent acceptance before offline input preparation.
+
+Source006 completed **child/operator0/0**, Oct6 10:26:24 UTC, in7.444542 seconds.
+Management verified all151 current source files and383 genuine sorted Git bindings,
+including the published grant at its actual containing commit. All150 previous
+path hashes and232 historical rows remain unchanged. Actual proposal SHA256:
+`ca631a52d2832647238d4fc124637c50d717cb6f5a86f19e3d6bc24e36f94201`.
+Four547-file outer snapshots and948 external pins verify; lifecycle, START/COMPLETE
+and reconciliation agree. Both processes exited, logs are empty, and the monitor
+was acknowledged once.
+
+Sixteen raw artifacts, coordinator verification and ACK are secured under
+`validation/operations-004/source-006-completed/`; verifier:
+`validation/operations-004/verify_source006_saved.py`. Independent actual-source
+review is next before offline input preparation. The earlier coordinator pre-launch
+comparison failure remains preserved; this was one production source006 run.
