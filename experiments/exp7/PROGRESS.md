@@ -2947,3 +2947,29 @@ Publication's initial all-file whitespace check flagged the deliberately added
 blank line in a coherently rehashed negative config fixture. The stimulus remains
 verbatim; the authored-source check excludes retained fixture bytes. The failed
 check and disposition are recorded in the coordinator evidence's `PUBLICATION-NOTE.md`.
+
+Review043 `7384689c74697590b5f10b3d4b538a646ac31624` **ACCEPTS TOKENIZER-9 helper,
+conditional changed-caller proof and REGRESSION-FIXTURE-1**, with no required
+findings. Fresh independent RED:2 expected assertion failures/0 errors; GREEN19
+methods/63 subtests, corrected dispatch1 and added adversarial1/4 subtests pass.
+Its first static assertion counter omitted two mock assertions; exact failed
+source/result/log remain at `40878fb65471c6e3d21b874d20f549e22fe65688`, then corrected
+static checking passed. No real native initialization or cap comparison occurred.
+
+Management authenticated359 review files/modes,1,741 genuine bindings across24
+commits, all saved phase receipts/logs/source pins,19 changed-path excerpts and28
+conditional rows. Named reads reverified4,646 actual runtime pins and141 raw assets/
+460,580,305 bytes. Its saved-data verifier passed first time without tests, subject
+calls, Plan/audit or monitor actions. Evidence:
+`validation/operations-005/tokenizer9.coordinator-review043.json`.
+
+Ruling: `validation/operations-006/SOURCE-008-RULING.md`. Original implementer prepares
+operator006 as operator005's exact two-constant derivative (new operations path and
+helper implementation commit `5a699f8f7346ec989255225467e94189aa75ed07`) and source008
+inputs selecting review043's genuine snapshot. Expected151 sources/384 Git bindings;
+only `assets.py` changes among source007's151 current pins. Retain original approval
+and grant publication,948 externals,900-second bound and fresh scratch attempts.
+One fenced preparation Plan/audit follows static checks; independent exact-input
+acceptance precedes explicit source launch and actual-output acceptance. Accepted
+runtime-copy002/assets002 are reused. Offline002 inputs and all448,000 comparisons
+remain pending; the separate instrument-loader amendment remains open.
