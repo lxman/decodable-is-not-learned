@@ -1934,3 +1934,14 @@ HTTP responses and10-body9,672,190-byte inventory agree with management's checks
 Management verified both committed review file hashes. The specific rejected URL
 component remains unknown; no source repair is established. Diagnostic preparation
 continues under TOKENIZER-5, with exact code/inputs still to be independently reviewed.
+
+Diagnostic005 delivered at source `2a14b8c28cac64d459c8089cf6476d34c91dca67`,
+manifest anchor `41166c1dbec7eedaa5dcf61713611345a4b7a2fb`, handoff
+`58f16324612d8fc659a0304a6f6b17287c69be98`. Management inspected the actual
+script and parent recipe, reproduced29/29 in-memory fake tests (zero errors,
+failures, skips, forbidden imports, native children or real requests), and passed
+the actual read-only binding audit:45 repository files and4,641 runtime pins.
+Both intended output paths are absent; fixed request013,60-second child wall limit
+and75-second parent timeout agree. Evidence: `validation/diagnostic-005/coordinator-*`.
+The original reviewer is assessing code and exact inputs. No diagnostic request
+or TLS setup has occurred; the refused destination remains unknown.
