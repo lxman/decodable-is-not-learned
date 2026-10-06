@@ -1960,3 +1960,15 @@ unknown/0–1 delivery bounds where needed, including parent timeout. Preserve00
 unchanged and never run its superseded commands. The replacement needs meaningful
 behavioral RED/GREEN and original-reviewer acceptance before coordinator launch.
 No diagnostic request or acquisition retry occurred; redirect cause remains unknown.
+
+Diagnostic006 replacement delivered: source
+`72e67d9fbfba6da0f691ee3ed85fd4c4a95d71bd`, external manifest anchor
+`26874cbc554e13802d962182cce0069d8cdfd842`, handoff
+`1bd2e5a08288ec76a760d5946b48f18b9fe90c3b`. Behavioral RED against actual005
+has two assertion failures/zero errors. Management inspected the new durable
+phase reducer and testable parent, reproduced57/57 fake methods, and passed the
+actual read-only audit:68 repository files/4,641 runtime pins. Static boundary
+map has4,709 files and names actual006 `__main__`; both fresh output paths are
+absent. Evidence: `validation/diagnostic-006/coordinator-*`. Original-reviewer
+scoped re-review is underway. No TLS setup, real diagnostic request or child
+execution occurred during these checks; T5-R13-1 remains open pending acceptance.
