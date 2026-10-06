@@ -2788,3 +2788,22 @@ Durable monitor `exp7-tokenizer-runtime-copy-002` is registered to the current
 coordinator session. Launch/registration evidence: `validation/operations-005/`.
 Actual copied-runtime acceptance precedes TOKENIZER-7/all28 class-route renewal
 and separately reviewed offline002 inputs. OFFLINE-1 remains open.
+
+Runtime-copy002 completed **child/operator0/0**, Oct6 16:46:50 UTC,
+in2.574479 seconds. Management archived and verified every actual copied byte:
+3,698 site files/61,044,263 bytes,948 retained externals/26 versions,4,646 runtime
+pins/3,288 explicit module names. The actual runtime proposal equals all1,174,409
+projected canonical bytes, SHA256
+`cb1debb1ca8ec6b7fd99456a83a657d137f66158492592de51997d82d363f20c`.
+All five added parent chains and unchanged inherited namespace gaps remain recorded.
+The copied runtime has not been initialized; tokenizer/native compatibility is pending.
+
+Stage inventory matches3,701 files/62,219,298 bytes and651 directories including
+root. All four74-file outer snapshots and4,646 external input pins verify;
+START/COMPLETE/lifecycle/reconciliation agree. Both processes exited, logs are empty,
+and no periodic snapshots were needed. The monitor recorded one accepted delivery
+and was acknowledged once. All3,714 raw artifacts plus coordinator verification/ACK
+are secured in `validation/operations-005/runtime-copy-002-completed/`. The write-once
+verifier `verify_runtime_copy002_saved.py` passed on its first execution.
+Independent actual copied-runtime review is next, followed by renewed TOKENIZER-7
+and all28 class routes before offline002 inputs. OFFLINE-1 remains open.
