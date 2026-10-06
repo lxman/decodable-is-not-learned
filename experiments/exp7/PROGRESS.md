@@ -2578,3 +2578,21 @@ the grant's genuine b02649 publication. New exact inputs require independent
 acceptance before launch and actual-output acceptance before finite runtime reuse.
 OFFLINE-1 remains open; offline001 remains rejected/unlaunched and no actual
 native/tokenizer compatibility or cap result has been measured.
+
+Operator005/source007 inputs delivered and remote-verified: operator
+`fa10a6e0d0fb32cb2fd0ca35fe31bf64e5d71291`, input source
+`ffe445d4de586920c810866618f48977ce5c4e1b`, manifest anchor
+`a8af9134d677f1bc6316c14ef3b007feed188f91`, final handoff
+`e5b8e34f82f4661e13110dddb8e124f6cd2147f6`. Operator005 differs only in OPS and
+accepted pipeline commit. The launch binds the selected review035 source snapshot
+and both genuine historical owner/grant rows. Source007 remains unlaunched.
+
+Coordinator independently authenticated the delivery/ancestry references, exact
+two-constant derivative, all384 projected Git blobs,148 unchanged source hashes,
+the three accepted helper changes and948 unchanged external pins. Its one fenced
+read-only Plan/audit passed166 repository bindings/948 external pins; all fresh
+source007 and rejected offline001 outputs remain absent. Evidence:
+`operations-005/source-007.coordinator-audit.json`. A preliminary JSON display
+TypeError (integer count mistaken for its row list) preceded verification and is
+recorded in that evidence; the actual verification/audit passed on its first call.
+Original-reviewer exact-input acceptance is underway before explicit launch.
