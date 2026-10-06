@@ -2703,3 +2703,19 @@ operator005: detached PID26354,900-second bound; durable monitor
 Exact launch/registration receipts are in `validation/operations-005/`.
 The actual proposal requires independent output acceptance before runtime-copy002
 input preparation. OFFLINE-1 remains open.
+
+Runtime-proposal003 completed **child/operator0/0**, Oct6 15:36:54 UTC,
+in1.999202 seconds. Management verified its actual1,277,449 canonical proposal bytes,
+SHA256 `3a1e8df1a87538d190050da03b2dcdfa828d673522dfb0d491234d84b72756c1`.
+Full copy map matches3,693 accepted curated sources plus exactly five additions:
+3,698 files/61,044,263 bytes,948 unchanged external pins and26 versions. The proposed
+copy002 destination remains absent;4,646 future pins/3,288 modules remain projections.
+All four66-file outer snapshots and4,646 external bindings verify. Lifecycle,
+START/COMPLETE/reconciliation agree; both processes exited and logs are empty.
+
+The monitor recorded one accepted delivery and was acknowledged once. All16 raw
+artifacts, coordinator verification and ACK are secured in
+`validation/operations-005/runtime-proposal-003-completed/`; verifier:
+`validation/operations-005/verify_runtime_proposal003_saved.py`. Actual-proposal
+independent acceptance is next before separate runtime-copy002 input preparation.
+Earlier audit-wrapper failure/correction remain preserved. OFFLINE-1 remains open.
