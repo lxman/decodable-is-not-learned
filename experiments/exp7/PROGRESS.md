@@ -2217,3 +2217,28 @@ hashes on the reviewed runtime; preserve all raw bytes and other file restrictio
 The original implementer will deliver focused fake RED/GREEN evidence, revised
 helper authority, versioned operations004 and fresh source004 inputs for review.
 Runtime/preparation/acquisition are reused; failed staging001 remains preserved.
+
+TOKENIZER-7 repair delivered at `1a1477da22e74d440d65be02b759a3257342f48a`,
+operations004/input/DELIVERY-v5 source `b7bff2f56a00853fdefa98d94e5530bb2d5d4b1d`,
+manifest anchor `fc7be092df9c0d4052ad1c9a65a88d55f9a35366`, handoff
+`3ffb67b4678417be05ca932fa634712cb66b32ca`. Only provision.py changes production
+behavior. Old-helper RED is one assertion failure/zero errors; the earlier runner
+setup failure and incidental stdlib ssl inventory disclosure remain preserved.
+Focused GREEN passes21 methods/50 fake-vocabulary calls. Management reproduced it
+and passed the198-repository/948-external-pin read-only audit; evidence at
+`6bb17fad056fcbfb1d3057660093ad1b5432aaf1`. No fake call attempted file/path I/O;
+all input bytes remained unchanged. Real tokenizer vocabulary was not used.
+
+Review023 `dd0b3021dd561f252f6cfc9fb3882ccedae1a471` independently **ACCEPTS** the
+repair and exact source004 inputs, no required findings. Reviewer reproduction
+passes21 methods/50 calls and one actual audit. Its initial projection-list ordering
+check failed before Plan/audit; retained corrected `bindings-v2.json` verifies the
+same380 unique bindings in producer order. Management verified committed report,
+final bindings, audit and fake receipt hashes. Five other helpers and the operator
+lifecycle remain byte-identical to their accepted predecessors.
+
+Management explicitly launched source004 once through the authenticated004 operator.
+Detached PID27080 has a900-second bound; `exp7-tokenizer-source-004` is durably
+registered to the current coordinator session. Launch/registration receipts are
+under `validation/operations-004/source-004.coordinator-*`. Actual source output
+returns for independent review before stage-assets002 input preparation.
