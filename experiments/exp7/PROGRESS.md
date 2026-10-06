@@ -1849,3 +1849,24 @@ review evidence hash verifies. Prepare001 launched once using accepted digest an
 external anchor, detached PID48007,1800-second bound. Durable monitor
 `exp7-tokenizer-prepare-001` is registered to the verified parent session. Actual
 normalization/identity/request outputs return for independent review before acquisition.
+
+### Prepare001 PASSED — 2026-10-06 01:18 UTC
+
+Child/operator exits0/0; actual guarded certified-data preparation completed in
+19.842568 seconds. Management inspected the empty complete logs and verified all
+23 repository/4,790 external input pins, four snapshots and4,799 identical inner
+entry/exit pins. Observations contain22 executed files (pinned core and stdlib),
+zero recorded absences. All24 raw operator/stage artifacts and ACK are archived in
+`validation/operations-002/prepare-001-completed/` with coordinator verification.
+
+Saved-output checks match **2,000 pairs /8,000 unique prompts**,500 per family,
+to the certified metadata and exact normalized fields/levels. Battery SHA256
+`969c3dc976e83f3f014fcee4f529887d765358fb1d25ead049fe6344411ec400`;
+levels SHA256 `ddf496b9215598cb395c9296ff61d2aa4f6d307bb5d3a39cd63dfd2c54fa2cf1`.
+All28 revision identities independently match committed predecessor data/AST
+constants; the224 request records exactly cover eight permitted filenames each.
+Identity SHA256 `4988524bfd203f48a50044826282c23b3b3c55bd476f0e0d5740b70537c36950`;
+requests SHA256 `92a7429105226670e4219d274ab4c1ed0cf6e0ad4ef94d05fe1f9a5e9378d31d`.
+The3,112,173,568-byte aggregate ceiling is an allowed request bound, not transferred
+bytes. No tokenizer/config acquisition or tokenizer import has occurred. Monitor
+acknowledged once; original-reviewer output acceptance precedes acquisition inputs.
