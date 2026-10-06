@@ -1903,3 +1903,26 @@ Launch records: `operations-002/acquire-001-parent-*`. This is the first authori
 tokenizer/config acquisition attempt; actual requests, transfers, absences and
 failures will be reconciled from its receipts. Acquired bytes need independent
 review before staging/use; no model weights or tokenizer-cap run is launched.
+
+### Acquire001 FAILED at redirect check — 2026-10-06 01:53 UTC
+
+Child/operator exits1/1 after5.082787 seconds. Actual contact:14 initial immutable
+requests,24 HTTP responses,10 complete bodies/9,672,190 bytes, three optional404
+absences. Request013 (SmolLM3 step1,000,000 tokenizer.json) received Hub302, then
+refused at `transport.location:31` before connecting to its redirect. That predicate
+checks scheme/host/port/userinfo/fragment; the rejected destination was not retained,
+so the failing component is not yet known. Remaining210 requests were not attempted.
+
+All32 repository/4,790 external inputs and four outer snapshots verify;4,805 inner
+ENTRY pins match the coordinator's current-byte recheck. Inner EXIT/observations,
+COMPLETE and acquired proposal are absent. Raw bodies/receipts/failure frames,
+full logs and the once-only monitor ACK are preserved in
+`validation/operations-002/acquire-001-failed/`. A coordinator verifier initially
+tried parsing merges.txt as JSON; the failed bookkeeping check is preserved and
+the corrected body-size/hash inventory passes. No stage retry occurred.
+
+TOKENIZER-5 (`operations-002/ACQUIRE-001-RULING.md`) authorizes preparation and
+independent review of a bounded single-GET redirect-classification diagnostic,
+without following the redirect or reading a body. Exact diagnostic inputs return
+for review and explicit coordinator launch. No guessed-host allowlist expansion,
+asset staging, tokenizer import or cap computation has occurred.
