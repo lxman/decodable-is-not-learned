@@ -3174,3 +3174,29 @@ required. The result grants no module loading permission; AnyIO/MarkdownIt gain
 no tuple. Original implementer prepares only new proposal/evidence. No helper change,
 test, production attempt or duplicate monitor follow-up is authorized by this phase.
 All448,000 comparisons, OFFLINE-1/RENEWAL-PAD-1 and instrument-loader amendment remain.
+
+TOKENIZER-10 design delivered at `f7dc9910669782c01f5c8ec73b274b613bc1814a`;
+entrypoint `validation/repair-047/FINAL.md`, commit-bound `HANDOFF.json`.
+Candidate001 and its cache-hit source finding were preserved at
+`331ef02f8cca996ce0b66a8afbc4a56033442704` before candidate002 at
+`2023cf7953498be780b986542b8f75b1fd8c3158`. Candidate002 adds loader-entry checks,
+exactly-one-admission completion, trusted builtin namespace and exact ModuleSpec
+kind. Proposed boundary83,023 bytes/SHA256
+`90ff0a8bfaee442e329dea7e1854fb292efdaebb3aafb1070703789b22d9d285`;
+launch27,299 bytes/SHA256
+`ed73c3798dd881caef93e122f55203d38492d069de397779638c3da12428a461`.
+These remain uninstalled/unexecuted text proposals. Ten future fake groups plus
+candidate002 addenda are documented; no tests ran. One provider-transport interruption
+with empty patch arguments is retained; no failed preparation-program invocation.
+
+Coordinator's new package verifier passed first time:41 owned additions,77 genuine
+binding rows across seven commits (31 witness+13 supplementary+33 published-design
+bindings),25 named witness sources,30 named route sources/769 exact excerpts and
+all46,435 preexisting tree entries preserved. It authenticated the saved115 named
+negative-metadata rows without repeating their measurement, exact candidate delta,
+publication receipts and unchanged installed helper hashes. Evidence:
+`validation/operations-006/tokenizer10-design.coordinator-delivery.json`.
+No semantic design acceptance is inferred from packaging or nonexecuting compile.
+Original-reviewer048 design review is underway; implementation ruling follows its
+acceptance. Offline002 remains failed with its monitor already acknowledged;
+all448,000 comparisons and the separate instrument-loader amendment remain pending.
