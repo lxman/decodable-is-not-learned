@@ -2632,3 +2632,16 @@ All16 raw artifacts, coordinator verification and acknowledgment are secured in
 `validation/operations-005/verify_source007_saved.py`. Actual-source independent
 acceptance is next before finite-reuse runtime-proposal input preparation.
 The coordinator pre-launch schema failure remains preserved; source007 ran once.
+
+## GitGuardian two new flags — verified false positives, 2026-10-06
+
+Michael reported two more flags. Incidents37924721/37924722, detected14:30:25 UTC,
+each match a genuine Git commit identifier twice in review036's current/preserved
+first-attempt verification scripts. The identifiers select source006 acceptance
+and archive commits through the local Git-file helper `auth(commit, name, ...)`.
+Management verified all four API-reported patch spans and AST roles, recomputed
+both Git commit-object identities, authenticated ancestry and checked the selected
+artifacts against their pinned hashes/current bytes. These are **false positives**.
+Evidence: `planning/gitguardian-20261006/{README.md,verification.json,verify_alerts.py}`.
+GET-only14:47 UTC status: both TRIGGERED; recommend Ignore/false positive. No
+dashboard status mutation or review/stage rerun occurred.
