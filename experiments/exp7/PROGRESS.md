@@ -1881,3 +1881,14 @@ records/evidence and the measured curated CA file;4500-second outer bound with
 the existing3600-second transport total bound. Exact inputs return to independent
 review before the first request. Asset availability, class/padding and tokenizer
 compatibility remain unmeasured.
+
+Acquire001 concrete input source `16f44a5458ec101028e3ef2bd98bbd5e7ca69bd2`,
+manifest anchor `149af6adcd6c45d05e0c571afc844cee764ad6e0`, handoff
+`b3bb8f55043e1b9a750f2d87c1e3d51e883e43b7` are delivered. Management inspected
+the actual transport and launch; its independent read-only Plan/audit passes32
+repository bindings and4,790 external pins. Both review010 subjects and evidence,
+all224 request records,28 identities,4500-second outer bound and the curated CA
+match. Static reconstruction yields4,805 inner pins; this is not a measured stage
+result. Evidence: `operations-002/acquire-001.coordinator-audit.json`. The original
+reviewer is assessing exact inputs. No TLS setup, request or stage was executed
+by preparation or this audit.
