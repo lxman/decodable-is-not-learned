@@ -2108,3 +2108,22 @@ prepare001 request records, with4500-second outer/3600-second transport limits.
 The original implementer prepares finite commit-bound inputs for original-reviewer
 acceptance before explicit coordinator launch. Acquire001 and its partial evidence
 remain preserved; no new asset request has occurred.
+
+Acquire002 inputs delivered at `b397b36271dc91b27183c35f5e85fb797bbb92b5`,
+manifest anchor `81f8cb0956b04bd2625c14894eba78b657b424fd`, handoff
+`a55dafb16d6406c2983168184f3c20b50b176804`. Coordinator read-only verification
+at `61548992117b24241a30524fede92192070196a7` passes70 repository/4,790 external
+bindings,224 requests/28 identities and the statically reconstructed4,805 inner
+pins. Source003/review018 replace source002/review005; other stage inputs and
+runtime are exact accepted reuse. The reviewer independently ACCEPTS exact inputs
+at `ad27d47d5f7746f18141222632ac0e1e38a6282d`, no findings. Its initial local
+write-fence refusal at `/dev/null` occurred before Git/Plan/audit and remains
+recorded in review019; the corrected actual audit passed. Management verified all
+three committed review files and the exact command-file digest.
+
+Management explicitly launched acquire002 once with the authenticated003 operator.
+Operator PID4326 is detached, bounded to4500 seconds (transport3600), and registered
+as `exp7-tokenizer-acquire-002` to the current coordinator session. Launch/registration
+receipts are `validation/operations-003/acquire-002.coordinator-*`. This is the new
+224-request tokenizer/config acquisition attempt under TOKENIZER-6; acquired outputs
+return for independent review before asset staging. Acquire001 remains FAILED1/1.
