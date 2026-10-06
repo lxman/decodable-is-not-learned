@@ -3228,3 +3228,26 @@ proof-constructor positive after normal importlib initialization and exact alias
 mutation negatives. Preserve candidate001/002 and every completed record; no install
 or test in this phase. Original-reviewer re-review precedes implementation ruling.
 Offline002 remains failed; all448,000 comparisons and instrument-loader amendment remain.
+
+TOKENIZER-10 candidate003 published at `834543cca2cefdbf48bdc4a542c23871bec9841d`;
+final handoff `18be3c6fbb5d4fff63dc016ac9739699895da7f7`. Entrypoint
+`validation/repair-047/FINAL-003.md`; boundary86,135 bytes/SHA256
+`810e4058b668ed8dde40b43a57119a9a5c0b85363a6c956e30aad7638fdbf4fb`.
+Launch remains the same27,299-byte proposal. One new nonexecuting preparation
+passed: three identity rows/five cache keys/five classes/29 function objects
+(13 selected+15 transitive+one path hook), six named stdlib sources. It authenticated
+11 named inputs/eight ancestor commits. No helper construction or behavior test.
+One handoff-only unmatched patch context was preserved with its unexecuted source
+at `8d000cd87de1cb88ed29205611a920bcddaec30f` before correction; no preparation-program
+failure or completed-checker rerun occurred.
+
+Coordinator's new delivery check passed first time:23 additions,23 binding rows/
+nine commits, all46,502 previous tree entries preserved and installed helper hashes
+unchanged. An independent AST comparison confirms exactly two changed methods
+(`_authenticate_importers`, `_trust`), one added `_importer_source` method and the
+literal three-row identity map; every other statement/constant/method matches002.
+Saved metadata and publication receipts reconcile; no candidate absence was
+remeasured. Evidence: `validation/operations-006/tokenizer10-candidate003.coordinator-delivery.json`.
+Original-reviewer049 semantic re-review is underway. DESIGN-1 closure and complete
+design acceptance remain pending; candidate002 stays NOT ACCEPTED. Proposed code
+is uninstalled/unexecuted, with all448,000 comparisons still unmeasured.
