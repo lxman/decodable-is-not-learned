@@ -2167,3 +2167,19 @@ Bind all589 referenced request/response/body files at their original scratch pat
 against the accepted archive. Actual staging derives declared classes/numeric
 padding from asset data and writes28 exact directories; it does not instantiate
 tokenizers. Exact inputs return for independent review before explicit launch.
+
+Stage-assets001 inputs delivered at `737a5417158f46301ba090b9515effeb8ce44c3e`,
+manifest anchor `6cda8415e7285826cfe19b121ce5d001fefa220a`, handoff
+`44179b578c27614c0eb17483daa579aa0ce07343`. Management's independent read-only
+audit (`3af1ed1828e7eebaf9e8470043bf16c376d52a6f`) passes683 repository/5,379
+external bindings, all589 original acquisition references and the5,396-file
+projected inner map. Review `aac81688877b75273bcf3f266e5e61bb1b0b7d7e` independently
+ACCEPTS the exact inputs with no findings. Management verified the three committed
+review files and published command digest; no metadata derivation ran in preparation.
+
+Management explicitly launched stage-assets001 once through the accepted003
+operator. Detached PID15148 has a900-second bound; the stage's network authority
+isFalse. Durable job `exp7-tokenizer-stage-assets-001` is registered to the current
+coordinator session. Launch/registration receipts are under
+`validation/operations-003/stage-assets-001.coordinator-*`. Actual staged outputs
+return for independent acceptance before separate grant preparation.
