@@ -1821,3 +1821,12 @@ The60,771,532-byte third-party site remains in the approved scratch directory;
 it is not committed. Monitor acknowledged once. No package import, compatibility
 probe, asset acquisition or cap computation ran. Original-reviewer materialized
 output acceptance and concrete preparation inputs are next.
+
+Materialized runtime independently accepted at
+`9bd492b67e0a5968d8204b1865df0a9fe996e6cc` for guarded preparation/acquisition/
+asset-staging under the existing trusted-native contract. Management verified
+the genuine committed review/report/evidence bindings; its output and inventory
+claims agree with management's saved-output verification. Tokenizer compatibility
+is still unmeasured. The original implementer is preparing a concrete data-only
+`prepare-001` launch for certified battery normalization,28 identities and224
+allowed asset-request records, with the accepted source005/runtime008 inputs.
