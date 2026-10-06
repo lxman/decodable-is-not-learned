@@ -1926,3 +1926,11 @@ independent review of a bounded single-GET redirect-classification diagnostic,
 without following the redirect or reading a body. Exact diagnostic inputs return
 for review and explicit coordinator launch. No guessed-host allowlist expansion,
 asset staging, tokenizer import or cap computation has occurred.
+
+Independent failed-output review `e7c4b513817ab4273b544ac3378d8e73bbcea8fd`
+is **FAILED_CORRECTLY_PRESERVED**, no acquired manifest authorized. Its81-file
+archive reconstruction (78 raw artifacts plus coordinator/ACK records), all24
+HTTP responses and10-body9,672,190-byte inventory agree with management's checks.
+Management verified both committed review file hashes. The specific rejected URL
+component remains unknown; no source repair is established. Diagnostic preparation
+continues under TOKENIZER-5, with exact code/inputs still to be independently reviewed.
