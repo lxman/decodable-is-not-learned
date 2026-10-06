@@ -1972,3 +1972,18 @@ map has4,709 files and names actual006 `__main__`; both fresh output paths are
 absent. Evidence: `validation/diagnostic-006/coordinator-*`. Original-reviewer
 scoped re-review is underway. No TLS setup, real diagnostic request or child
 execution occurred during these checks; T5-R13-1 remains open pending acceptance.
+
+Diagnostic006 review `9999ea0cbadca2a9d0c64128b90b885f12902495` confirms the
+durable intent/unknown-delivery repair but returns **REQUIRED_REPAIR** for
+T5-R13-1-R14-PARENT-TERMINAL-VALIDATION. Malformed COMPLETE and successful TERMINAL
+records with only pre-send history can incorrectly establish known-zero delivery.
+This is a malformed-evidence probe, not an observed ordinary-producer output.
+Reviewer reproduction:57 supplied passes; ten independent methods, nine pass and
+one has two assertion failures. Management verified all21 review files and
+independently reproduced both cases against actual006.
+
+Ruling: `validation/repair-014/COORDINATOR-RULING.md`. Prepare a scoped007
+terminal-schema repair preserving005/006 and all historical failures; invalid
+success semantics become unknown0–1, while genuine final pre-send failure zero
+and valid response evidence remain. Replacement source/inputs return for review.
+No real request, TLS setup, diagnostic launch or acquisition retry occurred.
