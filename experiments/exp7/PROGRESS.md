@@ -2345,3 +2345,17 @@ Sixteen raw artifacts, coordinator verification and the one monitor ACK are secu
 under `validation/operations-004/source-005-completed/`; verifier:
 `validation/operations-004/verify_source005_saved.py`. Saved-output independent
 acceptance is next before grant-body001 input preparation.
+
+Source005 saved-output review028 `37f8c29bd9df5092dd6d689dddcfd21dea65838c`
+**ACCEPTS** all18 archive files/16 raw artifacts,150 source files and382 genuine
+sorted Git bindings without findings. All231 prior historical rows remain exact.
+Management verified all four committed review files and formal subject/evidence
+hashes. The monitor's single acknowledgment remains preserved.
+
+Ruling: `validation/operations-004/GRANT-BODY-001-RULING.md`. Prepare a fresh
+grant-body001 attempt using accepted source005/review028, exact runtime008,
+assets002/review026, normalized battery/review010 evidence and the genuine Oct5
+quote/export. The existing data-only branch writes the eight-field v2 body; the
+containing commit is supplied externally only after actual output publication.
+The original implementer prepares exact inputs for independent review before
+explicit900-second launch. No grant-body or tokenizer execution has occurred.
