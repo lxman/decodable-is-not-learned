@@ -2359,3 +2359,20 @@ quote/export. The existing data-only branch writes the eight-field v2 body; the
 containing commit is supplied externally only after actual output publication.
 The original implementer prepares exact inputs for independent review before
 explicit900-second launch. No grant-body or tokenizer execution has occurred.
+
+Grant-body001 inputs delivered at `05070de033a3a8d22a6e093919d8f0b7c7a21d7c`,
+anchor `acde88a97981470719eb3b431654e3ec5bce0e8a`, handoff
+`ff39194f7f08058ae6d9793fdf169eb72efa7539`. Management's independent read-only
+audit (`fa8c13c8918350656396af93310c4bbad6edd766`) passes503 repository/4,791
+external bindings and the4,808-file projected inner map. Review029
+`ab0c1f25859c7790d8573f1a7d9b6e0fa7a72490` independently ACCEPTS exact inputs,
+no findings. Management verified all three committed review files and the published
+start command against its accepted argv. The owner quote, normalized battery,
+actual assets metadata and mandatory runtime008 pair authenticate unchanged.
+
+Management explicitly launched grant-body001 once through accepted operator004.
+Detached PID54798 has a900-second bound and inner network authorityFalse; durable
+job `exp7-tokenizer-grant-body-001` is registered to the current coordinator session.
+Launch/registration receipts are under `validation/operations-004/grant-body-001.coordinator-*`.
+The actual eight-field body requires independent saved-output acceptance before
+unchanged stable publication and genuine external containing-commit authority.
