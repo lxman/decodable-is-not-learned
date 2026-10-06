@@ -1746,3 +1746,19 @@ exact manifest digest and000d741 anchor. Detached operator PID32993,1800-second
 bound, durable monitor `exp7-tokenizer-runtime-proposal-002` registered to the
 verified current parent session. Actual proposal outputs return for independent
 review before runtime copying or use. No tokenizer assets or cap measurements yet.
+
+### Runtime proposal002 PASSED — 2026-10-06 00:14 UTC
+
+Child/operator exits0/0; empty complete child/operator logs, no timeout/cancellation
+or cleanup errors. Management independently reconstructed the selected inventory:
+**3,693 files /60,771,532 bytes**,26 package roots and26 metadata distributions,
+with948 external pins matching the reviewed selection. All source bytes, version/
+platform fields, four28-file binding snapshots and output digests verify. Proposal
+SHA256 `54c0d709b36210630caff68ca2e9930386346f36b8870065591a74e35a70a6e6`.
+Evidence: `validation/operations-002/runtime-proposal-002-completed/` (16 raw
+artifacts plus coordinator verification and ACK). Monitor acknowledged once.
+
+The original reviewer is assessing the source002 output; runtime proposal review
+follows in the same independent reviewer session. These inventories remain proposals
+until accepted. Runtime-copy launch inputs will bind the actual proposal/review;
+no curated runtime copy, third-party import, asset acquisition or cap run occurred.
