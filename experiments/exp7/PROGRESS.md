@@ -3141,3 +3141,36 @@ the exception mismatch and examines the finite optional-import routes for the sa
 class of error. Saved-data/source-only recommendation precedes any repair or fresh
 execution authority; accepted physical runtime/assets and all historical failures
 are preserved. OFFLINE-1/RENEWAL-PAD-1 and the instrument-loader amendment remain open.
+
+Review047 `64b6dcc35ac03e13482a9a212de3df9559660bbe` **ACCEPTS offline002 failure
+preservation**, no required preservation findings, and confirms OPTIONAL-ABSENCE-1.
+Report SHA256 `76b7e5b4236585d6ac171be8fc5f2b920b51ac8ee945c4997301e498b4ad1ebb`;
+verification `34ddd5fe403433cd439773e07ca8eab526c858311f8e4a0fbc83c9995472cc00`.
+Its saved-data continuation authenticates528 binding keys/13 commits and6,694 files.
+The original reviewer Git-pipe fence failure and earlier read error are preserved;
+continuation executes only the unfinished suffix. Source analysis retains20 narrow
+handler imports,188 unlisted try-import rows and71 earlier conditional observations;
+supplemented whole-AST calls are91, adding eight `if`-condition sites to the original83.
+Review046's optional-route compatibility inference is superseded by the actual
+boundary/catch exception mismatch. AnyIO/sniffio and MarkdownIt/linkify_it are latent
+routes with distinct outer catches/selection, not measured additional failures.
+
+Coordinator authenticated27 review files/modes,551 binding rows/16 genuine commits,
+6,694 file representations,17 raw artifacts,5,008 outer paths/4,953 inner pins,
+24 exact source excerpts and3,287 source-file/AST witnesses. Actual ctypes receipt
+and zero cap/factory execution reconcile. First checker stopped because151 original
+rows' `current_equality:true` annotations are absent from later historical batch
+rows, although every binding field agrees. Source/traceback/ruling preserved at
+`06663592b0ba61f370c0dc6a0b1116cfee785284`; corrected checker verifies identity plus
+current equality independently and passed. Evidence:
+`validation/operations-006/offline-002.coordinator-review047.json`.
+
+Ruling: `validation/repair-047/COORDINATOR-DESIGN-RULING.md` adopts **TOKENIZER-10**'s
+envwrap-only immediate authenticated absence result and scopes its complete-code
+design/finite proof for independent review before helper implementation. Exact
+tqdm root-code/caller/spec/loader identity, approved five-root negative proof,
+finder/cache/hook stability and retained bounded success/refusal observations are
+required. The result grants no module loading permission; AnyIO/MarkdownIt gain
+no tuple. Original implementer prepares only new proposal/evidence. No helper change,
+test, production attempt or duplicate monitor follow-up is authorized by this phase.
+All448,000 comparisons, OFFLINE-1/RENEWAL-PAD-1 and instrument-loader amendment remain.
