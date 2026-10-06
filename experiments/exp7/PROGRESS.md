@@ -2616,3 +2616,19 @@ detached PID13174,900-second bound, durable job `exp7-tokenizer-source-007`
 registered to the current coordinator session. Launch and registration receipts
 are in `operations-005/source-007.coordinator-*`. Actual-output independent
 acceptance precedes finite-reuse runtime preparation; OFFLINE-1 remains open.
+
+Source007 completed **child/operator0/0**, Oct6 14:36:20 UTC, in5.588089 seconds.
+Management verified the actual151 source files and384 genuine sorted Git bindings:
+148 source hashes unchanged, exactly the three accepted helper changes, all232
+prior historical rows retained and the original grant publication now added as
+the233rd historical row. Actual88,934-byte proposal SHA256:
+`b80891f7dc2750ddf7da025380d668bd293376831c2aca1756e6b47706308c03`.
+All four166-file outer snapshots and948 external pins verify. Lifecycle,
+START/COMPLETE and reconciliation agree; both processes exited and logs are empty.
+The durable monitor recorded one accepted delivery and was acknowledged once.
+
+All16 raw artifacts, coordinator verification and acknowledgment are secured in
+`validation/operations-005/source-007-completed/`; saved-data verifier:
+`validation/operations-005/verify_source007_saved.py`. Actual-source independent
+acceptance is next before finite-reuse runtime-proposal input preparation.
+The coordinator pre-launch schema failure remains preserved; source007 ran once.
