@@ -2554,3 +2554,27 @@ The corrected mode-aware check authenticated the link and all remaining bindings
 Original-reviewer implementation review is underway. OFFLINE-1 remains open;
 offline001 remains rejected and unlaunched. No actual runtime/native initialization,
 production stage, real runtime copy or tokenizer cap comparison has occurred.
+
+Review035 `3a672f8cc3c8862660d174c5c698706ccbccf44d` **ACCEPTS TOKENIZER-8's exact
+helper implementation**, satisfying R34-1/R34-2 with no required code correction.
+Independent genuine RED:8 cases/12 assertion failures/0 errors. Independent GREEN:
+40/40 (19 new,15 affected existing and six reviewer canaries). Its first static
+management-transition mismatch and both cold harness missing-import setup failures
+remain preserved; zero test methods ran in those setup attempts.
+
+Management verified all472 committed review bytes/modes, report/verification/
+reproducer hashes, source snapshots,173/178 host stdlib bindings and saved test
+receipts. A coordinator schema comparison initially omitted the symlink binding's
+type/target fields; its traceback and reconstructible original verifier are
+preserved, and corrected data-only verification passed without rerunning tests.
+Evidence: `repair-033/coordinator-review035-verification.json`.
+
+Ruling: `validation/operations-005/SOURCE-007-RULING.md`. Prepare operator005 as
+operator004's exact two-constant derivative (OPS and accepted pipeline commit),
+then source007 inputs at actual review035 snapshot with900-second bound and948
+unchanged external source-stage pins. Project151 sources/384 Git rows: three
+changed helper hashes,148 unchanged path hashes,233 historical rows including
+the grant's genuine b02649 publication. New exact inputs require independent
+acceptance before launch and actual-output acceptance before finite runtime reuse.
+OFFLINE-1 remains open; offline001 remains rejected/unlaunched and no actual
+native/tokenizer compatibility or cap result has been measured.
