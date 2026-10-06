@@ -2024,3 +2024,18 @@ public documentation/metadata reads did not fetch an asset. The current measured
 redirect supports a narrow exact-host repair proposal. Original acquire001's
 missing Location remains missing. Saved-output review precedes any source repair
 or separately reviewed replacement acquisition launch;001 remains FAILED1/1.
+
+Saved diagnostic output independently accepted at
+`a36debdf796487fed7e6c8e0a9b391c9f0a5ff37`, no findings. Management verified both
+committed review hashes; its25-artifact reconstruction and current-host attribution
+agree with management's independent evidence. The reviewer independently retrieved
+the two official documentation/metadata sources, separate from model-asset contact.
+
+TOKENIZER-6 (`validation/repair-017/COORDINATOR-RULING.md`) adopts the narrow
+addition of exact `us.aws.cdn.hf.co` to acquisition HOSTS, with meaningful fake
+RED/GREEN and source review. The original implementer will publish a new helper
+snapshot/DELIVERY-v4, an operations003 operator changing only OPS/PIPELINE_COMMIT,
+and concrete source-proposal003 inputs. Fresh source/output acceptance precedes
+separately reviewed acquire002 inputs; prior runtime and normalized battery remain
+reusable under their exact accepted bindings. No new request or acquisition retry
+is authorized to launch before those reviews and explicit coordinator action.
