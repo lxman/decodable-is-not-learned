@@ -2680,3 +2680,12 @@ source/traceback/disposition remain in `operations-005/runtime-proposal-003.coor
 Ruling `RUNTIME-PROPOSAL-003-AUDIT-REPAIR.md` permits one corrected read-only audit
 after failure publication, with only the fixed stdlib DEVNULL operation admitted
 and an in-memory source cache for diagnostics. No production launch has occurred.
+
+After failure/ruling publication `d4a8d006297e986cc155e1279a8e302a4ecc2fe5`, the
+corrected coordinator read-only attempt002 passed: one new Plan/audit,66 repository
+bindings/4,646 external pins and exactly4,712 observed bound file reads. The full
+3,698-copy/4,646-future-pin/3,288-module projection verifies. The correction admits
+only pinned subprocess `_get_devnull`'s fixed O_RDWR operation and preloads source
+text for diagnostics. Its exact wrapper binds the preserved first verifier and
+derived source hashes. Evidence: `runtime-proposal-003.coordinator-audit.json`.
+Independent input review remains underway; no production stage or monitor ran.
