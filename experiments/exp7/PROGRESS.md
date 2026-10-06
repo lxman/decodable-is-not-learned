@@ -2281,3 +2281,22 @@ Detached PID36337 has a900-second bound and stage network authorityFalse. Durabl
 job `exp7-tokenizer-stage-assets-002` is registered to the current coordinator session.
 Launch/registration receipts are under `validation/operations-004/stage-assets-002.coordinator-*`.
 Actual staged outputs return for independent acceptance before grant preparation.
+
+Stage-assets002 completed **child/operator0/0**, Oct6 08:12:39 UTC, in11.300172
+seconds. All28 identity directories contain141 files/460,580,305 bytes, exactly
+matching acquired bodies. The Pythia raw tokenizer configuration and local
+special-token map remain byte-identical. Four894-file outer snapshots pass,
+5,379 external inputs verify, and identical5,396-file inner ENTRY/EXIT maps agree
+with the independent input reconstruction. Saved observations record5,396 reads,
+seven pinned executed files and no absences; logs are empty. Both processes exited
+and the received completion monitor was acknowledged once.
+
+Management independently verified asset-JSON metadata: Pythia declares
+GPTNeoXTokenizer with EOS-as-pad ID0; OLMo declares GPT2Tokenizer with pad100277;
+all26 SmolLM3 identities declare PreTrainedTokenizerFast with pad128004. These are
+data-derived metadata, not tokenizer instantiation/class compatibility results.
+Actual assets.proposal.json SHA256:
+`84061be226aefffea26aafa7a41ec07fb00aa65669262940d3ce4afe642b2962`.
+All160 raw artifacts, coordinator verification and ACK are secured under
+`validation/operations-004/stage-assets-002-completed/`. Independent staged-output
+review is next before separate grant preparation; staging001's failure is preserved.
