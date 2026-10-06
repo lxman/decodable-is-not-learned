@@ -2859,3 +2859,35 @@ checks the actual open-call AST and passed. Evidence:
 `validation/operations-005/renewal-001.coordinator-verification.json`.
 No subject calls, tests, Plan/audit, runtime initialization or monitor actions ran.
 RENEWAL-PAD-1 awaits ruling after review; OFFLINE-1 remains operationally open.
+
+Review042 `2b1466b09c75c7c9cb5eb979b1601c33fd9b070c` **ACCEPTS renewed static
+TOKENIZER-7/all28 conditional-class proofs and CONFIRMS RENEWAL-PAD-1**. Complete
+override/constructor/role/native-lookup tracing predicts pad1 and a pad0 refusal,
+conditional on successful native construction preserving IDs. Original reviewer
+assertion failure (indented ctypes line) remains at
+`adfd9e5239876845bcfcb78becfebc7dc56cc17e`; corrected static verification passed.
+
+Management authenticated all six review files/modes,4,535 genuine historical
+bindings across53 commits, current selected bytes at review publication,28 class
+rows/5,513 import rows and63 symbol excerpts. Its first review042 verifier wrongly
+assumed the saved schema had the earlier `current_equality` flag, requiring an old
+CLAUDE blob to equal current bytes. Failed source/traceback/ruling were pushed at
+`dbcb99587295404a0ccbb3ed139c0d73d4427e8c` before correction. Corrected attempt002
+checks historical and current publication bytes separately and passed. Evidence:
+`validation/operations-005/renewal-001.coordinator-review042.json`.
+
+**TOKENIZER-9 ruling:** `validation/repair-042/COORDINATOR-IMPLEMENTATION-RULING.md`.
+Implement an exact accepted-Pythia full-asset guard (454 canonical bytes, SHA256
+`316641e6c4f762dca571dd9079aeedf120423d084e2b57470ff643b98d3ccb27`), explicit
+`pad_token='<|endoftext|>'` factory keyword and returned EOS0/integer-pad checks.
+Retain numeric pad0, raw bytes, local-only flags, left padding and original
+byte/BOS guards. Other identities keep their existing behavior. The original
+implementer gets focused fake-only RED/GREEN, one fresh bounded fake regression
+batch and additive DELIVERY-v7; independent implementation and refreshed actual
+source authority follow before offline002. No real tokenizer initialization here.
+
+The accepted instrument's `exp7core/live.py:token_only` has the same assumption.
+It remains a recorded **separate build-amendment/pin-refresh/review obligation
+before that path is used**; validation-helper repair does not certify it. All271
+instrument files are preserved in this assignment. OFFLINE-1 remains operationally
+open and448,000 comparisons remain pending.
