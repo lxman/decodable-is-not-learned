@@ -2053,3 +2053,9 @@ unfinished publication: preserve the failed manifest, publish corrected v2 direc
 bindings excluding the two non-executing ignore rules (still preserved separately),
 then one read-only Plan/audit and exact handoff. Keep the reviewed path validator
 and executable sources intact. No production stage or new request occurred.
+
+While the resumed implementer finishes publication, management independently
+reproduced the exact-host repair's18 scoped fake methods:18/18, zero failures,
+errors, skips, forbidden loads, real requests/TLS contexts, native children or
+production dispatches. Evidence: `validation/repair-017/coordinator-fake-001/`.
+The ten bound helper/test/runner sources remain unchanged during the run.
