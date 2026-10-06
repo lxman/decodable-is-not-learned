@@ -2412,3 +2412,25 @@ source files/383 Git bindings; all232 historical rows remain unchanged. The
 grant-containing Git row is a current-source row at the publication commit.
 Original implementer prepares exact inputs for independent review before explicit
 900-second launch; offline input preparation follows accepted actual source006.
+
+Source006 inputs delivered at `479505d21b6925501ee0f297e10ca9347d5b8eb7`,
+anchor `3e64e00ebb38e6b7e23e41abf37e4138f22af31d`, handoff
+`ec31747697ffa5d7425b2111a9548e35a3c00aa1`. Management's independent read-only
+audit (`afe94bd42cd91e6e8df064717bf33327529194b9`) passes547 repository/948
+external bindings and the151-source/383-Git-row projection. Review031
+`0d7ae3f9a6a3a3be4842fadf9e0f54ef769fbd83` independently ACCEPTS exact inputs,
+no findings. Management verified all three committed review files and the exact
+start command against the accepted argv.
+
+The coordinator's first pre-launch hash comparison mistakenly compared a hash
+object with a hexadecimal string. It failed before receipt creation, operator
+start or monitor action; the exact faulty statement and tool traceback are retained
+as `validation/operations-004/source-006.coordinator-prelaunch-failed-001.json`.
+The corrected check uses `.hexdigest()` and verified that both output paths and
+all launch receipts were absent before the one production start.
+
+Management explicitly launched source006 once through accepted operator004.
+Detached PID63936 has a900-second bound; durable job `exp7-tokenizer-source-006`
+is registered to the current coordinator session. Launch/registration receipts
+are under `validation/operations-004/source-006.coordinator-*`. Actual source006
+output requires independent acceptance before offline input preparation.
