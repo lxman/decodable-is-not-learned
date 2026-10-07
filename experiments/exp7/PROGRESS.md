@@ -3657,3 +3657,18 @@ authenticated coordinator session. Launcher/monitor stdout/stderr and source aut
 are preserved in `validation/operations-007/offline003.coordinator-{launch,start-result,monitor}.json`.
 This consumes the single attempt; no retry. Actual comparisons/results remain unaccepted
 until terminal reconciliation, complete secured evidence and independent actual review.
+
+Offline003 completed0/0 at `2026-10-07T04:32:21.973833+00:00`, elapsed47.234s.
+Terminal checks passed,28 receipts/448,000 comparisons reported; monitor delivered the
+actual completion callback and was acknowledged once at04:32:59 UTC. All50 raw artifacts
+were copied exclusively and byte-compared. Coordinator's first saved-data checker then
+failed at line158: its broad `Path(p).name == 'live.py'` predicate mistook the accepted
+runtime's `rich/live.py` for the instrument loader. This is a checker-oracle error,
+not a production failure. Exact source/isolated invocation/log/exit/time are preserved
+in `validation/operations-007/offline003.saved-verification*`.
+
+Ruling `OFFLINE003-SAVED-CHECKER-CORRECTION.md`: publish failure/archive before a narrow
+exact-instrument-path correction, then verify existing scratch/archive pairs without
+recopying. Only incomplete saved-output verification is retried; no production replay
+or second monitor action. Full comparison verification and independent actual acceptance
+remain pending; all other evidence/qualifications and later gates persist.
