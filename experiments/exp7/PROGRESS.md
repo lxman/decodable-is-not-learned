@@ -3672,3 +3672,11 @@ exact-instrument-path correction, then verify existing scratch/archive pairs wit
 recopying. Only incomplete saved-output verification is retried; no production replay
 or second monitor action. Full comparison verification and independent actual acceptance
 remain pending; all other evidence/qualifications and later gates persist.
+
+Saved-checker retry1 passed the corrected filename check then refused at its ctypes
+assertion: it incorrectly required native `_ctypes` in the Python `exec` observation
+set. All three pins/read records agree; both Python ctypes sources are in `executed`.
+The separate native-loader/one-dlopen/completed-receipt path is the actual native
+evidence, not a Python-exec event. Exact retry1 source/isolated invocation/traceback
+are preserved before the narrow retry2 correction in the same correction ruling.
+No production, archive-copy, monitor or completed successful checker was repeated.
