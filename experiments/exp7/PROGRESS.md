@@ -3583,3 +3583,21 @@ explicit pushed-history rewrite authorization are requested before continuation.
 Historical record byte bindings now require this explicit sanitation qualification.
 This new exposure does not reopen the earlier closed incident or cancelled Support
 work. All448,000 comparisons remain pending.
+
+Reservoir credential disposition: the coordinator identified the exposed value as
+the local semantic-memory worker's configured shared token, inherited by OpenCode
+through `.zshenv`, with named Hermes/curator consumers. No credential/service call or
+settings/process change occurred. Michael assessed it as internal-network/low risk,
+said the project is probably unused, and deferred rotation and marking. His full
+response is preserved in `validation/operations-007/OFFLINE003-RESUME-RULING.md`.
+No pushed-history rewrite, dashboard action or credential reminder is authorized.
+The token is not claimed revoked; old Git/tool-display exposure remains disclosed.
+
+Ruling: resume the already authorized unfinished offline003 preparation under the
+original scope, using recorder and sanitized invocation records published at
+`6898a7d60f791ab5d6895389a642e2d329d7d112`. Readiness/rebind successes remain retired
+and pending independent review. Explicit old/current redaction bindings preserve
+all other receipt fields; no regenerated runs or silent equality waivers. Complete
+closure/input/manifest work before the one unconsumed fenced Plan/audit, then stop
+for independent exact-input acceptance and a later explicit launch. All448,000 real
+comparisons and separate live.py/resource/full-simulation obligations remain open.
