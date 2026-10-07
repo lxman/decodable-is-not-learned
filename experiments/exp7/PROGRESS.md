@@ -3887,3 +3887,22 @@ all12 representations round-trip exactly at the recorded5000 limit, including
 the4603-digit values. All24 raw artifacts/184,259 bytes secured; child wall
 0.061095s/peak RSS24,461,312 bytes. `resource-check/INTEGER-003-RESULT.md`.
 Fresh independent5000 reader is pending; completed diagnostic is retired.
+
+## RESOURCE-1 integer remedy ACCEPTED; numerical scope prepared — 2026-10-07
+
+Fresh reader source `8a88bc1292e3dfb95da88de964c1232d663b8bf0` was committed/pushed
+before its one explicit5000 run. Review006 `3df8ae8f70d1def7cf4084269cb9921d9b2435af`
+ACCEPTS actual attempt003 and independent exact parsing/reserialization of all12
+representations, no findings. Coordinator saved-check006 independently verified
+311 Git bindings,6 review files and24 raw artifacts, no experimental replay.
+`resource-check/ACCEPTANCE.md` accepts this exact finite producer/fresh-reader
+remedy; baseline4300 remains INCOMPATIBLE and every completed check is retired.
+
+Numerical proposal `1109adda9` fixes the next scope's implementation requirements:
+530,000 comparison-vector ceiling/4,608 power evaluation slots,3600s active wall,
+3GiB new footprint, sampled8GiB aggregate RSS stop at100ms (not hard memory cap).
+Native/source authority, worker/supervisor/adapters/readers, exact launch acceptance
+remain outstanding. No numerical resource or full calibration run has occurred;
+no job/reviewer is active. Current entrypoint `resource-check/{STATE.json,ACCEPTANCE.md}`.
+Future full-stage producer/reader/semantic-verifier processes must explicitly
+enroll the runtime remedy and qualify their actual paths before launch.
