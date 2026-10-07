@@ -3810,3 +3810,17 @@ agree with accepted containment; no original token-bearing Git records were read
 and no credential-value comparison or service probe was performed. Owner rotation/marking deferral
 persists. Evidence: `planning/gitguardian-20261007/{README.md,verification.json}`.
 No experimental program, acknowledged monitor or closed incident follow-up ran.
+
+## RESOURCE-1 scope preparation — 2026-10-07
+
+Michael answered “go” to the bounded synthetic resource-check objective preceding
+full calibration. Fresh read-only planner `ses_ee9404290ffeApRd652pJSMSTo` proposed
+finite null/envelope/power-component workloads with source/runtime binding and
+fresh saved-arithmetic checks. No computation or runtime preparation ran.
+Source inspection identified a possible publication incompatibility: exact
+binomial tails at p=.005/N2000 can require4603-digit integers, exceeding Python's
+usual4300-digit conversion limit. Ruling `resource-check/COORDINATOR-RULING.md`
+puts a six-specimen deterministic installed-serializer diagnostic first,120-second
+bound, before any stochastic/native resource workload. Implementer will publish
+the full proposed scope and diagnostic source for independent review before
+launch. All prior acceptance/retirement constraints and later gates persist.
