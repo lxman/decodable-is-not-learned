@@ -3680,3 +3680,8 @@ The separate native-loader/one-dlopen/completed-receipt path is the actual nativ
 evidence, not a Python-exec event. Exact retry1 source/isolated invocation/traceback
 are preserved before the narrow retry2 correction in the same correction ruling.
 No production, archive-copy, monitor or completed successful checker was repeated.
+
+Saved-checker retry2 exposed a static extraction limitation before its ctypes-map
+assertion: ast.literal_eval rejects the three `_STDLIB + suffix` expressions. Preserve
+exact failure before narrowly substituting the source's literal prefix in those three
+AST nodes for retry3. No subject eval/import or changed evidence oracle is authorized.
