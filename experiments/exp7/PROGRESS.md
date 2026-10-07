@@ -3349,3 +3349,35 @@ unrun coded cases and full accepted-matrix reconciliation. Case-storage evidence
 limitations remain explicit; all G9/G10 cases are still unrun at this handoff.
 DELIVERY-v9, implemented-code review, real448,000 comparisons and live.py amendment
 remain pending. Historical failures and the acknowledged offline002 monitor persist.
+
+TOKENIZER-10 ORACLE-2 continuation `7c9b4457f1960e947a61048be07428185163895d`:
+sole retry48,42 pending cases (including all10 G9 and28 G10 cases), plus five new
+stronger-observer supplements passed. Aggregate1,112 children =1,105 GREEN,2 expected
+RED,5 preserved failures;1,103 distinct passed matrix IDs (767 original+331
+continuation+five supplements), plus authentic positive/legacy method. No successful
+repeats; all old outcomes and helper/legacy bytes remain unchanged.
+
+One new packaging failure was preserved at
+`3356de5028091c0b6cdc7b7d64c2aee17da34ff4`:11 G10 assertion `actual` lists were
+serialized after a later distinct diagnostic append, despite passed=true at the
+checkpoint. Source/order/immediate assertion/exit0 and diagnostic bytes reconcile;
+these rows are explicitly not immutable checkpoint snapshots. No test was rerun or
+record edited. Missing failed-packager environment/timing remains disclosed.
+Coordinator authenticated1,062 additions, only two ruled fixture deltas,1,058
+bindings/four commits,48 child records/634 assertion rows/994 output rows. Its own
+initial supplement-source filename assumption failed; source/traceback/ruling
+preserved at `d5d2aaeb309271b5b882f33cc20b659eb5871fed`. Corrected saved-data check
+passed: `validation/operations-006/tokenizer10-coverage1.coordinator.json`.
+
+**COVERAGE-1**: actual case-sensitive named storage is unobserved. Real insensitive
+named lookup now reaches candidate-present after99 rows, with no cached finder,
+admission0/read0; cached-spelling tests and disabled-relaxation evidence have separate
+scope. Ruling `validation/repair-047/COORDINATOR-COVERAGE1-RULING.md` scopes six
+explicit modeled method units using exact `_chain`/`require` code and finite named
+metadata, without a Boundary/admission/receipt claim or host storage change. This
+combined evidence can discharge G3's semantic requirement after passes and independent
+review; it does not certify physical case-sensitive compatibility. The successful-
+predicate substitution exception is confined to these method units; authentic proof
+positives retain their original requirements. New records must snapshot assertions.
+DELIVERY-v9 and implemented-code review follow complete qualified reconciliation;
+all448,000 real comparisons and the separate live.py amendment remain pending.
