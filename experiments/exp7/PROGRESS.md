@@ -3501,3 +3501,20 @@ identity matches STATE. Both scratch attempts are absent at acceptance. Accepted
 operator supplies detached execution/live audits/lock/timeout/reconciliation; no
 retry. Actual source009 evidence must be secured and independently accepted before
 conditional proof/reuse/offline003 preparation. All448,000 comparisons remain pending.
+
+Source009 was launched once under the published ruling
+`5b236ed140e1c550e71fd330069e4f8bb3a93243`, with durable monitor
+`exp7-tokenizer-source-009` registered to the authenticated coordinator session.
+It **completed0/0** at `2026-10-07T02:48:55.420667+00:00`, elapsed5.552519s;
+operator66310 and child66347 exited. All four binding phases and reconciliation
+passed, empty logs/no errors/timeout/retry. The16 raw artifacts are archived in
+`validation/operations-007/source-009-completed/`; the new saved-data verifier
+passed first time without a producer/Plan/audit/test replay. Actual source output
+is88,934 bytes/SHA256 `3ea648373c3796e7abfbb3257c35670f26e0293af8527aa1e110255b58745138`,
+151 source paths/384 Git rows,233 historical rows retained; only boundary/launch
+differ from source008. All53 repository binding bodies and948 external pins verify.
+Full approval/grant and six helper pins reconcile. Both offline003 attempt paths
+remain absent. Exploratory missing prior-verifier filename is disclosed in the new
+verification. Monitor ACK awaits its actual notification; independent actual-output
+acceptance precedes later rebind/reuse/offline003 preparation. All448,000 comparisons
+remain pending.
