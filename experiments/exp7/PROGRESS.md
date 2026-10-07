@@ -3871,3 +3871,11 @@ at p=.005/N2000. All24 raw artifacts/155,975 bytes are secured. Child wall
 Independent saved-output acceptance is pending; stochastic resource work stops
 until an explicit per-process runtime remedy is reviewed/checked. No full
 calibration or numerical resource comparisons have run.
+
+Independent actual-output review004 `fb184474954e7a547d4d2261060493fce466ae5e`
+accepts baseline INCOMPATIBLE with no findings:96 unique Git bindings/all24 raw
+files, explicit binomial-sum reconstruction, exact8 representations/4 tracebacks.
+`INTEGER-LIMIT-REMEDY-RULING.md` scopes an explicit process-local5000-digit
+startup option and separate fresh reader check, preserving fixed scientific
+resolution/schema. Source/manifest review precedes the changed-runtime diagnostic;
+all future producer/reader/semantic-verifier launches need explicit enrollment.
