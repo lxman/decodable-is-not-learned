@@ -3555,3 +3555,31 @@ sensitive compatibility. New full finite closure and source/manifest publication
 must pass before one fenced Plan/audit; then independent exact-input acceptance and
 an explicit guarded launch. No stage/native/tokenizer/cap activity in preparation.
 All448,000 real comparisons and separate live.py amendment remain open.
+
+Offline003 preparation **PAUSED for a new recorder credential exposure**, blocked
+handoff `c9b3fba499beb9b2a5d6ffe88755af52b0414500`. Implementer reports readiness
+and conditional-rebind/physical-reuse children each passed once; these have not yet
+been independently accepted. Exact inputs/closure/manifest remain unfinished;
+Plan0/audit0, no production/native/tokenizer/comparison work.
+
+The ambient outer recorder environment was inadvertently serialized and pushed in
+`offline-003.readiness-once.invocation.json` at
+`29ef17084860efd468bf795c9e6ae80bbe1512d4` and
+`offline-003.rebind-once.invocation.json` at
+`cf001d015d3dee199366a0596d39413d0f1bb482`. Coordinator confirmed both contained
+the same RESERVOIR_TOKEN value as the current environment, without displaying it
+or calling a credential service. Its validity, issuer privileges and later use are
+unestablished. One record was previously displayed by the implementer's read tool.
+
+Ruling `validation/operations-007/OFFLINE003-CREDENTIAL-CONTAINMENT.md` removes the
+entire ambient recorder environment from the two current records, with explicit
+redaction markers and original/new hashes; all other fields are preserved. Active
+recorder no longer reads ambient environment. Original source snapshots, child
+evidence and failures remain; successful phases are retired, never regenerated.
+Sanitation passed once; exact-value search found zero matches in current tracked
+working-tree text. Historical Git objects and earlier tool display remain exposed;
+no rotation/revocation or history rewrite is claimed. Owner credential action and
+explicit pushed-history rewrite authorization are requested before continuation.
+Historical record byte bindings now require this explicit sanitation qualification.
+This new exposure does not reopen the earlier closed incident or cancelled Support
+work. All448,000 comparisons remain pending.
