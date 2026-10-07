@@ -3746,3 +3746,15 @@ monitor already ACKed. Separate instrument `live.py:token_only` amendment/pin re
 review remains required. Resource/full-simulation scopes, weight/contact/collection,
 rental, freeze ratification/tag, verdict and public propagation retain separate gates.
 Reservoir rotation/marking remains deferred; no credential/service/history action.
+
+## LIVE-TOKENIZER-1 amendment — 2026-10-07
+
+Michael said “go” for the separate `live.py:token_only` amendment after tokenizer
+acceptance. Ruling `build/amendments/live-tokenizer-001/COORDINATOR-RULING.md`
+scopes the exact Pythia full-asset guard and explicit EOS-pad constructor keyword,
+with returned integer checks, a private lazy-constructor seam and guarded fake
+regressions. Fresh implementer `ses_eeb2fd797ffeEUYigCRaVKK0ao` supplied a read-only
+proposal; implementation, independent review and exact replacement-pin acceptance
+are pending. Two assigned source/test files; historical build/validation evidence
+is preserved. Real live-loader behavior is not measured by this amendment, and
+accepted offline003 remains evidence for its injected local-loader path.
