@@ -3276,3 +3276,44 @@ implementer owns two helpers, that fixture and new implementation/evidence/v9 de
 implemented-code review precedes any source/input refresh or new actual attempt.
 Real ctypes/tokenizer initialization and all448,000 comparisons remain outside this
 fake-only phase; OFFLINE-1/RENEWAL-PAD-1 and the live.py amendment remain open.
+
+Oct7 UTC: TOKENIZER-10 exact candidate003/launch implementation published at
+`98ddb42feb2a900f5c14a5076612dc588be91682`; partial handoff
+`e2cafe7f87cba446d59716a886ab2e8f4e020bb4` under
+`validation/repair-047/implementation-001/`. Installed boundary/launch match accepted
+SHA256s `810e4058b668ed8dde40b43a57119a9a5c0b85363a6c956e30aad7638fdbf4fb` /
+`ed73c3798dd881caef93e122f55203d38492d069de397779638c3da12428a461` exactly.
+The sole other preexisting file change is the authorized dispatch fixture's inert
+arm event/order:16 assertions retained,15 unchanged expressions. Original focused
+REDs reproduce old-boundary narrow-catch and candidate002 finder-class refusal.
+The installed authentic constructor/inert import positive and legacy method passed.
+
+Partial execution:748 cold children =2 expected RED,743 GREEN,3 failed. Of744 matrix
+invocations,741 distinct case IDs passed across15 handler families. These are case-
+dispatch counts, not741 unittest methods. Fixture001's output-write observer error
+and Fixture002's parent-loader mutation error were preserved before narrow repairs;
+only each failed case was retried. A separate Git-add failure on ignored inert pyc
+files was preserved and continued with a manifest-only force-add; lost captured Git
+stderr remains disclosed. No successful test was rerun. All failures remain in place.
+
+Active **ORACLE-1**: `matrix-0741`, absent dotted `find_spec`, actual plain ImportError
+versus fixture's expected ModuleNotFoundError; zero admissions and unchanged maps.
+Original failure/source/finding committed at
+`8af3c683a2aa413bead3b5ea9ad7b201f786edab`. Pinned CPython util.py:95 imports the
+parent normally; active Boundary.audit:1133 refuses the unlisted parent before spec
+search. The helper agrees with accepted protocol semantics. No production defect
+or exception-contract expansion is indicated.
+
+Coordinator's new saved-data/source verifier passed first time:12,178 owned additions,
+three changed files,12,192 bindings/15 genuine commits,748 child records/11,381 output
+rows;20 symlinks authenticated as literal text. Exact source/legacy assertion delta
+and all outcome counts reconcile. Evidence:
+`validation/operations-006/tokenizer10-oracle1.coordinator.json`. Exploratory read/
+schema errors are disclosed there; no test/helper/old-verifier/monitor call occurred.
+
+Ruling: `validation/repair-047/COORDINATOR-ORACLE1-RULING.md` authorizes only741's
+absent dotted-probe expectation correction to exact ImportError and one fresh retry,
+then25 coded unrun cases plus all remaining accepted G1–G10/D1 coverage. Preserve
+partial handoff and original failure; publish additive coverage/completion. Full
+matrix, DELIVERY-v9 and implemented-code review remain pending. Source008 is historical
+for the prior helpers. All448,000 comparisons and the separate live.py amendment remain.
