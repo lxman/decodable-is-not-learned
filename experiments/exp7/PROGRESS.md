@@ -3860,3 +3860,14 @@ then first diagnostic stopped16:17:48 UTC before project imports/specimens on
 `resource-check/integer-001-failed/`. Serializer compatibility remains unmeasured.
 `BOOTSTRAP-FAILURE-001.md` scopes one startup-metadata probe and narrow origin
 repair/new manifest003; independent re-review precedes any diagnostic002 launch.
+
+Bootstrap source `5f3d003c02a7633c0c4d0b05cae80def7505cccb` and manifest003 are
+accepted by `7d64a29f970c1c6fb66c5b1a6fdeb1d94635ce0b`; coordinator003 verified74
+bindings and launched once. Attempt002 completed0/0: six fabricated specimens,
+eight successful serialize/decode representations and four expected conversion
+ValueErrors. Observed limit4300 is insufficient for4603-digit exact denominators
+at p=.005/N2000. All24 raw artifacts/155,975 bytes are secured. Child wall
+0.061120709s, peak RSS24,461,312 bytes. `resource-check/INTEGER-002-RESULT.md`.
+Independent saved-output acceptance is pending; stochastic resource work stops
+until an explicit per-process runtime remedy is reviewed/checked. No full
+calibration or numerical resource comparisons have run.
