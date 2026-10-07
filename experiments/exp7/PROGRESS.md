@@ -3518,3 +3518,13 @@ remain absent. Exploratory missing prior-verifier filename is disclosed in the n
 verification. Monitor ACK awaits its actual notification; independent actual-output
 acceptance precedes later rebind/reuse/offline003 preparation. All448,000 comparisons
 remain pending.
+
+Actual source009 archive is secured at `81354dfd785cf1460ceb3b14882b76adf689a6fc`.
+Coordinator observed its authenticated terminal event and one accepted delivery in
+the durable monitor registry, then ACKed this registration at02:51:56 UTC. Exact
+before/after registry bytes and command/result are archived additively; API acceptance
+alone is not claimed as proof of a resumed callback. A queued notification needs no
+second acknowledgment or repeated follow-up. Ruling
+`validation/operations-007/SOURCE-009-OUTPUT-REVIEW-RULING.md` assigns original-reviewer
+review052 actual-output acceptance, source/saved-data only; no completed job replay.
+Conditional proof/reuse/offline003 preparation awaits accepted actual source output.
