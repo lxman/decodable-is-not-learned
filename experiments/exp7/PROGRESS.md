@@ -3706,3 +3706,14 @@ reviewer054 independent actual-output acceptance. Archive authority f9059f1e; co
 result `offline-003-completed/coordinator-verification.json`. Operational OFFLINE-1/
 RENEWAL-PAD-1 closure waits on accepted actual evidence. Separate live.py amendment and
 resource/full-simulation and later scientific gates remain open. Monitor already ACKed.
+
+Review054 reports ACCEPT actual offline003, no required findings; published31 owned
+files at `740338e9c307a8465b5f011aedfe42e959f2ae00`. Coordinator saved-review checking
+is in progress. An exploratory schema view wrongly requested `archive_raw_files` from
+binding-inventory rather than `raw_archive` from derived-closure; its available evidence
+and uncaptured outer fields are recorded. The new coordinator checker then failed an
+overly strict sanitation-origin predicate: the two sanitized records also have valid
+identical bindings at later input/anchor commits. All six digests match containment;
+no original credential bodies were read. Exact failure/isolated recordings are preserved
+before a narrow sanitized-blob-plus-ancestry correction under
+`validation/operations-007/REVIEW054-COORDINATOR-CORRECTION.md`. No subject rerun.
