@@ -3317,3 +3317,35 @@ then25 coded unrun cases plus all remaining accepted G1–G10/D1 coverage. Prese
 partial handoff and original failure; publish additive coverage/completion. Full
 matrix, DELIVERY-v9 and implemented-code review remain pending. Source008 is historical
 for the prior helpers. All448,000 comparisons and the separate live.py amendment remain.
+
+TOKENIZER-10 continuation handoff `d1ee2c71f88c2b96299ce7f360e575fd1c0e9916`:
+ORACLE-1 exact tuple correction published before its sole passing retry; all25
+previously pending cases also passed. Added288 distinct passing continuation cases.
+Aggregate1,064 cold children =1,057 GREEN,2 expected RED,5 preserved failures;
+1,055 distinct passed matrix case IDs, not unittest methods. No successful repeats.
+Fixture003's profile observer failed before the audit callback; original evidence
+`cebc3fd90e882c8037721dbcce3e5596154b726e` precedes a trace-opt-in marker-only repair
+and one passing retry. A separate packaging KeyError was preserved before saved-data
+correction; missing failed-command environment remains disclosed. The manifest-only
+publication's label is not credited as an evidence publication.
+
+New **ORACLE-2**, preserved at `63c66b73738ddc3cf39b52889ec821c6fae3ee2c`:
+`continuation-0048`, C6/builtin-cache-None, exact ImportError versus expected
+ModuleNotFoundError. Saved assertion failure/zero admissions verify; intercepted
+exception body/traceback were not captured and later assertions were unreached.
+Version-matched upstream CPython import.c shows the builtin None-cache branch
+emits the audit event before Python importlib's natural None handling. The boundary
+rejects the unlisted name there; import_module retains its separate MNFE oracle.
+Source witness `validation/operations-006/ORACLE2-SOURCE-WITNESS.md` is explanatory
+source research, not added runtime authority or binary attestation.
+
+Coordinator saved-data check passed first time:5,398 additions, sole existing-file
+ORACLE-1 tuple delta,5,399 bindings/nine genuine commits,316 new child records,
+878 assertion rows and5,047 output rows. Six helpers and legacy fixture remain exact.
+Evidence: `validation/operations-006/tokenizer10-oracle2.coordinator.json`.
+Ruling `validation/repair-047/COORDINATOR-ORACLE2-RULING.md` authorizes only builtin/
+cache-None's exact ImportError oracle and finite48 retry allowance, followed by42
+unrun coded cases and full accepted-matrix reconciliation. Case-storage evidence
+limitations remain explicit; all G9/G10 cases are still unrun at this handoff.
+DELIVERY-v9, implemented-code review, real448,000 comparisons and live.py amendment
+remain pending. Historical failures and the acknowledged offline002 monitor persist.
