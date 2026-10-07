@@ -3850,3 +3850,13 @@ launch for one Major R1: the diagnostic omits the installed report's final newli
 from its required suffix. All67 saved bindings verify; larger proposal ceilings
 reconcile, without execution authorization. `REPORT-FRAMING-RULING.md` scopes
 the consumer-only fix and new manifest002; successful preparation is retired.
+
+R1 closed by source `7d47784a23c3c150bae4520da92865693bd549f7`; re-review
+`8e6a5a577b322d3c36bca75434160f4a94fe6d75` accepts manifest002 without findings.
+Coordinator prelaunch001 omitted four review witness paths; failure was preserved
+at346bd72dd before exact correction143d7a6cb. Coordinator002 passed122 bindings,
+then first diagnostic stopped16:17:48 UTC before project imports/specimens on
+`nonstdlib bootstrap module: _frozen_importlib`. Six raw artifacts secured under
+`resource-check/integer-001-failed/`. Serializer compatibility remains unmeasured.
+`BOOTSTRAP-FAILURE-001.md` scopes one startup-metadata probe and narrow origin
+repair/new manifest003; independent re-review precedes any diagnostic002 launch.
