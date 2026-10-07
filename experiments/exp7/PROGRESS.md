@@ -3413,3 +3413,38 @@ composition cases (real constructor/narrow fallback and post-admission alias dri
 with their own prepublished plan and separate accounting. No existing successful
 job/suite is rerun. Implemented-code acceptance and renewed execution authority remain
 pending; all448,000 actual comparisons and live.py's separate amendment remain open.
+
+Review050 at `1e19dfda0de0bf717839233ec9ce75f50f5d88c3` **ACCEPTS implemented
+TOKENIZER-10 code and qualified synthetic evidence; no required findings**. Report
+SHA256 `1a2b151aa80c9d7bdfb25fe5a6b988a5f61ddb81e4d7db5ed68a89c61a526852`;
+verification `26d6fcc26b38dd81d928332dbe1b05518129210a10c8d258e43ea8ccaaffecc0`.
+New independent R1/R2 source/plan was published before execution; each passed once,
+58 immutable snapshots total. R1 authentic constructor/inert root narrow fallback
+finishes normally; R2's single public alias→None mutation after the observation
+refuses exit with exact importer-identity-drift while preserving prior evidence.
+Both are retired; no further acceptance cases are required. These two children are
+separate from the1,118 implementer children (1,111 GREEN/2 RED/5 preserved failures).
+
+Review050's two failed saved-data programs and one read error remain preserved:
+legacy-only environment schema at `79b271df7907fca852d53c1af89aa1cec7ab1b9c`, group
+accounting at `9ac3ce7c03c4090716f772c33db309cb8c7f1121`; correction note fixes its
+earlier G9/G10 label. Missing failed-checker outer env/timing remains disclosed.
+All five behavioral failures,11 mutable-list qualifications and modeled-storage
+limitations remain accepted with their stated scope, not erased by review acceptance.
+
+Coordinator saved-data verification passed first time:69 review files,37,606 genuine
+bindings/53 commits including final publication,18,772 inherited named files/20
+literal symlinks,34 new output rows/58 snapshots, exact seven literal fixture
+substitutions and no predicate replacement. Evidence:
+`validation/operations-006/tokenizer10.coordinator-review050.json`. No helper/test/
+completed-program invocation. Implemented code and qualified evidence are accepted.
+
+Ruling `validation/operations-007/SOURCE-009-RULING.md` scopes operator007's exact
+two-constant derivative and source009 input preparation. Use review050's snapshot,
+installed98ddb42 helper authority and v9. Exactly boundary.py/launch.py differ from
+accepted actual source008; other149 source pins and233 historical Git rows remain.
+Expected new closure151+233=384. One fenced Plan/audit pair follows static closure;
+stop for independent exact-input acceptance before any source009 launch. Runtime/
+assets reuse, renewed conditional proofs and offline003 follow accepted actual source
+output. Physical case-sensitive compatibility, all448,000 comparisons, OFFLINE-1/
+RENEWAL-PAD-1 and the separate live.py amendment remain open.
