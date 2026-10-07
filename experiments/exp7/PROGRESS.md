@@ -3879,3 +3879,11 @@ files, explicit binomial-sum reconstruction, exact8 representations/4 tracebacks
 startup option and separate fresh reader check, preserving fixed scientific
 resolution/schema. Source/manifest review precedes the changed-runtime diagnostic;
 all future producer/reader/semantic-verifier launches need explicit enrollment.
+
+Process-local remedy source `388235f899bc5d314542844e5f9ad74deea38d8a` is accepted
+by re-review005 `e1925b1d26ae489ec957b6228cc0742aff06d8f7`, no findings. Coordinator004
+verified161 bindings, then attempt003 completed0/0 at17:40:21 UTC under manifest004:
+all12 representations round-trip exactly at the recorded5000 limit, including
+the4603-digit values. All24 raw artifacts/184,259 bytes secured; child wall
+0.061095s/peak RSS24,461,312 bytes. `resource-check/INTEGER-003-RESULT.md`.
+Fresh independent5000 reader is pending; completed diagnostic is retired.
