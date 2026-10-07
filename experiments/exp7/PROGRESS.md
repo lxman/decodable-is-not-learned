@@ -3833,3 +3833,12 @@ Three transient GitHub push failures are preserved; publication recovered.
 `resource-check/ENVIRONMENT-RULING.md` scopes a stdlib-only supplied/effective
 environment diagnosis, key names/booleans only except two named benign platform
 variables, followed by a narrow exact correction and distinct static retry.
+
+The single environment probe found only macOS startup's exact benign
+`__CF_USER_TEXT_ENCODING` entry; corrected supplied/effective dictionaries were
+published at `7c5965f58e4e908024052d10a6c0d5820d106fe5`. Retry002 then stopped on
+an incomplete static import inventory: contract.decode_battery's lazy `.scoring`
+import was omitted. Evidence is preserved at
+`aba73ddaf550222361e04d1ed2335a2e54a5b1f0`. `STATIC-CLOSURE-RULING.md` scopes the
+exact AST inventory correction with the five-file executed closure retained,
+then one distinct003 static attempt. Diagnostic and stochastic work remain unrun.
