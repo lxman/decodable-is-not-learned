@@ -3842,3 +3842,11 @@ import was omitted. Evidence is preserved at
 `aba73ddaf550222361e04d1ed2335a2e54a5b1f0`. `STATIC-CLOSURE-RULING.md` scopes the
 exact AST inventory correction with the five-file executed closure retained,
 then one distinct003 static attempt. Diagnostic and stochastic work remain unrun.
+
+Static003 passed at source `6948141b3b0437e472efe82d0ee473e8099c06e0`, publishing
+13 source/two startup pins in `d6aa73e5301b91220f12df4da7f20ae1890820ec`.
+Fresh independent review001 `69994d772d86121c64b8be2eeaed7406c8df2ed2` rejects
+launch for one Major R1: the diagnostic omits the installed report's final newline
+from its required suffix. All67 saved bindings verify; larger proposal ceilings
+reconcile, without execution authorization. `REPORT-FRAMING-RULING.md` scopes
+the consumer-only fix and new manifest002; successful preparation is retired.
