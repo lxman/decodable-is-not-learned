@@ -3648,3 +3648,12 @@ attempts, required live audits and durable monitor. Ruling/start wrapper are pub
 before launch; no automatic retry. Actual outputs still require full verification and
 independent acceptance before448,000-comparison and OFFLINE-1/RENEWAL-PAD-1 closure.
 Separate live.py/resource/full-simulation and later scientific gates remain intact.
+
+Offline003 launched once under published ruling
+`bb61786ab55e37619fb458372807cae612495952`: detached operator85438/child85485, started
+`2026-10-07T04:31:34.739833+00:00`. Initial status RUNNING; exact child argv/hash and
+PID/SID agree. Durable monitor `exp7-tokenizer-offline-003` is registered to the
+authenticated coordinator session. Launcher/monitor stdout/stderr and source authority
+are preserved in `validation/operations-007/offline003.coordinator-{launch,start-result,monitor}.json`.
+This consumes the single attempt; no retry. Actual comparisons/results remain unaccepted
+until terminal reconciliation, complete secured evidence and independent actual review.
