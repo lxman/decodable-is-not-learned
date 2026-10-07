@@ -3793,3 +3793,20 @@ No job/reviewer is active. Next: scope resource measurements and full simulation
 under their separate execution gates. Weight/contact/collection, rental, freeze
 ratification/tag, verdict and publication gates persist. All prior completed
 validation/analysis programs and acknowledged monitors remain retired.
+
+## Three reported GitGuardian triggers — 2026-10-07
+
+Michael reported three alerts. GET-only investigation identifies37943758/37943757
+as false positives: source/review commit IDs in `validation/STATE.json:15–16`
+at amendment acceptance `d85370791fc503d32378297ad5f48889a2c73fe5`. Exact patch
+spans/JSON roles, genuine Git commit identities, ancestry and artifact hashes
+independently verified13:57 UTC. Recommend Ignore → false positive; both remain
+TRIGGERED at read, with no dashboard mutation.
+
+Third incident37940497 is the already-disclosed Reservoir exposure. Its four
+occurrences match the two original invocation-record publications and two removed
+lines at sanitation6898a7d. Metadata-only attribution and current sanitized hashes
+agree with accepted containment; no original token-bearing Git records were read
+and no credential-value comparison or service probe was performed. Owner rotation/marking deferral
+persists. Evidence: `planning/gitguardian-20261007/{README.md,verification.json}`.
+No experimental program, acknowledged monitor or closed incident follow-up ran.
