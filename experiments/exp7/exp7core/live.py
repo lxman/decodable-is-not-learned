@@ -1,7 +1,8 @@
 """Lazy frozen LEAF adapters. Importing this module performs no contact.
 
-Never executed by plan tests. Every entry takes an already verified Campaign
-or build-tokenizer authorization. No predecessor runner/analyzer is called.
+Synthetic tests replace tokenizer acquisition/construction callables under the
+hard import guard. Live entries take an already verified Campaign or build-
+tokenizer authorization. No predecessor runner/analyzer is called.
 """
 from pathlib import Path
 import gc
@@ -17,6 +18,14 @@ from .guardio import safe_path,write_once
 PACKAGES = ('torch','transformers','numpy','safetensors','tokenizers','huggingface_hub')
 ASSET_FILES = {'config.json','tokenizer.json','tokenizer_config.json','special_tokens_map.json','vocab.json','merges.txt',
                'generation_config.json','added_tokens.json'}
+# LIVE-TOKENIZER-1: the complete accepted TOKENIZER-9 asset, not new authority.
+PYTHIA_EOS_PAD_FILES = {
+    'config.json': '302d6702a29de1039066e41404877fb8c53b7ddc82e88f9aba277f230086cfe0',
+    'tokenizer_config.json': '70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f',
+    'special_tokens_map.json': '6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad',
+    'tokenizer.json': 'c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624',
+}
+PYTHIA_EOS_PAD_ASSET_SHA256 = '316641e6c4f762dca571dd9079aeedf120423d084e2b57470ff643b98d3ccb27'
 
 
 def asset_bytes(asset,trace=None):
@@ -44,13 +53,32 @@ def token_facts(tok,model=None):
             'adds_bos':False,'generation_eos':None if model is None else model.generation_config.eos_token_id}
 
 
+def _tokenizer_from_pretrained(repo, *, revision, **kwargs):
+    from transformers import AutoTokenizer
+    return AutoTokenizer.from_pretrained(repo, revision=revision, **kwargs)
+
+
 def token_only(asset):
     """Tokenizer-only future build path: no model library constructor here."""
+    pythia = asset['repo'] == 'EleutherAI/pythia-1b'
+    if pythia:
+        require(type(asset) is dict and set(asset) == {'repo','commit','files','pad_id'}
+                and asset['commit'] == 'f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2'
+                and type(asset['pad_id']) is int and asset['pad_id'] == 0
+                and type(asset['files']) is dict and asset['files'] == PYTHIA_EOS_PAD_FILES
+                and digest(canonical(asset)) == PYTHIA_EOS_PAD_ASSET_SHA256,
+                'exact reviewed Pythia EOS-pad asset required')
     files = asset_bytes(asset)
-    from transformers import AutoTokenizer
-    tok = AutoTokenizer.from_pretrained(asset['repo'],revision=asset['commit'])
+    if pythia:
+        tok = _tokenizer_from_pretrained(asset['repo'],revision=asset['commit'],pad_token='<|endoftext|>')
+        require(getattr(tok,'eos_token',None) == '<|endoftext|>'
+                and type(getattr(tok,'eos_token_id',None)) is int and tok.eos_token_id == 0,
+                'Pythia EOS token/id mismatch')
+        require(type(getattr(tok,'pad_token_id',None)) is int,'Pythia integer pad ID required')
+    else:
+        tok = _tokenizer_from_pretrained(asset['repo'],revision=asset['commit'])
     tok.padding_side = 'left'
-    if tok.pad_token_id is None:
+    if not pythia and tok.pad_token_id is None:
         tok.pad_token = '<|finetune_right_pad_id|>' if 'SmolLM3' in asset['repo'] else tok.eos_token
     require(tok.pad_token_id == asset['pad_id'],'token-only pad pin')
     return tok, {'repo':asset['repo'],'commit':asset['commit'],'files':{n:digest(b) for n,b in files.items()},
