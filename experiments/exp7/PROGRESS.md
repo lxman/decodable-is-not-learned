@@ -3482,3 +3482,22 @@ errors are disclosed separately. Ruling
 original-reviewer051, saved-data/source-only, no new Plan/audit or existing job rerun.
 Independent acceptance and explicit execution still precede launch and actual-output
 review. All448,000 comparisons and the later offline/live.py obligations remain open.
+
+Review051 `03e55445357f9cbc8e3ddca21227e48cd5c71fe1` **ACCEPTS exact operator007/
+source009 inputs**, no required findings or further acceptance cases. Report SHA256
+`cb834e9334c102359d6429105bb2b33330e2e0c5376e4fa0d724cea230d762a8`; acceptance record
+`113d72ff18700709d533d1ddc3459cb40f06f6326e2762092ce23742e2b59a21`; verification
+`29c89fbc04c84ede72a2549be22d5f678d0560bf8786d957ac70f7b0a97014fa`. New static
+checker and packager passed once; no failures or additional Plan/audit/producer/
+test/monitor execution. Coordinator saved-data verification passed first time:
+19 files,632 historical bindings/36 commits,1,258 named files including948 external
+pins/27 literal symlinks,151 source paths/384 Git rows. Evidence:
+`validation/operations-007/source009.coordinator-review051.json`.
+
+`validation/operations-007/SOURCE-009-EXECUTION-RULING.md` explicitly authorizes one
+900-second monitored source009 proposal run on the exact accepted manifest. New
+coordinator start wrapper and ruling are published before invocation; actual session
+identity matches STATE. Both scratch attempts are absent at acceptance. Accepted
+operator supplies detached execution/live audits/lock/timeout/reconciliation; no
+retry. Actual source009 evidence must be secured and independently accepted before
+conditional proof/reuse/offline003 preparation. All448,000 comparisons remain pending.
