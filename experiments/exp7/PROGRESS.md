@@ -3767,3 +3767,29 @@ an overbroad `/operations-` substring filter rejected two ordinary installed
 contract files. Exact source/traceback are preserved before the narrow correction
 ruled in `build/amendments/live-tokenizer-001/COORDINATOR-CORRECTION.md`. Source
 acceptance/enrollment awaits coordinator checks; successful prior phases retired.
+
+## LIVE-TOKENIZER-1 ACCEPTED — 2026-10-07
+
+Coordinator saved-checker retry1 passed once at corrected source
+`32809e42827ab2941ce26a3ecb28d66e1bd39f03`:620 commit/path bindings/five genuine
+commits,11 review files and36 implementation/review manifest entries verified.
+The earlier filter failure is preserved at `c580cbc891571d23af99c8e09afef4efe6fb718f`.
+Coordinator's separate scoped GREEN then passed15/15 in0.089725s, zero forbidden
+loads; only the deliberately hard-refused Hub/Transformers imports were observed.
+Implementer/reviewer/coordinator each executed their assigned GREEN once; all
+are retired. No combined400-method pass is claimed.
+
+Ruling `build/amendments/live-tokenizer-001/ACCEPTANCE.md`: accept exact source
+`0be98b51772fb5a9e5d101a81c370c1f3453461c` and fresh independent review
+`533a61442a69529f2bd291ea0d5144ab7c849eca`, no findings. LIVE-TOKENIZER-1 is enrolled
+in `build/AMENDMENTS.json`; new data-only inventory verifies all271 files,
+247 literal/24 amended,14 added methods and unchanged import closure. The separate
+accepted-build amendment/pin-refresh/review obligation is CLOSED. Future execution
+manifests must bind these reviewed bytes; genuine live Hub/native compatibility
+remains unmeasured by the guarded fake/static checks. Accepted offline003's28
+receipts/448,000 comparisons remain immutable injected-local-loader evidence.
+
+No job/reviewer is active. Next: scope resource measurements and full simulation
+under their separate execution gates. Weight/contact/collection, rental, freeze
+ratification/tag, verdict and publication gates persist. All prior completed
+validation/analysis programs and acknowledged monitors remain retired.
