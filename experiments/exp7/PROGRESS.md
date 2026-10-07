@@ -3758,3 +3758,12 @@ proposal; implementation, independent review and exact replacement-pin acceptanc
 are pending. Two assigned source/test files; historical build/validation evidence
 is preserved. Real live-loader behavior is not measured by this amendment, and
 accepted offline003 remains evidence for its injected local-loader path.
+
+LIVE-TOKENIZER-1 implementation published at `0be98b51772fb5a9e5d101a81c370c1f3453461c`;
+test-first RED has two expected assertion failures, scoped GREEN15/15. Fresh review
+`533a61442a69529f2bd291ea0d5144ab7c849eca` ACCEPTS with no findings and independently
+reproduced15/15. Coordinator saved-checker failed once before its own test launch:
+an overbroad `/operations-` substring filter rejected two ordinary installed
+contract files. Exact source/traceback are preserved before the narrow correction
+ruled in `build/amendments/live-tokenizer-001/COORDINATOR-CORRECTION.md`. Source
+acceptance/enrollment awaits coordinator checks; successful prior phases retired.
