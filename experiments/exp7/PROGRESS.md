@@ -3906,3 +3906,15 @@ remain outstanding. No numerical resource or full calibration run has occurred;
 no job/reviewer is active. Current entrypoint `resource-check/{STATE.json,ACCEPTANCE.md}`.
 Future full-stage producer/reader/semantic-verifier processes must explicitly
 enroll the runtime remedy and qualify their actual paths before launch.
+
+## RESOURCE-1 numerical implementation authorized — 2026-10-07
+
+Michael answered “proceed” after the prepared1h/3GiB/sampled8GiB scope and next
+runtime/harness implementation step. `resource-check/NUMERICAL-BUILD-RULING.md`
+adopts the finite trusted-native CandidateAudit architecture, fixed workload
+ceilings and process-local5000 across the new pipeline. Sequential fresh
+implementer/reviewer units begin with finite selection/administrative wrappers
+and guarded fake tests. Actual preparation/NumPy qualification needs independently
+accepted exact inputs/command; no numerical launch has yet occurred. Full-stage
+semantic-reader fixtures remain their later readiness obligation rather than
+an unapproved full-shape numerical check here.
