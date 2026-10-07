@@ -3381,3 +3381,35 @@ predicate substitution exception is confined to these method units; authentic pr
 positives retain their original requirements. New records must snapshot assertions.
 DELIVERY-v9 and implemented-code review follow complete qualified reconciliation;
 all448,000 real comparisons and the separate live.py amendment remain pending.
+
+TOKENIZER-10 qualified completion: six COVERAGE-1 modeled method units passed once,
+144 immutable assertion snapshots/no new failures; plan source
+`3a7802cb1a14e472a0b3d373811a18726ca1b6ef`, evidence
+`abe5202dfcdd7f87b485af2f77942ac22df97ec3`. Final report/coverage/HANDOFF-004 at
+`bee8226c67030561ffe79c666e2cdbd2bac5442d`; additive DELIVERY-v9 at
+`e6d9830b6a11b70915d3fa4f9591cf457d78bd6f`,38,934 bytes/SHA256
+`3d727831dcf7f1db38c1544257874e3ee8234ccad23469db3863063f4032dde3`; external
+handoff `4e59cc3d185f2a374045bb13789a6ebae70276d9`. Physical case-sensitive behavior
+remains unmeasured; these units make no authentic-proof/admission/receipt claim.
+
+Aggregate1,118 implementer children =1,111 GREEN,2 expected RED,5 preserved failures.
+Six model IDs remain distinct from1,103 prior passed matrix IDs;1,109 combined IDs
+plus one authentic positive and one legacy unittest method account for GREEN totals.
+All earlier failures,11 mutable-list qualifications and evidence limits persist.
+
+Coordinator verified109 additions/no preexisting changes,241 bindings/19 genuine
+commits,84 unit files/78 output rows, exact independent traces and method source/code
+bindings, six helper pins and immutable v8 ancestry. Its first new marshal equality
+check lacked a function object's metadata ownership context; original failure/source
+preserved at `b59477f5e8568c803cebf2982b0c5f7d0cc2d4ed`. Constructing an inert,
+uncalled FunctionType from freshly compiled code reproduces both saved hashes;
+corrected full equality check passed. No helper/test/old-verifier execution.
+Evidence: `validation/operations-006/tokenizer10-v9.coordinator-delivery.json`.
+
+Ruling `validation/repair-047/COORDINATOR-IMPLEMENTED-REVIEW-RULING.md` submits exact
+implementation/full qualified evidence to the original reviewer in new review050.
+Scope includes source/saved-data authentication and two independently authored cold
+composition cases (real constructor/narrow fallback and post-admission alias drift),
+with their own prepublished plan and separate accounting. No existing successful
+job/suite is rerun. Implemented-code acceptance and renewed execution authority remain
+pending; all448,000 actual comparisons and live.py's separate amendment remain open.
