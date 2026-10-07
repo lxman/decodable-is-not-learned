@@ -3448,3 +3448,37 @@ stop for independent exact-input acceptance before any source009 launch. Runtime
 assets reuse, renewed conditional proofs and offline003 follow accepted actual source
 output. Physical case-sensitive compatibility, all448,000 comparisons, OFFLINE-1/
 RENEWAL-PAD-1 and the separate live.py amendment remain open.
+
+Operator007/source009 preparation complete: operator
+`30741c4bdf70d667e8071d6f3229cee7b8d70ba6`, input source
+`b0b20f041685508954914db9d2e50054e67baee3`, separate manifest anchor
+`04bdc9e05f59731bdb7022596512c385cf60d17b`, actual Plan/audit evidence
+`b79d65e5d4797d91c38b639db445d829f55b5c2b`, handoff
+`c0f157f7ad8c509a57b0ee3dbc9bfbc2da69c620`, entrypoint
+`173254782c7c163e4693320a836994246abd7725`. Manifest SHA256
+`646a17cf5e647cf60ed33ea57e34f46fafb7d447a23583eb0ef6d371e3eeab8a`.
+Operator changes exactly OPS/PIPELINE_COMMIT. The static prediction retains151 paths,
+233 historical rows and384 sorted unique Git bindings;948 external pins unchanged.
+Only boundary.py/launch.py hashes change. Predicted proposal88,934 bytes/SHA256
+`3ea648373c3796e7abfbb3257c35670f26e0293af8527aa1e110255b58745138`, not actual output.
+
+One preparation failure before input work was preserved at
+`0b831916ccd7c07f6ea06e27dd9b743d67c9c238`: supplied-versus-observed environment
+equality. Its observed environment was not serialized and is not reconstructed.
+Prior operator-derivative evidence supported the exact Darwin CF encoding field;
+one-line correction at `ec0e7886e9091b0ad0b82379b15da3587f073177`, one failed-only
+retry passed. Exactly Plan1/audit1 then passed:1,001 distinct read paths,1,004 file
+opens,30 pipe opens/15 read-only Git calls. No actual audit failed or success repeated.
+All production stages/tests/native/tokenizer/monitor actions and comparisons remain0.
+
+Coordinator's new saved-data/static checker passed first time:74 additions,500
+historical bindings/33 commits,1,208 named files including all948 external pins,
+exact151/384 projection,52 outer files+manifest and saved actual audit.65,377 baseline
+Git entries/271 instrument paths/27 symlinks reconcile without a second whole-baseline
+physical scan. Both scratch attempts remain absent. Evidence:
+`validation/operations-007/source009.coordinator-static.json`. Missing-filename read
+errors are disclosed separately. Ruling
+`validation/operations-007/SOURCE-009-INPUT-REVIEW-RULING.md` sends exact inputs to
+original-reviewer051, saved-data/source-only, no new Plan/audit or existing job rerun.
+Independent acceptance and explicit execution still precede launch and actual-output
+review. All448,000 comparisons and the later offline/live.py obligations remain open.
