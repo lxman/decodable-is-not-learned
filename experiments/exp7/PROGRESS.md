@@ -3824,3 +3824,12 @@ puts a six-specimen deterministic installed-serializer diagnostic first,120-seco
 bound, before any stochastic/native resource workload. Implementer will publish
 the full proposed scope and diagnostic source for independent review before
 launch. All prior acceptance/retirement constraints and later gates persist.
+
+Resource preparation published at `2cc481cdd86bbaaa19e0c15bc866776501b99bf0`:
+scope/spec and deterministic diagnostic source are authored but unlaunched.
+The first static-preparation attempt refused exact child-environment equality
+before AST/compile/pin-manifest checks; no actual environment values were captured.
+Three transient GitHub push failures are preserved; publication recovered.
+`resource-check/ENVIRONMENT-RULING.md` scopes a stdlib-only supplied/effective
+environment diagnosis, key names/booleans only except two named benign platform
+variables, followed by a narrow exact correction and distinct static retry.
