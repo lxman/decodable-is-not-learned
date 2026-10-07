@@ -3685,3 +3685,24 @@ Saved-checker retry2 exposed a static extraction limitation before its ctypes-ma
 assertion: ast.literal_eval rejects the three `_STDLIB + suffix` expressions. Preserve
 exact failure before narrowly substituting the source's literal prefix in those three
 AST nodes for retry3. No subject eval/import or changed evidence oracle is authorized.
+
+Saved-output verification retry3 passed once in3.009856s after all three checker errors
+were preserved/published. All50 raw scratch/archive pairs agree,100 outer repository
+bodies/4,940 external pins and4,953 child pins reconcile across five binding phases and
+entry/exit. **All448,000 rows in28 receipts verified** against exact normalized addresses,
+caps, special-ID exclusion and consistent prompt counts. DONE SHA256
+`02a3445e3cb52dd5adce904952536d628feecab2d9abb81bdbec05dc0c5e1635`, COMPLETE SHA256
+`b5aaf9226146deca3ef0567a4fc3d18d556ded8b17a7db973edc75b311feb907`.
+
+Actual ctypes initialization completed with one dlopen event; authentic envwrap absence
+was admitted once and passed115 decision/115 exit checks. Zero primary/finalizer failures.
+Observed4,953 reads/506 Python-exec paths/17 ordinary metadata absences. Two genuine child
+notices (no PyTorch; BPE cleanup ignored) are preserved. Production class/roundtrip gates
+passed but per-call class/decoded-text traces are not separate receipt fields. Native
+trust and physical case-sensitive compatibility limits persist. All successes are retired.
+
+Ruling `validation/operations-007/OFFLINE-003-OUTPUT-REVIEW-RULING.md` assigns original
+reviewer054 independent actual-output acceptance. Archive authority f9059f1e; coordinator
+result `offline-003-completed/coordinator-verification.json`. Operational OFFLINE-1/
+RENEWAL-PAD-1 closure waits on accepted actual evidence. Separate live.py amendment and
+resource/full-simulation and later scientific gates remain open. Monitor already ACKed.
