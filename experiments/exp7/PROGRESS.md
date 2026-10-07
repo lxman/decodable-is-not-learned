@@ -3601,3 +3601,29 @@ all other receipt fields; no regenerated runs or silent equality waivers. Comple
 closure/input/manifest work before the one unconsumed fenced Plan/audit, then stop
 for independent exact-input acceptance and a later explicit launch. All448,000 real
 comparisons and separate live.py/resource/full-simulation obligations remain open.
+
+Offline003 input preparation complete at `10f9bcd87987a5f28823c9b917b1e15e34c1fd39`:
+input source `ddac3772393e37fcadebc16564561b504d06f708`, separate manifest anchor
+`676b3b908cbb6741ed907a437857882749fd52fc`, manifest SHA256
+`4fc863e436b31dbbd570882e38945decb1ed68cd4dd37003779f7d288e2c6bc4`. Sole Plan1/audit1
+passed:5,032 distinct reads/5,043 file opens/30 Git-pipe opens/15 read-only Git calls.
+Readiness/rebind and all successful preparation phases remain retired. One final
+packager failed when its fence denied diff-tree before spawn; exact evidence was
+published at `3d3e4ab6653c9b5f145d56e1bbaf8980baf46af3` before the narrow successful
+retry using allowed diff. Both outcomes and the original recorder finding persist.
+
+Coordinator's new saved-data checker passed first time:65 additions/no preexisting
+changes since resumed preparation,4,390 bindings/45 genuine commits,8,945 named files,
+70 saved output entries and40 source excerpts. Both sanitized invocation records
+match every nonredacted original field, with explicit old/current bindings. Closure
+reconstructs4,953 child files/3,308 modules and99 outer repository files plus manifest/
+4,940 external entries. Baseline65,569 Git representations/271 instrument files/27
+literal symlinks reconcile without another whole-baseline physical scan. No readiness,
+inventory, Plan/audit, subject, test or monitor replay. Evidence:
+`validation/operations-007/offline003.coordinator-static.json`.
+
+Ruling `validation/operations-007/OFFLINE-003-INPUT-REVIEW-RULING.md` assigns original
+independent reviewer053 the exact-input/source/saved-data gate. Conditional predictions
+and metadata-only/case-storage qualifications remain explicit; Reservoir disposition
+stays deferred. Both new scratch attempts remain absent. All448,000 real comparisons,
+OFFLINE-1/RENEWAL-PAD-1 and the separate live.py amendment remain pending.
