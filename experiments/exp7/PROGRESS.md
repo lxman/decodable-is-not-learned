@@ -4129,3 +4129,26 @@ indexes), preserving failure. Coordinator saved-byte check verifies43 current fi
 DISPOSITION adopts refinements. NUMERICAL-RUNTIME-INTERFACE-RULING scopes new009
 versioned alias/startup/generated-ancestor/expected-denial/log-flag source integration,
 including prospectively qualified -S; no live optional/native/worker invocation.
+
+## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
+
+New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
+sources, with unaccepted narrow006/007 integration edits. Four finite authoring
+invocations used committed/pushed source and exact10env/-I/-B/-S/-X5000 with
+entry/exit observations: startup RED1 pass/2 failures; denial RED2 pass/1 failure;
+new derivative denial15/15 pass; new B1 check2 pass/2 required-property errors.
+All logs remain in `resource-check/numerical-009/`; no whole prior suite replay.
+
+B1: the draft adds pre-loader bootstrap byte identities to ordinary worker inputs,
+but unchanged003 WriteFence refuses any readable .pyc and installed CandidateAudit
+refuses existing bytecode even through its snapshot open path. Inert own-temp bytes
+reproduce both exact refusals with successful source-byte controls. No actual pyc
+exposure, runtime, native import, RNG or worker execution was probed. This is the
+draft's input-ownership conflict, not a claim that the actual bootstrap needs pyc
+or that the ruling is impossible. A precise trusted byte-revalidation ownership/
+phase decision or independently qualified zero-existing-pyc startup is needed;
+the implementer did not broaden source/import authority to obtain GREEN.
+
+`numerical-009/HANDOFF.md` and CONTRACT-TABLES identify incomplete interfaces,
+unrefreshed/PENDING pins and exact gaps. The unit is NOT COMPLETE/NOT ACCEPTED;
+fresh blocker/design review precedes further integration or operational work.
