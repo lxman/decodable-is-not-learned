@@ -3928,3 +3928,13 @@ earlier predicates). `numerical-001/R1-RULING.md` scopes test-only closure with
 exact refusal reasons/positive counterparts. Runtime proposal/acceptance remains
 unexecuted; three native aliases, effective executable and generated/frozen
 witnesses plus later worker/reader closure need enrollment.
+
+Unit1 R1 corrected test source `d5fd38f850bc664faafc815a78c90a3aea56a9ab`:
+implementer/reviewer each passed6 targeted cases once; re-review
+`ee8387fc945870374c2314e7c7a736c4fdc338b3` closes the Minor. Coordinator's first
+final-source pass is39/39,0 failures/errors/forbidden loads;51 current files and32
+historical bindings checked. `numerical-001/ACCEPTANCE.md` accepts source/fakes,
+not live runtime. `NUMERICAL-SUPERVISOR-RULING.md` opens fresh unit2a finite
+supervisor implementation with injected clock/process/ps/filesystem tests, no
+real worker/native launch. Actual preparations and all completed evidence remain
+retired or separately gated as recorded.
