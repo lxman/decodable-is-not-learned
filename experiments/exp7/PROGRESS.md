@@ -4076,3 +4076,12 @@ handoff can independently approve its own future data hashes; review pauses are
 separate calendar time, all actual work/reservations retain the original limits.
 New unit4b007 scopes the proposal-only data handoff, aggregate budget and owned
 detached phase completion, with guarded fakes and fresh review before qualification.
+
+Unit4b feasibility7f03259a stops before expansion: B1 separate supervisor death
+loses descendant cleanup authority; B2 current pair sampler omits new outer/helper
+and administrative intervals. Fresh reviewa31cde0bbb54085bd51d527d962442b96f7d5abe
+confirms source/fake scope, independently6 controls/2 required-property RED.
+`numerical-007/ARCHITECTURE-RULING.md` adopts one direct-child owner, non-spawning
+admin roles and original-style ps-observer RSS exclusion, with admin/owner interval
+coverage and explicit trusted-root/tail limits. It replaces the nested force-kill
+design and stricter sampler-inclusive wording; no native sampler or live launch.
