@@ -4005,3 +4005,13 @@ source-correspondent under fresh review `077c0c4c053257799d6e62c46ee34b62104c706
 expectations and row-distinct first-two slicing tests. `numerical-004/R1-FIX-RULING.md`
 scopes test-only closure plus C1 fixture entry/exit/literal-env checks. Installed
 and adapter source remain fixed; no actual numerical resource workload has run.
+
+Unit3a R1/C1 closure `46fcb05ac7d7de1678ee7944abad7053098635c6` accepts with0
+residual findings: implementer/reviewer13 scoped methods, independent436-address
+oracle and exact row0/1 checks. Coordinator's first final-source26/26 pass verifies
+71 current files at entry/exit; evidence `numerical-004/coordinator-001/`.
+Adapter remains `6dbd002f1477074033e184c45a259190c0dad309`; corrected fixtures
+`87470ae7fadab29cb18bd39842d449439bac7d78`. Unit3a source/scripted-fakes accepted.
+`NUMERICAL-READER-RULING.md` scopes fresh saved-arithmetic reader/representation
+source with new deterministic/scripted fixtures; real native/cold composition,
+producer/reader handoff and numerical launch remain unrun.
