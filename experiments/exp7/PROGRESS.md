@@ -4178,6 +4178,13 @@ M2 consumed failure waits/rusage and numeric C failure cost are discarded. Origi
 retained native waits and numeric lower-bound cleanup accounting with new actual
 C.sample→Ports.cleanup→O.step scripted composition. No operational execution.
 
+010 correctioncbf4b0d93 adds25 passing scoped methods and raises proposed reservation
+to2,876,312,064 bytes. Review243f6758f checks853 bindings but withholds first88-case
+union: M1-R definitely-unsent release blocks cleanup, M2-R actual O terminal finish
+still bypasses numeric failure/fallback, and m3 HELLO omits post-receive50ms check.
+FIX-RULING-002 scopes those precise caller paths and new tests; no architecture or
+resource limit change. Prior evidence remains preserved; no operational execution.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
