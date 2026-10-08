@@ -3978,3 +3978,13 @@ adopts them: real-event/finite-callable split, exact cold census/closure order,
 strict byte-only one-way phases/lifetime ledger, narrow emitter/signals/GC/immediate
 exit, once-only failure handling and early log caps equal to inherited RLIMIT_FSIZE.
 Original implementer resumes new unit2b code/fakes; no live launch or GREEN claim.
+
+Unit2b source `2cc1f7916991d98b272aece7d72250394665dc8f` delivered loader,
+deterministic qualification driver and descriptor-free byte emitter. Fresh
+implementation review `2ef2a50c84fe078c4dddd3222bf3958df3b56fbe` independently
+passes60/60 guarded cases but does NOT ACCEPT: I1 Major preempting guard refusal
+accounting, I2 Major final handled-signal/exit snapshot race, I3 Minor omitted
+standard exception details without loss labeling. Narrow correction ruling
+`numerical-003/IMPLEMENTATION-FIX-RULING-001.md` adopts sticky front recording,
+final masked decision with explicit pending cutoff, and safe exception detail
+preservation; new composition fixtures and same-reviewer closure required.
