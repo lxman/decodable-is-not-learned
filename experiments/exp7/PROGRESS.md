@@ -4201,6 +4201,14 @@ verifies387 current files/saved69+52 IDs/exact budget.010 source/fake ACCEPTANCE
 recorded. NUMERICAL-PREPARATION-PIPELINE-RULING scopes011 first-five metered bodies
 and finite witness/runtime API composition; actual runtime/qualification unrun.
 
+011 firstpartialf497e9c97 was incomplete without an authority conflict; resumed
+delivery936061a81 implements five-stage/three-target scripted composition,31 passing
+method names and2,986,503,168-byte reservation proposal. Review393ea1f51 verifies
+832 historical pins but withholds behavior on2 Majors: M1 json→functools generation
+precedes structural recording, M2 mandatory star imports/preloaded package children
+have no admissible loader route. FIX-RULING-001 scopes true early activation/retained
+objects and finite reviewed import semantics, preserving prior evidence.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
