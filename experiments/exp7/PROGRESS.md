@@ -3950,3 +3950,14 @@ correction; the historical pass remains valid only for its exercised paths.
 `numerical-002/FIX-RULING-001.md` scopes all three fixes and new/affected fake
 cases with original implementer then same-reviewer closure. No live supervisor,
 worker, runtime preparation or numerical measurement has run.
+
+Supervisor R1–R3 corrected at `191f76b3f8afea9ef277e7008af7fc75f5c4a940`;
+implementer and same reviewer each pass41 scoped methods. Closure
+`91b99b19be587ea88ff86c26b38645bbaac82eb7` accepts with no residual findings.
+Coordinator's first final-source70/70 pass verifies74 current files/27 historical
+Git bindings (`numerical-002/coordinator-001/`). Unit2a source/fakes ACCEPTED;
+terminal success is explicitly non-authoritative pending later operator-owned
+exit0/post-exit deadline/consistent evidence checks. Actual OS qualification has
+not run. `NUMERICAL-WORKER-RULING.md` scopes fresh unit2b source-only loader,
+real installed audit/read composition and named output fence with guarded fakes.
+It explicitly carries the later producer-to-reader pin handoff integration issue.
