@@ -3970,3 +3970,11 @@ whole CandidateAudit escape or cold qualification is claimed. WRITE-1 proposal
 in `numerical-003/WRITE-1-PROPOSAL.md` requests independent architecture review
 of a descriptor-free audited body plus strict byte-only trusted publication.
 No worker/GREEN implementation or real numerical/runtime launch has occurred.
+
+WRITE-1 independent design review `8b46b790d79c7e05b03cc474684aa40c4fda853f`
+reproduces the same5-control/1-RED result once and accepts the descriptor-free
+direction with six mandatory refinements. `numerical-003/WRITE-1-RULING.md`
+adopts them: real-event/finite-callable split, exact cold census/closure order,
+strict byte-only one-way phases/lifetime ledger, narrow emitter/signals/GC/immediate
+exit, once-only failure handling and early log caps equal to inherited RLIMIT_FSIZE.
+Original implementer resumes new unit2b code/fakes; no live launch or GREEN claim.
