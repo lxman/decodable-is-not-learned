@@ -3988,3 +3988,12 @@ standard exception details without loss labeling. Narrow correction ruling
 `numerical-003/IMPLEMENTATION-FIX-RULING-001.md` adopts sticky front recording,
 final masked decision with explicit pending cutoff, and safe exception detail
 preservation; new composition fixtures and same-reviewer closure required.
+
+Unit2b correction `04387ffdc9197baeeb03942dcc6d29709a836510` passes23 scoped
+cases by implementer and reviewer. Closure `5c9162fef516e738e5e7aec10c4887bec95a2f99`
+accepts I1–I3 with0 residual findings. Coordinator's first corrected combined
+79/79 pass verifies174 current files and12 subject pins; evidence in
+`numerical-003/coordinator-001/`. Unit2b source/fakes accepted, real runtime/cold
+composition still pending. `NUMERICAL-ADAPTER-RULING.md` opens fixed resource-only
+adapter implementation with scripted fakes, exact valid deterministic geometry,
+unchanged workload ceilings and explicit later reader/runtime/worker integration.
