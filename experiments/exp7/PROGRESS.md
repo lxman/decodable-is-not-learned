@@ -3918,3 +3918,13 @@ and guarded fake tests. Actual preparation/NumPy qualification needs independent
 accepted exact inputs/command; no numerical launch has yet occurred. Full-stage
 semantic-reader fixtures remain their later readiness obligation rather than
 an unapproved full-shape numerical check here.
+
+Numerical unit1 published at `2c1832e89a9181b3e73a17f9a81a02d60d5bfe73`: finite
+administrative wrapper,35 guarded fake methods,24 selected installed sources and
+210 runtime-byte candidates. Fresh review `1f7fd7127b8b8f015c3253e5c2897df31b338619`
+independently reproduces35/35 and verifies32 source bindings/22,306,147 runtime
+bytes, accepting source/fakes with one Minor R1 (three refusal tests stop at
+earlier predicates). `numerical-001/R1-RULING.md` scopes test-only closure with
+exact refusal reasons/positive counterparts. Runtime proposal/acceptance remains
+unexecuted; three native aliases, effective executable and generated/frozen
+witnesses plus later worker/reader closure need enrollment.
