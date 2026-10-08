@@ -4139,6 +4139,13 @@ admit/verify/finalize identity seals, with no worker read/import authority, and
 metered launcher hashing. Partial15 denial-method pass is preserved; integration
 and helper pins remain unfinished. No operational invocation occurred.
 
+009 resumed936c787e1 implements external startup seals and coupled interfaces,
+with a complete pin chain. Same reviewere2c020f65 independently52/52 passes and
+closes B1/B2,0 Critical/0 Major/2 Minor: preparer permits split bootstrap recipes
+and omits interpreter→effective-executable equality. MINOR-FIX-RULING scopes exact
+consumer-consistent corrections and new affected tests, preserving52 evidence.
+Operational startup/native/witness/preparation/qualification remains unmeasured.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
