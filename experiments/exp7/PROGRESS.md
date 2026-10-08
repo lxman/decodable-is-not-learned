@@ -4162,6 +4162,14 @@ and exact last-link/exit trust limit, scopes new source/fakes and narrow007 vers
 amendment. All nine stages require uniform evidence; missing preparation bodies
 still refuse. No operational commands or new resource limits are authorized.
 
+010 feasibility224bb4137 identifies the expected startup-enrollment boundary:009
+cannot express distinct C/V roles, and006 consumes the same whole map as007. New6
+methods yield3 controls/3 required-property errors, preserved. Coordinator static
+source inspection confirms the shared-map dependency. STARTUP-ENROLLMENT-RULING
+allows exact v4 roles/command modes, two inline child basenames and narrow009/006
+literal/pin plus007 consumer amendments; original role identities remain distinct.
+Collector implementation resumes; no source acceptance or operational launch claim.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
