@@ -4191,3 +4191,10 @@ runtime/worker/owner/admin/ps/native/NumPy/RNG/witness/monitor/model/credential/
 service action occurred. Installed preparer APIs read only scripted inert fixtures.
 Actual startup exposure, native env/RNG authority, G1/G2/M2 preparation/collector,
 G7 qualification, operational budgets/maps and numerical execution remain separate.
+
+New saved-byte packager at24f780e4e completed once0/0 and is retired:311 genuine
+Git bindings,81 current files, all7 saved authoring runs, full helper/launcher pins,
+9 immutable sources and full origin/amendment diffs verified. Receipt SHA256
+f06bf10b7c4afa6aed0b946619fc5ba13dc83ba1d181ea723f40a128b4e572fc.
+`resume-001/VERIFICATION.md` records the source/evidence split. Same-reviewer
+source/fake acceptance is pending; no operational source changed during packaging.
