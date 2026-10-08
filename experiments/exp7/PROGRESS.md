@@ -4146,6 +4146,14 @@ and omits interpreter→effective-executable equality. MINOR-FIX-RULING scopes e
 consumer-consistent corrections and new affected tests, preserving52 evidence.
 Operational startup/native/witness/preparation/qualification remains unmeasured.
 
+009 preparer correctionsa25e30092 independently5/5 pass; final reviewc4181a9d5
+closes R1/R2 with0 residual findings. Coordinator's first5/5 verifies151 current
+Git files and saved52 IDs; prior52+new5 remain separate invocations. Source/fake
+ACCEPTANCE recorded.010 COLLECTOR-PROPOSAL requests static independent resolution
+of actual phase-owner wait/exit and final collector measurement/cutoff, preserving
+no-force-kill intermediate ownership and accounting for all live participants.
+Proposal only; no preparation/qualification/numerical command is accepted.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
