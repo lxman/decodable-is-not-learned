@@ -4032,3 +4032,15 @@ and work totals are changed consistently (N4 forecast128/128 rather than64/64).
 No independent suite/monitor was launched. `numerical-005/R1-FIX-RULING.md` scopes
 full/early/analytic policy and deterministic feasible-prefix checks, new short
 scripted controls including an end-to-end reserialized mutation, then same review.
+
+Reader R1 corrected source `662fceefeb221d55a93437ec9b3a1a8bd28f760a`; implementer
+and same reviewer each pass13 new/affected scoped methods. Static/targeted R1
+closure has0 residual findings; final unit acceptance awaits the reviewer's first
+31-method final-source suite. Prelaunch commit `6e4e645cb187152fd1c4dd1ead36973cfc54e88b`
+was pushed before detached launch2026-10-08 06:29:22 UTC. Outer/child PID/SIDs
+90819/90822,1200s child wall,24 source pins; current paths are
+`numerical-005/review/r1-001/long-001/`. New monitor registration
+`exp7-reader-review31-r1-20261008-a` targets current coordinator session and is
+secured at `5ff5b7ffc`. It is an authoring test, not a RESOURCE-1 numerical run.
+Await its durable notification for actual terminal review, same-reviewer closure,
+evidence publication and this new job's ACK. No old registration is touched.
