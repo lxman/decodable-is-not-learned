@@ -4161,3 +4161,33 @@ the implementer did not broaden source/import authority to obtain GREEN.
 `numerical-009/HANDOFF.md` and CONTRACT-TABLES identify incomplete interfaces,
 unrefreshed/PENDING pins and exact gaps. The unit is NOT COMPLETE/NOT ACCEPTED;
 fresh blocker/design review precedes further integration or operational work.
+
+## RESOURCE-1 unit4d resumed009 source/fake delivery — 2026-10-08
+
+Following review391421682 and external-ownership rulingfec3b8950,009 now implements
+typed startup identities with separately pinned review/provenance and ordinary
+source/native crossbindings. Identity-only pyc stays outside006 ordinary/runtime/
+source/generated/body authority. Actual007 metered admins retain and compare full
+admit/verify/finalize file/link seals against the same independently fixed manifest,
+attempt, command/role and ordered owned wait4/status/exit0 evidence. Primitive
+owner/worker startup checks perform no relationship bulk reads; worker receipts
+explicitly attribute external checks. The complete009→006 launchers and009→007
+contract/users pin chain is refreshed. Original001/003/installed/scientific sources
+and every previous raw/test artifact remain preserved.
+
+Seven new finite authoring invocations used committed/pushed source and exact10env,
+-I/-B/-S/-X5000 with equal entry/exit:2 intended startup RED failures; denial2 pass/
+2 intended RED failures;1 pre-test fixture syntax failure;20 integration passes;
+8 closure passes/1 fixture exception-type error;1 replacement pass;1 real006 emitted
+receipt→007 verifier composition pass.32 distinct successful methods are reconciled
+across scopes, not one combined run. Every invocation is retired and all failures
+retained. The two new guard identity gaps (same-text exception replacement and
+changed CodeType on the same guard function) are closed in the derivative.
+
+Evidence/source/diffs/current tables and handoff to the same reviewer live in
+`resource-check/numerical-009/resume-001/`. Implementation is delivered for fresh
+independent source/fake review, not accepted operationally. No delegation or actual
+runtime/worker/owner/admin/ps/native/NumPy/RNG/witness/monitor/model/credential/config/
+service action occurred. Installed preparer APIs read only scripted inert fixtures.
+Actual startup exposure, native env/RNG authority, G1/G2/M2 preparation/collector,
+G7 qualification, operational budgets/maps and numerical execution remain separate.
