@@ -4015,3 +4015,12 @@ Adapter remains `6dbd002f1477074033e184c45a259190c0dad309`; corrected fixtures
 `NUMERICAL-READER-RULING.md` scopes fresh saved-arithmetic reader/representation
 source with new deterministic/scripted fixtures; real native/cold composition,
 producer/reader handoff and numerical launch remain unrun.
+
+Unit3b reader delivery `b5d0dc27f` is ready for fresh source review: final source
+`1313aa279` passes31/31 scripted/actual-stdlib-codec methods in738.591s. Original
+RED, first failed changed-data control and two300s interrupted attempts remain
+preserved; their completed prefixes are not independent evidence. Native numerical
+math/cold reader still unrun. `numerical-005/REVIEW-EXECUTION-RULING.md` requires
+static review first; if no blocking source finding, its one independent long
+authoring suite uses a newly committed detached outer and a new durable monitor
+registration. Existing completed jobs/ACKs remain untouched.
