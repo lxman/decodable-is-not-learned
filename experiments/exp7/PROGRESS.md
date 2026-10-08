@@ -4094,3 +4094,11 @@ cleanup releases sample membership early. IMPLEMENTATION-FIX-RULING-001 scopes a
 literal authenticated-byte inline bootstrap (honest real argv and minimal006
 startup/pin amendment), fixed metered post-data roles and held observation membership.
 No reviewer suite or operational launch ran; original failures/passes remain.
+
+007 correction666d77946 (delivery787cb3d91) has19 passing integration methods then
+2 affected recovery cases;20 distinct methods, not21. Same-reviewer24166d63615d957d
+stops statically: R2/R3 appear corrected, residual R1 Major is filename-dependent
+transitive metadata traversal. A valid .data request can leave required descendants
+outside final revalidation. IMPLEMENTATION-FIX-RULING-002 scopes explicit protocol
+roles and suffix-independent mandatory edges with real admission/drift controls.
+No independent40/20 suite or live launch has run; prior evidence stays immutable.
