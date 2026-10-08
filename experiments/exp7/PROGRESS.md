@@ -4170,6 +4170,14 @@ allows exact v4 roles/command modes, two inline child basenames and narrow009/00
 literal/pin plus007 consumer amendments; original role identities remain distinct.
 Collector implementation resumes; no source acceptance or operational launch claim.
 
+010 deliveryccc77443b records63 reconciled passing IDs and727 bindings; proposed
+reservations2,834,919,936 bytes. Same-reviewerf7ee632e4 stops statically on2 Majors:
+M1 cleanup reuses consumed reap-release ordinals after refused samples/RUNNING;
+M2 consumed failure waits/rusage and numeric C failure cost are discarded. Original
+63-case independent suite withheld. FIX-RULING-001 scopes explicit release state,
+retained native waits and numeric lower-bound cleanup accounting with new actual
+C.sample→Ports.cleanup→O.step scripted composition. No operational execution.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
