@@ -4065,3 +4065,14 @@ actual stdlib codecs and explicitly modeled numerical ports). Coordinator's firs
 Reader source/fake ACCEPTANCE and NUMERICAL-EXECUTION-BODIES-RULING now scope fresh
 unit4a fixed producer/reader boundary composition in new006 source with guarded
 fixtures; actual handoff/runtime/qualification/numerical launch remain subsequent.
+
+Unit4a fixed worker composition source6d0be917f6ed710ab75e5ceba85923ce88984d46
+accepted by fresh review5a6a575e488f6b2c0987851b2660ce22031ed257,0 findings,
+35/35 independent methods. Coordinator's first35/35 verifies68 current files and
+12 source pins at entry/exit (`numerical-006/coordinator-001/`). No numerical launch.
+NUMERICAL-TWO-PHASE-RULING chooses producer then reader as two independently exact-
+reviewed launches within one serial aggregate attempt. This avoids pretending the
+handoff can independently approve its own future data hashes; review pauses are
+separate calendar time, all actual work/reservations retain the original limits.
+New unit4b007 scopes the proposal-only data handoff, aggregate budget and owned
+detached phase completion, with guarded fakes and fresh review before qualification.
