@@ -3938,3 +3938,15 @@ not live runtime. `NUMERICAL-SUPERVISOR-RULING.md` opens fresh unit2a finite
 supervisor implementation with injected clock/process/ps/filesystem tests, no
 real worker/native launch. Actual preparations and all completed evidence remain
 retired or separately gated as recorded.
+
+## RESOURCE-1 supervisor review and correction — 2026-10-08 UTC
+
+Unit2a supervisor delivery `e19fd6cbbd7f666f28191bce1626d2177a697a99` contains
+47 guarded fake methods, independently reproduced47/47 by fresh review
+`afb1e34bca8ddee0d38c9fae7546566abf04ba54`. Review does NOT ACCEPT: R1 Major
+signal/ownership-cleanup interruption, R2 Major stale-success/deadline finalization,
+R3 Minor missing failed-ps observation evidence. Static findings require source
+correction; the historical pass remains valid only for its exercised paths.
+`numerical-002/FIX-RULING-001.md` scopes all three fixes and new/affected fake
+cases with original implementer then same-reviewer closure. No live supervisor,
+worker, runtime preparation or numerical measurement has run.
