@@ -4024,3 +4024,11 @@ math/cold reader still unrun. `numerical-005/REVIEW-EXECUTION-RULING.md` require
 static review first; if no blocking source finding, its one independent long
 authoring suite uses a newly committed detached outer and a new durable monitor
 registration. Existing completed jobs/ACKs remain untouched.
+
+Reader static review `607da9966` does NOT ACCEPT:0 Critical,1 Major R1,0 Minor.
+It verified30 checksums/50 saved Git rows/90 commit-path bindings without executing
+subject code. R1 shows impossible early-stop MC consumption can pass if bounds
+and work totals are changed consistently (N4 forecast128/128 rather than64/64).
+No independent suite/monitor was launched. `numerical-005/R1-FIX-RULING.md` scopes
+full/early/analytic policy and deterministic feasible-prefix checks, new short
+scripted controls including an end-to-end reserialized mutation, then same review.
