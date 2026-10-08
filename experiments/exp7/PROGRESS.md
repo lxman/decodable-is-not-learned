@@ -3997,3 +3997,11 @@ accepts I1–I3 with0 residual findings. Coordinator's first corrected combined
 composition still pending. `NUMERICAL-ADAPTER-RULING.md` opens fixed resource-only
 adapter implementation with scripted fakes, exact valid deterministic geometry,
 unchanged workload ceilings and explicit later reader/runtime/worker integration.
+
+Unit3a resource adapter source `6dbd002f1477074033e184c45a259190c0dad309` is
+source-correspondent under fresh review `077c0c4c053257799d6e62c46ee34b62104c706f`:
+0 Critical/Major,1 Minor R1,15/15 guarded scripted methods independently pass;
+48 Git bindings/21 checksums verify. R1 requires independent routing/pattern
+expectations and row-distinct first-two slicing tests. `numerical-004/R1-FIX-RULING.md`
+scopes test-only closure plus C1 fixture entry/exit/literal-env checks. Installed
+and adapter source remain fixed; no actual numerical resource workload has run.
