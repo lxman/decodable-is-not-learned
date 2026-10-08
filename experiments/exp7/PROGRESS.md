@@ -4119,3 +4119,13 @@ source/fixture acceptance is recorded; no live operation occurred. Next static
 NUMERICAL-RUNTIME-RECIPE-RULING scopes008 finite per-role selections/callable edges,
 optional-denial recipe and actual preparation/qualification interfaces, including
 007's currently missing preparation dispatch and real aggregate budget receipts.
+
+Static008 deliveryf4ac5c44b proposes finite maps/recipes, openly gated by G1–G8 and
+root-exit receipts. Review9a7f0a5f accepts direction with mandatory M1–M5, operational
+NOT ACCEPTED. Its first checker fails on named AST constants; one narrow authorized
+replacement check passes ataa95fce90 (144 Git bindings/321 named inputs/215 lexical
+indexes), preserving failure. Coordinator saved-byte check verifies43 current files,
+144 bindings and proposal budget arithmetic; no runtime/semantic closure claimed.
+DISPOSITION adopts refinements. NUMERICAL-RUNTIME-INTERFACE-RULING scopes new009
+versioned alias/startup/generated-ancestor/expected-denial/log-flag source integration,
+including prospectively qualified -S; no live optional/native/worker invocation.
