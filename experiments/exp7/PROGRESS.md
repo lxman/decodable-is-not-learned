@@ -3961,3 +3961,12 @@ exit0/post-exit deadline/consistent evidence checks. Actual OS qualification has
 not run. `NUMERICAL-WORKER-RULING.md` scopes fresh unit2b source-only loader,
 real installed audit/read composition and named output fence with guarded fakes.
 It explicitly carries the later producer-to-reader pin handoff integration issue.
+
+Unit2b feasibility at `b10b719ea` is BLOCKED before worker implementation: one new
+six-case fixture has5 controls pass and1 required-property RED. An actual
+`functools.partial(original_os_write,fd,b"x")` writes a byte despite a modeled
+name/profiler fence. Installed primitive controls are separately labeled; no
+whole CandidateAudit escape or cold qualification is claimed. WRITE-1 proposal
+in `numerical-003/WRITE-1-PROPOSAL.md` requests independent architecture review
+of a descriptor-free audited body plus strict byte-only trusted publication.
+No worker/GREEN implementation or real numerical/runtime launch has occurred.
