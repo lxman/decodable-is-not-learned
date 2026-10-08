@@ -4102,3 +4102,11 @@ transitive metadata traversal. A valid .data request can leave required descenda
 outside final revalidation. IMPLEMENTATION-FIX-RULING-002 scopes explicit protocol
 roles and suffix-independent mandatory edges with real admission/drift controls.
 No independent40/20 suite or live launch has run; prior evidence stays immutable.
+
+Residual R1 role-graph source46137364c (deliveryfd6703f0d) independently passes all12
+new methods. Review009b59cee42fe9cf644a1ff99977124c3067ec00 identifies no residual
+source finding; its first combined72 is66 pass/3 fail/3 error. Six old fixtures
+use pre-correction missing/shared metadata and fail before intended R1/R2 positive
+integration/drift predicates. All outcomes stay preserved, no72/72 claim. The new
+FIXTURE-CLOSURE-RULING adopts the review's six additive affected replacements with
+real authority loading; no operational source change or successful66 replay.
