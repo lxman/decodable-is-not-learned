@@ -4085,3 +4085,12 @@ confirms source/fake scope, independently6 controls/2 required-property RED.
 admin roles and original-style ps-observer RSS exclusion, with admin/owner interval
 coverage and explicit trusted-root/tail limits. It replaces the nested force-kill
 design and stricter sampler-inclusive wording; no native sampler or live launch.
+
+Flattened007 sourceb34209a4f delivered40 guarded methods; reviewee3567785690db92b7
+stops statically NOT ACCEPTED (0 Critical,2 Major,1 Minor): R1 authentication of
+admin source occurs after execution and owner-review exit closure is incomplete;
+R2 no ledger slot for post-producer reader-input administration; R3 failed observer
+cleanup releases sample membership early. IMPLEMENTATION-FIX-RULING-001 scopes a
+literal authenticated-byte inline bootstrap (honest real argv and minimal006
+startup/pin amendment), fixed metered post-data roles and held observation membership.
+No reviewer suite or operational launch ran; original failures/passes remain.
