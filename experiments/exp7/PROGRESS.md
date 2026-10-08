@@ -4154,6 +4154,14 @@ of actual phase-owner wait/exit and final collector measurement/cutoff, preservi
 no-force-kill intermediate ownership and accounting for all live participants.
 Proposal only; no preparation/qualification/numerical command is accepted.
 
+010 static review4c2466c56 accepts direction with R1–R3 refinements: C alone samples
+authenticated C/O/W membership under no-reap leases; actual O/V wait4 exit0 is
+mandatory; final C tail<=50ms is a labeled conditional charge inside3600s, never
+proven C exit or measured tail. IMPLEMENTATION-RULING adopts this finite protocol
+and exact last-link/exit trust limit, scopes new source/fakes and narrow007 version
+amendment. All nine stages require uniform evidence; missing preparation bodies
+still refuse. No operational commands or new resource limits are authorized.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
