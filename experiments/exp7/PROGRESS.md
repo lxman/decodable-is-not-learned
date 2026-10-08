@@ -4054,3 +4054,14 @@ It also records a concrete budget mismatch: current supervisor fixed reservation
 exceed the old prospective16MiB witness total, so exact preparation needs a ruled
 within-3GiB slice or reviewed duration-sized reservations. No code/runtime launch
 or new budget was authorized by this planning note.
+
+Independent reader authoring suite completed2026-10-08 06:41:50 UTC,31/31 in
+748.131s, child0/outer terminal0,24 entry/exit pins. Reviewer final `ce2a0f36c`
+accepts corrected662fceefe with no residual findings (31+13 distinct methods,
+actual stdlib codecs and explicitly modeled numerical ports). Coordinator's first
+13 scoped methods pass;107 current files,245 historical Git bindings,24 pins and
+31 saved long-suite IDs independently verify, no whole-suite replay. New job
+`exp7-reader-review31-r1-20261008-a` ACKed once, receipt in coordinator-001/.
+Reader source/fake ACCEPTANCE and NUMERICAL-EXECUTION-BODIES-RULING now scope fresh
+unit4a fixed producer/reader boundary composition in new006 source with guarded
+fixtures; actual handoff/runtime/qualification/numerical launch remain subsequent.
