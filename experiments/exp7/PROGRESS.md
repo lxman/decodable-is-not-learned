@@ -4260,3 +4260,34 @@ Git bindings,81 current files, all7 saved authoring runs, full helper/launcher p
 f06bf10b7c4afa6aed0b946619fc5ba13dc83ba1d181ea723f40a128b4e572fc.
 `resume-001/VERIFICATION.md` records the source/evidence split. Same-reviewer
 source/fake acceptance is pending; no operational source changed during packaging.
+
+## RESOURCE-1 unit4f011 source/fake delivery — 2026-10-08
+
+Under NUMERICAL-PREPARATION-PIPELINE-RULING83f48fa03,011 implements the fixed
+source→witness-observe→witness-reproduce→runtime-propose→runtime-accept bodies,
+with three named target children each, complete process/target separation,
+finite source-owned observer authority and actual009→installed API calls.
+The actual007 authority/admin and010 collector/verifier chain passed across all
+five stages at a1ffc85a4 (chain-003), with inert target code and scripted process/
+clock/stdio/profile ports. Live inline CodeTypes, exact009 denial provenance,
+native/environment source-bound refusal/admission and real-profile terminal
+behavior have separately scoped passing evidence. Qualification stays unavailable.
+
+The complete source/fake package is `resource-check/numerical-011/HANDOFF.md` and
+`delivery-001/`. Source68b7b4e81, binding inputseb3dd4ce0 were pushed before the
+new saved-byte packager completed0/0. It verifies152 current Git-bound sources,
+832 historical source pins,27 behavioral scopes and31 distinct passing method
+names, full006–011 literal/helper pins, immutable installed trees and budget
+arithmetic. This is reconciled evidence, not one clean combined run. Kernel001's
+pre-endpoint abort, all other failures and kernel002's shell spelling slip remain
+disclosed. Exact matching10env/-I/-B/-S/-X5000 endpoints and zero outer forbidden
+attempts hold for the completed authoring scopes. All successes are retired.
+
+Named operational reservations2,986,503,168 bytes leave234,722,304 within3GiB;
+active stage ceilings total3360s. A conservative additional64MiB for all archived
+authoring evidence still leaves167,613,440 bytes. Chain charges are scripted
+protocol arithmetic (five conditional50ms tails), not feasibility measurements.
+No operational preparation/witness/qualification, C/O/ps, optional/native/RNG/
+workload, model/monitor/credential/config/service action or delegation occurred.
+Fresh independent source/fake review follows this delivery; genuine cold recipes,
+independent reviews and exact operational acceptance remain separate inputs.
