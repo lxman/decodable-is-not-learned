@@ -4185,6 +4185,13 @@ still bypasses numeric failure/fallback, and m3 HELLO omits post-receive50ms che
 FIX-RULING-002 scopes those precise caller paths and new tests; no architecture or
 resource limit change. Prior evidence remains preserved; no operational execution.
 
+010 correctionbd7cc35d8 adds25 new scoped passes. Reviewe9ee105ae closes reported
+source defects statically, but its own verification guard rejects Git stdin before
+subject loading:0/113 behavioral cases ran, byte checks incomplete and endpoint
+failure retained. It also identifies old fixture World/Pump API/message drift.
+FIXTURE-REVIEW-RULING scopes additive semantic fixture variants, preserved113
+objectives and a fresh same-reviewer guard/byte-check/union invocation afterward.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
