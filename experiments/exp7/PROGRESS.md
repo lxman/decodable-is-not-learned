@@ -4044,3 +4044,13 @@ was pushed before detached launch2026-10-08 06:29:22 UTC. Outer/child PID/SIDs
 secured at `5ff5b7ffc`. It is an authoring test, not a RESOURCE-1 numerical run.
 Await its durable notification for actual terminal review, same-reviewer closure,
 evidence publication and this new job's ACK. No old registration is touched.
+
+While that authoring suite runs, coordinator read-only integration planning records
+`resource-check/INTEGRATION-NEXT-PROPOSAL.md`: fixed producer/reader dispatch and
+retained-object crossing, exact derived-data reader handoff (current supervisor
+forbids output-root inputs), authoritative outer completion, finite per-process
+runtime/callable/witness authority and NumPy's still-unenrolled optional denial.
+It also records a concrete budget mismatch: current supervisor fixed reservations
+exceed the old prospective16MiB witness total, so exact preparation needs a ruled
+within-3GiB slice or reviewed duration-sized reservations. No code/runtime launch
+or new budget was authorized by this planning note.
