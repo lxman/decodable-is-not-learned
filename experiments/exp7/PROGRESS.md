@@ -4130,6 +4130,15 @@ DISPOSITION adopts refinements. NUMERICAL-RUNTIME-INTERFACE-RULING scopes new009
 versioned alias/startup/generated-ancestor/expected-denial/log-flag source integration,
 including prospectively qualified -S; no live optional/native/worker invocation.
 
+009 partial333fd774e stops on B1: its startup .pyc identities were inserted into
+ordinary worker inputs and cannot pass preserved source-only fences. Fresh review
+391421682 reproduces2 controls/2 required-property errors and checks164 Git bindings;
+actual pre-loader pyc exposure remains unmeasured. It also finds B2 bulk launcher
+hashing inside the owner final tail. STARTUP-IDENTITY-RULING chooses external
+admit/verify/finalize identity seals, with no worker read/import authority, and
+metered launcher hashing. Partial15 denial-method pass is preserved; integration
+and helper pins remain unfinished. No operational invocation occurred.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
