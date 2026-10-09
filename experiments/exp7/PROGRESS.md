@@ -4358,3 +4358,10 @@ Reported allocation133,550,080 bytes leaves667,648 under128MiB. REVIEW-CAPACITY-
 RULING reserves16MiB from existing aggregate headroom for compact independent review
 and fixtures:144MiB authoring plus operational reservations leaves20,321,280 inside
 the unchanged3GiB cap. Same-reviewer static closure/current coherent scope is next.
+
+Review848492da8 verifies fix003 bytes/accounting but finds M1-R3: a prefix-owned
+package cannot continue with a first main-stage child; duplicate-admission/importer
+and inherited-child seals conflict. Its heterogeneous real collections namespace
+also exceeds the deliberately inert-only ownership shapes. FIX-RULING-004 scopes
+one cross-phase continuation with declared child transitions and typed nonexecuting
+namespace identities. No independent behavior has run; prior66 names stay historical.
