@@ -4351,3 +4351,10 @@ dictionary ownership transfer assumes, including existing functions retaining a
 shared process dictionary. FIX-RULING-003 scopes explicit adopted callable/dictionary
 ownership and actual-entry lazy-import composition, no parent replay or widened
 import authority. Prior defects are statically closed; independent behavior0.
+
+Fix003 delivery7cd33459a adds15 scoped passing names for adopted parent/function
+dictionary ownership and actual-entry lazy imports, preserving51 prior names.
+Reported allocation133,550,080 bytes leaves667,648 under128MiB. REVIEW-CAPACITY-
+RULING reserves16MiB from existing aggregate headroom for compact independent review
+and fixtures:144MiB authoring plus operational reservations leaves20,321,280 inside
+the unchanged3GiB cap. Same-reviewer static closure/current coherent scope is next.
