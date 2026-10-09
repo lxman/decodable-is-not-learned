@@ -4448,3 +4448,14 @@ exclusive-root/predecessor rules block in-place continuation; a complete fresh r
 upper18,526,208 exceeds12MiB by5,943,296. Return: numerical-011/fix-005/R8-CONFLICT.md.
 Six API children, helper controls and final objective reconciliation remain open.
 No job active; no independent acceptance or new capacity disposition is implied.
+
+Fix006 design e9aaed101 supplies the complete six-child continuation upper14,049,280,
+exceeding chain12MiB by1,466,368. Static review5b60e7a54 conditionally accepts five
+source-separated control variants and strict full ordinal consumers, with explicit
+v5 dispatch/reference/cost refinements; independent behavior0. Remaining aggregate
+headroom cannot fund that candidate. Michael explicitly selected “Add 8 MiB
+(Recommended)” in the coordinator question: aggregate3GiB+8MiB for authoring only,
+4MiB chain+2MiB source/accounting+2MiB helper. RETAINED-FIXTURE-IMPLEMENTATION-RULING
+adopts the reviewed design under chain16MiB/authoring170.5MiB; operational limits
+stay unchanged. All nine successes/failures remain; six API children and independent
+acceptance are still pending. Implementation resumes under the original implementer.
