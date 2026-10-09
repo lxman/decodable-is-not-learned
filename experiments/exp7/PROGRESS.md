@@ -4326,3 +4326,21 @@ Operational reservations3,049,909,248 plus128MiB authoring leave37,098,496 under
 stage ceilings remain3360s. No operational or delegated work occurred. Same fresh
 reviewer must close static changes before the first coherent independent scope.
 Start at `resource-check/numerical-011/fix-001/HANDOFF.md`.
+
+## RESOURCE-1 unit4f011 fix002 — 2026-10-08
+
+Re-review2ed637e3f found sealed constructor support and actual builtin spec defects
+(2 Majors), plus five stale input counts (1 Minor). FIX-RULING-002eab7e6e0f governs
+the narrow correction. Literal support code/globals/slots/phase/caller chains now
+cover path and environment mapping; hook swap/transfer stays enforced Seal until
+ownership moves. Actual builtin create→attribute initialization→exec validates
+module/spec/loader/package and result. Additive five260-count accounting preserves
+all named byte reservations and the retired old packager.
+
+Eight new distinct passing method names reconcile across scopes004/007/008/009/010;
+all failures and original43 passes remain source-version evidence. Whole-entry and
+actual-inline CPython profiles forward every synchronous descendant; required
+callback/transfer/sticky/builtin negatives pass. Only unfinished objectives reran.
+Current independent composition builders are explicitly staged; no independent
+review or operational command ran. Full new source diff and compact Git/byte
+bindings return to the same reviewer at numerical-011/fix-002/HANDOFF.md.
