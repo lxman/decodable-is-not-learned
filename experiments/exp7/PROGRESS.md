@@ -4315,7 +4315,7 @@ Eight scopes reconcile12 distinct passing method names, not one final-source run
 RED and the prefix001 control failure remain; all successes are retired. The
 lifetime-compatibility shell duplicated the identical VECLIB assignment; effective
 endpoints match the required ten-variable environment and the slip is disclosed.
-Operational reservations3,049,909,248 plus96MiB authoring leave70,652,928 under3GiB;
+Operational reservations3,049,909,248 plus128MiB authoring leave37,098,496 under3GiB;
 stage ceilings remain3360s. No operational or delegated work occurred. Same fresh
 reviewer must close static changes before the first coherent independent scope.
 Start at `resource-check/numerical-011/fix-001/HANDOFF.md`.
