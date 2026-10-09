@@ -4423,3 +4423,10 @@ publication stops at maps exhaustion after a2,966-byte table exceeds its2,900-by
 internal bound. Additive capacity ruling transfers32KiB existing unallocated margin
 to source/maps, with unchanged total/subdivision protections. The fresh complete
 retry table must fit before construction; actual API/15-child proof is unfinished.
+
+Complete retry sizingee26b5236 passes source-domain reconstruction:11,194,368 graph
++532,480 retained failed paths+65,536 close-out=11,792,384 upper, exceeding11MiB.
+Capacity ruling reserves12MiB chain and256KiB each for source/maps/helper close-out
+from existing aggregate headroom. Authoring162.5MiB plus operational reservations
+leaves922,624 within unchanged3GiB. Saved sizing is retired; construction proceeds
+on its retained bound/premises with required inode/source/ownership checks.
