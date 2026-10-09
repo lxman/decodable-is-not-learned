@@ -4402,3 +4402,11 @@ verified retained originals, preserving every raw event/wait/cost and consumer r
 Complete source-derived map/copy sizing now precedes full-chain construction; no
 partial-subset bound is accepted as a feasible reservation. Allocation145,768,448
 remains charged inside160MiB; operational numerical launches remain0.
+
+Reference correction7bdaa994c passes four new007/010 consumer objectives; source-map
+authoring paused for status questions and was explicitly resumed on Michael's next
+message. Complete declared426-path sizing2c23efcf2 yields17.72–18.04MB for current
+tagged streams; optimistic independent-bit floor10.63–10.95MB exceeds chain10MiB.
+CANONICAL-EVENT-CODEC-PROPOSAL requests static review of source-fixed canonical
+Huffman/six-bit representation and prospective11MiB chain/161MiB authoring within
+unchanged3GiB. Exact codec/full-graph fit remains unproved; numerical launches0.
