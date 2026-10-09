@@ -4394,3 +4394,11 @@ REPRESENTATION-RULING scopes a versioned lossless indexed stream, incremental ex
 byte accounting, up to1,048,576 events but unchanged4MiB stream/artifact caps, and
 complete source-derived graph sizing. No event/audit coverage or aggregate budget
 is dropped. Full helper/API/collector composition remains unfinished.
+
+Partialefef24875 passes six new codec/lifetime methods; reduced stream copies in
+007 verify/finalize and010 final-verifier already exceed the10MiB chain subdivision.
+VERIFIED-RESULT-REFERENCE-RULING scopes versioned summaries of independently fully
+verified retained originals, preserving every raw event/wait/cost and consumer read.
+Complete source-derived map/copy sizing now precedes full-chain construction; no
+partial-subset bound is accepted as a feasible reservation. Allocation145,768,448
+remains charged inside160MiB; operational numerical launches remain0.
