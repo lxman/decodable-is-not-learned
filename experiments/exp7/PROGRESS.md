@@ -4431,6 +4431,15 @@ from existing aggregate headroom. Authoring162.5MiB plus operational reservation
 leaves922,624 within unchanged3GiB. Saved sizing is retired; construction proceeds
 on its retained bound/premises with required inode/source/ownership checks.
 
+Current c004/ff72352b1 completes nine source/observe/reproduce fixture children and
+three real007/010 scripted stages; runtime-propose first child refuses a source-map
+callsite error, corrected by034. Fresh-restart upper18,526,208 exceeds chain12MiB
+and would replay retired successes. Review108393c79 confirms parent/inventory/startup
+continuation conflicts and finds M1-CD1 bool/integral-float structural ordinal aliases.
+RETAINED-FIXTURE-DESIGN-RULING scopes an additive read-only predecessor companion,
+strict full consumer and complete six-child continuation upper/source-closure plan.
+Design only; no operational retry, clean15-child or independent behavior acceptance.
+
 Fix005 c004 ata3339b639 completes nine current source/observe/reproduce children
 and three scripted007/010 stages, then refuses the first API child before helper
 entry on a source-map CALL selector. Correction is source-verified by maps-034 at
