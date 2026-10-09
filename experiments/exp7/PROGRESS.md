@@ -4299,3 +4299,23 @@ No operational preparation/witness/qualification, C/O/ps, optional/native/RNG/
 workload, model/monitor/credential/config/service action or delegation occurred.
 Fresh independent source/fake review follows this delivery; genuine cold recipes,
 independent reviews and exact operational acceptance remain separate inputs.
+
+## RESOURCE-1 unit4f011 M1/M2 correction — 2026-10-08
+
+Independent review393ea1f51 rejected the delivered prefix/loader on2 Majors.
+FIX-RULING-001e83c3ce5e authorizes actual early recording and finite import forms.
+Correction source and new affected-only evidence are in numerical-011/fix-001/.
+Actual entry activates Prefix before generating dependencies, retains real inert
+generated CodeTypes/events/counts, and transfers ownership/import dictionaries
+once without replay. Finite star exports, builtin/frozen ports and adopted parent
+identities/order are implemented.009 only lazifies its JSON import; compatibility
+bytes/errors and all-other-statements AST parity pass.006–011 pins are refreshed.
+
+Eight scopes reconcile12 distinct passing method names, not one final-source run.
+RED and the prefix001 control failure remain; all successes are retired. The
+lifetime-compatibility shell duplicated the identical VECLIB assignment; effective
+endpoints match the required ten-variable environment and the slip is disclosed.
+Operational reservations3,049,909,248 plus96MiB authoring leave70,652,928 under3GiB;
+stage ceilings remain3360s. No operational or delegated work occurred. Same fresh
+reviewer must close static changes before the first coherent independent scope.
+Start at `resource-check/numerical-011/fix-001/HANDOFF.md`.
