@@ -4416,3 +4416,10 @@ frames, strict raw-byte canonicality and identity-preserving bounded append/snap
 state. CANONICAL-EVENT-CODEC-RULING adopts those refinements and explicit11MiB chain/
 161MiB authoring plus separate source/maps3MiB subdivision. Aggregate remains3GiB
 with2,495,488 reserved headroom; complete upper-fit proof precedes construction.
+
+Canonical-codec workfc681bcbe has new affected passes and a prior426-path upper
+fit, but two current-chain constructor refusals remain preserved. Retry sizing
+publication stops at maps exhaustion after a2,966-byte table exceeds its2,900-byte
+internal bound. Additive capacity ruling transfers32KiB existing unallocated margin
+to source/maps, with unchanged total/subdivision protections. The fresh complete
+retry table must fit before construction; actual API/15-child proof is unfinished.
