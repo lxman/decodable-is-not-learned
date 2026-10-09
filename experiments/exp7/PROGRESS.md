@@ -4380,3 +4380,10 @@ RULING-002 reallocates16MiB existing headroom to160MiB cumulative authoring, wit
 explicit chain/helper/maps/reviewer/coordinator subdivisions,3,544,064 aggregate
 headroom and unchanged3GiB/3600s. Fresh scoped reproduction plus full saved-chain
 verification avoids duplicating a10MiB fixture archive. No operational work.
+
+Fix005 continuationc68a7c5e9 identifies a source-order contradiction: exact final
+Administrative counts precede mandatory re-reads consuming those counts. One static
+proof passes without API execution; allocation144,715,776 remains charged. ADMIN-
+COMPLETION-RULING moves final equality after all mandatory counted reads with
+profiling/IO active, exact maps and new affected controls. Full helper/chain work
+continues within the existing160MiB subdivision; operational launches remain0.
