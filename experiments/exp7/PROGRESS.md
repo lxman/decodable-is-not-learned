@@ -4387,3 +4387,10 @@ proof passes without API execution; allocation144,715,776 remains charged. ADMIN
 COMPLETION-RULING moves final equality after all mandatory counted reads with
 profiling/IO active, exact maps and new affected controls. Full helper/chain work
 continues within the existing160MiB subdivision; operational launches remain0.
+
+Continuation526f51890 supplies8 profiled completion-order passes and2 source-count
+checks; mandatory reduced API graph lower bound65,934 exceeds65536 events. EVENT-
+REPRESENTATION-RULING scopes a versioned lossless indexed stream, incremental exact
+byte accounting, up to1,048,576 events but unchanged4MiB stream/artifact caps, and
+complete source-derived graph sizing. No event/audit coverage or aggregate budget
+is dropped. Full helper/API/collector composition remains unfinished.
