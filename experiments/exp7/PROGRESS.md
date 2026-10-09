@@ -4365,3 +4365,10 @@ and inherited-child seals conflict. Its heterogeneous real collections namespace
 also exceeds the deliberately inert-only ownership shapes. FIX-RULING-004 scopes
 one cross-phase continuation with declared child transitions and typed nonexecuting
 namespace identities. No independent behavior has run; prior66 names stay historical.
+
+Fix00431e82333f adds25 affected/metadata passes and explicit unfinished composition
+maps. Review6d27af488 closes top-level continuation but finds M1-R4 cached nested
+package mistaken for new child and M2-R4 selected APIs barred from helper v.pin/
+startup_flags. FIX-RULING-005 adopts exact cached identity handling and nine finite
+Administrative helper edges, preserving call/IO authority, and requires completion
+of current all-five/all-three source/API/collector fixtures. Independent behavior0.
