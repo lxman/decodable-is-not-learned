@@ -4344,3 +4344,10 @@ callback/transfer/sticky/builtin negatives pass. Only unfinished objectives rera
 Current independent composition builders are explicitly staged; no independent
 review or operational command ran. Full new source diff and compact Git/byte
 bindings return to the same reviewer at numerical-011/fix-002/HANDOFF.md.
+
+Re-reviewba376a8fd verifies551 files/128 historical pins and260-input accounting,
+but withholds behavior on M1-R2: selected-preloaded prefix modules lack the import
+dictionary ownership transfer assumes, including existing functions retaining a
+shared process dictionary. FIX-RULING-003 scopes explicit adopted callable/dictionary
+ownership and actual-entry lazy-import composition, no parent replay or widened
+import authority. Prior defects are statically closed; independent behavior0.
