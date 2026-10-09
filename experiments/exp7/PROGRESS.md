@@ -4372,3 +4372,11 @@ package mistaken for new child and M2-R4 selected APIs barred from helper v.pin/
 startup_flags. FIX-RULING-005 adopts exact cached identity handling and nine finite
 Administrative helper edges, preserving call/IO authority, and requires completion
 of current all-five/all-three source/API/collector fixtures. Independent behavior0.
+
+Partial fix005a6672b266 records five new nested-continuation passes and an unexecuted
+nine-helper-entry candidate. Its complete-chain reservation9,060,352 exceeds remaining
+6,373,376 bytes before maps/helper proofs; construction stopped. REVIEW-CAPACITY-
+RULING-002 reallocates16MiB existing headroom to160MiB cumulative authoring, with
+explicit chain/helper/maps/reviewer/coordinator subdivisions,3,544,064 aggregate
+headroom and unchanged3GiB/3600s. Fresh scoped reproduction plus full saved-chain
+verification avoids duplicating a10MiB fixture archive. No operational work.
