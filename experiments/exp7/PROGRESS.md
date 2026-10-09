@@ -4209,6 +4209,13 @@ precedes structural recording, M2 mandatory star imports/preloaded package child
 have no admissible loader route. FIX-RULING-001 scopes true early activation/retained
 objects and finite reviewed import semantics, preserving prior evidence.
 
+011 correctiona3c1e6745 adds12 scoped passes; review2ed637e3f withholds first
+behavioral scope on M1-R1 sealed-prefix rejection of mandatory constructor support,
+M2-R1 intrinsic port's missing module spec initialization, and m1 five stale artifact
+counts254 vs260. FIX-RULING-002 scopes faithful whole-handoff profile coverage,
+actual intrinsic-port fake checks and additive count correction. Prior43 claims
+stay source-version specific. No operational invocation or authority gained.
+
 ## RESOURCE-1 unit4d partial draft BLOCKED — 2026-10-08
 
 New009 source/test draft `f6eb0660e` preserves001/003 and installed/scientific
