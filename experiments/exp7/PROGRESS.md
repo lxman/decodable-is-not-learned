@@ -4410,3 +4410,9 @@ tagged streams; optimistic independent-bit floor10.63–10.95MB exceeds chain10M
 CANONICAL-EVENT-CODEC-PROPOSAL requests static review of source-fixed canonical
 Huffman/six-bit representation and prospective11MiB chain/161MiB authoring within
 unchanged3GiB. Exact codec/full-graph fit remains unproved; numerical launches0.
+
+Static review1c292bbaf finds the canonical design adoptable with phase-separated
+frames, strict raw-byte canonicality and identity-preserving bounded append/snapshot
+state. CANONICAL-EVENT-CODEC-RULING adopts those refinements and explicit11MiB chain/
+161MiB authoring plus separate source/maps3MiB subdivision. Aggregate remains3GiB
+with2,495,488 reserved headroom; complete upper-fit proof precedes construction.
