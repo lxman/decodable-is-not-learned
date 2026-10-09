@@ -4430,3 +4430,12 @@ Capacity ruling reserves12MiB chain and256KiB each for source/maps/helper close-
 from existing aggregate headroom. Authoring162.5MiB plus operational reservations
 leaves922,624 within unchanged3GiB. Saved sizing is retired; construction proceeds
 on its retained bound/premises with required inode/source/ownership checks.
+
+Fix005 c004 ata3339b639 completes nine current source/observe/reproduce children
+and three scripted007/010 stages, then refuses the first API child before helper
+entry on a source-map CALL selector. Correction is source-verified by maps-034 at
+04262c667. All successes/failures remain; no operational process ran. Current-layout
+exclusive-root/predecessor rules block in-place continuation; a complete fresh retry
+upper18,526,208 exceeds12MiB by5,943,296. Return: numerical-011/fix-005/R8-CONFLICT.md.
+Six API children, helper controls and final objective reconciliation remain open.
+No job active; no independent acceptance or new capacity disposition is implied.
