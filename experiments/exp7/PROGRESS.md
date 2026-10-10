@@ -4498,3 +4498,10 @@ alone retain541,063,168 unnecessary decoder credits. Actual005 pool/RSS stay unk
 Additive fix ruling scopes genuine temporary/escaping ownership and a complete
 both-stage admission-lifetime upper before any further fixture. All005 evidence
 remains; fresh-storage retained-only comparison also exceeds the chain reservation.
+
+Provisional AD-1 correctiona12188c6f passes five new tiny proofs; its conservative
+3,813,020,954 object/13,163,731 node upper does not establish fit. Review9b492c309
+accepts the size-stable ownership direction but finds mutable-container growth
+unreconciled. It supplies the finite positive-shape recipe (44 actual Builder cache
+slots plus all other consumers). Additive ruling funds that concrete mutation/shape
+work from existing subdivisions; no cap increase, diagnostic or construction.
