@@ -4490,3 +4490,11 @@ closes the remaining interface-read defect;218 candidate004 pins and unchanged
 768KiB existing aggregate headroom to chain/authoring, leaving136,192 within the
 owner-approved total. Exact release binding precedes the six unresolved API children;
 full source/fake/operational acceptance remains pending.
+
+Construction005/33af5803f refuses genuine lifetime admission before any API child;
+its exact live counters were not captured. Reviewe93995375 proves unchanged successful
+admission exceeds2GiB object credits by at least31,333,632; hash-only Layout rereads
+alone retain541,063,168 unnecessary decoder credits. Actual005 pool/RSS stay unknown.
+Additive fix ruling scopes genuine temporary/escaping ownership and a complete
+both-stage admission-lifetime upper before any further fixture. All005 evidence
+remains; fresh-storage retained-only comparison also exceeds the chain reservation.
