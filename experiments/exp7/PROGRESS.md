@@ -4527,6 +4527,13 @@ memory limits unchanged and certificate review still mandatory before an attempt
 CERTIFICATE-CORRECTION-RULING adopts CERT-P1/G1, funds their complete corrections
 and explicit management allocation reconciliation. It grants no construction release.
 
+CERT-P1/G1 correction89ad4821e is independently ACCEPTED by19644692e: conditional
+AD-1 complete32-point ownership/lifetime and negative admission certificate closed.
+The184-row18,341,888 storage upper fits the funded chain by3,416,064. New
+CERTIFICATE-SUCCESSOR-RELEASE authorizes exact current source/name/ref binding,
+then six unresolved API children; full composition and source/fake acceptance remain
+pending. Every previous child success/failure stays retained and retired.
+
 CERT-P1/G1 source132cfdadc adds pre-admitted occurrence/workspace guards and streaming
 graph/sweep traversal. ownership007's three new refusal boundaries pass; its literal-
 owner test mistake is preserved, and ownership008 passes only that corrected unmet
