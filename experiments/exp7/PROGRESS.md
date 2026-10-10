@@ -4468,3 +4468,11 @@ eligibility, independently bound startup commands/phase start, simultaneous life
 accounting; new review-root classification is Minor. No independent behavior or
 acceptance. RETAINED-FIXTURE-FIX-RULING-001 funds scoped corrections from existing
 authoring subdivisions and requires re-review before another full construction.
+
+Correction5c6421c92 adds five isolated passes and a complete candidate17,416,192
+upper,638,976 over chain. Re-reviewfacbbfe21 independently closes FI2 and retained
+FI1, but finds native non-preparation timeline refusal plus temporary-serialization
+overcharge/overlapping-stream undercharge in FI3. Four independent new component
+objectives include both confirmed lifetime counterexamples; reviewer fixture failure
+is preserved. Additive correction ruling requires narrow lifetime/native-timeline
+repairs and re-review before any six-child attempt; existing allowance is unchanged.
