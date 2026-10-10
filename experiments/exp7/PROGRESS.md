@@ -4520,3 +4520,9 @@ workspace needs pre-admitted edge-occurrence bounds. Arithmetic/all184 storage r
 reconcile, but full certificate is not accepted. Chain shortfall778,240 remains;
 maps reservation is fully used, helper20,480 remains, aggregate headroom136,192.
 No admission/construction has run; all original evidence and failures are retained.
+
+Michael explicitly selected “Add 8 MiB (Recommended)” for a second evidence allowance:
+aggregate3GiB+16MiB,4MiB chain/2MiB source-accounting/2MiB helper; numerical/runtime/
+memory limits unchanged and certificate review still mandatory before an attempt.
+CERTIFICATE-CORRECTION-RULING adopts CERT-P1/G1, funds their complete corrections
+and explicit management allocation reconciliation. It grants no construction release.
