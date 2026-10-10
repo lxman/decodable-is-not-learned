@@ -4505,3 +4505,9 @@ accepts the size-stable ownership direction but finds mutable-container growth
 unreconciled. It supplies the finite positive-shape recipe (44 actual Builder cache
 slots plus all other consumers). Additive ruling funds that concrete mutation/shape
 work from existing subdivisions; no cap increase, diagnostic or construction.
+
+Deliveryd5061cff6 retains a new mutation proof and source-only evidence for an
+unwrapped Chain initialization seal insertion (AD1-M1-C1). This is a fixable source
+defect within the existing scope. Additive ruling resumes constructor ownership and
+all remaining guard/positive-shape work, with a98,304 helper→maps transfer. Complete
+lifetime certification/storage accounting remain required before independent review.
