@@ -4526,3 +4526,14 @@ aggregate3GiB+16MiB,4MiB chain/2MiB source-accounting/2MiB helper; numerical/run
 memory limits unchanged and certificate review still mandatory before an attempt.
 CERTIFICATE-CORRECTION-RULING adopts CERT-P1/G1, funds their complete corrections
 and explicit management allocation reconciliation. It grants no construction release.
+
+CERT-P1/G1 source132cfdadc adds pre-admitted occurrence/workspace guards and streaming
+graph/sweep traversal. ownership007's three new refusal boundaries pass; its literal-
+owner test mistake is preserved, and ownership008 passes only that corrected unmet
+alias objective. positive010 at7a9c3d7b5 supplies explicit per-target old/new receipt,
+selection and loop-owner V/Q/A deltas for all32 rows, with fitting arithmetic and
+unchanged18,341,888 successor upper. Final local-arena/13-path accounting closure is
+preregistered as positive011; same-reviewer disposition follows the complete packet.
+Local M1/C1 closures remain source-specific; admission/construction and all six API
+children remain held. Full current outer PROGRESS/STATE allocations are conservatively
+charged once as a base, not asserted historical measured growth. No owned job active.
