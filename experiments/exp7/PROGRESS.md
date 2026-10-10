@@ -4459,3 +4459,12 @@ headroom cannot fund that candidate. Michael explicitly selected “Add 8 MiB
 adopts the reviewed design under chain16MiB/authoring170.5MiB; operational limits
 stay unchanged. All nine successes/failures remain; six API children and independent
 acceptance are still pending. Implementation resumes under the original implementer.
+
+Fix006 delivery2460ee936 retains continuation004's prechild enrollment refusal and
+one passing isolated184-file closure correction. All six API children remain open.
+Same-table retained upper17,358,848 exceeds chain16MiB by581,632 before new deltas.
+Independent reviewc8b617ef6 requests changes: exact point-in-time inventories/tail
+eligibility, independently bound startup commands/phase start, simultaneous lifetime
+accounting; new review-root classification is Minor. No independent behavior or
+acceptance. RETAINED-FIXTURE-FIX-RULING-001 funds scoped corrections from existing
+authoring subdivisions and requires re-review before another full construction.
