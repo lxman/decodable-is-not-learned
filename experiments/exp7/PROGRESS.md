@@ -4537,3 +4537,11 @@ preregistered as positive011; same-reviewer disposition follows the complete pac
 Local M1/C1 closures remain source-specific; admission/construction and all six API
 children remain held. Full current outer PROGRESS/STATE allocations are conservatively
 charged once as a base, not asserted historical measured growth. No owned job active.
+
+positive011 atf1394d788 completed0 in0.3899507918395102s: explicit managed upper
+7,936,303/8,388,608 and disjoint lexical scratch40,486,912/67,108,864; all32 corrected
+010 rows fit. Same-reviewer packet is fix006/IMPLEMENTATION-HANDOFF.md with011→010
+ancestry. Complete storage18,341,888 fits funded21,757,952 by3,416,064. Actual physical
+spending170,602,496 is separate from187,953,152 reserved authoring; management466,944
+and reviewer1,179,648 are counted once. Independent acceptance and explicit release
+remain pending; no admission/construction/child, reviewer invocation or delegation.
