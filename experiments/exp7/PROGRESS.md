@@ -4511,3 +4511,12 @@ unwrapped Chain initialization seal insertion (AD1-M1-C1). This is a fixable sou
 defect within the existing scope. Additive ruling resumes constructor ownership and
 all remaining guard/positive-shape work, with a98,304 helper→maps transfer. Complete
 lifetime certification/storage accounting remain required before independent review.
+
+Deliveryc11463864 corrects C1 and supplies a claimed fitting lifetime certificate
+with18,341,888 successor storage upper. Reviewfa06d3d92 accepts local mutation/
+initialization corrections but leaves two Majors: CERT-P1 independent API receipt/
+selection and loop-carried owners/per-target bounds; CERT-G1 negative-input sweep
+workspace needs pre-admitted edge-occurrence bounds. Arithmetic/all184 storage rows
+reconcile, but full certificate is not accepted. Chain shortfall778,240 remains;
+maps reservation is fully used, helper20,480 remains, aggregate headroom136,192.
+No admission/construction has run; all original evidence and failures are retained.
