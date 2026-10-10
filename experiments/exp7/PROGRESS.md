@@ -4476,3 +4476,10 @@ overcharge/overlapping-stream undercharge in FI3. Four independent new component
 objectives include both confirmed lifetime counterexamples; reviewer fixture failure
 is preserved. Additive correction ruling requires narrow lifetime/native-timeline
 repairs and re-review before any six-child attempt; existing allowance is unchanged.
+
+Deliveryb1157f293 adds seven new isolated passes. Review410ae9eca closes temporary
+serialization/read-overlap/native-timeline findings, but independently proves later
+009 external identity reads bypass shared admission (chunks+join). Additive ruling
+scopes that one remaining interface boundary; current complete17,420,288 upper is
+643,072 over chain and existing922,624 headroom remains unallocated. No six-child
+or numerical execution; protected sources and all evidence remain preserved.
