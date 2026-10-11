@@ -4838,3 +4838,9 @@ Baseline/candidate envelopes secured next before arms. New ruling allocation del
 4096→management507904; outer files remain within retained allocation rows.
 Current implementation authoring overruns (boot8786/reader9945 versus8192 each) are
 preserved in performance-001 correction archives and disclosed in OWNERS; no draft ran.
+
+P1 affected binding secured00c9ee759. Baseline arm p1-baseline-001 ran ONCE and is
+retired: worker66740/SID66740, owner66739/SID66739, attender66738; genuine0/0,
+done0.048263209173455834s, owned0.05225516716018319s, no timeout, hooks none,
+all_asserted:true. Evidence4721 bytes, logs empty. Secure this arm before candidate;
+no repeated baseline or performance inference from this single instrumented fixture.
