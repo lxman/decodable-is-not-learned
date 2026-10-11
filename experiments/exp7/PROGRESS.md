@@ -4829,3 +4829,12 @@ to12857344 per saved ACCOUNTING: the102400 was already reviewer/management/maps,
 total unchanged; no refund/census. Preserve design breaches40960 and36864 versus32768.
 Only exact coarse-clock observer patch, affected-root admission, then one fresh pair;
 R1 typed consumer/R2 globals/R3 accounting adopted. No real input/release authority.
+
+P1 source74e815c20 pushed before p1-bind-001. Worker66454/owner66453/attender66452,
+genuine0/0, no timeout, empty logs. Only observer root measured:185595→183117,
+ΔM−2478,60 root codes/1271 total,25 other roots unchanged. Persistent16735532,
+observer201232128, transient63237188 fit;9 new enrollment negatives refuse.
+Baseline/candidate envelopes secured next before arms. New ruling allocation delta
+4096→management507904; outer files remain within retained allocation rows.
+Current implementation authoring overruns (boot8786/reader9945 versus8192 each) are
+preserved in performance-001 correction archives and disclosed in OWNERS; no draft ran.
