@@ -4977,6 +4977,12 @@ M1–M3 source joins, requiring strict predecode/row types. Ruling adopts12288 c
 explicit loaded18432/exactT3112 rows within199MiB, and funds completion from existing
 future capacity. Full owner/domain admission and both proof arms remain outstanding.
 
+P2 delivery383003c98 retains proof-source nonfit274914/270336 before worker. Review
+380f81a99 accepts that stop and specifies phase-bounded256MiB proof-only admission,
+keeping the candidate199MiB; missing kernel-role and positive-parse joins must close.
+Ruling adopts this complete wave and16384 records transfer within existing capacity.
+No admission or arm ran in005; original numerical measurement remains unrun.
+
 Under56567050d/fullc735b3969 REVIEW/DESIGN/LEDGER, performance-design-002 returns a
 literal diagnostic-copy NONFIT, not an executable admission. Text-only extraction:
 original encoding1453/check1053 -> encoding1463/guard1073/admission574, plus2 LF =3112.
