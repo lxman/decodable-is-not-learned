@@ -4971,6 +4971,12 @@ remaining correction to finite roster aliases, callback targets and bootstrap ow
 Ruling adopts199MiB/loaded16384 within the outer scope and continues the existing funded
 admission/pair assignment. No candidate compilation or proof arm has run yet.
 
+P2 delivery156f3b801 passed its source gate; the single affected binder retained1331-code
+metadata but refused10365/8192 container bytes. Reviewfae19a880 accepts that refusal and
+M1–M3 source joins, requiring strict predecode/row types. Ruling adopts12288 containers,
+explicit loaded18432/exactT3112 rows within199MiB, and funds completion from existing
+future capacity. Full owner/domain admission and both proof arms remain outstanding.
+
 Under56567050d/fullc735b3969 REVIEW/DESIGN/LEDGER, performance-design-002 returns a
 literal diagnostic-copy NONFIT, not an executable admission. Text-only extraction:
 original encoding1453/check1053 -> encoding1463/guard1073/admission574, plus2 LF =3112.
