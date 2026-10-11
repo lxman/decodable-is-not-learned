@@ -4947,3 +4947,9 @@ same disclosed4096 allocated overrun/combined131072 peak, no additional grant.
 Return real-016-001/RESULT.md/READOUT/refs/source/completion plus r2 rawcheck/release/
 diagnostic records to SAME reviewer. All owned actors exited; active_jobs:[]; all three
 names and new reader retired. No actual diagnostic retry or production construction.
+
+Reviewc735b3969 accepts saved016's clean deadline, preservation and typed readout with
+qualified raw timings; no further async gate. Performance ruling selects design-only
+diagnostic encoding second-admission refinement, fresh guards/conservative retention
+and unchanged full fallback. A16384 source tranche covers exact patch/provenance/owners/
+operation-count plan; implementation and real input await their affected review gates.
