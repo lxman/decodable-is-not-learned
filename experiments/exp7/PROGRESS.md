@@ -4695,3 +4695,20 @@ resource-check/numerical-011/fix-006/diagnostic-001/r2/APPLIED.md. Source/tiny52
 524288; future393216 and unassigned24576 intact; actual delta172711936. Same-reviewer
 applied closure and separate real release remain held. No saved006 diagnostic,
 original construction, API child, model/codec execution, native command or delegation.
+
+Underd493adb96/reviewe57cdc212, four finite r2 corrections are delivered at
+resource-check/numerical-011/fix-006/diagnostic-001/r2/FOUR-APPLIED.md. Actual runtime
+trace installation precedes its new catch boundary and all subject-accounted setup;
+live causal eligibility refuses suppressed origins, including actual reused addresses;
+bounded phase/binary-emergency records preserve failures with genuine nonzero status;
+finalizer uses externally pinned capped single snapshots before parse/hash publication.
+Eight new objectives PASS across four001/006/008, with five intentional failure
+workers002–005/007 retained and authenticated. Original11+3/9/check001 stay retired.
+Last worker32873/SID32873 done0; owner32872 wait0/0.03336954093538225s, no timeout,
+hooks none; all jobs exited. Final binding011, executable correction264758f50 plus
+b770f5b41, binder842e8f265: observer199848960/201326592, persistent16630479/16777216,
+transient60091460/67108864,1258 source-derived code owners. New packet655360/786432;
+maps6561792/7110656, helper6795264/8617984, reviewer1593344 enrolled once, management
+495616, actual delta172924928. Future393216/unassigned24576 and all other caps intact.
+Same-reviewer acceptance and explicit release precede any real006 diagnostic. No
+saved authority/factory/constructor/child/native/model/codec execution or delegation.
