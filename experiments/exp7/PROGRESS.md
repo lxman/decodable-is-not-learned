@@ -5243,3 +5243,31 @@ Management520192, reviewer2326528 and all other caps unchanged. Same-reviewer
 packet is performance-006 RESULT/READOUT/ACCOUNTING plus inputs/source/raw bytes.
 Full admission and count pair remain incomplete; no external blocker inferred,
 no automatic retry. active_jobs:[].
+
+Reviewc5284e331 accepts the saved006 failure and identifies F1–F6: invalid worker
+grammar, non-total reporting/cleanup/waits, missing ports.memory join, incomplete
+finite owner/scratch proof, mixed catalog/phase certificates, and weak promotion/
+success readout. Its historical primary remains unknown. Coordinator verified10
+source pins against e5072c384, raw wait/empty outputs/log length/readout hash, absent
+arms, allocation arithmetic and49152 reviewer bytes. One coordinator literal-indent
+assertion expected4/5 spaces but actual lines250/251 have3/4; the source-only follow-up
+confirms the same unexpected extra level. No candidate parse/execution or replay.
+
+Performance ruling adopts the complete correction wave in new performance-007,
+source-first grammar/reporting controls, one replacement admission, then the original
+unstarted pair. Transfer73728 future->source, grant45056 future: remaining source86016,
+funded future102400, ungranted40960/unassigned24576; full maps7569408/7634944. Review
+49152 enrolled ONCE ->2375680, author carried174551040 before measured management
+growth. Reserve at most12288 management growth within602112 before writes. Proof256/
+candidate199, all phase/source/time/global bounds unchanged;120s active time carries
+forward. No real release/calibration/numerical launch. Original006 and prior evidence
+remain retired; same implementer/reviewer continue. No owned job at this ruling.
+
+Actual management measurement: ledger append preallocated65536 physical bytes
+(380928->446464), exceeding the prospective12288 growth row by53248 despite only
+1428 logical bytes added. The postwrite cap assertion failed and is preserved here;
+this is not retroactive approval. Ruling/STATE physical deltas0. Charge full65536
+without compaction/refund: management585728/602112, author carried174616576. This
+disclosure fits already allocated ledger capacity; remaining management16384. All
+outer reservations and maps rows are unchanged. Future ledger writes must account
+filesystem preallocation rather than assume logical rounding predicts allocated bytes.
