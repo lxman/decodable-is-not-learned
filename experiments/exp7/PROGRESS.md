@@ -4903,3 +4903,9 @@ Evidence254/SHA518da38e4164271a6c822539028ec76376e4d18178d25de8ee9fc6fe8e97f03c;
 owned773/SHA95a9ec71b5aa901a0a6952a3e2ae4d33d41987e1a4280b9ba4d99c265ddc406c.
 Check8192/20480 allocated, logs empty; name retired, all owned actors exited.
 Commit/push these genuine records before finalizer. No diagnostic has run yet.
+
+Source-check secured3f51efcbb before unchanged eight-argument finalizer, genuine0,
+empty finalizer logs. Release json220/SHAc8cadec855b6c760bc7a0fdffd1e0dd1bc7dd6a3a60eb91e6a0431524b06d9c6;
+z390/SHAb53ceaefac63b87348dfaa728c1cf471d934ed3dadf698794c642584de8e62a2.
+Raw669/parse89728, release pair8192/8192 allocated; confirmation/check refs exact.
+Secure release before the ONE saved006-p1-001 diagnostic; no manifest/runtime edits.
