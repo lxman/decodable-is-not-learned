@@ -4768,3 +4768,22 @@ spent/311296 unspent and unassigned24576 unchanged. All other ceilings fixed.
 No real source-check/release/diagnostic, performance implementation, production edit,
 constructor/authority/child/native/model/service/delegation. All owned jobs exited.
 Return applied async source/proofs/owner/header/held-gate packet to same reviewer.
+
+Undera6f7cd412/review65eb671c9, ASYNC-1 residual applied in source2e85314ec:
+preallocated per-hook exit slots remove ticket-dict insertion and activation restore;
+independent bounded primary/handler records survive failed bookkeeping/fallback.
+Strict live/exit hook/epoch/frame/activation/serial Guard joins retain foreign denial.
+Binding015 secureda2cc0cdc1 before one foreground slot-001 proof. Three new commit/
+fallback/exit transitions PASS and retire; no nine-async/reviewer/other retired replay.
+Actual worker51347/SID51347 done1/0.03413495793938637s; owner51346/SID51346 wait256/
+0.03774404199793935s, no timeout, hooks none, denied8 explicit setters. Primary
+ArithmeticError survives both injected failures; return delivery[1559,10913] precedes
+refund[0,0] without restoration; first:null retained. These are inert allocation-fault
+injections and a synthetic pending latch, not physical exhaustion or actual signals.
+Observer201297152/201326592, persistent16738010/16777216, transient63237188/67108864;
+proof-only154919936. New packet28672/53248; source/tiny761856/786432; maps6750208/
+7110656. Reviewer1826816 once, management499712, actual173350912; future311296 and
+unassigned24576 protected, all ceilings fixed. Return r2/ASYNC1-APPLIED.md/source/
+focused evidence/header/held binding015 to same reviewer. No real source-check/release/
+diagnostic, original production/read-validator edit, optimization, constructor/authority/
+child/native/model/service/delegation. All owned workers/owners/attenders exited.
