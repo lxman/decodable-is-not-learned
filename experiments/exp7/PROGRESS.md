@@ -5151,3 +5151,42 @@ Same-reviewer handoff: performance-004 RESULT/READOUT/ACCOUNTING, exact rejected
 owned outcome and source/input bindings. Need disposition of actual held-container cap
 before remaining admission; neither proof arm ran, no admitted binding exists. No real
 check/release/diagnostic/factory input/authority/child or production use. Active jobs:[].
+
+
+Under3a119e384/fullfae19a880 REVIEW/NEXT, performance-005 applies UNCOMPILED B1/B2
+in r2 boot/launch/p2. Readers have identical strict envelope/body checks, total12288/
+header1024/raw65504/parse8388608, typed nonnegative preinflate lengths, lowercase hashes,
+exact packed/body joins, bounded size+1 reads, duplicates/nonfinite refusal. P2 binds
+P2-199-17-B12-L18-T3112/full authority, immutable016 plus separate004 DATA parent;
+finite map-key digest/row shapes, every numeric copy, count/product/maxcompile/parse joins.
+Prior M1-M3 source roles and callback identities stay. Negative execution remains unrun.
+Final loaded growth18431/18432; exactT3112/512 gives208592384/208666624 (margin74240).
+
+Mandatory all-in proof source gate stops BEFORE compiler: full fixture/contract parents
+173684 +active O/A/runtime/P2 72730 +two-T equivalent6224 =252638. With constructor
+source-selected fragment4808 (original lines1840-1888), unchanged extract has raw4808/
+decoded4808/joined4783/dedented4587 overlapping; graph1645 at512 adds3290. Sum274914
+exceeds270336 by4578, charge209838592 exceeds199MiB by1171968 BEFORE worker/other
+cohort helpers. Full-parent extraction would be383639. No boot/launch import is counted.
+This is the current extraction-layout nonfit, not an impossibility proof for smaller code.
+No source-copy hiding, old-root refunds, cap increase, candidate AST/compile/import/exec,
+affected admission, new binding, baseline or candidate. Complete cohort/catalog/owners/
+scratch/negative cases and independent count/readout remain unproved. No full-pass label.
+
+bytegate2852 SHA75f816dac8c09c035d6e1080f61bbf5de19d0efe72aaf908dee99a521d63cae8
+binds source hashes and fragment910c378a…88113. Full00410365 and0166320 hashes validated;
+original16 pins/23 inherited root rows unchanged. Two DATA-authoring AssertionErrors
+are preserved and corrected (blank method-end line; historical016 body parse8388608
+reservation vs envelope4450176). No file was written by either failed command; no job
+or automatic retry. Full004 body parse7068160 remains exact. Prior failures stay intact.
+
+Enrol reviewer57344 ONCE ->2281472. Explicit transfer45056 future->source cap1224704,
+new future grant28672 ->98304 adopted. New source16384 (PLAN/bytegate/RESULT/ACCOUNTING),
+future4096 (authoring failures). Existing executing highwater4096 now pays p2 growth,
+not charged twice. Source1175552/1224704, funded remaining49152/94208; future total270336
+=94208 granted+176128 ungranted. Maps7290880/7634944, unassigned24576 untouched.
+Management512000+actual0<=602112; helper6795264/8093696, chain12857344/21757952,
+coordinator2097152 unchanged. Author carried174358528/reserved187953152/cap187957248;
+aggregate3238002688/headroom136192. No new disk breach. Same-reviewer handoff
+performance-005 RESULT/bytegate/ACCOUNTING; no real/native/model/service/credential/
+delegation. Active jobs:[].
