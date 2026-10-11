@@ -4909,3 +4909,12 @@ empty finalizer logs. Release json220/SHAc8cadec855b6c760bc7a0fdffd1e0dd1bc7dd6a
 z390/SHAb53ceaefac63b87348dfaa728c1cf471d934ed3dadf698794c642584de8e62a2.
 Raw669/parse89728, release pair8192/8192 allocated; confirmation/check refs exact.
 Secure release before the ONE saved006-p1-001 diagnostic; no manifest/runtime edits.
+
+Release securedc030d171b; ONE saved006-p1-001 diagnostic completed and retired.
+Worker73844/SID73844, owner73843/SID73843, attender73842; genuine1/wait256, done
+90.05454708309844s, owned90.06168366712518s, no supervisor timeout/denial, hooks none.
+Foreground attended through durable completion. Actual environment accepted exact10
+keys+CF (shell repeated the same VECLIB=1 assignment; no extra environment key).
+Full evidence preserved: terminal5646,counters14708,progress11135,done123,owned786;
+emergency/stdout/stderr/owner-log empty,45056/315392 allocated. New real refs pin all
+actual bytes before decoder. Diagnostic result not yet decoded; no retry or extension.
