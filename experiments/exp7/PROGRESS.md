@@ -4580,6 +4580,14 @@ the bounded three-file final routing/gate procedure and genuine-done-before-fina
 sequence, then continuation006 under the secured external digest. Six-child and full
 composition evidence remain pending; no admission or numerical measurement yet.
 
+Secured release31c90f9d2 completed; actual continuation006 from8c571b9ca exited1 at
+the3600s boundary before any API child. Full evidence01df9631d preserves700416 new
+failed bytes. The ten-frame traceback omitted the deepest site and pre-unwind state;
+deadline origin/memory overflow remain unproved. Reviewb712c10f8 identifies repeated
+global sweeps/GC and recursive readers as source cost mechanisms. ADMISSION-DIAGNOSTIC-
+RULING scopes a separately bound observer/adapter and tiny recorder proof, then review
+before one short read-only diagnostic; no construction retry is authorized.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
