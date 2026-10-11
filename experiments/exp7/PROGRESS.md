@@ -4895,3 +4895,11 @@ retroactively approve the provisional per-file overrun. No check/diagnostic has 
 
 Draft secured894d3b7c1; revised source limits and typed state/async counters prepared
 before any data decoder execution. No bound runtime/source-census change.
+
+Reader sourcefa6e38993 pushed before ONE p1-real-check-001. Worker73413/SID73413,
+owner73412/SID73412, attender73411; genuine0/wait0, done0.03469108301214874s,
+owned0.038716166047379375s, no timeout, hooks none, denied0, complete new-source-check.
+Evidence254/SHA518da38e4164271a6c822539028ec76376e4d18178d25de8ee9fc6fe8e97f03c;
+owned773/SHA95a9ec71b5aa901a0a6952a3e2ae4d33d41987e1a4280b9ba4d99c265ddc406c.
+Check8192/20480 allocated, logs empty; name retired, all owned actors exited.
+Commit/push these genuine records before finalizer. No diagnostic has run yet.
