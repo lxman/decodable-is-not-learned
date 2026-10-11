@@ -4844,3 +4844,9 @@ retired: worker66740/SID66740, owner66739/SID66739, attender66738; genuine0/0,
 done0.048263209173455834s, owned0.05225516716018319s, no timeout, hooks none,
 all_asserted:true. Evidence4721 bytes, logs empty. Secure this arm before candidate;
 no repeated baseline or performance inference from this single instrumented fixture.
+
+Baseline secured1ce8084a1 before candidate. p1-candidate-001 ran ONCE and retires:
+worker66950/SID66950, owner66948/SID66948, attender66944; genuine1/wait256 for planned
+fault controls, done0.05293166683986783s, owned0.05736854183487594s, no timeout,
+hooks none, all_asserted:true. Full7053-byte R2E1/done evidence fits8192; logs empty.
+Both arms complete without retry; source-bound typed saved-data readout follows.
