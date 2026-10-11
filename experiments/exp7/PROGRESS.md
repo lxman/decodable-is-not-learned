@@ -4620,6 +4620,11 @@ cleanup escape gaps, and scopes a tiny asynchronous-stop repair. Updated diagnos
 ruling funds98304 from existing source balance for that correction; no second real
 invocation or performance optimization is released. Original006 cause stays unknown.
 
+Async repairdf896678a passes nine new objectives, but review65eb671c9 reproduces two
+remaining fallible escape commits masking a primary. Updated diagnostic ruling funds
+the exact preallocated-slot/Guard correction and one focused proof from remaining
+53248 source balance. No new real input or optimization is authorized.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
