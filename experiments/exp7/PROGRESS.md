@@ -5222,3 +5222,15 @@ Author carried174489600/reserved187953152/cap187957248, helper6795264/8093696,
 chain12857344/21757952, aggregate3238002688/headroom136192. Inputs commit/push
 precedes any candidate compilation; held admission then secure baseline gate pair.
 No owned job, admission/arm/test/candidate compilation has run in this wave.
+
+Second PLAN4213/4096 authoring refusal preserved88894f082; same8192 highwater,
+no additional grant. PLAN compacted3884; all text/pin/lexical/phase gates pass.
+Source-firste5072c384 pushed before admission ONCE: attender38220, owner38221,
+child38222 (both detached SID=PID), genuine wait256/status1 after0.021694917s.
+Saved evidence and admit.binding empty; log130 bytes records unavailable __main__.D
+in bootstrap output. Error handling lost the original exception; its cause is NOT
+established. This is an internal defect, not an additional external constraint.
+Target loading after D initialization was not reached. No full admission/kernel
+receipt/held binding/baseline/candidate. No retry; both owners returned, active_jobs:[].
+Raw failure8192 charged to admission16384: maps7376896, future granted61440 remains,
+author174497792; other allocations unchanged. Secure raw before typed saved reader.
