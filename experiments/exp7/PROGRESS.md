@@ -4577,3 +4577,18 @@ and requires applied-source re-review before construction; existing budgets suff
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
+
+successor-003 source-only binding scope active; owned PID82908/SID82908, detached supervisor82907; no construction/children.
+
+successor-003 source-only binding scope completed; owned PID82908 waited status0. Read new binding disposition before construction; active owned jobs none.
+
+Applied successor correction4071da811 under53f9f3c1f/f1ed3963a completes fresh003
+source-only binding PASS, construction_allowed:false. Both scope limits84617/fixed!
+and four control pins, all joined current names/refs and preserved005 union are
+applied. All184 rows, ten absent roots,184 originals/122 failed files/39 dirs verify.
+All32 new gate/code/arena bounds fit; complete storage18341888 has3416064 margin.
+Six actual IO/domain-input bindings have zero child count delta; no child ran.
+Earlier002 output-size failure is retained;003 publishes compact inherited-pin
+evidence31164 bytes plus10642-byte table. Worker82908/SID82908 exited0, durably waited
+by detached supervisor82907; no owned active job. Same reviewer receives the applied
+source/proof via fix006/SUCCESSOR-APPLIED.md before any secured release/construction.
