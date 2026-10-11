@@ -5081,3 +5081,29 @@ Return performance-003/RESULT.md, bytegate/accounting and applied sources to SAM
 reviewer for actual14703/8192 disposition. No cap change/real run/production/native/
 model/service/credential/delegation. Single baseline/candidate pair unstarted;
 active_jobs:[]. No domain or count/speed/one-hour-fit inference.
+
+
+Underb66584a9e/fullbd1983fa0 REVIEW/NEXT, performance-004 finishes finite M1–M3 source
+joins within existing p2.py. Five bootstrap/ten completed roles and occupied-future
+load refusal; literal imported aliases/P2 function roots; stored Files function and
+hook identity, Recorder outputs/catalog and actual reader/arena/writers; stable typed
+boot size, bounded size+1 origin reads and finite preallocation. T unchanged3112.
+Text gate: loaded16380/16384 (room4), observer208067328/208666624 (room599296),
+generated3112/4096. This is source admission only, before candidate compilation.
+
+Existing61440 reassigned BEFORE writes: executing4096/PLAN4096/binder12288/worker12288/
+owner4096/reader4096/binding8192/refs4096/delivery8192. Executing draft high-water4096
+is conservatively reserved although current physical delta is0; no old refund. Current
+new sources PLAN/owner/binder/inputs allocate24576. Future94208 unchanged; exact rejected
+binding DATA may use12288 failure row, never admitted-reader8192. Source-first binder
+will measure changed full roots/two T products and inherited unchanged metadata;
+encoded8KiB admission precedes any binding acceptance. No old program/header census.
+Binder actual equivalent121337 gives170522880; owner/attender each140658176, together
+281316352 within512MiB base. Named129 fixed/4MiB work own bounded data/parse copies.
+
+Inputs SHAcd25660c0cf2e7abb9e65689fe63404d9b589531bf4f1a4bd63daac715740b75.
+Reviewer49152 externally ONCE ->2224128; management512000+actual growth<=602112.
+No candidate compiled yet; source-first commit/push precedes the ONE affected binder.
+No baseline/candidate worker authored or run; pair remains conditional on all admission.
+No real source-check/release/diagnostic/factory input/authority/child/production/native/
+model/service/credential/delegation. No active owned job at this source commit.
