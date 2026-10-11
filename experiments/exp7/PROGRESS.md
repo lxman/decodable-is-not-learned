@@ -4875,3 +4875,20 @@ Return performance-001/APPLIED.md/source/bindings/proof/typed readout to same re
 All arms retired; owned workers/owners/attenders exited, active_jobs empty. Binding016
 held false; no real source-check/release/factory/authority/child/production/native/model/
 service/delegation or old objective replay.
+
+Under7157704e8/fullf24656117 REVIEW/NEXT and0eb6629c3 confirmation, preregister one016
+real check/release/diagnostic at diagnostic-001/real-016-001/PLAN.md. Confirmation
+c522f0b4…03efa7 verified, exact016ae0ceadb…1cbf83 unchanged/false historical flag.
+Names collision-free: p1-real-check-001,p1-real-release-001,saved006-p1-001 under r2.
+Future393216 +separate source32768 reserved; remaining49152 future/180224 source/
+24576 unassigned protected. Review90112+4096 once→2027520, management507904 plus
+actual deltas only; chain12857344 fixed. Entry actual173764608, maximum174190592.
+New source-first typed real DATA reader; genuine check secured before unchanged
+eight-argument finalizer, release secured before ONE20/90/120/135s attended diagnostic.
+No runtime edits, retry, old program replay or production construction authority.
+
+Real016 reader draft17579 occupied20480 versus its provisional16384 per-file row.
+The source packet at24576 still fits32768. Preserve draft in Git before correction;
+explicitly reallocate4096 from unspent refs allowance to reader within SAME32768 row,
+refs now4096. Reader189MiB source/workspace bound remains below192MiB. This does not
+retroactively approve the provisional per-file overrun. No check/diagnostic has run.
