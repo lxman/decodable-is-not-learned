@@ -4610,3 +4610,7 @@ successor-release-002 completed; owned PID87773 waited status0; active owned job
 successor-finalize active; owned PID87834/SID87834, detached supervisor87833; worker bound120s.
 
 successor-finalize completed; owned PID87834 waited status0; active owned jobs none.
+
+continuation-006 active; owned PID88081/SID88081, detached supervisor88080; worker bound3600s.
+
+continuation-006 completed; owned PID88081 waited status1; active owned jobs none.
