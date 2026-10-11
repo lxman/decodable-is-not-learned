@@ -4892,3 +4892,6 @@ The source packet at24576 still fits32768. Preserve draft in Git before correcti
 explicitly reallocate4096 from unspent refs allowance to reader within SAME32768 row,
 refs now4096. Reader189MiB source/workspace bound remains below192MiB. This does not
 retroactively approve the provisional per-file overrun. No check/diagnostic has run.
+
+Draft secured894d3b7c1; revised source limits and typed state/async counters prepared
+before any data decoder execution. No bound runtime/source-census change.
