@@ -4954,6 +4954,12 @@ diagnostic encoding second-admission refinement, fresh guards/conservative reten
 and unchanged full fallback. A16384 source tranche covers exact patch/provenance/owners/
 operation-count plan; implementation and real input await their affected review gates.
 
+P2 design94d75643e fits its16384 disk tranche but exceeds the192MiB observer source
+ceiling by1498880 before glue. Review6a5dba567 accepts the conservative design with
+finite callback enrollment and explicit stricter refusal. Performance ruling grants
+diagnostic-only196MiB/17MiB persistent policy, all-in admission and one paired count
+proof. Subject/global limits stay fixed; no real retry or production change authorized.
+
 Under56567050d/fullc735b3969 REVIEW/DESIGN/LEDGER, performance-design-002 returns a
 literal diagnostic-copy NONFIT, not an executable admission. Text-only extraction:
 original encoding1453/check1053 -> encoding1463/guard1073/admission574, plus2 LF =3112.
