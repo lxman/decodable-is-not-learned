@@ -4793,3 +4793,25 @@ unassigned24576 protected, all ceilings fixed. Return r2/ASYNC1-APPLIED.md/sourc
 focused evidence/header/held binding015 to same reviewer. No real source-check/release/
 diagnostic, original production/read-validator edit, optimization, constructor/authority/
 child/native/model/service/delegation. All owned workers/owners/attenders exited.
+
+Undereccd86589, new performance-design-001 returns candidate2 only to same reviewer.
+5c87d7d50 closes S011-1/ASYNC-1 at015; its65536 reviewer bytes enrolled externally
+once→1892352. Candidate1 empty-pending guard omitted: admitted audit/GC/reentrant
+callback domain does not prove no insertion after empty test. Exact inert observer
+patch proposes raw selected-boundary timing/new schema; preserves callbacks/counters,
+slots/primary/handler/alarm/causal/Guard and A1/A2/A3. One NEW two-arm tiny mix and
+changed-site controls are planned, NOT executed. No executing-source edits or tests.
+Text-only prospective observer29774→29520, −254*256=−65024; source arena201232128/
+201326592. Compiled ΔM unmeasured: design ceiling32768 within actual39206 persistent
+margin; binder/header/type/negative-owner contract supplied. Persistent16738010+
+actualΔM, transient63237188 retained; no subject refund or old sizer/header replay.
+Transfer524288 helper→maps:7634944/8093696; source/tiny1179648, futureunused442368,
+old spent81920 immutable, unassigned24576 protected. Final design32768, source794624,
+maps6782976. Draft peak40960 exceeded32768 grant by8192 before compaction: disclosed
+scope breach, NOT retroactively authorized by final fit; no execution evidence erased.
+Management503808/602112 includes new ruling4096, outer files within retained rows.
+Reviewer1892352, helper6795264, chain12959744, actual173453312; protected review/
+coordinator/author/reserved/aggregate/headroom ceilings unchanged. Final file receipts
+and precise capacity/domain constraints: performance-design-001/DELIVERY.md. All
+real releases spent; no construction/authority/API/native/model/service/delegation.
+No jobs launched; active_jobs remains empty. Design review must precede implementation.
