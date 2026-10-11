@@ -5290,3 +5290,20 @@ Ungrant40960/unassigned24576 intact. Reviewer2375680 enrolled once, new0. Manage
 (+73728), reserved187953152/cap187957248; helper6795264/8093696, chain12857344/21757952,
 coordinator2097152, aggregate3238002688/headroom136192 unchanged. New leaf inputs,
 RESULT/READOUT/ACCOUNTING bind the internal refusal; no source/phase-fit claim.
+
+Reviewab10c24e3 accepts007 refusal/accounting and identifies concrete remaining
+spawn cleanup, descriptor/shared-owner, inventory/helper, phase, cumulative-time and
+failure-readout defects. Coordinator verified10 saved bindings, reviewer32768 physical,
+reader9438 bytes, missing stage products and493391/489116 live nonfit4275. Pure source
+authoring/review is separate under governing clauses; unknown CHARGEABLE helper time
+still blocks execution. Child waits do not certify a prior active upper; no reset.
+
+P2-SOURCE-CORRECTION-RULING.md adopts source-only IN-PLACE correction of007 with drafts
+preserved in Git, all executing gates held. No copied008 or new funding. Reassign unused
+failure4096 to a distinct future execution readout, retaining static READOUT and old
+failure charge. Optional descriptive RULING_COMMIT rename must fit repriced sources;
+historical sources/scanner configuration unchanged. Reviewer32768 enrolled ONCE ->2408448;
+new ruling4096 ->management589824/602112, author174727168. Ledger446464 highwater stays.
+Initial ruling multi-file patch rejected on ledger context with no file created; corrected
+patch then applied. This source-authoring tool failure launched no candidate or helper.
+All numerical/calibration launch counters remain0; no active owned jobs.
