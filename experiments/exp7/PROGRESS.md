@@ -5124,3 +5124,24 @@ not an admitted binding; no trusted-reader cap changed. Captures evidence1996/ow
 logs empty. Actual future20480=8192 captures+12288 rejected data. Binding.bin absent;
 no pair/real/factory input or automatic retry. Secure raw refusal before typed DATA read.
 Active owned actors all exited; active_jobs:[].
+
+
+Refusal DATA secured19cbf667a. New typed reader8493b55bc ran ONCE/status0, verifying
+saved wait/done,23 unchanged roots,1331 code count and double-T product arithmetic,
+held false policy and actual10365/8192 container excess2173. READOUT is a binder-refusal
+readout, not the unrun paired count proof. No candidate module execution or replay.
+Reader retired. Full catalog/cohort/negative/scratch/simultaneous-owner admission stays
+pending; fitting preliminary5/17/64 rows do not imply its completion.
+
+Final source physical increment36864, conservative charge40960 including4096 executing
+draft high-water reservation; source1159168/1179648 leaves20480 funded. Future24576/
+94208 leaves69632 funded; future249856/unassigned24576 separate. Maps7270400/7634944,
+future remaining319488; review49152 counted once ->2224128/3145728. Management512000,
+actual positive delta0; helper6795264/8093696, chain12857344/21757952, coordinator2097152.
+Author actual carried174276608, conservative174280704/reserved187953152/cap187957248;
+aggregate3238002688/headroom136192 fixed. No new disk breach or old-row refund.
+
+Same-reviewer handoff: performance-004 RESULT/READOUT/ACCOUNTING, exact rejected DATA,
+owned outcome and source/input bindings. Need disposition of actual held-container cap
+before remaining admission; neither proof arm ran, no admitted binding exists. No real
+check/release/diagnostic/factory input/authority/child or production use. Active jobs:[].
