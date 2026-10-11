@@ -4657,3 +4657,15 @@ in-flight graph counters/identity calls inside suppressed callback require addit
 explicitly reviewed telemetry authority; they are not silently estimated. No real
 saved-input diagnostic/admission/child or production predicate change. Original006
 deepest site/counters remain unknown; all six children/helper/strict/composition open.
+
+Under7ac1892a9/098c1b4ca, candidate correction source and binding003 are secured at
+2450b8671. New proof001 failed before any case: stdin from subprocess.DEVNULL is
+O_RDWR, violating the required read-only boundary. Worker13460/SID13460 done1;
+owner13459 waited status256 in0.030204958049580455s without timeout. All failed bytes
+and the genuine early done remain; the owner's late-journal availability flag is
+incorrect and preserved. No new objective retired; D1-D3/FINISH remain unproved.
+Source/tiny393216 is now fully allocated; future393216 and unassigned155648 untouched.
+The prospective tiny endpoint maxima also exceed the local failure reservation and
+must be reconciled before any new proof. Full refusal/source/accounting handoff:
+resource-check/numerical-011/fix-006/diagnostic-001/r2/DELIVERY.md. All owned jobs exited;
+no real-input diagnostic, constructor, child, reviewer invocation or delegation.
