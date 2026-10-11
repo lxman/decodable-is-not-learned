@@ -5234,3 +5234,12 @@ Target loading after D initialization was not reached. No full admission/kernel
 receipt/held binding/baseline/candidate. No retry; both owners returned, active_jobs:[].
 Raw failure8192 charged to admission16384: maps7376896, future granted61440 remains,
 author174497792; other allocations unchanged. Secure raw before typed saved reader.
+
+Raw secured/pusheda729901c7. Bound typed reader ONCE/status0 saved
+OWNED_WITHOUT_COMPLETION, admitted:false, exactly one owned admission failure;
+no baseline/candidate records. Reader retired. Readout4096 ->maps7380992,
+future57344 granted+159744 ungranted, source12288 remains; author174501888.
+Management520192, reviewer2326528 and all other caps unchanged. Same-reviewer
+packet is performance-006 RESULT/READOUT/ACCOUNTING plus inputs/source/raw bytes.
+Full admission and count pair remain incomplete; no external blocker inferred,
+no automatic retry. active_jobs:[].
