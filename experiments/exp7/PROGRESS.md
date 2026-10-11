@@ -4960,6 +4960,11 @@ finite callback enrollment and explicit stricter refusal. Performance ruling gra
 diagnostic-only196MiB/17MiB persistent policy, all-in admission and one paired count
 proof. Subject/global limits stay fixed; no real retry or production change authorized.
 
+P2 integration3487048c6 stopped before compile: loaded6824/4096 and source100096 over
+196MiB. Review098d9bbab specifies finite module/callback provenance, precharge, typed
+policy and duplicate-product owner corrections. Ruling adopts197MiB/loaded8192 and
+funds completion from remaining source balance; original pair is still unstarted.
+
 Under56567050d/fullc735b3969 REVIEW/DESIGN/LEDGER, performance-design-002 returns a
 literal diagnostic-copy NONFIT, not an executable admission. Text-only extraction:
 original encoding1453/check1053 -> encoding1463/guard1073/admission574, plus2 LF =3112.
