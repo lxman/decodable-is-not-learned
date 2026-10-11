@@ -4614,3 +4614,19 @@ successor-finalize completed; owned PID87834 waited status0; active owned jobs n
 continuation-006 active; owned PID88081/SID88081, detached supervisor88080; worker bound3600s.
 
 continuation-006 completed; owned PID88081 waited status1; active owned jobs none.
+
+Actual continuation006 under11e059158/8d52cf8c9: final source31c90f9d2 release check
+and separate genuine-done finalizer passed, secured8c571b9ca before external-digest
+launch. Worker88081/SID88081 ended1; detached supervisor88080 durably waited status256
+in3600.1558401251677s without supervisor timeout. Foreground attended throughout.
+Bare AssertionError during runtime-propose full authority admission at3600s boundary;
+ten-frame saved traceback ends managed1819/MEMORY.mutate and omits deepest origin.
+Pre-unwind lifetime counters were not retained for this exception; unknown, not a
+claimed observed cap excess. Zero API children started/succeeded; all6 remain open.
+New17 files/seven claimed roots700416 bytes retained, W! empty. All184 originals/
+122 earlier failed files/39dirs/final16 runtime pins reread unchanged by new source-
+only failure006 at3b8895b48, status0/0.05591091583482921s. Evidence secured, no replay.
+Return fix006/FAILURE-006.md and failure006.json to same reviewer before any further
+construction/source predicate or diagnostic instrumentation change. Active owned
+jobs:none. Original9 stay retired; helper/strict/full composition and operational
+qualification remain open. Reservations unchanged; final physical ledger in fix006.
