@@ -4631,6 +4631,12 @@ timing candidates with preserved validation and callback ownership, followed by 
 524288 unspent helper reserve moves to source/future diagnostic accounting within the
 same aggregate; no new allowance, execution or production sweep-policy change.
 
+Performance design1e1a52fc6 omits empty-flush optimization and supplies only coarse
+optional timing. Review573107ee0 allows exact implementation/metadata admission and
+one paired inert proof with typed-reader/namespace/accounting refinements. Ruling
+funds196608 within existing source balance; design draft overrun remains disclosed.
+No measured speedup, actual-input release or production predicate change is implied.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
