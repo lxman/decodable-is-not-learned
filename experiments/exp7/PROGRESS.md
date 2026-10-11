@@ -4718,3 +4718,23 @@ maps6561792/7110656, helper6795264/8617984, reviewer1593344 enrolled once, manag
 495616, actual delta172924928. Future393216/unassigned24576 and all other caps intact.
 Same-reviewer acceptance and explicit release precede any real006 diagnostic. No
 saved authority/factory/constructor/child/native/model/codec execution or delegation.
+
+Under886a37992/accepted61036f740, the single binding011 diagnostic is completed and
+spent. New source-check s011-check-001 genuine0/0 secured1f97a6993; unchanged eight-
+argument finalizer status0, exclusive release secured4a6cf3198 before diagnostic.
+saved006-diag-001 worker36860/SID36860, owner36859, foreground attender36858:
+done1/90.05541975004598s; owned wait256/return1 at90.06240629218519s, no supervisor
+timeout; hooks none, denial1. Non-exact foreign-hook-authority terminal at the90s
+boundary, first:null; no labelled Deadline origin survived. Setup/teardown/full
+preservation endpoint passed. One diagnostic factory attempt failed in original
+validate_failed_inputs/serialization/sweep_graph; actual load_authority calls ZERO.
+88 progress records,113 sweep entries,113 GC calls,8026104 flush attempts (8026079
+empty),25 identity attempts. Selected sweep_graph exclusive31.954720308s versus
+GC0.129194831s; reported observer54.952592139s/callback8.935313010s are instrumented,
+nonadditive and not original006 timings. No production optimization or numerical
+result. Full raw/readout/pins/limits: resource-check/numerical-011/fix-006/diagnostic-
+001/r2/s011-RESULT.md. All originals/failures preserved; no bound runtime/manifest
+edit, replay, extension or retry. Future evidence81920/393216, maps6643712/7110656,
+reviewer1671168 once, management495616; actual173084672, all ceilings unchanged.
+All owned jobs exited. Return saved-data packet to same reviewer/coordinator; further
+diagnostic/construction/children remain held. Original006 lost state stays unknown.
