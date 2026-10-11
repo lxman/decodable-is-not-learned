@@ -4601,6 +4601,12 @@ new objectives remain unmet. Diagnostic ruling funds a further131072 from unassi
 maps, requires read-only stdin/genuine done reporting and reconciled cumulative output
 caps, then completion of the existing corrections. No real-input diagnostic has run.
 
+Recorder3563781e8 retains eleven correction and three FINISH passes. Reviewe57cdc212
+accepts wire ownership/adapters but finds actual-boundary trace activation, stale
+causal matching, failure status/evidence and finalizer preparse gaps. Updated diagnostic
+ruling funds the four finite corrections by262144 helper→maps within the approved
+total. Same-reviewer closure and explicit real-input release remain required.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
