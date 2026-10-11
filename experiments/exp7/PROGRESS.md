@@ -4929,3 +4929,21 @@ RESULT draft8252 occupied12288 vs8192 delivery cap (60 logical/4096 allocated ov
 Preserve exact draft in Git before compaction; its printed final allocation is a target,
 not the draft peak. Current combined131072, current actual173895680, still within full
 425984 grant/global reservations. This remains a local cap breach, not retroactive approval.
+
+Reader/readout/draft securedc640ce20a. Final RESULT compacted under8192; exact8252-byte
+draft remains in that commit. Actual events[3515362,3515347,5805443,5804579,864], reads92,
+delegated18551277, GC128, graph returns6, flush/empty/identity9275633/9275605/28.
+Sweeps128 preflight admissions/cumulative N524338/E769903. sweep_graph raw wall
+83424277753ns/CPU83399056000ns; incomplete selected stack, overlapping instrumented
+intervals only. Durations observer/delegated/GC unmeasured. New heap N4774/E7009,
+used173755/316576008, peak786290/316765807; no original006/s011 cause/cost inference.
+Final future94208/393216 +source32768/32768=126976. Source999424/1179648, maps7081984/
+7634944; remaining source180224/future348160 (49152 never granted)/unassigned24576.
+Reviewer2027520 once, management507904 (actual deltas0), helper6795264, chain12857344,
+actual173891584; fixed ceilings/reservations/headroom unchanged. All current files fit;
+historical and new draft per-file breaches retained, not approved retroactively.
+Intermediate RESULT compaction8299 bytes also occupied12288 before final fitting edit;
+same disclosed4096 allocated overrun/combined131072 peak, no additional grant.
+Return real-016-001/RESULT.md/READOUT/refs/source/completion plus r2 rawcheck/release/
+diagnostic records to SAME reviewer. All owned actors exited; active_jobs:[]; all three
+names and new reader retired. No actual diagnostic retry or production construction.
