@@ -4573,3 +4573,7 @@ joined successor propagation. The accepted shape already funds the second scope
 read chunk and its parser; changed entry/Layout/Builder residency and every name/
 IO/domain still require a fresh affected proof. Release addendum adopts that scope
 and requires applied-source re-review before construction; existing budgets suffice.
+
+successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
+
+successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
