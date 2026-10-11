@@ -4637,6 +4637,12 @@ one paired inert proof with typed-reader/namespace/accounting refinements. Rulin
 funds196608 within existing source balance; design draft overrun remains disclosed.
 No measured speedup, actual-input release or production predicate change is implied.
 
+P1 applied95f38dc48 is ACCEPTED byf24656117; changed metadata−2478 fits, new toy
+pair preserves operation factors while optional profile-window clocks fall94→12.
+That ratio is not a real-input speed forecast. Performance ruling authorizes one
+new secured binding016 diagnostic at unchanged20/90/120/135s after fresh same-reviewer
+confirmation, with393216 future evidence and32768 separate reader-source reservations.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
