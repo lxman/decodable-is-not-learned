@@ -4588,6 +4588,13 @@ global sweeps/GC and recursive readers as source cost mechanisms. ADMISSION-DIAG
 RULING scopes a separately bound observer/adapter and tiny recorder proof, then review
 before one short read-only diagnostic; no construction retry is authorized.
 
+Diagnostic packetfcbb04da4 retains nine new tiny objectives across preserved attempts;
+no saved006 authority ran. Review098c1b4ca finds scalar-alias ownership, reused-error-ID
+false first-fatal joins and pre-authentication parse arena defects. It allows exact
+diagnostic-only scalar/callback/provenance adapters prospectively. Diagnostic ruling
+adopts all corrections/completion gates and funds131072 additional source/tiny bytes
+from unassigned maps; real-input execution remains held for applied review.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
