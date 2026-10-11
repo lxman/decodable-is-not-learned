@@ -4567,3 +4567,9 @@ controls/Lifetime unchanged; no API child/admission/constructor ran. Conditional
 certificate19644692e remains accepted; actual successor binding is not passed.
 Detached supervisor76945 durably waited worker76946/SID76946 status0; all owned jobs
 completed. This is source-binding evidence, not numerical/operational measurement.
+
+Reviewf1ed3963a allows the exact two-site scope-cap/fixed-root correction and all
+joined successor propagation. The accepted shape already funds the second scope
+read chunk and its parser; changed entry/Layout/Builder residency and every name/
+IO/domain still require a fresh affected proof. Release addendum adopts that scope
+and requires applied-source re-review before construction; existing budgets suffice.
