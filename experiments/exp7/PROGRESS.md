@@ -4552,3 +4552,18 @@ ancestry. Complete storage18,341,888 fits funded21,757,952 by3,416,064. Actual p
 spending170,602,496 is separate from187,953,152 reserved authoring; management466,944
 and reviewer1,179,648 are counted once. Independent acceptance and explicit release
 remain pending; no admission/construction/child, reviewer invocation or delegation.
+
+successor001 source-only binding scope active; owned PID76946/SID76946, detached supervisor76945; no construction/children.
+
+successor001 source-only binding scope completed; owned PID76946 waited status0. Read new binding disposition before construction; active owned jobs none.
+
+successor001 at6703c3a70 binds a concrete consumer constraint before construction:
+complete required scope67,811 bytes exceeds both65,536-byte source predicates by
+2,275; the accepted84,617 storage row does not override them. The fixed c/_ write
+root is also already claimed, versus the absent c/! successor. All184 originals and
+122 failed files/39 directories remain preserved. Return fix006/SUCCESSOR-BINDING.md
+to the same reviewer under84a55b990's affected-predicate clause. Five reviewed
+controls/Lifetime unchanged; no API child/admission/constructor ran. Conditional
+certificate19644692e remains accepted; actual successor binding is not passed.
+Detached supervisor76945 durably waited worker76946/SID76946 status0; all owned jobs
+completed. This is source-binding evidence, not numerical/operational measurement.
