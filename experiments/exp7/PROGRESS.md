@@ -4998,3 +4998,40 @@ reserved187953152/author187957248, aggregate3238002688/headroom136192 fixed. Lar
 Return complete inert patch/provenance/nonfit/oracle to SAME reviewer. No extra async
 gate, source-check/release/diagnostic/constructor/authority/child/production/native/model/
 service/credential/delegation. No active jobs; no runtime weakening or new execution.
+
+Under ea8efc33c/full6a5dba567 REVIEW/NEXT, performance-002 implements the literal P2
+support amendment in integration.patch, then STOPPED at mandatory all-in text gate.
+All26 unique hunks mechanically joined accepted016 in memory, no AST/compile/import.
+T3112 exact0cb25cc7…41a23 retained; positive loaded growth adapters1969/runtime3616/
+boot703/launch536/observer0 =6824/4096, excess2728 (698368 charged). Generated3112/4096.
+Observer201232128+fixed1048576+generated1593344+loaded1746944=205620992/205520896,
+excess100096. No negative-file/old-root refunds or cross-row borrowing. Even excluding
+launcher leaves6288>4096. New196/17 grant adopted, genuine NEW aggregate obstruction.
+
+Patch11058/12288 SHAe8b5e3fdaaeedb992fc71b0055f00733ab6d4caeb3b3ea325833d2f8cc1f62e1
+contains Table/compiler/namespace/receiver/no-shadow joins, two-stage E activation,
+finite-domain/Files registration checks and runtime/boot/launcher/finalizer policy.
+Kept outside r2 because byte admission failed. No binder/new manifest/compiled-owner
+measurement/count arm/typed proof reader ran. Domain and persistent/transient/product
+admission remain unmeasured, not inferred from text. Exact refusal receipt1798 bytes,
+SHA7beabdb1926d94d1b5172eca0e39c308c2cdf2425739f1d8e25385428ac93868.
+
+Accepted016 sidecars archived losslessly before integration: raw JSON80975, z22841/
+24576 SHA072dbbd0a8fd6c807d95733301b69ac43428e4dee549d348009fb175183623a7; archive.json
+959/4096 pins all5 sources. Static identity check confirms original16 and current5
+sidecars unchanged, parent016 still false. No retired program/objective replay.
+Eight new files logical48862/allocated61440, directory0, all presized. Source rows:
+integration+plan16384/16384, archives28672/32768, bindingreceipt4096/16384,
+delivery12288/16384, proof/readers0/32768; source61440/114688, future0/98304.
+Prewrite DOMAIN estimate4327 refused4096 in memory, final3873 fits; receipt transcription
+had7 duplicated hex chars, corrected within4096 before consumer. No disk-cap breach.
+
+Reviewer40960 externally ONCE ->2129920/3145728; management512000/602112, actual delta0.
+Source1077248/1179648 leaves102400 (new-grant unspent53248 +never-granted49152);
+maps7159808/7634944 leaves475136 =102400+future348160+unassigned24576. Design16384 not
+charged twice, historical81920 and all breaches retained. Helper6795264/8093696,
+chain12857344/21757952, coordinator2097152; actual174075904, reserved187953152/
+author187957248, aggregate3238002688/headroom136192 fixed. Same reviewer receives
+performance-002/RESULT.md, exact patch/refusal/archive/accounting. No extra async gate,
+retry/real source-check/release/factory/authority/child/production/native/model/service/
+credential/delegation. Active jobs:[]; no admission or1h-fit claim, prefix opportunity<=37.
