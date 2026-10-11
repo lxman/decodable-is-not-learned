@@ -4850,3 +4850,22 @@ worker66950/SID66950, owner66948/SID66948, attender66944; genuine1/wait256 for p
 fault controls, done0.05293166683986783s, owned0.05736854183487594s, no timeout,
 hooks none, all_asserted:true. Full7053-byte R2E1/done evidence fits8192; logs empty.
 Both arms complete without retry; source-bound typed saved-data readout follows.
+
+P1 candidate secured3d7e65b5b; typed new reader ran once/status0 and retires. Both core
+vectors[6,6,3,3,0], factors[9,8,1,9,8,1,18,18], real pending insertion/drain identity1;
+R2 namespace/time endpoints pass. Core clocks wall/CPU94/94→12/12, progress0. Outer
+toy wall1236125→493459ns, CPU1232000→489000ns; single-pair instrumented values only,
+no adjusted/raw metric comparison or real-prefix/full-preparation inference. New
+signal/counter/progress controls pass; first:null, removals1/1/0, faultsfalse/true/true.
+R1 typed schema/ID/int/bool/finite/unmeasured consumer and six new negative refusals
+pass; full R2E1/owned records retained. Final172032/196608, source966656/1179648,
+maps6955008/7634944; future442368/unassigned24576 protected, old81920 spent immutable.
+Reviewer1933312 once, management507904, helper6795264, corrected chain12857344,
+actual173670400; all ceilings fixed. Design40960/36864 and new boot/reader per-file
+overruns remain disclosed breaches. Delivery draft4335 exceeded4096, row20480 vs16384;
+losslessly preserved with explicit4096 reallocation WITHIN source/receipt row, not
+between review rows. Peak packet176128. No retrospective authorization or deletion.
+Return performance-001/APPLIED.md/source/bindings/proof/typed readout to same reviewer.
+All arms retired; owned workers/owners/attenders exited, active_jobs empty. Binding016
+held false; no real source-check/release/factory/authority/child/production/native/model/
+service/delegation or old objective replay.
