@@ -4607,6 +4607,12 @@ causal matching, failure status/evidence and finalizer preparse gaps. Updated di
 ruling funds the four finite corrections by262144 helper→maps within the approved
 total. Same-reviewer closure and explicit real-input release remain required.
 
+Diagnostic correction16482da0d is ACCEPTED by61036f740: all four remaining findings
+closed; genuine confirmation binds final011. Diagnostic ruling authorizes the single
+secured source-check/finalizer/read-only saved-input observation at20/90/120/135s,
+with unchanged runtime bytes and reserved393216 evidence. New review77824 is enrolled
+externally once, reviewer1671168. No construction or numerical workload is released.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
