@@ -4638,3 +4638,15 @@ Return fix006/FAILURE-006.md and failure006.json to same reviewer before any fur
 construction/source predicate or diagnostic instrumentation change. Active owned
 jobs:none. Original9 stay retired; helper/strict/full composition and operational
 qualification remain open. Reservations unchanged; final physical ledger in fix006.
+
+Under78048c553/b712c10f8, diagnostic001 delivers a separately source-bound observer
+and held read-only factory adapter. Static saved binding checks486 pins, all16 runtime
+sources and original/failed claims. Tiny001's depth fixture failure and tiny002's
+callback-removal audit failure are preserved; two tiny002 and seven tiny003 objectives
+pass and retire individually. Tiny003 worker4268/SID4268 exited0; owned wait0 in
+0.07863720785826445s, no timeout, foreground attended. Active owned jobs:none.
+Return fix006/diagnostic-001/REVIEW.md and ADAPTATION.diff to the same reviewer:
+in-flight graph counters/identity calls inside suppressed callback require additional
+explicitly reviewed telemetry authority; they are not silently estimated. No real
+saved-input diagnostic/admission/child or production predicate change. Original006
+deepest site/counters remain unknown; all six children/helper/strict/composition open.
