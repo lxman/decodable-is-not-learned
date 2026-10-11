@@ -4598,3 +4598,7 @@ Earlier002 output-size failure is retained;003 publishes compact inherited-pin
 evidence31164 bytes plus10642-byte table. Worker82908/SID82908 exited0, durably waited
 by detached supervisor82907; no owned active job. Same reviewer receives the applied
 source/proof via fix006/SUCCESSOR-APPLIED.md before any secured release/construction.
+
+successor-release active; owned PID87266/SID87266, detached supervisor87265; worker bound120s.
+
+successor-release completed; owned PID87266 waited status1; active owned jobs none.
