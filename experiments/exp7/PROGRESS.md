@@ -4918,3 +4918,14 @@ keys+CF (shell repeated the same VECLIB=1 assignment; no extra environment key).
 Full evidence preserved: terminal5646,counters14708,progress11135,done123,owned786;
 emergency/stdout/stderr/owner-log empty,45056/315392 allocated. New real refs pin all
 actual bytes before decoder. Diagnostic result not yet decoded; no retry or extension.
+
+Raw diagnostic/refs secured967451be8. New real reader ran ONCE/status0 at sourcefa6e38993,
+0.006137082818895578s, parse15577344, output22482/SHAe2ea2127588b6aaa1452c991d8bbd8ef755b9084d17b2a2c8ac3610bea1b7e3c.
+Factory entered, authority0 by invoke156 trace: deadline in failed-file snapshot encode
+under retained_snapshot/validate_failed_inputs29/sweep_graph96/children74. Setup/teardown/
+endpoint true, subject false. Exact signal-delivery occurrence5/first nonnull; request_exact
+false, observer_fault false, selected_raw_complete false; one authorized clear, denied0.
+RESULT draft8252 occupied12288 vs8192 delivery cap (60 logical/4096 allocated over).
+Preserve exact draft in Git before compaction; its printed final allocation is a target,
+not the draft peak. Current combined131072, current actual173895680, still within full
+425984 grant/global reservations. This remains a local cap breach, not retroactive approval.
