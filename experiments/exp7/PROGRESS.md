@@ -4965,6 +4965,12 @@ P2 integration3487048c6 stopped before compile: loaded6824/4096 and source100096
 policy and duplicate-product owner corrections. Ruling adopts197MiB/loaded8192 and
 funds completion from remaining source balance; original pair is still unstarted.
 
+P2 source90f8fd57b retains another precompile refusal: actual14703-byte loaded growth
+exceeds8192, source1068544 over197MiB. Reviewbd1983fa0 confirms this and narrows the
+remaining correction to finite roster aliases, callback targets and bootstrap owners.
+Ruling adopts199MiB/loaded16384 within the outer scope and continues the existing funded
+admission/pair assignment. No candidate compilation or proof arm has run yet.
+
 Under56567050d/fullc735b3969 REVIEW/DESIGN/LEDGER, performance-design-002 returns a
 literal diagnostic-copy NONFIT, not an executable admission. Text-only extraction:
 original encoding1453/check1053 -> encoding1463/guard1073/admission574, plus2 LF =3112.
