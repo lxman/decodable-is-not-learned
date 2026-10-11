@@ -5271,3 +5271,22 @@ without compaction/refund: management585728/602112, author carried174616576. Thi
 disclosure fits already allocated ledger capacity; remaining management16384. All
 outer reservations and maps rows are unchanged. Future ledger writes must account
 filesystem preallocation rather than assume logical rounding predicts allocated bytes.
+
+Performance-007 authoring refusal under589c3ed210454d2a3f5ced6025fdbc9fc995c3c6:
+uncompiled drafts secured/pushed16240a0b1f6ce7a19c436713d32653237b0f67e0. Reader
+9438/8192, physical12288: logical overrun1246 and excess highwater4096 retained.
+Current p2.py14382 gives loaded18433/18432; text-only unexpected indents at65/73
+also remain in preserved source. No grammar/control/admission/baseline/candidate/
+independent-reader execution (all0), no owned actor/wait/binding; active_jobs:[].
+All F1-F6 unclosed. READOUT is static refusal DATA, not execution of reader.py.
+No001-006 bytes changed or historical replay.006 observed primary remains unknown.
+The provisional60s carry in the draft PLAN was unsupported and is withdrawn:
+prior/new attributable authoring overhead is not fully measured; no120s remainder
+is certified. Zero launches is not zero active time. Stop pending disposition.
+Presized final source65536/future8192 (reader excess4096+readout4096), delta73728:
+source1294336/1314816, source20480 and future94208 remain; maps7454720/7634944.
+Ungrant40960/unassigned24576 intact. Reviewer2375680 enrolled once, new0. Management
+585728/602112, new0, ledger446464 highwater retained without refund. Author174690304
+(+73728), reserved187953152/cap187957248; helper6795264/8093696, chain12857344/21757952,
+coordinator2097152, aggregate3238002688/headroom136192 unchanged. New leaf inputs,
+RESULT/READOUT/ACCOUNTING bind the internal refusal; no source/phase-fit claim.
