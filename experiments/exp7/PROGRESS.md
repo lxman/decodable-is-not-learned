@@ -5107,3 +5107,20 @@ No candidate compiled yet; source-first commit/push precedes the ONE affected bi
 No baseline/candidate worker authored or run; pair remains conditional on all admission.
 No real source-check/release/diagnostic/factory input/authority/child/production/native/
 model/service/credential/delegation. No active owned job at this source commit.
+
+
+Affected binder ONCE at sourcea3d498434, foreground-attended: worker9187/SID9187,
+owner9186/SID9186, attender9185; genuine1/wait256, no timeout, done0.030270708s,
+owned0.033585250s, hooks absent. Retired bind-001. Compiled only adapters/boot/launch/
+p2/runtime/T full nested roots, plus the distinct second T;23 unchanged roots inherited.
+Measured total1331 catalog code rows, products4153944 (T24394 each), formula persistent
+17332824 and transient63761476. These preliminary rows fit5/17/64MiB; full catalog,
+cohort/negative/scratch and simultaneous-owner admission have NOT completed.
+
+Mandatory held-file gate REFUSED: raw manifest55188/parse7068160; encoded binding10365
+exceeds8192 by2173. Exact rejected bytes SHA40258ccb8996768b3ed4d51a89c86a653a5a2b6512dcf129aec406064ff310e8
+saved losslessly as refused-binding.bin within presized future-failure12288. It is DATA,
+not an admitted binding; no trusted-reader cap changed. Captures evidence1996/owned360,
+logs empty. Actual future20480=8192 captures+12288 rejected data. Binding.bin absent;
+no pair/real/factory input or automatic retry. Secure raw refusal before typed DATA read.
+Active owned actors all exited; active_jobs:[].
