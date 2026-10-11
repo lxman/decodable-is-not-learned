@@ -5040,3 +5040,38 @@ author187957248, aggregate3238002688/headroom136192 fixed. Same reviewer receive
 performance-002/RESULT.md, exact patch/refusal/archive/accounting. No extra async gate,
 retry/real source-check/release/factory/authority/child/production/native/model/service/
 credential/delegation. Active jobs:[]; no admission or1h-fit claim, prefix opportunity<=37.
+
+
+Under2b0e5a898/full098d9bbab REVIEW/NEXT, P2 completion performance-003 again stops at
+mandatory PRECOMPILE source admission. Applied r2 support attempt: adapters11446
+(+1977), runtime18473(+1073), boot12548(+596), launch11506(+344), observer29520(+0),
+new p2.py10713(+10713). Positive loaded14703/8192, excess6511; T3112/4096 unchanged
+SHA0cb25cc7…41a23. Source201232128+1048576+512*3112+256*14703=207638016/206569472,
+excess1068544. No unproved deletion/old-root refunds or cross-row borrowing. This is
+an actual lower bound for this attempt, not an impossibility proof for smaller code.
+
+Applied source includes two-stage Table/E/G/A, original compiler membership, T
+precharge/selection, Files audit enrollment and shared197/17 typed/source-role policy.
+Finite CPython DATA roster81 modules: raw16784/z3275. No candidate AST/compile/import,
+affected binder, new held manifest, metadata/owner/scratch admission, count arm or
+reader. Source/cohort closure is NOT accepted. New binding must precede any pair;
+016 false manifest cannot authenticate modified r2. All original16 pins, exact T and
+accepted016 five-sidecar lossless archive verified. Prior evidence/proofs unchanged.
+
+Presized source reassignment before writes: executing cap24576 from original16384,
+headroom8192=PLAN4096+roster4096; other completion rows unchanged, total102400.
+Actual source40960 (executing16384/T4096/PLAN+roster8192/bytegate4096/delivery8192).
+Future4096 preserves3 genuine roster-authoring assertions: exact CPython aliases,
+then zero-byte urllib/__init__.py; data completion succeeds. No binder/arm retries.
+Failed tool lookup bind.py corrected to perf_bind.py, read only. No new disk breach.
+
+Reviewer45056 enrolled externally ONCE ->2174976/3145728; management512000/602112,
+actual positive delta0. Source1118208/1179648, maps7204864/7634944; remaining source
+61440/future344064/unassigned24576. Current future spent4096/98304 leaves94208 granted;
+future249856 remains separate. Earlier61440 and design16384 charged only once.
+Helper6795264/8093696, chain12857344/21757952, coordinator2097152 unchanged. Author
+actual174166016/reserved187953152/cap187957248; aggregate3238002688/headroom136192.
+Return performance-003/RESULT.md, bytegate/accounting and applied sources to SAME
+reviewer for actual14703/8192 disposition. No cap change/real run/production/native/
+model/service/credential/delegation. Single baseline/candidate pair unstarted;
+active_jobs:[]. No domain or count/speed/one-hour-fit inference.
