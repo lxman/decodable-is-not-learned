@@ -4675,3 +4675,17 @@ The prospective tiny endpoint maxima also exceed the local failure reservation a
 must be reconciled before any new proof. Full refusal/source/accounting handoff:
 resource-check/numerical-011/fix-006/diagnostic-001/r2/DELIVERY.md. All owned jobs exited;
 no real-input diagnostic, constructor, child, reviewer invocation or delegation.
+
+Under5d0ce1564, funded r2 correction now delivers eleven reconciled distinct passes
+across proof002/003, plus three FINISH passes in005;002 callback and004 full-header
+failures remain. Read-only stdin/genuine early-late completion and finite shared
+outputs corrected. Full static header1247 codes/24 operations; canonical marshal2
+roots and separately owned compiled metadata, no subject-cache substitution.
+Final source6aa953f19/binding008:198505728/201326592 observer, persistent14481050,
+transient60091460. Final two-root output/clock changes are source-bound only, not
+replayed retired behavioral checks. Last proof worker23726/SID23726 done0; owner23725
+wait0/0.1708434170577675s, no timeout; hooks none. All jobs exited. Final packet:
+resource-check/numerical-011/fix-006/diagnostic-001/r2/APPLIED.md. Source/tiny520192/
+524288; future393216 and unassigned24576 intact; actual delta172711936. Same-reviewer
+applied closure and separate real release remain held. No saved006 diagnostic,
+original construction, API child, model/codec execution, native command or delegation.
