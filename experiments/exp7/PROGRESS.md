@@ -4595,6 +4595,12 @@ diagnostic-only scalar/callback/provenance adapters prospectively. Diagnostic ru
 adopts all corrections/completion gates and funds131072 additional source/tiny bytes
 from unassigned maps; real-input execution remains held for applied review.
 
+Recorder correction939b48600 retains binding003 and a proof entry refusal before any
+case: DEVNULL supplied writable stdin. Source/tiny393216 is fully spent; all eleven
+new objectives remain unmet. Diagnostic ruling funds a further131072 from unassigned
+maps, requires read-only stdin/genuine done reporting and reconciled cumulative output
+caps, then completion of the existing corrections. No real-input diagnostic has run.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
