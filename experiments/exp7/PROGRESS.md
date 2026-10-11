@@ -5196,3 +5196,29 @@ coordinator2097152 unchanged. Author carried174358528/reserved187953152/cap18795
 aggregate3238002688/headroom136192. No new disk breach. Same-reviewer handoff
 performance-005 RESULT/bytegate/ACCOUNTING; no real/native/model/service/credential/
 delegation. Active jobs:[].
+
+Under74859d1d4a4a4040c813ebf50677dfcc03832568/full380f81a99 REVIEW/NEXT,
+performance-006 prepares B1 overflow-float/exact-dict, P-1 named kernel role/pin,
+and P-2 inherited positive-shape/type/transient joins. Uncompiled target sources
+were preserved at856a5b292. New owner/worker/admission/reader plus inputs.json bind
+the separate P2-PROOF-256-E503808 envelope; candidate199/17/64/5 remain unchanged.
+Text-only source gate: growth18429/18432, candidate208591872/208666624; Q308434,
+extraction477347/494274, live486813/489116, peak264084736/268435456. Full-parent
+extractions, including factory re-extraction, finish before the full cohort; source
+copies/bootstrap are included. Work3515592/4194304; each owner140746496, paired
+281492992/536870912. Full catalog/domain/owner/scratch admission remains UNRUN.
+
+Pre-write rows source65536: worker16384/admission12288/binding12288/owner4096/
+reader4096/PLAN4096/inputs4096/RESULT4096/ACCOUNTING4096. Current source53248;
+binding12288 remains. Future94208: baseline24576/candidate24576/admission16384/
+failures24576/readout4096. Earlier draft overruns8621/8192,13606/12288,4102/4096
+preserved at856a5b292 with lossless archives and conservative24576 failure charge;
+reassignment before subsequent writes does not retroactively authorize overruns.
+
+Transfer16384 source cap1241088; source1228800/maps7368704. Remaining source12288,
+future69632 granted +159744 ungranted; protected24576 untouched. Reviewer45056
+enrolled ONCE ->2326528; management520192 includes8192 actual growth from383003c98.
+Author carried174489600/reserved187953152/cap187957248, helper6795264/8093696,
+chain12857344/21757952, aggregate3238002688/headroom136192. Inputs commit/push
+precedes any candidate compilation; held admission then secure baseline gate pair.
+No owned job, admission/arm/test/candidate compilation has run in this wave.
