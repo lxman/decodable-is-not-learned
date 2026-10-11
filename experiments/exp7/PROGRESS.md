@@ -4821,3 +4821,11 @@ coordinator/author/reserved/aggregate/headroom ceilings unchanged. Final file re
 and precise capacity/domain constraints: performance-design-001/DELIVERY.md. All
 real releases spent; no construction/authority/API/native/model/service/delegation.
 No jobs launched; active_jobs remains empty. Design review must precede implementation.
+
+Under2e03f86ed/full573107ee0, P1 implementation allocation pre-registered at
+diagnostic-001/performance-001/PLAN.md:196608 exact rows, source maximum991232,
+maps6979584. Reviewer40960 externally once→1933312. Correct carried chain12959744
+to12857344 per saved ACCOUNTING: the102400 was already reviewer/management/maps,
+total unchanged; no refund/census. Preserve design breaches40960 and36864 versus32768.
+Only exact coarse-clock observer patch, affected-root admission, then one fresh pair;
+R1 typed consumer/R2 globals/R3 accounting adopted. No real input/release authority.
