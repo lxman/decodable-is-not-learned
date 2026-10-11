@@ -4953,3 +4953,42 @@ qualified raw timings; no further async gate. Performance ruling selects design-
 diagnostic encoding second-admission refinement, fresh guards/conservative retention
 and unchanged full fallback. A16384 source tranche covers exact patch/provenance/owners/
 operation-count plan; implementation and real input await their affected review gates.
+
+Under56567050d/fullc735b3969 REVIEW/DESIGN/LEDGER, performance-design-002 returns a
+literal diagnostic-copy NONFIT, not an executable admission. Text-only extraction:
+original encoding1453/check1053 -> encoding1463/guard1073/admission574, plus2 LF =3112.
+Generated root SHA0cb25cc755399d538f37c752f6752a79bdf1932bf510ac44c5fa20f82d541a23.
+512*3112=1593344 added against94464 source margin: lower202825472/201326592,
+short1498880 BEFORE integration glue. Original bootstrap/module/method roots retained;
+no hidden refund. Six new syntactic code objects, actual metadata unmeasured. Exact
+TableP2 namespace/method/default/receiver/no-shadow and two-compiler-product contract
+documented; current016 correctly rejects it. All original16/fixture/control/runtime
+bytes remain unchanged. First full check/width/charge/keep and other add/check retained.
+
+Second guard fresh; conservative owners, one tail-style original fallback. No scanner
+node/byte locals in fallback. Callback mutation-to-reservation non-regression is NOT
+proved: mutations0 is nesting, not an epoch; new helper return site is observable.
+Unreachable invalid registered node may be collected by original but refused by fresh
+guard: explicit domain discrepancy, no sticky reset. Core hand oracle v=[1,2], N1/E2,
+width12/charge39,551, canonical6-byte hex5b312c325d0a; k2 baseline4 vs candidate2 full
+sweeps/GC, same workspace4. Secondary pressure/mutation/detachment/cycle/provenance
+cases are plans only. Opportunity<=37 prefix, no original006/s011 cost or one-hour fit.
+
+Prewrite sizing refused oversized in-memory estimates; no file exceeded4096 on disk.
+First bounded arithmetic cap32768 assertion refused before source read; exact stat42683
+then SHA-bound extraction succeeded. Interrupted empty tool call ran no command. All
+receipts retained in DELIVERY; no candidate compilation/import/test or real objective.
+Final design logical15167/allocated16384, directory0; each allocated4096:
+candidate.patch3041 SHA0a430f380053251aa9f4b25b25345df2c598425d00bd81e239915f3895505378;
+OWNERS.md4057 SHAf04db52094f63ed2eacafd53d0d06702c06ec7fc07b756e284a6a71bbfb346a8;
+PROOF-PLAN.md4055 SHA816b18b6da722c7876865dcae316eeffccbfb65a272af5b4cca8292d90a6a18b;
+DELIVERY.md4014 SHAab639a63b1021822aae5411441c8f771a53f472fcaae1b023b4fa8e407f7f7f3.
+Review61440 externally once ->2088960; ruling growth4096 ->management512000/602112,
+outer allocated rows unchanged. Source1015808/1179648 leaves163840; maps7098368/
+7634944 leaves536576 =163840+future348160+unassigned24576. Old81920 spent, helper
+6795264/8093696, chain12857344/21757952, coordinator2097152 unchanged. Actual173973504,
+reserved187953152/author187957248, aggregate3238002688/headroom136192 fixed. Larger
+131072/98304 proposals ungranted. Earlier breaches remain disclosed, not retroapproved.
+Return complete inert patch/provenance/nonfit/oracle to SAME reviewer. No extra async
+gate, source-check/release/diagnostic/constructor/authority/child/production/native/model/
+service/credential/delegation. No active jobs; no runtime weakening or new execution.
