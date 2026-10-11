@@ -4625,6 +4625,12 @@ remaining fallible escape commits masking a primary. Updated diagnostic ruling f
 the exact preallocated-slot/Guard correction and one focused proof from remaining
 53248 source balance. No new real input or optimization is authorized.
 
+Escape-slots repaire65189c53 is ACCEPTED by5c87d7d50: S011-1/ASYNC-1 closed without
+new findings. DIAGNOSTIC-PERFORMANCE-RULING authorizes design-only empty-flush/coarse-
+timing candidates with preserved validation and callback ownership, followed by review.
+524288 unspent helper reserve moves to source/future diagnostic accounting within the
+same aggregate; no new allowance, execution or production sweep-policy change.
+
 successor-002 source-only binding scope active; owned PID82555/SID82555, detached supervisor82554; no construction/children.
 
 successor-002 source-only binding scope completed; owned PID82555 waited status1. Read new binding disposition before construction; active owned jobs none.
