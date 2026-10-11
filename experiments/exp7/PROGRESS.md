@@ -4745,3 +4745,21 @@ edit, replay, extension or retry. Future evidence81920/393216, maps6643712/71106
 reviewer1671168 once, management495616; actual173084672, all ceilings unchanged.
 All owned jobs exited. Return saved-data packet to same reviewer/coordinator; further
 diagnostic/construction/children remain held. Original006 lost state stays unknown.
+
+Under8aff73ba0/review309919c75, S011-1 callback escape/pending-stop correction is applied
+for same-reviewer closure: resource-check/numerical-011/fix-006/diagnostic-001/r2/
+ASYNC-APPLIED.md. Eight new actual-signal schedules passed async001; a distinct return
+cleanup schedule passed003 after002's fixture assumption failed. All cases retire;
+failed002 and intentional worker1/wait256 outcomes remain. No retired suite replay.
+Final source0a6ba9bb8, proof-onlyf77f812c1, binding014 securedcae46a4f4. Last worker
+44797/SID44797 done1/0.0392677909694612s; owner44796 wait256/0.04347783303819597s,
+no timeout/denial, hooks none. Delivery snapshot[1379,9653] precedes refund[0,0];
+first:null for ambiguous return/trace propagation is preserved, not relabeled exact.
+Actual automatic-clear tickets and explicit unauthorized hook refusals are recorded.
+Observer201162496/201326592, persistent16723878/16777216, transient60091460/67108864;
+proof-only158532608. New packet77824/98304; source/tiny733184/786432; maps6721536/
+7110656. Reviewer1748992 once, management499712, actual173244416; old future81920
+spent/311296 unspent and unassigned24576 unchanged. All other ceilings fixed.
+No real source-check/release/diagnostic, performance implementation, production edit,
+constructor/authority/child/native/model/service/delegation. All owned jobs exited.
+Return applied async source/proofs/owner/header/held-gate packet to same reviewer.
