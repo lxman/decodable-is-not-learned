@@ -5551,62 +5551,60 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-# CURRENT007 HELD H79/41: needs new timing authority and provider-policy review
+# CURRENT007 MACOS41_HELD: timing/pin review and external release required
 
-Adoption/time cc4fccba6ddd055c9eaaf7994687503bf59db2ce; review
-670956bf92011be23694cc2e72407631d0fc2681 plus independent packet source-hash gate.
-Source f63d9a3db24dea51eefc87c1c4bad653cdb50700 -> input -> inline/recipe -> release.
-Input4092 SHA256edffb78306b916928e1cab9d640ac06118dab04ea8440acf02bc4ebb3c995ee8.
-Frozen S16365 SHA25691b75376b9d80a6cc6d288693cd9783373e6100a5d71f4045abc8b62228b9ba2.
-executable:true/execution_authorized:false; new source unexecuted. Old8bba/d1a049 E/F
-remain1 each/exit1; body/ownership/actual dispatch identity UNKNOWN. Prior d581 H73+
-failed3=76,remaining44 of SAME120; global3600 unchanged. No historical refund/replay.
+Preparation/time13fdd0bc4155da389facf31093a7ccc740823aa9; source closures48e9a3cc4/
+11c533272 retain macOS predicate,diagnostics and independent packet hash gate.
+Source e614bbca14ed5d71a249b0dff14c4145fe7b3f8d -> input -> inline/recipe -> release.
+Input4076 SHA2568153c21c7b94fc217c4228c4c83783770826795b5ec8511327089fff4303779c.
+Frozen S16365 SHA256d32ba6efe2a80e368d4c9c8b5d9a6f716b403ed9095a5ddd230a188cc861d4b2.
+executable:true/execution_authorized:false; new source invocations0. STATE/d1a04934c/
+3152e137f retain3 confirmed native calls; corrected F args{} provider.transport/
+cyber_policy is unconfirmed,not native exit/outage. H73+3+3=79,remaining41 of SAME120;
+global3600 unchanged. No refund/replay/retry. Same-reviewer timing/pin check then release.
 
-Effective prospective flow: review/fix006-p2-execution-delivery/NEXT ata50988942,
-with cc4 timing below. All its completion/failure/primary/charging obligations apply.
-DIRECT functions.shell,workdir=R; E/V/P background:true,C/F background:false.
+Prospective a509 flow amended by13fdd: E/V/P/C ONLY; no F or rejection bypass.
+Inherited completion/primary/charging obligations stand. DIRECT functions.shell,
+workdir=R; E/V/P background:true,C background:false. No current dispatch authority.
 S=fenced bytes including final LF; Q=shlex.quote; W=compact ASCII JSON+LF.
-Use literal cmd expression below: src=S,B=float slot,prior ordered {r,n,a,x,s}.
-Every packet s is the ONE independently frozen S SHA above,then externally released;
-NEVER recompute s from manual transcription. Keep literal "$$" for exec expansion.
-Use one immutable command/settings value; retain actual native request fields/settings
-and independently compare with released DATA before source/successor claims if same-value
-handoff is unavailable. Hash gate covers ordinary drift,not malicious checker replacement.
-Phase1 cap/hash/PGID sites42/43/44 are separate; early p is not retained or reused.
+Literal cmd below: src=S,B=float slot,prior ordered {r,n,a,x,s}. Every packet s uses
+ONE independently frozen S SHA above,then externally released; NEVER recompute s
+from manual transcription. Keep literal "$$" for exec expansion. Use one immutable
+command/settings value; retain actual native primary fields/settings/exit/output.
+Source gate closes ordinary transcription drift,not malicious checker replacement;
+11c533's handoff disposition adds no request-retrieval/API/history/collector step.
+Phase1 cap/hash/PGID sites42/43/44 stay separate; early p is not retained or reused.
 
-Stage | G | E | V | P | C | F-base | boundary
+Stage | G | E | V | P | C | unused F reserve | boundary
 ---|---:|---:|---:|---:|---:|---:|---:
 preflight |3|.750|.375|.375|1.000|.300|.200
-controls |6|3.000|.500|.500|1.500|.300|.200
+controls |4|1.000|.500|.500|1.500|.300|.200
 admit/baseline/candidate |10|6.000|.750|.750|2.000|.300|.200
-readout |5|2.000|.500|.500|1.500|.300|.200
+readout |4|1.000|.500|.500|1.500|.300|.200
 
 Timeout integer1000*B,SAME float B in argv/x; no clock/arithmetic operating call.
-Charge fullG once on E dispatch,76+sumG<=120; no refund,borrow or fit promise.
-Actual intervals:1ms endpoint padding/union once; pause ONLY after all owned work ends.
-First A=[],each stage x=[]. E/V/P append {i:ACTUAL sh_ID,b:B}; await matching automatic
-terminal notification,no polling. Explicit failure stops; terminal missing rc permits
-only NEXT's existing read-only metadata gate,never guessed zero.
-C success: genuine foreground exit0,untruncated JSON<=1024,seven zero Git waits/remote
-join; u pinned-source/primary PID join,not invented host field. Append ordered
-{inputs:I,mode:n,receipt:C.receipt,pid:C.pid,rc:0,seconds:float(G)}. BOTH receipt lines
-hashed,PID from E,seconds conservative charge. Admission/baseline secure successors;
-readout remains preliminary until V/P/C complete.
-Sole optional F after ended E/V/P failure:B=.3+undispatched normal slots. After E/V/P:
-preflight2.05/1.675/1.3,controls/readout2.8/2.3/1.8,arms3.8/3.05/2.3. Foreground F
-requires actual exit0+EXPORTED id/hash/u,then stop. No F after C,no final assessor/GET/Git.
-Partial/late/UNKNOWN/nonzero stops; all retained failures and real primary records stand.
+Charge fullG once on E dispatch,79+sumG<=120,including unused.3 reserve+.2 boundary.
+No refund,borrow or fit promise; intervals1ms endpoint padding/union once. Pause ONLY
+at genuine quiescence. First A=[],each stage x=[]. E/V/P append {i:ACTUAL sh_ID,b:B};
+await matching automatic terminal notification,no polling. Explicit failure stops;
+missing rc permits only NEXT's existing read-only metadata gate,never guessed zero.
+Any failure/tool rejection ends with actual primary record; no F,automatic retry,
+alternate transport or workaround. C: genuine foreground exit0,complete JSON<=1024,
+seven zero Git waits/remote join; u pinned-source/primary PID,not invented host field.
+Append {inputs:I,mode:n,receipt:C.receipt,pid:C.pid,rc:0,seconds:float(G)} in that order.
+BOTH receipt lines hashed,PID from E,seconds conservative charge. Admission/baseline
+secure successors; readout preliminary until V/P/C complete. No final assessor/GET/Git
+after C. Partial/late/UNKNOWN/nonzero stops; failures and real primary records stand.
 
 Certificates relative to numerical-011: review/fix006-p2-transport-closure/{REVIEW,NEXT}
 at368fe7338; review/fix006-p2-direct-helper/ atcf83dfc07; review/fix006-p2-preflight-refusal/NEXT at670956bf9.
 Their exact HTTP/native/DATA/startup/framing/group/wait obligations remain in full.
-Corrected refusal<=52,fallback21; ordinary envelopes unchanged. _socket owners inside
-inherited stdlib32MiB/fixed129MiB; DATA max12582914<16MiB; no extra native/RSS claim.
-Outer135266304+4194304+256*(2*16384+2*16384)+16777216=173015040 unchanged.
-Raw V3072/P-C1024/F32768;24 normal+soleF max25 calls,metadata<=19,old38 retained.
-Inline<=16384,recipe<=20480,command<=28672,packet<=8192,A<=4096,selected e<=768.
-Capture221184 reserved/8192 charged:E4096,F conservative4096 unknown actual.
-Ledger highwaters retained; actual new growth above512000 charged once within557056.
+Refusal<=52,fallback21; ordinary envelopes unchanged. _socket inside stdlib32MiB/fixed
+129MiB; DATA max12582914<16MiB; no extra native/RSS claim. Outer173015040 unchanged.
+Raw V3072/P-C1024;24 normal calls,F omitted; metadata<=19,old25/38 ceilings retained.
+Inline16384,recipe20480,command28672,packet8192,A4096,selected e768 caps unchanged.
+Capture237568 reserved/16384 charged:both E8192 actual,both F8192 conservative unknown.
+New221184 reserved,no F refund. Ledger growth above512000 charged once<=548864.
 ```python
 import sys,time
 START=time.monotonic();sent=False;phase=0
@@ -5619,7 +5617,7 @@ try:
  from pathlib import Path as P
  T=time.monotonic;R=P('/Users/michaeljordan/emergence-paper')
  H=R/'experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007'
- I='edffb78306b916928e1cab9d640ac06118dab04ea8440acf02bc4ebb3c995ee8'
+ I='8153c21c7b94fc217c4228c4c83783770826795b5ec8511327089fff4303779c'
  def ck(x):assert x
  def sha(b):return hashlib.sha256(b).hexdigest()
  def tag(s):return [s.st_dev,s.st_ino,s.st_mode,s.st_size,s.st_mtime_ns,s.st_ctime_ns]
@@ -5655,7 +5653,7 @@ try:
  signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop)
  signal.setitimer(signal.ITIMER_REAL,end-T());signal.pthread_sigmask(signal.SIG_UNBLOCK,{signal.SIGTERM,signal.SIGALRM})
  phase=2
- c=J(bind(H/'inputs.json',[I,4092],4096))
+ c=J(bind(H/'inputs.json',[I,4076],4096))
  phase=3
  caps={'owner.py':12288,'worker.py':16384,'admission.py':24576,'reader.py':16384,'qualify.py':16384}
  ck(set(c['files'])==set(caps))
@@ -5676,7 +5674,7 @@ try:
  phase=7
  W=V.wire;p=J(text);keys(p,'r n a x s');r,n,A,x=(p[k] for k in ('r','n','a','x'));names=V.STAGES
  ck(type(r) is str and r in ('E','V','P','C','F') and type(n) is str and n in names)
- G=c['grants'][n];ck(c['executable'] is True and c['execution_authorized'] is False and list(c['grants'])==list(names) and list(c['grants'].values())==[3.,6.,10.,10.,10.,5.] and B<=G)
+ G=c['grants'][n];ck(c['executable'] is True and c['execution_authorized'] is False and list(c['grants'])==list(names) and list(c['grants'].values())==[3.,4.,10.,10.,10.,4.] and B<=G)
  ck(type(A) is list and len(A)==names.index(n) and len(W(A))<=4096)
  for j,a in enumerate(A):
   keys(a,'inputs mode receipt pid rc seconds');U(a['pid']);U(a['rc']);V.hx(a['receipt']);V.real(a['seconds'],c['grants'][names[j]])
