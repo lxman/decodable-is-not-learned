@@ -5551,125 +5551,124 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-## P2-007 held recipe: BLOCKED before first launch
+# HELD: source repaired; automated capture interface unresolved
+Source858991b87f042ed237e3c41a2570a8e15e6daa90; topologyb79edee8d; inputs3785 SHA256:
+afb1117f4fa4ff059550eae177590956630afb663e5293cb769bddb9414396d6.
+Hash includes markers/newline. Input->sources/PLAN,recipe->input,release->both. Old false
+DATA at e74b444f6 stays. Six runs0; prior authorities remain separately bound.
 
-Preparation1f872fea2 adopts source acceptancea4bc5f569; accepted source/PLAN remains
-f83f55b734a7e123c259e01948d23f602377737b. Full authorities are in inputs. Reserved ID:
-P2-007-ONE-PASS-20261012. This is DATA. Recipe SHA covers UTF-8 from BEGIN marker through
-END marker and its newline. Input3639 SHA256:
-7f68e7feb95ff32ac60dc038c4b628d70c9feef4b37964d011acf638b1504e0e.
-Old held inputs remain at7c47fa64d6b23da6eaa412bbf03ec905775ea177. Input binds accepted
-source/PLAN/release ID; recipe binds input; final release would bind both,without cycles.
+STOP before fork: NO_ADMITTED_AUTOMATED_CAPTURE_INTERFACE. execute search(shell) returns
+items:[],remaining:0; native shell is not callable there. Model round trips cannot
+substitute for the within-grant controller. Documented REST POST /api/shell captures
+stdout/stderr to a FILE; Shell.Info.file is required. Request keys:command,cwd,timeout,
+metadata; no capture cap/no-file option. GET output limit only caps a page. Source:
+https://opencode.ai/v2/openapi.json (Oct12). No launch/probe/credential lookup. No silent
+new capture grant. Missing: admitted native automation/capture binding. The adopted
+private-group cutoff remains; arbitrary destruction needs UNKNOWN,not guaranteed
+cleanup. R1-R3 stand. Inline draft below is NOT a complete positive recipe;
+executable:false rejects it. Same-reviewer/interface disposition first.
 
-### Exact blocking join and finite terminal algorithm
-
-HOST_DETACHED_BODY_CLOSURE: available host contract cannot supply the required
-exceptional closure. Return BLOCKED before stage1: zero launches/artifacts/runtime
-grants. Manifest retains executable:false/execution_authorized:false,six runs0,
-actual_owners:null. Prior73/remaining47/ordered grants are prospective DATA only.
-O.gate rejects this manifest even with a later external release; closing the blocker
-would require newly hashed launch DATA, same-reviewer review and exact final release.
-
-Accepted TEXT establishes the concrete failure path:
-* V=reader.py193 makes journal=[]/BytesIO; V195 calls O.owned(kind='body') for Q/readout.
-  O=owner.py126 uses start_new_session=kind!='child': body has a separate session/group.
-  O128/O14-15 append its PID/SID/group to the private list,not a host-visible journal.
-* A hard tool timeout/lost host completion can remove the attender. The recorded
-  docs/HANDOFF.md38 boundary kills the invoking process group; the body is outside it.
-  Available shell API has timeout/completion,not a guaranteed detached-descendant
-  ownership registry,cancel-and-wait receipt or retained body handle.
-* TERM/ALRM masking/finally protect the LIVE attender,not its destruction. V/Q install
-  no independent body deadline timer. Attender exit cannot prove body closure after
-  its private p/list/wait4 capability is lost. Arms also have O126-128's creation-to-
-  journal gap; a later PID is no wait handle and cannot safely authorize PID reuse.
-
-This is a host-boundary blocker,not a reversal of accepted R1-R3 or a runtime-fit claim.
-No kill/timeout experiment was run. timeout0 abandons the finite bound; extra waiting
-cannot recover ownership. UNKNOWN preserves failure but cannot certify cleanup inside
-grant. Retain failed tool receipts; missing completed metadata stays missing. Same
-reviewer/coordinator must dispose the missing host ownership/termination/wait guarantee.
-No new supervisor/source/timer/census is installed to bypass it.
-
-### Prospective literal command DATA; disabled by the terminal above
-
-Working directory:/Users/michaeljordan/emergence-paper. Literal zsh:
-```zsh
-H=/Users/michaeljordan/emergence-paper/experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007
-PY=/Users/michaeljordan/emergence-lab/.venv/bin/python
-I=7f68e7feb95ff32ac60dc038c4b628d70c9feef4b37964d011acf638b1504e0e
-E=(/usr/bin/env -i PATH=/usr/bin:/bin LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 TZ=UTC SETUPTOOLS_USE_DISTUTILS=stdlib OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 NUMEXPR_NUM_THREADS=1 __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0)
-C=("${E[@]}" "$PY" -I -B -S -X int_max_str_digits=5000 "$H/owner.py" "$I")
-"${C[@]}" preflight 3.0 attend '[]'
-"${C[@]}" controls 6.0 attend "$A1"
-"${C[@]}" admit 11.0 attend "$A2"
-"${C[@]}" baseline 11.0 attend "$A3"
-"${C[@]}" candidate 11.0 attend "$A4"
-"${C[@]}" readout 5.0 attend "$A5"
+Draft inventory: imports/functions below plus called V helpers/transitive callees only;
+two inline<=8192,two V<=16384,DATA<=16MiB +129MiB/work4MiB=168820736<=173015040. Gate
+exec retires code; post follows actual root exit. Packet8192/A4096/stdout3072/Git4096,
+metadata32768; one binding parse8MiB+other DATA8MiB. No helper file or third Python.
+Command: exec /usr/bin/env -i [exact inputs.environment] PY OPTIONS -c CODE ROLE "$$" P;
+POSIX-quote all substituted words; cwd=/Users/michaeljordan/emergence-paper. P={mode,A}
+for gate; post adds genuine Shell.Info exit and output,budget. A starts[]. Only after
+post actual exit0/remote security append its row plus float seconds: all padded1ms host/
+helper intervals unioned once. Grants3/6/11/11/11/5,H73/47,global3600; every cutoff uses
+remaining G with positive tail,not a fresh G. Model waits cannot hide live/blocked work.
+Partial/late/missing completion stops without retry or assumed empty jobs. Final host
+records certify post completion,not another verifier. F is computed below; existing rows
+preflight4096/controls16384,admit20480+binding12288,arms24576 each,readout4096; static
+READOUT unchanged.
+```python
+import os,sys,json,hashlib,stat,time,types,math,signal,subprocess
+from pathlib import Path
+I='afb1117f4fa4ff059550eae177590956630afb663e5293cb769bddb9414396d6'
+H=Path('/Users/michaeljordan/emergence-paper/experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007')
+def sha(b): return hashlib.sha256(b).hexdigest()
+def raw(p,cap):
+ s=p.lstat(); assert stat.S_ISREG(s.st_mode) and s.st_size<=cap
+ with p.open('rb') as f: b=f.read(cap+1)
+ assert len(b)==s.st_size and p.lstat()==s; return b
+def bind(p,pin,cap):
+ h,z=pin; assert type(z) is int and 0<z<=cap
+ b=raw(p,cap); assert len(b)==z and sha(b)==h; return b
+def num(x): assert type(x) in (int,float) and math.isfinite(x) and 0<=x<2**53
+try:
+ role,pid,text=sys.argv[1:]; assert len(text.encode())<=8192
+ assert role in ('gate','post') and os.getpid()==int(pid)==os.getpgrp() and H.resolve()==H
+ p=json.loads(text); c=json.loads(bind(H/'inputs.json',[I,3785],4096)); n=p['mode']; A=p['A']
+ names=list(c['grants']); k=names.index(n); G=c['grants'][n]; assert type(A) is list and len(A)==k and c['executable'] is True
+ assert dict(os.environ)==c['environment'] and sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode and sys.flags.optimize==0 and sys.get_int_max_str_digits()==5000
+ PY=c['interpreter']['command']; assert str(Path(PY).resolve())==c['interpreter']['resolved']==str(Path(sys._base_executable).resolve()) and sys.version_info[:3]==(3,11,15)
+ caps=dict(zip(c['files'],[12288,16384,24576,16384,16384]))
+ for name,v in c['files'].items(): bind(H/name,v,caps[name])
+ for name,v in c['sources'].items(): bind(H.parent/'r2'/name,v,32768)
+ b=bind(H/'owner.py',c['files']['owner.py'],12288); boot=b.split(b"BOOT=r'''",1)[1].split(b"'''",1)[0]
+ assert [sha(boot),len(boot)]==c['boot']; del b,boot
+ bind(H/'PLAN.md',c['plan'],8192); bind(H.parent/'r2/encoding.adapter',c['T'],3112); bind(H/'READOUT.json',c['static_readout'],4096)
+ def files(x):
+  if x in names[:2]: return [H/(x+'.jsonl')]
+  if x=='readout': return [H/'EXECUTION-READOUT.json']
+  return [H/(x+s) for s in ('.owned','.evidence','.log','.owner-log','.binding','.accept')]
+ if role=='gate':
+  assert all(not os.path.lexists(f) for x in names[k:] for f in files(x))
+  os.execve(PY,[PY,*c['options'],str(H/'owner.py'),I,n,str(G),'attend',json.dumps(A,separators=(',',':'),allow_nan=False)],c['environment'])
+ e=p['exit']; assert e['status']=='exited' and type(e['exit']) is int and e['exit']==0 and e.get('signal') is None
+ assert type(e['pid']) is int and 1<e['pid']<2**31 and type(e['id']) is str and len(e['id'])<=128
+ a=e['time']['started']; z=e['time']['completed']; num(a); num(z); assert 0<=z-a<=1000*G
+ num(p['budget']); assert 0<p['budget']<=G; end=time.monotonic()+p['budget']
+ def deadline(*_): raise RuntimeError()
+ signal.signal(signal.SIGALRM,deadline); signal.setitimer(signal.ITIMER_REAL,p['budget'])
+ V=types.ModuleType('p2_host_reader'); b=bind(H/'reader.py',c['files']['reader.py'],16384)
+ exec(compile(b,str(H/'reader.py'),'exec',dont_inherit=True,optimize=0),vars(V)); del b
+ V.predecessor(H,c,I,n,A); F=files(n)
+ if n=='readout':
+  b=p['output'].encode(); assert len(b)<=3072 and b.endswith(b'\n') and b.count(b'\n')==1
+  v=V.strict(b); assert set(v)=={'body','seal'}; row,s=v['body'],v['seal']
+  V.sealed(V.wire(row)+V.wire(s),c,I,n); V.real(row['debit'],120); assert row['debit']==120 and row['ownership']=='REAPED'
+  assert row['arms']==[sha(V.wire(V.transition(H,c,I,x))) for x in names[2:5]]
+ else:
+  assert p['output']==''
+  b=raw(F[0] if k<2 else F[-1],16384 if k==1 else 4096); row,s=V.sealed(b,c,I,n)
+  if k>=2:
+   assert row==V.transition(H,c,I,n)
+   rows=[V.strict(x) for x in raw(H/(n+'.owned'),4096).splitlines()]
+   assert rows[0]['parent']==rows[0]['group']==e['pid']
+ if k<2 or n=='readout': V.uint(row['status'],255); assert row['status']==0
+ assert s['attender']==e['pid']; w=s['wait']; assert type(w['usage']) is list and len(w['usage'])==3
+ V.real(w['usage'][0],120); V.real(w['usage'][1],120); V.uint(w['usage'][2],8<<30)
+ if n=='readout':
+  b=V.wire(dict(body=row,seal=s,completion=e)); assert len(b)<=4096 and time.monotonic()<end
+  with F[0].open('xb',buffering=0) as f:
+   assert f.write(b)==len(b); f.flush(); os.fsync(f.fileno())
+  assert raw(F[0],4096)==b and time.monotonic()<end
+ receipt=sha(b); assert sum(f.stat().st_blocks*512 for f in F)<=(32768 if n=='admit' else 24576 if 2<=k<5 else 16384 if k==1 else 4096)
+ J=[]
+ def git(args):
+  t=time.monotonic(); q=subprocess.Popen(['/opt/homebrew/bin/git','-c','core.hooksPath=/dev/null','-c','commit.gpgSign=false',*args],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,start_new_session=False)
+  os.set_blocking(q.stdout.fileno(),False); out=b''
+  while True:
+   assert time.monotonic()<end
+   try: x=os.read(q.stdout.fileno(),4097)
+   except BlockingIOError: x=None
+   if x is not None:
+    out+=x; assert len(out)<=4096
+    if not x: break
+   time.sleep(.005)
+  rc=q.wait(timeout=max(.001,end-time.monotonic())); q.stdout.close(); J.append([q.pid,rc,time.monotonic()-t]); assert rc==0
+  return out.decode()
+ git(['diff','--cached','--quiet']); git(['add','--',*map(str,F)]); git(['commit','-m','Secure P2-007 '+n]); git(['push','origin','master'])
+ head=git(['rev-parse','HEAD']).strip(); assert len(head)==40 and not set(head)-set('0123456789abcdef')
+ assert git(['ls-remote','origin','refs/heads/master'])==head+'\trefs/heads/master\n'
+ out=V.wire(dict(row=dict(inputs=I,mode=n,receipt=receipt,pid=e['pid'],rc=0),commit=head,git=J))
+ assert len(out)<=3072 and time.monotonic()<end; assert os.write(1,out)==len(out)
+except BaseException:
+ if os.getpgrp()==os.getpid(): os.killpg(os.getpid(),9)
+ os._exit(1)
 ```
-PY resolved path is pinned in inputs:3.11.15_3,optimize0/marshal2; actual CF matches.
-Intended counts1 each,including grammar/preflight/fresh readout; actual counts0.
-A_k means compact finite JSON of exactly k preceding real rows,ordered:
-{inputs:I,mode:n,receipt:SHA256(BOTH saved newline-terminated lines),pid:actual attender
-PID,rc:integer0,seconds:finite float full-stage debit<=grant}. A1..A5 do not exist;
-self-seal.checked_wall and assumed tool exits cannot fill them.
-
-### Preserved normal-path constraints; not a completed positive recipe
-
-Byte gates precede candidate parse: bounded nonsymlink stable-stat reads authenticate
-input,eleven source pins,BOOT3952,T3112,PLAN8183/static READOUT1105; stage targets absent.
-O12288/W16384/D24576/V16384/Q16384/PLAN8192/input4096 caps stand. All r2/originals,
-016/004 provenance,67 negatives/eight map copies/18 cases stay. No candidate imports/
-AST/compile/inflate during preparation. No inline host gate or extra owner is claimed:
-exec replacement alone would still lose the detached-body handle on the failure path.
-Accepted hierarchy remains attender->owner->worker or attender->Q/V.
-
-Debit each full stage for gates,launch,cleanup,independent saved checks,publication,
-Git and remote verification. For actual host [ran,completed] and disjoint active helper
-intervals: pad endpoints1ms,union once,seconds=union_ms/1000,ceil whole-second total.
-Never double-add nested waits. Grants3/6/11/11/11/5 give cumulative76/82/93/104/115/120
-with H73; every stage must fit independently. Review waits separate only with no owned/
-blocked work. Arms:owner argv7/wait9,child5,subject<=5; body waits2/5/4. Missing completion
-or overrun stops successors; no retry,reallocation or later off-clock repair.
-
-Advancement requires genuine attender exit0 plus independent saved-byte validation:
-exactly two newline records,typed input/authority/mode/hash/rc/wait/closure/errors/
-grant/attender joins per V131-158; arms also V100-116 transition across evidence/owned/
-binding and both empty logs. Secure admission before baseline and baseline before
-candidate. For stage n,F is an array of exactly absolute H paths: preflight.jsonl;
-controls.jsonl; or n.owned,n.evidence,n.log,n.owner-log,n.binding,n.accept for an arm;
-EXECUTION-READOUT.json for readout. Intended Git commands inside the SAME grant:
-```zsh
-/opt/homebrew/bin/git add -- "${F[@]}"
-/opt/homebrew/bin/git commit -m "Secure P2-007 $n attended evidence"
-/opt/homebrew/bin/git push origin master
-/opt/homebrew/bin/git rev-parse HEAD
-/opt/homebrew/bin/git ls-remote origin refs/heads/master
-```
-Require actual rc0/completion for each and equal local/remote commit IDs. These command
-DATA do not implement the missing bounded exceptional host wait/cancellation path.
-
-Exclusive H paths / physical bounds: preflight.jsonl4096; controls.jsonl16384.
-Arm n: n.owned4096,n.evidence(admit8192;others12288),n.log4096,n.owner-log4096,
-n.binding(admit12288;others0),n.accept4096. Failure before acceptance: admit20480 plus
-binding12288,others24576 each. .accept begins only with both logs empty: admit<=16384
-plus binding12288,others<=20480. Alternatives share existing rows. Readout only
-EXECUTION-READOUT.json4096; static READOUT immutable. Captures/host metadata use existing
-tool receipts/in-memory ownership,not side files. Binding/future/protected cannot fund
-an added supervisor.
-
-Readout joins genuine outer exit0 to complete <=3072 stdout; validate body/seal/input/
-authority/readout/attender,SHA(body newline),REAPED wait,debit120 and actual completion.
-Encode/price one <=4096 host envelope including completion before exclusive xb write;
-full write/flush/fsync/close/postcheck all within SAME5sec. Partial/late/UNKNOWN retains
-failure,no deletion/remainder retry/second seal/recursive finalizer. The blocker prevents
-certifying a working publisher/full successful recipe;47s available proves no runtime fit.
-
-Preparation newcharge0; reviewer16384 already enrolled ONCE ->2576384,author174952448.
-Source1339392/cap1351680,binding12288,maps7499776/full7606272,future94208,ungranted4096,
-protected24576 unchanged. Management602112 FULL; addition fits carried ledger446464.
-Oversized recipe drafts9396/9068 were rejected in memory before writing. Text/hash/stat/
-JSON/Git only; zero runtime invocations. Same-reviewer host-blocker disposition and
-new exact launch DATA/final execution release remain pending.
 <!-- P2-007-HELD-RECIPE-END -->
 
 Coordinator verifiede74b444f6 held DATA: inputs3639/hash7f68e7fe...1504e0e,
