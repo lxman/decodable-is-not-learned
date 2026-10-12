@@ -5469,6 +5469,48 @@ ledger446464/STATE4096/ruling4096 carried extents. Timing73+47 is settled. Same 
 must accept corrected source before exact attended launch-recipe release. All six007
 execution counts and numerical/calibration counts stay0; no active owned jobs.
 
+Reviewa4bc5f569 ACCEPTS the complete CURRENT007 source pathf83f55b7 at SOURCE-ONLY
+scope: R1-R3 and targeted controls are closed; prior source closures stand. Coordinator
+verified11 source/three DATA/two record pins and actual reviewer16384. Enrol ONCE
+->reviewer2576384/3145728, author174952448. No new source/future/management charge.
+Source1339392/1351680 leaves binding12288; maps7499776/full7606272; future94208,
+ungranted4096/protected24576 remain. Management602112 full; ledger446464 extent carried.
+
+Ruling: prepare exact HELD runtime manifest and finite attended launch recipe, keeping
+accepted sources/PLAN byte-identical. Why: source acceptance now permits binding the
+remaining operational DATA without another source wave. Cost if wrong: reject the held
+recipe/manifest before any qualification or proof process; no replay or extra time.
+Permit only007 inputs/RESULT/ACCOUNTING within their4096 rows and a bounded recipe
+section up to8192 added bytes inside this already allocated ledger. No new source/helper
+file, output artifact or funding. Preserve current inputs381d5e89...e9f6c7 and delivery
+7c47fa64d6b23da6eaa412bbf03ec905775ea177 in Git; static READOUT stays immutable.
+
+The exact prospective runtime DATA may set executable:true, prior73.0, remaining47.0
+and ordered grants3/6/11/11/11/5 solely for held-manifest review. Reserve release ID
+P2-007-ONE-PASS-20261012 and bind source acceptance/timing/preparation authorities.
+That ID and internal executable flag confer NO execution authority: a later coordinator
+disposition must bind the final input/recipe hashes after same-reviewer acceptance.
+Actual owners remain null and all invocation counters0. Avoid circular hashes: inputs
+bind accepted source/PLAN and release ID; recipe binds inputs; final release binds both.
+
+Recipe must specify exact pinned interpreter/options/environment, source-first bounded
+byte gates before any candidate parse, genuine same-process attender PID/exit, whole
+host-tool and disjoint helper/publication intervals within each full grant, exclusive
+funded outputs, actual predecessor receipt/exit joins and terminal failure preservation.
+Keep the existing attender->owner->worker or attender->Q/V hierarchy; no additional
+concurrent Python supervisor. Include mandatory evidence validation/commit/push before
+successors in the grant; no hidden outside-clock helper or fabricated completion. The
+fresh readout body<=3072 is joined to actual exit before its sole4096-byte exclusive
+publication with bounded flush/fsync/close/postcheck. Use existing stage rows and tool
+receipts; no unbudgeted capture/side files, seal-of-seal or retry. If that finite host
+recipe cannot meet the adopted semantics, identify the concrete blocker without
+launching or loosening73+47, scientific/global bounds or accepted source predicates.
+
+No candidate parser/AST/compile/import/test/census/inflate or preflight/control/admission/
+arm/readout invocation is authorized by this preparation ruling. Source-first recipe
+is authored as text DATA only, then same-reviewer operational disposition. Subsequent
+execution release remains held; all prior successful/failed programs stay retired.
+
 
 CURRENT007 R1-R3 source/PLAN f83f55b734a7e123c259e01948d23f602377737b committed/pushed
 under unchanged46fa6cd2b,coordinator143634dbb adopting SAME reviewer1124a5305 NEXT.
