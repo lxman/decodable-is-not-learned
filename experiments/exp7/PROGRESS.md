@@ -5551,124 +5551,113 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-# HELD: source repaired; automated capture interface unresolved
-Source858991b87f042ed237e3c41a2570a8e15e6daa90; topologyb79edee8d; inputs3785 SHA256:
-afb1117f4fa4ff059550eae177590956630afb663e5293cb769bddb9414396d6.
-Hash includes markers/newline. Input->sources/PLAN,recipe->input,release->both. Old false
-DATA at e74b444f6 stays. Six runs0; prior authorities remain separately bound.
+# CURRENT007 preparation: inline admission incomplete
 
-STOP before fork: NO_ADMITTED_AUTOMATED_CAPTURE_INTERFACE. execute search(shell) returns
-items:[],remaining:0; native shell is not callable there. Model round trips cannot
-substitute for the within-grant controller. Documented REST POST /api/shell captures
-stdout/stderr to a FILE; Shell.Info.file is required. Request keys:command,cwd,timeout,
-metadata; no capture cap/no-file option. GET output limit only caps a page. Source:
-https://opencode.ai/v2/openapi.json (Oct12). No launch/probe/credential lookup. No silent
-new capture grant. Missing: admitted native automation/capture binding. The adopted
-private-group cutoff remains; arbitrary destruction needs UNKNOWN,not guaranteed
-cleanup. R1-R3 stand. Inline draft below is NOT a complete positive recipe;
-executable:false rejects it. Same-reviewer/interface disposition first.
+Coordinatorb52c01c77614feee799dc4fee1da9e2b6c92e0e6 adopts SAME reviewer
+06a10bdc278a63ad2b6eb8e6e0f96a87801c0197. Exact topology/source/PLAN858991b87 is ACCEPTED;
+all11 source pins,BOOT3952/T3112/PLAN8182 remain unchanged. Source authority46fa6cd2b,
+topologyb79edee8d,timingd58170a1c and new preparation remain separately bound in inputs.
+Current safe false/false input3927 SHA256:
+85c2bd22df6eb53486f2a1afe455f5bb5d27ea276555c6f4665a4a737b4b44e4.
+Hash this section including BEGIN/END markers and final newline. Inputs->source/PLAN,
+recipe->input,eventual external release->both. Old e74b444f6/68e3bdeb5 records and inline
+5701 remain in Git; that old inline is retired by this replacement,not admitted anew.
 
-Draft inventory: imports/functions below plus called V helpers/transitive callees only;
-two inline<=8192,two V<=16384,DATA<=16MiB +129MiB/work4MiB=168820736<=173015040. Gate
-exec retires code; post follows actual root exit. Packet8192/A4096/stdout3072/Git4096,
-metadata32768; one binding parse8MiB+other DATA8MiB. No helper file or third Python.
-Command: exec /usr/bin/env -i [exact inputs.environment] PY OPTIONS -c CODE ROLE "$$" P;
-POSIX-quote all substituted words; cwd=/Users/michaeljordan/emergence-paper. P={mode,A}
-for gate; post adds genuine Shell.Info exit and output,budget. A starts[]. Only after
-post actual exit0/remote security append its row plus float seconds: all padded1ms host/
-helper intervals unioned once. Grants3/6/11/11/11/5,H73/47,global3600; every cutoff uses
-remaining G with positive tail,not a fresh G. Model waits cannot hide live/blocked work.
-Partial/late/missing completion stops without retry or assumed empty jobs. Final host
-records certify post completion,not another verifier. F is computed below; existing rows
-preflight4096/controls16384,admit20480+binding12288,arms24576 each,readout4096; static
-READOUT unchanged.
-```python
-import os,sys,json,hashlib,stat,time,types,math,signal,subprocess
-from pathlib import Path
-I='afb1117f4fa4ff059550eae177590956630afb663e5293cb769bddb9414396d6'
-H=Path('/Users/michaeljordan/emergence-paper/experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007')
-def sha(b): return hashlib.sha256(b).hexdigest()
-def raw(p,cap):
- s=p.lstat(); assert stat.S_ISREG(s.st_mode) and s.st_size<=cap
- with p.open('rb') as f: b=f.read(cap+1)
- assert len(b)==s.st_size and p.lstat()==s; return b
-def bind(p,pin,cap):
- h,z=pin; assert type(z) is int and 0<z<=cap
- b=raw(p,cap); assert len(b)==z and sha(b)==h; return b
-def num(x): assert type(x) in (int,float) and math.isfinite(x) and 0<=x<2**53
-try:
- role,pid,text=sys.argv[1:]; assert len(text.encode())<=8192
- assert role in ('gate','post') and os.getpid()==int(pid)==os.getpgrp() and H.resolve()==H
- p=json.loads(text); c=json.loads(bind(H/'inputs.json',[I,3785],4096)); n=p['mode']; A=p['A']
- names=list(c['grants']); k=names.index(n); G=c['grants'][n]; assert type(A) is list and len(A)==k and c['executable'] is True
- assert dict(os.environ)==c['environment'] and sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode and sys.flags.optimize==0 and sys.get_int_max_str_digits()==5000
- PY=c['interpreter']['command']; assert str(Path(PY).resolve())==c['interpreter']['resolved']==str(Path(sys._base_executable).resolve()) and sys.version_info[:3]==(3,11,15)
- caps=dict(zip(c['files'],[12288,16384,24576,16384,16384]))
- for name,v in c['files'].items(): bind(H/name,v,caps[name])
- for name,v in c['sources'].items(): bind(H.parent/'r2'/name,v,32768)
- b=bind(H/'owner.py',c['files']['owner.py'],12288); boot=b.split(b"BOOT=r'''",1)[1].split(b"'''",1)[0]
- assert [sha(boot),len(boot)]==c['boot']; del b,boot
- bind(H/'PLAN.md',c['plan'],8192); bind(H.parent/'r2/encoding.adapter',c['T'],3112); bind(H/'READOUT.json',c['static_readout'],4096)
- def files(x):
-  if x in names[:2]: return [H/(x+'.jsonl')]
-  if x=='readout': return [H/'EXECUTION-READOUT.json']
-  return [H/(x+s) for s in ('.owned','.evidence','.log','.owner-log','.binding','.accept')]
- if role=='gate':
-  assert all(not os.path.lexists(f) for x in names[k:] for f in files(x))
-  os.execve(PY,[PY,*c['options'],str(H/'owner.py'),I,n,str(G),'attend',json.dumps(A,separators=(',',':'),allow_nan=False)],c['environment'])
- e=p['exit']; assert e['status']=='exited' and type(e['exit']) is int and e['exit']==0 and e.get('signal') is None
- assert type(e['pid']) is int and 1<e['pid']<2**31 and type(e['id']) is str and len(e['id'])<=128
- a=e['time']['started']; z=e['time']['completed']; num(a); num(z); assert 0<=z-a<=1000*G
- num(p['budget']); assert 0<p['budget']<=G; end=time.monotonic()+p['budget']
- def deadline(*_): raise RuntimeError()
- signal.signal(signal.SIGALRM,deadline); signal.setitimer(signal.ITIMER_REAL,p['budget'])
- V=types.ModuleType('p2_host_reader'); b=bind(H/'reader.py',c['files']['reader.py'],16384)
- exec(compile(b,str(H/'reader.py'),'exec',dont_inherit=True,optimize=0),vars(V)); del b
- V.predecessor(H,c,I,n,A); F=files(n)
- if n=='readout':
-  b=p['output'].encode(); assert len(b)<=3072 and b.endswith(b'\n') and b.count(b'\n')==1
-  v=V.strict(b); assert set(v)=={'body','seal'}; row,s=v['body'],v['seal']
-  V.sealed(V.wire(row)+V.wire(s),c,I,n); V.real(row['debit'],120); assert row['debit']==120 and row['ownership']=='REAPED'
-  assert row['arms']==[sha(V.wire(V.transition(H,c,I,x))) for x in names[2:5]]
- else:
-  assert p['output']==''
-  b=raw(F[0] if k<2 else F[-1],16384 if k==1 else 4096); row,s=V.sealed(b,c,I,n)
-  if k>=2:
-   assert row==V.transition(H,c,I,n)
-   rows=[V.strict(x) for x in raw(H/(n+'.owned'),4096).splitlines()]
-   assert rows[0]['parent']==rows[0]['group']==e['pid']
- if k<2 or n=='readout': V.uint(row['status'],255); assert row['status']==0
- assert s['attender']==e['pid']; w=s['wait']; assert type(w['usage']) is list and len(w['usage'])==3
- V.real(w['usage'][0],120); V.real(w['usage'][1],120); V.uint(w['usage'][2],8<<30)
- if n=='readout':
-  b=V.wire(dict(body=row,seal=s,completion=e)); assert len(b)<=4096 and time.monotonic()<end
-  with F[0].open('xb',buffering=0) as f:
-   assert f.write(b)==len(b); f.flush(); os.fsync(f.fileno())
-  assert raw(F[0],4096)==b and time.monotonic()<end
- receipt=sha(b); assert sum(f.stat().st_blocks*512 for f in F)<=(32768 if n=='admit' else 24576 if 2<=k<5 else 16384 if k==1 else 4096)
- J=[]
- def git(args):
-  t=time.monotonic(); q=subprocess.Popen(['/opt/homebrew/bin/git','-c','core.hooksPath=/dev/null','-c','commit.gpgSign=false',*args],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,start_new_session=False)
-  os.set_blocking(q.stdout.fileno(),False); out=b''
-  while True:
-   assert time.monotonic()<end
-   try: x=os.read(q.stdout.fileno(),4097)
-   except BlockingIOError: x=None
-   if x is not None:
-    out+=x; assert len(out)<=4096
-    if not x: break
-   time.sleep(.005)
-  rc=q.wait(timeout=max(.001,end-time.monotonic())); q.stdout.close(); J.append([q.pid,rc,time.monotonic()-t]); assert rc==0
-  return out.decode()
- git(['diff','--cached','--quiet']); git(['add','--',*map(str,F)]); git(['commit','-m','Secure P2-007 '+n]); git(['push','origin','master'])
- head=git(['rev-parse','HEAD']).strip(); assert len(head)==40 and not set(head)-set('0123456789abcdef')
- assert git(['ls-remote','origin','refs/heads/master'])==head+'\trefs/heads/master\n'
- out=V.wire(dict(row=dict(inputs=I,mode=n,receipt=receipt,pid=e['pid'],rc=0),commit=head,git=J))
- assert len(out)<=3072 and time.monotonic()<end; assert os.write(1,out)==len(out)
-except BaseException:
- if os.getpgrp()==os.getpid(): os.killpg(os.getpid(),9)
- os._exit(1)
-```
+## Exact source-authoring refusal
+
+NO_ADMITTED_AUTOMATED_CAPTURE_INTERFACE is RETIRED as a policy blocker. Direct native
+functions.shell sequencing is admissible. Quiescent model/review pauses may separate
+calls after all owned work exits; every actual active helper is charged. Managed
+captures now have named funded rows. Neither one-call automation nor impossible waits
+after arbitrary host destruction is required.
+
+Text-only full-role drafts measured11162,10585,9761,then9016 bytes. Latest SHA256:
+21e21b9fe85682e9dbd1ed5d3275d71d1ddd3238c43c265bd548bf3288b3dadd.
+F branch146 bytes,longest line211. Latest source exceeds inline8192 by824. These are
+actual presizes,NOT a proof that no implementation can fit. The exact draft is in the
+presize tool input; it was never installed or parsed/compiled/imported/tested/executed.
+Later dispatch-join sketches9548/9229 also exceeded the cap; their input-SHA placeholder
+was never bound. Latest sketch SHA256:
+5adcce03088d00ebc4c4a1455b7fb8677335786ead511cf767ec5dd6c8c49b01.
+They add prior-command reconstruction/snapshot joins but are not complete admitted DATA.
+Public OpenAPI schema was read as documentation; no local API request was made.
+Earlier9761 SHA256:
+6fc49f981696a6a72a9a057e15caa284f3ed62cea80bf50174cc66df38d8c699.
+Drafts used provisional true-input3800 SHA256:
+41e8dc440aed4cc68384e5a97217efab406f5cc5ac23249a48e7b7cc1d20963f,
+also never installed. Current input3927 is false/false; its draft hash is a refusal
+record,not an executable pin. No compliant replacement inline is installed. No extra
+script,compressed loader,concurrent Python or unpriced source bypass was introduced.
+
+The separate recipe12288 allowance does not increase inline8192. Stop at the authoring
+byte gate,not an experimental refusal: launches0,all six stage counts0,actual_owners:null,
+capture actual0. A completed positive recipe and L1-L5/emitter/primary-copy closure are
+NOT claimed. The current packet preserves the adopted policy/funding and precise size
+refusal; it must not be used as a launch recipe merely because reservations now fit.
+
+## Construction reached; review obligations still open
+
+The latest uninstalled draft has E source-first same-PID/private-group exec; V actual
+E metadata/output validation and readout-only publication; P actual V retrieval/raw
+primary copy; C actual P retrieval/completion file/seven Git calls; F sole failed-capture
+export. This is source-construction status,not accepted implementation or runtime proof.
+
+L1 draft raw uses O_NOFOLLOW|NONBLOCK with descriptor/path dev/ino/mode/size/mtime_ns/
+ctime_ns before/after,regular/cap+1 and finally-close,excluding atime. L2 uses strict
+current reader JSON,role key sets,dispatch command hash/cwd/PID joins,fixed source caps,
+metadata<=65536 and selected primary<=768. Input byte authentication precedes its plain
+JSON bootstrap; current V.strict rechecks it before owner entry. L3 START precedes
+optional imports,end=START+residual,host timeout includes startup. L4 uses nonraising
+critical TERM/ALRM deferral around Popen/nonblocking transfer and common bounded cleanup/
+real wait/close; failures stop the verified own group. L5 drafts frame raw primary bytes,
+write snapshots and join staged blobs/remote ID. Exact snapshot-to-validation and stable
+publication joins,all type/role boundaries and finite emitter forms STILL need final
+within-cap source and scoped review. Longest-line counts alone do not prove startup caps.
+
+No metadata/GET/client execution or probe occurred. Existing read-only client spelling
+is /opt/homebrew/bin/opencode api get /api/shell/{id},then /api/shell/{id}/output with
+cursor=0 and bounded limit; executable path resolved by text/stat to
+/opt/homebrew/Cellar/opencode-v2/2.0.19/bin/opencode. Historical recover.py was read as
+TEXT only to identify its existing PTY retrieval pattern,never run. No endpoint/auth
+or credential discovery,API POST/session scan,raw archive or decoded API side file.
+
+Retain NEXT's fixed24 E/V/P/C direct calls and at most36 nested GETs; sole F permits
+25/38 maximum inside the failed stage,then stops. All active calls,imports,authentication,
+queries,cleanup,validation,Git,remote checks,publication and active final assessment
+belong inside3/6/11/11/11/5. H73/47 and global3600 unchanged; pad host endpoints1ms,union
+once,ceil cumulative debit. No nested wait double-charge or runtime-fit prediction.
+Before every eventual call subtract spent active intervals and reserve positive remaining
+helper/cleanup/F tails. No new G,off-clock recovery,retry or assumed jobs[] after loss.
+A starts[] and advances only after actual C completion/security with exact ordered
+{inputs,mode,receipt,pid,rc,seconds}; receipt hashes BOTH records,E supplies actual PID/rc,
+seconds includes full stage. Final C/F primary records close the chain without recursion.
+Readout stays preliminary until actual V/P/C completion; partial/late/unknown stays failed.
+
+## Adopted funding: reserve is not spend
+
+Capture221184 =98304(24 managed slots4096)+28672(five mode.host4096/readout.host8192)
++24576(six mode.completion4096)+28672(one terminal native capture extra above4096)
++4096(F managed)+36864(HOST-FAILURE.bin). Every actual is0; no capture file was created.
+Managed originals/durable copies are distinct charged highwaters; empty slots/refused
+attempts get no refund. Retrieval limits do not bound storage. Ordinary/terminal/F
+emitter bounds4096/32768/4096 still require exact source-form acceptance before lease;
+unexpected oversized failure is preserved,never deleted or called success.
+
+Helper actual6795264/cap7872512 leaves1077248. Maps7499776/cap7856128/full7827456;
+future323584/spent8192/remaining315392=old94208+capture221184. Binding12288,source1339392/
+cap1351680,ungranted4096,protected24576 unchanged. Reviewer24576 already enrolled ONCE
+->2625536/3145728; author175001600 entering/leaving. Management602112 FULL; ledger charged
+highwater446464 carried despite current physical421888. No highwater refund,new capture
+spend or source-authoring charge. Accepted sequential helper upper168820736 still assumes
+two inline8192/two V16384/DATA16MiB plus129MiB/work4MiB. Draft9016 would calculate169242624
+under those same terms,but that is NOT authority for its824 excess or lifetime acceptance.
+
+Remaining gates: within-cap full exact inline/controller; L1-L5,emitter and primary-copy
+review; new exact input/recipe/inline hashes; final separate coordinator execution release.
+This packet completes the refusal/funding record,not the requested positive recipe.
+No candidate/inline parser,AST,compile,import,test,census,inflation,stage/helper/GET/export,
+new delegation/model/native/service/credential work or historical replay occurred.
+Two empty shell calls returned WebSocket1000; no command,stage or completion inferred.
 <!-- P2-007-HELD-RECIPE-END -->
 
 Coordinator verifiede74b444f6 held DATA: inputs3639/hash7f68e7fe...1504e0e,
