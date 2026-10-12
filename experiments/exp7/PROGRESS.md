@@ -5737,3 +5737,21 @@ ledger446464/STATE4096 retain extents. No parser/compile/import/census/control/s
 historical-program execution is authorized by this source/recipe correction. Return
 complete corrected source and exact held recipe to the same reviewer, then obtain a
 separate coordinator release binding final hashes. All six invocation counts remain0.
+
+Coordinator verified topology858991b87/held packet68e3bdeb5: O/V/Q/PLAN match all four
+exact proposed hashes from8186c4c9e, all11 source pins match committed bytes, input3785
+SHAafb1117f...396d6, marker-inclusive recipe8157 SHAec67ee5d...238a4 and inline5701
+SHA88910dc6...6a524. Source/phase bounds and leaf110592/ledger446464 allocations stand;
+new charge0, both execution flags false, all six runs0. No candidate parser or stage ran.
+
+The remaining declared interface blocker concerns native-tool sequencing and managed
+capture. Native functions.shell is callable directly by the coordinator; absence from
+Code Mode is not absence of that interface. Same-reviewer scoped source/interface
+review will assess a finite direct-call sequence under the already adopted active-wall
+definition, with every actual helper charged and no pause while work runs or blocks.
+It will also price any source-bounded managed captures explicitly rather than infer
+a no-file API guarantee or treat a retrieval limit as a storage bound. No capture
+reservation/transfer, helper invocation or execution is granted by this inquiry.
+Review reserved at most24576 actual bytes, external enrollment once on delivery;
+reviewer2600960/author174977024 currently unchanged. Management edits use existing
+ledger/STATE extents; source acceptance of the topology and full recipe remains pending.
