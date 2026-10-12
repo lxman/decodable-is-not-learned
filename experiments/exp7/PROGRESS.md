@@ -6008,3 +6008,15 @@ READOUT stay fixed. Inputs/RESULT/ACCOUNTING each4096; no new file or allocation
 Management643072 full/ledger487424 carried; helper6795264/7831552, source1339392,
 binding12288/maps7499776/full7827456/future315392/capture221184 reserved actual0 stay.
 All six runs0, H73/47/grants fixed; no parsing/import/native/GET/export/stage execution.
+
+Second ledger extent refusal preserved880007cfb: exact logical435787/SHA
+8a9b46b9b691f90d6100b9a8625979ca4b8d5275fce7730a0a290075468b1e56 matches presize, but
+physical499712 exceeds487424 by12288. Growth65536 above434176 consumed53248 carried
+slack then12288 unapproved; no candidate ran. Retain this separate failure/highwater.
+Ruling: prospectively transfer77824 unused helper to management:12288 retention plus
+65536 explicit future ledger-growth room. Why: price the observed allocation quantum
+before further edits; cost if wrong: preserve/refuse another actual cap breach.
+Helper cap7831552->7753728, actual6795264/rem958464; management actual655360/cap720896;
+ledger highwater499712/cap565248. Author175071232->175083520 actual, future65536 unspent.
+Review2654208/source/maps/captures/time stay. No retropermission/refund; outer ceiling
+unchanged. DH1/inline16384/recipe20480 adopted; record later actual ledger growth once.
