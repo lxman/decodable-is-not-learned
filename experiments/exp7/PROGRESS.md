@@ -5551,69 +5551,65 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-# CURRENT007 complete reviewed source; HELD for coordinator pins + execution release
+# CURRENT007 corrected source; HELD for scoped review and external release
 
-Input3988 SHA256eca3e7938bd69fc63ec51017dc70eba47409caa4a932a7b39ac885f563fb0b64.
-Inputs->9737b2105 O+858991b87 fixed roots/PLAN; recipe->input; external release->both.
-executable:true/execution_authorized:false are complete HELD DATA; cf83 closes L1-L5.
-343578fe4 adopts source review368fe7338; f720/732 bind context;880/cc42 room.
-Prior edae/4783/1a0e and both unsupported ledger highwaters remain in Git.
+Adoption/time cc4fccba6ddd055c9eaaf7994687503bf59db2ce; review
+670956bf92011be23694cc2e72407631d0fc2681 plus independent packet source-hash gate.
+Source f63d9a3db24dea51eefc87c1c4bad653cdb50700 -> input -> inline/recipe -> release.
+Input4092 SHA256edffb78306b916928e1cab9d640ac06118dab04ea8440acf02bc4ebb3c995ee8.
+Frozen S16347 SHA25649c70b8536f2500404290b6b36292b18545c5c28f57f7fa5a260a9a364e90afd.
+executable:true/execution_authorized:false; new source unexecuted. Old8bba/d1a049 E/F
+remain1 each/exit1; body/ownership/actual dispatch identity UNKNOWN. Prior d581 H73+
+failed3=76,remaining44 of SAME120; global3600 unchanged. No historical refund/replay.
 
-DIRECT functions.shell,background:false,workdir=R. S=fenced bytes+LF; Q=shlex.quote,
-W=compact ASCII JSON+LF. Build inline cmd with src=S,a['b']=current B,prior={r,n,a,x}.
-Keep literal "$$" until exec expansion. Require private host cutoff and PID=PGID;
-command<=28672,packet<=8192,A<=4096,timeout=floor(1000*B). No wrapper/helper file.
-Stages preflight/controls/admit/baseline/candidate/readout G=3/6/11/11/11/5. First A=[],
-each stage x=[]. E,V,P,C serially follow actual preceding rc0/owned completion. Append
-{i:actual shell ID,b:supplied B} to x; next role joins reconstructed prior command and
-actual API id/cwd/PID/exit/time. Pad each host interval1ms both ends,union once including
-all I/O/Git/cleanup. Before role j=0..3:B=floor(1000*(G-used-.5-.125*(3-j)))/1000>.25.
-Reserve positive remaining-helper/cleanup/F tails; no fit prediction. START includes
-prefix,host cutoff full startup. Enforce B,G,H73+ceil(cumulative union)<=120,global3600.
-Review pauses ONLY after all owned work ends; missing clock/closure never means zero.
-Failure stops successors; sole F only after evidenced ended/cutoff-contained work with
-B=floor(1000*(G-used-.025))/1000>.25,then stop. No retries. After actual C rc0 check real
-PID==u,full<=1024 primary output,7 waits/remote join/full debit; append ordered
-A={inputs:I,mode:n,receipt:C.receipt,pid:C.pid,rc:0,seconds:used}: BOTH lines hashed,E PID,
-full E/V/P/C seconds. Admission/baseline secured before successors. Readout has none.
-C/F complete actual primary records close chain,not links/self-seals. mode.completion
-holds prior E/V/P; readout preliminary until V/P/C exit. No extra final verifier call.
+Effective prospective flow: review/fix006-p2-execution-delivery/NEXT ata50988942,
+with cc4 timing below. All its completion/failure/primary/charging obligations apply.
+DIRECT functions.shell,workdir=R; E/V/P background:true,C/F background:false.
+S=fenced bytes including final LF; Q=shlex.quote; W=compact ASCII JSON+LF.
+Use literal cmd expression below: src=S,B=float slot,prior ordered {r,n,a,x,s}.
+Every packet s is the ONE independently frozen S SHA above,then externally released;
+NEVER recompute s from manual transcription. Keep literal "$$" for exec expansion.
+Use one immutable command/settings value; retain actual native request fields/settings
+and independently compare with released DATA before source/successor claims if same-value
+handoff is unavailable. Hash gate covers ordinary drift,not malicious checker replacement.
+Phase1 cap/hash/PGID sites42/43/44 are separate; early p is not retained or reused.
 
-Transport: @opencode/client@2.0.19/dist/promise/service.js integrity
-sha256-et0/FYFwxfUMdHv36soCzaipSAoI0eFXUiAwkp5NPf4=; generated rpc-runtime-h9cy5hnk.js
-appendQuery uses location[directory]. Public /v2/openapi.json shell.get returns EXACT
-{location,data},location EXACT{directory}. RFC9112 sections6/7: Content-Length,chunked
-(no extensions/trailers),or close-delimited; require EOF,200 OK,UTF8 application/json,
-identity encoding,unique headers/no conflicting lengths. No CLI/DNS/TLS/proxy/redirect/
-discovery/health/retry. Read known registration ONLY at released runtime,expected url/
-PID/version and before/after identity. Never credentials/derivatives in argv/output/files.
-Password<=256 codepoints/1024 UTF8,Basic<=1380,small Python encoder. One connect/send/
-response,privatefd,absolute end-.025,guarded acquisition/finally-close. io=[responsebytes,
-elapsed],no child-wait fiction; direct raw F can be binary.24+soleF native,max19 metadata
-exchanges; old38 ceiling retained without refund.
+Stage | G | E | V | P | C | F-base | boundary
+---|---:|---:|---:|---:|---:|---:|---:
+preflight |3|.750|.375|.375|1.000|.300|.200
+controls |6|3.000|.500|.500|1.500|.300|.200
+admit/baseline/candidate |10|6.000|.750|.750|2.000|.300|.200
+readout |5|2.000|.500|.500|1.500|.300|.200
 
-DH1 review368fe7338cf629c83793458fba614d34b4eaa157/adoption
-343578fe44c0b7c06b278e2c149cfa39d5f697a7. Certificate: numerical-011/review/
-fix006-p2-transport-closure/REVIEW and NEXT. Exact O prefix installed at9737b2105;
-coordinator mechanical pins/extents complete closure without another general review.
+Timeout integer1000*B,SAME float B in argv/x; no clock/arithmetic operating call.
+Charge fullG once on E dispatch,76+sumG<=120; no refund,borrow or fit promise.
+Actual intervals:1ms endpoint padding/union once; pause ONLY after all owned work ends.
+First A=[],each stage x=[]. E/V/P append {i:ACTUAL sh_ID,b:B}; await matching automatic
+terminal notification,no polling. Explicit failure stops; terminal missing rc permits
+only NEXT's existing read-only metadata gate,never guessed zero.
+C success: genuine foreground exit0,untruncated JSON<=1024,seven zero Git waits/remote
+join; u pinned-source/primary PID join,not invented host field. Append ordered
+{inputs:I,mode:n,receipt:C.receipt,pid:C.pid,rc:0,seconds:float(G)}. BOTH receipt lines
+hashed,PID from E,seconds conservative charge. Admission/baseline secure successors;
+readout remains preliminary until V/P/C complete.
+Sole optional F after ended E/V/P failure:B=.3+undispatched normal slots. After E/V/P:
+preflight2.05/1.675/1.3,controls/readout2.8/2.3/1.8,arms3.8/3.05/2.3. Foreground F
+requires actual exit0+EXPORTED id/hash/u,then stop. No F after C,no final assessor/GET/Git.
+Partial/late/UNKNOWN/nonzero stops; all retained failures and real primary records stand.
 
-_socket image/init/type/constants/exceptions/CAPI/one fd/syscall/allocation bookkeeping
-are INSIDE inherited stdlib/interpreter32MiB of fixed129. Python/libSystem/dyld/allocator
-assumptions inherited; exact pins in get. No extra native allowance,944128 or RSS claim.
-Wrapper source paid; socket.py absent;8192 queues bound capacities,not all kernel memory.
-
-NEXT startup TABLE:E28800<32768,inline/F4096,guarded O160 with one fd2 attempt/nonzero
-UNKNOWN,BaseException diagnostic/context8/overflow,normal stderr restoration. Ordinary
-V937/P186/C600/F252/refusal21; NEXT framing bounds unchanged. Catastrophic loss UNKNOWN.
-
-DATA misc2MiB:registration528384+headers557056+auth32768+controls524288=1642496.
-API10792960; framework2*(5242880+1)+2097152=12582914 precedes API; retire response/command
-before binding8388608+2097152=10485760. Phase MAX12582914<16MiB. Outer unchanged EXACT
-135266304+4194304+256*(2*16384+2*16384)+16777216=173015040. Six runs/capture actual0;
-capture221184 reserved. Charge actual new ledger growth once; no historical refunds.
+Certificates relative to numerical-011: review/fix006-p2-transport-closure/{REVIEW,NEXT}
+at368fe7338; review/fix006-p2-direct-helper/ atcf83dfc07; review/fix006-p2-preflight-refusal/NEXT at670956bf9.
+Their exact HTTP/native/DATA/startup/framing/group/wait obligations remain in full.
+Corrected refusal<=52,fallback21; ordinary envelopes unchanged. _socket owners inside
+inherited stdlib32MiB/fixed129MiB; DATA max12582914<16MiB; no extra native/RSS claim.
+Outer135266304+4194304+256*(2*16384+2*16384)+16777216=173015040 unchanged.
+Raw V3072/P-C1024/F32768;24 normal+soleF max25 calls,metadata<=19,old38 retained.
+Inline<=16384,recipe<=20480,command<=28672,packet<=8192,A<=4096,selected e<=768.
+Capture221184 reserved/8192 charged:E4096,F conservative4096 unknown actual.
+Ledger highwaters retained; actual new growth above512000 charged once within557056.
 ```python
 import sys,time
-START=time.monotonic();sent=False
+START=time.monotonic();sent=False;phase=0
 try:
  class Quiet:
   def write(self,_):raise SystemExit(1)
@@ -5623,7 +5619,7 @@ try:
  from pathlib import Path as P
  T=time.monotonic;R=P('/Users/michaeljordan/emergence-paper')
  H=R/'experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007'
- I='eca3e7938bd69fc63ec51017dc70eba47409caa4a932a7b39ac885f563fb0b64'
+ I='edffb78306b916928e1cab9d640ac06118dab04ea8440acf02bc4ebb3c995ee8'
  def ck(x):assert x
  def sha(b):return hashlib.sha256(b).hexdigest()
  def tag(s):return [s.st_dev,s.st_ino,s.st_mode,s.st_size,s.st_mtime_ns,s.st_ctime_ns]
@@ -5651,11 +5647,16 @@ try:
   pending=True
   if not guard:raise TimeoutError()
  def tick(tail=.01):ck(not pending and T()<end-tail)
+ phase=1
  pid,B,text=sys.argv[1:];B=float(B);end=START+B
+ ck(len(text.encode())<=8192)
+ ck(sha(sys.orig_argv[7].encode())==J(text)['s'])
  ck(os.getpid()==int(pid)==os.getpgrp() and math.isfinite(B) and 0<B<=11 and T()<end and len(text.encode())<=8192)
  signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop)
  signal.setitimer(signal.ITIMER_REAL,end-T());signal.pthread_sigmask(signal.SIG_UNBLOCK,{signal.SIGTERM,signal.SIGALRM})
- c=J(bind(H/'inputs.json',[I,3988],4096))
+ phase=2
+ c=J(bind(H/'inputs.json',[I,4092],4096))
+ phase=3
  caps={'owner.py':12288,'worker.py':16384,'admission.py':24576,'reader.py':16384,'qualify.py':16384}
  ck(set(c['files'])==set(caps))
  for name in caps:bind(H/name,c['files'][name],caps[name])
@@ -5663,15 +5664,19 @@ try:
  for name in caps:bind(H.parent/'r2'/name,c['sources'][name],caps[name])
  b=bind(H/'owner.py',c['files']['owner.py'],12288).split(b"BOOT=r'''",1)[1].split(b"'''",1)[0];ck([sha(b),len(b)]==c['boot']);del b
  for p,k,cap in ((H/'PLAN.md','plan',8192),(H.parent/'r2/encoding.adapter','T',3112),(H/'READOUT.json','static_readout',4096)):bind(p,c[k],cap)
+ phase=4
  PY=c['interpreter']['command'];f=sys.flags
  ck(H.resolve()==H and R==P.cwd() and dict(os.environ)==c['environment'] and str(P(PY).resolve())==c['interpreter']['resolved']==str(P(sys._base_executable).resolve()))
+ phase=5
  ck(sys.version_info[:3]==(3,11,15) and f.isolated and f.no_site and f.dont_write_bytecode and f.optimize==0 and sys.get_int_max_str_digits()==5000 and sys.orig_argv[:6]==[PY,*c['options']])
  anchors=[tag(p.lstat())[:3] for p in (H,H.parent)]
  def anchor():ck(anchors==[tag(p.lstat())[:3] for p in (H,H.parent)] and H.resolve()==H)
+ phase=6
  V=types.ModuleType('p2_saved');b=bind(H/'reader.py',c['files']['reader.py'],16384);exec(compile(b,str(H/'reader.py'),'exec',dont_inherit=True,optimize=0),vars(V));del b
- W=V.wire;p=J(text);keys(p,'r n a x');r,n,A,x=(p[k] for k in ('r','n','a','x'));names=V.STAGES
+ phase=7
+ W=V.wire;p=J(text);keys(p,'r n a x s');r,n,A,x=(p[k] for k in ('r','n','a','x'));names=V.STAGES
  ck(type(r) is str and r in ('E','V','P','C','F') and type(n) is str and n in names)
- G=c['grants'][n];ck(c['executable'] is True and c['execution_authorized'] is False and list(c['grants'])==list(names) and list(c['grants'].values())==[3.,6.,11.,11.,11.,5.] and B<=G)
+ G=c['grants'][n];ck(c['executable'] is True and c['execution_authorized'] is False and list(c['grants'])==list(names) and list(c['grants'].values())==[3.,6.,10.,10.,10.,5.] and B<=G)
  ck(type(A) is list and len(A)==names.index(n) and len(W(A))<=4096)
  for j,a in enumerate(A):
   keys(a,'inputs mode receipt pid rc seconds');U(a['pid']);U(a['rc']);V.hx(a['receipt']);V.real(a['seconds'],c['grants'][names[j]])
@@ -5681,6 +5686,7 @@ try:
   keys(a,'i b');ck(type(a['i']) is str and a['i'].startswith('sh_') and a['i'].isascii() and a['i'].replace('_','').replace('-','').isalnum() and len(a['i'])<=128);V.real(a['b'],G);ck(a['b']>0)
  def paths(m):
   return [H/(m+'.jsonl')] if m in names[:2] else [H/'EXECUTION-READOUT.json'] if m=='readout' else [H/(m+e) for e in ('.owned','.evidence','.log','.owner-log','.binding','.accept')]
+ phase=8
  F=paths(n);tick()
  if r=='E':
   V.predecessor(H,c,I,n,A)
@@ -5789,8 +5795,9 @@ try:
     if reg is not None:ck(raw(rp,4096)==(reg,identity))
    finally:reg=info=auth=req=None;guard=False
   tick();return v['data'],[wire,T()-start]
+ phase=9
  a=x[-1];url='/api/shell/'+a['i'];m,io=get(url);src=sys.orig_argv[sys.orig_argv.index('-c')+1];Q=shlex.quote
- prior=dict(r='EVPC'[len(x)-1],n=n,a=A,x=x[:-1])
+ prior=dict(r='EVPC'[len(x)-1],n=n,a=A,x=x[:-1],s=p['s'])
  cmd='exec /usr/bin/env -i '+' '.join(Q(k+'='+v) for k,v in c['environment'].items())+' '+Q(PY)+' -I -B -S -X int_max_str_digits=5000 -c '+Q(src)+' "$$" '+Q(str(a['b']))+' '+Q(W(prior).decode().strip())
  ck(type(m) is dict and set(m)<=set('id status command cwd shell file pid exit signal metadata time'.split()) and len(cmd.encode())<=28672 and m['command']==cmd and m['cwd']==str(R) and m['id']==a['i'])
  ck(type(m['shell']) is str and type(m['metadata']) is dict and type(m['file']) is str and P(m['file']).is_absolute() and m['status'] in ('exited','timeout','killed'))
@@ -5860,10 +5867,16 @@ try:
    if j==6:ck(z==(head+'\trefs/heads/master\n').encode())
   out=dict(inputs=I,mode=n,receipt=v['q'],pid=v['p'],rc=0,commit=head,git=ww)
  emit(out)
-except:
+except BaseException as e:
  guard=True
  if not sent:
-  try:os.write(1,b'{"status":"REFUSED"}\n')
+  b=b'{"status":"REFUSED"}\n'
+  try:
+   tag=next((i for i,t in enumerate((AssertionError,ValueError,TypeError,OSError,SystemExit,AttributeError,TimeoutError),1) if type(e) is t),0)
+   site=min(BaseException.__getattribute__(e,'__traceback__').tb_lineno,99999)
+   b=b'{"status":"REFUSED","phase":%d,"tag":%d,"site":%d}\n'%(phase,tag,site)
+  except:pass
+  try:os.write(1,b)
   except:pass
  try:os._exit(1)
  except NameError:raise SystemExit(1)
