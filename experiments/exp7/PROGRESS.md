@@ -5551,13 +5551,13 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-# CURRENT007 corrected source; HELD for scoped review and external release
+# CURRENT007 HELD H79/41: needs new timing authority and provider-policy review
 
 Adoption/time cc4fccba6ddd055c9eaaf7994687503bf59db2ce; review
 670956bf92011be23694cc2e72407631d0fc2681 plus independent packet source-hash gate.
 Source f63d9a3db24dea51eefc87c1c4bad653cdb50700 -> input -> inline/recipe -> release.
 Input4092 SHA256edffb78306b916928e1cab9d640ac06118dab04ea8440acf02bc4ebb3c995ee8.
-Frozen S16347 SHA25649c70b8536f2500404290b6b36292b18545c5c28f57f7fa5a260a9a364e90afd.
+Frozen S16365 SHA25691b75376b9d80a6cc6d288693cd9783373e6100a5d71f4045abc8b62228b9ba2.
 executable:true/execution_authorized:false; new source unexecuted. Old8bba/d1a049 E/F
 remain1 each/exit1; body/ownership/actual dispatch identity UNKNOWN. Prior d581 H73+
 failed3=76,remaining44 of SAME120; global3600 unchanged. No historical refund/replay.
@@ -5668,7 +5668,7 @@ try:
  PY=c['interpreter']['command'];f=sys.flags
  ck(H.resolve()==H and R==P.cwd() and dict(os.environ)==c['environment'] and str(P(PY).resolve())==c['interpreter']['resolved']==str(P(sys._base_executable).resolve()))
  phase=5
- ck(sys.version_info[:3]==(3,11,15) and f.isolated and f.no_site and f.dont_write_bytecode and f.optimize==0 and sys.get_int_max_str_digits()==5000 and sys.orig_argv[:6]==[PY,*c['options']])
+ ck(sys.version_info[:3]==(3,11,15) and f.isolated and f.no_site and f.dont_write_bytecode and f.optimize==0 and sys.get_int_max_str_digits()==5000 and sys.executable==PY and sys.orig_argv[1:6]==c['options'])
  anchors=[tag(p.lstat())[:3] for p in (H,H.parent)]
  def anchor():ck(anchors==[tag(p.lstat())[:3] for p in (H,H.parent)] and H.resolve()==H)
  phase=6
