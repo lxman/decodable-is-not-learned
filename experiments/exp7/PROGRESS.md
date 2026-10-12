@@ -5308,6 +5308,19 @@ Initial ruling multi-file patch rejected on ledger context with no file created;
 patch then applied. This source-authoring tool failure launched no candidate or helper.
 All numerical/calibration launch counters remain0; no active owned jobs.
 
+Partial-source reviewdfb6cce4c accepts the actual text repairs and credible extraction
+lifetimes, not a full certificate. Coordinator verified10 current hashes, reviewer
+20480 allocation, phase sums and prospective funding. Ruling addendum adopts reader-
+owned validation/outer-only qualifier/inventory moved to admission and the concrete
+remaining A-E fixes. Transfer12288 ungranted ->source cap1327104, remaining32768;
+qualifier/reader12288 each, admission20480. Retain old reader4096 failure charge and
+prospectively charge its new4096 source row once. Future94208/protected24576 unchanged,
+ungranted28672; full maps7581696/7634944. Reviewer20480 enrolled ONCE ->2428928;
+management593920 (timing record included), author174751744, ledger446464 highwater.
+Addendum/STATE/ledger use current extents. P2 timing recovery is partial evidence,
+not a certified prior debit or launch. Complete source-only work remains authorized;
+all execution gates held and original outcomes preserved. No new active owned jobs.
+
 Coordinator P2-TIMING-RECOVERY.md recovers the four direct004/006 owner/reader tool
 timestamps and exact command hashes from read-only session metadata. Direct
 created-to-completed sum7987ms; ran-to-completed305ms. The199-shell-command index
