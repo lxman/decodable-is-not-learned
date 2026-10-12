@@ -5791,3 +5791,31 @@ Management602112 full and ledger446464/STATE4096 extents stay; no growth allocat
 Return complete exact helper/manifest/recipe to the same reviewer before final external
 release. This preparation/capture reservation authorizes no parse/compile/import/census,
 stage/helper/export invocation or historical replay. All six execution counts remain0.
+
+Held packete4133ece2 reports a9016-byte inline draft versus8192, not installed or
+executed; L1-L5 remain unaccepted. Coordinator verified11 current source pins, input3927
+hash85c2bd22...4b44e4 and refusal recipe7632/hash22d5d3ce...7764c. Accepted858991b87
+sources/PLAN stay fixed, leaf110592 and capture actual0. No new author/reviewer charge.
+
+Ruling: increase inline authoring bound8192->12288 and marker-inclusive ledger recipe
+bound12288->16384, without changing the accepted outer-memory ceiling or any grant.
+Why: complete emitter/ownership/transport checks should not be removed to meet an
+unnecessarily tight text limit; the full larger source fits the existing allowance.
+Cost if wrong: exact helper/command/copy review refuses before a run; no memory or time
+overrun is approved. Repriced sequential upper is135266304+4194304+
+256*(2*12288+2*16384)+16777216=170917888<=173015040, with2097152 slack. This supersedes
+only the earlier inline8192/recipe12288 authoring bounds and168820736 helper subtotal.
+The full inline includes F; retain two reader copies, sequential API/binding parses and
+DATA16MiB. Actual quoted commands must still fit28672/metadata65536 and all emitter/
+capture bounds; no automatic credit for those joins. Source/PLAN remain byte-identical.
+
+Complete the full literal E/V/P/C/F helper and finite direct-call recipe, binding real
+source/transport/command/receipt identities and durable primary copies. Finish L1-L5
+and finite startup/refusal emitters, then return exact source and receipt arithmetic
+to the same reviewer. Do not add a new file/process layer or compress away checks.
+Preservee4133ece2 drafts/refusals in Git; replace current recipe within the enlarged
+logical row, preprice final bytes and verify physical extents against carried446464.
+Management602112 remains full; actual ledger421888 does not refund charged446464.
+No new allocation: author175001600/reviewer2625536, source1339392, maps7499776/full7827456,
+future315392 including capture221184 reserved/actual0 remain. H73/47 and all six stage
+grants stay fixed. No helper parsing/execution, stage/export invocation or release.
