@@ -5819,3 +5819,19 @@ Management602112 remains full; actual ledger421888 does not refund charged446464
 No new allocation: author175001600/reviewer2625536, source1339392, maps7499776/full7827456,
 future315392 including capture221184 reserved/actual0 remain. H73/47 and all six stage
 grants stay fixed. No helper parsing/execution, stage/export invocation or release.
+
+Coordinator post-write refusal: b3273bcef preserves the inline repricing draft. The
+logical ledger423489/SHA b0f9e3cd288e2535d71b103235e3bd237f122093eb949be8db2151a4390ef770
+allocated487424, exceeding carried446464 by40960. The first post-write verifier
+refused on this extent, not a recipe hash mismatch. Physical growth65536 from421888
+uses24576 already carried plus40960 unfunded highwater. No candidate execution.
+
+Ruling: retain the unapproved40960 highwater and prospectively transfer40960 from unused
+helper to management before further edits. Why: preserve the failed write and fund its
+continued retention; cost if wrong: stop on the next actual extent breach. No refund or
+retrospective permission. Helper cap7872512->7831552, actual6795264/rem1036288;
+management602112->643072 actual/cap, ledger487424 carried. Author175001600->175042560;
+reviewer2625536 unchanged. Outer/global reservations and source/maps/capture rows stay.
+The inline12288/recipe16384 repricing above remains adopted within outer173015040.
+Further authoring must fit carried ledger487424 and record every unexpected allocation;
+source/PLAN fixed, six runs0, H73/47, same-reviewer helper acceptance before release.
