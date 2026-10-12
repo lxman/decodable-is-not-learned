@@ -5551,12 +5551,13 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-# CURRENT007 transport authored; DH1 startup/native certificate HELD
+# CURRENT007 complete reviewed source; HELD for coordinator pins + execution release
 
-Input4004 SHA2568ddf93c59586474a8d301b8efbdb0c16f69acbce9868ff02f568eae919eeaeeb.
-Inputs->858991b87 roots/PLAN/authorities; recipe->input; external release->both.
-Both execution flags false: source proposal,not permission. cf83 closes prior L1-L5;
-f720/732 bind endpoint/auth,880/cc42 room. Prior1a0e/4783 remain in Git.
+Input3988 SHA256eca3e7938bd69fc63ec51017dc70eba47409caa4a932a7b39ac885f563fb0b64.
+Inputs->9737b2105 O+858991b87 fixed roots/PLAN; recipe->input; external release->both.
+executable:true/execution_authorized:false are complete HELD DATA; cf83 closes L1-L5.
+343578fe4 adopts source review368fe7338; f720/732 bind context;880/cc42 room.
+Prior edae/4783/1a0e and both unsupported ledger highwaters remain in Git.
 
 DIRECT functions.shell,background:false,workdir=R. S=fenced bytes+LF; Q=shlex.quote,
 W=compact ASCII JSON+LF. Build inline cmd with src=S,a['b']=current B,prior={r,n,a,x}.
@@ -5591,25 +5592,25 @@ response,privatefd,absolute end-.025,guarded acquisition/finally-close. io=[resp
 elapsed],no child-wait fiction; direct raw F can be binary.24+soleF native,max19 metadata
 exchanges; old38 ceiling retained without refund.
 
-Native source observations,NOT completed admission: direct _socket; wrapper is S.
-Installed _socket114448/pin and Python framework4883552/pin are in get. Mach-O maps
-114688; sole LC_LOAD_DYLIB=/usr/lib/libSystem.B.dylib,also a dependency of that Python.
-CPython v3.11.15 Modules/socketmodule.c: Darwin os_init returns1; init7248+ has<=468
-constant/object additions,two exception classes/one3-pointer CAPI. Selected socket/
-settimeout/connect/send/recv/setsockopt/getsockopt/close; numeric127 uses inet_pton,
-not getaddrinfo. No socket.py/HTTP framework/TLS/resolver/new process. recv requests
-<=4096,send borrows bounded bytes; integer socket queues8192 each checked. Close
-invalidates fd before OS close,no EINTR close retry. Interrupted calls retain deadline.
-The draft944128 native/work subtotal is NOT established: static image/init observations
-do not prove its loader/type/allocator terms. No extra native credit from fixed129.
-RESULT records remaining native/import and fresh-O secondary-emitter proof obligations.
+DH1 review368fe7338cf629c83793458fba614d34b4eaa157/adoption
+343578fe44c0b7c06b278e2c149cfa39d5f697a7. Certificate: numerical-011/review/
+fix006-p2-transport-closure/REVIEW and NEXT. Exact O prefix installed at9737b2105;
+coordinator mechanical pins/extents complete closure without another general review.
 
-DATA9744384=128*65536+4096+3*65536+2*32768+8192+28672+4096+1048576. Misc1MiB includes
-registration parse<=528384,auth copies,projections. Framework hash read5MiB precedes
-network; response/command retire before8MiB binding parse. Sequential135266304+4194304+
-256*(2*16384+2*16384)+16777216=173015040 EXACT unchanged outer. RESULT has startup/
-emitter findings. Capture221184 actual0,six runs0. Retain both unsupported highwaters;
-charge only actual future ledger growth. Catastrophic loss remains UNKNOWN.
+_socket image/init/type/constants/exceptions/CAPI/one fd/syscall/allocation bookkeeping
+are INSIDE inherited stdlib/interpreter32MiB of fixed129. Python/libSystem/dyld/allocator
+assumptions inherited; exact pins in get. No extra native allowance,944128 or RSS claim.
+Wrapper source paid; socket.py absent;8192 queues bound capacities,not all kernel memory.
+
+NEXT startup TABLE:E28800<32768,inline/F4096,guarded O160 with one fd2 attempt/nonzero
+UNKNOWN,BaseException diagnostic/context8/overflow,normal stderr restoration. Ordinary
+V937/P186/C600/F252/refusal21; NEXT framing bounds unchanged. Catastrophic loss UNKNOWN.
+
+DATA misc2MiB:registration528384+headers557056+auth32768+controls524288=1642496.
+API10792960; framework2*(5242880+1)+2097152=12582914 precedes API; retire response/command
+before binding8388608+2097152=10485760. Phase MAX12582914<16MiB. Outer unchanged EXACT
+135266304+4194304+256*(2*16384+2*16384)+16777216=173015040. Six runs/capture actual0;
+capture221184 reserved. Charge actual new ledger growth once; no historical refunds.
 ```python
 import sys,time
 START=time.monotonic();sent=False
@@ -5622,7 +5623,7 @@ try:
  from pathlib import Path as P
  T=time.monotonic;R=P('/Users/michaeljordan/emergence-paper')
  H=R/'experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007'
- I='8ddf93c59586474a8d301b8efbdb0c16f69acbce9868ff02f568eae919eeaeeb'
+ I='eca3e7938bd69fc63ec51017dc70eba47409caa4a932a7b39ac885f563fb0b64'
  def ck(x):assert x
  def sha(b):return hashlib.sha256(b).hexdigest()
  def tag(s):return [s.st_dev,s.st_ino,s.st_mode,s.st_size,s.st_mtime_ns,s.st_ctime_ns]
@@ -5654,7 +5655,7 @@ try:
  ck(os.getpid()==int(pid)==os.getpgrp() and math.isfinite(B) and 0<B<=11 and T()<end and len(text.encode())<=8192)
  signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop)
  signal.setitimer(signal.ITIMER_REAL,end-T());signal.pthread_sigmask(signal.SIG_UNBLOCK,{signal.SIGTERM,signal.SIGALRM})
- c=J(bind(H/'inputs.json',[I,4004],4096))
+ c=J(bind(H/'inputs.json',[I,3988],4096))
  caps={'owner.py':12288,'worker.py':16384,'admission.py':24576,'reader.py':16384,'qualify.py':16384}
  ck(set(c['files'])==set(caps))
  for name in caps:bind(H/name,c['files'][name],caps[name])
