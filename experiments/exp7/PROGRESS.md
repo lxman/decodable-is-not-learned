@@ -5548,3 +5548,126 @@ Originals/001-006/T/static READOUT remain. Timingd58170a1c stays73+47; proposed 
 grants[3,6,11,11,11,5]=47,actual prior/grants/release null,executable:false. Pure authoring
 separate/global3600 unchanged. Full held packet returns to SAME reviewer for source
 acceptance; separate exact manifest/attended recipe release remains before execution.
+
+
+<!-- P2-007-HELD-RECIPE-BEGIN -->
+## P2-007 held recipe: BLOCKED before first launch
+
+Preparation1f872fea2 adopts source acceptancea4bc5f569; accepted source/PLAN remains
+f83f55b734a7e123c259e01948d23f602377737b. Full authorities are in inputs. Reserved ID:
+P2-007-ONE-PASS-20261012. This is DATA. Recipe SHA covers UTF-8 from BEGIN marker through
+END marker and its newline. Input3639 SHA256:
+7f68e7feb95ff32ac60dc038c4b628d70c9feef4b37964d011acf638b1504e0e.
+Old held inputs remain at7c47fa64d6b23da6eaa412bbf03ec905775ea177. Input binds accepted
+source/PLAN/release ID; recipe binds input; final release would bind both,without cycles.
+
+### Exact blocking join and finite terminal algorithm
+
+HOST_DETACHED_BODY_CLOSURE: available host contract cannot supply the required
+exceptional closure. Return BLOCKED before stage1: zero launches/artifacts/runtime
+grants. Manifest retains executable:false/execution_authorized:false,six runs0,
+actual_owners:null. Prior73/remaining47/ordered grants are prospective DATA only.
+O.gate rejects this manifest even with a later external release; closing the blocker
+would require newly hashed launch DATA, same-reviewer review and exact final release.
+
+Accepted TEXT establishes the concrete failure path:
+* V=reader.py193 makes journal=[]/BytesIO; V195 calls O.owned(kind='body') for Q/readout.
+  O=owner.py126 uses start_new_session=kind!='child': body has a separate session/group.
+  O128/O14-15 append its PID/SID/group to the private list,not a host-visible journal.
+* A hard tool timeout/lost host completion can remove the attender. The recorded
+  docs/HANDOFF.md38 boundary kills the invoking process group; the body is outside it.
+  Available shell API has timeout/completion,not a guaranteed detached-descendant
+  ownership registry,cancel-and-wait receipt or retained body handle.
+* TERM/ALRM masking/finally protect the LIVE attender,not its destruction. V/Q install
+  no independent body deadline timer. Attender exit cannot prove body closure after
+  its private p/list/wait4 capability is lost. Arms also have O126-128's creation-to-
+  journal gap; a later PID is no wait handle and cannot safely authorize PID reuse.
+
+This is a host-boundary blocker,not a reversal of accepted R1-R3 or a runtime-fit claim.
+No kill/timeout experiment was run. timeout0 abandons the finite bound; extra waiting
+cannot recover ownership. UNKNOWN preserves failure but cannot certify cleanup inside
+grant. Retain failed tool receipts; missing completed metadata stays missing. Same
+reviewer/coordinator must dispose the missing host ownership/termination/wait guarantee.
+No new supervisor/source/timer/census is installed to bypass it.
+
+### Prospective literal command DATA; disabled by the terminal above
+
+Working directory:/Users/michaeljordan/emergence-paper. Literal zsh:
+```zsh
+H=/Users/michaeljordan/emergence-paper/experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007
+PY=/Users/michaeljordan/emergence-lab/.venv/bin/python
+I=7f68e7feb95ff32ac60dc038c4b628d70c9feef4b37964d011acf638b1504e0e
+E=(/usr/bin/env -i PATH=/usr/bin:/bin LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 TZ=UTC SETUPTOOLS_USE_DISTUTILS=stdlib OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 NUMEXPR_NUM_THREADS=1 __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0)
+C=("${E[@]}" "$PY" -I -B -S -X int_max_str_digits=5000 "$H/owner.py" "$I")
+"${C[@]}" preflight 3.0 attend '[]'
+"${C[@]}" controls 6.0 attend "$A1"
+"${C[@]}" admit 11.0 attend "$A2"
+"${C[@]}" baseline 11.0 attend "$A3"
+"${C[@]}" candidate 11.0 attend "$A4"
+"${C[@]}" readout 5.0 attend "$A5"
+```
+PY resolved path is pinned in inputs:3.11.15_3,optimize0/marshal2; actual CF matches.
+Intended counts1 each,including grammar/preflight/fresh readout; actual counts0.
+A_k means compact finite JSON of exactly k preceding real rows,ordered:
+{inputs:I,mode:n,receipt:SHA256(BOTH saved newline-terminated lines),pid:actual attender
+PID,rc:integer0,seconds:finite float full-stage debit<=grant}. A1..A5 do not exist;
+self-seal.checked_wall and assumed tool exits cannot fill them.
+
+### Preserved normal-path constraints; not a completed positive recipe
+
+Byte gates precede candidate parse: bounded nonsymlink stable-stat reads authenticate
+input,eleven source pins,BOOT3952,T3112,PLAN8183/static READOUT1105; stage targets absent.
+O12288/W16384/D24576/V16384/Q16384/PLAN8192/input4096 caps stand. All r2/originals,
+016/004 provenance,67 negatives/eight map copies/18 cases stay. No candidate imports/
+AST/compile/inflate during preparation. No inline host gate or extra owner is claimed:
+exec replacement alone would still lose the detached-body handle on the failure path.
+Accepted hierarchy remains attender->owner->worker or attender->Q/V.
+
+Debit each full stage for gates,launch,cleanup,independent saved checks,publication,
+Git and remote verification. For actual host [ran,completed] and disjoint active helper
+intervals: pad endpoints1ms,union once,seconds=union_ms/1000,ceil whole-second total.
+Never double-add nested waits. Grants3/6/11/11/11/5 give cumulative76/82/93/104/115/120
+with H73; every stage must fit independently. Review waits separate only with no owned/
+blocked work. Arms:owner argv7/wait9,child5,subject<=5; body waits2/5/4. Missing completion
+or overrun stops successors; no retry,reallocation or later off-clock repair.
+
+Advancement requires genuine attender exit0 plus independent saved-byte validation:
+exactly two newline records,typed input/authority/mode/hash/rc/wait/closure/errors/
+grant/attender joins per V131-158; arms also V100-116 transition across evidence/owned/
+binding and both empty logs. Secure admission before baseline and baseline before
+candidate. For stage n,F is an array of exactly absolute H paths: preflight.jsonl;
+controls.jsonl; or n.owned,n.evidence,n.log,n.owner-log,n.binding,n.accept for an arm;
+EXECUTION-READOUT.json for readout. Intended Git commands inside the SAME grant:
+```zsh
+/opt/homebrew/bin/git add -- "${F[@]}"
+/opt/homebrew/bin/git commit -m "Secure P2-007 $n attended evidence"
+/opt/homebrew/bin/git push origin master
+/opt/homebrew/bin/git rev-parse HEAD
+/opt/homebrew/bin/git ls-remote origin refs/heads/master
+```
+Require actual rc0/completion for each and equal local/remote commit IDs. These command
+DATA do not implement the missing bounded exceptional host wait/cancellation path.
+
+Exclusive H paths / physical bounds: preflight.jsonl4096; controls.jsonl16384.
+Arm n: n.owned4096,n.evidence(admit8192;others12288),n.log4096,n.owner-log4096,
+n.binding(admit12288;others0),n.accept4096. Failure before acceptance: admit20480 plus
+binding12288,others24576 each. .accept begins only with both logs empty: admit<=16384
+plus binding12288,others<=20480. Alternatives share existing rows. Readout only
+EXECUTION-READOUT.json4096; static READOUT immutable. Captures/host metadata use existing
+tool receipts/in-memory ownership,not side files. Binding/future/protected cannot fund
+an added supervisor.
+
+Readout joins genuine outer exit0 to complete <=3072 stdout; validate body/seal/input/
+authority/readout/attender,SHA(body newline),REAPED wait,debit120 and actual completion.
+Encode/price one <=4096 host envelope including completion before exclusive xb write;
+full write/flush/fsync/close/postcheck all within SAME5sec. Partial/late/UNKNOWN retains
+failure,no deletion/remainder retry/second seal/recursive finalizer. The blocker prevents
+certifying a working publisher/full successful recipe;47s available proves no runtime fit.
+
+Preparation newcharge0; reviewer16384 already enrolled ONCE ->2576384,author174952448.
+Source1339392/cap1351680,binding12288,maps7499776/full7606272,future94208,ungranted4096,
+protected24576 unchanged. Management602112 FULL; addition fits carried ledger446464.
+Oversized recipe drafts9396/9068 were rejected in memory before writing. Text/hash/stat/
+JSON/Git only; zero runtime invocations. Same-reviewer host-blocker disposition and
+new exact launch DATA/final execution release remain pending.
+<!-- P2-007-HELD-RECIPE-END -->
