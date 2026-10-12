@@ -5691,3 +5691,50 @@ No local shell API mutation, launch/cancellation probe, service/config change or
 experimental program was used for this lookup. Existing source boundaries and the
 required failure model need explicit reviewer/coordinator disposition. Record/STATE
 edits fit carried extents; management602112 remains full without new allocation.
+
+Review8186c4c9e supplies the finite host-closure disposition. Coordinator verified11
+source pins, held input/recipe/RESULT/ACCOUNTING hashes, reviewer24576 actual and exact
+Q replacement hash. Sequential inline-helper upper168820736<=attender173015040 verifies.
+Enrol reviewer24576 ONCE ->2600960/3145728, author174977024; no source/maps/management
+charge. Prior source acceptancea4bc5f569 and settled H73/47 stand at their stated scopes.
+
+Ruling: adopt host-closure/REVIEW and NEXT A/B together, selecting the group-only path.
+Why: the standing foreground process-group cutoff recorded in docs/HANDOFF.md38 must
+contain the admitted tree; detaching owners/bodies knowingly escaped that domain.
+Cost if wrong: reject the host/group join or preserve FAILED/UNKNOWN; never infer child
+waits, empty ownership, success or extra cleanup time from a root exit alone. The public
+V2 documentation supplies command metadata, not a new descendant-cleanup guarantee.
+Arbitrary host/attender destruction or OS failure requires retained unknown ownership
+and refusal, not impossible guaranteed post-destruction waits. No success after loss.
+
+Explicitly reopen ONLY007 owner.py/reader.py/qualify.py/PLAN.md and existing inputs/
+RESULT/ACCOUNTING for NEXT A. All roles inherit the exec-replaced attender's private
+group; assert attender PGID==PID before descendant creation. Ordinary live-PID cleanup
+and genuine waits remain. Failed/unreaped owner OR body invokes the live attender's
+verified own-group stop, including itself, as failure rather than a fabricated wait.
+No reaped-PID signaling or group inference from a stale journal. Retain TERM+ALRM
+transfer guards and shared stdout-attempt ownership. Adapt exact group joins and the
+existing lifecycle/synthetic-parent controls; preserve their unexecuted status. Keep
+46fa6cd2b source authority with this separately recorded topology disposition.
+
+Adopt NEXT B's sequential inline-helper construction for the exact positive recipe:
+bounded gate before exec replacement, independent validator/publisher after real
+attender exit, no additional concurrent Python supervisor or helper file. Permit
+authoring their exact inline source as ledger DATA. Replace the current recipe section
+within8192 bytes, preserving e74b444f6 in Git. Bind every helper/call/copy/import and
+actual command PID/group/rc/time; compute predecessor/F data rather than using symbolic
+success placeholders. The actual host entry/cutoff must cover that same private group;
+if the chosen interface lacks this premise, stop before any descendant launch.
+Use real tool completion for the final assessment, without an endless verifier chain.
+Full stage grants3/6/11/11/11/5 include byte gates, cleanup, validation, publication and
+Git/remote checks; no off-clock helper or automatic retry. Publish final readout once
+after actual exit into its4096 row. Unknown/nonzero/late/partial outcomes stay failures.
+
+Proposed O10678/V16154/Q16236/PLAN8182 fit existing rows; W/D/r2/BOOT/T and phase/loaded
+uppers stay. Exact replacement bytes and final recipe/manifest need presizing/hash/
+extent verification. No new funding: source1339392/1351680 with binding12288, maps7499776/
+full7606272, future94208/ungranted4096/protected24576 unchanged. Management602112 full;
+ledger446464/STATE4096 retain extents. No parser/compile/import/census/control/stage or
+historical-program execution is authorized by this source/recipe correction. Return
+complete corrected source and exact held recipe to the same reviewer, then obtain a
+separate coordinator release binding final hashes. All six invocation counts remain0.
