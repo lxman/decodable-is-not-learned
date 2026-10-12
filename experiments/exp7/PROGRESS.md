@@ -5975,3 +5975,36 @@ reviewer2625536 unchanged. Outer/global reservations and source/maps/capture row
 The inline12288/recipe16384 repricing above remains adopted within outer173015040.
 Further authoring must fit carried ledger487424 and record every unexpected allocation;
 source/PLAN fixed, six runs0, H73/47, same-reviewer helper acceptance before release.
+
+Reviewcf83dfc07 retains topology/source acceptance and closes inspected L1-L5 repairs;
+exact helper release held for DH1's unadmitted CLI/native transport and startup output.
+Coordinator verified five record pins, reviewer28672 actual and b327 failure blob/hash.
+Enrol review28672 ONCE ->reviewer2654208/3145728, author175071232. No other charge.
+
+Ruling: adopt direct-helper/NEXT DH1 in-process transport and startup correction, with
+inline<=16384 and marker-recipe<=20480 in existing ledger487424. Why: remove the new
+unbounded CLI/PTY runtime and retain actual metadata/capture joins in one finite process.
+Cost if wrong: exact source/native/transport admission refuses before any execution.
+135266304+4194304+256*(2*16384+2*16384)+16777216=173015040 equals the unchanged outer
+allowance; no extra process/native credit. API-only DATA9744384 fits16MiB and must retire
+before8MiB binding parsing. Bind actual source/native imports under an applicable finite
+runtime allowance; arbitrary new native code does not become paid by calling it fixed.
+
+Use one literal existing read-only local endpoint/context, no discovery/proxy/redirect/
+retry/daemon or credential operation. Bound request/header/body and actual wire schema;
+one private descriptor, residual deadlines and finally-close. Read stable raw capture
+from its authenticated metadata path directly, including binary failure bytes. Replace
+CLI waits with honest io=[bytes,elapsed] across all exact schemas/frames. Ordinary Git
+waits remain. Normal24+soleF calls persist; GET max19, earlier38 ceiling not refunded.
+Preserve accepted L1-L5 checks; no additional supervisor or accepted-root changes.
+
+Complete exact startup-form source table for shell/env/interpreter, first inline imports/
+clock, F and fresh O before its catch. Source/caret/frame/path/fixed-message bounds must
+support32768/4096 rows, not repeat those labels. Recompute ordinary envelope/header/copy
+maxima after io change; retain sent-before-write and fixed refusal. Preserve1a0e838e3
+and all failures in Git. Current flags remain deliberate HELD DATA; final release still
+requires same-reviewer acceptance and exact hashes. Source858991b87/PLAN/BOOT/T/static
+READOUT stay fixed. Inputs/RESULT/ACCOUNTING each4096; no new file or allocation grant.
+Management643072 full/ledger487424 carried; helper6795264/7831552, source1339392,
+binding12288/maps7499776/full7827456/future315392/capture221184 reserved actual0 stay.
+All six runs0, H73/47/grants fixed; no parsing/import/native/GET/export/stage execution.
