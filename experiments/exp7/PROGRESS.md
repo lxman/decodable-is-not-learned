@@ -5307,3 +5307,30 @@ new ruling4096 ->management589824/602112, author174727168. Ledger446464 highwate
 Initial ruling multi-file patch rejected on ledger context with no file created; corrected
 patch then applied. This source-authoring tool failure launched no candidate or helper.
 All numerical/calibration launch counters remain0; no active owned jobs.
+
+Source-only007 correction under9d411f6cd327fa7c233045c59eec1fb989a8626b: partial
+source revision49970b5f4 pushed, execution held. P's two indents corrected by text;
+ports.memory retained and domain whitespace funds RULING_COMMIT rename in P/O/W/D.
+Owner adds protected spawn/journal/drain/wait and capped logs/two-step stop; BOOT
+pre-sizes bounded JSON, worker rejects overflowed terminal traces. Descriptor/shared
+tag work and16MiB proposed inventory allowance added. None parsed or executed.
+Positive loaded18296/18432; revised source-lifetime arithmetic Q316916, extract485829,
+live487305/489116, proof264210688/268435456. Full originals/two T remain charged.
+No complete all-phase/owner/helper certificate: exact partitions, exceptional closure,
+cumulative owner-reader interface, negative roster and failure readout remain open.
+Prospective qualify/control/shared-wire text11335/8192 (excess3143), SHA
+3219650208cbbead0258f772a12fd865ebdc8fedf915ce315fa4109ea873effb; stopped BEFORE
+writing. Numeric-negative proposal16418/16384 also not written. Reader still9438;
+qualify.py absent, no source-row/grant increase. Authoring-only wrong-indent assertion,
+invalid patch hunk, stdin bookkeeping typo and PLAN4198 estimate preserved in tools;
+no unsupported file write. Existing static READOUT and001-006/GG triage unchanged.
+PLAN inventories004/006 admissions/readers with CLI shapes, source/receipt pins and
+unknown enclosing/helper timings. Pure editing/review is separate, not guessed P2
+debit. Old chargeable helpers and any global runtime enrollment still need coordinator
+reconciliation; no replay, reset120 or recovered timing claim. All007 stage counts0.
+New source/future/maps/management deltas0; source1294336/1314816 leaves20480, funded
+future94208. Reassign unused failure4096 to future EXECUTION-READOUT, no spare failure
+row. Maps7454720, ungranted40960/protected24576. Reviewer2408448 already enrolled,
+management589824/602112 with ledger446464 highwater retained; author174727168. All
+outer rows unchanged. Updated007 PLAN/inputs/RESULT/ACCOUNTING remain non-executable
+partial-source refusal for same-reviewer disposition. Active owned jobs:[].
