@@ -5551,83 +5551,78 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-# CURRENT007 DH1 HOLD: existing endpoint/access context unavailable
+# CURRENT007 transport authored; DH1 startup/native certificate HELD
 
-Reviewcf83dfc07ef8e591e5008c8c11b0114a41de4ff9 accepts inspected L1-L5 and ordinary
-emitters of1a0e838e3; DH1 transport/native/startup remains open. Coordinator880007cfb/
-cc42f1d5f adopts NEXT1-4 and inline16384/recipe20480. Accepted858991b87 roots/PLAN/
-BOOT/T/static READOUT stay fixed. No qualification or stage has run.
-Current input4001 SHA256:
-46ac7289662d5c84c7d4d7e1dc69049ca3bc77085f47f34a08cf49a207f2033a
-Both execution flags are false. This is a blocking DATA packet, NOT a completed DH1
-transport correction. Full prior helper below is retained with ONLY the real input pin/
-length rebound; its CLI/PTY path is unadmitted and must not be dispatched. The prior
-true/false complete literal remains exactly preserved at1a0e838e3,not retracted from Git.
+Input4004 SHA2568ddf93c59586474a8d301b8efbdb0c16f69acbce9868ff02f568eae919eeaeeb.
+Inputs->858991b87 roots/PLAN/authorities; recipe->input; external release->both.
+Both execution flags false: source proposal,not permission. cf83 closes prior L1-L5;
+f720/732 bind endpoint/auth,880/cc42 room. Prior1a0e/4783 remain in Git.
 
-## Exact external datum needed
+DIRECT functions.shell,background:false,workdir=R. S=fenced bytes+LF; Q=shlex.quote,
+W=compact ASCII JSON+LF. Build inline cmd with src=S,a['b']=current B,prior={r,n,a,x}.
+Keep literal "$$" until exec expansion. Require private host cutoff and PID=PGID;
+command<=28672,packet<=8192,A<=4096,timeout=floor(1000*B). No wrapper/helper file.
+Stages preflight/controls/admit/baseline/candidate/readout G=3/6/11/11/11/5. First A=[],
+each stage x=[]. E,V,P,C serially follow actual preceding rc0/owned completion. Append
+{i:actual shell ID,b:supplied B} to x; next role joins reconstructed prior command and
+actual API id/cwd/PID/exit/time. Pad each host interval1ms both ends,union once including
+all I/O/Git/cleanup. Before role j=0..3:B=floor(1000*(G-used-.5-.125*(3-j)))/1000>.25.
+Reserve positive remaining-helper/cleanup/F tails; no fit prediction. START includes
+prefix,host cutoff full startup. Enforce B,G,H73+ceil(cumulative union)<=120,global3600.
+Review pauses ONLY after all owned work ends; missing clock/closure never means zero.
+Failure stops successors; sole F only after evidenced ended/cutoff-contained work with
+B=floor(1000*(G-used-.025))/1000>.25,then stop. No retries. After actual C rc0 check real
+PID==u,full<=1024 primary output,7 waits/remote join/full debit; append ordered
+A={inputs:I,mode:n,receipt:C.receipt,pid:C.pid,rc:0,seconds:used}: BOTH lines hashed,E PID,
+full E/V/P/C seconds. Admission/baseline secured before successors. Readout has none.
+C/F complete actual primary records close chain,not links/self-seals. mode.completion
+holds prior E/V/P; readout preliminary until V/P/C exit. No extra final verifier call.
 
-No literal local socket path or numeric address/port, HTTP Host value, or authorized
-access-context reference tied to the SAME server that issues these shell IDs is present
-in the available contract. The project cwd alone is insufficient. Need a non-secret
-existing-contract reference giving that endpoint, protocol/framing/auth mechanism and
-same-server/location binding. Do not supply or commit secret values. No credential/
-service-registration/config scan, daemon startup, probe or guessed localhost port.
+Transport: @opencode/client@2.0.19/dist/promise/service.js integrity
+sha256-et0/FYFwxfUMdHv36soCzaipSAoI0eFXUiAwkp5NPf4=; generated rpc-runtime-h9cy5hnk.js
+appendQuery uses location[directory]. Public /v2/openapi.json shell.get returns EXACT
+{location,data},location EXACT{directory}. RFC9112 sections6/7: Content-Length,chunked
+(no extensions/trailers),or close-delimited; require EOF,200 OK,UTF8 application/json,
+identity encoding,unique headers/no conflicting lengths. No CLI/DNS/TLS/proxy/redirect/
+discovery/health/retry. Read known registration ONLY at released runtime,expected url/
+PID/version and before/after identity. Never credentials/derivatives in argv/output/files.
+Password<=256 codepoints/1024 UTF8,Basic<=1380,small Python encoder. One connect/send/
+response,privatefd,absolute end-.025,guarded acquisition/finally-close. io=[responsebytes,
+elapsed],no child-wait fiction; direct raw F can be binary.24+soleF native,max19 metadata
+exchanges; old38 ceiling retained without refund.
 
-Read-only documentation evidence: https://opencode.ai/v2/openapi.json, shell.get,
-GET /api/shell/{id}: successful raw JSON has EXACT {location,data}; location has EXACT
-{directory:AbsolutePath}; data is Shell.Info. Required data keys are id,status,command,
-cwd,shell,file,metadata,time; optional pid,exit,signal; time requires started,optional
-completed. Query location is optional deepObject(directory). This confirms the wire
-schema independently of CLI rendering. Public security:[] supplies NO installed
-endpoint or proof of local unauthenticated access. It does not license bypassing auth.
-The known recover.py and experiment_monitor.py use CLI discovery,not a literal address.
-No local service/API/CLI request occurred. Only public documentation was fetched.
+Native source observations,NOT completed admission: direct _socket; wrapper is S.
+Installed _socket114448/pin and Python framework4883552/pin are in get. Mach-O maps
+114688; sole LC_LOAD_DYLIB=/usr/lib/libSystem.B.dylib,also a dependency of that Python.
+CPython v3.11.15 Modules/socketmodule.c: Darwin os_init returns1; init7248+ has<=468
+constant/object additions,two exception classes/one3-pointer CAPI. Selected socket/
+settimeout/connect/send/recv/setsockopt/getsockopt/close; numeric127 uses inet_pton,
+not getaddrinfo. No socket.py/HTTP framework/TLS/resolver/new process. recv requests
+<=4096,send borrows bounded bytes; integer socket queues8192 each checked. Close
+invalidates fd before OS close,no EINTR close retry. Interrupted calls retain deadline.
+The draft944128 native/work subtotal is NOT established: static image/init observations
+do not prove its loader/type/allocator terms. No extra native credit from fixed129.
+RESULT records remaining native/import and fresh-O secondary-emitter proof obligations.
 
-The native DATA observation is _socket.cpython-311-darwin.so at pinned3.11.15_3,
-114448 bytes/SHA b78e2db76deb131ff1cebe325b3e704af02d4f45dce1b3c741b4e034e989ab13.
-Static Mach-O load dependency: /usr/lib/libSystem.B.dylib; mapped segment sizes
-65536+16384+16384+16384=114688. socket.py37557/SHA
-64360e73e3db69396d45d5ee256e8306b3653212ab96ae4a130070488cddbb30 imports _socket,
-os/sys/io/selectors/enum/errno. Public CPython v3.11.15 Modules/socketmodule.c was read
-as text. These are byte/source observations,NOT native runtime/dependency admission or
-allocator/startup certification. Nothing was imported/dlopen/invoked for this inspection.
-Without the transport binding, no TCP/Unix/TLS/auth surface has been selected or invented.
-
-## Retained finite controller; dispatch HELD
-
-After completed DH1 correction, SAME-reviewer acceptance and separate release only:
-use native functions.shell background:false,workdir=literal R. S=fenced source+last LF;
-Q=shlex.quote. Exact cmd expression with src=S,current B and packet {r,n,a,x},compact
-ASCII JSON+LF; literal "$$" until shell exec expansion. Private host cutoff and
-PID=PGID before descendants; command<=28672,packet<=8192,A<=4096,timeout=floor(1000*B).
-Stages preflight/controls/admit/baseline/candidate/readout G=3/6/11/11/11/5; first A=[].
-E,V,P,C follow actual preceding completion. x appends {i:actual shell ID,b:supplied B}.
-Pad actual tool endpoints1ms,union overlaps once; before role j=0..3 reserve positive
-remaining-helper/cleanup/F tails: B=floor(1000*(G-used-.5-.125*(3-j)))/1000>.25.
-Full stage G,H73+ceil(cumulative union)<=120,global3600. All active I/O/Git/cleanup counts;
-model pauses only after ALL owned work ends. Missing clock/closure never becomes zero.
-Failure stops successors; sole F only with evidenced ended/cutoff-contained work and
-B=floor(1000*(G-used-.025))/1000>.25,then stop. No retry/reallocation/fit prediction.
-Actual C PID/exit/time and complete bounded output close publication; append genuine
-{inputs:I,mode:n,receipt:C.receipt,pid:C.pid,rc:0,seconds:used},BOTH receipt lines hashed,
-E PID and full E/V/P/C debit. C/F primary records end the chain; files contain PRIOR
-facts,not their publisher's future exit. Readout preliminary until V/P/C complete.
-
-DH1 target stays24+soleF native calls;18+soleF metadata exchanges<=19. Retain old38 GET
-ceiling without refund. Replace CLI/PTY and output GET with one bound in-process exchange
-and stable raw file V3072/P-C1024/F32768,io=[response_bytes,elapsed],no fake child waits.
-This required replacement is not installed below. Do not mistake retained code for it.
-
-## Preserved prior literal with current false-input pin
+DATA9744384=128*65536+4096+3*65536+2*32768+8192+28672+4096+1048576. Misc1MiB includes
+registration parse<=528384,auth copies,projections. Framework hash read5MiB precedes
+network; response/command retire before8MiB binding parse. Sequential135266304+4194304+
+256*(2*16384+2*16384)+16777216=173015040 EXACT unchanged outer. RESULT has startup/
+emitter findings. Capture221184 actual0,six runs0. Retain both unsupported highwaters;
+charge only actual future ledger growth. Catastrophic loss remains UNKNOWN.
 ```python
-import os,sys,time
+import sys,time
 START=time.monotonic();sent=False
 try:
- import json,hashlib,stat,signal,subprocess as sp,types,math,shlex
+ class Quiet:
+  def write(self,_):raise SystemExit(1)
+  def flush(self):pass
+ sys.stderr=Quiet()
+ import os,json,hashlib,stat,signal,subprocess as sp,types,math,shlex
  from pathlib import Path as P
  T=time.monotonic;R=P('/Users/michaeljordan/emergence-paper')
  H=R/'experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007'
- I='46ac7289662d5c84c7d4d7e1dc69049ca3bc77085f47f34a08cf49a207f2033a'
+ I='8ddf93c59586474a8d301b8efbdb0c16f69acbce9868ff02f568eae919eeaeeb'
  def ck(x):assert x
  def sha(b):return hashlib.sha256(b).hexdigest()
  def tag(s):return [s.st_dev,s.st_ino,s.st_mode,s.st_size,s.st_mtime_ns,s.st_ctime_ns]
@@ -5659,7 +5654,7 @@ try:
  ck(os.getpid()==int(pid)==os.getpgrp() and math.isfinite(B) and 0<B<=11 and T()<end and len(text.encode())<=8192)
  signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop)
  signal.setitimer(signal.ITIMER_REAL,end-T());signal.pthread_sigmask(signal.SIG_UNBLOCK,{signal.SIGTERM,signal.SIGALRM})
- c=J(bind(H/'inputs.json',[I,4001],4096))
+ c=J(bind(H/'inputs.json',[I,4004],4096))
  caps={'owner.py':12288,'worker.py':16384,'admission.py':24576,'reader.py':16384,'qualify.py':16384}
  ck(set(c['files'])==set(caps))
  for name in caps:bind(H/name,c['files'][name],caps[name])
@@ -5690,22 +5685,17 @@ try:
   V.predecessor(H,c,I,n,A)
   ck(all(not os.path.lexists(p) for m in names[names.index(n):] for p in paths(m)+[H/(m+'.host'),H/(m+'.completion'),H/'HOST-FAILURE.bin']))
   anchor();tick();os.execve(PY,[PY,*c['options'],str(H/'owner.py'),I,n,str(G),'attend',W(A).decode().strip()],c['environment'])
- def run(args,cap,tty=False):
+ def run(args,cap):
   global guard
-  q=None;rd=wr=None;ready=False;rc=None;bad=True;out=b'';start=T()
+  q=None;rd=None;ready=False;rc=None;bad=True;out=b'';start=T()
   try:
    tick(.25);guard=True
-   if tty:rd,wr=os.openpty()
-   q=sp.Popen(args,stdin=sp.DEVNULL,stdout=wr if tty else sp.PIPE,stderr=sp.STDOUT,start_new_session=False)
-   if tty:os.close(wr);wr=None
-   else:rd=q.stdout.fileno()
+   q=sp.Popen(args,stdin=sp.DEVNULL,stdout=sp.PIPE,stderr=sp.STDOUT,start_new_session=False)
+   rd=q.stdout.fileno()
    os.set_blocking(rd,False);ready=True;guard=False;tick()
    while T()<end-.12:
     try:z=os.read(rd,4097)
     except BlockingIOError:z=None
-    except OSError as e:
-     if not tty or e.errno!=5:raise
-     z=b''
     if z is not None:
      ck(len(out)+len(z)<=cap);out+=z
      if not z:break
@@ -5722,20 +5712,83 @@ try:
       except sp.TimeoutExpired:pass
     rc=q.poll() if q is not None else None
    except:bad=True
-   for fd in (wr,rd if tty else None):
-    try:
-     if fd is not None:os.close(fd)
-    except:bad=True
    try:
     if q is not None and q.stdout is not None:q.stdout.close()
    except:bad=True
    if bad or rc!=0:ck(os.getpid()==os.getpgrp());os.killpg(os.getpid(),9);os._exit(1)
    guard=False
   tick();return out,[q.pid,rc,T()-start]
- waits=[]
  def get(url):
-  b,w=run(['/opt/homebrew/bin/opencode','api','get',url],65536,True);waits.append(w);v=J(b);keys(v,'location data');return v['data']
- a=x[-1];url='/api/shell/'+a['i'];m=get(url);src=sys.orig_argv[sys.orig_argv.index('-c')+1];Q=shlex.quote
+  global guard
+  fd=None;reg=info=auth=req=None;start=T();wire=0
+  try:
+   D=P(c['interpreter']['resolved']).parents[1]
+   bind(D/'Python',['1a8c97f2898a46e8d7e2b8803964f805e0cf2dab5f9d015375812c7347110fcc',4883552],5<<20)
+   np=D/'lib/python3.11/lib-dynload/_socket.cpython-311-darwin.so'
+   pin=['b78e2db76deb131ff1cebe325b3e704af02d4f45dce1b3c741b4e034e989ab13',114448];bind(np,pin,131072)
+   import _socket as N
+   ck(P(N.__file__).resolve()==np);bind(np,pin,131072)
+   rp=P('/Users/michaeljordan/.local/state/opencode/service.json');reg,identity=raw(rp,4096);info=J(reg.decode('utf-8'))
+   keys(info,'id version url pid password');ck(info['url']=='http://127.0.0.1:49374' and info['version']=='2.0.19' and type(info['pid']) is int and info['pid']==89462)
+   ck(type(info['id']) is str and 0<len(info['id'])<=128 and type(info['password']) is str and 0<len(info['password'])<=256)
+   auth=('opencode:'+info['password']).encode('utf-8');ck(len(auth)<=1033)
+   alphabet=b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';token=bytearray()
+   for j in range(0,len(auth),3):
+    v=auth[j:j+3];n=int.from_bytes(v.ljust(3,b'\0'),'big');token.extend(alphabet[(n>>k)&63] for k in (18,12,6,0))
+    if len(v)<3:token[-(3-len(v)):]=b'='*(3-len(v))
+   req=('GET '+url+'?location%5Bdirectory%5D=%2FUsers%2Fmichaeljordan%2Femergence-paper HTTP/1.1\r\nHost: 127.0.0.1:49374\r\nAuthorization: Basic ').encode()+token+b'\r\nAccept: application/json\r\nAccept-Encoding: identity\r\nConnection: close\r\n\r\n'
+   ck(len(req)<=8192);del token,v,n,auth;tick(.025);guard=True;fd=N.socket(N.AF_INET,N.SOCK_STREAM,N.IPPROTO_TCP);guard=False
+   for opt in (N.SO_SNDBUF,N.SO_RCVBUF):fd.setsockopt(N.SOL_SOCKET,opt,8192);ck(0<fd.getsockopt(N.SOL_SOCKET,opt)<=8192)
+   def timeout():
+    left=end-.025-T();ck(not pending and left>0);fd.settimeout(left)
+   timeout();fd.connect(('127.0.0.1',49374));timeout();ck(fd.send(req)==len(req));req=None
+   def recv(n):
+    nonlocal wire
+    timeout();v=fd.recv(n);wire+=len(v);ck(wire<=73729);return v
+   def exact(n):
+    v=b''
+    while len(v)<n:
+     z=recv(min(4096,n-len(v)));ck(z and len(v)+len(z)<=n);v+=z
+    return v
+   def line(cap):
+    v=b''
+    while not v.endswith(b'\r\n'):
+     z=recv(1);ck(z and len(v)+1<=cap);v+=z
+    return v[:-2]
+   h=b''
+   while not h.endswith(b'\r\n\r\n'):
+    z=recv(1);ck(z and len(h)+1<=8192);h+=z
+   overhead=len(h);ls=h[:-4].split(b'\r\n');ck(ls.pop(0)==b'HTTP/1.1 200 OK');headers={}
+   for v in ls:
+    k,v=v.split(b':',1);ck(k and all(t in b'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-' for t in k))
+    ck(k.lower() not in headers and all(t==9 or 32<=t<127 for t in v));headers[k.lower()]=v.strip(b' \t').lower()
+   ck(headers.get(b'content-type',b'').replace(b' ',b'') in (b'application/json',b'application/json;charset=utf-8'))
+   ck(headers.get(b'content-encoding',b'identity')==b'identity' and b'trailer' not in headers)
+   cl=headers.get(b'content-length');te=headers.get(b'transfer-encoding');body=b''
+   if te is not None:
+    ck(te==b'chunked' and cl is None)
+    while True:
+     v=line(32);overhead+=len(v)+2;ck(0<len(v)<=5 and all(t in b'0123456789abcdefABCDEF' for t in v))
+     n=int(v,16);ck(len(body)+n<=65536 and overhead<=8190)
+     if not n:ck(line(2)==b'');overhead+=2;break
+     body+=exact(n);ck(exact(2)==b'\r\n');overhead+=2;ck(overhead<=8192)
+   elif cl is not None:
+    ck(0<len(cl)<=5 and cl.isdigit());n=int(cl);ck(n<=65536);body=exact(n)
+   else:
+    while True:
+     z=recv(min(4096,65537-len(body)));ck(len(body)+len(z)<=65536)
+     if not z:break
+     body+=z
+   if te is not None or cl is not None:ck(not recv(1))
+   ck(wire<=73728);v=J(body.decode('utf-8'));keys(v,'location data');keys(v['location'],'directory');ck(v['location']['directory']==str(R))
+  finally:
+   guard=True
+   try:
+    if fd is not None:fd.close()
+    if reg is not None:ck(raw(rp,4096)==(reg,identity))
+   finally:reg=info=auth=req=None;guard=False
+  tick();return v['data'],[wire,T()-start]
+ a=x[-1];url='/api/shell/'+a['i'];m,io=get(url);src=sys.orig_argv[sys.orig_argv.index('-c')+1];Q=shlex.quote
  prior=dict(r='EVPC'[len(x)-1],n=n,a=A,x=x[:-1])
  cmd='exec /usr/bin/env -i '+' '.join(Q(k+'='+v) for k,v in c['environment'].items())+' '+Q(PY)+' -I -B -S -X int_max_str_digits=5000 -c '+Q(src)+' "$$" '+Q(str(a['b']))+' '+Q(W(prior).decode().strip())
  ck(type(m) is dict and set(m)<=set('id status command cwd shell file pid exit signal metadata time'.split()) and len(cmd.encode())<=28672 and m['command']==cmd and m['cwd']==str(R) and m['id']==a['i'])
@@ -5751,9 +5804,7 @@ try:
   if src in m:e[dst]=m[src]
  del m,cmd,src,prior,t
  cap=32768 if r=='F' else 3072 if r=='V' else 1024
- u=get(url+'/output?cursor=0&limit='+str(cap+1));keys(u,'output cursor size truncated');U(u['size']);U(u['cursor'])
- ck(u['size']<=cap and u['cursor']==u['size'] and u['truncated'] is False and type(u['output']) is str);b=u['output'].encode();ck(len(b)==u['size']);del u
- z,a=raw(P(e['f']),cap);ck(z==b);e.update(v=a,z=sha(b),w=waits);ck(len(W(e))<=768);del z
+ b,a=raw(P(e['f']),cap);e.update(v=a,z=sha(b),io=io);ck(len(W(e))<=768)
  def put(p,b,cap):
   anchor();tick();ck(len(b)<=cap)
   with p.open('xb',buffering=0) as f:ck(f.write(b)==len(b));f.flush();os.fsync(f.fileno())
@@ -5766,7 +5817,8 @@ try:
    b,a=raw(p,16384);ck(not a[2]&73);rows.append([str(p.relative_to(R)),a,sha(b),hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()])
   return sha(W(rows)),rows
  def saved(v,cap):
-  keys(v,'i h c r d n g s t f p x v z w');V.hx(v['z']);ck(v['d']==I and v['n']==n and v['g']==G and v['s']=='exited' and type(v['x']) is int and v['x']==0)
+  keys(v,'i h c r d n g s t f p x v z io');V.hx(v['z']);ck(v['d']==I and v['n']==n and v['g']==G and v['s']=='exited' and type(v['x']) is int and v['x']==0)
+  ck(type(v['io']) is list and len(v['io'])==2);U(v['io'][0]);ck(v['io'][0]<=73728);V.real(v['io'][1],G)
   b,a=raw(P(v['f']),cap);ck(a==v['v'] and sha(b)==v['z']);return b
  def emit(v):
   global sent
@@ -5812,21 +5864,9 @@ except:
  if not sent:
   try:os.write(1,b'{"status":"REFUSED"}\n')
   except:pass
- os._exit(1)
+ try:os._exit(1)
+ except NameError:raise SystemExit(1)
 ```
-
-Ordinary emitter/source repairs remain accepted by cf83: V937/P186/C600/F252/refusal21,
-headers1774/2543,host2711/readout-host5783/completion2729/readout3853. These are PRIOR
-helper bounds. No io-schema replacement or new startup/native certificate is claimed.
-The old proposed startup16384+8192+4096 assertion is withdrawn as an established proof;
-DH1 requires its concrete emitter/import-source table before release. Catastrophic
-loss stays UNKNOWN; oversize retains highwater. Capture221184 remains reserved actual0.
-New source ceiling173015040=135266304+4194304+256*(2*16384+2*16384)+16777216,exact outer;
-API-only DATA9744384<16MiB is a target to verify,not native credit. Future transport DATA
-must retire before8MiB binding parse. H73/47,all six runs0,source/maps unchanged.
-Funding: reviewer2654208; author175083520 entering; helper6795264/7753728; management
-655360/720896; ledger499712 carried/cap565248. Future65536 unspent until actual new
-highwater; retain b32740960 and88000712288 separately,no refund/retropermission/doublecharge.
 <!-- P2-007-HELD-RECIPE-END -->
 
 Coordinator verifiede74b444f6 held DATA: inputs3639/hash7f68e7fe...1504e0e,
