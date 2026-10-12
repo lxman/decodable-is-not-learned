@@ -5451,3 +5451,20 @@ full7606272/7634944; ungranted4096/protected24576/future94208 unchanged. Author
 Ledger stays within carried446464; STATE remains coordinator-owned. Full source,
 phase/copy/helper arguments, held inputs, invocation inventory and exact ACCOUNTING
 return to the same reviewer; no qualification or performance success is claimed.
+
+Review1124a5305 accepts finalization accounting and confirms actual lifetime/helper/
+phase/receipt repairs, withholds full source acceptance for three residuals. Coordinator
+verified11 source,three DATA/two record pins and reviewer32768 actual allocation.
+Ruling: implement final-source/NEXT R1-R3 together under unchanged source authority
+46fa6cd2b. Why: exact builtins ModuleSpec instance lacks an owner branch; SIGALRM can
+interrupt unassigned Popen; final stdout may be written again after partial publication.
+Cost if wrong: source acceptance stays held; no new execution or budget is released.
+Traverse/charge only the genuine builtins spec; mask TERM+ALRM through handle transfer
+and unblock both at script entries; share a sticky final-publication flag across unwind.
+Extend existing targeted controls as source, preserve their unrun status. Refresh pins/
+BOOT/PLAN and exact source-equivalent bounds within existing rows; no r2/P change,
+new source layer or transfer. Reviewer32768 enrolled ONCE ->2560000, author174936064.
+Source1339392/binding12288/maps7499776/future94208 remain; management602112 full and
+ledger446464/STATE4096/ruling4096 carried extents. Timing73+47 is settled. Same reviewer
+must accept corrected source before exact attended launch-recipe release. All six007
+execution counts and numerical/calibration counts stay0; no active owned jobs.
