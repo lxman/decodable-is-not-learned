@@ -5755,3 +5755,50 @@ reservation/transfer, helper invocation or execution is granted by this inquiry.
 Review reserved at most24576 actual bytes, external enrollment once on delivery;
 reviewer2600960/author174977024 currently unchanged. Management edits use existing
 ledger/STATE extents; source acceptance of the topology and full recipe remains pending.
+
+Review06a10bdc278a63ad2b6eb8e6e0f96a87801c0197 ACCEPTS exact topology858991b87 and
+PLAN, retains prior source closures, and admits fixed direct native-tool sequencing.
+Coordinator verified four topology/five record bindings, actual reviewer24576 and
+capture/funding arithmetic. Enrol reviewer24576 ONCE ->2625536/3145728; author175001600.
+
+Ruling: adopt launch-interface/REVIEW, NEXT and ACCOUNTING. Why: direct native calls
+already exist, and quiescent review pauses satisfy the adopted active-wall definition;
+source-bounded managed captures can be explicitly funded rather than prohibited by a
+nonexistent no-file API requirement. Cost if wrong: helper/source/byte/clock admission
+refuses and retained failure stops successors; no extra execution attempt or time.
+Retire NO_ADMITTED_AUTOMATED_CAPTURE_INTERFACE as a policy blocker. Keep all accepted
+858991b87 source/PLAN bytes fixed while correcting the held inline recipe L1-L5.
+
+Adopt prospective221184 transfer from unused helper to maps/future capture rows:
+helper cap8093696->7872512, actual6795264, remaining1077248; maps cap7634944->7856128,
+current7499776, fully reserved7827456. Future grant323584/spent8192/remaining315392
+consists of old94208 plus new221184. Binding12288, source1339392/1351680, ungranted4096,
+protected24576 and outer author/global reservations remain. No capture is spent yet.
+Rows:24 ordinary managed slots4096 each; five mode.host4096/readout.host8192; six
+mode.completion4096; one terminal capture additional28672 above its ordinary4096;
+one failure-export capture4096; one exclusive HOST-FAILURE.bin36864. Charge managed
+originals and durable copies separately, actual highwaters once without refunds.
+
+Fixed normal controller: E gate/exec, V after actual E exit, P after actual V exit,
+C after actual P exit; four native calls/stage,24 total, at most36 nested metadata/
+output GETs. One failure-only F export/one GET pair gives maxima25 calls/38 GETs,
+within the failed stage's grant, then stop. Every active interval counts, including
+queries, capture, validation, Git and final assessment. Quiescent model assessment
+can pause only after all owned work ends. Unknown closure/time stops; no invented zero.
+H73 plus full grants3/6/11/11/11/5 remains120; positive helper/cleanup/F tails required.
+
+Implement precise L1 descriptor/path identity, L2 strict transport/dispatch/PID joins,
+L3 entry-anchored residual timers, L4 deferred-stop Git handle/cleanup and L5 durable
+primary/publication boundaries. Bind bounded E/V/P/C/F emitters and startup refusals,
+not API retrieval limits as output caps. Snapshot complete bounded primary payloads
+before expiry. Final C/F actual tool records end the chain; files do not claim their
+publisher's future exit. Preserve fixed group containment and genuine ordinary waits.
+
+Authorize replacement recipe up to12288 ledger bytes, inline including F<=8192, with
+sequential bound168820736<=173015040, no additional concurrent Python/helper file.
+Inputs/RESULT/ACCOUNTING remain4096 each; accepted source/PLAN unchanged. Presize exact
+source/emitter/copy/output and every command before writing; refresh acyclic hashes.
+Management602112 full and ledger446464/STATE4096 extents stay; no growth allocation.
+Return complete exact helper/manifest/recipe to the same reviewer before final external
+release. This preparation/capture reservation authorizes no parse/compile/import/census,
+stage/helper/export invocation or historical replay. All six execution counts remain0.
