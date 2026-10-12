@@ -5551,51 +5551,74 @@ acceptance; separate exact manifest/attended recipe release remains before execu
 
 
 <!-- P2-007-HELD-RECIPE-BEGIN -->
-# CURRENT007 complete HELD E/V/P/C/F DATA
+# CURRENT007 DH1 HOLD: existing endpoint/access context unavailable
 
-SAME-reviewer acceptance then separate external release must bind this marker-inclusive
-recipe and input3942 SHA256
-fed3fbc9b18bfac0e62405d55f80e7e0ffe4ded554b3801644f904323d35859e.
-executable:true is complete held DATA,not execution permission. All six runs/captures0.
-Authoring-quote presize lost17 delimiter/escape bytes; text/hash reconciliation confirms
-the intact installed literal12271/12288. No inline parsing or execution occurred.
+Reviewcf83dfc07ef8e591e5008c8c11b0114a41de4ff9 accepts inspected L1-L5 and ordinary
+emitters of1a0e838e3; DH1 transport/native/startup remains open. Coordinator880007cfb/
+cc42f1d5f adopts NEXT1-4 and inline16384/recipe20480. Accepted858991b87 roots/PLAN/
+BOOT/T/static READOUT stay fixed. No qualification or stage has run.
+Current input4001 SHA256:
+46ac7289662d5c84c7d4d7e1dc69049ca3bc77085f47f34a08cf49a207f2033a
+Both execution flags are false. This is a blocking DATA packet, NOT a completed DH1
+transport correction. Full prior helper below is retained with ONLY the real input pin/
+length rebound; its CLI/PTY path is unadmitted and must not be dispatched. The prior
+true/false complete literal remains exactly preserved at1a0e838e3,not retracted from Git.
 
-Coordinator uses native functions.shell directly,background:false,workdir=literal R.
-S is fenced source including final LF; Q=Python3.11 shlex.quote. Construct EXACTLY the
-inline cmd expression with src=S,a['b']=current B,prior=current packet {r,n,a,x} in that
-order. W=compact ASCII JSON+LF,Python3.11 finite float spelling. Keep literal "$$" until
-shell expansion; exec preserves host PID. Require adopted private host-group cutoff;
-otherwise refuse before descendants,without a probe. Before dispatch check actual UTF8
-command<=28672,packet<=8192,A<=4096; timeout=floor(1000*B). No extra hashing helper.
+## Exact external datum needed
 
-Stages preflight/controls/admit/baseline/candidate/readout,G=3/6/11/11/11/5. First A=[].
-Each stage starts x=[]; call E,V,P,C following actual preceding root exit0 and ownership
-completion. Append {i:actual native shell ID,b:supplied B} after each native completion.
-Next role reconstructs preceding command from S,A,x-prefix/B,compares actual API id/cwd/
-command,hashes it,and joins real PID to E seal or helper u. No guessed/latest ID or exit.
+No literal local socket path or numeric address/port, HTTP Host value, or authorized
+access-context reference tied to the SAME server that issues these shell IDs is present
+in the available contract. The project cwd alone is insufficient. Need a non-secret
+existing-contract reference giving that endpoint, protocol/framing/auth mechanism and
+same-server/location binding. Do not supply or commit secret values. No credential/
+service-registration/config scan, daemon startup, probe or guessed localhost port.
 
-Pad every actual host tool.ran/completed by1ms each end; union overlaps once,including
-nested API/Git/cleanup/publication. Let used=stage union seconds. Before normal role
-j=0..3:B=floor(1000*(G-used-.5-.125*(3-j)))/1000,require B>.25. Positive remaining-helper/
-cleanup/F tails stay reserved. Local end=START+B; host cutoff includes interpreter prefix.
-Each completed call must fit B,full stage G,H73+ceil(cumulative union)<=120 and global3600.
-No fit prediction. Review/model pauses only after ALL owned work ends; missing closure/
-clock,late/partial/nonzero stops successors,never assumed empty jobs or zero time.
+Read-only documentation evidence: https://opencode.ai/v2/openapi.json, shell.get,
+GET /api/shell/{id}: successful raw JSON has EXACT {location,data}; location has EXACT
+{directory:AbsolutePath}; data is Shell.Info. Required data keys are id,status,command,
+cwd,shell,file,metadata,time; optional pid,exit,signal; time requires started,optional
+completed. Query location is optional deepObject(directory). This confirms the wire
+schema independently of CLI rendering. Public security:[] supplies NO installed
+endpoint or proof of local unauthenticated access. It does not license bypassing auth.
+The known recover.py and experiment_monitor.py use CLI discovery,not a literal address.
+No local service/API/CLI request occurred. Only public documentation was fetched.
 
-On first failure only,with primary evidence of ended or cutoff-contained work,compute
-B=floor(1000*(G-used-.025))/1000. If B>.25 call F ONCE with failed dispatch in x,then stop;
-otherwise retain UNKNOWN in primary records. Failed F never retries. Max24+1 native calls,
-36+2 nested GETs: one prior metadata/output pair per V/P/C/F. Literal existing client below;
-no POST/session/archive scan,credential discovery,new service,file helper,concurrent
-Python,off-clock recovery,reallocation or retry. API optional absence is never invented.
+The native DATA observation is _socket.cpython-311-darwin.so at pinned3.11.15_3,
+114448 bytes/SHA b78e2db76deb131ff1cebe325b3e704af02d4f45dce1b3c741b4e034e989ab13.
+Static Mach-O load dependency: /usr/lib/libSystem.B.dylib; mapped segment sizes
+65536+16384+16384+16384=114688. socket.py37557/SHA
+64360e73e3db69396d45d5ee256e8306b3653212ab96ae4a130070488cddbb30 imports _socket,
+os/sys/io/selectors/enum/errno. Public CPython v3.11.15 Modules/socketmodule.c was read
+as text. These are byte/source observations,NOT native runtime/dependency admission or
+allocator/startup certification. Nothing was imported/dlopen/invoked for this inspection.
+Without the transport binding, no TCP/Unix/TLS/auth surface has been selected or invented.
 
-After actual C exit0,coordinator checks actual PID==u,complete<=1024 primary return,
-7 Git waits/local-remote equality and full debit. Append A in order {inputs:I,mode:n,
-receipt:C.receipt,pid:C.pid,rc:0,seconds:used}; receipt hashes BOTH newline records,pid is
-E's actual attender,seconds covers E/V/P/C. Secure admission/baseline before successors.
-Readout has none. Retain complete C/F primary output and actual completion/interval,not
-expiring links: they close the chain without another verifier. mode.completion records
-PRIOR E/V/P facts,never C's future exit. Readout4096 is preliminary until V/P/C complete.
+## Retained finite controller; dispatch HELD
+
+After completed DH1 correction, SAME-reviewer acceptance and separate release only:
+use native functions.shell background:false,workdir=literal R. S=fenced source+last LF;
+Q=shlex.quote. Exact cmd expression with src=S,current B and packet {r,n,a,x},compact
+ASCII JSON+LF; literal "$$" until shell exec expansion. Private host cutoff and
+PID=PGID before descendants; command<=28672,packet<=8192,A<=4096,timeout=floor(1000*B).
+Stages preflight/controls/admit/baseline/candidate/readout G=3/6/11/11/11/5; first A=[].
+E,V,P,C follow actual preceding completion. x appends {i:actual shell ID,b:supplied B}.
+Pad actual tool endpoints1ms,union overlaps once; before role j=0..3 reserve positive
+remaining-helper/cleanup/F tails: B=floor(1000*(G-used-.5-.125*(3-j)))/1000>.25.
+Full stage G,H73+ceil(cumulative union)<=120,global3600. All active I/O/Git/cleanup counts;
+model pauses only after ALL owned work ends. Missing clock/closure never becomes zero.
+Failure stops successors; sole F only with evidenced ended/cutoff-contained work and
+B=floor(1000*(G-used-.025))/1000>.25,then stop. No retry/reallocation/fit prediction.
+Actual C PID/exit/time and complete bounded output close publication; append genuine
+{inputs:I,mode:n,receipt:C.receipt,pid:C.pid,rc:0,seconds:used},BOTH receipt lines hashed,
+E PID and full E/V/P/C debit. C/F primary records end the chain; files contain PRIOR
+facts,not their publisher's future exit. Readout preliminary until V/P/C complete.
+
+DH1 target stays24+soleF native calls;18+soleF metadata exchanges<=19. Retain old38 GET
+ceiling without refund. Replace CLI/PTY and output GET with one bound in-process exchange
+and stable raw file V3072/P-C1024/F32768,io=[response_bytes,elapsed],no fake child waits.
+This required replacement is not installed below. Do not mistake retained code for it.
+
+## Preserved prior literal with current false-input pin
 ```python
 import os,sys,time
 START=time.monotonic();sent=False
@@ -5604,7 +5627,7 @@ try:
  from pathlib import Path as P
  T=time.monotonic;R=P('/Users/michaeljordan/emergence-paper')
  H=R/'experiments/exp7/resource-check/numerical-011/fix-006/diagnostic-001/performance-007'
- I='fed3fbc9b18bfac0e62405d55f80e7e0ffe4ded554b3801644f904323d35859e'
+ I='46ac7289662d5c84c7d4d7e1dc69049ca3bc77085f47f34a08cf49a207f2033a'
  def ck(x):assert x
  def sha(b):return hashlib.sha256(b).hexdigest()
  def tag(s):return [s.st_dev,s.st_ino,s.st_mode,s.st_size,s.st_mtime_ns,s.st_ctime_ns]
@@ -5636,7 +5659,7 @@ try:
  ck(os.getpid()==int(pid)==os.getpgrp() and math.isfinite(B) and 0<B<=11 and T()<end and len(text.encode())<=8192)
  signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGALRM,stop)
  signal.setitimer(signal.ITIMER_REAL,end-T());signal.pthread_sigmask(signal.SIG_UNBLOCK,{signal.SIGTERM,signal.SIGALRM})
- c=J(bind(H/'inputs.json',[I,3942],4096))
+ c=J(bind(H/'inputs.json',[I,4001],4096))
  caps={'owner.py':12288,'worker.py':16384,'admission.py':24576,'reader.py':16384,'qualify.py':16384}
  ck(set(c['files'])==set(caps))
  for name in caps:bind(H/name,c['files'][name],caps[name])
@@ -5792,12 +5815,18 @@ except:
  os._exit(1)
 ```
 
-RESULT carries emitter/copy certification. Inline refusal21<=512; E success0/readout3072,
-V/P/C1024; one terminal32768,F4096. RAW copy headers2048/3072/4096 bind length/SHA; GET
-limits are not capture caps. Rows98304+28672+24576+28672+4096+36864=221184 reserved actual0;
-readout4096 separate. Sequential135266304+4194304+256*(2*12288+2*16384)+16777216=170917888
-<=173015040. API raw/command roots drop before binding parse. ACCOUNTING retains management
-643072/ledger487424 and prospective40960 retention,without refund or retropermission.
+Ordinary emitter/source repairs remain accepted by cf83: V937/P186/C600/F252/refusal21,
+headers1774/2543,host2711/readout-host5783/completion2729/readout3853. These are PRIOR
+helper bounds. No io-schema replacement or new startup/native certificate is claimed.
+The old proposed startup16384+8192+4096 assertion is withdrawn as an established proof;
+DH1 requires its concrete emitter/import-source table before release. Catastrophic
+loss stays UNKNOWN; oversize retains highwater. Capture221184 remains reserved actual0.
+New source ceiling173015040=135266304+4194304+256*(2*16384+2*16384)+16777216,exact outer;
+API-only DATA9744384<16MiB is a target to verify,not native credit. Future transport DATA
+must retire before8MiB binding parse. H73/47,all six runs0,source/maps unchanged.
+Funding: reviewer2654208; author175083520 entering; helper6795264/7753728; management
+655360/720896; ledger499712 carried/cap565248. Future65536 unspent until actual new
+highwater; retain b32740960 and88000712288 separately,no refund/retropermission/doublecharge.
 <!-- P2-007-HELD-RECIPE-END -->
 
 Coordinator verifiede74b444f6 held DATA: inputs3639/hash7f68e7fe...1504e0e,
