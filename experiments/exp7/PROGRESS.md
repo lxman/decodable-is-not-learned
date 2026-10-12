@@ -6122,3 +6122,29 @@ Why: existing access is sufficient without user configuration; cost if wrong: bo
 refusal with no successor. Only transport code authoring is now authorized. Bind native
 _socket/source/dependencies and startup forms, then same-reviewer exact review. Keep
 all budgets/current roots and zero-run gates. No user-supplied configuration is needed.
+
+Review368fe7338 ACCEPTS DH1 direct transport and inherited stdlib32 native ownership;
+retains L1-L5 and supplies an exact source-reviewed fresh-owner entry correction.
+Coordinator verified five record pins, actual reviewer28672 and inert prefix replacement:
+1508 replaces299, owner11887/hashaa4e2bd4af659a514bf34d09aa83620fd428c7829cd6109c87dacc3d206957f7.
+Enrol reviewer28672 ONCE ->2682880/3145728, author175112192; other actual charges unchanged.
+
+Ruling: narrowly adopt transport-closure/NEXT's exact owner prefix and certificate.
+Why: stop import logging at its first diagnostic while retaining a bounded primary-type
+failure capsule; cost if wrong: failure/UNKNOWN before any child or success receipt.
+Only owner.py bytes before def sha(b): may change to the exact reviewed1508-byte prefix;
+all suffix/BOOT and ten other roots/PLAN/T/static READOUT remain fixed. O11887 fits12288;
+existing source/memory/phase/code-copy caps remain. No new source helper or process.
+Set misc DATA2MiB inside existing16MiB: API10792960/framework12582914/binding10485760,
+phase max12582914. Name pinned _socket owners inside inherited stdlib/interpreter32;
+withdraw unproved944128 subtotal, without new native allowance or RSS claim. Adopt
+NEXT's finite startup table: Emax28800<32768, other helper/Fmax4096, guarded O<=160;
+ordinary envelopes/header/capture bounds retained. Both unsupported ledger charges stay.
+
+Install exact prefix; mechanically refresh source_revision/input/inline/recipe pins and
+replace stale certificate text within current rows. executable:true may describe complete
+held DATA; execution_authorized:false stays. Same reviewer already accepts this exact
+source: coordinator hash/suffix/extent reconciliation completes source closure without
+another general review. Any semantic deviation returns for scoped review. Separate final
+execution disposition still binds exact hashes before qualification or a stage. Keep
+H73/47, all six runs0/capture0 and current funding; no parser/import/native/GET/test run.
