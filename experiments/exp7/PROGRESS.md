@@ -6049,3 +6049,14 @@ Helper cap7831552->7753728, actual6795264/rem958464; management actual655360/cap
 ledger highwater499712/cap565248. Author175071232->175083520 actual, future65536 unspent.
 Review2654208/source/maps/captures/time stay. No retropermission/refund; outer ceiling
 unchanged. DH1/inline16384/recipe20480 adopted; record later actual ledger growth once.
+
+Ruling: resolve DH1's host connection internally; no user-supplied secret/configuration
+is required. Official V2 client/troubleshooting docs identify non-starting discovery and
+~/.local/state/opencode/service.json. Permit one bounded read-only authoring inspection
+of that named registration: regular/no-follow<=65536, emit only key names and non-secret
+URL/PID/version. Never emit/use credential values, probe authentication, start/restart a
+service, mutate configuration or search unrelated files. Why: binding the existing host
+is preparation plumbing; cost if wrong: retain missing-context refusal, no fallback or
+experimental launch. This narrowly supersedes the prior no-registration-discovery hold.
+Bind source/auth mechanism from existing public/installed TEXT; experimental get/socket
+execution remains held. All accepted roots, H73/47, six runs0 and current funds remain.
