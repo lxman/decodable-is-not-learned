@@ -6158,3 +6158,5 @@ length. Final input3988/inline15820/recipe20400 hashes match RESULT/ACCOUNTING; 
 this mechanical reconciliation complete SOURCE acceptance. New charge0; ledger499712
 highwater retained, author175112192/reviewer2682880 unchanged. No further general
 source review remains. Exact execution release is next; all six stages/captures remain0.
+
+Ruling: exact one-pass release/accounting in resource-check/numerical-011/P2-007-EXECUTION-RELEASE.md; adopt a50988942 NEXT. Source pins fixed; no stage dispatched at this entry.
