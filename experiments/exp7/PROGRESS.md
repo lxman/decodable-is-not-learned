@@ -6241,3 +6241,30 @@ Verified reviewer4096 enrolled ONCE ->2727936/3145728, author175202304. Manageme
 future331776/spent24576/rem307200,capture16384(E8192 actual,F8192 conservativeunknown).
 Helper6795264/cap7745536,source1339392/binding12288; old charges/failures remain. Presize
 all writes, charge only actual ledger growth above512000 once; retained row caps unchanged.
+
+Ruling: Michael's "Then run the corrected helper" authorizes a fresh bounded attempt
+of the macOS-corrected source, after exact timing/pin reconciliation. The old intended
+F rejection remains unconfirmed; a public issue is not a prerequisite for unrelated
+permitted work. Do not resubmit that F or route around a rejection. New attempt uses
+E/V/P/C only; any failure ends with its actual primary result, no F, no automatic retry.
+
+Keep H73+3+3=79. Re-slice remaining41 as3/4/10/10/10/4, without increasing120.
+Preflight slots .75/.375/.375/1 unchanged; controls/readout1/.5/.5/1.5; arms6/.75/.75/2.
+Retain .3 unused failure reserve+.2 boundary per stage, irrevocably charged in full G.
+Controls/readout body waits3>1; arm10>9 and child4 remain; no predicted fit or borrowed time.
+Narrow timing edits O prior79/sum41,V predecessor79,Q fake79,PLAN/input all time fields
+and grant vectors,inline exact vector; this ruling's commit becomes new time authority.
+Preserve source authority46fa, macOS predicate/source-hash gates, all non-timing roots/
+BOOT/T/static READOUT and every prior failure/receipt. New-source counters never reset
+historical dispatch counts. Same-reviewer exact diff/pin verification<=8192 reviewer
+bytes, then coordinator external release before dispatch; no other general review.
+
+Transfer8192 unused helper reservation to maps for the old16384 captures plus a complete
+new221184 reservation: helper cap7745536->7737344(actual6795264), maps cap7864320->7872512,
+full7835648->7843840(actual7516160),future grant339968/spent24576/remaining315392.
+Capture total reservation237568,actual charged16384; no refund or ceiling increase.
+Reviewer2727936/author175202304 stay until new actual enrollment. Management684032/
+720896,ledger512000/cap548864/rem36864; every write presized and actual growth charged
+once. New release record<=4096 may use this management room, reducing ledger cap by4096.
+Preparation uses text/hash/stat/JSON only, no runtime probe or standalone qualification;
+execute only exact new release, preserve genuine completion and stop on any tool rejection.
