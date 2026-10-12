@@ -6213,3 +6213,31 @@ no parser/AST/compile/import/test/native/API/credential/config/registration oper
 Management663552/720896,ledger highwater499712/cap557056,future57344; any actual ledger
 extent above499712 enrolled once from that room. Source1339392/maps7507968/capture8192
 (Eactual4096,Fconservative4096) and helper caps stay; retain all earlier unsupported charges.
+
+Ruling: adopt48e9a3cc4 macOS startup source correction only. Why: CPython3.11.15
+Mac/Tools/pythonw.c rewrites argv0 while Modules/getpath.py restores executable from
+its launcher path; options and interpreter identity need separate checks. Cost if wrong:
+retain bounded refusal, no weakened flags/digit/group/source gate or execution grant.
+Replace only sys.orig_argv[:6]==[PY,*c['options']] with
+sys.executable==PY and sys.orig_argv[1:6]==c['options']; all surrounding checks remain.
+Install exact reviewed heading/Frozen S binding and reconcile RESULT/ACCOUNTING/STATE.
+Expected S16365 SHA91b75376b9d80a6cc6d288693cd9783373e6100a5d71f4045abc8b62228b9ba2;
+recipe20470 SHA9f1a16253c65a80bbd93ad09335e8d5ecfb6c484bbb8b1946c25335eb9025dbb.
+Identical installation+mechanical verification closes this source finding, no new general
+review. Inputs/O/V/Q/PLAN/other roots remain current; prior76/grants44 are stale HELD
+launch DATA at currentH79/41, so this is not permission to reuse either failed release.
+Individual failed conjunct remains unmeasured; public source is not installed-binary proof.
+
+Correct provider diagnosis from retained primary record: intended F has recorded shell
+arguments{} and tool-position error type provider.transport, message beginning
+'cyber_policy: This content was flagged for possible cybersecurity risk.', content[].
+No actual command/native completion is established. This is one provider-policy rejection,
+not a demonstrated global tool/service outage. Request provider review of the exact error
+as a possible false positive; no service/permission/credential change or safeguard bypass.
+No new retry, runtime probe, registration/API/auth/DB/log/history read is authorized here.
+
+Verified reviewer4096 enrolled ONCE ->2727936/3145728, author175202304. Management684032/
+720896, ledger512000/cap548864/rem36864; current maps7516160/cap7864320/full7835648,
+future331776/spent24576/rem307200,capture16384(E8192 actual,F8192 conservativeunknown).
+Helper6795264/cap7745536,source1339392/binding12288; old charges/failures remain. Presize
+all writes, charge only actual ledger growth above512000 once; retained row caps unchanged.
