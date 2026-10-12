@@ -5468,3 +5468,41 @@ Source1339392/binding12288/maps7499776/future94208 remain; management602112 full
 ledger446464/STATE4096/ruling4096 carried extents. Timing73+47 is settled. Same reviewer
 must accept corrected source before exact attended launch-recipe release. All six007
 execution counts and numerical/calibration counts stay0; no active owned jobs.
+
+
+CURRENT007 R1-R3 source/PLAN f83f55b734a7e123c259e01948d23f602377737b committed/pushed
+under unchanged46fa6cd2b,coordinator143634dbb adopting SAME reviewer1124a5305 NEXT.
+D traverses/charges only exact genuine builtins ModuleSpec instance/dict; class STD.
+O masks TERM+ALRM through owned Popen/setup and restores original parent mask; only
+O/BOOT/Q/V script entries unblock both. Q mask fake retains unrelated signal and
+queues one finite restore alarm after handle setup,checks real wait/UNKNOWN refusal.
+V attend/finalize share a sticky pre-write flag; readout-only fallback checks flag
+and deadline before work. Q short/raise/one-shot postwrite fixtures run THROUGH attend
+in source,checking one body-envelope attempt. All controls remain unexecuted.
+
+Pins: inputs3065 SHA381d5e89c8f10d52d6fff63fdfaba84823a58821cdc6d618317600bc4ee9f6c7;
+PLAN8183 SHA7d67f153ecfd18a2ee9e7c57cd647ba11fa85d830ff86bfbb845ad71a1719ea4;
+BOOT3952 SHA3102a8ecc17eb4a3f70c499be115cad63e284bda9ca25f83c9e40bf0b6f11669 (two7904).
+All11 source pins in inputs. O10602/W13333/D24053/V16124/Q15870 fit existing rows;
+unchanged r2/P14245 keeps loaded18296/18432,candidate208557824/208666624. Byte-derived
+S322997/extraction471837/live469377/proof260250880/268435456; row-max326995/475835/473375
+and phase/helper/outer caps unchanged. Source-confirmed lifetime/receipt/helper proofs,
+67 negatives/eight map-copy and18-case oracle retained. Real admission still unmeasured.
+
+Wave charge0,physical growth0,leaf110592; source1339392/1351680,binding12288,maps7499776,
+full7606272/7634944,future94208,ungranted4096,protected24576. Reviewer32768 already enrolled
+ONCE by coordinator ->2560000/3145728; author174936064 entering/leaving. Management602112
+full,ledger446464 retained; STATE/ruling untouched. Prior20480 and all distinct reader
+charges,476b5655a/5d4e748fb and failed attempts/highwaters preserved without refunds.
+
+Authoring only: text/hash/stat/plain JSON/arithmetic/Git checks,source diffs and
+preservation checks; no candidate parse/AST/compile/import/test/census/inflate. Presize
+indentation-search mismatch and oversized PLAN8306/8210,RESULT4251 drafts caused no
+write. Inputs patch copied524288 as1048576 (3066/SHA2638bd47b7d40913bf42cb665411e0c80131d1f0896fcfc82b90308ca3c2deb2);
+postwrite digest mismatch caught,exact3065 replacement presized/applied/verified.
+All writes fit existing physical rows. Final hashes reconciled; no historical replay.
+All six007 stage counts0,owned actors0,active_jobs:[]; no binding/arms/executed readout.
+Originals/001-006/T/static READOUT remain. Timingd58170a1c stays73+47; proposed full
+grants[3,6,11,11,11,5]=47,actual prior/grants/release null,executable:false. Pure authoring
+separate/global3600 unchanged. Full held packet returns to SAME reviewer for source
+acceptance; separate exact manifest/attended recipe release remains before execution.
