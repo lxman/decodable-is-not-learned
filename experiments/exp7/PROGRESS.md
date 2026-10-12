@@ -5396,3 +5396,20 @@ timingd58170a1c (prior73/remainder47) and the current write refusal. No new sour
 execution authority. Same-reviewer source/write review reserved at most32768; enrol
 actual reported allocation once on delivery. This ledger/STATE correction stays within
 carried446464/4096 physical extents, management598016/602112 with no new charge.
+
+Review2607c84d0 accepts007 refusal/highwaters and genuine source progress, with concrete
+NEXT1–8 corrections. Coordinator verified11 source/four record hashes, reviewer32768,
+conditional extraction471899/live473375 and prospective funding arithmetic. Adopt
+P2-SOURCE-FINALIZATION-RULING.md: complete current007 source-only, preserving476b5655a/
+5d4e748fb. Transfer24576 existing ungranted to source cap1351680: restore4096 binding
+coverage, prospective reader4096 and O/D/Q/PLAN4096 each. No retroactive permission or
+refund. At next source write charge reader4096 once ->source1323008/maps7483392;
+remaining28672 covers binding12288 and four4096 growth rows. Future94208/protected24576
+unchanged, ungranted4096; full maps7606272/7634944. Disk buys no logical-memory credit.
+Reviewer32768 enrolled ONCE ->2527232. New presized ruling4096 ->management602112/602112,
+author174882816 before future source spend. Ledger446464/STATE4096 retain extents.
+Boot/launch retirement must prove actual successful lifetimes; all originals/two T
+and candidate metadata/product charges persist. Complete one receipt finalizer and
+failure/owner/helper/all-phase joins, retain67 negatives/eight map-copy cases/18-case
+oracle. Timingd58170a1c stays73+47. All parser/qualification/control/admission/arm/reader
+execution held; same implementer/reviewer continue. No numerical/calibration launch.
