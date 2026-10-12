@@ -6160,3 +6160,43 @@ highwater retained, author175112192/reviewer2682880 unchanged. No further genera
 source review remains. Exact execution release is next; all six stages/captures remain0.
 
 Ruling: exact one-pass release/accounting in resource-check/numerical-011/P2-007-EXECUTION-RELEASE.md; adopt a50988942 NEXT. Source pins fixed; no stage dispatched at this entry.
+
+Ruling: adopt670956bf9 refusal-review/NEXT source correction and prospective44s vector;
+old8bba/d1a049 E/F remain failed, dispatch identity/owner entry UNKNOWN. Why: preserve
+failure detail and independently bind future retranscription before live entry checks;
+cost if wrong: bounded refusal, no successor or extra time. Enroll actual reviewer16384
+ONCE ->2715648/3145728, author175161344. Failed grant3 stays: inheritedd581 H73+3=76,
+remaining44 under120. This disposition is the new time authority; preserve d581 provenance.
+
+Authoring only: amend current007 inline with NEXT's exact phase/tag/site correction.
+Same reviewer additionally accepts two separate lines immediately after argv assignment:
+ ck(len(text.encode())<=8192)
+ ck(sha(sys.orig_argv[7].encode())==J(text)['s'])
+Use later keys(p,'r n a x s') and prior=dict(r='EVPC'[len(x)-1],n=n,a=A,x=x[:-1],s=p['s']).
+Do not retain/reuse early p (pin loop overwrites it). Final S is frozen then hashed; every
+packet's ordered r,n,a,x,s contains the SAME independently externally released literal s,
+never a hash recomputed from manual transcription. Exact diagnostic+hash gate16347/16384
+before same-width timing/input rebind; packet+71. Check actual bytes and commands<=28672.
+This closes future ordinary transcription drift, not malicious checker replacement or
+old missing request fields. Source hash failure/PID guard have distinct bounded sites.
+Retain fixed memory/emitter caps; refusal52 and extra source fit existing allowances.
+
+Narrowly reopen O/V/Q/PLAN/input/RESULT/ACCOUNTING and recipe for NEXT's COMPLETE timing
+rebind76/44 and grants3/6/10/10/10/5. Use this ruling commit as time authority in all three
+source checks and inputs, retaining source46fa. Every existing >9/body/wait/negative guard,
+BOOT/T/other roots/static READOUT stays. Preserve old source/recipes/records in Git, no
+completed positive stage/program exists to replay. No historical failed source is deleted.
+Future corrected-source attempt needs exact new source/recipe review and external release;
+this is not a rerun grant. No current007 runtime file exists; don't claim an executed
+preflight body or reset cumulative dispatch counts. Both old nativecalls are terminal;
+retain historical ownership UNKNOWN rather than derive missing waits from absent files.
+
+Use hybrid a509 delivery; lower each arm's E slot7->6, others unchanged. FullG charged
+once at dispatch, no refund/borrow;44 is a re-slice, not new time. Source/pin/delivery
+records stay in existing rows, no new helperfile/process/metadata call or probe. Replace
+recipe prose with bound certificate refs to fit20480. Before future release independently
+verify exact diagnostic/hash gates and all timing pins; source-only text/hash/stat/JSON,
+no parser/AST/compile/import/test/native/API/credential/config/registration operation now.
+Management663552/720896,ledger highwater499712/cap557056,future57344; any actual ledger
+extent above499712 enrolled once from that room. Source1339392/maps7507968/capture8192
+(Eactual4096,Fconservative4096) and helper caps stay; retain all earlier unsupported charges.
