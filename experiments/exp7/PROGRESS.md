@@ -6060,3 +6060,25 @@ is preparation plumbing; cost if wrong: retain missing-context refusal, no fallb
 experimental launch. This narrowly supersedes the prior no-registration-discovery hold.
 Bind source/auth mechanism from existing public/installed TEXT; experimental get/socket
 execution remains held. All accepted roots, H73/47, six runs0 and current funds remain.
+
+732e251ba's single registration DATA read returned164 bytes, non-secret URL
+http://127.0.0.1:49374, PID89462, version2.0.19; keys id/version/url/pid/password.
+No password value was emitted or used, no local API request made. Published exact
+@opencode/client@2.0.19 dist/promise/service.js binds Basic username opencode with the
+existing registration password; discover() probes /api/info, ensure() can start/replace
+services. Neither function was run. Source integrity from published package metadata:
+sha256-et0/FYFwxfUMdHv36soCzaipSAoI0eFXUiAwkp5NPf4=. Matching service.d.ts specifies
+url/pid/version/password registration fields. This resolves the missing reference only,
+not live host health, source/native admission or execution release.
+
+Ruling: bind that literal loopback endpoint, Host127.0.0.1:49374, version/PID and named
+registration path as HELD transport DATA. Finish one direct metadata GET for the exact
+prior shell ID, requiring location.directory=repo and complete command/PID/exit joins.
+At a separately released runtime only, use the already-established Basic access context
+in memory; never publish credential/header/registration raw bytes or their derivatives.
+No credential test, service lifecycle/discovery call, health probe, redirect or retry.
+Fail if registration changes or response does not match the exact dispatched command.
+Why: existing access is sufficient without user configuration; cost if wrong: bounded
+refusal with no successor. Only transport code authoring is now authorized. Bind native
+_socket/source/dependencies and startup forms, then same-reviewer exact review. Keep
+all budgets/current roots and zero-run gates. No user-supplied configuration is needed.
