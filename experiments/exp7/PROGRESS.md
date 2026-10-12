@@ -5308,6 +5308,16 @@ Initial ruling multi-file patch rejected on ledger context with no file created;
 patch then applied. This source-authoring tool failure launched no candidate or helper.
 All numerical/calibration launch counters remain0; no active owned jobs.
 
+Coordinator P2-TIMING-RECOVERY.md recovers the four direct004/006 owner/reader tool
+timestamps and exact command hashes from read-only session metadata. Direct
+created-to-completed sum7987ms; ran-to-completed305ms. The199-shell-command index
+also captures disjoint verifier/publication activity; its41456ms sum/40113ms union
+include authoring and are NOT an adopted prior debit. Full attribution/clock scope
+remain pending, no execution released. One initial API-page JSON truncation failed;
+smaller pages with one-message fallbacks recovered the interval without cursor skips.
+New management record4096 ->593920/602112; author174731264 before the pending partial-
+source review. Ledger446464 highwater unchanged. No candidate or historical replay.
+
 Source-only007 correction under9d411f6cd327fa7c233045c59eec1fb989a8626b: partial
 source revision49970b5f4 pushed, execution held. P's two indents corrected by text;
 ports.memory retained and domain whitespace funds RULING_COMMIT rename in P/O/W/D.
