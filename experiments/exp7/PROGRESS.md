@@ -5385,3 +5385,14 @@ host-tool convention; no execution release. Reviewer2494464/management598016 alr
 enrolled; this delivery adds0 there. Author baseline174821376+24576=174845952.
 Source authoring is separate; launch prior/grants stay null pending source/time release.
 Return to same reviewer with476b5655a pins and explicit source/write blockers.
+
+Coordinator verifies latest007 refusal DATA: all11 source pins match exact476b5655a
+bytes, five leaf physical extents agree, static READOUT matches1d16a8e81, leaf94208.
+Source1318912/1327104 and8192 remainder leave4096 binding shortfall; maps7479296 and
+author174845952 reconcile. No stage products exist; saved zero-run declarations are
+consistent with artifacts, not executed qualification evidence. Current tracked tree
+is clean apart from standing unrelated lock/fixture paths. STATE now carries accepted
+timingd58170a1c (prior73/remainder47) and the current write refusal. No new source or
+execution authority. Same-reviewer source/write review reserved at most32768; enrol
+actual reported allocation once on delivery. This ledger/STATE correction stays within
+carried446464/4096 physical extents, management598016/602112 with no new charge.
