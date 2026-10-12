@@ -5671,3 +5671,23 @@ Oversized recipe drafts9396/9068 were rejected in memory before writing. Text/ha
 JSON/Git only; zero runtime invocations. Same-reviewer host-blocker disposition and
 new exact launch DATA/final execution release remain pending.
 <!-- P2-007-HELD-RECIPE-END -->
+
+Coordinator verifiede74b444f6 held DATA: inputs3639/hash7f68e7fe...1504e0e,
+recipe8047/hashe42ac307...625fa1, all11 source pins and PLAN unchanged fromf83f55b7,
+leaf110592/ledger446464 physical, zero new charge. The host-closure blocker remains
+unexecuted; same-reviewer focused disposition reserved at most24576 actual reviewer
+bytes, to enrol once on delivery. Source acceptance and H73/47 remain in force.
+
+Host-contract lookup, Oct12: official V2 docs https://opencode.ai/v2/docs/tools/ and
+https://opencode.ai/v2/docs/api/, with https://opencode.ai/v2/openapi.json, document
+shell timeout/background behavior and /api/shell/{id} command status/completion.
+Shell.Info exposes optional command PID/exit/signal and time.started/completed; status
+is running/exited/timeout/killed. GET retrieves one command; DELETE terminates/removes
+that command AND retained output. Neither published surface states detached-descendant
+ownership, cancellation or genuine wait guarantees. Command exit metadata alone does
+not supply the missing detached-body wait. This is a documentation-scope observation,
+not a tested assertion about undocumented implementation or arbitrary host crashes.
+No local shell API mutation, launch/cancellation probe, service/config change or
+experimental program was used for this lookup. Existing source boundaries and the
+required failure model need explicit reviewer/coordinator disposition. Record/STATE
+edits fit carried extents; management602112 remains full without new allocation.
