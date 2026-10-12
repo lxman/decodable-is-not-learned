@@ -5413,3 +5413,41 @@ and candidate metadata/product charges persist. Complete one receipt finalizer a
 failure/owner/helper/all-phase joins, retain67 negatives/eight map-copy cases/18-case
 oracle. Timingd58170a1c stays73+47. All parser/qualification/control/admission/arm/reader
 execution held; same implementer/reviewer continue. No numerical/calibration launch.
+
+
+CURRENT007 source finalization under46fa6cd2baf7d0bbc1a4c94ffe8b3566207b92f8:
+source186238fb0040d961b523ce4b0c471fa4ecdef1e2 and certificate/source refinement
+ aefdd97642ec6417fb45320926c7e93733d41145 committed/pushed. Early boot/launch
+compiler roots retire after authenticated DATA freeze in admission/arms; repeated
+full-parent extraction precedes cohort. V owns one two-line body/seal finalizer;
+D has the small commitment reader. Genuine waits and attended outer completion gate
+successors; readout stdout joins tool exit before sole4096-byte output publication.
+Bounded nonblocking cleanup, primary-preserving BOOT capsule, total config refusal,
+two-array inventory/immutable masks, recursive products/STD/class backing and helper
+branch/callback/fallback arguments are delivered together in PLAN8148/inputs3065.
+Source/PLAN pins and all11 source hashes are in inputs, executable:false.
+
+Conservative extraction A/G41848=7*4808+4*2048 replaces unexplained37912 without
+changing a cap: row-max475835/494274; live473375/489116. Actual S322841/extract471681/
+live469221/proof260210944/268435456. Loaded18296/18432,candidate208557824/208666624;
+inventory16MiB,compile/parse61307520/67108864. These are source arguments and future
+refusal checks, NOT measured ownership/helper/catalog admission. All67 negatives,
+eight independent map-copy cases and18-case oracle remain; existing Q controls are
+updated but unexecuted. Same-reviewer source acceptance and exact source/time release
+remain before grammar/controls/admission/arms/readout. All six007 counts0; no candidate
+parse/AST/compile/import/test/census/inflate, owned launch or historical replay.
+Timingd58170a1c stays73+47; proposed full grants[3,6,11,11,11,5]=47, actual grants/prior
+held null. Global3600 unchanged; pure source authoring is separate. active_jobs:[].
+
+Preserved476b5655a/5d4e748fb and prior charges; static READOUT/001-006/originals/T
+unchanged. Initial D/V/Q presize/patch digest mismatches, indentation corrections,
+rejected patches and oversized PLAN text estimates are disclosed in tool history;
+all actual writes fit newly authorized rows, final hashes/extents verified. No new
+source overrun or highwater refund. Wave conservative20480=prospective reader4096
+ONCE+actual O/D/Q/PLAN4096 each; physical leaf94208->110592 (growth16384). Source
+1318912->1339392/1351680 leaves exactly binding12288; maps7479296->7499776,
+full7606272/7634944; ungranted4096/protected24576/future94208 unchanged. Author
+174882816->174903296; reviewer2527232 and management602112 already enrolled,new0.
+Ledger stays within carried446464; STATE remains coordinator-owned. Full source,
+phase/copy/helper arguments, held inputs, invocation inventory and exact ACCOUNTING
+return to the same reviewer; no qualification or performance success is claimed.
