@@ -6319,3 +6319,13 @@ Correct nested maps transfer:45056 source is within maps, combined increase35635
 cap8228864/full8200192. Total helper transfer389120 unchanged; no additional spend.
 New ruling4096 management708608/753664,author175276032; reviewer2752512 unchanged.
 Ledger highwater520192/cap565248; preserve actual source/capture/failure highwaters.
+
+Pinned-file continuation83b74afab: controls E/V/P/C2 and outer writer passed; products
+secured19a58a4d, controls retired. Admit E then SIGKILL; saved child/owner waits rc1,
+no timeout, worker AssertionError at r2/runtime.py:136 fd_boundary via worker.py:169.
+Static owner.py:154 uses subprocess.DEVNULL; read-only-stdin predicate failed. No pair.
+P2-FILE-RESULT.md/publication-001/OUTER-READOUT.json preserve exact evidence and accounting:
+charges1106/1682,576 unspent; author175476736/maps7720960/future483328/management729088.
+Earlier manual-source refusal240, source-only formatting failure and unsupported4096
+ruling growth remain disclosed. No execution retry; next correction is the stdin launcher
+and a source-bound handoff preserving completed preflight/controls, not their replay.
