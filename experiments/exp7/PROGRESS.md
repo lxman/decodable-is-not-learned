@@ -6310,3 +6310,12 @@ all runtime held pending decision/exact release. Source-only work may proceed.
 Transfer389120 helper reserve to source45056/maps311296/management32768; enroll review
 once to2752512 and ruling4096 to management704512/753664,author175271936. Ledger highwater
 520192/cap569344 retained; charge any actual growth once. Full details in new ruling.
+
+Michael answered "yes" to additional1600 active seconds for the P2 continuation.
+Ruling: adopt P2-CONTINUATION-TIME-APPROVAL.md under resource-check/numerical-011:
+retain82, preparation200/five240/terminal200, total1682; old0063600.1558401251677 retained.
+Source preparation resumes, then one new C2 syntax check/exact release before execution.
+Correct nested maps transfer:45056 source is within maps, combined increase356352 gives
+cap8228864/full8200192. Total helper transfer389120 unchanged; no additional spend.
+New ruling4096 management708608/753664,author175276032; reviewer2752512 unchanged.
+Ledger highwater520192/cap565248; preserve actual source/capture/failure highwaters.
