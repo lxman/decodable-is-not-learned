@@ -6300,3 +6300,13 @@ preprices every file and returns actual allocation for external enrollment once.
 Entering reviewer2736128/3145728,author175243264;management692224/720896,ledger512000/
 cap540672;maps7540736/full7843840/cap7872512,future290816;helper6795264/cap7737344;
 source1339392/binding12288,capture36864. Prior failures and all highwaters stay.
+
+Ruling: adopt eec8171d saved-preflight acceptance and C2 SOURCE implementation per
+resource-check/numerical-011/P2-PUBLICATION-CONTINUATION-RULING.md. Coordinator verified
+three saved blobs/seal/joins, reviewer16384 and transfers; successful preflight retired.
+Reviewer clarification:1682<3600 does not establish remaining global time. Request owner
+additional1600s P2 allocation; retain82 and historical0063600.1558401251677. Compile and
+all runtime held pending decision/exact release. Source-only work may proceed.
+Transfer389120 helper reserve to source45056/maps311296/management32768; enroll review
+once to2752512 and ruling4096 to management704512/753664,author175271936. Ledger highwater
+520192/cap569344 retained; charge any actual growth once. Full details in new ruling.
