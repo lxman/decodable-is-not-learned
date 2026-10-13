@@ -6266,3 +6266,37 @@ Reviewer2727936/author175202304 stay until new actual enrollment. Management6840
 once. New release record<=4096 may use this management room, reducing ledger cap by4096.
 Preparation uses text/hash/stat/JSON only, no runtime probe or standalone qualification;
 execute only exact new release, preserve genuine completion and stop on any tool rejection.
+
+Ruling: prepare a saved-preflight/publication continuation after54e109dbd, without
+replaying successful grammar. Why: E/V/P succeeded and were secured; C failed after
+staging, and a1s Git/network publication slot was an agent choice with no measured fit.
+Cost if wrong: preserve failure/UNKNOWN and reject continuation rather than fabricate C.
+Authorize same-reviewer saved-DATA/source review <=16384 physical in
+review/fix006-p2-publication-continuation/. Review current receipt/host/completion and
+source; identify a complete minimal continuation using genuine saved waits and the
+separately committed management preservation, with the old C failure explicitly retained.
+
+Propose realistic finite publication/cleanup deadlines and a prospective local time
+amendment within the approved3600s numerical resource scope, retaining all82 charged
+seconds. The exact120 cap was agent-authored, not scientific; don't keep shortening
+necessary I/O to preserve it. Review must distinguish the outer execution clock from
+unchanged source-held timing data and bind any required changed consumer explicitly.
+No larger clock, new counter meaning or extra invocation is adopted by this inquiry.
+Prefer ordinary supported native Git publication with its established access context
+and bounded primary records if that avoids the stripped-env/helper failure. This is
+about the killed C path, not replaying the earlier policy-rejected F. Preserve group/
+real-wait/genuine-success conditions; no ownership claims from absence of files.
+
+Diagnose statically where possible: C's run() group-kills on any bad Git/timing outcome
+before emitting detail. Empty HOME/identity context is a hypothesis, not measured cause;
+no live stripped-env test, credential/config/registration probe or history scan is granted.
+Do not require exact lost error text to propose a bounded failure-preserving correction.
+Give one adoptable source/receipt/controller/timeout/accounting package, not another
+open-ended instrumentation or perfect-platform proof. Keep candidate/scientific roots
+and accepted memory bounds; explicit finite transfers may be proposed from unused helper.
+Source-only text/hash/stat/plain-JSON/Git checks; no proof parsing/compile/import/test,
+new stage/metadata request or experimental replay. Review writes only its own packet,
+preprices every file and returns actual allocation for external enrollment once.
+Entering reviewer2736128/3145728,author175243264;management692224/720896,ledger512000/
+cap540672;maps7540736/full7843840/cap7872512,future290816;helper6795264/cap7737344;
+source1339392/binding12288,capture36864. Prior failures and all highwaters stay.
