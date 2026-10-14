@@ -6344,3 +6344,15 @@ Coordinator verified11 source pins/archives/new16384 and reviewer8192:author1755
 reviewer2760704,source1409024/maps7737344/future536576. Management733184/753664,
 Ledger actual524288 grew4096 within540672 cap:enroll once,author175509504 and management
 737280/753664,remaining16384; highwater524288. Runtime debit1106 remains unchanged.
+
+Ruling: expand only the new stdin-delta source row8192->12288 after its complete
+SD1/SD2 draft presized8926 (734 nonfit), with zero write/run. Why: keep all14 assertions
+and bounded cleanup/startup without further cryptic compression. Cost if wrong: scoped
+review/qualification refuses; no parent memory or time increase. Transfer4096 unused
+helper to nested source/maps:sourcecap1425408,mapscap8318976/full8290304,helpercap7258112.
+Driver+one sequential root uses at most2*12288+2*16384=57344 source equivalents within
+the existing65536 helper source slots; owner phase49152. No additional concurrent root,
+child, parse slot or DATA allowance. Retain maxline303 and4096 output/startup envelopes.
+Implement the complete bounded draft, update self-read cap/PLAN and return to the same
+reviewer for SD1/SD2 plus this lifetime substitution only. Existing O/R/inputs/helpers
+and all proof/source/global caps remain. No actual source charge until physical growth.
