@@ -6329,3 +6329,18 @@ charges1106/1682,576 unspent; author175476736/maps7720960/future483328/managemen
 Earlier manual-source refusal240, source-only formatting failure and unsupported4096
 ruling growth remain disclosed. No execution retry; next correction is the stdin launcher
 and a source-bound handoff preserving completed preflight/controls, not their replay.
+
+Ruling: adopt54225fc8 scoped source acceptance and its SD1/SD2 corrections for NEW
+stdin-delta.py only. Why: O/R stdin/retained-input repair is conforming, but its new
+qualification caller needs unresolved-child cleanup and a bounded startup capsule.
+Cost if wrong: stop before qualification; no replay or extra time. Retain real child
+handle through finalization, bounded genuine cleanup within16s, then verified-group
+stop if unresolved; never signal synthetic PID. Unblock tiny-child TERM/ALRM. Protect
+optional imports/stderr/one terminal write with fixed fallback. Preserve14 new labels,
+sequential root lifetimes and all accepted O/R/input/helper/archive/resume bytes.
+Compact only the driver within8192 and refresh PLAN pin. Return this narrow correction
+to same reviewer; reserve4096 review bytes, actual enrolled once, no runtime yet.
+Coordinator verified11 source pins/archives/new16384 and reviewer8192:author175505408,
+reviewer2760704,source1409024/maps7737344/future536576. Management733184/753664,
+Ledger actual524288 grew4096 within540672 cap:enroll once,author175509504 and management
+737280/753664,remaining16384; highwater524288. Runtime debit1106 remains unchanged.
