@@ -6356,3 +6356,7 @@ child, parse slot or DATA allowance. Retain maxline303 and4096 output/startup en
 Implement the complete bounded draft, update self-read cap/PLAN and return to the same
 reviewer for SD1/SD2 plus this lifetime substitution only. Existing O/R/inputs/helpers
 and all proof/source/global caps remain. No actual source charge until physical growth.
+
+continuation-007 active; owned PID82348/SID82348, detached supervisor82347; worker bound3600s.
+
+continuation-007 completed; owned PID82348 waited status0; active owned jobs none.
