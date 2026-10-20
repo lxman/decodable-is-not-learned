@@ -1,0 +1,39 @@
+{
+  "child_pid": 77966,
+  "copied_files": {
+    "CLAIM.json": {
+      "bytes": 72,
+      "sha256": "99bdcd855bae89ee8817b53a6b959f4f16303ea5fca55738498ea073f548896d"
+    },
+    "REFUSED.json": {
+      "bytes": 177,
+      "sha256": "d1d27d5dee32944c4da854704765ed0bd1af37e4634335da93d2a7dbe40a9fa4"
+    },
+    "REPORT.md": {
+      "bytes": 73157669,
+      "sha256": "22089c6427852a41d82454d66f5765273c082fb815ac1056fd4f46f1c80aead3"
+    },
+    "calibration.json": {
+      "bytes": 71717111,
+      "sha256": "368c559a6ae76ae7f2dc76add6dc42d4f8ed62b7ed5b2ccc41ed3b1f29292289"
+    }
+  },
+  "elapsed_hours": 30.787,
+  "elapsed_wall_seconds": 110833.0489,
+  "ended_utc": "2026-10-20T21:53:33.230204+00:00",
+  "peak_aggregate_rss_bytes": 171704320,
+  "peak_child_rss_bytes": 158810112,
+  "peak_supervisor_rss_bytes": 17661952,
+  "ps_samples": 22116,
+  "returncode": 1,
+  "run_id": "calibration-001",
+  "rusage_children_maxrss_bytes": 833273856,
+  "rusage_children_stime_seconds": 607.2701,
+  "rusage_children_utime_seconds": 109989.2058,
+  "schema": "exp7.calibration-supervisor-summary.v1",
+  "started_utc": "2026-10-19T15:06:20.412185+00:00",
+  "state": "FAILED",
+  "supervisor_pid": 77965,
+  "timed_out": false,
+  "verify_result": null
+}

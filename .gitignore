@@ -156,3 +156,6 @@ experiments/exp5b/*.pid
 experiments/exp5b/run/*.bundle
 experiments/exp5b/cold_post_tag.log
 experiments/exp5b/read_sweep_post_tag.log
+# exp7 calibration-001 raw >50 MiB output files (kept on disk and in scratch root; digests and complete case/envelope summaries committed in calibration-001/)
+experiments/exp7/calibration/calibration-001/output/calibration.json
+experiments/exp7/calibration/calibration-001/output/REPORT.md
