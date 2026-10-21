@@ -1,0 +1,40 @@
+{
+  "accepted_files": {
+    "CLAIM.json": "99bdcd855bae89ee8817b53a6b959f4f16303ea5fca55738498ea073f548896d",
+    "COMPLETE.json": "58613e7edbb199ea1c0901f6ec6c153d759dabd1e4c060485e094d95bbfe9df8",
+    "REPORT.md": "408d144601167a3255650c1a926713e65df6339653c77fc4436f030b041688dd",
+    "calibration.json": "3e4ccd2fe377a0af6ecc39f645b82152caf3bd14a4798fd77bcc5ba9020e3187"
+  },
+  "accepted_sizes_bytes": {
+    "CLAIM.json": 72,
+    "COMPLETE.json": 177,
+    "REPORT.md": 73157706,
+    "calibration.json": 71717136
+  },
+  "candidate_commit": "cdaf141a438002b5d84719c732f9a68329305ca9",
+  "candidate_manifest_path": "experiments/exp7/calibration/authority/calibration-candidate.json",
+  "candidate_manifest_sha256": "83f83176efd573496c95be516ced4056d6c5c777d1647c46a189285b22dff3cb",
+  "candidate_selection_path": "experiments/exp7/calibration/authority/candidate-selection.json",
+  "candidate_selection_sha256": "3b4dada8df67537b88009d93f8e766c725845559ec4ef659434356460315d207",
+  "design_doc_sha256": "2f34dc4949712d5681d3381efa4616924b1c90e5f96672a174b6918780506876",
+  "owner_ruling": "Option 1 approved (2026-10-20): Bonferroni familywise error control 0.01 / 22 = 1/2200 on the 22 component unmasked p_reject defect checks; unadjusted 0.01 retained on all 22 component fires checks and all 9 either_predictor_joint checks.",
+  "p_reject_defect_alpha": {
+    "denominator": 2200,
+    "numerator": 1
+  },
+  "raw_simulation_output_sha256": {
+    "CLAIM.json": "99bdcd855bae89ee8817b53a6b959f4f16303ea5fca55738498ea073f548896d",
+    "REFUSED.json": "d1d27d5dee32944c4da854704765ed0bd1af37e4634335da93d2a7dbe40a9fa4",
+    "REPORT.md": "22089c6427852a41d82454d66f5765273c082fb815ac1056fd4f46f1c80aead3",
+    "calibration.json": "368c559a6ae76ae7f2dc76add6dc42d4f8ed62b7ed5b2ccc41ed3b1f29292289"
+  },
+  "runtime_authority_sha256": "16718b298ca146366b2475235ef106bc1659ec7acdad77f8c2b3fb1ededc64fa",
+  "schema": "exp7.accepted-calibration-manifest.v1",
+  "state": "NO-DETECTED-CALIBRATION-DEFECT",
+  "synthetic_spec_sha256": "21667d68e26ad0b2d8e329969c2c7d3eb9cccbb0f27ec268f88f69388210d773",
+  "verification": {
+    "copy_accepted_calibration": "PASSED",
+    "verify_calibration_semantics": "PASSED",
+    "verify_envelope_semantics": "PASSED"
+  }
+}

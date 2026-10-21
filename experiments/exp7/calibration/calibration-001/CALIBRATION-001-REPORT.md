@@ -83,3 +83,22 @@
    - `10` `ANALYTIC-ZERO-SUPPORT` cells (`E0`), `16` `UNSUPPORTED` cells (`E3` and `E7` at $\delta > 0$), and `54` `SIMULATED` cells.
    - At $\delta = 0$ (`14` `SIMULATED` null cells across `E1..E7`), `fires` is `0 / 128` in all 14 cells (`0 / 1,792` total), and `p_only` is `7 / 1,792 = 0.00391` (nominal `0.00500`).
    - At $\delta = 1/10$ (`E4, E5, E6` with availability $\ge 0.15$), `fires` is `128 / 128` (`1.000`) for both `f3` and `f4`; at $\delta = 1/5$, `fires` is `128 / 128` (`1.000`) for `E2, E4, E5, E6`.
+
+---
+
+## 4. Pre-Tag Calibration Ruling (`2026-10-20`) & Certified Accepted Archive
+
+- **Owner Ruling (`2026-10-20`):** Michael approved **Option 1** (`experiment-7-design.md` §7, commit `cdaf141a438002b5d84719c732f9a68329305ca9`):
+  - Full Gate 1/2 fire checks (`fires`) on all 22 true-null components and joint licence checks (`either_predictor_joint`) on all 9 null cases remain tested at unadjusted one-sided exact binomial tail $\alpha_{\text{defect}} = 0.01$ (`F(1, 100)`).
+  - Unmasked $p$-only component checks (`p_reject`, nominal $p_0 = 0.005$ across the 22 true-null component evaluations in `TRUE_NULLS`) use Bonferroni familywise error control $\alpha_{\text{defect}} = 0.01 / 22 = 1/2200 \approx 0.0004545$ (`P_REJECT_DEFECT_ALPHA = F(1, 2200)` in `exp7stats/calibration.py`, which flags $k \ge 23 / 2000$, $p = 0.000246 < 1/2200$, and has $1.00\%$ familywise false-alarm rate across 22 true-null component evaluations).
+- **Candidate Manifest Refresh (`cdaf141a438002b5d84719c732f9a68329305ca9`):**
+  - `experiments/exp7/calibration/authority/candidate-selection.json`: `12,174` B, SHA256 `3b4dada8df67537b88009d93f8e766c725845559ec4ef659434356460315d207`
+  - `experiments/exp7/calibration/authority/calibration-candidate.json`: `12,176` B, SHA256 `83f83176efd573496c95be516ced4056d6c5c777d1647c46a189285b22dff3cb`
+- **Certified Accepted Calibration Archive (`experiments/exp7/calibration/calibration-001/accepted/`):**
+  - Materialized deterministically from the exact saved replicate counts and 80 selectivity envelope records of `calibration-001` (`output/calibration.json` SHA256 `368c559a6ae76ae7f2dc76add6dc42d4f8ed62b7ed5b2ccc41ed3b1f29292289`):
+    - `CLAIM.json`: `72` B, SHA256 `99bdcd855bae89ee8817b53a6b959f4f16303ea5fca55738498ea073f548896d`
+    - `COMPLETE.json`: `177` B, SHA256 `58613e7edbb199ea1c0901f6ec6c153d759dabd1e4c060485e094d95bbfe9df8`
+    - `REPORT.md`: `73,157,706` B, SHA256 `408d144601167a3255650c1a926713e65df6339653c77fc4436f030b041688dd`
+    - `calibration.json`: `71,717,136` B, SHA256 `3e4ccd2fe377a0af6ecc39f645b82152caf3bd14a4798fd77bcc5ba9020e3187`
+  - Verified with `verify_calibration_semantics(record)` (`state == "NO-DETECTED-CALIBRATION-DEFECT"`) and `exp7integration.calibration_copy.copy_accepted_calibration(...)`.
+
