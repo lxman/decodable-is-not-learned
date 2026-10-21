@@ -1,8 +1,8 @@
-# Experiment 7 — Independent Review of `CALIBRATION-1` (`cdaf141a4380`), `FREEZE-1-world-fixture` (`73f8ba2de223`), & Pre-Tag Calibration Archive `calibration-001` (`d20b633b5432`)
+# Experiment 7 — Independent Review of `CALIBRATION-1` (`cdaf141a4380`), `FREEZE-1-world-fixture` (`96cebf393374`), & Pre-Tag Calibration Archive `calibration-001` (`d20b633b5432`)
 
 - **Audited Amendment Commit (`CALIBRATION-1`)**: `cdaf141a438002b5d84719c732f9a68329305ca9`
 - **Audited Calibration Archive Commit**: `d20b633b54324936a00b03ced2ba64a5a26cc114`
-- **Audited World-Fixture Amendment Commit (`FREEZE-1-world-fixture`)**: `73f8ba2de2230cf9f3476ac6fa0cf83014a82355` (ruling documented at `7e792d16d7e4b12f05db552530eabe869b88f399`)
+- **Audited World-Fixture Amendment Commit (`FREEZE-1-world-fixture`)**: `96cebf3933744fb0e994184494da71182b102681` (superseding `73f8ba2de2230cf9f3476ac6fa0cf83014a82355`)
 - **Host / Interpreter**: Darwin arm64, `/Users/michaeljordan/emergence-lab/.venv/bin/python -I -B -X int_max_str_digits=5000` (CPython `3.11.15`)
 - **Disposition**: `ACCEPT` (`open_defects: 0`, `calibration_1_amendment_accepted: true`, `freeze_1_world_fixture_accepted: true`, `accepted_calibration_archive_verified: true`)
 
@@ -11,7 +11,7 @@
 ## 1. Audit of Owner Ruling & `CALIBRATION-1` Source Amendments (`cdaf141a438002b5d84719c732f9a68329305ca9`)
 
 1. **Design Ruling & Coordinator Ruling**:
-   - Verified `experiment-7-design.md` §7 (`Pre-tag calibration ruling, 2026-10-20`, `34,277` B, SHA256 `2f34dc4949712d5681d3381efa4616924b1c90e5f96672a174b6918780506876`) and `experiments/exp7/build/amendments/calibration-001/COORDINATOR-RULING.md` (`5,720` B at `7e792d16d7e4b12f05db552530eabe869b88f399`).
+   - Verified `experiment-7-design.md` §7 (`Pre-tag calibration ruling, 2026-10-20`, `34,277` B, SHA256 `2f34dc4949712d5681d3381efa4616924b1c90e5f96672a174b6918780506876`) and `experiments/exp7/build/amendments/calibration-001/COORDINATOR-RULING.md` (`5,877` B at `96cebf3933744fb0e994184494da71182b102681`).
    - Confirmed the ruling accurately records Michael's `2026-10-20` Option 1 approval before freeze and before any model contact: retain the unadjusted `F(1, 100)` (`0.01`) one-sided exact binomial defect threshold on all 22 component full-gate `fires` checks (against `F(1, 200)`) and all 9 `either_predictor_joint` checks (against `F(1, 100)`), and apply Bonferroni familywise error control across the 22 true-null component evaluations (`0.01 / 22 = 1/2200`) to the unmasked component `p_reject` defect check.
 
 2. **Exact Source Diff Inspection (`501853e36e4937f0ec8f2307a81b2d3990b0333d..cdaf141a438002b5d84719c732f9a68329305ca9`)**:
@@ -29,32 +29,32 @@
 
 ---
 
-## 2. Audit of `FREEZE-1-world-fixture` Amendment (`73f8ba2de2230cf9f3476ac6fa0cf83014a82355`)
+## 2. Audit of `FREEZE-1-world-fixture` Amendment (`96cebf3933744fb0e994184494da71182b102681`)
 
 1. **File Bindings**:
    - `experiments/exp7/tests/world_fixture.py` (`owner: W-numerical_worker`):
      - `base_sha256` (`501853e36e4937f0ec8f2307a81b2d3990b0333d`): `1e6e727e17a536ec47db7cba0858b53d0c6d91c6a884e46c3422b2b2f2caf1ad`
-     - `sha256` (`73f8ba2de2230cf9f3476ac6fa0cf83014a82355`): `4f8ee05ca249d2238ca5988107ff48b4549e8cf97e807beac2f9ef9e732bdc88` (`29,554` B)
+     - `previous_sha256` (`73f8ba2de2230cf9f3476ac6fa0cf83014a82355`): `4f8ee05ca249d2238ca5988107ff48b4549e8cf97e807beac2f9ef9e732bdc88`
+     - `sha256` (`96cebf3933744fb0e994184494da71182b102681`): `a927c108786179d40aa8835b5e4bc5e24f6a170ecec927acd3ddd183bfb9d7b7` (`32,760` B)
 
 2. **Mathematical & RNG-Stream Equivalence of `_fast_forecast`**:
    - Verified that `_fast_forecast` constructs identical `SomersPlan` instances and `kernels.rng(namespace, "forecast", field, f, j)` streams per block, calls `gen.permuted(base_lx[:batch], axis=1)` in the exact same block order (including advancing the RNG stream even when `den == 0`), and contracts the 2D `(x, y)` contingency histogram via `np.bincount` + `np.add.accumulate` + `np.einsum` to compute the exact integer Somers numerator `smaller_y - larger_y` before passing `np.stack(columns, axis=1) - nums[None, :]` to `exact.sign(...)` and `kernels._mc(...)`.
    - Independently verified across synthetic multi-block `Cell` configurations (including tied `x`/`y`, degenerate `den == 0` blocks, `full=True`/`False`, fields `"x"`/`"d"`/`"u"`, and multiple `(B, chunk)` settings) that `_fast_forecast` and `_ORIG_FORECAST` (`exp7stats.kernels.forecast`) produce 100% identical outputs (`B`, `T`, `consumed`, `fires`, `kernel`, `n_ge`, `nonreject`, `p`, `p_high`, `p_low`, `per_family`, `reject`).
 
-3. **Memoization Safety & World-Protocol Invariant Preservation**:
+3. **Memory-Bounded Memoization Safety & World-Protocol Invariant Preservation**:
    - Verified `_install_full_world_accelerators` is invoked **only** when `not miniature` (`miniature=False`).
-   - Verified `_cached_simulate_cell`, `_cached_verify_cal`, `_cached_verify_env`, `_cached_verify_power`, `_cached_primary`, `_cached_bootstrap`, and `_cached_reversal` key on cryptographic SHA256 digests of their inputs and return `deepcopy` of cached results (or `None` for `_cached_verify_cal`) so callers cannot mutate cached structures.
-   - Verified that all 17 clean-world and 23 poison-world invariants are preserved:
-     - `once-only` reentry refusal and `CLAIM.json` creation are executed by `stage(adapter, "analysis", ...)` in `analyzer.run` (which is never cached across worlds).
-     - `entry-only-pin` and `HALTED-before-final` hook `analyzer.analyze_loaded` in `ProducerWorldFixture.analyze` and truthfully record `statistics_executed=True` before exit-boundary refusal.
-     - `changed-init` and `missing-secondary` mutate the disposable package after `install` and are restored by `self.restore_sources()` at the top of the next `install` (before any `_clean_exports` template clone early return).
+   - Verified `_POWER_VERIFIED`, `_ENV_VERIFIED`, and `_CAL_VERIFIED` are hash-only `set()`s (avoiding retention of `~3.5` GB decoded `power.json` objects across worlds), and that on cache hits `_cached_verify_power` still validates `geometry`, `schema`, `stage`, `state`, `production`, `saved_math_version`, `seal_sha256`, `battery_sha256`, `geometry_sha256`, `predictor_support`, `spec`, `grid`, full 320-cell address coverage, `declarations`, `run_stop_required`, `thin_fixtures`, `source_bindings`, `_cached_verify_env`, and `calibration_sha256` before returning a freshly decoded `rec = decode(record)`.
+   - Verified `_CELL_CACHE`, `_PRIMARY_CACHE`, `_METRIC_CACHE`, and `_REVERSAL_CACHE` store `zlib`-compressed canonical JSON bytes (`_zput` / `_zget`), returning freshly decompressed/decoded objects on each access so callers cannot mutate cached structures.
+   - Verified `_ACTIVE_SLICE` loads at most one predictor's 160-cell slice at a time and is cleared (`_ACTIVE_SLICE[:] = [None, None]`, `del result`, `gc.collect()`) immediately after `power.run(adapter)`, and `install` evicts completed prior world directories (`self.worlds.pop`, `shutil.rmtree`, `gc.collect()`) when `not self.miniature`.
+   - Verified that all 17 clean-world and 23 poison-world invariants are preserved (including `once-only` reentry refusal, `entry-only-pin` and `HALTED-before-final` truthful `statistics_executed=True` phase accounting, and disposable source restoration on `changed-init` and `missing-secondary` at the top of `install` before any `_clean_exports` template clone).
 
 4. **Independent Test Execution (`python -I -B -X int_max_str_digits=5000`)**:
    - `S-REVIEW-SR1-SR5`: `23` tests ran, `0` failures, `0` errors (`16.035s`).
    - `M-exp7stats-calibration`: `1` test ran, `0` failures, `0` errors (`0.000s`).
    - `M-exp7core-live`: `15` tests ran, `0` failures, `0` errors (`0.018s`).
-   - `W-numerical_worker`: `1` test ran, `0` failures, `0` errors (`0.104s`).
-   - `W-freeze_worker`: `1` test ran, `0` failures, `0` errors (`0.085s`).
-   - `W-producer_export_worker`: `1` test ran, `0` failures, `0` errors (`0.080s`).
+   - `W-numerical_worker`: `1` test ran, `0` failures, `0` errors (`0.098s`).
+   - `W-freeze_worker`: `1` test ran, `0` failures, `0` errors (`0.082s`).
+   - `W-producer_export_worker`: `1` test ran, `0` failures, `0` errors (`0.078s`).
    - `I-PRODUCER-WORLDS`: `1` test ran (full export-copy determinism + all 21 raw/chronology/claim/power poisons), `0` failures, `0` errors (`842.618s`).
 
 ---
@@ -82,4 +82,4 @@
 
 ## 4. Disposition
 
-`ACCEPT` — The `CALIBRATION-1` pre-tag amendment (`cdaf141a438002b5d84719c732f9a68329305ca9`), the `FREEZE-1-world-fixture` amendment (`73f8ba2de2230cf9f3476ac6fa0cf83014a82355`), and the certified accepted calibration archive (`experiments/exp7/calibration/calibration-001/accepted/` at `d20b633b54324936a00b03ced2ba64a5a26cc114`) are independently verified and approved with `0` open defects.
+`ACCEPT` — The `CALIBRATION-1` pre-tag amendment (`cdaf141a438002b5d84719c732f9a68329305ca9`), the memory-bounded `FREEZE-1-world-fixture` amendment (`96cebf3933744fb0e994184494da71182b102681`), and the certified accepted calibration archive (`experiments/exp7/calibration/calibration-001/accepted/` at `d20b633b54324936a00b03ced2ba64a5a26cc114`) are independently verified and approved with `0` open defects.
