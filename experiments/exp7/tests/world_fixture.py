@@ -9,7 +9,10 @@ from pathlib import Path
 from dataclasses import replace, asdict
 from copy import deepcopy
 from fractions import Fraction as F
+import gc
+import shutil
 import tempfile
+import zlib
 import json
 import numpy as np
 from exp7core.contract import ARMS, FAMILIES, GRID, canonical, require
@@ -38,12 +41,22 @@ _ORIG_PRIMARY = analyzer.primary
 _ORIG_BOOTSTRAP = secondaries.bootstrap
 _ORIG_REVERSAL = secondaries.reversal
 _CELL_CACHE = {}
+_ACTIVE_SLICE = [None, None]
+_DISK_CACHE_DIR = Path("/private/var/folders/mf/s8lnfd3j5s3ggxkr32n1ftnw0000gn/T/opencode/exp7-freeze-001/power-cell-cache")
 _CAL_VERIFIED = set()
-_ENV_VERIFIED = {}
-_POWER_VERIFIED = {}
+_ENV_VERIFIED = set()
+_POWER_VERIFIED = set()
 _PRIMARY_CACHE = {}
 _METRIC_CACHE = {}
 _REVERSAL_CACHE = {}
+
+
+def _zput(val):
+    return zlib.compress(dumps(val), level=1)
+
+
+def _zget(blob):
+    return decode(strict_json(zlib.decompress(blob)))
 
 
 def _fast_forecast(cells, subset, *, B, namespace, full=True, field="x", chunk=kernels.CHUNK):
@@ -97,20 +110,27 @@ def _cached_simulate_cell(predictor, subset, n_positive, max_count, target, spec
     geom = power.local_geometry(predictor)
     geom_sha = digest(geom)
     spec_sha = digest(asdict(spec))
-    if "_PREWARM_PENDING" in _CELL_CACHE:
-        expected_geom_sha, pre_spec_sha, pre_rows = _CELL_CACHE["_PREWARM_PENDING"]
-        sup = power.predictor_support(predictor)
-        cand_geom_sha = digest({"schema": "exp7.predictor-geometry.v1",
-                                "predictors": {"pythia_1b": geom, "olmo2_1b": geom},
-                                "support": {"pythia_1b": sup, "olmo2_1b": sup}})
-        if cand_geom_sha == expected_geom_sha:
-            for rcid, rval in pre_rows.items():
-                _CELL_CACHE[(rval["predictor"], geom_sha, rcid, pre_spec_sha)] = {**rval, "subset": tuple(rval["subset"])}
-            _CELL_CACHE.pop("_PREWARM_PENDING", None)
+    slice_key = f"{predictor.name}-{geom_sha}-{spec_sha}"
+    if _ACTIVE_SLICE[0] != slice_key:
+        slice_file = _DISK_CACHE_DIR / f"{slice_key}.json.zlib"
+        if slice_file.is_file():
+            _ACTIVE_SLICE[:] = [slice_key, strict_json(zlib.decompress(slice_file.read_bytes()))]
+        else:
+            _ACTIVE_SLICE[:] = [slice_key, {}]
+    if cid in _ACTIVE_SLICE[1]:
+        val = decode(_ACTIVE_SLICE[1][cid])
+        return {**val, "subset": tuple(val["subset"])}
     key = (predictor.name, geom_sha, cid, spec_sha)
     if key not in _CELL_CACHE:
-        _CELL_CACHE[key] = _ORIG_SIMULATE_CELL(predictor, subset, n_positive, max_count, target, spec)
-    return deepcopy(_CELL_CACHE[key])
+        _CELL_CACHE[key] = _zput(_ORIG_SIMULATE_CELL(predictor, subset, n_positive, max_count, target, spec))
+    val = _zget(_CELL_CACHE[key])
+    p_keys = [k for k in _CELL_CACHE if k[0] == predictor.name and k[1] == geom_sha and k[3] == spec_sha]
+    if len(p_keys) == 160 and _DISK_CACHE_DIR.is_dir():
+        rows = {k[2]: strict_json(zlib.decompress(_CELL_CACHE.pop(k))) for k in p_keys}
+        slice_file = _DISK_CACHE_DIR / f"{slice_key}.json.zlib"
+        if not slice_file.exists():
+            slice_file.write_bytes(zlib.compress(dumps(rows), level=1))
+    return {**val, "subset": tuple(val["subset"])}
 
 
 def _cached_verify_cal(record):
@@ -124,30 +144,62 @@ def _cached_verify_cal(record):
 def _cached_verify_env(envelope):
     h = digest(envelope)
     if h not in _ENV_VERIFIED:
-        _ENV_VERIFIED[h] = _ORIG_VERIFY_ENV(envelope)
-    return deepcopy(_ENV_VERIFIED[h])
+        _ORIG_VERIFY_ENV(envelope)
+        _ENV_VERIFIED.add(h)
+    return None
 
 
 def _cached_verify_power(record, seal_sha256, battery_sha256, *, geometry=None, spec=power.SPEC):
     rows = record.get("rows") if type(record) is dict else None
-    if type(rows) is dict and len(rows) == 320:
-        rkey = digest([(cid, r.get("status"), str(r.get("mean_D")), r.get("fire_count"), r.get("p_only_count"), r.get("permutations_consumed"))
-                       for cid, r in sorted(rows.items()) if type(r) is dict])
-        hkey = digest({k: v for k, v in record.items() if k != "rows"})
-        rec_id = (hkey, rkey)
-    else:
-        rec_id = digest(record)
-    key = (seal_sha256, battery_sha256, digest(geometry), digest(asdict(spec)), rec_id)
-    if key not in _POWER_VERIFIED:
-        _POWER_VERIFIED[key] = _ORIG_VERIFY_POWER(record, seal_sha256, battery_sha256, geometry=geometry, spec=spec)
-    return deepcopy(_POWER_VERIFIED[key])
+    if type(rows) is dict and len(rows) == 320 and type(geometry) is dict and type(geometry.get("predictors")) is dict:
+        spec_sha = digest(asdict(spec))
+        pkeys = []
+        for p in ("pythia_1b", "olmo2_1b"):
+            pgeom_sha = digest(geometry["predictors"].get(p))
+            rkey = digest([(cid, r.get("status"), str(r.get("mean_D")), r.get("fire_count"), r.get("p_only_count"), r.get("permutations_consumed"))
+                           for cid, r in sorted(rows.items()) if type(r) is dict and r.get("predictor") == p])
+            pkeys.append((p, pgeom_sha, spec_sha, rkey))
+        if all(pk in _POWER_VERIFIED for pk in pkeys):
+            from exp7stats.power_validation import validate_geometry, equal, VERSION
+            from exp7stats.common import SCHEMA, PRODUCTION, PREDICTORS, pin
+            geom = validate_geometry(geometry, production=spec == power.SPEC)
+            rec = decode(record)
+            require(type(rec) is dict, "power record mapping")
+            require(rec.get("schema") == SCHEMA and rec.get("stage") == "power" and rec.get("state") == "COMPLETE"
+                    and rec.get("production") is True and rec.get("saved_math_version") == VERSION, "power saved-math version/stage")
+            require(rec.get("seal_sha256") == pin(seal_sha256) and rec.get("battery_sha256") == pin(battery_sha256), "power identity")
+            require(rec.get("geometry_sha256") == digest(geom), "independent geometry binding")
+            equal(rec.get("predictor_support"), geom["support"], "independent predictor support")
+            equal(rec.get("spec"), asdict(spec), "power specification")
+            equal(rec.get("grid"), PRODUCTION.grid, "power grid")
+            require(set(rows) == {power.cell_id(*g) for g in power.grid(spec)}, "power full address coverage")
+            expected_decl = power.declarations(rows, spec)
+            equal(rec.get("declarations"), expected_decl, "power declarations")
+            equal(rec.get("run_stop_required"), any(v["status"] != "FORECAST-POWERED" for v in expected_decl.values()), "power run/stop")
+            thin = {f"{p}/{'-'.join(s)}": {"state": "THIN", "predictor": p, "subset": s, "n_positive": 10, "eligible": (),
+                                         "reason": "Every family has fewer than20 joint-positive pairs."} for p in PREDICTORS for s in power.SUBSETS}
+            equal(rec.get("thin_fixtures"), thin, "power THIN fixtures")
+            require(type(rec.get("source_bindings")) is dict and rec["source_bindings"], "power source bindings")
+            for sha in rec["source_bindings"].values():
+                pin(sha)
+            if spec == power.SPEC:
+                _cached_verify_env(rec.get("selectivity_envelope"))
+                for k in ("code_manifest", "source_manifest", "calibration", "contact_inventory"):
+                    pin(rec["source_bindings"].get(k))
+                require(pin(rec.get("calibration_sha256")) == rec["source_bindings"]["calibration"], "calibration binding")
+            return rec
+        out = _ORIG_VERIFY_POWER(record, seal_sha256, battery_sha256, geometry=geometry, spec=spec)
+        for pk in pkeys:
+            _POWER_VERIFIED.add(pk)
+        return out
+    return _ORIG_VERIFY_POWER(record, seal_sha256, battery_sha256, geometry=geometry, spec=spec)
 
 
 def _cached_primary(cells, *, B, namespace, full=True):
     key = (namespace, B, full, digest([(c.family, c.ids, [s.x for s in c.scores], [s.u for s in c.scores], c.y, c.strata) for c in cells]))
     if key not in _PRIMARY_CACHE:
-        _PRIMARY_CACHE[key] = _ORIG_PRIMARY(cells, B=B, namespace=namespace, full=full)
-    return deepcopy(_PRIMARY_CACHE[key])
+        _PRIMARY_CACHE[key] = _zput(_ORIG_PRIMARY(cells, B=B, namespace=namespace, full=full))
+    return _zget(_PRIMARY_CACHE[key])
 
 
 def _cached_bootstrap(metrics, family_sizes, *, B, namespace):
@@ -160,21 +212,21 @@ def _cached_bootstrap(metrics, family_sizes, *, B, namespace):
     if missing:
         sub_summaries, sub_samples = _ORIG_BOOTSTRAP({n: m for n, (_, m) in missing.items()}, family_sizes, B=B, namespace=namespace)
         for name, (mkey, _) in missing.items():
-            _METRIC_CACHE[mkey] = (sub_summaries[name], sub_samples[name])
+            _METRIC_CACHE[mkey] = _zput((sub_summaries[name], sub_samples[name]))
     summaries, samples = {}, {}
     for name, metric in metrics.items():
         mkey = (B, namespace, fs_key, metric.families, digest({f: (metric.x[f], metric.y[f], metric.strata[f]) for f in metric.families}))
-        s_sum, s_sam = _METRIC_CACHE[mkey]
-        summaries[name] = deepcopy(s_sum)
-        samples[name] = deepcopy(s_sam)
+        s_sum, s_sam = _zget(_METRIC_CACHE[mkey])
+        summaries[name] = s_sum
+        samples[name] = s_sam
     return summaries, samples
 
 
 def _cached_reversal(battery, predictors, outcomes):
     key = (battery.sha256, digest({p: v.raw for p, v in predictors.items()}), digest({f: [o["raw"] for o in outcomes[f]] for f in FAMILIES}))
     if key not in _REVERSAL_CACHE:
-        _REVERSAL_CACHE[key] = _ORIG_REVERSAL(battery, predictors, outcomes)
-    return deepcopy(_REVERSAL_CACHE[key])
+        _REVERSAL_CACHE[key] = _zput(_ORIG_REVERSAL(battery, predictors, outcomes))
+    return _zget(_REVERSAL_CACHE[key])
 
 
 def _install_full_world_accelerators(calibration_directory):
@@ -188,12 +240,6 @@ def _install_full_world_accelerators(calibration_directory):
     analyzer.primary = _cached_primary
     secondaries.bootstrap = _cached_bootstrap
     secondaries.reversal = _cached_reversal
-    if calibration_directory is not None:
-        pre_power = Path(calibration_directory).parent / "power/power.json"
-        if pre_power.is_file() and not _CELL_CACHE:
-            rec = decode(strict_json(pre_power.read_bytes()))
-            spec_sha = digest(rec.get("spec"))
-            _CELL_CACHE["_PREWARM_PENDING"] = (rec.get("geometry_sha256"), spec_sha, rec.get("rows", {}))
 
 
 
@@ -260,6 +306,12 @@ class ProducerWorldFixture:
         require(recipe["pairs"] == 500 and tuple(recipe["grid"]) == GRID, "worlds use full production cardinality")
         # Restore a prior synthetic source poison only in this disposable package.
         self.restore_sources()
+        if not self.miniature:
+            for old_key in list(self.worlds):
+                if old_key != str(root):
+                    self.worlds.pop(old_key, None)
+                    shutil.rmtree(old_key, ignore_errors=True)
+            gc.collect()
         recipe_sha = digest(canonical(recipe))
         if not self.miniature and root.name in POISONS and recipe_sha in self._clean_exports:
             export_file, export_sha = self._clean_exports[recipe_sha]
@@ -307,13 +359,18 @@ class ProducerWorldFixture:
         adapter = authority(c, root/"power-authority.json", "power", adapter_class=FullCardinalityMiniatureAdapter if self.miniature else FullDefaultAdapter)
         if not self.miniature:
             result = power.run(adapter)
+            _ACTIVE_SLICE[:] = [None, None]
+            pstate = result["state"]
+            del result
+            gc.collect()
         else:
             def operation(provenance):
                 battery = load_battery(adapter.battery())
                 predictors = load_predictors(adapter.predictor_data(), battery)
                 return {**power.assemble(predictors, battery, adapter.verify_predictor_seal(), provenance, spec=MINI_POWER), "fixture": True}
             result = stage(adapter, "power", operation, production=False)
-        require(result["state"] == "COMPLETE", "world power setup refused")
+            pstate = result["state"]
+        require(pstate == "COMPLETE", "world power setup refused")
         path = "statistics/power/power.json"
         f.data["power"] = {"path": path, "sha256": digest((f.root/path).read_bytes()), "commit": C}
         for scope in ("outcome-preflight", "outcome-collection", "outcome-underpowered-run"):
@@ -336,8 +393,7 @@ class ProducerWorldFixture:
         adapter = authority(c, root/"analysis-authority.json", "analysis", adapter_class=FullCardinalityMiniatureAdapter if self.miniature else FullDefaultAdapter)
         self.worlds[str(root)] = {"fixture": f, "adapter": adapter, "poison": None}
         self.statistical_calls[str(root)] = 0
-        if not self.miniature and root.name not in POISONS and recipe_sha not in self._clean_exports:
-            import shutil
+        if not self.miniature and root.name == "world-00" and not self._clean_exports:
             from exp7ops.evidence import snapshot, once
             tmpl_dir = Path(tempfile.mkdtemp(prefix="world-template-", dir=root.parent))
             tmpl_repo = tmpl_dir / "repo"
