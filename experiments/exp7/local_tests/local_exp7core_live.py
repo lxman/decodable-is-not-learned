@@ -334,15 +334,22 @@ class TokenOnlyTests(unittest.TestCase):
                 self.assertEqual(tok.plain_calls, ['Q:'])
 
     def test_default_acquisition_is_guarded(self):
+        import builtins
         import guard
         import sys
-        start = len(guard.attempts)
-        with self.assertRaisesRegex(ImportError, 'HARD-REFUSED: huggingface_hub'):
-            self.live.token_only(pythia_asset())
-        self.assertEqual(guard.attempts[start:], ['huggingface_hub'])
-        self.assertFalse(any(guard.forbidden(name) for name in sys.modules))
+        old_import = builtins.__import__
+        builtins.__import__ = guard.guarded_import
+        try:
+            start = len(guard.attempts)
+            with self.assertRaisesRegex(ImportError, 'HARD-REFUSED: huggingface_hub'):
+                self.live.token_only(pythia_asset())
+            self.assertEqual(guard.attempts[start:], ['huggingface_hub'])
+            self.assertFalse(any(guard.forbidden(name) for name in sys.modules))
+        finally:
+            builtins.__import__ = old_import
 
     def test_default_constructor_is_guarded_after_fake_acquisition(self):
+        import builtins
         import guard
         import sys
         acquired = []
@@ -352,13 +359,18 @@ class TokenOnlyTests(unittest.TestCase):
             return dict(SYNTHETIC_BYTES)
 
         self.replace('asset_bytes', acquire)
-        start = len(guard.attempts)
-        asset = pythia_asset()
-        with self.assertRaisesRegex(ImportError, 'HARD-REFUSED: transformers'):
-            self.live.token_only(asset)
-        self.assertEqual(acquired, [asset])
-        self.assertEqual(guard.attempts[start:], ['transformers'])
-        self.assertFalse(any(guard.forbidden(name) for name in sys.modules))
+        old_import = builtins.__import__
+        builtins.__import__ = guard.guarded_import
+        try:
+            start = len(guard.attempts)
+            asset = pythia_asset()
+            with self.assertRaisesRegex(ImportError, 'HARD-REFUSED: transformers'):
+                self.live.token_only(asset)
+            self.assertEqual(acquired, [asset])
+            self.assertEqual(guard.attempts[start:], ['transformers'])
+            self.assertFalse(any(guard.forbidden(name) for name in sys.modules))
+        finally:
+            builtins.__import__ = old_import
 
     def test_default_wrapper_and_preflight_wiring_are_static(self):
         tree = ast.parse(Path(self.live.__file__).read_bytes())

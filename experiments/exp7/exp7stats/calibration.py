@@ -190,11 +190,14 @@ def exact_binomial_tail(k, n, probability):
     return F(total, b**n)
 
 
-def rate_summary(count, n, null_rate):
+P_REJECT_DEFECT_ALPHA = F(1, 100 * sum(len(v) for v in TRUE_NULLS.values()))
+
+
+def rate_summary(count, n, null_rate, *, defect_alpha=F(1, 100)):
     excess = exact_binomial_tail(count, n, null_rate)
     return {"count": count, "N": n, "fraction": F(count, n),
             "interval95": binomial_interval(count, n), "null_rate": null_rate,
-            "binomial_excess_p": excess, "defect": excess < F(1, 100)}
+            "binomial_excess_p": excess, "defect": excess < defect_alpha}
 
 
 def evaluate_replicate(case, replicate, spec=SPEC):
@@ -228,7 +231,8 @@ def case_record(case, spec=SPEC, *, evaluator=evaluate_replicate):
             return {"case": case, "status": "CASE_FAILURE", "failed_replicate": b,
                     "completed_replicates": b, "required_replicates": spec.replicates,
                     "reason": f"{type(e).__name__}: {e}", "frequencies": None}
-    components = {name: {key: rate_summary(count, spec.replicates, F(1, 200))
+    components = {name: {key: rate_summary(count, spec.replicates, F(1, 200),
+                                           defect_alpha=P_REJECT_DEFECT_ALPHA if key == "p_reject" else F(1, 100))
                           for key, count in values.items()} for name, values in counts.items()}
     union_result = rate_summary(union, spec.replicates, F(1, 100))
     defect = union_result["defect"] or any(r["defect"] for c in components.values() for r in c.values())
@@ -331,8 +335,9 @@ def verify_calibration_semantics(record):
         for component in row["components"].values():
             require(set(component) == {"p_reject", "fires"}, "calibration independent p/fire readings")
             require(component["fires"]["count"] <= component["p_reject"]["count"], "calibration full/p-only consistency")
-            for value in component.values():
-                expected = rate_summary(value["count"], SPEC.replicates, F(1, 200))
+            for key, value in component.items():
+                expected = rate_summary(value["count"], SPEC.replicates, F(1, 200),
+                                        defect_alpha=P_REJECT_DEFECT_ALPHA if key == "p_reject" else F(1, 100))
                 require(digest(value) == digest(expected) and not expected["defect"], "component calibration arithmetic")
         value = row["either_predictor_joint"]
         expected = rate_summary(value["count"], SPEC.replicates, F(1, 100))

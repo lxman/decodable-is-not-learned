@@ -419,6 +419,22 @@ calibration return to Michael before freeze. At the sealed-predictor stage,
 an underpowered declaration is printed and paused for a run/stop ruling;
 there is no automatic draw deepening or family replacement.
 
+**Pre-tag calibration ruling, 2026-10-20:** In full-stage synthetic calibration
+`calibration-001` (`2,000` replicates of `N1..N9` at `n=500, B=10,000` plus the
+80-cell selectivity envelope at `128` replicates), every component full-rule
+`fires` count was `0/2,000` across all 22 true-null component evaluations
+(`0/44,000` total) and every `either_predictor_joint` count was `0/2,000` across
+`N1..N9` (`0/18,000` total). One unmasked p-only diagnostic (`N1` `pythia_1b/forecast`
+`p_reject`, where `mean(x) < 0` on all 2,000 replicates and max `T = 0.0889 < 0.10`)
+recorded `20/2,000` (`0.0100`, unadjusted exact binomial tail `p = 0.003371 < .01`;
+4 of the 20 were Monte Carlo boundary draws at `B=10,000` with underlying
+`p in [.00516, .00605]` at `B=100,000`). Michael approved Option 1 before freeze
+and before any model contact: keep the unadjusted `.01` exact binomial defect
+threshold on all 22 component `fires` checks (against `.005`) and all 9
+`either_predictor_joint` checks (against `.01`), and apply Bonferroni familywise
+error control across the 22 component-null evaluations (`.01 / 22 = 1/2200`) to
+the unmasked `p_reject` defect check (`experiments/exp7/calibration/calibration-001/`).
+
 **Data gates:** independent generation oracles; exact four-arm × k coverage;
 normalizer totality and a0≠a1; reproduction of existing sampled-stream anchors;
 complete/provenance-valid untrained-twin and model-free controls (their

@@ -147,18 +147,30 @@ class SavedArithmeticTests(unittest.TestCase):
         from dataclasses import asdict
         from exp7stats.common import SCHEMA
         from exp7stats.calibration import (SPEC as spec, CASES, TRUE_NULLS, H, ENVELOPE, DELTAS,
-                                          rate_summary, verify_calibration_semantics)
+                                          P_REJECT_DEFECT_ALPHA, rate_summary, verify_calibration_semantics)
+        self.assertEqual(P_REJECT_DEFECT_ALPHA, F(1, 2200))
+        self.assertFalse(rate_summary(20, 2000, F(1, 200), defect_alpha=P_REJECT_DEFECT_ALPHA)["defect"])
+        self.assertTrue(rate_summary(23, 2000, F(1, 200), defect_alpha=P_REJECT_DEFECT_ALPHA)["defect"])
+        self.assertTrue(rate_summary(19, 2000, F(1, 200))["defect"])
         record={"schema":SCHEMA,"stage":"calibration","production":True,"saved_math_version":2,
                 "state":"NO-DETECTED-CALIBRATION-DEFECT","spec":asdict(spec),
                 "case_table_sha256":digest({"H":H,"nulls":TRUE_NULLS,"E":ENVELOPE,"deltas":DELTAS}),
                 "selectivity_envelope":envelope(),"cases":{}}
         for case in CASES:
             record["cases"][case]={"case":case,"status":"NO-DETECTED-DEFECT","N":spec.replicates,
-                "components":{f"{p}/{c}":{k:rate_summary(0,spec.replicates,F(1,200)) for k in ("p_reject","fires")}
+                "components":{f"{p}/{c}":{k:rate_summary(0,spec.replicates,F(1,200),
+                                                         defect_alpha=P_REJECT_DEFECT_ALPHA if k=="p_reject" else F(1,100))
+                                          for k in ("p_reject","fires")}
                               for p,c in TRUE_NULLS[case]},
                 "either_predictor_joint":rate_summary(0,spec.replicates,F(1,100))}
         verify_calibration_semantics(record)
         component=next(iter(record["cases"][CASES[0]]["components"].values()))
+        component["p_reject"]=rate_summary(20,spec.replicates,F(1,200),defect_alpha=P_REJECT_DEFECT_ALPHA)
+        verify_calibration_semantics(record)
+        component["p_reject"]=rate_summary(20,spec.replicates,F(1,200))
+        with self.assertRaisesRegex(Refusal,"component calibration arithmetic"):
+            verify_calibration_semantics(record)
+        component["p_reject"]=rate_summary(0,spec.replicates,F(1,200),defect_alpha=P_REJECT_DEFECT_ALPHA)
         component["fires"]=rate_summary(1,spec.replicates,F(1,200))
         with self.assertRaisesRegex(Refusal,"full/p-only"):
             verify_calibration_semantics(record)
