@@ -2,9 +2,9 @@
 
 - **Owner**: Michael Jordan
 - **Date**: 2026-10-21
-- **Preregistration tag (`exp7-preregistered`) object**: `62e31550c03e6953eee14613e9d620f9d01e4da6`
-- **Preregistration commit**: `0f264e4e590c07cba25922baf6a9bb0d89d6a771`
-- **Projection commit (`experiments/exp7/projection.md`)**: `37ade032814fff188a6b7d998eb8cc792c2b76e5`
+- **Preregistration tag (`exp7-preregistered`) object**: `5371b8f904bb17b6ddf363c154d02b962313cc6f`
+- **Preregistration commit**: `819d537c5a51c92f2e3f98419ab81ebc5b5b1f24`
+- **Projection commit (`experiments/exp7/projection.md`)**: `7998ceb104843e6948ad4ce7399c64175c57768a`
 
 ## Formal Transcript Evidence
 
