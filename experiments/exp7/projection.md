@@ -2,8 +2,8 @@
 
 Written 2026-10-21 UTC by the managing agent. This is an agent forecast to
 grade at close-out, not a result or a statement in Michael's name. Committed
-after `exp7-preregistered` (`492bc7f1c39755630d9bdf7ead9cf86ed56cc64d`, annotated
-tag object `251efe9c4cf8b22262a095042889c04bad636950`) and **before the first
+after `exp7-preregistered` (`26d5a369aba03f9049befbed9bc2a936b6d274c0`, annotated
+tag object `5c358b52b9def305884c671d5b7ae67ea911c06c`) and **before the first
 predictor preflight or any model weight/item contact on the new battery**. The
 design's rules and licences (`experiment-7-design.md` §5–8) govern every landing.
 
