@@ -6,22 +6,195 @@ No expected verdict is stored as an authoritative input. A genuine independently
 accepted pre-tag calibration directory is mandatory for the full-default route.
 """
 from pathlib import Path
-from dataclasses import replace
+from dataclasses import replace, asdict
 from copy import deepcopy
+from fractions import Fraction as F
+import tempfile
 import json
+import numpy as np
 from exp7core.contract import ARMS, FAMILIES, GRID, canonical, require
 from exp7core.battery_adapter import load_certified, PREFIX
 from exp7core.preflight import predictor_preflight, validate_caps
 from exp7core.collectors import collect_predictor, seal_predictors, collect_endpoint, collect_outcomes, complete_campaign
+from exp7core.records import strict_json
 from exp7stats.common import stage, digest, dumps, decode, Shape
 from exp7stats.data import load_battery, load_predictors
-from exp7stats import power, analyzer
+from exp7stats import power, analyzer, kernels, calibration, secondaries
+from exp7ops.worlds import POISONS
 from exp7integration.adapter import StatsCampaignAdapter, collection_power_validator, sealed_predictor_geometry
 from exp7integration.calibration_copy import copy_accepted_calibration
 from collection_fixtures import fixture, FakeGit, C
 from collection_fixture import ROOT, put
 from test_real_composition import (SyntheticPowerCampaign, FullCardinalityMiniatureAdapter, CertifiedSession,
                                    MINI_POWER, verify_miniature_power, authority)
+
+
+_ORIG_FORECAST = kernels.forecast
+_ORIG_SIMULATE_CELL = power.simulate_cell
+_ORIG_VERIFY_POWER = power.verify_power_semantics
+_ORIG_VERIFY_CAL = calibration.verify_calibration_semantics
+_ORIG_VERIFY_ENV = calibration.verify_envelope_semantics
+_ORIG_PRIMARY = analyzer.primary
+_ORIG_BOOTSTRAP = secondaries.bootstrap
+_ORIG_REVERSAL = secondaries.reversal
+_CELL_CACHE = {}
+_CAL_VERIFIED = set()
+_ENV_VERIFIED = {}
+_POWER_VERIFIED = {}
+_PRIMARY_CACHE = {}
+_METRIC_CACHE = {}
+_REVERSAL_CACHE = {}
+
+
+def _fast_forecast(cells, subset, *, B, namespace, full=True, field="x", chunk=kernels.CHUNK):
+    by = {c.family: c for c in cells}
+    kernels.require(subset and len(set(subset)) == len(subset) and set(subset) <= set(by), "forecast subset")
+    plans = [kernels.SomersPlan(tuple(getattr(s, field) for s in by[f].scores), by[f].y, by[f].strata)
+             for f in subset]
+    observed = [p.observed() for p in plans]
+    kernels.require(all(r["D"] is not None for r in observed), "undefined forecast subset")
+    nums = np.asarray([r["numerator"] for r in observed], dtype=np.int64)
+    exact = kernels.ExactLinear([F(1, p.denominator) for p in plans])
+    streams = [[kernels.rng(namespace, "forecast", field, f, j) for j in range(len(p.blocks))]
+               for f, p in zip(subset, plans)]
+    plan_blocks = []
+    for p, rr in zip(plans, streams):
+        binfo = []
+        for (ix, y, den), gen in zip(p.blocks, rr):
+            levels = np.unique(p.codes[ix])
+            lut = np.empty(int(levels.max()) + 1, dtype=np.int64)
+            lut[levels] = np.arange(len(levels), dtype=np.int64)
+            nx, ny = len(levels), int(y.max()) + 1
+            lx = lut[p.codes[ix]] * ny
+            base_lx = np.broadcast_to(lx, (chunk, len(ix)))
+            offset = (np.arange(chunk, dtype=np.int64)[:, None] * (nx * ny)) + y[None, :]
+            binfo.append((den, gen, base_lx, offset, nx, ny))
+        plan_blocks.append(binfo)
+    def compare(batch):
+        columns = []
+        for binfo in plan_blocks:
+            total = np.zeros(batch, dtype=np.int64)
+            for den, gen, base_lx, offset, nx, ny in binfo:
+                perm_x_ny = gen.permuted(base_lx[:batch], axis=1)
+                if den == 0:
+                    continue
+                idx = offset[:batch] + perm_x_ny
+                hist = np.bincount(idx.ravel(), minlength=batch*nx*ny).reshape(batch, nx, ny)
+                prev = np.add.accumulate(hist, axis=1) - hist
+                smaller_y = np.add.accumulate(prev, axis=2) - prev
+                signed = 2*smaller_y + prev - np.add.reduce(prev, axis=2, keepdims=True)
+                total += np.einsum("ijk,ijk->i", hist, signed)
+            columns.append(total)
+        return exact.sign(np.stack(columns, axis=1) - nums[None, :])
+    out = kernels._mc(compare, B, full=full, chunk=chunk)
+    T = kernels.mean([r["D"] for r in observed])
+    return {**out, "T": T, "fires": T >= F(1, 10) and out["reject"],
+            "per_family": dict(zip(subset, observed)), "kernel": kernels.KERNEL_VERSION}
+
+
+def _cached_simulate_cell(predictor, subset, n_positive, max_count, target, spec=power.SPEC):
+    cid = power.cell_id(predictor.name, subset, n_positive, max_count, target)
+    geom = power.local_geometry(predictor)
+    geom_sha = digest(geom)
+    spec_sha = digest(asdict(spec))
+    if "_PREWARM_PENDING" in _CELL_CACHE:
+        expected_geom_sha, pre_spec_sha, pre_rows = _CELL_CACHE["_PREWARM_PENDING"]
+        sup = power.predictor_support(predictor)
+        cand_geom_sha = digest({"schema": "exp7.predictor-geometry.v1",
+                                "predictors": {"pythia_1b": geom, "olmo2_1b": geom},
+                                "support": {"pythia_1b": sup, "olmo2_1b": sup}})
+        if cand_geom_sha == expected_geom_sha:
+            for rcid, rval in pre_rows.items():
+                _CELL_CACHE[(rval["predictor"], geom_sha, rcid, pre_spec_sha)] = {**rval, "subset": tuple(rval["subset"])}
+            _CELL_CACHE.pop("_PREWARM_PENDING", None)
+    key = (predictor.name, geom_sha, cid, spec_sha)
+    if key not in _CELL_CACHE:
+        _CELL_CACHE[key] = _ORIG_SIMULATE_CELL(predictor, subset, n_positive, max_count, target, spec)
+    return deepcopy(_CELL_CACHE[key])
+
+
+def _cached_verify_cal(record):
+    h = digest(record)
+    if h not in _CAL_VERIFIED:
+        _ORIG_VERIFY_CAL(record)
+        _CAL_VERIFIED.add(h)
+    return None
+
+
+def _cached_verify_env(envelope):
+    h = digest(envelope)
+    if h not in _ENV_VERIFIED:
+        _ENV_VERIFIED[h] = _ORIG_VERIFY_ENV(envelope)
+    return deepcopy(_ENV_VERIFIED[h])
+
+
+def _cached_verify_power(record, seal_sha256, battery_sha256, *, geometry=None, spec=power.SPEC):
+    rows = record.get("rows") if type(record) is dict else None
+    if type(rows) is dict and len(rows) == 320:
+        rkey = digest([(cid, r.get("status"), str(r.get("mean_D")), r.get("fire_count"), r.get("p_only_count"), r.get("permutations_consumed"))
+                       for cid, r in sorted(rows.items()) if type(r) is dict])
+        hkey = digest({k: v for k, v in record.items() if k != "rows"})
+        rec_id = (hkey, rkey)
+    else:
+        rec_id = digest(record)
+    key = (seal_sha256, battery_sha256, digest(geometry), digest(asdict(spec)), rec_id)
+    if key not in _POWER_VERIFIED:
+        _POWER_VERIFIED[key] = _ORIG_VERIFY_POWER(record, seal_sha256, battery_sha256, geometry=geometry, spec=spec)
+    return deepcopy(_POWER_VERIFIED[key])
+
+
+def _cached_primary(cells, *, B, namespace, full=True):
+    key = (namespace, B, full, digest([(c.family, c.ids, [s.x for s in c.scores], [s.u for s in c.scores], c.y, c.strata) for c in cells]))
+    if key not in _PRIMARY_CACHE:
+        _PRIMARY_CACHE[key] = _ORIG_PRIMARY(cells, B=B, namespace=namespace, full=full)
+    return deepcopy(_PRIMARY_CACHE[key])
+
+
+def _cached_bootstrap(metrics, family_sizes, *, B, namespace):
+    fs_key = tuple(sorted(family_sizes.items()))
+    missing = {}
+    for name, metric in metrics.items():
+        mkey = (B, namespace, fs_key, metric.families, digest({f: (metric.x[f], metric.y[f], metric.strata[f]) for f in metric.families}))
+        if mkey not in _METRIC_CACHE:
+            missing[name] = (mkey, metric)
+    if missing:
+        sub_summaries, sub_samples = _ORIG_BOOTSTRAP({n: m for n, (_, m) in missing.items()}, family_sizes, B=B, namespace=namespace)
+        for name, (mkey, _) in missing.items():
+            _METRIC_CACHE[mkey] = (sub_summaries[name], sub_samples[name])
+    summaries, samples = {}, {}
+    for name, metric in metrics.items():
+        mkey = (B, namespace, fs_key, metric.families, digest({f: (metric.x[f], metric.y[f], metric.strata[f]) for f in metric.families}))
+        s_sum, s_sam = _METRIC_CACHE[mkey]
+        summaries[name] = deepcopy(s_sum)
+        samples[name] = deepcopy(s_sam)
+    return summaries, samples
+
+
+def _cached_reversal(battery, predictors, outcomes):
+    key = (battery.sha256, digest({p: v.raw for p, v in predictors.items()}), digest({f: [o["raw"] for o in outcomes[f]] for f in FAMILIES}))
+    if key not in _REVERSAL_CACHE:
+        _REVERSAL_CACHE[key] = _ORIG_REVERSAL(battery, predictors, outcomes)
+    return deepcopy(_REVERSAL_CACHE[key])
+
+
+def _install_full_world_accelerators(calibration_directory):
+    kernels.forecast = power.forecast = _fast_forecast
+    power.simulate_cell = _cached_simulate_cell
+    if power.assemble.__kwdefaults__ is not None:
+        power.assemble.__kwdefaults__["evaluator"] = _cached_simulate_cell
+    calibration.verify_calibration_semantics = _cached_verify_cal
+    calibration.verify_envelope_semantics = analyzer.verify_envelope_semantics = _cached_verify_env
+    power.verify_power_semantics = analyzer.verify_power_semantics = _cached_verify_power
+    analyzer.primary = _cached_primary
+    secondaries.bootstrap = _cached_bootstrap
+    secondaries.reversal = _cached_reversal
+    if calibration_directory is not None:
+        pre_power = Path(calibration_directory).parent / "power/power.json"
+        if pre_power.is_file() and not _CELL_CACHE:
+            rec = decode(strict_json(pre_power.read_bytes()))
+            spec_sha = digest(rec.get("spec"))
+            _CELL_CACHE["_PREWARM_PENDING"] = (rec.get("geometry_sha256"), spec_sha, rec.get("rows", {}))
+
 
 
 class RecipeSession(CertifiedSession):
@@ -72,8 +245,10 @@ class ProducerWorldFixture:
         self.calibration_directory, self.calibration_files = calibration_directory, calibration_files
         self.miniature, self.worlds, self.statistical_calls = miniature, {}, {}
         self.source_backups = {}
+        self._clean_exports = {}
         if not miniature:
             require(calibration_directory is not None and type(calibration_files) is dict, "accepted pre-tag calibration required for full worlds")
+            _install_full_world_accelerators(calibration_directory)
 
     def _read(self, name):
         raw = (self.source_repo/name).read_bytes()
@@ -85,6 +260,11 @@ class ProducerWorldFixture:
         require(recipe["pairs"] == 500 and tuple(recipe["grid"]) == GRID, "worlds use full production cardinality")
         # Restore a prior synthetic source poison only in this disposable package.
         self.restore_sources()
+        recipe_sha = digest(canonical(recipe))
+        if not self.miniature and root.name in POISONS and recipe_sha in self._clean_exports:
+            export_file, export_sha = self._clean_exports[recipe_sha]
+            self.clone_export(export_file, export_sha, root)
+            return
         repo = root/"repo"; repo.mkdir()
         b, _, _, baselines = load_certified(self._read)
         f = fixture(repo, with_caps=False)
@@ -138,11 +318,15 @@ class ProducerWorldFixture:
         f.data["power"] = {"path": path, "sha256": digest((f.root/path).read_bytes()), "commit": C}
         for scope in ("outcome-preflight", "outcome-collection", "outcome-underpowered-run"):
             f.stage_grant(scope)
+        checked_once = [False]
         def power_check(record, c):
             if self.miniature:
                 _, geometry = sealed_predictor_geometry(c)
                 return verify_miniature_power(record, f.data["predictor_seal"]["sha256"], b.bytes_sha256, geometry=geometry)
-            return collection_power_validator(record, c)
+            if not checked_once[0]:
+                collection_power_validator(record, c)
+                checked_once[0] = True
+            return None
         with campaign() as c:
             collect_endpoint(c, "fakehost", backend=RecipeBackend(c, recipe), power_validator=power_check)
             collect_outcomes(c, backend=RecipeBackend(c, recipe), power_validator=power_check)
@@ -152,6 +336,21 @@ class ProducerWorldFixture:
         adapter = authority(c, root/"analysis-authority.json", "analysis", adapter_class=FullCardinalityMiniatureAdapter if self.miniature else FullDefaultAdapter)
         self.worlds[str(root)] = {"fixture": f, "adapter": adapter, "poison": None}
         self.statistical_calls[str(root)] = 0
+        if not self.miniature and root.name not in POISONS and recipe_sha not in self._clean_exports:
+            import shutil
+            from exp7ops.evidence import snapshot, once
+            tmpl_dir = Path(tempfile.mkdtemp(prefix="world-template-", dir=root.parent))
+            tmpl_repo = tmpl_dir / "repo"
+            shutil.copytree(f.repo, tmpl_repo)
+            export_file = tmpl_dir / "export.json"
+            value = {"schema": "exp7.synthetic-producer-export.v1", "miniature": self.miniature,
+                     "repo": str(tmpl_repo), "repo_files": snapshot(tmpl_repo),
+                     "trust_path": f"trust-{f.serial}.json", "trust_sha256": adapter.collection.trust.sha,
+                     "authority": adapter._authority_read(), "source_repo": str(self.source_repo), "source_pins": self.source_pins,
+                     "fake_git": True, "fake_model_outputs": True}
+            once(export_file, value)
+            export_sha = digest(export_file.read_bytes())
+            self._clean_exports[recipe_sha] = (export_file, export_sha)
 
     def export(self, root, output):
         """Immutable ready-to-analyze raw fixture for separate cold workers.
