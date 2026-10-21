@@ -206,11 +206,15 @@ class LiveSession:
             actual_config = self.model.config.to_dict()
             config_fields = strict_json(files['config.json'])
             ignored = {'_name_or_path','_commit_hash','transformers_version','torch_dtype','dtype'}
+            rope_map = {'rotary_emb_base':'rope_theta','rope_theta':'rope_theta','rotary_pct':'partial_rotary_factor'}
             require(type(config_fields) is dict and config_fields.get('model_type'),'complete source config')
             for key,value in config_fields.items():
                 if key in ignored:
                     continue
-                require(canonical(actual_config.get(key)) == canonical(value),'loaded config semantic drift: '+key)
+                got = actual_config.get(key)
+                if got is None and key in rope_map and type(actual_config.get('rope_parameters')) is dict:
+                    got = actual_config['rope_parameters'].get(rope_map[key])
+                require(canonical(got) == canonical(value),'loaded config semantic drift: '+key)
             token_source = strict_json(files['tokenizer.json'])
             vocab = token_source['model']['vocab']
             require(type(vocab) is dict,'frozen BPE tokenizer vocabulary')

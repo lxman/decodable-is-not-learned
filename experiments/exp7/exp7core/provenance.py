@@ -146,7 +146,7 @@ class Trace:
         # Snapshot complements exec trace for modules imported BEFORE entry.
         for module in tuple(sys.modules.values()):
             name = getattr(module,'__file__',None)
-            if name:
+            if name and not (name in ('_ops.py','_classes.py') and getattr(module,'__name__','') in ('torch.ops','torch.classes')):
                 p = Path(name).resolve()
                 module_name = getattr(module,'__name__','')
                 if module_name == 'experiments' or module_name.startswith('experiments.'):
