@@ -1,9 +1,13 @@
 # Experiment 7 — Does the sampled forecast follow the target when the answer changes?
 
-**Status: instrument build APPROVED, 2026-10-05.** Michael approved the reviewed
-implementation choices and module-by-module build with tests, independent review
-and pre-tag tokenizer/config-only validation. Exact adopted choices and source:
-`docs/superpowers/plans/2026-10-04-exp7-decisions.md` and its sibling build index.
+**Status: RATIFIED for preregistration (`exp7-preregistered`), 2026-10-21.** Complete
+module-by-module build (75 tasks, 271 files), pre-tag tokenizer/cap validation
+(`offline-003`), numerical resource check (`numerical-014/RESOURCE-1`), full-stage
+synthetic calibration (`calibration-001`), and full-default adversarial synthetic
+freeze (`freeze-001`, 400/400 tests × 2, 40/40 worlds, 43/43 mutants `KILLED`)
+completed, independently reviewed, and ratified (`experiments/exp7/RATIFICATION.md`).
+Earlier instrument build approval: 2026-10-05 (`docs/superpowers/plans/2026-10-04-exp7-decisions.md`
+and `docs/superpowers/plans/2026-10-04-exp7-build.md`).
 
 **Earlier dials approval, 2026-10-04:** Michael answered "approved" to the
 request to approve §10's dials for **generation-only feasibility and build
