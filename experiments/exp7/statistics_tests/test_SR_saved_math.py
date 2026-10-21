@@ -90,6 +90,9 @@ class SavedArithmeticTests(unittest.TestCase):
 
     def test_SR2_independent_geometry_cannot_be_taken_from_saved_support(self):
         with self.assertRaises(Refusal): verify_power_semantics(self.record,"d"*64,"a"*64,spec=SMALL)
+        bad_sha=deepcopy(self.record); bad_sha["geometry_sha256"]=digest(b"wrong geometry")
+        with self.assertRaises(Refusal):
+            verify_power_semantics(bad_sha,"d"*64,"a"*64,geometry=self.geometry,spec=SMALL)
         geometry=deepcopy(self.geometry)
         for p in geometry["predictors"].values():
             for row in p.values(): row["x"]=[F(0)]*24

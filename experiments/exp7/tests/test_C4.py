@@ -95,5 +95,6 @@ class InferenceTests(unittest.TestCase):
         cs = tuple((cell(f) for f in ('a', 'b', 'c')))
         r = primary(cs, namespace='fixture-repeat', B=7)
         self.assertEqual(r, primary(cs, namespace='fixture-repeat', B=7))
+        self.assertIsNotNone(r['order'])
         self.assertEqual(r['order']['T'], 1)
         self.assertFalse(r['forecast'])

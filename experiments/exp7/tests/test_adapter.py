@@ -48,6 +48,11 @@ class AdapterTests(unittest.TestCase):
                 with ctx:
                     self.fail("missing claim admitted")
             self.assertEqual(f.events, [])
+            put(f.root, "statistics/analysis/CLAIM.json", {"schema": SCHEMA, "stage": "power", "production": False})
+            with self.assertRaisesRegex(Refusal, "stats CLAIM must precede collection authority"):
+                with a.entryexit("analysis"):
+                    self.fail("mismatched claim admitted")
+            self.assertEqual(f.events, [])
 
     def test_absent_grant_consumes_stats_claim_before_no_input_reads(self):
         with self.fixture() as f:
@@ -225,6 +230,14 @@ class AdapterTests(unittest.TestCase):
                 self.assert_refused(self.probe(f, lambda a, _: getattr(a, method)()))
 
     def test_adapter_authority_and_named_provenance_forgery_refuse(self):
+        with self.fixture() as f:
+            f.authority_sha = digest(b"wrong authority")
+            self.assert_refused(self.probe(f, lambda a, _: None), "adapter authority SHA mismatch")
+        with self.fixture() as f:
+            def tamper_authority_at_exit(a, _):
+                f.authority["calibration_sha256"] = digest(b"tampered at exit")
+                put(f.authority_name.parent, f.authority_name.name, f.authority)
+            self.assert_refused(self.probe(f, tamper_authority_at_exit), "adapter authority")
         with self.fixture() as f:
             f.authority["collection_bindings"]["trust_sha256"] = digest(b"different authority")
             f.save_authority()

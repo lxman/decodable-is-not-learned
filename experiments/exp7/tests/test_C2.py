@@ -81,8 +81,11 @@ class ScoreTests(unittest.TestCase):
     def test_draw_scoring_preserves_raw_and_is_disjoint(self):
         rows = {'q0': ['alpha', 'alpha', 'beta', 'other'], 'q1': ['beta'] * 4, 'q0s': ['other'] * 4, 'q1s': ['beta'] * 4}
         before = copy.deepcopy(rows)
-        s = score_draws(rows, ('alpha', 'beta'), 'word', k=4)
-        r = score_draws(rows, ('beta', 'alpha'), 'word', k=4)
+        try:
+            s = score_draws(rows, ('alpha', 'beta'), 'word', k=4)
+            r = score_draws(rows, ('beta', 'alpha'), 'word', k=4)
+        except Refusal as exc:
+            self.fail(str(exc))
         self.assertEqual(rows, before)
         self.assertEqual(s.x, F(1, 3))
         self.assertEqual(r.x, -s.x)
