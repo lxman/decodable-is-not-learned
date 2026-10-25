@@ -157,10 +157,14 @@ Commit SHAs here differ from those quoted in the paper's ledgers
 the declared redactions.
 
 Release **v1.24**, [10.5281/zenodo.23130840](https://doi.org/10.5281/zenodo.23130840),
-adds the Experiment 6 archive. Release **v1.25** adds the Experiment 7
-archive and the matched-token parameter-scale analyses (`analyses/matched-token`
-and `analyses/matched-token-item-order`), with the current paper inventorying
-all 72 experiment tags across markdown, TeX and its three rebuilt PDFs.
+adds the Experiment 6 archive. Release **v1.25**,
+[10.5281/zenodo.23648247](https://doi.org/10.5281/zenodo.23648247),
+adds the Experiment 7 archive and the matched-token parameter-scale
+analyses (`analyses/matched-token` and `analyses/matched-token-item-order`).
+All 27,600 deposited files were verified against the release tree,
+including 835 Experiment 7 paths and 32 matched-token paths. The current
+paper inventories all 72 experiment tags and carries the version DOI at
+parity in markdown, TeX and its three rebuilt PDFs.
 
 ## License
 

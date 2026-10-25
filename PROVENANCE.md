@@ -1002,10 +1002,22 @@ continuation text in `raw.jsonl` (plus two `fixture@example.invalid` test
 strings); ninety-six home-path matches are the disclosed `/Users/michaeljordan`
 operator path in scripts, calibration/deployment manifests and test fixtures,
 plus model-generated text; fifty-five messages carry agent attribution
-trailers. The methods paper's inventory was carried directly from private
-`efc2c538d`: markdown and TeX tag inventories list all 72 experiment tags,
-all three PDFs rebuilt and checked, and all 38 public `paper/` files are
-byte-identical to the private source. The retained-path list above now
+trailers.
+
+GitHub release **v1.25** was published at `b94cab743` on 2026-10-25
+18:43:14 UTC; the Zenodo `published` webhook was accepted (202). Zenodo
+minted **10.5281/zenodo.23648247** at 18:43:58 UTC. Its 804,244,246-byte
+ZIP was downloaded and matched the advertised MD5 (`2c830301808ce11fc6b0f1302ab7ad51`);
+all **27,600 files** match their release-tree Git blob IDs, including all
+**835 Experiment 7 paths** and **32 matched-token analysis paths**. The
+receipt is `provenance/exp7-zenodo.json`.
+
+The methods paper's inventory was carried directly from private `efc2c538d`
+to public `b94cab743`, then its actual DOI (`10.5281/zenodo.23648247`) was
+carried from private `3a35867c6`: markdown and TeX release lists match,
+all three PDFs rebuilt and checked, anonymous exclusions retained, and all
+38 public `paper/` files are byte-identical to the private source. The
+`v1.25` snapshot remains immutable. The retained-path list above now
 includes `experiments/exp7`, `experiment-7-design.md`,
 `analyses/matched-token` and `analyses/matched-token-item-order`. The essay
 and thesis remain outside this archive.
@@ -1049,6 +1061,7 @@ first to append its private → public commit map (269 rows) to
 On 2026-10-04 v1.24 (10.5281/zenodo.23130840, the Experiment 6 record)
 was archived the same way, followed by the paper's direct v1.24 parity
 carry. Archive checksum and every file were verified against the release.
-On 2026-10-25 v1.25 (the Experiment 7 record and the matched-token
-parameter-scale analyses, with the paper's 72-tag inventory) was cut the
-same way; version DOI pending Zenodo archival.
+On 2026-10-25 v1.25 (10.5281/zenodo.23648247, the Experiment 7 record and
+the matched-token parameter-scale analyses) was archived the same way,
+followed by the paper's direct v1.25 parity carry. Archive checksum and
+every file were verified against the release.

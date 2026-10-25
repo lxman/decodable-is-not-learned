@@ -1,0 +1,11 @@
+{
+  "verified_utc": "2026-10-25T18:47:03.823181+00:00",
+  "doi": "10.5281/zenodo.23648247",
+  "release_commit": "b94cab743426515b6fe199b2a141b0c365dfeb4b",
+  "zip_bytes": 804244246,
+  "zip_md5": "2c830301808ce11fc6b0f1302ab7ad51",
+  "files": 27600,
+  "exp7_paths": 835,
+  "matched_token_paths": 32,
+  "all_release_tree_blobs_identical": true
+}
