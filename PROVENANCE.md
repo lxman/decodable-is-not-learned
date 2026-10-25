@@ -931,6 +931,85 @@ The v1.24 snapshot remains immutable.
 The retained-path list above now includes `experiments/exp6` and
 `experiment-6-design.md`. The essay and thesis remain outside this archive.
 
+On 2026-10-25 the Experiment 7 record and the two matched-token
+parameter-scale analyses (`analyses/matched-token` and
+`analyses/matched-token-item-order`) were added. Experiment 7 tests
+whether a 1B model's counterfactual conditional step-1 selectivity
+(`X_pair = (a - b) - (c - d)` across four counterfactual arms `A`
+true-both, `B` sham-step-2, `C` sham-step-1, `D` sham-both) forecasts
+the order in which a 3B model (`SmolLM3-3B`, 26 checkpoints) acquires
+joint counterfactual competence (`tau_joint = max(tau_A, tau_sham_clear)`).
+Pythia-1B and OLMo-2 1B predictors were sealed at `k=64` (plus Pythia-1B's
+untrained twin at `k=16` on all four arms) before the 26-checkpoint
+outcome sweep. The once-run production analyzer returned
+**UNDETERMINED (`NO-PREDICTOR-JOINT-LICENCE`)**: three of four families
+(`chain_1_to_2`, `arithmetic_compare`, `morph_agreement`) are
+`NON-INFORMATIVE` (`n_elig = 0, 0, 12 < 50`), and the one power-eligible
+family (`unit_convert`, `n_elig = 50`, `POWERED 0.996 / 0.992`) closes
+`INSUFFICIENT` (`T_x = -89/550 ≈ -.1618, p = .9774` for Pythia-1B;
+`T_x = -26/279 ≈ -.0932, p = .8690` for OLMo-2 1B). Under `S1` on those
+same 50 `unit_convert` pairs, 1B unconditioned availability
+(`T_u = +.1411, +.1864`) and wrong-target emission (`T_wrong = +.2000, +.1983`)
+positively track 3B joint emergence while fine conditional selectivity
+(`T_x`) is absent. The two matched-token analyses re-read already-committed
+cross-scale slices at fixed training data (`step143000`, 300B tokens) with
+zero model contact: `analyses/matched-token` tests rung-level resolution
+across `Pythia-{410M, 1B, 1.4B, 2.8B, 6.9B}` on Experiment 2c's 11-rung
+battery, and `analyses/matched-token-item-order` tests item-grain
+parameter-scale emergence across `Pythia-{1.4B, 2.8B, 6.9B, 12B}` at fixed
+`step143000` (from Experiments 2d, 5, and 5b), where `Pythia-1B` `k=256`
+sampling predicts parameter-ladder emergence order at mean stratified
+`T = +.2180` (4/4 `p = 1e-4`) and `OLMo-2 1B` `k=64` at `T = +.2782`
+(4/4 `p = 1e-4`), vs `Pythia-1B` linear probe `T = +.0259`.
+
+Same GRAFT route: 570 private commits touching the canonical Experiment 7
+tree (`experiments/exp7/{PROGRESS.md,RATIFICATION.md,calibration,campaign,cap-validation,contracts,deployment,exp7core,exp7integration,exp7ops,exp7stats,feasibility,freeze,freeze_worker.py,grants,guard.py,local_tests,numerical_worker.py,producer_export_worker.py,projection-grade.md,projection.md,retrospective.md,run,run_task_tests.py,statistics_tests,task_registry.py,task_tests,testing_paths.py,tests}`,
+excluding pre-tag scratch/virtualenv directories `validation/`,
+`resource-check/`, `planning/`, `build/` and `watch-output/`, and omitting
+three >100 MiB per-vector dump files rejected by GitHub's 100 MiB object
+limit — `experiments/exp7/campaign/statistics/power/REPORT.md` at 522.10 MiB,
+`experiments/exp7/campaign/statistics/power/power.json` at 470.51 MiB, and
+`experiments/exp7/campaign/statistics/analysis/REPORT.md` at 231.02 MiB —
+whose SHA-256 digests are committed in `power/COMPLETE.json`,
+`analysis/COMPLETE.json`, `deployment/trust-power.json`, and
+`deployment/trust-verdict.json`, while the full machine-readable verdict
+`analysis/analysis.json` at 93.83 MiB and `calibration/calibration.json` at
+68.39 MiB ship in the tree), `experiment-7-design.md`,
+`analyses/matched-token`, `analyses/matched-token-item-order` and
+`.gitignore` through private `efc2c538d` were applied at index level onto
+public `62aada892`, ending at `edbf6876d`. Only blobs on those paths were
+transferred; no private commit objects or refs were imported. Identities
+were normalized to the existing noreply identity; author/committer dates and
+commit/tag messages were preserved byte for byte. Every intermediate path
+snapshot was checked entry-identical, all other paths unchanged, all 94
+prior tags untouched. The added paths contain 431 entries at preregistration,
+641 at the predictor seal, 855 at close and 867 at the graft tip. The three
+tags are:
+
+| Tag | Private commit → public commit | Public tag object |
+|---|---|---|
+| `exp7-preregistered` | `819d537c5` → `069412648` | `fafdfa14765b509c68b5c8868b064d5e2a161157` |
+| `exp7-predictor-sealed` | `13f67fcdf` → `bc4b86127` | `00a21cf0f3f9b7399edc23dc196b5b2d16f7f9cf` |
+| `exp7-closed` | `5154f8935` → `b73a5ae48` | `167f36a06ea9018cd8627832c70cae85578f757b` |
+
+The 570-row map is appended to `provenance/commit-map.txt`; the machine
+receipts are `provenance/exp7-graft.json` and `provenance/exp7-validation.json`.
+The scan covered 1,340 unique path blobs, all 570 commit messages and three
+tag messages (1,771,407,743 bytes scanned). Zero `credential-pattern` and
+zero `assigned-secret` matches were found. One LAN-shaped string (`10.10.10.10`)
+and twenty-three email-shaped strings occur inside model-generated
+continuation text in `raw.jsonl` (plus two `fixture@example.invalid` test
+strings); ninety-six home-path matches are the disclosed `/Users/michaeljordan`
+operator path in scripts, calibration/deployment manifests and test fixtures,
+plus model-generated text; fifty-five messages carry agent attribution
+trailers. The methods paper's inventory was carried directly from private
+`efc2c538d`: markdown and TeX tag inventories list all 72 experiment tags,
+all three PDFs rebuilt and checked, and all 38 public `paper/` files are
+byte-identical to the private source. The retained-path list above now
+includes `experiments/exp7`, `experiment-7-design.md`,
+`analyses/matched-token` and `analyses/matched-token-item-order`. The essay
+and thesis remain outside this archive.
+
 The private repository — full history, including the referenced
 out-of-scope files — is available to editors and reviewers on request.
 
@@ -970,3 +1049,6 @@ first to append its private → public commit map (269 rows) to
 On 2026-10-04 v1.24 (10.5281/zenodo.23130840, the Experiment 6 record)
 was archived the same way, followed by the paper's direct v1.24 parity
 carry. Archive checksum and every file were verified against the release.
+On 2026-10-25 v1.25 (the Experiment 7 record and the matched-token
+parameter-scale analyses, with the paper's 72-tag inventory) was cut the
+same way; version DOI pending Zenodo archival.

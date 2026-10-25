@@ -1,0 +1,39 @@
+{
+  "source": "efc2c538daf99e9a3a64b0c8ee5d250585cf33a2",
+  "public_base": "62aada89297123f97fde3a32d690dd5872721ea2",
+  "public_graft": "edbf6876dc9661e036d0f1334d90ad8a8aeefd79",
+  "commits": 570,
+  "prior_tags_preserved": 94,
+  "tags": [
+    {
+      "tag": "exp7-closed",
+      "private_commit": "5154f8935dc79e478b0853cbe39a39d931f00177",
+      "public_commit": "b73a5ae48ea10c4055bc9b7da9f90349d0ec6613",
+      "private_tag": "a60ed6ecccdd31a44dc6252fb567f265122aaff9",
+      "public_tag": "167f36a06ea9018cd8627832c70cae85578f757b",
+      "entries": 855
+    },
+    {
+      "tag": "exp7-predictor-sealed",
+      "private_commit": "13f67fcdfddf00e0aa2ccf9444910a811aab0f93",
+      "public_commit": "bc4b86127abec2026e0f1e6190b36943861060c8",
+      "private_tag": "d5031d50babd62cdaa1eec2d3be173175f8c8aa5",
+      "public_tag": "00a21cf0f3f9b7399edc23dc196b5b2d16f7f9cf",
+      "entries": 641
+    },
+    {
+      "tag": "exp7-preregistered",
+      "private_commit": "819d537c5a51c92f2e3f98419ab81ebc5b5b1f24",
+      "public_commit": "0694126483a17dbe62f956f5354924e968e1b176",
+      "private_tag": "5371b8f904bb17b6ddf363c154d02b962313cc6f",
+      "public_tag": "fafdfa14765b509c68b5c8868b064d5e2a161157",
+      "entries": 431
+    }
+  ],
+  "head_entries": 867,
+  "changed_paths": 868,
+  "all_snapshots_entry_identical": true,
+  "dates_and_messages_preserved": true,
+  "other_paths_unchanged": true,
+  "scan_sha256": "d1b64c1400af7c213dedd198a6176c6059dab5038802e4ac74b27b99cb335023"
+}

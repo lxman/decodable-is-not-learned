@@ -1,0 +1,31 @@
+{
+  "exp7_tests": {
+    "pass": 188,
+    "fail": 0
+  },
+  "exp7_statistics_tests": {
+    "pass": 72,
+    "fail": 0
+  },
+  "matched_token_tests": {
+    "pass": 26,
+    "fail": 0,
+    "verify_outputs": "PASS"
+  },
+  "matched_token_item_order_tests": {
+    "pass": 5,
+    "fail": 0,
+    "verify_outputs": "PASS"
+  },
+  "analyzer_rerun": false,
+  "verified_at": "2026-10-25",
+  "analysis_sha256": {
+    "CLAIM.json": "f8ec4ea9c04d4e5f1df649bbafbaff44a89b4b63877c2f2d42bdfa16d042903e",
+    "COMPLETE.json": "ebfd73a1146d8e4db1030b3c3a4aa494939eee77ae9a548ba778b1bbf59b6a76",
+    "REPORT.md": "88f6eca862bf75141e98a2ff786e4bcc4b1847ea393d5d4df32a2cd81e3e0944",
+    "analysis.json": "6c52bdb9661392ba6067cd1b02079a8a92b43bce9915af346e66a0d5e149f6da"
+  },
+  "trust_verdict_sha256": "1d77e93a30eb32199902688f8071da6a46f1ccc16c6d7061509f06f9e048c91e",
+  "matched_token_summary_sha256": "1f385bb8ad606ebd9139555ba0cc8d523b0bd3b5590514e38a3dd6db4ee0ec17",
+  "matched_token_item_order_summary_sha256": "b3bc98b196f4aa9e0b83c9725f87748ce05d62bc3c9c9b85a43359494137e99e"
+}

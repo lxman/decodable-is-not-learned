@@ -68,6 +68,35 @@ its figures, Table 1, and Appendix A.
   sets. The claim concerns item order under these renderings, not which
   tasks clear or a learning mechanism. Complete results and disclosures:
   `experiments/exp6/results/VERDICT.txt` and `retrospective.md`.
+- **Experiment 7** (added 2026-10-25) — the counterfactual conditional
+  selectivity test on four two-step task families (`chain_1_to_2`,
+  `arithmetic_compare`, `unit_convert`, `morph_agreement`), with 500
+  four-arm pairs per family (`A` true-both, `B` sham-step-2, `C`
+  sham-step-1, `D` sham-both), Pythia-1B and OLMo-2 1B predictors sealed
+  at `k=64` before SmolLM3-3B's 26-checkpoint outcome sweep. Closed
+  **UNDETERMINED (`NO-PREDICTOR-JOINT-LICENCE`)**: three of four families
+  are `NON-INFORMATIVE` (`n_elig = 0, 0, 12 < 50`), and the one power-eligible
+  family (`unit_convert`, `n_elig = 50`, `POWERED 0.996 / 0.992`) closes
+  `INSUFFICIENT` (`T_x = -89/550 ≈ -.1618, p = .9774` for Pythia-1B;
+  `T_x = -26/279 ≈ -.0932, p = .8690` for OLMo-2 1B). Under `S1` on those
+  same 50 pairs, 1B unconditioned availability (`T_u = +.1411, +.1864`)
+  and wrong-target emission (`T_wrong = +.2000, +.1983`) positively track
+  3B joint emergence while fine conditional selectivity (`T_x`) is absent.
+  Complete results and disclosures:
+  `experiments/exp7/campaign/statistics/analysis/analysis.json`,
+  `experiments/exp7/deployment/trust-verdict.json` and
+  `experiments/exp7/retrospective.md`.
+- **Matched-token parameter-scale analyses** (added 2026-10-25) —
+  zero-model-contact re-analyses of committed cross-scale slices at fixed
+  training tokens: `analyses/matched-token` (Experiment 2c's 11-rung
+  battery across `Pythia-{410M, 1B, 1.4B, 2.8B, 6.9B}` at `step143000`,
+  300B tokens) and `analyses/matched-token-item-order` (item-grain
+  parameter-ladder emergence across `Pythia-{1.4B, 2.8B, 6.9B, 12B}` at
+  fixed `step143000` from Experiments 2d, 5, and 5b, where `Pythia-1B`
+  `k=256` sampling predicts parameter-scale emergence order at mean
+  stratified `T = +.2180`, 4/4 `p = 1e-4`, and `OLMo-2 1B` `k=64` at
+  `T = +.2782`, 4/4 `p = 1e-4`, while `Pythia-1B` linear probe scores
+  `T = +.0259`).
 
 Every experiment whose record ships here carries both its
 preregistration and its closeout tag:
@@ -107,9 +136,10 @@ seal binds the seven finals, gates 1(a)/(b), the host record and the power
 record, cut after the power record; see PROVENANCE.md),
 `exp5b-preregistered` / `exp5b-closed`,
 `exp6-preregistered` / `exp6-predictor-sealed` / `exp6-endpoint-sealed` /
-`exp6-closed`.
+`exp6-closed`,
+`exp7-preregistered` / `exp7-predictor-sealed` / `exp7-closed`.
 Other interim stage tags exist only in the private repository. `v1.0`,
-`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16`, `v1.17`, `v1.18`, `v1.19`, `v1.20`, `v1.21`, `v1.22`, `v1.23` and `v1.24` anchor the Zenodo-archived snapshots
+`v1.1`, `v1.2`, `v1.3`, `v1.4`, `v1.5`, `v1.6`, `v1.7`, `v1.8`, `v1.9`, `v1.10`, `v1.11`, `v1.12`, `v1.13`, `v1.14`, `v1.15`, `v1.16`, `v1.17`, `v1.18`, `v1.19`, `v1.20`, `v1.21`, `v1.22`, `v1.23`, `v1.24` and `v1.25` anchor the Zenodo-archived snapshots
 (concept DOI 10.5281/zenodo.21830421). Every release anchor is immutable,
 so each deposit remains exactly what was deposited.
 
@@ -127,10 +157,10 @@ Commit SHAs here differ from those quoted in the paper's ledgers
 the declared redactions.
 
 Release **v1.24**, [10.5281/zenodo.23130840](https://doi.org/10.5281/zenodo.23130840),
-adds the Experiment 6 archive. All 26,730 deposited files were verified
-against the release tree, including 2,521 Experiment 6 paths. The current
-paper inventories all four new tags and carries the version DOI at parity
-in markdown, TeX and its three rebuilt PDFs.
+adds the Experiment 6 archive. Release **v1.25** adds the Experiment 7
+archive and the matched-token parameter-scale analyses (`analyses/matched-token`
+and `analyses/matched-token-item-order`), with the current paper inventorying
+all 72 experiment tags across markdown, TeX and its three rebuilt PDFs.
 
 ## License
 
