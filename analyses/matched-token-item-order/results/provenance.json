@@ -1,0 +1,16 @@
+{
+  "generated_at_utc": "2026-10-25T02:29:50.710393+00:00",
+  "input_files_sha256_digest": "ee6859b1edbd20b229cad8d859e126e07c1d85410462f2f37d331088afe1da55",
+  "numpy_version": "2.4.6",
+  "outputs_sha256": {
+    "REPORT.md": "f0855e8c08138a7bc75d1ac3f5744b8478df24e31b46b52f149836f8bb2c627c",
+    "all_rungs_143k.csv": "1567ff3fe692e78aa6ccf9ea4ab8e5bb71a1888c501c3de03a058e4bbf735e7b",
+    "checkpoint_curve.csv": "cc3f9a937033de696cfecbacfbf6bdd4322617be6c43571e511be64d4c67bbef",
+    "per_rung.csv": "337e8c54379b9cb067fdd0dc325e681c523a1d240b067319a5c0da957cf30180",
+    "summary.json": "b3bc98b196f4aa9e0b83c9725f87748ce05d62bc3c9c9b85a43359494137e99e"
+  },
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "source_commit": "5154f8935dc79e478b0853cbe39a39d931f00177",
+  "verified_file_count": 7592
+}
