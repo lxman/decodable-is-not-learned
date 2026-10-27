@@ -1,12 +1,12 @@
-# Decodable Is Not Learned & The 4-Bit Image in a 32-Bit World — Supporting Record
+# Decodable Is Not Learned — Supporting Record
 
-Public supporting record for:
+Public supporting record for the paper **"Decodable Is Not Learned:
+Untrained-Weights Controls and Basis-Starved Splits for Linear
+Probing"** (Michael Jordan) and the companion 20-experiment emergence
+program:
 
-1. **Flagship Essay — *"The 4-Bit Image in a 32-Bit World: What if 'emergent' AI abilities were there all along — we just couldn't see them?"*** (Michael Jordan)
-   - **Read**: [PDF (`emergent-resolution-the-gradient.pdf`)](emergent-resolution-the-gradient.pdf) · [Markdown (`emergent-resolution-the-gradient.md`)](emergent-resolution-the-gradient.md)
-   - **Summary Figures**: [Figure 1 — Parameter-ladder resolution at fixed 300B tokens (`figures/fig1_parameter_ladder.png`)](figures/fig1_parameter_ladder.png) · [Figure 2 — Cross-family training forecasts & coarse-to-fine decomposition (`figures/fig2_coarse_to_fine.png`)](figures/fig2_coarse_to_fine.png)
-2. **Technical Methods Paper — *"Decodable Is Not Learned: Untrained-Weights Controls and Basis-Starved Splits for Linear Probing"*** (Michael Jordan)
-   - **Read**: [Preprint PDF (`paper/tmlr/preprint.pdf`)](paper/tmlr/preprint.pdf) · [Markdown PDF (`paper/decodable-is-not-learned.pdf`)](paper/decodable-is-not-learned.pdf) · [Markdown source (`paper/decodable-is-not-learned.md`)](paper/decodable-is-not-learned.md) · [LaTeX source (`paper/tmlr/main.tex`)](paper/tmlr/main.tex)
+- **Technical Methods Paper**: [Preprint PDF (`paper/tmlr/preprint.pdf`)](paper/tmlr/preprint.pdf) · [Markdown PDF (`paper/decodable-is-not-learned.pdf`)](paper/decodable-is-not-learned.pdf) · [Markdown source (`paper/decodable-is-not-learned.md`)](paper/decodable-is-not-learned.md) · [LaTeX source (`paper/tmlr/main.tex`)](paper/tmlr/main.tex)
+- **Program Summary Figures**: [Figure 1 — Parameter-ladder resolution at fixed 300B tokens (`figures/fig1_parameter_ladder.png`)](figures/fig1_parameter_ladder.png) · [Figure 2 — Cross-family training forecasts & coarse-to-fine decomposition (`figures/fig2_coarse_to_fine.png`)](figures/fig2_coarse_to_fine.png)
 
 ![Figure 1: Resolution along the parameter ladder at fixed training tokens.](figures/fig1_parameter_ladder.png)
 
@@ -14,13 +14,13 @@ Public supporting record for:
 
 This repository is a path-filtered extraction of the private working
 repository, preserving full commit history, authorship dates, and
-ordering for everything the essay and methods paper rely on: the frozen
+ordering for everything the paper and companion program rely on: the frozen
 preregistration documents, the experiments' code, campaign ledgers,
 all committed probe fits (480 for Experiment 2, 770 for Experiment 2b,
 and Experiment 2c's 220 untrained-gate fits), every raw sampled draw
 from the generation and checkpoint-forecast experiments, the frozen
-reports, verdicts and retrospectives, and the paper and essay sources
-with the scripts that generate their figures and tables.
+reports, verdicts and retrospectives, and the paper source with the
+scripts that generate its figures, Table 1, and Appendix A.
 
 ## What is here
 
