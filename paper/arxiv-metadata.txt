@@ -8,7 +8,7 @@ Authors:
 Michael Jordan
 
 Comments field:
-Supporting record (designs, code, 1,470 committed probe fits, ledgers): https://github.com/lxman/decodable-is-not-learned , archived at doi:10.5281/zenodo.21830422
+Supporting record (designs, code, 1,470 committed probe fits, 72 experiment tags, ledgers): https://github.com/lxman/decodable-is-not-learned , archived at doi:10.5281/zenodo.21830421 (latest release v1.25: doi:10.5281/zenodo.23648247)
 
 Primary category: cs.LG
 License: CC BY 4.0

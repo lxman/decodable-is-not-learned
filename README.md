@@ -1,16 +1,26 @@
-# Decodable Is Not Learned — supporting record
+# Decodable Is Not Learned & The 4-Bit Image in a 32-Bit World — Supporting Record
 
-Public supporting record for the paper "Decodable Is Not Learned:
-Untrained-Weights Controls and Basis-Starved Splits for Linear
-Probing" (Michael Jordan). This is a path-filtered extraction of the
-private working repository, preserving full commit history, authorship
-dates, and ordering for everything the paper relies on: the frozen
+Public supporting record for:
+
+1. **Flagship Essay — *"The 4-Bit Image in a 32-Bit World: What if 'emergent' AI abilities were there all along — we just couldn't see them?"*** (Michael Jordan)
+   - **Read**: [PDF (`emergent-resolution-the-gradient.pdf`)](emergent-resolution-the-gradient.pdf) · [Markdown (`emergent-resolution-the-gradient.md`)](emergent-resolution-the-gradient.md)
+   - **Summary Figures**: [Figure 1 — Parameter-ladder resolution at fixed 300B tokens (`figures/fig1_parameter_ladder.png`)](figures/fig1_parameter_ladder.png) · [Figure 2 — Cross-family training forecasts & coarse-to-fine decomposition (`figures/fig2_coarse_to_fine.png`)](figures/fig2_coarse_to_fine.png)
+2. **Technical Methods Paper — *"Decodable Is Not Learned: Untrained-Weights Controls and Basis-Starved Splits for Linear Probing"*** (Michael Jordan)
+   - **Read**: [Preprint PDF (`paper/tmlr/preprint.pdf`)](paper/tmlr/preprint.pdf) · [Markdown PDF (`paper/decodable-is-not-learned.pdf`)](paper/decodable-is-not-learned.pdf) · [Markdown source (`paper/decodable-is-not-learned.md`)](paper/decodable-is-not-learned.md) · [LaTeX source (`paper/tmlr/main.tex`)](paper/tmlr/main.tex)
+
+![Figure 1: Resolution along the parameter ladder at fixed training tokens.](figures/fig1_parameter_ladder.png)
+
+![Figure 2: Sealed training-order forecasts across families and coarse-to-fine resolution.](figures/fig2_coarse_to_fine.png)
+
+This repository is a path-filtered extraction of the private working
+repository, preserving full commit history, authorship dates, and
+ordering for everything the essay and methods paper rely on: the frozen
 preregistration documents, the experiments' code, campaign ledgers,
 all committed probe fits (480 for Experiment 2, 770 for Experiment 2b,
 and Experiment 2c's 220 untrained-gate fits), every raw sampled draw
-from the generation experiments, the frozen reports, verdicts and
-retrospectives, and the paper source with the scripts that generate
-its figures, Table 1, and Appendix A.
+from the generation and checkpoint-forecast experiments, the frozen
+reports, verdicts and retrospectives, and the paper and essay sources
+with the scripts that generate their figures and tables.
 
 ## What is here
 
@@ -48,6 +58,17 @@ its figures, Table 1, and Appendix A.
   sampling and argmax on the same weights and items (a LADDER — the
   probe reads the answer's digit in every cell where the generators
   do not; the earlier silence was the label and the split).
+- **Experiments 2g, 2h, 2i, 2j, 2k, 2l, 2m, 2n** — the item-grain
+  training-order forecast arc: pitting the matched-label 1B linear probe
+  directly against the 1B temperature-1 sampled output tail on sealed
+  training-checkpoint sweeps across Pythia-2.8B (2g, sampled tail `T = +.170`
+  vs probe `-.019`), Pythia-6.9B (2h, `T = +.202` vs probe `-.019`),
+  OLMo-2 7B (2i within-lineage `T = +.215`; 2j/2k predictor-density
+  bridge at `k=256`, `T = +.155`), OLMo-2 13B (2l sealed cross-family
+  forecast `T = +.126` from Pythia-1B and `+.182` from OLMo-2 1B, plus
+  heuristic-residual and wrong-answer habit prior `+.18`), SmolLM3-3B
+  (2m, `T = +.170` and `+.251`), and Comma v0.1 7B (2n, `T = +.160` and
+  `+.210`).
 - **Experiments 3a, 3b, 3, 3c, 3d, 3e** — the successor generation arc the
   paper's Section 6 draws its calibration lessons from: a verdict that
   crashed on a valueless input (3a), the same-weights probe/emission
@@ -57,7 +78,20 @@ its figures, Table 1, and Appendix A.
   that closed 3d's named alternative (3e, whose freeze found that an
   exclusion rule's conservative direction is test-relative — the
   seventh lesson).
-
+- **Experiments 4, 4b, 4c** — task-grain representational convergence
+  across Pythia, OLMo-2, SmolLM3 and Comma: measuring pre-clear
+  agreement growth (4, `.61` raw), calibrating against 10,000 placebo
+  batteries of never-performing flat tasks under the identical selection
+  rule (4b, placebo `p = .25`, lead `.17` with CI covering zero), and
+  testing the rank statistic on sealed Pythia-6.9B and OLMo-2 13B sweeps
+  (4c, `U = .45, p = .73`).
+- **Experiments 5, 5b** — testing whether matched held-out pre-training
+  loss yields matched capability profiles across Pythia's seven sizes
+  (21 size pairs from 160M to 12B): finding a significant profile
+  discrepancy beyond checkpoint-to-checkpoint wobble on both sides
+  (`27.6` items per 500 net of both wobbles, `p = 9e-4`) with no
+  directional advantage for larger models (`26` cells favor the larger
+  model, `24` favor the smaller).
 - **Experiment 6** (added 2026-10-04) — the item-order forecast beyond the
   original synthetic battery: seventeen fresh benchmark-derived rungs,
   Pythia-1b and OLMo-2 1B predictors sealed before 87 checkpoints across
@@ -69,19 +103,24 @@ its figures, Table 1, and Appendix A.
   tasks clear or a learning mechanism. Complete results and disclosures:
   `experiments/exp6/results/VERDICT.txt` and `retrospective.md`.
 - **Experiment 7** (added 2026-10-25) — the counterfactual conditional
-  selectivity test on four two-step task families (`chain_1_to_2`,
-  `arithmetic_compare`, `unit_convert`, `morph_agreement`), with 500
-  four-arm pairs per family (`A` true-both, `B` sham-step-2, `C`
-  sham-step-1, `D` sham-both), Pythia-1B and OLMo-2 1B predictors sealed
-  at `k=64` before SmolLM3-3B's 26-checkpoint outcome sweep. Closed
-  **UNDETERMINED (`NO-PREDICTOR-JOINT-LICENCE`)**: three of four families
-  are `NON-INFORMATIVE` (`n_elig = 0, 0, 12 < 50`), and the one power-eligible
-  family (`unit_convert`, `n_elig = 50`, `POWERED 0.996 / 0.992`) closes
-  `INSUFFICIENT` (`T_x = -89/550 ≈ -.1618, p = .9774` for Pythia-1B;
-  `T_x = -26/279 ≈ -.0932, p = .8690` for OLMo-2 1B). Under `S1` on those
-  same 50 pairs, 1B unconditioned availability (`T_u = +.1411, +.1864`)
-  and wrong-target emission (`T_wrong = +.2000, +.1983`) positively track
-  3B joint emergence while fine conditional selectivity (`T_x`) is absent.
+  selectivity test on four benchmark-derived task families (`deduction`,
+  `shapes`, `units`, `unscrambling`), with 500 four-arm prompt pairs per
+  family (two counterfactual prompts flipping the target answer between
+  `y` and `y'`, plus sham rewordings of each — 8,000 prompts in all),
+  Pythia-1B and OLMo-2 1B predictors sealed at `k=64` before SmolLM3-3B's
+  26-checkpoint outcome sweep. Closed **UNDETERMINED
+  (`NO-PREDICTOR-JOINT-LICENCE`)**: across all 26 checkpoints, four-arm
+  joint-positive pair counts are `units = 50`, `unscrambling = 2`,
+  `deduction = 0`, `shapes = 0` (only `units` clears the 20-pair floor,
+  $1 < 3$ required families). All-family mean 1B conditional target
+  selectivity $\bar{x}$ sits near zero (`-.0016` for Pythia-1B, `+.0100`
+  for OLMo-2 1B), and on `units` (50 pairs) 1B conditional target
+  contrast $x$ orders 3B joint emergence negatively (`D_units = -.1619`
+  for Pythia-1B, `-.0931` for OLMo-2 1B), whereas 1B unconditional
+  target-pair availability (`T_u = +.1414, +.1862`) and wrong-target
+  habit rate (`T_wrong = +.1996, +.1981`) positively forecast 3B joint
+  emergence (`S1`). On `shapes`, individual arms solve `120–125/500`
+  prompts (~25%) while four-arm joint positivity is `0/500` (`S6`).
   Complete results and disclosures:
   `experiments/exp7/campaign/statistics/analysis/analysis.json`,
   `experiments/exp7/deployment/trust-verdict.json` and
